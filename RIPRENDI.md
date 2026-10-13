@@ -17,3 +17,7 @@ Ricerca: verify_multiple_transfers.py per foglie e trasferimenti multipli; verif
 Prossimi obiettivi: prologhi/stack e salti delle foglie; varianti di compilazione per funzioni più grandi; relocazioni Thumb/interworking mediante un linker verificato. Non usare stub, rimuovere argomenti o mascherare byte. La verifica locale non certifica firme, linking globale o comportamento in gioco.
 
 Ricerca del checkpoint 9: verify_arm_flow_all.py, verify_large_drafts.py e verify_linked_variants.py. Il resolver supporta Thumb BL con controllo indipendente Capstone. Conservare entrambi i registri; non ricontare funzioni già verificate.
+
+## Checkpoint 10 — Clang ARM flow
+
+1.160 funzioni; 27.568 byte (1,440578%). Nuove prove: `verification/clang-arm-flow-recheck.json`. Ricompilare con `python scripts/recheck_clang_arm_flow.py` e misurare con `python scripts/measure_progress.py`. La ricerca `verify_clang_arm_flow.py` salva il registro dopo ogni match; non eseguirla insieme ad altri script che scrivono i registri. I nuovi record `clang_arm_control_flow` usano Clang, non MW. Le vecchie quattro prove in `clang-leafs/results.json` hanno hash dei sorgenti storici: alcuni sorgenti furono sostituiti nei checkpoint precedenti, quindi il loro recheck fallisce sullo stato corrente. Non aggiornare hash senza una nuova prova.

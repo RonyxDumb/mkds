@@ -1,16 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0214f5e0. No matching claim. */
-#include "types.h"
-#include "deps/0214f5e0_func_0214f5e0.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void func_0214f5e0(int *param_1,int param_2)
-
+unsigned int func_0214f5e0(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  if (param_1 != (int *)0x0) {
-    *(uint *)(param_2 + 8) =
-         *(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-         *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
-    *param_1 = param_2;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_214f5e0: cmp_a = r0; cmp_b = 0x0u;
+L_214f5e4: if ((cmp_a != cmp_b)) { r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0)); }
+L_214f5e8: if ((cmp_a != cmp_b)) { *(unsigned int *)((unsigned char *)r1 + 8) = (unsigned int)r2; }
+L_214f5ec: if ((cmp_a != cmp_b)) { *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1; }
+L_214f5f0: return r0;
 }
-

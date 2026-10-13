@@ -1,11 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 020d3c2c. No matching claim. */
-#include "types.h"
-#include "deps/020d3c2c_GetIncrementSomeItemCounter.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void GetIncrementSomeItemCounter(void)
-
+unsigned int GetIncrementSomeItemCounter(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  *psRam020d3c40 = *psRam020d3c40 + 1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_20d3c2c: r1 = 0x217b4d0u;
+L_20d3c30: r0 = (unsigned int)(*(unsigned short *)((unsigned char *)r1 + 0));
+L_20d3c34: r2 = (r0+0x1u);
+L_20d3c38: *(unsigned short *)((unsigned char *)r1 + 0) = (unsigned short)r2;
+L_20d3c3c: return r0;
 }
-

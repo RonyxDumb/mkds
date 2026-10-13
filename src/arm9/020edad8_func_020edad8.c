@@ -1,22 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 020edad8. No matching claim. */
-#include "types.h"
-#include "deps/020edad8_func_020edad8.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void func_020edad8(int param_1)
-
+unsigned int func_020edad8(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  *(undefined4 *)(param_1 + 0x24) = 10;
-  uVar1 = param_1 + 0x170U & 3;
-  uVar2 = *(uint *)(param_1 + 0x170U & 0xfffffffc);
-  if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
-    uVar1 = param_1 + 0xcU & 3;
-    uVar2 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-    *(undefined4 *)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x14) = 0x13;
-    *(undefined4 *)(param_1 + 0x170) = 0;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_20edad8: r1 = 0xau;
+L_20edadc: *(unsigned int *)((unsigned char *)r0 + 36) = (unsigned int)r1;
+L_20edae0: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 368));
+L_20edae4: cmp_a = r1; cmp_b = 0x0u;
+L_20edae8: if ((cmp_a != cmp_b)) { r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 12)); }
+L_20edaec: if ((cmp_a != cmp_b)) { r2 = 0x13u; }
+L_20edaf0: if ((cmp_a != cmp_b)) { *(unsigned int *)((unsigned char *)r1 + 20) = (unsigned int)r2; }
+L_20edaf4: if ((cmp_a != cmp_b)) { r1 = 0x0u; }
+L_20edaf8: if ((cmp_a != cmp_b)) { *(unsigned int *)((unsigned char *)r0 + 368) = (unsigned int)r1; }
+L_20edafc: return r0;
 }
-

@@ -1,20 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 0208e808. No matching claim. */
-#include "types.h"
-#include "deps/0208e808_SetSomeAwardModeProperty.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void SetSomeAwardModeProperty(undefined4 param_1)
-
+unsigned int SetSomeAwardModeProperty(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = (*(uint *)(uRam0208e824 & 0xfffffffc) >> (uRam0208e824 & 3) * 8 |
-          *(uint *)(uRam0208e824 & 0xfffffffc) << (uRam0208e824 & 3) * -8 + 0x20) + 0xc;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == 5) {
-    *puRam0208e828 = param_1;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_208e808: r1 = 0x21759c0u;
+L_208e80c: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 0));
+L_208e810: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 12));
+L_208e814: cmp_a = r1; cmp_b = 0x5u;
+L_208e818: if ((cmp_a == cmp_b)) { r1 = 0x21663e8u; }
+L_208e81c: if ((cmp_a == cmp_b)) { *(unsigned int *)((unsigned char *)r1 + 0) = (unsigned int)r0; }
+L_208e820: return r0;
 }
-

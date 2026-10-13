@@ -1,24 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 0200db20. No matching claim. */
-#include "types.h"
-#include "deps/0200db20_Util_PrintContext_ApppendChar.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void Util_PrintContext_ApppendChar(int *param_1,undefined1 param_2)
-
+unsigned int Util_PrintContext_ApppendChar(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  if (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 != 0 ||
-      *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20 != 0) {
-    uVar1 = (uint)(param_1 + 1) & 3;
-    uVar2 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-    *(undefined1 *)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) = param_2;
-    *param_1 = (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-               *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) - 1;
-  }
-  uVar1 = (uint)(param_1 + 1) & 3;
-  uVar2 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-  param_1[1] = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_200db20: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_200db24: cmp_a = r2; cmp_b = 0x0u;
+L_200db28: if ((cmp_a != cmp_b)) { r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 4)); }
+L_200db2c: if ((cmp_a != cmp_b)) { *(unsigned char *)((unsigned char *)r2 + 0) = (unsigned char)r1; }
+L_200db30: if ((cmp_a != cmp_b)) { r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0)); }
+L_200db34: if ((cmp_a != cmp_b)) { r1 = (r1-0x1u); }
+L_200db38: if ((cmp_a != cmp_b)) { *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1; }
+L_200db3c: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 4));
+L_200db40: r1 = (r1+0x1u);
+L_200db44: *(unsigned int *)((unsigned char *)r0 + 4) = (unsigned int)r1;
+L_200db48: return r0;
 }
-

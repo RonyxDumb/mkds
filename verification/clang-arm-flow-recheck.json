@@ -1,0 +1,282 @@
+{
+  "compiler": "Zig 0.14.1 bundled Clang",
+  "tested": 17,
+  "passed": 17,
+  "bytes": 524,
+  "functions": [
+    {
+      "module": "arm9",
+      "address": "0x01ff92e0",
+      "size": 32,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "b1681c9875960168d064ed2c9b91c576a55afbccfd7dbb92a30c859e25e966d1",
+      "object_sha256": "6137cd83d939ed9174e13835e0f909242050a1cf2f3519cf678e2e7bd8088892"
+    },
+    {
+      "module": "arm9",
+      "address": "0x0200db20",
+      "size": 44,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "e9fb61993defe3e6f673de41557c2a664a0999121bbb86ad273d73db2689db8f",
+      "object_sha256": "1f1bd26a67553adbd87b3975097489a49d416ada6adc9ffc868e40983dcc8958"
+    },
+    {
+      "module": "arm9",
+      "address": "0x02055c5c",
+      "size": 36,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "7c212802c2393c906ef8a8eac66a28f40194c729848c15070b1eec70a8787d75",
+      "object_sha256": "0d395a22c02b82ce85ec83bf74528dbfbcdaec36f48c1bbf579e632df3981c48"
+    },
+    {
+      "module": "arm9",
+      "address": "0x0208e808",
+      "size": 36,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "25a38e8718c8f3dc6c2cf93d59c7e3b94604a69edc131c14800d2dca11610c01",
+      "object_sha256": "a774ebbf199ba51ad2957b2f4eab622c4ea5af62916216dba7c9a9ce3b406933"
+    },
+    {
+      "module": "arm9",
+      "address": "0x020b33d8",
+      "size": 28,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "f83221cd617572474fe08960f2472eccd07a2d9c56acfba9af500a8779d2cfad",
+      "object_sha256": "7e4f9cbfbd3dacc066a37e49645e42586a85da316e709ecde26b2f93ad6d34f1"
+    },
+    {
+      "module": "arm9",
+      "address": "0x020b33f4",
+      "size": 28,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "57b0c0c29f388e3d27e211971d5b622bbf58a0460090aeb1c7afbce1690da4f5",
+      "object_sha256": "c18b1ba5509d5f73c0fe6ecb187a4a4fabe1a1fbb74408796fd708b8388532bc"
+    },
+    {
+      "module": "arm9",
+      "address": "0x020ba620",
+      "size": 28,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "10136193c4c9b3b44c0809c3f9d1ccd28fea83b808f41c7c01921cd163eb5078",
+      "object_sha256": "7d9ebd36998c15018b593123cbdbdb2f6217d95b7c18aeef0e149f60288cc1ca"
+    },
+    {
+      "module": "arm9",
+      "address": "0x020c6f84",
+      "size": 40,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "1629635f74bc1090f77f455bc1a34df9f316f99f1003388b203c9c4a8700a240",
+      "object_sha256": "e38a693fc000fe6dce989f99e68b69f3c5aef9894b1ed862b89f445cab58d500"
+    },
+    {
+      "module": "arm9",
+      "address": "0x020c70a0",
+      "size": 28,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "4bbaa849c71626e26e9a4cd5f647305443596a248eab1b31d3b26c62d390f2bf",
+      "object_sha256": "57a311d628d26f5a770d30b140e5f9f3d5755bd2ba8d4af5c537db49873ccbb1"
+    },
+    {
+      "module": "arm9",
+      "address": "0x020c70bc",
+      "size": 28,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "3ebbfee66eb8c49827a2cf551a5dfdd38226d57f93a7222915ec1b9060cd831e",
+      "object_sha256": "a3afee11bb3a30dad866133fa15f9ac3fc2a7d64e74c160d77a1a880fa7b7fc5"
+    },
+    {
+      "module": "arm9",
+      "address": "0x020c70ec",
+      "size": 28,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "eb39d46bd5df522db0d1d4edf57961b9bf89d35eea19acfb529b7cf1d2eae48a",
+      "object_sha256": "481ea0ecc02a16206dee36e4b64851a5e6e0d39a24135f1f2d8b4e0fc93acf84"
+    },
+    {
+      "module": "arm9",
+      "address": "0x020c7148",
+      "size": 28,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "f443f8de34cd39ab0732b236de531e966c7ac5b74fe59f7d90b375517326fbfe",
+      "object_sha256": "bc3437de3eec5dddb644214e082c1363b3ea5f953f6478fe45bd6a7232d21a16"
+    },
+    {
+      "module": "arm9",
+      "address": "0x020d3c2c",
+      "size": 24,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "40254df2ae65dd96b5a0a9ca00509feb240ab88197bdf0549e7a6edf3e55e508",
+      "object_sha256": "bfebf9d7c54eee057cf69e167ea6f8783e90af167ff948d6e8728ecaead530de"
+    },
+    {
+      "module": "arm9",
+      "address": "0x020d3dbc",
+      "size": 28,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "fe6b8a9c9511cc90c2c4dc4611f0a59dcc69038d3b12e8dc1352cc766e8e1235",
+      "object_sha256": "e4ac60fbeb1c20aad571bdede7b7bdafc11e2d87b36782bef2cd574d67f7b0eb"
+    },
+    {
+      "module": "arm9",
+      "address": "0x020d3dd8",
+      "size": 28,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "a75b9bc4508bc503e8e781cbe9de0d28aaccc29ca8491f92cf8d4078b374addc",
+      "object_sha256": "63d6d5c2e88479da059f4b241ba5d015b27e8a47d10a120d95a11f00767e91f1"
+    },
+    {
+      "module": "arm9",
+      "address": "0x020edad8",
+      "size": 40,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "5fa4f3fdb5b2a0a84917e48c3837ee09d286cd89caa620d986dd586f2648718a",
+      "object_sha256": "7cb4edf6903ba01792e3da97245f8faee4f2a3c33902353ab7c48d956bfa6ba7"
+    },
+    {
+      "module": "arm9",
+      "address": "0x0214f5e0",
+      "size": 20,
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-O1",
+        "-std=gnu11",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "source_sha256": "7dad8d1037e9723124afe36295a03be5a65bb102e704d4c0156e386d44946796",
+      "object_sha256": "fd21026fbd260379f76088bb7adffd34018b32d33dc53bb64e442fb498515290"
+    }
+  ],
+  "verification": "Fresh compilation; whole text equals extracted original; zero text relocations.",
+  "full_rom_link_verified": false
+}

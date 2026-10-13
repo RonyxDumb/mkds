@@ -9,6 +9,7 @@
 | 7 | 7.598 | 63,12% | 776 | 13.142 |
 | 8 | 7.598 | 63,12% | 1.024 | 21.978 |
 | 9 | 7.615 | 63,26% | 1.143 | 27.044 |
+| 10 | 7.616 | 63,27% | 1.160 | 27.568 |
 
 Checkpoint 4: 846 puntatori tipizzati, 484 nuove compilazioni riuscite.
 
@@ -24,3 +25,5 @@ Checkpoint 7: +163 funzioni e +4.414 byte localmente identici. Ricompilazione MW
 Checkpoint 8: +248 funzioni; +8.836 byte. 937 senza relocazioni, 87 con tutte le relocazioni applicate. Copertura inventariata: 1,1485%.
 
 Checkpoint 9: +119 funzioni, +5.066 byte. Relocazioni Thumb BL verificate e ricostruzione di flussi ARM con cicli.
+
+Checkpoint 10: +17 funzioni ARM e +524 byte verificati con Clang (Zig 0.14.1). Ricompilazione indipendente: intera sezione di codice identica ai binari estratti, nessuna relocazione. Le prove MW precedenti restano storiche; il compilatore MW non era disponibile in questa sessione.
