@@ -9,14 +9,9 @@ ROM: game code `AMCP`, SHA-1 `ce97d9b43f0d3ca0d48b781983e8a16f6393378f`.
 
 ![Function inventory treemap](docs/progress-treemap.svg)
 
-| Metric | Current status |
-| --- | ---: |
-| Identified functions | **12,038** |
-| Individually ARM-compilable sources | **7,598 / 12,038 (63.12%)** |
-| Locally byte-exact functions | **613 / 12,038 (5.09%)** |
-| Byte-exact coverage of identified function bodies | **0.4561%** |
-
 The treemap represents **function counts**, not matched code bytes. Compilation success is **not** evidence of correct behavior or matching assembly. These are local checkpoint measurements, not whole-game completion percentages. See [detailed measurements](reports/MISURA-DECOMP.md) and [GitHub Actions reports](https://github.com/RonyxDumb/mkds/actions/workflows/decomp-report.yml).
+
+You can check it online on [Decomp.dev](https://decomp.dev/RonyxDumb/mkds).
 
 ## AI disclosure
 
