@@ -1,17 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 02069044. No matching claim. */
-#include "types.h"
-#include "deps/02069044_StructMQRacerEntry_SomeFn_34.h"
-
-void StructMQRacerEntry_SomeFn_34(int param_1)
-
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
+extern unsigned int StructMQRacerEntry_SomeFn_35(unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int StructMQRacerEntry_SomeFn_34(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  StructMQRacerEntry_SomeFn_35(param_1,1);
-  uVar1 = param_1 + 0x7cU & 3;
-  uVar2 = *(uint *)(param_1 + 0x7cU & 0xfffffffc);
-  *(uint *)(param_1 + 0x7c) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20 | 0x800000;
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_2069048: r4 = r0;
+L_206904c: r1 = 0x1u;
+L_2069050: r0 = StructMQRacerEntry_SomeFn_35(r0,r1,r2,r3);
+L_2069054: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 124));
+L_2069058: r0 = (r0|0x800000u);
+L_206905c: *(unsigned int *)((unsigned char *)r4 + 124) = (unsigned int)r0;
+L_2069064: return r0;
 }
-

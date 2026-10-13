@@ -1,10 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 0205e090. No matching claim. */
-#include "types.h"
-#include "deps/0205e090_GetNextSceneId.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-int GetNextSceneId(void)
-
+unsigned int GetNextSceneId(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  return (int)*(short *)(iRam0205e09c + 4);
+unsigned int cmp_a,cmp_b;
+L_205e090: r0 = 0x21653b8u;
+L_205e094: r0 = (unsigned int)(*(short *)((unsigned char *)r0 + 4));
+L_205e098: return r0;
 }
-

@@ -1,14 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 0204aa04. No matching claim. */
-#include "types.h"
-#include "deps/0204aa04_AllocateInputRecord.h"
-
-void AllocateInputRecord(undefined4 *param_1,undefined4 param_2)
-
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
+extern unsigned int Mem_AllocateHeap(unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int AllocateInputRecord(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  
-  uVar1 = Mem_AllocateHeap(param_2,uRam0204aa24);
-  *param_1 = uVar1;
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_204aa08: r4 = r0;
+L_204aa0c: r0 = r1;
+L_204aa10: r1 = 0xdccu;
+L_204aa14: r0 = Mem_AllocateHeap(r0,r1,r2,r3);
+L_204aa18: *(unsigned int *)((unsigned char *)r4 + 0) = (unsigned int)r0;
+L_204aa20: return r0;
 }
-

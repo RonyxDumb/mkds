@@ -8,6 +8,7 @@
 | 6 | 7.598 | 63,12% | 613 | 8.728 |
 | 7 | 7.598 | 63,12% | 776 | 13.142 |
 | 8 | 7.598 | 63,12% | 1.024 | 21.978 |
+| 9 | 7.615 | 63,26% | 1.143 | 27.044 |
 
 Checkpoint 4: 846 puntatori tipizzati, 484 nuove compilazioni riuscite.
 
@@ -21,3 +22,5 @@ L'intervento dal checkpoint 4 aggiunge 1.695 file compilabili. La verifica byte-
 Checkpoint 7: +163 funzioni e +4.414 byte localmente identici. Ricompilazione MW e Clang di tutte le 776 riuscita.
 
 Checkpoint 8: +248 funzioni; +8.836 byte. 937 senza relocazioni, 87 con tutte le relocazioni applicate. Copertura inventariata: 1,1485%.
+
+Checkpoint 9: +119 funzioni, +5.066 byte. Relocazioni Thumb BL verificate e ricostruzione di flussi ARM con cicli.

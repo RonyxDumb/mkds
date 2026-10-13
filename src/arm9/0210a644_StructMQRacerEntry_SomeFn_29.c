@@ -1,17 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 0210a644. No matching claim. */
-#include "types.h"
-#include "deps/0210a644_StructMQRacerEntry_SomeFn_29.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-void StructMQRacerEntry_SomeFn_29(int param_1)
-
+unsigned int StructMQRacerEntry_SomeFn_29(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  
-  uVar1 = uRam0210a660;
-  *(uint *)(param_1 + 0x484) =
-       *(uint *)(uRam0210a65c & 0xfffffffc) >> (uRam0210a65c & 3) * 8 |
-       *(uint *)(uRam0210a65c & 0xfffffffc) << (uRam0210a65c & 3) * -8 + 0x20;
-  *(undefined4 *)(param_1 + 0x30) = uVar1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_210a644: r1 = 0x217c814u;
+L_210a648: r2 = 0x210a724u;
+L_210a64c: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 0));
+L_210a650: *(unsigned int *)((unsigned char *)r0 + 1156) = (unsigned int)r1;
+L_210a654: *(unsigned int *)((unsigned char *)r0 + 48) = (unsigned int)r2;
+L_210a658: return r0;
 }
-

@@ -1,19 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 020162b0. No matching claim. */
-#include "types.h"
-#include "deps/020162b0_func_020162b0.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-void func_020162b0(void)
-
+unsigned int func_020162b0(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  undefined4 *puVar2;
-  uint uVar3;
-  
-  puVar2 = puRam020162c8;
-  uVar1 = (uint)(puRam020162c8 + 2) & 3;
-  uVar3 = *(uint *)((uint)(puRam020162c8 + 2) & 0xfffffffc);
-  *puRam020162c8 = 0;
-  puVar2[1] = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  return;
+unsigned int cmp_a,cmp_b;
+L_20162b0: r0 = 0x2173214u;
+L_20162b4: r2 = 0x0u;
+L_20162b8: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 8));
+L_20162bc: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r2;
+L_20162c0: *(unsigned int *)((unsigned char *)r0 + 4) = (unsigned int)r1;
+L_20162c4: return r0;
 }
-

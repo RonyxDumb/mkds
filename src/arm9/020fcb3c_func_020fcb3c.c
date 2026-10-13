@@ -1,15 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 020fcb3c. No matching claim. */
-#include "types.h"
-#include "deps/020fcb3c_func_020fcb3c.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-uint func_020fcb3c(void)
-
+unsigned int func_020fcb3c(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = iRam020fcb48 + 0x11cU & 3;
-  uVar2 = *(uint *)(iRam020fcb48 + 0x11cU & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_20fcb3c: r0 = 0x217ca6cu;
+L_20fcb40: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 284));
+L_20fcb44: return r0;
 }
-

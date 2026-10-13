@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "TextSystem_IsDialogFinished_from_thumb",
+    "target": 34758536,
+    "thumb": true,
+    "addend": -4,
+    "value": 4235915280
+  },
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "func_02115e20",
+    "target": 34692640,
+    "thumb": true,
+    "addend": -4,
+    "value": 4223856640
+  }
+]

@@ -1163,7 +1163,7 @@ arm9	src/arm9/02004018_Fs_Archive_LoadFromFatFnt.c	ARM_OBJECT	False	0
 arm9	src/arm9/02004090_Fs_UnregisterArchive.c	ARM_OBJECT	False	0	
 arm9	src/arm9/02004128_Fs_RegisterArchive.c	NEEDS_REPAIR	False	4	C-WORK/src/arm9/02004128_Fs_RegisterArchive.c:19:37: error: too many arguments to function call, expected 0, have 2
 arm9	src/arm9/020041e8_Fs_FindArchiveByMountName.c	NEEDS_REPAIR	False	3	C-WORK/src/arm9/020041e8_Fs_FindArchiveByMountName.c:12:35: error: too few arguments to function call, expected 2, have 0
-arm9	src/arm9/02004238_Fs_Archive_Initialize.c	ARM_OBJECT	False	2	
+arm9	src/arm9/02004238_Fs_Archive_Initialize.c	ARM_OBJECT	False	0	
 arm9	src/arm9/02004270_Fs_File_SendOperation.c	NEEDS_REPAIR	False	18	C-WORK/src/arm9/02004270_Fs_File_SendOperation.c:30:19: error: too many arguments to function call, expected 0, have 1
 arm9	src/arm9/0200442c_Fs_File_ExecuteSyncOperation.c	NEEDS_REPAIR	False	3	C-WORK/src/arm9/0200442c_Fs_File_ExecuteSyncOperation.c:21:35: error: too few arguments to function call, single argument 'param_1' was not specified
 arm9	src/arm9/02004474_Fs_File_ExecuteAsyncOperation.c	NEEDS_REPAIR	False	5	C-WORK/src/arm9/02004474_Fs_File_ExecuteAsyncOperation.c:29:21: error: too many arguments to function call, expected 0, have 1
@@ -1910,7 +1910,7 @@ arm9	src/arm9/0201e2cc_func_0201e2cc.c	ARM_OBJECT	False	0
 arm9	src/arm9/0201e394_func_0201e394.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0201e3c8_func_0201e3c8.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0201e448_func_0201e448.c	ARM_OBJECT	False	0	
-arm9	src/arm9/0201e494_func_0201e494.c	NEEDS_REPAIR	False	4	C-WORK/src/arm9/0201e494_func_0201e494.c:14:14: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+arm9	src/arm9/0201e494_func_0201e494.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0201e4e4_func_0201e4e4.c	ARM_OBJECT	False	2	
 arm9	src/arm9/0201e540_func_0201e540.c	ARM_OBJECT	False	3	
 arm9	src/arm9/0201e5a8_func_0201e5a8.c	ARM_OBJECT	False	0	
@@ -2971,7 +2971,7 @@ arm9	src/arm9/0204a798_func_0204a798.c	ARM_OBJECT	True	0
 arm9	src/arm9/0204a904_func_0204a904.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0204a910_func_0204a910.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0204a928_func_0204a928.c	ARM_OBJECT	False	0	
-arm9	src/arm9/0204a978_func_0204a978.c	ARM_OBJECT	False	3	
+arm9	src/arm9/0204a978_func_0204a978.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0204a9e4_StructCYB_SomeFn.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0204a9f8_StructCYB_ResetInputRecord.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0204aa04_AllocateInputRecord.c	ARM_OBJECT	False	0	
@@ -5933,7 +5933,7 @@ arm9	src/arm9/020d22d0_func_020d22d0.c	ARM_OBJECT	False	0
 arm9	src/arm9/020d22e0_func_020d22e0.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020d233c_func_020d233c.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020d233c_func_020d233c.c:15:19: error: too few arguments to function call, single argument 'param_1' was not specified
 arm9	src/arm9/020d2398_func_020d2398.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020d2398_func_020d2398.c:25:19: error: too few arguments to function call, single argument 'param_1' was not specified
-arm9	src/arm9/020d2450_func_020d2450.c	ARM_OBJECT	False	1	
+arm9	src/arm9/020d2450_func_020d2450.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020d24d8_func_020d24d8.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020d252c_func_020d252c.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020d2584_func_020d2584.c	ARM_OBJECT	False	0	
@@ -6191,7 +6191,7 @@ arm9	src/arm9/020de334_Maybe_CreateObj_158434.c	NEEDS_REPAIR	False	1	C-WORK/src/
 arm9	src/arm9/020de390_Maybe_CreateObj_158460.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020de390_Maybe_CreateObj_158460.c:16:42: error: too few arguments to function call, single argument 'param_1' was not specified
 arm9	src/arm9/020de3e0_func_020de3e0.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020de438_func_020de438.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020de438_func_020de438.c:10:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
-arm9	src/arm9/020de488_func_020de488.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020de488_func_020de488.c:10:17: error: too few arguments to function call, expected 3, have 0
+arm9	src/arm9/020de488_func_020de488.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020de4a0_func_020de4a0.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020de4a0_func_020de4a0.c:11:25: error: too few arguments to function call, expected 3, have 0
 arm9	src/arm9/020de4d4_func_020de4d4.c	ARM_OBJECT	True	0	
 arm9	src/arm9/020de4e4_func_020de4e4.c	ARM_OBJECT	False	0	
@@ -6391,7 +6391,7 @@ arm9	src/arm9/020e5a40_Maybe_CreateObj_159114.c	NEEDS_REPAIR	False	1	C-WORK/src/
 arm9	src/arm9/020e5a9c_Maybe_CreateObj_159140.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020e5a9c_Maybe_CreateObj_159140.c:16:42: error: too few arguments to function call, single argument 'param_1' was not specified
 arm9	src/arm9/020e5aec_func_020e5aec.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020e5b50_func_020e5b50.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020e5b50_func_020e5b50.c:11:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
-arm9	src/arm9/020e5b88_func_020e5b88.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020e5b88_func_020e5b88.c:10:17: error: too few arguments to function call, expected 3, have 0
+arm9	src/arm9/020e5b88_func_020e5b88.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020e5ba0_func_020e5ba0.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020e5ba0_func_020e5ba0.c:11:25: error: too few arguments to function call, expected 3, have 0
 arm9	src/arm9/020e5bd4_func_020e5bd4.c	NEEDS_REPAIR	False	4	C-WORK/src/arm9/020e5bd4_func_020e5bd4.c:40:29: error: too few arguments to function call, single argument 'param_1' was not specified
 arm9	src/arm9/020e5c6c_func_020e5c6c.c	ARM_OBJECT	False	0	
@@ -6664,17 +6664,17 @@ arm9	src/arm9/020f5968_func_020f5968.c	ARM_OBJECT	False	0
 arm9	src/arm9/020f5978_func_020f5978.c	NEEDS_REPAIR	False	10	C-WORK/src/arm9/020f5978_func_020f5978.c:21:28: error: too few arguments to function call, single argument 'param_1' was not specified
 arm9	src/arm9/020f5b74_func_020f5b74.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020f5b84_func_020f5b84.c	ARM_OBJECT	False	0	
-arm9	src/arm9/020f5cc4_func_020f5cc4.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020f5cc4_func_020f5cc4.c:9:19: error: too few arguments to function call, expected 2, have 0
+arm9	src/arm9/020f5cc4_func_020f5cc4.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020f5d00_func_020f5d00.c	NEEDS_REPAIR	False	2	C-WORK/src/arm9/020f5d00_func_020f5d00.c:18:39: error: too few arguments to function call, expected 5, have 4
 arm9	src/arm9/020f5d5c_func_020f5d5c.c	ARM_OBJECT	True	0	
 arm9	src/arm9/020f5d6c_func_020f5d6c.c	NEEDS_REPAIR	False	10	C-WORK/src/arm9/020f5d6c_func_020f5d6c.c:50:32: error: too few arguments to function call, single argument 'param_1' was not specified
 arm9	src/arm9/020f5f7c_func_020f5f7c.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020f5f7c_func_020f5f7c.c:8:17: error: too few arguments to function call, single argument 'param_1' was not specified
-arm9	src/arm9/020f5fb8_func_020f5fb8.c	NEEDS_REPAIR	False	2	C-WORK/src/arm9/020f5fb8_func_020f5fb8.c:17:37: error: too many arguments to function call, expected 3, have 4
+arm9	src/arm9/020f5fb8_func_020f5fb8.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020f5ffc_func_020f5ffc.c	NEEDS_REPAIR	False	1	C-WORK/src/arm9/020f5ffc_func_020f5ffc.c:11:17: error: too few arguments to function call, single argument 'param_1' was not specified
 arm9	src/arm9/020f6038_func_020f6038.c	NEEDS_REPAIR	False	2	C-WORK/src/arm9/020f6038_func_020f6038.c:17:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'char *' [-Wint-conversion]
 arm9	src/arm9/020f60d0_func_020f60d0.c	NEEDS_REPAIR	False	3	C-WORK/src/arm9/020f60d0_func_020f60d0.c:26:39: error: too few arguments to function call, expected 5, have 4
 arm9	src/arm9/020f6150_func_020f6150.c	NEEDS_REPAIR	False	1	C-WORK/src/arm9/020f6150_func_020f6150.c:17:34: error: too few arguments to function call, expected 6, have 2
-arm9	src/arm9/020f6220_func_020f6220.c	NEEDS_REPAIR	False	2	C-WORK/src/arm9/020f6220_func_020f6220.c:17:37: error: too many arguments to function call, expected 3, have 4
+arm9	src/arm9/020f6220_func_020f6220.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020f6264_func_020f6264.c	ARM_OBJECT	False	4	
 arm9	src/arm9/020f62b0_func_020f62b0.c	NEEDS_REPAIR	False	8	C-WORK/src/arm9/020f62b0_func_020f62b0.c:15:30: error: too few arguments to function call, single argument 'param_1' was not specified
 arm9	src/arm9/020f6388_func_020f6388.c	ARM_OBJECT	False	0	
@@ -6751,7 +6751,7 @@ arm9	src/arm9/020f9a14_func_020f9a14.c	ARM_OBJECT	False	7
 arm9	src/arm9/020f9b0c_func_020f9b0c.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020f9ba8_func_020f9ba8.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020f9c08_func_020f9c08.c	ARM_OBJECT	False	0	
-arm9	src/arm9/020f9c40_func_020f9c40.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/020f9c40_func_020f9c40.c:11:27: error: too few arguments to function call, single argument 'param_1' was not specified
+arm9	src/arm9/020f9c40_func_020f9c40.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020f9c6c_func_020f9c6c.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020f9ca8_func_020f9ca8.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020f9ce8_func_020f9ce8.c	ARM_OBJECT	False	0	
@@ -6798,7 +6798,7 @@ arm9	src/arm9/020fc2c0_func_020fc2c0.c	ARM_OBJECT	False	0
 arm9	src/arm9/020fc2e8_func_020fc2e8.c	ARM_OBJECT	True	25	
 arm9	src/arm9/020fc654_func_020fc654.c	ARM_OBJECT	False	10	
 arm9	src/arm9/020fc79c_func_020fc79c.c	ARM_OBJECT	False	0	
-arm9	src/arm9/020fc8ec_func_020fc8ec.c	NEEDS_REPAIR	False	5	C-WORK/src/arm9/020fc8ec_func_020fc8ec.c:17:19: error: too few arguments to function call, expected 2, have 0
+arm9	src/arm9/020fc8ec_func_020fc8ec.c	ARM_OBJECT	False	0	
 arm9	src/arm9/020fc94c_func_020fc94c.c	ARM_OBJECT	False	6	
 arm9	src/arm9/020fcac0_func_020fcac0.c	ARM_OBJECT	False	1	
 arm9	src/arm9/020fcb30_func_020fcb30.c	ARM_OBJECT	False	0	
@@ -6986,7 +6986,7 @@ arm9	src/arm9/021052f0_func_021052f0.c	ARM_OBJECT	False	0
 arm9	src/arm9/021052fc_func_021052fc.c	ARM_OBJECT	False	0	
 arm9	src/arm9/02105338_func_02105338.c	ARM_OBJECT	False	0	
 arm9	src/arm9/021053d8_func_021053d8.c	NEEDS_REPAIR	True	0	C-WORK/src/arm9/021053d8_func_021053d8.c:10:20: error: too few arguments to function call, expected 1, have 0
-arm9	src/arm9/021053e4_func_021053e4.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/021053e4_func_021053e4.c:8:17: error: too few arguments to function call, single argument 'param_1' was not specified
+arm9	src/arm9/021053e4_func_021053e4.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0210543c_func_0210543c.c	ARM_OBJECT	False	0	
 arm9	src/arm9/02105464_func_02105464.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/02105464_func_02105464.c:8:17: error: too few arguments to function call, expected 2, have 0
 arm9	src/arm9/02105480_Maybe_CreateObj_15a680.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/02105480_Maybe_CreateObj_15a680.c:16:42: error: too few arguments to function call, single argument 'param_1' was not specified
@@ -7068,7 +7068,7 @@ arm9	src/arm9/02109184_func_02109184.c	NEEDS_REPAIR	False	6	C-WORK/src/arm9/0210
 arm9	src/arm9/0210920c_func_0210920c.c	ARM_OBJECT	False	0	
 arm9	src/arm9/021092b0_func_021092b0.c	ARM_OBJECT	False	0	
 arm9	src/arm9/02109468_func_02109468.c	NEEDS_REPAIR	False	21	C-WORK/src/arm9/02109468_func_02109468.c:69:18: error: too many arguments to function call, expected 0, have 2
-arm9	src/arm9/0210a53c_StructMQRacerEntry_SomeFn_70.c	NEEDS_REPAIR	False	1	C-WORK/src/arm9/0210a53c_StructMQRacerEntry_SomeFn_70.c:14:34: error: too few arguments to function call, expected 4, have 0
+arm9	src/arm9/0210a53c_StructMQRacerEntry_SomeFn_70.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0210a578_func_0210a578.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0210a588_func_0210a588.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0210a598_StructMQRacerEntry_SomeFn_66.c	ARM_OBJECT	True	0	
@@ -7096,7 +7096,7 @@ arm9	src/arm9/0210aefc_func_0210aefc.c	ARM_OBJECT	False	0
 arm9	src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c	NEEDS_REPAIR	False	8	C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:44:75: error: too few arguments to function call, expected 5, have 4
 arm9	src/arm9/0210b12c_func_0210b12c.c	NEEDS_REPAIR	False	1	C-WORK/src/arm9/0210b12c_func_0210b12c.c:14:68: error: too few arguments to function call, expected 5, have 4
 arm9	src/arm9/0210b198_func_0210b198.c	NEEDS_REPAIR	False	2	C-WORK/src/arm9/0210b198_func_0210b198.c:16:32: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
-arm9	src/arm9/0210b234_func_0210b234.c	NEEDS_REPAIR	False	2	C-WORK/src/arm9/0210b234_func_0210b234.c:24:56: error: too many arguments to function call, expected 3, have 4
+arm9	src/arm9/0210b234_func_0210b234.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0210b2a8_func_0210b2a8.c	NEEDS_REPAIR	False	7	C-WORK/src/arm9/0210b2a8_func_0210b2a8.c:76:45: error: too many arguments to function call, expected 3, have 4
 arm9	src/arm9/0210b4e0_func_0210b4e0.c	NEEDS_REPAIR	False	1	C-WORK/src/arm9/0210b4e0_func_0210b4e0.c:27:38: error: too many arguments to function call, expected 3, have 4
 arm9	src/arm9/0210b564_func_0210b564.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/0210b564_func_0210b564.c:15:57: error: too many arguments to function call, expected 3, have 4
@@ -7132,7 +7132,7 @@ arm9	src/arm9/0210bcf4_func_0210bcf4.c	NEEDS_REPAIR	False	13	C-WORK/src/arm9/021
 arm9	src/arm9/0210bee8_func_0210bee8.c	NEEDS_REPAIR	False	1	C-WORK/src/arm9/0210bee8_func_0210bee8.c:14:19: error: too few arguments to function call, expected 4, have 0
 arm9	src/arm9/0210bf24_func_0210bf24.c	NEEDS_REPAIR	False	2	C-WORK/src/arm9/0210bf24_func_0210bf24.c:16:25: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
 arm9	src/arm9/0210bfbc_func_0210bfbc.c	NEEDS_REPAIR	False	2	C-WORK/src/arm9/0210bfbc_func_0210bfbc.c:27:58: error: too few arguments to function call, expected 2, have 1
-arm9	src/arm9/0210c084_func_0210c084.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/0210c084_func_0210c084.c:8:17: error: too few arguments to function call, single argument 'param_1' was not specified
+arm9	src/arm9/0210c084_func_0210c084.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0210c0bc_func_0210c0bc.c	NEEDS_REPAIR	False	3	C-WORK/src/arm9/0210c0bc_func_0210c0bc.c:16:34: error: too few arguments to function call, expected 2, have 1
 arm9	src/arm9/0210c134_func_0210c134.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0210c1b0_func_0210c1b0.c	NEEDS_REPAIR	False	3	C-WORK/src/arm9/0210c1b0_func_0210c1b0.c:16:34: error: too few arguments to function call, expected 2, have 1
@@ -7172,7 +7172,7 @@ arm9	src/arm9/0210d73c_func_0210d73c.c	ARM_OBJECT	False	0
 arm9	src/arm9/0210d740_func_0210d740.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0210d7ac_func_0210d7ac.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0210d7dc_func_0210d7dc.c	NEEDS_REPAIR	False	2	C-WORK/src/arm9/0210d7dc_func_0210d7dc.c:12:27: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
-arm9	src/arm9/0210d834_func_0210d834.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/0210d834_func_0210d834.c:8:17: error: too few arguments to function call, single argument 'param_1' was not specified
+arm9	src/arm9/0210d834_func_0210d834.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0210d854_MaybeSendArm7SoundShit.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0210d890_func_0210d890.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0210d894_Sound_InitializeWithData.c	ARM_OBJECT	False	3	
@@ -8006,7 +8006,7 @@ arm9	src/arm9/0212c824_func_0212c824.c	ARM_OBJECT	False	0
 arm9	src/arm9/0212c8a4_func_0212c8a4.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0212c918_func_0212c918.c	NEEDS_REPAIR	False	1	C-WORK/src/arm9/0212c918_func_0212c918.c:14:19: error: too few arguments to function call, single argument 'param_1' was not specified
 arm9	src/arm9/0212c948_func_0212c948.c	ARM_OBJECT	False	0	
-arm9	src/arm9/0212c9a4_func_0212c9a4.c	NEEDS_REPAIR	False	1	C-WORK/src/arm9/0212c9a4_func_0212c9a4.c:14:19: error: too few arguments to function call, single argument 'param_1' was not specified
+arm9	src/arm9/0212c9a4_func_0212c9a4.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0212c9d4_func_0212c9d4.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0212cad8_func_0212cad8.c	NEEDS_REPAIR	False	11	C-WORK/src/arm9/0212cad8_func_0212cad8.c:47:67: error: too few arguments to function call, expected 4, have 2
 arm9	src/arm9/0212cb78_func_0212cb78.c	ARM_OBJECT	False	0	
@@ -8095,7 +8095,7 @@ arm9	src/arm9/0212f788_func_0212f788.c	ARM_OBJECT	False	0
 arm9	src/arm9/0212f7c8_NNS_Snd_func_02068a4c.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0212f7e0_NNS_Snd_func_02068a34.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0212f7f8_func_0212f7f8.c	NEEDS_REPAIR	False	5	C-WORK/src/arm9/0212f7f8_func_0212f7f8.c:24:91: error: too few arguments to function call, expected 2, have 1
-arm9	src/arm9/0212f834_func_0212f834.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/0212f834_func_0212f834.c:10:25: error: too few arguments to function call, single argument 'param_1' was not specified
+arm9	src/arm9/0212f834_func_0212f834.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0212f864_func_0212f864.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0212f884_func_0212f884.c	NEEDS_REPAIR	True	9	C-WORK/src/arm9/0212f884_func_0212f884.c:96:62: error: too few arguments to function call, expected 5, have 4
 arm9	src/arm9/0212fe20_func_0212fe20.c	NEEDS_REPAIR	False	8	C-WORK/src/arm9/0212fe20_func_0212fe20.c:32:83: error: too many arguments to function call, expected 3, have 5
@@ -8172,7 +8172,7 @@ arm9	src/arm9/02134d08_func_02134d08.c	ARM_OBJECT	False	0
 arm9	src/arm9/02134d30_StructDC_SomeFn_6.c	ARM_OBJECT	False	0	
 arm9	src/arm9/02134d80_func_02134d80.c	ARM_OBJECT	False	0	
 arm9	src/arm9/02134db0_memchr.c	ARM_OBJECT	False	0	
-arm9	src/arm9/02134de0_func_02134de0.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/02134de0_func_02134de0.c:8:17: error: too few arguments to function call, expected 3, have 0
+arm9	src/arm9/02134de0_func_02134de0.c	ARM_OBJECT	False	0	
 arm9	src/arm9/02134df8_func_02134df8.c	ARM_OBJECT	False	0	
 arm9	src/arm9/02134eb8_func_02134eb8.c	ARM_OBJECT	False	0	
 arm9	src/arm9/02134f18_func_02134f18.c	ARM_OBJECT	False	0	
@@ -8399,7 +8399,7 @@ arm9	src/arm9/0214726c_MTX_RotZ43__from_thumb.c	ARM_OBJECT	False	0
 arm9	src/arm9/02147288_func_02147288.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0214733c_MTX_Concat43.c	ARM_OBJECT	False	0	
 arm9	src/arm9/0214755c_func_0214755c.c	ARM_OBJECT	True	0	
-arm9	src/arm9/021478f0_func_021478f0.c	NEEDS_REPAIR	False	0	C-WORK/src/arm9/021478f0_func_021478f0.c:8:17: error: too few arguments to function call, expected 4, have 0
+arm9	src/arm9/021478f0_func_021478f0.c	ARM_OBJECT	False	0	
 arm9	src/arm9/02147914_func_02147914.c	NEEDS_REPAIR	False	3	C-WORK/src/arm9/02147914_func_02147914.c:11:17: error: too few arguments to function call, expected 5, have 0
 arm9	src/arm9/02147954_func_02147954.c	ARM_OBJECT	False	0	
 arm9	src/arm9/02147980_func_02147980.c	ARM_OBJECT	False	0	

@@ -1,11 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 0214d954. No matching claim. */
-#include "types.h"
-#include "deps/0214d954_Rtc_GetTimeAsync_ErrorFunction.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-void Rtc_GetTimeAsync_ErrorFunction(undefined4 param_1)
-
+unsigned int Rtc_GetTimeAsync_ErrorFunction(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  *(undefined4 *)(iRam0214d960 + 0x20) = param_1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_214d954: r1 = 0x21803b0u;
+L_214d958: *(unsigned int *)((unsigned char *)r1 + 32) = (unsigned int)r0;
+L_214d95c: return r0;
 }
-

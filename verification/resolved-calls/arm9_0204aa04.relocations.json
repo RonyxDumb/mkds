@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402612
+  }
+]

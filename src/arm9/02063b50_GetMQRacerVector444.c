@@ -1,22 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 02063b50. No matching claim. */
-#include "types.h"
-#include "deps/02063b50_GetMQRacerVector444.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-void GetMQRacerVector444(int param_1,uint *param_2)
-
+unsigned int GetMQRacerVector444(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 0x120U & 3;
-  uVar2 = *(uint *)(param_1 + 0x120U & 0xfffffffc);
-  *param_2 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 0x124U & 3;
-  uVar2 = *(uint *)(param_1 + 0x124U & 0xfffffffc);
-  param_2[1] = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 0x128U & 3;
-  uVar2 = *(uint *)(param_1 + 0x128U & 0xfffffffc);
-  param_2[2] = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  return;
+unsigned int cmp_a,cmp_b;
+L_2063b50: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 288));
+L_2063b54: r3 = (r0+0x120u);
+L_2063b58: *(unsigned int *)((unsigned char *)r1 + 0) = (unsigned int)r2;
+L_2063b5c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r3 + 4));
+L_2063b60: *(unsigned int *)((unsigned char *)r1 + 4) = (unsigned int)r0;
+L_2063b64: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r3 + 8));
+L_2063b68: *(unsigned int *)((unsigned char *)r1 + 8) = (unsigned int)r0;
+L_2063b6c: return r0;
 }
-

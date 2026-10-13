@@ -1,15 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0200cd04. No matching claim. */
-#include "types.h"
-#include "deps/0200cd04_Os_InitializeIrqThreadQueue.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-void Os_InitializeIrqThreadQueue(void)
-
+unsigned int Os_InitializeIrqThreadQueue(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = puRam0200cd18;
-  puRam0200cd18[1] = 0;
-  *puVar1 = 0;
-  return;
+unsigned int cmp_a,cmp_b;
+L_200cd04: r0 = 0x27e0000u;
+L_200cd08: r1 = 0x0u;
+L_200cd0c: *(unsigned int *)((unsigned char *)r0 + 4) = (unsigned int)r1;
+L_200cd10: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_200cd14: return r0;
 }
-

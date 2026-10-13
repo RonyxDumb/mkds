@@ -1,33 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 0201e494. No matching claim. */
-#include "types.h"
-#include "deps/0201e494_func_0201e494.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-void func_0201e494(undefined4 *param_1,uint *param_2)
-
+unsigned int func_0201e494(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = *(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-          *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
-  if (uVar2 == 0) {
-    *param_1 = param_2;
-    param_1[2] = param_2;
-    *param_2 = 0;
-    param_2[1] = *(uint *)((uint)param_2 & 0xfffffffc) >> ((uint)param_2 & 3) * 8 |
-                 *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20;
-  }
-  else {
-    *param_2 = uVar2;
-    param_2[1] = 0;
-    *(uint **)((*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-               *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 4) =
-         param_2;
-    *param_1 = param_2;
-  }
-  uVar2 = (uint)(param_1 + 1) & 3;
-  uVar1 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-  param_1[1] = (uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) + 1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_201e494: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_201e498: cmp_a = r2; cmp_b = 0x0u;
+L_201e49c: if ((cmp_a != cmp_b)) { goto L_201e4bc; }
+L_201e4a0: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_201e4a4: *(unsigned int *)((unsigned char *)r0 + 8) = (unsigned int)r1;
+L_201e4a8: r2 = 0x0u;
+L_201e4ac: *(unsigned int *)((unsigned char *)r1 + 0) = (unsigned int)r2;
+L_201e4b0: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 0));
+L_201e4b4: *(unsigned int *)((unsigned char *)r1 + 4) = (unsigned int)r2;
+L_201e4b8: goto L_201e4d4;
+L_201e4bc: *(unsigned int *)((unsigned char *)r1 + 0) = (unsigned int)r2;
+L_201e4c0: r2 = 0x0u;
+L_201e4c4: *(unsigned int *)((unsigned char *)r1 + 4) = (unsigned int)r2;
+L_201e4c8: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_201e4cc: *(unsigned int *)((unsigned char *)r2 + 4) = (unsigned int)r1;
+L_201e4d0: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_201e4d4: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 4));
+L_201e4d8: r1 = (r1+0x1u);
+L_201e4dc: *(unsigned int *)((unsigned char *)r0 + 4) = (unsigned int)r1;
+L_201e4e0: return r0;
 }
-

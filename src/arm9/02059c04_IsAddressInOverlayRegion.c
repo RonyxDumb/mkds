@@ -1,26 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 02059c04. No matching claim. */
-#include "types.h"
-#include "deps/02059c04_IsAddressInOverlayRegion.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-undefined4 IsAddressInOverlayRegion(uint param_1)
-
+unsigned int IsAddressInOverlayRegion(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  undefined4 uVar4;
-  
-  uVar4 = 0;
-  uVar3 = *(uint *)(uRam02059c30 & 0xfffffffc) >> (uRam02059c30 & 3) * 8 |
-          *(uint *)(uRam02059c30 & 0xfffffffc) << (uRam02059c30 & 3) * -8 + 0x20;
-  uVar2 = uVar3 + 0xa8;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) <= param_1) &&
-     (uVar3 = uVar3 + 0xac, uVar2 = uVar3 & 3, uVar3 = *(uint *)(uVar3 & 0xfffffffc),
-     param_1 <= (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20))) {
-    uVar4 = 1;
-  }
-  return uVar4;
+unsigned int cmp_a,cmp_b;
+L_2059c04: r1 = 0x217aa10u;
+L_2059c08: r3 = 0x0u;
+L_2059c0c: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 0));
+L_2059c10: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 168));
+L_2059c14: cmp_a = r0; cmp_b = r1;
+L_2059c18: if ((cmp_a < cmp_b)) { goto L_2059c28; }
+L_2059c1c: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 172));
+L_2059c20: cmp_a = r0; cmp_b = r1;
+L_2059c24: if ((cmp_a <= cmp_b)) { r3 = 0x1u; }
+L_2059c28: r0 = r3;
+L_2059c2c: return r0;
 }
-

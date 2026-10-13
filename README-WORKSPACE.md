@@ -1,4 +1,4 @@
-# Mario Kart DS EUR — checkpoint 8
+# Mario Kart DS EUR — checkpoint 9
 
 **7.598 file compilabili su 12.038 (63,12%); 4.440 da correggere.**
 
@@ -76,3 +76,7 @@ Prove: `verification/checkpoint7-added.tsv`, `verification/matching-audit.json`,
 937 funzioni (17.362 byte) sono identiche senza relocazioni; 87 (4.616 byte) coincidono dopo aver applicato tutte le 161 relocazioni ARM agli indirizzi originali. I registri sono distinti. Nessun byte mascherato, stub o assembly inline. Le chiamate Thumb/interworking non supportate sono escluse.
 
 Ricompilate e ricontrollate tutte le 1.024 funzioni con MW e Clang. Le 776 sorgenti del checkpoint 7 sono inalterate. Compilabilità generale invariata: 7.598/12.038. ROM completa, linking globale, ABI e comportamento in gioco non verificati.
+
+## Checkpoint 9
+
+**1.143 funzioni; 27.044 byte verificati localmente (1,4132%)**. +119 funzioni e +5.066 byte. 984 senza relocazioni; 159 dopo risoluzione completa. Audit MW e Clang riusciti per tutte le funzioni. Nessuna ROM completa matching verificata.

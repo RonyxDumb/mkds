@@ -16,7 +16,7 @@
     "arm7": "arm7tdmi"
   },
   "tested": 12038,
-  "built": 7598,
-  "needs_repair": 4440,
-  "verification_scope": "Checkpoint 6 full check plus checkpoint 7 recheck of all 776 locally exact functions."
+  "built": 7615,
+  "needs_repair": 4423,
+  "verification_scope": "Checkpoint 6 full check plus checkpoint 9 recheck of all 1143 locally verified functions."
 }

@@ -1,24 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 020f2dac. No matching claim. */
-#include "types.h"
-#include "deps/020f2dac_func_020f2dac.h"
-
-void func_020f2dac(int param_1,undefined4 param_2,undefined4 param_3)
-
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_020f92e8(unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int func_020f2dac(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  func_020f92e8(param_1 + 0x5c,param_3);
-  uVar2 = param_1 + 0x74U & 3;
-  uVar1 = *(uint *)(param_1 + 0x74U & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  if ((uVar2 & 0x1000000) == 0) {
-    *(uint *)(param_1 + 0x74) = uVar2 | 0x1000000;
-    *(undefined4 *)(param_1 + 0x108) = 0;
-    *(undefined4 *)(param_1 + 0x10c) = 0;
-    *(undefined4 *)(param_1 + 0x110) = 0;
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_20f2db0: r4 = r0;
+L_20f2db4: r1 = r2;
+L_20f2db8: r0 = (r4+0x5cu);
+L_20f2dbc: r0 = func_020f92e8(r0,r1,r2,r3);
+L_20f2dc0: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 116));
+L_20f2dc4: r1 = (r0&0x1000000u); cmp_a = r1; cmp_b = 0;
+L_20f2dcc: if ((cmp_a != cmp_b)) { return r0; }
+L_20f2dd0: r0 = (r0|0x1000000u);
+L_20f2dd4: *(unsigned int *)((unsigned char *)r4 + 116) = (unsigned int)r0;
+L_20f2dd8: r0 = 0x0u;
+L_20f2ddc: *(unsigned int *)((unsigned char *)r4 + 264) = (unsigned int)r0;
+L_20f2de0: *(unsigned int *)((unsigned char *)r4 + 268) = (unsigned int)r0;
+L_20f2de4: *(unsigned int *)((unsigned char *)r4 + 272) = (unsigned int)r0;
+L_20f2dec: return r0;
 }
-

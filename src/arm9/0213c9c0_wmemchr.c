@@ -1,19 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0213c9c0. No matching claim. */
-#include "types.h"
-#include "deps/0213c9c0_wmemchr.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-wchar_t * wmemchr(wchar_t *__s,wchar_t __c,size_t __n)
-
+unsigned int wmemchr(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  if (__n != 0) {
-    do {
-      if ((uint)(ushort)*__s == __c) {
-        return __s;
-      }
-      __s = (wchar_t *)((int)__s + 2);
-      __n = __n - 1;
-    } while (__n != 0);
-  }
-  return (wchar_t *)0x0;
+unsigned int cmp_a,cmp_b;
+L_213c9c0: cmp_a = r2; cmp_b = 0x0u;
+L_213c9c4: if ((cmp_a == cmp_b)) { goto L_213c9e0; }
+L_213c9c8: r3 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 0));
+L_213c9cc: cmp_a = r3; cmp_b = r1;
+L_213c9d0: if ((cmp_a == cmp_b)) { return r0; }
+L_213c9d4: r0 = (r0+0x2u);
+L_213c9d8: r2 = (r2-0x1u); cmp_a = r2; cmp_b = 0;
+L_213c9dc: if ((cmp_a != cmp_b)) { goto L_213c9c8; }
+L_213c9e0: r0 = 0x0u;
+L_213c9e4: return r0;
 }
-

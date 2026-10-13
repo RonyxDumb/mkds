@@ -1,17 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 0201815c. No matching claim. */
-#include "types.h"
-#include "deps/0201815c_Mem_Frame_ResetFromHead.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-void Mem_Frame_ResetFromHead(int param_1)
-
+unsigned int Mem_Frame_ResetFromHead(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 0x18U & 3;
-  uVar2 = *(uint *)(param_1 + 0x18U & 0xfffffffc);
-  *(uint *)(param_1 + 0x24) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  *(undefined4 *)(param_1 + 0x2c) = 0;
-  return;
+unsigned int cmp_a,cmp_b;
+L_201815c: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 24));
+L_2018160: r2 = (r0+0x24u);
+L_2018164: *(unsigned int *)((unsigned char *)r0 + 36) = (unsigned int)r1;
+L_2018168: r0 = 0x0u;
+L_201816c: *(unsigned int *)((unsigned char *)r2 + 8) = (unsigned int)r0;
+L_2018170: return r0;
 }
-

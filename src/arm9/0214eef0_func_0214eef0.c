@@ -1,11 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 0214eef0. No matching claim. */
-#include "types.h"
-#include "deps/0214eef0_func_0214eef0.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-void func_0214eef0(undefined4 param_1)
-
+unsigned int func_0214eef0(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  *(undefined4 *)(iRam0214eefc + 0xc) = param_1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_214eef0: r1 = 0x2180414u;
+L_214eef4: *(unsigned int *)((unsigned char *)r1 + 12) = (unsigned int)r0;
+L_214eef8: return r0;
 }
-

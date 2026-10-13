@@ -1,28 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0200df3c. No matching claim. */
-#include "types.h"
-#include "deps/0200df3c_Os_FindReadyThread.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-void Os_FindReadyThread(void)
-
+unsigned int Os_FindReadyThread(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar3;
-  uint uVar2;
-  
-  uVar2 = iRam0200df64 + 8U & 3;
-  uVar1 = *(uint *)(iRam0200df64 + 8U & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  while( true ) {
-    if (uVar2 == 0) {
-      return;
-    }
-    uVar1 = uVar2 + 100 & 3;
-    uVar3 = *(uint *)(uVar2 + 100 & 0xfffffffc);
-    if ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) == 1) break;
-    uVar1 = uVar2 + 0x68 & 3;
-    uVar2 = *(uint *)(uVar2 + 0x68 & 0xfffffffc);
-    uVar2 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_200df3c: r0 = 0x216ff5cu;
+L_200df40: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 8));
+L_200df44: goto L_200df4c;
+L_200df48: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 104));
+L_200df4c: cmp_a = r0; cmp_b = 0x0u;
+L_200df50: if ((cmp_a == cmp_b)) { return r0; }
+L_200df54: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 100));
+L_200df58: cmp_a = r1; cmp_b = 0x1u;
+L_200df5c: if ((cmp_a != cmp_b)) { goto L_200df48; }
+L_200df60: return r0;
 }
-

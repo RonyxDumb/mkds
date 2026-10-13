@@ -1,18 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 02111144. No matching claim. */
-#include "types.h"
-#include "deps/02111144_GetSomeCXSseqId.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-uint GetSomeCXSseqId(void)
-
+unsigned int GetSomeCXSseqId(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = iRam02111154 + 8U & 3;
-  uVar1 = *(uint *)(iRam02111154 + 8U & 0xfffffffc);
-  uVar2 = (uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) + 0x14;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_2111144: r0 = 0x217d32cu;
+L_2111148: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 8));
+L_211114c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 20));
+L_2111150: return r0;
 }
-

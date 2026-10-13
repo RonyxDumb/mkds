@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 6,
+    "type": 10,
+    "symbol": "Arc_DisposeArchive_from_thumb",
+    "target": 33848560,
+    "thumb": true,
+    "addend": -4,
+    "value": 4207276032
+  },
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "SetActiveExecutionContextHeapGroupId_from_thumb",
+    "target": 33848172,
+    "thumb": true,
+    "addend": -4,
+    "value": 4194365440
+  },
+  {
+    "offset": 20,
+    "type": 10,
+    "symbol": "Arc_MountArchive_from_thumb",
+    "target": 33849424,
+    "thumb": true,
+    "addend": -4,
+    "value": 4235128832
+  },
+  {
+    "offset": 26,
+    "type": 10,
+    "symbol": "SetActiveExecutionContextHeapGroupId_from_thumb",
+    "target": 33848172,
+    "thumb": true,
+    "addend": -4,
+    "value": 4193906688
+  }
+]

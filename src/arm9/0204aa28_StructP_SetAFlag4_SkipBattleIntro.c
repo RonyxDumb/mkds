@@ -1,24 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 0204aa28. No matching claim. */
-#include "types.h"
-#include "deps/0204aa28_StructP_SetAFlag4_SkipBattleIntro.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-void StructP_SetAFlag4_SkipBattleIntro(uint param_1)
-
+unsigned int StructP_SetAFlag4_SkipBattleIntro(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  if (*psRam0204aa58 == 2) {
-    return;
-  }
-  uVar3 = *(uint *)(uRam0204aa5c & 0xfffffffc) >> (uRam0204aa5c & 3) * 8 |
-          *(uint *)(uRam0204aa5c & 0xfffffffc) << (uRam0204aa5c & 3) * -8 + 0x20;
-  uVar2 = uVar3 + 0x1c;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  *(uint *)(uVar3 + 0x1c) =
-       (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0xfffffffb | (param_1 & 1) << 2;
-  return;
+unsigned int cmp_a,cmp_b;
+L_204aa28: r1 = 0x27ffc40u;
+L_204aa2c: r1 = (unsigned int)(*(unsigned short *)((unsigned char *)r1 + 0));
+L_204aa30: cmp_a = r1; cmp_b = 0x2u;
+L_204aa34: if ((cmp_a == cmp_b)) { return r0; }
+L_204aa38: r1 = 0x21759d0u;
+L_204aa3c: r0 = (r0&0x1u);
+L_204aa40: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 0));
+L_204aa44: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 28));
+L_204aa48: r1 = (r1&~(0x4u));
+L_204aa4c: r0 = (r1|(r0 << 2));
+L_204aa50: *(unsigned int *)((unsigned char *)r2 + 28) = (unsigned int)r0;
+L_204aa54: return r0;
 }
-

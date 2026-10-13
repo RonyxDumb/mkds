@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 6,
+    "type": 10,
+    "symbol": "PlayerProfileInfo_SomeFn_3_from_thumb",
+    "target": 34939712,
+    "thumb": true,
+    "addend": -4,
+    "value": 4161400832
+  },
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "PlayerProfileInfo_SomeFn_3_from_thumb",
+    "target": 34939712,
+    "thumb": true,
+    "addend": -4,
+    "value": 4161073152
+  }
+]

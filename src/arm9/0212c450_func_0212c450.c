@@ -1,24 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0212c450. No matching claim. */
-#include "types.h"
-#include "deps/0212c450_func_0212c450.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-void func_0212c450(uint param_1,undefined2 param_2,undefined2 param_3)
-
+unsigned int func_0212c450(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  if (uVar1 == 0) {
-    return;
-  }
-  *(undefined2 *)(uVar1 + 0x34) = 2;
-  *(undefined2 *)
-   ((*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-    *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + 0x38) = param_2;
-  *(undefined2 *)
-   ((*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-    *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + 0x3a) = param_3;
-  return;
+unsigned int cmp_a,cmp_b,ip;
+L_212c450: ip = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_212c454: cmp_a = ip; cmp_b = 0x0u;
+L_212c458: if ((cmp_a == cmp_b)) { return r0; }
+L_212c45c: r3 = 0x2u;
+L_212c460: *(unsigned short *)((unsigned char *)ip + 52) = (unsigned short)r3;
+L_212c464: r3 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_212c468: *(unsigned short *)((unsigned char *)r3 + 56) = (unsigned short)r1;
+L_212c46c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_212c470: *(unsigned short *)((unsigned char *)r0 + 58) = (unsigned short)r2;
+L_212c474: return r0;
 }
-

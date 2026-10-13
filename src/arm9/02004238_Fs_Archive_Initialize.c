@@ -1,22 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 02004238. No matching claim. */
-#include "types.h"
-#include "deps/02004238_Fs_Archive_Initialize.h"
-
-void Fs_Archive_Initialize(int param_1)
-
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
+extern unsigned int Mem_CpuFill8(unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int Fs_Archive_Initialize(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  Mem_CpuFill8((uint *)(uintptr_t)(param_1),0,0x5c);
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  uVar1 = param_1 + 0x10U & 3;
-  uVar2 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-  *(uint *)(param_1 + 0xc) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  *(undefined4 *)(param_1 + 0x18) = 0;
-  uVar1 = param_1 + 0x18U & 3;
-  uVar2 = *(uint *)(param_1 + 0x18U & 0xfffffffc);
-  *(uint *)(param_1 + 0x14) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_200423c: r1 = 0x0u;
+L_2004240: r2 = 0x5cu;
+L_2004244: r4 = r0;
+L_2004248: r0 = Mem_CpuFill8(r0,r1,r2,r3);
+L_200424c: r1 = 0x0u;
+L_2004250: *(unsigned int *)((unsigned char *)r4 + 16) = (unsigned int)r1;
+L_2004254: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 16));
+L_2004258: *(unsigned int *)((unsigned char *)r4 + 12) = (unsigned int)r0;
+L_200425c: *(unsigned int *)((unsigned char *)r4 + 24) = (unsigned int)r1;
+L_2004260: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 24));
+L_2004264: *(unsigned int *)((unsigned char *)r4 + 20) = (unsigned int)r0;
+L_200426c: return r0;
 }
-

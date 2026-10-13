@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 6,
+    "type": 10,
+    "symbol": "Arc_DisposeArchive_from_thumb",
+    "target": 33848560,
+    "thumb": true,
+    "addend": -4,
+    "value": 4172279808
+  }
+]

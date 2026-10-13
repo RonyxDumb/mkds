@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "FriendCode_GetState_from_thumb",
+    "target": 34941528,
+    "thumb": true,
+    "addend": -4,
+    "value": 4191744000
+  }
+]

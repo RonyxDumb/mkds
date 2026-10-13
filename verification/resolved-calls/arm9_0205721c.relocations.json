@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "ClearSaveDataSection_Emblem_from_thumb",
+    "target": 33911528,
+    "thumb": true,
+    "addend": -4,
+    "value": 4167233536
+  },
+  {
+    "offset": 8,
+    "type": 10,
+    "symbol": "ClearSaveDataSection_GrandPrix_from_thumb",
+    "target": 33911500,
+    "thumb": true,
+    "addend": -4,
+    "value": 4166184960
+  },
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "ClearSaveDataSection_TimeTrials_from_thumb",
+    "target": 33911472,
+    "thumb": true,
+    "addend": -4,
+    "value": 4165136384
+  },
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "ClearSaveDataSection_MissionRun_from_thumb",
+    "target": 33911444,
+    "thumb": true,
+    "addend": -4,
+    "value": 4164087808
+  },
+  {
+    "offset": 20,
+    "type": 10,
+    "symbol": "ClearSaveDataGhosts_from_thumb",
+    "target": 33911392,
+    "thumb": true,
+    "addend": -4,
+    "value": 4162252800
+  },
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "ClearSaveDataSection_FriendList_from_thumb",
+    "target": 33911364,
+    "thumb": true,
+    "addend": -4,
+    "value": 4161204224
+  },
+  {
+    "offset": 30,
+    "type": 10,
+    "symbol": "ClearSaveDataSection_Header_from_thumb",
+    "target": 33911556,
+    "thumb": true,
+    "addend": -4,
+    "value": 4167299072
+  }
+]

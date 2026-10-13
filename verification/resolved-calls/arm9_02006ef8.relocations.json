@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "GetGlobalGO_from_thumb",
+    "target": 33583168,
+    "thumb": true,
+    "addend": -4,
+    "value": 4171296768
+  }
+]

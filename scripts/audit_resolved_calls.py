@@ -2,6 +2,7 @@
 from pathlib import Path
 import re,os,csv,json,hashlib,io,subprocess
 from elftools.elf.elffile import ELFFile
+from capstone import Cs,CS_ARCH_ARM,CS_MODE_THUMB
 root=Path(__file__).resolve().parents[1];base=Path(os.environ['MKDS_BASELINE']);manifest=json.loads((base/'manifest.json').read_text())
 sections={m['name']:[(s['base'],(base/'binaries'/s['file']).read_bytes()) for s in m['sections']] for m in manifest['modules']}
 local={};allsyms={};inventory={}
@@ -37,6 +38,15 @@ def linked(data,mod,name,addr):
     delta=target+add-(addr+off)
     if delta%4 or not -(1<<25)<=delta<(1<<25):raise ValueError('branch range')
     value=(word&0xff000000)|((delta>>2)&0xffffff)
+   elif typ==10:
+    if not thumb:raise ValueError('Thumb interworking requires a verified veneer')
+    hi=word&0xffff;lo=word>>16
+    if hi&0xf800!=0xf000 or lo&0xf800!=0xf800:raise ValueError('not Thumb BL')
+    delta=target+add-(addr+off)
+    if delta%2 or not -(1<<22)<=delta<(1<<22):raise ValueError('Thumb BL range')
+    value=(0xf000|((delta>>12)&0x7ff))|((0xf800|((delta>>1)&0x7ff))<<16)
+    decoded=list(Cs(CS_ARCH_ARM,CS_MODE_THUMB).disasm(value.to_bytes(4,'little'),addr+off))
+    if len(decoded)!=1 or decoded[0].mnemonic!='bl' or int(decoded[0].op_str.lstrip('#'),0)!=target:raise ValueError('independent Thumb target check')
    elif typ==2:value=(target+(1 if thumb else 0)+add)&0xffffffff
    else:raise ValueError('relocation type '+str(typ))
    code[off:off+4]=value.to_bytes(4,'little');records.append(dict(offset=off,type=typ,symbol=symbol.name,target=target,thumb=thumb,addend=add,value=value))
@@ -47,6 +57,7 @@ for r in rows:
  assert hashlib.sha256(dest.read_bytes()).hexdigest()==r['source_sha256']
  proof=root/'verification/resolved-calls'/f"{r['module']}_{addr:08x}.o"
  args=[os.environ['WIBO'],os.environ['MWCCARM'],r['optimization'],'-enum','int','-lang','c99','-char','signed','-interworking','-proc',r['processor'],'-gccext,on','-msgstyle','gcc','-c',str(dest),'-o',str(proof)]
+ if r['mode']=='thumb':args.insert(-4,'-thumb')
  p=subprocess.run(args,capture_output=True,timeout=30);assert p.returncode==0,p.stderr
  code,relocs=linked(proof.read_bytes(),r['module'],r['name'],addr)
  assert code==original(r['module'],addr,n)

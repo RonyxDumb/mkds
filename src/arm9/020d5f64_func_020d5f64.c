@@ -1,13 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 020d5f64. No matching claim. */
-#include "types.h"
-#include "deps/020d5f64_func_020d5f64.h"
-
-undefined1 func_020d5f64(undefined4 param_1,undefined4 param_2,char *param_3,undefined1 *param_4)
-
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_020d634c(unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int func_020d5f64(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  if (*param_3 == '\x01') {
-    func_020d634c((ushort *)(uintptr_t)(param_1),1);
-  }
-  return *param_4;
+unsigned int cmp_a,cmp_b,r4;
+L_20d5f68: r1 = (unsigned int)(*(unsigned char *)((unsigned char *)r2 + 0));
+L_20d5f6c: r4 = r3;
+L_20d5f70: cmp_a = r1; cmp_b = 0x1u;
+L_20d5f74: if ((cmp_a != cmp_b)) { goto L_20d5f80; }
+L_20d5f78: r1 = 0x1u;
+L_20d5f7c: r0 = func_020d634c(r0,r1,r2,r3);
+L_20d5f80: r0 = (unsigned int)(*(unsigned char *)((unsigned char *)r4 + 0));
+L_20d5f88: return r0;
 }
-

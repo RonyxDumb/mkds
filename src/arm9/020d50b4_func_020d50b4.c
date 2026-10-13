@@ -1,15 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 020d50b4. No matching claim. */
-#include "types.h"
-#include "deps/020d50b4_func_020d50b4.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-uint func_020d50b4(void)
-
+unsigned int func_020d50b4(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = iRam020d50c0 + 0x54U & 3;
-  uVar2 = *(uint *)(iRam020d50c0 + 0x54U & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_20d50b4: r0 = 0x217b4f8u;
+L_20d50b8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 84));
+L_20d50bc: return r0;
 }
-

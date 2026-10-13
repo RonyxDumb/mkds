@@ -1,34 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 0204a978. No matching claim. */
-#include "types.h"
-#include "deps/0204a978_func_0204a978.h"
-
-void func_0204a978(uint param_1)
-
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
+extern unsigned int Mem_CpuFill8(unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int func_0204a978(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar2 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  if (uVar2 != 0) {
-    uVar1 = param_1 + 0xc & 3;
-    uVar3 = *(uint *)(param_1 + 0xc & 0xfffffffc);
-    if (uVar3 >> uVar1 * 8 == 0 && uVar3 << uVar1 * -8 + 0x20 == 0) {
-      if (uVar2 != 0) {
-        Mem_CpuFill8((uint *)(uintptr_t)(uVar2),0,uRam0204a9e0);
-      }
-      *(undefined4 *)(param_1 + 0xc) = 1;
-    }
-    *(undefined4 *)
-     (*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-     *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) = 0;
-    *(undefined4 *)(param_1 + 0xc) = 0;
-    *(undefined2 *)(param_1 + 4) = 0;
-    *(undefined2 *)(param_1 + 6) = 0;
-    *(undefined4 *)(param_1 + 8) = 1;
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_204a97c: r4 = r0;
+L_204a980: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 0));
+L_204a984: cmp_a = r0; cmp_b = 0x0u;
+L_204a98c: if ((cmp_a == cmp_b)) { return r0; }
+L_204a990: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 12));
+L_204a994: cmp_a = r1; cmp_b = 0x0u;
+L_204a998: if ((cmp_a != cmp_b)) { goto L_204a9b8; }
+L_204a99c: cmp_a = r0; cmp_b = 0x0u;
+L_204a9a0: if ((cmp_a == cmp_b)) { goto L_204a9b0; }
+L_204a9a4: r2 = 0xdccu;
+L_204a9a8: r1 = 0x0u;
+L_204a9ac: r0 = Mem_CpuFill8(r0,r1,r2,r3);
+L_204a9b0: r0 = 0x1u;
+L_204a9b4: *(unsigned int *)((unsigned char *)r4 + 12) = (unsigned int)r0;
+L_204a9b8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 0));
+L_204a9bc: r1 = 0x0u;
+L_204a9c0: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_204a9c4: *(unsigned int *)((unsigned char *)r4 + 12) = (unsigned int)r1;
+L_204a9c8: *(unsigned short *)((unsigned char *)r4 + 4) = (unsigned short)r1;
+L_204a9cc: *(unsigned short *)((unsigned char *)r4 + 6) = (unsigned short)r1;
+L_204a9d0: r0 = 0x1u;
+L_204a9d4: *(unsigned int *)((unsigned char *)r4 + 8) = (unsigned int)r0;
+L_204a9dc: return r0;
 }
-

@@ -1,15 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 0210fac4. No matching claim. */
-#include "types.h"
-#include "deps/0210fac4_func_0210fac4.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-uint func_0210fac4(void)
-
+unsigned int func_0210fac4(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = iRam0210fad0 + 0xcU & 3;
-  uVar2 = *(uint *)(iRam0210fad0 + 0xcU & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_210fac4: r0 = 0x217d244u;
+L_210fac8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 12));
+L_210facc: return r0;
 }
-

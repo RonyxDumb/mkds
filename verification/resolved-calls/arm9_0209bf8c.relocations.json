@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "CreateAllocateSomeObject_from_thumb",
+    "target": 34193320,
+    "thumb": true,
+    "addend": -4,
+    "value": 4161073152
+  }
+]

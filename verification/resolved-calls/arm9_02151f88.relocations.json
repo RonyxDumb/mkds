@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 10,
+    "symbol": "StructDW_SomeFn_from_thumb",
+    "target": 34938820,
+    "thumb": true,
+    "addend": -4,
+    "value": 4162383872
+  },
+  {
+    "offset": 30,
+    "type": 10,
+    "symbol": "StructDW_SomeFn_0_from_thumb",
+    "target": 34936936,
+    "thumb": true,
+    "addend": -4,
+    "value": 4234147839
+  }
+]

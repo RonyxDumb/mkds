@@ -1,32 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 020c5df0. No matching claim. */
-#include "types.h"
-#include "deps/020c5df0_StructE8_SomeFnHandle6.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-void StructE8_SomeFnHandle6(void)
-
+unsigned int StructE8_SomeFnHandle6(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  uVar2 = uRam020c5e28;
-  uVar4 = *(uint *)(uRam020c5e28 & 0xfffffffc) >> (uRam020c5e28 & 3) * 8 |
-          *(uint *)(uRam020c5e28 & 0xfffffffc) << (uRam020c5e28 & 3) * -8 + 0x20;
-  uVar3 = uVar4 + 4;
-  uVar1 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  *(uint *)(uVar4 + 4) = uVar3 + 1;
-  if ((int)uVar3 < 0x3c) {
-    return;
-  }
-  *(undefined4 *)
-   (*(uint *)(uVar2 & 0xfffffffc) >> (uVar2 & 3) * 8 |
-   *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) = uRam020c5e2c;
-  *(undefined4 *)
-   ((*(uint *)(uVar2 & 0xfffffffc) >> (uVar2 & 3) * 8 |
-    *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + 4) = 0;
-  return;
+unsigned int cmp_a,cmp_b;
+L_20c5df0: r0 = 0x217b3f4u;
+L_20c5df4: r3 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20c5df8: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r3 + 4));
+L_20c5dfc: r1 = (r2+0x1u);
+L_20c5e00: *(unsigned int *)((unsigned char *)r3 + 4) = (unsigned int)r1;
+L_20c5e04: cmp_a = r2; cmp_b = 0x3cu;
+L_20c5e08: if (((int)cmp_a < (int)cmp_b)) { return r0; }
+L_20c5e0c: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20c5e10: r3 = 0x20c5dd8u;
+L_20c5e14: r1 = 0x0u;
+L_20c5e18: *(unsigned int *)((unsigned char *)r2 + 0) = (unsigned int)r3;
+L_20c5e1c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20c5e20: *(unsigned int *)((unsigned char *)r0 + 4) = (unsigned int)r1;
+L_20c5e24: return r0;
 }
-

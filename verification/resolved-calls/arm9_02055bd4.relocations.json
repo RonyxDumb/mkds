@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "func_02049838",
+    "target": 33855544,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959410453
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "BrightCtx_SomeFn_1",
+    "target": 33780136,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391590
+  }
+]

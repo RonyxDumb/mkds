@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "GX_VRAMCNT_SetLCDC_",
+    "target": 34905560,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646611
+  }
+]

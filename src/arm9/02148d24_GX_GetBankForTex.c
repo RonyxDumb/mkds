@@ -1,10 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 02148d24. No matching claim. */
-#include "types.h"
-#include "deps/02148d24_GX_GetBankForTex.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-undefined2 GX_GetBankForTex(void)
-
+unsigned int GX_GetBankForTex(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  return *(undefined2 *)(iRam02148d30 + 8);
+unsigned int cmp_a,cmp_b;
+L_2148d24: r0 = 0x21802b0u;
+L_2148d28: r0 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 8));
+L_2148d2c: return r0;
 }
-

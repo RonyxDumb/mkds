@@ -1,18 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 02149060. No matching claim. */
-#include "types.h"
-#include "deps/02149060_func_02149060.h"
-
-ushort func_02149060(ushort *param_1)
-
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
+extern unsigned int GX_VRAMCNT_SetLCDC_(unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int func_02149060(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  ushort uVar1;
-  ushort *puVar2;
-  
-  puVar2 = puRam02149094;
-  uVar1 = *param_1;
-  *param_1 = 0;
-  *puVar2 = *puVar2 | uVar1;
-  GX_VRAMCNT_SetLCDC_(uVar1);
-  return uVar1;
+unsigned int cmp_a,cmp_b,r4;
+L_2149064: r4 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 0));
+L_2149068: r2 = 0x0u;
+L_214906c: r1 = 0x21802b0u;
+L_2149070: *(unsigned short *)((unsigned char *)r0 + 0) = (unsigned short)r2;
+L_2149074: r2 = (unsigned int)(*(unsigned short *)((unsigned char *)r1 + 0));
+L_2149078: r0 = r4;
+L_214907c: r2 = (r2|r4);
+L_2149080: *(unsigned short *)((unsigned char *)r1 + 0) = (unsigned short)r2;
+L_2149084: r0 = GX_VRAMCNT_SetLCDC_(r0,r1,r2,r3);
+L_2149088: r0 = r4;
+L_2149090: return r0;
 }
-

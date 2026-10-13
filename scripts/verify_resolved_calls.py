@@ -2,6 +2,7 @@
 from pathlib import Path
 import re,os,csv,json,hashlib,io,subprocess
 from elftools.elf.elffile import ELFFile
+from capstone import Cs,CS_ARCH_ARM,CS_MODE_THUMB
 root=Path(__file__).resolve().parents[1];base=Path(os.environ['MKDS_BASELINE']);manifest=json.loads((base/'manifest.json').read_text())
 sections={m['name']:[(s['base'],(base/'binaries'/s['file']).read_bytes()) for s in m['sections']] for m in manifest['modules']}
 local={};allsyms={};inventory={}
@@ -37,6 +38,15 @@ def linked(data,mod,name,addr):
     delta=target+add-(addr+off)
     if delta%4 or not -(1<<25)<=delta<(1<<25):raise ValueError('branch range')
     value=(word&0xff000000)|((delta>>2)&0xffffff)
+   elif typ==10:
+    if not thumb:raise ValueError('Thumb interworking requires a verified veneer')
+    hi=word&0xffff;lo=word>>16
+    if hi&0xf800!=0xf000 or lo&0xf800!=0xf800:raise ValueError('not Thumb BL')
+    delta=target+add-(addr+off)
+    if delta%2 or not -(1<<22)<=delta<(1<<22):raise ValueError('Thumb BL range')
+    value=(0xf000|((delta>>12)&0x7ff))|((0xf800|((delta>>1)&0x7ff))<<16)
+    decoded=list(Cs(CS_ARCH_ARM,CS_MODE_THUMB).disasm(value.to_bytes(4,'little'),addr+off))
+    if len(decoded)!=1 or decoded[0].mnemonic!='bl' or int(decoded[0].op_str.lstrip('#'),0)!=target:raise ValueError('independent Thumb target check')
    elif typ==2:value=(target+(1 if thumb else 0)+add)&0xffffffff
    else:raise ValueError('relocation type '+str(typ))
    code[off:off+4]=value.to_bytes(4,'little');records.append(dict(offset=off,type=typ,symbol=symbol.name,target=target,thumb=thumb,addend=add,value=value))
@@ -51,12 +61,13 @@ for obj in sorted((root.parent/'leaf-candidates').glob('*.o')):
  mod=m[1];addr=int(m[2],16)
  if (mod,addr) in known or (mod,addr) not in inventory:continue
  name,mode,n=inventory[(mod,addr)]
- if mode!='arm':continue
+ # Both ARM and Thumb are verified.
  try:
   target=original(mod,addr,n);code,relocs=linked(obj.read_bytes(),mod,name,addr)
   if not relocs or code!=target:continue
   src=obj.with_suffix('.c');proof=out/(obj.stem+'.o');processor='arm7tdmi' if mod=='arm7' else 'arm946e'
   args=[os.environ['WIBO'],os.environ['MWCCARM'],'-O4,p','-enum','int','-lang','c99','-char','signed','-interworking','-proc',processor,'-gccext,on','-msgstyle','gcc','-c',str(src),'-o',str(proof)]
+  if mode=='thumb':args.insert(-4,'-thumb')
   p=subprocess.run(args,capture_output=True,timeout=30)
   if p.returncode:continue
   code,relocs=linked(proof.read_bytes(),mod,name,addr)
@@ -70,4 +81,4 @@ for obj in sorted((root.parent/'leaf-candidates').glob('*.o')):
 if rows:
  with (root/'verification/local-linked-byte-exact.tsv').open('w',newline='') as f:
   w=csv.DictWriter(f,fieldnames=list(rows[0]),delimiter='\t');w.writeheader();w.writerows(rows)
-print(json.dumps(dict(exact_functions=len(rows),exact_code_bytes=sum(r['size'] for r in rows),resolved_relocations=sum(r['relocations'] for r in rows))))
+print(json.dumps(dict(exact_functions=len(rows),exact_code_bytes=sum(int(r['size']) for r in rows),resolved_relocations=sum(int(r['relocations']) for r in rows))))

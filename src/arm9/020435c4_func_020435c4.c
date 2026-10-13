@@ -1,10 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 020435c4. No matching claim. */
-#include "types.h"
-#include "deps/020435c4_func_020435c4.h"
+/* Verified complete local bytes after resolving all relocations. Caller ABI and full ROM remain unverified. */
 
-undefined2 func_020435c4(void)
-
+unsigned int func_020435c4(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  return *(undefined2 *)(iRam020435d0 + 0x4e);
+unsigned int cmp_a,cmp_b;
+L_20435c4: r0 = 0x2175928u;
+L_20435c8: r0 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 78));
+L_20435cc: return r0;
 }
-

@@ -1,7 +1,7 @@
 {
-  "tested": 937,
-  "passed": 937,
-  "exact_code_bytes": 17362,
+  "tested": 984,
+  "passed": 984,
+  "exact_code_bytes": 19274,
   "relocations": 0,
   "full_rom_link_verified": false,
   "compiler": "mwccarm 1.2/sp2p3",
