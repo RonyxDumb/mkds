@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 6,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3995268967
+  },
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "CreateGlobalB488_from_thumb",
+    "target": 34402076,
+    "thumb": true,
+    "addend": -4,
+    "value": 4290115583
+  }
+]

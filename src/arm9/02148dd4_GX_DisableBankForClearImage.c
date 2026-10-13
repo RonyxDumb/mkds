@@ -1,13 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 02148dd4. No matching claim. */
-#include "types.h"
-#include "deps/02148dd4_GX_DisableBankForClearImage.h"
-
-void GX_DisableBankForClearImage(void)
-
-{
-                    /* WARNING: Could not recover jumptable at 0x02148ddc. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02148de0)(uRam02148de4);
-  return;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define disableBankForX_ SDK_data_02148e80
+#define gGXState SDK_data_021802a8
+#define GX_DisableBankForSubOBJ GX_DisableBankForClearImage
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern u32 disableBankForX_(u16 *ptr);
+extern struct GX_State gGXState;
+#pragma thumb off
+u32 GX_DisableBankForSubOBJ(){
+    return disableBankForX_(&gGXState.sub_obj);
 }
-

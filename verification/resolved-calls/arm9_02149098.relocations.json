@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "GX_VRAMCNT_SetLCDC_",
+    "target": 34905560,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646578
+  },
+  {
+    "offset": 128,
+    "type": 2,
+    "symbol": "SDK_data_021802b0",
+    "target": 35127984,
+    "thumb": false,
+    "addend": 0,
+    "value": 35127984
+  }
+]

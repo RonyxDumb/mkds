@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Mem_CreateFrameHeapState",
+    "target": 33652660,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959138590
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Sound_Context_MaybeReset",
+    "target": 34789772,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422862
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "Mem_RestoreFrameHeapState",
+    "target": 33652568,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959138553
+  }
+]

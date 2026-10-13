@@ -1,0 +1,110 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657662
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Fs_File_ReleaseOperation",
+    "target": 33567136,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421879
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657658
+  },
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657619
+  },
+  {
+    "offset": 272,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657606
+  },
+  {
+    "offset": 312,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657601
+  },
+  {
+    "offset": 320,
+    "type": 1,
+    "symbol": "Fs_File_ExecuteAsyncOperation",
+    "target": 33571956,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645807
+  },
+  {
+    "offset": 340,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657594
+  },
+  {
+    "offset": 376,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657585
+  },
+  {
+    "offset": 400,
+    "type": 1,
+    "symbol": "Os_Thread_Sleep",
+    "target": 33611804,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942655749
+  },
+  {
+    "offset": 420,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657574
+  },
+  {
+    "offset": 428,
+    "type": 1,
+    "symbol": "Fs_File_ExecuteSyncOperation",
+    "target": 33571884,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645762
+  }
+]

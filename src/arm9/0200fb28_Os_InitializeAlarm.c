@@ -1,21 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 0200fb28. No matching claim. */
-#include "types.h"
-#include "deps/0200fb28_Os_InitializeAlarm.h"
-
-void Os_InitializeAlarm(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_SetTimerReserved Os_ReserveTimer
+#define OS_DisableIrqMask Os_DisableIrqHandler
+#define OSi_UseAlarm SDK_data_0217025c
+#define OSi_AlarmQueue SDK_data_02170260
+#define OS_InitAlarm Os_InitializeAlarm
+#include "consts.h"
+#include "OS_alarm.h"
+#include "OS_interrupt.h"
+#include "OS_irqTable.h"
+#include "OS_terminate_proc.h"
+#include "OS_system.h"
+#include "code32.h"
+extern u16 OSi_UseAlarm;
+extern struct OSiAlarmQueue OSi_AlarmQueue;
+void OS_InitAlarm(void)
 {
-  undefined4 *puVar1;
-  
-  if (*psRam0200fb78 == 0) {
-    *psRam0200fb78 = 1;
-    Os_ReserveTimer();
-    puVar1 = puRam0200fb7c;
-    *puRam0200fb7c = 0;
-    puVar1[1] = 0;
-    Os_DisableIrqHandler(0x10);
-    return;
-  }
-  return;
-}
+    if (!OSi_UseAlarm)
+    {
+        OSi_UseAlarm = TRUE;
 
+        OSi_SetTimerReserved(OS_TIMER_1);
+
+        OSi_AlarmQueue.head = NULL;
+        OSi_AlarmQueue.tail = NULL;
+
+        (void)OS_DisableIrqMask(OS_IE_TIMER1);
+    }
+}

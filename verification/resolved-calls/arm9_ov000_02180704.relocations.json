@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "NavigationContext_OnSceneVblank_from_thumb",
+    "target": 34756848,
+    "thumb": true,
+    "addend": -4,
+    "value": 4176279461
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Sound_LockMutex",
+    "target": 33689168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422102
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959403662
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Sound_UnlockMutex",
+    "target": 33689148,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422083
+  }
+]

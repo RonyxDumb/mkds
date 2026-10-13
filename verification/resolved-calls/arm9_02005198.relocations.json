@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Fs_OverlayInfo_Load",
+    "target": 33576432,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646030
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Fs_OverlayInfo_LoadImage",
+    "target": 33576120,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645948
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "Fs_OverlayInfo_Start",
+    "target": 33575700,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645835
+  }
+]

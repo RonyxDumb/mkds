@@ -1,13 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 0214a000. No matching claim. */
-#include "types.h"
-#include "deps/0214a000_GetVramBg1BaseOffset_Top.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define G2_GetBG1CharPtr GetVramBg1BaseOffset_Top
+#include "nitro/types.h"
+#include "registers.h"
+#include "gx.h"
+#include "code32.h"
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-int GetVramBg1BaseOffset_Top(void)
-
-{
-  return ((_DAT_04000000 & 0x7000000) >> 0x18) * 0x10000 + 0x6000000 +
-         ((int)(*puRam0214a030 & 0x3c) >> 2) * 0x4000;
+#pragma thumb off
+void *G2_GetBG1CharPtr(){
+    u32 temp = (u32)(((reg_G2_BG1CNT & 0x3C) >> 0x2) << 0xE);
+    return (void *)(0x6000000 + (((reg_GX_DISPCNT & 0x7000000) >> 0x18) << 0x10) + temp);
 }
-

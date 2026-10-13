@@ -1,22 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 0200ca68. No matching claim. */
-#include "types.h"
-#include "deps/0200ca68_SetIF.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_ResetRequestIrqMask SetIF
+#include "OS_interrupt.h"
 
-uint SetIF(undefined4 param_1)
+#include "nitro/types.h"
+#include "registers.h"
+#include "mmap.h"
+#include "OS_thread.h"
+#include "code32.h"
 
+OSIrqMask OS_ResetRequestIrqMask(OSIrqMask mask)
 {
-  undefined2 uVar1;
-  undefined2 *puVar2;
-  undefined4 *puVar3;
-  uint uVar4;
-  
-  puVar3 = puRam0200ca98;
-  puVar2 = puRam0200ca94;
-  uVar1 = *puRam0200ca94;
-  *puRam0200ca94 = 0;
-  uVar4 = *(uint *)((uint)puVar3 & 0xfffffffc);
-  *puVar3 = param_1;
-  *puVar2 = uVar1;
-  return uVar4 >> ((uint)puVar3 & 3) * 8 | uVar4 << ((uint)puVar3 & 3) * -8 + 0x20;
+    u16 regIme = reg_OS_IME;
+    reg_OS_IME = 0;
+    OSIrqMask regIf = reg_OS_IF;
+    reg_OS_IF = mask;
+    u16 unused = reg_OS_IME;
+    reg_OS_IME = regIme;
+    return regIf;
 }
-

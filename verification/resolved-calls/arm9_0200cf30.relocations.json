@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Os_DisableIrqFiq",
+    "target": 33619148,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648664
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648650
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "Os_RestoreIrqFiq",
+    "target": 33619168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648654
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648640
+  }
+]

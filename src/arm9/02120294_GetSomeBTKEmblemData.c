@@ -1,12 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 02120294. No matching claim. */
-#include "types.h"
-#include "deps/02120294_GetSomeBTKEmblemData.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-int GetSomeBTKEmblemData(int param_1)
-
+unsigned int GetSomeBTKEmblemData(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  return param_1 * 0x244 +
-         (*(uint *)(uRam021202ac & 0xfffffffc) >> (uRam021202ac & 3) * 8 |
-         *(uint *)(uRam021202ac & 0xfffffffc) << (uRam021202ac & 3) * -8 + 0x20) + 0x23c;
+unsigned int cmp_a,cmp_b;
+L_2120294: r2 = 0x217d384u;
+L_2120298: r1 = 0x244u;
+L_212029c: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_21202a0: r2 = (r2+0x23cu);
+L_21202a4: r0 = (r1*r0+r2);
+L_21202a8: return r0;
 }
-

@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Fs_File_ReleaseOperation",
+    "target": 33567136,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422308
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Fs_Archive_HandleNextOperation",
+    "target": 33572120,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646336
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Fs_File_ExecuteAsyncOperation",
+    "target": 33571956,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646291
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658074
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Os_Thread_WakeUp",
+    "target": 33611676,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942656210
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658070
+  }
+]

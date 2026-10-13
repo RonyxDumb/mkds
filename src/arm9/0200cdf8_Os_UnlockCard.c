@@ -1,13 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0200cdf8. No matching claim. */
-#include "types.h"
-#include "deps/0200cdf8_Os_UnlockCard.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_UnlockByWord SDK_data_0200cf20
+#define OSi_FreeCardBus SDK_data_0200cdc8
+#define OS_UnlockCard Os_UnlockCard
+#include "OS_spinLock.h"
 
-void Os_UnlockCard(undefined4 param_1)
-
+#include "OS_system.h"
+#include "mmap.h"
+#include "MI_exMemory.h"
+#include "code32.h"
+extern s32 OS_UnlockByWord(u16 lockID, OSLockWord* lockp, void (*ctrlFuncp) (void));
+extern void OSi_FreeCardBus(void);
+s32 OS_UnlockCard(u16 lockID)
 {
-                    /* WARNING: Could not recover jumptable at 0x0200ce04. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0200ce08)(param_1,uRam0200ce0c,uRam0200ce10);
-  return;
+    return OS_UnlockByWord(lockID, (OSLockWord *)HW_CARD_LOCK_BUF, OSi_FreeCardBus);
 }
-

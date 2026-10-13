@@ -1,93 +1,70 @@
-/* Decompiled C draft; module arm9; ROM address 021495e4. No matching claim. */
-#include "types.h"
-#include "deps/021495e4_func_021495e4.h"
-
-void func_021495e4(int param_1)
-
-{
-  ushort uVar1;
-  ushort uVar2;
-  ushort *puVar3;
-  undefined1 *puVar4;
-  undefined1 *puVar5;
-  undefined1 *puVar6;
-  
-  puVar3 = DAT_021497cc;
-  uVar1 = DAT_021497cc[4];
-  uVar2 = *DAT_021497cc;
-  DAT_021497cc[4] = (ushort)param_1;
-  *puVar3 = ~(ushort)param_1 & (uVar2 | uVar1);
-  if (param_1 == 0) {
-    *DAT_021497d0 = *DAT_021497d0 & (ushort)DAT_021497d4;
-    goto switchD_02149644_default;
-  }
-  *DAT_021497d0 = *DAT_021497d0 & 0xcfff | 1;
-  puVar6 = DAT_021497e4;
-  puVar5 = DAT_021497e0;
-  puVar4 = DAT_021497dc;
-  switch(param_1) {
-  case 1:
-    goto LAB_021497a8;
-  case 2:
-    goto LAB_02149774;
-  case 3:
-    goto LAB_0214979c;
-  case 4:
-    goto LAB_0214974c;
-  case 5:
-    *DAT_021497d8 = 0x83;
-    *puVar4 = 0x8b;
-    break;
-  case 6:
-    goto LAB_02149768;
-  case 7:
-    goto LAB_02149790;
-  case 8:
-    *DAT_021497e0 = 0x83;
-    break;
-  case 9:
-    *DAT_021497d8 = 0x83;
-    *puVar5 = 0x8b;
-    break;
-  case 10:
-    *DAT_021497e4 = 0x83;
-    *puVar5 = 0x8b;
-    break;
-  case 0xb:
-    *DAT_021497d8 = 0x83;
-    puVar4 = DAT_021497e0;
-    *puVar6 = 0x8b;
-    *puVar4 = 0x93;
-    break;
-  case 0xc:
-    *DAT_021497e0 = 0x8b;
-LAB_0214974c:
-    *DAT_021497dc = 0x83;
-    break;
-  case 0xd:
-    *DAT_021497d8 = 0x83;
-    puVar5 = DAT_021497e0;
-    *puVar4 = 0x8b;
-    *puVar5 = 0x93;
-    break;
-  case 0xe:
-    *DAT_021497e0 = 0x93;
-LAB_02149768:
-    *DAT_021497dc = 0x8b;
-LAB_02149774:
-    *DAT_021497e4 = 0x83;
-    break;
-  case 0xf:
-    *DAT_021497e0 = 0x9b;
-LAB_02149790:
-    *DAT_021497dc = 0x93;
-LAB_0214979c:
-    *DAT_021497e4 = 0x8b;
-LAB_021497a8:
-    *DAT_021497d8 = 0x83;
-  }
-switchD_02149644_default:
-  GX_VRAMCNT_SetLCDC_(*DAT_021497cc);
-  return;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define gGXState SDK_data_021802b0
+#define GX_SetBankForTex func_021495e4
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern void GX_VRAMCNT_SetLCDC_(u32 mask);
+extern struct GX_State gGXState;
+void GX_SetBankForTex(s32 tex){
+    gGXState.lcdc = (u16)(~tex & (gGXState.lcdc | gGXState.tex));
+    gGXState.tex = (u16)tex;
+    if (tex == 0)
+    {
+        reg_G3X_DISP3DCNT &= 0x0000CFFE;
+    }
+    else
+    {
+        reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~0x3000) | 0x1);
+        switch (tex)
+        {
+        case 5:
+            reg_GX_VRAMCNT_A = 0x83;
+            reg_GX_VRAMCNT_C = 0x8B;
+            break;
+        case 9:
+            reg_GX_VRAMCNT_A = 0x83;
+            reg_GX_VRAMCNT_D = 0x8B;
+            break;
+        case 10:
+            reg_GX_VRAMCNT_B = 0x83;
+            reg_GX_VRAMCNT_D = 0x8B;
+            break;
+        case 11:
+            reg_GX_VRAMCNT_A = 0x83;
+            reg_GX_VRAMCNT_B = 0x8B;
+            reg_GX_VRAMCNT_D = 0x93;
+            break;
+        case 13:
+            reg_GX_VRAMCNT_A = 0x83;
+            reg_GX_VRAMCNT_C = 0x8B;
+            reg_GX_VRAMCNT_D = 0x93;
+            break;
+        case 8:
+            reg_GX_VRAMCNT_D = 0x83;
+            break;
+        case 12:
+            reg_GX_VRAMCNT_D = 0x8B;
+        case 4:
+            reg_GX_VRAMCNT_C = 0x83;
+            break;
+        case 14:
+            reg_GX_VRAMCNT_D = 0x93;
+        case 6:
+            reg_GX_VRAMCNT_C = 0x8B;
+        case 2:
+            reg_GX_VRAMCNT_B = 0x83;
+            break;
+        case 15:
+            reg_GX_VRAMCNT_D = 0x9B;
+        case 7:
+            reg_GX_VRAMCNT_C = 0x93;
+        case 3:
+            reg_GX_VRAMCNT_B = 0x8B;
+        case 1:
+            reg_GX_VRAMCNT_A = 0x83;
+            break;
+        }
+    }
+    GX_VRAMCNT_SetLCDC_(gGXState.lcdc);
 }
-

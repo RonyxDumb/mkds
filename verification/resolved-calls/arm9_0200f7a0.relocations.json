@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Os_DisableIrqHandler",
+    "target": 33606300,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420087
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Os_GetTick",
+    "target": 33617324,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422837
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "Os_SetAlarmTimer",
+    "target": 33618816,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645981
+  },
+  {
+    "offset": 224,
+    "type": 1,
+    "symbol": "Os_InsertAlarm",
+    "target": 33618376,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645840
+  },
+  {
+    "offset": 252,
+    "type": 1,
+    "symbol": "Os_SetAlarmTimer",
+    "target": 33618816,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645943
+  },
+  {
+    "offset": 272,
+    "type": 2,
+    "symbol": "SDK_data_027e0000",
+    "target": 41811968,
+    "thumb": false,
+    "addend": 0,
+    "value": 41811968
+  },
+  {
+    "offset": 276,
+    "type": 2,
+    "symbol": "SDK_data_02170260",
+    "target": 35062368,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062368
+  }
+]

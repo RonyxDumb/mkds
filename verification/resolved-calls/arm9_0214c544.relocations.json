@@ -1,0 +1,92 @@
+[
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "MI_DmaCopy32",
+    "target": 34917256,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646123
+  },
+  {
+    "offset": 164,
+    "type": 1,
+    "symbol": "Mem_CpuCopy32",
+    "target": 34918444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646415
+  },
+  {
+    "offset": 212,
+    "type": 1,
+    "symbol": "func_0214c990",
+    "target": 34916752,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645980
+  },
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "Mem_CpuCopy32",
+    "target": 34918444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646396
+  },
+  {
+    "offset": 296,
+    "type": 1,
+    "symbol": "func_0214c990",
+    "target": 34916752,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645959
+  },
+  {
+    "offset": 324,
+    "type": 1,
+    "symbol": "Mem_CpuCopy32",
+    "target": 34918444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646375
+  },
+  {
+    "offset": 340,
+    "type": 2,
+    "symbol": "SDK_data_02180300",
+    "target": 35128064,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128064
+  },
+  {
+    "offset": 344,
+    "type": 2,
+    "symbol": "SDK_data_021802ec",
+    "target": 35128044,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128044
+  },
+  {
+    "offset": 348,
+    "type": 2,
+    "symbol": "SDK_data_02180304",
+    "target": 35128068,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128068
+  },
+  {
+    "offset": 352,
+    "type": 2,
+    "symbol": "SDK_data_0216f074",
+    "target": 35057780,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057780
+  }
+]

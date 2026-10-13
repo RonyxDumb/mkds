@@ -1,25 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 02020eb0. No matching claim. */
-#include "types.h"
-#include "deps/02020eb0_Sound_IsCommandAvailable.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_IsRunOnEmulator Os_IsEmulator
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define IsCommandAvailable Sound_IsCommandAvailable
+#include "SND_alarm.h"
+#include "SND_command.h"
+#include "SND_work.h"
+#include "OS_emulator.h"
+#include "OS_system.h"
+#include "OS_cache.h"
+#include "PXI_fifo.h"
+#include "code32.h"
 
-bool Sound_IsCommandAvailable(void)
+BOOL IsCommandAvailable(void) {
+    if (!OS_IsRunOnEmulator())
+        return TRUE;
 
-{
-  uint uVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  uint uVar4;
-  
-  iVar3 = Os_IsEmulator();
-  if (iVar3 != 0) {
-    Os_DisableIrq(iVar3);
-    puVar2 = puRam02020ef4;
-    *puRam02020ef4 = 0x10;
-    uVar1 = (uint)puVar2 & 3;
-    uVar4 = *(uint *)((uint)puVar2 & 0xfffffffc);
-    Os_RestoreIrq();
-    return uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0;
-  }
-  return true;
+    OSIntrMode oldirq = OS_DisableInterrupts();
+    // TODO use proper register names here
+    // is this some kind of debug or ensata register?
+    *(vu32 *)0x4FFF200 = 0x10;
+    u32 resp = *(vu32 *)0x4FFF200;
+    (void)OS_RestoreInterrupts(oldirq);
+    return resp != 0;
 }
-

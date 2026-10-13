@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Rtc_Date_GetDays",
+    "target": 34923124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645792
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Rtc_Time_GetSeconds",
+    "target": 34923096,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645776
+  }
+]

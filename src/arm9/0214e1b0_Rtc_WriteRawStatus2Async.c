@@ -1,13 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0214e1b0. No matching claim. */
-#include "types.h"
-#include "deps/0214e1b0_Rtc_WriteRawStatus2Async.h"
-
-void Rtc_WriteRawStatus2Async(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define RtcSendPxiCommand SDK_data_0214e17c
+#define RTCi_WriteRawStatus2Async Rtc_WriteRawStatus2Async
+#include "PXI_fifo.h"
+#include "RTC_internal.h"
+#include "code32.h"
+extern BOOL RtcSendPxiCommand(u8 command);
+BOOL RTCi_WriteRawStatus2Async(void)
 {
-                    /* WARNING: Could not recover jumptable at 0x0214e1b8. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0214e1bc)(0x27);
-  return;
+    return RtcSendPxiCommand(39);
 }
-

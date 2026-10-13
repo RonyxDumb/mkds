@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647612
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Os_ThreadQueue_Pop",
+    "target": 33613252,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646139
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "Os_RescheduleThread",
+    "target": 33611344,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422865
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647592
+  }
+]

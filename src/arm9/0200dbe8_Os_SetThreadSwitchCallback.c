@@ -1,18 +1,25 @@
-/* Decompiled C draft; module arm9; ROM address 0200dbe8. No matching claim. */
-#include "types.h"
-#include "deps/0200dbe8_Os_SetThreadSwitchCallback.h"
-
-uint Os_SetThreadSwitchCallback(undefined4 param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define OSi_ThreadInfo SDK_data_0216ff5c
+#define OS_SetSwitchThreadCallback Os_SetThreadSwitchCallback
+#include "MI_memory.h"
+#include "OS_thread.h"
+#include "OS_mutex.h"
+#include "OS_alarm.h"
+#include "OS_system.h"
+#include "OS_context.h"
+#include "OS_terminate_proc.h"
+#include "systemWork.h"
+#include "mmap.h"
+#include "code32.h"
+extern OSThreadInfo OSi_ThreadInfo;
+OSSwitchThreadCallback OS_SetSwitchThreadCallback(OSSwitchThreadCallback callback)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  Os_DisableIrq();
-  uVar1 = iRam0200dc18 + 0xcU & 3;
-  uVar2 = *(uint *)(iRam0200dc18 + 0xcU & 0xfffffffc);
-  *(undefined4 *)(iRam0200dc18 + 0xc) = param_1;
-  Os_RestoreIrq();
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-}
+    OSIntrMode enabled = OS_DisableInterrupts();
+    OSSwitchThreadCallback prev = OSi_ThreadInfo.switchCallback;
+    OSi_ThreadInfo.switchCallback = callback;
 
+    (void)OS_RestoreInterrupts(enabled);
+    return prev;
+}

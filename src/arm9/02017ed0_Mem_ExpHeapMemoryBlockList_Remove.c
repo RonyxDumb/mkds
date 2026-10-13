@@ -1,32 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 02017ed0. No matching claim. */
-#include "types.h"
-#include "deps/02017ed0_Mem_ExpHeapMemoryBlockList_Remove.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define RemoveMBlock Mem_ExpHeapMemoryBlockList_Remove
+#include "nitro/types.h"
+#include "NNS_FND_expheap.h"
+#include "code32.h"
 
-uint Mem_ExpHeapMemoryBlockList_Remove(uint *param_1,int param_2)
-
+NNSiFndExpHeapMBlockHead* RemoveMBlock(NNSiFndExpMBlockList* list, NNSiFndExpHeapMBlockHead* block)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar1 = param_2 + 8U & 3;
-  uVar2 = *(uint *)(param_2 + 8U & 0xfffffffc);
-  uVar3 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  uVar1 = param_2 + 0xcU & 3;
-  uVar2 = *(uint *)(param_2 + 0xcU & 0xfffffffc);
-  uVar1 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  if (uVar3 == 0) {
-    *param_1 = uVar1;
-  }
-  else {
-    *(uint *)(uVar3 + 0xc) = uVar1;
-  }
-  if (uVar1 == 0) {
-    param_1[1] = uVar3;
-  }
-  else {
-    *(uint *)(uVar1 + 8) = uVar3;
-  }
-  return uVar3;
-}
+    NNSiFndExpHeapMBlockHead* const prev = block->pMBHeadPrev;
+    NNSiFndExpHeapMBlockHead* const next = block->pMBHeadNext;
 
+    if (prev != NULL)
+    {
+        prev->pMBHeadNext = next;
+    }
+    else
+    {
+        list->head = next;
+    }
+
+    if (next != NULL)
+    {
+        next->pMBHeadPrev = prev;
+    }
+    else
+    {
+        list->tail = prev;
+    }
+
+    return prev;
+}

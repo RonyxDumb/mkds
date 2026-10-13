@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "StateDualHandler_SetState",
+    "target": 33844172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959236038
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "func_020d2398",
+    "target": 34415512,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959378866
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "func_020f0f70",
+    "target": 34541424,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959410335
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "func_020f0f70",
+    "target": 34541424,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959410327
+  }
+]

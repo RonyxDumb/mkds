@@ -1,30 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 0200e1ac. No matching claim. */
-#include "types.h"
-#include "deps/0200e1ac_Os_DisposeCurrentThread.h"
-
-void Os_DisposeCurrentThread(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OSi_ExitThread_Destroy Os_DisposeCurrentThreadImpl
+#define OSi_CurrentThreadPtr SDK_data_0216ff54
+#define OSi_ExitThread Os_DisposeCurrentThread
+#include "MI_memory.h"
+#include "OS_thread.h"
+#include "OS_mutex.h"
+#include "OS_alarm.h"
+#include "OS_system.h"
+#include "OS_context.h"
+#include "OS_terminate_proc.h"
+#include "systemWork.h"
+#include "mmap.h"
+#include "code32.h"
+extern void OSi_ExitThread_Destroy(void);
+extern OSThread **OSi_CurrentThreadPtr;
+void OSi_ExitThread(void *arg)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar4;
-  code *pcVar3;
-  
-  uVar1 = *(uint *)(uRam0200e1ec & 0xfffffffc) >> (uRam0200e1ec & 3) * 8 |
-          *(uint *)(uRam0200e1ec & 0xfffffffc) << (uRam0200e1ec & 3) * -8 + 0x20;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  uVar4 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  uVar2 = uVar4 + 0xb4;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  pcVar3 = (code *)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  if (pcVar3 != (code *)0x0) {
-    *(undefined4 *)(uVar4 + 0xb4) = 0;
-    (*pcVar3)();
-    Os_DisableIrq();
-  }
-  Os_DisposeCurrentThreadImpl();
-  return;
-}
+    OSThread *currentThread = OSi_GetCurrentThread();
+    OSThreadDestructor destructor = currentThread->destructor;
 
+    if (destructor)
+    {
+        currentThread->destructor = NULL;
+        destructor(arg);
+        (void)OS_DisableInterrupts();
+    }
+
+    OSi_ExitThread_Destroy();
+}

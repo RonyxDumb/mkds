@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "GetGlobalCA_from_thumb",
+    "target": 33724720,
+    "thumb": true,
+    "addend": -4,
+    "value": 4275631964
+  },
+  {
+    "offset": 10,
+    "type": 10,
+    "symbol": "GetGlobalCA_from_thumb",
+    "target": 33724720,
+    "thumb": true,
+    "addend": -4,
+    "value": 4275435356
+  },
+  {
+    "offset": 32,
+    "type": 10,
+    "symbol": "StructCO_ConfigureRacerDefault",
+    "target": 33843376,
+    "thumb": false,
+    "addend": -4,
+    "value": 4002084729
+  },
+  {
+    "offset": 40,
+    "type": 10,
+    "symbol": "func_020ccb48",
+    "target": 34392904,
+    "thumb": false,
+    "addend": -4,
+    "value": 4023580671
+  }
+]

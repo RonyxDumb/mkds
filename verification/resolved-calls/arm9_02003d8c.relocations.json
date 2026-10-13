@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Fs_Archive_Suspend",
+    "target": 33570044,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422927
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "Fs_Archive_Resume",
+    "target": 33569920,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422874
+  }
+]

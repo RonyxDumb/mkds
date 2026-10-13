@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "OpenReadEntireFileBuffer_from_thumb",
+    "target": 33851012,
+    "thumb": true,
+    "addend": -4,
+    "value": 4193843186
+  }
+]

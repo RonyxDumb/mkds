@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "SV_MaybeCompressWriteImpl_from_thumb",
+    "target": 33862744,
+    "thumb": true,
+    "addend": -4,
+    "value": 4161204224
+  }
+]

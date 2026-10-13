@@ -1,24 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 0214a348. No matching claim. */
-#include "types.h"
-#include "deps/0214a348_func_0214a348.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define G2x_ChangeBlendBrightness_ func_0214a348
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
 
-void func_0214a348(ushort *param_1,int param_2)
-
-{
-  ushort uVar1;
-  
-  uVar1 = *param_1;
-  if (param_2 < 0) {
-    if ((uVar1 & 0xc0) == 0x80) {
-      *param_1 = uVar1 & 0xff3f | 0xc0;
+#pragma thumb off
+void G2x_ChangeBlendBrightness_(u16 *ptr, fx32 brightness){
+    u32 temp = *ptr;
+    if (brightness < 0)
+    {
+        if ((temp & 0xC0) == 0x80)
+        {
+            ptr[0] = (u16)((temp & ~0xC0) | 0xC0);
+        }
+        ptr[2] = (u16)(-brightness);
     }
-    param_1[2] = -(ushort)param_2;
-    return;
-  }
-  if ((uVar1 & 0xc0) == 0xc0) {
-    *param_1 = uVar1 & 0xff3f | 0x80;
-  }
-  param_1[2] = (ushort)param_2;
-  return;
+    else
+    {
+        if ((temp & 0xC0) == 0xC0)
+        {
+            ptr[0] = (u16)((temp & ~0xC0) | 0x80);
+        }
+        ptr[2] = (u16)brightness;
+    }
 }
-

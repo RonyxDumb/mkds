@@ -13,6 +13,7 @@
 | 11 | 7.619 | 63,29% | 1.174 | 28.104 |
 | 12 | 7.619 | 63,29% | 1.222 | 29.070 |
 | 13 | 7.800 | 64,79% | 1.663 | 62.902 |
+| 14 | 7.986 | 66,34% | 2.288 | 109.144 |
 
 Checkpoint 4: 846 puntatori tipizzati, 484 nuove compilazioni riuscite.
 
@@ -36,3 +37,5 @@ Checkpoint 11: +14 funzioni e +536 byte. Recuperato MW build 82. Ricompilazione 
 Checkpoint 12: +48 funzioni Thumb, +966 byte, tutte riconfermate con ricompilazione. Ricerca sulle 6.802 bozze C con sei ottimizzazioni: zero nuovi match. Totale della sessione: +62 funzioni e +1.502 byte rispetto al checkpoint 10. Il 10% dei byte non e stato raggiunto; servono altri 162.298 byte.
 
 Checkpoint 13: +441 funzioni e +33.832 byte. Folding dei soli literal pool referenziati da LDR PC, resolver ARM BLX con controllo Capstone indipendente, CFG con tutti i ritorni e chiamate con arita inferita dai sorgenti. Ricerca literal: 6.754 candidati / 123 match. CFG: 1.334 candidati / 318 match. Ricompilazione completa: 1.091 prove senza relocazioni e 572 con relocazioni, tutte PASS. Target 10% ancora in corso.
+
+Checkpoint 14: +625 funzioni e +46.242 byte inventariati. C SDK recuperato e ricompilato, argomenti e temporanei stack, trasferimenti multipli, literal puntatore e candidato modello LDR nativo. Tutte le 2.288 prove sono state ricompilate: PASS. I proof span completi sommano 109.304 byte; il numeratore conserva i 109.144 byte dei corpi Ghidra, escludendo 160 byte aggiuntivi (literal pool e un ritorno condiviso). Denominatore invariato: 1.913.676. Target 10% in corso.

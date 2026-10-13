@@ -1,25 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 02020768. No matching claim. */
-#include "types.h"
-#include "deps/02020768_Friend_ComputeCrcImpl.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MATHi_CRC8Update Friend_ComputeCrcImpl
+#include "nitro/types.h"
+#include "MATH_crc.h"
+#include "code32.h"
 
-void Friend_ComputeCrcImpl(int param_1,byte *param_2,byte *param_3,uint param_4)
+void MATHi_CRC8Update(const struct MATHCRC8Table *table, MATHCRC8Context *context, const void *input, u32 length) {
+    u32 r, i;
+    const u8* t = table->table;
+    u8* data = (u8*)input;
 
-{
-  byte bVar1;
-  byte bVar2;
-  uint uVar3;
-  
-  bVar2 = *param_2;
-  uVar3 = 0;
-  if (param_4 != 0) {
-    do {
-      bVar1 = *param_3;
-      uVar3 = uVar3 + 1;
-      param_3 = param_3 + 1;
-      bVar2 = *(byte *)(param_1 + (uint)(bVar2 ^ bVar1));
-    } while (uVar3 < param_4);
-  }
-  *param_2 = bVar2;
-  return;
+    r = *context;
+    for (i = 0; i < length; i++) {
+        r = t[(r ^ *data) & 0xff];
+        data++;
+    }
+    *context = (MATHCRC8Context)r;
 }
-

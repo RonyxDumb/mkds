@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "EraseNonGhostSaveDataSections_from_thumb",
+    "target": 33910344,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194391474
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194486778
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "TextSystem_DisplayProgressDialog_from_thumb",
+    "target": 34759240,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603686
+  }
+]

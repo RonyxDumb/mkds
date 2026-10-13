@@ -1,18 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 020a2204. No matching claim. */
-#include "types.h"
-#include "deps/020a2204_func_020a2204.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-uint func_020a2204(int param_1)
-
+unsigned int func_020a2204(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = param_1 * 0x70 +
-          (*(uint *)(uRam020a221c & 0xfffffffc) >> (uRam020a221c & 3) * 8 |
-          *(uint *)(uRam020a221c & 0xfffffffc) << (uRam020a221c & 3) * -8 + 0x20) + 0x6c;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_20a2204: r2 = 0x217b1fcu;
+L_20a2208: r1 = 0x70u;
+L_20a220c: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_20a2210: r1 = (r0*r1+r2);
+L_20a2214: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 108));
+L_20a2218: return r0;
 }
-

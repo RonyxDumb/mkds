@@ -1,24 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 02147cd8. No matching claim. */
-#include "types.h"
-#include "deps/02147cd8_func_02147cd8.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FX_ModS32 func_02147cd8
+#include "fx.h"
 
-uint func_02147cd8(undefined4 param_1,undefined4 param_2)
+#include "nitro/types.h"
+#include "registers.h"
+#include "code32.h"
 
-{
-  ushort *puVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  puVar2 = puRam02147d24;
-  puVar1 = puRam02147d20;
-  *puRam02147d20 = 0;
-  puVar3 = puRam02147d28;
-  *puVar2 = param_1;
-  *puVar3 = param_2;
-  puVar3[1] = 0;
-  do {
-  } while ((*puVar1 & 0x8000) != 0);
-  return *(uint *)(uRam02147d2c & 0xfffffffc) >> (uRam02147d2c & 3) * 8 |
-         *(uint *)(uRam02147d2c & 0xfffffffc) << (uRam02147d2c & 3) * -8 + 0x20;
+#pragma thumb off
+fx32 FX_ModS32(fx32 num, fx32 mod){
+    reg_CP_DIVCNT = 0x0;
+    *(REGType32v *)&reg_CP_DIV_NUMER = (u32)num; //32bit write for some reason
+    reg_CP_DIV_DENOM = (u32)mod;
+    while (reg_CP_DIVCNT & 0x8000) {}
+    return (fx32)(*(REGType32v *)&reg_CP_DIVREM_RESULT);
 }
-

@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "func_021144b4",
+    "target": 34686132,
+    "thumb": true,
+    "addend": -4,
+    "value": 4287950850
+  },
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "func_02111a98",
+    "target": 34675352,
+    "thumb": true,
+    "addend": -4,
+    "value": 4202754048
+  },
+  {
+    "offset": 20,
+    "type": 10,
+    "symbol": "ResetGlobalNN_from_thumb",
+    "target": 34778064,
+    "thumb": true,
+    "addend": -4,
+    "value": 4212846617
+  },
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "DisposeNavigationContext_from_thumb",
+    "target": 34758048,
+    "thumb": true,
+    "addend": -4,
+    "value": 4227919892
+  }
+]

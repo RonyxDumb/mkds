@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Friend_ComputeCrcImpl",
+    "target": 33687400,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645833
+  }
+]

@@ -1,53 +1,70 @@
-/* Decompiled C draft; module arm9; ROM address 0214d830. No matching claim. */
-#include "types.h"
-#include "deps/0214d830_Fifo_Initialize.h"
-
-void Fifo_Initialize(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_ResetRequestIrqMask SetIF
+#define OS_SetIrqFunction Os_SetIrqHandler
+#define OS_EnableIrqMask Os_EnableIrqHandler
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define FifoCtrlInit SDK_data_02180328
+#define FifoRecvCallbackTable SDK_data_0218032c
+#define PXIi_HandlerRecvFifoNotEmpty SDK_data_0214d5c4
+#define PXI_InitFifo Fifo_Initialize
+#include "consts.h"
+#include "OS_interrupt.h"
+#include "OS_system.h"
+#include "PXI_fifo.h"
+#include "systemWork.h"
+#include "code32.h"
+extern u16 FifoCtrlInit;
+extern PXIFifoCallback FifoRecvCallbackTable[PXI_MAX_FIFO_TAG];
+extern void PXIi_HandlerRecvFifoNotEmpty(void);
+void PXI_InitFifo(void)
 {
-  ushort uVar1;
-  ushort *puVar2;
-  undefined4 uVar3;
-  int iVar4;
-  int iVar5;
-  uint uVar6;
-  
-  uVar3 = Os_DisableIrq();
-  iVar5 = iRam0214d924;
-  if (*psRam0214d920 == 0) {
-    *psRam0214d920 = 1;
-    iVar4 = 0;
-    *(undefined4 *)(iVar5 + 0x388) = 0;
-    iVar5 = iRam0214d928;
-    do {
-      *(undefined4 *)(iVar5 + iVar4 * 4) = 0;
-      iVar4 = iVar4 + 1;
-    } while (iVar4 < 0x20);
-    *puRam0214d930 = (short)uRam0214d92c;
-    SetIF(0x40000);
-    Os_SetIrqHandler(0x40000,uRam0214d934);
-    Os_EnableIrqHandler(0x40000);
-    puVar2 = puRam0214d938;
-    iVar5 = 0;
-    while( true ) {
-      uVar1 = *puVar2;
-      uVar6 = uVar1 & 0xf;
-      *puVar2 = (ushort)(uVar6 << 8);
-      if (((uVar1 & 0xf) == 0) && (4 < iVar5)) break;
-      iVar4 = 1000;
-      uVar1 = *puVar2;
-      while ((uVar1 & 0xf) == uVar6) {
-        if (iVar4 < 1) {
-          iVar5 = 0;
-          break;
-        }
-        iVar4 = iVar4 + -1;
-        uVar1 = *puVar2;
-      }
-      iVar5 = iVar5 + 1;
-    }
-  }
-  Os_RestoreIrq(uVar3);
-  return;
-}
+    OSSystemWork *p = OS_GetSystemWork();
+    OSIntrMode enabled = OS_DisableInterrupts();
+    s32 i;
 
+    if (!FifoCtrlInit)
+    {
+        FifoCtrlInit = TRUE;
+
+        p->pxiHandleChecker[PXI_PROC_ARM9] = 0UL;
+
+        for (i = 0; i < PXI_MAX_FIFO_TAG; i++)
+        {
+            FifoRecvCallbackTable[i] = NULL;
+        }
+
+        reg_PXI_SUBP_FIFO_CNT = (REG_PXI_SUBP_FIFO_CNT_SEND_CL_MASK
+                                 | REG_PXI_SUBP_FIFO_CNT_RECV_RI_MASK | REG_PXI_SUBP_FIFO_CNT_E_MASK | REG_PXI_SUBP_FIFO_CNT_ERR_MASK);
+
+        (void)OS_ResetRequestIrqMask(OS_IE_SPFIFO_RECV);
+        (void)OS_SetIrqFunction(OS_IE_SPFIFO_RECV, PXIi_HandlerRecvFifoNotEmpty);
+        (void)OS_EnableIrqMask(OS_IE_SPFIFO_RECV);
+
+        {
+            s32 timeout;
+            s32 c;
+
+            for (i = 0; ; i++)
+            {
+                c = reg_PXI_SUBPINTF & 15;
+                reg_PXI_SUBPINTF = (u16)(c << 8);
+
+                if (c == 0 && i > 4)
+                {
+                    break;
+                }
+
+                for (timeout = 1000; (reg_PXI_SUBPINTF & 15) == c; timeout--)
+                {
+                    if (timeout == 0)
+                    {
+                        i = 0;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    (void)OS_RestoreInterrupts(enabled);
+}

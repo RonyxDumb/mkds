@@ -1,21 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02023510. No matching claim. */
-#include "types.h"
-#include "deps/02023510_G2d_Sprite_CreateImpl.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void G2d_Sprite_CreateImpl
-               (undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
-               undefined1 param_5,undefined4 param_6,undefined4 param_7,undefined4 param_8,
-               undefined4 param_9)
-
+unsigned int G2d_Sprite_CreateImpl(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3,unsigned int a4,unsigned int a5,unsigned int a6,unsigned int a7,unsigned int a8)
 {
-  param_1[1] = param_3;
-  param_1[2] = param_4;
-  *(undefined1 *)(param_1 + 3) = param_5;
-  *param_1 = param_2;
-  param_1[5] = param_6;
-  param_1[6] = param_7;
-  param_1[7] = param_8;
-  param_1[4] = param_9;
-  return;
+unsigned int cmp_a,cmp_b;
+L_2023510: *(unsigned int *)((unsigned char *)r0 + 4) = (unsigned int)r2;
+L_2023514: r2 = a4;
+L_2023518: *(unsigned int *)((unsigned char *)r0 + 8) = (unsigned int)r3;
+L_202351c: *(unsigned char *)((unsigned char *)r0 + 12) = (unsigned char)r2;
+L_2023520: r2 = a5;
+L_2023524: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_2023528: r1 = a6;
+L_202352c: *(unsigned int *)((unsigned char *)r0 + 20) = (unsigned int)r2;
+L_2023530: r2 = a7;
+L_2023534: *(unsigned int *)((unsigned char *)r0 + 24) = (unsigned int)r1;
+L_2023538: r1 = a8;
+L_202353c: *(unsigned int *)((unsigned char *)r0 + 28) = (unsigned int)r2;
+L_2023540: *(unsigned int *)((unsigned char *)r0 + 16) = (unsigned int)r1;
+L_2023544: return r0;
 }
-

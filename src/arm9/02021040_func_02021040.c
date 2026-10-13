@@ -1,22 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 02021040. No matching claim. */
-#include "types.h"
-#include "deps/02021040_func_02021040.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define sFreeList SDK_data_021732d0
+#define SND_CountFreeCommand func_02021040
+#include "SND_alarm.h"
+#include "SND_command.h"
+#include "SND_work.h"
+#include "OS_emulator.h"
+#include "OS_system.h"
+#include "OS_cache.h"
+#include "PXI_fifo.h"
+#include "code32.h"
+extern struct SNDCommand *sFreeList;
+s32 SND_CountFreeCommand(void) {
+    OSIntrMode oldirq = OS_DisableInterrupts();
+    
+    s32 count = 0;
+    for (struct SNDCommand *cmd = sFreeList; cmd != NULL; cmd = cmd->llNext)
+        count++;
 
-int func_02021040(void)
-
-{
-  uint uVar1;
-  int iVar2;
-  
-  Os_DisableIrq();
-  iVar2 = 0;
-  for (uVar1 = *(uint *)(uRam0202107c & 0xfffffffc) >> (uRam0202107c & 3) * 8 |
-               *(uint *)(uRam0202107c & 0xfffffffc) << (uRam0202107c & 3) * -8 + 0x20; uVar1 != 0;
-      uVar1 = *(uint *)(uVar1 & 0xfffffffc) >> (uVar1 & 3) * 8 |
-              *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) {
-    iVar2 = iVar2 + 1;
-  }
-  Os_RestoreIrq();
-  return iVar2;
+    (void)OS_RestoreInterrupts(oldirq);
+    return count;
 }
-

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Mem_Exp_AllocFromHead",
+    "target": 33651600,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645900
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Mem_Exp_AllocFromTail",
+    "target": 33651404,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645846
+  }
+]

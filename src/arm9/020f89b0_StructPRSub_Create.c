@@ -1,26 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 020f89b0. No matching claim. */
-#include "types.h"
-#include "deps/020f89b0_StructPRSub_Create.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void StructPRSub_Create(undefined4 *param_1,int param_2)
-
+unsigned int StructPRSub_Create(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  param_1[6] = param_2;
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[3] = 0x13;
-  param_1[4] = 0x13;
-  param_1[5] = 0x13;
-  param_1[8] = 0;
-  uVar2 = (uint)*(ushort *)(param_2 + 0x1f8) * 0x30 +
-          (*(uint *)(uRam020f8a00 & 0xfffffffc) >> (uRam020f8a00 & 3) * 8 |
-          *(uint *)(uRam020f8a00 & 0xfffffffc) << (uRam020f8a00 & 3) * -8 + 0x20) + 0x70;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  param_1[9] = (uint)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == 3);
-  return;
+unsigned int cmp_a,cmp_b,ip;
+L_20f89b0: *(unsigned int *)((unsigned char *)r0 + 24) = (unsigned int)r1;
+L_20f89b4: ip = 0x0u;
+L_20f89b8: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)ip;
+L_20f89bc: *(unsigned int *)((unsigned char *)r0 + 4) = (unsigned int)ip;
+L_20f89c0: r2 = 0x13u;
+L_20f89c4: *(unsigned int *)((unsigned char *)r0 + 12) = (unsigned int)r2;
+L_20f89c8: *(unsigned int *)((unsigned char *)r0 + 16) = (unsigned int)r2;
+L_20f89cc: *(unsigned int *)((unsigned char *)r0 + 20) = (unsigned int)r2;
+L_20f89d0: *(unsigned int *)((unsigned char *)r0 + 32) = (unsigned int)ip;
+L_20f89d4: r1 = (r1+0x100u);
+L_20f89d8: r2 = 0x21759c0u;
+L_20f89dc: r3 = (unsigned int)(*(unsigned short *)((unsigned char *)r1 + 248));
+L_20f89e0: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_20f89e4: r1 = 0x30u;
+L_20f89e8: r1 = (r3*r1+r2);
+L_20f89ec: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 112));
+L_20f89f0: cmp_a = r1; cmp_b = 0x3u;
+L_20f89f4: if ((cmp_a == cmp_b)) { ip = 0x1u; }
+L_20f89f8: *(unsigned int *)((unsigned char *)r0 + 36) = (unsigned int)ip;
+L_20f89fc: return r0;
 }
-

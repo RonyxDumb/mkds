@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "Bright_IsBothScreensFadedIn",
+    "target": 33778780,
+    "thumb": false,
+    "addend": -4,
+    "value": 4015978270
+  },
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "func_021181e8",
+    "target": 34701800,
+    "thumb": true,
+    "addend": -4,
+    "value": 4196462592
+  }
+]

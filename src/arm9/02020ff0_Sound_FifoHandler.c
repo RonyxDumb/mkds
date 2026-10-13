@@ -1,15 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02020ff0. No matching claim. */
-#include "types.h"
-#include "deps/02020ff0_Sound_FifoHandler.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define SNDi_CallAlarmHandler Sound_CallAlarmHandler
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define PxiFifoCallback Sound_FifoHandler
+#include "SND_alarm.h"
+#include "SND_command.h"
+#include "SND_work.h"
+#include "OS_emulator.h"
+#include "OS_system.h"
+#include "OS_cache.h"
+#include "PXI_fifo.h"
+#include "code32.h"
 
-void Sound_FifoHandler(undefined4 param_1,undefined4 param_2)
-
-{
-  undefined4 uVar1;
-  
-  uVar1 = Os_DisableIrq();
-  Sound_CallAlarmHandler(param_2);
-  Os_RestoreIrq(uVar1);
-  return;
+void PxiFifoCallback(PXIFifoTag tag, u32 data, BOOL) {
+#pragma unused (tag)
+    OSIntrMode oldirq = OS_DisableInterrupts();
+    SNDi_CallAlarmHandler((s32)data);
+    (void)OS_RestoreInterrupts(oldirq);
 }
-

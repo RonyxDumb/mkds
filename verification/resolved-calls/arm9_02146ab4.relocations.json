@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "func_0214fb54",
+    "target": 34929492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942655007
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Card_SendToFifo",
+    "target": 34892368,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422939
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Os_Terminate",
+    "target": 33619228,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104653
+  }
+]

@@ -1,31 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 02003c80. No matching claim. */
-#include "types.h"
-#include "deps/02003c80_Fs_Archive_Resume.h"
-
-bool Fs_Archive_Resume(int param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define FSi_NextCommand Fs_Archive_HandleNextOperation
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define FSi_ExecuteAsyncCommand Fs_File_ExecuteAsyncOperation
+#define FS_ResumeArchive Fs_Archive_Resume
+#include "FS_archive.h"
+#include "FS_command.h"
+#include "FSi_util.h"
+#include "MI_memory.h"
+#include "MI_byteAccess.h"
+#include "OS_printf.h"
+#include "code32.h"
+extern FSFile * FSi_NextCommand(FSArchive * p_arc);
+extern void FSi_ExecuteAsyncCommand(FSFile * p_file);
+#pragma thumb off
+BOOL FS_ResumeArchive(FSArchive * p_arc)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  int iVar4;
-  bool bVar5;
-  
-  iVar4 = 0;
-  uVar2 = Os_DisableIrq();
-  uVar1 = param_1 + 0x1cU & 3;
-  uVar3 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-  bVar5 = ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 8) == 0;
-  if (!bVar5) {
-    uVar1 = param_1 + 0x1cU & 3;
-    uVar3 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-    *(uint *)(param_1 + 0x1c) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0xfffffff7;
-    iVar4 = Fs_Archive_HandleNextOperation(param_1);
-  }
-  Os_RestoreIrq(uVar2);
-  if (iVar4 != 0) {
-    Fs_File_ExecuteAsyncOperation(iVar4);
-  }
-  return bVar5;
+    FSFile * p_target = NULL;
+    OSIntrMode bak_psr = OS_DisableInterrupts();
+    const BOOL bak_stat = !FS_IsArchiveSuspended(p_arc);
+    if (!bak_stat)
+    {
+        p_arc->flag &= ~FS_ARCHIVE_FLAG_SUSPEND;
+        p_target = FSi_NextCommand(p_arc);
+    }
+    (void)OS_RestoreInterrupts(bak_psr);
+    if (p_target)
+        FSi_ExecuteAsyncCommand(p_target);
+    return bak_stat;
 }
-

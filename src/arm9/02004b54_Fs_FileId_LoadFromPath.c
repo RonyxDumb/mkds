@@ -1,15 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 02004b54. No matching claim. */
-#include "types.h"
-#include "deps/02004b54_Fs_FileId_LoadFromPath.h"
-
-bool Fs_FileId_LoadFromPath(undefined4 param_1,undefined4 param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FS_InitFile Fs_File_Initialize
+#define FSi_FindPath Fs_File_FindPath
+#define FS_ConvertPathToFileID Fs_FileId_LoadFromPath
+#include "nitro.h"
+#include "MI_byteAccess.h"
+#include "FS_rom.h"
+#include "FS_file.h"
+#include "FSi_util.h"
+#include "code32.h"
+extern void FS_InitFile(FSFile * p_file);
+extern BOOL FSi_FindPath(FSFile * p_dir, const char * path, FSFileID * p_file_id, FSDirPos * p_dir_pos);
+#pragma thumb off
+BOOL FS_ConvertPathToFileID(FSFileID * p_file_id, const char * path)
 {
-  int iVar1;
-  undefined1 auStack_58 [76];
-  
-  Fs_File_Initialize((undefined4 *)(void *)(auStack_58));
-  iVar1 = Fs_File_FindPath((int)(uintptr_t)(auStack_58),(char *)(uintptr_t)(param_2),param_1,0);
-  return iVar1 != 0;
+    FSFile dir;
+    FS_InitFile(&dir);
+    if (!FSi_FindPath(&dir, path, p_file_id, NULL))
+        return FALSE;
+    return TRUE;
 }
-

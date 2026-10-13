@@ -1,18 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 020cc6a4. No matching claim. */
-#include "types.h"
-#include "deps/020cc6a4_Maybe_helper_0cc6a4.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-uint Maybe_helper_0cc6a4(int param_1)
-
+unsigned int Maybe_helper_0cc6a4(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = param_1 * 0x30 +
-          (*(uint *)(uRam020cc6bc & 0xfffffffc) >> (uRam020cc6bc & 3) * 8 |
-          *(uint *)(uRam020cc6bc & 0xfffffffc) << (uRam020cc6bc & 3) * -8 + 0x20) + 0x78;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_20cc6a4: r2 = 0x21759c0u;
+L_20cc6a8: r1 = 0x30u;
+L_20cc6ac: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_20cc6b0: r1 = (r0*r1+r2);
+L_20cc6b4: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 120));
+L_20cc6b8: return r0;
 }
-

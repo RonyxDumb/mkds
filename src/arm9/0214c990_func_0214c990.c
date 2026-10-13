@@ -1,28 +1,28 @@
-/* Decompiled C draft; module arm9; ROM address 0214c990. No matching claim. */
-#include "types.h"
-#include "deps/0214c990_func_0214c990.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MIi_DmaSetParams func_01ffff38
+#define MI_DmaCopy32Async func_0214c990
+#include "MI_dma.h"
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+#include "OS_interrupt.h"
+#include "OS_terminate_proc.h"
+#include "code32.h"
+#include "sections.h"
+extern void MIi_CheckDma0SourceAddress(u32 dmaNo, u32 src, u32 size, u32 dir);
+extern void MI_WaitDma(u32 dmaNo);
+extern void MIi_DmaSetParams(u32 dmaNo, u32 src, u32 dest, u32 ctrl);
+void MI_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg) {
+    MIi_CheckDma0SourceAddress(dmaNo, (u32)src, size, MI_DMA_SRC_INC);
 
-void func_0214c990(undefined4 param_1,undefined4 param_2,undefined4 param_3,uint param_4,
-                  code *param_5,undefined4 param_6)
+    if (!size) {
+        MIi_CallCallback(callback, arg);
+    } else {
+        MI_WaitDma(dmaNo);
 
-{
-  MIi_CheckDma0SourceAddress(param_1,param_2,param_4,0);
-  if (param_4 != 0) {
-    MI_WaitDma(param_1);
-    if (param_5 == (code *)0x0) {
-      func_01ffff38(param_1,param_2,param_3,param_4 >> 2 | 0x84000000);
-      return;
+        if (callback) {
+            OSi_EnterDmaCallback(dmaNo, callback, arg);
+            MIi_DmaSetParams(dmaNo, (u32)src, (u32)dest, MI_CNT_COPY32_IF(size));
+        } else {
+            MIi_DmaSetParams(dmaNo, (u32)src, (u32)dest, MI_CNT_COPY32(size));
+        }
     }
-    OSi_EnterDmaCallback(param_1,param_5,param_6);
-    func_01ffff38(param_1,param_2,param_3,param_4 >> 2 | 0xc4000000);
-    return;
-  }
-  if (param_5 != (code *)0x0) {
-    (*param_5)(param_6);
-    return;
-  }
-  return;
 }
-

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "func_02029a98",
+    "target": 33725080,
+    "thumb": true,
+    "addend": -4,
+    "value": 4200003583
+  },
+  {
+    "offset": 22,
+    "type": 10,
+    "symbol": "func_02032ab0",
+    "target": 33761968,
+    "thumb": true,
+    "addend": -4,
+    "value": 4200591368
+  },
+  {
+    "offset": 26,
+    "type": 10,
+    "symbol": "ResetGlobalNN_from_thumb",
+    "target": 34778064,
+    "thumb": true,
+    "addend": -4,
+    "value": 4209897728
+  }
+]

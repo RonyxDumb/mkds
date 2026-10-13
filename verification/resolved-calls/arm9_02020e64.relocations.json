@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Os_Mutex_Initialize",
+    "target": 33615296,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959404490
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Sound_InitializeCommands",
+    "target": 33691068,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646216
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Sound_InitializeAlarms",
+    "target": 33691524,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646329
+  },
+  {
+    "offset": 68,
+    "type": 2,
+    "symbol": "SDK_data_021732ac",
+    "target": 35074732,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074732
+  },
+  {
+    "offset": 72,
+    "type": 2,
+    "symbol": "SDK_data_021732b0",
+    "target": 35074736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074736
+  }
+]

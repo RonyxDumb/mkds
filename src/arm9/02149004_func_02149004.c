@@ -1,13 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 02149004. No matching claim. */
-#include "types.h"
-#include "deps/02149004_func_02149004.h"
-
-void func_02149004(void)
-
-{
-                    /* WARNING: Could not recover jumptable at 0x0214900c. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02149010)(uRam02149014);
-  return;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define disableBankForX_ SDK_data_02149060
+#define gGXState SDK_data_021802a4
+#define GX_DisableBankForSubOBJ func_02149004
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern u32 disableBankForX_(u16 *ptr);
+extern struct GX_State gGXState;
+#pragma thumb off
+u32 GX_DisableBankForSubOBJ(){
+    return disableBankForX_(&gGXState.sub_obj);
 }
-

@@ -1,22 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 0200cb1c. No matching claim. */
-#include "types.h"
-#include "deps/0200cb1c_SetIE.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_SetIrqMask SetIE
+#include "OS_interrupt.h"
 
-uint SetIE(undefined4 param_1)
+#include "nitro/types.h"
+#include "registers.h"
+#include "mmap.h"
+#include "OS_thread.h"
+#include "code32.h"
 
+OSIrqMask OS_SetIrqMask(OSIrqMask mask)
 {
-  undefined2 uVar1;
-  undefined2 *puVar2;
-  undefined4 *puVar3;
-  uint uVar4;
-  
-  puVar3 = puRam0200cb4c;
-  puVar2 = puRam0200cb48;
-  uVar1 = *puRam0200cb48;
-  *puRam0200cb48 = 0;
-  uVar4 = *(uint *)((uint)puVar3 & 0xfffffffc);
-  *puVar3 = param_1;
-  *puVar2 = uVar1;
-  return uVar4 >> ((uint)puVar3 & 3) * 8 | uVar4 << ((uint)puVar3 & 3) * -8 + 0x20;
+    u16 regIme = reg_OS_IME;
+    reg_OS_IME = 0;
+    OSIrqMask regIe = reg_OS_IE;
+    reg_OS_IE = mask;
+    u16 unused = reg_OS_IME; //needed because otherwise it doesn't match
+    reg_OS_IME = regIme;
+    return regIe;
 }
-

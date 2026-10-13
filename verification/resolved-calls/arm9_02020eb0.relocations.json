@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 4,
+    "type": 1,
+    "symbol": "Os_IsEmulator",
+    "target": 33614076,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959404176
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405428
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405428
+  }
+]

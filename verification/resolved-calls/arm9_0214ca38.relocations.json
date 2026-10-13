@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "MI_WaitDma",
+    "target": 34916640,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422890
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "OSi_EnterDmaCallback",
+    "target": 33606556,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959095363
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959098499
+  },
+  {
+    "offset": 128,
+    "type": 1,
+    "symbol": "func_01fffe8c",
+    "target": 33554060,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959082227
+  },
+  {
+    "offset": 136,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959098491
+  },
+  {
+    "offset": 148,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959098483
+  },
+  {
+    "offset": 192,
+    "type": 1,
+    "symbol": "func_01fffe8c",
+    "target": 33554060,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959082211
+  },
+  {
+    "offset": 200,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959098475
+  }
+]

@@ -1,35 +1,35 @@
-/* Decompiled C draft; module arm9; ROM address 0214c89c. No matching claim. */
-#include "types.h"
-#include "deps/0214c89c_Mem_DmaStop.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define MI_StopDma Mem_DmaStop
+#include "MI_dma.h"
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+#include "OS_interrupt.h"
+#include "OS_terminate_proc.h"
+#include "code32.h"
+#include "sections.h"
 
-void Mem_DmaStop(int param_1)
+void MI_StopDma(u32 dmaNo) {
+    OSIntrMode lastIntrMode = OS_DisableInterrupts();
+    vu16 *dmaCntp           = &((vu16 *)REG_DMA0SAD_ADDR)[dmaNo * 6 + 5];
 
-{
-  int iVar1;
-  uint uVar2;
-  uint uVar3;
-  undefined4 uVar4;
-  uint uVar5;
-  uint uVar6;
-  
-  uVar4 = Os_DisableIrq();
-  iVar1 = (param_1 * 6 + 5) * 2;
-  *(ushort *)(&DAT_040000b0 + iVar1) = *(ushort *)(&DAT_040000b0 + iVar1) & 0xc5ff;
-  *(ushort *)(&DAT_040000b0 + iVar1) = *(ushort *)(&DAT_040000b0 + iVar1) & 0x7fff;
-  uVar3 = uRam0214c91c;
-  uVar2 = uRam0214c918;
-  uVar5 = (uint)*(ushort *)(&DAT_040000b0 + iVar1);
-  uVar6 = (uint)*(ushort *)(&DAT_040000b0 + iVar1);
-  if (param_1 == 0) {
-    _DAT_040000b0 = 0;
-    *(undefined4 *)(uRam0214c918 + 4) = 0;
-    *(uint *)(uVar2 + 8) = uVar3;
-    uVar5 = uVar3;
-    uVar6 = uVar2;
-  }
-  Os_RestoreIrq(uVar4,uVar5,uVar6);
-  return;
+    *dmaCntp &= ~0x3a00;
+    *dmaCntp &= ~0x8000;
+
+    // delay cycles
+    {
+        s32 delay = dmaCntp[0];
+    }
+    {
+        s32 delay = dmaCntp[0];
+    }
+
+    if (!dmaNo) {
+        vu32 *p  = (vu32 *)((u32)REG_DMA0SAD_ADDR + dmaNo * 12);
+        *p       = (vu32)0;
+        *(p + 1) = (vu32)0;
+        *(p + 2) = (vu32)0x81400001;
+    }
+
+    (void)OS_RestoreInterrupts(lastIntrMode);
 }
-

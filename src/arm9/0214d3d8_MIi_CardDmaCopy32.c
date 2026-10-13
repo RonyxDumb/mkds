@@ -1,25 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 0214d3d8. No matching claim. */
-#include "types.h"
-#include "deps/0214d3d8_MIi_CardDmaCopy32.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MIi_DmaSetParams func_01ffff38
+#include "MI_dma_card.h"
 
-void MIi_CardDmaCopy32(int param_1,undefined4 param_2,undefined4 param_3,int param_4)
+#include "MI_dma.h"
+#include "code32.h"
 
-{
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  MIi_CheckAnotherAutoDMA(param_1,0xffffffff);
-  MIi_CheckDma0SourceAddress(param_1,param_2,param_4,0x1000000);
-  if (param_4 != 0) {
-    uVar3 = iRam0214d45c + (param_1 * 3 + 2) * 4;
-    do {
-      uVar1 = uVar3 & 3;
-      uVar2 = *(uint *)(uVar3 & 0xfffffffc);
-    } while (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0x80000000) != 0);
-    func_01ffff38(param_1,param_2,param_3,uRam0214d460);
-    return;
-  }
-  return;
+void MIi_CardDmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size) {
+    MIi_CheckAnotherAutoDMA(dmaNo, MIi_DMA_TIMING_ANY);
+    MIi_CheckDma0SourceAddress(dmaNo, (u32)src, size, MI_DMA_SRC_FIX);
+
+    if (size == 0) {
+        return;
+    }
+
+    vu32 *dmaCntp;
+    MIi_WAIT_BEFOREDMA(dmaCntp, dmaNo);
+
+    MIi_DmaSetParams(dmaNo, (u32)src, (u32)dest, (u32)(MI_CNT_CARDRECV32(4) | MI_DMA_CONTINUOUS_ON));
 }
-

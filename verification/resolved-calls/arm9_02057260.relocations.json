@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "Mem_CpuFill8",
+    "target": 34918760,
+    "thumb": false,
+    "addend": -4,
+    "value": 4017942773
+  },
+  {
+    "offset": 28,
+    "type": 10,
+    "symbol": "Mem_CpuFill8",
+    "target": 34918760,
+    "thumb": false,
+    "addend": -4,
+    "value": 4017418485
+  }
+]

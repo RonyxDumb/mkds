@@ -1,42 +1,39 @@
-/* Decompiled C draft; module arm9; ROM address 02003be0. No matching claim. */
-#include "types.h"
-#include "deps/02003be0_Fs_Archive_NotifyAsyncEnded.h"
-
-void Fs_Archive_NotifyAsyncEnded(int param_1,undefined4 param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FSi_ReleaseCommand Fs_File_ReleaseOperation
+#define FSi_NextCommand Fs_Archive_HandleNextOperation
+#define FSi_ExecuteAsyncCommand Fs_File_ExecuteAsyncOperation
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_WakeupThread Os_Thread_WakeUp
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define FS_NotifyArchiveAsyncEnd Fs_Archive_NotifyAsyncEnded
+#include "FS_archive.h"
+#include "FS_command.h"
+#include "FSi_util.h"
+#include "MI_memory.h"
+#include "MI_byteAccess.h"
+#include "OS_printf.h"
+#include "code32.h"
+extern FSFile * FSi_NextCommand(FSArchive * p_arc);
+extern void FSi_ExecuteAsyncCommand(FSFile * p_file);
+#pragma thumb off
+void FS_NotifyArchiveAsyncEnd(FSArchive *p_arc, FSResult ret)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  int iVar4;
-  undefined4 uVar5;
-  uint uVar6;
-  
-  uVar1 = param_1 + 0x1cU & 3;
-  uVar2 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-  if (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0x100) == 0) {
-    uVar1 = param_1 + 0x24U & 3;
-    uVar2 = *(uint *)(param_1 + 0x24U & 0xfffffffc);
-    uVar5 = Os_DisableIrq();
-    *(undefined4 *)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x14) = param_2;
-    uVar1 = param_1 + 0x1cU & 3;
-    uVar2 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-    *(uint *)(param_1 + 0x1c) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0xfffffdff;
-    Os_Thread_WakeUp((uint *)(uintptr_t)(param_1 + 0xc));
-    Os_RestoreIrq(uVar5);
-    return;
-  }
-  uVar1 = param_1 + 0x1cU & 3;
-  uVar6 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-  uVar2 = param_1 + 0x24U & 3;
-  uVar3 = *(uint *)(param_1 + 0x24U & 0xfffffffc);
-  *(uint *)(param_1 + 0x1c) = (uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20) & 0xfffffeff;
-  Fs_File_ReleaseOperation(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20);
-  iVar4 = Fs_Archive_HandleNextOperation(param_1);
-  if (iVar4 != 0) {
-    Fs_File_ExecuteAsyncOperation();
-    return;
-  }
-  return;
+    if (FSi_IsArchiveAsync(p_arc))
+    {
+        FSFile *p_file = p_arc->list.next;
+        p_arc->flag &= ~FS_ARCHIVE_FLAG_IS_ASYNC;
+        FSi_ReleaseCommand(p_file, ret);
+        p_file = FSi_NextCommand(p_arc);
+        if (p_file)
+            FSi_ExecuteAsyncCommand(p_file);
+    }
+    else
+    {
+        FSFile *p_file = p_arc->list.next;
+        OSIntrMode bak_psr = OS_DisableInterrupts();
+        p_file->error = ret;
+        p_arc->flag &= ~FS_ARCHIVE_FLAG_IS_SYNC;
+        OS_WakeupThread(&p_arc->sync_q);
+        (void)OS_RestoreInterrupts(bak_psr);
+    }
 }
-

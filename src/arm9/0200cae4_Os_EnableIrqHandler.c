@@ -1,23 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 0200cae4. No matching claim. */
-#include "types.h"
-#include "deps/0200cae4_Os_EnableIrqHandler.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_EnableIrqMask Os_EnableIrqHandler
+#include "OS_interrupt.h"
 
-uint Os_EnableIrqHandler(uint param_1)
+#include "nitro/types.h"
+#include "registers.h"
+#include "mmap.h"
+#include "OS_thread.h"
+#include "code32.h"
 
+OSIrqMask OS_EnableIrqMask(OSIrqMask mask)
 {
-  undefined2 uVar1;
-  undefined2 *puVar2;
-  uint *puVar3;
-  uint uVar4;
-  
-  puVar3 = puRam0200cb18;
-  puVar2 = puRam0200cb14;
-  uVar1 = *puRam0200cb14;
-  *puRam0200cb14 = 0;
-  uVar4 = *(uint *)((uint)puVar3 & 0xfffffffc) >> ((uint)puVar3 & 3) * 8 |
-          *(uint *)((uint)puVar3 & 0xfffffffc) << ((uint)puVar3 & 3) * -8 + 0x20;
-  *puVar3 = uVar4 | param_1;
-  *puVar2 = uVar1;
-  return uVar4;
+    u16 regIme = reg_OS_IME;
+    reg_OS_IME = 0;
+    OSIrqMask regIe = reg_OS_IE;
+    reg_OS_IE = regIe | mask;
+    u16 unused = reg_OS_IME;
+    reg_OS_IME = regIme;
+    return regIe;
 }
-

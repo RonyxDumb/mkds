@@ -1,31 +1,32 @@
-/* Decompiled C draft; module arm9; ROM address 02004788. No matching claim. */
-#include "types.h"
-#include "deps/02004788_Fs_PackArchiveMountName.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FSi_GetPackedName Fs_PackArchiveMountName
+#include "FS_archive.h"
+#include "FS_command.h"
+#include "FSi_util.h"
+#include "MI_memory.h"
+#include "MI_byteAccess.h"
+#include "OS_printf.h"
+#include "code32.h"
 
-uint Fs_PackArchiveMountName(int param_1,int param_2)
-
+#pragma thumb off
+u32 FSi_GetPackedName(const char * name, int name_len)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  uint uVar4;
-  
-  uVar4 = 0;
-  if ((param_2 < 4) && (iVar3 = 0, 0 < param_2)) {
-    uVar2 = 0;
-    do {
-      uVar1 = (uint)*(byte *)(param_1 + iVar3);
-      if (uVar1 == 0) {
-        return uVar4;
-      }
-      if (uVar1 - 0x41 < 0x1a) {
-        uVar1 = uVar1 + 0x20;
-      }
-      iVar3 = iVar3 + 1;
-      uVar4 = uVar4 | uVar1 << (uVar2 & 0xff);
-      uVar2 = uVar2 + 8;
-    } while (iVar3 < param_2);
-  }
-  return uVar4;
+    u32 ret = 0;
+    if (name_len <= FS_ARCHIVE_NAME_LEN_MAX)
+    {
+        int i = 0;
+        for (; i < name_len; i++)
+        {
+            u32 c = MI_ReadByte(name + i);
+            if (!c)
+                break;
+            c = (u32)(c - 'A');
+            if (c <= (u32)('Z' - 'A'))
+                c = (u32)(c + 'a');
+            else
+                c = (u32)(c + 'A');
+            ret |= (u32)(c << (i * 8));
+        }
+    }
+    return ret;
 }
-

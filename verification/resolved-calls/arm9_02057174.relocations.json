@@ -1,0 +1,119 @@
+[
+  {
+    "offset": 10,
+    "type": 10,
+    "symbol": "WriteSaveDataSection_Emblem_from_thumb",
+    "target": 33913876,
+    "thumb": true,
+    "addend": -4,
+    "value": 4249481216
+  },
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "func_02145d38",
+    "target": 34889016,
+    "thumb": false,
+    "addend": -4,
+    "value": 3990155502
+  },
+  {
+    "offset": 34,
+    "type": 10,
+    "symbol": "WriteSaveDataSection_GrandPrix_from_thumb",
+    "target": 33913732,
+    "thumb": true,
+    "addend": -4,
+    "value": 4243976192
+  },
+  {
+    "offset": 48,
+    "type": 10,
+    "symbol": "func_02145d38",
+    "target": 34889016,
+    "thumb": false,
+    "addend": -4,
+    "value": 3989369070
+  },
+  {
+    "offset": 58,
+    "type": 10,
+    "symbol": "WriteSaveDataSection_TimeTrials_from_thumb",
+    "target": 33913588,
+    "thumb": true,
+    "addend": -4,
+    "value": 4238471168
+  },
+  {
+    "offset": 72,
+    "type": 10,
+    "symbol": "func_02145d38",
+    "target": 34889016,
+    "thumb": false,
+    "addend": -4,
+    "value": 3988582638
+  },
+  {
+    "offset": 82,
+    "type": 10,
+    "symbol": "WriteSaveDataSection_MissionRun_from_thumb",
+    "target": 33913440,
+    "thumb": true,
+    "addend": -4,
+    "value": 4232835072
+  },
+  {
+    "offset": 96,
+    "type": 10,
+    "symbol": "func_02145d38",
+    "target": 34889016,
+    "thumb": false,
+    "addend": -4,
+    "value": 3987796206
+  },
+  {
+    "offset": 106,
+    "type": 10,
+    "symbol": "WriteSaveDataSection_FriendList_from_thumb",
+    "target": 33912756,
+    "thumb": true,
+    "addend": -4,
+    "value": 4209635328
+  },
+  {
+    "offset": 120,
+    "type": 10,
+    "symbol": "func_02145d38",
+    "target": 34889016,
+    "thumb": false,
+    "addend": -4,
+    "value": 3987009774
+  },
+  {
+    "offset": 130,
+    "type": 10,
+    "symbol": "WriteSaveDataSection_Header_from_thumb",
+    "target": 33914020,
+    "thumb": true,
+    "addend": -4,
+    "value": 4250267648
+  },
+  {
+    "offset": 144,
+    "type": 10,
+    "symbol": "func_02145d38",
+    "target": 34889016,
+    "thumb": false,
+    "addend": -4,
+    "value": 3986223342
+  },
+  {
+    "offset": 148,
+    "type": 10,
+    "symbol": "ResetSaveDataHolderTaskPendingFlag_from_thumb",
+    "target": 33912068,
+    "thumb": true,
+    "addend": -4,
+    "value": 4185714688
+  }
+]

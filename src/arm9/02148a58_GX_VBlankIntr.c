@@ -1,22 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 02148a58. No matching claim. */
-#include "types.h"
-#include "deps/02148a58_GX_VBlankIntr.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
 
-ushort GX_VBlankIntr(int param_1,ushort param_2)
+#include "gx.h"
 
-{
-  ushort uVar1;
-  
-  uVar1 = *puRam02148a84;
-  if (param_1 != 0) {
-    param_2 = *puRam02148a84;
-  }
-  if (param_1 != 0) {
-    *puRam02148a84 = param_2 | 8;
-  }
-  else {
-    *puRam02148a84 = *puRam02148a84 & 0xfff7;
-  }
-  return uVar1 & 8;
+#include "nitro/types.h"
+#include "OS_spinLock.h"
+#include "OS_terminate_proc.h"
+#include "code32.h"
+
+#pragma thumb off
+u32 GX_VBlankIntr(u32 enable){
+    u32 temp = (u32)(reg_GX_DISPSTAT & REG_GX_DISPSTAT_VBI_MASK);
+    if (enable)
+    {
+        reg_GX_DISPSTAT |= REG_GX_DISPSTAT_VBI_MASK;
+    }
+    else
+    {
+        reg_GX_DISPSTAT &= ~REG_GX_DISPSTAT_VBI_MASK;
+    }
+    return temp;
 }
-

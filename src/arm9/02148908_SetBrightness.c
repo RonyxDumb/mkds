@@ -1,20 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 02148908. No matching claim. */
-#include "types.h"
-#include "deps/02148908_SetBrightness.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define GXx_SetMasterBrightness_ SetBrightness
+#include "gx.h"
 
-void SetBrightness(ushort *param_1,int param_2)
+#include "nitro/types.h"
+#include "OS_spinLock.h"
+#include "OS_terminate_proc.h"
+#include "code32.h"
 
-{
-  if (param_2 == 0) {
-    *param_1 = 0;
-    return;
-  }
-  if (param_2 < 1) {
-    *param_1 = -(ushort)param_2 | 0x8000;
-  }
-  else {
-    *param_1 = (ushort)param_2 | 0x4000;
-  }
-  return;
+#pragma thumb off
+void GXx_SetMasterBrightness_(vu16 *dst, s32 brightness){
+    if (!brightness)
+    {
+        *dst = 0x0;
+    }
+    else if (brightness > 0)
+    {
+        *dst = (u16)((1 << REG_GX_MASTER_BRIGHT_E_MOD_SHIFT) | brightness);
+    }
+    else
+    {
+        *dst = (u16)((2 << REG_GX_MASTER_BRIGHT_E_MOD_SHIFT) | -brightness);
+    }
 }
-

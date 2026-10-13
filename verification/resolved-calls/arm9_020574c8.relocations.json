@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "func_02145d38",
+    "target": 34889016,
+    "thumb": false,
+    "addend": -4,
+    "value": 3962630382
+  },
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "WriteSaveDataSection_Header_from_thumb",
+    "target": 33914020,
+    "thumb": true,
+    "addend": -4,
+    "value": 4225822720
+  },
+  {
+    "offset": 38,
+    "type": 10,
+    "symbol": "func_02145d38",
+    "target": 34889016,
+    "thumb": false,
+    "addend": -4,
+    "value": 3961843950
+  },
+  {
+    "offset": 42,
+    "type": 10,
+    "symbol": "ResetSaveDataHolderTaskPendingFlag_from_thumb",
+    "target": 33912068,
+    "thumb": true,
+    "addend": -4,
+    "value": 4161269760
+  }
+]

@@ -3,6 +3,7 @@ This is an identified-function inventory, not a verified whole-ROM link metric.
 """
 from pathlib import Path
 import csv,json,hashlib,struct
+from proof_span import validate_span
 root=Path(__file__).resolve().parents[1];base=root/'baseline'
 proofs={(x['module'],int(x['address'],16)):x for x in csv.DictReader((root/'verification/local-byte-exact.tsv').open(),delimiter='\t')}
 linked_file=root/'verification/local-linked-byte-exact.tsv'
@@ -30,8 +31,8 @@ for mod in ['arm9','arm9_ov000','arm9_ov001','arm9_ov003','arm7']:
  for x in csv.DictReader((base/'pseudocode'/mod/'index.tsv').open(),delimiter='\t'):
   addr=int(x['address'],16);size=int(x['bytes']);name=x['name'];f=root/'src'/mod/f'{addr:08x}_{name}.c';b=build[(mod,f.stem)];proof=proofs.get((mod,addr));status=1 if b['status']=='ARM_OBJECT' else 2
   if proof:
-   assert size==int(proof['size']);assert hashlib.sha256(f.read_bytes()).hexdigest()==proof['source_sha256']
-   original=read(mod,addr,size);assert hashlib.sha256(original).hexdigest()==proof['sha256']
+   span_size=int(proof['size']);assert hashlib.sha256(f.read_bytes()).hexdigest()==proof['source_sha256']
+   original=read(mod,addr,span_size);validate_span(original,addr,proof['mode'],size);assert hashlib.sha256(original).hexdigest()==proof['sha256']
    archive=(root/'verification/resolved-calls'/f'{mod}_{addr:08x}.linked.hex') if proof['status']=='EXACT_LOCAL_LINKED_BYTES' else (root/'verification/leafs'/f'{mod}_{addr:08x}.original.hex')
    archived=bytes.fromhex(archive.read_text());assert archived==original
    obj=root/'build/leaf-candidates'/f'{mod}_{addr:08x}.o'
@@ -41,7 +42,7 @@ for mod in ['arm9','arm9_ov000','arm9_ov001','arm9_ov003','arm7']:
  modules.append(dict(name=mod,functions=functions,bytes=sum(x[1] for x in functions),exact_bytes=sum(x[1] for x in functions if x[2]==0),compiled_bytes=sum(x[1] for x in functions if x[2] in [0,1]),function_count=len(functions),exact_functions=sum(x[2]==0 for x in functions)))
 assert found==proofs.keys()
 total=sum(m['bytes'] for m in modules);exact=sum(m['exact_bytes'] for m in modules);n=sum(m['function_count'] for m in modules);compiled=sum(x[2] in [0,1] for m in modules for x in m['functions'])
-data=dict(checkpoint=json.loads((root/"PROGRESSO.json").read_text())["checkpoint"],scope='Identified Ghidra function bodies across ARM9, overlays and ARM7; sum of function-body sizes, not unique ROM bytes or all assets.',identified_function_bytes=total,local_byte_exact_bytes=exact,local_byte_exact_percent=100*exact/total,identified_functions=n,local_byte_exact_functions=len(proofs),local_byte_exact_function_percent=100*len(proofs)/n,compilable_functions=compiled,compilable_function_percent=100*compiled/n,full_rom_link_verified=False,verification='Current source hashes and archived proof bytes checked against extracted ROM sections. MW object text rechecked when present; otherwise rely on historical local byte-exact proof.',modules=modules)
+data=dict(checkpoint=json.loads((root/"PROGRESSO.json").read_text())["checkpoint"],scope='Identified Ghidra function bodies across ARM9, overlays and ARM7; sum of function-body sizes, not unique ROM bytes or all assets.',identified_function_bytes=total,local_byte_exact_bytes=exact,local_byte_exact_span_bytes=sum(int(r['size']) for r in proofs.values()),local_byte_exact_percent=100*exact/total,identified_functions=n,local_byte_exact_functions=len(proofs),local_byte_exact_function_percent=100*len(proofs)/n,compilable_functions=compiled,compilable_function_percent=100*compiled/n,full_rom_link_verified=False,verification='Current source hashes and archived proof bytes checked against extracted ROM sections. MW object text rechecked when present; otherwise rely on historical local byte-exact proof.',modules=modules)
 (root/'reports/progress-measured.json').write_text(json.dumps(data,separators=(',',':'))+'\n');print(json.dumps({k:v for k,v in data.items() if k!='modules'},indent=2))
 lines=[f"# Copertura misurata — checkpoint {data['checkpoint']}", '', f"**{data['local_byte_exact_percent']:.6f}% dei byte dei corpi funzione identificati è verificato localmente.**", '', f"{exact:,} / {total:,} byte; {len(proofs)} / {n} funzioni. È una misura sull'inventario Ghidra, non un matching della ROM intera. I corpi possono includere dati, falsi positivi e byte sovrapposti.", '', '| Modulo | Byte funzioni | Byte locali identici | Copertura |', '|---|---:|---:|---:|']
 for m in modules:lines.append(f"| {m['name']} | {m['bytes']} | {m['exact_bytes']} | {100*m['exact_bytes']/m['bytes']:.6f}% |")

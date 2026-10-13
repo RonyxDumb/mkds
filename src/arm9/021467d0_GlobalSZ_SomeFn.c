@@ -1,50 +1,33 @@
-/* Decompiled C draft; module arm9; ROM address 021467d0. No matching claim. */
-#include "types.h"
-#include "deps/021467d0_GlobalSZ_SomeFn.h"
-
-bool GlobalSZ_SomeFn(int param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MI_CpuCopy8 Mem_CpuCopy8
+#define cardi_common SDK_data_0217fa40
+#define CARDi_ReadFromCache GlobalSZ_SomeFn
+#include "nitro/types.h"
+#include "CARD_pullOut.h"
+#include "CARD_rom.h"
+#include "MI_dma_card.h"
+#include "MI_memory.h"
+#include "OS_cache.h"
+#include "OS_interrupt.h"
+#include "code32.h"
+extern CARDiCommon *p = &cardi_common;
+#pragma thumb off
+BOOL CARDi_ReadFromCache(CARDRomStat *p)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  int iVar7;
-  
-  iVar1 = iRam02146864;
-  uVar6 = iRam02146864 + 0x1cU & 3;
-  uVar5 = *(uint *)(iRam02146864 + 0x1cU & 0xfffffffc);
-  uVar2 = param_1 + 8U & 3;
-  uVar3 = *(uint *)(param_1 + 8U & 0xfffffffc);
-  uVar6 = (uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) & 0xfffffe00;
-  if (uVar6 == (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20)) {
-    uVar2 = iRam02146864 + 0x1cU & 3;
-    uVar4 = *(uint *)(iRam02146864 + 0x1cU & 0xfffffffc);
-    uVar3 = iRam02146864 + 0x24U & 3;
-    uVar5 = *(uint *)(iRam02146864 + 0x24U & 0xfffffffc);
-    uVar3 = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20;
-    iVar7 = (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) - uVar6;
-    uVar6 = 0x200 - iVar7;
-    if (uVar3 < uVar6) {
-      uVar6 = uVar3;
+    CARDiCommon *c = &cardi_common;
+    const u32 cur_page = CARD_ALIGN_HI_BIT(c->src);
+    if (cur_page == (u32)p->cache_page)
+    {
+        const u32 mod = c->src - cur_page;
+        u32 len = CARD_ROM_PAGE_SIZE - mod;
+        if (len > c->len)
+        {
+            len = c->len;
+        }
+        MI_CpuCopy8(p->cache_buf + mod, (void *)c->dst, len);
+        c->src += len;
+        c->dst += len;
+        c->len -= len;
     }
-    uVar2 = iRam02146864 + 0x20U & 3;
-    uVar3 = *(uint *)(iRam02146864 + 0x20U & 0xfffffffc);
-    Mem_CpuCopy8((ushort *)(uintptr_t)(param_1 + 0x20 + iVar7),(uint *)(uintptr_t)(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20),uVar6);
-    uVar2 = iVar1 + 0x1cU & 3;
-    uVar3 = *(uint *)(iVar1 + 0x1cU & 0xfffffffc);
-    *(uint *)(iVar1 + 0x1c) = (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + uVar6;
-    uVar2 = iVar1 + 0x20U & 3;
-    uVar3 = *(uint *)(iVar1 + 0x20U & 0xfffffffc);
-    *(uint *)(iVar1 + 0x20) = (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + uVar6;
-    uVar2 = iVar1 + 0x24U & 3;
-    uVar3 = *(uint *)(iVar1 + 0x24U & 0xfffffffc);
-    *(uint *)(iVar1 + 0x24) = (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) - uVar6;
-  }
-  uVar6 = iVar1 + 0x24U & 3;
-  uVar2 = *(uint *)(iVar1 + 0x24U & 0xfffffffc);
-  return uVar2 >> uVar6 * 8 != 0 || uVar2 << uVar6 * -8 + 0x20 != 0;
+    return (c->len > 0);
 }
-

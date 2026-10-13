@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 20,
+    "type": 10,
+    "symbol": "Mem_CpuCopy8",
+    "target": 34918908,
+    "thumb": false,
+    "addend": -4,
+    "value": 3955421429
+  },
+  {
+    "offset": 42,
+    "type": 10,
+    "symbol": "SV_MaybeCompressWriteTwoOffsetsFlagC_from_thumb",
+    "target": 33862704,
+    "thumb": true,
+    "addend": -4,
+    "value": 4241618931
+  }
+]

@@ -4,6 +4,8 @@ import argparse
 import csv
 import hashlib
 import json
+from proof_span import validate_span
+from sdk_dependencies import validate_sdk_headers
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,6 +25,7 @@ def measures(total, matched, functions, matched_functions, units=0):
 
 
 def generate(root, report_input):
+    validate_sdk_headers(root)
     progress = json.loads(report_input.read_text(encoding='utf-8'))
     if progress.get('full_rom_link_verified') is not False:
         raise ValueError('Unexpected verification scope')
@@ -56,7 +59,7 @@ def generate(root, report_input):
                 if verified != (proof is not None):
                     raise ValueError('Missing or unexpected proof ' + str(key))
                 if verified:
-                    if int(proof['size']) != size or proof['status'] not in ('EXACT_LOCAL_BYTES', 'EXACT_LOCAL_LINKED_BYTES'):
+                    if int(proof['size']) < size or proof['status'] not in ('EXACT_LOCAL_BYTES', 'EXACT_LOCAL_LINKED_BYTES'):
                         raise ValueError('Invalid proof ' + str(key))
                     if proof['status'] == 'EXACT_LOCAL_BYTES':
                         if int(proof['relocations']) != 0:
@@ -69,7 +72,8 @@ def generate(root, report_input):
                         if len(relocations) != int(proof['relocations']) or not relocations:
                             raise ValueError('Relocation audit mismatch ' + str(key))
                     original_bytes = bytes.fromhex(archived.read_text())
-                    if len(original_bytes) != size or hashlib.sha256(original_bytes).hexdigest() != proof['sha256']:
+                    validate_span(original_bytes,addr,proof['mode'],size)
+                    if len(original_bytes) != int(proof['size']) or hashlib.sha256(original_bytes).hexdigest() != proof['sha256']:
                         raise ValueError('Archived code proof mismatch ' + str(key))
                     source = root / 'src' / name / f'{addr:08x}_{fname}.c'
                     if hashlib.sha256(source.read_bytes()).hexdigest() != proof['source_sha256']:

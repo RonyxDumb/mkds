@@ -1,32 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 02020694. No matching claim. */
-#include "types.h"
-#include "deps/02020694_GenerateProfileInfoCrcLookupTable.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MATHi_CRC32InitTableRev GenerateProfileInfoCrcLookupTable
+#include "nitro/types.h"
+#include "MATH_crc.h"
+#include "code32.h"
 
-void GenerateProfileInfoCrcLookupTable(int param_1,uint param_2)
+void MATHi_CRC32InitTableRev(struct MATHCRC32Table *table, u32 poly) {
+    u32 r, i, j;
+    u32 *t = table->table;
 
-{
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  bool bVar4;
-  
-  uVar3 = 0;
-  do {
-    uVar2 = 0;
-    uVar1 = uVar3;
-    do {
-      bVar4 = (uVar1 & 1) != 0;
-      if (bVar4) {
-        uVar1 = param_2 ^ uVar1 >> 1;
-      }
-      uVar2 = uVar2 + 1;
-      if (!bVar4) {
-        uVar1 = uVar1 >> 1;
-      }
-    } while (uVar2 < 8);
-    *(uint *)(param_1 + uVar3 * 4) = uVar1;
-    uVar3 = uVar3 + 1;
-  } while (uVar3 < 0x100);
-  return;
+    for (i = 0; i < 256; i++) {
+        r = i;
+        for (j = 0; j < 8; j++) {
+            if (r & 1) {
+                r = (r >> 1) ^ poly;
+            }
+            else {
+                r >>= 1;
+            }
+        }
+        t[i] = r;
+    }
 }
-

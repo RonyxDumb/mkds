@@ -1,23 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 0214e1e0. No matching claim. */
-#include "types.h"
-#include "deps/0214e1e0_Rtc_DateTime_GetSeconds.h"
-
-int Rtc_DateTime_GetSeconds(undefined4 param_1,undefined4 param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define RTC_ConvertDateToDay Rtc_Date_GetDays
+#define RTCi_ConvertTimeToSecond Rtc_Time_GetSeconds
+#define RTC_ConvertDateTimeToSecond Rtc_DateTime_GetSeconds
+#include "nitro/types.h"
+#include "RTC_api.h"
+#include "RTC_convert.h"
+#include "code32.h"
+extern s32 RTC_ConvertDateToDay(const RTCDate * date);
+extern s32 RTCi_ConvertTimeToSecond(const RTCTime * time);
+s64 RTC_ConvertDateTimeToSecond(const RTCDate * date, const RTCTime * time)
 {
-  int iVar1;
-  int iVar2;
-  undefined8 uVar3;
-  
-  uVar3 = Rtc_Date_GetDays();
-  if ((int)uVar3 == -1) {
-    return -1;
-  }
-  iVar1 = Rtc_Time_GetSeconds(param_2,(int)((ulonglong)uVar3 >> 0x20));
-  iVar2 = -1;
-  if (iVar1 != -1) {
-    iVar2 = iVar1 + iRam0214e254 * (int)uVar3;
-  }
-  return iVar2;
+    s32 day = RTC_ConvertDateToDay(date);
+    if (day == -1)
+        return -1;
+    s32 second = RTCi_ConvertTimeToSecond(time);
+    if (second == -1)
+        return -1;
+    return ((s64)day) * (60 * 60 * 24) + second;
 }
-

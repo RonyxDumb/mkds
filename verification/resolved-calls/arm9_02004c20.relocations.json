@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "Fs_FindArchiveByMountName",
+    "target": 33571304,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422284
+  },
+  {
+    "offset": 332,
+    "type": 1,
+    "symbol": "Fs_File_SendOperation",
+    "target": 33571440,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422271
+  },
+  {
+    "offset": 348,
+    "type": 2,
+    "symbol": "SDK_data_0216f344",
+    "target": 35058500,
+    "thumb": false,
+    "addend": 0,
+    "value": 35058500
+  }
+]

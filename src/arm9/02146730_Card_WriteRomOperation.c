@@ -1,34 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 02146730. No matching claim. */
-#include "types.h"
-#include "deps/02146730_Card_WriteRomOperation.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define CARDi_SetRomOp Card_WriteRomOperation
+#include "nitro/types.h"
+#include "CARD_pullOut.h"
+#include "CARD_rom.h"
+#include "MI_dma_card.h"
+#include "MI_memory.h"
+#include "OS_cache.h"
+#include "OS_interrupt.h"
+#include "code32.h"
 
-void Card_WriteRomOperation(undefined4 param_1,undefined4 param_2)
-
+#pragma thumb off
+void CARDi_SetRomOp(u32 cmd1, u32 cmd2)
 {
-  undefined1 *puVar1;
-  undefined1 *puVar2;
-  
-  puVar1 = puRam021467b0;
-  do {
-  } while (((*(uint *)(uRam021467a8 & 0xfffffffc) >> (uRam021467a8 & 3) * 8 |
-            *(uint *)(uRam021467a8 & 0xfffffffc) << (uRam021467a8 & 3) * -8 + 0x20) & 0x80000000) !=
-           0);
-  *puRam021467ac = 0xc0;
-  puVar2 = puRam021467b4;
-  *puVar1 = (char)((uint)param_1 >> 0x18);
-  puVar1 = puRam021467b8;
-  *puVar2 = (char)((uint)param_1 >> 0x10);
-  puVar2 = puRam021467bc;
-  *puVar1 = (char)((uint)param_1 >> 8);
-  puVar1 = puRam021467c0;
-  *puVar2 = (char)param_1;
-  puVar2 = puRam021467c4;
-  *puVar1 = (char)((uint)param_2 >> 0x18);
-  puVar1 = puRam021467c8;
-  *puVar2 = (char)((uint)param_2 >> 0x10);
-  puVar2 = puRam021467cc;
-  *puVar1 = (char)((uint)param_2 >> 8);
-  *puVar2 = (char)param_2;
-  return;
-}
+    while ((reg_CARD_CNT & CARD_START) != 0) {}
 
+    reg_CARD_MASTERCNT = CARDMST_SEL_ROM | CARDMST_ENABLE | CARDMST_IF_ENABLE;
+    {
+        vu8 *const p_cmd = &reg_CARD_CMD;
+        p_cmd[0] = (u8)(cmd1 >> (8 * 3));
+        p_cmd[1] = (u8)(cmd1 >> (8 * 2));
+        p_cmd[2] = (u8)(cmd1 >> (8 * 1));
+        p_cmd[3] = (u8)(cmd1 >> (8 * 0));
+        p_cmd[4] = (u8)(cmd2 >> (8 * 3));
+        p_cmd[5] = (u8)(cmd2 >> (8 * 2));
+        p_cmd[6] = (u8)(cmd2 >> (8 * 1));
+        p_cmd[7] = (u8)(cmd2 >> (8 * 0));
+    }
+}

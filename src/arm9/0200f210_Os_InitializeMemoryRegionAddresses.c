@@ -1,39 +1,43 @@
-/* Decompiled C draft; module arm9; ROM address 0200f210. No matching claim. */
-#include "types.h"
-#include "deps/0200f210_Os_InitializeMemoryRegionAddresses.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_GetInitArenaHi Os_ComputeMemoryRegionEndAddress
+#define OS_SetArenaHi Os_SetMemoryRegionEndAddress
+#define OS_GetInitArenaLo Os_ComputeMemoryRegionStartAddress
+#define OS_SetArenaLo Os_SetMemoryRegionStartAddress
+#define OSi_Initialized SDK_data_021701b4
+#define OS_InitArena Os_InitializeMemoryRegionAddresses
+#include "OS_arena.h"
 
-void Os_InitializeMemoryRegionAddresses(void)
+#include "nitro/types.h"
+#include "OS_protectionRegion.h"
+#include "OS_emulator.h"
+#include "mmap.h"
+#include "code32.h"
+extern void* OS_GetInitArenaHi(OSArenaId id);
+extern void OS_SetArenaHi(OSArenaId id, void* newHi);
+extern void* OS_GetInitArenaLo(OSArenaId id);
+extern void OS_SetArenaLo(OSArenaId id, void* newLo);
+extern BOOL OSi_Initialized;
+void OS_InitArena(void) {
+    if (OSi_Initialized) {
+        return;
+    }
+    OSi_Initialized = TRUE;
 
-{
-  undefined4 uVar1;
-  
-  if (*(uint *)((uint)puRam0200f324 & 0xfffffffc) >> ((uint)puRam0200f324 & 3) * 8 == 0 &&
-      *(uint *)((uint)puRam0200f324 & 0xfffffffc) << ((uint)puRam0200f324 & 3) * -8 + 0x20 == 0) {
-    *puRam0200f324 = 1;
-    uVar1 = Os_ComputeMemoryRegionEndAddress(0);
-    Os_SetMemoryRegionEndAddress(0,uVar1);
-    uVar1 = Os_ComputeMemoryRegionStartAddress(0);
-    Os_SetMemoryRegionStartAddress(0,uVar1);
-    Os_SetMemoryRegionStartAddress(2,0);
-    Os_SetMemoryRegionEndAddress(2,0);
-    uVar1 = Os_ComputeMemoryRegionEndAddress(3);
-    Os_SetMemoryRegionEndAddress(3,uVar1);
-    uVar1 = Os_ComputeMemoryRegionStartAddress(3);
-    Os_SetMemoryRegionStartAddress(3,uVar1);
-    uVar1 = Os_ComputeMemoryRegionEndAddress(4);
-    Os_SetMemoryRegionEndAddress(4,uVar1);
-    uVar1 = Os_ComputeMemoryRegionStartAddress(4);
-    Os_SetMemoryRegionStartAddress(4,uVar1);
-    uVar1 = Os_ComputeMemoryRegionEndAddress(5);
-    Os_SetMemoryRegionEndAddress(5,uVar1);
-    uVar1 = Os_ComputeMemoryRegionStartAddress(5);
-    Os_SetMemoryRegionStartAddress(5,uVar1);
-    uVar1 = Os_ComputeMemoryRegionEndAddress(6);
-    Os_SetMemoryRegionEndAddress(6,uVar1);
-    uVar1 = Os_ComputeMemoryRegionStartAddress(6);
-    Os_SetMemoryRegionStartAddress(6,uVar1);
-    return;
-  }
-  return;
+    OS_SetArenaHi(OS_ARENA_MAIN, OS_GetInitArenaHi(OS_ARENA_MAIN));
+    OS_SetArenaLo(OS_ARENA_MAIN, OS_GetInitArenaLo(OS_ARENA_MAIN));
+
+    OS_SetArenaLo(OS_ARENA_MAINEX, (void *)0);
+    OS_SetArenaHi(OS_ARENA_MAINEX, (void *)0);
+
+    OS_SetArenaHi(OS_ARENA_ITCM, OS_GetInitArenaHi(OS_ARENA_ITCM));
+    OS_SetArenaLo(OS_ARENA_ITCM, OS_GetInitArenaLo(OS_ARENA_ITCM));
+
+    OS_SetArenaHi(OS_ARENA_DTCM, OS_GetInitArenaHi(OS_ARENA_DTCM));
+    OS_SetArenaLo(OS_ARENA_DTCM, OS_GetInitArenaLo(OS_ARENA_DTCM));
+
+    OS_SetArenaHi(OS_ARENA_SHARED, OS_GetInitArenaHi(OS_ARENA_SHARED));
+    OS_SetArenaLo(OS_ARENA_SHARED, OS_GetInitArenaLo(OS_ARENA_SHARED));
+
+    OS_SetArenaHi(OS_ARENA_WRAM_MAIN, OS_GetInitArenaHi(OS_ARENA_WRAM_MAIN));
+    OS_SetArenaLo(OS_ARENA_WRAM_MAIN, OS_GetInitArenaLo(OS_ARENA_WRAM_MAIN));
 }
-

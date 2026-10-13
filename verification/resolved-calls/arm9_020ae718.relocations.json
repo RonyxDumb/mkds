@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "Os_GetTick",
+    "target": 33617324,
+    "thumb": false,
+    "addend": -4,
+    "value": 4014405472
+  }
+]

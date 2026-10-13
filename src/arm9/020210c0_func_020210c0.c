@@ -1,26 +1,33 @@
-/* Decompiled C draft; module arm9; ROM address 020210c0. No matching claim. */
-#include "types.h"
-#include "deps/020210c0_func_020210c0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define sFinishedTag SDK_data_021732cc
+#define SND_IsFinishedCommandTag func_020210c0
+#include "SND_alarm.h"
+#include "SND_command.h"
+#include "SND_work.h"
+#include "OS_emulator.h"
+#include "OS_system.h"
+#include "OS_cache.h"
+#include "PXI_fifo.h"
+#include "code32.h"
+extern u32 sFinishedTag;
+BOOL SND_IsFinishedCommandTag(u32 tag) {
+    OSIntrMode oldirq = OS_DisableInterrupts();
 
-bool func_020210c0(uint param_1)
+    BOOL result;
+    if (tag > sFinishedTag) {
+        if (tag - sFinishedTag < 0x80000000)
+            result = FALSE;
+        else
+            result = TRUE;
+    } else {
+        if (sFinishedTag - tag < 0x80000000)
+            result = TRUE;
+        else
+            result = FALSE;
+    }
 
-{
-  uint uVar1;
-  bool bVar2;
-  
-  Os_DisableIrq();
-  uVar1 = *(uint *)(uRam02021110 & 0xfffffffc) >> (uRam02021110 & 3) * 8 |
-          *(uint *)(uRam02021110 & 0xfffffffc) << (uRam02021110 & 3) * -8 + 0x20;
-  if (uVar1 < param_1) {
-    bVar2 = 0x7fffffff < param_1 - uVar1;
-  }
-  else if (uVar1 - param_1 < 0x80000000) {
-    bVar2 = true;
-  }
-  else {
-    bVar2 = false;
-  }
-  Os_RestoreIrq();
-  return bVar2;
+    (void)OS_RestoreInterrupts(oldirq);
+    return result;
 }
-

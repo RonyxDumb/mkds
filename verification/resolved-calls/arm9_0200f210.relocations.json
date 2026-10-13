@@ -1,0 +1,209 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Os_ComputeMemoryRegionEndAddress",
+    "target": 33615928,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422845
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionEndAddress",
+    "target": 33615672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422778
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Os_ComputeMemoryRegionStartAddress",
+    "target": 33615692,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422781
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionStartAddress",
+    "target": 33615652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422768
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionStartAddress",
+    "target": 33615652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422765
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionEndAddress",
+    "target": 33615672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422767
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Os_ComputeMemoryRegionEndAddress",
+    "target": 33615928,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422829
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionEndAddress",
+    "target": 33615672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422762
+  },
+  {
+    "offset": 128,
+    "type": 1,
+    "symbol": "Os_ComputeMemoryRegionStartAddress",
+    "target": 33615692,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422765
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionStartAddress",
+    "target": 33615652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422752
+  },
+  {
+    "offset": 148,
+    "type": 1,
+    "symbol": "Os_ComputeMemoryRegionEndAddress",
+    "target": 33615928,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422819
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionEndAddress",
+    "target": 33615672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422752
+  },
+  {
+    "offset": 168,
+    "type": 1,
+    "symbol": "Os_ComputeMemoryRegionStartAddress",
+    "target": 33615692,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422755
+  },
+  {
+    "offset": 180,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionStartAddress",
+    "target": 33615652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422742
+  },
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "Os_ComputeMemoryRegionEndAddress",
+    "target": 33615928,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422809
+  },
+  {
+    "offset": 200,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionEndAddress",
+    "target": 33615672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422742
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "Os_ComputeMemoryRegionStartAddress",
+    "target": 33615692,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422745
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionStartAddress",
+    "target": 33615652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422732
+  },
+  {
+    "offset": 228,
+    "type": 1,
+    "symbol": "Os_ComputeMemoryRegionEndAddress",
+    "target": 33615928,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422799
+  },
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionEndAddress",
+    "target": 33615672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422732
+  },
+  {
+    "offset": 248,
+    "type": 1,
+    "symbol": "Os_ComputeMemoryRegionStartAddress",
+    "target": 33615692,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422735
+  },
+  {
+    "offset": 260,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionStartAddress",
+    "target": 33615652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422722
+  },
+  {
+    "offset": 276,
+    "type": 2,
+    "symbol": "SDK_data_021701b4",
+    "target": 35062196,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062196
+  }
+]

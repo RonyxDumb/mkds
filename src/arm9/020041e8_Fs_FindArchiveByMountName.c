@@ -1,26 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 020041e8. No matching claim. */
-#include "types.h"
-#include "deps/020041e8_Fs_FindArchiveByMountName.h"
-
-uint Fs_FindArchiveByMountName(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FSi_GetPackedName Fs_PackArchiveMountName
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define arc_list SDK_data_0216f340
+#define FS_FindArchive Fs_FindArchiveByMountName
+#include "FS_archive.h"
+#include "FS_command.h"
+#include "FSi_util.h"
+#include "MI_memory.h"
+#include "MI_byteAccess.h"
+#include "OS_printf.h"
+#include "code32.h"
+extern u32 FSi_GetPackedName(const char * name, int name_len);
+extern FSArchive * arc_list;
+#pragma thumb off
+FSArchive * const FS_FindArchive(const char * name, int name_len)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar2 = Fs_PackArchiveMountName();
-  Os_DisableIrq();
-  uVar3 = *(uint *)(uRam02004234 & 0xfffffffc) >> (uRam02004234 & 3) * 8 |
-          *(uint *)(uRam02004234 & 0xfffffffc) << (uRam02004234 & 3) * -8 + 0x20;
-  while ((uVar3 != 0 &&
-         ((*(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
-          *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) != uVar2))) {
-    uVar1 = uVar3 + 4 & 3;
-    uVar3 = *(uint *)(uVar3 + 4 & 0xfffffffc);
-    uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  }
-  Os_RestoreIrq();
-  return uVar3;
+    u32 pack = FSi_GetPackedName(name, name_len);
+    OSIntrMode bak_psr = OS_DisableInterrupts();
+    FSArchive * p_arc = arc_list;
+    while (p_arc && (p_arc->name.pack != pack))
+        p_arc = p_arc->next;
+    (void)OS_RestoreInterrupts(bak_psr);
+    return p_arc;
 }
-

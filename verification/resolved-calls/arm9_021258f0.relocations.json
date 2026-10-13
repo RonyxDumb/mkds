@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "TextSystemContext_OnSceneVblank_from_thumb",
+    "target": 34760496,
+    "thumb": true,
+    "addend": -4,
+    "value": 4279758848
+  },
+  {
+    "offset": 28,
+    "type": 10,
+    "symbol": "SelectChoisesContext_OnSceneVblank_from_thumb",
+    "target": 34765044,
+    "thumb": true,
+    "addend": -4,
+    "value": 4294111233
+  },
+  {
+    "offset": 42,
+    "type": 10,
+    "symbol": "SelectReturnContext_OnSceneVblank_from_thumb",
+    "target": 34767804,
+    "thumb": true,
+    "addend": -4,
+    "value": 4249874434
+  }
+]

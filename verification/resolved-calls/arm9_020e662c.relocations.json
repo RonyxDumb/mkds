@@ -1,0 +1,83 @@
+[
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3940087632
+  },
+  {
+    "offset": 28,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3939563344
+  },
+  {
+    "offset": 44,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3939039056
+  },
+  {
+    "offset": 60,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3938514768
+  },
+  {
+    "offset": 76,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3937990480
+  },
+  {
+    "offset": 92,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3937466192
+  },
+  {
+    "offset": 108,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3936941904
+  },
+  {
+    "offset": 124,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3936417616
+  },
+  {
+    "offset": 136,
+    "type": 10,
+    "symbol": "Matrix4x3_Identity",
+    "target": 34894268,
+    "thumb": false,
+    "addend": -4,
+    "value": 3984781408
+  }
+]

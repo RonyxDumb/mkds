@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "MIi_CheckDma0SourceAddress",
+    "target": 34916216,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422832
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "MI_WaitDma",
+    "target": 34916640,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422927
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "OSi_EnterDmaCallback",
+    "target": 33606556,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959095400
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "func_01ffff38",
+    "target": 33554232,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959082313
+  },
+  {
+    "offset": 156,
+    "type": 1,
+    "symbol": "func_01ffff38",
+    "target": 33554232,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959082305
+  }
+]

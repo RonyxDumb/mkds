@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Mem_Exp_Initialize",
+    "target": 33652204,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646024
+  }
+]

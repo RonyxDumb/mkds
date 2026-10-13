@@ -1,30 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 02004afc. No matching claim. */
-#include "types.h"
-#include "deps/02004afc_Fs_File_OpenRaw.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FSi_SendCommand Fs_File_SendOperation
+#define FS_OpenFileDirect Fs_File_OpenRaw
+#include "nitro.h"
+#include "MI_byteAccess.h"
+#include "FS_rom.h"
+#include "FS_file.h"
+#include "FSi_util.h"
+#include "code32.h"
 
-undefined4
-Fs_File_OpenRaw(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
-               undefined4 param_5)
-
+#pragma thumb off
+BOOL FS_OpenFileDirect(FSFile * p_file, FSArchive * p_arc, u32 image_top, u32 image_bottom, u32 file_index)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  *(undefined4 *)(param_1 + 8) = param_2;
-  *(undefined4 *)(param_1 + 0x38) = param_5;
-  *(undefined4 *)(param_1 + 0x30) = param_3;
-  *(undefined4 *)(param_1 + 0x34) = param_4;
-  iVar2 = Fs_File_SendOperation((uint *)(uintptr_t)(param_1),7);
-  if (iVar2 != 0) {
-    uVar1 = param_1 + 0xcU & 3;
-    uVar3 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-    *(uint *)(param_1 + 0xc) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20 | 0x10;
-    uVar1 = param_1 + 0xcU & 3;
-    uVar3 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-    *(uint *)(param_1 + 0xc) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0xffffffdf;
-    return 1;
-  }
-  return 0;
+    p_file->arc = p_arc;
+    p_file->arg.openfiledirect.index = file_index;
+    p_file->arg.openfiledirect.top = image_top;
+    p_file->arg.openfiledirect.bottom = image_bottom;
+    if (!FSi_SendCommand(p_file, FS_COMMAND_OPENFILEDIRECT))
+        return FALSE;
+    p_file->stat |= FS_FILE_STATUS_IS_FILE;
+    p_file->stat &= ~FS_FILE_STATUS_IS_DIR;
+    return TRUE;
 }
-

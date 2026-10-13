@@ -1,18 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 02084958. No matching claim. */
-#include "types.h"
-#include "deps/02084958_Model_SetCullMode.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_FndFreeToExpHeap SDK_data_0201311c
+#define AllocatorFreeForExpHeap Model_SetCullMode
+#include "nitro.h"
+#include "NNS_FND_allocator.h"
+#include "NNS_FND_expheap.h"
+#include "code32.h"
 
-void Model_SetCullMode(int param_1)
-
+void AllocatorFreeForExpHeap(NNSFndAllocator * pAllocator, void *memBlock)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 4U & 3;
-  uVar2 = *(uint *)(param_1 + 4U & 0xfffffffc);
-                    /* WARNING: Could not recover jumptable at 0x02084960. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02084964)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  return;
+    NNS_FndFreeToExpHeap(pAllocator->pHeap, memBlock);
 }
-

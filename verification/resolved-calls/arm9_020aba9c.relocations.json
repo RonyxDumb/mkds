@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -4,
+    "value": 3924096867
+  },
+  {
+    "offset": 26,
+    "type": 10,
+    "symbol": "TEQSub_Fn26Impl_Fn28Impl",
+    "target": 34913332,
+    "thumb": false,
+    "addend": -4,
+    "value": 3904827552
+  },
+  {
+    "offset": 38,
+    "type": 10,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -4,
+    "value": 3923310435
+  },
+  {
+    "offset": 52,
+    "type": 10,
+    "symbol": "CopyBgData_Bg2_Bottom",
+    "target": 34912500,
+    "thumb": false,
+    "addend": -4,
+    "value": 4010864799
+  }
+]

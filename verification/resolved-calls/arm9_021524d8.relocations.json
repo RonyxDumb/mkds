@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "Mem_CpuFill8",
+    "target": 34918760,
+    "thumb": false,
+    "addend": -4,
+    "value": 3997235194
+  },
+  {
+    "offset": 22,
+    "type": 10,
+    "symbol": "FriendCode_SetFriendCodeValues_from_thumb",
+    "target": 34941568,
+    "thumb": true,
+    "addend": -4,
+    "value": 4207407104
+  },
+  {
+    "offset": 30,
+    "type": 10,
+    "symbol": "FriendCode_SetState_from_thumb",
+    "target": 34941408,
+    "thumb": true,
+    "addend": -4,
+    "value": 4201902080
+  }
+]

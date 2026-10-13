@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 6,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3979671327
+  },
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "AllocateKartAppearTableData_from_thumb",
+    "target": 33799900,
+    "thumb": true,
+    "addend": -4,
+    "value": 4272355108
+  }
+]

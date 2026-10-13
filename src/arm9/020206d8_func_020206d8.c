@@ -1,25 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 020206d8. No matching claim. */
-#include "types.h"
-#include "deps/020206d8_func_020206d8.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MATHi_CRC16UpdateRev func_020206d8
+#include "nitro/types.h"
+#include "MATH_crc.h"
+#include "code32.h"
 
-void func_020206d8(int param_1,ushort *param_2,byte *param_3,uint param_4)
+void MATHi_CRC16UpdateRev(const struct MATHCRC16Table *table, MATHCRC16Context *context, const void *input, u32 length) {
+    u32 r, i;
+    const u16* t = table->table;
+    u8* data = (u8*)input;
 
-{
-  byte bVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar2 = (uint)*param_2;
-  uVar3 = 0;
-  if (param_4 != 0) {
-    do {
-      bVar1 = *param_3;
-      uVar3 = uVar3 + 1;
-      param_3 = param_3 + 1;
-      uVar2 = (uint)*(ushort *)(param_1 + ((uVar2 ^ bVar1) & 0xff) * 2) ^ uVar2 >> 8;
-    } while (uVar3 < param_4);
-  }
-  *param_2 = (ushort)uVar2;
-  return;
+    r = *context;
+    for (i = 0; i < length; i++) {
+        r = (r >> 8) ^ t[(r ^ *data) & 0xff];
+        data++;
+    }
+    *context = (MATHCRC16Context)r;
 }
-

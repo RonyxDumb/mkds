@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Sound_LockMutex",
+    "target": 33689168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422041
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Sound_UnlockMutex",
+    "target": 33689148,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422028
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959403591
+  },
+  {
+    "offset": 152,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959403577
+  },
+  {
+    "offset": 184,
+    "type": 1,
+    "symbol": "Sound_UnlockMutex",
+    "target": 33689148,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421994
+  },
+  {
+    "offset": 196,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959403566
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959403563
+  }
+]

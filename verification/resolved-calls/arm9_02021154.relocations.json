@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "func_020210c0",
+    "target": 33689792,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422934
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Sound_CommandReceiveAndReply",
+    "target": 33690760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645953
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "func_020210c0",
+    "target": 33689792,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422923
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "SoundInternal_RequestCommandProc",
+    "target": 33689424,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422826
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "func_020210c0",
+    "target": 33689792,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422916
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "Sound_CommandReceiveAndReply",
+    "target": 33690760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645935
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "func_020210c0",
+    "target": 33689792,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422907
+  }
+]

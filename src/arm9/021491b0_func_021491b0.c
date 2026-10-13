@@ -1,28 +1,25 @@
-/* Decompiled C draft; module arm9; ROM address 021491b0. No matching claim. */
-#include "types.h"
-#include "deps/021491b0_func_021491b0.h"
-
-void func_021491b0(int param_1)
-
-{
-  ushort uVar1;
-  ushort uVar2;
-  ushort *puVar3;
-  
-  puVar3 = puRam02149220;
-  uVar1 = puRam02149220[10];
-  uVar2 = *puRam02149220;
-  puRam02149220[10] = (ushort)param_1;
-  *puVar3 = ~(ushort)param_1 & (uVar2 | uVar1);
-  if (param_1 != 0) {
-    if (param_1 == 8) {
-      *puRam02149228 = 0x84;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define gGXState SDK_data_021802b0
+#define GX_SetBankForSubOBJ func_021491b0
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern void GX_VRAMCNT_SetLCDC_(u32 mask);
+extern struct GX_State gGXState;
+#pragma thumb off
+void GX_SetBankForSubOBJ(s32 subobj){
+    gGXState.lcdc = (u16)(~subobj & (gGXState.lcdc | gGXState.sub_obj));
+    gGXState.sub_obj = (u16)subobj;
+    switch (subobj)
+    {
+    case 8:
+        reg_GX_VRAMCNT_D = 0x84;
+        break;
+    case 256:
+        reg_GX_VRAMCNT_I = 0x82;
+        break;
+    case 0: //needed to match
+        break;
     }
-    else if (param_1 == 0x100) {
-      *puRam02149224 = 0x82;
-    }
-  }
-  GX_VRAMCNT_SetLCDC_(*puRam02149220);
-  return;
+    GX_VRAMCNT_SetLCDC_(gGXState.lcdc);
 }
-

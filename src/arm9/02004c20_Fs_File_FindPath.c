@@ -1,73 +1,70 @@
-/* Decompiled C draft; module arm9; ROM address 02004c20. No matching claim. */
-#include "types.h"
-#include "deps/02004c20_Fs_File_FindPath.h"
-
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
-
-void Fs_File_FindPath(int param_1,char *param_2,undefined4 param_3,int param_4)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FS_FindArchive Fs_FindArchiveByMountName
+#define FSi_SendCommand Fs_File_SendOperation
+#define current_dir_pos SDK_data_0216f344
+#define FSi_FindPath Fs_File_FindPath
+#include "nitro.h"
+#include "MI_byteAccess.h"
+#include "FS_rom.h"
+#include "FS_file.h"
+#include "FSi_util.h"
+#include "code32.h"
+extern FSDirPos current_dir_pos;
+#pragma thumb off
+BOOL FSi_FindPath(FSFile * p_dir, const char * path, FSFileID * p_file_id, FSDirPos * p_dir_pos)
 {
-  uint uVar1;
-  char cVar2;
-  uint uVar3;
-  int iVar4;
-  uint local_28;
-  undefined4 local_24;
-  uint local_20;
-  
-  if ((*param_2 == '/') || (*param_2 == '\\')) {
-    local_28 = *(uint *)((uint)puRam02004d7c & 0xfffffffc) >> ((uint)puRam02004d7c & 3) * 8 |
-               *(uint *)((uint)puRam02004d7c & 0xfffffffc) << ((uint)puRam02004d7c & 3) * -8 + 0x20;
-    local_20 = 0;
-    local_24 = 0;
-    param_2 = param_2 + 1;
-  }
-  else {
-    local_28 = *puRam02004d7c;
-    local_24 = puRam02004d7c[1];
-    local_20 = puRam02004d7c[2];
-    iVar4 = 0;
-    do {
-      cVar2 = param_2[iVar4];
-      if (((cVar2 == '\0') || (cVar2 == '/')) || (cVar2 == '\\')) break;
-      if (cVar2 == ':') {
-        local_28 = Fs_FindArchiveByMountName(param_2,iVar4);
-        if (local_28 == 0) {
-          return;
+    FSDirPos pos;
+    if (FSi_IsSlash(MI_ReadByte(path)))
+    {
+        pos.arc = current_dir_pos.arc;
+        pos.own_id = 0;
+        pos.pos = 0;
+        pos.index = 0;
+        path++;
+    }
+    else
+    {
+        int i;
+        pos = current_dir_pos;
+        for (i = 0; i <= FS_ARCHIVE_NAME_LEN_MAX; ++i)
+        {
+            u32 c = MI_ReadByte(path + i);
+            if (!c || FSi_IsSlash(c))
+                break;
+            else if (c == ':')
+            {
+                FSArchive * const p_arc = FS_FindArchive(path, i);
+                if (!p_arc)
+                {
+                    return FALSE;
+                }
+                else if (!FS_IsArchiveLoaded(p_arc))
+                {
+                    return FALSE;
+                }
+                pos.arc = p_arc;
+                pos.pos = 0;
+                pos.index = 0;
+                pos.own_id = 0;
+                path += i + 1;
+                if (FSi_IsSlash(MI_ReadByte(path)))
+                    ++path;
+                break;
+            }
         }
-        uVar1 = local_28 + 0x1c & 3;
-        uVar3 = *(uint *)(local_28 + 0x1c & 0xfffffffc);
-        if (((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 2) == 0) {
-          return;
-        }
-        local_20 = 0;
-                    /* WARNING: Ignoring partial resolution of indirect */
-        MKDS_SLICE_2(local_24,2) = 0;
-                    /* WARNING: Ignoring partial resolution of indirect */
-        MKDS_SLICE_2(local_24,0) = 0;
-        param_2 = param_2 + iVar4 + 1;
-        if ((*param_2 == '/') || (*param_2 == '\\')) {
-          param_2 = param_2 + 1;
-        }
-        break;
-      }
-      iVar4 = iVar4 + 1;
-    } while (iVar4 < 4);
-  }
-  *(uint *)(param_1 + 8) = local_28;
-  *(char **)(param_1 + 0x3c) = param_2;
-  *(uint *)(param_1 + 0x30) = local_28;
-  *(uint *)(param_1 + 0x34) = local_24;
-  *(uint *)(param_1 + 0x38) = local_20;
-  if (param_4 == 0) {
-    *(undefined4 *)(param_1 + 0x40) = 0;
-    *(undefined4 *)(param_1 + 0x44) = param_3;
-  }
-  else {
-    *(undefined4 *)(param_1 + 0x40) = 1;
-    *(int *)(param_1 + 0x44) = param_4;
-  }
-  Fs_File_SendOperation((uint *)(uintptr_t)(param_1),4);
-  return;
+    }
+    p_dir->arc = pos.arc;
+    p_dir->arg.findpath.path = path;
+    p_dir->arg.findpath.pos = pos;
+    if (p_dir_pos)
+    {
+        p_dir->arg.findpath.find_directory = TRUE;
+        p_dir->arg.findpath.result.dir = p_dir_pos;
+    }
+    else
+    {
+        p_dir->arg.findpath.find_directory = FALSE;
+        p_dir->arg.findpath.result.file = p_file_id;
+    }
+    return FSi_SendCommand(p_dir, FS_COMMAND_FINDPATH);
 }
-

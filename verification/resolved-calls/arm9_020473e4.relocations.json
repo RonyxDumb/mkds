@@ -1,0 +1,92 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "func_0204f5e4",
+    "target": 33879524,
+    "thumb": true,
+    "addend": -4,
+    "value": 4177326088
+  },
+  {
+    "offset": 18,
+    "type": 10,
+    "symbol": "Mem_ResetFrameHeap",
+    "target": 33652812,
+    "thumb": false,
+    "addend": -4,
+    "value": 3995793360
+  },
+  {
+    "offset": 26,
+    "type": 10,
+    "symbol": "func_02047498",
+    "target": 33846424,
+    "thumb": true,
+    "addend": -4,
+    "value": 4165726208
+  },
+  {
+    "offset": 34,
+    "type": 10,
+    "symbol": "func_02047498",
+    "target": 33846424,
+    "thumb": true,
+    "addend": -4,
+    "value": 4165464064
+  },
+  {
+    "offset": 42,
+    "type": 10,
+    "symbol": "func_02047498",
+    "target": 33846424,
+    "thumb": true,
+    "addend": -4,
+    "value": 4165201920
+  },
+  {
+    "offset": 50,
+    "type": 10,
+    "symbol": "Maybe_s_s",
+    "target": 33846376,
+    "thumb": true,
+    "addend": -4,
+    "value": 4163366912
+  },
+  {
+    "offset": 58,
+    "type": 10,
+    "symbol": "func_02047498",
+    "target": 33846424,
+    "thumb": true,
+    "addend": -4,
+    "value": 4164677632
+  },
+  {
+    "offset": 66,
+    "type": 10,
+    "symbol": "func_02047498",
+    "target": 33846424,
+    "thumb": true,
+    "addend": -4,
+    "value": 4164415488
+  },
+  {
+    "offset": 74,
+    "type": 10,
+    "symbol": "Maybe_s_s",
+    "target": 33846376,
+    "thumb": true,
+    "addend": -4,
+    "value": 4162580480
+  },
+  {
+    "offset": 82,
+    "type": 10,
+    "symbol": "func_02047498",
+    "target": 33846424,
+    "thumb": true,
+    "addend": -4,
+    "value": 4163891200
+  }
+]

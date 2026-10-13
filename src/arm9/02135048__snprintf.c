@@ -1,16 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 02135048. No matching claim. */
-#include "types.h"
-#include "deps/02135048__snprintf.h"
-
-int _snprintf(char *__s,size_t __maxlen,char *__format,...)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_VSNPrintf SomeSnprintfImpl
+#define OS_SNPrintf _snprintf
+#include "nitro/types.h"
+#include "OS_printf.h"
+#include "code32.h"
+extern s32 OS_VSNPrintf(s8 *buffer, s32 bufsz, const s8 *format, void *args);
+s32 OS_SNPrintf(s8 *buffer, s32 bufsz, const s8 *format, ...)
 {
-  int iVar1;
-  undefined4 in_r3;
-  undefined4 uStack_4;
-  
-  uStack_4 = in_r3;
-  iVar1 = SomeSnprintfImpl(__s,__maxlen,__format,&uStack_4);
-  return iVar1;
+    void *args = (void *)((u32 *)((u32)&format & ~0x3) + 1); // hack since mwccarm doesn't have <stdarg.h> apparently
+    return OS_VSNPrintf(buffer, bufsz, format, args);
 }
-

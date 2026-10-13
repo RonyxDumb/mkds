@@ -1,13 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 02020e3c. No matching claim. */
-#include "types.h"
-#include "deps/02020e3c_Sound_UnlockMutex.h"
-
-void Sound_UnlockMutex(void)
-
-{
-                    /* WARNING: Could not recover jumptable at 0x02020e44. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02020e48)(uRam02020e4c);
-  return;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define disableBankForX_ SDK_data_0200ecc4
+#define gGXState SDK_data_0217329c
+#define GX_DisableBankForSubOBJ Sound_UnlockMutex
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern u32 disableBankForX_(u16 *ptr);
+extern struct GX_State gGXState;
+#pragma thumb off
+u32 GX_DisableBankForSubOBJ(){
+    return disableBankForX_(&gGXState.sub_obj);
 }
-

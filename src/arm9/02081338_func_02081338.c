@@ -1,25 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 02081338. No matching claim. */
-#include "types.h"
-#include "deps/02081338_func_02081338.h"
-
-void func_02081338(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0208b710(unsigned int);
+unsigned int func_02081338(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  
-  iVar3 = param_1 * 0x58 +
-          (*(uint *)(uRam02081370 & 0xfffffffc) >> (uRam02081370 & 3) * 8 |
-          *(uint *)(uRam02081370 & 0xfffffffc) << (uRam02081370 & 3) * -8 + 0x20);
-  uVar2 = iVar3 + 0x28;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
-    func_0208b710();
-    *(undefined4 *)(iVar3 + 0x28) = 0;
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_208133c: r2 = 0x217ae84u;
+L_2081340: r1 = 0x58u;
+L_2081344: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_2081348: r4 = (r0*r1+r2);
+L_208134c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 40));
+L_2081350: cmp_a = r0; cmp_b = 0x0u;
+L_2081358: if ((cmp_a == cmp_b)) { return r0; }
+L_208135c: r0 = func_0208b710(r0);
+L_2081360: r0 = 0x0u;
+L_2081364: *(unsigned int *)((unsigned char *)r4 + 40) = (unsigned int)r0;
+L_208136c: return r0;
 }
-

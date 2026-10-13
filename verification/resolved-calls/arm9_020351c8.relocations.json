@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -4,
+    "value": 4275171454
+  },
+  {
+    "offset": 30,
+    "type": 10,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -4,
+    "value": 4274647166
+  },
+  {
+    "offset": 46,
+    "type": 10,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -4,
+    "value": 4274122878
+  },
+  {
+    "offset": 56,
+    "type": 10,
+    "symbol": "TextSystem_SetButtonPressSseqId_from_thumb",
+    "target": 34758352,
+    "thumb": true,
+    "addend": -4,
+    "value": 4268159216
+  },
+  {
+    "offset": 78,
+    "type": 10,
+    "symbol": "TextSystem_DisplayDoubleButtonDialog_from_thumb",
+    "target": 34758612,
+    "thumb": true,
+    "addend": -4,
+    "value": 4275958000
+  }
+]

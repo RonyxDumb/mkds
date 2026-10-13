@@ -1,16 +1,25 @@
-/* Decompiled C draft; module arm9; ROM address 0200df68. No matching claim. */
-#include "types.h"
-#include "deps/0200df68_Os_Thread_WakeUpDirect.h"
-
-void Os_Thread_WakeUpDirect(int param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OSi_RescheduleThread Os_RescheduleThread
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define OS_WakeupThreadDirect Os_Thread_WakeUpDirect
+#include "MI_memory.h"
+#include "OS_thread.h"
+#include "OS_mutex.h"
+#include "OS_alarm.h"
+#include "OS_system.h"
+#include "OS_context.h"
+#include "OS_terminate_proc.h"
+#include "systemWork.h"
+#include "mmap.h"
+#include "code32.h"
+extern void OSi_RescheduleThread(void);
+void OS_WakeupThreadDirect(OSThread *thread)
 {
-  undefined4 uVar1;
-  
-  uVar1 = Os_DisableIrq();
-  *(undefined4 *)(param_1 + 100) = 1;
-  Os_RescheduleThread();
-  Os_RestoreIrq(uVar1);
-  return;
-}
+    OSIntrMode enabled = OS_DisableInterrupts();
 
+    thread->state = OS_THREAD_STATE_READY;
+    OSi_RescheduleThread();
+
+    (void)OS_RestoreInterrupts(enabled);
+}

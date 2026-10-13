@@ -1,24 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 0214cb88. No matching claim. */
-#include "types.h"
-#include "deps/0214cb88_MI_DmaCopy32.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MIi_DmaSetParams_wait func_01fffec4
+#include "MI_dma.h"
 
-void MI_DmaCopy32(int param_1,undefined4 param_2,undefined4 param_3,uint param_4)
+#include "OS_interrupt.h"
+#include "OS_terminate_proc.h"
+#include "code32.h"
+#include "sections.h"
+extern void MIi_CheckDma0SourceAddress(u32 dmaNo, u32 src, u32 size, u32 dir);
+extern void MIi_DmaSetParams_wait(u32 dmaNo, u32 src, u32 dest, u32 ctrl);
+void MI_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size) {
+    vu32 *dmaCntp;
+    MIi_CheckDma0SourceAddress(dmaNo, (u32)src, size, MI_DMA_SRC_INC);
 
-{
-  uint uVar1;
-  
-  MIi_CheckDma0SourceAddress(param_1,param_2,param_4,0);
-  if (param_4 != 0) {
-    uVar1 = iRam0214cc00 + (param_1 * 3 + 2) * 4;
+    if (!size) {
+        return;
+    }
+
+    MIi_WAIT_BEFOREDMA(dmaCntp, dmaNo);
+
+    MIi_DmaSetParams_wait(dmaNo, (u32)src, (u32)dest, MI_CNT_COPY32(size));
+
     do {
-    } while (((*(uint *)(uVar1 & 0xfffffffc) >> (uVar1 & 3) * 8 |
-              *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) & 0x80000000) != 0);
-    func_01fffec4(param_1,param_2,param_3,param_4 >> 2 | 0x84000000);
-    do {
-    } while (((*(uint *)(uVar1 & 0xfffffffc) >> (uVar1 & 3) * 8 |
-              *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) & 0x80000000) != 0);
-    return;
-  }
-  return;
+        while (*dmaCntp & 0x80000000) {}
+    } while (0);
 }
-

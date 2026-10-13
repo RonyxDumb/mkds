@@ -1,0 +1,92 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "func_020cccc0",
+    "target": 34393280,
+    "thumb": true,
+    "addend": -4,
+    "value": 4234866689
+  },
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "func_020cb4a8",
+    "target": 34387112,
+    "thumb": false,
+    "addend": -4,
+    "value": 3898273792
+  },
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "ConfigureDispcntDisplay",
+    "target": 34900304,
+    "thumb": false,
+    "addend": -4,
+    "value": 3936940157
+  },
+  {
+    "offset": 42,
+    "type": 10,
+    "symbol": "CopySomePaletteData",
+    "target": 34914448,
+    "thumb": false,
+    "addend": -4,
+    "value": 3997233280
+  },
+  {
+    "offset": 62,
+    "type": 10,
+    "symbol": "CopySomePaletteData",
+    "target": 34914448,
+    "thumb": false,
+    "addend": -4,
+    "value": 3996577920
+  },
+  {
+    "offset": 80,
+    "type": 10,
+    "symbol": "CopyTileDataTop_0",
+    "target": 34914052,
+    "thumb": false,
+    "addend": -4,
+    "value": 3982946432
+  },
+  {
+    "offset": 86,
+    "type": 10,
+    "symbol": "GXS_SetGraphicsMode__mkds_cb48c",
+    "target": 34387084,
+    "thumb": false,
+    "addend": -4,
+    "value": 3894996992
+  },
+  {
+    "offset": 92,
+    "type": 10,
+    "symbol": "SetDispcntSubBgMode",
+    "target": 34900276,
+    "thumb": false,
+    "addend": -4,
+    "value": 3933794429
+  },
+  {
+    "offset": 110,
+    "type": 10,
+    "symbol": "TEQSub_Fn30Impl",
+    "target": 34914344,
+    "thumb": false,
+    "addend": -4,
+    "value": 3991597184
+  },
+  {
+    "offset": 128,
+    "type": 10,
+    "symbol": "TEQSub_Fn35Impl",
+    "target": 34913956,
+    "thumb": false,
+    "addend": -4,
+    "value": 3978227840
+  }
+]

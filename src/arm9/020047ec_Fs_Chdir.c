@@ -1,25 +1,25 @@
-/* Decompiled C draft; module arm9; ROM address 020047ec. No matching claim. */
-#include "types.h"
-#include "deps/020047ec_Fs_Chdir.h"
-
-bool Fs_Chdir(undefined4 param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FS_InitFile Fs_File_Initialize
+#define FSi_FindPath Fs_File_FindPath
+#define current_dir_pos SDK_data_0216f344
+#define FS_ChangeDir Fs_Chdir
+#include "nitro.h"
+#include "MI_byteAccess.h"
+#include "FS_rom.h"
+#include "FS_file.h"
+#include "FSi_util.h"
+#include "code32.h"
+extern void FS_InitFile(FSFile * p_file);
+extern BOOL FSi_FindPath(FSFile * p_dir, const char * path, FSFileID * p_file_id, FSDirPos * p_dir_pos);
+extern FSDirPos current_dir_pos;
+#pragma thumb off
+BOOL FS_ChangeDir(const char * path)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined4 uStack_60;
-  undefined4 uStack_5c;
-  undefined4 uStack_58;
-  undefined1 auStack_54 [76];
-  
-  Fs_File_Initialize((undefined4 *)(void *)(auStack_54));
-  iVar2 = Fs_File_FindPath(auStack_54,param_1);
-  puVar1 = puRam0200483c;
-  if (iVar2 != 0) {
-    *puRam0200483c = uStack_60;
-    puVar1[1] = uStack_5c;
-    puVar1[2] = uStack_58;
-  }
-  return iVar2 != 0;
+    FSDirPos pos;
+    FSFile dir;
+    FS_InitFile(&dir);
+    if (!FSi_FindPath(&dir, path, NULL, &pos))
+        return FALSE;
+    current_dir_pos = pos;
+    return TRUE;
 }
-

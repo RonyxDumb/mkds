@@ -1,17 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0214a4f8. No matching claim. */
-#include "types.h"
-#include "deps/0214a4f8_G3_MultMtx43.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define GX_SendFifo48B SDK_data_0214c728
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
 
-void G3_MultMtx43(void)
-
-{
-  code *UNRECOVERED_JUMPTABLE;
-  
-  UNRECOVERED_JUMPTABLE = pcRam0214a510;
-  *puRam0214a50c = 0x19;
-                    /* WARNING: Could not recover jumptable at 0x0214a508. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*UNRECOVERED_JUMPTABLE)();
-  return;
+#pragma thumb off
+void G3_MultMtx43(struct Mtx43 *mtx){
+    reg_G3X_GXFIFO = 0x19;
+    GX_SendFifo48B(mtx, (void *)&reg_G3X_GXFIFO);
 }
-

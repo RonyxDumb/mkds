@@ -1,49 +1,61 @@
-/* Decompiled C draft; module arm9; ROM address 0200dce0. No matching claim. */
-#include "types.h"
-#include "deps/0200dce0_Os_Thread_SetPriority.h"
-
-undefined4 Os_Thread_SetPriority(uint param_1,uint param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define OSi_InsertThreadToList Os_InsertThread
+#define OSi_RescheduleThread Os_RescheduleThread
+#define OSi_ThreadInfo SDK_data_0216ff5c
+#define OSi_IdleThread SDK_data_0216ff6c
+#define OS_SetThreadPriority Os_Thread_SetPriority
+#include "MI_memory.h"
+#include "OS_thread.h"
+#include "OS_mutex.h"
+#include "OS_alarm.h"
+#include "OS_system.h"
+#include "OS_context.h"
+#include "OS_terminate_proc.h"
+#include "systemWork.h"
+#include "mmap.h"
+#include "code32.h"
+extern void OSi_InsertThreadToList(OSThread *thread);
+extern void OSi_RescheduleThread(void);
+extern OSThreadInfo OSi_ThreadInfo;
+extern OSThread OSi_IdleThread;
+BOOL OS_SetThreadPriority(OSThread *thread, u32 prio)
 {
-  undefined4 uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  uVar2 = iRam0200dd8c + 8U & 3;
-  uVar4 = *(uint *)(iRam0200dd8c + 8U & 0xfffffffc);
-  uVar1 = Os_DisableIrq();
-  uVar3 = 0;
-  uVar2 = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
-  while ((uVar2 != 0 && (uVar2 != param_1))) {
-    uVar4 = uVar2 + 0x68 & 3;
-    uVar5 = *(uint *)(uVar2 + 0x68 & 0xfffffffc);
-    uVar3 = uVar2;
-    uVar2 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
-  }
-  if ((uVar2 != 0) && (uVar2 != uRam0200dd90)) {
-    uVar4 = uVar2 + 0x70 & 3;
-    uVar2 = *(uint *)(uVar2 + 0x70 & 0xfffffffc);
-    if ((uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) != param_2) {
-      if (uVar3 == 0) {
-        uVar2 = param_1 + 0x68 & 3;
-        uVar3 = *(uint *)(param_1 + 0x68 & 0xfffffffc);
-        *(uint *)(iRam0200dd8c + 8) = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
-      }
-      else {
-        uVar2 = param_1 + 0x68 & 3;
-        uVar4 = *(uint *)(param_1 + 0x68 & 0xfffffffc);
-        *(uint *)(uVar3 + 0x68) = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
-      }
-      *(uint *)(param_1 + 0x70) = param_2;
-      Os_InsertThread(param_1);
-      Os_RescheduleThread();
-    }
-    Os_RestoreIrq(uVar1);
-    return 1;
-  }
-  Os_RestoreIrq(uVar1);
-  return 0;
-}
+    OSThread *t = OSi_ThreadInfo.list;
+    OSThread *pre = NULL;
+    OSIntrMode enabled = OS_DisableInterrupts();
 
+    while (t && t != thread)
+    {
+        pre = t;
+        t = t->next;
+    }
+
+    if (!t || t == &OSi_IdleThread)
+    {
+        (void)OS_RestoreInterrupts(enabled);
+        return FALSE;
+    }
+
+    if (t->priority != prio)
+    {
+        if (!pre)
+        {
+            OSi_ThreadInfo.list = thread->next;
+        }
+        else
+        {
+            pre->next = thread->next;
+        }
+
+        thread->priority = prio;
+        OSi_InsertThreadToList(thread);
+
+        OSi_RescheduleThread();
+    }
+
+    (void)OS_RestoreInterrupts(enabled);
+
+    return TRUE;
+}

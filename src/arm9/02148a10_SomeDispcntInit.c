@@ -1,18 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 02148a10. No matching claim. */
-#include "types.h"
-#include "deps/02148a10_SomeDispcntInit.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define sIsDispOn SDK_data_0216f070
+#define sDispMode SDK_data_021802ac
+#define GX_DispOff SomeDispcntInit
+#include "gx.h"
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-void SomeDispcntInit(void)
-
-{
-  ushort *puVar1;
-  
-  puVar1 = puRam02148a54;
-  *puRam02148a50 = 0;
-  *puVar1 = (ushort)(_DAT_04000000 >> 0x10) & 3;
-  _DAT_04000000 = _DAT_04000000 & 0xfffcffff;
-  return;
+#include "nitro/types.h"
+#include "OS_spinLock.h"
+#include "OS_terminate_proc.h"
+#include "code32.h"
+extern u16 sIsDispOn;
+extern u16 sDispMode;
+#pragma thumb off
+void GX_DispOff(){
+    u32 temp = reg_GX_DISPCNT;
+    sIsDispOn = FALSE;
+    sDispMode = (u16)((temp & REG_GX_DISPCNT_MODE_MASK) >> REG_GX_DISPCNT_MODE_SHIFT);
+    reg_GX_DISPCNT = temp & ~REG_GX_DISPCNT_MODE_MASK;
 }
-

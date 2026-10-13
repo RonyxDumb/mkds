@@ -1,13 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 02110698. No matching claim. */
-#include "types.h"
-#include "deps/02110698_func_02110698.h"
-
-void func_02110698(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_IrqCallback SDK_data_02105ac0
+#define OSi_IrqDma0 func_02110698
+#include "sections.h"
+#include "OS_irqTable.h"
+#include "code32.h"
+extern void OSi_IrqCallback(s32 index);
+void OSi_IrqDma0(void)
 {
-                    /* WARNING: Could not recover jumptable at 0x021106a0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam021106a4)(0);
-  return;
+    OSi_IrqCallback(0);
 }
-

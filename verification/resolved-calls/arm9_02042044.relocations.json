@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetLoadedNkmPathEntry_from_thumb",
+    "target": 33828804,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194304988
+  }
+]

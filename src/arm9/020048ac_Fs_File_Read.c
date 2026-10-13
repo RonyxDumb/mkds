@@ -1,13 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 020048ac. No matching claim. */
-#include "types.h"
-#include "deps/020048ac_Fs_File_Read.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_DoUnlockByWord SDK_data_02004b98
+#define OS_UnlockByWord Fs_File_Read
+#include "OS_spinLock.h"
 
-void Fs_File_Read(void)
-
+#include "OS_system.h"
+#include "mmap.h"
+#include "MI_exMemory.h"
+#include "code32.h"
+extern s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp) (void),
+                                        BOOL disableFIQ);
+s32 OS_UnlockByWord(u16 lockID, OSLockWord* lockp, void (*ctrlFuncp) (void))
 {
-                    /* WARNING: Could not recover jumptable at 0x020048b4. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam020048b8)();
-  return;
+    return OSi_DoUnlockByWord(lockID, lockp, ctrlFuncp, FALSE);
 }
-

@@ -1,0 +1,28 @@
+{
+  "stack_args": {
+    "tested": 30,
+    "new_matches": 9
+  },
+  "stack_locals": {
+    "tested": 184,
+    "new_matches": 37
+  },
+  "transfer_flow": {
+    "tested": 1329,
+    "new_matches": 59
+  },
+  "sdk_source_matches": 304,
+  "native_load_drafts": {
+    "tested": 5904,
+    "new_matches": 47
+  },
+  "typed_literal_drafts": {
+    "tested": 5857,
+    "new_matches": 169
+  },
+  "current_inventory_bytes": 109144,
+  "full_verified_span_bytes": 109304,
+  "target_byte_percent": 10,
+  "target_reached": false,
+  "current_byte_percent": 5.703368804332603
+}

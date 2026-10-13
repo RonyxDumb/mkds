@@ -37,3 +37,7 @@ Ripristino del compilatore: `python scripts/setup_matching_toolchain.py` scarica
 ## Checkpoint 13 — lavoro verso il 10%
 
 1.663 funzioni; 62.902 byte (3,286972%). Tutte le prove ricompilate con i compilatori dichiarati. Nuovi strumenti: `verify_mw_literal_drafts.py`, `verify_mw_cfg_flow.py`; resolver ARM BLX aggiornato sia nella ricerca sia nel recheck, con destinazione disassemblata e confrontata indipendentemente. Prossime ricerche: `verify_mw_stack_args.py`, `verify_mw_stack_locals.py`, `verify_mw_transfer_flow.py`. Un solo writer dei registri alla volta. Non ricontare funzioni gia registrate. Il target resta 191.368 byte, senza cambiare denominatore.
+
+## Checkpoint 14
+
+2.288 funzioni; 109.144 / 1.913.676 byte inventariati (5,703369%). Tutte le prove ricompilate. Gli span completi verificati sono 109.304 byte: `proof_span.py` verifica le differenze di literal pool/ritorno condiviso senza aggiungerle al numeratore. Le dipendenze SDK sono fissate in `sdk-header-manifest.json`, i sorgenti e flag in `sdk-source-proofs.json`, gli indirizzi dati osservati in `sdk-extra-symbols.tsv`. SDK ASM non importato. Prossima ricerca: `verify_mw_sdk_caller_drafts.py`, con arita/prototipi SDK osservati nei sorgenti appena verificati; nessun argomento inventato. Un solo writer dei registri alla volta. Stato remoto: ramo codex/matching-toward-10-percent, PR #2. Main resta al checkpoint 12 finche la nuova PR non e approvata.

@@ -1,29 +1,30 @@
-/* Decompiled C draft; module arm9; ROM address 0200583c. No matching claim. */
-#include "types.h"
-#include "deps/0200583c_Fs_OverlayInfo_ClearImage.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define IC_InvalidateRange IC_InvalidateRangeNoClean
+#define DC_InvalidateRange DC_InvalidateRangeNoClean
+#define MI_CpuFill8 Mem_CpuFill8
+#define FS_ClearOverlayImage Fs_OverlayInfo_ClearImage
+#include "nitro.h"
+#include "DGT_common.h"
+#include "DGT_dgt.h"
+#include "OS_cache.h"
+#include "OS_system.h"
+#include "OS_printf.h"
+#include "MI_memory.h"
+#include "MI_uncompress.h"
+#include "FS_rom.h"
+#include "FS_overlay.h"
+#include "FS_mw_dtor.h"
+#include "MB_mb.h"
+#include "code32.h"
 
-void Fs_OverlayInfo_ClearImage(int param_1)
-
+#pragma thumb off
+void FS_ClearOverlayImage(FSOverlayInfo * p_ovi)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  uint uVar4;
-  uint uVar6;
-  uint uVar5;
-  
-  uVar1 = param_1 + 8U & 3;
-  uVar4 = *(uint *)(param_1 + 8U & 0xfffffffc);
-  uVar5 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 0xcU & 3;
-  uVar2 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-  uVar4 = param_1 + 4U & 3;
-  uVar6 = *(uint *)(param_1 + 4U & 0xfffffffc);
-  uVar4 = uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20;
-  iVar3 = uVar5 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  IC_InvalidateRangeNoClean(uVar4,iVar3);
-  DC_InvalidateRangeNoClean(uVar4,iVar3);
-  Mem_CpuFill8((uint *)(uintptr_t)(uVar4 + uVar5),0,iVar3 - uVar5);
-  return;
-}
+    u8 * const im_start = FS_GetOverlayAddress(p_ovi);
+    u32 const ram_size = FS_GetOverlayImageSize(p_ovi);
+    u32 const total_size = FS_GetOverlayTotalSize(p_ovi);
 
+    IC_InvalidateRange(im_start, total_size);
+    DC_InvalidateRange(im_start, total_size);
+    MI_CpuFill8(im_start + ram_size, 0, total_size - ram_size);
+}

@@ -1,31 +1,28 @@
-/* Decompiled C draft; module arm9; ROM address 02003b7c. No matching claim. */
-#include "types.h"
-#include "deps/02003b7c_Fs_Strcasecmp.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FSi_StrNICmp Fs_Strcasecmp
+#include "nitro.h"
+#include "FS_file.h"
+#include "FS_command.h"
+#include "MI_byteAccess.h"
+#include "MI_memory.h"
+#include "FSi_util.h"
+#include "FS_command_default.h"
+#include "code32.h"
 
-int Fs_Strcasecmp(int param_1,int param_2,uint param_3)
-
+#pragma thumb off
+u32 FSi_StrNICmp(const char * str1, const char * str2, u32 len)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar3 = 0;
-  if (param_3 != 0) {
-    do {
-      uVar2 = *(byte *)(param_1 + uVar3) - 0x41;
-      uVar1 = *(byte *)(param_2 + uVar3) - 0x41;
-      if (uVar2 < 0x1a) {
-        uVar2 = *(byte *)(param_1 + uVar3) - 0x21;
-      }
-      if (uVar1 < 0x1a) {
-        uVar1 = *(byte *)(param_2 + uVar3) - 0x21;
-      }
-      if (uVar2 != uVar1) {
-        return uVar2 - uVar1;
-      }
-      uVar3 = uVar3 + 1;
-    } while (uVar3 < param_3);
-  }
-  return 0;
+    int i;
+    for (i = 0; i < len; i++)
+    {
+        u32 c = (u32)(MI_ReadByte(str1 + i) - 'A');
+        u32 d = (u32)(MI_ReadByte(str2 + i) - 'A');
+        if (c <= 'Z' - 'A')
+            c += 'a' - 'A';
+        if (d <= 'Z' - 'A')
+            d += 'a' - 'A';
+        if (c != d)
+            return c - d;
+    }
+    return 0;
 }
-

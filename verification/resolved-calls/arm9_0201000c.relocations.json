@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "OS_GetTickLo",
+    "target": 33617308,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422298
+  },
+  {
+    "offset": 224,
+    "type": 2,
+    "symbol": "SDK_data_02170254",
+    "target": 35062356,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062356
+  }
+]

@@ -1,18 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 0207a8a4. No matching claim. */
-#include "types.h"
-#include "deps/0207a8a4_GetDriverCollisionMode.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-uint GetDriverCollisionMode(int param_1)
-
+unsigned int GetDriverCollisionMode(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = param_1 * iRam0207a8c0 +
-          (*(uint *)(uRam0207a8bc & 0xfffffffc) >> (uRam0207a8bc & 3) * 8 |
-          *(uint *)(uRam0207a8bc & 0xfffffffc) << (uRam0207a8bc & 3) * -8 + 0x20) + 0x29c;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_207a8a4: r2 = 0x217ad18u;
+L_207a8a8: r1 = 0x5a8u;
+L_207a8ac: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_207a8b0: r1 = (r0*r1+r2);
+L_207a8b4: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 668));
+L_207a8b8: return r0;
 }
-

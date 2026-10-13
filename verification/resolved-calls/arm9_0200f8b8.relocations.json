@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646005
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646005
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Os_SetAlarmTimer",
+    "target": 33618816,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645909
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645980
+  },
+  {
+    "offset": 148,
+    "type": 2,
+    "symbol": "SDK_data_02170260",
+    "target": 35062368,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062368
+  }
+]

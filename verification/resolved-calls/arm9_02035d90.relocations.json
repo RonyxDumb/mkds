@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "Mem_DestroyHeap",
+    "target": 33778352,
+    "thumb": false,
+    "addend": -4,
+    "value": 4001951744
+  }
+]

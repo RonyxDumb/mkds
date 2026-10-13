@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Fs_InitializeMountRom",
+    "target": 33574428,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645771
+  },
+  {
+    "offset": 56,
+    "type": 2,
+    "symbol": "SDK_data_0216f350",
+    "target": 35058512,
+    "thumb": false,
+    "addend": 0,
+    "value": 35058512
+  }
+]

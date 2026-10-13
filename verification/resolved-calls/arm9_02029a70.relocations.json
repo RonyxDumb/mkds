@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 6,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3904565261
+  },
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "DoInitializeGlobalCA_from_thumb",
+    "target": 33724732,
+    "thumb": true,
+    "addend": -4,
+    "value": 4284348415
+  }
+]

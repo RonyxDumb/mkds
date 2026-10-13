@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "GetDriverEntry",
+    "target": 34056564,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959400508
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "func_0207ffa4",
+    "target": 34078628,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959406014
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "DriverContext_ApplyDriftBoost",
+    "target": 34000340,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959386435
+  }
+]

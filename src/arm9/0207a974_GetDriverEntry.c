@@ -1,12 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0207a974. No matching claim. */
-#include "types.h"
-#include "deps/0207a974_GetDriverEntry.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-int GetDriverEntry(int param_1)
-
+unsigned int GetDriverEntry(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  return iRam0207a98c * param_1 +
-         (*(uint *)(uRam0207a988 & 0xfffffffc) >> (uRam0207a988 & 3) * 8 |
-         *(uint *)(uRam0207a988 & 0xfffffffc) << (uRam0207a988 & 3) * -8 + 0x20);
+unsigned int cmp_a,cmp_b;
+L_207a974: r2 = 0x217ad18u;
+L_207a978: r1 = 0x5a8u;
+L_207a97c: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_207a980: r0 = (r1*r0+r2);
+L_207a984: return r0;
 }
-

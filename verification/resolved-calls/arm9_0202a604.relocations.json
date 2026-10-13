@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "func_02049b6c",
+    "target": 33856364,
+    "thumb": false,
+    "addend": -4,
+    "value": 3937464351
+  },
+  {
+    "offset": 20,
+    "type": 10,
+    "symbol": "OamBuffer_ResetValues16_from_thumb",
+    "target": 34268844,
+    "thumb": true,
+    "addend": -4,
+    "value": 4165529732
+  },
+  {
+    "offset": 38,
+    "type": 10,
+    "symbol": "HandleEarnedSecrets_from_thumb",
+    "target": 33725088,
+    "thumb": true,
+    "addend": -4,
+    "value": 4198103039
+  },
+  {
+    "offset": 46,
+    "type": 10,
+    "symbol": "func_02032ac4",
+    "target": 33761988,
+    "thumb": true,
+    "addend": -4,
+    "value": 4199018504
+  },
+  {
+    "offset": 58,
+    "type": 10,
+    "symbol": "OamBuffer_SomeFn2_from_thumb",
+    "target": 34268720,
+    "thumb": true,
+    "addend": -4,
+    "value": 4294439043
+  },
+  {
+    "offset": 62,
+    "type": 10,
+    "symbol": "func_0212a920",
+    "target": 34777376,
+    "thumb": true,
+    "addend": -4,
+    "value": 4184731904
+  }
+]

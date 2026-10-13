@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 32,
+    "type": 2,
+    "symbol": "SDK_data_02149060",
+    "target": 34902112,
+    "thumb": false,
+    "addend": 0,
+    "value": 34902112
+  },
+  {
+    "offset": 36,
+    "type": 2,
+    "symbol": "SDK_data_021802b0",
+    "target": 35127984,
+    "thumb": false,
+    "addend": 22,
+    "value": 35128006
+  }
+]

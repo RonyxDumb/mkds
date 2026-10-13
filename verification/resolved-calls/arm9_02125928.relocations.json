@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "TextSystemContext_OnSceneUpdate_from_thumb",
+    "target": 34760756,
+    "thumb": true,
+    "addend": -4,
+    "value": 4286443520
+  },
+  {
+    "offset": 28,
+    "type": 10,
+    "symbol": "SelectChoisesContext_OnSceneUpdate_from_thumb",
+    "target": 34765216,
+    "thumb": true,
+    "addend": -4,
+    "value": 4163694594
+  },
+  {
+    "offset": 42,
+    "type": 10,
+    "symbol": "SelectReturnContext_OnSceneUpdate_from_thumb",
+    "target": 34767960,
+    "thumb": true,
+    "addend": -4,
+    "value": 4253151234
+  }
+]

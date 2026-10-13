@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Os_GetTick",
+    "target": 33617324,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422701
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "_ll_udiv",
+    "target": 34811456,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942944006
+  },
+  {
+    "offset": 228,
+    "type": 1,
+    "symbol": "Os_SetAlarmTimer",
+    "target": 33618816,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645811
+  },
+  {
+    "offset": 304,
+    "type": 1,
+    "symbol": "Os_SetAlarmTimer",
+    "target": 33618816,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645792
+  },
+  {
+    "offset": 316,
+    "type": 2,
+    "symbol": "SDK_data_02170260",
+    "target": 35062368,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062368
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959098390
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "func_01fffe2c",
+    "target": 33553964,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959082094
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959098382
+  }
+]

@@ -1,13 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 0207a880. No matching claim. */
-#include "types.h"
-#include "deps/0207a880_GetDriverYRotation.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-undefined2 GetDriverYRotation(int param_1)
-
+unsigned int GetDriverYRotation(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  return *(undefined2 *)
-          (param_1 * iRam0207a8a0 +
-           (*(uint *)(uRam0207a89c & 0xfffffffc) >> (uRam0207a89c & 3) * 8 |
-           *(uint *)(uRam0207a89c & 0xfffffffc) << (uRam0207a89c & 3) * -8 + 0x20) + 0x236);
+unsigned int cmp_a,cmp_b;
+L_207a880: r2 = 0x217ad18u;
+L_207a884: r1 = 0x5a8u;
+L_207a888: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_207a88c: r1 = (r0*r1+r2);
+L_207a890: r0 = (r1+0x200u);
+L_207a894: r0 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 54));
+L_207a898: return r0;
 }
-

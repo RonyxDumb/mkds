@@ -1,11 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 02013b20. No matching claim. */
-#include "types.h"
-#include "deps/02013b20_func_02013b20.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-int func_02013b20(int param_1,int param_2)
-
+unsigned int func_02013b20(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  return (uint)*(ushort *)(param_1 + 0xc + (uint)*(ushort *)(param_1 + 0x12)) * param_2 +
-         param_1 + 0xc + (uint)*(ushort *)(param_1 + 0x12) + 4;
+unsigned int cmp_a,cmp_b;
+L_2013b20: r3 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 18));
+L_2013b24: r0 = (r0+0xcu);
+L_2013b28: r2 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + (0 + r3)));
+L_2013b2c: r0 = (r0+r3);
+L_2013b30: r0 = (r0+0x4u);
+L_2013b34: r0 = (r2*r1+r0);
+L_2013b38: return r0;
 }
-

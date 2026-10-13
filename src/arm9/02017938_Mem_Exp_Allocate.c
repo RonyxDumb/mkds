@@ -1,18 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 02017938. No matching claim. */
-#include "types.h"
-#include "deps/02017938_Mem_Exp_Allocate.h"
-
-void Mem_Exp_Allocate(undefined4 param_1,int param_2,int param_3)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define AllocFromHead Mem_Exp_AllocFromHead
+#define AllocFromTail Mem_Exp_AllocFromTail
+#define NNS_FndAllocFromExpHeapEx Mem_Exp_Allocate
+#include "nitro/types.h"
+#include "NNS_FND_expheap.h"
+#include "code32.h"
+extern void* AllocFromHead(NNSiFndHeapHead* pHeapHd, u32 size, int alignment);
+extern void* AllocFromTail(NNSiFndHeapHead* pHeapHd, u32 size, int alignment);
+void* NNS_FndAllocFromExpHeapEx(NNSFndHeapHandle handle, u32 size, int alignment)
 {
-  if (param_2 == 0) {
-    param_2 = 1;
-  }
-  if (-1 < param_3) {
-    Mem_Exp_AllocFromHead();
-    return;
-  }
-  Mem_Exp_AllocFromTail(param_1,param_2 + 3U & 0xfffffffc,-param_3);
-  return;
+    if (size == 0)
+        size = 1;
+    size = NNSi_FndRoundUp(size, 4);
+    if (alignment >= 0)
+        return AllocFromHead(handle, size, alignment);
+    else
+        return AllocFromTail(handle, size, -alignment);
 }
-

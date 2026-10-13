@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Fs_PackArchiveMountName",
+    "target": 33572744,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646116
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657704
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657699
+  },
+  {
+    "offset": 76,
+    "type": 2,
+    "symbol": "SDK_data_0216f340",
+    "target": 35058496,
+    "thumb": false,
+    "addend": 0,
+    "value": 35058496
+  }
+]

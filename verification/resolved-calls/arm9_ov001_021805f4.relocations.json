@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "GetActiveExecutionContext",
+    "target": 33776872,
+    "thumb": false,
+    "addend": -4,
+    "value": 4017551029
+  },
+  {
+    "offset": 8,
+    "type": 10,
+    "symbol": "func_020ca6b8",
+    "target": 34383544,
+    "thumb": true,
+    "addend": -4,
+    "value": 4166842186
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Card_LockRomResource",
+    "target": 34887628,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942973937
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Card_UnlockRomResource",
+    "target": 34887596,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942973920
+  },
+  {
+    "offset": 140,
+    "type": 2,
+    "symbol": "SDK_data_0216f354",
+    "target": 35058516,
+    "thumb": false,
+    "addend": 0,
+    "value": 35058516
+  }
+]

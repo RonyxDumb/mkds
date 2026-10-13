@@ -1,22 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 0214a390. No matching claim. */
-#include "types.h"
-#include "deps/0214a390_UpdateBldcntBldalphaBldy.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define G2x_SetBlendBrightnessExt_ UpdateBldcntBldalphaBldy
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
 
-void UpdateBldcntBldalphaBldy
-               (ushort *param_1,ushort param_2,int param_3,ushort param_4,int param_5,int param_6)
-
-{
-  if (-1 < param_6) {
-    param_2 = param_2 | 0x80;
-  }
-  param_1[1] = param_4 | (ushort)(param_5 << 8);
-  if (-1 >= param_6) {
-    *param_1 = param_2 | 0xc0 | (ushort)(param_3 << 8);
-    param_1[2] = -(ushort)param_6;
-    return;
-  }
-  *param_1 = param_2 | (ushort)(param_3 << 8);
-  param_1[2] = (ushort)param_6;
-  return;
+#pragma thumb off
+void G2x_SetBlendBrightnessExt_(u16 *ptr, fx32 a, fx32 b, fx32 c, fx32 d, fx32 brightness){
+    ptr[1] = (u16)(c | (d << 0x8));
+    if (brightness < 0)
+    {
+        ptr[0] = (u16)(0xC0 | a | (b << 0x8));
+        ptr[2] = (u16)(-brightness);
+    }
+    else
+    {
+        ptr[0] = (u16)(0x80 | a | (b << 0x8));
+        ptr[2] = (u16)brightness;
+    }
 }
-
