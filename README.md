@@ -8,8 +8,6 @@ ROM: game code `AMCP`, SHA-1 `ce97d9b43f0d3ca0d48b781983e8a16f6393378f`.
 
 Checkpoint 8: **1,024 locally verified functions, 21,978 bytes (1.1485%)**. This includes 937 unrelocated matches and 87 matches after resolving all ARM relocations. Full-ROM matching remains unverified.
 
-![Function inventory treemap](docs/progress-treemap.svg)
-
 The treemap is weighted by **identified function bytes**, with verified local matches highlighted. Compilation success is **not** evidence of correct behavior or matching assembly. These are local checkpoint measurements, not whole-game completion percentages. See [detailed measurements](reports/MISURA-DECOMP.md) and [GitHub Actions reports](https://github.com/RonyxDumb/mkds/actions/workflows/decomp-report.yml).
 
 You can check it online on [Decomp.dev](https://decomp.dev/RonyxDumb/mkds).
