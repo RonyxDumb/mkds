@@ -1,16 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 02004760. No matching claim. */
-#include "types.h"
-#include "deps/02004760_Fs_Archive_ReadFn_Default.h"
-
-undefined4 Fs_Archive_ReadFn_Default(int param_1,undefined4 param_2,int param_3,undefined4 param_4)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int Mem_CpuCopy8(unsigned int, unsigned int, unsigned int);
+unsigned int Fs_Archive_ReadFn_Default(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 0x28U & 3;
-  uVar2 = *(uint *)(param_1 + 0x28U & 0xfffffffc);
-  Mem_CpuCopy8((ushort *)(uintptr_t)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + param_3),(uint *)(uintptr_t)(param_2),param_4);
-  return 0;
+unsigned int cmp_a,cmp_b;
+L_2004768: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 40));
+L_200476c: r0 = (r0+r2);
+L_2004770: r2 = r3;
+L_2004774: r0 = Mem_CpuCopy8(r0,r1,r2);
+L_2004778: r0 = 0x0u;
+L_2004784: return r0;
 }
-

@@ -1,33 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 020f00f0. No matching claim. */
-#include "types.h"
-#include "deps/020f00f0_func_020f00f0.h"
-
-void func_020f00f0(uint param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_020f81c0(unsigned int);
+unsigned int func_020f00f0(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = param_1 + 0x1fc & 3;
-  uVar1 = *(uint *)(param_1 + 0x1fc & 0xfffffffc);
-  uVar2 = (uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) + 0x7c;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0x400) != 0) {
-    return;
-  }
-  uVar2 = (*(uint *)(uRam020f0150 & 0xfffffffc) >> (uRam020f0150 & 3) * 8 |
-          *(uint *)(uRam020f0150 & 0xfffffffc) << (uRam020f0150 & 3) * -8 + 0x20) + 8;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) != 5) {
-    if (*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 != 0 ||
-        *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20 != 0) {
-      func_020f81c0();
-      return;
-    }
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_20f00f8: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 508));
+L_20f00fc: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 124));
+L_20f0100: r1 = (r1&0x400u); cmp_a = r1; cmp_b = 0;
+L_20f010c: if ((cmp_a != cmp_b)) { return r0; }
+L_20f0110: r1 = 0x21759c0u;
+L_20f0114: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 0));
+L_20f0118: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 8));
+L_20f011c: cmp_a = r1; cmp_b = 0x5u;
+L_20f0128: if ((cmp_a == cmp_b)) { return r0; }
+L_20f012c: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20f0130: cmp_a = r1; cmp_b = 0x0u;
+L_20f013c: if ((cmp_a == cmp_b)) { return r0; }
+L_20f0140: r0 = func_020f81c0(r0);
+L_20f014c: return r0;
 }
-

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Mem_FindTopParentHeapHeadList",
+    "target": 33650196,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645799
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_RemoveItem",
+    "target": 33649492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422837
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Matrix4x3_Identity",
+    "target": 34894268,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942720372
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "StateDualHandler_Create",
+    "target": 33844200,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959235066
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "StateDualHandler_SetState",
+    "target": 33844172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959235056
+  }
+]

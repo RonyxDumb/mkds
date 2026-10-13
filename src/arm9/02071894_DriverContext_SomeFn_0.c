@@ -1,21 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 02071894. No matching claim. */
-#include "types.h"
-#include "deps/02071894_DriverContext_SomeFn_0.h"
-
-void DriverContext_SomeFn_0(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int StructMQRacerEntry_SomeFn_5(unsigned int, unsigned int, unsigned int);
+unsigned int DriverContext_SomeFn_0(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 0x48U & 3;
-  uVar2 = *(uint *)(param_1 + 0x48U & 0xfffffffc);
-  if (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0x840) == 0) {
-    uVar1 = param_1 + 0x3ccU & 3;
-    uVar2 = *(uint *)(param_1 + 0x3ccU & 0xfffffffc);
-    StructMQRacerEntry_SomeFn_5(param_1,uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,7);
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_207189c: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 72));
+L_20718a0: r1 = (r1&0x840u); cmp_a = r1; cmp_b = 0;
+L_20718ac: if ((cmp_a != cmp_b)) { return r0; }
+L_20718b0: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 972));
+L_20718b4: r2 = 0x7u;
+L_20718b8: r0 = StructMQRacerEntry_SomeFn_5(r0,r1,r2);
+L_20718c4: return r0;
 }
-

@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "asm_MI_Copy64B",
+    "target": 34918716,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648409
+  }
+]

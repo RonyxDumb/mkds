@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Os_MutexQueue_Pop",
+    "target": 33613204,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422523
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Os_Thread_WakeUp",
+    "target": 33611676,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422138
+  }
+]

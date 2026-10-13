@@ -1,30 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 0208dc50. No matching claim. */
-#include "types.h"
-#include "deps/0208dc50_ExplosionKind_MissionSplash_CreateFn.h"
-
-void ExplosionKind_MissionSplash_CreateFn(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int Animation_SetAt(unsigned int, unsigned int);
+extern unsigned int func_0208b7bc(unsigned int, unsigned int);
+unsigned int ExplosionKind_MissionSplash_CreateFn(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar1 = uRam0208dcb0;
-  *(undefined4 *)(param_1 + 0x9c) = uRam0208dcb0;
-  *(undefined4 *)(param_1 + 0xa0) = uVar1;
-  *(undefined4 *)(param_1 + 0xa4) = uVar1;
-  uVar3 = param_1 + 0x90U & 3;
-  uVar2 = *(uint *)(param_1 + 0x90U & 0xfffffffc);
-  Animation_SetAt(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20,0);
-  *(undefined4 *)(param_1 + 0xac) = 0x20;
-  uVar3 = param_1 + 0x94U & 3;
-  uVar2 = *(uint *)(param_1 + 0x94U & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  if (uVar3 != 0) {
-    Animation_SetAt(uVar3,0);
-  }
-  func_0208b7bc(uRam0208dcb4,param_1 + 0x74);
-  func_0208b7bc(uRam0208dcb8,param_1 + 0x74);
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_208dc54: r1 = 0x3d9au;
+L_208dc58: r4 = r0;
+L_208dc5c: *(unsigned int *)((unsigned char *)r4 + 156) = (unsigned int)r1;
+L_208dc60: *(unsigned int *)((unsigned char *)r4 + 160) = (unsigned int)r1;
+L_208dc64: *(unsigned int *)((unsigned char *)r4 + 164) = (unsigned int)r1;
+L_208dc68: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 144));
+L_208dc6c: r1 = 0x0u;
+L_208dc70: r0 = Animation_SetAt(r0,r1);
+L_208dc74: r0 = 0x20u;
+L_208dc78: *(unsigned int *)((unsigned char *)r4 + 172) = (unsigned int)r0;
+L_208dc7c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 148));
+L_208dc80: cmp_a = r0; cmp_b = 0x0u;
+L_208dc84: if ((cmp_a == cmp_b)) { goto L_208dc90; }
+L_208dc88: r1 = 0x0u;
+L_208dc8c: r0 = Animation_SetAt(r0,r1);
+L_208dc90: r0 = 0x424u;
+L_208dc94: r1 = (r4+0x74u);
+L_208dc98: r0 = func_0208b7bc(r0,r1);
+L_208dc9c: r0 = 0x422u;
+L_208dca0: r1 = (r4+0x74u);
+L_208dca4: r0 = func_0208b7bc(r0,r1);
+L_208dcac: return r0;
 }
-

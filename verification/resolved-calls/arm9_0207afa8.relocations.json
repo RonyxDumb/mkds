@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Model_CreateFromNsbmd",
+    "target": 34098728,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942655899
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "ModelBlock_SomeTexPltFn_8",
+    "target": 33633600,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959316822
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "func_02013588",
+    "target": 33633672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959316836
+  }
+]

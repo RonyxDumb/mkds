@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "StructMQRacerEntry_SomeFn_47",
+    "target": 34656188,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942703192
+  },
+  {
+    "offset": 136,
+    "type": 1,
+    "symbol": "StructMQRacerEntry_SomeFn_47",
+    "target": 34656188,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942703169
+  },
+  {
+    "offset": 180,
+    "type": 1,
+    "symbol": "StructMQRacerEntry_SomeFn_47",
+    "target": 34656188,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942703158
+  }
+]

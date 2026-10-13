@@ -1,19 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 02074978. No matching claim. */
-#include "types.h"
-#include "deps/02074978_StructHD_SomeFn_9.h"
-
-void StructHD_SomeFn_9(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int StructHD_SomeFn_11(unsigned int, unsigned int);
+extern unsigned int StructHD_SomeFn_8(unsigned int);
+extern unsigned int StructHD_SomeFn_10(unsigned int);
+unsigned int StructHD_SomeFn_9(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 0x218U & 3;
-  uVar2 = *(uint *)(param_1 + 0x218U & 0xfffffffc);
-  StructHD_SomeFn_11(param_1,(int)*(short *)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) +
-                                            0x42));
-  StructHD_SomeFn_8(param_1);
-  StructHD_SomeFn_10((undefined4 *)(uintptr_t)(param_1));
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_207497c: r4 = r0;
+L_2074980: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 536));
+L_2074984: r1 = (unsigned int)(*(short *)((unsigned char *)r1 + 66));
+L_2074988: r0 = StructHD_SomeFn_11(r0,r1);
+L_207498c: r0 = r4;
+L_2074990: r0 = StructHD_SomeFn_8(r0);
+L_2074994: r0 = r4;
+L_2074998: r0 = StructHD_SomeFn_10(r0);
+L_20749a0: return r0;
 }
-

@@ -33,3 +33,7 @@ Ripristino del compilatore: `python scripts/setup_matching_toolchain.py` scarica
 ## Checkpoint 12
 
 1.222 funzioni e 29.070 byte (1,519066%). Thumb flow: 122 candidati, 48 match, 966 byte. Tutte le 1.060 prove senza relocazioni sono state ricompilate dopo la ricerca; le 162 con relocazioni sono state ricompilate al checkpoint 11. Le 6.802 bozze C non hanno dato nuovi match con sei ottimizzazioni: evitare di ripetere quella ricerca senza cambiare la ricostruzione. Il prossimo lavoro deve migliorare le funzioni grandi (tipi, parametri, stack e flusso), non ricontare funzioni o variare il denominatore. Il 10% dei byte richiede ancora 162.298 byte verificati.
+
+## Checkpoint 13 — lavoro verso il 10%
+
+1.663 funzioni; 62.902 byte (3,286972%). Tutte le prove ricompilate con i compilatori dichiarati. Nuovi strumenti: `verify_mw_literal_drafts.py`, `verify_mw_cfg_flow.py`; resolver ARM BLX aggiornato sia nella ricerca sia nel recheck, con destinazione disassemblata e confrontata indipendentemente. Prossime ricerche: `verify_mw_stack_args.py`, `verify_mw_stack_locals.py`, `verify_mw_transfer_flow.py`. Un solo writer dei registri alla volta. Non ricontare funzioni gia registrate. Il target resta 191.368 byte, senza cambiare denominatore.

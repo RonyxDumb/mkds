@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "StructMQRacerEntry_SomeFn_42",
+    "target": 33985988,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959263476
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "func_020f4754",
+    "target": 34555732,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405909
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "func_020f81b8",
+    "target": 34570680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959409643
+  }
+]

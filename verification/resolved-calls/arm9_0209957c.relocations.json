@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959258792
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "MaybeGetBBMtxAtPosition",
+    "target": 34499772,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942725059
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959258786
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959258782
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "DrawObject2DBB",
+    "target": 34192008,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648105
+  }
+]

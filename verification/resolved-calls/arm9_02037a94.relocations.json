@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "ResetSomeVram",
+    "target": 33790756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647840
+  }
+]

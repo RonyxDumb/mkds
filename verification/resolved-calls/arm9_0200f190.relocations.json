@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Os_ComputeMemoryRegionEndAddress",
+    "target": 33615928,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422885
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionEndAddress",
+    "target": 33615672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422818
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Os_ComputeMemoryRegionStartAddress",
+    "target": 33615692,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422821
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Os_SetMemoryRegionStartAddress",
+    "target": 33615652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422808
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Os_GetSystemFlags",
+    "target": 33613956,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422379
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "Os_SetSystemRomPU",
+    "target": 33616732,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645850
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "Os_SetVectorBasePU",
+    "target": 33616740,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645850
+  }
+]

@@ -1,28 +1,25 @@
-/* Decompiled C draft; module arm9; ROM address 02069db8. No matching claim. */
-#include "types.h"
-#include "deps/02069db8_DriverContext_ApplyShroomBoost.h"
-
-void DriverContext_ApplyShroomBoost(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int DriverContext_MaybeApplyBoost(unsigned int, unsigned int, unsigned int);
+extern unsigned int func_020a1ddc(unsigned int);
+unsigned int DriverContext_ApplyShroomBoost(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  DriverContext_MaybeApplyBoost(param_1,0,0x5a);
-  uVar1 = param_1 + 0x48U & 3;
-  uVar2 = *(uint *)(param_1 + 0x48U & 0xfffffffc);
-  *(uint *)(param_1 + 0x48) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20 | 0x100000;
-  uVar2 = uRam02069e0c;
-  *(undefined2 *)(param_1 + 0x538) = 0x5a;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar1 = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 8;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  if ((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) == 2) {
-    func_020a1ddc(*(undefined2 *)(param_1 + 0x74));
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_2069dbc: r4 = r0;
+L_2069dc0: r1 = 0x0u;
+L_2069dc4: r2 = 0x5au;
+L_2069dc8: r0 = DriverContext_MaybeApplyBoost(r0,r1,r2);
+L_2069dcc: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 72));
+L_2069dd0: r0 = (r4+0x500u);
+L_2069dd4: r1 = (r1|0x100000u);
+L_2069dd8: *(unsigned int *)((unsigned char *)r4 + 72) = (unsigned int)r1;
+L_2069ddc: r2 = 0x5au;
+L_2069de0: r1 = 0x21759c0u;
+L_2069de4: *(unsigned short *)((unsigned char *)r0 + 56) = (unsigned short)r2;
+L_2069de8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 0));
+L_2069dec: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 8));
+L_2069df0: cmp_a = r0; cmp_b = 0x2u;
+L_2069df8: if ((cmp_a != cmp_b)) { return r0; }
+L_2069dfc: r0 = (unsigned int)(*(unsigned short *)((unsigned char *)r4 + 116));
+L_2069e00: r0 = func_020a1ddc(r0);
+L_2069e08: return r0;
 }
-

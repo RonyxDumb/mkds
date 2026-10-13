@@ -1,0 +1,15 @@
+{
+  "literal_drafts": {
+    "tested": 6754,
+    "new_matches": 123
+  },
+  "cfg_flow": {
+    "tested": 1334,
+    "new_matches": 318
+  },
+  "new_functions": 441,
+  "new_bytes": 33832,
+  "target_byte_percent": 10,
+  "target_reached": false,
+  "current_byte_percent": 3.286972298340994
+}

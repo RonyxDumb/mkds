@@ -1,21 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 0214f264. No matching claim. */
-#include "types.h"
-#include "deps/0214f264_func_0214f264.h"
-
-uint func_0214f264(undefined4 param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0214f2a8(unsigned int, unsigned int, unsigned int);
+extern unsigned int func_0214eed8(void);
+unsigned int func_0214f264(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar2 = func_0214f2a8(param_1,uRam0214f2a0,0);
-  *(int *)(iRam0214f2a4 + 0xc) = iVar2;
-  if (iVar2 == 0) {
-    func_0214eed8();
-  }
-  uVar1 = iRam0214f2a4 + 0xcU & 3;
-  uVar3 = *(uint *)(iRam0214f2a4 + 0xcU & 0xfffffffc);
-  return uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_214f26c: r1 = 0x214eef0u;
+L_214f270: r2 = 0x0u;
+L_214f274: r0 = func_0214f2a8(r0,r1,r2);
+L_214f278: r1 = 0x2180414u;
+L_214f27c: cmp_a = r0; cmp_b = 0x0u;
+L_214f280: *(unsigned int *)((unsigned char *)r1 + 12) = (unsigned int)r0;
+L_214f284: if ((cmp_a != cmp_b)) { goto L_214f28c; }
+L_214f288: r0 = func_0214eed8();
+L_214f28c: r0 = 0x2180414u;
+L_214f290: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 12));
+L_214f29c: return r0;
 }
-

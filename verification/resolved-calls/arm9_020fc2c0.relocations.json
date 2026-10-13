@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "StateDualHandler_Execute",
+    "target": 33844032,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959237147
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "func_020f9320",
+    "target": 34575136,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959419920
+  }
+]

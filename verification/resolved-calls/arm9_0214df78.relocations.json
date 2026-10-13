@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Rtc_GetTimeAsync",
+    "target": 34922428,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645771
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Rtc_WaitBusy",
+    "target": 34920764,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422566
+  }
+]

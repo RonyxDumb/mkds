@@ -1,40 +1,27 @@
-/* Decompiled C draft; module arm9; ROM address 0209b9a4. No matching claim. */
-#include "types.h"
-#include "deps/0209b9a4_StructMapObject_SomeFn_6.h"
-
-void StructMapObject_SomeFn_6(int param_1,int param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int Maybe_helper_01308c(unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int StructMapObject_SomeFn_6(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar3 = param_1 + 0xcU & 3;
-  uVar2 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  if (uVar3 != 0) {
-    uVar2 = uVar3 + 0x14 & 3;
-    uVar1 = *(uint *)(uVar3 + 0x14 & 0xfffffffc);
-    *(uint *)(uVar3 + 0x14) = (uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) & 0xffe0ffff;
-    uVar2 = uVar3 + 0x14 & 3;
-    uVar1 = *(uint *)(uVar3 + 0x14 & 0xfffffffc);
-    *(uint *)(uVar3 + 0x14) = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20 | param_2 << 0x10;
-  }
-  uVar3 = param_1 + 0x10U & 3;
-  uVar2 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  if (uVar3 != 0) {
-    uVar3 = uVar3 + 4;
-    uVar2 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    Maybe_helper_01308c(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20,param_2);
-  }
-  uVar3 = param_1 + 0x14U & 3;
-  uVar2 = *(uint *)(param_1 + 0x14U & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  if (uVar3 != 0) {
-    *(short *)(uVar3 + 0x6e) = (short)param_2;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4,r5;
+L_209b9ac: r5 = r0;
+L_209b9b0: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r5 + 12));
+L_209b9b4: r4 = r1;
+L_209b9b8: cmp_a = r2; cmp_b = 0x0u;
+L_209b9bc: if ((cmp_a == cmp_b)) { goto L_209b9d8; }
+L_209b9c0: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 20));
+L_209b9c4: r0 = (r0&~(0x1f0000u));
+L_209b9c8: *(unsigned int *)((unsigned char *)r2 + 20) = (unsigned int)r0;
+L_209b9cc: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 20));
+L_209b9d0: r0 = (r0|(r4 << 16));
+L_209b9d4: *(unsigned int *)((unsigned char *)r2 + 20) = (unsigned int)r0;
+L_209b9d8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r5 + 16));
+L_209b9dc: cmp_a = r0; cmp_b = 0x0u;
+L_209b9e0: if ((cmp_a == cmp_b)) { goto L_209b9f0; }
+L_209b9e4: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 4));
+L_209b9e8: r1 = r4;
+L_209b9ec: r0 = Maybe_helper_01308c(r0,r1,r2,r3);
+L_209b9f0: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r5 + 20));
+L_209b9f4: cmp_a = r0; cmp_b = 0x0u;
+L_209b9f8: if ((cmp_a != cmp_b)) { *(unsigned short *)((unsigned char *)r0 + 110) = (unsigned short)r4; }
+L_209ba04: return r0;
 }
-

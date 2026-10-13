@@ -1,22 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 02093708. No matching claim. */
-#include "types.h"
-#include "deps/02093708_func_02093708.h"
-
-void func_02093708(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int CreateMapObjectFromModel_from_thumb(unsigned int, unsigned int);
+extern unsigned int StructMapObject_AddAnimationNsbta_from_thumb(unsigned int, unsigned int);
+extern unsigned int StructMapObject_MaybeSetPolygonId(unsigned int, unsigned int);
+unsigned int func_02093708(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  
-  uVar2 = CreateMapObjectFromModel_from_thumb(param_1,uRam02093748);
-  uVar1 = uRam02093750;
-  *puRam0209374c = uVar2;
-  StructMapObject_AddAnimationNsbta_from_thumb(uVar2,uVar1);
-  StructMapObject_MaybeSetPolygonId
-            (*(uint *)((uint)puRam0209374c & 0xfffffffc) >> ((uint)puRam0209374c & 3) * 8 |
-             *(uint *)((uint)puRam0209374c & 0xfffffffc) << ((uint)puRam0209374c & 3) * -8 + 0x20,
-             0x3f);
-  *(undefined4 *)(param_1 + 0x1c) = 1;
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_209370c: r1 = 0x2166720u;
+L_2093710: r4 = r0;
+L_2093714: r0 = CreateMapObjectFromModel_from_thumb(r0,r1);
+L_2093718: r2 = 0x217b0c8u;
+L_209371c: r1 = 0x2166734u;
+L_2093720: *(unsigned int *)((unsigned char *)r2 + 0) = (unsigned int)r0;
+L_2093724: r0 = StructMapObject_AddAnimationNsbta_from_thumb(r0,r1);
+L_2093728: r0 = 0x217b0c8u;
+L_209372c: r1 = 0x3fu;
+L_2093730: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2093734: r0 = StructMapObject_MaybeSetPolygonId(r0,r1);
+L_2093738: r0 = 0x1u;
+L_209373c: *(unsigned int *)((unsigned char *)r4 + 28) = (unsigned int)r0;
+L_2093744: return r0;
 }
-

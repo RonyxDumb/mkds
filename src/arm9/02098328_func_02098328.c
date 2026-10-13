@@ -1,18 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 02098328. No matching claim. */
-#include "types.h"
-#include "deps/02098328_func_02098328.h"
-
-uint func_02098328(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int CreateAllocateMapObject_from_thumb(unsigned int, unsigned int, unsigned int);
+extern unsigned int func_020d49d8(unsigned int);
+unsigned int func_02098328(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  
-  uVar2 = CreateAllocateMapObject_from_thumb(uRam02098364,uRam02098368,uRam0209836c);
-  puVar1 = puRam02098370;
-  *puRam02098370 = uVar2;
-  func_020d49d8(puVar1);
-  return *(uint *)((uint)puRam02098370 & 0xfffffffc) >> ((uint)puRam02098370 & 3) * 8 |
-         *(uint *)((uint)puRam02098370 & 0xfffffffc) << ((uint)puRam02098370 & 3) * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_2098330: r0 = 0x2098a14u;
+L_2098334: r1 = 0x2098954u;
+L_2098338: r2 = 0x20989fcu;
+L_209833c: r0 = CreateAllocateMapObject_from_thumb(r0,r1,r2);
+L_2098340: r1 = 0x217b108u;
+L_2098344: *(unsigned int *)((unsigned char *)r1 + 0) = (unsigned int)r0;
+L_2098348: r0 = r1;
+L_209834c: r0 = func_020d49d8(r0);
+L_2098350: r0 = 0x217b108u;
+L_2098354: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2098360: return r0;
 }
-

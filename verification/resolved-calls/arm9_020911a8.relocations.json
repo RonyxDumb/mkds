@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetCurrentSceneId",
+    "target": 33939616,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959370682
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "GetCurrentUnlockedSecretFlags",
+    "target": 34148340,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422860
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "WriteSaveDataSectionHeaderToSaveData_from_thumb",
+    "target": 33910080,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211021533
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "WaitForWorkerTask",
+    "target": 33914268,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959364339
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "func_02145d38",
+    "target": 34889016,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942830804
+  }
+]

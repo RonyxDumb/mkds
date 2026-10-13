@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Sound_MaybeSetActiveSdat",
+    "target": 34788832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942904798
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "func_0203063c",
+    "target": 33752636,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422962
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Sound_MaybeSetActiveSdat",
+    "target": 34788832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942904793
+  }
+]

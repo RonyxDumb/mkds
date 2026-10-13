@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Animation_SetAt",
+    "target": 34111364,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959417124
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Animation_SetAt",
+    "target": 34111364,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959417121
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Animation_SetAt",
+    "target": 34111364,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959417118
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "func_0208b7bc",
+    "target": 34125756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420705
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "func_0208b7bc",
+    "target": 34125756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420702
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "func_0208b7bc",
+    "target": 34125756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420699
+  }
+]

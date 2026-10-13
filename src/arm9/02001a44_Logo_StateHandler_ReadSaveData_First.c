@@ -1,21 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 02001a44. No matching claim. */
-#include "types.h"
-#include "deps/02001a44_Logo_StateHandler_ReadSaveData_First.h"
-
-void Logo_StateHandler_ReadSaveData_First(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int ReadSaveData_NonGhost_from_thumb(void);
+unsigned int Logo_StateHandler_ReadSaveData_First(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  ReadSaveData_NonGhost_from_thumb();
-  uVar3 = *(uint *)(uRam02001a70 & 0xfffffffc) >> (uRam02001a70 & 3) * 8 |
-          *(uint *)(uRam02001a70 & 0xfffffffc) << (uRam02001a70 & 3) * -8 + 0x20;
-  uVar2 = uVar3 + 0x2c;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  *(uint *)(uVar3 + 0x2c) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0xfffffffd;
-  return;
+unsigned int cmp_a,cmp_b;
+L_2001a4c: r0 = ReadSaveData_NonGhost_from_thumb();
+L_2001a50: r0 = 0x21a99e0u;
+L_2001a54: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2001a58: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 44));
+L_2001a5c: r0 = (r0&~(0x2u));
+L_2001a60: *(unsigned int *)((unsigned char *)r1 + 44) = (unsigned int)r0;
+L_2001a6c: return r0;
 }
-

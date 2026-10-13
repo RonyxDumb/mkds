@@ -1,15 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 0209196c. No matching claim. */
-#include "types.h"
-#include "deps/0209196c_LoadCowMapObject.h"
-
-void LoadCowMapObject(undefined4 param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int CreateMapObjectFromModelAndAnimation_from_thumb(unsigned int, unsigned int, unsigned int);
+extern unsigned int StructMapObject_MaybeSetPolygonId(unsigned int, unsigned int);
+unsigned int LoadCowMapObject(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  
-  uVar1 = CreateMapObjectFromModelAndAnimation_from_thumb(param_1,uRam0209199c,uRam020919a0);
-  *puRam020919a4 = uVar1;
-  StructMapObject_MaybeSetPolygonId(uVar1,0x3f);
-  return;
+unsigned int cmp_a,cmp_b;
+L_2091974: r1 = 0x21665f8u;
+L_2091978: r2 = 0x2166604u;
+L_209197c: r0 = CreateMapObjectFromModelAndAnimation_from_thumb(r0,r1,r2);
+L_2091980: r2 = 0x217b0bcu;
+L_2091984: r1 = 0x3fu;
+L_2091988: *(unsigned int *)((unsigned char *)r2 + 0) = (unsigned int)r0;
+L_209198c: r0 = StructMapObject_MaybeSetPolygonId(r0,r1);
+L_2091998: return r0;
 }
-

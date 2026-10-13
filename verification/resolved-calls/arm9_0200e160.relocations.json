@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Os_DisableScheduler",
+    "target": 33610652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422601
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Os_UnlockAllMutexes",
+    "target": 33614972,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646463
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Os_PopThread",
+    "target": 33613028,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645975
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Os_Thread_WakeUp",
+    "target": 33611676,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422849
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Os_EnableScheduler",
+    "target": 33610596,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422578
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Os_RescheduleThread",
+    "target": 33611344,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422764
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Os_Terminate",
+    "target": 33619228,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647518
+  }
+]

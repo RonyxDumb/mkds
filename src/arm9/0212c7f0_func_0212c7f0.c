@@ -1,20 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 0212c7f0. No matching claim. */
-#include "types.h"
-#include "deps/0212c7f0_func_0212c7f0.h"
-
-void func_0212c7f0(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0212bb7c(unsigned int);
+extern unsigned int IntrusiveListWrapper_RemoveItem(unsigned int, unsigned int);
+unsigned int func_0212c7f0(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 0x40U & 3;
-  uVar2 = *(uint *)(param_1 + 0x40U & 0xfffffffc);
-  func_0212bb7c(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  IntrusiveListWrapper_RemoveItem((uint *)(uintptr_t)(uRam0212c820),param_1);
-  uVar1 = param_1 + 0x24U & 3;
-  uVar2 = *(uint *)(param_1 + 0x24U & 0xfffffffc);
-  *(uint *)(param_1 + 0x24) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0xfffffffe;
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_212c7f4: r4 = r0;
+L_212c7f8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 64));
+L_212c7fc: r0 = func_0212bb7c(r0);
+L_212c800: r0 = 0x217dd1cu;
+L_212c804: r1 = r4;
+L_212c808: r0 = IntrusiveListWrapper_RemoveItem(r0,r1);
+L_212c80c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 36));
+L_212c810: r0 = (r0&~(0x1u));
+L_212c814: *(unsigned int *)((unsigned char *)r4 + 36) = (unsigned int)r0;
+L_212c81c: return r0;
 }
-

@@ -1,29 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 02067cb0. No matching claim. */
-#include "types.h"
-#include "deps/02067cb0_func_02067cb0.h"
-
-undefined4 func_02067cb0(int param_1,undefined4 *param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int StructMQRacerEntry_SomeFn_65(unsigned int);
+extern unsigned int GetGlobalRK(void);
+unsigned int func_02067cb0(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar2 = StructMQRacerEntry_SomeFn_65();
-  if (iVar2 != 0) {
-    uVar1 = param_1 + 0x7cU & 3;
-    uVar3 = *(uint *)(param_1 + 0x7cU & 0xfffffffc);
-    if (((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 1) != 0) {
-      iVar2 = GetGlobalRK();
-      uVar1 = iVar2 + 0x14U & 3;
-      uVar3 = *(uint *)(iVar2 + 0x14U & 0xfffffffc);
-      *(uint *)(iVar2 + 0x14) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 1;
-    }
-    uVar1 = param_1 + 0x48U & 3;
-    uVar3 = *(uint *)(param_1 + 0x48U & 0xfffffffc);
-    *(uint *)(param_1 + 0x48) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20 | 0x20000;
-  }
-  *param_2 = 7;
-  return 2;
+unsigned int cmp_a,cmp_b,r4,r5;
+L_2067cb8: r5 = r0;
+L_2067cbc: r4 = r1;
+L_2067cc0: r0 = StructMQRacerEntry_SomeFn_65(r0);
+L_2067cc4: cmp_a = r0; cmp_b = 0x0u;
+L_2067cc8: if ((cmp_a == cmp_b)) { goto L_2067cf4; }
+L_2067ccc: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r5 + 124));
+L_2067cd0: r0 = (r0&0x1u); cmp_a = r0; cmp_b = 0;
+L_2067cd4: if ((cmp_a == cmp_b)) { goto L_2067ce8; }
+L_2067cd8: r0 = GetGlobalRK();
+L_2067cdc: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 20));
+L_2067ce0: r1 = (r1+0x1u);
+L_2067ce4: *(unsigned int *)((unsigned char *)r0 + 20) = (unsigned int)r1;
+L_2067ce8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r5 + 72));
+L_2067cec: r0 = (r0|0x20000u);
+L_2067cf0: *(unsigned int *)((unsigned char *)r5 + 72) = (unsigned int)r0;
+L_2067cf4: r0 = 0x7u;
+L_2067cf8: *(unsigned int *)((unsigned char *)r4 + 0) = (unsigned int)r0;
+L_2067cfc: r0 = 0x2u;
+L_2067d08: return r0;
 }
-

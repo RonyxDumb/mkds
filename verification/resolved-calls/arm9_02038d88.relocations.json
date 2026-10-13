@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420819
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "DisplayConfig_SomeFn",
+    "target": 33787364,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645774
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420810
+  }
+]

@@ -1,14 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0205dc54. No matching claim. */
-#include "types.h"
-#include "deps/0205dc54_InitializeGlobalLU.h"
-
-void InitializeGlobalLU(undefined4 param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int Mem_AllocateHeap(unsigned int, unsigned int);
+unsigned int InitializeGlobalLU(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  
-  uVar1 = Mem_AllocateHeap(param_1,0x168);
-  *puRam0205dc78 = uVar1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_205dc5c: r1 = 0x168u;
+L_205dc60: r0 = Mem_AllocateHeap(r0,r1);
+L_205dc64: r1 = 0x217aa1cu;
+L_205dc68: *(unsigned int *)((unsigned char *)r1 + 0) = (unsigned int)r0;
+L_205dc74: return r0;
 }
-

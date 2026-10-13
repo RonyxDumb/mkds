@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "CreateMapObjectFromModel_from_thumb",
+    "target": 34193028,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194314060
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "StructMapObject_AddAnimationNsbca_from_thumb",
+    "target": 34192976,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194314043
+  }
+]

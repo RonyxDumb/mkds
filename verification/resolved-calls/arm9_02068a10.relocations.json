@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "StructMQRacerEntry_SomeFn_7",
+    "target": 34058324,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942664584
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "CharacterKartContext_SetNsbtpAnimationProgress",
+    "target": 34060040,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942665010
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "StructMQRacerEntry_SomeFn_5",
+    "target": 34647872,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942811960
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Card_InitializeContext",
+    "target": 34887876,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422404
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "Card_GetRomAccessFunction",
+    "target": 34890044,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422945
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "Card_InitializePulledOutCallback",
+    "target": 34892672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646383
+  }
+]

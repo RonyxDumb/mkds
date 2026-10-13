@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "func_0214d5b8",
+    "target": 34919864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942970885
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Fifo_IsHandlerReady",
+    "target": 34920348,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942971001
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "Fifo_RegisterHandler",
+    "target": 34920388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942971006
+  }
+]

@@ -1,30 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 0206d138. No matching claim. */
-#include "types.h"
-#include "deps/0206d138_StructMQRacerEntry_SomeFn_89.h"
-
-void StructMQRacerEntry_SomeFn_89(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int StructMQRacerEntry_SomeFn_5(unsigned int, unsigned int, unsigned int);
+extern unsigned int StructMQRacerEntry_SomeFn_7(unsigned int, unsigned int, unsigned int);
+unsigned int StructMQRacerEntry_SomeFn_89(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = param_1 + 0x48U & 3;
-  uVar1 = *(uint *)(param_1 + 0x48U & 0xfffffffc);
-  if (((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) & 0x840) == 0) {
-    uVar2 = param_1 + 0x3ccU & 3;
-    uVar1 = *(uint *)(param_1 + 0x3ccU & 0xfffffffc);
-    StructMQRacerEntry_SomeFn_5(param_1,uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20,8);
-  }
-  uVar2 = param_1 + 0x7cU & 3;
-  uVar1 = *(uint *)(param_1 + 0x7cU & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  if ((uVar2 & 0x10) != 0) {
-    if ((uVar2 & 0x30000) == 0) {
-      StructMQRacerEntry_SomeFn_7(param_1,2,0);
-      return;
-    }
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_206d13c: r4 = r0;
+L_206d140: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 72));
+L_206d144: r1 = (r1&0x840u); cmp_a = r1; cmp_b = 0;
+L_206d148: if ((cmp_a != cmp_b)) { goto L_206d158; }
+L_206d14c: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 972));
+L_206d150: r2 = 0x8u;
+L_206d154: r0 = StructMQRacerEntry_SomeFn_5(r0,r1,r2);
+L_206d158: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 124));
+L_206d15c: r0 = (r1&0x10u); cmp_a = r0; cmp_b = 0;
+L_206d164: if ((cmp_a == cmp_b)) { return r0; }
+L_206d168: r0 = (r1&0x30000u); cmp_a = r0; cmp_b = 0;
+L_206d170: if ((cmp_a != cmp_b)) { return r0; }
+L_206d174: r0 = r4;
+L_206d178: r1 = 0x2u;
+L_206d17c: r2 = 0x0u;
+L_206d180: r0 = StructMQRacerEntry_SomeFn_7(r0,r1,r2);
+L_206d188: return r0;
 }
-

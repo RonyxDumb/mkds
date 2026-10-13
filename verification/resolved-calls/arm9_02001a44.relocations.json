@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "ReadSaveData_NonGhost_from_thumb",
+    "target": 33910680,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194391377
+  }
+]

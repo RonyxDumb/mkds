@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "func_0210e328",
+    "target": 34661160,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646988
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "StructMQChild_Create",
+    "target": 34651360,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421752
+  }
+]

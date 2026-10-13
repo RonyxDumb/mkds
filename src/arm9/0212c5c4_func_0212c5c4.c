@@ -1,18 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 0212c5c4. No matching claim. */
-#include "types.h"
-#include "deps/0212c5c4_func_0212c5c4.h"
-
-void func_0212c5c4(uint param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_02020d68(unsigned int, unsigned int);
+unsigned int func_0212c5c4(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  if (uVar1 != 0) {
-    func_02020d68(*(undefined1 *)(uVar1 + 0x3c));
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_212c5cc: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_212c5d0: cmp_a = r0; cmp_b = 0x0u;
+L_212c5dc: if ((cmp_a == cmp_b)) { return r0; }
+L_212c5e0: r0 = (unsigned int)(*(unsigned char *)((unsigned char *)r0 + 60));
+L_212c5e4: r0 = func_02020d68(r0,r1);
+L_212c5f0: return r0;
 }
-

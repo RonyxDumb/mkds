@@ -1,0 +1,119 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "G3X_SetFog",
+    "target": 34908140,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942883660
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "G3X_SetFogTable",
+    "target": 34907976,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942883617
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "G3X_SetFog",
+    "target": 34908140,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942883629
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "G3X_SetFogTable",
+    "target": 34907976,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942883579
+  },
+  {
+    "offset": 232,
+    "type": 1,
+    "symbol": "G3X_SetFog",
+    "target": 34908140,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942883614
+  },
+  {
+    "offset": 260,
+    "type": 1,
+    "symbol": "G3X_SetFog",
+    "target": 34908140,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942883607
+  },
+  {
+    "offset": 296,
+    "type": 1,
+    "symbol": "G3X_SetFogTable",
+    "target": 34907976,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942883557
+  },
+  {
+    "offset": 316,
+    "type": 1,
+    "symbol": "func_02062078",
+    "target": 33955960,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422764
+  },
+  {
+    "offset": 328,
+    "type": 1,
+    "symbol": "func_0208b870",
+    "target": 34125936,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942688039
+  },
+  {
+    "offset": 340,
+    "type": 1,
+    "symbol": "func_0208ee7c",
+    "target": 34139772,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942691495
+  },
+  {
+    "offset": 344,
+    "type": 1,
+    "symbol": "func_02089fa0",
+    "target": 34119584,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942686447
+  },
+  {
+    "offset": 376,
+    "type": 1,
+    "symbol": "func_02086250",
+    "target": 34103888,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942682515
+  },
+  {
+    "offset": 380,
+    "type": 1,
+    "symbol": "func_02104118",
+    "target": 34619672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942811460
+  }
+]

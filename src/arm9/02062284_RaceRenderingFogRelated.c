@@ -1,98 +1,113 @@
-/* Decompiled C draft; module arm9; ROM address 02062284. No matching claim. */
-#include "types.h"
-#include "deps/02062284_RaceRenderingFogRelated.h"
-
-void RaceRenderingFogRelated(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int G3X_SetFog(unsigned int, unsigned int, unsigned int, unsigned int);
+extern unsigned int G3X_SetFogTable(unsigned int);
+extern unsigned int func_02062078(void);
+extern unsigned int func_0208b870(unsigned int);
+extern unsigned int func_0208ee7c(unsigned int);
+extern unsigned int func_02089fa0(void);
+extern unsigned int func_02086250(unsigned int);
+extern unsigned int func_02104118(void);
+unsigned int RaceRenderingFogRelated(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  if (*(uint *)(uRam02062424 & 0xfffffffc) >> (uRam02062424 & 3) * 8 == 0 &&
-      *(uint *)(uRam02062424 & 0xfffffffc) << (uRam02062424 & 3) * -8 + 0x20 == 0) {
-    uVar2 = *(uint *)(uRam02062440 & 0xfffffffc) >> (uRam02062440 & 3) * 8 |
-            *(uint *)(uRam02062440 & 0xfffffffc) << (uRam02062440 & 3) * -8 + 0x20;
-    uVar3 = uVar2 + 0x20;
-    uVar4 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-    uVar2 = uVar2 + 0x24;
-    uVar3 = uVar2 & 3;
-    uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-    if (uVar4 != (uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20)) {
-      if (uVar4 == 0) {
-        uVar3 = (*(uint *)(uRam02062444 & 0xfffffffc) >> (uRam02062444 & 3) * 8 |
-                *(uint *)(uRam02062444 & 0xfffffffc) << (uRam02062444 & 3) * -8 + 0x20) + 0x18;
-        uVar2 = uVar3 & 3;
-        uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-        if (*(char *)((uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + 5) == '\0') {
-          G3X_SetFog(0,0,5,0);
-        }
-        else {
-          G3X_SetFog(1,0,*(uint *)(uRam02062428 & 0xfffffffc) >> (uRam02062428 & 3) * 8 |
-                         *(uint *)(uRam02062428 & 0xfffffffc) << (uRam02062428 & 3) * -8 + 0x20,
-                     *(uint *)(uRam02062448 & 0xfffffffc) >> (uRam02062448 & 3) * 8 |
-                     *(uint *)(uRam02062448 & 0xfffffffc) << (uRam02062448 & 3) * -8 + 0x20);
-          uVar1 = uRam02062454;
-          *puRam0206243c =
-               (uint)*puRam0206244c |
-               (*(uint *)(uRam02062450 & 0xfffffffc) >> (uRam02062450 & 3) * 8 |
-               *(uint *)(uRam02062450 & 0xfffffffc) << (uRam02062450 & 3) * -8 + 0x20) << 0x10;
-          G3X_SetFogTable(uVar1);
-        }
-      }
-      else {
-        G3X_SetFog(1,0,*(uint *)(uRam02062428 & 0xfffffffc) >> (uRam02062428 & 3) * 8 |
-                       *(uint *)(uRam02062428 & 0xfffffffc) << (uRam02062428 & 3) * -8 + 0x20,0);
-        uVar1 = uRam02062430;
-        *puRam0206243c =
-             (uint)*puRam02062458 |
-             (*(uint *)(uRam0206245c & 0xfffffffc) >> (uRam0206245c & 3) * 8 |
-             *(uint *)(uRam0206245c & 0xfffffffc) << (uRam0206245c & 3) * -8 + 0x20) << 0x10;
-        G3X_SetFogTable(uVar1);
-      }
-    }
-  }
-  else {
-    G3X_SetFog(1,0,*(uint *)(uRam02062428 & 0xfffffffc) >> (uRam02062428 & 3) * 8 |
-                   *(uint *)(uRam02062428 & 0xfffffffc) << (uRam02062428 & 3) * -8 + 0x20,
-               *(uint *)(uRam0206242c & 0xfffffffc) >> (uRam0206242c & 3) * 8 |
-               *(uint *)(uRam0206242c & 0xfffffffc) << (uRam0206242c & 3) * -8 + 0x20);
-    G3X_SetFogTable(uRam02062430);
-    *puRam0206243c =
-         (uint)*puRam02062434 |
-         (*(uint *)(uRam02062438 & 0xfffffffc) >> (uRam02062438 & 3) * 8 |
-         *(uint *)(uRam02062438 & 0xfffffffc) << (uRam02062438 & 3) * -8 + 0x20) << 0x10;
-  }
-  uVar4 = *(uint *)(uRam02062440 & 0xfffffffc) >> (uRam02062440 & 3) * 8 |
-          *(uint *)(uRam02062440 & 0xfffffffc) << (uRam02062440 & 3) * -8 + 0x20;
-  uVar3 = uVar4 + 0x20;
-  uVar2 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  *(uint *)(uVar4 + 0x24) = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
-  func_02062078();
-  func_0208b870(*(uint *)(uRam02062460 & 0xfffffffc) >> (uRam02062460 & 3) * 8 |
-                *(uint *)(uRam02062460 & 0xfffffffc) << (uRam02062460 & 3) * -8 + 0x20);
-  func_0208ee7c(*(uint *)(uRam02062460 & 0xfffffffc) >> (uRam02062460 & 3) * 8 |
-                *(uint *)(uRam02062460 & 0xfffffffc) << (uRam02062460 & 3) * -8 + 0x20);
-  func_02089fa0();
-  uVar3 = (*(uint *)(uRam02062440 & 0xfffffffc) >> (uRam02062440 & 3) * 8 |
-          *(uint *)(uRam02062440 & 0xfffffffc) << (uRam02062440 & 3) * -8 + 0x20) + 0x28;
-  uVar2 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  if (uVar3 >> uVar2 * 8 == 0 && uVar3 << uVar2 * -8 + 0x20 == 0) {
-    func_02086250(*(uint *)(uRam02062460 & 0xfffffffc) >> (uRam02062460 & 3) * 8 |
-                  *(uint *)(uRam02062460 & 0xfffffffc) << (uRam02062460 & 3) * -8 + 0x20);
-  }
-  func_02104118();
-  uVar4 = *(uint *)(uRam02062440 & 0xfffffffc) >> (uRam02062440 & 3) * 8 |
-          *(uint *)(uRam02062440 & 0xfffffffc) << (uRam02062440 & 3) * -8 + 0x20;
-  uVar3 = uVar4 + 8;
-  uVar2 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  *(uint *)(uVar4 + 8) = (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + 1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_206228c: r0 = 0x217aa4cu;
+L_2062290: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2062294: cmp_a = r0; cmp_b = 0x0u;
+L_2062298: if ((cmp_a == cmp_b)) { goto L_20622e0; }
+L_206229c: r1 = 0x217aa80u;
+L_20622a0: r0 = 0x217aa70u;
+L_20622a4: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 0));
+L_20622a8: r3 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20622ac: r0 = 0x1u;
+L_20622b0: r1 = 0x0u;
+L_20622b4: r0 = G3X_SetFog(r0,r1,r2,r3);
+L_20622b8: r0 = 0x217aa9cu;
+L_20622bc: r0 = G3X_SetFogTable(r0);
+L_20622c0: r1 = 0x217aa28u;
+L_20622c4: r0 = 0x217aa68u;
+L_20622c8: r2 = (unsigned int)(*(unsigned short *)((unsigned char *)r1 + 0));
+L_20622cc: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20622d0: r0 = 0x4000358u;
+L_20622d4: r1 = (r2|(r1 << 16));
+L_20622d8: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_20622dc: goto L_20623b0;
+L_20622e0: r0 = 0x217aa54u;
+L_20622e4: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20622e8: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 32));
+L_20622ec: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 36));
+L_20622f0: cmp_a = r1; cmp_b = r0;
+L_20622f4: if ((cmp_a == cmp_b)) { goto L_20623b0; }
+L_20622f8: cmp_a = r1; cmp_b = 0x0u;
+L_20622fc: if ((cmp_a != cmp_b)) { goto L_2062374; }
+L_2062300: r0 = 0x2175620u;
+L_2062304: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2062308: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 24));
+L_206230c: r0 = (unsigned int)(*(unsigned char *)((unsigned char *)r0 + 5));
+L_2062310: cmp_a = r0; cmp_b = 0x0u;
+L_2062314: if ((cmp_a == cmp_b)) { goto L_206235c; }
+L_2062318: r1 = 0x217aa80u;
+L_206231c: r0 = 0x217aa48u;
+L_2062320: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 0));
+L_2062324: r3 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2062328: r0 = 0x1u;
+L_206232c: r1 = 0x0u;
+L_2062330: r0 = G3X_SetFog(r0,r1,r2,r3);
+L_2062334: r1 = 0x217aa38u;
+L_2062338: r0 = 0x217aa50u;
+L_206233c: r2 = (unsigned int)(*(unsigned short *)((unsigned char *)r1 + 0));
+L_2062340: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2062344: r1 = 0x4000358u;
+L_2062348: r2 = (r2|(r0 << 16));
+L_206234c: r0 = 0x217aabcu;
+L_2062350: *(unsigned int *)((unsigned char *)r1 + 0) = (unsigned int)r2;
+L_2062354: r0 = G3X_SetFogTable(r0);
+L_2062358: goto L_20623b0;
+L_206235c: r0 = 0x0u;
+L_2062360: r1 = r0;
+L_2062364: r3 = r0;
+L_2062368: r2 = 0x5u;
+L_206236c: r0 = G3X_SetFog(r0,r1,r2,r3);
+L_2062370: goto L_20623b0;
+L_2062374: r0 = 0x217aa80u;
+L_2062378: r1 = 0x0u;
+L_206237c: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2062380: r3 = r1;
+L_2062384: r0 = 0x1u;
+L_2062388: r0 = G3X_SetFog(r0,r1,r2,r3);
+L_206238c: r1 = 0x217aa30u;
+L_2062390: r0 = 0x217aa60u;
+L_2062394: r2 = (unsigned int)(*(unsigned short *)((unsigned char *)r1 + 0));
+L_2062398: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_206239c: r1 = 0x4000358u;
+L_20623a0: r2 = (r2|(r0 << 16));
+L_20623a4: r0 = 0x217aa9cu;
+L_20623a8: *(unsigned int *)((unsigned char *)r1 + 0) = (unsigned int)r2;
+L_20623ac: r0 = G3X_SetFogTable(r0);
+L_20623b0: r0 = 0x217aa54u;
+L_20623b4: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20623b8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 32));
+L_20623bc: *(unsigned int *)((unsigned char *)r1 + 36) = (unsigned int)r0;
+L_20623c0: r0 = func_02062078();
+L_20623c4: r0 = 0x217aa7cu;
+L_20623c8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20623cc: r0 = func_0208b870(r0);
+L_20623d0: r0 = 0x217aa7cu;
+L_20623d4: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20623d8: r0 = func_0208ee7c(r0);
+L_20623dc: r0 = func_02089fa0();
+L_20623e0: r0 = 0x217aa54u;
+L_20623e4: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20623e8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 40));
+L_20623ec: cmp_a = r0; cmp_b = 0x0u;
+L_20623f0: if ((cmp_a != cmp_b)) { goto L_2062400; }
+L_20623f4: r0 = 0x217aa7cu;
+L_20623f8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20623fc: r0 = func_02086250(r0);
+L_2062400: r0 = func_02104118();
+L_2062404: r0 = 0x217aa54u;
+L_2062408: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_206240c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 8));
+L_2062410: r0 = (r0+0x1u);
+L_2062414: *(unsigned int *)((unsigned char *)r1 + 8) = (unsigned int)r0;
+L_2062420: return r0;
 }
-

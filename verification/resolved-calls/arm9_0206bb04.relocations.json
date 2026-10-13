@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "DriverContext_UpdateCharacterAnimation",
+    "target": 33983076,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959419841
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "func_02088c7c",
+    "target": 34114684,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942675508
+  }
+]

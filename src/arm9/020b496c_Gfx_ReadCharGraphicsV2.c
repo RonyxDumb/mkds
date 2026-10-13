@@ -1,32 +1,25 @@
-/* Decompiled C draft; module arm9; ROM address 020b496c. No matching claim. */
-#include "types.h"
-#include "deps/020b496c_Gfx_ReadCharGraphicsV2.h"
-
-void Gfx_ReadCharGraphicsV2(int *param_1,int param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int Common_FindBlockByMagic(unsigned int, unsigned int);
+extern unsigned int Gfx_MakeCharGraphicsOffsetsAbsoluteV2(unsigned int);
+extern unsigned int Arm_FlushRange(unsigned int, unsigned int);
+unsigned int Gfx_ReadCharGraphicsV2(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  if ((param_2 != 0) && (iVar3 = Common_FindBlockByMagic(param_2,uRam020b49b8), iVar3 != 0)) {
-    *param_1 = iVar3 + 8;
-    Gfx_MakeCharGraphicsOffsetsAbsoluteV2
-              (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-               *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20);
-  }
-  uVar5 = *(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-          *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
-  uVar1 = uVar5 + 0x14;
-  uVar2 = uVar1 & 3;
-  uVar4 = *(uint *)(uVar1 & 0xfffffffc);
-  uVar5 = uVar5 + 0x10;
-  uVar1 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  Arm_FlushRange(uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20,
-                 uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20);
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_20b4970: r4 = r0;
+L_20b4974: cmp_a = r1; cmp_b = 0x0u;
+L_20b4978: if ((cmp_a == cmp_b)) { goto L_20b49a0; }
+L_20b497c: r0 = r1;
+L_20b4980: r1 = 0x43484152u;
+L_20b4984: r0 = Common_FindBlockByMagic(r0,r1);
+L_20b4988: cmp_a = r0; cmp_b = 0x0u;
+L_20b498c: if ((cmp_a == cmp_b)) { goto L_20b49a0; }
+L_20b4990: r0 = (r0+0x8u);
+L_20b4994: *(unsigned int *)((unsigned char *)r4 + 0) = (unsigned int)r0;
+L_20b4998: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 0));
+L_20b499c: r0 = Gfx_MakeCharGraphicsOffsetsAbsoluteV2(r0);
+L_20b49a0: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 0));
+L_20b49a4: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 20));
+L_20b49a8: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 16));
+L_20b49ac: r0 = Arm_FlushRange(r0,r1);
+L_20b49b4: return r0;
 }
-

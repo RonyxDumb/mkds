@@ -1,15 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 02099440. No matching claim. */
-#include "types.h"
-#include "deps/02099440_LoadBankEgg1MapObject.h"
-
-void LoadBankEgg1MapObject(undefined4 param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int CreateMapObjectFromModel_2_from_thumb(unsigned int, unsigned int);
+extern unsigned int StructMapObject_MaybeSetPolygonId(unsigned int, unsigned int);
+unsigned int LoadBankEgg1MapObject(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  
-  uVar1 = CreateMapObjectFromModel_2_from_thumb(param_1,uRam0209946c);
-  *puRam02099470 = uVar1;
-  StructMapObject_MaybeSetPolygonId(uVar1,0x3f);
-  return;
+unsigned int cmp_a,cmp_b;
+L_2099448: r1 = 0x216706cu;
+L_209944c: r0 = CreateMapObjectFromModel_2_from_thumb(r0,r1);
+L_2099450: r2 = 0x217b164u;
+L_2099454: r1 = 0x3fu;
+L_2099458: *(unsigned int *)((unsigned char *)r2 + 0) = (unsigned int)r0;
+L_209945c: r0 = StructMapObject_MaybeSetPolygonId(r0,r1);
+L_2099468: return r0;
 }
-

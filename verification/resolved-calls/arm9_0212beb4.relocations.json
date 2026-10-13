@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_NextItem",
+    "target": 33649468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959139611
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_NextItem",
+    "target": 33649468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959139602
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_SomeFn_0",
+    "target": 33649600,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959139630
+  }
+]

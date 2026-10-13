@@ -1,29 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 02068094. No matching claim. */
-#include "types.h"
-#include "deps/02068094_func_02068094.h"
-
-void func_02068094(int param_1,undefined4 param_2,undefined4 param_3)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0206b020(unsigned int, unsigned int);
+extern unsigned int GetGlobalRK(void);
+unsigned int func_02068094(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar2 = func_0206b020(param_1,param_3);
-  if (iVar2 != 0) {
-    uVar1 = param_1 + 0x7cU & 3;
-    uVar3 = *(uint *)(param_1 + 0x7cU & 0xfffffffc);
-    if (((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 1) != 0) {
-      iVar2 = GetGlobalRK();
-      uVar1 = iVar2 + 0x14U & 3;
-      uVar3 = *(uint *)(iVar2 + 0x14U & 0xfffffffc);
-      *(uint *)(iVar2 + 0x14) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 1;
-    }
-    uVar1 = param_1 + 0x48U & 3;
-    uVar3 = *(uint *)(param_1 + 0x48U & 0xfffffffc);
-    *(uint *)(param_1 + 0x48) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20 | 0x20000;
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_2068098: r1 = r2;
+L_206809c: r4 = r0;
+L_20680a0: r0 = func_0206b020(r0,r1);
+L_20680a4: cmp_a = r0; cmp_b = 0x0u;
+L_20680ac: if ((cmp_a == cmp_b)) { return r0; }
+L_20680b0: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 124));
+L_20680b4: r0 = (r0&0x1u); cmp_a = r0; cmp_b = 0;
+L_20680b8: if ((cmp_a == cmp_b)) { goto L_20680cc; }
+L_20680bc: r0 = GetGlobalRK();
+L_20680c0: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 20));
+L_20680c4: r1 = (r1+0x1u);
+L_20680c8: *(unsigned int *)((unsigned char *)r0 + 20) = (unsigned int)r1;
+L_20680cc: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 72));
+L_20680d0: r0 = (r0|0x20000u);
+L_20680d4: *(unsigned int *)((unsigned char *)r4 + 72) = (unsigned int)r0;
+L_20680dc: return r0;
 }
-

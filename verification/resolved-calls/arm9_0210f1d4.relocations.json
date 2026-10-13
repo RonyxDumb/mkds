@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "RegisterFifoMicrophone",
+    "target": 34927640,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942711437
+  },
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "PM_Initialize",
+    "target": 34930848,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942712238
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "func_0214fb3c",
+    "target": 34929468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942711891
+  }
+]

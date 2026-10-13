@@ -1,14 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 0214b3f8. No matching claim. */
-#include "types.h"
-#include "deps/0214b3f8_func_0214b3f8.h"
-
-void func_0214b3f8(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_02148f64(void);
+unsigned int func_0214b3f8(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  
-  uVar1 = func_02148f64();
-  *puRam0214b418 = uVar1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_214b400: r0 = func_02148f64();
+L_214b404: r1 = 0x21802e4u;
+L_214b408: *(unsigned int *)((unsigned char *)r1 + 0) = (unsigned int)r0;
+L_214b414: return r0;
 }
-

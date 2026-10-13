@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "MI_WaitDma",
+    "target": 34916640,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646095
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "func_021494f0",
+    "target": 34903280,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959419968
+  }
+]

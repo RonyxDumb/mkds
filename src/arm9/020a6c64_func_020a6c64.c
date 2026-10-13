@@ -1,28 +1,28 @@
-/* Decompiled C draft; module arm9; ROM address 020a6c64. No matching claim. */
-#include "types.h"
-#include "deps/020a6c64_func_020a6c64.h"
-
-void func_020a6c64(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_020d2398(unsigned int);
+extern unsigned int GetActiveExecutionContext(void);
+extern unsigned int ExecutionContext_GetHeapHandle(unsigned int);
+extern unsigned int Mem_AllocateHeap(unsigned int, unsigned int);
+extern unsigned int StructMQRacerEntry_SomeFn_45(unsigned int, unsigned int, unsigned int);
+extern unsigned int func_0210bae8(unsigned int);
+unsigned int func_020a6c64(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  
-  func_020d2398();
-  GetActiveExecutionContext();
-  uVar2 = ExecutionContext_GetHeapHandle();
-  uVar2 = Mem_AllocateHeap(uVar2,0x44);
-  *(undefined4 *)(param_1 + 0x94) = uVar2;
-  uVar1 = param_1 + 0x94U & 3;
-  uVar3 = *(uint *)(param_1 + 0x94U & 0xfffffffc);
-  StructMQRacerEntry_SomeFn_45(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,0xb,param_1 + 4);
-  uVar1 = param_1 + 0x94U & 3;
-  uVar3 = *(uint *)(param_1 + 0x94U & 0xfffffffc);
-  func_0210bae8(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
-  uVar1 = iRam020a6cb0 + 0x1acU & 3;
-  uVar3 = *(uint *)(iRam020a6cb0 + 0x1acU & 0xfffffffc);
-  *(uint *)(param_1 + 0x70) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_20a6c68: r4 = r0;
+L_20a6c6c: r0 = func_020d2398(r0);
+L_20a6c70: r0 = GetActiveExecutionContext();
+L_20a6c74: r0 = ExecutionContext_GetHeapHandle(r0);
+L_20a6c78: r1 = 0x44u;
+L_20a6c7c: r0 = Mem_AllocateHeap(r0,r1);
+L_20a6c80: *(unsigned int *)((unsigned char *)r4 + 148) = (unsigned int)r0;
+L_20a6c84: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 148));
+L_20a6c88: r2 = (r4+0x4u);
+L_20a6c8c: r1 = 0xbu;
+L_20a6c90: r0 = StructMQRacerEntry_SomeFn_45(r0,r1,r2);
+L_20a6c94: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 148));
+L_20a6c98: r0 = func_0210bae8(r0);
+L_20a6c9c: r0 = 0x217ca6cu;
+L_20a6ca0: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 428));
+L_20a6ca4: *(unsigned int *)((unsigned char *)r4 + 112) = (unsigned int)r0;
+L_20a6cac: return r0;
 }
-

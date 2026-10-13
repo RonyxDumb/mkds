@@ -1,14 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 02017568. No matching claim. */
-#include "types.h"
-#include "deps/02017568_Mem_FinalizeHeapHead.h"
-
-void Mem_FinalizeHeapHead(undefined4 param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int Mem_FindTopParentHeapHeadList(unsigned int, unsigned int, unsigned int, unsigned int);
+extern unsigned int IntrusiveListWrapper_RemoveItem(unsigned int, unsigned int);
+unsigned int Mem_FinalizeHeapHead(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  
-  uVar1 = Mem_FindTopParentHeapHeadList();
-  IntrusiveListWrapper_RemoveItem((uint *)(uintptr_t)(uVar1),param_1);
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_201756c: r4 = r0;
+L_2017570: r0 = Mem_FindTopParentHeapHeadList(r0,r1,r2,r3);
+L_2017574: r1 = r4;
+L_2017578: r0 = IntrusiveListWrapper_RemoveItem(r0,r1);
+L_2017580: return r0;
 }
-

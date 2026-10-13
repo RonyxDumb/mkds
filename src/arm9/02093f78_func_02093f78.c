@@ -1,14 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 02093f78. No matching claim. */
-#include "types.h"
-#include "deps/02093f78_func_02093f78.h"
-
-void func_02093f78(undefined4 param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int CreateMapObjectFromModel_from_thumb(unsigned int, unsigned int);
+unsigned int func_02093f78(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  
-  uVar1 = CreateMapObjectFromModel_from_thumb(param_1,uRam02093f9c);
-  *puRam02093fa0 = uVar1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_2093f80: r1 = 0x21667b0u;
+L_2093f84: r0 = CreateMapObjectFromModel_from_thumb(r0,r1);
+L_2093f88: r1 = 0x217b0d4u;
+L_2093f8c: *(unsigned int *)((unsigned char *)r1 + 0) = (unsigned int)r0;
+L_2093f98: return r0;
 }
-

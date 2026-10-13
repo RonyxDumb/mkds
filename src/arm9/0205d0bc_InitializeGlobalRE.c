@@ -1,14 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 0205d0bc. No matching claim. */
-#include "types.h"
-#include "deps/0205d0bc_InitializeGlobalRE.h"
-
-undefined4 InitializeGlobalRE(undefined4 param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int Mem_AllocateHeap(unsigned int, unsigned int);
+unsigned int InitializeGlobalRE(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  
-  uVar1 = Mem_AllocateHeap(param_1,10);
-  *puRam0205d0e4 = uVar1;
-  return 10;
+unsigned int cmp_a,cmp_b;
+L_205d0c4: r1 = 0xau;
+L_205d0c8: r0 = Mem_AllocateHeap(r0,r1);
+L_205d0cc: r1 = 0x217aa18u;
+L_205d0d0: *(unsigned int *)((unsigned char *)r1 + 0) = (unsigned int)r0;
+L_205d0d4: r0 = 0xau;
+L_205d0e0: return r0;
 }
-

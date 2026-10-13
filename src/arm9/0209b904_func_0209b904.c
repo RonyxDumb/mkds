@@ -1,23 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 0209b904. No matching claim. */
-#include "types.h"
-#include "deps/0209b904_func_0209b904.h"
-
-void func_0209b904(int param_1,undefined4 param_2,undefined4 param_3)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int ModelBlock_SomeTexPltFn_3(unsigned int, unsigned int, unsigned int);
+unsigned int func_0209b904(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = param_1 + 0x10U & 3;
-  uVar1 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  if (uVar2 != 0) {
-    uVar2 = uVar2 + 4;
-    uVar1 = uVar2 & 3;
-    uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-    ModelBlock_SomeTexPltFn_3(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,param_3,param_2);
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_209b90c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 16));
+L_209b910: r3 = r1;
+L_209b914: cmp_a = r0; cmp_b = 0x0u;
+L_209b920: if ((cmp_a == cmp_b)) { return r0; }
+L_209b924: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 4));
+L_209b928: r1 = r2;
+L_209b92c: r2 = r3;
+L_209b930: r0 = ModelBlock_SomeTexPltFn_3(r0,r1,r2);
+L_209b93c: return r0;
 }
-

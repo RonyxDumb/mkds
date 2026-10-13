@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "MI_WaitDma",
+    "target": 34916640,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647039
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "GX_SetBankForOBJExtPltt",
+    "target": 34904040,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421102
+  }
+]

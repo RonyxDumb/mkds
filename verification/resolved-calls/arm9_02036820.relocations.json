@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Mem_Frame_SomeFn4",
+    "target": 33652516,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391676
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Mem_FindGlobalTopParentHeapHead",
+    "target": 33650000,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391044
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Mem_ResizeExpHeap",
+    "target": 33650608,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391193
+  }
+]

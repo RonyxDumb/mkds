@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "Os_Terminate",
+    "target": 33619228,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959098703
+  }
+]

@@ -1,19 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 0205edcc. No matching claim. */
-#include "types.h"
-#include "deps/0205edcc_SaveFriendList.h"
-
-void SaveFriendList(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int WriteSaveDataSection_FriendList_from_thumb(unsigned int);
+extern unsigned int WriteSaveDataHeader_from_thumb(void);
+unsigned int SaveFriendList(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = (*(uint *)(uRam0205edf4 & 0xfffffffc) >> (uRam0205edf4 & 3) * 8 |
-          *(uint *)(uRam0205edf4 & 0xfffffffc) << (uRam0205edf4 & 3) * -8 + 0x20) + 0x20;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  WriteSaveDataSection_FriendList_from_thumb(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  WriteSaveDataHeader_from_thumb();
-  return;
+unsigned int cmp_a,cmp_b;
+L_205edd4: r0 = 0x217aa08u;
+L_205edd8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_205eddc: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 32));
+L_205ede0: r0 = WriteSaveDataSection_FriendList_from_thumb(r0);
+L_205ede4: r0 = WriteSaveDataHeader_from_thumb();
+L_205edf0: return r0;
 }
-

@@ -1,0 +1,137 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Os_InitializeMemoryRegionAddresses",
+    "target": 33616400,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645968
+  },
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "func_0214d5b8",
+    "target": 34919864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942971833
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Os_InitializeLock",
+    "target": 33607720,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421012
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Os_InitializeMainExMemoryRegionAddress",
+    "target": 33616272,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645933
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Os_InitializeIrqThreadQueue",
+    "target": 33606916,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420809
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Os_InitializeSvcStack",
+    "target": 33606196,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420628
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Os_InitializeExceptionHandler",
+    "target": 33617136,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646146
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Mem_Initialize",
+    "target": 34919828,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942971818
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Os_InitializeVAlarm",
+    "target": 33618972,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646603
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "OSi_InitVramExclusive",
+    "target": 33619928,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646841
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Os_InitializeThread",
+    "target": 33612680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422244
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Os_InitializeResetFifoHandler",
+    "target": 33619316,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646686
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "CTRDG_Initialize_from_thumb",
+    "target": 33605620,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211078717
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Card_Initialize",
+    "target": 34890068,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942964372
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "PM_Initialize",
+    "target": 34930848,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942974566
+  }
+]

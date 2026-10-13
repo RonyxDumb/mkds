@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetRaceStartCountdown",
+    "target": 34288628,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391492
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "func_020d1de8",
+    "target": 34414056,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422824
+  },
+  {
+    "offset": 152,
+    "type": 1,
+    "symbol": "func_020d1a98",
+    "target": 34413208,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422601
+  },
+  {
+    "offset": 168,
+    "type": 1,
+    "symbol": "func_020d18d4",
+    "target": 34412756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422484
+  }
+]

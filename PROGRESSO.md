@@ -12,6 +12,7 @@
 | 10 | 7.616 | 63,27% | 1.160 | 27.568 |
 | 11 | 7.619 | 63,29% | 1.174 | 28.104 |
 | 12 | 7.619 | 63,29% | 1.222 | 29.070 |
+| 13 | 7.800 | 64,79% | 1.663 | 62.902 |
 
 Checkpoint 4: 846 puntatori tipizzati, 484 nuove compilazioni riuscite.
 
@@ -33,3 +34,5 @@ Checkpoint 10: +17 funzioni ARM e +524 byte verificati con Clang (Zig 0.14.1). R
 Checkpoint 11: +14 funzioni e +536 byte. Recuperato MW build 82. Ricompilazione completa: 1.012 prove senza relocazioni e 162 prove con tutte le relocazioni risolte passano. Il controllo `audit_current_unrelocated.py` seleziona il compilatore corretto per le prove Clang e non riscrive i registri.
 
 Checkpoint 12: +48 funzioni Thumb, +966 byte, tutte riconfermate con ricompilazione. Ricerca sulle 6.802 bozze C con sei ottimizzazioni: zero nuovi match. Totale della sessione: +62 funzioni e +1.502 byte rispetto al checkpoint 10. Il 10% dei byte non e stato raggiunto; servono altri 162.298 byte.
+
+Checkpoint 13: +441 funzioni e +33.832 byte. Folding dei soli literal pool referenziati da LDR PC, resolver ARM BLX con controllo Capstone indipendente, CFG con tutti i ritorni e chiamate con arita inferita dai sorgenti. Ricerca literal: 6.754 candidati / 123 match. CFG: 1.334 candidati / 318 match. Ricompilazione completa: 1.091 prove senza relocazioni e 572 con relocazioni, tutte PASS. Target 10% ancora in corso.

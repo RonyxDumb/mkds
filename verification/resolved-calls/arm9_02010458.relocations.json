@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "NNS_G3dGetResDataByName",
+    "target": 33634484,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942649104
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "func_0201063c",
+    "target": 33621564,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645867
+  }
+]

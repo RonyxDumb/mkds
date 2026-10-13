@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "DriverContext_ApplyShroomBoost",
+    "target": 33988024,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959280467
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "func_020f4754",
+    "target": 34555732,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422391
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "func_020fe958",
+    "target": 34597208,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942655532
+  }
+]

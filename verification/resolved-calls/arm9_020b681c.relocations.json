@@ -1,0 +1,83 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "GetCurrentInternalCourseId_0",
+    "target": 34295388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421322
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "func_020b6b18",
+    "target": 34302744,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645934
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "func_020b6b18",
+    "target": 34302744,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645918
+  },
+  {
+    "offset": 180,
+    "type": 1,
+    "symbol": "func_020b6b18",
+    "target": 34302744,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645904
+  },
+  {
+    "offset": 236,
+    "type": 1,
+    "symbol": "func_020b6b18",
+    "target": 34302744,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645890
+  },
+  {
+    "offset": 292,
+    "type": 1,
+    "symbol": "func_020b6b18",
+    "target": 34302744,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645876
+  },
+  {
+    "offset": 348,
+    "type": 1,
+    "symbol": "func_020b6b18",
+    "target": 34302744,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645862
+  },
+  {
+    "offset": 404,
+    "type": 1,
+    "symbol": "func_020b6b18",
+    "target": 34302744,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645848
+  },
+  {
+    "offset": 428,
+    "type": 1,
+    "symbol": "func_020b6a98",
+    "target": 34302616,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645810
+  }
+]

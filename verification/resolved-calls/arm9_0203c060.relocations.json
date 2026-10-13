@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "LoopFn_Some3D",
+    "target": 33782336,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959418484
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "StructHU_InvokeFunc_from_thumb",
+    "target": 34265644,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194420333
+  }
+]

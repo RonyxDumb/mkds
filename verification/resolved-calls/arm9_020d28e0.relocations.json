@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetActiveExecutionContext",
+    "target": 33776872,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959262974
+  },
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "ExecutionContext_GetHeapHandle",
+    "target": 33776864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959262971
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959263420
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "StructMQRacerEntry_SomeFn_45",
+    "target": 34640144,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942701568
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "func_0210cf9c",
+    "target": 34656156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942705565
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "StructMQRacerEntry_SomeFn_47",
+    "target": 34656188,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942705565
+  }
+]

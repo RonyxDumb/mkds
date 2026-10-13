@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Common_FindBlockByMagic",
+    "target": 33693648,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959272781
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Gfx_MakePaletteOffsetsAbsolute",
+    "target": 33693580,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959272758
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959253228
+  }
+]

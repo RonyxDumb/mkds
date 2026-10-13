@@ -1,14 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 0203b1fc. No matching claim. */
-#include "types.h"
-#include "deps/0203b1fc_func_0203b1fc.h"
-
-void func_0203b1fc(undefined4 param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0204f240(unsigned int, unsigned int);
+extern unsigned int func_020445f8(void);
+unsigned int func_0203b1fc(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  if (*psRam0203b22c == 2) {
-    func_0204f240(param_1,1);
-  }
-  func_020445f8();
-  return;
+unsigned int cmp_a,cmp_b;
+L_203b204: r1 = 0x27ffc40u;
+L_203b208: r1 = (unsigned int)(*(unsigned short *)((unsigned char *)r1 + 0));
+L_203b20c: cmp_a = r1; cmp_b = 0x2u;
+L_203b210: if ((cmp_a != cmp_b)) { goto L_203b21c; }
+L_203b214: r1 = 0x1u;
+L_203b218: r0 = func_0204f240(r0,r1);
+L_203b21c: r0 = func_020445f8();
+L_203b228: return r0;
 }
-

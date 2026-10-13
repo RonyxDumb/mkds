@@ -1,26 +1,28 @@
-/* Decompiled C draft; module arm9; ROM address 0200e160. No matching claim. */
-#include "types.h"
-#include "deps/0200e160_Os_DisposeCurrentThreadImpl.h"
-
-void Os_DisposeCurrentThreadImpl(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int Os_DisableScheduler(void);
+extern unsigned int Os_UnlockAllMutexes(unsigned int);
+extern unsigned int Os_PopThread(unsigned int);
+extern unsigned int Os_Thread_WakeUp(unsigned int);
+extern unsigned int Os_EnableScheduler(void);
+extern unsigned int Os_RescheduleThread(void);
+extern unsigned int Os_Terminate(void);
+unsigned int Os_DisposeCurrentThreadImpl(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = *(uint *)(uRam0200e1a8 & 0xfffffffc) >> (uRam0200e1a8 & 3) * 8 |
-          *(uint *)(uRam0200e1a8 & 0xfffffffc) << (uRam0200e1a8 & 3) * -8 + 0x20;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  Os_DisableScheduler();
-  Os_UnlockAllMutexes(uVar2);
-  Os_PopThread(uVar2);
-  *(undefined4 *)(uVar2 + 100) = 2;
-  Os_Thread_WakeUp((uint *)(uintptr_t)(uVar2 + 0x9c));
-  Os_EnableScheduler();
-  Os_RescheduleThread();
-  Os_Terminate();
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_200e164: r0 = 0x216ff54u;
+L_200e168: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_200e16c: r4 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_200e170: r0 = Os_DisableScheduler();
+L_200e174: r0 = r4;
+L_200e178: r0 = Os_UnlockAllMutexes(r0);
+L_200e17c: r0 = r4;
+L_200e180: r0 = Os_PopThread(r0);
+L_200e184: r1 = 0x2u;
+L_200e188: r0 = (r4+0x9cu);
+L_200e18c: *(unsigned int *)((unsigned char *)r4 + 100) = (unsigned int)r1;
+L_200e190: r0 = Os_Thread_WakeUp(r0);
+L_200e194: r0 = Os_EnableScheduler();
+L_200e198: r0 = Os_RescheduleThread();
+L_200e19c: r0 = Os_Terminate();
+L_200e1a4: return r0;
 }
-

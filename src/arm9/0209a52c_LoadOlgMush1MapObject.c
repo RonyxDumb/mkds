@@ -1,15 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 0209a52c. No matching claim. */
-#include "types.h"
-#include "deps/0209a52c_LoadOlgMush1MapObject.h"
-
-void LoadOlgMush1MapObject(undefined4 param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int CreateMapObjectFromModel_2_from_thumb(unsigned int, unsigned int);
+extern unsigned int StructMapObject_MaybeSetPolygonId(unsigned int, unsigned int);
+unsigned int LoadOlgMush1MapObject(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  
-  uVar1 = CreateMapObjectFromModel_2_from_thumb(param_1,uRam0209a558);
-  *puRam0209a55c = uVar1;
-  StructMapObject_MaybeSetPolygonId(uVar1,0x3f);
-  return;
+unsigned int cmp_a,cmp_b;
+L_209a534: r1 = 0x21671c0u;
+L_209a538: r0 = CreateMapObjectFromModel_2_from_thumb(r0,r1);
+L_209a53c: r2 = 0x217b16cu;
+L_209a540: r1 = 0x3fu;
+L_209a544: *(unsigned int *)((unsigned char *)r2 + 0) = (unsigned int)r0;
+L_209a548: r0 = StructMapObject_MaybeSetPolygonId(r0,r1);
+L_209a554: return r0;
 }
-

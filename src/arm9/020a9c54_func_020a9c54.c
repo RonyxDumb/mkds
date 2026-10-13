@@ -1,30 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 020a9c54. No matching claim. */
-#include "types.h"
-#include "deps/020a9c54_func_020a9c54.h"
-
-void func_020a9c54(undefined4 param_1,int param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_020e53ac(unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int func_020a9c54(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_2 + 300U & 3;
-  uVar2 = *(uint *)(param_2 + 300U & 0xfffffffc);
-  if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
-    return;
-  }
-  uVar1 = param_2 + 0x78U & 3;
-  uVar2 = *(uint *)(param_2 + 0x78U & 0xfffffffc);
-  if (iRam020a9ccc <= (int)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0x3fffffe0)) {
-    return;
-  }
-  if (*(ushort *)(param_2 + 0x118) == 0) {
-    return;
-  }
-  if (*(ushort *)(param_2 + 0x118) < 0x1d) {
-    func_020e53ac(param_2 + 0xe8,0);
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,ip;
+L_20a9c5c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 300));
+L_20a9c60: cmp_a = r0; cmp_b = 0x0u;
+L_20a9c6c: if ((cmp_a == cmp_b)) { return r0; }
+L_20a9c70: ip = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 120));
+L_20a9c74: r0 = 0xf4240u;
+L_20a9c78: ip = (ip&~(0xc000001fu));
+L_20a9c7c: cmp_a = ip; cmp_b = r0;
+L_20a9c88: if (((int)cmp_a >= (int)cmp_b)) { return r0; }
+L_20a9c8c: r0 = (r1+0x100u);
+L_20a9c90: r0 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 24));
+L_20a9c94: cmp_a = r0; cmp_b = 0x0u;
+L_20a9ca0: if ((cmp_a == cmp_b)) { return r0; }
+L_20a9ca4: cmp_a = r0; cmp_b = 0x1cu;
+L_20a9cb0: if ((cmp_a > cmp_b)) { return r0; }
+L_20a9cb4: r0 = (r1+0xe8u);
+L_20a9cb8: r1 = 0x0u;
+L_20a9cbc: r0 = func_020e53ac(r0,r1,r2,r3);
+L_20a9cc8: return r0;
 }
-

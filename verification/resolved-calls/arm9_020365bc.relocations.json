@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "ExecutionContext_SetFunction",
+    "target": 33777032,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422957
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "ExecutionContext_Execute",
+    "target": 33776888,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422918
+  }
+]

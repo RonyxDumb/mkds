@@ -1,14 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 020c9f84. No matching claim. */
-#include "types.h"
-#include "deps/020c9f84_func_020c9f84.h"
-
-void func_020c9f84(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_020c0b84(unsigned int);
+unsigned int func_020c9f84(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  func_020c0b84((undefined4 *)(uintptr_t)((*(uint *)((uint)puRam020c9fb4 & 0xfffffffc) >> ((uint)puRam020c9fb4 & 3) * 8 |
-                *(uint *)((uint)puRam020c9fb4 & 0xfffffffc) << ((uint)puRam020c9fb4 & 3) * -8 + 0x20
-                ) + 400));
-  *puRam020c9fb4 = 0;
-  return;
+unsigned int cmp_a,cmp_b;
+L_20c9f8c: r0 = 0x217b428u;
+L_20c9f90: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20c9f94: r0 = (r0+0x190u);
+L_20c9f98: r0 = func_020c0b84(r0);
+L_20c9f9c: r0 = 0x217b428u;
+L_20c9fa0: r1 = 0x0u;
+L_20c9fa4: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_20c9fb0: return r0;
 }
-

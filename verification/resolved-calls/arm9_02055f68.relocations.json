@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "func_02055fc8",
+    "target": 33906632,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645770
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "ConfigureDispcntDisplay",
+    "target": 34900304,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942894181
+  }
+]

@@ -1,29 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 02135258. No matching claim. */
-#include "types.h"
-#include "deps/02135258_func_02135258.h"
-
-undefined4 func_02135258(uint param_1,undefined4 param_2,int param_3)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_02134eb8(unsigned int, unsigned int, unsigned int);
+unsigned int func_02135258(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar1 = param_1 + 8 & 3;
-  uVar2 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  uVar3 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 4 & 3;
-  uVar2 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  uVar1 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  if (uVar1 < uVar3 + param_3) {
-    param_3 = uVar1 - uVar3;
-  }
-  func_02134eb8((uint *)(uintptr_t)((*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-                *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + uVar3),param_2,
-                param_3);
-  uVar1 = param_1 + 8 & 3;
-  uVar2 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  *(uint *)(param_1 + 8) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + param_3;
-  return 1;
+unsigned int cmp_a,cmp_b,r4,r5;
+L_2135260: r4 = r0;
+L_2135264: r3 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 8));
+L_2135268: r5 = r2;
+L_213526c: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 4));
+L_2135270: r0 = (r3+r5);
+L_2135274: cmp_a = r0; cmp_b = r2;
+L_2135278: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 0));
+L_213527c: if ((cmp_a > cmp_b)) { r5 = (r2-r3); }
+L_2135280: r2 = r5;
+L_2135284: r0 = (r0+r3);
+L_2135288: r0 = func_02134eb8(r0,r1,r2);
+L_213528c: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 8));
+L_2135290: r0 = 0x1u;
+L_2135294: r1 = (r1+r5);
+L_2135298: *(unsigned int *)((unsigned char *)r4 + 8) = (unsigned int)r1;
+L_21352a4: return r0;
 }
-

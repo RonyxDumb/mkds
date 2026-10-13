@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "func_0210e2c4",
+    "target": 34661060,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646655
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "func_0210e328",
+    "target": 34661160,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646673
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "StructMQChild_Create",
+    "target": 34651360,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421437
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_InitializeEmpty",
+    "target": 33649976,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959171079
+  },
+  {
+    "offset": 136,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_InitializeEmpty",
+    "target": 33649976,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959171073
+  }
+]

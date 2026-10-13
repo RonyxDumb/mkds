@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetActiveExecutionContext",
+    "target": 33776872,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959417105
+  },
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "ExecutionContext_GetHeapHandle",
+    "target": 33776864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959417102
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "SomeVramConfig",
+    "target": 33790492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420508
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "LoadTitleFiles_from_thumb",
+    "target": 34263876,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194419877
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "MaybeResetInput",
+    "target": 33831956,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942653656
+  }
+]

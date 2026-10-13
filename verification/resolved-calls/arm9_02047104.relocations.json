@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959406261
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "InitializeBalloonHardware",
+    "target": 34664916,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942850586
+  }
+]

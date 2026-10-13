@@ -1,12 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 02028d9c. No matching claim. */
-#include "types.h"
-#include "deps/02028d9c_Maybe_helper_028d9c.h"
-
-void Maybe_helper_028d9c(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_02028dd4(void);
+extern unsigned int func_02028db8(unsigned int);
+unsigned int Maybe_helper_028d9c(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  func_02028dd4();
-  func_02028db8();
-  return;
+unsigned int cmp_a,cmp_b;
+L_2028da4: r0 = func_02028dd4();
+L_2028da8: r0 = func_02028db8(r0);
+L_2028db4: return r0;
 }
-
