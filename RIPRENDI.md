@@ -41,3 +41,9 @@ Ripristino del compilatore: `python scripts/setup_matching_toolchain.py` scarica
 ## Checkpoint 14
 
 2.288 funzioni; 109.144 / 1.913.676 byte inventariati (5,703369%). Tutte le prove ricompilate. Gli span completi verificati sono 109.304 byte: `proof_span.py` verifica le differenze di literal pool/ritorno condiviso senza aggiungerle al numeratore. Le dipendenze SDK sono fissate in `sdk-header-manifest.json`, i sorgenti e flag in `sdk-source-proofs.json`, gli indirizzi dati osservati in `sdk-extra-symbols.tsv`. SDK ASM non importato. Prossima ricerca: `verify_mw_sdk_caller_drafts.py`, con arita/prototipi SDK osservati nei sorgenti appena verificati; nessun argomento inventato. Un solo writer dei registri alla volta. Stato remoto: ramo codex/matching-toward-10-percent, PR #2. Main resta al checkpoint 12 finche la nuova PR non e approvata.
+
+## Blocco ambiente dopo il checkpoint 14
+
+L'ambiente di esecuzione si e disconnesso: exec-server ha restituito `409 Conflict, environment_offline: Environment is not connected`. Il checkpoint 14 resta il risultato durevole e ricompilato: 2.288 funzioni, 109.144 byte inventariati (5,703369%). Il 10% richiede 191.368 byte: ne mancano 82.224.
+
+`verify_mw_sdk_caller_drafts.py` ha terminato una ricerca su 5.688 candidati con un ulteriore match locale, non ricontrollato e non incluso nel checkpoint pubblicato. Un'esplorazione di sorgenti C/C++ da tangosdev/sm64ds-decomp era in corso quando l'ambiente e caduto; nessun risultato di quell'esperimento e incluso nel matching pubblicato. Ricreare un ambiente, ripristinare binari di riferimento e toolchain, ricompilare i registri pubblicati, quindi proseguire con le funzioni grandi e i sorgenti SDK. Non dichiarare raggiunto il target 10%.
