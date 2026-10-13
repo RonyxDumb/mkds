@@ -20,5 +20,4 @@ You can check it online on [Decomp.dev](https://decomp.dev/RonyxDumb/mkds).
 
 ## Legal
 
-This repository does not distribute Nintendo ROMs or proprietary game assets. A legally obtained **Mario Kart DS (EUR)** copy is required for reference and verification. This is an unofficial fan project and is not affiliated with Nintendo.
-
+This repository does not distribute Nintendo ROMs or proprietary game assets. A legally obtained **Mario Kart DS (EUR)** copy is required for reference and verification.
