@@ -1,8 +1,8 @@
 {
   "candidates": 647,
-  "exact_functions": 613,
-  "exact_code_bytes": 8728,
-  "compiler": "mwccarm 1.2/sp2p3 (Version 2.0 build 82)",
+  "exact_functions": 617,
+  "exact_code_bytes": 8816,
+  "compiler": "Mixed: historical MW proofs plus four new Zig 0.14.1/Clang proofs",
   "flags": [
     "-O4,p",
     "-enum",
@@ -18,5 +18,6 @@
     "-msgstyle",
     "gcc"
   ],
-  "verification": "Identical entire function byte sequence, equal length, zero relocations; no byte masking; no inline assembly; full ROM link not verified"
+  "verification": "Identical entire function byte sequence, equal length, zero relocations; no byte masking; no inline assembly; full ROM link not verified",
+  "compiler_details": "Per-function new compiler flags in verification/clang-leafs/results.json; original MW flags below remain historical"
 }

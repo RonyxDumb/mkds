@@ -1,18 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 01ff9c9c. No matching claim. */
-#include "types.h"
-#include "deps/01ff9c9c_func_01ff9c9c.h"
-
-void func_01ff9c9c(int param_1,uint param_2)
-
+/* High-level C; whole-function bytes verified with Zig 0.14.1 Clang.
+ * Zero relocations; whole-ROM linking remains unverified. */
+void func_01ff9c9c(unsigned int p0, unsigned int p1)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 0x4c0U & 3;
-  uVar2 = *(uint *)(param_1 + 0x4c0U & 0xfffffffc);
-  if ((param_2 & 0x1000000) != (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20)) {
-    *(uint *)(param_1 + 0x4c0) = param_2 & 0x1000000;
-  }
-  return;
+    p1 &= 0x1000000u; if (p1 != *(const unsigned int *)(p0 + 0x4c0u)) *(unsigned int *)(p0 + 0x4c0u) = p1;
 }
-

@@ -1,20 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 020c0b84. No matching claim. */
-#include "types.h"
-#include "deps/020c0b84_func_020c0b84.h"
-
-void func_020c0b84(undefined4 *param_1)
-
+/* High-level C; whole-function bytes verified with Zig 0.14.1 Clang.
+ * Zero relocations; whole-ROM linking remains unverified. */
+void func_020c0b84(unsigned int p0)
 {
-  *(undefined4 *)
-   (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-   *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) = 0;
-  *(undefined4 *)
-   ((*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-    *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 0xc) = 0;
-  *(undefined4 *)
-   ((*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-    *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 0x10) = 0;
-  *param_1 = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 0))) + 0) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 0))) + 12) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 0))) + 16) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 0) = (unsigned int)(0x0u);
 }
-

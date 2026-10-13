@@ -1,13 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 020204b4. No matching claim. */
-#include "types.h"
-#include "deps/020204b4_func_020204b4.h"
-
-int func_020204b4(int param_1)
-
+/* High-level C; whole-function bytes verified with Zig 0.14.1 Clang.
+ * Zero relocations; whole-ROM linking remains unverified. */
+unsigned int func_020204b4(unsigned int p0)
 {
-  if (param_1 == 0xff) {
-    param_1 = 0xfe;
-  }
-  return param_1;
+    return p0 == 255u ? 254u : p0;
 }
-

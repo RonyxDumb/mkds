@@ -1,16 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 02010998. No matching claim. */
-#include "types.h"
-#include "deps/02010998_Tex0Block_SetTexturesVramKeys.h"
-
-void Tex0Block_SetTexturesVramKeys(int param_1,int param_2,int param_3)
-
+/* High-level C; whole-function bytes verified with Zig 0.14.1 Clang.
+ * Zero relocations; whole-ROM linking remains unverified. */
+void Tex0Block_SetTexturesVramKeys(unsigned int p0, unsigned int p1, unsigned int p2)
 {
-  if (param_2 != 0) {
-    *(int *)(param_1 + 8) = param_2;
-  }
-  if (param_3 != 0) {
-    *(int *)(param_1 + 0x18) = param_3;
-  }
-  return;
+    if (p1) *(unsigned int *)(p0 + 8u) = p1; if (p2) *(unsigned int *)(p0 + 0x18u) = p2;
 }
-
