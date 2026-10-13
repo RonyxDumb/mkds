@@ -3,6 +3,7 @@
 [![Progress report](https://img.shields.io/badge/objdiff-report-blue)](https://github.com/RonyxDumb/mkds/actions/workflows/decomp-report.yml)
 
 Work-in-progress C decompilation of **Mario Kart DS (Europe)** for Nintendo DS (ARM9 / ARM7). The project is **not yet a fully rebuildable or playable ROM**.
+
 ROM: game code `AMCP`, SHA-1 `ce97d9b43f0d3ca0d48b781983e8a16f6393378f`.
 
 ## Progress
