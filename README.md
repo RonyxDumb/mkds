@@ -1,6 +1,6 @@
 # Mario Kart DS (EUR)
 
-Work-in-progress C decompilation of **Mario Kart DS (Europe)** for Nintendo DS (ARM9 / ARM7). The project is **not yet a fully rebuildable or playable ROM**.
+Work-in-progress C decompilation of **Mario Kart DS (Europe)** for Nintendo DS. The project is **not yet a fully rebuildable or playable ROM**.
 
 ROM: game code `AMCP`, SHA-1 `ce97d9b43f0d3ca0d48b781983e8a16f6393378f`.
 
