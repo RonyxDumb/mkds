@@ -1,26 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02080fb8. No matching claim. */
-#include "types.h"
-#include "deps/02080fb8_StructMQRacerEntry_SomeFn_22.h"
-
-void StructMQRacerEntry_SomeFn_22(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0208b710(unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int StructMQRacerEntry_SomeFn_22(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = (*(uint *)(uRam02080ffc & 0xfffffffc) >> (uRam02080ffc & 3) * 8 |
-          *(uint *)(uRam02080ffc & 0xfffffffc) << (uRam02080ffc & 3) * -8 + 0x20) +
-          (uint)*(ushort *)(param_1 + 0x74) * 4;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
-    func_0208b710();
-    *(undefined4 *)
-     ((*(uint *)(uRam02080ffc & 0xfffffffc) >> (uRam02080ffc & 3) * 8 |
-      *(uint *)(uRam02080ffc & 0xfffffffc) << (uRam02080ffc & 3) * -8 + 0x20) +
-     (uint)*(ushort *)(param_1 + 0x74) * 4) = 0;
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_2080fbc: r4 = r0;
+L_2080fc0: r0 = 0x217ae94u;
+L_2080fc4: r1 = (unsigned int)(*(unsigned short *)((unsigned char *)r4 + 116));
+L_2080fc8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2080fcc: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + (0 + (r1 << 2))));
+L_2080fd0: cmp_a = r0; cmp_b = 0x0u;
+L_2080fd8: if ((cmp_a == cmp_b)) { return r0; }
+L_2080fdc: r0 = func_0208b710(r0,r1,r2,r3);
+L_2080fe0: r0 = 0x217ae94u;
+L_2080fe4: r1 = (unsigned int)(*(unsigned short *)((unsigned char *)r4 + 116));
+L_2080fe8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2080fec: r2 = 0x0u;
+L_2080ff0: *(unsigned int *)((unsigned char *)r0 + (0 + (r1 << 2))) = (unsigned int)r2;
+L_2080ff8: return r0;
 }
-

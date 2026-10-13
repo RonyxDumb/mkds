@@ -10,6 +10,7 @@
 | 8 | 7.598 | 63,12% | 1.024 | 21.978 |
 | 9 | 7.615 | 63,26% | 1.143 | 27.044 |
 | 10 | 7.616 | 63,27% | 1.160 | 27.568 |
+| 11 | 7.619 | 63,29% | 1.174 | 28.104 |
 
 Checkpoint 4: 846 puntatori tipizzati, 484 nuove compilazioni riuscite.
 
@@ -27,3 +28,5 @@ Checkpoint 8: +248 funzioni; +8.836 byte. 937 senza relocazioni, 87 con tutte le
 Checkpoint 9: +119 funzioni, +5.066 byte. Relocazioni Thumb BL verificate e ricostruzione di flussi ARM con cicli.
 
 Checkpoint 10: +17 funzioni ARM e +524 byte verificati con Clang (Zig 0.14.1). Ricompilazione indipendente: intera sezione di codice identica ai binari estratti, nessuna relocazione. Le prove MW precedenti restano storiche; il compilatore MW non era disponibile in questa sessione.
+
+Checkpoint 11: +14 funzioni e +536 byte. Recuperato MW build 82. Ricompilazione completa: 1.012 prove senza relocazioni e 162 prove con tutte le relocazioni risolte passano. Il controllo `audit_current_unrelocated.py` seleziona il compilatore corretto per le prove Clang e non riscrive i registri.

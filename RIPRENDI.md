@@ -23,3 +23,7 @@ Ricerca del checkpoint 9: verify_arm_flow_all.py, verify_large_drafts.py e verif
 1.160 funzioni; 27.568 byte (1,440578%). Nuove prove: `verification/clang-arm-flow-recheck.json`. Ricompilare con `python scripts/recheck_clang_arm_flow.py` e misurare con `python scripts/measure_progress.py`. La ricerca `verify_clang_arm_flow.py` salva il registro dopo ogni match; non eseguirla insieme ad altri script che scrivono i registri. I nuovi record `clang_arm_control_flow` usano Clang, non MW. Le quattro prove in `clang-leafs/results.json` sono state ricompilate sul sorgente corrente e riconfermate: gli hash precedenti sono conservati nel campo `historical_source_sha256`. `python scripts/recheck_clang_matching.py` passa su tutte e quattro.
 
 Ricerca aggiuntiva: 604 candidati ARM flow estesi e 275 candidati con trasferimenti multipli, nessun ulteriore match. Il tool `verify_clang_multiple_transfers.py` conserva i registri e salva dopo ogni match. Il recheck ARM flow riconosce anche questi eventuali futuri record e la modalita Thumb.
+
+## Checkpoint 11
+
+1.174 funzioni, 28.104 byte (1,468587%). Usare `audit_current_unrelocated.py` invece dello storico `audit_local_matching.py` quando ci sono prove Clang. Sono richiesti MKDS_BASELINE, WIBO e MWCCARM. Ricerca estesa: `verify_mw_extended_flow.py`; bozze C: `verify_mw_all_drafts.py`. Non eseguire due ricerche che scrivono i registri contemporaneamente. Il target 10% richiede 191.368 byte totali verificati; non e ancora raggiunto.

@@ -1,16 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 02110590. No matching claim. */
-#include "types.h"
-#include "deps/02110590_func_02110590.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-uint func_02110590(int param_1)
-
+unsigned int func_02110590(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = iRam0211059c + param_1 * 4;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_2110590: r1 = 0x217d22cu;
+L_2110594: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + (0 + (r0 << 2))));
+L_2110598: return r0;
 }
-

@@ -1,16 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 020f4090. No matching claim. */
-#include "types.h"
-#include "deps/020f4090_func_020f4090.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-uint func_020f4090(int param_1)
-
+unsigned int func_020f4090(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = iRam020f409c + param_1 * 4;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_20f4090: r1 = 0x217bc38u;
+L_20f4094: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + (0 + (r0 << 2))));
+L_20f4098: return r0;
 }
-
