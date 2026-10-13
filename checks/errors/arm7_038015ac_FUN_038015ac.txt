@@ -1,0 +1,14 @@
+C-WORK/src/arm7/038015ac_FUN_038015ac.c:20:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |     if (uVar5 >> uVar1 * 8 == 0 && uVar5 << uVar1 * -8 + 0x20 == 0) break;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/038015ac_FUN_038015ac.c:20:56: note: place parentheses around the '+' expression to silence this warning
+   20 |     if (uVar5 >> uVar1 * 8 == 0 && uVar5 << uVar1 * -8 + 0x20 == 0) break;
+      |                                                        ^
+      |                                             (                )
+C-WORK/src/arm7/038015ac_FUN_038015ac.c:26:16: error: too many arguments to function call, expected 0, have 1
+   26 |   FUN_037faf84(uVar4);
+      |   ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm7/deps/038015ac_FUN_038015ac.h:5:12: note: 'FUN_037faf84' declared here
+    5 | undefined4 FUN_037faf84(void);
+      |            ^
+1 warning and 1 error generated.

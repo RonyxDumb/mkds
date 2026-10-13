@@ -1,0 +1,7 @@
+C-WORK/src/arm9/021288a4_SceneFn_Keyboard_from_thumb.c:26:33: error: too many arguments to function call, expected 2, have 4
+   26 |   OnSceneLoop(param_1,&local_30,&local_30,auStack_10);
+      |   ~~~~~~~~~~~                   ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021288a4_SceneFn_Keyboard_from_thumb.h:3:6: note: 'OnSceneLoop' declared here
+    3 | void OnSceneLoop(int param_1,undefined4 *param_2);
+      |      ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

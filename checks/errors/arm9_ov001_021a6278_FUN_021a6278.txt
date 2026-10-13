@@ -1,0 +1,9 @@
+C-WORK/src/arm9_ov001/021a6278_FUN_021a6278.c:10:31: error: too many arguments to function call, expected 0, have 2
+   10 |   uVar1 = func_ov001_02181004(*(undefined4 *)(*DAT_021a62a8 + 0x34),
+      |           ~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   11 |                               *(undefined4 *)(*DAT_021a62a8 + 0x38));
+      |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021a6278_FUN_021a6278.h:4:12: note: 'func_ov001_02181004' declared here
+    4 | undefined1 func_ov001_02181004(void);
+      |            ^
+1 error generated.

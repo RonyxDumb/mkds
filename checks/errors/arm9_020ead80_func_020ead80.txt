@@ -1,0 +1,70 @@
+C-WORK/src/arm9/020ead80_func_020ead80.c:54:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   54 |                      *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20) * (longlong)param_6;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ead80_func_020ead80.c:54:72: note: place parentheses around the '+' expression to silence this warning
+   54 |                      *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20) * (longlong)param_6;
+      |                                                                        ^     
+      |                                                       (                      )
+C-WORK/src/arm9/020ead80_func_020ead80.c:58:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   58 |         lVar1 = (longlong)(int)(uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20) * (longlong)param_6
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ead80_func_020ead80.c:58:74: note: place parentheses around the '+' expression to silence this warning
+   58 |         lVar1 = (longlong)(int)(uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20) * (longlong)param_6
+      |                                                                          ^     
+      |                                                               (                )
+C-WORK/src/arm9/020ead80_func_020ead80.c:63:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   63 |         lVar1 = (longlong)(int)(uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20) * (longlong)param_6
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ead80_func_020ead80.c:63:74: note: place parentheses around the '+' expression to silence this warning
+   63 |         lVar1 = (longlong)(int)(uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20) * (longlong)param_6
+      |                                                                          ^     
+      |                                                               (                )
+C-WORK/src/arm9/020ead80_func_020ead80.c:76:41: error: too few arguments to function call, expected 2, have 1
+   76 |         Vector3_MaybeNormalize(&local_34);
+      |         ~~~~~~~~~~~~~~~~~~~~~~          ^
+C-WORK/src/arm9/deps/020ead80_func_020ead80.h:6:5: note: 'Vector3_MaybeNormalize' declared here
+    6 | int Vector3_MaybeNormalize(uint param_1,int *param_2);
+      |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ead80_func_020ead80.c:84:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   84 |                    *(uint *)(param_3 & 0xfffffffc) << (param_3 & 3) * -8 + 0x20) *
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ead80_func_020ead80.c:84:74: note: place parentheses around the '+' expression to silence this warning
+   84 |                    *(uint *)(param_3 & 0xfffffffc) << (param_3 & 3) * -8 + 0x20) *
+      |                                                                          ^     
+      |                                                       (                        )
+C-WORK/src/arm9/020ead80_func_020ead80.c:88:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   88 |                    *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) * (longlong)(int)uVar5;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ead80_func_020ead80.c:88:70: note: place parentheses around the '+' expression to silence this warning
+   88 |                    *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) * (longlong)(int)uVar5;
+      |                                                                      ^     
+      |                                                     (                      )
+C-WORK/src/arm9/020ead80_func_020ead80.c:95:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   95 |       lVar1 = (longlong)(int)(uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20) *
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ead80_func_020ead80.c:95:72: note: place parentheses around the '+' expression to silence this warning
+   95 |       lVar1 = (longlong)(int)(uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20) *
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/020ead80_func_020ead80.c:97:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   97 |       lVar2 = (longlong)(int)(uVar4 >> uVar8 * 8 | uVar4 << uVar8 * -8 + 0x20) *
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ead80_func_020ead80.c:97:72: note: place parentheses around the '+' expression to silence this warning
+   97 |       lVar2 = (longlong)(int)(uVar4 >> uVar8 * 8 | uVar4 << uVar8 * -8 + 0x20) *
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/020ead80_func_020ead80.c:105:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  105 |       lVar1 = (longlong)(int)(uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20) *
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ead80_func_020ead80.c:105:72: note: place parentheses around the '+' expression to silence this warning
+  105 |       lVar1 = (longlong)(int)(uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20) *
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/020ead80_func_020ead80.c:107:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  107 |       lVar2 = (longlong)(int)(uVar4 >> uVar8 * 8 | uVar4 << uVar8 * -8 + 0x20) *
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ead80_func_020ead80.c:107:72: note: place parentheses around the '+' expression to silence this warning
+  107 |       lVar2 = (longlong)(int)(uVar4 >> uVar8 * 8 | uVar4 << uVar8 * -8 + 0x20) *
+      |                                                                        ^     
+      |                                                             (                )
+9 warnings and 1 error generated.

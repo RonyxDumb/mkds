@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020ff0b0_func_020ff0b0.c:17:24: error: operand of type 'void' where arithmetic or pointer type is required
+   17 |       pcVar1 = (char *)VecFx32_Subtract(param_3,param_2,(int *)(void *)(&pcStack_20));
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

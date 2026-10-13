@@ -1,0 +1,23 @@
+C-WORK/src/arm9/0209f0a8_LoadPictureMapObjects.c:11:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   11 |   uVar2 = CreateMapObjectFromModel_from_thumb(param_1,uRam0209f10c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9/0209f0a8_LoadPictureMapObjects.c:15:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   15 |   uVar2 = CreateMapObjectFromModel_from_thumb(param_1,uRam0209f118);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9/0209f0a8_LoadPictureMapObjects.c:21:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |              *(uint *)((uint)puRam0209f110 & 0xfffffffc) << ((uint)puRam0209f110 & 3) * -8 + 0x20,
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209f0a8_LoadPictureMapObjects.c:21:92: note: place parentheses around the '+' expression to silence this warning
+   21 |              *(uint *)((uint)puRam0209f110 & 0xfffffffc) << ((uint)puRam0209f110 & 3) * -8 + 0x20,
+      |                                                                                            ^     
+      |                                                             (                                    )
+C-WORK/src/arm9/0209f0a8_LoadPictureMapObjects.c:25:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |              *(uint *)((uint)puRam0209f11c & 0xfffffffc) << ((uint)puRam0209f11c & 3) * -8 + 0x20,
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209f0a8_LoadPictureMapObjects.c:25:92: note: place parentheses around the '+' expression to silence this warning
+   25 |              *(uint *)((uint)puRam0209f11c & 0xfffffffc) << ((uint)puRam0209f11c & 3) * -8 + 0x20,
+      |                                                                                            ^     
+      |                                                             (                                    )
+2 warnings and 2 errors generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020051f4_Fs_OverlayInfo_UnloadImage.c:8:22: error: too few arguments to function call, single argument 'param_1' was not specified
+    8 |   Fs_OverlayInfo_End();
+      |   ~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020051f4_Fs_OverlayInfo_UnloadImage.h:3:6: note: 'Fs_OverlayInfo_End' declared here
+    3 | void Fs_OverlayInfo_End(int param_1);
+      |      ^                  ~~~~~~~~~~~
+1 error generated.

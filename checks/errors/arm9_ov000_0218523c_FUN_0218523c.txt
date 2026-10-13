@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov000/0218523c_FUN_0218523c.c:52:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   52 |   uVar3 = func_0x02047a28(DAT_02185338);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

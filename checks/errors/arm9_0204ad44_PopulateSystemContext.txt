@@ -1,0 +1,213 @@
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:23:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |                *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20) + 0x2a),0,0x14
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:23:80: note: place parentheses around the '+' expression to silence this warning
+   23 |                *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20) + 0x2a),0,0x14
+      |                                                                                ^     
+      |                                                        (                             )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:28:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |     *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20) + 0x3e) = local_40;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:28:69: note: place parentheses around the '+' expression to silence this warning
+   28 |     *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20) + 0x3e) = local_40;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:31:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |   uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:31:52: note: place parentheses around the '+' expression to silence this warning
+   31 |   uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:36:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |     *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20) + 0x40) = local_57;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:36:69: note: place parentheses around the '+' expression to silence this warning
+   36 |     *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20) + 0x40) = local_57;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:39:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |    *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20) = 2;
+      |                                  ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:39:54: note: place parentheses around the '+' expression to silence this warning
+   39 |    *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20) = 2;
+      |                                                      ^     
+      |                                     (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:45:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   45 |       *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20) + 4) = 1;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:45:71: note: place parentheses around the '+' expression to silence this warning
+   45 |       *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20) + 4) = 1;
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:50:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   50 |       *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20) + 4) = 1;
+      |                                     ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:50:57: note: place parentheses around the '+' expression to silence this warning
+   50 |       *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20) + 4) = 1;
+      |                                                         ^     
+      |                                        (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:55:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   55 |       *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20) + 4) = 2;
+      |                                     ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:55:57: note: place parentheses around the '+' expression to silence this warning
+   55 |       *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20) + 4) = 2;
+      |                                                         ^     
+      |                                        (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:60:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   60 |       *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20) + 4) = 3;
+      |                                     ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:60:57: note: place parentheses around the '+' expression to silence this warning
+   60 |       *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20) + 4) = 3;
+      |                                                         ^     
+      |                                        (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:65:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   65 |       *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20) + 4) = 4;
+      |                                     ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:65:57: note: place parentheses around the '+' expression to silence this warning
+   65 |       *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20) + 4) = 4;
+      |                                                         ^     
+      |                                        (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:70:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   70 |       *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20) + 4) = 5;
+      |                                     ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:70:57: note: place parentheses around the '+' expression to silence this warning
+   70 |       *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20) + 4) = 5;
+      |                                                         ^     
+      |                                        (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:75:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   75 |     *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20) + 0x20) = 0;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:75:69: note: place parentheses around the '+' expression to silence this warning
+   75 |     *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20) + 0x20) = 0;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:78:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   78 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x28) = 0xffff;
+      |                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:78:55: note: place parentheses around the '+' expression to silence this warning
+   78 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x28) = 0xffff;
+      |                                                       ^     
+      |                                      (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:81:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   81 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x44) = 0xffffffff;
+      |                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:81:55: note: place parentheses around the '+' expression to silence this warning
+   81 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x44) = 0xffffffff;
+      |                                                       ^     
+      |                                      (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:83:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   83 |           *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:83:61: note: place parentheses around the '+' expression to silence this warning
+   83 |           *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:87:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   87 |   *(uint *)(uVar8 + 0x1c) = (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) & 0xfffffffe;
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:87:71: note: place parentheses around the '+' expression to silence this warning
+   87 |   *(uint *)(uVar8 + 0x1c) = (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) & 0xfffffffe;
+      |                                                                       ^     
+      |                                                            (                )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:89:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   89 |           *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:89:61: note: place parentheses around the '+' expression to silence this warning
+   89 |           *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:93:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   93 |   *(uint *)(uVar8 + 0x1c) = (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) & 0xfffffffd;
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:93:71: note: place parentheses around the '+' expression to silence this warning
+   93 |   *(uint *)(uVar8 + 0x1c) = (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) & 0xfffffffd;
+      |                                                                       ^     
+      |                                                            (                )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:96:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   96 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x58) = 0;
+      |                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:96:55: note: place parentheses around the '+' expression to silence this warning
+   96 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x58) = 0;
+      |                                                       ^     
+      |                                      (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:99:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   99 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x5c) = 0;
+      |                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:99:55: note: place parentheses around the '+' expression to silence this warning
+   99 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x5c) = 0;
+      |                                                       ^     
+      |                                      (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:100:17: error: too few arguments to function call, single argument 'param_1' was not specified
+  100 |   func_02012b20();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204ad44_PopulateSystemContext.h:9:6: note: 'func_02012b20' declared here
+    9 | void func_02012b20(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:104:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  104 |           *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:104:75: note: place parentheses around the '+' expression to silence this warning
+  104 |           *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:108:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  108 |   *(uint *)(uVar8 + 0x1c) = (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) & 0xfffffff7;
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:108:71: note: place parentheses around the '+' expression to silence this warning
+  108 |   *(uint *)(uVar8 + 0x1c) = (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) & 0xfffffff7;
+      |                                                                       ^     
+      |                                                            (                )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:111:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  111 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x54) = 0;
+      |                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:111:55: note: place parentheses around the '+' expression to silence this warning
+  111 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x54) = 0;
+      |                                                       ^     
+      |                                      (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:114:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  114 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x50) = 0;
+      |                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:114:55: note: place parentheses around the '+' expression to silence this warning
+  114 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x50) = 0;
+      |                                                       ^     
+      |                                      (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:117:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  117 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:117:63: note: place parentheses around the '+' expression to silence this warning
+  117 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                               ^     
+      |                                              (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:121:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  121 |     *(uint *)(uVar7 + 0x1c) = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20 | 4;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:121:72: note: place parentheses around the '+' expression to silence this warning
+  121 |     *(uint *)(uVar7 + 0x1c) = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20 | 4;
+      |                                                                        ^
+      |                                                             (                )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:125:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  125 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:125:63: note: place parentheses around the '+' expression to silence this warning
+  125 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                               ^     
+      |                                              (                      )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:129:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  129 |     *(uint *)(uVar7 + 0x1c) = (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) & 0xfffffffb;
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:129:73: note: place parentheses around the '+' expression to silence this warning
+  129 |     *(uint *)(uVar7 + 0x1c) = (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) & 0xfffffffb;
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:134:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  134 |           *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:134:75: note: place parentheses around the '+' expression to silence this warning
+  134 |           *(uint *)(DAT_0204af5c & 0xfffffffc) << (DAT_0204af5c & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0204ad44_PopulateSystemContext.c:143:9: error: assigning to 'int' from incompatible type 'void'
+  143 |   iVar3 = Pm_GetBacklightStatus((uint *)(uintptr_t)(uVar6 + 0x48),(uint *)(uintptr_t)(uVar6 + 0x4c));
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+29 warnings and 2 errors generated.

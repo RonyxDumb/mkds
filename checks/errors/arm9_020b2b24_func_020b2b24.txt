@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020b2b24_func_020b2b24.c:10:49: error: too few arguments to function call, expected 2, have 1
+   10 |   (*pcRam020b2b3c)(param_1 * 0x5c + iRam020b2b38);
+      |   ~~~~~~~~~~~~~~~~                              ^
+1 error generated.

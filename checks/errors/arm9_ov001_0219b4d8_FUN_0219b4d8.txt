@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov001/0219b4d8_FUN_0219b4d8.c:13:3: error: call to undeclared function 'func_0x02135048'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   13 |   func_0x02135048(auStack_104,DAT_0219b508,DAT_0219b50c,param_1);
+      |   ^
+C-WORK/src/arm9_ov001/0219b4d8_FUN_0219b4d8.c:15:27: error: too few arguments to function call, single argument 'p0' was not specified
+   15 |   uVar1 = func_0x020364e0();
+      |           ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/0219b4d8_FUN_0219b4d8.h:10:14: note: 'ExecutionContext_GetHeapHandle' declared here
+   10 | unsigned int ExecutionContext_GetHeapHandle(unsigned int p0);
+      |              ^                              ~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0219b4d8_FUN_0219b4d8.c:16:62: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   16 |   func_0x02048590((undefined4)(uintptr_t)(auStack_104),uVar1,&local_108);
+      |                                                              ^~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0219b4d8_FUN_0219b4d8.h:12:90: note: passing argument to parameter 'param_3' here
+   12 | int ReadFileFromMountManagerHandle_from_thumb(undefined4 param_1,undefined4 param_2,int *param_3);
+      |                                                                                          ^
+1 warning and 2 errors generated.

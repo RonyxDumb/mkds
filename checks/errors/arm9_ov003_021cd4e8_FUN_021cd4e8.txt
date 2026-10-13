@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov003/021cd4e8_FUN_021cd4e8.c:21:19: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   21 |   func_0x0214d1fc(param_1 + 0x71,iVar1 + 0x40,0x20);
+      |                   ^~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cd4e8_FUN_021cd4e8.h:11:27: note: passing argument to parameter 'param_1' here
+   11 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |                           ^
+C-WORK/src/arm9_ov003/021cd4e8_FUN_021cd4e8.c:21:34: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'uint *' (aka 'unsigned int *') [-Wint-conversion]
+   21 |   func_0x0214d1fc(param_1 + 0x71,iVar1 + 0x40,0x20);
+      |                                  ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cd4e8_FUN_021cd4e8.h:11:41: note: passing argument to parameter 'param_2' here
+   11 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |                                         ^
+C-WORK/src/arm9_ov003/021cd4e8_FUN_021cd4e8.c:25:19: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'uint *' (aka 'unsigned int *') [-Wint-conversion]
+   25 |   func_0x0214d168(iVar1 + 0xf0,0,4);
+      |                   ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cd4e8_FUN_021cd4e8.h:9:25: note: passing argument to parameter 'param_1' here
+    9 | void Mem_CpuFill8(uint *param_1,uint param_2,uint param_3);
+      |                         ^
+3 errors generated.

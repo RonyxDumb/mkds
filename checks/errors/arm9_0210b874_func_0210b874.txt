@@ -1,0 +1,16 @@
+C-WORK/src/arm9/0210b874_func_0210b874.c:12:51: error: too many arguments to function call, expected 3, have 4
+   12 |   iVar1 = func_02109078(param_1,uRam0210b8b4,0x7f,iVar2 * 0x10000 >> 0x10);
+      |           ~~~~~~~~~~~~~                           ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0210b874_func_0210b874.h:3:6: note: 'func_02109078' declared here
+    3 | void func_02109078(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0210b874_func_0210b874.c:14:25: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   14 |     func_0212c4c4(iVar1,uRam0210b8b8,iVar2);
+      |     ~~~~~~~~~~~~~       ^~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0210b874_func_0210b874.h:7:22: note: expanded from macro 'uRam0210b8b8'
+    7 | #define uRam0210b8b8 (*(undefined4 *)(uintptr_t)0x210b8b8u)
+      |                      ^
+C-WORK/src/arm9/deps/0210b874_func_0210b874.h:5:6: note: 'func_0212c4c4' declared here
+    5 | void func_0212c4c4(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+2 errors generated.

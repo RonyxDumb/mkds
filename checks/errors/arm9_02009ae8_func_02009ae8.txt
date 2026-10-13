@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02009ae8_func_02009ae8.c:23:64: error: too few arguments to function call, expected 3, have 2
+   23 |     Mem_CpuFill8(*piRam02009bd0 + iRam02009bdc + iVar7 * 0x16,0);
+      |     ~~~~~~~~~~~~                                               ^
+C-WORK/src/arm9/deps/02009ae8_func_02009ae8.h:3:6: note: 'Mem_CpuFill8' declared here
+    3 | void Mem_CpuFill8(uint *param_1,uint param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

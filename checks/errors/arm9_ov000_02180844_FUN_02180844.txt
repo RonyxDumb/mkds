@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov000/02180844_FUN_02180844.c:34:30: error: too few arguments to function call, single argument 'param_1' was not specified
+   34 |   local_34 = func_0x020b403c();
+      |              ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02180844_FUN_02180844.h:25:12: note: 'GetLoadedFont_from_thumb' declared here
+   25 | undefined4 GetLoadedFont_from_thumb(int param_1);
+      |            ^                        ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02180844_FUN_02180844.c:44:27: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   44 |   func_0x02125de0(param_1,&local_38);
+      |                           ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02180844_FUN_02180844.h:29:69: note: passing argument to parameter 'param_2' here
+   29 | void InitializeNavigationContext_from_thumb(undefined4 param_1,int *param_2);
+      |                                                                     ^
+C-WORK/src/arm9_ov000/02180844_FUN_02180844.c:49:19: error: too few arguments to function call, single argument 'p0' was not specified
+   49 |   func_0x020364e0();
+      |   ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02180844_FUN_02180844.h:35:14: note: 'ExecutionContext_GetHeapHandle' declared here
+   35 | unsigned int ExecutionContext_GetHeapHandle(unsigned int p0);
+      |              ^                              ~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02180844_FUN_02180844.c:50:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   50 |   func_0x02078d64();
+      |   ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02180844_FUN_02180844.h:37:6: note: 'CreateGlobalCE_from_thumb' declared here
+   37 | void CreateGlobalCE_from_thumb(undefined4 param_1);
+      |      ^                         ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02180844_FUN_02180844.c:54:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   54 |   uVar3 = func_0x020369fc(param_1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02180844_FUN_02180844.c:130:32: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  130 |   (**(code **)(*piVar1 + 0x1c))(*(undefined4 *)(*piVar1 + 4));
+      |                                ^
+2 warnings and 4 errors generated.

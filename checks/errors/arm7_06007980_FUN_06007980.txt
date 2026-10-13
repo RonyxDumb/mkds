@@ -1,0 +1,27 @@
+C-WORK/src/arm7/06007980_FUN_06007980.c:23:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |   uVar3 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06007980_FUN_06007980.c:23:52: note: place parentheses around the '+' expression to silence this warning
+   23 |   uVar3 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/06007980_FUN_06007980.c:26:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |   uVar3 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06007980_FUN_06007980.c:26:52: note: place parentheses around the '+' expression to silence this warning
+   26 |   uVar3 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/06007980_FUN_06007980.c:38:61: error: too few arguments to function call, expected 6, have 4
+   38 |     iVar2 = FUN_06007394(param_1,(uint)uVar5,uVar1,local_228);
+      |             ~~~~~~~~~~~~                                    ^
+C-WORK/src/arm7/deps/06007980_FUN_06007980.h:6:12: note: 'FUN_06007394' declared here
+    6 | undefined4 FUN_06007394(uint param_1,uint param_2,uint param_3,ushort *param_4,uint *param_5,int *param_6);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/06007980_FUN_06007980.c:63:46: error: too few arguments to function call, expected 10, have 4
+   63 |   FUN_06002658(auStack_21c,0,0,uVar4 & 0xffff);
+      |   ~~~~~~~~~~~~                               ^
+C-WORK/src/arm7/deps/06007980_FUN_06007980.h:4:13: note: 'FUN_06002658' declared here
+    4 | undefined2 *FUN_06002658(undefined2 *param_1,undefined2 param_2,undefined2 param_3,undefined2 param_4,undefined2 param_5,undefined2 param_6,undefined2 param_7,undefined2 param_8,undefined2 param_9,undefined4 param_10);
+      |             ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 2 errors generated.

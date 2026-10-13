@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0204b518_func_0204b518.c:10:55: error: assigning to 'int' from incompatible type 'void'
+   10 |   if ((*(int *)(*piRam0204b56c + 0xc) != 0) && (iVar1 = CardIsNotBusy(), iVar1 != 0)) {
+      |                                                       ^ ~~~~~~~~~~~~~~~
+1 error generated.

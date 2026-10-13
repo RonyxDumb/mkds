@@ -1,0 +1,20 @@
+C-WORK/src/arm9/020ea94c_func_020ea94c.c:23:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |   if (0 < (int)(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20)) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ea94c_func_020ea94c.c:23:58: note: place parentheses around the '+' expression to silence this warning
+   23 |   if (0 < (int)(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20)) {
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/020ea94c_func_020ea94c.c:24:19: error: too few arguments to function call, expected 6, have 0
+   24 |     func_020eaa14();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ea94c_func_020ea94c.h:5:6: note: 'func_020eaa14' declared here
+    5 | void func_020eaa14(uint *param_1,uint *param_2,int param_3,int param_4,uint param_5,uint *param_6);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ea94c_func_020ea94c.c:37:52: error: too few arguments to function call, expected 6, have 4
+   37 |     func_020eaa14(param_1,&local_20,param_3,param_4);
+      |     ~~~~~~~~~~~~~                                  ^
+C-WORK/src/arm9/deps/020ea94c_func_020ea94c.h:5:6: note: 'func_020eaa14' declared here
+    5 | void func_020eaa14(uint *param_1,uint *param_2,int param_3,int param_4,uint param_5,uint *param_6);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 2 errors generated.

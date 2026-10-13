@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/0219922c_FUN_0219922c.c:11:24: error: too few arguments to function call, expected 3, have 0
+   11 |   iVar1 = FUN_0219a5b0();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219922c_FUN_0219922c.h:7:12: note: 'FUN_0219a5b0' declared here
+    7 | undefined4 FUN_0219a5b0(int param_1,undefined4 param_2,undefined2 param_3);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219922c_FUN_0219922c.c:23:15: error: assigning to 'int' from incompatible type 'void'
+   23 |        (iVar2 = FUN_0218e8c4(), (uint)(iVar2 - *(int *)(iVar1 + 0x1c)) < *(uint *)(iVar1 + 0x20))) {
+      |               ^ ~~~~~~~~~~~~~~
+2 errors generated.

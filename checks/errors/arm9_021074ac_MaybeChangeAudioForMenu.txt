@@ -1,0 +1,305 @@
+In file included from C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:3:
+C-WORK/src/arm9/deps/021074ac_MaybeChangeAudioForMenu.h:13:39: error: unknown type name 'undefined3'
+   13 | void func_021073ec(undefined4 param_1,undefined3 param_2,undefined4 *param_3);
+      |                                       ^
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:43:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   43 |              *(uint *)(DAT_021081b8 & 0xfffffffc) << (DAT_021081b8 & 3) * -8 + 0x20) + 0xc;
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:43:78: note: place parentheses around the '+' expression to silence this warning
+   43 |              *(uint *)(DAT_021081b8 & 0xfffffffc) << (DAT_021081b8 & 3) * -8 + 0x20) + 0xc;
+      |                                                                              ^     
+      |                                                      (                             )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:46:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |     uVar11 = uVar11 >> uVar12 * 8 | uVar11 << uVar12 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:46:59: note: place parentheses around the '+' expression to silence this warning
+   46 |     uVar11 = uVar11 >> uVar12 * 8 | uVar11 << uVar12 * -8 + 0x20;
+      |                                                           ^     
+      |                                               (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:56:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   56 |              *(uint *)(DAT_021081b8 & 0xfffffffc) << (DAT_021081b8 & 3) * -8 + 0x20;
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:56:78: note: place parentheses around the '+' expression to silence this warning
+   56 |              *(uint *)(DAT_021081b8 & 0xfffffffc) << (DAT_021081b8 & 3) * -8 + 0x20;
+      |                                                                              ^     
+      |                                                      (                             )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:59:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   59 |     uVar11 = uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:59:59: note: place parentheses around the '+' expression to silence this warning
+   59 |     uVar11 = uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20;
+      |                                                           ^     
+      |                                               (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:92:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   92 |       *(uint *)(DAT_021081c0 & 0xfffffffc) << (DAT_021081c0 & 3) * -8 + 0x20 == 0) {
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:92:71: note: place parentheses around the '+' expression to silence this warning
+   92 |       *(uint *)(DAT_021081c0 & 0xfffffffc) << (DAT_021081c0 & 3) * -8 + 0x20 == 0) {
+      |                                                                       ^
+      |                                               (                             )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:101:17: error: too few arguments to function call, single argument 'param_1' was not specified
+  101 |   func_0210d970();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/021074ac_MaybeChangeAudioForMenu.h:17:6: note: 'func_0210d970' declared here
+   17 | void func_0210d970(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:109:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  109 |         (uVar12 >> uVar14 * 8 | uVar12 << uVar14 * -8 + 0x20) == 0xff00 ||
+      |                                        ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:109:55: note: place parentheses around the '+' expression to silence this warning
+  109 |         (uVar12 >> uVar14 * 8 | uVar12 << uVar14 * -8 + 0x20) == 0xff00 ||
+      |                                                       ^     
+      |                                           (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:113:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  113 |                  *(uint *)(DAT_02108228 & 0xfffffffc) << (DAT_02108228 & 3) * -8 + 0x20);
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:113:82: note: place parentheses around the '+' expression to silence this warning
+  113 |                  *(uint *)(DAT_02108228 & 0xfffffffc) << (DAT_02108228 & 3) * -8 + 0x20);
+      |                                                                                  ^     
+      |                                                          (                             )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:121:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  121 |       *puVar7 = uVar12 >> uVar14 * 8 | uVar12 << uVar14 * -8 + 0x20;
+      |                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:121:62: note: place parentheses around the '+' expression to silence this warning
+  121 |       *puVar7 = uVar12 >> uVar14 * 8 | uVar12 << uVar14 * -8 + 0x20;
+      |                                                              ^     
+      |                                                  (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:122:35: error: too few arguments to function call, expected 2, have 1
+  122 |       iVar10 = Sound_LoadSbnk(0x2c);
+      |                ~~~~~~~~~~~~~~     ^
+C-WORK/src/arm9/deps/021074ac_MaybeChangeAudioForMenu.h:11:6: note: 'Sound_LoadSbnk' declared here
+   11 | bool Sound_LoadSbnk(undefined4 param_1,undefined4 param_2);
+      |      ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:127:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  126 |                                     *(uint *)((uint)DAT_02108220 & 0xfffffffc) <<
+      |                                                                                ~~
+  127 |                                     ((uint)DAT_02108220 & 3) * -8 + 0x20), puVar5 = DAT_0210821c,
+      |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:127:67: note: place parentheses around the '+' expression to silence this warning
+  127 |                                     ((uint)DAT_02108220 & 3) * -8 + 0x20), puVar5 = DAT_0210821c,
+      |                                                                   ^     
+      |                                     (                                   )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:130:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  130 |         *DAT_02108220 = uVar15 >> uVar11 * 8 | uVar15 << uVar11 * -8 + 0x20;
+      |                                                       ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:130:70: note: place parentheses around the '+' expression to silence this warning
+  130 |         *DAT_02108220 = uVar15 >> uVar11 * 8 | uVar15 << uVar11 * -8 + 0x20;
+      |                                                                      ^     
+      |                                                          (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:144:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  144 |         (uVar12 >> uVar14 * 8 | uVar12 << uVar14 * -8 + 0x20) == 0xff00 ||
+      |                                        ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:144:55: note: place parentheses around the '+' expression to silence this warning
+  144 |         (uVar12 >> uVar14 * 8 | uVar12 << uVar14 * -8 + 0x20) == 0xff00 ||
+      |                                                       ^     
+      |                                           (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:148:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  148 |                  *(uint *)(DAT_02108228 & 0xfffffffc) << (DAT_02108228 & 3) * -8 + 0x20);
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:148:82: note: place parentheses around the '+' expression to silence this warning
+  148 |                  *(uint *)(DAT_02108228 & 0xfffffffc) << (DAT_02108228 & 3) * -8 + 0x20);
+      |                                                                                  ^     
+      |                                                          (                             )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:156:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  156 |       *puVar7 = uVar12 >> uVar14 * 8 | uVar12 << uVar14 * -8 + 0x20;
+      |                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:156:62: note: place parentheses around the '+' expression to silence this warning
+  156 |       *puVar7 = uVar12 >> uVar14 * 8 | uVar12 << uVar14 * -8 + 0x20;
+      |                                                              ^     
+      |                                                  (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:157:35: error: too few arguments to function call, expected 2, have 1
+  157 |       iVar10 = Sound_LoadSbnk(0x2c);
+      |                ~~~~~~~~~~~~~~     ^
+C-WORK/src/arm9/deps/021074ac_MaybeChangeAudioForMenu.h:11:6: note: 'Sound_LoadSbnk' declared here
+   11 | bool Sound_LoadSbnk(undefined4 param_1,undefined4 param_2);
+      |      ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:162:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  161 |                                     *(uint *)((uint)DAT_02108220 & 0xfffffffc) <<
+      |                                                                                ~~
+  162 |                                     ((uint)DAT_02108220 & 3) * -8 + 0x20), puVar5 = DAT_0210821c,
+      |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:162:67: note: place parentheses around the '+' expression to silence this warning
+  162 |                                     ((uint)DAT_02108220 & 3) * -8 + 0x20), puVar5 = DAT_0210821c,
+      |                                                                   ^     
+      |                                     (                                   )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:165:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  165 |         *DAT_02108220 = uVar15 >> uVar11 * 8 | uVar15 << uVar11 * -8 + 0x20;
+      |                                                       ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:165:70: note: place parentheses around the '+' expression to silence this warning
+  165 |         *DAT_02108220 = uVar15 >> uVar11 * 8 | uVar15 << uVar11 * -8 + 0x20;
+      |                                                                      ^     
+      |                                                          (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:175:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  175 |            *(uint *)(DAT_021081b8 & 0xfffffffc) << (DAT_021081b8 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:175:76: note: place parentheses around the '+' expression to silence this warning
+  175 |            *(uint *)(DAT_021081b8 & 0xfffffffc) << (DAT_021081b8 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:178:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  178 |   uVar14 = uVar11 >> uVar14 * 8 | uVar11 << uVar14 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:178:57: note: place parentheses around the '+' expression to silence this warning
+  178 |   uVar14 = uVar11 >> uVar14 * 8 | uVar11 << uVar14 * -8 + 0x20;
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:191:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  191 |       SetSomeVAVO(0x15,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081f4);
+      |                                                      ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:191:69: note: place parentheses around the '+' expression to silence this warning
+  191 |       SetSomeVAVO(0x15,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081f4);
+      |                                                                     ^     
+      |                                                         (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:194:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  194 |       SetSomeVAVO(8,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081f4);
+      |                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:194:66: note: place parentheses around the '+' expression to silence this warning
+  194 |       SetSomeVAVO(8,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081f4);
+      |                                                                  ^     
+      |                                                      (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:197:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  197 |       SetSomeVAVO(9,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081f4);
+      |                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:197:66: note: place parentheses around the '+' expression to silence this warning
+  197 |       SetSomeVAVO(9,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081f4);
+      |                                                                  ^     
+      |                                                      (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:200:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  200 |       SetSomeVAVO(0xd,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081f4);
+      |                                                     ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:200:68: note: place parentheses around the '+' expression to silence this warning
+  200 |       SetSomeVAVO(0xd,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081f4);
+      |                                                                    ^     
+      |                                                        (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:203:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  203 |       SetSomeVAVO(0xe,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081f4);
+      |                                                     ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:203:68: note: place parentheses around the '+' expression to silence this warning
+  203 |       SetSomeVAVO(0xe,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081f4);
+      |                                                                    ^     
+      |                                                        (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:206:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  206 |       SetSomeVAVO(0x10,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081f4);
+      |                                                      ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:206:69: note: place parentheses around the '+' expression to silence this warning
+  206 |       SetSomeVAVO(0x10,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081f4);
+      |                                                                     ^     
+      |                                                         (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:211:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  211 |       SetSomeVAVO(0x15,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081fc);
+      |                                                      ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:211:69: note: place parentheses around the '+' expression to silence this warning
+  211 |       SetSomeVAVO(0x15,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081fc);
+      |                                                                     ^     
+      |                                                         (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:214:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  214 |       SetSomeVAVO(8,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081fc);
+      |                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:214:66: note: place parentheses around the '+' expression to silence this warning
+  214 |       SetSomeVAVO(8,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081fc);
+      |                                                                  ^     
+      |                                                      (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:217:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  217 |       SetSomeVAVO(9,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081fc);
+      |                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:217:66: note: place parentheses around the '+' expression to silence this warning
+  217 |       SetSomeVAVO(9,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081fc);
+      |                                                                  ^     
+      |                                                      (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:220:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  220 |       SetSomeVAVO(0xd,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081fc);
+      |                                                     ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:220:68: note: place parentheses around the '+' expression to silence this warning
+  220 |       SetSomeVAVO(0xd,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081fc);
+      |                                                                    ^     
+      |                                                        (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:223:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  223 |       SetSomeVAVO(0xe,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081fc);
+      |                                                     ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:223:68: note: place parentheses around the '+' expression to silence this warning
+  223 |       SetSomeVAVO(0xe,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081fc);
+      |                                                                    ^     
+      |                                                        (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:226:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  226 |       SetSomeVAVO(0x10,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081fc);
+      |                                                      ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:226:69: note: place parentheses around the '+' expression to silence this warning
+  226 |       SetSomeVAVO(0x10,uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20,DAT_021081fc);
+      |                                                                     ^     
+      |                                                         (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:228:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  228 |                *(uint *)(DAT_021081b8 & 0xfffffffc) << (DAT_021081b8 & 3) * -8 + 0x20) + 0xc;
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:228:80: note: place parentheses around the '+' expression to silence this warning
+  228 |                *(uint *)(DAT_021081b8 & 0xfffffffc) << (DAT_021081b8 & 3) * -8 + 0x20) + 0xc;
+      |                                                                                ^     
+      |                                                        (                             )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:231:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  231 |       if (uVar11 >> uVar12 * 8 == 0 && uVar11 << uVar12 * -8 + 0x20 == 0) {
+      |                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:231:62: note: place parentheses around the '+' expression to silence this warning
+  231 |       if (uVar11 >> uVar12 * 8 == 0 && uVar11 << uVar12 * -8 + 0x20 == 0) {
+      |                                                              ^
+      |                                                  (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:239:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  239 |            *(uint *)(DAT_021081b8 & 0xfffffffc) << (DAT_021081b8 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:239:76: note: place parentheses around the '+' expression to silence this warning
+  239 |            *(uint *)(DAT_021081b8 & 0xfffffffc) << (DAT_021081b8 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:242:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  242 |   if ((uVar11 >> uVar14 * 8 | uVar11 << uVar14 * -8 + 0x20) != 4) goto switchD_02107e30_default;
+      |                                      ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:242:53: note: place parentheses around the '+' expression to silence this warning
+  242 |   if ((uVar11 >> uVar14 * 8 | uVar11 << uVar14 * -8 + 0x20) != 4) goto switchD_02107e30_default;
+      |                                                     ^     
+      |                                         (                 )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:284:3: warning: label at end of compound statement is a C23 extension [-Wc23-extensions]
+  284 |   }
+      |   ^
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:291:12: error: member reference base type 'undefined4' (aka 'unsigned int') is not a structure or union
+  291 |   uStack_24._0_3_ = CONCAT12(uStack_1a,(undefined2)uStack_24);
+      |   ~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:292:24: error: use of undeclared identifier 'undefined3'
+  292 |   func_021073ec(uVar8,(undefined3)uStack_24,DAT_0210822c);
+      |                        ^
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:300:14: error: member reference base type 'undefined4' (aka 'unsigned int') is not a structure or union
+  300 |     uStack_24._0_3_ = CONCAT12(uStack_1e,(undefined2)uStack_24);
+      |     ~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:301:37: error: use of undeclared identifier 'undefined3'
+  301 |     uStack_24 = CONCAT13(uStack_1d,(undefined3)uStack_24);
+      |                                     ^
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:310:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  309 |                      *(uint *)((uint)DAT_02108220 & 0xfffffffc) <<
+      |                                                                 ~~
+  310 |                      ((uint)DAT_02108220 & 3) * -8 + 0x20);
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:310:52: note: place parentheses around the '+' expression to silence this warning
+  310 |                      ((uint)DAT_02108220 & 3) * -8 + 0x20);
+      |                                                    ^     
+      |                      (                                   )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:318:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  317 |                       *(uint *)((uint)DAT_02108220 & 0xfffffffc) <<
+      |                                                                  ~~
+  318 |                       ((uint)DAT_02108220 & 3) * -8 + 0x20);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:318:53: note: place parentheses around the '+' expression to silence this warning
+  318 |                       ((uint)DAT_02108220 & 3) * -8 + 0x20);
+      |                                                     ^     
+      |                       (                                   )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:325:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  325 |            *(uint *)(DAT_02108234 & 0xfffffffc) << (DAT_02108234 & 3) * -8 + 0x20) + 8;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:325:76: note: place parentheses around the '+' expression to silence this warning
+  325 |            *(uint *)(DAT_02108234 & 0xfffffffc) << (DAT_02108234 & 3) * -8 + 0x20) + 8;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:328:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  328 |   if ((uVar14 >> uVar11 * 8 | uVar14 << uVar11 * -8 + 0x20) == 3) {
+      |                                      ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021074ac_MaybeChangeAudioForMenu.c:328:53: note: place parentheses around the '+' expression to silence this warning
+  328 |   if ((uVar14 >> uVar11 * 8 | uVar14 << uVar11 * -8 + 0x20) == 3) {
+      |                                                     ^     
+      |                                         (                 )
+38 warnings and 8 errors generated.

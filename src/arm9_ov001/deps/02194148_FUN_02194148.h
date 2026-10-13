@@ -1,0 +1,20 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void FUN_02194148(void);
+void FUN_021949d4(void);
+void FUN_02194f20(void);
+#define DAT_021942cc (*(int **)(uintptr_t)0x21942ccu)
+#define DAT_021942d0 (*(undefined4 *)(uintptr_t)0x21942d0u)
+#define DAT_021942d4 (*(ushort **)(uintptr_t)0x21942d4u)
+#define DAT_021942d8 (*(ushort **)(uintptr_t)0x21942d8u)
+#define DAT_021942dc (*(ushort **)(uintptr_t)0x21942dcu)
+#define DAT_021942e0 (*(ushort **)(uintptr_t)0x21942e0u)
+#define DAT_021942e4 (*(ushort **)(uintptr_t)0x21942e4u)
+#define DAT_021942e8 (*(ushort **)(uintptr_t)0x21942e8u)
+#define DAT_021942ec (*(ushort **)(uintptr_t)0x21942ecu)
+#define DAT_021942f0 (*(ushort **)(uintptr_t)0x21942f0u)
+#define DAT_021942f4 (*(ushort **)(uintptr_t)0x21942f4u)
+
+/* Address resolved to indexed definition; inferred ABI remains provisional. */
+int ComputeValueInterpolation_from_thumb (int param_1,int param_2,int param_3,int param_4,int param_5);
+#define func_0x020ae4c0 ComputeValueInterpolation_from_thumb

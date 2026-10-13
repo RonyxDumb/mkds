@@ -1,0 +1,63 @@
+C-WORK/src/arm9/020c541c_func_020c541c.c:20:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |           *(uint *)(DAT_020c55a4 & 0xfffffffc) << (DAT_020c55a4 & 3) * -8 + 0x20) + 4;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c541c_func_020c541c.c:20:75: note: place parentheses around the '+' expression to silence this warning
+   20 |           *(uint *)(DAT_020c55a4 & 0xfffffffc) << (DAT_020c55a4 & 3) * -8 + 0x20) + 4;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020c541c_func_020c541c.c:23:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |   uVar8 = uVar7 >> uVar3 * 8 | uVar7 << uVar3 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c541c_func_020c541c.c:23:52: note: place parentheses around the '+' expression to silence this warning
+   23 |   uVar8 = uVar7 >> uVar3 * 8 | uVar7 << uVar3 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020c541c_func_020c541c.c:24:60: error: too few arguments to function call, expected 5, have 4
+   24 |   ComputeValueInterpolation_from_thumb(1,0xffffff80,0,uVar8);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                     ^
+C-WORK/src/arm9/deps/020c541c_func_020c541c.h:3:5: note: 'ComputeValueInterpolation_from_thumb' declared here
+    3 | int ComputeValueInterpolation_from_thumb(int param_1,int param_2,int param_3,int param_4,int param_5);
+      |     ^                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020c541c_func_020c541c.c:26:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |           *(uint *)(DAT_020c55a4 & 0xfffffffc) << (DAT_020c55a4 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c541c_func_020c541c.c:26:75: note: place parentheses around the '+' expression to silence this warning
+   26 |           *(uint *)(DAT_020c55a4 & 0xfffffffc) << (DAT_020c55a4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020c541c_func_020c541c.c:29:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |   uVar7 = uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c541c_func_020c541c.c:29:52: note: place parentheses around the '+' expression to silence this warning
+   29 |   uVar7 = uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020c541c_func_020c541c.c:34:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |     uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c541c_func_020c541c.c:34:54: note: place parentheses around the '+' expression to silence this warning
+   34 |     uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020c541c_func_020c541c.c:47:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |   uVar7 = uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c541c_func_020c541c.c:47:52: note: place parentheses around the '+' expression to silence this warning
+   47 |   uVar7 = uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020c541c_func_020c541c.c:76:45: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   76 |   uVar4 = GetB3C4_Cell_RaceGoalMrM(unaff_r4,(int)lVar1,(int)((ulonglong)lVar1 >> 0x20));
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020c541c_func_020c541c.h:4:6: note: 'GetB3C4_Cell_RaceGoalMrM' declared here
+    4 | uint GetB3C4_Cell_RaceGoalMrM(int param_1);
+      |      ^                        ~~~~~~~~~~~
+C-WORK/src/arm9/020c541c_func_020c541c.c:78:78: error: too few arguments to function call, expected 7, have 3
+   77 |   sVar2 = MaybeMakeOamSlot(param_1 + (uint)*(ushort *)(param_1 + 0x400) * 8,
+      |           ~~~~~~~~~~~~~~~~
+   78 |                            0x80 - *(ushort *)(param_1 + 0x400) & 0xffff,uVar4);
+      |                                                                              ^
+C-WORK/src/arm9/deps/020c541c_func_020c541c.h:5:6: note: 'MaybeMakeOamSlot' declared here
+    5 | uint MaybeMakeOamSlot(int param_1,uint param_2,ushort *param_3,uint param_4,uint param_5,ushort param_6,int param_7);
+      |      ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+6 warnings and 3 errors generated.

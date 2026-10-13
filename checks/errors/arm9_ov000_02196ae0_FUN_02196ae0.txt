@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov000/02196ae0_FUN_02196ae0.c:13:26: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   13 |     FUN_02196d0c(param_1,param_2);
+      |     ~~~~~~~~~~~~         ^~~~~~~
+C-WORK/src/arm9_ov000/deps/02196ae0_FUN_02196ae0.h:7:6: note: 'FUN_02196d0c' declared here
+    7 | void FUN_02196d0c(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02196ae0_FUN_02196ae0.c:18:26: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   18 |     FUN_02196ca4(param_1,param_2);
+      |     ~~~~~~~~~~~~         ^~~~~~~
+C-WORK/src/arm9_ov000/deps/02196ae0_FUN_02196ae0.h:6:6: note: 'FUN_02196ca4' declared here
+    6 | void FUN_02196ca4(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02196ae0_FUN_02196ae0.c:23:26: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   23 |     FUN_02196ca4(param_1,param_2);
+      |     ~~~~~~~~~~~~         ^~~~~~~
+C-WORK/src/arm9_ov000/deps/02196ae0_FUN_02196ae0.h:6:6: note: 'FUN_02196ca4' declared here
+    6 | void FUN_02196ca4(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02196ae0_FUN_02196ae0.c:28:26: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   28 |     FUN_02196c00(param_1,param_2);
+      |     ~~~~~~~~~~~~         ^~~~~~~
+C-WORK/src/arm9_ov000/deps/02196ae0_FUN_02196ae0.h:5:6: note: 'FUN_02196c00' declared here
+    5 | void FUN_02196c00(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02196ae0_FUN_02196ae0.c:33:26: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   33 |     FUN_02196b90(param_1,param_2);
+      |     ~~~~~~~~~~~~         ^~~~~~~
+C-WORK/src/arm9_ov000/deps/02196ae0_FUN_02196ae0.h:4:6: note: 'FUN_02196b90' declared here
+    4 | void FUN_02196b90(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+5 errors generated.

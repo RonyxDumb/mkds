@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0214d6e8_Fifo_SendWord.c:14:17: error: too many arguments to function call, expected 0, have 1
+   14 |   Os_DisableIrq(*puRam0214d794 & 0x4000);
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0214d6e8_Fifo_SendWord.h:4:10: note: 'Os_DisableIrq' declared here
+    4 | longlong Os_DisableIrq(void);
+      |          ^
+1 error generated.

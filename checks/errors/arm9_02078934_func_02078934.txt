@@ -1,0 +1,10 @@
+C-WORK/src/arm9/02078934_func_02078934.c:15:18: error: too many arguments to function call, expected 0, have 2
+   15 |   uVar2 = FX_Div(uRam020789b4,uRam020789b8);
+      |           ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02078934_func_02078934.h:10:22: note: expanded from macro 'uRam020789b4'
+   10 | #define uRam020789b4 (*(undefined4 *)(uintptr_t)0x20789b4u)
+      |                      ^
+C-WORK/src/arm9/deps/02078934_func_02078934.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+1 error generated.

@@ -1,0 +1,31 @@
+C-WORK/src/arm9/0202fd2c_func_0202fd2c.c:31:11: error: assigning to 'int' from incompatible type 'void'
+   31 |     iVar3 = func_0205579c(0,0);
+      |           ^ ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202fd2c_func_0202fd2c.c:87:25: error: too many arguments to function call, expected 0, have 6
+   87 |           func_0212426c(1,*(undefined2 *)(local_60 + 0x30),*(undefined4 *)(iVar3 + 0x38),uVar9,
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   88 |                         *(undefined4 *)(iVar3 + 0x30),*(undefined4 *)(iVar3 + 0x3c));
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202fd2c_func_0202fd2c.h:15:6: note: 'func_0212426c' declared here
+   15 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0202fd2c_func_0202fd2c.c:94:25: error: too many arguments to function call, expected 0, have 6
+   94 |           func_0212426c(1,*(undefined2 *)(local_60 + 0x30),*(undefined4 *)(iVar3 + 0x38),auStack_30,
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   95 |                         *(undefined4 *)(iVar3 + 0x30),*(undefined4 *)(iVar3 + 0x3c));
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202fd2c_func_0202fd2c.h:15:6: note: 'func_0212426c' declared here
+   15 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0202fd2c_func_0202fd2c.c:127:29: warning: | has lower precedence than !=; != will be evaluated first [-Wparentheses]
+  127 |         local_78 = local_78 | iVar6 != *(int *)(iVar12 + 0x58) |
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202fd2c_func_0202fd2c.c:127:29: note: place parentheses around the '!=' expression to silence this warning
+  127 |         local_78 = local_78 | iVar6 != *(int *)(iVar12 + 0x58) |
+      |                             ^
+      |                               (                               )
+C-WORK/src/arm9/0202fd2c_func_0202fd2c.c:127:29: note: place parentheses around the | expression to evaluate it first
+  127 |         local_78 = local_78 | iVar6 != *(int *)(iVar12 + 0x58) |
+      |                             ^
+      |                    (               )
+1 warning and 3 errors generated.

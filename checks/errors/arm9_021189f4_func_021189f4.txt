@@ -1,0 +1,27 @@
+C-WORK/src/arm9/021189f4_func_021189f4.c:29:15: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   29 |         uVar3 = CheckSavedSecretFlag_from_thumb
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                           (*(undefined4 *)
+      |                           ~~~~~~~~~~~~~~~~
+   31 |                             (*(int *)(DAT_02118b44 + iVar2 * 4) * 4 + DAT_02118b40 + param_1 * 0xc))
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021189f4_func_021189f4.c:35:15: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   35 |         uVar3 = CheckSavedSecretFlag_from_thumb(*(undefined4 *)(DAT_02118b3c + param_1 * 4));
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021189f4_func_021189f4.c:54:17: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   54 |           uVar1 = CheckSavedSecretFlag_from_thumb(*puVar5);
+      |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021189f4_func_021189f4.c:57:17: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   57 |           uVar1 = CheckSavedSecretFlag_from_thumb(*puVar4);
+      |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021189f4_func_021189f4.c:82:15: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   82 |         uVar3 = CheckSecretFlag(*(undefined4 *)
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   83 |                                  (*(int *)(DAT_02118b44 + iVar2 * 4) * 4 +
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   84 |                                  DAT_02118b40 + param_1 * 0xc));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021189f4_func_021189f4.c:87:15: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   87 |         uVar3 = CheckSecretFlag(*(undefined4 *)(DAT_02118b3c + param_1 * 4));
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+6 errors generated.

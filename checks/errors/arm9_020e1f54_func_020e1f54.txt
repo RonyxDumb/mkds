@@ -1,0 +1,10 @@
+C-WORK/src/arm9/020e1f54_func_020e1f54.c:17:40: error: too many arguments to function call, expected 2, have 3
+   17 |   func_020d7da8(param_1 + 0xd8,param_2,uVar2);
+      |   ~~~~~~~~~~~~~                        ^~~~~
+C-WORK/src/arm9/deps/020e1f54_func_020e1f54.h:8:6: note: 'func_020d7da8' declared here
+    8 | void func_020d7da8(undefined4 param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020e1f54_func_020e1f54.c:35:9: error: assigning to 'undefined2' (aka 'unsigned short') from incompatible type 'void'
+   35 |   uVar1 = MaybeBoundsCheck(*(short *)(param_2 + 0x28) * 0xfa,100);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

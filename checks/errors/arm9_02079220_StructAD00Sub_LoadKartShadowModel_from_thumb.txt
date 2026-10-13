@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02079220_StructAD00Sub_LoadKartShadowModel_from_thumb.c:13:60: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   uVar1 = FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02079220_StructAD00Sub_LoadKartShadowModel_from_thumb.h:3:6: note: 'FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb' declared here
+    3 | void FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb(undefined4 param_1);
+      |      ^                                                ~~~~~~~~~~~~~~~~~~
+1 error generated.

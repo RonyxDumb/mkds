@@ -1,0 +1,16 @@
+C-WORK/src/arm9/0215122c_func_0215122c.c:10:36: error: too few arguments to function call, expected 2, have 1
+   10 |   DC_InvalidateRangeNoClean(param_3);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~        ^
+C-WORK/src/arm9/deps/0215122c_func_0215122c.h:3:6: note: 'DC_InvalidateRangeNoClean' declared here
+    3 | void DC_InvalidateRangeNoClean(uint param_1,int param_2);
+      |      ^                         ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0215122c_func_0215122c.c:16:16: error: too many arguments to function call, expected 0, have 1
+   16 |     WaitByLoop(uRam02151284);
+      |     ~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0215122c_func_0215122c.h:10:22: note: expanded from macro 'uRam02151284'
+   10 | #define uRam02151284 (*(undefined4 *)(uintptr_t)0x2151284u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0215122c_func_0215122c.h:7:6: note: 'WaitByLoop' declared here
+    7 | void WaitByLoop(void);
+      |      ^
+2 errors generated.

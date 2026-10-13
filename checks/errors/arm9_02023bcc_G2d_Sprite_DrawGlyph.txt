@@ -1,0 +1,102 @@
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:25:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |                           *(uint *)(param_6 & 0xfffffffc) << (param_6 & 3) * -8 + 0x20) + 1);
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:25:81: note: place parentheses around the '+' expression to silence this warning
+   25 |                           *(uint *)(param_6 & 0xfffffffc) << (param_6 & 3) * -8 + 0x20) + 1);
+      |                                                                                 ^     
+      |                                                              (                        )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:27:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |           *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) + 8;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:27:65: note: place parentheses around the '+' expression to silence this warning
+   27 |           *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) + 8;
+      |                                                                 ^     
+      |                                              (                        )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:32:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |   uVar9 = uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:32:52: note: place parentheses around the '+' expression to silence this warning
+   32 |   uVar9 = uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:35:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |   uVar7 = uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:35:52: note: place parentheses around the '+' expression to silence this warning
+   35 |   uVar7 = uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:40:23: error: use of undeclared identifier 'stack0xffffffdc'
+   40 |     piVar11 = (int *)&stack0xffffffdc;
+      |                       ^
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:42:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |   uVar3 = (uint)*(byte *)((uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20) + 1);
+      |                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:42:69: note: place parentheses around the '+' expression to silence this warning
+   42 |   uVar3 = (uint)*(byte *)((uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20) + 1);
+      |                                                                     ^     
+      |                                                          (                )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:62:27: warning: operator '>>' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   62 |   uVar5 = param_3 + uVar4 + 7 >> 3;
+      |           ~~~~~~~~~~~~~~~~^~~ ~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:62:27: note: place parentheses around the '+' expression to silence this warning
+   62 |   uVar5 = param_3 + uVar4 + 7 >> 3;
+      |                           ^
+      |           (                  )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:69:17: warning: operator '>>' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   69 |   uVar9 = iVar2 + 7U >> 3;
+      |           ~~~~~~^~~~ ~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:69:17: note: place parentheses around the '+' expression to silence this warning
+   69 |   uVar9 = iVar2 + 7U >> 3;
+      |                 ^
+      |           (         )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:85:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   85 |   uVar7 = uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:85:52: note: place parentheses around the '+' expression to silence this warning
+   85 |   uVar7 = uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:91:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   91 |           (uVar8 >> (param_1 & 3) * 8 | uVar8 << (param_1 & 3) * -8 + 0x20);
+      |                                               ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:91:69: note: place parentheses around the '+' expression to silence this warning
+   91 |           (uVar8 >> (param_1 & 3) * 8 | uVar8 << (param_1 & 3) * -8 + 0x20);
+      |                                                                     ^     
+      |                                                  (                        )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:98:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   98 |   piVar11[2] = uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:98:57: note: place parentheses around the '+' expression to silence this warning
+   98 |   piVar11[2] = uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:103:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  103 |           *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) + 8;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:103:65: note: place parentheses around the '+' expression to silence this warning
+  103 |           *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) + 8;
+      |                                                                 ^     
+      |                                              (                        )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:106:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  106 |   uVar4 = (uint)*(byte *)((uVar7 >> uVar3 * 8 | uVar7 << uVar3 * -8 + 0x20) + 6);
+      |                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:106:69: note: place parentheses around the '+' expression to silence this warning
+  106 |   uVar4 = (uint)*(byte *)((uVar7 >> uVar3 * 8 | uVar7 << uVar3 * -8 + 0x20) + 6);
+      |                                                                     ^     
+      |                                                          (                )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:110:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  110 |           *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) + 8;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:110:65: note: place parentheses around the '+' expression to silence this warning
+  110 |           *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) + 8;
+      |                                                                 ^     
+      |                                              (                        )
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:113:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  113 |   piVar11[7] = uVar4 * *(byte *)(uVar7 >> uVar3 * 8 | uVar7 << uVar3 * -8 + 0x20);
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02023bcc_G2d_Sprite_DrawGlyph.c:113:75: note: place parentheses around the '+' expression to silence this warning
+  113 |   piVar11[7] = uVar4 * *(byte *)(uVar7 >> uVar3 * 8 | uVar7 << uVar3 * -8 + 0x20);
+      |                                                                           ^     
+      |                                                                (                )
+14 warnings and 1 error generated.

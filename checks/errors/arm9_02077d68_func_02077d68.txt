@@ -1,0 +1,52 @@
+C-WORK/src/arm9/02077d68_func_02077d68.c:23:20: error: too many arguments to function call, expected 0, have 1
+   23 |   Mem_Exp_Finalize(*(undefined4 *)(iVar5 + 4));
+      |   ~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02077d68_func_02077d68.h:14:6: note: 'Mem_Exp_Finalize' declared here
+   14 | void Mem_Exp_Finalize(void);
+      |      ^
+C-WORK/src/arm9/02077d68_func_02077d68.c:24:70: error: too many arguments to function call, expected 2, have 3
+   24 |   uVar2 = Mem_Exp_Create(*(undefined4 *)(iVar7 + iVar3),uRam02077eac,0);
+      |           ~~~~~~~~~~~~~~                                             ^
+C-WORK/src/arm9/deps/02077d68_func_02077d68.h:13:12: note: 'Mem_Exp_Create' declared here
+   13 | undefined4 Mem_Exp_Create(int param_1,int param_2);
+      |            ^              ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02077d68_func_02077d68.c:27:38: error: too few arguments to function call, single argument 'param_1' was not specified
+   27 |     MaybeDisposeCommonHeaderFileData();
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02077d68_func_02077d68.h:12:6: note: 'MaybeDisposeCommonHeaderFileData' declared here
+   12 | uint MaybeDisposeCommonHeaderFileData(uint param_1);
+      |      ^                                ~~~~~~~~~~~~
+C-WORK/src/arm9/02077d68_func_02077d68.c:37:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'char *' [-Wint-conversion]
+   37 |   uVar2 = FormatCharacterEmblemNsbmdPath(uVar6 & 0xffff,1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02077d68_func_02077d68.c:39:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'char *' [-Wint-conversion]
+   39 |   uVar2 = FormatCharacterEmblemNsbtxPath(uVar6 & 0xffff,1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02077d68_func_02077d68.c:41:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'char *' [-Wint-conversion]
+   41 |   uVar2 = FormatCharacterEmblemNsbcaPath(uVar6 & 0xffff,2);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02077d68_func_02077d68.c:43:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'char *' [-Wint-conversion]
+   43 |   uVar2 = FormatEmblemNsbtx(uVar6 & 0xffff);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02077d68_func_02077d68.c:45:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'char *' [-Wint-conversion]
+   45 |   uVar2 = FormatCharacterKartNsbmdPath(uVar4 & 0xffff);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02077d68_func_02077d68.c:47:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'char *' [-Wint-conversion]
+   47 |   uVar2 = FormatCharacterKartNsbtxPath(uVar4 & 0xffff);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02077d68_func_02077d68.c:49:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'char *' [-Wint-conversion]
+   49 |   uVar2 = FormatKartShadowNsbmdPath(uVar4 & 0xffff);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02077d68_func_02077d68.c:51:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'char *' [-Wint-conversion]
+   51 |   uVar2 = FormatKartTireNsbmdPath(uVar4 & 0xffff,iVar1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02077d68_func_02077d68.c:53:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'char *' [-Wint-conversion]
+   53 |   uVar2 = FormatKartTireNsbtxPath(uVar4 & 0xffff,iVar1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02077d68_func_02077d68.c:54:78: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'int *' [-Wint-conversion]
+   54 |   ReadFileFromMountManagerHandle_from_thumb(uVar2,*(undefined4 *)(iVar5 + 4),iVar5 + 0x24);
+      |                                                                              ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02077d68_func_02077d68.h:15:90: note: passing argument to parameter 'param_3' here
+   15 | int ReadFileFromMountManagerHandle_from_thumb(undefined4 param_1,undefined4 param_2,int *param_3);
+      |                                                                                          ^
+13 errors generated.

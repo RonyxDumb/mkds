@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02114158_func_02114158.c:10:82: error: too few arguments to function call, expected 2, have 1
+   10 |   (*pcRam02114170)(*(ushort *)(*(int *)(*piRam0211416c + 4) + param_1 * 2) & 0xff);
+      |   ~~~~~~~~~~~~~~~~                                                               ^
+1 error generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov001/02185d1c_FUN_02185d1c.c:10:9: error: incompatible pointer to integer conversion assigning to 'int' from 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+   10 |   iVar1 = FUN_0219b478(param_1,DAT_02185d60);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02185d1c_FUN_02185d1c.c:16:57: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   16 |   func_0x020849a0(*(undefined4 *)(*DAT_02185d64 + 0x10),DAT_02185d70);
+      |   ~~~~~~~~~~~~~~~                                       ^~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02185d1c_FUN_02185d1c.h:11:22: note: expanded from macro 'DAT_02185d70'
+   11 | #define DAT_02185d70 (*(undefined4 *)(uintptr_t)0x2185d70u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02185d1c_FUN_02185d1c.h:18:6: note: 'Model_SetEmi' declared here
+   18 | void Model_SetEmi(int param_1);
+      |      ^            ~~~~~~~~~~~
+2 errors generated.

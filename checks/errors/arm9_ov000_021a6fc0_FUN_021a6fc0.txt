@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/021a6fc0_FUN_021a6fc0.c:14:29: error: too few arguments to function call, expected 2, have 0
+   14 |     local_38 = FUN_021a7008();
+      |                ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a6fc0_FUN_021a6fc0.h:4:12: note: 'FUN_021a7008' declared here
+    4 | undefined4 FUN_021a7008(undefined4 param_1,int param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

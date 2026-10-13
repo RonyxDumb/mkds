@@ -1,0 +1,34 @@
+C-WORK/src/arm9/02007698_func_02007698.c:36:59: warning: passing 'undefined1[2]' (aka 'unsigned char[2]') to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   36 |   iVar7 = func_0200c2e0((char *)(uintptr_t)(param_1 + 10),local_48,param_2);
+      |                                                           ^~~~~~~~
+C-WORK/src/arm9/deps/02007698_func_02007698.h:7:42: note: passing argument to parameter 'param_2' here
+    7 | char * func_0200c2e0(char *param_1,char *param_2,int param_3);
+      |                                          ^
+C-WORK/src/arm9/02007698_func_02007698.c:36:9: error: incompatible pointer to integer conversion assigning to 'int' from 'char *' [-Wint-conversion]
+   36 |   iVar7 = func_0200c2e0((char *)(uintptr_t)(param_1 + 10),local_48,param_2);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02007698_func_02007698.c:80:34: error: too few arguments to function call, expected 3, have 2
+   80 |         func_02007d18(param_2,0xb);
+      |         ~~~~~~~~~~~~~            ^
+C-WORK/src/arm9/deps/02007698_func_02007698.h:6:6: note: 'func_02007d18' declared here
+    6 | void func_02007d18(int param_1,undefined4 param_2,undefined4 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02007698_func_02007698.c:96:32: error: too few arguments to function call, expected 3, have 2
+   96 |         func_02007d18(param_2,4);
+      |         ~~~~~~~~~~~~~          ^
+C-WORK/src/arm9/deps/02007698_func_02007698.h:6:6: note: 'func_02007d18' declared here
+    6 | void func_02007d18(int param_1,undefined4 param_2,undefined4 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02007698_func_02007698.c:113:30: error: too few arguments to function call, expected 3, have 2
+  113 |       func_02007d18(param_2,5);
+      |       ~~~~~~~~~~~~~          ^
+C-WORK/src/arm9/deps/02007698_func_02007698.h:6:6: note: 'func_02007d18' declared here
+    6 | void func_02007d18(int param_1,undefined4 param_2,undefined4 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02007698_func_02007698.c:154:30: error: too few arguments to function call, expected 3, have 2
+  154 |       func_02007d18(param_2,8);
+      |       ~~~~~~~~~~~~~          ^
+C-WORK/src/arm9/deps/02007698_func_02007698.h:6:6: note: 'func_02007d18' declared here
+    6 | void func_02007d18(int param_1,undefined4 param_2,undefined4 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 5 errors generated.

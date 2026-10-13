@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0214358c_func_0214358c.c:14:19: error: too many arguments to function call, expected 0, have 1
+   14 |     Os_RestoreIrq(uVar1);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0214358c_func_0214358c.h:4:12: note: 'Os_RestoreIrq' declared here
+    4 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0214358c_func_0214358c.c:21:17: error: too many arguments to function call, expected 0, have 1
+   21 |   Os_RestoreIrq(uVar1);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0214358c_func_0214358c.h:4:12: note: 'Os_RestoreIrq' declared here
+    4 | undefined4 Os_RestoreIrq(void);
+      |            ^
+2 errors generated.

@@ -1,0 +1,96 @@
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:61:50: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   61 |   InitializeNavigationContext_from_thumb(param_1,&local_60);
+      |                                                  ^~~~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:17:69: note: passing argument to parameter 'param_2' here
+   17 | void InitializeNavigationContext_from_thumb(undefined4 param_1,int *param_2);
+      |                                                                     ^
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:63:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   63 |   uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_02033360);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:89:5: error: call to undeclared function 'func_0x0219bb50'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   89 |     func_0x0219bb50();
+      |     ^
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:90:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   90 |     uVar3 = func_02122778();
+      |             ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:49:5: note: 'func_02122778' declared here
+   49 | int func_02122778(int param_1);
+      |     ^             ~~~~~~~~~~~
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:156:57: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+  156 |                 *(undefined4 *)(DAT_020333ac + iVar2),3,DAT_020333a0);
+      |                                                         ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:76:22: note: expanded from macro 'DAT_020333a0'
+   76 | #define DAT_020333a0 (*(undefined4 *)(uintptr_t)0x20333a0u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:35:86: note: passing argument to parameter 'param_6' here
+   35 | void func_02025884(int param_1,int param_2,int param_3,int param_4,int param_5,code *param_6);
+      |                                                                                      ^
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:173:14: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+  173 |              DAT_020333a0);
+      |              ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:76:22: note: expanded from macro 'DAT_020333a0'
+   76 | #define DAT_020333a0 (*(undefined4 *)(uintptr_t)0x20333a0u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:25:128: note: passing argument to parameter 'param_8' here
+   25 | void PlayerGfxData_Create_from_thumb(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                                                ^
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:183:19: error: too many arguments to function call, expected 0, have 1
+  183 |     func_02033840(param_1);
+      |     ~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:39:6: note: 'func_02033840' declared here
+   39 | void func_02033840(void);
+      |      ^
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:187:19: error: too many arguments to function call, expected 0, have 1
+  187 |     func_020336ec(param_1);
+      |     ~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:38:6: note: 'func_020336ec' declared here
+   38 | void func_020336ec(void);
+      |      ^
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:198:71: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+  198 |   func_02025884(iVar2 + 0x24,DAT_020336c0,DAT_020336c4,DAT_020336c8,3,DAT_020336bc);
+      |                                                                       ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:88:22: note: expanded from macro 'DAT_020336bc'
+   88 | #define DAT_020336bc (*(undefined4 *)(uintptr_t)0x20336bcu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:35:86: note: passing argument to parameter 'param_6' here
+   35 | void func_02025884(int param_1,int param_2,int param_3,int param_4,int param_5,code *param_6);
+      |                                                                                      ^
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:205:9: error: assigning to 'int' from incompatible type 'void'
+  205 |   iVar2 = func_02148ca0();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:209:14: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+  209 |              DAT_020336bc);
+      |              ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:88:22: note: expanded from macro 'DAT_020336bc'
+   88 | #define DAT_020336bc (*(undefined4 *)(uintptr_t)0x20336bcu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:25:128: note: passing argument to parameter 'param_8' here
+   25 | void PlayerGfxData_Create_from_thumb(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                                                ^
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:226:58: error: too few arguments to function call, expected 4, have 3
+  226 |       func_021249a8(uVar6,2,*(undefined4 *)(iVar8 + 0x6c));
+      |       ~~~~~~~~~~~~~                                      ^
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:52:6: note: 'func_021249a8' declared here
+   52 | void func_021249a8(int param_1,int param_2,undefined4 param_3,int param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:243:23: error: incompatible pointer to integer conversion passing 'undefined1[24]' (aka 'unsigned char[24]') to parameter of type 'int' [-Wint-conversion]
+  243 |       Mem_CpuFill16(0,auStack_78,0x16);
+      |                       ^~~~~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:24:43: note: passing argument to parameter 'param_2' here
+   24 | void Mem_CpuFill16(undefined2 param_1,int param_2,int param_3);
+      |                                           ^
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:244:47: error: incompatible pointer to integer conversion passing 'undefined1[24]' (aka 'unsigned char[24]') to parameter of type 'int' [-Wint-conversion]
+  244 |       FormatRacerNameString_from_thumb(uVar10,auStack_78,0);
+      |                                               ^~~~~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:13:62: note: passing argument to parameter 'param_2' here
+   13 | void FormatRacerNameString_from_thumb(undefined4 param_1,int param_2,int param_3);
+      |                                                              ^
+C-WORK/src/arm9/02032f94_InstanceStructV_from_thumb.c:245:21: error: too many arguments to function call, expected 0, have 6
+  245 |       func_0212426c(1,iVar11,*(undefined4 *)(iVar8 + 0x78),auStack_78,*(undefined4 *)(iVar8 + 0x70),
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  246 |                     *(undefined4 *)(iVar8 + 0x7c));
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02032f94_InstanceStructV_from_thumb.h:51:6: note: 'func_0212426c' declared here
+   51 | void func_0212426c(void);
+      |      ^
+1 warning and 14 errors generated.

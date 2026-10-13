@@ -1,0 +1,33 @@
+C-WORK/src/arm9/0202fbc8_Maybe_multi_select_member_s_group.c:18:37: error: too few arguments to function call, single argument 'param_1' was not specified
+   18 |   uVar2 = Mem_CreateOrphanChildHeap();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0202fbc8_Maybe_multi_select_member_s_group.h:7:6: note: 'Mem_CreateOrphanChildHeap' declared here
+    7 | void Mem_CreateOrphanChildHeap(uint param_1);
+      |      ^                         ~~~~~~~~~~~~
+C-WORK/src/arm9/0202fbc8_Maybe_multi_select_member_s_group.c:32:9: error: assigning to 'int' from incompatible type 'void'
+   32 |   iVar3 = func_02148ca0();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202fbc8_Maybe_multi_select_member_s_group.c:36:17: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   36 |                 uRam0202fcfc);
+      |                 ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202fbc8_Maybe_multi_select_member_s_group.h:23:22: note: expanded from macro 'uRam0202fcfc'
+   23 | #define uRam0202fcfc (*(undefined4 *)(uintptr_t)0x202fcfcu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202fbc8_Maybe_multi_select_member_s_group.h:12:110: note: passing argument to parameter 'param_8' here
+   12 | void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                              ^
+C-WORK/src/arm9/0202fbc8_Maybe_multi_select_member_s_group.c:46:88: error: too few arguments to function call, expected 2, have 1
+   46 |       uVar2 = Bmg_GetRawStringPointer_from_thumb(*(undefined4 *)(*piRam0202fcf0 + 0xa0));
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                       ^
+C-WORK/src/arm9/deps/0202fbc8_Maybe_multi_select_member_s_group.h:3:5: note: 'Bmg_GetRawStringPointer_from_thumb' declared here
+    3 | int Bmg_GetRawStringPointer_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202fbc8_Maybe_multi_select_member_s_group.c:48:19: error: too many arguments to function call, expected 0, have 6
+   48 |     func_0212426c(1,(int)*psVar5,*(undefined4 *)(iVar6 + 0x38),uVar2,*(undefined4 *)(iVar6 + 0x30),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   49 |                   *(undefined4 *)(iVar6 + 0x3c));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202fbc8_Maybe_multi_select_member_s_group.h:15:6: note: 'func_0212426c' declared here
+   15 | void func_0212426c(void);
+      |      ^
+5 errors generated.

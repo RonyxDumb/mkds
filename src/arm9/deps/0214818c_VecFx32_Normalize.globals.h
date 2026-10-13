@@ -1,0 +1,7 @@
+#define plRam021482b8 (*(longlong **)(uintptr_t)0x21482b8u)
+#define plRam021482c0 (*(longlong **)(uintptr_t)0x21482c0u)
+#define puRam021482b0 (*(ushort **)(uintptr_t)0x21482b0u)
+#define puRam021482b4 (*(undefined4 **)(uintptr_t)0x21482b4u)
+#define puRam021482bc (*(ushort **)(uintptr_t)0x21482bcu)
+#define uRam021482c4 (*(uint *)(uintptr_t)0x21482c4u)
+#define uRam021482c8 (*(uint *)(uintptr_t)0x21482c8u)

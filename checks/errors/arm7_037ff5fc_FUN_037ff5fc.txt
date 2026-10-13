@@ -1,0 +1,7 @@
+C-WORK/src/arm7/037ff5fc_FUN_037ff5fc.c:32:16: error: too many arguments to function call, expected 0, have 1
+   32 |   FUN_037faf84(uVar1);
+      |   ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm7/deps/037ff5fc_FUN_037ff5fc.h:4:12: note: 'FUN_037faf84' declared here
+    4 | undefined4 FUN_037faf84(void);
+      |            ^
+1 error generated.

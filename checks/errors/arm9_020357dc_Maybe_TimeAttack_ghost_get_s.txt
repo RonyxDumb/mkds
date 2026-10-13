@@ -1,0 +1,37 @@
+C-WORK/src/arm9/020357dc_Maybe_TimeAttack_ghost_get_s.c:27:37: error: too few arguments to function call, single argument 'param_1' was not specified
+   27 |   uVar5 = Mem_CreateOrphanChildHeap();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020357dc_Maybe_TimeAttack_ghost_get_s.h:8:6: note: 'Mem_CreateOrphanChildHeap' declared here
+    8 | void Mem_CreateOrphanChildHeap(uint param_1);
+      |      ^                         ~~~~~~~~~~~~
+C-WORK/src/arm9/020357dc_Maybe_TimeAttack_ghost_get_s.c:36:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   36 |   uVar5 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02035a48);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020357dc_Maybe_TimeAttack_ghost_get_s.c:43:9: error: assigning to 'int' from incompatible type 'void'
+   43 |   iVar7 = func_02148cb8();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020357dc_Maybe_TimeAttack_ghost_get_s.c:45:17: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   45 |                 uRam02035a58);
+      |                 ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020357dc_Maybe_TimeAttack_ghost_get_s.h:34:22: note: expanded from macro 'uRam02035a58'
+   34 | #define uRam02035a58 (*(undefined4 *)(uintptr_t)0x2035a58u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020357dc_Maybe_TimeAttack_ghost_get_s.h:13:110: note: passing argument to parameter 'param_8' here
+   13 | void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                              ^
+C-WORK/src/arm9/020357dc_Maybe_TimeAttack_ghost_get_s.c:60:9: error: assigning to 'int' from incompatible type 'void'
+   60 |   iVar6 = func_02148ca0();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020357dc_Maybe_TimeAttack_ghost_get_s.c:63:18: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   63 |                 ,uRam02035a58);
+      |                  ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020357dc_Maybe_TimeAttack_ghost_get_s.h:34:22: note: expanded from macro 'uRam02035a58'
+   34 | #define uRam02035a58 (*(undefined4 *)(uintptr_t)0x2035a58u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020357dc_Maybe_TimeAttack_ghost_get_s.h:13:110: note: passing argument to parameter 'param_8' here
+   13 | void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                              ^
+C-WORK/src/arm9/020357dc_Maybe_TimeAttack_ghost_get_s.c:112:44: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967104 to 65344 [-Wconstant-conversion]
+  112 |   func_02025f80(*piRam02035a44 + 0x90,0,10,0xffffff40,0);
+      |   ~~~~~~~~~~~~~                            ^~~~~~~~~~
+1 warning and 6 errors generated.

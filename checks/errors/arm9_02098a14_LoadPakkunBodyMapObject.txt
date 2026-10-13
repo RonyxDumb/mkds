@@ -1,0 +1,12 @@
+C-WORK/src/arm9/02098a14_LoadPakkunBodyMapObject.c:10:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   10 |   uVar1 = CreateMapObjectFromModel_2_from_thumb(param_1,uRam02098a50);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9/02098a14_LoadPakkunBodyMapObject.c:15:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |              *(uint *)((uint)puRam02098a54 & 0xfffffffc) << ((uint)puRam02098a54 & 3) * -8 + 0x20,
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02098a14_LoadPakkunBodyMapObject.c:15:92: note: place parentheses around the '+' expression to silence this warning
+   15 |              *(uint *)((uint)puRam02098a54 & 0xfffffffc) << ((uint)puRam02098a54 & 3) * -8 + 0x20,
+      |                                                                                            ^     
+      |                                                             (                                    )
+1 warning and 1 error generated.

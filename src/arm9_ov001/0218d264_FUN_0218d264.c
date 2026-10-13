@@ -1,0 +1,16 @@
+/* Decompiled C draft; module arm9_ov001; ROM address 0218d264. No matching claim. */
+#include "types.h"
+#include "deps/0218d264_FUN_0218d264.h"
+
+undefined4 FUN_0218d264(undefined4 param_1)
+
+{
+  int iVar1;
+  
+  iVar1 = func_0x02061fec();
+  if (iVar1 == 1) {
+    FUN_0218d4c8(param_1);
+  }
+  return 0;
+}
+

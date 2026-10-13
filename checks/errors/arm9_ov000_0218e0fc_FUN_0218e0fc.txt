@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov000/0218e0fc_FUN_0218e0fc.c:11:26: error: too many arguments to function call, expected 0, have 1
+   11 |   thunk_EXT_FUN_021507c8(auStack_68);
+      |   ~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218e0fc_FUN_0218e0fc.h:7:6: note: 'thunk_EXT_FUN_021507c8' declared here
+    7 | void thunk_EXT_FUN_021507c8(void);
+      |      ^
+C-WORK/src/arm9_ov000/0218e0fc_FUN_0218e0fc.c:12:26: error: too many arguments to function call, expected 0, have 3
+   12 |   thunk_EXT_FUN_021506d4(auStack_68,param_1,param_2);
+      |   ~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218e0fc_FUN_0218e0fc.h:6:6: note: 'thunk_EXT_FUN_021506d4' declared here
+    6 | void thunk_EXT_FUN_021506d4(void);
+      |      ^
+C-WORK/src/arm9_ov000/0218e0fc_FUN_0218e0fc.c:13:26: error: too many arguments to function call, expected 0, have 2
+   13 |   thunk_EXT_FUN_02150610(auStack_78,auStack_68);
+      |   ~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218e0fc_FUN_0218e0fc.h:5:6: note: 'thunk_EXT_FUN_02150610' declared here
+    5 | void thunk_EXT_FUN_02150610(void);
+      |      ^
+3 errors generated.

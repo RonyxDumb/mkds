@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0200ec7c_Os_UnlockAllMutexes.c:14:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |   if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200ec7c_Os_UnlockAllMutexes.c:14:54: note: place parentheses around the '+' expression to silence this warning
+   14 |   if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/0200ec7c_Os_UnlockAllMutexes.c:19:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   19 |       Os_Thread_WakeUp();
+      |       ~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0200ec7c_Os_UnlockAllMutexes.h:4:6: note: 'Os_Thread_WakeUp' declared here
+    4 | void Os_Thread_WakeUp(uint *param_1);
+      |      ^                ~~~~~~~~~~~~~
+C-WORK/src/arm9/0200ec7c_Os_UnlockAllMutexes.c:22:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |     } while (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0);
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200ec7c_Os_UnlockAllMutexes.c:22:61: note: place parentheses around the '+' expression to silence this warning
+   22 |     } while (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0);
+      |                                                             ^
+      |                                                  (                )
+2 warnings and 1 error generated.

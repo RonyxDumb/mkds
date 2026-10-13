@@ -1,0 +1,21 @@
+/* Decompiled C draft; module arm9; ROM address 02056cac. No matching claim. */
+#include "types.h"
+#include "deps/02056cac_TimeTrialRecordCopyTo_from_thumb.h"
+
+void TimeTrialRecordCopyTo_from_thumb(uint *param_1,ushort *param_2)
+
+{
+  if ((char)param_2[0xc] != '\0') {
+    Mem_CpuCopy8(param_2 + 2,param_1 + 2,0x14);
+    *param_1 = *param_1 & 0xfffffffe | 1;
+    *param_1 = *param_1 & 0xffffff01 | (*(byte *)((int)param_2 + 0x19) & 0x7f) << 1;
+    *(char *)(param_1 + 1) = (char)param_2[0xd];
+    *param_1 = *param_1 & uRam02056d30 | ((byte)param_2[1] & 0x7f) << 8;
+    *param_1 = *param_1 & uRam02056d34 | (*(byte *)((int)param_2 + 3) & 0x7f) << 0xf;
+    *param_1 = *param_1 & uRam02056d38 | (*param_2 & uRam02056d3c) << 0x16;
+    return;
+  }
+  Mem_CpuFill8(param_1,0,0x1c);
+  return;
+}
+

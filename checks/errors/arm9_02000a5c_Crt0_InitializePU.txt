@@ -1,0 +1,28 @@
+C-WORK/src/arm9/02000a5c_Crt0_InitializePU.c:19:11: error: call to undeclared function 'coproc_movefrom_Control'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   19 |   uVar1 = coproc_movefrom_Control();
+      |           ^
+C-WORK/src/arm9/02000a5c_Crt0_InitializePU.c:20:3: error: call to undeclared function 'coproc_moveto_Control'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   20 |   coproc_moveto_Control(uVar1 & ~uRam02000b14);
+      |   ^
+C-WORK/src/arm9/02000a5c_Crt0_InitializePU.c:21:3: error: call to undeclared function 'coproc_moveto_Invalidate_Entire_Instruction'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   21 |   coproc_moveto_Invalidate_Entire_Instruction(0);
+      |   ^
+C-WORK/src/arm9/02000a5c_Crt0_InitializePU.c:22:3: error: call to undeclared function 'coproc_moveto_Invalidate_Entire_Data_cache'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   22 |   coproc_moveto_Invalidate_Entire_Data_cache(0);
+      |   ^
+C-WORK/src/arm9/02000a5c_Crt0_InitializePU.c:23:3: error: call to undeclared function 'coproc_moveto_Data_Synchronization'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   23 |   coproc_moveto_Data_Synchronization(0);
+      |   ^
+C-WORK/src/arm9/02000a5c_Crt0_InitializePU.c:24:3: error: call to undeclared function 'coprocessor_moveto'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   24 |   coprocessor_moveto(0xf,0,0,uRam02000b18,in_cr6,in_cr0);
+      |   ^
+C-WORK/src/arm9/02000a5c_Crt0_InitializePU.c:34:3: error: call to undeclared function 'coproc_moveto_Translation_table_base_1'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   34 |   coproc_moveto_Translation_table_base_1(0x42);
+      |   ^
+C-WORK/src/arm9/02000a5c_Crt0_InitializePU.c:35:3: error: call to undeclared function 'coproc_moveto_Translation_table_base_0'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   35 |   coproc_moveto_Translation_table_base_0(0x42);
+      |   ^
+C-WORK/src/arm9/02000a5c_Crt0_InitializePU.c:36:3: error: call to undeclared function 'coproc_moveto_Domain_Access_Control'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   36 |   coproc_moveto_Domain_Access_Control(2);
+      |   ^
+9 errors generated.

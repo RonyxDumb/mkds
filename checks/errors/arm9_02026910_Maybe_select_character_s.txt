@@ -1,0 +1,64 @@
+C-WORK/src/arm9/02026910_Maybe_select_character_s.c:31:37: error: too few arguments to function call, single argument 'param_1' was not specified
+   31 |   uVar4 = Mem_CreateOrphanChildHeap();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02026910_Maybe_select_character_s.h:12:6: note: 'Mem_CreateOrphanChildHeap' declared here
+   12 | void Mem_CreateOrphanChildHeap(uint param_1);
+      |      ^                         ~~~~~~~~~~~~
+C-WORK/src/arm9/02026910_Maybe_select_character_s.c:108:81: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+  108 |     func_02025b20(iVar5,DAT_02026cbc,DAT_02026cc0,DAT_02026cc4,DAT_02026cb4,0,0,DAT_02026cb8);
+      |                                                                                 ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02026910_Maybe_select_character_s.h:50:22: note: expanded from macro 'DAT_02026cb8'
+   50 | #define DAT_02026cb8 (*(undefined4 *)(uintptr_t)0x2026cb8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02026910_Maybe_select_character_s.h:14:110: note: passing argument to parameter 'param_8' here
+   14 | void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                              ^
+C-WORK/src/arm9/02026910_Maybe_select_character_s.c:110:91: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+  110 |     func_02025b20((int)(uintptr_t)(local_4c),DAT_02026ccc,DAT_02026cd0,0,DAT_02026cc8,0,0,DAT_02026cb8);
+      |                                                                                           ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02026910_Maybe_select_character_s.h:50:22: note: expanded from macro 'DAT_02026cb8'
+   50 | #define DAT_02026cb8 (*(undefined4 *)(uintptr_t)0x2026cb8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02026910_Maybe_select_character_s.h:14:110: note: passing argument to parameter 'param_8' here
+   14 | void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                              ^
+C-WORK/src/arm9/02026910_Maybe_select_character_s.c:113:85: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+  113 |     func_02025b20(*DAT_02026c90 + 0x38,DAT_02026cd8,DAT_02026cdc,0,DAT_02026cd4,0,0,DAT_02026cb8);
+      |                                                                                     ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02026910_Maybe_select_character_s.h:50:22: note: expanded from macro 'DAT_02026cb8'
+   50 | #define DAT_02026cb8 (*(undefined4 *)(uintptr_t)0x2026cb8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02026910_Maybe_select_character_s.h:14:110: note: passing argument to parameter 'param_8' here
+   14 | void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                              ^
+C-WORK/src/arm9/02026910_Maybe_select_character_s.c:141:19: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+  141 |                   DAT_02026cb8);
+      |                   ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02026910_Maybe_select_character_s.h:50:22: note: expanded from macro 'DAT_02026cb8'
+   50 | #define DAT_02026cb8 (*(undefined4 *)(uintptr_t)0x2026cb8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02026910_Maybe_select_character_s.h:14:110: note: passing argument to parameter 'param_8' here
+   14 | void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                              ^
+C-WORK/src/arm9/02026910_Maybe_select_character_s.c:183:9: error: assigning to 'int' from incompatible type 'void'
+  183 |   iVar8 = CheckSavedSecretFlag_from_thumb(0x15);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02026910_Maybe_select_character_s.c:193:9: error: assigning to 'int' from incompatible type 'void'
+  193 |   iVar8 = CheckSavedSecretFlag_from_thumb(0x14);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02026910_Maybe_select_character_s.c:203:9: error: assigning to 'int' from incompatible type 'void'
+  203 |   iVar8 = CheckSavedSecretFlag_from_thumb(0x16);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02026910_Maybe_select_character_s.c:213:9: error: assigning to 'int' from incompatible type 'void'
+  213 |   iVar8 = CheckSavedSecretFlag_from_thumb(0x17);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02026910_Maybe_select_character_s.c:40:45: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967168 to 65408 [-Wconstant-conversion]
+   40 |     func_02025f80(*DAT_02026c90 + 0xf8,0,10,0xffffff80,0);
+      |     ~~~~~~~~~~~~~                           ^~~~~~~~~~
+C-WORK/src/arm9/02026910_Maybe_select_character_s.c:47:45: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967168 to 65408 [-Wconstant-conversion]
+   47 |     func_02025f80(*DAT_02026c90 + 0xf8,1,10,0xffffff80,0);
+      |     ~~~~~~~~~~~~~                           ^~~~~~~~~~
+C-WORK/src/arm9/02026910_Maybe_select_character_s.c:58:51: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967232 to 65472 [-Wconstant-conversion]
+   58 |   func_02025f80(*DAT_02026c90 + DAT_02026c94,0,10,0xffffffc0,0);
+      |   ~~~~~~~~~~~~~                                   ^~~~~~~~~~
+3 warnings and 9 errors generated.

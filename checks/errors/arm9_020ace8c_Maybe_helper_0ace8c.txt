@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020ace8c_Maybe_helper_0ace8c.c:11:25: error: too few arguments to function call, single argument 'param_1' was not specified
+   11 |   iVar1 = func_020acebc();
+      |           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ace8c_Maybe_helper_0ace8c.h:4:12: note: 'func_020acebc' declared here
+    4 | undefined2 func_020acebc(int param_1);
+      |            ^             ~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,15 @@
+C-WORK/src/arm7/0600983c_FUN_0600983c.c:11:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   11 |                   *(uint *)(DAT_06009854 & 0xfffffffc) << (DAT_06009854 & 3) * -8 + 0x20) +
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0600983c_FUN_0600983c.c:11:83: note: place parentheses around the '+' expression to silence this warning
+   11 |                   *(uint *)(DAT_06009854 & 0xfffffffc) << (DAT_06009854 & 3) * -8 + 0x20) +
+      |                                                                                   ^     
+      |                                                           (                             )
+C-WORK/src/arm7/0600983c_FUN_0600983c.c:10:19: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+   10 |   (*DAT_0600985c)((*(uint *)(DAT_06009854 & 0xfffffffc) >> (DAT_06009854 & 3) * 8 |
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   11 |                   *(uint *)(DAT_06009854 & 0xfffffffc) << (DAT_06009854 & 3) * -8 + 0x20) +
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   12 |                   DAT_06009858);
+      |                   ~~~~~~~~~~~~
+1 warning and 1 error generated.

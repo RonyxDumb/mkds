@@ -1,0 +1,31 @@
+C-WORK/src/arm9/0200f484_OSi_DisplayExContext.c:11:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   11 |       *(uint *)(uRam0200f4e0 & 0xfffffffc) << (uRam0200f4e0 & 3) * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f484_OSi_DisplayExContext.c:11:71: note: place parentheses around the '+' expression to silence this warning
+   11 |       *(uint *)(uRam0200f4e0 & 0xfffffffc) << (uRam0200f4e0 & 3) * -8 + 0x20 != 0) {
+      |                                                                       ^
+      |                                               (                             )
+C-WORK/src/arm9/0200f484_OSi_DisplayExContext.c:12:17: error: too many arguments to function call, expected 0, have 2
+   12 |     Os_EnablePU(auStack_8,uRam0200f4e4);
+      |     ~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0200f484_OSi_DisplayExContext.h:5:6: note: 'Os_EnablePU' declared here
+    5 | uint Os_EnablePU(void);
+      |      ^
+C-WORK/src/arm9/0200f484_OSi_DisplayExContext.c:14:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |               *(uint *)(uRam0200f4e0 & 0xfffffffc) << (uRam0200f4e0 & 3) * -8 + 0x20))
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f484_OSi_DisplayExContext.c:14:79: note: place parentheses around the '+' expression to silence this warning
+   14 |               *(uint *)(uRam0200f4e0 & 0xfffffffc) << (uRam0200f4e0 & 3) * -8 + 0x20))
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/0200f484_OSi_DisplayExContext.c:17:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |                *(uint *)(uRam0200f4e8 & 0xfffffffc) << (uRam0200f4e8 & 3) * -8 + 0x20);
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f484_OSi_DisplayExContext.c:17:80: note: place parentheses around the '+' expression to silence this warning
+   17 |                *(uint *)(uRam0200f4e8 & 0xfffffffc) << (uRam0200f4e8 & 3) * -8 + 0x20);
+      |                                                                                ^     
+      |                                                        (                             )
+C-WORK/src/arm9/0200f484_OSi_DisplayExContext.c:15:15: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   15 |               (uRam0200f4ec,
+      |               ^
+4 warnings and 1 error generated.

@@ -1,0 +1,28 @@
+C-WORK/src/arm9/0210c3a8_func_0210c3a8.c:13:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210c3a8_func_0210c3a8.c:13:52: note: place parentheses around the '+' expression to silence this warning
+   13 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0210c3a8_func_0210c3a8.c:16:27: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   16 |       func_0212c6f0(uVar2,0);
+      |       ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/0210c3a8_func_0210c3a8.h:6:6: note: 'func_0212c6f0' declared here
+    6 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/0210c3a8_func_0210c3a8.c:23:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |       uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210c3a8_func_0210c3a8.c:23:56: note: place parentheses around the '+' expression to silence this warning
+   23 |       uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0210c3a8_func_0210c3a8.c:28:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210c3a8_func_0210c3a8.c:28:52: note: place parentheses around the '+' expression to silence this warning
+   28 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+3 warnings and 1 error generated.

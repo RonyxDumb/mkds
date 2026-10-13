@@ -1,0 +1,22 @@
+C-WORK/src/arm9_ov000/02181458_FUN_02181458.c:20:21: error: too many arguments to function call, expected 0, have 2
+   20 |     func_0x02126570(uVar3,uVar4);
+      |     ~~~~~~~~~~~~~~~ ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02181458_FUN_02181458.h:11:6: note: 'func_02126570' declared here
+   11 | void func_02126570(void);
+      |      ^
+C-WORK/src/arm9_ov000/02181458_FUN_02181458.c:24:9: error: assigning to 'int' from incompatible type 'void'
+   24 |   iVar2 = thunk_EXT_FUN_02061290();
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02181458_FUN_02181458.c:31:21: error: too many arguments to function call, expected 0, have 4
+   31 |     func_0x02126454(uVar3,uVar4,uVar5,0);
+      |     ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02181458_FUN_02181458.h:13:6: note: 'func_02126454' declared here
+   13 | void func_02126454(void);
+      |      ^
+C-WORK/src/arm9_ov000/02181458_FUN_02181458.c:37:19: error: too many arguments to function call, expected 0, have 2
+   37 |   func_0x02126570(uVar3,uVar4);
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02181458_FUN_02181458.h:11:6: note: 'func_02126570' declared here
+   11 | void func_02126570(void);
+      |      ^
+4 errors generated.

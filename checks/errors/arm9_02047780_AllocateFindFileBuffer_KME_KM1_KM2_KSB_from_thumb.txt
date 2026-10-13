@@ -1,0 +1,49 @@
+C-WORK/src/arm9/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.c:16:87: error: too many arguments to function call, expected 4, have 5
+   16 |       Util_SNPrintF(auStack_8c,0x80,uRam0204788c,*(undefined4 *)(iRam02047888 + 0x28),param_1);
+      |       ~~~~~~~~~~~~~                                                                   ^~~~~~~
+C-WORK/src/arm9/deps/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.h:6:6: note: 'Util_SNPrintF' declared here
+    6 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.c:19:87: error: too many arguments to function call, expected 4, have 5
+   19 |       Util_SNPrintF(auStack_8c,0x80,uRam02047890,*(undefined4 *)(iRam02047888 + 0x28),param_1);
+      |       ~~~~~~~~~~~~~                                                                   ^~~~~~~
+C-WORK/src/arm9/deps/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.h:6:6: note: 'Util_SNPrintF' declared here
+    6 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.c:26:89: error: too many arguments to function call, expected 4, have 5
+   26 |         Util_SNPrintF(auStack_8c,0x80,uRam0204789c,*(undefined4 *)(iRam02047888 + 0x18),param_1);
+      |         ~~~~~~~~~~~~~                                                                   ^~~~~~~
+C-WORK/src/arm9/deps/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.h:6:6: note: 'Util_SNPrintF' declared here
+    6 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.c:29:89: error: too many arguments to function call, expected 4, have 5
+   29 |         Util_SNPrintF(auStack_8c,0x80,uRam020478a0,*(undefined4 *)(iRam02047888 + 0x18),param_1);
+      |         ~~~~~~~~~~~~~                                                                   ^~~~~~~
+C-WORK/src/arm9/deps/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.h:6:6: note: 'Util_SNPrintF' declared here
+    6 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.c:35:89: error: too many arguments to function call, expected 4, have 5
+   35 |         Util_SNPrintF(auStack_8c,0x80,uRam020478a8,*(undefined4 *)(iRam02047888 + 0x1c),param_1);
+      |         ~~~~~~~~~~~~~                                                                   ^~~~~~~
+C-WORK/src/arm9/deps/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.h:6:6: note: 'Util_SNPrintF' declared here
+    6 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.c:38:89: error: too many arguments to function call, expected 4, have 5
+   38 |         Util_SNPrintF(auStack_8c,0x80,uRam020478ac,*(undefined4 *)(iRam02047888 + 0x1c),param_1);
+      |         ~~~~~~~~~~~~~                                                                   ^~~~~~~
+C-WORK/src/arm9/deps/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.h:6:6: note: 'Util_SNPrintF' declared here
+    6 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.c:44:89: error: too many arguments to function call, expected 4, have 5
+   44 |         Util_SNPrintF(auStack_8c,0x80,uRam020478b4,*(undefined4 *)(iRam02047888 + 0x20),param_1);
+      |         ~~~~~~~~~~~~~                                                                   ^~~~~~~
+C-WORK/src/arm9/deps/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.h:6:6: note: 'Util_SNPrintF' declared here
+    6 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.c:47:89: error: too many arguments to function call, expected 4, have 5
+   47 |         Util_SNPrintF(auStack_8c,0x80,uRam020478b8,*(undefined4 *)(iRam02047888 + 0x20),param_1);
+      |         ~~~~~~~~~~~~~                                                                   ^~~~~~~
+C-WORK/src/arm9/deps/02047780_AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb.h:6:6: note: 'Util_SNPrintF' declared here
+    6 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+8 errors generated.

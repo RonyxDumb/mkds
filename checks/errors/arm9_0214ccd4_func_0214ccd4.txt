@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0214ccd4_func_0214ccd4.c:17:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |              *(uint *)((uint)puRam0214cd88 & 0xfffffffc) << ((uint)puRam0214cd88 & 3) * -8 + 0x20 !=
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214ccd4_func_0214ccd4.c:17:92: note: place parentheses around the '+' expression to silence this warning
+   17 |              *(uint *)((uint)puRam0214cd88 & 0xfffffffc) << ((uint)puRam0214cd88 & 3) * -8 + 0x20 !=
+      |                                                                                            ^
+      |                                                             (                                    )
+C-WORK/src/arm9/0214ccd4_func_0214ccd4.c:21:15: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'code *' (aka 'void (*)()') [-Wint-conversion]
+   21 |     puVar1[4] = param_4;
+      |               ^ ~~~~~~~
+C-WORK/src/arm9/0214ccd4_func_0214ccd4.c:31:15: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   31 |     (*param_4)(param_5);
+      |               ^
+2 warnings and 1 error generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0214d830_Fifo_Initialize.c:50:17: error: too many arguments to function call, expected 0, have 1
+   50 |   Os_RestoreIrq(uVar3);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0214d830_Fifo_Initialize.h:6:12: note: 'Os_RestoreIrq' declared here
+    6 | undefined4 Os_RestoreIrq(void);
+      |            ^
+1 error generated.

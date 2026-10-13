@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov003/021cec00_FUN_021cec00.c:15:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   15 |   iVar1 = FUN_021d1970();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov003/deps/021cec00_FUN_021cec00.h:6:12: note: 'FUN_021d1970' declared here
+    6 | undefined1 FUN_021d1970(int param_1);
+      |            ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021cec00_FUN_021cec00.c:20:63: warning: passing 'int[2]' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   20 |       FUN_021d1770(param_1,iVar3,(uint *)(void *)(auStack_20),local_1c);
+      |                                                               ^~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cec00_FUN_021cec00.h:4:63: note: passing argument to parameter 'param_4' here
+    4 | void FUN_021d1770(int param_1,int param_2,uint *param_3,uint *param_4);
+      |                                                               ^
+1 warning and 1 error generated.

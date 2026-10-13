@@ -1,0 +1,983 @@
+address	before	after	status
+02380000	undefined Arm7Entry()	void Arm7Entry(void)	INFERRED
+02380100	undefined FUN_02380100()	void FUN_02380100(void)	INFERRED
+0238015c	undefined FUN_0238015c()	void FUN_0238015c(void)	INFERRED
+027e0000	undefined FUN_027e0000()	void FUN_027e0000(void)	INFERRED
+037f8000	undefined FUN_037f8000()	void FUN_037f8000(void)	INFERRED
+037f802c	undefined FUN_037f802c()	uint FUN_037f802c(int param_1)	INFERRED
+037f81b8	undefined thunk_FUN_038011f0()	void thunk_FUN_038011f0(void)	INFERRED
+037f81c4	undefined FUN_037f81c4()	undefined4 FUN_037f81c4(void)	INFERRED
+037f81e8	undefined FUN_037f81e8()	undefined4 FUN_037f81e8(void)	INFERRED
+037f8228	undefined FUN_037f8228()	void FUN_037f8228(void)	INFERRED
+037f83c0	undefined FUN_037f83c0()	int FUN_037f83c0(void)	INFERRED
+037f846c	undefined FUN_037f846c()	void FUN_037f846c(void)	INFERRED
+037f8528	undefined thunk_FUN_038011be()	void thunk_FUN_038011be(void)	INFERRED
+037f8534	undefined FUN_037f8534()	void FUN_037f8534(void)	INFERRED
+037f86ac	undefined FUN_037f86ac()	void FUN_037f86ac(void)	INFERRED
+037f881c	undefined FUN_037f881c()	uint FUN_037f881c(undefined4 param_1)	INFERRED
+037f8850	undefined FUN_037f8850()	uint FUN_037f8850(uint param_1)	INFERRED
+037f888c	undefined FUN_037f888c()	uint FUN_037f888c(uint param_1)	INFERRED
+037f88c4	undefined FUN_037f88c4()	uint FUN_037f88c4(undefined4 param_1)	INFERRED
+037f88f8	undefined FUN_037f88f8()	void FUN_037f88f8(int param_1, undefined4 param_2, undefined4 param_3)	INFERRED
+037f8944	undefined FUN_037f8944()	void FUN_037f8944(uint param_1, undefined4 param_2)	INFERRED
+037f89ec	undefined FUN_037f89ec()	void FUN_037f89ec(void)	INFERRED
+037f8a10	undefined thunk_FUN_037f8b24()	void thunk_FUN_037f8b24(void)	INFERRED
+037f8a1c	undefined FUN_037f8a1c()	int FUN_037f8a1c(void)	INFERRED
+037f8ab4	undefined FUN_037f8ab4()	void FUN_037f8ab4(int param_1)	INFERRED
+037f8ae4	undefined FUN_037f8ae4()	void FUN_037f8ae4(void)	INFERRED
+037f8af4	undefined FUN_037f8af4()	undefined2 FUN_037f8af4(int param_1)	INFERRED
+037f8afc	undefined FUN_037f8afc()	void FUN_037f8afc(void)	INFERRED
+037f8b04	undefined FUN_037f8b04()	void FUN_037f8b04(undefined4 param_1)	INFERRED
+037f8b24	void FUN_037f8b24(void)	void FUN_037f8b24(undefined4 param_1)	INFERRED
+037f8b44	undefined FUN_037f8b44()	void FUN_037f8b44(undefined4 param_1)	INFERRED
+037f8b64	undefined FUN_037f8b64()	int FUN_037f8b64(undefined4 param_1, int param_2, undefined * param_3, int param_4)	INFERRED
+037f8c74	undefined FUN_037f8c74()	void FUN_037f8c74(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)	INFERRED
+037f8cbc	undefined FUN_037f8cbc()	void FUN_037f8cbc(void)	INFERRED
+037f8d34	undefined FUN_037f8d34()	void FUN_037f8d34(void)	INFERRED
+037f8d38	undefined FUN_037f8d38()	void FUN_037f8d38(int param_1, undefined4 param_2)	INFERRED
+037f8d40	undefined FUN_037f8d40()	uint FUN_037f8d40(void)	INFERRED
+037f8d78	undefined FUN_037f8d78()	uint FUN_037f8d78(void)	INFERRED
+037f8db0	undefined FUN_037f8db0()	uint FUN_037f8db0(undefined4 param_1)	INFERRED
+037f8e04	undefined FUN_037f8e04()	void FUN_037f8e04(int param_1)	INFERRED
+037f8e98	undefined FUN_037f8e98()	undefined4 FUN_037f8e98(uint param_1, uint param_2)	INFERRED
+037f8f48	undefined FUN_037f8f48()	void FUN_037f8f48(void)	INFERRED
+037f9028	undefined FUN_037f9028()	void FUN_037f9028(void)	INFERRED
+037f9054	undefined FUN_037f9054()	void FUN_037f9054(int param_1)	INFERRED
+037f9088	undefined FUN_037f9088()	void FUN_037f9088(uint * param_1)	INFERRED
+037f9104	undefined FUN_037f9104()	void FUN_037f9104(int param_1)	INFERRED
+037f9158	undefined FUN_037f9158()	bool FUN_037f9158(int param_1)	INFERRED
+037f916c	undefined FUN_037f916c()	void FUN_037f916c(int param_1)	INFERRED
+037f91a8	undefined FUN_037f91a8()	void FUN_037f91a8(void)	INFERRED
+037f91f4	undefined FUN_037f91f4()	void FUN_037f91f4(void)	INFERRED
+037f923c	undefined FUN_037f923c()	void FUN_037f923c(uint * param_1, uint param_2)	INFERRED
+037f92a4	undefined FUN_037f92a4()	void FUN_037f92a4(void)	INFERRED
+037f92d0	undefined FUN_037f92d0()	void FUN_037f92d0(int param_1, undefined4 param_2, undefined4 param_3, int param_4, int param_5, undefined4 param_6)	INFERRED
+037f93cc	undefined FUN_037f93cc()	void FUN_037f93cc(void)	INFERRED
+037f94d4	undefined FUN_037f94d4()	void FUN_037f94d4(uint param_1)	INFERRED
+037f951c	undefined FUN_037f951c()	void FUN_037f951c(int param_1)	INFERRED
+037f9584	undefined FUN_037f9584()	uint FUN_037f9584(uint * param_1)	INFERRED
+037f95b4	undefined FUN_037f95b4()	uint FUN_037f95b4(uint * param_1)	INFERRED
+037f95e8	undefined FUN_037f95e8()	void FUN_037f95e8(uint * param_1, uint param_2)	INFERRED
+037f9660	undefined FUN_037f9660()	void FUN_037f9660(void)	INFERRED
+037f9678	undefined FUN_037f9678()	void FUN_037f9678(undefined4 * param_1, int param_2, int param_3)	INFERRED
+037f96dc	undefined FUN_037f96dc()	undefined4 FUN_037f96dc(int * param_1, undefined4 param_2, undefined4 param_3, int param_4)	INFERRED
+037f9710	undefined FUN_037f9710()	void FUN_037f9710(int param_1)	INFERRED
+037f973c	undefined FUN_037f973c()	undefined4 FUN_037f973c(int param_1, uint * param_2, uint param_3)	INFERRED
+037f97b4	undefined FUN_037f97b4()	undefined4 FUN_037f97b4(int param_1, uint * param_2, uint param_3)	INFERRED
+037f9854	undefined FUN_037f9854()	undefined4 FUN_037f9854(int param_1, undefined4 param_2, uint param_3)	INFERRED
+037f98e8	undefined FUN_037f98e8()	void FUN_037f98e8(uint * param_1, uint param_2, uint param_3)	INFERRED
+037f9918	undefined FUN_037f9918()	void FUN_037f9918(int param_1, int param_2)	INFERRED
+037f993c	undefined FUN_037f993c()	void FUN_037f993c(int param_1, int param_2)	INFERRED
+037f9960	undefined FUN_037f9960()	void FUN_037f9960(int param_1)	INFERRED
+037f999c	undefined FUN_037f999c()	void FUN_037f999c(int param_1)	INFERRED
+037f9a0c	undefined FUN_037f9a0c()	void FUN_037f9a0c(int param_1)	INFERRED
+037f9a98	undefined FUN_037f9a98()	void FUN_037f9a98(uint * param_1)	INFERRED
+037f9ab4	undefined FUN_037f9ab4()	void FUN_037f9ab4(void)	INFERRED
+037f9aec	undefined FUN_037f9aec()	void FUN_037f9aec(int param_1, undefined4 param_2)	INFERRED
+037f9b00	undefined FUN_037f9b00()	void FUN_037f9b00(int param_1, undefined4 param_2)	INFERRED
+037f9b14	undefined FUN_037f9b14()	uint FUN_037f9b14(int param_1)	INFERRED
+037f9b6c	undefined FUN_037f9b6c()	int FUN_037f9b6c(int param_1)	INFERRED
+037f9bdc	undefined FUN_037f9bdc()	undefined4 FUN_037f9bdc(int param_1)	INFERRED
+037f9bf0	undefined FUN_037f9bf0()	undefined4 FUN_037f9bf0(int param_1)	INFERRED
+037f9c04	undefined FUN_037f9c04()	void FUN_037f9c04(void)	INFERRED
+037f9ca8	undefined FUN_037f9ca8()	int FUN_037f9ca8(int param_1, int param_2)	INFERRED
+037f9e4c	undefined FUN_037f9e4c()	int FUN_037f9e4c(int param_1, int param_2, uint param_3)	INFERRED
+037f9ef4	undefined FUN_037f9ef4()	uint FUN_037f9ef4(int param_1, undefined4 * param_2, uint param_3, int param_4)	INFERRED
+037f9f9c	undefined FUN_037f9f9c()	uint FUN_037f9f9c(int param_1, undefined4 param_2)	INFERRED
+037f9fd8	undefined FUN_037f9fd8()	void FUN_037f9fd8(int param_1, uint param_2, int param_3)	INFERRED
+037fa04c	undefined FUN_037fa04c()	int FUN_037fa04c(int param_1, uint param_2, int param_3)	INFERRED
+037fa164	undefined FUN_037fa164()	uint * FUN_037fa164(uint * param_1, uint * param_2)	INFERRED
+037fa218	undefined FUN_037fa218()	uint FUN_037fa218(uint param_1, uint param_2)	INFERRED
+037fa240	undefined FUN_037fa240()	undefined4 * FUN_037fa240(undefined4 * param_1, undefined4 * param_2)	INFERRED
+037fa25c	undefined FUN_037fa25c()	void FUN_037fa25c(uint param_1)	INFERRED
+037fa278	undefined FUN_037fa278()	undefined8 FUN_037fa278(void)	INFERRED
+037fa328	undefined FUN_037fa328()	void FUN_037fa328(void)	INFERRED
+037fa3b0	undefined FUN_037fa3b0()	undefined2 FUN_037fa3b0(void)	INFERRED
+037fa3c0	undefined FUN_037fa3c0()	void FUN_037fa3c0(void)	INFERRED
+037fa464	undefined FUN_037fa464()	void FUN_037fa464(void)	INFERRED
+037fa564	undefined FUN_037fa564()	void FUN_037fa564(undefined4 * param_1)	INFERRED
+037fa5f4	undefined FUN_037fa5f4()	void FUN_037fa5f4(undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7)	INFERRED
+037fa670	undefined FUN_037fa670()	void FUN_037fa670(undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)	INFERRED
+037fa6e4	undefined FUN_037fa6e4()	void FUN_037fa6e4(int param_1, undefined4 param_2, undefined4 param_3)	INFERRED
+037fa814	undefined FUN_037fa814()	void FUN_037fa814(undefined4 * param_1)	INFERRED
+037fa824	undefined FUN_037fa824()	undefined2 FUN_037fa824(void)	INFERRED
+037fa834	undefined FUN_037fa834()	void FUN_037fa834(void)	INFERRED
+037fa884	undefined FUN_037fa884()	void FUN_037fa884(int param_1)	INFERRED
+037fa920	undefined FUN_037fa920()	uint FUN_037fa920(int param_1)	INFERRED
+037fa96c	undefined FUN_037fa96c()	undefined4 FUN_037fa96c(int param_1, uint param_2, int param_3)	INFERRED
+037fa9bc	undefined FUN_037fa9bc()	void FUN_037fa9bc(void)	INFERRED
+037fab44	undefined FUN_037fab44()	void FUN_037fab44(uint param_1)	INFERRED
+037fabc0	undefined FUN_037fabc0()	void FUN_037fabc0(undefined4 * param_1)	INFERRED
+037fac14	undefined FUN_037fac14()	void FUN_037fac14(int param_1, int param_2)	INFERRED
+037fac40	undefined FUN_037fac40()	void FUN_037fac40(int param_1)	INFERRED
+037fac9c	undefined FUN_037fac9c()	void FUN_037fac9c(undefined4 * param_1, int param_2, undefined2 param_3, undefined4 param_4, undefined4 param_5)	INFERRED
+037fad34	undefined FUN_037fad34()	void FUN_037fad34(undefined4 * param_1, int param_2, undefined2 param_3, undefined4 param_4, undefined4 param_5)	INFERRED
+037fadcc	undefined FUN_037fadcc()	void FUN_037fadcc(undefined4 * param_1)	INFERRED
+037fade0	undefined FUN_037fade0()	void FUN_037fade0(int param_1)	INFERRED
+037fae18	undefined FUN_037fae18()	void FUN_037fae18(int param_1)	INFERRED
+037fae5c	undefined FUN_037fae5c()	void FUN_037fae5c(int param_1)	INFERRED
+037faee4	undefined FUN_037faee4()	undefined2 FUN_037faee4(void)	INFERRED
+037faef4	undefined FUN_037faef4()	void FUN_037faef4(void)	INFERRED
+037faf5c	undefined FUN_037faf5c()	longlong FUN_037faf5c(void)	INFERRED
+037faf70	undefined FUN_037faf70()	longlong FUN_037faf70(void)	INFERRED
+037faf84	undefined FUN_037faf84()	undefined4 FUN_037faf84(void)	INFERRED
+037faf9c	undefined FUN_037faf9c()	longlong FUN_037faf9c(void)	INFERRED
+037fafb0	undefined FUN_037fafb0()	undefined4 FUN_037fafb0(void)	INFERRED
+037fafc8	undefined FUN_037fafc8()	undefined4 FUN_037fafc8(void)	INFERRED
+037fafd4	undefined FUN_037fafd4()	void FUN_037fafd4(undefined4 param_1)	INFERRED
+037faff4	undefined thunk_FUN_038011a4()	void thunk_FUN_038011a4(void)	INFERRED
+037fb000	undefined FUN_037fb000()	void FUN_037fb000(void)	INFERRED
+037fb014	undefined FUN_037fb014()	void FUN_037fb014(void)	INFERRED
+037fb068	undefined FUN_037fb068()	void FUN_037fb068(int param_1)	INFERRED
+037fb098	undefined FUN_037fb098()	void FUN_037fb098(undefined4 param_1, uint param_2)	INFERRED
+037fb0d4	undefined FUN_037fb0d4()	undefined2 FUN_037fb0d4(void)	INFERRED
+037fb0e4	undefined FUN_037fb0e4()	void FUN_037fb0e4(void)	INFERRED
+037fb124	undefined FUN_037fb124()	void FUN_037fb124(int param_1)	INFERRED
+037fb1a8	undefined FUN_037fb1a8()	void FUN_037fb1a8(int param_1)	INFERRED
+037fb218	undefined FUN_037fb218()	void FUN_037fb218(undefined2 param_1, int param_2, int param_3)	INFERRED
+037fb230	undefined FUN_037fb230()	void FUN_037fb230(int param_1, int param_2, int param_3)	INFERRED
+037fb24c	undefined FUN_037fb24c()	void FUN_037fb24c(undefined4 param_1, undefined4 * param_2, int param_3)	INFERRED
+037fb260	undefined FUN_037fb260()	void FUN_037fb260(undefined4 * param_1, undefined4 * param_2, int param_3)	INFERRED
+037fb278	undefined FUN_037fb278()	void FUN_037fb278(undefined4 param_1, undefined4 * param_2, uint param_3)	INFERRED
+037fb2c4	undefined FUN_037fb2c4()	void FUN_037fb2c4(undefined4 * param_1, undefined4 * param_2, uint param_3)	INFERRED
+037fb2fc	undefined FUN_037fb2fc()	void FUN_037fb2fc(uint * param_1, uint param_2, uint param_3)	INFERRED
+037fb390	undefined FUN_037fb390()	void FUN_037fb390(ushort * param_1, uint * param_2, uint param_3)	INFERRED
+037fb4c0	undefined FUN_037fb4c0()	undefined4 FUN_037fb4c0(undefined4 param_1, undefined4 * param_2)	INFERRED
+037fb4c8	undefined thunk_FUN_037fb72c()	void thunk_FUN_037fb72c(void)	INFERRED
+037fb4d4	undefined FUN_037fb4d4()	void FUN_037fb4d4(void)	INFERRED
+037fb5f4	undefined FUN_037fb5f4()	undefined4 FUN_037fb5f4(uint param_1, int param_2, uint param_3)	INFERRED
+037fb698	undefined FUN_037fb698()	bool FUN_037fb698(uint param_1, int param_2)	INFERRED
+037fb6c0	undefined FUN_037fb6c0()	void FUN_037fb6c0(uint param_1, int param_2)	INFERRED
+037fb72c	void FUN_037fb72c(void)	void FUN_037fb72c(void)	INFERRED
+037fb808	undefined FUN_037fb808()	void FUN_037fb808(undefined2 param_1)	INFERRED
+037fb824	undefined FUN_037fb824()	void FUN_037fb824(ushort param_1, ushort param_2)	INFERRED
+037fb844	undefined FUN_037fb844()	void FUN_037fb844(void)	INFERRED
+037fb884	undefined FUN_037fb884()	undefined4 FUN_037fb884(void)	INFERRED
+037fb924	undefined FUN_037fb924()	void FUN_037fb924(byte param_1, int param_2, int param_3, int param_4)	INFERRED
+037fb95c	undefined FUN_037fb95c()	void FUN_037fb95c(undefined1 param_1)	INFERRED
+037fb96c	undefined FUN_037fb96c()	void FUN_037fb96c(void)	INFERRED
+037fb9b4	undefined thunk_FUN_038011ca()	void thunk_FUN_038011ca(void)	INFERRED
+037fb9c0	undefined FUN_037fb9c0()	void FUN_037fb9c0(void)	INFERRED
+037fba04	undefined thunk_FUN_038011d2()	void thunk_FUN_038011d2(void)	INFERRED
+037fba10	undefined FUN_037fba10()	void FUN_037fba10(void)	INFERRED
+037fba64	undefined FUN_037fba64()	void FUN_037fba64(void)	INFERRED
+037fba7c	undefined FUN_037fba7c()	void FUN_037fba7c(void)	INFERRED
+037fba94	undefined FUN_037fba94()	int FUN_037fba94(int param_1, int param_2)	INFERRED
+037fbb00	undefined FUN_037fbb00()	void FUN_037fbb00(undefined4 param_1)	INFERRED
+037fbb64	undefined FUN_037fbb64()	undefined4 FUN_037fbb64(int param_1)	INFERRED
+037fbb74	undefined FUN_037fbb74()	void FUN_037fbb74(int param_1)	INFERRED
+037fbbd8	undefined FUN_037fbbd8()	bool FUN_037fbbd8(int param_1)	INFERRED
+037fbbf4	undefined FUN_037fbbf4()	void FUN_037fbbf4(uint param_1, uint param_2)	INFERRED
+037fbc70	undefined FUN_037fbc70()	void FUN_037fbc70(int param_1, short param_2)	INFERRED
+037fbc88	undefined FUN_037fbc88()	void FUN_037fbc88(uint param_1, undefined4 param_2, int param_3)	INFERRED
+037fbd0c	undefined FUN_037fbd0c()	void FUN_037fbd0c(int param_1, uint param_2)	INFERRED
+037fbd38	undefined FUN_037fbd38()	void FUN_037fbd38(uint param_1, uint param_2, int param_3, short param_4, uint param_5)	INFERRED
+037fbde8	undefined FUN_037fbde8()	void FUN_037fbde8(uint param_1, int param_2, uint param_3, int param_4, short param_5, uint param_6)	INFERRED
+037fbea0	undefined FUN_037fbea0()	void FUN_037fbea0(uint param_1, undefined4 param_2, int param_3, int param_4, undefined2 param_5, undefined4 param_6, uint param_7, int param_8, short param_9, uint param_10)	INFERRED
+037fbf70	undefined FUN_037fbf70()	uint FUN_037fbf70(void)	INFERRED
+037fbfa4	undefined FUN_037fbfa4()	int FUN_037fbfa4(int param_1)	INFERRED
+037fc010	undefined FUN_037fc010()	uint FUN_037fc010(int param_1)	INFERRED
+037fc088	undefined thunk_FUN_03801218()	void thunk_FUN_03801218(void)	INFERRED
+037fc094	undefined FUN_037fc094()	uint FUN_037fc094(uint param_1, int param_2)	INFERRED
+037fc1bc	undefined thunk_FUN_03801214()	void thunk_FUN_03801214(void)	INFERRED
+037fc1c8	undefined FUN_037fc1c8()	void FUN_037fc1c8(void)	INFERRED
+037fc248	undefined FUN_037fc248()	void FUN_037fc248(void)	INFERRED
+037fc294	undefined FUN_037fc294()	void FUN_037fc294(void)	INFERRED
+037fc298	undefined FUN_037fc298()	void FUN_037fc298(void)	INFERRED
+037fc29c	undefined FUN_037fc29c()	void FUN_037fc29c(void)	INFERRED
+037fc2b8	undefined FUN_037fc2b8()	undefined4 FUN_037fc2b8(void)	INFERRED
+037fc2e4	undefined FUN_037fc2e4()	void FUN_037fc2e4(void)	INFERRED
+037fc2f8	undefined FUN_037fc2f8()	void FUN_037fc2f8(void)	INFERRED
+037fc350	undefined FUN_037fc350()	void FUN_037fc350(void)	INFERRED
+037fc388	undefined FUN_037fc388()	void FUN_037fc388(undefined4 param_1)	INFERRED
+037fc3d0	undefined FUN_037fc3d0()	void FUN_037fc3d0(undefined4 param_1)	INFERRED
+037fc408	undefined FUN_037fc408()	bool FUN_037fc408(int param_1)	INFERRED
+037fc420	undefined FUN_037fc420()	void FUN_037fc420(int param_1, int param_2, undefined4 param_3, undefined2 param_4, int param_5, int param_6, byte param_7)	INFERRED
+037fc478	undefined FUN_037fc478()	uint FUN_037fc478(int param_1, int param_2)	INFERRED
+037fc514	undefined FUN_037fc514()	undefined4 FUN_037fc514(int param_1, int param_2)	INFERRED
+037fc584	undefined FUN_037fc584()	undefined4 FUN_037fc584(int param_1, int param_2)	INFERRED
+037fc5e4	undefined FUN_037fc5e4()	void FUN_037fc5e4(int param_1, undefined4 param_2)	INFERRED
+037fc630	undefined FUN_037fc630()	void FUN_037fc630(int param_1, undefined4 param_2, undefined4 param_3, undefined1 param_4)	INFERRED
+037fc6dc	undefined FUN_037fc6dc()	uint FUN_037fc6dc(int param_1)	INFERRED
+037fc73c	undefined FUN_037fc73c()	int FUN_037fc73c(int param_1)	INFERRED
+037fc78c	undefined FUN_037fc78c()	void FUN_037fc78c(int param_1)	INFERRED
+037fc7f0	undefined FUN_037fc7f0()	void FUN_037fc7f0(int param_1)	INFERRED
+037fc800	undefined FUN_037fc800()	void FUN_037fc800(undefined1 * param_1)	INFERRED
+037fc824	undefined FUN_037fc824()	void FUN_037fc824(uint param_1, uint param_2)	INFERRED
+037fc8ac	undefined FUN_037fc8ac()	uint FUN_037fc8ac(uint param_1)	INFERRED
+037fc8cc	undefined FUN_037fc8cc()	void FUN_037fc8cc(uint param_1, uint param_2)	INFERRED
+037fc908	undefined FUN_037fc908()	void FUN_037fc908(uint param_1, uint param_2)	INFERRED
+037fca00	undefined FUN_037fca00()	void FUN_037fca00(uint param_1)	INFERRED
+037fcac8	undefined FUN_037fcac8()	void FUN_037fcac8(int param_1)	INFERRED
+037fcadc	undefined FUN_037fcadc()	int FUN_037fcadc(uint param_1, int param_2, int param_3, undefined4 param_4, undefined4 param_5)	INFERRED
+037fcc14	undefined FUN_037fcc14()	byte FUN_037fcc14(int param_1)	INFERRED
+037fcc24	undefined FUN_037fcc24()	void FUN_037fcc24(int param_1)	INFERRED
+037fcc30	undefined FUN_037fcc30()	void FUN_037fcc30(int param_1, undefined4 param_2)	INFERRED
+037fcc4c	undefined FUN_037fcc4c()	void FUN_037fcc4c(int param_1, undefined1 param_2)	INFERRED
+037fcc54	undefined FUN_037fcc54()	void FUN_037fcc54(int param_1, undefined4 param_2)	INFERRED
+037fcc70	undefined FUN_037fcc70()	void FUN_037fcc70(int param_1, int param_2)	INFERRED
+037fcc94	undefined FUN_037fcc94()	int FUN_037fcc94(int param_1, int param_2)	INFERRED
+037fcd48	undefined FUN_037fcd48()	undefined4 FUN_037fcd48(byte * param_1)	INFERRED
+037fcd94	undefined FUN_037fcd94()	undefined4 FUN_037fcd94(byte * param_1, undefined4 param_2, undefined4 param_3)	INFERRED
+037fcde8	undefined FUN_037fcde8()	undefined4 FUN_037fcde8(int param_1, undefined4 * param_2, undefined4 param_3, undefined4 param_4)	INFERRED
+037fce24	undefined FUN_037fce24()	void FUN_037fce24(undefined4 param_1)	INFERRED
+037fd130	undefined FUN_037fd130()	void FUN_037fd130(void)	INFERRED
+037fd31c	undefined FUN_037fd31c()	void FUN_037fd31c(void)	INFERRED
+037fd37c	undefined FUN_037fd37c()	int FUN_037fd37c(void)	INFERRED
+037fd3c0	undefined FUN_037fd3c0()	int FUN_037fd3c0(int param_1, int param_2)	INFERRED
+037fd404	undefined FUN_037fd404()	bool FUN_037fd404(undefined4 param_1, undefined4 param_2)	INFERRED
+037fd484	undefined FUN_037fd484()	undefined4 FUN_037fd484(byte * param_1, int param_2, undefined4 param_3, int param_4)	INFERRED
+037fde38	undefined FUN_037fde38()	void FUN_037fde38(byte * param_1, int param_2, int param_3, undefined4 param_4, undefined4 param_5)	INFERRED
+037fe044	undefined FUN_037fe044()	void FUN_037fe044(undefined4 param_1)	INFERRED
+037fe088	undefined FUN_037fe088()	void FUN_037fe088(int param_1, int param_2, int param_3)	INFERRED
+037fe1c8	undefined FUN_037fe1c8()	void FUN_037fe1c8(uint param_1, int param_2, int param_3)	INFERRED
+037fe230	undefined FUN_037fe230()	void FUN_037fe230(byte * param_1)	INFERRED
+037fe270	undefined FUN_037fe270()	void FUN_037fe270(int param_1, int param_2)	INFERRED
+037fe2c4	undefined FUN_037fe2c4()	void FUN_037fe2c4(undefined4 param_1, undefined4 param_2)	INFERRED
+037fe2e4	undefined FUN_037fe2e4()	int FUN_037fe2e4(int param_1, int param_2)	INFERRED
+037fe310	undefined FUN_037fe310()	void FUN_037fe310(int param_1)	INFERRED
+037fe3d0	undefined FUN_037fe3d0()	void FUN_037fe3d0(int param_1)	INFERRED
+037fe40c	undefined FUN_037fe40c()	void FUN_037fe40c(int param_1, undefined4 param_2, uint param_3)	INFERRED
+037fe47c	undefined FUN_037fe47c()	void FUN_037fe47c(byte * param_1, undefined4 param_2)	INFERRED
+037fe52c	undefined FUN_037fe52c()	void FUN_037fe52c(int param_1, undefined4 param_2, int param_3)	INFERRED
+037fe540	undefined FUN_037fe540()	void FUN_037fe540(byte * param_1)	INFERRED
+037fe634	undefined FUN_037fe634()	int FUN_037fe634(int param_1, undefined4 param_2, undefined4 param_3)	INFERRED
+037fe6fc	undefined FUN_037fe6fc()	uint FUN_037fe6fc(int param_1)	INFERRED
+037fe73c	undefined FUN_037fe73c()	uint FUN_037fe73c(int param_1)	INFERRED
+037fe79c	undefined FUN_037fe79c()	uint FUN_037fe79c(int param_1)	INFERRED
+037fe7ec	undefined FUN_037fe7ec()	undefined1 FUN_037fe7ec(uint param_1)	INFERRED
+037fe83c	undefined FUN_037fe83c()	void FUN_037fe83c(uint param_1)	INFERRED
+037fe878	undefined FUN_037fe878()	void FUN_037fe878(int param_1, uint param_2, int param_3, undefined4 param_4, int param_5)	INFERRED
+037fe91c	undefined FUN_037fe91c()	void FUN_037fe91c(int param_1, int param_2, undefined4 param_3, int param_4)	INFERRED
+037fe968	undefined FUN_037fe968()	void FUN_037fe968(uint param_1, uint param_2)	INFERRED
+037fe9c8	undefined FUN_037fe9c8()	void FUN_037fe9c8(uint param_1, uint param_2)	INFERRED
+037fea64	undefined FUN_037fea64()	void FUN_037fea64(int param_1, uint param_2, undefined2 param_3)	INFERRED
+037feadc	undefined FUN_037feadc()	void FUN_037feadc(int param_1, uint param_2, uint param_3)	INFERRED
+037feb78	undefined FUN_037feb78()	void FUN_037feb78(int param_1, uint param_2)	INFERRED
+037fec44	undefined FUN_037fec44()	void FUN_037fec44(int param_1, uint param_2)	INFERRED
+037fecc8	undefined FUN_037fecc8()	void FUN_037fecc8(uint param_1)	INFERRED
+037fed24	undefined FUN_037fed24()	void FUN_037fed24(undefined4 param_1)	INFERRED
+037fed40	undefined FUN_037fed40()	void FUN_037fed40(int param_1)	INFERRED
+037fed60	undefined FUN_037fed60()	void FUN_037fed60(uint param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)	INFERRED
+037feeb4	undefined FUN_037feeb4()	void FUN_037feeb4(int param_1)	INFERRED
+037fef54	undefined FUN_037fef54()	void FUN_037fef54(void)	INFERRED
+037fefc0	undefined FUN_037fefc0()	void FUN_037fefc0(int param_1, int param_2, uint param_3)	INFERRED
+037ff000	undefined FUN_037ff000()	bool FUN_037ff000(int param_1, undefined1 param_2, undefined1 param_3, undefined4 param_4, undefined4 param_5, char * param_6)	INFERRED
+037ff128	undefined FUN_037ff128()	uint FUN_037ff128(int param_1, int param_2)	INFERRED
+037ff170	undefined FUN_037ff170()	undefined4 FUN_037ff170(int param_1, uint param_2, int param_3, undefined2 * param_4)	INFERRED
+037ff2f4	undefined FUN_037ff2f4()	void FUN_037ff2f4(void)	INFERRED
+037ff394	undefined FUN_037ff394()	void FUN_037ff394(int param_1, undefined2 param_2)	INFERRED
+037ff3b0	undefined FUN_037ff3b0()	void FUN_037ff3b0(int param_1, int param_2, undefined2 param_3)	INFERRED
+037ff3d0	undefined FUN_037ff3d0()	void FUN_037ff3d0(undefined4 param_1)	INFERRED
+037ff400	undefined FUN_037ff400()	void FUN_037ff400(int param_1)	INFERRED
+037ff440	undefined FUN_037ff440()	void FUN_037ff440(uint param_1)	INFERRED
+037ff508	undefined FUN_037ff508()	void FUN_037ff508(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined1 param_6)	INFERRED
+037ff564	undefined FUN_037ff564()	void FUN_037ff564(void)	INFERRED
+037ff590	undefined FUN_037ff590()	void FUN_037ff590(int param_1)	INFERRED
+037ff5fc	undefined FUN_037ff5fc()	void FUN_037ff5fc(uint param_1, uint param_2, uint param_3, undefined4 param_4)	INFERRED
+037ff6c0	undefined FUN_037ff6c0()	void FUN_037ff6c0(uint param_1, byte param_2, uint param_3)	INFERRED
+037ff7b4	undefined FUN_037ff7b4()	void FUN_037ff7b4(uint param_1, undefined4 param_2)	INFERRED
+037ff7fc	undefined FUN_037ff7fc()	void FUN_037ff7fc(uint param_1, undefined4 param_2, undefined4 param_3)	INFERRED
+037ff854	undefined FUN_037ff854()	void FUN_037ff854(uint param_1, undefined4 param_2)	INFERRED
+037ff89c	undefined FUN_037ff89c()	void FUN_037ff89c(void)	INFERRED
+037ff8b4	undefined FUN_037ff8b4()	void FUN_037ff8b4(undefined4 param_1, uint param_2)	INFERRED
+037ff908	undefined FUN_037ff908()	void FUN_037ff908(void)	INFERRED
+037ffd80	undefined FUN_037ffd80()	void FUN_037ffd80(void)	INFERRED
+037ffdc0	undefined FUN_037ffdc0()	void FUN_037ffdc0(void)	INFERRED
+037ffdf4	undefined FUN_037ffdf4()	void FUN_037ffdf4(undefined4 param_1)	INFERRED
+037ffe4c	undefined FUN_037ffe4c()	uint FUN_037ffe4c(undefined4 param_1)	INFERRED
+037ffe94	undefined FUN_037ffe94()	void FUN_037ffe94(undefined4 param_1)	INFERRED
+037ffea4	undefined FUN_037ffea4()	void FUN_037ffea4(void)	INFERRED
+037fff54	undefined FUN_037fff54()	void FUN_037fff54(undefined4 param_1)	INFERRED
+037fffac	undefined FUN_037fffac()	void FUN_037fffac(undefined4 param_1, undefined4 param_2, int param_3)	INFERRED
+03800054	undefined FUN_03800054()	void FUN_03800054(uint param_1, int param_2, uint param_3)	INFERRED
+0380011c	undefined FUN_0380011c()	void FUN_0380011c(uint param_1, int param_2, uint param_3)	INFERRED
+038001e4	undefined FUN_038001e4()	void FUN_038001e4(undefined4 param_1, undefined4 param_2, int param_3)	INFERRED
+03800254	undefined FUN_03800254()	void FUN_03800254(void)	INFERRED
+03800350	undefined FUN_03800350()	void FUN_03800350(uint param_1, uint param_2)	INFERRED
+038003fc	undefined FUN_038003fc()	void FUN_038003fc(void)	INFERRED
+03800538	undefined FUN_03800538()	void FUN_03800538(int param_1, int param_2, int param_3, undefined * param_4)	INFERRED
+038005c8	undefined FUN_038005c8()	bool FUN_038005c8(void)	INFERRED
+03800610	undefined FUN_03800610()	void FUN_03800610(int param_1, int param_2)	INFERRED
+038006f0	undefined FUN_038006f0()	void FUN_038006f0(undefined4 param_1)	INFERRED
+03800700	undefined FUN_03800700()	bool FUN_03800700(void)	INFERRED
+0380076c	undefined FUN_0380076c()	bool FUN_0380076c(ushort * param_1)	INFERRED
+038007c4	undefined FUN_038007c4()	undefined4 FUN_038007c4(void)	INFERRED
+038007d0	undefined FUN_038007d0()	void FUN_038007d0(void)	INFERRED
+0380084c	undefined FUN_0380084c()	undefined4 FUN_0380084c(void)	INFERRED
+03800914	undefined FUN_03800914()	void FUN_03800914(undefined4 param_1, undefined4 param_2, undefined4 param_3)	INFERRED
+03800988	undefined FUN_03800988()	uint FUN_03800988(void)	INFERRED
+038009ec	undefined FUN_038009ec()	void FUN_038009ec(int param_1)	INFERRED
+03800ae4	undefined FUN_03800ae4()	void FUN_03800ae4(undefined4 param_1, undefined4 param_2)	INFERRED
+03800b84	undefined FUN_03800b84()	bool FUN_03800b84(int param_1)	INFERRED
+03800c1c	undefined FUN_03800c1c()	void FUN_03800c1c(void)	INFERRED
+03800e10	undefined FUN_03800e10()	void FUN_03800e10(int param_1, undefined4 param_2, int param_3)	INFERRED
+03800ef0	undefined FUN_03800ef0()	void FUN_03800ef0(undefined4 param_1, undefined4 param_2)	INFERRED
+03800f38	undefined FUN_03800f38()	void FUN_03800f38(void)	INFERRED
+03800f58	undefined FUN_03800f58()	void FUN_03800f58(void)	INFERRED
+03801030	undefined FUN_03801030()	bool FUN_03801030(void)	INFERRED
+0380105c	undefined FUN_0380105c()	void FUN_0380105c(void)	INFERRED
+038010c4	undefined FUN_038010c4()	uint FUN_038010c4(void)	INFERRED
+03801114	undefined FUN_03801114()	void FUN_03801114(undefined4 param_1, uint param_2)	INFERRED
+03801140	undefined FUN_03801140()	void FUN_03801140(void)	INFERRED
+038011a4	void FUN_038011a4(void)	void FUN_038011a4(void)	INFERRED
+038011be	void FUN_038011be(void)	void FUN_038011be(void)	INFERRED
+038011c2	undefined FUN_038011c2()	void FUN_038011c2(void)	INFERRED
+038011ca	void FUN_038011ca(void)	undefined8 FUN_038011ca(undefined4 param_1)	INFERRED
+038011d2	void FUN_038011d2(void)	longlong FUN_038011d2(uint param_1)	INFERRED
+038011e4	undefined FUN_038011e4()	void FUN_038011e4(void)	INFERRED
+038011f0	void FUN_038011f0(void)	void FUN_038011f0(void)	INFERRED
+03801214	void FUN_03801214(void)	void FUN_03801214(void)	INFERRED
+03801218	void FUN_03801218(void)	void FUN_03801218(void)	INFERRED
+0380128c	undefined FUN_0380128c()	void FUN_0380128c(void)	INFERRED
+038012f8	undefined FUN_038012f8()	void FUN_038012f8(void)	INFERRED
+03801320	undefined FUN_03801320()	void FUN_03801320(undefined4 param_1, undefined4 param_2, uint param_3, undefined4 param_4)	INFERRED
+038013f4	undefined FUN_038013f4()	void FUN_038013f4(uint param_1)	INFERRED
+03801438	undefined FUN_03801438()	void FUN_03801438(undefined4 param_1)	INFERRED
+03801450	undefined FUN_03801450()	bool FUN_03801450(void)	INFERRED
+0380146c	undefined FUN_0380146c()	void FUN_0380146c(uint param_1, uint param_2)	INFERRED
+03801540	undefined FUN_03801540()	void FUN_03801540(uint param_1)	INFERRED
+038015ac	undefined FUN_038015ac()	void FUN_038015ac(undefined4 param_1)	INFERRED
+03801610	undefined FUN_03801610()	void FUN_03801610(undefined4 param_1)	INFERRED
+0380172c	undefined FUN_0380172c()	void FUN_0380172c(int param_1)	INFERRED
+03801774	undefined FUN_03801774()	void FUN_03801774(uint param_1)	INFERRED
+038017ec	undefined FUN_038017ec()	void FUN_038017ec(int param_1)	INFERRED
+03801a20	undefined FUN_03801a20()	void FUN_03801a20(uint param_1, int param_2)	INFERRED
+03801b14	undefined FUN_03801b14()	void FUN_03801b14(uint param_1)	INFERRED
+03801cd4	undefined FUN_03801cd4()	void FUN_03801cd4(void)	INFERRED
+03801de4	undefined FUN_03801de4()	void FUN_03801de4(uint * param_1, int param_2, ushort * param_3)	INFERRED
+03802034	undefined FUN_03802034()	undefined4 FUN_03802034(ushort * param_1, int param_2, int param_3, undefined2 * param_4)	INFERRED
+0380222c	undefined FUN_0380222c()	undefined1 FUN_0380222c(void)	INFERRED
+03802388	undefined FUN_03802388()	void FUN_03802388(int param_1)	INFERRED
+03802510	undefined FUN_03802510()	void FUN_03802510(uint param_1)	INFERRED
+038026e4	undefined FUN_038026e4()	void FUN_038026e4(void)	INFERRED
+03802720	undefined FUN_03802720()	void FUN_03802720(undefined4 param_1, undefined4 param_2, uint param_3)	INFERRED
+0380277c	undefined FUN_0380277c()	void FUN_0380277c(byte param_1)	INFERRED
+038027a8	undefined FUN_038027a8()	void FUN_038027a8(uint param_1)	INFERRED
+038027cc	undefined FUN_038027cc()	ushort FUN_038027cc(ushort param_1)	INFERRED
+0380285c	undefined FUN_0380285c()	void FUN_0380285c(ushort param_1, ushort param_2)	INFERRED
+038028cc	undefined FUN_038028cc()	void FUN_038028cc(int param_1)	INFERRED
+038028e8	undefined FUN_038028e8()	void FUN_038028e8(int param_1)	INFERRED
+03802950	undefined FUN_03802950()	void FUN_03802950(undefined4 param_1)	INFERRED
+03802a84	undefined FUN_03802a84()	undefined2 FUN_03802a84(void)	INFERRED
+03802c50	void thunk_FUN_038011c2(void)	void thunk_FUN_038011c2(void)	INFERRED
+03802c5c	undefined FUN_03802c5c()	uint FUN_03802c5c(void)	INFERRED
+03802c6c	undefined FUN_03802c6c()	void FUN_03802c6c(int param_1)	INFERRED
+03802c90	undefined FUN_03802c90()	void FUN_03802c90(void)	INFERRED
+03802db8	undefined FUN_03802db8()	void FUN_03802db8(void)	INFERRED
+03802f20	undefined FUN_03802f20()	void FUN_03802f20(void)	INFERRED
+03802f5c	undefined FUN_03802f5c()	void FUN_03802f5c(int param_1)	INFERRED
+038031b8	undefined FUN_038031b8()	undefined4 FUN_038031b8(uint param_1)	INFERRED
+0380325c	undefined FUN_0380325c()	void FUN_0380325c(uint param_1)	INFERRED
+03803530	undefined FUN_03803530()	void FUN_03803530(void)	INFERRED
+03803570	undefined FUN_03803570()	uint FUN_03803570(void)	INFERRED
+03803638	undefined FUN_03803638()	uint FUN_03803638(void)	INFERRED
+03803884	undefined FUN_03803884()	void FUN_03803884(void)	INFERRED
+038038d0	undefined FUN_038038d0()	void FUN_038038d0(void)	INFERRED
+0380393c	undefined FUN_0380393c()	void FUN_0380393c(uint param_1, undefined4 param_2)	INFERRED
+03803964	undefined FUN_03803964()	void FUN_03803964(undefined4 param_1)	INFERRED
+038039ac	undefined FUN_038039ac()	void FUN_038039ac(undefined4 param_1, uint param_2)	INFERRED
+038039d4	undefined FUN_038039d4()	void FUN_038039d4(undefined4 param_1, uint * param_2)	INFERRED
+03803a44	undefined FUN_03803a44()	void FUN_03803a44(uint param_1)	INFERRED
+03803a78	undefined FUN_03803a78()	void FUN_03803a78(int * param_1)	INFERRED
+03803ac0	undefined FUN_03803ac0()	undefined4 FUN_03803ac0(void)	INFERRED
+03803bcc	undefined FUN_03803bcc()	uint FUN_03803bcc(void)	INFERRED
+03803c24	undefined FUN_03803c24()	void FUN_03803c24(void)	INFERRED
+03803c64	void thunk_FUN_038011e4(void)	void thunk_FUN_038011e4(void)	INFERRED
+03803c70	undefined FUN_03803c70()	void FUN_03803c70(void)	INFERRED
+03803c90	undefined FUN_03803c90()	void FUN_03803c90(void)	INFERRED
+03803da4	undefined FUN_03803da4()	undefined4 FUN_03803da4(int param_1)	INFERRED
+03803e50	undefined FUN_03803e50()	void FUN_03803e50(undefined4 param_1, uint param_2)	INFERRED
+03803e7c	undefined FUN_03803e7c()	void FUN_03803e7c(undefined4 param_1, uint param_2)	INFERRED
+03803eb4	undefined FUN_03803eb4()	void FUN_03803eb4(void)	INFERRED
+03803f9c	undefined FUN_03803f9c()	void FUN_03803f9c(void)	INFERRED
+03803ff8	undefined FUN_03803ff8()	undefined4 FUN_03803ff8(void)	INFERRED
+03804030	undefined FUN_03804030()	bool FUN_03804030(void)	INFERRED
+0380405c	undefined FUN_0380405c()	void FUN_0380405c(int param_1)	INFERRED
+03804338	undefined FUN_03804338()	void FUN_03804338(uint param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)	INFERRED
+038044dc	undefined FUN_038044dc()	void FUN_038044dc(void)	INFERRED
+03804504	undefined FUN_03804504()	void FUN_03804504(void)	INFERRED
+03804544	undefined FUN_03804544()	void FUN_03804544(undefined1 * param_1)	INFERRED
+038045e0	undefined FUN_038045e0()	void FUN_038045e0(void)	INFERRED
+03804620	undefined FUN_03804620()	void FUN_03804620(void)	INFERRED
+03804660	undefined FUN_03804660()	void FUN_03804660(void)	INFERRED
+038046a0	undefined FUN_038046a0()	void FUN_038046a0(undefined4 param_1)	INFERRED
+03804764	undefined FUN_03804764()	void FUN_03804764(undefined4 param_1)	INFERRED
+03804828	undefined FUN_03804828()	void FUN_03804828(uint param_1, uint param_2, int param_3)	INFERRED
+03804954	undefined FUN_03804954()	void FUN_03804954(uint param_1, uint param_2, int param_3)	INFERRED
+03804a80	undefined FUN_03804a80()	void FUN_03804a80(undefined4 param_1, int param_2, int param_3)	INFERRED
+03804bbc	undefined FUN_03804bbc()	void FUN_03804bbc(undefined4 param_1, int param_2, int param_3)	INFERRED
+03804cdc	undefined FUN_03804cdc()	void FUN_03804cdc(undefined1 * param_1)	INFERRED
+03804d50	undefined FUN_03804d50()	void FUN_03804d50(void)	INFERRED
+03804d90	undefined FUN_03804d90()	void FUN_03804d90(void)	INFERRED
+03804dd0	undefined FUN_03804dd0()	int FUN_03804dd0(uint param_1)	INFERRED
+03804e48	undefined FUN_03804e48()	undefined4 FUN_03804e48(uint param_1, int param_2, int param_3)	INFERRED
+03804ec4	undefined FUN_03804ec4()	void FUN_03804ec4(void)	INFERRED
+03804ff8	undefined FUN_03804ff8()	void FUN_03804ff8(void)	INFERRED
+03805088	undefined FUN_03805088()	void FUN_03805088(void)	INFERRED
+03805544	undefined FUN_03805544()	void FUN_03805544(uint param_1, uint param_2)	INFERRED
+03805584	undefined FUN_03805584()	void FUN_03805584(undefined4 param_1, uint param_2, int param_3)	INFERRED
+038056c0	undefined FUN_038056c0()	void FUN_038056c0(undefined4 param_1)	INFERRED
+038057b4	undefined FUN_038057b4()	void FUN_038057b4(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)	INFERRED
+03805818	undefined FUN_03805818()	void FUN_03805818(uint * param_1)	INFERRED
+03805930	undefined FUN_03805930()	void FUN_03805930(uint * param_1)	INFERRED
+03805a58	undefined FUN_03805a58()	void FUN_03805a58(undefined4 param_1)	INFERRED
+03805a84	undefined FUN_03805a84()	void FUN_03805a84(undefined4 param_1)	INFERRED
+03805ab0	undefined FUN_03805ab0()	void FUN_03805ab0(undefined4 param_1)	INFERRED
+03805adc	undefined FUN_03805adc()	void FUN_03805adc(undefined4 param_1)	INFERRED
+03805b08	undefined FUN_03805b08()	void FUN_03805b08(undefined4 param_1)	INFERRED
+03805b34	undefined FUN_03805b34()	void FUN_03805b34(undefined4 param_1)	INFERRED
+03805b60	undefined FUN_03805b60()	void FUN_03805b60(undefined4 param_1)	INFERRED
+03805b8c	undefined FUN_03805b8c()	void FUN_03805b8c(undefined4 param_1)	INFERRED
+03805bb8	undefined FUN_03805bb8()	bool FUN_03805bb8(undefined4 param_1)	INFERRED
+03805c04	undefined FUN_03805c04()	bool FUN_03805c04(undefined4 param_1)	INFERRED
+03805c50	undefined FUN_03805c50()	bool FUN_03805c50(undefined4 param_1)	INFERRED
+03805ca0	undefined FUN_03805ca0()	bool FUN_03805ca0(undefined4 param_1)	INFERRED
+03805cf0	undefined FUN_03805cf0()	bool FUN_03805cf0(undefined4 param_1)	INFERRED
+03805d44	undefined FUN_03805d44()	bool FUN_03805d44(undefined4 param_1)	INFERRED
+03805d98	undefined FUN_03805d98()	void FUN_03805d98(undefined4 param_1)	INFERRED
+03805dc4	undefined FUN_03805dc4()	void FUN_03805dc4(undefined4 param_1)	INFERRED
+03805df0	undefined FUN_03805df0()	void FUN_03805df0(undefined4 param_1)	INFERRED
+03805e1c	undefined FUN_03805e1c()	void FUN_03805e1c(undefined4 param_1)	INFERRED
+03805e48	undefined FUN_03805e48()	void FUN_03805e48(undefined4 param_1)	INFERRED
+03805e74	undefined FUN_03805e74()	void FUN_03805e74(uint param_1)	INFERRED
+03805f74	undefined FUN_03805f74()	void FUN_03805f74(void)	INFERRED
+03805fb4	undefined FUN_03805fb4()	void FUN_03805fb4(void)	INFERRED
+03805ff4	undefined FUN_03805ff4()	void FUN_03805ff4(void)	INFERRED
+03806028	undefined FUN_03806028()	void FUN_03806028(uint param_1, uint param_2)	INFERRED
+03806098	undefined FUN_03806098()	void FUN_03806098(ushort * param_1, int param_2)	INFERRED
+03806128	undefined FUN_03806128()	void FUN_03806128(ushort * param_1, int param_2)	INFERRED
+038061e0	undefined FUN_038061e0()	void FUN_038061e0(void)	INFERRED
+03806404	undefined thunk_FUN_06000680()	void thunk_FUN_06000680(void)	INFERRED
+0380640c	undefined thunk_FUN_060000d0()	void thunk_FUN_060000d0(void)	INFERRED
+03806414	undefined thunk_FUN_060086d0()	void thunk_FUN_060086d0(void)	INFERRED
+0380641c	undefined thunk_FUN_060000c4()	void thunk_FUN_060000c4(void)	INFERRED
+03806424	undefined FUN_03806424()	undefined4 FUN_03806424(void)	INFERRED
+038064e0	undefined FUN_038064e0()	void FUN_038064e0(void)	INFERRED
+0380653c	undefined FUN_0380653c()	undefined4 FUN_0380653c(void)	INFERRED
+038065e8	undefined FUN_038065e8()	void FUN_038065e8(undefined4 param_1, uint param_2)	INFERRED
+03806650	undefined FUN_03806650()	undefined4 FUN_03806650(uint param_1)	INFERRED
+038066b4	undefined FUN_038066b4()	void FUN_038066b4(undefined4 param_1, undefined2 * param_2)	INFERRED
+03806714	undefined FUN_03806714()	void FUN_03806714(void)	INFERRED
+0380675c	undefined FUN_0380675c()	void FUN_0380675c(void)	INFERRED
+03806798	undefined FUN_03806798()	void FUN_03806798(undefined4 param_1)	INFERRED
+0380683c	undefined thunk_FUN_0600068c()	void thunk_FUN_0600068c(void)	INFERRED
+03806844	undefined FUN_03806844()	void FUN_03806844(void)	INFERRED
+0380687c	undefined FUN_0380687c()	void FUN_0380687c(undefined4 param_1)	INFERRED
+038068e0	undefined FUN_038068e0()	uint FUN_038068e0(uint param_1)	INFERRED
+03806924	undefined FUN_03806924()	ulonglong FUN_03806924(uint param_1, uint param_2, uint param_3, uint param_4)	INFERRED
+0380697c	undefined FUN_0380697c()	longlong FUN_0380697c(uint param_1, uint param_2, uint param_3, uint param_4)	INFERRED
+03806b2c	undefined FUN_03806b2c()	undefined8 FUN_03806b2c(uint param_1, uint param_2)	INFERRED
+03806d38	undefined FUN_03806d38()	void FUN_03806d38(uint param_1, uint param_2)	INFERRED
+03806d40	undefined FUN_03806d40()	void FUN_03806d40(uint param_1, uint param_2)	INFERRED
+03807194	undefined FUN_03807194()	void FUN_03807194(void)	INFERRED
+038072f8	undefined FUN_038072f8()	uint FUN_038072f8(uint param_1)	INFERRED
+03807424	undefined FUN_03807424()	uint FUN_03807424(void)	INFERRED
+03807480	undefined FUN_03807480()	void FUN_03807480(void)	INFERRED
+038074cc	undefined FUN_038074cc()	void FUN_038074cc(undefined4 param_1)	INFERRED
+06000000	undefined FUN_06000000()	int FUN_06000000(void)	INFERRED
+06000070	longlong thunk_FUN_037faf70(void)	void thunk_FUN_037faf70(void)	INFERRED
+06000078	undefined4 thunk_FUN_037faf84(void)	void thunk_FUN_037faf84(void)	INFERRED
+06000080	undefined FUN_06000080()	void FUN_06000080(undefined2 param_1, undefined2 param_2, undefined2 param_3)	INFERRED
+060000b4	uint thunk_FUN_03807424(void)	void thunk_FUN_03807424(void)	INFERRED
+060000bc	void thunk_FUN_038074cc(undefined4 param_1)	void thunk_FUN_038074cc(void)	INFERRED
+060000c4	void FUN_060000c4(void)	undefined4 FUN_060000c4(void)	INFERRED
+060000d0	void FUN_060000d0(void)	undefined4 FUN_060000d0(void)	INFERRED
+060000dc	undefined FUN_060000dc()	void FUN_060000dc(void)	INFERRED
+0600013c	uint thunk_FUN_037f8d78(void)	void thunk_FUN_037f8d78(void)	INFERRED
+06000144	undefined4 thunk_FUN_037f8e98(uint param_1, uint param_2)	void thunk_FUN_037f8e98(void)	INFERRED
+0600014c	uint thunk_FUN_037f8d40(void)	void thunk_FUN_037f8d40(void)	INFERRED
+06000154	undefined FUN_06000154()	void FUN_06000154(void)	INFERRED
+060001b4	undefined FUN_060001b4()	undefined4 FUN_060001b4(uint param_1)	INFERRED
+060001dc	undefined FUN_060001dc()	void FUN_060001dc(void)	INFERRED
+06000218	undefined FUN_06000218()	void FUN_06000218(undefined1 param_1)	INFERRED
+06000250	undefined FUN_06000250()	void FUN_06000250(uint param_1)	INFERRED
+06000294	undefined FUN_06000294()	bool FUN_06000294(int param_1, int param_2)	INFERRED
+0600043c	void thunk_FUN_037fb390(ushort * param_1, uint * param_2, uint param_3)	void thunk_FUN_037fb390(void)	INFERRED
+06000444	void thunk_FUN_037fb218(undefined2 param_1, int param_2, int param_3)	void thunk_FUN_037fb218(void)	INFERRED
+0600044c	undefined FUN_0600044c()	void FUN_0600044c(undefined2 * param_1, uint param_2)	INFERRED
+060004fc	undefined FUN_060004fc()	undefined4 FUN_060004fc(char * param_1)	INFERRED
+06000578	undefined FUN_06000578()	void FUN_06000578(undefined4 param_1, undefined2 * param_2, int param_3)	INFERRED
+060005e0	undefined4 thunk_FUN_037f9854(int param_1, undefined4 param_2, uint param_3)	void thunk_FUN_037f9854(void)	INFERRED
+060005e8	undefined FUN_060005e8()	int FUN_060005e8(undefined4 param_1)	INFERRED
+06000668	undefined4 thunk_FUN_037f97b4(int param_1, uint * param_2, uint param_3)	void thunk_FUN_037f97b4(void)	INFERRED
+06000670	void thunk_FUN_037fb9c0(void)	void thunk_FUN_037fb9c0(void)	INFERRED
+06000678	void thunk_FUN_037fb000(void)	void thunk_FUN_037fb000(void)	INFERRED
+06000680	void FUN_06000680(void)	undefined4 FUN_06000680(void)	INFERRED
+0600068c	void FUN_0600068c(void)	void FUN_0600068c(int param_1, uint param_2)	INFERRED
+06000844	void thunk_FUN_037f98e8(uint * param_1, uint param_2, uint param_3)	void thunk_FUN_037f98e8(void)	INFERRED
+0600084c	void thunk_FUN_037f9a98(uint * param_1)	void thunk_FUN_037f9a98(void)	INFERRED
+06000854	void thunk_FUN_037f92d0(int param_1, undefined4 param_2, undefined4 param_3, int param_4, int param_5, undefined4 param_6)	void thunk_FUN_037f92d0(void)	INFERRED
+0600085c	void thunk_FUN_037f9054(int param_1)	void thunk_FUN_037f9054(void)	INFERRED
+06000864	void thunk_FUN_037fb72c(void)	void thunk_FUN_037fb72c(void)	INFERRED
+0600086c	void thunk_FUN_037fb6c0(uint param_1, int param_2)	void thunk_FUN_037fb6c0(void)	INFERRED
+06000874	undefined FUN_06000874()	void FUN_06000874(void)	INFERRED
+060008a8	undefined FUN_060008a8()	void FUN_060008a8(int param_1)	INFERRED
+06000b00	void thunk_FUN_037fabc0(undefined4 * param_1)	void thunk_FUN_037fabc0(void)	INFERRED
+06000b08	undefined FUN_06000b08()	void FUN_06000b08(int param_1)	INFERRED
+06000c8c	undefined8 thunk_FUN_037fa278(void)	void thunk_FUN_037fa278(void)	INFERRED
+06000c94	void thunk_FUN_037fb230(int param_1, int param_2, int param_3)	void thunk_FUN_037fb230(void)	INFERRED
+06000c9c	undefined FUN_06000c9c()	void FUN_06000c9c(void)	INFERRED
+06000cd0	undefined FUN_06000cd0()	void FUN_06000cd0(void)	INFERRED
+06000d04	undefined FUN_06000d04()	void FUN_06000d04(int param_1)	INFERRED
+06000e44	void thunk_FUN_037fa564(undefined4 * param_1)	void thunk_FUN_037fa564(void)	INFERRED
+06000e4c	undefined FUN_06000e4c()	void FUN_06000e4c(int param_1)	INFERRED
+06000f4c	undefined FUN_06000f4c()	void FUN_06000f4c(int param_1)	INFERRED
+06001224	undefined FUN_06001224()	void FUN_06001224(void)	INFERRED
+060012bc	int thunk_FUN_037fa04c(int param_1, uint param_2, int param_3)	void thunk_FUN_037fa04c(void)	INFERRED
+060012c4	undefined FUN_060012c4()	void FUN_060012c4(int param_1)	INFERRED
+060015bc	undefined8 thunk_FUN_03806b2c(uint param_1, uint param_2)	void thunk_FUN_03806b2c(void)	INFERRED
+060015c4	void thunk_FUN_037fa670(undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)	void thunk_FUN_037fa670(void)	INFERRED
+060015cc	void thunk_FUN_03807480(void)	void thunk_FUN_03807480(void)	INFERRED
+060015d4	undefined FUN_060015d4()	void FUN_060015d4(int param_1, int param_2)	INFERRED
+0600166c	undefined FUN_0600166c()	void FUN_0600166c(int param_1)	INFERRED
+06001a7c	undefined FUN_06001a7c()	void FUN_06001a7c(void)	INFERRED
+06001acc	undefined FUN_06001acc()	void FUN_06001acc(int param_1)	INFERRED
+06001c44	undefined FUN_06001c44()	void FUN_06001c44(void)	INFERRED
+06001c94	undefined FUN_06001c94()	void FUN_06001c94(void)	INFERRED
+06001c98	undefined FUN_06001c98()	void FUN_06001c98(undefined4 param_1)	INFERRED
+06001cd4	void thunk_FUN_037f9fd8(int param_1, uint param_2, int param_3)	void thunk_FUN_037f9fd8(void)	INFERRED
+06001cdc	undefined FUN_06001cdc()	void FUN_06001cdc(int param_1)	INFERRED
+06001e64	undefined FUN_06001e64()	void FUN_06001e64(void)	INFERRED
+06001efc	void thunk_FUN_037f92a4(void)	void thunk_FUN_037f92a4(void)	INFERRED
+06001f08	undefined FUN_06001f08()	void FUN_06001f08(void)	INFERRED
+06002010	undefined FUN_06002010()	undefined2 * FUN_06002010(undefined2 * param_1, undefined2 param_2, undefined2 param_3, undefined2 param_4, undefined2 param_5)	INFERRED
+06002084	undefined FUN_06002084()	void FUN_06002084(undefined4 param_1)	INFERRED
+06002098	undefined FUN_06002098()	void FUN_06002098(undefined4 param_1)	INFERRED
+060020b0	undefined FUN_060020b0()	void FUN_060020b0(undefined4 param_1)	INFERRED
+060020c8	undefined FUN_060020c8()	void FUN_060020c8(undefined4 param_1)	INFERRED
+060020e0	undefined FUN_060020e0()	void FUN_060020e0(undefined4 param_1)	INFERRED
+060020f4	undefined FUN_060020f4()	void FUN_060020f4(undefined4 param_1)	INFERRED
+0600210c	undefined FUN_0600210c()	void FUN_0600210c(undefined4 param_1)	INFERRED
+06002124	undefined FUN_06002124()	void FUN_06002124(undefined4 param_1)	INFERRED
+0600213c	undefined FUN_0600213c()	void FUN_0600213c(undefined4 param_1)	INFERRED
+06002150	undefined FUN_06002150()	void FUN_06002150(undefined4 param_1)	INFERRED
+06002168	undefined FUN_06002168()	void FUN_06002168(undefined4 param_1)	INFERRED
+06002180	undefined FUN_06002180()	undefined2 * FUN_06002180(undefined2 * param_1, int param_2, undefined4 param_3)	INFERRED
+06002214	undefined FUN_06002214()	undefined2 * FUN_06002214(undefined2 * param_1, undefined2 param_2)	INFERRED
+06002274	undefined FUN_06002274()	undefined2 * FUN_06002274(undefined2 * param_1, undefined2 param_2)	INFERRED
+060022d4	undefined FUN_060022d4()	undefined2 * FUN_060022d4(undefined2 * param_1, undefined2 param_2)	INFERRED
+06002334	undefined FUN_06002334()	undefined2 * FUN_06002334(undefined2 * param_1, undefined2 param_2)	INFERRED
+06002394	undefined FUN_06002394()	undefined2 * FUN_06002394(undefined2 * param_1, undefined2 param_2, undefined2 param_3, undefined2 param_4)	INFERRED
+06002400	undefined FUN_06002400()	undefined2 * FUN_06002400(undefined2 * param_1, undefined2 param_2)	INFERRED
+06002460	undefined FUN_06002460()	undefined2 * FUN_06002460(undefined2 * param_1, undefined4 param_2)	INFERRED
+060024e0	undefined FUN_060024e0()	undefined2 * FUN_060024e0(undefined2 * param_1, undefined2 param_2)	INFERRED
+06002540	undefined FUN_06002540()	undefined2 * FUN_06002540(undefined2 * param_1, undefined2 param_2)	INFERRED
+060025a0	undefined FUN_060025a0()	undefined2 * FUN_060025a0(undefined2 * param_1)	INFERRED
+060025fc	undefined FUN_060025fc()	undefined2 * FUN_060025fc(undefined2 * param_1, undefined2 param_2)	INFERRED
+06002658	undefined FUN_06002658()	undefined2 * FUN_06002658(undefined2 * param_1, undefined2 param_2, undefined2 param_3, undefined2 param_4, undefined2 param_5, undefined2 param_6, undefined2 param_7, undefined2 param_8, undefined2 param_9, undefined4 param_10)	INFERRED
+060026f4	undefined FUN_060026f4()	undefined2 * FUN_060026f4(undefined2 * param_1, undefined2 param_2, undefined2 param_3, undefined4 param_4)	INFERRED
+06002760	undefined FUN_06002760()	undefined2 * FUN_06002760(undefined2 * param_1, int param_2)	INFERRED
+06002818	undefined FUN_06002818()	undefined2 * FUN_06002818(undefined2 * param_1, undefined2 param_2, undefined2 param_3, undefined2 param_4, undefined4 param_5)	INFERRED
+060028a4	undefined FUN_060028a4()	undefined2 * FUN_060028a4(undefined2 * param_1, undefined2 param_2, undefined4 param_3, undefined2 param_4, undefined2 param_5, undefined2 param_6, undefined2 param_7, undefined2 param_8, ushort param_9, undefined4 param_10)	INFERRED
+06002978	undefined FUN_06002978()	undefined2 * FUN_06002978(undefined2 * param_1, undefined4 param_2, undefined2 param_3, undefined2 param_4)	INFERRED
+060029f8	undefined FUN_060029f8()	undefined2 * FUN_060029f8(undefined2 * param_1, undefined4 param_2, undefined2 param_3)	INFERRED
+06002a7c	undefined FUN_06002a7c()	undefined2 * FUN_06002a7c(undefined2 * param_1, undefined4 param_2, undefined2 param_3, undefined2 param_4)	INFERRED
+06002b00	undefined FUN_06002b00()	undefined2 * FUN_06002b00(undefined2 * param_1, undefined2 param_2, undefined4 param_3)	INFERRED
+06002b84	undefined FUN_06002b84()	undefined2 * FUN_06002b84(undefined2 * param_1, uint param_2, undefined4 param_3, undefined2 param_4, undefined4 param_5, undefined2 param_6, undefined4 param_7, undefined2 param_8)	INFERRED
+06002c40	undefined FUN_06002c40()	undefined2 * FUN_06002c40(undefined2 * param_1, undefined2 param_2, undefined2 param_3, undefined2 param_4)	INFERRED
+06002ca4	undefined FUN_06002ca4()	undefined2 * FUN_06002ca4(undefined2 * param_1, undefined2 param_2)	INFERRED
+06002cfc	undefined FUN_06002cfc()	void FUN_06002cfc(int param_1)	INFERRED
+06002db0	void thunk_FUN_03802c6c(int param_1)	void thunk_FUN_03802c6c(void)	INFERRED
+06002db8	undefined FUN_06002db8()	void FUN_06002db8(undefined2 param_1, undefined2 param_2)	INFERRED
+06002df0	undefined FUN_06002df0()	void FUN_06002df0(void)	INFERRED
+06003184	void thunk_FUN_037fb2fc(uint * param_1, uint param_2, uint param_3)	void thunk_FUN_037fb2fc(void)	INFERRED
+0600318c	undefined FUN_0600318c()	void FUN_0600318c(undefined2 param_1, undefined2 param_2)	INFERRED
+060031c8	undefined FUN_060031c8()	void FUN_060031c8(void)	INFERRED
+0600326c	undefined FUN_0600326c()	void FUN_0600326c(undefined2 param_1, undefined2 param_2)	INFERRED
+060032a8	undefined FUN_060032a8()	void FUN_060032a8(int param_1)	INFERRED
+0600335c	undefined FUN_0600335c()	void FUN_0600335c(undefined2 param_1, undefined2 param_2)	INFERRED
+060033a0	undefined FUN_060033a0()	void FUN_060033a0(int param_1)	INFERRED
+06003658	undefined FUN_06003658()	void FUN_06003658(undefined2 param_1, undefined2 param_2)	INFERRED
+06003694	undefined FUN_06003694()	void FUN_06003694(void)	INFERRED
+06003854	undefined FUN_06003854()	void FUN_06003854(undefined2 param_1, undefined2 param_2, int param_3)	INFERRED
+060038a0	undefined FUN_060038a0()	int FUN_060038a0(int param_1)	INFERRED
+060038c4	void thunk_FUN_03806d38(uint param_1, uint param_2)	void thunk_FUN_03806d38(void)	INFERRED
+060038cc	undefined FUN_060038cc()	undefined4 FUN_060038cc(int param_1)	INFERRED
+06003918	undefined FUN_06003918()	void FUN_06003918(int param_1)	INFERRED
+06003e84	undefined FUN_06003e84()	void FUN_06003e84(int param_1)	INFERRED
+0600425c	undefined FUN_0600425c()	void FUN_0600425c(undefined2 param_1, undefined2 param_2)	INFERRED
+06004298	undefined FUN_06004298()	void FUN_06004298(void)	INFERRED
+0600437c	undefined FUN_0600437c()	void FUN_0600437c(undefined2 param_1, undefined2 param_2, undefined2 param_3)	INFERRED
+060043b8	undefined FUN_060043b8()	void FUN_060043b8(int param_1)	INFERRED
+06004a04	undefined FUN_06004a04()	void FUN_06004a04(undefined2 param_1, undefined2 param_2, undefined2 param_3, undefined2 param_4)	INFERRED
+06004a50	undefined FUN_06004a50()	void FUN_06004a50(undefined2 param_1, undefined2 param_2, undefined2 param_3, undefined2 param_4)	INFERRED
+06004a9c	undefined FUN_06004a9c()	undefined4 FUN_06004a9c(int param_1, int param_2, undefined2 * param_3)	INFERRED
+06005060	undefined FUN_06005060()	void FUN_06005060(int param_1)	INFERRED
+060050b8	undefined FUN_060050b8()	void FUN_060050b8(int param_1)	INFERRED
+0600537c	undefined FUN_0600537c()	void FUN_0600537c(int param_1)	INFERRED
+06005490	undefined FUN_06005490()	void FUN_06005490(undefined2 param_1, undefined2 param_2)	INFERRED
+060054cc	undefined FUN_060054cc()	void FUN_060054cc(void)	INFERRED
+06005600	undefined FUN_06005600()	void FUN_06005600(int param_1)	INFERRED
+06005694	undefined FUN_06005694()	void FUN_06005694(int param_1)	INFERRED
+06005798	undefined FUN_06005798()	void FUN_06005798(undefined2 param_1, undefined2 param_2)	INFERRED
+060057d4	undefined FUN_060057d4()	void FUN_060057d4(void)	INFERRED
+06005878	undefined FUN_06005878()	void FUN_06005878(undefined2 param_1, undefined2 param_2)	INFERRED
+060058b4	undefined FUN_060058b4()	void FUN_060058b4(int param_1)	INFERRED
+0600597c	undefined FUN_0600597c()	void FUN_0600597c(int param_1)	INFERRED
+06005a10	undefined FUN_06005a10()	void FUN_06005a10(int param_1)	INFERRED
+06005b0c	undefined FUN_06005b0c()	void FUN_06005b0c(undefined2 param_1, undefined2 param_2)	INFERRED
+06005b48	undefined FUN_06005b48()	void FUN_06005b48(int param_1)	INFERRED
+06005bac	undefined FUN_06005bac()	void FUN_06005bac(void)	INFERRED
+06005bd8	undefined FUN_06005bd8()	void FUN_06005bd8(void)	INFERRED
+06005c04	undefined FUN_06005c04()	void FUN_06005c04(undefined2 param_1, undefined2 param_2)	INFERRED
+06005c40	undefined FUN_06005c40()	void FUN_06005c40(int param_1)	INFERRED
+06005d4c	undefined FUN_06005d4c()	void FUN_06005d4c(undefined2 param_1, undefined2 param_2)	INFERRED
+06005d88	undefined FUN_06005d88()	void FUN_06005d88(int param_1)	INFERRED
+06005f50	undefined FUN_06005f50()	void FUN_06005f50(undefined2 param_1, undefined2 param_2)	INFERRED
+06005f8c	undefined FUN_06005f8c()	void FUN_06005f8c(void)	INFERRED
+06005fe0	undefined FUN_06005fe0()	void FUN_06005fe0(undefined2 param_1, undefined2 param_2)	INFERRED
+0600601c	undefined FUN_0600601c()	void FUN_0600601c(void)	INFERRED
+0600608c	undefined FUN_0600608c()	void FUN_0600608c(void)	INFERRED
+06006144	undefined FUN_06006144()	void FUN_06006144(void)	INFERRED
+06006198	void thunk_FUN_037fad34(undefined4 * param_1, int param_2, undefined2 param_3, undefined4 param_4, undefined4 param_5)	void thunk_FUN_037fad34(void)	INFERRED
+060061a0	undefined FUN_060061a0()	void FUN_060061a0(void)	INFERRED
+06006228	undefined FUN_06006228()	void FUN_06006228(void)	INFERRED
+06006358	undefined FUN_06006358()	void FUN_06006358(void)	INFERRED
+060063b0	undefined FUN_060063b0()	void FUN_060063b0(void)	INFERRED
+06006454	undefined FUN_06006454()	void FUN_06006454(void)	INFERRED
+060064f0	undefined FUN_060064f0()	void FUN_060064f0(void)	INFERRED
+060065fc	undefined FUN_060065fc()	void FUN_060065fc(void)	INFERRED
+06006654	undefined FUN_06006654()	void FUN_06006654(uint param_1)	INFERRED
+060066dc	undefined FUN_060066dc()	void FUN_060066dc(void)	INFERRED
+0600678c	undefined FUN_0600678c()	void FUN_0600678c(void)	INFERRED
+060067b4	void thunk_FUN_037fadcc(undefined4 * param_1)	void thunk_FUN_037fadcc(void)	INFERRED
+060067bc	undefined FUN_060067bc()	void FUN_060067bc(int param_1)	INFERRED
+060067f8	undefined FUN_060067f8()	void FUN_060067f8(void)	INFERRED
+0600682c	undefined FUN_0600682c()	void FUN_0600682c(int param_1)	INFERRED
+06006868	undefined FUN_06006868()	void FUN_06006868(void)	INFERRED
+06006a10	undefined FUN_06006a10()	uint FUN_06006a10(int param_1, int param_2, undefined4 param_3)	INFERRED
+06006aa8	uint thunk_FUN_038068e0(uint param_1)	void thunk_FUN_038068e0(void)	INFERRED
+06006ab0	undefined FUN_06006ab0()	void FUN_06006ab0(uint param_1, undefined4 param_2, ushort * param_3, uint param_4, undefined4 param_5)	INFERRED
+06006d24	undefined FUN_06006d24()	void FUN_06006d24(ushort param_1)	INFERRED
+06006f08	void thunk_FUN_037f9a0c(int param_1)	void thunk_FUN_037f9a0c(void)	INFERRED
+06006f10	void thunk_FUN_037f999c(int param_1)	void thunk_FUN_037f999c(void)	INFERRED
+06006f18	undefined FUN_06006f18()	undefined4 FUN_06006f18(int param_1, ushort param_2)	INFERRED
+0600722c	undefined FUN_0600722c()	undefined2 FUN_0600722c(ushort param_1, int param_2, ushort param_3, ushort param_4, undefined4 param_5, ushort param_6, undefined4 param_7, undefined4 param_8)	INFERRED
+06007394	undefined FUN_06007394()	undefined4 FUN_06007394(uint param_1, uint param_2, uint param_3, ushort * param_4, uint * param_5, int * param_6)	INFERRED
+060078bc	undefined FUN_060078bc()	void FUN_060078bc(ushort param_1)	INFERRED
+06007980	undefined FUN_06007980()	void FUN_06007980(uint param_1)	INFERRED
+06007b28	undefined FUN_06007b28()	void FUN_06007b28(void)	INFERRED
+06007bfc	undefined FUN_06007bfc()	void FUN_06007bfc(void)	INFERRED
+06007cd0	undefined FUN_06007cd0()	void FUN_06007cd0(int param_1)	INFERRED
+06007d6c	undefined FUN_06007d6c()	void FUN_06007d6c(int param_1)	INFERRED
+06007e1c	undefined FUN_06007e1c()	void FUN_06007e1c(void)	INFERRED
+06007f70	void thunk_FUN_037fa814(undefined4 * param_1)	void thunk_FUN_037fa814(void)	INFERRED
+06007f78	undefined FUN_06007f78()	void FUN_06007f78(int param_1)	INFERRED
+06007fe4	undefined FUN_06007fe4()	void FUN_06007fe4(void)	INFERRED
+06008054	undefined FUN_06008054()	void FUN_06008054(void)	INFERRED
+0600808c	undefined FUN_0600808c()	undefined4 FUN_0600808c(undefined2 * param_1, undefined2 * param_2)	INFERRED
+060082ac	uint thunk_FUN_038072f8(uint param_1)	void thunk_FUN_038072f8(void)	INFERRED
+060082b4	undefined FUN_060082b4()	void FUN_060082b4(void)	INFERRED
+06008364	undefined FUN_06008364()	void FUN_06008364(void)	INFERRED
+0600841c	undefined FUN_0600841c()	void FUN_0600841c(int param_1)	INFERRED
+06008484	undefined FUN_06008484()	void FUN_06008484(undefined2 param_1, undefined2 param_2)	INFERRED
+060084c0	undefined FUN_060084c0()	void FUN_060084c0(int param_1)	INFERRED
+06008538	undefined FUN_06008538()	void FUN_06008538(int param_1)	INFERRED
+060086d0	void FUN_060086d0(void)	void FUN_060086d0(void)	INFERRED
+06008714	bool thunk_FUN_037f9158(int param_1)	void thunk_FUN_037f9158(void)	INFERRED
+0600871c	void thunk_FUN_037f916c(int param_1)	void thunk_FUN_037f916c(void)	INFERRED
+06008724	undefined FUN_06008724()	int FUN_06008724(void)	INFERRED
+06008738	undefined FUN_06008738()	undefined2 FUN_06008738(uint param_1)	INFERRED
+0600891c	void thunk_FUN_037fb278(undefined4 param_1, undefined4 * param_2, uint param_3)	void thunk_FUN_037fb278(void)	INFERRED
+06008924	int thunk_FUN_037f8a1c(void)	void thunk_FUN_037f8a1c(void)	INFERRED
+0600892c	undefined FUN_0600892c()	void FUN_0600892c(void)	INFERRED
+06008980	undefined FUN_06008980()	void FUN_06008980(uint param_1)	INFERRED
+060089c0	undefined FUN_060089c0()	void FUN_060089c0(void)	INFERRED
+06008a04	undefined FUN_06008a04()	uint FUN_06008a04(int param_1)	INFERRED
+06008a7c	uint thunk_FUN_037f8850(uint param_1)	void thunk_FUN_037f8850(void)	INFERRED
+06008a84	uint thunk_FUN_037f888c(uint param_1)	void thunk_FUN_037f888c(void)	INFERRED
+06008a8c	undefined FUN_06008a8c()	void FUN_06008a8c(int param_1, int param_2)	INFERRED
+06008b4c	undefined FUN_06008b4c()	void FUN_06008b4c(void)	INFERRED
+06008c0c	undefined FUN_06008c0c()	void FUN_06008c0c(void)	INFERRED
+06008c98	undefined FUN_06008c98()	void FUN_06008c98(uint param_1)	INFERRED
+06008cec	undefined FUN_06008cec()	void FUN_06008cec(void)	INFERRED
+06008d48	undefined FUN_06008d48()	void FUN_06008d48(uint param_1)	INFERRED
+06008e2c	undefined FUN_06008e2c()	void FUN_06008e2c(undefined4 * param_1, undefined2 param_2)	INFERRED
+06008e48	undefined FUN_06008e48()	uint FUN_06008e48(int param_1)	INFERRED
+06008e50	undefined FUN_06008e50()	undefined4 FUN_06008e50(uint * param_1, uint param_2)	INFERRED
+06008f34	undefined FUN_06008f34()	undefined4 FUN_06008f34(undefined4 * param_1, uint * param_2)	INFERRED
+06008fc8	undefined FUN_06008fc8()	undefined4 FUN_06008fc8(undefined4 * param_1, uint * param_2)	INFERRED
+06009040	undefined FUN_06009040()	int FUN_06009040(undefined4 param_1, undefined4 param_2, int param_3)	INFERRED
+060090b4	undefined FUN_060090b4()	int FUN_060090b4(undefined4 param_1, int param_2)	INFERRED
+06009138	undefined FUN_06009138()	int FUN_06009138(undefined4 param_1, int param_2)	INFERRED
+060091e0	undefined FUN_060091e0()	void FUN_060091e0(void)	INFERRED
+06009234	undefined FUN_06009234()	void FUN_06009234(void)	INFERRED
+060092d8	undefined FUN_060092d8()	void FUN_060092d8(void)	INFERRED
+06009360	undefined FUN_06009360()	void FUN_06009360(ushort param_1)	INFERRED
+060093a4	undefined FUN_060093a4()	void FUN_060093a4(void)	INFERRED
+060094ac	undefined FUN_060094ac()	void FUN_060094ac(short * param_1)	INFERRED
+060094f8	undefined FUN_060094f8()	void FUN_060094f8(void)	INFERRED
+0600953c	undefined FUN_0600953c()	undefined4 FUN_0600953c(int param_1)	INFERRED
+060095d0	undefined FUN_060095d0()	uint FUN_060095d0(uint param_1, uint param_2)	INFERRED
+06009648	undefined FUN_06009648()	undefined2 FUN_06009648(void)	INFERRED
+06009678	undefined FUN_06009678()	void FUN_06009678(undefined2 param_1)	INFERRED
+06009690	undefined FUN_06009690()	void FUN_06009690(ushort param_1, ushort param_2)	INFERRED
+060096c4	undefined FUN_060096c4()	uint FUN_060096c4(ushort * param_1)	INFERRED
+060096e4	undefined FUN_060096e4()	void FUN_060096e4(ushort * param_1, int param_2)	INFERRED
+06009710	undefined FUN_06009710()	void FUN_06009710(int param_1, undefined4 param_2, undefined4 param_3, int param_4)	INFERRED
+0600974c	undefined FUN_0600974c()	void FUN_0600974c(int param_1, undefined4 param_2, undefined4 param_3, int param_4)	INFERRED
+06009788	undefined FUN_06009788()	void FUN_06009788(undefined4 param_1, undefined4 param_2, int param_3)	INFERRED
+0600979c	undefined FUN_0600979c()	void FUN_0600979c(undefined4 param_1, undefined4 param_2, int param_3)	INFERRED
+060097b8	undefined FUN_060097b8()	void FUN_060097b8(int param_1, int param_2, int param_3)	INFERRED
+0600983c	undefined FUN_0600983c()	void FUN_0600983c(void)	INFERRED
+06009860	undefined FUN_06009860()	void FUN_06009860(int param_1, undefined4 param_2)	INFERRED
+060098d4	undefined FUN_060098d4()	void FUN_060098d4(int param_1, undefined4 param_2)	INFERRED
+0600993c	undefined FUN_0600993c()	void FUN_0600993c(void)	INFERRED
+060099bc	undefined FUN_060099bc()	void FUN_060099bc(void)	INFERRED
+060099e0	undefined FUN_060099e0()	void FUN_060099e0(int param_1, undefined4 param_2)	INFERRED
+06009a60	void thunk_FUN_037fa5f4(undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7)	void thunk_FUN_037fa5f4(void)	INFERRED
+06009a68	undefined FUN_06009a68()	void FUN_06009a68(undefined4 param_1)	INFERRED
+06009a7c	undefined FUN_06009a7c()	void FUN_06009a7c(int param_1)	INFERRED
+06009aa0	undefined FUN_06009aa0()	void FUN_06009aa0(void)	INFERRED
+06009afc	undefined2 thunk_FUN_037fa824(void)	void thunk_FUN_037fa824(void)	INFERRED
+06009b04	undefined FUN_06009b04()	void FUN_06009b04(void)	INFERRED
+06009c94	undefined FUN_06009c94()	void FUN_06009c94(void)	INFERRED
+06009d04	undefined FUN_06009d04()	void FUN_06009d04(void)	INFERRED
+06009d3c	undefined FUN_06009d3c()	void FUN_06009d3c(void)	INFERRED
+06009dc0	undefined FUN_06009dc0()	void FUN_06009dc0(void)	INFERRED
+06009e30	undefined FUN_06009e30()	void FUN_06009e30(undefined4 param_1)	INFERRED
+06009e58	undefined FUN_06009e58()	undefined4 FUN_06009e58(ushort param_1, undefined2 param_2)	INFERRED
+06009e98	undefined FUN_06009e98()	undefined2 FUN_06009e98(ushort param_1)	INFERRED
+06009ecc	undefined FUN_06009ecc()	void FUN_06009ecc(void)	INFERRED
+06009f84	undefined FUN_06009f84()	void FUN_06009f84(void)	INFERRED
+0600a448	ulonglong thunk_FUN_03806924(uint param_1, uint param_2, uint param_3, uint param_4)	void thunk_FUN_03806924(void)	INFERRED
+0600a450	undefined FUN_0600a450()	undefined4 FUN_0600a450(void)	INFERRED
+0600a49c	undefined FUN_0600a49c()	void FUN_0600a49c(int param_1, ushort * param_2)	INFERRED
+0600a558	undefined FUN_0600a558()	uint FUN_0600a558(uint param_1)	INFERRED
+0600a578	undefined FUN_0600a578()	undefined4 FUN_0600a578(short * param_1, short * param_2)	INFERRED
+0600a5b4	undefined FUN_0600a5b4()	undefined4 FUN_0600a5b4(uint param_1, int param_2)	INFERRED
+0600a684	undefined FUN_0600a684()	void FUN_0600a684(void)	INFERRED
+0600a888	undefined FUN_0600a888()	void FUN_0600a888(void)	INFERRED
+0600a8cc	void thunk_FUN_037fb24c(undefined4 param_1, undefined4 * param_2, int param_3)	void thunk_FUN_037fb24c(void)	INFERRED
+0600a8d4	undefined FUN_0600a8d4()	void FUN_0600a8d4(undefined2 * param_1, undefined2 * param_2, undefined2 * param_3, undefined2 * param_4)	INFERRED
+0600a954	undefined FUN_0600a954()	void FUN_0600a954(undefined2 * param_1, undefined2 * param_2)	INFERRED
+0600a970	undefined FUN_0600a970()	void FUN_0600a970(uint param_1)	INFERRED
+0600aa0c	undefined FUN_0600aa0c()	void FUN_0600aa0c(void)	INFERRED
+0600aa30	undefined FUN_0600aa30()	void FUN_0600aa30(void)	INFERRED
+0600aa54	undefined FUN_0600aa54()	void FUN_0600aa54(void)	INFERRED
+0600aabc	undefined FUN_0600aabc()	void FUN_0600aabc(undefined2 param_1)	INFERRED
+0600ab00	undefined FUN_0600ab00()	undefined4 FUN_0600ab00(uint param_1, int param_2)	INFERRED
+0600abac	undefined FUN_0600abac()	undefined4 FUN_0600abac(uint param_1, undefined4 param_2)	INFERRED
+0600abf8	undefined FUN_0600abf8()	void FUN_0600abf8(void)	INFERRED
+0600ac28	undefined FUN_0600ac28()	void FUN_0600ac28(void)	INFERRED
+0600ac7c	undefined FUN_0600ac7c()	undefined4 FUN_0600ac7c(int param_1)	INFERRED
+0600ace4	undefined FUN_0600ace4()	void FUN_0600ace4(void)	INFERRED
+0600ad78	undefined FUN_0600ad78()	void FUN_0600ad78(void)	INFERRED
+0600adec	undefined FUN_0600adec()	undefined4 FUN_0600adec(undefined2 param_1)	INFERRED
+0600ae00	undefined FUN_0600ae00()	undefined4 FUN_0600ae00(uint param_1)	INFERRED
+0600ae2c	undefined FUN_0600ae2c()	undefined4 FUN_0600ae2c(int param_1)	INFERRED
+0600aea0	undefined FUN_0600aea0()	void FUN_0600aea0(void)	INFERRED
+0600af34	undefined FUN_0600af34()	undefined4 FUN_0600af34(ushort * param_1)	INFERRED
+0600af7c	undefined FUN_0600af7c()	undefined4 FUN_0600af7c(int param_1, int param_2)	INFERRED
+0600b218	undefined FUN_0600b218()	void FUN_0600b218(void)	INFERRED
+0600b39c	undefined FUN_0600b39c()	undefined4 FUN_0600b39c(uint param_1)	INFERRED
+0600b3e8	undefined FUN_0600b3e8()	undefined4 FUN_0600b3e8(uint param_1)	INFERRED
+0600b448	undefined FUN_0600b448()	undefined4 FUN_0600b448(uint param_1, int param_2)	INFERRED
+0600b564	undefined FUN_0600b564()	undefined4 FUN_0600b564(ushort * param_1)	INFERRED
+0600b5cc	undefined FUN_0600b5cc()	undefined4 FUN_0600b5cc(uint param_1)	INFERRED
+0600b628	undefined FUN_0600b628()	undefined4 FUN_0600b628(uint param_1)	INFERRED
+0600b668	undefined FUN_0600b668()	undefined4 FUN_0600b668(uint param_1, uint param_2)	INFERRED
+0600b744	undefined FUN_0600b744()	undefined4 FUN_0600b744(uint param_1)	INFERRED
+0600b7ac	undefined FUN_0600b7ac()	undefined4 FUN_0600b7ac(uint param_1, uint param_2)	INFERRED
+0600b7f4	undefined FUN_0600b7f4()	undefined4 FUN_0600b7f4(uint param_1)	INFERRED
+0600b818	undefined FUN_0600b818()	undefined4 FUN_0600b818(uint param_1)	INFERRED
+0600b8d8	undefined FUN_0600b8d8()	undefined4 FUN_0600b8d8(undefined2 * param_1)	INFERRED
+0600b908	undefined FUN_0600b908()	undefined4 FUN_0600b908(uint param_1, int param_2)	INFERRED
+0600b9c8	undefined FUN_0600b9c8()	undefined4 FUN_0600b9c8(uint param_1)	INFERRED
+0600ba00	undefined FUN_0600ba00()	undefined4 FUN_0600ba00(uint param_1)	INFERRED
+0600ba38	undefined FUN_0600ba38()	undefined4 FUN_0600ba38(uint param_1)	INFERRED
+0600ba70	undefined FUN_0600ba70()	undefined4 FUN_0600ba70(int param_1)	INFERRED
+0600bad4	undefined FUN_0600bad4()	undefined4 FUN_0600bad4(uint param_1)	INFERRED
+0600baf8	undefined FUN_0600baf8()	undefined4 FUN_0600baf8(uint param_1)	INFERRED
+0600bbac	undefined FUN_0600bbac()	undefined4 FUN_0600bbac(uint param_1)	INFERRED
+0600bbe8	undefined FUN_0600bbe8()	undefined4 FUN_0600bbe8(uint param_1)	INFERRED
+0600bc70	undefined FUN_0600bc70()	undefined4 FUN_0600bc70(uint param_1)	INFERRED
+0600bcb0	undefined FUN_0600bcb0()	undefined4 FUN_0600bcb0(uint param_1)	INFERRED
+0600bce4	undefined FUN_0600bce4()	undefined4 FUN_0600bce4(ushort * param_1)	INFERRED
+0600bd44	undefined FUN_0600bd44()	void FUN_0600bd44(undefined4 param_1, undefined2 param_2)	INFERRED
+0600bddc	undefined FUN_0600bddc()	void FUN_0600bddc(void)	INFERRED
+0600c0d4	undefined FUN_0600c0d4()	void FUN_0600c0d4(void)	INFERRED
+0600c258	undefined FUN_0600c258()	void FUN_0600c258(void)	INFERRED
+0600c404	undefined FUN_0600c404()	void FUN_0600c404(void)	INFERRED
+0600c42c	void thunk_FUN_037f8944(uint param_1, undefined4 param_2)	void thunk_FUN_037f8944(void)	INFERRED
+0600c434	undefined FUN_0600c434()	void FUN_0600c434(void)	INFERRED
+0600c460	undefined FUN_0600c460()	undefined4 FUN_0600c460(short * param_1)	INFERRED
+0600c4c8	undefined FUN_0600c4c8()	undefined4 FUN_0600c4c8(void)	INFERRED
+0600c514	undefined FUN_0600c514()	void FUN_0600c514(void)	INFERRED
+0600c580	undefined FUN_0600c580()	uint FUN_0600c580(uint param_1)	INFERRED
+0600c5a8	undefined FUN_0600c5a8()	void FUN_0600c5a8(void)	INFERRED
+0600c614	undefined FUN_0600c614()	void FUN_0600c614(void)	INFERRED
+0600c6e8	undefined FUN_0600c6e8()	void FUN_0600c6e8(void)	INFERRED
+0600c95c	undefined FUN_0600c95c()	void FUN_0600c95c(void)	INFERRED
+0600ca18	undefined FUN_0600ca18()	void FUN_0600ca18(int param_1)	INFERRED
+0600cb28	undefined FUN_0600cb28()	void FUN_0600cb28(void)	INFERRED
+0600cf6c	undefined FUN_0600cf6c()	void FUN_0600cf6c(void)	INFERRED
+0600d1dc	undefined FUN_0600d1dc()	void FUN_0600d1dc(void)	INFERRED
+0600d3a0	undefined FUN_0600d3a0()	void FUN_0600d3a0(void)	INFERRED
+0600d4cc	undefined FUN_0600d4cc()	void FUN_0600d4cc(void)	INFERRED
+0600d508	undefined FUN_0600d508()	void FUN_0600d508(void)	INFERRED
+0600d51c	undefined FUN_0600d51c()	void FUN_0600d51c(void)	INFERRED
+0600d598	undefined FUN_0600d598()	void FUN_0600d598(void)	INFERRED
+0600d894	undefined FUN_0600d894()	void FUN_0600d894(void)	INFERRED
+0600d920	undefined FUN_0600d920()	void FUN_0600d920(void)	INFERRED
+0600da04	undefined FUN_0600da04()	int FUN_0600da04(undefined4 param_1, int param_2)	INFERRED
+0600da78	undefined FUN_0600da78()	void FUN_0600da78(void)	INFERRED
+0600db3c	undefined FUN_0600db3c()	void FUN_0600db3c(void)	INFERRED
+0600dc28	undefined FUN_0600dc28()	void FUN_0600dc28(void)	INFERRED
+0600dfec	undefined FUN_0600dfec()	void FUN_0600dfec(void)	INFERRED
+0600e1f4	undefined FUN_0600e1f4()	void FUN_0600e1f4(void)	INFERRED
+0600e248	undefined FUN_0600e248()	void FUN_0600e248(uint param_1, undefined4 param_2)	INFERRED
+0600e32c	undefined FUN_0600e32c()	void FUN_0600e32c(void)	INFERRED
+0600e3c4	undefined FUN_0600e3c4()	void FUN_0600e3c4(void)	INFERRED
+0600e47c	undefined FUN_0600e47c()	void FUN_0600e47c(int param_1)	INFERRED
+0600e4c4	undefined FUN_0600e4c4()	void FUN_0600e4c4(void)	INFERRED
+0600e69c	undefined FUN_0600e69c()	void FUN_0600e69c(int param_1)	INFERRED
+0600e748	undefined FUN_0600e748()	void FUN_0600e748(uint param_1)	INFERRED
+0600e808	undefined FUN_0600e808()	int FUN_0600e808(int param_1)	INFERRED
+0600e824	undefined FUN_0600e824()	undefined2 FUN_0600e824(void)	INFERRED
+0600e840	undefined FUN_0600e840()	undefined2 FUN_0600e840(void)	INFERRED
+0600e85c	undefined FUN_0600e85c()	undefined4 FUN_0600e85c(void)	INFERRED
+0600e884	undefined FUN_0600e884()	undefined2 FUN_0600e884(void)	INFERRED
+0600e8a0	undefined FUN_0600e8a0()	undefined2 FUN_0600e8a0(void)	INFERRED
+0600e8bc	undefined FUN_0600e8bc()	int FUN_0600e8bc(void)	INFERRED
+0600e8d8	undefined FUN_0600e8d8()	uint FUN_0600e8d8(uint param_1)	INFERRED
+0600e8f8	undefined FUN_0600e8f8()	uint FUN_0600e8f8(uint param_1)	INFERRED
+0600e918	undefined FUN_0600e918()	undefined2 FUN_0600e918(void)	INFERRED
+0600e934	undefined FUN_0600e934()	void FUN_0600e934(undefined4 param_1)	INFERRED
+0600e9a8	undefined FUN_0600e9a8()	uint FUN_0600e9a8(undefined4 param_1)	INFERRED
+0600ea58	undefined FUN_0600ea58()	void FUN_0600ea58(int param_1)	INFERRED
+0600ea7c	undefined FUN_0600ea7c()	void FUN_0600ea7c(undefined4 param_1, undefined2 param_2)	INFERRED
+0600ea94	undefined FUN_0600ea94()	void FUN_0600ea94(undefined4 param_1, undefined2 param_2)	INFERRED
+0600eaac	undefined FUN_0600eaac()	void FUN_0600eaac(undefined4 param_1, undefined2 param_2)	INFERRED
+0600eac4	undefined FUN_0600eac4()	void FUN_0600eac4(undefined4 param_1, undefined2 param_2)	INFERRED
+0600eadc	undefined FUN_0600eadc()	void FUN_0600eadc(uint param_1)	INFERRED
+0600eb00	undefined FUN_0600eb00()	void FUN_0600eb00(uint param_1)	INFERRED
+0600eb40	undefined FUN_0600eb40()	void FUN_0600eb40(uint param_1, int param_2)	INFERRED
+0600eba4	undefined FUN_0600eba4()	void FUN_0600eba4(undefined4 param_1, undefined2 param_2)	INFERRED
+0600ebbc	undefined FUN_0600ebbc()	void FUN_0600ebbc(uint param_1, uint param_2)	INFERRED
+0600ec88	undefined FUN_0600ec88()	void FUN_0600ec88(int param_1)	INFERRED
+0600ecf4	undefined FUN_0600ecf4()	void FUN_0600ecf4(int param_1)	INFERRED
+0600ed84	undefined FUN_0600ed84()	void FUN_0600ed84(undefined4 param_1, undefined4 param_2)	INFERRED
+0600ede8	undefined FUN_0600ede8()	uint FUN_0600ede8(ushort * param_1)	INFERRED
+0600ef30	undefined FUN_0600ef30()	uint FUN_0600ef30(ushort * param_1)	INFERRED
+0600f00c	undefined FUN_0600f00c()	undefined4 FUN_0600f00c(void)	INFERRED
+0600f040	undefined FUN_0600f040()	void FUN_0600f040(void)	INFERRED
+0600f0ec	undefined FUN_0600f0ec()	void FUN_0600f0ec(void)	INFERRED
+0600f118	undefined FUN_0600f118()	void FUN_0600f118(void)	INFERRED
+0600f19c	undefined FUN_0600f19c()	void FUN_0600f19c(undefined4 param_1, undefined4 param_2)	INFERRED
+0600f234	undefined FUN_0600f234()	void FUN_0600f234(void)	INFERRED
+0600f54c	undefined FUN_0600f54c()	void FUN_0600f54c(void)	INFERRED
+0600f58c	undefined FUN_0600f58c()	undefined4 FUN_0600f58c(int param_1)	INFERRED
+0600f6b8	undefined FUN_0600f6b8()	bool FUN_0600f6b8(void)	INFERRED
+0600f720	undefined FUN_0600f720()	bool FUN_0600f720(undefined4 param_1)	INFERRED
+0600f79c	undefined FUN_0600f79c()	bool FUN_0600f79c(undefined4 param_1, undefined2 param_2)	INFERRED
+0600f818	undefined FUN_0600f818()	undefined4 FUN_0600f818(undefined4 param_1, undefined2 param_2, int param_3)	INFERRED
+0600f908	undefined FUN_0600f908()	undefined4 FUN_0600f908(undefined4 param_1, ushort param_2, int param_3)	INFERRED
+0600fa04	undefined FUN_0600fa04()	bool FUN_0600fa04(undefined4 param_1, undefined2 param_2)	INFERRED
+0600fa80	undefined FUN_0600fa80()	bool FUN_0600fa80(undefined4 param_1, undefined2 param_2)	INFERRED
+0600fafc	undefined FUN_0600fafc()	void FUN_0600fafc(void)	INFERRED
+0600fba4	undefined FUN_0600fba4()	void FUN_0600fba4(void)	INFERRED
+0600fe70	undefined FUN_0600fe70()	void FUN_0600fe70(void)	INFERRED
+0600ff70	undefined FUN_0600ff70()	void FUN_0600ff70(void)	INFERRED
+06010078	undefined FUN_06010078()	void FUN_06010078(void)	INFERRED
+0601019c	undefined FUN_0601019c()	void FUN_0601019c(void)	INFERRED
+060102a8	undefined FUN_060102a8()	void FUN_060102a8(void)	INFERRED
+060104a4	undefined FUN_060104a4()	undefined4 FUN_060104a4(int param_1, int param_2)	INFERRED
+0601058c	undefined FUN_0601058c()	undefined4 FUN_0601058c(int param_1, int param_2)	INFERRED
+06010730	undefined FUN_06010730()	undefined4 FUN_06010730(int param_1, int param_2)	INFERRED
+06010844	undefined FUN_06010844()	undefined4 FUN_06010844(int param_1, int param_2)	INFERRED
+06010914	undefined FUN_06010914()	undefined4 FUN_06010914(int param_1, int param_2)	INFERRED
+060109fc	undefined FUN_060109fc()	undefined4 FUN_060109fc(int param_1, int param_2)	INFERRED
+06010b38	undefined FUN_06010b38()	undefined4 FUN_06010b38(int param_1, int param_2)	INFERRED
+06010c14	undefined FUN_06010c14()	undefined4 FUN_06010c14(int param_1, int param_2)	INFERRED
+06010dd4	undefined FUN_06010dd4()	undefined4 FUN_06010dd4(int param_1, int param_2)	INFERRED
+06010f20	undefined FUN_06010f20()	undefined4 FUN_06010f20(int param_1, int param_2)	INFERRED
+06010fcc	undefined FUN_06010fcc()	undefined4 FUN_06010fcc(int param_1, int param_2)	INFERRED
+0601100c	undefined FUN_0601100c()	undefined4 FUN_0601100c(undefined4 param_1, int param_2)	INFERRED
+06011ea8	undefined FUN_06011ea8()	void FUN_06011ea8(void)	INFERRED
+06011f50	undefined FUN_06011f50()	void FUN_06011f50(int param_1)	INFERRED
+060120a0	undefined FUN_060120a0()	undefined4 FUN_060120a0(int param_1, int param_2)	INFERRED
+060125a8	undefined FUN_060125a8()	void FUN_060125a8(undefined4 param_1, int param_2)	INFERRED
+060125e0	undefined FUN_060125e0()	undefined4 FUN_060125e0(int param_1, int param_2)	INFERRED
+0601262c	undefined FUN_0601262c()	undefined4 FUN_0601262c(int param_1, int param_2)	INFERRED
+06012690	undefined FUN_06012690()	undefined4 FUN_06012690(int param_1, int param_2)	INFERRED
+06012b6c	undefined FUN_06012b6c()	undefined4 FUN_06012b6c(int param_1, int param_2)	INFERRED
+06012cf8	undefined FUN_06012cf8()	undefined4 FUN_06012cf8(int param_1)	INFERRED
+06012edc	undefined FUN_06012edc()	void FUN_06012edc(void)	INFERRED
+06013290	undefined FUN_06013290()	int FUN_06013290(int param_1)	INFERRED
+060133b4	undefined FUN_060133b4()	undefined4 FUN_060133b4(int param_1)	INFERRED
+060133fc	undefined FUN_060133fc()	int FUN_060133fc(int param_1)	INFERRED
+060134b4	undefined FUN_060134b4()	int FUN_060134b4(int param_1)	INFERRED
+06013528	undefined FUN_06013528()	undefined4 FUN_06013528(undefined4 param_1, uint param_2)	INFERRED
+0601359c	undefined FUN_0601359c()	void FUN_0601359c(int param_1, undefined4 param_2)	INFERRED
+060135f8	undefined FUN_060135f8()	void FUN_060135f8(ushort param_1)	INFERRED
+0601364c	undefined FUN_0601364c()	int FUN_0601364c(undefined4 param_1, undefined2 param_2)	INFERRED
+060136d0	undefined FUN_060136d0()	int FUN_060136d0(undefined4 param_1, uint param_2)	INFERRED
+06013784	undefined FUN_06013784()	int FUN_06013784(undefined4 param_1)	INFERRED
+06013854	undefined FUN_06013854()	int FUN_06013854(undefined4 param_1)	INFERRED
+060138e4	undefined FUN_060138e4()	int FUN_060138e4(undefined4 param_1, int param_2, int param_3)	INFERRED
+06013a50	undefined FUN_06013a50()	int FUN_06013a50(undefined4 param_1, int param_2, int param_3)	INFERRED
+06013bc8	undefined FUN_06013bc8()	int FUN_06013bc8(undefined4 param_1)	INFERRED
+06013c80	undefined FUN_06013c80()	int FUN_06013c80(undefined4 param_1)	INFERRED
+06013d2c	undefined FUN_06013d2c()	int FUN_06013d2c(undefined4 param_1, undefined2 param_2)	INFERRED
+06013db0	undefined FUN_06013db0()	void FUN_06013db0(void)	INFERRED
+06013ebc	undefined FUN_06013ebc()	void FUN_06013ebc(void)	INFERRED
+06014228	undefined FUN_06014228()	void FUN_06014228(void)	INFERRED
+06014250	undefined FUN_06014250()	void FUN_06014250(void)	INFERRED
+0601429c	undefined FUN_0601429c()	void FUN_0601429c(void)	INFERRED
+06014338	undefined FUN_06014338()	void FUN_06014338(int param_1)	INFERRED
+060143ac	undefined FUN_060143ac()	void FUN_060143ac(void)	INFERRED
+060143cc	undefined FUN_060143cc()	void FUN_060143cc(int param_1, int param_2)	INFERRED
+06014464	undefined FUN_06014464()	void FUN_06014464(void)	INFERRED
+06014554	undefined FUN_06014554()	void FUN_06014554(ushort * param_1)	INFERRED
+060145f8	undefined FUN_060145f8()	void FUN_060145f8(uint param_1)	INFERRED
+06014708	undefined FUN_06014708()	void FUN_06014708(int param_1)	INFERRED
+060147a0	undefined FUN_060147a0()	void FUN_060147a0(int param_1)	INFERRED
+06014818	undefined FUN_06014818()	void FUN_06014818(void)	INFERRED
+060148d0	undefined FUN_060148d0()	void FUN_060148d0(void)	INFERRED
+06014930	undefined FUN_06014930()	void FUN_06014930(void)	INFERRED
+060149b0	undefined FUN_060149b0()	void FUN_060149b0(undefined2 * param_1)	INFERRED
+06014a04	undefined FUN_06014a04()	void FUN_06014a04(int param_1, int param_2)	INFERRED
+06014b98	undefined FUN_06014b98()	void FUN_06014b98(short * param_1, int param_2)	INFERRED
+06015088	undefined FUN_06015088()	void FUN_06015088(int param_1, int param_2)	INFERRED
+06015220	undefined FUN_06015220()	void FUN_06015220(int param_1, int param_2)	INFERRED
+0601536c	undefined FUN_0601536c()	void FUN_0601536c(int param_1)	INFERRED
+060155bc	undefined FUN_060155bc()	void FUN_060155bc(void)	INFERRED
+06015740	undefined FUN_06015740()	void FUN_06015740(void)	INFERRED
+060157b8	undefined FUN_060157b8()	void FUN_060157b8(ushort * param_1, int param_2)	INFERRED
+060159f8	undefined FUN_060159f8()	void FUN_060159f8(ushort * param_1, int param_2)	INFERRED
+06015c48	void thunk_FUN_037fb1a8(int param_1)	void thunk_FUN_037fb1a8(void)	INFERRED
+06015c50	undefined FUN_06015c50()	void FUN_06015c50(void)	INFERRED
+06015d6c	undefined FUN_06015d6c()	undefined4 FUN_06015d6c(int param_1)	INFERRED
+06015df4	undefined FUN_06015df4()	void FUN_06015df4(undefined4 param_1, int param_2)	INFERRED
+06015e68	undefined FUN_06015e68()	void FUN_06015e68(void)	INFERRED
+060161b4	undefined FUN_060161b4()	void FUN_060161b4(uint param_1)	INFERRED
+060164f4	undefined FUN_060164f4()	void FUN_060164f4(void)	INFERRED
+060164f8	undefined FUN_060164f8()	void FUN_060164f8(int param_1)	INFERRED
+06016560	undefined FUN_06016560()	void FUN_06016560(int param_1)	INFERRED
+0601661c	undefined FUN_0601661c()	void FUN_0601661c(int param_1)	INFERRED
+06016b4c	undefined FUN_06016b4c()	void FUN_06016b4c(int param_1, int * param_2)	INFERRED
+06016f4c	undefined FUN_06016f4c()	void FUN_06016f4c(int param_1)	INFERRED
+06017008	undefined FUN_06017008()	void FUN_06017008(int param_1)	INFERRED
+0601713c	undefined FUN_0601713c()	void FUN_0601713c(int param_1)	INFERRED
+060172d8	undefined FUN_060172d8()	void FUN_060172d8(int param_1)	INFERRED
+06017404	undefined FUN_06017404()	void FUN_06017404(int param_1)	INFERRED
+060175d0	undefined FUN_060175d0()	void FUN_060175d0(int param_1)	INFERRED
+060176c0	undefined FUN_060176c0()	void FUN_060176c0(int param_1)	INFERRED
+06017d88	undefined FUN_06017d88()	undefined4 FUN_06017d88(int param_1)	INFERRED
+06017e6c	undefined FUN_06017e6c()	void FUN_06017e6c(int param_1)	INFERRED
+06018064	undefined FUN_06018064()	undefined4 FUN_06018064(int param_1)	INFERRED
+060181f8	undefined FUN_060181f8()	void FUN_060181f8(void)	INFERRED
+06018554	undefined FUN_06018554()	void FUN_06018554(void)	INFERRED
+0601858c	undefined FUN_0601858c()	void FUN_0601858c(undefined2 param_1, int param_2, int param_3)	INFERRED
+060186e8	undefined FUN_060186e8()	undefined4 FUN_060186e8(void)	INFERRED
+060187dc	void thunk_FUN_038015ac(undefined4 param_1)	void thunk_FUN_038015ac(void)	INFERRED
+060187e4	void thunk_FUN_03804bbc(undefined4 param_1, int param_2, int param_3)	void thunk_FUN_03804bbc(void)	INFERRED
+060187ec	void thunk_FUN_03801540(uint param_1)	void thunk_FUN_03801540(void)	INFERRED
+060187f4	undefined FUN_060187f4()	void FUN_060187f4(undefined4 param_1, undefined4 param_2, undefined4 param_3)	INFERRED
+06018844	undefined FUN_06018844()	void FUN_06018844(int param_1, int param_2, int param_3)	INFERRED
+060188a4	undefined FUN_060188a4()	void FUN_060188a4(void)	INFERRED
+060188e4	void thunk_FUN_03804cdc(undefined1 * param_1)	void thunk_FUN_03804cdc(void)	INFERRED
+060188ec	void thunk_FUN_03804504(void)	void thunk_FUN_03804504(void)	INFERRED
+060188f4	undefined FUN_060188f4()	undefined4 FUN_060188f4(uint * param_1)	INFERRED

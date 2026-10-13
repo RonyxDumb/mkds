@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020783c8_func_020783c8.c:17:15: error: call to undeclared function 'func_0x021a2398'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   17 |       uVar1 = func_0x021a2398();
+      |               ^
+C-WORK/src/arm9/020783c8_func_020783c8.c:18:15: error: call to undeclared function 'func_0x021a23ac'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   18 |       uVar2 = func_0x021a23ac();
+      |               ^
+2 errors generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020aa0ec_func_020aa0ec.c:28:47: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   28 |     iVar2 = (**(code **)(iRam020aa2ec + 0x4c))(uVar1,param_1);
+      |                                               ^
+C-WORK/src/arm9/020aa0ec_func_020aa0ec.c:28:11: error: assigning to 'int' from incompatible type 'void'
+   28 |     iVar2 = (**(code **)(iRam020aa2ec + 0x4c))(uVar1,param_1);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020aa0ec_func_020aa0ec.c:29:57: error: too few arguments to function call, single argument 'param_1' was not specified
+   29 |     if ((iVar2 != 0) && (pbVar3 = (byte *)func_020ab338(), pbVar3 != (byte *)0x0)) {
+      |                                           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020aa0ec_func_020aa0ec.h:7:5: note: 'func_020ab338' declared here
+    7 | int func_020ab338(uint param_1);
+      |     ^             ~~~~~~~~~~~~
+1 warning and 2 errors generated.

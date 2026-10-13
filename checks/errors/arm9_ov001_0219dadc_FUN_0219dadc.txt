@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov001/0219dadc_FUN_0219dadc.c:50:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   50 |           func_0x02105ac0();
+      |           ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/0219dadc_FUN_0219dadc.h:19:6: note: 'MaybePlaySomeSseqFromSarc0' declared here
+   19 | void MaybePlaySomeSseqFromSarc0(undefined4 param_1);
+      |      ^                          ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0219dadc_FUN_0219dadc.c:92:31: error: too few arguments to function call, single argument 'param_1' was not specified
+   92 |               func_0x02105ac0();
+      |               ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/0219dadc_FUN_0219dadc.h:19:6: note: 'MaybePlaySomeSseqFromSarc0' declared here
+   19 | void MaybePlaySomeSseqFromSarc0(undefined4 param_1);
+      |      ^                          ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0219dadc_FUN_0219dadc.c:98:31: error: too few arguments to function call, single argument 'param_1' was not specified
+   98 |               func_0x02105ac0();
+      |               ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/0219dadc_FUN_0219dadc.h:19:6: note: 'MaybePlaySomeSseqFromSarc0' declared here
+   19 | void MaybePlaySomeSseqFromSarc0(undefined4 param_1);
+      |      ^                          ~~~~~~~~~~~~~~~~~~
+3 errors generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0200eddc_DC_func_0002.c:15:7: error: call to undeclared function 'coproc_moveto_Clean_Data_Cache_by_Index'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   15 |       coproc_moveto_Clean_Data_Cache_by_Index(uVar2 | uVar1);
+      |       ^
+1 error generated.

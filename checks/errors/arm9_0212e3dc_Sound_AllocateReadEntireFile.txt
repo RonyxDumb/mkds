@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0212e3dc_Sound_AllocateReadEntireFile.c:14:29: error: too few arguments to function call, single argument 'param_1' was not specified
+   14 |   iVar1 = Sound_GetFileSize();
+      |           ~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212e3dc_Sound_AllocateReadEntireFile.h:6:6: note: 'Sound_GetFileSize' declared here
+    6 | uint Sound_GetFileSize(uint param_1);
+      |      ^                 ~~~~~~~~~~~~
+C-WORK/src/arm9/0212e3dc_Sound_AllocateReadEntireFile.c:21:70: error: too few arguments to function call, expected 5, have 4
+   21 |   iVar2 = Sound_Context_Allocate(param_5,iVar1 + 0x20,param_2,param_3);
+      |           ~~~~~~~~~~~~~~~~~~~~~~                                     ^
+C-WORK/src/arm9/deps/0212e3dc_Sound_AllocateReadEntireFile.h:5:5: note: 'Sound_Context_Allocate' declared here
+    5 | int Sound_Context_Allocate(uint param_1,int param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5);
+      |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

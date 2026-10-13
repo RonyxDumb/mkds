@@ -1,0 +1,76 @@
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:96:19: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   96 |             uVar7 = (**(code **)(psVar14 + 6))();
+      |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:140:35: error: too few arguments to function call, single argument 'param_1' was not specified
+  140 |             uVar7 = func_021322c8();
+      |                     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020d34e4_func_020d34e4.h:20:11: note: 'func_021322c8' declared here
+   20 | ulonglong func_021322c8(uint param_1);
+      |           ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:150:35: error: too few arguments to function call, single argument 'param_1' was not specified
+  150 |             uVar7 = func_021322c8();
+      |                     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020d34e4_func_020d34e4.h:20:11: note: 'func_021322c8' declared here
+   20 | ulonglong func_021322c8(uint param_1);
+      |           ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:163:35: error: too few arguments to function call, single argument 'param_1' was not specified
+  163 |             uVar7 = func_021322c8();
+      |                     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020d34e4_func_020d34e4.h:20:11: note: 'func_021322c8' declared here
+   20 | ulonglong func_021322c8(uint param_1);
+      |           ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:173:35: error: too few arguments to function call, single argument 'param_1' was not specified
+  173 |             uVar7 = func_021322c8();
+      |                     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020d34e4_func_020d34e4.h:20:11: note: 'func_021322c8' declared here
+   20 | ulonglong func_021322c8(uint param_1);
+      |           ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:183:35: error: too few arguments to function call, single argument 'param_1' was not specified
+  183 |             uVar7 = func_021322c8();
+      |                     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020d34e4_func_020d34e4.h:20:11: note: 'func_021322c8' declared here
+   20 | ulonglong func_021322c8(uint param_1);
+      |           ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:187:19: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  187 |             uVar7 = (**(code **)(psVar14 + 8))();
+      |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:191:19: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  191 |             uVar7 = (**(code **)(psVar14 + 10))();
+      |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:195:19: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  195 |             uVar7 = (**(code **)(psVar14 + 0xc))();
+      |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:199:19: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  199 |             uVar7 = (**(code **)(psVar14 + 0xe))();
+      |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:206:50: error: too few arguments to function call, single argument 'param_1' was not specified
+  206 |           uVar7 = ExecutionContext_GetHeapHandle();
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020d34e4_func_020d34e4.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:265:48: warning: operator '>>' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  265 |             puVar8[0x3f] = (short)(extraout_r1 + iRam020d3aac >> 0xc);
+      |                                    ~~~~~~~~~~~~^~~~~~~~~~~~~~ ~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:265:48: note: place parentheses around the '+' expression to silence this warning
+  265 |             puVar8[0x3f] = (short)(extraout_r1 + iRam020d3aac >> 0xc);
+      |                                    ~~~~~~~~~~~~^~~~~~~~~~~~~~
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:320:41: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  320 |               (**(code **)(psVar14 + 4))(puVar8,0,param_3);
+      |                                         ^
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:325:23: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  325 |                       (puVar8,param_2,*(undefined4 *)(iRam020d3ac8 + local_34 * 0xc));
+      |                       ^
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:339:53: error: incompatible pointer to integer conversion passing 'undefined2 *' (aka 'unsigned short *') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  339 |             uVar4 = FindComputeSomeCollisionEntryId(puVar8 + 2,uVar7,uVar15,puVar8);
+      |                                                     ^~~~~~~~~~
+C-WORK/src/arm9/deps/020d34e4_func_020d34e4.h:5:42: note: passing argument to parameter 'param_1' here
+    5 | int FindComputeSomeCollisionEntryId(uint param_1,int param_2,undefined2 param_3,undefined4 param_4);
+      |                                          ^
+C-WORK/src/arm9/020d34e4_func_020d34e4.c:339:77: error: incompatible pointer to integer conversion passing 'undefined2 *' (aka 'unsigned short *') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+  339 |             uVar4 = FindComputeSomeCollisionEntryId(puVar8 + 2,uVar7,uVar15,puVar8);
+      |                                                                             ^~~~~~
+C-WORK/src/arm9/deps/020d34e4_func_020d34e4.h:5:92: note: passing argument to parameter 'param_4' here
+    5 | int FindComputeSomeCollisionEntryId(uint param_1,int param_2,undefined2 param_3,undefined4 param_4);
+      |                                                                                            ^
+3 warnings and 13 errors generated.

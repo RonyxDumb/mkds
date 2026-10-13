@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020873e4_GetVsRacerIndicatorColor_from_thumb.c:18:36: error: too few arguments to function call, single argument 'param_1' was not specified
+   18 |   piVar1 = (int *)GetCharacterKart();
+      |                   ~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020873e4_GetVsRacerIndicatorColor_from_thumb.h:3:5: note: 'GetCharacterKart' declared here
+    3 | int GetCharacterKart(int param_1);
+      |     ^                ~~~~~~~~~~~
+1 error generated.

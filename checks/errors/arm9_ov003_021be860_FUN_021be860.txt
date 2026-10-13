@@ -1,0 +1,28 @@
+C-WORK/src/arm9_ov003/021be860_FUN_021be860.c:16:17: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined1 *' (aka 'unsigned char *') [-Wint-conversion]
+   16 |   *DAT_021be954 = DAT_021be950;
+      |                 ^ ~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021be860_FUN_021be860.c:32:17: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined1 *' (aka 'unsigned char *') [-Wint-conversion]
+   32 |   *DAT_021be960 = DAT_021be95c;
+      |                 ^ ~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021be860_FUN_021be860.c:58:13: error: call to undeclared function 'func_0x021a61c4'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   58 |     iVar4 = func_0x021a61c4(DAT_021be950,*DAT_021be960,*DAT_021be94c);
+      |             ^
+C-WORK/src/arm9_ov003/021be860_FUN_021be860.c:61:23: error: too many arguments to function call, expected 0, have 1
+   61 |       func_0x0200fcb4(uVar2);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov003/deps/021be860_FUN_021be860.h:19:12: note: 'Os_RestoreIrq' declared here
+   19 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov003/021be860_FUN_021be860.c:69:23: error: too many arguments to function call, expected 0, have 1
+   69 |       func_0x0200fcb4(uVar2);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov003/deps/021be860_FUN_021be860.h:19:12: note: 'Os_RestoreIrq' declared here
+   19 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov003/021be860_FUN_021be860.c:73:19: error: too many arguments to function call, expected 0, have 1
+   73 |   func_0x0200fcb4(uVar2);
+      |   ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov003/deps/021be860_FUN_021be860.h:19:12: note: 'Os_RestoreIrq' declared here
+   19 | undefined4 Os_RestoreIrq(void);
+      |            ^
+6 errors generated.

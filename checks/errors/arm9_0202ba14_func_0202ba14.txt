@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0202ba14_func_0202ba14.c:15:9: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   15 |   uVar3 = func_02025ebc(*piRam0202bb04 + iRam0202bb08);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

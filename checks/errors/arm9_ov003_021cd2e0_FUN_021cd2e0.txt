@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov003/021cd2e0_FUN_021cd2e0.c:30:11: error: assigning to 'undefined1' (aka 'unsigned char') from incompatible type 'void'
+   30 |     uVar1 = func_0x0213bf90((undefined4)(uintptr_t)(local_1c));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

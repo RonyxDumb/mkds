@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov000/021a9aa0_FUN_021a9aa0.c:31:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   31 |   puVar3 = (undefined1 *)(*(code *)*DAT_021a9c44)(iVar8 + 0x9d);
+      |                                                  ^
+C-WORK/src/arm9_ov000/021a9aa0_FUN_021a9aa0.c:31:26: error: operand of type 'void' where arithmetic or pointer type is required
+   31 |   puVar3 = (undefined1 *)(*(code *)*DAT_021a9c44)(iVar8 + 0x9d);
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9aa0_FUN_021a9aa0.c:57:42: error: too few arguments to function call, expected 3, have 2
+   57 |     func_0x0214d1fc(*piVar7,puVar3 + 0x2c);
+      |     ~~~~~~~~~~~~~~~                      ^
+C-WORK/src/arm9_ov000/deps/021a9aa0_FUN_021a9aa0.h:19:6: note: 'Mem_CpuCopy8' declared here
+   19 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9aa0_FUN_021a9aa0.c:97:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   97 |   (*(code *)*DAT_021a9c58)(puVar3);
+      |                           ^
+2 warnings and 2 errors generated.

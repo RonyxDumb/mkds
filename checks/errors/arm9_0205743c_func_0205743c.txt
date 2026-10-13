@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0205743c_func_0205743c.c:11:56: error: too few arguments to function call, expected 2, have 0
+   11 |   pbVar1 = (byte *)GetGhostDataByteByCourse_from_thumb();
+      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0205743c_func_0205743c.h:3:5: note: 'GetGhostDataByteByCourse_from_thumb' declared here
+    3 | int GetGhostDataByteByCourse_from_thumb(int param_1,int param_2);
+      |     ^                                   ~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

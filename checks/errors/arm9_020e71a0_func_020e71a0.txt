@@ -1,0 +1,41 @@
+C-WORK/src/arm9/020e71a0_func_020e71a0.c:18:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020e71a0_func_020e71a0.c:18:52: note: place parentheses around the '+' expression to silence this warning
+   18 |   uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020e71a0_func_020e71a0.c:22:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |     *(uint *)(uVar5 + 0x40) = (uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) & 0x3fffffe0;
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020e71a0_func_020e71a0.c:22:73: note: place parentheses around the '+' expression to silence this warning
+   22 |     *(uint *)(uVar5 + 0x40) = (uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) & 0x3fffffe0;
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/020e71a0_func_020e71a0.c:23:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   23 |     uVar7 = func_020d4ddc();
+      |             ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020e71a0_func_020e71a0.h:5:12: note: 'func_020d4ddc' declared here
+    5 | undefined4 func_020d4ddc(int param_1);
+      |            ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020e71a0_func_020e71a0.c:46:32: error: too few arguments to function call, expected 2, have 1
+   46 |   iVar3 = func_020d4d60(param_1);
+      |           ~~~~~~~~~~~~~        ^
+C-WORK/src/arm9/deps/020e71a0_func_020e71a0.h:4:6: note: 'func_020d4d60' declared here
+    4 | bool func_020d4d60(int param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020e71a0_func_020e71a0.c:51:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   51 |          uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20 |
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020e71a0_func_020e71a0.c:51:51: note: place parentheses around the '+' expression to silence this warning
+   51 |          uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20 |
+      |                                                   ^
+      |                                        (                )
+C-WORK/src/arm9/020e71a0_func_020e71a0.c:53:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   53 |          *(uint *)(uRam020e72c8 & 0xfffffffc) << (uRam020e72c8 & 3) * -8 + 0x20;
+      |                                               ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020e71a0_func_020e71a0.c:53:74: note: place parentheses around the '+' expression to silence this warning
+   53 |          *(uint *)(uRam020e72c8 & 0xfffffffc) << (uRam020e72c8 & 3) * -8 + 0x20;
+      |                                                                          ^     
+      |                                                  (                             )
+4 warnings and 2 errors generated.

@@ -1,0 +1,30 @@
+C-WORK/src/arm9/0204d610_SomeRomUnkFatFntReload.c:16:37: error: too many arguments to function call, expected 0, have 2
+   16 |   uVar3 = Fs_FindArchiveByMountName(uRam0204d6e4,3);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0204d610_SomeRomUnkFatFntReload.h:9:22: note: expanded from macro 'uRam0204d6e4'
+    9 | #define uRam0204d6e4 (*(undefined4 *)(uintptr_t)0x204d6e4u)
+      |                      ^
+C-WORK/src/arm9/deps/0204d610_SomeRomUnkFatFntReload.h:6:6: note: 'Fs_FindArchiveByMountName' declared here
+    6 | uint Fs_FindArchiveByMountName(void);
+      |      ^
+C-WORK/src/arm9/0204d610_SomeRomUnkFatFntReload.c:17:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   17 |   Fs_Archive_UnloadFatFnt();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204d610_SomeRomUnkFatFntReload.h:5:12: note: 'Fs_Archive_UnloadFatFnt' declared here
+    5 | undefined4 Fs_Archive_UnloadFatFnt(int param_1);
+      |            ^                       ~~~~~~~~~~~
+C-WORK/src/arm9/0204d610_SomeRomUnkFatFntReload.c:26:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |          *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d610_SomeRomUnkFatFntReload.c:26:60: note: place parentheses around the '+' expression to silence this warning
+   26 |          *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20;
+      |                                                            ^     
+      |                                           (                      )
+C-WORK/src/arm9/0204d610_SomeRomUnkFatFntReload.c:36:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |   return uVar5 >> (param_1 & 3) * 8 | uVar5 << (param_1 & 3) * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d610_SomeRomUnkFatFntReload.c:36:67: note: place parentheses around the '+' expression to silence this warning
+   36 |   return uVar5 >> (param_1 & 3) * 8 | uVar5 << (param_1 & 3) * -8 + 0x20;
+      |                                                                   ^     
+      |                                                (                        )
+2 warnings and 2 errors generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020954e4_func_020954e4.c:16:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |                    (int)*(short *)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x2a));
+      |                                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020954e4_func_020954e4.c:16:78: note: place parentheses around the '+' expression to silence this warning
+   16 |                    (int)*(short *)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x2a));
+      |                                                                              ^     
+      |                                                                   (                )
+C-WORK/src/arm9/020954e4_func_020954e4.c:16:93: error: too few arguments to function call, expected 3, have 2
+   15 |   (*pcRam020954fc)(uRam02095500,
+      |   ~~~~~~~~~~~~~~~~
+   16 |                    (int)*(short *)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x2a));
+      |                                                                                             ^
+1 warning and 1 error generated.

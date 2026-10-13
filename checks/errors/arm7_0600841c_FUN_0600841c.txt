@@ -1,0 +1,25 @@
+C-WORK/src/arm7/0600841c_FUN_0600841c.c:17:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   uVar2 = uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0600841c_FUN_0600841c.c:17:52: note: place parentheses around the '+' expression to silence this warning
+   17 |   uVar2 = uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/0600841c_FUN_0600841c.c:20:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |   uVar5 = uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0600841c_FUN_0600841c.c:20:52: note: place parentheses around the '+' expression to silence this warning
+   20 |   uVar5 = uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/0600841c_FUN_0600841c.c:23:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |   uVar4 = (uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) & 0xffff;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0600841c_FUN_0600841c.c:23:53: note: place parentheses around the '+' expression to silence this warning
+   23 |   uVar4 = (uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) & 0xffff;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm7/0600841c_FUN_0600841c.c:33:26: error: operand of type 'void' where arithmetic or pointer type is required
+   33 |   puVar3 = (undefined2 *)thunk_FUN_03807424();
+      |                          ^~~~~~~~~~~~~~~~~~~~
+3 warnings and 1 error generated.

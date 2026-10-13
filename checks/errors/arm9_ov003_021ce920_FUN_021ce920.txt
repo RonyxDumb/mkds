@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov003/021ce920_FUN_021ce920.c:21:37: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   21 |   iVar3 = FUN_021d283c(DAT_021ce9f8,0x20);
+      |           ~~~~~~~~~~~~              ^~~~
+C-WORK/src/arm9_ov003/deps/021ce920_FUN_021ce920.h:6:12: note: 'FUN_021d283c' declared here
+    6 | undefined4 FUN_021d283c(undefined4 param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021ce920_FUN_021ce920.c:60:28: error: too many arguments to function call, expected 0, have 4
+   60 |       uVar5 = FUN_021d3544(0,DAT_021cea34,0,0x78);
+      |               ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021ce920_FUN_021ce920.h:7:6: note: 'FUN_021d3544' declared here
+    7 | void FUN_021d3544(void);
+      |      ^
+2 errors generated.

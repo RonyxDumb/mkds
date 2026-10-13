@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021c8a60_FUN_021c8a60.c:34:32: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   34 |     func_0x02134de0(auStack_38,0x2a,unaff_r5);
+      |     ~~~~~~~~~~~~~~~            ^~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c8a60_FUN_021c8a60.h:14:12: note: 'func_02134de0' declared here
+   14 | undefined4 func_02134de0(undefined4 param_1);
+      |            ^             ~~~~~~~~~~~~~~~~~~
+1 error generated.

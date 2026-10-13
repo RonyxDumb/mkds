@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov003/021c06e0_FUN_021c06e0.c:90:90: error: incompatible pointer types passing 'undefined1[12]' (aka 'unsigned char[12]') to parameter of type 'short *' [-Werror,-Wincompatible-pointer-types]
+   90 |       FUN_021d250c((short *)(uintptr_t)(DAT_021c08c8),(short *)(uintptr_t)(DAT_021c08cc),auStack_20);
+      |                                                                                          ^~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c06e0_FUN_021c06e0.h:8:56: note: passing argument to parameter 'param_3' here
+    8 | void FUN_021d250c(short *param_1,short *param_2,short *param_3);
+      |                                                        ^
+C-WORK/src/arm9_ov003/021c06e0_FUN_021c06e0.c:91:28: error: incompatible pointer types passing 'undefined1[12]' (aka 'unsigned char[12]') to parameter of type 'ushort *' (aka 'unsigned short *') [-Werror,-Wincompatible-pointer-types]
+   91 |       iVar3 = FUN_021d299c(auStack_20);
+      |                            ^~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c06e0_FUN_021c06e0.h:9:33: note: passing argument to parameter 'param_1' here
+    9 | undefined4 FUN_021d299c(ushort *param_1);
+      |                                 ^
+2 errors generated.

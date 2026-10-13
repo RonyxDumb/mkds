@@ -1,0 +1,13 @@
+C-WORK/src/arm7/037fc584_FUN_037fc584.c:13:13: error: use of undeclared identifier 'sbyte'
+   13 |           *(sbyte *)(DAT_037fc5e0 + ((int)(uint)*(ushort *)(param_1 + 0x24) >> 8));
+      |             ^
+C-WORK/src/arm7/037fc584_FUN_037fc584.c:13:20: error: expected expression
+   13 |           *(sbyte *)(DAT_037fc5e0 + ((int)(uint)*(ushort *)(param_1 + 0x24) >> 8));
+      |                    ^
+C-WORK/src/arm7/037fc584_FUN_037fc584.c:15:13: error: use of undeclared identifier 'sbyte'
+   15 |           *(sbyte *)(DAT_037fc5e0 + ((int)(uint)*(ushort *)(param_2 + 0x24) >> 8));
+      |             ^
+C-WORK/src/arm7/037fc584_FUN_037fc584.c:15:20: error: expected expression
+   15 |           *(sbyte *)(DAT_037fc5e0 + ((int)(uint)*(ushort *)(param_2 + 0x24) >> 8));
+      |                    ^
+4 errors generated.

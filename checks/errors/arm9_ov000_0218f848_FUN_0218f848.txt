@@ -1,0 +1,28 @@
+C-WORK/src/arm9_ov000/0218f848_FUN_0218f848.c:15:31: error: operand of type 'void' where arithmetic or pointer type is required
+   15 |   local_18[0] = (undefined1 *)FUN_021a3690(DAT_0218f92c);
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218f848_FUN_0218f848.c:19:31: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   19 |   func_0x02134de0(local_18[0],0,DAT_0218f92c);
+      |   ~~~~~~~~~~~~~~~             ^~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218f848_FUN_0218f848.h:27:12: note: 'func_02134de0' declared here
+   27 | undefined4 func_02134de0(undefined4 param_1);
+      |            ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218f848_FUN_0218f848.c:45:16: error: too many arguments to function call, expected 0, have 2
+   45 |   FUN_0219690c(local_18,DAT_0218f95c);
+      |   ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218f848_FUN_0218f848.h:9:6: note: 'FUN_0219690c' declared here
+    9 | void FUN_0219690c(void);
+      |      ^
+C-WORK/src/arm9_ov000/0218f848_FUN_0218f848.c:46:9: error: assigning to 'int' from incompatible type 'void'
+   46 |   iVar2 = FUN_0218f654((int *)(void *)(local_18));
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218f848_FUN_0218f848.c:53:19: error: too few arguments to function call, single argument 'p0' was not specified
+   53 |   func_0x021384cc();
+      |   ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0218f848_FUN_0218f848.h:29:6: note: 'func_021384cc' declared here
+   29 | void func_021384cc(unsigned int p0);
+      |      ^             ~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218f848_FUN_0218f848.c:54:12: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined1 *' (aka 'unsigned char *') [-Wint-conversion]
+   54 |   *param_1 = local_18[0];
+      |            ^ ~~~~~~~~~~~
+6 errors generated.

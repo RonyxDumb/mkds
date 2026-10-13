@@ -1,0 +1,6 @@
+#define uRam02019b10 (*(uint *)(uintptr_t)0x2019b10u)
+#define uRam02019b14 (*(uint *)(uintptr_t)0x2019b14u)
+#define uRam02019b18 (*(uint *)(uintptr_t)0x2019b18u)
+#define uRam02019b1c (*(uint *)(uintptr_t)0x2019b1cu)
+#define uRam02019b20 (*(undefined4 *)(uintptr_t)0x2019b20u)
+#define uRam02019b24 (*(uint *)(uintptr_t)0x2019b24u)

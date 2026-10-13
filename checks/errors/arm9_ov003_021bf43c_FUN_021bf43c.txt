@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov003/021bf43c_FUN_021bf43c.c:15:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   15 |   FUN_021bf620(DAT_021bf4b8,DAT_021bf4bc);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bf43c_FUN_021bf43c.h:12:22: note: expanded from macro 'DAT_021bf4bc'
+   12 | #define DAT_021bf4bc (*(undefined4 *)(uintptr_t)0x21bf4bcu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bf43c_FUN_021bf43c.h:5:44: note: passing argument to parameter 'param_2' here
+    5 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+C-WORK/src/arm9_ov003/021bf43c_FUN_021bf43c.c:18:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   18 |   uVar2 = FUN_021c250c((int *)(uintptr_t)(*DAT_021bf4c8),param_1,param_2,param_3);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bf43c_FUN_021bf43c.c:20:22: error: too many arguments to function call, expected single argument 'param_1', have 8 arguments
+   20 |   FUN_021d2070(uVar1,*DAT_021bf4cc,DAT_021bf4cc[1],DAT_021bf4cc[2],DAT_021bf4cc[3],2,uVar3,uVar2);
+      |   ~~~~~~~~~~~~       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bf43c_FUN_021bf43c.h:8:6: note: 'FUN_021d2070' declared here
+    8 | void FUN_021d2070(int param_1);
+      |      ^            ~~~~~~~~~~~
+3 errors generated.

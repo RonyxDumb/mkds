@@ -1,0 +1,46 @@
+C-WORK/src/arm9_ov003/021c8400_FUN_021c8400.c:28:65: warning: passing 'undefined2 *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   28 |     if (((iVar2 != 2) && (iVar2 != 6)) && (iVar3 = FUN_021d2970(&local_20), iVar3 != 0)) {
+      |                                                                 ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c8400_FUN_021c8400.h:4:26: note: passing argument to parameter 'param_1' here
+    4 | void FUN_021d2970(short *param_1);
+      |                          ^
+C-WORK/src/arm9_ov003/021c8400_FUN_021c8400.c:28:50: error: assigning to 'int' from incompatible type 'void'
+   28 |     if (((iVar2 != 2) && (iVar2 != 6)) && (iVar3 = FUN_021d2970(&local_20), iVar3 != 0)) {
+      |                                                  ^ ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c8400_FUN_021c8400.c:44:28: warning: passing 'undefined2 *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   44 |       iVar2 = FUN_021d2970(&local_20);
+      |                            ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c8400_FUN_021c8400.h:4:26: note: passing argument to parameter 'param_1' here
+    4 | void FUN_021d2970(short *param_1);
+      |                          ^
+C-WORK/src/arm9_ov003/021c8400_FUN_021c8400.c:44:13: error: assigning to 'int' from incompatible type 'void'
+   44 |       iVar2 = FUN_021d2970(&local_20);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c8400_FUN_021c8400.c:52:28: warning: passing 'undefined2 *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   52 |       iVar2 = FUN_021d2970(&local_20);
+      |                            ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c8400_FUN_021c8400.h:4:26: note: passing argument to parameter 'param_1' here
+    4 | void FUN_021d2970(short *param_1);
+      |                          ^
+C-WORK/src/arm9_ov003/021c8400_FUN_021c8400.c:52:13: error: assigning to 'int' from incompatible type 'void'
+   52 |       iVar2 = FUN_021d2970(&local_20);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c8400_FUN_021c8400.c:70:28: warning: passing 'undefined2 *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   70 |       iVar2 = FUN_021d2970(&local_20);
+      |                            ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c8400_FUN_021c8400.h:4:26: note: passing argument to parameter 'param_1' here
+    4 | void FUN_021d2970(short *param_1);
+      |                          ^
+C-WORK/src/arm9_ov003/021c8400_FUN_021c8400.c:70:13: error: assigning to 'int' from incompatible type 'void'
+   70 |       iVar2 = FUN_021d2970(&local_20);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c8400_FUN_021c8400.c:78:28: warning: passing 'undefined2 *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   78 |       iVar2 = FUN_021d2970(&local_20);
+      |                            ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c8400_FUN_021c8400.h:4:26: note: passing argument to parameter 'param_1' here
+    4 | void FUN_021d2970(short *param_1);
+      |                          ^
+C-WORK/src/arm9_ov003/021c8400_FUN_021c8400.c:78:13: error: assigning to 'int' from incompatible type 'void'
+   78 |       iVar2 = FUN_021d2970(&local_20);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~
+5 warnings and 5 errors generated.

@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov000/021aedd8_FUN_021aedd8.c:10:24: error: too few arguments to function call, expected 2, have 0
+   10 |   iVar1 = FUN_021af090();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021aedd8_FUN_021aedd8.h:6:7: note: 'FUN_021af090' declared here
+    6 | int * FUN_021af090(undefined4 param_1,undefined4 param_2);
+      |       ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021aedd8_FUN_021aedd8.c:13:35: error: too few arguments to function call, expected 3, have 2
+   13 |       FUN_021aee38(param_1,param_2);
+      |       ~~~~~~~~~~~~                ^
+C-WORK/src/arm9_ov000/deps/021aedd8_FUN_021aedd8.h:4:6: note: 'FUN_021aee38' declared here
+    4 | void FUN_021aee38(int param_1,ushort *param_2,int param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021aedd8_FUN_021aedd8.c:17:35: error: too few arguments to function call, expected 3, have 2
+   17 |       FUN_021aee38(param_1,param_2);
+      |       ~~~~~~~~~~~~                ^
+C-WORK/src/arm9_ov000/deps/021aedd8_FUN_021aedd8.h:4:6: note: 'FUN_021aee38' declared here
+    4 | void FUN_021aee38(int param_1,ushort *param_2,int param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

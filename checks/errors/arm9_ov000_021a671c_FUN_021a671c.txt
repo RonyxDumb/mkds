@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov000/021a671c_FUN_021a671c.c:16:13: error: incompatible pointer to integer conversion assigning to 'int' from 'uint *' (aka 'unsigned int *') [-Wint-conversion]
+   16 |       iVar2 = FUN_021a669c();
+      |             ^ ~~~~~~~~~~~~~~
+1 error generated.

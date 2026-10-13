@@ -1,0 +1,5 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void func_0212c9a4(int param_1);
+void func_0212ef00(int param_1);
+

@@ -1,0 +1,10 @@
+C-WORK/src/arm9/020ae340_Maybe_missionTable.c:16:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   16 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020ae3a0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ae340_Maybe_missionTable.c:17:25: error: too few arguments to function call, single argument 'param_1' was not specified
+   17 |   iVar2 = func_0203b6a4();
+      |           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ae340_Maybe_missionTable.h:7:12: note: 'func_0203b6a4' declared here
+    7 | undefined2 func_0203b6a4(int param_1);
+      |            ^             ~~~~~~~~~~~
+2 errors generated.

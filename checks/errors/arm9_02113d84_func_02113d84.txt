@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02113d84_func_02113d84.c:68:13: error: assigning to 'int' from incompatible type 'void'
+   68 |       iVar4 = func_02114398(sVar2);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02113d84_func_02113d84.c:70:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   70 |       uVar5 = func_02114398(sVar2);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

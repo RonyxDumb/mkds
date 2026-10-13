@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/021ae958_FUN_021ae958.c:10:39: error: too few arguments to function call, expected 2, have 0
+   10 |   puVar1 = (undefined4 *)FUN_021af090();
+      |                          ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021ae958_FUN_021ae958.h:4:7: note: 'FUN_021af090' declared here
+    4 | int * FUN_021af090(undefined4 param_1,undefined4 param_2);
+      |       ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

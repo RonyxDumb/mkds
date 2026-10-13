@@ -1,0 +1,83 @@
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:31:20: error: too few arguments to function call, single argument 'param_1' was not specified
+   31 |       FUN_021a49a0();
+      |       ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a1ef4_FUN_021a1ef4.h:26:6: note: 'FUN_021a49a0' declared here
+   26 | void FUN_021a49a0(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:45:13: error: use of undeclared identifier 'DAT_021a1f5c'
+   45 |   puVar4 = &DAT_021a1f5c + *(short *)(&DAT_021a1f5c + uVar2 * 2);
+      |             ^
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:45:40: error: use of undeclared identifier 'DAT_021a1f5c'
+   45 |   puVar4 = &DAT_021a1f5c + *(short *)(&DAT_021a1f5c + uVar2 * 2);
+      |                                        ^
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:69:60: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   69 |         FUN_021a0f20(*(undefined4 *)(iVar7 + DAT_021a228c),puVar4,-(uint)!bVar8 - (int)puVar4);
+      |         ~~~~~~~~~~~~                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a1ef4_FUN_021a1ef4.h:20:6: note: 'FUN_021a0f20' declared here
+   20 | void FUN_021a0f20(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:70:30: error: too few arguments to function call, expected 2, have 0
+   70 |         iVar7 = FUN_0219e594();
+      |                 ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a1ef4_FUN_021a1ef4.h:8:5: note: 'FUN_0219e594' declared here
+    8 | int FUN_0219e594(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:100:17: error: assigning to 'undefined8' (aka 'unsigned long long') from incompatible type 'void'
+  100 |           uVar9 = FUN_0219fee4();
+      |                 ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:129:15: error: assigning to 'undefined8' (aka 'unsigned long long') from incompatible type 'void'
+  129 |         uVar9 = FUN_0219fee4();
+      |               ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:140:16: error: assigning to 'longlong' (aka 'long long') from incompatible type 'void'
+  140 |         lVar10 = FUN_021a350c();
+      |                ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:152:19: error: assigning to 'undefined8' (aka 'unsigned long long') from incompatible type 'void'
+  152 |             uVar9 = FUN_0219fee4();
+      |                   ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:160:34: error: too many arguments to function call, expected 0, have 1
+  160 |             uVar9 = FUN_0219f938(*(undefined4 *)(*DAT_021a2258 + 0xf4));
+      |                     ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a1ef4_FUN_021a1ef4.h:14:12: note: 'FUN_0219f938' declared here
+   14 | undefined4 FUN_0219f938(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:173:14: error: assigning to 'longlong' (aka 'long long') from incompatible type 'void'
+  173 |       lVar10 = FUN_021a350c();
+      |              ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:182:30: error: too many arguments to function call, expected 0, have 1
+  182 |         uVar9 = FUN_0219f938(*(undefined4 *)(iVar7 + 0xf4));
+      |                 ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a1ef4_FUN_021a1ef4.h:14:12: note: 'FUN_0219f938' declared here
+   14 | undefined4 FUN_0219f938(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:194:14: error: assigning to 'longlong' (aka 'long long') from incompatible type 'void'
+  194 |       lVar10 = FUN_021a350c();
+      |              ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:205:29: error: too many arguments to function call, expected 0, have 1
+  205 |       lVar10 = FUN_021a350c(uVar2);
+      |                ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a1ef4_FUN_021a1ef4.h:24:6: note: 'FUN_021a350c' declared here
+   24 | void FUN_021a350c(void);
+      |      ^
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:214:18: error: too many arguments to function call, expected 0, have 3
+  214 |     FUN_021a1ac0(uVar2,puVar4,iVar7);
+      |     ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a1ef4_FUN_021a1ef4.h:22:6: note: 'FUN_021a1ac0' declared here
+   22 | void FUN_021a1ac0(void);
+      |      ^
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:224:14: error: assigning to 'longlong' (aka 'long long') from incompatible type 'void'
+  224 |       lVar10 = FUN_021a350c();
+      |              ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:236:17: error: assigning to 'undefined8' (aka 'unsigned long long') from incompatible type 'void'
+  236 |           uVar9 = FUN_0219fee4();
+      |                 ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:265:12: error: assigning to 'longlong' (aka 'long long') from incompatible type 'void'
+  265 |     lVar10 = FUN_021a350c();
+      |            ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ef4_FUN_021a1ef4.c:270:26: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'char *' [-Wint-conversion]
+  270 |       FUN_0219db18(1,0,0,iVar7 + DAT_021a2458);
+      |                          ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a1ef4_FUN_021a1ef4.h:7:68: note: passing argument to parameter 'param_4' here
+    7 | void FUN_0219db18(int param_1,undefined4 param_2,int param_3,char *param_4);
+      |                                                                    ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.

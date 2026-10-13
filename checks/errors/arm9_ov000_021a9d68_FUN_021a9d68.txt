@@ -1,0 +1,40 @@
+C-WORK/src/arm9_ov000/021a9d68_FUN_021a9d68.c:23:35: warning: passing 'uint[2]' (aka 'unsigned int[2]') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   23 |     pcVar3 = (char *)FUN_021adfc8(local_1c,param_1);
+      |                                   ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a9d68_FUN_021a9d68.h:15:30: note: passing argument to parameter 'param_1' here
+   15 | undefined4 FUN_021adfc8(int *param_1,int param_2);
+      |                              ^
+C-WORK/src/arm9_ov000/021a9d68_FUN_021a9d68.c:38:48: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   38 |       pcVar3 = (char *)(*(code *)*DAT_021a9fe4)(local_1c[0]);
+      |                                                ^
+C-WORK/src/arm9_ov000/021a9d68_FUN_021a9d68.c:38:24: error: operand of type 'void' where arithmetic or pointer type is required
+   38 |       pcVar3 = (char *)(*(code *)*DAT_021a9fe4)(local_1c[0]);
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9d68_FUN_021a9d68.c:46:55: warning: passing 'char *' to parameter of type 'undefined1 *' (aka 'unsigned char *') converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   46 |         FUN_021aaa58((undefined4 *)(uintptr_t)(iVar8),pcVar3 + 1);
+      |                                                       ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a9d68_FUN_021a9d68.h:9:51: note: passing argument to parameter 'param_2' here
+    9 | void FUN_021aaa58(undefined4 *param_1,undefined1 *param_2);
+      |                                                   ^
+C-WORK/src/arm9_ov000/021a9d68_FUN_021a9d68.c:53:31: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   53 |       (*(code *)*DAT_021a9ff0)(pcVar3);
+      |                               ^
+C-WORK/src/arm9_ov000/021a9d68_FUN_021a9d68.c:58:11: error: assigning to 'int' from incompatible type 'void'
+   58 |     iVar5 = (*(code *)*DAT_021a9fe4)();
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9d68_FUN_021a9d68.c:66:31: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   66 |       (*(code *)*DAT_021a9ff0)(iVar5);
+      |                               ^
+C-WORK/src/arm9_ov000/021a9d68_FUN_021a9d68.c:115:39: error: too few arguments to function call, expected 4, have 2
+  115 |             FUN_021aabf0(iVar8,pbVar10);
+      |             ~~~~~~~~~~~~              ^
+C-WORK/src/arm9_ov000/deps/021a9d68_FUN_021a9d68.h:11:6: note: 'FUN_021aabf0' declared here
+   11 | void FUN_021aabf0(int param_1,byte *param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9d68_FUN_021a9d68.c:145:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  145 |     (*(code *)*DAT_021a9ff0)(iVar5);
+      |                             ^
+C-WORK/src/arm9_ov000/021a9d68_FUN_021a9d68.c:31:13: warning: result of comparison of constant -128 with expression of type 'char' is always false [-Wtautological-constant-out-of-range-compare]
+   31 |   if (cVar1 == -0x80) {
+      |       ~~~~~ ^  ~~~~~
+7 warnings and 3 errors generated.

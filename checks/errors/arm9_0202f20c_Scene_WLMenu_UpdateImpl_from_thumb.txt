@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0202f20c_Scene_WLMenu_UpdateImpl_from_thumb.c:20:71: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   20 |     iVar5 = (**(code **)(*(int *)(*piRam0202f298 + iRam0202f2a4) + 4))(param_1);
+      |                                                                       ^
+C-WORK/src/arm9/0202f20c_Scene_WLMenu_UpdateImpl_from_thumb.c:20:11: error: assigning to 'int' from incompatible type 'void'
+   20 |     iVar5 = (**(code **)(*(int *)(*piRam0202f298 + iRam0202f2a4) + 4))(param_1);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202f20c_Scene_WLMenu_UpdateImpl_from_thumb.c:34:15: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   34 |               (*(undefined4 *)(iVar5 + iRam0202f2ac),iVar5,iVar5 + iRam0202f2b0);
+      |               ^
+C-WORK/src/arm9/0202f20c_Scene_WLMenu_UpdateImpl_from_thumb.c:36:9: error: assigning to 'int' from incompatible type 'void'
+   36 |   iVar5 = func_0202f19c();
+      |         ^ ~~~~~~~~~~~~~~~
+2 warnings and 2 errors generated.

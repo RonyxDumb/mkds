@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0210a53c_StructMQRacerEntry_SomeFn_70.c:13:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |   if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) != uRam0210a574) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210a53c_StructMQRacerEntry_SomeFn_70.c:13:49: note: place parentheses around the '+' expression to silence this warning
+   13 |   if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) != uRam0210a574) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/0210a53c_StructMQRacerEntry_SomeFn_70.c:14:34: error: too few arguments to function call, expected 4, have 0
+   14 |     StructMQRacerEntry_SomeFn_75();
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0210a53c_StructMQRacerEntry_SomeFn_70.h:4:6: note: 'StructMQRacerEntry_SomeFn_75' declared here
+    4 | void StructMQRacerEntry_SomeFn_75(int param_1,uint param_2,uint param_3,undefined4 param_4);
+      |      ^                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

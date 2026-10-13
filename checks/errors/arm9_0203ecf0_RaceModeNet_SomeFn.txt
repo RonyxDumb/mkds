@@ -1,0 +1,67 @@
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:22:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |           *(uint *)(uRam0203ee1c & 0xfffffffc) << (uRam0203ee1c & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:22:75: note: place parentheses around the '+' expression to silence this warning
+   22 |           *(uint *)(uRam0203ee1c & 0xfffffffc) << (uRam0203ee1c & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:28:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |               *(uint *)(uRam0203ee24 & 0xfffffffc) << (uRam0203ee24 & 3) * -8 + 0x20) +
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:28:79: note: place parentheses around the '+' expression to silence this warning
+   28 |               *(uint *)(uRam0203ee24 & 0xfffffffc) << (uRam0203ee24 & 3) * -8 + 0x20) +
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:32:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |       uVar7 = uVar7 >> uVar5 * 8 | uVar7 << uVar5 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:32:56: note: place parentheses around the '+' expression to silence this warning
+   32 |       uVar7 = uVar7 >> uVar5 * 8 | uVar7 << uVar5 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:40:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |                 *(uint *)(uRam0203ee24 & 0xfffffffc) << (uRam0203ee24 & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:40:81: note: place parentheses around the '+' expression to silence this warning
+   40 |                 *(uint *)(uRam0203ee24 & 0xfffffffc) << (uRam0203ee24 & 3) * -8 + 0x20;
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:43:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   43 |                 *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20;
+      |                                               ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:43:67: note: place parentheses around the '+' expression to silence this warning
+   43 |                 *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20;
+      |                                                                   ^     
+      |                                                  (                      )
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:45:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   45 |         if ((uVar5 >> uVar7 * 8 == 0 && uVar5 << uVar7 * -8 + 0x20 == 0) &&
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:45:61: note: place parentheses around the '+' expression to silence this warning
+   45 |         if ((uVar5 >> uVar7 * 8 == 0 && uVar5 << uVar7 * -8 + 0x20 == 0) &&
+      |                                                             ^
+      |                                                  (                )
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:47:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |            0 < (int)(uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20))) {
+      |                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:47:63: note: place parentheses around the '+' expression to silence this warning
+   47 |            0 < (int)(uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20))) {
+      |                                                               ^     
+      |                                                    (                )
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:48:17: error: assigning to 'int' from incompatible type 'void'
+   48 |           iVar6 = FX_Inv();
+      |                 ^ ~~~~~~~~
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:59:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   59 |               *(uint *)(uRam0203ee1c & 0xfffffffc) << (uRam0203ee1c & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:59:79: note: place parentheses around the '+' expression to silence this warning
+   59 |               *(uint *)(uRam0203ee1c & 0xfffffffc) << (uRam0203ee1c & 3) * -8 + 0x20;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:66:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   66 |     *(uint *)(uRam0203ee24 & 0xfffffffc) << (uRam0203ee24 & 3) * -8 + 0x20) + 0xe) = (ushort)bVar1;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203ecf0_RaceModeNet_SomeFn.c:66:69: note: place parentheses around the '+' expression to silence this warning
+   66 |     *(uint *)(uRam0203ee24 & 0xfffffffc) << (uRam0203ee24 & 3) * -8 + 0x20) + 0xe) = (ushort)bVar1;
+      |                                                                     ^     
+      |                                             (                             )
+9 warnings and 1 error generated.

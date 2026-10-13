@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0200b15c_func_0200b15c.c:14:25: error: too few arguments to function call, expected 2, have 0
+   14 |   iVar2 = func_0200b1b0();
+      |           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0200b15c_func_0200b15c.h:4:12: note: 'func_0200b1b0' declared here
+    4 | undefined4 func_0200b1b0(uint param_1,undefined4 param_2);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

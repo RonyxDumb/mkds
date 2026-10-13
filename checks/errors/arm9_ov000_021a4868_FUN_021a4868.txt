@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov000/021a4868_FUN_021a4868.c:11:9: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   11 |   uVar1 = FUN_0218e8c4();
+      |         ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a4868_FUN_021a4868.c:19:22: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   19 |         FUN_021a3a18(param_1,0);
+      |                      ^~~~~~~
+C-WORK/src/arm9_ov000/deps/021a4868_FUN_021a4868.h:4:31: note: passing argument to parameter 'param_1' here
+    4 | void FUN_021a3a18(undefined4 *param_1,int param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/021a4868_FUN_021a4868.c:23:20: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   23 |       FUN_021a3a18(param_1,1);
+      |                    ^~~~~~~
+C-WORK/src/arm9_ov000/deps/021a4868_FUN_021a4868.h:4:31: note: passing argument to parameter 'param_1' here
+    4 | void FUN_021a3a18(undefined4 *param_1,int param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/021a4868_FUN_021a4868.c:29:31: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   29 |       (*(code *)param_1[0x27])(5,DAT_021a4930,*(undefined4 *)((int)param_1 + DAT_021a4934));
+      |                               ^
+C-WORK/src/arm9_ov000/021a4868_FUN_021a4868.c:32:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   32 |     FUN_021a3a18(param_1,3);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/021a4868_FUN_021a4868.h:4:31: note: passing argument to parameter 'param_1' here
+    4 | void FUN_021a3a18(undefined4 *param_1,int param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/021a4868_FUN_021a4868.c:36:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   36 |     FUN_021a3bbc(param_1);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/021a4868_FUN_021a4868.h:5:31: note: passing argument to parameter 'param_1' here
+    5 | void FUN_021a3bbc(undefined4 *param_1);
+      |                               ^
+5 warnings and 1 error generated.

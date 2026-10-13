@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0207b000_StructAD00Sh_SomeFn.c:11:19: error: too few arguments to function call, expected 2, have 0
+   11 |   StructML_SomeFn();
+      |   ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0207b000_StructAD00Sh_SomeFn.h:5:6: note: 'StructML_SomeFn' declared here
+    5 | void StructML_SomeFn(undefined4 param_1,undefined4 param_2);
+      |      ^               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0207b000_StructAD00Sh_SomeFn.c:14:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0207b000_StructAD00Sh_SomeFn.c:14:52: note: place parentheses around the '+' expression to silence this warning
+   14 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+1 warning and 1 error generated.

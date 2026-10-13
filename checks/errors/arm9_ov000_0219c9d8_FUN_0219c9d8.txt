@@ -1,0 +1,22 @@
+C-WORK/src/arm9_ov000/0219c9d8_FUN_0219c9d8.c:20:21: error: use of undeclared identifier 'switchD_0219ca02'
+   20 |       uVar1 = (int)&switchD_0219ca02::switchdataD_0219ca04 +
+      |                     ^
+C-WORK/src/arm9_ov000/0219c9d8_FUN_0219c9d8.c:27:15: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   27 |         uVar1 = FUN_0219c524();
+      |               ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219c9d8_FUN_0219c9d8.c:32:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   32 |           FUN_0218f268();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219c9d8_FUN_0219c9d8.h:3:12: note: 'FUN_0218f268' declared here
+    3 | undefined4 FUN_0218f268(int *param_1);
+      |            ^            ~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219c9d8_FUN_0219c9d8.c:46:28: error: too many arguments to function call, expected single argument 'param_1', have 4 arguments
+   46 |             FUN_0219c990(6,DAT_0219ca80,DAT_0219ca7c,-(uint)(uVar2 > DAT_0219ca7c) - iVar4);
+      |             ~~~~~~~~~~~~   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219c9d8_FUN_0219c9d8.h:11:22: note: expanded from macro 'DAT_0219ca80'
+   11 | #define DAT_0219ca80 (*(undefined4 *)(uintptr_t)0x219ca80u)
+      |                      ^
+C-WORK/src/arm9_ov000/deps/0219c9d8_FUN_0219c9d8.h:6:6: note: 'FUN_0219c990' declared here
+    6 | void FUN_0219c990(int param_1);
+      |      ^            ~~~~~~~~~~~
+4 errors generated.

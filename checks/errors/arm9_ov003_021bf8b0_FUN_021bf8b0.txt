@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021bf8b0_FUN_021bf8b0.c:10:19: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+   10 |   (*DAT_021bf8bc)(DAT_021bf8b8);
+      |                   ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bf8b0_FUN_021bf8b0.h:5:22: note: expanded from macro 'DAT_021bf8b8'
+    5 | #define DAT_021bf8b8 (*(undefined4 *)(uintptr_t)0x21bf8b8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

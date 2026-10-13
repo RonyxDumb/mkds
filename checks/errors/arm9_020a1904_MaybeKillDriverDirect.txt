@@ -1,0 +1,91 @@
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:15:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |           *(uint *)(uRam020a19f0 & 0xfffffffc) << (uRam020a19f0 & 3) * -8 + 0x20) + 0x38c;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:15:75: note: place parentheses around the '+' expression to silence this warning
+   15 |           *(uint *)(uRam020a19f0 & 0xfffffffc) << (uRam020a19f0 & 3) * -8 + 0x20) + 0x38c;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:18:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   pcVar4 = (code *)(uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:18:62: note: place parentheses around the '+' expression to silence this warning
+   18 |   pcVar4 = (code *)(uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20);
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:27:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |     *(uint *)(uRam020a19f0 & 0xfffffffc) << (uRam020a19f0 & 3) * -8 + 0x20) + iVar2 + 8) = 1;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:27:69: note: place parentheses around the '+' expression to silence this warning
+   27 |     *(uint *)(uRam020a19f0 & 0xfffffffc) << (uRam020a19f0 & 3) * -8 + 0x20) + iVar2 + 8) = 1;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:30:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |   uVar3 = (uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20) + 8;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:30:53: note: place parentheses around the '+' expression to silence this warning
+   30 |   uVar3 = (uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20) + 8;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:33:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |   if ((uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) == 2) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:33:49: note: place parentheses around the '+' expression to silence this warning
+   33 |   if ((uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) == 2) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:36:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |       *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + iVar2 + 0x4c) = 0xffffffff;
+      |                                     ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:36:57: note: place parentheses around the '+' expression to silence this warning
+   36 |       *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + iVar2 + 0x4c) = 0xffffffff;
+      |                                                         ^     
+      |                                        (                      )
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:39:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |       *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + iVar2 + 0x50) = 0;
+      |                                     ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:39:57: note: place parentheses around the '+' expression to silence this warning
+   39 |       *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + iVar2 + 0x50) = 0;
+      |                                                         ^     
+      |                                        (                      )
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:42:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |                 *(uint *)(uRam020a19f4 & 0xfffffffc) << (uRam020a19f4 & 3) * -8 + 0x20) + 0x3d0) <=
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:42:81: note: place parentheses around the '+' expression to silence this warning
+   42 |                 *(uint *)(uRam020a19f4 & 0xfffffffc) << (uRam020a19f4 & 3) * -8 + 0x20) + 0x3d0) <=
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:48:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   48 |           *(uint *)(uRam020a19f4 & 0xfffffffc) << (uRam020a19f4 & 3) * -8 + 0x20) + 8;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:48:75: note: place parentheses around the '+' expression to silence this warning
+   48 |           *(uint *)(uRam020a19f4 & 0xfffffffc) << (uRam020a19f4 & 3) * -8 + 0x20) + 8;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:51:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   51 |   uVar3 = uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:51:52: note: place parentheses around the '+' expression to silence this warning
+   51 |   uVar3 = uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:54:34: error: too few arguments to function call, single argument 'param_1' was not specified
+   54 |     StructMQRacerEntry_SomeFn_52();
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a1904_MaybeKillDriverDirect.h:5:6: note: 'StructMQRacerEntry_SomeFn_52' declared here
+    5 | void StructMQRacerEntry_SomeFn_52(int param_1);
+      |      ^                            ~~~~~~~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:61:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   61 |     *(uint *)(iVar2 + 0x48) = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20 | 0x2000;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:61:72: note: place parentheses around the '+' expression to silence this warning
+   61 |     *(uint *)(iVar2 + 0x48) = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20 | 0x2000;
+      |                                                                        ^
+      |                                                             (                )
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:64:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   64 |     *(uint *)(iVar2 + 0x7c) = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20 | 8;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a1904_MaybeKillDriverDirect.c:64:72: note: place parentheses around the '+' expression to silence this warning
+   64 |     *(uint *)(iVar2 + 0x7c) = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20 | 8;
+      |                                                                        ^
+      |                                                             (                )
+12 warnings and 1 error generated.

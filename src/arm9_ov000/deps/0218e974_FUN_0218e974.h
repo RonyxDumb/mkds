@@ -1,0 +1,27 @@
+#pragma once
+/* Function-specific inferred declarations. */
+undefined4 FUN_0218e974(int *param_1,int param_2,int param_3,int param_4);
+void FUN_02190b58(undefined4 param_1,undefined4 param_2);
+void FUN_02190b80(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+void FUN_02196914(int param_1,int param_2,int param_3);
+#define DAT_0218eb04 (*(int *)(uintptr_t)0x218eb04u)
+#define DAT_0218eb08 (*(int *)(uintptr_t)0x218eb08u)
+#define DAT_0218eb0c (*(undefined4 *)(uintptr_t)0x218eb0cu)
+#define DAT_0218eb10 (*(undefined4 *)(uintptr_t)0x218eb10u)
+#define DAT_0218eb14 (*(undefined4 *)(uintptr_t)0x218eb14u)
+#define DAT_0218eb18 (*(undefined4 *)(uintptr_t)0x218eb18u)
+#define DAT_0218eb1c (*(int *)(uintptr_t)0x218eb1cu)
+#define DAT_0218eb20 (*(int *)(uintptr_t)0x218eb20u)
+#define DAT_0218eb24 (*(int *)(uintptr_t)0x218eb24u)
+#define DAT_0218eb28 (*(int *)(uintptr_t)0x218eb28u)
+#define DAT_0218eb2c (*(undefined4 *)(uintptr_t)0x218eb2cu)
+#define DAT_0218eb30 (*(undefined4 *)(uintptr_t)0x218eb30u)
+#define DAT_0218eb34 (*(int *)(uintptr_t)0x218eb34u)
+#define DAT_0218eb38 (*(undefined4 *)(uintptr_t)0x218eb38u)
+#define DAT_0218eb3c (*(undefined4 *)(uintptr_t)0x218eb3cu)
+#define DAT_0218eb40 (*(undefined4 *)(uintptr_t)0x218eb40u)
+
+/* Address resolved to indexed definition; inferred ABI remains provisional. */
+int func_0213a074(uint param_1,uint param_2);
+#define func_0x0213a074 func_0213a074

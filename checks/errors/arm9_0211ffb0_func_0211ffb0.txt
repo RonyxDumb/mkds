@@ -1,0 +1,27 @@
+C-WORK/src/arm9/0211ffb0_func_0211ffb0.c:15:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |             *(uint *)(uRam0211fff8 & 0xfffffffc) << (uRam0211fff8 & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0211ffb0_func_0211ffb0.c:15:77: note: place parentheses around the '+' expression to silence this warning
+   15 |             *(uint *)(uRam0211fff8 & 0xfffffffc) << (uRam0211fff8 & 3) * -8 + 0x20;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0211ffb0_func_0211ffb0.c:18:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |     Mem_FreeHeap(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,param_2);
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0211ffb0_func_0211ffb0.c:18:59: note: place parentheses around the '+' expression to silence this warning
+   18 |     Mem_FreeHeap(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,param_2);
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/0211ffb0_func_0211ffb0.c:18:66: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   18 |     Mem_FreeHeap(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,param_2);
+      |     ~~~~~~~~~~~~                                                 ^~~~~~~
+C-WORK/src/arm9/deps/0211ffb0_func_0211ffb0.h:3:12: note: 'Mem_FreeHeap' declared here
+    3 | undefined4 Mem_FreeHeap(uint param_1);
+      |            ^            ~~~~~~~~~~~~
+C-WORK/src/arm9/0211ffb0_func_0211ffb0.c:19:19: error: too many arguments to function call, expected 0, have 1
+   19 |     Os_RestoreIrq(uVar2);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0211ffb0_func_0211ffb0.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+2 warnings and 2 errors generated.

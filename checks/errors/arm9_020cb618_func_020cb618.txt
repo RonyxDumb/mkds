@@ -1,0 +1,19 @@
+C-WORK/src/arm9/020cb618_func_020cb618.c:14:7: error: call to undeclared function 'func_0x021a1838'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   14 |       func_0x021a1838();
+      |       ^
+C-WORK/src/arm9/020cb618_func_020cb618.c:48:7: error: call to undeclared function 'func_0x0219d26c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   48 |       func_0x0219d26c();
+      |       ^
+C-WORK/src/arm9/020cb618_func_020cb618.c:51:7: error: call to undeclared function 'func_0x0219efec'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   51 |       func_0x0219efec();
+      |       ^
+C-WORK/src/arm9/020cb618_func_020cb618.c:54:7: error: call to undeclared function 'func_0x021a0140'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   54 |       func_0x021a0140();
+      |       ^
+C-WORK/src/arm9/020cb618_func_020cb618.c:57:7: error: call to undeclared function 'func_0x021980e0'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   57 |       func_0x021980e0();
+      |       ^
+C-WORK/src/arm9/020cb618_func_020cb618.c:60:7: error: call to undeclared function 'func_0x0219baf4'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   60 |       func_0x0219baf4();
+      |       ^
+6 errors generated.

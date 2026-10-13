@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02057944_WriteSaveDataSection_DownloadGhost_from_thumb.c:14:47: error: too many arguments to function call, expected 0, have 4
+   14 |     SV_MaybeCompressWriteNoFlagsBC_from_thumb(param_1 * 0x1000 + iRam02057988,puVar1,uRam02057980,0)
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02057944_WriteSaveDataSection_DownloadGhost_from_thumb.h:4:6: note: 'SV_MaybeCompressWriteNoFlagsBC_from_thumb' declared here
+    4 | void SV_MaybeCompressWriteNoFlagsBC_from_thumb(void);
+      |      ^
+1 error generated.

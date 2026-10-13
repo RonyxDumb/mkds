@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov000/0219b27c_FUN_0219b27c.c:59:22: error: too many arguments to function call, expected 0, have 1
+   59 |         FUN_021a1798(local_2c);
+      |         ~~~~~~~~~~~~ ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219b27c_FUN_0219b27c.h:13:6: note: 'FUN_021a1798' declared here
+   13 | void FUN_021a1798(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219b27c_FUN_0219b27c.c:64:46: error: too many arguments to function call, expected 2, have 3
+   64 |       iVar2 = FUN_021a17bc(unaff_r4,local_28,local_2c);
+      |               ~~~~~~~~~~~~                   ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219b27c_FUN_0219b27c.h:14:12: note: 'FUN_021a17bc' declared here
+   14 | undefined4 FUN_021a17bc(int param_1,int param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219b27c_FUN_0219b27c.c:93:21: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   93 |                     (0,param_2 == 0,local_24,unaff_r5,uVar4,*(undefined4 *)(iVar2 + 0x80));
+      |                     ^
+1 warning and 2 errors generated.

@@ -1,0 +1,5 @@
+C-WORK/src/arm9_ov000/021afc20_FUN_021afc20.c:20:13: error: incompatible pointer to integer conversion assigning to 'int' from 'int *'; dereference with * [-Wint-conversion]
+   20 |       iVar1 = FUN_021afd00(param_1);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~
+      |               *
+1 error generated.

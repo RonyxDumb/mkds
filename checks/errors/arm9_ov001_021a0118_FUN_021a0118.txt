@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov001/021a0118_FUN_021a0118.c:10:56: error: too few arguments to function call, expected 3, have 1
+   10 |   func_0x021055b0(*(undefined4 *)(*DAT_021a013c + 0xa8));
+      |   ~~~~~~~~~~~~~~~                                      ^
+C-WORK/src/arm9_ov001/deps/021a0118_FUN_021a0118.h:8:6: note: 'func_021055b0' declared here
+    8 | void func_021055b0(int param_1,undefined4 param_2,undefined4 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

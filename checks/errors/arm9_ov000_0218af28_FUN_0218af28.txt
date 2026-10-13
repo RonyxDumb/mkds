@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/0218af28_FUN_0218af28.c:11:26: error: operand of type 'void' where arithmetic or pointer type is required
+   11 |   puVar1 = (undefined4 *)FUN_021a3690(0x24);
+      |                          ^~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218af28_FUN_0218af28.c:15:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'int *' [-Wint-conversion]
+   15 |   uVar2 = FUN_0218e004(8,8,4,DAT_0218af98,DAT_0218af90,DAT_0218af94);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

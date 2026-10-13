@@ -1,0 +1,30 @@
+C-WORK/src/arm7/060057d4_FUN_060057d4.c:18:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060057d4_FUN_060057d4.c:18:52: note: place parentheses around the '+' expression to silence this warning
+   18 |   uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/060057d4_FUN_060057d4.c:21:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   psVar5 = (short *)(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060057d4_FUN_060057d4.c:21:63: note: place parentheses around the '+' expression to silence this warning
+   21 |   psVar5 = (short *)(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |                                                               ^     
+      |                                                    (                )
+C-WORK/src/arm7/060057d4_FUN_060057d4.c:28:11: error: incompatible pointer to integer conversion assigning to 'int' from 'undefined2 *' (aka 'unsigned short *') [-Wint-conversion]
+   28 |     iVar2 = FUN_060025fc((undefined2 *)(void *)(auStack_208),7);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/060057d4_FUN_060057d4.c:30:30: error: operand of type 'void' where arithmetic or pointer type is required
+   30 |       puVar4 = (undefined2 *)thunk_FUN_03807424();
+      |                              ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/060057d4_FUN_060057d4.c:36:25: error: too few arguments to function call, expected 2, have 1
+   36 |       FUN_06005798(0x104);
+      |       ~~~~~~~~~~~~      ^
+C-WORK/src/arm7/deps/060057d4_FUN_060057d4.h:5:6: note: 'FUN_06005798' declared here
+    5 | void FUN_06005798(undefined2 param_1,undefined2 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/060057d4_FUN_060057d4.c:41:28: error: operand of type 'void' where arithmetic or pointer type is required
+   41 |     puVar4 = (undefined2 *)thunk_FUN_03807424();
+      |                            ^~~~~~~~~~~~~~~~~~~~
+2 warnings and 4 errors generated.

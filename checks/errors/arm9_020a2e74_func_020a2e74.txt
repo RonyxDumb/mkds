@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020a2e74_func_020a2e74.c:10:43: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'int *' [-Wint-conversion]
+   10 |   (*pcRam020a2e84)(param_1 + 0x10,param_2,param_1 + 0x10);
+      |                                           ^~~~~~~~~~~~~~
+1 error generated.

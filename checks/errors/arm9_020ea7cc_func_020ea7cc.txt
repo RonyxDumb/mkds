@@ -1,0 +1,23 @@
+C-WORK/src/arm9/020ea7cc_func_020ea7cc.c:15:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ea7cc_func_020ea7cc.c:15:52: note: place parentheses around the '+' expression to silence this warning
+   15 |   uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020ea7cc_func_020ea7cc.c:26:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |                      *(uint *)((uint)piRam020ea848 & 0xfffffffc) <<
+      |                                                                  ~~
+   26 |                      ((uint)piRam020ea848 & 3) * -8 + 0x20)) {
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ea7cc_func_020ea7cc.c:26:53: note: place parentheses around the '+' expression to silence this warning
+   26 |                      ((uint)piRam020ea848 & 3) * -8 + 0x20)) {
+      |                                                     ^     
+      |                      (                                    )
+C-WORK/src/arm9/020ea7cc_func_020ea7cc.c:27:30: error: too few arguments to function call, expected 2, have 1
+   27 |     Maybe_helper_01308c(uVar4);
+      |     ~~~~~~~~~~~~~~~~~~~      ^
+C-WORK/src/arm9/deps/020ea7cc_func_020ea7cc.h:3:6: note: 'Maybe_helper_01308c' declared here
+    3 | void Maybe_helper_01308c(int param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.

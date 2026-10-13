@@ -1,0 +1,37 @@
+C-WORK/src/arm9_ov000/021a5c24_FUN_021a5c24.c:18:23: error: too many arguments to function call, expected 0, have 1
+   18 |       func_0x0200fcb4(uVar2);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a5c24_FUN_021a5c24.h:15:12: note: 'Os_RestoreIrq' declared here
+   15 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a5c24_FUN_021a5c24.c:30:23: error: too many arguments to function call, expected 0, have 1
+   30 |       func_0x0200fcb4(uVar2);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a5c24_FUN_021a5c24.h:15:12: note: 'Os_RestoreIrq' declared here
+   15 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a5c24_FUN_021a5c24.c:53:25: error: too many arguments to function call, expected 0, have 1
+   53 |         func_0x0200fcb4(uVar2);
+      |         ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a5c24_FUN_021a5c24.h:15:12: note: 'Os_RestoreIrq' declared here
+   15 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a5c24_FUN_021a5c24.c:69:25: error: too many arguments to function call, expected 0, have 1
+   69 |         func_0x0200fcb4(uVar2);
+      |         ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a5c24_FUN_021a5c24.h:15:12: note: 'Os_RestoreIrq' declared here
+   15 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a5c24_FUN_021a5c24.c:73:23: error: too many arguments to function call, expected 0, have 1
+   73 |       func_0x0200fcb4(uVar2);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a5c24_FUN_021a5c24.h:15:12: note: 'Os_RestoreIrq' declared here
+   15 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a5c24_FUN_021a5c24.c:79:19: error: too many arguments to function call, expected 0, have 1
+   79 |   func_0x0200fcb4(uVar2);
+      |   ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a5c24_FUN_021a5c24.h:15:12: note: 'Os_RestoreIrq' declared here
+   15 | undefined4 Os_RestoreIrq(void);
+      |            ^
+6 errors generated.

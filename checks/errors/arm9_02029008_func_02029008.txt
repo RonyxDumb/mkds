@@ -1,0 +1,13 @@
+C-WORK/src/arm9/02029008_func_02029008.c:15:11: error: assigning to 'undefined2' (aka 'unsigned short') from incompatible type 'void'
+   15 |     uVar3 = func_02025ebc(iVar4 + 0xac);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02029008_func_02029008.c:18:11: error: assigning to 'undefined2' (aka 'unsigned short') from incompatible type 'void'
+   18 |     uVar3 = func_02025ebc(*piRam0202908c + 0xbc);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02029008_func_02029008.c:20:11: error: assigning to 'undefined2' (aka 'unsigned short') from incompatible type 'void'
+   20 |     uVar3 = func_02025ebc(*piRam0202908c + 0xcc);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02029008_func_02029008.c:22:11: error: assigning to 'undefined2' (aka 'unsigned short') from incompatible type 'void'
+   22 |     uVar3 = func_02025ebc(*piRam0202908c + 0xdc);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4 errors generated.

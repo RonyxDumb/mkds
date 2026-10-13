@@ -1,0 +1,28 @@
+C-WORK/src/arm9_ov001/02194fd8_FUN_02194fd8.c:23:19: error: too many arguments to function call, expected 0, have 7
+   23 |   func_0x02124224(1,*(undefined2 *)(DAT_021950dc + iVar5),*(undefined4 *)(iVar2 + 0x24),DAT_021950e0
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   24 |                   ,*(undefined4 *)(iVar2 + 0x1c),*(undefined4 *)(iVar2 + 0x54),7);
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02194fd8_FUN_02194fd8.h:19:6: note: 'func_02124224' declared here
+   19 | void func_02124224(void);
+      |      ^
+C-WORK/src/arm9_ov001/02194fd8_FUN_02194fd8.c:26:19: error: too many arguments to function call, expected 0, have 7
+   26 |   func_0x02124248(1,*(undefined2 *)(DAT_021950e4 + iVar5),*(undefined4 *)(iVar2 + 0x24),DAT_021950e8
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   27 |                   ,*(undefined4 *)(iVar2 + 0x1c),*(undefined4 *)(iVar2 + 0x54),7);
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02194fd8_FUN_02194fd8.h:21:6: note: 'func_02124248' declared here
+   21 | void func_02124248(void);
+      |      ^
+C-WORK/src/arm9_ov001/02194fd8_FUN_02194fd8.c:37:32: error: assigning to 'int' from incompatible type 'void'
+   37 |   if ((param_1 != 3) || (iVar4 = FUN_02194d04(*(undefined4 *)(*piVar1 + 0x78)), iVar4 != 0)) {
+      |                                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02194fd8_FUN_02194fd8.c:50:19: error: too many arguments to function call, expected 0, have 6
+   50 |   func_0x0212426c(1,*(undefined2 *)(DAT_021950f4 + iVar5),*(undefined4 *)(iVar2 + 0x24),DAT_021950f8
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   51 |                   ,*(undefined4 *)(iVar2 + 0x1c),*(undefined4 *)(iVar2 + 0x54));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02194fd8_FUN_02194fd8.h:23:6: note: 'func_0212426c' declared here
+   23 | void func_0212426c(void);
+      |      ^
+4 errors generated.

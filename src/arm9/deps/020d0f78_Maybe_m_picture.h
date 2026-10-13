@@ -1,0 +1,17 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void MaybeReadScreenBlock_0(int *param_1,int param_2);
+void Maybe_m_picture(void);
+int OpenReadEntireFileBuffer_from_thumb(undefined4 param_1,undefined4 param_2,uint param_3);
+int _snprintf(char *__s,size_t __maxlen,char *__format,...);
+#define iRam020d0fd4 (*(int *)(uintptr_t)0x20d0fd4u)
+#define iRam020d0fd8 (*(int *)(uintptr_t)0x20d0fd8u)
+#define iRam020d0ff4 (*(int *)(uintptr_t)0x20d0ff4u)
+#define pcRam020d0fec (*(char **)(uintptr_t)0x20d0fecu)
+#define piRam020d0fd0 (*(int **)(uintptr_t)0x20d0fd0u)
+#define sRam020d0fe8 (*(size_t *)(uintptr_t)0x20d0fe8u)
+#define uRam020d0fdc (*(undefined4 *)(uintptr_t)0x20d0fdcu)
+#define uRam020d0fe0 (*(undefined4 *)(uintptr_t)0x20d0fe0u)
+#define uRam020d0fe4 (*(undefined4 *)(uintptr_t)0x20d0fe4u)
+#define uRam020d0ff0 (*(undefined4 *)(uintptr_t)0x20d0ff0u)
+#define uRam020d0ff8 (*(undefined4 *)(uintptr_t)0x20d0ff8u)

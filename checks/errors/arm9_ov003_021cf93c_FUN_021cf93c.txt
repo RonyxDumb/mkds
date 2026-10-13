@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021cf93c_FUN_021cf93c.c:11:27: error: too many arguments to function call, expected 0, have 1
+   11 |   iVar1 = func_0x02009cc8(param_2);
+      |           ~~~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9_ov003/deps/021cf93c_FUN_021cf93c.h:9:6: note: 'func_02009cc8' declared here
+    9 | void func_02009cc8(void);
+      |      ^
+1 error generated.

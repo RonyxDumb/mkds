@@ -1,0 +1,25 @@
+C-WORK/src/arm9/0200b08c_func_0200b08c.c:26:19: error: too many arguments to function call, expected 0, have 1
+   26 |     Os_RestoreIrq(uVar1);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200b08c_func_0200b08c.h:4:12: note: 'Os_RestoreIrq' declared here
+    4 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0200b08c_func_0200b08c.c:28:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   28 |       (*(code *)puVar5[2])(puVar5);
+      |                           ^
+C-WORK/src/arm9/0200b08c_func_0200b08c.c:43:36: error: too few arguments to function call, expected 2, have 1
+   43 |       Os_Thread_SetPriority(param_1);
+      |       ~~~~~~~~~~~~~~~~~~~~~        ^
+C-WORK/src/arm9/deps/0200b08c_func_0200b08c.h:7:12: note: 'Os_Thread_SetPriority' declared here
+    7 | undefined4 Os_Thread_SetPriority(uint param_1,uint param_2);
+      |            ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200b08c_func_0200b08c.c:48:16: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   48 |       (*pcVar6)(puVar5);
+      |                ^
+C-WORK/src/arm9/0200b08c_func_0200b08c.c:51:19: error: too many arguments to function call, expected 0, have 1
+   51 |     Os_RestoreIrq(uVar1);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200b08c_func_0200b08c.h:4:12: note: 'Os_RestoreIrq' declared here
+    4 | undefined4 Os_RestoreIrq(void);
+      |            ^
+2 warnings and 3 errors generated.

@@ -1,0 +1,21 @@
+C-WORK/src/arm9_ov000/021aed3c_FUN_021aed3c.c:19:11: error: incompatible pointer to integer conversion assigning to 'int' from 'int *'; dereference with * [-Wint-conversion]
+   19 |     iVar1 = FUN_021af15c(param_1,(ushort *)(uintptr_t)(param_2));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |             *
+C-WORK/src/arm9_ov000/021aed3c_FUN_021aed3c.c:21:35: error: too few arguments to function call, expected 3, have 2
+   21 |       FUN_021aee38(param_1,param_2);
+      |       ~~~~~~~~~~~~                ^
+C-WORK/src/arm9_ov000/deps/021aed3c_FUN_021aed3c.h:5:6: note: 'FUN_021aee38' declared here
+    5 | void FUN_021aee38(int param_1,ushort *param_2,int param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021aed3c_FUN_021aed3c.c:25:11: error: incompatible pointer to integer conversion assigning to 'int' from 'int *'; dereference with * [-Wint-conversion]
+   25 |     iVar1 = FUN_021af15c(param_1,(ushort *)(uintptr_t)(param_2));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |             *
+C-WORK/src/arm9_ov000/021aed3c_FUN_021aed3c.c:27:35: error: too few arguments to function call, expected 3, have 2
+   27 |       FUN_021aee38(param_1,param_2);
+      |       ~~~~~~~~~~~~                ^
+C-WORK/src/arm9_ov000/deps/021aed3c_FUN_021aed3c.h:5:6: note: 'FUN_021aee38' declared here
+    5 | void FUN_021aee38(int param_1,ushort *param_2,int param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4 errors generated.

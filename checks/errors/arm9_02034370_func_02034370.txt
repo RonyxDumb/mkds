@@ -1,0 +1,50 @@
+C-WORK/src/arm9/02034370_func_02034370.c:98:29: error: too many arguments to function call, expected 0, have 6
+   98 |               func_0212426c(1,(int)*local_260,*(undefined4 *)(iVar13 + 0x5c),auStack_23c,
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   99 |                             *(undefined4 *)(iVar13 + 0x54),*(undefined4 *)(iVar13 + 0x60));
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02034370_func_02034370.h:54:6: note: 'func_0212426c' declared here
+   54 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/02034370_func_02034370.c:101:29: error: too many arguments to function call, expected 0, have 6
+  101 |               func_0212426c(1,(int)psVar5[(uVar16 + 4) * 4],*(undefined4 *)(iVar13 + 0x5c),uVar11,
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  102 |                             *(undefined4 *)(iVar13 + 0x54),*(undefined4 *)(iVar13 + 0x60));
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02034370_func_02034370.h:54:6: note: 'func_0212426c' declared here
+   54 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/02034370_func_02034370.c:189:58: error: too few arguments to function call, single argument 'param_1' was not specified
+  189 |       TextSystem_DisplayProgressDialog_Simple_from_thumb();
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02034370_func_02034370.h:12:6: note: 'TextSystem_DisplayProgressDialog_Simple_from_thumb' declared here
+   12 | void TextSystem_DisplayProgressDialog_Simple_from_thumb(undefined4 param_1);
+      |      ^                                                  ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02034370_func_02034370.c:261:45: error: too few arguments to function call, expected 2, have 1
+  261 |         func_02025f14(*piVar4 + DAT_02034acc);
+      |         ~~~~~~~~~~~~~                       ^
+C-WORK/src/arm9/deps/02034370_func_02034370.h:23:6: note: 'func_02025f14' declared here
+   23 | void func_02025f14(int *param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02034370_func_02034370.c:283:69: error: too many arguments to function call, expected 3, have 4
+  283 |       MaybeHandleBmgFormatting_from_thumb(uVar11,uVar12,auStack_214,DAT_02034ac8);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                           ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02034370_func_02034370.h:78:22: note: expanded from macro 'DAT_02034ac8'
+   78 | #define DAT_02034ac8 (*(undefined4 *)(uintptr_t)0x2034ac8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02034370_func_02034370.h:7:6: note: 'MaybeHandleBmgFormatting_from_thumb' declared here
+    7 | void MaybeHandleBmgFormatting_from_thumb(short *param_1,short *param_2,short *param_3);
+      |      ^                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02034370_func_02034370.c:321:62: error: too many arguments to function call, expected 0, have 2
+  321 |       TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(uVar11,uVar12);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02034370_func_02034370.h:13:6: note: 'TextSystem_DisplaySingleButtonDialog_Simple_from_thumb' declared here
+   13 | void TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(void);
+      |      ^
+C-WORK/src/arm9/02034370_func_02034370.c:341:62: error: too many arguments to function call, expected 0, have 2
+  341 |       TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(uVar11,uVar12);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02034370_func_02034370.h:13:6: note: 'TextSystem_DisplaySingleButtonDialog_Simple_from_thumb' declared here
+   13 | void TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(void);
+      |      ^
+7 errors generated.

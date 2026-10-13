@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0212c620_func_0212c620.c:11:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   11 |           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212c620_func_0212c620.c:11:65: note: place parentheses around the '+' expression to silence this warning
+   11 |           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
+      |                                                                 ^     
+      |                                              (                        )
+C-WORK/src/arm9/0212c620_func_0212c620.c:16:44: error: too few arguments to function call, expected 3, have 2
+   16 |     func_0212f834(uVar1 + 0x1c,param_2 << 8);
+      |     ~~~~~~~~~~~~~                          ^
+C-WORK/src/arm9/deps/0212c620_func_0212c620.h:4:6: note: 'func_0212f834' declared here
+    4 | void func_0212f834(undefined4 *param_1,undefined4 param_2,undefined4 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

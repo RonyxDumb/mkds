@@ -1,0 +1,30 @@
+C-WORK/src/arm9/0205a548_func_0205a548.c:17:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |           *(uint *)(uRam0205a5a4 & 0xfffffffc) << (uRam0205a5a4 & 3) * -8 + 0x20) + 0x16c;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205a548_func_0205a548.c:17:75: note: place parentheses around the '+' expression to silence this warning
+   17 |           *(uint *)(uRam0205a5a4 & 0xfffffffc) << (uRam0205a5a4 & 3) * -8 + 0x20) + 0x16c;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0205a548_func_0205a548.c:24:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |   func_020f40dc(((int)*(char *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + param_1 + 6) &
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205a548_func_0205a548.c:24:75: note: place parentheses around the '+' expression to silence this warning
+   24 |   func_020f40dc(((int)*(char *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + param_1 + 6) &
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/0205a548_func_0205a548.c:25:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |                 0xffffU) * 0x210 + (uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20) + 0x30);
+      |                                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205a548_func_0205a548.c:25:78: note: place parentheses around the '+' expression to silence this warning
+   25 |                 0xffffU) * 0x210 + (uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20) + 0x30);
+      |                                                                              ^     
+      |                                                                   (                )
+C-WORK/src/arm9/0205a548_func_0205a548.c:25:92: error: too few arguments to function call, expected 3, have 1
+   24 |   func_020f40dc(((int)*(char *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + param_1 + 6) &
+      |   ~~~~~~~~~~~~~
+   25 |                 0xffffU) * 0x210 + (uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20) + 0x30);
+      |                                                                                            ^
+C-WORK/src/arm9/deps/0205a548_func_0205a548.h:4:6: note: 'func_020f40dc' declared here
+    4 | void func_020f40dc(int *param_1,int param_2,int param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 warnings and 1 error generated.

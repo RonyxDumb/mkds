@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0205786c_func_0205786c.c:31:35: error: too many arguments to function call, expected 0, have 5
+   31 |     ReadSaveChunkImpl2_from_thumb(param_2 + iVar1 + iRam020578c8,uVar3,iVar4,uRam020578cc,uVar5);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0205786c_func_0205786c.h:3:6: note: 'ReadSaveChunkImpl2_from_thumb' declared here
+    3 | void ReadSaveChunkImpl2_from_thumb(void);
+      |      ^
+1 error generated.

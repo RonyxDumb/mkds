@@ -1,0 +1,4 @@
+C-WORK/src/arm7/06005fe0_FUN_06005fe0.c:10:26: error: operand of type 'void' where arithmetic or pointer type is required
+   10 |   puVar1 = (undefined2 *)thunk_FUN_03807424();
+      |                          ^~~~~~~~~~~~~~~~~~~~
+1 error generated.

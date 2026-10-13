@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02018314_Fs_Archive_Dispose.c:10:35: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   iVar1 = Fs_Archive_UnloadFatFnt();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02018314_Fs_Archive_Dispose.h:4:12: note: 'Fs_Archive_UnloadFatFnt' declared here
+    4 | undefined4 Fs_Archive_UnloadFatFnt(int param_1);
+      |            ^                       ~~~~~~~~~~~
+1 error generated.

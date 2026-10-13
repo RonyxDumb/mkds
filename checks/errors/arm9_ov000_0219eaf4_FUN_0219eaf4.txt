@@ -1,0 +1,30 @@
+C-WORK/src/arm9_ov000/0219eaf4_FUN_0219eaf4.c:22:9: error: assigning to 'longlong' (aka 'long long') from incompatible type 'void'
+   22 |   lVar8 = FUN_021a350c();
+      |         ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219eaf4_FUN_0219eaf4.c:31:64: error: too many arguments to function call, expected 2, have 4
+   31 |        (iVar5 = FUN_0219edb0(*(undefined4 *)(iVar5 + 0xf4),0xe,DAT_0219ec30,
+      |                 ~~~~~~~~~~~~                                   ^~~~~~~~~~~~~
+   32 |                              -(uint)(uVar2 > DAT_0219ec30) - iVar3), iVar5 == 0)) {
+      |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219eaf4_FUN_0219eaf4.h:12:22: note: expanded from macro 'DAT_0219ec30'
+   12 | #define DAT_0219ec30 (*(uint *)(uintptr_t)0x219ec30u)
+      |                      ^
+C-WORK/src/arm9_ov000/deps/0219eaf4_FUN_0219eaf4.h:4:12: note: 'FUN_0219edb0' declared here
+    4 | undefined4 FUN_0219edb0(undefined4 param_1,int param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219eaf4_FUN_0219eaf4.c:59:68: error: too many arguments to function call, expected single argument 'param_1', have 4 arguments
+   59 |         iVar5 = FUN_0219f00c(*(undefined4 *)(iVar5 + DAT_0219ec38),iVar5,iVar6,-(uint)!bVar7 - iVar3
+      |                 ~~~~~~~~~~~~                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219eaf4_FUN_0219eaf4.h:5:12: note: 'FUN_0219f00c' declared here
+    5 | undefined4 FUN_0219f00c(uint param_1);
+      |            ^            ~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219eaf4_FUN_0219eaf4.c:69:17: error: assigning to 'undefined8' (aka 'unsigned long long') from incompatible type 'void'
+   69 |           uVar9 = FUN_021a350c();
+      |                 ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219eaf4_FUN_0219eaf4.c:79:20: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   79 |     FUN_0219f23c(2,iVar3,-(uint)!bVar7 - iVar3);
+      |     ~~~~~~~~~~~~   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219eaf4_FUN_0219eaf4.h:6:6: note: 'FUN_0219f23c' declared here
+    6 | void FUN_0219f23c(int param_1);
+      |      ^            ~~~~~~~~~~~
+5 errors generated.

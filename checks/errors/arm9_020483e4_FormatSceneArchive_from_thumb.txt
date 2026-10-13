@@ -1,0 +1,10 @@
+C-WORK/src/arm9/020483e4_FormatSceneArchive_from_thumb.c:9:53: error: too many arguments to function call, expected 4, have 5
+    9 |     Util_SNPrintF(param_1,0x80,uRam02048408,param_2,uRam02048404);
+      |     ~~~~~~~~~~~~~                                   ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020483e4_FormatSceneArchive_from_thumb.h:5:22: note: expanded from macro 'uRam02048404'
+    5 | #define uRam02048404 (*(undefined4 *)(uintptr_t)0x2048404u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020483e4_FormatSceneArchive_from_thumb.h:4:6: note: 'Util_SNPrintF' declared here
+    4 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov001/0218dde8_FUN_0218dde8.c:8:16: error: too many arguments to function call, expected 0, have 7
+    8 |   FUN_0219b510(PTR_data_ov001_0218de08,PTR_data_ov001_0218de0c,PTR_data_ov001_0218de10,2,0,0,0);
+      |   ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0218dde8_FUN_0218dde8.h:5:33: note: expanded from macro 'PTR_data_ov001_0218de08'
+    5 | #define PTR_data_ov001_0218de08 (*(undefined **)(uintptr_t)0x218de08u)
+      |                                 ^
+C-WORK/src/arm9_ov001/deps/0218dde8_FUN_0218dde8.h:4:6: note: 'FUN_0219b510' declared here
+    4 | void FUN_0219b510(void);
+      |      ^
+1 error generated.

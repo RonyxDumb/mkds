@@ -1,0 +1,55 @@
+C-WORK/src/arm9_ov000/0219dfe4_FUN_0219dfe4.c:23:9: error: assigning to 'int' from incompatible type 'void'
+   23 |   iVar4 = FUN_0218b474(*(undefined4 *)(*DAT_0219e118 + 0xe4));
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219dfe4_FUN_0219dfe4.c:27:60: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   27 |       uVar5 = FUN_0218b480(*(undefined4 *)(*piVar3 + 0xe4),iVar12);
+      |               ~~~~~~~~~~~~                                 ^~~~~~
+C-WORK/src/arm9_ov000/deps/0219dfe4_FUN_0219dfe4.h:7:6: note: 'FUN_0218b480' declared here
+    7 | void FUN_0218b480(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219dfe4_FUN_0219dfe4.c:37:58: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   37 |               FUN_0218b4d4(*(undefined4 *)(iVar7 + 0xe4),uVar5);
+      |               ~~~~~~~~~~~~                               ^~~~~
+C-WORK/src/arm9_ov000/deps/0219dfe4_FUN_0219dfe4.h:8:6: note: 'FUN_0218b4d4' declared here
+    8 | void FUN_0218b4d4(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219dfe4_FUN_0219dfe4.c:53:43: error: too many arguments to function call, expected 2, have 3
+   53 |           FUN_0218b358(uVar5,DAT_0219e130,uVar9);
+      |           ~~~~~~~~~~~~                    ^~~~~
+C-WORK/src/arm9_ov000/deps/0219dfe4_FUN_0219dfe4.h:4:6: note: 'FUN_0218b358' declared here
+    4 | void FUN_0218b358(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219dfe4_FUN_0219dfe4.c:56:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   56 |           iVar4 = (*pcVar11)(iVar12,*(undefined4 *)(*piVar3 + DAT_0219e124));
+      |                             ^
+C-WORK/src/arm9_ov000/0219dfe4_FUN_0219dfe4.c:56:17: error: assigning to 'int' from incompatible type 'void'
+   56 |           iVar4 = (*pcVar11)(iVar12,*(undefined4 *)(*piVar3 + DAT_0219e124));
+      |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219dfe4_FUN_0219dfe4.c:58:58: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   58 |             FUN_0218b4d4(*(undefined4 *)(*piVar3 + 0xe4),uVar5);
+      |             ~~~~~~~~~~~~                                 ^~~~~
+C-WORK/src/arm9_ov000/deps/0219dfe4_FUN_0219dfe4.h:8:6: note: 'FUN_0218b4d4' declared here
+    8 | void FUN_0218b4d4(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219dfe4_FUN_0219dfe4.c:67:45: error: too many arguments to function call, expected 2, have 3
+   67 |             FUN_0218b358(uVar5,DAT_0219e130,iVar4 << 8 | uVar8);
+      |             ~~~~~~~~~~~~                    ^~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219dfe4_FUN_0219dfe4.h:4:6: note: 'FUN_0218b358' declared here
+    4 | void FUN_0218b358(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219dfe4_FUN_0219dfe4.c:72:13: error: assigning to 'int' from incompatible type 'void'
+   72 |       iVar4 = FUN_0218b474(*(undefined4 *)(*piVar3 + 0xe4));
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219dfe4_FUN_0219dfe4.c:75:32: error: assigning to 'int' from incompatible type 'void'
+   75 |   if ((param_1 != 0) && (iVar4 = FUN_0218b474(*(undefined4 *)(*DAT_0219e118 + 0xe4)), iVar4 != 0)) {
+      |                                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219dfe4_FUN_0219dfe4.c:76:56: error: too many arguments to function call, expected single argument 'param_1', have 4 arguments
+   76 |     FUN_0218b464(*(undefined4 *)(*DAT_0219e118 + 0xe4),0,DAT_0219e130,0);
+      |     ~~~~~~~~~~~~                                       ^~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219dfe4_FUN_0219dfe4.h:5:6: note: 'FUN_0218b464' declared here
+    5 | void FUN_0218b464(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219dfe4_FUN_0219dfe4.c:78:25: error: assigning to 'int' from incompatible type 'void'
+   78 |   if ((bVar2) && (iVar4 = FUN_0218b474(*(undefined4 *)(*DAT_0219e118 + 0xe4)), iVar4 == 0)) {
+      |                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 11 errors generated.

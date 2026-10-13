@@ -1,0 +1,95 @@
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:22:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |       *(uint *)((uint)puRam02021388 & 0xfffffffc) << ((uint)puRam02021388 & 3) * -8 + 0x20 == 0) {
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:22:85: note: place parentheses around the '+' expression to silence this warning
+   22 |       *(uint *)((uint)puRam02021388 & 0xfffffffc) << ((uint)puRam02021388 & 3) * -8 + 0x20 == 0) {
+      |                                                                                     ^
+      |                                                      (                                    )
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:27:94: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |                *(uint *)((uint)piRam0202138c & 0xfffffffc) << ((uint)piRam0202138c & 3) * -8 + 0x20)
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:27:94: note: place parentheses around the '+' expression to silence this warning
+   27 |                *(uint *)((uint)piRam0202138c & 0xfffffffc) << ((uint)piRam0202138c & 3) * -8 + 0x20)
+      |                                                                                              ^     
+      |                                                               (                                    )
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:37:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |                       | *(uint *)((uint)piRam0202138c & 0xfffffffc) <<
+      |                                                                     ~~
+   37 |                         ((uint)piRam0202138c & 3) * -8 + 0x20));
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:37:56: note: place parentheses around the '+' expression to silence this warning
+   37 |                         ((uint)piRam0202138c & 3) * -8 + 0x20));
+      |                                                        ^     
+      |                         (                                    )
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:43:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |                           *(uint *)((uint)puRam02021388 & 0xfffffffc) <<
+      |                                                                       ~~
+   43 |                           ((uint)puRam02021388 & 3) * -8 + 0x20,0);
+      |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:43:58: note: place parentheses around the '+' expression to silence this warning
+   43 |                           ((uint)puRam02021388 & 3) * -8 + 0x20,0);
+      |                                                          ^     
+      |                           (                                    )
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:46:21: error: too many arguments to function call, expected 0, have 1
+   46 |       Os_RestoreIrq(uVar5);
+      |       ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020211e4_Sound_FlushCommand.h:6:12: note: 'Os_RestoreIrq' declared here
+    6 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:52:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   51 |                             *(uint *)((uint)puRam02021388 & 0xfffffffc) <<
+      |                                                                         ~~
+   52 |                             ((uint)puRam02021388 & 3) * -8 + 0x20,0);
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:52:60: note: place parentheses around the '+' expression to silence this warning
+   52 |                             ((uint)puRam02021388 & 3) * -8 + 0x20,0);
+      |                                                            ^     
+      |                             (                                    )
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:55:21: error: too many arguments to function call, expected 0, have 1
+   55 |       Os_RestoreIrq(uVar5);
+      |       ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020211e4_Sound_FlushCommand.h:6:12: note: 'Os_RestoreIrq' declared here
+    6 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:60:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   60 |       iVar6 = Fifo_SendWord(7,uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20,0);
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:60:72: note: place parentheses around the '+' expression to silence this warning
+   60 |       iVar6 = Fifo_SendWord(7,uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20,0);
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:69:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   69 |           *(uint *)((uint)piRam02021394 & 0xfffffffc) << ((uint)piRam02021394 & 3) * -8 + 0x20;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:69:89: note: place parentheses around the '+' expression to silence this warning
+   69 |           *(uint *)((uint)piRam02021394 & 0xfffffffc) << ((uint)piRam02021394 & 3) * -8 + 0x20;
+      |                                                                                         ^     
+      |                                                          (                                    )
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:74:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   74 |   *(uint *)(iVar6 + uVar7 * 4) = uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:74:75: note: place parentheses around the '+' expression to silence this warning
+   74 |   *(uint *)(iVar6 + uVar7 * 4) = uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:91:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   91 |   *piVar3 = (uVar9 >> ((uint)piVar3 & 3) * 8 | uVar9 << ((uint)piVar3 & 3) * -8 + 0x20) + 1;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:91:81: note: place parentheses around the '+' expression to silence this warning
+   91 |   *piVar3 = (uVar9 >> ((uint)piVar3 & 3) * 8 | uVar9 << ((uint)piVar3 & 3) * -8 + 0x20) + 1;
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:92:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   92 |   *piVar4 = (uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20) + 1;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:92:55: note: place parentheses around the '+' expression to silence this warning
+   92 |   *piVar4 = (uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20) + 1;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020211e4_Sound_FlushCommand.c:93:17: error: too many arguments to function call, expected 0, have 1
+   93 |   Os_RestoreIrq(uVar5);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020211e4_Sound_FlushCommand.h:6:12: note: 'Os_RestoreIrq' declared here
+    6 | undefined4 Os_RestoreIrq(void);
+      |            ^
+10 warnings and 3 errors generated.

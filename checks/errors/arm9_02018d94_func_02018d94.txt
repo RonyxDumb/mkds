@@ -1,0 +1,64 @@
+C-WORK/src/arm9/02018d94_func_02018d94.c:15:36: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   15 |   puVar1 = (undefined4 *)(*param_1)(0x4c);
+      |                                    ^
+C-WORK/src/arm9/02018d94_func_02018d94.c:15:26: error: operand of type 'void' where arithmetic or pointer type is required
+   15 |   puVar1 = (undefined4 *)(*param_1)(0x4c);
+      |                          ^~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02018d94_func_02018d94.c:21:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   puVar1[0xe] = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & 0xffffffc0 | param_5 & 0x3f;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02018d94_func_02018d94.c:21:59: note: place parentheses around the '+' expression to silence this warning
+   21 |   puVar1[0xe] = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & 0xffffffc0 | param_5 & 0x3f;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/02018d94_func_02018d94.c:24:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |   puVar1[0xe] = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & 0xfffff03f |
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02018d94_func_02018d94.c:24:59: note: place parentheses around the '+' expression to silence this warning
+   24 |   puVar1[0xe] = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & 0xfffff03f |
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/02018d94_func_02018d94.c:28:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |   uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02018d94_func_02018d94.c:28:52: note: place parentheses around the '+' expression to silence this warning
+   28 |   uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/02018d94_func_02018d94.c:32:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |   puVar1[0xe] = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & 0xff03ffff |
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02018d94_func_02018d94.c:32:59: note: place parentheses around the '+' expression to silence this warning
+   32 |   puVar1[0xe] = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & 0xff03ffff |
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/02018d94_func_02018d94.c:36:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |   puVar1[0xe] = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & 0xfeffffff;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02018d94_func_02018d94.c:36:59: note: place parentheses around the '+' expression to silence this warning
+   36 |   puVar1[0xe] = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & 0xfeffffff;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/02018d94_func_02018d94.c:39:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |   puVar1[0xe] = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & 0x1ffffff;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02018d94_func_02018d94.c:39:59: note: place parentheses around the '+' expression to silence this warning
+   39 |   puVar1[0xe] = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & 0x1ffffff;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/02018d94_func_02018d94.c:40:11: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'code *' (aka 'void (*)()') [-Wint-conversion]
+   40 |   *puVar1 = param_1;
+      |           ^ ~~~~~~~
+C-WORK/src/arm9/02018d94_func_02018d94.c:49:21: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   49 |   iVar2 = (*param_1)(param_2 * 0x9c);
+      |                     ^
+C-WORK/src/arm9/02018d94_func_02018d94.c:49:9: error: assigning to 'int' from incompatible type 'void'
+   49 |   iVar2 = (*param_1)(param_2 * 0x9c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02018d94_func_02018d94.c:59:21: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   59 |   iVar2 = (*param_1)(param_3 * 0x44);
+      |                     ^
+C-WORK/src/arm9/02018d94_func_02018d94.c:59:9: error: assigning to 'int' from incompatible type 'void'
+   59 |   iVar2 = (*param_1)(param_3 * 0x44);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+9 warnings and 4 errors generated.

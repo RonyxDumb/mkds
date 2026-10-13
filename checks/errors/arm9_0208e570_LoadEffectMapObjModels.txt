@@ -1,0 +1,115 @@
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:21:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |           *(uint *)(uRam0208e7c4 & 0xfffffffc) << (uRam0208e7c4 & 3) * -8 + 0x20) + 8;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:21:75: note: place parentheses around the '+' expression to silence this warning
+   21 |           *(uint *)(uRam0208e7c4 & 0xfffffffc) << (uRam0208e7c4 & 3) * -8 + 0x20) + 8;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:24:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |   if ((uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20) == 4) {
+      |                                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:24:51: note: place parentheses around the '+' expression to silence this warning
+   24 |   if ((uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20) == 4) {
+      |                                                   ^     
+      |                                       (                 )
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:26:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |             *(uint *)(uRam0208e7c8 & 0xfffffffc) << (uRam0208e7c8 & 3) * -8 + 0x20) + 0xa4;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:26:77: note: place parentheses around the '+' expression to silence this warning
+   26 |             *(uint *)(uRam0208e7c8 & 0xfffffffc) << (uRam0208e7c8 & 3) * -8 + 0x20) + 0xa4;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:29:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |     param_1 = uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:29:58: note: place parentheses around the '+' expression to silence this warning
+   29 |     param_1 = uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20;
+      |                                                          ^     
+      |                                              (                 )
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:40:100: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |               ((undefined4 *)(uintptr_t)(uVar4 * 0xc + (uVar6 >> uVar10 * 8 | uVar6 << uVar10 * -8 + 0x20) + 0xc),0);
+      |                                                                                     ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:40:100: note: place parentheses around the '+' expression to silence this warning
+   40 |               ((undefined4 *)(uintptr_t)(uVar4 * 0xc + (uVar6 >> uVar10 * 8 | uVar6 << uVar10 * -8 + 0x20) + 0xc),0);
+      |                                                                                                    ^     
+      |                                                                                        (                 )
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:46:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |           *(uint *)(uRam0208e7c4 & 0xfffffffc) << (uRam0208e7c4 & 3) * -8 + 0x20) + 8;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:46:75: note: place parentheses around the '+' expression to silence this warning
+   46 |           *(uint *)(uRam0208e7c4 & 0xfffffffc) << (uRam0208e7c4 & 3) * -8 + 0x20) + 8;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:49:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   49 |   uVar4 = uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20;
+      |                                       ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:49:54: note: place parentheses around the '+' expression to silence this warning
+   49 |   uVar4 = uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20;
+      |                                                      ^     
+      |                                          (                 )
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:63:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   63 |           *(uint *)(uRam0208e7c4 & 0xfffffffc) << (uRam0208e7c4 & 3) * -8 + 0x20) + 8;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:63:75: note: place parentheses around the '+' expression to silence this warning
+   63 |           *(uint *)(uRam0208e7c4 & 0xfffffffc) << (uRam0208e7c4 & 3) * -8 + 0x20) + 8;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:66:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   66 |   if ((uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20) == 4) {
+      |                                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:66:51: note: place parentheses around the '+' expression to silence this warning
+   66 |   if ((uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20) == 4) {
+      |                                                   ^     
+      |                                       (                 )
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:73:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   73 |   uVar5 = FindFileBuffer_MAR_EFT_from_thumb(uRam0208e7e0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:74:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   74 |   uVar7 = FindFileBuffer_MAR_EFT_from_thumb(uRam0208e7e4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:75:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   75 |   uVar8 = FindFileBuffer_MAR_EFT_from_thumb(uRam0208e7e8);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:76:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   76 |   uVar9 = FindFileBuffer_MAR_EFT_from_thumb(uRam0208e7ec);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:78:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   78 |   uVar5 = FindFileBuffer_MAR_EFT_from_thumb(uRam0208e7f0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:79:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   79 |   uVar7 = FindFileBuffer_MAR_EFT_from_thumb(uRam0208e7f4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:80:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   80 |   uVar8 = FindFileBuffer_MAR_EFT_from_thumb(uRam0208e7f8);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:81:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   81 |   uVar9 = FindFileBuffer_MAR_EFT_from_thumb(uRam0208e7fc);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:92:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   92 |            *(uint *)(uRam0208e7c4 & 0xfffffffc) << (uRam0208e7c4 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:92:76: note: place parentheses around the '+' expression to silence this warning
+   92 |            *(uint *)(uRam0208e7c4 & 0xfffffffc) << (uRam0208e7c4 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:95:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   95 |   if ((uVar10 >> uVar4 * 8 | uVar10 << uVar4 * -8 + 0x20) == 0x17) {
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:95:51: note: place parentheses around the '+' expression to silence this warning
+   95 |   if ((uVar10 >> uVar4 * 8 | uVar10 << uVar4 * -8 + 0x20) == 0x17) {
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:97:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   97 |     uVar7 = FindFileBuffer_CRS_CST_from_thumb(uRam0208e800);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:98:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   98 |     uVar8 = FindFileBuffer_CRS_CST_from_thumb(uRam0208e804);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:103:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  103 |     *(uint *)((uint)puRam0208e7cc & 0xfffffffc) << ((uint)puRam0208e7cc & 3) * -8 + 0x20) + 0x5c) =
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e570_LoadEffectMapObjModels.c:103:83: note: place parentheses around the '+' expression to silence this warning
+  103 |     *(uint *)((uint)puRam0208e7cc & 0xfffffffc) << ((uint)puRam0208e7cc & 3) * -8 + 0x20) + 0x5c) =
+      |                                                                                   ^     
+      |                                                    (                                    )
+12 warnings and 10 errors generated.

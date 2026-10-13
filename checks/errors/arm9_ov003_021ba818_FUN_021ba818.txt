@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov003/021ba818_FUN_021ba818.c:29:13: error: call to undeclared function 'func_0x021a6470'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   29 |     iVar3 = func_0x021a6470(*DAT_021ba8f4,DAT_021ba908);
+      |             ^
+C-WORK/src/arm9_ov003/021ba818_FUN_021ba818.c:31:23: error: too many arguments to function call, expected 0, have 1
+   31 |       func_0x0200fcb4(uVar2);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov003/deps/021ba818_FUN_021ba818.h:17:12: note: 'Os_RestoreIrq' declared here
+   17 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov003/021ba818_FUN_021ba818.c:37:13: error: call to undeclared function 'func_0x021a629c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   37 |     iVar3 = func_0x021a629c(*DAT_021ba8f0,DAT_021ba90c);
+      |             ^
+C-WORK/src/arm9_ov003/021ba818_FUN_021ba818.c:39:23: error: too many arguments to function call, expected 0, have 1
+   39 |       func_0x0200fcb4(uVar2);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov003/deps/021ba818_FUN_021ba818.h:17:12: note: 'Os_RestoreIrq' declared here
+   17 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov003/021ba818_FUN_021ba818.c:43:21: error: too many arguments to function call, expected 0, have 1
+   43 |     func_0x0200fcb4(uVar2);
+      |     ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov003/deps/021ba818_FUN_021ba818.h:17:12: note: 'Os_RestoreIrq' declared here
+   17 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov003/021ba818_FUN_021ba818.c:46:19: error: too many arguments to function call, expected 0, have 1
+   46 |   func_0x0200fcb4(uVar2);
+      |   ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov003/deps/021ba818_FUN_021ba818.h:17:12: note: 'Os_RestoreIrq' declared here
+   17 | undefined4 Os_RestoreIrq(void);
+      |            ^
+6 errors generated.

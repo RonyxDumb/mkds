@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02135014_SomeSnprintf.c:13:39: error: too many arguments to function call, expected 2, have 4
+   13 |   SomeSnprintfImpl(param_1,0xffffffff,param_2,&uStack_8);
+      |   ~~~~~~~~~~~~~~~~                    ^~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02135014_SomeSnprintf.h:4:6: note: 'SomeSnprintfImpl' declared here
+    4 | void SomeSnprintfImpl(int param_1,uint param_2);
+      |      ^                ~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

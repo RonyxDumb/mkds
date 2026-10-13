@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0200cea0_Os_Lock_HandleTryLock.c:25:19: error: too many arguments to function call, expected 0, have 1
+   25 |     Os_RestoreIrq(uVar1);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200cea0_Os_Lock_HandleTryLock.h:7:12: note: 'Os_RestoreIrq' declared here
+    7 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0200cea0_Os_Lock_HandleTryLock.c:28:22: error: too many arguments to function call, expected 0, have 1
+   28 |     Os_RestoreIrqFiq(uVar1);
+      |     ~~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200cea0_Os_Lock_HandleTryLock.h:8:12: note: 'Os_RestoreIrqFiq' declared here
+    8 | undefined4 Os_RestoreIrqFiq(void);
+      |            ^
+2 errors generated.

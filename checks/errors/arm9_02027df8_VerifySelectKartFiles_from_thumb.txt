@@ -1,0 +1,55 @@
+C-WORK/src/arm9/02027df8_VerifySelectKartFiles_from_thumb.c:18:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   18 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02027e60);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02027df8_VerifySelectKartFiles_from_thumb.c:19:26: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   19 |   Gfx_ReadCharGraphicsV2(&local_18,uVar1);
+      |                          ^~~~~~~~~
+C-WORK/src/arm9/deps/02027df8_VerifySelectKartFiles_from_thumb.h:5:34: note: passing argument to parameter 'param_1' here
+    5 | void Gfx_ReadCharGraphicsV2(int *param_1,int param_2);
+      |                                  ^
+C-WORK/src/arm9/02027df8_VerifySelectKartFiles_from_thumb.c:20:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   20 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02027e64);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02027df8_VerifySelectKartFiles_from_thumb.c:21:24: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   21 |   Gfx_ReadCharGraphics(&local_18,uVar1);
+      |                        ^~~~~~~~~
+C-WORK/src/arm9/deps/02027df8_VerifySelectKartFiles_from_thumb.h:4:32: note: passing argument to parameter 'param_1' here
+    4 | void Gfx_ReadCharGraphics(int *param_1,int param_2);
+      |                                ^
+C-WORK/src/arm9/02027df8_VerifySelectKartFiles_from_thumb.c:22:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   22 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02027e68);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02027df8_VerifySelectKartFiles_from_thumb.c:23:20: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   23 |   LoadCellBankFrom(&local_10,uVar1);
+      |                    ^~~~~~~~~
+C-WORK/src/arm9/deps/02027df8_VerifySelectKartFiles_from_thumb.h:7:28: note: passing argument to parameter 'param_1' here
+    7 | void LoadCellBankFrom(int *param_1,int param_2);
+      |                            ^
+C-WORK/src/arm9/02027df8_VerifySelectKartFiles_from_thumb.c:24:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   24 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02027e6c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02027df8_VerifySelectKartFiles_from_thumb.c:25:19: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   25 |   Gfx_ReadPalette(&local_14,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9/deps/02027df8_VerifySelectKartFiles_from_thumb.h:6:27: note: passing argument to parameter 'param_1' here
+    6 | void Gfx_ReadPalette(int *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm9/02027df8_VerifySelectKartFiles_from_thumb.c:26:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   26 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02027e70);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02027df8_VerifySelectKartFiles_from_thumb.c:27:19: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   27 |   Gfx_ReadPalette(&local_14,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9/deps/02027df8_VerifySelectKartFiles_from_thumb.h:6:27: note: passing argument to parameter 'param_1' here
+    6 | void Gfx_ReadPalette(int *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm9/02027df8_VerifySelectKartFiles_from_thumb.c:28:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   28 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02027e74);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02027df8_VerifySelectKartFiles_from_thumb.c:29:26: warning: passing 'undefined4[3]' (aka 'unsigned int[3]') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   29 |   MaybeReadScreenBlock_0(local_c,uVar1);
+      |                          ^~~~~~~
+C-WORK/src/arm9/deps/02027df8_VerifySelectKartFiles_from_thumb.h:8:34: note: passing argument to parameter 'param_1' here
+    8 | void MaybeReadScreenBlock_0(int *param_1,int param_2);
+      |                                  ^
+6 warnings and 6 errors generated.

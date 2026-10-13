@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02116b80_func_02116b80.c:10:20: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   10 |   (*pcRam02116b88)(param_1,param_2,1);
+      |                    ^~~~~~~
+1 error generated.

@@ -1,0 +1,14 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void Mem_CpuFastMemorySet(undefined4 param_1,undefined4 *param_2,uint param_3);
+void Mem_CpuFill16(undefined2 param_1,int param_2,int param_3);
+void TextSystemContext_LoadEnabledSpritesAndAnimations_from_thumb(int *param_1);
+void TextSystemContext_UpdateAnimationGraphics_from_thumb(void);
+#define iRam021270a8 (*(int *)(uintptr_t)0x21270a8u)
+#define iRam021270ac (*(int *)(uintptr_t)0x21270acu)
+#define iRam021270b0 (*(int *)(uintptr_t)0x21270b0u)
+#define iRam021270b4 (*(int *)(uintptr_t)0x21270b4u)
+#define iRam021270b8 (*(int *)(uintptr_t)0x21270b8u)
+#define pbRam0212709c (*(byte **)(uintptr_t)0x212709cu)
+#define piRam021270a0 (*(int **)(uintptr_t)0x21270a0u)
+#define uRam021270a4 (*(undefined4 *)(uintptr_t)0x21270a4u)

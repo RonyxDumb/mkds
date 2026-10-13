@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0202efe8_func_0202efe8.c:11:31: error: too few arguments to function call, single argument 'param_1' was not specified
+   11 |   iVar1 = Maybe_helper_02f028();
+      |           ~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0202efe8_func_0202efe8.h:3:12: note: 'Maybe_helper_02f028' declared here
+    3 | undefined4 Maybe_helper_02f028(int param_1);
+      |            ^                   ~~~~~~~~~~~
+1 error generated.

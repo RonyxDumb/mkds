@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020cadac_func_020cadac.c:19:34: error: too few arguments to function call, single argument 'param_1' was not specified
+   19 |       MaybePlaySomeSseqFromSarc0();
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020cadac_func_020cadac.h:3:6: note: 'MaybePlaySomeSseqFromSarc0' declared here
+    3 | void MaybePlaySomeSseqFromSarc0(undefined4 param_1);
+      |      ^                          ~~~~~~~~~~~~~~~~~~
+1 error generated.

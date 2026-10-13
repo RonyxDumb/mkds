@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020362dc_func_020362dc.c:24:30: error: too many arguments to function call, expected 0, have 5
+   24 |   G2d_Sprite_CreateFromTiles(*piRam0203641c + 4,iVar3 + iRam02036428,0x20,4,4);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020362dc_func_020362dc.h:6:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+    6 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+C-WORK/src/arm9/020362dc_func_020362dc.c:27:17: error: too many arguments to function call, expected 0, have 6
+   27 |   func_0203629c(*piRam0203641c + 0x24,0x80,0,3,uRam0203642c,uVar4);
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020362dc_func_020362dc.h:13:6: note: 'func_0203629c' declared here
+   13 | void func_0203629c(void);
+      |      ^
+2 errors generated.

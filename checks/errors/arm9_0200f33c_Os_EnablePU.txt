@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0200f33c_Os_EnablePU.c:10:11: error: call to undeclared function 'coproc_movefrom_Control'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   10 |   uVar1 = coproc_movefrom_Control();
+      |           ^
+C-WORK/src/arm9/0200f33c_Os_EnablePU.c:11:3: error: call to undeclared function 'coproc_moveto_Control'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   11 |   coproc_moveto_Control(uVar1 | 1);
+      |   ^
+2 errors generated.

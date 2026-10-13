@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020cab8c_func_020cab8c.c:10:17: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   func_020caba4();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020cab8c_func_020cab8c.h:4:6: note: 'func_020caba4' declared here
+    4 | void func_020caba4(int param_1);
+      |      ^             ~~~~~~~~~~~
+1 error generated.

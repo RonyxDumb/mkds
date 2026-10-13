@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+build/
+build_objects/
+ghidra_work/
+*.o
+*.obj
+*.nds
+*.bin
+*.gzf
+*.rep/
+*.gpr
+baseline/binaries/
+tools/
+*.zip

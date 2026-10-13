@@ -1,0 +1,13 @@
+C-WORK/src/arm9/021441d0_func_021441d0.c:11:28: error: too few arguments to function call, expected 4, have 2
+   11 |   iVar1 = func_02142988(1,9);
+      |           ~~~~~~~~~~~~~    ^
+C-WORK/src/arm9/deps/021441d0_func_021441d0.h:6:5: note: 'func_02142988' declared here
+    6 | int func_02142988(uint param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |     ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021441d0_func_021441d0.c:14:37: error: too few arguments to function call, expected 4, have 3
+   14 |     iVar1 = WM_SomeFn(0x23,1,param_2);
+      |             ~~~~~~~~~               ^
+C-WORK/src/arm9/deps/021441d0_func_021441d0.h:4:12: note: 'WM_SomeFn' declared here
+    4 | undefined4 WM_SomeFn(ushort param_1,uint param_2,undefined4 param_3,undefined4 param_4);
+      |            ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

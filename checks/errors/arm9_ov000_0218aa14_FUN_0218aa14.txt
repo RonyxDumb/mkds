@@ -1,0 +1,25 @@
+C-WORK/src/arm9_ov000/0218aa14_FUN_0218aa14.c:28:30: error: too many arguments to function call, expected 0, have 6
+   28 |        (iVar1 = FUN_0218e438(local_828,auStack_818,DAT_0218ab10,0,auStack_824,&local_81c),
+      |                 ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218aa14_FUN_0218aa14.h:7:6: note: 'FUN_0218e438' declared here
+    7 | void FUN_0218e438(void);
+      |      ^
+C-WORK/src/arm9_ov000/0218aa14_FUN_0218aa14.c:42:77: warning: passing 'undefined1[2052]' (aka 'unsigned char[2052]') to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   42 |             FUN_0218ab90((int)(uintptr_t)(param_1),(int)(uintptr_t)(piVar3),auStack_818,iVar1);
+      |                                                                             ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218aa14_FUN_0218aa14.h:6:49: note: passing argument to parameter 'param_3' here
+    6 | void FUN_0218ab90(int param_1,int param_2,char *param_3,int param_4);
+      |                                                 ^
+C-WORK/src/arm9_ov000/0218aa14_FUN_0218aa14.c:45:53: error: too many arguments to function call, expected 3, have 4
+   45 |             FUN_0218ab18(param_1,piVar3,auStack_818,iVar1);
+      |             ~~~~~~~~~~~~                            ^~~~~
+C-WORK/src/arm9_ov000/deps/0218aa14_FUN_0218aa14.h:5:6: note: 'FUN_0218ab18' declared here
+    5 | void FUN_0218ab18(int param_1,int param_2,undefined4 param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218aa14_FUN_0218aa14.c:49:30: error: too many arguments to function call, expected 0, have 4
+   49 |         iVar2 = FUN_0218ab14(param_1,piVar3,auStack_818,iVar1);
+      |                 ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218aa14_FUN_0218aa14.h:4:12: note: 'FUN_0218ab14' declared here
+    4 | undefined4 FUN_0218ab14(void);
+      |            ^
+1 warning and 3 errors generated.

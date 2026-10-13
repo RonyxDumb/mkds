@@ -1,0 +1,4 @@
+C-WORK/src/arm7/03806d40_FUN_03806d40.c:28:17: error: use of undeclared identifier 'UNK_03806d94'
+   28 |     (*(code *)(&UNK_03806d94 + uVar1 * 0xc))
+      |                 ^
+1 error generated.

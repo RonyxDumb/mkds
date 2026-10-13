@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02143dd0_func_02143dd0.c:13:26: error: too few arguments to function call, expected 4, have 2
+   13 |     iVar1 = WM_SomeFn(1,0);
+      |             ~~~~~~~~~    ^
+C-WORK/src/arm9/deps/02143dd0_func_02143dd0.h:4:12: note: 'WM_SomeFn' declared here
+    4 | undefined4 WM_SomeFn(ushort param_1,uint param_2,undefined4 param_3,undefined4 param_4);
+      |            ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

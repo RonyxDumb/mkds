@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov000/0219ad88_FUN_0219ad88.c:11:5: error: call to undeclared function 'func_0x02135048'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   11 |     func_0x02135048(auStack_84,0x80,DAT_0219adac,DAT_0219adb0,param_2);
+      |     ^
+1 error generated.

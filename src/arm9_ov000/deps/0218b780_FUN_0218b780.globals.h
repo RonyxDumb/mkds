@@ -1,0 +1,7 @@
+#define DAT_0218b8c8 (*(int *)(uintptr_t)0x218b8c8u)
+#define DAT_0218b8cc (*(int *)(uintptr_t)0x218b8ccu)
+#define DAT_0218b8d0 (*(int *)(uintptr_t)0x218b8d0u)
+#define DAT_0218b8d4 (*(int *)(uintptr_t)0x218b8d4u)
+#define DAT_0218b8d8 (*(int *)(uintptr_t)0x218b8d8u)
+#define DAT_0218b8dc (*(int *)(uintptr_t)0x218b8dcu)
+#define DAT_0218b8e0 (*(int *)(uintptr_t)0x218b8e0u)

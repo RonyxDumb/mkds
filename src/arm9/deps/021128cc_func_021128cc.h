@@ -1,0 +1,20 @@
+#pragma once
+/* Function-specific inferred declarations. */
+int ComputeValueInterpolation_from_thumb(int param_1,int param_2,int param_3,int param_4,int param_5);
+void func_021128cc(void);
+void func_02113480(void);
+void func_021137f4(void);
+#define iRam021129dc (*(int *)(uintptr_t)0x21129dcu)
+#define iRam021129e0 (*(int *)(uintptr_t)0x21129e0u)
+#define iRam021129e4 (*(int *)(uintptr_t)0x21129e4u)
+#define iRam021129e8 (*(int *)(uintptr_t)0x21129e8u)
+#define iRam021129ec (*(int *)(uintptr_t)0x21129ecu)
+#define iRam02112a04 (*(int *)(uintptr_t)0x2112a04u)
+#define iRam02112a08 (*(int *)(uintptr_t)0x2112a08u)
+#define piRam021129d4 (*(int **)(uintptr_t)0x21129d4u)
+#define puRam021129f0 (*(ushort **)(uintptr_t)0x21129f0u)
+#define puRam021129f4 (*(ushort **)(uintptr_t)0x21129f4u)
+#define puRam021129f8 (*(ushort **)(uintptr_t)0x21129f8u)
+#define puRam021129fc (*(ushort **)(uintptr_t)0x21129fcu)
+#define puRam02112a00 (*(ushort **)(uintptr_t)0x2112a00u)
+#define uRam021129d8 (*(undefined4 *)(uintptr_t)0x21129d8u)

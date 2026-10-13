@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020e2f0c_func_020e2f0c.c:18:92: error: too few arguments to function call, expected 4, have 3
+   18 |   uVar1 = Multiply64(*(int *)(param_1 + 0x1c),*(int *)(param_1 + 0x1c) >> 0x1f,uRam020e2fa4);
+      |           ~~~~~~~~~~                                                                       ^
+C-WORK/src/arm9/deps/020e2f0c_func_020e2f0c.h:3:12: note: 'Multiply64' declared here
+    3 | undefined8 Multiply64(uint param_1,int param_2,uint param_3,int param_4);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

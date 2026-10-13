@@ -1,0 +1,28 @@
+C-WORK/src/arm9/020eec48_func_020eec48.c:18:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020eec48_func_020eec48.c:18:52: note: place parentheses around the '+' expression to silence this warning
+   18 |   uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020eec48_func_020eec48.c:26:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |       uVar3 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020eec48_func_020eec48.c:26:56: note: place parentheses around the '+' expression to silence this warning
+   26 |       uVar3 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020eec48_func_020eec48.c:35:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |       uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020eec48_func_020eec48.c:35:56: note: place parentheses around the '+' expression to silence this warning
+   35 |       uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020eec48_func_020eec48.c:39:25: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   39 |   func_020efa48(param_1,param_3);
+      |   ~~~~~~~~~~~~~         ^~~~~~~
+C-WORK/src/arm9/deps/020eec48_func_020eec48.h:5:6: note: 'func_020efa48' declared here
+    5 | void func_020efa48(int param_1);
+      |      ^             ~~~~~~~~~~~
+3 warnings and 1 error generated.

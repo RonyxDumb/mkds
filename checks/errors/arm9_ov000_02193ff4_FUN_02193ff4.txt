@@ -1,0 +1,49 @@
+C-WORK/src/arm9_ov000/02193ff4_FUN_02193ff4.c:8:36: error: too few arguments to function call, expected 4, have 2
+    8 |   FUN_0218e7dc(param_1,DAT_02194048);
+      |   ~~~~~~~~~~~~                     ^
+C-WORK/src/arm9_ov000/deps/02193ff4_FUN_02193ff4.h:6:6: note: 'FUN_0218e7dc' declared here
+    6 | bool FUN_0218e7dc(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193ff4_FUN_02193ff4.c:9:36: error: too few arguments to function call, expected 4, have 2
+    9 |   FUN_0218e7dc(param_1,DAT_0219404c);
+      |   ~~~~~~~~~~~~                     ^
+C-WORK/src/arm9_ov000/deps/02193ff4_FUN_02193ff4.h:6:6: note: 'FUN_0218e7dc' declared here
+    6 | bool FUN_0218e7dc(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193ff4_FUN_02193ff4.c:10:36: error: too few arguments to function call, expected 4, have 2
+   10 |   FUN_0218e7dc(param_1,DAT_02194050);
+      |   ~~~~~~~~~~~~                     ^
+C-WORK/src/arm9_ov000/deps/02193ff4_FUN_02193ff4.h:6:6: note: 'FUN_0218e7dc' declared here
+    6 | bool FUN_0218e7dc(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193ff4_FUN_02193ff4.c:11:36: error: too few arguments to function call, expected 4, have 2
+   11 |   FUN_0218e7dc(param_1,DAT_02194054);
+      |   ~~~~~~~~~~~~                     ^
+C-WORK/src/arm9_ov000/deps/02193ff4_FUN_02193ff4.h:6:6: note: 'FUN_0218e7dc' declared here
+    6 | bool FUN_0218e7dc(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193ff4_FUN_02193ff4.c:12:36: error: too few arguments to function call, expected 4, have 2
+   12 |   FUN_0218e7dc(param_1,DAT_02194058);
+      |   ~~~~~~~~~~~~                     ^
+C-WORK/src/arm9_ov000/deps/02193ff4_FUN_02193ff4.h:6:6: note: 'FUN_0218e7dc' declared here
+    6 | bool FUN_0218e7dc(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193ff4_FUN_02193ff4.c:13:36: error: too few arguments to function call, expected 4, have 2
+   13 |   FUN_0218e7ac(param_1,DAT_02194048);
+      |   ~~~~~~~~~~~~                     ^
+C-WORK/src/arm9_ov000/deps/02193ff4_FUN_02193ff4.h:5:6: note: 'FUN_0218e7ac' declared here
+    5 | bool FUN_0218e7ac(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193ff4_FUN_02193ff4.c:14:36: error: too few arguments to function call, expected 4, have 2
+   14 |   FUN_0218e7ac(param_1,DAT_0219404c);
+      |   ~~~~~~~~~~~~                     ^
+C-WORK/src/arm9_ov000/deps/02193ff4_FUN_02193ff4.h:5:6: note: 'FUN_0218e7ac' declared here
+    5 | bool FUN_0218e7ac(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193ff4_FUN_02193ff4.c:15:36: error: too few arguments to function call, expected 4, have 2
+   15 |   FUN_0218e7ac(param_1,DAT_02194050);
+      |   ~~~~~~~~~~~~                     ^
+C-WORK/src/arm9_ov000/deps/02193ff4_FUN_02193ff4.h:5:6: note: 'FUN_0218e7ac' declared here
+    5 | bool FUN_0218e7ac(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+8 errors generated.

@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/02196040_FUN_02196040.c:12:28: error: too many arguments to function call, expected 0, have 1
+   12 |     thunk_EXT_FUN_0200dc3c(10);
+      |     ~~~~~~~~~~~~~~~~~~~~~~ ^~
+C-WORK/src/arm9_ov000/deps/02196040_FUN_02196040.h:5:6: note: 'thunk_EXT_FUN_0200dc3c' declared here
+    5 | void thunk_EXT_FUN_0200dc3c(void);
+      |      ^
+C-WORK/src/arm9_ov000/02196040_FUN_02196040.c:17:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   17 |   (*UNRECOVERED_JUMPTABLE)(0);
+      |                           ^
+1 warning and 1 error generated.

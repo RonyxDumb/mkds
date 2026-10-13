@@ -1,0 +1,23 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void G3_LoadMtx44(void);
+uint func_0203c5e4(void);
+void func_02104144(int param_1);
+#define puRam02104324 (*(ushort **)(uintptr_t)0x2104324u)
+#define puRam02104328 (*(uint **)(uintptr_t)0x2104328u)
+#define puRam0210432c (*(uint **)(uintptr_t)0x210432cu)
+#define puRam02104330 (*(uint **)(uintptr_t)0x2104330u)
+#define puRam02104334 (*(uint **)(uintptr_t)0x2104334u)
+#define puRam02104338 (*(undefined4 **)(uintptr_t)0x2104338u)
+#define puRam02104340 (*(undefined4 **)(uintptr_t)0x2104340u)
+#define puRam02104344 (*(undefined4 **)(uintptr_t)0x2104344u)
+#define puRam02104348 (*(ushort **)(uintptr_t)0x2104348u)
+#define puRam0210434c (*(uint **)(uintptr_t)0x210434cu)
+#define puRam02104350 (*(uint **)(uintptr_t)0x2104350u)
+#define puRam02104354 (*(uint **)(uintptr_t)0x2104354u)
+#define puRam02104358 (*(uint **)(uintptr_t)0x2104358u)
+#define puRam02104360 (*(undefined4 **)(uintptr_t)0x2104360u)
+#define puRam02104364 (*(undefined4 **)(uintptr_t)0x2104364u)
+#define uRam02104320 (*(uint *)(uintptr_t)0x2104320u)
+#define uRam0210433c (*(undefined4 *)(uintptr_t)0x210433cu)
+#define uRam0210435c (*(uint *)(uintptr_t)0x210435cu)

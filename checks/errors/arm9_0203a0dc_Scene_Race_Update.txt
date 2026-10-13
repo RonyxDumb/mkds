@@ -1,0 +1,37 @@
+C-WORK/src/arm9/0203a0dc_Scene_Race_Update.c:48:33: error: too few arguments to function call, single argument 'param_1' was not specified
+   48 |         iVar3 = HasTouchPressed();
+      |                 ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0203a0dc_Scene_Race_Update.h:10:6: note: 'HasTouchPressed' declared here
+   10 | bool HasTouchPressed(int param_1);
+      |      ^               ~~~~~~~~~~~
+C-WORK/src/arm9/0203a0dc_Scene_Race_Update.c:82:40: error: too few arguments to function call, single argument 'param_1' was not specified
+   82 |         iVar3 = AnotherHasTouchPressed();
+      |                 ~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0203a0dc_Scene_Race_Update.h:3:6: note: 'AnotherHasTouchPressed' declared here
+    3 | bool AnotherHasTouchPressed(int param_1);
+      |      ^                      ~~~~~~~~~~~
+C-WORK/src/arm9/0203a0dc_Scene_Race_Update.c:106:9: error: call to undeclared function 'func_0x0219e0c4'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  106 |         func_0x0219e0c4();
+      |         ^
+C-WORK/src/arm9/0203a0dc_Scene_Race_Update.c:145:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  145 |           *(uint *)(DAT_0203a39c & 0xfffffffc) << (DAT_0203a39c & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203a0dc_Scene_Race_Update.c:145:75: note: place parentheses around the '+' expression to silence this warning
+  145 |           *(uint *)(DAT_0203a39c & 0xfffffffc) << (DAT_0203a39c & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0203a0dc_Scene_Race_Update.c:149:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  149 |   if ((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) == 6) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203a0dc_Scene_Race_Update.c:149:49: note: place parentheses around the '+' expression to silence this warning
+  149 |   if ((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) == 6) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/0203a0dc_Scene_Race_Update.c:162:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  162 |       (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) != 5 ||
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203a0dc_Scene_Race_Update.c:162:49: note: place parentheses around the '+' expression to silence this warning
+  162 |       (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) != 5 ||
+      |                                                 ^     
+      |                                      (                )
+3 warnings and 3 errors generated.

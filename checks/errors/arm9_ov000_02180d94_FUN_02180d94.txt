@@ -1,0 +1,22 @@
+C-WORK/src/arm9_ov000/02180d94_FUN_02180d94.c:28:68: error: too few arguments to function call, expected 2, have 1
+   28 |       uVar3 = func_0x020b3f7c(*(undefined4 *)(*DAT_02180e50 + 0x38));
+      |               ~~~~~~~~~~~~~~~                                      ^
+C-WORK/src/arm9_ov000/deps/02180d94_FUN_02180d94.h:15:5: note: 'Bmg_GetRawStringPointer_from_thumb' declared here
+   15 | int Bmg_GetRawStringPointer_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02180d94_FUN_02180d94.c:30:23: error: too many arguments to function call, expected 0, have 2
+   30 |       func_0x02126570(uVar3,uVar4);
+      |       ~~~~~~~~~~~~~~~ ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02180d94_FUN_02180d94.h:17:6: note: 'func_02126570' declared here
+   17 | void func_02126570(void);
+      |      ^
+C-WORK/src/arm9_ov000/02180d94_FUN_02180d94.c:36:51: error: too many arguments to function call, expected 3, have 4
+   36 |     func_0x0212513c(auStack_278,uVar3,auStack_264,DAT_02180e54);
+      |     ~~~~~~~~~~~~~~~                               ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02180d94_FUN_02180d94.h:6:22: note: expanded from macro 'DAT_02180e54'
+    6 | #define DAT_02180e54 (*(undefined4 *)(uintptr_t)0x2180e54u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02180d94_FUN_02180d94.h:23:6: note: 'MaybeHandleBmgFormatting_from_thumb' declared here
+   23 | void MaybeHandleBmgFormatting_from_thumb(short *param_1,short *param_2,short *param_3);
+      |      ^                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

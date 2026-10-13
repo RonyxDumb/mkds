@@ -1,0 +1,18 @@
+C-WORK/src/arm9/02052b60_func_02052b60.c:15:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |     *(uint *)(uRam02052bb0 & 0xfffffffc) << (uRam02052bb0 & 3) * -8 + 0x20) + 0xc) = 6;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02052b60_func_02052b60.c:15:69: note: place parentheses around the '+' expression to silence this warning
+   15 |     *(uint *)(uRam02052bb0 & 0xfffffffc) << (uRam02052bb0 & 3) * -8 + 0x20) + 0xc) = 6;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/02052b60_func_02052b60.c:21:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   *(undefined4 *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0x10) = 1;
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02052b60_func_02052b60.c:21:61: note: place parentheses around the '+' expression to silence this warning
+   21 |   *(undefined4 *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0x10) = 1;
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/02052b60_func_02052b60.c:22:9: error: assigning to 'int' from incompatible type 'void'
+   22 |   iVar2 = func_02143bc4(param_1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.

@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0200ce80_Operation_CartArm7.c:10:28: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+   10 |   (*pcRam0200ce94)(param_1,uRam0200ce98,uRam0200ce9c,1);
+      |                            ^~~~~~~~~~~~
+      |                            &
+C-WORK/src/arm9/deps/0200ce80_Operation_CartArm7.h:6:22: note: expanded from macro 'uRam0200ce98'
+    6 | #define uRam0200ce98 (*(undefined4 *)(uintptr_t)0x200ce98u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200ce80_Operation_CartArm7.c:10:41: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   10 |   (*pcRam0200ce94)(param_1,uRam0200ce98,uRam0200ce9c,1);
+      |                                         ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0200ce80_Operation_CartArm7.h:7:22: note: expanded from macro 'uRam0200ce9c'
+    7 | #define uRam0200ce9c (*(undefined4 *)(uintptr_t)0x200ce9cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

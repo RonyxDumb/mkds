@@ -1,0 +1,35 @@
+C-WORK/src/arm9/0200ec08_Os_Mutex_TryLock.c:17:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   uVar4 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200ec08_Os_Mutex_TryLock.c:17:52: note: place parentheses around the '+' expression to silence this warning
+   17 |   uVar4 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0200ec08_Os_Mutex_TryLock.c:20:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |   uVar2 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200ec08_Os_Mutex_TryLock.c:20:52: note: place parentheses around the '+' expression to silence this warning
+   20 |   uVar2 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0200ec08_Os_Mutex_TryLock.c:25:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |     *(uint *)(param_1 + 0xc) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + 1;
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200ec08_Os_Mutex_TryLock.c:25:74: note: place parentheses around the '+' expression to silence this warning
+   25 |     *(uint *)(param_1 + 0xc) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + 1;
+      |                                                                          ^     
+      |                                                               (                )
+C-WORK/src/arm9/0200ec08_Os_Mutex_TryLock.c:33:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |     *(uint *)(param_1 + 0xc) = (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + 1;
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200ec08_Os_Mutex_TryLock.c:33:74: note: place parentheses around the '+' expression to silence this warning
+   33 |     *(uint *)(param_1 + 0xc) = (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + 1;
+      |                                                                          ^     
+      |                                                               (                )
+C-WORK/src/arm9/0200ec08_Os_Mutex_TryLock.c:38:17: error: too many arguments to function call, expected 0, have 1
+   38 |   Os_RestoreIrq(uVar1);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200ec08_Os_Mutex_TryLock.h:6:12: note: 'Os_RestoreIrq' declared here
+    6 | undefined4 Os_RestoreIrq(void);
+      |            ^
+4 warnings and 1 error generated.

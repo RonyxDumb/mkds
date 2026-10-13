@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov001/021819f4_func_ov001_021819f4.c:14:27: error: too few arguments to function call, single argument 'p0' was not specified
+   14 |   uVar2 = func_0x020364e0();
+      |           ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/021819f4_func_ov001_021819f4.h:11:14: note: 'ExecutionContext_GetHeapHandle' declared here
+   11 | unsigned int ExecutionContext_GetHeapHandle(unsigned int p0);
+      |              ^                              ~~~~~~~~~~~~~~~
+1 error generated.

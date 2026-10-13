@@ -1,0 +1,5 @@
+#define DAT_020cb988 (*(int **)(uintptr_t)0x20cb988u)
+#define DAT_020cb98c (*(int *)(uintptr_t)0x20cb98cu)
+#define DAT_020cb990 (*(int *)(uintptr_t)0x20cb990u)
+#define DAT_020cb994 (*(int *)(uintptr_t)0x20cb994u)
+#define DAT_020cb998 (*(int *)(uintptr_t)0x20cb998u)

@@ -1,0 +1,30 @@
+C-WORK/src/arm9/0214e788_func_0214e788.c:29:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |       *(undefined2 *)((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + iVar6 + 4) = 0;
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214e788_func_0214e788.c:29:65: note: place parentheses around the '+' expression to silence this warning
+   29 |       *(undefined2 *)((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + iVar6 + 4) = 0;
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/0214e788_func_0214e788.c:48:19: error: too many arguments to function call, expected 0, have 1
+   48 |     Os_RestoreIrq(uVar5);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0214e788_func_0214e788.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0214e788_func_0214e788.c:50:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   50 |                      *(uint *)(uRam0214e890 & 0xfffffffc) << (uRam0214e890 & 3) * -8 + 0x20);
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214e788_func_0214e788.c:50:86: note: place parentheses around the '+' expression to silence this warning
+   50 |                      *(uint *)(uRam0214e890 & 0xfffffffc) << (uRam0214e890 & 3) * -8 + 0x20);
+      |                                                                                      ^     
+      |                                                              (                             )
+C-WORK/src/arm9/0214e788_func_0214e788.c:55:14: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   55 |     (*pcVar7)(1,4,0);
+      |              ^
+C-WORK/src/arm9/0214e788_func_0214e788.c:60:17: error: too many arguments to function call, expected 0, have 1
+   60 |   Os_RestoreIrq(uVar5);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0214e788_func_0214e788.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+3 warnings and 2 errors generated.

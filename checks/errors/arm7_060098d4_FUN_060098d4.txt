@@ -1,0 +1,35 @@
+C-WORK/src/arm7/060098d4_FUN_060098d4.c:9:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+    9 |                      *(uint *)(DAT_06009930 & 0xfffffffc) << (DAT_06009930 & 3) * -8 + 0x20) +
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060098d4_FUN_060098d4.c:9:86: note: place parentheses around the '+' expression to silence this warning
+    9 |                      *(uint *)(DAT_06009930 & 0xfffffffc) << (DAT_06009930 & 3) * -8 + 0x20) +
+      |                                                                                      ^     
+      |                                                              (                             )
+C-WORK/src/arm7/060098d4_FUN_060098d4.c:8:22: error: too many arguments to function call, expected 0, have 1
+    8 |   thunk_FUN_037fa564((*(uint *)(DAT_06009930 & 0xfffffffc) >> (DAT_06009930 & 3) * 8 |
+      |   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    9 |                      *(uint *)(DAT_06009930 & 0xfffffffc) << (DAT_06009930 & 3) * -8 + 0x20) +
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   10 |                      DAT_06009934);
+      |                      ~~~~~~~~~~~~
+C-WORK/src/arm7/deps/060098d4_FUN_060098d4.h:4:6: note: 'thunk_FUN_037fa564' declared here
+    4 | void thunk_FUN_037fa564(void);
+      |      ^
+C-WORK/src/arm7/060098d4_FUN_060098d4.c:12:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   12 |                      *(uint *)(DAT_06009930 & 0xfffffffc) << (DAT_06009930 & 3) * -8 + 0x20) +
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060098d4_FUN_060098d4.c:12:86: note: place parentheses around the '+' expression to silence this warning
+   12 |                      *(uint *)(DAT_06009930 & 0xfffffffc) << (DAT_06009930 & 3) * -8 + 0x20) +
+      |                                                                                      ^     
+      |                                                              (                             )
+C-WORK/src/arm7/060098d4_FUN_060098d4.c:11:22: error: too many arguments to function call, expected 0, have 5
+   11 |   thunk_FUN_037fa670((*(uint *)(DAT_06009930 & 0xfffffffc) >> (DAT_06009930 & 3) * 8 |
+      |   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   12 |                      *(uint *)(DAT_06009930 & 0xfffffffc) << (DAT_06009930 & 3) * -8 + 0x20) +
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   13 |                      DAT_06009934,(uint)(param_1 * DAT_06009938) >> 6,0,param_2,0);
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/060098d4_FUN_060098d4.h:5:6: note: 'thunk_FUN_037fa670' declared here
+    5 | void thunk_FUN_037fa670(void);
+      |      ^
+2 warnings and 2 errors generated.

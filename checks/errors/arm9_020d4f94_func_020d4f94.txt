@@ -1,0 +1,35 @@
+C-WORK/src/arm9/020d4f94_func_020d4f94.c:25:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |   uVar4 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d4f94_func_020d4f94.c:25:52: note: place parentheses around the '+' expression to silence this warning
+   25 |   uVar4 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020d4f94_func_020d4f94.c:28:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |   uVar7 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d4f94_func_020d4f94.c:28:52: note: place parentheses around the '+' expression to silence this warning
+   28 |   uVar7 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020d4f94_func_020d4f94.c:31:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |   uVar5 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d4f94_func_020d4f94.c:31:52: note: place parentheses around the '+' expression to silence this warning
+   31 |   uVar5 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020d4f94_func_020d4f94.c:46:40: error: too few arguments to function call, expected 3, have 2
+   46 |   MTX_MultVec33(uRam020d50ac,auStack_38);
+      |   ~~~~~~~~~~~~~                        ^
+C-WORK/src/arm9/deps/020d4f94_func_020d4f94.h:3:6: note: 'MTX_MultVec33' declared here
+    3 | void MTX_MultVec33(uint param_1,uint param_2,uint *param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d4f94_func_020d4f94.c:49:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   49 |   if (uVar4 >> uVar5 * 8 == 0 && uVar4 << uVar5 * -8 + 0x20 == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d4f94_func_020d4f94.c:49:54: note: place parentheses around the '+' expression to silence this warning
+   49 |   if (uVar4 >> uVar5 * 8 == 0 && uVar4 << uVar5 * -8 + 0x20 == 0) {
+      |                                                      ^
+      |                                           (                )
+4 warnings and 1 error generated.

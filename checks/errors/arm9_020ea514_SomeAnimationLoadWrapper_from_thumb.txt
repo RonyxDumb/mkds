@@ -1,0 +1,19 @@
+C-WORK/src/arm9/020ea514_SomeAnimationLoadWrapper_from_thumb.c:13:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   uVar1 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ea514_SomeAnimationLoadWrapper_from_thumb.h:6:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    6 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020ea514_SomeAnimationLoadWrapper_from_thumb.c:14:56: error: too many arguments to function call, expected 5, have 6
+   14 |   Animation_CreateFrom(param_1,param_3,param_2,1,uVar1,param_4);
+      |   ~~~~~~~~~~~~~~~~~~~~                                 ^~~~~~~
+C-WORK/src/arm9/deps/020ea514_SomeAnimationLoadWrapper_from_thumb.h:3:6: note: 'Animation_CreateFrom' declared here
+    3 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ea514_SomeAnimationLoadWrapper_from_thumb.c:16:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |   uVar1 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ea514_SomeAnimationLoadWrapper_from_thumb.h:6:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    6 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+3 errors generated.

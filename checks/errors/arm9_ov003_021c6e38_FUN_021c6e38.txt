@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov003/021c6e38_FUN_021c6e38.c:18:29: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   18 |   iVar3 = FUN_021d283c(0x2c,4);
+      |           ~~~~~~~~~~~~      ^
+C-WORK/src/arm9_ov003/deps/021c6e38_FUN_021c6e38.h:15:12: note: 'FUN_021d283c' declared here
+   15 | undefined4 FUN_021d283c(undefined4 param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c6e38_FUN_021c6e38.c:20:16: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   20 |   FUN_021c20dc(&local_c,local_8);
+      |                ^~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c6e38_FUN_021c6e38.h:6:31: note: passing argument to parameter 'param_1' here
+    6 | void FUN_021c20dc(undefined4 *param_1,undefined4 *param_2);
+      |                               ^
+C-WORK/src/arm9_ov003/021c6e38_FUN_021c6e38.c:20:25: warning: passing 'int[2]' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   20 |   FUN_021c20dc(&local_c,local_8);
+      |                         ^~~~~~~
+C-WORK/src/arm9_ov003/deps/021c6e38_FUN_021c6e38.h:6:51: note: passing argument to parameter 'param_2' here
+    6 | void FUN_021c20dc(undefined4 *param_1,undefined4 *param_2);
+      |                                                   ^
+C-WORK/src/arm9_ov003/021c6e38_FUN_021c6e38.c:29:33: error: too few arguments to function call, expected 3, have 2
+   29 |     FUN_021bf43c(0x81,0xffffffff);
+      |     ~~~~~~~~~~~~                ^
+C-WORK/src/arm9_ov003/deps/021c6e38_FUN_021c6e38.h:3:12: note: 'FUN_021bf43c' declared here
+    3 | undefined4 FUN_021bf43c(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c6e38_FUN_021c6e38.c:32:46: error: too few arguments to function call, expected 3, have 2
+   32 |     FUN_021bf43c(local_10[local_c],0xffffffff);
+      |     ~~~~~~~~~~~~                             ^
+C-WORK/src/arm9_ov003/deps/021c6e38_FUN_021c6e38.h:3:12: note: 'FUN_021bf43c' declared here
+    3 | undefined4 FUN_021bf43c(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 3 errors generated.

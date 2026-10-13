@@ -1,0 +1,11 @@
+C-WORK/src/arm9/0214e07c_Rtc_GetDateAsync.c:14:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |       *(uint *)((uint)puRam0214e0f0 & 0xfffffffc) << ((uint)puRam0214e0f0 & 3) * -8 + 0x20 == 0) {
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214e07c_Rtc_GetDateAsync.c:14:85: note: place parentheses around the '+' expression to silence this warning
+   14 |       *(uint *)((uint)puRam0214e0f0 & 0xfffffffc) << ((uint)puRam0214e0f0 & 3) * -8 + 0x20 == 0) {
+      |                                                                                     ^
+      |                                                      (                                    )
+C-WORK/src/arm9/0214e07c_Rtc_GetDateAsync.c:23:11: error: assigning to 'int' from incompatible type 'void'
+   23 |     iVar2 = Rtc_ReadRawDateAsync();
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

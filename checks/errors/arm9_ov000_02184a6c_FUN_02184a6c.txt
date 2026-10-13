@@ -1,0 +1,5 @@
+C-WORK/src/arm9_ov000/02184a6c_FUN_02184a6c.c:13:17: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   13 |   *DAT_02184aa0 = puVar1;
+      |                 ^ ~~~~~~
+      |                   *
+1 error generated.

@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0210bc8c_StructMQRacerEntry_MaybeInsertChildEntry.c:15:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210bc8c_StructMQRacerEntry_MaybeInsertChildEntry.c:15:54: note: place parentheses around the '+' expression to silence this warning
+   15 |   if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/0210bc8c_StructMQRacerEntry_MaybeInsertChildEntry.c:17:37: error: too few arguments to function call, expected 2, have 0
+   17 |     IntrusiveListWrapper_InsertLast();
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0210bc8c_StructMQRacerEntry_MaybeInsertChildEntry.h:3:6: note: 'IntrusiveListWrapper_InsertLast' declared here
+    3 | void IntrusiveListWrapper_InsertLast(uint param_1,int param_2);
+      |      ^                               ~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

@@ -1,0 +1,27 @@
+C-WORK/src/arm7/037fd130_FUN_037fd130.c:30:62: error: too few arguments to function call, expected 3, have 2
+   30 |           FUN_037fbc88(iVar5,*(ushort *)(iVar6 + 0x24) & 0xff);
+      |           ~~~~~~~~~~~~                                       ^
+C-WORK/src/arm7/deps/037fd130_FUN_037fd130.h:5:6: note: 'FUN_037fbc88' declared here
+    5 | void FUN_037fbc88(uint param_1,undefined4 param_2,int param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/037fd130_FUN_037fd130.c:41:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |           FUN_037fbea0(iVar5,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037fd130_FUN_037fd130.c:41:71: note: place parentheses around the '+' expression to silence this warning
+   41 |           FUN_037fbea0(iVar5,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |                                                                       ^     
+      |                                                            (                )
+C-WORK/src/arm7/037fd130_FUN_037fd130.c:41:77: error: too few arguments to function call, expected 10, have 2
+   41 |           FUN_037fbea0(iVar5,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |           ~~~~~~~~~~~~                                                      ^
+C-WORK/src/arm7/deps/037fd130_FUN_037fd130.h:9:6: note: 'FUN_037fbea0' declared here
+    9 | void FUN_037fbea0(uint param_1,undefined4 param_2,int param_3,int param_4,undefined2 param_5,undefined4 param_6,uint param_7,int param_8,short param_9,uint param_10);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/037fd130_FUN_037fd130.c:46:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |           FUN_037fbde8(iVar5,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037fd130_FUN_037fd130.c:46:71: note: place parentheses around the '+' expression to silence this warning
+   46 |           FUN_037fbde8(iVar5,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,
+      |                                                                       ^     
+      |                                                            (                )
+2 warnings and 2 errors generated.

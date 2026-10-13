@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov000/02197220_FUN_02197220.c:14:16: error: too few arguments to function call, expected 2, have 0
+   14 |   FUN_021971ec();
+      |   ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02197220_FUN_02197220.h:5:6: note: 'FUN_021971ec' declared here
+    5 | void FUN_021971ec(int param_1,int param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02197220_FUN_02197220.c:19:28: error: too many arguments to function call, expected 0, have 4
+   19 |       iVar2 = FUN_0218e420(*puVar1,param_1 + iVar3,(param_2 + 7) - iVar3,0);
+      |               ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02197220_FUN_02197220.h:4:6: note: 'FUN_0218e420' declared here
+    4 | void FUN_0218e420(void);
+      |      ^
+C-WORK/src/arm9_ov000/02197220_FUN_02197220.c:21:30: error: too many arguments to function call, expected 0, have 1
+   21 |         iVar2 = FUN_0218e368(*puVar1);
+      |                 ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9_ov000/deps/02197220_FUN_02197220.h:3:12: note: 'FUN_0218e368' declared here
+    3 | undefined4 FUN_0218e368(void);
+      |            ^
+3 errors generated.

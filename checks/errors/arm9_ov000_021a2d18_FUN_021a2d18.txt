@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/021a2d18_FUN_021a2d18.c:10:16: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   FUN_0219b9d4();
+      |   ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a2d18_FUN_021a2d18.h:4:5: note: 'FUN_0219b9d4' declared here
+    4 | int FUN_0219b9d4(uint param_1);
+      |     ^            ~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a2d18_FUN_021a2d18.c:11:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   11 |   iVar1 = FUN_021988dc();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a2d18_FUN_021a2d18.h:3:5: note: 'FUN_021988dc' declared here
+    3 | int FUN_021988dc(int param_1);
+      |     ^            ~~~~~~~~~~~
+2 errors generated.

@@ -1,0 +1,21 @@
+C-WORK/src/arm7/037ff170_FUN_037ff170.c:18:16: error: too many arguments to function call, expected 0, have 1
+   18 |   FUN_037fc298(param_1);
+      |   ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm7/deps/037ff170_FUN_037ff170.h:4:6: note: 'FUN_037fc298' declared here
+    4 | void FUN_037fc298(void);
+      |      ^
+C-WORK/src/arm7/037ff170_FUN_037ff170.c:21:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   if ((uVar1 >> uVar5 * 8 | uVar1 << uVar5 * -8 + 0x20) <= param_2) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037ff170_FUN_037ff170.c:21:49: note: place parentheses around the '+' expression to silence this warning
+   21 |   if ((uVar1 >> uVar5 * 8 | uVar1 << uVar5 * -8 + 0x20) <= param_2) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm7/037ff170_FUN_037ff170.c:28:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |   uVar5 = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037ff170_FUN_037ff170.c:28:52: note: place parentheses around the '+' expression to silence this warning
+   28 |   uVar5 = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+2 warnings and 1 error generated.

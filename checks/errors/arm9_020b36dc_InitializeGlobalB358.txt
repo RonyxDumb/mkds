@@ -1,0 +1,25 @@
+C-WORK/src/arm9/020b36dc_InitializeGlobalB358.c:13:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   uVar2 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020b36dc_InitializeGlobalB358.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020b36dc_InitializeGlobalB358.c:16:18: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   16 |   *puRam020b3720 = puVar3;
+      |                  ^ ~~~~~~
+      |                    *
+C-WORK/src/arm9/020b36dc_InitializeGlobalB358.c:20:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |     *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 4) = 0;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b36dc_InitializeGlobalB358.c:20:69: note: place parentheses around the '+' expression to silence this warning
+   20 |     *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 4) = 0;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/020b36dc_InitializeGlobalB358.c:23:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |     *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 8) = 0;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b36dc_InitializeGlobalB358.c:23:69: note: place parentheses around the '+' expression to silence this warning
+   23 |     *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 8) = 0;
+      |                                                                     ^     
+      |                                             (                             )
+2 warnings and 2 errors generated.

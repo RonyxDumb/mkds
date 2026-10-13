@@ -1,0 +1,179 @@
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:19:24: error: too many arguments to function call, expected 0, have 3
+   19 |   iVar1 = Fs_File_Read(param_1 + 0x34,param_1,0x30);
+      |           ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212d6c4_Sound_ReadSdatFromOpenedFile.h:3:6: note: 'Fs_File_Read' declared here
+    3 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:27:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |                       (param_2,uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,uRam0212d8d4,param_1)
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:27:73: note: place parentheses around the '+' expression to silence this warning
+   27 |                       (param_2,uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,uRam0212d8d4,param_1)
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:27:100: error: too few arguments to function call, expected 5, have 4
+   26 |     uVar2 = Sound_Context_Allocate
+      |             ~~~~~~~~~~~~~~~~~~~~~~
+   27 |                       (param_2,uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,uRam0212d8d4,param_1)
+      |                                                                                                    ^
+C-WORK/src/arm9/deps/0212d6c4_Sound_ReadSdatFromOpenedFile.h:5:5: note: 'Sound_Context_Allocate' declared here
+    5 | int Sound_Context_Allocate(uint param_1,int param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5);
+      |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:32:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |     if (uVar3 >> uVar5 * 8 == 0 && uVar3 << uVar5 * -8 + 0x20 == 0) {
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:32:56: note: place parentheses around the '+' expression to silence this warning
+   32 |     if (uVar3 >> uVar5 * 8 == 0 && uVar3 << uVar5 * -8 + 0x20 == 0) {
+      |                                                        ^
+      |                                             (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:37:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   37 |     iVar1 = Fs_File_Seek(param_1 + 0x34,uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,0);
+      |                                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:37:82: note: place parentheses around the '+' expression to silence this warning
+   37 |     iVar1 = Fs_File_Seek(param_1 + 0x34,uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,0);
+      |                                                                                  ^     
+      |                                                                       (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:45:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   45 |     uVar3 = Fs_File_Read(param_1 + 0x34,uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20,
+      |                                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:45:82: note: place parentheses around the '+' expression to silence this warning
+   45 |     uVar3 = Fs_File_Read(param_1 + 0x34,uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20,
+      |                                                                                  ^     
+      |                                                                       (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:46:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |                          uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:46:67: note: place parentheses around the '+' expression to silence this warning
+   46 |                          uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                                   ^     
+      |                                                        (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:45:26: error: too many arguments to function call, expected 0, have 3
+   45 |     uVar3 = Fs_File_Read(param_1 + 0x34,uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20,
+      |             ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   46 |                          uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212d6c4_Sound_ReadSdatFromOpenedFile.h:3:6: note: 'Fs_File_Read' declared here
+    3 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:49:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   49 |     if (uVar3 != (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20)) {
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:49:60: note: place parentheses around the '+' expression to silence this warning
+   49 |     if (uVar3 != (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20)) {
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:55:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   55 |                       (param_2,uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,uRam0212d8d8,param_1)
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:55:73: note: place parentheses around the '+' expression to silence this warning
+   55 |                       (param_2,uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,uRam0212d8d8,param_1)
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:55:100: error: too few arguments to function call, expected 5, have 4
+   54 |     uVar2 = Sound_Context_Allocate
+      |             ~~~~~~~~~~~~~~~~~~~~~~
+   55 |                       (param_2,uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,uRam0212d8d8,param_1)
+      |                                                                                                    ^
+C-WORK/src/arm9/deps/0212d6c4_Sound_ReadSdatFromOpenedFile.h:5:5: note: 'Sound_Context_Allocate' declared here
+    5 | int Sound_Context_Allocate(uint param_1,int param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5);
+      |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:60:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   60 |     if (uVar3 >> uVar5 * 8 == 0 && uVar3 << uVar5 * -8 + 0x20 == 0) {
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:60:56: note: place parentheses around the '+' expression to silence this warning
+   60 |     if (uVar3 >> uVar5 * 8 == 0 && uVar3 << uVar5 * -8 + 0x20 == 0) {
+      |                                                        ^
+      |                                             (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:65:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   65 |     iVar1 = Fs_File_Seek(param_1 + 0x34,uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,0);
+      |                                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:65:82: note: place parentheses around the '+' expression to silence this warning
+   65 |     iVar1 = Fs_File_Seek(param_1 + 0x34,uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,0);
+      |                                                                                  ^     
+      |                                                                       (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:73:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   73 |     uVar3 = Fs_File_Read(param_1 + 0x34,uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20,
+      |                                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:73:82: note: place parentheses around the '+' expression to silence this warning
+   73 |     uVar3 = Fs_File_Read(param_1 + 0x34,uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20,
+      |                                                                                  ^     
+      |                                                                       (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:74:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   74 |                          uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:74:67: note: place parentheses around the '+' expression to silence this warning
+   74 |                          uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                                   ^     
+      |                                                        (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:73:26: error: too many arguments to function call, expected 0, have 3
+   73 |     uVar3 = Fs_File_Read(param_1 + 0x34,uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20,
+      |             ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   74 |                          uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212d6c4_Sound_ReadSdatFromOpenedFile.h:3:6: note: 'Fs_File_Read' declared here
+    3 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:77:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   77 |     if (uVar3 != (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20)) {
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:77:60: note: place parentheses around the '+' expression to silence this warning
+   77 |     if (uVar3 != (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20)) {
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:82:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   82 |        uVar5 = uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20, uVar5 != 0)) {
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:82:57: note: place parentheses around the '+' expression to silence this warning
+   82 |        uVar5 = uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20, uVar5 != 0)) {
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:83:72: error: too few arguments to function call, expected 5, have 4
+   83 |       uVar2 = Sound_Context_Allocate(param_2,uVar5,uRam0212d8dc,param_1);
+      |               ~~~~~~~~~~~~~~~~~~~~~~                                   ^
+C-WORK/src/arm9/deps/0212d6c4_Sound_ReadSdatFromOpenedFile.h:5:5: note: 'Sound_Context_Allocate' declared here
+    5 | int Sound_Context_Allocate(uint param_1,int param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5);
+      |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:87:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   87 |       if (uVar3 >> uVar5 * 8 == 0 && uVar3 << uVar5 * -8 + 0x20 == 0) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:87:58: note: place parentheses around the '+' expression to silence this warning
+   87 |       if (uVar3 >> uVar5 * 8 == 0 && uVar3 << uVar5 * -8 + 0x20 == 0) {
+      |                                                          ^
+      |                                               (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:92:84: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   92 |       iVar1 = Fs_File_Seek(param_1 + 0x34,uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,0);
+      |                                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:92:84: note: place parentheses around the '+' expression to silence this warning
+   92 |       iVar1 = Fs_File_Seek(param_1 + 0x34,uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,0);
+      |                                                                                    ^     
+      |                                                                         (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:100:84: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  100 |       uVar3 = Fs_File_Read(param_1 + 0x34,uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20,
+      |                                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:100:84: note: place parentheses around the '+' expression to silence this warning
+  100 |       uVar3 = Fs_File_Read(param_1 + 0x34,uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20,
+      |                                                                                    ^     
+      |                                                                         (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:101:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  101 |                            uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:101:69: note: place parentheses around the '+' expression to silence this warning
+  101 |                            uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                                     ^     
+      |                                                          (                )
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:100:28: error: too many arguments to function call, expected 0, have 3
+  100 |       uVar3 = Fs_File_Read(param_1 + 0x34,uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20,
+      |               ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  101 |                            uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212d6c4_Sound_ReadSdatFromOpenedFile.h:3:6: note: 'Fs_File_Read' declared here
+    3 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:104:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  104 |       if (uVar3 != (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20)) {
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d6c4_Sound_ReadSdatFromOpenedFile.c:104:62: note: place parentheses around the '+' expression to silence this warning
+  104 |       if (uVar3 != (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20)) {
+      |                                                              ^     
+      |                                                   (                )
+18 warnings and 7 errors generated.

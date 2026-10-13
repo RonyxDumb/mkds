@@ -1,0 +1,4 @@
+C-WORK/src/arm9/01ffc920_func_01ffc920.c:10:19: error: too few arguments to function call, expected 1, have 0
+   10 |   (*DAT_01ffc928)();
+      |   ~~~~~~~~~~~~~~~ ^
+1 error generated.

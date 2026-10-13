@@ -1,0 +1,38 @@
+C-WORK/src/arm9/0203c1a8_func_0203c1a8.c:13:33: warning: passing 'int[2]' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   13 |   iVar2 = func_0204176c(param_1,aiStack_10);
+      |                                 ^~~~~~~~~~
+C-WORK/src/arm9/deps/0203c1a8_func_0203c1a8.h:5:57: note: passing argument to parameter 'param_2' here
+    5 | undefined4 func_0204176c(undefined4 param_1,undefined4 *param_2);
+      |                                                         ^
+C-WORK/src/arm9/0203c1a8_func_0203c1a8.c:19:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |             *(uint *)(uRam0203c23c & 0xfffffffc) << (uRam0203c23c & 3) * -8 + 0x20) + 8;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203c1a8_func_0203c1a8.c:19:77: note: place parentheses around the '+' expression to silence this warning
+   19 |             *(uint *)(uRam0203c23c & 0xfffffffc) << (uRam0203c23c & 3) * -8 + 0x20) + 8;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0203c1a8_func_0203c1a8.c:22:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |     if ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) == 4) {
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203c1a8_func_0203c1a8.c:22:51: note: place parentheses around the '+' expression to silence this warning
+   22 |     if ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) == 4) {
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/0203c1a8_func_0203c1a8.c:23:7: error: call to undeclared function 'func_0x021816fc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   23 |       func_0x021816fc();
+      |       ^
+C-WORK/src/arm9/0203c1a8_func_0203c1a8.c:26:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |             *(uint *)(uRam0203c23c & 0xfffffffc) << (uRam0203c23c & 3) * -8 + 0x20) + 8;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203c1a8_func_0203c1a8.c:26:77: note: place parentheses around the '+' expression to silence this warning
+   26 |             *(uint *)(uRam0203c23c & 0xfffffffc) << (uRam0203c23c & 3) * -8 + 0x20) + 8;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0203c1a8_func_0203c1a8.c:29:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |     if ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) == 4) {
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203c1a8_func_0203c1a8.c:29:51: note: place parentheses around the '+' expression to silence this warning
+   29 |     if ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) == 4) {
+      |                                                   ^     
+      |                                        (                )
+5 warnings and 1 error generated.

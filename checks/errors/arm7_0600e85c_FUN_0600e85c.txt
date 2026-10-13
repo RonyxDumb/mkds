@@ -1,0 +1,7 @@
+C-WORK/src/arm7/0600e85c_FUN_0600e85c.c:11:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   11 |   iVar1 = FUN_0600e808();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/0600e85c_FUN_0600e85c.h:3:5: note: 'FUN_0600e808' declared here
+    3 | int FUN_0600e808(int param_1);
+      |     ^            ~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,24 @@
+C-WORK/src/arm9/0211fef4_func_0211fef4.c:14:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |           *(uint *)(uRam0211ff70 & 0xfffffffc) << (uRam0211ff70 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0211fef4_func_0211fef4.c:14:75: note: place parentheses around the '+' expression to silence this warning
+   14 |           *(uint *)(uRam0211ff70 & 0xfffffffc) << (uRam0211ff70 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0211fef4_func_0211fef4.c:21:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   if (uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0211fef4_func_0211fef4.c:21:54: note: place parentheses around the '+' expression to silence this warning
+   21 |   if (uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/0211fef4_func_0211fef4.c:22:13: error: call to undeclared function 'func_0x0219bb50'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   22 |     uVar2 = func_0x0219bb50();
+      |             ^
+C-WORK/src/arm9/0211fef4_func_0211fef4.c:25:37: error: too many arguments to function call, expected 2, have 4
+   25 |       func_0205b504(param_1,param_2,param_3,0);
+      |       ~~~~~~~~~~~~~                 ^~~~~~~~~
+C-WORK/src/arm9/deps/0211fef4_func_0211fef4.h:3:6: note: 'func_0205b504' declared here
+    3 | void func_0205b504(undefined4 param_1,byte *param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 2 errors generated.

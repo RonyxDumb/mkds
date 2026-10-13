@@ -1,0 +1,68 @@
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:18:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |           *(uint *)((uint)puRam0210893c & 0xfffffffc) << ((uint)puRam0210893c & 3) * -8 + 0x20;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:18:89: note: place parentheses around the '+' expression to silence this warning
+   18 |           *(uint *)((uint)puRam0210893c & 0xfffffffc) << ((uint)puRam0210893c & 3) * -8 + 0x20;
+      |                                                                                         ^     
+      |                                                          (                                    )
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:23:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |        *(uint *)(uRam02108940 & 0xfffffffc) << (uRam02108940 & 3) * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:23:72: note: place parentheses around the '+' expression to silence this warning
+   23 |        *(uint *)(uRam02108940 & 0xfffffffc) << (uRam02108940 & 3) * -8 + 0x20;
+      |                                                                        ^     
+      |                                                (                             )
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:24:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |   if ((uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20) != 2) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:24:49: note: place parentheses around the '+' expression to silence this warning
+   24 |   if ((uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20) != 2) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:25:21: error: too few arguments to function call, expected 2, have 1
+   25 |     Sound_LoadSbnk(1);
+      |     ~~~~~~~~~~~~~~  ^
+C-WORK/src/arm9/deps/0210887c_MaybeLoadRacerSbnksSwars.h:4:6: note: 'Sound_LoadSbnk' declared here
+    4 | bool Sound_LoadSbnk(undefined4 param_1,undefined4 param_2);
+      |      ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:37:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   37 |                         (uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,2,
+      |                                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:37:67: note: place parentheses around the '+' expression to silence this warning
+   37 |                         (uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,2,
+      |                                                                   ^     
+      |                                                        (                )
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:39:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |                          *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20);
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:39:76: note: place parentheses around the '+' expression to silence this warning
+   39 |                          *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20);
+      |                                                                            ^     
+      |                                                           (                      )
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:37:26: error: too many arguments to function call, expected 0, have 3
+   36 |       iVar6 = Sound_LoadSbnkWithFlags
+      |               ~~~~~~~~~~~~~~~~~~~~~~~
+   37 |                         (uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,2,
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   38 |                          *(uint *)(uVar2 & 0xfffffffc) >> (uVar2 & 3) * 8 |
+      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   39 |                          *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20);
+      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0210887c_MaybeLoadRacerSbnksSwars.h:5:6: note: 'Sound_LoadSbnkWithFlags' declared here
+    5 | bool Sound_LoadSbnkWithFlags(void);
+      |      ^
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:47:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |       iVar6 = Sound_LoadSwar(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:47:71: note: place parentheses around the '+' expression to silence this warning
+   47 |       iVar6 = Sound_LoadSwar(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,
+      |                                                                       ^     
+      |                                                            (                )
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:49:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   49 |                              *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20);
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210887c_MaybeLoadRacerSbnksSwars.c:49:80: note: place parentheses around the '+' expression to silence this warning
+   49 |                              *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20);
+      |                                                                                ^     
+      |                                                               (                      )
+7 warnings and 2 errors generated.

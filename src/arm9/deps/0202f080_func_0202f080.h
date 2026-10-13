@@ -1,0 +1,6 @@
+#pragma once
+/* Function-specific inferred declarations. */
+unsigned int func_0202f0a0(unsigned int p0);
+void func_0202f080(int param_1);
+#define iRam0202f098 (*(int *)(uintptr_t)0x202f098u)
+#define pcRam0202f09c (*(__typeof__(func_0202f0a0) **)(uintptr_t)0x202f09cu)

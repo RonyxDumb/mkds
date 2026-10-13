@@ -1,0 +1,8 @@
+In file included from C-WORK/src/arm9/021073ec_func_021073ec.c:3:
+C-WORK/src/arm9/deps/021073ec_func_021073ec.h:3:39: error: unknown type name 'undefined3'
+    3 | void func_021073ec(undefined4 param_1,undefined3 param_2,undefined4 *param_3);
+      |                                       ^
+C-WORK/src/arm9/021073ec_func_021073ec.c:5:39: error: unknown type name 'undefined3'
+    5 | void func_021073ec(undefined4 param_1,undefined3 param_2,undefined4 *param_3)
+      |                                       ^
+2 errors generated.

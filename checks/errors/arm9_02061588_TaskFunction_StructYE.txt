@@ -1,0 +1,67 @@
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:20:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |           *(uint *)(uRam0206163c & 0xfffffffc) << (uRam0206163c & 3) * -8 + 0x20) + 0x40;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:20:75: note: place parentheses around the '+' expression to silence this warning
+   20 |           *(uint *)(uRam0206163c & 0xfffffffc) << (uRam0206163c & 3) * -8 + 0x20) + 0x40;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:24:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |     iVar6 = uVar8 * 0x30 + (uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:24:70: note: place parentheses around the '+' expression to silence this warning
+   24 |     iVar6 = uVar8 * 0x30 + (uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:25:11: error: assigning to 'int' from incompatible type 'void'
+   25 |     iVar3 = MaybeHasPersonalGhostForCourse_from_thumb(uVar8);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:29:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |       *(uint *)(iVar6 + 8) = (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0xfffffffe;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:29:72: note: place parentheses around the '+' expression to silence this warning
+   29 |       *(uint *)(iVar6 + 8) = (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0xfffffffe;
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:34:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |               *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + 0xc;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:34:65: note: place parentheses around the '+' expression to silence this warning
+   34 |               *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + 0xc;
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:37:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   37 |       if (uVar4 >> uVar5 * 8 != 0 || uVar4 << uVar5 * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:37:58: note: place parentheses around the '+' expression to silence this warning
+   37 |       if (uVar4 >> uVar5 * 8 != 0 || uVar4 << uVar5 * -8 + 0x20 != 0) {
+      |                                                          ^
+      |                                               (                )
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:41:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |               *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + 4;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:41:65: note: place parentheses around the '+' expression to silence this warning
+   41 |               *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + 4;
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:44:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   44 |       if (uVar4 >> uVar5 * 8 != 0 || uVar4 << uVar5 * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:44:58: note: place parentheses around the '+' expression to silence this warning
+   44 |       if (uVar4 >> uVar5 * 8 != 0 || uVar4 << uVar5 * -8 + 0x20 != 0) {
+      |                                                          ^
+      |                                               (                )
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:47:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |         *(uint *)(iVar6 + 8) = (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0xfffffffe;
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:47:74: note: place parentheses around the '+' expression to silence this warning
+   47 |         *(uint *)(iVar6 + 8) = (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0xfffffffe;
+      |                                                                          ^     
+      |                                                               (                )
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:54:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   54 |     *(uint *)(uRam0206163c & 0xfffffffc) << (uRam0206163c & 3) * -8 + 0x20) + 0x40) = 0;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02061588_TaskFunction_StructYE.c:54:69: note: place parentheses around the '+' expression to silence this warning
+   54 |     *(uint *)(uRam0206163c & 0xfffffffc) << (uRam0206163c & 3) * -8 + 0x20) + 0x40) = 0;
+      |                                                                     ^     
+      |                                             (                             )
+9 warnings and 1 error generated.

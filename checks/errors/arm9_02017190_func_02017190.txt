@@ -1,0 +1,13 @@
+C-WORK/src/arm9/02017190_func_02017190.c:22:68: error: too few arguments to function call, expected 5, have 4
+   22 |     iVar1 = func_02016b00(uRam02017268,uRam0201726c,&uStack_c,uVar2);
+      |             ~~~~~~~~~~~~~                                          ^
+C-WORK/src/arm9/deps/02017190_func_02017190.h:4:12: note: 'func_02016b00' declared here
+    4 | undefined4 func_02016b00(uint *param_1,uint *param_2,uint *param_3,uint param_4,uint param_5);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02017190_func_02017190.c:25:68: error: too few arguments to function call, expected 5, have 4
+   25 |     iVar1 = func_02016b00(uRam02017268,uRam0201726c,&uStack_c,uVar2);
+      |             ~~~~~~~~~~~~~                                          ^
+C-WORK/src/arm9/deps/02017190_func_02017190.h:4:12: note: 'func_02016b00' declared here
+    4 | undefined4 func_02016b00(uint *param_1,uint *param_2,uint *param_3,uint param_4,uint param_5);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

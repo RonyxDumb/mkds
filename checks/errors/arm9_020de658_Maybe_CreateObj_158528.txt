@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020de658_Maybe_CreateObj_158528.c:16:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |   uVar2 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020de658_Maybe_CreateObj_158528.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+1 error generated.

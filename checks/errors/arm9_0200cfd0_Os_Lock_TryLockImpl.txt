@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0200cfd0_Os_Lock_TryLockImpl.c:11:33: error: too few arguments to function call, expected 4, have 0
+   11 |   iVar1 = Os_Lock_HandleTryLock();
+      |           ~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0200cfd0_Os_Lock_TryLockImpl.h:3:5: note: 'Os_Lock_HandleTryLock' declared here
+    3 | int Os_Lock_HandleTryLock(undefined4 param_1,int param_2,code *param_3,int param_4);
+      |     ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200cfd0_Os_Lock_TryLockImpl.c:15:53: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   15 |       iVar1 = Os_Lock_HandleTryLock(param_1,param_2,param_3,param_4);
+      |                                                     ^~~~~~~
+C-WORK/src/arm9/deps/0200cfd0_Os_Lock_TryLockImpl.h:3:64: note: passing argument to parameter 'param_3' here
+    3 | int Os_Lock_HandleTryLock(undefined4 param_1,int param_2,code *param_3,int param_4);
+      |                                                                ^
+2 errors generated.

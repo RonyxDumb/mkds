@@ -1,0 +1,33 @@
+C-WORK/src/arm7/06007bfc_FUN_06007bfc.c:18:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   uVar5 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06007bfc_FUN_06007bfc.c:18:52: note: place parentheses around the '+' expression to silence this warning
+   18 |   uVar5 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/06007bfc_FUN_06007bfc.c:21:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   uVar5 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06007bfc_FUN_06007bfc.c:21:52: note: place parentheses around the '+' expression to silence this warning
+   21 |   uVar5 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/06007bfc_FUN_06007bfc.c:22:22: error: too many arguments to function call, expected 0, have 1
+   22 |   thunk_FUN_037f9a0c(uVar5 + DAT_06007cc8);
+      |   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/06007bfc_FUN_06007bfc.h:6:6: note: 'thunk_FUN_037f9a0c' declared here
+    6 | void thunk_FUN_037f9a0c(void);
+      |      ^
+C-WORK/src/arm7/06007bfc_FUN_06007bfc.c:23:22: error: too many arguments to function call, expected 0, have 3
+   23 |   thunk_FUN_037fb218(0,uVar5 + 0x2f4,0x400);
+      |   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/06007bfc_FUN_06007bfc.h:7:6: note: 'thunk_FUN_037fb218' declared here
+    7 | void thunk_FUN_037fb218(void);
+      |      ^
+C-WORK/src/arm7/06007bfc_FUN_06007bfc.c:44:22: error: too many arguments to function call, expected 0, have 1
+   44 |   thunk_FUN_037f999c(uVar5 + DAT_06007cc8);
+      |   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/06007bfc_FUN_06007bfc.h:5:6: note: 'thunk_FUN_037f999c' declared here
+    5 | void thunk_FUN_037f999c(void);
+      |      ^
+2 warnings and 3 errors generated.

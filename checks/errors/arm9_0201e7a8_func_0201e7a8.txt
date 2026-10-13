@@ -1,0 +1,38 @@
+C-WORK/src/arm9/0201e7a8_func_0201e7a8.c:34:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |       *(uint *)((uint)piRam0201ea14 & 0xfffffffc) << ((uint)piRam0201ea14 & 3) * -8 + 0x20 != 0) {
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0201e7a8_func_0201e7a8.c:34:85: note: place parentheses around the '+' expression to silence this warning
+   34 |       *(uint *)((uint)piRam0201ea14 & 0xfffffffc) << ((uint)piRam0201ea14 & 3) * -8 + 0x20 != 0) {
+      |                                                                                     ^
+      |                                                      (                                    )
+C-WORK/src/arm9/0201e7a8_func_0201e7a8.c:46:21: error: too many arguments to function call, expected 0, have 1
+   46 |       Os_RestoreIrq(uVar8);
+      |       ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0201e7a8_func_0201e7a8.h:8:12: note: 'Os_RestoreIrq' declared here
+    8 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0201e7a8_func_0201e7a8.c:56:21: error: too many arguments to function call, expected 0, have 1
+   56 |       Os_RestoreIrq(uVar8);
+      |       ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0201e7a8_func_0201e7a8.h:8:12: note: 'Os_RestoreIrq' declared here
+    8 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0201e7a8_func_0201e7a8.c:70:21: error: too many arguments to function call, expected 0, have 1
+   70 |       Os_RestoreIrq(uVar8);
+      |       ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0201e7a8_func_0201e7a8.h:8:12: note: 'Os_RestoreIrq' declared here
+    8 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0201e7a8_func_0201e7a8.c:96:19: error: too many arguments to function call, expected 0, have 1
+   96 |     Os_RestoreIrq(uVar8);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0201e7a8_func_0201e7a8.h:8:12: note: 'Os_RestoreIrq' declared here
+    8 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0201e7a8_func_0201e7a8.c:99:17: error: too many arguments to function call, expected 0, have 1
+   99 |   Os_RestoreIrq(uVar8);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0201e7a8_func_0201e7a8.h:8:12: note: 'Os_RestoreIrq' declared here
+    8 | undefined4 Os_RestoreIrq(void);
+      |            ^
+1 warning and 5 errors generated.

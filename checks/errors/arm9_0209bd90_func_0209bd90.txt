@@ -1,0 +1,16 @@
+C-WORK/src/arm9/0209bd90_func_0209bd90.c:14:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   14 |   uVar1 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0209bd90_func_0209bd90.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/0209bd90_func_0209bd90.c:16:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   16 |   uVar1 = FormatFindMapObjFileBuffer_from_thumb(param_2);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0209bd90_func_0209bd90.c:21:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   21 |   uVar3 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0209bd90_func_0209bd90.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+3 errors generated.

@@ -1,0 +1,77 @@
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:86:53: warning: operator '>>' has lower precedence than '-'; '-' will be evaluated first [-Wshift-op-parentheses]
+   86 |         uVar9 = Multiply64(iVar1,iVar4,iRam020d844c - iVar2 >> 1,iRam020d844c - iVar2 >> 0x1f);
+      |                                        ~~~~~~~~~~~~~^~~~~~~ ~~
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:86:53: note: place parentheses around the '-' expression to silence this warning
+   86 |         uVar9 = Multiply64(iVar1,iVar4,iRam020d844c - iVar2 >> 1,iRam020d844c - iVar2 >> 0x1f);
+      |                                        ~~~~~~~~~~~~~^~~~~~~
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:86:79: warning: operator '>>' has lower precedence than '-'; '-' will be evaluated first [-Wshift-op-parentheses]
+   86 |         uVar9 = Multiply64(iVar1,iVar4,iRam020d844c - iVar2 >> 1,iRam020d844c - iVar2 >> 0x1f);
+      |                                                                  ~~~~~~~~~~~~~^~~~~~~ ~~
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:86:79: note: place parentheses around the '-' expression to silence this warning
+   86 |         uVar9 = Multiply64(iVar1,iVar4,iRam020d844c - iVar2 >> 1,iRam020d844c - iVar2 >> 0x1f);
+      |                                                                  ~~~~~~~~~~~~~^~~~~~~
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:106:96: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+  106 |         VecFx32_AddScale1(uRam020d8450,(uint)(uintptr_t)(&local_3c),(uint)(uintptr_t)(param_1),param_1 + 3);
+      |                                                                                                ^~~~~~~~~~~
+C-WORK/src/arm9/deps/020d80e4_func_020d80e4.h:5:67: note: passing argument to parameter 'param_4' here
+    5 | void VecFx32_AddScale1(int param_1,uint param_2,uint param_3,int *param_4);
+      |                                                                   ^
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:124:53: warning: operator '>>' has lower precedence than '-'; '-' will be evaluated first [-Wshift-op-parentheses]
+  124 |         uVar9 = Multiply64(iVar1,iVar4,iRam020d844c - iVar2 >> 1,iRam020d844c - iVar2 >> 0x1f);
+      |                                        ~~~~~~~~~~~~~^~~~~~~ ~~
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:124:53: note: place parentheses around the '-' expression to silence this warning
+  124 |         uVar9 = Multiply64(iVar1,iVar4,iRam020d844c - iVar2 >> 1,iRam020d844c - iVar2 >> 0x1f);
+      |                                        ~~~~~~~~~~~~~^~~~~~~
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:124:79: warning: operator '>>' has lower precedence than '-'; '-' will be evaluated first [-Wshift-op-parentheses]
+  124 |         uVar9 = Multiply64(iVar1,iVar4,iRam020d844c - iVar2 >> 1,iRam020d844c - iVar2 >> 0x1f);
+      |                                                                  ~~~~~~~~~~~~~^~~~~~~ ~~
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:124:79: note: place parentheses around the '-' expression to silence this warning
+  124 |         uVar9 = Multiply64(iVar1,iVar4,iRam020d844c - iVar2 >> 1,iRam020d844c - iVar2 >> 0x1f);
+      |                                                                  ~~~~~~~~~~~~~^~~~~~~
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:144:100: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+  144 |         VecFx32_AddScale1(uRam020d8454,(uint)(uintptr_t)(&local_24),(uint)(uintptr_t)(param_1 + 9),param_1 + 6);
+      |                                                                                                    ^~~~~~~~~~~
+C-WORK/src/arm9/deps/020d80e4_func_020d80e4.h:5:67: note: passing argument to parameter 'param_4' here
+    5 | void VecFx32_AddScale1(int param_1,uint param_2,uint param_3,int *param_4);
+      |                                                                   ^
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:148:20: error: too many arguments to function call, expected 0, have 2
+  148 |     uVar3 = FX_Div(uRam020d8458,param_1[0x10]);
+      |             ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d80e4_func_020d80e4.h:17:22: note: expanded from macro 'uRam020d8458'
+   17 | #define uRam020d8458 (*(undefined4 *)(uintptr_t)0x20d8458u)
+      |                      ^
+C-WORK/src/arm9/deps/020d80e4_func_020d80e4.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:151:20: error: too many arguments to function call, expected 0, have 2
+  151 |     uVar3 = FX_Div(uRam020d8458,param_1[0xe]);
+      |             ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d80e4_func_020d80e4.h:17:22: note: expanded from macro 'uRam020d8458'
+   17 | #define uRam020d8458 (*(undefined4 *)(uintptr_t)0x20d8458u)
+      |                      ^
+C-WORK/src/arm9/deps/020d80e4_func_020d80e4.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:156:63: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  156 |       iVar1 = Vector3_DotProduct((uint)(uintptr_t)(&local_54),piRam020d845c);
+      |                                                               ^~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d80e4_func_020d80e4.h:13:23: note: expanded from macro 'piRam020d845c'
+   13 | #define piRam020d845c (*(int **)(uintptr_t)0x20d845cu)
+      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d80e4_func_020d80e4.h:8:43: note: passing argument to parameter 'param_2' here
+    8 | uint Vector3_DotProduct(uint param_1,uint param_2);
+      |                                           ^
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:178:40: error: incompatible pointer to integer conversion passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'uint' (aka 'unsigned int'); dereference with * [-Wint-conversion]
+  178 |         iVar1 = Vector3_MaybeNormalize(param_1 + 0x12,param_1 + 0x12);
+      |                                        ^~~~~~~~~~~~~~
+      |                                        *(            )
+C-WORK/src/arm9/deps/020d80e4_func_020d80e4.h:9:33: note: passing argument to parameter 'param_1' here
+    9 | int Vector3_MaybeNormalize(uint param_1,int *param_2);
+      |                                 ^
+C-WORK/src/arm9/020d80e4_func_020d80e4.c:178:55: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+  178 |         iVar1 = Vector3_MaybeNormalize(param_1 + 0x12,param_1 + 0x12);
+      |                                                       ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d80e4_func_020d80e4.h:9:46: note: passing argument to parameter 'param_2' here
+    9 | int Vector3_MaybeNormalize(uint param_1,int *param_2);
+      |                                              ^
+7 warnings and 4 errors generated.

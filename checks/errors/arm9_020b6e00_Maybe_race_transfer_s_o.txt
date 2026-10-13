@@ -1,0 +1,523 @@
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:53:25: error: too many arguments to function call, expected 0, have 1
+   53 |   uVar3 = func_020b47c0(DAT_020b7a2c);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:14:22: note: expanded from macro 'DAT_020b7a2c'
+   14 | #define DAT_020b7a2c (*(undefined4 *)(uintptr_t)0x20b7a2cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:58:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   58 |           *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:58:75: note: place parentheses around the '+' expression to silence this warning
+   58 |           *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:61:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   61 |   uVar12 = uVar11 >> uVar7 * 8 | uVar11 << uVar7 * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:61:55: note: place parentheses around the '+' expression to silence this warning
+   61 |   uVar12 = uVar11 >> uVar7 * 8 | uVar11 << uVar7 * -8 + 0x20;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:66:40: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   66 |       GetRacerCharacterIdAndUnk(uVar11,&local_b0,(undefined4 *)(void *)(local_ac));
+      |                                        ^~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:4:50: note: passing argument to parameter 'param_2' here
+    4 | void GetRacerCharacterIdAndUnk(int param_1,uint *param_2,undefined4 *param_3);
+      |                                                  ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:70:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   70 |       uVar7 = (uVar4 >> uVar7 * 8 | uVar4 << uVar7 * -8 + 0x20) + uVar11 * 4 + 0x2d8;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:70:57: note: place parentheses around the '+' expression to silence this warning
+   70 |       uVar7 = (uVar4 >> uVar7 * 8 | uVar4 << uVar7 * -8 + 0x20) + uVar11 * 4 + 0x2d8;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:74:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   74 |       uVar7 = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 4;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:74:57: note: place parentheses around the '+' expression to silence this warning
+   74 |       uVar7 = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 4;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:77:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   77 |       uVar7 = uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:77:56: note: place parentheses around the '+' expression to silence this warning
+   77 |       uVar7 = uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:82:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   82 |       uVar4 = uVar4 >> uVar7 * 8 | uVar4 << uVar7 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:82:56: note: place parentheses around the '+' expression to silence this warning
+   82 |       uVar4 = uVar4 >> uVar7 * 8 | uVar4 << uVar7 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:91:40: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   91 |       GetRacerCharacterIdAndUnk(uVar10,&local_b0,(undefined4 *)(void *)(local_ac));
+      |                                        ^~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:4:50: note: passing argument to parameter 'param_2' here
+    4 | void GetRacerCharacterIdAndUnk(int param_1,uint *param_2,undefined4 *param_3);
+      |                                                  ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:94:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   94 |               *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + (uVar10 + 8) * 4 + 0x2d8;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:94:65: note: place parentheses around the '+' expression to silence this warning
+   94 |               *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + (uVar10 + 8) * 4 + 0x2d8;
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:98:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   98 |       uVar7 = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 4;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:98:57: note: place parentheses around the '+' expression to silence this warning
+   98 |       uVar7 = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 4;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:101:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  101 |       uVar7 = uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:101:56: note: place parentheses around the '+' expression to silence this warning
+  101 |       uVar7 = uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:105:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  105 |               *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + uVar10 * 4 + 0x5fc;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:105:65: note: place parentheses around the '+' expression to silence this warning
+  105 |               *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + uVar10 * 4 + 0x5fc;
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:108:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  108 |       uVar7 = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 4;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:108:57: note: place parentheses around the '+' expression to silence this warning
+  108 |       uVar7 = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 4;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:111:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  111 |       uVar7 = uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:111:56: note: place parentheses around the '+' expression to silence this warning
+  111 |       uVar7 = uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:114:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  114 |               *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + uVar10 * 4 + 0x6ac;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:114:65: note: place parentheses around the '+' expression to silence this warning
+  114 |               *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + uVar10 * 4 + 0x6ac;
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:117:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  117 |       uVar7 = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 4;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:117:57: note: place parentheses around the '+' expression to silence this warning
+  117 |       uVar7 = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 4;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:120:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  120 |       uVar7 = uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:120:56: note: place parentheses around the '+' expression to silence this warning
+  120 |       uVar7 = uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:123:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  123 |               *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20) + 8;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:123:79: note: place parentheses around the '+' expression to silence this warning
+  123 |               *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20) + 8;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:126:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  126 |       if ((uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) == 1) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:126:53: note: place parentheses around the '+' expression to silence this warning
+  126 |       if ((uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) == 1) {
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:128:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  128 |                 *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + (uVar10 + 7) * 4 + 0x74c
+      |                                               ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:128:67: note: place parentheses around the '+' expression to silence this warning
+  128 |                 *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + (uVar10 + 7) * 4 + 0x74c
+      |                                                                   ^     
+      |                                                  (                      )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:132:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  132 |         uVar7 = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 4;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:132:59: note: place parentheses around the '+' expression to silence this warning
+  132 |         uVar7 = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 4;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:135:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  135 |         uVar7 = uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:135:58: note: place parentheses around the '+' expression to silence this warning
+  135 |         uVar7 = uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20;
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:139:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  139 |               *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:139:79: note: place parentheses around the '+' expression to silence this warning
+  139 |               *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:147:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  147 |   if ((uVar10 >> uVar7 * 8 | uVar10 << uVar7 * -8 + 0x20) == 1) {
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:147:51: note: place parentheses around the '+' expression to silence this warning
+  147 |   if ((uVar10 >> uVar7 * 8 | uVar10 << uVar7 * -8 + 0x20) == 1) {
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:150:49: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  150 |       GetTimeTrialRecordCharacterIdAndUnk(uVar7,&local_b0,(undefined4 *)(void *)(local_ac));
+      |                                                 ^~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:6:67: note: passing argument to parameter 'param_2' here
+    6 | void GetTimeTrialRecordCharacterIdAndUnk(undefined4 param_1,uint *param_2,undefined4 *param_3);
+      |                                                                   ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:154:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  154 |       uVar10 = (uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20) + (uVar7 + 8) * 4 + 0x74c;
+      |                                             ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:154:60: note: place parentheses around the '+' expression to silence this warning
+  154 |       uVar10 = (uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20) + (uVar7 + 8) * 4 + 0x74c;
+      |                                                            ^     
+      |                                                (                 )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:158:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  158 |       uVar10 = (uVar10 >> uVar4 * 8 | uVar10 << uVar4 * -8 + 0x20) + 4;
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:158:60: note: place parentheses around the '+' expression to silence this warning
+  158 |       uVar10 = (uVar10 >> uVar4 * 8 | uVar10 << uVar4 * -8 + 0x20) + 4;
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:161:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  161 |       uVar10 = uVar10 >> uVar4 * 8 | uVar10 << uVar4 * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:161:59: note: place parentheses around the '+' expression to silence this warning
+  161 |       uVar10 = uVar10 >> uVar4 * 8 | uVar10 << uVar4 * -8 + 0x20;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:167:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  167 |                 *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20) + 0x3d0) !=
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:167:81: note: place parentheses around the '+' expression to silence this warning
+  167 |                 *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20) + 0x3d0) !=
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:192:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  191 |                                *(uint *)(DAT_020b7a30 & 0xfffffffc) <<
+      |                                                                     ~~
+  192 |                                (DAT_020b7a30 & 3) * -8 + 0x20) + 0x3d0));
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:192:56: note: place parentheses around the '+' expression to silence this warning
+  192 |                                (DAT_020b7a30 & 3) * -8 + 0x20) + 0x3d0));
+      |                                                        ^     
+      |                                (                             )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:195:25: error: too many arguments to function call, expected 0, have 1
+  195 |   uVar3 = func_020b47c0(DAT_020b7a40);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:19:22: note: expanded from macro 'DAT_020b7a40'
+   19 | #define DAT_020b7a40 (*(undefined4 *)(uintptr_t)0x20b7a40u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:198:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  198 |            *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:198:76: note: place parentheses around the '+' expression to silence this warning
+  198 |            *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:201:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  201 |   uVar4 = uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:201:52: note: place parentheses around the '+' expression to silence this warning
+  201 |   uVar4 = uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:204:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  204 |   if ((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) == 2) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:204:49: note: place parentheses around the '+' expression to silence this warning
+  204 |   if ((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) == 2) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:208:27: error: too many arguments to function call, expected 0, have 1
+  208 |     uVar3 = func_020b47c0(DAT_020b7a44);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:20:22: note: expanded from macro 'DAT_020b7a44'
+   20 | #define DAT_020b7a44 (*(undefined4 *)(uintptr_t)0x20b7a44u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:218:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  218 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:218:70: note: place parentheses around the '+' expression to silence this warning
+  218 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:223:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  223 |          *(uint *)(uVar10 & 0xfffffffc) << (uVar10 & 3) * -8 + 0x20) {
+      |                                         ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:223:62: note: place parentheses around the '+' expression to silence this warning
+  223 |          *(uint *)(uVar10 & 0xfffffffc) << (uVar10 & 3) * -8 + 0x20) {
+      |                                                              ^     
+      |                                            (                       )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:261:27: error: too many arguments to function call, expected 0, have 1
+  261 |     uVar3 = func_020b47c0(DAT_020b7a64);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:28:22: note: expanded from macro 'DAT_020b7a64'
+   28 | #define DAT_020b7a64 (*(undefined4 *)(uintptr_t)0x20b7a64u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:271:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  271 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:271:70: note: place parentheses around the '+' expression to silence this warning
+  271 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:287:27: error: too many arguments to function call, expected 0, have 1
+  287 |     uVar3 = func_020b47c0(DAT_020b7a7c);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:34:22: note: expanded from macro 'DAT_020b7a7c'
+   34 | #define DAT_020b7a7c (*(undefined4 *)(uintptr_t)0x20b7a7cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:297:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  297 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:297:70: note: place parentheses around the '+' expression to silence this warning
+  297 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:308:27: error: too many arguments to function call, expected 0, have 1
+  308 |     uVar3 = func_020b47c0(DAT_020b7a6c);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:30:22: note: expanded from macro 'DAT_020b7a6c'
+   30 | #define DAT_020b7a6c (*(undefined4 *)(uintptr_t)0x20b7a6cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:318:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  318 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:318:70: note: place parentheses around the '+' expression to silence this warning
+  318 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:324:27: error: too many arguments to function call, expected 0, have 1
+  324 |     uVar3 = func_020b47c0(DAT_020b7a50);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:23:22: note: expanded from macro 'DAT_020b7a50'
+   23 | #define DAT_020b7a50 (*(undefined4 *)(uintptr_t)0x20b7a50u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:334:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  334 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:334:70: note: place parentheses around the '+' expression to silence this warning
+  334 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:342:27: error: too many arguments to function call, expected 0, have 1
+  342 |     uVar3 = func_020b47c0(DAT_020b7a78);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:33:22: note: expanded from macro 'DAT_020b7a78'
+   33 | #define DAT_020b7a78 (*(undefined4 *)(uintptr_t)0x20b7a78u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:352:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  352 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:352:70: note: place parentheses around the '+' expression to silence this warning
+  352 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:359:27: error: too many arguments to function call, expected 0, have 1
+  359 |     uVar3 = func_020b47c0(DAT_020b7a60);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:27:22: note: expanded from macro 'DAT_020b7a60'
+   27 | #define DAT_020b7a60 (*(undefined4 *)(uintptr_t)0x20b7a60u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:369:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  369 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:369:70: note: place parentheses around the '+' expression to silence this warning
+  369 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:378:27: error: too many arguments to function call, expected 0, have 1
+  378 |     uVar3 = func_020b47c0(DAT_020b7a74);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:32:22: note: expanded from macro 'DAT_020b7a74'
+   32 | #define DAT_020b7a74 (*(undefined4 *)(uintptr_t)0x20b7a74u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:388:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  388 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:388:70: note: place parentheses around the '+' expression to silence this warning
+  388 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:395:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  395 |                   *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20) + 0x57) !=
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:395:83: note: place parentheses around the '+' expression to silence this warning
+  395 |                   *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20) + 0x57) !=
+      |                                                                                   ^     
+      |                                                           (                             )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:400:27: error: too many arguments to function call, expected 0, have 1
+  400 |     uVar3 = func_020b47c0(DAT_020b7a58);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:25:22: note: expanded from macro 'DAT_020b7a58'
+   25 | #define DAT_020b7a58 (*(undefined4 *)(uintptr_t)0x20b7a58u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:409:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  409 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:409:70: note: place parentheses around the '+' expression to silence this warning
+  409 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:415:27: error: too many arguments to function call, expected 0, have 1
+  415 |     uVar3 = func_020b47c0(DAT_020b7a70);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:31:22: note: expanded from macro 'DAT_020b7a70'
+   31 | #define DAT_020b7a70 (*(undefined4 *)(uintptr_t)0x20b7a70u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:425:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  425 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:425:70: note: place parentheses around the '+' expression to silence this warning
+  425 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:432:27: error: too many arguments to function call, expected 0, have 1
+  432 |     uVar3 = func_020b47c0(DAT_020b7a4c);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:22:22: note: expanded from macro 'DAT_020b7a4c'
+   22 | #define DAT_020b7a4c (*(undefined4 *)(uintptr_t)0x20b7a4cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:442:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  442 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:442:70: note: place parentheses around the '+' expression to silence this warning
+  442 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:448:27: error: too many arguments to function call, expected 0, have 1
+  448 |     uVar3 = func_020b47c0(DAT_020b7a54);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:24:22: note: expanded from macro 'DAT_020b7a54'
+   24 | #define DAT_020b7a54 (*(undefined4 *)(uintptr_t)0x20b7a54u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:458:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  458 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:458:70: note: place parentheses around the '+' expression to silence this warning
+  458 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:467:27: error: too many arguments to function call, expected 0, have 1
+  467 |     uVar3 = func_020b47c0(DAT_020b7a5c);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:26:22: note: expanded from macro 'DAT_020b7a5c'
+   26 | #define DAT_020b7a5c (*(undefined4 *)(uintptr_t)0x20b7a5cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:477:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  477 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:477:70: note: place parentheses around the '+' expression to silence this warning
+  477 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:484:27: error: too many arguments to function call, expected 0, have 1
+  484 |     uVar3 = func_020b47c0(DAT_020b7a68);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:29:22: note: expanded from macro 'DAT_020b7a68'
+   29 | #define DAT_020b7a68 (*(undefined4 *)(uintptr_t)0x20b7a68u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:494:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  494 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:494:70: note: place parentheses around the '+' expression to silence this warning
+  494 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5 * 2);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:513:27: error: too many arguments to function call, expected 0, have 1
+  513 |     uVar3 = func_020b47c0(DAT_020b7a48);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:21:22: note: expanded from macro 'DAT_020b7a48'
+   21 | #define DAT_020b7a48 (*(undefined4 *)(uintptr_t)0x20b7a48u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:523:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  523 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:523:70: note: place parentheses around the '+' expression to silence this warning
+  523 |            *(undefined2 *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + iVar5);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:528:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  528 |           *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20) + 8;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:528:75: note: place parentheses around the '+' expression to silence this warning
+  528 |           *(uint *)(DAT_020b7a30 & 0xfffffffc) << (DAT_020b7a30 & 3) * -8 + 0x20) + 8;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:531:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  531 |   if ((uVar7 >> uVar9 * 8 | uVar7 << uVar9 * -8 + 0x20) == 4) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:531:49: note: place parentheses around the '+' expression to silence this warning
+  531 |   if ((uVar7 >> uVar9 * 8 | uVar7 << uVar9 * -8 + 0x20) == 4) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/020b6e00_Maybe_race_transfer_s_o.c:532:44: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  532 |     Maybe_race_transfer_map_mr_s_o(param_1,param_2);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         ^~~~~~~
+C-WORK/src/arm9/deps/020b6e00_Maybe_race_transfer_s_o.h:9:6: note: 'Maybe_race_transfer_map_mr_s_o' declared here
+    9 | void Maybe_race_transfer_map_mr_s_o(int param_1);
+      |      ^                              ~~~~~~~~~~~
+52 warnings and 18 errors generated.

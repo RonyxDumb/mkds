@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/02190cd4_FUN_02190cd4.c:38:29: error: too few arguments to function call, expected 2, have 1
+   38 |         FUN_02190da0(param_1);
+      |         ~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov000/deps/02190cd4_FUN_02190cd4.h:4:6: note: 'FUN_02190da0' declared here
+    4 | void FUN_02190da0(undefined4 param_1,int *param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02190cd4_FUN_02190cd4.c:60:27: error: too few arguments to function call, expected 2, have 1
+   60 |       FUN_02190da0(param_1);
+      |       ~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov000/deps/02190cd4_FUN_02190cd4.h:4:6: note: 'FUN_02190da0' declared here
+    4 | void FUN_02190da0(undefined4 param_1,int *param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

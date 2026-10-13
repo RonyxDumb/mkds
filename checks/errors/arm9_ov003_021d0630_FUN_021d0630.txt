@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov003/021d0630_FUN_021d0630.c:14:9: error: assigning to 'int' from incompatible type 'void'
+   14 |   iVar2 = func_0x02143bc4(DAT_021d067c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021d0630_FUN_021d0630.c:17:18: error: too few arguments to function call, single argument 'param_1' was not specified
+   17 |     FUN_021d079c();
+      |     ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov003/deps/021d0630_FUN_021d0630.h:4:6: note: 'FUN_021d079c' declared here
+    4 | void FUN_021d079c(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+2 errors generated.

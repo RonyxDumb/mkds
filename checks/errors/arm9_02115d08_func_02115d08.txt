@@ -1,0 +1,10 @@
+C-WORK/src/arm9/02115d08_func_02115d08.c:21:69: error: too many arguments to function call, expected 3, have 4
+   21 |   MaybeHandleBmgFormatting_from_thumb(auStack_228,uVar3,auStack_208,uRam02115d8c);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                               ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02115d08_func_02115d08.h:10:22: note: expanded from macro 'uRam02115d8c'
+   10 | #define uRam02115d8c (*(undefined4 *)(uintptr_t)0x2115d8cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02115d08_func_02115d08.h:4:6: note: 'MaybeHandleBmgFormatting_from_thumb' declared here
+    4 | void MaybeHandleBmgFormatting_from_thumb(short *param_1,short *param_2,short *param_3);
+      |      ^                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

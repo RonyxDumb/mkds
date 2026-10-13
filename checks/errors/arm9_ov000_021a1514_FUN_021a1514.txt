@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov000/021a1514_FUN_021a1514.c:30:12: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   30 |   *param_1 = DAT_021a1580;
+      |            ^ ~~~~~~~~~~~~
+1 error generated.

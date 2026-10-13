@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0204b258_func_0204b258.c:14:33: error: too few arguments to function call, expected 2, have 0
+   14 |   iVar1 = ComputeCRC_from_thumb();
+      |           ~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204b258_func_0204b258.h:3:6: note: 'ComputeCRC_from_thumb' declared here
+    3 | uint ComputeCRC_from_thumb(byte *param_1,uint param_2);
+      |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

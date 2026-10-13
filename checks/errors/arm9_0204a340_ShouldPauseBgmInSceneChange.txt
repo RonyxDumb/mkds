@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0204a340_ShouldPauseBgmInSceneChange.c:23:15: error: call to undeclared function 'func_0x0219e0b8'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   23 |       iVar1 = func_0x0219e0b8();
+      |               ^
+1 error generated.

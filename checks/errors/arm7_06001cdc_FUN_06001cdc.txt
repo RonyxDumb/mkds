@@ -1,0 +1,58 @@
+C-WORK/src/arm7/06001cdc_FUN_06001cdc.c:15:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   if (uVar2 >> uVar3 * 8 == 0 && uVar2 << uVar3 * -8 + 0x20 == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06001cdc_FUN_06001cdc.c:15:54: note: place parentheses around the '+' expression to silence this warning
+   15 |   if (uVar2 >> uVar3 * 8 == 0 && uVar2 << uVar3 * -8 + 0x20 == 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm7/06001cdc_FUN_06001cdc.c:21:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   uVar2 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06001cdc_FUN_06001cdc.c:21:52: note: place parentheses around the '+' expression to silence this warning
+   21 |   uVar2 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/06001cdc_FUN_06001cdc.c:24:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |   if (*(short *)(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) == 1) {
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06001cdc_FUN_06001cdc.c:24:59: note: place parentheses around the '+' expression to silence this warning
+   24 |   if (*(short *)(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) == 1) {
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm7/06001cdc_FUN_06001cdc.c:60:18: error: too many arguments to function call, expected 0, have 1
+   60 |     FUN_06000874(param_1);
+      |     ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm7/deps/06001cdc_FUN_06001cdc.h:4:6: note: 'FUN_06000874' declared here
+    4 | void FUN_06000874(void);
+      |      ^
+C-WORK/src/arm7/06001cdc_FUN_06001cdc.c:69:18: error: too many arguments to function call, expected 0, have 1
+   69 |     FUN_06000c9c(param_1);
+      |     ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm7/deps/06001cdc_FUN_06001cdc.h:7:6: note: 'FUN_06000c9c' declared here
+    7 | void FUN_06000c9c(void);
+      |      ^
+C-WORK/src/arm7/06001cdc_FUN_06001cdc.c:72:18: error: too many arguments to function call, expected 0, have 1
+   72 |     FUN_06000cd0(param_1);
+      |     ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm7/deps/06001cdc_FUN_06001cdc.h:8:6: note: 'FUN_06000cd0' declared here
+    8 | void FUN_06000cd0(void);
+      |      ^
+C-WORK/src/arm7/06001cdc_FUN_06001cdc.c:77:18: error: too many arguments to function call, expected 0, have 1
+   77 |     FUN_06001c94(param_1);
+      |     ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm7/deps/06001cdc_FUN_06001cdc.h:17:6: note: 'FUN_06001c94' declared here
+   17 | void FUN_06001c94(void);
+      |      ^
+C-WORK/src/arm7/06001cdc_FUN_06001cdc.c:82:18: error: too many arguments to function call, expected 0, have 1
+   82 |     FUN_06001a7c(param_1);
+      |     ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm7/deps/06001cdc_FUN_06001cdc.h:14:6: note: 'FUN_06001a7c' declared here
+   14 | void FUN_06001a7c(void);
+      |      ^
+C-WORK/src/arm7/06001cdc_FUN_06001cdc.c:85:18: error: too many arguments to function call, expected 0, have 1
+   85 |     FUN_06001c44(param_1);
+      |     ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm7/deps/06001cdc_FUN_06001cdc.h:16:6: note: 'FUN_06001c44' declared here
+   16 | void FUN_06001c44(void);
+      |      ^
+3 warnings and 6 errors generated.

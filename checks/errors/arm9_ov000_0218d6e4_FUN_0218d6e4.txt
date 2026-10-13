@@ -1,0 +1,17 @@
+In file included from C-WORK/src/arm9_ov000/0218d6e4_FUN_0218d6e4.c:3:
+C-WORK/src/arm9_ov000/deps/0218d6e4_FUN_0218d6e4.h:21:1: error: unknown type name 'size_t'
+   21 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/0218d6e4_FUN_0218d6e4.c:18:52: error: too few arguments to function call, expected 4, have 3
+   18 |     func_0x02135014(acStack_50,DAT_0218d778,param_1);
+      |     ~~~~~~~~~~~~~~~                                ^
+C-WORK/src/arm9_ov000/deps/0218d6e4_FUN_0218d6e4.h:19:6: note: 'SomeSnprintf' declared here
+   19 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218d6e4_FUN_0218d6e4.c:23:26: error: too many arguments to function call, expected 0, have 3
+   23 |     iVar3 = FUN_0218e554(2,2,0);
+      |             ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/0218d6e4_FUN_0218d6e4.h:6:6: note: 'FUN_0218e554' declared here
+    6 | void FUN_0218e554(void);
+      |      ^
+3 errors generated.

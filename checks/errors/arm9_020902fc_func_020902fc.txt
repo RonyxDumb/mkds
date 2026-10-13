@@ -1,0 +1,25 @@
+C-WORK/src/arm9/020902fc_func_020902fc.c:12:25: error: incompatible pointer types assigning to 'code *' (aka 'void (*)()') from 'undefined *' (aka 'unsigned char *') [-Werror,-Wincompatible-pointer-types]
+   12 |   UNRECOVERED_JUMPTABLE = pcRam02090338;
+      |                         ^ ~~~~~~~~~~~~~
+C-WORK/src/arm9/020902fc_func_020902fc.c:15:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |           *(uint *)(uRam02090330 & 0xfffffffc) << (uRam02090330 & 3) * -8 + 0x20) + 0x30;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020902fc_func_020902fc.c:15:75: note: place parentheses around the '+' expression to silence this warning
+   15 |           *(uint *)(uRam02090330 & 0xfffffffc) << (uRam02090330 & 3) * -8 + 0x20) + 0x30;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020902fc_func_020902fc.c:19:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |        (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) * 0xc +
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020902fc_func_020902fc.c:19:50: note: place parentheses around the '+' expression to silence this warning
+   19 |        (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) * 0xc +
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/020902fc_func_020902fc.c:21:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |        *(uint *)(uRam02090334 & 0xfffffffc) << (uRam02090334 & 3) * -8 + 0x20);
+      |                                             ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020902fc_func_020902fc.c:21:72: note: place parentheses around the '+' expression to silence this warning
+   21 |        *(uint *)(uRam02090334 & 0xfffffffc) << (uRam02090334 & 3) * -8 + 0x20);
+      |                                                                        ^     
+      |                                                (                             )
+3 warnings and 1 error generated.

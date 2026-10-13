@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0213442c_LogThrowAssertion.c:8:52: error: too many arguments to function call, expected 4, have 5
+    8 |   SomeSprintf(uRam02134468,param_1,param_2,param_3,param_4);
+      |   ~~~~~~~~~~~                                      ^~~~~~~
+C-WORK/src/arm9/deps/0213442c_LogThrowAssertion.h:5:12: note: 'SomeSprintf' declared here
+    5 | undefined4 SomeSprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

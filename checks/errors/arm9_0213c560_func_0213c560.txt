@@ -1,0 +1,73 @@
+C-WORK/src/arm9/0213c560_func_0213c560.c:25:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |              *(uint *)((uint)param_7 & 0xfffffffc) << ((uint)param_7 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213c560_func_0213c560.c:25:80: note: place parentheses around the '+' expression to silence this warning
+   25 |              *(uint *)((uint)param_7 & 0xfffffffc) << ((uint)param_7 & 3) * -8 + 0x20;
+      |                                                                                ^     
+      |                                                       (                              )
+C-WORK/src/arm9/0213c560_func_0213c560.c:33:26: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   33 |     unaff_r6 = (*param_3)(param_4,0,0);
+      |                          ^
+C-WORK/src/arm9/0213c560_func_0213c560.c:33:14: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   33 |     unaff_r6 = (*param_3)(param_4,0,0);
+      |              ^ ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0213c560_func_0213c560.c:37:11: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   37 |     uVar2 = MaybeBoundsCheck(0xffffffff,param_1);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0213c560_func_0213c560.c:50:17: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   50 |       (*param_3)(param_4,unaff_r6,1);
+      |                 ^
+C-WORK/src/arm9/0213c560_func_0213c560.c:66:32: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   66 |           unaff_r6 = (*param_3)(param_4,0,0);
+      |                                ^
+C-WORK/src/arm9/0213c560_func_0213c560.c:66:20: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   66 |           unaff_r6 = (*param_3)(param_4,0,0);
+      |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0213c560_func_0213c560.c:70:32: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   70 |           unaff_r6 = (*param_3)(param_4,0,0);
+      |                                ^
+C-WORK/src/arm9/0213c560_func_0213c560.c:70:20: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   70 |           unaff_r6 = (*param_3)(param_4,0,0);
+      |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0213c560_func_0213c560.c:76:30: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   76 |         unaff_r6 = (*param_3)(param_4,0,0);
+      |                              ^
+C-WORK/src/arm9/0213c560_func_0213c560.c:76:18: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   76 |         unaff_r6 = (*param_3)(param_4,0,0);
+      |                  ^ ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0213c560_func_0213c560.c:84:30: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   84 |         unaff_r6 = (*param_3)(param_4,0,0);
+      |                              ^
+C-WORK/src/arm9/0213c560_func_0213c560.c:84:18: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   84 |         unaff_r6 = (*param_3)(param_4,0,0);
+      |                  ^ ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0213c560_func_0213c560.c:97:30: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   97 |         unaff_r6 = (*param_3)(param_4,0,0);
+      |                              ^
+C-WORK/src/arm9/0213c560_func_0213c560.c:97:18: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   97 |         unaff_r6 = (*param_3)(param_4,0,0);
+      |                  ^ ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0213c560_func_0213c560.c:125:11: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+  125 |     uVar2 = MaybeBoundsCheck(0xffffffff,param_1);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0213c560_func_0213c560.c:145:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  145 |         uVar6 = (uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) & 0xff;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213c560_func_0213c560.c:145:59: note: place parentheses around the '+' expression to silence this warning
+  145 |         uVar6 = (uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) & 0xff;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/0213c560_func_0213c560.c:151:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  151 |           unaff_r6 = (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) & 0xff;
+      |                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213c560_func_0213c560.c:151:64: note: place parentheses around the '+' expression to silence this warning
+  151 |           unaff_r6 = (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) & 0xff;
+      |                                                                ^     
+      |                                                     (                )
+C-WORK/src/arm9/0213c560_func_0213c560.c:185:24: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  185 |   unaff_r6 = (*param_3)(param_4,0,0);
+      |                        ^
+C-WORK/src/arm9/0213c560_func_0213c560.c:185:12: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+  185 |   unaff_r6 = (*param_3)(param_4,0,0);
+      |            ^ ~~~~~~~~~~~~~~~~~~~~~~~
+11 warnings and 9 errors generated.

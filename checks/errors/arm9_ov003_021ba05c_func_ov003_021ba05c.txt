@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov003/021ba05c_func_ov003_021ba05c.c:31:31: error: too many arguments to function call, expected 0, have 1
+   31 |   iVar1 = func_ov003_021ba178(uRam021ba158);
+      |           ~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021ba05c_func_ov003_021ba05c.h:21:22: note: expanded from macro 'uRam021ba158'
+   21 | #define uRam021ba158 (*(undefined4 *)(uintptr_t)0x21ba158u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021ba05c_func_ov003_021ba05c.h:9:6: note: 'func_ov003_021ba178' declared here
+    9 | void func_ov003_021ba178(void);
+      |      ^
+C-WORK/src/arm9_ov003/021ba05c_func_ov003_021ba05c.c:40:23: error: too many arguments to function call, expected 0, have 1
+   40 |   func_ov003_021ba164(*piRam021ba15c);
+      |   ~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021ba05c_func_ov003_021ba05c.h:8:6: note: 'func_ov003_021ba164' declared here
+    8 | void func_ov003_021ba164(void);
+      |      ^
+2 errors generated.

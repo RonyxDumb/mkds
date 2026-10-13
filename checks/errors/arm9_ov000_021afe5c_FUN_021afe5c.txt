@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/021afe5c_FUN_021afe5c.c:8:16: error: too few arguments to function call, expected 6, have 0
+    8 |   FUN_021afe84();
+      |   ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021afe5c_FUN_021afe5c.h:4:6: note: 'FUN_021afe84' declared here
+    4 | void FUN_021afe84(undefined4 param_1,undefined4 param_2,char *param_3,int param_4,int param_5,int param_6);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021afe5c_FUN_021afe5c.c:10:21: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |     func_0x0200df68();
+      |     ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021afe5c_FUN_021afe5c.h:8:6: note: 'Os_Thread_WakeUpDirect' declared here
+    8 | void Os_Thread_WakeUpDirect(int param_1);
+      |      ^                      ~~~~~~~~~~~
+2 errors generated.

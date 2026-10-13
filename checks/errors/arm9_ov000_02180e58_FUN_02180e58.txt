@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov000/02180e58_FUN_02180e58.c:36:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   36 |       uVar3 = thunk_EXT_FUN_021205f4();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02180e58_FUN_02180e58.c:48:23: error: too many arguments to function call, expected 0, have 2
+   48 |       func_0x02126570(uVar3,uVar4);
+      |       ~~~~~~~~~~~~~~~ ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02180e58_FUN_02180e58.h:21:6: note: 'func_02126570' declared here
+   21 | void func_02126570(void);
+      |      ^
+C-WORK/src/arm9_ov000/02180e58_FUN_02180e58.c:69:27: error: too many arguments to function call, expected 0, have 2
+   69 |           func_0x02126570(uVar3,uVar4);
+      |           ~~~~~~~~~~~~~~~ ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02180e58_FUN_02180e58.h:21:6: note: 'func_02126570' declared here
+   21 | void func_02126570(void);
+      |      ^
+3 errors generated.

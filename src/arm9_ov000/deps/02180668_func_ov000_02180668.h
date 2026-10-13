@@ -1,0 +1,5 @@
+#pragma once
+/* Function-specific inferred declarations. */
+undefined4 func_ov000_02180668(int param_1);
+#define piRam0218069c (*(int **)(uintptr_t)0x218069cu)
+#define puRam02180698 (*(undefined4 **)(uintptr_t)0x2180698u)

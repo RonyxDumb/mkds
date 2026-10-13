@@ -1,0 +1,4 @@
+C-WORK/src/arm9/01fffe8c_func_01fffe8c.c:11:20: error: use of undeclared identifier 'DAT_040000b0'
+   11 |   *(undefined4 *)(&DAT_040000b0 + param_1 * 0xc) = param_2;
+      |                    ^
+1 error generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov003/021b7d1c_func_ov003_021b7d1c.c:18:3: error: call to undeclared function 'func_0x021a8b20'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   18 |   func_0x021a8b20(&local_18,1,uVar1 + uVar2,
+      |   ^
+1 error generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/021a2a88_FUN_021a2a88.c:11:64: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   11 |     iVar1 = FUN_0218b480(*(undefined4 *)(*DAT_021a2acc + 0xe4),param_1);
+      |             ~~~~~~~~~~~~                                       ^~~~~~~
+C-WORK/src/arm9_ov000/deps/021a2a88_FUN_021a2a88.h:4:6: note: 'FUN_0218b480' declared here
+    4 | void FUN_0218b480(int param_1);
+      |      ^            ~~~~~~~~~~~
+1 error generated.

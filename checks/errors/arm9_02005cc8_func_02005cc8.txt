@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02005cc8_func_02005cc8.c:14:75: error: too few arguments to function call, expected 4, have 3
+   14 |     uVar1 = func_02006508(param_3,1 << (param_2 & 0xff) & 0xffff,puVar2[2]);
+      |             ~~~~~~~~~~~~~                                                 ^
+C-WORK/src/arm9/deps/02005cc8_func_02005cc8.h:4:12: note: 'func_02006508' declared here
+    4 | undefined4 func_02006508(int param_1,undefined2 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

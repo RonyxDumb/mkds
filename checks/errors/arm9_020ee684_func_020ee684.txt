@@ -1,0 +1,11 @@
+C-WORK/src/arm9/020ee684_func_020ee684.c:15:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   *(uint *)(param_1 + 0x10) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ee684_func_020ee684.c:15:72: note: place parentheses around the '+' expression to silence this warning
+   15 |   *(uint *)(param_1 + 0x10) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/020ee684_func_020ee684.c:16:25: error: incompatible pointer types assigning to 'code *' (aka 'void (*)()') from 'undefined *' (aka 'unsigned char *') [-Werror,-Wincompatible-pointer-types]
+   16 |   UNRECOVERED_JUMPTABLE = pcRam020ee6a4;
+      |                         ^ ~~~~~~~~~~~~~
+1 warning and 1 error generated.

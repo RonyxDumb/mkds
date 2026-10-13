@@ -1,0 +1,118 @@
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:21:58: error: too many arguments to function call, expected 2, have 3
+   21 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed418,0,uRam020ed41c);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:9:22: note: expanded from macro 'uRam020ed41c'
+    9 | #define uRam020ed41c (*(undefined4 *)(uintptr_t)0x20ed41cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:23:58: error: too many arguments to function call, expected 2, have 3
+   23 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed420,0,uRam020ed424);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:11:22: note: expanded from macro 'uRam020ed424'
+   11 | #define uRam020ed424 (*(undefined4 *)(uintptr_t)0x20ed424u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:25:58: error: too many arguments to function call, expected 2, have 3
+   25 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed428,0,uRam020ed42c);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:13:22: note: expanded from macro 'uRam020ed42c'
+   13 | #define uRam020ed42c (*(undefined4 *)(uintptr_t)0x20ed42cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:27:58: error: too many arguments to function call, expected 2, have 3
+   27 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed430,0,uRam020ed434);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:15:22: note: expanded from macro 'uRam020ed434'
+   15 | #define uRam020ed434 (*(undefined4 *)(uintptr_t)0x20ed434u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:29:58: error: too many arguments to function call, expected 2, have 3
+   29 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed438,0,uRam020ed43c);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:17:22: note: expanded from macro 'uRam020ed43c'
+   17 | #define uRam020ed43c (*(undefined4 *)(uintptr_t)0x20ed43cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:31:58: error: too many arguments to function call, expected 2, have 3
+   31 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed440,0,uRam020ed444);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:19:22: note: expanded from macro 'uRam020ed444'
+   19 | #define uRam020ed444 (*(undefined4 *)(uintptr_t)0x20ed444u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:33:58: error: too many arguments to function call, expected 2, have 3
+   33 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed448,0,uRam020ed44c);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:21:22: note: expanded from macro 'uRam020ed44c'
+   21 | #define uRam020ed44c (*(undefined4 *)(uintptr_t)0x20ed44cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:35:58: error: too many arguments to function call, expected 2, have 3
+   35 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed450,0,uRam020ed454);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:23:22: note: expanded from macro 'uRam020ed454'
+   23 | #define uRam020ed454 (*(undefined4 *)(uintptr_t)0x20ed454u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:37:69: error: too many arguments to function call, expected 2, have 3
+   37 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed458,uRam020ed45c,uRam020ed460);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                           ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:26:22: note: expanded from macro 'uRam020ed460'
+   26 | #define uRam020ed460 (*(undefined4 *)(uintptr_t)0x20ed460u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:39:58: error: too many arguments to function call, expected 2, have 3
+   39 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed464,0,uRam020ed468);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:28:22: note: expanded from macro 'uRam020ed468'
+   28 | #define uRam020ed468 (*(undefined4 *)(uintptr_t)0x20ed468u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:41:58: error: too many arguments to function call, expected 2, have 3
+   41 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed46c,0,uRam020ed470);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:30:22: note: expanded from macro 'uRam020ed470'
+   30 | #define uRam020ed470 (*(undefined4 *)(uintptr_t)0x20ed470u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:43:58: error: too many arguments to function call, expected 2, have 3
+   43 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed474,0,uRam020ed478);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:32:22: note: expanded from macro 'uRam020ed478'
+   32 | #define uRam020ed478 (*(undefined4 *)(uintptr_t)0x20ed478u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ed2f8_LoadItems_from_thumb.c:45:58: error: too many arguments to function call, expected 2, have 3
+   45 |   uVar3 = CreateBillboardModel_from_thumb(uRam020ed47c,0,uRam020ed480);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:34:22: note: expanded from macro 'uRam020ed480'
+   34 | #define uRam020ed480 (*(undefined4 *)(uintptr_t)0x20ed480u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ed2f8_LoadItems_from_thumb.h:3:5: note: 'CreateBillboardModel_from_thumb' declared here
+    3 | int CreateBillboardModel_from_thumb(undefined4 param_1,undefined4 param_2);
+      |     ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+13 errors generated.

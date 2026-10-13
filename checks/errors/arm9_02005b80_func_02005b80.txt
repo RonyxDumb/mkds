@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02005b80_func_02005b80.c:22:15: error: incompatible pointer to integer conversion assigning to 'int' from 'uint *' (aka 'unsigned int *') [-Wint-conversion]
+   22 |        (iVar1 = func_020063f4(*(undefined4 *)(puVar2 + 0x10),*(undefined4 *)(puVar2 + 0x14)),
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

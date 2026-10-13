@@ -1,0 +1,121 @@
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:27:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |    *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) = 0;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:27:68: note: place parentheses around the '+' expression to silence this warning
+   27 |    *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) = 0;
+      |                                                                    ^     
+      |                                            (                             )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:30:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 4) = 0;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:30:69: note: place parentheses around the '+' expression to silence this warning
+   30 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 4) = 0;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:36:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |     *(uint *)((uint)piRam0212b7c0 & 0xfffffffc) << ((uint)piRam0212b7c0 & 3) * -8 + 0x20) + 8) = 0;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:36:83: note: place parentheses around the '+' expression to silence this warning
+   36 |     *(uint *)((uint)piRam0212b7c0 & 0xfffffffc) << ((uint)piRam0212b7c0 & 3) * -8 + 0x20) + 8) = 0;
+      |                                                                                   ^     
+      |                                                    (                                    )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:40:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 0x10) = 0;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:40:69: note: place parentheses around the '+' expression to silence this warning
+   40 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 0x10) = 0;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:43:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   43 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 0x14) = 0xffffffff;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:43:69: note: place parentheses around the '+' expression to silence this warning
+   43 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 0x14) = 0xffffffff;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:46:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 0xc) = uVar8;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:46:69: note: place parentheses around the '+' expression to silence this warning
+   46 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 0xc) = uVar8;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:50:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   50 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 0x1c) = 1;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:50:69: note: place parentheses around the '+' expression to silence this warning
+   50 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 0x1c) = 1;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:54:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   54 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 0x850) = 1;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:54:69: note: place parentheses around the '+' expression to silence this warning
+   54 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 0x850) = 1;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:57:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   57 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 0x854) = 0x240;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:57:69: note: place parentheses around the '+' expression to silence this warning
+   57 |     *(uint *)((uint)piVar4 & 0xfffffffc) << ((uint)piVar4 & 3) * -8 + 0x20) + 0x854) = 0x240;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:59:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   59 |             *(uint *)((uint)puVar5 & 0xfffffffc) << ((uint)puVar5 & 3) * -8 + 0x20) & 0xffffe0ff |
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:59:77: note: place parentheses around the '+' expression to silence this warning
+   59 |             *(uint *)((uint)puVar5 & 0xfffffffc) << ((uint)puVar5 & 3) * -8 + 0x20) & 0xffffe0ff |
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:79:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   79 |             (0x1f,0x1e0,(uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) + 0x1e0,0x20);
+      |                                                        ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:79:71: note: place parentheses around the '+' expression to silence this warning
+   79 |             (0x1f,0x1e0,(uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) + 0x1e0,0x20);
+      |                                                                       ^     
+      |                                                           (                 )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:81:90: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   81 |            *(uint *)((uint)piRam0212b7c0 & 0xfffffffc) << ((uint)piRam0212b7c0 & 3) * -8 + 0x20;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:81:90: note: place parentheses around the '+' expression to silence this warning
+   81 |            *(uint *)((uint)piRam0212b7c0 & 0xfffffffc) << ((uint)piRam0212b7c0 & 3) * -8 + 0x20;
+      |                                                                                          ^     
+      |                                                           (                                    )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:82:30: error: too many arguments to function call, expected 0, have 5
+   82 |   G2d_Sprite_CreateFromTiles(uVar11 + 0x20,uVar11 + 0x50,0x20,2,4);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212b5ec_LoadStaffRollStuff.h:5:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+    5 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:85:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   84 |                     *(uint *)((uint)piRam0212b7c0 & 0xfffffffc) <<
+      |                                                                 ~~
+   85 |                     ((uint)piRam0212b7c0 & 3) * -8 + 0x20) + 0x1c);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:85:52: note: place parentheses around the '+' expression to silence this warning
+   85 |                     ((uint)piRam0212b7c0 & 3) * -8 + 0x20) + 0x1c);
+      |                                                    ^     
+      |                     (                                    )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:89:90: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   89 |            *(uint *)((uint)piRam0212b7c0 & 0xfffffffc) << ((uint)piRam0212b7c0 & 3) * -8 + 0x20;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:89:90: note: place parentheses around the '+' expression to silence this warning
+   89 |            *(uint *)((uint)piRam0212b7c0 & 0xfffffffc) << ((uint)piRam0212b7c0 & 3) * -8 + 0x20;
+      |                                                                                          ^     
+      |                                                           (                                    )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:96:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   96 |   Mem_CpuFill8((uint *)(uintptr_t)((uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) + 0x50),0,0x800);
+      |                                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:96:82: note: place parentheses around the '+' expression to silence this warning
+   96 |   Mem_CpuFill8((uint *)(uintptr_t)((uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) + 0x50),0,0x800);
+      |                                                                                  ^     
+      |                                                                      (                 )
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:101:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  101 |     *(uint *)((uint)piRam0212b7c0 & 0xfffffffc) << ((uint)piRam0212b7c0 & 3) * -8 + 0x20) + 0x18) =
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b5ec_LoadStaffRollStuff.c:101:83: note: place parentheses around the '+' expression to silence this warning
+  101 |     *(uint *)((uint)piRam0212b7c0 & 0xfffffffc) << ((uint)piRam0212b7c0 & 3) * -8 + 0x20) + 0x18) =
+      |                                                                                   ^     
+      |                                                    (                                    )
+16 warnings and 1 error generated.

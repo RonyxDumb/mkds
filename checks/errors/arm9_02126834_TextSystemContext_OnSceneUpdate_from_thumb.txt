@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02126834_TextSystemContext_OnSceneUpdate_from_thumb.c:26:52: error: too few arguments to function call, single argument 'param_1' was not specified
+   26 |       TextSystemContext_UpdateFn_State2_from_thumb();
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02126834_TextSystemContext_OnSceneUpdate_from_thumb.h:8:6: note: 'TextSystemContext_UpdateFn_State2_from_thumb' declared here
+    8 | void TextSystemContext_UpdateFn_State2_from_thumb(int param_1);
+      |      ^                                            ~~~~~~~~~~~
+1 error generated.

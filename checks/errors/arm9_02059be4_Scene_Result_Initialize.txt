@@ -1,0 +1,13 @@
+C-WORK/src/arm9/02059be4_Scene_Result_Initialize.c:9:34: error: too few arguments to function call, single argument 'param_1' was not specified
+    9 |   ExecutionContext_GetHeapHandle();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02059be4_Scene_Result_Initialize.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/02059be4_Scene_Result_Initialize.c:10:30: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   InstanceStructN_from_thumb();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02059be4_Scene_Result_Initialize.h:5:6: note: 'InstanceStructN_from_thumb' declared here
+    5 | void InstanceStructN_from_thumb(undefined4 param_1);
+      |      ^                          ~~~~~~~~~~~~~~~~~~
+2 errors generated.

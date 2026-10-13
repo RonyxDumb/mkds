@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov003/021d35c0_FUN_021d35c0.c:16:54: error: too few arguments to function call, expected 4, have 1
+   16 |     FUN_021d2eb8(*(undefined4 *)(*piVar1 + iVar2 + 8));
+      |     ~~~~~~~~~~~~                                     ^
+C-WORK/src/arm9_ov003/deps/021d35c0_FUN_021d35c0.h:5:6: note: 'FUN_021d2eb8' declared here
+    5 | void FUN_021d2eb8(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021d35c0_FUN_021d35c0.c:17:50: error: too few arguments to function call, expected 4, have 1
+   17 |     FUN_021d1d4c(*(undefined4 *)(*piVar1 + iVar2));
+      |     ~~~~~~~~~~~~                                 ^
+C-WORK/src/arm9_ov003/deps/021d35c0_FUN_021d35c0.h:3:6: note: 'FUN_021d1d4c' declared here
+    3 | void FUN_021d1d4c(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

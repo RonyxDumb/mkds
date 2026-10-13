@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov001/02196ecc_FUN_02196ecc.c:22:43: error: too many arguments to function call, expected 3, have 4
+   22 |   func_0x0212513c(uVar2,uVar3,auStack_20e,DAT_02196f5c);
+      |   ~~~~~~~~~~~~~~~                         ^~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02196ecc_FUN_02196ecc.h:5:22: note: expanded from macro 'DAT_02196f5c'
+    5 | #define DAT_02196f5c (*(undefined4 *)(uintptr_t)0x2196f5cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02196ecc_FUN_02196ecc.h:13:6: note: 'MaybeHandleBmgFormatting_from_thumb' declared here
+   13 | void MaybeHandleBmgFormatting_from_thumb(short *param_1,short *param_2,short *param_3);
+      |      ^                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

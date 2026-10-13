@@ -1,0 +1,14 @@
+C-WORK/src/arm7/0601262c_FUN_0601262c.c:14:16: error: too few arguments to function call, single argument 'param_1' was not specified
+   14 |   FUN_0600ecf4();
+      |   ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/0601262c_FUN_0601262c.h:4:6: note: 'FUN_0600ecf4' declared here
+    4 | void FUN_0600ecf4(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm7/0601262c_FUN_0601262c.c:16:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |           *(uint *)(DAT_0601268c & 0xfffffffc) << (DAT_0601268c & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0601262c_FUN_0601262c.c:16:75: note: place parentheses around the '+' expression to silence this warning
+   16 |           *(uint *)(DAT_0601268c & 0xfffffffc) << (DAT_0601268c & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+1 warning and 1 error generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0212e2e4_Sound_PrepareSarcData.c:10:40: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   iVar1 = Sound_MaybeGetRawFilePointer();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212e2e4_Sound_PrepareSarcData.h:5:6: note: 'Sound_MaybeGetRawFilePointer' declared here
+    5 | uint Sound_MaybeGetRawFilePointer(uint param_1);
+      |      ^                            ~~~~~~~~~~~~
+C-WORK/src/arm9/0212e2e4_Sound_PrepareSarcData.c:15:62: error: too few arguments to function call, expected 5, have 2
+   15 |     iVar1 = Sound_AllocateReadEntireFile(param_1,uRam0212e35c);
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~                     ^
+C-WORK/src/arm9/deps/0212e2e4_Sound_PrepareSarcData.h:3:5: note: 'Sound_AllocateReadEntireFile' declared here
+    3 | int Sound_AllocateReadEntireFile(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,int param_5);
+      |     ^                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

@@ -1,0 +1,40 @@
+#pragma once
+/* Function-specific inferred declarations. */
+undefined4 AllocateReserveTEQSub(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+void Gfx_ReadCharGraphicsRelative(int *param_1,int param_2);
+void Gfx_ReadPaletteRelative(int *param_1,int param_2);
+void MaybeReadCharBlock_1(int *param_1,int param_2);
+void MaybeReadScreenBlock(int *param_1,int param_2);
+undefined4 Mem_AllocateHeap(uint param_1,undefined4 param_2);
+int find_buf_fn_from_thumb(undefined4 param_1);
+void func_020b48b4(int *param_1,int param_2);
+undefined4 func_020cccb4(void);
+void func_0211a3bc(void);
+#define iRam0211a6b8 (*(int *)(uintptr_t)0x211a6b8u)
+#define piRam0211a654 (*(int **)(uintptr_t)0x211a654u)
+#define psRam0211a64c (*(short **)(uintptr_t)0x211a64cu)
+#define puRam0211a650 (*(undefined4 **)(uintptr_t)0x211a650u)
+#define puRam0211a658 (*(undefined4 **)(uintptr_t)0x211a658u)
+#define puRam0211a65c (*(undefined4 **)(uintptr_t)0x211a65cu)
+#define puRam0211a660 (*(undefined4 **)(uintptr_t)0x211a660u)
+#define puRam0211a664 (*(undefined4 **)(uintptr_t)0x211a664u)
+#define puRam0211a668 (*(undefined4 **)(uintptr_t)0x211a668u)
+#define puRam0211a66c (*(undefined4 **)(uintptr_t)0x211a66cu)
+#define puRam0211a670 (*(undefined4 **)(uintptr_t)0x211a670u)
+#define puRam0211a674 (*(undefined4 **)(uintptr_t)0x211a674u)
+#define puRam0211a678 (*(undefined4 **)(uintptr_t)0x211a678u)
+#define puRam0211a680 (*(undefined4 **)(uintptr_t)0x211a680u)
+#define puRam0211a684 (*(undefined4 **)(uintptr_t)0x211a684u)
+#define puRam0211a688 (*(undefined4 **)(uintptr_t)0x211a688u)
+#define puRam0211a68c (*(undefined4 **)(uintptr_t)0x211a68cu)
+#define puRam0211a690 (*(undefined4 **)(uintptr_t)0x211a690u)
+#define puRam0211a694 (*(undefined4 **)(uintptr_t)0x211a694u)
+#define puRam0211a698 (*(undefined4 **)(uintptr_t)0x211a698u)
+#define puRam0211a69c (*(undefined4 **)(uintptr_t)0x211a69cu)
+#define puRam0211a6a0 (*(undefined4 **)(uintptr_t)0x211a6a0u)
+#define puRam0211a6a4 (*(undefined4 **)(uintptr_t)0x211a6a4u)
+#define puRam0211a6a8 (*(undefined4 **)(uintptr_t)0x211a6a8u)
+#define puRam0211a6ac (*(undefined4 **)(uintptr_t)0x211a6acu)
+#define uRam0211a67c (*(undefined4 *)(uintptr_t)0x211a67cu)
+#define uRam0211a6b0 (*(undefined4 *)(uintptr_t)0x211a6b0u)
+#define uRam0211a6b4 (*(undefined4 *)(uintptr_t)0x211a6b4u)

@@ -1,0 +1,5 @@
+C-WORK/src/arm9/0209fbe4_LoadTownMonteMapObject.c:14:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   14 |   uVar2 = CreateMapObjectFromModelAndAnimation_from_thumb(param_1,uVar2,uVar1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+1 error generated.

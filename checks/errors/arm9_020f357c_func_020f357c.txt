@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020f357c_func_020f357c.c:52:79: error: too many arguments to function call, expected 4, have 6
+   52 |       lVar10 = Multiply64(local_18,local_18 >> 0x1f,local_18,local_18 >> 0x1f,uVar4,local_1c);
+      |                ~~~~~~~~~~                                                     ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020f357c_func_020f357c.h:3:12: note: 'Multiply64' declared here
+    3 | undefined8 Multiply64(uint param_1,int param_2,uint param_3,int param_4);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

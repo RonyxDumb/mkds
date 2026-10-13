@@ -1,0 +1,48 @@
+C-WORK/src/arm9/021461d8_func_021461d8.c:22:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |   if (((uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20) & 4) != 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021461d8_func_021461d8.c:22:50: note: place parentheses around the '+' expression to silence this warning
+   22 |   if (((uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20) & 4) != 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/021461d8_func_021461d8.c:27:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |     } while (((uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20) & 4) != 0);
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021461d8_func_021461d8.c:27:57: note: place parentheses around the '+' expression to silence this warning
+   27 |     } while (((uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20) & 4) != 0);
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/021461d8_func_021461d8.c:31:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |   *(uint *)(iVar2 + 0x114) = uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20 | 4;
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021461d8_func_021461d8.c:31:71: note: place parentheses around the '+' expression to silence this warning
+   31 |   *(uint *)(iVar2 + 0x114) = uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20 | 4;
+      |                                                                       ^
+      |                                                            (                )
+C-WORK/src/arm9/021461d8_func_021461d8.c:34:17: error: too many arguments to function call, expected 0, have 1
+   34 |   Os_RestoreIrq(uVar4);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/021461d8_func_021461d8.h:7:12: note: 'Os_RestoreIrq' declared here
+    7 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/021461d8_func_021461d8.c:39:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |   *(uint *)(iVar2 + 0x1c) = param_2 + (uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20);
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021461d8_func_021461d8.c:39:81: note: place parentheses around the '+' expression to silence this warning
+   39 |   *(uint *)(iVar2 + 0x1c) = param_2 + (uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20);
+      |                                                                                 ^     
+      |                                                                      (                )
+C-WORK/src/arm9/021461d8_func_021461d8.c:50:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   50 |       *(uint *)(iVar2 + 0x104) = uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021461d8_func_021461d8.c:50:75: note: place parentheses around the '+' expression to silence this warning
+   50 |       *(uint *)(iVar2 + 0x104) = uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/021461d8_func_021461d8.c:51:15: error: too many arguments to function call, expected 0, have 1
+   51 |       task_fn(iVar2);
+      |       ~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/021461d8_func_021461d8.h:12:6: note: 'task_fn' declared here
+   12 | void task_fn(void);
+      |      ^
+5 warnings and 2 errors generated.

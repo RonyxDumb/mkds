@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02085fd8_MaybeLoadKartAIData_from_thumb.c:14:11: error: assigning to 'int' from incompatible type 'void'
+   14 |     iVar1 = FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb(uRam02086054);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

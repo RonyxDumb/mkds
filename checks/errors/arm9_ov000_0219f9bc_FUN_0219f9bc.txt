@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/0219f9bc_FUN_0219f9bc.c:53:21: error: too few arguments to function call, expected 2, have 1
+   53 |       FUN_0219fbec(1);
+      |       ~~~~~~~~~~~~  ^
+C-WORK/src/arm9_ov000/deps/0219f9bc_FUN_0219f9bc.h:9:6: note: 'FUN_0219fbec' declared here
+    9 | void FUN_0219fbec(undefined4 param_1,int param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,6 @@
+#define psRam020fa774 (*(short **)(uintptr_t)0x20fa774u)
+#define uRam020fa778 (*(uint *)(uintptr_t)0x20fa778u)
+#define uRam020fa77c (*(uint *)(uintptr_t)0x20fa77cu)
+#define uRam020fa780 (*(uint *)(uintptr_t)0x20fa780u)
+#define uRam020fa784 (*(uint *)(uintptr_t)0x20fa784u)
+#define uRam020fa788 (*(uint *)(uintptr_t)0x20fa788u)

@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0207f600_GetSomeMQRacerAnotherFlags.c:12:26: error: too few arguments to function call, single argument 'param_1' was not specified
+   12 |   iVar2 = GetDriverEntry();
+      |           ~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0207f600_GetSomeMQRacerAnotherFlags.h:3:5: note: 'GetDriverEntry' declared here
+    3 | int GetDriverEntry(int param_1);
+      |     ^              ~~~~~~~~~~~
+C-WORK/src/arm9/0207f600_GetSomeMQRacerAnotherFlags.c:15:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   return ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & uRam0207f62c) == 0;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0207f600_GetSomeMQRacerAnotherFlags.c:15:53: note: place parentheses around the '+' expression to silence this warning
+   15 |   return ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & uRam0207f62c) == 0;
+      |                                                     ^     
+      |                                          (                )
+1 warning and 1 error generated.

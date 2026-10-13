@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0210bc54_func_0210bc54.c:11:35: error: too few arguments to function call, expected 2, have 0
+   11 |   IntrusiveListWrapper_RemoveItem();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0210bc54_func_0210bc54.h:3:6: note: 'IntrusiveListWrapper_RemoveItem' declared here
+    3 | void IntrusiveListWrapper_RemoveItem(uint *param_1,int param_2);
+      |      ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0210bc54_func_0210bc54.c:16:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |   if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210bc54_func_0210bc54.c:16:54: note: place parentheses around the '+' expression to silence this warning
+   16 |   if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
+      |                                                      ^
+      |                                           (                )
+1 warning and 1 error generated.

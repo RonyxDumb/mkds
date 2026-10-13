@@ -1,0 +1,25 @@
+C-WORK/src/arm7/037f802c_FUN_037f802c.c:25:34: error: too many arguments to function call, expected 0, have 3
+   25 |       uVar3 = thunk_FUN_038011f0(uVar1,param_1 + uVar6 * 0x100,0x70);
+      |               ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/037f802c_FUN_037f802c.h:6:6: note: 'thunk_FUN_038011f0' declared here
+    6 | void thunk_FUN_038011f0(void);
+      |      ^
+C-WORK/src/arm7/037f802c_FUN_037f802c.c:38:34: error: too many arguments to function call, expected 0, have 3
+   38 |       uVar4 = thunk_FUN_038011f0(DAT_037f81b4,iVar2,0x70);
+      |               ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/037f802c_FUN_037f802c.h:7:22: note: expanded from macro 'DAT_037f81b4'
+    7 | #define DAT_037f81b4 (*(undefined4 *)(uintptr_t)0x37f81b4u)
+      |                      ^
+C-WORK/src/arm7/deps/037f802c_FUN_037f802c.h:6:6: note: 'thunk_FUN_038011f0' declared here
+    6 | void thunk_FUN_038011f0(void);
+      |      ^
+C-WORK/src/arm7/037f802c_FUN_037f802c.c:40:38: error: too many arguments to function call, expected 0, have 3
+   40 |          (uVar4 = thunk_FUN_038011f0(DAT_037f81b4,iVar2 + 0x74,0x8a),
+      |                   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/037f802c_FUN_037f802c.h:7:22: note: expanded from macro 'DAT_037f81b4'
+    7 | #define DAT_037f81b4 (*(undefined4 *)(uintptr_t)0x37f81b4u)
+      |                      ^
+C-WORK/src/arm7/deps/037f802c_FUN_037f802c.h:6:6: note: 'thunk_FUN_038011f0' declared here
+    6 | void thunk_FUN_038011f0(void);
+      |      ^
+3 errors generated.

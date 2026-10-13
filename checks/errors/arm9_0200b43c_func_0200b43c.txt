@@ -1,0 +1,19 @@
+C-WORK/src/arm9/0200b43c_func_0200b43c.c:14:22: error: too few arguments to function call, expected 2, have 1
+   14 |       func_0200ba44(2);
+      |       ~~~~~~~~~~~~~  ^
+C-WORK/src/arm9/deps/0200b43c_func_0200b43c.h:6:6: note: 'func_0200ba44' declared here
+    6 | void func_0200ba44(undefined4 param_1,undefined4 param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200b43c_func_0200b43c.c:21:22: error: too few arguments to function call, expected 2, have 1
+   21 |       func_0200ba44(4);
+      |       ~~~~~~~~~~~~~  ^
+C-WORK/src/arm9/deps/0200b43c_func_0200b43c.h:6:6: note: 'func_0200ba44' declared here
+    6 | void func_0200ba44(undefined4 param_1,undefined4 param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200b43c_func_0200b43c.c:60:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   60 |       (**(code **)(*DAT_0200b600 + DAT_0200b60c))(0x13,&local_8);
+      |                                                  ^
+C-WORK/src/arm9/0200b43c_func_0200b43c.c:86:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   86 |       (**(code **)(*DAT_0200b600 + DAT_0200b60c))(0x13,local_6);
+      |                                                  ^
+2 warnings and 2 errors generated.

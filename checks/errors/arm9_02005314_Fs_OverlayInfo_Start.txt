@@ -1,0 +1,76 @@
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:16:40: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |   iVar1 = Fs_OverlayInfo_GetBinarySize();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02005314_Fs_OverlayInfo_Start.h:6:6: note: 'Fs_OverlayInfo_GetBinarySize' declared here
+    6 | uint Fs_OverlayInfo_GetBinarySize(int param_1);
+      |      ^                            ~~~~~~~~~~~
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:21:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |                 *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20,
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:21:71: note: place parentheses around the '+' expression to silence this warning
+   21 |                 *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20,
+      |                                                                       ^     
+      |                                                    (                        )
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:23:46: warning: operator '>>' has lower precedence than '-'; '-' will be evaluated first [-Wshift-op-parentheses]
+   23 |                            ) - (iRam02005408 - iRam0200540c >> 0x1f)))) {
+      |                                 ~~~~~~~~~~~~~^~~~~~~~~~~~~~ ~~
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:23:46: note: place parentheses around the '-' expression to silence this warning
+   23 |                            ) - (iRam02005408 - iRam0200540c >> 0x1f)))) {
+      |                                 ~~~~~~~~~~~~~^~~~~~~~~~~~~~
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:27:95: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |                         (uVar7 * 0x14 + iRam0200540c,uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20
+      |                                                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:27:95: note: place parentheses around the '+' expression to silence this warning
+   27 |                         (uVar7 * 0x14 + iRam0200540c,uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20
+      |                                                                                               ^     
+      |                                                                                    (                )
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:33:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |       Mem_CpuFill8((uint *)(uintptr_t)(uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20),0,iVar1);
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:33:81: note: place parentheses around the '+' expression to silence this warning
+   33 |       Mem_CpuFill8((uint *)(uintptr_t)(uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20),0,iVar1);
+      |                                                                                 ^     
+      |                                                                      (                )
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:41:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |     Crt0_DecompressFlushCode((uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20) + iVar1);
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:41:72: note: place parentheses around the '+' expression to silence this warning
+   41 |     Crt0_DecompressFlushCode((uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20) + iVar1);
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:47:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |   Arm_FlushRange(uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20,
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:47:59: note: place parentheses around the '+' expression to silence this warning
+   47 |   Arm_FlushRange(uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20,
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:48:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   48 |                  uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:48:59: note: place parentheses around the '+' expression to silence this warning
+   48 |                  uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:51:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   51 |   uVar5 = uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:51:52: note: place parentheses around the '+' expression to silence this warning
+   51 |   uVar5 = uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:54:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   54 |   uVar7 = uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:54:52: note: place parentheses around the '+' expression to silence this warning
+   54 |   uVar7 = uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:58:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   58 |                        *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02005314_Fs_OverlayInfo_Start.c:58:74: note: place parentheses around the '+' expression to silence this warning
+   58 |                        *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20);
+      |                                                                          ^     
+      |                                                         (                      )
+10 warnings and 1 error generated.

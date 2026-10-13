@@ -1,0 +1,25 @@
+C-WORK/src/arm9/0203a908_CheckIsEnding.c:18:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |           *(uint *)(uRam0203a9d8 & 0xfffffffc) << (uRam0203a9d8 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203a908_CheckIsEnding.c:18:75: note: place parentheses around the '+' expression to silence this warning
+   18 |           *(uint *)(uRam0203a9d8 & 0xfffffffc) << (uRam0203a9d8 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0203a908_CheckIsEnding.c:22:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |   uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203a908_CheckIsEnding.c:22:52: note: place parentheses around the '+' expression to silence this warning
+   22 |   uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0203a908_CheckIsEnding.c:25:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |         *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) == 0x36) {
+      |                                       ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203a908_CheckIsEnding.c:25:59: note: place parentheses around the '+' expression to silence this warning
+   25 |         *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) == 0x36) {
+      |                                                           ^     
+      |                                          (                      )
+C-WORK/src/arm9/0203a908_CheckIsEnding.c:33:9: error: assigning to 'int' from incompatible type 'void'
+   33 |   iVar4 = CheckSavedSecretFlag_from_thumb(uVar3);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 warnings and 1 error generated.

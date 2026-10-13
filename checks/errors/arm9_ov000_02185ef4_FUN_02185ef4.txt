@@ -1,0 +1,25 @@
+C-WORK/src/arm9_ov000/02185ef4_FUN_02185ef4.c:27:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   27 |       iVar2 = (**(code **)(iVar3 + DAT_02186098))(DAT_02186090,DAT_02186094);
+      |                                                  ^
+C-WORK/src/arm9_ov000/02185ef4_FUN_02185ef4.c:27:13: error: assigning to 'int' from incompatible type 'void'
+   27 |       iVar2 = (**(code **)(iVar3 + DAT_02186098))(DAT_02186090,DAT_02186094);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02185ef4_FUN_02185ef4.c:34:52: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   34 |         (**(code **)(*DAT_02186078 + DAT_021860a0))(uVar1,iVar2,0);
+      |                                                    ^
+C-WORK/src/arm9_ov000/02185ef4_FUN_02185ef4.c:38:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   38 |       (**(code **)(*DAT_02186078 + DAT_021860a0))(uVar1,iVar2,0);
+      |                                                  ^
+C-WORK/src/arm9_ov000/02185ef4_FUN_02185ef4.c:54:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   54 |   iVar2 = (**(code **)(iVar3 + DAT_02186098))(DAT_02186090,DAT_02186094);
+      |                                              ^
+C-WORK/src/arm9_ov000/02185ef4_FUN_02185ef4.c:54:9: error: assigning to 'int' from incompatible type 'void'
+   54 |   iVar2 = (**(code **)(iVar3 + DAT_02186098))(DAT_02186090,DAT_02186094);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02185ef4_FUN_02185ef4.c:61:48: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   61 |     (**(code **)(*DAT_02186078 + DAT_021860a0))(uVar1,iVar2,0);
+      |                                                ^
+C-WORK/src/arm9_ov000/02185ef4_FUN_02185ef4.c:65:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   65 |   (**(code **)(*DAT_02186078 + DAT_021860a0))(uVar1,iVar2,0);
+      |                                              ^
+6 warnings and 2 errors generated.

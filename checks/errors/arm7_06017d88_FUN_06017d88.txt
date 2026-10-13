@@ -1,0 +1,28 @@
+C-WORK/src/arm7/06017d88_FUN_06017d88.c:14:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |           *(uint *)(DAT_06017e5c & 0xfffffffc) << (DAT_06017e5c & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06017d88_FUN_06017d88.c:14:75: note: place parentheses around the '+' expression to silence this warning
+   14 |           *(uint *)(DAT_06017e5c & 0xfffffffc) << (DAT_06017e5c & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm7/06017d88_FUN_06017d88.c:29:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |              *(uint *)(DAT_06017e5c & 0xfffffffc) << (DAT_06017e5c & 3) * -8 + 0x20) + 0x4e2) |
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06017d88_FUN_06017d88.c:29:78: note: place parentheses around the '+' expression to silence this warning
+   29 |              *(uint *)(DAT_06017e5c & 0xfffffffc) << (DAT_06017e5c & 3) * -8 + 0x20) + 0x4e2) |
+      |                                                                              ^     
+      |                                                      (                             )
+C-WORK/src/arm7/06017d88_FUN_06017d88.c:34:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |       FUN_0600f19c((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x188);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06017d88_FUN_06017d88.c:34:62: note: place parentheses around the '+' expression to silence this warning
+   34 |       FUN_0600f19c((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x188);
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm7/06017d88_FUN_06017d88.c:34:77: error: too few arguments to function call, expected 2, have 1
+   34 |       FUN_0600f19c((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x188);
+      |       ~~~~~~~~~~~~                                                          ^
+C-WORK/src/arm7/deps/06017d88_FUN_06017d88.h:4:6: note: 'FUN_0600f19c' declared here
+    4 | void FUN_0600f19c(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 warnings and 1 error generated.

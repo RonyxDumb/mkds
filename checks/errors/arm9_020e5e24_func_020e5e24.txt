@@ -1,0 +1,10 @@
+C-WORK/src/arm9/020e5e24_func_020e5e24.c:48:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   48 |   uVar4 = MaybeBoundsCheck(uRam020e5f4c,(int)*(short *)(param_2 + 10));
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020e5e24_func_020e5e24.c:49:9: error: assigning to 'undefined2' (aka 'unsigned short') from incompatible type 'void'
+   49 |   uVar2 = MaybeBoundsCheck(uVar4,0xf0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020e5e24_func_020e5e24.c:51:9: error: assigning to 'undefined2' (aka 'unsigned short') from incompatible type 'void'
+   51 |   uVar2 = MaybeBoundsCheck(iRam020e5f50 * sVar1,100);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

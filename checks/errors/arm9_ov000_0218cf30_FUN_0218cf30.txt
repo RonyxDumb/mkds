@@ -1,0 +1,11 @@
+In file included from C-WORK/src/arm9_ov000/0218cf30_FUN_0218cf30.c:3:
+C-WORK/src/arm9_ov000/deps/0218cf30_FUN_0218cf30.h:12:1: error: unknown type name 'size_t'
+   12 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/0218cf30_FUN_0218cf30.c:29:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   29 |                   (param_1,5,*DAT_0218cfac,*(undefined4 *)(param_1 + DAT_0218cfb0));
+      |                   ^
+C-WORK/src/arm9_ov000/0218cf30_FUN_0218cf30.c:34:13: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   34 |             (param_1,4,*DAT_0218cfac,*(undefined4 *)(param_1 + DAT_0218cfb0));
+      |             ^
+2 warnings and 1 error generated.

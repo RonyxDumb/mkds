@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020d9b20_LoadTownWaterModel.c:13:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   uVar2 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020d9b20_LoadTownWaterModel.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020d9b20_LoadTownWaterModel.c:18:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   18 |   uVar2 = FormatFindMapObjFileBuffer_from_thumb(uRam020d9bb0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d9b20_LoadTownWaterModel.c:20:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   20 |   uVar2 = FormatFindMapObjFileBuffer_from_thumb(uRam020d9bb4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

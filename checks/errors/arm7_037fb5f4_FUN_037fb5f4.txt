@@ -1,0 +1,7 @@
+C-WORK/src/arm7/037fb5f4_FUN_037fb5f4.c:11:18: error: too many arguments to function call, expected 0, have 1
+   11 |     FUN_037faf70(*DAT_037fb690 & 0x4000);
+      |     ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/037fb5f4_FUN_037fb5f4.h:3:10: note: 'FUN_037faf70' declared here
+    3 | longlong FUN_037faf70(void);
+      |          ^
+1 error generated.

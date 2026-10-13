@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/0218b148_FUN_0218b148.c:12:9: error: incompatible pointer to integer conversion assigning to 'int' from 'char *' [-Wint-conversion]
+   12 |   iVar1 = FUN_0218b19c(param_2 + 1,0x5c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218b148_FUN_0218b148.c:14:11: error: incompatible pointer to integer conversion assigning to 'int' from 'char *' [-Wint-conversion]
+   14 |     iVar2 = FUN_0218b19c(0,0x5c);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218b148_FUN_0218b148.c:22:11: error: incompatible pointer to integer conversion assigning to 'int' from 'char *' [-Wint-conversion]
+   22 |     iVar1 = FUN_0218b19c(0,0x5c);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

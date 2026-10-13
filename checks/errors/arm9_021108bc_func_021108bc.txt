@@ -1,0 +1,30 @@
+C-WORK/src/arm9/021108bc_func_021108bc.c:27:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |           *(uint *)((uint)puRam02110a50 & 0xfffffffc) << ((uint)puRam02110a50 & 3) * -8 + 0x20) + 1;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021108bc_func_021108bc.c:27:89: note: place parentheses around the '+' expression to silence this warning
+   27 |           *(uint *)((uint)puRam02110a50 & 0xfffffffc) << ((uint)puRam02110a50 & 3) * -8 + 0x20) + 1;
+      |                                                                                         ^     
+      |                                                          (                                    )
+C-WORK/src/arm9/021108bc_func_021108bc.c:41:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |                  *(uint *)((uint)puRam02110a50 & 0xfffffffc) <<
+      |                                                              ~~
+   41 |                  ((uint)puRam02110a50 & 3) * -8 + 0x20)) {
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021108bc_func_021108bc.c:41:49: note: place parentheses around the '+' expression to silence this warning
+   41 |                  ((uint)puRam02110a50 & 3) * -8 + 0x20)) {
+      |                                                 ^     
+      |                  (                                    )
+C-WORK/src/arm9/021108bc_func_021108bc.c:45:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   45 |           *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20 != 0) {
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021108bc_func_021108bc.c:45:61: note: place parentheses around the '+' expression to silence this warning
+   45 |           *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20 != 0) {
+      |                                                             ^
+      |                                            (                      )
+C-WORK/src/arm9/021108bc_func_021108bc.c:46:29: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   46 |         func_0212c6f0(uVar5,0);
+      |         ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/021108bc_func_021108bc.h:7:6: note: 'func_0212c6f0' declared here
+    7 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+3 warnings and 1 error generated.

@@ -1,0 +1,22 @@
+C-WORK/src/arm9_ov003/021d35f4_FUN_021d35f4.c:24:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   24 |     uVar3 = FUN_021d1d60(*pbVar4,*(undefined4 *)(*piVar1 + iVar2 + 0x38),0x14);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021d35f4_FUN_021d35f4.c:26:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   26 |     uVar3 = FUN_021d1d88(*pbVar4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021d35f4_FUN_021d35f4.c:28:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   28 |     uVar3 = FUN_021d2ecc();
+      |           ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021d35f4_FUN_021d35f4.c:32:55: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   32 |     FUN_021d2e50(*(undefined4 *)(*piVar1 + iVar2 + 8),*piVar1 + iVar2 + 0xc);
+      |     ~~~~~~~~~~~~                                      ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021d35f4_FUN_021d35f4.h:6:6: note: 'FUN_021d2e50' declared here
+    6 | void FUN_021d2e50(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021d35f4_FUN_021d35f4.c:33:55: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   33 |     FUN_021d2e5c(*(undefined4 *)(*piVar1 + iVar2 + 8),*piVar1 + iVar2 + 0x20);
+      |     ~~~~~~~~~~~~                                      ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021d35f4_FUN_021d35f4.h:7:6: note: 'FUN_021d2e5c' declared here
+    7 | void FUN_021d2e5c(int param_1);
+      |      ^            ~~~~~~~~~~~
+5 errors generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm7/06001e64_FUN_06001e64.c:14:24: error: too many arguments to function call, expected 0, have 3
+   14 |     thunk_FUN_037f97b4(iVar2 + 0x28,&local_18,1);
+      |     ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/06001e64_FUN_06001e64.h:7:6: note: 'thunk_FUN_037f97b4' declared here
+    7 | void thunk_FUN_037f97b4(void);
+      |      ^
+C-WORK/src/arm7/06001e64_FUN_06001e64.c:21:26: error: too many arguments to function call, expected 0, have 3
+   21 |       thunk_FUN_037f9854(iVar2 + 0x58,local_18,1);
+      |       ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/06001e64_FUN_06001e64.h:8:6: note: 'thunk_FUN_037f9854' declared here
+    8 | void thunk_FUN_037f9854(void);
+      |      ^
+2 errors generated.

@@ -1,0 +1,235 @@
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:43:37: error: too many arguments to function call, expected 0, have 2
+   43 |   uVar5 = Fs_FindArchiveByMountName(uRam0204daa4,3);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0204d6f4_MaybeSetupRomRootOrOverlays.h:16:22: note: expanded from macro 'uRam0204daa4'
+   16 | #define uRam0204daa4 (*(undefined4 *)(uintptr_t)0x204daa4u)
+      |                      ^
+C-WORK/src/arm9/deps/0204d6f4_MaybeSetupRomRootOrOverlays.h:9:6: note: 'Fs_FindArchiveByMountName' declared here
+    9 | uint Fs_FindArchiveByMountName(void);
+      |      ^
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:52:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   52 |     uVar10 = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:52:57: note: place parentheses around the '+' expression to silence this warning
+   52 |     uVar10 = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:56:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   56 |     iVar14 = (uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) - uVar10;
+      |                                           ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:56:58: note: place parentheses around the '+' expression to silence this warning
+   56 |     iVar14 = (uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) - uVar10;
+      |                                                          ^     
+      |                                              (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:58:18: error: too many arguments to function call, expected 0, have 3
+   58 |     Fs_File_Read(param_1,puVar17,0x60);
+      |     ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0204d6f4_MaybeSetupRomRootOrOverlays.h:7:6: note: 'Fs_File_Read' declared here
+    7 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:63:84: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   63 |                    *(uint *)(uRam0204daac & 0xfffffffc) << (uRam0204daac & 3) * -8 + 0x20;
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:63:84: note: place parentheses around the '+' expression to silence this warning
+   63 |                    *(uint *)(uRam0204daac & 0xfffffffc) << (uRam0204daac & 3) * -8 + 0x20;
+      |                                                                                    ^     
+      |                                                            (                             )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:66:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   66 |     local_110[1] = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:66:63: note: place parentheses around the '+' expression to silence this warning
+   66 |     local_110[1] = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                               ^     
+      |                                                   (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:69:84: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   69 |                    *(uint *)(uRam0204dab0 & 0xfffffffc) << (uRam0204dab0 & 3) * -8 + 0x20;
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:69:84: note: place parentheses around the '+' expression to silence this warning
+   69 |                    *(uint *)(uRam0204dab0 & 0xfffffffc) << (uRam0204dab0 & 3) * -8 + 0x20;
+      |                                                                                    ^     
+      |                                                            (                             )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:72:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   72 |     local_110[3] = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:72:63: note: place parentheses around the '+' expression to silence this warning
+   72 |     local_110[3] = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                               ^     
+      |                                                   (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:75:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   75 |     local_100 = (uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar18;
+      |                                              ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:75:61: note: place parentheses around the '+' expression to silence this warning
+   75 |     local_100 = (uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar18;
+      |                                                             ^     
+      |                                                 (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:78:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   78 |     local_fc = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:78:59: note: place parentheses around the '+' expression to silence this warning
+   78 |     local_fc = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                           ^     
+      |                                               (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:81:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   81 |     local_f8 = (uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar18;
+      |                                             ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:81:60: note: place parentheses around the '+' expression to silence this warning
+   81 |     local_f8 = (uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar18;
+      |                                                            ^     
+      |                                                (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:84:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   84 |     local_f4 = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:84:59: note: place parentheses around the '+' expression to silence this warning
+   84 |     local_f4 = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                           ^     
+      |                                               (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:89:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   89 |     local_110[0] = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:89:63: note: place parentheses around the '+' expression to silence this warning
+   89 |     local_110[0] = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                               ^     
+      |                                                   (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:92:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   92 |     local_110[1] = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:92:63: note: place parentheses around the '+' expression to silence this warning
+   92 |     local_110[1] = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                               ^     
+      |                                                   (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:95:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   95 |     local_110[2] = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:95:63: note: place parentheses around the '+' expression to silence this warning
+   95 |     local_110[2] = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                               ^     
+      |                                                   (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:98:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   98 |     local_110[3] = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:98:63: note: place parentheses around the '+' expression to silence this warning
+   98 |     local_110[3] = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                               ^     
+      |                                                   (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:101:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  101 |     local_100 = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:101:60: note: place parentheses around the '+' expression to silence this warning
+  101 |     local_100 = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                            ^     
+      |                                                (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:104:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  104 |     local_fc = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:104:59: note: place parentheses around the '+' expression to silence this warning
+  104 |     local_fc = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                           ^     
+      |                                               (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:107:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  107 |     local_f8 = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:107:59: note: place parentheses around the '+' expression to silence this warning
+  107 |     local_f8 = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                           ^     
+      |                                               (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:110:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  110 |     local_f4 = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:110:59: note: place parentheses around the '+' expression to silence this warning
+  110 |     local_f4 = uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20;
+      |                                                           ^     
+      |                                               (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:136:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  136 |   piVar7 = (int *)(*(code *)(uVar12 >> uVar9 * 8 | uVar12 << uVar9 * -8 + 0x20))
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:136:73: note: place parentheses around the '+' expression to silence this warning
+  136 |   piVar7 = (int *)(*(code *)(uVar12 >> uVar9 * 8 | uVar12 << uVar9 * -8 + 0x20))
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:137:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  137 |                             (uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20,local_128,0);
+      |                                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:137:75: note: place parentheses around the '+' expression to silence this warning
+  137 |                             (uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20,local_128,0);
+      |                                                                           ^     
+      |                                                               (                 )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:137:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  137 |                             (uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20,local_128,0);
+      |                             ^
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:136:19: error: operand of type 'void' where arithmetic or pointer type is required
+  136 |   piVar7 = (int *)(*(code *)(uVar12 >> uVar9 * 8 | uVar12 << uVar9 * -8 + 0x20))
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  137 |                             (uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20,local_128,0);
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:138:17: error: too many arguments to function call, expected 0, have 1
+  138 |   Os_RestoreIrq(uVar5);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0204d6f4_MaybeSetupRomRootOrOverlays.h:13:12: note: 'Os_RestoreIrq' declared here
+   13 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:149:84: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  149 |                  *(uint *)((uint)puVar15 & 0xfffffffc) << ((uint)puVar15 & 3) * -8 + 0x20);
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:149:84: note: place parentheses around the '+' expression to silence this warning
+  149 |                  *(uint *)((uint)puVar15 & 0xfffffffc) << ((uint)puVar15 & 3) * -8 + 0x20);
+      |                                                                                    ^     
+      |                                                           (                              )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:147:18: error: too many arguments to function call, expected 0, have 3
+  147 |     Fs_File_Read(auStack_70,puVar15 + 1,
+      |     ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~
+  148 |                  *(uint *)((uint)puVar15 & 0xfffffffc) >> ((uint)puVar15 & 3) * 8 |
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  149 |                  *(uint *)((uint)puVar15 & 0xfffffffc) << ((uint)puVar15 & 3) * -8 + 0x20);
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0204d6f4_MaybeSetupRomRootOrOverlays.h:7:6: note: 'Fs_File_Read' declared here
+    7 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:160:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  160 |              *(uint *)((uint)local_e0[0] & 0xfffffffc) << ((uint)local_e0[0] & 3) * -8 + 0x20) >> 3;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:160:88: note: place parentheses around the '+' expression to silence this warning
+  160 |              *(uint *)((uint)local_e0[0] & 0xfffffffc) << ((uint)local_e0[0] & 3) * -8 + 0x20) >> 3;
+      |                                                                                        ^     
+      |                                                           (                                  )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:165:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  165 |                *(uint *)((uint)piVar8 & 0xfffffffc) << ((uint)piVar8 & 3) * -8 + 0x20) >> 5;
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:165:80: note: place parentheses around the '+' expression to silence this warning
+  165 |                *(uint *)((uint)piVar8 & 0xfffffffc) << ((uint)piVar8 & 3) * -8 + 0x20) >> 5;
+      |                                                                                ^     
+      |                                                        (                             )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:172:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  172 |                        iVar18 + (uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20) +
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:172:77: note: place parentheses around the '+' expression to silence this warning
+  172 |                        iVar18 + (uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20) +
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:173:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  173 |                        (uVar13 >> uVar1 * 8 | uVar13 << uVar1 * -8 + 0x20) * 8,0);
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:173:68: note: place parentheses around the '+' expression to silence this warning
+  173 |                        (uVar13 >> uVar1 * 8 | uVar13 << uVar1 * -8 + 0x20) * 8,0);
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:174:24: error: too many arguments to function call, expected 0, have 3
+  174 |           Fs_File_Read(auStack_70,piVar16,8);
+      |           ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0204d6f4_MaybeSetupRomRootOrOverlays.h:7:6: note: 'Fs_File_Read' declared here
+    7 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:178:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  178 |           piVar4[uVar11 * 2 + 1] = (uVar13 >> uVar1 * 8 | uVar13 << uVar1 * -8 + 0x20) + iVar18;
+      |                                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:178:80: note: place parentheses around the '+' expression to silence this warning
+  178 |           piVar4[uVar11 * 2 + 1] = (uVar13 >> uVar1 * 8 | uVar13 << uVar1 * -8 + 0x20) + iVar18;
+      |                                                                                ^     
+      |                                                                     (                )
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:182:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  182 |           piVar4[uVar11 * 2 + 2] = (uVar13 >> uVar1 * 8 | uVar13 << uVar1 * -8 + 0x20) + iVar18;
+      |                                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d6f4_MaybeSetupRomRootOrOverlays.c:182:80: note: place parentheses around the '+' expression to silence this warning
+  182 |           piVar4[uVar11 * 2 + 2] = (uVar13 >> uVar1 * 8 | uVar13 << uVar1 * -8 + 0x20) + iVar18;
+      |                                                                                ^     
+      |                                                                     (                )
+28 warnings and 6 errors generated.

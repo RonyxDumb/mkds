@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/021ad754_FUN_021ad754.c:39:46: error: too few arguments to function call, expected 3, have 2
+   39 |   func_0x0214d1fc(DAT_021ad87c,param_1 + 0x7f);
+      |   ~~~~~~~~~~~~~~~                            ^
+C-WORK/src/arm9_ov000/deps/021ad754_FUN_021ad754.h:24:6: note: 'Mem_CpuCopy8' declared here
+   24 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

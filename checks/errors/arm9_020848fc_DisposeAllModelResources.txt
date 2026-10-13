@@ -1,0 +1,14 @@
+C-WORK/src/arm9/020848fc_DisposeAllModelResources.c:21:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |     if (uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0) {
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020848fc_DisposeAllModelResources.c:21:56: note: place parentheses around the '+' expression to silence this warning
+   21 |     if (uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0) {
+      |                                                        ^
+      |                                             (                )
+C-WORK/src/arm9/020848fc_DisposeAllModelResources.c:22:40: error: too few arguments to function call, single argument 'param_1' was not specified
+   22 |       MaybeDisposeCommonHeaderFileData();
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020848fc_DisposeAllModelResources.h:5:6: note: 'MaybeDisposeCommonHeaderFileData' declared here
+    5 | uint MaybeDisposeCommonHeaderFileData(uint param_1);
+      |      ^                                ~~~~~~~~~~~~
+1 warning and 1 error generated.

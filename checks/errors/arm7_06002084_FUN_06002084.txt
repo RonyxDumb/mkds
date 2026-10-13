@@ -1,0 +1,4 @@
+C-WORK/src/arm7/06002084_FUN_06002084.c:10:18: error: called object type 'undefined' (aka 'unsigned char') is not a function or function pointer
+   10 |   (*DAT_06002094)(param_1,0x308,2);
+      |   ~~~~~~~~~~~~~~~^
+1 error generated.

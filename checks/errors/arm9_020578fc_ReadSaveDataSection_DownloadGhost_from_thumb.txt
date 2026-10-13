@@ -1,0 +1,11 @@
+C-WORK/src/arm9/020578fc_ReadSaveDataSection_DownloadGhost_from_thumb.c:15:16: error: too many arguments to function call, expected 0, have 5
+   14 |     ReadSaveChunkImpl2_from_thumb
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   15 |               (param_1 * 0x1000 + iRam02057938,*(undefined4 *)(*piVar1 + 0x60),uRam0205793c,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   16 |                uRam02057940,uRam02057934);
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020578fc_ReadSaveDataSection_DownloadGhost_from_thumb.h:3:6: note: 'ReadSaveChunkImpl2_from_thumb' declared here
+    3 | void ReadSaveChunkImpl2_from_thumb(void);
+      |      ^
+1 error generated.

@@ -1,0 +1,24 @@
+C-WORK/src/arm9/0211fda8_func_0211fda8.c:13:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |                      *(uint *)(uRam0211fe14 & 0xfffffffc) << (uRam0211fe14 & 3) * -8 + 0x20) + 0x16)
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0211fda8_func_0211fda8.c:13:86: note: place parentheses around the '+' expression to silence this warning
+   13 |                      *(uint *)(uRam0211fe14 & 0xfffffffc) << (uRam0211fe14 & 3) * -8 + 0x20) + 0x16)
+      |                                                                                      ^     
+      |                                                              (                             )
+C-WORK/src/arm9/0211fda8_func_0211fda8.c:18:11: error: call to undeclared function 'func_0x021a377c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   18 |   iVar2 = func_0x021a377c(sVar1);
+      |           ^
+C-WORK/src/arm9/0211fda8_func_0211fda8.c:20:19: error: too many arguments to function call, expected 0, have 1
+   20 |     func_02120714(iVar2);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0211fda8_func_0211fda8.h:4:6: note: 'func_02120714' declared here
+    4 | void func_02120714(void);
+      |      ^
+C-WORK/src/arm9/0211fda8_func_0211fda8.c:22:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |             *(uint *)(uRam0211fe14 & 0xfffffffc) << (uRam0211fe14 & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0211fda8_func_0211fda8.c:22:77: note: place parentheses around the '+' expression to silence this warning
+   22 |             *(uint *)(uRam0211fe14 & 0xfffffffc) << (uRam0211fe14 & 3) * -8 + 0x20;
+      |                                                                             ^     
+      |                                                     (                             )
+2 warnings and 2 errors generated.

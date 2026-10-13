@@ -1,0 +1,25 @@
+C-WORK/src/arm9/0200b894_func_0200b894.c:11:21: error: too few arguments to function call, expected 2, have 1
+   11 |     func_0200b820(10);
+      |     ~~~~~~~~~~~~~   ^
+C-WORK/src/arm9/deps/0200b894_func_0200b894.h:7:6: note: 'func_0200b820' declared here
+    7 | void func_0200b820(undefined2 param_1,undefined2 param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200b894_func_0200b894.c:26:21: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   26 |       func_02008f00(uRam0200b92c,1);
+      |                     ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0200b894_func_0200b894.h:14:22: note: expanded from macro 'uRam0200b92c'
+   14 | #define uRam0200b92c (*(undefined4 *)(uintptr_t)0x200b92cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0200b894_func_0200b894.h:4:26: note: passing argument to parameter 'param_1' here
+    4 | void func_02008f00(code *param_1,int param_2);
+      |                          ^
+C-WORK/src/arm9/0200b894_func_0200b894.c:29:17: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   29 |   func_02008f00(uRam0200b92c,0);
+      |                 ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0200b894_func_0200b894.h:14:22: note: expanded from macro 'uRam0200b92c'
+   14 | #define uRam0200b92c (*(undefined4 *)(uintptr_t)0x200b92cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0200b894_func_0200b894.h:4:26: note: passing argument to parameter 'param_1' here
+    4 | void func_02008f00(code *param_1,int param_2);
+      |                          ^
+3 errors generated.

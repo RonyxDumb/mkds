@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov003/021be9b8_FUN_021be9b8.c:14:13: error: call to undeclared function 'func_0x021a629c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   14 |     iVar1 = func_0x021a629c(*DAT_021bea34,DAT_021bea38);
+      |             ^
+C-WORK/src/arm9_ov003/021be9b8_FUN_021be9b8.c:20:13: error: call to undeclared function 'func_0x021a61c4'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   20 |     iVar1 = func_0x021a61c4(0,0,0);
+      |             ^
+C-WORK/src/arm9_ov003/021be9b8_FUN_021be9b8.c:26:13: error: call to undeclared function 'func_0x021a5db0'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   26 |     iVar1 = func_0x021a5db0();
+      |             ^
+3 errors generated.

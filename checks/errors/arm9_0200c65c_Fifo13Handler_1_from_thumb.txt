@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0200c65c_Fifo13Handler_1_from_thumb.c:13:13: error: assigning to 'int' from incompatible type 'void'
+   13 |       iVar1 = (*(code *)*puRam0200c68c)();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,9 @@
+C-WORK/src/arm9/02093b30_LoadNsKiller2MapObject.c:11:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   11 |   uVar1 = CreateMapObjectFromModel_from_thumb(param_1,uRam02093b6c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9/02093b30_LoadNsKiller2MapObject.c:14:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   14 |   uVar2 = func_0209bd90(param_1,uVar2);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+2 errors generated.

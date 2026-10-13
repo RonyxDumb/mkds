@@ -1,0 +1,13 @@
+#pragma once
+/* Function-specific inferred declarations. */
+int Sound_Context_GetMaybeSavedFrameHeapStateId(int param_1);
+bool Sound_LoadSarc(undefined4 param_1,undefined4 param_2);
+bool Sound_LoadSbnk(undefined4 param_1,undefined4 param_2);
+void Sound_MaybeRestoreHeapState(uint param_1,int param_2);
+void func_021057f0(int param_1,undefined4 param_2);
+#define DAT_02105924 (*(int **)(uintptr_t)0x2105924u)
+#define DAT_02105928 (*(undefined4 **)(uintptr_t)0x2105928u)
+#define DAT_0210592c (*(undefined4 **)(uintptr_t)0x210592cu)
+#define DAT_02105930 (*(undefined2 **)(uintptr_t)0x2105930u)
+#define DAT_02105934 (*(uint *)(uintptr_t)0x2105934u)
+#define DAT_02105938 (*(uint *)(uintptr_t)0x2105938u)

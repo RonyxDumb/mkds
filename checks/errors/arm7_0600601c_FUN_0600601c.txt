@@ -1,0 +1,25 @@
+C-WORK/src/arm7/0600601c_FUN_0600601c.c:13:9: error: assigning to 'int' from incompatible type 'void'
+   13 |   iVar1 = FUN_06002098((undefined4)(uintptr_t)(auStack_210));
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/0600601c_FUN_0600601c.c:15:28: error: operand of type 'void' where arithmetic or pointer type is required
+   15 |     puVar2 = (undefined2 *)thunk_FUN_03807424();
+      |                            ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/0600601c_FUN_0600601c.c:18:24: error: too many arguments to function call, expected 0, have 3
+   18 |     thunk_FUN_037fb230(iVar1 + 8,puVar2 + 4,0xb4);
+      |     ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/0600601c_FUN_0600601c.h:7:6: note: 'thunk_FUN_037fb230' declared here
+    7 | void thunk_FUN_037fb230(void);
+      |      ^
+C-WORK/src/arm7/0600601c_FUN_0600601c.c:19:24: error: too many arguments to function call, expected 0, have 1
+   19 |     thunk_FUN_038074cc(puVar2);
+      |     ~~~~~~~~~~~~~~~~~~ ^~~~~~
+C-WORK/src/arm7/deps/0600601c_FUN_0600601c.h:9:6: note: 'thunk_FUN_038074cc' declared here
+    9 | void thunk_FUN_038074cc(void);
+      |      ^
+C-WORK/src/arm7/0600601c_FUN_0600601c.c:22:30: error: too few arguments to function call, expected 2, have 1
+   22 |     FUN_06005fe0(DAT_06006088);
+      |     ~~~~~~~~~~~~             ^
+C-WORK/src/arm7/deps/0600601c_FUN_0600601c.h:5:6: note: 'FUN_06005fe0' declared here
+    5 | void FUN_06005fe0(undefined2 param_1,undefined2 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+5 errors generated.

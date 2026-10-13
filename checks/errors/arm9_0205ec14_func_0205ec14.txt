@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0205ec14_func_0205ec14.c:15:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |           *(uint *)(uRam0205ec9c & 0xfffffffc) << (uRam0205ec9c & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205ec14_func_0205ec14.c:15:75: note: place parentheses around the '+' expression to silence this warning
+   15 |           *(uint *)(uRam0205ec9c & 0xfffffffc) << (uRam0205ec9c & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0205ec14_func_0205ec14.c:20:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |   iVar2 = func_0205743c(uVar3,(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x2e,2);
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205ec14_func_0205ec14.c:20:73: note: place parentheses around the '+' expression to silence this warning
+   20 |   iVar2 = func_0205743c(uVar3,(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x2e,2);
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/0205ec14_func_0205ec14.c:20:31: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   20 |   iVar2 = func_0205743c(uVar3,(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x2e,2);
+      |           ~~~~~~~~~~~~~       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0205ec14_func_0205ec14.h:4:6: note: 'func_0205743c' declared here
+    4 | bool func_0205743c(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.

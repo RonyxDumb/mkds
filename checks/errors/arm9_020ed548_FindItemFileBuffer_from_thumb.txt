@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020ed548_FindItemFileBuffer_from_thumb.c:15:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   15 |   uVar1 = FindFileBuffer_MAR_EFT_from_thumb((undefined4)(uintptr_t)(acStack_108));
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

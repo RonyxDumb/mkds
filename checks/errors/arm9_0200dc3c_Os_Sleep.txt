@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0200dc3c_Os_Sleep.c:16:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |           *(uint *)(uRam0200dccc & 0xfffffffc) << (uRam0200dccc & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200dc3c_Os_Sleep.c:16:75: note: place parentheses around the '+' expression to silence this warning
+   16 |           *(uint *)(uRam0200dccc & 0xfffffffc) << (uRam0200dccc & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0200dc3c_Os_Sleep.c:19:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |   local_3c = uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200dc3c_Os_Sleep.c:19:55: note: place parentheses around the '+' expression to silence this warning
+   19 |   local_3c = uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/0200dc3c_Os_Sleep.c:27:17: error: too many arguments to function call, expected 0, have 1
+   27 |   Os_RestoreIrq(uVar2);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200dc3c_Os_Sleep.h:6:12: note: 'Os_RestoreIrq' declared here
+    6 | undefined4 Os_RestoreIrq(void);
+      |            ^
+2 warnings and 1 error generated.

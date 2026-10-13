@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020486d4_CreateMountManager_from_thumb.c:26:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   26 |     uVar3 = Fs_LoadRomArchiveFatFnt(0,0);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

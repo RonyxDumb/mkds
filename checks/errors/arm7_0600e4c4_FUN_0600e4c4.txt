@@ -1,0 +1,28 @@
+C-WORK/src/arm7/0600e4c4_FUN_0600e4c4.c:20:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |            *(uint *)(DAT_0600e694 & 0xfffffffc) << (DAT_0600e694 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0600e4c4_FUN_0600e4c4.c:20:76: note: place parentheses around the '+' expression to silence this warning
+   20 |            *(uint *)(DAT_0600e694 & 0xfffffffc) << (DAT_0600e694 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm7/0600e4c4_FUN_0600e4c4.c:26:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |   puVar3 = (ushort *)(uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20);
+      |                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0600e4c4_FUN_0600e4c4.c:26:64: note: place parentheses around the '+' expression to silence this warning
+   26 |   puVar3 = (ushort *)(uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20);
+      |                                                                ^     
+      |                                                     (                )
+C-WORK/src/arm7/0600e4c4_FUN_0600e4c4.c:52:28: error: too many arguments to function call, expected 0, have 1
+   52 |       uVar5 = FUN_0600e918(uVar8);
+      |               ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm7/deps/0600e4c4_FUN_0600e4c4.h:6:12: note: 'FUN_0600e918' declared here
+    6 | undefined2 FUN_0600e918(void);
+      |            ^
+C-WORK/src/arm7/0600e4c4_FUN_0600e4c4.c:72:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   72 |               *(uint *)(DAT_0600e694 & 0xfffffffc) << (DAT_0600e694 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0600e4c4_FUN_0600e4c4.c:72:79: note: place parentheses around the '+' expression to silence this warning
+   72 |               *(uint *)(DAT_0600e694 & 0xfffffffc) << (DAT_0600e694 & 3) * -8 + 0x20;
+      |                                                                               ^     
+      |                                                       (                             )
+3 warnings and 1 error generated.

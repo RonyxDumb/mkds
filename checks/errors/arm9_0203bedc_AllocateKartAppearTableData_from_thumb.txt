@@ -1,0 +1,5 @@
+C-WORK/src/arm9/0203bedc_AllocateKartAppearTableData_from_thumb.c:12:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   12 |   uVar2 = LoadKartAppearTablePointer_from_thumb(param_1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+1 error generated.

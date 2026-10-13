@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov003/021ba1b0_func_ov003_021ba1b0.c:42:3: error: call to undeclared function 'func_0x021a6894'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   42 |   func_0x021a6894();
+      |   ^
+C-WORK/src/arm9_ov003/021ba1b0_func_ov003_021ba1b0.c:114:50: error: too few arguments to function call, expected 4, have 3
+  114 |   FUN_021ba734(param_2,DAT_021ba38c,local_54 == 0);
+      |   ~~~~~~~~~~~~                                   ^
+C-WORK/src/arm9_ov003/deps/021ba1b0_func_ov003_021ba1b0.h:3:6: note: 'FUN_021ba734' declared here
+    3 | void FUN_021ba734(undefined4 *param_1,uint param_2,undefined4 param_3,int param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

@@ -1,0 +1,15 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void FUN_02195d64(void);
+void FUN_02196e54(void);
+#define DAT_02195e24 (*(int **)(uintptr_t)0x2195e24u)
+#define DAT_02195e28 (*(undefined4 *)(uintptr_t)0x2195e28u)
+#define DAT_02195e2c (*(int *)(uintptr_t)0x2195e2cu)
+#define DAT_02195e30 (*(int *)(uintptr_t)0x2195e30u)
+#define DAT_02195e34 (*(int *)(uintptr_t)0x2195e34u)
+
+/* Address resolved to indexed definition; inferred ABI remains provisional. */
+int ComputeValueInterpolation_from_thumb (int param_1,int param_2,int param_3,int param_4,int param_5);
+#define func_0x020ae4c0 ComputeValueInterpolation_from_thumb
+undefined4 TextSystem_IsDialogFinished_from_thumb(void);
+#define func_0x02125f88 TextSystem_IsDialogFinished_from_thumb

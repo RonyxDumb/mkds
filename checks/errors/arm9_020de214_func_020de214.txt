@@ -1,0 +1,28 @@
+C-WORK/src/arm9/020de214_func_020de214.c:20:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |   uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020de214_func_020de214.c:20:52: note: place parentheses around the '+' expression to silence this warning
+   20 |   uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020de214_func_020de214.c:21:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020de214_func_020de214.c:21:54: note: place parentheses around the '+' expression to silence this warning
+   21 |   if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/020de214_func_020de214.c:30:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |   VecFx32_AddScale1(-(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20),uVar6 + 0x40,uVar6 + 4,
+      |                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020de214_func_020de214.c:30:64: note: place parentheses around the '+' expression to silence this warning
+   30 |   VecFx32_AddScale1(-(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20),uVar6 + 0x40,uVar6 + 4,
+      |                                                                ^     
+      |                                                     (                )
+C-WORK/src/arm9/020de214_func_020de214.c:32:43: error: too many arguments to function call, expected 2, have 3
+   32 |   func_020ddb44(param_2 + 0xa4,auStack_18,uVar6 + 0x10);
+      |   ~~~~~~~~~~~~~                           ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020de214_func_020de214.h:4:6: note: 'func_020ddb44' declared here
+    4 | void func_020ddb44(int param_1,undefined4 *param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 warnings and 1 error generated.

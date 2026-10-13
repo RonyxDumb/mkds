@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov001/02199420_FUN_02199420.c:12:21: error: too many arguments to function call, expected 0, have 1
+   12 |     func_0x02108e94(1);
+      |     ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/02199420_FUN_02199420.h:7:6: note: 'func_02108e94' declared here
+    7 | void func_02108e94(void);
+      |      ^
+C-WORK/src/arm9_ov001/02199420_FUN_02199420.c:19:21: error: too many arguments to function call, expected 0, have 1
+   19 |     func_0x02108e94(2);
+      |     ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/02199420_FUN_02199420.h:7:6: note: 'func_02108e94' declared here
+    7 | void func_02108e94(void);
+      |      ^
+C-WORK/src/arm9_ov001/02199420_FUN_02199420.c:22:19: error: too many arguments to function call, expected 0, have 1
+   22 |   func_0x02108e94(0);
+      |   ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/02199420_FUN_02199420.h:7:6: note: 'func_02108e94' declared here
+    7 | void func_02108e94(void);
+      |      ^
+3 errors generated.

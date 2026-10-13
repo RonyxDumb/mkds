@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov000/021a1ca8_FUN_021a1ca8.c:20:24: error: too many arguments to function call, expected 0, have 3
+   20 |     thunk_FUN_02198748(param_2,DAT_021a1e10,0xffffffff);
+      |     ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a1ca8_FUN_021a1ca8.h:11:6: note: 'thunk_FUN_02198748' declared here
+   11 | void thunk_FUN_02198748(void);
+      |      ^
+C-WORK/src/arm9_ov000/021a1ca8_FUN_021a1ca8.c:25:24: error: too many arguments to function call, expected 0, have 2
+   25 |     thunk_FUN_02198748(param_2,DAT_021a1e14);
+      |     ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a1ca8_FUN_021a1ca8.h:11:6: note: 'thunk_FUN_02198748' declared here
+   11 | void thunk_FUN_02198748(void);
+      |      ^
+C-WORK/src/arm9_ov000/021a1ca8_FUN_021a1ca8.c:37:32: error: too many arguments to function call, expected 0, have 2
+   37 |     iVar2 = thunk_FUN_02198778(param_2,*(undefined4 *)(iVar2 + 8));
+      |             ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a1ca8_FUN_021a1ca8.h:12:6: note: 'thunk_FUN_02198778' declared here
+   12 | void thunk_FUN_02198778(void);
+      |      ^
+C-WORK/src/arm9_ov000/021a1ca8_FUN_021a1ca8.c:59:25: error: too few arguments to function call, expected 2, have 1
+   59 |     FUN_021988a4(param_2);
+      |     ~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov000/deps/021a1ca8_FUN_021a1ca8.h:3:6: note: 'FUN_021988a4' declared here
+    3 | void FUN_021988a4(int param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1ca8_FUN_021a1ca8.c:73:22: error: too many arguments to function call, expected 0, have 3
+   73 |   thunk_FUN_02198748(param_2,DAT_021a1e24,0xffffffff);
+      |   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a1ca8_FUN_021a1ca8.h:11:6: note: 'thunk_FUN_02198748' declared here
+   11 | void thunk_FUN_02198748(void);
+      |      ^
+5 errors generated.

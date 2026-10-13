@@ -1,0 +1,16 @@
+C-WORK/src/arm9/02031960_func_02031960.c:16:11: error: assigning to 'int' from incompatible type 'void'
+   16 |     iVar2 = func_0205579c(1,(*(int *)(*DAT_02031b14 + 0x1c) << 0x1d) >> 0x1f);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02031960_func_02031960.c:28:51: error: too few arguments to function call, expected 6, have 0
+   28 |       TextSystem_DisplayProgressDialog_from_thumb();
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02031960_func_02031960.h:6:6: note: 'TextSystem_DisplayProgressDialog_from_thumb' declared here
+    6 | void TextSystem_DisplayProgressDialog_from_thumb(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6);
+      |      ^                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02031960_func_02031960.c:66:60: error: too few arguments to function call, single argument 'param_1' was not specified
+   66 |         TextSystem_DisplayProgressDialog_Simple_from_thumb();
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02031960_func_02031960.h:5:6: note: 'TextSystem_DisplayProgressDialog_Simple_from_thumb' declared here
+    5 | void TextSystem_DisplayProgressDialog_Simple_from_thumb(undefined4 param_1);
+      |      ^                                                  ~~~~~~~~~~~~~~~~~~
+3 errors generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02016778_TEQSub_Fn20.c:10:20: error: too few arguments to function call, expected 3, have 0
+   10 |   (*pcRam02016780)();
+      |   ~~~~~~~~~~~~~~~~ ^
+1 error generated.

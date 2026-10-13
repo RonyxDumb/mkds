@@ -1,0 +1,9 @@
+C-WORK/src/arm9/0211e38c_func_0211e38c.c:19:81: error: too few arguments to function call, expected 2, have 1
+   18 |     func_02061704(*(int *)(*DAT_0211e410 + 4) +
+      |     ~~~~~~~~~~~~~
+   19 |                   DAT_0211e414 * ((int)*(short *)(*DAT_0211e410 + 0x10) & 0xffU));
+      |                                                                                 ^
+C-WORK/src/arm9/deps/0211e38c_func_0211e38c.h:4:12: note: 'func_02061704' declared here
+    4 | undefined4 func_02061704(int param_1,ushort *param_2);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

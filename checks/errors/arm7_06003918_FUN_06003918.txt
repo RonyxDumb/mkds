@@ -1,0 +1,150 @@
+C-WORK/src/arm7/06003918_FUN_06003918.c:35:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |   uVar19 = uVar18 >> uVar19 * 8 | uVar18 << uVar19 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:35:57: note: place parentheses around the '+' expression to silence this warning
+   35 |   uVar19 = uVar18 >> uVar19 * 8 | uVar18 << uVar19 * -8 + 0x20;
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm7/06003918_FUN_06003918.c:37:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   37 |                      *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20);
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:37:74: note: place parentheses around the '+' expression to silence this warning
+   37 |                      *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20);
+      |                                                                          ^     
+      |                                                        (                       )
+C-WORK/src/arm7/06003918_FUN_06003918.c:42:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |     *(uint *)(psVar15 + 0xc0) = uVar12 >> uVar18 * 8 | uVar12 << uVar18 * -8 + 0x20;
+      |                                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:42:78: note: place parentheses around the '+' expression to silence this warning
+   42 |     *(uint *)(psVar15 + 0xc0) = uVar12 >> uVar18 * 8 | uVar12 << uVar18 * -8 + 0x20;
+      |                                                                              ^     
+      |                                                                  (                 )
+C-WORK/src/arm7/06003918_FUN_06003918.c:46:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |       *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) + 0x18c) = uVar2;
+      |                                      ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:46:59: note: place parentheses around the '+' expression to silence this warning
+   46 |       *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) + 0x18c) = uVar2;
+      |                                                           ^     
+      |                                         (                       )
+C-WORK/src/arm7/06003918_FUN_06003918.c:48:39: error: use of undeclared identifier 'stack0xfffffffa'
+   48 |     thunk_FUN_037fb390(param_1 + 0xc,&stack0xfffffffa + iVar7,6);
+      |                                       ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:63:45: error: use of undeclared identifier 'stack0x00000000'
+   63 |     thunk_FUN_037fb390(param_1 + 0x16,(int)&stack0x00000000 + iVar7,0x20);
+      |                                             ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:64:16: error: use of undeclared identifier 'stack0xffffffec'
+   64 |     *(uint *)(&stack0xffffffec + iVar7) = (uint)*(ushort *)(param_1 + 8);
+      |                ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:65:26: error: use of undeclared identifier 'stack0xfffffffa'
+   65 |     uVar5 = *(ushort *)(&stack0xfffffffa + iVar7);
+      |                          ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:67:20: error: use of undeclared identifier 'stack0xfffffffa'
+   67 |       *(ushort *)(&stack0xfffffffa + iVar7) = uVar5 & 0xfffe;
+      |                    ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:70:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   70 |              *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:70:66: note: place parentheses around the '+' expression to silence this warning
+   70 |              *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20;
+      |                                                                  ^     
+      |                                                (                       )
+C-WORK/src/arm7/06003918_FUN_06003918.c:73:31: error: operand of type 'void' where arithmetic or pointer type is required
+   73 |       puVar11 = (undefined2 *)thunk_FUN_03807424();
+      |                               ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:82:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   82 |       uVar17 = uVar16 >> uVar17 * 8 | uVar16 << uVar17 * -8 + 0x20;
+      |                                              ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:82:61: note: place parentheses around the '+' expression to silence this warning
+   82 |       uVar17 = uVar16 >> uVar17 * 8 | uVar16 << uVar17 * -8 + 0x20;
+      |                                                             ^     
+      |                                                 (                 )
+C-WORK/src/arm7/06003918_FUN_06003918.c:84:33: error: operand of type 'void' where arithmetic or pointer type is required
+   84 |         puVar11 = (undefined2 *)thunk_FUN_03807424();
+      |                                 ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:92:32: error: use of undeclared identifier 'stack0x00000050'
+   92 |         iVar10 = FUN_06002084(&stack0x00000050 + iVar7);
+      |                                ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:95:41: error: use of undeclared identifier 'stack0x00000050'
+   95 |             iVar10 = FUN_06000294(0x26,&stack0x00000050 + iVar7);
+      |                                         ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:99:36: error: use of undeclared identifier 'stack0x00000050'
+   99 |             iVar10 = FUN_060020f4(&stack0x00000050 + iVar7);
+      |                                    ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:106:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  106 |              *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) = 3;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:106:66: note: place parentheses around the '+' expression to silence this warning
+  106 |              *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) = 3;
+      |                                                                  ^     
+      |                                                (                       )
+C-WORK/src/arm7/06003918_FUN_06003918.c:107:36: error: use of undeclared identifier 'stack0x00000050'
+  107 |             iVar10 = FUN_06002c40(&stack0x00000050 + iVar7,1,0,1);
+      |                                    ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:114:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  114 |               *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) + 0xc2) = 1;
+      |                                              ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:114:67: note: place parentheses around the '+' expression to silence this warning
+  114 |               *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) + 0xc2) = 1;
+      |                                                                   ^     
+      |                                                 (                       )
+C-WORK/src/arm7/06003918_FUN_06003918.c:118:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  118 |                            *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) + 0x1ea) == 1
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:118:80: note: place parentheses around the '+' expression to silence this warning
+  118 |                            *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) + 0x1ea) == 1
+      |                                                                                ^     
+      |                                                              (                       )
+C-WORK/src/arm7/06003918_FUN_06003918.c:120:38: error: use of undeclared identifier 'stack0x00000050'
+  120 |               iVar10 = FUN_06002400(&stack0x00000050 + iVar7,0);
+      |                                      ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:127:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  127 |                 *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) + 0x1ea) = 0;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:127:69: note: place parentheses around the '+' expression to silence this warning
+  127 |                 *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) + 0x1ea) = 0;
+      |                                                                     ^     
+      |                                                   (                       )
+C-WORK/src/arm7/06003918_FUN_06003918.c:131:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  131 |                               *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) + 0x1ea)
+      |                                                              ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:131:83: note: place parentheses around the '+' expression to silence this warning
+  131 |                               *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) + 0x1ea)
+      |                                                                                   ^     
+      |                                                                 (                       )
+C-WORK/src/arm7/06003918_FUN_06003918.c:133:36: error: use of undeclared identifier 'stack0x00000050'
+  133 |             iVar10 = FUN_06002400(&stack0x00000050 + iVar7,1);
+      |                                    ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:140:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  140 |               *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) + 0x1ea) = 1;
+      |                                              ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:140:67: note: place parentheses around the '+' expression to silence this warning
+  140 |               *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) + 0x1ea) = 1;
+      |                                                                   ^     
+      |                                                 (                       )
+C-WORK/src/arm7/06003918_FUN_06003918.c:143:33: error: use of undeclared identifier 'stack0x00000020'
+  143 |             thunk_FUN_037fb2fc(&stack0x00000020 + iVar7,0xff,0x20);
+      |                                 ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:145:35: error: use of undeclared identifier 'stack0x00000020'
+  145 |               thunk_FUN_037fb2fc(&stack0x00000020 + iVar7,0,uVar4);
+      |                                   ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:147:36: error: use of undeclared identifier 'stack0x00000050'
+  147 |             iVar10 = FUN_06002460(&stack0x00000050 + iVar7,&stack0x00000020 + iVar7);
+      |                                    ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:147:61: error: use of undeclared identifier 'stack0x00000020'
+  147 |             iVar10 = FUN_06002460(&stack0x00000050 + iVar7,&stack0x00000020 + iVar7);
+      |                                                             ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:155:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  155 |            *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) = 5;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06003918_FUN_06003918.c:155:64: note: place parentheses around the '+' expression to silence this warning
+  155 |            *(uint *)(uVar19 & 0xfffffffc) << (uVar19 & 3) * -8 + 0x20) = 5;
+      |                                                                ^     
+      |                                              (                       )
+C-WORK/src/arm7/06003918_FUN_06003918.c:157:31: error: use of undeclared identifier 'stack0x00000040'
+  157 |           thunk_FUN_037fb2fc(&stack0x00000040 + iVar7,0,0x10);
+      |                               ^
+C-WORK/src/arm7/06003918_FUN_06003918.c:161:17: error: use of undeclared identifier 'stack0x00000040'
+  161 |               (&stack0x00000040)[uVar12 + iVar7] = (char)uVar17;
+      |                 ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+13 warnings and 20 errors generated.

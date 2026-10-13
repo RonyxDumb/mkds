@@ -1,0 +1,125 @@
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:20:9: error: assigning to 'int' from incompatible type 'void'
+   20 |   iVar3 = FindFileBuffer_MAR_EFT_from_thumb(DAT_020f809c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:25:27: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   25 |     uVar4 = func_020f8148(DAT_020f80a4,(byte *)(uintptr_t)(iVar3 + 1));
+      |                           ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:10:22: note: expanded from macro 'DAT_020f80a4'
+   10 | #define DAT_020f80a4 (*(int **)(uintptr_t)0x20f80a4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:7:28: note: passing argument to parameter 'param_1' here
+    7 | byte * func_020f8148(uint *param_1,byte *param_2);
+      |                            ^
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:25:11: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   25 |     uVar4 = func_020f8148(DAT_020f80a4,(byte *)(uintptr_t)(iVar3 + 1));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:27:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   27 |     func_020f813c();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:6:8: note: 'func_020f813c' declared here
+    6 | byte * func_020f813c(byte *param_1);
+      |        ^             ~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:28:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   28 |     func_020f813c();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:6:8: note: 'func_020f813c' declared here
+    6 | byte * func_020f813c(byte *param_1);
+      |        ^             ~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:29:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   29 |     func_020f813c();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:6:8: note: 'func_020f813c' declared here
+    6 | byte * func_020f813c(byte *param_1);
+      |        ^             ~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:30:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   30 |     uVar4 = func_020f813c();
+      |             ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:6:8: note: 'func_020f813c' declared here
+    6 | byte * func_020f813c(byte *param_1);
+      |        ^             ~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:35:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   35 |     func_020f813c();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:6:8: note: 'func_020f813c' declared here
+    6 | byte * func_020f813c(byte *param_1);
+      |        ^             ~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:36:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   36 |     func_020f813c();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:6:8: note: 'func_020f813c' declared here
+    6 | byte * func_020f813c(byte *param_1);
+      |        ^             ~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:37:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   37 |     func_020f813c();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:6:8: note: 'func_020f813c' declared here
+    6 | byte * func_020f813c(byte *param_1);
+      |        ^             ~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:38:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   38 |     func_020f813c();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:6:8: note: 'func_020f813c' declared here
+    6 | byte * func_020f813c(byte *param_1);
+      |        ^             ~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:39:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   39 |     uVar4 = func_020f813c();
+      |             ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:6:8: note: 'func_020f813c' declared here
+    6 | byte * func_020f813c(byte *param_1);
+      |        ^             ~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:40:11: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   40 |     uVar4 = func_020f8148((uint *)(uintptr_t)(DAT_020f80ac),(byte *)(uintptr_t)(uVar4));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:42:41: error: too few arguments to function call, expected 2, have 1
+   42 |       uVar4 = func_020f8148(DAT_020f80a4);
+      |               ~~~~~~~~~~~~~             ^
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:7:8: note: 'func_020f8148' declared here
+    7 | byte * func_020f8148(uint *param_1,byte *param_2);
+      |        ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:43:21: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'uint *' (aka 'unsigned int *') [-Wint-conversion]
+   43 |       func_020f8148(DAT_020f80a8,uVar4);
+      |                     ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:11:22: note: expanded from macro 'DAT_020f80a8'
+   11 | #define DAT_020f80a8 (*(int *)(uintptr_t)0x20f80a8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:7:28: note: passing argument to parameter 'param_1' here
+    7 | byte * func_020f8148(uint *param_1,byte *param_2);
+      |                            ^
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:43:34: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   43 |       func_020f8148(DAT_020f80a8,uVar4);
+      |                                  ^~~~~
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:7:42: note: passing argument to parameter 'param_2' here
+    7 | byte * func_020f8148(uint *param_1,byte *param_2);
+      |                                          ^
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:46:27: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   46 |       func_020f813c(uVar4,uVar4);
+      |       ~~~~~~~~~~~~~       ^~~~~
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:6:8: note: 'func_020f813c' declared here
+    6 | byte * func_020f813c(byte *param_1);
+      |        ^             ~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:47:29: error: too few arguments to function call, single argument 'param_1' was not specified
+   47 |       uVar4 = func_020f813c();
+      |               ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:6:8: note: 'func_020f813c' declared here
+    6 | byte * func_020f813c(byte *param_1);
+      |        ^             ~~~~~~~~~~~~~
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:48:29: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   48 |       uVar4 = func_020f8148(DAT_020f80a4,uVar4);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:10:22: note: expanded from macro 'DAT_020f80a4'
+   10 | #define DAT_020f80a4 (*(int **)(uintptr_t)0x20f80a4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:7:28: note: passing argument to parameter 'param_1' here
+    7 | byte * func_020f8148(uint *param_1,byte *param_2);
+      |                            ^
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:48:42: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   48 |       uVar4 = func_020f8148(DAT_020f80a4,uVar4);
+      |                                          ^~~~~
+C-WORK/src/arm9/deps/020f7ec8_Maybe_Item_ItemSlotList.h:7:42: note: passing argument to parameter 'param_2' here
+    7 | byte * func_020f8148(uint *param_1,byte *param_2);
+      |                                          ^
+C-WORK/src/arm9/020f7ec8_Maybe_Item_ItemSlotList.c:48:13: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   48 |       uVar4 = func_020f8148(DAT_020f80a4,uVar4);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+2 warnings and 20 errors generated.

@@ -1,0 +1,51 @@
+C-WORK/src/arm9/0204d110_func_0204d110.c:13:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |                    *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20);
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d110_func_0204d110.c:13:86: note: place parentheses around the '+' expression to silence this warning
+   13 |                    *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20);
+      |                                                                                      ^     
+      |                                                             (                              )
+C-WORK/src/arm9/0204d110_func_0204d110.c:16:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |                *(uint *)((uint)param_3 & 0xfffffffc) << ((uint)param_3 & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d110_func_0204d110.c:16:82: note: place parentheses around the '+' expression to silence this warning
+   16 |                *(uint *)((uint)param_3 & 0xfffffffc) << ((uint)param_3 & 3) * -8 + 0x20;
+      |                                                                                  ^     
+      |                                                         (                              )
+C-WORK/src/arm9/0204d110_func_0204d110.c:18:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |                *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d110_func_0204d110.c:18:82: note: place parentheses around the '+' expression to silence this warning
+   18 |                *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20;
+      |                                                                                  ^     
+      |                                                         (                              )
+C-WORK/src/arm9/0204d110_func_0204d110.c:19:14: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   19 |     *param_2 = param_3;
+      |              ^ ~~~~~~~
+      |                *
+C-WORK/src/arm9/0204d110_func_0204d110.c:26:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |                        *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20);
+      |                                                             ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d110_func_0204d110.c:26:88: note: place parentheses around the '+' expression to silence this warning
+   26 |                        *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20);
+      |                                                                                        ^     
+      |                                                                (                             )
+C-WORK/src/arm9/0204d110_func_0204d110.c:29:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |               *(uint *)((uint)param_3 & 0xfffffffc) << ((uint)param_3 & 3) * -8 + 0x20;
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d110_func_0204d110.c:29:81: note: place parentheses around the '+' expression to silence this warning
+   29 |               *(uint *)((uint)param_3 & 0xfffffffc) << ((uint)param_3 & 3) * -8 + 0x20;
+      |                                                                                 ^     
+      |                                                        (                              )
+C-WORK/src/arm9/0204d110_func_0204d110.c:31:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |                *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204d110_func_0204d110.c:31:82: note: place parentheses around the '+' expression to silence this warning
+   31 |                *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20;
+      |                                                                                  ^     
+      |                                                         (                              )
+C-WORK/src/arm9/0204d110_func_0204d110.c:32:14: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   32 |     *param_2 = param_3;
+      |              ^ ~~~~~~~
+      |                *
+6 warnings and 2 errors generated.

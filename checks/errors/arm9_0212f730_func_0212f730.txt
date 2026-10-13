@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0212f730_func_0212f730.c:9:33: error: too many arguments to function call, expected 2, have 7
+    9 |   func_0212d154(param_1,param_2,0,32000,2,uRam0212f780,uRam0212f784);
+      |   ~~~~~~~~~~~~~                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212f730_func_0212f730.h:3:12: note: 'func_0212d154' declared here
+    3 | undefined4 func_0212d154(int param_1,uint param_2);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

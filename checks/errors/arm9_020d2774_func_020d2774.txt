@@ -1,0 +1,11 @@
+C-WORK/src/arm9/020d2774_func_020d2774.c:15:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   (*pcRam020d2788)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,param_2,0x7f,0);
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d2774_func_020d2774.c:15:61: note: place parentheses around the '+' expression to silence this warning
+   15 |   (*pcRam020d2788)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,param_2,0x7f,0);
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020d2774_func_020d2774.c:15:81: error: too many arguments to function call, expected 3, have 4
+   15 |   (*pcRam020d2788)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,param_2,0x7f,0);
+      |   ~~~~~~~~~~~~~~~~                                                              ^
+1 warning and 1 error generated.

@@ -1,0 +1,16 @@
+C-WORK/src/arm9/020adddc_func_020adddc.c:10:32: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   SomeDrawRacerName_from_thumb();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020adddc_func_020adddc.h:4:6: note: 'SomeDrawRacerName_from_thumb' declared here
+    4 | void SomeDrawRacerName_from_thumb(undefined4 param_1);
+      |      ^                            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020adddc_func_020adddc.c:12:47: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   12 |   func_020ade08(uVar1,param_2,param_3,param_4,uRam020ade04);
+      |                                               ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020adddc_func_020adddc.h:7:22: note: expanded from macro 'uRam020ade04'
+    7 | #define uRam020ade04 (*(undefined4 *)(uintptr_t)0x20ade04u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020adddc_func_020adddc.h:6:95: note: passing argument to parameter 'param_5' here
+    6 | void func_020ade08(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,code *param_5);
+      |                                                                                               ^
+2 errors generated.

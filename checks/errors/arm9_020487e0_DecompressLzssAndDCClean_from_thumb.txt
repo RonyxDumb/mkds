@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020487e0_DecompressLzssAndDCClean_from_thumb.c:8:18: error: too few arguments to function call, expected 2, have 0
+    8 |   DecompressLzss();
+      |   ~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020487e0_DecompressLzssAndDCClean_from_thumb.h:4:6: note: 'DecompressLzss' declared here
+    4 | void DecompressLzss(uint param_1,byte *param_2);
+      |      ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

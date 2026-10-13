@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0214c0f8_CopyPaletteBottom.c:11:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   11 |           *(uint *)(uRam0214c158 & 0xfffffffc) << (uRam0214c158 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214c0f8_CopyPaletteBottom.c:11:75: note: place parentheses around the '+' expression to silence this warning
+   11 |           *(uint *)(uRam0214c158 & 0xfffffffc) << (uRam0214c158 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0214c0f8_CopyPaletteBottom.c:13:54: error: too few arguments to function call, expected 4, have 3
+   13 |     MI_DmaCopy16(uVar1,param_1,param_2 + iRam0214c15c);
+      |     ~~~~~~~~~~~~                                     ^
+C-WORK/src/arm9/deps/0214c0f8_CopyPaletteBottom.h:5:6: note: 'MI_DmaCopy16' declared here
+    5 | void MI_DmaCopy16(int param_1,undefined4 param_2,undefined4 param_3,uint param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

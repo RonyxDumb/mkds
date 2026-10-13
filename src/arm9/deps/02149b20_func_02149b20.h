@@ -1,0 +1,12 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void GX_VRAMCNT_SetLCDC_(uint param_1);
+void func_02149b20(int param_1);
+#define DAT_02149db8 (*(ushort **)(uintptr_t)0x2149db8u)
+#define DAT_02149dbc (*(undefined1 **)(uintptr_t)0x2149dbcu)
+#define DAT_02149dc0 (*(undefined1 **)(uintptr_t)0x2149dc0u)
+#define DAT_02149dc4 (*(undefined1 **)(uintptr_t)0x2149dc4u)
+#define DAT_02149dc8 (*(undefined1 **)(uintptr_t)0x2149dc8u)
+#define DAT_02149dcc (*(undefined1 **)(uintptr_t)0x2149dccu)
+#define DAT_02149dd0 (*(undefined1 **)(uintptr_t)0x2149dd0u)
+#define DAT_02149dd4 (*(undefined1 **)(uintptr_t)0x2149dd4u)

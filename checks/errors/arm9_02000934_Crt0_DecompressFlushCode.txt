@@ -1,0 +1,10 @@
+C-WORK/src/arm9/02000934_Crt0_DecompressFlushCode.c:56:7: error: call to undeclared function 'coproc_moveto_Data_Synchronization'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   56 |       coproc_moveto_Data_Synchronization(0);
+      |       ^
+C-WORK/src/arm9/02000934_Crt0_DecompressFlushCode.c:57:7: error: call to undeclared function 'coproc_moveto_Invalidate_Instruction_Cache_by_MVA'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   57 |       coproc_moveto_Invalidate_Instruction_Cache_by_MVA(uVar3);
+      |       ^
+C-WORK/src/arm9/02000934_Crt0_DecompressFlushCode.c:58:7: error: call to undeclared function 'coproc_moveto_Invalidate_Data_Cache_by_MVA'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   58 |       coproc_moveto_Invalidate_Data_Cache_by_MVA(uVar3);
+      |       ^
+3 errors generated.

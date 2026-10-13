@@ -1,0 +1,25 @@
+C-WORK/src/arm9/020e7460_func_020e7460.c:24:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   24 |   uVar1 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020e7460_func_020e7460.h:7:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    7 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020e7460_func_020e7460.c:28:77: error: too many arguments to function call, expected 3, have 4
+   28 |     BillboardModel_CreateFromNsbmdNsbtp_from_thumb(iRam020e76f0,uVar2,uVar3,0);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                          ^
+C-WORK/src/arm9/deps/020e7460_func_020e7460.h:5:6: note: 'BillboardModel_CreateFromNsbmdNsbtp_from_thumb' declared here
+    5 | void BillboardModel_CreateFromNsbmdNsbtp_from_thumb(int param_1,undefined4 param_2,int param_3);
+      |      ^                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020e7460_func_020e7460.c:32:73: error: too many arguments to function call, expected 3, have 4
+   32 |     BillboardModel_CreateFromNsbmdNsbtp_from_thumb(iRam020e76f8,uVar2,0,0);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                      ^
+C-WORK/src/arm9/deps/020e7460_func_020e7460.h:5:6: note: 'BillboardModel_CreateFromNsbmdNsbtp_from_thumb' declared here
+    5 | void BillboardModel_CreateFromNsbmdNsbtp_from_thumb(int param_1,undefined4 param_2,int param_3);
+      |      ^                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020e7460_func_020e7460.c:82:35: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   82 |         Model_SetCullMode(*puVar8,3);
+      |         ~~~~~~~~~~~~~~~~~         ^
+C-WORK/src/arm9/deps/020e7460_func_020e7460.h:11:6: note: 'Model_SetCullMode' declared here
+   11 | void Model_SetCullMode(int param_1);
+      |      ^                 ~~~~~~~~~~~
+4 errors generated.

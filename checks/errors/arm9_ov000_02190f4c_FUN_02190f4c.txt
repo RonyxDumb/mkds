@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov000/02190f4c_FUN_02190f4c.c:29:21: error: operand of type 'void' where arithmetic or pointer type is required
+   29 |     piVar2 = (int *)FUN_021a3690(0x10);
+      |                     ^~~~~~~~~~~~~~~~~~
+1 error generated.

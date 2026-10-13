@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0214b63c_func_0214b63c.c:12:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   12 |       *(uint *)(uRam0214b690 & 0xfffffffc) << (uRam0214b690 & 3) * -8 + 0x20) != 0xffffffff) {
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214b63c_func_0214b63c.c:12:71: note: place parentheses around the '+' expression to silence this warning
+   12 |       *(uint *)(uRam0214b690 & 0xfffffffc) << (uRam0214b690 & 3) * -8 + 0x20) != 0xffffffff) {
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/0214b63c_func_0214b63c.c:13:16: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |     MI_WaitDma();
+      |     ~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0214b63c_func_0214b63c.h:3:6: note: 'MI_WaitDma' declared here
+    3 | void MI_WaitDma(int param_1);
+      |      ^          ~~~~~~~~~~~
+C-WORK/src/arm9/0214b63c_func_0214b63c.c:16:95: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |                 *(uint *)((uint)puRam0214b694 & 0xfffffffc) << ((uint)puRam0214b694 & 3) * -8 + 0x20
+      |                                                             ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214b63c_func_0214b63c.c:16:95: note: place parentheses around the '+' expression to silence this warning
+   16 |                 *(uint *)((uint)puRam0214b694 & 0xfffffffc) << ((uint)puRam0214b694 & 3) * -8 + 0x20
+      |                                                                                               ^     
+      |                                                                (                                    )
+2 warnings and 1 error generated.

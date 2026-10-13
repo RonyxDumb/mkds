@@ -1,0 +1,33 @@
+C-WORK/src/arm9_ov000/021aaf38_FUN_021aaf38.c:24:35: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   24 |   iVar2 = (*(code *)*DAT_021ab084)(iVar1 << 3);
+      |                                   ^
+C-WORK/src/arm9_ov000/021aaf38_FUN_021aaf38.c:24:9: error: assigning to 'int' from incompatible type 'void'
+   24 |   iVar2 = (*(code *)*DAT_021ab084)(iVar1 << 3);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021aaf38_FUN_021aaf38.c:38:29: error: too few arguments to function call, single argument 'p0' was not specified
+   38 |     uVar6 = func_0x0200dcd8();
+      |             ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021aaf38_FUN_021aaf38.h:19:14: note: 'Os_Thread_GetPriority' declared here
+   19 | unsigned int Os_Thread_GetPriority(unsigned int p0);
+      |              ^                     ~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021aaf38_FUN_021aaf38.c:46:58: error: too many arguments to function call, expected 3, have 4
+   46 |   FUN_021ac488(pcVar8,iVar2,*(undefined4 *)(param_2 + 4),iVar1);
+      |   ~~~~~~~~~~~~                                           ^~~~~
+C-WORK/src/arm9_ov000/deps/021aaf38_FUN_021aaf38.h:4:6: note: 'FUN_021ac488' declared here
+    4 | void FUN_021ac488(int param_1,undefined2 *param_2,int param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021aaf38_FUN_021aaf38.c:59:84: error: too few arguments to function call, expected 3, have 2
+   58 |        (iVar1 = func_0x02134d30(param_1 + DAT_021ab094,
+      |                 ~~~~~~~~~~~~~~~
+   59 |                                 pcVar8 + (iVar7 - *(int *)(param_1 + DAT_021ab090))), iVar1 != 0)) {
+      |                                                                                    ^
+C-WORK/src/arm9_ov000/deps/021aaf38_FUN_021aaf38.h:23:12: note: 'StructDC_SomeFn_6' declared here
+   23 | undefined4 StructDC_SomeFn_6(uint param_1,uint param_2,int param_3);
+      |            ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021aaf38_FUN_021aaf38.c:66:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   66 |   (*(code *)*DAT_021ab098)(iVar2);
+      |                           ^
+C-WORK/src/arm9_ov000/021aaf38_FUN_021aaf38.c:53:27: warning: result of comparison of constant -1 with expression of type 'char' is always true [-Wtautological-constant-out-of-range-compare]
+   53 |         if (pcVar8[iVar1] != -1) break;
+      |             ~~~~~~~~~~~~~ ^  ~~
+3 warnings and 4 errors generated.

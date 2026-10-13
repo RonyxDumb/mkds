@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0202e6c4_func_0202e6c4.c:18:43: error: too many arguments to function call, expected 3, have 4
+   18 |     func_0202f120(0,0xffffffff,0xffffffff,uVar2);
+      |     ~~~~~~~~~~~~~                         ^~~~~
+C-WORK/src/arm9/deps/0202e6c4_func_0202e6c4.h:5:6: note: 'func_0202f120' declared here
+    5 | void func_0202f120(int param_1,undefined4 param_2,int param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

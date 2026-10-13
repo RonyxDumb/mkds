@@ -1,0 +1,99 @@
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:27:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |     switch(uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:27:53: note: place parentheses around the '+' expression to silence this warning
+   27 |     switch(uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) {
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:29:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   29 |       uVar9 = Anim_NSBCA_LoadGetJNT0Block(param_2);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:33:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   33 |       uVar9 = MaybeLoadBTA0Format(param_2);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:37:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   37 |       uVar9 = MaybeLoadBTP0Format(param_2);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:41:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   41 |       uVar9 = MaybeLoadBVA0Format(param_2);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:45:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   45 |       uVar9 = MaybeLoadBMA0Format(param_2);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:53:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   53 |       uVar4 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + uVar8 * 4;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:53:57: note: place parentheses around the '+' expression to silence this warning
+   53 |       uVar4 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + uVar8 * 4;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:56:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   56 |       uVar4 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:56:56: note: place parentheses around the '+' expression to silence this warning
+   56 |       uVar4 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:57:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   57 |       *(undefined4 *)((uVar6 >> uVar2 * 8 | uVar6 << uVar2 * -8 + 0x20) + uVar8 * 4) = 0;
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:57:65: note: place parentheses around the '+' expression to silence this warning
+   57 |       *(undefined4 *)((uVar6 >> uVar2 * 8 | uVar6 << uVar2 * -8 + 0x20) + uVar8 * 4) = 0;
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:62:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   62 |       uVar4 = (uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) + 4;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:62:57: note: place parentheses around the '+' expression to silence this warning
+   62 |       uVar4 = (uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) + 4;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:65:107: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   65 |       uVar5 = Anim_GetNeededBlockSize((char *)(uintptr_t)(uVar9),uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20);
+      |                                                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:65:107: note: place parentheses around the '+' expression to silence this warning
+   65 |       uVar5 = Anim_GetNeededBlockSize((char *)(uintptr_t)(uVar9),uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20);
+      |                                                                                                           ^     
+      |                                                                                                (                )
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:67:39: error: too few arguments to function call, expected 2, have 1
+   67 |       uVar4 = Mem_AllocateHeap(param_3);
+      |               ~~~~~~~~~~~~~~~~        ^
+C-WORK/src/arm9/deps/0208805c_Animation_RegisterAll.h:16:12: note: 'Mem_AllocateHeap' declared here
+   16 | undefined4 Mem_AllocateHeap(uint param_1,undefined4 param_2);
+      |            ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:70:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   70 |       *(uint *)((uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + uVar8 * 4) = uVar4;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:70:59: note: place parentheses around the '+' expression to silence this warning
+   70 |       *(uint *)((uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + uVar8 * 4) = uVar4;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:73:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   73 |       *(undefined4 *)((uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + uVar8 * 4) = 0;
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:73:65: note: place parentheses around the '+' expression to silence this warning
+   73 |       *(undefined4 *)((uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + uVar8 * 4) = 0;
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:77:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   77 |     uVar3 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:77:54: note: place parentheses around the '+' expression to silence this warning
+   77 |     uVar3 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:85:117: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   85 |               ((undefined4 *)(uintptr_t)(uVar4),(char *)(uintptr_t)(uVar9),uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20,
+      |                                                                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:85:117: note: place parentheses around the '+' expression to silence this warning
+   85 |               ((undefined4 *)(uintptr_t)(uVar4),(char *)(uintptr_t)(uVar9),uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20,
+      |                                                                                                                     ^     
+      |                                                                                                          (                )
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:86:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   86 |                uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20);
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208805c_Animation_RegisterAll.c:86:57: note: place parentheses around the '+' expression to silence this warning
+   86 |                uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20);
+      |                                                         ^     
+      |                                              (                )
+11 warnings and 6 errors generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021cd8b8_FUN_021cd8b8.c:11:58: error: too many arguments to function call, expected 4, have 6
+   11 |   func_0x0200da28(param_1,DAT_021cd8e4,*puVar1,puVar1[1],puVar1[2],puVar1[3]);
+      |   ~~~~~~~~~~~~~~~                                        ^~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cd8b8_FUN_021cd8b8.h:9:6: note: 'MaybeUtil_SPrintF' declared here
+    9 | void MaybeUtil_SPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

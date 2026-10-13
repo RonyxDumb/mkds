@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0200cdf8_Os_UnlockCard.c:10:20: error: too many arguments to function call, expected 0, have 3
+   10 |   (*pcRam0200ce08)(param_1,uRam0200ce0c,uRam0200ce10);
+      |   ~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

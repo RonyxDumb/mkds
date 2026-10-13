@@ -1,0 +1,21 @@
+C-WORK/src/arm9/020853a4_func_020853a4.c:14:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |           *(uint *)(uRam020853d8 & 0xfffffffc) << (uRam020853d8 & 3) * -8 + 0x20) + 0x108;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020853a4_func_020853a4.c:14:75: note: place parentheses around the '+' expression to silence this warning
+   14 |           *(uint *)(uRam020853d8 & 0xfffffffc) << (uRam020853d8 & 3) * -8 + 0x20) + 0x108;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020853a4_func_020853a4.c:17:29: error: too few arguments to function call, single argument 'param_1' was not specified
+   17 |   iVar3 = GetSomeRacerValue();
+      |           ~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020853a4_func_020853a4.h:3:6: note: 'GetSomeRacerValue' declared here
+    3 | uint GetSomeRacerValue(int param_1);
+      |      ^                 ~~~~~~~~~~~
+C-WORK/src/arm9/020853a4_func_020853a4.c:18:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   lVar2 = (longlong)iVar3 * (longlong)(int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x800
+      |                                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020853a4_func_020853a4.c:18:86: note: place parentheses around the '+' expression to silence this warning
+   18 |   lVar2 = (longlong)iVar3 * (longlong)(int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x800
+      |                                                                                      ^     
+      |                                                                           (                )
+2 warnings and 1 error generated.

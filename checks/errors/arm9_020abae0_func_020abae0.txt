@@ -1,0 +1,10 @@
+C-WORK/src/arm9/020abae0_func_020abae0.c:104:11: error: assigning to 'int' from incompatible type 'void'
+  104 |     iVar3 = func_020ab8c4();
+      |           ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020abae0_func_020abae0.c:106:21: error: too many arguments to function call, expected 0, have 1
+  106 |       func_020ab8cc(1);
+      |       ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020abae0_func_020abae0.h:11:6: note: 'func_020ab8cc' declared here
+   11 | void func_020ab8cc(void);
+      |      ^
+2 errors generated.

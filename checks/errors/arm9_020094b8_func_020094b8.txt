@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020094b8_func_020094b8.c:50:38: error: too many arguments to function call, expected 3, have 6
+   50 |   func_021455a0(0,puRam020095a8,0x70,param_1,param_2,param_3 | 2);
+      |   ~~~~~~~~~~~~~                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020094b8_func_020094b8.h:7:5: note: 'func_021455a0' declared here
+    7 | int func_021455a0(undefined4 param_1,int param_2,uint param_3);
+      |     ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0207b8f4_FormatCharacterEmblemNsbcaPath.c:13:31: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   uVar2 = FormatCharacterPath();
+      |           ~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0207b8f4_FormatCharacterEmblemNsbcaPath.h:5:8: note: 'FormatCharacterPath' declared here
+    5 | char * FormatCharacterPath(int param_1);
+      |        ^                   ~~~~~~~~~~~
+C-WORK/src/arm9/0207b8f4_FormatCharacterEmblemNsbcaPath.c:19:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |             uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0207b8f4_FormatCharacterEmblemNsbcaPath.c:19:54: note: place parentheses around the '+' expression to silence this warning
+   19 |             uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                      ^     
+      |                                           (                )
+1 warning and 1 error generated.

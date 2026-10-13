@@ -1,0 +1,13 @@
+C-WORK/src/arm9/02025cd0_func_02025cd0.c:17:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   17 |   uVar1 = MaybeBoundsCheck(param_2,10);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02025cd0_func_02025cd0.c:23:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   23 |   uVar1 = MaybeBoundsCheck(param_3,10);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02025cd0_func_02025cd0.c:29:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   29 |   uVar1 = MaybeBoundsCheck(param_4,100);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02025cd0_func_02025cd0.c:32:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   32 |   uVar1 = MaybeBoundsCheck(param_4,10);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4 errors generated.

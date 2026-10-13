@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/021ae724_FUN_021ae724.c:48:63: error: too many arguments to function call, expected 3, have 5
+   48 |         func_0x0214d1fc(param_2 + 4,piVar4[0x10],piVar4[0x11],uVar3,uVar2);
+      |         ~~~~~~~~~~~~~~~                                       ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021ae724_FUN_021ae724.h:8:6: note: 'Mem_CpuCopy8' declared here
+    8 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021ae724_FUN_021ae724.c:53:41: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   53 |           iVar1 = (*(code *)piVar4[0xe])(piVar4[0x10],piVar4[0x11],piVar4);
+      |                                         ^
+C-WORK/src/arm9_ov000/021ae724_FUN_021ae724.c:53:17: error: assigning to 'int' from incompatible type 'void'
+   53 |           iVar1 = (*(code *)piVar4[0xe])(piVar4[0x10],piVar4[0x11],piVar4);
+      |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 2 errors generated.

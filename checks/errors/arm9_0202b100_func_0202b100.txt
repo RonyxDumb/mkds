@@ -1,0 +1,12 @@
+C-WORK/src/arm9/0202b100_func_0202b100.c:45:23: error: too many arguments to function call, expected 0, have 6
+   45 |         func_0212426c(0,(int)*psVar9,*(undefined4 *)(iVar3 + 0x5c),uVar6,
+      |         ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   46 |                       *(undefined4 *)(iVar3 + 0x54),*(undefined4 *)(iVar3 + 0x60));
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202b100_func_0202b100.h:12:6: note: 'func_0212426c' declared here
+   12 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0202b100_func_0202b100.c:53:13: error: assigning to 'undefined2' (aka 'unsigned short') from incompatible type 'void'
+   53 |       uVar2 = func_02025ebc(*piRam0202b250 + 0xfc + local_3c);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

@@ -1,0 +1,33 @@
+C-WORK/src/arm9_ov001/02180800_func_ov001_02180800.c:76:39: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   76 |     iVar6 = func_ov001_021805bc(uVar3,0x20);
+      |             ~~~~~~~~~~~~~~~~~~~       ^~~~
+C-WORK/src/arm9_ov001/deps/02180800_func_ov001_02180800.h:3:6: note: 'func_ov001_021805bc' declared here
+    3 | void func_ov001_021805bc(int param_1);
+      |      ^                   ~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02180800_func_ov001_02180800.c:78:41: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   78 |       iVar6 = func_ov001_021805bc(uVar3,0x10);
+      |               ~~~~~~~~~~~~~~~~~~~       ^~~~
+C-WORK/src/arm9_ov001/deps/02180800_func_ov001_02180800.h:3:6: note: 'func_ov001_021805bc' declared here
+    3 | void func_ov001_021805bc(int param_1);
+      |      ^                   ~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02180800_func_ov001_02180800.c:82:69: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   82 |         func_ov001_02180af8(*piRam02180a78 + 0x18 + unaff_r4 * 0x20,0);
+      |         ~~~~~~~~~~~~~~~~~~~                                         ^
+C-WORK/src/arm9_ov001/deps/02180800_func_ov001_02180800.h:7:6: note: 'func_ov001_02180af8' declared here
+    7 | void func_ov001_02180af8(int param_1);
+      |      ^                   ~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02180800_func_ov001_02180800.c:89:67: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   89 |       func_ov001_02180af8(*piRam02180a78 + 0x18 + unaff_r4 * 0x20,0);
+      |       ~~~~~~~~~~~~~~~~~~~                                         ^
+C-WORK/src/arm9_ov001/deps/02180800_func_ov001_02180800.h:7:6: note: 'func_ov001_02180af8' declared here
+    7 | void func_ov001_02180af8(int param_1);
+      |      ^                   ~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02180800_func_ov001_02180800.c:120:27: error: too many arguments to function call, expected 0, have 6
+  120 |       func_ov001_02180ad0(*piRam02180a78 + 0x78 + unaff_r4 * 0x10,0x80,0x62,uVar3,uRam02180ac8,
+      |       ~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  121 |                           iRam02180ac4);
+      |                           ~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02180800_func_ov001_02180800.h:6:6: note: 'func_ov001_02180ad0' declared here
+    6 | void func_ov001_02180ad0(void);
+      |      ^
+5 errors generated.

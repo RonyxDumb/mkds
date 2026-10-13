@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020ae114_IsRacerPlayerOrGhostOrNet.c:11:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   11 |   iVar1 = GetRacerType();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ae114_IsRacerPlayerOrGhostOrNet.h:3:6: note: 'GetRacerType' declared here
+    3 | uint GetRacerType(int param_1);
+      |      ^            ~~~~~~~~~~~
+1 error generated.

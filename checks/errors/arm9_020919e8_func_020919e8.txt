@@ -1,0 +1,341 @@
+C-WORK/src/arm9/020919e8_func_020919e8.c:51:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   51 |   uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:51:52: note: place parentheses around the '+' expression to silence this warning
+   51 |   uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:70:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   70 |         uVar17 = uVar16 >> uVar12 * 8 | uVar16 << uVar12 * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:70:63: note: place parentheses around the '+' expression to silence this warning
+   70 |         uVar17 = uVar16 >> uVar12 * 8 | uVar16 << uVar12 * -8 + 0x20;
+      |                                                               ^     
+      |                                                   (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:72:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   72 |                  *(uint *)((uint)piVar9 & 0xfffffffc) << ((uint)piVar9 & 3) * -8 + 0x20;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:72:82: note: place parentheses around the '+' expression to silence this warning
+   72 |                  *(uint *)((uint)piVar9 & 0xfffffffc) << ((uint)piVar9 & 3) * -8 + 0x20;
+      |                                                                                  ^     
+      |                                                          (                             )
+C-WORK/src/arm9/020919e8_func_020919e8.c:81:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   81 |         uVar22 = uVar21 >> uVar18 * 8 | uVar21 << uVar18 * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:81:63: note: place parentheses around the '+' expression to silence this warning
+   81 |         uVar22 = uVar21 >> uVar18 * 8 | uVar21 << uVar18 * -8 + 0x20;
+      |                                                               ^     
+      |                                                   (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:85:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   85 |         piVar9[1] = (uVar21 >> uVar18 * 8 | uVar21 << uVar18 * -8 + 0x20) +
+      |                                                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:85:67: note: place parentheses around the '+' expression to silence this warning
+   85 |         piVar9[1] = (uVar21 >> uVar18 * 8 | uVar21 << uVar18 * -8 + 0x20) +
+      |                                                                   ^     
+      |                                                       (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:86:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   86 |                     (uVar25 >> uVar16 * 8 | uVar25 << uVar16 * -8 + 0x20) * uVar24 +
+      |                                                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:86:67: note: place parentheses around the '+' expression to silence this warning
+   86 |                     (uVar25 >> uVar16 * 8 | uVar25 << uVar16 * -8 + 0x20) * uVar24 +
+      |                                                                   ^     
+      |                                                       (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:87:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   87 |                     uVar17 * (uVar13 >> uVar12 * 8 | uVar13 << uVar12 * -8 + 0x20) +
+      |                                                             ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:87:76: note: place parentheses around the '+' expression to silence this warning
+   87 |                     uVar17 * (uVar13 >> uVar12 * 8 | uVar13 << uVar12 * -8 + 0x20) +
+      |                                                                            ^     
+      |                                                                (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:91:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   91 |         local_50 = ((uVar15 >> uVar5 * 8 | uVar15 << uVar5 * -8 + 0x20) - 0x5000) +
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:91:65: note: place parentheses around the '+' expression to silence this warning
+   91 |         local_50 = ((uVar15 >> uVar5 * 8 | uVar15 << uVar5 * -8 + 0x20) - 0x5000) +
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:92:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   92 |                    (int)((ulonglong)(uVar16 >> uVar12 * 8 | uVar16 << uVar12 * -8 + 0x20) * 0xa000
+      |                                                                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:92:83: note: place parentheses around the '+' expression to silence this warning
+   92 |                    (int)((ulonglong)(uVar16 >> uVar12 * 8 | uVar16 << uVar12 * -8 + 0x20) * 0xa000
+      |                                                                                   ^     
+      |                                                                       (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:95:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   95 |         local_4c = (uVar8 >> uVar20 * 8 | uVar8 << uVar20 * -8 + 0x20) + 0x19000;
+      |                                                 ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:95:64: note: place parentheses around the '+' expression to silence this warning
+   95 |         local_4c = (uVar8 >> uVar20 * 8 | uVar8 << uVar20 * -8 + 0x20) + 0x19000;
+      |                                                                ^     
+      |                                                    (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:99:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   99 |         uVar13 = uVar20 >> uVar5 * 8 | uVar20 << uVar5 * -8 + 0x20;
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:99:61: note: place parentheses around the '+' expression to silence this warning
+   99 |         uVar13 = uVar20 >> uVar5 * 8 | uVar20 << uVar5 * -8 + 0x20;
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:101:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  101 |                  *(uint *)((uint)piVar9 & 0xfffffffc) << ((uint)piVar9 & 3) * -8 + 0x20;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:101:82: note: place parentheses around the '+' expression to silence this warning
+  101 |                  *(uint *)((uint)piVar9 & 0xfffffffc) << ((uint)piVar9 & 3) * -8 + 0x20;
+      |                                                                                  ^     
+      |                                                          (                             )
+C-WORK/src/arm9/020919e8_func_020919e8.c:110:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  110 |         uVar19 = uVar17 >> uVar12 * 8 | uVar17 << uVar12 * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:110:63: note: place parentheses around the '+' expression to silence this warning
+  110 |         uVar19 = uVar17 >> uVar12 * 8 | uVar17 << uVar12 * -8 + 0x20;
+      |                                                               ^     
+      |                                                   (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:114:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  114 |         piVar9[1] = (uVar17 >> uVar12 * 8 | uVar17 << uVar12 * -8 + 0x20) +
+      |                                                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:114:67: note: place parentheses around the '+' expression to silence this warning
+  114 |         piVar9[1] = (uVar17 >> uVar12 * 8 | uVar17 << uVar12 * -8 + 0x20) +
+      |                                                                   ^     
+      |                                                       (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:115:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  115 |                     (uVar8 >> uVar20 * 8 | uVar8 << uVar20 * -8 + 0x20) * uVar18 +
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:115:65: note: place parentheses around the '+' expression to silence this warning
+  115 |                     (uVar8 >> uVar20 * 8 | uVar8 << uVar20 * -8 + 0x20) * uVar18 +
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:116:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  116 |                     uVar13 * (uVar16 >> uVar5 * 8 | uVar16 << uVar5 * -8 + 0x20) +
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:116:74: note: place parentheses around the '+' expression to silence this warning
+  116 |                     uVar13 * (uVar16 >> uVar5 * 8 | uVar16 << uVar5 * -8 + 0x20) +
+      |                                                                          ^     
+      |                                                               (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:120:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  120 |         local_48 = ((uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20) - 0x28000) +
+      |                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:120:63: note: place parentheses around the '+' expression to silence this warning
+  120 |         local_48 = ((uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20) - 0x28000) +
+      |                                                               ^     
+      |                                                    (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:121:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  121 |                    (int)((ulonglong)(uVar20 >> uVar5 * 8 | uVar20 << uVar5 * -8 + 0x20) * 0x50000 >>
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:121:81: note: place parentheses around the '+' expression to silence this warning
+  121 |                    (int)((ulonglong)(uVar20 >> uVar5 * 8 | uVar20 << uVar5 * -8 + 0x20) * 0x50000 >>
+      |                                                                                 ^     
+      |                                                                      (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:138:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  138 |            uVar5 >> uVar6 * 8 == 0 && uVar5 << uVar6 * -8 + 0x20 == 0)) {
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:138:59: note: place parentheses around the '+' expression to silence this warning
+  138 |            uVar5 >> uVar6 * 8 == 0 && uVar5 << uVar6 * -8 + 0x20 == 0)) {
+      |                                                           ^
+      |                                                (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:139:30: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  139 |           func_0209219c(0x50,&local_50,&local_44,0x28,1,3);
+      |                              ^~~~~~~~~
+C-WORK/src/arm9/deps/020919e8_func_020919e8.h:13:44: note: passing argument to parameter 'param_2' here
+   13 | void func_0209219c(int param_1,undefined4 *param_2,undefined4 *param_3,int param_4,undefined4 param_5,undefined2 param_6);
+      |                                            ^
+C-WORK/src/arm9/020919e8_func_020919e8.c:146:30: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  146 |           func_0209219c(0x50,&local_50,&local_44,0x28,0,uVar10);
+      |                              ^~~~~~~~~
+C-WORK/src/arm9/deps/020919e8_func_020919e8.h:13:44: note: passing argument to parameter 'param_2' here
+   13 | void func_0209219c(int param_1,undefined4 *param_2,undefined4 *param_3,int param_4,undefined4 param_5,undefined2 param_6);
+      |                                            ^
+C-WORK/src/arm9/020919e8_func_020919e8.c:152:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  152 |       *(uint *)(param_2 + 0xa8) = (uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) + 1;
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:152:77: note: place parentheses around the '+' expression to silence this warning
+  152 |       *(uint *)(param_2 + 0xa8) = (uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) + 1;
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:155:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  155 |       if (2 < (int)(uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20)) {
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:155:62: note: place parentheses around the '+' expression to silence this warning
+  155 |       if (2 < (int)(uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20)) {
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:162:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  162 |                         *(uint *)(uRam02091f1c & 0xfffffffc) << (uRam02091f1c & 3) * -8 + 0x20);
+      |                                                              ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:162:89: note: place parentheses around the '+' expression to silence this warning
+  162 |                         *(uint *)(uRam02091f1c & 0xfffffffc) << (uRam02091f1c & 3) * -8 + 0x20);
+      |                                                                                         ^     
+      |                                                                 (                             )
+C-WORK/src/arm9/020919e8_func_020919e8.c:169:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  169 |        uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20,
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:169:57: note: place parentheses around the '+' expression to silence this warning
+  169 |        uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20,
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:177:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  177 |         uVar7 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:177:58: note: place parentheses around the '+' expression to silence this warning
+  177 |         uVar7 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:179:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  179 |                  *(uint *)((uint)piVar9 & 0xfffffffc) << ((uint)piVar9 & 3) * -8 + 0x20;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:179:82: note: place parentheses around the '+' expression to silence this warning
+  179 |                  *(uint *)((uint)piVar9 & 0xfffffffc) << ((uint)piVar9 & 3) * -8 + 0x20;
+      |                                                                                  ^     
+      |                                                          (                             )
+C-WORK/src/arm9/020919e8_func_020919e8.c:186:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  186 |         uVar15 = uVar20 >> uVar5 * 8 | uVar20 << uVar5 * -8 + 0x20;
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:186:61: note: place parentheses around the '+' expression to silence this warning
+  186 |         uVar15 = uVar20 >> uVar5 * 8 | uVar20 << uVar5 * -8 + 0x20;
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:192:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  192 |         piVar9[1] = (uVar8 >> uVar20 * 8 | uVar8 << uVar20 * -8 + 0x20) +
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:192:65: note: place parentheses around the '+' expression to silence this warning
+  192 |         piVar9[1] = (uVar8 >> uVar20 * 8 | uVar8 << uVar20 * -8 + 0x20) +
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:193:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  193 |                     (uVar16 >> uVar5 * 8 | uVar16 << uVar5 * -8 + 0x20) * uVar18 +
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:193:65: note: place parentheses around the '+' expression to silence this warning
+  193 |                     (uVar16 >> uVar5 * 8 | uVar16 << uVar5 * -8 + 0x20) * uVar18 +
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:194:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  194 |                     uVar7 * (uVar12 >> uVar6 * 8 | uVar12 << uVar6 * -8 + 0x20) +
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:194:73: note: place parentheses around the '+' expression to silence this warning
+  194 |                     uVar7 * (uVar12 >> uVar6 * 8 | uVar12 << uVar6 * -8 + 0x20) +
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:199:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  199 |              (int)((ulonglong)(uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) * 0x19 >> 0x20) +
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:199:73: note: place parentheses around the '+' expression to silence this warning
+  199 |              (int)((ulonglong)(uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) * 0x19 >> 0x20) +
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:206:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  206 |       if (((uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) & 4) == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:206:54: note: place parentheses around the '+' expression to silence this warning
+  206 |       if (((uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) & 4) == 0) {
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:209:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  209 |         uVar20 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:209:59: note: place parentheses around the '+' expression to silence this warning
+  209 |         uVar20 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:212:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  212 |         if (uVar20 == (uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20)) {
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:212:65: note: place parentheses around the '+' expression to silence this warning
+  212 |         if (uVar20 == (uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20)) {
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:218:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  218 |           if (uVar20 == (uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20)) {
+      |                                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:218:67: note: place parentheses around the '+' expression to silence this warning
+  218 |           if (uVar20 == (uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20)) {
+      |                                                                   ^     
+      |                                                        (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:227:35: error: too few arguments to function call, single argument 'param_1' was not specified
+  227 |         uStack_2c = func_020d4ef4();
+      |                     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020919e8_func_020919e8.h:15:5: note: 'func_020d4ef4' declared here
+   15 | int func_020d4ef4(uint param_1);
+      |     ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:244:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  244 |     uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:244:54: note: place parentheses around the '+' expression to silence this warning
+  244 |     uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:254:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  254 |           *(uint *)(uRam02091f14 & 0xfffffffc) << (uRam02091f14 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:254:75: note: place parentheses around the '+' expression to silence this warning
+  254 |           *(uint *)(uRam02091f14 & 0xfffffffc) << (uRam02091f14 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020919e8_func_020919e8.c:261:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  261 |       uVar12 = uVar12 >> uVar16 * 8 | uVar12 << uVar16 * -8 + 0x20;
+      |                                              ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:261:61: note: place parentheses around the '+' expression to silence this warning
+  261 |       uVar12 = uVar12 >> uVar16 * 8 | uVar12 << uVar16 * -8 + 0x20;
+      |                                                             ^     
+      |                                                 (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:274:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  274 |         iVar23 = (uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) -
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:274:60: note: place parentheses around the '+' expression to silence this warning
+  274 |         iVar23 = (uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) -
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:275:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  275 |                  (uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20);
+      |                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:275:62: note: place parentheses around the '+' expression to silence this warning
+  275 |                  (uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20);
+      |                                                              ^     
+      |                                                  (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:278:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  278 |         iVar11 = (uVar18 >> uVar16 * 8 | uVar18 << uVar16 * -8 + 0x20) -
+      |                                                 ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:278:64: note: place parentheses around the '+' expression to silence this warning
+  278 |         iVar11 = (uVar18 >> uVar16 * 8 | uVar18 << uVar16 * -8 + 0x20) -
+      |                                                                ^     
+      |                                                    (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:279:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  279 |                  (uVar12 >> uVar5 * 8 | uVar12 << uVar5 * -8 + 0x20);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:279:62: note: place parentheses around the '+' expression to silence this warning
+  279 |                  (uVar12 >> uVar5 * 8 | uVar12 << uVar5 * -8 + 0x20);
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:293:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  293 |           iVar14 = FX_Atan2((uVar15 >> uVar5 * 8 | uVar15 << uVar5 * -8 + 0x20) -
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:293:73: note: place parentheses around the '+' expression to silence this warning
+  293 |           iVar14 = FX_Atan2((uVar15 >> uVar5 * 8 | uVar15 << uVar5 * -8 + 0x20) -
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/020919e8_func_020919e8.c:294:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  294 |                             (uVar13 >> uVar12 * 8 | uVar13 << uVar12 * -8 + 0x20),
+      |                                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:294:75: note: place parentheses around the '+' expression to silence this warning
+  294 |                             (uVar13 >> uVar12 * 8 | uVar13 << uVar12 * -8 + 0x20),
+      |                                                                           ^     
+      |                                                               (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:295:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  295 |                             (uVar8 >> uVar16 * 8 | uVar8 << uVar16 * -8 + 0x20) -
+      |                                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:295:73: note: place parentheses around the '+' expression to silence this warning
+  295 |                             (uVar8 >> uVar16 * 8 | uVar8 << uVar16 * -8 + 0x20) -
+      |                                                                         ^     
+      |                                                             (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:296:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  296 |                             (uVar7 >> uVar18 * 8 | uVar7 << uVar18 * -8 + 0x20));
+      |                                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:296:73: note: place parentheses around the '+' expression to silence this warning
+  296 |                             (uVar7 >> uVar18 * 8 | uVar7 << uVar18 * -8 + 0x20));
+      |                                                                         ^     
+      |                                                             (                 )
+C-WORK/src/arm9/020919e8_func_020919e8.c:306:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  306 |       uVar5 = uVar12 >> uVar5 * 8 | uVar12 << uVar5 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020919e8_func_020919e8.c:306:58: note: place parentheses around the '+' expression to silence this warning
+  306 |       uVar5 = uVar12 >> uVar5 * 8 | uVar12 << uVar5 * -8 + 0x20;
+      |                                                          ^     
+      |                                               (                )
+48 warnings and 1 error generated.

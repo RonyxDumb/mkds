@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov000/02198b9c_FUN_02198b9c.c:11:19: error: too few arguments to function call, expected 3, have 0
+   11 |   (*DAT_02198ba4)();
+      |   ~~~~~~~~~~~~~~~ ^
+1 error generated.

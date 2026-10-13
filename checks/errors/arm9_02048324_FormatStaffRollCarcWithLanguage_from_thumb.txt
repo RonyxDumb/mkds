@@ -1,0 +1,10 @@
+C-WORK/src/arm9/02048324_FormatStaffRollCarcWithLanguage_from_thumb.c:11:49: error: too many arguments to function call, expected 4, have 5
+   11 |   Util_SNPrintF(param_1,0x80,uRam0204834c,uVar1,uRam02048348);
+      |   ~~~~~~~~~~~~~                                 ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02048324_FormatStaffRollCarcWithLanguage_from_thumb.h:6:22: note: expanded from macro 'uRam02048348'
+    6 | #define uRam02048348 (*(undefined4 *)(uintptr_t)0x2048348u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02048324_FormatStaffRollCarcWithLanguage_from_thumb.h:5:6: note: 'Util_SNPrintF' declared here
+    5 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

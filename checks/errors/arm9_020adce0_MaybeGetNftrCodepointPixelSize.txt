@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020adce0_MaybeGetNftrCodepointPixelSize.c:10:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   10 |   uVar1 = NFTR_SomeFn(param_2,param_3);
+      |           ~~~~~~~~~~~         ^~~~~~~
+C-WORK/src/arm9/deps/020adce0_MaybeGetNftrCodepointPixelSize.h:4:6: note: 'NFTR_SomeFn' declared here
+    4 | uint NFTR_SomeFn(uint param_1);
+      |      ^           ~~~~~~~~~~~~
+1 error generated.

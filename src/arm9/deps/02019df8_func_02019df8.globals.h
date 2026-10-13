@@ -1,0 +1,5 @@
+#define piRam02019ee0 (*(int **)(uintptr_t)0x2019ee0u)
+#define puRam02019ed0 (*(uint **)(uintptr_t)0x2019ed0u)
+#define puRam02019ed4 (*(uint **)(uintptr_t)0x2019ed4u)
+#define puRam02019ed8 (*(undefined4 **)(uintptr_t)0x2019ed8u)
+#define puRam02019edc (*(undefined4 **)(uintptr_t)0x2019edcu)

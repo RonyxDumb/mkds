@@ -1,0 +1,4 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void func_ov003_021b7d1c(undefined4 param_1,undefined4 *param_2,undefined4 param_3,undefined4 param_4,int *param_5);
+#define iRam021b7d64 (*(int *)(uintptr_t)0x21b7d64u)

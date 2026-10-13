@@ -1,0 +1,116 @@
+C-WORK/src/arm9/021162cc_func_021162cc.c:39:67: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   39 |   iVar3 = func_02114158(sVar2 + *(short *)(*piRam02116610 + 0x80),local_28);
+      |           ~~~~~~~~~~~~~                                           ^~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:5:6: note: 'func_02114158' declared here
+    5 | void func_02114158(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/021162cc_func_021162cc.c:56:21: error: too many arguments to function call, expected 0, have 6
+   56 |       func_0212426c(0,0,*(undefined4 *)(iVar3 + 0x1c),auStack_6c,*(undefined4 *)(iVar3 + 0x18),
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   57 |                     *(undefined4 *)(iVar3 + 0x24));
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:20:6: note: 'func_0212426c' declared here
+   20 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/021162cc_func_021162cc.c:64:23: error: too many arguments to function call, expected 0, have 6
+   64 |         func_0212426c(0,*puVar7,*(undefined4 *)(iVar5 + 0x1c),auStack_6c,
+      |         ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   65 |                       *(undefined4 *)(iVar5 + 0x18),*(undefined4 *)(iVar5 + 0x24));
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:20:6: note: 'func_0212426c' declared here
+   20 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/021162cc_func_021162cc.c:82:17: error: too many arguments to function call, expected 0, have 6
+   82 |   func_0212426c(0,0,*(undefined4 *)(iVar3 + 0xc),auStack_6c,*(undefined4 *)(iVar3 + 8),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   83 |                 *(undefined4 *)(iVar3 + 0x14));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:20:6: note: 'func_0212426c' declared here
+   20 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/021162cc_func_021162cc.c:84:12: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   84 |   local_40 = func_0211437c(sVar2 + *(short *)(*piRam02116610 + 0x80));
+      |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021162cc_func_021162cc.c:85:12: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   85 |   local_3c = func_02114360(sVar2 + *(short *)(*piRam02116610 + 0x80));
+      |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021162cc_func_021162cc.c:86:12: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   86 |   local_38 = func_02114344(sVar2 + *(short *)(*piRam02116610 + 0x80));
+      |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021162cc_func_021162cc.c:87:12: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   87 |   local_34 = func_02114328(sVar2 + *(short *)(*piRam02116610 + 0x80));
+      |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021162cc_func_021162cc.c:88:12: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   88 |   local_30 = func_0211430c(sVar2 + *(short *)(*piRam02116610 + 0x80));
+      |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021162cc_func_021162cc.c:89:12: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   89 |   local_2c = func_021142f0(sVar2 + *(short *)(*piRam02116610 + 0x80));
+      |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021162cc_func_021162cc.c:107:17: error: too many arguments to function call, expected 0, have 7
+  107 |   func_02124248(0,*(undefined2 *)(iRam02116618 + 6),*(undefined4 *)(iVar3 + 0xc),auStack_6c,
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  108 |                 *(undefined4 *)(iVar3 + 8),*(undefined4 *)(iVar3 + 0x14),6);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:19:6: note: 'func_02124248' declared here
+   19 | void func_02124248(void);
+      |      ^
+C-WORK/src/arm9/021162cc_func_021162cc.c:111:17: error: too many arguments to function call, expected 0, have 7
+  111 |   func_02124248(0,*(undefined2 *)(iRam02116618 + 8),*(undefined4 *)(iVar3 + 0xc),auStack_6c,
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  112 |                 *(undefined4 *)(iVar3 + 8),*(undefined4 *)(iVar3 + 0x14),6);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:19:6: note: 'func_02124248' declared here
+   19 | void func_02124248(void);
+      |      ^
+C-WORK/src/arm9/021162cc_func_021162cc.c:115:17: error: too many arguments to function call, expected 0, have 7
+  115 |   func_02124248(0,*(undefined2 *)(iRam02116618 + 10),*(undefined4 *)(iVar3 + 0xc),auStack_6c,
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  116 |                 *(undefined4 *)(iVar3 + 8),*(undefined4 *)(iVar3 + 0x14),6);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:19:6: note: 'func_02124248' declared here
+   19 | void func_02124248(void);
+      |      ^
+C-WORK/src/arm9/021162cc_func_021162cc.c:117:47: error: incompatible pointer to integer conversion passing 'undefined1[32]' (aka 'unsigned char[32]') to parameter of type 'int' [-Wint-conversion]
+  117 |   FormatIntegerInString16_from_thumb(local_34,auStack_6c);
+      |                                               ^~~~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:4:63: note: passing argument to parameter 'param_2' here
+    4 | int FormatIntegerInString16_from_thumb(undefined4 param_1,int param_2);
+      |                                                               ^
+C-WORK/src/arm9/021162cc_func_021162cc.c:119:17: error: too many arguments to function call, expected 0, have 7
+  119 |   func_02124248(0,*(undefined2 *)(iRam02116618 + 0xc),*(undefined4 *)(iVar3 + 0xc),auStack_6c,
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  120 |                 *(undefined4 *)(iVar3 + 8),*(undefined4 *)(iVar3 + 0x14),6);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:19:6: note: 'func_02124248' declared here
+   19 | void func_02124248(void);
+      |      ^
+C-WORK/src/arm9/021162cc_func_021162cc.c:121:47: error: incompatible pointer to integer conversion passing 'undefined1[32]' (aka 'unsigned char[32]') to parameter of type 'int' [-Wint-conversion]
+  121 |   FormatIntegerInString16_from_thumb(local_30,auStack_6c);
+      |                                               ^~~~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:4:63: note: passing argument to parameter 'param_2' here
+    4 | int FormatIntegerInString16_from_thumb(undefined4 param_1,int param_2);
+      |                                                               ^
+C-WORK/src/arm9/021162cc_func_021162cc.c:123:17: error: too many arguments to function call, expected 0, have 7
+  123 |   func_02124248(0,*(undefined2 *)(iRam02116618 + 0xe),*(undefined4 *)(iVar3 + 0xc),auStack_6c,
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  124 |                 *(undefined4 *)(iVar3 + 8),*(undefined4 *)(iVar3 + 0x14),6);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:19:6: note: 'func_02124248' declared here
+   19 | void func_02124248(void);
+      |      ^
+C-WORK/src/arm9/021162cc_func_021162cc.c:125:47: error: incompatible pointer to integer conversion passing 'undefined1[32]' (aka 'unsigned char[32]') to parameter of type 'int' [-Wint-conversion]
+  125 |   FormatIntegerInString16_from_thumb(local_2c,auStack_6c);
+      |                                               ^~~~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:4:63: note: passing argument to parameter 'param_2' here
+    4 | int FormatIntegerInString16_from_thumb(undefined4 param_1,int param_2);
+      |                                                               ^
+C-WORK/src/arm9/021162cc_func_021162cc.c:127:17: error: too many arguments to function call, expected 0, have 7
+  127 |   func_02124248(0,*(undefined2 *)(iRam02116618 + 0x10),*(undefined4 *)(iVar3 + 0xc),auStack_6c,
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  128 |                 *(undefined4 *)(iVar3 + 8),*(undefined4 *)(iVar3 + 0x14),6);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021162cc_func_021162cc.h:19:6: note: 'func_02124248' declared here
+   19 | void func_02124248(void);
+      |      ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0204a598_Scene_Emblem_Update.c:10:11: error: call to undeclared function 'func_0x021a23c8'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   10 |   iVar1 = func_0x021a23c8();
+      |           ^
+1 error generated.

@@ -1,0 +1,30 @@
+C-WORK/src/arm9/020072c0_func_020072c0.c:46:17: error: too few arguments to function call, single argument 'param_1' was not specified
+   46 |   func_02007154();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020072c0_func_020072c0.h:6:6: note: 'func_02007154' declared here
+    6 | void func_02007154(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020072c0_func_020072c0.c:58:33: error: too few arguments to function call, expected 2, have 1
+   58 |   uVar2 = func_0200c3a4(local_30);
+      |           ~~~~~~~~~~~~~         ^
+C-WORK/src/arm9/deps/020072c0_func_020072c0.h:12:14: note: 'func_0200c3a4' declared here
+   12 | undefined1 * func_0200c3a4(undefined1 *param_1,undefined1 *param_2);
+      |              ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020072c0_func_020072c0.c:63:25: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   63 |   iVar5 = func_0200adfc(piVar8,uVar9,uVar2,local_24);
+      |                         ^~~~~~
+C-WORK/src/arm9/deps/020072c0_func_020072c0.h:10:38: note: passing argument to parameter 'param_1' here
+   10 | undefined4 func_0200adfc(undefined4 *param_1,int param_2,undefined4 param_3,int param_4);
+      |                                      ^
+C-WORK/src/arm9/020072c0_func_020072c0.c:69:41: error: too few arguments to function call, expected 3, have 2
+   65 |     uVar2 = func_02008908(local_24 + 6,
+      |             ~~~~~~~~~~~~~
+   66 |                           *(undefined2 *)
+   67 |                            (*piRam02007444 +
+   68 |                             iRam02007450 * (uint)*(byte *)(*piRam02007444 + iRam0200744c) +
+   69 |                            iRam02007458));
+      |                                         ^
+C-WORK/src/arm9/deps/020072c0_func_020072c0.h:9:6: note: 'func_02008908' declared here
+    9 | void func_02008908(int param_1,undefined4 param_2,undefined4 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 3 errors generated.

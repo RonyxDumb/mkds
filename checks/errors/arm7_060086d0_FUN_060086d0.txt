@@ -1,0 +1,16 @@
+C-WORK/src/arm7/060086d0_FUN_060086d0.c:12:9: error: assigning to 'int' from incompatible type 'void'
+   12 |   iVar2 = thunk_FUN_037f9158();
+      |         ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/060086d0_FUN_060086d0.c:15:24: error: too many arguments to function call, expected 0, have 1
+   15 |     thunk_FUN_037f916c(uVar1);
+      |     ~~~~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm7/deps/060086d0_FUN_060086d0.h:7:6: note: 'thunk_FUN_037f916c' declared here
+    7 | void thunk_FUN_037f916c(void);
+      |      ^
+C-WORK/src/arm7/060086d0_FUN_060086d0.c:17:34: error: too many arguments to function call, expected 0, have 1
+   17 |       iVar2 = thunk_FUN_037f9158(uVar1);
+      |               ~~~~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm7/deps/060086d0_FUN_060086d0.h:6:6: note: 'thunk_FUN_037f9158' declared here
+    6 | void thunk_FUN_037f9158(void);
+      |      ^
+3 errors generated.

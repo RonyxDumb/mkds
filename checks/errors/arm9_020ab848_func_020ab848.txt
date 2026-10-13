@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020ab848_func_020ab848.c:11:17: error: too few arguments to function call, expected 4, have 0
+   11 |   func_020ab11c();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ab848_func_020ab848.h:3:6: note: 'func_020ab11c' declared here
+    3 | void func_020ab11c(uint *param_1,uint *param_2,int *param_3,int *param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

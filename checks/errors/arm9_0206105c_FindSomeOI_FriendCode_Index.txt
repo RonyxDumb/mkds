@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0206105c_FindSomeOI_FriendCode_Index.c:17:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |           *(uint *)(uRam020610fc & 0xfffffffc) << (uRam020610fc & 3) * -8 + 0x20) + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206105c_FindSomeOI_FriendCode_Index.c:17:75: note: place parentheses around the '+' expression to silence this warning
+   17 |           *(uint *)(uRam020610fc & 0xfffffffc) << (uRam020610fc & 3) * -8 + 0x20) + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0206105c_FindSomeOI_FriendCode_Index.c:20:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |   iVar4 = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + iRam02061100;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206105c_FindSomeOI_FriendCode_Index.c:20:53: note: place parentheses around the '+' expression to silence this warning
+   20 |   iVar4 = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + iRam02061100;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/0206105c_FindSomeOI_FriendCode_Index.c:26:55: error: too many arguments to function call, expected 0, have 1
+   26 |       iVar3 = FriendCode_HasNonzeroState_0_from_thumb(iVar5);
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0206105c_FindSomeOI_FriendCode_Index.h:4:6: note: 'FriendCode_HasNonzeroState_0_from_thumb' declared here
+    4 | void FriendCode_HasNonzeroState_0_from_thumb(void);
+      |      ^
+2 warnings and 1 error generated.

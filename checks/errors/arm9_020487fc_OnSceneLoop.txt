@@ -1,0 +1,988 @@
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:29:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |     *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0xe4) = 0;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:29:69: note: place parentheses around the '+' expression to silence this warning
+   29 |     *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0xe4) = 0;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:32:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0xe8) = 0;
+      |                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:32:55: note: place parentheses around the '+' expression to silence this warning
+   32 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0xe8) = 0;
+      |                                                       ^     
+      |                                      (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:34:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |            *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:34:62: note: place parentheses around the '+' expression to silence this warning
+   34 |            *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                              ^     
+      |                                             (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:52:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   52 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x120) = 0;
+      |                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:52:55: note: place parentheses around the '+' expression to silence this warning
+   52 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x120) = 0;
+      |                                                       ^     
+      |                                      (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:55:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   55 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x118) = 0xffffffff;
+      |                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:55:55: note: place parentheses around the '+' expression to silence this warning
+   55 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x118) = 0xffffffff;
+      |                                                       ^     
+      |                                      (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:58:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   58 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x11c) = 0;
+      |                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:58:55: note: place parentheses around the '+' expression to silence this warning
+   58 |     *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x11c) = 0;
+      |                                                       ^     
+      |                                      (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:64:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   64 |       *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x110) = 0;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:64:71: note: place parentheses around the '+' expression to silence this warning
+   64 |       *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x110) = 0;
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:69:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   69 |       *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x110) = 1;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:69:71: note: place parentheses around the '+' expression to silence this warning
+   69 |       *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x110) = 1;
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:71:17: error: too many arguments to function call, expected 0, have 1
+   71 |   Os_RestoreIrq(uVar6);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020487fc_OnSceneLoop.h:30:12: note: 'Os_RestoreIrq' declared here
+   30 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:74:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   74 |     *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c) = 0;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:74:69: note: place parentheses around the '+' expression to silence this warning
+   74 |     *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c) = 0;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:75:51: error: too few arguments to function call, single argument 'param_1' was not specified
+   75 |   SetActiveExecutionContextHeapGroupId_from_thumb();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020487fc_OnSceneLoop.h:37:6: note: 'SetActiveExecutionContextHeapGroupId_from_thumb' declared here
+   37 | void SetActiveExecutionContextHeapGroupId_from_thumb(undefined2 param_1);
+      |      ^                                               ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:79:34: error: too few arguments to function call, single argument 'param_1' was not specified
+   79 |   ExecutionContext_GetHeapHandle();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020487fc_OnSceneLoop.h:13:6: note: 'ExecutionContext_GetHeapHandle' declared here
+   13 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:81:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   81 |   uVar6 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020487fc_OnSceneLoop.h:13:6: note: 'ExecutionContext_GetHeapHandle' declared here
+   13 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:88:27: error: too many arguments to function call, expected 0, have 1
+   88 |   MaybeChangeAudioForMenu(0);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020487fc_OnSceneLoop.h:23:6: note: 'MaybeChangeAudioForMenu' declared here
+   23 | void MaybeChangeAudioForMenu(void);
+      |      ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:92:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   92 |           *(uint *)(uRam020497c0 & 0xfffffffc) << (uRam020497c0 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:92:75: note: place parentheses around the '+' expression to silence this warning
+   92 |           *(uint *)(uRam020497c0 & 0xfffffffc) << (uRam020497c0 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:98:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   98 |              *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:98:64: note: place parentheses around the '+' expression to silence this warning
+   98 |              *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                                ^     
+      |                                               (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:102:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  102 |      (uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20) != 0xd)) {
+      |                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:102:50: note: place parentheses around the '+' expression to silence this warning
+  102 |      (uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20) != 0xd)) {
+      |                                                  ^     
+      |                                      (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:113:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  113 |     *(uint *)(uRam020497c8 & 0xfffffffc) << (uRam020497c8 & 3) * -8 + 0x20) + 0x78) = 0;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:113:69: note: place parentheses around the '+' expression to silence this warning
+  113 |     *(uint *)(uRam020497c8 & 0xfffffffc) << (uRam020497c8 & 3) * -8 + 0x20) + 0x78) = 0;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:115:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  115 |                    *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20);
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:115:86: note: place parentheses around the '+' expression to silence this warning
+  115 |                    *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20);
+      |                                                                                      ^     
+      |                                                             (                              )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:117:14: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  117 |     (*pcVar8)(param_1);
+      |              ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:122:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  122 |     *(uint *)(uRam020497cc & 0xfffffffc) << (uRam020497cc & 3) * -8 + 0x20) + 0xb8) = uRam020497d0;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:122:69: note: place parentheses around the '+' expression to silence this warning
+  122 |     *(uint *)(uRam020497cc & 0xfffffffc) << (uRam020497cc & 3) * -8 + 0x20) + 0xb8) = uRam020497d0;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:129:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  129 |     *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c) = 1;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:129:69: note: place parentheses around the '+' expression to silence this warning
+  129 |     *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c) = 1;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:154:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  154 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x110) = 1;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:154:63: note: place parentheses around the '+' expression to silence this warning
+  154 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x110) = 1;
+      |                                                               ^     
+      |                                              (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:156:25: error: too many arguments to function call, expected 0, have 1
+  156 |           Os_RestoreIrq(uVar6);
+      |           ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020487fc_OnSceneLoop.h:30:12: note: 'Os_RestoreIrq' declared here
+   30 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:175:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  175 |           *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x110) = 0;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:175:61: note: place parentheses around the '+' expression to silence this warning
+  175 |           *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x110) = 0;
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:176:23: error: too many arguments to function call, expected 0, have 1
+  176 |         Os_RestoreIrq(uVar6);
+      |         ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020487fc_OnSceneLoop.h:30:12: note: 'Os_RestoreIrq' declared here
+   30 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:187:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  187 |                *(uint *)(uRam020497c0 & 0xfffffffc) << (uRam020497c0 & 3) * -8 + 0x20;
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:187:80: note: place parentheses around the '+' expression to silence this warning
+  187 |                *(uint *)(uRam020497c0 & 0xfffffffc) << (uRam020497c0 & 3) * -8 + 0x20;
+      |                                                                                ^     
+      |                                                        (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:193:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  193 |                 *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:193:69: note: place parentheses around the '+' expression to silence this warning
+  193 |                 *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                                     ^     
+      |                                                   (                       )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:199:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  199 |         if ((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) == 0xd) {
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:199:55: note: place parentheses around the '+' expression to silence this warning
+  199 |         if ((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) == 0xd) {
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:210:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  210 |                 *(uint *)(uRam020497d4 & 0xfffffffc) << (uRam020497d4 & 3) * -8 + 0x20) + 8;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:210:81: note: place parentheses around the '+' expression to silence this warning
+  210 |                 *(uint *)(uRam020497d4 & 0xfffffffc) << (uRam020497d4 & 3) * -8 + 0x20) + 8;
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:213:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  213 |         if ((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) == 5) {
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:213:55: note: place parentheses around the '+' expression to silence this warning
+  213 |         if ((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) == 5) {
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:215:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  215 |                   *(uint *)(uRam020497d8 & 0xfffffffc) << (uRam020497d8 & 3) * -8 + 0x20;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:215:83: note: place parentheses around the '+' expression to silence this warning
+  215 |                   *(uint *)(uRam020497d8 & 0xfffffffc) << (uRam020497d8 & 3) * -8 + 0x20;
+      |                                                                                   ^     
+      |                                                           (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:229:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  229 |                   *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:229:71: note: place parentheses around the '+' expression to silence this warning
+  229 |                   *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                                       ^     
+      |                                                     (                       )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:236:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  236 |            (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) != 0xd)) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:236:54: note: place parentheses around the '+' expression to silence this warning
+  236 |            (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) != 0xd)) {
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:260:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  260 |       func_02037658(uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20);
+      |                                                 ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:260:64: note: place parentheses around the '+' expression to silence this warning
+  260 |       func_02037658(uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20);
+      |                                                                ^     
+      |                                                    (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:263:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  263 |              *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x10c;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:263:64: note: place parentheses around the '+' expression to silence this warning
+  263 |              *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x10c;
+      |                                                                ^     
+      |                                               (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:266:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  266 |     iVar3 = func_0204984c(param_1,(uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) != 4);
+      |                                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:266:79: note: place parentheses around the '+' expression to silence this warning
+  266 |     iVar3 = func_0204984c(param_1,(uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) != 4);
+      |                                                                               ^     
+      |                                                                    (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:271:93: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  271 |                             *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20)
+      |                                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:271:93: note: place parentheses around the '+' expression to silence this warning
+  271 |                             *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20)
+      |                                                                                             ^     
+      |                                                                     (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:277:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  277 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:277:63: note: place parentheses around the '+' expression to silence this warning
+  277 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                               ^     
+      |                                              (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:281:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  281 |     *(uint *)(uVar5 + 0xe8) = (uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) + 1;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:281:75: note: place parentheses around the '+' expression to silence this warning
+  281 |     *(uint *)(uVar5 + 0xe8) = (uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) + 1;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:290:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  290 |     *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c) = 2;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:290:69: note: place parentheses around the '+' expression to silence this warning
+  290 |     *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c) = 2;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:315:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  315 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x110) = 1;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:315:63: note: place parentheses around the '+' expression to silence this warning
+  315 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x110) = 1;
+      |                                                               ^     
+      |                                              (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:317:25: error: too many arguments to function call, expected 0, have 1
+  317 |           Os_RestoreIrq(uVar6);
+      |           ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020487fc_OnSceneLoop.h:30:12: note: 'Os_RestoreIrq' declared here
+   30 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:336:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  336 |           *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x110) = 0;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:336:61: note: place parentheses around the '+' expression to silence this warning
+  336 |           *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x110) = 0;
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:337:23: error: too many arguments to function call, expected 0, have 1
+  337 |         Os_RestoreIrq(uVar6);
+      |         ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020487fc_OnSceneLoop.h:30:12: note: 'Os_RestoreIrq' declared here
+   30 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:342:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  342 |     pcVar8 = (code *)(uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20);
+      |                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:342:66: note: place parentheses around the '+' expression to silence this warning
+  342 |     pcVar8 = (code *)(uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20);
+      |                                                                  ^     
+      |                                                      (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:345:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  345 |                *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0xe4;
+      |                                              ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:345:66: note: place parentheses around the '+' expression to silence this warning
+  345 |                *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0xe4;
+      |                                                                  ^     
+      |                                                 (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:348:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  348 |       (*pcVar8)(param_1,uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:348:68: note: place parentheses around the '+' expression to silence this warning
+  348 |       (*pcVar8)(param_1,uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20);
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:348:16: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  348 |       (*pcVar8)(param_1,uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20);
+      |                ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:361:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  361 |                *(uint *)(uRam020497c0 & 0xfffffffc) << (uRam020497c0 & 3) * -8 + 0x20;
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:361:80: note: place parentheses around the '+' expression to silence this warning
+  361 |                *(uint *)(uRam020497c0 & 0xfffffffc) << (uRam020497c0 & 3) * -8 + 0x20;
+      |                                                                                ^     
+      |                                                        (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:367:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  367 |                 *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:367:69: note: place parentheses around the '+' expression to silence this warning
+  367 |                 *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                                     ^     
+      |                                                   (                       )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:373:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  373 |         if ((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) == 0xd) {
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:373:55: note: place parentheses around the '+' expression to silence this warning
+  373 |         if ((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) == 0xd) {
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:384:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  384 |                 *(uint *)(uRam020497d4 & 0xfffffffc) << (uRam020497d4 & 3) * -8 + 0x20) + 8;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:384:81: note: place parentheses around the '+' expression to silence this warning
+  384 |                 *(uint *)(uRam020497d4 & 0xfffffffc) << (uRam020497d4 & 3) * -8 + 0x20) + 8;
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:387:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  387 |         if ((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) == 5) {
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:387:55: note: place parentheses around the '+' expression to silence this warning
+  387 |         if ((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) == 5) {
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:389:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  389 |                   *(uint *)(uRam020497d8 & 0xfffffffc) << (uRam020497d8 & 3) * -8 + 0x20;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:389:83: note: place parentheses around the '+' expression to silence this warning
+  389 |                   *(uint *)(uRam020497d8 & 0xfffffffc) << (uRam020497d8 & 3) * -8 + 0x20;
+      |                                                                                   ^     
+      |                                                           (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:403:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  403 |                   *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:403:71: note: place parentheses around the '+' expression to silence this warning
+  403 |                   *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                                       ^     
+      |                                                     (                       )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:410:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  410 |            (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) != 0xd)) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:410:54: note: place parentheses around the '+' expression to silence this warning
+  410 |            (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) != 0xd)) {
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:434:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  434 |       func_02037658(uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20);
+      |                                                 ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:434:64: note: place parentheses around the '+' expression to silence this warning
+  434 |       func_02037658(uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20);
+      |                                                                ^     
+      |                                                    (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:437:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  437 |              *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x10c;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:437:64: note: place parentheses around the '+' expression to silence this warning
+  437 |              *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0x10c;
+      |                                                                ^     
+      |                                               (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:440:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  440 |     iVar3 = func_0204984c(param_1,(uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) != 4);
+      |                                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:440:79: note: place parentheses around the '+' expression to silence this warning
+  440 |     iVar3 = func_0204984c(param_1,(uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) != 4);
+      |                                                                               ^     
+      |                                                                    (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:445:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  445 |     pcVar8 = (code *)(uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20);
+      |                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:445:66: note: place parentheses around the '+' expression to silence this warning
+  445 |     pcVar8 = (code *)(uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20);
+      |                                                                  ^     
+      |                                                      (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:448:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  448 |                *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0xe4;
+      |                                              ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:448:66: note: place parentheses around the '+' expression to silence this warning
+  448 |                *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) + 0xe4;
+      |                                                                  ^     
+      |                                                 (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:451:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  451 |       (*pcVar8)(param_1,uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:451:68: note: place parentheses around the '+' expression to silence this warning
+  451 |       (*pcVar8)(param_1,uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20);
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:451:16: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  451 |       (*pcVar8)(param_1,uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20);
+      |                ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:456:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  456 |              *(uint *)(uRam020497d4 & 0xfffffffc) << (uRam020497d4 & 3) * -8 + 0x20) + 8;
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:456:78: note: place parentheses around the '+' expression to silence this warning
+  456 |              *(uint *)(uRam020497d4 & 0xfffffffc) << (uRam020497d4 & 3) * -8 + 0x20) + 8;
+      |                                                                              ^     
+      |                                                      (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:459:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  459 |     if ((uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) == 5) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:459:53: note: place parentheses around the '+' expression to silence this warning
+  459 |     if ((uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) == 5) {
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:462:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  462 |                *(uint *)(uRam020497d8 & 0xfffffffc) << (uRam020497d8 & 3) * -8 + 0x20;
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:462:80: note: place parentheses around the '+' expression to silence this warning
+  462 |                *(uint *)(uRam020497d8 & 0xfffffffc) << (uRam020497d8 & 3) * -8 + 0x20;
+      |                                                                                ^     
+      |                                                        (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:472:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  472 |              *(uint *)(uRam020497c0 & 0xfffffffc) << (uRam020497c0 & 3) * -8 + 0x20;
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:472:78: note: place parentheses around the '+' expression to silence this warning
+  472 |              *(uint *)(uRam020497c0 & 0xfffffffc) << (uRam020497c0 & 3) * -8 + 0x20;
+      |                                                                              ^     
+      |                                                      (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:479:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  479 |               *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                              ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:479:67: note: place parentheses around the '+' expression to silence this warning
+  479 |               *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                                   ^     
+      |                                                 (                       )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:484:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  484 |        (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) != 0xd)) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:484:50: note: place parentheses around the '+' expression to silence this warning
+  484 |        (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) != 0xd)) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:498:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  498 |               *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:498:65: note: place parentheses around the '+' expression to silence this warning
+  498 |               *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:502:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  502 |       *(uint *)(uVar5 + 0xe4) = (uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) + 1;
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:502:77: note: place parentheses around the '+' expression to silence this warning
+  502 |       *(uint *)(uVar5 + 0xe4) = (uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) + 1;
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:505:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  505 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:505:63: note: place parentheses around the '+' expression to silence this warning
+  505 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                               ^     
+      |                                              (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:509:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  509 |     *(uint *)(uVar5 + 0xe8) = (uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) + 1;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:509:75: note: place parentheses around the '+' expression to silence this warning
+  509 |     *(uint *)(uVar5 + 0xe8) = (uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) + 1;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:514:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  514 |         *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c) = 3;
+      |                                              ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:514:73: note: place parentheses around the '+' expression to silence this warning
+  514 |         *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c) = 3;
+      |                                                                         ^     
+      |                                                 (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:517:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  517 |               *(uint *)(uRam020497c8 & 0xfffffffc) << (uRam020497c8 & 3) * -8 + 0x20) + 0x1c;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:517:79: note: place parentheses around the '+' expression to silence this warning
+  517 |               *(uint *)(uRam020497c8 & 0xfffffffc) << (uRam020497c8 & 3) * -8 + 0x20) + 0x1c;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:520:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  520 |       if (((int)((uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) << 0x1f) < 0) &&
+      |                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:520:62: note: place parentheses around the '+' expression to silence this warning
+  520 |       if (((int)((uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) << 0x1f) < 0) &&
+      |                                                              ^     
+      |                                                  (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:531:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  531 |               *(uint *)(uRam020497c8 & 0xfffffffc) << (uRam020497c8 & 3) * -8 + 0x20) + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:531:79: note: place parentheses around the '+' expression to silence this warning
+  531 |               *(uint *)(uRam020497c8 & 0xfffffffc) << (uRam020497c8 & 3) * -8 + 0x20) + 0x20;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:534:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  534 |       if ((uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) == 4) {
+      |                                        ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:534:55: note: place parentheses around the '+' expression to silence this warning
+  534 |       if ((uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) == 4) {
+      |                                                       ^     
+      |                                           (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:564:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  564 |                 *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x110) = 1
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:564:81: note: place parentheses around the '+' expression to silence this warning
+  564 |                 *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x110) = 1
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:567:29: error: too many arguments to function call, expected 0, have 1
+  567 |               Os_RestoreIrq(uVar6);
+      |               ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020487fc_OnSceneLoop.h:30:12: note: 'Os_RestoreIrq' declared here
+   30 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:586:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  586 |               *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x110) = 0;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:586:79: note: place parentheses around the '+' expression to silence this warning
+  586 |               *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x110) = 0;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:587:27: error: too many arguments to function call, expected 0, have 1
+  587 |             Os_RestoreIrq(uVar6);
+      |             ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020487fc_OnSceneLoop.h:30:12: note: 'Os_RestoreIrq' declared here
+   30 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:592:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  592 |         pcVar8 = (code *)(uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:592:70: note: place parentheses around the '+' expression to silence this warning
+  592 |         pcVar8 = (code *)(uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:595:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  595 |                   *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0xe4;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:595:83: note: place parentheses around the '+' expression to silence this warning
+  595 |                   *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0xe4;
+      |                                                                                   ^     
+      |                                                           (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:598:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  598 |           (*pcVar8)(0,uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20);
+      |                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:598:66: note: place parentheses around the '+' expression to silence this warning
+  598 |           (*pcVar8)(0,uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20);
+      |                                                                  ^     
+      |                                                      (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:598:20: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  598 |           (*pcVar8)(0,uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20);
+      |                    ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:608:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  608 |                   *(uint *)(uRam020497c0 & 0xfffffffc) << (uRam020497c0 & 3) * -8 + 0x20;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:608:83: note: place parentheses around the '+' expression to silence this warning
+  608 |                   *(uint *)(uRam020497c0 & 0xfffffffc) << (uRam020497c0 & 3) * -8 + 0x20;
+      |                                                                                   ^     
+      |                                                           (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:614:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  614 |                      *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:614:72: note: place parentheses around the '+' expression to silence this warning
+  614 |                      *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                                        ^     
+      |                                                       (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:620:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  620 |             if ((uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20) == 0xd) {
+      |                                              ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:620:61: note: place parentheses around the '+' expression to silence this warning
+  620 |             if ((uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20) == 0xd) {
+      |                                                             ^     
+      |                                                 (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:631:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  631 |                      *(uint *)(uRam020497d4 & 0xfffffffc) << (uRam020497d4 & 3) * -8 + 0x20) + 8;
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:631:86: note: place parentheses around the '+' expression to silence this warning
+  631 |                      *(uint *)(uRam020497d4 & 0xfffffffc) << (uRam020497d4 & 3) * -8 + 0x20) + 8;
+      |                                                                                      ^     
+      |                                                              (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:634:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  634 |             if ((uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) == 5) {
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:634:61: note: place parentheses around the '+' expression to silence this warning
+  634 |             if ((uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) == 5) {
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:637:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  637 |                        *(uint *)(uRam020497d8 & 0xfffffffc) << (uRam020497d8 & 3) * -8 + 0x20;
+      |                                                             ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:637:88: note: place parentheses around the '+' expression to silence this warning
+  637 |                        *(uint *)(uRam020497d8 & 0xfffffffc) << (uRam020497d8 & 3) * -8 + 0x20;
+      |                                                                                        ^     
+      |                                                                (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:651:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  651 |                        *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:651:74: note: place parentheses around the '+' expression to silence this warning
+  651 |                        *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                                          ^     
+      |                                                         (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:657:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  657 |                (uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20) != 0xd)) {
+      |                                             ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:657:60: note: place parentheses around the '+' expression to silence this warning
+  657 |                (uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20) != 0xd)) {
+      |                                                            ^     
+      |                                                (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:681:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  681 |           func_02037658(uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:681:68: note: place parentheses around the '+' expression to silence this warning
+  681 |           func_02037658(uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20);
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:684:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  684 |                 *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:684:81: note: place parentheses around the '+' expression to silence this warning
+  684 |                 *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c;
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:687:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  687 |         func_0204984c(param_1,(uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) != 4);
+      |                                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:687:75: note: place parentheses around the '+' expression to silence this warning
+  687 |         func_0204984c(param_1,(uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) != 4);
+      |                                                                           ^     
+      |                                                               (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:691:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  691 |         pcVar8 = (code *)(uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:691:70: note: place parentheses around the '+' expression to silence this warning
+  691 |         pcVar8 = (code *)(uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:694:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  694 |                   *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0xe4;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:694:83: note: place parentheses around the '+' expression to silence this warning
+  694 |                   *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0xe4;
+      |                                                                                   ^     
+      |                                                           (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:697:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  697 |           (*pcVar8)(0,uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20);
+      |                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:697:66: note: place parentheses around the '+' expression to silence this warning
+  697 |           (*pcVar8)(0,uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20);
+      |                                                                  ^     
+      |                                                      (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:697:20: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  697 |           (*pcVar8)(0,uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20);
+      |                    ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:702:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  702 |                 *(uint *)(uRam020497d4 & 0xfffffffc) << (uRam020497d4 & 3) * -8 + 0x20) + 8;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:702:81: note: place parentheses around the '+' expression to silence this warning
+  702 |                 *(uint *)(uRam020497d4 & 0xfffffffc) << (uRam020497d4 & 3) * -8 + 0x20) + 8;
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:705:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  705 |         if ((uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) == 5) {
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:705:57: note: place parentheses around the '+' expression to silence this warning
+  705 |         if ((uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) == 5) {
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:708:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  708 |                   *(uint *)(uRam020497d8 & 0xfffffffc) << (uRam020497d8 & 3) * -8 + 0x20;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:708:83: note: place parentheses around the '+' expression to silence this warning
+  708 |                   *(uint *)(uRam020497d8 & 0xfffffffc) << (uRam020497d8 & 3) * -8 + 0x20;
+      |                                                                                   ^     
+      |                                                           (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:718:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  718 |                 *(uint *)(uRam020497c0 & 0xfffffffc) << (uRam020497c0 & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:718:81: note: place parentheses around the '+' expression to silence this warning
+  718 |                 *(uint *)(uRam020497c0 & 0xfffffffc) << (uRam020497c0 & 3) * -8 + 0x20;
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:725:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  725 |                    *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:725:70: note: place parentheses around the '+' expression to silence this warning
+  725 |                    *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                                      ^     
+      |                                                     (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:730:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  730 |            (uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20) != 0xd)) {
+      |                                         ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:730:56: note: place parentheses around the '+' expression to silence this warning
+  730 |            (uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20) != 0xd)) {
+      |                                                        ^     
+      |                                            (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:744:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  744 |                   *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:744:83: note: place parentheses around the '+' expression to silence this warning
+  744 |                   *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20;
+      |                                                                                   ^     
+      |                                                           (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:748:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  748 |           *(uint *)(uVar4 + 0xe4) = (uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) + 1;
+      |                                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:748:81: note: place parentheses around the '+' expression to silence this warning
+  748 |           *(uint *)(uVar4 + 0xe4) = (uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) + 1;
+      |                                                                                 ^     
+      |                                                                     (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:751:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  751 |                 *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:751:81: note: place parentheses around the '+' expression to silence this warning
+  751 |                 *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20;
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:755:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  755 |         *(uint *)(uVar4 + 0xe8) = (uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) + 1;
+      |                                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:755:79: note: place parentheses around the '+' expression to silence this warning
+  755 |         *(uint *)(uVar4 + 0xe8) = (uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) + 1;
+      |                                                                               ^     
+      |                                                                   (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:763:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  763 |               *(uint *)(uRam020497e0 & 0xfffffffc) << (uRam020497e0 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:763:79: note: place parentheses around the '+' expression to silence this warning
+  763 |               *(uint *)(uRam020497e0 & 0xfffffffc) << (uRam020497e0 & 3) * -8 + 0x20;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:766:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  766 |          uVar4 >> uVar12 * 8 != 0 || uVar4 << uVar12 * -8 + 0x20 != 0)) {
+      |                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:766:59: note: place parentheses around the '+' expression to silence this warning
+  766 |          uVar4 >> uVar12 * 8 != 0 || uVar4 << uVar12 * -8 + 0x20 != 0)) {
+      |                                                           ^
+      |                                               (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:779:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  779 |           *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c) = 4;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:779:75: note: place parentheses around the '+' expression to silence this warning
+  779 |           *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c) = 4;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:783:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  783 |         *(undefined4 *)((uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20) + 0x20) = 0;
+      |                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:783:69: note: place parentheses around the '+' expression to silence this warning
+  783 |         *(undefined4 *)((uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20) + 0x20) = 0;
+      |                                                                     ^     
+      |                                                          (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:797:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  797 |             uVar12 = uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:797:65: note: place parentheses around the '+' expression to silence this warning
+  797 |             uVar12 = uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20;
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:803:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  803 |                       *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:803:75: note: place parentheses around the '+' expression to silence this warning
+  803 |                       *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                         (                       )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:809:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  809 |               if ((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) == 0xd) {
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:809:61: note: place parentheses around the '+' expression to silence this warning
+  809 |               if ((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) == 0xd) {
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:820:87: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  820 |                       *(uint *)(uRam020497d4 & 0xfffffffc) << (uRam020497d4 & 3) * -8 + 0x20) + 8;
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:820:87: note: place parentheses around the '+' expression to silence this warning
+  820 |                       *(uint *)(uRam020497d4 & 0xfffffffc) << (uRam020497d4 & 3) * -8 + 0x20) + 8;
+      |                                                                                       ^     
+      |                                                               (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:823:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  823 |               if ((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) == 5) {
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:823:61: note: place parentheses around the '+' expression to silence this warning
+  823 |               if ((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) == 5) {
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:826:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  826 |                         *(uint *)(uRam020497d8 & 0xfffffffc) << (uRam020497d8 & 3) * -8 + 0x20;
+      |                                                              ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:826:89: note: place parentheses around the '+' expression to silence this warning
+  826 |                         *(uint *)(uRam020497d8 & 0xfffffffc) << (uRam020497d8 & 3) * -8 + 0x20;
+      |                                                                                         ^     
+      |                                                                 (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:839:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  839 |                         *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:839:77: note: place parentheses around the '+' expression to silence this warning
+  839 |                         *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20;
+      |                                                                             ^     
+      |                                                           (                       )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:846:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  846 |                  (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) != 0xd)) {
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:846:60: note: place parentheses around the '+' expression to silence this warning
+  846 |                  (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) != 0xd)) {
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:870:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  870 |             func_02037658(uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20);
+      |                                                       ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:870:70: note: place parentheses around the '+' expression to silence this warning
+  870 |             func_02037658(uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20);
+      |                                                                      ^     
+      |                                                          (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:875:91: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  875 |                           *(uint *)(uRam020497e4 & 0xfffffffc) << (uRam020497e4 & 3) * -8 + 0x20) +
+      |                                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:875:91: note: place parentheses around the '+' expression to silence this warning
+  875 |                           *(uint *)(uRam020497e4 & 0xfffffffc) << (uRam020497e4 & 3) * -8 + 0x20) +
+      |                                                                                           ^     
+      |                                                                   (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:878:87: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  878 |                       *(uint *)(uRam020497e8 & 0xfffffffc) << (uRam020497e8 & 3) * -8 + 0x20;
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:878:87: note: place parentheses around the '+' expression to silence this warning
+  878 |                       *(uint *)(uRam020497e8 & 0xfffffffc) << (uRam020497e8 & 3) * -8 + 0x20;
+      |                                                                                       ^     
+      |                                                               (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:882:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  882 |               if (uVar12 >> uVar5 * 8 == 0 && uVar12 << uVar5 * -8 + 0x20 == 0) {
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:882:68: note: place parentheses around the '+' expression to silence this warning
+  882 |               if (uVar12 >> uVar5 * 8 == 0 && uVar12 << uVar5 * -8 + 0x20 == 0) {
+      |                                                                    ^
+      |                                                         (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:889:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  889 |                 uVar12 = uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:889:69: note: place parentheses around the '+' expression to silence this warning
+  889 |                 uVar12 = uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20;
+      |                                                                     ^     
+      |                                                         (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:900:84: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  900 |                    *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c;
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:900:84: note: place parentheses around the '+' expression to silence this warning
+  900 |                    *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c;
+      |                                                                                    ^     
+      |                                                            (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:903:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  903 |           func_0204984c(param_1,(uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) != 4);
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:903:77: note: place parentheses around the '+' expression to silence this warning
+  903 |           func_0204984c(param_1,(uVar12 >> uVar4 * 8 | uVar12 << uVar4 * -8 + 0x20) != 4);
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:912:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  912 |         *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c) = 5;
+      |                                              ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:912:73: note: place parentheses around the '+' expression to silence this warning
+  912 |         *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0x10c) = 5;
+      |                                                                         ^     
+      |                                                 (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:917:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  917 |       *(undefined4 *)((uVar4 >> uVar7 * 8 | uVar4 << uVar7 * -8 + 0x20) + 0xb8) = 0;
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:917:65: note: place parentheses around the '+' expression to silence this warning
+  917 |       *(undefined4 *)((uVar4 >> uVar7 * 8 | uVar4 << uVar7 * -8 + 0x20) + 0xb8) = 0;
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:920:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  920 |       uVar7 = uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:920:58: note: place parentheses around the '+' expression to silence this warning
+  920 |       uVar7 = uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20;
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:926:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  926 |                  *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:926:68: note: place parentheses around the '+' expression to silence this warning
+  926 |                  *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                                    ^     
+      |                                                   (                      )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:930:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  930 |          (uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20) != 0xd)) {
+      |                                       ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:930:54: note: place parentheses around the '+' expression to silence this warning
+  930 |          (uVar4 >> uVar12 * 8 | uVar4 << uVar12 * -8 + 0x20) != 0xd)) {
+      |                                                      ^     
+      |                                          (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:940:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  940 |       pcVar8 = (code *)(uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:940:68: note: place parentheses around the '+' expression to silence this warning
+  940 |       pcVar8 = (code *)(uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20);
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:942:18: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  942 |         (*pcVar8)(param_1);
+      |                  ^
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:946:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  946 |           *(uint *)(uRam020497cc & 0xfffffffc) << (uRam020497cc & 3) * -8 + 0x20 != 0) {
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:946:75: note: place parentheses around the '+' expression to silence this warning
+  946 |           *(uint *)(uRam020497cc & 0xfffffffc) << (uRam020497cc & 3) * -8 + 0x20 != 0) {
+      |                                                                           ^
+      |                                                   (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:954:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  954 |               *(uint *)(uRam020497c8 & 0xfffffffc) << (uRam020497c8 & 3) * -8 + 0x20) + 0x1c;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:954:79: note: place parentheses around the '+' expression to silence this warning
+  954 |               *(uint *)(uRam020497c8 & 0xfffffffc) << (uRam020497c8 & 3) * -8 + 0x20) + 0x1c;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:957:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  957 |       if (((int)((uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) << 0x1e) < 0) &&
+      |                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:957:62: note: place parentheses around the '+' expression to silence this warning
+  957 |       if (((int)((uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) << 0x1e) < 0) &&
+      |                                                              ^     
+      |                                                  (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:966:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  966 |                 *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:966:81: note: place parentheses around the '+' expression to silence this warning
+  966 |                 *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20;
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:970:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  970 |         uVar7 = uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:970:60: note: place parentheses around the '+' expression to silence this warning
+  970 |         uVar7 = uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20;
+      |                                                            ^     
+      |                                                (                 )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:987:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  987 |         *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0xe4) = 0;
+      |                                              ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:987:73: note: place parentheses around the '+' expression to silence this warning
+  987 |         *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) + 0xe4) = 0;
+      |                                                                         ^     
+      |                                                 (                             )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:990:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  990 |       *(undefined4 *)((uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20) + 0x10c) = 6;
+      |                                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:990:67: note: place parentheses around the '+' expression to silence this warning
+  990 |       *(undefined4 *)((uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20) + 0x10c) = 6;
+      |                                                                   ^     
+      |                                                        (                )
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:996:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  996 |                         *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) +
+      |                                                              ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020487fc_OnSceneLoop.c:996:89: note: place parentheses around the '+' expression to silence this warning
+  996 |                         *(uint *)(uRam020497bc & 0xfffffffc) << (uRam020497bc & 3) * -8 + 0x20) +
+      |                                                                                         ^     
+      |                                                                 (                             )
+135 warnings and 11 errors generated.

@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/0219d734_FUN_0219d734.c:11:18: error: too few arguments to function call, expected 2, have 0
+   11 |     FUN_0219c384();
+      |     ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219d734_FUN_0219d734.h:3:6: note: 'FUN_0219c384' declared here
+    3 | void FUN_0219c384(int param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219d734_FUN_0219d734.c:14:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   14 |       (*(code *)piVar1[0xb])(param_1,*(undefined1 *)((int)piVar1 + 0x1d),piVar1[0xc]);
+      |                             ^
+1 warning and 1 error generated.

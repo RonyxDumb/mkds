@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020d1108_InitializeGlobalB4A4_from_thumb.c:11:9: error: assigning to 'int' from incompatible type 'void'
+   11 |   iVar1 = func_020d1158();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1108_InitializeGlobalB4A4_from_thumb.c:13:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   13 |     uVar2 = GetActiveExecutionContextHeapHandle_0();
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

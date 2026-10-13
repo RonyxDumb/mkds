@@ -1,0 +1,38 @@
+C-WORK/src/arm9_ov000/0219a430_FUN_0219a430.c:29:19: error: operand of type 'void' where arithmetic or pointer type is required
+   29 |   piVar2 = (int *)FUN_021a3690(0x44);
+      |                   ^~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219a430_FUN_0219a430.c:33:26: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   33 |   func_0x02134de0(piVar2,0,0x44);
+      |   ~~~~~~~~~~~~~~~        ^~~~~~
+C-WORK/src/arm9_ov000/deps/0219a430_FUN_0219a430.h:23:12: note: 'func_02134de0' declared here
+   23 | undefined4 func_02134de0(undefined4 param_1);
+      |            ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219a430_FUN_0219a430.c:38:9: error: incompatible pointer to integer conversion assigning to 'int' from 'int *'; dereference with * [-Wint-conversion]
+   38 |   iVar1 = FUN_0218e004(4,0x20,2,DAT_0219a5a4,DAT_0219a5a0,0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9_ov000/0219a430_FUN_0219a430.c:44:9: error: incompatible pointer to integer conversion assigning to 'int' from 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+   44 |   iVar1 = FUN_0218dc94(4,4,DAT_0219a5a8);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219a430_FUN_0219a430.c:51:24: error: too many arguments to function call, expected 0, have 3
+   51 |   iVar1 = FUN_0218e554(2,2,0);
+      |           ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/0219a430_FUN_0219a430.h:10:6: note: 'FUN_0218e554' declared here
+   10 | void FUN_0218e554(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219a430_FUN_0219a430.c:64:18: error: too many arguments to function call, expected 0, have 1
+   64 |     FUN_0218e53c(*piVar2);
+      |     ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0219a430_FUN_0219a430.h:9:6: note: 'FUN_0218e53c' declared here
+    9 | void FUN_0218e53c(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219a430_FUN_0219a430.c:71:52: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   71 |   FUN_0218e394(*piVar2,(byte *)(void *)(&local_24),local_1c + 1);
+      |                                                    ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219a430_FUN_0219a430.h:7:58: note: passing argument to parameter 'param_3' here
+    7 | void FUN_0218e394(undefined4 param_1,byte *param_2,uint *param_3);
+      |                                                          ^
+C-WORK/src/arm9_ov000/0219a430_FUN_0219a430.c:74:12: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'int *' [-Wint-conversion]
+   74 |   *param_1 = piVar2;
+      |            ^ ~~~~~~
+1 warning and 7 errors generated.

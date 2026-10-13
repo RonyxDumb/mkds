@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020074d8_func_020074d8.c:56:13: error: incompatible pointer to integer conversion assigning to 'int' from 'undefined1 *' (aka 'unsigned char *') [-Wint-conversion]
+   56 |       iVar5 = func_0200c3a4(local_30,(undefined1 *)(uintptr_t)(iVar5));
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020074d8_func_020074d8.c:60:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   60 |       uVar2 = func_02008908(0xea,uVar6,*piRam020075dc);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

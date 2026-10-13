@@ -1,0 +1,5 @@
+C-WORK/src/arm9/0200b00c_StructANN_Create_from_thumb.c:10:20: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'uint *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+   10 |   (*pcRam0200b014)(param_1,0,0x20);
+      |                    ^~~~~~~
+      |                    &
+1 error generated.

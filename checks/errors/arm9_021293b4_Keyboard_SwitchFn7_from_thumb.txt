@@ -1,0 +1,19 @@
+C-WORK/src/arm9/021293b4_Keyboard_SwitchFn7_from_thumb.c:37:14: error: assigning to 'int' from incompatible type 'void'
+   37 |      ((iVar4 = func_020ab8c4(), iVar4 == 1 && ((*(ushort *)(DAT_021295d4 + 0x2e0) & 1) != 0)))) {
+      |              ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021293b4_Keyboard_SwitchFn7_from_thumb.c:46:21: error: too many arguments to function call, expected 0, have 1
+   46 |       func_020ab8cc(1);
+      |       ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/021293b4_Keyboard_SwitchFn7_from_thumb.h:10:6: note: 'func_020ab8cc' declared here
+   10 | void func_020ab8cc(void);
+      |      ^
+C-WORK/src/arm9/021293b4_Keyboard_SwitchFn7_from_thumb.c:52:19: error: assigning to 'int' from incompatible type 'void'
+   52 |           ((iVar4 = func_020ab8c4(), piVar3 = DAT_021295c8, iVar4 == 2 &&
+      |                   ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021293b4_Keyboard_SwitchFn7_from_thumb.c:62:21: error: too many arguments to function call, expected 0, have 1
+   62 |       func_020ab8cc(2);
+      |       ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/021293b4_Keyboard_SwitchFn7_from_thumb.h:10:6: note: 'func_020ab8cc' declared here
+   10 | void func_020ab8cc(void);
+      |      ^
+4 errors generated.

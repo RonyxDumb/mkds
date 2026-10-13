@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0202f160_Scene_WLMenu_VblankImpl_from_thumb.c:10:9: error: assigning to 'int' from incompatible type 'void'
+   10 |   iVar1 = func_0202f19c();
+      |         ^ ~~~~~~~~~~~~~~~
+1 error generated.

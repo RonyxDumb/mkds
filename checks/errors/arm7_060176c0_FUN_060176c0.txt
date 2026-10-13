@@ -1,0 +1,148 @@
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:43:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   43 |            *(uint *)(DAT_06017d48 & 0xfffffffc) << (DAT_06017d48 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:43:76: note: place parentheses around the '+' expression to silence this warning
+   43 |            *(uint *)(DAT_06017d48 & 0xfffffffc) << (DAT_06017d48 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:47:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |   *(uint *)(uVar11 + 0x570) = (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 1;
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:47:73: note: place parentheses around the '+' expression to silence this warning
+   47 |   *(uint *)(uVar11 + 0x570) = (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 1;
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:58:22: error: too many arguments to function call, expected 0, have 3
+   58 |   thunk_FUN_037fb24c(0,&local_54,0x2c);
+      |   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:25:6: note: 'thunk_FUN_037fb24c' declared here
+   25 | void thunk_FUN_037fb24c(void);
+      |      ^
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:76:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   76 |      *(short *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + 0x38) == 1)) {
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:76:59: note: place parentheses around the '+' expression to silence this warning
+   76 |      *(short *)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + 0x38) == 1)) {
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:89:32: error: too few arguments to function call, expected 2, have 1
+   89 |           FUN_0600af7c(local_42);
+      |           ~~~~~~~~~~~~         ^
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:8:12: note: 'FUN_0600af7c' declared here
+    8 | undefined4 FUN_0600af7c(int param_1,int param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:108:22: error: too few arguments to function call, single argument 'param_1' was not specified
+  108 |         FUN_0600b39c();
+      |         ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:9:12: note: 'FUN_0600b39c' declared here
+    9 | undefined4 FUN_0600b39c(uint param_1);
+      |            ^            ~~~~~~~~~~~~
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:130:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  130 |     FUN_0600a954((undefined2 *)(uintptr_t)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + 8),(undefined2 *)(uintptr_t)(param_1 + 0x1e));
+      |                                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:130:86: note: place parentheses around the '+' expression to silence this warning
+  130 |     FUN_0600a954((undefined2 *)(uintptr_t)((uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) + 8),(undefined2 *)(uintptr_t)(param_1 + 0x1e));
+      |                                                                                      ^     
+      |                                                                           (                )
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:143:28: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+  143 |       sVar4 = FUN_060096c4(local_2c + 1);
+      |                            ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | uint FUN_060096c4(ushort *param_1);
+      |                           ^
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:150:87: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  150 |           thunk_FUN_037fb230(local_2c + 10,uVar12 >> uVar9 * 8 | uVar12 << uVar9 * -8 + 0x20,
+      |                                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:150:87: note: place parentheses around the '+' expression to silence this warning
+  150 |           thunk_FUN_037fb230(local_2c + 10,uVar12 >> uVar9 * 8 | uVar12 << uVar9 * -8 + 0x20,
+      |                                                                                       ^     
+      |                                                                            (                )
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:150:30: error: too many arguments to function call, expected 0, have 3
+  150 |           thunk_FUN_037fb230(local_2c + 10,uVar12 >> uVar9 * 8 | uVar12 << uVar9 * -8 + 0x20,
+      |           ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  151 |                              uVar7 + 1);
+      |                              ~~~~~~~~~
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:24:6: note: 'thunk_FUN_037fb230' declared here
+   24 | void thunk_FUN_037fb230(void);
+      |      ^
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:157:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  157 |           thunk_FUN_037fb230(local_2c + 9,uVar12 >> uVar9 * 8 | uVar12 << uVar9 * -8 + 0x20,
+      |                                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:157:86: note: place parentheses around the '+' expression to silence this warning
+  157 |           thunk_FUN_037fb230(local_2c + 9,uVar12 >> uVar9 * 8 | uVar12 << uVar9 * -8 + 0x20,
+      |                                                                                      ^     
+      |                                                                           (                )
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:157:30: error: too many arguments to function call, expected 0, have 3
+  157 |           thunk_FUN_037fb230(local_2c + 9,uVar12 >> uVar9 * 8 | uVar12 << uVar9 * -8 + 0x20,
+      |           ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  158 |                              uVar7 + 2);
+      |                              ~~~~~~~~~
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:24:6: note: 'thunk_FUN_037fb230' declared here
+   24 | void thunk_FUN_037fb230(void);
+      |      ^
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:168:33: error: too many arguments to function call, expected 0, have 4
+  168 |     lVar14 = thunk_FUN_03806924(*(undefined4 *)(param_1 + 0x2c),*(undefined4 *)(param_1 + 0x30),
+      |              ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  169 |                                 uVar8,0);
+      |                                 ~~~~~~~
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:26:6: note: 'thunk_FUN_03806924' declared here
+   26 | void thunk_FUN_03806924(void);
+      |      ^
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:171:27: warning: operator '>>' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  171 |     iVar10 = (int)(lVar14 + 1U >> 0x20) * uVar8 + (int)((ulonglong)lVar3 >> 0x20);
+      |                    ~~~~~~~^~~~ ~~
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:171:27: note: place parentheses around the '+' expression to silence this warning
+  171 |     iVar10 = (int)(lVar14 + 1U >> 0x20) * uVar8 + (int)((ulonglong)lVar3 >> 0x20);
+      |                           ^
+      |                    (          )
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:191:26: warning: operator '>>' has lower precedence than '-'; '-' will be evaluated first [-Wshift-op-parentheses]
+  191 |         uVar8 = local_68 - uVar7 >> 10 | (local_64 - (iVar10 + (uint)(local_68 < uVar7))) * 0x400000
+      |                 ~~~~~~~~~^~~~~~~ ~~
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:191:26: note: place parentheses around the '-' expression to silence this warning
+  191 |         uVar8 = local_68 - uVar7 >> 10 | (local_64 - (iVar10 + (uint)(local_68 < uVar7))) * 0x400000
+      |                          ^
+      |                 (               )
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:195:26: warning: operator '>>' has lower precedence than '-'; '-' will be evaluated first [-Wshift-op-parentheses]
+  195 |         uVar8 = local_60 - uVar7 >> 10 | (local_5c - (iVar10 + (uint)(local_60 < uVar7))) * 0x400000
+      |                 ~~~~~~~~~^~~~~~~ ~~
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:195:26: note: place parentheses around the '-' expression to silence this warning
+  195 |         uVar8 = local_60 - uVar7 >> 10 | (local_5c - (iVar10 + (uint)(local_60 < uVar7))) * 0x400000
+      |                          ^
+      |                 (               )
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:207:28: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+  207 |       uVar8 = FUN_060096c4(local_30 + 2);
+      |                            ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | uint FUN_060096c4(ushort *param_1);
+      |                           ^
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:212:49: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+  212 |       if ((uVar8 == 0) && (uVar8 = FUN_060096c4(local_30 + 4), (uVar8 & 1) != 0)) {
+      |                                                 ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | uint FUN_060096c4(ushort *param_1);
+      |                           ^
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:215:28: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+  215 |       uVar8 = FUN_060096c4(local_30 + 4);
+      |                            ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | uint FUN_060096c4(ushort *param_1);
+      |                           ^
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:217:29: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+  217 |       iVar10 = FUN_060096c4(local_30 + 1);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | uint FUN_060096c4(ushort *param_1);
+      |                           ^
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:220:60: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+  220 |          (uVar7 = uVar7 + uVar8 * -8, uVar8 = FUN_060096c4(local_30 + 5 + (uVar7 >> 3)),
+      |                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | uint FUN_060096c4(ushort *param_1);
+      |                           ^
+C-WORK/src/arm7/060176c0_FUN_060176c0.c:237:34: error: too few arguments to function call, expected 3, have 2
+  237 |     FUN_0601858c(local_42,param_1);
+      |     ~~~~~~~~~~~~                 ^
+C-WORK/src/arm7/deps/060176c0_FUN_060176c0.h:21:6: note: 'FUN_0601858c' declared here
+   21 | void FUN_0601858c(undefined2 param_1,int param_2,int param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+9 warnings and 13 errors generated.

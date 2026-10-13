@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov000/021a6fb4_FUN_021a6fb4.c:10:49: error: too few arguments to function call, expected 2, have 1
+   10 |   (*DAT_021a6fbc)(*(undefined4 *)(param_1 + 100));
+      |   ~~~~~~~~~~~~~~~                               ^
+1 error generated.

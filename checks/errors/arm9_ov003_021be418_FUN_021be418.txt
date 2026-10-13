@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov003/021be418_FUN_021be418.c:16:35: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   16 |   iVar2 = (*(code *)*DAT_021be4c8)(param_1 * 400 + DAT_021be4c4);
+      |                                   ^
+C-WORK/src/arm9_ov003/021be418_FUN_021be418.c:16:9: error: assigning to 'int' from incompatible type 'void'
+   16 |   iVar2 = (*(code *)*DAT_021be4c8)(param_1 * 400 + DAT_021be4c4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021be418_FUN_021be418.c:24:36: error: too few arguments to function call, expected 3, have 1
+   24 |   iVar2 = FUN_021be610(DAT_021be4dc);
+      |           ~~~~~~~~~~~~             ^
+C-WORK/src/arm9_ov003/deps/021be418_FUN_021be418.h:6:12: note: 'FUN_021be610' declared here
+    6 | undefined4 FUN_021be610(undefined4 param_1,int param_2,int param_3);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 2 errors generated.

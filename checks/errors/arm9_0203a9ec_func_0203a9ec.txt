@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0203a9ec_func_0203a9ec.c:16:39: error: too many arguments to function call, expected 0, have 1
+   16 |   iVar4 = Bright_IsBothScreensFadedIn(param_1);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/0203a9ec_func_0203a9ec.h:3:12: note: 'Bright_IsBothScreensFadedIn' declared here
+    3 | undefined4 Bright_IsBothScreensFadedIn(void);
+      |            ^
+1 error generated.

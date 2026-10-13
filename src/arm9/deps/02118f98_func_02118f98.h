@@ -1,0 +1,15 @@
+#pragma once
+/* Function-specific inferred declarations. */
+int ComputeValueInterpolation_from_thumb(int param_1,int param_2,int param_3,int param_4,int param_5);
+void func_02118f98(void);
+undefined4 func_0211e130(void);
+#define iRam02119120 (*(int *)(uintptr_t)0x2119120u)
+#define iRam02119124 (*(int *)(uintptr_t)0x2119124u)
+#define iRam02119128 (*(int *)(uintptr_t)0x2119128u)
+#define iRam0211912c (*(int *)(uintptr_t)0x211912cu)
+#define piRam02119114 (*(int **)(uintptr_t)0x2119114u)
+#define psRam02119118 (*(short **)(uintptr_t)0x2119118u)
+#define puRam02119130 (*(ushort **)(uintptr_t)0x2119130u)
+#define puRam02119134 (*(ushort **)(uintptr_t)0x2119134u)
+#define puRam02119138 (*(ushort **)(uintptr_t)0x2119138u)
+#define uRam0211911c (*(undefined4 *)(uintptr_t)0x211911cu)

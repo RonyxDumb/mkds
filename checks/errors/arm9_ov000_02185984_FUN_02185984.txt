@@ -1,0 +1,125 @@
+In file included from C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:3:
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:68:1: error: unknown type name 'size_t'
+   68 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:60:21: error: too many arguments to function call, expected 0, have 1
+   60 |     func_0x0200fcb4(uVar2);
+      |     ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:56:12: note: 'Os_RestoreIrq' declared here
+   56 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:67:21: error: too many arguments to function call, expected 0, have 1
+   67 |     func_0x0200fcb4(uVar2);
+      |     ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:56:12: note: 'Os_RestoreIrq' declared here
+   56 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:71:19: error: too many arguments to function call, expected 0, have 1
+   71 |   func_0x0200fcb4(uVar2);
+      |   ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:56:12: note: 'Os_RestoreIrq' declared here
+   56 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:80:60: error: too few arguments to function call, expected 4, have 3
+   80 |     func_0x0200da28(auStack_e0 + iVar1,DAT_02185cd4,*puVar3);
+      |     ~~~~~~~~~~~~~~~                                        ^
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:62:6: note: 'MaybeUtil_SPrintF' declared here
+   62 | void MaybeUtil_SPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:89:55: error: too many arguments to function call, expected 4, have 5
+   89 |   func_0x0200d9e0(auStack_112,5,DAT_02185cd8,local_64,local_63);
+      |   ~~~~~~~~~~~~~~~                                     ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:64:6: note: 'Util_SNPrintF' declared here
+   64 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:90:57: error: too many arguments to function call, expected 4, have 9
+   90 |   func_0x0200d9e0(auStack_d3,0xd,DAT_02185cdc,local_108,local_104,local_100,local_f8,local_f4,
+      |   ~~~~~~~~~~~~~~~                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   91 |                   local_f0);
+      |                   ~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:64:6: note: 'Util_SNPrintF' declared here
+   64 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:92:19: error: incompatible pointer types passing 'undefined1[78]' (aka 'unsigned char[78]') to parameter of type 'ushort *' (aka 'unsigned short *') [-Werror,-Wincompatible-pointer-types]
+   92 |   func_0x0214d1fc(auStack_62,auStack_c6,0x14);
+      |                   ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:58:27: note: passing argument to parameter 'param_1' here
+   58 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |                           ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:92:30: error: incompatible pointer types passing 'undefined1[20]' (aka 'unsigned char[20]') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+   92 |   func_0x0214d1fc(auStack_62,auStack_c6,0x14);
+      |                              ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:58:41: note: passing argument to parameter 'param_2' here
+   58 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |                                         ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:94:19: error: incompatible pointer types passing 'int **' to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+   94 |   func_0x0214d168(&local_ec,0,0xc);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:60:25: note: passing argument to parameter 'param_1' here
+   60 | void Mem_CpuFill8(uint *param_1,uint param_2,uint param_3);
+      |                         ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:98:21: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   98 |     func_0x02151910(DAT_02185ce0);
+      |                     ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:15:22: note: expanded from macro 'DAT_02185ce0'
+   15 | #define DAT_02185ce0 (*(int **)(uintptr_t)0x2185ce0u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:66:50: note: passing argument to parameter 'param_1' here
+   66 | void StructDW_MaybeCreate_from_thumb(undefined4 *param_1);
+      |                                                  ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:101:18: error: incompatible pointer types passing 'int **' to parameter of type 'int *'; remove & [-Werror,-Wincompatible-pointer-types]
+  101 |     FUN_021868a4(&local_ec,DAT_02185ce4,DAT_02185ce8);
+      |                  ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:4:30: note: passing argument to parameter 'param_1' here
+    4 | undefined4 FUN_021868a4(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                              ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:108:18: error: incompatible pointer types passing 'int **' to parameter of type 'int *'; remove & [-Werror,-Wincompatible-pointer-types]
+  108 |     FUN_021868a4(&local_ec,DAT_02185ce4,DAT_02185cec);
+      |                  ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:4:30: note: passing argument to parameter 'param_1' here
+    4 | undefined4 FUN_021868a4(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                              ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:109:18: error: incompatible pointer types passing 'int **' to parameter of type 'int *'; remove & [-Werror,-Wincompatible-pointer-types]
+  109 |     FUN_021868a4(&local_ec,DAT_02185cf0,param_2);
+      |                  ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:4:30: note: passing argument to parameter 'param_1' here
+    4 | undefined4 FUN_021868a4(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                              ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:112:20: error: incompatible pointer types passing 'int **' to parameter of type 'int *'; remove & [-Werror,-Wincompatible-pointer-types]
+  112 |       FUN_021868a4(&local_ec,DAT_02185cf4,param_3);
+      |                    ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:4:30: note: passing argument to parameter 'param_1' here
+    4 | undefined4 FUN_021868a4(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                              ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:115:16: error: incompatible pointer types passing 'int **' to parameter of type 'int *'; remove & [-Werror,-Wincompatible-pointer-types]
+  115 |   FUN_021868a4(&local_ec,DAT_02185cf8,DAT_02185cfc);
+      |                ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:4:30: note: passing argument to parameter 'param_1' here
+    4 | undefined4 FUN_021868a4(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                              ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:119:65: error: too many arguments to function call, expected 4, have 5
+  119 |     func_0x0200d9e0(auStack_75,0xe,DAT_02185d00,DAT_02185ce0[2],iVar1);
+      |     ~~~~~~~~~~~~~~~                                             ^~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:64:6: note: 'Util_SNPrintF' declared here
+   64 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:122:63: error: too many arguments to function call, expected 4, have 5
+  122 |     func_0x0200d9e0(auStack_75,0xe,DAT_02185d00,*DAT_02185ce0,iVar1);
+      |     ~~~~~~~~~~~~~~~                                           ^~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:64:6: note: 'Util_SNPrintF' declared here
+   64 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:124:16: error: incompatible pointer types passing 'int **' to parameter of type 'int *'; remove & [-Werror,-Wincompatible-pointer-types]
+  124 |   FUN_021868a4(&local_ec,DAT_02185d04,auStack_75);
+      |                ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:4:30: note: passing argument to parameter 'param_1' here
+    4 | undefined4 FUN_021868a4(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                              ^
+C-WORK/src/arm9_ov000/02185984_FUN_02185984.c:124:39: error: incompatible pointer to integer conversion passing 'undefined1[15]' (aka 'unsigned char[15]') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+  124 |   FUN_021868a4(&local_ec,DAT_02185d04,auStack_75);
+      |                                       ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02185984_FUN_02185984.h:4:68: note: passing argument to parameter 'param_3' here
+    4 | undefined4 FUN_021868a4(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                                                                    ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+1 warning and 20 errors generated.

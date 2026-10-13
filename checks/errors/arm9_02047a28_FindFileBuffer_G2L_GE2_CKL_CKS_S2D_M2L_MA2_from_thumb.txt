@@ -1,0 +1,19 @@
+C-WORK/src/arm9/02047a28_FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb.c:12:11: error: assigning to 'int' from incompatible type 'void'
+   12 |     iVar1 = FormatGetPathMountBuffer_from_thumb(*(undefined4 *)(iRam02047af0 + 0x44),(char *)(uintptr_t)(param_1));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02047a28_FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb.c:15:11: error: assigning to 'int' from incompatible type 'void'
+   15 |     iVar1 = FormatGetPathMountBuffer_from_thumb(*(undefined4 *)(iRam02047af0 + 0x40),(char *)(uintptr_t)(param_1));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02047a28_FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb.c:18:11: error: assigning to 'int' from incompatible type 'void'
+   18 |     iVar1 = FormatGetPathMountBuffer_from_thumb(*(undefined4 *)(iRam02047af0 + 0x3c),(char *)(uintptr_t)(param_1));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02047a28_FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb.c:21:11: error: assigning to 'int' from incompatible type 'void'
+   21 |     iVar1 = FormatGetPathMountBuffer_from_thumb(*(undefined4 *)(iRam02047af0 + 0x38),(char *)(uintptr_t)(param_1));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02047a28_FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb.c:24:11: error: assigning to 'int' from incompatible type 'void'
+   24 |     iVar1 = FormatGetPathMountBuffer_from_thumb(*(undefined4 *)(iRam02047af0 + 0x4c),(char *)(uintptr_t)(param_1));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02047a28_FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb.c:27:11: error: assigning to 'int' from incompatible type 'void'
+   27 |     iVar1 = FormatGetPathMountBuffer_from_thumb(*(undefined4 *)(iRam02047af0 + 8),(char *)(uintptr_t)(param_1));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+6 errors generated.

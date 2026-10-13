@@ -1,0 +1,25 @@
+C-WORK/src/arm9/0210b198_func_0210b198.c:14:19: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   14 |     func_0212c6a0(&iStack_18);
+      |                   ^~~~~~~~~~
+C-WORK/src/arm9/deps/0210b198_func_0210b198.h:7:32: note: passing argument to parameter 'param_1' here
+    7 | void func_0212c6a0(undefined4 *param_1);
+      |                                ^
+C-WORK/src/arm9/0210b198_func_0210b198.c:16:32: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   16 |       func_0212c6f0(&iStack_18,0);
+      |       ~~~~~~~~~~~~~            ^
+C-WORK/src/arm9/deps/0210b198_func_0210b198.h:8:6: note: 'func_0212c6f0' declared here
+    8 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/0210b198_func_0210b198.c:18:56: error: too few arguments to function call, expected 6, have 4
+   18 |     func_0212ec04(&iStack_18,param_4,0xffffffff,param_5);
+      |     ~~~~~~~~~~~~~                                      ^
+C-WORK/src/arm9/deps/0210b198_func_0210b198.h:9:6: note: 'func_0212ec04' declared here
+    9 | void func_0212ec04(undefined4 param_1,uint param_2,uint param_3,uint param_4,undefined4 param_5,undefined4 param_6);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0210b198_func_0210b198.c:20:19: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   20 |     func_0212c688(&iStack_18);
+      |                   ^~~~~~~~~~
+C-WORK/src/arm9/deps/0210b198_func_0210b198.h:6:32: note: passing argument to parameter 'param_1' here
+    6 | void func_0212c688(undefined4 *param_1);
+      |                                ^
+2 warnings and 2 errors generated.

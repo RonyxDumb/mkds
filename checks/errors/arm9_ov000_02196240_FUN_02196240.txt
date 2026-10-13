@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/02196240_FUN_02196240.c:11:26: error: operand of type 'void' where arithmetic or pointer type is required
+   11 |   puVar1 = (undefined4 *)FUN_021a3690(DAT_021962c0);
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02196240_FUN_02196240.c:16:26: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   16 |   func_0x02134de0(puVar1,0,DAT_021962c0);
+      |   ~~~~~~~~~~~~~~~        ^~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02196240_FUN_02196240.h:13:12: note: 'func_02134de0' declared here
+   13 | undefined4 func_02134de0(undefined4 param_1);
+      |            ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02196240_FUN_02196240.c:26:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   26 |   uVar2 = FUN_021a3690(puVar1[7] + 1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

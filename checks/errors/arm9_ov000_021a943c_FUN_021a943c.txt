@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/021a943c_FUN_021a943c.c:13:67: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   if ((*(char *)(param_1 + 8) != '\x04') && (iVar1 = FUN_021ae16c(), iVar1 != 0)) {
+      |                                                      ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a943c_FUN_021a943c.h:7:12: note: 'FUN_021ae16c' declared here
+    7 | undefined4 FUN_021ae16c(int param_1);
+      |            ^            ~~~~~~~~~~~
+1 error generated.

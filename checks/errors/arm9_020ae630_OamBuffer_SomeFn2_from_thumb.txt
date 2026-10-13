@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020ae630_OamBuffer_SomeFn2_from_thumb.c:14:20: error: too few arguments to function call, expected 2, have 0
+   14 |     Arm_FlushRange();
+      |     ~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ae630_OamBuffer_SomeFn2_from_thumb.h:3:6: note: 'Arm_FlushRange' declared here
+    3 | void Arm_FlushRange(uint param_1,int param_2);
+      |      ^              ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ae630_OamBuffer_SomeFn2_from_thumb.c:23:27: error: too few arguments to function call, expected 2, have 1
+   23 |     Arm_FlushRange(param_2);
+      |     ~~~~~~~~~~~~~~        ^
+C-WORK/src/arm9/deps/020ae630_OamBuffer_SomeFn2_from_thumb.h:3:6: note: 'Arm_FlushRange' declared here
+    3 | void Arm_FlushRange(uint param_1,int param_2);
+      |      ^              ~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

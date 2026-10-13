@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/021ac718_FUN_021ac718.c:36:74: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   36 |   FUN_021ace14((ushort *)(uintptr_t)(iVar4),(ushort *)(uintptr_t)(iVar4),param_3,param_4);
+      |                                                                          ^~~~~~~
+C-WORK/src/arm9_ov000/deps/021ac718_FUN_021ac718.h:7:59: note: passing argument to parameter 'param_3' here
+    7 | void FUN_021ace14(ushort *param_1,ushort *param_2,ushort *param_3,int param_4);
+      |                                                           ^
+1 error generated.

@@ -1,0 +1,432 @@
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:78:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   78 |   uVar3 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:9:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    9 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:87:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   87 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + uVar10 * 4) = 0;
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:87:65: note: place parentheses around the '+' expression to silence this warning
+   87 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + uVar10 * 4) = 0;
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:97:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   97 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0xe0) = 0;
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:97:65: note: place parentheses around the '+' expression to silence this warning
+   97 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0xe0) = 0;
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:106:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  106 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x1f0) = 0;
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:106:65: note: place parentheses around the '+' expression to silence this warning
+  106 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x1f0) = 0;
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:115:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  115 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x22c) = 0;
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:115:65: note: place parentheses around the '+' expression to silence this warning
+  115 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x22c) = 0;
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:124:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  124 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x260) = 0;
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:124:65: note: place parentheses around the '+' expression to silence this warning
+  124 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x260) = 0;
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:133:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  133 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x2b8) = 0;
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:133:65: note: place parentheses around the '+' expression to silence this warning
+  133 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x2b8) = 0;
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:142:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  142 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x2d8) = 0;
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:142:65: note: place parentheses around the '+' expression to silence this warning
+  142 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x2d8) = 0;
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:151:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  151 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x5fc) = 0;
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:151:65: note: place parentheses around the '+' expression to silence this warning
+  151 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x5fc) = 0;
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:160:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  160 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x6ac) = 0;
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:160:65: note: place parentheses around the '+' expression to silence this warning
+  160 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x6ac) = 0;
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:169:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  169 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x74c) = 0;
+      |                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:169:65: note: place parentheses around the '+' expression to silence this warning
+  169 |     *(undefined4 *)((uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20) + iVar6 + 0x74c) = 0;
+      |                                                                 ^     
+      |                                                     (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:177:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  177 |     *(undefined4 *)((uVar11 >> uVar13 * 8 | uVar11 << uVar13 * -8 + 0x20) + iVar6 + 2000) = 0;
+      |                                                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:177:67: note: place parentheses around the '+' expression to silence this warning
+  177 |     *(undefined4 *)((uVar11 >> uVar13 * 8 | uVar11 << uVar13 * -8 + 0x20) + iVar6 + 2000) = 0;
+      |                                                                   ^     
+      |                                                       (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:179:25: error: too many arguments to function call, expected 0, have 1
+  179 |   uVar3 = func_020b47c0(DAT_020b95c8);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:28:22: note: expanded from macro 'DAT_020b95c8'
+   28 | #define DAT_020b95c8 (*(undefined4 *)(uintptr_t)0x20b95c8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:181:95: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  181 |                   *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20
+      |                                                              ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:181:95: note: place parentheses around the '+' expression to silence this warning
+  181 |                   *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20
+      |                                                                                               ^     
+      |                                                                 (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:183:25: error: too many arguments to function call, expected 0, have 1
+  183 |   uVar3 = func_020b47c0(DAT_020b95d0);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:30:22: note: expanded from macro 'DAT_020b95d0'
+   30 | #define DAT_020b95d0 (*(undefined4 *)(uintptr_t)0x20b95d0u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:185:95: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  185 |                   *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20
+      |                                                              ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:185:95: note: place parentheses around the '+' expression to silence this warning
+  185 |                   *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20
+      |                                                                                               ^     
+      |                                                                 (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:188:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  188 |            *(uint *)(DAT_020b95d8 & 0xfffffffc) << (DAT_020b95d8 & 3) * -8 + 0x20) + 8;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:188:76: note: place parentheses around the '+' expression to silence this warning
+  188 |            *(uint *)(DAT_020b95d8 & 0xfffffffc) << (DAT_020b95d8 & 3) * -8 + 0x20) + 8;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:191:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  191 |   switch(uVar10 >> uVar13 * 8 | uVar10 << uVar13 * -8 + 0x20) {
+      |                                        ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:191:55: note: place parentheses around the '+' expression to silence this warning
+  191 |   switch(uVar10 >> uVar13 * 8 | uVar10 << uVar13 * -8 + 0x20) {
+      |                                                       ^     
+      |                                           (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:196:90: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  196 |              *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20;
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:196:90: note: place parentheses around the '+' expression to silence this warning
+  196 |              *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20;
+      |                                                                                          ^     
+      |                                                            (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:200:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  200 |     *(uint *)(uVar11 + 0x7fc) = uVar10 >> uVar13 * 8 | uVar10 << uVar13 * -8 + 0x20;
+      |                                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:200:78: note: place parentheses around the '+' expression to silence this warning
+  200 |     *(uint *)(uVar11 + 0x7fc) = uVar10 >> uVar13 * 8 | uVar10 << uVar13 * -8 + 0x20;
+      |                                                                              ^     
+      |                                                                  (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:203:27: error: too many arguments to function call, expected 0, have 1
+  203 |     uVar3 = func_020b47c0(DAT_020b95dc);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:33:22: note: expanded from macro 'DAT_020b95dc'
+   33 | #define DAT_020b95dc (*(undefined4 *)(uintptr_t)0x20b95dcu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:206:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  205 |                     *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) <<
+      |                                                                ~~
+  206 |                     ((uint)DAT_020b95c4 & 3) * -8 + 0x20) + DAT_020b95e0),uVar3);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:206:51: note: place parentheses around the '+' expression to silence this warning
+  206 |                     ((uint)DAT_020b95c4 & 3) * -8 + 0x20) + DAT_020b95e0),uVar3);
+      |                                                   ^     
+      |                     (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:208:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  208 |              *(uint *)(DAT_020b95d8 & 0xfffffffc) << (DAT_020b95d8 & 3) * -8 + 0x20) + 0xc;
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:208:78: note: place parentheses around the '+' expression to silence this warning
+  208 |              *(uint *)(DAT_020b95d8 & 0xfffffffc) << (DAT_020b95d8 & 3) * -8 + 0x20) + 0xc;
+      |                                                                              ^     
+      |                                                      (                             )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:211:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  211 |     if ((uVar10 >> uVar13 * 8 | uVar10 << uVar13 * -8 + 0x20) == 4) {
+      |                                        ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:211:55: note: place parentheses around the '+' expression to silence this warning
+  211 |     if ((uVar10 >> uVar13 * 8 | uVar10 << uVar13 * -8 + 0x20) == 4) {
+      |                                                       ^     
+      |                                           (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:212:29: error: too many arguments to function call, expected 0, have 1
+  212 |       uVar3 = func_020b47c0(DAT_020b95e4);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:35:22: note: expanded from macro 'DAT_020b95e4'
+   35 | #define DAT_020b95e4 (*(undefined4 *)(uintptr_t)0x20b95e4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:215:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  214 |                       *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) <<
+      |                                                                  ~~
+  215 |                       ((uint)DAT_020b95c4 & 3) * -8 + 0x20) + DAT_020b95e8),uVar3);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:215:53: note: place parentheses around the '+' expression to silence this warning
+  215 |                       ((uint)DAT_020b95c4 & 3) * -8 + 0x20) + DAT_020b95e8),uVar3);
+      |                                                     ^     
+      |                       (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:221:27: error: too many arguments to function call, expected 0, have 1
+  221 |     uVar3 = func_020b47c0(DAT_020b95ec);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:37:22: note: expanded from macro 'DAT_020b95ec'
+   37 | #define DAT_020b95ec (*(undefined4 *)(uintptr_t)0x20b95ecu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:224:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  223 |                     *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) <<
+      |                                                                ~~
+  224 |                     ((uint)DAT_020b95c4 & 3) * -8 + 0x20) + DAT_020b95f0),uVar3);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:224:51: note: place parentheses around the '+' expression to silence this warning
+  224 |                     ((uint)DAT_020b95c4 & 3) * -8 + 0x20) + DAT_020b95f0),uVar3);
+      |                                                   ^     
+      |                     (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:225:27: error: too many arguments to function call, expected 0, have 1
+  225 |     uVar3 = func_020b47c0(DAT_020b95f4);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:39:22: note: expanded from macro 'DAT_020b95f4'
+   39 | #define DAT_020b95f4 (*(undefined4 *)(uintptr_t)0x20b95f4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:228:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  227 |                     *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) <<
+      |                                                                ~~
+  228 |                     ((uint)DAT_020b95c4 & 3) * -8 + 0x20) + DAT_020b95f8),uVar3);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:228:51: note: place parentheses around the '+' expression to silence this warning
+  228 |                     ((uint)DAT_020b95c4 & 3) * -8 + 0x20) + DAT_020b95f8),uVar3);
+      |                                                   ^     
+      |                     (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:231:3: warning: label at end of compound statement is a C23 extension [-Wc23-extensions]
+  231 |   }
+      |   ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:232:25: error: too many arguments to function call, expected 0, have 1
+  232 |   uVar3 = func_020b47c0(DAT_020b95fc);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:41:22: note: expanded from macro 'DAT_020b95fc'
+   41 | #define DAT_020b95fc (*(undefined4 *)(uintptr_t)0x20b95fcu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:235:90: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  235 |              *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:235:90: note: place parentheses around the '+' expression to silence this warning
+  235 |              *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                                                                                          ^     
+      |                                                            (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:237:25: error: too many arguments to function call, expected 0, have 1
+  237 |   uVar3 = func_020b47c0(DAT_020b9600);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:42:22: note: expanded from macro 'DAT_020b9600'
+   42 | #define DAT_020b9600 (*(undefined4 *)(uintptr_t)0x20b9600u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:240:90: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  240 |              *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:240:90: note: place parentheses around the '+' expression to silence this warning
+  240 |              *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                                                                                          ^     
+      |                                                            (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:243:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  243 |            *(uint *)(DAT_020b95d8 & 0xfffffffc) << (DAT_020b95d8 & 3) * -8 + 0x20) + 8;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:243:76: note: place parentheses around the '+' expression to silence this warning
+  243 |            *(uint *)(DAT_020b95d8 & 0xfffffffc) << (DAT_020b95d8 & 3) * -8 + 0x20) + 8;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:246:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  246 |   switch(uVar10 >> uVar13 * 8 | uVar10 << uVar13 * -8 + 0x20) {
+      |                                        ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:246:55: note: place parentheses around the '+' expression to silence this warning
+  246 |   switch(uVar10 >> uVar13 * 8 | uVar10 << uVar13 * -8 + 0x20) {
+      |                                                       ^     
+      |                                           (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:250:27: error: too many arguments to function call, expected 0, have 1
+  250 |     uVar3 = func_020b47c0(DAT_020b9604);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:43:22: note: expanded from macro 'DAT_020b9604'
+   43 | #define DAT_020b9604 (*(undefined4 *)(uintptr_t)0x20b9604u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:253:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  253 |                *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:253:92: note: place parentheses around the '+' expression to silence this warning
+  253 |                *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                                                                                            ^     
+      |                                                              (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:257:27: error: too many arguments to function call, expected 0, have 1
+  257 |     uVar3 = func_020b47c0(DAT_020b9608);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:44:22: note: expanded from macro 'DAT_020b9608'
+   44 | #define DAT_020b9608 (*(undefined4 *)(uintptr_t)0x20b9608u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:260:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  260 |                *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:260:92: note: place parentheses around the '+' expression to silence this warning
+  260 |                *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                                                                                            ^     
+      |                                                              (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:259:16: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+  259 |               ((*(uint *)((uint)DAT_020b95c4 & 0xfffffffc) >> ((uint)DAT_020b95c4 & 3) * 8 |
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  260 |                *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  261 |                0x810,uVar3);
+      |                ~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:19:32: note: passing argument to parameter 'param_1' here
+   19 | void Gfx_ReadCharGraphics(int *param_1,int param_2);
+      |                                ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:263:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  263 |              *(uint *)(DAT_020b95d8 & 0xfffffffc) << (DAT_020b95d8 & 3) * -8 + 0x20) + 0xc;
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:263:78: note: place parentheses around the '+' expression to silence this warning
+  263 |              *(uint *)(DAT_020b95d8 & 0xfffffffc) << (DAT_020b95d8 & 3) * -8 + 0x20) + 0xc;
+      |                                                                              ^     
+      |                                                      (                             )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:266:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  266 |     if ((uVar10 >> uVar13 * 8 | uVar10 << uVar13 * -8 + 0x20) == 4) {
+      |                                        ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:266:55: note: place parentheses around the '+' expression to silence this warning
+  266 |     if ((uVar10 >> uVar13 * 8 | uVar10 << uVar13 * -8 + 0x20) == 4) {
+      |                                                       ^     
+      |                                           (                 )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:267:29: error: too many arguments to function call, expected 0, have 1
+  267 |       uVar3 = func_020b47c0(DAT_020b960c);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:45:22: note: expanded from macro 'DAT_020b960c'
+   45 | #define DAT_020b960c (*(undefined4 *)(uintptr_t)0x20b960cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:270:94: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  270 |                  *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20)
+      |                                                             ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:270:94: note: place parentheses around the '+' expression to silence this warning
+  270 |                  *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20)
+      |                                                                                              ^     
+      |                                                                (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:269:18: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+  269 |                 ((*(uint *)((uint)DAT_020b95c4 & 0xfffffffc) >> ((uint)DAT_020b95c4 & 3) * 8 |
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  270 |                  *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20)
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  271 |                  + 0x880,uVar3);
+      |                  ~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:19:32: note: passing argument to parameter 'param_1' here
+   19 | void Gfx_ReadCharGraphics(int *param_1,int param_2);
+      |                                ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:277:27: error: too many arguments to function call, expected 0, have 1
+  277 |     uVar3 = func_020b47c0(DAT_020b9610);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:46:22: note: expanded from macro 'DAT_020b9610'
+   46 | #define DAT_020b9610 (*(undefined4 *)(uintptr_t)0x20b9610u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:280:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  280 |                *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:280:92: note: place parentheses around the '+' expression to silence this warning
+  280 |                *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                                                                                            ^     
+      |                                                              (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:279:16: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+  279 |               ((*(uint *)((uint)DAT_020b95c4 & 0xfffffffc) >> ((uint)DAT_020b95c4 & 3) * 8 |
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  280 |                *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  281 |                0x820,uVar3);
+      |                ~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:19:32: note: passing argument to parameter 'param_1' here
+   19 | void Gfx_ReadCharGraphics(int *param_1,int param_2);
+      |                                ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:282:27: error: too many arguments to function call, expected 0, have 1
+  282 |     uVar3 = func_020b47c0(DAT_020b9614);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:47:22: note: expanded from macro 'DAT_020b9614'
+   47 | #define DAT_020b9614 (*(undefined4 *)(uintptr_t)0x20b9614u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:285:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  285 |                *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:285:92: note: place parentheses around the '+' expression to silence this warning
+  285 |                *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                                                                                            ^     
+      |                                                              (                                   )
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:284:16: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+  284 |               ((*(uint *)((uint)DAT_020b95c4 & 0xfffffffc) >> ((uint)DAT_020b95c4 & 3) * 8 |
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  285 |                *(uint *)((uint)DAT_020b95c4 & 0xfffffffc) << ((uint)DAT_020b95c4 & 3) * -8 + 0x20) +
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  286 |                0x830,uVar3);
+      |                ~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:19:32: note: passing argument to parameter 'param_1' here
+   19 | void Gfx_ReadCharGraphics(int *param_1,int param_2);
+      |                                ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:289:3: warning: label at end of compound statement is a C23 extension [-Wc23-extensions]
+  289 |   }
+      |   ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:291:25: error: too many arguments to function call, expected 0, have 1
+  291 |   uVar3 = func_020b47c0(DAT_020b9618);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:48:22: note: expanded from macro 'DAT_020b9618'
+   48 | #define DAT_020b9618 (*(undefined4 *)(uintptr_t)0x20b9618u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:24:6: note: 'func_020b47c0' declared here
+   24 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b8624_CreateGlobalB3C4.c:292:20: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+  292 |   LoadCellBankFrom(&local_214,uVar3);
+      |                    ^~~~~~~~~~
+C-WORK/src/arm9/deps/020b8624_CreateGlobalB3C4.h:21:28: note: passing argument to parameter 'param_1' here
+   21 | void LoadCellBankFrom(int *param_1,int param_2);
+      |                            ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+37 warnings and 20 errors generated.

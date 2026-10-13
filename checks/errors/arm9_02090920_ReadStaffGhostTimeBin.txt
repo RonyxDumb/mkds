@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02090920_ReadStaffGhostTimeBin.c:10:41: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+   10 |   (*pcRam02090934)(uRam02090938,param_1,uRam0209093c);
+      |                                         ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02090920_ReadStaffGhostTimeBin.h:7:22: note: expanded from macro 'uRam0209093c'
+    7 | #define uRam0209093c (*(undefined4 *)(uintptr_t)0x209093cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

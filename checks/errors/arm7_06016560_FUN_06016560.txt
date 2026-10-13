@@ -1,0 +1,14 @@
+C-WORK/src/arm7/06016560_FUN_06016560.c:14:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |           *(uint *)(DAT_06016618 & 0xfffffffc) << (DAT_06016618 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06016560_FUN_06016560.c:14:75: note: place parentheses around the '+' expression to silence this warning
+   14 |           *(uint *)(DAT_06016618 & 0xfffffffc) << (DAT_06016618 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm7/06016560_FUN_06016560.c:18:26: error: too many arguments to function call, expected 0, have 1
+   18 |     uVar3 = FUN_0600e918(uVar1);
+      |             ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm7/deps/06016560_FUN_06016560.h:6:12: note: 'FUN_0600e918' declared here
+    6 | undefined2 FUN_0600e918(void);
+      |            ^
+1 warning and 1 error generated.

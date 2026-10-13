@@ -1,0 +1,6 @@
+C-WORK/src/arm9/0205933c_func_0205933c.c:10:9: error: assigning to 'int' from incompatible type 'void'
+   10 |   iVar1 = func_0210e5e4(*(undefined4 *)(*piRam02059374 + iRam02059378),
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   11 |                         *(undefined4 *)(*piRam02059374 + iRam0205937c));
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

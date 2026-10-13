@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov003/021bd59c_FUN_021bd59c.c:25:91: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   25 |   puVar5 = (ushort *)FUN_021bdc08((int *)(void *)(&local_20),(ushort *)(uintptr_t)(iVar4),&local_1c,&local_18);
+      |                                                                                           ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bd59c_FUN_021bd59c.h:5:58: note: passing argument to parameter 'param_3' here
+    5 | ushort * FUN_021bdc08(int *param_1,ushort *param_2,uint *param_3,uint *param_4);
+      |                                                          ^
+C-WORK/src/arm9_ov003/021bd59c_FUN_021bd59c.c:25:101: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   25 |   puVar5 = (ushort *)FUN_021bdc08((int *)(void *)(&local_20),(ushort *)(uintptr_t)(iVar4),&local_1c,&local_18);
+      |                                                                                                     ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bd59c_FUN_021bd59c.h:5:72: note: passing argument to parameter 'param_4' here
+    5 | ushort * FUN_021bdc08(int *param_1,ushort *param_2,uint *param_3,uint *param_4);
+      |                                                                        ^
+C-WORK/src/arm9_ov003/021bd59c_FUN_021bd59c.c:76:71: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   76 |       func_0x02134de0(DAT_021bd760 + (local_1c - DAT_021bd75c) * 0x28,0,0x20);
+      |       ~~~~~~~~~~~~~~~                                                 ^~~~~~
+C-WORK/src/arm9_ov003/deps/021bd59c_FUN_021bd59c.h:19:12: note: 'func_02134de0' declared here
+   19 | undefined4 func_02134de0(undefined4 param_1);
+      |            ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bd59c_FUN_021bd59c.c:115:93: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  115 |     puVar5 = (ushort *)FUN_021bdc08((int *)(void *)(&local_20),(ushort *)(uintptr_t)(iVar4),&local_1c,&local_18);
+      |                                                                                             ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bd59c_FUN_021bd59c.h:5:58: note: passing argument to parameter 'param_3' here
+    5 | ushort * FUN_021bdc08(int *param_1,ushort *param_2,uint *param_3,uint *param_4);
+      |                                                          ^
+C-WORK/src/arm9_ov003/021bd59c_FUN_021bd59c.c:115:103: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  115 |     puVar5 = (ushort *)FUN_021bdc08((int *)(void *)(&local_20),(ushort *)(uintptr_t)(iVar4),&local_1c,&local_18);
+      |                                                                                                       ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bd59c_FUN_021bd59c.h:5:72: note: passing argument to parameter 'param_4' here
+    5 | ushort * FUN_021bdc08(int *param_1,ushort *param_2,uint *param_3,uint *param_4);
+      |                                                                        ^
+4 warnings and 1 error generated.

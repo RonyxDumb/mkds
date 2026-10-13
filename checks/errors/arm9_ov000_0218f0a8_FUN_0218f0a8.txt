@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov000/0218f0a8_FUN_0218f0a8.c:20:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   20 |     FUN_02196590(param_1,DAT_0218f124);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218f0a8_FUN_0218f0a8.h:5:31: note: passing argument to parameter 'param_1' here
+    5 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218f0a8_FUN_0218f0a8.c:28:25: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   28 |     (*in_stack_00000010)(param_1,&local_24,in_stack_00000014);
+      |                         ^
+C-WORK/src/arm9_ov000/0218f0a8_FUN_0218f0a8.c:31:24: error: too few arguments to function call, expected 11, have 0
+   31 |   uVar1 = FUN_021960a4();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0218f0a8_FUN_0218f0a8.h:4:5: note: 'FUN_021960a4' declared here
+    4 | int FUN_021960a4(undefined4 param_1,char *param_2,char *param_3,char *param_4,char *param_5,char *param_6,int param_7,int param_8,undefined4 param_9,undefined4 param_10,undefined4 param_11);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.

@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov003/021b8e60_func_ov003_021b8e60.c:41:38: error: too many arguments to function call, expected 2, have 3
+   41 |   func_ov003_021b7d84(uRam021b8f58,0,uRam021b8f5c);
+      |   ~~~~~~~~~~~~~~~~~~~                ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b8e60_func_ov003_021b8e60.h:12:22: note: expanded from macro 'uRam021b8f5c'
+   12 | #define uRam021b8f5c (*(undefined4 *)(uintptr_t)0x21b8f5cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b8e60_func_ov003_021b8e60.h:5:6: note: 'func_ov003_021b7d84' declared here
+    5 | void func_ov003_021b7d84(undefined4 param_1,undefined1 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

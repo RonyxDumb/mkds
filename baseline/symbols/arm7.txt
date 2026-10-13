@@ -1,0 +1,1 @@
+Arm7Entry kind:function(arm,size=0x1b0) addr:0x02380000

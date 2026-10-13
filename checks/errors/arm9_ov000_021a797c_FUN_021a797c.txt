@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov000/021a797c_FUN_021a797c.c:19:27: error: too many arguments to function call, expected 0, have 1
+   19 |   uVar3 = func_0x0200fca0(*(undefined4 *)(iVar5 + DAT_021a7a58));
+      |           ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a797c_FUN_021a797c.h:12:10: note: 'Os_DisableIrq' declared here
+   12 | longlong Os_DisableIrq(void);
+      |          ^
+C-WORK/src/arm9_ov000/021a797c_FUN_021a797c.c:43:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   43 |           (**(code **)(*DAT_021a7a64 + 0x1c))(piVar6);
+      |                                              ^
+C-WORK/src/arm9_ov000/021a797c_FUN_021a797c.c:47:23: error: too many arguments to function call, expected 0, have 1
+   47 |       func_0x0200fcb4(uVar3);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a797c_FUN_021a797c.h:16:12: note: 'Os_RestoreIrq' declared here
+   16 | undefined4 Os_RestoreIrq(void);
+      |            ^
+1 warning and 2 errors generated.

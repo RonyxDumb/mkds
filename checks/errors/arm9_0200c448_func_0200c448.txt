@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0200c448_func_0200c448.c:12:26: error: too few arguments to function call, expected 2, have 1
+   12 |   iVar2 = _s32_div_f(0x1e);
+      |           ~~~~~~~~~~     ^
+C-WORK/src/arm9/deps/0200c448_func_0200c448.h:3:12: note: '_s32_div_f' declared here
+    3 | undefined8 _s32_div_f(uint param_1,uint param_2);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

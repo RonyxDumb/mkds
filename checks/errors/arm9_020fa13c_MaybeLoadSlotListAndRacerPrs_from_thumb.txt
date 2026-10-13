@@ -1,0 +1,19 @@
+C-WORK/src/arm9/020fa13c_MaybeLoadSlotListAndRacerPrs_from_thumb.c:19:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   19 |   uVar4 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020fa13c_MaybeLoadSlotListAndRacerPrs_from_thumb.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020fa13c_MaybeLoadSlotListAndRacerPrs_from_thumb.c:49:68: warning: passing 'undefined4[2]' (aka 'unsigned int[2]') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   49 |     func_020f02c0((int *)(uintptr_t)(*piVar3 + iVar5 * 0x44),iVar5,local_1c);
+      |                                                                    ^~~~~~~~
+C-WORK/src/arm9/deps/020fa13c_MaybeLoadSlotListAndRacerPrs_from_thumb.h:11:50: note: passing argument to parameter 'param_3' here
+   11 | void func_020f02c0(int *param_1,int param_2,int *param_3);
+      |                                                  ^
+C-WORK/src/arm9/020fa13c_MaybeLoadSlotListAndRacerPrs_from_thumb.c:75:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   75 |   uVar4 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020fa13c_MaybeLoadSlotListAndRacerPrs_from_thumb.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+1 warning and 2 errors generated.

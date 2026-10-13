@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov001/02180610_func_ov001_02180610.c:28:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   28 |   uVar3 = func_ov001_021807e4();
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02180610_func_ov001_02180610.c:37:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   37 |   uVar3 = func_ov001_021807e4();
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02180610_func_ov001_02180610.c:39:29: error: too many arguments to function call, expected single argument 'param_1', have 8 arguments
+   39 |   func_ov001_021807a8(uVar3,0,0,0,0,4,0,0);
+      |   ~~~~~~~~~~~~~~~~~~~       ^~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02180610_func_ov001_02180610.h:7:6: note: 'func_ov001_021807a8' declared here
+    7 | void func_ov001_021807a8(int param_1);
+      |      ^                   ~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02180610_func_ov001_02180610.c:40:29: error: too many arguments to function call, expected single argument 'param_1', have 7 arguments
+   40 |   func_ov001_02180774(uVar3,2,0,0,0,0xe,1);
+      |   ~~~~~~~~~~~~~~~~~~~       ^~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02180610_func_ov001_02180610.h:6:6: note: 'func_ov001_02180774' declared here
+    6 | void func_ov001_02180774(int param_1);
+      |      ^                   ~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02180610_func_ov001_02180610.c:41:29: error: too many arguments to function call, expected single argument 'param_1', have 7 arguments
+   41 |   func_ov001_02180740(uVar3,2,0,0,0,4,4);
+      |   ~~~~~~~~~~~~~~~~~~~       ^~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02180610_func_ov001_02180610.h:5:6: note: 'func_ov001_02180740' declared here
+    5 | void func_ov001_02180740(int param_1);
+      |      ^                   ~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02180610_func_ov001_02180610.c:53:21: error: too many arguments to function call, expected 0, have 5
+   53 |     func_0x02023408(iVar6 + 0x18 + iVar5 * 0x20,iVar6 + 0xa8,0x20,0x18,4);
+      |     ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02180610_func_ov001_02180610.h:25:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+   25 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+6 errors generated.

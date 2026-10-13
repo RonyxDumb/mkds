@@ -1,0 +1,13 @@
+C-WORK/src/arm9/02036778_EnableVblankIRQ.c:14:16: error: too many arguments to function call, expected 0, have 2
+   14 |   Os_EnableIrq(1,uVar1);
+      |   ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/02036778_EnableVblankIRQ.h:5:10: note: 'Os_EnableIrq' declared here
+    5 | longlong Os_EnableIrq(void);
+      |          ^
+C-WORK/src/arm9/02036778_EnableVblankIRQ.c:15:18: error: too few arguments to function call, expected 2, have 1
+   15 |   GX_VBlankIntr(1);
+      |   ~~~~~~~~~~~~~  ^
+C-WORK/src/arm9/deps/02036778_EnableVblankIRQ.h:4:8: note: 'GX_VBlankIntr' declared here
+    4 | ushort GX_VBlankIntr(int param_1,ushort param_2);
+      |        ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

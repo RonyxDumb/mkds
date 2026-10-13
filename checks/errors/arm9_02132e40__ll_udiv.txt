@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02132e40__ll_udiv.c:31:11: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   31 |     uVar3 = FUN_0213327c(param_1,param_3);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

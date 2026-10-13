@@ -1,0 +1,13 @@
+/* Decompiled C draft; module arm9_ov003; ROM address 021d2b20. No matching claim. */
+#include "types.h"
+#include "deps/021d2b20_FUN_021d2b20.h"
+
+undefined4 FUN_021d2b20(uint param_1)
+
+{
+  if (param_1 == (param_1 & *(ushort *)(*DAT_021d2b38 + 0x30))) {
+    return 1;
+  }
+  return 0;
+}
+

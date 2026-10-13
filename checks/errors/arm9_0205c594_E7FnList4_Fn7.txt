@@ -1,0 +1,31 @@
+C-WORK/src/arm9/0205c594_E7FnList4_Fn7.c:13:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |           *(uint *)(uRam0205c608 & 0xfffffffc) << (uRam0205c608 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205c594_E7FnList4_Fn7.c:13:75: note: place parentheses around the '+' expression to silence this warning
+   13 |           *(uint *)(uRam0205c608 & 0xfffffffc) << (uRam0205c608 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0205c594_E7FnList4_Fn7.c:16:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |           *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205c594_E7FnList4_Fn7.c:16:61: note: place parentheses around the '+' expression to silence this warning
+   16 |           *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/0205c594_E7FnList4_Fn7.c:20:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |             *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205c594_E7FnList4_Fn7.c:20:63: note: place parentheses around the '+' expression to silence this warning
+   20 |             *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                                               ^     
+      |                                              (                      )
+C-WORK/src/arm9/0205c594_E7FnList4_Fn7.c:25:48: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   25 |   func_0205c800(*(undefined2 *)(uVar1 + 0x734),uRam0205c60c);
+      |                                                ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0205c594_E7FnList4_Fn7.h:6:22: note: expanded from macro 'uRam0205c60c'
+    6 | #define uRam0205c60c (*(undefined4 *)(uintptr_t)0x205c60cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0205c594_E7FnList4_Fn7.h:4:40: note: passing argument to parameter 'param_2' here
+    4 | void func_0205c800(short param_1,code *param_2);
+      |                                        ^
+3 warnings and 1 error generated.

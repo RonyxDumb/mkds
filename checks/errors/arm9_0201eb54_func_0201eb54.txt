@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0201eb54_func_0201eb54.c:10:48: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   if ((-1 < param_2) && (iVar1 = func_0201eb98(), param_2 < iVar1)) {
+      |                                  ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0201eb54_func_0201eb54.h:4:12: note: 'func_0201eb98' declared here
+    4 | undefined2 func_0201eb98(int param_1);
+      |            ^             ~~~~~~~~~~~
+1 error generated.

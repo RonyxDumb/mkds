@@ -1,0 +1,10 @@
+C-WORK/src/arm9/020b320c_GetMenuOptionString_from_thumb.c:37:25: error: too many arguments to function call, expected 0, have 1
+   37 |   uVar1 = func_020b47cc(uRam020b325c);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b320c_GetMenuOptionString_from_thumb.h:8:22: note: expanded from macro 'uRam020b325c'
+    8 | #define uRam020b325c (*(undefined4 *)(uintptr_t)0x20b325cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b320c_GetMenuOptionString_from_thumb.h:6:6: note: 'func_020b47cc' declared here
+    6 | void func_020b47cc(void);
+      |      ^
+1 error generated.

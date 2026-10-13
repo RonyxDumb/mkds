@@ -1,0 +1,27 @@
+C-WORK/src/arm9/020d67f0_func_020d67f0.c:18:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   18 |   uVar2 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020d67f0_func_020d67f0.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020d67f0_func_020d67f0.c:21:18: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   21 |   *puRam020d6848 = puVar3;
+      |                  ^ ~~~~~~
+      |                    *
+C-WORK/src/arm9/020d67f0_func_020d67f0.c:42:17: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   42 |   func_020d49d8(puRam020d6848);
+      |                 ^~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d67f0_func_020d67f0.h:8:23: note: expanded from macro 'puRam020d6848'
+    8 | #define puRam020d6848 (*(undefined4 **)(uintptr_t)0x20d6848u)
+      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d67f0_func_020d67f0.h:6:25: note: passing argument to parameter 'param_1' here
+    6 | void func_020d49d8(int *param_1);
+      |                         ^
+C-WORK/src/arm9/020d67f0_func_020d67f0.c:44:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   44 |          *(uint *)((uint)puRam020d6848 & 0xfffffffc) << ((uint)puRam020d6848 & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d67f0_func_020d67f0.c:44:88: note: place parentheses around the '+' expression to silence this warning
+   44 |          *(uint *)((uint)puRam020d6848 & 0xfffffffc) << ((uint)puRam020d6848 & 3) * -8 + 0x20;
+      |                                                                                        ^     
+      |                                                         (                                    )
+2 warnings and 2 errors generated.

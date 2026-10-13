@@ -1,0 +1,18 @@
+C-WORK/src/arm9/020079c4_func_020079c4.c:38:92: error: too few arguments to function call, expected 3, have 2
+   38 |               Mem_CpuFill8(*DAT_02007cb4 + DAT_02007cc0 + ((ushort)param_2[8] - 1) * 0x16,0);
+      |               ~~~~~~~~~~~~                                                                 ^
+C-WORK/src/arm9/deps/020079c4_func_020079c4.h:4:6: note: 'Mem_CpuFill8' declared here
+    4 | void Mem_CpuFill8(uint *param_1,uint param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020079c4_func_020079c4.c:94:65: error: too few arguments to function call, expected 4, have 3
+   93 |             func_0200973c(iVar13 + DAT_02007cec + iVar5,iVar13 + DAT_02007cc0,
+      |             ~~~~~~~~~~~~~
+   94 |                           *(undefined2 *)(iVar10 + DAT_02007cd0));
+      |                                                                 ^
+C-WORK/src/arm9/deps/020079c4_func_020079c4.h:11:6: note: 'func_0200973c' declared here
+   11 | void func_0200973c(int param_1,undefined4 param_2,uint param_3,undefined2 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020079c4_func_020079c4.c:144:17: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  144 |       (*pcVar12)(0,0xc,0);
+      |                 ^
+1 warning and 2 errors generated.

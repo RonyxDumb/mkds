@@ -1,0 +1,7 @@
+C-WORK/src/arm7/037fa834_FUN_037fa834.c:12:18: error: too few arguments to function call, single argument 'param_1' was not specified
+   12 |     FUN_037fa25c();
+      |     ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/037fa834_FUN_037fa834.h:4:6: note: 'FUN_037fa25c' declared here
+    4 | void FUN_037fa25c(uint param_1);
+      |      ^            ~~~~~~~~~~~~
+1 error generated.

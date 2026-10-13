@@ -1,0 +1,107 @@
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:27:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |             *(uint *)(uRam020727c8 & 0xfffffffc) << (uRam020727c8 & 3) * -8 + 0x20) + 0x10;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:27:77: note: place parentheses around the '+' expression to silence this warning
+   27 |             *(uint *)(uRam020727c8 & 0xfffffffc) << (uRam020727c8 & 3) * -8 + 0x20) + 0x10;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:30:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |     uVar5 = uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:30:54: note: place parentheses around the '+' expression to silence this warning
+   30 |     uVar5 = uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:45:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   45 |   uVar9 = uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:45:52: note: place parentheses around the '+' expression to silence this warning
+   45 |   uVar9 = uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:49:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   49 |   lVar2 = (longlong)(int)(uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) * (longlong)iVar11;
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:49:68: note: place parentheses around the '+' expression to silence this warning
+   49 |   lVar2 = (longlong)(int)(uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) * (longlong)iVar11;
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:53:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   53 |   uVar5 = uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:53:52: note: place parentheses around the '+' expression to silence this warning
+   53 |   uVar5 = uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:57:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   57 |   uVar5 = (uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) + 0x78;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:57:53: note: place parentheses around the '+' expression to silence this warning
+   57 |   uVar5 = (uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) + 0x78;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:60:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   60 |   *(uint *)(param_1 + 0x3f4) = 0x1000 - (uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20);
+      |                                                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:60:83: note: place parentheses around the '+' expression to silence this warning
+   60 |   *(uint *)(param_1 + 0x3f4) = 0x1000 - (uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20);
+      |                                                                                   ^     
+      |                                                                        (                )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:63:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   63 |   uVar6 = uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:63:52: note: place parentheses around the '+' expression to silence this warning
+   63 |   uVar6 = uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:68:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   68 |   uVar3 = FX_Div(uVar9 >> uVar5 * 8 | uVar9 << uVar5 * -8 + 0x20,
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:68:59: note: place parentheses around the '+' expression to silence this warning
+   68 |   uVar3 = FX_Div(uVar9 >> uVar5 * 8 | uVar9 << uVar5 * -8 + 0x20,
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:69:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   69 |                  (uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20) << 1);
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:69:60: note: place parentheses around the '+' expression to silence this warning
+   69 |                  (uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20) << 1);
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:68:18: error: too many arguments to function call, expected 0, have 2
+   68 |   uVar3 = FX_Div(uVar9 >> uVar5 * 8 | uVar9 << uVar5 * -8 + 0x20,
+      |           ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   69 |                  (uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20) << 1);
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.h:4:6: note: 'FX_Div' declared here
+    4 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:77:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   77 |   uVar8 = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:77:52: note: place parentheses around the '+' expression to silence this warning
+   77 |   uVar8 = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:80:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   80 |     iVar4 = (uVar9 >> uVar5 * 8 | uVar9 << uVar5 * -8 + 0x20) + iVar11 * 4;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:80:55: note: place parentheses around the '+' expression to silence this warning
+   80 |     iVar4 = (uVar9 >> uVar5 * 8 | uVar9 << uVar5 * -8 + 0x20) + iVar11 * 4;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:84:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   84 |     uVar6 = uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:84:54: note: place parentheses around the '+' expression to silence this warning
+   84 |     uVar6 = uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:89:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   89 |               (longlong)(int)(uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20) + 0x800;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020726bc_DriverContext_PrepareCharacterKartPhysicalParams.c:89:72: note: place parentheses around the '+' expression to silence this warning
+   89 |               (longlong)(int)(uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20) + 0x800;
+      |                                                                        ^     
+      |                                                             (                )
+14 warnings and 1 error generated.

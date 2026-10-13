@@ -1,0 +1,28 @@
+C-WORK/src/arm9/020a9e04_func_020a9e04.c:20:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   20 |   uVar2 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a9e04_func_020a9e04.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020a9e04_func_020a9e04.c:25:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |   StructMQRacerEntry_SomeFn_45(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,10,param_1 + 4);
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a9e04_func_020a9e04.c:25:73: note: place parentheses around the '+' expression to silence this warning
+   25 |   StructMQRacerEntry_SomeFn_45(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,10,param_1 + 4);
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/020a9e04_func_020a9e04.c:28:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |   *(uint *)(param_1 + 0x70) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a9e04_func_020a9e04.c:28:72: note: place parentheses around the '+' expression to silence this warning
+   28 |   *(uint *)(param_1 + 0x70) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/020a9e04_func_020a9e04.c:31:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |   uVar2 = func_020d2178((int)*(short *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0x34));
+      |                                                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a9e04_func_020a9e04.c:31:83: note: place parentheses around the '+' expression to silence this warning
+   31 |   uVar2 = func_020d2178((int)*(short *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0x34));
+      |                                                                                   ^     
+      |                                                                        (                )
+3 warnings and 1 error generated.

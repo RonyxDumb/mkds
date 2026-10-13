@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021d2894_FUN_021d2894.c:8:19: error: too many arguments to function call, expected 0, have 1
+    8 |   func_0x0201797c(*DAT_021d28ac);
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021d2894_FUN_021d2894.h:7:6: note: 'Mem_Exp_Finalize' declared here
+    7 | void Mem_Exp_Finalize(void);
+      |      ^
+1 error generated.

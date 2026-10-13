@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov003/021caeb8_FUN_021caeb8.c:46:20: error: too few arguments to function call, single argument 'param_1' was not specified
+   46 |       FUN_021cd790();
+      |       ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov003/deps/021caeb8_FUN_021caeb8.h:12:6: note: 'FUN_021cd790' declared here
+   12 | void FUN_021cd790(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021caeb8_FUN_021caeb8.c:42:20: warning: implicit conversion from 'unsigned int' to 'undefined1' (aka 'unsigned char') changes value from 4294967295 to 255 [-Wconstant-conversion]
+   42 |       FUN_021bf310(0xffffffff);
+      |       ~~~~~~~~~~~~ ^~~~~~~~~~
+1 warning and 1 error generated.

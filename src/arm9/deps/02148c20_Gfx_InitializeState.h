@@ -1,0 +1,9 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void Gfx_InitializeState(void);
+#define puRam02148c88 (*(undefined2 **)(uintptr_t)0x2148c88u)
+#define puRam02148c8c (*(undefined4 **)(uintptr_t)0x2148c8cu)
+#define puRam02148c90 (*(undefined1 **)(uintptr_t)0x2148c90u)
+#define puRam02148c94 (*(undefined1 **)(uintptr_t)0x2148c94u)
+#define puRam02148c98 (*(undefined1 **)(uintptr_t)0x2148c98u)
+#define puRam02148c9c (*(undefined2 **)(uintptr_t)0x2148c9cu)

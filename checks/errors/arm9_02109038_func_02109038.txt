@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02109038_func_02109038.c:10:25: error: incompatible pointer types assigning to 'code *' (aka 'void (*)()') from 'undefined *' (aka 'unsigned char *') [-Werror,-Wincompatible-pointer-types]
+   10 |   UNRECOVERED_JUMPTABLE = pcRam02109050;
+      |                         ^ ~~~~~~~~~~~~~
+C-WORK/src/arm9/02109038_func_02109038.c:15:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   15 |   (*UNRECOVERED_JUMPTABLE)(param_1,param_3);
+      |                           ^
+1 warning and 1 error generated.

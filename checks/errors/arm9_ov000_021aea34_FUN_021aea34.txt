@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov000/021aea34_FUN_021aea34.c:18:39: error: too few arguments to function call, expected 2, have 0
+   18 |   puVar3 = (undefined4 *)FUN_021af090();
+      |                          ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021aea34_FUN_021aea34.h:7:7: note: 'FUN_021af090' declared here
+    7 | int * FUN_021af090(undefined4 param_1,undefined4 param_2);
+      |       ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021aea34_FUN_021aea34.c:47:71: error: too many arguments to function call, expected 2, have 5
+   47 |     FUN_021aefb4(puVar3,(ushort)*(byte *)(param_1 + 5) * 0x100 + 0x12,uVar7,uVar9,uVar6 & 1);
+      |     ~~~~~~~~~~~~                                                      ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021aea34_FUN_021aea34.h:6:6: note: 'FUN_021aefb4' declared here
+    6 | void FUN_021aefb4(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021aea34_FUN_021aea34.c:69:23: error: too many arguments to function call, expected 0, have 1
+   69 |       func_0x0200fcb4(uVar4);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021aea34_FUN_021aea34.h:19:12: note: 'Os_RestoreIrq' declared here
+   19 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021aea34_FUN_021aea34.c:103:74: error: too many arguments to function call, expected 2, have 5
+  103 |         FUN_021aefb4(puVar3,(ushort)*(byte *)(param_1 + 5) * 0x100 + 0xe,uVar7,uVar9,uVar6 & 1);
+      |         ~~~~~~~~~~~~                                                     ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021aea34_FUN_021aea34.h:6:6: note: 'FUN_021aefb4' declared here
+    6 | void FUN_021aefb4(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021aea34_FUN_021aea34.c:109:72: error: too many arguments to function call, expected 2, have 5
+  109 |       FUN_021aefb4(puVar3,(ushort)*(byte *)(param_1 + 5) * 0x100 + 0xd,uVar7,uVar9,uVar6 & 1);
+      |       ~~~~~~~~~~~~                                                     ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021aea34_FUN_021aea34.h:6:6: note: 'FUN_021aefb4' declared here
+    6 | void FUN_021aefb4(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+5 errors generated.

@@ -1,0 +1,137 @@
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:22:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   22 |   uVar3 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020d1464_LoadSomeEndingStaffRollStuff.h:6:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    6 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:31:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |             *(uint *)((uint)puVar2 & 0xfffffffc) << ((uint)puVar2 & 3) * -8 + 0x20) + 0x10;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:31:77: note: place parentheses around the '+' expression to silence this warning
+   31 |             *(uint *)((uint)puVar2 & 0xfffffffc) << ((uint)puVar2 & 3) * -8 + 0x20) + 0x10;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:36:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |          (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) & 0xfffff3ff | 0xc00;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:36:52: note: place parentheses around the '+' expression to silence this warning
+   36 |          (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) & 0xfffff3ff | 0xc00;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:42:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |    *(uint *)((uint)puVar2 & 0xfffffffc) << ((uint)puVar2 & 3) * -8 + 0x20) = 0;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:42:68: note: place parentheses around the '+' expression to silence this warning
+   42 |    *(uint *)((uint)puVar2 & 0xfffffffc) << ((uint)puVar2 & 3) * -8 + 0x20) = 0;
+      |                                                                    ^     
+      |                                            (                             )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:43:25: error: too many arguments to function call, expected 0, have 1
+   43 |   uVar3 = func_020b47c0(uVar3);
+      |           ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020d1464_LoadSomeEndingStaffRollStuff.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:46:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   45 |                   *(uint *)((uint)puRam020d1588 & 0xfffffffc) <<
+      |                                                               ~~
+   46 |                   ((uint)puRam020d1588 & 3) * -8 + 0x20) + 4),uVar3);
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:46:50: note: place parentheses around the '+' expression to silence this warning
+   46 |                   ((uint)puRam020d1588 & 3) * -8 + 0x20) + 4),uVar3);
+      |                                                  ^     
+      |                   (                                    )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:47:25: error: too many arguments to function call, expected 0, have 1
+   47 |   uVar3 = func_020b47c0(uRam020d1590);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d1464_LoadSomeEndingStaffRollStuff.h:18:22: note: expanded from macro 'uRam020d1590'
+   18 | #define uRam020d1590 (*(undefined4 *)(uintptr_t)0x20d1590u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d1464_LoadSomeEndingStaffRollStuff.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:50:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   50 |              *(uint *)((uint)puRam020d1588 & 0xfffffffc) << ((uint)puRam020d1588 & 3) * -8 + 0x20) +
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:50:92: note: place parentheses around the '+' expression to silence this warning
+   50 |              *(uint *)((uint)puRam020d1588 & 0xfffffffc) << ((uint)puRam020d1588 & 3) * -8 + 0x20) +
+      |                                                                                            ^     
+      |                                                             (                                    )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:53:25: error: too many arguments to function call, expected 0, have 1
+   53 |   uVar3 = func_020b47c0(uRam020d1594);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d1464_LoadSomeEndingStaffRollStuff.h:19:22: note: expanded from macro 'uRam020d1594'
+   19 | #define uRam020d1594 (*(undefined4 *)(uintptr_t)0x20d1594u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d1464_LoadSomeEndingStaffRollStuff.h:13:6: note: 'func_020b47c0' declared here
+   13 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:54:20: warning: passing 'undefined4[2]' (aka 'unsigned int[2]') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   54 |   LoadCellBankFrom(local_8,uVar3);
+      |                    ^~~~~~~
+C-WORK/src/arm9/deps/020d1464_LoadSomeEndingStaffRollStuff.h:10:28: note: passing argument to parameter 'param_1' here
+   10 | void LoadCellBankFrom(int *param_1,int param_2);
+      |                            ^
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:59:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   59 |     *(uint *)((uint)puRam020d1588 & 0xfffffffc) << ((uint)puRam020d1588 & 3) * -8 + 0x20) + 0xc) =
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:59:83: note: place parentheses around the '+' expression to silence this warning
+   59 |     *(uint *)((uint)puRam020d1588 & 0xfffffffc) << ((uint)puRam020d1588 & 3) * -8 + 0x20) + 0xc) =
+      |                                                                                   ^     
+      |                                                    (                                    )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:63:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   63 |   uVar4 = (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) + 4;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:63:53: note: place parentheses around the '+' expression to silence this warning
+   63 |   uVar4 = (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) + 4;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:66:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   66 |   uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:66:52: note: place parentheses around the '+' expression to silence this warning
+   66 |   uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:73:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   73 |   CopySomePaletteData(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20,0,
+      |                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:73:64: note: place parentheses around the '+' expression to silence this warning
+   73 |   CopySomePaletteData(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20,0,
+      |                                                                ^     
+      |                                                     (                )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:74:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   74 |                       uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
+      |                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:74:64: note: place parentheses around the '+' expression to silence this warning
+   74 |                       uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
+      |                                                                ^     
+      |                                                     (                )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:76:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   76 |           *(uint *)((uint)puRam020d1588 & 0xfffffffc) << ((uint)puRam020d1588 & 3) * -8 + 0x20) + 8;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:76:89: note: place parentheses around the '+' expression to silence this warning
+   76 |           *(uint *)((uint)puRam020d1588 & 0xfffffffc) << ((uint)puRam020d1588 & 3) * -8 + 0x20) + 8;
+      |                                                                                         ^     
+      |                                                          (                                    )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:79:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   79 |   uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:79:52: note: place parentheses around the '+' expression to silence this warning
+   79 |   uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:86:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   86 |   CopyTileDataTop_0(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20,0,
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:86:62: note: place parentheses around the '+' expression to silence this warning
+   86 |   CopyTileDataTop_0(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20,0,
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:87:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   87 |                     uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1464_LoadSomeEndingStaffRollStuff.c:87:62: note: place parentheses around the '+' expression to silence this warning
+   87 |                     uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
+      |                                                              ^     
+      |                                                   (                )
+15 warnings and 4 errors generated.

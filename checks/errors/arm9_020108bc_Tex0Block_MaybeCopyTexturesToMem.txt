@@ -1,0 +1,44 @@
+C-WORK/src/arm9/020108bc_Tex0Block_MaybeCopyTexturesToMem.c:24:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |     func_0214c544(param_1 + (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20),
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020108bc_Tex0Block_MaybeCopyTexturesToMem.c:24:71: note: place parentheses around the '+' expression to silence this warning
+   24 |     func_0214c544(param_1 + (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20),
+      |                                                                       ^     
+      |                                                            (                )
+C-WORK/src/arm9/020108bc_Tex0Block_MaybeCopyTexturesToMem.c:25:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |                   ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & uRam02010990) << 3);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020108bc_Tex0Block_MaybeCopyTexturesToMem.c:25:62: note: place parentheses around the '+' expression to silence this warning
+   25 |                   ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & uRam02010990) << 3);
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/020108bc_Tex0Block_MaybeCopyTexturesToMem.c:25:90: error: too few arguments to function call, expected 3, have 2
+   24 |     func_0214c544(param_1 + (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20),
+      |     ~~~~~~~~~~~~~
+   25 |                   ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & uRam02010990) << 3);
+      |                                                                                          ^
+C-WORK/src/arm9/deps/020108bc_Tex0Block_MaybeCopyTexturesToMem.h:5:6: note: 'func_0214c544' declared here
+    5 | void func_0214c544(int param_1,uint param_2,int param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020108bc_Tex0Block_MaybeCopyTexturesToMem.c:34:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |     uVar6 = (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) & uRam02010990;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020108bc_Tex0Block_MaybeCopyTexturesToMem.c:34:55: note: place parentheses around the '+' expression to silence this warning
+   34 |     uVar6 = (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) & uRam02010990;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020108bc_Tex0Block_MaybeCopyTexturesToMem.c:38:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |     func_0214c544(param_1 + (uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20),uVar2,uVar1);
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020108bc_Tex0Block_MaybeCopyTexturesToMem.c:38:71: note: place parentheses around the '+' expression to silence this warning
+   38 |     func_0214c544(param_1 + (uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20),uVar2,uVar1);
+      |                                                                       ^     
+      |                                                            (                )
+C-WORK/src/arm9/020108bc_Tex0Block_MaybeCopyTexturesToMem.c:39:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |     func_0214c544(param_1 + (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20),
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020108bc_Tex0Block_MaybeCopyTexturesToMem.c:39:71: note: place parentheses around the '+' expression to silence this warning
+   39 |     func_0214c544(param_1 + (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20),
+      |                                                                       ^     
+      |                                                            (                )
+5 warnings and 1 error generated.

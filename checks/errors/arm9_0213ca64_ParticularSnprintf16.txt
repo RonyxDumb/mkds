@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0213ca64_ParticularSnprintf16.c:12:33: error: too many arguments to function call, expected 2, have 4
+   12 |   func_0213c9f8(param_1,param_2,param_3,&uStack_4);
+      |   ~~~~~~~~~~~~~                 ^~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0213ca64_ParticularSnprintf16.h:4:6: note: 'func_0213c9f8' declared here
+    4 | uint func_0213c9f8(int param_1,uint param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

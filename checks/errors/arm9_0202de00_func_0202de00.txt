@@ -1,0 +1,25 @@
+C-WORK/src/arm9/0202de00_func_0202de00.c:16:17: error: too many arguments to function call, expected 0, have 6
+   16 |   func_0212426c(0,(int)*param_2,*(undefined4 *)(param_1 + 0x14),uVar1,*(undefined4 *)(param_1 + 0xc)
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   17 |                 ,*(undefined4 *)(param_1 + 0x18));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202de00_func_0202de00.h:10:6: note: 'func_0212426c' declared here
+   10 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0202de00_func_0202de00.c:19:17: error: too many arguments to function call, expected 0, have 7
+   19 |   func_02124224(0,(int)param_2[4],*(undefined4 *)(param_1 + 0x14),auStack_44,
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   20 |                 *(undefined4 *)(param_1 + 0xc),*(undefined4 *)(param_1 + 0x18),7);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202de00_func_0202de00.h:9:6: note: 'func_02124224' declared here
+    9 | void func_02124224(void);
+      |      ^
+C-WORK/src/arm9/0202de00_func_0202de00.c:23:17: error: too many arguments to function call, expected 0, have 6
+   23 |   func_0212426c(0,(int)param_2[8],*(undefined4 *)(param_1 + 0x14),auStack_30,
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   24 |                 *(undefined4 *)(param_1 + 0xc),*(undefined4 *)(param_1 + 0x18));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202de00_func_0202de00.h:10:6: note: 'func_0212426c' declared here
+   10 | void func_0212426c(void);
+      |      ^
+3 errors generated.

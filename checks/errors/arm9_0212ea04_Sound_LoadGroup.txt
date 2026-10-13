@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0212ea04_Sound_LoadGroup.c:10:31: error: too few arguments to function call, expected 2, have 0
+   10 |   iVar1 = Sound_LoadGroupImpl();
+      |           ~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212ea04_Sound_LoadGroup.h:4:5: note: 'Sound_LoadGroupImpl' declared here
+    4 | int Sound_LoadGroupImpl(undefined4 param_1,undefined4 param_2);
+      |     ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

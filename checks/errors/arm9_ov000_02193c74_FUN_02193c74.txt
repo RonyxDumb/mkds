@@ -1,0 +1,41 @@
+In file included from C-WORK/src/arm9_ov000/02193c74_FUN_02193c74.c:3:
+C-WORK/src/arm9_ov000/deps/02193c74_FUN_02193c74.h:23:1: error: unknown type name 'size_t'
+   23 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/02193c74_FUN_02193c74.c:30:9: error: assigning to 'int' from incompatible type 'void'
+   30 |   iVar2 = FUN_02190b80(param_1,(undefined4)(uintptr_t)(&local_2c),DAT_02193d54);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193c74_FUN_02193c74.c:31:65: error: too many arguments to function call, expected 2, have 3
+   31 |   if ((((iVar2 == 0) && (iVar2 = FUN_02190b58(param_1,&local_2c,param_3), iVar2 == 0)) &&
+      |                                  ~~~~~~~~~~~~                   ^~~~~~~
+C-WORK/src/arm9_ov000/deps/02193c74_FUN_02193c74.h:5:6: note: 'FUN_02190b58' declared here
+    5 | void FUN_02190b58(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193c74_FUN_02193c74.c:32:14: error: assigning to 'int' from incompatible type 'void'
+   32 |       (iVar2 = FUN_02190b80(param_1,(undefined4)(uintptr_t)(&local_2c),DAT_02193d58), iVar2 == 0)) &&
+      |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193c74_FUN_02193c74.c:33:47: error: too many arguments to function call, expected 2, have 3
+   33 |      ((iVar2 = FUN_02190b58(param_1,&local_2c,uVar1), iVar2 == 0 &&
+      |                ~~~~~~~~~~~~                   ^~~~~
+C-WORK/src/arm9_ov000/deps/02193c74_FUN_02193c74.h:5:6: note: 'FUN_02190b58' declared here
+    5 | void FUN_02190b58(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193c74_FUN_02193c74.c:34:14: error: assigning to 'int' from incompatible type 'void'
+   34 |       (iVar2 = FUN_02190b80(param_1,(undefined4)(uintptr_t)(&local_2c),DAT_02193d5c), iVar2 == 0)))) {
+      |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193c74_FUN_02193c74.c:36:34: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   36 |     iVar2 = FUN_02190ba0(param_1,&local_2c,param_4,uVar1);
+      |                                  ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02193c74_FUN_02193c74.h:7:49: note: passing argument to parameter 'param_2' here
+    7 | undefined4 FUN_02190ba0(undefined4 param_1,int *param_2,int param_3,int param_4);
+      |                                                 ^
+C-WORK/src/arm9_ov000/02193c74_FUN_02193c74.c:37:55: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   37 |     if ((iVar2 == 0) && (iVar2 = FUN_02190c64(param_1,&local_2c,0), iVar2 == 0)) {
+      |                                                       ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02193c74_FUN_02193c74.h:8:49: note: passing argument to parameter 'param_2' here
+    8 | undefined4 FUN_02190c64(undefined4 param_1,int *param_2,undefined1 param_3);
+      |                                                 ^
+C-WORK/src/arm9_ov000/02193c74_FUN_02193c74.c:39:13: error: assigning to 'int' from incompatible type 'void'
+   39 |       iVar2 = FUN_0218e320(0);
+      |             ^ ~~~~~~~~~~~~~~~
+2 warnings and 7 errors generated.

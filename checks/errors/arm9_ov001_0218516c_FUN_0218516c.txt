@@ -1,0 +1,37 @@
+C-WORK/src/arm9_ov001/0218516c_FUN_0218516c.c:32:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   32 |          (iVar2 = (**(code **)(iVar6 + 0x84))(iVar6), iVar2 != 0)) {
+      |                                              ^
+C-WORK/src/arm9_ov001/0218516c_FUN_0218516c.c:32:17: error: assigning to 'int' from incompatible type 'void'
+   32 |          (iVar2 = (**(code **)(iVar6 + 0x84))(iVar6), iVar2 != 0)) {
+      |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0218516c_FUN_0218516c.c:48:19: error: assigning to 'int' from incompatible type 'void'
+   48 |             iVar3 = func_0x020ae5c4(param_2);
+      |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0218516c_FUN_0218516c.c:53:40: error: too many arguments to function call, expected 0, have 2
+   53 |             local_24 = func_0x02147f34(DAT_021852f0,*(undefined4 *)(iVar6 + 0x18));
+      |                        ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0218516c_FUN_0218516c.h:5:22: note: expanded from macro 'DAT_021852f0'
+    5 | #define DAT_021852f0 (*(int *)(uintptr_t)0x21852f0u)
+      |                      ^
+C-WORK/src/arm9_ov001/deps/0218516c_FUN_0218516c.h:13:6: note: 'FX_Div' declared here
+   13 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9_ov001/0218516c_FUN_0218516c.c:54:37: error: too many arguments to function call, expected 0, have 2
+   54 |             iVar4 = func_0x02147f34(DAT_021852f0,*(undefined4 *)(iVar6 + 0x18));
+      |                     ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0218516c_FUN_0218516c.h:5:22: note: expanded from macro 'DAT_021852f0'
+    5 | #define DAT_021852f0 (*(int *)(uintptr_t)0x21852f0u)
+      |                      ^
+C-WORK/src/arm9_ov001/deps/0218516c_FUN_0218516c.h:13:6: note: 'FX_Div' declared here
+   13 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9_ov001/0218516c_FUN_0218516c.c:73:38: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   73 |         func_0x020228c0(iVar6 + 0x2c,DAT_021852f0);
+      |         ~~~~~~~~~~~~~~~              ^~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0218516c_FUN_0218516c.h:5:22: note: expanded from macro 'DAT_021852f0'
+    5 | #define DAT_021852f0 (*(int *)(uintptr_t)0x21852f0u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0218516c_FUN_0218516c.h:17:6: note: 'func_020228c0' declared here
+   17 | void func_020228c0(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+1 warning and 5 errors generated.

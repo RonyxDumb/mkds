@@ -1,0 +1,15 @@
+/* Decompiled C draft; module arm9; ROM address 020a3690. No matching claim. */
+#include "types.h"
+#include "deps/020a3690_func_020a3690.h"
+
+uint func_020a3690(int param_1)
+
+{
+  uint uVar1;
+  uint uVar2;
+  
+  uVar1 = param_1 + 0x78U & 3;
+  uVar2 = *(uint *)(param_1 + 0x78U & 0xfffffffc);
+  return (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0x3fffffe0;
+}
+

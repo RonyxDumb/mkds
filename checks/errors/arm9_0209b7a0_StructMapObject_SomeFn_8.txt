@@ -1,0 +1,83 @@
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:16:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:16:52: note: place parentheses around the '+' expression to silence this warning
+   16 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:25:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |                            *(uint *)(uRam0209b8a8 & 0xfffffffc) << (uRam0209b8a8 & 3) * -8 + 0x20) +
+      |                                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:25:92: note: place parentheses around the '+' expression to silence this warning
+   25 |                            *(uint *)(uRam0209b8a8 & 0xfffffffc) << (uRam0209b8a8 & 3) * -8 + 0x20) +
+      |                                                                                            ^     
+      |                                                                    (                             )
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:29:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |       *(uint *)(uVar2 + 0x14) = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20 | 0x80;
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:29:74: note: place parentheses around the '+' expression to silence this warning
+   29 |       *(uint *)(uVar2 + 0x14) = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20 | 0x80;
+      |                                                                          ^
+      |                                                               (                )
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:32:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |       uVar4 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:32:56: note: place parentheses around the '+' expression to silence this warning
+   32 |       uVar4 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:36:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |       *(uint *)(uVar4 + 0x14) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0xffffffbf;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:36:75: note: place parentheses around the '+' expression to silence this warning
+   36 |       *(uint *)(uVar4 + 0x14) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0xffffffbf;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:41:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |       *(uint *)(uVar2 + 0x14) = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) & 0xffffff7f;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:41:75: note: place parentheses around the '+' expression to silence this warning
+   41 |       *(uint *)(uVar2 + 0x14) = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) & 0xffffff7f;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:44:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   44 |       uVar4 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:44:56: note: place parentheses around the '+' expression to silence this warning
+   44 |       uVar4 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:48:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   48 |       *(uint *)(uVar4 + 0x14) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20 | 0x40;
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:48:74: note: place parentheses around the '+' expression to silence this warning
+   48 |       *(uint *)(uVar4 + 0x14) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20 | 0x40;
+      |                                                                          ^
+      |                                                               (                )
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:53:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   53 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:53:52: note: place parentheses around the '+' expression to silence this warning
+   53 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:62:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   62 |                            *(uint *)(uRam0209b8a8 & 0xfffffffc) << (uRam0209b8a8 & 3) * -8 + 0x20) +
+      |                                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:62:92: note: place parentheses around the '+' expression to silence this warning
+   62 |                            *(uint *)(uRam0209b8a8 & 0xfffffffc) << (uRam0209b8a8 & 3) * -8 + 0x20) +
+      |                                                                                            ^     
+      |                                                                    (                             )
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:64:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   64 |       Model_SetCullMode(uVar2,2);
+      |       ~~~~~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/0209b7a0_StructMapObject_SomeFn_8.h:3:6: note: 'Model_SetCullMode' declared here
+    3 | void Model_SetCullMode(int param_1);
+      |      ^                 ~~~~~~~~~~~
+C-WORK/src/arm9/0209b7a0_StructMapObject_SomeFn_8.c:67:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   67 |       Model_SetCullMode(uVar2,1);
+      |       ~~~~~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/0209b7a0_StructMapObject_SomeFn_8.h:3:6: note: 'Model_SetCullMode' declared here
+    3 | void Model_SetCullMode(int param_1);
+      |      ^                 ~~~~~~~~~~~
+10 warnings and 2 errors generated.

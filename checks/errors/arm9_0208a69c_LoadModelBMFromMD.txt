@@ -1,0 +1,134 @@
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:24:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |   param_2[2] = uVar3 >> uVar9 * 8 | uVar3 << uVar9 * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:24:57: note: place parentheses around the '+' expression to silence this warning
+   24 |   param_2[2] = uVar3 >> uVar9 * 8 | uVar3 << uVar9 * -8 + 0x20;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:28:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |   param_2[1] = uVar3 >> uVar9 * 8 | uVar3 << uVar9 * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:28:57: note: place parentheses around the '+' expression to silence this warning
+   28 |   param_2[1] = uVar3 >> uVar9 * 8 | uVar3 << uVar9 * -8 + 0x20;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:56:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   56 |       _snprintf(acStack_a8,0x80,pcRam0208aa20,uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:56:88: note: place parentheses around the '+' expression to silence this warning
+   56 |       _snprintf(acStack_a8,0x80,pcRam0208aa20,uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                                                        ^     
+      |                                                                             (                )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:60:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   60 |                  (uVar4 >> ((uint)param_2 & 3) * 8 | uVar4 << ((uint)param_2 & 3) * -8 + 0x20),uVar2
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:60:88: note: place parentheses around the '+' expression to silence this warning
+   60 |                  (uVar4 >> ((uint)param_2 & 3) * 8 | uVar4 << ((uint)param_2 & 3) * -8 + 0x20),uVar2
+      |                                                                                        ^     
+      |                                                               (                              )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:73:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   73 |       iVar8 = uVar9 * 0x38 + (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:73:72: note: place parentheses around the '+' expression to silence this warning
+   73 |       iVar8 = uVar9 * 0x38 + (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:74:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   74 |       _snprintf(acStack_a8,0x80,pcRam0208aa24,uVar7 >> uVar3 * 8 | uVar7 << uVar3 * -8 + 0x20);
+      |                                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:74:88: note: place parentheses around the '+' expression to silence this warning
+   74 |       _snprintf(acStack_a8,0x80,pcRam0208aa24,uVar7 >> uVar3 * 8 | uVar7 << uVar3 * -8 + 0x20);
+      |                                                                                        ^     
+      |                                                                             (                )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:78:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   78 |                          uVar6 << ((uint)param_2 & 3) * -8 + 0x20),1);
+      |                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:78:60: note: place parentheses around the '+' expression to silence this warning
+   78 |                          uVar6 << ((uint)param_2 & 3) * -8 + 0x20),1);
+      |                                                            ^     
+      |                                   (                              )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:78:69: error: too few arguments to function call, expected 5, have 4
+   75 |       Animation_CreateFrom
+      |       ~~~~~~~~~~~~~~~~~~~~
+   76 |                 (0,iVar8,uVar9 * 0x6c +
+   77 |                          (uVar6 >> ((uint)param_2 & 3) * 8 |
+   78 |                          uVar6 << ((uint)param_2 & 3) * -8 + 0x20),1);
+      |                                                                     ^
+C-WORK/src/arm9/deps/0208a69c_LoadModelBMFromMD.h:3:6: note: 'Animation_CreateFrom' declared here
+    3 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:91:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   91 |       iVar8 = uVar9 * 0x38 + (uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:91:72: note: place parentheses around the '+' expression to silence this warning
+   91 |       iVar8 = uVar9 * 0x38 + (uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:94:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   94 |       _snprintf(acStack_a8,0x80,pcRam0208aa28,uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:94:88: note: place parentheses around the '+' expression to silence this warning
+   94 |       _snprintf(acStack_a8,0x80,pcRam0208aa28,uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                                                        ^     
+      |                                                                             (                )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:98:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   98 |                          uVar4 << ((uint)param_2 & 3) * -8 + 0x20),1);
+      |                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:98:60: note: place parentheses around the '+' expression to silence this warning
+   98 |                          uVar4 << ((uint)param_2 & 3) * -8 + 0x20),1);
+      |                                                            ^     
+      |                                   (                              )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:98:69: error: too few arguments to function call, expected 5, have 4
+   95 |       Animation_CreateFrom
+      |       ~~~~~~~~~~~~~~~~~~~~
+   96 |                 (4,iVar8,uVar9 * 0x6c +
+   97 |                          (uVar4 >> ((uint)param_2 & 3) * 8 |
+   98 |                          uVar4 << ((uint)param_2 & 3) * -8 + 0x20),1);
+      |                                                                     ^
+C-WORK/src/arm9/deps/0208a69c_LoadModelBMFromMD.h:3:6: note: 'Animation_CreateFrom' declared here
+    3 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:110:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  110 |   uVar3 = uVar3 >> uVar9 * 8 | uVar3 << uVar9 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:110:52: note: place parentheses around the '+' expression to silence this warning
+  110 |   uVar3 = uVar3 >> uVar9 * 8 | uVar3 << uVar9 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:113:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  113 |                      *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20,
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:113:88: note: place parentheses around the '+' expression to silence this warning
+  113 |                      *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20,
+      |                                                                                        ^     
+      |                                                               (                              )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:114:24: error: too few arguments to function call, expected 5, have 4
+  111 |   Animation_CreateFrom
+      |   ~~~~~~~~~~~~~~~~~~~~
+  112 |             (2,uVar3,*(uint *)((uint)param_2 & 0xfffffffc) >> ((uint)param_2 & 3) * 8 |
+  113 |                      *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20,
+  114 |              param_3[3]);
+      |                        ^
+C-WORK/src/arm9/deps/0208a69c_LoadModelBMFromMD.h:3:6: note: 'Animation_CreateFrom' declared here
+    3 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:120:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  120 |       _snprintf(acStack_a8,0x80,pcRam0208aa2c,uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20);
+      |                                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:120:88: note: place parentheses around the '+' expression to silence this warning
+  120 |       _snprintf(acStack_a8,0x80,pcRam0208aa2c,uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20);
+      |                                                                                        ^     
+      |                                                                             (                )
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:122:35: error: too few arguments to function call, single argument 'param_1' was not specified
+  122 |       uVar2 = MaybeLoadBTP0Format();
+      |               ~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0208a69c_LoadModelBMFromMD.h:9:6: note: 'MaybeLoadBTP0Format' declared here
+    9 | void MaybeLoadBTP0Format(undefined4 param_1);
+      |      ^                   ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208a69c_LoadModelBMFromMD.c:124:45: error: too few arguments to function call, expected 5, have 4
+  124 |       Animation_Register(uVar3,uVar9,uVar2,0);
+      |       ~~~~~~~~~~~~~~~~~~                    ^
+C-WORK/src/arm9/deps/0208a69c_LoadModelBMFromMD.h:4:6: note: 'Animation_Register' declared here
+    4 | void Animation_Register(int param_1,int param_2,undefined4 param_3,undefined4 param_4,int param_5);
+      |      ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+13 warnings and 5 errors generated.

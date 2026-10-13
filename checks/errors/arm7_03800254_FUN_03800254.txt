@@ -1,0 +1,58 @@
+C-WORK/src/arm7/03800254_FUN_03800254.c:14:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |           *(uint *)(DAT_0380033c & 0xfffffffc) << (DAT_0380033c & 3) * -8 + 0x20) + 4;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/03800254_FUN_03800254.c:14:75: note: place parentheses around the '+' expression to silence this warning
+   14 |           *(uint *)(DAT_0380033c & 0xfffffffc) << (DAT_0380033c & 3) * -8 + 0x20) + 4;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm7/03800254_FUN_03800254.c:17:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   if (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == DAT_03800340) &&
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/03800254_FUN_03800254.c:17:50: note: place parentheses around the '+' expression to silence this warning
+   17 |   if (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == DAT_03800340) &&
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm7/03800254_FUN_03800254.c:19:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |       *(uint *)((uint)DAT_03800344 & 0xfffffffc) << ((uint)DAT_03800344 & 3) * -8 + 0x20 == 0)) {
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/03800254_FUN_03800254.c:19:83: note: place parentheses around the '+' expression to silence this warning
+   19 |       *(uint *)((uint)DAT_03800344 & 0xfffffffc) << ((uint)DAT_03800344 & 3) * -8 + 0x20 == 0)) {
+      |                                                                                   ^
+      |                                                     (                                   )
+C-WORK/src/arm7/03800254_FUN_03800254.c:22:49: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   22 |     FUN_03800538((int)(uintptr_t)(&local_8),0,1,DAT_03800348);
+      |                                                 ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/03800254_FUN_03800254.h:11:22: note: expanded from macro 'DAT_03800348'
+   11 | #define DAT_03800348 (*(undefined4 *)(uintptr_t)0x3800348u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/03800254_FUN_03800254.h:5:61: note: passing argument to parameter 'param_4' here
+    5 | void FUN_03800538(int param_1,int param_2,int param_3,code *param_4);
+      |                                                             ^
+C-WORK/src/arm7/03800254_FUN_03800254.c:23:48: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   23 |     FUN_03800538(0,(int)(uintptr_t)(local_7),1,DAT_0380034c);
+      |                                                ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/03800254_FUN_03800254.h:12:22: note: expanded from macro 'DAT_0380034c'
+   12 | #define DAT_0380034c (*(undefined4 *)(uintptr_t)0x380034cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/03800254_FUN_03800254.h:5:61: note: passing argument to parameter 'param_4' here
+    5 | void FUN_03800538(int param_1,int param_2,int param_3,code *param_4);
+      |                                                             ^
+C-WORK/src/arm7/03800254_FUN_03800254.c:30:51: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   30 |       FUN_03800538((int)(uintptr_t)(&local_8),0,1,DAT_03800348);
+      |                                                   ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/03800254_FUN_03800254.h:11:22: note: expanded from macro 'DAT_03800348'
+   11 | #define DAT_03800348 (*(undefined4 *)(uintptr_t)0x3800348u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/03800254_FUN_03800254.h:5:61: note: passing argument to parameter 'param_4' here
+    5 | void FUN_03800538(int param_1,int param_2,int param_3,code *param_4);
+      |                                                             ^
+C-WORK/src/arm7/03800254_FUN_03800254.c:31:50: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   31 |       FUN_03800538((int)(uintptr_t)(local_7),0,1,DAT_03800348);
+      |                                                  ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/03800254_FUN_03800254.h:11:22: note: expanded from macro 'DAT_03800348'
+   11 | #define DAT_03800348 (*(undefined4 *)(uintptr_t)0x3800348u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/03800254_FUN_03800254.h:5:61: note: passing argument to parameter 'param_4' here
+    5 | void FUN_03800538(int param_1,int param_2,int param_3,code *param_4);
+      |                                                             ^
+3 warnings and 4 errors generated.

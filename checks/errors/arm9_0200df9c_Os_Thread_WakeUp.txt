@@ -1,0 +1,35 @@
+C-WORK/src/arm9/0200df9c_Os_Thread_WakeUp.c:15:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   iVar3 = *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200df9c_Os_Thread_WakeUp.c:15:77: note: place parentheses around the '+' expression to silence this warning
+   15 |   iVar3 = *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
+      |                                                                             ^     
+      |                                                    (                              )
+C-WORK/src/arm9/0200df9c_Os_Thread_WakeUp.c:25:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |         *(uint *)(iVar3 + 0x7c) = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200df9c_Os_Thread_WakeUp.c:25:76: note: place parentheses around the '+' expression to silence this warning
+   25 |         *(uint *)(iVar3 + 0x7c) = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                                                            ^     
+      |                                                                 (                )
+C-WORK/src/arm9/0200df9c_Os_Thread_WakeUp.c:27:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |                *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20 != 0);
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200df9c_Os_Thread_WakeUp.c:27:82: note: place parentheses around the '+' expression to silence this warning
+   27 |                *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20 != 0);
+      |                                                                                  ^
+      |                                                         (                              )
+C-WORK/src/arm9/0200df9c_Os_Thread_WakeUp.c:32:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |     *param_1 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200df9c_Os_Thread_WakeUp.c:32:57: note: place parentheses around the '+' expression to silence this warning
+   32 |     *param_1 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/0200df9c_Os_Thread_WakeUp.c:35:17: error: too many arguments to function call, expected 0, have 1
+   35 |   Os_RestoreIrq(uVar2);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200df9c_Os_Thread_WakeUp.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+4 warnings and 1 error generated.

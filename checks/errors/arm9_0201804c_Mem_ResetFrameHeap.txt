@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0201804c_Mem_ResetFrameHeap.c:9:29: error: too few arguments to function call, single argument 'param_1' was not specified
+    9 |     Mem_Frame_ResetFromHead();
+      |     ~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0201804c_Mem_ResetFrameHeap.h:3:6: note: 'Mem_Frame_ResetFromHead' declared here
+    3 | void Mem_Frame_ResetFromHead(int param_1);
+      |      ^                       ~~~~~~~~~~~
+1 error generated.

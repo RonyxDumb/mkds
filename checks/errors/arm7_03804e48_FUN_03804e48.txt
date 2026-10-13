@@ -1,0 +1,10 @@
+C-WORK/src/arm7/03804e48_FUN_03804e48.c:17:9: error: assigning to 'int' from incompatible type 'void'
+   17 |   iVar1 = FUN_03806d38(param_1,400);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/03804e48_FUN_03804e48.c:18:9: error: assigning to 'int' from incompatible type 'void'
+   18 |   iVar2 = FUN_03806d38(param_1,100);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/03804e48_FUN_03804e48.c:19:9: error: assigning to 'int' from incompatible type 'void'
+   19 |   iVar3 = FUN_03806d38(param_2 * 0xd + 8,5);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

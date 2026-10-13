@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov000/0218e974_FUN_0218e974.c:22:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   22 |     FUN_02196590(param_1,DAT_0218eb0c);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218e974_FUN_0218e974.h:6:31: note: passing argument to parameter 'param_1' here
+    6 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218e974_FUN_0218e974.c:26:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   26 |     FUN_02196590(param_1,DAT_0218eb10);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218e974_FUN_0218e974.h:6:31: note: passing argument to parameter 'param_1' here
+    6 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218e974_FUN_0218e974.c:30:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   30 |     FUN_02196590(param_1,DAT_0218eb14);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218e974_FUN_0218e974.h:6:31: note: passing argument to parameter 'param_1' here
+    6 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218e974_FUN_0218e974.c:59:45: error: too many arguments to function call, expected 2, have 3
+   59 |   FUN_02190b58(param_1,iVar3 + DAT_0218eb28,param_2);
+      |   ~~~~~~~~~~~~                              ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218e974_FUN_0218e974.h:4:6: note: 'FUN_02190b58' declared here
+    4 | void FUN_02190b58(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218e974_FUN_0218e974.c:61:45: error: too many arguments to function call, expected 2, have 3
+   61 |   FUN_02190b58(param_1,iVar3 + DAT_0218eb28,*(undefined4 *)(iVar3 + DAT_0218eb34));
+      |   ~~~~~~~~~~~~                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218e974_FUN_0218e974.h:4:6: note: 'FUN_02190b58' declared here
+    4 | void FUN_02190b58(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 warnings and 2 errors generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0214461c_func_0214461c.c:21:53: error: too few arguments to function call, expected 4, have 3
+   21 |     func_021445e0(param_1,(uint)*param_2,param_2 + 2);
+      |     ~~~~~~~~~~~~~                                   ^
+C-WORK/src/arm9/deps/0214461c_func_0214461c.h:3:5: note: 'func_021445e0' declared here
+    3 | int func_021445e0(int param_1,uint param_2,int param_3,uint param_4);
+      |     ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

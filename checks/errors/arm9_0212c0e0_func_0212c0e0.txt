@@ -1,0 +1,25 @@
+C-WORK/src/arm9/0212c0e0_func_0212c0e0.c:16:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |       *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20 != 0) {
+      |                                             ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212c0e0_func_0212c0e0.c:16:73: note: place parentheses around the '+' expression to silence this warning
+   16 |       *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20 != 0) {
+      |                                                                         ^
+      |                                                (                              )
+C-WORK/src/arm9/0212c0e0_func_0212c0e0.c:17:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   17 |     func_0212c688();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212c0e0_func_0212c0e0.h:8:6: note: 'func_0212c688' declared here
+    8 | void func_0212c688(undefined4 *param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212c0e0_func_0212c0e0.c:21:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) <= (uint)*(ushort *)(iVar5 + 8)) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212c0e0_func_0212c0e0.c:21:49: note: place parentheses around the '+' expression to silence this warning
+   21 |   if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) <= (uint)*(ushort *)(iVar5 + 8)) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/0212c0e0_func_0212c0e0.c:35:14: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   35 |     *param_1 = puVar4;
+      |              ^ ~~~~~~
+      |                *
+2 warnings and 2 errors generated.

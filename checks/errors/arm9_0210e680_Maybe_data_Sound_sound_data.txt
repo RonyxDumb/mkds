@@ -1,0 +1,109 @@
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:20:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |                      *(uint *)(uRam0210e878 & 0xfffffffc) << (uRam0210e878 & 3) * -8 + 0x20,0);
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:20:86: note: place parentheses around the '+' expression to silence this warning
+   20 |                      *(uint *)(uRam0210e878 & 0xfffffffc) << (uRam0210e878 & 3) * -8 + 0x20,0);
+      |                                                                                      ^     
+      |                                                              (                             )
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:26:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |                            *(uint *)(uRam0210e878 & 0xfffffffc) << (uRam0210e878 & 3) * -8 + 0x20);
+      |                                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:26:92: note: place parentheses around the '+' expression to silence this warning
+   26 |                            *(uint *)(uRam0210e878 & 0xfffffffc) << (uRam0210e878 & 3) * -8 + 0x20);
+      |                                                                                            ^     
+      |                                                                    (                             )
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:33:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |           *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:33:61: note: place parentheses around the '+' expression to silence this warning
+   33 |           *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20;
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:35:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |           *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:35:61: note: place parentheses around the '+' expression to silence this warning
+   35 |           *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20;
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:42:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |   uVar6 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:42:52: note: place parentheses around the '+' expression to silence this warning
+   42 |   uVar6 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:47:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |   iVar2 = Sound_LoadSwar(0x3e,uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:47:72: note: place parentheses around the '+' expression to silence this warning
+   47 |   iVar2 = Sound_LoadSwar(0x3e,uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:54:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   54 |           *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) & 0xffffff;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:54:61: note: place parentheses around the '+' expression to silence this warning
+   54 |           *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) & 0xffffff;
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:56:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   56 |           *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) & 0xffffff;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:56:61: note: place parentheses around the '+' expression to silence this warning
+   56 |           *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) & 0xffffff;
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:63:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   63 |   uVar3 = uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:63:52: note: place parentheses around the '+' expression to silence this warning
+   63 |   uVar3 = uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:67:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   67 |                            *(uint *)(uRam0210e878 & 0xfffffffc) << (uRam0210e878 & 3) * -8 + 0x20);
+      |                                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:67:92: note: place parentheses around the '+' expression to silence this warning
+   67 |                            *(uint *)(uRam0210e878 & 0xfffffffc) << (uRam0210e878 & 3) * -8 + 0x20);
+      |                                                                                            ^     
+      |                                                                    (                             )
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:74:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   74 |                            *(uint *)(uRam0210e878 & 0xfffffffc) << (uRam0210e878 & 3) * -8 + 0x20);
+      |                                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:74:92: note: place parentheses around the '+' expression to silence this warning
+   74 |                            *(uint *)(uRam0210e878 & 0xfffffffc) << (uRam0210e878 & 3) * -8 + 0x20);
+      |                                                                                            ^     
+      |                                                                    (                             )
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:73:24: error: too many arguments to function call, expected 0, have 3
+   72 |     iVar2 = Sound_LoadSbnkWithFlags
+      |             ~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                       (0,2,*(uint *)(uRam0210e878 & 0xfffffffc) >> (uRam0210e878 & 3) * 8 |
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   74 |                            *(uint *)(uRam0210e878 & 0xfffffffc) << (uRam0210e878 & 3) * -8 + 0x20);
+      |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0210e680_Maybe_data_Sound_sound_data.h:8:6: note: 'Sound_LoadSbnkWithFlags' declared here
+    8 | bool Sound_LoadSbnkWithFlags(void);
+      |      ^
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:81:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   80 |                                *(uint *)(uRam0210e878 & 0xfffffffc) <<
+      |                                                                     ~~
+   81 |                                (uRam0210e878 & 3) * -8 + 0x20);
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:81:56: note: place parentheses around the '+' expression to silence this warning
+   81 |                                (uRam0210e878 & 3) * -8 + 0x20);
+      |                                                        ^     
+      |                                (                             )
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:97:17: error: too many arguments to function call, expected 0, have 1
+   97 |   func_02108950(iVar2);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0210e680_Maybe_data_Sound_sound_data.h:14:12: note: 'func_02108950' declared here
+   14 | undefined4 func_02108950(void);
+      |            ^
+C-WORK/src/arm9/0210e680_Maybe_data_Sound_sound_data.c:98:17: error: too few arguments to function call, single argument 'param_1' was not specified
+   98 |   func_0210e4c8();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0210e680_Maybe_data_Sound_sound_data.h:15:6: note: 'func_0210e4c8' declared here
+   15 | void func_0210e4c8(int param_1);
+      |      ^             ~~~~~~~~~~~
+12 warnings and 3 errors generated.

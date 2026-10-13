@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0202d5c0_func_0202d5c0.c:10:54: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   TextSystem_DisplayProgressDialog_Simple_from_thumb();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0202d5c0_func_0202d5c0.h:4:6: note: 'TextSystem_DisplayProgressDialog_Simple_from_thumb' declared here
+    4 | void TextSystem_DisplayProgressDialog_Simple_from_thumb(undefined4 param_1);
+      |      ^                                                  ~~~~~~~~~~~~~~~~~~
+1 error generated.

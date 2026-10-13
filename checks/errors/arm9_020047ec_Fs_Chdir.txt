@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020047ec_Fs_Chdir.c:16:46: error: too few arguments to function call, expected 4, have 2
+   16 |   iVar2 = Fs_File_FindPath(auStack_54,param_1);
+      |           ~~~~~~~~~~~~~~~~                   ^
+C-WORK/src/arm9/deps/020047ec_Fs_Chdir.h:4:6: note: 'Fs_File_FindPath' declared here
+    4 | void Fs_File_FindPath(int param_1,char *param_2,undefined4 param_3,int param_4);
+      |      ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

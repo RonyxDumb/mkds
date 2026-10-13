@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02016c44_func_02016c44.c:8:17: error: too few arguments to function call, expected 5, have 0
+    8 |   func_02016b00();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02016c44_func_02016c44.h:3:12: note: 'func_02016b00' declared here
+    3 | undefined4 func_02016b00(uint *param_1,uint *param_2,uint *param_3,uint param_4,uint param_5);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

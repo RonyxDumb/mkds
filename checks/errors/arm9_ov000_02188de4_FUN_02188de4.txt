@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/02188de4_FUN_02188de4.c:28:90: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   28 |     FUN_0218a64c(param_1 + DAT_02188e98 + (uint)*(byte *)(param_1 + DAT_02188e9c) * 0xc0,param_3 + 2
+      |     ~~~~~~~~~~~~                                                                         ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02188de4_FUN_02188de4.h:4:6: note: 'FUN_0218a64c' declared here
+    4 | void FUN_0218a64c(int param_1);
+      |      ^            ~~~~~~~~~~~
+1 error generated.

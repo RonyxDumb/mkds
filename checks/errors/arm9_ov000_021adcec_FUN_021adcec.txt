@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/021adcec_FUN_021adcec.c:33:11: error: assigning to 'int' from incompatible type 'void'
+   33 |     iVar4 = (*(code *)*puVar1)();
+      |           ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021adcec_FUN_021adcec.c:44:13: error: assigning to 'int' from incompatible type 'void'
+   44 |       iVar2 = (*(code *)*puVar1)();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021adcec_FUN_021adcec.c:62:22: error: assigning to 'int' from incompatible type 'void'
+   62 |         while (iVar4 = (*(code *)*puVar1)(), iVar4 != 0) {
+      |                      ^ ~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

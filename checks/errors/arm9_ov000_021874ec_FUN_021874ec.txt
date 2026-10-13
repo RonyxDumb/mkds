@@ -1,0 +1,157 @@
+In file included from C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:3:
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:109:1: error: unknown type name 'size_t'
+  109 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:43:59: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   43 |   iVar5 = FUN_021873d4((undefined1 *)(uintptr_t)(*piVar1),piVar3);
+      |                                                           ^~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:17:57: note: passing argument to parameter 'param_2' here
+   17 | undefined4 FUN_021873d4(undefined1 *param_1,undefined4 *param_2);
+      |                                                         ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:76:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   76 |   iVar5 = func_0x0213bf90();
+      |           ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:97:6: note: 'func_0213bf90' declared here
+   97 | void func_0213bf90(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:105:69: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  105 |       iVar5 = FUN_021873d4((undefined1 *)(uintptr_t)(*DAT_02187884),DAT_0218788c);
+      |                                                                     ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:25:22: note: expanded from macro 'DAT_0218788c'
+   25 | #define DAT_0218788c (*(int **)(uintptr_t)0x218788cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:17:57: note: passing argument to parameter 'param_2' here
+   17 | undefined4 FUN_021873d4(undefined1 *param_1,undefined4 *param_2);
+      |                                                         ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:128:23: error: too many arguments to function call, expected 0, have 1
+  128 |       func_0x0200fcb4(uVar6);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:107:12: note: 'Os_RestoreIrq' declared here
+  107 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:137:21: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  137 |                     (DAT_021878e0,*(undefined4 *)(*DAT_02187888 + DAT_021878bc),0);
+      |                     ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:149:28: error: too few arguments to function call, single argument 'param_1' was not specified
+  149 |               FUN_02186d04();
+      |               ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:14:6: note: 'FUN_02186d04' declared here
+   14 | void FUN_02186d04(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:179:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  179 |     uVar6 = (**(code **)(*piVar2 + DAT_02187898))(DAT_021878e8,iVar8 + 1);
+      |                                                  ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:179:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  179 |     uVar6 = (**(code **)(*piVar2 + DAT_02187898))(DAT_021878e8,iVar8 + 1);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:191:19: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  191 |   func_0x02151910(&iStack_214);
+      |                   ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:113:50: note: passing argument to parameter 'param_1' here
+  113 | void StructDW_MaybeCreate_from_thumb(undefined4 *param_1);
+      |                                                  ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:214:22: warning: passing 'undefined4[114]' (aka 'unsigned int[114]') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+  214 |         FUN_0218635c(auStack_1dc);
+      |                      ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:4:24: note: passing argument to parameter 'param_1' here
+    4 | void FUN_0218635c(int *param_1);
+      |                        ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:241:61: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  241 |     iVar5 = FUN_021873d4((undefined1 *)(uintptr_t)(*piVar1),piVar3);
+      |                                                             ^~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:17:57: note: passing argument to parameter 'param_2' here
+   17 | undefined4 FUN_021873d4(undefined1 *param_1,undefined4 *param_2);
+      |                                                         ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:251:27: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+  251 |           func_0x0214d1fc(uVar7,auStack_200,uStack_21c);
+      |                           ^~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:105:27: note: passing argument to parameter 'param_1' here
+  105 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |                           ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:251:33: error: incompatible pointer types passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  251 |           func_0x0214d1fc(uVar7,auStack_200,uStack_21c);
+      |                                 ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:105:41: note: passing argument to parameter 'param_2' here
+  105 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |                                         ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:252:27: error: too many arguments to function call, expected 0, have 1
+  252 |           func_0x0200fcb4(uVar6);
+      |           ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:107:12: note: 'Os_RestoreIrq' declared here
+  107 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:254:53: error: incompatible pointer to integer conversion passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+  254 |           iVar5 = FUN_02186b0c(*piVar1,DAT_02187cb0,auStack_200,uVar6);
+      |                                                     ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:13:67: note: passing argument to parameter 'param_3' here
+   13 | undefined4 FUN_02186b0c(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |                                                                   ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:261:25: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  261 |                         (DAT_02187cbc,*(undefined4 *)(*piVar2 + DAT_02187cb4),0);
+      |                         ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:276:34: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'int *' [-Wint-conversion]
+  276 |                     FUN_021866b8(*piVar2 + 8,0x20,DAT_02187ccc);
+      |                                  ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:10:23: note: passing argument to parameter 'param_1' here
+   10 | int FUN_021866b8(int *param_1,int param_2,undefined4 param_3);
+      |                       ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:277:45: error: too few arguments to function call, single argument 'param_1' was not specified
+  277 |                     iVar5 = func_0x0213bf90();
+      |                             ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:97:6: note: 'func_0213bf90' declared here
+   97 | void func_0213bf90(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:283:44: error: too many arguments to function call, expected 0, have 5
+  283 |                       iVar5 = FUN_02186674(*piVar2 + 8,0x20,DAT_02187cd4,auStack_21a,4);
+      |                               ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:9:6: note: 'FUN_02186674' declared here
+    9 | uint FUN_02186674(void);
+      |      ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:289:49: error: incompatible pointer to integer conversion passing 'undefined1[6]' (aka 'unsigned char[6]') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+  289 |                         iVar5 = func_0x0213bf90(auStack_21a);
+      |                                                 ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:97:31: note: passing argument to parameter 'param_1' here
+   97 | void func_0213bf90(undefined4 param_1);
+      |                               ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:289:31: error: assigning to 'int' from incompatible type 'void'
+  289 |                         iVar5 = func_0x0213bf90(auStack_21a);
+      |                               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:295:48: error: too many arguments to function call, expected 0, have 5
+  295 |                           iVar5 = FUN_02186674(*piVar2 + 8,0x20,DAT_02187cd8,0,0);
+      |                                   ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:9:6: note: 'FUN_02186674' declared here
+    9 | uint FUN_02186674(void);
+      |      ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:301:50: error: too many arguments to function call, expected 0, have 5
+  301 |                             iVar9 = FUN_02186674(*piVar2 + 8,0x20,DAT_02187cdc,0,0);
+      |                                     ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:9:6: note: 'FUN_02186674' declared here
+    9 | uint FUN_02186674(void);
+      |      ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:307:52: error: too many arguments to function call, expected 0, have 5
+  307 |                               iVar8 = FUN_02186674(*piVar2 + 8,0x20,DAT_02187ce0,0,0);
+      |                                       ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021874ec_FUN_021874ec.h:9:6: note: 'FUN_02186674' declared here
+    9 | uint FUN_02186674(void);
+      |      ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:309:53: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  309 |                                                     (DAT_02187cd8,iVar5 + 1);
+      |                                                     ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:308:41: error: assigning to 'int' from incompatible type 'void'
+  308 |                               local_290 = (**(code **)(*piVar2 + DAT_02187c84))
+      |                                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  309 |                                                     (DAT_02187cd8,iVar5 + 1);
+      |                                                     ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:316:55: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  316 |                                                       (DAT_02187cdc,iVar9 + 1);
+      |                                                       ^
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:315:43: error: assigning to 'int' from incompatible type 'void'
+  315 |                                 local_288 = (**(code **)(*piVar2 + DAT_02187c84))
+      |                                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  316 |                                                       (DAT_02187cdc,iVar9 + 1);
+      |                                                       ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021874ec_FUN_021874ec.c:323:64: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  323 |                                                                (DAT_02187f70,iVar8 + 1),
+      |                                                                ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+11 warnings and 20 errors generated.

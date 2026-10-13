@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov001/02187e00_FUN_02187e00.c:11:27: error: too many arguments to function call, expected 0, have 1
+   11 |   iVar1 = func_0x020ac524(0xc9);
+      |           ~~~~~~~~~~~~~~~ ^~~~
+C-WORK/src/arm9_ov001/deps/02187e00_FUN_02187e00.h:7:6: note: 'func_020ac524' declared here
+    7 | uint func_020ac524(void);
+      |      ^
+C-WORK/src/arm9_ov001/02187e00_FUN_02187e00.c:13:21: error: too few arguments to function call, single argument 'p0' was not specified
+   13 |     func_0x020de9ec();
+      |     ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/02187e00_FUN_02187e00.h:9:6: note: 'func_020de9ec' declared here
+    9 | void func_020de9ec(unsigned int p0);
+      |      ^             ~~~~~~~~~~~~~~~
+2 errors generated.

@@ -1,0 +1,44 @@
+C-WORK/src/arm7/060031c8_FUN_060031c8.c:17:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060031c8_FUN_060031c8.c:17:52: note: place parentheses around the '+' expression to silence this warning
+   17 |   uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/060031c8_FUN_060031c8.c:19:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |                 *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) == 2) {
+      |                                               ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060031c8_FUN_060031c8.c:19:67: note: place parentheses around the '+' expression to silence this warning
+   19 |                 *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) == 2) {
+      |                                                                   ^     
+      |                                                  (                      )
+C-WORK/src/arm7/060031c8_FUN_060031c8.c:20:11: error: assigning to 'int' from incompatible type 'void'
+   20 |     iVar1 = FUN_06002124((undefined4)(uintptr_t)(auStack_208));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/060031c8_FUN_060031c8.c:24:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |        *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) = 1;
+      |                                      ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060031c8_FUN_060031c8.c:24:58: note: place parentheses around the '+' expression to silence this warning
+   24 |        *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) = 1;
+      |                                                          ^     
+      |                                         (                      )
+C-WORK/src/arm7/060031c8_FUN_060031c8.c:28:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |        *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) = 0;
+      |                                      ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060031c8_FUN_060031c8.c:28:58: note: place parentheses around the '+' expression to silence this warning
+   28 |        *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) = 0;
+      |                                                          ^     
+      |                                         (                      )
+C-WORK/src/arm7/060031c8_FUN_060031c8.c:29:30: error: operand of type 'void' where arithmetic or pointer type is required
+   29 |       puVar2 = (undefined2 *)thunk_FUN_03807424();
+      |                              ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/060031c8_FUN_060031c8.c:35:32: error: too few arguments to function call, expected 2, have 1
+   35 |       FUN_0600318c(DAT_06003268);
+      |       ~~~~~~~~~~~~             ^
+C-WORK/src/arm7/deps/060031c8_FUN_060031c8.h:5:6: note: 'FUN_0600318c' declared here
+    5 | void FUN_0600318c(undefined2 param_1,undefined2 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/060031c8_FUN_060031c8.c:39:28: error: operand of type 'void' where arithmetic or pointer type is required
+   39 |     puVar2 = (undefined2 *)thunk_FUN_03807424();
+      |                            ^~~~~~~~~~~~~~~~~~~~
+4 warnings and 4 errors generated.

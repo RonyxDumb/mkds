@@ -1,0 +1,13 @@
+C-WORK/src/arm7/037ff000_FUN_037ff000.c:28:34: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   28 |     iVar1 = FUN_037fcd48(param_1,param_4);
+      |             ~~~~~~~~~~~~         ^~~~~~~
+C-WORK/src/arm7/deps/037ff000_FUN_037ff000.h:7:12: note: 'FUN_037fcd48' declared here
+    7 | undefined4 FUN_037fcd48(byte *param_1);
+      |            ^            ~~~~~~~~~~~~~
+C-WORK/src/arm7/037ff000_FUN_037ff000.c:33:13: error: assigning to 'int' from incompatible type 'void'
+   33 |       iVar1 = FUN_037fefc0(param_5,*(undefined2 *)(param_6 + 4),*(undefined2 *)(param_6 + 2));
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/037ff000_FUN_037ff000.c:13:13: warning: result of comparison of constant -1 with expression of type 'char' is always false [-Wtautological-constant-out-of-range-compare]
+   13 |   if (cVar2 == -1) {
+      |       ~~~~~ ^  ~~
+1 warning and 2 errors generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02152934_func_02152934.c:10:44: error: too few arguments to function call, expected 3, have 0
+   10 |   iVar1 = Friend_VerifyChecksum_from_thumb();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02152934_func_02152934.h:3:6: note: 'Friend_VerifyChecksum_from_thumb' declared here
+    3 | bool Friend_VerifyChecksum_from_thumb(undefined4 param_1,uint param_2,undefined4 param_3);
+      |      ^                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

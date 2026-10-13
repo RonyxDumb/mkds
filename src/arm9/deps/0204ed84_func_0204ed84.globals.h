@@ -1,0 +1,7 @@
+#define iRam0204ee18 (*(int *)(uintptr_t)0x204ee18u)
+#define iRam0204ee20 (*(int *)(uintptr_t)0x204ee20u)
+#define iRam0204ee24 (*(int *)(uintptr_t)0x204ee24u)
+#define iRam0204ee2c (*(int *)(uintptr_t)0x204ee2cu)
+#define piRam0204ee14 (*(int **)(uintptr_t)0x204ee14u)
+#define puRam0204ee28 (*(undefined2 **)(uintptr_t)0x204ee28u)
+#define uRam0204ee1c (*(undefined4 *)(uintptr_t)0x204ee1cu)

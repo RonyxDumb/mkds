@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020ae730_AllocateActiveHeapSizeCount_from_thumb.c:11:51: error: too many arguments to function call, expected 0, have 1
+   11 |     uVar1 = GetActiveExecutionContextHeapHandle_1(0);
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ae730_AllocateActiveHeapSizeCount_from_thumb.h:4:6: note: 'GetActiveExecutionContextHeapHandle_1' declared here
+    4 | void GetActiveExecutionContextHeapHandle_1(void);
+      |      ^
+1 error generated.

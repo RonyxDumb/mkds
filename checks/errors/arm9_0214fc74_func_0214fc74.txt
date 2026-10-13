@@ -1,0 +1,10 @@
+C-WORK/src/arm9/0214fc74_func_0214fc74.c:11:33: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   11 |   iVar1 = func_0214fcb0(param_1,uRam0214fcac,aiStack_8);
+      |           ~~~~~~~~~~~~~         ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0214fc74_func_0214fc74.h:6:22: note: expanded from macro 'uRam0214fcac'
+    6 | #define uRam0214fcac (*(undefined4 *)(uintptr_t)0x214fcacu)
+      |                      ^
+C-WORK/src/arm9/deps/0214fc74_func_0214fc74.h:4:6: note: 'func_0214fcb0' declared here
+    4 | void func_0214fcb0(int param_1);
+      |      ^             ~~~~~~~~~~~
+1 error generated.

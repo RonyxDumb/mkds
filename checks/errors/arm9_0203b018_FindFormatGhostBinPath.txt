@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0203b018_FindFormatGhostBinPath.c:10:37: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   uVar1 = GetCourseIdFromInternalId();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0203b018_FindFormatGhostBinPath.h:4:5: note: 'GetCourseIdFromInternalId' declared here
+    4 | int GetCourseIdFromInternalId(uint param_1);
+      |     ^                         ~~~~~~~~~~~~
+1 error generated.

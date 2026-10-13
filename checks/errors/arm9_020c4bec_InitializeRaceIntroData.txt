@@ -1,0 +1,243 @@
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:27:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   27 |   uVar2 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:8:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    8 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:36:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |             *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 0x18;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:36:77: note: place parentheses around the '+' expression to silence this warning
+   36 |             *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 0x18;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:41:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |          (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & 0xfffff3ff | 0xc00;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:41:52: note: place parentheses around the '+' expression to silence this warning
+   41 |          (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & 0xfffff3ff | 0xc00;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:47:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |    *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) = 0;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:47:68: note: place parentheses around the '+' expression to silence this warning
+   47 |    *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) = 0;
+      |                                                                    ^     
+      |                                            (                             )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:48:25: error: too many arguments to function call, expected 0, have 1
+   48 |   uVar2 = func_020b47c0(uVar2);
+      |           ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:21:6: note: 'func_020b47c0' declared here
+   21 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:51:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   50 |                   *(uint *)((uint)puRam020c4e28 & 0xfffffffc) <<
+      |                                                               ~~
+   51 |                   ((uint)puRam020c4e28 & 3) * -8 + 0x20) + 4),uVar2);
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:51:50: note: place parentheses around the '+' expression to silence this warning
+   51 |                   ((uint)puRam020c4e28 & 3) * -8 + 0x20) + 4),uVar2);
+      |                                                  ^     
+      |                   (                                    )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:52:25: error: too many arguments to function call, expected 0, have 1
+   52 |   uVar2 = func_020b47c0(uRam020c4e30);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:26:22: note: expanded from macro 'uRam020c4e30'
+   26 | #define uRam020c4e30 (*(undefined4 *)(uintptr_t)0x20c4e30u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:21:6: note: 'func_020b47c0' declared here
+   21 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:55:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   55 |              *(uint *)((uint)puRam020c4e28 & 0xfffffffc) << ((uint)puRam020c4e28 & 3) * -8 + 0x20) +
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:55:92: note: place parentheses around the '+' expression to silence this warning
+   55 |              *(uint *)((uint)puRam020c4e28 & 0xfffffffc) << ((uint)puRam020c4e28 & 3) * -8 + 0x20) +
+      |                                                                                            ^     
+      |                                                             (                                    )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:58:25: error: too many arguments to function call, expected 0, have 1
+   58 |   uVar2 = func_020b47c0(uRam020c4e34);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:27:22: note: expanded from macro 'uRam020c4e34'
+   27 | #define uRam020c4e34 (*(undefined4 *)(uintptr_t)0x20c4e34u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:21:6: note: 'func_020b47c0' declared here
+   21 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:59:20: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   59 |   LoadCellBankFrom(&local_40,uVar2);
+      |                    ^~~~~~~~~
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:19:28: note: passing argument to parameter 'param_1' here
+   19 | void LoadCellBankFrom(int *param_1,int param_2);
+      |                            ^
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:68:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   68 |     *(undefined4 *)((uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20) + iVar8 + 0xc) = uVar2;
+      |                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:68:63: note: place parentheses around the '+' expression to silence this warning
+   68 |     *(undefined4 *)((uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20) + iVar8 + 0xc) = uVar2;
+      |                                                               ^     
+      |                                                    (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:72:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   72 |           *(uint *)((uint)puRam020c4e28 & 0xfffffffc) << ((uint)puRam020c4e28 & 3) * -8 + 0x20) + 8;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:72:89: note: place parentheses around the '+' expression to silence this warning
+   72 |           *(uint *)((uint)puRam020c4e28 & 0xfffffffc) << ((uint)puRam020c4e28 & 3) * -8 + 0x20) + 8;
+      |                                                                                         ^     
+      |                                                          (                                    )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:75:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   75 |   uVar3 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0x14;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:75:53: note: place parentheses around the '+' expression to silence this warning
+   75 |   uVar3 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0x14;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:79:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   79 |   G2d_Sprite_CreateFromTiles(auStack_3c,uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20,0x20,4,4);
+      |                                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:79:82: note: place parentheses around the '+' expression to silence this warning
+   79 |   G2d_Sprite_CreateFromTiles(auStack_3c,uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20,0x20,4,4);
+      |                                                                                  ^     
+      |                                                                       (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:79:30: error: too many arguments to function call, expected 0, have 5
+   79 |   G2d_Sprite_CreateFromTiles(auStack_3c,uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20,0x20,4,4);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:9:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+    9 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:82:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   82 |           *(uint *)(uRam020c4e38 & 0xfffffffc) << (uRam020c4e38 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:82:75: note: place parentheses around the '+' expression to silence this warning
+   82 |           *(uint *)(uRam020c4e38 & 0xfffffffc) << (uRam020c4e38 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:87:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   87 |   uVar3 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:87:52: note: place parentheses around the '+' expression to silence this warning
+   87 |   uVar3 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:92:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   92 |                        *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:92:74: note: place parentheses around the '+' expression to silence this warning
+   92 |                        *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20);
+      |                                                                          ^     
+      |                                                         (                      )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:93:44: error: too few arguments to function call, single argument 'param_1' was not specified
+   93 |     local_14 = GetSomeInterCharacterWidth2();
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:15:12: note: 'GetSomeInterCharacterWidth2' declared here
+   15 | undefined4 GetSomeInterCharacterWidth2(undefined4 param_1);
+      |            ^                           ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:97:43: error: too few arguments to function call, single argument 'param_1' was not specified
+   97 |     local_14 = GetSomeInterCharacterWidth();
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:14:12: note: 'GetSomeInterCharacterWidth' declared here
+   14 | undefined4 GetSomeInterCharacterWidth(undefined4 param_1);
+      |            ^                          ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:99:25: error: too many arguments to function call, expected 0, have 1
+   99 |   uVar2 = func_020b47cc(uRam020c4e3c);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:29:22: note: expanded from macro 'uRam020c4e3c'
+   29 | #define uRam020c4e3c (*(undefined4 *)(uintptr_t)0x20c4e3cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:22:6: note: 'func_020b47cc' declared here
+   22 | void func_020b47cc(void);
+      |      ^
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:102:25: error: too many arguments to function call, expected 0, have 1
+  102 |   uVar2 = func_020b47cc(uRam020c4e44);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:31:22: note: expanded from macro 'uRam020c4e44'
+   31 | #define uRam020c4e44 (*(undefined4 *)(uintptr_t)0x20c4e44u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020c4bec_InitializeRaceIntroData.h:22:6: note: 'func_020b47cc' declared here
+   22 | void func_020b47cc(void);
+      |      ^
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:106:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  106 |           *(uint *)((uint)puRam020c4e28 & 0xfffffffc) << ((uint)puRam020c4e28 & 3) * -8 + 0x20) + 8;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:106:89: note: place parentheses around the '+' expression to silence this warning
+  106 |           *(uint *)((uint)puRam020c4e28 & 0xfffffffc) << ((uint)puRam020c4e28 & 3) * -8 + 0x20) + 8;
+      |                                                                                         ^     
+      |                                                          (                                    )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:109:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  109 |   uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:109:52: note: place parentheses around the '+' expression to silence this warning
+  109 |   uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:116:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  116 |   Arm_FlushRange(uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20,
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:116:59: note: place parentheses around the '+' expression to silence this warning
+  116 |   Arm_FlushRange(uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20,
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:117:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  117 |                  uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:117:59: note: place parentheses around the '+' expression to silence this warning
+  117 |                  uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:119:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  119 |           *(uint *)((uint)puRam020c4e28 & 0xfffffffc) << ((uint)puRam020c4e28 & 3) * -8 + 0x20) + 4;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:119:89: note: place parentheses around the '+' expression to silence this warning
+  119 |           *(uint *)((uint)puRam020c4e28 & 0xfffffffc) << ((uint)puRam020c4e28 & 3) * -8 + 0x20) + 4;
+      |                                                                                         ^     
+      |                                                          (                                    )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:122:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  122 |   uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:122:52: note: place parentheses around the '+' expression to silence this warning
+  122 |   uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:129:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  129 |   CopySomePaletteData(uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20,0,
+      |                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:129:64: note: place parentheses around the '+' expression to silence this warning
+  129 |   CopySomePaletteData(uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20,0,
+      |                                                                ^     
+      |                                                     (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:130:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  130 |                       uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
+      |                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:130:64: note: place parentheses around the '+' expression to silence this warning
+  130 |                       uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
+      |                                                                ^     
+      |                                                     (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:132:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  132 |           *(uint *)((uint)puRam020c4e28 & 0xfffffffc) << ((uint)puRam020c4e28 & 3) * -8 + 0x20) + 8;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:132:89: note: place parentheses around the '+' expression to silence this warning
+  132 |           *(uint *)((uint)puRam020c4e28 & 0xfffffffc) << ((uint)puRam020c4e28 & 3) * -8 + 0x20) + 8;
+      |                                                                                         ^     
+      |                                                          (                                    )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:135:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  135 |   uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:135:52: note: place parentheses around the '+' expression to silence this warning
+  135 |   uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:142:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  142 |   CopyTileDataTop_0(uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20,0,
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:142:62: note: place parentheses around the '+' expression to silence this warning
+  142 |   CopyTileDataTop_0(uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20,0,
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:143:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  143 |                     uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020c4bec_InitializeRaceIntroData.c:143:62: note: place parentheses around the '+' expression to silence this warning
+  143 |                     uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
+      |                                                              ^     
+      |                                                   (                )
+25 warnings and 9 errors generated.

@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0210f9f0_func_0210f9f0.c:11:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   11 |           *(uint *)((uint)piRam0210fa24 & 0xfffffffc) << ((uint)piRam0210fa24 & 3) * -8 + 0x20;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210f9f0_func_0210f9f0.c:11:89: note: place parentheses around the '+' expression to silence this warning
+   11 |           *(uint *)((uint)piRam0210fa24 & 0xfffffffc) << ((uint)piRam0210fa24 & 3) * -8 + 0x20;
+      |                                                                                         ^     
+      |                                                          (                                    )
+C-WORK/src/arm9/0210f9f0_func_0210f9f0.c:13:61: error: too many arguments to function call, expected 3, have 4
+   13 |   DriverContext_MaybeQueuePlaySfx(param_1,uVar1 + 0xea,0x7f,0);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                           ^
+C-WORK/src/arm9/deps/0210f9f0_func_0210f9f0.h:3:6: note: 'DriverContext_MaybeQueuePlaySfx' declared here
+    3 | void DriverContext_MaybeQueuePlaySfx(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |      ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

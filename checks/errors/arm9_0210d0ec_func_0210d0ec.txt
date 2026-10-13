@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0210d0ec_func_0210d0ec.c:14:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |       *(uint *)(uRam0210d11c & 0xfffffffc) << (uRam0210d11c & 3) * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210d0ec_func_0210d0ec.c:14:71: note: place parentheses around the '+' expression to silence this warning
+   14 |       *(uint *)(uRam0210d11c & 0xfffffffc) << (uRam0210d11c & 3) * -8 + 0x20 != 0) {
+      |                                                                       ^
+      |                                               (                             )
+C-WORK/src/arm9/0210d0ec_func_0210d0ec.c:16:21: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |       func_0210c3a8();
+      |       ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0210d0ec_func_0210d0ec.h:3:6: note: 'func_0210c3a8' declared here
+    3 | void func_0210c3a8(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/0210d0ec_func_0210d0ec.c:19:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |     } while (uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0);
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210d0ec_func_0210d0ec.c:19:61: note: place parentheses around the '+' expression to silence this warning
+   19 |     } while (uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0);
+      |                                                             ^
+      |                                                  (                )
+2 warnings and 1 error generated.

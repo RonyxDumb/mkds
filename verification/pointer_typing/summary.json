@@ -1,0 +1,14 @@
+{
+  "checkpoint": 4,
+  "source_functions": 12038,
+  "arm_compilable": 5903,
+  "arm_needs_repair": 6135,
+  "compilable_percent": 49.03638478152517,
+  "previous_compilable": 5419,
+  "newly_compilable": 484,
+  "typed_pointer_functions": 846,
+  "local_byte_exact_functions": 613,
+  "local_byte_exact_code_bytes": 8728,
+  "full_rom_build_verified": false,
+  "emulator_tested": false
+}

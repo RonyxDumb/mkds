@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/0219d14c_FUN_0219d14c.c:34:39: error: too many arguments to function call, expected 0, have 1
+   34 |               iVar2 = func_0x02152a1c(local_1c);
+      |                       ~~~~~~~~~~~~~~~ ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219d14c_FUN_0219d14c.h:9:6: note: 'func_02152a1c' declared here
+    9 | void func_02152a1c(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219d14c_FUN_0219d14c.c:35:60: error: too many arguments to function call, expected 0, have 1
+   35 |               if ((iVar2 == 2) && (iVar2 = func_0x02152a1c(iVar3), iVar2 == 3)) {
+      |                                            ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/0219d14c_FUN_0219d14c.h:9:6: note: 'func_02152a1c' declared here
+    9 | void func_02152a1c(void);
+      |      ^
+2 errors generated.

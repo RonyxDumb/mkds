@@ -1,0 +1,25 @@
+C-WORK/src/arm9/020eea6c_func_020eea6c.c:28:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |   uVar12 = uVar11 >> uVar5 * 8 | uVar11 << uVar5 * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020eea6c_func_020eea6c.c:28:55: note: place parentheses around the '+' expression to silence this warning
+   28 |   uVar12 = uVar11 >> uVar5 * 8 | uVar11 << uVar5 * -8 + 0x20;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020eea6c_func_020eea6c.c:32:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |   uVar5 = uVar11 >> uVar5 * 8 | uVar11 << uVar5 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020eea6c_func_020eea6c.c:32:54: note: place parentheses around the '+' expression to silence this warning
+   32 |   uVar5 = uVar11 >> uVar5 * 8 | uVar11 << uVar5 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020eea6c_func_020eea6c.c:50:23: error: use of undeclared identifier 'stack0xffffffdc'
+   50 |     piVar13 = (int *)&stack0xffffffdc;
+      |                       ^
+C-WORK/src/arm9/020eea6c_func_020eea6c.c:62:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   62 |       iVar9 = (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) + 0x50;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020eea6c_func_020eea6c.c:62:57: note: place parentheses around the '+' expression to silence this warning
+   62 |       iVar9 = (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) + 0x50;
+      |                                                         ^     
+      |                                              (                )
+3 warnings and 1 error generated.

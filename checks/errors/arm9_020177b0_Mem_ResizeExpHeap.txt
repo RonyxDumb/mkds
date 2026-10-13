@@ -1,0 +1,53 @@
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:25:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |   uVar7 = uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:25:52: note: place parentheses around the '+' expression to silence this warning
+   25 |   uVar7 = uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:33:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |                  *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:33:68: note: place parentheses around the '+' expression to silence this warning
+   33 |                  *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20;
+      |                                                                    ^     
+      |                                                   (                      )
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:35:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |         uVar8 = uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:35:58: note: place parentheses around the '+' expression to silence this warning
+   35 |         uVar8 = uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) {
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:41:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |        uVar7 + 0x10 + (uVar1 >> uVar5 * 8 | uVar1 << uVar5 * -8 + 0x20) < uVar9)) {
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:41:65: note: place parentheses around the '+' expression to silence this warning
+   41 |        uVar7 + 0x10 + (uVar1 >> uVar5 * 8 | uVar1 << uVar5 * -8 + 0x20) < uVar9)) {
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:53:13: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined2 *' (aka 'unsigned short *') [-Wint-conversion]
+   53 |       uVar3 = Mem_Exp_InitializeMemoryBlock((uint)(uintptr_t)(&iStack_38),uRam02017934);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:58:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   58 |     if (((uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20) & 1) != 0) {
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:58:52: note: place parentheses around the '+' expression to silence this warning
+   58 |     if (((uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20) & 1) != 0) {
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:67:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   67 |     iStack_2c = (uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) + param_2;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:67:59: note: place parentheses around the '+' expression to silence this warning
+   67 |     iStack_2c = (uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) + param_2;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:76:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   76 |   return uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20;
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020177b0_Mem_ResizeExpHeap.c:76:51: note: place parentheses around the '+' expression to silence this warning
+   76 |   return uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20;
+      |                                                   ^     
+      |                                        (                )
+7 warnings and 1 error generated.

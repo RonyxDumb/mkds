@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02064d44_DriverContext_Fn5_Net3.c:10:56: error: too few arguments to function call, expected 4, have 3
+   10 |   (*pcRam02064d5c)(param_1 + 0x1c4,param_1 + 0x8c,0x400);
+      |   ~~~~~~~~~~~~~~~~                                     ^
+1 error generated.

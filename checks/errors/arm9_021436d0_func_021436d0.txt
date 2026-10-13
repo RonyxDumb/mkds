@@ -1,0 +1,21 @@
+C-WORK/src/arm9/021436d0_func_021436d0.c:22:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |   psVar6 = (short *)(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20);
+      |                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021436d0_func_021436d0.c:22:63: note: place parentheses around the '+' expression to silence this warning
+   22 |   psVar6 = (short *)(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20);
+      |                                                               ^     
+      |                                                    (                )
+C-WORK/src/arm9/021436d0_func_021436d0.c:31:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |     if (((uint)*(ushort *)((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) + 0x17e) &
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021436d0_func_021436d0.c:31:70: note: place parentheses around the '+' expression to silence this warning
+   31 |     if (((uint)*(ushort *)((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) + 0x17e) &
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/021436d0_func_021436d0.c:40:48: error: too few arguments to function call, expected 4, have 3
+   40 |   iVar3 = WM_SomeFn(0xd,1,1 << (param_2 & 0xff));
+      |           ~~~~~~~~~                            ^
+C-WORK/src/arm9/deps/021436d0_func_021436d0.h:5:12: note: 'WM_SomeFn' declared here
+    5 | undefined4 WM_SomeFn(ushort param_1,uint param_2,undefined4 param_3,undefined4 param_4);
+      |            ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.

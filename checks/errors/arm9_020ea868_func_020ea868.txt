@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020ea868_func_020ea868.c:13:19: error: too few arguments to function call, expected 3, have 0
+   13 |     func_0207aec8();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ea868_func_020ea868.h:3:6: note: 'func_0207aec8' declared here
+    3 | void func_0207aec8(int param_1,undefined4 param_2,uint param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ea868_func_020ea868.c:17:17: error: too few arguments to function call, expected 3, have 0
+   17 |   func_0207aec8();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ea868_func_020ea868.h:3:6: note: 'func_0207aec8' declared here
+    3 | void func_0207aec8(int param_1,undefined4 param_2,uint param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

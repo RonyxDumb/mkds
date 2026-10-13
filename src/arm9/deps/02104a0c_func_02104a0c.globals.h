@@ -1,0 +1,6 @@
+#define iRam02104c54 (*(int *)(uintptr_t)0x2104c54u)
+#define uRam02104c50 (*(uint *)(uintptr_t)0x2104c50u)
+#define uRam02104c58 (*(uint *)(uintptr_t)0x2104c58u)
+#define uRam02104c5c (*(undefined4 *)(uintptr_t)0x2104c5cu)
+#define uRam02104c60 (*(undefined4 *)(uintptr_t)0x2104c60u)
+#define uRam02104c64 (*(undefined4 *)(uintptr_t)0x2104c64u)

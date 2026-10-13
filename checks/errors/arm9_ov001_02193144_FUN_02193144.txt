@@ -1,0 +1,143 @@
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:30:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   30 |   func_0x020b49f4(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:35:32: note: passing argument to parameter 'param_1' here
+   35 | void Gfx_ReadCharGraphics(int *param_1,int param_2);
+      |                                ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:31:27: error: incompatible pointer to integer conversion passing 'undefined *' (aka 'unsigned char *') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   31 |   uVar1 = func_0x0204799c(PTR_data_ov001_0219329c);
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:14:33: note: expanded from macro 'PTR_data_ov001_0219329c'
+   14 | #define PTR_data_ov001_0219329c (*(undefined **)(uintptr_t)0x219329cu)
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:27:39: note: passing argument to parameter 'param_1' here
+   27 | int find_buf_fn_from_thumb(undefined4 param_1);
+      |                                       ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:32:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   32 |   func_0x020b48ec(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:37:28: note: passing argument to parameter 'param_1' here
+   37 | void LoadCellBankFrom(int *param_1,int param_2);
+      |                            ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:33:27: error: incompatible pointer to integer conversion passing 'undefined *' (aka 'unsigned char *') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   33 |   uVar1 = func_0x0204799c(PTR_data_ov001_021932a0);
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:15:33: note: expanded from macro 'PTR_data_ov001_021932a0'
+   15 | #define PTR_data_ov001_021932a0 (*(undefined **)(uintptr_t)0x21932a0u)
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:27:39: note: passing argument to parameter 'param_1' here
+   27 | int find_buf_fn_from_thumb(undefined4 param_1);
+      |                                       ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:34:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   34 |   func_0x020b4a7c(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:33:27: note: passing argument to parameter 'param_1' here
+   33 | void Gfx_ReadPalette(int *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:35:27: error: incompatible pointer to integer conversion passing 'undefined *' (aka 'unsigned char *') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   35 |   uVar1 = func_0x0204799c(PTR_data_ov001_021932a4);
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:16:33: note: expanded from macro 'PTR_data_ov001_021932a4'
+   16 | #define PTR_data_ov001_021932a4 (*(undefined **)(uintptr_t)0x21932a4u)
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:27:39: note: passing argument to parameter 'param_1' here
+   27 | int find_buf_fn_from_thumb(undefined4 param_1);
+      |                                       ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:36:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   36 |   func_0x020b49f4(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:35:32: note: passing argument to parameter 'param_1' here
+   35 | void Gfx_ReadCharGraphics(int *param_1,int param_2);
+      |                                ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:37:27: error: incompatible pointer to integer conversion passing 'undefined *' (aka 'unsigned char *') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   37 |   uVar1 = func_0x0204799c(PTR_data_ov001_021932a8);
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:17:33: note: expanded from macro 'PTR_data_ov001_021932a8'
+   17 | #define PTR_data_ov001_021932a8 (*(undefined **)(uintptr_t)0x21932a8u)
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:27:39: note: passing argument to parameter 'param_1' here
+   27 | int find_buf_fn_from_thumb(undefined4 param_1);
+      |                                       ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:38:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   38 |   func_0x020b48ec(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:37:28: note: passing argument to parameter 'param_1' here
+   37 | void LoadCellBankFrom(int *param_1,int param_2);
+      |                            ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:39:27: error: incompatible pointer to integer conversion passing 'undefined *' (aka 'unsigned char *') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   39 |   uVar1 = func_0x0204799c(PTR_data_ov001_021932ac);
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:18:33: note: expanded from macro 'PTR_data_ov001_021932ac'
+   18 | #define PTR_data_ov001_021932ac (*(undefined **)(uintptr_t)0x21932acu)
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:27:39: note: passing argument to parameter 'param_1' here
+   27 | int find_buf_fn_from_thumb(undefined4 param_1);
+      |                                       ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:40:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   40 |   func_0x020b4a7c(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:33:27: note: passing argument to parameter 'param_1' here
+   33 | void Gfx_ReadPalette(int *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:41:27: error: incompatible pointer to integer conversion passing 'undefined *' (aka 'unsigned char *') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   41 |   uVar1 = func_0x0204799c(PTR_data_ov001_021932b0);
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:19:33: note: expanded from macro 'PTR_data_ov001_021932b0'
+   19 | #define PTR_data_ov001_021932b0 (*(undefined **)(uintptr_t)0x21932b0u)
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:27:39: note: passing argument to parameter 'param_1' here
+   27 | int find_buf_fn_from_thumb(undefined4 param_1);
+      |                                       ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:42:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   42 |   func_0x020b49f4(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:35:32: note: passing argument to parameter 'param_1' here
+   35 | void Gfx_ReadCharGraphics(int *param_1,int param_2);
+      |                                ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:43:27: error: incompatible pointer to integer conversion passing 'undefined *' (aka 'unsigned char *') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   43 |   uVar1 = func_0x0204799c(PTR_data_ov001_021932b4);
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:20:33: note: expanded from macro 'PTR_data_ov001_021932b4'
+   20 | #define PTR_data_ov001_021932b4 (*(undefined **)(uintptr_t)0x21932b4u)
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:27:39: note: passing argument to parameter 'param_1' here
+   27 | int find_buf_fn_from_thumb(undefined4 param_1);
+      |                                       ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:44:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   44 |   func_0x020b48ec(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:37:28: note: passing argument to parameter 'param_1' here
+   37 | void LoadCellBankFrom(int *param_1,int param_2);
+      |                            ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:45:27: error: incompatible pointer to integer conversion passing 'undefined *' (aka 'unsigned char *') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   45 |   uVar1 = func_0x0204799c(PTR_data_ov001_021932b8);
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:21:33: note: expanded from macro 'PTR_data_ov001_021932b8'
+   21 | #define PTR_data_ov001_021932b8 (*(undefined **)(uintptr_t)0x21932b8u)
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:27:39: note: passing argument to parameter 'param_1' here
+   27 | int find_buf_fn_from_thumb(undefined4 param_1);
+      |                                       ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:46:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   46 |   func_0x020b4a7c(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:33:27: note: passing argument to parameter 'param_1' here
+   33 | void Gfx_ReadPalette(int *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:47:27: error: incompatible pointer to integer conversion passing 'undefined *' (aka 'unsigned char *') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   47 |   uVar1 = func_0x0204799c(PTR_data_ov001_021932bc);
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:22:33: note: expanded from macro 'PTR_data_ov001_021932bc'
+   22 | #define PTR_data_ov001_021932bc (*(undefined **)(uintptr_t)0x21932bcu)
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:27:39: note: passing argument to parameter 'param_1' here
+   27 | int find_buf_fn_from_thumb(undefined4 param_1);
+      |                                       ^
+C-WORK/src/arm9_ov001/02193144_FUN_02193144.c:48:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   48 |   func_0x020b49f4(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02193144_FUN_02193144.h:35:32: note: passing argument to parameter 'param_1' here
+   35 | void Gfx_ReadCharGraphics(int *param_1,int param_2);
+      |                                ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.

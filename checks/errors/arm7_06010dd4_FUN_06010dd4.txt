@@ -1,0 +1,21 @@
+C-WORK/src/arm7/06010dd4_FUN_06010dd4.c:15:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |           *(uint *)(DAT_06010f18 & 0xfffffffc) << (DAT_06010f18 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06010dd4_FUN_06010dd4.c:15:75: note: place parentheses around the '+' expression to silence this warning
+   15 |           *(uint *)(DAT_06010f18 & 0xfffffffc) << (DAT_06010f18 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm7/06010dd4_FUN_06010dd4.c:23:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |           *(uint *)(DAT_06010f18 & 0xfffffffc) << (DAT_06010f18 & 3) * -8 + 0x20) + 0x34c) < 0x20) {
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06010dd4_FUN_06010dd4.c:23:75: note: place parentheses around the '+' expression to silence this warning
+   23 |           *(uint *)(DAT_06010f18 & 0xfffffffc) << (DAT_06010f18 & 3) * -8 + 0x20) + 0x34c) < 0x20) {
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm7/06010dd4_FUN_06010dd4.c:39:36: error: too few arguments to function call, single argument 'param_1' was not specified
+   39 |               iVar3 = FUN_0600a558();
+      |                       ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/06010dd4_FUN_06010dd4.h:5:6: note: 'FUN_0600a558' declared here
+    5 | uint FUN_0600a558(uint param_1);
+      |      ^            ~~~~~~~~~~~~
+2 warnings and 1 error generated.

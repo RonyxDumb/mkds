@@ -1,0 +1,31 @@
+/* Decompiled C draft; module arm9; ROM address 020ff2b0. No matching claim. */
+#include "types.h"
+#include "deps/020ff2b0_func_020ff2b0.h"
+
+undefined4 func_020ff2b0(undefined4 param_1,int param_2,int param_3)
+
+{
+  uint uVar1;
+  uint uVar2;
+  undefined4 uVar3;
+  
+  if ((param_2 != 0) && (param_3 != 0)) {
+    uVar1 = param_2 + 0x13cU & 3;
+    uVar2 = *(uint *)(param_2 + 0x13cU & 0xfffffffc);
+    func_020ff1b8(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,param_2 + 0x60);
+  }
+  uVar3 = func_020fecdc(param_1,param_2,param_3);
+  if ((param_2 != 0) && (param_3 == 0)) {
+    uVar1 = param_2 + 0x60U & 3;
+    uVar2 = *(uint *)(param_2 + 0x60U & 0xfffffffc);
+    func_020ff1a0(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,param_2 + 0x13c);
+  }
+  if ((param_2 != 0) && (param_3 != 0)) {
+    uVar1 = param_2 + 0x44U & 3;
+    uVar2 = *(uint *)(param_2 + 0x44U & 0xfffffffc);
+    uVar3 = func_020fe8ac(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
+    return uVar3;
+  }
+  return uVar3;
+}
+

@@ -1,0 +1,25 @@
+#pragma once
+/* Function-specific inferred declarations. */
+undefined4 * MTX_Identity33_(undefined4 *param_1);
+undefined4 * Matrix4x3_Identity(undefined4 *param_1);
+void func_02011074(void);
+undefined4 * func_02147954(undefined4 *param_1);
+#define puRam02011198 (*(undefined4 **)(uintptr_t)0x2011198u)
+#define uRam02011194 (*(undefined4 *)(uintptr_t)0x2011194u)
+#define uRam0201119c (*(undefined4 *)(uintptr_t)0x201119cu)
+#define uRam020111a0 (*(undefined4 *)(uintptr_t)0x20111a0u)
+#define uRam020111a4 (*(undefined4 *)(uintptr_t)0x20111a4u)
+#define uRam020111a8 (*(undefined4 *)(uintptr_t)0x20111a8u)
+#define uRam020111ac (*(undefined4 *)(uintptr_t)0x20111acu)
+#define uRam020111b0 (*(undefined4 *)(uintptr_t)0x20111b0u)
+#define uRam020111b4 (*(undefined4 *)(uintptr_t)0x20111b4u)
+#define uRam020111b8 (*(undefined4 *)(uintptr_t)0x20111b8u)
+#define uRam020111bc (*(undefined4 *)(uintptr_t)0x20111bcu)
+#define uRam020111c0 (*(undefined4 *)(uintptr_t)0x20111c0u)
+#define uRam020111c4 (*(undefined4 *)(uintptr_t)0x20111c4u)
+#define uRam020111c8 (*(undefined4 *)(uintptr_t)0x20111c8u)
+#define uRam020111cc (*(undefined4 *)(uintptr_t)0x20111ccu)
+#define uRam020111d0 (*(undefined4 *)(uintptr_t)0x20111d0u)
+#define uRam020111d4 (*(undefined4 *)(uintptr_t)0x20111d4u)
+#define uRam020111d8 (*(undefined4 *)(uintptr_t)0x20111d8u)
+#define uRam020111dc (*(undefined4 *)(uintptr_t)0x20111dcu)

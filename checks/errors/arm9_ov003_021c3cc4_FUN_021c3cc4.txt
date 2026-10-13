@@ -1,0 +1,38 @@
+C-WORK/src/arm9_ov003/021c3cc4_FUN_021c3cc4.c:41:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   41 |   FUN_021bf620(DAT_021c3dac,DAT_021c3db0);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c3cc4_FUN_021c3cc4.h:11:22: note: expanded from macro 'DAT_021c3db0'
+   11 | #define DAT_021c3db0 (*(undefined4 *)(uintptr_t)0x21c3db0u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c3cc4_FUN_021c3cc4.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+C-WORK/src/arm9_ov003/021c3cc4_FUN_021c3cc4.c:42:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   42 |   FUN_021bf620(DAT_021c3db4,DAT_021c3db8);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c3cc4_FUN_021c3cc4.h:13:22: note: expanded from macro 'DAT_021c3db8'
+   13 | #define DAT_021c3db8 (*(undefined4 *)(uintptr_t)0x21c3db8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c3cc4_FUN_021c3cc4.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+C-WORK/src/arm9_ov003/021c3cc4_FUN_021c3cc4.c:44:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   44 |   uVar2 = FUN_021d14b8(uVar2,0,4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9_ov003/021c3cc4_FUN_021c3cc4.c:47:9: error: incompatible pointer to integer conversion assigning to 'int' from 'uint *' (aka 'unsigned int *') [-Wint-conversion]
+   47 |   iVar3 = FUN_021d14b8(uVar2,0,4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c3cc4_FUN_021c3cc4.c:48:19: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   48 |   func_0x02151910(&local_2c);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c3cc4_FUN_021c3cc4.h:22:50: note: passing argument to parameter 'param_1' here
+   22 | void StructDW_MaybeCreate_from_thumb(undefined4 *param_1);
+      |                                                  ^
+C-WORK/src/arm9_ov003/021c3cc4_FUN_021c3cc4.c:62:21: error: too few arguments to function call, expected 4, have 1
+   62 |   FUN_021d1490(iVar3);
+      |   ~~~~~~~~~~~~      ^
+C-WORK/src/arm9_ov003/deps/021c3cc4_FUN_021c3cc4.h:6:6: note: 'FUN_021d1490' declared here
+    6 | void FUN_021d1490(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 5 errors generated.

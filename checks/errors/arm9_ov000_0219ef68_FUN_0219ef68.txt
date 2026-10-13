@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov000/0219ef68_FUN_0219ef68.c:35:9: error: assigning to 'undefined8' (aka 'unsigned long long') from incompatible type 'void'
+   35 |   uVar3 = FUN_021a350c();
+      |         ^ ~~~~~~~~~~~~~~
+1 error generated.

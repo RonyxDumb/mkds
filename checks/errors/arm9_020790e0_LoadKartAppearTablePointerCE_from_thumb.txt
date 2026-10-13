@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020790e0_LoadKartAppearTablePointerCE_from_thumb.c:16:51: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |     uVar2 = LoadKartAppearTablePointer_from_thumb();
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020790e0_LoadKartAppearTablePointerCE_from_thumb.h:5:14: note: 'LoadKartAppearTablePointer_from_thumb' declared here
+    5 | undefined4 * LoadKartAppearTablePointer_from_thumb(undefined4 param_1);
+      |              ^                                     ~~~~~~~~~~~~~~~~~~
+1 error generated.

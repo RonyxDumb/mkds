@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020c2304_func_020c2304.c:39:53: error: too many arguments to function call, expected single argument 'param_1', have 4 arguments
+   39 |     uVar3 = GetB3C4_Cell_RaceGoalTeamS(iVar5 + 0x12,param_2,iVar4,(int)((ulonglong)lVar1 >> 0x20));
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020c2304_func_020c2304.h:3:6: note: 'GetB3C4_Cell_RaceGoalTeamS' declared here
+    3 | uint GetB3C4_Cell_RaceGoalTeamS(int param_1);
+      |      ^                          ~~~~~~~~~~~
+1 error generated.

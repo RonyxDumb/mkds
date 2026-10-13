@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0210ef34_Maybe_helper_10ef34.c:9:17: error: too few arguments to function call, single argument 'param_1' was not specified
+    9 |   func_0210e434();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0210ef34_Maybe_helper_10ef34.h:5:6: note: 'func_0210e434' declared here
+    5 | void func_0210e434(undefined4 *param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~~
+1 error generated.

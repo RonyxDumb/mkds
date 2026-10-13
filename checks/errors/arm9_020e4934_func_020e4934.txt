@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020e4934_func_020e4934.c:9:19: error: too few arguments to function call, expected 2, have 0
+    9 |     func_020ec6e4();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020e4934_func_020e4934.h:5:6: note: 'func_020ec6e4' declared here
+    5 | void func_020ec6e4(int param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

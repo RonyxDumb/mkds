@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02057304_ClearSaveDataSection_Header_from_thumb.c:27:17: error: too many arguments to function call, expected 0, have 2
+   27 |   func_02152690(*(int *)*puRam020573b4 + 0x4c,uRam020573c4);
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02057304_ClearSaveDataSection_Header_from_thumb.h:7:6: note: 'func_02152690' declared here
+    7 | void func_02152690(void);
+      |      ^
+1 error generated.

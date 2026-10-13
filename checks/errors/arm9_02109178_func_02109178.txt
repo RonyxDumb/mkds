@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02109178_func_02109178.c:10:20: error: too few arguments to function call, expected 1, have 0
+   10 |   (*pcRam02109180)();
+      |   ~~~~~~~~~~~~~~~~ ^
+1 error generated.

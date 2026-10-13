@@ -1,0 +1,38 @@
+C-WORK/src/arm7/0601713c_FUN_0601713c.c:23:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |           *(uint *)(DAT_060172d0 & 0xfffffffc) << (DAT_060172d0 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0601713c_FUN_0601713c.c:23:75: note: place parentheses around the '+' expression to silence this warning
+   23 |           *(uint *)(DAT_060172d0 & 0xfffffffc) << (DAT_060172d0 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm7/0601713c_FUN_0601713c.c:28:26: error: too many arguments to function call, expected 0, have 1
+   28 |     uVar5 = FUN_0600e918(uVar2);
+      |             ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm7/deps/0601713c_FUN_0601713c.h:4:12: note: 'FUN_0600e918' declared here
+    4 | undefined2 FUN_0600e918(void);
+      |            ^
+C-WORK/src/arm7/0601713c_FUN_0601713c.c:36:28: error: too many arguments to function call, expected 0, have 1
+   36 |       iVar4 = FUN_0600e918(uVar2);
+      |               ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm7/deps/0601713c_FUN_0601713c.h:4:12: note: 'FUN_0600e918' declared here
+    4 | undefined2 FUN_0600e918(void);
+      |            ^
+C-WORK/src/arm7/0601713c_FUN_0601713c.c:42:30: error: too many arguments to function call, expected 0, have 1
+   42 |         iVar4 = FUN_0600e840(uVar2);
+      |                 ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm7/deps/0601713c_FUN_0601713c.h:3:12: note: 'FUN_0600e840' declared here
+    3 | undefined2 FUN_0600e840(void);
+      |            ^
+C-WORK/src/arm7/0601713c_FUN_0601713c.c:47:26: error: too many arguments to function call, expected 0, have 3
+   47 |       thunk_FUN_037fb24c(0,local_44,0x2c);
+      |       ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/0601713c_FUN_0601713c.h:15:6: note: 'thunk_FUN_037fb24c' declared here
+   15 | void thunk_FUN_037fb24c(void);
+      |      ^
+C-WORK/src/arm7/0601713c_FUN_0601713c.c:56:27: error: too few arguments to function call, expected 2, have 1
+   56 |         FUN_0600eac4(uVar2);
+      |         ~~~~~~~~~~~~      ^
+C-WORK/src/arm7/deps/0601713c_FUN_0601713c.h:6:6: note: 'FUN_0600eac4' declared here
+    6 | void FUN_0600eac4(undefined4 param_1,undefined2 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 5 errors generated.

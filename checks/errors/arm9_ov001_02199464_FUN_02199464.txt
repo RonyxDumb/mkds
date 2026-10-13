@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov001/02199464_FUN_02199464.c:40:19: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'int *' [-Wint-conversion]
+   40 |   func_0x020b4a44(*(int *)PTR_data_ov001_021995cc + 0x70,uVar1);
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02199464_FUN_02199464.h:27:35: note: passing argument to parameter 'param_1' here
+   27 | void Gfx_ReadPaletteRelative(int *param_1,int param_2);
+      |                                   ^
+1 error generated.

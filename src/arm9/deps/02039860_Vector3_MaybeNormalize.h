@@ -1,0 +1,10 @@
+#pragma once
+/* Function-specific inferred declarations. */
+int Vector3_MaybeNormalize(uint param_1,int *param_2);
+#define plRam02039994 (*(longlong **)(uintptr_t)0x2039994u)
+#define plRam0203999c (*(longlong **)(uintptr_t)0x203999cu)
+#define puRam0203998c (*(ushort **)(uintptr_t)0x203998cu)
+#define puRam02039990 (*(undefined4 **)(uintptr_t)0x2039990u)
+#define puRam02039998 (*(ushort **)(uintptr_t)0x2039998u)
+#define uRam020399a0 (*(uint *)(uintptr_t)0x20399a0u)
+#define uRam020399a4 (*(uint *)(uintptr_t)0x20399a4u)

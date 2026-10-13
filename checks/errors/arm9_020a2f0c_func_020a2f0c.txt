@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020a2f0c_func_020a2f0c.c:12:25: error: incompatible pointer types assigning to 'code *' (aka 'void (*)()') from 'undefined *' (aka 'unsigned char *') [-Werror,-Wincompatible-pointer-types]
+   12 |   UNRECOVERED_JUMPTABLE = pcRam020a2f2c;
+      |                         ^ ~~~~~~~~~~~~~
+1 error generated.

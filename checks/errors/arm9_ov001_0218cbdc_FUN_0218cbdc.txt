@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov001/0218cbdc_FUN_0218cbdc.c:52:23: error: too many arguments to function call, expected 0, have 2
+   52 |       func_0x020d26ec(param_2,DAT_0218cd74);
+      |       ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0218cbdc_FUN_0218cbdc.h:27:6: note: 'func_020d26ec' declared here
+   27 | void func_020d26ec(void);
+      |      ^
+C-WORK/src/arm9_ov001/0218cbdc_FUN_0218cbdc.c:62:21: error: too many arguments to function call, expected 0, have 2
+   62 |     func_0x020d26ec(param_2,DAT_0218cd78);
+      |     ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0218cbdc_FUN_0218cbdc.h:27:6: note: 'func_020d26ec' declared here
+   27 | void func_020d26ec(void);
+      |      ^
+2 errors generated.

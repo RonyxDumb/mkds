@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/02180a54_FUN_02180a54.c:50:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   50 |   func_0x020b48ec(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02180a54_FUN_02180a54.h:37:28: note: passing argument to parameter 'param_1' here
+   37 | void LoadCellBankFrom(int *param_1,int param_2);
+      |                            ^
+C-WORK/src/arm9_ov000/02180a54_FUN_02180a54.c:52:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   52 |   func_0x020b4a7c(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02180a54_FUN_02180a54.h:31:27: note: passing argument to parameter 'param_1' here
+   31 | void Gfx_ReadPalette(int *param_1,int param_2);
+      |                           ^
+2 errors generated.

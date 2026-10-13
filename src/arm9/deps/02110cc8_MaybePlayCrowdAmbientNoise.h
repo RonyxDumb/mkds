@@ -1,0 +1,21 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void MaybePlayCrowdAmbientNoise(void);
+void NNSi_MaybeSndPlayerStartSeq(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+void func_02106c64(void);
+void func_02108e38(void);
+void func_0210d614(int param_1,undefined4 param_2,int param_3);
+uint func_02110e58(undefined4 param_1,undefined4 param_2,uint param_3);
+#define iRam02110e28 (*(int *)(uintptr_t)0x2110e28u)
+#define iRam02110e2c (*(int *)(uintptr_t)0x2110e2cu)
+#define puRam02110e34 (*(undefined4 **)(uintptr_t)0x2110e34u)
+#define puRam02110e38 (*(undefined4 **)(uintptr_t)0x2110e38u)
+#define uRam02110e24 (*(uint *)(uintptr_t)0x2110e24u)
+#define uRam02110e30 (*(undefined4 *)(uintptr_t)0x2110e30u)
+#define uRam02110e3c (*(uint *)(uintptr_t)0x2110e3cu)
+#define uRam02110e40 (*(uint *)(uintptr_t)0x2110e40u)
+#define uRam02110e44 (*(uint *)(uintptr_t)0x2110e44u)
+#define uRam02110e48 (*(uint *)(uintptr_t)0x2110e48u)
+#define uRam02110e4c (*(uint *)(uintptr_t)0x2110e4cu)
+#define uRam02110e50 (*(uint *)(uintptr_t)0x2110e50u)
+#define uRam02110e54 (*(undefined4 *)(uintptr_t)0x2110e54u)

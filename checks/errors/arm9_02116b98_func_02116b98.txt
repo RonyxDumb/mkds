@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02116b98_func_02116b98.c:11:33: error: too few arguments to function call, expected 3, have 1
+   11 |   func_02116ce8((char)param_1[1]);
+      |   ~~~~~~~~~~~~~                 ^
+C-WORK/src/arm9/deps/02116b98_func_02116b98.h:7:6: note: 'func_02116ce8' declared here
+    7 | void func_02116ce8(undefined4 param_1,undefined4 param_2,int param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

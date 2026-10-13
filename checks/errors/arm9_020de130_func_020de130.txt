@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020de130_func_020de130.c:11:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   11 |   uVar1 = FormatFindMapObjFileBuffer_from_thumb(uRam020de174);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020de130_func_020de130.c:14:9: error: assigning to 'int' from incompatible type 'void'
+   14 |   iVar2 = FindFileBuffer_CRS_CST_from_thumb(uRam020de17c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

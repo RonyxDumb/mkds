@@ -1,0 +1,46 @@
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:16:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |             *(uint *)(uRam02049a98 & 0xfffffffc) << (uRam02049a98 & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:16:77: note: place parentheses around the '+' expression to silence this warning
+   16 |             *(uint *)(uRam02049a98 & 0xfffffffc) << (uRam02049a98 & 3) * -8 + 0x20;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:22:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |               *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:22:65: note: place parentheses around the '+' expression to silence this warning
+   22 |               *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20;
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:26:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |        (uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20) != 0xd)) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:26:50: note: place parentheses around the '+' expression to silence this warning
+   26 |        (uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20) != 0xd)) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:31:65: error: call to undeclared function 'func_0x02180608'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   31 |         ((iVar2 = GetCurrentSceneId(), iVar2 != 0xc || (iVar2 = func_0x02180608(), iVar2 != 0)))) &&
+      |                                                                 ^
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:34:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |                     *(uint *)(uRam02049a9c & 0xfffffffc) << (uRam02049a9c & 3) * -8 + 0x20) + 0x16)
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:34:85: note: place parentheses around the '+' expression to silence this warning
+   34 |                     *(uint *)(uRam02049a9c & 0xfffffffc) << (uRam02049a9c & 3) * -8 + 0x20) + 0x16)
+      |                                                                                     ^     
+      |                                                             (                             )
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:39:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |                 *(uint *)(uRam02049aa0 & 0xfffffffc) << (uRam02049aa0 & 3) * -8 + 0x20) + 0xc;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:39:81: note: place parentheses around the '+' expression to silence this warning
+   39 |                 *(uint *)(uRam02049aa0 & 0xfffffffc) << (uRam02049aa0 & 3) * -8 + 0x20) + 0xc;
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:42:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |         if ((uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20) == 6) {
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204998c_MaybeIfExpectsReturnToTitleScene.c:42:55: note: place parentheses around the '+' expression to silence this warning
+   42 |         if ((uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20) == 6) {
+      |                                                       ^     
+      |                                            (                )
+6 warnings and 1 error generated.

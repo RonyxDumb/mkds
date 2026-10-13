@@ -1,0 +1,5 @@
+#define iRam020e62fc (*(int *)(uintptr_t)0x20e62fcu)
+#define iRam020e6304 (*(int *)(uintptr_t)0x20e6304u)
+#define uRam020e62f8 (*(uint *)(uintptr_t)0x20e62f8u)
+#define uRam020e6300 (*(uint *)(uintptr_t)0x20e6300u)
+#define uRam020e6308 (*(undefined4 *)(uintptr_t)0x20e6308u)

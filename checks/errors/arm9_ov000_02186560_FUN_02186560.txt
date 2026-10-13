@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/02186560_FUN_02186560.c:19:32: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   19 |   iVar2 = (*(code *)param_1[9])(DAT_02186608,DAT_0218660c);
+      |                                ^
+C-WORK/src/arm9_ov000/02186560_FUN_02186560.c:19:9: error: assigning to 'int' from incompatible type 'void'
+   19 |   iVar2 = (*(code *)param_1[9])(DAT_02186608,DAT_0218660c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

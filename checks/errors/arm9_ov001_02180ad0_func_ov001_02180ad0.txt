@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov001/02180ad0_func_ov001_02180ad0.c:8:19: error: too few arguments to function call, expected 6, have 0
+    8 |   func_0x02024340();
+      |   ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/02180ad0_func_ov001_02180ad0.h:7:6: note: 'G2d_Text_PrintString' declared here
+    7 | void G2d_Text_PrintString (int param_1,int param_2,int param_3,undefined4 param_4,uint param_5, undefined4 param_6);
+      |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

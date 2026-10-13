@@ -1,0 +1,49 @@
+C-WORK/src/arm9/0208e358_func_0208e358.c:20:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |                      *(uint *)(uRam0208e3fc & 0xfffffffc) << (uRam0208e3fc & 3) * -8 + 0x20,0);
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e358_func_0208e358.c:20:86: note: place parentheses around the '+' expression to silence this warning
+   20 |                      *(uint *)(uRam0208e3fc & 0xfffffffc) << (uRam0208e3fc & 3) * -8 + 0x20,0);
+      |                                                                                      ^     
+      |                                                              (                             )
+C-WORK/src/arm9/0208e358_func_0208e358.c:28:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |     if (uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0) {
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e358_func_0208e358.c:28:56: note: place parentheses around the '+' expression to silence this warning
+   28 |     if (uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0) {
+      |                                                        ^
+      |                                             (                )
+C-WORK/src/arm9/0208e358_func_0208e358.c:31:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |       iStack_1c = (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) >> 4;
+      |                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e358_func_0208e358.c:31:66: note: place parentheses around the '+' expression to silence this warning
+   31 |       iStack_1c = (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) >> 4;
+      |                                                                  ^     
+      |                                                       (                )
+C-WORK/src/arm9/0208e358_func_0208e358.c:34:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |       iStack_18 = (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) >> 4;
+      |                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e358_func_0208e358.c:34:66: note: place parentheses around the '+' expression to silence this warning
+   34 |       iStack_18 = (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) >> 4;
+      |                                                                  ^     
+      |                                                       (                )
+C-WORK/src/arm9/0208e358_func_0208e358.c:37:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   37 |       iStack_14 = (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) >> 4;
+      |                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e358_func_0208e358.c:37:66: note: place parentheses around the '+' expression to silence this warning
+   37 |       iStack_14 = (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) >> 4;
+      |                                                                  ^     
+      |                                                       (                )
+C-WORK/src/arm9/0208e358_func_0208e358.c:38:30: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   38 |       Model_Render(iVar3 + 8,*(undefined2 *)(iVar3 + 0xb0));
+      |       ~~~~~~~~~~~~           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0208e358_func_0208e358.h:5:6: note: 'Model_Render' declared here
+    5 | void Model_Render(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9/0208e358_func_0208e358.c:43:84: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   43 |     iVar3 = IntrusiveListWrapper_NextItem(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20,iVar3);
+      |                                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208e358_func_0208e358.c:43:84: note: place parentheses around the '+' expression to silence this warning
+   43 |     iVar3 = IntrusiveListWrapper_NextItem(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20,iVar3);
+      |                                                                                    ^     
+      |                                                                         (                )
+6 warnings and 1 error generated.

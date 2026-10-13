@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021d2fa0_FUN_021d2fa0.c:10:49: error: too few arguments to function call, expected 3, have 2
+   10 |   func_0x0214bf64(*DAT_021d2fd0 + DAT_021d2fd8,0);
+      |   ~~~~~~~~~~~~~~~                               ^
+C-WORK/src/arm9_ov003/deps/021d2fa0_FUN_021d2fa0.h:13:6: note: 'CopyToOamB' declared here
+   13 | void CopyToOamB(undefined4 param_1,int param_2,uint param_3);
+      |      ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

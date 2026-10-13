@@ -1,0 +1,75 @@
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:34:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |   uVar5 = uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:34:52: note: place parentheses around the '+' expression to silence this warning
+   34 |   uVar5 = uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:38:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |   local_68 = uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:38:55: note: place parentheses around the '+' expression to silence this warning
+   38 |   local_68 = uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:41:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |   if (((uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20) & 0x20) == 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:41:50: note: place parentheses around the '+' expression to silence this warning
+   41 |   if (((uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20) & 0x20) == 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:44:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   44 |     uVar6 = uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:44:54: note: place parentheses around the '+' expression to silence this warning
+   44 |     uVar6 = uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:80:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   80 |             *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:80:63: note: place parentheses around the '+' expression to silence this warning
+   80 |             *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                                               ^     
+      |                                              (                      )
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:122:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  122 |   uVar9 = uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:122:54: note: place parentheses around the '+' expression to silence this warning
+  122 |   uVar9 = uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:129:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  129 |   if ((uVar3 >> uVar10 * 8 | uVar3 << uVar10 * -8 + 0x20) < uVar7) {
+      |                                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:129:51: note: place parentheses around the '+' expression to silence this warning
+  129 |   if ((uVar3 >> uVar10 * 8 | uVar3 << uVar10 * -8 + 0x20) < uVar7) {
+      |                                                   ^     
+      |                                       (                 )
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:133:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  133 |            *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:133:62: note: place parentheses around the '+' expression to silence this warning
+  133 |            *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                                              ^     
+      |                                             (                      )
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:175:24: error: incompatible pointer types passing 'undefined1[128]' (aka 'unsigned char[128]') to parameter of type 'ushort *' (aka 'unsigned short *') [-Werror,-Wincompatible-pointer-types]
+  175 |           Mem_CpuCopy8(auStack_f0,(uVar9 + iVar1) - uStack_f4,uStack_f4);
+      |                        ^~~~~~~~~~
+C-WORK/src/arm9/deps/020032b0_Fs_File_DefaultOperation_GetPath.h:7:27: note: passing argument to parameter 'param_1' here
+    7 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |                           ^
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:175:35: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'uint *' (aka 'unsigned int *') [-Wint-conversion]
+  175 |           Mem_CpuCopy8(auStack_f0,(uVar9 + iVar1) - uStack_f4,uStack_f4);
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020032b0_Fs_File_DefaultOperation_GetPath.h:7:41: note: passing argument to parameter 'param_2' here
+    7 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |                                         ^
+C-WORK/src/arm9/020032b0_Fs_File_DefaultOperation_GetPath.c:179:44: error: incompatible pointer to integer conversion passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int' [-Wint-conversion]
+  179 |         iVar2 = Fs_File_DoExecuteOperation(auStack_70,3);
+      |                                            ^~~~~~~~~~
+C-WORK/src/arm9/deps/020032b0_Fs_File_DefaultOperation_GetPath.h:4:37: note: passing argument to parameter 'param_1' here
+    4 | uint Fs_File_DoExecuteOperation(int param_1,uint param_2);
+      |                                     ^
+8 warnings and 3 errors generated.

@@ -1,0 +1,15 @@
+C-WORK/src/arm9_ov000/021a8f84_FUN_021a8f84.c:13:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   uVar3 = FUN_021a88e4();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a8f84_FUN_021a8f84.h:3:12: note: 'FUN_021a88e4' declared here
+    3 | undefined4 FUN_021a88e4(int param_1);
+      |            ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a8f84_FUN_021a8f84.c:24:13: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   24 |   puVar4[3] = DAT_021a8ff4;
+      |             ^ ~~~~~~~~~~~~
+      |               *(          )
+C-WORK/src/arm9_ov000/021a8f84_FUN_021a8f84.c:26:11: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   26 |   *puVar1 = DAT_021a8ff8;
+      |           ^ ~~~~~~~~~~~~
+      |             *(          )
+3 errors generated.

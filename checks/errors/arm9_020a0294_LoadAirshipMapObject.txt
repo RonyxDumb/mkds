@@ -1,0 +1,5 @@
+C-WORK/src/arm9/020a0294_LoadAirshipMapObject.c:10:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   10 |   uVar1 = CreateMapObjectFromModel_from_thumb(param_1,uRam020a02c0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+1 error generated.

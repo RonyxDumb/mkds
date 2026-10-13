@@ -1,0 +1,5 @@
+# Esperimento non integrato
+
+Reconcile.java ha registrato le firme inferite nel database Ghidra, quindi RebuildC.java ha rigenerato le funzioni. L'esperimento ha prodotto 9.525 compilazioni ma questo numero non è accettato: il blocco di firme non ancora verificate può eliminare chiamate, argomenti o valori di ritorno, oppure lasciare ingressi r0-r3 come variabili non inizializzate. 1.476 file sono segnalati dall'audit conservativo delle chiamate. Nessun sorgente rigenerato dall'esperimento è stato installato nel workspace finale. Le firme registrate sono evidenza delle inferenze, non prove ABI.
+
+Per riprodurre: aprire i programmi GZF dell'archivio di analisi originale con Ghidra 11.3.2, applicare il modello ARM descritto in scripts/arm9-ldr-alignment.txt, eseguire Reconcile.java con il percorso TSV destinazione, poi RebuildC.java in una directory separata. Conservare i sorgenti byte-exact. Prima di qualsiasi integrazione verificare registri, stack, chiamate e ritorni sui byte originali.

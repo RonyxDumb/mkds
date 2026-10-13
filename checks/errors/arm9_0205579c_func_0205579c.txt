@@ -1,0 +1,25 @@
+C-WORK/src/arm9/0205579c_func_0205579c.c:10:21: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |       func_0204e1a8();
+      |       ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0205579c_func_0205579c.h:3:12: note: 'func_0204e1a8' declared here
+    3 | undefined4 func_0204e1a8(int param_1);
+      |            ^             ~~~~~~~~~~~
+C-WORK/src/arm9/0205579c_func_0205579c.c:13:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |     func_02055808();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0205579c_func_0205579c.h:5:12: note: 'func_02055808' declared here
+    5 | undefined4 func_02055808(int param_1);
+      |            ^             ~~~~~~~~~~~
+C-WORK/src/arm9/0205579c_func_0205579c.c:17:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   17 |     func_0204e1a8();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0205579c_func_0205579c.h:3:12: note: 'func_0204e1a8' declared here
+    3 | undefined4 func_0204e1a8(int param_1);
+      |            ^             ~~~~~~~~~~~
+C-WORK/src/arm9/0205579c_func_0205579c.c:20:17: error: too few arguments to function call, single argument 'param_1' was not specified
+   20 |   func_02055808();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0205579c_func_0205579c.h:5:12: note: 'func_02055808' declared here
+    5 | undefined4 func_02055808(int param_1);
+      |            ^             ~~~~~~~~~~~
+4 errors generated.

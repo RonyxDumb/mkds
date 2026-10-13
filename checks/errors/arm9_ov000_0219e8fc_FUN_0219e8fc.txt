@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/0219e8fc_FUN_0219e8fc.c:21:32: error: use of undeclared identifier 'sbyte'
+   21 |         uVar3 = uVar3 | 1 << *(sbyte *)(iVar4 + DAT_0219e944);
+      |                                ^
+C-WORK/src/arm9_ov000/0219e8fc_FUN_0219e8fc.c:21:39: error: expected expression
+   21 |         uVar3 = uVar3 | 1 << *(sbyte *)(iVar4 + DAT_0219e944);
+      |                                       ^
+2 errors generated.

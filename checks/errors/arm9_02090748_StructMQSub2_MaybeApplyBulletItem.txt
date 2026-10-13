@@ -1,0 +1,49 @@
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:22:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + 0x18;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:22:65: note: place parentheses around the '+' expression to silence this warning
+   22 |           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + 0x18;
+      |                                                                 ^     
+      |                                              (                        )
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:25:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |   uVar3 = func_0207eafc(uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20,(undefined4)(uintptr_t)(&local_18),iVar1 + 300,
+      |                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:25:66: note: place parentheses around the '+' expression to silence this warning
+   25 |   uVar3 = func_0207eafc(uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20,(undefined4)(uintptr_t)(&local_18),iVar1 + 300,
+      |                                                                  ^     
+      |                                                       (                )
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:30:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |   if ((((uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) & 0x40000000) == 0) ||
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:30:51: note: place parentheses around the '+' expression to silence this warning
+   30 |   if ((((uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) & 0x40000000) == 0) ||
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:32:48: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |      (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) != 1)) {
+      |                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:32:48: note: place parentheses around the '+' expression to silence this warning
+   32 |      (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) != 1)) {
+      |                                                ^     
+      |                                     (                )
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:44:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   44 |   *(uint *)(iVar1 + 0xcc) = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:44:70: note: place parentheses around the '+' expression to silence this warning
+   44 |   *(uint *)(iVar1 + 0xcc) = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:47:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |   *(uint *)(iVar1 + 0xd0) = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:47:70: note: place parentheses around the '+' expression to silence this warning
+   47 |   *(uint *)(iVar1 + 0xd0) = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/02090748_StructMQSub2_MaybeApplyBulletItem.c:52:24: error: too few arguments to function call, expected 4, have 1
+   52 |   func_02090638(param_1);
+      |   ~~~~~~~~~~~~~        ^
+C-WORK/src/arm9/deps/02090748_StructMQSub2_MaybeApplyBulletItem.h:9:6: note: 'func_02090638' declared here
+    9 | void func_02090638(int param_1,undefined4 param_2,undefined4 param_3,int param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+6 warnings and 1 error generated.

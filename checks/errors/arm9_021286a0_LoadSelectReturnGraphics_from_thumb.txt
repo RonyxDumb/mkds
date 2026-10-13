@@ -1,0 +1,16 @@
+C-WORK/src/arm9/021286a0_LoadSelectReturnGraphics_from_thumb.c:18:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   18 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02128764);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021286a0_LoadSelectReturnGraphics_from_thumb.c:20:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   20 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02128768);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021286a0_LoadSelectReturnGraphics_from_thumb.c:22:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   22 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam0212876c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021286a0_LoadSelectReturnGraphics_from_thumb.c:25:50: error: too few arguments to function call, expected 2, have 1
+   25 |   Arm_FlushRange(*(undefined4 *)(local_24 + 0x14));
+      |   ~~~~~~~~~~~~~~                                 ^
+C-WORK/src/arm9/deps/021286a0_LoadSelectReturnGraphics_from_thumb.h:3:6: note: 'Arm_FlushRange' declared here
+    3 | void Arm_FlushRange(uint param_1,int param_2);
+      |      ^              ~~~~~~~~~~~~~~~~~~~~~~~~
+4 errors generated.

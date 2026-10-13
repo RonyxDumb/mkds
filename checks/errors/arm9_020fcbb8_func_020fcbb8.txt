@@ -1,0 +1,49 @@
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:22:40: error: too few arguments to function call, single argument 'param_1' was not specified
+   22 |   iVar3 = StructMQRacerEntry_SomeFn_64();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020fcbb8_func_020fcbb8.h:4:12: note: 'StructMQRacerEntry_SomeFn_64' declared here
+    4 | undefined4 StructMQRacerEntry_SomeFn_64(int param_1);
+      |            ^                            ~~~~~~~~~~~
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:30:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |           *(uint *)(uRam020fccd4 & 0xfffffffc) << (uRam020fccd4 & 3) * -8 + 0x20);
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:30:75: note: place parentheses around the '+' expression to silence this warning
+   30 |           *(uint *)(uRam020fccd4 & 0xfffffffc) << (uRam020fccd4 & 3) * -8 + 0x20);
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:34:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |   if ((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) !=
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:34:49: note: place parentheses around the '+' expression to silence this warning
+   34 |   if ((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) !=
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:35:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |       (uVar7 >> uVar5 * 8 | uVar7 << uVar5 * -8 + 0x20)) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:35:49: note: place parentheses around the '+' expression to silence this warning
+   35 |       (uVar7 >> uVar5 * 8 | uVar7 << uVar5 * -8 + 0x20)) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:38:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |     if ((((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0x40000000) == 0) &&
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:38:53: note: place parentheses around the '+' expression to silence this warning
+   38 |     if ((((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0x40000000) == 0) &&
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:40:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |        ((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 1) == 0)) {
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:40:51: note: place parentheses around the '+' expression to silence this warning
+   40 |        ((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 1) == 0)) {
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:65:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   65 |   bVar10 = ((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0x10000000) == 0;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fcbb8_func_020fcbb8.c:65:55: note: place parentheses around the '+' expression to silence this warning
+   65 |   bVar10 = ((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0x10000000) == 0;
+      |                                                       ^     
+      |                                            (                )
+6 warnings and 1 error generated.

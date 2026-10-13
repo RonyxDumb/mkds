@@ -1,0 +1,20 @@
+C-WORK/src/arm9_ov003/021bf620_FUN_021bf620.c:11:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   11 |   uVar1 = FUN_021bf650();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov003/deps/021bf620_FUN_021bf620.h:4:5: note: 'FUN_021bf650' declared here
+    4 | int FUN_021bf650(int param_1);
+      |     ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bf620_FUN_021bf620.c:12:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   12 |   uVar1 = FUN_021d14b8(uVar1,&local_10,4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9_ov003/021bf620_FUN_021bf620.c:14:13: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   14 |   (*param_2)(uVar1,0,local_10);
+      |             ^
+C-WORK/src/arm9_ov003/021bf620_FUN_021bf620.c:15:21: error: too few arguments to function call, expected 4, have 1
+   15 |   FUN_021d1490(uVar1);
+      |   ~~~~~~~~~~~~      ^
+C-WORK/src/arm9_ov003/deps/021bf620_FUN_021bf620.h:5:6: note: 'FUN_021d1490' declared here
+    5 | void FUN_021d1490(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 3 errors generated.

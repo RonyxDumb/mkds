@@ -1,0 +1,22 @@
+C-WORK/src/arm9/0212dcac_Sound_Context_Dispose.c:8:36: error: too few arguments to function call, single argument 'param_1' was not specified
+    8 |   Sound_Context_DisposeLoadedStuff();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212dcac_Sound_Context_Dispose.h:5:6: note: 'Sound_Context_DisposeLoadedStuff' declared here
+    5 | void Sound_Context_DisposeLoadedStuff(uint param_1);
+      |      ^                                ~~~~~~~~~~~~
+C-WORK/src/arm9/0212dcac_Sound_Context_Dispose.c:10:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   10 |                      *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212dcac_Sound_Context_Dispose.c:10:76: note: place parentheses around the '+' expression to silence this warning
+   10 |                      *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20);
+      |                                                                            ^     
+      |                                                         (                        )
+C-WORK/src/arm9/0212dcac_Sound_Context_Dispose.c:9:22: error: too many arguments to function call, expected 0, have 1
+    9 |   Mem_Frame_Finalize(*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
+      |   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   10 |                      *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20);
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212dcac_Sound_Context_Dispose.h:3:6: note: 'Mem_Frame_Finalize' declared here
+    3 | void Mem_Frame_Finalize(void);
+      |      ^
+1 warning and 2 errors generated.

@@ -1,0 +1,22 @@
+C-WORK/src/arm9_ov000/021a9868_FUN_021a9868.c:19:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   19 |   puVar1 = (undefined1 *)(*(code *)*DAT_021a9974)(0x98);
+      |                                                  ^
+C-WORK/src/arm9_ov000/021a9868_FUN_021a9868.c:19:26: error: operand of type 'void' where arithmetic or pointer type is required
+   19 |   puVar1 = (undefined1 *)(*(code *)*DAT_021a9974)(0x98);
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9868_FUN_021a9868.c:41:42: error: too few arguments to function call, expected 3, have 2
+   41 |     func_0x0214d1fc(*piVar9,puVar1 + 0x2c);
+      |     ~~~~~~~~~~~~~~~                      ^
+C-WORK/src/arm9_ov000/deps/021a9868_FUN_021a9868.h:18:6: note: 'Mem_CpuCopy8' declared here
+   18 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9868_FUN_021a9868.c:65:15: warning: cast to smaller integer type 'char' from 'undefined1 *' (aka 'unsigned char *') [-Wpointer-to-int-cast]
+   65 |   puVar1[4] = (char)puVar8;
+      |               ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9868_FUN_021a9868.c:70:15: warning: cast to smaller integer type 'char' from 'undefined1 *' (aka 'unsigned char *') [-Wpointer-to-int-cast]
+   70 |   puVar1[8] = (char)puVar7;
+      |               ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9868_FUN_021a9868.c:74:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   74 |   (*(code *)*DAT_021a9988)(puVar1);
+      |                           ^
+4 warnings and 2 errors generated.

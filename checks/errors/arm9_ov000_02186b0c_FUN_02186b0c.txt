@@ -1,0 +1,8 @@
+In file included from C-WORK/src/arm9_ov000/02186b0c_FUN_02186b0c.c:3:
+C-WORK/src/arm9_ov000/deps/02186b0c_FUN_02186b0c.h:12:1: error: unknown type name 'size_t'
+   12 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/02186b0c_FUN_02186b0c.c:35:9: error: assigning to 'int' from incompatible type 'void'
+   35 |   iVar2 = func_0x0200d9e0(iVar2,iVar4,uVar6,param_2);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

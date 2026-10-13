@@ -1,0 +1,25 @@
+C-WORK/src/arm9/020ca844_func_020ca844.c:23:35: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   23 |       iVar1 = func_020ca9ac(uVar2,1);
+      |               ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020ca844_func_020ca844.h:5:6: note: 'func_020ca9ac' declared here
+    5 | void func_020ca9ac(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020ca844_func_020ca844.c:27:37: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   27 |         iVar1 = func_020ca9ac(uVar2,10);
+      |                 ~~~~~~~~~~~~~       ^~
+C-WORK/src/arm9/deps/020ca844_func_020ca844.h:5:6: note: 'func_020ca9ac' declared here
+    5 | void func_020ca9ac(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020ca844_func_020ca844.c:52:33: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   52 |     iVar1 = func_020ca9ac(uVar2,0x40);
+      |             ~~~~~~~~~~~~~       ^~~~
+C-WORK/src/arm9/deps/020ca844_func_020ca844.h:5:6: note: 'func_020ca9ac' declared here
+    5 | void func_020ca9ac(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020ca844_func_020ca844.c:55:35: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   55 |       iVar1 = func_020ca9ac(uVar2,0x80);
+      |               ~~~~~~~~~~~~~       ^~~~
+C-WORK/src/arm9/deps/020ca844_func_020ca844.h:5:6: note: 'func_020ca9ac' declared here
+    5 | void func_020ca9ac(int param_1);
+      |      ^             ~~~~~~~~~~~
+4 errors generated.

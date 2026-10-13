@@ -1,0 +1,17 @@
+#pragma once
+/* Function-specific inferred declarations. */
+int GetDriverEntry(int param_1);
+void StructPRSub_Create(undefined4 *param_1,int param_2);
+void StructPRSub_Create2(undefined4 *param_1,int param_2);
+void StructPR_Load_from_thumb(int param_1,int param_2);
+void func_020ee684(int param_1,int param_2);
+#define iRam020efc4c (*(int *)(uintptr_t)0x20efc4cu)
+#define iRam020efc50 (*(int *)(uintptr_t)0x20efc50u)
+#define iRam020efc58 (*(int *)(uintptr_t)0x20efc58u)
+#define iRam020efc60 (*(int *)(uintptr_t)0x20efc60u)
+#define iRam020efc64 (*(int *)(uintptr_t)0x20efc64u)
+#define iRam020efc68 (*(int *)(uintptr_t)0x20efc68u)
+#define iRam020efc6c (*(int *)(uintptr_t)0x20efc6cu)
+#define iRam020efc70 (*(int *)(uintptr_t)0x20efc70u)
+#define piRam020efc54 (*(int **)(uintptr_t)0x20efc54u)
+#define piRam020efc5c (*(int **)(uintptr_t)0x20efc5cu)

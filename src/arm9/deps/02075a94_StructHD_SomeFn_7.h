@@ -1,0 +1,18 @@
+#pragma once
+/* Function-specific inferred declarations. */
+int GetDriverEntry(int param_1);
+void GetDriverMaybeSfxPosition(undefined4 *param_1,int param_2);
+undefined4 IsRacerFinishedRace(int param_1);
+void StructHD_SomeFn_1(int param_1);
+void StructHD_SomeFn_12(int param_1);
+void StructHD_SomeFn_13(int param_1);
+bool StructHD_SomeFn_7(int param_1);
+void StructVC_SomeFnLinkedRouteRelated(int param_1,int param_2);
+uint func_020411e4(undefined4 param_1);
+void func_0207bd6c(int param_1,int param_2);
+#define iRam02075ce8 (*(int *)(uintptr_t)0x2075ce8u)
+#define puRam02075cdc (*(undefined4 **)(uintptr_t)0x2075cdcu)
+#define puRam02075cec (*(undefined4 **)(uintptr_t)0x2075cecu)
+#define uRam02075cd8 (*(uint *)(uintptr_t)0x2075cd8u)
+#define uRam02075ce0 (*(uint *)(uintptr_t)0x2075ce0u)
+#define uRam02075ce4 (*(uint *)(uintptr_t)0x2075ce4u)

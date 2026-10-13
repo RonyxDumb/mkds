@@ -1,0 +1,9 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void StructMQRacerEntry_SomeFn_85(int param_1);
+#define iRam0207187c (*(int *)(uintptr_t)0x207187cu)
+#define iRam02071880 (*(int *)(uintptr_t)0x2071880u)
+#define iRam02071884 (*(int *)(uintptr_t)0x2071884u)
+#define iRam02071888 (*(int *)(uintptr_t)0x2071888u)
+#define iRam0207188c (*(int *)(uintptr_t)0x207188cu)
+#define iRam02071890 (*(int *)(uintptr_t)0x2071890u)

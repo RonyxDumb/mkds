@@ -1,0 +1,7 @@
+C-WORK/src/arm7/060188a4_FUN_060188a4.c:12:26: error: too many arguments to function call, expected 0, have 1
+   12 |       thunk_FUN_03804cdc(local_10);
+      |       ~~~~~~~~~~~~~~~~~~ ^~~~~~~~
+C-WORK/src/arm7/deps/060188a4_FUN_060188a4.h:5:6: note: 'thunk_FUN_03804cdc' declared here
+    5 | void thunk_FUN_03804cdc(void);
+      |      ^
+1 error generated.

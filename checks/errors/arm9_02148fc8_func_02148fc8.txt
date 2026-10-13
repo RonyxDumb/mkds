@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02148fc8_func_02148fc8.c:10:20: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   10 |   (*pcRam02148fd4)(uRam02148fd8);
+      |                    ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02148fc8_func_02148fc8.h:6:22: note: expanded from macro 'uRam02148fd8'
+    6 | #define uRam02148fd8 (*(undefined4 *)(uintptr_t)0x2148fd8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

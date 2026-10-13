@@ -1,0 +1,42 @@
+C-WORK/src/arm9/020250a8_func_020250a8.c:13:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |                         *(uint *)(uRam02025104 & 0xfffffffc) << (uRam02025104 & 3) * -8 + 0x20);
+      |                                                              ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020250a8_func_020250a8.c:13:89: note: place parentheses around the '+' expression to silence this warning
+   13 |                         *(uint *)(uRam02025104 & 0xfffffffc) << (uRam02025104 & 3) * -8 + 0x20);
+      |                                                                                         ^     
+      |                                                                 (                             )
+C-WORK/src/arm9/020250a8_func_020250a8.c:12:18: error: too many arguments to function call, expected 0, have 2
+   12 |   uVar2 = FX_Div(0x1000,*(uint *)(uRam02025104 & 0xfffffffc) >> (uRam02025104 & 3) * 8 |
+      |           ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   13 |                         *(uint *)(uRam02025104 & 0xfffffffc) << (uRam02025104 & 3) * -8 + 0x20);
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020250a8_func_020250a8.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/020250a8_func_020250a8.c:17:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   uVar2 = FX_Div(0x1000,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020250a8_func_020250a8.c:17:66: note: place parentheses around the '+' expression to silence this warning
+   17 |   uVar2 = FX_Div(0x1000,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |                                                                  ^     
+      |                                                       (                )
+C-WORK/src/arm9/020250a8_func_020250a8.c:17:18: error: too many arguments to function call, expected 0, have 2
+   17 |   uVar2 = FX_Div(0x1000,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |           ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020250a8_func_020250a8.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/020250a8_func_020250a8.c:21:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   uVar2 = FX_Div(0x1000,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020250a8_func_020250a8.c:21:66: note: place parentheses around the '+' expression to silence this warning
+   21 |   uVar2 = FX_Div(0x1000,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |                                                                  ^     
+      |                                                       (                )
+C-WORK/src/arm9/020250a8_func_020250a8.c:21:18: error: too many arguments to function call, expected 0, have 2
+   21 |   uVar2 = FX_Div(0x1000,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |           ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020250a8_func_020250a8.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+3 warnings and 3 errors generated.

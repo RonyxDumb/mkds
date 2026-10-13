@@ -1,0 +1,12 @@
+C-WORK/src/arm9/02033a0c_func_02033a0c.c:16:9: error: assigning to 'int' from incompatible type 'void'
+   16 |   iVar2 = func_02148cb8();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02033a0c_func_02033a0c.c:33:17: error: too many arguments to function call, expected 0, have 6
+   33 |   func_0212426c(0,0,*(undefined4 *)(iVar4 + 0x5c),auStack_2e,*(undefined4 *)(iVar4 + 0x54),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   34 |                 *(undefined4 *)(iVar4 + 0x60));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02033a0c_func_02033a0c.h:8:6: note: 'func_0212426c' declared here
+    8 | void func_0212426c(void);
+      |      ^
+2 errors generated.

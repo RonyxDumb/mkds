@@ -1,0 +1,221 @@
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:159:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  159 |   uVar25 = (int)(local_128 - (uVar15 >> uVar25 * 8 | uVar15 << uVar25 * -8 + 0x20)) >> 0xc;
+      |                                                             ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:159:76: note: place parentheses around the '+' expression to silence this warning
+  159 |   uVar25 = (int)(local_128 - (uVar15 >> uVar25 * 8 | uVar15 << uVar25 * -8 + 0x20)) >> 0xc;
+      |                                                                            ^     
+      |                                                                (                 )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:160:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  160 |   if ((uVar25 & (uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20)) != 0) {
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:160:59: note: place parentheses around the '+' expression to silence this warning
+  160 |   if ((uVar25 & (uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20)) != 0) {
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:167:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  167 |   uVar8 = (int)(iStack_124 - (uVar16 >> uVar8 * 8 | uVar16 << uVar8 * -8 + 0x20)) >> 0xc;
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:167:74: note: place parentheses around the '+' expression to silence this warning
+  167 |   uVar8 = (int)(iStack_124 - (uVar16 >> uVar8 * 8 | uVar16 << uVar8 * -8 + 0x20)) >> 0xc;
+      |                                                                          ^     
+      |                                                               (                )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:168:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  168 |   if ((uVar8 & (uVar15 >> uVar5 * 8 | uVar15 << uVar5 * -8 + 0x20)) != 0) {
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:168:60: note: place parentheses around the '+' expression to silence this warning
+  168 |   if ((uVar8 & (uVar15 >> uVar5 * 8 | uVar15 << uVar5 * -8 + 0x20)) != 0) {
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:175:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  175 |   uVar5 = (int)(iStack_120 - (uVar17 >> uVar5 * 8 | uVar17 << uVar5 * -8 + 0x20)) >> 0xc;
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:175:74: note: place parentheses around the '+' expression to silence this warning
+  175 |   uVar5 = (int)(iStack_120 - (uVar17 >> uVar5 * 8 | uVar17 << uVar5 * -8 + 0x20)) >> 0xc;
+      |                                                                          ^     
+      |                                                               (                )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:176:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  176 |   if ((uVar5 & (uVar16 >> uVar15 * 8 | uVar16 << uVar15 * -8 + 0x20)) != 0) {
+      |                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:176:62: note: place parentheses around the '+' expression to silence this warning
+  176 |   if ((uVar5 & (uVar16 >> uVar15 * 8 | uVar16 << uVar15 * -8 + 0x20)) != 0) {
+      |                                                              ^     
+      |                                                  (                 )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:181:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  181 |   puVar19 = (uint *)(uVar16 >> uVar15 * 8 | uVar16 << uVar15 * -8 + 0x20);
+      |                                                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:181:67: note: place parentheses around the '+' expression to silence this warning
+  181 |   puVar19 = (uint *)(uVar16 >> uVar15 * 8 | uVar16 << uVar15 * -8 + 0x20);
+      |                                                                   ^     
+      |                                                       (                 )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:188:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  188 |   uVar17 = uVar18 >> uVar17 * 8 | uVar18 << uVar17 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:188:57: note: place parentheses around the '+' expression to silence this warning
+  188 |   uVar17 = uVar18 >> uVar17 * 8 | uVar18 << uVar17 * -8 + 0x20;
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:190:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  190 |                      ((uVar6 >> uVar15 * 8 | uVar6 << uVar15 * -8 + 0x20) & 0xff) |
+      |                                                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:190:67: note: place parentheses around the '+' expression to silence this warning
+  190 |                      ((uVar6 >> uVar15 * 8 | uVar6 << uVar15 * -8 + 0x20) & 0xff) |
+      |                                                                   ^     
+      |                                                       (                 )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:192:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  192 |                      ((uVar7 >> uVar16 * 8 | uVar7 << uVar16 * -8 + 0x20) & 0xff) |
+      |                                                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:192:67: note: place parentheses around the '+' expression to silence this warning
+  192 |                      ((uVar7 >> uVar16 * 8 | uVar7 << uVar16 * -8 + 0x20) & 0xff) |
+      |                                                                   ^     
+      |                                                       (                 )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:196:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  196 |   for (uVar15 = uVar15 >> uVar16 * 8 | uVar15 << uVar16 * -8 + 0x20; -1 < (int)uVar15;
+      |                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:196:62: note: place parentheses around the '+' expression to silence this warning
+  196 |   for (uVar15 = uVar15 >> uVar16 * 8 | uVar15 << uVar16 * -8 + 0x20; -1 < (int)uVar15;
+      |                                                              ^     
+      |                                                  (                 )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:197:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  197 |       uVar15 = uVar15 >> uVar16 * 8 | uVar15 << uVar16 * -8 + 0x20) {
+      |                                              ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:197:61: note: place parentheses around the '+' expression to silence this warning
+  197 |       uVar15 = uVar15 >> uVar16 * 8 | uVar15 << uVar16 * -8 + 0x20) {
+      |                                                             ^     
+      |                                                 (                 )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:212:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  212 |   uVar8 = uVar16 >> uVar8 * 8 | uVar16 << uVar8 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:212:54: note: place parentheses around the '+' expression to silence this warning
+  212 |   uVar8 = uVar16 >> uVar8 * 8 | uVar16 << uVar8 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:233:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  233 |       piVar9 = (int *)((uVar5 >> uVar25 * 8 | uVar5 << uVar25 * -8 + 0x20) + uVar16 * 0x10);
+      |                                                     ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:233:68: note: place parentheses around the '+' expression to silence this warning
+  233 |       piVar9 = (int *)((uVar5 >> uVar25 * 8 | uVar5 << uVar25 * -8 + 0x20) + uVar16 * 0x10);
+      |                                                                    ^     
+      |                                                        (                 )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:240:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  240 |                 (uVar15 >> (uVar13 & 3) * 8 | uVar15 << (uVar13 & 3) * -8 + 0x20));
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:240:75: note: place parentheses around the '+' expression to silence this warning
+  240 |                 (uVar15 >> (uVar13 & 3) * 8 | uVar15 << (uVar13 & 3) * -8 + 0x20));
+      |                                                                           ^     
+      |                                                         (                       )
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:307:66: error: too few arguments to function call, expected 3, have 2
+  307 |                           VecFx32_Subtract(&uStack_11c,&uStack_6c);
+      |                           ~~~~~~~~~~~~~~~~                       ^
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:6:6: note: 'VecFx32_Subtract' declared here
+    6 | void VecFx32_Subtract(uint param_1,uint param_2,int *param_3);
+      |      ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:324:87: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  324 |                         iVar10 = VecFx32_CrossProduct_0((uint)(uintptr_t)(&iStack_54),&iStack_3c);
+      |                                                                                       ^~~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:5:47: note: passing argument to parameter 'param_2' here
+    5 | uint VecFx32_CrossProduct_0(uint param_1,uint param_2);
+      |                                               ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:329:74: error: too few arguments to function call, expected 7, have 4
+  329 |                           func_01fff434(iVar10,uVar12,uVar23,apuStack_110);
+      |                           ~~~~~~~~~~~~~                                  ^
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:10:6: note: 'func_01fff434' declared here
+   10 | void func_01fff434(int param_1,int param_2,int param_3,int *param_4,uint param_5,uint param_6,longlong *param_7);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:344:51: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  344 |                         VecFx32_AddScale1(-uVar12,&iStack_54,&local_f8,&local_f8);
+      |                                                   ^~~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:4:41: note: passing argument to parameter 'param_2' here
+    4 | void VecFx32_AddScale1(int param_1,uint param_2,uint param_3,int *param_4);
+      |                                         ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:344:62: error: incompatible pointer to integer conversion passing 'uint **' (aka 'unsigned int **') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  344 |                         VecFx32_AddScale1(-uVar12,&iStack_54,&local_f8,&local_f8);
+      |                                                              ^~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:4:54: note: passing argument to parameter 'param_3' here
+    4 | void VecFx32_AddScale1(int param_1,uint param_2,uint param_3,int *param_4);
+      |                                                      ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:344:72: error: incompatible pointer types passing 'uint **' (aka 'unsigned int **') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+  344 |                         VecFx32_AddScale1(-uVar12,&iStack_54,&local_f8,&local_f8);
+      |                                                                        ^~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:4:67: note: passing argument to parameter 'param_4' here
+    4 | void VecFx32_AddScale1(int param_1,uint param_2,uint param_3,int *param_4);
+      |                                                                   ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:355:66: error: too few arguments to function call, expected 3, have 2
+  355 |                           VecFx32_Subtract(&uStack_11c,&uStack_6c);
+      |                           ~~~~~~~~~~~~~~~~                       ^
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:6:6: note: 'VecFx32_Subtract' declared here
+    6 | void VecFx32_Subtract(uint param_1,uint param_2,int *param_3);
+      |      ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:356:59: error: incompatible pointer to integer conversion passing 'uint[3]' (aka 'unsigned int[3]') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  356 |                           iVar24 = VecFx32_CrossProduct_0(auStack_104,&iStack_60);
+      |                                                           ^~~~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:5:34: note: passing argument to parameter 'param_1' here
+    5 | uint VecFx32_CrossProduct_0(uint param_1,uint param_2);
+      |                                  ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:356:71: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  356 |                           iVar24 = VecFx32_CrossProduct_0(auStack_104,&iStack_60);
+      |                                                                       ^~~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:5:47: note: passing argument to parameter 'param_2' here
+    5 | uint VecFx32_CrossProduct_0(uint param_1,uint param_2);
+      |                                               ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:359:63: error: incompatible pointer to integer conversion passing 'uint[3]' (aka 'unsigned int[3]') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  359 |                              (iVar24 = VecFx32_CrossProduct_0(auStack_104,&iStack_3c),
+      |                                                               ^~~~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:5:34: note: passing argument to parameter 'param_1' here
+    5 | uint VecFx32_CrossProduct_0(uint param_1,uint param_2);
+      |                                  ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:359:75: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  359 |                              (iVar24 = VecFx32_CrossProduct_0(auStack_104,&iStack_3c),
+      |                                                                           ^~~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:5:47: note: passing argument to parameter 'param_2' here
+    5 | uint VecFx32_CrossProduct_0(uint param_1,uint param_2);
+      |                                               ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:366:57: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  366 |                         iVar10 = VecFx32_CrossProduct_0(&iStack_3c,&iStack_54);
+      |                                                         ^~~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:5:34: note: passing argument to parameter 'param_1' here
+    5 | uint VecFx32_CrossProduct_0(uint param_1,uint param_2);
+      |                                  ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:366:68: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  366 |                         iVar10 = VecFx32_CrossProduct_0(&iStack_3c,&iStack_54);
+      |                                                                    ^~~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:5:47: note: passing argument to parameter 'param_2' here
+    5 | uint VecFx32_CrossProduct_0(uint param_1,uint param_2);
+      |                                               ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:372:57: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  372 |                         iVar10 = VecFx32_CrossProduct_0(&iStack_3c,&iStack_48);
+      |                                                         ^~~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:5:34: note: passing argument to parameter 'param_1' here
+    5 | uint VecFx32_CrossProduct_0(uint param_1,uint param_2);
+      |                                  ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:372:68: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  372 |                         iVar10 = VecFx32_CrossProduct_0(&iStack_3c,&iStack_48);
+      |                                                                    ^~~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:5:47: note: passing argument to parameter 'param_2' here
+    5 | uint VecFx32_CrossProduct_0(uint param_1,uint param_2);
+      |                                               ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:377:74: error: too few arguments to function call, expected 7, have 4
+  377 |                           func_01fff434(iVar10,uVar23,uVar20,apuStack_110);
+      |                           ~~~~~~~~~~~~~                                  ^
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:10:6: note: 'func_01fff434' declared here
+   10 | void func_01fff434(int param_1,int param_2,int param_3,int *param_4,uint param_5,uint param_6,longlong *param_7);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:392:51: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  392 |                         VecFx32_AddScale1(-uVar23,&iStack_3c,&local_f8,&local_f8);
+      |                                                   ^~~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:4:41: note: passing argument to parameter 'param_2' here
+    4 | void VecFx32_AddScale1(int param_1,uint param_2,uint param_3,int *param_4);
+      |                                         ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:392:62: error: incompatible pointer to integer conversion passing 'uint **' (aka 'unsigned int **') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  392 |                         VecFx32_AddScale1(-uVar23,&iStack_3c,&local_f8,&local_f8);
+      |                                                              ^~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:4:54: note: passing argument to parameter 'param_3' here
+    4 | void VecFx32_AddScale1(int param_1,uint param_2,uint param_3,int *param_4);
+      |                                                      ^
+C-WORK/src/arm9/01ffdee4_func_01ffdee4.c:392:72: error: incompatible pointer types passing 'uint **' (aka 'unsigned int **') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+  392 |                         VecFx32_AddScale1(-uVar23,&iStack_3c,&local_f8,&local_f8);
+      |                                                                        ^~~~~~~~~
+C-WORK/src/arm9/deps/01ffdee4_func_01ffdee4.h:4:67: note: passing argument to parameter 'param_4' here
+    4 | void VecFx32_AddScale1(int param_1,uint param_2,uint param_3,int *param_4);
+      |                                                                   ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+15 warnings and 20 errors generated.

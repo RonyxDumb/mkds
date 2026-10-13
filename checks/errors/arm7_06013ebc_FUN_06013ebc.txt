@@ -1,0 +1,138 @@
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:22:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |           *(uint *)(DAT_06014210 & 0xfffffffc) << (DAT_06014210 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:22:75: note: place parentheses around the '+' expression to silence this warning
+   22 |           *(uint *)(DAT_06014210 & 0xfffffffc) << (DAT_06014210 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:25:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |   puVar12 = (undefined2 *)(uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20);
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:25:71: note: place parentheses around the '+' expression to silence this warning
+   25 |   puVar12 = (undefined2 *)(uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20);
+      |                                                                       ^     
+      |                                                            (                )
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:36:11: warning: cast to smaller integer type 'short' from 'undefined2 *' (aka 'unsigned short *') [-Wpointer-to-int-cast]
+   36 |   sVar2 = (short)puVar12 + 0x24;
+      |           ^~~~~~~~~~~~~~
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:46:33: warning: cast to smaller integer type 'short' from 'undefined2 *' (aka 'unsigned short *') [-Wpointer-to-int-cast]
+   46 |     *(short *)(uVar4 + 0x3d6) = (short)puVar7 - sVar2;
+      |                                 ^~~~~~~~~~~~~
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:47:24: error: too few arguments to function call, expected 2, have 1
+   47 |     FUN_060096e4(puVar7);
+      |     ~~~~~~~~~~~~       ^
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:6: note: 'FUN_060096e4' declared here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:74:16: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   74 |   FUN_060096e4(iVar5 + 0xb,*(short *)(uVar4 + 0x3e4) + 8U & 0xff);
+      |                ^~~~~~~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:75:16: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   75 |   FUN_060096e4(iVar5 + 0xc,0);
+      |                ^~~~~~~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:76:16: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   76 |   FUN_060096e4(iVar5 + 0xd,9);
+      |                ^~~~~~~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:77:16: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   77 |   FUN_060096e4(iVar5 + 0xe,0xbf);
+      |                ^~~~~~~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:78:16: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   78 |   FUN_060096e4(iVar5 + 0xf,0);
+      |                ^~~~~~~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:80:18: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   80 |     FUN_060096e4(iVar5 + 0x10,*(ushort *)(uVar4 + 0x33c) & 0xff);
+      |                  ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:81:18: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   81 |     FUN_060096e4(iVar5 + 0x11,(int)(uint)*(ushort *)(uVar4 + 0x33c) >> 8);
+      |                  ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:84:18: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   84 |     FUN_060096e4(iVar5 + 0x10,0xff);
+      |                  ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:85:18: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   85 |     FUN_060096e4(iVar5 + 0x11,0xff);
+      |                  ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:88:16: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   88 |   FUN_060096e4(iVar5 + 0x12,uVar1 & 0xff);
+      |                ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:90:16: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   90 |   FUN_060096e4(iVar5 + 0x13,uVar1 >> 8);
+      |                ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:93:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   93 |   uVar11 = uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:93:55: note: place parentheses around the '+' expression to silence this warning
+   93 |   uVar11 = uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:95:26: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   95 |     uVar6 = FUN_060096c4(uVar11);
+      |                          ^~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:3:27: note: passing argument to parameter 'param_1' here
+    3 | uint FUN_060096c4(ushort *param_1);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:96:18: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   96 |     FUN_060096e4(iVar10,uVar6);
+      |                  ^~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:103:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  103 |     iVar5 = (uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20) + (uint)*(ushort *)(uVar4 + 0x3e4);
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:103:57: note: place parentheses around the '+' expression to silence this warning
+  103 |     iVar5 = (uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20) + (uint)*(ushort *)(uVar4 + 0x3e4);
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:105:28: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+  105 |       uVar6 = FUN_060096c4(iVar5 + -1);
+      |                            ^~~~~~~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:3:27: note: passing argument to parameter 'param_1' here
+    3 | uint FUN_060096c4(ushort *param_1);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:106:20: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+  106 |       FUN_060096e4(iVar5,uVar6);
+      |                    ^~~~~
+C-WORK/src/arm7/deps/06013ebc_FUN_06013ebc.h:4:27: note: passing argument to parameter 'param_1' here
+    4 | void FUN_060096e4(ushort *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:112:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  112 |          *(uint *)(DAT_06014210 & 0xfffffffc) << (DAT_06014210 & 3) * -8 + 0x20) + 0x690) & 4) != 0)
+      |                                               ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06013ebc_FUN_06013ebc.c:112:74: note: place parentheses around the '+' expression to silence this warning
+  112 |          *(uint *)(DAT_06014210 & 0xfffffffc) << (DAT_06014210 & 3) * -8 + 0x20) + 0x690) & 4) != 0)
+      |                                                                          ^     
+      |                                                  (                             )
+7 warnings and 16 errors generated.

@@ -1,0 +1,14 @@
+In file included from C-WORK/src/arm9_ov000/02186674_FUN_02186674.c:3:
+C-WORK/src/arm9_ov000/deps/02186674_FUN_02186674.h:9:1: error: unknown type name 'size_t'
+    9 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/02186674_FUN_02186674.c:14:24: error: too few arguments to function call, expected 3, have 0
+   14 |   iVar1 = FUN_021866b8();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02186674_FUN_02186674.h:4:5: note: 'FUN_021866b8' declared here
+    4 | int FUN_021866b8(int *param_1,int param_2,undefined4 param_3);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02186674_FUN_02186674.c:19:9: error: incompatible pointer to integer conversion assigning to 'uint' (aka 'unsigned int') from 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   19 |   uVar3 = FUN_021881d0(iVar1,uVar2,(byte *)(uintptr_t)(in_r3),in_stack_00000000);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm7/038011c2_FUN_038011c2.c:8:3: error: call to undeclared function 'software_interrupt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    8 |   software_interrupt(7);
+      |   ^
+1 error generated.

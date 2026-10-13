@@ -1,0 +1,90 @@
+C-WORK/src/arm9/0204c090_SomeInitialize.c:27:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |       *(uint *)((uint)puRam0204c26c & 0xfffffffc) << ((uint)puRam0204c26c & 3) * -8 + 0x20 == 0) {
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204c090_SomeInitialize.c:27:85: note: place parentheses around the '+' expression to silence this warning
+   27 |       *(uint *)((uint)puRam0204c26c & 0xfffffffc) << ((uint)puRam0204c26c & 3) * -8 + 0x20 == 0) {
+      |                                                                                     ^
+      |                                                      (                                    )
+C-WORK/src/arm9/0204c090_SomeInitialize.c:30:19: error: too many arguments to function call, expected 0, have 1
+   30 |     Os_RestoreIrq(uVar6);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0204c090_SomeInitialize.h:9:12: note: 'Os_RestoreIrq' declared here
+    9 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0204c090_SomeInitialize.c:40:20: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   40 |     puVar3[0x12c0] = puVar14;
+      |                    ^ ~~~~~~~
+      |                      *
+C-WORK/src/arm9/0204c090_SomeInitialize.c:45:15: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   45 |       *puVar2 = puVar2 + 0x230;
+      |               ^ ~~~~~~~~~~~~~~
+      |                 *(            )
+C-WORK/src/arm9/0204c090_SomeInitialize.c:50:29: warning: operator '>>' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   50 |       puVar2[0x23] = (iVar8 + (int)((ulonglong)((longlong)iVar5 * (longlong)iVar8) >> 0x20) >> 0xb)
+      |                       ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~
+C-WORK/src/arm9/0204c090_SomeInitialize.c:50:29: note: place parentheses around the '+' expression to silence this warning
+   50 |       puVar2[0x23] = (iVar8 + (int)((ulonglong)((longlong)iVar5 * (longlong)iVar8) >> 0x20) >> 0xb)
+      |                             ^
+      |                       (                                                                    )
+C-WORK/src/arm9/0204c090_SomeInitialize.c:70:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   70 |     puVar3[0x12cb] = uVar11 >> uVar1 * 8 | uVar11 << uVar1 * -8 + 0x20;
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204c090_SomeInitialize.c:70:65: note: place parentheses around the '+' expression to silence this warning
+   70 |     puVar3[0x12cb] = uVar11 >> uVar1 * 8 | uVar11 << uVar1 * -8 + 0x20;
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/0204c090_SomeInitialize.c:77:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   77 |     func_02006aac(uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20,
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204c090_SomeInitialize.c:77:60: note: place parentheses around the '+' expression to silence this warning
+   77 |     func_02006aac(uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20,
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/0204c090_SomeInitialize.c:78:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   78 |                   uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20,uRam0204c284);
+      |                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204c090_SomeInitialize.c:78:62: note: place parentheses around the '+' expression to silence this warning
+   78 |                   uVar9 >> uVar11 * 8 | uVar9 << uVar11 * -8 + 0x20,uRam0204c284);
+      |                                                              ^     
+      |                                                  (                 )
+C-WORK/src/arm9/0204c090_SomeInitialize.c:82:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   82 |     puVar12 = (uint *)(uVar11 >> uVar1 * 8 | uVar11 << uVar1 * -8 + 0x20);
+      |                                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204c090_SomeInitialize.c:82:67: note: place parentheses around the '+' expression to silence this warning
+   82 |     puVar12 = (uint *)(uVar11 >> uVar1 * 8 | uVar11 << uVar1 * -8 + 0x20);
+      |                                                                   ^     
+      |                                                        (                )
+C-WORK/src/arm9/0204c090_SomeInitialize.c:85:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   85 |          *(uint *)((uint)puVar12 & 0xfffffffc) << ((uint)puVar12 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204c090_SomeInitialize.c:85:76: note: place parentheses around the '+' expression to silence this warning
+   85 |          *(uint *)((uint)puVar12 & 0xfffffffc) << ((uint)puVar12 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                   (                              )
+C-WORK/src/arm9/0204c090_SomeInitialize.c:88:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   88 |     *puVar12 = uVar11 >> uVar1 * 8 | uVar11 << uVar1 * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204c090_SomeInitialize.c:88:59: note: place parentheses around the '+' expression to silence this warning
+   88 |     *puVar12 = uVar11 >> uVar1 * 8 | uVar11 << uVar1 * -8 + 0x20;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/0204c090_SomeInitialize.c:89:20: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   89 |     puVar3[0x12c1] = puVar12;
+      |                    ^ ~~~~~~~
+      |                      *
+C-WORK/src/arm9/0204c090_SomeInitialize.c:95:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   95 |               (puVar12 + 1,0x20000,uRam0204c288,uVar11 >> uVar1 * 8 | uVar11 << uVar1 * -8 + 0x20);
+      |                                                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204c090_SomeInitialize.c:95:92: note: place parentheses around the '+' expression to silence this warning
+   95 |               (puVar12 + 1,0x20000,uRam0204c288,uVar11 >> uVar1 * 8 | uVar11 << uVar1 * -8 + 0x20);
+      |                                                                                            ^     
+      |                                                                                 (                )
+C-WORK/src/arm9/0204c090_SomeInitialize.c:95:98: error: too few arguments to function call, expected 6, have 4
+   94 |     StructGO_SomeFn_from_thumb
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   95 |               (puVar12 + 1,0x20000,uRam0204c288,uVar11 >> uVar1 * 8 | uVar11 << uVar1 * -8 + 0x20);
+      |                                                                                                  ^
+C-WORK/src/arm9/deps/0204c090_SomeInitialize.h:11:12: note: 'StructGO_SomeFn_from_thumb' declared here
+   11 | undefined4 StructGO_SomeFn_from_thumb(undefined4 *param_1,undefined4 param_2,int param_3,int param_4,undefined4 param_5,undefined2 param_6);
+      |            ^                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+9 warnings and 5 errors generated.

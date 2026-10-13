@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov003/021bf20c_FUN_021bf20c.c:11:82: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   11 |   FUN_021d1770(*(undefined4 *)(*DAT_021bf24c + 8),0,(uint *)(void *)(auStack_10),&local_c);
+      |                                                                                  ^~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bf20c_FUN_021bf20c.h:5:63: note: passing argument to parameter 'param_4' here
+    5 | void FUN_021d1770(int param_1,int param_2,uint *param_3,uint *param_4);
+      |                                                               ^
+C-WORK/src/arm9_ov003/021bf20c_FUN_021bf20c.c:13:16: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   FUN_021bf258();
+      |   ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov003/deps/021bf20c_FUN_021bf20c.h:4:6: note: 'FUN_021bf258' declared here
+    4 | void FUN_021bf258(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bf20c_FUN_021bf20c.c:15:18: error: too few arguments to function call, single argument 'param_1' was not specified
+   15 |     FUN_021bf258();
+      |     ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov003/deps/021bf20c_FUN_021bf20c.h:4:6: note: 'FUN_021bf258' declared here
+    4 | void FUN_021bf258(int param_1);
+      |      ^            ~~~~~~~~~~~
+1 warning and 2 errors generated.

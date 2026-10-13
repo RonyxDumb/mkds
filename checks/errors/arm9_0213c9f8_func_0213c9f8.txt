@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0213c9f8_func_0213c9f8.c:16:47: error: too few arguments to function call, expected 4, have 2
+   16 |   uVar1 = func_0213cae0(uRam0213ca60,&local_18);
+      |           ~~~~~~~~~~~~~                       ^
+C-WORK/src/arm9/deps/0213c9f8_func_0213c9f8.h:4:6: note: 'func_0213cae0' declared here
+    4 | uint func_0213cae0(code *param_1,uint param_2,short *param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

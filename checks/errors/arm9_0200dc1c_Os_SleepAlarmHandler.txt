@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0200dc1c_Os_SleepAlarmHandler.c:12:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   12 |           *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200dc1c_Os_SleepAlarmHandler.c:12:77: note: place parentheses around the '+' expression to silence this warning
+   12 |           *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
+      |                                                                             ^     
+      |                                                    (                              )
+C-WORK/src/arm9/0200dc1c_Os_SleepAlarmHandler.c:14:25: error: incompatible pointer types assigning to 'code *' (aka 'void (*)()') from 'undefined *' (aka 'unsigned char *') [-Werror,-Wincompatible-pointer-types]
+   14 |   UNRECOVERED_JUMPTABLE = pcRam0200dc38;
+      |                         ^ ~~~~~~~~~~~~~
+C-WORK/src/arm9/0200dc1c_Os_SleepAlarmHandler.c:18:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   18 |   (*UNRECOVERED_JUMPTABLE)(uVar1);
+      |                           ^
+2 warnings and 1 error generated.

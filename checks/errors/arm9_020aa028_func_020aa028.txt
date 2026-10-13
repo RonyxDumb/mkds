@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020aa028_func_020aa028.c:26:11: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   26 |     uVar3 = func_020aaea0((byte *)(uintptr_t)(iRam020aa090),uVar3,uVar4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

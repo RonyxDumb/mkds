@@ -1,0 +1,19 @@
+C-WORK/src/arm9/020e47c8_func_020e47c8.c:26:92: error: too few arguments to function call, expected 4, have 3
+   26 |   uVar2 = Multiply64(*(int *)(param_1 + 0x1c),*(int *)(param_1 + 0x1c) >> 0x1f,uRam020e48a8);
+      |           ~~~~~~~~~~                                                                       ^
+C-WORK/src/arm9/deps/020e47c8_func_020e47c8.h:4:12: note: 'Multiply64' declared here
+    4 | undefined8 Multiply64(uint param_1,int param_2,uint param_3,int param_4);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020e47c8_func_020e47c8.c:30:18: error: too many arguments to function call, expected 0, have 2
+   30 |   iVar1 = FX_Div(*(undefined4 *)(param_1 + 0xd4),*(undefined4 *)(param_1 + 0xd8));
+      |           ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020e47c8_func_020e47c8.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/020e47c8_func_020e47c8.c:32:18: error: too many arguments to function call, expected 0, have 2
+   32 |   iVar1 = FX_Div(*(undefined4 *)(param_1 + 0xdc),*(undefined4 *)(param_1 + 0xd8));
+      |           ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020e47c8_func_020e47c8.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+3 errors generated.

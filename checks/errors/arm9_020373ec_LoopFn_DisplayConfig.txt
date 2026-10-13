@@ -1,0 +1,73 @@
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:23:84: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |                    *(uint *)(uRam0203748c & 0xfffffffc) << (uRam0203748c & 3) * -8 + 0x20);
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:23:84: note: place parentheses around the '+' expression to silence this warning
+   23 |                    *(uint *)(uRam0203748c & 0xfffffffc) << (uRam0203748c & 3) * -8 + 0x20);
+      |                                                                                    ^     
+      |                                                            (                             )
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:25:14: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   25 |     (*pcVar7)(3);
+      |              ^
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:28:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |           *(uint *)(uRam02037490 & 0xfffffffc) << (uRam02037490 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:28:75: note: place parentheses around the '+' expression to silence this warning
+   28 |           *(uint *)(uRam02037490 & 0xfffffffc) << (uRam02037490 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:31:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |   uVar4 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:31:52: note: place parentheses around the '+' expression to silence this warning
+   31 |   uVar4 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:36:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |                    (iVar6 - ((uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20) +
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:36:72: note: place parentheses around the '+' expression to silence this warning
+   36 |                    (iVar6 - ((uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20) +
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:38:32: error: too few arguments to function call, expected 4, have 3
+   35 |   uVar5 = _ll_udiv((int)lVar2,
+      |           ~~~~~~~~
+   36 |                    (iVar6 - ((uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20) +
+   37 |                             (uint)(uVar3 < uVar4))) * 64000 + (int)((ulonglong)lVar2 >> 0x20),
+   38 |                    uRam02037494);
+      |                                ^
+C-WORK/src/arm9/deps/020373ec_LoopFn_DisplayConfig.h:5:11: note: '_ll_udiv' declared here
+    5 | ulonglong _ll_udiv(uint param_1,uint param_2,uint param_3,uint param_4);
+      |           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:43:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   43 |   uVar8 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:43:52: note: place parentheses around the '+' expression to silence this warning
+   43 |   uVar8 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:46:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |   uVar4 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:46:52: note: place parentheses around the '+' expression to silence this warning
+   46 |   uVar4 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:51:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   51 |                    (iVar6 - ((uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20) +
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:51:72: note: place parentheses around the '+' expression to silence this warning
+   51 |                    (iVar6 - ((uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20) +
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/020373ec_LoopFn_DisplayConfig.c:53:32: error: too few arguments to function call, expected 4, have 3
+   50 |   uVar5 = _ll_udiv((int)lVar2,
+      |           ~~~~~~~~
+   51 |                    (iVar6 - ((uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20) +
+   52 |                             (uint)(uVar3 < uVar4))) * 64000 + (int)((ulonglong)lVar2 >> 0x20),
+   53 |                    uRam02037494);
+      |                                ^
+C-WORK/src/arm9/deps/020373ec_LoopFn_DisplayConfig.h:5:11: note: '_ll_udiv' declared here
+    5 | ulonglong _ll_udiv(uint param_1,uint param_2,uint param_3,uint param_4);
+      |           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+8 warnings and 2 errors generated.

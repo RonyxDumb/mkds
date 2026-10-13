@@ -1,0 +1,32 @@
+C-WORK/src/arm9_ov001/0219d2c0_FUN_0219d2c0.c:20:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   20 |   uVar3 = func_0x020369fc();
+      |           ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/0219d2c0_FUN_0219d2c0.h:33:6: note: 'Mem_CreateChildExpHeap' declared here
+   33 | void Mem_CreateChildExpHeap(uint param_1);
+      |      ^                      ~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0219d2c0_FUN_0219d2c0.c:35:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   35 |   uVar3 = func_0x02047a28(DAT_0219d4c0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0219d2c0_FUN_0219d2c0.c:97:72: error: too many arguments to function call, expected 4, have 10
+   96 |     iVar8 = func_0x021243ac(*(undefined4 *)(iVar8 + DAT_0219d4b4),*puVar7,
+      |             ~~~~~~~~~~~~~~~
+   97 |                             *(undefined4 *)(iVar8 + DAT_0219d4e0),0xa8,0xd,*puVar9,
+      |                                                                        ^~~~~~~~~~~~
+   98 |                             *(undefined4 *)(iVar8 + DAT_0219d4f8),
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   99 |                             *(undefined4 *)(iVar8 + DAT_0219d4dc),
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  100 |                             *(undefined4 *)(iVar8 + DAT_0219d4e4),iVar5);
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0219d2c0_FUN_0219d2c0.h:49:12: note: 'func_021243ac' declared here
+   49 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0219d2c0_FUN_0219d2c0.c:103:21: error: too many arguments to function call, expected 0, have 6
+  103 |     func_0x0212426c(0,*puVar7,*(undefined4 *)(iVar8 + DAT_0219d4e0),local_24,
+      |     ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  104 |                     *(undefined4 *)(iVar8 + DAT_0219d4dc),*(undefined4 *)(iVar8 + DAT_0219d4e4));
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0219d2c0_FUN_0219d2c0.h:51:6: note: 'func_0212426c' declared here
+   51 | void func_0212426c(void);
+      |      ^
+4 errors generated.

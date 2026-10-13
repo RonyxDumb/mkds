@@ -1,0 +1,20 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void FUN_02188644(int param_1,int param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6,undefined4 param_7);
+#define DAT_021886b4 (*(int *)(uintptr_t)0x21886b4u)
+#define DAT_021886b8 (*(uint *)(uintptr_t)0x21886b8u)
+#define DAT_021886bc (*(int *)(uintptr_t)0x21886bcu)
+#define DAT_021886c0 (*(int *)(uintptr_t)0x21886c0u)
+#define DAT_021886c4 (*(int *)(uintptr_t)0x21886c4u)
+#define DAT_021886c8 (*(int *)(uintptr_t)0x21886c8u)
+#define DAT_021886cc (*(int *)(uintptr_t)0x21886ccu)
+#define DAT_021886d0 (*(int *)(uintptr_t)0x21886d0u)
+#define DAT_021886d4 (*(int *)(uintptr_t)0x21886d4u)
+#define DAT_021886d8 (*(int *)(uintptr_t)0x21886d8u)
+#define DAT_021886dc (*(int *)(uintptr_t)0x21886dcu)
+#define DAT_021886e0 (*(undefined4 *)(uintptr_t)0x21886e0u)
+#define DAT_021886e4 (*(int *)(uintptr_t)0x21886e4u)
+#define DAT_021886e8 (*(int *)(uintptr_t)0x21886e8u)
+#define DAT_021886ec (*(int *)(uintptr_t)0x21886ecu)
+#define DAT_021886f0 (*(int *)(uintptr_t)0x21886f0u)
+#define DAT_021886f4 (*(int *)(uintptr_t)0x21886f4u)

@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/0219c79c_FUN_0219c79c.c:19:128: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   19 |   FUN_0218f15c((int *)(uintptr_t)(*puVar1),(char *)(void *)(puVar1 + 0x13),(char *)(uintptr_t)((int)puVar1 + DAT_0219c808),1,0,param_3,0);
+      |                                                                                                                                ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0219c79c_FUN_0219c79c.h:3:110: note: passing argument to parameter 'param_6' here
+    3 | undefined4 FUN_0218f15c(int *param_1,char *param_2,char *param_3,undefined4 param_4,undefined4 param_5,code *param_6,undefined4 param_7);
+      |                                                                                                              ^
+C-WORK/src/arm9_ov000/0219c79c_FUN_0219c79c.c:20:24: error: too few arguments to function call, expected 2, have 0
+   20 |   iVar2 = FUN_0219c8dc();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219c79c_FUN_0219c79c.h:5:5: note: 'FUN_0219c8dc' declared here
+    5 | int FUN_0219c8dc(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

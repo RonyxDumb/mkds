@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0201df30_func_0201df30.c:16:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |   psVar5 = (short *)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0201df30_func_0201df30.c:16:63: note: place parentheses around the '+' expression to silence this warning
+   16 |   psVar5 = (short *)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                               ^     
+      |                                                    (                )
+C-WORK/src/arm9/0201df30_func_0201df30.c:19:63: error: too few arguments to function call, expected 2, have 1
+   19 |     sVar3 = _s32_div_f(param_3 * ((int)psVar5[1] - (int)sVar2));
+      |             ~~~~~~~~~~                                        ^
+C-WORK/src/arm9/deps/0201df30_func_0201df30.h:3:12: note: '_s32_div_f' declared here
+    3 | undefined8 _s32_div_f(uint param_1,uint param_2);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

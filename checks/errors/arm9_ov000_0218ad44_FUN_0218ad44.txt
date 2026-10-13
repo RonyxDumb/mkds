@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov000/0218ad44_FUN_0218ad44.c:24:27: error: too few arguments to function call, expected 2, have 1
+   24 |   FUN_0218aedc(param_1 + 2);
+      |   ~~~~~~~~~~~~            ^
+C-WORK/src/arm9_ov000/deps/0218ad44_FUN_0218ad44.h:4:6: note: 'FUN_0218aedc' declared here
+    4 | void FUN_0218aedc(int *param_1,int param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218ad44_FUN_0218ad44.c:25:9: error: assigning to 'int' from incompatible type 'void'
+   25 |   iVar2 = FUN_0218e8c4();
+      |         ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218ad44_FUN_0218ad44.c:93:18: error: too many arguments to function call, expected 0, have 6
+   93 |     FUN_0218e3e4(param_1[8],local_110,iVar2,0,&uStack_118,8);
+      |     ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ad44_FUN_0218ad44.h:5:6: note: 'FUN_0218e3e4' declared here
+    5 | void FUN_0218e3e4(void);
+      |      ^
+3 errors generated.

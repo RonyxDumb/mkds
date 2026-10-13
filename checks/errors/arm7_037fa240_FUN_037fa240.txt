@@ -1,0 +1,9 @@
+C-WORK/src/arm7/037fa240_FUN_037fa240.c:8:14: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+    8 |   param_2[1] = param_1;
+      |              ^ ~~~~~~~
+      |                *
+C-WORK/src/arm7/037fa240_FUN_037fa240.c:11:14: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   11 |     *param_1 = param_2;
+      |              ^ ~~~~~~~
+      |                *
+2 errors generated.

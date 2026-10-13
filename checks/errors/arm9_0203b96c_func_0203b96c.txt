@@ -1,0 +1,49 @@
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:20:11: error: assigning to 'int' from incompatible type 'void'
+   20 |     iVar1 = CheckSavedSecretFlag_from_thumb(0);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:21:34: error: assigning to 'int' from incompatible type 'void'
+   21 |     if ((((iVar1 != 0) || (iVar1 = CheckSavedSecretFlag_from_thumb(1), iVar1 != 0)) ||
+      |                                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:22:16: error: assigning to 'int' from incompatible type 'void'
+   22 |         (iVar1 = CheckSavedSecretFlag_from_thumb(2), iVar1 != 0)) ||
+      |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:23:15: error: assigning to 'int' from incompatible type 'void'
+   23 |        (iVar1 = CheckSavedSecretFlag_from_thumb(3), iVar1 != 0)) {
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:28:11: error: assigning to 'int' from incompatible type 'void'
+   28 |     iVar1 = CheckSavedSecretFlag_from_thumb(4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:29:33: error: assigning to 'int' from incompatible type 'void'
+   29 |     if (((iVar1 != 0) || (iVar1 = CheckSavedSecretFlag_from_thumb(5), iVar1 != 0)) ||
+      |                                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:30:16: error: assigning to 'int' from incompatible type 'void'
+   30 |        ((iVar1 = CheckSavedSecretFlag_from_thumb(6), iVar1 != 0 ||
+      |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:31:16: error: assigning to 'int' from incompatible type 'void'
+   31 |         (iVar1 = CheckSavedSecretFlag_from_thumb(7), iVar1 != 0)))) {
+      |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:36:11: error: assigning to 'int' from incompatible type 'void'
+   36 |     iVar1 = CheckSavedSecretFlag_from_thumb(8);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:37:33: error: assigning to 'int' from incompatible type 'void'
+   37 |     if (((iVar1 != 0) || (iVar1 = CheckSavedSecretFlag_from_thumb(9), iVar1 != 0)) ||
+      |                                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:38:16: error: assigning to 'int' from incompatible type 'void'
+   38 |        ((iVar1 = CheckSavedSecretFlag_from_thumb(10), iVar1 != 0 ||
+      |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:39:16: error: assigning to 'int' from incompatible type 'void'
+   39 |         (iVar1 = CheckSavedSecretFlag_from_thumb(0xb), iVar1 != 0)))) {
+      |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:44:11: error: assigning to 'int' from incompatible type 'void'
+   44 |     iVar1 = CheckSavedSecretFlag_from_thumb(0xc);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:45:34: error: assigning to 'int' from incompatible type 'void'
+   45 |     if ((((iVar1 != 0) || (iVar1 = CheckSavedSecretFlag_from_thumb(0xd), iVar1 != 0)) ||
+      |                                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:46:16: error: assigning to 'int' from incompatible type 'void'
+   46 |         (iVar1 = CheckSavedSecretFlag_from_thumb(0xe), iVar1 != 0)) ||
+      |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203b96c_func_0203b96c.c:47:15: error: assigning to 'int' from incompatible type 'void'
+   47 |        (iVar1 = CheckSavedSecretFlag_from_thumb(0xf), iVar1 != 0)) {
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+16 errors generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020fe46c_func_020fe46c.c:10:20: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined1 *' (aka 'unsigned char *') [-Wint-conversion]
+   10 |   (*pcRam020fe484)(uRam020fe478,uRam020fe47c,uRam020fe480);
+      |                    ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020fe46c_func_020fe46c.h:6:22: note: expanded from macro 'uRam020fe478'
+    6 | #define uRam020fe478 (*(undefined4 *)(uintptr_t)0x20fe478u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020fe46c_func_020fe46c.c:10:33: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined1 *' (aka 'unsigned char *') [-Wint-conversion]
+   10 |   (*pcRam020fe484)(uRam020fe478,uRam020fe47c,uRam020fe480);
+      |                                 ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020fe46c_func_020fe46c.h:7:22: note: expanded from macro 'uRam020fe47c'
+    7 | #define uRam020fe47c (*(undefined4 *)(uintptr_t)0x20fe47cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

@@ -1,0 +1,11 @@
+C-WORK/src/arm9/02121ee4_func_02121ee4.c:10:11: error: call to undeclared function 'func_0x0219bb50'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   10 |   iVar1 = func_0x0219bb50();
+      |           ^
+C-WORK/src/arm9/02121ee4_func_02121ee4.c:14:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |     *(uint *)(uRam02121f18 & 0xfffffffc) << (uRam02121f18 & 3) * -8 + 0x20) + 0x1e40) = 0xffffffff;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02121ee4_func_02121ee4.c:14:69: note: place parentheses around the '+' expression to silence this warning
+   14 |     *(uint *)(uRam02121f18 & 0xfffffffc) << (uRam02121f18 & 3) * -8 + 0x20) + 0x1e40) = 0xffffffff;
+      |                                                                     ^     
+      |                                             (                             )
+1 warning and 1 error generated.

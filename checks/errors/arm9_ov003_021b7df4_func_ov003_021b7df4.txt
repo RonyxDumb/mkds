@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov003/021b7df4_func_ov003_021b7df4.c:12:31: error: too few arguments to function call, single argument 'param_1' was not specified
+   12 |   uVar2 = func_ov003_021b7cac();
+      |           ~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov003/deps/021b7df4_func_ov003_021b7df4.h:3:6: note: 'func_ov003_021b7cac' declared here
+    3 | uint func_ov003_021b7cac(uint param_1);
+      |      ^                   ~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b7df4_func_ov003_021b7df4.c:19:11: error: call to undeclared function 'func_0x021a8c94'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   19 |   iVar3 = func_0x021a8c94(iVar3);
+      |           ^
+2 errors generated.

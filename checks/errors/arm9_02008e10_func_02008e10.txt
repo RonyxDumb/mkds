@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02008e10_func_02008e10.c:13:17: error: too few arguments to function call, expected 2, have 0
+   13 |   func_02008dbc();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02008e10_func_02008e10.h:8:6: note: 'func_02008dbc' declared here
+    8 | void func_02008dbc(int param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

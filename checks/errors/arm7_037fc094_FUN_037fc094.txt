@@ -1,0 +1,4 @@
+C-WORK/src/arm7/037fc094_FUN_037fc094.c:23:9: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   23 |   uVar2 = thunk_FUN_03801214();
+      |         ^ ~~~~~~~~~~~~~~~~~~~~
+1 error generated.

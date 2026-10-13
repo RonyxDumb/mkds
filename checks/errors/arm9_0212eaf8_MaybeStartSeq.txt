@@ -1,0 +1,47 @@
+C-WORK/src/arm9/0212eaf8_MaybeStartSeq.c:18:9: error: incompatible pointer to integer conversion assigning to 'int' from 'uint *' (aka 'unsigned int *') [-Wint-conversion]
+   18 |   iVar2 = func_0212c0e0((undefined4 *)(uintptr_t)(param_1),param_2,param_4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212eaf8_MaybeStartSeq.c:23:49: error: too few arguments to function call, expected 5, have 4
+   23 |   iVar4 = Sound_GetSbnkPointer(param_3,6,uVar3,0);
+      |           ~~~~~~~~~~~~~~~~~~~~                  ^
+C-WORK/src/arm9/deps/0212eaf8_MaybeStartSeq.h:5:5: note: 'Sound_GetSbnkPointer' declared here
+    5 | int Sound_GetSbnkPointer(undefined4 param_1,uint param_2,undefined4 param_3,undefined4 param_4,int *param_5);
+      |     ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212eaf8_MaybeStartSeq.c:25:49: error: too few arguments to function call, expected 5, have 4
+   25 |     iVar4 = NNSi_SndArcLoadSeq(param_6,1,uVar3,0);
+      |             ~~~~~~~~~~~~~~~~~~                  ^
+C-WORK/src/arm9/deps/0212eaf8_MaybeStartSeq.h:4:5: note: 'NNSi_SndArcLoadSeq' declared here
+    4 | int NNSi_SndArcLoadSeq(undefined4 param_1,uint param_2,undefined4 param_3,undefined4 param_4,int *param_5);
+      |     ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212eaf8_MaybeStartSeq.c:29:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |       func_0212c078(iVar2,uStack_24 + (uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20),0,uStack_20)
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212eaf8_MaybeStartSeq.c:29:81: note: place parentheses around the '+' expression to silence this warning
+   29 |       func_0212c078(iVar2,uStack_24 + (uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20),0,uStack_20)
+      |                                                                                 ^     
+      |                                                                      (                )
+C-WORK/src/arm9/0212eaf8_MaybeStartSeq.c:29:27: error: too many arguments to function call, expected single argument 'param_1', have 4 arguments
+   29 |       func_0212c078(iVar2,uStack_24 + (uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20),0,uStack_20)
+      |       ~~~~~~~~~~~~~       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212eaf8_MaybeStartSeq.h:7:6: note: 'func_0212c078' declared here
+    7 | void func_0212c078(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/0212eaf8_MaybeStartSeq.c:32:29: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   32 |       func_0212c5c4(param_1,*(undefined1 *)(param_5 + 7));
+      |       ~~~~~~~~~~~~~         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212eaf8_MaybeStartSeq.h:11:6: note: 'func_0212c5c4' declared here
+   11 | void func_0212c5c4(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/0212eaf8_MaybeStartSeq.c:36:19: error: too many arguments to function call, expected 0, have 1
+   36 |     func_0212c0d4(iVar2);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0212eaf8_MaybeStartSeq.h:8:6: note: 'func_0212c0d4' declared here
+    8 | void func_0212c0d4(void);
+      |      ^
+C-WORK/src/arm9/0212eaf8_MaybeStartSeq.c:39:17: error: too many arguments to function call, expected 0, have 1
+   39 |   func_0212c0d4(iVar2);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0212eaf8_MaybeStartSeq.h:8:6: note: 'func_0212c0d4' declared here
+    8 | void func_0212c0d4(void);
+      |      ^
+1 warning and 7 errors generated.

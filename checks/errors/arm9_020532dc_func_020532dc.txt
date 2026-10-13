@@ -1,0 +1,21 @@
+C-WORK/src/arm9/020532dc_func_020532dc.c:17:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |     *(uint *)(uRam0205333c & 0xfffffffc) << (uRam0205333c & 3) * -8 + 0x20) + 0xc) = 3;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020532dc_func_020532dc.c:17:69: note: place parentheses around the '+' expression to silence this warning
+   17 |     *(uint *)(uRam0205333c & 0xfffffffc) << (uRam0205333c & 3) * -8 + 0x20) + 0xc) = 3;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/020532dc_func_020532dc.c:20:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |   *(undefined4 *)((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x10) = 1;
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020532dc_func_020532dc.c:20:61: note: place parentheses around the '+' expression to silence this warning
+   20 |   *(undefined4 *)((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x10) = 1;
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020532dc_func_020532dc.c:21:52: error: too many arguments to function call, expected 3, have 5
+   21 |   iVar3 = func_021454c4(uRam02053344,uVar2,param_1,uVar2,0xf);
+      |           ~~~~~~~~~~~~~                            ^~~~~~~~~
+C-WORK/src/arm9/deps/020532dc_func_020532dc.h:5:5: note: 'func_021454c4' declared here
+    5 | int func_021454c4(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |     ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.

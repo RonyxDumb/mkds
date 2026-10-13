@@ -1,0 +1,1 @@
+#define puRam02111320 (*(undefined4 **)(uintptr_t)0x2111320u)

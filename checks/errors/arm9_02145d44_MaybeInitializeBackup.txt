@@ -1,0 +1,122 @@
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:17:18: error: too many arguments to function call, expected 0, have 1
+   17 |   Os_ReferSymbol(uRam02145e80);
+      |   ~~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02145d44_MaybeInitializeBackup.h:15:22: note: expanded from macro 'uRam02145e80'
+   15 | #define uRam02145e80 (*(undefined4 *)(uintptr_t)0x2145e80u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02145d44_MaybeInitializeBackup.h:7:6: note: 'Os_ReferSymbol' declared here
+    7 | void Os_ReferSymbol(void);
+      |      ^
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:25:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |   if (((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) & 4) != 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:25:50: note: place parentheses around the '+' expression to silence this warning
+   25 |   if (((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) & 4) != 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:30:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |     } while (((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) & 4) != 0);
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:30:57: note: place parentheses around the '+' expression to silence this warning
+   30 |     } while (((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) & 4) != 0);
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:34:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |   *(uint *)(uVar1 + 0x114) = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20 | 4;
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:34:71: note: place parentheses around the '+' expression to silence this warning
+   34 |   *(uint *)(uVar1 + 0x114) = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20 | 4;
+      |                                                                       ^
+      |                                                            (                )
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:37:17: error: too many arguments to function call, expected 0, have 1
+   37 |   Os_RestoreIrq(uVar2);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/02145d44_MaybeInitializeBackup.h:8:12: note: 'Os_RestoreIrq' declared here
+    8 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:41:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |   *(uint *)(uRam02145e84 + 0x104) = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+      |                                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:41:78: note: place parentheses around the '+' expression to silence this warning
+   41 |   *(uint *)(uRam02145e84 + 0x104) = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+      |                                                                              ^     
+      |                                                                   (                )
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:45:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   45 |     *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + 0xc) = 0;
+      |                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:45:55: note: place parentheses around the '+' expression to silence this warning
+   45 |     *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + 0xc) = 0;
+      |                                                       ^     
+      |                                      (                      )
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:47:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |             *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + 0x10) = uVar1 + 0x120;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:47:63: note: place parentheses around the '+' expression to silence this warning
+   47 |             *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + 0x10) = uVar1 + 0x120;
+      |                                                               ^     
+      |                                              (                      )
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:50:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   50 |     *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + 0x14) = 1;
+      |                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:50:55: note: place parentheses around the '+' expression to silence this warning
+   50 |     *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + 0x14) = 1;
+      |                                                       ^     
+      |                                      (                      )
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:51:23: error: too few arguments to function call, expected 3, have 2
+   51 |   Card_Request(uVar1,6);
+      |   ~~~~~~~~~~~~        ^
+C-WORK/src/arm9/deps/02145d44_MaybeInitializeBackup.h:3:6: note: 'Card_Request' declared here
+    3 | bool Card_Request(uint param_1,int param_2,int param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:54:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   54 |   pcVar7 = (code *)(uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:54:62: note: place parentheses around the '+' expression to silence this warning
+   54 |   pcVar7 = (code *)(uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:60:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   60 |   *(uint *)(uVar1 + 0x114) = (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0xffffffb3;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:60:72: note: place parentheses around the '+' expression to silence this warning
+   60 |   *(uint *)(uVar1 + 0x114) = (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0xffffffb3;
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:64:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   64 |   if (((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0x10) != 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:64:50: note: place parentheses around the '+' expression to silence this warning
+   64 |   if (((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0x10) != 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:67:17: error: too many arguments to function call, expected 0, have 1
+   67 |   Os_RestoreIrq(uVar2);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/02145d44_MaybeInitializeBackup.h:8:12: note: 'Os_RestoreIrq' declared here
+    8 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:69:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   69 |     (*pcVar7)(uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:69:56: note: place parentheses around the '+' expression to silence this warning
+   69 |     (*pcVar7)(uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:69:14: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   69 |     (*pcVar7)(uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |              ^
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:72:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   72 |           *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:72:61: note: place parentheses around the '+' expression to silence this warning
+   72 |           *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20;
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:75:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   75 |   return uVar3 >> uVar1 * 8 == 0 && uVar3 << uVar1 * -8 + 0x20 == 0;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145d44_MaybeInitializeBackup.c:75:57: note: place parentheses around the '+' expression to silence this warning
+   75 |   return uVar3 >> uVar1 * 8 == 0 && uVar3 << uVar1 * -8 + 0x20 == 0;
+      |                                                         ^
+      |                                              (                )
+14 warnings and 4 errors generated.

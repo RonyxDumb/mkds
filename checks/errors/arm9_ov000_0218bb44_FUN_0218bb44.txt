@@ -1,0 +1,15 @@
+C-WORK/src/arm9_ov000/0218bb44_FUN_0218bb44.c:16:24: error: too many arguments to function call, expected 0, have 4
+   16 |   iVar1 = FUN_0218e460(*(undefined4 *)((int)param_1 + DAT_0218bbf8),param_1[0x1f] + iVar2,
+      |           ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   17 |                        DAT_0218bbfc - iVar2,0);
+      |                        ~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218bb44_FUN_0218bb44.h:8:6: note: 'FUN_0218e460' declared here
+    8 | void FUN_0218e460(void);
+      |      ^
+C-WORK/src/arm9_ov000/0218bb44_FUN_0218bb44.c:28:26: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   28 |     iVar1 = FUN_0218c15c(param_1);
+      |                          ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218bb44_FUN_0218bb44.h:6:37: note: passing argument to parameter 'param_1' here
+    6 | undefined4 FUN_0218c15c(undefined4 *param_1);
+      |                                     ^
+1 warning and 1 error generated.

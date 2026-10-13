@@ -1,0 +1,21 @@
+C-WORK/src/arm9/02003c80_Fs_Archive_Resume.c:18:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   bVar5 = ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 8) == 0;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02003c80_Fs_Archive_Resume.c:18:54: note: place parentheses around the '+' expression to silence this warning
+   18 |   bVar5 = ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 8) == 0;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/02003c80_Fs_Archive_Resume.c:22:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |     *(uint *)(param_1 + 0x1c) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0xfffffff7;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02003c80_Fs_Archive_Resume.c:22:75: note: place parentheses around the '+' expression to silence this warning
+   22 |     *(uint *)(param_1 + 0x1c) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0xfffffff7;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/02003c80_Fs_Archive_Resume.c:25:17: error: too many arguments to function call, expected 0, have 1
+   25 |   Os_RestoreIrq(uVar2);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/02003c80_Fs_Archive_Resume.h:7:12: note: 'Os_RestoreIrq' declared here
+    7 | undefined4 Os_RestoreIrq(void);
+      |            ^
+2 warnings and 1 error generated.

@@ -1,0 +1,16 @@
+C-WORK/src/arm9/021114cc_func_021114cc.c:15:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   15 |     uVar2 = Mem_CreateChildExpHeap(*(undefined4 *)*DAT_02111580);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021114cc_func_021114cc.c:23:7: error: call to undeclared function 'func_0x0219a050'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   23 |       func_0x0219a050();
+      |       ^
+C-WORK/src/arm9/021114cc_func_021114cc.c:26:7: error: call to undeclared function 'func_0x02193c5c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   26 |       func_0x02193c5c();
+      |       ^
+C-WORK/src/arm9/021114cc_func_021114cc.c:29:7: error: call to undeclared function 'func_0x021956dc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   29 |       func_0x021956dc();
+      |       ^
+C-WORK/src/arm9/021114cc_func_021114cc.c:42:34: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   42 |     (**(code **)(*piVar1 + 0x18))(*(undefined4 *)(*piVar1 + 4));
+      |                                  ^
+1 warning and 4 errors generated.

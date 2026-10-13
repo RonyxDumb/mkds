@@ -1,0 +1,25 @@
+C-WORK/src/arm9/020a9ea0_func_020a9ea0.c:12:25: error: too few arguments to function call, single argument 'param_1' was not specified
+   12 |   iVar1 = func_020ab338();
+      |           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a9ea0_func_020a9ea0.h:5:5: note: 'func_020ab338' declared here
+    5 | int func_020ab338(uint param_1);
+      |     ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020a9ea0_func_020a9ea0.c:17:29: error: too few arguments to function call, single argument 'param_1' was not specified
+   17 |       uVar2 = func_020ab2a4();
+      |               ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a9ea0_func_020a9ea0.h:4:12: note: 'func_020ab2a4' declared here
+    4 | undefined2 func_020ab2a4(int param_1);
+      |            ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020a9ea0_func_020a9ea0.c:18:49: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   18 |       iVar3 = (**(code **)(iRam020a9ed4 + 0x4c))(uVar2,0);
+      |                                                 ^
+C-WORK/src/arm9/020a9ea0_func_020a9ea0.c:18:13: error: assigning to 'int' from incompatible type 'void'
+   18 |       iVar3 = (**(code **)(iRam020a9ed4 + 0x4c))(uVar2,0);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020a9ea0_func_020a9ea0.c:20:31: error: too few arguments to function call, single argument 'param_1' was not specified
+   20 |         uVar2 = func_020ab338();
+      |                 ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a9ea0_func_020a9ea0.h:5:5: note: 'func_020ab338' declared here
+    5 | int func_020ab338(uint param_1);
+      |     ^             ~~~~~~~~~~~~
+1 warning and 4 errors generated.

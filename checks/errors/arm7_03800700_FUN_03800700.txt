@@ -1,0 +1,19 @@
+C-WORK/src/arm7/03800700_FUN_03800700.c:11:33: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   11 |   FUN_03800538(DAT_03800760,0,1,DAT_03800764);
+      |                                 ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/03800700_FUN_03800700.h:8:22: note: expanded from macro 'DAT_03800764'
+    8 | #define DAT_03800764 (*(undefined4 *)(uintptr_t)0x3800764u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/03800700_FUN_03800700.h:3:61: note: passing argument to parameter 'param_4' here
+    3 | void FUN_03800538(int param_1,int param_2,int param_3,code *param_4);
+      |                                                             ^
+C-WORK/src/arm7/03800700_FUN_03800700.c:12:46: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   12 |   FUN_03800538(0,(int)(uintptr_t)(local_8),1,DAT_03800768);
+      |                                              ^~~~~~~~~~~~
+C-WORK/src/arm7/deps/03800700_FUN_03800700.h:9:22: note: expanded from macro 'DAT_03800768'
+    9 | #define DAT_03800768 (*(undefined4 *)(uintptr_t)0x3800768u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/03800700_FUN_03800700.h:3:61: note: passing argument to parameter 'param_4' here
+    3 | void FUN_03800538(int param_1,int param_2,int param_3,code *param_4);
+      |                                                             ^
+2 errors generated.

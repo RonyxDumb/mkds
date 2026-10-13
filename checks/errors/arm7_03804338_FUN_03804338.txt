@@ -1,0 +1,10 @@
+C-WORK/src/arm7/03804338_FUN_03804338.c:27:19: error: use of undeclared identifier 'UNK_038043a4'
+   27 |       (*(code *)(&UNK_038043a4 + (uVar1 - 0x22) * 4))();
+      |                   ^
+C-WORK/src/arm7/03804338_FUN_03804338.c:30:44: error: too many arguments to function call, expected 4, have 5
+   30 |     iVar3 = FUN_03801320(1,uVar1,3,param_4,param_3);
+      |             ~~~~~~~~~~~~                   ^~~~~~~
+C-WORK/src/arm7/deps/03804338_FUN_03804338.h:3:6: note: 'FUN_03801320' declared here
+    3 | void FUN_03801320(undefined4 param_1,undefined4 param_2,uint param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

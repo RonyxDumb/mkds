@@ -1,0 +1,11 @@
+C-WORK/src/arm9_ov000/0219fbec_FUN_0219fbec.c:71:32: error: too many arguments to function call, expected 0, have 1
+   71 |       iVar10 = func_0x02152698(*(int *)(iVar10 + DAT_0219fdb4) +
+      |                ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                (uint)*(byte *)(iVar10 + (uint)*(byte *)(iVar10 + iVar11) +
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                               DAT_0219fdb8) * 0xc);
+      |                                               ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219fbec_FUN_0219fbec.h:28:6: note: 'FriendCode_HasNonzeroState_0_from_thumb' declared here
+   28 | void FriendCode_HasNonzeroState_0_from_thumb(void);
+      |      ^
+1 error generated.

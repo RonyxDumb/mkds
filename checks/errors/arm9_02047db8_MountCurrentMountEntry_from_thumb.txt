@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02047db8_MountCurrentMountEntry_from_thumb.c:15:99: error: too few arguments to function call, expected 3, have 2
+   15 |      (iVar1 = MountMountEntryFrom(iVar2,*(undefined4 *)(iRam02047e08 + *(int *)(iVar3 + 0x8c) * 4)),
+      |               ~~~~~~~~~~~~~~~~~~~                                                                 ^
+C-WORK/src/arm9/deps/02047db8_MountCurrentMountEntry_from_thumb.h:4:12: note: 'MountMountEntryFrom' declared here
+    4 | undefined4 MountMountEntryFrom(int param_1,char *param_2,int param_3);
+      |            ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

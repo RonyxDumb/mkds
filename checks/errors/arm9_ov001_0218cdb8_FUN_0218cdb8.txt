@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov001/0218cdb8_FUN_0218cdb8.c:14:9: error: assigning to 'int' from incompatible type 'void'
+   14 |   iVar1 = func_0x020d34d4(param_1,DAT_0218ce28);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0218cdb8_FUN_0218cdb8.c:15:9: error: assigning to 'int' from incompatible type 'void'
+   15 |   iVar2 = func_0x020d34d4(param_1,DAT_0218ce28);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0218cdb8_FUN_0218cdb8.c:16:9: error: assigning to 'int' from incompatible type 'void'
+   16 |   iVar3 = func_0x020d34d4(param_1,DAT_0218ce28);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0218cdb8_FUN_0218cdb8.c:17:9: error: assigning to 'int' from incompatible type 'void'
+   17 |   iVar4 = func_0x020d34d4(param_1,DAT_0218ce28);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0218cdb8_FUN_0218cdb8.c:23:27: error: too few arguments to function call, single argument 'p0' was not specified
+   23 |   uVar5 = func_0x020364e0();
+      |           ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/0218cdb8_FUN_0218cdb8.h:12:14: note: 'ExecutionContext_GetHeapHandle' declared here
+   12 | unsigned int ExecutionContext_GetHeapHandle(unsigned int p0);
+      |              ^                              ~~~~~~~~~~~~~~~
+5 errors generated.

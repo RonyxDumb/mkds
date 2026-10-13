@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov003/021b81f4_func_ov003_021b81f4.c:17:34: error: too many arguments to function call, expected 0, have 1
+   17 |   local_1c = func_ov003_021ba178(param_3);
+      |              ~~~~~~~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9_ov003/deps/021b81f4_func_ov003_021b81f4.h:10:6: note: 'func_ov003_021ba178' declared here
+   10 | void func_ov003_021ba178(void);
+      |      ^
+C-WORK/src/arm9_ov003/021b81f4_func_ov003_021b81f4.c:22:40: error: too many arguments to function call, expected 2, have 3
+   22 |   func_ov003_021b7d90(param_5,local_28,2);
+      |   ~~~~~~~~~~~~~~~~~~~                  ^
+C-WORK/src/arm9_ov003/deps/021b81f4_func_ov003_021b81f4.h:4:6: note: 'func_ov003_021b7d90' declared here
+    4 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b81f4_func_ov003_021b81f4.c:23:44: error: too many arguments to function call, expected 2, have 3
+   23 |   func_ov003_021b7d90(uRam021b8270,param_5,2);
+      |   ~~~~~~~~~~~~~~~~~~~                      ^
+C-WORK/src/arm9_ov003/deps/021b81f4_func_ov003_021b81f4.h:4:6: note: 'func_ov003_021b7d90' declared here
+    4 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b81f4_func_ov003_021b81f4.c:24:44: error: too many arguments to function call, expected 2, have 3
+   24 |   func_ov003_021b7d90(uRam021b8274,param_6,param_7);
+      |   ~~~~~~~~~~~~~~~~~~~                      ^~~~~~~
+C-WORK/src/arm9_ov003/deps/021b81f4_func_ov003_021b81f4.h:4:6: note: 'func_ov003_021b7d90' declared here
+    4 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b81f4_func_ov003_021b81f4.c:27:23: error: too many arguments to function call, expected 0, have 1
+   27 |   func_ov003_021ba164(local_1c);
+      |   ~~~~~~~~~~~~~~~~~~~ ^~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b81f4_func_ov003_021b81f4.h:9:6: note: 'func_ov003_021ba164' declared here
+    9 | void func_ov003_021ba164(void);
+      |      ^
+5 errors generated.

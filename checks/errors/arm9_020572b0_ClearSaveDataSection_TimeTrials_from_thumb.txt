@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020572b0_ClearSaveDataSection_TimeTrials_from_thumb.c:10:20: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'uint *' (aka 'unsigned int *'); remove * [-Wint-conversion]
+   10 |   (*pcRam020572c8)(*(undefined4 *)(*piRam020572c0 + 0xc),0,uRam020572c4);
+      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

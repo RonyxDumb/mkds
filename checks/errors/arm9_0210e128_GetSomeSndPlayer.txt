@@ -1,0 +1,112 @@
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:28:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |   uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:28:52: note: place parentheses around the '+' expression to silence this warning
+   28 |   uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:29:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |   uVar3 = uVar3 >> uVar8 * 8 | uVar3 << uVar8 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:29:52: note: place parentheses around the '+' expression to silence this warning
+   29 |   uVar3 = uVar3 >> uVar8 * 8 | uVar3 << uVar8 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:33:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20); uVar8 = uVar8 + 1) {
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:33:66: note: place parentheses around the '+' expression to silence this warning
+   33 |            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20); uVar8 = uVar8 + 1) {
+      |                                                                  ^     
+      |                                               (                        )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:36:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |         *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20 != 0) {
+      |                                       ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:36:59: note: place parentheses around the '+' expression to silence this warning
+   36 |         *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20 != 0) {
+      |                                                           ^
+      |                                          (                      )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:39:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |       uVar7 = uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:39:56: note: place parentheses around the '+' expression to silence this warning
+   39 |       uVar7 = uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:51:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   51 |     uVar6 = uVar6 + (uVar9 >> uVar5 * 8 | uVar9 << uVar5 * -8 + 0x20);
+      |                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:51:63: note: place parentheses around the '+' expression to silence this warning
+   51 |     uVar6 = uVar6 + (uVar9 >> uVar5 * 8 | uVar9 << uVar5 * -8 + 0x20);
+      |                                                               ^     
+      |                                                    (                )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:57:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   57 |     uVar9 = uVar9 >> uVar6 * 8 | uVar9 << uVar6 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:57:54: note: place parentheses around the '+' expression to silence this warning
+   57 |     uVar9 = uVar9 >> uVar6 * 8 | uVar9 << uVar6 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:64:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   64 |             *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20 != 0) {
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:64:63: note: place parentheses around the '+' expression to silence this warning
+   64 |             *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20 != 0) {
+      |                                                               ^
+      |                                              (                      )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:67:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   67 |           uVar6 = uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20;
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:67:60: note: place parentheses around the '+' expression to silence this warning
+   67 |           uVar6 = uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20;
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:79:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   79 |         uVar9 = uVar9 + (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:79:67: note: place parentheses around the '+' expression to silence this warning
+   79 |         uVar9 = uVar9 + (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                                   ^     
+      |                                                        (                )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:85:25: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   85 |     func_0212c6f0(uVar2,0);
+      |     ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/0210e128_GetSomeSndPlayer.h:5:6: note: 'func_0212c6f0' declared here
+    5 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:94:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   94 |   *(uint *)(param_1 + 4) = (uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20) + 1;
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:94:70: note: place parentheses around the '+' expression to silence this warning
+   94 |   *(uint *)(param_1 + 4) = (uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20) + 1;
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:97:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   97 |   *(uint *)(param_1 + 8) = uVar7 + (uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20);
+      |                                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:97:78: note: place parentheses around the '+' expression to silence this warning
+   97 |   *(uint *)(param_1 + 8) = uVar7 + (uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20);
+      |                                                                              ^     
+      |                                                                   (                )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:101:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  101 |            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) <=
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:101:66: note: place parentheses around the '+' expression to silence this warning
+  101 |            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) <=
+      |                                                                  ^     
+      |                                               (                        )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:102:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  102 |       (int)(uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20)) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:102:54: note: place parentheses around the '+' expression to silence this warning
+  102 |       (int)(uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20)) {
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:106:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  106 |     *(uint *)(param_1 + 8) = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e128_GetSomeSndPlayer.c:106:71: note: place parentheses around the '+' expression to silence this warning
+  106 |     *(uint *)(param_1 + 8) = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
+      |                                                                       ^     
+      |                                                            (                )
+15 warnings and 1 error generated.

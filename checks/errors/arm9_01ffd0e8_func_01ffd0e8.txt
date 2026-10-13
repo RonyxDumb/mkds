@@ -1,0 +1,22 @@
+C-WORK/src/arm9/01ffd0e8_func_01ffd0e8.c:18:9: error: assigning to 'int' from incompatible type 'void'
+   18 |   iVar1 = FX_Sqrt((iVar1 + 0x1000) * 2);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/01ffd0e8_func_01ffd0e8.c:27:20: error: too many arguments to function call, expected 0, have 2
+   27 |     uVar2 = FX_Div(local_20,iVar1);
+      |             ~~~~~~ ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/01ffd0e8_func_01ffd0e8.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/01ffd0e8_func_01ffd0e8.c:29:20: error: too many arguments to function call, expected 0, have 2
+   29 |     uVar2 = FX_Div(local_1c,iVar1);
+      |             ~~~~~~ ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/01ffd0e8_func_01ffd0e8.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/01ffd0e8_func_01ffd0e8.c:31:20: error: too many arguments to function call, expected 0, have 2
+   31 |     uVar2 = FX_Div(local_18,iVar1);
+      |             ~~~~~~ ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/01ffd0e8_func_01ffd0e8.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+4 errors generated.

@@ -1,0 +1,28 @@
+C-WORK/src/arm9/0214ca38_MI_DmaFill32Async.c:15:16: error: too few arguments to function call, single argument 'param_1' was not specified
+   15 |     MI_WaitDma();
+      |     ~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0214ca38_MI_DmaFill32Async.h:4:6: note: 'MI_WaitDma' declared here
+    4 | void MI_WaitDma(int param_1);
+      |      ^          ~~~~~~~~~~~
+C-WORK/src/arm9/0214ca38_MI_DmaFill32Async.c:21:21: error: too many arguments to function call, expected 0, have 1
+   21 |       Os_RestoreIrq(uVar1);
+      |       ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0214ca38_MI_DmaFill32Async.h:7:12: note: 'Os_RestoreIrq' declared here
+    7 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0214ca38_MI_DmaFill32Async.c:24:34: error: incompatible pointer to integer conversion passing 'code *' (aka 'void (*)()') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   24 |     OSi_EnterDmaCallback(param_1,param_5,param_6);
+      |                                  ^~~~~~~
+C-WORK/src/arm9/deps/0214ca38_MI_DmaFill32Async.h:5:50: note: passing argument to parameter 'param_2' here
+    5 | void OSi_EnterDmaCallback(int param_1,undefined4 param_2,undefined4 param_3);
+      |                                                  ^
+C-WORK/src/arm9/0214ca38_MI_DmaFill32Async.c:29:19: error: too many arguments to function call, expected 0, have 1
+   29 |     Os_RestoreIrq(uVar1);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0214ca38_MI_DmaFill32Async.h:7:12: note: 'Os_RestoreIrq' declared here
+    7 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0214ca38_MI_DmaFill32Async.c:33:15: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   33 |     (*param_5)(param_6);
+      |               ^
+1 warning and 4 errors generated.

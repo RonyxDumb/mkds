@@ -1,0 +1,60 @@
+C-WORK/src/arm9/020ca6c4_InitializeTestContent.c:15:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   15 |   uVar2 = GetActiveExecutionContextHeapHandle_5();
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ca6c4_InitializeTestContent.c:30:25: error: too many arguments to function call, expected 0, have 1
+   30 |   uVar2 = func_020b47c0(uRam020ca7c8);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ca6c4_InitializeTestContent.h:19:22: note: expanded from macro 'uRam020ca7c8'
+   19 | #define uRam020ca7c8 (*(undefined4 *)(uintptr_t)0x20ca7c8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ca6c4_InitializeTestContent.h:15:6: note: 'func_020b47c0' declared here
+   15 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ca6c4_InitializeTestContent.c:32:25: error: too many arguments to function call, expected 0, have 1
+   32 |   uVar2 = func_020b47c0(uRam020ca7cc);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ca6c4_InitializeTestContent.h:20:22: note: expanded from macro 'uRam020ca7cc'
+   20 | #define uRam020ca7cc (*(undefined4 *)(uintptr_t)0x20ca7ccu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ca6c4_InitializeTestContent.h:15:6: note: 'func_020b47c0' declared here
+   15 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ca6c4_InitializeTestContent.c:34:25: error: too many arguments to function call, expected 0, have 1
+   34 |   uVar2 = func_020b47c0(uRam020ca7d0);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ca6c4_InitializeTestContent.h:21:22: note: expanded from macro 'uRam020ca7d0'
+   21 | #define uRam020ca7d0 (*(undefined4 *)(uintptr_t)0x20ca7d0u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ca6c4_InitializeTestContent.h:15:6: note: 'func_020b47c0' declared here
+   15 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ca6c4_InitializeTestContent.c:40:14: error: too many arguments to function call, expected 0, have 5
+   39 |   G2d_Sprite_CreateFromTiles
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   40 |             (*piVar1 + 0x30,*(undefined4 *)(*(int *)(*piVar1 + 100) + 0x14),0x20,0xc,4);
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ca6c4_InitializeTestContent.h:5:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+    5 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+C-WORK/src/arm9/020ca6c4_InitializeTestContent.c:42:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   42 |   uVar2 = ComputeSomeInterCharacterWidth();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ca6c4_InitializeTestContent.h:4:12: note: 'ComputeSomeInterCharacterWidth' declared here
+    4 | undefined4 ComputeSomeInterCharacterWidth(undefined4 param_1);
+      |            ^                              ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ca6c4_InitializeTestContent.c:50:27: error: too many arguments to function call, expected 0, have 1
+   50 |     uVar4 = func_020b47c0(uRam020ca7dc);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ca6c4_InitializeTestContent.h:23:22: note: expanded from macro 'uRam020ca7dc'
+   23 | #define uRam020ca7dc (*(undefined4 *)(uintptr_t)0x20ca7dcu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ca6c4_InitializeTestContent.h:15:6: note: 'func_020b47c0' declared here
+   15 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ca6c4_InitializeTestContent.c:52:27: error: too many arguments to function call, expected 0, have 6
+   52 |     G2d_Text_PrintString5(*piVar1 + 0x50,0x90,iVar5 * 0x10 + 9,0xc,uVar2,uVar4);
+      |     ~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ca6c4_InitializeTestContent.h:7:6: note: 'G2d_Text_PrintString5' declared here
+    7 | void G2d_Text_PrintString5(void);
+      |      ^
+8 errors generated.

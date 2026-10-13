@@ -1,0 +1,242 @@
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:28:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |            *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:28:76: note: place parentheses around the '+' expression to silence this warning
+   28 |            *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:34:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |        (uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) +
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:34:50: note: place parentheses around the '+' expression to silence this warning
+   34 |        (uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) +
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:35:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |        (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20);
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:35:50: note: place parentheses around the '+' expression to silence this warning
+   35 |        (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20);
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:38:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |   uVar5 = (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) + 8;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:38:53: note: place parentheses around the '+' expression to silence this warning
+   38 |   uVar5 = (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) + 8;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:41:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |   iVar13 = (int)(uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) >> 0xc;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:41:59: note: place parentheses around the '+' expression to silence this warning
+   41 |   iVar13 = (int)(uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) >> 0xc;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:53:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   53 |           *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:53:75: note: place parentheses around the '+' expression to silence this warning
+   53 |           *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:56:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   56 |   uVar5 = uVar9 >> uVar5 * 8 | uVar9 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:56:52: note: place parentheses around the '+' expression to silence this warning
+   56 |   uVar5 = uVar9 >> uVar5 * 8 | uVar9 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:60:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   60 |     *(uint *)(uVar7 + 0x14) = uVar5 - (uVar8 >> uVar9 * 8 | uVar8 << uVar9 * -8 + 0x20);
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:60:81: note: place parentheses around the '+' expression to silence this warning
+   60 |     *(uint *)(uVar7 + 0x14) = uVar5 - (uVar8 >> uVar9 * 8 | uVar8 << uVar9 * -8 + 0x20);
+      |                                                                                 ^     
+      |                                                                      (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:63:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   63 |     uVar9 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:63:54: note: place parentheses around the '+' expression to silence this warning
+   63 |     uVar9 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:67:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   67 |     if ((int)(uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) < 1) {
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:67:56: note: place parentheses around the '+' expression to silence this warning
+   67 |     if ((int)(uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) < 1) {
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:76:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   76 |   if ((int)(uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) <=
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:76:54: note: place parentheses around the '+' expression to silence this warning
+   76 |   if ((int)(uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) <=
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:77:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   77 |       (int)(uVar9 >> uVar4 * 8 | uVar9 << uVar4 * -8 + 0x20)) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:77:54: note: place parentheses around the '+' expression to silence this warning
+   77 |       (int)(uVar9 >> uVar4 * 8 | uVar9 << uVar4 * -8 + 0x20)) {
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:87:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   87 |             *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:87:63: note: place parentheses around the '+' expression to silence this warning
+   87 |             *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                                               ^     
+      |                                              (                      )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:90:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   90 |     psVar14 = (short *)(uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20);
+      |                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:90:66: note: place parentheses around the '+' expression to silence this warning
+   90 |     psVar14 = (short *)(uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20);
+      |                                                                  ^     
+      |                                                       (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:105:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  105 |                     *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:105:71: note: place parentheses around the '+' expression to silence this warning
+  105 |                     *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                                                       ^     
+      |                                                      (                      )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:109:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  109 |             *(uint *)(uVar7 + 0x854) = uVar4 >> uVar9 * 8 | uVar4 << uVar9 * -8 + 0x20 | 0x200;
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:109:81: note: place parentheses around the '+' expression to silence this warning
+  109 |             *(uint *)(uVar7 + 0x854) = uVar4 >> uVar9 * 8 | uVar4 << uVar9 * -8 + 0x20 | 0x200;
+      |                                                                                 ^
+      |                                                                      (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:113:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  113 |                     *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:113:71: note: place parentheses around the '+' expression to silence this warning
+  113 |                     *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                                                       ^     
+      |                                                      (                      )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:117:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  117 |             *(uint *)(uVar7 + 0x854) = uVar4 >> uVar9 * 8 | uVar4 << uVar9 * -8 + 0x20 | 0x400;
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:117:81: note: place parentheses around the '+' expression to silence this warning
+  117 |             *(uint *)(uVar7 + 0x854) = uVar4 >> uVar9 * 8 | uVar4 << uVar9 * -8 + 0x20 | 0x400;
+      |                                                                                 ^
+      |                                                                      (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:121:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  121 |                     *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:121:71: note: place parentheses around the '+' expression to silence this warning
+  121 |                     *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                                                       ^     
+      |                                                      (                      )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:125:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  125 |             *(uint *)(uVar7 + 0x854) = uVar4 >> uVar9 * 8 | uVar4 << uVar9 * -8 + 0x20 | 0x800;
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:125:81: note: place parentheses around the '+' expression to silence this warning
+  125 |             *(uint *)(uVar7 + 0x854) = uVar4 >> uVar9 * 8 | uVar4 << uVar9 * -8 + 0x20 | 0x800;
+      |                                                                                 ^
+      |                                                                      (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:133:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  133 |                (uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20) + uVar4 * 0x10000;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:133:58: note: place parentheses around the '+' expression to silence this warning
+  133 |                (uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20) + uVar4 * 0x10000;
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:154:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  154 |               *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:154:65: note: place parentheses around the '+' expression to silence this warning
+  154 |               *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:158:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  158 |       *(uint *)(uVar7 + 0x18) = (uVar4 >> uVar9 * 8 | uVar4 << uVar9 * -8 + 0x20) + (uint)bVar1;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:158:75: note: place parentheses around the '+' expression to silence this warning
+  158 |       *(uint *)(uVar7 + 0x18) = (uVar4 >> uVar9 * 8 | uVar4 << uVar9 * -8 + 0x20) + (uint)bVar1;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:164:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  164 |       *(uint *)(uVar9 + 0x10) = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 0x10000;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:164:75: note: place parentheses around the '+' expression to silence this warning
+  164 |       *(uint *)(uVar9 + 0x10) = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 0x10000;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:166:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  166 |               *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:166:65: note: place parentheses around the '+' expression to silence this warning
+  166 |               *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:170:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  170 |       *(uint *)(uVar7 + 0x18) = (uVar4 >> uVar9 * 8 | uVar4 << uVar9 * -8 + 0x20) + 2;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:170:75: note: place parentheses around the '+' expression to silence this warning
+  170 |       *(uint *)(uVar7 + 0x18) = (uVar4 >> uVar9 * 8 | uVar4 << uVar9 * -8 + 0x20) + 2;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:180:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  180 |       *(uint *)(uVar9 + 0x18) = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 2;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:180:75: note: place parentheses around the '+' expression to silence this warning
+  180 |       *(uint *)(uVar9 + 0x18) = (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20) + 2;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:184:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  184 |                *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20) + 0x50),0,
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:184:80: note: place parentheses around the '+' expression to silence this warning
+  184 |                *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20) + 0x50),0,
+      |                                                                                ^     
+      |                                                        (                             )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:188:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  188 |                 *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20) + 0x850) ==
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:188:81: note: place parentheses around the '+' expression to silence this warning
+  188 |                 *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20) + 0x850) ==
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:194:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  194 |              *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20) + 0x40,8,uVar10
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:194:78: note: place parentheses around the '+' expression to silence this warning
+  194 |              *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20) + 0x40,8,uVar10
+      |                                                                              ^     
+      |                                                      (                             )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:195:19: error: too few arguments to function call, expected 8, have 4
+  192 |   G2d_Text_PrintString4
+      |   ~~~~~~~~~~~~~~~~~~~~~
+  193 |             ((*(uint *)(DAT_0212b5d0 & 0xfffffffc) >> (DAT_0212b5d0 & 3) * 8 |
+  194 |              *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20) + 0x40,8,uVar10
+  195 |              ,0xf0);
+      |                   ^
+C-WORK/src/arm9/deps/0212b260_FormatSomeStaffRollBmgString.h:5:6: note: 'G2d_Text_PrintString4' declared here
+    5 | void G2d_Text_PrintString4(int param_1,undefined4 param_2,int param_3,undefined4 param_4,int param_5,undefined4 param_6,uint param_7,undefined4 param_8);
+      |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:197:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  197 |           *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:197:75: note: place parentheses around the '+' expression to silence this warning
+  197 |           *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:200:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  200 |   uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:200:52: note: place parentheses around the '+' expression to silence this warning
+  200 |   uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:211:87: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  211 |                       *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20) + 0x50
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212b260_FormatSomeStaffRollBmgString.c:211:87: note: place parentheses around the '+' expression to silence this warning
+  211 |                       *(uint *)(DAT_0212b5d0 & 0xfffffffc) << (DAT_0212b5d0 & 3) * -8 + 0x20) + 0x50
+      |                                                                                       ^     
+      |                                                               (                             )
+33 warnings and 1 error generated.

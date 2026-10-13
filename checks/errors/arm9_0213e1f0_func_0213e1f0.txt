@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0213e1f0_func_0213e1f0.c:76:13: error: assigning to 'int' from incompatible type 'void'
+   76 |     param_1 = MaybeBoundsCheck(param_1,unaff_r8);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

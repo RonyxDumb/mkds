@@ -1,0 +1,15 @@
+#pragma once
+/* Function-specific inferred declarations. */
+uint Crt0_InitializePU(void);
+#define uRam02000b14 (*(uint *)(uintptr_t)0x2000b14u)
+#define uRam02000b18 (*(undefined4 *)(uintptr_t)0x2000b18u)
+#define uRam02000b1c (*(undefined4 *)(uintptr_t)0x2000b1cu)
+#define uRam02000b20 (*(undefined4 *)(uintptr_t)0x2000b20u)
+#define uRam02000b24 (*(undefined4 *)(uintptr_t)0x2000b24u)
+#define uRam02000b28 (*(uint *)(uintptr_t)0x2000b28u)
+#define uRam02000b2c (*(undefined4 *)(uintptr_t)0x2000b2cu)
+#define uRam02000b30 (*(undefined4 *)(uintptr_t)0x2000b30u)
+#define uRam02000b34 (*(undefined4 *)(uintptr_t)0x2000b34u)
+#define uRam02000b38 (*(undefined4 *)(uintptr_t)0x2000b38u)
+#define uRam02000b3c (*(undefined4 *)(uintptr_t)0x2000b3cu)
+#define uRam02000b40 (*(uint *)(uintptr_t)0x2000b40u)

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02056444_LoadKartAppearTablePointer_from_thumb.c:12:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   12 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02056460);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

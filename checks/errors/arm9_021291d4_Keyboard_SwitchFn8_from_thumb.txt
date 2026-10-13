@@ -1,0 +1,10 @@
+C-WORK/src/arm9/021291d4_Keyboard_SwitchFn8_from_thumb.c:49:75: error: too many arguments to function call, expected 3, have 4
+   49 |         MaybeHandleBmgFormatting_from_thumb(auStack_220,uVar4,auStack_20a,uRam021293ac);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                               ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/021291d4_Keyboard_SwitchFn8_from_thumb.h:19:22: note: expanded from macro 'uRam021293ac'
+   19 | #define uRam021293ac (*(undefined4 *)(uintptr_t)0x21293acu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021291d4_Keyboard_SwitchFn8_from_thumb.h:7:6: note: 'MaybeHandleBmgFormatting_from_thumb' declared here
+    7 | void MaybeHandleBmgFormatting_from_thumb(short *param_1,short *param_2,short *param_3);
+      |      ^                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

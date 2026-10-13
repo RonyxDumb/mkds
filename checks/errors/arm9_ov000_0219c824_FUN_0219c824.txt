@@ -1,0 +1,46 @@
+C-WORK/src/arm9_ov000/0219c824_FUN_0219c824.c:15:34: error: too few arguments to function call, expected 3, have 2
+   15 |       FUN_0219d558(1,DAT_0219c8d0);
+      |       ~~~~~~~~~~~~               ^
+C-WORK/src/arm9_ov000/deps/0219c824_FUN_0219c824.h:8:12: note: 'FUN_0219d558' declared here
+    8 | undefined4 FUN_0219d558(int param_1,int param_2,int param_3);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219c824_FUN_0219c824.c:16:28: error: too few arguments to function call, expected 2, have 0
+   16 |       iVar2 = FUN_0219c8dc();
+      |               ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219c824_FUN_0219c824.h:6:5: note: 'FUN_0219c8dc' declared here
+    6 | int FUN_0219c8dc(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219c824_FUN_0219c824.c:19:26: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   19 |           FUN_0219c990(6,DAT_0219c8d4);
+      |           ~~~~~~~~~~~~   ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219c824_FUN_0219c824.h:12:22: note: expanded from macro 'DAT_0219c8d4'
+   12 | #define DAT_0219c8d4 (*(undefined4 *)(uintptr_t)0x219c8d4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219c824_FUN_0219c824.h:7:6: note: 'FUN_0219c990' declared here
+    7 | void FUN_0219c990(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219c824_FUN_0219c824.c:25:40: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   25 |           (**(code **)(*piVar1 + 0x18))(0,param_2[1],*(undefined4 *)(*piVar1 + 0x1c));
+      |                                        ^
+C-WORK/src/arm9_ov000/0219c824_FUN_0219c824.c:31:63: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   31 |       FUN_0218eff8((int *)(uintptr_t)(param_1),param_2[1],0,0,DAT_0219c8d8,0);
+      |                                                               ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219c824_FUN_0219c824.h:13:22: note: expanded from macro 'DAT_0219c8d8'
+   13 | #define DAT_0219c8d8 (*(undefined4 *)(uintptr_t)0x219c8d8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219c824_FUN_0219c824.h:3:94: note: passing argument to parameter 'param_5' here
+    3 | undefined4 FUN_0218eff8(int *param_1,int param_2,undefined4 param_3,undefined4 param_4,code *param_5,undefined4 param_6);
+      |                                                                                              ^
+C-WORK/src/arm9_ov000/0219c824_FUN_0219c824.c:32:20: error: too few arguments to function call, expected 2, have 0
+   32 |       FUN_0219c8dc();
+      |       ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219c824_FUN_0219c824.h:6:5: note: 'FUN_0219c8dc' declared here
+    6 | int FUN_0219c8dc(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219c824_FUN_0219c824.c:37:26: error: too few arguments to function call, expected 2, have 1
+   37 |     FUN_0219c8dc(*param_2);
+      |     ~~~~~~~~~~~~         ^
+C-WORK/src/arm9_ov000/deps/0219c824_FUN_0219c824.h:6:5: note: 'FUN_0219c8dc' declared here
+    6 | int FUN_0219c8dc(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 6 errors generated.

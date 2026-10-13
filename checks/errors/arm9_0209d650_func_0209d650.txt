@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0209d650_func_0209d650.c:13:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |   func_020d7da8(param_1 + 0xb8,uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,0);
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209d650_func_0209d650.c:13:73: note: place parentheses around the '+' expression to silence this warning
+   13 |   func_020d7da8(param_1 + 0xb8,uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,0);
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/0209d650_func_0209d650.c:13:80: error: too many arguments to function call, expected 2, have 3
+   13 |   func_020d7da8(param_1 + 0xb8,uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,0);
+      |   ~~~~~~~~~~~~~                                                                ^
+C-WORK/src/arm9/deps/0209d650_func_0209d650.h:5:6: note: 'func_020d7da8' declared here
+    5 | void func_020d7da8(undefined4 param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

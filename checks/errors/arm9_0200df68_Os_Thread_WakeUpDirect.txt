@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0200df68_Os_Thread_WakeUpDirect.c:13:17: error: too many arguments to function call, expected 0, have 1
+   13 |   Os_RestoreIrq(uVar1);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200df68_Os_Thread_WakeUpDirect.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+1 error generated.

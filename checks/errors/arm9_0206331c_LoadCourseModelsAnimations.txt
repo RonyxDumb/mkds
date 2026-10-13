@@ -1,0 +1,213 @@
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:17:3: error: use of undeclared identifier 'undefined6'
+   17 |   undefined6 uVar10;
+      |   ^
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:22:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   22 |   uVar1 = FindFileBuffer_CRS_CST_from_thumb(uRam020636a0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:23:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   23 |   uVar2 = FindFileBuffer_CRS_CST_from_thumb(uRam020636a4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:27:3: error: use of undeclared identifier 'uVar10'
+   27 |   uVar10 = FindFileBuffer_CRS_CST_from_thumb(uRam020636ac);
+      |   ^
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:28:25: error: use of undeclared identifier 'uint6'
+   28 |   uVar9 = (undefined2)((uint6)uVar10 >> 0x20);
+      |                         ^
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:29:16: error: use of undeclared identifier 'uVar10'
+   29 |   iVar6 = (int)uVar10;
+      |                ^
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:40:94: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |                *(uint *)((uint)puRam020636a8 & 0xfffffffc) << ((uint)puRam020636a8 & 3) * -8 + 0x20,
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:40:94: note: place parentheses around the '+' expression to silence this warning
+   40 |                *(uint *)((uint)puRam020636a8 & 0xfffffffc) << ((uint)puRam020636a8 & 3) * -8 + 0x20,
+      |                                                                                              ^     
+      |                                                               (                                    )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:41:26: error: too many arguments to function call, expected 5, have 6
+   37 |     Animation_CreateFrom
+      |     ~~~~~~~~~~~~~~~~~~~~
+   38 |               (2,uRam020636b0,
+   39 |                *(uint *)((uint)puRam020636a8 & 0xfffffffc) >> ((uint)puRam020636a8 & 3) * 8 |
+   40 |                *(uint *)((uint)puRam020636a8 & 0xfffffffc) << ((uint)puRam020636a8 & 3) * -8 + 0x20,
+   41 |                1,param_1,uVar1);
+      |                          ^~~~~
+C-WORK/src/arm9/deps/0206331c_LoadCourseModelsAnimations.h:3:6: note: 'Animation_CreateFrom' declared here
+    3 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:46:9: error: assigning to 'int' from incompatible type 'void'
+   46 |   iVar5 = FindFileBuffer_CRS_CST_from_thumb(uRam020636b4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:58:94: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   58 |                *(uint *)((uint)puRam020636a8 & 0xfffffffc) << ((uint)puRam020636a8 & 3) * -8 + 0x20,
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:58:94: note: place parentheses around the '+' expression to silence this warning
+   58 |                *(uint *)((uint)puRam020636a8 & 0xfffffffc) << ((uint)puRam020636a8 & 3) * -8 + 0x20,
+      |                                                                                              ^     
+      |                                                               (                                    )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:59:26: error: too many arguments to function call, expected 5, have 6
+   55 |     Animation_CreateFrom
+      |     ~~~~~~~~~~~~~~~~~~~~
+   56 |               (1,uRam020636b8,
+   57 |                *(uint *)((uint)puRam020636a8 & 0xfffffffc) >> ((uint)puRam020636a8 & 3) * 8 |
+   58 |                *(uint *)((uint)puRam020636a8 & 0xfffffffc) << ((uint)puRam020636a8 & 3) * -8 + 0x20,
+   59 |                1,param_1,uVar1);
+      |                          ^~~~~
+C-WORK/src/arm9/deps/0206331c_LoadCourseModelsAnimations.h:3:6: note: 'Animation_CreateFrom' declared here
+    3 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:65:94: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   65 |                *(uint *)((uint)puRam020636a8 & 0xfffffffc) << ((uint)puRam020636a8 & 3) * -8 + 0x20,
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:65:94: note: place parentheses around the '+' expression to silence this warning
+   65 |                *(uint *)((uint)puRam020636a8 & 0xfffffffc) << ((uint)puRam020636a8 & 3) * -8 + 0x20,
+      |                                                                                              ^     
+      |                                                               (                                    )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:66:16: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   64 |   Model_Render(*(uint *)((uint)puRam020636a8 & 0xfffffffc) >> ((uint)puRam020636a8 & 3) * 8 |
+      |   ~~~~~~~~~~~~
+   65 |                *(uint *)((uint)puRam020636a8 & 0xfffffffc) << ((uint)puRam020636a8 & 3) * -8 + 0x20,
+   66 |                8);
+      |                ^
+C-WORK/src/arm9/deps/0206331c_LoadCourseModelsAnimations.h:16:6: note: 'Model_Render' declared here
+   16 | void Model_Render(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:69:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   69 |           *(uint *)(uRam020636bc & 0xfffffffc) << (uRam020636bc & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:69:75: note: place parentheses around the '+' expression to silence this warning
+   69 |           *(uint *)(uRam020636bc & 0xfffffffc) << (uRam020636bc & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:72:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   72 |   uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:72:52: note: place parentheses around the '+' expression to silence this warning
+   72 |   uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:76:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   76 |     iVar6 = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,uRam020636c0
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:76:77: note: place parentheses around the '+' expression to silence this warning
+   76 |     iVar6 = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,uRam020636c0
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:86:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   86 |     iVar6 = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,uRam020636c4
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:86:77: note: place parentheses around the '+' expression to silence this warning
+   86 |     iVar6 = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,uRam020636c4
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:93:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   93 |     iVar6 = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,uRam020636c8
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:93:77: note: place parentheses around the '+' expression to silence this warning
+   93 |     iVar6 = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,uRam020636c8
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:101:9: error: assigning to 'int' from incompatible type 'void'
+  101 |   iVar6 = FindFileBuffer_CRS_CST_from_thumb(uVar1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:102:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  102 |   uVar1 = FindFileBuffer_CRS_CST_from_thumb(uRam020636d0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:109:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  109 |     Model_Render(uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20,8);
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:109:59: note: place parentheses around the '+' expression to silence this warning
+  109 |     Model_Render(uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20,8);
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:109:66: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  109 |     Model_Render(uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20,8);
+      |     ~~~~~~~~~~~~                                                 ^
+C-WORK/src/arm9/deps/0206331c_LoadCourseModelsAnimations.h:16:6: note: 'Model_Render' declared here
+   16 | void Model_Render(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:110:5: error: use of undeclared identifier 'uVar10'
+  110 |     uVar10 = FindFileBuffer_CRS_CST_from_thumb(uRam020636d4);
+      |     ^
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:111:27: error: use of undeclared identifier 'uint6'
+  111 |     uVar9 = (undefined2)((uint6)uVar10 >> 0x20);
+      |                           ^
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:112:18: error: use of undeclared identifier 'uVar10'
+  112 |     iVar5 = (int)uVar10;
+      |                  ^
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:123:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  123 |                 (1,uRam020636d8,uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20,1,param_1,iVar6);
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:123:74: note: place parentheses around the '+' expression to silence this warning
+  123 |                 (1,uRam020636d8,uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20,1,param_1,iVar6);
+      |                                                                          ^     
+      |                                                               (                )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:123:91: error: too many arguments to function call, expected 5, have 6
+  122 |       Animation_CreateFrom
+      |       ~~~~~~~~~~~~~~~~~~~~
+  123 |                 (1,uRam020636d8,uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20,1,param_1,iVar6);
+      |                                                                                           ^~~~~
+C-WORK/src/arm9/deps/0206331c_LoadCourseModelsAnimations.h:3:6: note: 'Animation_CreateFrom' declared here
+    3 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:125:25: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined2 *' (aka 'unsigned short *') [-Wint-conversion]
+  125 |       Animation_SetLoop(uRam020636d8,0,1);
+      |                         ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0206331c_LoadCourseModelsAnimations.h:33:22: note: expanded from macro 'uRam020636d8'
+   33 | #define uRam020636d8 (*(undefined4 *)(uintptr_t)0x20636d8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0206331c_LoadCourseModelsAnimations.h:6:36: note: passing argument to parameter 'param_1' here
+    6 | void Animation_SetLoop(undefined2 *param_1,int param_2,undefined4 param_3);
+      |                                    ^
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:131:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  131 |   local_30[0] = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:131:81: note: place parentheses around the '+' expression to silence this warning
+  131 |   local_30[0] = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,
+      |                                                                                 ^     
+      |                                                                      (                )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:135:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  135 |   local_30[1] = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:135:81: note: place parentheses around the '+' expression to silence this warning
+  135 |   local_30[1] = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,
+      |                                                                                 ^     
+      |                                                                      (                )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:139:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  139 |   local_30[2] = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:139:81: note: place parentheses around the '+' expression to silence this warning
+  139 |   local_30[2] = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,
+      |                                                                                 ^     
+      |                                                                      (                )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:143:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  143 |   local_30[3] = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:143:81: note: place parentheses around the '+' expression to silence this warning
+  143 |   local_30[3] = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,
+      |                                                                                 ^     
+      |                                                                      (                )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:147:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  147 |   local_20 = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,
+      |                                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:147:78: note: place parentheses around the '+' expression to silence this warning
+  147 |   local_20 = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,
+      |                                                                              ^     
+      |                                                                   (                )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:151:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  151 |   local_1c = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,
+      |                                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:151:78: note: place parentheses around the '+' expression to silence this warning
+  151 |   local_1c = Dict_SomeFn_0(iVar4 + (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4,
+      |                                                                              ^     
+      |                                                                   (                )
+C-WORK/src/arm9/0206331c_LoadCourseModelsAnimations.c:160:22: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+  160 |   Matrix4x3_Identity(uRam020636f4);
+      |                      ^~~~~~~~~~~~
+      |                      &
+C-WORK/src/arm9/deps/0206331c_LoadCourseModelsAnimations.h:40:22: note: expanded from macro 'uRam020636f4'
+   40 | #define uRam020636f4 (*(undefined4 *)(uintptr_t)0x20636f4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0206331c_LoadCourseModelsAnimations.h:10:45: note: passing argument to parameter 'param_1' here
+   10 | undefined4 * Matrix4x3_Identity(undefined4 *param_1);
+      |                                             ^
+16 warnings and 19 errors generated.

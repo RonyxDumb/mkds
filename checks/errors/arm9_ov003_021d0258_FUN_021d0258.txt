@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov003/021d0258_FUN_021d0258.c:14:27: error: too many arguments to function call, expected 0, have 1
+   14 |   iVar1 = func_0x021453b4(*DAT_021d0298 + DAT_021d029c);
+      |           ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021d0258_FUN_021d0258.h:10:6: note: 'func_021453b4' declared here
+   10 | void func_021453b4(void);
+      |      ^
+C-WORK/src/arm9_ov003/021d0258_FUN_021d0258.c:16:18: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |     FUN_021d079c();
+      |     ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov003/deps/021d0258_FUN_021d0258.h:4:6: note: 'FUN_021d079c' declared here
+    4 | void FUN_021d079c(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+2 errors generated.

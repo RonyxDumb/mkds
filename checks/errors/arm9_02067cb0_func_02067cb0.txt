@@ -1,0 +1,28 @@
+C-WORK/src/arm9/02067cb0_func_02067cb0.c:12:40: error: too few arguments to function call, single argument 'param_1' was not specified
+   12 |   iVar2 = StructMQRacerEntry_SomeFn_65();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02067cb0_func_02067cb0.h:4:12: note: 'StructMQRacerEntry_SomeFn_65' declared here
+    4 | undefined4 StructMQRacerEntry_SomeFn_65(int param_1);
+      |            ^                            ~~~~~~~~~~~
+C-WORK/src/arm9/02067cb0_func_02067cb0.c:16:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |     if (((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 1) != 0) {
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02067cb0_func_02067cb0.c:16:52: note: place parentheses around the '+' expression to silence this warning
+   16 |     if (((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 1) != 0) {
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/02067cb0_func_02067cb0.c:20:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |       *(uint *)(iVar2 + 0x14) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 1;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02067cb0_func_02067cb0.c:20:75: note: place parentheses around the '+' expression to silence this warning
+   20 |       *(uint *)(iVar2 + 0x14) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 1;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/02067cb0_func_02067cb0.c:24:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |     *(uint *)(param_1 + 0x48) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20 | 0x20000;
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02067cb0_func_02067cb0.c:24:74: note: place parentheses around the '+' expression to silence this warning
+   24 |     *(uint *)(param_1 + 0x48) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20 | 0x20000;
+      |                                                                          ^
+      |                                                               (                )
+3 warnings and 1 error generated.

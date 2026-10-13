@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02111250_CreateSetGlobalCX.c:11:35: error: too few arguments to function call, expected 2, have 0
+   11 |   uVar2 = Sound_InitializeContext();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02111250_CreateSetGlobalCX.h:4:6: note: 'Sound_InitializeContext' declared here
+    4 | uint Sound_InitializeContext(int param_1,int param_2);
+      |      ^                       ~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

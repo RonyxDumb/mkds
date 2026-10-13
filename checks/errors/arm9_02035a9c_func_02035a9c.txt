@@ -1,0 +1,10 @@
+C-WORK/src/arm9/02035a9c_func_02035a9c.c:23:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   23 |   uVar2 = func_0202dbe8(iVar1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02035a9c_func_02035a9c.c:24:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   24 |   uVar3 = func_0202db68(iVar1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02035a9c_func_02035a9c.c:25:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   25 |   uVar4 = func_0202db04(iVar1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/0219ea88_FUN_0219ea88.c:15:20: error: too many arguments to function call, expected 0, have 3
+   15 |       FUN_021a3704(4,*(int *)(iVar1 + 4),0);
+      |       ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219ea88_FUN_0219ea88.h:4:6: note: 'FUN_021a3704' declared here
+    4 | void FUN_021a3704(void);
+      |      ^
+1 error generated.

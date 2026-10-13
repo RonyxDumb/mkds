@@ -1,0 +1,63 @@
+C-WORK/src/arm9/02119770_Maybe_ghost.c:29:37: error: too few arguments to function call, single argument 'param_1' was not specified
+   29 |   uVar4 = Mem_CreateOrphanChildHeap();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02119770_Maybe_ghost.h:6:6: note: 'Mem_CreateOrphanChildHeap' declared here
+    6 | void Mem_CreateOrphanChildHeap(uint param_1);
+      |      ^                         ~~~~~~~~~~~~
+C-WORK/src/arm9/02119770_Maybe_ghost.c:47:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   47 |   uVar4 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam021199d8);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02119770_Maybe_ghost.c:66:56: error: too many arguments to function call, expected 4, have 10
+   66 |     iVar6 = func_021243ac(puVar8[0xc],0,puVar8[2],0xb4,0xd,0,*puVar8,puVar8[1],puVar8[7],
+      |             ~~~~~~~~~~~~~                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   67 |                           iRam021199e0);
+      |                           ~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119770_Maybe_ghost.h:18:12: note: 'func_021243ac' declared here
+   18 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02119770_Maybe_ghost.c:69:56: error: too many arguments to function call, expected 4, have 10
+   69 |     iVar7 = func_021243ac(puVar8[0xc],1,puVar8[2],0xb4,0xd,1,*puVar8,puVar8[1],puVar8[7],
+      |             ~~~~~~~~~~~~~                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   70 |                           iVar5 - iVar6);
+      |                           ~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119770_Maybe_ghost.h:18:12: note: 'func_021243ac' declared here
+   18 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02119770_Maybe_ghost.c:73:56: error: too many arguments to function call, expected 4, have 10
+   73 |     iVar5 = func_021243ac(puVar8[0xc],2,puVar8[2],0x96,0xd,2,*puVar8,puVar8[1],puVar8[7],iVar7);
+      |             ~~~~~~~~~~~~~                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119770_Maybe_ghost.h:18:12: note: 'func_021243ac' declared here
+   18 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02119770_Maybe_ghost.c:76:56: error: too many arguments to function call, expected 4, have 10
+   76 |     iVar5 = func_021243ac(puVar8[0xc],3,puVar8[2],0x50,0xd,3,*puVar8,puVar8[1],puVar8[7],iVar7);
+      |             ~~~~~~~~~~~~~                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119770_Maybe_ghost.h:18:12: note: 'func_021243ac' declared here
+   18 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02119770_Maybe_ghost.c:79:56: error: too many arguments to function call, expected 4, have 10
+   79 |     iVar5 = func_021243ac(puVar8[0xc],4,puVar8[2],0x96,0xd,4,*puVar8,puVar8[1],puVar8[7],iVar7);
+      |             ~~~~~~~~~~~~~                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119770_Maybe_ghost.h:18:12: note: 'func_021243ac' declared here
+   18 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02119770_Maybe_ghost.c:81:48: error: too many arguments to function call, expected 4, have 10
+   81 |     func_021243ac(puVar8[0xc],5,puVar8[2],0x50,0xd,5,*puVar8,puVar8[1],puVar8[7],iVar7 - iVar5);
+      |     ~~~~~~~~~~~~~                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119770_Maybe_ghost.h:18:12: note: 'func_021243ac' declared here
+   18 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02119770_Maybe_ghost.c:82:14: error: assigning to 'int' from incompatible type 'void'
+   82 |     local_1c = func_02148ca0();
+      |              ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02119770_Maybe_ghost.c:91:38: error: too many arguments to function call, expected 4, have 10
+   90 |       iVar5 = func_021243ac(*(undefined4 *)(iVar5 + 0x30),*puVar12,*(undefined4 *)(iVar5 + 0x18),
+      |               ~~~~~~~~~~~~~
+   91 |                             *puVar11,*puVar9,*puVar10,*(undefined4 *)(iVar5 + 0xc),
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   92 |                             *(undefined4 *)(iVar5 + 0x10),*(undefined4 *)(iVar5 + 0x20),local_1c);
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119770_Maybe_ghost.h:18:12: note: 'func_021243ac' declared here
+   18 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+10 errors generated.

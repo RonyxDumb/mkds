@@ -1,0 +1,9 @@
+C-WORK/src/arm9_ov000/021a0a40_FUN_021a0a40.c:42:11: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined1 *' (aka 'unsigned char *') [-Wint-conversion]
+   42 |     uVar1 = FUN_0219a760(param_2,0,0);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a0a40_FUN_021a0a40.c:43:11: error: assigning to 'int' from incompatible type 'void'
+   43 |     iVar2 = FUN_0218b530(*(undefined4 *)(*DAT_021a0ae0 + 0xe4),uVar1,param_3,(undefined4)(uintptr_t)(&local_ac),
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   44 |                          local_a3 + 0x14);
+      |                          ~~~~~~~~~~~~~~~~
+2 errors generated.

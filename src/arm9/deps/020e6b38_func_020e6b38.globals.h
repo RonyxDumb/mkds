@@ -1,0 +1,1 @@
+#define uRam020e6b44 (*(uint *)(uintptr_t)0x20e6b44u)

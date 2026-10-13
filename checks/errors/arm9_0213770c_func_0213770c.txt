@@ -1,0 +1,193 @@
+C-WORK/src/arm9/0213770c_func_0213770c.c:42:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |   uVar10 = (uVar9 >> uVar10 * 8 | uVar9 << uVar10 * -8 + 0x20) & 0xff;
+      |                                         ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:42:56: note: place parentheses around the '+' expression to silence this warning
+   42 |   uVar10 = (uVar9 >> uVar10 * 8 | uVar9 << uVar10 * -8 + 0x20) & 0xff;
+      |                                                        ^     
+      |                                            (                 )
+C-WORK/src/arm9/0213770c_func_0213770c.c:106:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  106 |              *(uint *)(uVar11 & 0xfffffffc) << (uVar11 & 3) * -8 + 0x20) & 0xff;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:106:66: note: place parentheses around the '+' expression to silence this warning
+  106 |              *(uint *)(uVar11 & 0xfffffffc) << (uVar11 & 3) * -8 + 0x20) & 0xff;
+      |                                                                  ^     
+      |                                                (                       )
+C-WORK/src/arm9/0213770c_func_0213770c.c:110:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  110 |                *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20) + 4;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:110:82: note: place parentheses around the '+' expression to silence this warning
+  110 |                *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20) + 4;
+      |                                                                                  ^     
+      |                                                         (                              )
+C-WORK/src/arm9/0213770c_func_0213770c.c:112:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  112 |              *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20) - 4;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:112:80: note: place parentheses around the '+' expression to silence this warning
+  112 |              *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20) - 4;
+      |                                                                                ^     
+      |                                                       (                              )
+C-WORK/src/arm9/0213770c_func_0213770c.c:115:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  115 |     local_18 = uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:115:59: note: place parentheses around the '+' expression to silence this warning
+  115 |     local_18 = uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/0213770c_func_0213770c.c:126:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  126 |              *(uint *)(uVar11 & 0xfffffffc) << (uVar11 & 3) * -8 + 0x20) & 0xff;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:126:66: note: place parentheses around the '+' expression to silence this warning
+  126 |              *(uint *)(uVar11 & 0xfffffffc) << (uVar11 & 3) * -8 + 0x20) & 0xff;
+      |                                                                  ^     
+      |                                                (                       )
+C-WORK/src/arm9/0213770c_func_0213770c.c:140:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  140 |                *(uint *)(uVar11 & 0xfffffffc) << (uVar11 & 3) * -8 + 0x20) & 0xff;
+      |                                               ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:140:68: note: place parentheses around the '+' expression to silence this warning
+  140 |                *(uint *)(uVar11 & 0xfffffffc) << (uVar11 & 3) * -8 + 0x20) & 0xff;
+      |                                                                    ^     
+      |                                                  (                       )
+C-WORK/src/arm9/0213770c_func_0213770c.c:144:33: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+  144 |     local_18 = CONCAT31(local_18._1_3_,bStack_19);
+      |                         ~~~~~~~~^~~~~~
+C-WORK/src/arm9/../ghidra_compat.h:27:50: note: expanded from macro 'CONCAT31'
+   27 | #define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+      |                                                  ^~
+C-WORK/src/arm9/0213770c_func_0213770c.c:158:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  158 |              *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) & 0xff;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:158:64: note: place parentheses around the '+' expression to silence this warning
+  158 |              *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) & 0xff;
+      |                                                                ^     
+      |                                               (                      )
+C-WORK/src/arm9/0213770c_func_0213770c.c:161:84: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  161 |                  *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20) + 4;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:161:84: note: place parentheses around the '+' expression to silence this warning
+  161 |                  *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20) + 4;
+      |                                                                                    ^     
+      |                                                           (                              )
+C-WORK/src/arm9/0213770c_func_0213770c.c:163:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  163 |                *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20) - 4;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:163:82: note: place parentheses around the '+' expression to silence this warning
+  163 |                *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20) - 4;
+      |                                                                                  ^     
+      |                                                         (                              )
+C-WORK/src/arm9/0213770c_func_0213770c.c:166:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  166 |       local_14 = uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20;
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:166:61: note: place parentheses around the '+' expression to silence this warning
+  166 |       local_14 = uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20;
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/0213770c_func_0213770c.c:170:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  170 |                *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) & 0xff;
+      |                                              ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:170:66: note: place parentheses around the '+' expression to silence this warning
+  170 |                *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) & 0xff;
+      |                                                                  ^     
+      |                                                 (                      )
+C-WORK/src/arm9/0213770c_func_0213770c.c:184:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  184 |                  *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) & 0xff;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:184:68: note: place parentheses around the '+' expression to silence this warning
+  184 |                  *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) & 0xff;
+      |                                                                    ^     
+      |                                                   (                      )
+C-WORK/src/arm9/0213770c_func_0213770c.c:198:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  198 |       if (((uVar8 >> uVar11 * 8 | uVar8 << uVar11 * -8 + 0x20) & 0xff) == 0x68) {
+      |                                         ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:198:56: note: place parentheses around the '+' expression to silence this warning
+  198 |       if (((uVar8 >> uVar11 * 8 | uVar8 << uVar11 * -8 + 0x20) & 0xff) == 0x68) {
+      |                                                        ^     
+      |                                            (                 )
+C-WORK/src/arm9/0213770c_func_0213770c.c:202:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  202 |                  *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) & 0xff;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:202:68: note: place parentheses around the '+' expression to silence this warning
+  202 |                  *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) & 0xff;
+      |                                                                    ^     
+      |                                                   (                      )
+C-WORK/src/arm9/0213770c_func_0213770c.c:213:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  213 |       if (((uVar8 >> uVar11 * 8 | uVar8 << uVar11 * -8 + 0x20) & 0xff) == 0x6c) {
+      |                                         ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:213:56: note: place parentheses around the '+' expression to silence this warning
+  213 |       if (((uVar8 >> uVar11 * 8 | uVar8 << uVar11 * -8 + 0x20) & 0xff) == 0x6c) {
+      |                                                        ^     
+      |                                            (                 )
+C-WORK/src/arm9/0213770c_func_0213770c.c:217:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  217 |                  *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) & 0xff;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:217:68: note: place parentheses around the '+' expression to silence this warning
+  217 |                  *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) & 0xff;
+      |                                                                    ^     
+      |                                                   (                      )
+C-WORK/src/arm9/0213770c_func_0213770c.c:237:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  237 |              *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) & 0xff;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213770c_func_0213770c.c:237:64: note: place parentheses around the '+' expression to silence this warning
+  237 |              *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) & 0xff;
+      |                                                                ^     
+      |                                               (                      )
+C-WORK/src/arm9/0213770c_func_0213770c.c:243:31: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+  243 |   local_18 = CONCAT31(local_18._1_3_,bVar6);
+      |                       ~~~~~~~~^~~~~~
+C-WORK/src/arm9/../ghidra_compat.h:27:50: note: expanded from macro 'CONCAT31'
+   27 | #define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+      |                                                  ^~
+C-WORK/src/arm9/0213770c_func_0213770c.c:254:37: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+  254 |         local_18 = CONCAT31(local_18._1_3_,uVar4);
+      |                             ~~~~~~~~^~~~~~
+C-WORK/src/arm9/../ghidra_compat.h:27:50: note: expanded from macro 'CONCAT31'
+   27 | #define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+      |                                                  ^~
+C-WORK/src/arm9/0213770c_func_0213770c.c:291:37: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+  291 |         local_18 = CONCAT31(local_18._1_3_,uVar4);
+      |                             ~~~~~~~~^~~~~~
+C-WORK/src/arm9/../ghidra_compat.h:27:50: note: expanded from macro 'CONCAT31'
+   27 | #define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+      |                                                  ^~
+C-WORK/src/arm9/0213770c_func_0213770c.c:307:35: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+  307 |       local_18 = CONCAT31(local_18._1_3_,uVar4);
+      |                           ~~~~~~~~^~~~~~
+C-WORK/src/arm9/../ghidra_compat.h:27:50: note: expanded from macro 'CONCAT31'
+   27 | #define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+      |                                                  ^~
+C-WORK/src/arm9/0213770c_func_0213770c.c:323:35: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+  323 |       local_18 = CONCAT31(local_18._1_3_,uVar4);
+      |                           ~~~~~~~~^~~~~~
+C-WORK/src/arm9/../ghidra_compat.h:27:50: note: expanded from macro 'CONCAT31'
+   27 | #define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+      |                                                  ^~
+C-WORK/src/arm9/0213770c_func_0213770c.c:345:35: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+  345 |       local_18 = CONCAT31(local_18._1_3_,uVar4);
+      |                           ~~~~~~~~^~~~~~
+C-WORK/src/arm9/../ghidra_compat.h:27:50: note: expanded from macro 'CONCAT31'
+   27 | #define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+      |                                                  ^~
+C-WORK/src/arm9/0213770c_func_0213770c.c:351:33: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+  351 |     local_18 = CONCAT31(local_18._1_3_,uVar4);
+      |                         ~~~~~~~~^~~~~~
+C-WORK/src/arm9/../ghidra_compat.h:27:50: note: expanded from macro 'CONCAT31'
+   27 | #define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+      |                                                  ^~
+C-WORK/src/arm9/0213770c_func_0213770c.c:374:35: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+  374 |       local_18 = CONCAT31(local_18._1_3_,uVar4);
+      |                           ~~~~~~~~^~~~~~
+C-WORK/src/arm9/../ghidra_compat.h:27:50: note: expanded from macro 'CONCAT31'
+   27 | #define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+      |                                                  ^~
+C-WORK/src/arm9/0213770c_func_0213770c.c:390:35: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+  390 |       local_18 = CONCAT31(local_18._1_3_,uVar4);
+      |                           ~~~~~~~~^~~~~~
+C-WORK/src/arm9/../ghidra_compat.h:27:50: note: expanded from macro 'CONCAT31'
+   27 | #define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+      |                                                  ^~
+C-WORK/src/arm9/0213770c_func_0213770c.c:407:31: error: member reference base type 'uint' (aka 'unsigned int') is not a structure or union
+  407 |   local_18 = CONCAT31(local_18._1_3_,uVar4);
+      |                       ~~~~~~~~^~~~~~
+C-WORK/src/arm9/../ghidra_compat.h:27:50: note: expanded from macro 'CONCAT31'
+   27 | #define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+      |                                                  ^~
+18 warnings and 11 errors generated.

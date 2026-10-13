@@ -1,0 +1,16 @@
+C-WORK/src/arm9/0213a460_func_0213a460.c:19:36: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   19 |   uVar4 = func_0213a550(0x7fffffff,uRam0213a544,(undefined4)(uintptr_t)(local_1c),&iStack_24,&local_20);
+      |                                    ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0213a460_func_0213a460.h:10:22: note: expanded from macro 'uRam0213a544'
+   10 | #define uRam0213a544 (*(undefined4 *)(uintptr_t)0x213a544u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0213a460_func_0213a460.h:7:44: note: passing argument to parameter 'param_2' here
+    7 | undefined8 func_0213a550(int param_1,code *param_2,undefined4 param_3,int *param_4,undefined4 *param_5);
+      |                                            ^
+C-WORK/src/arm9/0213a460_func_0213a460.c:19:94: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   19 |   uVar4 = func_0213a550(0x7fffffff,uRam0213a544,(undefined4)(uintptr_t)(local_1c),&iStack_24,&local_20);
+      |                                                                                              ^~~~~~~~~
+C-WORK/src/arm9/deps/0213a460_func_0213a460.h:7:96: note: passing argument to parameter 'param_5' here
+    7 | undefined8 func_0213a550(int param_1,code *param_2,undefined4 param_3,int *param_4,undefined4 *param_5);
+      |                                                                                                ^
+1 warning and 1 error generated.

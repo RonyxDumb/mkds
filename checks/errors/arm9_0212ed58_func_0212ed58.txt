@@ -1,0 +1,9 @@
+C-WORK/src/arm9/0212ed58_func_0212ed58.c:13:45: error: too few arguments to function call, expected 6, have 4
+   12 |     MaybeStartSeq(param_1,*(undefined1 *)(iVar1 + 9),*(undefined2 *)(iVar1 + 4),
+      |     ~~~~~~~~~~~~~
+   13 |                   *(undefined1 *)(iVar1 + 8));
+      |                                             ^
+C-WORK/src/arm9/deps/0212ed58_func_0212ed58.h:3:12: note: 'MaybeStartSeq' declared here
+    3 | undefined4 MaybeStartSeq(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,int param_5,undefined4 param_6);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

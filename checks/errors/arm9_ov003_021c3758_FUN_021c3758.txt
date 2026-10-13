@@ -1,0 +1,41 @@
+C-WORK/src/arm9_ov003/021c3758_FUN_021c3758.c:26:57: error: too many arguments to function call, expected 4, have 9
+   26 |   func_0x0213ca64(auStack_40,0x14,DAT_021c386c,local_6c,local_6b,local_6a,local_69,local_68,local_67
+      |   ~~~~~~~~~~~~~~~                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c3758_FUN_021c3758.h:19:6: note: 'ParticularSnprintf16' declared here
+   19 | void ParticularSnprintf16 (undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c3758_FUN_021c3758.c:28:22: error: too many arguments to function call, expected single argument 'param_1', have 8 arguments
+   28 |   FUN_021d2070(uVar1,*DAT_021c3870,DAT_021c3870[1],DAT_021c3870[2],DAT_021c3870[3],2,DAT_021c3874,
+      |   ~~~~~~~~~~~~       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   29 |                auStack_40);
+      |                ~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c3758_FUN_021c3758.h:5:6: note: 'FUN_021d2070' declared here
+    5 | void FUN_021d2070(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c3758_FUN_021c3758.c:30:19: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   30 |   func_0x02151910(&local_64);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c3758_FUN_021c3758.h:21:50: note: passing argument to parameter 'param_1' here
+   21 | void StructDW_MaybeCreate_from_thumb(undefined4 *param_1);
+      |                                                  ^
+C-WORK/src/arm9_ov003/021c3758_FUN_021c3758.c:32:49: error: too few arguments to function call, expected 4, have 3
+   32 |     func_0x0213ca64(auStack_40,0x14,DAT_021c3884);
+      |     ~~~~~~~~~~~~~~~                             ^
+C-WORK/src/arm9_ov003/deps/021c3758_FUN_021c3758.h:19:6: note: 'ParticularSnprintf16' declared here
+   19 | void ParticularSnprintf16 (undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c3758_FUN_021c3758.c:46:62: error: too many arguments to function call, expected 4, have 7
+   46 |     func_0x0213ca64(auStack_40,0x14,DAT_021c3880,local_50[0],local_50[1],local_50[2],local_50[3]);
+      |     ~~~~~~~~~~~~~~~                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c3758_FUN_021c3758.h:19:6: note: 'ParticularSnprintf16' declared here
+   19 | void ParticularSnprintf16 (undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c3758_FUN_021c3758.c:48:22: error: too many arguments to function call, expected single argument 'param_1', have 8 arguments
+   48 |   FUN_021d2070(uVar1,*DAT_021c3888,DAT_021c3888[1],DAT_021c3888[2],DAT_021c3888[3],2,DAT_021c3874,
+      |   ~~~~~~~~~~~~       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   49 |                auStack_40);
+      |                ~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c3758_FUN_021c3758.h:5:6: note: 'FUN_021d2070' declared here
+    5 | void FUN_021d2070(int param_1);
+      |      ^            ~~~~~~~~~~~
+1 warning and 5 errors generated.

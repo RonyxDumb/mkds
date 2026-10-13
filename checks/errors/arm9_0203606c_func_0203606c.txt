@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0203606c_func_0203606c.c:9:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+    9 |                 *(uint *)(uRam0203609c & 0xfffffffc) << (uRam0203609c & 3) * -8 + 0x20) + 0x28) ==
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203606c_func_0203606c.c:9:81: note: place parentheses around the '+' expression to silence this warning
+    9 |                 *(uint *)(uRam0203609c & 0xfffffffc) << (uRam0203609c & 3) * -8 + 0x20) + 0x28) ==
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/0203606c_func_0203606c.c:11:19: error: too many arguments to function call, expected 0, have 1
+   11 |     func_020360a0(0);
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0203606c_func_0203606c.h:4:6: note: 'func_020360a0' declared here
+    4 | uint func_020360a0(void);
+      |      ^
+1 warning and 1 error generated.

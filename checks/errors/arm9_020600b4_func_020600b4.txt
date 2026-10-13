@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020600b4_func_020600b4.c:8:19: error: too few arguments to function call, single argument 'param_1' was not specified
+    8 |   GetCupForCourse();
+      |   ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020600b4_func_020600b4.h:3:5: note: 'GetCupForCourse' declared here
+    3 | int GetCupForCourse(uint param_1);
+      |     ^               ~~~~~~~~~~~~
+C-WORK/src/arm9/020600b4_func_020600b4.c:9:17: error: too few arguments to function call, single argument 'param_1' was not specified
+    9 |   func_0203b96c();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020600b4_func_020600b4.h:4:12: note: 'func_0203b96c' declared here
+    4 | undefined4 func_0203b96c(int param_1);
+      |            ^             ~~~~~~~~~~~
+2 errors generated.

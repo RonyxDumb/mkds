@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020478bc_FindFileBuffer_KME_KM1_KM2_KSB_from_thumb.c:14:11: error: assigning to 'int' from incompatible type 'void'
+   14 |     iVar2 = FormatGetPathMountBuffer_from_thumb(*(undefined4 *)(iRam0204793c + 0x28),(char *)(uintptr_t)(param_1));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020478bc_FindFileBuffer_KME_KM1_KM2_KSB_from_thumb.c:18:13: error: assigning to 'int' from incompatible type 'void'
+   18 |       iVar2 = FormatGetPathMountBuffer_from_thumb(*(undefined4 *)(iRam0204793c + 0x18),(char *)(uintptr_t)(param_1));
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020478bc_FindFileBuffer_KME_KM1_KM2_KSB_from_thumb.c:21:13: error: assigning to 'int' from incompatible type 'void'
+   21 |       iVar2 = FormatGetPathMountBuffer_from_thumb(*(undefined4 *)(iRam0204793c + 0x1c),(char *)(uintptr_t)(param_1));
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020478bc_FindFileBuffer_KME_KM1_KM2_KSB_from_thumb.c:24:13: error: assigning to 'int' from incompatible type 'void'
+   24 |       iVar2 = FormatGetPathMountBuffer_from_thumb(*(undefined4 *)(iRam0204793c + 0x20),(char *)(uintptr_t)(param_1));
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4 errors generated.

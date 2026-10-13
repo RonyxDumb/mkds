@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0204ed84_func_0204ed84.c:21:74: error: too few arguments to function call, expected 2, have 1
+   21 |       param_2 = func_02006954(*(undefined4 *)((int)piVar1 + iRam0204ee24));
+      |                 ~~~~~~~~~~~~~                                            ^
+C-WORK/src/arm9/deps/0204ed84_func_0204ed84.h:4:12: note: 'func_02006954' declared here
+    4 | undefined2 func_02006954(int param_1,int param_2);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0204ed84_func_0204ed84.c:27:74: error: too few arguments to function call, expected 2, have 1
+   27 |       param_2 = func_02006914(*(undefined4 *)((int)piVar1 + iRam0204ee24));
+      |                 ~~~~~~~~~~~~~                                            ^
+C-WORK/src/arm9/deps/0204ed84_func_0204ed84.h:3:6: note: 'func_02006914' declared here
+    3 | void func_02006914(int param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

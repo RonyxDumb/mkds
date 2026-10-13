@@ -1,0 +1,19 @@
+C-WORK/src/arm9/0211d174_func_0211d174.c:17:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   17 |     iVar1 = func_0211d44c();
+      |             ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0211d174_func_0211d174.h:10:12: note: 'func_0211d44c' declared here
+   10 | undefined4 func_0211d44c(int param_1);
+      |            ^             ~~~~~~~~~~~
+C-WORK/src/arm9/0211d174_func_0211d174.c:50:23: warning: passing 'ushort[4]' (aka 'unsigned short[4]') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   50 |         func_0211d2f0(local_1c);
+      |                       ^~~~~~~~
+C-WORK/src/arm9/deps/0211d174_func_0211d174.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211d174_func_0211d174.c:54:25: warning: passing 'ushort[4]' (aka 'unsigned short[4]') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   54 |           func_0211d2f0(local_1c);
+      |                         ^~~~~~~~
+C-WORK/src/arm9/deps/0211d174_func_0211d174.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+2 warnings and 1 error generated.

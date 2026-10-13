@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02028fac_func_02028fac.c:15:9: error: assigning to 'int' from incompatible type 'void'
+   15 |   iVar3 = func_020280dc();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02028fac_func_02028fac.c:22:13: error: assigning to 'undefined2' (aka 'unsigned short') from incompatible type 'void'
+   22 |       uVar2 = func_02025ebc(*piVar1 + 0xec);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

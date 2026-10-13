@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov003/021b7cf8_func_ov003_021b7cf8.c:10:19: error: called object type 'undefined' (aka 'unsigned char') is not a function or function pointer
+   10 |   (*pcRam021b7cfc)();
+      |   ~~~~~~~~~~~~~~~~^
+1 error generated.

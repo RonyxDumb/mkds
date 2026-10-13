@@ -1,0 +1,167 @@
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:30:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:30:63: note: place parentheses around the '+' expression to silence this warning
+   30 |             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
+      |                                                               ^     
+      |                                              (                      )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:32:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |         *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) == 2) {
+      |                                       ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:32:59: note: place parentheses around the '+' expression to silence this warning
+   32 |         *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) == 2) {
+      |                                                           ^     
+      |                                          (                      )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:40:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |                  *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20,
+      |                                                ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:40:68: note: place parentheses around the '+' expression to silence this warning
+   40 |                  *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20,
+      |                                                                    ^     
+      |                                                   (                      )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:44:13: error: assigning to 'int' from incompatible type 'void'
+   44 |       iVar2 = func_02060c68(iVar5,1);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:54:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   54 |           *(uint *)(uRam0205ec08 & 0xfffffffc) << (uRam0205ec08 & 3) * -8 + 0x20) + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:54:75: note: place parentheses around the '+' expression to silence this warning
+   54 |           *(uint *)(uRam0205ec08 & 0xfffffffc) << (uRam0205ec08 & 3) * -8 + 0x20) + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:57:87: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   57 |   WriteSaveDataSection_FriendList_from_thumb(uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20);
+      |                                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:57:87: note: place parentheses around the '+' expression to silence this warning
+   57 |   WriteSaveDataSection_FriendList_from_thumb(uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20);
+      |                                                                                       ^     
+      |                                                                            (                )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:59:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   59 |           *(uint *)(uRam0205ec0c & 0xfffffffc) << (uRam0205ec0c & 3) * -8 + 0x20) + 0xc;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:59:75: note: place parentheses around the '+' expression to silence this warning
+   59 |           *(uint *)(uRam0205ec0c & 0xfffffffc) << (uRam0205ec0c & 3) * -8 + 0x20) + 0xc;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:62:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   62 |   if (uVar6 >> uVar7 * 8 != 0 || uVar6 << uVar7 * -8 + 0x20 != 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:62:54: note: place parentheses around the '+' expression to silence this warning
+   62 |   if (uVar6 >> uVar7 * 8 != 0 || uVar6 << uVar7 * -8 + 0x20 != 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:70:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   70 |               *(uint *)(uRam0205ec08 & 0xfffffffc) << (uRam0205ec08 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:70:79: note: place parentheses around the '+' expression to silence this warning
+   70 |               *(uint *)(uRam0205ec08 & 0xfffffffc) << (uRam0205ec08 & 3) * -8 + 0x20;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:73:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   73 |       uVar7 = uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:73:56: note: place parentheses around the '+' expression to silence this warning
+   73 |       uVar7 = uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:75:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   75 |                                   *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) + 0x2e,2
+      |                                                                 ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:75:85: note: place parentheses around the '+' expression to silence this warning
+   75 |                                   *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) + 0x2e,2
+      |                                                                                     ^     
+      |                                                                    (                      )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:74:35: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   74 |       iVar2 = func_0205743c(uVar6,(*(uint *)(uVar4 & 0xfffffffc) >> (uVar4 & 3) * 8 |
+      |               ~~~~~~~~~~~~~       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   75 |                                   *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) + 0x2e,2
+      |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0205e900_GlobalATFunction_0.h:12:6: note: 'func_0205743c' declared here
+   12 | bool func_0205743c(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:80:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   80 |                 *(uint *)(uRam0205ec08 & 0xfffffffc) << (uRam0205ec08 & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:80:81: note: place parentheses around the '+' expression to silence this warning
+   80 |                 *(uint *)(uRam0205ec08 & 0xfffffffc) << (uRam0205ec08 & 3) * -8 + 0x20;
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:84:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   84 |                   (uVar6,(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0x2e,2);
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:84:68: note: place parentheses around the '+' expression to silence this warning
+   84 |                   (uVar6,(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0x2e,2);
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:84:26: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   83 |         MaybeSetPersonalGhostForCoursePresent_from_thumb
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   84 |                   (uVar6,(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0x2e,2);
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0205e900_GlobalATFunction_0.h:4:6: note: 'MaybeSetPersonalGhostForCoursePresent_from_thumb' declared here
+    4 | void MaybeSetPersonalGhostForCoursePresent_from_thumb(undefined4 param_1);
+      |      ^                                                ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:90:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   90 |                 *(uint *)(uRam0205ec0c & 0xfffffffc) << (uRam0205ec0c & 3) * -8 + 0x20) + 0xc;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:90:81: note: place parentheses around the '+' expression to silence this warning
+   90 |                 *(uint *)(uRam0205ec0c & 0xfffffffc) << (uRam0205ec0c & 3) * -8 + 0x20) + 0xc;
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:93:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   93 |         if (uVar4 >> uVar3 * 8 != 0 || uVar4 << uVar3 * -8 + 0x20 != 0) {
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:93:60: note: place parentheses around the '+' expression to silence this warning
+   93 |         if (uVar4 >> uVar3 * 8 != 0 || uVar4 << uVar3 * -8 + 0x20 != 0) {
+      |                                                            ^
+      |                                                 (                )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:108:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  108 |                        *(uint *)(uRam0205ebfc & 0xfffffffc) << (uRam0205ebfc & 3) * -8 + 0x20) +
+      |                                                             ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:108:88: note: place parentheses around the '+' expression to silence this warning
+  108 |                        *(uint *)(uRam0205ebfc & 0xfffffffc) << (uRam0205ebfc & 3) * -8 + 0x20) +
+      |                                                                                        ^     
+      |                                                                (                             )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:115:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  115 |               *(uint *)(uRam0205ec0c & 0xfffffffc) << (uRam0205ec0c & 3) * -8 + 0x20) + 0xc;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:115:79: note: place parentheses around the '+' expression to silence this warning
+  115 |               *(uint *)(uRam0205ec0c & 0xfffffffc) << (uRam0205ec0c & 3) * -8 + 0x20) + 0xc;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:118:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  118 |       if (uVar7 >> uVar4 * 8 != 0 || uVar7 << uVar4 * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:118:58: note: place parentheses around the '+' expression to silence this warning
+  118 |       if (uVar7 >> uVar4 * 8 != 0 || uVar7 << uVar4 * -8 + 0x20 != 0) {
+      |                                                          ^
+      |                                               (                )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:126:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  126 |               *(uint *)(uRam0205ec08 & 0xfffffffc) << (uRam0205ec08 & 3) * -8 + 0x20,
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:126:79: note: place parentheses around the '+' expression to silence this warning
+  126 |               *(uint *)(uRam0205ec08 & 0xfffffffc) << (uRam0205ec08 & 3) * -8 + 0x20,
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:128:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  128 |      WriteSaveDataSection_Header_from_thumb(uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20),
+      |                                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:128:86: note: place parentheses around the '+' expression to silence this warning
+  128 |      WriteSaveDataSection_Header_from_thumb(uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20),
+      |                                                                                      ^     
+      |                                                                           (                )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:130:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  130 |              *(uint *)(uRam0205ec0c & 0xfffffffc) << (uRam0205ec0c & 3) * -8 + 0x20) + 0xc,
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:130:78: note: place parentheses around the '+' expression to silence this warning
+  130 |              *(uint *)(uRam0205ec0c & 0xfffffffc) << (uRam0205ec0c & 3) * -8 + 0x20) + 0xc,
+      |                                                                              ^     
+      |                                                      (                             )
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:132:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  132 |      uVar6 >> uVar7 * 8 != 0 || uVar6 << uVar7 * -8 + 0x20 != 0)) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205e900_GlobalATFunction_0.c:132:53: note: place parentheses around the '+' expression to silence this warning
+  132 |      uVar6 >> uVar7 * 8 != 0 || uVar6 << uVar7 * -8 + 0x20 != 0)) {
+      |                                                     ^
+      |                                          (                )
+21 warnings and 3 errors generated.

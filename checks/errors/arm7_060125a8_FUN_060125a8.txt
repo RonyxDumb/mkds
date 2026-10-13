@@ -1,0 +1,4 @@
+C-WORK/src/arm7/060125a8_FUN_060125a8.c:17:19: error: too few arguments to function call, expected 2, have 0
+   17 |   (*DAT_060125dc)();
+      |   ~~~~~~~~~~~~~~~ ^
+1 error generated.

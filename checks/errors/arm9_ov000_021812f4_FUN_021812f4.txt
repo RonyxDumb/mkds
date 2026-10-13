@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/021812f4_FUN_021812f4.c:24:21: error: too many arguments to function call, expected 0, have 2
+   24 |     func_0x02126570(uVar3,uVar4);
+      |     ~~~~~~~~~~~~~~~ ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021812f4_FUN_021812f4.h:15:6: note: 'func_02126570' declared here
+   15 | void func_02126570(void);
+      |      ^
+1 error generated.

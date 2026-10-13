@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020aa738_func_020aa738.c:12:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   12 |     iVar1 = func_020aa628();
+      |             ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020aa738_func_020aa738.h:4:12: note: 'func_020aa628' declared here
+    4 | undefined4 func_020aa628(wchar_t param_1);
+      |            ^             ~~~~~~~~~~~~~~~
+1 error generated.

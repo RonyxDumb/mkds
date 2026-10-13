@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02036c4c_Mem_CreateExpHeap.c:10:36: error: too many arguments to function call, expected 2, have 3
+   10 |   (*pcRam02036c58)(param_1,param_2,1);
+      |   ~~~~~~~~~~~~~~~~                 ^
+1 error generated.

@@ -1,0 +1,39 @@
+C-WORK/src/arm7/037ff908_FUN_037ff908.c:26:37: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   26 |   while (iVar5 = FUN_037f97b4(uVar2,&local_38,0), piVar6 = (int *)local_38, iVar5 != 0) {
+      |                                     ^~~~~~~~~
+C-WORK/src/arm7/deps/037ff908_FUN_037ff908.h:3:43: note: passing argument to parameter 'param_2' here
+    3 | undefined4 FUN_037f97b4(int param_1,uint *param_2,uint param_3);
+      |                                           ^
+C-WORK/src/arm7/037ff908_FUN_037ff908.c:37:31: error: too many arguments to function call, expected single argument 'param_1', have 4 arguments
+   37 |         FUN_037fed24(local_2c,local_28,local_24,local_20);
+      |         ~~~~~~~~~~~~          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/037ff908_FUN_037ff908.h:25:6: note: 'FUN_037fed24' declared here
+   25 | void FUN_037fed24(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/037ff908_FUN_037ff908.c:85:49: error: too many arguments to function call, expected 3, have 4
+   85 |         FUN_037ff6c0(local_2c,local_28,local_24,local_20);
+      |         ~~~~~~~~~~~~                            ^~~~~~~~
+C-WORK/src/arm7/deps/037ff908_FUN_037ff908.h:33:6: note: 'FUN_037ff6c0' declared here
+   33 | void FUN_037ff6c0(uint param_1,byte param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/037ff908_FUN_037ff908.c:154:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  154 |         FUN_037fca00(local_2c,local_28);
+      |         ~~~~~~~~~~~~          ^~~~~~~~
+C-WORK/src/arm7/deps/037ff908_FUN_037ff908.h:15:6: note: 'FUN_037fca00' declared here
+   15 | void FUN_037fca00(uint param_1);
+      |      ^            ~~~~~~~~~~~~
+C-WORK/src/arm7/037ff908_FUN_037ff908.c:178:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  178 |                     *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20);
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037ff908_FUN_037ff908.c:178:85: note: place parentheses around the '+' expression to silence this warning
+  178 |                     *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20);
+      |                                                                                     ^     
+      |                                                             (                             )
+C-WORK/src/arm7/037ff908_FUN_037ff908.c:180:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  180 |               *(uint *)((uint)piVar6 & 0xfffffffc) << ((uint)piVar6 & 3) * -8 + 0x20) + 1;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037ff908_FUN_037ff908.c:180:79: note: place parentheses around the '+' expression to silence this warning
+  180 |               *(uint *)((uint)piVar6 & 0xfffffffc) << ((uint)piVar6 & 3) * -8 + 0x20) + 1;
+      |                                                                               ^     
+      |                                                       (                             )
+3 warnings and 3 errors generated.

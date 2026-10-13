@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0211e160_func_0211e160.c:26:63: error: too few arguments to function call, expected 2, have 1
+   26 |     iVar1 = func_02060228(*(undefined4 *)(*DAT_0211e1ec + 0xc));
+      |             ~~~~~~~~~~~~~                                     ^
+C-WORK/src/arm9/deps/0211e160_func_0211e160.h:5:12: note: 'func_02060228' declared here
+    5 | undefined4 func_02060228(undefined4 param_1,undefined4 param_2);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

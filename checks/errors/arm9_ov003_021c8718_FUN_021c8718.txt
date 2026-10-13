@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021c8718_FUN_021c8718.c:10:57: error: too many arguments to function call, expected 4, have 7
+   10 |   func_0x0213ca64(auStack_2c,0x10,DAT_021c8764,*param_1,param_1[1],param_1[2],param_1[3]);
+      |   ~~~~~~~~~~~~~~~                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c8718_FUN_021c8718.h:9:6: note: 'ParticularSnprintf16' declared here
+    9 | void ParticularSnprintf16 (undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,44 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void FUN_021bf4d0(void);
+void FUN_021bf620(undefined4 param_1,code *param_2);
+int FUN_021bf650(int param_1);
+void FUN_021bf7f4(void);
+void FUN_021bf8c0(void);
+undefined4 FUN_021c20a8(uint param_1);
+uint FUN_021c20c0(void);
+undefined1 FUN_021c20d0(void);
+void FUN_021c212c(undefined4 param_1);
+int * FUN_021c2564(undefined4 param_1);
+void FUN_021c25b4(void);
+void FUN_021c2b28(void);
+void FUN_021cdb90(void);
+void FUN_021d1cb0(int param_1,undefined4 param_2);
+void FUN_021d2784(int param_1,uint param_2);
+#define DAT_021c2c28 (*(undefined4 *)(uintptr_t)0x21c2c28u)
+#define DAT_021c2c2c (*(undefined4 **)(uintptr_t)0x21c2c2cu)
+#define DAT_021c2c30 (*(int *)(uintptr_t)0x21c2c30u)
+#define DAT_021c2c34 (*(undefined4 *)(uintptr_t)0x21c2c34u)
+#define DAT_021c2c38 (*(undefined4 *)(uintptr_t)0x21c2c38u)
+#define DAT_021c2c3c (*(undefined4 *)(uintptr_t)0x21c2c3cu)
+#define DAT_021c2c40 (*(undefined4 *)(uintptr_t)0x21c2c40u)
+#define DAT_021c2c44 (*(undefined4 *)(uintptr_t)0x21c2c44u)
+#define DAT_021c2c48 (*(undefined4 *)(uintptr_t)0x21c2c48u)
+#define DAT_021c2c4c (*(undefined4 *)(uintptr_t)0x21c2c4cu)
+#define DAT_021c2c50 (*(undefined4 *)(uintptr_t)0x21c2c50u)
+#define DAT_021c2c54 (*(undefined4 *)(uintptr_t)0x21c2c54u)
+#define DAT_021c2c58 (*(undefined4 *)(uintptr_t)0x21c2c58u)
+#define DAT_021c2c5c (*(undefined4 *)(uintptr_t)0x21c2c5cu)
+#define DAT_021c2c60 (*(undefined4 *)(uintptr_t)0x21c2c60u)
+#define DAT_021c2c64 (*(undefined4 *)(uintptr_t)0x21c2c64u)
+#define DAT_021c2c68 (*(undefined4 *)(uintptr_t)0x21c2c68u)
+#define DAT_021c2c6c (*(undefined4 *)(uintptr_t)0x21c2c6cu)
+#define DAT_021c2c70 (*(undefined4 *)(uintptr_t)0x21c2c70u)
+#define DAT_021c2c74 (*(undefined4 *)(uintptr_t)0x21c2c74u)
+#define DAT_021c2c78 (*(undefined4 *)(uintptr_t)0x21c2c78u)
+#define DAT_021c2c7c (*(undefined4 *)(uintptr_t)0x21c2c7cu)
+#define DAT_021c2c80 (*(undefined4 *)(uintptr_t)0x21c2c80u)
+#define DAT_021c2c84 (*(undefined4 *)(uintptr_t)0x21c2c84u)
+#define DAT_021c2c88 (*(ushort **)(uintptr_t)0x21c2c88u)
+#define DAT_021c2c8c (*(ushort **)(uintptr_t)0x21c2c8cu)
+#define DAT_021c2c90 (*(undefined4 *)(uintptr_t)0x21c2c90u)

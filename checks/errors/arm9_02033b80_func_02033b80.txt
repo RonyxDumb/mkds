@@ -1,0 +1,9 @@
+C-WORK/src/arm9/02033b80_func_02033b80.c:48:17: error: too many arguments to function call, expected 0, have 7
+   48 |   func_02124224(1,iVar6 + 8,*(undefined4 *)(iVar3 + 0x78),local_1e,*(undefined4 *)(iVar3 + 0x70),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   49 |                 *(undefined4 *)(iVar3 + 0x7c),6);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02033b80_func_02033b80.h:7:6: note: 'func_02124224' declared here
+    7 | void func_02124224(void);
+      |      ^
+1 error generated.

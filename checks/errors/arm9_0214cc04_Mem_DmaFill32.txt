@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0214cc04_Mem_DmaFill32.c:16:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |               *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) & 0x80000000) != 0);
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214cc04_Mem_DmaFill32.c:16:65: note: place parentheses around the '+' expression to silence this warning
+   16 |               *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) & 0x80000000) != 0);
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/0214cc04_Mem_DmaFill32.c:21:19: error: too many arguments to function call, expected 0, have 1
+   21 |     Os_RestoreIrq(uVar1);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0214cc04_Mem_DmaFill32.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0214cc04_Mem_DmaFill32.c:24:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |               *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) & 0x80000000) != 0);
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214cc04_Mem_DmaFill32.c:24:65: note: place parentheses around the '+' expression to silence this warning
+   24 |               *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) & 0x80000000) != 0);
+      |                                                                 ^     
+      |                                                (                      )
+2 warnings and 1 error generated.

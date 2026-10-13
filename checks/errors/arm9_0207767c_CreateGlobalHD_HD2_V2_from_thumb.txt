@@ -1,0 +1,19 @@
+C-WORK/src/arm9/0207767c_CreateGlobalHD_HD2_V2_from_thumb.c:16:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |   uVar4 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0207767c_CreateGlobalHD_HD2_V2_from_thumb.h:4:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    4 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/0207767c_CreateGlobalHD_HD2_V2_from_thumb.c:39:59: error: too few arguments to function call, expected 2, have 1
+   39 |     StructVC_SomeFnLinkedRouteRelated(iVar6 + iRam0207774c);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                     ^
+C-WORK/src/arm9/deps/0207767c_CreateGlobalHD_HD2_V2_from_thumb.h:8:6: note: 'StructVC_SomeFnLinkedRouteRelated' declared here
+    8 | void StructVC_SomeFnLinkedRouteRelated(int param_1,int param_2);
+      |      ^                                 ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0207767c_CreateGlobalHD_HD2_V2_from_thumb.c:42:68: error: too few arguments to function call, expected 2, have 1
+   42 |     StructVC_SomeFnLinkedRouteRelated(*piRam02077734 + iRam0207774c);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                              ^
+C-WORK/src/arm9/deps/0207767c_CreateGlobalHD_HD2_V2_from_thumb.h:8:6: note: 'StructVC_SomeFnLinkedRouteRelated' declared here
+    8 | void StructVC_SomeFnLinkedRouteRelated(int param_1,int param_2);
+      |      ^                                 ~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

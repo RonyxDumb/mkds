@@ -1,0 +1,31 @@
+C-WORK/src/arm9/020ae4c0_ComputeValueInterpolation_from_thumb.c:15:55: error: too few arguments to function call, expected 2, have 1
+   15 |       iVar1 = _s32_div_f((param_3 - param_2) * param_4);
+      |               ~~~~~~~~~~                              ^
+C-WORK/src/arm9/deps/020ae4c0_ComputeValueInterpolation_from_thumb.h:6:12: note: '_s32_div_f' declared here
+    6 | undefined8 _s32_div_f(uint param_1,uint param_2);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ae4c0_ComputeValueInterpolation_from_thumb.c:21:34: error: too few arguments to function call, expected 2, have 1
+   21 |         _s32_div_f(param_4 << 0xf);
+      |         ~~~~~~~~~~               ^
+C-WORK/src/arm9/deps/020ae4c0_ComputeValueInterpolation_from_thumb.h:6:12: note: '_s32_div_f' declared here
+    6 | undefined8 _s32_div_f(uint param_1,uint param_2);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ae4c0_ComputeValueInterpolation_from_thumb.c:22:37: error: too few arguments to function call, single argument 'param_1' was not specified
+   22 |         iVar1 = Maybe_helper_0ae564();
+      |                 ~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ae4c0_ComputeValueInterpolation_from_thumb.h:5:5: note: 'Maybe_helper_0ae564' declared here
+    5 | int Maybe_helper_0ae564(int param_1);
+      |     ^                   ~~~~~~~~~~~
+C-WORK/src/arm9/020ae4c0_ComputeValueInterpolation_from_thumb.c:32:31: error: too few arguments to function call, single argument 'param_1' was not specified
+   32 |         uVar2 = func_021322c8();
+      |                 ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ae4c0_ComputeValueInterpolation_from_thumb.h:10:11: note: 'func_021322c8' declared here
+   10 | ulonglong func_021322c8(uint param_1);
+      |           ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020ae4c0_ComputeValueInterpolation_from_thumb.c:34:31: error: too few arguments to function call, single argument 'param_1' was not specified
+   34 |         uVar2 = func_020ae54c();
+      |                 ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ae4c0_ComputeValueInterpolation_from_thumb.h:7:5: note: 'func_020ae54c' declared here
+    7 | int func_020ae54c(int param_1);
+      |     ^             ~~~~~~~~~~~
+5 errors generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov000/02181714_FUN_02181714.c:17:53: error: use of undeclared identifier 'stack0xfffffff8'
+   17 |   func_ov000_021806ec(&local_18,uStack_c,&local_18,&stack0xfffffff8);
+      |                                                     ^
+1 error generated.

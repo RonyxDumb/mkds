@@ -1,0 +1,188 @@
+C-WORK/src/arm9/020122cc_func_020122cc.c:39:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |   uVar11 = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:39:57: note: place parentheses around the '+' expression to silence this warning
+   39 |   uVar11 = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20;
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:45:93: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   45 |                           *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20)
+      |                                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:45:93: note: place parentheses around the '+' expression to silence this warning
+   45 |                           *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20)
+      |                                                                                             ^     
+      |                                                                    (                              )
+C-WORK/src/arm9/020122cc_func_020122cc.c:50:93: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   50 |                           *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20)
+      |                                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:50:93: note: place parentheses around the '+' expression to silence this warning
+   50 |                           *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20)
+      |                                                                                             ^     
+      |                                                                    (                              )
+C-WORK/src/arm9/020122cc_func_020122cc.c:59:35: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   59 |     bVar3 = uVar10 << uVar11 * -8 + 0x20 != 0;
+      |                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:59:35: note: place parentheses around the '+' expression to silence this warning
+   59 |     bVar3 = uVar10 << uVar11 * -8 + 0x20 != 0;
+      |                                   ^
+      |                       (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:68:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   68 |     if (((uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) & 0x100) == 0) {
+      |                                         ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:68:56: note: place parentheses around the '+' expression to silence this warning
+   68 |     if (((uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) & 0x100) == 0) {
+      |                                                        ^     
+      |                                            (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:79:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   79 |       uVar11 = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20;
+      |                                              ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:79:61: note: place parentheses around the '+' expression to silence this warning
+   79 |       uVar11 = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20;
+      |                                                             ^     
+      |                                                 (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:104:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  104 |         *(uint *)(iVar6 + 0x14) = -(uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20);
+      |                                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:104:82: note: place parentheses around the '+' expression to silence this warning
+  104 |         *(uint *)(iVar6 + 0x14) = -(uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20);
+      |                                                                                  ^     
+      |                                                                      (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:107:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  107 |         *(uint *)(iVar6 + 0x10) = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20;
+      |                                                                 ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:107:80: note: place parentheses around the '+' expression to silence this warning
+  107 |         *(uint *)(iVar6 + 0x10) = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20;
+      |                                                                                ^     
+      |                                                                    (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:113:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  113 |         *(uint *)(iVar6 + 0x1c) = -(uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20);
+      |                                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:113:82: note: place parentheses around the '+' expression to silence this warning
+  113 |         *(uint *)(iVar6 + 0x1c) = -(uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20);
+      |                                                                                  ^     
+      |                                                                      (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:116:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  116 |         *(uint *)(iVar6 + 0x20) = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20;
+      |                                                                 ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:116:80: note: place parentheses around the '+' expression to silence this warning
+  116 |         *(uint *)(iVar6 + 0x20) = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20;
+      |                                                                                ^     
+      |                                                                    (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:122:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  122 |       uVar11 = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20;
+      |                                              ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:122:61: note: place parentheses around the '+' expression to silence this warning
+  122 |       uVar11 = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20;
+      |                                                             ^     
+      |                                                 (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:125:25: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+  125 |           MIi_CpuSend32(uRam02012618,puRam02012600,0x48);
+      |                         ^~~~~~~~~~~~
+      |                         &
+C-WORK/src/arm9/deps/020122cc_func_020122cc.h:25:22: note: expanded from macro 'uRam02012618'
+   25 | #define uRam02012618 (*(undefined4 *)(uintptr_t)0x2012618u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020122cc_func_020122cc.h:4:32: note: passing argument to parameter 'param_1' here
+    4 | void MIi_CpuSend32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                ^
+C-WORK/src/arm9/020122cc_func_020122cc.c:129:25: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+  129 |           MIi_CpuSend32(uVar9,puVar4,8);
+      |                         ^~~~~
+      |                         &
+C-WORK/src/arm9/deps/020122cc_func_020122cc.h:4:32: note: passing argument to parameter 'param_1' here
+    4 | void MIi_CpuSend32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                ^
+C-WORK/src/arm9/020122cc_func_020122cc.c:131:25: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+  131 |           MIi_CpuSend32(uVar9,puRam02012600,0x30);
+      |                         ^~~~~
+      |                         &
+C-WORK/src/arm9/deps/020122cc_func_020122cc.h:4:32: note: passing argument to parameter 'param_1' here
+    4 | void MIi_CpuSend32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                ^
+C-WORK/src/arm9/020122cc_func_020122cc.c:135:25: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+  135 |           MIi_CpuSend32(iVar6,puVar4,0x3c);
+      |                         ^~~~~
+C-WORK/src/arm9/deps/020122cc_func_020122cc.h:4:32: note: passing argument to parameter 'param_1' here
+    4 | void MIi_CpuSend32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                ^
+C-WORK/src/arm9/020122cc_func_020122cc.c:140:23: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+  140 |         MIi_CpuSend32(uVar9,puVar4,8);
+      |                       ^~~~~
+      |                       &
+C-WORK/src/arm9/deps/020122cc_func_020122cc.h:4:32: note: passing argument to parameter 'param_1' here
+    4 | void MIi_CpuSend32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                ^
+C-WORK/src/arm9/020122cc_func_020122cc.c:142:23: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+  142 |         MIi_CpuSend32(uVar9,puRam02012600,0x30);
+      |                       ^~~~~
+      |                       &
+C-WORK/src/arm9/deps/020122cc_func_020122cc.h:4:32: note: passing argument to parameter 'param_1' here
+    4 | void MIi_CpuSend32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                ^
+C-WORK/src/arm9/020122cc_func_020122cc.c:146:23: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+  146 |         MIi_CpuSend32(iVar6,puVar4,0x3c);
+      |                       ^~~~~
+C-WORK/src/arm9/deps/020122cc_func_020122cc.h:4:32: note: passing argument to parameter 'param_1' here
+    4 | void MIi_CpuSend32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                ^
+C-WORK/src/arm9/020122cc_func_020122cc.c:152:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  152 |       param_1[2] = (uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) & 0xffffffbf;
+      |                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:152:66: note: place parentheses around the '+' expression to silence this warning
+  152 |       param_1[2] = (uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) & 0xffffffbf;
+      |                                                                  ^     
+      |                                                      (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:155:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  155 |       (*(code *)(uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20))(param_1);
+      |                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:155:63: note: place parentheses around the '+' expression to silence this warning
+  155 |       (*(code *)(uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20))(param_1);
+      |                                                               ^     
+      |                                                   (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:155:71: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  155 |       (*(code *)(uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20))(param_1);
+      |                                                                       ^
+C-WORK/src/arm9/020122cc_func_020122cc.c:158:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  158 |       uVar11 = (uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) & 0x40;
+      |                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:158:62: note: place parentheses around the '+' expression to silence this warning
+  158 |       uVar11 = (uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) & 0x40;
+      |                                                              ^     
+      |                                                  (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:166:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  166 |         ((uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) & 0x100) == 0)))) {
+      |                                         ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:166:56: note: place parentheses around the '+' expression to silence this warning
+  166 |         ((uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) & 0x100) == 0)))) {
+      |                                                        ^     
+      |                                            (                 )
+C-WORK/src/arm9/020122cc_func_020122cc.c:169:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  168 |                                  *(uint *)((uint)param_1 & 0xfffffffc) <<
+      |                                                                        ~~
+  169 |                                  ((uint)param_1 & 3) * -8 + 0x20) + 2);
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:169:59: note: place parentheses around the '+' expression to silence this warning
+  169 |                                  ((uint)param_1 & 3) * -8 + 0x20) + 2);
+      |                                                           ^     
+      |                                  (                              )
+C-WORK/src/arm9/020122cc_func_020122cc.c:170:26: error: incompatible pointer to integer conversion passing 'uint *' (aka 'unsigned int *') to parameter of type 'undefined4' (aka 'unsigned int'); remove & [-Wint-conversion]
+  170 |       func_01ff9048(0x13,&local_ec,1);
+      |                          ^~~~~~~~~
+C-WORK/src/arm9/deps/020122cc_func_020122cc.h:7:50: note: passing argument to parameter 'param_2' here
+    7 | void func_01ff9048(undefined4 param_1,undefined4 param_2,int param_3);
+      |                                                  ^
+C-WORK/src/arm9/020122cc_func_020122cc.c:173:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  173 |                *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + iVar12;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:173:82: note: place parentheses around the '+' expression to silence this warning
+  173 |                *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + iVar12;
+      |                                                                                  ^     
+      |                                                         (                              )
+C-WORK/src/arm9/020122cc_func_020122cc.c:183:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  183 |              *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + iVar12;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020122cc_func_020122cc.c:183:80: note: place parentheses around the '+' expression to silence this warning
+  183 |              *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + iVar12;
+      |                                                                                ^     
+      |                                                       (                              )
+19 warnings and 8 errors generated.

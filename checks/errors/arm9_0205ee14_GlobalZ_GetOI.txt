@@ -1,0 +1,35 @@
+C-WORK/src/arm9/0205ee14_GlobalZ_GetOI.c:13:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |             *(uint *)(uRam0205ee70 & 0xfffffffc) << (uRam0205ee70 & 3) * -8 + 0x20) + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205ee14_GlobalZ_GetOI.c:13:77: note: place parentheses around the '+' expression to silence this warning
+   13 |             *(uint *)(uRam0205ee70 & 0xfffffffc) << (uRam0205ee70 & 3) * -8 + 0x20) + 0x20;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0205ee14_GlobalZ_GetOI.c:16:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |     Mem_CpuCopy8(param_1 * 0x24 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 4);
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205ee14_GlobalZ_GetOI.c:16:77: note: place parentheses around the '+' expression to silence this warning
+   16 |     Mem_CpuCopy8(param_1 * 0x24 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 4);
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/0205ee14_GlobalZ_GetOI.c:16:88: error: too few arguments to function call, expected 3, have 1
+   16 |     Mem_CpuCopy8(param_1 * 0x24 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 4);
+      |     ~~~~~~~~~~~~                                                                       ^
+C-WORK/src/arm9/deps/0205ee14_GlobalZ_GetOI.h:4:6: note: 'Mem_CpuCopy8' declared here
+    4 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0205ee14_GlobalZ_GetOI.c:19:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |           *(uint *)(uRam0205ee70 & 0xfffffffc) << (uRam0205ee70 & 3) * -8 + 0x20) + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205ee14_GlobalZ_GetOI.c:19:75: note: place parentheses around the '+' expression to silence this warning
+   19 |           *(uint *)(uRam0205ee70 & 0xfffffffc) << (uRam0205ee70 & 3) * -8 + 0x20) + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0205ee14_GlobalZ_GetOI.c:22:91: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |   return (int)((uint)*(byte *)(param_1 * 0x24 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) +
+      |                                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205ee14_GlobalZ_GetOI.c:22:91: note: place parentheses around the '+' expression to silence this warning
+   22 |   return (int)((uint)*(byte *)(param_1 * 0x24 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) +
+      |                                                                                           ^     
+      |                                                                                (                )
+4 warnings and 1 error generated.

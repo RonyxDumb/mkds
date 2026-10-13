@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020ef340_func_020ef340.c:10:28: error: too many arguments to function call, expected 1, have 2
+   10 |   (*pcRam020ef34c)(param_1,param_3);
+      |   ~~~~~~~~~~~~~~~~         ^~~~~~~
+1 error generated.

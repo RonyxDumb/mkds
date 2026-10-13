@@ -1,0 +1,5 @@
+C-WORK/src/arm9/020998b4_LoadKinoHouse2MapObject.c:10:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   10 |   uVar1 = CreateMapObjectFromModel_2_from_thumb(param_1,uRam020998e0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+1 error generated.

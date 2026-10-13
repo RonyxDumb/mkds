@@ -1,0 +1,7 @@
+#define DAT_06012cdc (*(uint *)(uintptr_t)0x6012cdcu)
+#define DAT_06012ce0 (*(int *)(uintptr_t)0x6012ce0u)
+#define DAT_06012ce4 (*(ushort **)(uintptr_t)0x6012ce4u)
+#define DAT_06012ce8 (*(undefined4 *)(uintptr_t)0x6012ce8u)
+#define DAT_06012cec (*(undefined4 *)(uintptr_t)0x6012cecu)
+#define DAT_06012cf0 (*(undefined4 *)(uintptr_t)0x6012cf0u)
+#define DAT_06012cf4 (*(uint *)(uintptr_t)0x6012cf4u)

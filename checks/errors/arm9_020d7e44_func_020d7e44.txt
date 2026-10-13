@@ -1,0 +1,47 @@
+C-WORK/src/arm9/020d7e44_func_020d7e44.c:26:44: error: too few arguments to function call, single argument 'param_1' was not specified
+   26 |     uVar2 = ExecutionContext_GetHeapHandle();
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020d7e44_func_020d7e44.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020d7e44_func_020d7e44.c:78:23: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+   78 |         func_020d80e4(*piVar8 + uVar7 * 0x54,0,1,uVar2,uVar4,uVar5,uVar6);
+      |                       ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d7e44_func_020d7e44.h:8:32: note: passing argument to parameter 'param_1' here
+    8 | void func_020d80e4(undefined4 *param_1,int param_2,int param_3,int param_4,undefined4 *param_5,undefined4 *param_6,int param_7);
+      |                                ^
+C-WORK/src/arm9/020d7e44_func_020d7e44.c:78:56: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+   78 |         func_020d80e4(*piVar8 + uVar7 * 0x54,0,1,uVar2,uVar4,uVar5,uVar6);
+      |                                                        ^~~~~
+      |                                                        &
+C-WORK/src/arm9/deps/020d7e44_func_020d7e44.h:8:88: note: passing argument to parameter 'param_5' here
+    8 | void func_020d80e4(undefined4 *param_1,int param_2,int param_3,int param_4,undefined4 *param_5,undefined4 *param_6,int param_7);
+      |                                                                                        ^
+C-WORK/src/arm9/020d7e44_func_020d7e44.c:78:62: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+   78 |         func_020d80e4(*piVar8 + uVar7 * 0x54,0,1,uVar2,uVar4,uVar5,uVar6);
+      |                                                              ^~~~~
+      |                                                              &
+C-WORK/src/arm9/deps/020d7e44_func_020d7e44.h:8:108: note: passing argument to parameter 'param_6' here
+    8 | void func_020d80e4(undefined4 *param_1,int param_2,int param_3,int param_4,undefined4 *param_5,undefined4 *param_6,int param_7);
+      |                                                                                                            ^
+C-WORK/src/arm9/020d7e44_func_020d7e44.c:85:23: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+   85 |         func_020d80e4(*piVar8 + (uVar7 + 1) * 0x54,0,1,uVar2,uVar4,uVar5,uVar6);
+      |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020d7e44_func_020d7e44.h:8:32: note: passing argument to parameter 'param_1' here
+    8 | void func_020d80e4(undefined4 *param_1,int param_2,int param_3,int param_4,undefined4 *param_5,undefined4 *param_6,int param_7);
+      |                                ^
+C-WORK/src/arm9/020d7e44_func_020d7e44.c:85:62: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+   85 |         func_020d80e4(*piVar8 + (uVar7 + 1) * 0x54,0,1,uVar2,uVar4,uVar5,uVar6);
+      |                                                              ^~~~~
+      |                                                              &
+C-WORK/src/arm9/deps/020d7e44_func_020d7e44.h:8:88: note: passing argument to parameter 'param_5' here
+    8 | void func_020d80e4(undefined4 *param_1,int param_2,int param_3,int param_4,undefined4 *param_5,undefined4 *param_6,int param_7);
+      |                                                                                        ^
+C-WORK/src/arm9/020d7e44_func_020d7e44.c:85:68: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+   85 |         func_020d80e4(*piVar8 + (uVar7 + 1) * 0x54,0,1,uVar2,uVar4,uVar5,uVar6);
+      |                                                                    ^~~~~
+      |                                                                    &
+C-WORK/src/arm9/deps/020d7e44_func_020d7e44.h:8:108: note: passing argument to parameter 'param_6' here
+    8 | void func_020d80e4(undefined4 *param_1,int param_2,int param_3,int param_4,undefined4 *param_5,undefined4 *param_6,int param_7);
+      |                                                                                                            ^
+7 errors generated.

@@ -1,0 +1,48 @@
+C-WORK/src/arm9/0200dce0_Os_Thread_SetPriority.c:18:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   uVar2 = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200dce0_Os_Thread_SetPriority.c:18:52: note: place parentheses around the '+' expression to silence this warning
+   18 |   uVar2 = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0200dce0_Os_Thread_SetPriority.c:23:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |     uVar2 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200dce0_Os_Thread_SetPriority.c:23:54: note: place parentheses around the '+' expression to silence this warning
+   23 |     uVar2 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0200dce0_Os_Thread_SetPriority.c:28:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |     if ((uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) != param_2) {
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200dce0_Os_Thread_SetPriority.c:28:51: note: place parentheses around the '+' expression to silence this warning
+   28 |     if ((uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) != param_2) {
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/0200dce0_Os_Thread_SetPriority.c:32:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |         *(uint *)(iRam0200dd8c + 8) = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
+      |                                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200dce0_Os_Thread_SetPriority.c:32:80: note: place parentheses around the '+' expression to silence this warning
+   32 |         *(uint *)(iRam0200dd8c + 8) = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
+      |                                                                                ^     
+      |                                                                     (                )
+C-WORK/src/arm9/0200dce0_Os_Thread_SetPriority.c:37:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   37 |         *(uint *)(uVar3 + 0x68) = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
+      |                                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200dce0_Os_Thread_SetPriority.c:37:76: note: place parentheses around the '+' expression to silence this warning
+   37 |         *(uint *)(uVar3 + 0x68) = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
+      |                                                                            ^     
+      |                                                                 (                )
+C-WORK/src/arm9/0200dce0_Os_Thread_SetPriority.c:43:19: error: too many arguments to function call, expected 0, have 1
+   43 |     Os_RestoreIrq(uVar1);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200dce0_Os_Thread_SetPriority.h:6:12: note: 'Os_RestoreIrq' declared here
+    6 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0200dce0_Os_Thread_SetPriority.c:46:17: error: too many arguments to function call, expected 0, have 1
+   46 |   Os_RestoreIrq(uVar1);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200dce0_Os_Thread_SetPriority.h:6:12: note: 'Os_RestoreIrq' declared here
+    6 | undefined4 Os_RestoreIrq(void);
+      |            ^
+5 warnings and 2 errors generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020048ac_Fs_File_Read.c:10:20: error: too few arguments to function call, expected 4, have 0
+   10 |   (*pcRam020048b8)();
+      |   ~~~~~~~~~~~~~~~~ ^
+1 error generated.

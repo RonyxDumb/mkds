@@ -1,0 +1,10 @@
+C-WORK/src/arm9/020ae178_GetCharacterNameString_from_thumb.c:39:25: error: too many arguments to function call, expected 0, have 1
+   39 |   uVar2 = func_020b47cc(uRam020ae1cc);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ae178_GetCharacterNameString_from_thumb.h:7:22: note: expanded from macro 'uRam020ae1cc'
+    7 | #define uRam020ae1cc (*(undefined4 *)(uintptr_t)0x20ae1ccu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ae178_GetCharacterNameString_from_thumb.h:5:6: note: 'func_020b47cc' declared here
+    5 | void func_020b47cc(void);
+      |      ^
+1 error generated.

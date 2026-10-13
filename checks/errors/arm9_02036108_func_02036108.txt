@@ -1,0 +1,16 @@
+C-WORK/src/arm9/02036108_func_02036108.c:16:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   16 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02036240);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02036108_func_02036108.c:22:30: error: too many arguments to function call, expected 0, have 5
+   22 |   G2d_Sprite_CreateFromTiles(*piRam02036238 + 4,iVar3 + iRam02036248,0x20,4,4);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02036108_func_02036108.h:7:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+    7 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+C-WORK/src/arm9/02036108_func_02036108.c:25:17: error: too many arguments to function call, expected 0, have 6
+   25 |   func_0203629c(*piRam02036238 + 0x24,8,0,3,uRam0203624c,uVar2);
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02036108_func_02036108.h:15:6: note: 'func_0203629c' declared here
+   15 | void func_0203629c(void);
+      |      ^
+3 errors generated.

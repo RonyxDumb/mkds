@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0209c770_func_0209c770.c:10:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   10 |   uVar1 = CreateMapObjectFromModel_from_thumb(param_1,uRam0209c79c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9/0209c770_func_0209c770.c:12:17: error: too many arguments to function call, expected 0, have 1
+   12 |   func_02103554(uRam0209c7a4);
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0209c770_func_0209c770.h:8:22: note: expanded from macro 'uRam0209c7a4'
+    8 | #define uRam0209c7a4 (*(undefined4 *)(uintptr_t)0x209c7a4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0209c770_func_0209c770.h:5:6: note: 'func_02103554' declared here
+    5 | void func_02103554(void);
+      |      ^
+2 errors generated.

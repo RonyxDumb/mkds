@@ -1,0 +1,46 @@
+C-WORK/src/arm9_ov000/02191e58_FUN_02191e58.c:17:26: error: too many arguments to function call, expected 0, have 3
+   17 |     iVar1 = FUN_0218e554(2,1,0);
+      |             ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/02191e58_FUN_02191e58.h:8:6: note: 'FUN_0218e554' declared here
+    8 | void FUN_0218e554(void);
+      |      ^
+C-WORK/src/arm9_ov000/02191e58_FUN_02191e58.c:25:26: error: too few arguments to function call, expected 2, have 0
+   25 |     iVar1 = FUN_0218e80c();
+      |             ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02191e58_FUN_02191e58.h:9:12: note: 'FUN_0218e80c' declared here
+    9 | undefined4 FUN_0218e80c(undefined4 param_1,int param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02191e58_FUN_02191e58.c:39:26: error: too many arguments to function call, expected 0, have 2
+   39 |     iVar1 = FUN_0218e49c(*(undefined4 *)(iVar3 + DAT_0219209c),5);
+      |             ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02191e58_FUN_02191e58.h:5:6: note: 'FUN_0218e49c' declared here
+    5 | void FUN_0218e49c(void);
+      |      ^
+C-WORK/src/arm9_ov000/02191e58_FUN_02191e58.c:46:11: error: assigning to 'int' from incompatible type 'void'
+   46 |     iVar1 = FUN_0218e394(*(undefined4 *)(iVar3 + DAT_0219209c),(byte *)(void *)(&local_20),local_18);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02191e58_FUN_02191e58.c:58:24: error: too many arguments to function call, expected 0, have 3
+   58 |   iVar1 = FUN_0218e554(2,1,0);
+      |           ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/02191e58_FUN_02191e58.h:8:6: note: 'FUN_0218e554' declared here
+    8 | void FUN_0218e554(void);
+      |      ^
+C-WORK/src/arm9_ov000/02191e58_FUN_02191e58.c:66:24: error: too few arguments to function call, expected 2, have 0
+   66 |   iVar1 = FUN_0218e80c();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02191e58_FUN_02191e58.h:9:12: note: 'FUN_0218e80c' declared here
+    9 | undefined4 FUN_0218e80c(undefined4 param_1,int param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02191e58_FUN_02191e58.c:72:9: error: incompatible pointer to integer conversion assigning to 'int' from 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+   72 |   iVar1 = FUN_021a8f84(DAT_021920bc);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02191e58_FUN_02191e58.c:84:9: error: assigning to 'int' from incompatible type 'void'
+   84 |   iVar1 = FUN_0218e4b4(*(undefined4 *)(iVar3 + DAT_021920b8),(undefined1 *)(void *)(&local_20),8);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02191e58_FUN_02191e58.c:85:48: error: too many arguments to function call, expected 0, have 1
+   85 |   if ((((iVar1 == -1) && (iVar1 = FUN_0218e368(*(undefined4 *)(iVar3 + DAT_021920b8)), iVar1 != -6))
+      |                                   ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02191e58_FUN_02191e58.h:3:12: note: 'FUN_0218e368' declared here
+    3 | undefined4 FUN_0218e368(void);
+      |            ^
+9 errors generated.

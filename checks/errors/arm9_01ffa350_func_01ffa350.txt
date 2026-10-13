@@ -1,0 +1,18 @@
+C-WORK/src/arm9/01ffa350_func_01ffa350.c:14:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |   *(uint *)(param_1 + 0x44) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & ~param_2;
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffa350_func_01ffa350.c:14:73: note: place parentheses around the '+' expression to silence this warning
+   14 |   *(uint *)(param_1 + 0x44) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & ~param_2;
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/01ffa350_func_01ffa350.c:17:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   *(undefined4 *)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) = 0;
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/01ffa350_func_01ffa350.c:17:60: note: place parentheses around the '+' expression to silence this warning
+   17 |   *(undefined4 *)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) = 0;
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/01ffa350_func_01ffa350.c:18:25: error: incompatible pointer types assigning to 'code *' (aka 'void (*)()') from 'undefined *' (aka 'unsigned char *') [-Werror,-Wincompatible-pointer-types]
+   18 |   UNRECOVERED_JUMPTABLE = DAT_01ffa37c;
+      |                         ^ ~~~~~~~~~~~~
+2 warnings and 1 error generated.

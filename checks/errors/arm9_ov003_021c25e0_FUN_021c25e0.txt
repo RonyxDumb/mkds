@@ -1,0 +1,34 @@
+C-WORK/src/arm9_ov003/021c25e0_FUN_021c25e0.c:19:28: warning: passing 'char[7]' to parameter of type 'undefined1 *' (aka 'unsigned char *') converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   19 |     FUN_021d0e9c(&local_10,local_f);
+      |                            ^~~~~~~
+C-WORK/src/arm9_ov003/deps/021c25e0_FUN_021c25e0.h:5:51: note: passing argument to parameter 'param_2' here
+    5 | void FUN_021d0e9c(undefined1 *param_1,undefined1 *param_2);
+      |                                                   ^
+C-WORK/src/arm9_ov003/021c25e0_FUN_021c25e0.c:52:20: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   52 |           (*pcVar3)(2);
+      |                    ^
+C-WORK/src/arm9_ov003/021c25e0_FUN_021c25e0.c:63:20: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   63 |           (*pcVar3)(1);
+      |                    ^
+C-WORK/src/arm9_ov003/021c25e0_FUN_021c25e0.c:78:20: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   78 |           (*pcVar3)(3);
+      |                    ^
+C-WORK/src/arm9_ov003/021c25e0_FUN_021c25e0.c:86:26: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   86 |           FUN_021d34c8(0,param_1);
+      |           ~~~~~~~~~~~~   ^~~~~~~
+C-WORK/src/arm9_ov003/deps/021c25e0_FUN_021c25e0.h:8:6: note: 'FUN_021d34c8' declared here
+    8 | void FUN_021d34c8(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c25e0_FUN_021c25e0.c:102:16: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  102 |       (*pcVar3)(4);
+      |                ^
+C-WORK/src/arm9_ov003/021c25e0_FUN_021c25e0.c:107:40: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  107 |     (**(code **)(iVar1 + DAT_021c27ac))(0);
+      |                                        ^
+C-WORK/src/arm9_ov003/021c25e0_FUN_021c25e0.c:116:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  116 |   uVar2 = FUN_021d0e90();
+      |         ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c25e0_FUN_021c25e0.c:123:12: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  123 |   (*pcVar3)(0);
+      |            ^
+7 warnings and 2 errors generated.

@@ -1,0 +1,6 @@
+#define DAT_021924b4 (*(undefined4 *)(uintptr_t)0x21924b4u)
+#define DAT_021924b8 (*(undefined4 *)(uintptr_t)0x21924b8u)
+#define DAT_021924bc (*(undefined4 *)(uintptr_t)0x21924bcu)
+#define DAT_021924c0 (*(undefined4 *)(uintptr_t)0x21924c0u)
+#define DAT_021924c4 (*(undefined4 *)(uintptr_t)0x21924c4u)
+#define DAT_021924c8 (*(undefined4 *)(uintptr_t)0x21924c8u)

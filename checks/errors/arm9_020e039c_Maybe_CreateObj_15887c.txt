@@ -1,0 +1,14 @@
+C-WORK/src/arm9/020e039c_Maybe_CreateObj_15887c.c:16:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |   uVar3 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020e039c_Maybe_CreateObj_15887c.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020e039c_Maybe_CreateObj_15887c.c:42:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |          *(uint *)((uint)piRam020e03f0 & 0xfffffffc) << ((uint)piRam020e03f0 & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020e039c_Maybe_CreateObj_15887c.c:42:88: note: place parentheses around the '+' expression to silence this warning
+   42 |          *(uint *)((uint)piRam020e03f0 & 0xfffffffc) << ((uint)piRam020e03f0 & 3) * -8 + 0x20;
+      |                                                                                        ^     
+      |                                                         (                                    )
+1 warning and 1 error generated.

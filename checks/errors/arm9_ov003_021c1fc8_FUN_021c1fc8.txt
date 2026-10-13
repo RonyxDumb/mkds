@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov003/021c1fc8_FUN_021c1fc8.c:18:37: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   18 |   iVar2 = FUN_021d283c(DAT_021c2068,4);
+      |           ~~~~~~~~~~~~              ^
+C-WORK/src/arm9_ov003/deps/021c1fc8_FUN_021c1fc8.h:5:12: note: 'FUN_021d283c' declared here
+    5 | undefined4 FUN_021d283c(undefined4 param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021c1fc8_FUN_021c1fc8.c:23:15: error: member reference base type 'undefined2' (aka 'unsigned short') is not a structure or union
+   23 |   local_10e[0]._0_1_ = 0x50;
+      |   ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9_ov003/021c1fc8_FUN_021c1fc8.c:25:43: error: too few arguments to function call, expected 3, have 2
+   25 |   func_0x0214d1fc(DAT_021c2078,auStack_10a);
+      |   ~~~~~~~~~~~~~~~                         ^
+C-WORK/src/arm9_ov003/deps/021c1fc8_FUN_021c1fc8.h:23:6: note: 'Mem_CpuCopy8' declared here
+   23 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

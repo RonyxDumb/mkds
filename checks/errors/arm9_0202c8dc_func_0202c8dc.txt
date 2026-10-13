@@ -1,0 +1,10 @@
+C-WORK/src/arm9/0202c8dc_func_0202c8dc.c:14:25: error: too many arguments to function call, expected 0, have 1
+   14 |   uVar2 = func_020b47cc(uRam0202c958);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202c8dc_func_0202c8dc.h:10:22: note: expanded from macro 'uRam0202c958'
+   10 | #define uRam0202c958 (*(undefined4 *)(uintptr_t)0x202c958u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202c8dc_func_0202c8dc.h:8:6: note: 'func_020b47cc' declared here
+    8 | void func_020b47cc(void);
+      |      ^
+1 error generated.

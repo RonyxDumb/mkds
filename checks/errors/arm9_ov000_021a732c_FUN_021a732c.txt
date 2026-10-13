@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov000/021a732c_FUN_021a732c.c:12:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   12 |   uVar1 = FUN_021a72c4();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a732c_FUN_021a732c.h:4:5: note: 'FUN_021a72c4' declared here
+    4 | int FUN_021a72c4(int param_1);
+      |     ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a732c_FUN_021a732c.c:14:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   14 |   iVar3 = (**(code **)(*DAT_021a7374 + 0x18))(uVar1);
+      |                                              ^
+C-WORK/src/arm9_ov000/021a732c_FUN_021a732c.c:14:9: error: assigning to 'int' from incompatible type 'void'
+   14 |   iVar3 = (**(code **)(*DAT_021a7374 + 0x18))(uVar1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a732c_FUN_021a732c.c:20:19: error: too many arguments to function call, expected 0, have 1
+   20 |   func_0x0200fcb4(uVar2);
+      |   ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a732c_FUN_021a732c.h:14:12: note: 'Os_RestoreIrq' declared here
+   14 | undefined4 Os_RestoreIrq(void);
+      |            ^
+1 warning and 3 errors generated.

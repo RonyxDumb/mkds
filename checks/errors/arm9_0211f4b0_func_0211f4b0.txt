@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0211f4b0_func_0211f4b0.c:23:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   23 |   uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam0211f590);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211f4b0_func_0211f4b0.c:25:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   25 |   uVar3 = func_02148ca0();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211f4b0_func_0211f4b0.c:27:43: error: too many arguments to function call, expected 4, have 10
+   27 |   func_021243ac(param_1,0xe,puVar5[3],200,0xd,0,*puVar5,puVar5[1],puVar5[4],uVar3);
+      |   ~~~~~~~~~~~~~                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211f4b0_func_0211f4b0.h:13:12: note: 'func_021243ac' declared here
+   13 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211f4b0_func_0211f4b0.c:30:17: error: too many arguments to function call, expected 0, have 6
+   30 |   func_0212426c(1,0xe,*(undefined4 *)(*piRam0211f58c + 0xc),uVar3,*(undefined4 *)(iVar2 + 4),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   31 |                 *(undefined4 *)(iVar2 + 0x10));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211f4b0_func_0211f4b0.h:12:6: note: 'func_0212426c' declared here
+   12 | void func_0212426c(void);
+      |      ^
+4 errors generated.

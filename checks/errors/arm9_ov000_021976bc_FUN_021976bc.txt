@@ -1,0 +1,28 @@
+C-WORK/src/arm9_ov000/021976bc_FUN_021976bc.c:23:42: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   23 |     iVar3 = FUN_0218e68c(*DAT_021978f4,0,&local_18,local_14);
+      |                                          ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021976bc_FUN_021976bc.h:5:69: note: passing argument to parameter 'param_3' here
+    5 | int FUN_0218e68c(undefined4 param_1,undefined4 *param_2,undefined4 *param_3,undefined4 *param_4);
+      |                                                                     ^
+C-WORK/src/arm9_ov000/021976bc_FUN_021976bc.c:23:52: warning: passing 'int[2]' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   23 |     iVar3 = FUN_0218e68c(*DAT_021978f4,0,&local_18,local_14);
+      |                                                    ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/021976bc_FUN_021976bc.h:5:89: note: passing argument to parameter 'param_4' here
+    5 | int FUN_0218e68c(undefined4 param_1,undefined4 *param_2,undefined4 *param_3,undefined4 *param_4);
+      |                                                                                         ^
+C-WORK/src/arm9_ov000/021976bc_FUN_021976bc.c:30:13: error: assigning to 'int' from incompatible type 'void'
+   30 |       iVar3 = FUN_0218e8c4();
+      |             ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021976bc_FUN_021976bc.c:45:13: error: assigning to 'int' from incompatible type 'void'
+   45 |       iVar3 = FUN_0218e8c4();
+      |             ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021976bc_FUN_021976bc.c:53:26: error: too many arguments to function call, expected 0, have 4
+   53 |     iVar3 = FUN_0218e460(*DAT_021978f4,*DAT_02197910 + *DAT_0219790c,*DAT_02197914 - *DAT_0219790c,0
+      |             ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021976bc_FUN_021976bc.h:3:6: note: 'FUN_0218e460' declared here
+    3 | void FUN_0218e460(void);
+      |      ^
+C-WORK/src/arm9_ov000/021976bc_FUN_021976bc.c:86:13: error: assigning to 'int' from incompatible type 'void'
+   86 |       iVar3 = FUN_0218e8c4();
+      |             ^ ~~~~~~~~~~~~~~
+2 warnings and 4 errors generated.

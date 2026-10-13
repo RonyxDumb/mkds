@@ -1,0 +1,5 @@
+#pragma once
+/* Function-specific inferred declarations. */
+undefined4 GetChoises_s_b_Pallette_from_thumb(void);
+#define iRam020b33d4 (*(int *)(uintptr_t)0x20b33d4u)
+#define piRam020b33d0 (*(int **)(uintptr_t)0x20b33d0u)

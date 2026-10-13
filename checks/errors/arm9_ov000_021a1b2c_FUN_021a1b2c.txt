@@ -1,0 +1,28 @@
+C-WORK/src/arm9_ov000/021a1b2c_FUN_021a1b2c.c:32:27: error: too few arguments to function call, expected 2, have 1
+   32 |       FUN_021988a4(param_1);
+      |       ~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov000/deps/021a1b2c_FUN_021a1b2c.h:3:6: note: 'FUN_021988a4' declared here
+    3 | void FUN_021988a4(int param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1b2c_FUN_021a1b2c.c:42:31: error: too few arguments to function call, expected 2, have 1
+   42 |           FUN_0219e3e4(param_2);
+      |           ~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov000/deps/021a1b2c_FUN_021a1b2c.h:9:5: note: 'FUN_0219e3e4' declared here
+    9 | int FUN_0219e3e4(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1b2c_FUN_021a1b2c.c:55:15: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined1 *' (aka 'unsigned char *') [-Wint-conversion]
+   55 |         uVar2 = FUN_0219a760(*(undefined4 *)
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   56 |                               (iVar5 + (uint)*(byte *)(iVar5 + 0x14) * 4 + DAT_021a1c94),
+      |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   57 |                              *(undefined2 *)
+      |                              ~~~~~~~~~~~~~~~
+   58 |                               (iVar5 + (uint)*(byte *)(iVar5 + 0x14) * 2 + DAT_021a1c98),0);
+      |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a1b2c_FUN_021a1b2c.c:61:22: error: too few arguments to function call, expected 2, have 0
+   61 |         FUN_0219e3e4();
+      |         ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a1b2c_FUN_021a1b2c.h:9:5: note: 'FUN_0219e3e4' declared here
+    9 | int FUN_0219e3e4(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+4 errors generated.

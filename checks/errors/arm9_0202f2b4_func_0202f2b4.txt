@@ -1,0 +1,40 @@
+C-WORK/src/arm9/0202f2b4_func_0202f2b4.c:26:47: error: too many arguments to function call, expected single argument 'param_1', have 8 arguments
+   26 |   DisplayConfig_SetTopEngineBg1Config_0(uVar3,0,0,0,0,0xc,0,0);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~       ^~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202f2b4_func_0202f2b4.h:7:6: note: 'DisplayConfig_SetTopEngineBg1Config_0' declared here
+    7 | void DisplayConfig_SetTopEngineBg1Config_0(int param_1);
+      |      ^                                     ~~~~~~~~~~~
+C-WORK/src/arm9/0202f2b4_func_0202f2b4.c:27:50: error: too many arguments to function call, expected single argument 'param_1', have 7 arguments
+   27 |   DisplayConfig_SetBottomEngineBg3Config_0(uVar3,2,0,0,0,0xf,6);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~       ^~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202f2b4_func_0202f2b4.h:6:6: note: 'DisplayConfig_SetBottomEngineBg3Config_0' declared here
+    6 | void DisplayConfig_SetBottomEngineBg3Config_0(int param_1);
+      |      ^                                        ~~~~~~~~~~~
+C-WORK/src/arm9/0202f2b4_func_0202f2b4.c:29:9: error: assigning to 'int' from incompatible type 'void'
+   29 |   iVar2 = func_0202f19c();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202f2b4_func_0202f2b4.c:32:41: error: too few arguments to function call, single argument 'param_1' was not specified
+   32 |     local_34 = GetLoadedFont_from_thumb();
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0202f2b4_func_0202f2b4.h:9:12: note: 'GetLoadedFont_from_thumb' declared here
+    9 | undefined4 GetLoadedFont_from_thumb(int param_1);
+      |            ^                        ~~~~~~~~~~~
+C-WORK/src/arm9/0202f2b4_func_0202f2b4.c:43:52: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   43 |     InitializeNavigationContext_from_thumb(param_1,&local_38);
+      |                                                    ^~~~~~~~~
+C-WORK/src/arm9/deps/0202f2b4_func_0202f2b4.h:10:69: note: passing argument to parameter 'param_2' here
+   10 | void InitializeNavigationContext_from_thumb(undefined4 param_1,int *param_2);
+      |                                                                     ^
+C-WORK/src/arm9/0202f2b4_func_0202f2b4.c:49:11: error: assigning to 'int' from incompatible type 'void'
+   49 |     iVar2 = func_0202f19c();
+      |           ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202f2b4_func_0202f2b4.c:77:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   77 |   uVar3 = Mem_CreateChildExpHeap(param_1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202f2b4_func_0202f2b4.c:79:9: error: assigning to 'int' from incompatible type 'void'
+   79 |   iVar2 = func_0202f19c();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202f2b4_func_0202f2b4.c:88:13: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   88 |             (*(undefined4 *)(iVar2 + DAT_0202f44c),iVar2,iVar2 + DAT_0202f450);
+      |             ^
+2 warnings and 7 errors generated.

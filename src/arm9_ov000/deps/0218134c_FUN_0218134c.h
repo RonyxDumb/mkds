@@ -1,0 +1,28 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void FUN_0218134c(void);
+void func_ov000_021806e0(undefined4 param_1);
+#define DAT_02181450 (*(undefined2 **)(uintptr_t)0x2181450u)
+#define DAT_02181454 (*(int **)(uintptr_t)0x2181454u)
+
+/* Address resolved to indexed definition; inferred ABI remains provisional. */
+unsigned int TextSystem_WasAnyDialogButtonPressed_from_thumb(void);
+#define func_0x02125f54 TextSystem_WasAnyDialogButtonPressed_from_thumb
+void TextSystem_CloseDialog_from_thumb(void);
+#define func_0x02125fc0 TextSystem_CloseDialog_from_thumb
+undefined4 TextSystem_IsDialogFinished_from_thumb(void);
+#define func_0x02125f88 TextSystem_IsDialogFinished_from_thumb
+int Bmg_GetRawStringPointer_from_thumb(undefined4 param_1,undefined4 param_2);
+#define func_0x020b3f7c Bmg_GetRawStringPointer_from_thumb
+void func_02126570(void);
+#define func_0x02126570 func_02126570
+void func_02126454(void);
+#define func_0x02126454 func_02126454
+unsigned int TextSystem_IsButton2Focused_from_thumb(void);
+#define func_0x02125f60 TextSystem_IsButton2Focused_from_thumb
+void TextSystem_DisplayProgressDialog_TopScreen_from_thumb (undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4, undefined4 param_5,undefined4 param_6,undefined4 param_7);
+#define func_0x02126638 TextSystem_DisplayProgressDialog_TopScreen_from_thumb
+void func_0211fe24(void);
+#define func_0x0211fe24 func_0211fe24
+void func_02108bb4(void);
+#define func_0x02108bb4 func_02108bb4

@@ -1,0 +1,42 @@
+C-WORK/src/arm9/0212d03c_NNSi_SndCaptureMain.c:17:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |       *(uint *)(uRam0212d0e8 & 0xfffffffc) << (uRam0212d0e8 & 3) * -8 + 0x20 == 0) {
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d03c_NNSi_SndCaptureMain.c:17:71: note: place parentheses around the '+' expression to silence this warning
+   17 |       *(uint *)(uRam0212d0e8 & 0xfffffffc) << (uRam0212d0e8 & 3) * -8 + 0x20 == 0) {
+      |                                                                       ^
+      |                                               (                             )
+C-WORK/src/arm9/0212d03c_NNSi_SndCaptureMain.c:22:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |   if (uVar3 >> uVar1 * 8 == 0 && uVar3 << uVar1 * -8 + 0x20 == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d03c_NNSi_SndCaptureMain.c:22:54: note: place parentheses around the '+' expression to silence this warning
+   22 |   if (uVar3 >> uVar1 * 8 == 0 && uVar3 << uVar1 * -8 + 0x20 == 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/0212d03c_NNSi_SndCaptureMain.c:27:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |     if ((uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0) &&
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d03c_NNSi_SndCaptureMain.c:27:57: note: place parentheses around the '+' expression to silence this warning
+   27 |     if ((uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0) &&
+      |                                                         ^
+      |                                              (                )
+C-WORK/src/arm9/0212d03c_NNSi_SndCaptureMain.c:29:21: error: too few arguments to function call, expected 3, have 0
+   29 |       func_0212cbd8();
+      |       ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212d03c_NNSi_SndCaptureMain.h:7:6: note: 'func_0212cbd8' declared here
+    7 | void func_0212cbd8(undefined4 param_1,undefined4 param_2,int param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212d03c_NNSi_SndCaptureMain.c:36:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |     if (uVar1 != (uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20)) {
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d03c_NNSi_SndCaptureMain.c:36:60: note: place parentheses around the '+' expression to silence this warning
+   36 |     if (uVar1 != (uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20)) {
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/0212d03c_NNSi_SndCaptureMain.c:39:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |       SND_SetChannelVolume(uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20,uVar1,0);
+      |                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212d03c_NNSi_SndCaptureMain.c:39:69: note: place parentheses around the '+' expression to silence this warning
+   39 |       SND_SetChannelVolume(uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20,uVar1,0);
+      |                                                                     ^     
+      |                                                          (                )
+5 warnings and 1 error generated.

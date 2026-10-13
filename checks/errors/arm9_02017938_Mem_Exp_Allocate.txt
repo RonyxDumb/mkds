@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02017938_Mem_Exp_Allocate.c:12:27: error: too few arguments to function call, expected 3, have 0
+   12 |     Mem_Exp_AllocFromHead();
+      |     ~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02017938_Mem_Exp_Allocate.h:3:6: note: 'Mem_Exp_AllocFromHead' declared here
+    3 | void Mem_Exp_AllocFromHead(int param_1,uint param_2,int param_3);
+      |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

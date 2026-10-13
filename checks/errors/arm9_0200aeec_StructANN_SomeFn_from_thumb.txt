@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0200aeec_StructANN_SomeFn_from_thumb.c:70:16: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'int *' [-Wint-conversion]
+   70 |       *param_1 = piVar4;
+      |                ^ ~~~~~~
+C-WORK/src/arm9/0200aeec_StructANN_SomeFn_from_thumb.c:78:16: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'int *' [-Wint-conversion]
+   78 |       *param_1 = piVar4;
+      |                ^ ~~~~~~
+C-WORK/src/arm9/0200aeec_StructANN_SomeFn_from_thumb.c:82:17: error: too many arguments to function call, expected 0, have 1
+   82 |   Os_RestoreIrq(uVar3);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200aeec_StructANN_SomeFn_from_thumb.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+3 errors generated.

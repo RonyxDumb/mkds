@@ -1,0 +1,13 @@
+C-WORK/src/arm9/02007478_func_02007478.c:18:37: error: too many arguments to function call, expected 0, have 2
+   18 |   uVar1 = Fs_FindArchiveByMountName(iVar2 + 0x10,*(undefined4 *)(iVar2 + 0x14));
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02007478_func_02007478.h:7:6: note: 'Fs_FindArchiveByMountName' declared here
+    7 | uint Fs_FindArchiveByMountName(void);
+      |      ^
+C-WORK/src/arm9/02007478_func_02007478.c:21:26: error: too many arguments to function call, expected 0, have 3
+   21 |     iVar2 = Fs_File_Read(auStack_5c,piVar3[2],piVar3[1]);
+      |             ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02007478_func_02007478.h:6:6: note: 'Fs_File_Read' declared here
+    6 | void Fs_File_Read(void);
+      |      ^
+2 errors generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020ceb20_func_020ceb20.c:17:3: error: call to undeclared function 'func_0x0219c784'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   17 |   func_0x0219c784();
+      |   ^
+1 error generated.

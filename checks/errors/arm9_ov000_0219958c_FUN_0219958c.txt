@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov000/0219958c_FUN_0219958c.c:22:9: error: assigning to 'int' from incompatible type 'void'
+   22 |   iVar2 = FUN_0218e8c4();
+      |         ^ ~~~~~~~~~~~~~~
+1 error generated.

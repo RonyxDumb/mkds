@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov000/021996fc_FUN_021996fc.c:14:26: error: too few arguments to function call, single argument 'param_1' was not specified
+   14 |     iVar1 = FUN_02199fa4();
+      |             ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021996fc_FUN_021996fc.h:10:6: note: 'FUN_02199fa4' declared here
+   10 | void FUN_02199fa4(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021996fc_FUN_021996fc.c:38:29: error: too few arguments to function call, expected 2, have 1
+   38 |   iVar1 = FUN_0219a014(uVar2);
+      |           ~~~~~~~~~~~~      ^
+C-WORK/src/arm9_ov000/deps/021996fc_FUN_021996fc.h:11:5: note: 'FUN_0219a014' declared here
+   11 | int FUN_0219a014(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021996fc_FUN_021996fc.c:43:71: warning: passing 'int[2]' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   43 |   iVar1 = FUN_021998d8(param_1,param_2,uVar2,param_3 + 7,param_4 + -7,local_1c);
+      |                                                                       ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/021996fc_FUN_021996fc.h:6:112: note: passing argument to parameter 'param_6' here
+    6 | undefined4 FUN_021998d8(int param_1,undefined4 param_2,uint param_3,undefined4 param_4,int param_5,undefined4 *param_6);
+      |                                                                                                                ^
+1 warning and 2 errors generated.

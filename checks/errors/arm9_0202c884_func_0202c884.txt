@@ -1,0 +1,9 @@
+C-WORK/src/arm9/0202c884_func_0202c884.c:15:17: error: too many arguments to function call, expected 0, have 6
+   15 |   func_0212426c(0,(int)*(short *)(*piRam0202c8d8 + param_1 * 8),*(undefined4 *)(iVar1 + 0x14),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   16 |                 auStack_26,*(undefined4 *)(iVar1 + 0xc),*(undefined4 *)(iVar1 + 0x18));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202c884_func_0202c884.h:6:6: note: 'func_0212426c' declared here
+    6 | void func_0212426c(void);
+      |      ^
+1 error generated.

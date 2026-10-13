@@ -1,0 +1,34 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void MIi_CpuClear32(undefined4 param_1,undefined4 *param_2,int param_3);
+void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+void Mem_CpuFill16(undefined2 param_1,int param_2,int param_3);
+longlong Os_DisableIrq(void);
+undefined4 Os_RestoreIrq(void);
+undefined4 SetupSomePointer_from_thumb(int param_1,int param_2,undefined4 param_3,int param_4,undefined2 param_5);
+undefined4 func_0200a184(void);
+uint func_02142eac(void);
+#define iRam0200a128 (*(int *)(uintptr_t)0x200a128u)
+#define iRam0200a12c (*(int *)(uintptr_t)0x200a12cu)
+#define iRam0200a130 (*(int *)(uintptr_t)0x200a130u)
+#define iRam0200a144 (*(int *)(uintptr_t)0x200a144u)
+#define iRam0200a148 (*(int *)(uintptr_t)0x200a148u)
+#define iRam0200a150 (*(int *)(uintptr_t)0x200a150u)
+#define iRam0200a154 (*(int *)(uintptr_t)0x200a154u)
+#define iRam0200a15c (*(int *)(uintptr_t)0x200a15cu)
+#define iRam0200a160 (*(int *)(uintptr_t)0x200a160u)
+#define iRam0200a164 (*(int *)(uintptr_t)0x200a164u)
+#define iRam0200a168 (*(int *)(uintptr_t)0x200a168u)
+#define iRam0200a16c (*(int *)(uintptr_t)0x200a16cu)
+#define iRam0200a170 (*(int *)(uintptr_t)0x200a170u)
+#define iRam0200a174 (*(int *)(uintptr_t)0x200a174u)
+#define iRam0200a178 (*(int *)(uintptr_t)0x200a178u)
+#define iRam0200a17c (*(int *)(uintptr_t)0x200a17cu)
+#define iRam0200a180 (*(int *)(uintptr_t)0x200a180u)
+#define puRam0200a124 (*(uint **)(uintptr_t)0x200a124u)
+#define puRam0200a134 (*(undefined2 **)(uintptr_t)0x200a134u)
+#define puRam0200a138 (*(uint **)(uintptr_t)0x200a138u)
+#define puRam0200a14c (*(undefined4 **)(uintptr_t)0x200a14cu)
+#define uRam0200a13c (*(undefined4 *)(uintptr_t)0x200a13cu)
+#define uRam0200a140 (*(undefined4 *)(uintptr_t)0x200a140u)
+#define uRam0200a158 (*(undefined4 *)(uintptr_t)0x200a158u)

@@ -1,0 +1,24 @@
+C-WORK/src/arm9/0200f36c_Os_ExceptionHandler.c:17:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |                *(uint *)(uRam0200f3d8 & 0xfffffffc) << (uRam0200f3d8 & 3) * -8 + 0x20);
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f36c_Os_ExceptionHandler.c:17:80: note: place parentheses around the '+' expression to silence this warning
+   17 |                *(uint *)(uRam0200f3d8 & 0xfffffffc) << (uRam0200f3d8 & 3) * -8 + 0x20);
+      |                                                                                ^     
+      |                                                        (                             )
+C-WORK/src/arm9/0200f36c_Os_ExceptionHandler.c:20:7: error: use of undeclared identifier 'BADSPACEBASE'
+   20 |     *(BADSPACEBASE **)(iRam0200f3dc + -8) = register0x00000054;
+      |       ^
+C-WORK/src/arm9/0200f36c_Os_ExceptionHandler.c:20:22: error: expected expression
+   20 |     *(BADSPACEBASE **)(iRam0200f3dc + -8) = register0x00000054;
+      |                      ^
+C-WORK/src/arm9/0200f36c_Os_ExceptionHandler.c:20:45: error: use of undeclared identifier 'register0x00000054'
+   20 |     *(BADSPACEBASE **)(iRam0200f3dc + -8) = register0x00000054;
+      |                                             ^
+C-WORK/src/arm9/0200f36c_Os_ExceptionHandler.c:27:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |              *(uint *)(uRam0200f3d8 & 0xfffffffc) << (uRam0200f3d8 & 3) * -8 + 0x20 == 0);
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f36c_Os_ExceptionHandler.c:27:78: note: place parentheses around the '+' expression to silence this warning
+   27 |              *(uint *)(uRam0200f3d8 & 0xfffffffc) << (uRam0200f3d8 & 3) * -8 + 0x20 == 0);
+      |                                                                              ^
+      |                                                      (                             )
+2 warnings and 3 errors generated.

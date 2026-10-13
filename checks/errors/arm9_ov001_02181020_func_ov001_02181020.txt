@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov001/02181020_func_ov001_02181020.c:12:40: error: too few arguments to function call, expected 2, have 0
+   12 |   pbVar1 = (byte *)func_ov001_02181200();
+      |                    ~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/02181020_func_ov001_02181020.h:5:5: note: 'func_ov001_02181200' declared here
+    5 | int func_ov001_02181200(uint param_1,uint param_2);
+      |     ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

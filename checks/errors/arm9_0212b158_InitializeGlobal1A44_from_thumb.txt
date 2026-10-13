@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0212b158_InitializeGlobal1A44_from_thumb.c:12:30: error: too many arguments to function call, expected 0, have 5
+   12 |   G2d_Sprite_CreateFromTiles(iVar1 + 0x14,iVar1 + 0x44,0x20,5,4);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212b158_InitializeGlobal1A44_from_thumb.h:3:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+    3 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+1 error generated.

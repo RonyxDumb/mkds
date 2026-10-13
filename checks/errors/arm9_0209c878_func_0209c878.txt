@@ -1,0 +1,5 @@
+C-WORK/src/arm9/0209c878_func_0209c878.c:11:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   11 |   uVar2 = CreateMapObjectFromModel_from_thumb(param_1,uRam0209c8a4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+1 error generated.

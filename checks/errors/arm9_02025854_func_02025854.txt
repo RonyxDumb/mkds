@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02025854_func_02025854.c:9:57: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+    9 |   func_02025884(param_2,param_3,param_4,param_5,param_6,param_7);
+      |                                                         ^~~~~~~
+C-WORK/src/arm9/deps/02025854_func_02025854.h:4:86: note: passing argument to parameter 'param_6' here
+    4 | void func_02025884(int param_1,int param_2,int param_3,int param_4,int param_5,code *param_6);
+      |                                                                                      ^
+1 error generated.

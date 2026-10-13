@@ -1,0 +1,10 @@
+C-WORK/src/arm9/0204b5dc_dma_fn_from_thumb.c:47:46: error: incompatible pointer to integer conversion passing 'code *' (aka 'void (*)()') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   47 |                *(undefined4 *)(iVar4 + 0x48),param_1,2,*(undefined4 *)(iVar4 + 0x50));
+      |                                              ^~~~~~~
+C-WORK/src/arm9/deps/0204b5dc_dma_fn_from_thumb.h:5:103: note: passing argument to parameter 'param_4' here
+    5 | undefined4 SV_MaybeCompressWriteImpl_from_thumb(undefined4 param_1,int param_2,int param_3,undefined4 param_4,int param_5,int param_6);
+      |                                                                                                       ^
+C-WORK/src/arm9/0204b5dc_dma_fn_from_thumb.c:69:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   69 |         (*param_1)(uVar7,uVar3);
+      |                   ^
+1 warning and 1 error generated.

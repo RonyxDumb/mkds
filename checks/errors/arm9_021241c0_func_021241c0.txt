@@ -1,0 +1,10 @@
+C-WORK/src/arm9/021241c0_func_021241c0.c:13:24: error: too few arguments to function call, expected 2, have 1
+   13 |   func_0201ea58(param_3);
+      |   ~~~~~~~~~~~~~        ^
+C-WORK/src/arm9/deps/021241c0_func_021241c0.h:5:5: note: 'func_0201ea58' declared here
+    5 | int func_0201ea58(int param_1,int param_2);
+      |     ^             ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021241c0_func_021241c0.c:15:30: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   15 |   (**(code **)(iVar2 + 0x18))(iVar2,0);
+      |                              ^
+1 warning and 1 error generated.

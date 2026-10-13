@@ -1,0 +1,10 @@
+C-WORK/src/arm9/0200da10_Util_VSPrintF.c:10:20: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined1 *' (aka 'unsigned char *') [-Wint-conversion]
+   10 |   (*pcRam0200da24)(param_1,0x7fffffff,param_2,param_3);
+      |                    ^~~~~~~
+C-WORK/src/arm9/0200da10_Util_VSPrintF.c:10:39: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   10 |   (*pcRam0200da24)(param_1,0x7fffffff,param_2,param_3);
+      |                                       ^~~~~~~
+C-WORK/src/arm9/0200da10_Util_VSPrintF.c:10:47: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   10 |   (*pcRam0200da24)(param_1,0x7fffffff,param_2,param_3);
+      |                                               ^~~~~~~
+3 errors generated.

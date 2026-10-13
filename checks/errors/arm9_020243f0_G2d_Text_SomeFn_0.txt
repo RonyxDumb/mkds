@@ -1,0 +1,56 @@
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:22:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |   uVar6 = uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:22:52: note: place parentheses around the '+' expression to silence this warning
+   22 |   uVar6 = uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:27:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |   cVar2 = *(char *)((uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20) + 1);
+      |                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:27:63: note: place parentheses around the '+' expression to silence this warning
+   27 |   cVar2 = *(char *)((uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20) + 1);
+      |                                                               ^     
+      |                                                    (                )
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:37:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   37 |           iVar4 = NFTR_GetStringWidth(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,
+      |                                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:37:80: note: place parentheses around the '+' expression to silence this warning
+   37 |           iVar4 = NFTR_GetStringWidth(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,
+      |                                                                                ^     
+      |                                                                     (                )
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:38:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |                                       uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20,param_7,0);
+      |                                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:38:80: note: place parentheses around the '+' expression to silence this warning
+   38 |                                       uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20,param_7,0);
+      |                                                                                ^     
+      |                                                                     (                )
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:47:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |         iVar4 = NFTR_GetStringWidth(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,
+      |                                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:47:78: note: place parentheses around the '+' expression to silence this warning
+   47 |         iVar4 = NFTR_GetStringWidth(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,
+      |                                                                              ^     
+      |                                                                   (                )
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:48:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   48 |                                     uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20,param_7,0);
+      |                                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:48:78: note: place parentheses around the '+' expression to silence this warning
+   48 |                                     uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20,param_7,0);
+      |                                                                              ^     
+      |                                                                   (                )
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:51:54: error: too few arguments to function call, expected 6, have 4
+   51 |       G2d_Text_PutChars(param_1,iVar4,param_3,param_5);
+      |       ~~~~~~~~~~~~~~~~~                              ^
+C-WORK/src/arm9/deps/020243f0_G2d_Text_SomeFn_0.h:3:6: note: 'G2d_Text_PutChars' declared here
+    3 | void G2d_Text_PutChars(uint param_1,int param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 *param_6);
+      |      ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:52:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   52 |       param_3 = param_3 + (uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20) + (int)cVar2;
+      |                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020243f0_G2d_Text_SomeFn_0.c:52:69: note: place parentheses around the '+' expression to silence this warning
+   52 |       param_3 = param_3 + (uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20) + (int)cVar2;
+      |                                                                     ^     
+      |                                                          (                )
+7 warnings and 1 error generated.

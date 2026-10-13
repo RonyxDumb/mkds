@@ -1,0 +1,23 @@
+In file included from C-WORK/src/arm9_ov000/02193b88_FUN_02193b88.c:3:
+C-WORK/src/arm9_ov000/deps/02193b88_FUN_02193b88.h:18:1: error: unknown type name 'size_t'
+   18 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/02193b88_FUN_02193b88.c:20:50: error: too few arguments to function call, expected 4, have 3
+   20 |   func_0x02135014(auStack_38,DAT_02193c18,param_4);
+      |   ~~~~~~~~~~~~~~~                                ^
+C-WORK/src/arm9_ov000/deps/02193b88_FUN_02193b88.h:20:6: note: 'SomeSnprintf' declared here
+   20 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193b88_FUN_02193b88.c:21:9: error: assigning to 'int' from incompatible type 'void'
+   21 |   iVar1 = FUN_02190968(param_1,param_2,(undefined4)(uintptr_t)(auStack_38));
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193b88_FUN_02193b88.c:23:45: error: too few arguments to function call, expected 4, have 3
+   23 |      (iVar1 = FUN_02190a24(param_1,param_2,0), iVar1 == 0)) {
+      |               ~~~~~~~~~~~~                  ^
+C-WORK/src/arm9_ov000/deps/02193b88_FUN_02193b88.h:6:5: note: 'FUN_02190a24' declared here
+    6 | int FUN_02190a24(undefined4 param_1,int param_2,undefined4 param_3,undefined4 param_4);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193b88_FUN_02193b88.c:24:11: error: assigning to 'int' from incompatible type 'void'
+   24 |     iVar1 = FUN_0218e320(0);
+      |           ^ ~~~~~~~~~~~~~~~
+5 errors generated.

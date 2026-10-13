@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/0218cc48_FUN_0218cc48.c:15:26: error: too many arguments to function call, expected 0, have 4
+   15 |     iVar1 = FUN_0218e420(*(undefined4 *)(param_1 + DAT_0218ccb8),param_2,param_3,0);
+      |             ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218cc48_FUN_0218cc48.h:7:6: note: 'FUN_0218e420' declared here
+    7 | void FUN_0218e420(void);
+      |      ^
+1 error generated.

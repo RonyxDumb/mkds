@@ -1,0 +1,17 @@
+C-WORK/src/arm9/0212a670_func_0212a670.c:22:19: error: too many arguments to function call, expected 0, have 6
+   22 |     func_0212426c(1,*puVar4,*(undefined4 *)(*piRam0212a6fc + iVar2 + 0xac),uVar1,
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   23 |                   *(undefined4 *)(iVar5 + iVar2 + 0x9c),*(undefined4 *)(iVar5 + iVar3 + 0x78));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212a670_func_0212a670.h:4:6: note: 'func_0212426c' declared here
+    4 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0212a670_func_0212a670.c:26:19: error: too many arguments to function call, expected 0, have 6
+   26 |     func_0212426c(1,puVar4[1],*(undefined4 *)(*piRam0212a6fc + iVar2 + 0xac),uVar1,
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   27 |                   *(undefined4 *)(iVar5 + iVar2 + 0x9c),*(undefined4 *)(iVar5 + iVar3 + 0x78));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212a670_func_0212a670.h:4:6: note: 'func_0212426c' declared here
+    4 | void func_0212426c(void);
+      |      ^
+2 errors generated.

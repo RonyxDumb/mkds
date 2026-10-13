@@ -1,0 +1,28 @@
+C-WORK/src/arm9_ov003/021ca480_FUN_021ca480.c:8:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+    8 |   FUN_021bf620(DAT_021ca4d8,DAT_021ca4dc);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021ca480_FUN_021ca480.h:6:22: note: expanded from macro 'DAT_021ca4dc'
+    6 | #define DAT_021ca4dc (*(undefined4 *)(uintptr_t)0x21ca4dcu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021ca480_FUN_021ca480.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+C-WORK/src/arm9_ov003/021ca480_FUN_021ca480.c:9:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+    9 |   FUN_021bf620(DAT_021ca4e0,DAT_021ca4e4);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021ca480_FUN_021ca480.h:8:22: note: expanded from macro 'DAT_021ca4e4'
+    8 | #define DAT_021ca4e4 (*(undefined4 *)(uintptr_t)0x21ca4e4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021ca480_FUN_021ca480.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+C-WORK/src/arm9_ov003/021ca480_FUN_021ca480.c:10:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   10 |   FUN_021bf620(DAT_021ca4e8,DAT_021ca4ec);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021ca480_FUN_021ca480.h:10:22: note: expanded from macro 'DAT_021ca4ec'
+   10 | #define DAT_021ca4ec (*(undefined4 *)(uintptr_t)0x21ca4ecu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021ca480_FUN_021ca480.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+3 errors generated.

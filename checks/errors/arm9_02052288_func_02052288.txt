@@ -1,0 +1,42 @@
+C-WORK/src/arm9/02052288_func_02052288.c:23:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |            *(uint *)(uRam020525a4 & 0xfffffffc) << (uRam020525a4 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02052288_func_02052288.c:23:76: note: place parentheses around the '+' expression to silence this warning
+   23 |            *(uint *)(uRam020525a4 & 0xfffffffc) << (uRam020525a4 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/02052288_func_02052288.c:70:50: error: too few arguments to function call, expected 5, have 4
+   70 |       func_020525a8(iVar6,param_1,param_2,param_3);
+      |       ~~~~~~~~~~~~~                              ^
+C-WORK/src/arm9/deps/02052288_func_02052288.h:5:6: note: 'func_020525a8' declared here
+    5 | void func_020525a8(int param_1,undefined4 param_2,undefined1 *param_3,int param_4,byte param_5);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02052288_func_02052288.c:77:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   77 |     if ((uVar12 >> uVar2 * 8 | uVar12 << uVar2 * -8 + 0x20) != 2) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02052288_func_02052288.c:77:53: note: place parentheses around the '+' expression to silence this warning
+   77 |     if ((uVar12 >> uVar2 * 8 | uVar12 << uVar2 * -8 + 0x20) != 2) {
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/02052288_func_02052288.c:100:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  100 |           *(uint *)(uRam020525a4 & 0xfffffffc) << (uRam020525a4 & 3) * -8 + 0x20) + 0x438) = 0;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02052288_func_02052288.c:100:75: note: place parentheses around the '+' expression to silence this warning
+  100 |           *(uint *)(uRam020525a4 & 0xfffffffc) << (uRam020525a4 & 3) * -8 + 0x20) + 0x438) = 0;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/02052288_func_02052288.c:113:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  113 |                  *(uint *)(uRam020525a4 & 0xfffffffc) << (uRam020525a4 & 3) * -8 + 0x20;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02052288_func_02052288.c:113:82: note: place parentheses around the '+' expression to silence this warning
+  113 |                  *(uint *)(uRam020525a4 & 0xfffffffc) << (uRam020525a4 & 3) * -8 + 0x20;
+      |                                                                                  ^     
+      |                                                          (                             )
+C-WORK/src/arm9/02052288_func_02052288.c:128:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  128 |            *(uint *)(uRam020525a4 & 0xfffffffc) << (uRam020525a4 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02052288_func_02052288.c:128:76: note: place parentheses around the '+' expression to silence this warning
+  128 |            *(uint *)(uRam020525a4 & 0xfffffffc) << (uRam020525a4 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+5 warnings and 1 error generated.

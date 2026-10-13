@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov001/0219d998_FUN_0219d998.c:61:21: error: too many arguments to function call, expected 0, have 2
+   61 |     func_0x02126230(uVar7,uVar4);
+      |     ~~~~~~~~~~~~~~~ ^~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0219d998_FUN_0219d998.h:21:6: note: 'TextSystem_DisplaySingleButtonDialog_Simple_from_thumb' declared here
+   21 | void TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(void);
+      |      ^
+1 error generated.

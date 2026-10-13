@@ -1,0 +1,25 @@
+C-WORK/src/arm9_ov000/0218faac_FUN_0218faac.c:15:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   15 |     FUN_02196590(param_1,DAT_0218fb34);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218faac_FUN_0218faac.h:8:31: note: passing argument to parameter 'param_1' here
+    8 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218faac_FUN_0218faac.c:19:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   19 |     FUN_02196590(param_1,DAT_0218fb34);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218faac_FUN_0218faac.h:8:31: note: passing argument to parameter 'param_1' here
+    8 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218faac_FUN_0218faac.c:22:31: error: too few arguments to function call, expected 2, have 1
+   22 |   iVar1 = FUN_02190548(param_1);
+      |           ~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov000/deps/0218faac_FUN_0218faac.h:4:12: note: 'FUN_02190548' declared here
+    4 | undefined4 FUN_02190548(int *param_1,undefined4 *param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218faac_FUN_0218faac.c:30:30: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   30 |         FUN_021948f8(param_1,local_10);
+      |         ~~~~~~~~~~~~         ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218faac_FUN_0218faac.h:6:6: note: 'FUN_021948f8' declared here
+    6 | void FUN_021948f8(int *param_1);
+      |      ^            ~~~~~~~~~~~~
+2 warnings and 2 errors generated.

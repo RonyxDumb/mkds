@@ -1,0 +1,20 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void func_02061944(uint param_1,int param_2);
+#define iRam02061c1c (*(int *)(uintptr_t)0x2061c1cu)
+#define iRam02061c20 (*(int *)(uintptr_t)0x2061c20u)
+#define piRam02061c10 (*(int **)(uintptr_t)0x2061c10u)
+#define psRam02061bec (*(short **)(uintptr_t)0x2061becu)
+#define psRam02061bf0 (*(short **)(uintptr_t)0x2061bf0u)
+#define psRam02061bfc (*(short **)(uintptr_t)0x2061bfcu)
+#define psRam02061c08 (*(short **)(uintptr_t)0x2061c08u)
+#define puRam02061bf8 (*(uint **)(uintptr_t)0x2061bf8u)
+#define puRam02061c04 (*(uint **)(uintptr_t)0x2061c04u)
+#define puRam02061c0c (*(uint **)(uintptr_t)0x2061c0cu)
+#define puRam02061c14 (*(uint **)(uintptr_t)0x2061c14u)
+#define puRam02061c18 (*(uint **)(uintptr_t)0x2061c18u)
+#define puRam02061c24 (*(uint **)(uintptr_t)0x2061c24u)
+#define uRam02061be4 (*(uint *)(uintptr_t)0x2061be4u)
+#define uRam02061be8 (*(uint *)(uintptr_t)0x2061be8u)
+#define uRam02061bf4 (*(uint *)(uintptr_t)0x2061bf4u)
+#define uRam02061c00 (*(uint *)(uintptr_t)0x2061c00u)

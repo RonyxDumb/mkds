@@ -1,0 +1,25 @@
+C-WORK/src/arm9/0204dd24_func_0204dd24.c:33:29: error: too few arguments to function call, single argument 'param_1' was not specified
+   33 |       iVar4 = func_020501b0();
+      |               ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204dd24_func_0204dd24.h:13:12: note: 'func_020501b0' declared here
+   13 | undefined4 func_020501b0(uint param_1);
+      |            ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/0204dd24_func_0204dd24.c:52:29: error: too few arguments to function call, single argument 'param_1' was not specified
+   52 |       iVar4 = func_0204e3f0();
+      |               ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204dd24_func_0204dd24.h:9:5: note: 'func_0204e3f0' declared here
+    9 | int func_0204e3f0(int param_1);
+      |     ^             ~~~~~~~~~~~
+C-WORK/src/arm9/0204dd24_func_0204dd24.c:107:25: error: too many arguments to function call, expected 0, have 1
+  107 |           func_0204e03c(param_1);
+      |           ~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/0204dd24_func_0204dd24.h:7:6: note: 'func_0204e03c' declared here
+    7 | void func_0204e03c(void);
+      |      ^
+C-WORK/src/arm9/0204dd24_func_0204dd24.c:110:23: error: too many arguments to function call, expected 0, have 1
+  110 |         func_0204e03c((int)*(char *)(iVar4 + DAT_0204df48) & 0xffff);
+      |         ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0204dd24_func_0204dd24.h:7:6: note: 'func_0204e03c' declared here
+    7 | void func_0204e03c(void);
+      |      ^
+4 errors generated.

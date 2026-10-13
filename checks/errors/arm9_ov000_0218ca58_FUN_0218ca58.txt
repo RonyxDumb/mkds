@@ -1,0 +1,92 @@
+In file included from C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:3:
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:31:1: error: unknown type name 'size_t'
+   31 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:39:50: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   39 |       FUN_0218cdc4((int *)(void *)(&local_318),0,&local_31c);
+      |                                                  ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:8:56: note: passing argument to parameter 'param_3' here
+    8 | void FUN_0218cdc4(int *param_1,undefined1 param_2,int *param_3);
+      |                                                        ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:40:50: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   40 |       FUN_0218cdc4((int *)(void *)(&local_318),1,&local_31c);
+      |                                                  ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:8:56: note: passing argument to parameter 'param_3' here
+    8 | void FUN_0218cdc4(int *param_1,undefined1 param_2,int *param_3);
+      |                                                        ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:41:50: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   41 |       FUN_0218cdc4((int *)(void *)(&local_318),3,&local_31c);
+      |                                                  ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:8:56: note: passing argument to parameter 'param_3' here
+    8 | void FUN_0218cdc4(int *param_1,undefined1 param_2,int *param_3);
+      |                                                        ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:42:93: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   42 |       FUN_0218cd94((int *)(void *)(&local_318),*(undefined4 *)((int)param_1 + DAT_0218cc28),&local_31c);
+      |                                                                                             ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:7:56: note: passing argument to parameter 'param_3' here
+    7 | void FUN_0218cd94(int *param_1,undefined4 param_2,int *param_3);
+      |                                                        ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:43:78: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   43 |       FUN_0218cdd8((int *)(void *)(&local_318),(int)(uintptr_t)(param_1 + 3),&local_31c);
+      |                                                                              ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:9:49: note: passing argument to parameter 'param_3' here
+    9 | void FUN_0218cdd8(int *param_1,int param_2,int *param_3);
+      |                                                 ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:44:80: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   44 |       FUN_0218cdd8((int *)(void *)(&local_318),(int)(uintptr_t)(param_1 + 0xc),&local_31c);
+      |                                                                                ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:9:49: note: passing argument to parameter 'param_3' here
+    9 | void FUN_0218cdd8(int *param_1,int param_2,int *param_3);
+      |                                                 ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:45:90: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   45 |       FUN_0218cd74((int *)(void *)(&local_318),(undefined4)(uintptr_t)(param_1 + 0x1d),8,&local_31c);
+      |                                                                                          ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:6:68: note: passing argument to parameter 'param_4' here
+    6 | void FUN_0218cd74(int *param_1,undefined4 param_2,int param_3,int *param_4);
+      |                                                                    ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:46:56: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   46 |       FUN_0218cdd8((int *)(void *)(&local_318),param_3,&local_31c);
+      |                                                        ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:9:49: note: passing argument to parameter 'param_3' here
+    9 | void FUN_0218cdd8(int *param_1,int param_2,int *param_3);
+      |                                                 ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:47:56: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   47 |       FUN_0218cdd8((int *)(void *)(&local_318),param_2,&local_31c);
+      |                                                        ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:9:49: note: passing argument to parameter 'param_3' here
+    9 | void FUN_0218cdd8(int *param_1,int param_2,int *param_3);
+      |                                                 ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:51:20: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   51 |                    &local_31c);
+      |                    ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:7:56: note: passing argument to parameter 'param_3' here
+    7 | void FUN_0218cd94(int *param_1,undefined4 param_2,int *param_3);
+      |                                                        ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:53:95: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   53 |         FUN_0218cd94((int *)(void *)(&local_318),*(undefined4 *)((int)param_1 + DAT_0218cc38),&local_31c);
+      |                                                                                               ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:7:56: note: passing argument to parameter 'param_3' here
+    7 | void FUN_0218cd94(int *param_1,undefined4 param_2,int *param_3);
+      |                                                        ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:56:58: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   56 |         FUN_0218cd94((int *)(void *)(&local_318),param_5,&local_31c);
+      |                                                          ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:7:56: note: passing argument to parameter 'param_3' here
+    7 | void FUN_0218cd94(int *param_1,undefined4 param_2,int *param_3);
+      |                                                        ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:62:28: error: too many arguments to function call, expected 0, have 4
+   62 |       iVar2 = FUN_0218e420(*(undefined4 *)((int)param_1 + DAT_0218cc3c),&local_314,local_31c,0);
+      |               ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:11:6: note: 'FUN_0218e420' declared here
+   11 | void FUN_0218e420(void);
+      |      ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:64:22: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   64 |         FUN_0218c980(param_1);
+      |                      ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ca58_FUN_0218ca58.h:3:31: note: passing argument to parameter 'param_1' here
+    3 | void FUN_0218c980(undefined4 *param_1);
+      |                               ^
+C-WORK/src/arm9_ov000/0218ca58_FUN_0218ca58.c:70:15: error: assigning to 'int' from incompatible type 'void'
+   70 |         iVar2 = FUN_021a3690(DAT_0218cc44);
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+13 warnings and 3 errors generated.

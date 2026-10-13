@@ -1,0 +1,12 @@
+C-WORK/src/arm7/03805088_FUN_03805088.c:51:37: error: too many arguments to function call, expected 3, have 22
+   51 |     FUN_037f97b4(iVar1,auStack_28,1,in_r3,uVar3,uVar4,uVar5,uVar6,uVar7,uVar8,uVar9,uVar10,uVar11,
+      |     ~~~~~~~~~~~~                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   52 |                  uVar12,uVar13,uVar14,uVar15,uVar16,uVar17,uVar18,uVar19,uVar20);
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/03805088_FUN_03805088.h:3:12: note: 'FUN_037f97b4' declared here
+    3 | undefined4 FUN_037f97b4(int param_1,uint *param_2,uint param_3);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/03805088_FUN_03805088.c:60:15: error: use of undeclared identifier 'UNK_03805164'
+   60 |   (*(code *)(&UNK_03805164 + uVar2 * 4))();
+      |               ^
+2 errors generated.

@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov000/0219d81c_FUN_0219d81c.c:15:22: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   15 |       FUN_0219d734(6,DAT_0219d8c4);
+      |       ~~~~~~~~~~~~   ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219d81c_FUN_0219d81c.h:13:22: note: expanded from macro 'DAT_0219d8c4'
+   13 | #define DAT_0219d8c4 (*(undefined4 *)(uintptr_t)0x219d8c4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219d81c_FUN_0219d81c.h:10:6: note: 'FUN_0219d734' declared here
+   10 | void FUN_0219d734(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219d81c_FUN_0219d81c.c:20:28: error: too few arguments to function call, expected 2, have 0
+   20 |       iVar2 = FUN_0219d034();
+      |               ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219d81c_FUN_0219d81c.h:6:5: note: 'FUN_0219d034' declared here
+    6 | int FUN_0219d034(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

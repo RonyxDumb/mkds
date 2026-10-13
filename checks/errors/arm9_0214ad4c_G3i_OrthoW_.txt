@@ -1,0 +1,19 @@
+C-WORK/src/arm9/0214ad4c_G3i_OrthoW_.c:55:81: error: too few arguments to function call, expected 4, have 2
+   53 |     uVar10 = func_02132e98((int)lVar2,
+      |              ~~~~~~~~~~~~~
+   54 |                            (int)(uVar10 >> 0x20) * param_7 +
+   55 |                            (int)uVar10 * iVar1 + (int)((ulonglong)lVar2 >> 0x20));
+      |                                                                                 ^
+C-WORK/src/arm9/deps/0214ad4c_G3i_OrthoW_.h:6:10: note: 'func_02132e98' declared here
+    6 | longlong func_02132e98(uint param_1,uint param_2,uint param_3,uint param_4);
+      |          ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0214ad4c_G3i_OrthoW_.c:80:81: error: too few arguments to function call, expected 4, have 2
+   78 |     uVar11 = func_02132e98((int)lVar2,
+      |              ~~~~~~~~~~~~~
+   79 |                            (int)(uVar11 >> 0x20) * param_7 +
+   80 |                            (int)uVar11 * iVar1 + (int)((ulonglong)lVar2 >> 0x20));
+      |                                                                                 ^
+C-WORK/src/arm9/deps/0214ad4c_G3i_OrthoW_.h:6:10: note: 'func_02132e98' declared here
+    6 | longlong func_02132e98(uint param_1,uint param_2,uint param_3,uint param_4);
+      |          ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

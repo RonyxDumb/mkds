@@ -1,0 +1,12 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void Mem_CpuFill8(uint *param_1,uint param_2,uint param_3);
+void func_02120714(void);
+#define iRam021208cc (*(int *)(uintptr_t)0x21208ccu)
+#define iRam021208d4 (*(int *)(uintptr_t)0x21208d4u)
+#define iRam021208d8 (*(int *)(uintptr_t)0x21208d8u)
+#define iRam021208dc (*(int *)(uintptr_t)0x21208dcu)
+#define iRam021208e0 (*(int *)(uintptr_t)0x21208e0u)
+#define iRam021208e4 (*(int *)(uintptr_t)0x21208e4u)
+#define uRam021208c8 (*(uint *)(uintptr_t)0x21208c8u)
+#define uRam021208d0 (*(undefined4 *)(uintptr_t)0x21208d0u)

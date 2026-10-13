@@ -1,0 +1,4 @@
+C-WORK/src/arm9/021336d4_func_021336d4.c:10:3: error: call to undeclared function 'software_bkpt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   10 |   software_bkpt(0xbe);
+      |   ^
+1 error generated.

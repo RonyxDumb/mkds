@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020f1d40_func_020f1d40.c:13:22: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   13 |     uVar1 = (*pcVar2)(0,0,1);
+      |                      ^
+C-WORK/src/arm9/020f1d40_func_020f1d40.c:13:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   13 |     uVar1 = (*pcVar2)(0,0,1);
+      |           ^ ~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

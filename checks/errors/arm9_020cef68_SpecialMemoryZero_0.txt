@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020cef68_SpecialMemoryZero_0.c:10:30: error: too many arguments to function call, expected 2, have 3
+   10 |   (*pcRam020cef78)(param_1,0,param_2);
+      |   ~~~~~~~~~~~~~~~~           ^~~~~~~
+1 error generated.

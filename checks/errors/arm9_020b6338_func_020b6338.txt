@@ -1,0 +1,14 @@
+C-WORK/src/arm9/020b6338_func_020b6338.c:11:30: error: too few arguments to function call, single argument 'param_1' was not specified
+   11 |   iVar2 = GetDriverYRotation();
+      |           ~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020b6338_func_020b6338.h:3:12: note: 'GetDriverYRotation' declared here
+    3 | undefined2 GetDriverYRotation(int param_1);
+      |            ^                  ~~~~~~~~~~~
+C-WORK/src/arm9/020b6338_func_020b6338.c:12:19: warning: operator '>>' has lower precedence than '-'; '-' will be evaluated first [-Wshift-op-parentheses]
+   12 |   iVar1 = 0x18000 - iVar2 >> 0x1f;
+      |           ~~~~~~~~^~~~~~~ ~~
+C-WORK/src/arm9/020b6338_func_020b6338.c:12:19: note: place parentheses around the '-' expression to silence this warning
+   12 |   iVar1 = 0x18000 - iVar2 >> 0x1f;
+      |                   ^
+      |           (              )
+1 warning and 1 error generated.

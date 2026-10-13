@@ -1,0 +1,321 @@
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:22:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   22 |   uVar5 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:6:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    6 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:29:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |   *(short *)(uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) = (short)param_1;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:29:55: note: place parentheses around the '+' expression to silence this warning
+   29 |   *(short *)(uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) = (short)param_1;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:34:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |     uVar5 = find_buf_fn_from_thumb(uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20);
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:34:77: note: place parentheses around the '+' expression to silence this warning
+   34 |     uVar5 = find_buf_fn_from_thumb(uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20);
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:38:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |     uVar9 = find_buf_fn_from_thumb(uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20);
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:38:77: note: place parentheses around the '+' expression to silence this warning
+   38 |     uVar9 = find_buf_fn_from_thumb(uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20);
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:44:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   44 |       *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20) + 0xfc)
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:44:85: note: place parentheses around the '+' expression to silence this warning
+   44 |       *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20) + 0xfc)
+      |                                                                                     ^     
+      |                                                      (                                    )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:49:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   49 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x100) =
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:49:71: note: place parentheses around the '+' expression to silence this warning
+   49 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x100) =
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:54:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   54 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x104) =
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:54:71: note: place parentheses around the '+' expression to silence this warning
+   54 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x104) =
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:59:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   59 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0xfe) =
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:59:71: note: place parentheses around the '+' expression to silence this warning
+   59 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0xfe) =
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:64:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   64 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x102) =
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:64:71: note: place parentheses around the '+' expression to silence this warning
+   64 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x102) =
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:68:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   68 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x106) =
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:68:71: note: place parentheses around the '+' expression to silence this warning
+   68 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x106) =
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:73:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   73 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x108) = 0;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:73:71: note: place parentheses around the '+' expression to silence this warning
+   73 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x108) = 0;
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:78:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   78 |               *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x10c) =
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:78:79: note: place parentheses around the '+' expression to silence this warning
+   78 |               *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x10c) =
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:79:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   79 |          uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:79:51: note: place parentheses around the '+' expression to silence this warning
+   79 |          uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:83:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   83 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x110) = 0xffffe000;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:83:71: note: place parentheses around the '+' expression to silence this warning
+   83 |       *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x110) = 0xffffe000;
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:88:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   88 |               *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x114) =
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:88:79: note: place parentheses around the '+' expression to silence this warning
+   88 |               *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x114) =
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:89:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   89 |          uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:89:51: note: place parentheses around the '+' expression to silence this warning
+   89 |          uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:92:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   92 |                *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x28,uVar5)
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:92:80: note: place parentheses around the '+' expression to silence this warning
+   92 |                *(uint *)((uint)piVar2 & 0xfffffffc) << ((uint)piVar2 & 3) * -8 + 0x20) + 0x28,uVar5)
+      |                                                                                ^     
+      |                                                        (                             )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:96:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   95 |                       | *(uint *)((uint)piRam020a299c & 0xfffffffc) <<
+      |                                                                     ~~
+   96 |                         ((uint)piRam020a299c & 3) * -8 + 0x20) + 0x28,3);
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:96:56: note: place parentheses around the '+' expression to silence this warning
+   96 |                         ((uint)piRam020a299c & 3) * -8 + 0x20) + 0x28,3);
+      |                                                        ^     
+      |                         (                                    )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:96:71: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   94 |     StructML_SomeFn_8((*(uint *)((uint)piRam020a299c & 0xfffffffc) >> ((uint)piRam020a299c & 3) * 8
+      |     ~~~~~~~~~~~~~~~~~
+   95 |                       | *(uint *)((uint)piRam020a299c & 0xfffffffc) <<
+   96 |                         ((uint)piRam020a299c & 3) * -8 + 0x20) + 0x28,3);
+      |                                                                       ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:14:6: note: 'StructML_SomeFn_8' declared here
+   14 | void StructML_SomeFn_8(int param_1);
+      |      ^                 ~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:98:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   98 |                   *(uint *)(uRam020a29c8 & 0xfffffffc) << (uRam020a29c8 & 3) * -8 + 0x20) + 0x57) ==
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:98:83: note: place parentheses around the '+' expression to silence this warning
+   98 |                   *(uint *)(uRam020a29c8 & 0xfffffffc) << (uRam020a29c8 & 3) * -8 + 0x20) + 0x57) ==
+      |                                                                                   ^     
+      |                                                           (                             )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:103:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  102 |                         *(uint *)((uint)piRam020a299c & 0xfffffffc) <<
+      |                                                                     ~~
+  103 |                         ((uint)piRam020a299c & 3) * -8 + 0x20) + 0x28,2);
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:103:56: note: place parentheses around the '+' expression to silence this warning
+  103 |                         ((uint)piRam020a299c & 3) * -8 + 0x20) + 0x28,2);
+      |                                                        ^     
+      |                         (                                    )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:103:71: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  100 |       Model_SetCullMode((*(uint *)((uint)piRam020a299c & 0xfffffffc) >>
+      |       ~~~~~~~~~~~~~~~~~
+  101 |                          ((uint)piRam020a299c & 3) * 8 |
+  102 |                         *(uint *)((uint)piRam020a299c & 0xfffffffc) <<
+  103 |                         ((uint)piRam020a299c & 3) * -8 + 0x20) + 0x28,2);
+      |                                                                       ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:12:6: note: 'Model_SetCullMode' declared here
+   12 | void Model_SetCullMode(int param_1);
+      |      ^                 ~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:109:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  108 |                         *(uint *)((uint)piRam020a299c & 0xfffffffc) <<
+      |                                                                     ~~
+  109 |                         ((uint)piRam020a299c & 3) * -8 + 0x20) + 0x28,1);
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:109:56: note: place parentheses around the '+' expression to silence this warning
+  109 |                         ((uint)piRam020a299c & 3) * -8 + 0x20) + 0x28,1);
+      |                                                        ^     
+      |                         (                                    )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:109:71: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  106 |       Model_SetCullMode((*(uint *)((uint)piRam020a299c & 0xfffffffc) >>
+      |       ~~~~~~~~~~~~~~~~~
+  107 |                          ((uint)piRam020a299c & 3) * 8 |
+  108 |                         *(uint *)((uint)piRam020a299c & 0xfffffffc) <<
+  109 |                         ((uint)piRam020a299c & 3) * -8 + 0x20) + 0x28,1);
+      |                                                                       ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:12:6: note: 'Model_SetCullMode' declared here
+   12 | void Model_SetCullMode(int param_1);
+      |      ^                 ~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:112:45: error: too few arguments to function call, single argument 'param_1' was not specified
+  112 |     uVar10 = ExecutionContext_GetHeapHandle();
+      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:6:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    6 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:114:91: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  114 |             *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20;
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:114:91: note: place parentheses around the '+' expression to silence this warning
+  114 |             *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20;
+      |                                                                                           ^     
+      |                                                            (                                    )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:115:63: error: too many arguments to function call, expected 5, have 6
+  115 |     Animation_CreateFrom(2,uVar8 + 0x94,uVar8 + 0x28,1,uVar10,uVar5);
+      |     ~~~~~~~~~~~~~~~~~~~~                                      ^~~~~
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:3:6: note: 'Animation_CreateFrom' declared here
+    3 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:117:44: error: too few arguments to function call, single argument 'param_1' was not specified
+  117 |     uVar5 = ExecutionContext_GetHeapHandle();
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:6:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    6 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:120:94: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  120 |                *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20)
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:120:94: note: place parentheses around the '+' expression to silence this warning
+  120 |                *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20)
+      |                                                                                              ^     
+      |                                                               (                                    )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:124:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  123 |                     *(uint *)((uint)piRam020a299c & 0xfffffffc) <<
+      |                                                                 ~~
+  124 |                     ((uint)piRam020a299c & 3) * -8 + 0x20) + 0x94,0);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:124:52: note: place parentheses around the '+' expression to silence this warning
+  124 |                     ((uint)piRam020a299c & 3) * -8 + 0x20) + 0x94,0);
+      |                                                    ^     
+      |                     (                                    )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:126:91: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  126 |             *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20;
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:126:91: note: place parentheses around the '+' expression to silence this warning
+  126 |             *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20;
+      |                                                                                           ^     
+      |                                                            (                                    )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:135:27: error: too few arguments to function call, single argument 'param_1' was not specified
+  135 |     uVar5 = func_021322c8();
+      |             ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:19:11: note: 'func_021322c8' declared here
+   19 | ulonglong func_021322c8(uint param_1);
+      |           ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:141:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  141 |     uVar8 = (uVar11 >> uVar7 * 8 | uVar11 << uVar7 * -8 + 0x20) +
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:141:57: note: place parentheses around the '+' expression to silence this warning
+  141 |     uVar8 = (uVar11 >> uVar7 * 8 | uVar11 << uVar7 * -8 + 0x20) +
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:145:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  145 |     *(uint *)(uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20) =
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:145:56: note: place parentheses around the '+' expression to silence this warning
+  145 |     *(uint *)(uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20) =
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:146:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  146 |          uVar12 >> uVar1 * 8 | uVar12 << uVar1 * -8 + 0x20;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:146:53: note: place parentheses around the '+' expression to silence this warning
+  146 |          uVar12 >> uVar1 * 8 | uVar12 << uVar1 * -8 + 0x20;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:148:36: error: too few arguments to function call, single argument 'param_1' was not specified
+  148 |     ExecutionContext_GetHeapHandle();
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:6:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    6 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:149:25: error: too few arguments to function call, single argument 'param_1' was not specified
+  149 |     SomeEffectFileStuff();
+      |     ~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:13:6: note: 'SomeEffectFileStuff' declared here
+   13 | void SomeEffectFileStuff(uint param_1);
+      |      ^                   ~~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:151:29: error: too few arguments to function call, expected 2, have 0
+  151 |       uVar5 = func_0208b7bc();
+      |               ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:16:6: note: 'func_0208b7bc' declared here
+   16 | void func_0208b7bc(undefined4 param_1,uint param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:154:87: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  154 |         *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20) +
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:154:87: note: place parentheses around the '+' expression to silence this warning
+  154 |         *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20) +
+      |                                                                                       ^     
+      |                                                        (                                    )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:156:30: error: too few arguments to function call, expected 2, have 1
+  156 |       uVar5 = func_0208b7bc(4);
+      |               ~~~~~~~~~~~~~  ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:16:6: note: 'func_0208b7bc' declared here
+   16 | void func_0208b7bc(undefined4 param_1,uint param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:159:87: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  159 |         *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20) +
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:159:87: note: place parentheses around the '+' expression to silence this warning
+  159 |         *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20) +
+      |                                                                                       ^     
+      |                                                        (                                    )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:161:30: error: too few arguments to function call, expected 2, have 1
+  161 |       uVar5 = func_0208b7bc(5);
+      |               ~~~~~~~~~~~~~  ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:16:6: note: 'func_0208b7bc' declared here
+   16 | void func_0208b7bc(undefined4 param_1,uint param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:164:87: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  164 |         *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20) +
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:164:87: note: place parentheses around the '+' expression to silence this warning
+  164 |         *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20) +
+      |                                                                                       ^     
+      |                                                        (                                    )
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:168:29: error: too few arguments to function call, expected 2, have 0
+  168 |       uVar5 = func_0208b7bc();
+      |               ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a269c_LoadCupTrophyModel.h:16:6: note: 'func_0208b7bc' declared here
+   16 | void func_0208b7bc(undefined4 param_1,uint param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:171:87: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  171 |         *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20) +
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a269c_LoadCupTrophyModel.c:171:87: note: place parentheses around the '+' expression to silence this warning
+  171 |         *(uint *)((uint)piRam020a299c & 0xfffffffc) << ((uint)piRam020a299c & 3) * -8 + 0x20) +
+      |                                                                                       ^     
+      |                                                        (                                    )
+31 warnings and 14 errors generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02114584_func_02114584.c:12:25: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   12 |   func_021142d4(param_1,&local_8);
+      |   ~~~~~~~~~~~~~         ^~~~~~~~
+C-WORK/src/arm9/deps/02114584_func_02114584.h:3:6: note: 'func_021142d4' declared here
+    3 | void func_021142d4(int param_1);
+      |      ^             ~~~~~~~~~~~
+1 error generated.

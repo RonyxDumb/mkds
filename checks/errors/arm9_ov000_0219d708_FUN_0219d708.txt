@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/0219d708_FUN_0219d708.c:9:59: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+    9 |     FUN_0218eff8((int *)(uintptr_t)(param_1),*param_2,0,0,DAT_0219d730,0);
+      |                                                           ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219d708_FUN_0219d708.h:6:22: note: expanded from macro 'DAT_0219d730'
+    6 | #define DAT_0219d730 (*(undefined4 *)(uintptr_t)0x219d730u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219d708_FUN_0219d708.h:3:94: note: passing argument to parameter 'param_5' here
+    3 | undefined4 FUN_0218eff8(int *param_1,int param_2,undefined4 param_3,undefined4 param_4,code *param_5,undefined4 param_6);
+      |                                                                                              ^
+1 error generated.

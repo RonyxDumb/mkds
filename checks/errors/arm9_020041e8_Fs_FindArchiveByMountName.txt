@@ -1,0 +1,28 @@
+C-WORK/src/arm9/020041e8_Fs_FindArchiveByMountName.c:12:35: error: too few arguments to function call, expected 2, have 0
+   12 |   uVar2 = Fs_PackArchiveMountName();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020041e8_Fs_FindArchiveByMountName.h:4:6: note: 'Fs_PackArchiveMountName' declared here
+    4 | uint Fs_PackArchiveMountName(int param_1,int param_2);
+      |      ^                       ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020041e8_Fs_FindArchiveByMountName.c:15:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |           *(uint *)(uRam02004234 & 0xfffffffc) << (uRam02004234 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020041e8_Fs_FindArchiveByMountName.c:15:75: note: place parentheses around the '+' expression to silence this warning
+   15 |           *(uint *)(uRam02004234 & 0xfffffffc) << (uRam02004234 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020041e8_Fs_FindArchiveByMountName.c:18:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |           *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) != uVar2))) {
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020041e8_Fs_FindArchiveByMountName.c:18:61: note: place parentheses around the '+' expression to silence this warning
+   18 |           *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) != uVar2))) {
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/020041e8_Fs_FindArchiveByMountName.c:21:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |     uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020041e8_Fs_FindArchiveByMountName.c:21:54: note: place parentheses around the '+' expression to silence this warning
+   21 |     uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+3 warnings and 1 error generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021d2188_FUN_021d2188.c:10:22: error: too many arguments to function call, expected 0, have 2
+   10 |   thunk_FUN_021d3488(1,*(undefined4 *)(param_1 + 0x34));
+      |   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021d2188_FUN_021d2188.h:5:6: note: 'thunk_FUN_021d3488' declared here
+    5 | void thunk_FUN_021d3488(void);
+      |      ^
+1 error generated.

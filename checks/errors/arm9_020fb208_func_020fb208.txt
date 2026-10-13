@@ -1,0 +1,24 @@
+C-WORK/src/arm9/020fb208_func_020fb208.c:17:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'char *' [-Wint-conversion]
+   17 |   uVar3 = func_020fecdc((byte *)(uintptr_t)(param_1),param_2,param_3);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020fb208_func_020fb208.c:24:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined1 *' (aka 'unsigned char *') [-Wint-conversion]
+   24 |   uVar3 = func_020ff040((undefined1 *)(uintptr_t)(uVar3),iVar2,param_3);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020fb208_func_020fb208.c:28:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |     func_020ff1a0(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20,(undefined4 *)(uintptr_t)(param_2 + 0x2fc));
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fb208_func_020fb208.c:28:60: note: place parentheses around the '+' expression to silence this warning
+   28 |     func_020ff1a0(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20,(undefined4 *)(uintptr_t)(param_2 + 0x2fc));
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/020fb208_func_020fb208.c:33:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |     uVar3 = func_020fe8ac(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fb208_func_020fb208.c:33:68: note: place parentheses around the '+' expression to silence this warning
+   33 |     uVar3 = func_020fe8ac(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm9/020fb208_func_020fb208.c:33:11: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined1 *' (aka 'unsigned char *') [-Wint-conversion]
+   33 |     uVar3 = func_020fe8ac(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 3 errors generated.

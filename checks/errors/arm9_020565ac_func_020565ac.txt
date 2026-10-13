@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020565ac_func_020565ac.c:12:91: error: too few arguments to function call, expected 3, have 1
+   12 |     uVar1 = StructNKPG_AnotherCopyToTime_from_thumb(*(undefined4 *)(*piRam020565e0 + 0x14));
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                       ^
+C-WORK/src/arm9/deps/020565ac_func_020565ac.h:3:12: note: 'StructNKPG_AnotherCopyToTime_from_thumb' declared here
+    3 | undefined4 StructNKPG_AnotherCopyToTime_from_thumb(int param_1,int param_2,ushort *param_3);
+      |            ^                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020565ac_func_020565ac.c:15:91: error: too few arguments to function call, expected 3, have 1
+   15 |     uVar1 = StructNKPG_AnotherCopyToTime_from_thumb(*(undefined4 *)(*piRam020565e0 + 0x18));
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                       ^
+C-WORK/src/arm9/deps/020565ac_func_020565ac.h:3:12: note: 'StructNKPG_AnotherCopyToTime_from_thumb' declared here
+    3 | undefined4 StructNKPG_AnotherCopyToTime_from_thumb(int param_1,int param_2,ushort *param_3);
+      |            ^                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

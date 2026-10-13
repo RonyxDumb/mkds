@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02152a58_FriendCode_GetState_from_thumb.c:10:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   uVar1 = FriendCode_GetFlags_from_thumb();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02152a58_FriendCode_GetState_from_thumb.h:3:6: note: 'FriendCode_GetFlags_from_thumb' declared here
+    3 | uint FriendCode_GetFlags_from_thumb(uint *param_1);
+      |      ^                              ~~~~~~~~~~~~~
+1 error generated.

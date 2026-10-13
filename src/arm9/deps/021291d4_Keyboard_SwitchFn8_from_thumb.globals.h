@@ -1,0 +1,5 @@
+#define piRam021293a0 (*(int **)(uintptr_t)0x21293a0u)
+#define psRam021293a4 (*(short **)(uintptr_t)0x21293a4u)
+#define psRam021293a8 (*(short **)(uintptr_t)0x21293a8u)
+#define puRam021293b0 (*(undefined1 **)(uintptr_t)0x21293b0u)
+#define uRam021293ac (*(undefined4 *)(uintptr_t)0x21293acu)

@@ -1,0 +1,25 @@
+C-WORK/src/arm9/0202506c_func_0202506c.c:15:87: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |                                 *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20,
+      |                                                                 ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0202506c_func_0202506c.c:15:87: note: place parentheses around the '+' expression to silence this warning
+   15 |                                 *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20,
+      |                                                                                       ^     
+      |                                                                    (                        )
+C-WORK/src/arm9/0202506c_func_0202506c.c:17:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |                         (int)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) << 4) >> 0x10);
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0202506c_func_0202506c.c:17:73: note: place parentheses around the '+' expression to silence this warning
+   17 |                         (int)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) << 4) >> 0x10);
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/0202506c_func_0202506c.c:17:25: error: too many arguments to function call, expected 3, have 4
+   14 |   iVar2 = func_02109078(param_1,*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
+      |           ~~~~~~~~~~~~~
+   15 |                                 *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20,
+   16 |                         *(undefined1 *)(param_2 + 4),
+   17 |                         (int)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) << 4) >> 0x10);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202506c_func_0202506c.h:4:6: note: 'func_02109078' declared here
+    4 | void func_02109078(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.

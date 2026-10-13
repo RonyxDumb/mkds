@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020797d8_InitializeGlobalAD00_from_thumb.c:26:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   26 |   uVar3 = FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb(uRam0207997c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020797d8_InitializeGlobalAD00_from_thumb.c:35:60: error: too few arguments to function call, single argument 'param_1' was not specified
+   35 |   uVar3 = FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020797d8_InitializeGlobalAD00_from_thumb.h:8:6: note: 'FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb' declared here
+    8 | void FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb(undefined4 param_1);
+      |      ^                                                ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020797d8_InitializeGlobalAD00_from_thumb.c:81:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   81 |   uVar3 = FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb(uRam02079984);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

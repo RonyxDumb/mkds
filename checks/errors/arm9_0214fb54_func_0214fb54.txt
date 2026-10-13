@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0214fb54_func_0214fb54.c:11:9: error: assigning to 'int' from incompatible type 'void'
+   11 |   iVar1 = func_0214fb90(uRam0214fb8c,(undefined4)(uintptr_t)(aiStack_8));
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

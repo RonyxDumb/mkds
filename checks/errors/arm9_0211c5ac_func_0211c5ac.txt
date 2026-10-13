@@ -1,0 +1,133 @@
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:19:19: error: too many arguments to function call, expected 0, have 2
+   19 |     func_0211c810(uVar4 & 0xffff,3);
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:4:6: note: 'func_0211c810' declared here
+    4 | void func_0211c810(void);
+      |      ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:26:21: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   26 |       func_0211d2f0(&local_18);
+      |                     ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:27:21: error: too many arguments to function call, expected 0, have 2
+   27 |       func_0211c810(local_18,0);
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:4:6: note: 'func_0211c810' declared here
+    4 | void func_0211c810(void);
+      |      ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:30:23: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   30 |         func_0211d2f0(&local_16);
+      |                       ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:33:27: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   33 |             func_0211d2f0(&local_16);
+      |                           ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:36:23: error: too many arguments to function call, expected 0, have 2
+   36 |         func_0211c810(local_16,1);
+      |         ~~~~~~~~~~~~~ ^~~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:4:6: note: 'func_0211c810' declared here
+    4 | void func_0211c810(void);
+      |      ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:44:25: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   44 |           func_0211d2f0(&local_18);
+      |                         ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:49:29: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   49 |               func_0211d2f0(&local_18);
+      |                             ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:53:25: error: too many arguments to function call, expected 0, have 2
+   53 |           func_0211c810(uVar4,0);
+      |           ~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:4:6: note: 'func_0211c810' declared here
+    4 | void func_0211c810(void);
+      |      ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:55:27: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   55 |             func_0211d2f0(&local_16);
+      |                           ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:60:29: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   60 |               func_0211d2f0(&local_16);
+      |                             ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:62:27: error: too many arguments to function call, expected 0, have 2
+   62 |             func_0211c810(uVar4,1);
+      |             ~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:4:6: note: 'func_0211c810' declared here
+    4 | void func_0211c810(void);
+      |      ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:67:23: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   67 |         func_0211d2f0(&local_18);
+      |                       ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:73:27: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   73 |             func_0211d2f0(&local_18);
+      |                           ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:78:23: error: too many arguments to function call, expected 0, have 2
+   78 |         func_0211c810(uVar4,0);
+      |         ~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:4:6: note: 'func_0211c810' declared here
+    4 | void func_0211c810(void);
+      |      ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:80:25: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   80 |           func_0211d2f0(&local_16);
+      |                         ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:85:29: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   85 |               func_0211d2f0(&local_16);
+      |                             ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:89:25: error: too many arguments to function call, expected 0, have 2
+   89 |           func_0211c810(uVar4,1);
+      |           ~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:4:6: note: 'func_0211c810' declared here
+    4 | void func_0211c810(void);
+      |      ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:92:31: error: too few arguments to function call, single argument 'param_1' was not specified
+   92 |         iVar2 = func_0211d3f4();
+      |                 ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:6:12: note: 'func_0211d3f4' declared here
+    6 | undefined4 func_0211d3f4(int param_1);
+      |            ^             ~~~~~~~~~~~
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:94:25: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   94 |           func_0211d2f0(&local_16);
+      |                         ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:100:27: warning: passing 'ushort *' (aka 'unsigned short *') to parameter of type 'short *' converts between pointers to integer types with different sign [-Wpointer-sign]
+  100 |             func_0211d2f0(&local_16);
+      |                           ^~~~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:5:33: note: passing argument to parameter 'param_1' here
+    5 | undefined4 func_0211d2f0(short *param_1);
+      |                                 ^
+C-WORK/src/arm9/0211c5ac_func_0211c5ac.c:102:25: error: too many arguments to function call, expected 0, have 2
+  102 |           func_0211c810(uVar4,1);
+      |           ~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/0211c5ac_func_0211c5ac.h:4:6: note: 'func_0211c810' declared here
+    4 | void func_0211c810(void);
+      |      ^
+13 warnings and 9 errors generated.

@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/021a6f18_FUN_021a6f18.c:15:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   15 |     uVar1 = (*(code *)*local_18)();
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a6f18_FUN_021a6f18.c:27:21: error: too many arguments to function call, expected 0, have 1
+   27 |     func_0x0200fcb4(uVar2);
+      |     ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a6f18_FUN_021a6f18.h:20:12: note: 'Os_RestoreIrq' declared here
+   20 | undefined4 Os_RestoreIrq(void);
+      |            ^
+2 errors generated.

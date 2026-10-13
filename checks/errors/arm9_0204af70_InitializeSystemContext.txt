@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0204af70_InitializeSystemContext.c:16:48: error: too many arguments to function call, expected 2, have 3
+   16 |   uVar3 = Mem_Frame_Create(iVar1,iVar2 - iVar1,1);
+      |           ~~~~~~~~~~~~~~~~                     ^
+C-WORK/src/arm9/deps/0204af70_InitializeSystemContext.h:5:12: note: 'Mem_Frame_Create' declared here
+    5 | undefined4 Mem_Frame_Create(int param_1,int param_2);
+      |            ^                ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0204af70_InitializeSystemContext.c:19:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |     *(uint *)((uint)puRam0204afcc & 0xfffffffc) << ((uint)puRam0204afcc & 3) * -8 + 0x20) + 0x24) =
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204af70_InitializeSystemContext.c:19:83: note: place parentheses around the '+' expression to silence this warning
+   19 |     *(uint *)((uint)puRam0204afcc & 0xfffffffc) << ((uint)puRam0204afcc & 3) * -8 + 0x20) + 0x24) =
+      |                                                                                   ^     
+      |                                                    (                                    )
+1 warning and 1 error generated.

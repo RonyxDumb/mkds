@@ -1,0 +1,21 @@
+C-WORK/src/arm9/020ccbb8_func_020ccbb8.c:19:9: error: assigning to 'int' from incompatible type 'void'
+   19 |   iVar1 = func_020ae3b4(7);
+      |         ^ ~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ccbb8_func_020ccbb8.c:20:9: error: assigning to 'int' from incompatible type 'void'
+   20 |   iVar2 = func_020ae3b4(6);
+      |         ^ ~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ccbb8_func_020ccbb8.c:38:91: error: too many arguments to function call, expected 4, have 7
+   38 |     func_0203be48(*(undefined4 *)(*piRam020ccc6c + iRam020ccc70),uVar5,&local_20,local_1c,uVar6,
+      |     ~~~~~~~~~~~~~                                                                         ^~~~~~
+   39 |                   uVar7,uVar8);
+      |                   ~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ccbb8_func_020ccbb8.h:6:6: note: 'func_0203be48' declared here
+    6 | void func_0203be48(int param_1,int param_2,undefined4 *param_3,undefined4 *param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ccbb8_func_020ccbb8.c:50:64: error: too few arguments to function call, expected 6, have 4
+   50 |     StructCO_ConfigureRacerDefault(uVar5,local_20,local_1c[0],1);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                             ^
+C-WORK/src/arm9/deps/020ccbb8_func_020ccbb8.h:4:6: note: 'StructCO_ConfigureRacerDefault' declared here
+    4 | void StructCO_ConfigureRacerDefault(int param_1,undefined4 param_2,undefined4 param_3,int param_4,undefined4 param_5,int param_6);
+      |      ^                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4 errors generated.

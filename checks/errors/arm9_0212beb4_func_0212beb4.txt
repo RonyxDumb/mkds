@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0212beb4_func_0212beb4.c:14:48: error: too few arguments to function call, expected 2, have 1
+   14 |     iVar2 = IntrusiveListWrapper_NextItem(uVar1);
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~      ^
+C-WORK/src/arm9/deps/0212beb4_func_0212beb4.h:3:6: note: 'IntrusiveListWrapper_NextItem' declared here
+    3 | uint IntrusiveListWrapper_NextItem(uint param_1,int param_2);
+      |      ^                             ~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

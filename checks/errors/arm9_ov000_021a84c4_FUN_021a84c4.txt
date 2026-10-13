@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/021a84c4_FUN_021a84c4.c:44:40: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   44 |     (**(code **)(*DAT_021a8570 + 0x1c))(param_1);
+      |                                        ^
+C-WORK/src/arm9_ov000/021a84c4_FUN_021a84c4.c:45:21: error: too many arguments to function call, expected 0, have 1
+   45 |     func_0x0200fcb4(uVar4);
+      |     ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a84c4_FUN_021a84c4.h:18:12: note: 'Os_RestoreIrq' declared here
+   18 | undefined4 Os_RestoreIrq(void);
+      |            ^
+1 warning and 1 error generated.

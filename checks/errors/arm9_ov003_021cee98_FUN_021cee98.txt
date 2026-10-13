@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov003/021cee98_FUN_021cee98.c:13:76: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   13 |   FUN_021d1770(*(undefined4 *)*DAT_021cef18,0,(uint *)(void *)(auStack_10),&local_c);
+      |                                                                            ^~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cee98_FUN_021cee98.h:5:63: note: passing argument to parameter 'param_4' here
+    5 | void FUN_021d1770(int param_1,int param_2,uint *param_3,uint *param_4);
+      |                                                               ^
+C-WORK/src/arm9_ov003/021cee98_FUN_021cee98.c:17:18: error: too few arguments to function call, single argument 'param_1' was not specified
+   17 |     FUN_021cec50();
+      |     ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov003/deps/021cee98_FUN_021cee98.h:3:6: note: 'FUN_021cec50' declared here
+    3 | void FUN_021cec50(uint param_1);
+      |      ^            ~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021cee98_FUN_021cee98.c:22:26: error: too many arguments to function call, expected 0, have 4
+   22 |     uVar1 = FUN_021d3544(0,DAT_021cef20,0,0x78);
+      |             ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cee98_FUN_021cee98.h:7:6: note: 'FUN_021d3544' declared here
+    7 | void FUN_021d3544(void);
+      |      ^
+C-WORK/src/arm9_ov003/021cee98_FUN_021cee98.c:26:26: error: too many arguments to function call, expected 0, have 4
+   26 |     uVar1 = FUN_021d3544(0,DAT_021cef24,0,0x78);
+      |             ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cee98_FUN_021cee98.h:7:6: note: 'FUN_021d3544' declared here
+    7 | void FUN_021d3544(void);
+      |      ^
+C-WORK/src/arm9_ov003/021cee98_FUN_021cee98.c:29:18: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   29 |   FUN_021d34c8(1,param_1);
+      |   ~~~~~~~~~~~~   ^~~~~~~
+C-WORK/src/arm9_ov003/deps/021cee98_FUN_021cee98.h:6:6: note: 'FUN_021d34c8' declared here
+    6 | void FUN_021d34c8(int param_1);
+      |      ^            ~~~~~~~~~~~
+1 warning and 4 errors generated.

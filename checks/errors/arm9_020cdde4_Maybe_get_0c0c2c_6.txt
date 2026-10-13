@@ -1,0 +1,8 @@
+C-WORK/src/arm9/020cdde4_Maybe_get_0c0c2c_6.c:10:20: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'undefined4 *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+   10 |   (*pcRam020cddf4)(uRam020cddf8,0x1b0);
+      |                    ^~~~~~~~~~~~
+      |                    &
+C-WORK/src/arm9/deps/020cdde4_Maybe_get_0c0c2c_6.h:6:22: note: expanded from macro 'uRam020cddf8'
+    6 | #define uRam020cddf8 (*(undefined4 *)(uintptr_t)0x20cddf8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

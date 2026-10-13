@@ -1,0 +1,69 @@
+C-WORK/src/arm9/020aa89c_func_020aa89c.c:20:41: error: too many arguments to function call, expected 3, have 4
+   20 |   func_020ab660(param_1,param_2,param_3,auStack_20);
+      |   ~~~~~~~~~~~~~                         ^~~~~~~~~~
+C-WORK/src/arm9/deps/020aa89c_func_020aa89c.h:22:6: note: 'func_020ab660' declared here
+   22 | void func_020ab660(ushort param_1,int param_2,uint param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020aa89c_func_020aa89c.c:61:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   61 |             func_020ab028();
+      |             ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020aa89c_func_020aa89c.h:9:6: note: 'func_020ab028' declared here
+    9 | void func_020ab028(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020aa89c_func_020aa89c.c:66:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   66 |             func_020ab028();
+      |             ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020aa89c_func_020aa89c.h:9:6: note: 'func_020ab028' declared here
+    9 | void func_020ab028(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020aa89c_func_020aa89c.c:73:23: error: too few arguments to function call, single argument 'param_1' was not specified
+   73 |         func_020ab028();
+      |         ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020aa89c_func_020aa89c.h:9:6: note: 'func_020ab028' declared here
+    9 | void func_020ab028(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020aa89c_func_020aa89c.c:79:21: error: too few arguments to function call, single argument 'param_1' was not specified
+   79 |       func_020ab028();
+      |       ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020aa89c_func_020aa89c.h:9:6: note: 'func_020ab028' declared here
+    9 | void func_020ab028(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020aa89c_func_020aa89c.c:90:35: error: too many arguments to function call, expected 2, have 3
+   89 |             uVar7 = func_020aa0ec(0x10,*(undefined4 *)(iRam020aab24 + 0x44),
+      |                     ~~~~~~~~~~~~~
+   90 |                                   **(undefined4 **)(iRam020aab24 + 0x2c));
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020aa89c_func_020aa89c.h:3:8: note: 'func_020aa0ec' declared here
+    3 | byte * func_020aa0ec(ushort param_1,byte *param_2);
+      |        ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020aa89c_func_020aa89c.c:96:33: error: too many arguments to function call, expected 2, have 3
+   95 |           uVar7 = func_020aa0ec(0x20,*(undefined4 *)(iRam020aab24 + 0x44),
+      |                   ~~~~~~~~~~~~~
+   96 |                                 **(undefined4 **)(iRam020aab24 + 0x2c));
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020aa89c_func_020aa89c.h:3:8: note: 'func_020aa0ec' declared here
+    3 | byte * func_020aa0ec(ushort param_1,byte *param_2);
+      |        ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020aa89c_func_020aa89c.c:102:31: error: too many arguments to function call, expected 2, have 3
+  101 |         uVar7 = func_020aa0ec(0x80,*(undefined4 *)(iRam020aab24 + 0x44),
+      |                 ~~~~~~~~~~~~~
+  102 |                               **(undefined4 **)(iRam020aab24 + 0x2c));
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020aa89c_func_020aa89c.h:3:8: note: 'func_020aa0ec' declared here
+    3 | byte * func_020aa0ec(ushort param_1,byte *param_2);
+      |        ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020aa89c_func_020aa89c.c:108:29: error: too many arguments to function call, expected 2, have 3
+  107 |       uVar7 = func_020aa0ec(0x40,*(undefined4 *)(iRam020aab24 + 0x44),
+      |               ~~~~~~~~~~~~~
+  108 |                             **(undefined4 **)(iRam020aab24 + 0x2c));
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020aa89c_func_020aa89c.h:3:8: note: 'func_020aa0ec' declared here
+    3 | byte * func_020aa0ec(ushort param_1,byte *param_2);
+      |        ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020aa89c_func_020aa89c.c:115:13: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+  115 |       uVar7 = func_020aaea0((byte *)(uintptr_t)(iRam020aab24),uVar7,uVar8);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020aa89c_func_020aa89c.c:122:13: error: incompatible pointer to integer conversion assigning to 'int' from 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+  122 |       iVar9 = func_020aaea0((byte *)(uintptr_t)(iRam020aab24),uVar7,uVar8);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+11 errors generated.

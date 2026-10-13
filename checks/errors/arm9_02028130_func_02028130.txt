@@ -1,0 +1,76 @@
+C-WORK/src/arm9/02028130_func_02028130.c:30:9: error: assigning to 'int' from incompatible type 'void'
+   30 |   iVar5 = func_020280dc();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02028130_func_02028130.c:34:9: error: assigning to 'int' from incompatible type 'void'
+   34 |   iVar5 = func_020280dc();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02028130_func_02028130.c:48:13: error: assigning to 'int' from incompatible type 'void'
+   48 |       iVar3 = func_020280dc();
+      |             ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02028130_func_02028130.c:66:11: error: assigning to 'int' from incompatible type 'void'
+   66 |     iVar5 = func_02028774(uVar4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02028130_func_02028130.c:68:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   68 |       uVar6 = func_0202874c(uVar4);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02028130_func_02028130.c:69:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   69 |       uVar7 = func_02028724(uVar4);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02028130_func_02028130.c:72:33: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   72 |     iVar5 = func_020286f4(uVar4,1);
+      |             ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/02028130_func_02028130.h:10:6: note: 'func_020286f4' declared here
+   10 | void func_020286f4(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/02028130_func_02028130.c:75:35: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   75 |       iVar5 = func_020286f4(uVar4,2);
+      |               ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/02028130_func_02028130.h:10:6: note: 'func_020286f4' declared here
+   10 | void func_020286f4(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/02028130_func_02028130.c:132:29: error: too few arguments to function call, single argument 'param_1' was not specified
+  132 |       sVar2 = func_020adc64();
+      |               ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02028130_func_02028130.h:33:5: note: 'func_020adc64' declared here
+   33 | int func_020adc64(int param_1);
+      |     ^             ~~~~~~~~~~~
+C-WORK/src/arm9/02028130_func_02028130.c:193:21: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'int *' [-Wint-conversion]
+  193 |       func_02025f14(*DAT_020286dc + 0xcc,2);
+      |                     ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02028130_func_02028130.h:7:25: note: passing argument to parameter 'param_1' here
+    7 | void func_02025f14(int *param_1,int param_2);
+      |                         ^
+C-WORK/src/arm9/02028130_func_02028130.c:194:21: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'int *' [-Wint-conversion]
+  194 |       func_02025f14(*DAT_020286dc + 0xdc,2);
+      |                     ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02028130_func_02028130.h:7:25: note: passing argument to parameter 'param_1' here
+    7 | void func_02025f14(int *param_1,int param_2);
+      |                         ^
+C-WORK/src/arm9/02028130_func_02028130.c:195:21: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'int *' [-Wint-conversion]
+  195 |       func_02025f14(*DAT_020286dc + 0xec,2);
+      |                     ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02028130_func_02028130.h:7:25: note: passing argument to parameter 'param_1' here
+    7 | void func_02025f14(int *param_1,int param_2);
+      |                         ^
+C-WORK/src/arm9/02028130_func_02028130.c:198:23: error: too many arguments to function call, expected 0, have 1
+  198 |         func_0202941c(3);
+      |         ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02028130_func_02028130.h:24:6: note: 'func_0202941c' declared here
+   24 | void func_0202941c(void);
+      |      ^
+C-WORK/src/arm9/02028130_func_02028130.c:201:23: error: too many arguments to function call, expected 0, have 1
+  201 |         func_0202941c(2);
+      |         ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02028130_func_02028130.h:24:6: note: 'func_0202941c' declared here
+   24 | void func_0202941c(void);
+      |      ^
+C-WORK/src/arm9/02028130_func_02028130.c:203:13: error: assigning to 'int' from incompatible type 'void'
+  203 |       iVar3 = func_020280dc();
+      |             ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02028130_func_02028130.c:228:9: error: assigning to 'int' from incompatible type 'void'
+  228 |   iVar3 = func_020280dc();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02028130_func_02028130.c:243:9: error: assigning to 'int' from incompatible type 'void'
+  243 |   iVar3 = func_020280dc();
+      |         ^ ~~~~~~~~~~~~~~~
+17 errors generated.

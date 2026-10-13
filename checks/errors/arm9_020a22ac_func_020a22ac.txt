@@ -1,0 +1,14 @@
+C-WORK/src/arm9/020a22ac_func_020a22ac.c:15:25: error: too few arguments to function call, single argument 'param_1' was not specified
+   15 |   iVar1 = func_01ffc67c();
+      |           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a22ac_func_020a22ac.h:5:12: note: 'func_01ffc67c' declared here
+    5 | undefined4 func_01ffc67c(int param_1);
+      |            ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020a22ac_func_020a22ac.c:20:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |       *(uint *)(uRam020a22fc & 0xfffffffc) << (uRam020a22fc & 3) * -8 + 0x20) + 100) = 10;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a22ac_func_020a22ac.c:20:71: note: place parentheses around the '+' expression to silence this warning
+   20 |       *(uint *)(uRam020a22fc & 0xfffffffc) << (uRam020a22fc & 3) * -8 + 0x20) + 100) = 10;
+      |                                                                       ^     
+      |                                               (                             )
+1 warning and 1 error generated.

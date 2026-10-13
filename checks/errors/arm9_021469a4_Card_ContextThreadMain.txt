@@ -1,0 +1,31 @@
+C-WORK/src/arm9/021469a4_Card_ContextThreadMain.c:20:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |     for (uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20; (uVar4 & 8) == 0;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021469a4_Card_ContextThreadMain.c:20:59: note: place parentheses around the '+' expression to silence this warning
+   20 |     for (uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20; (uVar4 & 8) == 0;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/021469a4_Card_ContextThreadMain.c:21:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |         uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021469a4_Card_ContextThreadMain.c:21:58: note: place parentheses around the '+' expression to silence this warning
+   21 |         uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) {
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/021469a4_Card_ContextThreadMain.c:27:19: error: too many arguments to function call, expected 0, have 1
+   27 |     Os_RestoreIrq(uVar2);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/021469a4_Card_ContextThreadMain.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/021469a4_Card_ContextThreadMain.c:30:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |     (*(code *)(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20))(iVar1);
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021469a4_Card_ContextThreadMain.c:30:57: note: place parentheses around the '+' expression to silence this warning
+   30 |     (*(code *)(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20))(iVar1);
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/021469a4_Card_ContextThreadMain.c:30:65: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   30 |     (*(code *)(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20))(iVar1);
+      |                                                                 ^
+4 warnings and 1 error generated.

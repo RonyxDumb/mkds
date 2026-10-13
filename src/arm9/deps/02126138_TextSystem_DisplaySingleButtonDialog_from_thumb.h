@@ -1,0 +1,18 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void G2d_Text_SomeFn_1_from_thumb(void);
+void G2d_Text_SomeFn_from_thumb(void);
+void TextSystemContext_DisableAllSprites_from_thumb(void);
+void TextSystemContext_StartDialog_from_thumb(void);
+void TextSystem_DisplaySingleButtonDialog_from_thumb(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6);
+#define iRam02126208 (*(int *)(uintptr_t)0x2126208u)
+#define iRam0212620c (*(int *)(uintptr_t)0x212620cu)
+#define iRam02126210 (*(int *)(uintptr_t)0x2126210u)
+#define iRam02126218 (*(int *)(uintptr_t)0x2126218u)
+#define iRam0212621c (*(int *)(uintptr_t)0x212621cu)
+#define iRam02126220 (*(int *)(uintptr_t)0x2126220u)
+#define iRam02126224 (*(int *)(uintptr_t)0x2126224u)
+#define iRam02126228 (*(int *)(uintptr_t)0x2126228u)
+#define iRam0212622c (*(int *)(uintptr_t)0x212622cu)
+#define piRam02126204 (*(int **)(uintptr_t)0x2126204u)
+#define uRam02126214 (*(undefined4 *)(uintptr_t)0x2126214u)

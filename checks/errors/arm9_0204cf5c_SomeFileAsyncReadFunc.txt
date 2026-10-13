@@ -1,0 +1,144 @@
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:26:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |   uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:26:52: note: place parentheses around the '+' expression to silence this warning
+   26 |   uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:30:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |     uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:30:54: note: place parentheses around the '+' expression to silence this warning
+   30 |     uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:35:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |   if ((uVar1 >> uVar7 * 8 | uVar1 << uVar7 * -8 + 0x20) < uVar8) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:35:49: note: place parentheses around the '+' expression to silence this warning
+   35 |   if ((uVar1 >> uVar7 * 8 | uVar1 << uVar7 * -8 + 0x20) < uVar8) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:39:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |     uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:39:54: note: place parentheses around the '+' expression to silence this warning
+   39 |     uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:46:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |       (*(code *)(uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20))
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:46:59: note: place parentheses around the '+' expression to silence this warning
+   46 |       (*(code *)(uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20))
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:47:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |                 (uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20,0,uVar8);
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:47:59: note: place parentheses around the '+' expression to silence this warning
+   47 |                 (uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20,0,uVar8);
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:47:17: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   47 |                 (uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20,0,uVar8);
+      |                 ^
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:48:21: error: too many arguments to function call, expected 0, have 1
+   48 |       Os_RestoreIrq(uVar2);
+      |       ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0204cf5c_SomeFileAsyncReadFunc.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:54:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   54 |     iVar4 = MaybeBoundsCheck((uVar3 >> uVar8 * 8 | uVar3 << uVar8 * -8 + 0x20) +
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:54:72: note: place parentheses around the '+' expression to silence this warning
+   54 |     iVar4 = MaybeBoundsCheck((uVar3 >> uVar8 * 8 | uVar3 << uVar8 * -8 + 0x20) +
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:55:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   55 |                              (uVar1 >> uVar7 * 8 | uVar1 << uVar7 * -8 + 0x20) + -0xf);
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:55:72: note: place parentheses around the '+' expression to silence this warning
+   55 |                              (uVar1 >> uVar7 * 8 | uVar1 << uVar7 * -8 + 0x20) + -0xf);
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:55:86: error: too few arguments to function call, expected 2, have 1
+   54 |     iVar4 = MaybeBoundsCheck((uVar3 >> uVar8 * 8 | uVar3 << uVar8 * -8 + 0x20) +
+      |             ~~~~~~~~~~~~~~~~
+   55 |                              (uVar1 >> uVar7 * 8 | uVar1 << uVar7 * -8 + 0x20) + -0xf);
+      |                                                                                      ^
+C-WORK/src/arm9/deps/0204cf5c_SomeFileAsyncReadFunc.h:3:6: note: 'MaybeBoundsCheck' declared here
+    3 | void MaybeBoundsCheck(uint param_1,uint param_2);
+      |      ^                ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:61:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   61 |     uVar5 = (*(code *)(uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20))
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:61:65: note: place parentheses around the '+' expression to silence this warning
+   61 |     uVar5 = (*(code *)(uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20))
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:62:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   62 |                       (uVar1 >> uVar8 * 8 | uVar1 << uVar8 * -8 + 0x20,(iVar4 + 0x1fU >> 2) << 4,0);
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:62:65: note: place parentheses around the '+' expression to silence this warning
+   62 |                       (uVar1 >> uVar8 * 8 | uVar1 << uVar8 * -8 + 0x20,(iVar4 + 0x1fU >> 2) << 4,0);
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:62:79: warning: operator '>>' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   62 |                       (uVar1 >> uVar8 * 8 | uVar1 << uVar8 * -8 + 0x20,(iVar4 + 0x1fU >> 2) << 4,0);
+      |                                                                         ~~~~~~^~~~~~~ ~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:62:79: note: place parentheses around the '+' expression to silence this warning
+   62 |                       (uVar1 >> uVar8 * 8 | uVar1 << uVar8 * -8 + 0x20,(iVar4 + 0x1fU >> 2) << 4,0);
+      |                                                                               ^
+      |                                                                         (            )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:62:23: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   62 |                       (uVar1 >> uVar8 * 8 | uVar1 << uVar8 * -8 + 0x20,(iVar4 + 0x1fU >> 2) << 4,0);
+      |                       ^
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:61:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   61 |     uVar5 = (*(code *)(uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20))
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   62 |                       (uVar1 >> uVar8 * 8 | uVar1 << uVar8 * -8 + 0x20,(iVar4 + 0x1fU >> 2) << 4,0);
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:63:19: error: too many arguments to function call, expected 0, have 1
+   63 |     Os_RestoreIrq(uVar2);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0204cf5c_SomeFileAsyncReadFunc.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:67:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   67 |     *(uint *)(iVar6 + 0x80) = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:67:72: note: place parentheses around the '+' expression to silence this warning
+   67 |     *(uint *)(iVar6 + 0x80) = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:75:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   75 |   uVar10 = uVar1 >> uVar7 * 8 | uVar1 << uVar7 * -8 + 0x20;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:75:53: note: place parentheses around the '+' expression to silence this warning
+   75 |   uVar10 = uVar1 >> uVar7 * 8 | uVar1 << uVar7 * -8 + 0x20;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:80:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   80 |   local_1c = (uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) +
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:80:56: note: place parentheses around the '+' expression to silence this warning
+   80 |   local_1c = (uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20) +
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:81:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   81 |              (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:81:56: note: place parentheses around the '+' expression to silence this warning
+   81 |              (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:82:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   82 |   local_20 = (uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20) << 8 |
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204cf5c_SomeFileAsyncReadFunc.c:82:58: note: place parentheses around the '+' expression to silence this warning
+   82 |   local_20 = (uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20) << 8 |
+      |                                                          ^     
+      |                                               (                )
+18 warnings and 4 errors generated.

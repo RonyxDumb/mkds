@@ -1,0 +1,13 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void func_0200b934(void);
+void func_0200b9e0(undefined4 param_1,undefined4 param_2);
+#define iRam0200ba24 (*(int *)(uintptr_t)0x200ba24u)
+#define iRam0200ba28 (*(int *)(uintptr_t)0x200ba28u)
+#define iRam0200ba2c (*(int *)(uintptr_t)0x200ba2cu)
+#define iRam0200ba30 (*(int *)(uintptr_t)0x200ba30u)
+#define iRam0200ba34 (*(int *)(uintptr_t)0x200ba34u)
+#define iRam0200ba38 (*(int *)(uintptr_t)0x200ba38u)
+#define iRam0200ba3c (*(int *)(uintptr_t)0x200ba3cu)
+#define iRam0200ba40 (*(int *)(uintptr_t)0x200ba40u)
+#define piRam0200ba20 (*(int **)(uintptr_t)0x200ba20u)

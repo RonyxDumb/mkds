@@ -1,0 +1,27 @@
+C-WORK/src/arm9/02096d68_func_02096d68.c:14:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   14 |   uVar3 = CreateMapObjectFromModel_2_from_thumb(param_1,uRam02096dd4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9/02096d68_func_02096d68.c:17:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   17 |   uVar3 = CreateMapObjectFromModelAndAnimation_from_thumb(param_1,uVar4,uRam02096de0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9/02096d68_func_02096d68.c:20:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   20 |   uVar4 = CreateMapObjectFromModel_2_from_thumb(param_1,uVar4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9/02096d68_func_02096d68.c:25:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |   StructMapObject_MaybeSetPolygonId(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,0x3f);
+      |                                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02096d68_func_02096d68.c:25:78: note: place parentheses around the '+' expression to silence this warning
+   25 |   StructMapObject_MaybeSetPolygonId(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,0x3f);
+      |                                                                              ^     
+      |                                                                   (                )
+C-WORK/src/arm9/02096d68_func_02096d68.c:28:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |              *(uint *)((uint)puRam02096dec & 0xfffffffc) << ((uint)puRam02096dec & 3) * -8 + 0x20,
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02096d68_func_02096d68.c:28:92: note: place parentheses around the '+' expression to silence this warning
+   28 |              *(uint *)((uint)puRam02096dec & 0xfffffffc) << ((uint)puRam02096dec & 3) * -8 + 0x20,
+      |                                                                                            ^     
+      |                                                             (                                    )
+2 warnings and 3 errors generated.

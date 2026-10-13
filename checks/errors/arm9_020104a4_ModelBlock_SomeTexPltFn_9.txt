@@ -1,0 +1,14 @@
+C-WORK/src/arm9/020104a4_ModelBlock_SomeTexPltFn_9.c:15:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020104a4_ModelBlock_SomeTexPltFn_9.c:15:52: note: place parentheses around the '+' expression to silence this warning
+   15 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020104a4_ModelBlock_SomeTexPltFn_9.c:23:28: error: too few arguments to function call, expected 2, have 1
+   23 |         func_0201063c(iVar4);
+      |         ~~~~~~~~~~~~~      ^
+C-WORK/src/arm9/deps/020104a4_ModelBlock_SomeTexPltFn_9.h:4:6: note: 'func_0201063c' declared here
+    4 | void func_0201063c(int param_1,ushort *param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

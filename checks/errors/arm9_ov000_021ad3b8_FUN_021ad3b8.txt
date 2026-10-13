@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov000/021ad3b8_FUN_021ad3b8.c:25:13: error: assigning to 'int' from incompatible type 'void'
+   25 |       iVar5 = (*(code *)*DAT_021ad61c)();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021ad3b8_FUN_021ad3b8.c:47:40: warning: comparison of distinct pointer types ('byte *' (aka 'unsigned char *') and 'char *') [-Wcompare-distinct-pointer-types]
+   47 |         while (pbVar6 = pbVar7, pbVar6 < pcVar3 + local_18) {
+      |                                 ~~~~~~ ^ ~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021ad3b8_FUN_021ad3b8.c:100:18: error: too many arguments to function call, expected 0, have 1
+  100 |     FUN_021adf00(local_18);
+      |     ~~~~~~~~~~~~ ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/021ad3b8_FUN_021ad3b8.h:5:6: note: 'FUN_021adf00' declared here
+    5 | void FUN_021adf00(void);
+      |      ^
+C-WORK/src/arm9_ov000/021ad3b8_FUN_021ad3b8.c:45:51: warning: result of comparison of constant -126 with expression of type 'char' is always false [-Wtautological-constant-out-of-range-compare]
+   45 |       if (((pcVar3[0xec] == 'c') && (pcVar3[0xed] == -0x7e)) &&
+      |                                      ~~~~~~~~~~~~ ^  ~~~~~
+2 warnings and 2 errors generated.

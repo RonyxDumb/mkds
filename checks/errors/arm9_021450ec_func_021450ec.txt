@@ -1,0 +1,27 @@
+C-WORK/src/arm9/021450ec_func_021450ec.c:25:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |   uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021450ec_func_021450ec.c:25:52: note: place parentheses around the '+' expression to silence this warning
+   25 |   uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/021450ec_func_021450ec.c:26:31: error: too few arguments to function call, expected 4, have 3
+   26 |   iVar4 = func_02142988(2,9,10);
+      |           ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/021450ec_func_021450ec.h:7:5: note: 'func_02142988' declared here
+    7 | int func_02142988(uint param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |     ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021450ec_func_021450ec.c:33:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |   if (uVar5 >> uVar7 * 8 == 0 && uVar5 << uVar7 * -8 + 0x20 == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021450ec_func_021450ec.c:33:54: note: place parentheses around the '+' expression to silence this warning
+   33 |   if (uVar5 >> uVar7 * 8 == 0 && uVar5 << uVar7 * -8 + 0x20 == 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/021450ec_func_021450ec.c:58:34: error: too few arguments to function call, single argument 'param_1' was not specified
+   58 |     sVar3 = Math_CountPopulation();
+      |             ~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/021450ec_func_021450ec.h:4:6: note: 'Math_CountPopulation' declared here
+    4 | uint Math_CountPopulation(uint param_1);
+      |      ^                    ~~~~~~~~~~~~
+2 warnings and 2 errors generated.

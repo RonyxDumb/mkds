@@ -1,0 +1,48 @@
+C-WORK/src/arm9/020af86c_func_020af86c.c:14:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |           *(uint *)(uRam020af988 & 0xfffffffc) << (uRam020af988 & 3) * -8 + 0x20) + 0xc;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020af86c_func_020af86c.c:14:75: note: place parentheses around the '+' expression to silence this warning
+   14 |           *(uint *)(uRam020af988 & 0xfffffffc) << (uRam020af988 & 3) * -8 + 0x20) + 0xc;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020af86c_func_020af86c.c:17:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   uVar2 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020af86c_func_020af86c.c:17:52: note: place parentheses around the '+' expression to silence this warning
+   17 |   uVar2 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020af86c_func_020af86c.c:24:42: error: too few arguments to function call, expected 5, have 3
+   24 |       G2x_SetBlendAlpha_(uRam020af98c,0,0);
+      |       ~~~~~~~~~~~~~~~~~~                 ^
+C-WORK/src/arm9/deps/020af86c_func_020af86c.h:3:6: note: 'G2x_SetBlendAlpha_' declared here
+    3 | void G2x_SetBlendAlpha_(uint *param_1,uint param_2,int param_3,uint param_4,int param_5);
+      |      ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020af86c_func_020af86c.c:25:42: error: too few arguments to function call, expected 5, have 3
+   25 |       G2x_SetBlendAlpha_(uRam020af990,0,0);
+      |       ~~~~~~~~~~~~~~~~~~                 ^
+C-WORK/src/arm9/deps/020af86c_func_020af86c.h:3:6: note: 'G2x_SetBlendAlpha_' declared here
+    3 | void G2x_SetBlendAlpha_(uint *param_1,uint param_2,int param_3,uint param_4,int param_5);
+      |      ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020af86c_func_020af86c.c:32:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |               *(uint *)(uRam020af988 & 0xfffffffc) << (uRam020af988 & 3) * -8 + 0x20) + 0xc;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020af86c_func_020af86c.c:32:79: note: place parentheses around the '+' expression to silence this warning
+   32 |               *(uint *)(uRam020af988 & 0xfffffffc) << (uRam020af988 & 3) * -8 + 0x20) + 0xc;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/020af86c_func_020af86c.c:35:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |       if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == 4) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020af86c_func_020af86c.c:35:53: note: place parentheses around the '+' expression to silence this warning
+   35 |       if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == 4) {
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/020af86c_func_020af86c.c:54:90: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   54 |            *(uint *)((uint)puRam020af998 & 0xfffffffc) << ((uint)puRam020af998 & 3) * -8 + 0x20) &
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020af86c_func_020af86c.c:54:90: note: place parentheses around the '+' expression to silence this warning
+   54 |            *(uint *)((uint)puRam020af998 & 0xfffffffc) << ((uint)puRam020af998 & 3) * -8 + 0x20) &
+      |                                                                                          ^     
+      |                                                           (                                    )
+5 warnings and 2 errors generated.

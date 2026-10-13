@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02057d58_Scene_Logo_Update.c:10:20: error: too few arguments to function call, expected 1, have 0
+   10 |   (*pcRam02057d60)();
+      |   ~~~~~~~~~~~~~~~~ ^
+1 error generated.

@@ -1,0 +1,14 @@
+C-WORK/src/arm9/02148f64_func_02148f64.c:12:25: error: incompatible pointer types assigning to 'code *' (aka 'void (*)()') from 'undefined *' (aka 'unsigned char *') [-Werror,-Wincompatible-pointer-types]
+   12 |   UNRECOVERED_JUMPTABLE = pcRam02148f84;
+      |                         ^ ~~~~~~~~~~~~~
+C-WORK/src/arm9/02148f64_func_02148f64.c:15:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |        *(uint *)((uint)puRam02148f80 & 0xfffffffc) << ((uint)puRam02148f80 & 3) * -8 + 0x20) &
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02148f64_func_02148f64.c:15:86: note: place parentheses around the '+' expression to silence this warning
+   15 |        *(uint *)((uint)puRam02148f80 & 0xfffffffc) << ((uint)puRam02148f80 & 3) * -8 + 0x20) &
+      |                                                                                      ^     
+      |                                                       (                                    )
+C-WORK/src/arm9/02148f64_func_02148f64.c:19:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   19 |   (*UNRECOVERED_JUMPTABLE)(uVar1);
+      |                           ^
+2 warnings and 1 error generated.

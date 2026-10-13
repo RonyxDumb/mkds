@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/021a8a80_FUN_021a8a80.c:10:58: error: too few arguments to function call, expected 2, have 1
+   10 |   if ((0 < param_1) && (iVar1 = FUN_021a8ab8(DAT_021a8aa4), iVar1 != 0)) {
+      |                                 ~~~~~~~~~~~~             ^
+C-WORK/src/arm9_ov000/deps/021a8a80_FUN_021a8a80.h:4:7: note: 'FUN_021a8ab8' declared here
+    4 | int * FUN_021a8ab8(int *param_1,int param_2);
+      |       ^            ~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

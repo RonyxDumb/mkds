@@ -1,0 +1,37 @@
+C-WORK/src/arm9_ov000/0218b928_FUN_0218b928.c:20:13: error: assigning to 'int' from incompatible type 'void'
+   20 |       iVar1 = FUN_0218e8c4();
+      |             ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218b928_FUN_0218b928.c:22:22: error: too many arguments to function call, expected 0, have 1
+   22 |         FUN_0218e53c(*(undefined4 *)((int)param_1 + DAT_0218b9f4));
+      |         ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218b928_FUN_0218b928.h:10:6: note: 'FUN_0218e53c' declared here
+   10 | void FUN_0218e53c(void);
+      |      ^
+C-WORK/src/arm9_ov000/0218b928_FUN_0218b928.c:26:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   26 |                   (param_1,3,*DAT_0218ba04,*(undefined4 *)((int)param_1 + DAT_0218ba08));
+      |                   ^
+C-WORK/src/arm9_ov000/0218b928_FUN_0218b928.c:30:26: error: too many arguments to function call, expected 0, have 6
+   30 |     iVar1 = FUN_0218e438(*(undefined4 *)((int)param_1 + DAT_0218b9f4),auStack_5f4,DAT_0218b9f8,0,
+      |             ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   31 |                          auStack_600,&local_5f8);
+      |                          ~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218b928_FUN_0218b928.h:9:6: note: 'FUN_0218e438' declared here
+    9 | void FUN_0218e438(void);
+      |      ^
+C-WORK/src/arm9_ov000/0218b928_FUN_0218b928.c:33:13: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   33 |       uVar2 = FUN_0218af28((undefined4)(uintptr_t)(param_1),local_5fc,local_5fe);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |               *
+C-WORK/src/arm9_ov000/0218b928_FUN_0218b928.c:34:28: error: too few arguments to function call, single argument 'param_1' was not specified
+   34 |       iVar1 = FUN_0218aefc();
+      |               ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0218b928_FUN_0218b928.h:3:12: note: 'FUN_0218aefc' declared here
+    3 | undefined4 FUN_0218aefc(int param_1);
+      |            ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218b928_FUN_0218b928.c:39:33: error: too few arguments to function call, expected 4, have 2
+   39 |       FUN_0218d340(param_1,uVar2);
+      |       ~~~~~~~~~~~~              ^
+C-WORK/src/arm9_ov000/deps/0218b928_FUN_0218b928.h:8:6: note: 'FUN_0218d340' declared here
+    8 | void FUN_0218d340(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 6 errors generated.

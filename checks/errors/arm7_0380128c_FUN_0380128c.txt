@@ -1,0 +1,32 @@
+C-WORK/src/arm7/0380128c_FUN_0380128c.c:15:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |            *(uint *)(local_18[0] & 0xfffffffc) << (local_18[0] & 3) * -8 + 0x20) {
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0380128c_FUN_0380128c.c:15:74: note: place parentheses around the '+' expression to silence this warning
+   15 |            *(uint *)(local_18[0] & 0xfffffffc) << (local_18[0] & 3) * -8 + 0x20) {
+      |                                                                          ^     
+      |                                                   (                            )
+C-WORK/src/arm7/0380128c_FUN_0380128c.c:17:20: error: too few arguments to function call, single argument 'param_1' was not specified
+   17 |       FUN_038017ec();
+      |       ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/0380128c_FUN_0380128c.h:5:6: note: 'FUN_038017ec' declared here
+    5 | void FUN_038017ec(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm7/0380128c_FUN_0380128c.c:20:20: error: too few arguments to function call, single argument 'param_1' was not specified
+   20 |       FUN_0380405c();
+      |       ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/0380128c_FUN_0380128c.h:8:6: note: 'FUN_0380405c' declared here
+    8 | void FUN_0380405c(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm7/0380128c_FUN_0380128c.c:23:20: error: too few arguments to function call, single argument 'param_1' was not specified
+   23 |       FUN_03802f5c();
+      |       ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/0380128c_FUN_0380128c.h:7:6: note: 'FUN_03802f5c' declared here
+    7 | void FUN_03802f5c(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm7/0380128c_FUN_0380128c.c:26:20: error: too few arguments to function call, single argument 'param_1' was not specified
+   26 |       FUN_03802388();
+      |       ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/0380128c_FUN_0380128c.h:6:6: note: 'FUN_03802388' declared here
+    6 | void FUN_03802388(int param_1);
+      |      ^            ~~~~~~~~~~~
+1 warning and 4 errors generated.

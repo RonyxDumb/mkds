@@ -1,0 +1,63 @@
+C-WORK/src/arm9/020a5744_func_020a5744.c:13:25: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   iVar2 = func_0209bbfc();
+      |           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a5744_func_020a5744.h:3:6: note: 'func_0209bbfc' declared here
+    3 | uint func_0209bbfc(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020a5744_func_020a5744.c:18:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a5744_func_020a5744.c:18:66: note: place parentheses around the '+' expression to silence this warning
+   18 |            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
+      |                                                                  ^     
+      |                                               (                        )
+C-WORK/src/arm9/020a5744_func_020a5744.c:21:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |       *(uint *)(iVar2 + 8) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0x14000;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a5744_func_020a5744.c:21:72: note: place parentheses around the '+' expression to silence this warning
+   21 |       *(uint *)(iVar2 + 8) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0x14000;
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/020a5744_func_020a5744.c:24:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |       *(uint *)(iVar2 + 0xc) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a5744_func_020a5744.c:24:73: note: place parentheses around the '+' expression to silence this warning
+   24 |       *(uint *)(iVar2 + 0xc) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/020a5744_func_020a5744.c:35:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a5744_func_020a5744.c:35:66: note: place parentheses around the '+' expression to silence this warning
+   35 |            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
+      |                                                                  ^     
+      |                                               (                        )
+C-WORK/src/arm9/020a5744_func_020a5744.c:38:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |       *(uint *)(iVar2 + 8) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0x32000;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a5744_func_020a5744.c:38:72: note: place parentheses around the '+' expression to silence this warning
+   38 |       *(uint *)(iVar2 + 8) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0x32000;
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/020a5744_func_020a5744.c:41:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |       *(uint *)(iVar2 + 0xc) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a5744_func_020a5744.c:41:73: note: place parentheses around the '+' expression to silence this warning
+   41 |       *(uint *)(iVar2 + 0xc) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/020a5744_func_020a5744.c:48:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   48 |       *(uint *)(iVar2 + 0xa4) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0x14000;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a5744_func_020a5744.c:48:75: note: place parentheses around the '+' expression to silence this warning
+   48 |       *(uint *)(iVar2 + 0xa4) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0x14000;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/020a5744_func_020a5744.c:59:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   59 |     func_0210b98c(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,0x138);
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a5744_func_020a5744.c:59:60: note: place parentheses around the '+' expression to silence this warning
+   59 |     func_0210b98c(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,0x138);
+      |                                                            ^     
+      |                                                 (                )
+8 warnings and 1 error generated.

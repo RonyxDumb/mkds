@@ -1,0 +1,35 @@
+C-WORK/src/arm9_ov000/0219ee14_FUN_0219ee14.c:23:9: error: assigning to 'longlong' (aka 'long long') from incompatible type 'void'
+   23 |   lVar9 = FUN_021a350c();
+      |         ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219ee14_FUN_0219ee14.c:32:60: error: too many arguments to function call, expected 2, have 4
+   32 |       FUN_0219ef68(*(undefined1 *)(iVar6 + DAT_0219ef54),3,DAT_0219ef50,
+      |       ~~~~~~~~~~~~                                         ^~~~~~~~~~~~~
+   33 |                    -(uint)(uVar2 > DAT_0219ef50) - iVar3);
+      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219ee14_FUN_0219ee14.h:15:22: note: expanded from macro 'DAT_0219ef50'
+   15 | #define DAT_0219ef50 (*(uint *)(uintptr_t)0x219ef50u)
+      |                      ^
+C-WORK/src/arm9_ov000/deps/0219ee14_FUN_0219ee14.h:4:6: note: 'FUN_0219ef68' declared here
+    4 | void FUN_0219ef68(uint param_1,int param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219ee14_FUN_0219ee14.c:61:68: error: too many arguments to function call, expected single argument 'param_1', have 4 arguments
+   61 |         iVar6 = FUN_0219f00c(*(undefined4 *)(iVar4 + DAT_0219ef5c),DAT_0219ef5c,iVar5,
+      |                 ~~~~~~~~~~~~                                       ^~~~~~~~~~~~~~~~~~~
+   62 |                              -(uint)!bVar8 - iVar3);
+      |                              ~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219ee14_FUN_0219ee14.h:18:22: note: expanded from macro 'DAT_0219ef5c'
+   18 | #define DAT_0219ef5c (*(int *)(uintptr_t)0x219ef5cu)
+      |                      ^
+C-WORK/src/arm9_ov000/deps/0219ee14_FUN_0219ee14.h:5:12: note: 'FUN_0219f00c' declared here
+    5 | undefined4 FUN_0219f00c(uint param_1);
+      |            ^            ~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219ee14_FUN_0219ee14.c:75:18: error: assigning to 'undefined8' (aka 'unsigned long long') from incompatible type 'void'
+   75 |           uVar10 = FUN_021a350c();
+      |                  ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219ee14_FUN_0219ee14.c:85:20: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   85 |     FUN_0219f544(4,iVar3,-(uint)!bVar8 - iVar3);
+      |     ~~~~~~~~~~~~   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219ee14_FUN_0219ee14.h:8:6: note: 'FUN_0219f544' declared here
+    8 | void FUN_0219f544(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+5 errors generated.

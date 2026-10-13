@@ -1,0 +1,10 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void NNSi_MaybeSndPlayerStartSeq(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+void func_02128310(int param_1);
+#define iRam02128360 (*(int *)(uintptr_t)0x2128360u)
+#define iRam02128364 (*(int *)(uintptr_t)0x2128364u)
+#define iRam02128368 (*(int *)(uintptr_t)0x2128368u)
+#define iRam0212836c (*(int *)(uintptr_t)0x212836cu)
+#define piRam0212835c (*(int **)(uintptr_t)0x212835cu)
+#define uRam02128370 (*(undefined4 *)(uintptr_t)0x2128370u)

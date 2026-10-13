@@ -1,0 +1,29 @@
+C-WORK/src/arm7/06009aa0_FUN_06009aa0.c:12:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   12 |           *(uint *)(DAT_06009af0 & 0xfffffffc) << (DAT_06009af0 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06009aa0_FUN_06009aa0.c:12:75: note: place parentheses around the '+' expression to silence this warning
+   12 |           *(uint *)(DAT_06009af0 & 0xfffffffc) << (DAT_06009af0 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm7/06009aa0_FUN_06009aa0.c:13:9: error: assigning to 'int' from incompatible type 'void'
+   13 |   iVar1 = thunk_FUN_037fa824();
+      |         ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/06009aa0_FUN_06009aa0.c:18:24: error: too many arguments to function call, expected 0, have 1
+   18 |     thunk_FUN_037fa814(uVar2 + DAT_06009af4);
+      |     ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/06009aa0_FUN_06009aa0.h:4:6: note: 'thunk_FUN_037fa814' declared here
+    4 | void thunk_FUN_037fa814(void);
+      |      ^
+C-WORK/src/arm7/06009aa0_FUN_06009aa0.c:19:24: error: too many arguments to function call, expected 0, have 1
+   19 |     thunk_FUN_037fa814(uVar2 + DAT_06009af8);
+      |     ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/06009aa0_FUN_06009aa0.h:4:6: note: 'thunk_FUN_037fa814' declared here
+    4 | void thunk_FUN_037fa814(void);
+      |      ^
+C-WORK/src/arm7/06009aa0_FUN_06009aa0.c:20:24: error: too many arguments to function call, expected 0, have 1
+   20 |     thunk_FUN_037fa814(uVar2 + 0x660);
+      |     ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm7/deps/06009aa0_FUN_06009aa0.h:4:6: note: 'thunk_FUN_037fa814' declared here
+    4 | void thunk_FUN_037fa814(void);
+      |      ^
+1 warning and 4 errors generated.

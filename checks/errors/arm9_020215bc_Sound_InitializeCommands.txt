@@ -1,0 +1,23 @@
+C-WORK/src/arm9/020215bc_Sound_InitializeCommands.c:52:17: error: too few arguments to function call, single argument 'param_1' was not specified
+   52 |   func_020217b4();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020215bc_Sound_InitializeCommands.h:8:6: note: 'func_020217b4' declared here
+    8 | void func_020217b4(undefined4 *param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020215bc_Sound_InitializeCommands.c:53:10: error: assigning to 'int' from incompatible type 'void'
+   53 |   iVar13 = Sound_AllocateCommand(1);
+      |          ^ ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020215bc_Sound_InitializeCommands.c:58:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   58 |          *(uint *)((uint)puVar11 & 0xfffffffc) << ((uint)puVar11 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020215bc_Sound_InitializeCommands.c:58:76: note: place parentheses around the '+' expression to silence this warning
+   58 |          *(uint *)((uint)puVar11 & 0xfffffffc) << ((uint)puVar11 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                   (                              )
+C-WORK/src/arm9/020215bc_Sound_InitializeCommands.c:59:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   59 |     func_020213a4();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020215bc_Sound_InitializeCommands.h:7:6: note: 'func_020213a4' declared here
+    7 | void func_020213a4(undefined4 *param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~~
+1 warning and 3 errors generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm7/0600084c_thunk_FUN_037f9a98.c:10:19: error: too few arguments to function call, expected 1, have 0
+   10 |   (*DAT_06000850)();
+      |   ~~~~~~~~~~~~~~~ ^
+1 error generated.

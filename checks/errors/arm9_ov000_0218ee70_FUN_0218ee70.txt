@@ -1,0 +1,25 @@
+C-WORK/src/arm9_ov000/0218ee70_FUN_0218ee70.c:20:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   20 |     FUN_02196590(param_1,DAT_0218ef80);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ee70_FUN_0218ee70.h:6:31: note: passing argument to parameter 'param_1' here
+    6 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218ee70_FUN_0218ee70.c:24:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   24 |     FUN_02196590(param_1,DAT_0218ef84);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ee70_FUN_0218ee70.h:6:31: note: passing argument to parameter 'param_1' here
+    6 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218ee70_FUN_0218ee70.c:37:45: error: too many arguments to function call, expected 2, have 3
+   37 |   FUN_02190b58(param_1,iVar2 + DAT_0218ef8c,*(undefined4 *)(iVar2 + DAT_0218ef98));
+      |   ~~~~~~~~~~~~                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ee70_FUN_0218ee70.h:4:6: note: 'FUN_02190b58' declared here
+    4 | void FUN_02190b58(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218ee70_FUN_0218ee70.c:39:45: error: too many arguments to function call, expected 2, have 3
+   39 |   FUN_02190b58(param_1,iVar2 + DAT_0218ef8c,param_2);
+      |   ~~~~~~~~~~~~                              ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ee70_FUN_0218ee70.h:4:6: note: 'FUN_02190b58' declared here
+    4 | void FUN_02190b58(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 2 errors generated.

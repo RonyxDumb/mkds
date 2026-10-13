@@ -1,0 +1,16 @@
+#pragma once
+/* Function-specific inferred declarations. */
+undefined4 Mem_AllocateHeapAligned(uint param_1,undefined4 param_2,undefined4 param_3);
+void func_0204f33c(undefined4 param_1);
+#define iRam0204f3e0 (*(int *)(uintptr_t)0x204f3e0u)
+#define iRam0204f3e4 (*(int *)(uintptr_t)0x204f3e4u)
+#define iRam0204f3ec (*(int *)(uintptr_t)0x204f3ecu)
+#define iRam0204f3f0 (*(int *)(uintptr_t)0x204f3f0u)
+#define iRam0204f3f4 (*(int *)(uintptr_t)0x204f3f4u)
+#define iRam0204f3f8 (*(int *)(uintptr_t)0x204f3f8u)
+#define iRam0204f400 (*(int *)(uintptr_t)0x204f400u)
+#define iRam0204f404 (*(int *)(uintptr_t)0x204f404u)
+#define piRam0204f3dc (*(int **)(uintptr_t)0x204f3dcu)
+#define uRam0204f3d8 (*(undefined4 *)(uintptr_t)0x204f3d8u)
+#define uRam0204f3e8 (*(undefined4 *)(uintptr_t)0x204f3e8u)
+#define uRam0204f3fc (*(undefined4 *)(uintptr_t)0x204f3fcu)

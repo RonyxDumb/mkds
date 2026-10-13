@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/02190618_FUN_02190618.c:27:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   27 |     uVar3 = func_0x0213bf90((undefined4)(uintptr_t)(auStack_28));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02190618_FUN_02190618.c:33:11: error: assigning to 'int' from incompatible type 'void'
+   33 |     iVar2 = func_0x0213bf90((undefined4)(uintptr_t)(auStack_28));
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02190618_FUN_02190618.c:39:16: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined1 *' (aka 'unsigned char *') [-Wint-conversion]
+   39 |       *param_3 = puVar1 + 1;
+      |                ^ ~~~~~~~~~~
+3 errors generated.

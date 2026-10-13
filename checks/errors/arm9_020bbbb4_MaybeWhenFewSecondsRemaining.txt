@@ -1,0 +1,400 @@
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:27:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |             *(uint *)(uRam020bc0f4 & 0xfffffffc) << (uRam020bc0f4 & 3) * -8 + 0x20) + 8;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:27:77: note: place parentheses around the '+' expression to silence this warning
+   27 |             *(uint *)(uRam020bc0f4 & 0xfffffffc) << (uRam020bc0f4 & 3) * -8 + 0x20) + 8;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:30:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |     if ((uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20) != 2) {
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:30:51: note: place parentheses around the '+' expression to silence this warning
+   30 |     if ((uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20) != 2) {
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:32:35: error: too few arguments to function call, single argument 'param_1' was not specified
+   32 |       iVar2 = IsRacerFinishedRace();
+      |               ~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:8:12: note: 'IsRacerFinishedRace' declared here
+    8 | undefined4 IsRacerFinishedRace(int param_1);
+      |            ^                   ~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:35:34: warning: passing 'char *' to parameter of type 'undefined1 *' (aka 'unsigned char *') converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   35 |         GetPlayerTotalTime(uVar3,&cStack_c,&bStack_b,&sStack_a);
+      |                                  ^~~~~~~~~
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:4:49: note: passing argument to parameter 'param_2' here
+    4 | void GetPlayerTotalTime(int param_1,undefined1 *param_2,undefined1 *param_3,undefined2 *param_4);
+      |                                                 ^
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:35:54: warning: passing 'short *' to parameter of type 'undefined2 *' (aka 'unsigned short *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   35 |         GetPlayerTotalTime(uVar3,&cStack_c,&bStack_b,&sStack_a);
+      |                                                      ^~~~~~~~~
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:4:89: note: passing argument to parameter 'param_4' here
+    4 | void GetPlayerTotalTime(int param_1,undefined1 *param_2,undefined1 *param_3,undefined2 *param_4);
+      |                                                                                         ^
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:39:19: warning: passing 'char *' to parameter of type 'undefined1 *' (aka 'unsigned char *') converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   39 |     GetSomeMVTime(&cStack_c,&bStack_b,&sStack_a);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:6:32: note: passing argument to parameter 'param_1' here
+    6 | void GetSomeMVTime(undefined1 *param_1,undefined1 *param_2,undefined2 *param_3);
+      |                                ^
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:39:39: warning: passing 'short *' to parameter of type 'undefined2 *' (aka 'unsigned short *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   39 |     GetSomeMVTime(&cStack_c,&bStack_b,&sStack_a);
+      |                                       ^~~~~~~~~
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:6:72: note: passing argument to parameter 'param_3' here
+    6 | void GetSomeMVTime(undefined1 *param_1,undefined1 *param_2,undefined2 *param_3);
+      |                                                                        ^
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:44:58: error: too few arguments to function call, expected 5, have 4
+   44 |     MaybeGetPlayerLapTime(uVar3,uVar4,&cStack_c,&bStack_b);
+      |     ~~~~~~~~~~~~~~~~~~~~~                                ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:9:6: note: 'MaybeGetPlayerLapTime' declared here
+    9 | void MaybeGetPlayerLapTime(int param_1,int param_2,undefined1 *param_3,undefined1 *param_4,undefined2 *param_5);
+      |      ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:49:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   49 |                 *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20));
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:49:81: note: place parentheses around the '+' expression to silence this warning
+   49 |                 *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20));
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:52:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   52 |           *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:52:75: note: place parentheses around the '+' expression to silence this warning
+   52 |           *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:55:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   55 |   if (uVar5 >> uVar6 * 8 == 0 && uVar5 << uVar6 * -8 + 0x20 == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:55:54: note: place parentheses around the '+' expression to silence this warning
+   55 |   if (uVar5 >> uVar6 * 8 == 0 && uVar5 << uVar6 * -8 + 0x20 == 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:65:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   65 |       *(undefined4 *)((uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) + iVar1 + 0x20) = 0;
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:65:65: note: place parentheses around the '+' expression to silence this warning
+   65 |       *(undefined4 *)((uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) + iVar1 + 0x20) = 0;
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:71:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   71 |      uVar8 >> uVar6 * 8 == 0 && uVar8 << uVar6 * -8 + 0x20 == 0)) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:71:53: note: place parentheses around the '+' expression to silence this warning
+   71 |      uVar8 >> uVar6 * 8 == 0 && uVar8 << uVar6 * -8 + 0x20 == 0)) {
+      |                                                     ^
+      |                                          (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:75:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   75 |             *(uint *)(uRam020bc0fc & 0xfffffffc) << (uRam020bc0fc & 3) * -8 + 0x20) + 0x14;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:75:77: note: place parentheses around the '+' expression to silence this warning
+   75 |             *(uint *)(uRam020bc0fc & 0xfffffffc) << (uRam020bc0fc & 3) * -8 + 0x20) + 0x14;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:78:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   78 |     if ((uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20) != 2) {
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:78:51: note: place parentheses around the '+' expression to silence this warning
+   78 |     if ((uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20) != 2) {
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:82:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   82 |          *(uint *)(uRam020bc100 & 0xfffffffc) << (uRam020bc100 & 3) * -8 + 0x20) & 1) != 0) {
+      |                                               ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:82:74: note: place parentheses around the '+' expression to silence this warning
+   82 |          *(uint *)(uRam020bc100 & 0xfffffffc) << (uRam020bc100 & 3) * -8 + 0x20) & 1) != 0) {
+      |                                                                          ^     
+      |                                                  (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:84:32: error: too few arguments to function call, single argument 'param_1' was not specified
+   84 |       uVar8 = GetSomeSndPlayer();
+      |               ~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:7:6: note: 'GetSomeSndPlayer' declared here
+    7 | uint GetSomeSndPlayer(uint param_1);
+      |      ^                ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:87:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   87 |       if (uVar5 >> uVar6 * 8 != 0 || uVar5 << uVar6 * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:87:58: note: place parentheses around the '+' expression to silence this warning
+   87 |       if (uVar5 >> uVar6 * 8 != 0 || uVar5 << uVar6 * -8 + 0x20 != 0) {
+      |                                                          ^
+      |                                               (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:89:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   89 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:89:63: note: place parentheses around the '+' expression to silence this warning
+   89 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                                               ^
+      |                                              (                      )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:90:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   90 |           func_0212c6f0(uVar8,0);
+      |           ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:17:6: note: 'func_0212c6f0' declared here
+   17 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:93:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   93 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:93:63: note: place parentheses around the '+' expression to silence this warning
+   93 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                                               ^
+      |                                              (                      )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:94:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   94 |           func_0212c6f0(uVar8,0);
+      |           ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:17:6: note: 'func_0212c6f0' declared here
+   17 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:101:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  101 |       *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20) + 0x20) = 1;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:101:71: note: place parentheses around the '+' expression to silence this warning
+  101 |       *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20) + 0x20) = 1;
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:106:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  106 |      uVar8 >> uVar6 * 8 == 0 && uVar8 << uVar6 * -8 + 0x20 == 0)) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:106:53: note: place parentheses around the '+' expression to silence this warning
+  106 |      uVar8 >> uVar6 * 8 == 0 && uVar8 << uVar6 * -8 + 0x20 == 0)) {
+      |                                                     ^
+      |                                          (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:108:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  108 |          *(uint *)(uRam020bc100 & 0xfffffffc) << (uRam020bc100 & 3) * -8 + 0x20) & 1) != 0) {
+      |                                               ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:108:74: note: place parentheses around the '+' expression to silence this warning
+  108 |          *(uint *)(uRam020bc100 & 0xfffffffc) << (uRam020bc100 & 3) * -8 + 0x20) & 1) != 0) {
+      |                                                                          ^     
+      |                                                  (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:110:32: error: too few arguments to function call, single argument 'param_1' was not specified
+  110 |       uVar8 = GetSomeSndPlayer();
+      |               ~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:7:6: note: 'GetSomeSndPlayer' declared here
+    7 | uint GetSomeSndPlayer(uint param_1);
+      |      ^                ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:113:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  113 |       if (uVar5 >> uVar6 * 8 != 0 || uVar5 << uVar6 * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:113:58: note: place parentheses around the '+' expression to silence this warning
+  113 |       if (uVar5 >> uVar6 * 8 != 0 || uVar5 << uVar6 * -8 + 0x20 != 0) {
+      |                                                          ^
+      |                                               (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:115:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  115 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:115:63: note: place parentheses around the '+' expression to silence this warning
+  115 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                                               ^
+      |                                              (                      )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:116:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  116 |           func_0212c6f0(uVar8,0);
+      |           ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:17:6: note: 'func_0212c6f0' declared here
+   17 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:119:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  119 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:119:63: note: place parentheses around the '+' expression to silence this warning
+  119 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                                               ^
+      |                                              (                      )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:120:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  120 |           func_0212c6f0(uVar8,0);
+      |           ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:17:6: note: 'func_0212c6f0' declared here
+   17 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:127:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  127 |       *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20) + 0x24) = 1;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:127:71: note: place parentheses around the '+' expression to silence this warning
+  127 |       *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20) + 0x24) = 1;
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:132:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  132 |      uVar8 >> uVar6 * 8 == 0 && uVar8 << uVar6 * -8 + 0x20 == 0)) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:132:53: note: place parentheses around the '+' expression to silence this warning
+  132 |      uVar8 >> uVar6 * 8 == 0 && uVar8 << uVar6 * -8 + 0x20 == 0)) {
+      |                                                     ^
+      |                                          (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:134:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  134 |          *(uint *)(uRam020bc100 & 0xfffffffc) << (uRam020bc100 & 3) * -8 + 0x20) & 1) != 0) {
+      |                                               ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:134:74: note: place parentheses around the '+' expression to silence this warning
+  134 |          *(uint *)(uRam020bc100 & 0xfffffffc) << (uRam020bc100 & 3) * -8 + 0x20) & 1) != 0) {
+      |                                                                          ^     
+      |                                                  (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:136:32: error: too few arguments to function call, single argument 'param_1' was not specified
+  136 |       uVar8 = GetSomeSndPlayer();
+      |               ~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:7:6: note: 'GetSomeSndPlayer' declared here
+    7 | uint GetSomeSndPlayer(uint param_1);
+      |      ^                ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:139:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  139 |       if (uVar5 >> uVar6 * 8 != 0 || uVar5 << uVar6 * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:139:58: note: place parentheses around the '+' expression to silence this warning
+  139 |       if (uVar5 >> uVar6 * 8 != 0 || uVar5 << uVar6 * -8 + 0x20 != 0) {
+      |                                                          ^
+      |                                               (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:141:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  141 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:141:63: note: place parentheses around the '+' expression to silence this warning
+  141 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                                               ^
+      |                                              (                      )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:142:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  142 |           func_0212c6f0(uVar8,0);
+      |           ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:17:6: note: 'func_0212c6f0' declared here
+   17 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:145:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  145 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:145:63: note: place parentheses around the '+' expression to silence this warning
+  145 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                                               ^
+      |                                              (                      )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:146:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  146 |           func_0212c6f0(uVar8,0);
+      |           ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:17:6: note: 'func_0212c6f0' declared here
+   17 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:153:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  153 |       *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20) + 0x28) = 1;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:153:71: note: place parentheses around the '+' expression to silence this warning
+  153 |       *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20) + 0x28) = 1;
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:159:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  159 |       uVar8 >> uVar6 * 8 == 0 && uVar8 << uVar6 * -8 + 0x20 == 0)))) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:159:54: note: place parentheses around the '+' expression to silence this warning
+  159 |       uVar8 >> uVar6 * 8 == 0 && uVar8 << uVar6 * -8 + 0x20 == 0)))) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:161:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  161 |          *(uint *)(uRam020bc100 & 0xfffffffc) << (uRam020bc100 & 3) * -8 + 0x20) & 1) != 0) {
+      |                                               ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:161:74: note: place parentheses around the '+' expression to silence this warning
+  161 |          *(uint *)(uRam020bc100 & 0xfffffffc) << (uRam020bc100 & 3) * -8 + 0x20) & 1) != 0) {
+      |                                                                          ^     
+      |                                                  (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:163:32: error: too few arguments to function call, single argument 'param_1' was not specified
+  163 |       uVar8 = GetSomeSndPlayer();
+      |               ~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:7:6: note: 'GetSomeSndPlayer' declared here
+    7 | uint GetSomeSndPlayer(uint param_1);
+      |      ^                ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:166:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  166 |       if (uVar5 >> uVar6 * 8 != 0 || uVar5 << uVar6 * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:166:58: note: place parentheses around the '+' expression to silence this warning
+  166 |       if (uVar5 >> uVar6 * 8 != 0 || uVar5 << uVar6 * -8 + 0x20 != 0) {
+      |                                                          ^
+      |                                               (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:168:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  168 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:168:63: note: place parentheses around the '+' expression to silence this warning
+  168 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                                               ^
+      |                                              (                      )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:169:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  169 |           func_0212c6f0(uVar8,0);
+      |           ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:17:6: note: 'func_0212c6f0' declared here
+   17 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:172:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  172 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:172:63: note: place parentheses around the '+' expression to silence this warning
+  172 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                                               ^
+      |                                              (                      )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:173:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  173 |           func_0212c6f0(uVar8,0);
+      |           ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:17:6: note: 'func_0212c6f0' declared here
+   17 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:180:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  180 |       *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20) + 0x2c) = 1;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:180:71: note: place parentheses around the '+' expression to silence this warning
+  180 |       *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20) + 0x2c) = 1;
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:185:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  185 |      uVar8 >> uVar6 * 8 == 0 && uVar8 << uVar6 * -8 + 0x20 == 0)) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:185:53: note: place parentheses around the '+' expression to silence this warning
+  185 |      uVar8 >> uVar6 * 8 == 0 && uVar8 << uVar6 * -8 + 0x20 == 0)) {
+      |                                                     ^
+      |                                          (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:187:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  187 |          *(uint *)(uRam020bc100 & 0xfffffffc) << (uRam020bc100 & 3) * -8 + 0x20) & 1) != 0) {
+      |                                               ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:187:74: note: place parentheses around the '+' expression to silence this warning
+  187 |          *(uint *)(uRam020bc100 & 0xfffffffc) << (uRam020bc100 & 3) * -8 + 0x20) & 1) != 0) {
+      |                                                                          ^     
+      |                                                  (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:189:32: error: too few arguments to function call, single argument 'param_1' was not specified
+  189 |       uVar8 = GetSomeSndPlayer();
+      |               ~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:7:6: note: 'GetSomeSndPlayer' declared here
+    7 | uint GetSomeSndPlayer(uint param_1);
+      |      ^                ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:192:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  192 |       if (uVar5 >> uVar6 * 8 != 0 || uVar5 << uVar6 * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:192:58: note: place parentheses around the '+' expression to silence this warning
+  192 |       if (uVar5 >> uVar6 * 8 != 0 || uVar5 << uVar6 * -8 + 0x20 != 0) {
+      |                                                          ^
+      |                                               (                )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:194:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  194 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:194:63: note: place parentheses around the '+' expression to silence this warning
+  194 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                                               ^
+      |                                              (                      )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:195:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  195 |           func_0212c6f0(uVar8,0);
+      |           ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:17:6: note: 'func_0212c6f0' declared here
+   17 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:198:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  198 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:198:63: note: place parentheses around the '+' expression to silence this warning
+  198 |             *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20 != 0) {
+      |                                                               ^
+      |                                              (                      )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:199:31: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  199 |           func_0212c6f0(uVar8,0);
+      |           ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020bbbb4_MaybeWhenFewSecondsRemaining.h:17:6: note: 'func_0212c6f0' declared here
+   17 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:206:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  206 |       *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20) + 0x30) = 1;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:206:71: note: place parentheses around the '+' expression to silence this warning
+  206 |       *(uint *)(uRam020bc0f8 & 0xfffffffc) << (uRam020bc0f8 & 3) * -8 + 0x20) + 0x30) = 1;
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:216:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  216 |       if (uVar8 >> uVar6 * 8 == 0 && uVar8 << uVar6 * -8 + 0x20 == 0) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020bbbb4_MaybeWhenFewSecondsRemaining.c:216:58: note: place parentheses around the '+' expression to silence this warning
+  216 |       if (uVar8 >> uVar6 * 8 == 0 && uVar8 << uVar6 * -8 + 0x20 == 0) {
+      |                                                          ^
+      |                                               (                )
+43 warnings and 17 errors generated.

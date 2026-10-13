@@ -1,0 +1,295 @@
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:64:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   64 |   uVar17 = uVar16 >> uVar10 * 8 | uVar16 << uVar10 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:64:57: note: place parentheses around the '+' expression to silence this warning
+   64 |   uVar17 = uVar16 >> uVar10 * 8 | uVar16 << uVar10 * -8 + 0x20;
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:66:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   66 |            *(uint *)(uRam0207537c & 0xfffffffc) << (uRam0207537c & 3) * -8 + 0x20) + 0xc;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:66:76: note: place parentheses around the '+' expression to silence this warning
+   66 |            *(uint *)(uRam0207537c & 0xfffffffc) << (uRam0207537c & 3) * -8 + 0x20) + 0xc;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:69:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   69 |   if ((uVar10 >> uVar16 * 8 | uVar10 << uVar16 * -8 + 0x20) == 5) {
+      |                                      ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:69:53: note: place parentheses around the '+' expression to silence this warning
+   69 |   if ((uVar10 >> uVar16 * 8 | uVar10 << uVar16 * -8 + 0x20) == 5) {
+      |                                                     ^     
+      |                                         (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:73:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   73 |          (short)((int)(uVar16 >> uVar10 * 8 | uVar16 << uVar10 * -8 + 0x20) >> 0xc) + -1;
+      |                                                      ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:73:69: note: place parentheses around the '+' expression to silence this warning
+   73 |          (short)((int)(uVar16 >> uVar10 * 8 | uVar16 << uVar10 * -8 + 0x20) >> 0xc) + -1;
+      |                                                                     ^     
+      |                                                         (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:79:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   79 |     uVar10 = (uVar11 >> uVar10 * 8 | uVar11 << uVar10 * -8 + 0x20) + 0x1c;
+      |                                             ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:79:60: note: place parentheses around the '+' expression to silence this warning
+   79 |     uVar10 = (uVar11 >> uVar10 * 8 | uVar11 << uVar10 * -8 + 0x20) + 0x1c;
+      |                                                            ^     
+      |                                                (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:83:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   83 |          (uVar15 >> uVar16 * 8 | uVar15 << uVar16 * -8 + 0x20) +
+      |                                         ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:83:56: note: place parentheses around the '+' expression to silence this warning
+   83 |          (uVar15 >> uVar16 * 8 | uVar15 << uVar16 * -8 + 0x20) +
+      |                                                        ^     
+      |                                            (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:84:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   84 |          (uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20);
+      |                                         ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:84:56: note: place parentheses around the '+' expression to silence this warning
+   84 |          (uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20);
+      |                                                        ^     
+      |                                            (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:90:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   90 |     *(uint *)(param_1 + 0x1c) = (uVar16 >> uVar10 * 8 | uVar16 << uVar10 * -8 + 0x20) + 0x6000;
+      |                                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:90:79: note: place parentheses around the '+' expression to silence this warning
+   90 |     *(uint *)(param_1 + 0x1c) = (uVar16 >> uVar10 * 8 | uVar16 << uVar10 * -8 + 0x20) + 0x6000;
+      |                                                                               ^     
+      |                                                                   (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:98:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   98 |   uVar16 = uVar16 >> uVar10 * 8 | uVar16 << uVar10 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:98:57: note: place parentheses around the '+' expression to silence this warning
+   98 |   uVar16 = uVar16 >> uVar10 * 8 | uVar16 << uVar10 * -8 + 0x20;
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:101:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  101 |   uVar15 = uVar11 >> uVar10 * 8 | uVar11 << uVar10 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:101:57: note: place parentheses around the '+' expression to silence this warning
+  101 |   uVar15 = uVar11 >> uVar10 * 8 | uVar11 << uVar10 * -8 + 0x20;
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:104:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  104 |   uVar19 = uVar11 >> uVar10 * 8 | uVar11 << uVar10 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:104:57: note: place parentheses around the '+' expression to silence this warning
+  104 |   uVar19 = uVar11 >> uVar10 * 8 | uVar11 << uVar10 * -8 + 0x20;
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:107:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  107 |   uVar18 = uVar11 >> uVar10 * 8 | uVar11 << uVar10 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:107:57: note: place parentheses around the '+' expression to silence this warning
+  107 |   uVar18 = uVar11 >> uVar10 * 8 | uVar11 << uVar10 * -8 + 0x20;
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:119:78: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  119 |   MTX_MultVec33((uint)(uintptr_t)(&local_190),(uint)(uintptr_t)(auStack_100),&local_190);
+      |                                                                              ^~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:6:52: note: passing argument to parameter 'param_3' here
+    6 | void MTX_MultVec33(uint param_1,uint param_2,uint *param_3);
+      |                                                    ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:131:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  131 |   iVar13 = -(uVar11 >> uVar10 * 8 | uVar11 << uVar10 * -8 + 0x20);
+      |                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:131:59: note: place parentheses around the '+' expression to silence this warning
+  131 |   iVar13 = -(uVar11 >> uVar10 * 8 | uVar11 << uVar10 * -8 + 0x20);
+      |                                                           ^     
+      |                                               (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:138:60: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  138 |   Vector3_Cross(uRam02075388,(uint)(uintptr_t)(&local_190),&local_70);
+      |                                                            ^~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:10:52: note: passing argument to parameter 'param_3' here
+   10 | void Vector3_Cross(uint param_1,uint param_2,uint *param_3);
+      |                                                    ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:139:75: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  139 |   Vector3_Cross((uint)(uintptr_t)(&local_58),(uint)(uintptr_t)(&local_70),&local_64);
+      |                                                                           ^~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:10:52: note: passing argument to parameter 'param_3' here
+   10 | void Vector3_Cross(uint param_1,uint param_2,uint *param_3);
+      |                                                    ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:150:78: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  150 |   MTX_MultVec33((uint)(uintptr_t)(&local_184),(uint)(uintptr_t)(auStack_124),&local_184);
+      |                                                                              ^~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:6:52: note: passing argument to parameter 'param_3' here
+    6 | void MTX_MultVec33(uint param_1,uint param_2,uint *param_3);
+      |                                                    ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:153:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  153 |   uVar10 = uVar17 >> uVar10 * 8 | uVar17 << uVar10 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:153:57: note: place parentheses around the '+' expression to silence this warning
+  153 |   uVar10 = uVar17 >> uVar10 * 8 | uVar17 << uVar10 * -8 + 0x20;
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:170:17: error: incompatible pointer types passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+  170 |   func_02146f98(auStack_b8,&local_64,(int)*(short *)(iRam02075384 + iVar13 * 4),
+      |                 ^~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:13:25: note: passing argument to parameter 'param_1' here
+   13 | void func_02146f98(int *param_1,uint param_2,int param_3,int param_4);
+      |                         ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:170:28: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  170 |   func_02146f98(auStack_b8,&local_64,(int)*(short *)(iRam02075384 + iVar13 * 4),
+      |                            ^~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:13:38: note: passing argument to parameter 'param_2' here
+   13 | void func_02146f98(int *param_1,uint param_2,int param_3,int param_4);
+      |                                      ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:174:17: error: incompatible pointer types passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+  174 |   func_02146f98(auStack_dc,&local_70,(int)*(short *)(iVar14 + iVar13 * 4),
+      |                 ^~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:13:25: note: passing argument to parameter 'param_1' here
+   13 | void func_02146f98(int *param_1,uint param_2,int param_3,int param_4);
+      |                         ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:174:28: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  174 |   func_02146f98(auStack_dc,&local_70,(int)*(short *)(iVar14 + iVar13 * 4),
+      |                            ^~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:13:38: note: passing argument to parameter 'param_2' here
+   13 | void func_02146f98(int *param_1,uint param_2,int param_3,int param_4);
+      |                                      ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:176:16: error: incompatible pointer to integer conversion passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  176 |   MTX_Concat33(auStack_b8,auStack_148,auStack_b8);
+      |                ^~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:5:24: note: passing argument to parameter 'param_1' here
+    5 | void MTX_Concat33(uint param_1,uint *param_2,uint *param_3);
+      |                        ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:176:27: error: incompatible pointer types passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  176 |   MTX_Concat33(auStack_b8,auStack_148,auStack_b8);
+      |                           ^~~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:5:38: note: passing argument to parameter 'param_2' here
+    5 | void MTX_Concat33(uint param_1,uint *param_2,uint *param_3);
+      |                                      ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:176:39: error: incompatible pointer types passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  176 |   MTX_Concat33(auStack_b8,auStack_148,auStack_b8);
+      |                                       ^~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:5:52: note: passing argument to parameter 'param_3' here
+    5 | void MTX_Concat33(uint param_1,uint *param_2,uint *param_3);
+      |                                                    ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:177:16: error: incompatible pointer to integer conversion passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  177 |   MTX_Concat33(auStack_dc,auStack_16c,auStack_dc);
+      |                ^~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:5:24: note: passing argument to parameter 'param_1' here
+    5 | void MTX_Concat33(uint param_1,uint *param_2,uint *param_3);
+      |                        ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:177:27: error: incompatible pointer types passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  177 |   MTX_Concat33(auStack_dc,auStack_16c,auStack_dc);
+      |                           ^~~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:5:38: note: passing argument to parameter 'param_2' here
+    5 | void MTX_Concat33(uint param_1,uint *param_2,uint *param_3);
+      |                                      ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:177:39: error: incompatible pointer types passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  177 |   MTX_Concat33(auStack_dc,auStack_16c,auStack_dc);
+      |                                       ^~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:5:52: note: passing argument to parameter 'param_3' here
+    5 | void MTX_Concat33(uint param_1,uint *param_2,uint *param_3);
+      |                                                    ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:178:16: error: incompatible pointer to integer conversion passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  178 |   MTX_Concat33(auStack_dc,auStack_b8,auStack_94);
+      |                ^~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:5:24: note: passing argument to parameter 'param_1' here
+    5 | void MTX_Concat33(uint param_1,uint *param_2,uint *param_3);
+      |                        ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:178:27: error: incompatible pointer types passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  178 |   MTX_Concat33(auStack_dc,auStack_b8,auStack_94);
+      |                           ^~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:5:38: note: passing argument to parameter 'param_2' here
+    5 | void MTX_Concat33(uint param_1,uint *param_2,uint *param_3);
+      |                                      ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:178:38: error: incompatible pointer types passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  178 |   MTX_Concat33(auStack_dc,auStack_b8,auStack_94);
+      |                                      ^~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:5:52: note: passing argument to parameter 'param_3' here
+    5 | void MTX_Concat33(uint param_1,uint *param_2,uint *param_3);
+      |                                                    ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:179:17: error: incompatible pointer to integer conversion passing 'uint *' (aka 'unsigned int *') to parameter of type 'uint' (aka 'unsigned int'); remove & [-Wint-conversion]
+  179 |   MTX_MultVec33(&local_4c,auStack_94,&local_4c);
+      |                 ^~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:6:25: note: passing argument to parameter 'param_1' here
+    6 | void MTX_MultVec33(uint param_1,uint param_2,uint *param_3);
+      |                         ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:179:27: error: incompatible pointer to integer conversion passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  179 |   MTX_MultVec33(&local_4c,auStack_94,&local_4c);
+      |                           ^~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:6:38: note: passing argument to parameter 'param_2' here
+    6 | void MTX_MultVec33(uint param_1,uint param_2,uint *param_3);
+      |                                      ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:180:30: error: incompatible pointer to integer conversion passing 'uint *' (aka 'unsigned int *') to parameter of type 'uint' (aka 'unsigned int'); remove & [-Wint-conversion]
+  180 |   VecFx32_Add(param_1 + 0x24,&local_4c,param_1 + 0x18);
+      |                              ^~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:9:36: note: passing argument to parameter 'param_2' here
+    9 | void VecFx32_Add(uint param_1,uint param_2,int *param_3);
+      |                                    ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:180:40: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'int *' [-Wint-conversion]
+  180 |   VecFx32_Add(param_1 + 0x24,&local_4c,param_1 + 0x18);
+      |                                        ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:9:49: note: passing argument to parameter 'param_3' here
+    9 | void VecFx32_Add(uint param_1,uint param_2,int *param_3);
+      |                                                 ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:187:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  187 |        (uVar15 >> uVar10 * 8 | uVar15 << uVar10 * -8 + 0x20) -
+      |                                       ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:187:54: note: place parentheses around the '+' expression to silence this warning
+  187 |        (uVar15 >> uVar10 * 8 | uVar15 << uVar10 * -8 + 0x20) -
+      |                                                      ^     
+      |                                          (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:188:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  188 |        (uVar11 >> uVar16 * 8 | uVar11 << uVar16 * -8 + 0x20);
+      |                                       ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:188:54: note: place parentheses around the '+' expression to silence this warning
+  188 |        (uVar11 >> uVar16 * 8 | uVar11 << uVar16 * -8 + 0x20);
+      |                                                      ^     
+      |                                          (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:194:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  194 |        (uVar15 >> uVar16 * 8 | uVar15 << uVar16 * -8 + 0x20) -
+      |                                       ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:194:54: note: place parentheses around the '+' expression to silence this warning
+  194 |        (uVar15 >> uVar16 * 8 | uVar15 << uVar16 * -8 + 0x20) -
+      |                                                      ^     
+      |                                          (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:195:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  195 |        (uVar11 >> uVar10 * 8 | uVar11 << uVar10 * -8 + 0x20);
+      |                                       ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:195:54: note: place parentheses around the '+' expression to silence this warning
+  195 |        (uVar11 >> uVar10 * 8 | uVar11 << uVar10 * -8 + 0x20);
+      |                                                      ^     
+      |                                          (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:198:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  198 |   uVar10 = (uVar16 >> uVar10 * 8 | uVar16 << uVar10 * -8 + 0x20) + 8;
+      |                                           ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:198:58: note: place parentheses around the '+' expression to silence this warning
+  198 |   uVar10 = (uVar16 >> uVar10 * 8 | uVar16 << uVar10 * -8 + 0x20) + 8;
+      |                                                          ^     
+      |                                              (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:201:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  201 |   uVar10 = uVar10 >> uVar16 * 8 | uVar10 << uVar16 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:201:57: note: place parentheses around the '+' expression to silence this warning
+  201 |   uVar10 = uVar10 >> uVar16 * 8 | uVar10 << uVar16 * -8 + 0x20;
+      |                                                         ^     
+      |                                             (                 )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:206:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  205 |                                 *(uint *)(uRam0207538c & 0xfffffffc) <<
+      |                                                                      ~~
+  206 |                                 (uRam0207538c & 3) * -8 + 0x20) >> 1,2,0xfffffffe,&local_40,0,0,0,0,
+      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:206:57: note: place parentheses around the '+' expression to silence this warning
+  206 |                                 (uRam0207538c & 3) * -8 + 0x20) >> 1,2,0xfffffffe,&local_40,0,0,0,0,
+      |                                                         ^     
+      |                                 (                             )
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:203:28: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'int *' [-Wint-conversion]
+  203 |     iVar13 = func_01ffdee4(param_1 + 0x24,param_1 + 0x134,0,
+      |                            ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:12:24: note: passing argument to parameter 'param_1' here
+   12 | int func_01ffdee4(int *param_1,undefined4 *param_2,uint param_3,int param_4,uint param_5,short param_6,int *param_7,int *param_8,int *param_9,uint *param_10,undefined4 *param_11,int *param_12,undefined2 *param_13,uint *param_14);
+      |                        ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:203:43: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+  203 |     iVar13 = func_01ffdee4(param_1 + 0x24,param_1 + 0x134,0,
+      |                                           ^~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:12:44: note: passing argument to parameter 'param_2' here
+   12 | int func_01ffdee4(int *param_1,undefined4 *param_2,uint param_3,int param_4,uint param_5,short param_6,int *param_7,int *param_8,int *param_9,uint *param_10,undefined4 *param_11,int *param_12,undefined2 *param_13,uint *param_14);
+      |                                            ^
+C-WORK/src/arm9/02074e6c_StructHD_SomeFn_12.c:206:83: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+  206 |                                 (uRam0207538c & 3) * -8 + 0x20) >> 1,2,0xfffffffe,&local_40,0,0,0,0,
+      |                                                                                   ^~~~~~~~~
+C-WORK/src/arm9/deps/02074e6c_StructHD_SomeFn_12.h:12:109: note: passing argument to parameter 'param_7' here
+   12 | int func_01ffdee4(int *param_1,undefined4 *param_2,uint param_3,int param_4,uint param_5,short param_6,int *param_7,int *param_8,int *param_9,uint *param_10,undefined4 *param_11,int *param_12,undefined2 *param_13,uint *param_14);
+      |                                                                                                             ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+26 warnings and 20 errors generated.

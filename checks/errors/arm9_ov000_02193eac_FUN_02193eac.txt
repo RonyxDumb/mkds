@@ -1,0 +1,20 @@
+C-WORK/src/arm9_ov000/02193eac_FUN_02193eac.c:14:26: error: operand of type 'void' where arithmetic or pointer type is required
+   14 |   puVar1 = (undefined4 *)FUN_021a3690(0x40);
+      |                          ^~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193eac_FUN_02193eac.c:18:26: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   18 |   func_0x02134de0(puVar1,0,0x40);
+      |   ~~~~~~~~~~~~~~~        ^~~~~~
+C-WORK/src/arm9_ov000/deps/02193eac_FUN_02193eac.h:12:12: note: 'func_02134de0' declared here
+   12 | undefined4 func_02134de0(undefined4 param_1);
+      |            ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193eac_FUN_02193eac.c:23:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   23 |   iVar2 = FUN_0218e320();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02193eac_FUN_02193eac.h:4:6: note: 'FUN_0218e320' declared here
+    4 | void FUN_0218e320(undefined4 *param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193eac_FUN_02193eac.c:26:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   26 |   uVar3 = FUN_0218dc94(0x18,0,DAT_02193f14);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+4 errors generated.

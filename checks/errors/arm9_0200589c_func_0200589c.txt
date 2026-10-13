@@ -1,0 +1,87 @@
+C-WORK/src/arm9/0200589c_func_0200589c.c:28:19: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   28 |     Mem_CpuCopy32(piVar2,param_1,0x9c);
+      |                   ^~~~~~
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:3:32: note: passing argument to parameter 'param_1' here
+    3 | void Mem_CpuCopy32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                ^
+C-WORK/src/arm9/0200589c_func_0200589c.c:28:26: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   28 |     Mem_CpuCopy32(piVar2,param_1,0x9c);
+      |                          ^~~~~~~
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:3:52: note: passing argument to parameter 'param_2' here
+    3 | void Mem_CpuCopy32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                                    ^
+C-WORK/src/arm9/0200589c_func_0200589c.c:32:76: error: too many arguments to function call, expected 4, have 5
+   32 |     uVar5 = func_02006858(param_2,(short)param_1[2],(char)param_1[3],uVar5,uVar3);
+      |             ~~~~~~~~~~~~~                                                  ^~~~~
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:9:12: note: 'func_02006858' declared here
+    9 | undefined4 func_02006858(int param_1,undefined2 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200589c_func_0200589c.c:35:19: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   35 |     Mem_CpuCopy32(piVar2,param_1,0x9c);
+      |                   ^~~~~~
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:3:32: note: passing argument to parameter 'param_1' here
+    3 | void Mem_CpuCopy32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                ^
+C-WORK/src/arm9/0200589c_func_0200589c.c:35:26: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   35 |     Mem_CpuCopy32(piVar2,param_1,0x9c);
+      |                          ^~~~~~~
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:3:52: note: passing argument to parameter 'param_2' here
+    3 | void Mem_CpuCopy32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                                    ^
+C-WORK/src/arm9/0200589c_func_0200589c.c:49:83: error: too many arguments to function call, expected 4, have 5
+   49 |       uVar5 = func_02006794(param_2,(short)param_1[2],(char)param_1[3],param_1[5],0);
+      |               ~~~~~~~~~~~~~                                                       ^
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:8:12: note: 'func_02006794' declared here
+    8 | undefined4 func_02006794(int param_1,undefined2 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200589c_func_0200589c.c:52:83: error: too many arguments to function call, expected 4, have 5
+   52 |       uVar5 = func_020066c0(param_2,(short)param_1[2],(char)param_1[3],param_1[5],0);
+      |               ~~~~~~~~~~~~~                                                       ^
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:7:12: note: 'func_020066c0' declared here
+    7 | undefined4 func_020066c0(int param_1,undefined2 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200589c_func_0200589c.c:56:19: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   56 |     Mem_CpuCopy32(piVar2,param_1,0x9c);
+      |                   ^~~~~~
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:3:32: note: passing argument to parameter 'param_1' here
+    3 | void Mem_CpuCopy32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                ^
+C-WORK/src/arm9/0200589c_func_0200589c.c:56:26: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   56 |     Mem_CpuCopy32(piVar2,param_1,0x9c);
+      |                          ^~~~~~~
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:3:52: note: passing argument to parameter 'param_2' here
+    3 | void Mem_CpuCopy32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                                    ^
+C-WORK/src/arm9/0200589c_func_0200589c.c:70:83: error: too many arguments to function call, expected 4, have 5
+   70 |       uVar5 = func_02006794(param_2,(short)param_1[2],(char)param_1[3],param_1[5],0);
+      |               ~~~~~~~~~~~~~                                                       ^
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:8:12: note: 'func_02006794' declared here
+    8 | undefined4 func_02006794(int param_1,undefined2 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200589c_func_0200589c.c:73:83: error: too many arguments to function call, expected 4, have 5
+   73 |       uVar5 = func_020066c0(param_2,(short)param_1[2],(char)param_1[3],param_1[5],0);
+      |               ~~~~~~~~~~~~~                                                       ^
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:7:12: note: 'func_020066c0' declared here
+    7 | undefined4 func_020066c0(int param_1,undefined2 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200589c_func_0200589c.c:77:19: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   77 |     Mem_CpuCopy32(piVar2,param_1,0x9c);
+      |                   ^~~~~~
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:3:32: note: passing argument to parameter 'param_1' here
+    3 | void Mem_CpuCopy32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                ^
+C-WORK/src/arm9/0200589c_func_0200589c.c:77:26: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   77 |     Mem_CpuCopy32(piVar2,param_1,0x9c);
+      |                          ^~~~~~~
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:3:52: note: passing argument to parameter 'param_2' here
+    3 | void Mem_CpuCopy32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |                                                    ^
+C-WORK/src/arm9/0200589c_func_0200589c.c:80:27: error: too many arguments to function call, expected 4, have 5
+   79 |     uVar5 = func_0200654c(param_2,(short)param_1[2],(char)param_1[3],param_1 + 5,
+      |             ~~~~~~~~~~~~~
+   80 |                           *(undefined1 *)((int)param_1 + 0x1d));
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0200589c_func_0200589c.h:6:12: note: 'func_0200654c' declared here
+    6 | undefined4 func_0200654c(int param_1,undefined2 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+8 warnings and 6 errors generated.

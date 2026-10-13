@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0203aaa8_Scene_Race_VBlank.c:9:17: error: too few arguments to function call, single argument 'param_1' was not specified
+    9 |   func_02055cbc();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0203aaa8_Scene_Race_VBlank.h:5:6: note: 'func_02055cbc' declared here
+    5 | void func_02055cbc(int param_1);
+      |      ^             ~~~~~~~~~~~
+1 error generated.

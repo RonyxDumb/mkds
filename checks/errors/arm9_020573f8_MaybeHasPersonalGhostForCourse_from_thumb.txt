@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020573f8_MaybeHasPersonalGhostForCourse_from_thumb.c:10:28: error: too many arguments to function call, expected 1, have 3
+   10 |   (*pcRam0205740c)(param_1,*(int *)*puRam02057408 + 0x26,4);
+      |   ~~~~~~~~~~~~~~~~         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

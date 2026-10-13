@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov000/02199d4c_FUN_02199d4c.c:13:26: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |     iVar1 = FUN_02199fa4();
+      |             ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02199d4c_FUN_02199d4c.h:7:6: note: 'FUN_02199fa4' declared here
+    7 | void FUN_02199fa4(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02199d4c_FUN_02199d4c.c:20:28: error: too few arguments to function call, expected 2, have 1
+   20 |     FUN_02197b34(auStack_48);
+      |     ~~~~~~~~~~~~           ^
+C-WORK/src/arm9_ov000/deps/02199d4c_FUN_02199d4c.h:3:5: note: 'FUN_02197b34' declared here
+    3 | int FUN_02197b34(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02199d4c_FUN_02199d4c.c:30:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   30 |   iVar1 = FUN_02199fa4();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02199d4c_FUN_02199d4c.h:7:6: note: 'FUN_02199fa4' declared here
+    7 | void FUN_02199fa4(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+3 errors generated.

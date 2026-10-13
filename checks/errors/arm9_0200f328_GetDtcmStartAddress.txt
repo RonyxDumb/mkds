@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0200f328_GetDtcmStartAddress.c:12:11: error: call to undeclared function 'coprocessor_movefromRt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   12 |   uVar1 = coprocessor_movefromRt(0xf,0,0,in_cr9,in_cr1);
+      |           ^
+1 error generated.

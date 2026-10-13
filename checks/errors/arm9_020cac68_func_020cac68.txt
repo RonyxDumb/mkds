@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020cac68_func_020cac68.c:8:17: error: too few arguments to function call, expected 6, have 0
+    8 |   func_020b4428();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020cac68_func_020cac68.h:3:6: note: 'func_020b4428' declared here
+    3 | void func_020b4428(int param_1,int param_2,int param_3,int param_4,int param_5,ushort param_6);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

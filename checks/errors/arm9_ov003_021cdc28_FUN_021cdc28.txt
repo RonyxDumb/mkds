@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021cdc28_FUN_021cdc28.c:8:18: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+    8 |   FUN_021d34c8(0,*(undefined4 *)(*DAT_021cdc48 + 0x98));
+      |   ~~~~~~~~~~~~   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cdc28_FUN_021cdc28.h:5:6: note: 'FUN_021d34c8' declared here
+    5 | void FUN_021d34c8(int param_1);
+      |      ^            ~~~~~~~~~~~
+1 error generated.

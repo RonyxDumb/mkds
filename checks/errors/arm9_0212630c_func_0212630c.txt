@@ -1,0 +1,40 @@
+C-WORK/src/arm9/0212630c_func_0212630c.c:12:54: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   12 |   (**(code **)(*piRam0212641c + iRam02126420 + 0x18))(*piRam0212641c + iRam02126420,0xf);
+      |                                                      ^
+C-WORK/src/arm9/0212630c_func_0212630c.c:13:54: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   13 |   (**(code **)(*piRam0212641c + iRam02126424 + 0x18))(*piRam0212641c + iRam02126424,0xe);
+      |                                                      ^
+C-WORK/src/arm9/0212630c_func_0212630c.c:14:54: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   14 |   (**(code **)(*piRam0212641c + iRam02126428 + 0x18))(*piRam0212641c + iRam02126428,0xd);
+      |                                                      ^
+C-WORK/src/arm9/0212630c_func_0212630c.c:16:14: error: too many arguments to function call, expected 0, have 9
+   15 |   G2d_Text_SomeFn_from_thumb
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   16 |             (*piRam0212641c + iRam02126434,0,0,(uint)*pbRam0212642c << 3,(uint)pbRam0212642c[1] << 3
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   17 |              ,1,uRam02126430,1,param_1);
+      |              ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212630c_func_0212630c.h:4:6: note: 'G2d_Text_SomeFn_from_thumb' declared here
+    4 | void G2d_Text_SomeFn_from_thumb(void);
+      |      ^
+C-WORK/src/arm9/0212630c_func_0212630c.c:19:14: error: too many arguments to function call, expected 0, have 9
+   18 |   G2d_Text_SomeFn_1_from_thumb
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   19 |             (*piRam0212641c + iRam02126438,0,0,(uint)pbRam0212642c[10] << 3,
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   20 |              (uint)pbRam0212642c[0xb] << 3,2,uRam02126430,1,param_2);
+      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212630c_func_0212630c.h:3:6: note: 'G2d_Text_SomeFn_1_from_thumb' declared here
+    3 | void G2d_Text_SomeFn_1_from_thumb(void);
+      |      ^
+C-WORK/src/arm9/0212630c_func_0212630c.c:22:14: error: too many arguments to function call, expected 0, have 9
+   21 |   G2d_Text_SomeFn_1_from_thumb
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   22 |             (*piRam0212641c + iRam0212643c,0,0,(uint)pbRam0212642c[0xc] << 3,
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   23 |              (uint)pbRam0212642c[0xd] << 3,2,uRam02126430,1,param_3);
+      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212630c_func_0212630c.h:3:6: note: 'G2d_Text_SomeFn_1_from_thumb' declared here
+    3 | void G2d_Text_SomeFn_1_from_thumb(void);
+      |      ^
+3 warnings and 3 errors generated.

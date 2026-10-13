@@ -1,0 +1,22 @@
+C-WORK/src/arm9/0204b7b8_func_0204b7b8.c:34:29: error: too few arguments to function call, single argument 'param_1' was not specified
+   34 |       iVar5 = func_0204b960();
+      |               ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204b7b8_func_0204b7b8.h:12:5: note: 'func_0204b960' declared here
+   12 | int func_0204b960(byte *param_1);
+      |     ^             ~~~~~~~~~~~~~
+C-WORK/src/arm9/0204b7b8_func_0204b7b8.c:40:29: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   40 |       iVar4 = func_0204b084(piVar7,iVar4,*(undefined4 *)(*DAT_0204b958 + 0x34));
+      |                             ^~~~~~
+C-WORK/src/arm9/deps/0204b7b8_func_0204b7b8.h:7:32: note: passing argument to parameter 'param_1' here
+    7 | undefined4 func_0204b084(uint *param_1,int param_2,undefined4 param_3);
+      |                                ^
+C-WORK/src/arm9/0204b7b8_func_0204b7b8.c:81:82: error: incompatible pointer to integer conversion passing 'code *' (aka 'void (*)()') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   81 |         func_0204b714(*(undefined4 *)(iVar4 + 0x18),iVar8,*(int *)(iVar4 + 0x30),param_1,2,
+      |                                                                                  ^~~~~~~
+C-WORK/src/arm9/deps/0204b7b8_func_0204b7b8.h:10:94: note: passing argument to parameter 'param_4' here
+   10 | undefined4 func_0204b714(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6,undefined4 param_7);
+      |                                                                                              ^
+C-WORK/src/arm9/0204b7b8_func_0204b7b8.c:118:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  118 |         (*param_1)(iVar8,*(undefined4 *)(*DAT_0204b958 + 0x30));
+      |                   ^
+2 warnings and 2 errors generated.

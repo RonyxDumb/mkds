@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0202ccc0_func_0202ccc0.c:11:9: error: assigning to 'int' from incompatible type 'void'
+   11 |   iVar2 = func_02025ebc(*piRam0202cd8c + 0xcc);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

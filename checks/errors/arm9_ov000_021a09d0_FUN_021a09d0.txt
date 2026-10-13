@@ -1,0 +1,11 @@
+In file included from C-WORK/src/arm9_ov000/021a09d0_FUN_021a09d0.c:3:
+C-WORK/src/arm9_ov000/deps/021a09d0_FUN_021a09d0.h:13:1: error: unknown type name 'size_t'
+   13 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/021a09d0_FUN_021a09d0.c:12:78: error: too many arguments to function call, expected 4, have 6
+   12 |   iVar1 = func_0x0200d9e0(auStack_214,DAT_021a0a34,DAT_021a0a38,DAT_021a0a3c,3,DAT_021a0a30);
+      |           ~~~~~~~~~~~~~~~                                                    ^~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a09d0_FUN_021a09d0.h:11:6: note: 'Util_SNPrintF' declared here
+   11 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

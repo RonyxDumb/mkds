@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov003/021d34e4_FUN_021d34e4.c:17:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   17 |   uVar2 = func_0x0200ca9c(1);
+      |         ^ ~~~~~~~~~~~~~~~~~~
+1 error generated.

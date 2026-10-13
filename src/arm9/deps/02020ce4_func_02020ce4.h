@@ -1,0 +1,5 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void func_02020870(uint param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,int param_5);
+void func_02020ce4(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+

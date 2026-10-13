@@ -1,0 +1,119 @@
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:26:31: error: too many arguments to function call, expected 2, have 3
+   26 |   func_ov003_021b7d84(iVar7,0,uRam021b94a0);
+      |   ~~~~~~~~~~~~~~~~~~~         ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:16:22: note: expanded from macro 'uRam021b94a0'
+   16 | #define uRam021b94a0 (*(undefined4 *)(uintptr_t)0x21b94a0u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:4:6: note: 'func_ov003_021b7d84' declared here
+    4 | void func_ov003_021b7d84(undefined4 param_1,undefined1 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:28:44: error: too many arguments to function call, expected 2, have 3
+   28 |     func_ov003_021b7d90(iVar7,iVar6 + 0x30,*(undefined4 *)(iVar6 + 4));
+      |     ~~~~~~~~~~~~~~~~~~~                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:29:48: error: too many arguments to function call, expected 2, have 3
+   29 |     func_ov003_021b7d90(iVar7 + 6,iVar6 + 0x70,*(undefined4 *)(iVar6 + 4));
+      |     ~~~~~~~~~~~~~~~~~~~                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:30:50: error: too many arguments to function call, expected 2, have 3
+   30 |     func_ov003_021b7d90(iVar7 + 0xc,iVar6 + 0xb0,*(undefined4 *)(iVar6 + 4));
+      |     ~~~~~~~~~~~~~~~~~~~                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:31:51: error: too many arguments to function call, expected 2, have 3
+   31 |     func_ov003_021b7d90(iVar7 + 0x12,iVar6 + 0xf0,*(undefined4 *)(iVar6 + 4));
+      |     ~~~~~~~~~~~~~~~~~~~                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:36:48: error: too many arguments to function call, expected 2, have 3
+   36 |     func_ov003_021b7d90(iVar7 + 0x18,iVar6 + 8,uVar4);
+      |     ~~~~~~~~~~~~~~~~~~~                        ^~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:39:51: error: too many arguments to function call, expected 2, have 3
+   39 |     func_ov003_021b7d90(iVar7 + 0x39,iVar1 + 0x30,*(undefined4 *)(iVar1 + 4));
+      |     ~~~~~~~~~~~~~~~~~~~                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:40:51: error: too many arguments to function call, expected 2, have 3
+   40 |     func_ov003_021b7d90(iVar7 + 0x47,iVar1 + 0x70,*(undefined4 *)(iVar1 + 4));
+      |     ~~~~~~~~~~~~~~~~~~~                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:41:51: error: too many arguments to function call, expected 2, have 3
+   41 |     func_ov003_021b7d90(iVar7 + 0x55,iVar1 + 0xb0,*(undefined4 *)(iVar1 + 4));
+      |     ~~~~~~~~~~~~~~~~~~~                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:42:49: error: too many arguments to function call, expected 2, have 3
+   42 |     func_ov003_021b7d90(iVar7 + 99,iVar1 + 0xf0,*(undefined4 *)(iVar1 + 4));
+      |     ~~~~~~~~~~~~~~~~~~~                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:47:48: error: too many arguments to function call, expected 2, have 3
+   47 |     func_ov003_021b7d90(iVar7 + 0x71,iVar1 + 8,uVar4);
+      |     ~~~~~~~~~~~~~~~~~~~                        ^~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:52:51: error: too many arguments to function call, expected 2, have 3
+   52 |     func_ov003_021b7d90(iVar7 + 0x92,iVar2 + 0x30,*(undefined4 *)(iVar2 + 4));
+      |     ~~~~~~~~~~~~~~~~~~~                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:53:33: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'char *' [-Wint-conversion]
+   53 |     uVar4 = func_ov003_021b7c30(iVar2 + 8);
+      |                                 ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:3:31: note: passing argument to parameter 'param_1' here
+    3 | int func_ov003_021b7c30(char *param_1);
+      |                               ^
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:54:33: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   54 |     iVar6 = func_ov003_021b9278(iVar2 + 8,uVar4);
+      |                                 ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:6:38: note: passing argument to parameter 'param_1' here
+    6 | undefined4 func_ov003_021b9278(byte *param_1,int param_2);
+      |                                      ^
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:56:33: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'char *' [-Wint-conversion]
+   56 |     uVar4 = func_ov003_021b7c30(iVar2 + 8);
+      |                                 ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:3:31: note: passing argument to parameter 'param_1' here
+    3 | int func_ov003_021b7c30(char *param_1);
+      |                               ^
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:57:48: error: too many arguments to function call, expected 2, have 3
+   57 |     func_ov003_021b7d90(iVar7 + 0xd2,iVar2 + 8,uVar4);
+      |     ~~~~~~~~~~~~~~~~~~~                        ^~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:64:31: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   64 |   iVar6 = func_ov003_021b9278(iVar3 + 0x30,*(int *)(iVar3 + 4) + -1);
+      |                               ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:6:38: note: passing argument to parameter 'param_1' here
+    6 | undefined4 func_ov003_021b9278(byte *param_1,int param_2);
+      |                                      ^
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:66:51: error: too many arguments to function call, expected 2, have 3
+   66 |     func_ov003_021b7d90(iVar7 + 0xf3,iVar3 + 0x30,*(undefined4 *)(iVar3 + 4));
+      |     ~~~~~~~~~~~~~~~~~~~                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b929c_func_ov003_021b929c.c:67:33: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'char *' [-Wint-conversion]
+   67 |     uVar4 = func_ov003_021b7c30(iVar3 + 8);
+      |                                 ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b929c_func_ov003_021b929c.h:3:31: note: passing argument to parameter 'param_1' here
+    3 | int func_ov003_021b7c30(char *param_1);
+      |                               ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.

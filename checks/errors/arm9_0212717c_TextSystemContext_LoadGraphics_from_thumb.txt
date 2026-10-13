@@ -1,0 +1,31 @@
+C-WORK/src/arm9/0212717c_TextSystemContext_LoadGraphics_from_thumb.c:25:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   25 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam021273e0);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212717c_TextSystemContext_LoadGraphics_from_thumb.c:27:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   27 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam021273e4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212717c_TextSystemContext_LoadGraphics_from_thumb.c:29:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   29 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam021273e8);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212717c_TextSystemContext_LoadGraphics_from_thumb.c:31:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   31 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam021273ec);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212717c_TextSystemContext_LoadGraphics_from_thumb.c:33:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   33 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam021273f4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212717c_TextSystemContext_LoadGraphics_from_thumb.c:35:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   35 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam021273fc);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212717c_TextSystemContext_LoadGraphics_from_thumb.c:37:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   37 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02127404);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212717c_TextSystemContext_LoadGraphics_from_thumb.c:39:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   39 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam0212740c);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212717c_TextSystemContext_LoadGraphics_from_thumb.c:41:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   41 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02127414);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212717c_TextSystemContext_LoadGraphics_from_thumb.c:43:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   43 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam0212741c);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+10 errors generated.

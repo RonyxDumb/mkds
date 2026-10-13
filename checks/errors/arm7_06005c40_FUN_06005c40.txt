@@ -1,0 +1,68 @@
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:25:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |   uVar5 = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:25:52: note: place parentheses around the '+' expression to silence this warning
+   25 |   uVar5 = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:28:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |   uVar11 = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:28:53: note: place parentheses around the '+' expression to silence this warning
+   28 |   uVar11 = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:31:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |   uVar1 = (uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) & 0xffff;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:31:53: note: place parentheses around the '+' expression to silence this warning
+   31 |   uVar1 = (uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) & 0xffff;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:38:102: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |   iVar4 = FUN_06002394((undefined2 *)(void *)(auStack_210),(uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) & 0xffff,
+      |                                                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:38:102: note: place parentheses around the '+' expression to silence this warning
+   38 |   iVar4 = FUN_06002394((undefined2 *)(void *)(auStack_210),(uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) & 0xffff,
+      |                                                                                                      ^     
+      |                                                                                           (                )
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:39:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |                        (uVar9 >> uVar2 * 8 | uVar9 << uVar2 * -8 + 0x20) & 0xffff,
+      |                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:39:66: note: place parentheses around the '+' expression to silence this warning
+   39 |                        (uVar9 >> uVar2 * 8 | uVar9 << uVar2 * -8 + 0x20) & 0xffff,
+      |                                                                  ^     
+      |                                                       (                )
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:40:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |                        (uVar10 >> uVar3 * 8 | uVar10 << uVar3 * -8 + 0x20) & 0xffff);
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:40:68: note: place parentheses around the '+' expression to silence this warning
+   40 |                        (uVar10 >> uVar3 * 8 | uVar10 << uVar3 * -8 + 0x20) & 0xffff);
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:38:9: error: incompatible pointer to integer conversion assigning to 'int' from 'undefined2 *' (aka 'unsigned short *') [-Wint-conversion]
+   38 |   iVar4 = FUN_06002394((undefined2 *)(void *)(auStack_210),(uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20) & 0xffff,
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   39 |                        (uVar9 >> uVar2 * 8 | uVar9 << uVar2 * -8 + 0x20) & 0xffff,
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   40 |                        (uVar10 >> uVar3 * 8 | uVar10 << uVar3 * -8 + 0x20) & 0xffff);
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:52:36: error: too many arguments to function call, expected 0, have 2
+   52 |         iVar6 = thunk_FUN_03806b2c(uVar1 * DAT_06005d48,0x40);
+      |                 ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/06005c40_FUN_06005c40.h:8:6: note: 'thunk_FUN_03806b2c' declared here
+    8 | void thunk_FUN_03806b2c(void);
+      |      ^
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:58:12: error: assigning to 'undefined8' (aka 'unsigned long long') from incompatible type 'void'
+   58 |     uVar12 = thunk_FUN_037fa278();
+      |            ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:66:28: error: operand of type 'void' where arithmetic or pointer type is required
+   66 |     puVar7 = (undefined2 *)thunk_FUN_03807424();
+      |                            ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/06005c40_FUN_06005c40.c:72:30: error: too few arguments to function call, expected 2, have 1
+   72 |     FUN_06005c04(DAT_06005d40);
+      |     ~~~~~~~~~~~~             ^
+C-WORK/src/arm7/deps/06005c40_FUN_06005c40.h:5:6: note: 'FUN_06005c04' declared here
+    5 | void FUN_06005c04(undefined2 param_1,undefined2 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+6 warnings and 5 errors generated.

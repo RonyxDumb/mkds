@@ -1,0 +1,14 @@
+#pragma once
+/* Function-specific inferred declarations. */
+ushort GX_disableBankForX_(ushort *param_1);
+void Os_UnlockVram(uint param_1,uint param_2);
+#define puRam02148f3c (*(undefined1 **)(uintptr_t)0x2148f3cu)
+#define puRam02148f40 (*(undefined1 **)(uintptr_t)0x2148f40u)
+#define puRam02148f44 (*(undefined1 **)(uintptr_t)0x2148f44u)
+#define puRam02148f48 (*(undefined1 **)(uintptr_t)0x2148f48u)
+#define puRam02148f4c (*(undefined1 **)(uintptr_t)0x2148f4cu)
+#define puRam02148f50 (*(undefined1 **)(uintptr_t)0x2148f50u)
+#define puRam02148f54 (*(undefined1 **)(uintptr_t)0x2148f54u)
+#define puRam02148f58 (*(undefined1 **)(uintptr_t)0x2148f58u)
+#define puRam02148f5c (*(undefined1 **)(uintptr_t)0x2148f5cu)
+#define puRam02148f60 (*(undefined2 **)(uintptr_t)0x2148f60u)

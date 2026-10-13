@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0212dcc8_Sound_InitializeContext.c:21:54: error: too many arguments to function call, expected 2, have 3
+   21 |   iVar1 = Mem_Frame_Create(uVar4 + 0x10,uVar3 - 0x10,0);
+      |           ~~~~~~~~~~~~~~~~                           ^
+C-WORK/src/arm9/deps/0212dcc8_Sound_InitializeContext.h:3:12: note: 'Mem_Frame_Create' declared here
+    3 | undefined4 Mem_Frame_Create(int param_1,int param_2);
+      |            ^                ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212dcc8_Sound_InitializeContext.c:27:24: error: too many arguments to function call, expected 0, have 1
+   27 |     Mem_Frame_Finalize(iVar1);
+      |     ~~~~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0212dcc8_Sound_InitializeContext.h:4:6: note: 'Mem_Frame_Finalize' declared here
+    4 | void Mem_Frame_Finalize(void);
+      |      ^
+2 errors generated.

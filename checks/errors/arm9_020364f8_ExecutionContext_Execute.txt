@@ -1,0 +1,61 @@
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:15:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |        *(uint *)((uint)puRam02036584 & 0xfffffffc) << ((uint)puRam02036584 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:15:86: note: place parentheses around the '+' expression to silence this warning
+   15 |        *(uint *)((uint)puRam02036584 & 0xfffffffc) << ((uint)puRam02036584 & 3) * -8 + 0x20;
+      |                                                                                      ^     
+      |                                                       (                                    )
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:18:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:18:54: note: place parentheses around the '+' expression to silence this warning
+   18 |   if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:19:25: error: too many arguments to function call, expected 0, have 1
+   19 |     GetGlobalHeapHandle(0);
+      |     ~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020364f8_ExecutionContext_Execute.h:4:6: note: 'GetGlobalHeapHandle' declared here
+    4 | uint GetGlobalHeapHandle(void);
+      |      ^
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:21:34: error: too few arguments to function call, single argument 'param_1' was not specified
+   21 |   uVar3 = Mem_CreateChildExpHeap();
+      |           ~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020364f8_ExecutionContext_Execute.h:5:6: note: 'Mem_CreateChildExpHeap' declared here
+    5 | void Mem_CreateChildExpHeap(uint param_1);
+      |      ^                      ~~~~~~~~~~~~
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:26:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |   uVar3 = (*(code *)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20))(param_2);
+      |                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:26:63: note: place parentheses around the '+' expression to silence this warning
+   26 |   uVar3 = (*(code *)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20))(param_2);
+      |                                                               ^     
+      |                                                    (                )
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:26:71: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   26 |   uVar3 = (*(code *)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20))(param_2);
+      |                                                                       ^
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:26:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   26 |   uVar3 = (*(code *)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20))(param_2);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:29:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |   pcVar4 = (code *)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:29:62: note: place parentheses around the '+' expression to silence this warning
+   29 |   pcVar4 = (code *)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:35:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |   *puRam02036584 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:35:61: note: place parentheses around the '+' expression to silence this warning
+   35 |   *puRam02036584 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:38:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |   Mem_DestroyHeap(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020364f8_ExecutionContext_Execute.c:38:60: note: place parentheses around the '+' expression to silence this warning
+   38 |   Mem_DestroyHeap(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
+      |                                                            ^     
+      |                                                 (                )
+7 warnings and 3 errors generated.

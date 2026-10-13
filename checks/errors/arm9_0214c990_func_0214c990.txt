@@ -1,0 +1,10 @@
+C-WORK/src/arm9/0214c990_func_0214c990.c:18:34: error: incompatible pointer to integer conversion passing 'code *' (aka 'void (*)()') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   18 |     OSi_EnterDmaCallback(param_1,param_5,param_6);
+      |                                  ^~~~~~~
+C-WORK/src/arm9/deps/0214c990_func_0214c990.h:5:50: note: passing argument to parameter 'param_2' here
+    5 | void OSi_EnterDmaCallback(int param_1,undefined4 param_2,undefined4 param_3);
+      |                                                  ^
+C-WORK/src/arm9/0214c990_func_0214c990.c:23:15: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   23 |     (*param_5)(param_6);
+      |               ^
+1 warning and 1 error generated.

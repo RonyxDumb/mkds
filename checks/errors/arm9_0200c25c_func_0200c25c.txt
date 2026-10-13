@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0200c25c_func_0200c25c.c:20:75: error: too few arguments to function call, expected 3, have 2
+   20 |   Mem_CpuCopy8(param_1 + 3,*piRam0200c2d4 + iVar3 + *piRam0200c2d8 * uVar2);
+      |   ~~~~~~~~~~~~                                                            ^
+C-WORK/src/arm9/deps/0200c25c_func_0200c25c.h:3:6: note: 'Mem_CpuCopy8' declared here
+    3 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

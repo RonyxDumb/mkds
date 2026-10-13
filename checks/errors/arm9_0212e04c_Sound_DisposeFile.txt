@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0212e04c_Sound_DisposeFile.c:20:19: error: too many arguments to function call, expected 0, have 1
+   20 |     Os_RestoreIrq(uVar1);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0212e04c_Sound_DisposeFile.h:4:12: note: 'Os_RestoreIrq' declared here
+    4 | undefined4 Os_RestoreIrq(void);
+      |            ^
+1 error generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021bdaa4_FUN_021bdaa4.c:20:27: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   20 |   func_0x02134de0(param_1,0,iVar2);
+      |   ~~~~~~~~~~~~~~~         ^~~~~~~
+C-WORK/src/arm9_ov003/deps/021bdaa4_FUN_021bdaa4.h:7:12: note: 'func_02134de0' declared here
+    7 | undefined4 func_02134de0(undefined4 param_1);
+      |            ^             ~~~~~~~~~~~~~~~~~~
+1 error generated.

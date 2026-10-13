@@ -1,0 +1,13 @@
+C-WORK/src/arm9/02128cfc_func_02128cfc.c:43:25: error: too many arguments to function call, expected 0, have 6
+   43 |           func_0212426c(iVar4,*(undefined1 *)(local_30 + iVar3),
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   44 |                         *(undefined4 *)(local_34 + iVar1 + 0xac),&local_18,
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   45 |                         *(undefined4 *)(local_34 + iVar1 + 0x9c),
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   46 |                         *(undefined4 *)(local_38 + local_2c + iVar1 + 0x74));
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02128cfc_func_02128cfc.h:3:6: note: 'func_0212426c' declared here
+    3 | void func_0212426c(void);
+      |      ^
+1 error generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0204a5e8_Scene_Emblem_VBlank.c:10:19: error: called object type 'undefined' (aka 'unsigned char') is not a function or function pointer
+   10 |   (*pcRam0204a5f0)();
+      |   ~~~~~~~~~~~~~~~~^
+1 error generated.

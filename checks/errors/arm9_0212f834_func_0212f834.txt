@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0212f834_func_0212f834.c:10:25: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   uVar1 = func_0212f7f8();
+      |           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212f834_func_0212f834.h:3:6: note: 'func_0212f7f8' declared here
+    3 | uint func_0212f7f8(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+1 error generated.

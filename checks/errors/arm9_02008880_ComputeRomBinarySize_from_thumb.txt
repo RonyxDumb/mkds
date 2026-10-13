@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02008880_ComputeRomBinarySize_from_thumb.c:18:26: error: too many arguments to function call, expected 0, have 3
+   18 |     uVar1 = Fs_File_Read(param_1,auStack_78,0x60);
+      |             ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02008880_ComputeRomBinarySize_from_thumb.h:4:6: note: 'Fs_File_Read' declared here
+    4 | void Fs_File_Read(void);
+      |      ^
+1 error generated.

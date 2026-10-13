@@ -1,0 +1,11 @@
+C-WORK/src/arm9/020982d4_func_020982d4.c:11:9: error: assigning to 'int' from incompatible type 'void'
+   11 |   iVar2 = CreateAllocateMapObject_from_thumb(uRam02098318,uRam0209831c,uRam02098320);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020982d4_func_020982d4.c:17:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |          *(uint *)((uint)piRam02098324 & 0xfffffffc) << ((uint)piRam02098324 & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020982d4_func_020982d4.c:17:88: note: place parentheses around the '+' expression to silence this warning
+   17 |          *(uint *)((uint)piRam02098324 & 0xfffffffc) << ((uint)piRam02098324 & 3) * -8 + 0x20;
+      |                                                                                        ^     
+      |                                                         (                                    )
+1 warning and 1 error generated.

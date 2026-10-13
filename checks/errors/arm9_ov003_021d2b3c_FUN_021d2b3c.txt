@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021d2b3c_FUN_021d2b3c.c:63:28: error: too few arguments to function call, expected 2, have 1
+   63 |   func_0x0214e334(&local_20);
+      |   ~~~~~~~~~~~~~~~          ^
+C-WORK/src/arm9_ov003/deps/021d2b3c_FUN_021d2b3c.h:13:6: note: 'func_0214e334' declared here
+   13 | void func_0214e334(ushort *param_1,ushort *param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

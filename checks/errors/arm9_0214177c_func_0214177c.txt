@@ -1,0 +1,106 @@
+C-WORK/src/arm9/0214177c_func_0214177c.c:125:21: error: incompatible pointer types passing 'undefined2 *' (aka 'unsigned short *') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  125 |       func_02141b5c(param_1,DAT_02141b30,0xffffffff);
+      |                     ^~~~~~~
+C-WORK/src/arm9/deps/0214177c_func_0214177c.h:4:26: note: passing argument to parameter 'param_1' here
+    4 | void func_02141b5c(uint *param_1,uint param_2,undefined2 param_3);
+      |                          ^
+C-WORK/src/arm9/0214177c_func_0214177c.c:128:21: error: incompatible pointer types passing 'undefined2 *' (aka 'unsigned short *') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  128 |       func_02141b5c(param_1,DAT_02141b34,0xffffffff);
+      |                     ^~~~~~~
+C-WORK/src/arm9/deps/0214177c_func_0214177c.h:4:26: note: passing argument to parameter 'param_1' here
+    4 | void func_02141b5c(uint *param_1,uint param_2,undefined2 param_3);
+      |                          ^
+C-WORK/src/arm9/0214177c_func_0214177c.c:132:17: error: incompatible pointer types passing 'undefined1[38]' (aka 'unsigned char[38]') to parameter of type 'undefined2 *' (aka 'unsigned short *') [-Werror,-Wincompatible-pointer-types]
+  132 |   func_0214177c(auStack_58,(int)param_2 / 2);
+      |                 ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:5:32: note: passing argument to parameter 'param_1' here
+    5 | void func_0214177c(undefined2 *param_1,uint param_2)
+      |                                ^
+C-WORK/src/arm9/0214177c_func_0214177c.c:133:17: error: incompatible pointer types passing 'undefined2 *' (aka 'unsigned short *') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  133 |   func_02141c98(param_1,auStack_58,auStack_58);
+      |                 ^~~~~~~
+C-WORK/src/arm9/deps/0214177c_func_0214177c.h:5:26: note: passing argument to parameter 'param_1' here
+    5 | void func_02141c98(uint *param_1,int param_2,int param_3);
+      |                          ^
+C-WORK/src/arm9/0214177c_func_0214177c.c:133:25: error: incompatible pointer to integer conversion passing 'undefined1[38]' (aka 'unsigned char[38]') to parameter of type 'int' [-Wint-conversion]
+  133 |   func_02141c98(param_1,auStack_58,auStack_58);
+      |                         ^~~~~~~~~~
+C-WORK/src/arm9/deps/0214177c_func_0214177c.h:5:38: note: passing argument to parameter 'param_2' here
+    5 | void func_02141c98(uint *param_1,int param_2,int param_3);
+      |                                      ^
+C-WORK/src/arm9/0214177c_func_0214177c.c:133:36: error: incompatible pointer to integer conversion passing 'undefined1[38]' (aka 'unsigned char[38]') to parameter of type 'int' [-Wint-conversion]
+  133 |   func_02141c98(param_1,auStack_58,auStack_58);
+      |                                    ^~~~~~~~~~
+C-WORK/src/arm9/deps/0214177c_func_0214177c.h:5:50: note: passing argument to parameter 'param_3' here
+    5 | void func_02141c98(uint *param_1,int param_2,int param_3);
+      |                                                  ^
+C-WORK/src/arm9/0214177c_func_0214177c.c:153:19: error: incompatible pointer types passing 'undefined1[38]' (aka 'unsigned char[38]') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  153 |     func_02141b5c(auStack_58,DAT_02141b34,0xffffffff);
+      |                   ^~~~~~~~~~
+C-WORK/src/arm9/deps/0214177c_func_0214177c.h:4:26: note: passing argument to parameter 'param_1' here
+    4 | void func_02141b5c(uint *param_1,uint param_2,undefined2 param_3);
+      |                          ^
+C-WORK/src/arm9/0214177c_func_0214177c.c:156:19: error: incompatible pointer types passing 'undefined1[38]' (aka 'unsigned char[38]') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  156 |     func_02141b5c(auStack_58,DAT_02141b3c,0);
+      |                   ^~~~~~~~~~
+C-WORK/src/arm9/deps/0214177c_func_0214177c.h:4:26: note: passing argument to parameter 'param_1' here
+    4 | void func_02141b5c(uint *param_1,uint param_2,undefined2 param_3);
+      |                          ^
+C-WORK/src/arm9/0214177c_func_0214177c.c:158:17: error: incompatible pointer types passing 'undefined2 *' (aka 'unsigned short *') to parameter of type 'uint *' (aka 'unsigned int *') [-Werror,-Wincompatible-pointer-types]
+  158 |   func_02141c98(param_1,auStack_32,auStack_58);
+      |                 ^~~~~~~
+C-WORK/src/arm9/deps/0214177c_func_0214177c.h:5:26: note: passing argument to parameter 'param_1' here
+    5 | void func_02141c98(uint *param_1,int param_2,int param_3);
+      |                          ^
+C-WORK/src/arm9/0214177c_func_0214177c.c:158:25: error: incompatible pointer to integer conversion passing 'undefined2[19]' (aka 'unsigned short[19]') to parameter of type 'int' [-Wint-conversion]
+  158 |   func_02141c98(param_1,auStack_32,auStack_58);
+      |                         ^~~~~~~~~~
+C-WORK/src/arm9/deps/0214177c_func_0214177c.h:5:38: note: passing argument to parameter 'param_2' here
+    5 | void func_02141c98(uint *param_1,int param_2,int param_3);
+      |                                      ^
+C-WORK/src/arm9/0214177c_func_0214177c.c:158:36: error: incompatible pointer to integer conversion passing 'undefined1[38]' (aka 'unsigned char[38]') to parameter of type 'int' [-Wint-conversion]
+  158 |   func_02141c98(param_1,auStack_32,auStack_58);
+      |                                    ^~~~~~~~~~
+C-WORK/src/arm9/deps/0214177c_func_0214177c.h:5:50: note: passing argument to parameter 'param_3' here
+    5 | void func_02141c98(uint *param_1,int param_2,int param_3);
+      |                                                  ^
+C-WORK/src/arm9/0214177c_func_0214177c.c:19:60: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967280 to 65520 [-Wconstant-conversion]
+   19 |       func_02141b5c((uint *)(void *)(param_1),DAT_02141b0c,0xfffffff0);
+      |       ~~~~~~~~~~~~~                                        ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:23:60: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967276 to 65516 [-Wconstant-conversion]
+   23 |       func_02141b5c((uint *)(void *)(param_1),DAT_02141b08,0xffffffec);
+      |       ~~~~~~~~~~~~~                                        ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:57:60: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967286 to 65526 [-Wconstant-conversion]
+   57 |       func_02141b5c((uint *)(void *)(param_1),DAT_02141b10,0xfffffff6);
+      |       ~~~~~~~~~~~~~                                        ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:90:60: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967291 to 65531 [-Wconstant-conversion]
+   90 |       func_02141b5c((uint *)(void *)(param_1),DAT_02141b14,0xfffffffb);
+      |       ~~~~~~~~~~~~~                                        ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:107:60: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967293 to 65533 [-Wconstant-conversion]
+  107 |       func_02141b5c((uint *)(void *)(param_1),DAT_02141b18,0xfffffffd);
+      |       ~~~~~~~~~~~~~                                        ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:110:60: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967293 to 65533 [-Wconstant-conversion]
+  110 |       func_02141b5c((uint *)(void *)(param_1),DAT_02141b1c,0xfffffffd);
+      |       ~~~~~~~~~~~~~                                        ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:113:60: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967294 to 65534 [-Wconstant-conversion]
+  113 |       func_02141b5c((uint *)(void *)(param_1),DAT_02141b20,0xfffffffe);
+      |       ~~~~~~~~~~~~~                                        ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:116:60: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967294 to 65534 [-Wconstant-conversion]
+  116 |       func_02141b5c((uint *)(void *)(param_1),DAT_02141b24,0xfffffffe);
+      |       ~~~~~~~~~~~~~                                        ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:119:60: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967294 to 65534 [-Wconstant-conversion]
+  119 |       func_02141b5c((uint *)(void *)(param_1),DAT_02141b28,0xfffffffe);
+      |       ~~~~~~~~~~~~~                                        ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:122:60: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967295 to 65535 [-Wconstant-conversion]
+  122 |       func_02141b5c((uint *)(void *)(param_1),DAT_02141b2c,0xffffffff);
+      |       ~~~~~~~~~~~~~                                        ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:125:42: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967295 to 65535 [-Wconstant-conversion]
+  125 |       func_02141b5c(param_1,DAT_02141b30,0xffffffff);
+      |       ~~~~~~~~~~~~~                      ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:128:42: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967295 to 65535 [-Wconstant-conversion]
+  128 |       func_02141b5c(param_1,DAT_02141b34,0xffffffff);
+      |       ~~~~~~~~~~~~~                      ^~~~~~~~~~
+C-WORK/src/arm9/0214177c_func_0214177c.c:153:43: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967295 to 65535 [-Wconstant-conversion]
+  153 |     func_02141b5c(auStack_58,DAT_02141b34,0xffffffff);
+      |     ~~~~~~~~~~~~~                         ^~~~~~~~~~
+13 warnings and 11 errors generated.

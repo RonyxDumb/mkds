@@ -1,0 +1,160 @@
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:57:48: error: too few arguments to function call, expected 2, have 1
+   57 |         Util_PrintContext_ApppendChar(&local_34);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~          ^
+C-WORK/src/arm9/deps/0200d118_Util_VSNPrintF.h:4:6: note: 'Util_PrintContext_ApppendChar' declared here
+    4 | void Util_PrintContext_ApppendChar(int *param_1,undefined1 param_2);
+      |      ^                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:61:50: error: too few arguments to function call, expected 2, have 1
+   61 |           Util_PrintContext_ApppendChar(&local_34);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~          ^
+C-WORK/src/arm9/deps/0200d118_Util_VSNPrintF.h:4:6: note: 'Util_PrintContext_ApppendChar' declared here
+    4 | void Util_PrintContext_ApppendChar(int *param_1,undefined1 param_2);
+      |      ^                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:67:48: error: too few arguments to function call, expected 2, have 1
+   67 |         Util_PrintContext_ApppendChar(&local_34);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~          ^
+C-WORK/src/arm9/deps/0200d118_Util_VSNPrintF.h:4:6: note: 'Util_PrintContext_ApppendChar' declared here
+    4 | void Util_PrintContext_ApppendChar(int *param_1,undefined1 param_2);
+      |      ^                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:103:84: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  103 |                  *(uint *)((uint)param_4 & 0xfffffffc) << ((uint)param_4 & 3) * -8 + 0x20;
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:103:84: note: place parentheses around the '+' expression to silence this warning
+  103 |                  *(uint *)((uint)param_4 & 0xfffffffc) << ((uint)param_4 & 3) * -8 + 0x20;
+      |                                                                                    ^     
+      |                                                           (                              )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:125:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  125 |                    *(uint *)((uint)puVar22 & 0xfffffffc) << ((uint)puVar22 & 3) * -8 + 0x20;
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:125:86: note: place parentheses around the '+' expression to silence this warning
+  125 |                    *(uint *)((uint)puVar22 & 0xfffffffc) << ((uint)puVar22 & 3) * -8 + 0x20;
+      |                                                                                      ^     
+      |                                                             (                              )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:163:54: error: too few arguments to function call, expected 2, have 1
+  163 |               Util_PrintContext_ApppendChar(&local_34);
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~          ^
+C-WORK/src/arm9/deps/0200d118_Util_VSNPrintF.h:4:6: note: 'Util_PrintContext_ApppendChar' declared here
+    4 | void Util_PrintContext_ApppendChar(int *param_1,undefined1 param_2);
+      |      ^                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:175:94: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  175 |                     (byte)(*(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20)
+      |                                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:175:94: note: place parentheses around the '+' expression to silence this warning
+  175 |                     (byte)(*(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20)
+      |                                                                                              ^     
+      |                                                                     (                              )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:181:57: error: too few arguments to function call, expected 3, have 2
+  181 |               Util_PrintContext_FillWith(&local_34,uVar3);
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~                ^
+C-WORK/src/arm9/deps/0200d118_Util_VSNPrintF.h:5:6: note: 'Util_PrintContext_FillWith' declared here
+    5 | void Util_PrintContext_FillWith(int *param_1,undefined1 param_2,uint param_3);
+      |      ^                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:186:56: error: too few arguments to function call, expected 3, have 2
+  186 |               Util_PrintContext_FillWith(&local_34,0x20);
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~               ^
+C-WORK/src/arm9/deps/0200d118_Util_VSNPrintF.h:5:6: note: 'Util_PrintContext_FillWith' declared here
+    5 | void Util_PrintContext_FillWith(int *param_1,undefined1 param_2,uint param_3);
+      |      ^                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:204:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  204 |                       *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20) =
+      |                                                             ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:204:89: note: place parentheses around the '+' expression to silence this warning
+  204 |                       *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20) =
+      |                                                                                         ^     
+      |                                                                (                              )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:211:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  210 |                               *(uint *)((uint)puVar23 & 0xfffffffc) <<
+      |                                                                     ~~
+  211 |                               ((uint)puVar23 & 3) * -8 + 0x20);
+      |                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:211:56: note: place parentheses around the '+' expression to silence this warning
+  211 |                               ((uint)puVar23 & 3) * -8 + 0x20);
+      |                                                        ^     
+      |                               (                              )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:219:89: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  219 |                       *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20) =
+      |                                                             ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:219:89: note: place parentheses around the '+' expression to silence this warning
+  219 |                       *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20) =
+      |                                                                                         ^     
+      |                                                                (                              )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:242:93: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  242 |                           *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20);
+      |                                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:242:93: note: place parentheses around the '+' expression to silence this warning
+  242 |                           *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20);
+      |                                                                                             ^     
+      |                                                                    (                              )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:260:59: error: too few arguments to function call, expected 3, have 2
+  260 |           Util_PrintContext_AppendString(&local_34,pcVar13);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                  ^
+C-WORK/src/arm9/deps/0200d118_Util_VSNPrintF.h:3:6: note: 'Util_PrintContext_AppendString' declared here
+    3 | void Util_PrintContext_AppendString(int *param_1,int param_2,uint param_3);
+      |      ^                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:264:52: error: too few arguments to function call, expected 3, have 2
+  264 |           Util_PrintContext_FillWith(&local_34,0x20);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~               ^
+C-WORK/src/arm9/deps/0200d118_Util_VSNPrintF.h:5:6: note: 'Util_PrintContext_FillWith' declared here
+    5 | void Util_PrintContext_FillWith(int *param_1,undefined1 param_2,uint param_3);
+      |      ^                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:297:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  297 |                          *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20;
+      |                                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:297:92: note: place parentheses around the '+' expression to silence this warning
+  297 |                          *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20;
+      |                                                                                            ^     
+      |                                                                   (                              )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:303:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  303 |                          *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20;
+      |                                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:303:92: note: place parentheses around the '+' expression to silence this warning
+  303 |                          *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20;
+      |                                                                                            ^     
+      |                                                                   (                              )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:306:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  306 |                 uVar8 = uVar10 >> uVar8 * 8 | uVar10 << uVar8 * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:306:68: note: place parentheses around the '+' expression to silence this warning
+  306 |                 uVar8 = uVar10 >> uVar8 * 8 | uVar10 << uVar8 * -8 + 0x20;
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:348:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  348 |                          *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20;
+      |                                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:348:92: note: place parentheses around the '+' expression to silence this warning
+  348 |                          *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20;
+      |                                                                                            ^     
+      |                                                                   (                              )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:355:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  355 |                 uVar8 = uVar12 >> uVar8 * 8 | uVar12 << uVar8 * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:355:68: note: place parentheses around the '+' expression to silence this warning
+  355 |                 uVar8 = uVar12 >> uVar8 * 8 | uVar12 << uVar8 * -8 + 0x20;
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:357:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  357 |                          *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20;
+      |                                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:357:92: note: place parentheses around the '+' expression to silence this warning
+  357 |                          *(uint *)((uint)puVar23 & 0xfffffffc) << ((uint)puVar23 & 3) * -8 + 0x20;
+      |                                                                                            ^     
+      |                                                                   (                              )
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:463:50: error: too few arguments to function call, expected 3, have 2
+  463 |         Util_PrintContext_FillWith(&local_34,0x30);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~               ^
+C-WORK/src/arm9/deps/0200d118_Util_VSNPrintF.h:5:6: note: 'Util_PrintContext_FillWith' declared here
+    5 | void Util_PrintContext_FillWith(int *param_1,undefined1 param_2,uint param_3);
+      |      ^                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:473:52: error: too few arguments to function call, expected 3, have 2
+  473 |           Util_PrintContext_FillWith(&local_34,0x20);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~               ^
+C-WORK/src/arm9/deps/0200d118_Util_VSNPrintF.h:5:6: note: 'Util_PrintContext_FillWith' declared here
+    5 | void Util_PrintContext_FillWith(int *param_1,undefined1 param_2,uint param_3);
+      |      ^                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200d118_Util_VSNPrintF.c:479:55: error: too few arguments to function call, expected 3, have 2
+  479 |       Util_PrintContext_AppendString(&local_34,param_3);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                  ^
+C-WORK/src/arm9/deps/0200d118_Util_VSNPrintF.h:3:6: note: 'Util_PrintContext_AppendString' declared here
+    3 | void Util_PrintContext_AppendString(int *param_1,int param_2,uint param_3);
+      |      ^                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+13 warnings and 11 errors generated.

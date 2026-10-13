@@ -1,0 +1,8 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void InitializeMountDatas_from_thumb(int param_1);
+#define iRam020487d0 (*(int *)(uintptr_t)0x20487d0u)
+#define piRam020487cc (*(int **)(uintptr_t)0x20487ccu)
+#define uRam020487d4 (*(uint *)(uintptr_t)0x20487d4u)
+#define uRam020487d8 (*(uint *)(uintptr_t)0x20487d8u)
+#define uRam020487dc (*(uint *)(uintptr_t)0x20487dcu)

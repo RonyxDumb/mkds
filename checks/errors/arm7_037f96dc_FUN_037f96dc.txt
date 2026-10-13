@@ -1,0 +1,7 @@
+C-WORK/src/arm7/037f96dc_FUN_037f96dc.c:27:24: error: use of undeclared identifier 'register0x00000054'
+   27 |   param_1[0x11] = (int)register0x00000054;
+      |                        ^
+C-WORK/src/arm7/037f96dc_FUN_037f96dc.c:41:23: error: use of undeclared identifier 'register0x00000054'
+   41 |   param_1[0xe] = (int)register0x00000054;
+      |                       ^
+2 errors generated.

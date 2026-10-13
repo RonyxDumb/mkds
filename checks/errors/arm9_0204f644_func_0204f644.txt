@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0204f644_func_0204f644.c:37:34: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   37 |       iVar1 = Fs_File_Open(iVar3,iVar1 + iVar2);
+      |               ~~~~~~~~~~~~       ^~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0204f644_func_0204f644.h:5:12: note: 'Fs_File_Open' declared here
+    5 | undefined4 Fs_File_Open(undefined4 param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0204f644_func_0204f644.c:46:27: error: too many arguments to function call, expected 0, have 3
+   46 |         Fs_File_ReadAsync(iVar3,iVar1,iVar5);
+      |         ~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0204f644_func_0204f644.h:6:6: note: 'Fs_File_ReadAsync' declared here
+    6 | void Fs_File_ReadAsync(void);
+      |      ^
+2 errors generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0202cdf4_func_0202cdf4.c:57:64: error: too many arguments to function call, expected 0, have 2
+   57 |         TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(uVar7,uVar6);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~
+C-WORK/src/arm9/deps/0202cdf4_func_0202cdf4.h:8:6: note: 'TextSystem_DisplaySingleButtonDialog_Simple_from_thumb' declared here
+    8 | void TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(void);
+      |      ^
+C-WORK/src/arm9/0202cdf4_func_0202cdf4.c:135:21: error: too many arguments to function call, expected 0, have 2
+  135 |       func_0204eeac(uVar7,DAT_0202d188);
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202cdf4_func_0202cdf4.h:31:6: note: 'func_0204eeac' declared here
+   31 | void func_0204eeac(void);
+      |      ^
+2 errors generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02077a70_func_02077a70.c:30:11: error: assigning to 'int' from incompatible type 'void'
+   30 |     iVar2 = CheckSavedSecretFlag_from_thumb(unaff_r5);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

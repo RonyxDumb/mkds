@@ -1,0 +1,13 @@
+C-WORK/src/arm7/06005f8c_FUN_06005f8c.c:13:9: error: assigning to 'int' from incompatible type 'void'
+   13 |   iVar1 = FUN_060020c8((undefined4)(uintptr_t)(auStack_208));
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/06005f8c_FUN_06005f8c.c:15:28: error: operand of type 'void' where arithmetic or pointer type is required
+   15 |     puVar2 = (undefined2 *)thunk_FUN_03807424();
+      |                            ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/06005f8c_FUN_06005f8c.c:21:30: error: too few arguments to function call, expected 2, have 1
+   21 |     FUN_06005f50(DAT_06005fdc);
+      |     ~~~~~~~~~~~~             ^
+C-WORK/src/arm7/deps/06005f8c_FUN_06005f8c.h:5:6: note: 'FUN_06005f50' declared here
+    5 | void FUN_06005f50(undefined2 param_1,undefined2 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/021860ac_FUN_021860ac.c:45:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   45 |           FUN_02185954();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021860ac_FUN_021860ac.h:3:6: note: 'FUN_02185954' declared here
+    3 | void FUN_02185954(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021860ac_FUN_021860ac.c:80:41: error: too many arguments to function call, expected single argument 'param_1', have 4 arguments
+   80 |         func_0x0200ed34(*piVar1 + iVar2,0,uVar7,uVar3);
+      |         ~~~~~~~~~~~~~~~                 ^~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021860ac_FUN_021860ac.h:25:6: note: 'Os_Mutex_Lock' declared here
+   25 | void Os_Mutex_Lock(int param_1);
+      |      ^             ~~~~~~~~~~~
+2 errors generated.

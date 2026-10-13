@@ -1,0 +1,15 @@
+#pragma once
+/* Function-specific inferred declarations. */
+uint GetSomeLUMaxIndex(void);
+undefined1 Int32ToInt8(undefined1 param_1);
+undefined4 func_0202a360(void);
+int func_02122778(int param_1);
+#define DAT_0202a57c (*(int **)(uintptr_t)0x202a57cu)
+#define DAT_0202a580 (*(int *)(uintptr_t)0x202a580u)
+#define DAT_0202a584 (*(int **)(uintptr_t)0x202a584u)
+#define DAT_0202a588 (*(int **)(uintptr_t)0x202a588u)
+#define DAT_0202a58c (*(int **)(uintptr_t)0x202a58cu)
+#define DAT_0202a590 (*(int *)(uintptr_t)0x202a590u)
+#define DAT_0202a594 (*(int *)(uintptr_t)0x202a594u)
+#define DAT_0202a598 (*(int **)(uintptr_t)0x202a598u)
+#define DAT_0202a59c (*(int *)(uintptr_t)0x202a59cu)

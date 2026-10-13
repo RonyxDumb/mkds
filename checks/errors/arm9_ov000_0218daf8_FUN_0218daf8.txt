@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/0218daf8_FUN_0218daf8.c:15:63: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   15 |   iVar1 = FUN_0218d818(param_2,param_1[5],*param_1,param_1[2],param_3,(undefined4 *)(void *)(auStack_18));
+      |                                                               ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218daf8_FUN_0218daf8.h:3:79: note: passing argument to parameter 'param_5' here
+    3 | int FUN_0218d818(undefined4 param_1,int param_2,int param_3,int param_4,code *param_5,undefined4 *param_6);
+      |                                                                               ^
+C-WORK/src/arm9_ov000/0218daf8_FUN_0218daf8.c:17:16: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   17 |   FUN_0218db48(param_1,param_2,uVar2);
+      |                ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218daf8_FUN_0218daf8.h:5:24: note: passing argument to parameter 'param_1' here
+    5 | void FUN_0218db48(int *param_1,undefined4 param_2,int param_3);
+      |                        ^
+1 warning and 1 error generated.

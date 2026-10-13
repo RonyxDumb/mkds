@@ -1,0 +1,119 @@
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:35:37: error: too few arguments to function call, single argument 'param_1' was not specified
+   35 |   uVar3 = Mem_CreateOrphanChildHeap();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:8:6: note: 'Mem_CreateOrphanChildHeap' declared here
+    8 | void Mem_CreateOrphanChildHeap(uint param_1);
+      |      ^                         ~~~~~~~~~~~~
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:92:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   92 |   uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_0211b690);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:98:9: error: assigning to 'int' from incompatible type 'void'
+   98 |   iVar4 = func_02148ca0();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:116:72: error: too many arguments to function call, expected 4, have 10
+  116 |         iVar13 = func_021243ac(puVar9[10],*local_20,puVar9[3],*puVar15,*puVar14,iVar8 + local_3c,
+      |                  ~~~~~~~~~~~~~                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+  117 |                                *puVar9,puVar9[1],puVar9[5],iVar4);
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:31:12: note: 'func_021243ac' declared here
+   31 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:127:19: error: too many arguments to function call, expected 0, have 6
+  127 |     func_0212426c(1,*local_30,*(undefined4 *)(*DAT_0211b68c + 0xc),uVar3,*(undefined4 *)(iVar8 + 4),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  128 |                   *(undefined4 *)(iVar8 + 0x14));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:30:6: note: 'func_0212426c' declared here
+   30 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:134:21: error: too many arguments to function call, expected 0, have 6
+  134 |       func_0212426c(1,local_30[1],*(undefined4 *)(*DAT_0211b68c + 0xc),uVar3,
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  135 |                     *(undefined4 *)(iVar8 + 4),*(undefined4 *)(iVar8 + 0x14));
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:30:6: note: 'func_0212426c' declared here
+   30 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:148:55: error: too many arguments to function call, expected 4, have 10
+  148 |     iVar8 = func_021243ac(puVar9[10],10,puVar9[3],200,0xf,uVar6 + 3,*puVar9,puVar9[1],puVar9[5],
+      |             ~~~~~~~~~~~~~                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  149 |                           iVar4);
+      |                           ~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:31:12: note: 'func_021243ac' declared here
+   31 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:154:19: error: too many arguments to function call, expected 0, have 6
+  154 |     func_0212426c(1,10,*(undefined4 *)(*DAT_0211b68c + 0xc),uVar3,*(undefined4 *)(iVar4 + 4),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  155 |                   *(undefined4 *)(iVar4 + 0x14));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:30:6: note: 'func_0212426c' declared here
+   30 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:159:56: error: too many arguments to function call, expected 4, have 10
+  159 |     iVar13 = func_021243ac(puVar9[10],9,puVar9[3],0x96,0xf,uVar6 + 3,*puVar9,puVar9[1],puVar9[5],
+      |              ~~~~~~~~~~~~~                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  160 |                            iVar4);
+      |                            ~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:31:12: note: 'func_021243ac' declared here
+   31 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:162:55: error: too many arguments to function call, expected 4, have 10
+  162 |     iVar8 = func_021243ac(puVar9[10],10,puVar9[3],200,0xf,uVar6 + 9,*puVar9,puVar9[1],puVar9[5],
+      |             ~~~~~~~~~~~~~                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  163 |                           iVar4 - iVar13);
+      |                           ~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:31:12: note: 'func_021243ac' declared here
+   31 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:168:19: error: too many arguments to function call, expected 0, have 6
+  168 |     func_0212426c(1,10,*(undefined4 *)(*DAT_0211b68c + 0xc),uVar3,*(undefined4 *)(iVar4 + 4),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  169 |                   *(undefined4 *)(iVar4 + 0x14));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:30:6: note: 'func_0212426c' declared here
+   30 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:172:55: error: too many arguments to function call, expected 4, have 10
+  172 |   iVar4 = func_021243ac(puVar9[10],0xc,puVar9[3],0x37,0xf,uVar6 + 0xb,*puVar9,puVar9[1],puVar9[5],
+      |           ~~~~~~~~~~~~~                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  173 |                         iVar8);
+      |                         ~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:31:12: note: 'func_021243ac' declared here
+   31 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:178:17: error: too many arguments to function call, expected 0, have 6
+  178 |   func_0212426c(1,0xc,*(undefined4 *)(*DAT_0211b68c + 0xc),uVar3,*(undefined4 *)(iVar4 + 4),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  179 |                 *(undefined4 *)(iVar4 + 0x14));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:30:6: note: 'func_0212426c' declared here
+   30 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:182:48: error: too many arguments to function call, expected 4, have 10
+  182 |     func_021243ac(puVar9[10],0xe,puVar9[3],200,0xd,0x2a,*puVar9,puVar9[1],puVar9[5],iVar8);
+      |     ~~~~~~~~~~~~~                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:31:12: note: 'func_021243ac' declared here
+   31 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:186:57: error: too many arguments to function call, expected 4, have 10
+  186 |     iVar4 = func_021243ac(puVar9[10],0xd,puVar9[3],0x32,0xd,0x29,*puVar9,puVar9[1],puVar9[5],iVar8);
+      |             ~~~~~~~~~~~~~                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:31:12: note: 'func_021243ac' declared here
+   31 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:189:19: error: too many arguments to function call, expected 0, have 6
+  189 |     func_0212426c(1,0xd,*(undefined4 *)(*DAT_0211b68c + 0xc),uVar3,*(undefined4 *)(iVar13 + 4),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  190 |                   *(undefined4 *)(iVar13 + 0x14));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:30:6: note: 'func_0212426c' declared here
+   30 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0211b2cc_Maybe_rule.c:192:47: error: too many arguments to function call, expected 4, have 10
+  192 |     func_021243ac(puVar9[10],8,puVar9[3],0x15,0xf,0x1f,*puVar9,puVar9[1],puVar9[5],iVar8 - iVar4);
+      |     ~~~~~~~~~~~~~                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211b2cc_Maybe_rule.h:31:12: note: 'func_021243ac' declared here
+   31 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+17 errors generated.

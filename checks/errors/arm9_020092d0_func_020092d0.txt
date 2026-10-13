@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020092d0_func_020092d0.c:41:30: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   41 |     (*(code *)*puRam0200947c)(*puVar8);
+      |                              ^
+C-WORK/src/arm9/020092d0_func_020092d0.c:83:38: error: too many arguments to function call, expected 3, have 9
+   83 |   func_021455a0(0,puRam0200945c,0x70,param_1,param_2,param_3 & 0xff | 2,param_1,param_2,param_3 | 2)
+      |   ~~~~~~~~~~~~~                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020092d0_func_020092d0.h:8:5: note: 'func_021455a0' declared here
+    8 | int func_021455a0(undefined4 param_1,int param_2,uint param_3);
+      |     ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020092d0_func_020092d0.c:86:30: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   86 |     (*(code *)*puRam0200947c)(*(undefined4 *)(*(int *)(iRam02009454 + 4) + iRam02009464));
+      |                              ^
+2 warnings and 1 error generated.

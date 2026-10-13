@@ -1,0 +1,63 @@
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:16:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |           *(uint *)(uRam021217e4 & 0xfffffffc) << (uRam021217e4 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:16:75: note: place parentheses around the '+' expression to silence this warning
+   16 |           *(uint *)(uRam021217e4 & 0xfffffffc) << (uRam021217e4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:20:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |                            *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + 0x1f53);
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:20:78: note: place parentheses around the '+' expression to silence this warning
+   20 |                            *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + 0x1f53);
+      |                                                                              ^     
+      |                                                             (                      )
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:25:15: error: call to undeclared function 'func_0x0219bb50'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   25 |       uVar3 = func_0x0219bb50();
+      |               ^
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:28:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |                   *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20,
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:28:69: note: place parentheses around the '+' expression to silence this warning
+   28 |                   *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20,
+      |                                                                     ^     
+      |                                                    (                      )
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:31:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |               *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:31:65: note: place parentheses around the '+' expression to silence this warning
+   31 |               *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:37:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   37 |           *(uint *)(uRam021217e4 & 0xfffffffc) << (uRam021217e4 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:37:75: note: place parentheses around the '+' expression to silence this warning
+   37 |           *(uint *)(uRam021217e4 & 0xfffffffc) << (uRam021217e4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:43:17: error: call to undeclared function 'func_0x0219bb50'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   43 |         uVar3 = func_0x0219bb50();
+      |                 ^
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:46:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |                     *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20,
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:46:71: note: place parentheses around the '+' expression to silence this warning
+   46 |                     *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20,
+      |                                                                       ^     
+      |                                                      (                      )
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:49:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   49 |                 *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                               ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:49:67: note: place parentheses around the '+' expression to silence this warning
+   49 |                 *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                                                   ^     
+      |                                                  (                      )
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:61:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   61 |   *(undefined1 *)((uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + 0x19ac) = 0;
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021216a8_GetSomeRacerIndex.c:61:61: note: place parentheses around the '+' expression to silence this warning
+   61 |   *(undefined1 *)((uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + 0x19ac) = 0;
+      |                                                             ^     
+      |                                                  (                )
+8 warnings and 2 errors generated.

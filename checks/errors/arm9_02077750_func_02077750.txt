@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02077750_func_02077750.c:19:50: error: too few arguments to function call, expected 2, have 1
+   19 |     StructVC_SomeFnLinkedRouteRelated(param_1 + 1);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~            ^
+C-WORK/src/arm9/deps/02077750_func_02077750.h:3:6: note: 'StructVC_SomeFnLinkedRouteRelated' declared here
+    3 | void StructVC_SomeFnLinkedRouteRelated(int param_1,int param_2);
+      |      ^                                 ~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

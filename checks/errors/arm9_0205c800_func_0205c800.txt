@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0205c800_func_0205c800.c:21:13: error: call to undeclared function 'func_0x0219bb50'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   21 |     uVar3 = func_0x0219bb50();
+      |             ^
+C-WORK/src/arm9/0205c800_func_0205c800.c:24:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |            ((uint)*(byte *)((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + 0x749) &
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205c800_func_0205c800.c:24:71: note: place parentheses around the '+' expression to silence this warning
+   24 |            ((uint)*(byte *)((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + 0x749) &
+      |                                                                       ^     
+      |                                                            (                )
+C-WORK/src/arm9/0205c800_func_0205c800.c:29:13: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   29 |   (*param_2)(uVar5);
+      |             ^
+2 warnings and 1 error generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0210fb10_func_0210fb10.c:12:35: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   12 |   NNS_SndPlayerSetTrackMute(uVar1,1,1);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~       ^~~
+C-WORK/src/arm9/deps/0210fb10_func_0210fb10.h:3:6: note: 'NNS_SndPlayerSetTrackMute' declared here
+    3 | void NNS_SndPlayerSetTrackMute(uint param_1);
+      |      ^                         ~~~~~~~~~~~~
+C-WORK/src/arm9/0210fb10_func_0210fb10.c:13:30: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   13 |   func_0212c494(uRam0210fb50,0xd9);
+      |   ~~~~~~~~~~~~~              ^~~~
+C-WORK/src/arm9/deps/0210fb10_func_0210fb10.h:5:6: note: 'func_0212c494' declared here
+    5 | void func_0212c494(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+2 errors generated.

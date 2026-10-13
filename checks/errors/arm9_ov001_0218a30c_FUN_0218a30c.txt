@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov001/0218a30c_FUN_0218a30c.c:25:47: error: use of undeclared identifier 'stack0xfffffff8'
+   25 |   local_c = func_0x020d4ef4(local_14,local_c,&stack0xfffffff8,DAT_0218a3dc + 4);
+      |                                               ^
+1 error generated.

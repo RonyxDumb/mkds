@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0212c19c_NNSi_SndPlayerMain.c:32:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |        iVar10 = func_020210c0(uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20), iVar10 != 0)) {
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212c19c_NNSi_SndPlayerMain.c:32:72: note: place parentheses around the '+' expression to silence this warning
+   32 |        iVar10 = func_020210c0(uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20), iVar10 != 0)) {
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/0212c19c_NNSi_SndPlayerMain.c:35:63: error: use of undeclared identifier 'sbyte'
+   35 |     if ((*(char *)(iVar7 + 0x2d) == '\0') || ((uVar6 & 1 << *(sbyte *)(iVar7 + 0x3c)) != 0)) {
+      |                                                               ^
+C-WORK/src/arm9/0212c19c_NNSi_SndPlayerMain.c:35:70: error: expected expression
+   35 |     if ((*(char *)(iVar7 + 0x2d) == '\0') || ((uVar6 & 1 << *(sbyte *)(iVar7 + 0x3c)) != 0)) {
+      |                                                                      ^
+C-WORK/src/arm9/0212c19c_NNSi_SndPlayerMain.c:41:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |       sVar4 = *(short *)(iVar5 + (uint)*(byte *)((uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20) +
+      |                                                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212c19c_NNSi_SndPlayerMain.c:41:92: note: place parentheses around the '+' expression to silence this warning
+   41 |       sVar4 = *(short *)(iVar5 + (uint)*(byte *)((uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20) +
+      |                                                                                            ^     
+      |                                                                                 (                )
+2 warnings and 2 errors generated.

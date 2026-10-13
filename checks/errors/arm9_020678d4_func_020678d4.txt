@@ -1,0 +1,35 @@
+C-WORK/src/arm9/020678d4_func_020678d4.c:16:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |   if (((uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) == 8) &&
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020678d4_func_020678d4.c:16:50: note: place parentheses around the '+' expression to silence this warning
+   16 |   if (((uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) == 8) &&
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/020678d4_func_020678d4.c:18:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |      ((uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) & 0x80000000) == 0)) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020678d4_func_020678d4.c:18:49: note: place parentheses around the '+' expression to silence this warning
+   18 |      ((uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) & 0x80000000) == 0)) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/020678d4_func_020678d4.c:28:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |     uVar4 = uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020678d4_func_020678d4.c:28:54: note: place parentheses around the '+' expression to silence this warning
+   28 |     uVar4 = uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020678d4_func_020678d4.c:31:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |         ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 1) != 0 &&
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020678d4_func_020678d4.c:31:52: note: place parentheses around the '+' expression to silence this warning
+   31 |         ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 1) != 0 &&
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020678d4_func_020678d4.c:32:83: error: too many arguments to function call, expected 3, have 4
+   32 |         (iVar3 = DriverContext_MaybeQueuePlaySfx(param_1,local_18[uVar4 - 1],0x7f,0), iVar3 != 0))))
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                  ^
+C-WORK/src/arm9/deps/020678d4_func_020678d4.h:4:6: note: 'DriverContext_MaybeQueuePlaySfx' declared here
+    4 | void DriverContext_MaybeQueuePlaySfx(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |      ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4 warnings and 1 error generated.

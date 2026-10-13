@@ -1,0 +1,28 @@
+C-WORK/src/arm9/020da73c_func_020da73c.c:18:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |     if (((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) == 0x1000) &&
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020da73c_func_020da73c.c:18:52: note: place parentheses around the '+' expression to silence this warning
+   18 |     if (((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) == 0x1000) &&
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020da73c_func_020da73c.c:20:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |        uVar4 >> uVar5 * 8 == 0 && uVar4 << uVar5 * -8 + 0x20 == 0)) {
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020da73c_func_020da73c.c:20:55: note: place parentheses around the '+' expression to silence this warning
+   20 |        uVar4 >> uVar5 * 8 == 0 && uVar4 << uVar5 * -8 + 0x20 == 0)) {
+      |                                                       ^
+      |                                            (                )
+C-WORK/src/arm9/020da73c_func_020da73c.c:23:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |       uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020da73c_func_020da73c.c:23:56: note: place parentheses around the '+' expression to silence this warning
+   23 |       uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020da73c_func_020da73c.c:34:19: error: too many arguments to function call, expected 0, have 2
+   34 |     func_020d26ec(param_2,uVar3);
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020da73c_func_020da73c.h:3:6: note: 'func_020d26ec' declared here
+    3 | void func_020d26ec(void);
+      |      ^
+3 warnings and 1 error generated.

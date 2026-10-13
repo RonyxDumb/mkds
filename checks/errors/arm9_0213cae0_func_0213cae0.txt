@@ -1,0 +1,118 @@
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:35:20: error: use of undeclared identifier 'stack0x00000002'
+   35 |   *(undefined2 *)(&stack0x00000002 + iVar3) = 0x20;
+      |                    ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:40:16: error: use of undeclared identifier 'stack0xffffffd8'
+   40 |   *(short **)(&stack0xffffffd8 + iVar3) = param_3;
+      |                ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:42:20: error: use of undeclared identifier 'stack0xffffffdc'
+   42 |   *(undefined4 *)(&stack0xffffffdc + iVar3) = 0;
+      |                    ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:45:22: error: use of undeclared identifier 'stack0xffffffdc'
+   45 |     uVar17 = (uint)(&stack0xffffffdc + iVar3) & 3;
+      |                      ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:46:31: error: use of undeclared identifier 'stack0xffffffdc'
+   46 |     uVar4 = *(uint *)((uint)(&stack0xffffffdc + iVar3) & 0xfffffffc);
+      |                               ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:47:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |     return uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:47:55: note: place parentheses around the '+' expression to silence this warning
+   47 |     return uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20;
+      |                                                       ^     
+      |                                           (                 )
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:51:20: error: use of undeclared identifier 'stack0xffffffdc'
+   51 |   uVar17 = (uint)(&stack0xffffffdc + iVar3) & 3;
+      |                    ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:52:29: error: use of undeclared identifier 'stack0xffffffdc'
+   52 |   uVar4 = *(uint *)((uint)(&stack0xffffffdc + iVar3) & 0xfffffffc);
+      |                             ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:53:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   53 |   *(uint *)((int)&uStack_c + iVar3) = uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20;
+      |                                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:53:82: note: place parentheses around the '+' expression to silence this warning
+   53 |   *(uint *)((int)&uStack_c + iVar3) = uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20;
+      |                                                                                  ^     
+      |                                                                      (                 )
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:56:20: error: use of undeclared identifier 'stack0xffffffd8'
+   56 |   uVar17 = (uint)(&stack0xffffffd8 + iVar3) & 3;
+      |                    ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:57:29: error: use of undeclared identifier 'stack0xffffffd8'
+   57 |   uVar5 = *(uint *)((uint)(&stack0xffffffd8 + iVar3) & 0xfffffffc);
+      |                             ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:60:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   60 |   pwVar6 = wcschr((wchar_t *)(uVar5 >> uVar17 * 8 | uVar5 << uVar17 * -8 + 0x20),
+      |                                                           ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:60:74: note: place parentheses around the '+' expression to silence this warning
+   60 |   pwVar6 = wcschr((wchar_t *)(uVar5 >> uVar17 * 8 | uVar5 << uVar17 * -8 + 0x20),
+      |                                                                          ^     
+      |                                                              (                 )
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:61:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   61 |                   uVar13 >> uVar4 * 8 | uVar13 << uVar4 * -8 + 0x20);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:61:62: note: place parentheses around the '+' expression to silence this warning
+   61 |                   uVar13 >> uVar4 * 8 | uVar13 << uVar4 * -8 + 0x20);
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:64:22: error: use of undeclared identifier 'stack0xffffffd8'
+   64 |     uVar17 = (uint)(&stack0xffffffd8 + iVar3) & 3;
+      |                      ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:65:31: error: use of undeclared identifier 'stack0xffffffd8'
+   65 |     uVar4 = *(uint *)((uint)(&stack0xffffffd8 + iVar3) & 0xfffffffc);
+      |                               ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:66:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   66 |     sVar7 = wcslen((wchar_t *)(uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20));
+      |                                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:66:75: note: place parentheses around the '+' expression to silence this warning
+   66 |     sVar7 = wcslen((wchar_t *)(uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20));
+      |                                                                           ^     
+      |                                                               (                 )
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:67:22: error: use of undeclared identifier 'stack0xffffffdc'
+   67 |     uVar17 = (uint)(&stack0xffffffdc + iVar3) & 3;
+      |                      ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:68:31: error: use of undeclared identifier 'stack0xffffffdc'
+   68 |     uVar4 = *(uint *)((uint)(&stack0xffffffdc + iVar3) & 0xfffffffc);
+      |                               ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:69:16: error: use of undeclared identifier 'stack0xffffffdc'
+   69 |     *(uint *)(&stack0xffffffdc + iVar3) =
+      |                ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:70:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   70 |          (uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20) + sVar7;
+      |                                       ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:70:54: note: place parentheses around the '+' expression to silence this warning
+   70 |          (uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20) + sVar7;
+      |                                                      ^     
+      |                                          (                 )
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:72:26: error: use of undeclared identifier 'stack0xffffffd8'
+   72 |        (uVar17 = (uint)(&stack0xffffffd8 + iVar3) & 3,
+      |                          ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:73:34: error: use of undeclared identifier 'stack0xffffffd8'
+   73 |        uVar4 = *(uint *)((uint)(&stack0xffffffd8 + iVar3) & 0xfffffffc),
+      |                                  ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:74:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   74 |        iVar8 = (*param_1)(param_2,uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20), iVar8 == 0)) {
+      |                                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:74:78: note: place parentheses around the '+' expression to silence this warning
+   74 |        iVar8 = (*param_1)(param_2,uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20), iVar8 == 0)) {
+      |                                                                              ^     
+      |                                                                  (                 )
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:74:26: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   74 |        iVar8 = (*param_1)(param_2,uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20), iVar8 == 0)) {
+      |                          ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:74:14: error: assigning to 'int' from incompatible type 'void'
+   74 |        iVar8 = (*param_1)(param_2,uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20), iVar8 == 0)) {
+      |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:79:20: error: use of undeclared identifier 'stack0xffffffd8'
+   79 |   uVar17 = (uint)(&stack0xffffffd8 + iVar3) & 3;
+      |                    ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:80:29: error: use of undeclared identifier 'stack0xffffffd8'
+   80 |   uVar4 = *(uint *)((uint)(&stack0xffffffd8 + iVar3) & 0xfffffffc);
+      |                             ^
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:81:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   81 |   iVar8 = (int)((int)pwVar6 - (uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20)) / 2;
+      |                                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0213cae0_func_0213cae0.c:81:75: note: place parentheses around the '+' expression to silence this warning
+   81 |   iVar8 = (int)((int)pwVar6 - (uVar4 >> uVar17 * 8 | uVar4 << uVar17 * -8 + 0x20)) / 2;
+      |                                                                           ^     
+      |                                                               (                 )
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+9 warnings and 20 errors generated.

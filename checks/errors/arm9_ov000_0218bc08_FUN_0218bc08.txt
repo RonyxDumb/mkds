@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/0218bc08_FUN_0218bc08.c:32:30: error: too many arguments to function call, expected 0, have 4
+   32 |         iVar2 = FUN_0218e420(*(undefined4 *)(param_1 + DAT_0218bd4c),iVar2,uVar3,0);
+      |                 ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218bc08_FUN_0218bc08.h:10:6: note: 'FUN_0218e420' declared here
+   10 | void FUN_0218e420(void);
+      |      ^
+C-WORK/src/arm9_ov000/0218bc08_FUN_0218bc08.c:51:50: error: too few arguments to function call, expected 3, have 2
+   51 |         func_0x02134df8(iVar2,iVar2 + (uint)uVar1);
+      |         ~~~~~~~~~~~~~~~                          ^
+C-WORK/src/arm9_ov000/deps/0218bc08_FUN_0218bc08.h:21:6: note: 'func_02134df8' declared here
+   21 | void func_02134df8(uint *param_1,uint *param_2,int param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

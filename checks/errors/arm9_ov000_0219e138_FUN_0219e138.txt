@@ -1,0 +1,92 @@
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:17:18: error: too many arguments to function call, expected 0, have 1
+   17 |     FUN_0219e134(param_3);
+      |     ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0219e138_FUN_0219e138.h:10:6: note: 'FUN_0219e134' declared here
+   10 | void FUN_0219e134(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:24:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   24 |   iVar2 = FUN_0218b474();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219e138_FUN_0219e138.h:6:6: note: 'FUN_0218b474' declared here
+    6 | void FUN_0218b474(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:27:36: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   27 |       uVar3 = FUN_0218b480(param_1,iVar6);
+      |               ~~~~~~~~~~~~         ^~~~~
+C-WORK/src/arm9_ov000/deps/0219e138_FUN_0219e138.h:7:6: note: 'FUN_0218b480' declared here
+    7 | void FUN_0218b480(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:28:28: error: too few arguments to function call, single argument 'param_1' was not specified
+   28 |       iVar2 = FUN_0219e994();
+      |               ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219e138_FUN_0219e138.h:14:12: note: 'FUN_0219e994' declared here
+   14 | undefined4 FUN_0219e994(undefined4 param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:30:30: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   30 |         FUN_0218b4d4(param_1,uVar3);
+      |         ~~~~~~~~~~~~         ^~~~~
+C-WORK/src/arm9_ov000/deps/0219e138_FUN_0219e138.h:8:6: note: 'FUN_0218b4d4' declared here
+    8 | void FUN_0218b4d4(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:34:13: error: assigning to 'int' from incompatible type 'void'
+   34 |       iVar2 = FUN_0218b474(param_1);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:40:11: error: assigning to 'int' from incompatible type 'void'
+   40 |     iVar2 = FUN_0218b474(param_1);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:43:38: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   43 |         uVar3 = FUN_0218b480(param_1,iVar6);
+      |                 ~~~~~~~~~~~~         ^~~~~
+C-WORK/src/arm9_ov000/deps/0219e138_FUN_0219e138.h:7:6: note: 'FUN_0218b480' declared here
+    7 | void FUN_0218b480(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:46:36: error: too few arguments to function call, single argument 'param_1' was not specified
+   46 |              (iVar4 = FUN_0218b27c(), *(int *)(iVar2 + 0x1c) == iVar4)) &&
+      |                       ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219e138_FUN_0219e138.h:4:12: note: 'FUN_0218b27c' declared here
+    4 | undefined4 FUN_0218b27c(undefined4 *param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:50:15: error: assigning to 'int' from incompatible type 'void'
+   50 |         iVar2 = FUN_0218b474(param_1);
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:53:11: error: assigning to 'int' from incompatible type 'void'
+   53 |     iVar2 = FUN_0218b474(param_1);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:65:18: error: too few arguments to function call, expected 2, have 0
+   65 |     FUN_0219e594();
+      |     ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219e138_FUN_0219e138.h:13:5: note: 'FUN_0219e594' declared here
+   13 | int FUN_0219e594(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:70:11: error: assigning to 'int' from incompatible type 'void'
+   70 |     iVar2 = FUN_0218b474(param_1);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:78:11: error: assigning to 'int' from incompatible type 'void'
+   78 |     iVar2 = FUN_0219fee4();
+      |           ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:90:11: error: assigning to 'int' from incompatible type 'void'
+   90 |     iVar6 = FUN_0218b474(param_1);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:94:36: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   94 |       uVar3 = FUN_0218b480(param_1,0);
+      |               ~~~~~~~~~~~~         ^
+C-WORK/src/arm9_ov000/deps/0219e138_FUN_0219e138.h:7:6: note: 'FUN_0218b480' declared here
+    7 | void FUN_0218b480(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:95:28: error: too few arguments to function call, single argument 'param_1' was not specified
+   95 |       iVar6 = FUN_0218b27c();
+      |               ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219e138_FUN_0219e138.h:4:12: note: 'FUN_0218b27c' declared here
+    4 | undefined4 FUN_0218b27c(undefined4 *param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:98:28: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   98 |       FUN_0218b4d4(param_1,uVar3);
+      |       ~~~~~~~~~~~~         ^~~~~
+C-WORK/src/arm9_ov000/deps/0219e138_FUN_0219e138.h:8:6: note: 'FUN_0218b4d4' declared here
+    8 | void FUN_0218b4d4(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e138_FUN_0219e138.c:99:13: error: assigning to 'int' from incompatible type 'void'
+   99 |       iVar6 = FUN_0218b474(param_1);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0204e568_func_0204e568.c:20:25: error: too many arguments to function call, expected 0, have 1
+   20 |   uVar2 = func_02052c5c(1);
+      |           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204e568_func_0204e568.h:12:6: note: 'func_02052c5c' declared here
+   12 | uint func_02052c5c(void);
+      |      ^
+C-WORK/src/arm9/0204e568_func_0204e568.c:32:25: error: too many arguments to function call, expected 0, have 1
+   32 |   iVar3 = func_02009cc8((int)*(char *)(*piRam0204e63c + 0x88));
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0204e568_func_0204e568.h:7:6: note: 'func_02009cc8' declared here
+    7 | void func_02009cc8(void);
+      |      ^
+2 errors generated.

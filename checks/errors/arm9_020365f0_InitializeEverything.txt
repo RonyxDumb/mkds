@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020365f0_InitializeEverything.c:20:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   20 |   uVar1 = Mem_CreateExpHeap(iVar2,iVar3 - iVar2);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

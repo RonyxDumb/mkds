@@ -1,0 +1,20 @@
+C-WORK/src/arm9/02108adc_func_02108adc.c:8:30: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+    8 |   func_0212c6f0(uRam02108b24,1);
+      |   ~~~~~~~~~~~~~              ^
+C-WORK/src/arm9/deps/02108adc_func_02108adc.h:5:6: note: 'func_0212c6f0' declared here
+    5 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/02108adc_func_02108adc.c:10:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   10 |       *(uint *)(uRam02108b24 & 0xfffffffc) << (uRam02108b24 & 3) * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02108adc_func_02108adc.c:10:71: note: place parentheses around the '+' expression to silence this warning
+   10 |       *(uint *)(uRam02108b24 & 0xfffffffc) << (uRam02108b24 & 3) * -8 + 0x20 != 0) {
+      |                                                                       ^
+      |                                               (                             )
+C-WORK/src/arm9/02108adc_func_02108adc.c:11:32: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   11 |     func_0212c6f0(uRam02108b24,0);
+      |     ~~~~~~~~~~~~~              ^
+C-WORK/src/arm9/deps/02108adc_func_02108adc.h:5:6: note: 'func_0212c6f0' declared here
+    5 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+1 warning and 2 errors generated.

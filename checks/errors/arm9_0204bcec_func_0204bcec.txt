@@ -1,0 +1,95 @@
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:20:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |       *(uint *)((uint)puRam0204be08 & 0xfffffffc) << ((uint)puRam0204be08 & 3) * -8 + 0x20 != 0) {
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:20:85: note: place parentheses around the '+' expression to silence this warning
+   20 |       *(uint *)((uint)puRam0204be08 & 0xfffffffc) << ((uint)puRam0204be08 & 3) * -8 + 0x20 != 0) {
+      |                                                                                     ^
+      |                                                      (                                    )
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:23:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |     uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:23:54: note: place parentheses around the '+' expression to silence this warning
+   23 |     uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:31:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |         (*(code *)(uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20))
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:31:61: note: place parentheses around the '+' expression to silence this warning
+   31 |         (*(code *)(uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20))
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:32:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |                   (uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20,0,uVar8);
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:32:61: note: place parentheses around the '+' expression to silence this warning
+   32 |                   (uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20,0,uVar8);
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:32:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   32 |                   (uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20,0,uVar8);
+      |                   ^
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:33:23: error: too many arguments to function call, expected 0, have 1
+   33 |         Os_RestoreIrq(uVar2);
+      |         ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0204bcec_func_0204bcec.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:42:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |     if (uVar7 >> uVar8 * 8 == 0 && uVar7 << uVar8 * -8 + 0x20 == 0) {
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:42:56: note: place parentheses around the '+' expression to silence this warning
+   42 |     if (uVar7 >> uVar8 * 8 == 0 && uVar7 << uVar8 * -8 + 0x20 == 0) {
+      |                                                        ^
+      |                                             (                )
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:45:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   45 |       uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:45:56: note: place parentheses around the '+' expression to silence this warning
+   45 |       uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:51:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   51 |         Fs_Archive_NotifyAsyncEnded(uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20,5);
+      |                                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:51:78: note: place parentheses around the '+' expression to silence this warning
+   51 |         Fs_Archive_NotifyAsyncEnded(uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20,5);
+      |                                                                              ^     
+      |                                                                   (                )
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:55:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   55 |       uVar6 = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:55:56: note: place parentheses around the '+' expression to silence this warning
+   55 |       uVar6 = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:62:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   62 |         (*(code *)(uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20))
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:62:61: note: place parentheses around the '+' expression to silence this warning
+   62 |         (*(code *)(uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20))
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:63:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   63 |                   (uVar4 >> uVar8 * 8 | uVar4 << uVar8 * -8 + 0x20,0,uVar6);
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:63:61: note: place parentheses around the '+' expression to silence this warning
+   63 |                   (uVar4 >> uVar8 * 8 | uVar4 << uVar8 * -8 + 0x20,0,uVar6);
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:63:19: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   63 |                   (uVar4 >> uVar8 * 8 | uVar4 << uVar8 * -8 + 0x20,0,uVar6);
+      |                   ^
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:64:23: error: too many arguments to function call, expected 0, have 1
+   64 |         Os_RestoreIrq(uVar2);
+      |         ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0204bcec_func_0204bcec.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0204bcec_func_0204bcec.c:74:17: error: too many arguments to function call, expected 0, have 1
+   74 |   Os_RestoreIrq(uVar1);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0204bcec_func_0204bcec.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+12 warnings and 3 errors generated.

@@ -1,0 +1,35 @@
+C-WORK/src/arm9/0210823c_LoopFn_Sound.c:14:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |       *(uint *)(uRam02108324 & 0xfffffffc) << (uRam02108324 & 3) * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210823c_LoopFn_Sound.c:14:71: note: place parentheses around the '+' expression to silence this warning
+   14 |       *(uint *)(uRam02108324 & 0xfffffffc) << (uRam02108324 & 3) * -8 + 0x20 != 0) {
+      |                                                                       ^
+      |                                               (                             )
+C-WORK/src/arm9/0210823c_LoopFn_Sound.c:28:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |       *(uint *)(uRam02108330 & 0xfffffffc) << (uRam02108330 & 3) * -8 + 0x20) == 1) {
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210823c_LoopFn_Sound.c:28:71: note: place parentheses around the '+' expression to silence this warning
+   28 |       *(uint *)(uRam02108330 & 0xfffffffc) << (uRam02108330 & 3) * -8 + 0x20) == 1) {
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/0210823c_LoopFn_Sound.c:30:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |             *(uint *)(uRam02108334 & 0xfffffffc) << (uRam02108334 & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210823c_LoopFn_Sound.c:30:77: note: place parentheses around the '+' expression to silence this warning
+   30 |             *(uint *)(uRam02108334 & 0xfffffffc) << (uRam02108334 & 3) * -8 + 0x20;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0210823c_LoopFn_Sound.c:40:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |           *(uint *)(uRam02108334 & 0xfffffffc) << (uRam02108334 & 3) * -8 + 0x20 != 0) {
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210823c_LoopFn_Sound.c:40:75: note: place parentheses around the '+' expression to silence this warning
+   40 |           *(uint *)(uRam02108334 & 0xfffffffc) << (uRam02108334 & 3) * -8 + 0x20 != 0) {
+      |                                                                           ^
+      |                                                   (                             )
+C-WORK/src/arm9/0210823c_LoopFn_Sound.c:41:36: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   41 |         func_0212c6f0(uRam02108334,0);
+      |         ~~~~~~~~~~~~~              ^
+C-WORK/src/arm9/deps/0210823c_LoopFn_Sound.h:13:6: note: 'func_0212c6f0' declared here
+   13 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+4 warnings and 1 error generated.

@@ -1,0 +1,28 @@
+C-WORK/src/arm7/06006144_FUN_06006144.c:16:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |   uVar4 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06006144_FUN_06006144.c:16:52: note: place parentheses around the '+' expression to silence this warning
+   16 |   uVar4 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/06006144_FUN_06006144.c:18:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |           *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) + 0xc;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06006144_FUN_06006144.c:18:61: note: place parentheses around the '+' expression to silence this warning
+   18 |           *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20) + 0xc;
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm7/06006144_FUN_06006144.c:21:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   if ((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) == 1) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06006144_FUN_06006144.c:21:49: note: place parentheses around the '+' expression to silence this warning
+   21 |   if ((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) == 1) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm7/06006144_FUN_06006144.c:22:24: error: too many arguments to function call, expected 0, have 5
+   22 |     thunk_FUN_037fad34(uVar4 + 0xd0,0xd1,DAT_06006190,DAT_06006194,0xd1);
+      |     ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/06006144_FUN_06006144.h:6:6: note: 'thunk_FUN_037fad34' declared here
+    6 | void thunk_FUN_037fad34(void);
+      |      ^
+3 warnings and 1 error generated.

@@ -1,0 +1,22 @@
+#pragma once
+/* Function-specific inferred declarations. */
+uint ExecutionContext_GetHeapHandle(int param_1);
+void FormatFindMapObjFileBuffer_from_thumb(undefined4 param_1);
+uint GetActiveExecutionContext(void);
+undefined4 Mem_AllocateHeap(uint param_1,undefined4 param_2);
+void func_020d4980(undefined4 param_1);
+void func_020d9c54(void);
+void func_020d9cf4(int param_1,int param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined2 param_6,undefined2 param_7,undefined2 param_8,undefined2 param_9,undefined2 param_10,ushort param_11,undefined2 param_12,undefined2 param_13,undefined2 param_14,undefined4 param_15);
+#define piRam020d9cc4 (*(int **)(uintptr_t)0x20d9cc4u)
+#define uRam020d9cc0 (*(undefined4 *)(uintptr_t)0x20d9cc0u)
+#define uRam020d9cc8 (*(undefined4 *)(uintptr_t)0x20d9cc8u)
+#define uRam020d9ccc (*(undefined4 *)(uintptr_t)0x20d9cccu)
+#define uRam020d9cd0 (*(undefined4 *)(uintptr_t)0x20d9cd0u)
+#define uRam020d9cd4 (*(undefined4 *)(uintptr_t)0x20d9cd4u)
+#define uRam020d9cd8 (*(undefined4 *)(uintptr_t)0x20d9cd8u)
+#define uRam020d9cdc (*(undefined4 *)(uintptr_t)0x20d9cdcu)
+#define uRam020d9ce0 (*(undefined4 *)(uintptr_t)0x20d9ce0u)
+#define uRam020d9ce4 (*(undefined4 *)(uintptr_t)0x20d9ce4u)
+#define uRam020d9ce8 (*(undefined4 *)(uintptr_t)0x20d9ce8u)
+#define uRam020d9cec (*(undefined4 *)(uintptr_t)0x20d9cecu)
+#define uRam020d9cf0 (*(undefined4 *)(uintptr_t)0x20d9cf0u)

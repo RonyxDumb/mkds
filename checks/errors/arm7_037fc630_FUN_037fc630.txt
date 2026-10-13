@@ -1,0 +1,7 @@
+C-WORK/src/arm7/037fc630_FUN_037fc630.c:28:16: error: too few arguments to function call, expected 2, have 0
+   28 |   FUN_037fcc70();
+      |   ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/037fc630_FUN_037fc630.h:8:6: note: 'FUN_037fcc70' declared here
+    8 | void FUN_037fcc70(int param_1,int param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

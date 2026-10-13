@@ -1,0 +1,124 @@
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:45:52: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   45 |      (iVar6 = (**(code **)(param_2 + DAT_02186824))(param_2), iVar6 != 0)) {
+      |                                                    ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:45:13: error: assigning to 'int' from incompatible type 'void'
+   45 |      (iVar6 = (**(code **)(param_2 + DAT_02186824))(param_2), iVar6 != 0)) {
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:304:27: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+  304 |   iVar6 = func_0x01ffdee4(&local_60,0,0,DAT_02186ca8,uVar2,0xfffffffe,&local_54,(int *)(void *)(auStack_48),&local_3c
+      |                           ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:122:24: note: passing argument to parameter 'param_1' here
+  122 | int func_01ffdee4(int *param_1,undefined4 *param_2,uint param_3,int param_4,uint param_5, short param_6,int *param_7,int *param_8,int *param_9,uint *param_10, undefined4 *param_11,int *param_12,undefined2 *param_13,uint *param_14);
+      |                        ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:326:70: error: incompatible pointer to integer conversion passing 'undefined1[4]' (aka 'unsigned char[4]') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  326 |     func_0x02147fd8(*(undefined4 *)(*(int *)(param_2 + 0xa0) + 0x30),auStack_30,
+      |                                                                      ^~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:126:41: note: passing argument to parameter 'param_2' here
+  126 | void VecFx32_AddScale1(int param_1,uint param_2,uint param_3,int *param_4);
+      |                                         ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:327:44: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'int *' [-Wint-conversion]
+  327 |                     param_2 + DAT_02186c8c,param_2 + DAT_02186c8c);
+      |                                            ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:126:67: note: passing argument to parameter 'param_4' here
+  126 | void VecFx32_AddScale1(int param_1,uint param_2,uint param_3,int *param_4);
+      |                                                                   ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:373:21: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+  373 |     func_0x02146d44(param_2 + 0x28,(int)*(short *)(DAT_02186ca4 + iVar6 * 4),
+      |                     ^~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:128:41: note: passing argument to parameter 'param_1' here
+  128 | void MTX_RotY33__from_thumb(undefined4 *param_1,int param_2,undefined4 param_3);
+      |                                         ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:375:59: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'uint *' (aka 'unsigned int *') [-Wint-conversion]
+  375 |     func_0x02146d78(param_2 + DAT_02186cdc,param_2 + 0x28,param_2 + DAT_02186ce0);
+      |                                                           ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:130:52: note: passing argument to parameter 'param_3' here
+  130 | void MTX_MultVec33(uint param_1,uint param_2,uint *param_3);
+      |                                                    ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:376:56: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'int *' [-Wint-conversion]
+  376 |     func_0x02148504(param_2 + DAT_02186ce0,param_2 + 4,param_2 + DAT_02186ce0);
+      |                                                        ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:132:49: note: passing argument to parameter 'param_3' here
+  132 | void VecFx32_Add(uint param_1,uint param_2,int *param_3);
+      |                                                 ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:385:29: error: too few arguments to function call, single argument 'param_1' was not specified
+  385 |     uVar4 = func_0x0209b620();
+      |             ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:134:6: note: 'func_0209b620' declared here
+  134 | uint func_0209b620(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:391:30: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+  391 |         FUN_02188e94(param_2,param_2 + DAT_02186f50);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:9:50: note: passing argument to parameter 'param_2' here
+    9 | void FUN_02188e94(undefined4 param_1,undefined4 *param_2);
+      |                                                  ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:394:30: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+  394 |         FUN_02188e94(param_2,param_2 + DAT_02186f50);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:9:50: note: passing argument to parameter 'param_2' here
+    9 | void FUN_02188e94(undefined4 param_1,undefined4 *param_2);
+      |                                                  ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:400:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  400 |         (**(code **)(param_2 + DAT_02186f58))(param_2);
+      |                                              ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:403:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  403 |         (**(code **)(param_2 + DAT_02186f58))(param_2);
+      |                                              ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:409:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  409 |         (**(code **)(param_2 + DAT_02186f60))(param_2);
+      |                                              ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:412:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  412 |         (**(code **)(param_2 + DAT_02186f60))(param_2);
+      |                                              ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:417:28: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+  417 |       FUN_02188e94(param_2,param_2 + DAT_02186f64);
+      |                            ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:9:50: note: passing argument to parameter 'param_2' here
+    9 | void FUN_02188e94(undefined4 param_1,undefined4 *param_2);
+      |                                                  ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:425:26: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+  425 |     FUN_02188e94(param_2,param_2 + DAT_02186f6c);
+      |                          ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:9:50: note: passing argument to parameter 'param_2' here
+    9 | void FUN_02188e94(undefined4 param_1,undefined4 *param_2);
+      |                                                  ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:430:26: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+  430 |     FUN_02188e94(param_2,param_2 + DAT_02186f70);
+      |                          ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:9:50: note: passing argument to parameter 'param_2' here
+    9 | void FUN_02188e94(undefined4 param_1,undefined4 *param_2);
+      |                                                  ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:435:26: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+  435 |     FUN_02188e94(param_2,param_2 + DAT_02186f80);
+      |                          ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:9:50: note: passing argument to parameter 'param_2' here
+    9 | void FUN_02188e94(undefined4 param_1,undefined4 *param_2);
+      |                                                  ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:445:27: error: too few arguments to function call, expected 2, have 1
+  445 |       FUN_02188e94(param_2);
+      |       ~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:9:6: note: 'FUN_02188e94' declared here
+    9 | void FUN_02188e94(undefined4 param_1,undefined4 *param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:450:25: error: too few arguments to function call, expected 2, have 1
+  450 |     FUN_02188e94(param_2);
+      |     ~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:9:6: note: 'FUN_02188e94' declared here
+    9 | void FUN_02188e94(undefined4 param_1,undefined4 *param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:456:32: error: incompatible pointer types passing 'undefined1[16]' (aka 'unsigned char[16]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+  456 |     FUN_02187684(param_2,iVar7,auStack_24);
+      |                                ^~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:7:48: note: passing argument to parameter 'param_3' here
+    7 | void FUN_02187684(int param_1,int param_2,int *param_3);
+      |                                                ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:460:55: error: incompatible pointer to integer conversion passing 'undefined1[16]' (aka 'unsigned char[16]') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  460 |         func_0x0208b5b0(*(undefined4 *)(iVar6 + 0xd0),auStack_24);
+      |                                                       ^~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021864ac_FUN_021864ac.h:136:37: note: passing argument to parameter 'param_2' here
+  136 | void func_0208b5b0(int param_1,uint param_2);
+      |                                     ^
+C-WORK/src/arm9_ov001/021864ac_FUN_021864ac.c:304:60: warning: implicit conversion from 'unsigned int' to 'short' changes value from 4294967294 to -2 [-Wconstant-conversion]
+  304 |   iVar6 = func_0x01ffdee4(&local_60,0,0,DAT_02186ca8,uVar2,0xfffffffe,&local_54,(int *)(void *)(auStack_48),&local_3c
+      |           ~~~~~~~~~~~~~~~                                  ^~~~~~~~~~
+7 warnings and 17 errors generated.

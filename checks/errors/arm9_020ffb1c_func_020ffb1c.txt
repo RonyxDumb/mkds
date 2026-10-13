@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020ffb1c_func_020ffb1c.c:26:36: error: too few arguments to function call, expected 2, have 1
+   26 |     uVar2 = _s32_div_f(uRam020ffbd0);
+      |             ~~~~~~~~~~             ^
+C-WORK/src/arm9/deps/020ffb1c_func_020ffb1c.h:4:12: note: '_s32_div_f' declared here
+    4 | undefined8 _s32_div_f(uint param_1,uint param_2);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

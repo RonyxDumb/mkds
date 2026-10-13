@@ -1,0 +1,26 @@
+In file included from C-WORK/src/arm9_ov000/02186d7c_FUN_02186d7c.c:3:
+C-WORK/src/arm9_ov000/deps/02186d7c_FUN_02186d7c.h:64:1: error: unknown type name 'size_t'
+   64 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/02186d7c_FUN_02186d7c.c:120:38: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  120 |           func_0x0201000c(auStack_38,-(uint)!bVar14 - iVar13);
+      |           ~~~~~~~~~~~~~~~            ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02186d7c_FUN_02186d7c.h:62:6: note: 'Os_GenerateLowEntropyData' declared here
+   62 | void Os_GenerateLowEntropyData(uint *param_1);
+      |      ^                         ~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02186d7c_FUN_02186d7c.c:193:19: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  193 |             uVar8 = func_0x0213bf90(iVar13 + iVar4);
+      |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02186d7c_FUN_02186d7c.c:204:20: error: too many arguments to function call, expected 0, have 1
+  204 |       FUN_021adf00(uVar6);
+      |       ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/02186d7c_FUN_02186d7c.h:14:6: note: 'FUN_021adf00' declared here
+   14 | void FUN_021adf00(void);
+      |      ^
+C-WORK/src/arm9_ov000/02186d7c_FUN_02186d7c.c:241:36: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  241 |         func_0x0201000c(auStack_38,-(uint)!bVar14 - iVar13);
+      |         ~~~~~~~~~~~~~~~            ^~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02186d7c_FUN_02186d7c.h:62:6: note: 'Os_GenerateLowEntropyData' declared here
+   62 | void Os_GenerateLowEntropyData(uint *param_1);
+      |      ^                         ~~~~~~~~~~~~~
+5 errors generated.

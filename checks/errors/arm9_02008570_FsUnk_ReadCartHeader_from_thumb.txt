@@ -1,0 +1,101 @@
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:44:41: error: too many arguments to function call, expected 0, have 2
+   44 |       uVar4 = Fs_FindArchiveByMountName(uRam02008858,3);
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:23:22: note: expanded from macro 'uRam02008858'
+   23 | #define uRam02008858 (*(undefined4 *)(uintptr_t)0x2008858u)
+      |                      ^
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:10:6: note: 'Fs_FindArchiveByMountName' declared here
+   10 | uint Fs_FindArchiveByMountName(void);
+      |      ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:53:28: error: too many arguments to function call, expected 0, have 3
+   53 |       iVar3 = Fs_File_Read(param_1,param_2,iRam0200884c);
+      |               ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:8:6: note: 'Fs_File_Read' declared here
+    8 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:67:20: error: too many arguments to function call, expected 0, have 3
+   67 |       Fs_File_Read(param_1,puVar7,0x88);
+      |       ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:8:6: note: 'Fs_File_Read' declared here
+    8 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:104:22: error: too many arguments to function call, expected 0, have 3
+  104 |         Fs_File_Read(param_1,puVar7,iRam02008864);
+      |         ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:8:6: note: 'Fs_File_Read' declared here
+    8 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:107:22: error: too many arguments to function call, expected 0, have 2
+  107 |         Fs_File_Read(param_1,(int)puVar7 + iRam02008864);
+      |         ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:8:6: note: 'Fs_File_Read' declared here
+    8 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:110:22: error: too many arguments to function call, expected 0, have 3
+  110 |         Fs_File_Read(param_1,(int)puVar7 + iRam02008868,iRam02008864);
+      |         ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:8:6: note: 'Fs_File_Read' declared here
+    8 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:111:23: error: incompatible pointer to integer conversion passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int' [-Wint-conversion]
+  111 |         func_0200ae60(local_78,iVar3 + iRam02008868,iRam02008864,(int)puVar7 + iRam02008868,2);
+      |                       ^~~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:14:24: note: passing argument to parameter 'param_1' here
+   14 | void func_0200ae60(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5);
+      |                        ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:117:20: error: incompatible pointer to integer conversion passing 'undefined1 *' (aka 'unsigned char *') to parameter of type 'int' [-Wint-conversion]
+  117 |       Fs_File_Seek(param_1,local_74[1] - iVar5,0);
+      |                    ^~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:9:29: note: passing argument to parameter 'param_1' here
+    9 | undefined4 Fs_File_Seek(int param_1,int param_2,int param_3);
+      |                             ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:118:20: error: too many arguments to function call, expected 0, have 3
+  118 |       Fs_File_Read(param_1,puVar7,*(undefined4 *)(param_2 + 0x2c));
+      |       ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:8:6: note: 'Fs_File_Read' declared here
+    8 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:119:21: error: incompatible pointer to integer conversion passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int' [-Wint-conversion]
+  119 |       func_0200ae60(local_78,local_74[1],*(undefined4 *)(param_2 + 0x2c),puVar7,3);
+      |                     ^~~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:14:24: note: passing argument to parameter 'param_1' here
+   14 | void func_0200ae60(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5);
+      |                        ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:119:74: error: incompatible pointer to integer conversion passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'undefined4' (aka 'unsigned int'); dereference with * [-Wint-conversion]
+  119 |       func_0200ae60(local_78,local_74[1],*(undefined4 *)(param_2 + 0x2c),puVar7,3);
+      |                                                                          ^~~~~~
+      |                                                                          *
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:14:81: note: passing argument to parameter 'param_4' here
+   14 | void func_0200ae60(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5);
+      |                                                                                 ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:121:20: error: incompatible pointer to integer conversion passing 'undefined1 *' (aka 'unsigned char *') to parameter of type 'int' [-Wint-conversion]
+  121 |       Fs_File_Seek(param_1,local_74[2] - iVar5,0);
+      |                    ^~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:9:29: note: passing argument to parameter 'param_1' here
+    9 | undefined4 Fs_File_Seek(int param_1,int param_2,int param_3);
+      |                             ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:122:20: error: too many arguments to function call, expected 0, have 3
+  122 |       Fs_File_Read(param_1,iVar3,*(undefined4 *)(param_2 + 0x3c));
+      |       ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:8:6: note: 'Fs_File_Read' declared here
+    8 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:123:21: error: incompatible pointer to integer conversion passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int' [-Wint-conversion]
+  123 |       func_0200ae60(local_78,local_74[2],*(undefined4 *)(param_2 + 0x3c),iVar3,3);
+      |                     ^~~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:14:24: note: passing argument to parameter 'param_1' here
+   14 | void func_0200ae60(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5);
+      |                        ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:126:18: error: incompatible pointer to integer conversion passing 'undefined1 *' (aka 'unsigned char *') to parameter of type 'int' [-Wint-conversion]
+  126 |     Fs_File_Seek(param_1,local_7c,0);
+      |                  ^~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:9:29: note: passing argument to parameter 'param_1' here
+    9 | undefined4 Fs_File_Seek(int param_1,int param_2,int param_3);
+      |                             ^
+C-WORK/src/arm9/02008570_FsUnk_ReadCartHeader_from_thumb.c:127:35: error: incompatible pointer to integer conversion passing 'undefined1[36]' (aka 'unsigned char[36]') to parameter of type 'int' [-Wint-conversion]
+  127 |     if ((bVar2) && (Fs_File_Close(auStack_5c), local_88 != 0)) {
+      |                                   ^~~~~~~~~~
+C-WORK/src/arm9/deps/02008570_FsUnk_ReadCartHeader_from_thumb.h:5:30: note: passing argument to parameter 'param_1' here
+    5 | undefined4 Fs_File_Close(int param_1);
+      |                              ^
+16 errors generated.

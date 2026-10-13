@@ -1,0 +1,31 @@
+C-WORK/src/arm9/0211d844_func_0211d844.c:28:19: error: too many arguments to function call, expected 0, have 6
+   28 |     func_0212426c(1,9,*(undefined4 *)(*piRam0211d904 + 0xc),uVar2,*(undefined4 *)(iVar3 + 4),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   29 |                   *(undefined4 *)(iVar3 + 0x14));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211d844_func_0211d844.h:7:6: note: 'func_0212426c' declared here
+    7 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0211d844_func_0211d844.c:31:19: error: too many arguments to function call, expected 0, have 7
+   31 |     func_02124248(1,8,*(undefined4 *)(iVar3 + 0xc),auStack_8c,*(undefined4 *)(iVar3 + 4),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   32 |                   *(undefined4 *)(iVar3 + 0x14),0xb);
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211d844_func_0211d844.h:6:6: note: 'func_02124248' declared here
+    6 | void func_02124248(void);
+      |      ^
+C-WORK/src/arm9/0211d844_func_0211d844.c:37:68: error: too many arguments to function call, expected 3, have 4
+   37 |   MaybeHandleBmgFormatting_from_thumb(auStack_10c,uVar2,auStack_8c,0x80);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                              ^~~~
+C-WORK/src/arm9/deps/0211d844_func_0211d844.h:4:6: note: 'MaybeHandleBmgFormatting_from_thumb' declared here
+    4 | void MaybeHandleBmgFormatting_from_thumb(short *param_1,short *param_2,short *param_3);
+      |      ^                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0211d844_func_0211d844.c:39:17: error: too many arguments to function call, expected 0, have 6
+   39 |   func_0212426c(1,10,*(undefined4 *)(iVar3 + 0xc),auStack_8c,*(undefined4 *)(iVar3 + 4),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   40 |                 *(undefined4 *)(iVar3 + 0x14));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0211d844_func_0211d844.h:7:6: note: 'func_0212426c' declared here
+    7 | void func_0212426c(void);
+      |      ^
+4 errors generated.

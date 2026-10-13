@@ -1,0 +1,7 @@
+C-WORK/src/arm7/037f846c_FUN_037f846c.c:24:16: error: too many arguments to function call, expected 0, have 1
+   24 |   FUN_037ffdc0(0xffffffff);
+      |   ~~~~~~~~~~~~ ^~~~~~~~~~
+C-WORK/src/arm7/deps/037f846c_FUN_037f846c.h:16:6: note: 'FUN_037ffdc0' declared here
+   16 | void FUN_037ffdc0(void);
+      |      ^
+1 error generated.

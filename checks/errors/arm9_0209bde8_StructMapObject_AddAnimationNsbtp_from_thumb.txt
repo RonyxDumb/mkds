@@ -1,0 +1,10 @@
+C-WORK/src/arm9/0209bde8_StructMapObject_AddAnimationNsbtp_from_thumb.c:11:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   11 |   uVar1 = FormatFindMapObjFileBuffer_from_thumb(param_2);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0209bde8_StructMapObject_AddAnimationNsbtp_from_thumb.c:13:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   uVar2 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0209bde8_StructMapObject_AddAnimationNsbtp_from_thumb.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+2 errors generated.

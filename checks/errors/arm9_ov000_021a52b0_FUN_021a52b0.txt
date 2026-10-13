@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/021a52b0_FUN_021a52b0.c:48:30: error: too few arguments to function call, expected 2, have 1
+   48 |         func_0x02133274(uVar6);
+      |         ~~~~~~~~~~~~~~~      ^
+C-WORK/src/arm9_ov000/deps/021a52b0_FUN_021a52b0.h:34:6: note: 'MaybeBoundsCheck' declared here
+   34 | void MaybeBoundsCheck(uint param_1,uint param_2);
+      |      ^                ~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,17 @@
+/* Decompiled C draft; module arm9_ov003; ROM address 021c34e8. No matching claim. */
+#include "types.h"
+#include "deps/021c34e8_FUN_021c34e8.h"
+
+void FUN_021c34e8(void)
+
+{
+  int iVar1;
+  
+  iVar1 = FUN_021d1f70(0);
+  if (iVar1 == 0) {
+    FUN_021bf5c8(5);
+    FUN_021c212c(DAT_021c3508);
+  }
+  return;
+}
+

@@ -1,0 +1,19 @@
+C-WORK/src/arm9/020fad00_func_020fad00.c:15:18: error: too many arguments to function call, expected 0, have 1
+   15 |   uVar2 = FX_Div(uRam020fad70);
+      |           ~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020fad00_func_020fad00.h:17:22: note: expanded from macro 'uRam020fad70'
+   17 | #define uRam020fad70 (*(undefined4 *)(uintptr_t)0x20fad70u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020fad00_func_020fad00.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/020fad00_func_020fad00.c:26:38: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   26 |   iVar3 = func_020ed490(uRam020fad8c,uRam020fad90);
+      |           ~~~~~~~~~~~~~              ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020fad00_func_020fad00.h:20:22: note: expanded from macro 'uRam020fad90'
+   20 | #define uRam020fad90 (*(undefined4 *)(uintptr_t)0x20fad90u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020fad00_func_020fad00.h:6:12: note: 'func_020ed490' declared here
+    6 | undefined4 func_020ed490(undefined4 param_1);
+      |            ^             ~~~~~~~~~~~~~~~~~~
+2 errors generated.

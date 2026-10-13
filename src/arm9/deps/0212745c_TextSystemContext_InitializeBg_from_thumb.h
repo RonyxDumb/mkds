@@ -1,0 +1,11 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void TextSystemContext_InitializeBg_from_thumb(void);
+#define puRam021274c0 (*(uint **)(uintptr_t)0x21274c0u)
+#define puRam021274cc (*(ushort **)(uintptr_t)0x21274ccu)
+#define puRam021274d4 (*(uint **)(uintptr_t)0x21274d4u)
+#define puRam021274d8 (*(ushort **)(uintptr_t)0x21274d8u)
+#define uRam021274c4 (*(uint *)(uintptr_t)0x21274c4u)
+#define uRam021274c8 (*(uint *)(uintptr_t)0x21274c8u)
+#define uRam021274d0 (*(undefined4 *)(uintptr_t)0x21274d0u)
+#define uRam021274dc (*(undefined4 *)(uintptr_t)0x21274dcu)

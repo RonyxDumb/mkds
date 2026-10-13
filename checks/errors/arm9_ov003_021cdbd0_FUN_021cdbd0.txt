@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov003/021cdbd0_FUN_021cdbd0.c:10:40: error: too many arguments to function call, expected 1, have 2
+   10 |   (*DAT_021cdbe0)(*DAT_021cdbdc + 0x90,0);
+      |   ~~~~~~~~~~~~~~~                      ^
+1 error generated.

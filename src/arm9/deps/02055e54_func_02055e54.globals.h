@@ -1,0 +1,6 @@
+#define _DAT_04000000 (*(uint *)(uintptr_t)0x4000000u)
+#define puRam02055f58 (*(uint **)(uintptr_t)0x2055f58u)
+#define puRam02055f5c (*(ushort **)(uintptr_t)0x2055f5cu)
+#define puRam02055f64 (*(uint **)(uintptr_t)0x2055f64u)
+#define uRam02055f54 (*(uint *)(uintptr_t)0x2055f54u)
+#define uRam02055f60 (*(uint *)(uintptr_t)0x2055f60u)

@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov001/02181048_func_ov001_02181048.c:17:20: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+   17 |   (*pcRam0218106c)(piVar1[8],piVar1[9],*piVar1 * *piVar1);
+      |                    ^~~~~~~~~
+C-WORK/src/arm9_ov001/02181048_func_ov001_02181048.c:17:30: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+   17 |   (*pcRam0218106c)(piVar1[8],piVar1[9],*piVar1 * *piVar1);
+      |                              ^~~~~~~~~
+2 errors generated.

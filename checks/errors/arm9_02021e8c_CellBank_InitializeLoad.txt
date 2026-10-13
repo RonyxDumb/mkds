@@ -1,0 +1,42 @@
+C-WORK/src/arm9/02021e8c_CellBank_InitializeLoad.c:17:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   *(uint *)(param_1 + 2) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + (int)param_1;
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02021e8c_CellBank_InitializeLoad.c:17:70: note: place parentheses around the '+' expression to silence this warning
+   17 |   *(uint *)(param_1 + 2) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + (int)param_1;
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/02021e8c_CellBank_InitializeLoad.c:18:35: error: too few arguments to function call, single argument 'param_1' was not specified
+   18 |   iVar1 = CellBank_GetObjectTable();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02021e8c_CellBank_InitializeLoad.h:4:5: note: 'CellBank_GetObjectTable' declared here
+    4 | int CellBank_GetObjectTable(ushort *param_1);
+      |     ^                       ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02021e8c_CellBank_InitializeLoad.c:26:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |       *(uint *)(iVar2 + 4) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + iVar1;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02021e8c_CellBank_InitializeLoad.c:26:72: note: place parentheses around the '+' expression to silence this warning
+   26 |       *(uint *)(iVar2 + 4) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + iVar1;
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/02021e8c_CellBank_InitializeLoad.c:31:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |   uVar3 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02021e8c_CellBank_InitializeLoad.c:31:52: note: place parentheses around the '+' expression to silence this warning
+   31 |   uVar3 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/02021e8c_CellBank_InitializeLoad.c:36:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |     uVar5 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02021e8c_CellBank_InitializeLoad.c:36:54: note: place parentheses around the '+' expression to silence this warning
+   36 |     uVar5 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/02021e8c_CellBank_InitializeLoad.c:39:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |     *(uint *)(uVar5 + 4) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + uVar5;
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02021e8c_CellBank_InitializeLoad.c:39:70: note: place parentheses around the '+' expression to silence this warning
+   39 |     *(uint *)(uVar5 + 4) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + uVar5;
+      |                                                                      ^     
+      |                                                           (                )
+5 warnings and 1 error generated.

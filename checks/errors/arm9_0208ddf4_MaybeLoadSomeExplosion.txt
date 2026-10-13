@@ -1,0 +1,96 @@
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:26:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |           *(uint *)(uRam0208e088 & 0xfffffffc) << (uRam0208e088 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:26:75: note: place parentheses around the '+' expression to silence this warning
+   26 |           *(uint *)(uRam0208e088 & 0xfffffffc) << (uRam0208e088 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:29:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |   uVar9 = uVar8 >> uVar9 * 8 | uVar8 << uVar9 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:29:52: note: place parentheses around the '+' expression to silence this warning
+   29 |   uVar9 = uVar8 >> uVar9 * 8 | uVar8 << uVar9 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:53:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   53 |             *(uint *)(uRam0208e090 & 0xfffffffc) << (uRam0208e090 & 3) * -8 + 0x20) + param_2 * 4 +
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:53:77: note: place parentheses around the '+' expression to silence this warning
+   53 |             *(uint *)(uRam0208e090 & 0xfffffffc) << (uRam0208e090 & 3) * -8 + 0x20) + param_2 * 4 +
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:57:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   57 |     uVar4 = (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) + uVar9 * 4;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:57:55: note: place parentheses around the '+' expression to silence this warning
+   57 |     uVar4 = (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) + uVar9 * 4;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:60:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   60 |     uVar10 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:60:55: note: place parentheses around the '+' expression to silence this warning
+   60 |     uVar10 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:61:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   61 |     StructML_SomeFn(uVar10 + 8,iVar3 + (uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20));
+      |                                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:61:82: note: place parentheses around the '+' expression to silence this warning
+   61 |     StructML_SomeFn(uVar10 + 8,iVar3 + (uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20));
+      |                                                                                  ^     
+      |                                                                       (                )
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:64:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   64 |     Maybe_helper_013044(uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20,local_4c);
+      |                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:64:66: note: place parentheses around the '+' expression to silence this warning
+   64 |     Maybe_helper_013044(uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20,local_4c);
+      |                                                                  ^     
+      |                                                       (                )
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:67:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   67 |     uVar4 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:67:54: note: place parentheses around the '+' expression to silence this warning
+   67 |     uVar4 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:73:50: error: too few arguments to function call, expected 5, have 4
+   73 |         Animation_CreateFrom(0,uVar4,uVar10 + 8,1);
+      |         ~~~~~~~~~~~~~~~~~~~~                     ^
+C-WORK/src/arm9/deps/0208ddf4_MaybeLoadSomeExplosion.h:3:6: note: 'Animation_CreateFrom' declared here
+    3 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:79:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   79 |         iVar6 = Animation_GetCurrentLength(uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
+      |                                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:79:85: note: place parentheses around the '+' expression to silence this warning
+   79 |         iVar6 = Animation_GetCurrentLength(uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
+      |                                                                                     ^     
+      |                                                                          (                )
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:93:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   93 |     uVar4 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:93:54: note: place parentheses around the '+' expression to silence this warning
+   93 |     uVar4 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:99:50: error: too few arguments to function call, expected 5, have 4
+   99 |         Animation_CreateFrom(4,uVar4,uVar10 + 8,1);
+      |         ~~~~~~~~~~~~~~~~~~~~                     ^
+C-WORK/src/arm9/deps/0208ddf4_MaybeLoadSomeExplosion.h:3:6: note: 'Animation_CreateFrom' declared here
+    3 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:105:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  105 |     uVar4 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:105:54: note: place parentheses around the '+' expression to silence this warning
+  105 |     uVar4 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0208ddf4_MaybeLoadSomeExplosion.c:111:50: error: too few arguments to function call, expected 5, have 4
+  111 |         Animation_CreateFrom(1,uVar4,uVar10 + 8,1);
+      |         ~~~~~~~~~~~~~~~~~~~~                     ^
+C-WORK/src/arm9/deps/0208ddf4_MaybeLoadSomeExplosion.h:3:6: note: 'Animation_CreateFrom' declared here
+    3 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+11 warnings and 3 errors generated.

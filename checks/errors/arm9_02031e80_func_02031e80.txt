@@ -1,0 +1,9 @@
+C-WORK/src/arm9/02031e80_func_02031e80.c:33:23: error: too many arguments to function call, expected 0, have 6
+   33 |         func_0212426c(1,(int)*psVar3,*(undefined4 *)(iVar4 + 0x54),local_2a,
+      |         ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   34 |                       *(undefined4 *)(iVar4 + 0x4c),*(undefined4 *)(iVar4 + 0x58));
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02031e80_func_02031e80.h:7:6: note: 'func_0212426c' declared here
+    7 | void func_0212426c(void);
+      |      ^
+1 error generated.

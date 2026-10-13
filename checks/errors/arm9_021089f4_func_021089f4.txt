@@ -1,0 +1,13 @@
+C-WORK/src/arm9/021089f4_func_021089f4.c:8:30: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+    8 |   func_0212c6f0(uRam02108a30,1);
+      |   ~~~~~~~~~~~~~              ^
+C-WORK/src/arm9/deps/021089f4_func_021089f4.h:5:6: note: 'func_0212c6f0' declared here
+    5 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/021089f4_func_021089f4.c:9:30: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+    9 |   func_0212c6f0(uRam02108a34,1);
+      |   ~~~~~~~~~~~~~              ^
+C-WORK/src/arm9/deps/021089f4_func_021089f4.h:5:6: note: 'func_0212c6f0' declared here
+    5 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+2 errors generated.

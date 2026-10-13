@@ -1,0 +1,114 @@
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:24:84: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |                    *(uint *)(uRam02037638 & 0xfffffffc) << (uRam02037638 & 3) * -8 + 0x20);
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:24:84: note: place parentheses around the '+' expression to silence this warning
+   24 |                    *(uint *)(uRam02037638 & 0xfffffffc) << (uRam02037638 & 3) * -8 + 0x20);
+      |                                                                                    ^     
+      |                                                            (                             )
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:28:14: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   28 |     (*pcVar9)(1);
+      |              ^
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:35:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |            *(uint *)(uRam02037644 & 0xfffffffc) << (uRam02037644 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:35:76: note: place parentheses around the '+' expression to silence this warning
+   35 |            *(uint *)(uRam02037644 & 0xfffffffc) << (uRam02037644 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:44:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   44 |     uVar7 = uVar7 >> uVar10 * 8 | uVar7 << uVar10 * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:44:56: note: place parentheses around the '+' expression to silence this warning
+   44 |     uVar7 = uVar7 >> uVar10 * 8 | uVar7 << uVar10 * -8 + 0x20;
+      |                                                        ^     
+      |                                            (                 )
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:48:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   48 |           *(uint *)(uRam02037644 & 0xfffffffc) << (uRam02037644 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:48:75: note: place parentheses around the '+' expression to silence this warning
+   48 |           *(uint *)(uRam02037644 & 0xfffffffc) << (uRam02037644 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:53:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   53 |     uVar7 = uVar7 >> uVar10 * 8 | uVar7 << uVar10 * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:53:56: note: place parentheses around the '+' expression to silence this warning
+   53 |     uVar7 = uVar7 >> uVar10 * 8 | uVar7 << uVar10 * -8 + 0x20;
+      |                                                        ^     
+      |                                            (                 )
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:57:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   57 |            *(uint *)(uRam02037644 & 0xfffffffc) << (uRam02037644 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:57:76: note: place parentheses around the '+' expression to silence this warning
+   57 |            *(uint *)(uRam02037644 & 0xfffffffc) << (uRam02037644 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:61:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   61 |   uVar10 = uVar10 >> uVar7 * 8 | uVar10 << uVar7 * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:61:55: note: place parentheses around the '+' expression to silence this warning
+   61 |   uVar10 = uVar10 >> uVar7 * 8 | uVar10 << uVar7 * -8 + 0x20;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:67:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   67 |                    ((uVar13 >> uVar7 * 8 | uVar13 << uVar7 * -8 + 0x20) +
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:67:65: note: place parentheses around the '+' expression to silence this warning
+   67 |                    ((uVar13 >> uVar7 * 8 | uVar13 << uVar7 * -8 + 0x20) +
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:69:32: error: too few arguments to function call, expected 4, have 3
+   65 |   uVar6 = _ll_udiv((int)lVar4,
+      |           ~~~~~~~~
+   66 |                    ((int)((ulonglong)uVar14 >> 0x20) -
+   67 |                    ((uVar13 >> uVar7 * 8 | uVar13 << uVar7 * -8 + 0x20) +
+   68 |                    (uint)((uint)uVar14 < uVar10))) * 64000 + (int)((ulonglong)lVar4 >> 0x20),
+   69 |                    uRam0203764c);
+      |                                ^
+C-WORK/src/arm9/deps/02037498_UpdateBrightnessContextsAndMore.h:9:11: note: '_ll_udiv' declared here
+    9 | ulonglong _ll_udiv(uint param_1,uint param_2,uint param_3,uint param_4);
+      |           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:74:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   74 |            *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20);
+      |                                          ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:74:62: note: place parentheses around the '+' expression to silence this warning
+   74 |            *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20);
+      |                                                              ^     
+      |                                             (                      )
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:81:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   81 |                *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20);
+      |                                              ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:81:66: note: place parentheses around the '+' expression to silence this warning
+   81 |                *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20);
+      |                                                                  ^     
+      |                                                 (                      )
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:90:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   90 |     *(uint *)(uRam02037644 & 0xfffffffc) << (uRam02037644 & 3) * -8 + 0x20) + 0xc4) = uVar14;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:90:69: note: place parentheses around the '+' expression to silence this warning
+   90 |     *(uint *)(uRam02037644 & 0xfffffffc) << (uRam02037644 & 3) * -8 + 0x20) + 0xc4) = uVar14;
+      |                                                                     ^     
+      |                                             (                             )
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:92:31: error: too few arguments to function call, expected 2, have 1
+   92 |     SetBrightness(uRam02037650);
+      |     ~~~~~~~~~~~~~             ^
+C-WORK/src/arm9/deps/02037498_UpdateBrightnessContextsAndMore.h:6:6: note: 'SetBrightness' declared here
+    6 | void SetBrightness(ushort *param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:95:31: error: too few arguments to function call, expected 2, have 1
+   95 |     SetBrightness(uRam02037654);
+      |     ~~~~~~~~~~~~~             ^
+C-WORK/src/arm9/deps/02037498_UpdateBrightnessContextsAndMore.h:6:6: note: 'SetBrightness' declared here
+    6 | void SetBrightness(ushort *param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:98:84: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   98 |                    *(uint *)(uRam02037638 & 0xfffffffc) << (uRam02037638 & 3) * -8 + 0x20);
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:98:84: note: place parentheses around the '+' expression to silence this warning
+   98 |                    *(uint *)(uRam02037638 & 0xfffffffc) << (uRam02037638 & 3) * -8 + 0x20);
+      |                                                                                    ^     
+      |                                                            (                             )
+C-WORK/src/arm9/02037498_UpdateBrightnessContextsAndMore.c:102:12: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  102 |   (*pcVar9)(2);
+      |            ^
+14 warnings and 3 errors generated.

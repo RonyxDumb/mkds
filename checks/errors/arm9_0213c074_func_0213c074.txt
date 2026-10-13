@@ -1,0 +1,22 @@
+C-WORK/src/arm9/0213c074_func_0213c074.c:16:44: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   16 |   iVar1 = func_0213c560(param_3,0x7fffffff,uRam0213c108,(undefined4)(uintptr_t)(local_18),&iStack_24,&iStack_20,&local_1c);
+      |                                            ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0213c074_func_0213c074.h:6:22: note: expanded from macro 'uRam0213c108'
+    6 | #define uRam0213c108 (*(undefined4 *)(uintptr_t)0x213c108u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0213c074_func_0213c074.h:4:50: note: passing argument to parameter 'param_3' here
+    4 | uint func_0213c560(int param_1,int param_2,code *param_3,undefined4 param_4,int *param_5,uint *param_6,undefined4 *param_7);
+      |                                                  ^
+C-WORK/src/arm9/0213c074_func_0213c074.c:16:102: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   16 |   iVar1 = func_0213c560(param_3,0x7fffffff,uRam0213c108,(undefined4)(uintptr_t)(local_18),&iStack_24,&iStack_20,&local_1c);
+      |                                                                                                      ^~~~~~~~~~
+C-WORK/src/arm9/deps/0213c074_func_0213c074.h:4:96: note: passing argument to parameter 'param_6' here
+    4 | uint func_0213c560(int param_1,int param_2,code *param_3,undefined4 param_4,int *param_5,uint *param_6,undefined4 *param_7);
+      |                                                                                                ^
+C-WORK/src/arm9/0213c074_func_0213c074.c:16:113: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   16 |   iVar1 = func_0213c560(param_3,0x7fffffff,uRam0213c108,(undefined4)(uintptr_t)(local_18),&iStack_24,&iStack_20,&local_1c);
+      |                                                                                                                 ^~~~~~~~~
+C-WORK/src/arm9/deps/0213c074_func_0213c074.h:4:116: note: passing argument to parameter 'param_7' here
+    4 | uint func_0213c560(int param_1,int param_2,code *param_3,undefined4 param_4,int *param_5,uint *param_6,undefined4 *param_7);
+      |                                                                                                                    ^
+2 warnings and 1 error generated.

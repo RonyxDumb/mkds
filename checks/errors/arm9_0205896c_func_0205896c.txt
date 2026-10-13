@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0205896c_func_0205896c.c:35:21: error: too many arguments to function call, expected 0, have 1
+   35 |       func_0204f8a0(*(undefined1 *)(*piRam020589d8 + iRam020589e4));
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0205896c_func_0205896c.h:4:6: note: 'func_0204f8a0' declared here
+    4 | void func_0204f8a0(void);
+      |      ^
+1 error generated.

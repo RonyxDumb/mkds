@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0212e698_Sound_GetSarcPointer.c:13:34: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   uVar1 = Sound_GetSarcInfoEntry();
+      |           ~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212e698_Sound_GetSarcPointer.h:3:5: note: 'Sound_GetSarcInfoEntry' declared here
+    3 | int Sound_GetSarcInfoEntry(uint param_1);
+      |     ^                      ~~~~~~~~~~~~
+C-WORK/src/arm9/0212e698_Sound_GetSarcPointer.c:20:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |                        *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e698_Sound_GetSarcPointer.c:20:74: note: place parentheses around the '+' expression to silence this warning
+   20 |                        *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20);
+      |                                                                          ^     
+      |                                                         (                      )
+C-WORK/src/arm9/0212e698_Sound_GetSarcPointer.c:25:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |                        *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20,param_3,param_4);
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e698_Sound_GetSarcPointer.c:25:74: note: place parentheses around the '+' expression to silence this warning
+   25 |                        *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20,param_3,param_4);
+      |                                                                          ^     
+      |                                                         (                      )
+2 warnings and 1 error generated.

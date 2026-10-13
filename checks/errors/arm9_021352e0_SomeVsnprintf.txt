@@ -1,0 +1,322 @@
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:42:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |        *(uint *)((uint)param_3 & 0xfffffffc) << ((uint)param_3 & 3) * -8 + 0x20) & 0xff) == 0) {
+      |                                              ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:42:74: note: place parentheses around the '+' expression to silence this warning
+   42 |        *(uint *)((uint)param_3 & 0xfffffffc) << ((uint)param_3 & 3) * -8 + 0x20) & 0xff) == 0) {
+      |                                                                          ^     
+      |                                                 (                              )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:56:23: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   56 |     iVar3 = (*param_1)(param_2,local_274);
+      |                       ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:56:11: error: assigning to 'int' from incompatible type 'void'
+   56 |     iVar3 = (*param_1)(param_2,local_274);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:63:62: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   63 |   if (((int)__s - (int)local_274 != 0) && (iVar3 = (*param_1)(param_2,local_274), iVar3 == 0)) {
+      |                                                              ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:63:50: error: assigning to 'int' from incompatible type 'void'
+   63 |   if (((int)__s - (int)local_274 != 0) && (iVar3 = (*param_1)(param_2,local_274), iVar3 == 0)) {
+      |                                                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:66:59: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   66 |   local_274 = (char *)func_0213770c((int)(uintptr_t)(__s),&uStack_4,&uStack_244);
+      |                                                           ^~~~~~~~~
+C-WORK/src/arm9/deps/021352e0_SomeVsnprintf.h:9:36: note: passing argument to parameter 'param_2' here
+    9 | int func_0213770c(int param_1,int *param_2,undefined4 *param_3);
+      |                                    ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:68:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   68 |   uVar7 = (uStack_240 >> uVar7 * 8 | uStack_240 << uVar7 * -8 + 0x20) & 0xff;
+      |                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:68:63: note: place parentheses around the '+' expression to silence this warning
+   68 |   uVar7 = (uStack_240 >> uVar7 * 8 | uStack_240 << uVar7 * -8 + 0x20) & 0xff;
+      |                                                               ^     
+      |                                                    (                )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:74:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   74 |                 *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:74:73: note: place parentheses around the '+' expression to silence this warning
+   74 |                 *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                         ^     
+      |                                                     (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:77:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   77 |         uVar7 = uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:77:58: note: place parentheses around the '+' expression to silence this warning
+   77 |         uVar7 = uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:81:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   81 |                 *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:81:73: note: place parentheses around the '+' expression to silence this warning
+   81 |                 *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                         ^     
+      |                                                     (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:84:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   84 |         uVar7 = uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:84:58: note: place parentheses around the '+' expression to silence this warning
+   84 |         uVar7 = uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:87:51: error: use of undeclared identifier 'stack0xffffffcc'
+   87 |       __s_00 = (uint *)func_02136850(uVar6,uVar7,&stack0xffffffcc,uStack_244);
+      |                                                   ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:135:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  135 |               *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:135:71: note: place parentheses around the '+' expression to silence this warning
+  135 |               *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                       ^     
+      |                                                   (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:138:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  138 |       uVar7 = uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:138:56: note: place parentheses around the '+' expression to silence this warning
+  138 |       uVar7 = uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:142:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  142 |               *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:142:71: note: place parentheses around the '+' expression to silence this warning
+  142 |               *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                       ^     
+      |                                                   (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:145:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  145 |       uVar7 = uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:145:56: note: place parentheses around the '+' expression to silence this warning
+  145 |       uVar7 = uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:148:49: error: use of undeclared identifier 'stack0xffffffcc'
+  148 |     __s_00 = (uint *)func_02135c80(uVar6,uVar7,&stack0xffffffcc,uStack_244);
+      |                                                 ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:159:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  159 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:159:75: note: place parentheses around the '+' expression to silence this warning
+  159 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                       (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:164:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  164 |                    *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:164:76: note: place parentheses around the '+' expression to silence this warning
+  164 |                    *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                        (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:167:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  167 |       uStack_268 = uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20;
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:167:61: note: place parentheses around the '+' expression to silence this warning
+  167 |       uStack_268 = uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20;
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:172:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  172 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:172:75: note: place parentheses around the '+' expression to silence this warning
+  172 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                       (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:177:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  177 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:177:75: note: place parentheses around the '+' expression to silence this warning
+  177 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                       (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:182:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  182 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:182:75: note: place parentheses around the '+' expression to silence this warning
+  182 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                       (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:187:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  187 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:187:75: note: place parentheses around the '+' expression to silence this warning
+  187 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                       (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:197:61: error: use of undeclared identifier 'stack0xffffffcc'
+  197 |       __s_00 = (uint *)func_02136f14(uStack_26c,uStack_268,&stack0xffffffcc,uStack_244);
+      |                                                             ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:200:49: error: use of undeclared identifier 'stack0xffffffcc'
+  200 |       __s_00 = (uint *)func_02137358(unaff_r10,&stack0xffffffcc,uStack_244,uStack_240);
+      |                                                 ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:216:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  216 |                     *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:216:77: note: place parentheses around the '+' expression to silence this warning
+  216 |                     *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20);
+      |                                                                             ^     
+      |                                                         (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:252:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  252 |               *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:252:71: note: place parentheses around the '+' expression to silence this warning
+  252 |               *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                       ^     
+      |                                                   (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:262:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  262 |                        *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20);
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:262:80: note: place parentheses around the '+' expression to silence this warning
+  262 |                        *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20);
+      |                                                                                ^     
+      |                                                            (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:269:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  269 |     if (((uStack_244 >> uVar7 * 8 | uStack_244 << uVar7 * -8 + 0x20) & 0xff) == 0) {
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:269:62: note: place parentheses around the '+' expression to silence this warning
+  269 |     if (((uStack_244 >> uVar7 * 8 | uStack_244 << uVar7 * -8 + 0x20) & 0xff) == 0) {
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:271:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  271 |       if (((uStack_244 >> uVar7 * 8 | uStack_244 << uVar7 * -8 + 0x20) & 0xff) == 0) {
+      |                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:271:64: note: place parentheses around the '+' expression to silence this warning
+  271 |       if (((uStack_244 >> uVar7 * 8 | uStack_244 << uVar7 * -8 + 0x20) & 0xff) == 0) {
+      |                                                                ^     
+      |                                                     (                )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:286:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  286 |       puStack_260 = (undefined1 *)((*puVar1 >> uVar7 * 8 | *puVar1 << uVar7 * -8 + 0x20) & 0xff);
+      |                                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:286:82: note: place parentheses around the '+' expression to silence this warning
+  286 |       puStack_260 = (undefined1 *)((*puVar1 >> uVar7 * 8 | *puVar1 << uVar7 * -8 + 0x20) & 0xff);
+      |                                                                                  ^     
+      |                                                                       (                )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:288:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  288 |       if ((((uStack_244 >> uVar7 * 8 | uStack_244 << uVar7 * -8 + 0x20) & 0xff) != 0) &&
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:288:65: note: place parentheses around the '+' expression to silence this warning
+  288 |       if ((((uStack_244 >> uVar7 * 8 | uStack_244 << uVar7 * -8 + 0x20) & 0xff) != 0) &&
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:301:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  301 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:301:75: note: place parentheses around the '+' expression to silence this warning
+  301 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                       (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:306:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  306 |                    *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:306:76: note: place parentheses around the '+' expression to silence this warning
+  306 |                    *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                        (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:309:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  309 |       uStack_268 = uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20;
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:309:61: note: place parentheses around the '+' expression to silence this warning
+  309 |       uStack_268 = uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20;
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:314:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  314 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:314:75: note: place parentheses around the '+' expression to silence this warning
+  314 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                       (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:319:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  319 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:319:75: note: place parentheses around the '+' expression to silence this warning
+  319 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                       (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:324:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  324 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:324:75: note: place parentheses around the '+' expression to silence this warning
+  324 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                       (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:329:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  329 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:329:75: note: place parentheses around the '+' expression to silence this warning
+  329 |                   *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                       (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:339:61: error: use of undeclared identifier 'stack0xffffffcc'
+  339 |       __s_00 = (uint *)func_02136f14(uStack_26c,uStack_268,&stack0xffffffcc,uStack_244);
+      |                                                             ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:342:49: error: use of undeclared identifier 'stack0xffffffcc'
+  342 |       __s_00 = (uint *)func_02137358(unaff_r10,&stack0xffffffcc,uStack_244,uStack_240);
+      |                                                 ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:352:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  352 |          *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20) & 0xff |
+      |                                           ~~ ~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:352:66: note: place parentheses around the '+' expression to silence this warning
+  352 |          *(uint *)(uStack_4 & 0xfffffffc) << (uStack_4 & 3) * -8 + 0x20) & 0xff |
+      |                                                                  ^     
+      |                                              (                         )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:365:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  365 |               *(uint *)((uint)__s_00 & 0xfffffffc) << ((uint)__s_00 & 3) * -8 + 0x20) & 0xff;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:365:79: note: place parentheses around the '+' expression to silence this warning
+  365 |               *(uint *)((uint)__s_00 & 0xfffffffc) << ((uint)__s_00 & 3) * -8 + 0x20) & 0xff;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:367:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  367 |         iVar3 = (*param_1)(param_2,__s_00,1);
+      |                           ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:367:15: error: assigning to 'int' from incompatible type 'void'
+  367 |         iVar3 = (*param_1)(param_2,__s_00,1);
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:376:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  376 |           iVar3 = (*param_1)(param_2,&local_248,1);
+      |                             ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:376:17: error: assigning to 'int' from incompatible type 'void'
+  376 |           iVar3 = (*param_1)(param_2,&local_248,1);
+      |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:385:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  385 |        (iVar3 = (*param_1)(param_2,__s_00,puStack_260), iVar3 == 0)) {
+      |                           ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:385:15: error: assigning to 'int' from incompatible type 'void'
+  385 |        (iVar3 = (*param_1)(param_2,__s_00,puStack_260), iVar3 == 0)) {
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:391:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  391 |         uVar8 = (local_248 >> (uVar10 & 3) * 8 | local_248 << (uVar10 & 3) * -8 + 0x20) & 0xffffff00
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:391:81: note: place parentheses around the '+' expression to silence this warning
+  391 |         uVar8 = (local_248 >> (uVar10 & 3) * 8 | local_248 << (uVar10 & 3) * -8 + 0x20) & 0xffffff00
+      |                                                                                 ^     
+      |                                                               (                       )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:395:71: warning: operator '<<' has lower precedence than '-'; '-' will be evaluated first [-Wshift-op-parentheses]
+  395 |              (byte)((uVar8 >> uVar7) >> 0x18) | (byte)((uVar8 << 0x20 - uVar7) >> 0x18);
+      |                                                               ~~ ~~~~~^~~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:395:71: note: place parentheses around the '-' expression to silence this warning
+  395 |              (byte)((uVar8 >> uVar7) >> 0x18) | (byte)((uVar8 << 0x20 - uVar7) >> 0x18);
+      |                                                                       ^      
+      |                                                                  (           )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:396:19: error: member reference base type 'undefined4' (aka 'unsigned int') is not a structure or union
+  396 |         uStack_244._1_3_ = SUB43(uVar6,1);
+      |         ~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:397:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  397 |         iVar3 = (*param_1)(param_2,uVar10,1);
+      |                           ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:397:15: error: assigning to 'int' from incompatible type 'void'
+  397 |         iVar3 = (*param_1)(param_2,uVar10,1);
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:407:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  407 |          *(uint *)((uint)local_274 & 0xfffffffc) << ((uint)local_274 & 3) * -8 + 0x20) & 0xff) == 0)
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:407:80: note: place parentheses around the '+' expression to silence this warning
+  407 |          *(uint *)((uint)local_274 & 0xfffffffc) << ((uint)local_274 & 3) * -8 + 0x20) & 0xff) == 0)
+      |                                                                                ^     
+      |                                                     (                                )
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:415:42: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  415 |   if ((sVar2 != 0) && (iVar3 = (*param_1)(param_2,__s), iVar3 == 0)) {
+      |                                          ^
+C-WORK/src/arm9/021352e0_SomeVsnprintf.c:415:30: error: assigning to 'int' from incompatible type 'void'
+  415 |   if ((sVar2 != 0) && (iVar3 = (*param_1)(param_2,__s), iVar3 == 0)) {
+      |                              ^ ~~~~~~~~~~~~~~~~~~~~~~~
+44 warnings and 14 errors generated.

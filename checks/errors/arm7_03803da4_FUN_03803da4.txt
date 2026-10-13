@@ -1,0 +1,7 @@
+C-WORK/src/arm7/03803da4_FUN_03803da4.c:20:26: error: too many arguments to function call, expected 0, have 1
+   20 |       thunk_FUN_037f8b24(uVar1);
+      |       ~~~~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm7/deps/03803da4_FUN_03803da4.h:7:6: note: 'thunk_FUN_037f8b24' declared here
+    7 | void thunk_FUN_037f8b24(void);
+      |      ^
+1 error generated.

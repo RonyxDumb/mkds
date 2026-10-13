@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov001/0218052c_func_ov001_0218052c.c:17:39: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   17 |     iVar3 = func_ov001_021805bc(uVar2,1);
+      |             ~~~~~~~~~~~~~~~~~~~       ^
+C-WORK/src/arm9_ov001/deps/0218052c_func_ov001_0218052c.h:4:6: note: 'func_ov001_021805bc' declared here
+    4 | void func_ov001_021805bc(int param_1);
+      |      ^                   ~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0218052c_func_ov001_0218052c.c:21:39: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   21 |     iVar3 = func_ov001_021805bc(uVar2,uRam021805b4);
+      |             ~~~~~~~~~~~~~~~~~~~       ^~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0218052c_func_ov001_0218052c.h:7:22: note: expanded from macro 'uRam021805b4'
+    7 | #define uRam021805b4 (*(undefined4 *)(uintptr_t)0x21805b4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0218052c_func_ov001_0218052c.h:4:6: note: 'func_ov001_021805bc' declared here
+    4 | void func_ov001_021805bc(int param_1);
+      |      ^                   ~~~~~~~~~~~
+2 errors generated.

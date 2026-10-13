@@ -1,0 +1,42 @@
+C-WORK/src/arm9/021464a4_StructSZ_SomeFn.c:24:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |   uVar11 = uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021464a4_StructSZ_SomeFn.c:24:55: note: place parentheses around the '+' expression to silence this warning
+   24 |   uVar11 = uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/021464a4_StructSZ_SomeFn.c:29:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |   uVar9 = uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021464a4_StructSZ_SomeFn.c:29:54: note: place parentheses around the '+' expression to silence this warning
+   29 |   uVar9 = uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/021464a4_StructSZ_SomeFn.c:32:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |      (uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20) < 4)) {
+      |                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021464a4_StructSZ_SomeFn.c:32:50: note: place parentheses around the '+' expression to silence this warning
+   32 |      (uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20) < 4)) {
+      |                                                  ^     
+      |                                      (                 )
+C-WORK/src/arm9/021464a4_StructSZ_SomeFn.c:48:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   48 |      ((uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20 | uVar9) & uRam021465f4) == 0)) {
+      |                                    ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021464a4_StructSZ_SomeFn.c:48:51: note: place parentheses around the '+' expression to silence this warning
+   48 |      ((uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20 | uVar9) & uRam021465f4) == 0)) {
+      |                                                   ^
+      |                                       (                 )
+C-WORK/src/arm9/021464a4_StructSZ_SomeFn.c:56:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   56 |        *(uint *)(uRam021465f8 & 0xfffffffc) << (uRam021465f8 & 3) * -8 + 0x20) & 0xf8ffffff |
+      |                                             ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021464a4_StructSZ_SomeFn.c:56:72: note: place parentheses around the '+' expression to silence this warning
+   56 |        *(uint *)(uRam021465f8 & 0xfffffffc) << (uRam021465f8 & 3) * -8 + 0x20) & 0xf8ffffff |
+      |                                                                        ^     
+      |                                                (                             )
+C-WORK/src/arm9/021464a4_StructSZ_SomeFn.c:72:19: error: too many arguments to function call, expected 0, have 1
+   72 |     Os_RestoreIrq(uVar5);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/021464a4_StructSZ_SomeFn.h:11:12: note: 'Os_RestoreIrq' declared here
+   11 | undefined4 Os_RestoreIrq(void);
+      |            ^
+5 warnings and 1 error generated.

@@ -1,0 +1,8 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void func_02055d5c(int param_1);
+#define iRam02055e4c (*(int *)(uintptr_t)0x2055e4cu)
+#define iRam02055e50 (*(int *)(uintptr_t)0x2055e50u)
+#define puRam02055e48 (*(uint **)(uintptr_t)0x2055e48u)
+#define uRam02055e40 (*(uint *)(uintptr_t)0x2055e40u)
+#define uRam02055e44 (*(uint *)(uintptr_t)0x2055e44u)

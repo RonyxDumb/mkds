@@ -1,0 +1,14 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void InitializeOverlayManager(undefined4 param_1);
+undefined4 Mem_AllocateHeap(uint param_1,undefined4 param_2);
+#define piRam0205a284 (*(int **)(uintptr_t)0x205a284u)
+#define uRam0205a288 (*(undefined4 *)(uintptr_t)0x205a288u)
+#define uRam0205a28c (*(undefined4 *)(uintptr_t)0x205a28cu)
+#define uRam0205a290 (*(undefined4 *)(uintptr_t)0x205a290u)
+#define uRam0205a294 (*(undefined4 *)(uintptr_t)0x205a294u)
+#define uRam0205a298 (*(undefined4 *)(uintptr_t)0x205a298u)
+#define uRam0205a29c (*(undefined4 *)(uintptr_t)0x205a29cu)
+#define uRam0205a2a0 (*(undefined4 *)(uintptr_t)0x205a2a0u)
+#define uRam0205a2a4 (*(undefined4 *)(uintptr_t)0x205a2a4u)
+#define uRam0205a2a8 (*(undefined4 *)(uintptr_t)0x205a2a8u)

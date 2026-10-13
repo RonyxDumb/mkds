@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020a9224_func_020a9224.c:10:9: error: assigning to 'int' from incompatible type 'void'
+   10 |   iVar1 = CreateAllocateSomeObject_from_thumb(uRam020a9264,0,0,1,1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

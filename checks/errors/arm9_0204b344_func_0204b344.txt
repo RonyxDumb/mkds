@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0204b344_func_0204b344.c:24:21: error: too many arguments to function call, expected 0, have 1
+   24 |       func_02049980(1);
+      |       ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204b344_func_0204b344.h:3:6: note: 'func_02049980' declared here
+    3 | void func_02049980(void);
+      |      ^
+C-WORK/src/arm9/0204b344_func_0204b344.c:27:19: error: too many arguments to function call, expected 0, have 1
+   27 |     func_02049980(2);
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204b344_func_0204b344.h:3:6: note: 'func_02049980' declared here
+    3 | void func_02049980(void);
+      |      ^
+2 errors generated.

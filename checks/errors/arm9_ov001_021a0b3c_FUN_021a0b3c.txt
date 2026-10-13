@@ -1,0 +1,25 @@
+C-WORK/src/arm9_ov001/021a0b3c_FUN_021a0b3c.c:93:53: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   93 |     iVar9 = func_0x0205fd78(uVar4,iVar8 + 1U & 0xff,&local_3c);
+      |                                                     ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021a0b3c_FUN_021a0b3c.h:17:71: note: passing argument to parameter 'param_3' here
+   17 | bool IsMissionStageBeaten(undefined4 param_1,undefined4 param_2,uint *param_3);
+      |                                                                       ^
+C-WORK/src/arm9_ov001/021a0b3c_FUN_021a0b3c.c:99:25: error: too many arguments to function call, expected 0, have 6
+   99 |         func_0x0212426c(1,*local_54,*(undefined4 *)(iVar9 + 0x18),
+      |         ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  100 |                         *(undefined4 *)(DAT_021a0e00 + local_3c * 4),*(undefined4 *)(iVar9 + 0x10),
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  101 |                         *(undefined4 *)(iVar9 + 0x44));
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021a0b3c_FUN_021a0b3c.h:19:6: note: 'func_0212426c' declared here
+   19 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9_ov001/021a0b3c_FUN_021a0b3c.c:134:21: error: too many arguments to function call, expected 0, have 6
+  134 |     func_0x0212426c(1,local_54[1],*(undefined4 *)(iVar9 + 0x18),auStack_38,
+      |     ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  135 |                     *(undefined4 *)(iVar9 + 0x10),*(undefined4 *)(iVar9 + 0x44));
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021a0b3c_FUN_021a0b3c.h:19:6: note: 'func_0212426c' declared here
+   19 | void func_0212426c(void);
+      |      ^
+1 warning and 2 errors generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov003/021cf8ac_FUN_021cf8ac.c:22:40: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   22 |     iVar3 = func_0x02004a30(auStack_58,*param_1);
+      |             ~~~~~~~~~~~~~~~            ^~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cf8ac_FUN_021cf8ac.h:11:12: note: 'Fs_File_Open' declared here
+   11 | undefined4 Fs_File_Open(undefined4 param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021cf8ac_FUN_021cf8ac.c:40:21: error: too few arguments to function call, single argument 'param_1' was not specified
+   40 |     func_0x020049e8();
+      |     ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov003/deps/021cf8ac_FUN_021cf8ac.h:19:12: note: 'Fs_File_Close' declared here
+   19 | undefined4 Fs_File_Close(int param_1);
+      |            ^             ~~~~~~~~~~~
+2 errors generated.

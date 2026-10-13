@@ -1,0 +1,31 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void FX_Div(void);
+int GetCurrentSceneId(void);
+void func_02109468(void);
+#define iRam0210a47c (*(int *)(uintptr_t)0x210a47cu)
+#define iRam0210a480 (*(int *)(uintptr_t)0x210a480u)
+#define iRam0210a49c (*(int *)(uintptr_t)0x210a49cu)
+#define iRam0210a4a0 (*(int *)(uintptr_t)0x210a4a0u)
+#define piRam0210a478 (*(int **)(uintptr_t)0x210a478u)
+#define piRam0210a484 (*(int **)(uintptr_t)0x210a484u)
+#define piRam0210a490 (*(int **)(uintptr_t)0x210a490u)
+#define piRam0210a494 (*(int **)(uintptr_t)0x210a494u)
+#define piRam0210a498 (*(int **)(uintptr_t)0x210a498u)
+#define piRam0210a4a4 (*(int **)(uintptr_t)0x210a4a4u)
+#define piRam0210a4a8 (*(int **)(uintptr_t)0x210a4a8u)
+#define piRam0210a4ac (*(int **)(uintptr_t)0x210a4acu)
+#define piRam0210a4b0 (*(int **)(uintptr_t)0x210a4b0u)
+#define piRam0210a4b4 (*(int **)(uintptr_t)0x210a4b4u)
+#define piRam0210a4b8 (*(int **)(uintptr_t)0x210a4b8u)
+#define piRam0210a4bc (*(int **)(uintptr_t)0x210a4bcu)
+#define piRam0210a4c0 (*(int **)(uintptr_t)0x210a4c0u)
+#define piRam0210a4c4 (*(int **)(uintptr_t)0x210a4c4u)
+#define piRam0210a4c8 (*(int **)(uintptr_t)0x210a4c8u)
+#define piRam0210a4cc (*(int **)(uintptr_t)0x210a4ccu)
+#define piRam0210a4d0 (*(int **)(uintptr_t)0x210a4d0u)
+#define piRam0210a4d4 (*(int **)(uintptr_t)0x210a4d4u)
+#define piRam0210a4d8 (*(int **)(uintptr_t)0x210a4d8u)
+#define uRam0210a474 (*(uint *)(uintptr_t)0x210a474u)
+#define uRam0210a488 (*(undefined4 *)(uintptr_t)0x210a488u)
+#define uRam0210a48c (*(uint *)(uintptr_t)0x210a48cu)

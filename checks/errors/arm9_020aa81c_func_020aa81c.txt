@@ -1,0 +1,9 @@
+C-WORK/src/arm9/020aa81c_func_020aa81c.c:32:26: error: too many arguments to function call, expected 3, have 4
+   31 |   func_020aa89c(((*puRam020aa890 | *puRam020aa894) ^ uRam020aa898) & uRam020aa898 & 0xffff,local_28,
+      |   ~~~~~~~~~~~~~
+   32 |                 local_24,auStack_20);
+      |                          ^~~~~~~~~~
+C-WORK/src/arm9/deps/020aa81c_func_020aa81c.h:4:6: note: 'func_020aa89c' declared here
+    4 | void func_020aa89c(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

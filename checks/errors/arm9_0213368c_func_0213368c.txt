@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0213368c_func_0213368c.c:14:3: error: call to undeclared function 'coprocessor_moveto'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   14 |   coprocessor_moveto(0,7,7,in_pc,in_cr15,in_cr0);
+      |   ^
+C-WORK/src/arm9/0213368c_func_0213368c.c:16:3: error: call to undeclared function 'halt_baddata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   16 |   halt_baddata();
+      |   ^
+2 errors generated.

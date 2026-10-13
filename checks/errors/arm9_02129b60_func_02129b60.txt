@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02129b60_func_02129b60.c:21:9: error: assigning to 'int' from incompatible type 'void'
+   21 |   iVar2 = func_020ab8c4();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02129b60_func_02129b60.c:28:9: error: assigning to 'int' from incompatible type 'void'
+   28 |   iVar2 = func_020ab8c4();
+      |         ^ ~~~~~~~~~~~~~~~
+2 errors generated.

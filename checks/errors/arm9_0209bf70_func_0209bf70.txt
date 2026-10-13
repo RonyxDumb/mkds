@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0209bf70_func_0209bf70.c:11:47: error: too few arguments to function call, expected 5, have 0
+   11 |   iVar1 = CreateAllocateSomeObject_from_thumb();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0209bf70_func_0209bf70.h:3:6: note: 'CreateAllocateSomeObject_from_thumb' declared here
+    3 | void CreateAllocateSomeObject_from_thumb(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,ushort param_5);
+      |      ^                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

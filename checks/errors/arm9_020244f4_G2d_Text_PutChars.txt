@@ -1,0 +1,41 @@
+C-WORK/src/arm9/020244f4_G2d_Text_PutChars.c:24:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |   uVar6 = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020244f4_G2d_Text_PutChars.c:24:52: note: place parentheses around the '+' expression to silence this warning
+   24 |   uVar6 = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020244f4_G2d_Text_PutChars.c:29:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |   pcVar4 = (code *)(uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020244f4_G2d_Text_PutChars.c:29:62: note: place parentheses around the '+' expression to silence this warning
+   29 |   pcVar4 = (code *)(uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20);
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/020244f4_G2d_Text_PutChars.c:30:20: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   30 |   iVar2 = (*pcVar4)(&local_28);
+      |                    ^
+C-WORK/src/arm9/020244f4_G2d_Text_PutChars.c:30:9: error: assigning to 'int' from incompatible type 'void'
+   30 |   iVar2 = (*pcVar4)(&local_28);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020244f4_G2d_Text_PutChars.c:35:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |                                  *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20,uVar6,
+      |                                                                  ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020244f4_G2d_Text_PutChars.c:35:88: note: place parentheses around the '+' expression to silence this warning
+   35 |                                  *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20,uVar6,
+      |                                                                                        ^     
+      |                                                                     (                        )
+C-WORK/src/arm9/020244f4_G2d_Text_PutChars.c:37:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   37 |       param_2 = param_2 + iVar2 + (uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20);
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020244f4_G2d_Text_PutChars.c:37:77: note: place parentheses around the '+' expression to silence this warning
+   37 |       param_2 = param_2 + iVar2 + (uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20);
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/020244f4_G2d_Text_PutChars.c:38:24: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   38 |       iVar2 = (*pcVar4)(&local_28);
+      |                        ^
+C-WORK/src/arm9/020244f4_G2d_Text_PutChars.c:38:13: error: assigning to 'int' from incompatible type 'void'
+   38 |       iVar2 = (*pcVar4)(&local_28);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~
+6 warnings and 2 errors generated.

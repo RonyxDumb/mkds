@@ -1,0 +1,7 @@
+C-WORK/src/arm7/037fe270_FUN_037fe270.c:11:24: error: too few arguments to function call, expected 2, have 0
+   11 |   iVar1 = FUN_037fe2e4();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/037fe270_FUN_037fe270.h:5:5: note: 'FUN_037fe2e4' declared here
+    5 | int FUN_037fe2e4(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

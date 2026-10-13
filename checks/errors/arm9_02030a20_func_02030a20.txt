@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02030a20_func_02030a20.c:13:9: error: assigning to 'int' from incompatible type 'void'
+   13 |   iVar2 = func_02025ebc(*piRam02030abc + 0xc0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

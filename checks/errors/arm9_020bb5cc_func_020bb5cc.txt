@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020bb5cc_func_020bb5cc.c:11:23: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   11 |   func_0212c6f0(uVar1,0);
+      |   ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020bb5cc_func_020bb5cc.h:5:6: note: 'func_0212c6f0' declared here
+    5 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,79 @@
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:16:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |           *(uint *)(uRam0210b124 & 0xfffffffc) << (uRam0210b124 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:16:75: note: place parentheses around the '+' expression to silence this warning
+   16 |           *(uint *)(uRam0210b124 & 0xfffffffc) << (uRam0210b124 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:22:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |   if (((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) & 0x10000000) != 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:22:50: note: place parentheses around the '+' expression to silence this warning
+   22 |   if (((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) & 0x10000000) != 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:27:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |   if (((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) & 4) != 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:27:50: note: place parentheses around the '+' expression to silence this warning
+   27 |   if (((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) & 4) != 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:32:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |   uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:32:52: note: place parentheses around the '+' expression to silence this warning
+   32 |   uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:43:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   43 |       if (uVar2 <= uVar5 - (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20)) {
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:43:70: note: place parentheses around the '+' expression to silence this warning
+   43 |       if (uVar2 <= uVar5 - (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20)) {
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:44:75: error: too few arguments to function call, expected 5, have 4
+   44 |         StructMQRacerEntry_SomeFn_6(param_1,2,param_2 * 0xe + param_3,0x7f);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~                                       ^
+C-WORK/src/arm9/deps/0210af40_StructMQRacerEntry_SomeFn_5.h:5:6: note: 'StructMQRacerEntry_SomeFn_6' declared here
+    5 | uint StructMQRacerEntry_SomeFn_6(int param_1,uint param_2,uint param_3,undefined1 param_4,undefined2 param_5);
+      |      ^                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:57:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   57 |                      *(uint *)(uRam0210b128 & 0xfffffffc) << (uRam0210b128 & 3) * -8 + 0x20) + 0x62)
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:57:86: note: place parentheses around the '+' expression to silence this warning
+   57 |                      *(uint *)(uRam0210b128 & 0xfffffffc) << (uRam0210b128 & 3) * -8 + 0x20) + 0x62)
+      |                                                                                      ^     
+      |                                                              (                             )
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:62:75: error: too few arguments to function call, expected 5, have 4
+   62 |     StructMQRacerEntry_SomeFn_6(param_1,2,param_2 * 0xe + param_3 + 1,0x73);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~                                           ^
+C-WORK/src/arm9/deps/0210af40_StructMQRacerEntry_SomeFn_5.h:5:6: note: 'StructMQRacerEntry_SomeFn_6' declared here
+    5 | uint StructMQRacerEntry_SomeFn_6(int param_1,uint param_2,uint param_3,undefined1 param_4,undefined2 param_5);
+      |      ^                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:67:19: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   67 |     func_0212c6a0(&iStack_18);
+      |                   ^~~~~~~~~~
+C-WORK/src/arm9/deps/0210af40_StructMQRacerEntry_SomeFn_5.h:8:32: note: passing argument to parameter 'param_1' here
+    8 | void func_0212c6a0(undefined4 *param_1);
+      |                                ^
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:69:32: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   69 |       func_0212c6f0(&iStack_18,0);
+      |       ~~~~~~~~~~~~~            ^
+C-WORK/src/arm9/deps/0210af40_StructMQRacerEntry_SomeFn_5.h:9:6: note: 'func_0212c6f0' declared here
+    9 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:71:47: error: too few arguments to function call, expected 6, have 4
+   71 |     func_0212ec04(&iStack_18,1,0xffffffff,0x7f);
+      |     ~~~~~~~~~~~~~                             ^
+C-WORK/src/arm9/deps/0210af40_StructMQRacerEntry_SomeFn_5.h:10:6: note: 'func_0212ec04' declared here
+   10 | void func_0212ec04(undefined4 param_1,uint param_2,uint param_3,uint param_4,undefined4 param_5,undefined4 param_6);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0210af40_StructMQRacerEntry_SomeFn_5.c:73:19: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   73 |     func_0212c688(&iStack_18);
+      |                   ^~~~~~~~~~
+C-WORK/src/arm9/deps/0210af40_StructMQRacerEntry_SomeFn_5.h:7:32: note: passing argument to parameter 'param_1' here
+    7 | void func_0212c688(undefined4 *param_1);
+      |                                ^
+8 warnings and 4 errors generated.

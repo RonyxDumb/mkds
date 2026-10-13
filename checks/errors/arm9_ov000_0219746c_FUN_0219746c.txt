@@ -1,0 +1,22 @@
+C-WORK/src/arm9_ov000/0219746c_FUN_0219746c.c:17:32: error: too many arguments to function call, expected 0, have 1
+   17 |     iVar5 = thunk_FUN_0218e668(*DAT_02197540);
+      |             ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219746c_FUN_0219746c.h:8:6: note: 'thunk_FUN_0218e668' declared here
+    8 | void thunk_FUN_0218e668(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219746c_FUN_0219746c.c:30:15: error: assigning to 'int' from incompatible type 'void'
+   30 |         iVar5 = FUN_021a3678(*piVar1,*piVar2 + 1);
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219746c_FUN_0219746c.c:36:28: error: too many arguments to function call, expected 0, have 4
+   36 |       iVar5 = FUN_0218e460(*DAT_02197540,*piVar1 + *piVar3,*piVar2 - *piVar3,0);
+      |               ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219746c_FUN_0219746c.h:3:6: note: 'FUN_0218e460' declared here
+    3 | void FUN_0218e460(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219746c_FUN_0219746c.c:52:34: error: too many arguments to function call, expected 0, have 1
+   52 |       iVar5 = thunk_FUN_0218e668(*DAT_02197540);
+      |               ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219746c_FUN_0219746c.h:8:6: note: 'thunk_FUN_0218e668' declared here
+    8 | void thunk_FUN_0218e668(void);
+      |      ^
+4 errors generated.

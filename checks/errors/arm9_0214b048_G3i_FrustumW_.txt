@@ -1,0 +1,19 @@
+C-WORK/src/arm9/0214b048_G3i_FrustumW_.c:55:81: error: too few arguments to function call, expected 4, have 2
+   53 |     uVar12 = func_02132e98((int)lVar1,
+      |              ~~~~~~~~~~~~~
+   54 |                            (int)(uVar12 >> 0x20) * param_7 +
+   55 |                            (int)uVar12 * iVar9 + (int)((ulonglong)lVar1 >> 0x20));
+      |                                                                                 ^
+C-WORK/src/arm9/deps/0214b048_G3i_FrustumW_.h:6:10: note: 'func_02132e98' declared here
+    6 | longlong func_02132e98(uint param_1,uint param_2,uint param_3,uint param_4);
+      |          ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0214b048_G3i_FrustumW_.c:81:81: error: too few arguments to function call, expected 4, have 2
+   79 |     uVar13 = func_02132e98((int)lVar1,
+      |              ~~~~~~~~~~~~~
+   80 |                            (int)(uVar13 >> 0x20) * param_7 +
+   81 |                            (int)uVar13 * iVar9 + (int)((ulonglong)lVar1 >> 0x20));
+      |                                                                                 ^
+C-WORK/src/arm9/deps/0214b048_G3i_FrustumW_.h:6:10: note: 'func_02132e98' declared here
+    6 | longlong func_02132e98(uint param_1,uint param_2,uint param_3,uint param_4);
+      |          ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

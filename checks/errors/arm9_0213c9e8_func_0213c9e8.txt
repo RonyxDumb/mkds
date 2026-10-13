@@ -1,0 +1,5 @@
+C-WORK/src/arm9/0213c9e8_func_0213c9e8.c:10:20: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'uint *' (aka 'unsigned int *'); take the address with & [-Wint-conversion]
+   10 |   (*pcRam0213c9f4)(param_1,param_2,param_3 << 1);
+      |                    ^~~~~~~
+      |                    &
+1 error generated.

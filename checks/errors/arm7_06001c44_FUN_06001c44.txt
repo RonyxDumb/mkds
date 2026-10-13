@@ -1,0 +1,18 @@
+C-WORK/src/arm7/06001c44_FUN_06001c44.c:16:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |   uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06001c44_FUN_06001c44.c:16:52: note: place parentheses around the '+' expression to silence this warning
+   16 |   uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/06001c44_FUN_06001c44.c:19:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |   if (*(short *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0xbe) != 0) {
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06001c44_FUN_06001c44.c:19:60: note: place parentheses around the '+' expression to silence this warning
+   19 |   if (*(short *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0xbe) != 0) {
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm7/06001c44_FUN_06001c44.c:20:28: error: operand of type 'void' where arithmetic or pointer type is required
+   20 |     puVar4 = (undefined2 *)thunk_FUN_03807424();
+      |                            ^~~~~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.

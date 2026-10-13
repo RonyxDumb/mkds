@@ -1,0 +1,25 @@
+C-WORK/src/arm9_ov000/02193d64_FUN_02193d64.c:20:24: error: too many arguments to function call, expected 0, have 3
+   20 |   uVar2 = FUN_0218e554(2,1,0);
+      |           ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/02193d64_FUN_02193d64.h:5:6: note: 'FUN_0218e554' declared here
+    5 | void FUN_0218e554(void);
+      |      ^
+C-WORK/src/arm9_ov000/02193d64_FUN_02193d64.c:27:24: error: too few arguments to function call, expected 2, have 0
+   27 |   iVar1 = FUN_0218e80c();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02193d64_FUN_02193d64.h:6:12: note: 'FUN_0218e80c' declared here
+    6 | undefined4 FUN_0218e80c(undefined4 param_1,int param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193d64_FUN_02193d64.c:35:3: error: use of undeclared identifier '_local_18'
+   35 |   _local_18 = CONCAT22((short)*(undefined4 *)(*(int *)(local_10 + 8) + 0x14),0x200);
+      |   ^
+C-WORK/src/arm9_ov000/02193d64_FUN_02193d64.c:36:9: error: assigning to 'int' from incompatible type 'void'
+   36 |   iVar1 = FUN_0218e4b4(param_2[2],(undefined1 *)(void *)(&local_18),8);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193d64_FUN_02193d64.c:37:48: error: too many arguments to function call, expected 0, have 1
+   37 |   if ((((iVar1 == -1) && (iVar1 = FUN_0218e368(param_2[2]), iVar1 != -6)) && (iVar1 != -0x1a)) &&
+      |                                   ~~~~~~~~~~~~ ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02193d64_FUN_02193d64.h:3:12: note: 'FUN_0218e368' declared here
+    3 | undefined4 FUN_0218e368(void);
+      |            ^
+5 errors generated.

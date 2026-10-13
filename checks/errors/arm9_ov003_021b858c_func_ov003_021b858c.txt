@@ -1,0 +1,58 @@
+C-WORK/src/arm9_ov003/021b858c_func_ov003_021b858c.c:21:31: error: too many arguments to function call, expected 2, have 3
+   21 |   func_ov003_021b7d84(iVar4,0,uRam021b86d0);
+      |   ~~~~~~~~~~~~~~~~~~~         ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b858c_func_ov003_021b858c.h:16:22: note: expanded from macro 'uRam021b86d0'
+   16 | #define uRam021b86d0 (*(undefined4 *)(uintptr_t)0x21b86d0u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b858c_func_ov003_021b858c.h:4:6: note: 'func_ov003_021b7d84' declared here
+    4 | void func_ov003_021b7d84(undefined4 param_1,undefined1 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b858c_func_ov003_021b858c.c:22:46: error: too many arguments to function call, expected 0, have 1
+   22 |   puVar2 = (undefined1 *)func_ov003_021ba178(uRam021b86d4);
+      |                          ~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b858c_func_ov003_021b858c.h:17:22: note: expanded from macro 'uRam021b86d4'
+   17 | #define uRam021b86d4 (*(undefined4 *)(uintptr_t)0x21b86d4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b858c_func_ov003_021b858c.h:14:6: note: 'func_ov003_021ba178' declared here
+   14 | void func_ov003_021ba178(void);
+      |      ^
+C-WORK/src/arm9_ov003/021b858c_func_ov003_021b858c.c:27:32: error: too many arguments to function call, expected 2, have 3
+   27 |   func_ov003_021b7d84(puVar2,0,uRam021b86d4);
+      |   ~~~~~~~~~~~~~~~~~~~          ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b858c_func_ov003_021b858c.h:17:22: note: expanded from macro 'uRam021b86d4'
+   17 | #define uRam021b86d4 (*(undefined4 *)(uintptr_t)0x21b86d4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021b858c_func_ov003_021b858c.h:4:6: note: 'func_ov003_021b7d84' declared here
+    4 | void func_ov003_021b7d84(undefined4 param_1,undefined1 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b858c_func_ov003_021b858c.c:28:44: error: too many arguments to function call, expected 2, have 3
+   28 |   func_ov003_021b7d90(uRam021b86d8,param_2,8);
+      |   ~~~~~~~~~~~~~~~~~~~                      ^
+C-WORK/src/arm9_ov003/deps/021b858c_func_ov003_021b858c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b858c_func_ov003_021b858c.c:29:47: error: too many arguments to function call, expected 2, have 3
+   29 |   func_ov003_021b7d90(auStack_22,uRam021b86d8,8);
+      |   ~~~~~~~~~~~~~~~~~~~                         ^
+C-WORK/src/arm9_ov003/deps/021b858c_func_ov003_021b858c.h:5:6: note: 'func_ov003_021b7d90' declared here
+    5 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b858c_func_ov003_021b858c.c:34:27: error: too many arguments to function call, expected 0, have 1
+   34 |       func_ov003_021ba164(puVar2);
+      |       ~~~~~~~~~~~~~~~~~~~ ^~~~~~
+C-WORK/src/arm9_ov003/deps/021b858c_func_ov003_021b858c.h:13:6: note: 'func_ov003_021ba164' declared here
+   13 | void func_ov003_021ba164(void);
+      |      ^
+C-WORK/src/arm9_ov003/021b858c_func_ov003_021b858c.c:48:27: error: too many arguments to function call, expected 0, have 1
+   48 |       func_ov003_021ba164(puVar2);
+      |       ~~~~~~~~~~~~~~~~~~~ ^~~~~~
+C-WORK/src/arm9_ov003/deps/021b858c_func_ov003_021b858c.h:13:6: note: 'func_ov003_021ba164' declared here
+   13 | void func_ov003_021ba164(void);
+      |      ^
+C-WORK/src/arm9_ov003/021b858c_func_ov003_021b858c.c:57:25: error: too many arguments to function call, expected 0, have 1
+   57 |     func_ov003_021ba164(puVar2);
+      |     ~~~~~~~~~~~~~~~~~~~ ^~~~~~
+C-WORK/src/arm9_ov003/deps/021b858c_func_ov003_021b858c.h:13:6: note: 'func_ov003_021ba164' declared here
+   13 | void func_ov003_021ba164(void);
+      |      ^
+8 errors generated.

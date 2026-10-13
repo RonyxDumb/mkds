@@ -1,0 +1,19 @@
+C-WORK/src/arm9/020adf00_SomeDrawRacerName_from_thumb.c:25:30: error: too many arguments to function call, expected 0, have 5
+   25 |   G2d_Sprite_CreateFromTiles(auStack_70,iVar2,8,2,4);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020adf00_SomeDrawRacerName_from_thumb.h:6:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+    6 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+C-WORK/src/arm9/020adf00_SomeDrawRacerName_from_thumb.c:34:35: error: too many arguments to function call, expected 0, have 6
+   34 |       G2d_TextCanvas_PrintString2(auStack_50,iVar2 + 0x20,iVar4 + 8,2,uVar1,auStack_40);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020adf00_SomeDrawRacerName_from_thumb.h:7:6: note: 'G2d_TextCanvas_PrintString2' declared here
+    7 | void G2d_TextCanvas_PrintString2(void);
+      |      ^
+C-WORK/src/arm9/020adf00_SomeDrawRacerName_from_thumb.c:40:31: error: too many arguments to function call, expected 0, have 6
+   40 |   G2d_TextCanvas_PrintString2(auStack_50,0x20,8,1,uRam020adfa8,auStack_40);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020adf00_SomeDrawRacerName_from_thumb.h:7:6: note: 'G2d_TextCanvas_PrintString2' declared here
+    7 | void G2d_TextCanvas_PrintString2(void);
+      |      ^
+3 errors generated.

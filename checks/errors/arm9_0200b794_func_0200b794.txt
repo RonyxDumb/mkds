@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0200b794_func_0200b794.c:10:20: error: too few arguments to function call, expected 3, have 1
+   10 |     func_0200b850(0);
+      |     ~~~~~~~~~~~~~  ^
+C-WORK/src/arm9/deps/0200b794_func_0200b794.h:4:6: note: 'func_0200b850' declared here
+    4 | void func_0200b850(undefined4 param_1,int param_2,undefined2 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200b794_func_0200b794.c:13:20: error: too few arguments to function call, expected 3, have 1
+   13 |     func_0200b850(1);
+      |     ~~~~~~~~~~~~~  ^
+C-WORK/src/arm9/deps/0200b794_func_0200b794.h:4:6: note: 'func_0200b850' declared here
+    4 | void func_0200b850(undefined4 param_1,int param_2,undefined2 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

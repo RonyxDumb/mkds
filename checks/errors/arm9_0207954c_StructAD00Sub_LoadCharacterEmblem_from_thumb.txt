@@ -1,0 +1,52 @@
+C-WORK/src/arm9/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.c:18:60: error: too few arguments to function call, single argument 'param_1' was not specified
+   18 |   uVar4 = FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.h:10:6: note: 'FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb' declared here
+   10 | void FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb(undefined4 param_1);
+      |      ^                                                ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.c:20:53: error: too few arguments to function call, single argument 'param_1' was not specified
+   20 |   uVar5 = FindFileBuffer_KME_KM1_KM2_KSB_from_thumb();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.h:11:5: note: 'FindFileBuffer_KME_KM1_KM2_KSB_from_thumb' declared here
+   11 | int FindFileBuffer_KME_KM1_KM2_KSB_from_thumb(undefined4 param_1);
+      |     ^                                         ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.c:24:27: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   24 |   Model_Render(param_1[4],3);
+      |   ~~~~~~~~~~~~            ^
+C-WORK/src/arm9/deps/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.h:20:6: note: 'Model_Render' declared here
+   20 | void Model_Render(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.c:31:60: error: too many arguments to function call, expected 5, have 6
+   31 |     Animation_CreateFrom(0,param_1[2],param_1[4],4,param_2,0);
+      |     ~~~~~~~~~~~~~~~~~~~~                                   ^
+C-WORK/src/arm9/deps/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.h:4:6: note: 'Animation_CreateFrom' declared here
+    4 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.c:34:64: error: too few arguments to function call, single argument 'param_1' was not specified
+   34 |       iVar7 = FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb();
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.h:10:6: note: 'FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb' declared here
+   10 | void FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb(undefined4 param_1);
+      |      ^                                                ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.c:36:45: error: too few arguments to function call, single argument 'param_1' was not specified
+   36 |         uVar4 = Anim_NSBCA_LoadGetJNT0Block();
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.h:3:6: note: 'Anim_NSBCA_LoadGetJNT0Block' declared here
+    3 | void Anim_NSBCA_LoadGetJNT0Block(undefined4 param_1);
+      |      ^                           ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.c:51:22: error: too many arguments to function call, expected 0, have 2
+   51 |       uVar3 = FX_Div(iRam02079670,param_1[0xb]);
+      |               ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.h:23:22: note: expanded from macro 'iRam02079670'
+   23 | #define iRam02079670 (*(int *)(uintptr_t)0x2079670u)
+      |                      ^
+C-WORK/src/arm9/deps/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.h:9:6: note: 'FX_Div' declared here
+    9 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.c:60:58: error: too many arguments to function call, expected 5, have 6
+   60 |   Animation_CreateFrom(2,param_1[3],param_1[4],1,param_2,0);
+      |   ~~~~~~~~~~~~~~~~~~~~                                   ^
+C-WORK/src/arm9/deps/0207954c_StructAD00Sub_LoadCharacterEmblem_from_thumb.h:4:6: note: 'Animation_CreateFrom' declared here
+    4 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+8 errors generated.

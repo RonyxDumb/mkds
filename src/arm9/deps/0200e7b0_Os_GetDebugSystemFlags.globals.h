@@ -1,0 +1,5 @@
+#define _DAT_08000000 (*(int *)(uintptr_t)0x8000000u)
+#define iRam0200e878 (*(int *)(uintptr_t)0x200e878u)
+#define uRam0200e874 (*(undefined4 *)(uintptr_t)0x200e874u)
+#define uRam0200e87c (*(uint *)(uintptr_t)0x200e87cu)
+#define uRam0200e880 (*(uint *)(uintptr_t)0x200e880u)

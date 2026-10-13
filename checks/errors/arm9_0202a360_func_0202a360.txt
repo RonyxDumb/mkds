@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0202a360_func_0202a360.c:45:5: error: call to undeclared function 'func_0x0219bb50'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   45 |     func_0x0219bb50();
+      |     ^
+C-WORK/src/arm9/0202a360_func_0202a360.c:46:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   46 |     uVar6 = func_02122778();
+      |             ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0202a360_func_0202a360.h:6:5: note: 'func_02122778' declared here
+    6 | int func_02122778(int param_1);
+      |     ^             ~~~~~~~~~~~
+C-WORK/src/arm9/0202a360_func_0202a360.c:81:30: warning: & has lower precedence than ==; == will be evaluated first [-Wparentheses]
+   81 |         bVar1 = (bool)(bVar1 & local_34[0] == *puVar5);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202a360_func_0202a360.c:81:30: note: place parentheses around the '==' expression to silence this warning
+   81 |         bVar1 = (bool)(bVar1 & local_34[0] == *puVar5);
+      |                              ^                       
+      |                                (                     )
+C-WORK/src/arm9/0202a360_func_0202a360.c:81:30: note: place parentheses around the & expression to evaluate it first
+   81 |         bVar1 = (bool)(bVar1 & local_34[0] == *puVar5);
+      |                              ^
+      |                        (                  )
+1 warning and 2 errors generated.

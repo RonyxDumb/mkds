@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov000/0218d980_FUN_0218d980.c:18:67: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   18 |     iVar2 = FUN_0218d86c(param_2,uVar1,iVar2 - param_4,param_1[2],param_3);
+      |                                                                   ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218d980_FUN_0218d980.h:4:79: note: passing argument to parameter 'param_5' here
+    4 | int FUN_0218d86c(undefined4 param_1,int param_2,int param_3,int param_4,code *param_5);
+      |                                                                               ^
+C-WORK/src/arm9_ov000/0218d980_FUN_0218d980.c:22:67: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   22 |     iVar2 = FUN_0218d818(param_2,uVar1,iVar2 - param_4,param_1[2],param_3,local_1c);
+      |                                                                   ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218d980_FUN_0218d980.h:3:79: note: passing argument to parameter 'param_5' here
+    3 | int FUN_0218d818(undefined4 param_1,int param_2,int param_3,int param_4,code *param_5,undefined4 *param_6);
+      |                                                                               ^
+C-WORK/src/arm9_ov000/0218d980_FUN_0218d980.c:22:75: warning: passing 'int[2]' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   22 |     iVar2 = FUN_0218d818(param_2,uVar1,iVar2 - param_4,param_1[2],param_3,local_1c);
+      |                                                                           ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218d980_FUN_0218d980.h:3:99: note: passing argument to parameter 'param_6' here
+    3 | int FUN_0218d818(undefined4 param_1,int param_2,int param_3,int param_4,code *param_5,undefined4 *param_6);
+      |                                                                                                   ^
+1 warning and 2 errors generated.

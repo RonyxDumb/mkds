@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/0218b8e4_FUN_0218b8e4.c:10:16: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   FUN_0218d1dc();
+      |   ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0218b8e4_FUN_0218b8e4.h:6:6: note: 'FUN_0218d1dc' declared here
+    6 | void FUN_0218d1dc(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218b8e4_FUN_0218b8e4.c:19:26: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   19 |     uVar1 = FUN_0218bb44(param_1);
+      |                          ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218b8e4_FUN_0218b8e4.h:5:23: note: passing argument to parameter 'param_1' here
+    5 | int FUN_0218bb44(int *param_1);
+      |                       ^
+1 warning and 1 error generated.

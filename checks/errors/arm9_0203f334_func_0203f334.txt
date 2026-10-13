@@ -1,0 +1,61 @@
+C-WORK/src/arm9/0203f334_func_0203f334.c:31:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |           *(uint *)(uRam0203f540 & 0xfffffffc) << (uRam0203f540 & 3) * -8 + 0x20) + 0x44;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203f334_func_0203f334.c:31:75: note: place parentheses around the '+' expression to silence this warning
+   31 |           *(uint *)(uRam0203f540 & 0xfffffffc) << (uRam0203f540 & 3) * -8 + 0x20) + 0x44;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0203f334_func_0203f334.c:34:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |   uVar3 = (uint)*(short *)((uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) + 0x1c);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203f334_func_0203f334.c:34:70: note: place parentheses around the '+' expression to silence this warning
+   34 |   uVar3 = (uint)*(short *)((uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) + 0x1c);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/0203f334_func_0203f334.c:36:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |   if ((int)(uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) < 2) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203f334_func_0203f334.c:36:54: note: place parentheses around the '+' expression to silence this warning
+   36 |   if ((int)(uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) < 2) {
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0203f334_func_0203f334.c:41:80: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   41 |   VecFx32_Subtract((uint)(uintptr_t)(&uStack_58),(uint)(uintptr_t)(auStack_4c),&uStack_34);
+      |                                                                                ^~~~~~~~~~
+C-WORK/src/arm9/deps/0203f334_func_0203f334.h:8:54: note: passing argument to parameter 'param_3' here
+    8 | void VecFx32_Subtract(uint param_1,uint param_2,int *param_3);
+      |                                                      ^
+C-WORK/src/arm9/0203f334_func_0203f334.c:59:77: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   59 |     VecFx32_Add((uint)(uintptr_t)(&uStack_40),(uint)(uintptr_t)(&uStack_34),&uStack_40);
+      |                                                                             ^~~~~~~~~~
+C-WORK/src/arm9/deps/0203f334_func_0203f334.h:7:49: note: passing argument to parameter 'param_3' here
+    7 | void VecFx32_Add(uint param_1,uint param_2,int *param_3);
+      |                                                 ^
+C-WORK/src/arm9/0203f334_func_0203f334.c:65:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   65 |   iVar2 = param_1 + 0xc + ((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) - 2) * 4;
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203f334_func_0203f334.c:65:70: note: place parentheses around the '+' expression to silence this warning
+   65 |   iVar2 = param_1 + 0xc + ((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) - 2) * 4;
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/0203f334_func_0203f334.c:66:66: error: too few arguments to function call, expected 5, have 4
+   66 |   MaybeConvertElapsedTime(iVar2 + 2,iVar2 + 3,iVar2,iVar7 * -0xf0);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~                                        ^
+C-WORK/src/arm9/deps/0203f334_func_0203f334.h:6:6: note: 'MaybeConvertElapsedTime' declared here
+    6 | void MaybeConvertElapsedTime(undefined1 *param_1,undefined1 *param_2,undefined2 *param_3,uint param_4,uint param_5);
+      |      ^                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203f334_func_0203f334.c:75:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   75 |   if (0 < (int)((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) - 1)) {
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203f334_func_0203f334.c:75:59: note: place parentheses around the '+' expression to silence this warning
+   75 |   if (0 < (int)((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) - 1)) {
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/0203f334_func_0203f334.c:81:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   81 |     } while ((int)uVar5 < (int)((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) - 1));
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203f334_func_0203f334.c:81:75: note: place parentheses around the '+' expression to silence this warning
+   81 |     } while ((int)uVar5 < (int)((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) - 1));
+      |                                                                           ^     
+      |                                                                (                )
+8 warnings and 1 error generated.

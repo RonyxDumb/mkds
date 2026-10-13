@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/0219b9d4_FUN_0219b9d4.c:17:49: error: too few arguments to function call, single argument 'param_1' was not specified
+   17 |   while ((*piVar2 == 0 || (iVar1 = FUN_0219887c(), param_1 != *(byte *)(iVar1 + 1)))) {
+      |                                    ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219b9d4_FUN_0219b9d4.h:3:12: note: 'FUN_0219887c' declared here
+    3 | undefined4 FUN_0219887c(int param_1);
+      |            ^            ~~~~~~~~~~~
+1 error generated.

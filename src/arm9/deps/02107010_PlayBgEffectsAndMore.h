@@ -1,0 +1,37 @@
+#pragma once
+/* Function-specific inferred declarations. */
+uint GetCurrentLapCount(void);
+int GetCurrentSceneId(void);
+uint GetSomeCXSseqId(void);
+void MaybeSetPlayerVolume(int param_1,undefined1 param_2);
+void NNSi_MaybeSndPlayerStartSeq(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+void PlayBgEffectsAndMore(void);
+uint Sound_GetActiveSdat(void);
+int Sound_GetPlayerInfoEntry(uint param_1);
+uint Sound_IsGlobalSdatUsed(void);
+uint Sound_MaybeSetActiveSdat(undefined4 param_1);
+void func_02109178(void);
+void func_0210d614(int param_1,undefined4 param_2,int param_3);
+void func_0210d6cc(undefined4 *param_1);
+void func_0210d9a0(uint param_1,undefined4 param_2);
+void func_02110534(undefined4 param_1);
+void func_02111118(void);
+void func_0212c6f0(uint param_1);
+#define iRam021073ac (*(int *)(uintptr_t)0x21073acu)
+#define iRam021073b4 (*(int *)(uintptr_t)0x21073b4u)
+#define iRam021073c0 (*(int *)(uintptr_t)0x21073c0u)
+#define iRam021073c4 (*(int *)(uintptr_t)0x21073c4u)
+#define iRam021073c8 (*(int *)(uintptr_t)0x21073c8u)
+#define iRam021073cc (*(int *)(uintptr_t)0x21073ccu)
+#define iRam021073d0 (*(int *)(uintptr_t)0x21073d0u)
+#define iRam021073d4 (*(int *)(uintptr_t)0x21073d4u)
+#define iRam021073d8 (*(int *)(uintptr_t)0x21073d8u)
+#define iRam021073e4 (*(int *)(uintptr_t)0x21073e4u)
+#define psRam021073a4 (*(short **)(uintptr_t)0x21073a4u)
+#define puRam021073a8 (*(undefined4 **)(uintptr_t)0x21073a8u)
+#define puRam021073bc (*(undefined4 **)(uintptr_t)0x21073bcu)
+#define uRam021073b0 (*(uint *)(uintptr_t)0x21073b0u)
+#define uRam021073b8 (*(undefined4 *)(uintptr_t)0x21073b8u)
+#define uRam021073dc (*(uint *)(uintptr_t)0x21073dcu)
+#define uRam021073e0 (*(uint *)(uintptr_t)0x21073e0u)
+#define uRam021073e8 (*(undefined4 *)(uintptr_t)0x21073e8u)

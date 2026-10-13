@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020e3a7c_func_020e3a7c.c:11:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   11 |   uVar1 = FormatFindMapObjFileBuffer_from_thumb(uRam020e3ad8);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020e3a7c_func_020e3a7c.c:12:37: error: too many arguments to function call, expected 2, have 3
+   12 |   func_020ea588(puRam020e3adc,uVar1,0);
+      |   ~~~~~~~~~~~~~                     ^
+C-WORK/src/arm9/deps/020e3a7c_func_020e3a7c.h:9:6: note: 'func_020ea588' declared here
+    9 | void func_020ea588(undefined4 *param_1,undefined4 param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020e3a7c_func_020e3a7c.c:13:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   13 |   uVar2 = FormatFindMapObjFileBuffer_from_thumb(uRam020e3ae0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

@@ -1,0 +1,97 @@
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:47:17: error: assigning to 'int' from incompatible type 'void'
+   47 |           iVar9 = FUN_0219fee4();
+      |                 ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:54:56: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   54 |             (**(code **)(*DAT_021a0528 + DAT_021a0530))(uVar3,*(undefined4 *)(iVar9 + DAT_021a0534))
+      |                                                        ^
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:78:17: error: assigning to 'int' from incompatible type 'void'
+   78 |           iVar9 = FUN_0219fee4();
+      |                 ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:95:34: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   95 |             iVar9 = FUN_0219f4c4(param_5 + 1,*param_5);
+      |                                  ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a01dc_FUN_021a01dc.h:17:37: note: passing argument to parameter 'param_1' here
+   17 | undefined4 FUN_0219f4c4(undefined4 *param_1,uint param_2);
+      |                                     ^
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:98:21: error: assigning to 'int' from incompatible type 'void'
+   98 |               iVar9 = FUN_0219fee4();
+      |                     ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:103:21: error: assigning to 'int' from incompatible type 'void'
+  103 |               iVar9 = FUN_0219fee4();
+      |                     ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:118:21: error: assigning to 'int' from incompatible type 'void'
+  118 |               iVar9 = FUN_0219fee4();
+      |                     ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:125:66: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  125 |             uVar3 = FUN_0218b480(*(undefined4 *)(*piVar2 + 0xe4),0);
+      |                     ~~~~~~~~~~~~                                 ^
+C-WORK/src/arm9_ov000/deps/021a01dc_FUN_021a01dc.h:3:6: note: 'FUN_0218b480' declared here
+    3 | void FUN_0218b480(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:127:34: error: too few arguments to function call, expected 3, have 0
+  127 |             iVar9 = FUN_0219e4a0();
+      |                     ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a01dc_FUN_021a01dc.h:9:5: note: 'FUN_0219e4a0' declared here
+    9 | int FUN_0219e4a0(int param_1,undefined4 param_2,int param_3);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:135:34: error: too few arguments to function call, expected 2, have 0
+  135 |             iVar9 = FUN_0219e594();
+      |                     ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a01dc_FUN_021a01dc.h:10:5: note: 'FUN_0219e594' declared here
+   10 | int FUN_0219e594(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:166:29: error: too few arguments to function call, expected 2, have 1
+  166 |               FUN_0219fbec(1);
+      |               ~~~~~~~~~~~~  ^
+C-WORK/src/arm9_ov000/deps/021a01dc_FUN_021a01dc.h:24:6: note: 'FUN_0219fbec' declared here
+   24 | void FUN_0219fbec(undefined4 param_1,int param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:234:54: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  234 |           (**(code **)(*DAT_021a0904 + DAT_021a0920))(uVar3,*(undefined4 *)(iVar9 + DAT_021a0924));
+      |                                                      ^
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:252:26: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  252 |                          &local_124,1);
+      |                          ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a01dc_FUN_021a01dc.h:30:106: note: passing argument to parameter 'param_5' here
+   30 | undefined4 FUN_021a0ae8(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 *param_5,int param_6);
+      |                                                                                                          ^
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:253:19: error: assigning to 'int' from incompatible type 'void'
+  253 |             iVar9 = FUN_0219fee4();
+      |                   ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:268:34: error: too few arguments to function call, expected 2, have 0
+  268 |             iVar9 = FUN_0219e594();
+      |                     ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a01dc_FUN_021a01dc.h:10:5: note: 'FUN_0219e594' declared here
+   10 | int FUN_0219e594(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:289:34: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  289 |            (iVar9 = FUN_0219f4c4(param_5 + 1,*param_5), iVar9 != 0)) {
+      |                                  ^~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a01dc_FUN_021a01dc.h:17:37: note: passing argument to parameter 'param_1' here
+   17 | undefined4 FUN_0219f4c4(undefined4 *param_1,uint param_2);
+      |                                     ^
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:309:32: error: too many arguments to function call, expected 0, have 1
+  309 |           iVar9 = FUN_0219f938(param_2);
+      |                   ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9_ov000/deps/021a01dc_FUN_021a01dc.h:20:12: note: 'FUN_0219f938' declared here
+   20 | undefined4 FUN_0219f938(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:321:26: error: too few arguments to function call, single argument 'param_1' was not specified
+  321 |             FUN_0219f124();
+      |             ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a01dc_FUN_021a01dc.h:14:12: note: 'FUN_0219f124' declared here
+   14 | undefined4 FUN_0219f124(undefined4 param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:341:28: error: too few arguments to function call, single argument 'param_1' was not specified
+  341 |               FUN_0219bbac();
+      |               ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a01dc_FUN_021a01dc.h:6:12: note: 'FUN_0219bbac' declared here
+    6 | undefined4 FUN_0219bbac(undefined4 param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:351:20: error: assigning to 'undefined8' (aka 'unsigned long long') from incompatible type 'void'
+  351 |            (uVar11 = FUN_021a350c(),
+      |                    ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a01dc_FUN_021a01dc.c:363:15: error: assigning to 'int' from incompatible type 'void'
+  363 |         iVar9 = FUN_0219fee4();
+      |               ^ ~~~~~~~~~~~~~~
+5 warnings and 16 errors generated.

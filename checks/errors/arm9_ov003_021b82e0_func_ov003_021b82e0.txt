@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021b82e0_func_ov003_021b82e0.c:24:43: error: too many arguments to function call, expected 2, have 3
+   24 |   func_ov003_021b7d90(param_1 + 8,param_7,8);
+      |   ~~~~~~~~~~~~~~~~~~~                     ^
+C-WORK/src/arm9_ov003/deps/021b82e0_func_ov003_021b82e0.h:4:6: note: 'func_ov003_021b7d90' declared here
+    4 | void func_ov003_021b7d90(undefined4 param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

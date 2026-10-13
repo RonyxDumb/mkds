@@ -1,0 +1,11 @@
+#pragma once
+/* Function-specific inferred declarations. */
+undefined4 Os_ComputeMemoryRegionStartAddress(undefined4 param_1);
+uint Os_GetSystemFlags(void);
+#define DAT_0200f01c (*(undefined4 *)(uintptr_t)0x200f01cu)
+#define DAT_0200f020 (*(uint *)(uintptr_t)0x200f020u)
+#define DAT_0200f024 (*(undefined4 *)(uintptr_t)0x200f024u)
+#define DAT_0200f028 (*(undefined4 *)(uintptr_t)0x200f028u)
+#define DAT_0200f02c (*(undefined4 *)(uintptr_t)0x200f02cu)
+#define DAT_0200f030 (*(undefined4 *)(uintptr_t)0x200f030u)
+#define DAT_0200f034 (*(undefined4 *)(uintptr_t)0x200f034u)

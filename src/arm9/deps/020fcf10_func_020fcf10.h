@@ -1,0 +1,11 @@
+#pragma once
+/* Function-specific inferred declarations. */
+undefined4 StructMQRacerEntry_SomeFn_64(int param_1);
+void VecFx32_Add(uint param_1,uint param_2,int *param_3);
+void VecFx32_AddScale1(int param_1,uint param_2,uint param_3,int *param_4);
+void VecFx32_Subtract(uint param_1,uint param_2,int *param_3);
+void Vector3_Cross(uint param_1,uint param_2,uint *param_3);
+int Vector3_MaybeNormalize(uint param_1,int *param_2);
+int func_01ffdee4(int *param_1,undefined4 *param_2,uint param_3,int param_4,uint param_5,short param_6,int *param_7,int *param_8,int *param_9,uint *param_10,undefined4 *param_11,int *param_12,undefined2 *param_13,uint *param_14);
+void func_020fcf10(int param_1,uint param_2,int param_3,int param_4,int param_5,int param_6,uint param_7);
+#define iRam020fd250 (*(int *)(uintptr_t)0x20fd250u)

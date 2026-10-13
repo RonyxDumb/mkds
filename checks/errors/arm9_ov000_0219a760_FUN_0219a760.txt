@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov000/0219a760_FUN_0219a760.c:21:51: error: too few arguments to function call, expected 4, have 3
+   21 |       func_0x02135014(param_3,DAT_0219a7e0,param_2);
+      |       ~~~~~~~~~~~~~~~                             ^
+C-WORK/src/arm9_ov000/deps/0219a760_FUN_0219a760.h:12:6: note: 'SomeSnprintf' declared here
+   12 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219a760_FUN_0219a760.c:25:35: error: use of undeclared identifier 'stack0xfffffff4'
+   25 |     uVar1 = FUN_021a8c6c(param_1,&stack0xfffffff4);
+      |                                   ^
+C-WORK/src/arm9_ov000/0219a760_FUN_0219a760.c:26:47: error: too few arguments to function call, expected 4, have 3
+   26 |     func_0x02135014(param_3,DAT_0219a7dc,uVar1);
+      |     ~~~~~~~~~~~~~~~                           ^
+C-WORK/src/arm9_ov000/deps/0219a760_FUN_0219a760.h:12:6: note: 'SomeSnprintf' declared here
+   12 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219a760_FUN_0219a760.c:29:35: error: use of undeclared identifier 'stack0xfffffff4'
+   29 |     uVar1 = FUN_021a8c6c(param_1,&stack0xfffffff4);
+      |                                   ^
+4 errors generated.

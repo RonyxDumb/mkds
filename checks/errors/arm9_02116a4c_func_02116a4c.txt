@@ -1,0 +1,25 @@
+C-WORK/src/arm9/02116a4c_func_02116a4c.c:12:23: error: too few arguments to function call, expected 2, have 1
+   12 |     func_02116b50(0x14);
+      |     ~~~~~~~~~~~~~     ^
+C-WORK/src/arm9/deps/02116a4c_func_02116a4c.h:4:6: note: 'func_02116b50' declared here
+    4 | void func_02116b50(uint param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02116a4c_func_02116a4c.c:22:29: error: too few arguments to function call, expected 2, have 1
+   22 |     func_02116b50(param_1[1]);
+      |     ~~~~~~~~~~~~~           ^
+C-WORK/src/arm9/deps/02116a4c_func_02116a4c.h:4:6: note: 'func_02116b50' declared here
+    4 | void func_02116b50(uint param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02116a4c_func_02116a4c.c:35:29: error: too few arguments to function call, expected 2, have 1
+   35 |     func_02116b50(param_1[2]);
+      |     ~~~~~~~~~~~~~           ^
+C-WORK/src/arm9/deps/02116a4c_func_02116a4c.h:4:6: note: 'func_02116b50' declared here
+    4 | void func_02116b50(uint param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02116a4c_func_02116a4c.c:44:27: error: too few arguments to function call, expected 2, have 1
+   44 |   func_02116b50(param_1[2]);
+      |   ~~~~~~~~~~~~~           ^
+C-WORK/src/arm9/deps/02116a4c_func_02116a4c.h:4:6: note: 'func_02116b50' declared here
+    4 | void func_02116b50(uint param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~
+4 errors generated.

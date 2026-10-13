@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02057244_ClearSaveDataSection_FriendList_from_thumb.c:10:20: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'uint *' (aka 'unsigned int *'); remove * [-Wint-conversion]
+   10 |   (*pcRam0205725c)(*(undefined4 *)(*piRam02057254 + 0x20),0,uRam02057258);
+      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

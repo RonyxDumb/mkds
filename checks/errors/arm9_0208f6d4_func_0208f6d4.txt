@@ -1,0 +1,28 @@
+C-WORK/src/arm9/0208f6d4_func_0208f6d4.c:12:25: error: too few arguments to function call, single argument 'param_1' was not specified
+   12 |   iVar2 = func_0207bfac();
+      |           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0208f6d4_func_0208f6d4.h:3:6: note: 'func_0207bfac' declared here
+    3 | bool func_0207bfac(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/0208f6d4_func_0208f6d4.c:18:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   if (uVar3 >> uVar1 * 8 == 0 && uVar3 << uVar1 * -8 + 0x20 == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208f6d4_func_0208f6d4.c:18:54: note: place parentheses around the '+' expression to silence this warning
+   18 |   if (uVar3 >> uVar1 * 8 == 0 && uVar3 << uVar1 * -8 + 0x20 == 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/0208f6d4_func_0208f6d4.c:23:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |   if (iRam0208f750 <= (int)(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20)) {
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208f6d4_func_0208f6d4.c:23:70: note: place parentheses around the '+' expression to silence this warning
+   23 |   if (iRam0208f750 <= (int)(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20)) {
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/0208f6d4_func_0208f6d4.c:28:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |   if (uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0208f6d4_func_0208f6d4.c:28:54: note: place parentheses around the '+' expression to silence this warning
+   28 |   if (uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0) {
+      |                                                      ^
+      |                                           (                )
+3 warnings and 1 error generated.

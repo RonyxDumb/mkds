@@ -1,0 +1,19 @@
+C-WORK/src/arm9/0200cf30_Os_Lock_UnlockImpl.c:12:29: error: too many arguments to function call, expected 0, have 1
+   12 |       uVar1 = Os_DisableIrq(param_1);
+      |               ~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/0200cf30_Os_Lock_UnlockImpl.h:3:10: note: 'Os_DisableIrq' declared here
+    3 | longlong Os_DisableIrq(void);
+      |          ^
+C-WORK/src/arm9/0200cf30_Os_Lock_UnlockImpl.c:23:21: error: too many arguments to function call, expected 0, have 1
+   23 |       Os_RestoreIrq(uVar1);
+      |       ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200cf30_Os_Lock_UnlockImpl.h:6:12: note: 'Os_RestoreIrq' declared here
+    6 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0200cf30_Os_Lock_UnlockImpl.c:26:24: error: too many arguments to function call, expected 0, have 1
+   26 |       Os_RestoreIrqFiq(uVar1);
+      |       ~~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200cf30_Os_Lock_UnlockImpl.h:7:12: note: 'Os_RestoreIrqFiq' declared here
+    7 | undefined4 Os_RestoreIrqFiq(void);
+      |            ^
+3 errors generated.

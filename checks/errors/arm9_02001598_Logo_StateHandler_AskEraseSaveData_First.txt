@@ -1,0 +1,10 @@
+C-WORK/src/arm9/02001598_Logo_StateHandler_AskEraseSaveData_First.c:12:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   12 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020015ec);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02001598_Logo_StateHandler_AskEraseSaveData_First.c:16:58: error: too many arguments to function call, expected 0, have 4
+   16 |   TextSystem_DisplayDoubleButtonDialog_Simple_from_thumb(uVar2,uVar3,uVar1,1);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02001598_Logo_StateHandler_AskEraseSaveData_First.h:6:6: note: 'TextSystem_DisplayDoubleButtonDialog_Simple_from_thumb' declared here
+    6 | void TextSystem_DisplayDoubleButtonDialog_Simple_from_thumb(void);
+      |      ^
+2 errors generated.

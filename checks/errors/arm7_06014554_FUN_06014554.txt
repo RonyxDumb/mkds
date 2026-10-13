@@ -1,0 +1,33 @@
+C-WORK/src/arm7/06014554_FUN_06014554.c:16:26: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |     uVar3 = FUN_0600ef30();
+      |             ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/06014554_FUN_06014554.h:5:6: note: 'FUN_0600ef30' declared here
+    5 | uint FUN_0600ef30(ushort *param_1);
+      |      ^            ~~~~~~~~~~~~~~~
+C-WORK/src/arm7/06014554_FUN_06014554.c:18:20: error: too few arguments to function call, single argument 'param_1' was not specified
+   18 |       FUN_060145f8();
+      |       ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/06014554_FUN_06014554.h:7:6: note: 'FUN_060145f8' declared here
+    7 | void FUN_060145f8(uint param_1);
+      |      ^            ~~~~~~~~~~~~
+C-WORK/src/arm7/06014554_FUN_06014554.c:21:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |                     *(uint *)(DAT_060145f4 & 0xfffffffc) << (DAT_060145f4 & 3) * -8 + 0x20) + 0x32e)
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06014554_FUN_06014554.c:21:85: note: place parentheses around the '+' expression to silence this warning
+   21 |                     *(uint *)(DAT_060145f4 & 0xfffffffc) << (DAT_060145f4 & 3) * -8 + 0x20) + 0x32e)
+      |                                                                                     ^     
+      |                                                             (                             )
+C-WORK/src/arm7/06014554_FUN_06014554.c:22:41: error: too many arguments to function call, expected 0, have 1
+   22 |          == 1) && (iVar4 = FUN_0600e918(uVar3), iVar4 == 0x40)) {
+      |                            ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm7/deps/06014554_FUN_06014554.h:3:12: note: 'FUN_0600e918' declared here
+    3 | undefined2 FUN_0600e918(void);
+      |            ^
+C-WORK/src/arm7/06014554_FUN_06014554.c:29:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |         uVar5 < *(ushort *)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x322);
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06014554_FUN_06014554.c:29:71: note: place parentheses around the '+' expression to silence this warning
+   29 |         uVar5 < *(ushort *)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x322);
+      |                                                                       ^     
+      |                                                            (                )
+2 warnings and 3 errors generated.

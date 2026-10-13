@@ -1,0 +1,42 @@
+C-WORK/src/arm9/020a0e00_func_020a0e00.c:18:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   18 |   uVar4 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a0e00_func_020a0e00.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020a0e00_func_020a0e00.c:26:91: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |             *(uint *)((uint)puRam020a0f04 & 0xfffffffc) << ((uint)puRam020a0f04 & 3) * -8 + 0x20) +
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a0e00_func_020a0e00.c:26:91: note: place parentheses around the '+' expression to silence this warning
+   26 |             *(uint *)((uint)puRam020a0f04 & 0xfffffffc) << ((uint)puRam020a0f04 & 3) * -8 + 0x20) +
+      |                                                                                           ^     
+      |                                                            (                                    )
+C-WORK/src/arm9/020a0e00_func_020a0e00.c:34:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |             *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a0e00_func_020a0e00.c:34:63: note: place parentheses around the '+' expression to silence this warning
+   34 |             *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20;
+      |                                                               ^     
+      |                                              (                      )
+C-WORK/src/arm9/020a0e00_func_020a0e00.c:39:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |       uVar5 = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a0e00_func_020a0e00.c:39:56: note: place parentheses around the '+' expression to silence this warning
+   39 |       uVar5 = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020a0e00_func_020a0e00.c:59:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   59 |                              *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) + 0x3d0);
+      |                                                            ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a0e00_func_020a0e00.c:59:80: note: place parentheses around the '+' expression to silence this warning
+   59 |                              *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) + 0x3d0);
+      |                                                                                ^     
+      |                                                               (                      )
+C-WORK/src/arm9/020a0e00_func_020a0e00.c:66:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   66 |     *(uint *)((uint)puRam020a0f04 & 0xfffffffc) << ((uint)puRam020a0f04 & 3) * -8 + 0x20) + 0x3b4) =
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a0e00_func_020a0e00.c:66:83: note: place parentheses around the '+' expression to silence this warning
+   66 |     *(uint *)((uint)puRam020a0f04 & 0xfffffffc) << ((uint)puRam020a0f04 & 3) * -8 + 0x20) + 0x3b4) =
+      |                                                                                   ^     
+      |                                                    (                                    )
+5 warnings and 1 error generated.

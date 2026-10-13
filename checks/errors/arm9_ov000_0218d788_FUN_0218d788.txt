@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/0218d788_FUN_0218d788.c:10:16: error: too many arguments to function call, expected 0, have 6
+   10 |   FUN_0218e3e4(*DAT_0218d7b4,DAT_0218d7b8,DAT_0218d7b4[0x13],0,DAT_0218d7b0,8);
+      |   ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218d788_FUN_0218d788.h:4:6: note: 'FUN_0218e3e4' declared here
+    4 | void FUN_0218e3e4(void);
+      |      ^
+C-WORK/src/arm9_ov000/0218d788_FUN_0218d788.c:11:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   11 |   uVar1 = FUN_0218e8c4();
+      |         ^ ~~~~~~~~~~~~~~
+2 errors generated.

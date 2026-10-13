@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02032a20_func_02032a20.c:33:45: error: too few arguments to function call, expected 3, have 2
+   33 |   NNSi_MaybeSndPlayerStartSeq(uRam02032aa4,0);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~               ^
+C-WORK/src/arm9/deps/02032a20_func_02032a20.h:4:6: note: 'NNSi_MaybeSndPlayerStartSeq' declared here
+    4 | void NNSi_MaybeSndPlayerStartSeq(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |      ^                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,26 @@
+C-WORK/src/arm9/0200d028_Os_InitializeLock.c:15:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |       *(uint *)((uint)puRam0200d100 & 0xfffffffc) << ((uint)puRam0200d100 & 3) * -8 + 0x20 != 0) {
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200d028_Os_InitializeLock.c:15:85: note: place parentheses around the '+' expression to silence this warning
+   15 |       *(uint *)((uint)puRam0200d100 & 0xfffffffc) << ((uint)puRam0200d100 & 3) * -8 + 0x20 != 0) {
+      |                                                                                     ^
+      |                                                      (                                    )
+C-WORK/src/arm9/0200d028_Os_InitializeLock.c:20:19: error: too many arguments to function call, expected 0, have 1
+   20 |   Os_Lock_TryLock(0x7e);
+      |   ~~~~~~~~~~~~~~~ ^~~~
+C-WORK/src/arm9/deps/0200d028_Os_InitializeLock.h:5:6: note: 'Os_Lock_TryLock' declared here
+    5 | void Os_Lock_TryLock(void);
+      |      ^
+C-WORK/src/arm9/0200d028_Os_InitializeLock.c:36:18: error: too many arguments to function call, expected 0, have 3
+   36 |   Os_Lock_Unlock(0x7e,puVar2,0);
+      |   ~~~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0200d028_Os_InitializeLock.h:6:6: note: 'Os_Lock_Unlock' declared here
+    6 | void Os_Lock_Unlock(void);
+      |      ^
+C-WORK/src/arm9/0200d028_Os_InitializeLock.c:37:19: error: too many arguments to function call, expected 0, have 3
+   37 |   Os_Lock_TryLock(0x7f,puRam0200d104,0);
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0200d028_Os_InitializeLock.h:5:6: note: 'Os_Lock_TryLock' declared here
+    5 | void Os_Lock_TryLock(void);
+      |      ^
+1 warning and 3 errors generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0200eea4_IC_InvalidateRangeNoClean.c:12:5: error: call to undeclared function 'coproc_moveto_Invalidate_Instruction_Cache_by_MVA'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   12 |     coproc_moveto_Invalidate_Instruction_Cache_by_MVA(uVar1);
+      |     ^
+1 error generated.

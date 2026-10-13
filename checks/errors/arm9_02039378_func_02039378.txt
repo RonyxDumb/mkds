@@ -1,0 +1,46 @@
+C-WORK/src/arm9/02039378_func_02039378.c:16:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |   uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02039378_func_02039378.c:16:52: note: place parentheses around the '+' expression to silence this warning
+   16 |   uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/02039378_func_02039378.c:20:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |               *(uint *)(uRam02039408 & 0xfffffffc) << (uRam02039408 & 3) * -8 + 0x20);
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02039378_func_02039378.c:20:79: note: place parentheses around the '+' expression to silence this warning
+   20 |               *(uint *)(uRam02039408 & 0xfffffffc) << (uRam02039408 & 3) * -8 + 0x20);
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/02039378_func_02039378.c:25:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |     param_4 = param_1 * uVar5 + (uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20);
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02039378_func_02039378.c:25:75: note: place parentheses around the '+' expression to silence this warning
+   25 |     param_4 = param_1 * uVar5 + (uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20);
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/02039378_func_02039378.c:30:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |     param_4 = (uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) - param_1 * uVar5;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02039378_func_02039378.c:30:57: note: place parentheses around the '+' expression to silence this warning
+   30 |     param_4 = (uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) - param_1 * uVar5;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/02039378_func_02039378.c:33:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |           *(uint *)(uRam02039408 & 0xfffffffc) << (uRam02039408 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02039378_func_02039378.c:33:75: note: place parentheses around the '+' expression to silence this warning
+   33 |           *(uint *)(uRam02039408 & 0xfffffffc) << (uRam02039408 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/02039378_func_02039378.c:39:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |   uVar1 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02039378_func_02039378.c:39:52: note: place parentheses around the '+' expression to silence this warning
+   39 |   uVar1 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/02039378_func_02039378.c:41:11: error: assigning to 'int' from incompatible type 'void'
+   41 |     iVar3 = MaybeBoundsCheck(uVar1 - uVar4,uVar5);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+6 warnings and 1 error generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020cc744_func_020cc744.c:110:48: error: assigning to 'int' from incompatible type 'void'
+  110 |     if ((*(int *)(iVar1 + 200) == 4) && (iVar1 = func_020cbad0(), iVar1 == 0)) {
+      |                                                ^ ~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0200ee98_Mem_DcDrainWriteBuffer.c:8:3: error: call to undeclared function 'coproc_moveto_Data_Synchronization'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    8 |   coproc_moveto_Data_Synchronization(0);
+      |   ^
+1 error generated.

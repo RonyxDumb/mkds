@@ -1,0 +1,23 @@
+C-WORK/src/arm9/0202d868_func_0202d868.c:19:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   19 |     uVar1 = func_02025d74();
+      |             ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0202d868_func_0202d868.h:5:5: note: 'func_02025d74' declared here
+    5 | int func_02025d74(int param_1);
+      |     ^             ~~~~~~~~~~~
+C-WORK/src/arm9/0202d868_func_0202d868.c:21:19: error: too many arguments to function call, expected 0, have 6
+   21 |     func_0212426c(1,param_2,*(undefined4 *)(iVar3 + 0x80),uVar1,*(undefined4 *)(iVar3 + 0x78),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   22 |                   *(undefined4 *)(iVar3 + 0x84));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202d868_func_0202d868.h:13:6: note: 'func_0212426c' declared here
+   13 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0202d868_func_0202d868.c:25:19: error: too many arguments to function call, expected 0, have 7
+   25 |     func_02124224(1,param_2 + 7,*(undefined4 *)(iVar3 + 0x80),auStack_2c,
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   26 |                   *(undefined4 *)(iVar3 + 0x78),*(undefined4 *)(iVar3 + 0x84),7);
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202d868_func_0202d868.h:12:6: note: 'func_02124224' declared here
+   12 | void func_02124224(void);
+      |      ^
+3 errors generated.

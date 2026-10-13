@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/0218fb3c_FUN_0218fb3c.c:12:24: error: too few arguments to function call, expected 2, have 0
+   12 |   iVar1 = FUN_02193f2c();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0218fb3c_FUN_0218fb3c.h:9:7: note: 'FUN_02193f2c' declared here
+    9 | int * FUN_02193f2c(int *param_1,int param_2);
+      |       ^            ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218fb3c_FUN_0218fb3c.c:20:11: error: incompatible pointer to integer conversion assigning to 'int' from 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+   20 |     iVar1 = FUN_02193eac((int *)(uintptr_t)(param_1),param_2,1);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

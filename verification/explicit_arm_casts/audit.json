@@ -1,0 +1,7 @@
+{
+  "files": 2581,
+  "conversions": 8280,
+  "exact_original_source_restored_after_removing_logged_casts": true,
+  "mismatches": [],
+  "limitations": "Explicit ARM32 representation conversions do not validate inferred pointee types, ABI, alignment or runtime behaviour."
+}

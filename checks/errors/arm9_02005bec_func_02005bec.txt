@@ -1,0 +1,15 @@
+C-WORK/src/arm9/02005bec_func_02005bec.c:30:13: error: incompatible pointer to integer conversion assigning to 'int' from 'int *'; dereference with * [-Wint-conversion]
+   30 |       iVar2 = FindGlobalGOBy_from_thumb(*(undefined4 *)(puVar6 + 0x10));
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |               *
+C-WORK/src/arm9/02005bec_func_02005bec.c:35:17: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   35 |           uVar4 = func_020063f4(*(undefined4 *)(puVar6 + 0x10),iVar3);
+      |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                   *
+C-WORK/src/arm9/02005bec_func_02005bec.c:46:44: error: too few arguments to function call, expected 4, have 3
+   46 |           func_020061d8(param_1,0xd,param_2);
+      |           ~~~~~~~~~~~~~                    ^
+C-WORK/src/arm9/deps/02005bec_func_02005bec.h:5:6: note: 'func_020061d8' declared here
+    5 | void func_020061d8(int param_1,int param_2,uint param_3,undefined2 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

@@ -1,0 +1,27 @@
+C-WORK/src/arm9/020a10f0_MaybeUpdateDriverBalloonShineCount.c:13:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |           *(uint *)(uRam020a1150 & 0xfffffffc) << (uRam020a1150 & 3) * -8 + 0x20) + 0x4c;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a10f0_MaybeUpdateDriverBalloonShineCount.c:13:75: note: place parentheses around the '+' expression to silence this warning
+   13 |           *(uint *)(uRam020a1150 & 0xfffffffc) << (uRam020a1150 & 3) * -8 + 0x20) + 0x4c;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020a10f0_MaybeUpdateDriverBalloonShineCount.c:17:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   *(uint *)(iVar3 + param_1 * 0x70) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + param_2;
+      |                                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a10f0_MaybeUpdateDriverBalloonShineCount.c:17:81: note: place parentheses around the '+' expression to silence this warning
+   17 |   *(uint *)(iVar3 + param_1 * 0x70) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + param_2;
+      |                                                                                 ^     
+      |                                                                      (                )
+C-WORK/src/arm9/020a10f0_MaybeUpdateDriverBalloonShineCount.c:19:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   19 |     func_020a1b6c();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a10f0_MaybeUpdateDriverBalloonShineCount.h:5:6: note: 'func_020a1b6c' declared here
+    5 | void func_020a1b6c(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020a10f0_MaybeUpdateDriverBalloonShineCount.c:23:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   23 |     func_020a19f8();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a10f0_MaybeUpdateDriverBalloonShineCount.h:4:6: note: 'func_020a19f8' declared here
+    4 | void func_020a19f8(int param_1);
+      |      ^             ~~~~~~~~~~~
+2 warnings and 2 errors generated.

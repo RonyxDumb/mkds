@@ -1,0 +1,25 @@
+C-WORK/src/arm9/02008c08_func_02008c08.c:16:49: error: use of undeclared identifier 'sbyte'
+   16 |      ((*(uint *)(iVar4 + iRam02008cac) & 1 << *(sbyte *)(iVar2 + 10)) == 0)) {
+      |                                                 ^
+C-WORK/src/arm9/02008c08_func_02008c08.c:16:56: error: expected expression
+   16 |      ((*(uint *)(iVar4 + iRam02008cac) & 1 << *(sbyte *)(iVar2 + 10)) == 0)) {
+      |                                                        ^
+C-WORK/src/arm9/02008c08_func_02008c08.c:23:31: error: too few arguments to function call, expected 3, have 1
+   23 |       CopyMemory16(iVar2 + 0xe);
+      |       ~~~~~~~~~~~~            ^
+C-WORK/src/arm9/deps/02008c08_func_02008c08.h:3:6: note: 'CopyMemory16' declared here
+    3 | void CopyMemory16(int param_1,int param_2,int param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02008c08_func_02008c08.c:27:53: error: use of undeclared identifier 'sbyte'
+   27 |            *(uint *)(iVar4 + iRam02008cac) | 1 << *(sbyte *)(*piVar1 + 10);
+      |                                                     ^
+C-WORK/src/arm9/02008c08_func_02008c08.c:27:60: error: expected expression
+   27 |            *(uint *)(iVar4 + iRam02008cac) | 1 << *(sbyte *)(*piVar1 + 10);
+      |                                                            ^
+C-WORK/src/arm9/02008c08_func_02008c08.c:28:48: error: use of undeclared identifier 'sbyte'
+   28 |       *(int *)(iVar4 + iRam02008cb8) = (1 << *(sbyte *)(*piVar1 + 0xb)) + -1;
+      |                                                ^
+C-WORK/src/arm9/02008c08_func_02008c08.c:28:55: error: expected expression
+   28 |       *(int *)(iVar4 + iRam02008cb8) = (1 << *(sbyte *)(*piVar1 + 0xb)) + -1;
+      |                                                       ^
+7 errors generated.

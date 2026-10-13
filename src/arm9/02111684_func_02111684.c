@@ -1,0 +1,118 @@
+/* Decompiled C draft; module arm9; ROM address 02111684. No matching claim. */
+#include "types.h"
+#include "deps/02111684_func_02111684.h"
+
+void func_02111684(void)
+
+{
+  undefined4 uVar1;
+  undefined4 local_8 [2];
+  
+  local_8[0] = 0;
+  uVar1 = find_buf_fn_from_thumb(*puRam021119cc);
+  Gfx_ReadCharGraphicsV2(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam021119d0);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam021119d4);
+  MaybeReadScreenBlock_0(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam021119d8);
+  Gfx_ReadCharGraphics(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam021119dc);
+  LoadCellBankFrom(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam021119e0);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam021119e4);
+  Gfx_ReadCharGraphics(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam021119e8);
+  LoadCellBankFrom(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam021119ec);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam021119f0);
+  Gfx_ReadCharGraphicsV2(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam021119f4);
+  LoadCellBankFrom(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam021119f8);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam021119fc);
+  Gfx_ReadCharGraphics(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a00);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a04);
+  MaybeReadScreenBlock_0(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a08);
+  Gfx_ReadCharGraphicsV2(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a0c);
+  LoadCellBankFrom(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a10);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a14);
+  Gfx_ReadCharGraphics(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a18);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a1c);
+  MaybeReadScreenBlock_0(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a20);
+  Gfx_ReadCharGraphicsV2(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a24);
+  LoadCellBankFrom(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a28);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a2c);
+  Gfx_ReadCharGraphicsV2(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a30);
+  LoadCellBankFrom(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a34);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a38);
+  Gfx_ReadCharGraphics(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a3c);
+  MaybeReadScreenBlock_0(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a40);
+  MaybeReadScreenBlock_0(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a44);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a48);
+  Gfx_ReadCharGraphicsV2(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a4c);
+  LoadCellBankFrom(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a50);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a54);
+  Gfx_ReadCharGraphics(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a58);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a5c);
+  MaybeReadScreenBlock_0(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a60);
+  Gfx_ReadCharGraphicsV2(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a64);
+  LoadCellBankFrom(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a68);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a6c);
+  Gfx_ReadCharGraphics(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a70);
+  MaybeReadScreenBlock_0(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a74);
+  MaybeReadScreenBlock_0(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a78);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a7c);
+  Gfx_ReadCharGraphicsV2(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a80);
+  LoadCellBankFrom(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a84);
+  Gfx_ReadPalette(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a88);
+  MaybeReadScreenBlock_0(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a8c);
+  Gfx_ReadCharGraphics(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a90);
+  MaybeReadScreenBlock_0(local_8,uVar1);
+  uVar1 = find_buf_fn_from_thumb(*puRam02111a94);
+  Gfx_ReadPalette(local_8,uVar1);
+  func_02117388();
+  func_0211e074();
+  return;
+}
+

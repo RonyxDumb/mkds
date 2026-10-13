@@ -1,0 +1,5 @@
+C-WORK/src/arm9_ov003/021d1cb0_FUN_021d1cb0.c:11:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   11 |   uVar1 = FUN_021d14b8(param_2,(uint *)(void *)(auStack_10),4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+1 error generated.

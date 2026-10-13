@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/02190b58_FUN_02190b58.c:10:42: error: too few arguments to function call, expected 4, have 2
+   10 |   func_0x02135014(auStack_20,DAT_02190b7c);
+      |   ~~~~~~~~~~~~~~~                        ^
+C-WORK/src/arm9_ov000/deps/02190b58_FUN_02190b58.h:8:6: note: 'SomeSnprintf' declared here
+    8 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

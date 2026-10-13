@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021c38f0_FUN_021c38f0.c:10:31: error: too few arguments to function call, expected 3, have 2
+   10 |   FUN_021bf43c(0x89,0xffffffff);
+      |   ~~~~~~~~~~~~                ^
+C-WORK/src/arm9_ov003/deps/021c38f0_FUN_021c38f0.h:3:12: note: 'FUN_021bf43c' declared here
+    3 | undefined4 FUN_021bf43c(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

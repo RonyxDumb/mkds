@@ -1,0 +1,10 @@
+C-WORK/src/arm9/0200e6ec_Arm_Context_Save.c:25:20: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   25 |   (*pcRam0200e734)(param_1 + 0x12);
+      |                    ^~~~~~~~~~~~~~
+C-WORK/src/arm9/0200e6ec_Arm_Context_Save.c:28:24: error: use of undeclared identifier 'register0x00000054'
+   28 |   param_1[0x11] = (int)register0x00000054;
+      |                        ^
+C-WORK/src/arm9/0200e6ec_Arm_Context_Save.c:42:23: error: use of undeclared identifier 'register0x00000054'
+   42 |   param_1[0xe] = (int)register0x00000054;
+      |                       ^
+1 warning and 2 errors generated.

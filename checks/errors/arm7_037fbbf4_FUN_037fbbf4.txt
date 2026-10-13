@@ -1,0 +1,21 @@
+C-WORK/src/arm7/037fbbf4_FUN_037fbbf4.c:13:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |           *(uint *)(DAT_037fbc60 & 0xfffffffc) << (DAT_037fbc60 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037fbbf4_FUN_037fbbf4.c:13:75: note: place parentheses around the '+' expression to silence this warning
+   13 |           *(uint *)(DAT_037fbc60 & 0xfffffffc) << (DAT_037fbc60 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm7/037fbbf4_FUN_037fbbf4.c:19:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |                 *(uint *)(DAT_037fbc64 & 0xfffffffc) << (DAT_037fbc64 & 3) * -8 + 0x20)) &&
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037fbbf4_FUN_037fbbf4.c:19:81: note: place parentheses around the '+' expression to silence this warning
+   19 |                 *(uint *)(DAT_037fbc64 & 0xfffffffc) << (DAT_037fbc64 & 3) * -8 + 0x20)) &&
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm7/037fbbf4_FUN_037fbbf4.c:21:65: error: too few arguments to function call, expected 2, have 1
+   21 |     uVar1 = FUN_037fba94(*(undefined1 *)(DAT_037fbc6c + param_1));
+      |             ~~~~~~~~~~~~                                        ^
+C-WORK/src/arm7/deps/037fbbf4_FUN_037fbbf4.h:3:5: note: 'FUN_037fba94' declared here
+    3 | int FUN_037fba94(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.

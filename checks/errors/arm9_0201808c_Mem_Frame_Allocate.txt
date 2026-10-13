@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0201808c_Mem_Frame_Allocate.c:12:29: error: too few arguments to function call, expected 3, have 0
+   12 |     Mem_Frame_AllocFromHead();
+      |     ~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0201808c_Mem_Frame_Allocate.h:3:6: note: 'Mem_Frame_AllocFromHead' declared here
+    3 | uint Mem_Frame_AllocFromHead(uint *param_1,int param_2,int param_3);
+      |      ^                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,28 @@
+C-WORK/src/arm9/020fa8ac_func_020fa8ac.c:26:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |     iVar5 = iVar6 * 0x44 + (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fa8ac_func_020fa8ac.c:26:70: note: place parentheses around the '+' expression to silence this warning
+   26 |     iVar5 = iVar6 * 0x44 + (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/020fa8ac_func_020fa8ac.c:29:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |     if ((0 < (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20)) &&
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fa8ac_func_020fa8ac.c:29:61: note: place parentheses around the '+' expression to silence this warning
+   29 |     if ((0 < (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20)) &&
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020fa8ac_func_020fa8ac.c:31:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |        uVar4 >> uVar1 * 8 == 0 && uVar4 << uVar1 * -8 + 0x20 == 0)) {
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fa8ac_func_020fa8ac.c:31:55: note: place parentheses around the '+' expression to silence this warning
+   31 |        uVar4 >> uVar1 * 8 == 0 && uVar4 << uVar1 * -8 + 0x20 == 0)) {
+      |                                                       ^
+      |                                            (                )
+C-WORK/src/arm9/020fa8ac_func_020fa8ac.c:32:27: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   32 |       func_020f0df8(iVar5,iVar3 + 0x18);
+      |       ~~~~~~~~~~~~~       ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020fa8ac_func_020fa8ac.h:5:6: note: 'func_020f0df8' declared here
+    5 | void func_020f0df8(int param_1);
+      |      ^             ~~~~~~~~~~~
+3 warnings and 1 error generated.

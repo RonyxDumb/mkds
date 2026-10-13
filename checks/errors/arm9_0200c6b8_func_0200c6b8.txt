@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0200c6b8_func_0200c6b8.c:50:18: error: too many arguments to function call, expected 0, have 1
+   50 |       WaitByLoop(1);
+      |       ~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0200c6b8_func_0200c6b8.h:9:6: note: 'WaitByLoop' declared here
+    9 | void WaitByLoop(void);
+      |      ^
+1 error generated.

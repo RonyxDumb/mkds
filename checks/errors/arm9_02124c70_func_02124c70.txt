@@ -1,0 +1,31 @@
+C-WORK/src/arm9/02124c70_func_02124c70.c:23:64: error: too few arguments to function call, expected 7, have 1
+   23 |     func_02124c70(param_6[0xe] + (uint)*(ushort *)(param_3 + 6));
+      |     ~~~~~~~~~~~~~                                              ^
+C-WORK/src/arm9/02124c70_func_02124c70.c:6:1: note: 'func_02124c70' declared here
+    6 | func_02124c70(int param_1,undefined4 param_2,int param_3,undefined4 param_4,int param_5,int *param_6
+      | ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    7 |              ,int param_7)
+      |              ~~~~~~~~~~~~
+C-WORK/src/arm9/02124c70_func_02124c70.c:63:20: warning: operator '>>' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   63 |   iVar2 = local_1c + (short)param_6[1] * 0x1000 >> 0xc;
+      |           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~
+C-WORK/src/arm9/02124c70_func_02124c70.c:63:20: note: place parentheses around the '+' expression to silence this warning
+   63 |   iVar2 = local_1c + (short)param_6[1] * 0x1000 >> 0xc;
+      |                    ^
+      |           (                                    )
+C-WORK/src/arm9/02124c70_func_02124c70.c:65:25: warning: operator '>>' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   65 |       (iVar2 = local_18 + *(short *)((int)param_6 + 6) * 0x1000 >> 0xc, -1 < iVar2 + local_30)) &&
+      |                ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~
+C-WORK/src/arm9/02124c70_func_02124c70.c:65:25: note: place parentheses around the '+' expression to silence this warning
+   65 |       (iVar2 = local_18 + *(short *)((int)param_6 + 6) * 0x1000 >> 0xc, -1 < iVar2 + local_30)) &&
+      |                         ^
+      |                (                                               )
+C-WORK/src/arm9/02124c70_func_02124c70.c:80:96: error: too few arguments to function call, expected 7, have 4
+   79 |     uVar3 = MaybeMakeOamSlot(param_5 + (uint)*(ushort *)(param_5 + iRam02124ecc) * 8,
+      |             ~~~~~~~~~~~~~~~~
+   80 |                              0x80 - *(ushort *)(param_5 + iRam02124ecc) & 0xffff,iVar4,local_2c);
+      |                                                                                                ^
+C-WORK/src/arm9/deps/02124c70_func_02124c70.h:4:6: note: 'MaybeMakeOamSlot' declared here
+    4 | uint MaybeMakeOamSlot(int param_1,uint param_2,ushort *param_3,uint param_4,uint param_5,ushort param_6,int param_7);
+      |      ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 2 errors generated.

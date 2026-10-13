@@ -1,0 +1,75 @@
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:33:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |             *(uint *)(DAT_0202552c & 0xfffffffc) << (DAT_0202552c & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:33:77: note: place parentheses around the '+' expression to silence this warning
+   33 |             *(uint *)(DAT_0202552c & 0xfffffffc) << (DAT_0202552c & 3) * -8 + 0x20;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:36:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |     switch(uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:36:53: note: place parentheses around the '+' expression to silence this warning
+   36 |     switch(uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) {
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:47:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |                                *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20);
+      |                                                              ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:47:82: note: place parentheses around the '+' expression to silence this warning
+   47 |                                *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20);
+      |                                                                                  ^     
+      |                                                                 (                      )
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:47:88: error: too few arguments to function call, expected 2, have 1
+   46 |       iVar8 = GetCourseBgmInfo(*(uint *)(uVar6 & 0xfffffffc) >> (uVar6 & 3) * 8 |
+      |               ~~~~~~~~~~~~~~~~
+   47 |                                *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20);
+      |                                                                                        ^
+C-WORK/src/arm9/deps/0202511c_MaybeGetMusicForMenu.h:3:5: note: 'GetCourseBgmInfo' declared here
+    3 | int GetCourseBgmInfo(undefined4 param_1,undefined1 *param_2);
+      |     ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:49:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   49 |       if ((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) != 4) break;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:49:53: note: place parentheses around the '+' expression to silence this warning
+   49 |       if ((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) != 4) break;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:51:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   51 |               *(uint *)(DAT_0202552c & 0xfffffffc) << (DAT_0202552c & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:51:79: note: place parentheses around the '+' expression to silence this warning
+   51 |               *(uint *)(DAT_0202552c & 0xfffffffc) << (DAT_0202552c & 3) * -8 + 0x20;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:79:9: warning: label at end of compound statement is a C23 extension [-Wc23-extensions]
+   79 |         }
+      |         ^
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:124:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  124 |               *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:124:65: note: place parentheses around the '+' expression to silence this warning
+  124 |               *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20;
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:162:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  162 |         uVar4 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:162:58: note: place parentheses around the '+' expression to silence this warning
+  162 |         uVar4 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:165:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  165 |         GetCourseBgmInfo(uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20,auStack_18);
+      |                                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:165:67: note: place parentheses around the '+' expression to silence this warning
+  165 |         GetCourseBgmInfo(uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20,auStack_18);
+      |                                                                   ^     
+      |                                                        (                )
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:238:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  238 |     uVar5 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0202511c_MaybeGetMusicForMenu.c:238:54: note: place parentheses around the '+' expression to silence this warning
+  238 |     uVar5 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+10 warnings and 1 error generated.

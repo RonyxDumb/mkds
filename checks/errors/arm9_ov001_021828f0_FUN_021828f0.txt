@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov001/021828f0_FUN_021828f0.c:35:30: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   35 |       func_0x0212c6f0(piVar3,0);
+      |       ~~~~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov001/deps/021828f0_FUN_021828f0.h:16:6: note: 'func_0212c6f0' declared here
+   16 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/021828f0_FUN_021828f0.c:38:30: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   38 |       func_0x0212c6f0(piVar3,0);
+      |       ~~~~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov001/deps/021828f0_FUN_021828f0.h:16:6: note: 'func_0212c6f0' declared here
+   16 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+2 errors generated.

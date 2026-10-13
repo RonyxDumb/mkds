@@ -1,0 +1,31 @@
+C-WORK/src/arm7/0600608c_FUN_0600608c.c:18:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   uVar2 = uVar2 >> uVar6 * 8 | uVar2 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0600608c_FUN_0600608c.c:18:52: note: place parentheses around the '+' expression to silence this warning
+   18 |   uVar2 = uVar2 >> uVar6 * 8 | uVar2 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/0600608c_FUN_0600608c.c:21:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   uVar6 = uVar2 >> uVar6 * 8 | uVar2 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0600608c_FUN_0600608c.c:21:52: note: place parentheses around the '+' expression to silence this warning
+   21 |   uVar6 = uVar2 >> uVar6 * 8 | uVar2 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/0600608c_FUN_0600608c.c:35:34: error: too many arguments to function call, expected 0, have 3
+   35 |       iVar4 = thunk_FUN_037f9854(iVar1 + 0x88,puVar3,0);
+      |               ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/0600608c_FUN_0600608c.h:6:6: note: 'thunk_FUN_037f9854' declared here
+    6 | void thunk_FUN_037f9854(void);
+      |      ^
+C-WORK/src/arm7/0600608c_FUN_0600608c.c:40:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |        uVar2 >> uVar6 * 8 != 0 || uVar2 << uVar6 * -8 + 0x20 != 0)) {
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0600608c_FUN_0600608c.c:40:55: note: place parentheses around the '+' expression to silence this warning
+   40 |        uVar2 >> uVar6 * 8 != 0 || uVar2 << uVar6 * -8 + 0x20 != 0)) {
+      |                                                       ^
+      |                                            (                )
+C-WORK/src/arm7/0600608c_FUN_0600608c.c:41:30: error: operand of type 'void' where arithmetic or pointer type is required
+   41 |       puVar5 = (undefined2 *)thunk_FUN_03807424();
+      |                              ^~~~~~~~~~~~~~~~~~~~
+3 warnings and 2 errors generated.

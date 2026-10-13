@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02142f24_func_02142f24.c:77:27: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   77 |       local_90[iVar7 * 2] = param_2 + 1;
+      |                           ^ ~~~~~~~~~~~
+1 error generated.

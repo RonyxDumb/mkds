@@ -1,0 +1,68 @@
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:41:9: error: call to undeclared function 'func_0x021a9008'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   41 |         func_0x021a9008(iVar10);
+      |         ^
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:71:16: error: call to undeclared function 'func_0x021a918c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   71 |       iVar10 = func_0x021a918c(2,2,0);
+      |                ^
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:77:9: error: use of undeclared identifier '_local_34'
+   77 |         _local_34 = CONCAT22((short)DAT_021bd2b0,0x208);
+      |         ^
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:79:20: error: call to undeclared function 'func_0x021a916c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   79 |         local_74 = func_0x021a916c(iVar10,&local_34);
+      |                    ^
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:90:13: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   90 |       uVar8 = FUN_021bb354();
+      |             ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:93:35: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   93 |         FUN_021bd768(DAT_021bd2b8,local_2c);
+      |         ~~~~~~~~~~~~              ^~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bcf1c_FUN_021bcf1c.h:9:12: note: 'FUN_021bd768' declared here
+    9 | undefined4 FUN_021bd768(byte *param_1);
+      |            ^            ~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:94:17: error: call to undeclared function 'func_0x021a90a0'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   94 |         iVar6 = func_0x021a90a0(iVar10,DAT_021bd2bc,DAT_021bd2c0,4,local_2c);
+      |                 ^
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:96:17: error: assigning to 'int' from incompatible type 'void'
+   96 |           iVar6 = FUN_021bb354();
+      |                 ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:104:9: error: call to undeclared function 'func_0x021a9008'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  104 |         func_0x021a9008(iVar10);
+      |         ^
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:110:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  110 |       uVar7 = FUN_021bd894(DAT_021bd2bc);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:112:48: error: too few arguments to function call, expected 4, have 3
+  112 |       FUN_021bdccc(iVar10,local_2c,DAT_021bd2bc);
+      |       ~~~~~~~~~~~~                             ^
+C-WORK/src/arm9_ov003/deps/021bcf1c_FUN_021bcf1c.h:16:6: note: 'FUN_021bdccc' declared here
+   16 | void FUN_021bdccc(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:113:16: error: assigning to 'int' from incompatible type 'void'
+  113 |       local_38 = FUN_021bb354();
+      |                ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:117:13: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+  117 |       uVar8 = FUN_021bb354();
+      |             ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:119:17: error: call to undeclared function 'func_0x021a90a0'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  119 |         iVar6 = func_0x021a90a0(iVar10,DAT_021bd2bc,DAT_021bd2c0,4,local_2c);
+      |                 ^
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:122:17: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+  122 |           uVar8 = FUN_021bb354();
+      |                 ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:128:34: error: operand of type 'void' where arithmetic or pointer type is required
+  128 |           puVar5 = (undefined1 *)FUN_021bdbd0((ushort *)(uintptr_t)(DAT_021bd2d0),(undefined4)(uintptr_t)(&local_24),(undefined4)(uintptr_t)(auStack_20));
+      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:130:25: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  130 |             local_1c[0] = FUN_021bb354();
+      |                         ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:140:39: error: incompatible pointer to integer conversion passing 'undefined4[2]' (aka 'unsigned int[2]') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+  140 |             FUN_021bb378(DAT_021bd2dc,local_1c,4);
+      |                                       ^~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bcf1c_FUN_021bcf1c.h:5:49: note: passing argument to parameter 'param_2' here
+    5 | void FUN_021bb378(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |                                                 ^
+C-WORK/src/arm9_ov003/021bcf1c_FUN_021bcf1c.c:150:9: error: call to undeclared function 'func_0x021a9008'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  150 |         func_0x021a9008(iVar10);
+      |         ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.

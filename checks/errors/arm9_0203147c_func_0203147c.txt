@@ -1,0 +1,23 @@
+C-WORK/src/arm9/0203147c_func_0203147c.c:14:31: error: too few arguments to function call, expected 3, have 0
+   14 |   Maybe_multi_select_member_m();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0203147c_func_0203147c.h:5:6: note: 'Maybe_multi_select_member_m' declared here
+    5 | void Maybe_multi_select_member_m(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |      ^                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203147c_func_0203147c.c:18:17: error: too many arguments to function call, expected 0, have 6
+   18 |   func_0212426c(1,(int)*psRam02031534,*(undefined4 *)(iVar3 + 0x54),auStack_24,
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   19 |                 *(undefined4 *)(iVar3 + 0x4c),*(undefined4 *)(iVar3 + 0x58));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0203147c_func_0203147c.h:9:6: note: 'func_0212426c' declared here
+    9 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0203147c_func_0203147c.c:22:17: error: too many arguments to function call, expected 0, have 6
+   22 |   func_0212426c(1,(int)*(short *)(iRam02031538 + 0x20),*(undefined4 *)(iVar3 + 0x54),uVar2,
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   23 |                 *(undefined4 *)(iVar3 + 0x4c),*(undefined4 *)(iVar3 + 0x58));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0203147c_func_0203147c.h:9:6: note: 'func_0212426c' declared here
+    9 | void func_0212426c(void);
+      |      ^
+3 errors generated.

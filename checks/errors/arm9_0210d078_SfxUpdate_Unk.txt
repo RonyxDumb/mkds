@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0210d078_SfxUpdate_Unk.c:9:25: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+    9 |   func_0212c524(param_2,*puRam0210d0b0,(int)*(short *)(param_2 + 0x14));
+      |   ~~~~~~~~~~~~~         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0210d078_SfxUpdate_Unk.h:4:6: note: 'func_0212c524' declared here
+    4 | void func_0212c524(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+1 error generated.

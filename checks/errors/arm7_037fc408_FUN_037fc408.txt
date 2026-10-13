@@ -1,0 +1,4 @@
+C-WORK/src/arm7/037fc408_FUN_037fc408.c:8:13: error: use of undeclared identifier 'DAT_04000508'
+    8 |   return ((&DAT_04000508)[param_1] & 0x80) != 0;
+      |             ^
+1 error generated.

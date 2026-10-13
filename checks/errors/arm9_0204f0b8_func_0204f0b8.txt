@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0204f0b8_func_0204f0b8.c:17:9: error: assigning to 'int' from incompatible type 'void'
+   17 |   iVar2 = func_02006db0(1,(int)*(short *)(iVar2 + iRam0204f0f4),iVar2 + iRam0204f0f8,uRam0204f0fc);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

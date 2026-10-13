@@ -1,0 +1,28 @@
+C-WORK/src/arm9_ov003/021cbb14_FUN_021cbb14.c:8:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+    8 |   FUN_021bf620(DAT_021cbb6c,DAT_021cbb70);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cbb14_FUN_021cbb14.h:6:22: note: expanded from macro 'DAT_021cbb70'
+    6 | #define DAT_021cbb70 (*(undefined4 *)(uintptr_t)0x21cbb70u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cbb14_FUN_021cbb14.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+C-WORK/src/arm9_ov003/021cbb14_FUN_021cbb14.c:9:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+    9 |   FUN_021bf620(DAT_021cbb74,DAT_021cbb78);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cbb14_FUN_021cbb14.h:8:22: note: expanded from macro 'DAT_021cbb78'
+    8 | #define DAT_021cbb78 (*(undefined4 *)(uintptr_t)0x21cbb78u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cbb14_FUN_021cbb14.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+C-WORK/src/arm9_ov003/021cbb14_FUN_021cbb14.c:10:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   10 |   FUN_021bf620(DAT_021cbb7c,DAT_021cbb80);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cbb14_FUN_021cbb14.h:10:22: note: expanded from macro 'DAT_021cbb80'
+   10 | #define DAT_021cbb80 (*(undefined4 *)(uintptr_t)0x21cbb80u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021cbb14_FUN_021cbb14.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+3 errors generated.

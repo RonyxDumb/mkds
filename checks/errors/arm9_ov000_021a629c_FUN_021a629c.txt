@@ -1,0 +1,61 @@
+C-WORK/src/arm9_ov000/021a629c_FUN_021a629c.c:20:29: error: too many arguments to function call, expected 0, have 2
+   20 |     uVar2 = func_0x02142e78(*DAT_021a6410,*(uint *)(*DAT_021a6410 + DAT_021a6418) & 0xffff);
+      |             ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a629c_FUN_021a629c.h:18:6: note: 'Wm_Initialize' declared here
+   18 | void Wm_Initialize(void);
+      |      ^
+C-WORK/src/arm9_ov000/021a629c_FUN_021a629c.c:26:23: error: too many arguments to function call, expected 0, have 1
+   26 |       func_0x0200fcb4(uVar1);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a629c_FUN_021a629c.h:16:12: note: 'Os_RestoreIrq' declared here
+   16 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a629c_FUN_021a629c.c:30:23: error: too many arguments to function call, expected 0, have 1
+   30 |       func_0x0200fcb4(uVar1);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a629c_FUN_021a629c.h:16:12: note: 'Os_RestoreIrq' declared here
+   16 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a629c_FUN_021a629c.c:33:23: error: too many arguments to function call, expected 0, have 1
+   33 |       func_0x0200fcb4(uVar1);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a629c_FUN_021a629c.h:16:12: note: 'Os_RestoreIrq' declared here
+   16 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a629c_FUN_021a629c.c:53:23: error: too many arguments to function call, expected 0, have 1
+   53 |       func_0x0200fcb4(uVar1);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a629c_FUN_021a629c.h:16:12: note: 'Os_RestoreIrq' declared here
+   16 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a629c_FUN_021a629c.c:56:21: error: too many arguments to function call, expected 0, have 1
+   56 |     func_0x0200fcb4(uVar1);
+      |     ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a629c_FUN_021a629c.h:16:12: note: 'Os_RestoreIrq' declared here
+   16 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a629c_FUN_021a629c.c:62:21: error: too many arguments to function call, expected 0, have 1
+   62 |     func_0x0200fcb4(uVar1);
+      |     ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a629c_FUN_021a629c.h:16:12: note: 'Os_RestoreIrq' declared here
+   16 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a629c_FUN_021a629c.c:69:21: error: too many arguments to function call, expected 0, have 1
+   69 |     func_0x0200fcb4(uVar1);
+      |     ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a629c_FUN_021a629c.h:16:12: note: 'Os_RestoreIrq' declared here
+   16 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a629c_FUN_021a629c.c:74:21: error: too many arguments to function call, expected 0, have 1
+   74 |     func_0x0200fcb4(uVar1);
+      |     ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a629c_FUN_021a629c.h:16:12: note: 'Os_RestoreIrq' declared here
+   16 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9_ov000/021a629c_FUN_021a629c.c:78:19: error: too many arguments to function call, expected 0, have 1
+   78 |   func_0x0200fcb4(uVar1);
+      |   ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a629c_FUN_021a629c.h:16:12: note: 'Os_RestoreIrq' declared here
+   16 | undefined4 Os_RestoreIrq(void);
+      |            ^
+10 errors generated.

@@ -1,0 +1,194 @@
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:32:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |            *(uint *)(uRam020a1510 & 0xfffffffc) << (uRam020a1510 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:32:76: note: place parentheses around the '+' expression to silence this warning
+   32 |            *(uint *)(uRam020a1510 & 0xfffffffc) << (uRam020a1510 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:35:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |   uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:35:52: note: place parentheses around the '+' expression to silence this warning
+   35 |   uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:40:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |           *(uint *)(uRam020a1514 & 0xfffffffc) << (uRam020a1514 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:40:75: note: place parentheses around the '+' expression to silence this warning
+   40 |           *(uint *)(uRam020a1514 & 0xfffffffc) << (uRam020a1514 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:43:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   43 |   uVar7 = uVar4 >> uVar7 * 8 | uVar4 << uVar7 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:43:52: note: place parentheses around the '+' expression to silence this warning
+   43 |   uVar7 = uVar4 >> uVar7 * 8 | uVar4 << uVar7 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:51:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   51 |               *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:51:65: note: place parentheses around the '+' expression to silence this warning
+   51 |               *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                                                 ^     
+      |                                                (                      )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:66:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   66 |       if ((uVar10 != (int)*(char *)((uVar4 >> uVar11 * 8 | uVar4 << uVar11 * -8 + 0x20) + 0x62)) &&
+      |                                                                  ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:66:81: note: place parentheses around the '+' expression to silence this warning
+   66 |       if ((uVar10 != (int)*(char *)((uVar4 >> uVar11 * 8 | uVar4 << uVar11 * -8 + 0x20) + 0x62)) &&
+      |                                                                                 ^     
+      |                                                                     (                 )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:68:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   68 |          (int)(uVar7 >> uVar10 * 8 | uVar7 << uVar10 * -8 + 0x20) < 0)) {
+      |                                            ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:68:59: note: place parentheses around the '+' expression to silence this warning
+   68 |          (int)(uVar7 >> uVar10 * 8 | uVar7 << uVar10 * -8 + 0x20) < 0)) {
+      |                                                           ^     
+      |                                               (                 )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:69:23: error: too few arguments to function call, single argument 'param_1' was not specified
+   69 |         func_020a16d0();
+      |         ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.h:4:6: note: 'func_020a16d0' declared here
+    4 | void func_020a16d0(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:79:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   79 |   uVar5 = uVar7 >> uVar5 * 8 | uVar7 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:79:52: note: place parentheses around the '+' expression to silence this warning
+   79 |   uVar5 = uVar7 >> uVar5 * 8 | uVar7 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:88:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   88 |       piVar9 = (int *)((uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) + iVar3);
+      |                                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:88:66: note: place parentheses around the '+' expression to silence this warning
+   88 |       piVar9 = (int *)((uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) + iVar3);
+      |                                                                  ^     
+      |                                                       (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:95:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   95 |         uVar16 = uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:95:59: note: place parentheses around the '+' expression to silence this warning
+   95 |         uVar16 = uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:97:82: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   97 |                  *(uint *)((uint)piVar9 & 0xfffffffc) << ((uint)piVar9 & 3) * -8 + 0x20;
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:97:82: note: place parentheses around the '+' expression to silence this warning
+   97 |                  *(uint *)((uint)piVar9 & 0xfffffffc) << ((uint)piVar9 & 3) * -8 + 0x20;
+      |                                                                                  ^     
+      |                                                          (                             )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:106:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  106 |         uVar18 = uVar17 >> uVar4 * 8 | uVar17 << uVar4 * -8 + 0x20;
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:106:61: note: place parentheses around the '+' expression to silence this warning
+  106 |         uVar18 = uVar17 >> uVar4 * 8 | uVar17 << uVar4 * -8 + 0x20;
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:110:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  110 |         piVar9[1] = (uVar17 >> uVar4 * 8 | uVar17 << uVar4 * -8 + 0x20) +
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:110:65: note: place parentheses around the '+' expression to silence this warning
+  110 |         piVar9[1] = (uVar17 >> uVar4 * 8 | uVar17 << uVar4 * -8 + 0x20) +
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:111:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  111 |                     (uVar13 >> uVar5 * 8 | uVar13 << uVar5 * -8 + 0x20) * uVar15 +
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:111:65: note: place parentheses around the '+' expression to silence this warning
+  111 |                     (uVar13 >> uVar5 * 8 | uVar13 << uVar5 * -8 + 0x20) * uVar15 +
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:112:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  112 |                     uVar16 * (uVar12 >> uVar8 * 8 | uVar12 << uVar8 * -8 + 0x20) +
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:112:74: note: place parentheses around the '+' expression to silence this warning
+  112 |                     uVar16 * (uVar12 >> uVar8 * 8 | uVar12 << uVar8 * -8 + 0x20) +
+      |                                                                          ^     
+      |                                                               (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:117:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  117 |           uVar8 = uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20;
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:117:60: note: place parentheses around the '+' expression to silence this warning
+  117 |           uVar8 = uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20;
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:123:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  123 |                          (ulonglong)(uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) >> 0x20);
+      |                                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:123:79: note: place parentheses around the '+' expression to silence this warning
+  123 |                          (ulonglong)(uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) >> 0x20);
+      |                                                                               ^     
+      |                                                                    (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:130:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  130 |       if (uVar8 >> uVar5 * 8 == 0 && uVar8 << uVar5 * -8 + 0x20 == 0) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:130:58: note: place parentheses around the '+' expression to silence this warning
+  130 |       if (uVar8 >> uVar5 * 8 == 0 && uVar8 << uVar5 * -8 + 0x20 == 0) {
+      |                                                          ^
+      |                                               (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:131:23: error: too few arguments to function call, single argument 'param_1' was not specified
+  131 |         func_020a16d0();
+      |         ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.h:4:6: note: 'func_020a16d0' declared here
+    4 | void func_020a16d0(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:134:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  134 |           *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + iVar14 + 8) = 2;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:134:61: note: place parentheses around the '+' expression to silence this warning
+  134 |           *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + iVar14 + 8) = 2;
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:137:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  137 |                *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                              ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:137:66: note: place parentheses around the '+' expression to silence this warning
+  137 |                *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                                                  ^     
+      |                                                 (                      )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:140:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  140 |     } while ((int)(uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) < 0);
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:140:61: note: place parentheses around the '+' expression to silence this warning
+  140 |     } while ((int)(uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) < 0);
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:152:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  152 |              *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:152:64: note: place parentheses around the '+' expression to silence this warning
+  152 |              *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20;
+      |                                                                ^     
+      |                                               (                      )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:155:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  155 |     if ((int)(uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) < 0) {
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:155:56: note: place parentheses around the '+' expression to silence this warning
+  155 |     if ((int)(uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) < 0) {
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:171:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  171 |       if (uVar5 >> uVar10 * 8 == 0 && uVar5 << uVar10 * -8 + 0x20 == 0) {
+      |                                             ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:171:60: note: place parentheses around the '+' expression to silence this warning
+  171 |       if (uVar5 >> uVar10 * 8 == 0 && uVar5 << uVar10 * -8 + 0x20 == 0) {
+      |                                                            ^
+      |                                                (                 )
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:172:23: error: too few arguments to function call, single argument 'param_1' was not specified
+  172 |         func_020a16d0();
+      |         ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.h:4:6: note: 'func_020a16d0' declared here
+    4 | void func_020a16d0(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:175:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  175 |           *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + uVar8 * 0x70 + 8) = 2;
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a12b8_RaceModeBattle_OrMissionRun_SomeFn.c:175:61: note: place parentheses around the '+' expression to silence this warning
+  175 |           *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + uVar8 * 0x70 + 8) = 2;
+      |                                                             ^     
+      |                                            (                      )
+25 warnings and 3 errors generated.

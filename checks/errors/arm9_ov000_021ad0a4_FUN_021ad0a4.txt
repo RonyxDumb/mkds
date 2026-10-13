@@ -1,0 +1,22 @@
+C-WORK/src/arm9_ov000/021ad0a4_FUN_021ad0a4.c:78:13: error: assigning to 'int' from incompatible type 'void'
+   78 |       iVar4 = (*(code *)*DAT_021ad23c)();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021ad0a4_FUN_021ad0a4.c:98:30: error: too few arguments to function call, single argument 'param_1' was not specified
+   98 |         iVar4 = FUN_021ad240();
+      |                 ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021ad0a4_FUN_021ad0a4.h:4:8: note: 'FUN_021ad240' declared here
+    4 | byte * FUN_021ad240(byte *param_1);
+      |        ^            ~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021ad0a4_FUN_021ad0a4.c:102:45: error: too few arguments to function call, single argument 'param_1' was not specified
+  102 |         puVar3 = (undefined1 *)FUN_021ad240();
+      |                                ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021ad0a4_FUN_021ad0a4.h:4:8: note: 'FUN_021ad240' declared here
+    4 | byte * FUN_021ad240(byte *param_1);
+      |        ^            ~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021ad0a4_FUN_021ad0a4.c:112:18: error: too many arguments to function call, expected 0, have 1
+  112 |     FUN_021adf00(local_54);
+      |     ~~~~~~~~~~~~ ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/021ad0a4_FUN_021ad0a4.h:7:6: note: 'FUN_021adf00' declared here
+    7 | void FUN_021adf00(void);
+      |      ^
+4 errors generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov001/021a0140_FUN_021a0140.c:12:21: error: too many arguments to function call, expected 0, have 2
+   12 |     func_0x02105550(4,uVar1);
+      |     ~~~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9_ov001/deps/021a0140_FUN_021a0140.h:10:6: note: 'func_02105550' declared here
+   10 | void func_02105550(void);
+      |      ^
+C-WORK/src/arm9_ov001/021a0140_FUN_021a0140.c:16:21: error: too many arguments to function call, expected 0, have 2
+   16 |     func_0x02105550(0,uVar1);
+      |     ~~~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9_ov001/deps/021a0140_FUN_021a0140.h:10:6: note: 'func_02105550' declared here
+   10 | void func_02105550(void);
+      |      ^
+2 errors generated.

@@ -1,0 +1,15 @@
+#pragma once
+/* Function-specific inferred declarations. */
+short FX_Atan2(int param_1,int param_2);
+uint GetGlobalHD5(void);
+uint func_02061818(void);
+void func_02094000(undefined4 *param_1);
+uint func_0209bbfc(uint param_1);
+uint func_02100138(uint param_1);
+#define iRam020946a4 (*(int *)(uintptr_t)0x20946a4u)
+#define iRam020946ac (*(int *)(uintptr_t)0x20946acu)
+#define piRam020946b4 (*(int **)(uintptr_t)0x20946b4u)
+#define uRam0209469c (*(undefined4 *)(uintptr_t)0x209469cu)
+#define uRam020946a0 (*(uint *)(uintptr_t)0x20946a0u)
+#define uRam020946a8 (*(uint *)(uintptr_t)0x20946a8u)
+#define uRam020946b0 (*(undefined4 *)(uintptr_t)0x20946b0u)

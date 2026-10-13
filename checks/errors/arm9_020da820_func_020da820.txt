@@ -1,0 +1,55 @@
+C-WORK/src/arm9/020da820_func_020da820.c:24:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |   uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020da820_func_020da820.c:24:52: note: place parentheses around the '+' expression to silence this warning
+   24 |   uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020da820_func_020da820.c:33:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |     VecFx32_Subtract(uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20,
+      |                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020da820_func_020da820.c:33:63: note: place parentheses around the '+' expression to silence this warning
+   33 |     VecFx32_Subtract(uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20,
+      |                                                               ^     
+      |                                                    (                )
+C-WORK/src/arm9/020da820_func_020da820.c:34:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |                      uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20,&iStack_2c);
+      |                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020da820_func_020da820.c:34:63: note: place parentheses around the '+' expression to silence this warning
+   34 |                      uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20,&iStack_2c);
+      |                                                               ^     
+      |                                                    (                )
+C-WORK/src/arm9/020da820_func_020da820.c:42:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |                 *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020da820_func_020da820.c:42:71: note: place parentheses around the '+' expression to silence this warning
+   42 |                 *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20;
+      |                                                                       ^     
+      |                                                    (                        )
+C-WORK/src/arm9/020da820_func_020da820.c:45:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   45 |     uStack_18 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020da820_func_020da820.c:45:58: note: place parentheses around the '+' expression to silence this warning
+   45 |     uStack_18 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/020da820_func_020da820.c:46:42: error: too few arguments to function call, expected 2, have 1
+   46 |     iVar5 = Vector3_DotProduct(&iStack_2c);
+      |             ~~~~~~~~~~~~~~~~~~           ^
+C-WORK/src/arm9/deps/020da820_func_020da820.h:6:6: note: 'Vector3_DotProduct' declared here
+    6 | uint Vector3_DotProduct(uint param_1,uint param_2);
+      |      ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020da820_func_020da820.c:79:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   79 |       *(uint *)(iVar5 + 0x60) = (uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) + 0xf000;
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020da820_func_020da820.c:79:75: note: place parentheses around the '+' expression to silence this warning
+   79 |       *(uint *)(iVar5 + 0x60) = (uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) + 0xf000;
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/020da820_func_020da820.c:81:48: error: too few arguments to function call, expected 5, have 4
+   81 |       func_020f6630(iVar5,0,param_1 + 4,param_2);
+      |       ~~~~~~~~~~~~~                            ^
+C-WORK/src/arm9/deps/020da820_func_020da820.h:9:6: note: 'func_020f6630' declared here
+    9 | void func_020f6630(int param_1,int param_2,undefined4 param_3,undefined4 param_4,uint param_5);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+6 warnings and 2 errors generated.

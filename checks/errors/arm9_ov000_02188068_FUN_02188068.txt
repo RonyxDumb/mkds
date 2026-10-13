@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov000/02188068_FUN_02188068.c:11:18: error: too few arguments to function call, single argument 'param_1' was not specified
+   11 |     FUN_02186d04();
+      |     ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02188068_FUN_02188068.h:4:6: note: 'FUN_02186d04' declared here
+    4 | void FUN_02186d04(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02188068_FUN_02188068.c:12:48: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   12 |     (**(code **)(*DAT_021880f8 + DAT_021880fc))(DAT_021880f4,*DAT_021880f0,0);
+      |                                                ^
+C-WORK/src/arm9_ov000/02188068_FUN_02188068.c:19:42: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   19 |       (**(code **)(iVar1 + DAT_021880fc))(DAT_02188104,*(int *)(iVar1 + DAT_02188100),0);
+      |                                          ^
+C-WORK/src/arm9_ov000/02188068_FUN_02188068.c:24:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   24 |       (**(code **)(*DAT_021880f8 + DAT_021880fc))(DAT_0218810c,iVar1,0);
+      |                                                  ^
+C-WORK/src/arm9_ov000/02188068_FUN_02188068.c:27:48: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   27 |     (**(code **)(*DAT_021880f8 + DAT_021880fc))(DAT_02188110,*DAT_021880f8,0);
+      |                                                ^
+4 warnings and 1 error generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02013b3c_func_02013b3c.c:11:36: error: too few arguments to function call, expected 2, have 0
+   11 |   puVar1 = (ushort *)func_02013b20();
+      |                      ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02013b3c_func_02013b3c.h:3:5: note: 'func_02013b20' declared here
+    3 | int func_02013b20(int param_1,int param_2);
+      |     ^             ~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

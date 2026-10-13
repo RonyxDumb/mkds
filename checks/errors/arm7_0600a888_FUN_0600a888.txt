@@ -1,0 +1,18 @@
+C-WORK/src/arm7/0600a888_FUN_0600a888.c:10:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   10 |                        *(uint *)(DAT_0600a8c4 & 0xfffffffc) << (DAT_0600a8c4 & 3) * -8 + 0x20) +
+      |                                                             ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/0600a888_FUN_0600a888.c:10:88: note: place parentheses around the '+' expression to silence this warning
+   10 |                        *(uint *)(DAT_0600a8c4 & 0xfffffffc) << (DAT_0600a8c4 & 3) * -8 + 0x20) +
+      |                                                                                        ^     
+      |                                                                (                             )
+C-WORK/src/arm7/0600a888_FUN_0600a888.c:9:22: error: too many arguments to function call, expected 0, have 3
+    9 |   thunk_FUN_037fb24c(0,(*(uint *)(DAT_0600a8c4 & 0xfffffffc) >> (DAT_0600a8c4 & 3) * 8 |
+      |   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   10 |                        *(uint *)(DAT_0600a8c4 & 0xfffffffc) << (DAT_0600a8c4 & 3) * -8 + 0x20) +
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   11 |                        DAT_0600a8c8,0xb4);
+      |                        ~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/0600a888_FUN_0600a888.h:5:6: note: 'thunk_FUN_037fb24c' declared here
+    5 | void thunk_FUN_037fb24c(void);
+      |      ^
+1 warning and 1 error generated.

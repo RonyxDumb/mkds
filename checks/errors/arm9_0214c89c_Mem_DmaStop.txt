@@ -1,0 +1,25 @@
+C-WORK/src/arm9/0214c89c_Mem_DmaStop.c:19:16: error: use of undeclared identifier 'DAT_040000b0'
+   19 |   *(ushort *)(&DAT_040000b0 + iVar1) = *(ushort *)(&DAT_040000b0 + iVar1) & 0xc5ff;
+      |                ^
+C-WORK/src/arm9/0214c89c_Mem_DmaStop.c:19:53: error: use of undeclared identifier 'DAT_040000b0'
+   19 |   *(ushort *)(&DAT_040000b0 + iVar1) = *(ushort *)(&DAT_040000b0 + iVar1) & 0xc5ff;
+      |                                                     ^
+C-WORK/src/arm9/0214c89c_Mem_DmaStop.c:20:16: error: use of undeclared identifier 'DAT_040000b0'
+   20 |   *(ushort *)(&DAT_040000b0 + iVar1) = *(ushort *)(&DAT_040000b0 + iVar1) & 0x7fff;
+      |                ^
+C-WORK/src/arm9/0214c89c_Mem_DmaStop.c:20:53: error: use of undeclared identifier 'DAT_040000b0'
+   20 |   *(ushort *)(&DAT_040000b0 + iVar1) = *(ushort *)(&DAT_040000b0 + iVar1) & 0x7fff;
+      |                                                     ^
+C-WORK/src/arm9/0214c89c_Mem_DmaStop.c:23:30: error: use of undeclared identifier 'DAT_040000b0'
+   23 |   uVar5 = (uint)*(ushort *)(&DAT_040000b0 + iVar1);
+      |                              ^
+C-WORK/src/arm9/0214c89c_Mem_DmaStop.c:24:30: error: use of undeclared identifier 'DAT_040000b0'
+   24 |   uVar6 = (uint)*(ushort *)(&DAT_040000b0 + iVar1);
+      |                              ^
+C-WORK/src/arm9/0214c89c_Mem_DmaStop.c:32:17: error: too many arguments to function call, expected 0, have 3
+   32 |   Os_RestoreIrq(uVar4,uVar5,uVar6);
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0214c89c_Mem_DmaStop.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+7 errors generated.

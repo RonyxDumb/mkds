@@ -1,0 +1,25 @@
+C-WORK/src/arm9/020abcf4_CreateGlobal78_from_thumb.c:14:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   14 |   uVar2 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020abcf4_CreateGlobal78_from_thumb.h:4:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    4 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020abcf4_CreateGlobal78_from_thumb.c:23:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   23 |   uVar2 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020abcf4_CreateGlobal78_from_thumb.h:4:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    4 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020abcf4_CreateGlobal78_from_thumb.c:29:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   29 |   uVar2 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020abcf4_CreateGlobal78_from_thumb.h:4:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    4 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020abcf4_CreateGlobal78_from_thumb.c:35:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   35 |   uVar2 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020abcf4_CreateGlobal78_from_thumb.h:4:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    4 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+4 errors generated.

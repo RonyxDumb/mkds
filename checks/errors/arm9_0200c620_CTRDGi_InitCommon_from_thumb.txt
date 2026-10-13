@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0200c620_CTRDGi_InitCommon_from_thumb.c:12:10: error: too many arguments to function call, expected 0, have 3
+   12 |   CpuSet(local_8,iRam0200c640,uRam0200c644);
+      |   ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0200c620_CTRDGi_InitCommon_from_thumb.h:4:6: note: 'CpuSet' declared here
+    4 | void CpuSet(void);
+      |      ^
+1 error generated.

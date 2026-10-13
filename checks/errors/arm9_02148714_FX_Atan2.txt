@@ -1,0 +1,13 @@
+C-WORK/src/arm9/02148714_FX_Atan2.c:96:22: error: too many arguments to function call, expected 0, have 1
+   96 |       iVar4 = FX_Div(iVar4);
+      |               ~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/02148714_FX_Atan2.h:4:6: note: 'FX_Div' declared here
+    4 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/02148714_FX_Atan2.c:99:20: error: too many arguments to function call, expected 0, have 1
+   99 |     iVar4 = FX_Div(iVar4);
+      |             ~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/02148714_FX_Atan2.h:4:6: note: 'FX_Div' declared here
+    4 | void FX_Div(void);
+      |      ^
+2 errors generated.

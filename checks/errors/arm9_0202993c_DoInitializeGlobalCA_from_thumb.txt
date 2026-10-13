@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0202993c_DoInitializeGlobalCA_from_thumb.c:29:11: error: assigning to 'int' from incompatible type 'void'
+   29 |     iVar4 = func_020299e4();
+      |           ^ ~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,9 @@
+C-WORK/src/arm9_ov003/021bfbd0_FUN_021bfbd0.c:13:70: error: too many arguments to function call, expected 3, have 5
+   13 |   FUN_021c0154(*(undefined1 *)(*DAT_021bfc18 + DAT_021bfc20),2,uVar1,puVar2,
+      |   ~~~~~~~~~~~~                                                       ^~~~~~~
+   14 |                (*puVar2 & DAT_021bfc1c) >> 0x10);
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bfbd0_FUN_021bfbd0.h:4:6: note: 'FUN_021c0154' declared here
+    4 | void FUN_021c0154(int param_1,int param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

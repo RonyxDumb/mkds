@@ -1,0 +1,10 @@
+C-WORK/src/arm9/0204a5f8_Scene_Emblem_Initialize.c:9:34: error: too few arguments to function call, single argument 'param_1' was not specified
+    9 |   ExecutionContext_GetHeapHandle();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204a5f8_Scene_Emblem_Initialize.h:3:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    3 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/0204a5f8_Scene_Emblem_Initialize.c:12:3: error: call to undeclared function 'func_0x021a23f4'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   12 |   func_0x021a23f4();
+      |   ^
+2 errors generated.

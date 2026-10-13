@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/02197190_FUN_02197190.c:11:47: error: too few arguments to function call, expected 4, have 3
+   11 |   func_0x02135014(param_2,DAT_021971c4,param_1);
+      |   ~~~~~~~~~~~~~~~                             ^
+C-WORK/src/arm9_ov000/deps/02197190_FUN_02197190.h:7:6: note: 'SomeSnprintf' declared here
+    7 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02197190_FUN_02197190.c:15:35: warning: cast to smaller integer type 'char' from 'char *' [-Wpointer-to-int-cast]
+   15 |     *pcVar2 = *pcVar2 + '\x11' + ((char)pcVar2 - (char)param_2);
+      |                                   ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02197190_FUN_02197190.c:15:50: warning: cast to smaller integer type 'char' from 'char *' [-Wpointer-to-int-cast]
+   15 |     *pcVar2 = *pcVar2 + '\x11' + ((char)pcVar2 - (char)param_2);
+      |                                                  ^~~~~~~~~~~~~
+2 warnings and 1 error generated.

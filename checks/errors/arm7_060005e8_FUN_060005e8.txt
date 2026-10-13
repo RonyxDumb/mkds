@@ -1,0 +1,22 @@
+C-WORK/src/arm7/060005e8_FUN_060005e8.c:11:22: error: too many arguments to function call, expected 0, have 3
+   11 |   thunk_FUN_037f9854(DAT_06000660,param_1,1);
+      |   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/060005e8_FUN_060005e8.h:10:22: note: expanded from macro 'DAT_06000660'
+   10 | #define DAT_06000660 (*(undefined4 *)(uintptr_t)0x6000660u)
+      |                      ^
+C-WORK/src/arm7/deps/060005e8_FUN_060005e8.h:5:6: note: 'thunk_FUN_037f9854' declared here
+    5 | void thunk_FUN_037f9854(void);
+      |      ^
+C-WORK/src/arm7/060005e8_FUN_060005e8.c:12:22: error: too many arguments to function call, expected 0, have 3
+   12 |   thunk_FUN_037f97b4(DAT_06000664,local_8,1);
+      |   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/060005e8_FUN_060005e8.h:11:22: note: expanded from macro 'DAT_06000664'
+   11 | #define DAT_06000664 (*(undefined4 *)(uintptr_t)0x6000664u)
+      |                      ^
+C-WORK/src/arm7/deps/060005e8_FUN_060005e8.h:4:6: note: 'thunk_FUN_037f97b4' declared here
+    4 | void thunk_FUN_037f97b4(void);
+      |      ^
+C-WORK/src/arm7/060005e8_FUN_060005e8.c:14:28: error: operand of type 'void' where arithmetic or pointer type is required
+   14 |     puVar1 = (undefined2 *)thunk_FUN_03807424();
+      |                            ^~~~~~~~~~~~~~~~~~~~
+3 errors generated.

@@ -1,0 +1,10 @@
+C-WORK/src/arm9/0212055c_CreateStructBHeap_from_thumb.c:14:68: error: too many arguments to function call, expected 2, have 3
+   14 |   uVar2 = Mem_Exp_Create(*(undefined4 *)(*piVar1 + 4),uRam02120598,1);
+      |           ~~~~~~~~~~~~~~                                           ^
+C-WORK/src/arm9/deps/0212055c_CreateStructBHeap_from_thumb.h:5:12: note: 'Mem_Exp_Create' declared here
+    5 | undefined4 Mem_Exp_Create(int param_1,int param_2);
+      |            ^              ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212055c_CreateStructBHeap_from_thumb.c:18:3: error: call to undeclared function 'func_0x021a3744'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   18 |   func_0x021a3744(uRam021205a4,uRam021205a8);
+      |   ^
+2 errors generated.

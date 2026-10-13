@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/021a813c_FUN_021a813c.c:25:23: error: too many arguments to function call, expected 0, have 1
+   25 |       func_0x0200fcb4(uVar1);
+      |       ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a813c_FUN_021a813c.h:11:12: note: 'Os_RestoreIrq' declared here
+   11 | undefined4 Os_RestoreIrq(void);
+      |            ^
+1 error generated.

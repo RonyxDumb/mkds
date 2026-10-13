@@ -1,0 +1,29 @@
+In file included from C-WORK/src/arm9_ov000/021a260c_FUN_021a260c.c:3:
+C-WORK/src/arm9_ov000/deps/021a260c_FUN_021a260c.h:30:1: error: unknown type name 'size_t'
+   30 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/021a260c_FUN_021a260c.c:16:18: error: too many arguments to function call, expected 0, have 3
+   16 |     FUN_021a3704(4,*DAT_021a2734,0);
+      |     ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a260c_FUN_021a260c.h:13:6: note: 'FUN_021a3704' declared here
+   13 | void FUN_021a3704(void);
+      |      ^
+C-WORK/src/arm9_ov000/021a260c_FUN_021a260c.c:20:11: error: assigning to 'int' from incompatible type 'void'
+   20 |     iVar2 = FUN_021a0ed8((undefined4)(uintptr_t)(auStack_118),0xffffffff,0x20,3);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a260c_FUN_021a260c.c:23:11: error: assigning to 'int' from incompatible type 'void'
+   23 |     iVar2 = FUN_021a372c(4,iVar3);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a260c_FUN_021a260c.c:43:71: error: too few arguments to function call, expected 2, have 1
+   43 |   if ((*(int *)(*DAT_021a2744 + 0xe4) != 0) || (iVar2 = FUN_0219e594(5), iVar2 == 0)) {
+      |                                                         ~~~~~~~~~~~~  ^
+C-WORK/src/arm9_ov000/deps/021a260c_FUN_021a260c.h:5:5: note: 'FUN_0219e594' declared here
+    5 | int FUN_0219e594(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a260c_FUN_021a260c.c:46:26: error: too few arguments to function call, expected 2, have 0
+   46 |     iVar2 = FUN_0219e594();
+      |             ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a260c_FUN_021a260c.h:5:5: note: 'FUN_0219e594' declared here
+    5 | int FUN_0219e594(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+6 errors generated.

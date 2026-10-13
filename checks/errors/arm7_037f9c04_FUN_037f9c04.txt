@@ -1,0 +1,14 @@
+C-WORK/src/arm7/037f9c04_FUN_037f9c04.c:11:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   11 |       *(uint *)((uint)DAT_037f9ca4 & 0xfffffffc) << ((uint)DAT_037f9ca4 & 3) * -8 + 0x20 == 0) {
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037f9c04_FUN_037f9c04.c:11:83: note: place parentheses around the '+' expression to silence this warning
+   11 |       *(uint *)((uint)DAT_037f9ca4 & 0xfffffffc) << ((uint)DAT_037f9ca4 & 3) * -8 + 0x20 == 0) {
+      |                                                                                   ^
+      |                                                     (                                   )
+C-WORK/src/arm7/037f9c04_FUN_037f9c04.c:13:26: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |     uVar1 = FUN_037f9b6c();
+      |             ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/037f9c04_FUN_037f9c04.h:6:5: note: 'FUN_037f9b6c' declared here
+    6 | int FUN_037f9b6c(int param_1);
+      |     ^            ~~~~~~~~~~~
+1 warning and 1 error generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02006794_func_02006794.c:21:17: error: use of undeclared identifier 'stack0x00000000'
+   21 |   Mem_CpuCopy8(&stack0x00000000,param_1 + 8,4);
+      |                 ^
+1 error generated.

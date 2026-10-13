@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0204b458_SV_MaybeCompressWriteImpl_from_thumb.c:16:13: error: assigning to 'int' from incompatible type 'void'
+   16 |      (iVar2 = CardIsNotBusy(), piVar1 = piRam0204b510, iVar2 != 0)) {
+      |             ^ ~~~~~~~~~~~~~~~
+1 error generated.

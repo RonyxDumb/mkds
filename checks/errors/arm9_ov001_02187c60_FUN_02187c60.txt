@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov001/02187c60_FUN_02187c60.c:9:21: error: too few arguments to function call, single argument 'param_1' was not specified
+    9 |     func_0x020fd494();
+      |     ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/02187c60_FUN_02187c60.h:7:6: note: 'func_020fd494' declared here
+    7 | void func_020fd494(undefined4 *param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~~
+1 error generated.

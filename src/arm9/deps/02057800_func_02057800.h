@@ -1,0 +1,13 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void ReadSaveChunkImpl2_from_thumb(void);
+void func_02057800(int param_1,int param_2,undefined4 param_3);
+#define iRam0205784c (*(int *)(uintptr_t)0x205784cu)
+#define iRam02057858 (*(int *)(uintptr_t)0x2057858u)
+#define iRam0205785c (*(int *)(uintptr_t)0x205785cu)
+#define iRam02057868 (*(int *)(uintptr_t)0x2057868u)
+#define piRam02057848 (*(int **)(uintptr_t)0x2057848u)
+#define uRam02057850 (*(undefined4 *)(uintptr_t)0x2057850u)
+#define uRam02057854 (*(undefined4 *)(uintptr_t)0x2057854u)
+#define uRam02057860 (*(undefined4 *)(uintptr_t)0x2057860u)
+#define uRam02057864 (*(undefined4 *)(uintptr_t)0x2057864u)

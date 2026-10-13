@@ -1,0 +1,25 @@
+C-WORK/src/arm9_ov000/0219cb64_FUN_0219cb64.c:16:22: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   16 |       FUN_0219d734(6,DAT_0219cbf8);
+      |       ~~~~~~~~~~~~   ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219cb64_FUN_0219cb64.h:8:22: note: expanded from macro 'DAT_0219cbf8'
+    8 | #define DAT_0219cbf8 (*(undefined4 *)(uintptr_t)0x219cbf8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219cb64_FUN_0219cb64.h:5:6: note: 'FUN_0219d734' declared here
+    5 | void FUN_0219d734(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219cb64_FUN_0219cb64.c:30:22: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   30 |       FUN_0219d734(6,DAT_0219cbf8);
+      |       ~~~~~~~~~~~~   ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219cb64_FUN_0219cb64.h:8:22: note: expanded from macro 'DAT_0219cbf8'
+    8 | #define DAT_0219cbf8 (*(undefined4 *)(uintptr_t)0x219cbf8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219cb64_FUN_0219cb64.h:5:6: note: 'FUN_0219d734' declared here
+    5 | void FUN_0219d734(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219cb64_FUN_0219cb64.c:32:44: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   32 |         (**(code **)(*DAT_0219cbf4 + 0x4c))(0,0,param_7);
+      |                                            ^
+C-WORK/src/arm9_ov000/0219cb64_FUN_0219cb64.c:36:42: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   36 |       (**(code **)(*DAT_0219cbf4 + 0x4c))(1,param_3 - 2U < 2,param_7);
+      |                                          ^
+2 warnings and 2 errors generated.

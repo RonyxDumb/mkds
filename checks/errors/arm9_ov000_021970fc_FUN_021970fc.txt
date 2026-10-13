@@ -1,0 +1,11 @@
+In file included from C-WORK/src/arm9_ov000/021970fc_FUN_021970fc.c:3:
+C-WORK/src/arm9_ov000/deps/021970fc_FUN_021970fc.h:15:1: error: unknown type name 'size_t'
+   15 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/021970fc_FUN_021970fc.c:29:28: error: too few arguments to function call, expected 2, have 1
+   29 |   func_0x0213a1c0(local_110);
+      |   ~~~~~~~~~~~~~~~          ^
+C-WORK/src/arm9_ov000/deps/021970fc_FUN_021970fc.h:11:6: note: 'func_0213a1c0' declared here
+   11 | void func_0213a1c0(uint *param_1,uint param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

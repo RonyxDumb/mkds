@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02152490_PlayerProfileInfo_CopyFriendCode_from_thumb.c:12:9: error: assigning to 'int' from incompatible type 'void'
+   12 |   iVar1 = PlayerProfileInfo_FriendCode2_HasState1_from_thumb(param_1);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

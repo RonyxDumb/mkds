@@ -1,0 +1,5 @@
+#define DAT_0218ba20 (*(int **)(uintptr_t)0x218ba20u)
+#define DAT_0218ba24 (*(int *)(uintptr_t)0x218ba24u)
+#define DAT_0218ba28 (*(int *)(uintptr_t)0x218ba28u)
+#define DAT_0218ba2c (*(int *)(uintptr_t)0x218ba2cu)
+#define DAT_0218ba30 (*(int *)(uintptr_t)0x218ba30u)

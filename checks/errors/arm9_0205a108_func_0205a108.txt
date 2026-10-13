@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0205a108_func_0205a108.c:10:49: error: too many arguments to function call, expected 2, have 3
+   10 |   uVar1 = Mem_Frame_Create(uRam0205a138,0x50000,0);
+      |           ~~~~~~~~~~~~~~~~                      ^
+C-WORK/src/arm9/deps/0205a108_func_0205a108.h:3:12: note: 'Mem_Frame_Create' declared here
+    3 | undefined4 Mem_Frame_Create(int param_1,int param_2);
+      |            ^                ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0205a108_func_0205a108.c:13:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |     *(uint *)(uRam0205a13c & 0xfffffffc) << (uRam0205a13c & 3) * -8 + 0x20) + 0xa0) = uVar1;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205a108_func_0205a108.c:13:69: note: place parentheses around the '+' expression to silence this warning
+   13 |     *(uint *)(uRam0205a13c & 0xfffffffc) << (uRam0205a13c & 3) * -8 + 0x20) + 0xa0) = uVar1;
+      |                                                                     ^     
+      |                                             (                             )
+1 warning and 1 error generated.

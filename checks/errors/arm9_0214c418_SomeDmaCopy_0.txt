@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0214c418_SomeDmaCopy_0.c:11:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   11 |           *(uint *)(uRam0214c488 & 0xfffffffc) << (uRam0214c488 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214c418_SomeDmaCopy_0.c:11:75: note: place parentheses around the '+' expression to silence this warning
+   11 |           *(uint *)(uRam0214c488 & 0xfffffffc) << (uRam0214c488 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0214c418_SomeDmaCopy_0.c:13:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |             *(uint *)(uRam0214c484 & 0xfffffffc) << (uRam0214c484 & 3) * -8 + 0x20) + param_2;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214c418_SomeDmaCopy_0.c:13:77: note: place parentheses around the '+' expression to silence this warning
+   13 |             *(uint *)(uRam0214c484 & 0xfffffffc) << (uRam0214c484 & 3) * -8 + 0x20) + param_2;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0214c418_SomeDmaCopy_0.c:18:41: error: too many arguments to function call, expected 3, have 4
+   18 |   Mem_CpuCopy32(param_1,param_2,param_3,param_3);
+      |   ~~~~~~~~~~~~~                         ^~~~~~~
+C-WORK/src/arm9/deps/0214c418_SomeDmaCopy_0.h:3:6: note: 'Mem_CpuCopy32' declared here
+    3 | void Mem_CpuCopy32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.

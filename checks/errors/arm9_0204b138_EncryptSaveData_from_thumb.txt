@@ -1,0 +1,10 @@
+C-WORK/src/arm9/0204b138_EncryptSaveData_from_thumb.c:23:81: error: too few arguments to function call, expected 2, have 1
+   21 |   uVar2 = FindTable0IndexForValue_from_thumb
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   22 |                     (*(int *)(iRam0204b1fc + ((uint)(iVar1 << 0x10) >> 0xe)) +
+   23 |                      *piRam0204b200 + *piRam0204b204 + *piRam0204b208 ^ *param_1);
+      |                                                                                 ^
+C-WORK/src/arm9/deps/0204b138_EncryptSaveData_from_thumb.h:4:6: note: 'FindTable0IndexForValue_from_thumb' declared here
+    4 | uint FindTable0IndexForValue_from_thumb(uint param_1,uint param_2);
+      |      ^                                  ~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

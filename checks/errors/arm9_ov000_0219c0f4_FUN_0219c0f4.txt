@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov000/0219c0f4_FUN_0219c0f4.c:12:20: error: too few arguments to function call, single argument 'param_1' was not specified
+   12 |       FUN_021a47ac();
+      |       ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219c0f4_FUN_0219c0f4.h:15:6: note: 'FUN_021a47ac' declared here
+   15 | void FUN_021a47ac(int *param_1);
+      |      ^            ~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219c0f4_FUN_0219c0f4.c:18:20: error: too few arguments to function call, single argument 'param_1' was not specified
+   18 |       FUN_0218b64c();
+      |       ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219c0f4_FUN_0219c0f4.h:3:6: note: 'FUN_0218b64c' declared here
+    3 | void FUN_0218b64c(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219c0f4_FUN_0219c0f4.c:37:20: error: too few arguments to function call, single argument 'param_1' was not specified
+   37 |       FUN_02198ab0();
+      |       ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219c0f4_FUN_0219c0f4.h:8:6: note: 'FUN_02198ab0' declared here
+    8 | void FUN_02198ab0(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+3 errors generated.

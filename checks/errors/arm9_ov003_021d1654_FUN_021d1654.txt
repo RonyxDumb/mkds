@@ -1,0 +1,37 @@
+C-WORK/src/arm9_ov003/021d1654_FUN_021d1654.c:21:29: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   21 |   iVar3 = FUN_021d283c(0xe8,4);
+      |           ~~~~~~~~~~~~      ^
+C-WORK/src/arm9_ov003/deps/021d1654_FUN_021d1654.h:5:12: note: 'FUN_021d283c' declared here
+    5 | undefined4 FUN_021d283c(undefined4 param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021d1654_FUN_021d1654.c:24:38: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   24 |   iVar3 = func_0x02004a30(auStack_d0,DAT_021d1754);
+      |           ~~~~~~~~~~~~~~~            ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021d1654_FUN_021d1654.h:8:22: note: expanded from macro 'DAT_021d1754'
+    8 | #define DAT_021d1754 (*(undefined4 *)(uintptr_t)0x21d1754u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021d1654_FUN_021d1654.h:19:12: note: 'Fs_File_Open' declared here
+   19 | undefined4 Fs_File_Open(undefined4 param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021d1654_FUN_021d1654.c:30:19: error: too many arguments to function call, expected 0, have 3
+   30 |   func_0x020048ac(auStack_d0,&local_e0,8);
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021d1654_FUN_021d1654.h:25:6: note: 'Fs_File_Read' declared here
+   25 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9_ov003/021d1654_FUN_021d1654.c:31:19: error: too many arguments to function call, expected 0, have 3
+   31 |   func_0x020048ac(auStack_d0,&local_d8,8);
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021d1654_FUN_021d1654.h:25:6: note: 'Fs_File_Read' declared here
+   25 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9_ov003/021d1654_FUN_021d1654.c:49:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   49 |   uVar4 = FUN_021d1d60(0x20,*DAT_021d1750 + 4,4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021d1654_FUN_021d1654.c:51:55: error: too few arguments to function call, expected 4, have 3
+   51 |   func_0x0200da28(auStack_88,DAT_021d176c,DAT_021d1758);
+      |   ~~~~~~~~~~~~~~~                                     ^
+C-WORK/src/arm9_ov003/deps/021d1654_FUN_021d1654.h:39:6: note: 'MaybeUtil_SPrintF' declared here
+   39 | void MaybeUtil_SPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+6 errors generated.

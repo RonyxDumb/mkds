@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020213ec_Sound_AllocateCommand.c:14:37: error: too many arguments to function call, expected 0, have 1
+   14 |   iVar1 = Sound_AllocateCommandImpl(iVar1);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020213ec_Sound_AllocateCommand.h:6:6: note: 'Sound_AllocateCommandImpl' declared here
+    6 | uint Sound_AllocateCommandImpl(void);
+      |      ^
+C-WORK/src/arm9/020213ec_Sound_AllocateCommand.c:21:35: error: too many arguments to function call, expected 0, have 1
+   21 |   iVar1 = SND_CountWaitingCommand(param_1 & 1);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~
+C-WORK/src/arm9/deps/020213ec_Sound_AllocateCommand.h:3:5: note: 'SND_CountWaitingCommand' declared here
+    3 | int SND_CountWaitingCommand(void);
+      |     ^
+2 errors generated.

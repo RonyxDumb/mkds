@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02105b48_Maybe_helper_105b48.c:9:17: error: too few arguments to function call, single argument 'param_1' was not specified
+    9 |   func_0212c6ac();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02105b48_Maybe_helper_105b48.h:5:6: note: 'func_0212c6ac' declared here
+    5 | void func_0212c6ac(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+1 error generated.

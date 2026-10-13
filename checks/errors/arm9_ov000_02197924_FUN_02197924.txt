@@ -1,0 +1,37 @@
+C-WORK/src/arm9_ov000/02197924_FUN_02197924.c:24:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   24 |   uVar1 = FUN_0218e8c4();
+      |         ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02197924_FUN_02197924.c:43:24: error: too many arguments to function call, expected 0, have 3
+   43 |   iVar2 = FUN_0218e554(2,1,0);
+      |           ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/02197924_FUN_02197924.h:7:6: note: 'FUN_0218e554' declared here
+    7 | void FUN_0218e554(void);
+      |      ^
+C-WORK/src/arm9_ov000/02197924_FUN_02197924.c:48:16: error: too few arguments to function call, expected 2, have 0
+   48 |   FUN_0218e80c();
+      |   ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02197924_FUN_02197924.h:8:12: note: 'FUN_0218e80c' declared here
+    8 | undefined4 FUN_0218e80c(undefined4 param_1,int param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02197924_FUN_02197924.c:49:9: error: assigning to 'int' from incompatible type 'void'
+   49 |   iVar2 = FUN_0218e4b4(*DAT_02197a74,auStack_90,8);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02197924_FUN_02197924.c:51:26: error: too many arguments to function call, expected 0, have 1
+   51 |     iVar2 = FUN_0218e368(*DAT_02197a74);
+      |             ~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02197924_FUN_02197924.h:3:12: note: 'FUN_0218e368' declared here
+    3 | undefined4 FUN_0218e368(void);
+      |            ^
+C-WORK/src/arm9_ov000/02197924_FUN_02197924.c:54:20: error: too many arguments to function call, expected 0, have 1
+   54 |       FUN_0218e53c(*DAT_02197a74);
+      |       ~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02197924_FUN_02197924.h:6:6: note: 'FUN_0218e53c' declared here
+    6 | void FUN_0218e53c(void);
+      |      ^
+C-WORK/src/arm9_ov000/02197924_FUN_02197924.c:58:9: error: assigning to 'int' from incompatible type 'void'
+   58 |   iVar2 = FUN_021a3690(0x40);
+      |         ^ ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02197924_FUN_02197924.c:65:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   65 |   uVar1 = FUN_0218e8c4();
+      |         ^ ~~~~~~~~~~~~~~
+8 errors generated.

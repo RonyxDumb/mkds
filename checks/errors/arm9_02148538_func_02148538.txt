@@ -1,0 +1,13 @@
+C-WORK/src/arm9/02148538_func_02148538.c:97:20: error: too many arguments to function call, expected 0, have 1
+   97 |     iVar2 = FX_Div(iVar2);
+      |             ~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/02148538_func_02148538.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/02148538_func_02148538.c:100:18: error: too many arguments to function call, expected 0, have 1
+  100 |   iVar2 = FX_Div(iVar2);
+      |           ~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/02148538_func_02148538.h:3:6: note: 'FX_Div' declared here
+    3 | void FX_Div(void);
+      |      ^
+2 errors generated.

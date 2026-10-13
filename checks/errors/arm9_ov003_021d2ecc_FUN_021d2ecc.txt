@@ -1,0 +1,9 @@
+C-WORK/src/arm9_ov003/021d2ecc_FUN_021d2ecc.c:12:13: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   12 |   puVar1[1] = puVar1 + 2;
+      |             ^ ~~~~~~~~~~
+      |               *(        )
+C-WORK/src/arm9_ov003/021d2ecc_FUN_021d2ecc.c:13:13: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   13 |   puVar1[2] = puVar1;
+      |             ^ ~~~~~~
+      |               *
+2 errors generated.

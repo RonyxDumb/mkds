@@ -1,0 +1,53 @@
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:15:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |           *(uint *)(DAT_06009130 & 0xfffffffc) << (DAT_06009130 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:15:75: note: place parentheses around the '+' expression to silence this warning
+   15 |           *(uint *)(DAT_06009130 & 0xfffffffc) << (DAT_06009130 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:17:33: error: too few arguments to function call, expected 2, have 1
+   17 |     iVar1 = FUN_06008e50(param_1);
+      |             ~~~~~~~~~~~~        ^
+C-WORK/src/arm7/deps/060090b4_FUN_060090b4.h:3:12: note: 'FUN_06008e50' declared here
+    3 | undefined4 FUN_06008e50(uint *param_1,uint param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:21:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |       uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:21:56: note: place parentheses around the '+' expression to silence this warning
+   21 |       uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:27:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |         thunk_FUN_037f9fd8(uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20,
+      |                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:27:69: note: place parentheses around the '+' expression to silence this warning
+   27 |         thunk_FUN_037f9fd8(uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20,
+      |                                                                     ^     
+      |                                                          (                )
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:28:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |                            uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20,param_2);
+      |                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:28:69: note: place parentheses around the '+' expression to silence this warning
+   28 |                            uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20,param_2);
+      |                                                                     ^     
+      |                                                          (                )
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:27:28: error: too many arguments to function call, expected 0, have 3
+   27 |         thunk_FUN_037f9fd8(uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20,
+      |         ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   28 |                            uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20,param_2);
+      |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/060090b4_FUN_060090b4.h:5:6: note: 'thunk_FUN_037f9fd8' declared here
+    5 | void thunk_FUN_037f9fd8(void);
+      |      ^
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:33:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |         (*(code *)(uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20))(param_2);
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:33:61: note: place parentheses around the '+' expression to silence this warning
+   33 |         (*(code *)(uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20))(param_2);
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm7/060090b4_FUN_060090b4.c:33:69: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   33 |         (*(code *)(uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20))(param_2);
+      |                                                                     ^
+6 warnings and 2 errors generated.

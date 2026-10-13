@@ -1,0 +1,6 @@
+#define DAT_020386b8 (*(undefined4 **)(uintptr_t)0x20386b8u)
+#define DAT_020386bc (*(ushort **)(uintptr_t)0x20386bcu)
+#define DAT_020386c0 (*(undefined4 **)(uintptr_t)0x20386c0u)
+#define DAT_020386c4 (*(ushort **)(uintptr_t)0x20386c4u)
+#define DAT_020386c8 (*(undefined4 *)(uintptr_t)0x20386c8u)
+#define DAT_020386cc (*(undefined4 *)(uintptr_t)0x20386ccu)

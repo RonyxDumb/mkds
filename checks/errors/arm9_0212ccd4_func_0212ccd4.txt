@@ -1,0 +1,50 @@
+C-WORK/src/arm9/0212ccd4_func_0212ccd4.c:35:19: warning: operator '>>' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |     iVar2 = iVar2 + 0x10 >> 5;
+      |             ~~~~~~^~~~~~ ~~
+C-WORK/src/arm9/0212ccd4_func_0212ccd4.c:35:19: note: place parentheses around the '+' expression to silence this warning
+   35 |     iVar2 = iVar2 + 0x10 >> 5;
+      |                   ^
+      |             (           )
+C-WORK/src/arm9/0212ccd4_func_0212ccd4.c:40:11: error: assigning to 'int' from incompatible type 'void'
+   40 |     iVar4 = MaybeBoundsCheck(uVar3,in_stack_00000020);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212ccd4_func_0212ccd4.c:63:35: error: too few arguments to function call, expected 10, have 3
+   63 |     func_02020a14(1,!bVar8,param_2);
+      |     ~~~~~~~~~~~~~                 ^
+C-WORK/src/arm9/deps/0212ccd4_func_0212ccd4.h:8:6: note: 'func_02020a14' declared here
+    8 | void func_02020a14(uint param_1,int param_2,undefined4 param_3,int param_4,uint param_5,uint param_6,int param_7,int param_8,int param_9,int param_10);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212ccd4_func_0212ccd4.c:64:47: error: too few arguments to function call, expected 7, have 4
+   64 |     func_02020b70(0,bVar8,param_2,param_4 >> 2);
+      |     ~~~~~~~~~~~~~                             ^
+C-WORK/src/arm9/deps/0212ccd4_func_0212ccd4.h:10:6: note: 'func_02020b70' declared here
+   10 | void func_02020b70(int param_1,int param_2,undefined4 param_3,undefined4 param_4,int param_5,int param_6,int param_7);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212ccd4_func_0212ccd4.c:65:35: error: too few arguments to function call, expected 10, have 3
+   65 |     func_02020a14(3,!bVar8,param_3);
+      |     ~~~~~~~~~~~~~                 ^
+C-WORK/src/arm9/deps/0212ccd4_func_0212ccd4.h:8:6: note: 'func_02020a14' declared here
+    8 | void func_02020a14(uint param_1,int param_2,undefined4 param_3,int param_4,uint param_5,uint param_6,int param_7,int param_8,int param_9,int param_10);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212ccd4_func_0212ccd4.c:66:47: error: too few arguments to function call, expected 7, have 4
+   66 |     func_02020b70(1,bVar8,param_3,param_4 >> 2);
+      |     ~~~~~~~~~~~~~                             ^
+C-WORK/src/arm9/deps/0212ccd4_func_0212ccd4.h:10:6: note: 'func_02020b70' declared here
+   10 | void func_02020b70(int param_1,int param_2,undefined4 param_3,undefined4 param_4,int param_5,int param_6,int param_7);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212ccd4_func_0212ccd4.c:68:68: error: too few arguments to function call, expected 5, have 4
+   68 |       func_02020b2c(iVar7,local_30 + unaff_r5,local_30,uRam0212d038);
+      |       ~~~~~~~~~~~~~                                                ^
+C-WORK/src/arm9/deps/0212ccd4_func_0212ccd4.h:9:6: note: 'func_02020b2c' declared here
+    9 | void func_02020b2c(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212ccd4_func_0212ccd4.c:73:30: error: too few arguments to function call, expected 4, have 2
+   73 |     SND_StartTimer(local_34,3);
+      |     ~~~~~~~~~~~~~~           ^
+C-WORK/src/arm9/deps/0212ccd4_func_0212ccd4.h:5:6: note: 'SND_StartTimer' declared here
+    5 | void SND_StartTimer(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212ccd4_func_0212ccd4.c:84:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   84 |     uVar5 = MaybeBoundsCheck(param_4,in_stack_00000020);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 8 errors generated.

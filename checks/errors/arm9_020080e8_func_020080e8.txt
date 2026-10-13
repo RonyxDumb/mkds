@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020080e8_func_020080e8.c:29:84: error: too few arguments to function call, expected 2, have 1
+   29 |       sVar2 = MaybeBoundsCheck(iVar3 + *(int *)(*piRam02008180 + iRam02008184) + -1);
+      |               ~~~~~~~~~~~~~~~~                                                     ^
+C-WORK/src/arm9/deps/020080e8_func_020080e8.h:3:6: note: 'MaybeBoundsCheck' declared here
+    3 | void MaybeBoundsCheck(uint param_1,uint param_2);
+      |      ^                ~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

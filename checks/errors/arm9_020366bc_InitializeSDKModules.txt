@@ -1,0 +1,26 @@
+C-WORK/src/arm9/020366bc_InitializeSDKModules.c:24:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |        *(uint *)((uint)puRam02036764 & 0xfffffffc) << ((uint)puRam02036764 & 3) * -8 + 0x20) &
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020366bc_InitializeSDKModules.c:24:86: note: place parentheses around the '+' expression to silence this warning
+   24 |        *(uint *)((uint)puRam02036764 & 0xfffffffc) << ((uint)puRam02036764 & 3) * -8 + 0x20) &
+      |                                                                                      ^     
+      |                                                       (                                    )
+C-WORK/src/arm9/020366bc_InitializeSDKModules.c:30:16: error: too many arguments to function call, expected 0, have 2
+   30 |   Os_EnableIrq(1,uVar1);
+      |   ~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/020366bc_InitializeSDKModules.h:12:10: note: 'Os_EnableIrq' declared here
+   12 | longlong Os_EnableIrq(void);
+      |          ^
+C-WORK/src/arm9/020366bc_InitializeSDKModules.c:31:18: error: too few arguments to function call, expected 2, have 1
+   31 |   GX_VBlankIntr(1);
+      |   ~~~~~~~~~~~~~  ^
+C-WORK/src/arm9/deps/020366bc_InitializeSDKModules.h:5:8: note: 'GX_VBlankIntr' declared here
+    5 | ushort GX_VBlankIntr(int param_1,ushort param_2);
+      |        ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020366bc_InitializeSDKModules.c:32:17: error: too many arguments to function call, expected 0, have 1
+   32 |   Fs_Initialize(0xffffffff);
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~
+C-WORK/src/arm9/deps/020366bc_InitializeSDKModules.h:4:6: note: 'Fs_Initialize' declared here
+    4 | void Fs_Initialize(void);
+      |      ^
+1 warning and 3 errors generated.

@@ -1,0 +1,14 @@
+C-WORK/src/arm9/020f8e3c_func_020f8e3c.c:16:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |   if (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 1) != 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020f8e3c_func_020f8e3c.c:16:50: note: place parentheses around the '+' expression to silence this warning
+   16 |   if (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 1) != 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/020f8e3c_func_020f8e3c.c:17:19: error: too few arguments to function call, expected 2, have 0
+   17 |     func_020719bc();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020f8e3c_func_020f8e3c.h:3:6: note: 'func_020719bc' declared here
+    3 | void func_020719bc(undefined4 param_1,undefined4 param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

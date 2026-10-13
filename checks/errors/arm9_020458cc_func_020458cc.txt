@@ -1,0 +1,32 @@
+C-WORK/src/arm9/020458cc_func_020458cc.c:12:25: error: incompatible pointer types assigning to 'code *' (aka 'void (*)()') from 'undefined *' (aka 'unsigned char *') [-Werror,-Wincompatible-pointer-types]
+   12 |   UNRECOVERED_JUMPTABLE = pcRam0204590c;
+      |                         ^ ~~~~~~~~~~~~~
+C-WORK/src/arm9/020458cc_func_020458cc.c:14:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |           *(uint *)(uRam02045908 & 0xfffffffc) << (uRam02045908 & 3) * -8 + 0x20) + 0x1c;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020458cc_func_020458cc.c:14:75: note: place parentheses around the '+' expression to silence this warning
+   14 |           *(uint *)(uRam02045908 & 0xfffffffc) << (uRam02045908 & 3) * -8 + 0x20) + 0x1c;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020458cc_func_020458cc.c:17:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   if ((int)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) << 0x1d) < 0) {
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020458cc_func_020458cc.c:17:55: note: place parentheses around the '+' expression to silence this warning
+   17 |   if ((int)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) << 0x1d) < 0) {
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020458cc_func_020458cc.c:20:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |       *(uint *)(uRam02045910 & 0xfffffffc) << (uRam02045910 & 3) * -8 + 0x20) + 500) = 0;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020458cc_func_020458cc.c:20:71: note: place parentheses around the '+' expression to silence this warning
+   20 |       *(uint *)(uRam02045910 & 0xfffffffc) << (uRam02045910 & 3) * -8 + 0x20) + 500) = 0;
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/020458cc_func_020458cc.c:25:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |       *(uint *)(uRam02045910 & 0xfffffffc) << (uRam02045910 & 3) * -8 + 0x20) + 500) = 4;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020458cc_func_020458cc.c:25:71: note: place parentheses around the '+' expression to silence this warning
+   25 |       *(uint *)(uRam02045910 & 0xfffffffc) << (uRam02045910 & 3) * -8 + 0x20) + 500) = 4;
+      |                                                                       ^     
+      |                                               (                             )
+4 warnings and 1 error generated.

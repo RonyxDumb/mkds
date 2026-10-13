@@ -1,0 +1,24 @@
+C-WORK/src/arm7/037f93cc_FUN_037f93cc.c:16:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |       *(uint *)((uint)DAT_037f94a4 & 0xfffffffc) << ((uint)DAT_037f94a4 & 3) * -8 + 0x20 == 0) {
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037f93cc_FUN_037f93cc.c:16:83: note: place parentheses around the '+' expression to silence this warning
+   16 |       *(uint *)((uint)DAT_037f94a4 & 0xfffffffc) << ((uint)DAT_037f94a4 & 3) * -8 + 0x20 == 0) {
+      |                                                                                   ^
+      |                                                     (                                   )
+C-WORK/src/arm7/037f93cc_FUN_037f93cc.c:42:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |     *(undefined4 *)(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) = DAT_037f94cc;
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037f93cc_FUN_037f93cc.c:42:62: note: place parentheses around the '+' expression to silence this warning
+   42 |     *(undefined4 *)(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) = DAT_037f94cc;
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm7/037f93cc_FUN_037f93cc.c:48:19: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined2 *' (aka 'unsigned short *') [-Wint-conversion]
+   48 |     *DAT_037f94d0 = puVar3;
+      |                   ^ ~~~~~~
+C-WORK/src/arm7/037f93cc_FUN_037f93cc.c:49:18: error: too few arguments to function call, single argument 'param_1' was not specified
+   49 |     FUN_037f8db0();
+      |     ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/037f93cc_FUN_037f93cc.h:3:6: note: 'FUN_037f8db0' declared here
+    3 | uint FUN_037f8db0(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+2 warnings and 2 errors generated.

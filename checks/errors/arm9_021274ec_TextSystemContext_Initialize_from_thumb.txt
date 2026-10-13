@@ -1,0 +1,14 @@
+C-WORK/src/arm9/021274ec_TextSystemContext_Initialize_from_thumb.c:46:18: error: too many arguments to function call, expected 0, have 5
+   45 |       G2d_Sprite_CreateFromTiles
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   46 |                 (*piRam021276dc + iRam021276e8 + iVar2,
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   47 |                  *(undefined4 *)(*piRam021276dc + iVar9 + iRam021276e4),*pbVar8,pbVar8[1],4);
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021274ec_TextSystemContext_Initialize_from_thumb.h:3:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+    3 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+C-WORK/src/arm9/021274ec_TextSystemContext_Initialize_from_thumb.c:49:34: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   49 |       (**(code **)(iVar4 + 0x18))(iVar4,0);
+      |                                  ^
+1 warning and 1 error generated.

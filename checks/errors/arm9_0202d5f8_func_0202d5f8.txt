@@ -1,0 +1,16 @@
+C-WORK/src/arm9/0202d5f8_func_0202d5f8.c:16:69: error: too many arguments to function call, expected 3, have 4
+   16 |   MaybeHandleBmgFormatting_from_thumb(auStack_228,uVar1,auStack_212,uRam0202d670);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                               ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202d5f8_func_0202d5f8.h:10:22: note: expanded from macro 'uRam0202d670'
+   10 | #define uRam0202d670 (*(undefined4 *)(uintptr_t)0x202d670u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202d5f8_func_0202d5f8.h:5:6: note: 'MaybeHandleBmgFormatting_from_thumb' declared here
+    5 | void MaybeHandleBmgFormatting_from_thumb(short *param_1,short *param_2,short *param_3);
+      |      ^                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202d5f8_func_0202d5f8.c:19:60: error: too many arguments to function call, expected 0, have 2
+   19 |     TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(auStack_212,uVar1);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202d5f8_func_0202d5f8.h:7:6: note: 'TextSystem_DisplaySingleButtonDialog_Simple_from_thumb' declared here
+    7 | void TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(void);
+      |      ^
+2 errors generated.

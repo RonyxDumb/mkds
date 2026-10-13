@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov000/0218f15c_FUN_0218f15c.c:30:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   30 |     FUN_02196590(param_1,DAT_0218f210);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218f15c_FUN_0218f15c.h:5:31: note: passing argument to parameter 'param_1' here
+    5 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218f15c_FUN_0218f15c.c:42:15: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   42 |     (*param_6)(param_1,&local_34,param_7);
+      |               ^
+C-WORK/src/arm9_ov000/0218f15c_FUN_0218f15c.c:46:43: error: incompatible pointer to integer conversion passing 'code *' (aka 'void (*)()') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   46 |                        ,param_4,0,param_5,param_6,param_7);
+      |                                           ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218f15c_FUN_0218f15c.h:4:210: note: passing argument to parameter 'param_12' here
+    4 | int FUN_02191cb0(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,char *param_6,char *param_7,int param_8,int param_9,undefined4 param_10,undefined4 param_11,undefined4 param_12,undefined4 param_13);
+      |                                                                                                                                                                                                                  ^
+2 warnings and 1 error generated.

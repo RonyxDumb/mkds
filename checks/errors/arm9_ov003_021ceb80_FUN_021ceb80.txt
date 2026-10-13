@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021ceb80_FUN_021ceb80.c:24:69: error: too few arguments to function call, expected 3, have 2
+   24 |   FUN_021d1790(*(undefined4 *)(*DAT_021cebec + iVar4 + 8),0xffffffff);
+      |   ~~~~~~~~~~~~                                                      ^
+C-WORK/src/arm9_ov003/deps/021ceb80_FUN_021ceb80.h:4:6: note: 'FUN_021d1790' declared here
+    4 | void FUN_021d1790(int param_1,int param_2,int param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,25 @@
+C-WORK/src/arm9_ov000/02193f50_FUN_02193f50.c:15:72: error: too few arguments to function call, single argument 'param_1' was not specified
+   15 |   if (((*(int *)(iVar4 + DAT_02193fec) != -1) && (iVar2 = FUN_0218e668(), iVar2 != 0)) &&
+      |                                                           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02193f50_FUN_02193f50.h:6:12: note: 'FUN_0218e668' declared here
+    6 | undefined4 FUN_0218e668(undefined4 param_1);
+      |            ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193f50_FUN_02193f50.c:16:13: error: assigning to 'int' from incompatible type 'void'
+   16 |      (iVar2 = FUN_0218e478(*(undefined4 *)(iVar4 + DAT_02193fec),0,0), iVar2 != -1)) {
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193f50_FUN_02193f50.c:17:48: error: too few arguments to function call, expected 3, have 1
+   17 |     puVar3 = (undefined4 *)FUN_02193eac(param_1);
+      |                            ~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov000/deps/02193f50_FUN_02193f50.h:8:14: note: 'FUN_02193eac' declared here
+    8 | undefined4 * FUN_02193eac(int *param_1,undefined4 param_2,undefined4 param_3);
+      |              ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02193f50_FUN_02193f50.c:19:20: error: too many arguments to function call, expected 0, have 1
+   19 |       FUN_0218e53c(iVar2);
+      |       ~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/02193f50_FUN_02193f50.h:5:6: note: 'FUN_0218e53c' declared here
+    5 | void FUN_0218e53c(void);
+      |      ^
+C-WORK/src/arm9_ov000/02193f50_FUN_02193f50.c:32:55: error: assigning to 'int' from incompatible type 'void'
+   32 |     if (((*piVar1 == 0x6a) || (iVar4 != 0)) || (iVar4 = FUN_0218e320(0), piVar1[4] < iVar4)) {
+      |                                                       ^ ~~~~~~~~~~~~~~~
+5 errors generated.

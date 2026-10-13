@@ -1,0 +1,18 @@
+C-WORK/src/arm9/0204bfac_func_0204bfac.c:17:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |       *(uint *)((uint)puRam0204c080 & 0xfffffffc) << ((uint)puRam0204c080 & 3) * -8 + 0x20 == 0) {
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bfac_func_0204bfac.c:17:85: note: place parentheses around the '+' expression to silence this warning
+   17 |       *(uint *)((uint)puRam0204c080 & 0xfffffffc) << ((uint)puRam0204c080 & 3) * -8 + 0x20 == 0) {
+      |                                                                                     ^
+      |                                                      (                                    )
+C-WORK/src/arm9/0204bfac_func_0204bfac.c:20:19: error: too many arguments to function call, expected 0, have 1
+   20 |     Os_RestoreIrq(uVar2);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0204bfac_func_0204bfac.h:6:12: note: 'Os_RestoreIrq' declared here
+    6 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0204bfac_func_0204bfac.c:30:21: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   30 |       puVar6[iVar4] = puVar3;
+      |                     ^ ~~~~~~
+      |                       *
+1 warning and 2 errors generated.

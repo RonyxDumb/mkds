@@ -1,0 +1,140 @@
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:38:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |            *(uint *)(uRam02040a7c & 0xfffffffc) << (uRam02040a7c & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:38:76: note: place parentheses around the '+' expression to silence this warning
+   38 |            *(uint *)(uRam02040a7c & 0xfffffffc) << (uRam02040a7c & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:44:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   44 |            *(uint *)(uRam02040a80 & 0xfffffffc) << (uRam02040a80 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:44:76: note: place parentheses around the '+' expression to silence this warning
+   44 |            *(uint *)(uRam02040a80 & 0xfffffffc) << (uRam02040a80 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:47:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |   uVar7 = uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:47:52: note: place parentheses around the '+' expression to silence this warning
+   47 |   uVar7 = uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:49:35: error: too few arguments to function call, expected 2, have 1
+   49 |     MaybeComputeGPScore(&iStack_38);
+      |     ~~~~~~~~~~~~~~~~~~~           ^
+C-WORK/src/arm9/deps/020408f0_ComputeDriverSkillRankpoints.h:6:6: note: 'MaybeComputeGPScore' declared here
+    6 | void MaybeComputeGPScore(int *param_1,int param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:59:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   59 |                        *(uint *)(uVar18 & 0xfffffffc) << (uVar18 & 3) * -8 + 0x20)) * 0x1000,
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:59:76: note: place parentheses around the '+' expression to silence this warning
+   59 |                        *(uint *)(uVar18 & 0xfffffffc) << (uVar18 & 3) * -8 + 0x20)) * 0x1000,
+      |                                                                            ^     
+      |                                                          (                       )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:56:24: error: too many arguments to function call, expected 0, have 2
+   56 |     iStack_38 = FX_Div((int)*(short *)(uVar11 + 0x2c) *
+      |                 ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   57 |                        ((uint)*(ushort *)(uVar11 + 0x2a) -
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   58 |                        (*(uint *)(uVar18 & 0xfffffffc) >> (uVar18 & 3) * 8 |
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   59 |                        *(uint *)(uVar18 & 0xfffffffc) << (uVar18 & 3) * -8 + 0x20)) * 0x1000,
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   60 |                        0x3e8000);
+      |                        ~~~~~~~~
+C-WORK/src/arm9/deps/020408f0_ComputeDriverSkillRankpoints.h:4:6: note: 'FX_Div' declared here
+    4 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:67:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   67 |     iStack_28 = (uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20) * -5;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:67:59: note: place parentheses around the '+' expression to silence this warning
+   67 |     iStack_28 = (uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20) * -5;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:71:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   71 |     iStack_20 = (uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20) * -5;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:71:59: note: place parentheses around the '+' expression to silence this warning
+   71 |     iStack_20 = (uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20) * -5;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:74:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   74 |     iStack_1c = (uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20) * -10;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:74:59: note: place parentheses around the '+' expression to silence this warning
+   74 |     iStack_1c = (uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20) * -10;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:77:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   77 |     iStack_18 = (uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20) * -0x14;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:77:59: note: place parentheses around the '+' expression to silence this warning
+   77 |     iStack_18 = (uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20) * -0x14;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:105:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  105 |   iVar10 = (uVar18 >> uVar5 * 8 | uVar18 << uVar5 * -8 + 0x20) +
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:105:56: note: place parentheses around the '+' expression to silence this warning
+  105 |   iVar10 = (uVar18 >> uVar5 * 8 | uVar18 << uVar5 * -8 + 0x20) +
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:106:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  106 |            (uVar14 >> uVar4 * 8 | uVar14 << uVar4 * -8 + 0x20) +
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:106:56: note: place parentheses around the '+' expression to silence this warning
+  106 |            (uVar14 >> uVar4 * 8 | uVar14 << uVar4 * -8 + 0x20) +
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:107:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  107 |            (uVar17 >> uVar3 * 8 | uVar17 << uVar3 * -8 + 0x20) +
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:107:56: note: place parentheses around the '+' expression to silence this warning
+  107 |            (uVar17 >> uVar3 * 8 | uVar17 << uVar3 * -8 + 0x20) +
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:108:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  108 |            (uVar13 >> uVar2 * 8 | uVar13 << uVar2 * -8 + 0x20) +
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:108:56: note: place parentheses around the '+' expression to silence this warning
+  108 |            (uVar13 >> uVar2 * 8 | uVar13 << uVar2 * -8 + 0x20) +
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:109:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  109 |            (uVar16 >> uVar1 * 8 | uVar16 << uVar1 * -8 + 0x20) +
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:109:56: note: place parentheses around the '+' expression to silence this warning
+  109 |            (uVar16 >> uVar1 * 8 | uVar16 << uVar1 * -8 + 0x20) +
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:110:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  110 |            (uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20) +
+      |                                           ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:110:58: note: place parentheses around the '+' expression to silence this warning
+  110 |            (uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20) +
+      |                                                          ^     
+      |                                              (                 )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:111:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  111 |            (uVar15 >> uVar6 * 8 | uVar15 << uVar6 * -8 + 0x20) +
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:111:56: note: place parentheses around the '+' expression to silence this warning
+  111 |            (uVar15 >> uVar6 * 8 | uVar15 << uVar6 * -8 + 0x20) +
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:113:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  113 |            *(uint *)((uint)piVar19 & 0xfffffffc) << ((uint)piVar19 & 3) * -8 + 0x20) +
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:113:78: note: place parentheses around the '+' expression to silence this warning
+  113 |            *(uint *)((uint)piVar19 & 0xfffffffc) << ((uint)piVar19 & 3) * -8 + 0x20) +
+      |                                                                              ^     
+      |                                                     (                              )
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:114:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  114 |            (uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20);
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020408f0_ComputeDriverSkillRankpoints.c:114:54: note: place parentheses around the '+' expression to silence this warning
+  114 |            (uVar9 >> uVar7 * 8 | uVar9 << uVar7 * -8 + 0x20);
+      |                                                      ^     
+      |                                           (                )
+17 warnings and 2 errors generated.

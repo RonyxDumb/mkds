@@ -1,0 +1,40 @@
+C-WORK/src/arm9/0202c65c_AndAnotherAlloc_0_from_thumb.c:16:37: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |   uVar2 = Mem_CreateOrphanChildHeap();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0202c65c_AndAnotherAlloc_0_from_thumb.h:6:6: note: 'Mem_CreateOrphanChildHeap' declared here
+    6 | void Mem_CreateOrphanChildHeap(uint param_1);
+      |      ^                         ~~~~~~~~~~~~
+C-WORK/src/arm9/0202c65c_AndAnotherAlloc_0_from_thumb.c:35:9: error: assigning to 'int' from incompatible type 'void'
+   35 |   iVar3 = func_02148cb8();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0202c65c_AndAnotherAlloc_0_from_thumb.c:39:19: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   39 |                   uRam0202c840);
+      |                   ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202c65c_AndAnotherAlloc_0_from_thumb.h:35:22: note: expanded from macro 'uRam0202c840'
+   35 | #define uRam0202c840 (*(undefined4 *)(uintptr_t)0x202c840u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202c65c_AndAnotherAlloc_0_from_thumb.h:8:110: note: passing argument to parameter 'param_8' here
+    8 | void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                              ^
+C-WORK/src/arm9/0202c65c_AndAnotherAlloc_0_from_thumb.c:43:19: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   43 |                   uRam0202c858);
+      |                   ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202c65c_AndAnotherAlloc_0_from_thumb.h:41:22: note: expanded from macro 'uRam0202c858'
+   41 | #define uRam0202c858 (*(undefined4 *)(uintptr_t)0x202c858u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202c65c_AndAnotherAlloc_0_from_thumb.h:8:110: note: passing argument to parameter 'param_8' here
+    8 | void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                              ^
+C-WORK/src/arm9/0202c65c_AndAnotherAlloc_0_from_thumb.c:72:86: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   72 |     func_02025b20(*piRam0202c800 + 0x1c,uRam0202c878,uRam0202c87c,0,uRam0202c874,0,0,uRam0202c858);
+      |                                                                                      ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202c65c_AndAnotherAlloc_0_from_thumb.h:41:22: note: expanded from macro 'uRam0202c858'
+   41 | #define uRam0202c858 (*(undefined4 *)(uintptr_t)0x202c858u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202c65c_AndAnotherAlloc_0_from_thumb.h:8:110: note: passing argument to parameter 'param_8' here
+    8 | void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                              ^
+C-WORK/src/arm9/0202c65c_AndAnotherAlloc_0_from_thumb.c:68:52: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967232 to 65472 [-Wconstant-conversion]
+   68 |   func_02025f80(*piRam0202c800 + iRam0202c868,0,10,0xffffffc0,0);
+      |   ~~~~~~~~~~~~~                                    ^~~~~~~~~~
+1 warning and 5 errors generated.

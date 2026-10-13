@@ -1,0 +1,21 @@
+C-WORK/src/arm9/0210b234_func_0210b234.c:18:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |             *(uint *)(uRam0210b2a0 & 0xfffffffc) << (uRam0210b2a0 & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210b234_func_0210b234.c:18:77: note: place parentheses around the '+' expression to silence this warning
+   18 |             *(uint *)(uRam0210b2a0 & 0xfffffffc) << (uRam0210b2a0 & 3) * -8 + 0x20;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0210b234_func_0210b234.c:21:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |     if ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) == 0x1d) {
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210b234_func_0210b234.c:21:51: note: place parentheses around the '+' expression to silence this warning
+   21 |     if ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) == 0x1d) {
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/0210b234_func_0210b234.c:24:56: error: too many arguments to function call, expected 3, have 4
+   24 |     DriverContext_MaybeQueuePlaySfx(param_1,iVar2,0x7f,0);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                    ^
+C-WORK/src/arm9/deps/0210b234_func_0210b234.h:3:6: note: 'DriverContext_MaybeQueuePlaySfx' declared here
+    3 | void DriverContext_MaybeQueuePlaySfx(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |      ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.

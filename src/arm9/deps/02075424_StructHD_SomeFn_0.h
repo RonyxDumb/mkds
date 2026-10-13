@@ -1,0 +1,12 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void SetSomeAwardModeProperty(undefined4 param_1);
+void StructHD_SomeFn_0(uint param_1);
+void StructHD_SomeFn_1(int param_1);
+void StructVC_SomeFnLinkedRouteRelated(int param_1,int param_2);
+#define puRam02075640 (*(undefined4 **)(uintptr_t)0x2075640u)
+#define uRam02075634 (*(uint *)(uintptr_t)0x2075634u)
+#define uRam02075638 (*(uint *)(uintptr_t)0x2075638u)
+#define uRam0207563c (*(uint *)(uintptr_t)0x207563cu)
+#define uRam02075644 (*(uint *)(uintptr_t)0x2075644u)
+#define uRam02075648 (*(uint *)(uintptr_t)0x2075648u)

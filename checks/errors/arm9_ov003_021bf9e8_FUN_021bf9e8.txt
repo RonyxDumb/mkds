@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021bf9e8_FUN_021bf9e8.c:25:26: error: too many arguments to function call, expected 0, have 4
+   25 |     uVar3 = FUN_021d3544(0,DAT_021bfa7c,0,0x78);
+      |             ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bf9e8_FUN_021bf9e8.h:6:6: note: 'FUN_021d3544' declared here
+    6 | void FUN_021d3544(void);
+      |      ^
+1 error generated.

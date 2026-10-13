@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0200e0c0_Os_Thread_CancelAlarmForSleep.c:13:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |   if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200e0c0_Os_Thread_CancelAlarmForSleep.c:13:54: note: place parentheses around the '+' expression to silence this warning
+   13 |   if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/0200e0c0_Os_Thread_CancelAlarmForSleep.c:14:21: error: too few arguments to function call, single argument 'param_1' was not specified
+   14 |     Os_Alarm_Cancel();
+      |     ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0200e0c0_Os_Thread_CancelAlarmForSleep.h:3:6: note: 'Os_Alarm_Cancel' declared here
+    3 | void Os_Alarm_Cancel(undefined4 *param_1);
+      |      ^               ~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

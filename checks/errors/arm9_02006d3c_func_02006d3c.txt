@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02006d3c_func_02006d3c.c:19:36: error: too few arguments to function call, expected 3, have 2
+   19 |     Mem_CpuCopy8(param_2,auStack_94);
+      |     ~~~~~~~~~~~~                   ^
+C-WORK/src/arm9/deps/02006d3c_func_02006d3c.h:3:6: note: 'Mem_CpuCopy8' declared here
+    3 | void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,16 @@
+C-WORK/src/arm9_ov003/021d23b0_FUN_021d23b0.c:17:58: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   17 |   uVar2 = FUN_021d309c(param_1,param_3 * param_2,param_4,&local_18);
+      |                                                          ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021d23b0_FUN_021d23b0.h:5:60: note: passing argument to parameter 'param_4' here
+    5 | int FUN_021d309c(int param_1,int param_2,int param_3,uint *param_4);
+      |                                                            ^
+C-WORK/src/arm9_ov003/021d23b0_FUN_021d23b0.c:26:19: error: too many arguments to function call, expected 0, have 5
+   26 |   func_0x02023374(iVar1,iVar3 + local_18 * 0x80,param_2,param_3,4);
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021d23b0_FUN_021d23b0.h:14:6: note: 'G2d_Sprite_CreateFrom2' declared here
+   14 | void G2d_Sprite_CreateFrom2(void);
+      |      ^
+C-WORK/src/arm9_ov003/021d23b0_FUN_021d23b0.c:27:30: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   27 |   (**(code **)(iVar1 + 0x18))(iVar1,0);
+      |                              ^
+2 warnings and 1 error generated.

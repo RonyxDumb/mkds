@@ -1,0 +1,25 @@
+C-WORK/src/arm9/020acbf8_func_020acbf8.c:16:33: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   16 |     iVar3 = func_020acec4(uVar2,1);
+      |             ~~~~~~~~~~~~~       ^
+C-WORK/src/arm9/deps/020acbf8_func_020acbf8.h:10:6: note: 'func_020acec4' declared here
+   10 | void func_020acec4(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020acbf8_func_020acbf8.c:25:19: error: assigning to 'int' from incompatible type 'void'
+   25 |             iVar3 = func_020ace14(uVar2);
+      |                   ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020acbf8_func_020acbf8.c:36:21: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   36 |               uVar4 = func_020acdec(uVar2);
+      |                     ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020acbf8_func_020acbf8.c:37:21: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   37 |               uVar2 = func_020acdc4(uVar2);
+      |                     ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020acbf8_func_020acbf8.c:39:21: error: assigning to 'int' from incompatible type 'void'
+   39 |               iVar3 = func_020291c4(uVar4,uVar2,*(undefined4 *)(*DAT_020acdbc + 0x70));
+      |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020acbf8_func_020acbf8.c:110:38: error: too few arguments to function call, single argument 'param_1' was not specified
+  110 |           MaybePlaySomeSseqFromSarc0();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020acbf8_func_020acbf8.h:3:6: note: 'MaybePlaySomeSseqFromSarc0' declared here
+    3 | void MaybePlaySomeSseqFromSarc0(undefined4 param_1);
+      |      ^                          ~~~~~~~~~~~~~~~~~~
+6 errors generated.

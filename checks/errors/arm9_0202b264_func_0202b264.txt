@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0202b264_func_0202b264.c:20:9: error: assigning to 'undefined2' (aka 'unsigned short') from incompatible type 'void'
+   20 |   uVar3 = func_02025ebc(*piRam0202b2b4 + 0xcc);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

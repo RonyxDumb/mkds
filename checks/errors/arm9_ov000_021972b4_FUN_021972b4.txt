@@ -1,0 +1,34 @@
+C-WORK/src/arm9_ov000/021972b4_FUN_021972b4.c:13:24: error: too many arguments to function call, expected 0, have 4
+   13 |   iVar1 = FUN_0218e460(*DAT_02197348,auStack_88,0x80,0);
+      |           ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021972b4_FUN_021972b4.h:4:6: note: 'FUN_0218e460' declared here
+    4 | void FUN_0218e460(void);
+      |      ^
+C-WORK/src/arm9_ov000/021972b4_FUN_021972b4.c:14:48: error: too many arguments to function call, expected 0, have 1
+   14 |   if ((((iVar1 == -1) && (iVar2 = FUN_0218e368(*DAT_02197348), iVar2 != -6)) && (iVar2 != -0x4c)) &&
+      |                                   ~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021972b4_FUN_021972b4.h:3:12: note: 'FUN_0218e368' declared here
+    3 | undefined4 FUN_0218e368(void);
+      |            ^
+C-WORK/src/arm9_ov000/021972b4_FUN_021972b4.c:16:18: error: too many arguments to function call, expected 0, have 1
+   16 |     FUN_0218e53c(*DAT_02197348);
+      |     ~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021972b4_FUN_021972b4.h:5:6: note: 'FUN_0218e53c' declared here
+    5 | void FUN_0218e53c(void);
+      |      ^
+C-WORK/src/arm9_ov000/021972b4_FUN_021972b4.c:23:9: error: incompatible pointer to integer conversion assigning to 'int' from 'char *' [-Wint-conversion]
+   23 |   iVar1 = FUN_021970fc((undefined4)(uintptr_t)(auStack_88));
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021972b4_FUN_021972b4.c:25:18: error: too many arguments to function call, expected 0, have 1
+   25 |     FUN_0218e53c(*DAT_02197348);
+      |     ~~~~~~~~~~~~ ^~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021972b4_FUN_021972b4.h:5:6: note: 'FUN_0218e53c' declared here
+    5 | void FUN_0218e53c(void);
+      |      ^
+C-WORK/src/arm9_ov000/021972b4_FUN_021972b4.c:28:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   28 |   uVar3 = func_0x0213bf90();
+      |           ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021972b4_FUN_021972b4.h:16:6: note: 'func_0213bf90' declared here
+   16 | void func_0213bf90(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+6 errors generated.

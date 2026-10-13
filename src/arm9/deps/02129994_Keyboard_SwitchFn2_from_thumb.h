@@ -1,0 +1,19 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void CopyMemory16(int param_1,int param_2,int param_3);
+void Keyboard_SwitchFn2_from_thumb(void);
+void NNSi_MaybeSndPlayerStartSeq(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+void TextSystem_CloseDialog_from_thumb(void);
+int func_0201ea84(int param_1,int param_2,int param_3);
+undefined4 func_020ab798(void);
+void func_020ab8c4(void);
+void func_020ab8cc(void);
+void func_02129b60(void);
+#define iRam02129aac (*(int *)(uintptr_t)0x2129aacu)
+#define iRam02129ab0 (*(int *)(uintptr_t)0x2129ab0u)
+#define iRam02129ab4 (*(int *)(uintptr_t)0x2129ab4u)
+#define iRam02129abc (*(int *)(uintptr_t)0x2129abcu)
+#define iRam02129ac0 (*(int *)(uintptr_t)0x2129ac0u)
+#define iRam02129ac4 (*(int *)(uintptr_t)0x2129ac4u)
+#define piRam02129ab8 (*(int **)(uintptr_t)0x2129ab8u)
+#define uRam02129ac8 (*(undefined4 *)(uintptr_t)0x2129ac8u)

@@ -1,0 +1,137 @@
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:26:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   26 |   uVar3 = GetActiveExecutionContextHeapHandle_4();
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:58:25: error: too many arguments to function call, expected 0, have 1
+   58 |   uVar3 = func_020b47c0(uVar3);
+      |           ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:60:25: error: too many arguments to function call, expected 0, have 1
+   60 |   uVar3 = func_020b47c0(uRam020ad714);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:65:22: note: expanded from macro 'uRam020ad714'
+   65 | #define uRam020ad714 (*(undefined4 *)(uintptr_t)0x20ad714u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:66:25: error: too many arguments to function call, expected 0, have 1
+   66 |   uVar3 = func_020b47c0(uVar3);
+      |           ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:68:25: error: too many arguments to function call, expected 0, have 1
+   68 |   uVar3 = func_020b47c0(uRam020ad720);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:68:22: note: expanded from macro 'uRam020ad720'
+   68 | #define uRam020ad720 (*(undefined4 *)(uintptr_t)0x20ad720u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:74:25: error: too many arguments to function call, expected 0, have 1
+   74 |   uVar3 = func_020b47c0(uVar3);
+      |           ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:80:25: error: too many arguments to function call, expected 0, have 1
+   80 |   uVar3 = func_020b47c0(uVar3);
+      |           ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:82:25: error: too many arguments to function call, expected 0, have 1
+   82 |   uVar3 = func_020b47c0(uRam020ad734);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:73:22: note: expanded from macro 'uRam020ad734'
+   73 | #define uRam020ad734 (*(undefined4 *)(uintptr_t)0x20ad734u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:84:25: error: too many arguments to function call, expected 0, have 1
+   84 |   uVar3 = func_020b47c0(uRam020ad738);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:74:22: note: expanded from macro 'uRam020ad738'
+   74 | #define uRam020ad738 (*(undefined4 *)(uintptr_t)0x20ad738u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:86:25: error: too many arguments to function call, expected 0, have 1
+   86 |   uVar3 = func_020b47c0(uRam020ad73c);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:75:22: note: expanded from macro 'uRam020ad73c'
+   75 | #define uRam020ad73c (*(undefined4 *)(uintptr_t)0x20ad73cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:88:25: error: too many arguments to function call, expected 0, have 1
+   88 |   uVar3 = func_020b47c0(uRam020ad740);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:76:22: note: expanded from macro 'uRam020ad740'
+   76 | #define uRam020ad740 (*(undefined4 *)(uintptr_t)0x20ad740u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:89:20: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'int *' [-Wint-conversion]
+   89 |   LoadCellBankFrom(*piRam020ad704 + 0xa8,uVar3);
+      |                    ^~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:24:28: note: passing argument to parameter 'param_1' here
+   24 | void LoadCellBankFrom(int *param_1,int param_2);
+      |                            ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:90:25: error: too many arguments to function call, expected 0, have 1
+   90 |   uVar3 = func_020b47c0(uRam020ad744);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:77:22: note: expanded from macro 'uRam020ad744'
+   77 | #define uRam020ad744 (*(undefined4 *)(uintptr_t)0x20ad744u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:92:25: error: too many arguments to function call, expected 0, have 1
+   92 |   uVar3 = func_020b47c0(uRam020ad748);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:78:22: note: expanded from macro 'uRam020ad748'
+   78 | #define uRam020ad748 (*(undefined4 *)(uintptr_t)0x20ad748u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:94:25: error: too many arguments to function call, expected 0, have 1
+   94 |   uVar3 = func_020b47c0(uRam020ad74c);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:79:22: note: expanded from macro 'uRam020ad74c'
+   79 | #define uRam020ad74c (*(undefined4 *)(uintptr_t)0x20ad74cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:50:6: note: 'func_020b47c0' declared here
+   50 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:96:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   96 |   uVar3 = GetActiveExecutionContextHeapHandle_4();
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:98:45: error: too many arguments to function call, expected single argument 'param_1', have 8 arguments
+   98 |   DisplayConfig_SetTopEngineBg1Config(uVar3,0,0,0,0,2,0,0);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~       ^~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:11:6: note: 'DisplayConfig_SetTopEngineBg1Config' declared here
+   11 | void DisplayConfig_SetTopEngineBg1Config(int param_1);
+      |      ^                                   ~~~~~~~~~~~
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:99:45: error: too many arguments to function call, expected single argument 'param_1', have 7 arguments
+   99 |   DisplayConfig_SetTopEngineBg2Config(uVar3,2,0,0,1,0xe,4);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~       ^~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:12:6: note: 'DisplayConfig_SetTopEngineBg2Config' declared here
+   12 | void DisplayConfig_SetTopEngineBg2Config(int param_1);
+      |      ^                                   ~~~~~~~~~~~
+C-WORK/src/arm9/020ad344_LoadTitleFiles_from_thumb.c:100:45: error: too many arguments to function call, expected single argument 'param_1', have 7 arguments
+  100 |   DisplayConfig_SetTopEngineBg3Config(uVar3,3,0,0,1,0xf,4);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~       ^~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020ad344_LoadTitleFiles_from_thumb.h:13:6: note: 'DisplayConfig_SetTopEngineBg3Config' declared here
+   13 | void DisplayConfig_SetTopEngineBg3Config(int param_1);
+      |      ^                                   ~~~~~~~~~~~
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.

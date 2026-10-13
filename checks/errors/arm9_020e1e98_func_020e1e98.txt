@@ -1,0 +1,9 @@
+C-WORK/src/arm9/020e1e98_func_020e1e98.c:27:25: error: too many arguments to function call, expected 2, have 4
+   26 |   iVar2 = func_02148538(*(undefined4 *)(param_1 + 0x10),*(undefined4 *)(param_1 + 0x18),
+      |           ~~~~~~~~~~~~~
+   27 |                         param_1 + 0xc4,puVar1 + 4);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020e1e98_func_020e1e98.h:10:5: note: 'func_02148538' declared here
+   10 | int func_02148538(int param_1,int param_2);
+      |     ^             ~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

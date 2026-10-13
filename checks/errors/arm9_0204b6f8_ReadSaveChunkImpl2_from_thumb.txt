@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0204b6f8_ReadSaveChunkImpl2_from_thumb.c:8:17: error: too few arguments to function call, expected 7, have 0
+    8 |   func_0204b714();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204b6f8_ReadSaveChunkImpl2_from_thumb.h:4:12: note: 'func_0204b714' declared here
+    4 | undefined4 func_0204b714(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6,undefined4 param_7);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,49 @@
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:17:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   if (((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) == param_1) &&
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:17:50: note: place parentheses around the '+' expression to silence this warning
+   17 |   if (((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) == param_1) &&
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:19:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |      uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0)) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:19:53: note: place parentheses around the '+' expression to silence this warning
+   19 |      uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0)) {
+      |                                                     ^
+      |                                          (                )
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:22:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |     if ((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) != param_2) {
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:22:51: note: place parentheses around the '+' expression to silence this warning
+   22 |     if ((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) != param_2) {
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:27:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |     *(uint *)(uVar2 + 0xc) = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) - 1;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:27:72: note: place parentheses around the '+' expression to silence this warning
+   27 |     *(uint *)(uVar2 + 0xc) = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) - 1;
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:30:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |     if (uVar4 >> uVar1 * 8 == 0 && uVar4 << uVar1 * -8 + 0x20 == 0) {
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:30:56: note: place parentheses around the '+' expression to silence this warning
+   30 |     if (uVar4 >> uVar1 * 8 == 0 && uVar4 << uVar1 * -8 + 0x20 == 0) {
+      |                                                        ^
+      |                                             (                )
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:41:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |    *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) = 0;
+      |                                  ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:41:54: note: place parentheses around the '+' expression to silence this warning
+   41 |    *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) = 0;
+      |                                                      ^     
+      |                                     (                      )
+C-WORK/src/arm9/021459cc_Card_UnlockResource.c:42:17: error: too many arguments to function call, expected 0, have 1
+   42 |   Os_RestoreIrq(uVar3);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/021459cc_Card_UnlockResource.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+6 warnings and 1 error generated.

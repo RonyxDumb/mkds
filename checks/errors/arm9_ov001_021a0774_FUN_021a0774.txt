@@ -1,0 +1,15 @@
+C-WORK/src/arm9_ov001/021a0774_FUN_021a0774.c:47:83: warning: passing 'int[2]' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   47 |   iVar3 = func_0x0205fd78(uVar2,(int)*(short *)(*DAT_021a08c0 + 0x9e) + 1U & 0xff,local_18);
+      |                                                                                   ^~~~~~~~
+C-WORK/src/arm9_ov001/deps/021a0774_FUN_021a0774.h:14:71: note: passing argument to parameter 'param_3' here
+   14 | bool IsMissionStageBeaten(undefined4 param_1,undefined4 param_2,uint *param_3);
+      |                                                                       ^
+C-WORK/src/arm9_ov001/021a0774_FUN_021a0774.c:69:19: error: too many arguments to function call, expected 0, have 6
+   69 |   func_0x0212426c(0,0,*(undefined4 *)(*DAT_021a08c0 + 8),uVar4,*(undefined4 *)(iVar6 + 4),
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   70 |                   *(undefined4 *)(iVar6 + 0x40));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021a0774_FUN_021a0774.h:20:6: note: 'func_0212426c' declared here
+   20 | void func_0212426c(void);
+      |      ^
+1 warning and 1 error generated.

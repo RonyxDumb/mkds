@@ -1,0 +1,11 @@
+C-WORK/src/arm9/02098374_func_02098374.c:11:9: error: assigning to 'int' from incompatible type 'void'
+   11 |   iVar2 = func_0209bf1c(uRam020983b8,uRam020983bc,0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02098374_func_02098374.c:17:88: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |          *(uint *)((uint)piRam020983c0 & 0xfffffffc) << ((uint)piRam020983c0 & 3) * -8 + 0x20;
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02098374_func_02098374.c:17:88: note: place parentheses around the '+' expression to silence this warning
+   17 |          *(uint *)((uint)piRam020983c0 & 0xfffffffc) << ((uint)piRam020983c0 & 3) * -8 + 0x20;
+      |                                                                                        ^     
+      |                                                         (                                    )
+1 warning and 1 error generated.

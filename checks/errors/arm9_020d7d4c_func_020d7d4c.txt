@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020d7d4c_func_020d7d4c.c:10:17: error: too few arguments to function call, expected 2, have 0
+   10 |   func_020d7da8();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020d7d4c_func_020d7d4c.h:5:6: note: 'func_020d7da8' declared here
+    5 | void func_020d7da8(undefined4 param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d7d4c_func_020d7d4c.c:15:25: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   15 |   func_020d859c(param_1,0,1);
+      |   ~~~~~~~~~~~~~         ^~~
+C-WORK/src/arm9/deps/020d7d4c_func_020d7d4c.h:6:6: note: 'func_020d859c' declared here
+    6 | void func_020d859c(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+2 errors generated.

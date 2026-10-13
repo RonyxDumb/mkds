@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02078f78_func_02078f78.c:10:30: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   uVar1 = Nsbtx_GetTEX0Block();
+      |           ~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02078f78_func_02078f78.h:4:5: note: 'Nsbtx_GetTEX0Block' declared here
+    4 | int Nsbtx_GetTEX0Block(uint param_1);
+      |     ^                  ~~~~~~~~~~~~
+1 error generated.

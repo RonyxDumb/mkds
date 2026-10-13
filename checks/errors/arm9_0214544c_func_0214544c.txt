@@ -1,0 +1,20 @@
+C-WORK/src/arm9/0214544c_func_0214544c.c:16:28: error: too few arguments to function call, expected 4, have 2
+   16 |   iVar3 = func_02142988(1,2);
+      |           ~~~~~~~~~~~~~    ^
+C-WORK/src/arm9/deps/0214544c_func_0214544c.h:6:5: note: 'func_02142988' declared here
+    6 | int func_02142988(uint param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |     ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0214544c_func_0214544c.c:21:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |     puVar5 = (undefined2 *)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214544c_func_0214544c.c:21:70: note: place parentheses around the '+' expression to silence this warning
+   21 |     puVar5 = (undefined2 *)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/0214544c_func_0214544c.c:27:29: error: too few arguments to function call, expected 4, have 2
+   27 |     iVar2 = WM_SomeFn(0x1e,0);
+      |             ~~~~~~~~~       ^
+C-WORK/src/arm9/deps/0214544c_func_0214544c.h:4:12: note: 'WM_SomeFn' declared here
+    4 | undefined4 WM_SomeFn(ushort param_1,uint param_2,undefined4 param_3,undefined4 param_4);
+      |            ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 2 errors generated.

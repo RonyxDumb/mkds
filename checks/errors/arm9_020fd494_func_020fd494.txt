@@ -1,0 +1,49 @@
+C-WORK/src/arm9/020fd494_func_020fd494.c:13:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |           *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fd494_func_020fd494.c:13:77: note: place parentheses around the '+' expression to silence this warning
+   13 |           *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
+      |                                                                             ^     
+      |                                                    (                              )
+C-WORK/src/arm9/020fd494_func_020fd494.c:17:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fd494_func_020fd494.c:17:52: note: place parentheses around the '+' expression to silence this warning
+   17 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020fd494_func_020fd494.c:21:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |     func_020f0f70((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) * 0x44 +
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fd494_func_020fd494.c:21:61: note: place parentheses around the '+' expression to silence this warning
+   21 |     func_020f0f70((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) * 0x44 +
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020fd494_func_020fd494.c:23:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |                   *(uint *)(uRam020fd524 & 0xfffffffc) << (uRam020fd524 & 3) * -8 + 0x20),uVar3);
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fd494_func_020fd494.c:23:83: note: place parentheses around the '+' expression to silence this warning
+   23 |                   *(uint *)(uRam020fd524 & 0xfffffffc) << (uRam020fd524 & 3) * -8 + 0x20),uVar3);
+      |                                                                                   ^     
+      |                                                           (                             )
+C-WORK/src/arm9/020fd494_func_020fd494.c:27:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   27 |     func_020d2398();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020fd494_func_020fd494.h:4:6: note: 'func_020d2398' declared here
+    4 | void func_020d2398(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020fd494_func_020fd494.c:31:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |     func_020f0f70((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) * 0x44 +
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fd494_func_020fd494.c:31:61: note: place parentheses around the '+' expression to silence this warning
+   31 |     func_020f0f70((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) * 0x44 +
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/020fd494_func_020fd494.c:33:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |                   *(uint *)(uRam020fd524 & 0xfffffffc) << (uRam020fd524 & 3) * -8 + 0x20),uVar3);
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020fd494_func_020fd494.c:33:83: note: place parentheses around the '+' expression to silence this warning
+   33 |                   *(uint *)(uRam020fd524 & 0xfffffffc) << (uRam020fd524 & 3) * -8 + 0x20),uVar3);
+      |                                                                                   ^     
+      |                                                           (                             )
+6 warnings and 1 error generated.

@@ -1,0 +1,20 @@
+C-WORK/src/arm9/020a7f18_func_020a7f18.c:19:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   19 |     func_020a8098();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a7f18_func_020a7f18.h:4:6: note: 'func_020a8098' declared here
+    4 | void func_020a8098(int param_1);
+      |      ^             ~~~~~~~~~~~
+C-WORK/src/arm9/020a7f18_func_020a7f18.c:27:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |     if (uVar4 >> uVar1 * 8 == 0 && uVar4 << uVar1 * -8 + 0x20 == 0) {
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a7f18_func_020a7f18.c:27:56: note: place parentheses around the '+' expression to silence this warning
+   27 |     if (uVar4 >> uVar1 * 8 == 0 && uVar4 << uVar1 * -8 + 0x20 == 0) {
+      |                                                        ^
+      |                                             (                )
+C-WORK/src/arm9/020a7f18_func_020a7f18.c:31:32: error: too few arguments to function call, single argument 'param_1' was not specified
+   31 |       local_14 = func_020d4ef4();
+      |                  ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a7f18_func_020a7f18.h:5:5: note: 'func_020d4ef4' declared here
+    5 | int func_020d4ef4(uint param_1);
+      |     ^             ~~~~~~~~~~~~
+1 warning and 2 errors generated.

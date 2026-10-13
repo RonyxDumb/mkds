@@ -1,0 +1,30 @@
+C-WORK/src/arm9/020ea740_func_020ea740.c:16:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |   uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ea740_func_020ea740.c:16:52: note: place parentheses around the '+' expression to silence this warning
+   16 |   uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020ea740_func_020ea740.c:26:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |   func_0201290c(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20,0,0,1);
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ea740_func_020ea740.c:26:58: note: place parentheses around the '+' expression to silence this warning
+   26 |   func_0201290c(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20,0,0,1);
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/020ea740_func_020ea740.c:29:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |                      *(uint *)((uint)piRam020ea7c8 & 0xfffffffc) <<
+      |                                                                  ~~
+   29 |                      ((uint)piRam020ea7c8 & 3) * -8 + 0x20)) {
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ea740_func_020ea740.c:29:53: note: place parentheses around the '+' expression to silence this warning
+   29 |                      ((uint)piRam020ea7c8 & 3) * -8 + 0x20)) {
+      |                                                     ^     
+      |                      (                                    )
+C-WORK/src/arm9/020ea740_func_020ea740.c:30:30: error: too few arguments to function call, expected 2, have 1
+   30 |     Maybe_helper_01308c(uVar5);
+      |     ~~~~~~~~~~~~~~~~~~~      ^
+C-WORK/src/arm9/deps/020ea740_func_020ea740.h:3:6: note: 'Maybe_helper_01308c' declared here
+    3 | void Maybe_helper_01308c(int param_1,undefined4 param_2);
+      |      ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 warnings and 1 error generated.

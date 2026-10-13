@@ -1,0 +1,58 @@
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:18:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |       *(uint *)(uRam0200df2c & 0xfffffffc) << (uRam0200df2c & 3) * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:18:71: note: place parentheses around the '+' expression to silence this warning
+   18 |       *(uint *)(uRam0200df2c & 0xfffffffc) << (uRam0200df2c & 3) * -8 + 0x20 != 0) {
+      |                                                                       ^
+      |                                               (                             )
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:26:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |           *(uint *)(uRam0200df34 & 0xfffffffc) << (uRam0200df34 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:26:75: note: place parentheses around the '+' expression to silence this warning
+   26 |           *(uint *)(uRam0200df34 & 0xfffffffc) << (uRam0200df34 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:29:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |   uVar4 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:29:52: note: place parentheses around the '+' expression to silence this warning
+   29 |   uVar4 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:30:9: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   30 |   uVar5 = Os_FindReadyThread();
+      |         ^ ~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:37:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   37 |     if (((uVar6 >> uVar2 * 8 | uVar6 << uVar2 * -8 + 0x20) != 2) &&
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:37:52: note: place parentheses around the '+' expression to silence this warning
+   37 |     if (((uVar6 >> uVar2 * 8 | uVar6 << uVar2 * -8 + 0x20) != 2) &&
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:38:39: error: too few arguments to function call, expected 4, have 1
+   38 |        (iVar3 = Arm_Context_Save(uVar4), iVar3 != 0)) {
+      |                 ~~~~~~~~~~~~~~~~      ^
+C-WORK/src/arm9/deps/0200de50_Os_RescheduleThread.h:4:12: note: 'Arm_Context_Save' declared here
+    4 | undefined4 Arm_Context_Save(int *param_1,undefined4 param_2,undefined4 param_3,int param_4);
+      |            ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:42:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |                      *(uint *)(uRam0200df38 & 0xfffffffc) << (uRam0200df38 & 3) * -8 + 0x20);
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:42:86: note: place parentheses around the '+' expression to silence this warning
+   42 |                      *(uint *)(uRam0200df38 & 0xfffffffc) << (uRam0200df38 & 3) * -8 + 0x20);
+      |                                                                                      ^     
+      |                                                              (                             )
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:44:16: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   44 |       (*pcVar7)(uVar4,uVar5);
+      |                ^
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:49:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   49 |     pcVar7 = (code *)(uVar6 >> uVar2 * 8 | uVar6 << uVar2 * -8 + 0x20);
+      |                                                  ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:49:64: note: place parentheses around the '+' expression to silence this warning
+   49 |     pcVar7 = (code *)(uVar6 >> uVar2 * 8 | uVar6 << uVar2 * -8 + 0x20);
+      |                                                                ^     
+      |                                                     (                )
+C-WORK/src/arm9/0200de50_Os_RescheduleThread.c:51:16: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   51 |       (*pcVar7)(uVar4,uVar5);
+      |                ^
+8 warnings and 2 errors generated.

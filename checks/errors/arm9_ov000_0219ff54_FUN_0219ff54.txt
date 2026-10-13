@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/0219ff54_FUN_0219ff54.c:35:9: error: assigning to 'undefined1' (aka 'unsigned char') from incompatible type 'void'
+   35 |   uVar2 = FUN_0219ea48();
+      |         ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219ff54_FUN_0219ff54.c:48:74: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   48 |                            *(undefined2 *)(*DAT_021a0048 + iVar5 + 0xa4),&local_20,2);
+      |                                                                          ^~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219ff54_FUN_0219ff54.h:6:106: note: passing argument to parameter 'param_5' here
+    6 | undefined4 FUN_021a0ae8(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 *param_5,int param_6);
+      |                                                                                                          ^
+1 warning and 1 error generated.

@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov000/02192330_FUN_02192330.c:12:45: error: too many arguments to function call, expected 2, have 3
+   12 |   FUN_02190b58(param_1,iVar1 + DAT_0219239c,*(undefined4 *)(iVar1 + DAT_021923a4));
+      |   ~~~~~~~~~~~~                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02192330_FUN_02192330.h:3:6: note: 'FUN_02190b58' declared here
+    3 | void FUN_02190b58(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02192330_FUN_02192330.c:14:45: error: too many arguments to function call, expected 2, have 3
+   14 |   FUN_02190b58(param_1,iVar1 + DAT_0219239c,param_2);
+      |   ~~~~~~~~~~~~                              ^~~~~~~
+C-WORK/src/arm9_ov000/deps/02192330_FUN_02192330.h:3:6: note: 'FUN_02190b58' declared here
+    3 | void FUN_02190b58(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02192330_FUN_02192330.c:16:45: error: too many arguments to function call, expected 2, have 3
+   16 |   FUN_02190b58(param_1,iVar1 + DAT_0219239c,param_3);
+      |   ~~~~~~~~~~~~                              ^~~~~~~
+C-WORK/src/arm9_ov000/deps/02192330_FUN_02192330.h:3:6: note: 'FUN_02190b58' declared here
+    3 | void FUN_02190b58(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

@@ -1,0 +1,45 @@
+C-WORK/src/arm9/02120a64_func_02120a64.c:13:11: error: call to undeclared function 'func_0x021a2a88'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   13 |   iVar1 = func_0x021a2a88(param_1,(*(uint *)(uRam02120b70 & 0xfffffffc) >> (uRam02120b70 & 3) * 8 |
+      |           ^
+C-WORK/src/arm9/02120a64_func_02120a64.c:15:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |                                   *(uint *)(uRam02120b70 & 0xfffffffc) <<
+      |                                                                        ~~
+   15 |                                   (uRam02120b70 & 3) * -8 + 0x20) + iRam02120b74,5);
+      |                                   ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02120a64_func_02120a64.c:15:59: note: place parentheses around the '+' expression to silence this warning
+   15 |                                   (uRam02120b70 & 3) * -8 + 0x20) + iRam02120b74,5);
+      |                                                           ^     
+      |                                   (                             )
+C-WORK/src/arm9/02120a64_func_02120a64.c:18:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |                                   *(uint *)(uRam02120b70 & 0xfffffffc) <<
+      |                                                                        ~~
+   18 |                                   (uRam02120b70 & 3) * -8 + 0x20) + iRam02120b78,3);
+      |                                   ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02120a64_func_02120a64.c:18:59: note: place parentheses around the '+' expression to silence this warning
+   18 |                                   (uRam02120b70 & 3) * -8 + 0x20) + iRam02120b78,3);
+      |                                                           ^     
+      |                                   (                             )
+C-WORK/src/arm9/02120a64_func_02120a64.c:21:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |                                   *(uint *)(uRam02120b70 & 0xfffffffc) <<
+      |                                                                        ~~
+   21 |                                   (uRam02120b70 & 3) * -8 + 0x20) + iRam02120b7c,0xffffffff);
+      |                                   ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02120a64_func_02120a64.c:21:59: note: place parentheses around the '+' expression to silence this warning
+   21 |                                   (uRam02120b70 & 3) * -8 + 0x20) + iRam02120b7c,0xffffffff);
+      |                                                           ^     
+      |                                   (                             )
+C-WORK/src/arm9/02120a64_func_02120a64.c:27:93: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |                             *(uint *)(uRam02120b70 & 0xfffffffc) << (uRam02120b70 & 3) * -8 + 0x20)
+      |                                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02120a64_func_02120a64.c:27:93: note: place parentheses around the '+' expression to silence this warning
+   27 |                             *(uint *)(uRam02120b70 & 0xfffffffc) << (uRam02120b70 & 3) * -8 + 0x20)
+      |                                                                                             ^     
+      |                                                                     (                             )
+C-WORK/src/arm9/02120a64_func_02120a64.c:38:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |             *(uint *)(uRam02120b70 & 0xfffffffc) << (uRam02120b70 & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02120a64_func_02120a64.c:38:77: note: place parentheses around the '+' expression to silence this warning
+   38 |             *(uint *)(uRam02120b70 & 0xfffffffc) << (uRam02120b70 & 3) * -8 + 0x20;
+      |                                                                             ^     
+      |                                                     (                             )
+5 warnings and 1 error generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020e5684_func_020e5684.c:23:63: error: too many arguments to function call, expected 2, have 4
+   23 |   uVar1 = _s32_div_f((int)*(short *)(param_2 + 0x28) << 7,100,param_1 + 0xc0,param_1 + 0xb0);
+      |           ~~~~~~~~~~                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020e5684_func_020e5684.h:5:12: note: '_s32_div_f' declared here
+    5 | undefined8 _s32_div_f(uint param_1,uint param_2);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020e5684_func_020e5684.c:33:36: error: too few arguments to function call, expected 2, have 1
+   33 |     uVar2 = _s32_div_f(uRam020e5764);
+      |             ~~~~~~~~~~             ^
+C-WORK/src/arm9/deps/020e5684_func_020e5684.h:5:12: note: '_s32_div_f' declared here
+    5 | undefined8 _s32_div_f(uint param_1,uint param_2);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

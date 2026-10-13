@@ -1,0 +1,6 @@
+#define puRam02089dfc (*(uint **)(uintptr_t)0x2089dfcu)
+#define puRam02089e00 (*(undefined4 **)(uintptr_t)0x2089e00u)
+#define puRam02089e04 (*(undefined4 **)(uintptr_t)0x2089e04u)
+#define puRam02089e08 (*(uint **)(uintptr_t)0x2089e08u)
+#define puRam02089e0c (*(undefined4 **)(uintptr_t)0x2089e0cu)
+#define uRam02089df8 (*(uint *)(uintptr_t)0x2089df8u)

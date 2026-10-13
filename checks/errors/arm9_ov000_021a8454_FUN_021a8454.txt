@@ -1,0 +1,19 @@
+C-WORK/src/arm9_ov000/021a8454_FUN_021a8454.c:16:37: warning: passing 'int[2]' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   16 |     iVar2 = func_0x0200ea3c(param_1,local_1c,0);
+      |                                     ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a8454_FUN_021a8454.h:14:48: note: passing argument to parameter 'param_2' here
+   14 | undefined4 Os_ReceiveMessage(int param_1,uint *param_2,uint param_3);
+      |                                                ^
+C-WORK/src/arm9_ov000/021a8454_FUN_021a8454.c:25:41: warning: passing 'int[2]' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   25 |         iVar2 = func_0x0200ea3c(param_1,local_1c,0);
+      |                                         ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/021a8454_FUN_021a8454.h:14:48: note: passing argument to parameter 'param_2' here
+   14 | undefined4 Os_ReceiveMessage(int param_1,uint *param_2,uint param_3);
+      |                                                ^
+C-WORK/src/arm9_ov000/021a8454_FUN_021a8454.c:29:21: error: too many arguments to function call, expected 0, have 1
+   29 |     func_0x0200fcb4(uVar1);
+      |     ~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov000/deps/021a8454_FUN_021a8454.h:20:12: note: 'Os_RestoreIrq' declared here
+   20 | undefined4 Os_RestoreIrq(void);
+      |            ^
+2 warnings and 1 error generated.

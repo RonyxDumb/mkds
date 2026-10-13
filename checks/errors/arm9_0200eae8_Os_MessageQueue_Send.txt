@@ -1,0 +1,68 @@
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:17:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   uVar4 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:17:52: note: place parentheses around the '+' expression to silence this warning
+   17 |   uVar4 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:20:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |   if ((int)(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) <= (int)uVar4) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:20:54: note: place parentheses around the '+' expression to silence this warning
+   20 |   if ((int)(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) <= (int)uVar4) {
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:23:23: error: too many arguments to function call, expected 0, have 1
+   23 |         Os_RestoreIrq(uVar2);
+      |         ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200eae8_Os_MessageQueue_Send.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:29:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |       uVar4 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:29:56: note: place parentheses around the '+' expression to silence this warning
+   29 |       uVar4 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:32:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |     } while ((int)(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) <= (int)uVar4);
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:32:61: note: place parentheses around the '+' expression to silence this warning
+   32 |     } while ((int)(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) <= (int)uVar4);
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:36:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   36 |   _s32_div_f((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + uVar4);
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:36:56: note: place parentheses around the '+' expression to silence this warning
+   36 |   _s32_div_f((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + uVar4);
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:36:71: error: too few arguments to function call, expected 2, have 1
+   36 |   _s32_div_f((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + uVar4);
+      |   ~~~~~~~~~~                                                          ^
+C-WORK/src/arm9/deps/0200eae8_Os_MessageQueue_Send.h:8:12: note: '_s32_div_f' declared here
+    8 | undefined8 _s32_div_f(uint param_1,uint param_2);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:39:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |   *(undefined4 *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + extraout_r1 * 4) = param_2;
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:39:61: note: place parentheses around the '+' expression to silence this warning
+   39 |   *(undefined4 *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + extraout_r1 * 4) = param_2;
+      |                                                             ^     
+      |                                                  (                )
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:42:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |   *(uint *)(param_1 + 0x1c) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 1;
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:42:73: note: place parentheses around the '+' expression to silence this warning
+   42 |   *(uint *)(param_1 + 0x1c) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 1;
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/0200eae8_Os_MessageQueue_Send.c:44:17: error: too many arguments to function call, expected 0, have 1
+   44 |   Os_RestoreIrq(uVar2);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200eae8_Os_MessageQueue_Send.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+7 warnings and 3 errors generated.

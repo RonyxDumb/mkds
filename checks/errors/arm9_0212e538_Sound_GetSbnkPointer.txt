@@ -1,0 +1,55 @@
+C-WORK/src/arm9/0212e538_Sound_GetSbnkPointer.c:16:34: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |   uVar1 = Sound_GetSbnkInfoEntry();
+      |           ~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212e538_Sound_GetSbnkPointer.h:3:5: note: 'Sound_GetSbnkInfoEntry' declared here
+    3 | int Sound_GetSbnkInfoEntry(uint param_1);
+      |     ^                      ~~~~~~~~~~~~
+C-WORK/src/arm9/0212e538_Sound_GetSbnkPointer.c:23:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |                        *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e538_Sound_GetSbnkPointer.c:23:74: note: place parentheses around the '+' expression to silence this warning
+   23 |                        *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20);
+      |                                                                          ^     
+      |                                                         (                      )
+C-WORK/src/arm9/0212e538_Sound_GetSbnkPointer.c:28:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |                        *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20,param_3,param_4);
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e538_Sound_GetSbnkPointer.c:28:74: note: place parentheses around the '+' expression to silence this warning
+   28 |                        *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20,param_3,param_4);
+      |                                                                          ^     
+      |                                                         (                      )
+C-WORK/src/arm9/0212e538_Sound_GetSbnkPointer.c:36:38: error: too few arguments to function call, single argument 'param_1' was not specified
+   36 |       uVar3 = Sound_GetSwarInfoEntry();
+      |               ~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212e538_Sound_GetSbnkPointer.h:5:5: note: 'Sound_GetSwarInfoEntry' declared here
+    5 | int Sound_GetSwarInfoEntry(uint param_1);
+      |     ^                      ~~~~~~~~~~~~
+C-WORK/src/arm9/0212e538_Sound_GetSbnkPointer.c:40:98: error: too few arguments to function call, expected 5, have 4
+   40 |       iVar4 = Sound_GetSwarPointer(*(undefined2 *)(uVar1 + iVar5 * 2 + 4),param_2,param_3,param_4);
+      |               ~~~~~~~~~~~~~~~~~~~~                                                               ^
+C-WORK/src/arm9/deps/0212e538_Sound_GetSbnkPointer.h:6:12: note: 'Sound_GetSwarPointer' declared here
+    6 | undefined4 Sound_GetSwarPointer(undefined4 param_1,uint param_2,undefined4 param_3,undefined4 param_4,int *param_5);
+      |            ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212e538_Sound_GetSbnkPointer.c:47:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |                               *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) & 0xffffff);
+      |                                                             ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e538_Sound_GetSbnkPointer.c:47:81: note: place parentheses around the '+' expression to silence this warning
+   47 |                               *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) & 0xffffff);
+      |                                                                                 ^     
+      |                                                                (                      )
+C-WORK/src/arm9/0212e538_Sound_GetSbnkPointer.c:47:99: error: too few arguments to function call, expected 5, have 4
+   45 |         iVar4 = func_0212dd64(uStack_2c,iVar2,iVar5,
+      |                 ~~~~~~~~~~~~~
+   46 |                               (*(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
+   47 |                               *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) & 0xffffff);
+      |                                                                                                   ^
+C-WORK/src/arm9/deps/0212e538_Sound_GetSbnkPointer.h:10:12: note: 'func_0212dd64' declared here
+   10 | undefined4 func_0212dd64(undefined4 param_1,int param_2,uint param_3,undefined4 param_4,undefined4 param_5);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212e538_Sound_GetSbnkPointer.c:53:34: error: too few arguments to function call, expected 3, have 2
+   53 |         func_02021cd4(iVar2,iVar5);
+      |         ~~~~~~~~~~~~~            ^
+C-WORK/src/arm9/deps/0212e538_Sound_GetSbnkPointer.h:9:6: note: 'func_02021cd4' declared here
+    9 | void func_02021cd4(int param_1,int param_2,uint param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 warnings and 5 errors generated.

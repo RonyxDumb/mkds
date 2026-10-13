@@ -1,0 +1,9 @@
+C-WORK/src/arm9/02133068__s32_div_f.c:44:25: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   44 |                         ((param_1 << (uVar1 & 0xff)) * 2,-param_2,uVar1 * 3,uVar2);
+      |                         ^
+C-WORK/src/arm9/02133068__s32_div_f.c:43:13: error: assigning to 'undefined8' (aka 'unsigned long long') from incompatible type 'void'
+   43 |       uVar5 = (*(code *)(uVar1 * 0xc + 0x21330dc))
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   44 |                         ((param_1 << (uVar1 & 0xff)) * 2,-param_2,uVar1 * 3,uVar2);
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

@@ -1,0 +1,25 @@
+C-WORK/src/arm9_ov001/021852f8_FUN_021852f8.c:17:27: error: too few arguments to function call, single argument 'p0' was not specified
+   17 |   uVar1 = func_0x020364e0();
+      |           ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/021852f8_FUN_021852f8.h:10:14: note: 'ExecutionContext_GetHeapHandle' declared here
+   10 | unsigned int ExecutionContext_GetHeapHandle(unsigned int p0);
+      |              ^                              ~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/021852f8_FUN_021852f8.c:22:27: error: too few arguments to function call, single argument 'p0' was not specified
+   22 |   uVar1 = func_0x020364e0();
+      |           ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/021852f8_FUN_021852f8.h:10:14: note: 'ExecutionContext_GetHeapHandle' declared here
+   10 | unsigned int ExecutionContext_GetHeapHandle(unsigned int p0);
+      |              ^                              ~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/021852f8_FUN_021852f8.c:44:31: error: too few arguments to function call, single argument 'param_1' was not specified
+   44 |       uVar1 = func_0x021322c8();
+      |               ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/021852f8_FUN_021852f8.h:22:11: note: 'func_021322c8' declared here
+   22 | ulonglong func_021322c8(uint param_1);
+      |           ^             ~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/021852f8_FUN_021852f8.c:54:31: error: too few arguments to function call, single argument 'param_1' was not specified
+   54 |       uVar1 = func_0x021322c8();
+      |               ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/021852f8_FUN_021852f8.h:22:11: note: 'func_021322c8' declared here
+   22 | ulonglong func_021322c8(uint param_1);
+      |           ^             ~~~~~~~~~~~~
+4 errors generated.

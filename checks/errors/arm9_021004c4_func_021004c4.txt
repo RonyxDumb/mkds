@@ -1,0 +1,14 @@
+C-WORK/src/arm9/021004c4_func_021004c4.c:11:17: error: too few arguments to function call, expected 3, have 0
+   11 |   func_020fecdc();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/021004c4_func_021004c4.h:4:8: note: 'func_020fecdc' declared here
+    4 | char * func_020fecdc(byte *param_1,int param_2,int param_3);
+      |        ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021004c4_func_021004c4.c:18:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |     func_020fe8ac(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/021004c4_func_021004c4.c:18:60: note: place parentheses around the '+' expression to silence this warning
+   18 |     func_020fe8ac(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
+      |                                                            ^     
+      |                                                 (                )
+1 warning and 1 error generated.

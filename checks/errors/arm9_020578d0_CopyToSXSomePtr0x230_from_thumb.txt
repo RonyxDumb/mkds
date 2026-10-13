@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020578d0_CopyToSXSomePtr0x230_from_thumb.c:10:20: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   10 |   (*pcRam020578e4)(param_1,*(undefined4 *)(*piRam020578dc + 0x68),uRam020578e0);
+      |                    ^~~~~~~
+C-WORK/src/arm9/020578d0_CopyToSXSomePtr0x230_from_thumb.c:10:28: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'uint *' (aka 'unsigned int *'); remove * [-Wint-conversion]
+   10 |   (*pcRam020578e4)(param_1,*(undefined4 *)(*piRam020578dc + 0x68),uRam020578e0);
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

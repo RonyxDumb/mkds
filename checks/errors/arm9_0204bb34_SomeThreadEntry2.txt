@@ -1,0 +1,95 @@
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:21:37: error: too many arguments to function call, expected 0, have 2
+   21 |   uVar2 = Fs_FindArchiveByMountName(uRam0204bc94,3);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0204bb34_SomeThreadEntry2.h:15:22: note: expanded from macro 'uRam0204bc94'
+   15 | #define uRam0204bc94 (*(undefined4 *)(uintptr_t)0x204bc94u)
+      |                      ^
+C-WORK/src/arm9/deps/0204bb34_SomeThreadEntry2.h:6:6: note: 'Fs_FindArchiveByMountName' declared here
+    6 | uint Fs_FindArchiveByMountName(void);
+      |      ^
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:28:64: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |     for (uVar11 = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20; uVar11 == 0;
+      |                                                 ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:28:64: note: place parentheses around the '+' expression to silence this warning
+   28 |     for (uVar11 = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20; uVar11 == 0;
+      |                                                                ^     
+      |                                                    (                 )
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:29:63: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   29 |         uVar11 = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) {
+      |                                                ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:29:63: note: place parentheses around the '+' expression to silence this warning
+   29 |         uVar11 = uVar10 >> uVar11 * 8 | uVar10 << uVar11 * -8 + 0x20) {
+      |                                                               ^     
+      |                                                   (                 )
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:32:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |       if (uVar10 >> uVar11 * 8 == 0 && uVar10 << uVar11 * -8 + 0x20 == 0) {
+      |                                               ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:32:62: note: place parentheses around the '+' expression to silence this warning
+   32 |       if (uVar10 >> uVar11 * 8 == 0 && uVar10 << uVar11 * -8 + 0x20 == 0) {
+      |                                                              ^
+      |                                                  (                 )
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:33:23: error: too many arguments to function call, expected 0, have 1
+   33 |         Os_RestoreIrq(uVar3);
+      |         ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0204bb34_SomeThreadEntry2.h:8:12: note: 'Os_RestoreIrq' declared here
+    8 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:40:19: error: too many arguments to function call, expected 0, have 1
+   40 |     Os_RestoreIrq(uVar3);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0204bb34_SomeThreadEntry2.h:8:12: note: 'Os_RestoreIrq' declared here
+    8 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:43:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   43 |     if ((uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20) == 1) {
+      |                                      ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:43:53: note: place parentheses around the '+' expression to silence this warning
+   43 |     if ((uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20) == 1) {
+      |                                                     ^     
+      |                                         (                 )
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:46:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |       uVar6 = uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:46:58: note: place parentheses around the '+' expression to silence this warning
+   46 |       uVar6 = uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20;
+      |                                                          ^     
+      |                                              (                 )
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:52:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   52 |                       uVar6 + (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20),
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:52:73: note: place parentheses around the '+' expression to silence this warning
+   52 |                       uVar6 + (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20),
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:53:66: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   53 |                       uVar5 >> uVar10 * 8 | uVar5 << uVar10 * -8 + 0x20);
+      |                                                   ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:53:66: note: place parentheses around the '+' expression to silence this warning
+   53 |                       uVar5 >> uVar10 * 8 | uVar5 << uVar10 * -8 + 0x20);
+      |                                                                  ^     
+      |                                                      (                 )
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:59:22: error: too many arguments to function call, expected 0, have 3
+   59 |         Fs_File_Read(uVar11 + 0x38,iVar8,0x400);
+      |         ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0204bb34_SomeThreadEntry2.h:5:6: note: 'Fs_File_Read' declared here
+    5 | void Fs_File_Read(void);
+      |      ^
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:68:41: error: too many arguments to function call, expected 2, have 3
+   68 |       func_0204d18c(iRam0204bc9c,uVar11,1);
+      |       ~~~~~~~~~~~~~                     ^
+C-WORK/src/arm9/deps/0204bb34_SomeThreadEntry2.h:12:6: note: 'func_0204d18c' declared here
+   12 | void func_0204d18c(int param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:69:21: error: too many arguments to function call, expected 0, have 1
+   69 |       Os_RestoreIrq(uVar3);
+      |       ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0204bb34_SomeThreadEntry2.h:8:12: note: 'Os_RestoreIrq' declared here
+    8 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0204bb34_SomeThreadEntry2.c:75:21: error: too many arguments to function call, expected 0, have 1
+   75 |       Os_RestoreIrq(uVar3);
+      |       ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0204bb34_SomeThreadEntry2.h:8:12: note: 'Os_RestoreIrq' declared here
+    8 | undefined4 Os_RestoreIrq(void);
+      |            ^
+7 warnings and 7 errors generated.

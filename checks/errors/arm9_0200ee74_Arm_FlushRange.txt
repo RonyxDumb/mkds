@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0200ee74_Arm_FlushRange.c:12:5: error: call to undeclared function 'coproc_moveto_Data_Synchronization'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   12 |     coproc_moveto_Data_Synchronization(0);
+      |     ^
+C-WORK/src/arm9/0200ee74_Arm_FlushRange.c:13:5: error: call to undeclared function 'coproc_moveto_Invalidate_Data_Cache_by_MVA'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   13 |     coproc_moveto_Invalidate_Data_Cache_by_MVA(uVar1);
+      |     ^
+2 errors generated.

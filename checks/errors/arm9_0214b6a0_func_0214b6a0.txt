@@ -1,0 +1,28 @@
+C-WORK/src/arm9/0214b6a0_func_0214b6a0.c:12:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   12 |           *(uint *)(uRam0214b71c & 0xfffffffc) << (uRam0214b71c & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214b6a0_func_0214b6a0.c:12:75: note: place parentheses around the '+' expression to silence this warning
+   12 |           *(uint *)(uRam0214b71c & 0xfffffffc) << (uRam0214b71c & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0214b6a0_func_0214b6a0.c:14:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |            *(uint *)(uRam0214b714 & 0xfffffffc) << (uRam0214b714 & 3) * -8 + 0x20) + param_2) -
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214b6a0_func_0214b6a0.c:14:76: note: place parentheses around the '+' expression to silence this warning
+   14 |            *(uint *)(uRam0214b714 & 0xfffffffc) << (uRam0214b714 & 3) * -8 + 0x20) + param_2) -
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/0214b6a0_func_0214b6a0.c:16:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |           *(uint *)(uRam0214b718 & 0xfffffffc) << (uRam0214b718 & 3) * -8 + 0x20);
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0214b6a0_func_0214b6a0.c:16:75: note: place parentheses around the '+' expression to silence this warning
+   16 |           *(uint *)(uRam0214b718 & 0xfffffffc) << (uRam0214b718 & 3) * -8 + 0x20);
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0214b6a0_func_0214b6a0.c:21:39: error: too many arguments to function call, expected 3, have 4
+   21 |   Mem_CpuCopy32(param_1,iVar1,param_3,param_3);
+      |   ~~~~~~~~~~~~~                       ^~~~~~~
+C-WORK/src/arm9/deps/0214b6a0_func_0214b6a0.h:3:6: note: 'Mem_CpuCopy32' declared here
+    3 | void Mem_CpuCopy32(undefined4 *param_1,undefined4 *param_2,int param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 warnings and 1 error generated.

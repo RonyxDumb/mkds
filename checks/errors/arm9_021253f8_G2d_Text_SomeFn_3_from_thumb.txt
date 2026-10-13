@@ -1,0 +1,31 @@
+C-WORK/src/arm9/021253f8_G2d_Text_SomeFn_3_from_thumb.c:40:32: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   40 |   uVar5 = (*(code *)piVar12[1])(&local_40);
+      |                                ^
+C-WORK/src/arm9/021253f8_G2d_Text_SomeFn_3_from_thumb.c:40:9: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+   40 |   uVar5 = (*(code *)piVar12[1])(&local_40);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021253f8_G2d_Text_SomeFn_3_from_thumb.c:67:72: error: too few arguments to function call, expected 2, have 1
+   67 |                           uVar9 = NFTR_GetTileIndexForCharacter(piVar12);
+      |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~        ^
+C-WORK/src/arm9/deps/021253f8_G2d_Text_SomeFn_3_from_thumb.h:7:12: note: 'NFTR_GetTileIndexForCharacter' declared here
+    7 | undefined4 NFTR_GetTileIndexForCharacter(uint param_1,uint param_2);
+      |            ^                             ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021253f8_G2d_Text_SomeFn_3_from_thumb.c:147:68: error: too few arguments to function call, expected 2, have 1
+  147 |                       uVar9 = NFTR_GetTileIndexForCharacter(piVar12);
+      |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~        ^
+C-WORK/src/arm9/deps/021253f8_G2d_Text_SomeFn_3_from_thumb.h:7:12: note: 'NFTR_GetTileIndexForCharacter' declared here
+    7 | undefined4 NFTR_GetTileIndexForCharacter(uint param_1,uint param_2);
+      |            ^                             ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021253f8_G2d_Text_SomeFn_3_from_thumb.c:236:58: error: too few arguments to function call, expected 2, have 1
+  236 |             uVar5 = NFTR_GetTileIndexForCharacter(piVar12);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~        ^
+C-WORK/src/arm9/deps/021253f8_G2d_Text_SomeFn_3_from_thumb.h:7:12: note: 'NFTR_GetTileIndexForCharacter' declared here
+    7 | undefined4 NFTR_GetTileIndexForCharacter(uint param_1,uint param_2);
+      |            ^                             ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/021253f8_G2d_Text_SomeFn_3_from_thumb.c:258:36: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  258 |       uVar5 = (*(code *)piVar12[1])(&local_40);
+      |                                    ^
+C-WORK/src/arm9/021253f8_G2d_Text_SomeFn_3_from_thumb.c:258:13: error: assigning to 'uint' (aka 'unsigned int') from incompatible type 'void'
+  258 |       uVar5 = (*(code *)piVar12[1])(&local_40);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 5 errors generated.

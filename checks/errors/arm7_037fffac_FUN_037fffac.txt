@@ -1,0 +1,49 @@
+C-WORK/src/arm7/037fffac_FUN_037fffac.c:18:47: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |             *(uint *)((uint)PTR_DAT_0380004c & 0xfffffffc) <<
+      |                                                            ~~
+   18 |             ((uint)PTR_DAT_0380004c & 3) * -8 + 0x20) + 0x24;
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037fffac_FUN_037fffac.c:18:47: note: place parentheses around the '+' expression to silence this warning
+   18 |             ((uint)PTR_DAT_0380004c & 3) * -8 + 0x20) + 0x24;
+      |                                               ^     
+      |             (                                       )
+C-WORK/src/arm7/037fffac_FUN_037fffac.c:21:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |     FUN_038006f0((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) + 1 + param_3);
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037fffac_FUN_037fffac.c:21:60: note: place parentheses around the '+' expression to silence this warning
+   21 |     FUN_038006f0((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) + 1 + param_3);
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm7/037fffac_FUN_037fffac.c:23:36: error: incompatible pointer types passing 'undefined *' (aka 'unsigned char *') to parameter of type 'code *' (aka 'void (*)()') [-Werror,-Wincompatible-pointer-types]
+   23 |     FUN_03800538(param_2,0,param_3,PTR_LAB_03800050);
+      |                                    ^~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/037fffac_FUN_037fffac.h:11:26: note: expanded from macro 'PTR_LAB_03800050'
+   11 | #define PTR_LAB_03800050 (*(undefined **)(uintptr_t)0x3800050u)
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/037fffac_FUN_037fffac.h:5:61: note: passing argument to parameter 'param_4' here
+    5 | void FUN_03800538(int param_1,int param_2,int param_3,code *param_4);
+      |                                                             ^
+C-WORK/src/arm7/037fffac_FUN_037fffac.c:28:48: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |              *(uint *)((uint)PTR_DAT_0380004c & 0xfffffffc) <<
+      |                                                             ~~
+   28 |              ((uint)PTR_DAT_0380004c & 3) * -8 + 0x20);
+      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037fffac_FUN_037fffac.c:28:48: note: place parentheses around the '+' expression to silence this warning
+   28 |              ((uint)PTR_DAT_0380004c & 3) * -8 + 0x20);
+      |                                                ^     
+      |              (                                       )
+C-WORK/src/arm7/037fffac_FUN_037fffac.c:30:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |          *(uint *)((uint)puVar4 & 0xfffffffc) << ((uint)puVar4 & 3) * -8 + 0x20 == 0) &&
+      |                                               ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037fffac_FUN_037fffac.c:30:74: note: place parentheses around the '+' expression to silence this warning
+   30 |          *(uint *)((uint)puVar4 & 0xfffffffc) << ((uint)puVar4 & 3) * -8 + 0x20 == 0) &&
+      |                                                                          ^
+      |                                                  (                             )
+C-WORK/src/arm7/037fffac_FUN_037fffac.c:32:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |        uVar3 >> uVar2 * 8 == 0 && uVar3 << uVar2 * -8 + 0x20 == 0)) {
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/037fffac_FUN_037fffac.c:32:55: note: place parentheses around the '+' expression to silence this warning
+   32 |        uVar3 >> uVar2 * 8 == 0 && uVar3 << uVar2 * -8 + 0x20 == 0)) {
+      |                                                       ^
+      |                                            (                )
+5 warnings and 1 error generated.

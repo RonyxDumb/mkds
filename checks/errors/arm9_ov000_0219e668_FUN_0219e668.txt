@@ -1,0 +1,64 @@
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:46:25: error: operand of type 'void' where arithmetic or pointer type is required
+   46 |         piVar2 = (int *)FUN_0219f544(0);
+      |                         ^~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:49:14: error: assigning to 'undefined8' (aka 'unsigned long long') from incompatible type 'void'
+   49 |       uVar15 = FUN_021a350c();
+      |              ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:62:37: error: too few arguments to function call, expected 2, have 1
+   62 |       piVar2 = (int *)FUN_0219fbec(1);
+      |                       ~~~~~~~~~~~~  ^
+C-WORK/src/arm9_ov000/deps/0219e668_FUN_0219e668.h:10:6: note: 'FUN_0219fbec' declared here
+   10 | void FUN_0219fbec(undefined4 param_1,int param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:66:12: error: assigning to 'longlong' (aka 'long long') from incompatible type 'void'
+   66 |     lVar14 = FUN_021a350c();
+      |            ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:82:54: error: use of undeclared identifier 'sbyte'
+   82 |           if ((*(uint *)(*DAT_0219e89c + 8) & 1 << *(sbyte *)(iVar5 + iVar11 + DAT_0219e8b0)) == 0)
+      |                                                      ^
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:82:61: error: expected expression
+   82 |           if ((*(uint *)(*DAT_0219e89c + 8) & 1 << *(sbyte *)(iVar5 + iVar11 + DAT_0219e8b0)) == 0)
+      |                                                             ^
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:87:29: error: operand of type 'void' where arithmetic or pointer type is required
+   87 |             piVar2 = (int *)FUN_0219fee4();
+      |                             ^~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:99:38: warning: cast to smaller integer type 'char' from 'int *' [-Wpointer-to-int-cast]
+   99 |       *(char *)(*DAT_0219e89c + 2) = (char)piVar2;
+      |                                      ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:102:20: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  102 |     FUN_0219e8b8(1,(uVar6 - uVar7) - (uint)(uVar3 > uVar9));
+      |     ~~~~~~~~~~~~   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219e668_FUN_0219e668.h:4:6: note: 'FUN_0219e8b8' declared here
+    4 | void FUN_0219e8b8(int param_1);
+      |      ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:104:21: error: operand of type 'void' where arithmetic or pointer type is required
+  104 |     piVar2 = (int *)FUN_0219f23c(1);
+      |                     ^~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:116:12: error: assigning to 'longlong' (aka 'long long') from incompatible type 'void'
+  116 |     lVar14 = FUN_021a350c();
+      |            ^ ~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:126:25: error: too many arguments to function call, expected 0, have 2
+  126 |   uVar15 = FUN_021a350c(DAT_0219e89c,uVar6);
+      |            ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219e668_FUN_0219e668.h:14:22: note: expanded from macro 'DAT_0219e89c'
+   14 | #define DAT_0219e89c (*(int **)(uintptr_t)0x219e89cu)
+      |                      ^
+C-WORK/src/arm9_ov000/deps/0219e668_FUN_0219e668.h:13:6: note: 'FUN_021a350c' declared here
+   13 | void FUN_021a350c(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:136:18: error: too few arguments to function call, single argument 'param_1' was not specified
+  136 |     FUN_0219fb14();
+      |     ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219e668_FUN_0219e668.h:9:6: note: 'FUN_0219fb14' declared here
+    9 | void FUN_0219fb14(undefined4 param_1);
+      |      ^            ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:137:21: error: operand of type 'void' where arithmetic or pointer type is required
+  137 |     piVar2 = (int *)FUN_0219fee4();
+      |                     ^~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:152:23: error: operand of type 'void' where arithmetic or pointer type is required
+  152 |       piVar4 = (int *)FUN_0219fee4();
+      |                       ^~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219e668_FUN_0219e668.c:162:10: error: assigning to 'undefined8' (aka 'unsigned long long') from incompatible type 'void'
+  162 |   uVar15 = FUN_021a350c();
+      |          ^ ~~~~~~~~~~~~~~
+1 warning and 15 errors generated.

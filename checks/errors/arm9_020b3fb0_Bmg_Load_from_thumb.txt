@@ -1,0 +1,9 @@
+C-WORK/src/arm9/020b3fb0_Bmg_Load_from_thumb.c:18:22: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   18 |       *puRam020b3ffc = puVar4;
+      |                      ^ ~~~~~~
+      |                        *
+C-WORK/src/arm9/020b3fb0_Bmg_Load_from_thumb.c:21:22: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   21 |       *puRam020b3ff8 = puVar4;
+      |                      ^ ~~~~~~
+      |                        *
+2 errors generated.

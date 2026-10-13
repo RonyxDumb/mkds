@@ -1,0 +1,48 @@
+C-WORK/src/arm9/0203154c_Maybe_multi_select_member_m.c:22:37: error: too few arguments to function call, single argument 'param_1' was not specified
+   22 |   uVar2 = Mem_CreateOrphanChildHeap();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0203154c_Maybe_multi_select_member_m.h:8:6: note: 'Mem_CreateOrphanChildHeap' declared here
+    8 | void Mem_CreateOrphanChildHeap(uint param_1);
+      |      ^                         ~~~~~~~~~~~~
+C-WORK/src/arm9/0203154c_Maybe_multi_select_member_m.c:32:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   32 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02031758);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203154c_Maybe_multi_select_member_m.c:36:9: error: assigning to 'int' from incompatible type 'void'
+   36 |   iVar3 = func_02148cb8();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203154c_Maybe_multi_select_member_m.c:40:17: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   40 |                 uRam02031764);
+      |                 ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0203154c_Maybe_multi_select_member_m.h:31:22: note: expanded from macro 'uRam02031764'
+   31 | #define uRam02031764 (*(undefined4 *)(uintptr_t)0x2031764u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0203154c_Maybe_multi_select_member_m.h:14:110: note: passing argument to parameter 'param_8' here
+   14 | void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                              ^
+C-WORK/src/arm9/0203154c_Maybe_multi_select_member_m.c:50:19: error: too many arguments to function call, expected 0, have 6
+   50 |     func_0212426c(0,(int)*psVar8,*(undefined4 *)(iVar9 + 0x38),uVar2,*(undefined4 *)(iVar9 + 0x30),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   51 |                   *(undefined4 *)(iVar9 + 0x3c));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0203154c_Maybe_multi_select_member_m.h:18:6: note: 'func_0212426c' declared here
+   18 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0203154c_Maybe_multi_select_member_m.c:58:9: error: assigning to 'int' from incompatible type 'void'
+   58 |   iVar9 = func_02148ca0();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203154c_Maybe_multi_select_member_m.c:62:18: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   62 |                 ,uRam02031764);
+      |                  ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/0203154c_Maybe_multi_select_member_m.h:31:22: note: expanded from macro 'uRam02031764'
+   31 | #define uRam02031764 (*(undefined4 *)(uintptr_t)0x2031764u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0203154c_Maybe_multi_select_member_m.h:14:110: note: passing argument to parameter 'param_8' here
+   14 | void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                              ^
+C-WORK/src/arm9/0203154c_Maybe_multi_select_member_m.c:75:44: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967232 to 65472 [-Wconstant-conversion]
+   75 |   func_02025f80(*piRam0203174c + 0xa0,0,10,0xffffffc0,0);
+      |   ~~~~~~~~~~~~~                            ^~~~~~~~~~
+C-WORK/src/arm9/0203154c_Maybe_multi_select_member_m.c:77:44: warning: implicit conversion from 'unsigned int' to 'undefined2' (aka 'unsigned short') changes value from 4294967104 to 65344 [-Wconstant-conversion]
+   77 |   func_02025f80(*piRam0203174c + 0xc0,0,10,0xffffff40,0);
+      |   ~~~~~~~~~~~~~                            ^~~~~~~~~~
+2 warnings and 7 errors generated.

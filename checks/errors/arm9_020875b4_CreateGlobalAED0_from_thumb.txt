@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020875b4_CreateGlobalAED0_from_thumb.c:23:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   23 |   uVar7 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020875b4_CreateGlobalAED0_from_thumb.h:4:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    4 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+1 error generated.

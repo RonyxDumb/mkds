@@ -1,0 +1,17 @@
+C-WORK/src/arm9/020248d0_FontEncoding_UTF8_NextCharacter.c:14:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |                    *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20);
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020248d0_FontEncoding_UTF8_NextCharacter.c:14:86: note: place parentheses around the '+' expression to silence this warning
+   14 |                    *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20);
+      |                                                                                      ^     
+      |                                                             (                              )
+C-WORK/src/arm9/020248d0_FontEncoding_UTF8_NextCharacter.c:17:14: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   17 |     *param_1 = pbVar3 + 1;
+      |              ^ ~~~~~~~~~~
+C-WORK/src/arm9/020248d0_FontEncoding_UTF8_NextCharacter.c:21:14: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   21 |     *param_1 = pbVar3 + 2;
+      |              ^ ~~~~~~~~~~
+C-WORK/src/arm9/020248d0_FontEncoding_UTF8_NextCharacter.c:26:14: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+   26 |     *param_1 = pbVar3 + 3;
+      |              ^ ~~~~~~~~~~
+1 warning and 3 errors generated.

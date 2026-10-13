@@ -1,0 +1,23 @@
+C-WORK/src/arm9/0200fe7c_Os_UnlockVram.c:23:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |                     *(uint *)((uint)puRam0200fef8 & 0xfffffffc) <<
+      |                                                                 ~~
+   23 |                     ((uint)puRam0200fef8 & 3) * -8 + 0x20) & uRam0200fefc;
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200fe7c_Os_UnlockVram.c:23:52: note: place parentheses around the '+' expression to silence this warning
+   23 |                     ((uint)puRam0200fef8 & 3) * -8 + 0x20) & uRam0200fefc;
+      |                                                    ^     
+      |                     (                                    )
+C-WORK/src/arm9/0200fe7c_Os_UnlockVram.c:33:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |               *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200fe7c_Os_UnlockVram.c:33:79: note: place parentheses around the '+' expression to silence this warning
+   33 |               *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/0200fe7c_Os_UnlockVram.c:41:17: error: too many arguments to function call, expected 0, have 1
+   41 |   Os_RestoreIrq(uVar3);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200fe7c_Os_UnlockVram.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+2 warnings and 1 error generated.

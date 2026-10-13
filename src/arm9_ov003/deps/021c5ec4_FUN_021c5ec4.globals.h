@@ -1,0 +1,5 @@
+#define DAT_021c5f88 (*(int **)(uintptr_t)0x21c5f88u)
+#define DAT_021c5f8c (*(byte **)(uintptr_t)0x21c5f8cu)
+#define DAT_021c5f90 (*(undefined2 **)(uintptr_t)0x21c5f90u)
+#define DAT_021c5f94 (*(undefined4 *)(uintptr_t)0x21c5f94u)
+#define DAT_021c5f98 (*(undefined4 *)(uintptr_t)0x21c5f98u)

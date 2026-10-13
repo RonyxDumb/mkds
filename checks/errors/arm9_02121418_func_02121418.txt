@@ -1,0 +1,4 @@
+C-WORK/src/arm9/02121418_func_02121418.c:10:11: error: call to undeclared function 'func_0x0219bb68'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   10 |   uVar1 = func_0x0219bb68();
+      |           ^
+1 error generated.

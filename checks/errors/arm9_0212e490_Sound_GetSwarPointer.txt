@@ -1,0 +1,28 @@
+C-WORK/src/arm9/0212e490_Sound_GetSwarPointer.c:13:34: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   uVar1 = Sound_GetSwarInfoEntry();
+      |           ~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212e490_Sound_GetSwarPointer.h:3:5: note: 'Sound_GetSwarInfoEntry' declared here
+    3 | int Sound_GetSwarInfoEntry(uint param_1);
+      |     ^                      ~~~~~~~~~~~~
+C-WORK/src/arm9/0212e490_Sound_GetSwarPointer.c:20:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |                        *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) & 0xffffff);
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e490_Sound_GetSwarPointer.c:20:74: note: place parentheses around the '+' expression to silence this warning
+   20 |                        *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) & 0xffffff);
+      |                                                                          ^     
+      |                                                         (                      )
+C-WORK/src/arm9/0212e490_Sound_GetSwarPointer.c:26:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |                          *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) & 0xffffff,
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e490_Sound_GetSwarPointer.c:26:76: note: place parentheses around the '+' expression to silence this warning
+   26 |                          *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) & 0xffffff,
+      |                                                                            ^     
+      |                                                           (                      )
+C-WORK/src/arm9/0212e490_Sound_GetSwarPointer.c:32:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |                          *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) & 0xffffff,
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e490_Sound_GetSwarPointer.c:32:76: note: place parentheses around the '+' expression to silence this warning
+   32 |                          *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) & 0xffffff,
+      |                                                                            ^     
+      |                                                           (                      )
+3 warnings and 1 error generated.

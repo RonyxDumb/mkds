@@ -1,0 +1,20 @@
+C-WORK/src/arm9/020ac524_func_020ac524.c:15:25: error: too few arguments to function call, single argument 'param_1' was not specified
+   15 |   uVar2 = func_02100138();
+      |           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ac524_func_020ac524.h:6:6: note: 'func_02100138' declared here
+    6 | uint func_02100138(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020ac524_func_020ac524.c:16:25: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |   iVar3 = func_0210008c();
+      |           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ac524_func_020ac524.h:4:6: note: 'func_0210008c' declared here
+    4 | uint func_0210008c(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+C-WORK/src/arm9/020ac524_func_020ac524.c:24:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |       uVar5 = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020ac524_func_020ac524.c:24:56: note: place parentheses around the '+' expression to silence this warning
+   24 |       uVar5 = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+1 warning and 2 errors generated.

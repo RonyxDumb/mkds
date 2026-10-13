@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0203bfc4_GetCurrentTime.c:10:23: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   iVar1 = Rtc_GetTime();
+      |           ~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0203bfc4_GetCurrentTime.h:4:6: note: 'Rtc_GetTime' declared here
+    4 | uint Rtc_GetTime(undefined4 param_1);
+      |      ^           ~~~~~~~~~~~~~~~~~~
+1 error generated.

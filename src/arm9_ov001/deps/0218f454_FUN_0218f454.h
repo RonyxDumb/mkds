@@ -1,0 +1,29 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void FUN_02187218(int param_1,undefined4 param_2,undefined4 param_3);
+void FUN_02188200(int param_1,undefined4 param_2);
+void FUN_02188998(int param_1,undefined4 *param_2);
+void FUN_021889c8(int param_1);
+void FUN_02188c48(int param_1,undefined4 param_2,undefined4 param_3);
+void FUN_02188cd8(int param_1,undefined4 param_2,undefined4 param_3);
+void FUN_02188d64(int param_1,undefined2 param_2,undefined4 param_3);
+void FUN_02188e24(int param_1,undefined4 param_2,int param_3);
+void FUN_0218f454(int param_1);
+#define DAT_0218f4ec (*(int **)(uintptr_t)0x218f4ecu)
+#define DAT_0218f4f0 (*(undefined4 *)(uintptr_t)0x218f4f0u)
+#define DAT_0218f4f4 (*(int *)(uintptr_t)0x218f4f4u)
+#define DAT_0218f4f8 (*(int *)(uintptr_t)0x218f4f8u)
+#define DAT_0218f4fc (*(int *)(uintptr_t)0x218f4fcu)
+#define DAT_0218f500 (*(int *)(uintptr_t)0x218f500u)
+#define DAT_0218f504 (*(int *)(uintptr_t)0x218f504u)
+#define DAT_0218f508 (*(int *)(uintptr_t)0x218f508u)
+#define DAT_0218f50c (*(int *)(uintptr_t)0x218f50cu)
+#define DAT_0218f510 (*(undefined4 *)(uintptr_t)0x218f510u)
+#define DAT_0218f514 (*(undefined4 *)(uintptr_t)0x218f514u)
+#define DAT_0218f518 (*(undefined4 *)(uintptr_t)0x218f518u)
+
+/* Address resolved to indexed definition; inferred ABI remains provisional. */
+int GetDriverEntry(int param_1);
+#define func_0x0207a974 GetDriverEntry
+void func_020d2774(int param_1,undefined4 param_2);
+#define func_0x020d2774 func_020d2774

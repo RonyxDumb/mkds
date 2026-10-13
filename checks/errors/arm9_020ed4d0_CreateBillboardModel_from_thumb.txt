@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020ed4d0_CreateBillboardModel_from_thumb.c:13:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |   uVar1 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020ed4d0_CreateBillboardModel_from_thumb.h:5:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    5 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020ed4d0_CreateBillboardModel_from_thumb.c:17:68: error: too many arguments to function call, expected 3, have 4
+   17 |   BillboardModel_CreateFromNsbmdNsbtp_from_thumb(iVar2,uVar1,uVar3,0);
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                   ^
+C-WORK/src/arm9/deps/020ed4d0_CreateBillboardModel_from_thumb.h:3:6: note: 'BillboardModel_CreateFromNsbmdNsbtp_from_thumb' declared here
+    3 | void BillboardModel_CreateFromNsbmdNsbtp_from_thumb(int param_1,undefined4 param_2,int param_3);
+      |      ^                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

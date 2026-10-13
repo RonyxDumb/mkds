@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021c73cc_FUN_021c73cc.c:84:88: error: too few arguments to function call, expected 3, have 2
+   84 |         func_0x0214d168(*DAT_021c75d4 + 8 + (uint)*(byte *)(*DAT_021c75d4 + 0x14) * 3,0);
+      |         ~~~~~~~~~~~~~~~                                                                ^
+C-WORK/src/arm9_ov003/deps/021c73cc_FUN_021c73cc.h:21:6: note: 'Mem_CpuFill8' declared here
+   21 | void Mem_CpuFill8(uint *param_1,uint param_2,uint param_3);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

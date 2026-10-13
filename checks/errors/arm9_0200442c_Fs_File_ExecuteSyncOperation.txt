@@ -1,0 +1,28 @@
+C-WORK/src/arm9/0200442c_Fs_File_ExecuteSyncOperation.c:15:87: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   uVar2 = Fs_File_DoExecuteOperation(param_1,uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200442c_Fs_File_ExecuteSyncOperation.c:15:87: note: place parentheses around the '+' expression to silence this warning
+   15 |   uVar2 = Fs_File_DoExecuteOperation(param_1,uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                                                       ^     
+      |                                                                            (                )
+C-WORK/src/arm9/0200442c_Fs_File_ExecuteSyncOperation.c:19:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |   iVar3 = Fs_Archive_HandleNextOperation(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200442c_Fs_File_ExecuteSyncOperation.c:19:83: note: place parentheses around the '+' expression to silence this warning
+   19 |   iVar3 = Fs_Archive_HandleNextOperation(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                                                   ^     
+      |                                                                        (                )
+C-WORK/src/arm9/0200442c_Fs_File_ExecuteSyncOperation.c:21:35: error: too few arguments to function call, single argument 'param_1' was not specified
+   21 |     Fs_File_ExecuteAsyncOperation();
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0200442c_Fs_File_ExecuteSyncOperation.h:5:6: note: 'Fs_File_ExecuteAsyncOperation' declared here
+    5 | void Fs_File_ExecuteAsyncOperation(int param_1);
+      |      ^                             ~~~~~~~~~~~
+C-WORK/src/arm9/0200442c_Fs_File_ExecuteSyncOperation.c:25:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |   return uVar4 >> uVar1 * 8 == 0 && uVar4 << uVar1 * -8 + 0x20 == 0;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200442c_Fs_File_ExecuteSyncOperation.c:25:57: note: place parentheses around the '+' expression to silence this warning
+   25 |   return uVar4 >> uVar1 * 8 == 0 && uVar4 << uVar1 * -8 + 0x20 == 0;
+      |                                                         ^
+      |                                              (                )
+3 warnings and 1 error generated.

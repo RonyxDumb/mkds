@@ -1,0 +1,51 @@
+C-WORK/src/arm9_ov000/0218ec44_FUN_0218ec44.c:15:29: error: too many arguments to function call, expected single argument 'param_1', have 3 arguments
+   15 |     func_0x02134de0(param_3,0,DAT_0218ed1c);
+      |     ~~~~~~~~~~~~~~~         ^~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ec44_FUN_0218ec44.h:21:12: note: 'func_02134de0' declared here
+   21 | undefined4 func_02134de0(undefined4 param_1);
+      |            ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218ec44_FUN_0218ec44.c:19:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   19 |     FUN_02196590(param_1,DAT_0218ed20);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ec44_FUN_0218ec44.h:5:31: note: passing argument to parameter 'param_1' here
+    5 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218ec44_FUN_0218ec44.c:23:41: error: too few arguments to function call, expected 2, have 0
+   23 |     puVar1 = (undefined4 *)FUN_02194808();
+      |                            ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0218ec44_FUN_0218ec44.h:4:12: note: 'FUN_02194808' declared here
+    4 | undefined4 FUN_02194808(undefined4 param_1,undefined4 param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218ec44_FUN_0218ec44.c:25:20: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   25 |       FUN_02196590(param_1,DAT_0218ed28);
+      |                    ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ec44_FUN_0218ec44.h:5:31: note: passing argument to parameter 'param_1' here
+    5 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218ec44_FUN_0218ec44.c:50:16: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   50 |   FUN_02196590(param_1,DAT_0218ed28);
+      |                ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218ec44_FUN_0218ec44.h:5:31: note: passing argument to parameter 'param_1' here
+    5 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218ec44_FUN_0218ec44.c:35:7: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
+   35 |       Reset = 0;
+      |       ^~~~~
+C-WORK/src/arm9_ov000/deps/0218ec44_FUN_0218ec44.h:18:16: note: expanded from macro 'Reset'
+   18 | #define Reset (*(undefined1 *)(uintptr_t)0x0u)
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218ec44_FUN_0218ec44.c:35:7: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
+C-WORK/src/arm9_ov000/deps/0218ec44_FUN_0218ec44.h:18:16: note: expanded from macro 'Reset'
+   18 | #define Reset (*(undefined1 *)(uintptr_t)0x0u)
+      |                ^
+C-WORK/src/arm9_ov000/0218ec44_FUN_0218ec44.c:41:7: warning: indirection of non-volatile null pointer will be deleted, not trap [-Wnull-dereference]
+   41 |       Reset = 0;
+      |       ^~~~~
+C-WORK/src/arm9_ov000/deps/0218ec44_FUN_0218ec44.h:18:16: note: expanded from macro 'Reset'
+   18 | #define Reset (*(undefined1 *)(uintptr_t)0x0u)
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218ec44_FUN_0218ec44.c:41:7: note: consider using __builtin_trap() or qualifying pointer with 'volatile'
+C-WORK/src/arm9_ov000/deps/0218ec44_FUN_0218ec44.h:18:16: note: expanded from macro 'Reset'
+   18 | #define Reset (*(undefined1 *)(uintptr_t)0x0u)
+      |                ^
+5 warnings and 2 errors generated.

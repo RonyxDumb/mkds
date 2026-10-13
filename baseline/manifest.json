@@ -1,0 +1,113 @@
+{
+  "sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+  "modules": [
+    {
+      "name": "arm9",
+      "sections": [
+        {
+          "file": "arm9_0.bin",
+          "base": 33554432,
+          "size": 1504064,
+          "bss": 70048
+        },
+        {
+          "file": "arm9_1.bin",
+          "base": 33521664,
+          "size": 32672,
+          "bss": 0
+        },
+        {
+          "file": "arm9_2.bin",
+          "base": 41811968,
+          "size": 224,
+          "bss": 0
+        }
+      ],
+      "entry": 33556480,
+      "language": "ARM:LE:32:v5t"
+    },
+    {
+      "name": "arm9_ov000",
+      "sections": [
+        {
+          "file": "arm9_ov000.bin",
+          "base": 35128544,
+          "size": 214912,
+          "bss": 12096
+        }
+      ],
+      "entry": null,
+      "language": "ARM:LE:32:v5t"
+    },
+    {
+      "name": "arm9_ov001",
+      "sections": [
+        {
+          "file": "arm9_ov001.bin",
+          "base": 35128544,
+          "size": 169216,
+          "bss": 133728
+        }
+      ],
+      "entry": null,
+      "language": "ARM:LE:32:v5t"
+    },
+    {
+      "name": "arm9_ov002",
+      "sections": [
+        {
+          "file": "arm9_ov002.bin",
+          "base": 35128544,
+          "size": 32,
+          "bss": 327680
+        }
+      ],
+      "entry": null,
+      "language": "ARM:LE:32:v5t"
+    },
+    {
+      "name": "arm9_ov003",
+      "sections": [
+        {
+          "file": "arm9_ov003.bin",
+          "base": 35355552,
+          "size": 131232,
+          "bss": 9984
+        }
+      ],
+      "entry": null,
+      "language": "ARM:LE:32:v5t"
+    },
+    {
+      "name": "arm7",
+      "sections": [
+        {
+          "file": "arm7_0.bin",
+          "base": 37224448,
+          "size": 432,
+          "bss": 0
+        },
+        {
+          "file": "arm7_1.bin",
+          "base": 41811968,
+          "size": 220,
+          "bss": 0
+        },
+        {
+          "file": "arm7_2.bin",
+          "base": 58687488,
+          "size": 63084,
+          "bss": 16452
+        },
+        {
+          "file": "arm7_3.bin",
+          "base": 100663296,
+          "size": 102536,
+          "bss": 5500
+        }
+      ],
+      "entry": 37224448,
+      "language": "ARM:LE:32:v4t"
+    }
+  ]
+}

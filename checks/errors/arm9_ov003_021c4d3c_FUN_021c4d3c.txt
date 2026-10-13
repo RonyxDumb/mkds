@@ -1,0 +1,11 @@
+C-WORK/src/arm9_ov003/021c4d3c_FUN_021c4d3c.c:19:22: error: too many arguments to function call, expected single argument 'param_1', have 8 arguments
+   19 |   FUN_021d2070(uVar2,(uint)*DAT_021c4dc4,(uint)DAT_021c4dc4[1],
+      |   ~~~~~~~~~~~~       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   20 |                (uint)DAT_021c4dc4[2] - (uint)*DAT_021c4dc4,
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   21 |                (uint)DAT_021c4dc4[3] - (uint)DAT_021c4dc4[1],2,DAT_021c4dc8,auStack_26);
+      |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c4d3c_FUN_021c4d3c.h:9:6: note: 'FUN_021d2070' declared here
+    9 | void FUN_021d2070(int param_1);
+      |      ^            ~~~~~~~~~~~
+1 error generated.

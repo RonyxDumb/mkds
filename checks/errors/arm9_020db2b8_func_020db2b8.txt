@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020db2b8_func_020db2b8.c:16:39: error: too many arguments to function call, expected 2, have 3
+   16 |   func_020d7da8(param_1 + 200,param_2,uVar1);
+      |   ~~~~~~~~~~~~~                       ^~~~~
+C-WORK/src/arm9/deps/020db2b8_func_020db2b8.h:5:6: note: 'func_020d7da8' declared here
+    5 | void func_020d7da8(undefined4 param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

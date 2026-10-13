@@ -1,0 +1,104 @@
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:19:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   19 |   uVar3 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0205dee0_LoadExecuteOverlay1.h:7:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    7 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:22:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |           *(uint *)(uRam0205e06c & 0xfffffffc) << (uRam0205e06c & 3) * -8 + 0x20) + 0xc;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:22:75: note: place parentheses around the '+' expression to silence this warning
+   22 |           *(uint *)(uRam0205e06c & 0xfffffffc) << (uRam0205e06c & 3) * -8 + 0x20) + 0xc;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:25:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |   if (uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:25:54: note: place parentheses around the '+' expression to silence this warning
+   25 |   if (uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:30:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |               *(uint *)(uRam0205e074 & 0xfffffffc) << (uRam0205e074 & 3) * -8 + 0x20) + 0xc,
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:30:79: note: place parentheses around the '+' expression to silence this warning
+   30 |               *(uint *)(uRam0205e074 & 0xfffffffc) << (uRam0205e074 & 3) * -8 + 0x20) + 0xc,
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:32:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   32 |      uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0)) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:32:53: note: place parentheses around the '+' expression to silence this warning
+   32 |      uVar4 >> uVar1 * 8 != 0 || uVar4 << uVar1 * -8 + 0x20 != 0)) {
+      |                                                     ^
+      |                                          (                )
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:35:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |             *(uint *)(uRam0205e074 & 0xfffffffc) << (uRam0205e074 & 3) * -8 + 0x20) + 0xc;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:35:77: note: place parentheses around the '+' expression to silence this warning
+   35 |             *(uint *)(uRam0205e074 & 0xfffffffc) << (uRam0205e074 & 3) * -8 + 0x20) + 0xc;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:38:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |     Mem_FreeHeap(uVar3,uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:38:65: note: place parentheses around the '+' expression to silence this warning
+   38 |     Mem_FreeHeap(uVar3,uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:38:24: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   38 |     Mem_FreeHeap(uVar3,uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |     ~~~~~~~~~~~~       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0205dee0_LoadExecuteOverlay1.h:17:12: note: 'Mem_FreeHeap' declared here
+   17 | undefined4 Mem_FreeHeap(uint param_1);
+      |            ^            ~~~~~~~~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:41:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   41 |       *(uint *)(uRam0205e074 & 0xfffffffc) << (uRam0205e074 & 3) * -8 + 0x20) + 0xc) = 0;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:41:71: note: place parentheses around the '+' expression to silence this warning
+   41 |       *(uint *)(uRam0205e074 & 0xfffffffc) << (uRam0205e074 & 3) * -8 + 0x20) + 0xc) = 0;
+      |                                                                       ^     
+      |                                               (                             )
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:44:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   44 |   uVar5 = Mem_CreateChildExpHeap(uVar3);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:53:19: error: too many arguments to function call, expected 0, have 2
+   53 |     Os_DisableIrq(0,uVar2);
+      |     ~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9/deps/0205dee0_LoadExecuteOverlay1.h:18:10: note: 'Os_DisableIrq' declared here
+   18 | longlong Os_DisableIrq(void);
+      |          ^
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:54:20: error: too few arguments to function call, expected 2, have 1
+   54 |     GX_VBlankIntr(0);
+      |     ~~~~~~~~~~~~~  ^
+C-WORK/src/arm9/deps/0205dee0_LoadExecuteOverlay1.h:10:8: note: 'GX_VBlankIntr' declared here
+   10 | ushort GX_VBlankIntr(int param_1,ushort param_2);
+      |        ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:55:5: error: call to undeclared function 'func_0x021a397c'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   55 |     func_0x021a397c(2);
+      |     ^
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:58:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   58 |             *(uint *)(uRam0205e080 & 0xfffffffc) << (uRam0205e080 & 3) * -8 + 0x20) + 4;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:58:77: note: place parentheses around the '+' expression to silence this warning
+   58 |             *(uint *)(uRam0205e080 & 0xfffffffc) << (uRam0205e080 & 3) * -8 + 0x20) + 4;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:61:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   61 |     uVar4 = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) & 0xff;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:61:55: note: place parentheses around the '+' expression to silence this warning
+   61 |     uVar4 = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) & 0xff;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:65:5: error: call to undeclared function 'func_0x021c2494'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   65 |     func_0x021c2494(uVar6,uVar9,0);
+      |     ^
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:79:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   79 |     *(uint *)(uRam0205e074 & 0xfffffffc) << (uRam0205e074 & 3) * -8 + 0x20) + 0xc) = uVar3;
+      |                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205dee0_LoadExecuteOverlay1.c:79:69: note: place parentheses around the '+' expression to silence this warning
+   79 |     *(uint *)(uRam0205e074 & 0xfffffffc) << (uRam0205e074 & 3) * -8 + 0x20) + 0xc) = uVar3;
+      |                                                                     ^     
+      |                                             (                             )
+10 warnings and 7 errors generated.

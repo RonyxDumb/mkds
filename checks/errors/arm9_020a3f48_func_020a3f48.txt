@@ -1,0 +1,28 @@
+C-WORK/src/arm9/020a3f48_func_020a3f48.c:13:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |           *(uint *)(uRam020a3fa4 & 0xfffffffc) << (uRam020a3fa4 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a3f48_func_020a3f48.c:13:75: note: place parentheses around the '+' expression to silence this warning
+   13 |           *(uint *)(uRam020a3fa4 & 0xfffffffc) << (uRam020a3fa4 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020a3f48_func_020a3f48.c:16:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |   uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a3f48_func_020a3f48.c:16:52: note: place parentheses around the '+' expression to silence this warning
+   16 |   uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020a3f48_func_020a3f48.c:19:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |      uVar1 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20, uVar1 == 0)) {
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a3f48_func_020a3f48.c:19:55: note: place parentheses around the '+' expression to silence this warning
+   19 |      uVar1 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20, uVar1 == 0)) {
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020a3f48_func_020a3f48.c:24:19: error: too many arguments to function call, expected 0, have 1
+   24 |     func_0209bf8c(uVar1);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/020a3f48_func_020a3f48.h:3:6: note: 'func_0209bf8c' declared here
+    3 | void func_0209bf8c(void);
+      |      ^
+3 warnings and 1 error generated.

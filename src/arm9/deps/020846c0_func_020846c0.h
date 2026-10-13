@@ -1,0 +1,19 @@
+#pragma once
+/* Function-specific inferred declarations. */
+undefined4 Mem_AllocateHeap(uint param_1,undefined4 param_2);
+void func_020846c0(undefined4 param_1);
+#define piRam020848e8 (*(int **)(uintptr_t)0x20848e8u)
+#define piRam020848ec (*(int **)(uintptr_t)0x20848ecu)
+#define puRam020848c4 (*(undefined4 **)(uintptr_t)0x20848c4u)
+#define puRam020848c8 (*(undefined4 **)(uintptr_t)0x20848c8u)
+#define puRam020848cc (*(undefined4 **)(uintptr_t)0x20848ccu)
+#define puRam020848d0 (*(undefined4 **)(uintptr_t)0x20848d0u)
+#define puRam020848d8 (*(undefined2 **)(uintptr_t)0x20848d8u)
+#define puRam020848f0 (*(undefined4 **)(uintptr_t)0x20848f0u)
+#define uRam020848c0 (*(uint *)(uintptr_t)0x20848c0u)
+#define uRam020848d4 (*(undefined4 *)(uintptr_t)0x20848d4u)
+#define uRam020848dc (*(undefined4 *)(uintptr_t)0x20848dcu)
+#define uRam020848e0 (*(undefined4 *)(uintptr_t)0x20848e0u)
+#define uRam020848e4 (*(undefined4 *)(uintptr_t)0x20848e4u)
+#define uRam020848f4 (*(undefined4 *)(uintptr_t)0x20848f4u)
+#define uRam020848f8 (*(undefined4 *)(uintptr_t)0x20848f8u)

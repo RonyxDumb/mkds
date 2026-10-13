@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0200f3e0_OSi_GetAndDisplayContext.c:8:27: error: too few arguments to function call, single argument 'param_1' was not specified
+    8 |   Os_SaveExceptionContext();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0200f3e0_OSi_GetAndDisplayContext.h:5:5: note: 'Os_SaveExceptionContext' declared here
+    5 | int Os_SaveExceptionContext(uint param_1);
+      |     ^                       ~~~~~~~~~~~~
+1 error generated.

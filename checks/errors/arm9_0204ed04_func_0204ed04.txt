@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0204ed04_func_0204ed04.c:14:33: error: too few arguments to function call, expected 2, have 0
+   14 |       DC_InvalidateRangeNoClean();
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204ed04_func_0204ed04.h:3:6: note: 'DC_InvalidateRangeNoClean' declared here
+    3 | void DC_InvalidateRangeNoClean(uint param_1,int param_2);
+      |      ^                         ~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

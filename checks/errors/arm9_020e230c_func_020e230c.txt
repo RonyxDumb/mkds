@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020e230c_func_020e230c.c:51:37: error: too few arguments to function call, single argument 'param_1' was not specified
+   51 |               iVar6 = func_021322c8();
+      |                       ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020e230c_func_020e230c.h:8:11: note: 'func_021322c8' declared here
+    8 | ulonglong func_021322c8(uint param_1);
+      |           ^             ~~~~~~~~~~~~
+1 error generated.

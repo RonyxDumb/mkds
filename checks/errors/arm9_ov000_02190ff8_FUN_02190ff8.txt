@@ -1,0 +1,37 @@
+C-WORK/src/arm9_ov000/02190ff8_FUN_02190ff8.c:21:51: error: too many arguments to function call, expected 2, have 3
+   21 |         FUN_02190b58(param_1,iVar3 + DAT_02191140,*(undefined4 *)(iVar3 + DAT_02191148));
+      |         ~~~~~~~~~~~~                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02190ff8_FUN_02190ff8.h:6:6: note: 'FUN_02190b58' declared here
+    6 | void FUN_02190b58(undefined4 param_1,undefined4 param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02190ff8_FUN_02190ff8.c:27:22: error: too many arguments to function call, expected 0, have 2
+   27 |         FUN_0218e524(*(int *)(iVar3 + DAT_02191154),2);
+      |         ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02190ff8_FUN_02190ff8.h:3:6: note: 'FUN_0218e524' declared here
+    3 | void FUN_0218e524(void);
+      |      ^
+C-WORK/src/arm9_ov000/02190ff8_FUN_02190ff8.c:28:22: error: too many arguments to function call, expected 0, have 1
+   28 |         FUN_0218e53c(*(undefined4 *)(iVar3 + DAT_02191154));
+      |         ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02190ff8_FUN_02190ff8.h:4:6: note: 'FUN_0218e53c' declared here
+    4 | void FUN_0218e53c(void);
+      |      ^
+C-WORK/src/arm9_ov000/02190ff8_FUN_02190ff8.c:32:22: error: too many arguments to function call, expected 0, have 2
+   32 |         FUN_0218e524(*(int *)(iVar3 + DAT_02191158),2);
+      |         ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02190ff8_FUN_02190ff8.h:3:6: note: 'FUN_0218e524' declared here
+    3 | void FUN_0218e524(void);
+      |      ^
+C-WORK/src/arm9_ov000/02190ff8_FUN_02190ff8.c:33:22: error: too many arguments to function call, expected 0, have 1
+   33 |         FUN_0218e53c(*(undefined4 *)(iVar3 + DAT_02191158));
+      |         ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/02190ff8_FUN_02190ff8.h:4:6: note: 'FUN_0218e53c' declared here
+    4 | void FUN_0218e53c(void);
+      |      ^
+C-WORK/src/arm9_ov000/02190ff8_FUN_02190ff8.c:53:27: error: too few arguments to function call, expected 2, have 1
+   53 |       FUN_02193818(param_1);
+      |       ~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov000/deps/02190ff8_FUN_02190ff8.h:9:6: note: 'FUN_02193818' declared here
+    9 | void FUN_02193818(int *param_1,int param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~
+6 errors generated.

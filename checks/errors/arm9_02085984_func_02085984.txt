@@ -1,0 +1,15 @@
+C-WORK/src/arm9/02085984_func_02085984.c:73:62: error: too many arguments to function call, expected 4, have 7
+   72 |         lVar10 = Multiply64((int)plVar7[1],*(undefined4 *)((int)plVar7 + 0xc),(int)*plVar7,
+      |                  ~~~~~~~~~~
+   73 |                             *(undefined4 *)((int)plVar7 + 4),param_2,iVar9 == 2,param_1 * 0x30);
+      |                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02085984_func_02085984.h:5:12: note: 'Multiply64' declared here
+    5 | undefined8 Multiply64(uint param_1,int param_2,uint param_3,int param_4);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02085984_func_02085984.c:86:44: error: too few arguments to function call, expected 2, have 1
+   86 |       IntrusiveListWrapper_RemoveItem(iVar3);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~      ^
+C-WORK/src/arm9/deps/02085984_func_02085984.h:4:6: note: 'IntrusiveListWrapper_RemoveItem' declared here
+    4 | void IntrusiveListWrapper_RemoveItem(uint *param_1,int param_2);
+      |      ^                               ~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

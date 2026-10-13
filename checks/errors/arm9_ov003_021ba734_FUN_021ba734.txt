@@ -1,0 +1,17 @@
+C-WORK/src/arm9_ov003/021ba734_FUN_021ba734.c:25:5: error: call to undeclared function 'coprocessor_load'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   25 |     coprocessor_load(0xc,in_cr1,unaff_r9 + -0x20);
+      |     ^
+C-WORK/src/arm9_ov003/021ba734_FUN_021ba734.c:31:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |     unaff_r4 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9_ov003/021ba734_FUN_021ba734.c:31:57: note: place parentheses around the '+' expression to silence this warning
+   31 |     unaff_r4 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9_ov003/021ba734_FUN_021ba734.c:33:40: error: too many arguments to function call, expected 3, have 6
+   33 |   func_0x0214cfe4(0,param_2 + 0xc,0x20,param_4,0,unaff_r4);
+      |   ~~~~~~~~~~~~~~~                      ^~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021ba734_FUN_021ba734.h:7:6: note: 'Mem_CpuFill16' declared here
+    7 | void Mem_CpuFill16(undefined2 param_1,int param_2,int param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 2 errors generated.

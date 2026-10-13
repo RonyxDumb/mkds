@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0200ce14_Os_TryLockCard.c:10:20: error: too many arguments to function call, expected 0, have 3
+   10 |   (*pcRam0200ce24)(param_1,uRam0200ce28,uRam0200ce2c);
+      |   ~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

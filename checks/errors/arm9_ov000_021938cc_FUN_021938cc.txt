@@ -1,0 +1,10 @@
+C-WORK/src/arm9_ov000/021938cc_FUN_021938cc.c:15:19: error: operand of type 'void' where arithmetic or pointer type is required
+   15 |   piVar1 = (int *)FUN_021a3690(0x24);
+      |                   ^~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021938cc_FUN_021938cc.c:17:18: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   17 |     FUN_02196590(param_1,DAT_02193948);
+      |                  ^~~~~~~
+C-WORK/src/arm9_ov000/deps/021938cc_FUN_021938cc.h:4:31: note: passing argument to parameter 'param_1' here
+    4 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+1 warning and 1 error generated.

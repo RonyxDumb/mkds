@@ -1,0 +1,14 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void FUN_0219d26c(void);
+#define DAT_0219d2a4 (*(ushort **)(uintptr_t)0x219d2a4u)
+#define DAT_0219d2a8 (*(undefined4 *)(uintptr_t)0x219d2a8u)
+#define DAT_0219d2ac (*(uint **)(uintptr_t)0x219d2acu)
+#define DAT_0219d2b0 (*(uint *)(uintptr_t)0x219d2b0u)
+#define DAT_0219d2b4 (*(uint *)(uintptr_t)0x219d2b4u)
+#define DAT_0219d2b8 (*(int **)(uintptr_t)0x219d2b8u)
+#define DAT_0219d2bc (*(int *)(uintptr_t)0x219d2bcu)
+
+/* Address resolved to indexed definition; inferred ABI remains provisional. */
+uint Mem_DestroyHeap(uint param_1);
+#define func_0x02036ab0 Mem_DestroyHeap

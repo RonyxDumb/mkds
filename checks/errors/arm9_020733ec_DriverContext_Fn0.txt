@@ -1,0 +1,194 @@
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:18:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   18 |   uVar2 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020733ec_DriverContext_Fn0.h:10:6: note: 'ExecutionContext_GetHeapHandle' declared here
+   10 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:24:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |   if (((uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) & 0x10) != 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:24:50: note: place parentheses around the '+' expression to silence this warning
+   24 |   if (((uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) & 0x10) != 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:27:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |     uVar6 = (uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) + 0x10;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:27:55: note: place parentheses around the '+' expression to silence this warning
+   27 |     uVar6 = (uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) + 0x10;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:30:60: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |     FX_Div(0x1000,uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:30:60: note: place parentheses around the '+' expression to silence this warning
+   30 |     FX_Div(0x1000,uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |                                                            ^     
+      |                                                 (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:30:12: error: too many arguments to function call, expected 0, have 2
+   30 |     FX_Div(0x1000,uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
+      |     ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020733ec_DriverContext_Fn0.h:11:6: note: 'FX_Div' declared here
+   11 | void FX_Div(void);
+      |      ^
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:31:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   31 |     func_0207a73c();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020733ec_DriverContext_Fn0.h:16:6: note: 'func_0207a73c' declared here
+   16 | void func_0207a73c(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:40:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |   uVar6 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:40:52: note: place parentheses around the '+' expression to silence this warning
+   40 |   uVar6 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:44:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   44 |                *(uint *)(uRam0207362c & 0xfffffffc) << (uRam0207362c & 3) * -8 + 0x20) + 0x70,
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:44:80: note: place parentheses around the '+' expression to silence this warning
+   44 |                *(uint *)(uRam0207362c & 0xfffffffc) << (uRam0207362c & 3) * -8 + 0x20) + 0x70,
+      |                                                                                ^     
+      |                                                        (                             )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:46:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |       (uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) == 1)) &&
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:46:49: note: place parentheses around the '+' expression to silence this warning
+   46 |       (uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) == 1)) &&
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:48:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   48 |      *(uint *)(param_1 + 0x7c) = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20 | 2,
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:48:75: note: place parentheses around the '+' expression to silence this warning
+   48 |      *(uint *)(param_1 + 0x7c) = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20 | 2,
+      |                                                                           ^
+      |                                                                (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:50:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   50 |      ((uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) & 2) != 0)) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:50:49: note: place parentheses around the '+' expression to silence this warning
+   50 |      ((uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) & 2) != 0)) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:56:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   56 |         iVar7 = (uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20) + uVar6 * 4;
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:56:59: note: place parentheses around the '+' expression to silence this warning
+   56 |         iVar7 = (uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20) + uVar6 * 4;
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:60:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   60 |         *(uint *)(iVar7 + 0x38) = (uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) << 2;
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:60:77: note: place parentheses around the '+' expression to silence this warning
+   60 |         *(uint *)(iVar7 + 0x38) = (uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) << 2;
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:63:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   63 |         uVar3 = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:63:58: note: place parentheses around the '+' expression to silence this warning
+   63 |         uVar3 = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20;
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:68:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   68 |         uVar8 = uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:68:58: note: place parentheses around the '+' expression to silence this warning
+   68 |         uVar8 = uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20;
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:72:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   72 |         if ((int)uVar8 < (int)(uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20)) {
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:72:73: note: place parentheses around the '+' expression to silence this warning
+   72 |         if ((int)uVar8 < (int)(uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20)) {
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:84:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   84 |   uVar6 = (uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) + 8;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:84:53: note: place parentheses around the '+' expression to silence this warning
+   84 |   uVar6 = (uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) + 8;
+      |                                                     ^     
+      |                                          (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:87:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   87 |   if ((uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) == 5) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:87:49: note: place parentheses around the '+' expression to silence this warning
+   87 |   if ((uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) == 5) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:96:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   96 |     uVar3 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:96:54: note: place parentheses around the '+' expression to silence this warning
+   96 |     uVar3 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:100:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  100 |                       (iVar7,(uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) + 0xd000,0x8000,
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:100:72: note: place parentheses around the '+' expression to silence this warning
+  100 |                       (iVar7,(uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) + 0xd000,0x8000,
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:107:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  107 |     uVar3 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:107:54: note: place parentheses around the '+' expression to silence this warning
+  107 |     uVar3 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:110:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  110 |     uVar6 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:110:54: note: place parentheses around the '+' expression to silence this warning
+  110 |     uVar6 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:118:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  118 |   *(uint *)(param_1 + 0x44) = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20 | 0x10;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:118:72: note: place parentheses around the '+' expression to silence this warning
+  118 |   *(uint *)(param_1 + 0x44) = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20 | 0x10;
+      |                                                                        ^
+      |                                                             (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:122:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  122 |   uVar3 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:122:52: note: place parentheses around the '+' expression to silence this warning
+  122 |   uVar3 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:125:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  125 |   *(uint *)(param_1 + 0x1d0) = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:125:73: note: place parentheses around the '+' expression to silence this warning
+  125 |   *(uint *)(param_1 + 0x1d0) = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:128:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  128 |           *(uint *)(uRam0207362c & 0xfffffffc) << (uRam0207362c & 3) * -8 + 0x20) + 8;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:128:75: note: place parentheses around the '+' expression to silence this warning
+  128 |           *(uint *)(uRam0207362c & 0xfffffffc) << (uRam0207362c & 3) * -8 + 0x20) + 8;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:131:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  131 |   if ((uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) == 5) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:131:49: note: place parentheses around the '+' expression to silence this warning
+  131 |   if ((uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) == 5) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:140:74: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  140 |     *(uint *)(param_1 + 0x44) = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20 | 0x1000000;
+      |                                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020733ec_DriverContext_Fn0.c:140:74: note: place parentheses around the '+' expression to silence this warning
+  140 |     *(uint *)(param_1 + 0x44) = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20 | 0x1000000;
+      |                                                                          ^
+      |                                                               (                )
+25 warnings and 3 errors generated.

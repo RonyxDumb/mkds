@@ -1,0 +1,46 @@
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:16:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |     if (uVar2 >> uVar3 * 8 == 0 && uVar2 << uVar3 * -8 + 0x20 == 0) {
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:16:56: note: place parentheses around the '+' expression to silence this warning
+   16 |     if (uVar2 >> uVar3 * 8 == 0 && uVar2 << uVar3 * -8 + 0x20 == 0) {
+      |                                                        ^
+      |                                             (                )
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:21:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |     uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:21:54: note: place parentheses around the '+' expression to silence this warning
+   21 |     uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:25:19: error: use of undeclared identifier 'UNK_03800e48'
+   25 |       (*(code *)(&UNK_03800e48 + uVar3 * 4))();
+      |                   ^
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:30:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |     if (((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) & 0x10) == 0) {
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:30:52: note: place parentheses around the '+' expression to silence this warning
+   30 |     if (((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) & 0x10) == 0) {
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:33:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |       *(uint *)(iVar1 + 8) = (uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) + 1;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:33:72: note: place parentheses around the '+' expression to silence this warning
+   33 |       *(uint *)(iVar1 + 8) = (uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) + 1;
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:39:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |       if (((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) & 4) == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:39:54: note: place parentheses around the '+' expression to silence this warning
+   39 |       if (((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) & 4) == 0) {
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:45:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   45 |         uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/03800e10_FUN_03800e10.c:45:58: note: place parentheses around the '+' expression to silence this warning
+   45 |         uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                                          ^     
+      |                                               (                )
+6 warnings and 1 error generated.

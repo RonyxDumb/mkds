@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0202ed50_func_0202ed50.c:32:60: error: too many arguments to function call, expected 4, have 6
+   32 |   AllocateReserveTEQSub(0x1b,0,*piVar1 + 0x58,uRam0202edcc,param_1,puVar5);
+      |   ~~~~~~~~~~~~~~~~~~~~~                                    ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202ed50_func_0202ed50.h:3:12: note: 'AllocateReserveTEQSub' declared here
+    3 | undefined4 AllocateReserveTEQSub(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

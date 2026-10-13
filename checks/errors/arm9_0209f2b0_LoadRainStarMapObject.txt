@@ -1,0 +1,12 @@
+C-WORK/src/arm9/0209f2b0_LoadRainStarMapObject.c:11:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   11 |   uVar2 = CreateMapObjectFromModel_from_thumb(param_1,uRam0209f2ec);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9/0209f2b0_LoadRainStarMapObject.c:17:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |              *(uint *)((uint)puRam0209f2f0 & 0xfffffffc) << ((uint)puRam0209f2f0 & 3) * -8 + 0x20,
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0209f2b0_LoadRainStarMapObject.c:17:92: note: place parentheses around the '+' expression to silence this warning
+   17 |              *(uint *)((uint)puRam0209f2f0 & 0xfffffffc) << ((uint)puRam0209f2f0 & 3) * -8 + 0x20,
+      |                                                                                            ^     
+      |                                                             (                                    )
+1 warning and 1 error generated.

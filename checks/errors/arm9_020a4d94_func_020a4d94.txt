@@ -1,0 +1,49 @@
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:28:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |     uVar4 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:28:54: note: place parentheses around the '+' expression to silence this warning
+   28 |     uVar4 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:39:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |     uVar5 = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:39:54: note: place parentheses around the '+' expression to silence this warning
+   39 |     uVar5 = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:62:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   62 |                 *(uint *)(uRam020a4f48 & 0xfffffffc) << (uRam020a4f48 & 3) * -8 + 0x20) + 0x62)) {
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:62:81: note: place parentheses around the '+' expression to silence this warning
+   62 |                 *(uint *)(uRam020a4f48 & 0xfffffffc) << (uRam020a4f48 & 3) * -8 + 0x20) + 0x62)) {
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:68:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   68 |     local_20 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:68:57: note: place parentheses around the '+' expression to silence this warning
+   68 |     local_20 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:72:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   72 |     local_1c = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + iVar2 + iRam020a4f4c;
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:72:58: note: place parentheses around the '+' expression to silence this warning
+   72 |     local_1c = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + iVar2 + iRam020a4f4c;
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:75:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   75 |     local_18 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:75:57: note: place parentheses around the '+' expression to silence this warning
+   75 |     local_18 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
+      |                                                         ^     
+      |                                              (                )
+C-WORK/src/arm9/020a4d94_func_020a4d94.c:82:17: error: too many arguments to function call, expected 0, have 2
+   82 |   func_020d26ec(iVar1,uRam020a4f50);
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020a4d94_func_020a4d94.h:12:6: note: 'func_020d26ec' declared here
+   12 | void func_020d26ec(void);
+      |      ^
+6 warnings and 1 error generated.

@@ -1,0 +1,5 @@
+C-WORK/src/arm9/0209a448_LoadOlgPipe1MapObject.c:10:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   10 |   uVar1 = CreateMapObjectFromModel_2_from_thumb(param_1,uRam0209a474);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+1 error generated.

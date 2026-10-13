@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0208e23c_MaybeCheckMapObjBkWaveNsbcaNsbma.c:21:9: error: assigning to 'int' from incompatible type 'void'
+   21 |   iVar2 = FindFileBuffer_CRS_CST_from_thumb(uRam0208e2c0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0208e23c_MaybeCheckMapObjBkWaveNsbcaNsbma.c:22:9: error: assigning to 'int' from incompatible type 'void'
+   22 |   iVar3 = FindFileBuffer_CRS_CST_from_thumb(uRam0208e2c4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

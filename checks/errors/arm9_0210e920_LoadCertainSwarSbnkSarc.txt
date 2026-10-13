@@ -1,0 +1,32 @@
+C-WORK/src/arm9/0210e920_LoadCertainSwarSbnkSarc.c:11:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   11 |                            *(uint *)(uRam0210e988 & 0xfffffffc) << (uRam0210e988 & 3) * -8 + 0x20);
+      |                                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e920_LoadCertainSwarSbnkSarc.c:11:92: note: place parentheses around the '+' expression to silence this warning
+   11 |                            *(uint *)(uRam0210e988 & 0xfffffffc) << (uRam0210e988 & 3) * -8 + 0x20);
+      |                                                                                            ^     
+      |                                                                    (                             )
+C-WORK/src/arm9/0210e920_LoadCertainSwarSbnkSarc.c:17:90: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |                          *(uint *)(uRam0210e988 & 0xfffffffc) << (uRam0210e988 & 3) * -8 + 0x20);
+      |                                                               ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e920_LoadCertainSwarSbnkSarc.c:17:90: note: place parentheses around the '+' expression to silence this warning
+   17 |                          *(uint *)(uRam0210e988 & 0xfffffffc) << (uRam0210e988 & 3) * -8 + 0x20);
+      |                                                                                          ^     
+      |                                                                  (                             )
+C-WORK/src/arm9/0210e920_LoadCertainSwarSbnkSarc.c:16:22: error: too many arguments to function call, expected 0, have 3
+   15 |   iVar1 = Sound_LoadSbnkWithFlags
+      |           ~~~~~~~~~~~~~~~~~~~~~~~
+   16 |                     (0,2,*(uint *)(uRam0210e988 & 0xfffffffc) >> (uRam0210e988 & 3) * 8 |
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   17 |                          *(uint *)(uRam0210e988 & 0xfffffffc) << (uRam0210e988 & 3) * -8 + 0x20);
+      |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0210e920_LoadCertainSwarSbnkSarc.h:5:6: note: 'Sound_LoadSbnkWithFlags' declared here
+    5 | bool Sound_LoadSbnkWithFlags(void);
+      |      ^
+C-WORK/src/arm9/0210e920_LoadCertainSwarSbnkSarc.c:20:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |                      *(uint *)(uRam0210e988 & 0xfffffffc) << (uRam0210e988 & 3) * -8 + 0x20);
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0210e920_LoadCertainSwarSbnkSarc.c:20:86: note: place parentheses around the '+' expression to silence this warning
+   20 |                      *(uint *)(uRam0210e988 & 0xfffffffc) << (uRam0210e988 & 3) * -8 + 0x20);
+      |                                                                                      ^     
+      |                                                              (                             )
+3 warnings and 1 error generated.

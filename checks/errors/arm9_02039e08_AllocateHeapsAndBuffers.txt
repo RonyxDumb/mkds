@@ -1,0 +1,16 @@
+C-WORK/src/arm9/02039e08_AllocateHeapsAndBuffers.c:15:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   15 |     uVar1 = Mem_CreateChildFrameHeapFromTail(param_1,0x19000);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02039e08_AllocateHeapsAndBuffers.c:19:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   19 |     uVar1 = Mem_CreateChildFrameHeapFromTail(param_1,0x1b800);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02039e08_AllocateHeapsAndBuffers.c:23:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   23 |     uVar1 = Mem_CreateChildFrameHeapFromHead(param_1,0x19000);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02039e08_AllocateHeapsAndBuffers.c:25:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   25 |     uVar1 = Mem_CreateChildFrameHeapFromHead(param_1,0x4b000);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02039e08_AllocateHeapsAndBuffers.c:27:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   27 |     uVar1 = Mem_CreateChildFrameHeapFromHead(param_1,0x1b800);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+5 errors generated.

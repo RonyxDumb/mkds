@@ -1,0 +1,13 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void SetDispcntSubBgMode(uint param_1);
+void func_020b17a4(void);
+#define puRam020b188c (*(uint **)(uintptr_t)0x20b188cu)
+#define puRam020b1890 (*(undefined4 **)(uintptr_t)0x20b1890u)
+#define puRam020b1894 (*(ushort **)(uintptr_t)0x20b1894u)
+#define puRam020b1898 (*(undefined4 **)(uintptr_t)0x20b1898u)
+#define puRam020b189c (*(ushort **)(uintptr_t)0x20b189cu)
+#define puRam020b18a4 (*(undefined4 **)(uintptr_t)0x20b18a4u)
+#define puRam020b18a8 (*(ushort **)(uintptr_t)0x20b18a8u)
+#define uRam020b18a0 (*(undefined4 *)(uintptr_t)0x20b18a0u)
+#define uRam020b18ac (*(undefined4 *)(uintptr_t)0x20b18acu)

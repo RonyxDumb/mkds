@@ -1,0 +1,7 @@
+C-WORK/src/arm7/037fed24_FUN_037fed24.c:8:16: error: too few arguments to function call, expected 4, have 0
+    8 |   FUN_037fed60();
+      |   ~~~~~~~~~~~~ ^
+C-WORK/src/arm7/deps/037fed24_FUN_037fed24.h:5:6: note: 'FUN_037fed60' declared here
+    5 | void FUN_037fed60(uint param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

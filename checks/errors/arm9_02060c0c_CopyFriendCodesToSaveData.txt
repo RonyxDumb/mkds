@@ -1,0 +1,21 @@
+C-WORK/src/arm9/02060c0c_CopyFriendCodesToSaveData.c:12:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   12 |           *(uint *)(uRam02060c2c & 0xfffffffc) << (uRam02060c2c & 3) * -8 + 0x20) + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02060c0c_CopyFriendCodesToSaveData.c:12:75: note: place parentheses around the '+' expression to silence this warning
+   12 |           *(uint *)(uRam02060c2c & 0xfffffffc) << (uRam02060c2c & 3) * -8 + 0x20) + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/02060c0c_CopyFriendCodesToSaveData.c:17:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   (*pcRam02060c34)(param_1,(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + iRam02060c30,0x2d0);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02060c0c_CopyFriendCodesToSaveData.c:17:70: note: place parentheses around the '+' expression to silence this warning
+   17 |   (*pcRam02060c34)(param_1,(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + iRam02060c30,0x2d0);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/02060c0c_CopyFriendCodesToSaveData.c:17:20: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   17 |   (*pcRam02060c34)(param_1,(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + iRam02060c30,0x2d0);
+      |                    ^~~~~~~
+C-WORK/src/arm9/02060c0c_CopyFriendCodesToSaveData.c:17:28: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'uint *' (aka 'unsigned int *') [-Wint-conversion]
+   17 |   (*pcRam02060c34)(param_1,(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + iRam02060c30,0x2d0);
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 2 errors generated.

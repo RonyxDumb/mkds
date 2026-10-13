@@ -1,0 +1,37 @@
+C-WORK/src/arm9/02125960_InitializeBackScreen_from_thumb.c:57:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   57 |       uVar5 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   58 |                         (*(undefined4 *)(iRam02125b8c + iVar9));
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125960_InitializeBackScreen_from_thumb.c:60:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   60 |       uVar5 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   61 |                         (*(undefined4 *)(iRam02125b90 + iVar9));
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125960_InitializeBackScreen_from_thumb.c:63:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   63 |       uVar5 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   64 |                         (*(undefined4 *)(iRam02125b94 + iVar9));
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125960_InitializeBackScreen_from_thumb.c:78:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   78 |       uVar5 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   79 |                         (*(undefined4 *)(iRam02125b98 + iVar9));
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125960_InitializeBackScreen_from_thumb.c:81:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   81 |       uVar5 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   82 |                         (*(undefined4 *)(iRam02125b9c + iVar9));
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125960_InitializeBackScreen_from_thumb.c:84:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   84 |       uVar5 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   85 |                         (*(undefined4 *)(iRam02125ba0 + iVar9));
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125960_InitializeBackScreen_from_thumb.c:93:70: error: too few arguments to function call, expected 4, have 3
+   93 |   AllocateReserveTEQSub(0x15,param_1,*(undefined4 *)(local_20 + 0x14));
+      |   ~~~~~~~~~~~~~~~~~~~~~                                              ^
+C-WORK/src/arm9/deps/02125960_InitializeBackScreen_from_thumb.h:3:12: note: 'AllocateReserveTEQSub' declared here
+    3 | undefined4 AllocateReserveTEQSub(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+7 errors generated.

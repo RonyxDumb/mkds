@@ -1,0 +1,89 @@
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:26:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   26 |       (**(code **)(*DAT_0200aba0 + DAT_0200aba4))(DAT_0200ab9c,param_1);
+      |                                                  ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:35:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   35 |       (**(code **)(*DAT_0200aba0 + DAT_0200aba4))(DAT_0200ab9c,param_1);
+      |                                                  ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:47:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   47 |         (**(code **)(*piVar2 + DAT_0200aba4))(DAT_0200ab9c,param_1);
+      |                                              ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:58:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   58 |         (**(code **)(*piVar3 + DAT_0200ace8))(0x11,param_1);
+      |                                              ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:62:44: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   62 |       (**(code **)(*piVar2 + DAT_0200ace8))(DAT_0200ace4,param_1);
+      |                                            ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:65:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   65 |       (**(code **)(*DAT_0200aba0 + DAT_0200aba4))(0x15,param_1);
+      |                                                  ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:71:52: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   71 |         (**(code **)(*DAT_0200aba0 + DAT_0200aba4))(DAT_0200ab9c,param_1);
+      |                                                    ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:82:48: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   82 |           (**(code **)(*piVar2 + DAT_0200aba4))(0,param_1);
+      |                                                ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:91:35: error: too many arguments to function call, expected 5, have 11
+   88 |             uVar4 = func_02144230(DAT_0200aba8,*(undefined4 *)(iVar6 + DAT_0200abcc),
+      |                     ~~~~~~~~~~~~~
+   89 |                                   *(undefined2 *)(iVar6 + DAT_0200abd0),iVar6 + 0x40,
+   90 |                                   *(undefined2 *)(iVar6 + DAT_0200abc8),
+   91 |                                   *(short *)(*piVar2 + DAT_0200abc4) == 0,0,0,0,1,1);
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0200a7b0_func_0200a7b0.h:14:5: note: 'func_02144230' declared here
+   14 | int func_02144230(undefined4 param_1,undefined4 param_2,uint param_3,undefined4 param_4,ushort param_5);
+      |     ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:99:54: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   99 |           (**(code **)(*DAT_0200aba0 + DAT_0200aba4))(0x19,0);
+      |                                                      ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:112:56: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  112 |             (**(code **)(*DAT_0200aba0 + DAT_0200aba4))(0x1c,param_1);
+      |                                                        ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:120:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  120 |         (**(code **)(*piVar2 + DAT_0200aba4))(1,param_1);
+      |                                              ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:123:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  123 |       (**(code **)(*DAT_0200aba0 + DAT_0200aba4))(DAT_0200ab9c,param_1);
+      |                                                  ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:137:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  137 |         (**(code **)(*piVar2 + DAT_0200aba4))(0x19);
+      |                                              ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:141:52: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  141 |         (**(code **)(*DAT_0200aba0 + DAT_0200aba4))(3,*(undefined4 *)(param_1 + 4));
+      |                                                    ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:144:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  144 |       (**(code **)(*DAT_0200aba0 + DAT_0200aba4))(DAT_0200ab9c,param_1);
+      |                                                  ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:163:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  163 |         (**(code **)(*piVar2 + DAT_0200aba4))(2,param_1);
+      |                                              ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:164:52: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  164 |         (**(code **)(*DAT_0200aba0 + DAT_0200aba4))(0x19,0);
+      |                                                    ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:168:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  168 |         (**(code **)(*piVar2 + DAT_0200aba4))(0x13,param_1);
+      |                                              ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:169:52: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  169 |         (**(code **)(*DAT_0200aba0 + DAT_0200aba4))(0x19,0);
+      |                                                    ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:172:44: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  172 |       (**(code **)(*piVar2 + DAT_0200aba4))(0x2a,param_1);
+      |                                            ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:183:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  183 |       (**(code **)(*DAT_0200aba0 + DAT_0200aba4))(DAT_0200ab9c,param_1);
+      |                                                  ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:190:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  190 |       (**(code **)(*DAT_0200acec + DAT_0200ace8))(0x1d,param_1);
+      |                                                  ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:193:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  193 |       (**(code **)(*DAT_0200acec + DAT_0200ace8))(0x1f,param_1);
+      |                                                  ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:196:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  196 |       (**(code **)(*DAT_0200acec + DAT_0200ace8))(0x20,param_1);
+      |                                                  ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:199:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  199 |       (**(code **)(*DAT_0200acec + DAT_0200ace8))(0x21,param_1);
+      |                                                  ^
+C-WORK/src/arm9/0200a7b0_func_0200a7b0.c:208:46: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  208 |   (**(code **)(*DAT_0200acec + DAT_0200ace8))(DAT_0200ace4,param_1);
+      |                                              ^
+26 warnings and 1 error generated.

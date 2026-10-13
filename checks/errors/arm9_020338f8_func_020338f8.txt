@@ -1,0 +1,20 @@
+C-WORK/src/arm9/020338f8_func_020338f8.c:21:9: error: assigning to 'int' from incompatible type 'void'
+   21 |   iVar3 = func_02148cb8();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020338f8_func_020338f8.c:38:17: error: too many arguments to function call, expected 0, have 6
+   38 |   func_0212426c(0,0,*(undefined4 *)(iVar7 + 0x5c),uVar5,*(undefined4 *)(iVar7 + 0x54),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   39 |                 *(undefined4 *)(iVar7 + 0x60));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020338f8_func_020338f8.h:8:6: note: 'func_0212426c' declared here
+    8 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/020338f8_func_020338f8.c:49:23: error: too many arguments to function call, expected 0, have 6
+   49 |         func_0212426c(0,iVar6,*(undefined4 *)(iVar7 + 0x5c),auStack_2a,*(undefined4 *)(iVar7 + 0x54)
+      |         ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   50 |                       ,*(undefined4 *)(iVar7 + 0x60));
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020338f8_func_020338f8.h:8:6: note: 'func_0212426c' declared here
+    8 | void func_0212426c(void);
+      |      ^
+3 errors generated.

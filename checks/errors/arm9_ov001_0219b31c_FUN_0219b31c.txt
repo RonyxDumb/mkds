@@ -1,0 +1,30 @@
+C-WORK/src/arm9_ov001/0219b31c_FUN_0219b31c.c:15:27: error: too few arguments to function call, single argument 'p0' was not specified
+   15 |   uVar3 = func_0x020364e0();
+      |           ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/0219b31c_FUN_0219b31c.h:10:14: note: 'ExecutionContext_GetHeapHandle' declared here
+   10 | unsigned int ExecutionContext_GetHeapHandle(unsigned int p0);
+      |              ^                              ~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0219b31c_FUN_0219b31c.c:18:9: error: assigning to 'int' from incompatible type 'void'
+   18 |   iVar4 = func_0x02013aa8(uVar2);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0219b31c_FUN_0219b31c.c:21:27: error: too few arguments to function call, single argument 'p0' was not specified
+   21 |   uVar3 = func_0x020364e0();
+      |           ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/0219b31c_FUN_0219b31c.h:10:14: note: 'ExecutionContext_GetHeapHandle' declared here
+   10 | unsigned int ExecutionContext_GetHeapHandle(unsigned int p0);
+      |              ^                              ~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0219b31c_FUN_0219b31c.c:23:19: error: too many arguments to function call, expected 5, have 6
+   22 |   func_0x0208823c(1,*(undefined4 *)(param_1 + 0x28),*(undefined4 *)(param_1 + 0x10),uVar1,uVar3,
+      |   ~~~~~~~~~~~~~~~
+   23 |                   *(undefined4 *)(param_1 + 0x18));
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/0219b31c_FUN_0219b31c.h:16:6: note: 'Animation_CreateFrom' declared here
+   16 | void Animation_CreateFrom(undefined4 param_1,int param_2,int param_3,uint param_4,int param_5);
+      |      ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/0219b31c_FUN_0219b31c.c:25:27: error: too few arguments to function call, single argument 'p0' was not specified
+   25 |   uVar3 = func_0x020364e0();
+      |           ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov001/deps/0219b31c_FUN_0219b31c.h:10:14: note: 'ExecutionContext_GetHeapHandle' declared here
+   10 | unsigned int ExecutionContext_GetHeapHandle(unsigned int p0);
+      |              ^                              ~~~~~~~~~~~~~~~
+5 errors generated.

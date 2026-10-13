@@ -1,0 +1,49 @@
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:14:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   14 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b416c);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:16:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   16 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b4174);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:18:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   18 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b417c);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:24:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   24 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b4188);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:26:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   26 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b4190);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:28:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   28 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b4198);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:30:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   30 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b41a0);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:32:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   32 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b41a8);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:34:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   34 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b41b0);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:36:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   36 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b41b8);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:38:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   38 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b41c0);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:40:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   40 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b41c8);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:41:22: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+   41 |     LoadCellBankFrom(uRam020b41cc,uVar3);
+      |                      ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b409c_LoadMA2ContentIfMounted_from_thumb.h:34:22: note: expanded from macro 'uRam020b41cc'
+   34 | #define uRam020b41cc (*(undefined4 *)(uintptr_t)0x20b41ccu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b409c_LoadMA2ContentIfMounted_from_thumb.h:7:28: note: passing argument to parameter 'param_1' here
+    7 | void LoadCellBankFrom(int *param_1,int param_2);
+      |                            ^
+C-WORK/src/arm9/020b409c_LoadMA2ContentIfMounted_from_thumb.c:42:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   42 |     uVar3 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam020b41d0);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+14 errors generated.

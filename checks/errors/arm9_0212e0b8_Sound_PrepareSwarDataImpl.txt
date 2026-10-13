@@ -1,0 +1,36 @@
+C-WORK/src/arm9/0212e0b8_Sound_PrepareSwarDataImpl.c:18:40: error: too few arguments to function call, single argument 'param_1' was not specified
+   18 |   iVar3 = Sound_MaybeGetRawFilePointer();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212e0b8_Sound_PrepareSwarDataImpl.h:8:6: note: 'Sound_MaybeGetRawFilePointer' declared here
+    8 | uint Sound_MaybeGetRawFilePointer(uint param_1);
+      |      ^                            ~~~~~~~~~~~~
+C-WORK/src/arm9/0212e0b8_Sound_PrepareSwarDataImpl.c:26:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |     uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e0b8_Sound_PrepareSwarDataImpl.c:26:54: note: place parentheses around the '+' expression to silence this warning
+   26 |     uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0212e0b8_Sound_PrepareSwarDataImpl.c:28:31: error: use of undeclared identifier 'stack0xffffffe4'
+   28 |       puVar7 = (undefined4 *)&stack0xffffffe4;
+      |                               ^
+C-WORK/src/arm9/0212e0b8_Sound_PrepareSwarDataImpl.c:36:27: error: too many arguments to function call, expected 0, have 1
+   36 |       Sound_GetActiveSdat(iVar2);
+      |       ~~~~~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0212e0b8_Sound_PrepareSwarDataImpl.h:7:6: note: 'Sound_GetActiveSdat' declared here
+    7 | uint Sound_GetActiveSdat(void);
+      |      ^
+C-WORK/src/arm9/0212e0b8_Sound_PrepareSwarDataImpl.c:39:69: error: too few arguments to function call, expected 5, have 3
+   39 |     iVar3 = Sound_Context_Allocate(param_2,iVar2 + 0x5c,uRam0212e1e8);
+      |             ~~~~~~~~~~~~~~~~~~~~~~                                  ^
+C-WORK/src/arm9/deps/0212e0b8_Sound_PrepareSwarDataImpl.h:6:5: note: 'Sound_Context_Allocate' declared here
+    6 | int Sound_Context_Allocate(uint param_1,int param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5);
+      |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212e0b8_Sound_PrepareSwarDataImpl.c:49:131: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   49 |     Mem_CpuCopy8((ushort *)(uintptr_t)(iVar3 + 0x3c),(uint *)(uintptr_t)(iVar3 + 0x3c + (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) * 4),
+      |                                                                                                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e0b8_Sound_PrepareSwarDataImpl.c:49:131: note: place parentheses around the '+' expression to silence this warning
+   49 |     Mem_CpuCopy8((ushort *)(uintptr_t)(iVar3 + 0x3c),(uint *)(uintptr_t)(iVar3 + 0x3c + (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) * 4),
+      |                                                                                                                                   ^     
+      |                                                                                                                        (                )
+2 warnings and 4 errors generated.

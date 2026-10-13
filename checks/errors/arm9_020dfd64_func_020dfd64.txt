@@ -1,0 +1,19 @@
+C-WORK/src/arm9/020dfd64_func_020dfd64.c:19:48: error: too many arguments to function call, expected 2, have 3
+   19 |   func_020d7da8(param_1 + iRam020dfeac,param_2,*puVar3);
+      |   ~~~~~~~~~~~~~                                ^~~~~~~
+C-WORK/src/arm9/deps/020dfd64_func_020dfd64.h:6:6: note: 'func_020d7da8' declared here
+    6 | void func_020d7da8(undefined4 param_1,int param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020dfd64_func_020dfd64.c:38:92: error: too few arguments to function call, expected 4, have 3
+   38 |   uVar6 = Multiply64(*(int *)(param_1 + 0x1c),*(int *)(param_1 + 0x1c) >> 0x1f,uRam020dfec4);
+      |           ~~~~~~~~~~                                                                       ^
+C-WORK/src/arm9/deps/020dfd64_func_020dfd64.h:3:12: note: 'Multiply64' declared here
+    3 | undefined8 Multiply64(uint param_1,int param_2,uint param_3,int param_4);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020dfd64_func_020dfd64.c:52:39: error: too few arguments to function call, expected 3, have 1
+   52 |   func_020d90a8(param_1 + iRam020dfeac);
+      |   ~~~~~~~~~~~~~                       ^
+C-WORK/src/arm9/deps/020dfd64_func_020dfd64.h:8:6: note: 'func_020d90a8' declared here
+    8 | void func_020d90a8(uint param_1,uint param_2,int param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

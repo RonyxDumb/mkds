@@ -1,0 +1,17 @@
+C-WORK/src/arm9/02138540_func_02138540.c:13:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |        *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) & 0xff) != 0)) {
+      |                                        ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02138540_func_02138540.c:13:62: note: place parentheses around the '+' expression to silence this warning
+   13 |        *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) & 0xff) != 0)) {
+      |                                                              ^     
+      |                                           (                        )
+C-WORK/src/arm9/02138540_func_02138540.c:16:27: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   16 |     uVar1 = func_02138618(uRam0213859c,(undefined4)(uintptr_t)(local_10),param_2,param_3);
+      |                           ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02138540_func_02138540.h:5:22: note: expanded from macro 'uRam0213859c'
+    5 | #define uRam0213859c (*(undefined4 *)(uintptr_t)0x213859cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02138540_func_02138540.h:4:25: note: passing argument to parameter 'param_1' here
+    4 | int func_02138618(code *param_1,undefined4 param_2,uint param_3,uint param_4);
+      |                         ^
+1 warning and 1 error generated.

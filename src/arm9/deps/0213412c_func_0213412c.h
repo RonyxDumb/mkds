@@ -1,0 +1,5 @@
+#pragma once
+/* Function-specific inferred declarations. */
+undefined8 func_0213412c(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+void func_0213428c(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,uint param_6);
+

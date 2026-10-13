@@ -1,0 +1,75 @@
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:18:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:18:52: note: place parentheses around the '+' expression to silence this warning
+   18 |   uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:21:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   if ((int)uVar3 <= (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20)) {
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:21:68: note: place parentheses around the '+' expression to silence this warning
+   21 |   if ((int)uVar3 <= (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20)) {
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:24:23: error: too many arguments to function call, expected 0, have 1
+   24 |         Os_RestoreIrq(uVar2);
+      |         ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200e988_OS_JamMessage.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:30:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |       uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:30:56: note: place parentheses around the '+' expression to silence this warning
+   30 |       uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:33:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   33 |     } while ((int)uVar3 <= (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20));
+      |                                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:33:75: note: place parentheses around the '+' expression to silence this warning
+   33 |     } while ((int)uVar3 <= (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20));
+      |                                                                           ^     
+      |                                                                (                )
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:37:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   37 |   _s32_div_f((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + uVar3 + -1);
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:37:56: note: place parentheses around the '+' expression to silence this warning
+   37 |   _s32_div_f((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + uVar3 + -1);
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:37:76: error: too few arguments to function call, expected 2, have 1
+   37 |   _s32_div_f((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + uVar3 + -1);
+      |   ~~~~~~~~~~                                                               ^
+C-WORK/src/arm9/deps/0200e988_OS_JamMessage.h:8:12: note: '_s32_div_f' declared here
+    8 | undefined8 _s32_div_f(uint param_1,uint param_2);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:44:47: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   44 |    ((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) +
+      |                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:44:47: note: place parentheses around the '+' expression to silence this warning
+   44 |    ((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) +
+      |                                               ^     
+      |                                    (                )
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:45:46: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   45 |    (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) * 4) = param_2;
+      |                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:45:46: note: place parentheses around the '+' expression to silence this warning
+   45 |    (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) * 4) = param_2;
+      |                                              ^     
+      |                                   (                )
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:48:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   48 |   *(uint *)(param_1 + 0x1c) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 1;
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:48:73: note: place parentheses around the '+' expression to silence this warning
+   48 |   *(uint *)(param_1 + 0x1c) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 1;
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/0200e988_OS_JamMessage.c:50:17: error: too many arguments to function call, expected 0, have 1
+   50 |   Os_RestoreIrq(uVar2);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200e988_OS_JamMessage.h:5:12: note: 'Os_RestoreIrq' declared here
+    5 | undefined4 Os_RestoreIrq(void);
+      |            ^
+8 warnings and 3 errors generated.

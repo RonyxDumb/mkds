@@ -1,0 +1,11 @@
+/* Decompiled C draft; module arm9_ov001; ROM address 02180740. No matching claim. */
+#include "types.h"
+#include "deps/02180740_func_ov001_02180740.h"
+
+void func_ov001_02180740(int param_1)
+
+{
+  func_0x02038d00(param_1 + 0x70);
+  return;
+}
+

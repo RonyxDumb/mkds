@@ -1,0 +1,23 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void func_0207fba0(void);
+uint func_020853dc(void);
+#define puRam0207fce4 (*(undefined4 **)(uintptr_t)0x207fce4u)
+#define puRam0207fcf0 (*(undefined4 **)(uintptr_t)0x207fcf0u)
+#define puRam0207fcf8 (*(undefined4 **)(uintptr_t)0x207fcf8u)
+#define puRam0207fd10 (*(undefined4 **)(uintptr_t)0x207fd10u)
+#define puRam0207fd18 (*(undefined4 **)(uintptr_t)0x207fd18u)
+#define uRam0207fcdc (*(uint *)(uintptr_t)0x207fcdcu)
+#define uRam0207fce0 (*(undefined4 *)(uintptr_t)0x207fce0u)
+#define uRam0207fce8 (*(undefined4 *)(uintptr_t)0x207fce8u)
+#define uRam0207fcec (*(undefined4 *)(uintptr_t)0x207fcecu)
+#define uRam0207fcf4 (*(undefined4 *)(uintptr_t)0x207fcf4u)
+#define uRam0207fcfc (*(undefined4 *)(uintptr_t)0x207fcfcu)
+#define uRam0207fd00 (*(undefined4 *)(uintptr_t)0x207fd00u)
+#define uRam0207fd04 (*(undefined4 *)(uintptr_t)0x207fd04u)
+#define uRam0207fd08 (*(undefined4 *)(uintptr_t)0x207fd08u)
+#define uRam0207fd0c (*(undefined4 *)(uintptr_t)0x207fd0cu)
+#define uRam0207fd14 (*(undefined4 *)(uintptr_t)0x207fd14u)
+#define uRam0207fd1c (*(undefined4 *)(uintptr_t)0x207fd1cu)
+#define uRam0207fd20 (*(undefined4 *)(uintptr_t)0x207fd20u)
+#define uRam0207fd24 (*(undefined4 *)(uintptr_t)0x207fd24u)

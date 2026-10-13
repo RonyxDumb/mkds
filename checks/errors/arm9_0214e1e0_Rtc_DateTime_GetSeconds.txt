@@ -1,0 +1,13 @@
+C-WORK/src/arm9/0214e1e0_Rtc_DateTime_GetSeconds.c:12:28: error: too few arguments to function call, single argument 'param_1' was not specified
+   12 |   uVar3 = Rtc_Date_GetDays();
+      |           ~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0214e1e0_Rtc_DateTime_GetSeconds.h:4:5: note: 'Rtc_Date_GetDays' declared here
+    4 | int Rtc_Date_GetDays(uint param_1);
+      |     ^                ~~~~~~~~~~~~
+C-WORK/src/arm9/0214e1e0_Rtc_DateTime_GetSeconds.c:16:39: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   16 |   iVar1 = Rtc_Time_GetSeconds(param_2,(int)((ulonglong)uVar3 >> 0x20));
+      |           ~~~~~~~~~~~~~~~~~~~         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0214e1e0_Rtc_DateTime_GetSeconds.h:5:5: note: 'Rtc_Time_GetSeconds' declared here
+    5 | int Rtc_Time_GetSeconds(uint param_1);
+      |     ^                   ~~~~~~~~~~~~
+2 errors generated.

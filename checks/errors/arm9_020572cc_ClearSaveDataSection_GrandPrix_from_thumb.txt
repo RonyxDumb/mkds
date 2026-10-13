@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020572cc_ClearSaveDataSection_GrandPrix_from_thumb.c:10:20: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'uint *' (aka 'unsigned int *'); remove * [-Wint-conversion]
+   10 |   (*pcRam020572e4)(*(undefined4 *)(*piRam020572dc + 8),0,uRam020572e0);
+      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,23 @@
+C-WORK/src/arm9/021277f8_func_021277f8.c:10:54: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   10 |   (**(code **)(*piRam021278ac + iRam021278b0 + 0x18))(*piRam021278ac + iRam021278b0,5);
+      |                                                      ^
+C-WORK/src/arm9/021277f8_func_021277f8.c:11:54: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   11 |   (**(code **)(*piRam021278ac + iRam021278b4 + 0x18))(*piRam021278ac + iRam021278b4,5);
+      |                                                      ^
+C-WORK/src/arm9/021277f8_func_021277f8.c:13:14: error: too many arguments to function call, expected 0, have 9
+   12 |   G2d_Text_SomeFn_from_thumb
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   13 |             (*piRam021278ac + iRam021278bc,0x28,0,0xd8,0x10,0xc,uRam021278b8,1,param_1);
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021277f8_func_021277f8.h:3:6: note: 'G2d_Text_SomeFn_from_thumb' declared here
+    3 | void G2d_Text_SomeFn_from_thumb(void);
+      |      ^
+C-WORK/src/arm9/021277f8_func_021277f8.c:15:14: error: too many arguments to function call, expected 0, have 9
+   14 |   G2d_Text_SomeFn_from_thumb
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   15 |             (*piRam021278ac + iRam021278c0,0x28,0,0xd8,0x10,0xc,uRam021278b8,1,param_2);
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/021277f8_func_021277f8.h:3:6: note: 'G2d_Text_SomeFn_from_thumb' declared here
+    3 | void G2d_Text_SomeFn_from_thumb(void);
+      |      ^
+2 warnings and 2 errors generated.

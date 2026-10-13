@@ -1,0 +1,112 @@
+/* Decompiled C draft; module arm9; ROM address 020abcf4. No matching claim. */
+#include "types.h"
+#include "deps/020abcf4_CreateGlobal78_from_thumb.h"
+
+void CreateGlobal78_from_thumb(int param_1,int param_2,int param_3)
+
+{
+  int *piVar1;
+  undefined4 uVar2;
+  int iVar3;
+  undefined4 *puVar4;
+  
+  GetActiveExecutionContext();
+  uVar2 = ExecutionContext_GetHeapHandle();
+  iVar3 = Mem_AllocateHeap(uVar2,0x78);
+  piVar1 = piRam020abf40;
+  *piRam020abf40 = iVar3;
+  *(short *)(iVar3 + 0x44) = (short)param_3;
+  *(short *)(*piVar1 + 0x4a) = (short)param_3;
+  *(undefined2 *)(*piVar1 + 0x46) = 0;
+  *(undefined2 *)(*piVar1 + 0x48) = 0;
+  GetActiveExecutionContext();
+  uVar2 = ExecutionContext_GetHeapHandle();
+  uVar2 = Mem_AllocateHeap(uVar2,(param_3 + 1) * 2);
+  piVar1 = piRam020abf40;
+  *(undefined4 *)(*piRam020abf40 + 0x40) = uVar2;
+  *(int *)(*piVar1 + 0xc) = param_1 * 2 * param_2;
+  GetActiveExecutionContext();
+  uVar2 = ExecutionContext_GetHeapHandle();
+  uVar2 = Mem_AllocateHeap(uVar2,*(undefined4 *)(*piRam020abf40 + 0xc));
+  piVar1 = piRam020abf40;
+  *(undefined4 *)(*piRam020abf40 + 4) = uVar2;
+  *(undefined4 *)(*piVar1 + 8) = uRam020abf44;
+  GetActiveExecutionContext();
+  uVar2 = ExecutionContext_GetHeapHandle();
+  uVar2 = Mem_AllocateHeapAligned(uVar2,*(undefined4 *)(*piRam020abf40 + 8),0x20);
+  piVar1 = piRam020abf40;
+  *(undefined4 *)*piRam020abf40 = uVar2;
+  puVar4 = (undefined4 *)*piVar1;
+  uVar2 = GetLoadedFont_from_thumb(0);
+  func_020ab088(uVar2,*puVar4,puVar4[1],param_1,param_2,0);
+  func_020ab064(uRam020abf48);
+  func_020ab058(uRam020abf4c);
+  func_020ab07c(0);
+  func_020ab070(1);
+  piVar1 = piRam020abf40;
+  *(undefined4 *)(*piRam020abf40 + 0x50) = 0;
+  *(undefined4 *)(*piVar1 + 0x54) = 0;
+  *(undefined4 *)(*piVar1 + 0x58) = 0x23;
+  *(undefined4 *)(*piVar1 + 0x5c) = 0x7a;
+  *(undefined4 *)(*piVar1 + 0x60) = 0x7d;
+  *(undefined4 *)(*piVar1 + 100) = 0x8e;
+  *(undefined4 *)(*piVar1 + 0x68) = 0x83;
+  *(undefined4 *)(*piVar1 + 0x6c) = 0x7a;
+  *(undefined4 *)(*piVar1 + 0x70) = 0xdd;
+  *(undefined4 *)(*piVar1 + 0x74) = 0x8e;
+  uVar2 = find_buf_fn_from_thumb(uRam020abf50);
+  Gfx_ReadCharGraphics(*piRam020abf40 + 0x10,uVar2);
+  uVar2 = find_buf_fn_from_thumb(uRam020abf54);
+  Gfx_ReadCharGraphics(*piRam020abf40 + 0x18,uVar2);
+  uVar2 = find_buf_fn_from_thumb(uRam020abf58);
+  Gfx_ReadCharGraphics(*piRam020abf40 + 0x14,uVar2);
+  uVar2 = find_buf_fn_from_thumb(uRam020abf5c);
+  Gfx_ReadCharGraphics(*piRam020abf40 + 0x1c,uVar2);
+  uVar2 = find_buf_fn_from_thumb(uRam020abf60);
+  Gfx_ReadCharGraphics(*piRam020abf40 + 0x20,uVar2);
+  uVar2 = find_buf_fn_from_thumb(uRam020abf64);
+  Gfx_ReadCharGraphicsRelative(*piRam020abf40 + 0x24,uVar2);
+  uVar2 = find_buf_fn_from_thumb(uRam020abf68);
+  *(undefined4 *)(*piRam020abf40 + 0x28) = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abf6c);
+  *(undefined4 *)(*piRam020abf40 + 0x30) = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abf70);
+  *(undefined4 *)(*piRam020abf40 + 0x2c) = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abf74);
+  *(undefined4 *)(*piRam020abf40 + 0x34) = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abf78);
+  *(undefined4 *)(*piRam020abf40 + 0x38) = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abf7c);
+  *(undefined4 *)(*piRam020abf40 + 0x3c) = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abf80);
+  *puRam020abf84 = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abf88);
+  *puRam020abf8c = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abf90);
+  *puRam020abf94 = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abf98);
+  *puRam020abf9c = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abfa0);
+  *puRam020abfa4 = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abfa8);
+  *puRam020abfac = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abfb0);
+  *puRam020abfb4 = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abfb8);
+  *puRam020abfbc = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abfc0);
+  *puRam020abfc4 = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abfc8);
+  *puRam020abfcc = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abfd0);
+  *puRam020abfd4 = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abfd8);
+  *puRam020abfdc = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abfe0);
+  *puRam020abfe4 = uVar2;
+  uVar2 = find_buf_fn_from_thumb(uRam020abfe8);
+  *puRam020abfec = uVar2;
+  func_020ab1a8(1,2,uRam020abff0);
+  return;
+}
+

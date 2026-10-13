@@ -1,0 +1,26 @@
+In file included from C-WORK/src/arm9_ov000/021ab09c_FUN_021ab09c.c:3:
+C-WORK/src/arm9_ov000/deps/021ab09c_FUN_021ab09c.h:36:1: error: unknown type name 'size_t'
+   36 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/021ab09c_FUN_021ab09c.c:139:66: warning: passing 'byte *' (aka 'unsigned char *') to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  139 |         FUN_021ab4b0((char *)(uintptr_t)(param_1 + DAT_021ab41c),local_18,iVar2);
+      |                                                                  ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/021ab09c_FUN_021ab09c.h:5:39: note: passing argument to parameter 'param_2' here
+    5 | void FUN_021ab4b0(char *param_1,char *param_2,int param_3);
+      |                                       ^
+C-WORK/src/arm9_ov000/021ab09c_FUN_021ab09c.c:142:66: warning: passing 'byte *' (aka 'unsigned char *') to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  142 |         FUN_021ab4b0((char *)(uintptr_t)(param_1 + DAT_021ab414),local_18,iVar2);
+      |                                                                  ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/021ab09c_FUN_021ab09c.h:5:39: note: passing argument to parameter 'param_2' here
+    5 | void FUN_021ab4b0(char *param_1,char *param_2,int param_3);
+      |                                       ^
+C-WORK/src/arm9_ov000/021ab09c_FUN_021ab09c.c:181:36: error: too few arguments to function call, expected 2, have 1
+  181 |       uVar5 = FUN_021ab448(local_18);
+      |               ~~~~~~~~~~~~         ^
+C-WORK/src/arm9_ov000/deps/021ab09c_FUN_021ab09c.h:4:5: note: 'FUN_021ab448' declared here
+    4 | int FUN_021ab448(byte *param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021ab09c_FUN_021ab09c.c:194:12: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'byte *' (aka 'unsigned char *') [-Wint-conversion]
+  194 |   *param_2 = local_18;
+      |            ^ ~~~~~~~~
+2 warnings and 3 errors generated.

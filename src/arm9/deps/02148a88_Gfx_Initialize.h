@@ -1,0 +1,26 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void Gfx_Initialize(void);
+void Gfx_InitializeState(void);
+void MIi_CpuClear32(undefined4 param_1,undefined4 *param_2,int param_3);
+void Mem_DmaFill32(int param_1,undefined4 param_2,undefined4 param_3,uint param_4);
+int Os_AllocateLockId(void);
+void Os_Terminate(void);
+#define _DAT_04000000 (*(undefined4 *)(uintptr_t)0x4000000u)
+#define psRam02148be8 (*(short **)(uintptr_t)0x2148be8u)
+#define puRam02148bdc (*(ushort **)(uintptr_t)0x2148bdcu)
+#define puRam02148bec (*(undefined2 **)(uintptr_t)0x2148becu)
+#define puRam02148bf8 (*(undefined2 **)(uintptr_t)0x2148bf8u)
+#define puRam02148c00 (*(undefined2 **)(uintptr_t)0x2148c00u)
+#define puRam02148c04 (*(undefined2 **)(uintptr_t)0x2148c04u)
+#define puRam02148c08 (*(undefined2 **)(uintptr_t)0x2148c08u)
+#define puRam02148c0c (*(undefined2 **)(uintptr_t)0x2148c0cu)
+#define puRam02148c10 (*(undefined2 **)(uintptr_t)0x2148c10u)
+#define puRam02148c14 (*(undefined2 **)(uintptr_t)0x2148c14u)
+#define puRam02148c18 (*(undefined2 **)(uintptr_t)0x2148c18u)
+#define puRam02148c1c (*(undefined2 **)(uintptr_t)0x2148c1cu)
+#define uRam02148be0 (*(undefined4 *)(uintptr_t)0x2148be0u)
+#define uRam02148be4 (*(undefined4 *)(uintptr_t)0x2148be4u)
+#define uRam02148bf0 (*(uint *)(uintptr_t)0x2148bf0u)
+#define uRam02148bf4 (*(undefined4 *)(uintptr_t)0x2148bf4u)
+#define uRam02148bfc (*(undefined4 *)(uintptr_t)0x2148bfcu)

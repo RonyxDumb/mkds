@@ -1,0 +1,10 @@
+#pragma once
+/* Function-specific inferred declarations. */
+undefined4 AllocateLockCardBackupResource_from_thumb(void);
+void CleanupUnlockBackup_from_thumb(void);
+void InitializePrepareBackup_from_thumb(void);
+bool MaybeInitializeBackup(int param_1);
+undefined4 Os_IsEmulator(void);
+#define piRam0204ba24 (*(int **)(uintptr_t)0x204ba24u)
+#define psRam0204ba20 (*(short **)(uintptr_t)0x204ba20u)
+#define uRam0204ba28 (*(undefined4 *)(uintptr_t)0x204ba28u)

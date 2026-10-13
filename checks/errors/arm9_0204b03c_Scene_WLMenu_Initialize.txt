@@ -1,0 +1,27 @@
+C-WORK/src/arm9/0204b03c_Scene_WLMenu_Initialize.c:12:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   12 |           *(uint *)(uRam0204b080 & 0xfffffffc) << (uRam0204b080 & 3) * -8 + 0x20) + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204b03c_Scene_WLMenu_Initialize.c:12:75: note: place parentheses around the '+' expression to silence this warning
+   12 |           *(uint *)(uRam0204b080 & 0xfffffffc) << (uRam0204b080 & 3) * -8 + 0x20) + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0204b03c_Scene_WLMenu_Initialize.c:15:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == 3) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0204b03c_Scene_WLMenu_Initialize.c:15:49: note: place parentheses around the '+' expression to silence this warning
+   15 |   if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == 3) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/0204b03c_Scene_WLMenu_Initialize.c:21:34: error: too few arguments to function call, single argument 'param_1' was not specified
+   21 |   ExecutionContext_GetHeapHandle();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204b03c_Scene_WLMenu_Initialize.h:4:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    4 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/0204b03c_Scene_WLMenu_Initialize.c:22:17: error: too few arguments to function call, single argument 'param_1' was not specified
+   22 |   func_0202f2b4();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0204b03c_Scene_WLMenu_Initialize.h:9:6: note: 'func_0202f2b4' declared here
+    9 | void func_0202f2b4(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+2 warnings and 2 errors generated.

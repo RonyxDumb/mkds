@@ -1,0 +1,17 @@
+C-WORK/src/arm9/02110350_func_02110350.c:11:11: error: call to undeclared function 'func_0x02181528'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   11 |   iVar2 = func_0x02181528();
+      |           ^
+C-WORK/src/arm9/02110350_func_02110350.c:14:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   14 |                *(uint *)(uRam021103b8 & 0xfffffffc) << (uRam021103b8 & 3) * -8 + 0x20) *
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02110350_func_02110350.c:14:80: note: place parentheses around the '+' expression to silence this warning
+   14 |                *(uint *)(uRam021103b8 & 0xfffffffc) << (uRam021103b8 & 3) * -8 + 0x20) *
+      |                                                                                ^     
+      |                                                        (                             )
+C-WORK/src/arm9/02110350_func_02110350.c:23:59: error: too many arguments to function call, expected 3, have 4
+   23 |   func_02109078(param_1,uRam021103bc,0x7fU - iVar2 & 0xff,0);
+      |   ~~~~~~~~~~~~~                                           ^
+C-WORK/src/arm9/deps/02110350_func_02110350.h:3:6: note: 'func_02109078' declared here
+    3 | void func_02109078(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 2 errors generated.

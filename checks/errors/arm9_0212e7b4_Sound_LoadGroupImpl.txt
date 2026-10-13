@@ -1,0 +1,81 @@
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:15:35: error: too few arguments to function call, single argument 'param_1' was not specified
+   15 |   uVar2 = Sound_GetGroupInfoEntry();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212e7b4_Sound_LoadGroupImpl.h:4:5: note: 'Sound_GetGroupInfoEntry' declared here
+    4 | int Sound_GetGroupInfoEntry(uint param_1);
+      |     ^                       ~~~~~~~~~~~~
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:21:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |       *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20 != 0) {
+      |                                     ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:21:57: note: place parentheses around the '+' expression to silence this warning
+   21 |       *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20 != 0) {
+      |                                                         ^
+      |                                        (                      )
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:28:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |         iVar4 = NNSi_SndArcLoadSeq(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2
+      |                                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:28:77: note: place parentheses around the '+' expression to silence this warning
+   28 |         iVar4 = NNSi_SndArcLoadSeq(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2
+      |                                                                             ^     
+      |                                                                  (                )
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:29:38: error: too few arguments to function call, expected 5, have 4
+   28 |         iVar4 = NNSi_SndArcLoadSeq(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2
+      |                 ~~~~~~~~~~~~~~~~~~
+   29 |                                    ,1);
+      |                                      ^
+C-WORK/src/arm9/deps/0212e7b4_Sound_LoadGroupImpl.h:3:5: note: 'NNSi_SndArcLoadSeq' declared here
+    3 | int NNSi_SndArcLoadSeq(undefined4 param_1,uint param_2,undefined4 param_3,undefined4 param_4,int *param_5);
+      |     ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:38:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |                           (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2,1);
+      |                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:38:69: note: place parentheses around the '+' expression to silence this warning
+   38 |                           (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2,1);
+      |                                                                     ^     
+      |                                                          (                )
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:38:95: error: too few arguments to function call, expected 5, have 4
+   37 |         iVar4 = Sound_GetSbnkPointer
+      |                 ~~~~~~~~~~~~~~~~~~~~
+   38 |                           (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2,1);
+      |                                                                                               ^
+C-WORK/src/arm9/deps/0212e7b4_Sound_LoadGroupImpl.h:6:5: note: 'Sound_GetSbnkPointer' declared here
+    6 | int Sound_GetSbnkPointer(undefined4 param_1,uint param_2,undefined4 param_3,undefined4 param_4,int *param_5);
+      |     ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:47:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   47 |                           (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2,1);
+      |                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:47:69: note: place parentheses around the '+' expression to silence this warning
+   47 |                           (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2,1);
+      |                                                                     ^     
+      |                                                          (                )
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:47:95: error: too few arguments to function call, expected 5, have 4
+   46 |         iVar4 = Sound_GetSwarPointer
+      |                 ~~~~~~~~~~~~~~~~~~~~
+   47 |                           (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2,1);
+      |                                                                                               ^
+C-WORK/src/arm9/deps/0212e7b4_Sound_LoadGroupImpl.h:7:12: note: 'Sound_GetSwarPointer' declared here
+    7 | undefined4 Sound_GetSwarPointer(undefined4 param_1,uint param_2,undefined4 param_3,undefined4 param_4,int *param_5);
+      |            ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:56:69: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   56 |                           (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2,1);
+      |                                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:56:69: note: place parentheses around the '+' expression to silence this warning
+   56 |                           (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2,1);
+      |                                                                     ^     
+      |                                                          (                )
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:56:95: error: too few arguments to function call, expected 5, have 4
+   55 |         iVar4 = Sound_GetSarcPointer
+      |                 ~~~~~~~~~~~~~~~~~~~~
+   56 |                           (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2,1);
+      |                                                                                               ^
+C-WORK/src/arm9/deps/0212e7b4_Sound_LoadGroupImpl.h:5:12: note: 'Sound_GetSarcPointer' declared here
+    5 | undefined4 Sound_GetSarcPointer(undefined4 param_1,uint param_2,undefined4 param_3,undefined4 param_4,int *param_5);
+      |            ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:64:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   64 |                      *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20));
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212e7b4_Sound_LoadGroupImpl.c:64:72: note: place parentheses around the '+' expression to silence this warning
+   64 |                      *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20));
+      |                                                                        ^     
+      |                                                       (                      )
+6 warnings and 5 errors generated.

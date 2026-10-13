@@ -1,0 +1,41 @@
+C-WORK/src/arm9_ov000/0218c468_FUN_0218c468.c:20:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   20 |   iVar2 = FUN_0218c8ac();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0218c468_FUN_0218c468.h:10:5: note: 'FUN_0218c8ac' declared here
+   10 | int FUN_0218c8ac(uint param_1);
+      |     ^            ~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218c468_FUN_0218c468.c:25:36: warning: passing 'byte *' (aka 'unsigned char *') to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   25 |      (iVar3 = FUN_0218c794(param_1,param_2 + iVar2,param_3 - iVar2), iVar3 == 0)) {
+      |                                    ^~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218c468_FUN_0218c468.h:8:43: note: passing argument to parameter 'param_2' here
+    8 | undefined4 FUN_0218c794(int param_1,char *param_2,int param_3);
+      |                                           ^
+C-WORK/src/arm9_ov000/0218c468_FUN_0218c468.c:29:45: warning: passing 'byte *' (aka 'unsigned char *') to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   29 |   if ((uVar1 != 0) && (iVar2 = FUN_0218c84c(param_2 + iVar2,param_3 - iVar2), iVar2 == 0)) {
+      |                                             ^~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218c468_FUN_0218c468.h:9:25: note: passing argument to parameter 'param_1' here
+    9 | bool FUN_0218c84c(char *param_1,int param_2);
+      |                         ^
+C-WORK/src/arm9_ov000/0218c468_FUN_0218c468.c:36:58: error: too many arguments to function call, expected 5, have 6
+   36 |   FUN_0218c744(param_1,param_2,param_3,local_1c,local_20,uVar1);
+      |   ~~~~~~~~~~~~                                           ^~~~~
+C-WORK/src/arm9_ov000/deps/0218c468_FUN_0218c468.h:7:6: note: 'FUN_0218c744' declared here
+    7 | void FUN_0218c744(int param_1,byte *param_2,int param_3,byte *param_4,byte *param_5);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218c468_FUN_0218c468.c:37:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   37 |   uVar4 = FUN_0218af28(param_1,local_1c[0],local_20[0]);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9_ov000/0218c468_FUN_0218c468.c:38:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   38 |   iVar2 = FUN_0218aefc();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0218c468_FUN_0218c468.h:3:12: note: 'FUN_0218aefc' declared here
+    3 | undefined4 FUN_0218aefc(int param_1);
+      |            ^            ~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218c468_FUN_0218c468.c:43:29: error: too few arguments to function call, expected 4, have 2
+   43 |   FUN_0218d340(param_1,uVar4);
+      |   ~~~~~~~~~~~~              ^
+C-WORK/src/arm9_ov000/deps/0218c468_FUN_0218c468.h:11:6: note: 'FUN_0218d340' declared here
+   11 | void FUN_0218d340(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 5 errors generated.

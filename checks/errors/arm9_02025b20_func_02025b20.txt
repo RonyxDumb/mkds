@@ -1,0 +1,28 @@
+C-WORK/src/arm9/02025b20_func_02025b20.c:12:23: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   12 |     uVar1 = (*param_8)(param_2);
+      |                       ^
+C-WORK/src/arm9/02025b20_func_02025b20.c:12:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   12 |     uVar1 = (*param_8)(param_2);
+      |           ^ ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02025b20_func_02025b20.c:16:23: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   16 |     uVar1 = (*param_8)(param_3);
+      |                       ^
+C-WORK/src/arm9/02025b20_func_02025b20.c:16:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   16 |     uVar1 = (*param_8)(param_3);
+      |           ^ ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02025b20_func_02025b20.c:20:23: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   20 |     uVar1 = (*param_8)(param_4);
+      |                       ^
+C-WORK/src/arm9/02025b20_func_02025b20.c:20:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   20 |     uVar1 = (*param_8)(param_4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02025b20_func_02025b20.c:24:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   24 |     uVar1 = (*param_8)();
+      |           ^ ~~~~~~~~~~~~
+C-WORK/src/arm9/02025b20_func_02025b20.c:28:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   28 |     uVar1 = (*param_8)();
+      |           ^ ~~~~~~~~~~~~
+C-WORK/src/arm9/02025b20_func_02025b20.c:32:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   32 |     uVar1 = (*param_8)();
+      |           ^ ~~~~~~~~~~~~
+3 warnings and 6 errors generated.

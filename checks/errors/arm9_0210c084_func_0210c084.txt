@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0210c084_func_0210c084.c:8:17: error: too few arguments to function call, single argument 'param_1' was not specified
+    8 |   func_0212c6f0();
+      |   ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0210c084_func_0210c084.h:4:6: note: 'func_0212c6f0' declared here
+    4 | void func_0212c6f0(uint param_1);
+      |      ^             ~~~~~~~~~~~~
+1 error generated.

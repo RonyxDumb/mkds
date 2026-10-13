@@ -1,0 +1,32 @@
+C-WORK/src/arm9/020de270_func_020de270.c:13:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |                 *(uint *)(uRam020de2d0 & 0xfffffffc) << (uRam020de2d0 & 3) * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020de270_func_020de270.c:13:81: note: place parentheses around the '+' expression to silence this warning
+   13 |                 *(uint *)(uRam020de2d0 & 0xfffffffc) << (uRam020de2d0 & 3) * -8 + 0x20);
+      |                                                                                 ^     
+      |                                                         (                             )
+C-WORK/src/arm9/020de270_func_020de270.c:16:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   16 |   if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020de270_func_020de270.c:16:54: note: place parentheses around the '+' expression to silence this warning
+   16 |   if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/020de270_func_020de270.c:19:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |                   *(uint *)(uRam020de2d4 & 0xfffffffc) << (uRam020de2d4 & 3) * -8 + 0x20,param_2 + 4
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020de270_func_020de270.c:19:83: note: place parentheses around the '+' expression to silence this warning
+   19 |                   *(uint *)(uRam020de2d4 & 0xfffffffc) << (uRam020de2d4 & 3) * -8 + 0x20,param_2 + 4
+      |                                                                                   ^     
+      |                                                           (                             )
+C-WORK/src/arm9/020de270_func_020de270.c:20:27: error: too few arguments to function call, expected 5, have 4
+   17 |     func_020dda38(param_2 + 0xa4,
+      |     ~~~~~~~~~~~~~
+   18 |                   *(uint *)(uRam020de2d4 & 0xfffffffc) >> (uRam020de2d4 & 3) * 8 |
+   19 |                   *(uint *)(uRam020de2d4 & 0xfffffffc) << (uRam020de2d4 & 3) * -8 + 0x20,param_2 + 4
+   20 |                   ,param_3);
+      |                           ^
+C-WORK/src/arm9/deps/020de270_func_020de270.h:3:6: note: 'func_020dda38' declared here
+    3 | void func_020dda38(int param_1,int param_2,undefined4 param_3,undefined4 param_4,undefined2 param_5);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 warnings and 1 error generated.

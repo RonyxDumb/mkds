@@ -1,0 +1,59 @@
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:18:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   18 |       uVar3 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:19:7: error: call to undeclared function 'func_0x021a1858'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   19 |       func_0x021a1858(uVar3,iVar4 + DAT_020cb98c,iVar4 + DAT_020cb990);
+      |       ^
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:27:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   27 |       uVar3 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:35:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   35 |       uVar3 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:39:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   39 |       uVar3 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:57:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   57 |       uVar2 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:75:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   75 |       uVar2 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:80:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   80 |       uVar3 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:98:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   98 |       uVar2 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:104:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  104 |       uVar3 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:122:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  122 |       uVar2 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:129:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  129 |       uVar3 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:130:7: error: call to undeclared function 'func_0x0219d2c0'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  130 |       func_0x0219d2c0(uVar3,iVar4 == 0,iVar5 + DAT_020cb98c,iVar5 + DAT_020cb990);
+      |       ^
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:133:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  133 |       uVar3 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:134:7: error: call to undeclared function 'func_0x0219f058'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  134 |       func_0x0219f058(uVar3,iVar4 + DAT_020cb98c,iVar4 + DAT_020cb990);
+      |       ^
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:137:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  137 |       uVar3 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:138:7: error: call to undeclared function 'func_0x021a0190'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  138 |       func_0x021a0190(uVar3,iVar4 + DAT_020cb98c,iVar4 + DAT_020cb990);
+      |       ^
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:141:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  141 |       uVar3 = GetActiveExecutionContextHeapHandle();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020cb6c0_func_020cb6c0.c:142:7: error: call to undeclared function 'func_0x02198100'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  142 |       func_0x02198100(uVar3,iVar4 + DAT_020cb98c,iVar4 + DAT_020cb990);
+      |       ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.

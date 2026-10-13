@@ -1,0 +1,221 @@
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:14:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   14 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d188c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:17:80: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |    *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) = uVar2;
+      |                                               ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:17:80: note: place parentheses around the '+' expression to silence this warning
+   17 |    *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) = uVar2;
+      |                                                                                ^     
+      |                                                  (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:18:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   18 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d1890);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:21:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |     *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 4) = uVar2
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:21:81: note: place parentheses around the '+' expression to silence this warning
+   21 |     *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 4) = uVar2
+      |                                                                                 ^     
+      |                                                   (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:23:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   23 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d1894);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:26:90: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   26 |              *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 8)
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:26:90: note: place parentheses around the '+' expression to silence this warning
+   26 |              *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 8)
+      |                                                                                          ^     
+      |                                                            (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:28:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   28 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d1898);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:31:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |                    *(uint *)((uint)DAT_020d1888 & 0xfffffffc) <<
+      |                                                               ~~
+   31 |                    ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0xc),uVar2);
+      |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:31:50: note: place parentheses around the '+' expression to silence this warning
+   31 |                    ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0xc),uVar2);
+      |                                                  ^     
+      |                    (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:32:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   32 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d189c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:34:95: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |                   *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20
+      |                                                              ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:34:95: note: place parentheses around the '+' expression to silence this warning
+   34 |                   *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20
+      |                                                                                               ^     
+      |                                                                 (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:37:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   37 |           *(uint *)(DAT_020d18a0 & 0xfffffffc) << (DAT_020d18a0 & 3) * -8 + 0x20) + 4;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:37:75: note: place parentheses around the '+' expression to silence this warning
+   37 |           *(uint *)(DAT_020d18a0 & 0xfffffffc) << (DAT_020d18a0 & 3) * -8 + 0x20) + 4;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:40:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |   switch(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) {
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:40:51: note: place parentheses around the '+' expression to silence this warning
+   40 |   switch(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) {
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:44:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   44 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18a4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:46:91: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |               *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:46:91: note: place parentheses around the '+' expression to silence this warning
+   46 |               *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |                                                                                           ^     
+      |                                                             (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:52:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   52 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18a8);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:54:91: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   54 |               *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:54:91: note: place parentheses around the '+' expression to silence this warning
+   54 |               *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |                                                                                           ^     
+      |                                                             (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:58:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   58 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18ac);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:60:91: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   60 |               *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:60:91: note: place parentheses around the '+' expression to silence this warning
+   60 |               *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |                                                                                           ^     
+      |                                                             (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:64:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   64 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18b0);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:66:91: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   66 |               *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:66:91: note: place parentheses around the '+' expression to silence this warning
+   66 |               *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |                                                                                           ^     
+      |                                                             (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:70:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   70 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18b4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:72:91: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   72 |               *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:72:91: note: place parentheses around the '+' expression to silence this warning
+   72 |               *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |                                                                                           ^     
+      |                                                             (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:76:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   76 |           *(uint *)(DAT_020d18a0 & 0xfffffffc) << (DAT_020d18a0 & 3) * -8 + 0x20) + 4;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:76:75: note: place parentheses around the '+' expression to silence this warning
+   76 |           *(uint *)(DAT_020d18a0 & 0xfffffffc) << (DAT_020d18a0 & 3) * -8 + 0x20) + 4;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:79:51: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   79 |   switch(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) {
+      |                                     ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:79:51: note: place parentheses around the '+' expression to silence this warning
+   79 |   switch(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) {
+      |                                                   ^     
+      |                                        (                )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:83:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   83 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18b8);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:86:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   86 |       *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:86:83: note: place parentheses around the '+' expression to silence this warning
+   86 |       *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
+      |                                                                                   ^     
+      |                                                     (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:92:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   92 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18bc);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:95:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   95 |       *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:95:83: note: place parentheses around the '+' expression to silence this warning
+   95 |       *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
+      |                                                                                   ^     
+      |                                                     (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:99:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   99 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18c0);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:102:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  102 |       *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:102:83: note: place parentheses around the '+' expression to silence this warning
+  102 |       *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
+      |                                                                                   ^     
+      |                                                     (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:106:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  106 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18c4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:109:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  109 |       *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:109:83: note: place parentheses around the '+' expression to silence this warning
+  109 |       *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
+      |                                                                                   ^     
+      |                                                     (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:113:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  113 |     uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18c8);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:116:83: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  116 |       *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:116:83: note: place parentheses around the '+' expression to silence this warning
+  116 |       *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
+      |                                                                                   ^     
+      |                                                     (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:119:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  119 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18cc);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:122:90: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  122 |              *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |                                                         ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:122:90: note: place parentheses around the '+' expression to silence this warning
+  122 |              *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |                                                                                          ^     
+      |                                                            (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:121:14: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+  121 |             ((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  122 |              *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
+      |              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  123 |              0x24,uVar2);
+      |              ~~~~
+C-WORK/src/arm9/deps/020d1640_LoadStatic2DContents.h:5:34: note: passing argument to parameter 'param_1' here
+    5 | void Gfx_ReadCharGraphicsV2(int *param_1,int param_2);
+      |                                  ^
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:124:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  124 |   uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18d0);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:126:95: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  126 |                   *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20
+      |                                                              ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:126:95: note: place parentheses around the '+' expression to silence this warning
+  126 |                   *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20
+      |                                                                                               ^     
+      |                                                                 (                                   )
+C-WORK/src/arm9/020d1640_LoadStatic2DContents.c:125:19: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+  125 |   Gfx_ReadPalette((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  126 |                   *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  127 |                   ) + 0x28,uVar2);
+      |                   ~~~~~~~~
+C-WORK/src/arm9/deps/020d1640_LoadStatic2DContents.h:6:27: note: passing argument to parameter 'param_1' here
+    6 | void Gfx_ReadPalette(int *param_1,int param_2);
+      |                           ^
+21 warnings and 19 errors generated.

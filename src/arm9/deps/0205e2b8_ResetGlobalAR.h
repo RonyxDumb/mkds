@@ -1,0 +1,4 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void ResetGlobalAR(void);
+#define puRam0205e2c8 (*(undefined4 **)(uintptr_t)0x205e2c8u)

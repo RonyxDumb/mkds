@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov003/021bc5e4_FUN_021bc5e4.c:16:24: error: too few arguments to function call, expected 3, have 0
+   16 |   iVar1 = FUN_021bc7a8();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov003/deps/021bc5e4_FUN_021bc5e4.h:4:12: note: 'FUN_021bc7a8' declared here
+    4 | undefined4 FUN_021bc7a8(uint *param_1,byte *param_2,int param_3);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

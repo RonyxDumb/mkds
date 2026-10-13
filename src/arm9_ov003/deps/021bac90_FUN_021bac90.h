@@ -1,0 +1,11 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void FUN_021bac90(undefined2 *param_1);
+#define DAT_021bb01c (*(int **)(uintptr_t)0x21bb01cu)
+#define DAT_021bb020 (*(undefined4 **)(uintptr_t)0x21bb020u)
+#define DAT_021bb024 (*(undefined4 **)(uintptr_t)0x21bb024u)
+#define DAT_021bb028 (*(undefined4 **)(uintptr_t)0x21bb028u)
+#define DAT_021bb02c (*(undefined4 **)(uintptr_t)0x21bb02cu)
+#define DAT_021bb030 (*(undefined4 **)(uintptr_t)0x21bb030u)
+#define DAT_021bb034 (*(undefined4 **)(uintptr_t)0x21bb034u)
+#define DAT_021bb038 (*(undefined4 **)(uintptr_t)0x21bb038u)

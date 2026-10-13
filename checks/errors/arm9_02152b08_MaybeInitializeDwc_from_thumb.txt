@@ -1,0 +1,10 @@
+C-WORK/src/arm9/02152b08_MaybeInitializeDwc_from_thumb.c:12:18: error: too many arguments to function call, expected 0, have 1
+   12 |   Os_ReferSymbol(uRam02152b58);
+      |   ~~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02152b08_MaybeInitializeDwc_from_thumb.h:8:22: note: expanded from macro 'uRam02152b58'
+    8 | #define uRam02152b58 (*(undefined4 *)(uintptr_t)0x2152b58u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02152b08_MaybeInitializeDwc_from_thumb.h:4:6: note: 'Os_ReferSymbol' declared here
+    4 | void Os_ReferSymbol(void);
+      |      ^
+1 error generated.

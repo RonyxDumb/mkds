@@ -1,0 +1,31 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void G2d_Sprite_CreateFromTiles(void);
+undefined4 Mem_AllocateHeap(uint param_1,undefined4 param_2);
+void TextSystemContext_DisableAllSprites_from_thumb(void);
+void TextSystemContext_InitializeBg_from_thumb(void);
+undefined4 TextSystemContext_Initialize_from_thumb(undefined4 param_1,undefined4 *param_2);
+int TextSystemContext_LoadGraphics_from_thumb(int param_1);
+#define iRam021276e4 (*(int *)(uintptr_t)0x21276e4u)
+#define iRam021276e8 (*(int *)(uintptr_t)0x21276e8u)
+#define iRam021276ec (*(int *)(uintptr_t)0x21276ecu)
+#define iRam021276f0 (*(int *)(uintptr_t)0x21276f0u)
+#define iRam021276f4 (*(int *)(uintptr_t)0x21276f4u)
+#define iRam021276f8 (*(int *)(uintptr_t)0x21276f8u)
+#define iRam021276fc (*(int *)(uintptr_t)0x21276fcu)
+#define iRam02127700 (*(int *)(uintptr_t)0x2127700u)
+#define iRam02127704 (*(int *)(uintptr_t)0x2127704u)
+#define iRam02127708 (*(int *)(uintptr_t)0x2127708u)
+#define iRam0212770c (*(int *)(uintptr_t)0x212770cu)
+#define iRam02127710 (*(int *)(uintptr_t)0x2127710u)
+#define iRam02127714 (*(int *)(uintptr_t)0x2127714u)
+#define iRam02127718 (*(int *)(uintptr_t)0x2127718u)
+#define iRam0212771c (*(int *)(uintptr_t)0x212771cu)
+#define iRam02127720 (*(int *)(uintptr_t)0x2127720u)
+#define iRam02127724 (*(int *)(uintptr_t)0x2127724u)
+#define iRam02127728 (*(int *)(uintptr_t)0x2127728u)
+#define iRam0212772c (*(int *)(uintptr_t)0x212772cu)
+#define iRam02127730 (*(int *)(uintptr_t)0x2127730u)
+#define pbRam021276e0 (*(byte **)(uintptr_t)0x21276e0u)
+#define piRam021276dc (*(int **)(uintptr_t)0x21276dcu)
+#define uRam021276d8 (*(undefined4 *)(uintptr_t)0x21276d8u)

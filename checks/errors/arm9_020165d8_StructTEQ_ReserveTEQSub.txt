@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020165d8_StructTEQ_ReserveTEQSub.c:11:38: error: too few arguments to function call, single argument 'param_1' was not specified
+   11 |   iVar2 = StructTEQ_IsTEQSubListFull();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020165d8_StructTEQ_ReserveTEQSub.h:4:6: note: 'StructTEQ_IsTEQSubListFull' declared here
+    4 | bool StructTEQ_IsTEQSubListFull(int param_1);
+      |      ^                          ~~~~~~~~~~~
+1 error generated.

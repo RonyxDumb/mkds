@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02078f9c_CreateCEML_from_thumb.c:21:63: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   21 |   Model_Render(*(undefined4 *)(*piRam02079000 + iRam02079004),2);
+      |   ~~~~~~~~~~~~                                                ^
+C-WORK/src/arm9/deps/02078f9c_CreateCEML_from_thumb.h:7:6: note: 'Model_Render' declared here
+    7 | void Model_Render(int param_1);
+      |      ^            ~~~~~~~~~~~
+1 error generated.

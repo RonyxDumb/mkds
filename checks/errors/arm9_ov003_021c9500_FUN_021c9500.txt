@@ -1,0 +1,58 @@
+C-WORK/src/arm9_ov003/021c9500_FUN_021c9500.c:49:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   49 |   FUN_021bf620(DAT_021c9620,DAT_021c9624);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c9500_FUN_021c9500.h:15:22: note: expanded from macro 'DAT_021c9624'
+   15 | #define DAT_021c9624 (*(undefined4 *)(uintptr_t)0x21c9624u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c9500_FUN_021c9500.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+C-WORK/src/arm9_ov003/021c9500_FUN_021c9500.c:50:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   50 |   FUN_021bf620(DAT_021c9628,DAT_021c962c);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c9500_FUN_021c9500.h:17:22: note: expanded from macro 'DAT_021c962c'
+   17 | #define DAT_021c962c (*(undefined4 *)(uintptr_t)0x21c962cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c9500_FUN_021c9500.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+C-WORK/src/arm9_ov003/021c9500_FUN_021c9500.c:51:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   51 |   FUN_021bf620(DAT_021c9630,DAT_021c9634);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c9500_FUN_021c9500.h:19:22: note: expanded from macro 'DAT_021c9634'
+   19 | #define DAT_021c9634 (*(undefined4 *)(uintptr_t)0x21c9634u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c9500_FUN_021c9500.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+C-WORK/src/arm9_ov003/021c9500_FUN_021c9500.c:52:50: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   52 |   FUN_021bf620((undefined4)(uintptr_t)(local_31),DAT_021c9638);
+      |                                                  ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c9500_FUN_021c9500.h:20:22: note: expanded from macro 'DAT_021c9638'
+   20 | #define DAT_021c9638 (*(undefined4 *)(uintptr_t)0x21c9638u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c9500_FUN_021c9500.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+C-WORK/src/arm9_ov003/021c9500_FUN_021c9500.c:53:29: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   53 |   FUN_021bf620(DAT_021c963c,DAT_021c9640);
+      |                             ^~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c9500_FUN_021c9500.h:22:22: note: expanded from macro 'DAT_021c9640'
+   22 | #define DAT_021c9640 (*(undefined4 *)(uintptr_t)0x21c9640u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021c9500_FUN_021c9500.h:3:44: note: passing argument to parameter 'param_2' here
+    3 | void FUN_021bf620(undefined4 param_1,code *param_2);
+      |                                            ^
+C-WORK/src/arm9_ov003/021c9500_FUN_021c9500.c:55:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   55 |   uVar3 = FUN_021d14b8(uVar3,0,4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9_ov003/021c9500_FUN_021c9500.c:61:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   61 |   uVar3 = FUN_021d14b8(uVar3,0,4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9_ov003/021c9500_FUN_021c9500.c:64:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   64 |   uVar3 = FUN_021d14b8(uVar3,0,4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+8 errors generated.

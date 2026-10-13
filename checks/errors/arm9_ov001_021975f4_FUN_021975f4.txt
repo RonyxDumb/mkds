@@ -1,0 +1,33 @@
+C-WORK/src/arm9_ov001/021975f4_FUN_021975f4.c:48:21: error: too many arguments to function call, expected 0, have 7
+   48 |     func_0x02124224(1,(uint)uVar1,*(undefined4 *)(iVar4 + 0x24),auStack_48,
+      |     ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   49 |                     *(undefined4 *)(iVar4 + 0x1c),*(undefined4 *)(iVar4 + 0x3c),7);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021975f4_FUN_021975f4.h:32:6: note: 'func_02124224' declared here
+   32 | void func_02124224(void);
+      |      ^
+C-WORK/src/arm9_ov001/021975f4_FUN_021975f4.c:56:21: error: too many arguments to function call, expected 0, have 6
+   56 |     func_0x0212426c(1,(uint)uVar1,*(undefined4 *)(iVar4 + 0x24),auStack_48,
+      |     ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   57 |                     *(undefined4 *)(iVar4 + 0x1c),*(undefined4 *)(iVar4 + 0x3c));
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021975f4_FUN_021975f4.h:40:6: note: 'func_0212426c' declared here
+   40 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9_ov001/021975f4_FUN_021975f4.c:88:19: error: too many arguments to function call, expected 0, have 7
+   88 |   func_0x02124224(0,(uint)uVar1,*(undefined4 *)(iVar4 + 0x10),auStack_48,*(undefined4 *)(iVar4 + 8),
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   89 |                   *(undefined4 *)(iVar4 + 0x38),7);
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021975f4_FUN_021975f4.h:32:6: note: 'func_02124224' declared here
+   32 | void func_02124224(void);
+      |      ^
+C-WORK/src/arm9_ov001/021975f4_FUN_021975f4.c:98:19: error: too many arguments to function call, expected 0, have 6
+   98 |   func_0x0212426c(0,(uint)uVar1,*(undefined4 *)(iVar4 + 0x10),auStack_48,*(undefined4 *)(iVar4 + 8),
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   99 |                   *(undefined4 *)(iVar4 + 0x38));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/021975f4_FUN_021975f4.h:40:6: note: 'func_0212426c' declared here
+   40 | void func_0212426c(void);
+      |      ^
+4 errors generated.

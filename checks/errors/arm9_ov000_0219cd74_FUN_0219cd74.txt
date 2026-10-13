@@ -1,0 +1,37 @@
+C-WORK/src/arm9_ov000/0219cd74_FUN_0219cd74.c:24:31: error: too many arguments to function call, expected 0, have 1
+   24 |       iVar4 = func_0x02152a1c(*(int *)(iVar4 + 0x18) + iVar5);
+      |               ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219cd74_FUN_0219cd74.h:11:6: note: 'func_02152a1c' declared here
+   11 | void func_02152a1c(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219cd74_FUN_0219cd74.c:27:64: error: too many arguments to function call, expected 2, have 3
+   27 |         func_0x02152458(uVar3,*(int *)(*piVar2 + 0x18) + iVar5,auStack_2c);
+      |         ~~~~~~~~~~~~~~~                                        ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219cd74_FUN_0219cd74.h:13:6: note: 'func_02152458' declared here
+   13 | void func_02152458(int param_1,undefined4 param_2);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219cd74_FUN_0219cd74.c:30:32: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   30 |           FUN_0218ee1c(param_1,*(undefined4 *)(param_2 + 4));
+      |           ~~~~~~~~~~~~         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219cd74_FUN_0219cd74.h:4:12: note: 'FUN_0218ee1c' declared here
+    4 | undefined4 FUN_0218ee1c(int *param_1);
+      |            ^            ~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219cd74_FUN_0219cd74.c:36:33: error: too many arguments to function call, expected 0, have 1
+   36 |         iVar4 = func_0x02152a1c(*(int *)(*piVar2 + 0x18) + iVar5);
+      |                 ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219cd74_FUN_0219cd74.h:11:6: note: 'func_02152a1c' declared here
+   11 | void func_02152a1c(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219cd74_FUN_0219cd74.c:37:54: error: too many arguments to function call, expected 0, have 1
+   37 |         if ((iVar4 == 3) || (iVar4 = func_0x02152a1c(*(int *)(*piVar2 + 0x18) + iVar5), iVar4 == 2))
+      |                                      ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219cd74_FUN_0219cd74.h:11:6: note: 'func_02152a1c' declared here
+   11 | void func_02152a1c(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219cd74_FUN_0219cd74.c:43:34: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+   43 |             FUN_0218ee1c(param_1,iVar6);
+      |             ~~~~~~~~~~~~         ^~~~~
+C-WORK/src/arm9_ov000/deps/0219cd74_FUN_0219cd74.h:4:12: note: 'FUN_0218ee1c' declared here
+    4 | undefined4 FUN_0218ee1c(int *param_1);
+      |            ^            ~~~~~~~~~~~~
+6 errors generated.

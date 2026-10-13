@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0212b09c_Clear1A44SomeTileData_from_thumb.c:10:20: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'uint *' (aka 'unsigned int *') [-Wint-conversion]
+   10 |   (*pcRam0212b0b4)(*piRam0212b0ac + 0x44,0,uRam0212b0b0);
+      |                    ^~~~~~~~~~~~~~~~~~~~~
+1 error generated.

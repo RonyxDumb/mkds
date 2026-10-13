@@ -1,0 +1,100 @@
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:14:33: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   14 |         (*(code *)*DAT_021bee20)(1,0);
+      |                                 ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:23:37: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   23 |             (*(code *)*DAT_021bede0)(6);
+      |                                     ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:28:19: error: call to undeclared function 'func_0x021a61c4'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   28 |           iVar1 = func_0x021a61c4(*DAT_021bede4,*DAT_021bede8,*DAT_021bedec);
+      |                   ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:32:39: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   32 |               (*(code *)*DAT_021bede0)(2,0);
+      |                                       ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:38:26: error: call to undeclared function 'func_0x021a5e84'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   38 |                 (iVar1 = func_0x021a5e84(*DAT_021bedf0,*DAT_021bedf4,*DAT_021bedf8), iVar1 != 3)) {
+      |                          ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:41:37: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   41 |             (*(code *)*DAT_021bede0)(2,0);
+      |                                     ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:49:35: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   49 |           (*(code *)*DAT_021bede0)(2);
+      |                                   ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:57:11: error: call to undeclared function 'func_0x021a6428'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   57 |           func_0x021a6428();
+      |           ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:60:37: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   60 |             (*(code *)*DAT_021bede0)(0x14);
+      |                                     ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:68:35: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   68 |           (*(code *)*DAT_021bede0)(2);
+      |                                   ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:78:37: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   78 |             (*(code *)*DAT_021bede0)(8);
+      |                                     ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:86:35: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   86 |           (*(code *)*DAT_021bede0)(9);
+      |                                   ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:97:37: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   97 |             (*(code *)*DAT_021bede0)(10);
+      |                                     ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:102:19: error: call to undeclared function 'func_0x021a61c4'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  102 |           iVar1 = func_0x021a61c4(*DAT_021bede4,*DAT_021bede8,*DAT_021bedec);
+      |                   ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:106:39: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  106 |               (*(code *)*DAT_021bede0)(2,0);
+      |                                       ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:112:19: error: call to undeclared function 'func_0x021a61e4'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  112 |           iVar1 = func_0x021a61e4();
+      |                   ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:116:39: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  116 |               (*(code *)*DAT_021bede0)(2,0);
+      |                                       ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:122:26: error: call to undeclared function 'func_0x021a5e84'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  122 |                 (iVar1 = func_0x021a5e84(*DAT_021bedf0,*DAT_021bedf4,*DAT_021bedf8), iVar1 != 3)) {
+      |                          ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:125:37: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  125 |             (*(code *)*DAT_021bede0)(2,0);
+      |                                     ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:133:35: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  133 |           (*(code *)*DAT_021bede0)(0xb);
+      |                                   ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:143:37: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  143 |             (*(code *)*DAT_021bede0)(0xc);
+      |                                     ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:151:35: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  151 |           (*(code *)*DAT_021bede0)(0xd);
+      |                                   ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:162:37: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  162 |             (*(code *)*DAT_021bede0)(0xe);
+      |                                     ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:167:19: error: call to undeclared function 'func_0x021a61c4'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  167 |           iVar1 = func_0x021a61c4(*DAT_021bede4,*DAT_021bede8,*DAT_021bedec);
+      |                   ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:171:39: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  171 |               (*(code *)*DAT_021bede0)(2,0);
+      |                                       ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:177:19: error: call to undeclared function 'func_0x021a61e4'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  177 |           iVar1 = func_0x021a61e4();
+      |                   ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:181:39: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  181 |               (*(code *)*DAT_021bede0)(2,0);
+      |                                       ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:187:19: error: call to undeclared function 'func_0x021a5e84'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  187 |           iVar1 = func_0x021a5e84(*DAT_021bedf0,*DAT_021bedf4,*DAT_021bedf8);
+      |                   ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:191:39: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  191 |               (*(code *)*DAT_021bede0)(2,0);
+      |                                       ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:204:35: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  204 |           (*(code *)*DAT_021bede0)(0xf);
+      |                                   ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:211:33: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  211 |         (*(code *)*DAT_021bede0)(5);
+      |                                 ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:217:33: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  217 |         (*(code *)*DAT_021bede0)(4);
+      |                                 ^
+C-WORK/src/arm9_ov003/021bea3c_FUN_021bea3c.c:224:33: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  224 |         (*(code *)*DAT_021bede0)(3);
+      |                                 ^
+24 warnings and 9 errors generated.

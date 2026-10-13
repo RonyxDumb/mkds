@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02016554_InitializeGlobalTEQ.c:11:25: error: incompatible pointer types assigning to 'code *' (aka 'void (*)()') from 'undefined *' (aka 'unsigned char *') [-Werror,-Wincompatible-pointer-types]
+   11 |   UNRECOVERED_JUMPTABLE = pcRam02016570;
+      |                         ^ ~~~~~~~~~~~~~
+C-WORK/src/arm9/02016554_InitializeGlobalTEQ.c:17:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   17 |   (*UNRECOVERED_JUMPTABLE)(puVar1);
+      |                           ^
+1 warning and 1 error generated.

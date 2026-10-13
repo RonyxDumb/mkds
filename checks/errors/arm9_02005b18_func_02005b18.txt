@@ -1,0 +1,5 @@
+C-WORK/src/arm9/02005b18_func_02005b18.c:23:13: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   23 |       uVar5 = func_020063f4(*(undefined4 *)(puVar3 + 0x10),*(undefined4 *)(puVar3 + 0x14));
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |               *
+1 error generated.

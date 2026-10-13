@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0200cfc0_Os_Lock_TryLock.c:10:20: error: too few arguments to function call, expected 4, have 0
+   10 |   (*pcRam0200cfcc)();
+      |   ~~~~~~~~~~~~~~~~ ^
+1 error generated.

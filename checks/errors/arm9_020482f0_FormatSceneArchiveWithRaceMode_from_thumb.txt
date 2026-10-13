@@ -1,0 +1,9 @@
+C-WORK/src/arm9/020482f0_FormatSceneArchiveWithRaceMode_from_thumb.c:9:53: error: too many arguments to function call, expected 4, have 6
+    9 |     Util_SNPrintF(param_1,0x80,uRam02048320,param_2,*(undefined4 *)(iRam02048318 + param_3 * 4),
+      |     ~~~~~~~~~~~~~                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   10 |                   uRam0204831c);
+      |                   ~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020482f0_FormatSceneArchiveWithRaceMode_from_thumb.h:4:6: note: 'Util_SNPrintF' declared here
+    4 | void Util_SNPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

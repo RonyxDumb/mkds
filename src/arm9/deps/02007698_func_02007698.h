@@ -1,0 +1,24 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void Mem_CpuCopy8(ushort *param_1,uint *param_2,uint param_3);
+uint func_02007148(uint param_1,uint param_2);
+void func_02007698(int param_1,uint param_2);
+void func_02007d18(int param_1,undefined4 param_2,undefined4 param_3);
+char * func_0200c2e0(char *param_1,char *param_2,int param_3);
+#define DAT_02007980 (*(int **)(uintptr_t)0x2007980u)
+#define DAT_02007984 (*(int *)(uintptr_t)0x2007984u)
+#define DAT_02007988 (*(int *)(uintptr_t)0x2007988u)
+#define DAT_0200798c (*(int *)(uintptr_t)0x200798cu)
+#define DAT_02007990 (*(int *)(uintptr_t)0x2007990u)
+#define DAT_02007994 (*(int *)(uintptr_t)0x2007994u)
+#define DAT_02007998 (*(int *)(uintptr_t)0x2007998u)
+#define DAT_0200799c (*(int *)(uintptr_t)0x200799cu)
+#define DAT_020079a0 (*(int *)(uintptr_t)0x20079a0u)
+#define DAT_020079a4 (*(int *)(uintptr_t)0x20079a4u)
+#define DAT_020079a8 (*(int *)(uintptr_t)0x20079a8u)
+#define DAT_020079ac (*(int *)(uintptr_t)0x20079acu)
+#define DAT_020079b0 (*(int *)(uintptr_t)0x20079b0u)
+#define DAT_020079b4 (*(int *)(uintptr_t)0x20079b4u)
+#define DAT_020079b8 (*(int *)(uintptr_t)0x20079b8u)
+#define DAT_020079bc (*(int *)(uintptr_t)0x20079bcu)
+#define DAT_020079c0 (*(int *)(uintptr_t)0x20079c0u)

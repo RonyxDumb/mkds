@@ -1,0 +1,20 @@
+C-WORK/src/arm7/06000578_FUN_06000578.c:13:54: error: too many arguments to function call, expected 0, have 3
+   13 |   if (((param_3 == 0) && (iVar2 = thunk_FUN_037f9854(DAT_060005d8,param_2,0), iVar2 == 0)) &&
+      |                                   ~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm7/deps/06000578_FUN_06000578.h:7:22: note: expanded from macro 'DAT_060005d8'
+    7 | #define DAT_060005d8 (*(undefined4 *)(uintptr_t)0x60005d8u)
+      |                      ^
+C-WORK/src/arm7/deps/06000578_FUN_06000578.h:4:6: note: 'thunk_FUN_037f9854' declared here
+    4 | void thunk_FUN_037f9854(void);
+      |      ^
+C-WORK/src/arm7/06000578_FUN_06000578.c:15:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |      uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0)) {
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm7/06000578_FUN_06000578.c:15:53: note: place parentheses around the '+' expression to silence this warning
+   15 |      uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0)) {
+      |                                                     ^
+      |                                          (                )
+C-WORK/src/arm7/06000578_FUN_06000578.c:16:28: error: operand of type 'void' where arithmetic or pointer type is required
+   16 |     puVar4 = (undefined2 *)thunk_FUN_03807424();
+      |                            ^~~~~~~~~~~~~~~~~~~~
+1 warning and 2 errors generated.

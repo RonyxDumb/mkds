@@ -1,0 +1,10 @@
+C-WORK/src/arm9/02095f9c_func_02095f9c.c:10:25: error: too many arguments to function call, expected 0, have 6
+   10 |   iVar1 = func_0209bf70(uRam02095fe0,uRam02095fe4,uRam02095fe8,0,1,uRam02095fdc);
+      |           ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02095f9c_func_02095f9c.h:6:22: note: expanded from macro 'uRam02095fe0'
+    6 | #define uRam02095fe0 (*(undefined4 *)(uintptr_t)0x2095fe0u)
+      |                      ^
+C-WORK/src/arm9/deps/02095f9c_func_02095f9c.h:4:6: note: 'func_0209bf70' declared here
+    4 | void func_0209bf70(void);
+      |      ^
+1 error generated.

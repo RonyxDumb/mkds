@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0200fb28_Os_InitializeAlarm.c:12:21: error: too few arguments to function call, single argument 'param_1' was not specified
+   12 |     Os_ReserveTimer();
+      |     ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0200fb28_Os_InitializeAlarm.h:5:6: note: 'Os_ReserveTimer' declared here
+    5 | void Os_ReserveTimer(uint param_1);
+      |      ^               ~~~~~~~~~~~~
+1 error generated.

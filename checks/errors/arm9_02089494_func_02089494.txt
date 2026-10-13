@@ -1,0 +1,117 @@
+C-WORK/src/arm9/02089494_func_02089494.c:30:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   30 |           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:30:65: note: place parentheses around the '+' expression to silence this warning
+   30 |           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
+      |                                                                 ^     
+      |                                              (                        )
+C-WORK/src/arm9/02089494_func_02089494.c:34:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |   uVar8 = uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:34:52: note: place parentheses around the '+' expression to silence this warning
+   34 |   uVar8 = uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/02089494_func_02089494.c:38:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   38 |   if (((uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20) & 0x3840) != 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:38:50: note: place parentheses around the '+' expression to silence this warning
+   38 |   if (((uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20) & 0x3840) != 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/02089494_func_02089494.c:43:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   43 |       *(uint *)(uVar10 & 0xfffffffc) << (uVar10 & 3) * -8 + 0x20) == uVar8)) {
+      |                                      ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:43:59: note: place parentheses around the '+' expression to silence this warning
+   43 |       *(uint *)(uVar10 & 0xfffffffc) << (uVar10 & 3) * -8 + 0x20) == uVar8)) {
+      |                                                           ^     
+      |                                         (                       )
+C-WORK/src/arm9/02089494_func_02089494.c:51:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   51 |       VecFx32_Subtract(uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20,uVar9 + 0x80,(int *)(void *)(auStack_40));
+      |                                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:51:65: note: place parentheses around the '+' expression to silence this warning
+   51 |       VecFx32_Subtract(uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20,uVar9 + 0x80,(int *)(void *)(auStack_40));
+      |                                                                 ^     
+      |                                                      (                )
+C-WORK/src/arm9/02089494_func_02089494.c:65:81: error: too few arguments to function call, expected 6, have 4
+   65 |       func_020800f4(uVar10,auStack_58,uVar9 + 0x138,*(undefined2 *)(param_1 + 4));
+      |       ~~~~~~~~~~~~~                                                             ^
+C-WORK/src/arm9/deps/02089494_func_02089494.h:14:6: note: 'func_020800f4' declared here
+   14 | void func_020800f4(uint *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,int param_5,int param_6);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:71:67: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   71 |               *(uint *)(uVar10 & 0xfffffffc) << (uVar10 & 3) * -8 + 0x20) + 0x20;
+      |                                              ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:71:67: note: place parentheses around the '+' expression to silence this warning
+   71 |               *(uint *)(uVar10 & 0xfffffffc) << (uVar10 & 3) * -8 + 0x20) + 0x20;
+      |                                                                   ^     
+      |                                                 (                       )
+C-WORK/src/arm9/02089494_func_02089494.c:74:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   74 |       puVar3 = (undefined4 *)(uVar2 >> uVar7 * 8 | uVar2 << uVar7 * -8 + 0x20);
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:74:72: note: place parentheses around the '+' expression to silence this warning
+   74 |       puVar3 = (undefined4 *)(uVar2 >> uVar7 * 8 | uVar2 << uVar7 * -8 + 0x20);
+      |                                                                        ^     
+      |                                                             (                )
+C-WORK/src/arm9/02089494_func_02089494.c:80:60: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   80 |       VecFx32_Add((uint)(uintptr_t)(puVar6),param_1 + 0x60,puVar6);
+      |                                                            ^~~~~~
+C-WORK/src/arm9/deps/02089494_func_02089494.h:4:49: note: passing argument to parameter 'param_3' here
+    4 | void VecFx32_Add(uint param_1,uint param_2,int *param_3);
+      |                                                 ^
+C-WORK/src/arm9/02089494_func_02089494.c:92:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   92 |             *(uint *)(uVar10 & 0xfffffffc) << (uVar10 & 3) * -8 + 0x20) + 0x20;
+      |                                            ~~ ~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:92:65: note: place parentheses around the '+' expression to silence this warning
+   92 |             *(uint *)(uVar10 & 0xfffffffc) << (uVar10 & 3) * -8 + 0x20) + 0x20;
+      |                                                                 ^     
+      |                                               (                       )
+C-WORK/src/arm9/02089494_func_02089494.c:95:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   95 |     puVar3 = (undefined4 *)(uVar2 >> uVar7 * 8 | uVar2 << uVar7 * -8 + 0x20);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:95:70: note: place parentheses around the '+' expression to silence this warning
+   95 |     puVar3 = (undefined4 *)(uVar2 >> uVar7 * 8 | uVar2 << uVar7 * -8 + 0x20);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/02089494_func_02089494.c:101:58: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+  101 |     VecFx32_Add((uint)(uintptr_t)(puVar6),param_1 + 0x60,puVar6);
+      |                                                          ^~~~~~
+C-WORK/src/arm9/deps/02089494_func_02089494.h:4:49: note: passing argument to parameter 'param_3' here
+    4 | void VecFx32_Add(uint param_1,uint param_2,int *param_3);
+      |                                                 ^
+C-WORK/src/arm9/02089494_func_02089494.c:105:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  105 |   if (uVar7 >> uVar2 * 8 != 0 || uVar7 << uVar2 * -8 + 0x20 != 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:105:54: note: place parentheses around the '+' expression to silence this warning
+  105 |   if (uVar7 >> uVar2 * 8 != 0 || uVar7 << uVar2 * -8 + 0x20 != 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/02089494_func_02089494.c:110:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  110 |   if (uVar7 >> uVar2 * 8 != 0 || uVar7 << uVar2 * -8 + 0x20 != 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:110:54: note: place parentheses around the '+' expression to silence this warning
+  110 |   if (uVar7 >> uVar2 * 8 != 0 || uVar7 << uVar2 * -8 + 0x20 != 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/02089494_func_02089494.c:114:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  114 |           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + 0x78;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:114:65: note: place parentheses around the '+' expression to silence this warning
+  114 |           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + 0x78;
+      |                                                                 ^     
+      |                                              (                        )
+C-WORK/src/arm9/02089494_func_02089494.c:117:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  117 |   func_0204360c(uVar2 >> uVar7 * 8 | uVar2 << uVar7 * -8 + 0x20,1);
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:117:58: note: place parentheses around the '+' expression to silence this warning
+  117 |   func_0204360c(uVar2 >> uVar7 * 8 | uVar2 << uVar7 * -8 + 0x20,1);
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/02089494_func_02089494.c:120:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  120 |   VecFx32_Subtract(uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20,(uint)(uintptr_t)(auStack_58),(int *)(void *)(auStack_4c));
+      |                                               ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02089494_func_02089494.c:120:61: note: place parentheses around the '+' expression to silence this warning
+  120 |   VecFx32_Subtract(uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20,(uint)(uintptr_t)(auStack_58),(int *)(void *)(auStack_4c));
+      |                                                             ^     
+      |                                                  (                )
+16 warnings and 1 error generated.

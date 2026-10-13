@@ -1,0 +1,14 @@
+C-WORK/src/arm9/02015c24_func_02015c24.c:12:89: error: too few arguments to function call, expected 2, have 1
+   12 |   puVar2 = (ushort *)NNS_G3dGetResDataByName(param_1 + (uint)*(ushort *)(param_1 + 0x34));
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~                                            ^
+C-WORK/src/arm9/deps/02015c24_func_02015c24.h:3:5: note: 'NNS_G3dGetResDataByName' declared here
+    3 | int NNS_G3dGetResDataByName(int param_1,uint param_2);
+      |     ^                       ~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02015c24_func_02015c24.c:15:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   uVar1 = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0xffff;
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02015c24_func_02015c24.c:15:53: note: place parentheses around the '+' expression to silence this warning
+   15 |   uVar1 = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0xffff;
+      |                                                     ^     
+      |                                          (                )
+1 warning and 1 error generated.

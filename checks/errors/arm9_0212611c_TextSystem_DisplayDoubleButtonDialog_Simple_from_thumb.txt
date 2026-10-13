@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0212611c_TextSystem_DisplayDoubleButtonDialog_Simple_from_thumb.c:8:51: error: too few arguments to function call, expected 8, have 0
+    8 |   TextSystem_DisplayDoubleButtonDialog_from_thumb();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212611c_TextSystem_DisplayDoubleButtonDialog_Simple_from_thumb.h:4:6: note: 'TextSystem_DisplayDoubleButtonDialog_from_thumb' declared here
+    4 | void TextSystem_DisplayDoubleButtonDialog_from_thumb(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6,undefined4 param_7,undefined4 param_8);
+      |      ^                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

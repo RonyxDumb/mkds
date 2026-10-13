@@ -1,0 +1,4 @@
+C-WORK/src/arm9_ov001/02193b28_FUN_02193b28.c:37:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   37 |   uVar3 = func_0x02047a28((undefined4)(uintptr_t)(PTR_data_ov001_02193c4c));
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

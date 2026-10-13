@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02071914_func_02071914.c:10:46: error: too many arguments to function call, expected 3, have 4
+   10 |   iVar1 = func_02109078(param_1,param_2,0x7f,0);
+      |           ~~~~~~~~~~~~~                      ^
+C-WORK/src/arm9/deps/02071914_func_02071914.h:4:6: note: 'func_02109078' declared here
+    4 | void func_02109078(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+      |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

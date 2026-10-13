@@ -1,0 +1,28 @@
+C-WORK/src/arm9/02025abc_PlayerGfxData_Create_from_thumb.c:13:23: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   13 |     uVar1 = (*param_8)(param_2);
+      |                       ^
+C-WORK/src/arm9/02025abc_PlayerGfxData_Create_from_thumb.c:13:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   13 |     uVar1 = (*param_8)(param_2);
+      |           ^ ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02025abc_PlayerGfxData_Create_from_thumb.c:17:23: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   17 |     uVar1 = (*param_8)(param_3);
+      |                       ^
+C-WORK/src/arm9/02025abc_PlayerGfxData_Create_from_thumb.c:17:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   17 |     uVar1 = (*param_8)(param_3);
+      |           ^ ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02025abc_PlayerGfxData_Create_from_thumb.c:21:23: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   21 |     uVar1 = (*param_8)(param_4);
+      |                       ^
+C-WORK/src/arm9/02025abc_PlayerGfxData_Create_from_thumb.c:21:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   21 |     uVar1 = (*param_8)(param_4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02025abc_PlayerGfxData_Create_from_thumb.c:25:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   25 |     uVar1 = (*param_8)();
+      |           ^ ~~~~~~~~~~~~
+C-WORK/src/arm9/02025abc_PlayerGfxData_Create_from_thumb.c:29:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   29 |     uVar1 = (*param_8)();
+      |           ^ ~~~~~~~~~~~~
+C-WORK/src/arm9/02025abc_PlayerGfxData_Create_from_thumb.c:33:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   33 |     uVar1 = (*param_8)();
+      |           ^ ~~~~~~~~~~~~
+3 warnings and 6 errors generated.

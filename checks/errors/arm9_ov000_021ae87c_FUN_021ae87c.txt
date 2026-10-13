@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/021ae87c_FUN_021ae87c.c:49:20: error: too many arguments to function call, expected 0, have 2
+   49 |       FUN_021ae958(param_1,param_2);
+      |       ~~~~~~~~~~~~ ^~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/021ae87c_FUN_021ae87c.h:4:6: note: 'FUN_021ae958' declared here
+    4 | void FUN_021ae958(void);
+      |      ^
+1 error generated.

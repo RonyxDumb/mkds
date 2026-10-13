@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0200e084_Os_Thread_Join.c:15:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   if ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) != 2) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200e084_Os_Thread_Join.c:15:49: note: place parentheses around the '+' expression to silence this warning
+   15 |   if ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) != 2) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/0200e084_Os_Thread_Join.c:18:17: error: too many arguments to function call, expected 0, have 1
+   18 |   Os_RestoreIrq(uVar2);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0200e084_Os_Thread_Join.h:4:12: note: 'Os_RestoreIrq' declared here
+    4 | undefined4 Os_RestoreIrq(void);
+      |            ^
+1 warning and 1 error generated.

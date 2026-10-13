@@ -1,0 +1,14 @@
+C-WORK/src/arm9/0212baa8_Sound_EnsureInitialized.c:13:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |       *(uint *)((uint)puRam0212bb34 & 0xfffffffc) << ((uint)puRam0212bb34 & 3) * -8 + 0x20 == 0) {
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212baa8_Sound_EnsureInitialized.c:13:85: note: place parentheses around the '+' expression to silence this warning
+   13 |       *(uint *)((uint)puRam0212bb34 & 0xfffffffc) << ((uint)puRam0212bb34 & 3) * -8 + 0x20 == 0) {
+      |                                                                                     ^
+      |                                                      (                                    )
+C-WORK/src/arm9/0212baa8_Sound_EnsureInitialized.c:23:19: error: too few arguments to function call, single argument 'param_1' was not specified
+   23 |     func_0214f4ec();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212baa8_Sound_EnsureInitialized.h:9:6: note: 'func_0214f4ec' declared here
+    9 | void func_0214f4ec(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+1 warning and 1 error generated.

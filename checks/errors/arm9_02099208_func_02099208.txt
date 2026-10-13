@@ -1,0 +1,28 @@
+C-WORK/src/arm9/02099208_func_02099208.c:18:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |     uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02099208_func_02099208.c:18:54: note: place parentheses around the '+' expression to silence this warning
+   18 |     uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/02099208_func_02099208.c:23:53: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |            uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20 |
+      |                                       ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02099208_func_02099208.c:23:53: note: place parentheses around the '+' expression to silence this warning
+   23 |            uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20 |
+      |                                                     ^
+      |                                          (                )
+C-WORK/src/arm9/02099208_func_02099208.c:25:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |            *(uint *)(uRam02099274 & 0xfffffffc) << (uRam02099274 & 3) * -8 + 0x20;
+      |                                                 ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02099208_func_02099208.c:25:76: note: place parentheses around the '+' expression to silence this warning
+   25 |            *(uint *)(uRam02099274 & 0xfffffffc) << (uRam02099274 & 3) * -8 + 0x20;
+      |                                                                            ^     
+      |                                                    (                             )
+C-WORK/src/arm9/02099208_func_02099208.c:27:19: error: too few arguments to function call, expected 2, have 0
+   27 |     func_020d26f8();
+      |     ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02099208_func_02099208.h:4:12: note: 'func_020d26f8' declared here
+    4 | undefined4 func_020d26f8(int param_1,int param_2);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~
+3 warnings and 1 error generated.

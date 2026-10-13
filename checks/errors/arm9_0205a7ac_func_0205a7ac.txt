@@ -1,0 +1,18 @@
+C-WORK/src/arm9/0205a7ac_func_0205a7ac.c:12:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   12 |           *(uint *)(uRam0205a7d4 & 0xfffffffc) << (uRam0205a7d4 & 3) * -8 + 0x20) + 0x754;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205a7ac_func_0205a7ac.c:12:75: note: place parentheses around the '+' expression to silence this warning
+   12 |           *(uint *)(uRam0205a7d4 & 0xfffffffc) << (uRam0205a7d4 & 3) * -8 + 0x20) + 0x754;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0205a7ac_func_0205a7ac.c:17:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   (*pcRam0205a7d8)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x24 + param_1 * 2,0,2);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0205a7ac_func_0205a7ac.c:17:62: note: place parentheses around the '+' expression to silence this warning
+   17 |   (*pcRam0205a7d8)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x24 + param_1 * 2,0,2);
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/0205a7ac_func_0205a7ac.c:17:20: error: incompatible integer to pointer conversion passing 'uint' (aka 'unsigned int') to parameter of type 'uint *' (aka 'unsigned int *') [-Wint-conversion]
+   17 |   (*pcRam0205a7d8)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x24 + param_1 * 2,0,2);
+      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.

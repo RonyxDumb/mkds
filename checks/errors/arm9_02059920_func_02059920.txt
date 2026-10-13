@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02059920_func_02059920.c:12:18: error: too few arguments to function call, expected 2, have 0
+   12 |     DC_SomeClean();
+      |     ~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02059920_func_02059920.h:3:6: note: 'DC_SomeClean' declared here
+    3 | void DC_SomeClean(uint param_1,int param_2);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

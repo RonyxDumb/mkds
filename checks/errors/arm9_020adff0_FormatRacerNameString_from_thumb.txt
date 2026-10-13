@@ -1,0 +1,13 @@
+C-WORK/src/arm9/020adff0_FormatRacerNameString_from_thumb.c:26:30: error: operand of type 'void' where arithmetic or pointer type is required
+   26 |       puVar2 = (undefined1 *)GetCharacterNameString_from_thumb(uVar4,param_3);
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020adff0_FormatRacerNameString_from_thumb.c:30:29: error: too many arguments to function call, expected 0, have 1
+   30 |       uVar4 = func_020b47cc(uRam020ae0a4);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020adff0_FormatRacerNameString_from_thumb.h:16:22: note: expanded from macro 'uRam020ae0a4'
+   16 | #define uRam020ae0a4 (*(undefined4 *)(uintptr_t)0x20ae0a4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020adff0_FormatRacerNameString_from_thumb.h:15:6: note: 'func_020b47cc' declared here
+   15 | void func_020b47cc(void);
+      |      ^
+2 errors generated.

@@ -1,0 +1,74 @@
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:20:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   20 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d60);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:22:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   22 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d64);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:24:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   24 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d68);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:26:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   26 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d6c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:28:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   28 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d70);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:30:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   30 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d74);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:32:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   32 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d78);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:34:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   34 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d7c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:36:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   36 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d80);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:37:26: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   37 |   MaybeReadScreenBlock_0(auStack_8,uVar1);
+      |                          ^~~~~~~~~
+C-WORK/src/arm9/deps/02125c2c_PrepareNavigationContextFiles_from_thumb.h:6:34: note: passing argument to parameter 'param_1' here
+    6 | void MaybeReadScreenBlock_0(int *param_1,int param_2);
+      |                                  ^
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:38:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   38 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d84);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:39:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   39 |   Gfx_ReadPalette(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9/deps/02125c2c_PrepareNavigationContextFiles_from_thumb.h:5:27: note: passing argument to parameter 'param_1' here
+    5 | void Gfx_ReadPalette(int *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:40:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   40 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d88);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:41:26: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   41 |   Gfx_ReadCharGraphicsV2(auStack_8,uVar1);
+      |                          ^~~~~~~~~
+C-WORK/src/arm9/deps/02125c2c_PrepareNavigationContextFiles_from_thumb.h:4:34: note: passing argument to parameter 'param_1' here
+    4 | void Gfx_ReadCharGraphicsV2(int *param_1,int param_2);
+      |                                  ^
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:42:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   42 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d8c);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:43:26: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   43 |   MaybeReadScreenBlock_0(auStack_8,uVar1);
+      |                          ^~~~~~~~~
+C-WORK/src/arm9/deps/02125c2c_PrepareNavigationContextFiles_from_thumb.h:6:34: note: passing argument to parameter 'param_1' here
+    6 | void MaybeReadScreenBlock_0(int *param_1,int param_2);
+      |                                  ^
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:44:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   44 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d90);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:45:19: error: incompatible pointer types passing 'undefined1[8]' (aka 'unsigned char[8]') to parameter of type 'int *' [-Werror,-Wincompatible-pointer-types]
+   45 |   Gfx_ReadPalette(auStack_8,uVar1);
+      |                   ^~~~~~~~~
+C-WORK/src/arm9/deps/02125c2c_PrepareNavigationContextFiles_from_thumb.h:5:27: note: passing argument to parameter 'param_1' here
+    5 | void Gfx_ReadPalette(int *param_1,int param_2);
+      |                           ^
+C-WORK/src/arm9/02125c2c_PrepareNavigationContextFiles_from_thumb.c:46:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   46 |   uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02125d94);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.

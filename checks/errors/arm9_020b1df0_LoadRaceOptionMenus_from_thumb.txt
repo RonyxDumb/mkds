@@ -1,0 +1,108 @@
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:22:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   22 |   uVar4 = GetActiveExecutionContextHeapHandle_3();
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:121:13: error: assigning to 'int' from incompatible type 'void'
+  121 |       iVar6 = IsCurrentMissionLevelStageBeaten_from_thumb();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:176:27: error: too many arguments to function call, expected 0, have 1
+  176 |     uVar4 = func_020b47c0(DAT_020b21a4);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:31:22: note: expanded from macro 'DAT_020b21a4'
+   31 | #define DAT_020b21a4 (*(undefined4 *)(uintptr_t)0x20b21a4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:27:6: note: 'func_020b47c0' declared here
+   27 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:178:27: error: too many arguments to function call, expected 0, have 1
+  178 |     uVar4 = func_020b47c0(DAT_020b21ac);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:33:22: note: expanded from macro 'DAT_020b21ac'
+   33 | #define DAT_020b21ac (*(undefined4 *)(uintptr_t)0x20b21acu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:27:6: note: 'func_020b47c0' declared here
+   27 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:183:29: error: too many arguments to function call, expected 0, have 1
+  183 |       uVar4 = func_020b47c0(local_30[iVar6]);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:27:6: note: 'func_020b47c0' declared here
+   27 | void func_020b47c0(void);
+      |      ^
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:201:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  201 |     uVar4 = GetActiveExecutionContextHeapHandle_3();
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:207:13: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  207 |       uVar4 = GetActiveExecutionContextHeapHandle_3();
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:215:32: error: too many arguments to function call, expected 0, have 5
+  215 |     G2d_Sprite_CreateFromTiles(*DAT_020b2468 + 0xac,*(undefined4 *)(iVar6 + 0x14),0x20,0xc,4);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:6:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+    6 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:217:44: error: too few arguments to function call, single argument 'param_1' was not specified
+  217 |     uVar4 = ComputeSomeInterCharacterWidth();
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:4:12: note: 'ComputeSomeInterCharacterWidth' declared here
+    4 | undefined4 ComputeSomeInterCharacterWidth(undefined4 param_1);
+      |            ^                              ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:221:16: error: too many arguments to function call, expected 0, have 5
+  220 |     G2d_Sprite_CreateFromTiles
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  221 |               (*DAT_020b2468 + 0xcc,*(undefined4 *)(*DAT_020b2468 + DAT_020b2474),0x20,0xc,4);
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:6:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+    6 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:223:44: error: too few arguments to function call, single argument 'param_1' was not specified
+  223 |     uVar4 = ComputeSomeInterCharacterWidth();
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:4:12: note: 'ComputeSomeInterCharacterWidth' declared here
+    4 | undefined4 ComputeSomeInterCharacterWidth(undefined4 param_1);
+      |            ^                              ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:235:34: error: too many arguments to function call, expected 0, have 5
+  235 |       G2d_Sprite_CreateFromTiles(*DAT_020b2468 + 0xec,iVar6,0x20,0xc,4);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:6:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+    6 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:237:46: error: too few arguments to function call, single argument 'param_1' was not specified
+  237 |       uVar4 = ComputeSomeInterCharacterWidth();
+      |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:4:12: note: 'ComputeSomeInterCharacterWidth' declared here
+    4 | undefined4 ComputeSomeInterCharacterWidth(undefined4 param_1);
+      |            ^                              ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:250:16: error: too many arguments to function call, expected 0, have 5
+  249 |     G2d_Sprite_CreateFromTiles
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  250 |               (*DAT_020b2468 + DAT_020b2480,*(undefined4 *)(iVar6 + 0x14),0x20,0xc,4);
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:6:6: note: 'G2d_Sprite_CreateFromTiles' declared here
+    6 | void G2d_Sprite_CreateFromTiles(void);
+      |      ^
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:252:44: error: too few arguments to function call, single argument 'param_1' was not specified
+  252 |     uVar4 = ComputeSomeInterCharacterWidth();
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:4:12: note: 'ComputeSomeInterCharacterWidth' declared here
+    4 | undefined4 ComputeSomeInterCharacterWidth(undefined4 param_1);
+      |            ^                              ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:254:16: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'undefined4 *' (aka 'unsigned int *') [-Wint-conversion]
+  254 |               (iVar6 + DAT_020b2484,iVar6 + DAT_020b2480,*(undefined4 *)(iVar6 + 0xa8),uVar4,0);
+      |                ^~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:22:56: note: passing argument to parameter 'param_1' here
+   22 | void RaceOptionMenuEntryDrawContext_Create(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5);
+      |                                                        ^
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:261:15: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  261 |         uVar9 = GetMenuOptionString_from_thumb(3,*(undefined4 *)(*piVar1 + iVar8 * 4 + 0x8c));
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:262:31: error: too many arguments to function call, expected 0, have 6
+  262 |         G2d_Text_PrintString3(*piVar1 + iVar6,0x90,iVar8 * 0x10 + 9,0xc,uVar4,uVar9);
+      |         ~~~~~~~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020b1df0_LoadRaceOptionMenus_from_thumb.h:7:6: note: 'G2d_Text_PrintString3' declared here
+    7 | void G2d_Text_PrintString3(void);
+      |      ^
+C-WORK/src/arm9/020b1df0_LoadRaceOptionMenus_from_thumb.c:267:15: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  267 |         uVar9 = GetMenuOptionString_from_thumb(0,*(undefined4 *)(*piVar1 + iVar6 * 4 + 0x38));
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm7/037f8c74_FUN_037f8c74.c:10:47: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   10 |   while (iVar1 = FUN_037f8b64(param_1,param_2,param_3,param_4), 0 < iVar1) {
+      |                                               ^~~~~~~
+C-WORK/src/arm7/deps/037f8c74_FUN_037f8c74.h:4:55: note: passing argument to parameter 'param_3' here
+    4 | int FUN_037f8b64(undefined4 param_1,int param_2,code *param_3,int param_4);
+      |                                                       ^
+1 error generated.

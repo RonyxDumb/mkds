@@ -1,0 +1,21 @@
+C-WORK/src/arm9/02145b0c_Card_SetTask.c:15:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   15 |   Os_Thread_SetPriority(iRam02145b50 + 0x44,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |                                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145b0c_Card_SetTask.c:15:86: note: place parentheses around the '+' expression to silence this warning
+   15 |   Os_Thread_SetPriority(iRam02145b50 + 0x44,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+      |                                                                                      ^     
+      |                                                                           (                )
+C-WORK/src/arm9/02145b0c_Card_SetTask.c:20:71: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   20 |   *(uint *)(iVar2 + 0x114) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20 | 8;
+      |                                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02145b0c_Card_SetTask.c:20:71: note: place parentheses around the '+' expression to silence this warning
+   20 |   *(uint *)(iVar2 + 0x114) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20 | 8;
+      |                                                                       ^
+      |                                                            (                )
+C-WORK/src/arm9/02145b0c_Card_SetTask.c:21:26: error: too few arguments to function call, single argument 'param_1' was not specified
+   21 |   Os_Thread_WakeUpDirect();
+      |   ~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02145b0c_Card_SetTask.h:5:6: note: 'Os_Thread_WakeUpDirect' declared here
+    5 | void Os_Thread_WakeUpDirect(int param_1);
+      |      ^                      ~~~~~~~~~~~
+2 warnings and 1 error generated.

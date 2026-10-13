@@ -1,0 +1,15 @@
+C-WORK/src/arm9/02028ec0_func_02028ec0.c:12:21: error: operand of type 'void' where arithmetic or pointer type is required
+   12 |   psVar2 = (short *)func_02028f08(param_1,*(undefined4 *)(param_4 + 0xc));
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02028ec0_func_02028ec0.c:13:21: error: operand of type 'void' where arithmetic or pointer type is required
+   13 |   psVar3 = (short *)func_02028f08(param_2,*(undefined4 *)(param_4 + 0xc));
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02028ec0_func_02028ec0.c:15:37: error: too few arguments to function call, expected 2, have 1
+   14 |   uVar1 = _s32_div_f(((((int)*psVar3 << 0x14) >> 0x14) - (((int)*psVar2 << 0x14) >> 0x14)) *
+      |           ~~~~~~~~~~
+   15 |                      (100 - param_3));
+      |                                     ^
+C-WORK/src/arm9/deps/02028ec0_func_02028ec0.h:3:12: note: '_s32_div_f' declared here
+    3 | undefined8 _s32_div_f(uint param_1,uint param_2);
+      |            ^          ~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.

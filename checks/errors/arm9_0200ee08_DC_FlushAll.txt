@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0200ee08_DC_FlushAll.c:17:7: error: call to undeclared function 'coproc_moveto_Data_Synchronization'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   17 |       coproc_moveto_Data_Synchronization(0);
+      |       ^
+C-WORK/src/arm9/0200ee08_DC_FlushAll.c:18:7: error: call to undeclared function 'coprocessor_moveto'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   18 |       coprocessor_moveto(0xf,0,2,uVar2 | uVar1,in_cr7,in_cr14);
+      |       ^
+2 errors generated.

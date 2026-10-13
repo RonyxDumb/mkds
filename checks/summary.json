@@ -1,0 +1,21 @@
+{
+  "compiler": "Zig 0.14.1 bundled Clang",
+  "flags": [
+    "-target",
+    "arm-freestanding-eabi",
+    "-std=gnu11",
+    "-O1",
+    "-fno-builtin",
+    "-Werror=implicit-function-declaration",
+    "-Werror=return-type",
+    "-Werror=incompatible-pointer-types",
+    "-Werror=int-conversion"
+  ],
+  "cpus": {
+    "arm9": "arm946e_s",
+    "arm7": "arm7tdmi"
+  },
+  "tested": 12038,
+  "built": 7598,
+  "needs_repair": 4440
+}

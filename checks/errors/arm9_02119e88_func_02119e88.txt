@@ -1,0 +1,49 @@
+C-WORK/src/arm9/02119e88_func_02119e88.c:22:19: error: too many arguments to function call, expected 0, have 6
+   22 |     func_0212426c(0,0,*(undefined4 *)(*piRam0211a064 + 8),uVar2,*(undefined4 *)(iVar3 + 4),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   23 |                   *(undefined4 *)(iVar3 + 0x1c));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119e88_func_02119e88.h:11:6: note: 'func_0212426c' declared here
+   11 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/02119e88_func_02119e88.c:31:19: error: too many arguments to function call, expected 0, have 6
+   31 |     func_0212426c(0,1,*(undefined4 *)(*piRam0211a064 + 8),uVar2,*(undefined4 *)(iVar3 + 4),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   32 |                   *(undefined4 *)(iVar3 + 0x1c));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119e88_func_02119e88.h:11:6: note: 'func_0212426c' declared here
+   11 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/02119e88_func_02119e88.c:39:21: error: too many arguments to function call, expected 0, have 7
+   39 |       func_02124224(0,3,*(undefined4 *)(iVar1 + 8),uRam0211a074,*(undefined4 *)(iVar1 + 4),
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   40 |                     *(undefined4 *)(iVar1 + 0x1c),9);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119e88_func_02119e88.h:10:6: note: 'func_02124224' declared here
+   10 | void func_02124224(void);
+      |      ^
+C-WORK/src/arm9/02119e88_func_02119e88.c:49:21: error: too many arguments to function call, expected 0, have 7
+   49 |       func_02124224(0,3,*(undefined4 *)(iVar1 + 8),auStack_30,*(undefined4 *)(iVar1 + 4),
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   50 |                     *(undefined4 *)(iVar1 + 0x1c),9);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119e88_func_02119e88.h:10:6: note: 'func_02124224' declared here
+   10 | void func_02124224(void);
+      |      ^
+C-WORK/src/arm9/02119e88_func_02119e88.c:58:21: error: too many arguments to function call, expected 0, have 7
+   58 |       func_02124224(0,5,*(undefined4 *)(iVar1 + 8),uRam0211a078,*(undefined4 *)(iVar1 + 4),
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   59 |                     *(undefined4 *)(iVar1 + 0x1c),9);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119e88_func_02119e88.h:10:6: note: 'func_02124224' declared here
+   10 | void func_02124224(void);
+      |      ^
+C-WORK/src/arm9/02119e88_func_02119e88.c:68:21: error: too many arguments to function call, expected 0, have 7
+   68 |       func_02124224(0,5,*(undefined4 *)(iVar1 + 8),auStack_30,*(undefined4 *)(iVar1 + 4),
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   69 |                     *(undefined4 *)(iVar1 + 0x1c),9);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02119e88_func_02119e88.h:10:6: note: 'func_02124224' declared here
+   10 | void func_02124224(void);
+      |      ^
+6 errors generated.

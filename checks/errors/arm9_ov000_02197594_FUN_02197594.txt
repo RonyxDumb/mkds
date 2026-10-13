@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov000/02197594_FUN_02197594.c:29:65: error: too many arguments to function call, expected 4, have 5
+   29 |   uVar2 = func_0x02135014(auStack_118,local_13c,param_2,param_3,param_1);
+      |           ~~~~~~~~~~~~~~~                                       ^~~~~~~
+C-WORK/src/arm9_ov000/deps/02197594_FUN_02197594.h:11:6: note: 'SomeSnprintf' declared here
+   11 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/02197594_FUN_02197594.c:30:67: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   30 |   FUN_02196f8c((undefined4)(uintptr_t)(auStack_118),uVar2,param_1,param_4,param_5);
+      |                                                                   ^~~~~~~
+C-WORK/src/arm9_ov000/deps/02197594_FUN_02197594.h:3:82: note: passing argument to parameter 'param_4' here
+    3 | void FUN_02196f8c(undefined4 param_1,undefined4 param_2,undefined4 param_3,code *param_4,undefined4 param_5);
+      |                                                                                  ^
+2 errors generated.

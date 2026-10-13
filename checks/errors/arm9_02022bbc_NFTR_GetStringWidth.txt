@@ -1,0 +1,33 @@
+C-WORK/src/arm9/02022bbc_NFTR_GetStringWidth.c:18:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |   pcVar5 = (code *)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02022bbc_NFTR_GetStringWidth.c:18:62: note: place parentheses around the '+' expression to silence this warning
+   18 |   pcVar5 = (code *)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/02022bbc_NFTR_GetStringWidth.c:21:20: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   21 |   iVar2 = (*pcVar5)(local_28);
+      |                    ^
+C-WORK/src/arm9/02022bbc_NFTR_GetStringWidth.c:21:9: error: assigning to 'int' from incompatible type 'void'
+   21 |   iVar2 = (*pcVar5)(local_28);
+      |         ^ ~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02022bbc_NFTR_GetStringWidth.c:24:50: error: too few arguments to function call, expected 2, have 1
+   24 |     uVar4 = NFTR_GetTileIndexForCharacter(param_1);
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~        ^
+C-WORK/src/arm9/deps/02022bbc_NFTR_GetStringWidth.h:5:12: note: 'NFTR_GetTileIndexForCharacter' declared here
+    5 | undefined4 NFTR_GetTileIndexForCharacter(uint param_1,uint param_2);
+      |            ^                             ~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02022bbc_NFTR_GetStringWidth.c:28:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |                       *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + 2);
+      |                                                       ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02022bbc_NFTR_GetStringWidth.c:28:77: note: place parentheses around the '+' expression to silence this warning
+   28 |                       *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + 2);
+      |                                                                             ^     
+      |                                                          (                        )
+C-WORK/src/arm9/02022bbc_NFTR_GetStringWidth.c:38:22: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   38 |     iVar2 = (*pcVar5)(local_28);
+      |                      ^
+C-WORK/src/arm9/02022bbc_NFTR_GetStringWidth.c:38:11: error: assigning to 'int' from incompatible type 'void'
+   38 |     iVar2 = (*pcVar5)(local_28);
+      |           ^ ~~~~~~~~~~~~~~~~~~~
+4 warnings and 3 errors generated.

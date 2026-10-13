@@ -1,0 +1,27 @@
+C-WORK/src/arm9/020369fc_Mem_CreateChildExpHeap.c:13:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020369fc_Mem_CreateChildExpHeap.c:13:65: note: place parentheses around the '+' expression to silence this warning
+   13 |           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
+      |                                                                 ^     
+      |                                              (                        )
+C-WORK/src/arm9/020369fc_Mem_CreateChildExpHeap.c:22:65: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
+      |                                           ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020369fc_Mem_CreateChildExpHeap.c:22:65: note: place parentheses around the '+' expression to silence this warning
+   22 |           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
+      |                                                                 ^     
+      |                                              (                        )
+C-WORK/src/arm9/020369fc_Mem_CreateChildExpHeap.c:25:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   25 |     uVar1 = Mem_Exp_Allocate(param_1,uVar3,4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020369fc_Mem_CreateChildExpHeap.c:28:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   28 |     uVar1 = Mem_Frame_Allocate(param_1,uVar3,4);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/020369fc_Mem_CreateChildExpHeap.c:30:30: error: too many arguments to function call, expected 2, have 3
+   30 |   Mem_Exp_Create(uVar1,uVar3,1);
+      |   ~~~~~~~~~~~~~~             ^
+C-WORK/src/arm9/deps/020369fc_Mem_CreateChildExpHeap.h:5:12: note: 'Mem_Exp_Create' declared here
+    5 | undefined4 Mem_Exp_Create(int param_1,int param_2);
+      |            ^              ~~~~~~~~~~~~~~~~~~~~~~~
+2 warnings and 3 errors generated.

@@ -1,0 +1,116 @@
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:14:44: error: too few arguments to function call, expected 4, have 2
+   14 |     func_0x02135014(auStack_18,DAT_02192c90);
+      |     ~~~~~~~~~~~~~~~                        ^
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:38:6: note: 'SomeSnprintf' declared here
+   38 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:28:44: error: too few arguments to function call, expected 4, have 2
+   28 |     func_0x02135014(auStack_18,DAT_02192c90);
+      |     ~~~~~~~~~~~~~~~                        ^
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:38:6: note: 'SomeSnprintf' declared here
+   38 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:59:44: error: too few arguments to function call, expected 4, have 2
+   59 |     func_0x02135014(auStack_18,DAT_02192c90);
+      |     ~~~~~~~~~~~~~~~                        ^
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:38:6: note: 'SomeSnprintf' declared here
+   38 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:66:44: error: too few arguments to function call, expected 4, have 2
+   66 |     func_0x02135014(auStack_18,DAT_02192c90);
+      |     ~~~~~~~~~~~~~~~                        ^
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:38:6: note: 'SomeSnprintf' declared here
+   38 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:74:50: error: too few arguments to function call, expected 4, have 3
+   74 |     func_0x02135014(auStack_18,DAT_02192c90,uVar1);
+      |     ~~~~~~~~~~~~~~~                              ^
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:38:6: note: 'SomeSnprintf' declared here
+   38 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:75:26: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+   75 |     iVar2 = FUN_02192cfc(param_1,DAT_02192cc4,auStack_18);
+      |                          ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:4:23: note: passing argument to parameter 'param_1' here
+    4 | int FUN_02192cfc(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                       ^
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:75:47: error: incompatible pointer to integer conversion passing 'undefined1[16]' (aka 'unsigned char[16]') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   75 |     iVar2 = FUN_02192cfc(param_1,DAT_02192cc4,auStack_18);
+      |                                               ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:4:61: note: passing argument to parameter 'param_3' here
+    4 | int FUN_02192cfc(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                                                             ^
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:82:50: error: too few arguments to function call, expected 4, have 3
+   82 |     func_0x02135014(auStack_18,DAT_02192c90,uVar1);
+      |     ~~~~~~~~~~~~~~~                              ^
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:38:6: note: 'SomeSnprintf' declared here
+   38 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:83:26: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+   83 |     iVar2 = FUN_02192cfc(param_1,DAT_02192cc8,auStack_18);
+      |                          ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:4:23: note: passing argument to parameter 'param_1' here
+    4 | int FUN_02192cfc(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                       ^
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:83:47: error: incompatible pointer to integer conversion passing 'undefined1[16]' (aka 'unsigned char[16]') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   83 |     iVar2 = FUN_02192cfc(param_1,DAT_02192cc8,auStack_18);
+      |                                               ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:4:61: note: passing argument to parameter 'param_3' here
+    4 | int FUN_02192cfc(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                                                             ^
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:90:50: error: too few arguments to function call, expected 4, have 3
+   90 |     func_0x02135014(auStack_18,DAT_02192c90,uVar1);
+      |     ~~~~~~~~~~~~~~~                              ^
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:38:6: note: 'SomeSnprintf' declared here
+   38 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:91:26: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+   91 |     iVar2 = FUN_02192cfc(param_1,DAT_02192ccc,auStack_18);
+      |                          ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:4:23: note: passing argument to parameter 'param_1' here
+    4 | int FUN_02192cfc(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                       ^
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:91:47: error: incompatible pointer to integer conversion passing 'undefined1[16]' (aka 'unsigned char[16]') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   91 |     iVar2 = FUN_02192cfc(param_1,DAT_02192ccc,auStack_18);
+      |                                               ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:4:61: note: passing argument to parameter 'param_3' here
+    4 | int FUN_02192cfc(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                                                             ^
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:97:44: error: too few arguments to function call, expected 4, have 2
+   97 |     func_0x02135014(auStack_18,DAT_02192c90);
+      |     ~~~~~~~~~~~~~~~                        ^
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:38:6: note: 'SomeSnprintf' declared here
+   38 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:98:26: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+   98 |     iVar2 = FUN_02192cfc(param_1,DAT_02192cd0,auStack_18);
+      |                          ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:4:23: note: passing argument to parameter 'param_1' here
+    4 | int FUN_02192cfc(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                       ^
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:98:47: error: incompatible pointer to integer conversion passing 'undefined1[16]' (aka 'unsigned char[16]') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+   98 |     iVar2 = FUN_02192cfc(param_1,DAT_02192cd0,auStack_18);
+      |                                               ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:4:61: note: passing argument to parameter 'param_3' here
+    4 | int FUN_02192cfc(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                                                             ^
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:104:44: error: too few arguments to function call, expected 4, have 2
+  104 |     func_0x02135014(auStack_18,DAT_02192c90);
+      |     ~~~~~~~~~~~~~~~                        ^
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:38:6: note: 'SomeSnprintf' declared here
+   38 | void SomeSnprintf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+      |      ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:105:26: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'int *' [-Wint-conversion]
+  105 |     iVar2 = FUN_02192cfc(param_1,DAT_02192cd4,auStack_18);
+      |                          ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:4:23: note: passing argument to parameter 'param_1' here
+    4 | int FUN_02192cfc(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                       ^
+C-WORK/src/arm9_ov000/0219296c_FUN_0219296c.c:105:47: error: incompatible pointer to integer conversion passing 'undefined1[16]' (aka 'unsigned char[16]') to parameter of type 'undefined4' (aka 'unsigned int') [-Wint-conversion]
+  105 |     iVar2 = FUN_02192cfc(param_1,DAT_02192cd4,auStack_18);
+      |                                               ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219296c_FUN_0219296c.h:4:61: note: passing argument to parameter 'param_3' here
+    4 | int FUN_02192cfc(int *param_1,undefined4 param_2,undefined4 param_3);
+      |                                                             ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+20 errors generated.

@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0202d554_func_0202d554.c:20:9: error: assigning to 'short' from incompatible type 'void'
+   20 |   sVar1 = func_02025ebc(iVar2 + 0xcc);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

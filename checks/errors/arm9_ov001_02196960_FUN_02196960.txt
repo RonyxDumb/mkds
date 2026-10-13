@@ -1,0 +1,93 @@
+C-WORK/src/arm9_ov001/02196960_FUN_02196960.c:61:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   61 |   uVar6 = func_0x02047a28(DAT_02196c24);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02196960_FUN_02196960.c:70:73: error: too many arguments to function call, expected 4, have 10
+   70 |   iVar10 = func_0x021243ac(param_1,0,*(undefined4 *)(iVar10 + 0x10),200,0x10,0,
+      |            ~~~~~~~~~~~~~~~                                              ^~~~~~~
+   71 |                            *(undefined4 *)(iVar10 + 4),*(undefined4 *)(iVar10 + 8),
+      |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                            *(undefined4 *)(iVar10 + 0x38),DAT_02196c30);
+      |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02196960_FUN_02196960.h:43:12: note: 'func_021243ac' declared here
+   43 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02196960_FUN_02196960.c:74:72: error: too many arguments to function call, expected 4, have 10
+   74 |   iVar8 = func_0x021243ac(param_1,1,*(undefined4 *)(iVar8 + 0x10),0x46,0x10,1,
+      |           ~~~~~~~~~~~~~~~                                              ^~~~~~~
+   75 |                           *(undefined4 *)(iVar8 + 4),*(undefined4 *)(iVar8 + 8),
+      |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   76 |                           *(undefined4 *)(iVar8 + 0x38),iVar5 - iVar10);
+      |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02196960_FUN_02196960.h:43:12: note: 'func_021243ac' declared here
+   43 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02196960_FUN_02196960.c:79:72: error: too many arguments to function call, expected 4, have 10
+   79 |   iVar5 = func_0x021243ac(param_1,2,*(undefined4 *)(iVar5 + 0x10),0x46,0x10,2,
+      |           ~~~~~~~~~~~~~~~                                              ^~~~~~~
+   80 |                           *(undefined4 *)(iVar5 + 4),*(undefined4 *)(iVar5 + 8),
+      |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   81 |                           *(undefined4 *)(iVar5 + 0x38),iVar8);
+      |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02196960_FUN_02196960.h:43:12: note: 'func_021243ac' declared here
+   43 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02196960_FUN_02196960.c:84:72: error: too many arguments to function call, expected 4, have 10
+   84 |   iVar5 = func_0x021243ac(param_1,3,*(undefined4 *)(iVar5 + 0x10),0x7c,0x10,3,
+      |           ~~~~~~~~~~~~~~~                                              ^~~~~~~
+   85 |                           *(undefined4 *)(iVar5 + 4),*(undefined4 *)(iVar5 + 8),
+      |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   86 |                           *(undefined4 *)(iVar5 + 0x38),iVar8);
+      |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02196960_FUN_02196960.h:43:12: note: 'func_021243ac' declared here
+   43 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02196960_FUN_02196960.c:88:64: error: too many arguments to function call, expected 4, have 10
+   88 |   func_0x021243ac(param_1,4,*(undefined4 *)(iVar10 + 0x10),100,0x10,4,*(undefined4 *)(iVar10 + 4),
+      |   ~~~~~~~~~~~~~~~                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   89 |                   *(undefined4 *)(iVar10 + 8),*(undefined4 *)(iVar10 + 0x38),iVar8 - iVar5);
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02196960_FUN_02196960.h:43:12: note: 'func_021243ac' declared here
+   43 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02196960_FUN_02196960.c:90:9: error: assigning to 'int' from incompatible type 'void'
+   90 |   iVar5 = func_0x02148ca0();
+      |         ^ ~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02196960_FUN_02196960.c:100:87: error: too many arguments to function call, expected 4, have 10
+  100 |     iVar8 = func_0x021243ac(param_1,*local_24,*(undefined4 *)(iVar8 + 0x24),*local_28,*puVar11,
+      |             ~~~~~~~~~~~~~~~                                                           ^~~~~~~~~
+  101 |                             iVar10,*(undefined4 *)(iVar8 + 0x18),*(undefined4 *)(iVar8 + 0x1c),
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  102 |                             *(undefined4 *)(iVar8 + 0x3c),iVar5);
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02196960_FUN_02196960.h:43:12: note: 'func_021243ac' declared here
+   43 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02196960_FUN_02196960.c:104:87: error: too many arguments to function call, expected 4, have 10
+  104 |     iVar9 = func_0x021243ac(param_1,*local_18,*(undefined4 *)(iVar9 + 0x24),*local_1c,*local_20,
+      |             ~~~~~~~~~~~~~~~                                                           ^~~~~~~~~~
+  105 |                             iVar10 + 5,*(undefined4 *)(iVar9 + 0x18),*(undefined4 *)(iVar9 + 0x1c),
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  106 |                             *(undefined4 *)(iVar9 + 0x3c),iVar5 - iVar8);
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02196960_FUN_02196960.h:43:12: note: 'func_021243ac' declared here
+   43 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02196960_FUN_02196960.c:117:65: error: too many arguments to function call, expected 4, have 10
+  117 |   func_0x021243ac(param_1,8,*(undefined4 *)(iVar10 + 0x24),0x98,0x10,0xd,
+      |   ~~~~~~~~~~~~~~~                                               ^~~~~~~~~
+  118 |                   *(undefined4 *)(iVar10 + 0x18),*(undefined4 *)(iVar10 + 0x1c),
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  119 |                   *(undefined4 *)(iVar10 + 0x3c),iVar5);
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02196960_FUN_02196960.h:43:12: note: 'func_021243ac' declared here
+   43 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/02196960_FUN_02196960.c:122:19: error: too many arguments to function call, expected 0, have 6
+  122 |   func_0x0212426c(1,8,*(undefined4 *)(*DAT_02196c20 + 0x24),uVar6,*(undefined4 *)(iVar5 + 0x1c),
+      |   ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  123 |                   *(undefined4 *)(iVar5 + 0x3c));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02196960_FUN_02196960.h:49:6: note: 'func_0212426c' declared here
+   49 | void func_0212426c(void);
+      |      ^
+11 errors generated.

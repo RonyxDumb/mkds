@@ -1,0 +1,132 @@
+In file included from C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:3:
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:59:1: error: unknown type name 'size_t'
+   59 | size_t strlen(char *__s);
+      | ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:41:9: error: assigning to 'int' from incompatible type 'void'
+   41 |   iVar1 = func_0x0213bf90((undefined4)(uintptr_t)(auStack_1114));
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:48:14: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   48 |   local_1154 = func_0x0213bf90((undefined4)(uintptr_t)(auStack_1114));
+      |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:51:16: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   51 |     local_1158 = FUN_0218e320(0);
+      |                ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:54:16: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   54 |     local_1158 = func_0x0213bf90((undefined4)(uintptr_t)(auStack_1114));
+      |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:63:36: error: operand of type 'void' where arithmetic or pointer type is required
+   63 |             puVar7 = (undefined4 *)FUN_021a3690(0xc);
+      |                                    ^~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:65:28: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   65 |               FUN_02196590(param_1,DAT_02190058);
+      |                            ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:10:31: note: passing argument to parameter 'param_1' here
+   10 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:75:19: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   75 |             uVar3 = FUN_021a3690(iVar1 + 1);
+      |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:78:28: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   78 |               FUN_02196590(param_1,DAT_02190058);
+      |                            ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:10:31: note: passing argument to parameter 'param_1' here
+   10 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:81:60: error: incompatible pointer to integer conversion passing 'undefined1[4352]' (aka 'unsigned char[4352]') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+   81 |             func_0x0213a2d0((uint *)(uintptr_t)(puVar7[2]),auStack_1114);
+      |                                                            ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:61:39: note: passing argument to parameter 'param_2' here
+   61 | void func_0213a2d0(uint *param_1,uint param_2);
+      |                                       ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:86:70: error: too few arguments to function call, expected 6, have 4
+   86 |             iVar1 = FUN_02190ed4(param_1,local_1144,local_1140,puVar7);
+      |                     ~~~~~~~~~~~~                                     ^
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:7:12: note: 'FUN_02190ed4' declared here
+    7 | undefined4 FUN_02190ed4(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,int param_5,undefined4 param_6);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:95:26: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   95 |             FUN_02196590(param_1,DAT_02190058);
+      |                          ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:10:31: note: passing argument to parameter 'param_1' here
+   10 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:98:40: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'char *' [-Wint-conversion]
+   98 |           iVar2 = FUN_021967b4(param_2,DAT_0219005c,auStack_1114,DAT_02190040);
+      |                                        ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:24:22: note: expanded from macro 'DAT_0219005c'
+   24 | #define DAT_0219005c (*(undefined4 *)(uintptr_t)0x219005cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:12:43: note: passing argument to parameter 'param_2' here
+   12 | undefined4 FUN_021967b4(int param_1,char *param_2,int param_3,int param_4);
+      |                                           ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:98:53: error: incompatible pointer to integer conversion passing 'undefined1[4352]' (aka 'unsigned char[4352]') to parameter of type 'int' [-Wint-conversion]
+   98 |           iVar2 = FUN_021967b4(param_2,DAT_0219005c,auStack_1114,DAT_02190040);
+      |                                                     ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:12:55: note: passing argument to parameter 'param_3' here
+   12 | undefined4 FUN_021967b4(int param_1,char *param_2,int param_3,int param_4);
+      |                                                       ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:104:50: error: incompatible pointer to integer conversion passing 'undefined1[4352]' (aka 'unsigned char[4352]') to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  104 |           puVar6 = (undefined1 *)func_0x02139f70(auStack_1114,DAT_02190060);
+      |                                                  ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:63:25: note: passing argument to parameter 'param_1' here
+   63 | uint func_02139f70(uint param_1,uint param_2);
+      |                         ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:119:32: error: incompatible pointer to integer conversion passing 'undefined1 *' (aka 'unsigned char *') to parameter of type 'int' [-Wint-conversion]
+  119 |           uVar3 = FUN_0218e880(puVar6 + 8);
+      |                                ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:4:22: note: passing argument to parameter 'param_1' here
+    4 | int FUN_0218e880(int param_1);
+      |                      ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:125:36: error: operand of type 'void' where arithmetic or pointer type is required
+  125 |             puVar7 = (undefined4 *)FUN_021a3690(DAT_0219006c);
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:127:28: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  127 |               FUN_02196590(param_1,DAT_02190058);
+      |                            ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:10:31: note: passing argument to parameter 'param_1' here
+   10 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:130:26: error: incompatible pointer to integer conversion passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int' [-Wint-conversion]
+  130 |             FUN_02196914(puVar7 + 2,auStack_1114,DAT_02190070);
+      |                          ^~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:13:23: note: passing argument to parameter 'param_1' here
+   13 | void FUN_02196914(int param_1,int param_2,int param_3);
+      |                       ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:130:37: error: incompatible pointer to integer conversion passing 'undefined1[4352]' (aka 'unsigned char[4352]') to parameter of type 'int' [-Wint-conversion]
+  130 |             FUN_02196914(puVar7 + 2,auStack_1114,DAT_02190070);
+      |                                     ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:13:35: note: passing argument to parameter 'param_2' here
+   13 | void FUN_02196914(int param_1,int param_2,int param_3);
+      |                                   ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:135:70: error: too few arguments to function call, expected 6, have 4
+  135 |             iVar1 = FUN_02190ed4(param_1,local_112c,local_1128,puVar7);
+      |                     ~~~~~~~~~~~~                                     ^
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:7:12: note: 'FUN_02190ed4' declared here
+    7 | undefined4 FUN_02190ed4(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,int param_5,undefined4 param_6);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:146:22: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  146 |         FUN_02196590(param_1,DAT_02190058);
+      |                      ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:10:31: note: passing argument to parameter 'param_1' here
+   10 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:150:15: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+  150 |         uVar3 = FUN_021a3690(0x18);
+      |               ^ ~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:154:24: warning: passing 'int *' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+  154 |           FUN_02196590(param_1,DAT_0219044c);
+      |                        ^~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:10:31: note: passing argument to parameter 'param_1' here
+   10 | void FUN_02196590(undefined4 *param_1,undefined4 param_2);
+      |                               ^
+C-WORK/src/arm9_ov000/0218fca8_FUN_0218fca8.c:168:36: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'char *' [-Wint-conversion]
+  168 |       iVar1 = FUN_021967b4(param_2,DAT_02190454,auStack_1114,DAT_02190458);
+      |                                    ^~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:32:22: note: expanded from macro 'DAT_02190454'
+   32 | #define DAT_02190454 (*(undefined4 *)(uintptr_t)0x2190454u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0218fca8_FUN_0218fca8.h:12:43: note: passing argument to parameter 'param_2' here
+   12 | undefined4 FUN_021967b4(int param_1,char *param_2,int param_3,int param_4);
+      |                                           ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+6 warnings and 20 errors generated.

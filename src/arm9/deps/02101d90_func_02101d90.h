@@ -1,0 +1,10 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void func_02101d90(int param_1,uint param_2);
+#define iRam02101f64 (*(int *)(uintptr_t)0x2101f64u)
+#define iRam02101f70 (*(int *)(uintptr_t)0x2101f70u)
+#define uRam02101f60 (*(uint *)(uintptr_t)0x2101f60u)
+#define uRam02101f68 (*(uint *)(uintptr_t)0x2101f68u)
+#define uRam02101f6c (*(uint *)(uintptr_t)0x2101f6cu)
+#define uRam02101f74 (*(uint *)(uintptr_t)0x2101f74u)
+#define uRam02101f78 (*(uint *)(uintptr_t)0x2101f78u)

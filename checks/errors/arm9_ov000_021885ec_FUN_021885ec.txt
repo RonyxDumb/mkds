@@ -1,0 +1,40 @@
+C-WORK/src/arm9_ov000/021885ec_FUN_021885ec.c:13:26: error: too few arguments to function call, single argument 'param_1' was not specified
+   13 |     uVar2 = FUN_02188584();
+      |             ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021885ec_FUN_021885ec.h:3:12: note: 'FUN_02188584' declared here
+    3 | undefined4 FUN_02188584(uint param_1);
+      |            ^            ~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021885ec_FUN_021885ec.c:15:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   15 |     (**(code **)(iVar1 + 4))(0x10,uVar2,DAT_0218868c);
+      |                             ^
+C-WORK/src/arm9_ov000/021885ec_FUN_021885ec.c:18:26: error: too few arguments to function call, single argument 'param_1' was not specified
+   18 |     uVar2 = FUN_02188584();
+      |             ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021885ec_FUN_021885ec.h:3:12: note: 'FUN_02188584' declared here
+    3 | undefined4 FUN_02188584(uint param_1);
+      |            ^            ~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021885ec_FUN_021885ec.c:20:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   20 |     (**(code **)(iVar1 + 4))(8,uVar2,0xc);
+      |                             ^
+C-WORK/src/arm9_ov000/021885ec_FUN_021885ec.c:23:26: error: too few arguments to function call, single argument 'param_1' was not specified
+   23 |     uVar2 = FUN_02188584();
+      |             ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021885ec_FUN_021885ec.h:3:12: note: 'FUN_02188584' declared here
+    3 | undefined4 FUN_02188584(uint param_1);
+      |            ^            ~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021885ec_FUN_021885ec.c:25:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   25 |     (**(code **)(iVar1 + 4))(4,uVar2,0x58);
+      |                             ^
+C-WORK/src/arm9_ov000/021885ec_FUN_021885ec.c:28:26: error: too few arguments to function call, single argument 'param_1' was not specified
+   28 |     uVar2 = FUN_02188584();
+      |             ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021885ec_FUN_021885ec.h:3:12: note: 'FUN_02188584' declared here
+    3 | undefined4 FUN_02188584(uint param_1);
+      |            ^            ~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021885ec_FUN_021885ec.c:30:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   30 |     (**(code **)(iVar1 + 4))(2,uVar2,DAT_02188690);
+      |                             ^
+C-WORK/src/arm9_ov000/021885ec_FUN_021885ec.c:34:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   34 |     (**(code **)(iVar1 + 4))(1,iVar1,0x18);
+      |                             ^
+5 warnings and 4 errors generated.

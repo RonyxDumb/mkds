@@ -1,0 +1,23 @@
+C-WORK/src/arm9/020a7eb4_LoadSanboMapObject.c:14:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   14 |   uVar3 = CreateMapObjectFromModel_2_from_thumb(param_1,uRam020a7f08);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9/020a7eb4_LoadSanboMapObject.c:17:9: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with * [-Wint-conversion]
+   17 |   uVar4 = CreateMapObjectFromModel_2_from_thumb(param_1,uVar4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |           *
+C-WORK/src/arm9/020a7eb4_LoadSanboMapObject.c:22:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |   StructMapObject_MaybeSetPolygonId(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,0x3f);
+      |                                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a7eb4_LoadSanboMapObject.c:22:78: note: place parentheses around the '+' expression to silence this warning
+   22 |   StructMapObject_MaybeSetPolygonId(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,0x3f);
+      |                                                                              ^     
+      |                                                                   (                )
+C-WORK/src/arm9/020a7eb4_LoadSanboMapObject.c:25:92: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   25 |              *(uint *)((uint)puRam020a7f14 & 0xfffffffc) << ((uint)puRam020a7f14 & 3) * -8 + 0x20,
+      |                                                          ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a7eb4_LoadSanboMapObject.c:25:92: note: place parentheses around the '+' expression to silence this warning
+   25 |              *(uint *)((uint)puRam020a7f14 & 0xfffffffc) << ((uint)puRam020a7f14 & 3) * -8 + 0x20,
+      |                                                                                            ^     
+      |                                                             (                                    )
+2 warnings and 2 errors generated.

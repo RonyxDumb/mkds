@@ -1,0 +1,97 @@
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:22:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |   *(uint *)(iRam0200f8b0 + 0x3ff8) = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20 | 0x10;
+      |                                                                 ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:22:79: note: place parentheses around the '+' expression to silence this warning
+   22 |   *(uint *)(iRam0200f8b0 + 0x3ff8) = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20 | 0x10;
+      |                                                                               ^
+      |                                                                    (                )
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:28:90: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   28 |            *(uint *)((uint)puRam0200f8b4 & 0xfffffffc) << ((uint)puRam0200f8b4 & 3) * -8 + 0x20);
+      |                                                        ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:28:90: note: place parentheses around the '+' expression to silence this warning
+   28 |            *(uint *)((uint)puRam0200f8b4 & 0xfffffffc) << ((uint)puRam0200f8b4 & 3) * -8 + 0x20);
+      |                                                                                          ^     
+      |                                                           (                                    )
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:34:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |   uVar4 = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:34:52: note: place parentheses around the '+' expression to silence this warning
+   34 |   uVar4 = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:39:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |     bVar8 = (uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20) <= (uint)uVar9;
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:39:55: note: place parentheses around the '+' expression to silence this warning
+   39 |     bVar8 = (uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20) <= (uint)uVar9;
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:44:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   44 |     uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:44:54: note: place parentheses around the '+' expression to silence this warning
+   44 |     uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:57:86: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   57 |                      *(uint *)((uint)puVar5 & 0xfffffffc) << ((uint)puVar5 & 3) * -8 + 0x20);
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:57:86: note: place parentheses around the '+' expression to silence this warning
+   57 |                      *(uint *)((uint)puVar5 & 0xfffffffc) << ((uint)puVar5 & 3) * -8 + 0x20);
+      |                                                                                      ^     
+      |                                                              (                             )
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:58:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   58 |     if ((uVar4 >> uVar2 * 8 == 0 && uVar4 << uVar2 * -8 + 0x20 == 0) &&
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:58:57: note: place parentheses around the '+' expression to silence this warning
+   58 |     if ((uVar4 >> uVar2 * 8 == 0 && uVar4 << uVar2 * -8 + 0x20 == 0) &&
+      |                                                         ^
+      |                                              (                )
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:59:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   59 |         (uVar7 >> uVar3 * 8 == 0 && uVar7 << uVar3 * -8 + 0x20 == 0)) {
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:59:57: note: place parentheses around the '+' expression to silence this warning
+   59 |         (uVar7 >> uVar3 * 8 == 0 && uVar7 << uVar3 * -8 + 0x20 == 0)) {
+      |                                                         ^
+      |                                              (                )
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:65:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   65 |       (*pcVar6)(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20);
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:65:58: note: place parentheses around the '+' expression to silence this warning
+   65 |       (*pcVar6)(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20);
+      |                                                          ^     
+      |                                               (                )
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:65:16: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   65 |       (*pcVar6)(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20);
+      |                ^
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:71:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   71 |     if ((uVar4 >> uVar2 * 8 != 0 || uVar4 << uVar2 * -8 + 0x20 != 0) ||
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:71:57: note: place parentheses around the '+' expression to silence this warning
+   71 |     if ((uVar4 >> uVar2 * 8 != 0 || uVar4 << uVar2 * -8 + 0x20 != 0) ||
+      |                                                         ^
+      |                                              (                )
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:72:57: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   72 |         (uVar7 >> uVar3 * 8 != 0 || uVar7 << uVar3 * -8 + 0x20 != 0)) {
+      |                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:72:57: note: place parentheses around the '+' expression to silence this warning
+   72 |         (uVar7 >> uVar3 * 8 != 0 || uVar7 << uVar3 * -8 + 0x20 != 0)) {
+      |                                                         ^
+      |                                              (                )
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:73:15: error: incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'code *' (aka 'void (*)()') [-Wint-conversion]
+   73 |       *puVar5 = pcVar6;
+      |               ^ ~~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:77:87: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   77 |         *(uint *)((uint)puRam0200f8b4 & 0xfffffffc) << ((uint)puRam0200f8b4 & 3) * -8 + 0x20 != 0) {
+      |                                                     ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:77:87: note: place parentheses around the '+' expression to silence this warning
+   77 |         *(uint *)((uint)puRam0200f8b4 & 0xfffffffc) << ((uint)puRam0200f8b4 & 3) * -8 + 0x20 != 0) {
+      |                                                                                       ^
+      |                                                        (                                    )
+C-WORK/src/arm9/0200f7a0_Os_AlarmHandlerImpl.c:78:24: error: too few arguments to function call, single argument 'param_1' was not specified
+   78 |       Os_SetAlarmTimer();
+      |       ~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0200f7a0_Os_AlarmHandlerImpl.h:7:6: note: 'Os_SetAlarmTimer' declared here
+    7 | void Os_SetAlarmTimer(int param_1);
+      |      ^                ~~~~~~~~~~~
+13 warnings and 2 errors generated.

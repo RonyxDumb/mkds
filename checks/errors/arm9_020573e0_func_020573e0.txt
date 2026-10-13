@@ -1,0 +1,4 @@
+C-WORK/src/arm9/020573e0_func_020573e0.c:10:28: error: too many arguments to function call, expected 1, have 3
+   10 |   (*pcRam020573f4)(param_1,*(int *)*puRam020573f0 + 0x26,4);
+      |   ~~~~~~~~~~~~~~~~         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

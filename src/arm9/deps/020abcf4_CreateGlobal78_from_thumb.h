@@ -1,0 +1,62 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void CreateGlobal78_from_thumb(int param_1,int param_2,int param_3);
+uint ExecutionContext_GetHeapHandle(int param_1);
+uint GetActiveExecutionContext(void);
+undefined4 GetLoadedFont_from_thumb(int param_1);
+void Gfx_ReadCharGraphics(int *param_1,int param_2);
+void Gfx_ReadCharGraphicsRelative(int *param_1,int param_2);
+undefined4 Mem_AllocateHeap(uint param_1,undefined4 param_2);
+undefined4 Mem_AllocateHeapAligned(uint param_1,undefined4 param_2,undefined4 param_3);
+int find_buf_fn_from_thumb(undefined4 param_1);
+void func_020ab058(undefined4 param_1);
+void func_020ab064(undefined4 param_1);
+void func_020ab070(undefined4 param_1);
+void func_020ab07c(undefined4 param_1);
+void func_020ab088(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6);
+void func_020ab1a8(ushort param_1,ushort param_2,ushort param_3);
+#define piRam020abf40 (*(int **)(uintptr_t)0x20abf40u)
+#define puRam020abf84 (*(undefined4 **)(uintptr_t)0x20abf84u)
+#define puRam020abf8c (*(undefined4 **)(uintptr_t)0x20abf8cu)
+#define puRam020abf94 (*(undefined4 **)(uintptr_t)0x20abf94u)
+#define puRam020abf9c (*(undefined4 **)(uintptr_t)0x20abf9cu)
+#define puRam020abfa4 (*(undefined4 **)(uintptr_t)0x20abfa4u)
+#define puRam020abfac (*(undefined4 **)(uintptr_t)0x20abfacu)
+#define puRam020abfb4 (*(undefined4 **)(uintptr_t)0x20abfb4u)
+#define puRam020abfbc (*(undefined4 **)(uintptr_t)0x20abfbcu)
+#define puRam020abfc4 (*(undefined4 **)(uintptr_t)0x20abfc4u)
+#define puRam020abfcc (*(undefined4 **)(uintptr_t)0x20abfccu)
+#define puRam020abfd4 (*(undefined4 **)(uintptr_t)0x20abfd4u)
+#define puRam020abfdc (*(undefined4 **)(uintptr_t)0x20abfdcu)
+#define puRam020abfe4 (*(undefined4 **)(uintptr_t)0x20abfe4u)
+#define puRam020abfec (*(undefined4 **)(uintptr_t)0x20abfecu)
+#define uRam020abf44 (*(undefined4 *)(uintptr_t)0x20abf44u)
+#define uRam020abf48 (*(undefined4 *)(uintptr_t)0x20abf48u)
+#define uRam020abf4c (*(undefined4 *)(uintptr_t)0x20abf4cu)
+#define uRam020abf50 (*(undefined4 *)(uintptr_t)0x20abf50u)
+#define uRam020abf54 (*(undefined4 *)(uintptr_t)0x20abf54u)
+#define uRam020abf58 (*(undefined4 *)(uintptr_t)0x20abf58u)
+#define uRam020abf5c (*(undefined4 *)(uintptr_t)0x20abf5cu)
+#define uRam020abf60 (*(undefined4 *)(uintptr_t)0x20abf60u)
+#define uRam020abf64 (*(undefined4 *)(uintptr_t)0x20abf64u)
+#define uRam020abf68 (*(undefined4 *)(uintptr_t)0x20abf68u)
+#define uRam020abf6c (*(undefined4 *)(uintptr_t)0x20abf6cu)
+#define uRam020abf70 (*(undefined4 *)(uintptr_t)0x20abf70u)
+#define uRam020abf74 (*(undefined4 *)(uintptr_t)0x20abf74u)
+#define uRam020abf78 (*(undefined4 *)(uintptr_t)0x20abf78u)
+#define uRam020abf7c (*(undefined4 *)(uintptr_t)0x20abf7cu)
+#define uRam020abf80 (*(undefined4 *)(uintptr_t)0x20abf80u)
+#define uRam020abf88 (*(undefined4 *)(uintptr_t)0x20abf88u)
+#define uRam020abf90 (*(undefined4 *)(uintptr_t)0x20abf90u)
+#define uRam020abf98 (*(undefined4 *)(uintptr_t)0x20abf98u)
+#define uRam020abfa0 (*(undefined4 *)(uintptr_t)0x20abfa0u)
+#define uRam020abfa8 (*(undefined4 *)(uintptr_t)0x20abfa8u)
+#define uRam020abfb0 (*(undefined4 *)(uintptr_t)0x20abfb0u)
+#define uRam020abfb8 (*(undefined4 *)(uintptr_t)0x20abfb8u)
+#define uRam020abfc0 (*(undefined4 *)(uintptr_t)0x20abfc0u)
+#define uRam020abfc8 (*(undefined4 *)(uintptr_t)0x20abfc8u)
+#define uRam020abfd0 (*(undefined4 *)(uintptr_t)0x20abfd0u)
+#define uRam020abfd8 (*(undefined4 *)(uintptr_t)0x20abfd8u)
+#define uRam020abfe0 (*(undefined4 *)(uintptr_t)0x20abfe0u)
+#define uRam020abfe8 (*(undefined4 *)(uintptr_t)0x20abfe8u)
+#define uRam020abff0 (*(undefined4 *)(uintptr_t)0x20abff0u)

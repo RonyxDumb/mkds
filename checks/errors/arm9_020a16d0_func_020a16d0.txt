@@ -1,0 +1,28 @@
+C-WORK/src/arm9/020a16d0_func_020a16d0.c:13:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |           *(uint *)(uRam020a1724 & 0xfffffffc) << (uRam020a1724 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a16d0_func_020a16d0.c:13:75: note: place parentheses around the '+' expression to silence this warning
+   13 |           *(uint *)(uRam020a1724 & 0xfffffffc) << (uRam020a1724 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020a16d0_func_020a16d0.c:17:59: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   17 |   if (-1 < (int)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20)) {
+      |                                             ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a16d0_func_020a16d0.c:17:59: note: place parentheses around the '+' expression to silence this warning
+   17 |   if (-1 < (int)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20)) {
+      |                                                           ^     
+      |                                                (                )
+C-WORK/src/arm9/020a16d0_func_020a16d0.c:23:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   23 |   if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020a16d0_func_020a16d0.c:23:54: note: place parentheses around the '+' expression to silence this warning
+   23 |   if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/020a16d0_func_020a16d0.c:24:27: error: too few arguments to function call, single argument 'param_1' was not specified
+   24 |     MaybeKillDriverDirect();
+      |     ~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020a16d0_func_020a16d0.h:3:6: note: 'MaybeKillDriverDirect' declared here
+    3 | void MaybeKillDriverDirect(uint param_1);
+      |      ^                     ~~~~~~~~~~~~
+3 warnings and 1 error generated.

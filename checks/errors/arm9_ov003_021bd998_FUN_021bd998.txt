@@ -1,0 +1,28 @@
+C-WORK/src/arm9_ov003/021bd998_FUN_021bd998.c:20:55: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   20 |   iVar2 = FUN_021bdc5c((ushort *)(uintptr_t)(param_1),&local_2c,&local_28);
+      |                                                       ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bd998_FUN_021bd998.h:5:45: note: passing argument to parameter 'param_2' here
+    5 | ushort * FUN_021bdc5c(ushort *param_1,uint *param_2,uint *param_3);
+      |                                             ^
+C-WORK/src/arm9_ov003/021bd998_FUN_021bd998.c:20:65: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   20 |   iVar2 = FUN_021bdc5c((ushort *)(uintptr_t)(param_1),&local_2c,&local_28);
+      |                                                                 ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bd998_FUN_021bd998.h:5:59: note: passing argument to parameter 'param_3' here
+    5 | ushort * FUN_021bdc5c(ushort *param_1,uint *param_2,uint *param_3);
+      |                                                           ^
+C-WORK/src/arm9_ov003/021bd998_FUN_021bd998.c:20:9: error: incompatible pointer to integer conversion assigning to 'int' from 'ushort *' (aka 'unsigned short *') [-Wint-conversion]
+   20 |   iVar2 = FUN_021bdc5c((ushort *)(uintptr_t)(param_1),&local_2c,&local_28);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021bd998_FUN_021bd998.c:31:84: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   31 |   puVar3 = (ushort *)FUN_021bdc08(local_1c,(ushort *)(uintptr_t)(iVar2 + local_28),&local_24,(uint *)(void *)(auStack_20));
+      |                                                                                    ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bd998_FUN_021bd998.h:4:58: note: passing argument to parameter 'param_3' here
+    4 | ushort * FUN_021bdc08(int *param_1,ushort *param_2,uint *param_3,uint *param_4);
+      |                                                          ^
+C-WORK/src/arm9_ov003/021bd998_FUN_021bd998.c:43:86: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   43 |     puVar3 = (ushort *)FUN_021bdc08(local_1c,(ushort *)(uintptr_t)(iVar2 + local_28),&local_24,(uint *)(void *)(auStack_20));
+      |                                                                                      ^~~~~~~~~
+C-WORK/src/arm9_ov003/deps/021bd998_FUN_021bd998.h:4:58: note: passing argument to parameter 'param_3' here
+    4 | ushort * FUN_021bdc08(int *param_1,ushort *param_2,uint *param_3,uint *param_4);
+      |                                                          ^
+4 warnings and 1 error generated.

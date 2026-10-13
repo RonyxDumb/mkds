@@ -1,0 +1,4 @@
+C-WORK/src/arm7/037fc420_FUN_037fc420.c:9:5: error: use of undeclared identifier 'DAT_04000508'
+    9 |   (&DAT_04000508)[param_1] =
+      |     ^
+1 error generated.

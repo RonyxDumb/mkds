@@ -1,0 +1,13 @@
+C-WORK/src/arm9/02079678_func_02079678.c:55:54: warning: passing 'int *' to parameter of type 'uint *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   55 |         StructAD00Sub_LoadCharacterEmblem_from_thumb(piVar3,param_1,iVar4);
+      |                                                      ^~~~~~
+C-WORK/src/arm9/deps/02079678_func_02079678.h:7:57: note: passing argument to parameter 'param_1' here
+    7 | void StructAD00Sub_LoadCharacterEmblem_from_thumb(uint *param_1,undefined4 param_2,int param_3);
+      |                                                         ^
+C-WORK/src/arm9/02079678_func_02079678.c:76:26: error: too many arguments to function call, expected 0, have 2
+   76 |           uVar5 = FX_Div(*(int *)piVar3[0x15] * -2,*(undefined4 *)(piVar3[8] + 0x10));
+      |                   ~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02079678_func_02079678.h:5:6: note: 'FX_Div' declared here
+    5 | void FX_Div(void);
+      |      ^
+1 warning and 1 error generated.

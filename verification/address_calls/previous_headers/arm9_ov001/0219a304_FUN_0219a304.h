@@ -1,0 +1,9 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void FUN_0219a304(void);
+void FUN_0219adbc(void);
+#define DAT_0219a38c (*(int **)(uintptr_t)0x219a38cu)
+#define DAT_0219a390 (*(ushort **)(uintptr_t)0x219a390u)
+#define DAT_0219a394 (*(ushort **)(uintptr_t)0x219a394u)
+#define DAT_0219a398 (*(ushort **)(uintptr_t)0x219a398u)
+#define DAT_0219a39c (*(ushort **)(uintptr_t)0x219a39cu)

@@ -1,0 +1,17 @@
+C-WORK/src/arm9/020812d0_func_020812d0.c:17:26: error: too few arguments to function call, single argument 'param_1' was not specified
+   17 |   iVar4 = GetDriverEntry();
+      |           ~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020812d0_func_020812d0.h:3:5: note: 'GetDriverEntry' declared here
+    3 | int GetDriverEntry(int param_1);
+      |     ^              ~~~~~~~~~~~
+C-WORK/src/arm9/020812d0_func_020812d0.c:22:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   22 |   if (((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) & 0x8000) != 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020812d0_func_020812d0.c:22:50: note: place parentheses around the '+' expression to silence this warning
+   22 |   if (((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) & 0x8000) != 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/020812d0_func_020812d0.c:25:13: error: assigning to 'int' from incompatible type 'void'
+   25 |       iVar6 = func_0208b7bc(0x58,uVar2);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 2 errors generated.

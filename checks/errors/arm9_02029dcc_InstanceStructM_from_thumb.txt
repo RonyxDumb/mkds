@@ -1,0 +1,111 @@
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:50:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   50 |   uVar4 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam0202a1a4);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:69:39: error: too few arguments to function call, single argument 'param_1' was not specified
+   69 |   local_d0 = GetLoadedFont_from_thumb();
+      |              ~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:13:12: note: 'GetLoadedFont_from_thumb' declared here
+   13 | undefined4 GetLoadedFont_from_thumb(int param_1);
+      |            ^                        ~~~~~~~~~~~
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:79:50: warning: passing 'undefined4 *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   79 |   InitializeNavigationContext_from_thumb(param_1,&local_d4);
+      |                                                  ^~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:14:69: note: passing argument to parameter 'param_2' here
+   14 | void InitializeNavigationContext_from_thumb(undefined4 param_1,int *param_2);
+      |                                                                     ^
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:84:9: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   84 |   uVar4 = func_02148cb8();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:87:87: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+   87 |             (iVar8,uRam0202a1d0,uRam0202a1d4,uRam0202a1d8,uRam0202a1c8,uRam0202a1cc,0,uRam0202a1b8);
+      |                                                                                       ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:58:22: note: expanded from macro 'uRam0202a1b8'
+   58 | #define uRam0202a1b8 (*(undefined4 *)(uintptr_t)0x202a1b8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:22:128: note: passing argument to parameter 'param_8' here
+   22 | void PlayerGfxData_Create_from_thumb(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                                                ^
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:91:62: error: too many arguments to function call, expected 4, have 10
+   91 |   func_021243ac(param_1,0,*(undefined4 *)(iVar8 + 0x14),0x82,0xd,0x14,*(undefined4 *)(iVar8 + 8),
+      |   ~~~~~~~~~~~~~                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   92 |                 *(undefined4 *)(iVar8 + 0xc),*(undefined4 *)(iVar8 + 0x18),uVar4);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:36:12: note: 'func_021243ac' declared here
+   36 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:93:17: error: too many arguments to function call, expected 0, have 6
+   93 |   func_0212426c(0,0,*(undefined4 *)(iVar8 + 0x14),auStack_88,*(undefined4 *)(iVar8 + 0xc),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   94 |                 *(undefined4 *)(iVar8 + 0x18));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:35:6: note: 'func_0212426c' declared here
+   35 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:123:9: error: assigning to 'int' from incompatible type 'void'
+  123 |   iVar3 = func_02148ca0();
+      |         ^ ~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:127:88: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+  127 |             (iVar10,uRam0202a1fc,uRam0202a200,uRam0202a204,uRam0202a1f4,uRam0202a1f8,0,uRam0202a1b8)
+      |                                                                                        ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:58:22: note: expanded from macro 'uRam0202a1b8'
+   58 | #define uRam0202a1b8 (*(undefined4 *)(uintptr_t)0x202a1b8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:22:128: note: passing argument to parameter 'param_8' here
+   22 | void PlayerGfxData_Create_from_thumb(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                                                ^
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:146:19: error: too many arguments to function call, expected 0, have 6
+  146 |     func_0212426c(1,(int)*psVar9,*(undefined4 *)(iVar8 + 0x30),uVar4,*(undefined4 *)(iVar8 + 0x28),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  147 |                   *(undefined4 *)(iVar8 + 0x34));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:35:6: note: 'func_0212426c' declared here
+   35 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:160:21: error: too many arguments to function call, expected 0, have 6
+  160 |       func_0212426c(1,(int)*psVar9,*(undefined4 *)(iVar8 + 0x30),uVar4,*(undefined4 *)(iVar8 + 0x28)
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  161 |                     ,*(undefined4 *)(iVar8 + 0x34));
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:35:6: note: 'func_0212426c' declared here
+   35 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:175:19: error: too many arguments to function call, expected 0, have 6
+  175 |     func_0212426c(1,(int)*psVar9,*(undefined4 *)(iVar8 + 0x30),uVar4,*(undefined4 *)(iVar8 + 0x28),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  176 |                   *(undefined4 *)(iVar8 + 0x34));
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:35:6: note: 'func_0212426c' declared here
+   35 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:186:19: error: too many arguments to function call, expected 0, have 7
+  186 |     func_02124224(1,(int)*psVar9,*(undefined4 *)(iVar8 + 0x30),auStack_e8,
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  187 |                   *(undefined4 *)(iVar8 + 0x28),*(undefined4 *)(iVar8 + 0x34),7);
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:34:6: note: 'func_02124224' declared here
+   34 | void func_02124224(void);
+      |      ^
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:188:19: error: too many arguments to function call, expected 0, have 7
+  188 |     func_02124224(1,(int)*(short *)(iRam0202a31c + (iVar3 + 4) * 0xc),*(undefined4 *)(iVar8 + 0x30),
+      |     ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  189 |                   auStack_e8,*(undefined4 *)(iVar8 + 0x28),*(undefined4 *)(iVar8 + 0x34),7);
+      |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:34:6: note: 'func_02124224' declared here
+   34 | void func_02124224(void);
+      |      ^
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:196:14: error: incompatible pointer to integer conversion passing 'undefined4[2]' (aka 'unsigned int[2]') to parameter of type 'int' [-Wint-conversion]
+  196 |             (local_30,uRam0202a32c,uRam0202a330,0,uRam0202a324,0,0,uRam0202a328);
+      |              ^~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:22:42: note: passing argument to parameter 'param_1' here
+   22 | void PlayerGfxData_Create_from_thumb(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                          ^
+C-WORK/src/arm9/02029dcc_InstanceStructM_from_thumb.c:196:68: error: incompatible integer to pointer conversion passing 'undefined4' (aka 'unsigned int') to parameter of type 'code *' (aka 'void (*)()') [-Wint-conversion]
+  196 |             (local_30,uRam0202a32c,uRam0202a330,0,uRam0202a324,0,0,uRam0202a328);
+      |                                                                    ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:76:22: note: expanded from macro 'uRam0202a328'
+   76 | #define uRam0202a328 (*(undefined4 *)(uintptr_t)0x202a328u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02029dcc_InstanceStructM_from_thumb.h:22:128: note: passing argument to parameter 'param_8' here
+   22 | void PlayerGfxData_Create_from_thumb(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,int param_7,code *param_8);
+      |                                                                                                                                ^
+1 warning and 15 errors generated.

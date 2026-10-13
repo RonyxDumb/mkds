@@ -1,0 +1,83 @@
+/* Decompiled C draft; module arm9; ROM address 0207c548. No matching claim. */
+#include "types.h"
+#include "deps/0207c548_func_0207c548.h"
+
+void func_0207c548(int param_1,uint param_2)
+
+{
+  uint uVar1;
+  longlong lVar2;
+  uint uVar3;
+  uint uVar4;
+  int *piVar5;
+  uint uVar6;
+  uint uVar7;
+  uint uVar8;
+  short sVar9;
+  uint uVar10;
+  uint uVar12;
+  uint uVar14;
+  uint uVar11;
+  uint uVar13;
+  
+  uVar3 = (*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
+          *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) + 0x78;
+  uVar4 = uVar3 & 3;
+  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
+  func_0204360c(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20,0x600);
+  *(undefined4 *)(param_1 + 0x14) = 1;
+  *(undefined2 *)(param_1 + 0x1c) = 2;
+  *(undefined4 *)(param_1 + 0x10) = 0;
+  uVar3 = param_1 + 8U & 3;
+  uVar4 = *(uint *)(param_1 + 8U & 0xfffffffc);
+  uVar3 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
+  if (uVar3 != 0) {
+    uVar3 = (uint)*(ushort *)(uVar3 + 10);
+    piVar5 = (int *)func_0208537c();
+    if (uVar3 == 0) {
+      sVar9 = 0;
+    }
+    else {
+      uVar4 = (uint)(piVar5 + 2) & 3;
+      uVar10 = *(uint *)((uint)(piVar5 + 2) & 0xfffffffc);
+      uVar11 = uVar10 >> uVar4 * 8 | uVar10 << uVar4 * -8 + 0x20;
+      uVar8 = *(uint *)((uint)piVar5 & 0xfffffffc) >> ((uint)piVar5 & 3) * 8 |
+              *(uint *)((uint)piVar5 & 0xfffffffc) << ((uint)piVar5 & 3) * -8 + 0x20;
+      uVar4 = (uint)(piVar5 + 1) & 3;
+      uVar6 = *(uint *)((uint)(piVar5 + 1) & 0xfffffffc);
+      lVar2 = (ulonglong)uVar8 * (ulonglong)uVar11;
+      uVar14 = (uint)lVar2;
+      uVar10 = (uint)(piVar5 + 3) & 3;
+      uVar7 = *(uint *)((uint)(piVar5 + 3) & 0xfffffffc);
+      uVar1 = (uint)(piVar5 + 4) & 3;
+      uVar12 = *(uint *)((uint)(piVar5 + 4) & 0xfffffffc);
+      uVar13 = uVar12 >> uVar1 * 8 | uVar12 << uVar1 * -8 + 0x20;
+      uVar1 = (uint)(piVar5 + 5) & 3;
+      uVar12 = *(uint *)((uint)(piVar5 + 5) & 0xfffffffc);
+      *piVar5 = uVar13 + uVar14;
+      piVar5[1] = (uVar12 >> uVar1 * 8 | uVar12 << uVar1 * -8 + 0x20) +
+                  (uVar7 >> uVar10 * 8 | uVar7 << uVar10 * -8 + 0x20) * uVar8 +
+                  uVar11 * (uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20) +
+                  (int)((ulonglong)lVar2 >> 0x20) + (uint)CARRY4(uVar13,uVar14);
+      if (uVar3 == 0) {
+        uVar4 = (uint)(piVar5 + 1) & 3;
+        uVar10 = *(uint *)((uint)(piVar5 + 1) & 0xfffffffc);
+        uVar13 = uVar10 >> uVar4 * 8 | uVar10 << uVar4 * -8 + 0x20;
+      }
+      sVar9 = (short)uVar13;
+      if (uVar3 != 0) {
+        uVar4 = (uint)(piVar5 + 1) & 3;
+        uVar10 = *(uint *)((uint)(piVar5 + 1) & 0xfffffffc);
+        sVar9 = (short)((ulonglong)uVar3 *
+                        (ulonglong)(uVar10 >> uVar4 * 8 | uVar10 << uVar4 * -8 + 0x20) >> 0x20);
+      }
+    }
+    uVar3 = param_1 + 8U & 3;
+    uVar4 = *(uint *)(param_1 + 8U & 0xfffffffc);
+    *(short *)(param_1 + 2) =
+         *(short *)((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + 8) + sVar9;
+    return;
+  }
+  return;
+}
+

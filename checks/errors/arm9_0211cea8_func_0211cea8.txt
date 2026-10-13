@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0211cea8_func_0211cea8.c:12:13: error: assigning to 'int' from incompatible type 'void'
+   12 |      (iVar1 = CheckSecretFlag(0x10), iVar1 == 0)) {
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

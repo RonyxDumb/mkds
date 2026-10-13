@@ -1,0 +1,27 @@
+C-WORK/src/arm9/0212a724_func_0212a724.c:72:84: error: too many arguments to function call, expected 4, have 10
+   71 |       iVar3 = func_021243ac(*puVar2,*(undefined1 *)(iVar8 + iVar4),
+      |               ~~~~~~~~~~~~~
+   72 |                             *(undefined4 *)((int)puVar2 + local_70 + 0xac),*puVar5,puVar5[1],*puVar6
+      |                                                                                    ^~~~~~~~~~~~~~~~~
+   73 |                             ,puVar2[0x24],*(undefined4 *)((int)puVar2 + local_70 + 0x9c),
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   74 |                             *(undefined4 *)((int)puVar2 + local_74 + 0x78),local_54[1]);
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212a724_func_0212a724.h:3:12: note: 'func_021243ac' declared here
+    3 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0212a724_func_0212a724.c:109:88: error: too many arguments to function call, expected 4, have 10
+  108 |           iVar8 = func_021243ac(*puVar2,*(undefined1 *)(local_80 + iVar4),
+      |                   ~~~~~~~~~~~~~
+  109 |                                 *(undefined4 *)((int)puVar2 + local_8c + 0xac),*puVar5,puVar5[1],
+      |                                                                                        ^~~~~~~~~~
+  110 |                                 *(undefined1 *)(local_88 + iVar4),puVar2[0x24],
+      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  111 |                                 *(undefined4 *)((int)puVar2 + local_8c + 0x9c),
+      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  112 |                                 *(undefined4 *)((int)puVar2 + local_90 + local_7c + 0x74),*piVar7);
+      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0212a724_func_0212a724.h:3:12: note: 'func_021243ac' declared here
+    3 | undefined4 func_021243ac(int param_1,int param_2,undefined4 param_3,int param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

@@ -1,0 +1,7 @@
+C-WORK/src/arm9/020b3f7c_Bmg_GetRawStringPointer_from_thumb.c:10:23: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   Bmg_Load_from_thumb();
+      |   ~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020b3f7c_Bmg_GetRawStringPointer_from_thumb.h:4:6: note: 'Bmg_Load_from_thumb' declared here
+    4 | void Bmg_Load_from_thumb(int param_1);
+      |      ^                   ~~~~~~~~~~~
+1 error generated.

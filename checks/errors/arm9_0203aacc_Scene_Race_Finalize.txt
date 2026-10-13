@@ -1,0 +1,81 @@
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:18:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   18 |           *(uint *)(uRam0203abd0 & 0xfffffffc) << (uRam0203abd0 & 3) * -8 + 0x20) + 8;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:18:75: note: place parentheses around the '+' expression to silence this warning
+   18 |           *(uint *)(uRam0203abd0 & 0xfffffffc) << (uRam0203abd0 & 3) * -8 + 0x20) + 8;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:21:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   if ((uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) == 5) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:21:49: note: place parentheses around the '+' expression to silence this warning
+   21 |   if ((uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) == 5) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:24:77: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |             *(uint *)(uRam0203abd4 & 0xfffffffc) << (uRam0203abd4 & 3) * -8 + 0x20;
+      |                                                  ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:24:77: note: place parentheses around the '+' expression to silence this warning
+   24 |             *(uint *)(uRam0203abd4 & 0xfffffffc) << (uRam0203abd4 & 3) * -8 + 0x20;
+      |                                                                             ^     
+      |                                                     (                             )
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:27:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |        uVar2 >> uVar4 * 8 != 0 || uVar2 << uVar4 * -8 + 0x20 != 0)) {
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:27:55: note: place parentheses around the '+' expression to silence this warning
+   27 |        uVar2 >> uVar4 * 8 != 0 || uVar2 << uVar4 * -8 + 0x20 != 0)) {
+      |                                                       ^
+      |                                            (                )
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:34:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   34 |       uVar1 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:34:56: note: place parentheses around the '+' expression to silence this warning
+   34 |       uVar1 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                                        ^     
+      |                                             (                )
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:40:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   40 |           *(uint *)(uRam0203abd0 & 0xfffffffc) << (uRam0203abd0 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:40:75: note: place parentheses around the '+' expression to silence this warning
+   40 |           *(uint *)(uRam0203abd0 & 0xfffffffc) << (uRam0203abd0 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:43:49: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   43 |   if ((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) == 6) {
+      |                                   ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:43:49: note: place parentheses around the '+' expression to silence this warning
+   43 |   if ((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) == 6) {
+      |                                                 ^     
+      |                                      (                )
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:46:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |     uVar1 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:46:54: note: place parentheses around the '+' expression to silence this warning
+   46 |     uVar1 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
+      |                                                      ^     
+      |                                           (                )
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:50:61: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   50 |           *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20) == 0x36) {
+      |                                         ~~ ~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:50:61: note: place parentheses around the '+' expression to silence this warning
+   50 |           *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20) == 0x36) {
+      |                                                             ^     
+      |                                            (                      )
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:57:11: error: assigning to 'int' from incompatible type 'void'
+   57 |     iVar3 = CheckSavedSecretFlag_from_thumb(uVar7);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:63:79: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   63 |               *(uint *)(uRam0203abd8 & 0xfffffffc) << (uRam0203abd8 & 3) * -8 + 0x20) + 0xc;
+      |                                                    ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:63:79: note: place parentheses around the '+' expression to silence this warning
+   63 |               *(uint *)(uRam0203abd8 & 0xfffffffc) << (uRam0203abd8 & 3) * -8 + 0x20) + 0xc;
+      |                                                                               ^     
+      |                                                       (                             )
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:66:58: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   66 |       if (uVar1 >> uVar4 * 8 != 0 || uVar1 << uVar4 * -8 + 0x20 != 0) {
+      |                                            ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0203aacc_Scene_Race_Finalize.c:66:58: note: place parentheses around the '+' expression to silence this warning
+   66 |       if (uVar1 >> uVar4 * 8 != 0 || uVar1 << uVar4 * -8 + 0x20 != 0) {
+      |                                                          ^
+      |                                               (                )
+11 warnings and 1 error generated.

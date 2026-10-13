@@ -1,0 +1,31 @@
+C-WORK/src/arm9_ov000/0219ce48_FUN_0219ce48.c:17:29: error: too many arguments to function call, expected 0, have 1
+   17 |     iVar2 = func_0x02152a1c(*(int *)(*DAT_0219cfb4 + 0x18) + iVar3);
+      |             ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219ce48_FUN_0219ce48.h:14:6: note: 'func_02152a1c' declared here
+   14 | void func_02152a1c(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219ce48_FUN_0219ce48.c:46:88: warning: passing 'int[2]' to parameter of type 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign [-Wpointer-sign]
+   46 |           FUN_0218ebe8((int *)(uintptr_t)(param_1),*(undefined4 *)(param_2[3] + iVar2),local_1c);
+      |                                                                                        ^~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219ce48_FUN_0219ce48.h:3:69: note: passing argument to parameter 'param_3' here
+    3 | undefined4 FUN_0218ebe8(int *param_1,undefined4 param_2,undefined4 *param_3);
+      |                                                                     ^
+C-WORK/src/arm9_ov000/0219ce48_FUN_0219ce48.c:47:24: error: too few arguments to function call, expected 2, have 0
+   47 |           FUN_0219d034();
+      |           ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219ce48_FUN_0219ce48.h:5:5: note: 'FUN_0219d034' declared here
+    5 | int FUN_0219d034(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/0219ce48_FUN_0219ce48.c:74:33: error: too many arguments to function call, expected 0, have 1
+   74 |        (iVar3 = func_0x02152a1c(((int *)*DAT_0219cfb4)[6] + param_3 * 0xc), iVar3 == 0)) {
+      |                 ~~~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/deps/0219ce48_FUN_0219ce48.h:14:6: note: 'func_02152a1c' declared here
+   14 | void func_02152a1c(void);
+      |      ^
+C-WORK/src/arm9_ov000/0219ce48_FUN_0219ce48.c:81:16: error: too few arguments to function call, expected 2, have 0
+   81 |   FUN_0219d034();
+      |   ~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/0219ce48_FUN_0219ce48.h:5:5: note: 'FUN_0219d034' declared here
+    5 | int FUN_0219d034(int param_1,int param_2);
+      |     ^            ~~~~~~~~~~~~~~~~~~~~~~~
+1 warning and 4 errors generated.

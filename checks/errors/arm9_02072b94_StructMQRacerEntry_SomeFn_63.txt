@@ -1,0 +1,119 @@
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:18:32: error: too few arguments to function call, single argument 'param_1' was not specified
+   18 |   StructMQRacerEntry_SomeFn_16();
+      |   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/02072b94_StructMQRacerEntry_SomeFn_63.h:5:6: note: 'StructMQRacerEntry_SomeFn_16' declared here
+    5 | void StructMQRacerEntry_SomeFn_16(int param_1);
+      |      ^                            ~~~~~~~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:21:76: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   21 |   CharacterKartContext_SomeFn_1_1(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20);
+      |                                                              ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:21:76: note: place parentheses around the '+' expression to silence this warning
+   21 |   CharacterKartContext_SomeFn_1_1(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20);
+      |                                                                            ^     
+      |                                                                 (                )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:24:55: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |   (*(code *)(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20))(param_1);
+      |                                         ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:24:55: note: place parentheses around the '+' expression to silence this warning
+   24 |   (*(code *)(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20))(param_1);
+      |                                                       ^     
+      |                                            (                )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:24:63: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   24 |   (*(code *)(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20))(param_1);
+      |                                                               ^
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:27:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   27 |   *(uint *)(param_1 + 0x7c) = (uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) & 0xffff1fff;
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:27:73: note: place parentheses around the '+' expression to silence this warning
+   27 |   *(uint *)(param_1 + 0x7c) = (uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) & 0xffff1fff;
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:31:72: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   31 |   *(uint *)(param_1 + 0x48) = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20 | 0x240;
+      |                                                          ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:31:72: note: place parentheses around the '+' expression to silence this warning
+   31 |   *(uint *)(param_1 + 0x48) = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20 | 0x240;
+      |                                                                        ^
+      |                                                             (                )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:39:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |   if (((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) & 0x400) != 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:39:50: note: place parentheses around the '+' expression to silence this warning
+   39 |   if (((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) & 0x400) != 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:42:70: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   42 |     puVar6 = (undefined4 *)(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20);
+      |                                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:42:70: note: place parentheses around the '+' expression to silence this warning
+   42 |     puVar6 = (undefined4 *)(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20);
+      |                                                                      ^     
+      |                                                           (                )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:69:81: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   69 |                           *(uint *)(param_3 & 0xfffffffc) << (param_3 & 3) * -8 + 0x20,
+      |                                                           ~~ ~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:69:81: note: place parentheses around the '+' expression to silence this warning
+   69 |                           *(uint *)(param_3 & 0xfffffffc) << (param_3 & 3) * -8 + 0x20,
+      |                                                                                 ^     
+      |                                                              (                        )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:70:68: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   70 |                           uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20);
+      |                                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:70:68: note: place parentheses around the '+' expression to silence this warning
+   70 |                           uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20);
+      |                                                                    ^     
+      |                                                         (                )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:105:73: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  105 |   *(uint *)(param_1 + 0x2ac) = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                           ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:105:73: note: place parentheses around the '+' expression to silence this warning
+  105 |   *(uint *)(param_1 + 0x2ac) = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                                         ^     
+      |                                                              (                )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:108:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  108 |   if (((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) & 2) != 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:108:50: note: place parentheses around the '+' expression to silence this warning
+  108 |   if (((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) & 2) != 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:112:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  112 |       func_0208c260(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20,*(undefined2 *)(param_1 + 0x74))
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:112:62: note: place parentheses around the '+' expression to silence this warning
+  112 |       func_0208c260(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20,*(undefined2 *)(param_1 + 0x74))
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:112:21: error: too many arguments to function call, expected 0, have 2
+  112 |       func_0208c260(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20,*(undefined2 *)(param_1 + 0x74))
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02072b94_StructMQRacerEntry_SomeFn_63.h:14:6: note: 'func_0208c260' declared here
+   14 | void func_0208c260(void);
+      |      ^
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:118:62: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  118 |       func_0208c23c(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20,param_4);
+      |                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:118:62: note: place parentheses around the '+' expression to silence this warning
+  118 |       func_0208c23c(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20,param_4);
+      |                                                              ^     
+      |                                                   (                )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:118:21: error: too many arguments to function call, expected 0, have 2
+  118 |       func_0208c23c(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20,param_4);
+      |       ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02072b94_StructMQRacerEntry_SomeFn_63.h:13:6: note: 'func_0208c23c' declared here
+   13 | void func_0208c23c(void);
+      |      ^
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:123:50: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+  123 |   if (((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) & 1) != 0) {
+      |                                    ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:123:50: note: place parentheses around the '+' expression to silence this warning
+  123 |   if (((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) & 1) != 0) {
+      |                                                  ^     
+      |                                       (                )
+C-WORK/src/arm9/02072b94_StructMQRacerEntry_SomeFn_63.c:124:27: error: too many arguments to function call, expected single argument 'param_1', have 2 arguments
+  124 |     func_0207409c(param_2,param_1 + 0xe0);
+      |     ~~~~~~~~~~~~~         ^~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02072b94_StructMQRacerEntry_SomeFn_63.h:9:6: note: 'func_0207409c' declared here
+    9 | void func_0207409c(undefined4 param_1);
+      |      ^             ~~~~~~~~~~~~~~~~~~
+14 warnings and 4 errors generated.

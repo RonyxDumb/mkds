@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0204f148_func_0204f148.c:29:9: error: assigning to 'int' from incompatible type 'void'
+   29 |   iVar2 = func_02006ddc(uVar1,uRam0204f194);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

@@ -1,0 +1,13 @@
+C-WORK/src/arm9_ov003/021cb11c_FUN_021cb11c.c:25:35: error: too many arguments to function call, expected 2, have 3
+   25 |       uVar2 = FUN_021d1be4(0,0x11,1);
+      |               ~~~~~~~~~~~~        ^
+C-WORK/src/arm9_ov003/deps/021cb11c_FUN_021cb11c.h:7:12: note: 'FUN_021d1be4' declared here
+    7 | undefined4 FUN_021d1be4(int param_1,int param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021cb11c_FUN_021cb11c.c:31:69: error: too many arguments to function call, expected 2, have 3
+   31 |     uVar2 = FUN_021d1be4(0,*(undefined1 *)(DAT_021cb1d4 + local_28),1);
+      |             ~~~~~~~~~~~~                                            ^
+C-WORK/src/arm9_ov003/deps/021cb11c_FUN_021cb11c.h:7:12: note: 'FUN_021d1be4' declared here
+    7 | undefined4 FUN_021d1be4(int param_1,int param_2);
+      |            ^            ~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.

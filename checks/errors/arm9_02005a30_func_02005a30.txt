@@ -1,0 +1,27 @@
+C-WORK/src/arm9/02005a30_func_02005a30.c:21:68: error: too many arguments to function call, expected 4, have 5
+   21 |     func_02006858(param_2,(short)param_1[2],(char)param_1[3],uVar1,uVar2);
+      |     ~~~~~~~~~~~~~                                                  ^~~~~
+C-WORK/src/arm9/deps/02005a30_func_02005a30.h:9:12: note: 'func_02006858' declared here
+    9 | undefined4 func_02006858(int param_1,undefined2 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02005a30_func_02005a30.c:30:19: error: too many arguments to function call, expected 4, have 5
+   29 |     func_0200654c(param_2,(short)param_1[2],(char)param_1[3],param_1 + 5,
+      |     ~~~~~~~~~~~~~
+   30 |                   *(undefined1 *)((int)param_1 + 0x1d));
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/02005a30_func_02005a30.h:5:12: note: 'func_0200654c' declared here
+    5 | undefined4 func_0200654c(int param_1,undefined2 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02005a30_func_02005a30.c:41:85: error: too many arguments to function call, expected 4, have 5
+   41 |         iVar3 = func_02006794(param_2,(short)param_1[2],(char)param_1[3],param_1[5],iVar3);
+      |                 ~~~~~~~~~~~~~                                                       ^~~~~
+C-WORK/src/arm9/deps/02005a30_func_02005a30.h:8:12: note: 'func_02006794' declared here
+    8 | undefined4 func_02006794(int param_1,undefined2 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02005a30_func_02005a30.c:44:85: error: too many arguments to function call, expected 4, have 5
+   44 |         iVar3 = func_020066c0(param_2,(short)param_1[2],(char)param_1[3],param_1[5],iVar3);
+      |                 ~~~~~~~~~~~~~                                                       ^~~~~
+C-WORK/src/arm9/deps/02005a30_func_02005a30.h:7:12: note: 'func_020066c0' declared here
+    7 | undefined4 func_020066c0(int param_1,undefined2 param_2,undefined4 param_3,undefined4 param_4);
+      |            ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4 errors generated.

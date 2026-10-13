@@ -1,0 +1,191 @@
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:35:75: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   35 |           *(uint *)(uRam020b0354 & 0xfffffffc) << (uRam020b0354 & 3) * -8 + 0x20;
+      |                                                ~~ ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:35:75: note: place parentheses around the '+' expression to silence this warning
+   35 |           *(uint *)(uRam020b0354 & 0xfffffffc) << (uRam020b0354 & 3) * -8 + 0x20;
+      |                                                                           ^     
+      |                                                   (                             )
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:39:56: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   39 |   bVar17 = (uVar6 >> uVar10 * 8 | uVar6 << uVar10 * -8 + 0x20) != 4;
+      |                                         ~~ ~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:39:56: note: place parentheses around the '+' expression to silence this warning
+   39 |   bVar17 = (uVar6 >> uVar10 * 8 | uVar6 << uVar10 * -8 + 0x20) != 4;
+      |                                                        ^     
+      |                                            (                 )
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:46:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   46 |   uVar6 = uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:46:52: note: place parentheses around the '+' expression to silence this warning
+   46 |   uVar6 = uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:57:42: error: too few arguments to function call, single argument 'param_1' was not specified
+   57 |   uVar7 = ExecutionContext_GetHeapHandle();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:8:6: note: 'ExecutionContext_GetHeapHandle' declared here
+    8 | uint ExecutionContext_GetHeapHandle(int param_1);
+      |      ^                              ~~~~~~~~~~~
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:74:29: error: too many arguments to function call, expected 0, have 1
+   74 |       uVar7 = func_020b47b4(uRam020b0368);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:38:22: note: expanded from macro 'uRam020b0368'
+   38 | #define uRam020b0368 (*(undefined4 *)(uintptr_t)0x20b0368u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:76:29: error: too many arguments to function call, expected 0, have 1
+   76 |       uVar7 = func_020b47b4(uRam020b036c);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:39:22: note: expanded from macro 'uRam020b036c'
+   39 | #define uRam020b036c (*(undefined4 *)(uintptr_t)0x20b036cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:79:27: error: too many arguments to function call, expected 0, have 1
+   79 |     uVar7 = func_020b47b4(uRam020b0370);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:40:22: note: expanded from macro 'uRam020b0370'
+   40 | #define uRam020b0370 (*(undefined4 *)(uintptr_t)0x20b0370u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:84:29: error: too many arguments to function call, expected 0, have 1
+   84 |       uVar7 = func_020b47b4(uRam020b035c);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:35:22: note: expanded from macro 'uRam020b035c'
+   35 | #define uRam020b035c (*(undefined4 *)(uintptr_t)0x20b035cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:86:29: error: too many arguments to function call, expected 0, have 1
+   86 |       uVar7 = func_020b47b4(uRam020b0360);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:36:22: note: expanded from macro 'uRam020b0360'
+   36 | #define uRam020b0360 (*(undefined4 *)(uintptr_t)0x20b0360u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:89:27: error: too many arguments to function call, expected 0, have 1
+   89 |     uVar7 = func_020b47b4(uRam020b0364);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:37:22: note: expanded from macro 'uRam020b0364'
+   37 | #define uRam020b0364 (*(undefined4 *)(uintptr_t)0x20b0364u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:95:29: error: too many arguments to function call, expected 0, have 1
+   95 |       uVar7 = func_020b47b4(uRam020b0380);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:44:22: note: expanded from macro 'uRam020b0380'
+   44 | #define uRam020b0380 (*(undefined4 *)(uintptr_t)0x20b0380u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:97:29: error: too many arguments to function call, expected 0, have 1
+   97 |       uVar7 = func_020b47b4(uRam020b0384);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:45:22: note: expanded from macro 'uRam020b0384'
+   45 | #define uRam020b0384 (*(undefined4 *)(uintptr_t)0x20b0384u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:100:27: error: too many arguments to function call, expected 0, have 1
+  100 |     uVar7 = func_020b47b4(uRam020b0388);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:46:22: note: expanded from macro 'uRam020b0388'
+   46 | #define uRam020b0388 (*(undefined4 *)(uintptr_t)0x20b0388u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:105:29: error: too many arguments to function call, expected 0, have 1
+  105 |       uVar7 = func_020b47b4(uRam020b0374);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:41:22: note: expanded from macro 'uRam020b0374'
+   41 | #define uRam020b0374 (*(undefined4 *)(uintptr_t)0x20b0374u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:107:29: error: too many arguments to function call, expected 0, have 1
+  107 |       uVar7 = func_020b47b4(uRam020b0378);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:42:22: note: expanded from macro 'uRam020b0378'
+   42 | #define uRam020b0378 (*(undefined4 *)(uintptr_t)0x20b0378u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:110:27: error: too many arguments to function call, expected 0, have 1
+  110 |     uVar7 = func_020b47b4(uRam020b037c);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:43:22: note: expanded from macro 'uRam020b037c'
+   43 | #define uRam020b037c (*(undefined4 *)(uintptr_t)0x20b037cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:116:29: error: too many arguments to function call, expected 0, have 1
+  116 |       uVar7 = func_020b47b4(uRam020b039c);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:51:22: note: expanded from macro 'uRam020b039c'
+   51 | #define uRam020b039c (*(undefined4 *)(uintptr_t)0x20b039cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:118:29: error: too many arguments to function call, expected 0, have 1
+  118 |       uVar7 = func_020b47b4(uRam020b03a0);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:52:22: note: expanded from macro 'uRam020b03a0'
+   52 | #define uRam020b03a0 (*(undefined4 *)(uintptr_t)0x20b03a0u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:121:27: error: too many arguments to function call, expected 0, have 1
+  121 |     uVar7 = func_020b47b4(uRam020b03a4);
+      |             ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:53:22: note: expanded from macro 'uRam020b03a4'
+   53 | #define uRam020b03a4 (*(undefined4 *)(uintptr_t)0x20b03a4u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:125:29: error: too many arguments to function call, expected 0, have 1
+  125 |       uVar7 = func_020b47b4(uRam020b03a8);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:54:22: note: expanded from macro 'uRam020b03a8'
+   54 | #define uRam020b03a8 (*(undefined4 *)(uintptr_t)0x20b03a8u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:131:29: error: too many arguments to function call, expected 0, have 1
+  131 |       uVar7 = func_020b47b4(uRam020b038c);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:47:22: note: expanded from macro 'uRam020b038c'
+   47 | #define uRam020b038c (*(undefined4 *)(uintptr_t)0x20b038cu)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+C-WORK/src/arm9/020afd68_LoadMap2DStuff.c:133:29: error: too many arguments to function call, expected 0, have 1
+  133 |       uVar7 = func_020b47b4(uRam020b0390);
+      |               ~~~~~~~~~~~~~ ^~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:48:22: note: expanded from macro 'uRam020b0390'
+   48 | #define uRam020b0390 (*(undefined4 *)(uintptr_t)0x20b0390u)
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/020afd68_LoadMap2DStuff.h:26:6: note: 'func_020b47b4' declared here
+   26 | void func_020b47b4(void);
+      |      ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+3 warnings and 20 errors generated.

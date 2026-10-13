@@ -1,0 +1,4 @@
+C-WORK/src/arm9/0212afac_GetMultiplayerErrorString_from_thumb.c:13:11: error: assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'void'
+   13 |     uVar1 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam0212b05c);
+      |           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.

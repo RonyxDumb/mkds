@@ -1,0 +1,5 @@
+In file included from C-WORK/src/arm9_ov003/021bd338_FUN_021bd338.c:3:
+C-WORK/src/arm9_ov003/deps/021bd338_FUN_021bd338.h:17:1: error: unknown type name 'size_t'
+   17 | size_t strlen(char *__s);
+      | ^
+1 error generated.

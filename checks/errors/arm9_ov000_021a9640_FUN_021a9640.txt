@@ -1,0 +1,50 @@
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:29:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   29 |   puVar2 = (undefined1 *)(*(code *)*DAT_021a9840)(uVar14);
+      |                                                  ^
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:29:26: error: operand of type 'void' where arithmetic or pointer type is required
+   29 |   puVar2 = (undefined1 *)(*(code *)*DAT_021a9840)(uVar14);
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:39:35: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   39 |   iVar3 = (*(code *)*DAT_021a9840)(iVar1 << 3);
+      |                                   ^
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:39:9: error: assigning to 'int' from incompatible type 'void'
+   39 |   iVar3 = (*(code *)*DAT_021a9840)(iVar1 << 3);
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:41:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   41 |     (*(code *)*DAT_021a9848)(puVar2);
+      |                             ^
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:55:29: error: too few arguments to function call, single argument 'p0' was not specified
+   55 |     uVar7 = func_0x0200dcd8();
+      |             ~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/021a9640_FUN_021a9640.h:27:14: note: 'Os_Thread_GetPriority' declared here
+   27 | unsigned int Os_Thread_GetPriority(unsigned int p0);
+      |              ^                     ~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:63:50: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   63 |   puVar8 = (undefined1 *)(*(code *)*DAT_021a9840)(uVar14 + 0x49);
+      |                                                  ^
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:63:26: error: operand of type 'void' where arithmetic or pointer type is required
+   63 |   puVar8 = (undefined1 *)(*(code *)*DAT_021a9840)(uVar14 + 0x49);
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:65:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   65 |     (*(code *)*DAT_021a9848)(puVar2);
+      |                             ^
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:66:29: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+   66 |     (*(code *)*DAT_021a9848)(iVar3);
+      |                             ^
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:73:29: warning: operator '>>' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   73 |   puVar8[3] = (char)(uVar14 + 4 >> 8);
+      |                      ~~~~~~~^~~ ~~
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:73:29: note: place parentheses around the '+' expression to silence this warning
+   73 |   puVar8[3] = (char)(uVar14 + 4 >> 8);
+      |                             ^
+      |                      (         )
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:101:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  101 |   (*(code *)*DAT_021a9848)(puVar8);
+      |                           ^
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:102:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  102 |   (*(code *)*DAT_021a9848)(iVar3);
+      |                           ^
+C-WORK/src/arm9_ov000/021a9640_FUN_021a9640.c:103:27: warning: passing arguments to a function without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+  103 |   (*(code *)*DAT_021a9848)(puVar2);
+      |                           ^
+10 warnings and 4 errors generated.

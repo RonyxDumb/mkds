@@ -1,0 +1,7 @@
+C-WORK/src/arm9_ov000/02197690_FUN_02197690.c:13:28: error: too many arguments to function call, expected 0, have 1
+   13 |     thunk_EXT_FUN_0200dc3c(5);
+      |     ~~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9_ov000/deps/02197690_FUN_02197690.h:6:6: note: 'thunk_EXT_FUN_0200dc3c' declared here
+    6 | void thunk_EXT_FUN_0200dc3c(void);
+      |      ^
+1 error generated.

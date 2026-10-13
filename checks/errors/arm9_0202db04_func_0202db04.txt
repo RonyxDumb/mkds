@@ -1,0 +1,7 @@
+C-WORK/src/arm9/0202db04_func_0202db04.c:10:25: error: too few arguments to function call, single argument 'param_1' was not specified
+   10 |   iVar1 = func_0202dd80();
+      |           ~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0202db04_func_0202db04.h:4:12: note: 'func_0202dd80' declared here
+    4 | undefined4 func_0202dd80(int param_1);
+      |            ^             ~~~~~~~~~~~
+1 error generated.

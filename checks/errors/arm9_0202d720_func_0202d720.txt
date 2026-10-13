@@ -1,0 +1,33 @@
+C-WORK/src/arm9/0202d720_func_0202d720.c:24:17: error: too many arguments to function call, expected 0, have 6
+   24 |   func_0212426c(1,0xe,*(undefined4 *)(iVar1 + 0x80),uVar2,*(undefined4 *)(iVar1 + 0x78),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   25 |                 *(undefined4 *)(iVar1 + 0x84));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202d720_func_0202d720.h:9:6: note: 'func_0212426c' declared here
+    9 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0202d720_func_0202d720.c:27:17: error: too many arguments to function call, expected 0, have 6
+   27 |   func_0212426c(1,0xf,*(undefined4 *)(iVar1 + 0x80),uVar2,*(undefined4 *)(iVar1 + 0x78),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   28 |                 *(undefined4 *)(iVar1 + 0x84));
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202d720_func_0202d720.h:9:6: note: 'func_0212426c' declared here
+    9 | void func_0212426c(void);
+      |      ^
+C-WORK/src/arm9/0202d720_func_0202d720.c:44:17: error: too many arguments to function call, expected 0, have 7
+   44 |   func_02124224(1,0x10,*(undefined4 *)(iVar1 + 0x80),&local_1c,*(undefined4 *)(iVar1 + 0x78),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   45 |                 *(undefined4 *)(iVar1 + 0x84),6);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202d720_func_0202d720.h:8:6: note: 'func_02124224' declared here
+    8 | void func_02124224(void);
+      |      ^
+C-WORK/src/arm9/0202d720_func_0202d720.c:61:17: error: too many arguments to function call, expected 0, have 7
+   61 |   func_02124224(1,0x11,*(undefined4 *)(iVar1 + 0x80),&local_1c,*(undefined4 *)(iVar1 + 0x78),
+      |   ~~~~~~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   62 |                 *(undefined4 *)(iVar1 + 0x84),6);
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/deps/0202d720_func_0202d720.h:8:6: note: 'func_02124224' declared here
+    8 | void func_02124224(void);
+      |      ^
+4 errors generated.

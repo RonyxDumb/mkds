@@ -1,0 +1,41 @@
+#pragma once
+/* Function-specific inferred declarations. */
+void Os_SpinWait(uint param_1);
+void Os_Terminate(void);
+void func_02009928(undefined2 param_1,int param_2);
+void func_0200a7b0(ushort *param_1);
+void func_0200ad00(void);
+undefined4 func_0200ad4c(void);
+int func_0214358c(int param_1,undefined4 param_2,undefined4 param_3);
+int func_021435e8(undefined4 param_1);
+int func_02143bd4(undefined4 param_1,undefined4 param_2);
+int func_02143c80(undefined4 param_1,uint param_2);
+int func_02143d88(undefined4 param_1);
+int func_02144230(undefined4 param_1,undefined4 param_2,uint param_3,undefined4 param_4,ushort param_5);
+int func_02145530(undefined4 param_1,int param_2);
+#define DAT_0200ab9c (*(undefined4 *)(uintptr_t)0x200ab9cu)
+#define DAT_0200aba0 (*(int **)(uintptr_t)0x200aba0u)
+#define DAT_0200aba4 (*(int *)(uintptr_t)0x200aba4u)
+#define DAT_0200aba8 (*(undefined4 *)(uintptr_t)0x200aba8u)
+#define DAT_0200abac (*(undefined4 **)(uintptr_t)0x200abacu)
+#define DAT_0200abb0 (*(int *)(uintptr_t)0x200abb0u)
+#define DAT_0200abb4 (*(int *)(uintptr_t)0x200abb4u)
+#define DAT_0200abb8 (*(int *)(uintptr_t)0x200abb8u)
+#define DAT_0200abbc (*(int **)(uintptr_t)0x200abbcu)
+#define DAT_0200abc0 (*(int *)(uintptr_t)0x200abc0u)
+#define DAT_0200abc4 (*(int *)(uintptr_t)0x200abc4u)
+#define DAT_0200abc8 (*(int *)(uintptr_t)0x200abc8u)
+#define DAT_0200abcc (*(int *)(uintptr_t)0x200abccu)
+#define DAT_0200abd0 (*(int *)(uintptr_t)0x200abd0u)
+#define DAT_0200abd4 (*(int *)(uintptr_t)0x200abd4u)
+#define DAT_0200abd8 (*(int *)(uintptr_t)0x200abd8u)
+#define DAT_0200abdc (*(undefined4 *)(uintptr_t)0x200abdcu)
+#define DAT_0200abe0 (*(int *)(uintptr_t)0x200abe0u)
+#define DAT_0200abe4 (*(int *)(uintptr_t)0x200abe4u)
+#define DAT_0200ace4 (*(undefined4 *)(uintptr_t)0x200ace4u)
+#define DAT_0200ace8 (*(int *)(uintptr_t)0x200ace8u)
+#define DAT_0200acec (*(int **)(uintptr_t)0x200acecu)
+#define DAT_0200acf0 (*(int *)(uintptr_t)0x200acf0u)
+#define DAT_0200acf4 (*(int **)(uintptr_t)0x200acf4u)
+#define DAT_0200acf8 (*(int *)(uintptr_t)0x200acf8u)
+#define DAT_0200acfc (*(int *)(uintptr_t)0x200acfcu)

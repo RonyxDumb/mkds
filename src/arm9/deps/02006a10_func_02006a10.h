@@ -1,0 +1,18 @@
+#pragma once
+/* Function-specific inferred declarations. */
+longlong Os_DisableIrq(void);
+undefined4 Os_RestoreIrq(void);
+void SetGlobalGO_from_thumb(undefined4 param_1);
+void func_02006a10(undefined4 param_1);
+void func_02007008(undefined4 param_1);
+undefined4 func_0200704c(undefined4 param_1);
+undefined4 func_020070b8(void);
+void func_020070c0(undefined2 param_1);
+void func_020070cc(undefined2 param_1);
+void func_020070f0(void);
+#define iRam02006a98 (*(int *)(uintptr_t)0x2006a98u)
+#define iRam02006a9c (*(int *)(uintptr_t)0x2006a9cu)
+#define iRam02006aa0 (*(int *)(uintptr_t)0x2006aa0u)
+#define iRam02006aa4 (*(int *)(uintptr_t)0x2006aa4u)
+#define iRam02006aa8 (*(int *)(uintptr_t)0x2006aa8u)
+#define piRam02006a94 (*(int **)(uintptr_t)0x2006a94u)

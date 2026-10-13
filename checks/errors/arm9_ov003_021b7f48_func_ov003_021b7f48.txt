@@ -1,0 +1,28 @@
+C-WORK/src/arm9_ov003/021b7f48_func_ov003_021b7f48.c:14:9: error: assigning to 'int' from incompatible type 'void'
+   14 |   iVar1 = func_ov003_021ba178();
+      |         ^ ~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9_ov003/021b7f48_func_ov003_021b7f48.c:18:31: error: too many arguments to function call, expected 0, have 1
+   18 |   iVar2 = func_ov003_021ba178(param_2);
+      |           ~~~~~~~~~~~~~~~~~~~ ^~~~~~~
+C-WORK/src/arm9_ov003/deps/021b7f48_func_ov003_021b7f48.h:8:6: note: 'func_ov003_021ba178' declared here
+    8 | void func_ov003_021ba178(void);
+      |      ^
+C-WORK/src/arm9_ov003/021b7f48_func_ov003_021b7f48.c:20:25: error: too many arguments to function call, expected 0, have 1
+   20 |     func_ov003_021ba164(iVar1);
+      |     ~~~~~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov003/deps/021b7f48_func_ov003_021b7f48.h:7:6: note: 'func_ov003_021ba164' declared here
+    7 | void func_ov003_021ba164(void);
+      |      ^
+C-WORK/src/arm9_ov003/021b7f48_func_ov003_021b7f48.c:30:23: error: too many arguments to function call, expected 0, have 1
+   30 |   func_ov003_021ba164(iVar1);
+      |   ~~~~~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov003/deps/021b7f48_func_ov003_021b7f48.h:7:6: note: 'func_ov003_021ba164' declared here
+    7 | void func_ov003_021ba164(void);
+      |      ^
+C-WORK/src/arm9_ov003/021b7f48_func_ov003_021b7f48.c:31:23: error: too many arguments to function call, expected 0, have 1
+   31 |   func_ov003_021ba164(iVar2);
+      |   ~~~~~~~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9_ov003/deps/021b7f48_func_ov003_021b7f48.h:7:6: note: 'func_ov003_021ba164' declared here
+    7 | void func_ov003_021ba164(void);
+      |      ^
+5 errors generated.

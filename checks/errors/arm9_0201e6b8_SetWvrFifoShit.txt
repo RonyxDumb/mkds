@@ -1,0 +1,26 @@
+C-WORK/src/arm9/0201e6b8_SetWvrFifoShit.c:17:25: error: too many arguments to function call, expected 0, have 1
+   17 |   uVar3 = Os_DisableIrq(iVar2);
+      |           ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0201e6b8_SetWvrFifoShit.h:6:10: note: 'Os_DisableIrq' declared here
+    6 | longlong Os_DisableIrq(void);
+      |          ^
+C-WORK/src/arm9/0201e6b8_SetWvrFifoShit.c:19:85: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |       *(uint *)((uint)piRam0201e798 & 0xfffffffc) << ((uint)piRam0201e798 & 3) * -8 + 0x20 != 0) {
+      |                                                   ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0201e6b8_SetWvrFifoShit.c:19:85: note: place parentheses around the '+' expression to silence this warning
+   19 |       *(uint *)((uint)piRam0201e798 & 0xfffffffc) << ((uint)piRam0201e798 & 3) * -8 + 0x20 != 0) {
+      |                                                                                     ^
+      |                                                      (                                    )
+C-WORK/src/arm9/0201e6b8_SetWvrFifoShit.c:38:19: error: too many arguments to function call, expected 0, have 1
+   38 |     Os_RestoreIrq(uVar3);
+      |     ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0201e6b8_SetWvrFifoShit.h:7:12: note: 'Os_RestoreIrq' declared here
+    7 | undefined4 Os_RestoreIrq(void);
+      |            ^
+C-WORK/src/arm9/0201e6b8_SetWvrFifoShit.c:41:17: error: too many arguments to function call, expected 0, have 1
+   41 |   Os_RestoreIrq(uVar3);
+      |   ~~~~~~~~~~~~~ ^~~~~
+C-WORK/src/arm9/deps/0201e6b8_SetWvrFifoShit.h:7:12: note: 'Os_RestoreIrq' declared here
+    7 | undefined4 Os_RestoreIrq(void);
+      |            ^
+1 warning and 3 errors generated.

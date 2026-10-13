@@ -1,0 +1,28 @@
+C-WORK/src/arm9/0212bd10_SoundDtorFn.c:13:54: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   13 |   if (uVar1 >> uVar2 * 8 == 0 && uVar1 << uVar2 * -8 + 0x20 == 0) {
+      |                                        ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212bd10_SoundDtorFn.c:13:54: note: place parentheses around the '+' expression to silence this warning
+   13 |   if (uVar1 >> uVar2 * 8 == 0 && uVar1 << uVar2 * -8 + 0x20 == 0) {
+      |                                                      ^
+      |                                           (                )
+C-WORK/src/arm9/0212bd10_SoundDtorFn.c:16:25: error: too few arguments to function call, single argument 'param_1' was not specified
+   16 |   Sound_Context_Dispose();
+      |   ~~~~~~~~~~~~~~~~~~~~~ ^
+C-WORK/src/arm9/deps/0212bd10_SoundDtorFn.h:5:6: note: 'Sound_Context_Dispose' declared here
+    5 | void Sound_Context_Dispose(uint param_1);
+      |      ^                     ~~~~~~~~~~~~
+C-WORK/src/arm9/0212bd10_SoundDtorFn.c:19:52: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   19 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                      ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212bd10_SoundDtorFn.c:19:52: note: place parentheses around the '+' expression to silence this warning
+   19 |   uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+      |                                                    ^     
+      |                                         (                )
+C-WORK/src/arm9/0212bd10_SoundDtorFn.c:24:78: warning: operator '<<' has lower precedence than '+'; '+' will be evaluated first [-Wshift-op-parentheses]
+   24 |               ((uint *)(uintptr_t)((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) * 0x24 + iRam0212bd68 + 0xc),param_1
+      |                                                                ~~ ~~~~~~~~~~~^~~~~~
+C-WORK/src/arm9/0212bd10_SoundDtorFn.c:24:78: note: place parentheses around the '+' expression to silence this warning
+   24 |               ((uint *)(uintptr_t)((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) * 0x24 + iRam0212bd68 + 0xc),param_1
+      |                                                                              ^     
+      |                                                                   (                )
+3 warnings and 1 error generated.

@@ -1,0 +1,91 @@
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:40:54: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   40 |         func_0x02039860((uint)(uintptr_t)(&local_20),&local_20);
+      |                                                      ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:57:46: note: passing argument to parameter 'param_2' here
+   57 | int Vector3_MaybeNormalize(uint param_1,int *param_2);
+      |                                              ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:74:56: warning: passing 'uint *' (aka 'unsigned int *') to parameter of type 'int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+   74 |           func_0x02039860((uint)(uintptr_t)(&local_38),&local_38);
+      |                                                        ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:57:46: note: passing argument to parameter 'param_2' here
+   57 | int Vector3_MaybeNormalize(uint param_1,int *param_2);
+      |                                              ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:106:25: error: incompatible pointer to integer conversion passing 'ushort *' (aka 'unsigned short *') to parameter of type 'int' [-Wint-conversion]
+  106 |         func_0x020d2774(param_1,DAT_02184c64);
+      |                         ^~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:65:24: note: passing argument to parameter 'param_1' here
+   65 | void func_020d2774(int param_1,undefined4 param_2);
+      |                        ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:107:38: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  107 |         func_0x0208b7bc(DAT_02184c68,&local_2c);
+      |                                      ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:67:44: note: passing argument to parameter 'param_2' here
+   67 | void func_0208b7bc(undefined4 param_1,uint param_2);
+      |                                            ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:108:38: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  108 |         func_0x0208b7bc(DAT_02184c6c,&local_2c);
+      |                                      ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:67:44: note: passing argument to parameter 'param_2' here
+   67 | void func_0208b7bc(undefined4 param_1,uint param_2);
+      |                                            ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:109:38: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  109 |         func_0x0208b7bc(DAT_02184c70,&local_2c);
+      |                                      ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:67:44: note: passing argument to parameter 'param_2' here
+   67 | void func_0208b7bc(undefined4 param_1,uint param_2);
+      |                                            ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:110:22: error: incompatible pointer to integer conversion passing 'ushort *' (aka 'unsigned short *') to parameter of type 'int' [-Wint-conversion]
+  110 |         FUN_02187518(param_1,DAT_02184c78,0,DAT_02184c7c,DAT_02184c74,0);
+      |                      ^~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:6:23: note: passing argument to parameter 'param_1' here
+    6 | void FUN_02187518(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6);
+      |                       ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:111:22: error: incompatible pointer to integer conversion passing 'ushort *' (aka 'unsigned short *') to parameter of type 'int' [-Wint-conversion]
+  111 |         FUN_02187518(param_1,DAT_02184c80,0,DAT_02184c7c,DAT_02184c74,0);
+      |                      ^~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:6:23: note: passing argument to parameter 'param_1' here
+    6 | void FUN_02187518(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6);
+      |                       ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:116:25: error: incompatible pointer to integer conversion passing 'ushort *' (aka 'unsigned short *') to parameter of type 'int' [-Wint-conversion]
+  116 |         func_0x020d2774(param_1,DAT_02184c8c);
+      |                         ^~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:65:24: note: passing argument to parameter 'param_1' here
+   65 | void func_020d2774(int param_1,undefined4 param_2);
+      |                        ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:117:38: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  117 |         func_0x0208b7bc(DAT_02184c90,&local_2c);
+      |                                      ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:67:44: note: passing argument to parameter 'param_2' here
+   67 | void func_0208b7bc(undefined4 param_1,uint param_2);
+      |                                            ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:118:38: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  118 |         func_0x0208b7bc(DAT_02184c94,&local_2c);
+      |                                      ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:67:44: note: passing argument to parameter 'param_2' here
+   67 | void func_0208b7bc(undefined4 param_1,uint param_2);
+      |                                            ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:119:38: error: incompatible pointer to integer conversion passing 'int *' to parameter of type 'uint' (aka 'unsigned int') [-Wint-conversion]
+  119 |         func_0x0208b7bc(DAT_02184c98,&local_2c);
+      |                                      ^~~~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:67:44: note: passing argument to parameter 'param_2' here
+   67 | void func_0208b7bc(undefined4 param_1,uint param_2);
+      |                                            ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:120:22: error: incompatible pointer to integer conversion passing 'ushort *' (aka 'unsigned short *') to parameter of type 'int' [-Wint-conversion]
+  120 |         FUN_02187518(param_1,DAT_02184ca0,0,DAT_02184ca4,DAT_02184c9c,0);
+      |                      ^~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:6:23: note: passing argument to parameter 'param_1' here
+    6 | void FUN_02187518(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6);
+      |                       ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:121:22: error: incompatible pointer to integer conversion passing 'ushort *' (aka 'unsigned short *') to parameter of type 'int' [-Wint-conversion]
+  121 |         FUN_02187518(param_1,DAT_02184ca8,0,DAT_02184ca4,DAT_02184c9c,0);
+      |                      ^~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:6:23: note: passing argument to parameter 'param_1' here
+    6 | void FUN_02187518(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6);
+      |                       ^
+C-WORK/src/arm9_ov001/02184874_FUN_02184874.c:125:16: error: incompatible pointer to integer conversion passing 'ushort *' (aka 'unsigned short *') to parameter of type 'int' [-Wint-conversion]
+  125 |   FUN_02188200(param_1,DAT_02184cc0);
+      |                ^~~~~~~
+C-WORK/src/arm9_ov001/deps/02184874_FUN_02184874.h:7:23: note: passing argument to parameter 'param_1' here
+    7 | void FUN_02188200(int param_1,undefined4 param_2);
+      |                       ^
+2 warnings and 13 errors generated.

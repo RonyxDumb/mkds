@@ -1,0 +1,7 @@
+C-WORK/src/arm9/02115204_func_02115204.c:120:15: error: assigning to 'int' from incompatible type 'void'
+  120 |         iVar3 = func_02114398(iVar3 + iVar6 & 0xffff);
+      |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C-WORK/src/arm9/02115204_func_02115204.c:149:13: error: assigning to 'int' from incompatible type 'void'
+  149 |       iVar3 = func_02114398(iVar3 + *(short *)(*piRam02115514 + 0x74) & 0xffff);
+      |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2 errors generated.
