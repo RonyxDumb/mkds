@@ -1,10 +1,14 @@
-/* Decompiled C draft; module arm9_ov003; ROM address 021b8748. No matching claim. */
-#include "types.h"
-#include "deps/021b8748_func_ov003_021b8748.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-bool func_ov003_021b8748(uint param_1)
-
+unsigned int func_ov003_021b8748(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  return (param_1 & 0x10) != 0;
+unsigned int cmp_a,cmp_b;
+L_21b8748: r2 = 0x0u; cmp_a = r2; cmp_b = 0;
+L_21b874a: r1 = 0x10u; cmp_a = r1; cmp_b = 0;
+L_21b874c: r0 = (r0&r1); cmp_a = r0; cmp_b = 0;
+L_21b874e: cmp_a = r0; cmp_b = 0x0u;
+L_21b8750: if ((cmp_a == cmp_b)) { goto L_21b8754; }
+L_21b8752: r2 = 0x1u; cmp_a = r2; cmp_b = 0;
+L_21b8754: r0 = (r2+0x0u); cmp_a = r0; cmp_b = 0;
+L_21b8756: return r0;
 }
-

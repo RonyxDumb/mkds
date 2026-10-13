@@ -1,18 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 020096c0. No matching claim. */
-#include "types.h"
-#include "deps/020096c0_func_020096c0.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void func_020096c0(void)
-
+unsigned int func_020096c0(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  int iVar1;
-  
-  iVar1 = iRam020096d0;
-  *(undefined1 *)(iRam020096d0 + 0xd) = 0;
-  *(undefined1 *)(iVar1 + 0xe) = 0;
-  *(undefined1 *)(iVar1 + 0xf) = 0;
-  *(undefined1 *)(iVar1 + 0x10) = 0;
-  *(undefined1 *)(iVar1 + 0x11) = 0;
-  return;
+unsigned int cmp_a,cmp_b;
+L_20096c0: r1 = 0x0u; cmp_a = r1; cmp_b = 0;
+L_20096c2: r0 = 0x216fc4cu;
+L_20096c4: *(unsigned char *)((unsigned char *)r0 + 13) = (unsigned char)r1;
+L_20096c6: *(unsigned char *)((unsigned char *)r0 + 14) = (unsigned char)r1;
+L_20096c8: *(unsigned char *)((unsigned char *)r0 + 15) = (unsigned char)r1;
+L_20096ca: *(unsigned char *)((unsigned char *)r0 + 16) = (unsigned char)r1;
+L_20096cc: *(unsigned char *)((unsigned char *)r0 + 17) = (unsigned char)r1;
+L_20096ce: return r0;
 }
-

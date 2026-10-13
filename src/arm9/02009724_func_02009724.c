@@ -1,22 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 02009724. No matching claim. */
-#include "types.h"
-#include "deps/02009724_func_02009724.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-int func_02009724(short *param_1)
-
+unsigned int func_02009724(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  short sVar1;
-  short *psVar2;
-  int iVar3;
-  
-  iVar3 = 0;
-  sVar1 = *param_1;
-  psVar2 = param_1 + 1;
-  while (sVar1 != 0) {
-    iVar3 = iVar3 + 1;
-    sVar1 = *psVar2;
-    psVar2 = psVar2 + 1;
-  }
-  return iVar3;
+unsigned int cmp_a,cmp_b;
+L_2009724: r2 = 0x0u; cmp_a = r2; cmp_b = 0;
+L_2009726: r1 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 0));
+L_2009728: r0 = (r0+0x2u); cmp_a = r0; cmp_b = 0;
+L_200972a: cmp_a = r1; cmp_b = 0x0u;
+L_200972c: if ((cmp_a == cmp_b)) { goto L_2009738; }
+L_200972e: r2 = (r2+0x1u); cmp_a = r2; cmp_b = 0;
+L_2009730: r1 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 0));
+L_2009732: r0 = (r0+0x2u); cmp_a = r0; cmp_b = 0;
+L_2009734: cmp_a = r1; cmp_b = 0x0u;
+L_2009736: if ((cmp_a != cmp_b)) { goto L_200972e; }
+L_2009738: r0 = (r2+0x0u); cmp_a = r0; cmp_b = 0;
+L_200973a: return r0;
 }
-

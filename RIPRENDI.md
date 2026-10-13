@@ -27,3 +27,9 @@ Ricerca aggiuntiva: 604 candidati ARM flow estesi e 275 candidati con trasferime
 ## Checkpoint 11
 
 1.174 funzioni, 28.104 byte (1,468587%). Usare `audit_current_unrelocated.py` invece dello storico `audit_local_matching.py` quando ci sono prove Clang. Sono richiesti MKDS_BASELINE, WIBO e MWCCARM. Ricerca estesa: `verify_mw_extended_flow.py`; bozze C: `verify_mw_all_drafts.py`. Non eseguire due ricerche che scrivono i registri contemporaneamente. Il target 10% richiede 191.368 byte totali verificati; non e ancora raggiunto.
+
+Ripristino del compilatore: `python scripts/setup_matching_toolchain.py` scarica strumenti con hash fissati in `tools/` (ignorata da Git). Il compilatore proprietario non e incluso nel repository. Nuova ricerca Thumb: `verify_mw_thumb_flow.py`. La pubblicazione del checkpoint 11 e nel ramo `codex/byte-matching-checkpoint-11`, PR #1; main resta al checkpoint 10 fino al merge autorizzato.
+
+## Checkpoint 12
+
+1.222 funzioni e 29.070 byte (1,519066%). Thumb flow: 122 candidati, 48 match, 966 byte. Tutte le 1.060 prove senza relocazioni sono state ricompilate dopo la ricerca; le 162 con relocazioni sono state ricompilate al checkpoint 11. Le 6.802 bozze C non hanno dato nuovi match con sei ottimizzazioni: evitare di ripetere quella ricerca senza cambiare la ricostruzione. Il prossimo lavoro deve migliorare le funzioni grandi (tipi, parametri, stack e flusso), non ricontare funzioni o variare il denominatore. Il 10% dei byte richiede ancora 162.298 byte verificati.

@@ -1,11 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 020ab07c. No matching claim. */
-#include "types.h"
-#include "deps/020ab07c_func_020ab07c.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void func_020ab07c(undefined4 param_1)
-
+unsigned int func_020ab07c(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  *(undefined4 *)(iRam020ab084 + 0x18) = param_1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_20ab07c: r1 = 0x217b254u;
+L_20ab07e: *(unsigned int *)((unsigned char *)r1 + 24) = (unsigned int)r0;
+L_20ab080: return r0;
 }
-

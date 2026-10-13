@@ -1,11 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0212b7fc. No matching claim. */
-#include "types.h"
-#include "deps/0212b7fc_func_0212b7fc.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void func_0212b7fc(void)
-
+unsigned int func_0212b7fc(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  *(undefined4 *)*puRam0212b808 = 0;
-  return;
+unsigned int cmp_a,cmp_b;
+L_212b7fc: r1 = 0x0u; cmp_a = r1; cmp_b = 0;
+L_212b7fe: r0 = 0x217d410u;
+L_212b800: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_212b802: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_212b804: return r0;
 }
-
