@@ -1,0 +1,5 @@
+{
+  "tested": 4,
+  "status": "PASS",
+  "verification": "Fresh compilation; entire text byte equality, zero text relocations. Unwind metadata is outside local code proof."
+}

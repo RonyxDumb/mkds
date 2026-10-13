@@ -1,0 +1,101 @@
+{
+  "tested_candidates_this_run": 76,
+  "accepted_this_run": 3,
+  "accepted": 4,
+  "added_bytes": 88,
+  "functions": [
+    {
+      "module": "arm9",
+      "name": "func_020c0b84",
+      "mode": "arm",
+      "size": 36,
+      "kind": "linear_leaf",
+      "address": "0x020c0b84",
+      "sha256": "56498e4398a92230802569daac695b9deb4cefc51d390b5e802b61d5ae6f90d6",
+      "source_sha256": "9756b212624a3c0feeb9277d93b723fcc1d043c36e75acc51348fff39d6c0802",
+      "relocations": 0,
+      "status": "EXACT_LOCAL_BYTES",
+      "compiler": "Zig 0.14.1 bundled Clang",
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-std=gnu11",
+        "-O1",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "object_sha256": "7c97d28cba40b6e8edcb9a72877465d4dd71dd52fc5ae7bad8af34ac2fda4ac4"
+    },
+    {
+      "module": "arm9",
+      "name": "func_01ff9c9c",
+      "mode": "arm",
+      "size": 20,
+      "kind": "conditional_leaf",
+      "address": "0x01ff9c9c",
+      "sha256": "32d6b82ae0ea801513c4a9449c0bfccdb93b5a9136369e5f267db22b1553e100",
+      "source_sha256": "39fc88a6a3790231c3c037efa785c768891b7c8621403f48f2c902cbba21ccba",
+      "relocations": 0,
+      "status": "EXACT_LOCAL_BYTES",
+      "compiler": "Zig 0.14.1 bundled Clang",
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-std=gnu11",
+        "-O1",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "object_sha256": "9c60cfb73f321a3bfc9d84e01059cceb1aaf6f6c75a9a0209b30b4ce1eeb5228"
+    },
+    {
+      "module": "arm9",
+      "name": "Tex0Block_SetTexturesVramKeys",
+      "mode": "arm",
+      "size": 20,
+      "kind": "conditional_leaf",
+      "address": "0x02010998",
+      "sha256": "0650a4d9a2e3f7fb384767f5b56f0a642eeb5619cc59fb425ef98989f9ab82fc",
+      "source_sha256": "40732686e31d41b57e020e778044d380c45d68f6a107c707746d2a805bb447a4",
+      "relocations": 0,
+      "status": "EXACT_LOCAL_BYTES",
+      "compiler": "Zig 0.14.1 bundled Clang",
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-std=gnu11",
+        "-O1",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "object_sha256": "802a47676c032d49075017e7ec249087ad464634db724027fe12ea089acb94f4"
+    },
+    {
+      "module": "arm9",
+      "name": "func_020204b4",
+      "mode": "arm",
+      "size": 12,
+      "kind": "conditional_leaf",
+      "address": "0x020204b4",
+      "sha256": "dbd9833f4f37a44c8af3c64a2b9fabfde36775d64e68a9e00ba320930a09e4eb",
+      "source_sha256": "d59ed87584c10e4e3cae5158d61f9376310f70b074b31347c72d2c376eed4c33",
+      "relocations": 0,
+      "status": "EXACT_LOCAL_BYTES",
+      "compiler": "Zig 0.14.1 bundled Clang",
+      "flags": [
+        "-target",
+        "arm-freestanding-eabi",
+        "-mcpu=arm946e_s",
+        "-std=gnu11",
+        "-O1",
+        "-fno-builtin",
+        "-marm"
+      ],
+      "object_sha256": "f918af9165c01be2ae84492204eb5d2307fadd044a47bb9c689201acd79f1761"
+    }
+  ],
+  "whole_rom_verified": false
+}

@@ -1,0 +1,14 @@
+{
+  "scope": "Local original ARM execution versus host C results and RAM read traces; not whole-game or byte matching",
+  "cases": {
+    "GetDriverPlace": 131072,
+    "GetCurrentLapCount": 66816
+  },
+  "total_cases": 197888,
+  "seed": "0x4d4b4453",
+  "source_sha256": {
+    "src/arm9/0203c8dc_GetDriverPlace.c": "c1edb322ab9b55044594fd04b06e0921ce6c09fcf5a0a733eeb9b2d0301bba03",
+    "src/arm9/02044618_GetCurrentLapCount.c": "dc85593bcd142b96b5d58954341c13b2de66a302aa78ace3919b92aeaeb893a0"
+  },
+  "status": "PASS"
+}

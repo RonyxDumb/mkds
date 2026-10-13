@@ -1,0 +1,13 @@
+Checked 1000 built 557
+Checked 2000 built 1196
+Checked 3000 built 1869
+Checked 4000 built 2556
+Checked 5000 built 3188
+Checked 6000 built 3855
+Checked 7000 built 4436
+Checked 8000 built 5110
+Checked 9000 built 5736
+Checked 10000 built 6188
+Checked 11000 built 6925
+Checked 12000 built 7582
+{"compiler": "Zig 0.14.1 bundled Clang", "flags": ["-target", "arm-freestanding-eabi", "-std=gnu11", "-O1", "-fno-builtin", "-Werror=implicit-function-declaration", "-Werror=return-type", "-Werror=incompatible-pointer-types", "-Werror=int-conversion"], "cpus": {"arm9": "arm946e_s", "arm7": "arm7tdmi"}, "tested": 12038, "built": 7598, "needs_repair": 4440}
