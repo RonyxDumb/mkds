@@ -1,0 +1,37 @@
+name: decomp.dev progress report
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    name: Export objdiff v2 report (EUR)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate validated progress report
+        run: python3 scripts/export_objdiff_report.py --output build/decomp-report/report.json
+      - name: Check report structure
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('build/decomp-report/report.json').read_text())
+          assert report['version'] == 2
+          assert report['measures']['total_functions'] > 0
+          assert report['units'] and report['categories']
+          print('Validated report with', len(report['units']), 'units')
+          PY
+      - name: Upload report for decomp.dev
+        uses: actions/upload-artifact@v4
+        with:
+          name: eur_report
+          path: build/decomp-report/report.json
+          if-no-files-found: error
+          retention-days: 90
