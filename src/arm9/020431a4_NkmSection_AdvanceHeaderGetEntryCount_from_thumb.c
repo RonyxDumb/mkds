@@ -1,15 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 020431a4. No matching claim. */
-#include "types.h"
-#include "deps/020431a4_NkmSection_AdvanceHeaderGetEntryCount_from_thumb.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-uint NkmSection_AdvanceHeaderGetEntryCount_from_thumb(int *param_1)
-
+unsigned int NkmSection_AdvanceHeaderGetEntryCount_from_thumb(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  
-  *param_1 = *param_1 + 4;
-  uVar1 = *(uint *)*param_1;
-  *param_1 = (int)((uint *)*param_1 + 1);
-  return uVar1 & 0xffff;
+unsigned int cmp_a,cmp_b;
+L_20431a4: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20431a6: r1 = (r1+0x4u); cmp_a = r1; cmp_b = 0;
+L_20431a8: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_20431aa: r3 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20431ac: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r3 + 0));
+L_20431ae: r1 = (r1 << 16); cmp_a = r1; cmp_b = 0;
+L_20431b0: r2 = (r1 >> 16); cmp_a = r2; cmp_b = 0;
+L_20431b2: r1 = (r3+0x4u); cmp_a = r1; cmp_b = 0;
+L_20431b4: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_20431b6: r0 = (r2+0x0u); cmp_a = r0; cmp_b = 0;
+L_20431b8: return r0;
 }
-

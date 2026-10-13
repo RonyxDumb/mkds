@@ -1,11 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 02009adc. No matching claim. */
-#include "types.h"
-#include "deps/02009adc_func_02009adc.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void func_02009adc(undefined2 param_1)
-
+unsigned int func_02009adc(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  *(undefined2 *)(iRam02009ae4 + 6) = param_1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_2009adc: r1 = 0x216fdc0u;
+L_2009ade: *(unsigned short *)((unsigned char *)r1 + 6) = (unsigned short)r0;
+L_2009ae0: return r0;
 }
-

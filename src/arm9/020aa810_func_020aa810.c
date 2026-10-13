@@ -1,10 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 020aa810. No matching claim. */
-#include "types.h"
-#include "deps/020aa810_func_020aa810.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-undefined2 func_020aa810(void)
-
+unsigned int func_020aa810(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  return *(undefined2 *)(iRam020aa818 + 0x3e);
+unsigned int cmp_a,cmp_b;
+L_20aa810: r0 = 0x217b278u;
+L_20aa812: r0 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 62));
+L_20aa814: return r0;
 }
-

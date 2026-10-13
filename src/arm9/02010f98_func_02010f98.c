@@ -1,11 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 02010f98. No matching claim. */
-#include "types.h"
-#include "deps/02010f98_func_02010f98.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void func_02010f98(int param_1,uint param_2)
-
+unsigned int func_02010f98(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  *(uint *)(iRam02010fa8 + param_1 * 4) = param_2 | param_1 << 0x1e;
-  return;
+unsigned int cmp_a,cmp_b;
+L_2010f98: r2 = 0x2170344u;
+L_2010f9c: r1 = (r1|(r0 << 30));
+L_2010fa0: *(unsigned int *)((unsigned char *)r2 + (0 + (r0 << 2))) = (unsigned int)r1;
+L_2010fa4: return r0;
 }
-

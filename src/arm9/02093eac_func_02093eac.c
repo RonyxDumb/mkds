@@ -1,31 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 02093eac. No matching claim. */
-#include "types.h"
-#include "deps/02093eac_func_02093eac.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void func_02093eac(uint param_1)
-
+unsigned int func_02093eac(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  
-  if (param_1 == 0) {
-    return;
-  }
-  iVar3 = 0;
-  while( true ) {
-    if ((int)(uint)*(ushort *)(param_1 + 4) <= iVar3) {
-      return;
-    }
-    uVar2 = (*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + iVar3 * 4;
-    uVar1 = uVar2 & 3;
-    uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-    uVar2 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-    if (uVar2 == 0) break;
-    *(undefined4 *)(uVar2 + 0xa0) = 0;
-    iVar3 = iVar3 + 1;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_2093eac: cmp_a = r0; cmp_b = 0x0u;
+L_2093eb0: if ((cmp_a == cmp_b)) { return r0; }
+L_2093eb4: r3 = 0x0u;
+L_2093eb8: r2 = r3;
+L_2093ebc: goto L_2093ec8;
+L_2093ec0: *(unsigned int *)((unsigned char *)r1 + 160) = (unsigned int)r2;
+L_2093ec4: r3 = (r3+0x1u);
+L_2093ec8: r1 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 4));
+L_2093ecc: cmp_a = r3; cmp_b = r1;
+L_2093ed0: if (((int)cmp_a >= (int)cmp_b)) { return r0; }
+L_2093ed4: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2093ed8: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + (0 + (r3 << 2))));
+L_2093edc: cmp_a = r1; cmp_b = 0x0u;
+L_2093ee0: if ((cmp_a != cmp_b)) { goto L_2093ec0; }
+L_2093ee4: return r0;
 }
-

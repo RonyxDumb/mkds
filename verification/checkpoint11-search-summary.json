@@ -1,0 +1,31 @@
+{
+  "mw_extended_arm_flow": {
+    "candidates": 604,
+    "new_functions": 14,
+    "new_bytes": 536
+  },
+  "mw_current_c_drafts": {
+    "candidates": 6802,
+    "optimizations": [
+      "-O4,p",
+      "-O2",
+      "-O3",
+      "-O4,s",
+      "-O1",
+      "-O0"
+    ],
+    "new_functions": 0
+  },
+  "target_byte_percent": 10,
+  "target_reached": false,
+  "full_rom_link_verified": false,
+  "mw_thumb_flow": {
+    "candidates": 122,
+    "new_functions": 48,
+    "new_bytes": 966
+  },
+  "session_total_new_functions": 62,
+  "session_total_new_bytes": 1502,
+  "current_byte_percent": 1.5190659233851498,
+  "remaining_bytes_to_target": 162298
+}

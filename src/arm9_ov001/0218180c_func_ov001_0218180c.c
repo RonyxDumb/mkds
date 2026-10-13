@@ -1,16 +1,14 @@
-/* Decompiled C draft; module arm9_ov001; ROM address 0218180c. No matching claim. */
-#include "types.h"
-#include "deps/0218180c_func_ov001_0218180c.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-char func_ov001_0218180c(void)
-
+unsigned int func_ov001_0218180c(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  char cVar1;
-  
-  cVar1 = *(char *)(*piRam0218181c + 0x37);
-  if (cVar1 == '\0') {
-    cVar1 = '\x01';
-  }
-  return cVar1;
+unsigned int cmp_a,cmp_b;
+L_218180c: r0 = 0x21759c0u;
+L_218180e: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2181810: r0 = (r0+0x37u); cmp_a = r0; cmp_b = 0;
+L_2181812: r0 = (unsigned int)(*(unsigned char *)((unsigned char *)r0 + 0));
+L_2181814: cmp_a = r0; cmp_b = 0x0u;
+L_2181816: if ((cmp_a != cmp_b)) { goto L_218181a; }
+L_2181818: r0 = 0x1u; cmp_a = r0; cmp_b = 0;
+L_218181a: return r0;
 }
-

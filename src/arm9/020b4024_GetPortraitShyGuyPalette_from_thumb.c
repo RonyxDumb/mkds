@@ -1,10 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 020b4024. No matching claim. */
-#include "types.h"
-#include "deps/020b4024_GetPortraitShyGuyPalette_from_thumb.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-undefined4 GetPortraitShyGuyPalette_from_thumb(int param_1)
-
+unsigned int GetPortraitShyGuyPalette_from_thumb(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  return *(undefined4 *)(iRam020b402c + param_1 * 4);
+unsigned int cmp_a,cmp_b;
+L_20b4024: r1 = (r0 << 2); cmp_a = r1; cmp_b = 0;
+L_20b4026: r0 = 0x217b388u;
+L_20b4028: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + (0 + r1)));
+L_20b402a: return r0;
 }
-

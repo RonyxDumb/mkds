@@ -1,11 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 020ca6a8. No matching claim. */
-#include "types.h"
-#include "deps/020ca6a8_func_020ca6a8.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void func_020ca6a8(void)
-
+unsigned int func_020ca6a8(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  *(undefined4 *)(*piRam020ca6b4 + 8) = 1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_20ca6a8: r1 = 0x1u; cmp_a = r1; cmp_b = 0;
+L_20ca6aa: r0 = 0x217b438u;
+L_20ca6ac: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20ca6ae: *(unsigned int *)((unsigned char *)r0 + 8) = (unsigned int)r1;
+L_20ca6b0: return r0;
 }
-

@@ -1,16 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 0202577c. No matching claim. */
-#include "types.h"
-#include "deps/0202577c_GetCourseBgmEntry.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-uint GetCourseBgmEntry(int param_1)
-
+unsigned int GetCourseBgmEntry(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = iRam02025788 + param_1 * 4;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_202577c: r1 = 0x215316cu;
+L_2025780: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + (0 + (r0 << 2))));
+L_2025784: return r0;
 }
-

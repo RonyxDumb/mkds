@@ -1,16 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 020ed578. No matching claim. */
-#include "types.h"
-#include "deps/020ed578_MaybeGetItemByIndex.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-uint MaybeGetItemByIndex(int param_1)
-
+unsigned int MaybeGetItemByIndex(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = iRam020ed584 + param_1 * 4;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_20ed578: r1 = 0x217bbfcu;
+L_20ed57c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + (0 + (r0 << 2))));
+L_20ed580: return r0;
 }
-

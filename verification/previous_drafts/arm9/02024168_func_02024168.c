@@ -1,0 +1,16 @@
+/* Decompiled C draft; module arm9; ROM address 02024168. No matching claim. */
+#include "types.h"
+#include "deps/02024168_func_02024168.h"
+
+uint func_02024168(byte *param_1)
+
+{
+  uint uVar1;
+  uint uVar2;
+  
+  uVar2 = iRam02024180 + (uint)param_1[1] * 0x10 + (uint)*param_1 * 4;
+  uVar1 = uVar2 & 3;
+  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
+  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+}
+
