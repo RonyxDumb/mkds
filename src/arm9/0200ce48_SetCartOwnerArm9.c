@@ -1,11 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 0200ce48. No matching claim. */
-#include "types.h"
-#include "deps/0200ce48_SetCartOwnerArm9.h"
-
-void SetCartOwnerArm9(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int SetCartOwnerArm9(void)
 {
-  *puRam0200ce5c = *puRam0200ce5c & 0xff7f;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(0x4000204u) + 0));
+    *(unsigned short *)((unsigned char *)(unsigned int)(0x4000204u) + 0) = (unsigned short)(((load_0)&~(0x80u)));
+    return ((load_0)&~(0x80u));
 }
-

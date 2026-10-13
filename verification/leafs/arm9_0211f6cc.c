@@ -1,0 +1,6 @@
+unsigned int func_0211f6cc(unsigned int p0, unsigned int p1)
+{
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217d384u) + 0));
+    *(unsigned char *)((unsigned char *)(unsigned int)(((((load_0)+(p0)))+(0x1000u))) + 3264) = (unsigned char)(p1);
+    return ((((load_0)+(p0)))+(0x1000u));
+}

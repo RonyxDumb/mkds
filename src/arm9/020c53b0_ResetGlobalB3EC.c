@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 020c53b0. No matching claim. */
-#include "types.h"
-#include "deps/020c53b0_ResetGlobalB3EC.h"
-
-void ResetGlobalB3EC(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int ResetGlobalB3EC(void)
 {
-  *puRam020c53c0 = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217b3ecu) + 0) = (unsigned int)(0x0u);
+    return 0x217b3ecu;
 }
-

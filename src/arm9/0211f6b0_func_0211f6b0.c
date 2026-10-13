@@ -1,13 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 0211f6b0. No matching claim. */
-#include "types.h"
-#include "deps/0211f6b0_func_0211f6b0.h"
-
-void func_0211f6b0(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_0211f6b0(void)
 {
-  *(undefined4 *)
-   ((*(uint *)(uRam0211f6c8 & 0xfffffffc) >> (uRam0211f6c8 & 3) * 8 |
-    *(uint *)(uRam0211f6c8 & 0xfffffffc) << (uRam0211f6c8 & 3) * -8 + 0x20) + 0x1cfc) = 1;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217d384u) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(((load_0)+(0x1000u))) + 3324) = (unsigned int)(0x1u);
+    return ((load_0)+(0x1000u));
 }
-

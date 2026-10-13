@@ -1,16 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 01ff946c. No matching claim. */
-#include "types.h"
-#include "deps/01ff946c_func_01ff946c.h"
-
-void func_01ff946c(undefined4 *param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void func_01ff946c(unsigned int p0)
 {
-  *param_1 = 0x1000;
-  param_1[1] = 0;
-  param_1[4] = 0;
-  param_1[5] = 0x1000;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 0) = (unsigned int)(0x1000u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 4) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 16) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 20) = (unsigned int)(0x1000u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 48) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 52) = (unsigned int)(0x0u);
 }
-

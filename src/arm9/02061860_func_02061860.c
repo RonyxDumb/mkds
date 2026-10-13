@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 02061860. No matching claim. */
-#include "types.h"
-#include "deps/02061860_func_02061860.h"
-
-void func_02061860(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_02061860(void)
 {
-  *puRam02061870 = 0;
-  return;
+    *(unsigned short *)((unsigned char *)(unsigned int)(0x217aa2cu) + 0) = (unsigned short)(0x0u);
+    return 0x217aa2cu;
 }
-

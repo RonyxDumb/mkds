@@ -1,10 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 020b33c4. No matching claim. */
-#include "types.h"
-#include "deps/020b33c4_GetChoises_s_b_Pallette_from_thumb.h"
-
-undefined4 GetChoises_s_b_Pallette_from_thumb(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int GetChoises_s_b_Pallette_from_thumb(void)
 {
-  return *(undefined4 *)(*piRam020b33d0 + iRam020b33d4);
+    return ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217b354u) + 0))) + 0 + (0x16cu)));
 }
-

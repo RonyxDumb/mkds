@@ -1,21 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0207c448. No matching claim. */
-#include "types.h"
-#include "deps/0207c448_func_0207c448.h"
-
-void func_0207c448(undefined2 *param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void func_0207c448(unsigned int p0)
 {
-  *param_1 = 0;
-  param_1[1] = 0;
-  *(undefined4 *)(param_1 + 2) = 0;
-  *(undefined4 *)(param_1 + 4) = 0;
-  *(undefined4 *)(param_1 + 6) = 0;
-  *(undefined4 *)(param_1 + 8) = 0;
-  *(undefined4 *)(param_1 + 10) = 0;
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  param_1[0xe] = 0;
-  param_1[0xf] = 0;
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  return;
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 0) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 2) = (unsigned short)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 4) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 8) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 12) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 16) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 20) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 24) = (unsigned int)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 28) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 30) = (unsigned short)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 32) = (unsigned int)(0x0u);
 }
-

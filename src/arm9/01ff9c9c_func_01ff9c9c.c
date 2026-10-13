@@ -1,6 +1,6 @@
-/* High-level C; whole-function bytes verified with Zig 0.14.1 Clang.
- * Zero relocations; whole-ROM linking remains unverified. */
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
 void func_01ff9c9c(unsigned int p0, unsigned int p1)
 {
-    p1 &= 0x1000000u; if (p1 != *(const unsigned int *)(p0 + 0x4c0u)) *(unsigned int *)(p0 + 0x4c0u) = p1;
+    if (((((p1)&(0x1000000u))) != (((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 1216))))) *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 1216) = (unsigned int)(((p1)&(0x1000000u)));
 }

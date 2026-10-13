@@ -1,11 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 0202ee20. No matching claim. */
-#include "types.h"
-#include "deps/0202ee20_func_0202ee20.h"
-
-int func_0202ee20(int param_1,int param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_0202ee20(unsigned int p0, unsigned int p1)
 {
-  return (int)*(short *)(*(int *)(*piRam0202ee38 + 8) + param_2 * 0x40 + 0xe) -
-         (int)*(short *)(*(int *)(*piRam0202ee38 + 8) + param_1 * 0x40 + 0xe);
+    return ((((unsigned int)*(const short *)((unsigned char *)(unsigned int)(((((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x2174e48u) + 0))) + 8)))+(((p1) << 6)))) + 0 + (0xeu))))-(((unsigned int)*(const short *)((unsigned char *)(unsigned int)(((((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x2174e48u) + 0))) + 8)))+(((p0) << 6)))) + 0 + (0xeu)))));
 }
-

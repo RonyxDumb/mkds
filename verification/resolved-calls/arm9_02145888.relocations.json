@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Card_IsEnabled",
+    "target": 34887860,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645767
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Os_Terminate",
+    "target": 33619228,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959105820
+  }
+]

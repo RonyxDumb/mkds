@@ -1,13 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 0207b8c4. No matching claim. */
-#include "types.h"
-#include "deps/0207b8c4_CharacterKart_InitializeAnimation.h"
-
-void CharacterKart_InitializeAnimation(int param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int CharacterKart_InitializeAnimation(unsigned int p0)
 {
-  *(undefined4 *)(param_1 + 0x24) = 0;
-  *(undefined4 *)(param_1 + 0x38) = 0;
-  *(undefined2 *)(param_1 + 0x3c) = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 36) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(((p0)+(0x24u))) + 20) = (unsigned int)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(((p0)+(0x24u))) + 24) = (unsigned short)(0x0u);
+    return ((p0)+(0x24u));
 }
-

@@ -1,17 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 02087cd0. No matching claim. */
-#include "types.h"
-#include "deps/02087cd0_Animation_InitializeImpl.h"
-
-void Animation_InitializeImpl(undefined2 *param_1,undefined4 param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void Animation_InitializeImpl(unsigned int p0, unsigned int p1)
 {
-  *param_1 = 1;
-  param_1[1] = 0;
-  *(undefined4 *)(param_1 + 4) = 0x1000;
-  *(undefined4 *)(param_1 + 2) = param_2;
-  *(undefined4 *)(param_1 + 6) = 0;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  return;
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 0) = (unsigned short)(0x1u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 2) = (unsigned short)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 8) = (unsigned int)(0x1000u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 4) = (unsigned int)(p1);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 12) = (unsigned int)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 16) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 18) = (unsigned short)(0x0u);
 }
-

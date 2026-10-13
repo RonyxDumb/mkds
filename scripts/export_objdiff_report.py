@@ -28,6 +28,14 @@ def generate(root, report_input):
         raise ValueError('Unexpected verification scope')
     with (root / 'verification/local-byte-exact.tsv').open(encoding='utf-8', newline='') as f:
         proofs = {(r['module'], int(r['address'], 16)): r for r in csv.DictReader(f, delimiter='\t')}
+    linked_file = root / 'verification/local-linked-byte-exact.tsv'
+    if linked_file.exists():
+        with linked_file.open(encoding='utf-8', newline='') as f:
+            for r in csv.DictReader(f, delimiter='\t'):
+                key = (r['module'], int(r['address'], 16))
+                if key in proofs:
+                    raise ValueError('Duplicate proof ' + str(key))
+                proofs[key] = r
     used, seen, units, categories = set(), set(), [], []
     code = matched = count = matching_count = 0
     for module in progress['modules']:
@@ -48,8 +56,21 @@ def generate(root, report_input):
                 if verified != (proof is not None):
                     raise ValueError('Missing or unexpected proof ' + str(key))
                 if verified:
-                    if int(proof['size']) != size or int(proof['relocations']) != 0 or proof['status'] != 'EXACT_LOCAL_BYTES':
+                    if int(proof['size']) != size or proof['status'] not in ('EXACT_LOCAL_BYTES', 'EXACT_LOCAL_LINKED_BYTES'):
                         raise ValueError('Invalid proof ' + str(key))
+                    if proof['status'] == 'EXACT_LOCAL_BYTES':
+                        if int(proof['relocations']) != 0:
+                            raise ValueError('Unexpected relocation ' + str(key))
+                        archived = root / 'verification/leafs' / f'{name}_{addr:08x}.original.hex'
+                    else:
+                        audit_dir = root / 'verification/resolved-calls'
+                        archived = audit_dir / f'{name}_{addr:08x}.linked.hex'
+                        relocations = json.loads((audit_dir / f'{name}_{addr:08x}.relocations.json').read_text())
+                        if len(relocations) != int(proof['relocations']) or not relocations:
+                            raise ValueError('Relocation audit mismatch ' + str(key))
+                    original_bytes = bytes.fromhex(archived.read_text())
+                    if len(original_bytes) != size or hashlib.sha256(original_bytes).hexdigest() != proof['sha256']:
+                        raise ValueError('Archived code proof mismatch ' + str(key))
                     source = root / 'src' / name / f'{addr:08x}_{fname}.c'
                     if hashlib.sha256(source.read_bytes()).hexdigest() != proof['source_sha256']:
                         raise ValueError('Source SHA-256 does not match proof: ' + str(source))

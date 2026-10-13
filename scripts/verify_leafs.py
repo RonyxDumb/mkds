@@ -4,7 +4,7 @@ import re,json,subprocess,io,hashlib,csv,concurrent.futures,os
 from capstone import Cs,CS_ARCH_ARM,CS_MODE_ARM,CS_MODE_THUMB,CS_OP_REG,CS_OP_IMM,CS_OP_MEM
 from capstone.arm import ARM_SFT_LSL,ARM_SFT_LSR,ARM_SFT_ASR,ARM_SFT_ROR
 from elftools.elf.elffile import ELFFile
-work=Path(__file__).resolve().parents[1];root=work.parent;baseline=Path(os.environ.get('MKDS_BASELINE',str(work/'baseline')));manifest=json.loads((baseline/'manifest.json').read_text())
+work=Path(__file__).resolve().parents[1];root=work.parent;baseline=Path(os.environ.get('MKDS_BASELINE',str(root/'recovery/MarioKartDS-EUR-analysis')));manifest=json.loads((baseline/'manifest.json').read_text())
 sections={m['name']:[(s['base'],(baseline/'binaries'/s['file']).read_bytes()) for s in m['sections']] for m in manifest['modules']}
 def target_bytes(module,a,n):
  for base,b in sections[module]:
@@ -97,8 +97,8 @@ for sf in (baseline/'symbols').glob('*.txt'):
   except (ValueError,IndexError,KeyError):continue
   if body:funcs.append({'module':module,'name':name,'mode':mode,'address':addr,'size':size,'original':b,'source':sig+'\n{\n    '+body+'\n}\n','kind':kind})
 print('Candidates',len(funcs),flush=True)
-cc=Path(os.environ.get('MWCCARM',str(work/'tools/mwccarm/1.2/sp2p3/mwccarm.exe')));wibo=Path(os.environ.get('WIBO',str(work/'tools/wibo')));flags='-O4,p -enum int -lang c99 -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc'.split()
-cands=work/'build/leaf-candidates';cands.mkdir(exist_ok=True);out=work/'verification/leafs';out.mkdir(parents=True,exist_ok=True)
+cc=Path(os.environ.get('MWCCARM',str(root/'tooling/mwccarm/1.2/sp2p3/mwccarm.exe')));wibo=Path(os.environ.get('WIBO',str(root/'tooling/wibo')));flags='-O4,p -enum int -lang c99 -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc'.split()
+cands=root/'leaf-candidates';cands.mkdir(exist_ok=True);out=work/'verification/leafs';out.mkdir(parents=True,exist_ok=True)
 def verify(f):
  tag=f['module']+'_'+format(f['address'],'08x');src=cands/(tag+'.c');obj=cands/(tag+'.o');src.write_text(f['source'])
  try:p=subprocess.run([str(wibo),str(cc),*flags,*(['-thumb'] if f['mode']=='thumb' else []),'-c',str(src),'-o',str(obj)],capture_output=True,text=True,timeout=30)

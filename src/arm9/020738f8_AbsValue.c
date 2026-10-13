@@ -1,13 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 020738f8. No matching claim. */
-#include "types.h"
-#include "deps/020738f8_AbsValue.h"
-
-int AbsValue(int param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int AbsValue(unsigned int p0)
 {
-  if (param_1 < 1) {
-    param_1 = -param_1;
-  }
-  return param_1;
+    return ((((int)(p0)) <= ((int)(0x0u))) ? (((0x0u)-(p0))) : (p0));
 }
-

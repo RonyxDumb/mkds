@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "func_0214c48c",
+    "target": 34915468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942962914
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "SomeDmaCopy_0",
+    "target": 34915352,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942962881
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "func_0214c3c0",
+    "target": 34915264,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942962858
+  }
+]

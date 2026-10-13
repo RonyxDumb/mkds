@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 020d2094. No matching claim. */
-#include "types.h"
-#include "deps/020d2094_func_020d2094.h"
-
-void func_020d2094(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_020d2094(void)
 {
-  *puRam020d20a4 = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217b4b4u) + 0) = (unsigned int)(0x0u);
+    return 0x217b4b4u;
 }
-

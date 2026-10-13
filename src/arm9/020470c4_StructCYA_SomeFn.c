@@ -1,20 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 020470c4. No matching claim. */
-#include "types.h"
-#include "deps/020470c4_StructCYA_SomeFn.h"
-
-void StructCYA_SomeFn(undefined2 *param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void StructCYA_SomeFn(unsigned int p0)
 {
-  param_1[8] = (short)uRam02047100;
-  *(undefined1 *)(param_1 + 9) = 0;
-  *param_1 = 0xff;
-  param_1[1] = 0xff;
-  param_1[2] = 0;
-  param_1[3] = 3;
-  param_1[4] = 0xff;
-  param_1[5] = 0xff;
-  param_1[6] = 0;
-  param_1[7] = 3;
-  return;
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 16) = (unsigned short)(0xffffu);
+    *(unsigned char *)((unsigned char *)(unsigned int)(p0) + 18) = (unsigned char)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 0) = (unsigned short)(0xffu);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 2) = (unsigned short)(0xffu);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 4) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 6) = (unsigned short)(0x3u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 8) = (unsigned short)(0xffu);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 10) = (unsigned short)(0xffu);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 12) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 14) = (unsigned short)(0x3u);
 }
-

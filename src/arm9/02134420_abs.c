@@ -1,13 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 02134420. No matching claim. */
-#include "types.h"
-#include "deps/02134420_abs.h"
-
-int abs(int __x)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int abs(unsigned int p0)
 {
-  if (__x < 0) {
-    __x = -__x;
-  }
-  return __x;
+    return ((((int)(p0)) < ((int)(0x0u))) ? (((0x0u)-(p0))) : (p0));
 }
-

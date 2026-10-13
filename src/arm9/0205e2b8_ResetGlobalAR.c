@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 0205e2b8. No matching claim. */
-#include "types.h"
-#include "deps/0205e2b8_ResetGlobalAR.h"
-
-void ResetGlobalAR(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int ResetGlobalAR(void)
 {
-  *puRam0205e2c8 = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217aa24u) + 0) = (unsigned int)(0x0u);
+    return 0x217aa24u;
 }
-

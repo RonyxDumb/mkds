@@ -1,13 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 02054f38. No matching claim. */
-#include "types.h"
-#include "deps/02054f38_func_02054f38.h"
-
-void func_02054f38(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_02054f38(void)
 {
-  *(short *)((*(uint *)(uRam02054f50 & 0xfffffffc) >> (uRam02054f50 & 3) * 8 |
-             *(uint *)(uRam02054f50 & 0xfffffffc) << (uRam02054f50 & 3) * -8 + 0x20) + 0x432) =
-       (short)uRam02054f54;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217aa00u) + 0));
+    *(unsigned short *)((unsigned char *)(unsigned int)(((load_0)+(0x400u))) + 50) = (unsigned short)(0xffffu);
+    return ((load_0)+(0x400u));
 }
-

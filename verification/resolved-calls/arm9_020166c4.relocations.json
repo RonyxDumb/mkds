@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "func_0214b3f8",
+    "target": 34911224,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942961991
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "func_0214b384",
+    "target": 34911108,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942961958
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "GXS_EndLoadOBJExtPltt",
+    "target": 34911032,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942961938
+  }
+]

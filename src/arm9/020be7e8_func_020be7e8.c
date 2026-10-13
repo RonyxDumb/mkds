@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 020be7e8. No matching claim. */
-#include "types.h"
-#include "deps/020be7e8_func_020be7e8.h"
-
-void func_020be7e8(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_020be7e8(void)
 {
-  *puRam020be7f8 = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217b3d8u) + 0) = (unsigned int)(0x0u);
+    return 0x217b3d8u;
 }
-

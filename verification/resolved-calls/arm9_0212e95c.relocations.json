@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Sound_GetSbnkPointer",
+    "target": 34792760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422702
+  }
+]

@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 02125ed0. No matching claim. */
-#include "types.h"
-#include "deps/02125ed0_TextSystem_SetButtonPressSseqId_from_thumb.h"
-
-void TextSystem_SetButtonPressSseqId_from_thumb(int param_1,undefined4 param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int TextSystem_SetButtonPressSseqId_from_thumb(unsigned int p0, unsigned int p1)
 {
-  *(undefined4 *)(*piRam02125ee0 + param_1 * 4 + iRam02125ee4) = param_2;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(((((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217d3f0u) + 0)))+(((p0) << 2)))) + 0 + (0x2250u)) = (unsigned int)(p1);
+    return 0x2250u;
 }
-

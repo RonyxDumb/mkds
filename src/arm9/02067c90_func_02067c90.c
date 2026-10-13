@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 02067c90. No matching claim. */
-#include "types.h"
-#include "deps/02067c90_func_02067c90.h"
-
-undefined4 func_02067c90(undefined4 param_1,undefined4 *param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_02067c90(unsigned int p0, unsigned int p1)
 {
-  *param_2 = 9;
-  return 2;
+    *(unsigned int *)((unsigned char *)(unsigned int)(p1) + 0) = (unsigned int)(0x9u);
+    return 0x2u;
 }
-

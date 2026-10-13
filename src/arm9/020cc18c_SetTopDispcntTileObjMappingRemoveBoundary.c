@@ -1,13 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 020cc18c. No matching claim. */
-#include "types.h"
-#include "deps/020cc18c_SetTopDispcntTileObjMappingRemoveBoundary.h"
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-void SetTopDispcntTileObjMappingRemoveBoundary(uint param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int SetTopDispcntTileObjMappingRemoveBoundary(unsigned int p0)
 {
-  _DAT_04000000 = _DAT_04000000 & uRam020cc1a8 | param_1;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x4000000u) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x4000000u) + 0) = (unsigned int)(((((load_0)&(0xffcfffefu)))|(p0)));
+    return ((((load_0)&(0xffcfffefu)))|(p0));
 }
-

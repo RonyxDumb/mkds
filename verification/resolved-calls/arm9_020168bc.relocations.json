@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "func_0214c2f8",
+    "target": 34915064,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942962825
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "func_0214c288",
+    "target": 34914952,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942962794
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "func_0214c1bc",
+    "target": 34914748,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942962742
+  }
+]

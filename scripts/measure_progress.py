@@ -5,6 +5,10 @@ from pathlib import Path
 import csv,json,hashlib,struct
 root=Path(__file__).resolve().parents[1];base=root/'baseline'
 proofs={(x['module'],int(x['address'],16)):x for x in csv.DictReader((root/'verification/local-byte-exact.tsv').open(),delimiter='\t')}
+linked_file=root/'verification/local-linked-byte-exact.tsv'
+if linked_file.exists():
+ for x in csv.DictReader(linked_file.open(),delimiter='\t'):
+  key=(x['module'],int(x['address'],16));assert key not in proofs;proofs[key]=x
 build={(x['module'],Path(x['file']).stem):x for x in csv.DictReader((root/'checks/arm-build.tsv').open(),delimiter='\t')}
 manifest=json.loads((base/'manifest.json').read_text());sections={m['name']:[(s['base'],(base/'binaries'/s['file']).read_bytes()) for s in m['sections']] for m in manifest['modules']}
 def read(mod,addr,size):
@@ -28,9 +32,10 @@ for mod in ['arm9','arm9_ov000','arm9_ov001','arm9_ov003','arm7']:
   if proof:
    assert size==int(proof['size']);assert hashlib.sha256(f.read_bytes()).hexdigest()==proof['source_sha256']
    original=read(mod,addr,size);assert hashlib.sha256(original).hexdigest()==proof['sha256']
-   archived=bytes.fromhex((root/'verification/leafs'/f'{mod}_{addr:08x}.original.hex').read_text());assert archived==original
+   archive=(root/'verification/resolved-calls'/f'{mod}_{addr:08x}.linked.hex') if proof['status']=='EXACT_LOCAL_LINKED_BYTES' else (root/'verification/leafs'/f'{mod}_{addr:08x}.original.hex')
+   archived=bytes.fromhex(archive.read_text());assert archived==original
    obj=root/'build/leaf-candidates'/f'{mod}_{addr:08x}.o'
-   if obj.exists():assert object_text(obj)==original
+   if obj.exists() and proof['status']=='EXACT_LOCAL_BYTES':assert object_text(obj)==original
    found.add((mod,addr));status=0
   functions.append([name,size,status,f'{addr:08x}'])
  modules.append(dict(name=mod,functions=functions,bytes=sum(x[1] for x in functions),exact_bytes=sum(x[1] for x in functions if x[2]==0),compiled_bytes=sum(x[1] for x in functions if x[2] in [0,1]),function_count=len(functions),exact_functions=sum(x[2]==0 for x in functions)))

@@ -1,8 +1,8 @@
-# Mario Kart DS EUR — checkpoint 6
+# Mario Kart DS EUR — checkpoint 8
 
 **7.598 file compilabili su 12.038 (63,12%); 4.440 da correggere.**
 
-Sorgenti, prove e istruzioni di ripresa sono inclusi. La percentuale indica compilabilità di singoli file, non decompilazione completa o correttezza del gioco. Le 613 funzioni localmente byte-exact sono inalterate. Leggere `RISULTATI.md`, `PROGRESSO.json` e `RIPRENDI.md`.
+Sorgenti, prove e istruzioni di ripresa sono inclusi. La percentuale indica compilabilità di singoli file, non decompilazione completa o correttezza del gioco. Le 613 funzioni precedenti sono inalterate; 163 nuove funzioni portano il totale a 776. Leggere `RISULTATI.md`, `PROGRESSO.json` e `RIPRENDI.md`.
 
 ROM di origine: Mario Kart DS EUR, SHA-1 `ce97d9b43f0d3ca0d48b781983e8a16f6393378f`.
 
@@ -60,3 +60,19 @@ Tipizzati 846 puntatori caricati da literal pool PC-relative verso una funzione 
 ## Copertura misurata
 
 Matching locale ponderato per dimensione: **0,4561%** (8.728 / 1.913.676 byte attribuiti alle funzioni identificate). Per numero di funzioni: 613 / 12.038, cioè 5,0922%. Vedere reports/MISURA-DECOMP.md e reports/progress-measured.json per metodo, limiti e dati per funzione. Non è una misura della correttezza funzionale dell’intero decomp.
+
+## Checkpoint 7 — matching locale
+
+**776 funzioni, 13.142 byte identici**, +163 funzioni e +4.414 byte. Copertura ponderata: **0,6867%** dei byte attribuiti alle funzioni identificate; per numero: **6,4463%**. La compilabilità resta 7.598/12.038.
+
+Estesa la ricostruzione delle foglie a ARM7, sequenze più lunghe, accessi indicizzati semplici, condizioni basate su CMP e funzioni con scritture e ritorno. Accettati solo oggetti con lunghezza e byte completi identici, senza relocazioni, assembly inline o byte mascherati. Tutte le 776 funzioni sono state ricompilate con MW e Clang; le 613 precedenti conservano gli hash dei sorgenti.
+
+Prove: `verification/checkpoint7-added.tsv`, `verification/matching-audit.json`, `verification/mw-objects/`. Opzioni di ottimizzazione e processore sono registrate per funzione in `verification/local-byte-exact.tsv`. Linking completo, ABI globale e gioco in emulatore restano da verificare.
+
+## Checkpoint 8 — 21.978 byte verificati
+
+**1.024 funzioni; 21.978 byte: 1,1485%** dei byte attribuiti alle funzioni inventariate. +248 funzioni e +8.836 byte rispetto al checkpoint 7 (+67,23% dei byte verificati).
+
+937 funzioni (17.362 byte) sono identiche senza relocazioni; 87 (4.616 byte) coincidono dopo aver applicato tutte le 161 relocazioni ARM agli indirizzi originali. I registri sono distinti. Nessun byte mascherato, stub o assembly inline. Le chiamate Thumb/interworking non supportate sono escluse.
+
+Ricompilate e ricontrollate tutte le 1.024 funzioni con MW e Clang. Le 776 sorgenti del checkpoint 7 sono inalterate. Compilabilità generale invariata: 7.598/12.038. ROM completa, linking globale, ABI e comportamento in gioco non verificati.

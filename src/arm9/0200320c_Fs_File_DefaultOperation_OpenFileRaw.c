@@ -1,25 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 0200320c. No matching claim. */
-#include "types.h"
-#include "deps/0200320c_Fs_File_DefaultOperation_OpenFileRaw.h"
-
-undefined4 Fs_File_DefaultOperation_OpenFileRaw(int param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int Fs_File_DefaultOperation_OpenFileRaw(unsigned int p0)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 0x30U & 3;
-  uVar2 = *(uint *)(param_1 + 0x30U & 0xfffffffc);
-  *(uint *)(param_1 + 0x24) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 0x30U & 3;
-  uVar2 = *(uint *)(param_1 + 0x30U & 0xfffffffc);
-  *(uint *)(param_1 + 0x2c) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 0x34U & 3;
-  uVar2 = *(uint *)(param_1 + 0x34U & 0xfffffffc);
-  *(uint *)(param_1 + 0x28) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 0x38U & 3;
-  uVar2 = *(uint *)(param_1 + 0x38U & 0xfffffffc);
-  *(uint *)(param_1 + 0x20) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  return 0;
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 36) = (unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 48)));
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 44) = (unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 48)));
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 40) = (unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 52)));
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 32) = (unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 56)));
+    return 0x0u;
 }
-

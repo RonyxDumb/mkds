@@ -1,17 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 020a697c. No matching claim. */
-#include "types.h"
-#include "deps/020a697c_func_020a697c.h"
-
-void func_020a697c(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_020a697c(void)
 {
-  uint uVar1;
-  
-  uVar1 = *puRam020a699c + 1;
-  if (2 < uVar1) {
-    uVar1 = 0;
-  }
-  *puRam020a699c = (ushort)uVar1;
-  return;
+    *(unsigned short *)((unsigned char *)(unsigned int)(0x217b220u) + 0) = (unsigned short)(((((int)(((((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(0x217b220u) + 0)))+(0x1u)))) >= ((int)(0x3u))) ? (0x0u) : (((((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(0x217b220u) + 0)))+(0x1u)))));
+    return 0x217b220u;
 }
-

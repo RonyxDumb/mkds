@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Card_LockResource",
+    "target": 34888304,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645924
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Os_TryLockCard",
+    "target": 33607188,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959102859
+  }
+]

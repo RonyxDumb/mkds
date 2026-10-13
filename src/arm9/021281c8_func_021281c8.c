@@ -1,11 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 021281c8. No matching claim. */
-#include "types.h"
-#include "deps/021281c8_func_021281c8.h"
-
-void func_021281c8(undefined4 param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void func_021281c8(unsigned int p0)
 {
-  *(undefined4 *)(*piRam021281d4 + iRam021281d8) = param_1;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217d3f8u) + 0))) + 0 + (0x824u)) = (unsigned int)(p0);
 }
-

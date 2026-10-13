@@ -1,15 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 0212d0ec. No matching claim. */
-#include "types.h"
-#include "deps/0212d0ec_func_0212d0ec.h"
-
-void func_0212d0ec(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_0212d0ec(void)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = puRam0212d108;
-  *puRam0212d104 = 0;
-  *puVar1 = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217dda8u) + 0) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217ddd0u) + 0) = (unsigned int)(0x0u);
+    return 0x217ddd0u;
 }
-

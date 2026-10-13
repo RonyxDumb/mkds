@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_InitializeEmpty",
+    "target": 33649976,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959137999
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Sound_Context_MaybeReset",
+    "target": 34789772,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422945
+  }
+]

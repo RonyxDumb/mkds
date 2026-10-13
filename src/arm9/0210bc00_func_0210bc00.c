@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 0210bc00. No matching claim. */
-#include "types.h"
-#include "deps/0210bc00_func_0210bc00.h"
-
-void func_0210bc00(int param_1,int param_2,undefined4 param_3)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_0210bc00(unsigned int p0, unsigned int p1, unsigned int p2)
 {
-  *(undefined4 *)(iRam0210bc10 + param_1 * 0x20 + param_2 * 4) = param_3;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(((0x217cd30u)+(((p0) << 5)))) + 0 + (((p1) << 2))) = (unsigned int)(p2);
+    return ((0x217cd30u)+(((p0) << 5)));
 }
-

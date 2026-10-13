@@ -1,23 +1,12 @@
 {
-  "candidates": 647,
-  "exact_functions": 617,
-  "exact_code_bytes": 8816,
-  "compiler": "Mixed: historical MW proofs plus four new Zig 0.14.1/Clang proofs",
-  "flags": [
-    "-O4,p",
-    "-enum",
-    "int",
-    "-lang",
-    "c99",
-    "-char",
-    "signed",
-    "-interworking",
-    "-proc",
-    "arm946e",
-    "-gccext,on",
-    "-msgstyle",
-    "gcc"
-  ],
-  "verification": "Identical entire function byte sequence, equal length, zero relocations; no byte masking; no inline assembly; full ROM link not verified",
-  "compiler_details": "Per-function new compiler flags in verification/clang-leafs/results.json; original MW flags below remain historical"
+  "checkpoint": 8,
+  "verified_functions": 1024,
+  "verified_bytes": 21978,
+  "unrelocated_functions": 937,
+  "resolved_functions": 87,
+  "resolved_relocations": 161,
+  "fresh_mw_audits_passed": true,
+  "clang_recheck_passed": true,
+  "previous_776_source_hashes_unchanged": true,
+  "full_rom_link_verified": false
 }

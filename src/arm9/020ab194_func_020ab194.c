@@ -1,12 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 020ab194. No matching claim. */
-#include "types.h"
-#include "deps/020ab194_func_020ab194.h"
-
-void func_020ab194(undefined4 param_1,undefined4 param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_020ab194(unsigned int p0, unsigned int p1)
 {
-  *puRam020ab1a0 = param_1;
-  *puRam020ab1a4 = param_2;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217b234u) + 0) = (unsigned int)(p0);
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217b238u) + 0) = (unsigned int)(p1);
+    return 0x217b238u;
 }
-

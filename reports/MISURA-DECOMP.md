@@ -1,17 +1,15 @@
-# Copertura misurata — checkpoint 7
+# Copertura misurata — checkpoint 8
 
-**0.460684% dei byte dei corpi funzione identificati è verificato localmente.**
+1024 funzioni; 21,978 / 1,913,676 byte attribuiti alle funzioni identificate: 1.1485%.
 
-8,816 / 1,913,676 byte; 617 / 12038 funzioni. È una misura sull'inventario Ghidra, non un matching della ROM intera. I corpi possono includere dati, falsi positivi e byte sovrapposti.
+Matching locale: byte completi, lunghezza identica, nessuna differenza ignorata. 937 funzioni senza relocazioni; 87 con 161 relocazioni applicate e verificate. Non è matching della ROM completa.
 
-| Modulo | Byte funzioni | Byte locali identici | Copertura |
+| Modulo | Funzioni identiche | Byte identici | Copertura byte |
 |---|---:|---:|---:|
-| arm9 | 1397108 | 8384 | 0.600097% |
-| arm9_ov000 | 174497 | 116 | 0.066477% |
-| arm9_ov001 | 100010 | 280 | 0.279972% |
-| arm9_ov003 | 94969 | 36 | 0.037907% |
-| arm7 | 147092 | 0 | 0.000000% |
+| arm9 | 978 | 21252 | 1.5211% |
+| arm9_ov000 | 10 | 132 | 0.0756% |
+| arm9_ov001 | 29 | 496 | 0.4960% |
+| arm9_ov003 | 7 | 98 | 0.1032% |
+| arm7 | 0 | 0 | 0.0000% |
 
-File compilabili: 7598 / 12038 (63.1168%). Compilabilità e matching sono misure distinte.
-
-Hash dei sorgenti e prove hex ricontrollati contro i binari estratti. Le prove MW precedenti restano storiche se il compilatore non è disponibile. Le nuove prove Clang hanno oggetti e opzioni conservati in verification/clang-leafs/. Linking completo e comportamento del gioco non verificati.
+Il denominatore deriva dall’inventario Ghidra e può includere corpi sovrapposti, dati o identificazioni errate. ABI globale, linking e comportamento nel gioco restano da verificare.

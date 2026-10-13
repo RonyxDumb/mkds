@@ -1,10 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 020ae5e4. No matching claim. */
-#include "types.h"
-#include "deps/020ae5e4_func_020ae5e4.h"
-
-undefined2 func_020ae5e4(int param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_020ae5e4(unsigned int p0)
 {
-  return *(undefined2 *)(param_1 + iRam020ae5ec);
+    return ((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(p0) + 0 + (0x402u)));
 }
-

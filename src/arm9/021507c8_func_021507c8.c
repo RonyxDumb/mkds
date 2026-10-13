@@ -1,22 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 021507c8. No matching claim. */
-#include "types.h"
-#include "deps/021507c8_func_021507c8.h"
-
-void func_021507c8(undefined4 *param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void func_021507c8(unsigned int p0)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  
-  uVar1 = uRam021507fc;
-  *param_1 = uRam021507f8;
-  uVar2 = uRam02150800;
-  param_1[1] = uVar1;
-  uVar1 = uRam02150804;
-  param_1[2] = uVar2;
-  param_1[3] = uVar1;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 0) = (unsigned int)(0x67452301u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 4) = (unsigned int)(0xefcdab89u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 8) = (unsigned int)(0x98badcfeu);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 12) = (unsigned int)(0x10325476u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 16) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 20) = (unsigned int)(0x0u);
 }
-

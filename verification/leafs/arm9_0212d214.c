@@ -1,0 +1,5 @@
+unsigned int func_0212d214(unsigned int p0, unsigned int p1, unsigned int p2)
+{
+    *(unsigned int *)((unsigned char *)(unsigned int)(p2) + 136) = (unsigned int)(0x0u);
+    return 0x0u;
+}

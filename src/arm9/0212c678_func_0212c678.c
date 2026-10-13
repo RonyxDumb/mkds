@@ -1,17 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 0212c678. No matching claim. */
-#include "types.h"
-#include "deps/0212c678_func_0212c678.h"
-
-void func_0212c678(uint param_1,undefined1 param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_0212c678(unsigned int p0, unsigned int p1)
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  if (uVar1 != 0) {
-    *(undefined1 *)(uVar1 + 0x41) = param_2;
-  }
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 0));
+    if (((load_0) != (0x0u))) *(unsigned char *)((unsigned char *)(unsigned int)(load_0) + 65) = (unsigned char)(p1);
+    return load_0;
 }
-

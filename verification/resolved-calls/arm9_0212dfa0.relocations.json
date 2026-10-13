@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Sound_DisposeFile",
+    "target": 34791500,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645795
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "func_02020990",
+    "target": 33687952,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959147121
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "SND_func_0042",
+    "target": 33692648,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148293
+  }
+]

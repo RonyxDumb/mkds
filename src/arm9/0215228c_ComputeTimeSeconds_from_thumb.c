@@ -1,10 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 0215228c. No matching claim. */
-#include "types.h"
-#include "deps/0215228c_ComputeTimeSeconds_from_thumb.h"
-
-int ComputeTimeSeconds_from_thumb(int *param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int ComputeTimeSeconds_from_thumb(unsigned int p0)
 {
-  return param_1[2] + (param_1[1] + *param_1 * 0x3c) * 0x3c;
+    return ((((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 8)))+(((0x3cu)*(((((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 4)))+(((0x3cu)*(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 0))))))))));
 }
-

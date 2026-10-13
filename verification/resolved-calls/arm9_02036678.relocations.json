@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Os_GetMemoryRegionStartAddress",
+    "target": 33616232,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959382711
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Os_GetMemoryRegionEndAddress",
+    "target": 33616252,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959382714
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Os_GetMemoryRegionStartAddress",
+    "target": 33616232,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959382707
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Os_GetMemoryRegionEndAddress",
+    "target": 33616252,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959382710
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Os_GetMemoryRegionStartAddress",
+    "target": 33616232,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959382703
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Os_GetMemoryRegionEndAddress",
+    "target": 33616252,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959382706
+  }
+]

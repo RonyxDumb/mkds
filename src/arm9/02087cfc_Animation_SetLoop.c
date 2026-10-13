@@ -1,17 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 02087cfc. No matching claim. */
-#include "types.h"
-#include "deps/02087cfc_Animation_SetLoop.h"
-
-void Animation_SetLoop(undefined2 *param_1,int param_2,undefined4 param_3)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void Animation_SetLoop(unsigned int p0, unsigned int p1, unsigned int p2)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = (uint)(param_1 + 0x10) & 3;
-  uVar2 = *(uint *)((uint)(param_1 + 0x10) & 0xfffffffc);
-  *(undefined4 *)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + param_2 * 4) = param_3;
-  *param_1 = (short)param_3;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 32))) + 0 + (((p1) << 2))) = (unsigned int)(p2);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 0) = (unsigned short)(p2);
 }
-

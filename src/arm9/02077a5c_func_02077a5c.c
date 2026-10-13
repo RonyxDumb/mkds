@@ -1,10 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 02077a5c. No matching claim. */
-#include "types.h"
-#include "deps/02077a5c_func_02077a5c.h"
-
-uint func_02077a5c(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_02077a5c(void)
 {
-  return *(int *)(*piRam02077a6c + 4) + 1U & 0xffff;
+    return ((((((((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217ad08u) + 0))) + 4)))+(0x1u))) << 16)) >> 16);
 }
-

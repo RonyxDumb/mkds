@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "SND_GetWaveDataAddress",
+    "target": 33692008,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148166
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "SND_SetWaveDataAddress",
+    "target": 33692080,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148178
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "func_02020990",
+    "target": 33687952,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959147143
+  }
+]

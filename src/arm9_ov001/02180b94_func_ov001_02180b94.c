@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9_ov001; ROM address 02180b94. No matching claim. */
-#include "types.h"
-#include "deps/02180b94_func_ov001_02180b94.h"
-
-void func_ov001_02180b94(uint param_1,int param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_ov001_02180b94(unsigned int p0, unsigned int p1)
 {
-  *puRam02180bbc = param_1 & uRam02180bb4 | uRam02180bb8 & param_2 << 0x10;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x4001014u) + 0) = (unsigned int)(((((p0)&(0x1ffu)))|(((0x1ff0000u)&(((p1) << 16))))));
+    return 0x4001014u;
 }
-

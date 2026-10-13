@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "SetMDValue",
+    "target": 33691444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646521
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "MaybeSoundSendCommand",
+    "target": 33687532,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422753
+  }
+]

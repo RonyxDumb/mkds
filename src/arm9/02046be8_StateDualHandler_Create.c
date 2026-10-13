@@ -1,18 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 02046be8. No matching claim. */
-#include "types.h"
-#include "deps/02046be8_StateDualHandler_Create.h"
-
-void StateDualHandler_Create
-               (undefined4 *param_1,undefined4 param_2,undefined2 param_3,undefined4 param_4)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void StateDualHandler_Create(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3)
 {
-  param_1[2] = param_4;
-  *param_1 = param_2;
-  *(undefined2 *)(param_1 + 3) = param_3;
-  param_1[1] = 0;
-  *(undefined2 *)((int)param_1 + 0x12) = 1;
-  *(undefined2 *)((int)param_1 + 0xe) = 0;
-  *(undefined2 *)(param_1 + 4) = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 8) = (unsigned int)(p3);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 0) = (unsigned int)(p1);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 12) = (unsigned short)(p2);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 4) = (unsigned int)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 18) = (unsigned short)(0x1u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 14) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 16) = (unsigned short)(0x0u);
 }
-

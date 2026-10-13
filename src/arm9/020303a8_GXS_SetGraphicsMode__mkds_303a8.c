@@ -1,14 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 020303a8. No matching claim. */
-#include "types.h"
-#include "deps/020303a8_GXS_SetGraphicsMode__mkds_303a8.h"
-
-void GXS_SetGraphicsMode__mkds_303a8(int param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int GXS_SetGraphicsMode__mkds_303a8(unsigned int p0)
 {
-  *puRam020303c0 =
-       (*(uint *)((uint)puRam020303c0 & 0xfffffffc) >> ((uint)puRam020303c0 & 3) * 8 |
-       *(uint *)((uint)puRam020303c0 & 0xfffffffc) << ((uint)puRam020303c0 & 3) * -8 + 0x20) &
-       0xffffe0ff | param_1 << 8;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x4001000u) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x4001000u) + 0) = (unsigned int)(((((load_0)&~(0x1f00u)))|(((p0) << 8))));
+    return ((((load_0)&~(0x1f00u)))|(((p0) << 8)));
 }
-

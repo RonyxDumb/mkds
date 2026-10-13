@@ -17,5 +17,6 @@
   },
   "tested": 12038,
   "built": 7598,
-  "needs_repair": 4440
+  "needs_repair": 4440,
+  "verification_scope": "Checkpoint 6 full check plus checkpoint 7 recheck of all 776 locally exact functions."
 }

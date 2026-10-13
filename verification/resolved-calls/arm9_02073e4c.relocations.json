@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "GetGlobalHD4",
+    "target": 33953800,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959404138
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "VecFx32_Subtract",
+    "target": 34899152,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942863255
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "VecFx32_CrossProduct_0",
+    "target": 33789992,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959363178
+  }
+]

@@ -1,12 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 02009908. No matching claim. */
-#include "types.h"
-#include "deps/02009908_func_02009908.h"
-
-void func_02009908(undefined4 param_1,undefined4 param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_02009908(unsigned int p0, unsigned int p1)
 {
-  *puRam02009914 = param_1;
-  *puRam02009918 = param_2;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x216fc38u) + 0) = (unsigned int)(p0);
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x216fc34u) + 0) = (unsigned int)(p1);
+    return 0x216fc34u;
 }
-

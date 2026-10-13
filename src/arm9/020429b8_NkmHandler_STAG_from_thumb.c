@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 020429b8. No matching claim. */
-#include "types.h"
-#include "deps/020429b8_NkmHandler_STAG_from_thumb.h"
-
-undefined4 NkmHandler_STAG_from_thumb(int param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int NkmHandler_STAG_from_thumb(unsigned int p0)
 {
-  *(int *)(*piRam020429c4 + 0x18) = param_1 + 4;
-  return 1;
+    *(unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x2175620u) + 0))) + 24) = (unsigned int)(((p0)+(0x4u)));
+    return 0x1u;
 }
-

@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 0210fa28. No matching claim. */
-#include "types.h"
-#include "deps/0210fa28_func_0210fa28.h"
-
-void func_0210fa28(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_0210fa28(void)
 {
-  *puRam0210fa38 = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217d1f0u) + 0) = (unsigned int)(0x0u);
+    return 0x217d1f0u;
 }
-

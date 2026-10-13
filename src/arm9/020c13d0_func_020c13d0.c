@@ -1,13 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 020c13d0. No matching claim. */
-#include "types.h"
-#include "deps/020c13d0_func_020c13d0.h"
-
-void func_020c13d0(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_020c13d0(void)
 {
-  *(undefined4 *)
-   ((*(uint *)(uRam020c13e4 & 0xfffffffc) >> (uRam020c13e4 & 3) * 8 |
-    *(uint *)(uRam020c13e4 & 0xfffffffc) << (uRam020c13e4 & 3) * -8 + 0x20) + 0xa4) = 0;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217b3e0u) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(load_0) + 164) = (unsigned int)(0x0u);
+    return load_0;
 }
-

@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Sound_GetSarcPointer",
+    "target": 34793112,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422776
+  }
+]

@@ -1,12 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 021173e4. No matching claim. */
-#include "types.h"
-#include "deps/021173e4_func_021173e4.h"
-
-void func_021173e4(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_021173e4(void)
 {
-  *puRam0211740c = *(int *)(*piRam02117404 + 0x40) * -0x10000 & uRam02117408;
-  *puRam02117410 = *puRam02117410 & uRam02117414;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x4000010u) + 0) = (unsigned int)(((((((0x0u)-(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217d360u) + 0))) + 64))))) << 16))&(0x1ff0000u)));
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x4000000u) + 0) = (unsigned int)(((((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x4000000u) + 0)))&(0xffff1fffu)));
+    return 0xffff1fffu;
 }
-

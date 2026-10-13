@@ -1,17 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 02089ecc. No matching claim. */
-#include "types.h"
-#include "deps/02089ecc_func_02089ecc.h"
-
-void func_02089ecc(undefined2 *param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void func_02089ecc(unsigned int p0)
 {
-  undefined2 uVar1;
-  
-  *param_1 = 10;
-  uVar1 = (undefined2)uRam02089ef0;
-  param_1[1] = 0xc;
-  param_1[2] = uVar1;
-  *(undefined4 *)(param_1 + 4) = 1;
-  return;
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 0) = (unsigned short)(0xau);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 2) = (unsigned short)(0xcu);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 4) = (unsigned short)(0x7fffu);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 8) = (unsigned int)(0x1u);
 }
-

@@ -1,13 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 020c5dd8. No matching claim. */
-#include "types.h"
-#include "deps/020c5dd8_StructE8_SomeFnHandle7.h"
-
-void StructE8_SomeFnHandle7(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int StructE8_SomeFnHandle7(void)
 {
-  *(undefined4 *)
-   ((*(uint *)(uRam020c5dec & 0xfffffffc) >> (uRam020c5dec & 3) * 8 |
-    *(uint *)(uRam020c5dec & 0xfffffffc) << (uRam020c5dec & 3) * -8 + 0x20) + 0xdc) = 0;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217b3f4u) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(load_0) + 220) = (unsigned int)(0x0u);
+    return load_0;
 }
-

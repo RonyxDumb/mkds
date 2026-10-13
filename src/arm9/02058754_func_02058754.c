@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 02058754. No matching claim. */
-#include "types.h"
-#include "deps/02058754_func_02058754.h"
-
-void func_02058754(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_02058754(void)
 {
-  *(byte *)(*piRam02058768 + iRam0205876c) = *(byte *)(*piRam02058768 + iRam0205876c) | 1;
-  return;
+    *(unsigned char *)((unsigned char *)(unsigned int)(((((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217aa00u) + 0)))+(0x1622u))) + 0) = (unsigned char)(((((unsigned int)*(const unsigned char *)((unsigned char *)(unsigned int)(((((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217aa00u) + 0)))+(0x1622u))) + 0)))|(0x1u)));
+    return 0x1u;
 }
-

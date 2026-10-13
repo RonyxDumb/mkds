@@ -1,13 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 020d0f60. No matching claim. */
-#include "types.h"
-#include "deps/020d0f60_WorkerNotifyTaskPending.h"
-
-void WorkerNotifyTaskPending(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int WorkerNotifyTaskPending(void)
 {
-  *(undefined4 *)
-   ((*(uint *)(uRam020d0f74 & 0xfffffffc) >> (uRam020d0f74 & 3) * 8 |
-    *(uint *)(uRam020d0f74 & 0xfffffffc) << (uRam020d0f74 & 3) * -8 + 0x20) + 0xf8) = 1;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217aa0cu) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(load_0) + 248) = (unsigned int)(0x1u);
+    return load_0;
 }
-

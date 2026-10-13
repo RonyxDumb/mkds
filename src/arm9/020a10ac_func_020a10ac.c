@@ -1,15 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 020a10ac. No matching claim. */
-#include "types.h"
-#include "deps/020a10ac_func_020a10ac.h"
-
-void func_020a10ac(int param_1,short param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_020a10ac(unsigned int p0, unsigned int p1)
 {
-  int iVar1;
-  
-  iVar1 = (*(uint *)(uRam020a10d0 & 0xfffffffc) >> (uRam020a10d0 & 3) * 8 |
-          *(uint *)(uRam020a10d0 & 0xfffffffc) << (uRam020a10d0 & 3) * -8 + 0x20) + 0x50;
-  *(short *)(iVar1 + param_1 * 0x70) = *(short *)(iVar1 + param_1 * 0x70) + param_2;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217b1fcu) + 0));
+    unsigned int load_1 = ((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(((load_0)+(0x50u))) + 0 + (((p0)*(0x70u)))));
+    *(unsigned short *)((unsigned char *)(unsigned int)(((load_0)+(0x50u))) + 0 + (((p0)*(0x70u)))) = (unsigned short)(((load_1)+(p1)));
+    return ((load_1)+(p1));
 }
-

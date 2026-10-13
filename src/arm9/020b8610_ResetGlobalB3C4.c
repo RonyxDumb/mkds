@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 020b8610. No matching claim. */
-#include "types.h"
-#include "deps/020b8610_ResetGlobalB3C4.h"
-
-void ResetGlobalB3C4(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int ResetGlobalB3C4(void)
 {
-  *puRam020b8620 = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217b3c4u) + 0) = (unsigned int)(0x0u);
+    return 0x217b3c4u;
 }
-

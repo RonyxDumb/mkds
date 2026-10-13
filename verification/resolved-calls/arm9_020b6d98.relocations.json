@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "DrawRacerNames",
+    "target": 34308264,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646974
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Maybe_race_transfer_s_o",
+    "target": 34303488,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645777
+  }
+]

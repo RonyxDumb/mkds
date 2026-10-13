@@ -1,15 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 02073e98. No matching claim. */
-#include "types.h"
-#include "deps/02073e98_func_02073e98.h"
-
-void func_02073e98(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_02073e98(void)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = puRam02073eb4;
-  *puRam02073eb0 = 0;
-  *puVar1 = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217aca8u) + 0) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217acacu) + 0) = (unsigned int)(0x0u);
+    return 0x217acacu;
 }
-

@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 020c31ec. No matching claim. */
-#include "types.h"
-#include "deps/020c31ec_func_020c31ec.h"
-
-void func_020c31ec(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_020c31ec(void)
 {
-  *puRam020c31fc = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x217b3e0u) + 0) = (unsigned int)(0x0u);
+    return 0x217b3e0u;
 }
-

@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 0200ef10. No matching claim. */
-#include "types.h"
-#include "deps/0200ef10_Os_DisableMainExRegion.h"
-
-void Os_DisableMainExRegion(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int Os_DisableMainExRegion(void)
 {
-  *puRam0200ef20 = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x21701b8u) + 0) = (unsigned int)(0x0u);
+    return 0x21701b8u;
 }
-

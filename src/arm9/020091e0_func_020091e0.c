@@ -1,15 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 020091e0. No matching claim. */
-#include "types.h"
-#include "deps/020091e0_func_020091e0.h"
-
-void func_020091e0(int param_1,undefined4 param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void func_020091e0(unsigned int p0, unsigned int p1)
 {
-  *(undefined2 *)(param_1 + 10) = 0x20;
-  *(short *)(param_1 + 0xc) = (short)param_2;
-  *(ushort *)(param_1 + 0xe) =
-       (ushort)((uint)param_2 >> 0x10) & (ushort)((uint)uRam020091f8 >> 0x10);
-  *(undefined2 *)(param_1 + 0x10) = *(undefined2 *)(param_1 + 0x48);
-  return;
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 10) = (unsigned short)(0x20u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 12) = (unsigned short)(p1);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 14) = (unsigned short)(((((p1)&(0xffff0000u))) >> 16));
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 16) = (unsigned short)(((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(((((p0)+(0x0u)))+(0x48u))) + 0)));
 }
-

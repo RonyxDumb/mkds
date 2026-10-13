@@ -4,7 +4,7 @@ Call arguments and function bodies are not altered; no permissive prototypes are
 from pathlib import Path
 import csv,re,json,struct
 from capstone import Cs,CS_ARCH_ARM,CS_MODE_ARM,CS_MODE_THUMB,CS_OP_MEM
-root=Path(__file__).resolve().parents[1];base=root/'baseline';manifest=json.loads((base/'manifest.json').read_text());secs={m['name']:[(s['base'],(base/'binaries'/s['file']).read_bytes()) for s in m['sections']] for m in manifest['modules']}
+root=Path(__file__).resolve().parents[1];base=root.parent/'recovery/MarioKartDS-EUR-analysis';manifest=json.loads((base/'manifest.json').read_text());secs={m['name']:[(s['base'],(base/'binaries'/s['file']).read_bytes()) for s in m['sections']] for m in manifest['modules']}
 entries={};sizes={};modes={}
 for p in (root/'src').iterdir():
  if not p.is_dir():continue

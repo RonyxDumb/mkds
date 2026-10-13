@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Sound_CommandReceiveAndReply",
+    "target": 33690760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959150208
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "NNSi_SndPlayerMain",
+    "target": 34783644,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646210
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "NNSi_SndCaptureMain",
+    "target": 34787388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647145
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "NNSi_SndArcStrmMain",
+    "target": 34795668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942649214
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Sound_FlushCommand",
+    "target": 33690084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959150032
+  }
+]

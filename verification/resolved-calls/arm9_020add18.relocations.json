@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "NFTR_GetCharacterWidthTileEntry",
+    "target": 33696896,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959280594
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "NFTR_SomeFn_2",
+    "target": 34266448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645762
+  }
+]

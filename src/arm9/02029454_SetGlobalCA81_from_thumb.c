@@ -1,11 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 02029454. No matching claim. */
-#include "types.h"
-#include "deps/02029454_SetGlobalCA81_from_thumb.h"
-
-void SetGlobalCA81_from_thumb(undefined1 param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void SetGlobalCA81_from_thumb(unsigned int p0)
 {
-  *(undefined1 *)(*piRam02029460 + iRam02029464) = param_1;
-  return;
+    *(unsigned char *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x2174e1cu) + 0))) + 0 + (0x10cu)) = (unsigned char)(p0);
 }
-

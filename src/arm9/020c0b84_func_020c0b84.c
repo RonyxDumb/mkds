@@ -1,5 +1,5 @@
-/* High-level C; whole-function bytes verified with Zig 0.14.1 Clang.
- * Zero relocations; whole-ROM linking remains unverified. */
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
 void func_020c0b84(unsigned int p0)
 {
     *(unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 0))) + 0) = (unsigned int)(0x0u);

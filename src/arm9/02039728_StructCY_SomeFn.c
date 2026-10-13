@@ -1,25 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02039728. No matching claim. */
-#include "types.h"
-#include "deps/02039728_StructCY_SomeFn.h"
-
-void StructCY_SomeFn(undefined2 *param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void StructCY_SomeFn(unsigned int p0)
 {
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  param_1[3] = 0;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  param_1[6] = 0;
-  param_1[7] = 0x14;
-  param_1[8] = 8;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  *(undefined4 *)(param_1 + 0xe) = 0;
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x12) = 0;
-  return;
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 0) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 2) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 4) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 6) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 8) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 10) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 12) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 14) = (unsigned short)(0x14u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 16) = (unsigned short)(0x8u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 18) = (unsigned short)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 20) = (unsigned short)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 24) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 28) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 32) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 36) = (unsigned int)(0x0u);
 }
-

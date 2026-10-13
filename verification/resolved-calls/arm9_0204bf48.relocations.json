@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "SomeInitialize",
+    "target": 33865872,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645827
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "func_0204bfac",
+    "target": 33865644,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645762
+  }
+]

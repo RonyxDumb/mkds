@@ -1,31 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 02148504. No matching claim. */
-#include "types.h"
-#include "deps/02148504_VecFx32_Add.h"
-
-void VecFx32_Add(uint param_1,uint param_2,int *param_3)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int VecFx32_Add(unsigned int p0, unsigned int p1, unsigned int p2)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  *param_3 = (*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-             *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) +
-             (*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-             *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20);
-  uVar1 = param_1 + 4 & 3;
-  uVar4 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  uVar2 = param_2 + 4 & 3;
-  uVar3 = *(uint *)(param_2 + 4 & 0xfffffffc);
-  param_3[1] = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) +
-               (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20);
-  uVar1 = param_1 + 8 & 3;
-  uVar4 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  uVar2 = param_2 + 8 & 3;
-  uVar3 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  param_3[2] = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) +
-               (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20);
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 0));
+    unsigned int load_1 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p1) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(p2) + 0) = (unsigned int)(((load_0)+(load_1)));
+    unsigned int load_3 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 4));
+    unsigned int load_4 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p1) + 4));
+    *(unsigned int *)((unsigned char *)(unsigned int)(p2) + 4) = (unsigned int)(((load_3)+(load_4)));
+    unsigned int load_6 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 8));
+    unsigned int load_7 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p1) + 8));
+    *(unsigned int *)((unsigned char *)(unsigned int)(p2) + 8) = (unsigned int)(((load_6)+(load_7)));
+    return ((load_6)+(load_7));
 }
-

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "InitializeGeneralObjects",
+    "target": 33791164,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645765
+  },
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "RunMain",
+    "target": 33938564,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942682614
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "func_02043ad4",
+    "target": 33831636,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942655881
+  }
+]

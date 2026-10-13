@@ -1,10 +1,6 @@
-/* Decompiled C draft; module arm9; ROM address 02125f40. No matching claim. */
-#include "types.h"
-#include "deps/02125f40_TextSystem_GetAnotherValue_from_thumb.h"
-
-undefined4 TextSystem_GetAnotherValue_from_thumb(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int TextSystem_GetAnotherValue_from_thumb(void)
 {
-  return *(undefined4 *)(*piRam02125f4c + iRam02125f50);
+    return ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217d3f0u) + 0))) + 0 + (0x224cu)));
 }
-

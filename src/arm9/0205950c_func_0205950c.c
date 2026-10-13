@@ -1,21 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 0205950c. No matching claim. */
-#include "types.h"
-#include "deps/0205950c_func_0205950c.h"
-
-void func_0205950c(undefined4 param_1,undefined4 param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_0205950c(unsigned int p0, unsigned int p1)
 {
-  int *piVar1;
-  int iVar2;
-  
-  piVar1 = piRam02059544;
-  *(undefined4 *)(*piRam02059544 + iRam02059548) = 0;
-  *(byte *)(*piVar1 + iRam0205954c) = *(byte *)(*piVar1 + iRam0205954c) & 0xfd;
-  iVar2 = *piVar1 + iRam02059550;
-  *(undefined2 *)(iVar2 + 0x10) = 0x10;
-  *(undefined2 *)(iVar2 + 0x12) = 1;
-  *(undefined4 *)(*piVar1 + iRam02059554) = param_1;
-  *(undefined4 *)(*piVar1 + iRam02059558) = param_2;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217aa00u) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(load_0) + 0 + (0x1e34u)) = (unsigned int)(0x0u);
+    unsigned int load_2 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217aa00u) + 0));
+    unsigned int load_3 = ((unsigned int)*(const unsigned char *)((unsigned char *)(unsigned int)(((load_2)+(0x1e44u))) + 0));
+    *(unsigned char *)((unsigned char *)(unsigned int)(((load_2)+(0x1e44u))) + 0) = (unsigned char)(((load_3)&~(0x2u)));
+    unsigned int load_5 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217aa00u) + 0));
+    *(unsigned short *)((unsigned char *)(unsigned int)(((load_5)+(0x1608u))) + 16) = (unsigned short)(0x10u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(((load_5)+(0x1608u))) + 18) = (unsigned short)(0x1u);
+    unsigned int load_8 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217aa00u) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(load_8) + 0 + (0x1650u)) = (unsigned int)(p0);
+    unsigned int load_10 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217aa00u) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(load_10) + 0 + (0x1654u)) = (unsigned int)(p1);
+    return 0x1654u;
 }
-

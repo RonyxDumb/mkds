@@ -1,6 +1,8 @@
 from pathlib import Path
 import csv,subprocess,importlib.util,concurrent.futures,json,struct
-root=Path(__file__).resolve().parents[1];zig=Path(importlib.util.find_spec('ziglang').origin).parent/'zig';proofs=list(csv.DictReader((root/'verification/local-byte-exact.tsv').open(),delimiter='\t'));out=root/'build/verified-arm-objects';out.mkdir(parents=True,exist_ok=True)
+root=Path(__file__).resolve().parents[1];zig=Path(importlib.util.find_spec('ziglang').origin).parent/'zig';proofs=list(csv.DictReader((root/'verification/local-byte-exact.tsv').open(),delimiter='\t'));linked=root/'verification/local-linked-byte-exact.tsv'
+if linked.exists():proofs+=list(csv.DictReader(linked.open(),delimiter='\t'))
+out=root.parent/'verified-arm-objects';out.mkdir(exist_ok=True)
 def run(r):
  f=root/'src'/r['module']/(r['address'][2:]+'_'+r['name']+'.c');obj=out/(r['module']+'_'+f.stem+'.o')
  p=subprocess.run([str(zig),'cc','-target','arm-freestanding-eabi','-mcpu='+('arm7tdmi' if r['module']=='arm7' else 'arm946e_s'),'-std=gnu11','-O1','-fno-builtin','-Werror=implicit-function-declaration','-Werror=return-type','-Werror=incompatible-pointer-types','-Werror=int-conversion','-c',str(f),'-o',str(obj)],capture_output=True,text=True)

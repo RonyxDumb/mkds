@@ -1,15 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 0205bbe8. No matching claim. */
-#include "types.h"
-#include "deps/0205bbe8_E7FnList4_Fn10.h"
-
-void E7FnList4_Fn10(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int E7FnList4_Fn10(void)
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)(uRam0205bc04 & 0xfffffffc) >> (uRam0205bc04 & 3) * 8 |
-          *(uint *)(uRam0205bc04 & 0xfffffffc) << (uRam0205bc04 & 3) * -8 + 0x20;
-  *(ushort *)(uVar1 + 0x75c) = *(ushort *)(uVar1 + 0x75c) & 0xfeff;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217aa14u) + 0));
+    unsigned int load_1 = ((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(((load_0)+(0x700u))) + 92));
+    *(unsigned short *)((unsigned char *)(unsigned int)(((load_0)+(0x700u))) + 92) = (unsigned short)(((load_1)&~(0x100u)));
+    return ((load_0)+(0x700u));
 }
-

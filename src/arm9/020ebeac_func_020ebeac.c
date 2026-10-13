@@ -1,18 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 020ebeac. No matching claim. */
-#include "types.h"
-#include "deps/020ebeac_func_020ebeac.h"
-
-void func_020ebeac(int param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void func_020ebeac(unsigned int p0)
 {
-  ushort *puVar1;
-  ushort *puVar2;
-  
-  puVar2 = puRam020ebef4;
-  puVar1 = puRam020ebef0;
-  *(ushort *)(param_1 + 2) = *(ushort *)(param_1 + 2) | *puRam020ebeec;
-  *(ushort *)(param_1 + 2) = *(ushort *)(param_1 + 2) | *puVar1;
-  *(ushort *)(param_1 + 2) = *(ushort *)(param_1 + 2) | *puVar2;
-  return;
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 2) = (unsigned short)(((((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(p0) + 2)))|(((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(0x21594d8u) + 0)))));
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 2) = (unsigned short)(((((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(p0) + 2)))|(((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(0x21594dcu) + 0)))));
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 2) = (unsigned short)(((((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(p0) + 2)))|(((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(0x21594e0u) + 0)))));
 }
-

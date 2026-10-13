@@ -1,17 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 020107e4. No matching claim. */
-#include "types.h"
-#include "deps/020107e4_func_020107e4.h"
-
-uint func_020107e4(int param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_020107e4(unsigned int p0)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  *(ushort *)(param_1 + 0x32) = *(ushort *)(param_1 + 0x32) & 0xfffe;
-  uVar1 = param_1 + 0x2cU & 3;
-  uVar2 = *(uint *)(param_1 + 0x2cU & 0xfffffffc);
-  *(undefined4 *)(param_1 + 0x2c) = 0;
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+    unsigned int load_0 = ((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(p0) + 50));
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 50) = (unsigned short)(((load_0)&~(0x1u)));
+    unsigned int load_2 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 44));
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 44) = (unsigned int)(0x0u);
+    return load_2;
 }
-

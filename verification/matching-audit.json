@@ -1,0 +1,9 @@
+{
+  "tested": 937,
+  "passed": 937,
+  "exact_code_bytes": 17362,
+  "relocations": 0,
+  "full_rom_link_verified": false,
+  "compiler": "mwccarm 1.2/sp2p3",
+  "verification": "Fresh compilation of current source; complete function bytes and length identical to original decompressed section; no masking or relocations."
+}

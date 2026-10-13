@@ -1,15 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 0212802c. No matching claim. */
-#include "types.h"
-#include "deps/0212802c_SelectChoisesContext_InitializeBg_from_thumb.h"
-
-void SelectChoisesContext_InitializeBg_from_thumb(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int SelectChoisesContext_InitializeBg_from_thumb(void)
 {
-  ushort *puVar1;
-  
-  puVar1 = puRam02128044;
-  *puRam02128044 = *puRam02128044 & 0xfffc;
-  *puVar1 = *puVar1 & 0x43 | (ushort)uRam02128048;
-  return;
+    *(unsigned short *)((unsigned char *)(unsigned int)(0x4001008u) + 0) = (unsigned short)(((((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(0x4001008u) + 0)))&~(0x3u)));
+    *(unsigned short *)((unsigned char *)(unsigned int)(0x4001008u) + 0) = (unsigned short)(((((((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(0x4001008u) + 0)))&(0x43u)))|(0xb00u)));
+    return 0xb00u;
 }
-

@@ -1,16 +1,17 @@
-# Riprendere il lavoro
+# Riprendere dal checkpoint 8
 
-Questo ZIP contiene sorgenti, script e risultati del checkpoint 6.
+1.024 funzioni; 21.978 byte verificati localmente. 937 senza relocazioni e 87 dopo linking locale completo delle relocazioni ARM. Nessuna ROM completa verificata.
 
-1. Leggere `PROGRESSO.json`, `RISULTATI.md` e `checks/arm-build.tsv`.
-2. Non confondere compilabilità con decompilazione completa. Non eliminare errori usando stub, ritorni inventati o prototype permissivi.
-3. Conservare le 613 funzioni in `verification/local-byte-exact.tsv`; ogni modifica richiede ricompilazione e nuovo confronto dei byte.
-4. Il checkpoint 4 ha tipizzato 846 puntatori con un caricamento PC-relative verso una funzione indicizzata. Dettagli e vecchi header sono in `verification/pointer_typing/`.
-5. Prossimo lavoro: riconciliare le firme dei destinatari con registri e stack effettivi, quindi rigenerare i chiamanti. Non aggiungere o rimuovere argomenti soltanto per compilare.
-6. Per analizzare i binari, usare il primo archivio `MarioKartDS-EUR-Ghidra-pseudocode.zip`, contenente sezioni decompresse, simboli e programmi Ghidra. Il workspace C non contiene tutte le risorse del gioco.
-7. Per verificare la compilazione: Python e Zig 0.14.1, poi `scripts/check_arm.py`. Per verificare i byte locali: Capstone, pyelftools, mwccarm 1.2/sp2p3 e `scripts/verify_leafs.py`.
-8. Dopo ogni gruppo: controllare i file modificati, aggiornare i registri e salvare un checkpoint completo.
+Impostare MKDS_BASELINE alla cartella MarioKartDS-EUR-analysis del primo archivio, MWCCARM a mwccarm 1.2/sp2p3 e WIBO al runner. Installare capstone, pyelftools, ziglang==0.14.1.
 
-Stato: 7.598 compilabili, 4.440 falliti; 613 funzioni localmente identiche, 8.728 byte. Linking completo e avvio non verificati.
+Verifiche:
+- python scripts/audit_local_matching.py
+- python scripts/audit_resolved_calls.py
+- python scripts/recheck_verified.py
+- python scripts/measure_progress.py
 
-Checkpoint 6: vedere verification/explicit_arm_casts/ per espressioni, tipi, sorgenti precedenti e audit reversibile. Questi cast non certificano le firme. Le modifiche di rigenerazione sperimentale non sono state integrate: non usare i soli risultati del compilatore per accettarle. Prossimo lavoro: recuperare parametri dai registri di ingresso e stack, verificare ogni ABI, poi rigenerare i chiamanti senza perdita di valori.
+Registri autorevoli: verification/local-byte-exact.tsv e verification/local-linked-byte-exact.tsv. Non sovrascriverli con gli script storici. I file compilati MW e le prove sono inclusi; il compilatore non è incluso.
+
+Ricerca: verify_multiple_transfers.py per foglie e trasferimenti multipli; verify_draft_control_flow.py per bozze con condizioni/cicli; verify_resolved_calls.py per oggetti candidati con chiamate ARM. Conservare entrambi i registri quando si estendono gli script: non ricontare o modificare funzioni già verificate. Alcuni script storici conoscono solo il primo registro e richiedono adattamento prima di riutilizzarli.
+
+Prossimi obiettivi: prologhi/stack e salti delle foglie; varianti di compilazione per funzioni più grandi; relocazioni Thumb/interworking mediante un linker verificato. Non usare stub, rimuovere argomenti o mascherare byte. La verifica locale non certifica firme, linking globale o comportamento in gioco.

@@ -1,28 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 020e49c0. No matching claim. */
-#include "types.h"
-#include "deps/020e49c0_func_020e49c0.h"
-
-void func_020e49c0(int param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+void func_020e49c0(unsigned int p0)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  
-  uVar1 = param_1 + 0xb8U & 3;
-  uVar3 = *(uint *)(param_1 + 0xb8U & 0xfffffffc);
-  *(uint *)(param_1 + 4) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  uVar2 = uRam020e4a14;
-  uVar1 = param_1 + 0xc0U & 3;
-  uVar3 = *(uint *)(param_1 + 0xc0U & 0xfffffffc);
-  *(uint *)(param_1 + 0xc) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x14) = uVar2;
-  *(undefined4 *)(param_1 + 0x18) = 0;
-  *(ushort *)(param_1 + 2) = *(ushort *)(param_1 + 2) & 0xfffd;
-  *(ushort *)(param_1 + 2) = *(ushort *)(param_1 + 2) & 0xfff7;
-  *(undefined2 *)(param_1 + 0x66) = 0x1f;
-  *(ushort *)(param_1 + 2) = *(ushort *)(param_1 + 2) & 0xfffe;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 4) = (unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 184)));
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 12) = (unsigned int)(((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(p0) + 192)));
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 16) = (unsigned int)(0x0u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 20) = (unsigned int)(0x3199u);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 24) = (unsigned int)(0x0u);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 2) = (unsigned short)(((((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(p0) + 2)))&~(0x2u)));
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 2) = (unsigned short)(((((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(p0) + 2)))&~(0x8u)));
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 102) = (unsigned short)(0x1fu);
+    *(unsigned short *)((unsigned char *)(unsigned int)(p0) + 2) = (unsigned short)(((((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(p0) + 2)))&~(0x1u)));
 }
-

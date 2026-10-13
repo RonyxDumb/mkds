@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 02035d48. No matching claim. */
-#include "types.h"
-#include "deps/02035d48_func_02035d48.h"
-
-void func_02035d48(uint param_1,int param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_02035d48(unsigned int p0, unsigned int p1)
 {
-  *puRam02035d70 = param_1 & uRam02035d68 | uRam02035d6c & param_2 << 0x10;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x400101cu) + 0) = (unsigned int)(((((p0)&(0x1ffu)))|(((0x1ff0000u)&(((p1) << 16))))));
+    return 0x400101cu;
 }
-

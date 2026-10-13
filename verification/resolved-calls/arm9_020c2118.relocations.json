@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "func_020b1dbc",
+    "target": 34282940,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959406373
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "StructRA_SomeFn_3",
+    "target": 34351324,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646249
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "StructRA_SomeFn_2",
+    "target": 34349388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645761
+  }
+]

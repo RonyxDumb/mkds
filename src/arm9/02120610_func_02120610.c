@@ -1,22 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 02120610. No matching claim. */
-#include "types.h"
-#include "deps/02120610_func_02120610.h"
-
-void func_02120610(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_02120610(void)
 {
-  uint uVar1;
-  
-  uVar1 = uRam02120640;
-  *(undefined4 *)
-   ((*(uint *)(uRam02120640 & 0xfffffffc) >> (uRam02120640 & 3) * 8 |
-    *(uint *)(uRam02120640 & 0xfffffffc) << (uRam02120640 & 3) * -8 + 0x20) + 0x1f44) = 0;
-  *(undefined4 *)
-   ((*(uint *)(uVar1 & 0xfffffffc) >> (uVar1 & 3) * 8 |
-    *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + 8000) = 0;
-  *(undefined4 *)
-   ((*(uint *)(uVar1 & 0xfffffffc) >> (uVar1 & 3) * 8 |
-    *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + 0x1f48) = 0;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217d384u) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(((load_0)+(0x1000u))) + 3908) = (unsigned int)(0x0u);
+    unsigned int load_2 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217d384u) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(((load_2)+(0x1000u))) + 3904) = (unsigned int)(0x0u);
+    unsigned int load_4 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x217d384u) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(((load_4)+(0x1000u))) + 3912) = (unsigned int)(0x0u);
+    return ((load_4)+(0x1000u));
 }
-

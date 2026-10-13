@@ -1,14 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 020cc134. No matching claim. */
-#include "types.h"
-#include "deps/020cc134_SetDispcntWindows01ObjDisplayFlagsSub.h"
-
-void SetDispcntWindows01ObjDisplayFlagsSub(int param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int SetDispcntWindows01ObjDisplayFlagsSub(unsigned int p0)
 {
-  *puRam020cc14c =
-       (*(uint *)((uint)puRam020cc14c & 0xfffffffc) >> ((uint)puRam020cc14c & 3) * 8 |
-       *(uint *)((uint)puRam020cc14c & 0xfffffffc) << ((uint)puRam020cc14c & 3) * -8 + 0x20) &
-       0xffff1fff | param_1 << 0xd;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x4001000u) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x4001000u) + 0) = (unsigned int)(((((load_0)&~(0xe000u)))|(((p0) << 13))));
+    return ((((load_0)&~(0xe000u)))|(((p0) << 13)));
 }
-

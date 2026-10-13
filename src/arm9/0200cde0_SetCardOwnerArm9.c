@@ -1,11 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 0200cde0. No matching claim. */
-#include "types.h"
-#include "deps/0200cde0_SetCardOwnerArm9.h"
-
-void SetCardOwnerArm9(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int SetCardOwnerArm9(void)
 {
-  *puRam0200cdf4 = *puRam0200cdf4 & 0xf7ff;
-  return;
+    unsigned int load_0 = ((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(0x4000204u) + 0));
+    *(unsigned short *)((unsigned char *)(unsigned int)(0x4000204u) + 0) = (unsigned short)(((load_0)&~(0x800u)));
+    return ((load_0)&~(0x800u));
 }
-

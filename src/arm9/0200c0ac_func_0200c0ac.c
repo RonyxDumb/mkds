@@ -1,22 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 0200c0ac. No matching claim. */
-#include "types.h"
-#include "deps/0200c0ac_func_0200c0ac.h"
-
-void func_0200c0ac(int param_1)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_0200c0ac(unsigned int p0)
 {
-  int *piVar1;
-  
-  piVar1 = piRam0200c0d4;
-  *piRam0200c0d4 = param_1;
-  *(undefined4 *)(param_1 + 0xc) = 0;
-  *(undefined2 *)(*piVar1 + 0x1a) = 0;
-  *(undefined2 *)(*piVar1 + 0x1e) = 0;
-  *(undefined2 *)(*piVar1 + 0x20) = 0;
-  *(undefined2 *)(*piVar1 + 0x1c) = 0;
-  *(undefined4 *)(*piVar1 + 4) = 0;
-  *(undefined4 *)(*piVar1 + 8) = 0;
-  *(undefined4 *)*piVar1 = 0;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x216fdecu) + 0) = (unsigned int)(p0);
+    *(unsigned int *)((unsigned char *)(unsigned int)(p0) + 12) = (unsigned int)(0x0u);
+    unsigned int load_2 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x216fdecu) + 0));
+    *(unsigned short *)((unsigned char *)(unsigned int)(load_2) + 26) = (unsigned short)(0x0u);
+    unsigned int load_4 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x216fdecu) + 0));
+    *(unsigned short *)((unsigned char *)(unsigned int)(load_4) + 30) = (unsigned short)(0x0u);
+    unsigned int load_6 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x216fdecu) + 0));
+    *(unsigned short *)((unsigned char *)(unsigned int)(load_6) + 32) = (unsigned short)(0x0u);
+    unsigned int load_8 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x216fdecu) + 0));
+    *(unsigned short *)((unsigned char *)(unsigned int)(load_8) + 28) = (unsigned short)(0x0u);
+    unsigned int load_10 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x216fdecu) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(load_10) + 4) = (unsigned int)(0x0u);
+    unsigned int load_12 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x216fdecu) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(load_12) + 8) = (unsigned int)(0x0u);
+    unsigned int load_14 = ((unsigned int)*(const unsigned int *)((unsigned char *)(unsigned int)(0x216fdecu) + 0));
+    *(unsigned int *)((unsigned char *)(unsigned int)(load_14) + 0) = (unsigned int)(0x0u);
+    return load_14;
 }
-

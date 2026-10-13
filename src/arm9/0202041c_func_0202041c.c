@@ -1,11 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 0202041c. No matching claim. */
-#include "types.h"
-#include "deps/0202041c_func_0202041c.h"
-
-void func_0202041c(void)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int func_0202041c(void)
 {
-  *puRam0202042c = 1;
-  return;
+    *(unsigned int *)((unsigned char *)(unsigned int)(0x2173294u) + 0) = (unsigned int)(0x1u);
+    return 0x2173294u;
 }
-

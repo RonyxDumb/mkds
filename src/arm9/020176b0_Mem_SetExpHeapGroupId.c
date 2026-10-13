@@ -1,14 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 020176b0. No matching claim. */
-#include "types.h"
-#include "deps/020176b0_Mem_SetExpHeapGroupId.h"
-
-undefined2 Mem_SetExpHeapGroupId(int param_1,undefined2 param_2)
-
+/* High-level reconstruction. Exact local bytes verified with mwccarm 1.2/sp2p3.
+ * No relocations. Full ROM linking remains unverified. */
+unsigned int Mem_SetExpHeapGroupId(unsigned int p0, unsigned int p1)
 {
-  undefined2 uVar1;
-  
-  uVar1 = *(undefined2 *)(param_1 + 0x34);
-  *(undefined2 *)(param_1 + 0x34) = param_2;
-  return uVar1;
+    unsigned int load_0 = ((unsigned int)*(const unsigned short *)((unsigned char *)(unsigned int)(((p0)+(0x24u))) + 16));
+    *(unsigned short *)((unsigned char *)(unsigned int)(((p0)+(0x24u))) + 16) = (unsigned short)(p1);
+    return load_0;
 }
-
