@@ -16,7 +16,7 @@ sections = {m['name']: [(s['base'], (base / 'binaries' / s['file']).read_bytes()
                         for s in m['sections']] for m in manifest['modules']}
 zig = Path(importlib.util.find_spec('ziglang').origin).parent / 'zig'
 rows = [r for r in csv.DictReader((root / 'verification/local-byte-exact.tsv').open(), delimiter='\t')
-        if r['kind'] == 'clang_arm_control_flow']
+        if r['kind'] in ['clang_arm_control_flow', 'clang_multiple_transfers']]
 out = root / 'build/clang-arm-flow-recheck'
 out.mkdir(parents=True, exist_ok=True)
 results = []
@@ -29,14 +29,14 @@ for r in rows:
                     if start <= address and address + size <= start + len(data))
     flags = ['-target', 'arm-freestanding-eabi',
              '-mcpu=' + ('arm7tdmi' if r['module'] == 'arm7' else 'arm946e_s'),
-             r['optimization'], '-std=gnu11', '-fno-builtin', '-marm']
+             r['optimization'], '-std=gnu11', '-fno-builtin', '-mthumb' if r['mode']=='thumb' else '-marm']
     obj = out / (tag + '.o')
     subprocess.run([str(zig), 'cc', *flags, '-c', str(source), '-o', str(obj)], check=True)
     elf = ELFFile(io.BytesIO(obj.read_bytes()))
     symbol = next(s for s in elf.get_section_by_name('.symtab').iter_symbols() if s.name == r['name'])
     index = symbol['st_shndx']
     code = elf.get_section(index).data()
-    assert symbol['st_value'] == 0 and symbol['st_size'] == len(code) == size
+    assert (symbol['st_value'] & ~1) == 0 and symbol['st_size'] == len(code) == size
     assert not any(s['sh_type'] in ['SHT_REL', 'SHT_RELA'] and s['sh_info'] == index and s['sh_size']
                    for s in elf.iter_sections())
     assert code == original == bytes.fromhex((root / 'verification/leafs' / (tag + '.original.hex')).read_text())

@@ -12,7 +12,7 @@
       "kind": "linear_leaf",
       "address": "0x020c0b84",
       "sha256": "56498e4398a92230802569daac695b9deb4cefc51d390b5e802b61d5ae6f90d6",
-      "source_sha256": "9756b212624a3c0feeb9277d93b723fcc1d043c36e75acc51348fff39d6c0802",
+      "source_sha256": "0cf711388eded9d3c2a2d15c2ebf2c9044f0f466b8f3f86b30e8beb71bf3db09",
       "relocations": 0,
       "status": "EXACT_LOCAL_BYTES",
       "compiler": "Zig 0.14.1 bundled Clang",
@@ -25,7 +25,8 @@
         "-fno-builtin",
         "-marm"
       ],
-      "object_sha256": "7c97d28cba40b6e8edcb9a72877465d4dd71dd52fc5ae7bad8af34ac2fda4ac4"
+      "object_sha256": "bffc25a30f31a4a0de854d7b43349fc913bdfd22097a17c893ea8f3306f7439b",
+      "historical_source_sha256": "9756b212624a3c0feeb9277d93b723fcc1d043c36e75acc51348fff39d6c0802"
     },
     {
       "module": "arm9",
@@ -35,7 +36,7 @@
       "kind": "conditional_leaf",
       "address": "0x01ff9c9c",
       "sha256": "32d6b82ae0ea801513c4a9449c0bfccdb93b5a9136369e5f267db22b1553e100",
-      "source_sha256": "39fc88a6a3790231c3c037efa785c768891b7c8621403f48f2c902cbba21ccba",
+      "source_sha256": "beca952e4fe315cfd9b8d0d830ad55e8f9223b422a0f8fff0327f3dfc710db3c",
       "relocations": 0,
       "status": "EXACT_LOCAL_BYTES",
       "compiler": "Zig 0.14.1 bundled Clang",
@@ -48,7 +49,8 @@
         "-fno-builtin",
         "-marm"
       ],
-      "object_sha256": "9c60cfb73f321a3bfc9d84e01059cceb1aaf6f6c75a9a0209b30b4ce1eeb5228"
+      "object_sha256": "da25f6a5823cccc4d69033df08b0589e9381e008b815c40ccbad8a46738fecd7",
+      "historical_source_sha256": "39fc88a6a3790231c3c037efa785c768891b7c8621403f48f2c902cbba21ccba"
     },
     {
       "module": "arm9",
@@ -58,7 +60,7 @@
       "kind": "conditional_leaf",
       "address": "0x02010998",
       "sha256": "0650a4d9a2e3f7fb384767f5b56f0a642eeb5619cc59fb425ef98989f9ab82fc",
-      "source_sha256": "40732686e31d41b57e020e778044d380c45d68f6a107c707746d2a805bb447a4",
+      "source_sha256": "1bee081b04bd7f8488edad8a06da4bd1d3c0dcea019f07fbc0013c8be590793f",
       "relocations": 0,
       "status": "EXACT_LOCAL_BYTES",
       "compiler": "Zig 0.14.1 bundled Clang",
@@ -71,7 +73,8 @@
         "-fno-builtin",
         "-marm"
       ],
-      "object_sha256": "802a47676c032d49075017e7ec249087ad464634db724027fe12ea089acb94f4"
+      "object_sha256": "31eab01904ace024dfe5c265bea51c16a0eae016941a752ffebd6b3230958e78",
+      "historical_source_sha256": "40732686e31d41b57e020e778044d380c45d68f6a107c707746d2a805bb447a4"
     },
     {
       "module": "arm9",
@@ -81,7 +84,7 @@
       "kind": "conditional_leaf",
       "address": "0x020204b4",
       "sha256": "dbd9833f4f37a44c8af3c64a2b9fabfde36775d64e68a9e00ba320930a09e4eb",
-      "source_sha256": "d59ed87584c10e4e3cae5158d61f9376310f70b074b31347c72d2c376eed4c33",
+      "source_sha256": "9d8f7f7300f22d2c9c9451817b42662f87ef0ab264eac5548c90175ad4d4bdf8",
       "relocations": 0,
       "status": "EXACT_LOCAL_BYTES",
       "compiler": "Zig 0.14.1 bundled Clang",
@@ -94,7 +97,8 @@
         "-fno-builtin",
         "-marm"
       ],
-      "object_sha256": "f918af9165c01be2ae84492204eb5d2307fadd044a47bb9c689201acd79f1761"
+      "object_sha256": "df4b61710fb2f8cf1ca9f4456cb31a9fcaea322dfd2c3e3ead9958dc475fd350",
+      "historical_source_sha256": "d59ed87584c10e4e3cae5158d61f9376310f70b074b31347c72d2c376eed4c33"
     }
   ],
   "whole_rom_verified": false

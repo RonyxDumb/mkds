@@ -1,4 +1,4 @@
-"""Generate conservative ARM register-flow candidates; install only exact local links."""
+"""Generate ARM flow C candidates; accept only whole text equality with zero relocations."""
 from pathlib import Path
 import os,re,csv,json,subprocess,hashlib,io,importlib.util
 zig=Path(importlib.util.find_spec("ziglang").origin).parent/"zig"
@@ -15,7 +15,7 @@ signs={ARM_CC_EQ:'==',ARM_CC_NE:'!=',ARM_CC_HS:'>=',ARM_CC_LO:'<',ARM_CC_HI:'>',
 accepted=0;tested=0
 for (mod,addr),(name,mode,size) in sorted(inventory.items()):
  if mode!='arm' or size>2048 or (mod,addr) in known:continue
- target=original(mod,addr,size);ins=list(md.disasm(target,addr));end=next((j for j,i in enumerate(ins) if i.mnemonic=='bx' and i.op_str=='lr'),None)
+ target=original(mod,addr,size);ins=list(md.disasm(target,addr));end=next((j for j,i in enumerate(ins) if (i.mnemonic=='bx' and i.op_str=='lr') or (i.mnemonic in ['pop','ldm','ldmia'] and 'pc' in i.op_str and (i.mnemonic=='pop' or i.op_str.startswith('sp!')))),None)
  if end is None:continue
  ins=ins[:end+1];addresses={i.address for i in ins};defined={'r0','r1','r2','r3'};statements=[];externs={};has_cmp=False;flag_zero=False
  def reg(r):
@@ -44,7 +44,9 @@ for (mod,addr),(name,mode,size) in sorted(inventory.items()):
    stmt=None
    if op=='bx' and i.op_str=='lr':stmt='return r0;'
    elif op=='push' or (op=='stmdb' and i.op_str.startswith('sp!')):continue
-   elif op=='pop' or (op in ['ldm','ldmia'] and i.op_str.startswith('sp!')):continue
+   elif op=='pop' or (op in ['ldm','ldmia'] and i.op_str.startswith('sp!')):
+    if 'pc' in i.op_str:stmt='return r0;'
+    else:continue
    elif op=='cmp':
     if condition:raise ValueError('conditional compare')
     stmt=f'cmp_a = {operand(args[0])}; cmp_b = {operand(args[1])};';has_cmp=True;flag_zero=False
@@ -73,17 +75,28 @@ for (mod,addr),(name,mode,size) in sorted(inventory.items()):
     dst=md.reg_name(args[0].reg)
     if dst not in ['r0','r1','r2','r3','r4','r5','r6','r7','r8','sb','sl','fp','ip'] or i.writeback:raise ValueError('destination/stack')
     if op in ['mov','mvn']:value=operand(args[1]);value=f'~({value})' if op=='mvn' else value
+    elif op in ['lsl','lsr','asr','ror']:
+     x=operand(args[1]);n=args[2].imm
+     if args[2].type!=ARM_OP_IMM or not 0<n<32:raise ValueError('variable shift')
+     value=f'({x} << {n})' if op=='lsl' else f'({x} >> {n})' if op=='lsr' else f'((unsigned int)((int){x} >> {n}))' if op=='asr' else f'(({x} >> {n}) | ({x} << {32-n}))'
     elif op in ['add','sub','rsb','and','orr','eor','bic','mul']:
      x,y=operand(args[1]),operand(args[2]);sign={ 'add':'+','sub':'-','and':'&','orr':'|','eor':'^','mul':'*'}.get(op)
      value=f'({y}-{x})' if op=='rsb' else f'({x}&~({y}))' if op=='bic' else f'({x}{sign}{y})'
     elif op in ['ldr','ldrb','ldrh','ldrsb','ldrsh','str','strb','strh']:
      mem=args[1].mem
-     if mem.index:raise ValueError('indexed memory')
+     if mem.index and args[1].subtracted:raise ValueError('negative indexed memory')
      if md.reg_name(mem.base)=='pc' and op=='ldr':
       location=i.address+8+mem.disp;raw=original(mod,location,4);value=f'0x{int.from_bytes(raw,"little"):x}u'
      else:
       basevalue=reg(mem.base);typ={'ldr':'unsigned int','str':'unsigned int','ldrb':'unsigned char','strb':'unsigned char','ldrsb':'signed char','ldrh':'unsigned short','strh':'unsigned short','ldrsh':'short'}[op]
-      access=f'*({typ} *)((unsigned char *){basevalue} + {mem.disp})'
+      offset=f'{mem.disp}'
+      if mem.index:
+       ix=reg(mem.index)
+       if args[1].shift.type:
+        if args[1].shift.type!=ARM_SFT_LSL or not 0<args[1].shift.value<32:raise ValueError('memory shift')
+        ix=f'({ix} << {args[1].shift.value})'
+       offset=f'({offset} + {ix})'
+      access=f'*({typ} *)((unsigned char *){basevalue} + {offset})'
       if op.startswith('str'):stmt=f'{access} = ({typ}){reg(args[0].reg)};';value=None
       else:value=f'(unsigned int)({access})'
     else:raise ValueError('opcode')
