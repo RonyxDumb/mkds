@@ -118,3 +118,18 @@ I due nuovi hex di codice restano locali e ignorati da Git. hash-only-proofs.jso
 Soluzione emulator: core melonDS al commit 906e9ebb27da8c6a715cd7abab4abfe8a8d29427, senza Qt/SDL/JIT/OpenGL. build_headless_emulator.sh + melonds_headless.cpp; 900 frame original/hybrid arrivano al titolo con buffer finali identici. Tracce CPU campionate diverse: non dichiarare equivalenza completa. GDB osservato realmente su ARM9/ARM7, entry 02000800/02380000, detach OK. Observe_gdb.py legge soltanto stato/registri e si scollega. Rete, periferiche e salvataggi non persistiti.
 
 build_hybrid_rom.py inserisce gli oggetti dell'audit in sezioni originali, rilegge la ROM e verifica che tutti i moduli decompressi restino identici. Non e una build indipendente dal C. compare_rom.py copre ogni byte fisico e non maschera padding/header; il confronto ibrido e non identico: 25.562.152 contro 33.554.432 byte, 8.082.864 diversi o mancanti. Dettagli in reports/FULL-ROM-COMPARISON.md e JSON completo. Sorgenti non matching, linking globale e contenitore esatto restano da ricostruire. Lavorare su main; un solo writer dei registri.
+
+## Checkpoint 23 — main, corpus disponibile
+
+3.117 funzioni, 217.166 / 1.913.676 byte (11,348107%). Due query gara
+ricostruite dai byte ARM: GetDriverPlace, 116 byte; GetCurrentLapCount, 68.
+Bitfield char/short per la posizione, slot signed e override giri signed.
+1.400 prove senza relocazioni ricompilate; 1.717 con 5.019 relocazioni.
+197.888 casi ARM originale/C host con risultati e letture RAM identici.
+Timeline scripts/inputs/grand-prix.tsv: menu, Mario, B Dasher, Mushroom Cup,
+Figure-8 Circuit; accelerazione scriptata. Nessuna equivalenza completa.
+I sorgenti del checkpoint 22 citati nel report di recupero non sono accessibili;
+non sommare quelle metriche al corpus corrente.
+REA 6.5.0 + Ghidra 12.1.4 + JDK21 installati in tools/; controllo ownership
+bloccato dal disallineamento tra PID Node e /proc dell'ambiente. Non disabilitare
+il controllo o simulare ps. Raw ARM REA seleziona inoltre ARMv7, non ARMv5T.

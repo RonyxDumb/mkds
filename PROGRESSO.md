@@ -21,6 +21,7 @@
 | 19 | 8,307 | 69.01% | 3,111 | 216,832 |
 | 20 | 8,308 | 69.01% | 3,113 | 216,924 |
 | 21 | 8,308 | 69.01% | 3,115 | 216,982 |
+| 23 | 8,308 | 69.01% | 3,117 | 217,166 |
 
 Checkpoint 4: 846 puntatori tipizzati, 484 nuove compilazioni riuscite.
 
@@ -56,3 +57,5 @@ Checkpoint 17: +75 funzioni; +9.460 byte inventariati (9.556 negli span completi
 Checkpoint 18: +252 funzioni e +35.960 byte inventariati da NitroSDK e NitroSystem. Tutte le 2.706 prove ricompilate; 3.802 relocazioni risolte. L'assembly inline CLZ nell'header e stato sostituito da una sola dichiarazione esterna, senza implementazione; tutte le 252 nuove prove sono state confermate dopo la modifica. Copertura locale: 8,965990%.
 
 Checkpoint 19: +405 funzioni ARM7 e +45.252 byte inventariati (47.336 negli span completi). Copertura locale: 11,330654%; target 10% raggiunto con denominatore invariato. Ricompilate tutte le 1.396 prove senza relocazioni e le 1.715 con relocazioni; 5.015 relocazioni risolte. Corretto il resolver ARM7, che disponeva del solo simbolo Arm7Entry: il supplemento usa l’inventario Ghidra originale e prove ISA riproducibili. Nessun BLX non supportato nelle 1.003 relocazioni branch delle nuove prove. ROM completa e ABI globale non verificati.
+
+Checkpoint 23: due funzioni di gara ricostruite e verificate, +184 byte. Audit completo: 1.400 senza relocazioni e 1.717 con relocazioni. Confronto semantico ARM/C: 197.888 casi passati. Le prove mancanti del checkpoint 22 restano escluse.

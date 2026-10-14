@@ -1,0 +1,24 @@
+{
+  "rea_version": "6.5.0",
+  "ghidra_version": "12.1.4",
+  "jdk_version": "21.0.12.1+1",
+  "target_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+  "target_format": "raw-binary",
+  "architecture": "arm",
+  "mapped_base": "0x02000000",
+  "profile_language": "ARM:LE:32:v7",
+  "required_ds_language": "ARM:LE:32:v5t",
+  "result": "blocked",
+  "code": "execution_failure",
+  "operation": "list_documents",
+  "cause": "Provider process-ownership cannot execute prepare_owned_process: Linux process ownership inspection requires a procps-compatible ps on REA's PATH before launching a child: Command failed: ps -axo pid=,ppid=,pgid=,uid=,stat=,command=\nfatal library error, lookup self\n",
+  "pid_namespace_observation": {
+    "node_pid": 5,
+    "proc_self_pid": 2690,
+    "child_python_pid": 13,
+    "child_proc_self_pid": 2698
+  },
+  "decompilation_output_obtained": false,
+  "ownership_checks_disabled": false,
+  "note": "The generic ARM raw mapping is not a validated DS profile; no REA result is counted as matching evidence."
+}

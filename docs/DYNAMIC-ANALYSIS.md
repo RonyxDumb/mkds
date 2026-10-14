@@ -108,3 +108,36 @@ Non modificare i registri di matching sulla base di hit o pseudocodice REA.
 Fonti: [REA](https://github.com/morluto/rea),
 [modalita raw](https://github.com/morluto/rea/blob/cbc0e97c29b8dcb3d6ff96eb3af9e0f519a22345/docs/raw-binary.md),
 [melonDS](https://github.com/melonDS-emu/melonDS/releases/tag/1.1).
+
+## Checkpoint 23: gameplay riprodotto
+
+Il frontend ora accetta `--inputs` e `--capture-every`. Ogni riga del TSV:
+`first last pressed_mask touch_x touch_y`. Frame a base zero, intervallo
+`[first,last)`; maschera dei pulsanti premuti (A=1, B=2, Start=8,
+Right=16, Left=32, Up=64, Down=128, R=256, L=512, X=1024, Y=2048).
+Usare `-1 -1` per rilasciare lo stilo; coordinate ammesse 0..255/0..191.
+Gli intervalli devono essere ordinati e senza sovrapposizioni. Il limite
+massimo e 36.000 frame. Intervalli, maschere e coordinate errati sono rifiutati.
+
+```sh
+tools/melonds-headless /percorso/AMCP.nds 7200 build/reference --inputs scripts/inputs/grand-prix.tsv --capture-every 600
+tools/melonds-headless build/hybrid/hybrid.nds 7200 build/hybrid-run --inputs scripts/inputs/grand-prix.tsv --capture-every 600
+```
+
+Entrambe le esecuzioni realmente completate: menu, Mario/B Dasher, Mushroom
+Cup, Figure-8 Circuit, kart mosso con A fino alla barriera. Gara non completata.
+3/12 coppie di snapshot identiche; schermate in gara, timer, ordinamento degli
+avversari e puntatori RAM differiscono. Nessuna equivalenza completa dimostrata.
+I campioni di PC a fine frame non sono hit di breakpoint. I nuovi campi JSON
+sono letture grezze delle query posizione/giri; puntatori dereferenziati solo
+se compresi nella RAM principale. Framebuffer software BGRA, 256x192x4 byte.
+Risultati e hash: `verification/gameplay-checkpoint23.json`.
+
+REA 6.5.0 e stato eseguito con Ghidra 12.1.4/JDK 21.0.12.1+1. L'import raw
+supera la precedente assenza del provider, ma il controllo ownership fallisce:
+Node vede PID 5, `/proc/self` 2690; un figlio Python vede PID 13, `/proc/self`
+2698. `ps` avviato da Node termina con `fatal library error, lookup self`.
+Non sono stati disabilitati i controlli o inventati risultati. REA non ha
+prodotto pseudocodice per questa sessione; evidenza in
+`verification/rea-checkpoint23.json`. La lingua ARMv7 generica resta inoltre
+inadatta a certificare il modello DS ARMv5T/ARMv4T.

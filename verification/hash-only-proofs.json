@@ -22,5 +22,17 @@
     "source_sha256": "f425c3b8269d992f1cfd5d62ca63c43062f3dc87d0bedac808e6c80353b7585d",
     "size": 28,
     "audit": "checkpoint21-search-summary.json"
+  },
+  "arm9_0203c8dc": {
+    "sha256": "7710cdee80ea1ae4e54239d048dd52c9c87011cbd844ec7705a9245df740d5a8",
+    "source_sha256": "c3feed4529fc9fdc3d2c472394863eba9a63a69aa4e9c0725f9d97d05ea7eefe",
+    "size": 116,
+    "audit": "checkpoint23-search-summary.json"
+  },
+  "arm9_02044618": {
+    "sha256": "154a0c1fd5a4e12111d1322df748ca3c21adaec511d75dbe456b68abb79a89fb",
+    "source_sha256": "1de779d7bc7a816ea94feb12d460f4fd5d6b77517bf281308a1a137de25878c8",
+    "size": 68,
+    "audit": "checkpoint23-search-summary.json"
   }
 }

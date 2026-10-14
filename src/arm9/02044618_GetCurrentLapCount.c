@@ -1,33 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 02044618. No matching claim. */
-#include "types.h"
-#include "deps/02044618_GetCurrentLapCount.h"
+/* Reconstructed from EUR ARM instructions; exact complete local bytes verified.
+ * Whole-ROM linking and global ABI remain unverified. */
+typedef unsigned int uint32_t; typedef signed int int32_t; typedef unsigned char uint8_t; typedef signed char int8_t; typedef unsigned short uint16_t;
+#ifndef READ8
+#define READ8(a) (*(const uint8_t *)(unsigned long)(a))
+#endif
+#ifndef READ16
+#define READ16(a) (*(const uint16_t *)(unsigned long)(a))
+#endif
+#ifndef READ32
+#define READ32(a) (*(const uint32_t *)(unsigned long)(a))
+#endif
 
-uint GetCurrentLapCount(void)
-
+struct PackedPlace { unsigned char flags:1; unsigned char place:7; };
+struct NormalPlace { unsigned short place:4; unsigned short flags:12; };
+uint32_t GetCurrentLapCount(void)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar3 = *(uint *)(uRam02044654 & 0xfffffffc) >> (uRam02044654 & 3) * 8 |
-          *(uint *)(uRam02044654 & 0xfffffffc) << (uRam02044654 & 3) * -8 + 0x20;
-  uVar2 = uVar3 + 8;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) != 2) {
-    uVar2 = (uint)*(char *)(uVar3 + 100);
-    if ((int)uVar2 < 1) {
-      uVar2 = (*(uint *)(uRam02044658 & 0xfffffffc) >> (uRam02044658 & 3) * 8 |
-              *(uint *)(uRam02044658 & 0xfffffffc) << (uRam02044658 & 3) * -8 + 0x20) + 0x18;
-      uVar1 = uVar2 & 3;
-      uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-      uVar2 = (uint)*(ushort *)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 2);
-    }
-    else {
-      uVar2 = uVar2 & 0xffff;
-    }
-    return uVar2;
-  }
-  return 1;
+ uint32_t result=1;
+ uint32_t state=READ32(0x021759C0u);
+ if(READ32(state+8u)!=2u) {
+  int32_t laps=(int8_t)READ8(state+0x64u);
+  if(laps<=0) {
+   uint32_t owner=READ32(0x02175620u);
+   uint32_t settings=READ32(owner+0x18u);
+   result=READ16(settings+2u);
+  } else result=(uint16_t)laps;
+ }
+ return result;
 }
-

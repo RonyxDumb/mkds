@@ -1,4 +1,4 @@
-# Confronto completo con la ROM — checkpoint 21
+# Confronto completo con la ROM — checkpoint 23
 
 Il confronto fisico include tutti i **33.554.432 byte** della ROM di riferimento
 AMCP, SHA-1 `ce97d9b43f0d3ca0d48b781983e8a16f6393378f`: nessuna maschera per
@@ -8,13 +8,13 @@ Codice non ricostruito, dati e asset sono ancora quelli originali.
 
 | Verifica | Risultato |
 |---|---|
-| Ricompilazione locale dei sorgenti | 3.115 / 3.115 funzioni passate |
+| Ricompilazione locale dei sorgenti | 3.117 / 3.117 funzioni passate |
 | Relocazioni risolte e confrontate | 5.019 |
-| Copertura dell'inventario funzioni | 216.982 / 1.913.676 byte, 11,338492% |
+| Copertura dell'inventario funzioni | 217.166 / 1.913.676 byte, 11,348107% |
 | Tutte le sezioni inizializzate ARM9, ARM7 e overlay decompressi dell'ibrido | Identiche all'originale, indirizzi compresi |
 | Confronto fisico dell'intero `.nds` ibrido | Non identico |
-| Originale e ibrido eseguiti nel core melonDS | 900 frame ciascuno, schermata del titolo osservata |
-| Buffer finali dei due schermi | Identici tra originale e ibrido |
+| Originale e ibrido eseguiti nel core melonDS | 7.200 frame ciascuno, gara Figure-8 Circuit con accelerazione |
+| Buffer finali dei due schermi | Diversi in gara; 3/12 coppie di snapshot identiche |
 | Tracce CPU campionate | Non identiche; nessuna equivalenza completa dichiarata |
 | Build completa dal C senza codice originale | Non disponibile e non verificata |
 

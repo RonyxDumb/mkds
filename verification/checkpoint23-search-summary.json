@@ -1,0 +1,57 @@
+{
+  "checkpoint": 23,
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "GetDriverPlace",
+      "mode": "arm",
+      "address": "0x0203c8dc",
+      "size": "116",
+      "kind": "manual_race_query",
+      "sha256": "7710cdee80ea1ae4e54239d048dd52c9c87011cbd844ec7705a9245df740d5a8",
+      "relocations": "0",
+      "status": "EXACT_LOCAL_BYTES",
+      "source_sha256": "c3feed4529fc9fdc3d2c472394863eba9a63a69aa4e9c0725f9d97d05ea7eefe",
+      "optimization": "-O4,p",
+      "processor": "arm946e"
+    },
+    {
+      "module": "arm9",
+      "name": "GetCurrentLapCount",
+      "mode": "arm",
+      "address": "0x02044618",
+      "size": "68",
+      "kind": "manual_race_query",
+      "sha256": "154a0c1fd5a4e12111d1322df748ca3c21adaec511d75dbe456b68abb79a89fb",
+      "relocations": "0",
+      "status": "EXACT_LOCAL_BYTES",
+      "source_sha256": "1de779d7bc7a816ea94feb12d460f4fd5d6b77517bf281308a1a137de25878c8",
+      "optimization": "-O4,p",
+      "processor": "arm946e"
+    }
+  ],
+  "total_functions": 3117,
+  "fresh_audits": {
+    "unrelocated": {
+      "tested": 1400,
+      "passed": 1400,
+      "exact_code_bytes": 47530,
+      "relocations": 0,
+      "full_rom_link_verified": false,
+      "compiler": "mwccarm 1.2/sp2p3; Clang for explicitly tagged Clang proofs",
+      "verification": "Fresh compilation of current source; complete function bytes and length identical to original decompressed section; no masking or relocations."
+    },
+    "resolved": {
+      "tested": 1717,
+      "passed": 1717,
+      "bytes": 172040,
+      "resolved_relocations": 5019,
+      "full_rom_link_verified": false
+    }
+  },
+  "identified_function_bytes": 1913676,
+  "inventory_bytes": 217166,
+  "full_rom_link_verified": false,
+  "semantic_test_cases": 197888,
+  "scope": "Current published corpus plus two independently reconstructed race queries. Checkpoint22 corpus unavailable."
+}

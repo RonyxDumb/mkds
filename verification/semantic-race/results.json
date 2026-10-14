@@ -7,8 +7,8 @@
   "total_cases": 197888,
   "seed": "0x4d4b4453",
   "source_sha256": {
-    "src/arm9/0203c8dc_GetDriverPlace.c": "c1edb322ab9b55044594fd04b06e0921ce6c09fcf5a0a733eeb9b2d0301bba03",
-    "src/arm9/02044618_GetCurrentLapCount.c": "dc85593bcd142b96b5d58954341c13b2de66a302aa78ace3919b92aeaeb893a0"
+    "src/arm9/0203c8dc_GetDriverPlace.c": "c3feed4529fc9fdc3d2c472394863eba9a63a69aa4e9c0725f9d97d05ea7eefe",
+    "src/arm9/02044618_GetCurrentLapCount.c": "1de779d7bc7a816ea94feb12d460f4fd5d6b77517bf281308a1a137de25878c8"
   },
   "status": "PASS"
 }

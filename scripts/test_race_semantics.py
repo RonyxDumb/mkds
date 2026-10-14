@@ -37,9 +37,13 @@ with tempfile.TemporaryDirectory() as directory:
     header = tmp/'reads.h'
     header.write_text('''#include <stdint.h>
 extern uint32_t (*test_read)(uint32_t, uint32_t);
-#define MKDS_READ8(a) ((uint8_t)test_read((uint32_t)(a), 1))
-#define MKDS_READ16(a) ((uint16_t)test_read((uint32_t)(a), 2))
-#define MKDS_READ32(a) test_read((uint32_t)(a), 4)
+#define READ8(a) ((uint8_t)test_read((uint32_t)(a), 1))
+#define READ16(a) ((uint16_t)test_read((uint32_t)(a), 2))
+#define READ32(a) test_read((uint32_t)(a), 4)
+union TestPacked { uint8_t raw; struct { unsigned char flags:1; unsigned char place:7; } fields; };
+union TestNormal { uint16_t raw; struct { unsigned short place:4; unsigned short flags:12; } fields; };
+#define READ_PACKED_PLACE(a) ((union TestPacked){.raw=(uint8_t)test_read((uint32_t)(a),1)}.fields.place)
+#define READ_NORMAL_PLACE(a) ((union TestNormal){.raw=(uint16_t)test_read((uint32_t)(a),2)}.fields.place)
 ''')
     shim = tmp/'shim.c'
     shim.write_text('#include <stdint.h>\nuint32_t (*test_read)(uint32_t, uint32_t);\n')
