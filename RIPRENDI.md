@@ -1,4 +1,26 @@
-# Riprendere dal checkpoint 9
+# Riprendere il lavoro
+
+## Stato corrente — 14 ottobre 2026
+
+Lavorare esclusivamente su `main`. La PR #2 e stata integrata nel commit
+`0afa03b76f20883d636fb4e150e4cfef5221e2b7`; i riferimenti ai branch nelle
+sezioni storiche sotto non descrivono piu lo stato corrente.
+
+La ROM EUR fornita e stata verificata contro lo SHA-1 atteso ed estratta con
+`python scripts/prepare_rom.py PERCORSO_ROM`. La toolchain e stata ripristinata
+con `python scripts/setup_matching_toolchain.py`; dipendenze Python:
+`ndspy`, `capstone`, `pyelftools`, `ziglang==0.14.1`.
+
+Ricompilate e confrontate tutte le 2.288 funzioni del checkpoint 14:
+1.251 senza relocazioni e 1.037 con tutte le 2.557 relocazioni risolte.
+Confermati 109.144 byte inventariati (5,703369%) e 109.304 byte negli span
+completi. Anche gli hash delle dipendenze SDK sono stati verificati.
+La ROM completa e l'ABI globale restano non verificati.
+
+I binari estratti e il compilatore restano nelle directory ignorate da Git.
+Le sezioni successive sono la cronologia dei checkpoint.
+
+## Checkpoint 9
 
 1.143 funzioni; 27.044 byte verificati localmente. 984 senza relocazioni e 159 dopo linking locale completo delle relocazioni ARM. Nessuna ROM completa verificata.
 

@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-14",
+  "branch": "main",
+  "base_commit": "0afa03b76f20883d636fb4e150e4cfef5221e2b7",
+  "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+  "manifest_matches": true,
+  "sdk_headers_verified": true,
+  "unrelocated": {
+    "tested": 1251,
+    "passed": 1251,
+    "exact_code_bytes": 31332,
+    "relocations": 0,
+    "full_rom_link_verified": false,
+    "compiler": "mwccarm 1.2/sp2p3; Clang for explicitly tagged Clang proofs",
+    "verification": "Fresh compilation of current source; complete function bytes and length identical to original decompressed section; no masking or relocations."
+  },
+  "resolved": {
+    "tested": 1037,
+    "passed": 1037,
+    "bytes": 77972,
+    "resolved_relocations": 2557,
+    "full_rom_link_verified": false
+  },
+  "inventory_bytes": 109144,
+  "complete_span_bytes": 109304,
+  "inventory_denominator": 1913676,
+  "full_rom_link_verified": false
+}
