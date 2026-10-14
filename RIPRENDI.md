@@ -110,3 +110,11 @@ Ricerca conclusa: NitroSDK ARM7 O1/O3 (isolata e unita completa), NitroSDK ARM9 
 Il verificatore audit_resolved_calls.py ora ricompila su quattro worker, carica una sola volta i metadati e segnala ogni 100 funzioni. Gli oggetti di audit sono separati dalle prove archiviate, in build/linked-audit-objects; ciascuna compilazione mantiene il timeout di 30 secondi. prepare_nitro_candidates.py crea anche la cartella build nei cloni puliti. Lavorare esclusivamente su main; un solo writer dei registri.
 
 I due nuovi hex di codice restano locali e ignorati da Git. hash-only-proofs.json conserva hash e collegamento al checkpoint ricompilato; measure_progress.py confronta comunque i byte della ROM fornita, mentre export_objdiff_report.py accetta solo record hash-only espliciti, con span uguale al corpo inventariato, hash del sorgente e audit completo. Testato anche senza i due hex; hash alterato respinto.
+
+## Checkpoint 21 — main
+
+3.115 funzioni, 216.982 / 1.913.676 byte inventariati (11,338492%). Due ricostruzioni manuali Thumb: func_02006380 (28 byte), func_02006fdc (30 byte). Ricompilate 1.398 prove senza relocazioni e 1.717 con relocazioni (5.019 risolte). Prove nuove hash-only nel checkpoint21-search-summary.json. Ricerca stack_locals: 126 candidati, zero match; non ripeterla senza modifiche.
+
+Soluzione emulator: core melonDS al commit 906e9ebb27da8c6a715cd7abab4abfe8a8d29427, senza Qt/SDL/JIT/OpenGL. build_headless_emulator.sh + melonds_headless.cpp; 900 frame original/hybrid arrivano al titolo con buffer finali identici. Tracce CPU campionate diverse: non dichiarare equivalenza completa. GDB osservato realmente su ARM9/ARM7, entry 02000800/02380000, detach OK. Observe_gdb.py legge soltanto stato/registri e si scollega. Rete, periferiche e salvataggi non persistiti.
+
+build_hybrid_rom.py inserisce gli oggetti dell'audit in sezioni originali, rilegge la ROM e verifica che tutti i moduli decompressi restino identici. Non e una build indipendente dal C. compare_rom.py copre ogni byte fisico e non maschera padding/header; il confronto ibrido e non identico: 25.562.152 contro 33.554.432 byte, 8.082.864 diversi o mancanti. Dettagli in reports/FULL-ROM-COMPARISON.md e JSON completo. Sorgenti non matching, linking globale e contenitore esatto restano da ricostruire. Lavorare su main; un solo writer dei registri.

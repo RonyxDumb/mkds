@@ -2,7 +2,7 @@
 <rect width="1200" height="740" rx="14" fill="#0d1117"/>
 <style>text{font-family:Inter,Segoe UI,Arial,sans-serif}.heading{fill:#e6edf3;font-weight:700}.light{fill:#9da7b3}.module{fill:#e6edf3;font-weight:700}.tile{fill:#8ea3b9;font-size:10px;pointer-events:none}</style>
 <text x="28" y="44" class="heading" font-size="26">Mario Kart DS · Decompilation progress</text>
-<text x="28" y="70" class="light" font-size="14">EUR checkpoint 6 · 216,924 / 1,913,676 verified local byte-exact code bytes · 11.3355%</text>
+<text x="28" y="70" class="light" font-size="14">EUR checkpoint 6 · 216,982 / 1,913,676 verified local byte-exact code bytes · 11.3385%</text>
 <rect x="28" y="91" width="13" height="13" fill="#2ea043"/><text x="47" y="103" class="light" font-size="12">Byte-exact locally</text>
 <rect x="206" y="91" width="13" height="13" fill="#303f52"/><text x="225" y="103" class="light" font-size="12">Not byte-exact / unverified</text>
 <text x="1170" y="103" text-anchor="end" class="light" font-size="12">Tile area ∝ identified function bytes</text>
@@ -17,11 +17,11 @@
 <rect x="30.00" y="338.93" width="26.177" height="55.70" fill="#2ea043"/>
 <title>arm9/002 · 9,700 bytes · 4,680 verified (48.247%) · 64 functions</title>
 <rect x="30.00" y="394.62" width="54.26" height="45.95" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="30.00" y="394.62" width="25.806" height="45.95" fill="#2ea043"/>
-<title>arm9/003 · 8,002 bytes · 3,806 verified (47.563%) · 64 functions</title>
+<rect x="30.00" y="394.62" width="25.996" height="45.95" fill="#2ea043"/>
+<title>arm9/003 · 8,002 bytes · 3,834 verified (47.913%) · 64 functions</title>
 <rect x="30.00" y="440.57" width="54.26" height="37.31" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="30.00" y="440.57" width="2.672" height="37.31" fill="#2ea043"/>
-<title>arm9/004 · 6,498 bytes · 320 verified (4.925%) · 64 functions</title>
+<rect x="30.00" y="440.57" width="2.922" height="37.31" fill="#2ea043"/>
+<title>arm9/004 · 6,498 bytes · 350 verified (5.386%) · 64 functions</title>
 <rect x="30.00" y="477.88" width="54.26" height="59.93" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="30.00" y="477.88" width="0.977" height="59.93" fill="#2ea043"/>
 <title>arm9/005 · 10,438 bytes · 188 verified (1.801%) · 64 functions</title>
@@ -438,7 +438,7 @@
 <rect x="829.28" y="623.83" width="29.76" height="47.17" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="829.28" y="623.83" width="3.447" height="47.17" fill="#2ea043"/>
 <title>arm9/121 · 4,506 bytes · 522 verified (11.585%) · 63 functions</title>
-<text x="31.0" y="138.0" class="module" font-size="13">ARM9 · 12.204%</text>
+<text x="31.0" y="138.0" class="module" font-size="13">ARM9 · 12.209%</text>
 <rect x="865.03" y="120.00" width="310.97" height="188.15" rx="3" fill="#15202c" stroke="#5b7187" stroke-width="1.7"/>
 <rect x="871.03" y="146.00" width="48.58" height="36.39" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="871.03" y="146.00" width="1.500" height="36.39" fill="#2ea043"/>

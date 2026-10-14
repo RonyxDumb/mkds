@@ -85,8 +85,11 @@ def verify(r):
  assert hashlib.sha256(code).hexdigest()==r['sha256']
  assert len(relocs)==int(r['relocations'])
  return r
-with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
- for completed, _ in enumerate(pool.map(verify, rows), 1):
-  if completed % 100 == 0:print('Verified linked functions',completed,'/',len(rows),flush=True)
-summary=dict(tested=len(rows),passed=len(rows),bytes=sum(int(r['size']) for r in rows),resolved_relocations=sum(int(r['relocations']) for r in rows),full_rom_link_verified=False)
-(root/'verification/linked-matching-audit.json').write_text(json.dumps(summary,indent=2)+'\n');print(json.dumps(summary))
+def main():
+ with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+  for completed, _ in enumerate(pool.map(verify, rows), 1):
+   if completed % 100 == 0:print('Verified linked functions',completed,'/',len(rows),flush=True)
+ summary=dict(tested=len(rows),passed=len(rows),bytes=sum(int(r['size']) for r in rows),resolved_relocations=sum(int(r['relocations']) for r in rows),full_rom_link_verified=False)
+ (root/'verification/linked-matching-audit.json').write_text(json.dumps(summary,indent=2)+'\n');print(json.dumps(summary))
+
+if __name__=='__main__':main()

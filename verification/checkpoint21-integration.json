@@ -1,0 +1,199 @@
+{
+  "checkpoint": 21,
+  "reference_roundtrip_control": {
+    "scope": "Every physical ROM byte; no header, relocation, asset or padding mask",
+    "reference_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+    "reference_sha256": "d1dd7a96e6c8c912faac2e4accb83682de0f42bac34f1ad5313d6cb78fb8d225",
+    "candidate_sha1": "f63b51b4a587c662a41f772e3665159752dae8fc",
+    "candidate_sha256": "31d265ebf939cde53bd4e239cc1130d55a07c9d102eb3faca0829a5df9aae2ba",
+    "reference_size": 33554432,
+    "candidate_size": 25562152,
+    "compared_extent": 33554432,
+    "equal_bytes": 25560535,
+    "different_or_missing_bytes": 7993897,
+    "extra_candidate_bytes": 0,
+    "full_file_equal": false,
+    "candidate_provenance": "reference-roundtrip",
+    "full_source_reconstruction_verified": false,
+    "provenance_limitation": "This comparator verifies file equality only, not how candidate bytes were built."
+  },
+  "hybrid_provenance": {
+    "scope": "Compiled local functions integrated into reference-derived modules",
+    "compiled_functions": 3115,
+    "compiled_span_bytes_sum": 219386,
+    "unique_compiled_span_bytes": 219386,
+    "reference_derived_unverified_code_data_and_assets_retained": true,
+    "full_source_reconstruction_verified": false,
+    "full_rom_link_verified": false,
+    "all_decompressed_modules_equal_to_reference": true,
+    "modules": [
+      {
+        "module": "arm9",
+        "initialized_bytes": 1536960,
+        "unique_compiled_span_bytes": 170888
+      },
+      {
+        "module": "arm7",
+        "initialized_bytes": 166272,
+        "unique_compiled_span_bytes": 47428
+      },
+      {
+        "module": "arm9_ov000",
+        "initialized_bytes": 214912,
+        "unique_compiled_span_bytes": 204
+      },
+      {
+        "module": "arm9_ov001",
+        "initialized_bytes": 169216,
+        "unique_compiled_span_bytes": 672
+      },
+      {
+        "module": "arm9_ov002",
+        "initialized_bytes": 32,
+        "unique_compiled_span_bytes": 0
+      },
+      {
+        "module": "arm9_ov003",
+        "initialized_bytes": 131232,
+        "unique_compiled_span_bytes": 194
+      }
+    ],
+    "full_object_ledger_sha256": "7f613db281547f3a6906a47522599b16f8ab045a087ea39d1d7bb1e556021bcc"
+  },
+  "emulation": {
+    "upstream_commit": "906e9ebb27da8c6a715cd7abab4abfe8a8d29427",
+    "frames_each": 900,
+    "scene_observed": "Mario Kart DS title screen",
+    "rtc": "2026-01-01 00:00:00",
+    "jit": false,
+    "bios": "upstream FreeBIOS",
+    "firmware": "upstream generated firmware",
+    "network_peripherals_and_save_persistence": false,
+    "final_framebuffers": [
+      {
+        "screen": "top",
+        "size": 196608,
+        "identical": true,
+        "reference_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+        "hybrid_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832"
+      },
+      {
+        "screen": "bottom",
+        "size": 196608,
+        "identical": true,
+        "reference_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d",
+        "hybrid_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+      }
+    ],
+    "sampled_cpu_trace_equal": false,
+    "gdb_observations": [
+      {
+        "cpu": "arm9",
+        "port": 3333,
+        "stop_reply": "S02",
+        "registers": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          33556480,
+          50343804,
+          33556480,
+          33556480,
+          211,
+          50347968,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          50347904,
+          0,
+          50343804,
+          33556480,
+          0,
+          0,
+          0,
+          0,
+          16,
+          16,
+          211,
+          16,
+          16
+        ],
+        "pc": 33556480,
+        "sp": 50343804,
+        "lr": 33556480,
+        "cpsr": 211,
+        "scope": "One stopped CPU observation, not a matching proof",
+        "detach_reply": "OK"
+      },
+      {
+        "cpu": "arm7",
+        "port": 3334,
+        "stop_reply": "S02",
+        "registers": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          37224448,
+          58785152,
+          37224448,
+          37224448,
+          211,
+          58785728,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          58785664,
+          0,
+          58785152,
+          37224448,
+          0,
+          0,
+          0,
+          0,
+          16,
+          16,
+          211,
+          16,
+          16
+        ],
+        "pc": 37224448,
+        "sp": 58785152,
+        "lr": 37224448,
+        "cpsr": 211,
+        "scope": "One stopped CPU observation, not a matching proof",
+        "detach_reply": "OK"
+      }
+    ],
+    "limitation": "Initial title sequence only; not complete gameplay or behavioral equivalence"
+  },
+  "full_source_reconstruction_verified": false,
+  "full_rom_link_verified": false
+}

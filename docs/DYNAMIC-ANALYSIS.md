@@ -39,7 +39,48 @@ indirizzo a un overlay bisogna verificare i byte caricati: diversi overlay
 condividono lo stesso indirizzo. La lista iniziale esclude gli overlay proprio
 per evitare di attribuire una chiamata al modulo sbagliato.
 
-## Limiti REA verificati il 14 ottobre 2026
+## Soluzione funzionante: core senza GUI
+
+Il checkpoint 21 include `melonds_headless.cpp`, un frontend locale che esegue
+il core melonDS al commit `906e9ebb27da8c6a715cd7abab4abfe8a8d29427` senza
+Qt, SDL, OpenGL o JIT. Sono stati eseguiti 900 frame sia dell'originale sia
+dell'ibrido: entrambi raggiungono il titolo, con buffer finali identici.
+Questo non verifica l'intero gameplay. Le tracce CPU campionate non sono
+identiche, quindi non viene dichiarata equivalenza completa del comportamento.
+
+Su Linux, con Git, CMake e compilatore C++17:
+
+```sh
+sh scripts/build_headless_emulator.sh
+tools/melonds-headless /percorso/AMCP.nds 900 build/reference
+tools/melonds-headless build/hybrid/hybrid.nds 900 build/hybrid-run
+```
+
+Il frontend usa FreeBIOS e firmware generato upstream, RTC fissato al primo
+gennaio 2026 e nessun input. Multiplayer, periferiche, microfono e persistenza
+dei salvataggi sono disabilitati: non serve per verificarli. I buffer dei due
+schermi sono salvati come byte grezzi, nel formato interno del core.
+
+Per il debugger, avviare questo comando in un terminale:
+
+```sh
+tools/melonds-headless /percorso/AMCP.nds 900 build/debug --gdb
+```
+
+In un secondo terminale, osservare ARM9 e poi ARM7:
+
+```sh
+python scripts/observe_gdb.py --cpu arm9 --output build/arm9-observation.json
+python scripts/observe_gdb.py --cpu arm7 --output build/arm7-observation.json
+```
+
+Entrambe le connessioni sono state testate realmente, con lettura dei registri
+agli entry point `0x02000800` e `0x02380000` e detach `OK`. Lo script non espone
+scritture di memoria o registri. E possibile usare GDB al posto dell'osservatore
+per breakpoint e analisi mirata. Il frontend e distribuito come sorgente GPL;
+il core resta una dipendenza upstream, non incluso nel repository.
+
+## Limiti REA e precedenti tentativi
 
 - Installato localmente `rea-agents@6.4.0`, versione CLI verificata.
 - `rea doctor --json` segnala Ghidra/Hopper assenti; Java locale e 17.
@@ -54,10 +95,14 @@ per evitare di attribuire una chiamata al modulo sbagliato.
 - melonDS 1.1 Linux scaricato. La build Ubuntu non parte per librerie Qt6,
   enet e faad mancanti. L'AppImage estratta risolve quelle librerie ma non
   include il plugin Qt offscreen; il tentativo termina prima dell'emulazione.
-  Nessuna sessione runtime o connessione GDB e stata verificata qui.
+  Questo era il primo tentativo. Il blocco e stato superato compilando il core
+  senza GUI, come descritto sopra. Il plugin Qt offscreen 6.2.4 e stato anche
+  recuperato dalla wheel PySide6 della stessa versione, ma la soluzione
+  riproducibile adottata non richiede Qt.
 
-Misura rieseguita contro la ROM corretta: 3.113 funzioni, 216.924 byte su
-1.913.676 (11,335461%). Nessun nuovo match e attribuito a questa preparazione.
+Misura checkpoint 21: 3.115 funzioni, 216.982 byte su
+1.913.676 (11,338492%). I due nuovi match derivano da ricostruzioni C Thumb
+ricompilate, non dalle osservazioni dinamiche.
 Non modificare i registri di matching sulla base di hit o pseudocodice REA.
 
 Fonti: [REA](https://github.com/morluto/rea),
