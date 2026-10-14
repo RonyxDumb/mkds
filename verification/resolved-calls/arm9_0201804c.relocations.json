@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Mem_Frame_ResetFromHead",
+    "target": 33653084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645820
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Mem_Frame_ResetFromTail",
+    "target": 33653036,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645802
+  }
+]

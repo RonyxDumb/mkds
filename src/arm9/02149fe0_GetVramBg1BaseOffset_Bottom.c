@@ -1,10 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 02149fe0. No matching claim. */
-#include "types.h"
-#include "deps/02149fe0_GetVramBg1BaseOffset_Bottom.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define G2S_GetBG1CharPtr GetVramBg1BaseOffset_Bottom
+#include "nitro/types.h"
+#include "registers.h"
+#include "gx.h"
+#include "code32.h"
 
-int GetVramBg1BaseOffset_Bottom(void)
-
-{
-  return ((int)(*puRam02149ffc & 0x3c) >> 2) * 0x4000 + 0x6200000;
+#pragma thumb off
+void *G2S_GetBG1CharPtr(){
+    return (void *)(0x6200000 + (((reg_G2S_DB_BG1CNT & 0x3C) >> 0x2) << 0xE));
 }
-

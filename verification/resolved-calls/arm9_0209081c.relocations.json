@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "StructMQSub2_MaybeApplyBulletItem",
+    "target": 34146120,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422919
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "StructMQSub2_SomeFn_0",
+    "target": 34145704,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422813
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -4,
+    "value": 4176015488
+  },
+  {
+    "offset": 28,
+    "type": 10,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -4,
+    "value": 4175491200
+  },
+  {
+    "offset": 38,
+    "type": 10,
+    "symbol": "func_021277f8",
+    "target": 34764792,
+    "thumb": true,
+    "addend": -4,
+    "value": 4246335731
+  }
+]

@@ -1,13 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 02004dfc. No matching claim. */
-#include "types.h"
-#include "deps/02004dfc_Fs_LoadRomArchiveFatFnt.h"
-
-void Fs_LoadRomArchiveFatFnt(undefined4 param_1,undefined4 param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FS_LoadArchiveTables SDK_data_02003e24
+#define fsi_arc_rom SDK_data_0216f36c
+#define FS_TryLoadTable Fs_LoadRomArchiveFatFnt
+#include "FS_rom.h"
+#include "FS_archive.h"
+#include "FS_file.h"
+#include "CARD_pullOut.h"
+#include "CARD_rom.h"
+#include "CARD_common.h"
+#include "MB_mb.h"
+#include "OS_printf.h"
+#include "code32.h"
+extern FSArchive fsi_arc_rom;
+#pragma thumb off
+u32 FS_TryLoadTable(void * p_mem, u32 size)
 {
-                    /* WARNING: Could not recover jumptable at 0x02004e10. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02004e14)(uRam02004e18,param_1,param_2);
-  return;
+    return FS_LoadArchiveTables(&fsi_arc_rom, p_mem, size);
 }
-

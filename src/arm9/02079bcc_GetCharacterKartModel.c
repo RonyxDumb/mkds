@@ -1,23 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 02079bcc. No matching claim. */
-#include "types.h"
-#include "deps/02079bcc_GetCharacterKartModel.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-uint GetCharacterKartModel(int param_1)
-
+unsigned int GetCharacterKartModel(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = *(uint *)(uRam02079bec & 0xfffffffc) >> (uRam02079bec & 3) * 8 |
-          *(uint *)(uRam02079bec & 0xfffffffc) << (uRam02079bec & 3) * -8 + 0x20;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar1 = param_1 * 0xb4 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x14;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  uVar1 = (uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) + 4;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  return uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_2079bcc: r2 = 0x217ad00u;
+L_2079bd0: r1 = 0xb4u;
+L_2079bd4: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_2079bd8: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_2079bdc: r1 = (r0*r1+r2);
+L_2079be0: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 20));
+L_2079be4: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 4));
+L_2079be8: return r0;
 }
-

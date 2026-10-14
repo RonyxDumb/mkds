@@ -1,20 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 02147dec. No matching claim. */
-#include "types.h"
-#include "deps/02147dec_FX_InvAsync.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
 
-void FX_InvAsync(undefined4 param_1)
+#include "fx.h"
 
-{
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  
-  puVar1 = puRam02147e20;
-  *puRam02147e1c = 1;
-  *puVar1 = 0;
-  puVar2 = puRam02147e24;
-  puVar1[1] = 0x1000;
-  *puVar2 = param_1;
-  puVar2[1] = 0;
-  return;
+#include "nitro/types.h"
+#include "registers.h"
+#include "code32.h"
+
+#pragma thumb off
+void FX_InvAsync(fx32 x){
+    reg_CP_DIVCNT = 0x1;
+    reg_CP_DIV_NUMER = (fx64)0x00001000 << 32;
+    reg_CP_DIV_DENOM = (u32)x;
 }
-

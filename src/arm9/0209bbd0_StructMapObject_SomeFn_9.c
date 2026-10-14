@@ -1,19 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0209bbd0. No matching claim. */
-#include "types.h"
-#include "deps/0209bbd0_StructMapObject_SomeFn_9.h"
-
-void StructMapObject_SomeFn_9(undefined4 param_1,int param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_020e6a18(unsigned int);
+unsigned int StructMapObject_SomeFn_9(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_2 + 0xcU & 3;
-  uVar2 = *(uint *)(param_2 + 0xcU & 0xfffffffc);
-  if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
-    func_020e6a18();
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_209bbd8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 12));
+L_209bbdc: cmp_a = r0; cmp_b = 0x0u;
+L_209bbe8: if ((cmp_a == cmp_b)) { return r0; }
+L_209bbec: r0 = func_020e6a18(r0);
+L_209bbf8: return r0;
 }
-

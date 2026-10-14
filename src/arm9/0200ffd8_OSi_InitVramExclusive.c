@@ -1,22 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 0200ffd8. No matching claim. */
-#include "types.h"
-#include "deps/0200ffd8_OSi_InitVramExclusive.h"
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_vramExclusive SDK_data_02170284
+#define OSi_vramLockId SDK_data_02170288
+#include "OS_vramExclusive.h"
+#include "OS_system.h"
+#include "code32.h"
+extern u32 OSi_vramExclusive;
+extern u16 OSi_vramLockId[9];
 void OSi_InitVramExclusive(void)
-
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar3 = 0;
-  *puRam02010004 = 0;
-  iVar2 = iRam02010008;
-  do {
-    iVar1 = iVar3 * 2;
-    iVar3 = iVar3 + 1;
-    *(undefined2 *)(iVar2 + iVar1) = 0;
-  } while (iVar3 < 9);
-  return;
-}
+    OSi_vramExclusive = 0x0000;
 
+    for (s32 i = 0; i < 9; i++)
+    {
+        OSi_vramLockId[i] = 0;
+    }
+}

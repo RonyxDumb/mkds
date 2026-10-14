@@ -1,17 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0209024c. No matching claim. */
-#include "types.h"
-#include "deps/0209024c_func_0209024c.h"
-
-void func_0209024c(undefined4 param_1,undefined4 param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0207c078(unsigned int);
+extern unsigned int func_0207c614(unsigned int, unsigned int);
+unsigned int func_0209024c(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  int iVar1;
-  
-  iVar1 = func_0207c078();
-  if (iVar1 != 0) {
-    func_0207c614(param_1,param_2);
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4,r5;
+L_2090254: r5 = r0;
+L_2090258: r4 = r1;
+L_209025c: r0 = func_0207c078(r0);
+L_2090260: cmp_a = r0; cmp_b = 0x0u;
+L_209026c: if ((cmp_a == cmp_b)) { return r0; }
+L_2090270: r0 = r5;
+L_2090274: r1 = r4;
+L_2090278: r0 = func_0207c614(r0,r1);
+L_2090284: return r0;
 }
-

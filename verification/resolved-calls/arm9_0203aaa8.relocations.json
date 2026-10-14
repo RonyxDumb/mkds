@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "MaybeIsMenuOn_from_thumb",
+    "target": 34287192,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194427112
+  },
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "func_02055cbc",
+    "target": 33905852,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942673536
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "func_02062000",
+    "target": 33955840,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942686032
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "func_020b0b8c",
+    "target": 34278284,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942766642
+  }
+]

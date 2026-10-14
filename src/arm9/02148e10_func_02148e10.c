@@ -1,16 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 02148e10. No matching claim. */
-#include "types.h"
-#include "deps/02148e10_func_02148e10.h"
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-void func_02148e10(void)
-
-{
-  _DAT_04000000 = _DAT_04000000 & 0x7fffffff;
-                    /* WARNING: Could not recover jumptable at 0x02148e28. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02148e2c)(uRam02148e30);
-  return;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define disableBankForX_ SDK_data_02148e80
+#define gGXState SDK_data_021802b0
+#define GX_DisableBankForOBJExtPltt func_02148e10
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern u32 disableBankForX_(u16 *ptr);
+extern struct GX_State gGXState;
+#pragma thumb off
+u32 GX_DisableBankForOBJExtPltt(){
+    reg_GX_DISPCNT &= ~REG_GX_DISPCNT_O_MASK;
+    return disableBankForX_(&gGXState.objExtPltt);
 }
-

@@ -1,70 +1,46 @@
-/* Decompiled C draft; module arm9; ROM address 021499b4. No matching claim. */
-#include "types.h"
-#include "deps/021499b4_func_021499b4.h"
-
-void func_021499b4(int param_1)
-
-{
-  ushort uVar1;
-  ushort uVar2;
-  ushort *puVar3;
-  undefined1 *puVar4;
-  
-  puVar3 = DAT_02149b08;
-  uVar1 = DAT_02149b08[2];
-  uVar2 = *DAT_02149b08;
-  DAT_02149b08[2] = (ushort)param_1;
-  *puVar3 = ~(ushort)param_1 & (uVar2 | uVar1);
-  puVar4 = DAT_02149b1c;
-  if (0x30 < param_1) {
-    if (param_1 < 0x51) {
-      if (param_1 < 0x50) {
-        if (param_1 == 0x40) {
-          *DAT_02149b0c = 0x82;
-        }
-      }
-      else {
-        *DAT_02149b0c = 0x92;
-        *puVar4 = 0x82;
-      }
-      goto switchD_02149a00_default;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define gGXState SDK_data_021802b0
+#define GX_SetBankForOBJ func_021499b4
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern void GX_VRAMCNT_SetLCDC_(u32 mask);
+extern struct GX_State gGXState;
+void GX_SetBankForOBJ(s32 obj){
+    gGXState.lcdc = (u16)(~obj & (gGXState.lcdc | gGXState.obj));
+    gGXState.obj = (u16)obj;
+    switch (obj)
+    {
+    case 3:
+        reg_GX_VRAMCNT_B = 0x8A;
+    case 1:
+        reg_GX_VRAMCNT_A = 0x82;
+    case 0:  //needed to match
+        break;
+    case 2:
+        reg_GX_VRAMCNT_B = 0x82;
+        break;
+    case 112:
+        reg_GX_VRAMCNT_G = 0x9A;
+    case 48:
+        reg_GX_VRAMCNT_F = 0x92;
+    case 16:
+        reg_GX_VRAMCNT_E = 0x82;
+        break;
+    case 80:
+        reg_GX_VRAMCNT_G = 0x92;
+        reg_GX_VRAMCNT_E = 0x82;
+        break;
+    case 96:
+        reg_GX_VRAMCNT_G = 0x8A;
+    case 32:
+        reg_GX_VRAMCNT_F = 0x82;
+        break;
+    case 64:
+        reg_GX_VRAMCNT_G = 0x82;
+        break;
+    default:
+        break;
     }
-    if (param_1 < 0x61) {
-      if (param_1 != 0x60) goto switchD_02149a00_default;
-      *DAT_02149b0c = 0x8a;
-      goto LAB_02149ae4;
-    }
-    if (param_1 != 0x70) goto switchD_02149a00_default;
-    *DAT_02149b0c = 0x9a;
-LAB_02149aa0:
-    *DAT_02149b18 = 0x92;
-LAB_02149aac:
-    *DAT_02149b1c = 0x82;
-    goto switchD_02149a00_default;
-  }
-  if (0x2f < param_1) goto LAB_02149aa0;
-  if (0x10 < param_1) {
-    if (param_1 != 0x20) goto switchD_02149a00_default;
-LAB_02149ae4:
-    *DAT_02149b18 = 0x82;
-    goto switchD_02149a00_default;
-  }
-  if (0xf < param_1) goto LAB_02149aac;
-  switch(param_1) {
-  case 0:
-    break;
-  case 1:
-    goto LAB_02149a74;
-  case 2:
-    *DAT_02149b10 = 0x82;
-    break;
-  case 3:
-    *DAT_02149b10 = 0x8a;
-LAB_02149a74:
-    *DAT_02149b14 = 0x82;
-  }
-switchD_02149a00_default:
-  GX_VRAMCNT_SetLCDC_(*DAT_02149b08);
-  return;
+    GX_VRAMCNT_SetLCDC_(gGXState.lcdc);
 }
-

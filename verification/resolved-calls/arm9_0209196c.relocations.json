@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "CreateMapObjectFromModelAndAnimation_from_thumb",
+    "target": 34192500,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194314428
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "StructMapObject_MaybeSetPolygonId",
+    "target": 34191680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942655979
+  }
+]

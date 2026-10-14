@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "WaitForIRQ",
+    "target": 33605780,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959377422
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "func_021489c4",
+    "target": 34900420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942923865
+  }
+]

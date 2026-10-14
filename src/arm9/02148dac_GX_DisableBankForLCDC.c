@@ -1,13 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 02148dac. No matching claim. */
-#include "types.h"
-#include "deps/02148dac_GX_DisableBankForLCDC.h"
-
-void GX_DisableBankForLCDC(void)
-
-{
-                    /* WARNING: Could not recover jumptable at 0x02148db4. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02148db8)(uRam02148dbc);
-  return;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define disableBankForX_ SDK_data_02148e80
+#define gGXState SDK_data_0218029c
+#define GX_DisableBankForSubOBJ GX_DisableBankForLCDC
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern u32 disableBankForX_(u16 *ptr);
+extern struct GX_State gGXState;
+#pragma thumb off
+u32 GX_DisableBankForSubOBJ(){
+    return disableBankForX_(&gGXState.sub_obj);
 }
-

@@ -13,6 +13,13 @@ def verify(r):
  original=next(b[addr-a:addr-a+size] for a,b in sections[r['module']] if a<=addr and addr+size<=a+len(b))
  assert hashlib.sha256(original).hexdigest()==r['sha256']
  obj=out/f"{r['module']}_{addr:08x}.o";processor='arm7tdmi' if r['module']=='arm7' else 'arm946e'
+ if r.get('kind')=='sdk_source':
+  meta=json.loads((root/'verification/sdk-source-proofs.json').read_text())[f"{r['module']}_{addr:08x}"]
+  subprocess.run([os.environ['WIBO'],os.environ['MWCCARM'],*meta['flags'],'-c',str(src),'-o',str(obj)],cwd=root,check=True,capture_output=True)
+  elf=ELFFile(io.BytesIO(obj.read_bytes()));sym=next(s for s in elf.get_section_by_name('.symtab').iter_symbols() if s.name==r['name']);idx=sym['st_shndx'];start=sym['st_value']&~1;code=elf.get_section(idx).data()[start:start+sym['st_size']]
+  assert sym['st_size']==size and code==original
+  assert not any(start<=x['r_offset']<start+size for sec in elf.iter_sections() if sec['sh_type'] in ['SHT_REL','SHT_RELA'] and sec['sh_info']==idx for x in sec.iter_relocations())
+  return r
  if r.get('kind','').startswith('clang_'):
   zig=Path(importlib.util.find_spec('ziglang').origin).parent/'zig'
   flags=['-target','arm-freestanding-eabi','-mcpu='+('arm7tdmi' if r['module']=='arm7' else 'arm946e_s'),r['optimization'],'-std=gnu11','-fno-builtin','-mthumb' if r['mode']=='thumb' else '-marm']

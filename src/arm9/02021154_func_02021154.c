@@ -1,32 +1,34 @@
-/* Decompiled C draft; module arm9; ROM address 02021154. No matching claim. */
-#include "types.h"
-#include "deps/02021154_func_02021154.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_IsFinishedCommandTag func_020210c0
+#define SND_RecvCommandReply Sound_CommandReceiveAndReply
+#define RequestCommandProc SoundInternal_RequestCommandProc
+#define SND_WaitForCommandProc func_02021154
+#include "SND_alarm.h"
+#include "SND_command.h"
+#include "SND_work.h"
+#include "OS_emulator.h"
+#include "OS_system.h"
+#include "OS_cache.h"
+#include "PXI_fifo.h"
+#include "code32.h"
+extern BOOL SND_IsFinishedCommandTag(u32 tag);
+extern const struct SNDCommand *SND_RecvCommandReply(u32 flags);
+extern void RequestCommandProc(void);
+void SND_WaitForCommandProc(u32 tag) {
+    if (SND_IsFinishedCommandTag(tag))
+        return;
 
-void func_02021154(undefined4 param_1)
+    while (SND_RecvCommandReply(SND_CMD_FLAG_NOBLOCK) != NULL) { }
 
-{
-  int iVar1;
-  
-  iVar1 = func_020210c0();
-  if (iVar1 != 0) {
-    return;
-  }
-  do {
-    iVar1 = Sound_CommandReceiveAndReply(0);
-  } while (iVar1 != 0);
-  iVar1 = func_020210c0(param_1);
-  if (iVar1 != 0) {
-    return;
-  }
-  SoundInternal_RequestCommandProc();
-  iVar1 = func_020210c0(param_1);
-  if (iVar1 != 0) {
-    return;
-  }
-  do {
-    Sound_CommandReceiveAndReply(1);
-    iVar1 = func_020210c0(param_1);
-  } while (iVar1 == 0);
-  return;
+    if (SND_IsFinishedCommandTag(tag))
+        return;
+
+    RequestCommandProc();
+
+    if (SND_IsFinishedCommandTag(tag))
+        return;
+
+    do {
+        (void)SND_RecvCommandReply(SND_CMD_FLAG_BLOCK);
+    } while (SND_IsFinishedCommandTag(tag) == 0);
 }
-

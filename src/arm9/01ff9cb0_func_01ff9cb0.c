@@ -1,34 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 01ff9cb0. No matching claim. */
-#include "types.h"
-#include "deps/01ff9cb0_func_01ff9cb0.h"
-
-void func_01ff9cb0(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int IsAwardOrStaffRoll(void);
+extern unsigned int func_01ffc9e8(unsigned int, unsigned int);
+extern unsigned int func_020e0538(unsigned int, unsigned int);
+unsigned int func_01ff9cb0(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  uVar3 = param_1 + 0x4cU & 3;
-  uVar1 = *(uint *)(param_1 + 0x4cU & 0xfffffffc);
-  if ((((uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20) & 2) == 0) &&
-     (iVar2 = IsAwardOrStaffRoll(), iVar2 == 1)) {
-    func_01ffc9e8(param_1,0);
-  }
-  uVar3 = param_1 + 0x44U & 3;
-  uVar1 = *(uint *)(param_1 + 0x44U & 0xfffffffc);
-  *(uint *)(param_1 + 0x44) = (uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20) & 0xffffefff;
-  uVar3 = param_1 + 0x208U & 3;
-  uVar1 = *(uint *)(param_1 + 0x208U & 0xfffffffc);
-  uVar3 = uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20;
-  if (*(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 != 0 ||
-      *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20 != 0) {
-    func_020e0538(uVar3,param_1 + 0x80);
-    uVar3 = param_1 + 0x208U & 3;
-    uVar1 = *(uint *)(param_1 + 0x208U & 0xfffffffc);
-    *(undefined4 *)(uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20) = 0;
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_1ff9cb4: r4 = r0;
+L_1ff9cb8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 76));
+L_1ff9cbc: r0 = (r0&0x2u); cmp_a = r0; cmp_b = 0;
+L_1ff9cc0: if ((cmp_a != cmp_b)) { goto L_1ff9cdc; }
+L_1ff9cc4: r0 = IsAwardOrStaffRoll();
+L_1ff9cc8: cmp_a = r0; cmp_b = 0x1u;
+L_1ff9ccc: if ((cmp_a != cmp_b)) { goto L_1ff9cdc; }
+L_1ff9cd0: r0 = r4;
+L_1ff9cd4: r1 = 0x0u;
+L_1ff9cd8: r0 = func_01ffc9e8(r0,r1);
+L_1ff9cdc: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 68));
+L_1ff9ce0: r0 = (r0&~(0x1000u));
+L_1ff9ce4: *(unsigned int *)((unsigned char *)r4 + 68) = (unsigned int)r0;
+L_1ff9ce8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 520));
+L_1ff9cec: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_1ff9cf0: cmp_a = r1; cmp_b = 0x0u;
+L_1ff9cf8: if ((cmp_a == cmp_b)) { return r0; }
+L_1ff9cfc: r1 = (r4+0x80u);
+L_1ff9d00: r0 = func_020e0538(r0,r1);
+L_1ff9d04: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 520));
+L_1ff9d08: r1 = 0x0u;
+L_1ff9d0c: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_1ff9d14: return r0;
 }
-

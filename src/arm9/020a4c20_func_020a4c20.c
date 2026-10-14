@@ -1,21 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 020a4c20. No matching claim. */
-#include "types.h"
-#include "deps/020a4c20_func_020a4c20.h"
-
-void func_020a4c20(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_020a305c(void);
+unsigned int func_020a4c20(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = (*(uint *)(uRam020a4c54 & 0xfffffffc) >> (uRam020a4c54 & 3) * 8 |
-          *(uint *)(uRam020a4c54 & 0xfffffffc) << (uRam020a4c54 & 3) * -8 + 0x20) + 8;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == 2) {
-    func_020a305c();
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_20a4c28: r0 = 0x21759c0u;
+L_20a4c2c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20a4c30: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 8));
+L_20a4c34: cmp_a = r0; cmp_b = 0x2u;
+L_20a4c40: if ((cmp_a != cmp_b)) { return r0; }
+L_20a4c44: r0 = func_020a305c();
+L_20a4c50: return r0;
 }
-

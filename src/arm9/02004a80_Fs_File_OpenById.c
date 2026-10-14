@@ -1,32 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 02004a80. No matching claim. */
-#include "types.h"
-#include "deps/02004a80_Fs_File_OpenById.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FSi_SendCommand Fs_File_SendOperation
+#define FS_OpenFileFast Fs_File_OpenById
+#include "nitro.h"
+#include "MI_byteAccess.h"
+#include "FS_rom.h"
+#include "FS_file.h"
+#include "FSi_util.h"
+#include "code32.h"
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
-
-undefined4 Fs_File_OpenById(int param_1,int param_2,undefined4 param_3)
-
+#pragma thumb off
+BOOL FS_OpenFileFast(FSFile * p_file, FSFileID file_id)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  if (param_2 == 0) {
-    return 0;
-  }
-  *(int *)(param_1 + 8) = param_2;
-  *(int *)(param_1 + 0x30) = param_2;
-  *(undefined4 *)(param_1 + 0x34) = param_3;
-  iVar2 = Fs_File_SendOperation((uint *)(uintptr_t)(param_1),6);
-  if (iVar2 != 0) {
-    uVar1 = param_1 + 0xcU & 3;
-    uVar3 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-    *(uint *)(param_1 + 0xc) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20 | 0x10;
-    uVar1 = param_1 + 0xcU & 3;
-    uVar3 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-    *(uint *)(param_1 + 0xc) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0xffffffdf;
-    return 1;
-  }
-  return 0;
+    if (!file_id.arc)
+        return FALSE;
+    p_file->arc = file_id.arc;
+    p_file->arg.openfilefast.id = file_id;
+    if (!FSi_SendCommand(p_file, FS_COMMAND_OPENFILEFAST))
+        return FALSE;
+    p_file->stat |= FS_FILE_STATUS_IS_FILE;
+    p_file->stat &= ~FS_FILE_STATUS_IS_DIR;
+    return TRUE;
 }
-

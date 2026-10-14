@@ -1,42 +1,32 @@
-/* Decompiled C draft; module arm9; ROM address 0214a108. No matching claim. */
-#include "types.h"
-#include "deps/0214a108_func_0214a108.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define G2_GetBG3ScrPtr func_0214a108
+#include "nitro/types.h"
+#include "registers.h"
+#include "gx.h"
+#include "code32.h"
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-int func_0214a108(void)
-
-{
-  uint uVar1;
-  int iVar2;
-  
-  iVar2 = ((_DAT_04000000 & 0x38000000) >> 0x1b) * 0x10000;
-  uVar1 = (*DAT_0214a190 & 0x1f00) >> 8;
-  switch(_DAT_04000000 & 7) {
-  case 0:
-    break;
-  case 1:
-    break;
-  case 2:
-    break;
-  case 3:
-    goto LAB_0214a168;
-  case 4:
-    goto LAB_0214a168;
-  case 5:
-LAB_0214a168:
-    if ((*DAT_0214a190 & 0x80) == 0) {
-      iVar2 = iVar2 + 0x6000000 + uVar1 * 0x800;
+#pragma thumb off
+void *G2_GetBG3ScrPtr(){
+    u32 temp12 = (reg_GX_DISPCNT & 0x7);
+    u32 temp3 = reg_G2_BG3CNT;
+    u32 temp2 = (((reg_GX_DISPCNT & 0x38000000) >> 0x1B) << 0x10);
+    u32 temp1 = ((temp3 & 0x1F00) >> 0x8);
+    switch (temp12)
+    {
+        case 0:
+        case 1:
+        case 2:
+            return (void *)(0x6000000 + temp2 + (temp1 << 0xB));
+        case 3:
+        case 4:
+        case 5:
+            if (temp3 & 0x80)
+                return (void *)(0x6000000 + (temp1 << 0xE));
+            else
+                return (void *)(0x6000000 + temp2 + (temp1 << 0xB));
+        case 6:
+            return NULL;
+        default:
+            return NULL;
     }
-    else {
-      iVar2 = uVar1 * 0x4000 + 0x6000000;
-    }
-    return iVar2;
-  case 6:
-    return 0;
-  default:
-    return 0;
-  }
-  return iVar2 + 0x6000000 + uVar1 * 0x800;
 }
-

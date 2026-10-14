@@ -1,32 +1,38 @@
-/* Decompiled C draft; module arm9; ROM address 0200cf30. No matching claim. */
-#include "types.h"
-#include "deps/0200cf30_Os_Lock_UnlockImpl.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts_IrqAndFiq Os_DisableIrqFiq
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts_IrqAndFiq Os_RestoreIrqFiq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define OSi_DoUnlockByWord Os_Lock_UnlockImpl
+#include "OS_spinLock.h"
 
-undefined4 Os_Lock_UnlockImpl(uint param_1,undefined4 *param_2,code *param_3,int param_4)
+#include "OS_system.h"
+#include "mmap.h"
+#include "MI_exMemory.h"
+#include "code32.h"
 
+s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp) (void),
+                                        BOOL disableFIQ)
 {
-  undefined4 uVar1;
-  
-  if (param_1 == *(ushort *)(param_2 + 1)) {
-    if (param_4 == 0) {
-      uVar1 = Os_DisableIrq(param_1);
+    if (lockID != lockp->ownerID)
+    {
+        return -2;
     }
-    else {
-      uVar1 = Os_DisableIrqFiq();
+
+    OSIntrMode lastIntrMode = (disableFIQ) ? OS_DisableInterrupts_IrqAndFiq() : OS_DisableInterrupts();
+    lockp->ownerID = 0;
+    if (ctrlFuncp)
+    {
+        ctrlFuncp();
     }
-    *(undefined2 *)(param_2 + 1) = 0;
-    if (param_3 != (code *)0x0) {
-      (*param_3)();
+    lockp->lockFlag = 0;
+    if (disableFIQ)
+    {
+        (void)OS_RestoreInterrupts_IrqAndFiq(lastIntrMode);
     }
-    *param_2 = 0;
-    if (param_4 == 0) {
-      Os_RestoreIrq(uVar1);
-    }
-    else {
-      Os_RestoreIrqFiq(uVar1);
+    else
+    {
+        (void)OS_RestoreInterrupts(lastIntrMode);
     }
     return 0;
-  }
-  return 0xfffffffe;
 }
-

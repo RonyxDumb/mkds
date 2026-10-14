@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "StructNKGPCupEntry_CopyTo_from_thumb",
+    "target": 33909412,
+    "thumb": true,
+    "addend": -4,
+    "value": 4161204224
+  }
+]

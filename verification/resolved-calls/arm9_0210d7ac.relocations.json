@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "func_0210d73c",
+    "target": 34658108,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422940
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "NNS_SndMain",
+    "target": 34781812,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942676649
+  }
+]

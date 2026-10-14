@@ -1,26 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0214cc94. No matching claim. */
-#include "types.h"
-#include "deps/0214cc94_func_0214cc94.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MIi_GXDmaParams SDK_data_02180308
+#define MIi_DMAFastCallback func_0214cc94
+#include "MI_dma_gxcommand.h"
 
-void func_0214cc94(void)
+#include "OS_interrupt.h"
+#include "OS_reset.h"
+#include "code32.h"
+#include "sections.h"
+extern MIiGXDmaParams MIi_GXDmaParams;
+void MIi_DMAFastCallback(void *arg) {
+#pragma unused(arg)
+    MIi_GXDmaParams.isBusy = FALSE;
 
-{
-  uint uVar1;
-  undefined4 *puVar2;
-  uint uVar3;
-  code *pcVar4;
-  
-  puVar2 = puRam0214ccd0;
-  uVar1 = (uint)(puRam0214ccd0 + 4) & 3;
-  uVar3 = *(uint *)((uint)(puRam0214ccd0 + 4) & 0xfffffffc);
-  pcVar4 = (code *)(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
-  *puRam0214ccd0 = 0;
-  uVar1 = (uint)(puVar2 + 5) & 3;
-  uVar3 = *(uint *)((uint)(puVar2 + 5) & 0xfffffffc);
-  if (pcVar4 != (code *)0x0) {
-    (*pcVar4)(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
-    return;
-  }
-  return;
+    MIi_CallCallback(MIi_GXDmaParams.callback, MIi_GXDmaParams.arg);
 }
-

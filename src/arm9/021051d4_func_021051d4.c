@@ -1,23 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 021051d4. No matching claim. */
-#include "types.h"
-#include "deps/021051d4_func_021051d4.h"
-
-void func_021051d4(int param_1,int param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int StructMQRacerEntry_SomeFn_42(unsigned int);
+extern unsigned int func_020f4754(unsigned int, unsigned int);
+extern unsigned int func_020f81b8(unsigned int, unsigned int);
+unsigned int func_021051d4(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_2 + 4U & 3;
-  uVar2 = *(uint *)(param_2 + 4U & 0xfffffffc);
-  uVar1 = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x1fc;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  StructMQRacerEntry_SomeFn_42(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20);
-  func_020f4754((undefined4 *)(uintptr_t)(param_2),1);
-  uVar1 = param_1 + 0xcU & 3;
-  uVar2 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-  func_020f81b8(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,0xe);
-  return;
+unsigned int cmp_a,cmp_b,r4,r5;
+L_21051dc: r4 = r1;
+L_21051e0: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 4));
+L_21051e4: r5 = r0;
+L_21051e8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 508));
+L_21051ec: r0 = StructMQRacerEntry_SomeFn_42(r0);
+L_21051f0: r0 = r4;
+L_21051f4: r1 = 0x1u;
+L_21051f8: r0 = func_020f4754(r0,r1);
+L_21051fc: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r5 + 12));
+L_2105200: r1 = 0xeu;
+L_2105204: r0 = func_020f81b8(r0,r1);
+L_2105210: return r0;
 }
-

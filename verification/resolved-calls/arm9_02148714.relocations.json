@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 380,
+    "type": 1,
+    "symbol": "FX_Div",
+    "target": 34897716,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422375
+  },
+  {
+    "offset": 424,
+    "type": 1,
+    "symbol": "FX_Div",
+    "target": 34897716,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422364
+  },
+  {
+    "offset": 464,
+    "type": 2,
+    "symbol": "SDK_data_021615b8",
+    "target": 35001784,
+    "thumb": false,
+    "addend": 0,
+    "value": 35001784
+  }
+]

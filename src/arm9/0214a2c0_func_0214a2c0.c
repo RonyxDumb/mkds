@@ -1,13 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 0214a2c0. No matching claim. */
-#include "types.h"
-#include "deps/0214a2c0_func_0214a2c0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define G2_GetBG1ScrPtr func_0214a2c0
+#include "nitro/types.h"
+#include "registers.h"
+#include "gx.h"
+#include "code32.h"
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-int func_0214a2c0(void)
-
-{
-  return ((_DAT_04000000 & 0x38000000) >> 0x1b) * 0x10000 + 0x6000000 +
-         ((int)(*puRam0214a2f0 & 0x1f00) >> 8) * 0x800;
+#pragma thumb off
+void *G2_GetBG1ScrPtr(){
+    u32 temp = (u32)(((reg_G2_BG1CNT & 0x1F00) >> 0x8) << 0xB);
+    return (void *)(0x6000000 + (((reg_GX_DISPCNT & 0x38000000) >> 0x1B) << 0x10) + temp);
 }
-

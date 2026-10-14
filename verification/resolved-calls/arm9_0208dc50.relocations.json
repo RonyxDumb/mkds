@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Animation_SetAt",
+    "target": 34111364,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959417027
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Animation_SetAt",
+    "target": 34111364,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959417020
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "func_0208b7bc",
+    "target": 34125756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420615
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "func_0208b7bc",
+    "target": 34125756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420612
+  }
+]

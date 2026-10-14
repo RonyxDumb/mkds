@@ -1,34 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 021482cc. No matching claim. */
-#include "types.h"
-#include "deps/021482cc_VecFx32_Norm.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define VEC_Mag VecFx32_Norm
+#include "registers.h"
+#include "fx.h"
+#include "code32.h"
 
-int VecFx32_Norm(uint param_1)
-
-{
-  ushort *puVar1;
-  longlong *plVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar6;
-  uint uVar5;
-  
-  plVar2 = plRam0214832c;
-  puVar1 = puRam02148328;
-  uVar3 = param_1 + 4 & 3;
-  uVar4 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  uVar5 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-  uVar6 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  uVar3 = param_1 + 8 & 3;
-  uVar4 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  uVar3 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-  *puRam02148328 = 1;
-  *plVar2 = ((longlong)(int)uVar3 * (longlong)(int)uVar3 +
-            (longlong)(int)uVar6 * (longlong)(int)uVar6 +
-            (longlong)(int)uVar5 * (longlong)(int)uVar5) * 4;
-  do {
-  } while ((*puVar1 & 0x8000) != 0);
-  return (int)((*(uint *)(uRam02148330 & 0xfffffffc) >> (uRam02148330 & 3) * 8 |
-               *(uint *)(uRam02148330 & 0xfffffffc) << (uRam02148330 & 3) * -8 + 0x20) + 1) >> 1;
+#pragma thumb off
+fx32 VEC_Mag(struct Vecx32 *a){
+    fx64 l2 = (fx64)a->x * a->x;
+    l2 += (fx64)a->y * a->y;
+    l2 += (fx64)a->z * a->z;
+    reg_CP_SQRTCNT = 0x1;
+    reg_CP_SQRT_PARAM = (u64)(l2 * 4);
+    while (reg_CP_SQRTCNT & 0x8000) {} //wait for coprocessor to finish
+    return ((fx32)reg_CP_SQRT_RESULT + 1) >> 1;
 }
-

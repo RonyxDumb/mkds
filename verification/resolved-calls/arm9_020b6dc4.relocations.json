@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "GetSomeBgCanvasTileData_from_thumb",
+    "target": 34779280,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194422957
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "MaybeSomePlayerTilePaletteCopy",
+    "target": 34292200,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420156
+  }
+]

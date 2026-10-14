@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "func_01ff9234",
+    "target": 33526324,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959396529
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "G3X_GetClipMtx",
+    "target": 34908068,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942964737
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "func_02147980",
+    "target": 34896256,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942961779
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "G3X_GetVectorMtx",
+    "target": 34907996,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942964710
+  }
+]

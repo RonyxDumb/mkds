@@ -1,17 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 0200e260. No matching claim. */
-#include "types.h"
-#include "deps/0200e260_Os_Thread_Exit.h"
-
-void Os_Thread_Exit(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int Os_DisableIrq(void);
+extern unsigned int Os_Thread_ExitImpl(unsigned int, unsigned int);
+unsigned int Os_Thread_Exit(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  Os_DisableIrq();
-  uVar1 = iRam0200e288 + 4U & 3;
-  uVar2 = *(uint *)(iRam0200e288 + 4U & 0xfffffffc);
-  Os_Thread_ExitImpl((uint *)(uintptr_t)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20),0);
-  return;
+unsigned int cmp_a,cmp_b;
+L_200e268: r0 = Os_DisableIrq();
+L_200e26c: r0 = 0x216ff5cu;
+L_200e270: r1 = 0x0u;
+L_200e274: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 4));
+L_200e278: r0 = Os_Thread_ExitImpl(r0,r1);
+L_200e284: return r0;
 }
-

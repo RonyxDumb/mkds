@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 6,
+    "type": 10,
+    "symbol": "func_0200c46c",
+    "target": 33604716,
+    "thumb": true,
+    "addend": -4,
+    "value": 4279105535
+  },
+  {
+    "offset": 10,
+    "type": 10,
+    "symbol": "Os_Terminate",
+    "target": 33619228,
+    "thumb": false,
+    "addend": -4,
+    "value": 3949260803
+  }
+]

@@ -1,28 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 020a10f0. No matching claim. */
-#include "types.h"
-#include "deps/020a10f0_MaybeUpdateDriverBalloonShineCount.h"
-
-void MaybeUpdateDriverBalloonShineCount(int param_1,int param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_020a1b6c(unsigned int);
+extern unsigned int func_020a19f8(unsigned int);
+unsigned int MaybeUpdateDriverBalloonShineCount(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  
-  iVar3 = (*(uint *)(uRam020a1150 & 0xfffffffc) >> (uRam020a1150 & 3) * 8 |
-          *(uint *)(uRam020a1150 & 0xfffffffc) << (uRam020a1150 & 3) * -8 + 0x20) + 0x4c;
-  uVar2 = iVar3 + param_1 * 0x70;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  *(uint *)(iVar3 + param_1 * 0x70) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + param_2;
-  if (0 < param_2) {
-    func_020a1b6c();
-    return;
-  }
-  if (param_2 < 0) {
-    func_020a19f8();
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,ip;
+L_20a10f8: r2 = 0x70u;
+L_20a10fc: r3 = (r0*r2);
+L_20a1100: r2 = 0x217b1fcu;
+L_20a1104: cmp_a = r1; cmp_b = 0x0u;
+L_20a1108: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_20a110c: ip = (r2+0x4cu);
+L_20a1110: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)ip + (0 + r3)));
+L_20a1114: r2 = (r2+r1);
+L_20a1118: *(unsigned int *)((unsigned char *)ip + (0 + r3)) = (unsigned int)r2;
+L_20a111c: if (((int)cmp_a <= (int)cmp_b)) { goto L_20a1130; }
+L_20a1120: r0 = func_020a1b6c(r0);
+L_20a112c: return r0;
+L_20a1130: cmp_a = r1; cmp_b = 0x0u;
+L_20a113c: if (((int)cmp_a >= (int)cmp_b)) { return r0; }
+L_20a1140: r0 = func_020a19f8(r0);
+L_20a114c: return r0;
 }
-

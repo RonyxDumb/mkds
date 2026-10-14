@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 2,
+    "type": 10,
+    "symbol": "GetCurrentSceneId",
+    "target": 33939616,
+    "thumb": false,
+    "addend": -4,
+    "value": 3975737366
+  },
+  {
+    "offset": 10,
+    "type": 10,
+    "symbol": "Arc_DisposeArchive_from_thumb",
+    "target": 33848560,
+    "thumb": true,
+    "addend": -4,
+    "value": 4212912128
+  },
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "SetActiveExecutionContextHeapGroupId_from_thumb",
+    "target": 33848172,
+    "thumb": true,
+    "addend": -4,
+    "value": 4200001536
+  },
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "Arc_MountArchive_from_thumb",
+    "target": 33849424,
+    "thumb": true,
+    "addend": -4,
+    "value": 4240764928
+  },
+  {
+    "offset": 32,
+    "type": 10,
+    "symbol": "Arc_MountArchive_from_thumb",
+    "target": 33849424,
+    "thumb": true,
+    "addend": -4,
+    "value": 4240502784
+  },
+  {
+    "offset": 40,
+    "type": 10,
+    "symbol": "Arc_MountArchive_from_thumb",
+    "target": 33849424,
+    "thumb": true,
+    "addend": -4,
+    "value": 4240240640
+  },
+  {
+    "offset": 48,
+    "type": 10,
+    "symbol": "Arc_MountArchive_from_thumb",
+    "target": 33849424,
+    "thumb": true,
+    "addend": -4,
+    "value": 4239978496
+  },
+  {
+    "offset": 54,
+    "type": 10,
+    "symbol": "SetActiveExecutionContextHeapGroupId_from_thumb",
+    "target": 33848172,
+    "thumb": true,
+    "addend": -4,
+    "value": 4198756352
+  }
+]

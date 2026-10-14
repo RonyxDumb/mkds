@@ -1,17 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 01fffe8c. No matching claim. */
-#include "types.h"
-#include "deps/01fffe8c_func_01fffe8c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MIi_DmaSetParams_noInt func_01fffe8c
+#include "MI_dma.h"
 
-void func_01fffe8c(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+#include "OS_interrupt.h"
+#include "OS_terminate_proc.h"
+#include "code32.h"
+#include "sections.h"
 
-{
-  int iVar1;
-  
-  iVar1 = iRam01fffec0;
-  *(undefined4 *)(&DAT_040000b0 + param_1 * 0xc) = param_2;
-  iVar1 = param_1 * 0xc + iVar1;
-  *(undefined4 *)(iVar1 + 4) = param_3;
-  *(undefined4 *)(iVar1 + 8) = param_4;
-  return;
+void MIi_DmaSetParams_noInt(u32 dmaNo, u32 src, u32 dest, u32 ctrl) {
+    vu32 *p  = (vu32 *)((u32)REG_DMA0SAD_ADDR + dmaNo * 12);
+    *p       = (vu32)src;
+    *(p + 1) = (vu32)dest;
+    *(p + 2) = (vu32)ctrl;
 }
-

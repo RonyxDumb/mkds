@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "func_0206a24c",
+    "target": 33989196,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648266
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "GetGlobalRK",
+    "target": 34055856,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942664922
+  }
+]

@@ -1,34 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 02020720. No matching claim. */
-#include "types.h"
-#include "deps/02020720_SomeHashing.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MATHi_CRC16InitTableRev SomeHashing
+#include "nitro/types.h"
+#include "MATH_crc.h"
+#include "code32.h"
 
-void SomeHashing(int param_1,uint param_2)
+void MATHi_CRC16InitTableRev(struct MATHCRC16Table *table, u16 poly) {
+    u32 r, i, j;
+    u16 *t = table->table;
 
-{
-  int iVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  bool bVar5;
-  
-  uVar4 = 0;
-  do {
-    uVar3 = 0;
-    uVar2 = uVar4;
-    do {
-      bVar5 = (uVar2 & 1) != 0;
-      if (bVar5) {
-        uVar2 = param_2 ^ uVar2 >> 1;
-      }
-      uVar3 = uVar3 + 1;
-      if (!bVar5) {
-        uVar2 = uVar2 >> 1;
-      }
-    } while (uVar3 < 8);
-    iVar1 = uVar4 * 2;
-    uVar4 = uVar4 + 1;
-    *(short *)(param_1 + iVar1) = (short)uVar2;
-  } while (uVar4 < 0x100);
-  return;
+    for (i = 0; i < 256; i++) {
+        r = i;
+        for (j = 0; j < 8; j++) {
+            if (r & 1) {
+                r = (r >> 1) ^ poly;
+            }
+            else {
+                r >>= 1;
+            }
+        }
+        t[i] = (u16)r;
+    }
 }
-

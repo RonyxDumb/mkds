@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 22,
+    "type": 10,
+    "symbol": "GenerateProfileInfoCrcLookupTable",
+    "target": 33687188,
+    "thumb": false,
+    "addend": -4,
+    "value": 3899324110
+  },
+  {
+    "offset": 32,
+    "type": 10,
+    "symbol": "ComputeProfileInfoCrc",
+    "target": 33686960,
+    "thumb": false,
+    "addend": -4,
+    "value": 4025677517
+  }
+]

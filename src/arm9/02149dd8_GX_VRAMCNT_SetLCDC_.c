@@ -1,37 +1,27 @@
-/* Decompiled C draft; module arm9; ROM address 02149dd8. No matching claim. */
-#include "types.h"
-#include "deps/02149dd8_GX_VRAMCNT_SetLCDC_.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
 
-void GX_VRAMCNT_SetLCDC_(uint param_1)
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
 
-{
-  if ((param_1 & 1) != 0) {
-    *puRam02149e6c = 0x80;
-  }
-  if ((param_1 & 2) != 0) {
-    *puRam02149e70 = 0x80;
-  }
-  if ((param_1 & 4) != 0) {
-    *puRam02149e74 = 0x80;
-  }
-  if ((param_1 & 8) != 0) {
-    *puRam02149e78 = 0x80;
-  }
-  if ((param_1 & 0x10) != 0) {
-    *puRam02149e7c = 0x80;
-  }
-  if ((param_1 & 0x20) != 0) {
-    *puRam02149e80 = 0x80;
-  }
-  if ((param_1 & 0x40) != 0) {
-    *puRam02149e84 = 0x80;
-  }
-  if ((param_1 & 0x80) != 0) {
-    *puRam02149e88 = 0x80;
-  }
-  if ((param_1 & 0x100) != 0) {
-    *puRam02149e8c = 0x80;
-  }
-  return;
+#pragma thumb off
+void GX_VRAMCNT_SetLCDC_(u32 mask) {
+    if (mask & (0x1 << 0))
+        reg_GX_VRAMCNT_A = 0x80;
+    if (mask & (0x1 << 1))
+        reg_GX_VRAMCNT_B = 0x80;
+    if (mask & (0x1 << 2))
+        reg_GX_VRAMCNT_C = 0x80;
+    if (mask & (0x1 << 3))
+        reg_GX_VRAMCNT_D = 0x80;
+    if (mask & (0x1 << 4))
+        reg_GX_VRAMCNT_E = 0x80;
+    if (mask & (0x1 << 5))
+        reg_GX_VRAMCNT_F = 0x80;
+    if (mask & (0x1 << 6))
+        reg_GX_VRAMCNT_G = 0x80;
+    if (mask & (0x1 << 7))
+        reg_GX_VRAMCNT_H = 0x80;
+    if (mask & (0x1 << 8))
+        reg_GX_VRAMCNT_I = 0x80;
 }
-

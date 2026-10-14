@@ -1,17 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 02079b40. No matching claim. */
-#include "types.h"
-#include "deps/02079b40_GetDriverKartIndexMod3.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-undefined2 GetDriverKartIndexMod3(int param_1)
-
+unsigned int GetDriverKartIndexMod3(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = *(uint *)(uRam02079b5c & 0xfffffffc) >> (uRam02079b5c & 3) * 8 |
-          *(uint *)(uRam02079b5c & 0xfffffffc) << (uRam02079b5c & 3) * -8 + 0x20;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return *(undefined2 *)(param_1 * 0xb4 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x68);
+unsigned int cmp_a,cmp_b;
+L_2079b40: r2 = 0x217ad00u;
+L_2079b44: r1 = 0xb4u;
+L_2079b48: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_2079b4c: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_2079b50: r1 = (r0*r1+r2);
+L_2079b54: r0 = (unsigned int)(*(unsigned short *)((unsigned char *)r1 + 104));
+L_2079b58: return r0;
 }
-

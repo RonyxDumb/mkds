@@ -1,13 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 0200fe58. No matching claim. */
-#include "types.h"
-#include "deps/0200fe58_Os_GetMacAddress.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MI_CpuCopy8 SDK_data_0214d1fc
+#define OS_GetMacAddress Os_GetMacAddress
+#include "OS_ownerInfo.h"
 
-void Os_GetMacAddress(undefined4 param_1)
+#include "nitro/types.h"
+#include "systemWork.h"
+#include "MI_memory.h"
+#include "code32.h"
 
+void OS_GetMacAddress(u8 *macAddress)
 {
-                    /* WARNING: Could not recover jumptable at 0x0200fe68. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0200fe6c)(uRam0200fe70,param_1,6);
-  return;
+    MI_CpuCopy8((void *)0x027FFCF4, macAddress, 0x6);
 }
-

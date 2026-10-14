@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959179650
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959179646
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959179642
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959179638
+  }
+]

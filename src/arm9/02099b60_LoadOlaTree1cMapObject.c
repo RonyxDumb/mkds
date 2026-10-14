@@ -1,15 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 02099b60. No matching claim. */
-#include "types.h"
-#include "deps/02099b60_LoadOlaTree1cMapObject.h"
-
-void LoadOlaTree1cMapObject(undefined4 param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int CreateMapObjectFromModel_2_from_thumb(unsigned int, unsigned int);
+extern unsigned int StructMapObject_MaybeSetPolygonId(unsigned int, unsigned int);
+unsigned int LoadOlaTree1cMapObject(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  
-  uVar1 = CreateMapObjectFromModel_2_from_thumb(param_1,uRam02099b8c);
-  *puRam02099b90 = uVar1;
-  StructMapObject_MaybeSetPolygonId(uVar1,0x3f);
-  return;
+unsigned int cmp_a,cmp_b;
+L_2099b68: r1 = 0x21670fcu;
+L_2099b6c: r0 = CreateMapObjectFromModel_2_from_thumb(r0,r1);
+L_2099b70: r2 = 0x217b130u;
+L_2099b74: r1 = 0x3fu;
+L_2099b78: *(unsigned int *)((unsigned char *)r2 + 0) = (unsigned int)r0;
+L_2099b7c: r0 = StructMapObject_MaybeSetPolygonId(r0,r1);
+L_2099b88: return r0;
 }
-

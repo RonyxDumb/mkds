@@ -1,22 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 0214e258. No matching claim. */
-#include "types.h"
-#include "deps/0214e258_Rtc_Time_GetSeconds.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-int Rtc_Time_GetSeconds(uint param_1)
-
+unsigned int Rtc_Time_GetSeconds(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  uVar1 = param_1 + 4 & 3;
-  uVar4 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  uVar2 = param_1 + 8 & 3;
-  uVar3 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  return ((*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) * 0x3c +
-         (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20)) * 0x3c +
-         (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20);
+unsigned int cmp_a,cmp_b;
+L_214e258: r3 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 4));
+L_214e25c: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_214e260: r1 = 0x3cu;
+L_214e264: r3 = (r2*r1+r3);
+L_214e268: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 8));
+L_214e26c: r0 = (r3*r1+r0);
+L_214e270: return r0;
 }
-

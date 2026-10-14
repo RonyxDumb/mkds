@@ -1,19 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 02038d58. No matching claim. */
-#include "types.h"
-#include "deps/02038d58_DisplayEngineConfig_SetBg0Config.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void DisplayEngineConfig_SetBg0Config
-               (undefined2 *param_1,undefined2 param_2,undefined2 param_3,undefined2 param_4,
-               undefined2 param_5,undefined2 param_6,undefined2 param_7,undefined2 param_8)
-
+unsigned int DisplayEngineConfig_SetBg0Config(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3,unsigned int a4,unsigned int a5,unsigned int a6,unsigned int a7)
 {
-  *param_1 = param_2;
-  param_1[2] = param_4;
-  param_1[3] = param_5;
-  param_1[1] = param_3;
-  param_1[4] = param_6;
-  param_1[5] = param_7;
-  param_1[6] = param_8;
-  return;
+unsigned int cmp_a,cmp_b;
+L_2038d58: *(unsigned short *)((unsigned char *)r0 + 0) = (unsigned short)r1;
+L_2038d5c: r1 = a4;
+L_2038d60: *(unsigned short *)((unsigned char *)r0 + 4) = (unsigned short)r3;
+L_2038d64: *(unsigned short *)((unsigned char *)r0 + 6) = (unsigned short)r1;
+L_2038d68: r1 = a5;
+L_2038d6c: *(unsigned short *)((unsigned char *)r0 + 2) = (unsigned short)r2;
+L_2038d70: r2 = a6;
+L_2038d74: *(unsigned short *)((unsigned char *)r0 + 8) = (unsigned short)r1;
+L_2038d78: r1 = a7;
+L_2038d7c: *(unsigned short *)((unsigned char *)r0 + 10) = (unsigned short)r2;
+L_2038d80: *(unsigned short *)((unsigned char *)r0 + 12) = (unsigned short)r1;
+L_2038d84: return r0;
 }
-

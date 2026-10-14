@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 8,
+    "type": 10,
+    "symbol": "ComputeSomeAllocSize_0",
+    "target": 33648860,
+    "thumb": false,
+    "addend": -4,
+    "value": 3934844831
+  },
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "ComputeSomeAllocSize_1",
+    "target": 33649360,
+    "thumb": false,
+    "addend": -4,
+    "value": 3950966687
+  },
+  {
+    "offset": 26,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3892901823
+  },
+  {
+    "offset": 36,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3892508607
+  },
+  {
+    "offset": 54,
+    "type": 10,
+    "symbol": "func_02017070",
+    "target": 33648752,
+    "thumb": false,
+    "addend": -4,
+    "value": 3929864095
+  },
+  {
+    "offset": 66,
+    "type": 10,
+    "symbol": "func_02017274",
+    "target": 33649268,
+    "thumb": false,
+    "addend": -4,
+    "value": 3946379167
+  }
+]

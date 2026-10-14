@@ -1,13 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 0214e17c. No matching claim. */
-#include "types.h"
-#include "deps/0214e17c_Rtc_SendFifoWord.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define PXI_SendWordByFifo Fifo_SendWord
+#define RtcSendPxiCommand Rtc_SendFifoWord
+#include "PXI_fifo.h"
+#include "RTC_internal.h"
+#include "code32.h"
 
-bool Rtc_SendFifoWord(uint param_1)
-
+BOOL RtcSendPxiCommand(u8 command)
 {
-  int iVar1;
-  
-  iVar1 = Fifo_SendWord(5,(param_1 & 0x7f) << 8,0);
-  return -1 < iVar1;
+    s32 data = command << 8 & 0x7f00;
+    return PXI_SendWordByFifo(PXI_FIFO_TAG_RTC, (u32)data, FALSE) >= 0;
 }
-

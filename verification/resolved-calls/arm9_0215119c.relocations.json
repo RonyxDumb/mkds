@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "func_0215122c",
+    "target": 34935340,
+    "thumb": true,
+    "addend": -4,
+    "value": 4164939776
+  },
+  {
+    "offset": 36,
+    "type": 10,
+    "symbol": "StructDC_SomeFn_6",
+    "target": 34819376,
+    "thumb": false,
+    "addend": -4,
+    "value": 3988191203
+  }
+]

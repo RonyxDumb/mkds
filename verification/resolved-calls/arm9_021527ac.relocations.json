@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "Mem_CpuFill8",
+    "target": 34918760,
+    "thumb": false,
+    "addend": -4,
+    "value": 3973380090
+  },
+  {
+    "offset": 32,
+    "type": 10,
+    "symbol": "FriendCode_CreateFrom_from_thumb",
+    "target": 34940740,
+    "thumb": true,
+    "addend": -4,
+    "value": 4290443263
+  },
+  {
+    "offset": 42,
+    "type": 10,
+    "symbol": "FriendCode_SetState_from_thumb",
+    "target": 34941408,
+    "thumb": true,
+    "addend": -4,
+    "value": 4177784832
+  },
+  {
+    "offset": 50,
+    "type": 10,
+    "symbol": "GenerateProfileInfoCrcLookupTable",
+    "target": 33687188,
+    "thumb": false,
+    "addend": -4,
+    "value": 4015716045
+  },
+  {
+    "offset": 60,
+    "type": 10,
+    "symbol": "ComputeProfileInfoCrc",
+    "target": 33686960,
+    "thumb": false,
+    "addend": -4,
+    "value": 4007851725
+  }
+]

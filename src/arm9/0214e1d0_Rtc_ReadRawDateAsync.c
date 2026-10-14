@@ -1,13 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0214e1d0. No matching claim. */
-#include "types.h"
-#include "deps/0214e1d0_Rtc_ReadRawDateAsync.h"
-
-void Rtc_ReadRawDateAsync(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define RtcSendPxiCommand SDK_data_0214e17c
+#define RTCi_ReadRawDateAsync Rtc_ReadRawDateAsync
+#include "PXI_fifo.h"
+#include "RTC_internal.h"
+#include "code32.h"
+extern BOOL RtcSendPxiCommand(u8 command);
+BOOL RTCi_ReadRawDateAsync(void)
 {
-                    /* WARNING: Could not recover jumptable at 0x0214e1d8. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0214e1dc)(0x11);
-  return;
+    return RtcSendPxiCommand(17);
 }
-

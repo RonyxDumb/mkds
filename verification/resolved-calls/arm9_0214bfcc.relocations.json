@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "MI_DmaCopy32",
+    "target": 34917256,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646496
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Mem_CpuCopy32",
+    "target": 34918444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646787
+  }
+]

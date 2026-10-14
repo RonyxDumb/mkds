@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 38,
+    "type": 10,
+    "symbol": "ReadSaveChunkImpl_from_thumb",
+    "target": 33863372,
+    "thumb": true,
+    "addend": -4,
+    "value": 4256298995
+  }
+]

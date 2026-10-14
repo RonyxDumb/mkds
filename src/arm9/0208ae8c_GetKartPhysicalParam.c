@@ -1,17 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 0208ae8c. No matching claim. */
-#include "types.h"
-#include "deps/0208ae8c_GetKartPhysicalParam.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-int GetKartPhysicalParam(int param_1)
-
+unsigned int GetKartPhysicalParam(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = *(uint *)(uRam0208aea4 & 0xfffffffc) >> (uRam0208aea4 & 3) * 8 |
-          *(uint *)(uRam0208aea4 & 0xfffffffc) << (uRam0208aea4 & 3) * -8 + 0x20;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return param_1 * 0x98 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
+unsigned int cmp_a,cmp_b;
+L_208ae8c: r2 = 0x217b038u;
+L_208ae90: r1 = 0x98u;
+L_208ae94: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_208ae98: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_208ae9c: r0 = (r1*r0+r2);
+L_208aea0: return r0;
 }
-

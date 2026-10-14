@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959097624
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "SetIF",
+    "target": 33606248,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959094389
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "Os_SetIrqHandler",
+    "target": 33606772,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959094517
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "Os_EnableIrqHandler",
+    "target": 33606372,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959094415
+  },
+  {
+    "offset": 224,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959097575
+  },
+  {
+    "offset": 240,
+    "type": 2,
+    "symbol": "SDK_data_02180328",
+    "target": 35128104,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128104
+  },
+  {
+    "offset": 248,
+    "type": 2,
+    "symbol": "SDK_data_0218032c",
+    "target": 35128108,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128108
+  },
+  {
+    "offset": 260,
+    "type": 2,
+    "symbol": "SDK_data_0214d5c4",
+    "target": 34919876,
+    "thumb": false,
+    "addend": 0,
+    "value": 34919876
+  }
+]

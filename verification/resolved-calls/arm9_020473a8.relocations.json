@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "func_0204f5e4",
+    "target": 33879524,
+    "thumb": true,
+    "addend": -4,
+    "value": 4179292168
+  },
+  {
+    "offset": 18,
+    "type": 10,
+    "symbol": "Mem_ResetFrameHeap",
+    "target": 33652812,
+    "thumb": false,
+    "addend": -4,
+    "value": 3997759440
+  },
+  {
+    "offset": 26,
+    "type": 10,
+    "symbol": "func_02047498",
+    "target": 33846424,
+    "thumb": true,
+    "addend": -4,
+    "value": 4167692288
+  },
+  {
+    "offset": 34,
+    "type": 10,
+    "symbol": "Maybe_s_s",
+    "target": 33846376,
+    "thumb": true,
+    "addend": -4,
+    "value": 4165857280
+  }
+]

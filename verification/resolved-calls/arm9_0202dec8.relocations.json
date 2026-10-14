@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "NavigationContext_OnSceneVblank_from_thumb",
+    "target": 34756848,
+    "thumb": true,
+    "addend": -4,
+    "value": 4245745911
+  },
+  {
+    "offset": 28,
+    "type": 10,
+    "symbol": "CopyOamBuffersToMemory_from_thumb",
+    "target": 34268656,
+    "thumb": true,
+    "addend": -4,
+    "value": 4219793536
+  }
+]

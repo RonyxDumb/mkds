@@ -1,53 +1,50 @@
-/* Decompiled C draft; module arm9; ROM address 02003f50. No matching claim. */
-#include "types.h"
-#include "deps/02003f50_Fs_Archive_UnloadFatFnt.h"
-
-undefined4 Fs_Archive_UnloadFatFnt(int param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define FS_SuspendArchive Fs_Archive_Suspend
+#define FSi_ReleaseCommand Fs_File_ReleaseOperation
+#define FS_ResumeArchive Fs_Archive_Resume
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define FS_UnloadArchive Fs_Archive_UnloadFatFnt
+#include "FS_archive.h"
+#include "FS_command.h"
+#include "FSi_util.h"
+#include "MI_memory.h"
+#include "MI_byteAccess.h"
+#include "OS_printf.h"
+#include "code32.h"
+extern BOOL FS_SuspendArchive(FSArchive * p_arc);
+extern BOOL FS_ResumeArchive(FSArchive * p_arc);
+#pragma thumb off
+BOOL FS_UnloadArchive(FSArchive * p_arc)
 {
-  undefined4 uVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  uVar1 = Os_DisableIrq();
-  uVar3 = param_1 + 0x1cU & 3;
-  uVar4 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-  if (((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) & 2) != 0) {
-    uVar3 = param_1 + 0x1cU & 3;
-    uVar4 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-    iVar2 = Fs_Archive_Suspend(param_1,uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
-    uVar3 = param_1 + 0x1cU & 3;
-    uVar4 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-    *(uint *)(param_1 + 0x1c) = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20 | 0x80;
-    uVar3 = param_1 + 0x24U & 3;
-    uVar4 = *(uint *)(param_1 + 0x24U & 0xfffffffc);
-    uVar3 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-    while (uVar3 != 0) {
-      uVar4 = uVar3 + 4 & 3;
-      uVar5 = *(uint *)(uVar3 + 4 & 0xfffffffc);
-      Fs_File_ReleaseOperation((undefined4 *)(uintptr_t)(uVar3),3);
-      uVar3 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
+    OSIntrMode bak_psr = OS_DisableInterrupts();
+    if (FS_IsArchiveLoaded(p_arc))
+    {
+        if (FS_IsArchiveTableLoaded(p_arc))
+        {
+            OS_TWarning("memory may leak. preloaded-table of archive \"%s\" (0x%08X)", p_arc->name.ptr, p_arc->load_mem);
+        }
+        {
+            FSFile *p, *q;
+            BOOL bak_state = FS_SuspendArchive(p_arc);
+            p_arc->flag |= FS_ARCHIVE_FLAG_UNLOADING;
+            for (p = p_arc->list.next; p; p = q)
+            {
+                q = p->link.next;
+                FSi_ReleaseCommand(p, FS_RESULT_CANCELED);
+            }
+            p_arc->list.next = NULL;
+            if (bak_state)
+                (void)FS_ResumeArchive(p_arc);
+        }
+        p_arc->base = 0;
+        p_arc->fat = 0;
+        p_arc->fat_size = 0;
+        p_arc->fnt = 0;
+        p_arc->fnt_size = 0;
+        p_arc->fat_bak = p_arc->fnt_bak = 0;
+        p_arc->flag &= ~(FS_ARCHIVE_FLAG_CANCELING | FS_ARCHIVE_FLAG_LOADED | FS_ARCHIVE_FLAG_UNLOADING);
     }
-    *(undefined4 *)(param_1 + 0x24) = 0;
-    if (iVar2 != 0) {
-      Fs_Archive_Resume(param_1);
-    }
-    *(undefined4 *)(param_1 + 0x28) = 0;
-    *(undefined4 *)(param_1 + 0x2c) = 0;
-    *(undefined4 *)(param_1 + 0x30) = 0;
-    *(undefined4 *)(param_1 + 0x34) = 0;
-    *(undefined4 *)(param_1 + 0x38) = 0;
-    *(undefined4 *)(param_1 + 0x40) = 0;
-    uVar3 = param_1 + 0x40U & 3;
-    uVar4 = *(uint *)(param_1 + 0x40U & 0xfffffffc);
-    *(uint *)(param_1 + 0x3c) = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-    uVar3 = param_1 + 0x1cU & 3;
-    uVar4 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-    *(uint *)(param_1 + 0x1c) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) & 0xffffff5d;
-  }
-  Os_RestoreIrq(uVar1);
-  return 1;
+    (void)OS_RestoreInterrupts(bak_psr);
+    return TRUE;
 }
-

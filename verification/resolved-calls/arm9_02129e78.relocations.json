@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 28,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3941136108
+  }
+]

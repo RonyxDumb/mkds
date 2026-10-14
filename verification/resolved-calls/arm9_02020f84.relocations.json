@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Fifo_RegisterHandler",
+    "target": 34920388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942953483
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Sound_IsCommandAvailable",
+    "target": 33689264,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422917
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Fifo_IsHandlerReady",
+    "target": 34920348,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942953466
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "Os_SpinWait",
+    "target": 33619216,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405391
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Fifo_IsHandlerReady",
+    "target": 34920348,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942953455
+  }
+]

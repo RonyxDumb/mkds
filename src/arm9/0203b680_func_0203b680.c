@@ -1,10 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 0203b680. No matching claim. */
-#include "types.h"
-#include "deps/0203b680_func_0203b680.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-undefined1 func_0203b680(int param_1,int param_2,int param_3)
-
+unsigned int func_0203b680(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  return *(undefined1 *)(param_1 + (param_2 + -1) * (uint)*(ushort *)(param_1 + 6) + param_3 + 7);
+unsigned int cmp_a,cmp_b;
+L_203b680: r3 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 6));
+L_203b684: r2 = (r2-0x1u);
+L_203b688: r1 = (r1-0x1u);
+L_203b68c: r2 = (r1*r3+r2);
+L_203b690: r0 = (r0+r2);
+L_203b694: r0 = (unsigned int)(*(unsigned char *)((unsigned char *)r0 + 8));
+L_203b698: return r0;
 }
-

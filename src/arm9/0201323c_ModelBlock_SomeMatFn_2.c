@@ -1,20 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 0201323c. No matching claim. */
-#include "types.h"
-#include "deps/0201323c_ModelBlock_SomeMatFn_2.h"
-
-void ModelBlock_SomeMatFn_2(int param_1,undefined4 param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int ModelBlock_SomeTexPltFn_6(unsigned int, unsigned int, unsigned int);
+unsigned int ModelBlock_SomeMatFn_2(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  
-  uVar1 = 0;
-  if (*(char *)(param_1 + 0x18) != '\0') {
-    do {
-      ModelBlock_SomeTexPltFn_6(param_1,uVar1,param_2);
-      uVar1 = uVar1 + 1;
-    } while (uVar1 < *(byte *)(param_1 + 0x18));
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4,r5,r6;
+L_2013240: r6 = r0;
+L_2013244: r0 = (unsigned int)(*(unsigned char *)((unsigned char *)r6 + 24));
+L_2013248: r5 = r1;
+L_201324c: r4 = 0x0u;
+L_2013250: cmp_a = r0; cmp_b = 0x0u;
+L_2013258: if ((cmp_a <= cmp_b)) { return r0; }
+L_201325c: r0 = r6;
+L_2013260: r1 = r4;
+L_2013264: r2 = r5;
+L_2013268: r0 = ModelBlock_SomeTexPltFn_6(r0,r1,r2);
+L_201326c: r0 = (unsigned int)(*(unsigned char *)((unsigned char *)r6 + 24));
+L_2013270: r4 = (r4+0x1u);
+L_2013274: cmp_a = r4; cmp_b = r0;
+L_2013278: if ((cmp_a < cmp_b)) { goto L_201325c; }
+L_2013280: return r0;
 }
-

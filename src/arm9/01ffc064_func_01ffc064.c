@@ -1,17 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 01ffc064. No matching claim. */
-#include "types.h"
-#include "deps/01ffc064_func_01ffc064.h"
-
-void func_01ffc064(undefined4 param_1,undefined4 param_2,int param_3,int param_4)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int VecFx32_AddScale1(unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int func_01ffc064(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_4 + 0x1d0U & 3;
-  uVar2 = *(uint *)(param_4 + 0x1d0U & 0xfffffffc);
-  VecFx32_AddScale1((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + param_3,param_4 + 300,
-                    param_2,(int *)(uintptr_t)(param_1));
-  return;
+unsigned int cmp_a,cmp_b,ip,lr,r4;
+L_1ffc068: ip = (unsigned int)(*(unsigned int *)((unsigned char *)r3 + 464));
+L_1ffc06c: r4 = r0;
+L_1ffc070: lr = r1;
+L_1ffc074: r0 = (ip+r2);
+L_1ffc078: r1 = (r3+0x12cu);
+L_1ffc07c: r2 = lr;
+L_1ffc080: r3 = r4;
+L_1ffc084: r0 = VecFx32_AddScale1(r0,r1,r2,r3);
+L_1ffc08c: return r0;
 }
-

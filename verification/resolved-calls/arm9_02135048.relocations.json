@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "SomeSnprintfImpl",
+    "target": 34820216,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645763
+  }
+]

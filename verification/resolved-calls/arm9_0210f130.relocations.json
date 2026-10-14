@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "RegisterFifoMicrophone",
+    "target": 34927640,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942711474
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "PM_Initialize",
+    "target": 34930848,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942712275
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "func_0214fb3c",
+    "target": 34929468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942711928
+  },
+  {
+    "offset": 128,
+    "type": 1,
+    "symbol": "func_02020430",
+    "target": 33686576,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959178398
+  },
+  {
+    "offset": 136,
+    "type": 1,
+    "symbol": "func_020203d4",
+    "target": 33686484,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959178373
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "func_0214fb24",
+    "target": 34929444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942711895
+  }
+]

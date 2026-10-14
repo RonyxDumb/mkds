@@ -1,32 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 0214c920. No matching claim. */
-#include "types.h"
-#include "deps/0214c920_MI_WaitDma.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#include "MI_dma.h"
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+#include "OS_interrupt.h"
+#include "OS_terminate_proc.h"
+#include "code32.h"
+#include "sections.h"
 
-void MI_WaitDma(int param_1)
+void MI_WaitDma(u32 dmaNo) {
+    OSIntrMode lastIntrMode = OS_DisableInterrupts();
+    vu32 *dmaCntp;
+    MIi_WAIT_BEFOREDMA(dmaCntp, dmaNo);
 
-{
-  uint uVar1;
-  int iVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  Os_DisableIrq();
-  uVar3 = uRam0214c98c;
-  iVar2 = iRam0214c988;
-  uVar5 = iRam0214c988 + (param_1 * 3 + 2) * 4;
-  do {
-    uVar1 = uVar5 & 3;
-    uVar4 = *(uint *)(uVar5 & 0xfffffffc);
-  } while (((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) & 0x80000000) != 0);
-  if (param_1 == 0) {
-    _DAT_040000b0 = 0;
-    *(undefined4 *)(iRam0214c988 + 4) = 0;
-    *(undefined4 *)(iVar2 + 8) = uVar3;
-  }
-  Os_RestoreIrq();
-  return;
+    if (!dmaNo) {
+        vu32 *p  = (vu32 *)((u32)REG_DMA0SAD_ADDR + dmaNo * 12);
+        *p       = (vu32)0;
+        *(p + 1) = (vu32)0;
+        *(p + 2) = (vu32)0x81400001;
+    }
+
+    (void)OS_RestoreInterrupts(lastIntrMode);
 }
-

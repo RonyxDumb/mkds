@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "func_021114b0",
+    "target": 34673840,
+    "thumb": true,
+    "addend": -4,
+    "value": 4171296768
+  },
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "CopyOamBuffersToMemory_from_thumb",
+    "target": 34268656,
+    "thumb": true,
+    "addend": -4,
+    "value": 4181391261
+  }
+]

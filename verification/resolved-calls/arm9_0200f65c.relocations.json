@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "Os_SetTimerIrqHandler",
+    "target": 33606480,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420194
+  },
+  {
+    "offset": 116,
+    "type": 2,
+    "symbol": "SDK_data_02170254",
+    "target": 35062356,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062356
+  },
+  {
+    "offset": 120,
+    "type": 2,
+    "symbol": "SDK_data_02170250",
+    "target": 35062352,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062352
+  },
+  {
+    "offset": 132,
+    "type": 2,
+    "symbol": "Os_CountTicks",
+    "target": 33617500,
+    "thumb": false,
+    "addend": 0,
+    "value": 33617500
+  }
+]

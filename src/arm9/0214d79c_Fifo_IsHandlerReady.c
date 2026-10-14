@@ -1,16 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 0214d79c. No matching claim. */
-#include "types.h"
-#include "deps/0214d79c_Fifo_IsHandlerReady.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define PXI_IsCallbackReady Fifo_IsHandlerReady
+#include "consts.h"
+#include "OS_interrupt.h"
+#include "OS_system.h"
+#include "PXI_fifo.h"
+#include "systemWork.h"
+#include "code32.h"
 
-bool Fifo_IsHandlerReady(uint param_1,int param_2)
-
+BOOL PXI_IsCallbackReady(s32 fifotag, PXIProc proc)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = iRam0214d7c0 + param_2 * 4 + 0x388;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return (1 << (param_1 & 0xff) & (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20)) != 0;
-}
+    OSSystemWork *p = OS_GetSystemWork();
 
+    return (p->pxiHandleChecker[proc] & (1UL << fifotag)) ? TRUE : FALSE;
+}

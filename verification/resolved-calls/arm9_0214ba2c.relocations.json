@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "GetVramBg1BaseOffset_Top",
+    "target": 34906112,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421295
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "MI_DmaCopy32",
+    "target": 34917256,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646853
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Mem_CpuCopy32",
+    "target": 34918444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647144
+  }
+]

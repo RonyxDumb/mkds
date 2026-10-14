@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 22,
+    "type": 10,
+    "symbol": "GetVsRacerIndicatorColor_from_thumb",
+    "target": 34108388,
+    "thumb": true,
+    "addend": -4,
+    "value": 4177915904
+  },
+  {
+    "offset": 40,
+    "type": 10,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -4,
+    "value": 3997497223
+  },
+  {
+    "offset": 50,
+    "type": 10,
+    "symbol": "Mem_CpuFill8",
+    "target": 34918760,
+    "thumb": false,
+    "addend": -4,
+    "value": 4022005957
+  },
+  {
+    "offset": 62,
+    "type": 10,
+    "symbol": "func_020adddc",
+    "target": 34266588,
+    "thumb": true,
+    "addend": -4,
+    "value": 4260229158
+  },
+  {
+    "offset": 70,
+    "type": 10,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -4,
+    "value": 3996579719
+  }
+]

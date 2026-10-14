@@ -1,31 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 02080adc. No matching claim. */
-#include "types.h"
-#include "deps/02080adc_func_02080adc.h"
-
-void func_02080adc(undefined4 *param_1,undefined4 param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int VecFx32_Subtract(unsigned int, unsigned int, unsigned int);
+extern unsigned int Vector3_MaybeNormalize(unsigned int, unsigned int);
+unsigned int func_02080adc(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  param_1[1] = *(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-               *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
-  *param_1 = param_2;
-  uVar1 = (uint)(param_1 + 1) & 3;
-  uVar4 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-  uVar5 = (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-          *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 0x18;
-  uVar2 = uVar5 & 3;
-  uVar3 = *(uint *)(uVar5 & 0xfffffffc);
-  uVar5 = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x18;
-  uVar1 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  VecFx32_Subtract(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20,
-                   uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,param_1 + 2);
-  Vector3_MaybeNormalize((uint)(uintptr_t)(param_1 + 2),param_1 + 2);
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_2080ae0: r4 = r0;
+L_2080ae4: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 0));
+L_2080ae8: r2 = (r4+0x8u);
+L_2080aec: *(unsigned int *)((unsigned char *)r4 + 4) = (unsigned int)r0;
+L_2080af0: *(unsigned int *)((unsigned char *)r4 + 0) = (unsigned int)r1;
+L_2080af4: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 0));
+L_2080af8: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 4));
+L_2080afc: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 24));
+L_2080b00: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 24));
+L_2080b04: r0 = VecFx32_Subtract(r0,r1,r2);
+L_2080b08: r0 = (r4+0x8u);
+L_2080b0c: r1 = r0;
+L_2080b10: r0 = Vector3_MaybeNormalize(r0,r1);
+L_2080b18: return r0;
 }
-

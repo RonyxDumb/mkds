@@ -1,88 +1,60 @@
-/* Decompiled C draft; module arm9; ROM address 0214abb4. No matching claim. */
-#include "types.h"
-#include "deps/0214abb4_G3i_LookAt_.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define VEC_Normalize VecFx32_Normalize
+#define VEC_CrossProduct VecFx32_CrossProduct
+#define VEC_DotProduct Vector3_DotProduct
+#include "nitro/types.h"
+#include "registers.h"
+#include "gx.h"
+#include "code32.h"
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
-
-void G3i_LookAt_(uint param_1,undefined4 param_2,uint param_3,int param_4,int *param_5)
-
-{
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  int *unaff_r4;
-  uint uVar6;
-  uint uVar7;
-  int local_40;
-  int local_3c;
-  int local_38;
-  int local_34;
-  int local_30;
-  int local_2c;
-  int local_28;
-  int local_24;
-  int local_20;
-  
-  local_40 = (*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-             *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) -
-             (*(uint *)(param_3 & 0xfffffffc) >> (param_3 & 3) * 8 |
-             *(uint *)(param_3 & 0xfffffffc) << (param_3 & 3) * -8 + 0x20);
-  uVar1 = param_1 + 4 & 3;
-  uVar7 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  uVar2 = param_3 + 4 & 3;
-  uVar6 = *(uint *)(param_3 + 4 & 0xfffffffc);
-  local_3c = (uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20) -
-             (uVar6 >> uVar2 * 8 | uVar6 << uVar2 * -8 + 0x20);
-  uVar1 = param_1 + 8 & 3;
-  uVar7 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  uVar2 = param_3 + 8 & 3;
-  uVar6 = *(uint *)(param_3 + 8 & 0xfffffffc);
-  local_38 = (uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20) -
-             (uVar6 >> uVar2 * 8 | uVar6 << uVar2 * -8 + 0x20);
-  VecFx32_Normalize((uint)(uintptr_t)(&local_40),&local_40);
-  VecFx32_CrossProduct(param_2,(uint)(uintptr_t)(&local_40),&local_34);
-  VecFx32_Normalize((uint)(uintptr_t)(&local_34),&local_34);
-  VecFx32_CrossProduct((uint)(uintptr_t)(&local_40),(uint)(uintptr_t)(&local_34),&local_28);
-  if (param_4 != 0) {
-    *puRam0214ad44 = 2;
-    unaff_r4 = piRam0214ad48;
-    *piRam0214ad48 = local_34;
-    *unaff_r4 = local_28;
-    *unaff_r4 = local_40;
-    *unaff_r4 = local_30;
-    *unaff_r4 = local_24;
-    *unaff_r4 = local_3c;
-    *unaff_r4 = local_2c;
-    *unaff_r4 = local_20;
-    *unaff_r4 = local_38;
-  }
-  iVar3 = Vector3_DotProduct(param_1,(uint)(uintptr_t)(&local_34));
-  iVar4 = Vector3_DotProduct(param_1,(uint)(uintptr_t)(&local_28));
-  iVar5 = Vector3_DotProduct(param_1,(uint)(uintptr_t)(&local_40));
-  if (param_4 != 0) {
-    *unaff_r4 = -iVar3;
-  }
-  if (param_4 != 0) {
-    *unaff_r4 = -iVar4;
-    *unaff_r4 = -iVar5;
-  }
-  if (param_5 != (int *)0x0) {
-    *param_5 = local_34;
-    param_5[1] = local_28;
-    param_5[2] = local_40;
-    param_5[3] = local_30;
-    param_5[4] = local_24;
-    param_5[5] = local_3c;
-    param_5[6] = local_2c;
-    param_5[7] = local_20;
-    param_5[8] = local_38;
-    param_5[9] = -iVar3;
-    param_5[10] = -iVar4;
-    param_5[0xb] = -iVar5;
-    return;
-  }
-  return;
+#pragma thumb off
+void G3i_LookAt_(const struct Vecx32 *a, const struct Vecx32 *b, const struct Vecx32 *c, BOOL load, struct Mtx43 *mtx){
+    struct Vecx32 temp, temp1, temp2;
+    fx32 c1, c2, c3;
+    vu32 *reg_ptr;
+    temp.x = a->x - c->x;
+    temp.y = a->y - c->y;
+    temp.z = a->z - c->z;
+    VEC_Normalize(&temp, &temp);
+    VEC_CrossProduct(b, &temp, &temp1);
+    VEC_Normalize(&temp1, &temp1);
+    VEC_CrossProduct(&temp, &temp1, &temp2);
+    if (load)
+    {
+        reg_G3_MTX_MODE = 0x2;
+        reg_ptr = (vu32 *)&reg_G3_MTX_LOAD_4x3;
+        *reg_ptr = (vu32)temp1.x;
+        *reg_ptr = (vu32)temp2.x;
+        *reg_ptr = (vu32)temp.x;
+        *reg_ptr = (vu32)temp1.y;
+        *reg_ptr = (vu32)temp2.y;
+        *reg_ptr = (vu32)temp.y;
+        *reg_ptr = (vu32)temp1.z;
+        *reg_ptr = (vu32)temp2.z;
+        *reg_ptr = (vu32)temp.z;
+    }
+    c1 = -VEC_DotProduct(a, &temp1);
+    c2 = -VEC_DotProduct(a, &temp2);
+    c3 = -VEC_DotProduct(a, &temp);
+    if (load)
+    {
+        *reg_ptr = (vu32)c1;
+        *reg_ptr = (vu32)c2;
+        *reg_ptr = (vu32)c3;
+    }
+    if (mtx)
+    {
+        mtx->_[0] = temp1.x;
+        mtx->_[1] = temp2.x;
+        mtx->_[2] = temp.x;
+        mtx->_[3] = temp1.y;
+        mtx->_[4] = temp2.y;
+        mtx->_[5] = temp.y;
+        mtx->_[6] = temp1.z;
+        mtx->_[7] = temp2.z;
+        mtx->_[8] = temp.z;
+        mtx->_[9] = c1;
+        mtx->_[10] = c2;
+        mtx->_[11] = c3;
+    }
 }
-

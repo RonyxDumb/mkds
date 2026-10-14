@@ -33,3 +33,17 @@ Ripristino del compilatore: `python scripts/setup_matching_toolchain.py` scarica
 ## Checkpoint 12
 
 1.222 funzioni e 29.070 byte (1,519066%). Thumb flow: 122 candidati, 48 match, 966 byte. Tutte le 1.060 prove senza relocazioni sono state ricompilate dopo la ricerca; le 162 con relocazioni sono state ricompilate al checkpoint 11. Le 6.802 bozze C non hanno dato nuovi match con sei ottimizzazioni: evitare di ripetere quella ricerca senza cambiare la ricostruzione. Il prossimo lavoro deve migliorare le funzioni grandi (tipi, parametri, stack e flusso), non ricontare funzioni o variare il denominatore. Il 10% dei byte richiede ancora 162.298 byte verificati.
+
+## Checkpoint 13 — lavoro verso il 10%
+
+1.663 funzioni; 62.902 byte (3,286972%). Tutte le prove ricompilate con i compilatori dichiarati. Nuovi strumenti: `verify_mw_literal_drafts.py`, `verify_mw_cfg_flow.py`; resolver ARM BLX aggiornato sia nella ricerca sia nel recheck, con destinazione disassemblata e confrontata indipendentemente. Prossime ricerche: `verify_mw_stack_args.py`, `verify_mw_stack_locals.py`, `verify_mw_transfer_flow.py`. Un solo writer dei registri alla volta. Non ricontare funzioni gia registrate. Il target resta 191.368 byte, senza cambiare denominatore.
+
+## Checkpoint 14
+
+2.288 funzioni; 109.144 / 1.913.676 byte inventariati (5,703369%). Tutte le prove ricompilate. Gli span completi verificati sono 109.304 byte: `proof_span.py` verifica le differenze di literal pool/ritorno condiviso senza aggiungerle al numeratore. Le dipendenze SDK sono fissate in `sdk-header-manifest.json`, i sorgenti e flag in `sdk-source-proofs.json`, gli indirizzi dati osservati in `sdk-extra-symbols.tsv`. SDK ASM non importato. Prossima ricerca: `verify_mw_sdk_caller_drafts.py`, con arita/prototipi SDK osservati nei sorgenti appena verificati; nessun argomento inventato. Un solo writer dei registri alla volta. Stato remoto: ramo codex/matching-toward-10-percent, PR #2. Main resta al checkpoint 12 finche la nuova PR non e approvata.
+
+## Blocco ambiente dopo il checkpoint 14
+
+L'ambiente di esecuzione si e disconnesso: exec-server ha restituito `409 Conflict, environment_offline: Environment is not connected`. Il checkpoint 14 resta il risultato durevole e ricompilato: 2.288 funzioni, 109.144 byte inventariati (5,703369%). Il 10% richiede 191.368 byte: ne mancano 82.224.
+
+`verify_mw_sdk_caller_drafts.py` ha terminato una ricerca su 5.688 candidati con un ulteriore match locale, non ricontrollato e non incluso nel checkpoint pubblicato. Un'esplorazione di sorgenti C/C++ da tangosdev/sm64ds-decomp era in corso quando l'ambiente e caduto; nessun risultato di quell'esperimento e incluso nel matching pubblicato. Ricreare un ambiente, ripristinare binari di riferimento e toolchain, ricompilare i registri pubblicati, quindi proseguire con le funzioni grandi e i sorgenti SDK. Non dichiarare raggiunto il target 10%.

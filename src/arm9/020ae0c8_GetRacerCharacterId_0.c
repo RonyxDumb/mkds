@@ -1,18 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 020ae0c8. No matching claim. */
-#include "types.h"
-#include "deps/020ae0c8_GetRacerCharacterId_0.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-uint GetRacerCharacterId_0(int param_1)
-
+unsigned int GetRacerCharacterId_0(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = param_1 * 0x30 +
-          (*(uint *)(uRam020ae0e0 & 0xfffffffc) >> (uRam020ae0e0 & 3) * 8 |
-          *(uint *)(uRam020ae0e0 & 0xfffffffc) << (uRam020ae0e0 & 3) * -8 + 0x20) + 0x68;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_20ae0c8: r2 = 0x21759c0u;
+L_20ae0cc: r1 = 0x30u;
+L_20ae0d0: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_20ae0d4: r1 = (r0*r1+r2);
+L_20ae0d8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 104));
+L_20ae0dc: return r0;
 }
-

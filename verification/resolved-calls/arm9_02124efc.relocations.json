@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 42,
+    "type": 10,
+    "symbol": "MTX_Identity22_",
+    "target": 34892952,
+    "thumb": false,
+    "addend": -4,
+    "value": 4005097505
+  },
+  {
+    "offset": 50,
+    "type": 10,
+    "symbol": "MTX_Identity22_",
+    "target": 34892952,
+    "thumb": false,
+    "addend": -4,
+    "value": 4004835361
+  }
+]

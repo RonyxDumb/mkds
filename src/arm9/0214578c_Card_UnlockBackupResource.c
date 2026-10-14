@@ -1,13 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 0214578c. No matching claim. */
-#include "types.h"
-#include "deps/0214578c_Card_UnlockBackupResource.h"
-
-void Card_UnlockBackupResource(undefined4 param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define CARDi_UnlockResource SDK_data_021459cc
+#define CARD_UnlockBackup Card_UnlockBackupResource
+#include "CARD_common.h"
+#include "CARD_request.h"
+#include "consts.h"
+#include "MI_memory.h"
+#include "OS_terminate_proc.h"
+#include "OS_spinLock.h"
+#include "OS_cache.h"
+#include "MB_mb.h"
+#include "PXI_fifo.h"
+#include "mmap.h"
+#include "code32.h"
+extern void CARDi_UnlockResource(CARDiOwner owner, CARDTargetMode target);
+#pragma thumb off
+void CARD_UnlockBackup(u16 lock_id)
 {
-                    /* WARNING: Could not recover jumptable at 0x02145794. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02145798)(param_1,2);
-  return;
+    CARDi_UnlockResource(lock_id, CARD_TARGET_BACKUP);
 }
-

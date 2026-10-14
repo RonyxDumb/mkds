@@ -1,12 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 02021bc8. No matching claim. */
-#include "types.h"
-#include "deps/02021bc8_SND_func_0043.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_GetFirstInstDataPos SND_func_0043
+#include "SND_bank.h"
+#include "OS_mutex.h"
+#include "nitro/types.h"
+#include "code32.h"
 
-void SND_func_0043(undefined4 *param_1)
-
-{
-  *param_1 = 0;
-  param_1[1] = 0;
-  return;
+struct SNDInstPos SND_GetFirstInstDataPos(const struct SNDBankData *bankData) {
+#pragma unused (bankData)
+    struct SNDInstPos retval;
+    retval.program = 0;
+    retval.index = 0;
+    return retval;
 }
-

@@ -1,18 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 020ae15c. No matching claim. */
-#include "types.h"
-#include "deps/020ae15c_GetRacerType.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-uint GetRacerType(int param_1)
-
+unsigned int GetRacerType(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = param_1 * 0x30 +
-          (*(uint *)(uRam020ae174 & 0xfffffffc) >> (uRam020ae174 & 3) * 8 |
-          *(uint *)(uRam020ae174 & 0xfffffffc) << (uRam020ae174 & 3) * -8 + 0x20) + 0x70;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_20ae15c: r2 = 0x21759c0u;
+L_20ae160: r1 = 0x30u;
+L_20ae164: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_20ae168: r1 = (r0*r1+r2);
+L_20ae16c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 112));
+L_20ae170: return r0;
 }
-

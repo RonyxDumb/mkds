@@ -1,32 +1,35 @@
-/* Decompiled C draft; module arm9; ROM address 0210c1b0. No matching claim. */
-#include "types.h"
-#include "deps/0210c1b0_func_0210c1b0.h"
-
-void func_0210c1b0(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0210c238(unsigned int, unsigned int);
+extern unsigned int func_0210bc54(unsigned int, unsigned int);
+unsigned int func_0210c1b0(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  func_0210c238(param_1,0);
-  uVar2 = param_1 + 0xcU & 3;
-  uVar1 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-  if (uVar1 >> uVar2 * 8 != 0 || uVar1 << uVar2 * -8 + 0x20 != 0) {
-    do {
-      func_0210bc54(param_1 + 0xc);
-      uVar2 = param_1 + 0xcU & 3;
-      uVar1 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-    } while (uVar1 >> uVar2 * 8 != 0 || uVar1 << uVar2 * -8 + 0x20 != 0);
-  }
-  uVar2 = param_1 + 0x18U & 3;
-  uVar1 = *(uint *)(param_1 + 0x18U & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  if (uVar2 != 3) {
-    func_0210bc54(uVar2 * 0xc + iRam0210c230,param_1);
-    *(undefined4 *)(param_1 + 0x18) = 3;
-  }
-  func_0210bc54(uRam0210c234,param_1);
-  *(undefined4 *)(param_1 + 0x38) = 0;
-  return;
+unsigned int cmp_a,cmp_b,r4,r5;
+L_210c1b8: r5 = r0;
+L_210c1bc: r1 = 0x0u;
+L_210c1c0: r0 = func_0210c238(r0,r1);
+L_210c1c4: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r5 + 12));
+L_210c1c8: cmp_a = r1; cmp_b = 0x0u;
+L_210c1cc: if ((cmp_a == cmp_b)) { goto L_210c1e8; }
+L_210c1d0: r4 = (r5+0xcu);
+L_210c1d4: r0 = r4;
+L_210c1d8: r0 = func_0210bc54(r0,r1);
+L_210c1dc: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r5 + 12));
+L_210c1e0: cmp_a = r1; cmp_b = 0x0u;
+L_210c1e4: if ((cmp_a != cmp_b)) { goto L_210c1d4; }
+L_210c1e8: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r5 + 24));
+L_210c1ec: cmp_a = r2; cmp_b = 0x3u;
+L_210c1f0: if ((cmp_a == cmp_b)) { goto L_210c210; }
+L_210c1f4: r1 = 0x217d048u;
+L_210c1f8: r0 = 0xcu;
+L_210c1fc: r0 = (r2*r0+r1);
+L_210c200: r1 = r5;
+L_210c204: r0 = func_0210bc54(r0,r1);
+L_210c208: r0 = 0x3u;
+L_210c20c: *(unsigned int *)((unsigned char *)r5 + 24) = (unsigned int)r0;
+L_210c210: r0 = 0x217d028u;
+L_210c214: r1 = r5;
+L_210c218: r0 = func_0210bc54(r0,r1);
+L_210c21c: r0 = 0x0u;
+L_210c220: *(unsigned int *)((unsigned char *)r5 + 56) = (unsigned int)r0;
+L_210c22c: return r0;
 }
-

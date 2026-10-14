@@ -1,15 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 0209a280. No matching claim. */
-#include "types.h"
-#include "deps/0209a280_LoadNsCannon1MapObject.h"
-
-void LoadNsCannon1MapObject(undefined4 param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int CreateMapObjectFromModel_2_from_thumb(unsigned int, unsigned int);
+extern unsigned int StructMapObject_MaybeSetPolygonId(unsigned int, unsigned int);
+unsigned int LoadNsCannon1MapObject(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  
-  uVar1 = CreateMapObjectFromModel_2_from_thumb(param_1,uRam0209a2ac);
-  *puRam0209a2b0 = uVar1;
-  StructMapObject_MaybeSetPolygonId(uVar1,0x3f);
-  return;
+unsigned int cmp_a,cmp_b;
+L_209a288: r1 = 0x2167190u;
+L_209a28c: r0 = CreateMapObjectFromModel_2_from_thumb(r0,r1);
+L_209a290: r2 = 0x217b170u;
+L_209a294: r1 = 0x3fu;
+L_209a298: *(unsigned int *)((unsigned char *)r2 + 0) = (unsigned int)r0;
+L_209a29c: r0 = StructMapObject_MaybeSetPolygonId(r0,r1);
+L_209a2a8: return r0;
 }
-

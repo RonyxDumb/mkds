@@ -1,16 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 02022a60. No matching claim. */
-#include "types.h"
-#include "deps/02022a60_func_02022a60.h"
-
-void func_02022a60(undefined4 param_1,undefined4 param_2,undefined4 param_3)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_02022a90(unsigned int);
+unsigned int func_02022a60(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  int iVar1;
-  
-  iVar1 = func_02022a90();
-  *(undefined4 *)(iVar1 + 0x24) = 0xffffffff;
-  *(undefined4 *)(iVar1 + 0x28) = param_2;
-  *(undefined4 *)(iVar1 + 0x2c) = param_3;
-  return;
+unsigned int cmp_a,cmp_b,r4,r5;
+L_2022a68: r5 = r1;
+L_2022a6c: r4 = r2;
+L_2022a70: r0 = func_02022a90(r0);
+L_2022a74: r1 = ~(0x0u);
+L_2022a78: *(unsigned int *)((unsigned char *)r0 + 36) = (unsigned int)r1;
+L_2022a7c: *(unsigned int *)((unsigned char *)r0 + 40) = (unsigned int)r5;
+L_2022a80: *(unsigned int *)((unsigned char *)r0 + 44) = (unsigned int)r4;
+L_2022a8c: return r0;
 }
-

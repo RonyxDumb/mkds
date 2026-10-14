@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646770
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Os_Mutex_DequeueThread",
+    "target": 33614784,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422892
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Os_Thread_WakeUp",
+    "target": 33611676,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422111
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646755
+  },
+  {
+    "offset": 108,
+    "type": 2,
+    "symbol": "SDK_data_0216ff5c",
+    "target": 35061596,
+    "thumb": false,
+    "addend": 0,
+    "value": 35061596
+  }
+]

@@ -1,20 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 02017988. No matching claim. */
-#include "types.h"
-#include "deps/02017988_Mem_Exp_Create.h"
-
-undefined4 Mem_Exp_Create(int param_1,int param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define InitExpHeap Mem_Exp_Initialize
+#define NNS_FndCreateExpHeapEx Mem_Exp_Create
+#include "nitro/types.h"
+#include "NNS_FND_expheap.h"
+#include "code32.h"
+extern NNSiFndHeapHead* InitExpHeap(void* startAddress, void* endAddress, u16 optFlag);
+NNSFndHeapHandle NNS_FndCreateExpHeapEx(void *startAddress, u32 size, u16 optFlag)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  
-  uVar3 = param_2 + param_1 & 0xfffffffc;
-  uVar1 = param_1 + 3U & 0xfffffffc;
-  if ((uVar1 <= uVar3) && (0x4b < uVar3 - uVar1)) {
-    uVar2 = Mem_Exp_Initialize();
-    return uVar2;
-  }
-  return 0;
+    void* endAddress = NNSi_FndRoundDownPtr(AddU32ToPtr(startAddress, size), 4);
+    startAddress = NNSi_FndRoundUpPtr(startAddress, 4);
+    if (NNSiGetUIntPtr(startAddress) > NNSiGetUIntPtr(endAddress) || GetOffsetFromPtr(startAddress, endAddress) < sizeof(NNSiFndHeapHead) + sizeof(NNSiFndExpHeapHead) + sizeof(NNSiFndExpHeapMBlockHead) + 4)
+        return NULL;
+    return InitExpHeap(startAddress, endAddress, optFlag);
 }
-

@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "DisposeLoadedOverlay",
+    "target": 33922100,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942660853
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "UpdateOverlayStatusWithKind",
+    "target": 33922724,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942661007
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "WaitOverlayLoadedStarted",
+    "target": 33922588,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942660972
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "GetActiveExecutionContext",
+    "target": 33776872,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959401758
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "ExecutionContext_GetHeapHandle",
+    "target": 33776864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959401755
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "func_0202f2b4",
+    "target": 33747636,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211052687
+  }
+]

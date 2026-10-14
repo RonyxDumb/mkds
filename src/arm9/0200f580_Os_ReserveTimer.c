@@ -1,11 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0200f580. No matching claim. */
-#include "types.h"
-#include "deps/0200f580_Os_ReserveTimer.h"
-
-void Os_ReserveTimer(uint param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_TimerReserved SDK_data_02170248
+#define OSi_SetTimerReserved Os_ReserveTimer
+#include "OS_timer.h"
+#include "function_target.h"
+#include "code32.h"
+extern u16 OSi_TimerReserved;
+void OSi_SetTimerReserved(s32 timerNum)
 {
-  *puRam0200f598 = *puRam0200f598 | (ushort)(1 << (param_1 & 0xff));
-  return;
+    OSi_TimerReserved |= (1 << timerNum);
 }
-

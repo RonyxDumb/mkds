@@ -1,13 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 0200cfc0. No matching claim. */
-#include "types.h"
-#include "deps/0200cfc0_Os_Lock_TryLock.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_DoUnlockByWord SDK_data_0200cfd0
+#define OS_UnlockByWord Os_Lock_TryLock
+#include "OS_spinLock.h"
 
-void Os_Lock_TryLock(void)
-
+#include "OS_system.h"
+#include "mmap.h"
+#include "MI_exMemory.h"
+#include "code32.h"
+extern s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp) (void),
+                                        BOOL disableFIQ);
+s32 OS_UnlockByWord(u16 lockID, OSLockWord* lockp, void (*ctrlFuncp) (void))
 {
-                    /* WARNING: Could not recover jumptable at 0x0200cfc8. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0200cfcc)();
-  return;
+    return OSi_DoUnlockByWord(lockID, lockp, ctrlFuncp, FALSE);
 }
-

@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Os_Terminate",
+    "target": 33619228,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645991
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645959
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Os_GetTick",
+    "target": 33617324,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422722
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "Os_InsertAlarm",
+    "target": 33618376,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645764
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645949
+  }
+]

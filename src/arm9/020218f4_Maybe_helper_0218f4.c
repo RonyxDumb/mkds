@@ -1,29 +1,35 @@
-/* Decompiled C draft; module arm9; ROM address 020218f4. No matching claim. */
-#include "types.h"
-#include "deps/020218f4_Maybe_helper_0218f4.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define sVolumeTable SDK_data_02152de4
+#define SND_CalcChannelVolume Maybe_helper_0218f4
+#include "SND_util.h"
+#include "nitro/types.h"
+#include "code32.h"
+extern const u8 sVolumeTable[724];
+#pragma thumb off
+u16 SND_CalcChannelVolume(s32 x) {
+    // directly using s32 doesn't match
+    int decibels = (int)x;
+    if (decibels < -723)
+        decibels = -723;
+    else if (decibels > 0)
+        decibels = 0;
 
-uint Maybe_helper_0218f4(int param_1)
+    u32 resultLo = sVolumeTable[decibels + 723];
+    u32 resultHi;
 
-{
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = iRam0202195c;
-  if ((iRam0202195c <= param_1) && (iVar1 = param_1, 0 < param_1)) {
-    iVar1 = 0;
-  }
-  if (iVar1 < -0xf0) {
-    iVar2 = 3;
-  }
-  else if (iVar1 < -0x78) {
-    iVar2 = 2;
-  }
-  else if (iVar1 < -0x3c) {
-    iVar2 = 1;
-  }
-  else {
-    iVar2 = 0;
-  }
-  return (uint)*(byte *)(iRam02021964 + iVar1 + iRam02021960) | iVar2 << 8;
+    if (decibels < -240) {
+        resultHi = 3;
+    } else {
+        if (decibels < -120) {
+            resultHi = 2;
+        } else {
+            if (decibels < -60) {
+                resultHi = 1;
+            } else {
+                resultHi = 0;
+            }
+        }
+    }
+
+    return (u16)((resultHi << 8u) | resultLo);
 }
-

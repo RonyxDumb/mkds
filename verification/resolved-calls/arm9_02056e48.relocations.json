@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "EnableMKDSSVSomeFlag_from_thumb",
+    "target": 33912084,
+    "thumb": true,
+    "addend": -4,
+    "value": 4217565184
+  },
+  {
+    "offset": 10,
+    "type": 10,
+    "symbol": "WorkerInsertTask",
+    "target": 33914352,
+    "thumb": false,
+    "addend": -4,
+    "value": 4023316480
+  }
+]

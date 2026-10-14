@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 10,
+    "type": 10,
+    "symbol": "WriteSaveDataSection_TimeTrials_from_thumb",
+    "target": 33913588,
+    "thumb": true,
+    "addend": -4,
+    "value": 4219334657
+  },
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "WriteSaveDataHeader_from_thumb",
+    "target": 33911968,
+    "thumb": true,
+    "addend": -4,
+    "value": 4166119425
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658050
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Fs_Archive_HandleNextOperation",
+    "target": 33572120,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646289
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658037
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "Fs_File_ExecuteAsyncOperation",
+    "target": 33571956,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646241
+  }
+]

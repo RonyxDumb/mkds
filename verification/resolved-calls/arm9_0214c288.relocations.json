@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "func_0214c990",
+    "target": 34916752,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646192
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Mem_CpuCopy32",
+    "target": 34918444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646609
+  }
+]

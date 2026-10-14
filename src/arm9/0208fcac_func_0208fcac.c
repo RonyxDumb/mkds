@@ -1,32 +1,25 @@
-/* Decompiled C draft; module arm9; ROM address 0208fcac. No matching claim. */
-#include "types.h"
-#include "deps/0208fcac_func_0208fcac.h"
-
-void func_0208fcac(undefined4 param_1,int param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0207c548(unsigned int, unsigned int);
+extern unsigned int func_0207c47c(unsigned int, unsigned int);
+unsigned int func_0208fcac(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_2 + 0xb0U & 3;
-  uVar2 = *(uint *)(param_2 + 0xb0U & 0xfffffffc);
-  if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
-    return;
-  }
-  uVar1 = param_2 + 0xb8U & 3;
-  uVar2 = *(uint *)(param_2 + 0xb8U & 0xfffffffc);
-  if ((int)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) < iRam0208fd1c) {
-    uVar1 = param_2 + 0xb4U & 3;
-    uVar2 = *(uint *)(param_2 + 0xb4U & 0xfffffffc);
-    if ((uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) &&
-       (uVar1 = param_2 + 0xbcU & 3, uVar2 = *(uint *)(param_2 + 0xbcU & 0xfffffffc),
-       iRam0208fd20 < (int)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20))) {
-      func_0207c548();
-      return;
-    }
-    func_0207c47c();
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_208fcb4: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 176));
+L_208fcb8: cmp_a = r2; cmp_b = 0x0u;
+L_208fcc4: if ((cmp_a == cmp_b)) { return r0; }
+L_208fcc8: r3 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 184));
+L_208fccc: r2 = 0x15f90u;
+L_208fcd0: cmp_a = r3; cmp_b = r2;
+L_208fcdc: if (((int)cmp_a >= (int)cmp_b)) { return r0; }
+L_208fce0: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 180));
+L_208fce4: cmp_a = r2; cmp_b = 0x0u;
+L_208fce8: if ((cmp_a == cmp_b)) { goto L_208fd0c; }
+L_208fcec: r3 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 188));
+L_208fcf0: r2 = 0xb33u;
+L_208fcf4: cmp_a = r3; cmp_b = r2;
+L_208fcf8: if (((int)cmp_a <= (int)cmp_b)) { goto L_208fd0c; }
+L_208fcfc: r0 = func_0207c548(r0,r1);
+L_208fd08: return r0;
+L_208fd0c: r0 = func_0207c47c(r0,r1);
+L_208fd18: return r0;
 }
-

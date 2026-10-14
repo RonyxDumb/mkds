@@ -1,11 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 020ad98c. No matching claim. */
-#include "types.h"
-#include "deps/020ad98c_DisplayConfig_SetTopEngineBg2Config.h"
-
-void DisplayConfig_SetTopEngineBg2Config(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int DisplayEngineConfig_SetBg2Config2(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int DisplayConfig_SetTopEngineBg2Config(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3,unsigned int a4,unsigned int a5,unsigned int a6)
 {
-  DisplayEngineConfig_SetBg2Config2(param_1 + 0x28);
-  return;
+unsigned int cmp_a,cmp_b,ip,lr,stack_0,stack_4,stack_8;
+L_20ad994: ip = a4;
+L_20ad998: lr = a5;
+L_20ad99c: stack_0 = ip;
+L_20ad9a0: ip = a6;
+L_20ad9a4: stack_4 = lr;
+L_20ad9a8: r0 = (r0+0x28u);
+L_20ad9ac: stack_8 = ip;
+L_20ad9b0: r0 = DisplayEngineConfig_SetBg2Config2(r0,r1,r2,r3,stack_0,stack_4,stack_8);
+L_20ad9bc: return r0;
 }
-

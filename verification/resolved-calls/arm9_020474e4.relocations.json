@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 20,
+    "type": 10,
+    "symbol": "SetMountData_from_thumb",
+    "target": 33846836,
+    "thumb": true,
+    "addend": -4,
+    "value": 4171034624
+  },
+  {
+    "offset": 40,
+    "type": 10,
+    "symbol": "SetMountData_from_thumb",
+    "target": 33846836,
+    "thumb": true,
+    "addend": -4,
+    "value": 4170379264
+  },
+  {
+    "offset": 60,
+    "type": 10,
+    "symbol": "SetMountData_from_thumb",
+    "target": 33846836,
+    "thumb": true,
+    "addend": -4,
+    "value": 4169723904
+  },
+  {
+    "offset": 80,
+    "type": 10,
+    "symbol": "SetMountData_from_thumb",
+    "target": 33846836,
+    "thumb": true,
+    "addend": -4,
+    "value": 4169068544
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "TextSystemContext_Dispose_from_thumb",
+    "target": 34764000,
+    "thumb": true,
+    "addend": -4,
+    "value": 4221038593
+  },
+  {
+    "offset": 28,
+    "type": 10,
+    "symbol": "SelectChoisesContext_Dispose_from_thumb",
+    "target": 34766924,
+    "thumb": true,
+    "addend": -4,
+    "value": 4182175746
+  },
+  {
+    "offset": 42,
+    "type": 10,
+    "symbol": "SelectReturnContext_Dispose_from_thumb",
+    "target": 34768832,
+    "thumb": true,
+    "addend": -4,
+    "value": 4244238338
+  }
+]

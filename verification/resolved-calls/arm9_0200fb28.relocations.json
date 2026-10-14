@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Os_ReserveTimer",
+    "target": 33617280,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422602
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Os_DisableIrqHandler",
+    "target": 33606300,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959419851
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_0217025c",
+    "target": 35062364,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062364
+  },
+  {
+    "offset": 84,
+    "type": 2,
+    "symbol": "SDK_data_02170260",
+    "target": 35062368,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062368
+  }
+]

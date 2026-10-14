@@ -1,12 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 021202f0. No matching claim. */
-#include "types.h"
-#include "deps/021202f0_GetSomeBTKFriendCode.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-int GetSomeBTKFriendCode(int param_1)
-
+unsigned int GetSomeBTKFriendCode(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  return param_1 * 0x244 +
-         (*(uint *)(uRam02120308 & 0xfffffffc) >> (uRam02120308 & 3) * 8 |
-         *(uint *)(uRam02120308 & 0xfffffffc) << (uRam02120308 & 3) * -8 + 0x20) + 0x440;
+unsigned int cmp_a,cmp_b;
+L_21202f0: r2 = 0x217d384u;
+L_21202f4: r1 = 0x244u;
+L_21202f8: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_21202fc: r2 = (r2+0x440u);
+L_2120300: r0 = (r1*r0+r2);
+L_2120304: return r0;
 }
-

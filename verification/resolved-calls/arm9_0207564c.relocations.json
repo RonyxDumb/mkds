@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "StructHD_SomeFn_0",
+    "target": 34034724,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422832
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "StructHD_SomeLookAt",
+    "target": 34041040,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647192
+  }
+]

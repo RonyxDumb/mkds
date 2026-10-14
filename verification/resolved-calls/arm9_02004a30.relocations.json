@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Fs_FileId_LoadFromPath",
+    "target": 33573716,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645827
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Fs_File_OpenById",
+    "target": 33573504,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645768
+  }
+]

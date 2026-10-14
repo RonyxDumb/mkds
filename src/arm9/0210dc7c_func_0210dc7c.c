@@ -1,17 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 0210dc7c. No matching claim. */
-#include "types.h"
-#include "deps/0210dc7c_func_0210dc7c.h"
-
-void func_0210dc7c(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0210e434(unsigned int);
+unsigned int func_0210dc7c(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 0x10U & 3;
-  uVar2 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-  func_0210e434((undefined4 *)(uintptr_t)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20));
-  *puRam0210dca4 = 0;
-  return;
+unsigned int cmp_a,cmp_b;
+L_210dc84: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 16));
+L_210dc88: r0 = func_0210e434(r0);
+L_210dc8c: r0 = 0x217d060u;
+L_210dc90: r1 = 0x0u;
+L_210dc94: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_210dca0: return r0;
 }
-

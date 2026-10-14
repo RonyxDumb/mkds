@@ -1,27 +1,27 @@
-/* Decompiled C draft; module arm9; ROM address 020637e0. No matching claim. */
-#include "types.h"
-#include "deps/020637e0_DriverContext_Fn3_Net3.h"
-
-void DriverContext_Fn3_Net3(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0207a870(void);
+extern unsigned int func_0203c1a8(unsigned int, unsigned int);
+extern unsigned int StructMQRacerEntry_SomeFn_89(unsigned int);
+extern unsigned int DriverContext_MaybeHandleKill(unsigned int);
+unsigned int DriverContext_Fn3_Net3(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar2 = func_0207a870();
-  if (iVar2 != 0) {
-    func_0203c1a8(param_1 + 0x80,*(undefined2 *)(param_1 + 0x74));
-  }
-  uVar1 = param_1 + 0x4cU & 3;
-  uVar3 = *(uint *)(param_1 + 0x4cU & 0xfffffffc);
-  if (((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0x1000) != 0) {
-    StructMQRacerEntry_SomeFn_89(param_1);
-  }
-  uVar1 = param_1 + 0x4cU & 3;
-  uVar3 = *(uint *)(param_1 + 0x4cU & 0xfffffffc);
-  *(uint *)(param_1 + 0x4c) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0xffffefff;
-  DriverContext_MaybeHandleKill(param_1);
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_20637e4: r4 = r0;
+L_20637e8: r0 = func_0207a870();
+L_20637ec: cmp_a = r0; cmp_b = 0x0u;
+L_20637f0: if ((cmp_a == cmp_b)) { goto L_2063800; }
+L_20637f4: r1 = (unsigned int)(*(unsigned short *)((unsigned char *)r4 + 116));
+L_20637f8: r0 = (r4+0x80u);
+L_20637fc: r0 = func_0203c1a8(r0,r1);
+L_2063800: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 76));
+L_2063804: r0 = (r0&0x1000u); cmp_a = r0; cmp_b = 0;
+L_2063808: if ((cmp_a == cmp_b)) { goto L_2063814; }
+L_206380c: r0 = r4;
+L_2063810: r0 = StructMQRacerEntry_SomeFn_89(r0);
+L_2063814: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 76));
+L_2063818: r0 = r4;
+L_206381c: r1 = (r1&~(0x1000u));
+L_2063820: *(unsigned int *)((unsigned char *)r4 + 76) = (unsigned int)r1;
+L_2063824: r0 = DriverContext_MaybeHandleKill(r0);
+L_206382c: return r0;
 }
-

@@ -1,19 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 020e0538. No matching claim. */
-#include "types.h"
-#include "deps/020e0538_func_020e0538.h"
-
-void func_020e0538(uint param_1,undefined4 param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int MTX_MultVec33(unsigned int, unsigned int, unsigned int);
+extern unsigned int VecFx32_Add(unsigned int, unsigned int, unsigned int);
+unsigned int func_020e0538(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  if (uVar1 != 0) {
-    MTX_MultVec33(param_1 + 4,uVar1 + 0x28,(uint *)(uintptr_t)(param_2));
-    VecFx32_Add(uVar1 + 4,param_2,(int *)(uintptr_t)(param_2));
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4,r5;
+L_20e0540: r4 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20e0544: r5 = r1;
+L_20e0548: cmp_a = r4; cmp_b = 0x0u;
+L_20e0554: if ((cmp_a == cmp_b)) { return r0; }
+L_20e0558: r2 = r5;
+L_20e055c: r0 = (r0+0x4u);
+L_20e0560: r1 = (r4+0x28u);
+L_20e0564: r0 = MTX_MultVec33(r0,r1,r2);
+L_20e0568: r1 = r5;
+L_20e056c: r2 = r5;
+L_20e0570: r0 = (r4+0x4u);
+L_20e0574: r0 = VecFx32_Add(r0,r1,r2);
+L_20e0580: return r0;
 }
-

@@ -1,48 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 0214c2f8. No matching claim. */
-#include "types.h"
-#include "deps/0214c2f8_func_0214c2f8.h"
-
-void func_0214c2f8(void)
-
-{
-  undefined4 uVar1;
-  
-  uVar1 = func_02148fdc();
-  *DAT_0214c3ac = uVar1;
-  switch(uVar1) {
-  case 0:
-    break;
-  case 1:
-    *DAT_0214c3b0 = DAT_0214c3b8;
-    return;
-  case 2:
-    goto LAB_0214c34c;
-  case 3:
-LAB_0214c34c:
-    *DAT_0214c3b0 = 0x6800000;
-    return;
-  case 4:
-    *DAT_0214c3b0 = DAT_0214c3bc;
-    break;
-  case 5:
-    break;
-  case 6:
-    break;
-  case 7:
-    break;
-  case 8:
-    goto LAB_0214c364;
-  case 9:
-    break;
-  case 10:
-    break;
-  case 0xb:
-    break;
-  case 0xc:
-LAB_0214c364:
-    *DAT_0214c3b0 = DAT_0214c3b4;
-    return;
-  }
-  return;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define GX_ResetBankForClearImage func_02148fdc
+#define sClrImg SDK_data_021802e8
+#define sClrImgLCDCBlk SDK_data_021802f8
+#define GX_BeginLoadClearImage func_0214c2f8
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern s32 sClrImg;
+extern u32 sClrImgLCDCBlk;
+#pragma thumb off
+void GX_BeginLoadClearImage(){
+    u32 temp = GX_ResetBankForClearImage();
+    sClrImg = (s32)temp;
+    switch (temp)
+    {
+    case 2:
+    case 3:
+        sClrImgLCDCBlk = 0x6800000;
+        return;
+    case 8:
+    case 12:
+        sClrImgLCDCBlk = 0x6840000;
+        return;
+    case 1:
+        sClrImgLCDCBlk = 0x67E0000;
+        return;
+    case 4:
+        sClrImgLCDCBlk = 0x6820000;
+    }
 }
-

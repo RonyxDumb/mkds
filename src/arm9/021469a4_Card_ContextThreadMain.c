@@ -1,33 +1,30 @@
-/* Decompiled C draft; module arm9; ROM address 021469a4. No matching claim. */
-#include "types.h"
-#include "deps/021469a4_Card_ContextThreadMain.h"
-
-void Card_ContextThreadMain(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_SleepThread Os_Thread_Sleep
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define cardi_common SDK_data_0217fa40
+#define CARDi_TaskThread Card_ContextThreadMain
+#include "CARD_request.h"
+#include "OS_cache.h"
+#include "OS_system.h"
+#include "OS_thread.h"
+#include "code32.h"
+extern CARDiCommon cardi_common;
+#pragma thumb off
+void CARDi_TaskThread(void *arg)
 {
-  int iVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  int iVar5;
-  uint uVar4;
-  
-  iVar1 = iRam021469fc;
-  iVar5 = iRam021469fc + 0x44;
-  do {
-    uVar2 = Os_DisableIrq();
-    uVar4 = iVar1 + 0x114U & 3;
-    uVar3 = *(uint *)(iVar1 + 0x114U & 0xfffffffc);
-    for (uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20; (uVar4 & 8) == 0;
-        uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) {
-      *(int *)(iVar1 + 0x104) = iVar5;
-      Os_Thread_Sleep(0);
-      uVar4 = iVar1 + 0x114U & 3;
-      uVar3 = *(uint *)(iVar1 + 0x114U & 0xfffffffc);
-    }
-    Os_RestoreIrq(uVar2);
-    uVar4 = iVar1 + 0x40U & 3;
-    uVar3 = *(uint *)(iVar1 + 0x40U & 0xfffffffc);
-    (*(code *)(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20))(iVar1);
-  } while( true );
-}
+#pragma unused (arg)
+    CARDiCommon *const p = &cardi_common;
 
+    while (TRUE)
+    {
+        OSIntrMode bak_psr = OS_DisableInterrupts();
+        while ((p->flag & CARD_STAT_TASK) == 0)
+        {
+            p->cur_th = p->thread;
+            OS_SleepThread(NULL);
+        }
+        (void)OS_RestoreInterrupts(bak_psr);
+        (*p->task_func)(p);
+    }
+}

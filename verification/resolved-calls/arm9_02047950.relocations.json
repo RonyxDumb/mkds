@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "GetCurrentSceneId",
+    "target": 33939616,
+    "thumb": false,
+    "addend": -4,
+    "value": 3953455126
+  },
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "FindFileBuffer_KME_KM1_KM2_KSB_from_thumb",
+    "target": 33847484,
+    "thumb": true,
+    "addend": -4,
+    "value": 4289591295
+  },
+  {
+    "offset": 26,
+    "type": 10,
+    "symbol": "AllocateFindFileBuffer_KME_KM1_KM2_KSB_from_thumb",
+    "target": 33847168,
+    "thumb": true,
+    "addend": -4,
+    "value": 4278843391
+  }
+]

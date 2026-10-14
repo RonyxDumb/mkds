@@ -1,14 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0210f1d4. No matching claim. */
-#include "types.h"
-#include "deps/0210f1d4_InitializeBalloonHardware.h"
-
-void InitializeBalloonHardware(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int RegisterFifoMicrophone(void);
+extern unsigned int PM_Initialize(void);
+extern unsigned int func_0214fb3c(unsigned int);
+unsigned int InitializeBalloonHardware(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  RegisterFifoMicrophone();
-  PM_Initialize();
-  func_0214fb3c(1);
-  *puRam0210f204 = 1;
-  return;
+unsigned int cmp_a,cmp_b;
+L_210f1dc: r0 = RegisterFifoMicrophone();
+L_210f1e0: r0 = PM_Initialize();
+L_210f1e4: r0 = 0x1u;
+L_210f1e8: r0 = func_0214fb3c(r0);
+L_210f1ec: r0 = 0x217d1bcu;
+L_210f1f0: r1 = 0x1u;
+L_210f1f4: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_210f200: return r0;
 }
-

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "Os_UnlockVram",
+    "target": 33619580,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959102418
+  },
+  {
+    "offset": 224,
+    "type": 2,
+    "symbol": "SDK_data_021802a8",
+    "target": 35127976,
+    "thumb": false,
+    "addend": 0,
+    "value": 35127976
+  }
+]

@@ -1,39 +1,28 @@
-/* Decompiled C draft; module arm9; ROM address 02148c20. No matching claim. */
-#include "types.h"
-#include "deps/02148c20_Gfx_InitializeState.h"
-
-void Gfx_InitializeState(void)
-
-{
-  undefined2 *puVar1;
-  undefined4 *puVar2;
-  undefined1 *puVar3;
-  undefined1 *puVar4;
-  
-  puVar2 = puRam02148c8c;
-  puVar1 = puRam02148c88;
-  *puRam02148c88 = 0;
-  puVar1[1] = 0;
-  puVar1[2] = 0;
-  puVar1[3] = 0;
-  puVar1[4] = 0;
-  puVar1[5] = 0;
-  puVar1[6] = 0;
-  puVar1[7] = 0;
-  puVar1[8] = 0;
-  puVar1[9] = 0;
-  puVar1[10] = 0;
-  puVar1[0xb] = 0;
-  puVar1[0xc] = 0;
-  puVar3 = puRam02148c90;
-  *puVar2 = 0;
-  puVar4 = puRam02148c94;
-  *puVar3 = 0;
-  puVar3 = puRam02148c98;
-  *puVar4 = 0;
-  puVar1 = puRam02148c9c;
-  *puVar3 = 0;
-  *puVar1 = 0;
-  return;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define gGXState SDK_data_021802b0
+#define GX_InitGXState Gfx_InitializeState
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern struct GX_State gGXState;
+#pragma thumb off
+void GX_InitGXState(){
+    gGXState.lcdc = 0x0;
+    gGXState.bg = 0x0;
+    gGXState.obj = 0x0;
+    gGXState.arm7 = 0x0;
+    gGXState.tex = 0x0;
+    gGXState.texPltt = 0x0;
+    gGXState.clrImg = 0x0;
+    gGXState.bgExtPltt = 0x0;
+    gGXState.objExtPltt = 0x0;
+    gGXState.sub_bg = 0x0;
+    gGXState.sub_obj = 0x0;
+    gGXState.sub_bgExtPltt = 0x0;
+    gGXState.sub_objExtPltt = 0x0;
+    reg_GX_VRAMCNT = 0x0;
+    reg_GX_VRAMCNT_E = 0x0;
+    reg_GX_VRAMCNT_F = 0x0;
+    reg_GX_VRAMCNT_G = 0x0;
+    reg_GX_VRAM_HI_CNT = 0x0;
 }
-

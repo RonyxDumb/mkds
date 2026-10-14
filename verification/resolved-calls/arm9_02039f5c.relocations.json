@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "func_020cb9b8",
+    "target": 34388408,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194453139
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "ResetRacersForTimeTrial",
+    "target": 33834588,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942656438
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959097649
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959097637
+  },
+  {
+    "offset": 100,
+    "type": 2,
+    "symbol": "SDK_data_0218032c",
+    "target": 35128108,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128108
+  }
+]

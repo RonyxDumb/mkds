@@ -1,17 +1,27 @@
-/* Decompiled C draft; module arm9; ROM address 02005144. No matching claim. */
-#include "types.h"
-#include "deps/02005144_Fs_UnloadOverlay.h"
-
-undefined4 Fs_UnloadOverlay(undefined4 param_1,undefined4 param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FS_LoadOverlayInfo Fs_OverlayInfo_Load
+#define FS_UnloadOverlayImage Fs_OverlayInfo_UnloadImage
+#define FS_UnloadOverlay Fs_UnloadOverlay
+#include "nitro.h"
+#include "DGT_common.h"
+#include "DGT_dgt.h"
+#include "OS_cache.h"
+#include "OS_system.h"
+#include "OS_printf.h"
+#include "MI_memory.h"
+#include "MI_uncompress.h"
+#include "FS_rom.h"
+#include "FS_overlay.h"
+#include "FS_mw_dtor.h"
+#include "MB_mb.h"
+#include "code32.h"
+extern BOOL FS_LoadOverlayInfo(FSOverlayInfo * p_ovi, MIProcessor target, FSOverlayID id);
+extern BOOL FS_UnloadOverlayImage(FSOverlayInfo * p_ovi);
+#pragma thumb off
+BOOL FS_UnloadOverlay(MIProcessor target, FSOverlayID id)
 {
-  int iVar1;
-  undefined1 auStack_30 [48];
-  
-  iVar1 = Fs_OverlayInfo_Load((int)(uintptr_t)(auStack_30),param_1,param_2);
-  if ((iVar1 != 0) && (iVar1 = Fs_OverlayInfo_UnloadImage(auStack_30), iVar1 != 0)) {
-    return 1;
-  }
-  return 0;
+    FSOverlayInfo ovi;
+    if (!FS_LoadOverlayInfo(&ovi, target, id) || !FS_UnloadOverlayImage(&ovi))
+        return FALSE;
+    return TRUE;
 }
-

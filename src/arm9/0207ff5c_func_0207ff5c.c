@@ -1,35 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 0207ff5c. No matching claim. */
-#include "types.h"
-#include "deps/0207ff5c_func_0207ff5c.h"
-
-void func_0207ff5c(uint *param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int VecFx32_Subtract(unsigned int, unsigned int, unsigned int);
+extern unsigned int Vector3_MaybeNormalize(unsigned int, unsigned int);
+unsigned int func_0207ff5c(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  param_1[1] = *(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-               *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
-  uVar2 = *(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-          *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
-  uVar5 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  *param_1 = uVar2 >> uVar5 * 8 | uVar2 << uVar5 * -8 + 0x20;
-  uVar2 = (uint)(param_1 + 1) & 3;
-  uVar4 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-  uVar5 = (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-          *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 0x18;
-  uVar1 = uVar5 & 3;
-  uVar3 = *(uint *)(uVar5 & 0xfffffffc);
-  uVar5 = (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) + 0x18;
-  uVar2 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  VecFx32_Subtract(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,
-                   uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20,param_1 + 2);
-  Vector3_MaybeNormalize((uint)(uintptr_t)(param_1 + 2),param_1 + 2);
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_207ff60: r4 = r0;
+L_207ff64: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 0));
+L_207ff68: r2 = (r4+0x8u);
+L_207ff6c: *(unsigned int *)((unsigned char *)r4 + 4) = (unsigned int)r0;
+L_207ff70: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 0));
+L_207ff74: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_207ff78: *(unsigned int *)((unsigned char *)r4 + 0) = (unsigned int)r0;
+L_207ff7c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 0));
+L_207ff80: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 4));
+L_207ff84: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 24));
+L_207ff88: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 24));
+L_207ff8c: r0 = VecFx32_Subtract(r0,r1,r2);
+L_207ff90: r0 = (r4+0x8u);
+L_207ff94: r1 = r0;
+L_207ff98: r0 = Vector3_MaybeNormalize(r0,r1);
+L_207ffa0: return r0;
 }
-

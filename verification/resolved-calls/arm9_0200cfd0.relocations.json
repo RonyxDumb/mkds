@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Os_Lock_HandleTryLock",
+    "target": 33607328,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422892
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Os_Lock_Wait",
+    "target": 33607088,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422827
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Os_Lock_HandleTryLock",
+    "target": 33607328,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422882
+  }
+]

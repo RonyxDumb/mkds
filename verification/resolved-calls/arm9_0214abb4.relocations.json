@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "VecFx32_Normalize",
+    "target": 34898316,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420256
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "VecFx32_CrossProduct",
+    "target": 34898848,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420385
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "VecFx32_Normalize",
+    "target": 34898316,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420249
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "VecFx32_CrossProduct",
+    "target": 34898848,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420378
+  },
+  {
+    "offset": 232,
+    "type": 1,
+    "symbol": "Vector3_DotProduct",
+    "target": 34899084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420410
+  },
+  {
+    "offset": 248,
+    "type": 1,
+    "symbol": "Vector3_DotProduct",
+    "target": 34899084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420406
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "Vector3_DotProduct",
+    "target": 34899084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420402
+  }
+]

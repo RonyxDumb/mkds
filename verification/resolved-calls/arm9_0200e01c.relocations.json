@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647581
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Os_ThreadQueue_Queue",
+    "target": 33613304,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646121
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Os_RescheduleThread",
+    "target": 33611344,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422844
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647571
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_0216ff54",
+    "target": 35061588,
+    "thumb": false,
+    "addend": 0,
+    "value": 35061588
+  }
+]

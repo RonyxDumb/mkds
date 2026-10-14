@@ -1,34 +1,27 @@
-/* Decompiled C draft; module arm9; ROM address 020f504c. No matching claim. */
-#include "types.h"
-#include "deps/020f504c_func_020f504c.h"
-
-void func_020f504c(int param_1,int param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int DriverContext_ApplyShroomBoost(unsigned int, unsigned int, unsigned int, unsigned int);
+extern unsigned int func_020f4754(unsigned int, unsigned int);
+extern unsigned int func_020fe958(unsigned int);
+unsigned int func_020f504c(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar1 = param_2 + 4U & 3;
-  uVar2 = *(uint *)(param_2 + 4U & 0xfffffffc);
-  uVar1 = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x1fc;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  DriverContext_ApplyShroomBoost(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20);
-  func_020f4754((undefined4 *)(uintptr_t)(param_2),1);
-  uVar2 = uRam020f50b0;
-  uVar1 = param_1 + 0xcU & 3;
-  uVar3 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-  *(undefined4 *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0x204) = 1;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar1 = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 8;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  if ((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) == 5) {
-    func_020fe958(3);
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4,r5;
+L_20f5054: r4 = r1;
+L_20f5058: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r4 + 4));
+L_20f505c: r5 = r0;
+L_20f5060: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 508));
+L_20f5064: r0 = DriverContext_ApplyShroomBoost(r0,r1,r2,r3);
+L_20f5068: r0 = r4;
+L_20f506c: r1 = 0x1u;
+L_20f5070: r0 = func_020f4754(r0,r1);
+L_20f5074: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r5 + 12));
+L_20f5078: r2 = 0x1u;
+L_20f507c: r0 = 0x21759c0u;
+L_20f5080: *(unsigned int *)((unsigned char *)r1 + 516) = (unsigned int)r2;
+L_20f5084: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20f5088: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 8));
+L_20f508c: cmp_a = r0; cmp_b = 0x5u;
+L_20f5098: if ((cmp_a != cmp_b)) { return r0; }
+L_20f509c: r0 = 0x3u;
+L_20f50a0: r0 = func_020fe958(r0);
+L_20f50ac: return r0;
 }
-

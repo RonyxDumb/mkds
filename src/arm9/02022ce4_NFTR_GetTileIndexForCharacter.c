@@ -1,30 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 02022ce4. No matching claim. */
-#include "types.h"
-#include "deps/02022ce4_NFTR_GetTileIndexForCharacter.h"
-
-undefined4 NFTR_GetTileIndexForCharacter(uint param_1,uint param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int NFTR_CharacterMap_GetTileIndexForCharacter(unsigned int, unsigned int);
+unsigned int NFTR_GetTileIndexForCharacter(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  undefined4 uVar3;
-  uint uVar4;
-  ushort *puVar2;
-  
-  uVar1 = (*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + 0x10;
-  uVar4 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  puVar2 = (ushort *)(uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20);
-  while( true ) {
-    if (puVar2 == (ushort *)0x0) {
-      return uRam02022d40;
-    }
-    if ((*puVar2 <= param_2) && (param_2 <= puVar2[1])) break;
-    uVar1 = (uint)(puVar2 + 4) & 3;
-    uVar4 = *(uint *)((uint)(puVar2 + 4) & 0xfffffffc);
-    puVar2 = (ushort *)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
-  }
-  uVar3 = NFTR_CharacterMap_GetTileIndexForCharacter();
-  return uVar3;
+unsigned int cmp_a,cmp_b;
+L_2022cec: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_2022cf0: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 16));
+L_2022cf4: cmp_a = r0; cmp_b = 0x0u;
+L_2022cf8: if ((cmp_a == cmp_b)) { goto L_2022d30; }
+L_2022cfc: r2 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 0));
+L_2022d00: cmp_a = r2; cmp_b = r1;
+L_2022d04: if ((cmp_a > cmp_b)) { goto L_2022d24; }
+L_2022d08: r2 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 2));
+L_2022d0c: cmp_a = r1; cmp_b = r2;
+L_2022d10: if ((cmp_a > cmp_b)) { goto L_2022d24; }
+L_2022d14: r0 = NFTR_CharacterMap_GetTileIndexForCharacter(r0,r1);
+L_2022d20: return r0;
+L_2022d24: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 8));
+L_2022d28: cmp_a = r0; cmp_b = 0x0u;
+L_2022d2c: if ((cmp_a != cmp_b)) { goto L_2022cfc; }
+L_2022d30: r0 = 0xffffu;
+L_2022d3c: return r0;
 }
-

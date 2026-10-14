@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "OamBuffer_ResetValues16_from_thumb",
+    "target": 34268844,
+    "thumb": true,
+    "addend": -4,
+    "value": 4189910941
+  },
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "func_021114cc",
+    "target": 34673868,
+    "thumb": true,
+    "addend": -4,
+    "value": 4174049280
+  },
+  {
+    "offset": 28,
+    "type": 10,
+    "symbol": "OamBuffer_SomeFn2_from_thumb",
+    "target": 34268720,
+    "thumb": true,
+    "addend": -4,
+    "value": 4185323421
+  },
+  {
+    "offset": 36,
+    "type": 10,
+    "symbol": "func_0211145c",
+    "target": 34673756,
+    "thumb": true,
+    "addend": -4,
+    "value": 4169723904
+  },
+  {
+    "offset": 48,
+    "type": 10,
+    "symbol": "func_0211145c",
+    "target": 34673756,
+    "thumb": true,
+    "addend": -4,
+    "value": 4169330688
+  }
+]

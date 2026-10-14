@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "MIi_CheckDma0SourceAddress",
+    "target": 34916216,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422735
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "func_01fffec4",
+    "target": 33554116,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959082196
+  }
+]

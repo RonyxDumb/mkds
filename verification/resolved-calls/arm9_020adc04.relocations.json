@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "GetCurrentMissionLevel",
+    "target": 34266084,
+    "thumb": false,
+    "addend": -4,
+    "value": 4025284607
+  },
+  {
+    "offset": 10,
+    "type": 10,
+    "symbol": "GetCurrentMissionLevelStage",
+    "target": 34266052,
+    "thumb": false,
+    "addend": -4,
+    "value": 4024104959
+  },
+  {
+    "offset": 20,
+    "type": 10,
+    "symbol": "IsMissionStageBeaten",
+    "target": 33947000,
+    "thumb": false,
+    "addend": -4,
+    "value": 3903780786
+  }
+]

@@ -1,27 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 0200ec7c. No matching claim. */
-#include "types.h"
-#include "deps/0200ec7c_Os_UnlockAllMutexes.h"
-
-void Os_UnlockAllMutexes(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int Os_MutexQueue_Pop(unsigned int);
+extern unsigned int Os_Thread_WakeUp(unsigned int);
+unsigned int Os_UnlockAllMutexes(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  
-  uVar1 = param_1 + 0x88U & 3;
-  uVar2 = *(uint *)(param_1 + 0x88U & 0xfffffffc);
-  if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
-    do {
-      iVar3 = Os_MutexQueue_Pop((uint *)(uintptr_t)(param_1 + 0x88));
-      *(undefined4 *)(iVar3 + 0xc) = 0;
-      *(undefined4 *)(iVar3 + 8) = 0;
-      Os_Thread_WakeUp();
-      uVar1 = param_1 + 0x88U & 3;
-      uVar2 = *(uint *)(param_1 + 0x88U & 0xfffffffc);
-    } while (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0);
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4,r5,r6;
+L_200ec80: r6 = r0;
+L_200ec84: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r6 + 136));
+L_200ec88: cmp_a = r0; cmp_b = 0x0u;
+L_200ec90: if ((cmp_a == cmp_b)) { return r0; }
+L_200ec94: r5 = (r6+0x88u);
+L_200ec98: r4 = 0x0u;
+L_200ec9c: r0 = r5;
+L_200eca0: r0 = Os_MutexQueue_Pop(r0);
+L_200eca4: *(unsigned int *)((unsigned char *)r0 + 12) = (unsigned int)r4;
+L_200eca8: *(unsigned int *)((unsigned char *)r0 + 8) = (unsigned int)r4;
+L_200ecac: r0 = Os_Thread_WakeUp(r0);
+L_200ecb0: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r6 + 136));
+L_200ecb4: cmp_a = r0; cmp_b = 0x0u;
+L_200ecb8: if ((cmp_a != cmp_b)) { goto L_200ec9c; }
+L_200ecc0: return r0;
 }
-

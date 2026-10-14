@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "StructHD_SomeFn_11",
+    "target": 34032036,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645765
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "StructHD_SomeFn_8",
+    "target": 34031800,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422920
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "StructHD_SomeFn_10",
+    "target": 34041556,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648141
+  }
+]

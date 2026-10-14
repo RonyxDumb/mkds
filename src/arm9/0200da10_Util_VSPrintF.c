@@ -1,13 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0200da10. No matching claim. */
-#include "types.h"
-#include "deps/0200da10_Util_VSPrintF.h"
-
-void Util_VSPrintF(undefined4 param_1,undefined4 param_2,undefined4 param_3)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_VSNPrintf SDK_data_0200d118
+#define OS_VSPrintf Util_VSPrintF
+#include "nitro/types.h"
+#include "OS_printf.h"
+#include "code32.h"
+extern s32 OS_VSNPrintf(s8 *buffer, s32 bufsz, const s8 *format, void *args);
+s32 OS_VSPrintf(s8 *buffer, const s8 *format, void *args)
 {
-                    /* WARNING: Could not recover jumptable at 0x0200da20. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0200da24)(param_1,0x7fffffff,param_2,param_3);
-  return;
+    return OS_VSNPrintf(buffer, 0x7FFFFFFF, format, args);
 }
-

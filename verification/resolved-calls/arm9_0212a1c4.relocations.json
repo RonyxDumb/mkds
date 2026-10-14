@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "ResetGlobalNN_from_thumb",
+    "target": 34778064,
+    "thumb": true,
+    "addend": -4,
+    "value": 4244828160
+  },
+  {
+    "offset": 8,
+    "type": 10,
+    "symbol": "DisposeNavigationContext_from_thumb",
+    "target": 34758048,
+    "thumb": true,
+    "addend": -4,
+    "value": 4259903483
+  }
+]

@@ -1,22 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 020d88fc. No matching claim. */
-#include "types.h"
-#include "deps/020d88fc_func_020d88fc.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-int func_020d88fc(uint param_1)
-
+unsigned int func_020d88fc(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  uVar4 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  uVar1 = param_1 + 0xc & 3;
-  uVar3 = *(uint *)(param_1 + 0xc & 0xfffffffc);
-  uVar2 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  return (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) * 0x54 +
-         (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) + 0x48;
+unsigned int cmp_a,cmp_b;
+L_20d88fc: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20d8900: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 12));
+L_20d8904: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_20d8908: r0 = 0x54u;
+L_20d890c: r0 = (r1*r0+r2);
+L_20d8910: r0 = (r0+0x48u);
+L_20d8914: return r0;
 }
-

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "MaybeKillDriverDirect",
+    "target": 34216196,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645883
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "func_020a1790",
+    "target": 34215824,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645789
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 6,
+    "type": 10,
+    "symbol": "GXS_SetGraphicsMode__mkds_35d74",
+    "target": 33774964,
+    "thumb": false,
+    "addend": -4,
+    "value": 3894865920
+  },
+  {
+    "offset": 22,
+    "type": 10,
+    "symbol": "func_02035d48",
+    "target": 33774920,
+    "thumb": false,
+    "addend": -4,
+    "value": 3892899840
+  }
+]

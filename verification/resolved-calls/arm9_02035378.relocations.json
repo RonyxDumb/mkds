@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -4,
+    "value": 4261015678
+  },
+  {
+    "offset": 30,
+    "type": 10,
+    "symbol": "func_0212658c",
+    "target": 34760076,
+    "thumb": true,
+    "addend": -4,
+    "value": 4177129713
+  }
+]

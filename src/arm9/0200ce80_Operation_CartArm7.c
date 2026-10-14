@@ -1,13 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 0200ce80. No matching claim. */
-#include "types.h"
-#include "deps/0200ce80_Operation_CartArm7.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_DoUnlockByWord SDK_data_0200cf30
+#define OSi_FreeCartridgeBus SDK_data_0200ce30
+#define OS_UnlockCartridge Operation_CartArm7
+#include "OS_spinLock.h"
 
-void Operation_CartArm7(undefined4 param_1)
-
+#include "OS_system.h"
+#include "mmap.h"
+#include "MI_exMemory.h"
+#include "code32.h"
+extern s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp) (void),
+                                        BOOL disableFIQ);
+extern void OSi_FreeCartridgeBus(void);
+s32 OS_UnlockCartridge(u16 lockID)
 {
-                    /* WARNING: Could not recover jumptable at 0x0200ce90. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0200ce94)(param_1,uRam0200ce98,uRam0200ce9c,1);
-  return;
+    return OSi_DoUnlockByWord(lockID, (OSLockWord *)HW_CTRDG_LOCK_BUF, OSi_FreeCartridgeBus, TRUE);
 }
-

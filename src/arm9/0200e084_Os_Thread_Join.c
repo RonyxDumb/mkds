@@ -1,21 +1,27 @@
-/* Decompiled C draft; module arm9; ROM address 0200e084. No matching claim. */
-#include "types.h"
-#include "deps/0200e084_Os_Thread_Join.h"
-
-void Os_Thread_Join(int param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_SleepThread Os_Thread_Sleep
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define OS_JoinThread Os_Thread_Join
+#include "MI_memory.h"
+#include "OS_thread.h"
+#include "OS_mutex.h"
+#include "OS_alarm.h"
+#include "OS_system.h"
+#include "OS_context.h"
+#include "OS_terminate_proc.h"
+#include "systemWork.h"
+#include "mmap.h"
+#include "code32.h"
+extern void OS_SleepThread(OSThreadQueue *queue);
+void OS_JoinThread(OSThread *thread)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  
-  uVar2 = Os_DisableIrq();
-  uVar1 = param_1 + 100U & 3;
-  uVar3 = *(uint *)(param_1 + 100U & 0xfffffffc);
-  if ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) != 2) {
-    Os_Thread_Sleep(param_1 + 0x9c);
-  }
-  Os_RestoreIrq(uVar2);
-  return;
-}
+    OSIntrMode enabled = OS_DisableInterrupts();
 
+    if (thread->state != OS_THREAD_STATE_TERMINATED)
+    {
+        OS_SleepThread(&thread->joinQueue);
+    }
+
+    (void)OS_RestoreInterrupts(enabled);
+}

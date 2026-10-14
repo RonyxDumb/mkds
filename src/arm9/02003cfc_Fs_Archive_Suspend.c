@@ -1,39 +1,35 @@
-/* Decompiled C draft; module arm9; ROM address 02003cfc. No matching claim. */
-#include "types.h"
-#include "deps/02003cfc_Fs_Archive_Suspend.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_SleepThread Os_Thread_Sleep
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define FS_SuspendArchive Fs_Archive_Suspend
+#include "FS_archive.h"
+#include "FS_command.h"
+#include "FSi_util.h"
+#include "MI_memory.h"
+#include "MI_byteAccess.h"
+#include "OS_printf.h"
+#include "code32.h"
 
-bool Fs_Archive_Suspend(int param_1)
-
+#pragma thumb off
+BOOL FS_SuspendArchive(FSArchive * p_arc)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  bool bVar4;
-  
-  uVar2 = Os_DisableIrq();
-  uVar1 = param_1 + 0x1cU & 3;
-  uVar3 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-  bVar4 = ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 8) == 0;
-  if (bVar4) {
-    uVar1 = param_1 + 0x1cU & 3;
-    uVar3 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-    if (((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0x10) == 0) {
-      uVar1 = param_1 + 0x1cU & 3;
-      uVar3 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-      *(uint *)(param_1 + 0x1c) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20 | 8;
+    OSIntrMode bak_psr = OS_DisableInterrupts();
+    const BOOL bak_stat = !FS_IsArchiveSuspended(p_arc);
+    if (bak_stat)
+    {
+        if (FSi_IsArchiveRunning(p_arc))
+        {
+            p_arc->flag |= FS_ARCHIVE_FLAG_SUSPENDING;
+            do {
+                OS_SleepThread(&p_arc->stat_q);
+            } while (FSi_IsArchiveSuspending(p_arc));
+        }
+        else
+        {
+            p_arc->flag |= FS_ARCHIVE_FLAG_SUSPEND;
+        }
     }
-    else {
-      uVar1 = param_1 + 0x1cU & 3;
-      uVar3 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-      *(uint *)(param_1 + 0x1c) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20 | 0x40;
-      do {
-        Os_Thread_Sleep(param_1 + 0x14);
-        uVar1 = param_1 + 0x1cU & 3;
-        uVar3 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-      } while (((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0x40) != 0);
-    }
-  }
-  Os_RestoreIrq(uVar2);
-  return bVar4;
+    (void)OS_RestoreInterrupts(bak_psr);
+    return bak_stat;
 }
-

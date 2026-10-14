@@ -1,18 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 0214a3e8. No matching claim. */
-#include "types.h"
-#include "deps/0214a3e8_G2x_SetBlendBrightness_.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
 
-void G2x_SetBlendBrightness_(ushort *param_1,ushort param_2,int param_3)
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
 
-{
-  if (param_3 < 0) {
-    *param_1 = param_2 | 0xc0;
-    param_1[2] = -(ushort)param_3;
-  }
-  else {
-    *param_1 = param_2 | 0x80;
-    param_1[2] = (ushort)param_3;
-  }
-  return;
+#pragma thumb off
+void G2x_SetBlendBrightness_(volatile u16 *ptr, fx32 a, fx32 brightness){
+    if (brightness < 0)
+    {
+        ptr[0] = (u16)(a | 0xC0);
+        ptr[2] = (u16)(-brightness);
+    }
+    else
+    {
+        ptr[0] = (u16)(a | 0x80);
+        ptr[2] = (u16)brightness;
+    }
 }
-

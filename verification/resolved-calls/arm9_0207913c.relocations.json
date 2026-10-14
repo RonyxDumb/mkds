@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "_snprintf",
+    "target": 34820168,
+    "thumb": false,
+    "addend": -4,
+    "value": 4017942715
+  },
+  {
+    "offset": 26,
+    "type": 10,
+    "symbol": "ReadFileFromMountManagerHandle_from_thumb",
+    "target": 33850768,
+    "thumb": true,
+    "addend": -4,
+    "value": 4196136911
+  }
+]

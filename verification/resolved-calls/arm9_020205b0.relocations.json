@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "ComputeProfileInfoCrcImpl",
+    "target": 33687120,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645790
+  }
+]

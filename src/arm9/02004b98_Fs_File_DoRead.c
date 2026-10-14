@@ -1,49 +1,36 @@
-/* Decompiled C draft; module arm9; ROM address 02004b98. No matching claim. */
-#include "types.h"
-#include "deps/02004b98_Fs_File_DoRead.h"
-
-int Fs_File_DoRead(int param_1,undefined4 param_2,int param_3,int param_4)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FSi_SendCommand Fs_File_SendOperation
+#define FS_WaitAsync Fs_File_WaitAsync
+#define FSi_ReadFileCore Fs_File_DoRead
+#include "nitro.h"
+#include "MI_byteAccess.h"
+#include "FS_rom.h"
+#include "FS_file.h"
+#include "FSi_util.h"
+#include "code32.h"
+extern BOOL FS_WaitAsync(FSFile * p_file);
+#pragma thumb off
+int FSi_ReadFileCore(FSFile * p_file, void * dst, s32 len, BOOL async)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  int iVar5;
-  uint uVar4;
-  
-  uVar1 = param_1 + 0x2cU & 3;
-  uVar3 = *(uint *)(param_1 + 0x2cU & 0xfffffffc);
-  uVar4 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 0x28U & 3;
-  uVar3 = *(uint *)(param_1 + 0x28U & 0xfffffffc);
-  *(undefined4 *)(param_1 + 0x30) = param_2;
-  iVar2 = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) - uVar4;
-  iVar5 = param_3;
-  if (iVar2 < param_3) {
-    iVar5 = iVar2;
-  }
-  if (iVar5 < 0) {
-    iVar5 = 0;
-  }
-  *(int *)(param_1 + 0x34) = param_3;
-  *(int *)(param_1 + 0x38) = iVar5;
-  if (param_4 == 0) {
-    uVar1 = param_1 + 0xcU & 3;
-    uVar3 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-    *(uint *)(param_1 + 0xc) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20 | 4;
-  }
-  Fs_File_SendOperation((uint *)(uintptr_t)(param_1),0);
-  if (param_4 == 0) {
-    iVar5 = Fs_File_WaitAsync(param_1);
-    if (iVar5 == 0) {
-      iVar5 = -1;
+    const s32 pos = (s32)p_file->prop.file.pos;
+    const s32 rest = (s32)(p_file->prop.file.bottom - pos);
+    const u32 org = (u32)len;
+    if (len > rest)
+        len = rest;
+    if (len < 0)
+        len = 0;
+    p_file->arg.readfile.dst = dst;
+    p_file->arg.readfile.len_org = org;
+    p_file->arg.readfile.len = (u32)len;
+    if (!async)
+        p_file->stat |= FS_FILE_STATUS_SYNC;
+    (void)FSi_SendCommand(p_file, FS_COMMAND_READFILE);
+    if (!async)
+    {
+        if (FS_WaitAsync(p_file))
+            len = (s32)(p_file->prop.file.pos - pos);
+        else
+            len = -1;
     }
-    else {
-      uVar1 = param_1 + 0x2cU & 3;
-      uVar3 = *(uint *)(param_1 + 0x2cU & 0xfffffffc);
-      iVar5 = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) - uVar4;
-    }
-  }
-  return iVar5;
+    return len;
 }
-

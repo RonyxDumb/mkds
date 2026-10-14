@@ -1,17 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 02092140. No matching claim. */
-#include "types.h"
-#include "deps/02092140_func_02092140.h"
-
-void func_02092140(undefined4 param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int CreateMapObjectFromModel_from_thumb(unsigned int, unsigned int);
+extern unsigned int StructMapObject_AddAnimationNsbca_from_thumb(unsigned int, unsigned int);
+unsigned int func_02092140(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  
-  uVar2 = CreateMapObjectFromModel_from_thumb(param_1,uRam0209216c);
-  uVar1 = uRam02092174;
-  *puRam02092170 = uVar2;
-  StructMapObject_AddAnimationNsbca_from_thumb(uVar2,uVar1);
-  return;
+unsigned int cmp_a,cmp_b;
+L_2092148: r1 = 0x2166644u;
+L_209214c: r0 = CreateMapObjectFromModel_from_thumb(r0,r1);
+L_2092150: r2 = 0x217b0c0u;
+L_2092154: r1 = 0x2166654u;
+L_2092158: *(unsigned int *)((unsigned char *)r2 + 0) = (unsigned int)r0;
+L_209215c: r0 = StructMapObject_AddAnimationNsbca_from_thumb(r0,r1);
+L_2092168: return r0;
 }
-

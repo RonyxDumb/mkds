@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "MIi_CheckAnotherAutoDMA",
+    "target": 34916328,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422203
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "MIi_CheckDma0SourceAddress",
+    "target": 34916216,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422170
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "func_01ffff38",
+    "target": 33554232,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959081657
+  }
+]

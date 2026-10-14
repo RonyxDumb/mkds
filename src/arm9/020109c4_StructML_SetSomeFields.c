@@ -1,15 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 020109c4. No matching claim. */
-#include "types.h"
-#include "deps/020109c4_StructML_SetSomeFields.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-void StructML_SetSomeFields
-               (int param_1,undefined4 param_2,undefined4 param_3,undefined1 param_4,
-               undefined1 param_5)
-
+unsigned int StructML_SetSomeFields(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3,unsigned int a4)
 {
-  *(undefined4 *)(param_1 + 0x20) = param_2;
-  *(undefined1 *)(param_1 + 0x24) = param_4;
-  *(undefined1 *)(param_1 + 0x25) = param_5;
-  return;
+unsigned int cmp_a,cmp_b;
+L_20109c4: *(unsigned int *)((unsigned char *)r0 + 32) = (unsigned int)r1;
+L_20109c8: r1 = a4;
+L_20109cc: *(unsigned char *)((unsigned char *)r0 + 36) = (unsigned char)r3;
+L_20109d0: *(unsigned char *)((unsigned char *)r0 + 37) = (unsigned char)r1;
+L_20109d4: return r0;
 }
-

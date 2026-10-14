@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Fs_File_SendOperation",
+    "target": 33571440,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422367
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "Fs_File_WaitAsync",
+    "target": 33573144,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422789
+  }
+]

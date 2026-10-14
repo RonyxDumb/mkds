@@ -1,17 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 02042044. No matching claim. */
-#include "types.h"
-#include "deps/02042044_GetLoadedNkmPathEntryPOIT.h"
-
-int GetLoadedNkmPathEntryPOIT(undefined4 param_1,int param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int GetLoadedNkmPathEntry_from_thumb(unsigned int);
+unsigned int GetLoadedNkmPathEntryPOIT(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar2 = GetLoadedNkmPathEntry_from_thumb();
-  uVar1 = iVar2 + 4U & 3;
-  uVar3 = *(uint *)(iVar2 + 4U & 0xfffffffc);
-  return param_2 * 0x14 + (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
+unsigned int cmp_a,cmp_b,r4;
+L_2042048: r4 = r1;
+L_204204c: r0 = GetLoadedNkmPathEntry_from_thumb(r0);
+L_2042050: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 4));
+L_2042054: r0 = 0x14u;
+L_2042058: r0 = (r4*r0+r1);
+L_2042060: return r0;
 }
-

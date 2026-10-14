@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -4,
+    "value": 3963287392
+  },
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "CopyToOamA",
+    "target": 34914252,
+    "thumb": false,
+    "addend": -4,
+    "value": 3974164637
+  },
+  {
+    "offset": 36,
+    "type": 10,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -4,
+    "value": 3962500960
+  },
+  {
+    "offset": 46,
+    "type": 10,
+    "symbol": "CopyToOamB",
+    "target": 34914148,
+    "thumb": false,
+    "addend": -4,
+    "value": 3970101405
+  }
+]

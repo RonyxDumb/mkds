@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "IC_InvalidateRangeNoClean",
+    "target": 33615524,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942655377
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "DC_InvalidateRangeNoClean",
+    "target": 33615420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942655348
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Mem_CpuFill8",
+    "target": 34918760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942981179
+  }
+]

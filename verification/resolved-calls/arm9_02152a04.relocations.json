@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 8,
+    "type": 10,
+    "symbol": "FriendCode_SetFlagsImpl_from_thumb",
+    "target": 34941664,
+    "thumb": true,
+    "addend": -4,
+    "value": 4167626752
+  }
+]

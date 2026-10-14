@@ -1,34 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 02017584. No matching claim. */
-#include "types.h"
-#include "deps/02017584_Mem_InitializeHeapHead.h"
-
-void Mem_InitializeHeapHead
-               (undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
-               ushort param_5)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_FndInitList IntrusiveListWrapper_InitializeEmpty
+#define FindListContainHeap Mem_FindTopParentHeapHeadList
+#define NNS_FndAppendListObject IntrusiveListWrapper_InsertLast
+#define sRootListInitialized SDK_data_02173264
+#define sRootList SDK_data_02173268
+#define NNSi_FndInitHeapHead Mem_InitializeHeapHead
+#include "nitro.h"
+#include "NNS_FND_heapcommon.h"
+#include "NNS_FND_list.h"
+#include "code32.h"
+extern NNSFndList* FindListContainHeap(const void * memBlock);
+extern BOOL sRootListInitialized;
+extern NNSFndList sRootList;
+void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHead, u32 signature, void* heapStart, void* heapEnd, u16 optionFlag)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  
-  *param_1 = param_2;
-  param_1[6] = param_3;
-  param_1[7] = param_4;
-  param_1[8] = 0;
-  uVar1 = (uint)(param_1 + 8) & 3;
-  uVar3 = *(uint *)((uint)(param_1 + 8) & 0xfffffffc);
-  param_1[8] = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0xffffff00;
-  uVar1 = (uint)(param_1 + 8) & 3;
-  uVar3 = *(uint *)((uint)(param_1 + 8) & 0xfffffffc);
-  param_1[8] = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20 | param_5 & 0xff;
-  IntrusiveListWrapper_InitializeEmpty(param_1 + 3,4);
-  if (*(uint *)((uint)puRam0201760c & 0xfffffffc) >> ((uint)puRam0201760c & 3) * 8 == 0 &&
-      *(uint *)((uint)puRam0201760c & 0xfffffffc) << ((uint)puRam0201760c & 3) * -8 + 0x20 == 0) {
-    IntrusiveListWrapper_InitializeEmpty((undefined4 *)(uintptr_t)(uRam02017610),4);
-    *puRam0201760c = 1;
-  }
-  uVar2 = Mem_FindTopParentHeapHeadList((undefined4)(uintptr_t)(param_1));
-  IntrusiveListWrapper_InsertLast(uVar2,(int)(uintptr_t)(param_1));
-  return;
+    pHead->signature = signature;
+    pHead->heapStart = heapStart;
+    pHead->heapEnd = heapEnd;
+    pHead->attribute = 0;
+    SetOptForHeap(pHead, optionFlag);
+    NNS_FndInitList(&pHead->childList, 4);
+    if (!sRootListInitialized)
+    {
+        NNS_FndInitList(&sRootList, 4);
+        sRootListInitialized = TRUE;
+    }
+    NNS_FndAppendListObject(FindListContainHeap(pHead), pHead);
 }
-

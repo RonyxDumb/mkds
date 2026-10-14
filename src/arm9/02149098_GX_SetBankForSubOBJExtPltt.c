@@ -1,35 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 02149098. No matching claim. */
-#include "types.h"
-#include "deps/02149098_GX_SetBankForSubOBJExtPltt.h"
-
-void GX_SetBankForSubOBJExtPltt(int param_1)
-
-{
-  ushort uVar1;
-  ushort uVar2;
-  ushort *puVar3;
-  undefined1 *puVar4;
-  
-  puVar3 = puRam02149118;
-  uVar1 = puRam02149118[0xc];
-  uVar2 = *puRam02149118;
-  puRam02149118[0xc] = (ushort)param_1;
-  *puVar3 = ~(ushort)param_1 & (uVar2 | uVar1);
-  puVar4 = puRam02149120;
-  if (param_1 == 0) {
-    *puRam0214911c =
-         (*(uint *)((uint)puRam0214911c & 0xfffffffc) >> ((uint)puRam0214911c & 3) * 8 |
-         *(uint *)((uint)puRam0214911c & 0xfffffffc) << ((uint)puRam0214911c & 3) * -8 + 0x20) &
-         0x7fffffff;
-  }
-  else if (param_1 == 0x100) {
-    *puRam0214911c =
-         *(uint *)((uint)puRam0214911c & 0xfffffffc) >> ((uint)puRam0214911c & 3) * 8 |
-         *(uint *)((uint)puRam0214911c & 0xfffffffc) << ((uint)puRam0214911c & 3) * -8 + 0x20 |
-         0x80000000;
-    *puVar4 = 0x83;
-  }
-  GX_VRAMCNT_SetLCDC_(*puRam02149118);
-  return;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define gGXState SDK_data_021802b0
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern void GX_VRAMCNT_SetLCDC_(u32 mask);
+extern struct GX_State gGXState;
+#pragma thumb off
+void GX_SetBankForSubOBJExtPltt(s32 subobjextpltt){
+    gGXState.lcdc = (u16)(~subobjextpltt & (gGXState.lcdc | gGXState.sub_objExtPltt));
+    gGXState.sub_objExtPltt = (u16)subobjextpltt;
+    switch (subobjextpltt)
+    {
+        case 256:
+            reg_GXS_DB_DISPCNT |= 0x80000000;
+            reg_GX_VRAMCNT_I = 0x83;
+            break;
+        case 0:
+            reg_GXS_DB_DISPCNT &= ~0x80000000;
+            break;
+    }
+    GX_VRAMCNT_SetLCDC_(gGXState.lcdc);
 }
-

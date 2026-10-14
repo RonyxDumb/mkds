@@ -1,42 +1,33 @@
-/* Decompiled C draft; module arm9; ROM address 02148e80. No matching claim. */
-#include "types.h"
-#include "deps/02148e80_GX_disableBankForX_.h"
-
-ushort GX_disableBankForX_(ushort *param_1)
-
-{
-  ushort uVar1;
-  
-  uVar1 = *param_1;
-  *param_1 = 0;
-  if ((uVar1 & 1) != 0) {
-    *puRam02148f3c = 0;
-  }
-  if ((uVar1 & 2) != 0) {
-    *puRam02148f40 = 0;
-  }
-  if ((uVar1 & 4) != 0) {
-    *puRam02148f44 = 0;
-  }
-  if ((uVar1 & 8) != 0) {
-    *puRam02148f48 = 0;
-  }
-  if ((uVar1 & 0x10) != 0) {
-    *puRam02148f4c = 0;
-  }
-  if ((uVar1 & 0x20) != 0) {
-    *puRam02148f50 = 0;
-  }
-  if ((uVar1 & 0x40) != 0) {
-    *puRam02148f54 = 0;
-  }
-  if ((uVar1 & 0x80) != 0) {
-    *puRam02148f58 = 0;
-  }
-  if ((uVar1 & 0x100) != 0) {
-    *puRam02148f5c = 0;
-  }
-  Os_UnlockVram(uVar1,*puRam02148f60);
-  return uVar1;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_UnlockVram Os_UnlockVram
+#define GXi_VRamLockId SDK_data_021802a8
+#define disableBankForX_ GX_disableBankForX_
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern u16 GXi_VRamLockId;
+#pragma thumb off
+u32 disableBankForX_(u16 *ptr){
+    u32 temp = *ptr;
+    *ptr = 0;
+    if (temp & (0x1 << 0))
+        reg_GX_VRAMCNT_A = 0x0;
+    if (temp & (0x1 << 1))
+        reg_GX_VRAMCNT_B = 0x0;
+    if (temp & (0x1 << 2))
+        reg_GX_VRAMCNT_C = 0x0;
+    if (temp & (0x1 << 3))
+        reg_GX_VRAMCNT_D = 0x0;
+    if (temp & (0x1 << 4))
+        reg_GX_VRAMCNT_E = 0x0;
+    if (temp & (0x1 << 5))
+        reg_GX_VRAMCNT_F = 0x0;
+    if (temp & (0x1 << 6))
+        reg_GX_VRAMCNT_G = 0x0;
+    if (temp & (0x1 << 7))
+        reg_GX_VRAMCNT_H = 0x0;
+    if (temp & (0x1 << 8))
+        reg_GX_VRAMCNT_I = 0x0;
+    OSi_UnlockVram((u16)temp, GXi_VRamLockId);
+    return temp;
 }
-

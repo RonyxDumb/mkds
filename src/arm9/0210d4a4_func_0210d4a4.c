@@ -1,40 +1,53 @@
-/* Decompiled C draft; module arm9; ROM address 0210d4a4. No matching claim. */
-#include "types.h"
-#include "deps/0210d4a4_func_0210d4a4.h"
-
-void func_0210d4a4(int param_1,int param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0210e2c4(unsigned int, unsigned int, unsigned int, unsigned int);
+extern unsigned int func_0210e328(unsigned int);
+extern unsigned int StructMQChild_Create(unsigned int);
+extern unsigned int IntrusiveListWrapper_InitializeEmpty(unsigned int, unsigned int);
+unsigned int func_0210d4a4(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  int iVar3;
-  
-  func_0210e2c4((int *)(uintptr_t)(uRam0210d55c),param_1,param_2,0x1c);
-  iVar3 = 0;
-  if (0 < param_2) {
-    do {
-      func_0210e328(param_1);
-      StructMQChild_Create((undefined4 *)(uintptr_t)(param_1 + 8));
-      *(undefined1 *)(param_1 + 0x18) = 0;
-      *(undefined2 *)(param_1 + 0x16) = 0;
-      *(undefined1 *)(param_1 + 0x19) = 0;
-      *(undefined2 *)(param_1 + 0x14) = 0;
-      iVar3 = iVar3 + 1;
-      *(undefined1 *)(param_1 + 0x1a) = 0x7f;
-      param_1 = param_1 + 0x1c;
-    } while (iVar3 < param_2);
-  }
-  IntrusiveListWrapper_InitializeEmpty((undefined4 *)(uintptr_t)(uRam0210d560),0);
-  iVar2 = 0;
-  iVar3 = iRam0210d564;
-  do {
-    IntrusiveListWrapper_InitializeEmpty((undefined4 *)(uintptr_t)(iVar3),0x1c);
-    puVar1 = puRam0210d56c;
-    iVar2 = iVar2 + 1;
-    iVar3 = iVar3 + 0xc;
-  } while (iVar2 < 2);
-  *puRam0210d568 = 0;
-  *puVar1 = 0;
-  return;
+unsigned int cmp_a,cmp_b,r4,r5,r6,r7,r8;
+L_210d4a8: r8 = r0;
+L_210d4ac: r7 = r1;
+L_210d4b0: r0 = 0x217d034u;
+L_210d4b4: r1 = r8;
+L_210d4b8: r2 = r7;
+L_210d4bc: r3 = 0x1cu;
+L_210d4c0: r0 = func_0210e2c4(r0,r1,r2,r3);
+L_210d4c4: cmp_a = r7; cmp_b = 0x0u;
+L_210d4c8: r6 = 0x0u;
+L_210d4cc: if (((int)cmp_a <= (int)cmp_b)) { goto L_210d50c; }
+L_210d4d0: r5 = r6;
+L_210d4d4: r4 = 0x7fu;
+L_210d4d8: r0 = r8;
+L_210d4dc: r0 = func_0210e328(r0);
+L_210d4e0: r0 = (r8+0x8u);
+L_210d4e4: r0 = StructMQChild_Create(r0);
+L_210d4e8: *(unsigned char *)((unsigned char *)r8 + 24) = (unsigned char)r5;
+L_210d4ec: *(unsigned short *)((unsigned char *)r8 + 22) = (unsigned short)r5;
+L_210d4f0: *(unsigned char *)((unsigned char *)r8 + 25) = (unsigned char)r5;
+L_210d4f4: *(unsigned short *)((unsigned char *)r8 + 20) = (unsigned short)r5;
+L_210d4f8: r6 = (r6+0x1u);
+L_210d4fc: *(unsigned char *)((unsigned char *)r8 + 26) = (unsigned char)r4;
+L_210d500: cmp_a = r6; cmp_b = r7;
+L_210d504: r8 = (r8+0x1cu);
+L_210d508: if (((int)cmp_a < (int)cmp_b)) { goto L_210d4d8; }
+L_210d50c: r0 = 0x217d028u;
+L_210d510: r1 = 0x0u;
+L_210d514: r0 = IntrusiveListWrapper_InitializeEmpty(r0,r1);
+L_210d518: r6 = 0x217d048u;
+L_210d51c: r5 = 0x0u;
+L_210d520: r4 = 0x1cu;
+L_210d524: r0 = r6;
+L_210d528: r1 = r4;
+L_210d52c: r0 = IntrusiveListWrapper_InitializeEmpty(r0,r1);
+L_210d530: r5 = (r5+0x1u);
+L_210d534: cmp_a = r5; cmp_b = 0x2u;
+L_210d538: r6 = (r6+0xcu);
+L_210d53c: if (((int)cmp_a < (int)cmp_b)) { goto L_210d524; }
+L_210d540: r1 = 0x217d010u;
+L_210d544: r2 = 0x0u;
+L_210d548: r0 = 0x217d024u;
+L_210d54c: *(unsigned int *)((unsigned char *)r1 + 0) = (unsigned int)r2;
+L_210d550: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r2;
+L_210d558: return r0;
 }
-

@@ -1,12 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 020b6800. No matching claim. */
-#include "types.h"
-#include "deps/020b6800_GetActiveExecutionContextHeapHandle_2.h"
-
-void GetActiveExecutionContextHeapHandle_2(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int GetActiveExecutionContext(void);
+extern unsigned int ExecutionContext_GetHeapHandle(unsigned int);
+unsigned int GetActiveExecutionContextHeapHandle_2(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  GetActiveExecutionContext();
-  ExecutionContext_GetHeapHandle();
-  return;
+unsigned int cmp_a,cmp_b;
+L_20b6808: r0 = GetActiveExecutionContext();
+L_20b680c: r0 = ExecutionContext_GetHeapHandle(r0);
+L_20b6818: return r0;
 }
-

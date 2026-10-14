@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646975
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646970
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Os_Thread_Sleep",
+    "target": 33611804,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422350
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "_s32_div_f",
+    "target": 34812008,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942945177
+  },
+  {
+    "offset": 152,
+    "type": 1,
+    "symbol": "Os_Thread_WakeUp",
+    "target": 33611676,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422301
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646945
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 10,
+    "type": 10,
+    "symbol": "StructAD00Sub_Initialize_from_thumb",
+    "target": 34052668,
+    "thumb": true,
+    "addend": -4,
+    "value": 4253806592
+  },
+  {
+    "offset": 38,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3998676925
+  },
+  {
+    "offset": 48,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3998283709
+  },
+  {
+    "offset": 58,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3998021565
+  },
+  {
+    "offset": 68,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3997628349
+  },
+  {
+    "offset": 78,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3997366205
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "GetCurrentOptionMenuKind_from_thumb",
+    "target": 34286852,
+    "thumb": true,
+    "addend": -4,
+    "value": 4240766975
+  },
+  {
+    "offset": 28,
+    "type": 10,
+    "symbol": "GetCurrentOptionMenuKind_from_thumb",
+    "target": 34286852,
+    "thumb": true,
+    "addend": -4,
+    "value": 4239980543
+  }
+]

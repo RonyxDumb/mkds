@@ -1,17 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0214a4dc. No matching claim. */
-#include "types.h"
-#include "deps/0214a4dc_G3_MultMtx33.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MI_Copy36B SDK_data_0214d0fc
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
 
-void G3_MultMtx33(void)
-
-{
-  code *UNRECOVERED_JUMPTABLE;
-  
-  UNRECOVERED_JUMPTABLE = pcRam0214a4f4;
-  *puRam0214a4f0 = 0x1a;
-                    /* WARNING: Could not recover jumptable at 0x0214a4ec. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*UNRECOVERED_JUMPTABLE)();
-  return;
+#pragma thumb off
+void G3_MultMtx33(struct Mtx33 *mtx){
+    reg_G3X_GXFIFO = 0x1A;
+    MI_Copy36B(mtx, (void *)&reg_G3X_GXFIFO);
 }
-

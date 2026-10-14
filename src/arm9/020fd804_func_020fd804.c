@@ -1,21 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 020fd804. No matching claim. */
-#include "types.h"
-#include "deps/020fd804_func_020fd804.h"
-
-void func_020fd804(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_020d2398(unsigned int);
+unsigned int func_020fd804(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = param_1 + 0x198U & 3;
-  uVar1 = *(uint *)(param_1 + 0x198U & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  if (uVar2 != 0) {
-    *(ushort *)(uVar2 + 2) = *(ushort *)(uVar2 + 2) & 0xfffe;
-    func_020d2398();
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_20fd80c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 408));
+L_20fd810: cmp_a = r0; cmp_b = 0x0u;
+L_20fd81c: if ((cmp_a == cmp_b)) { return r0; }
+L_20fd820: r1 = (unsigned int)(*(unsigned short *)((unsigned char *)r0 + 2));
+L_20fd824: r1 = (r1&~(0x1u));
+L_20fd828: *(unsigned short *)((unsigned char *)r0 + 2) = (unsigned short)r1;
+L_20fd82c: r0 = func_020d2398(r0);
+L_20fd838: return r0;
 }
-

@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 6,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3969316631
+  },
+  {
+    "offset": 18,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4217894696
+  },
+  {
+    "offset": 28,
+    "type": 10,
+    "symbol": "Gfx_ReadCharGraphicsRelative",
+    "target": 34294204,
+    "thumb": false,
+    "addend": -4,
+    "value": 3950180245
+  },
+  {
+    "offset": 36,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4217304872
+  },
+  {
+    "offset": 48,
+    "type": 10,
+    "symbol": "func_020b48b4",
+    "target": 34293940,
+    "thumb": false,
+    "addend": -4,
+    "value": 3940874133
+  },
+  {
+    "offset": 56,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4216649512
+  },
+  {
+    "offset": 68,
+    "type": 10,
+    "symbol": "Gfx_ReadPaletteRelative",
+    "target": 34294340,
+    "thumb": false,
+    "addend": -4,
+    "value": 3953325973
+  },
+  {
+    "offset": 76,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4215994152
+  }
+]

@@ -1,20 +1,105 @@
+/* MW build 82: entire local function bytes verified. Full ROM and caller ABI remain unverified. */
+typedef unsigned char uint8_t; typedef unsigned short uint16_t; typedef unsigned int uint32_t; typedef unsigned long long uint64_t;
+typedef signed char int8_t; typedef short int16_t; typedef int int32_t; typedef long long int64_t; typedef unsigned int uintptr_t; typedef int intptr_t;
+#define bool _Bool
+#define true 1
+#define false 0
+#define UINT32_MAX 0xffffffffU
+#define INT32_MAX 0x7fffffff
+#define INT32_MIN (-2147483647-1)
+#define __attribute__(x)
+extern int __builtin_clz(unsigned int);
+
+
+
+typedef unsigned char byte;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+typedef unsigned long ulong;
+typedef long long longlong;
+typedef unsigned long long ulonglong;
+typedef unsigned char undefined;
+typedef uint8_t undefined1;
+typedef uint16_t undefined2;
+typedef uint32_t undefined4;
+typedef uint64_t undefined8;
+/* Unknown executable address: the return convention still needs validation. */
+typedef void code();
+static inline bool CARRY4(uint32_t a,uint32_t b){return (uint64_t)a+b>UINT32_MAX;}
+static inline bool SBORROW4(uint32_t a,uint32_t b){int64_t r=(int64_t)(int32_t)a-(int64_t)(int32_t)b;return r<INT32_MIN||r>INT32_MAX;}
+static inline bool SCARRY4(uint32_t a,uint32_t b){int64_t r=(int64_t)(int32_t)a+(int64_t)(int32_t)b;return r<INT32_MIN||r>INT32_MAX;}
+static inline uint32_t LZCOUNT(uint32_t a){return a?(uint32_t)__builtin_clz(a):32u;}
+#define CONCAT11(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+#define CONCAT12(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffULL)<<16)|((uint64_t)(lo)&0xffffULL)))
+#define CONCAT13(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffULL)<<24)|((uint64_t)(lo)&0xffffffULL)))
+#define CONCAT14(hi,lo) ((uint64_t)((((uint64_t)(hi)&0xffULL)<<32)|((uint64_t)(lo)&0xffffffffULL)))
+#define CONCAT15(hi,lo) ((uint64_t)((((uint64_t)(hi)&0xffULL)<<40)|((uint64_t)(lo)&0xffffffffffULL)))
+#define CONCAT22(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffULL)<<16)|((uint64_t)(lo)&0xffffULL)))
+#define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+#define CONCAT44(hi,lo) ((uint64_t)((((uint64_t)(hi)&0xffffffffULL)<<32)|((uint64_t)(lo)&0xffffffffULL)))
+#define SUB21(v,n) ((uint32_t)((uint64_t)(v)>>(8u*(n))))
+#define SUB43(v,n) ((uint32_t)((uint64_t)(v)>>(8u*(n))))
+#define SUB84(v,n) ((uint32_t)((uint64_t)(v)>>(8u*(n))))
+#define ZEXT48(v) ((uint64_t)(uint32_t)(v))
+typedef uint8_t mkds_alias_u8 __attribute__((may_alias,aligned(1)));
+#define MKDS_SLICE_1(obj,n) (*(mkds_alias_u8 *)((uint8_t *)&(obj)+(n)))
+typedef uint16_t mkds_alias_u16 __attribute__((may_alias,aligned(1)));
+#define MKDS_SLICE_2(obj,n) (*(mkds_alias_u16 *)((uint8_t *)&(obj)+(n)))
+typedef uint32_t mkds_alias_u32 __attribute__((may_alias,aligned(1)));
+#define MKDS_SLICE_4(obj,n) (*(mkds_alias_u32 *)((uint8_t *)&(obj)+(n)))
+typedef uint64_t mkds_alias_u64 __attribute__((may_alias,aligned(1)));
+#define MKDS_SLICE_8(obj,n) (*(mkds_alias_u64 *)((uint8_t *)&(obj)+(n)))
+
+
+typedef unsigned char   undefined;
+
+typedef unsigned long    ulong;
+typedef unsigned char    undefined1;
+typedef unsigned short    undefined2;
+typedef unsigned int    undefined4;
+typedef unsigned long long    undefined8;
+typedef unsigned short    ushort;
+typedef int    wchar_t;
+typedef unsigned short    wchar16;
+typedef ulong size_t;
+
+typedef unsigned int    uint;
+typedef long long    longlong;
+typedef unsigned char    byte;
+
+/* Function-specific inferred declarations. */
+void Maybe_data_KartModelMainA(void);
+void Maybe_s_s(undefined4 param_1,undefined4 param_2);
+void Mem_ResetFrameHeap(undefined4 param_1,uint param_2);
+void func_02047498(undefined4 param_1,int param_2);
+void func_0204f5e4(void);
+
+
+
+
+
+
+
+
+
+
 /* Decompiled C draft; module arm9; ROM address 020473e4. No matching claim. */
-#include "types.h"
-#include "deps/020473e4_Maybe_data_KartModelMainA.h"
+
+
 
 void Maybe_data_KartModelMainA(void)
 
 {
   func_0204f5e4();
-  Mem_ResetFrameHeap(*(undefined4 *)(*piRam02047440 + iRam02047444),3);
-  func_02047498(uRam02047448,0xb);
-  func_02047498(uRam0204744c,0xc);
-  func_02047498(uRam02047450,0);
-  Maybe_s_s(uRam02047454,1);
-  func_02047498(uRam02047458,8);
-  func_02047498(uRam0204745c,9);
-  Maybe_s_s(uRam02047460,10);
-  func_02047498(uRam02047464,0xd);
+  Mem_ResetFrameHeap(*(undefined4 *)(*((int *)0x021759c8u) + ((int)0x00000a80u)),3);
+  func_02047498(((undefined4)0x02164f48u),0xb);
+  func_02047498(((undefined4)0x02164f64u),0xc);
+  func_02047498(((undefined4)0x02164f80u),0);
+  Maybe_s_s(((undefined4)0x02164f98u),1);
+  func_02047498(((undefined4)0x02164facu),8);
+  func_02047498(((undefined4)0x02164fc0u),9);
+  Maybe_s_s(((undefined4)0x02164fd4u),10);
+  func_02047498(((undefined4)0x02164fe4u),0xd);
   return;
 }
 

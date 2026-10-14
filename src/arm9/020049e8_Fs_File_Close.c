@@ -1,23 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 020049e8. No matching claim. */
-#include "types.h"
-#include "deps/020049e8_Fs_File_Close.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FSi_SendCommand Fs_File_SendOperation
+#define FS_CloseFile Fs_File_Close
+#include "nitro.h"
+#include "MI_byteAccess.h"
+#include "FS_rom.h"
+#include "FS_file.h"
+#include "FSi_util.h"
+#include "code32.h"
 
-undefined4 Fs_File_Close(int param_1)
-
+#pragma thumb off
+BOOL FS_CloseFile(FSFile * p_file)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar2 = Fs_File_SendOperation((uint *)(uintptr_t)(param_1),8);
-  if (iVar2 != 0) {
-    *(undefined4 *)(param_1 + 8) = 0;
-    *(undefined4 *)(param_1 + 0x10) = 0xe;
-    uVar1 = param_1 + 0xcU & 3;
-    uVar3 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-    *(uint *)(param_1 + 0xc) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0xffffffcf;
-    return 1;
-  }
-  return 0;
+    if (!FSi_SendCommand(p_file, FS_COMMAND_CLOSEFILE))
+        return FALSE;
+    p_file->arc = NULL;
+    p_file->command = FS_COMMAND_INVALID;
+    p_file->stat &= ~(FS_FILE_STATUS_IS_FILE | FS_FILE_STATUS_IS_DIR);
+    return TRUE;
 }
-

@@ -1,16 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 02149f88. No matching claim. */
-#include "types.h"
-#include "deps/02149f88_GetVramBg2BaseOffset_Top.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define G2_GetBG2CharPtr GetVramBg2BaseOffset_Top
+#include "nitro/types.h"
+#include "registers.h"
+#include "gx.h"
+#include "code32.h"
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-int GetVramBg2BaseOffset_Top(void)
-
-{
-  if ((4 < (_DAT_04000000 & 7)) && ((*puRam02149fdc & 0x80) != 0)) {
-    return 0;
-  }
-  return ((_DAT_04000000 & 0x7000000) >> 0x18) * 0x10000 + 0x6000000 +
-         ((*puRam02149fdc & 0x3c) >> 2) * 0x4000;
+#pragma thumb off
+void *G2_GetBG2CharPtr(){
+    s32 temp1 = (s32)(reg_GX_DISPCNT & 0x7);
+    u32 temp = reg_G2_BG2CNT;
+    if (temp1 < 5 || !(temp & 0x80))
+    {
+        u32 temp1 = (((reg_GX_DISPCNT & 0x7000000) >> 0x18) << 0x10);
+        u32 temp2 = (temp & 0x3C) >> 2;
+        return (void *)(0x6000000 + temp1 + (temp2 << 0xE));
+    }
+    else
+    {
+        return NULL;
+    }
 }
-

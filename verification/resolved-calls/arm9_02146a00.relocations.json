@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Os_Thread_WakeUpDirect",
+    "target": 33611624,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959102793
+  }
+]

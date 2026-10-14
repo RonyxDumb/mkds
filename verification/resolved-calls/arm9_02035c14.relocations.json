@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -4,
+    "value": 4188795006
+  },
+  {
+    "offset": 26,
+    "type": 10,
+    "symbol": "TextSystem_SetSomeValues_from_thumb",
+    "target": 34758376,
+    "thumb": true,
+    "addend": -4,
+    "value": 4183552240
+  },
+  {
+    "offset": 44,
+    "type": 10,
+    "symbol": "TextSystem_DisplayProgressDialog_TopScreen_from_thumb",
+    "target": 34760248,
+    "thumb": true,
+    "addend": -4,
+    "value": 4244304112
+  }
+]

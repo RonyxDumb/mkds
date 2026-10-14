@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "func_020cccc0",
+    "target": 34393280,
+    "thumb": true,
+    "addend": -4,
+    "value": 4293851133
+  },
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "func_020ceb70",
+    "target": 34401136,
+    "thumb": false,
+    "addend": -4,
+    "value": 4014143487
+  },
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "ConfigureDispcntDisplay",
+    "target": 34900304,
+    "thumb": false,
+    "addend": -4,
+    "value": 3995922553
+  },
+  {
+    "offset": 30,
+    "type": 10,
+    "symbol": "GXS_SetGraphicsMode__mkds_ceb54",
+    "target": 34401108,
+    "thumb": false,
+    "addend": -4,
+    "value": 4012701695
+  },
+  {
+    "offset": 36,
+    "type": 10,
+    "symbol": "SetDispcntSubBgMode",
+    "target": 34900276,
+    "thumb": false,
+    "addend": -4,
+    "value": 3994611833
+  },
+  {
+    "offset": 40,
+    "type": 10,
+    "symbol": "func_02032138",
+    "target": 33759544,
+    "thumb": true,
+    "addend": -4,
+    "value": 4195940195
+  }
+]

@@ -1,26 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 02071958. No matching claim. */
-#include "types.h"
-#include "deps/02071958_func_02071958.h"
-
-void func_02071958(int param_1,undefined4 param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_0210b564(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+unsigned int func_02071958(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  
-  uVar1 = param_1 + 0x500U & 3;
-  uVar4 = *(uint *)(param_1 + 0x500U & 0xfffffffc);
-  uVar2 = param_1 + 0x3e0U & 3;
-  uVar5 = *(uint *)(param_1 + 0x3e0U & 0xfffffffc);
-  uVar3 = param_1 + 0x3e4U & 3;
-  uVar6 = *(uint *)(param_1 + 0x3e4U & 0xfffffffc);
-  func_0210b564(param_1,param_2,uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20,
-                uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20,
-                uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
-  return;
+unsigned int cmp_a,cmp_b,stack_0;
+L_2071960: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 1280));
+L_2071964: stack_0 = r2;
+L_2071968: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 992));
+L_207196c: r3 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 996));
+L_2071970: r0 = func_0210b564(r0,r1,r2,r3,stack_0);
+L_207197c: return r0;
 }
-

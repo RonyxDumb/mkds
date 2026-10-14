@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Common_FindBlockByMagic",
+    "target": 33693648,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959272794
+  }
+]

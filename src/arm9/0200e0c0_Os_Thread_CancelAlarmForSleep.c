@@ -1,19 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0200e0c0. No matching claim. */
-#include "types.h"
-#include "deps/0200e0c0_Os_Thread_CancelAlarmForSleep.h"
-
-void Os_Thread_CancelAlarmForSleep(int param_1)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int Os_Alarm_Cancel(unsigned int);
+unsigned int Os_Thread_CancelAlarmForSleep(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 0xb0U & 3;
-  uVar2 = *(uint *)(param_1 + 0xb0U & 0xfffffffc);
-  if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
-    Os_Alarm_Cancel();
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b;
+L_200e0c8: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 176));
+L_200e0cc: cmp_a = r0; cmp_b = 0x0u;
+L_200e0d8: if ((cmp_a == cmp_b)) { return r0; }
+L_200e0dc: r0 = Os_Alarm_Cancel(r0);
+L_200e0e8: return r0;
 }
-

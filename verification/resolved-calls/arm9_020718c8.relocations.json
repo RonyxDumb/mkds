@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "GetAED0PlayerUnk",
+    "target": 34103424,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942666727
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "func_0210a588",
+    "target": 34645384,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942802215
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "func_0210ddf4",
+    "target": 34659828,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942805820
+  }
+]

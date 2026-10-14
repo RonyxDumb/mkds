@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "func_0204f7f4",
+    "target": 33880052,
+    "thumb": false,
+    "addend": -4,
+    "value": 3927240735
+  },
+  {
+    "offset": 14,
+    "type": 10,
+    "symbol": "Mem_DestroyHeap",
+    "target": 33778352,
+    "thumb": false,
+    "addend": -4,
+    "value": 3949916166
+  }
+]

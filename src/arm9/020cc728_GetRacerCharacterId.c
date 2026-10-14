@@ -1,18 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 020cc728. No matching claim. */
-#include "types.h"
-#include "deps/020cc728_GetRacerCharacterId.h"
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
 
-uint GetRacerCharacterId(int param_1)
-
+unsigned int GetRacerCharacterId(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = param_1 * 0x30 +
-          (*(uint *)(uRam020cc740 & 0xfffffffc) >> (uRam020cc740 & 3) * 8 |
-          *(uint *)(uRam020cc740 & 0xfffffffc) << (uRam020cc740 & 3) * -8 + 0x20) + 0x68;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_20cc728: r2 = 0x21759c0u;
+L_20cc72c: r1 = 0x30u;
+L_20cc730: r2 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_20cc734: r1 = (r0*r1+r2);
+L_20cc738: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 104));
+L_20cc73c: return r0;
 }
-

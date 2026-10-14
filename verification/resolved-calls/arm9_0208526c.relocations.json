@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Nsbmd_GetMDL0Block",
+    "target": 33634096,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959306537
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Nsbtx_GetTEX0Block",
+    "target": 33634032,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959306518
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_InsertLast",
+    "target": 33649828,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959310460
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "Tex0Block_MaybePrepareFields",
+    "target": 34099396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422832
+  },
+  {
+    "offset": 184,
+    "type": 1,
+    "symbol": "func_02010168",
+    "target": 33620328,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959303055
+  }
+]

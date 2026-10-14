@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "func_02077c1c",
+    "target": 34044956,
+    "thumb": true,
+    "addend": -4,
+    "value": 4215600887
+  },
+  {
+    "offset": 8,
+    "type": 10,
+    "symbol": "func_ov000_02180704",
+    "target": 35129092,
+    "thumb": true,
+    "addend": -4,
+    "value": 4172738560
+  },
+  {
+    "offset": 20,
+    "type": 10,
+    "symbol": "CopyOamBuffersToMemory_from_thumb",
+    "target": 34268656,
+    "thumb": true,
+    "addend": -4,
+    "value": 4163303214
+  }
+]

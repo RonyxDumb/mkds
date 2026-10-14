@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Os_UnlockCard",
+    "target": 33607160,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959102863
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Card_UnlockResource",
+    "target": 34888140,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645889
+  }
+]

@@ -1,20 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 020218bc. No matching claim. */
-#include "types.h"
-#include "deps/020218bc_func_020218bc.h"
-
-uint func_020218bc(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int DC_InvalidateRangeNoClean(unsigned int, unsigned int);
+unsigned int func_020218bc(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  DC_InvalidateRangeNoClean
-            ((*(uint *)(uRam020218f0 & 0xfffffffc) >> (uRam020218f0 & 3) * 8 |
-             *(uint *)(uRam020218f0 & 0xfffffffc) << (uRam020218f0 & 3) * -8 + 0x20) + 4,4);
-  uVar2 = (*(uint *)(uRam020218f0 & 0xfffffffc) >> (uRam020218f0 & 3) * 8 |
-          *(uint *)(uRam020218f0 & 0xfffffffc) << (uRam020218f0 & 3) * -8 + 0x20) + 4;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
+unsigned int cmp_a,cmp_b;
+L_20218c4: r0 = 0x2174e00u;
+L_20218c8: r1 = 0x4u;
+L_20218cc: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20218d0: r0 = (r0+0x4u);
+L_20218d4: r0 = DC_InvalidateRangeNoClean(r0,r1);
+L_20218d8: r0 = 0x2174e00u;
+L_20218dc: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_20218e0: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 4));
+L_20218ec: return r0;
 }
-

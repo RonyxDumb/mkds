@@ -1,20 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 02012ffc. No matching claim. */
-#include "types.h"
-#include "deps/02012ffc_ModelBlock_SetSomethingToAllMaterials_MaybeTraslucent.h"
-
-void ModelBlock_SetSomethingToAllMaterials_MaybeTraslucent(int param_1,undefined4 param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int ModelBlock_SomeTexPltFn(unsigned int, unsigned int, unsigned int);
+unsigned int ModelBlock_SetSomethingToAllMaterials_MaybeTraslucent(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  
-  uVar1 = 0;
-  if (*(char *)(param_1 + 0x18) != '\0') {
-    do {
-      ModelBlock_SomeTexPltFn(param_1,uVar1,param_2);
-      uVar1 = uVar1 + 1;
-    } while (uVar1 < *(byte *)(param_1 + 0x18));
-    return;
-  }
-  return;
+unsigned int cmp_a,cmp_b,r4,r5,r6;
+L_2013000: r6 = r0;
+L_2013004: r0 = (unsigned int)(*(unsigned char *)((unsigned char *)r6 + 24));
+L_2013008: r5 = r1;
+L_201300c: r4 = 0x0u;
+L_2013010: cmp_a = r0; cmp_b = 0x0u;
+L_2013018: if ((cmp_a <= cmp_b)) { return r0; }
+L_201301c: r0 = r6;
+L_2013020: r1 = r4;
+L_2013024: r2 = r5;
+L_2013028: r0 = ModelBlock_SomeTexPltFn(r0,r1,r2);
+L_201302c: r0 = (unsigned int)(*(unsigned char *)((unsigned char *)r6 + 24));
+L_2013030: r4 = (r4+0x1u);
+L_2013034: cmp_a = r4; cmp_b = r0;
+L_2013038: if ((cmp_a < cmp_b)) { goto L_201301c; }
+L_2013040: return r0;
 }
-

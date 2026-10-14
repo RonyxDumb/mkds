@@ -1,32 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 020207a8. No matching claim. */
-#include "types.h"
-#include "deps/020207a8_GenerateFriendCrcLookupTable.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MATHi_CRC8InitTable GenerateFriendCrcLookupTable
+#include "nitro/types.h"
+#include "MATH_crc.h"
+#include "code32.h"
 
-void GenerateFriendCrcLookupTable(int param_1,uint param_2)
+void MATHi_CRC8InitTable(struct MATHCRC8Table *table, u8 poly) {
+    u32 r, i, j;
+    u8 *t = table->table;
 
-{
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  bool bVar4;
-  
-  uVar3 = 0;
-  do {
-    uVar2 = 0;
-    uVar1 = uVar3;
-    do {
-      bVar4 = (uVar1 & 0x80) != 0;
-      if (bVar4) {
-        uVar1 = param_2 ^ uVar1 << 1;
-      }
-      uVar2 = uVar2 + 1;
-      if (!bVar4) {
-        uVar1 = uVar1 << 1;
-      }
-    } while (uVar2 < 8);
-    *(char *)(param_1 + uVar3) = (char)uVar1;
-    uVar3 = uVar3 + 1;
-  } while (uVar3 < 0x100);
-  return;
+    for (i = 0; i < 256; i++) {
+        r = i;
+        for (j = 0; j < 8; j++) {
+            if (r & 0x80) {
+                r = (r << 1) ^ poly;
+            }
+            else {
+                r <<= 1;
+            }
+        }
+        t[i] = (u8)r;
+    }
 }
-

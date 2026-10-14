@@ -1,19 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 020add50. No matching claim. */
-#include "types.h"
-#include "deps/020add50_NFTR_SomeFn_2.h"
-
-int NFTR_SomeFn_2(uint param_1,int param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int NFTR_SomeFn_3(unsigned int);
+unsigned int NFTR_SomeFn_2(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar2 = NFTR_SomeFn_3();
-  uVar3 = (*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + 8;
-  uVar1 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  return param_2 * iVar2 + (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 8;
+unsigned int cmp_a,cmp_b,r4,r5;
+L_20add58: r5 = r0;
+L_20add5c: r4 = r1;
+L_20add60: r0 = NFTR_SomeFn_3(r0);
+L_20add64: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r5 + 0));
+L_20add68: r1 = (unsigned int)(*(unsigned int *)((unsigned char *)r1 + 8));
+L_20add6c: r1 = (r1+0x8u);
+L_20add70: r0 = (r4*r0+r1);
+L_20add7c: return r0;
 }
-

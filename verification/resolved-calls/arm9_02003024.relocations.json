@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658785
+  },
+  {
+    "offset": 268,
+    "type": 1,
+    "symbol": "Os_Thread_Sleep",
+    "target": 33611804,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942656953
+  },
+  {
+    "offset": 292,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658777
+  },
+  {
+    "offset": 360,
+    "type": 1,
+    "symbol": "Fs_File_ReleaseOperation",
+    "target": 33567136,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645763
+  },
+  {
+    "offset": 376,
+    "type": 2,
+    "symbol": "SDK_data_02152b5c",
+    "target": 34941788,
+    "thumb": false,
+    "addend": 0,
+    "value": 34941788
+  }
+]

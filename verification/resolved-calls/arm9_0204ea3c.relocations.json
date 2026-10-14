@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 6,
+    "type": 10,
+    "symbol": "ComputeRomBinarySize_from_thumb",
+    "target": 33589376,
+    "thumb": true,
+    "addend": -4,
+    "value": 4280154041
+  },
+  {
+    "offset": 30,
+    "type": 10,
+    "symbol": "FsUnk_ReadCartHeader_from_thumb",
+    "target": 33588592,
+    "thumb": true,
+    "addend": -4,
+    "value": 4253677497
+  },
+  {
+    "offset": 48,
+    "type": 10,
+    "symbol": "func_02008310",
+    "target": 33587984,
+    "thumb": true,
+    "addend": -4,
+    "value": 4233164729
+  }
+]

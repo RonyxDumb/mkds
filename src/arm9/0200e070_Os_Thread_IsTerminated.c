@@ -1,15 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 0200e070. No matching claim. */
-#include "types.h"
-#include "deps/0200e070_Os_Thread_IsTerminated.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_IsThreadTerminated Os_Thread_IsTerminated
+#include "MI_memory.h"
+#include "OS_thread.h"
+#include "OS_mutex.h"
+#include "OS_alarm.h"
+#include "OS_system.h"
+#include "OS_context.h"
+#include "OS_terminate_proc.h"
+#include "systemWork.h"
+#include "mmap.h"
+#include "code32.h"
 
-bool Os_Thread_IsTerminated(int param_1)
-
+BOOL OS_IsThreadTerminated(const OSThread *thread)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 100U & 3;
-  uVar2 = *(uint *)(param_1 + 100U & 0xfffffffc);
-  return (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == 2;
+    return (thread->state == OS_THREAD_STATE_TERMINATED) ? TRUE : FALSE;
 }
-

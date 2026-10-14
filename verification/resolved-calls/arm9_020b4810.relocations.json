@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Common_FindBlockByMagic",
+    "target": 33693648,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959272935
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Screen_ReadBlock",
+    "target": 33693596,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959272915
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959253381
+  }
+]

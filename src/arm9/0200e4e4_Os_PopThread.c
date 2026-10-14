@@ -1,34 +1,34 @@
-/* Decompiled C draft; module arm9; ROM address 0200e4e4. No matching claim. */
-#include "types.h"
-#include "deps/0200e4e4_Os_PopThread.h"
-
-void Os_PopThread(uint param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_ThreadInfo SDK_data_0216ff5c
+#define OSi_RemoveThreadFromList Os_PopThread
+#include "MI_memory.h"
+#include "OS_thread.h"
+#include "OS_mutex.h"
+#include "OS_alarm.h"
+#include "OS_system.h"
+#include "OS_context.h"
+#include "OS_terminate_proc.h"
+#include "systemWork.h"
+#include "mmap.h"
+#include "code32.h"
+extern OSThreadInfo OSi_ThreadInfo;
+void OSi_RemoveThreadFromList(OSThread *thread)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar1 = iRam0200e528 + 8U & 3;
-  uVar3 = *(uint *)(iRam0200e528 + 8U & 0xfffffffc);
-  uVar1 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  uVar3 = 0;
-  while ((uVar2 = uVar1, uVar2 != 0 && (uVar2 != param_1))) {
-    uVar1 = uVar2 + 0x68 & 3;
-    uVar3 = *(uint *)(uVar2 + 0x68 & 0xfffffffc);
-    uVar1 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-    uVar3 = uVar2;
-  }
-  if (uVar3 == 0) {
-    uVar1 = param_1 + 0x68 & 3;
-    uVar3 = *(uint *)(param_1 + 0x68 & 0xfffffffc);
-    *(uint *)(iRam0200e528 + 8) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  }
-  else {
-    uVar1 = param_1 + 0x68 & 3;
-    uVar2 = *(uint *)(param_1 + 0x68 & 0xfffffffc);
-    *(uint *)(uVar3 + 0x68) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  }
-  return;
-}
+    OSThread *t = OSi_ThreadInfo.list;
+    OSThread *pre = NULL;
 
+    while (t && t != thread)
+    {
+        pre = t;
+        t = t-> next;
+    }
+
+    if (!pre)
+    {
+        OSi_ThreadInfo.list = thread->next;
+    }
+    else
+    {
+        pre->next = thread->next;
+    }
+}

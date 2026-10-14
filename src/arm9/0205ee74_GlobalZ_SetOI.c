@@ -1,18 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0205ee74. No matching claim. */
-#include "types.h"
-#include "deps/0205ee74_GlobalZ_SetOI.h"
-
-void GlobalZ_SetOI(int param_1,undefined4 param_2)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int Mem_CpuCopy8(unsigned int, unsigned int, unsigned int);
+unsigned int GlobalZ_SetOI(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = (*(uint *)(uRam0205eeac & 0xfffffffc) >> (uRam0205eeac & 3) * 8 |
-          *(uint *)(uRam0205eeac & 0xfffffffc) << (uRam0205eeac & 3) * -8 + 0x20) + 0x20;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  Mem_CpuCopy8(param_2,param_1 * 0x24 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 4);
-  return;
+unsigned int cmp_a,cmp_b,ip;
+L_205ee7c: r2 = 0x217aa08u;
+L_205ee80: ip = r0;
+L_205ee84: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r2 + 0));
+L_205ee88: r2 = 0x24u;
+L_205ee8c: r3 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 32));
+L_205ee90: r0 = r1;
+L_205ee94: r1 = (r3+0x4u);
+L_205ee98: r1 = (ip*r2+r1);
+L_205ee9c: r0 = Mem_CpuCopy8(r0,r1,r2);
+L_205eea8: return r0;
 }
-

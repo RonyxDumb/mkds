@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "StructML_SomeFn",
+    "target": 34098960,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942655935
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "ModelBlock_SomeTexPltFn_8",
+    "target": 33633600,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959316800
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "func_02013588",
+    "target": 33633672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959316814
+  }
+]

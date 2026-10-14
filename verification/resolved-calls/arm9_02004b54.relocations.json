@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Fs_File_Initialize",
+    "target": 33574272,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645892
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Fs_File_FindPath",
+    "target": 33573920,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645799
+  }
+]

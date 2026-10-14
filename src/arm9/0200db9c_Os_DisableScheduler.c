@@ -1,21 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 0200db9c. No matching claim. */
-#include "types.h"
-#include "deps/0200db9c_Os_DisableScheduler.h"
-
-uint Os_DisableScheduler(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define OSi_RescheduleCount SDK_data_0216ff48
+#define OS_DisableScheduler Os_DisableScheduler
+#include "MI_memory.h"
+#include "OS_thread.h"
+#include "OS_mutex.h"
+#include "OS_alarm.h"
+#include "OS_system.h"
+#include "OS_context.h"
+#include "OS_terminate_proc.h"
+#include "systemWork.h"
+#include "mmap.h"
+#include "code32.h"
+extern u32 OSi_RescheduleCount;
+u32 OS_DisableScheduler(void)
 {
-  uint uVar1;
-  uint unaff_r4;
-  
-  Os_DisableIrq();
-  uVar1 = *(uint *)((uint)piRam0200dbd0 & 0xfffffffc) >> ((uint)piRam0200dbd0 & 3) * 8 |
-          *(uint *)((uint)piRam0200dbd0 & 0xfffffffc) << ((uint)piRam0200dbd0 & 3) * -8 + 0x20;
-  if (uVar1 != 0xffffffff) {
-    *piRam0200dbd0 = uVar1 + 1;
-    unaff_r4 = uVar1;
-  }
-  Os_RestoreIrq();
-  return unaff_r4;
-}
+    OSIntrMode enabled = OS_DisableInterrupts();
+    u32 count;
 
+    if (OSi_RescheduleCount < (u32)-1)
+    {
+        count = OSi_RescheduleCount++;
+    }
+    (void)OS_RestoreInterrupts(enabled);
+
+    return count;
+}

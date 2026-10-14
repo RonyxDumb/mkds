@@ -1,18 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 0214b338. No matching claim. */
-#include "types.h"
-#include "deps/0214b338_GXS_EndLoadOBJExtPltt.h"
-
-void GXS_EndLoadOBJExtPltt(void)
-
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int MI_WaitDma(unsigned int);
+extern unsigned int GX_SetBankForSubOBJExtPltt(unsigned int);
+unsigned int GXS_EndLoadOBJExtPltt(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  if ((*(uint *)(uRam0214b37c & 0xfffffffc) >> (uRam0214b37c & 3) * 8 |
-      *(uint *)(uRam0214b37c & 0xfffffffc) << (uRam0214b37c & 3) * -8 + 0x20) != 0xffffffff) {
-    MI_WaitDma();
-  }
-  GX_SetBankForSubOBJExtPltt
-            (*(uint *)((uint)puRam0214b380 & 0xfffffffc) >> ((uint)puRam0214b380 & 3) * 8 |
-             *(uint *)((uint)puRam0214b380 & 0xfffffffc) << ((uint)puRam0214b380 & 3) * -8 + 0x20);
-  *puRam0214b380 = 0;
-  return;
+unsigned int cmp_a,cmp_b;
+L_214b340: r0 = 0x216f074u;
+L_214b344: r1 = ~(0x0u);
+L_214b348: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_214b34c: cmp_a = r0; cmp_b = r1;
+L_214b350: if ((cmp_a == cmp_b)) { goto L_214b358; }
+L_214b354: r0 = MI_WaitDma(r0);
+L_214b358: r0 = 0x21802e4u;
+L_214b35c: r0 = (unsigned int)(*(unsigned int *)((unsigned char *)r0 + 0));
+L_214b360: r0 = GX_SetBankForSubOBJExtPltt(r0);
+L_214b364: r0 = 0x21802e4u;
+L_214b368: r1 = 0x0u;
+L_214b36c: *(unsigned int *)((unsigned char *)r0 + 0) = (unsigned int)r1;
+L_214b378: return r0;
 }
-

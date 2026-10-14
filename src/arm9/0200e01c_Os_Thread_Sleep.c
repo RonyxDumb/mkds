@@ -1,27 +1,36 @@
-/* Decompiled C draft; module arm9; ROM address 0200e01c. No matching claim. */
-#include "types.h"
-#include "deps/0200e01c_Os_Thread_Sleep.h"
-
-void Os_Thread_Sleep(int param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OSi_InsertLinkToQueue Os_ThreadQueue_Queue
+#define OSi_RescheduleThread Os_RescheduleThread
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define OSi_CurrentThreadPtr SDK_data_0216ff54
+#define OS_SleepThread Os_Thread_Sleep
+#include "MI_memory.h"
+#include "OS_thread.h"
+#include "OS_mutex.h"
+#include "OS_alarm.h"
+#include "OS_system.h"
+#include "OS_context.h"
+#include "OS_terminate_proc.h"
+#include "systemWork.h"
+#include "mmap.h"
+#include "code32.h"
+extern void OSi_InsertLinkToQueue(OSThreadQueue *queue, OSThread *thread);
+extern void OSi_RescheduleThread(void);
+extern OSThread **OSi_CurrentThreadPtr;
+void OS_SleepThread(OSThreadQueue *queue)
 {
-  undefined4 uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar1 = Os_DisableIrq();
-  uVar2 = *(uint *)(uRam0200e06c & 0xfffffffc) >> (uRam0200e06c & 3) * 8 |
-          *(uint *)(uRam0200e06c & 0xfffffffc) << (uRam0200e06c & 3) * -8 + 0x20;
-  uVar3 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  if (param_1 != 0) {
-    *(int *)(uVar3 + 0x78) = param_1;
-    Os_ThreadQueue_Queue((uint *)(uintptr_t)(param_1),uVar3);
-  }
-  *(undefined4 *)(uVar3 + 100) = 0;
-  Os_RescheduleThread();
-  Os_RestoreIrq(uVar1);
-  return;
-}
+    OSIntrMode enabled = OS_DisableInterrupts();
+    OSThread *currentThread = OSi_GetCurrentThread();
 
+    if (queue)
+    {
+        currentThread->queue = queue;
+        OSi_InsertLinkToQueue(queue, currentThread);
+    }
+
+    currentThread->state = OS_THREAD_STATE_WAITING;
+    OSi_RescheduleThread();
+
+    (void)OS_RestoreInterrupts(enabled);
+}
