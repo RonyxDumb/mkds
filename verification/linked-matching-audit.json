@@ -1,7 +1,7 @@
 {
-  "tested": 1715,
-  "passed": 1715,
-  "bytes": 171948,
-  "resolved_relocations": 5015,
+  "tested": 1717,
+  "passed": 1717,
+  "bytes": 172040,
+  "resolved_relocations": 5019,
   "full_rom_link_verified": false
 }

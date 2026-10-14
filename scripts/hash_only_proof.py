@@ -1,0 +1,22 @@
+"""Validate explicit hash-only evidence without distributing reference code bytes."""
+import json
+
+
+def validate_hash_only(root, module, address, inventory_size, proof):
+    path = root / 'verification/hash-only-proofs.json'
+    entries = json.loads(path.read_text()) if path.exists() else {}
+    key = f'{module}_{address:08x}'
+    evidence = entries.get(key)
+    if evidence is None:
+        raise ValueError('Missing archived bytes or explicit hash-only evidence: ' + key)
+    assert evidence['size'] == int(proof['size']) == inventory_size
+    for field in ['sha256', 'source_sha256']:
+        assert evidence[field] == proof[field]
+    audit = json.loads((root / 'verification' / evidence['audit']).read_text())
+    assert any(r['module'] == module and int(r['address'], 16) == address
+               and all(r[field] == proof[field] for field in ['sha256', 'source_sha256', 'size'])
+               for r in audit['new_matches'])
+    result = audit['fresh_audits']['resolved']
+    assert result['tested'] == result['passed']
+    assert result['passed'] + audit['fresh_audits']['unrelocated']['passed'] == audit['total_functions']
+    assert result['passed'] > 0 and audit['full_rom_link_verified'] is False

@@ -47,7 +47,7 @@ assert all(headers.get(k) == v for k, v in previous.items()), 'Existing SDK head
 manifest.write_text(json.dumps(headers, indent=2) + '\n')
 donor = sdk if args.component == 'sdk' else system
 profile = args.cpu + '-' + args.inline_mode.replace(',', '-')
-out = root / 'build' / ('nitro-' + args.component + '-' + profile + '-candidates'); out.mkdir(exist_ok=True)
+out = root / 'build' / ('nitro-' + args.component + '-' + profile + '-candidates'); out.mkdir(parents=True, exist_ok=True)
 flags = ['-enum', 'int', '-lang', 'c99', '-char', 'signed', '-interworking', '-proc', 'arm7tdmi' if args.cpu == 'arm7' else 'arm946e',
          '-gccext,on', '-inline', args.inline_mode, '-gccinc', '-fp', 'soft',
          '-DSDK_CW_FORCE_EXPORT_SUPPORT', '-DSDK_TS', '-DSDK_4M', '-DSDK_' + args.cpu.upper(),

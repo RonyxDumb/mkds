@@ -1,13 +1,18 @@
-/* Decompiled C draft; module arm7; ROM address 037fb000. No matching claim. */
-#include "types.h"
-#include "deps/037fb000_FUN_037fb000.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define OS_Halt thunk_FUN_038011be
+#define OS_Terminate FUN_037fb000
+#include <nitro/os/common/system.h>
 
-void FUN_037fb000(void)
+#include <nitro/code32.h>
 
+#include <nitro/codereset.h>
+
+#pragma thumb off
+SDK_WEAK_SYMBOL void OS_Terminate(void)
 {
-  do {
-    FUN_037faf70();
-    thunk_FUN_038011be();
-  } while( true );
+    while (TRUE) {
+        OS_DisableInterrupts();
+        OS_Halt();
+    }
 }
-

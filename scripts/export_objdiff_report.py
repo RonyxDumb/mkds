@@ -5,6 +5,7 @@ import csv
 import hashlib
 import json
 from proof_span import validate_span
+from hash_only_proof import validate_hash_only
 from sdk_dependencies import validate_sdk_headers
 from pathlib import Path
 
@@ -71,10 +72,13 @@ def generate(root, report_input):
                         relocations = json.loads((audit_dir / f'{name}_{addr:08x}.relocations.json').read_text())
                         if len(relocations) != int(proof['relocations']) or not relocations:
                             raise ValueError('Relocation audit mismatch ' + str(key))
-                    original_bytes = bytes.fromhex(archived.read_text())
-                    validate_span(original_bytes,addr,proof['mode'],size)
-                    if len(original_bytes) != int(proof['size']) or hashlib.sha256(original_bytes).hexdigest() != proof['sha256']:
-                        raise ValueError('Archived code proof mismatch ' + str(key))
+                    if archived.exists():
+                        original_bytes = bytes.fromhex(archived.read_text())
+                        validate_span(original_bytes,addr,proof['mode'],size)
+                        if len(original_bytes) != int(proof['size']) or hashlib.sha256(original_bytes).hexdigest() != proof['sha256']:
+                            raise ValueError('Archived code proof mismatch ' + str(key))
+                    else:
+                        validate_hash_only(root,name,addr,size,proof)
                     source = root / 'src' / name / f'{addr:08x}_{fname}.c'
                     if hashlib.sha256(source.read_bytes()).hexdigest() != proof['source_sha256']:
                         raise ValueError('Source SHA-256 does not match proof: ' + str(source))

@@ -1,6 +1,6 @@
 """Verify complete locally linked ARM function bytes. No relocation is ignored."""
 from pathlib import Path
-import re,os,csv,json,hashlib,io,subprocess
+import re,os,csv,json,hashlib,io,subprocess,concurrent.futures
 from elftools.elf.elffile import ELFFile
 from capstone import Cs,CS_ARCH_ARM,CS_MODE_THUMB,CS_MODE_ARM
 root=Path(__file__).resolve().parents[1];base=Path(os.environ['MKDS_BASELINE']);manifest=json.loads((base/'manifest.json').read_text())
@@ -67,14 +67,16 @@ def linked(data,mod,name,addr):
    code[off:off+4]=value.to_bytes(4,'little');records.append(dict(offset=off,type=typ,symbol=symbol.name,target=target,thumb=thumb,addend=add,value=value))
  return bytes(code),records
 rows=list(csv.DictReader((root/'verification/local-linked-byte-exact.tsv').open(),delimiter='\t'))
-for r in rows:
+sdk_meta=root/'verification/sdk-source-proofs.json'
+overrides=json.loads(sdk_meta.read_text()) if sdk_meta.exists() else {}
+audit_objects=root/'build/linked-audit-objects'
+audit_objects.mkdir(parents=True,exist_ok=True)
+def verify(r):
  addr=int(r['address'],16);n=int(r['size']);dest=root/'src'/r['module']/f"{addr:08x}_{r['name']}.c"
  assert hashlib.sha256(dest.read_bytes()).hexdigest()==r['source_sha256']
- proof=root/'verification/resolved-calls'/f"{r['module']}_{addr:08x}.o"
+ proof=audit_objects/f"{r['module']}_{addr:08x}.o"
  args=[os.environ['WIBO'],os.environ['MWCCARM'],r['optimization'],'-enum','int','-lang','c99','-char','signed','-interworking','-proc',r['processor'],'-gccext,on','-msgstyle','gcc','-c',str(dest),'-o',str(proof)]
  if r['mode']=='thumb':args.insert(-4,'-thumb')
- sdk_meta=root/'verification/sdk-source-proofs.json'
- overrides=json.loads(sdk_meta.read_text()) if sdk_meta.exists() else {}
  key=f"{r['module']}_{addr:08x}"
  if key in overrides:args=[os.environ['WIBO'],os.environ['MWCCARM'],*overrides[key]['flags'],'-c',str(dest),'-o',str(proof)]
  p=subprocess.run(args,cwd=root,capture_output=True,timeout=30);assert p.returncode==0,p.stderr
@@ -82,5 +84,9 @@ for r in rows:
  assert code==original(r['module'],addr,n)
  assert hashlib.sha256(code).hexdigest()==r['sha256']
  assert len(relocs)==int(r['relocations'])
+ return r
+with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+ for completed, _ in enumerate(pool.map(verify, rows), 1):
+  if completed % 100 == 0:print('Verified linked functions',completed,'/',len(rows),flush=True)
 summary=dict(tested=len(rows),passed=len(rows),bytes=sum(int(r['size']) for r in rows),resolved_relocations=sum(int(r['relocations']) for r in rows),full_rom_link_verified=False)
 (root/'verification/linked-matching-audit.json').write_text(json.dumps(summary,indent=2)+'\n');print(json.dumps(summary))

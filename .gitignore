@@ -12,5 +12,7 @@ ghidra_work/
 *.rep/
 *.gpr
 baseline/binaries/
+verification/resolved-calls/arm7_037fb000.linked.hex
+verification/resolved-calls/arm7_03800ef0.linked.hex
 tools/
 *.zip

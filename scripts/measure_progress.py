@@ -4,6 +4,7 @@ This is an identified-function inventory, not a verified whole-ROM link metric.
 from pathlib import Path
 import csv,json,hashlib,struct
 from proof_span import validate_span
+from hash_only_proof import validate_hash_only
 root=Path(__file__).resolve().parents[1];base=root/'baseline'
 proofs={(x['module'],int(x['address'],16)):x for x in csv.DictReader((root/'verification/local-byte-exact.tsv').open(),delimiter='\t')}
 linked_file=root/'verification/local-linked-byte-exact.tsv'
@@ -34,7 +35,9 @@ for mod in ['arm9','arm9_ov000','arm9_ov001','arm9_ov003','arm7']:
    span_size=int(proof['size']);assert hashlib.sha256(f.read_bytes()).hexdigest()==proof['source_sha256']
    original=read(mod,addr,span_size);validate_span(original,addr,proof['mode'],size);assert hashlib.sha256(original).hexdigest()==proof['sha256']
    archive=(root/'verification/resolved-calls'/f'{mod}_{addr:08x}.linked.hex') if proof['status']=='EXACT_LOCAL_LINKED_BYTES' else (root/'verification/leafs'/f'{mod}_{addr:08x}.original.hex')
-   archived=bytes.fromhex(archive.read_text());assert archived==original
+   if archive.exists():
+    archived=bytes.fromhex(archive.read_text());assert archived==original
+   else:validate_hash_only(root,mod,addr,size,proof)
    obj=root/'build/leaf-candidates'/f'{mod}_{addr:08x}.o'
    if obj.exists() and proof['status']=='EXACT_LOCAL_BYTES':assert object_text(obj)==original
    found.add((mod,addr));status=0

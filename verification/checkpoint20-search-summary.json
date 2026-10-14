@@ -1,0 +1,93 @@
+{
+  "checkpoint": 20,
+  "base_commit": "ef690d0ed12cb041aa1fd6a174e484a968cdeec0",
+  "new_functions": 2,
+  "new_span_bytes": 92,
+  "new_matches": [
+    {
+      "module": "arm7",
+      "name": "FUN_037fb000",
+      "mode": "arm",
+      "address": "0x037fb000",
+      "size": "20",
+      "sha256": "657ee5cb20da01eb785321af2e24337370eee225109ecf8bd9cddeb05fb869b2",
+      "source_sha256": "c7433a42b8325787ce6029f4ea412b887e50b694d52ea5c606ea3a74d894dd57",
+      "relocations": "2",
+      "optimization": "-O1",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm7",
+      "name": "FUN_03800ef0",
+      "mode": "arm",
+      "address": "0x03800ef0",
+      "size": "72",
+      "sha256": "98a44541968bec3b39ac3977b1c0f68a907beb104923d81546daa01fb96dec76",
+      "source_sha256": "23391611cc5a23a4ab87072d7265df05dbeec7328d4d36373d48bea7cfa494f9",
+      "relocations": "2",
+      "optimization": "-O1",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "search_phases": {
+    "arm7_O1_O3_isolated": {
+      "tested": 51,
+      "accepted": 0
+    },
+    "arm7_O1_O3_full": {
+      "tested": 24,
+      "accepted": 0
+    },
+    "arm9_O1_O3_isolated": {
+      "tested": 7,
+      "accepted": 1
+    },
+    "arm9_O1_O3_full": {
+      "tested": 2,
+      "accepted": 1
+    },
+    "arm7_auto_isolated": {
+      "tested": 47,
+      "accepted": 0
+    },
+    "arm7_auto_full": {
+      "tested": 27,
+      "accepted": 0
+    },
+    "system_O1_O3_isolated": {
+      "tested": 3,
+      "accepted": 0
+    },
+    "system_O1_O3_full": {
+      "tested": 3,
+      "accepted": 0
+    }
+  },
+  "full_rom_link_verified": false,
+  "new_inventory_bytes": 92,
+  "total_functions": 3113,
+  "inventory_bytes": 216924,
+  "span_bytes": 219328,
+  "identified_function_bytes": 1913676,
+  "local_percent": 11.335461175245966,
+  "fresh_audits": {
+    "unrelocated": {
+      "tested": 1396,
+      "passed": 1396,
+      "exact_code_bytes": 47288,
+      "relocations": 0,
+      "full_rom_link_verified": false,
+      "compiler": "mwccarm 1.2/sp2p3; Clang for explicitly tagged Clang proofs",
+      "verification": "Fresh compilation of current source; complete function bytes and length identical to original decompressed section; no masking or relocations."
+    },
+    "resolved": {
+      "tested": 1717,
+      "passed": 1717,
+      "bytes": 172040,
+      "resolved_relocations": 5019,
+      "full_rom_link_verified": false
+    }
+  }
+}

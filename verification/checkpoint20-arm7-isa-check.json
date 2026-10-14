@@ -1,0 +1,34 @@
+[
+  {
+    "module": "arm7",
+    "address": "0x037fb000",
+    "bytes": 20,
+    "instructions": 5,
+    "armv4t_compatible": true,
+    "mnemonics": [
+      "b",
+      "bl",
+      "stmdb",
+      "sub"
+    ]
+  },
+  {
+    "module": "arm7",
+    "address": "0x03800ef0",
+    "bytes": 72,
+    "instructions": 18,
+    "armv4t_compatible": true,
+    "mnemonics": [
+      "add",
+      "b",
+      "bl",
+      "bne",
+      "bx",
+      "cmp",
+      "mov",
+      "pop",
+      "push",
+      "sub"
+    ]
+  }
+]
