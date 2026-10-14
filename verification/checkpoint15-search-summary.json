@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-14",
+  "search": "verify_mw_sdk_caller_drafts.py",
+  "tested": 5688,
+  "new_matches": 1,
+  "new_inventory_bytes": 76,
+  "added_function": {
+    "module": "arm9",
+    "address": "0x02077eb4",
+    "name": "CreateCESex_from_thumb",
+    "mode": "thumb",
+    "span_bytes": 76,
+    "resolved_relocations": 2,
+    "clang_arm_compilation_passed": true
+  },
+  "unrelocated_recompiled": 1251,
+  "linked_recompiled": 1038,
+  "current_functions": 2289,
+  "current_inventory_bytes": 109220,
+  "current_full_span_bytes": 109380,
+  "byte_denominator": 1913676,
+  "current_byte_percent": 5.707340218511389,
+  "target_reached": false,
+  "full_rom_link_verified": false
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 4002871230
+  },
+  {
+    "offset": 18,
+    "type": 10,
+    "symbol": "Mem_Exp_Create",
+    "target": 33651080,
+    "thumb": false,
+    "addend": -4,
+    "value": 3982555039
+  }
+]

@@ -14,6 +14,7 @@
 | 12 | 7.619 | 63,29% | 1.222 | 29.070 |
 | 13 | 7.800 | 64,79% | 1.663 | 62.902 |
 | 14 | 7.986 | 66,34% | 2.288 | 109.144 |
+| 15 | 7.987 | 66,35% | 2.289 | 109.220 |
 
 Checkpoint 4: 846 puntatori tipizzati, 484 nuove compilazioni riuscite.
 
@@ -39,3 +40,5 @@ Checkpoint 12: +48 funzioni Thumb, +966 byte, tutte riconfermate con ricompilazi
 Checkpoint 13: +441 funzioni e +33.832 byte. Folding dei soli literal pool referenziati da LDR PC, resolver ARM BLX con controllo Capstone indipendente, CFG con tutti i ritorni e chiamate con arita inferita dai sorgenti. Ricerca literal: 6.754 candidati / 123 match. CFG: 1.334 candidati / 318 match. Ricompilazione completa: 1.091 prove senza relocazioni e 572 con relocazioni, tutte PASS. Target 10% ancora in corso.
 
 Checkpoint 14: +625 funzioni e +46.242 byte inventariati. C SDK recuperato e ricompilato, argomenti e temporanei stack, trasferimenti multipli, literal puntatore e candidato modello LDR nativo. Tutte le 2.288 prove sono state ricompilate: PASS. I proof span completi sommano 109.304 byte; il numeratore conserva i 109.144 byte dei corpi Ghidra, escludendo 160 byte aggiuntivi (literal pool e un ritorno condiviso). Denominatore invariato: 1.913.676. Target 10% in corso.
+
+Checkpoint 15: ROM EUR fornita e verificata; tutte le 2.288 prove precedenti ricompilate. Nuovo match Thumb CreateCESex_from_thumb: 76 byte e due chiamate Thumb/ARM risolte; ricompilazione Clang ARM riuscita. Tutte le 1.038 prove con relocazioni ricompilate. Copertura locale: 5,707340%; ROM completa e ABI globale non verificati.

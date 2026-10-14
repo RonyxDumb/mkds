@@ -69,3 +69,7 @@ Ripristino del compilatore: `python scripts/setup_matching_toolchain.py` scarica
 L'ambiente di esecuzione si e disconnesso: exec-server ha restituito `409 Conflict, environment_offline: Environment is not connected`. Il checkpoint 14 resta il risultato durevole e ricompilato: 2.288 funzioni, 109.144 byte inventariati (5,703369%). Il 10% richiede 191.368 byte: ne mancano 82.224.
 
 `verify_mw_sdk_caller_drafts.py` ha terminato una ricerca su 5.688 candidati con un ulteriore match locale, non ricontrollato e non incluso nel checkpoint pubblicato. Un'esplorazione di sorgenti C/C++ da tangosdev/sm64ds-decomp era in corso quando l'ambiente e caduto; nessun risultato di quell'esperimento e incluso nel matching pubblicato. Ricreare un ambiente, ripristinare binari di riferimento e toolchain, ricompilare i registri pubblicati, quindi proseguire con le funzioni grandi e i sorgenti SDK. Non dichiarare raggiunto il target 10%.
+
+## Checkpoint 15 — main
+
+2.289 funzioni; 109.220 / 1.913.676 byte inventariati (5,707340%). Nuova prova CreateCESex_from_thumb, 76 byte e due relocazioni Thumb/ARM; compilazione Clang ARM indipendente riuscita. Ricompilate tutte le 1.038 prove con relocazioni dopo la nuova aggiunta. Le 1.251 prove senza relocazioni erano state ricompilate nella stessa sessione. Proseguire con nuove ricostruzioni di funzioni grandi; non ripetere la ricerca sdk_caller senza modifiche, perche ha prodotto un solo match su 5.688 candidati. Mancano 82.148 byte per raggiungere almeno il 10% dell'inventario.
