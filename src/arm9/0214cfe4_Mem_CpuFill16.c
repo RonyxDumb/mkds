@@ -1,15 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0214cfe4. No matching claim. */
-#include "types.h"
-#include "deps/0214cfe4_Mem_CpuFill16.h"
-
-void Mem_CpuFill16(undefined2 param_1,int param_2,int param_3)
-
-{
-  int iVar1;
-  
-  for (iVar1 = 0; iVar1 < param_3; iVar1 = iVar1 + 2) {
-    *(undefined2 *)(param_2 + iVar1) = param_1;
-  }
-  return;
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define MultiStore16 Mem_CpuFill16
+void MultiStore16(unsigned short val, char *dst, int nbytes) {
+    int i = 0;
+    do {
+        if (i < nbytes) {
+            *(unsigned short*)(dst + i) = val;
+            i += 2;
+        } else break;
+    } while (1);
 }
-

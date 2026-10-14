@@ -1,46 +1,131 @@
-/* Decompiled C draft; module arm9; ROM address 02017354. No matching claim. */
-#include "types.h"
-#include "deps/02017354_IntrusiveListWrapper_RemoveItem.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define NNS_FndRemoveListObject IntrusiveListWrapper_RemoveItem
+#include "nitro.h"
+#include "NNS_FND_list.h"
+#include "code32.h"
 
-void IntrusiveListWrapper_RemoveItem(uint *param_1,int param_2)
+#define OBJ_TO_LINK(list, obj) ((NNSFndLink*)((void*)(obj) + (list)->offset))
 
+void NNS_FndInitList(NNSFndList* list, s32 alignment)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar4;
-  undefined4 *puVar5;
-  uint uVar3;
-  
-  uVar4 = (uint)*(ushort *)((int)param_1 + 10);
-  uVar3 = param_2 + uVar4 & 3;
-  uVar2 = *(uint *)(param_2 + uVar4 & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  puVar5 = (undefined4 *)(param_2 + uVar4);
-  if (uVar3 == 0) {
-    uVar3 = (uint)(puVar5 + 1) & 3;
-    uVar2 = *(uint *)((uint)(puVar5 + 1) & 0xfffffffc);
-    *param_1 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  }
-  else {
-    uVar2 = (uint)(puVar5 + 1) & 3;
-    uVar1 = *(uint *)((uint)(puVar5 + 1) & 0xfffffffc);
-    *(uint *)(uVar3 + uVar4 + 4) = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  }
-  uVar3 = (uint)(puVar5 + 1) & 3;
-  uVar2 = *(uint *)((uint)(puVar5 + 1) & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  if (uVar3 == 0) {
-    param_1[1] = *(uint *)((uint)puVar5 & 0xfffffffc) >> ((uint)puVar5 & 3) * 8 |
-                 *(uint *)((uint)puVar5 & 0xfffffffc) << ((uint)puVar5 & 3) * -8 + 0x20;
-  }
-  else {
-    *(uint *)(uVar3 + *(ushort *)((int)param_1 + 10)) =
-         *(uint *)((uint)puVar5 & 0xfffffffc) >> ((uint)puVar5 & 3) * 8 |
-         *(uint *)((uint)puVar5 & 0xfffffffc) << ((uint)puVar5 & 3) * -8 + 0x20;
-  }
-  *puVar5 = 0;
-  puVar5[1] = 0;
-  *(short *)(param_1 + 2) = (short)param_1[2] + -1;
-  return;
+    list->headObject = NULL;
+    list->tailObject = NULL;
+    list->numObjects = 0;
+    list->offset = (u16)alignment;
 }
 
+static void SetFirstObject(NNSFndList* list, void* object)
+{
+    NNSFndLink* tail = OBJ_TO_LINK(list, object);
+    tail->nextObject = NULL;
+    tail->prevObject = NULL;
+    list->headObject = object;
+    list->tailObject = object;
+    list->numObjects++;
+}
+
+void NNS_FndAppendListObject(NNSFndList* list, void* object)
+{
+    if (list->headObject == NULL)
+    {
+        SetFirstObject(list, object);
+    }
+    else
+    {
+        NNSFndLink *tail = OBJ_TO_LINK(list, object);
+        tail->prevObject = list->tailObject;
+        tail->nextObject = NULL;
+        OBJ_TO_LINK(list, list->tailObject)->nextObject = object;
+        list->tailObject = object;
+        list->numObjects++;
+    }
+}
+
+void NNS_FndPrependListObject(NNSFndList* list, void* object)
+{
+    if (list->headObject == NULL)
+    {
+        SetFirstObject(list, object);
+    }
+    else
+    {
+        NNSFndLink *tail = OBJ_TO_LINK(list, object);
+        tail->prevObject = NULL;
+        tail->nextObject = list->headObject;
+        OBJ_TO_LINK(list, list->headObject)->prevObject = object;
+        list->headObject = object;
+        list->numObjects++;
+    }
+}
+
+void NNS_FndInsertListObject(NNSFndList* list, void* where, void* object)
+{
+    if (where == NULL)
+    {
+        NNS_FndAppendListObject(list, object);
+    }
+
+    else if (where == list->headObject)
+    {
+        NNS_FndPrependListObject(list, object);
+    }
+    else
+    {
+        NNSFndLink* tail = OBJ_TO_LINK(list, object);
+        void* prevObject = OBJ_TO_LINK(list, where)->prevObject;
+        NNSFndLink* head = OBJ_TO_LINK(list, prevObject);
+        tail->prevObject = prevObject;
+        tail->nextObject = where;
+        head->nextObject = object;
+        OBJ_TO_LINK(list, where)->prevObject = object;
+        list->numObjects++;
+    }
+}
+
+void NNS_FndRemoveListObject(NNSFndList* list, void* object)
+{
+    NNSFndLink* node = OBJ_TO_LINK(list, object);
+    if (node->prevObject == NULL)
+    {
+        list->headObject = node->nextObject;
+    }
+    else
+    {
+        OBJ_TO_LINK(list, node->prevObject)->nextObject = node->nextObject;
+    }
+    if (node->nextObject == NULL)
+    {
+        list->tailObject = node->prevObject;
+    }
+    else
+    {
+        OBJ_TO_LINK(list, node->nextObject)->prevObject = node->prevObject;
+    }
+    node->prevObject = NULL;
+    node->nextObject = NULL;
+    list->numObjects--;
+}
+
+void * NNS_FndGetNextListObject(NNSFndList* list, void* object)
+{
+    if (object == NULL)
+    {
+        return list->headObject;
+    }
+    else
+    {
+        return OBJ_TO_LINK(list, object)->nextObject;
+    }
+}
+
+void * NNS_FndGetPrevListObject(NNSFndList* list, void* object)
+{
+    if (object == NULL)
+    {
+        return list->tailObject;
+    }
+    else
+    {
+        return OBJ_TO_LINK(list, object)->prevObject;
+    }
+}

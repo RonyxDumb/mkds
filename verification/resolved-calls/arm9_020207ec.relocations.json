@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Sound_AllocateCommand",
+    "target": 33690604,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646519
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "func_020213a4",
+    "target": 33690532,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646490
+  }
+]

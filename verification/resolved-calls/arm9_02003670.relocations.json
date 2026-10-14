@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Fs_File_DoExecuteOperation",
+    "target": 33566756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422564
+  },
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "Fs_File_DoSeekDirectory",
+    "target": 33569444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645967
+  },
+  {
+    "offset": 292,
+    "type": 1,
+    "symbol": "Fs_File_DoExecuteOperation",
+    "target": 33566756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422498
+  },
+  {
+    "offset": 352,
+    "type": 1,
+    "symbol": "Fs_Strcasecmp",
+    "target": 33569660,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645993
+  },
+  {
+    "offset": 400,
+    "type": 1,
+    "symbol": "Fs_File_DoExecuteOperation",
+    "target": 33566756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422471
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "FX_InvAsync",
+    "target": 34897388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646246
+  },
+  {
+    "offset": 436,
+    "type": 1,
+    "symbol": "FX_GetDivResult",
+    "target": 34897448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646212
+  },
+  {
+    "offset": 896,
+    "type": 1,
+    "symbol": "asm_MI_Copy48B",
+    "target": 34918680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942651405
+  }
+]

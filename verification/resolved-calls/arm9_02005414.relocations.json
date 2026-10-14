@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Mem_CpuFill8",
+    "target": 34918760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942981451
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Mem_CpuCopy8",
+    "target": 34918908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942981482
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "func_02150808",
+    "target": 34932744,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942984933
+  },
+  {
+    "offset": 156,
+    "type": 2,
+    "symbol": "SDK_data_02161768",
+    "target": 35002216,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002216
+  },
+  {
+    "offset": 160,
+    "type": 2,
+    "symbol": "SDK_data_0216176c",
+    "target": 35002220,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002220
+  }
+]

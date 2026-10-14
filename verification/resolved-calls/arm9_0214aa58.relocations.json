@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "G3X_ClearFifo",
+    "target": 34908572,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422925
+  },
+  {
+    "offset": 164,
+    "type": 1,
+    "symbol": "G3X_InitializeMatrixStack",
+    "target": 34908396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422842
+  },
+  {
+    "offset": 232,
+    "type": 1,
+    "symbol": "G3X_InitializeTable",
+    "target": 34907720,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422656
+  }
+]

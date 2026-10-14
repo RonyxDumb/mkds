@@ -1,31 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 0214a9d0. No matching claim. */
-#include "types.h"
-#include "deps/0214a9d0_G3X_ResetMatrixStack.h"
-
-void G3X_ResetMatrixStack(void)
-
-{
-  ushort *puVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  puVar1 = puRam0214aa44;
-  do {
-  } while (((*(uint *)((uint)puRam0214aa40 & 0xfffffffc) >> ((uint)puRam0214aa40 & 3) * 8 |
-            *(uint *)((uint)puRam0214aa40 & 0xfffffffc) << ((uint)puRam0214aa40 & 3) * -8 + 0x20) &
-           0x8000000) != 0);
-  *puRam0214aa40 =
-       *(uint *)((uint)puRam0214aa40 & 0xfffffffc) >> ((uint)puRam0214aa40 & 3) * 8 |
-       *(uint *)((uint)puRam0214aa40 & 0xfffffffc) << ((uint)puRam0214aa40 & 3) * -8 + 0x20 | 0x8000
-  ;
-  *puVar1 = *puVar1 | 0x2000;
-  *puVar1 = *puVar1 | 0x1000;
-  G3X_ResetMatrixStack2();
-  puVar2 = puRam0214aa50;
-  *puRam0214aa4c = uRam0214aa48;
-  puVar3 = puRam0214aa54;
-  *puVar2 = 0;
-  *puVar3 = 0;
-  return;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define G3X_ResetMtxStack_2 G3X_ResetMatrixStack2
+#define G3X_ResetMtxStack G3X_ResetMatrixStack
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern void G3X_ResetMtxStack_2();
+#pragma thumb off
+void G3X_ResetMtxStack(){
+    while (reg_G3X_GXSTAT & 0x8000000) {}
+    reg_G3X_GXSTAT |= 0x8000;
+    reg_G3X_DISP3DCNT |= 0x2000;
+    reg_G3X_DISP3DCNT |= 0x1000;
+    G3X_ResetMtxStack_2();
+    reg_G3_POLYGON_ATTR = 0x1F0080;
+    reg_G3_TEXIMAGE_PARAM = 0x0;
+    reg_G3_TEXPLTT_BASE = 0x0;
 }
-

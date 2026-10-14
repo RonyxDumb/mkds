@@ -1,77 +1,175 @@
-/* Decompiled C draft; module arm9; ROM address 02145d44. No matching claim. */
-#include "types.h"
-#include "deps/02145d44_MaybeInitializeBackup.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define OSi_ReferSymbol Os_ReferSymbol
+#define OS_Terminate Os_Terminate
+#define CARD_CheckEnabled EnsureCardEnabled
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_SleepThread Os_Thread_Sleep
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define CARDi_IdentifyBackupCore func_02145b54
+#define CARDi_Request Card_Request
+#define OS_WakeupThread Os_Thread_WakeUp
+#define OS_WakeupThreadDirect Os_Thread_WakeUpDirect
+#define _SDK_NintendoBackup SDK_data_02000b70
+#define cardi_common SDK_data_0217fa40
+#define OSi_ThreadInfo SDK_data_0216ff5c
+#define CARD_IdentifyBackup MaybeInitializeBackup
+#include "CARD_backup.h"
+#include "nitro/types.h"
+#include "CARD_common.h"
+#include "CARD_request.h"
+#include "CARD_spi.h"
+#include "OS_cache.h"
+#include "MI_memory.h"
+#include "OS_terminate_proc.h"
+#include "OS_system.h"
+#include "code32.h"
 
-bool MaybeInitializeBackup(int param_1)
+extern void OSi_ReferSymbol(void *symbol);
+extern char _SDK_NintendoBackup[];
 
+extern CARDiCommon cardi_common;
+
+static void CARDi_RequestStreamCommandCore(CARDiCommon *p);
+
+static void CARDi_RequestStreamCommandCore(CARDiCommon *p)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  code *pcVar7;
-  
-  uVar1 = uRam02145e84;
-  Os_ReferSymbol(uRam02145e80);
-  if (param_1 == 0) {
-    Os_Terminate();
-  }
-  EnsureCardEnabled();
-  uVar2 = Os_DisableIrq();
-  uVar3 = uVar1 + 0x114 & 3;
-  uVar4 = *(uint *)(uVar1 + 0x114 & 0xfffffffc);
-  if (((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) & 4) != 0) {
-    do {
-      Os_Thread_Sleep(uVar1 + 0x10c);
-      uVar3 = uVar1 + 0x114 & 3;
-      uVar4 = *(uint *)(uVar1 + 0x114 & 0xfffffffc);
-    } while (((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) & 4) != 0);
-  }
-  uVar3 = uVar1 + 0x114 & 3;
-  uVar4 = *(uint *)(uVar1 + 0x114 & 0xfffffffc);
-  *(uint *)(uVar1 + 0x114) = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20 | 4;
-  *(undefined4 *)(uVar1 + 0x38) = 0;
-  *(undefined4 *)(uVar1 + 0x3c) = 0;
-  Os_RestoreIrq(uVar2);
-  func_02145b54(param_1);
-  uVar3 = iRam02145e88 + 4U & 3;
-  uVar4 = *(uint *)(iRam02145e88 + 4U & 0xfffffffc);
-  *(uint *)(uRam02145e84 + 0x104) = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-  Card_Request(uVar1,2,1);
-  *(undefined4 *)
-   ((*(uint *)(uVar1 & 0xfffffffc) >> (uVar1 & 3) * 8 |
-    *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + 0xc) = 0;
-  *(uint *)((*(uint *)(uVar1 & 0xfffffffc) >> (uVar1 & 3) * 8 |
-            *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + 0x10) = uVar1 + 0x120;
-  *(undefined4 *)
-   ((*(uint *)(uVar1 & 0xfffffffc) >> (uVar1 & 3) * 8 |
-    *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) + 0x14) = 1;
-  Card_Request(uVar1,6);
-  uVar3 = uVar1 + 0x38 & 3;
-  uVar4 = *(uint *)(uVar1 + 0x38 & 0xfffffffc);
-  pcVar7 = (code *)(uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
-  uVar3 = uVar1 + 0x3c & 3;
-  uVar6 = *(uint *)(uVar1 + 0x3c & 0xfffffffc);
-  uVar2 = Os_DisableIrq();
-  uVar4 = uVar1 + 0x114 & 3;
-  uVar5 = *(uint *)(uVar1 + 0x114 & 0xfffffffc);
-  *(uint *)(uVar1 + 0x114) = (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0xffffffb3;
-  Os_Thread_WakeUp((uint *)(uintptr_t)(uVar1 + 0x10c));
-  uVar4 = uVar1 + 0x114 & 3;
-  uVar5 = *(uint *)(uVar1 + 0x114 & 0xfffffffc);
-  if (((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) & 0x10) != 0) {
-    Os_Thread_WakeUpDirect(uVar1 + 0x44);
-  }
-  Os_RestoreIrq(uVar2);
-  if (pcVar7 != (code *)0x0) {
-    (*pcVar7)(uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20);
-  }
-  uVar3 = *(uint *)(uVar1 & 0xfffffffc) >> (uVar1 & 3) * 8 |
-          *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20;
-  uVar1 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  return uVar3 >> uVar1 * 8 == 0 && uVar3 << uVar1 * -8 + 0x20 == 0;
+    const int req_type = p->req_type;
+    const int req_mode = p->req_mode;
+    const int retry_count = p->req_retry;
+    u32 size = sizeof(p->backup_cache_page_buf);
+
+    OSi_ReferSymbol((void *)_SDK_NintendoBackup);
+
+    if (req_type == CARD_REQ_ERASE_SECTOR_BACKUP)
+    {
+        size = CARD_GetBackupSectorSize();
+    }
+    do
+    {
+        const u32 len = (size < p->len) ? size : p->len;
+        p->cmd->len = len;
+
+        if ((p->flag & CARD_STAT_CANCEL) != 0)
+        {
+            p->flag &= ~CARD_STAT_CANCEL;
+            p->cmd->result = CARD_RESULT_CANCELED;
+            break;
+        }
+        switch (req_mode)
+        {
+            case CARD_REQUEST_MODE_RECV:
+                DC_InvalidateRange(p->backup_cache_page_buf, len);
+                p->cmd->src = (u32)p->src;
+                p->cmd->dest = (u32)p->backup_cache_page_buf;
+                break;
+            case CARD_REQUEST_MODE_SEND:
+            case CARD_REQUEST_MODE_SEND_VERIFY:
+                MI_CpuCopy8((const void *)p->src, p->backup_cache_page_buf, len);
+                DC_FlushRange(p->backup_cache_page_buf, len);
+                DC_WaitWriteBufferEmpty();
+                p->cmd->src = (u32)p->backup_cache_page_buf;
+                p->cmd->dest = (u32)p->dst;
+                break;
+            case CARD_REQUEST_MODE_SPECIAL:
+                p->cmd->src = (u32)p->src;
+                p->cmd->dest = (u32)p->dst;
+                break;
+        }
+
+        if (!CARDi_Request(p, req_type, retry_count))
+        {
+            break;
+        }
+
+        if (req_mode == CARD_REQUEST_MODE_SEND_VERIFY)
+        {
+            if (!CARDi_Request(p, CARD_REQ_VERIFY_BACKUP, 1))
+            {
+                break;
+            }
+        }
+        else if (req_mode == CARD_REQUEST_MODE_RECV)
+        {
+            MI_CpuCopy8(p->backup_cache_page_buf, (void *)p->dst, len);
+        }
+        p->src += len;
+        p->dst += len;
+        p->len -= len;
+    }
+    while (p->len > 0);
+    CARDi_EndTask(p, TRUE);
 }
 
+BOOL CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, MIDmaCallback callback, void *arg, BOOL is_async,
+                                         CARDRequest req_type, int req_retry, CARDRequestMode req_mode)
+{
+    CARDiCommon *const p = &cardi_common;
+
+    OSi_ReferSymbol((void *)_SDK_NintendoBackup);
+
+    CARDi_WaitTask(p, callback, arg);
+    p->src = src;
+    p->dst = dst;
+    p->len = len;
+    p->req_type = req_type;
+    p->req_retry = req_retry;
+    p->req_mode = req_mode;
+    if (is_async)
+    {
+        CARDi_SetTask(CARDi_RequestStreamCommandCore);
+        return TRUE;
+    }
+    else
+    {
+        cardi_common.cur_th = OS_GetCurrentThread();
+        CARDi_RequestStreamCommandCore(p);
+        return (p->cmd->result == CARD_RESULT_SUCCESS);
+    }
+}
+
+u32 CARD_GetBackupSectorSize(void)
+{
+    return cardi_common.cmd->spec.sect_size;
+}
+
+BOOL CARD_IdentifyBackup(CARDBackupType type)
+{
+    CARDiCommon *const p = &cardi_common;
+
+    OSi_ReferSymbol((void *)_SDK_NintendoBackup);
+    if (type == CARD_BACKUP_TYPE_NOT_USE)
+    {
+        OS_Terminate();
+    }
+
+    CARD_CheckEnabled();
+
+    CARDi_WaitTask(p, NULL, NULL);
+    CARDi_IdentifyBackupCore(type);
+    cardi_common.cur_th = OS_GetCurrentThread();
+    (void)CARDi_Request(p, CARD_REQ_IDENTIFY, 1);
+
+    p->cmd->src = 0;
+    p->cmd->dest = (u32)p->backup_cache_page_buf;
+    p->cmd->len = 1;
+    (void)CARDi_Request(p, CARD_REQ_READ_BACKUP, 1);
+    CARDi_EndTask(p, TRUE);
+    return (p->cmd->result == CARD_RESULT_SUCCESS);
+}
+
+BOOL CARD_WaitBackupAsync(void)
+{
+    return CARDi_WaitAsync();
+}
+
+BOOL CARD_TryWaitBackupAsync(void)
+{
+    return CARDi_TryWaitAsync();
+}
+
+void CARD_CancelBackupAsync(void)
+{
+    OSIntrMode bak_cpsr = OS_DisableInterrupts();
+    cardi_common.flag |= CARD_STAT_CANCEL;
+    (void)OS_RestoreInterrupts(bak_cpsr);
+}

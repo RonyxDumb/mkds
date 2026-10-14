@@ -1,0 +1,191 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405226
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405225
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405214
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "Sound_CommandReceiveAndReply",
+    "target": 33690760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645901
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959404289
+  },
+  {
+    "offset": 152,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942953241
+  },
+  {
+    "offset": 176,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405190
+  },
+  {
+    "offset": 212,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942953226
+  },
+  {
+    "offset": 244,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405173
+  },
+  {
+    "offset": 252,
+    "type": 1,
+    "symbol": "Os_SpinWait",
+    "target": 33619216,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405194
+  },
+  {
+    "offset": 256,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405165
+  },
+  {
+    "offset": 276,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942953210
+  },
+  {
+    "offset": 296,
+    "type": 1,
+    "symbol": "SoundInternal_RequestCommandProc",
+    "target": 33689424,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422735
+  },
+  {
+    "offset": 400,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405134
+  },
+  {
+    "offset": 420,
+    "type": 2,
+    "symbol": "SDK_data_021732d0",
+    "target": 35074768,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074768
+  },
+  {
+    "offset": 424,
+    "type": 2,
+    "symbol": "SDK_data_021732e4",
+    "target": 35074788,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074788
+  },
+  {
+    "offset": 428,
+    "type": 2,
+    "symbol": "SDK_data_021735a0",
+    "target": 35075488,
+    "thumb": false,
+    "addend": 0,
+    "value": 35075488
+  },
+  {
+    "offset": 432,
+    "type": 2,
+    "symbol": "SDK_data_021732e0",
+    "target": 35074784,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074784
+  },
+  {
+    "offset": 436,
+    "type": 2,
+    "symbol": "SDK_data_021732ec",
+    "target": 35074796,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074796
+  },
+  {
+    "offset": 440,
+    "type": 2,
+    "symbol": "SDK_data_021732e8",
+    "target": 35074792,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074792
+  },
+  {
+    "offset": 444,
+    "type": 2,
+    "symbol": "SDK_data_021732d4",
+    "target": 35074772,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074772
+  }
+]

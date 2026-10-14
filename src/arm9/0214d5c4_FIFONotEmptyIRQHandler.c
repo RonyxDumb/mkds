@@ -1,74 +1,190 @@
-/* Decompiled C draft; module arm9; ROM address 0214d5c4. No matching claim. */
-#include "types.h"
-#include "deps/0214d5c4_FIFONotEmptyIRQHandler.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define FifoRecvCallbackTable SDK_data_0218032c
+#define PXIi_HandlerRecvFifoNotEmpty FIFONotEmptyIRQHandler
+#include "consts.h"
+#include "OS_interrupt.h"
+#include "OS_system.h"
+#include "PXI_fifo.h"
+#include "systemWork.h"
+#include "code32.h"
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+static u16 FifoCtrlInit = 0;
+static PXIFifoCallback FifoRecvCallbackTable[PXI_MAX_FIFO_TAG];
 
-void FIFONotEmptyIRQHandler(void)
+static inline PXIFifoStatus PXIi_SetToFifo(u32 data);
 
+void PXI_InitFifo(void)
 {
-  uint uVar1;
-  uint uVar2;
-  ushort *puVar3;
-  int iVar4;
-  uint *puVar5;
-  int iVar6;
-  uint uVar7;
-  undefined4 local_28;
-  code *pcVar8;
-  
-  puVar5 = puRam0214d6e4;
-  iVar4 = iRam0214d6e0;
-  puVar3 = puRam0214d6dc;
-  while( true ) {
-    if ((*puVar3 & 0x4000) == 0) {
-      Os_DisableIrq();
-      if ((*puVar3 & 0x100) == 0) {
-        local_28 = _DAT_04100000;
-        Os_RestoreIrq();
-        iVar6 = 0;
-      }
-      else {
-        Os_RestoreIrq();
-        iVar6 = -4;
-      }
-    }
-    else {
-      *puVar3 = *puVar3 | 0xc000;
-      iVar6 = -3;
-    }
-    if (iVar6 == -4) break;
-    if (iVar6 != -3) {
-      uVar2 = local_28 & 0x1f;
-      if (uVar2 != 0) {
-        uVar7 = iVar4 + uVar2 * 4;
-        uVar1 = uVar7 & 3;
-        uVar7 = *(uint *)(uVar7 & 0xfffffffc);
-        pcVar8 = (code *)(uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20);
-        if (pcVar8 == (code *)0x0) {
-          if (-1 < (int)(local_28 << 0x1a)) {
-            local_28 = local_28 | 0x20;
-            if ((*puVar3 & 0x4000) == 0) {
-              Os_DisableIrq();
-              if ((*puVar3 & 2) == 0) {
-                *puVar5 = local_28;
-                Os_RestoreIrq();
-              }
-              else {
-                Os_RestoreIrq();
-              }
-            }
-            else {
-              *puVar3 = *puVar3 | 0xc000;
-            }
-          }
+    OSSystemWork *p = OS_GetSystemWork();
+    OSIntrMode enabled = OS_DisableInterrupts();
+    s32 i;
+
+    if (!FifoCtrlInit)
+    {
+        FifoCtrlInit = TRUE;
+
+        p->pxiHandleChecker[PXI_PROC_ARM9] = 0UL;
+
+        for (i = 0; i < PXI_MAX_FIFO_TAG; i++)
+        {
+            FifoRecvCallbackTable[i] = NULL;
         }
-        else {
-          (*pcVar8)(uVar2,local_28 >> 6,(local_28 << 0x1a) >> 0x1f);
+
+        reg_PXI_SUBP_FIFO_CNT = (REG_PXI_SUBP_FIFO_CNT_SEND_CL_MASK
+                                 | REG_PXI_SUBP_FIFO_CNT_RECV_RI_MASK | REG_PXI_SUBP_FIFO_CNT_E_MASK | REG_PXI_SUBP_FIFO_CNT_ERR_MASK);
+
+        (void)OS_ResetRequestIrqMask(OS_IE_SPFIFO_RECV);
+        (void)OS_SetIrqFunction(OS_IE_SPFIFO_RECV, PXIi_HandlerRecvFifoNotEmpty);
+        (void)OS_EnableIrqMask(OS_IE_SPFIFO_RECV);
+
+        {
+            s32 timeout;
+            s32 c;
+
+            for (i = 0; ; i++)
+            {
+                c = reg_PXI_SUBPINTF & 15;
+                reg_PXI_SUBPINTF = (u16)(c << 8);
+
+                if (c == 0 && i > 4)
+                {
+                    break;
+                }
+
+                for (timeout = 1000; (reg_PXI_SUBPINTF & 15) == c; timeout--)
+                {
+                    if (timeout == 0)
+                    {
+                        i = 0;
+                        break;
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  return;
+    (void)OS_RestoreInterrupts(enabled);
 }
 
+void PXI_SetFifoRecvCallback(s32 fifotag, PXIFifoCallback callback)
+{
+    OSSystemWork *p = OS_GetSystemWork();
+    OSIntrMode enabled = OS_DisableInterrupts();
+
+    FifoRecvCallbackTable[fifotag] = callback;
+    if (callback)
+    {
+        p->pxiHandleChecker[PXI_PROC_ARM9] |= (1UL << fifotag);
+    }
+    else
+    {
+        p->pxiHandleChecker[PXI_PROC_ARM9] &= ~(1UL << fifotag);
+    }
+    (void)OS_RestoreInterrupts(enabled);
+}
+
+BOOL PXI_IsCallbackReady(s32 fifotag, PXIProc proc)
+{
+    OSSystemWork *p = OS_GetSystemWork();
+
+    return (p->pxiHandleChecker[proc] & (1UL << fifotag)) ? TRUE : FALSE;
+}
+
+s32 PXI_SendWordByFifo(s32 fifotag, u32 data, BOOL err)
+{
+    PXIFifoMessage fifomsg;
+
+    fifomsg.e.tag = (PXIFifoTag)fifotag;
+    fifomsg.e.err = (u32)err;
+    fifomsg.e.data = data;
+
+    return PXIi_SetToFifo(fifomsg.raw);
+}
+
+static inline PXIFifoStatus PXIi_SetToFifo(u32 data)
+{
+    if (reg_PXI_SUBP_FIFO_CNT & REG_PXI_SUBP_FIFO_CNT_ERR_MASK)
+    {
+        reg_PXI_SUBP_FIFO_CNT |= (REG_PXI_SUBP_FIFO_CNT_E_MASK | REG_PXI_SUBP_FIFO_CNT_ERR_MASK);
+        return PXI_FIFO_FAIL_SEND_ERR;
+    }
+
+    OSIntrMode enabled = OS_DisableInterrupts();
+    if (reg_PXI_SUBP_FIFO_CNT & REG_PXI_SUBP_FIFO_CNT_SEND_FULL_MASK)
+    {
+        (void)OS_RestoreInterrupts(enabled);
+        return PXI_FIFO_FAIL_SEND_FULL;
+    }
+
+    reg_PXI_SEND_FIFO = data;
+    (void)OS_RestoreInterrupts(enabled);
+    return PXI_FIFO_SUCCESS;
+}
+
+static inline PXIFifoStatus PXIi_GetFromFifo(u32 *data_buf)
+{
+    if (reg_PXI_SUBP_FIFO_CNT & REG_PXI_SUBP_FIFO_CNT_ERR_MASK)
+    {
+        reg_PXI_SUBP_FIFO_CNT |= (REG_PXI_SUBP_FIFO_CNT_E_MASK | REG_PXI_SUBP_FIFO_CNT_ERR_MASK);
+        return PXI_FIFO_FAIL_RECV_ERR;
+    }
+
+    OSIntrMode enabled = OS_DisableInterrupts();
+    if (reg_PXI_SUBP_FIFO_CNT & REG_PXI_SUBP_FIFO_CNT_RECV_EMP_MASK)
+    {
+        (void)OS_RestoreInterrupts(enabled);
+        return PXI_FIFO_FAIL_RECV_EMPTY;
+    }
+
+
+    *data_buf = reg_PXI_RECV_FIFO;
+    (void)OS_RestoreInterrupts(enabled);
+
+    return PXI_FIFO_SUCCESS;
+}
+
+void PXIi_HandlerRecvFifoNotEmpty(void)
+{
+    PXIFifoMessage fifomsg;
+    PXIFifoStatus ret_code;
+    PXIFifoTag tag;
+
+    while (TRUE)
+    {
+        ret_code = PXIi_GetFromFifo(&fifomsg.raw);
+
+        if (ret_code == PXI_FIFO_FAIL_RECV_EMPTY)
+        {
+            break;
+        }
+        if (ret_code == PXI_FIFO_FAIL_RECV_ERR)
+        {
+            continue;
+        }
+
+        tag = (PXIFifoTag)fifomsg.e.tag;
+
+        if (tag)
+        {
+            if (FifoRecvCallbackTable[tag])
+            {
+                (FifoRecvCallbackTable[tag])(tag, fifomsg.e.data, (BOOL)fifomsg.e.err);
+            }
+            else
+            {
+                if (fifomsg.e.err)
+                {
+                }
+                else
+                {
+                    fifomsg.e.err = TRUE;
+                    (void)PXIi_SetToFifo(fifomsg.raw);
+                }
+            }
+        }
+        else
+        {
+        }
+    }
+}

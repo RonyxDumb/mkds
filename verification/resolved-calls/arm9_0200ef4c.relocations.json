@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "Os_GetSystemFlags",
+    "target": 33613956,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422520
+  },
+  {
+    "offset": 208,
+    "type": 2,
+    "symbol": "SDK_data_021da340",
+    "target": 35496768,
+    "thumb": false,
+    "addend": 0,
+    "value": 35496768
+  },
+  {
+    "offset": 212,
+    "type": 2,
+    "symbol": "SDK_data_021701b8",
+    "target": 35062200,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062200
+  },
+  {
+    "offset": 216,
+    "type": 2,
+    "symbol": "SDK_data_02400000",
+    "target": 37748736,
+    "thumb": false,
+    "addend": 0,
+    "value": 37748736
+  },
+  {
+    "offset": 220,
+    "type": 2,
+    "symbol": "SDK_data_01ffffa0",
+    "target": 33554336,
+    "thumb": false,
+    "addend": 0,
+    "value": 33554336
+  },
+  {
+    "offset": 224,
+    "type": 2,
+    "symbol": "SDK_data_027e00e0",
+    "target": 41812192,
+    "thumb": false,
+    "addend": 0,
+    "value": 41812192
+  }
+]

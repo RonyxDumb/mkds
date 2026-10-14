@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "Card_WriteRomOperation",
+    "target": 34891568,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645960
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "GlobalSZ_SomeFn",
+    "target": 34891728,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645970
+  },
+  {
+    "offset": 244,
+    "type": 2,
+    "symbol": "SDK_data_0217fa40",
+    "target": 35125824,
+    "thumb": false,
+    "addend": 0,
+    "value": 35125824
+  }
+]

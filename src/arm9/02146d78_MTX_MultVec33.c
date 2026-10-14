@@ -1,60 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 02146d78. No matching claim. */
-#include "types.h"
-#include "deps/02146d78_MTX_MultVec33.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define MulVec3Mat3x3 MTX_MultVec33
+typedef long long s64;
 
-void MTX_MultVec33(uint param_1,uint param_2,uint *param_3)
-
+void MulVec3Mat3x3(const int *in, const int *m, int *out)
 {
-  uint uVar1;
-  longlong lVar2;
-  uint uVar3;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  uint uVar9;
-  uint uVar4;
-  uint uVar10;
-  
-  uVar1 = param_1 + 4 & 3;
-  uVar9 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  uVar10 = uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20;
-  uVar1 = param_2 + 0xc & 3;
-  uVar6 = *(uint *)(param_2 + 0xc & 0xfffffffc);
-  uVar5 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  uVar9 = param_1 + 8 & 3;
-  uVar3 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  uVar4 = uVar3 >> uVar9 * 8 | uVar3 << uVar9 * -8 + 0x20;
-  uVar9 = param_2 + 0x18 & 3;
-  uVar3 = *(uint *)(param_2 + 0x18 & 0xfffffffc);
-  lVar2 = (longlong)(int)(uVar3 >> uVar9 * 8 | uVar3 << uVar9 * -8 + 0x20) * (longlong)(int)uVar4 +
-          (longlong)
-          (int)(*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-               *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) * (longlong)(int)uVar5
-          + (longlong)(int)uVar10 * (longlong)(int)(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20)
-  ;
-  *param_3 = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  uVar1 = param_2 + 0x10 & 3;
-  uVar6 = *(uint *)(param_2 + 0x10 & 0xfffffffc);
-  uVar9 = param_2 + 4 & 3;
-  uVar8 = *(uint *)(param_2 + 4 & 0xfffffffc);
-  uVar3 = param_2 + 0x1c & 3;
-  uVar7 = *(uint *)(param_2 + 0x1c & 0xfffffffc);
-  lVar2 = (longlong)(int)(uVar7 >> uVar3 * 8 | uVar7 << uVar3 * -8 + 0x20) * (longlong)(int)uVar4 +
-          (longlong)(int)(uVar8 >> uVar9 * 8 | uVar8 << uVar9 * -8 + 0x20) * (longlong)(int)uVar5 +
-          (longlong)(int)uVar10 * (longlong)(int)(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20);
-  param_3[1] = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  uVar1 = param_2 + 0x14 & 3;
-  uVar8 = *(uint *)(param_2 + 0x14 & 0xfffffffc);
-  uVar9 = param_2 + 8 & 3;
-  uVar7 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  uVar3 = param_2 + 0x20 & 3;
-  uVar6 = *(uint *)(param_2 + 0x20 & 0xfffffffc);
-  lVar2 = (longlong)(int)(uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) * (longlong)(int)uVar4 +
-          (longlong)(int)(uVar7 >> uVar9 * 8 | uVar7 << uVar9 * -8 + 0x20) * (longlong)(int)uVar5 +
-          (longlong)(int)uVar10 * (longlong)(int)(uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20);
-  param_3[2] = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  return;
-}
+    int x = in[0];
+    int y = in[1];
+    int z = in[2];
 
+    out[0] = (int)(((s64)x * m[0] + (s64)y * m[3] + (s64)z * m[6]) >> 12);
+    out[1] = (int)(((s64)x * m[1] + (s64)y * m[4] + (s64)z * m[7]) >> 12);
+    out[2] = (int)(((s64)x * m[2] + (s64)y * m[5] + (s64)z * m[8]) >> 12);
+}

@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "MI_WaitDma",
+    "target": 34916640,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646960
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "func_021498a0",
+    "target": 34904224,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421069
+  },
+  {
+    "offset": 84,
+    "type": 2,
+    "symbol": "SDK_data_0216f074",
+    "target": 35057780,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057780
+  },
+  {
+    "offset": 88,
+    "type": 2,
+    "symbol": "SDK_data_021802e0",
+    "target": 35128032,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128032
+  },
+  {
+    "offset": 92,
+    "type": 2,
+    "symbol": "SDK_data_021802dc",
+    "target": 35128028,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128028
+  },
+  {
+    "offset": 96,
+    "type": 2,
+    "symbol": "SDK_data_021802d8",
+    "target": 35128024,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128024
+  }
+]

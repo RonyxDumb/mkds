@@ -1,24 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 020207ec. No matching claim. */
-#include "types.h"
-#include "deps/020207ec_MaybeSoundSendCommand.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0205b1d8 Sound_AllocateCommand
+#define func_0205b1a4 func_020213a4
+#define Snd_SendCommand MaybeSoundSendCommand
+struct Node5b1a4 {
+    char pad[4];
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+};
+extern struct Node5b1a4 *func_0205b1d8(int kind);
+extern void func_0205b1a4(struct Node5b1a4 *node);
 
-void MaybeSoundSendCommand
-               (undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
-               undefined4 param_5)
-
-{
-  int iVar1;
-  
-  iVar1 = Sound_AllocateCommand(1);
-  if (iVar1 != 0) {
-    *(undefined4 *)(iVar1 + 4) = param_1;
-    *(undefined4 *)(iVar1 + 8) = param_2;
-    *(undefined4 *)(iVar1 + 0xc) = param_3;
-    *(undefined4 *)(iVar1 + 0x10) = param_4;
-    *(undefined4 *)(iVar1 + 0x14) = param_5;
-    func_020213a4();
-    return;
-  }
-  return;
+void Snd_SendCommand(int a, int b, int c, int d, int e) {
+    struct Node5b1a4 *p = func_0205b1d8(1);
+    if (p) {
+        p->a = a;
+        p->b = b;
+        p->c = c;
+        p->d = d;
+        p->e = e;
+        func_0205b1a4(p);
+    }
 }
-

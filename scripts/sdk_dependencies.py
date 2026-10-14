@@ -9,6 +9,6 @@ def validate_sdk_headers(root):
         return
     expected = json.loads(manifest.read_text())
     actual = {str(p.relative_to(root)): hashlib.sha256(p.read_text().encode()).hexdigest()
-              for p in sorted((root / 'vendor/pokediamond').rglob('*'))
+              for p in sorted((root / 'vendor').rglob('*'))
               if p.is_file() and p.suffix in ['.h', '.inc', '.def']}
     assert actual == expected, 'SDK header dependencies differ from the verified checkpoint'

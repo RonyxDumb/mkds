@@ -158,5 +158,6 @@
   "vendor/pokediamond/include-mw/nitro/mmap_shared.h": "ded1397c4907e5f7ea5e068f01f1acaac6c1d09b0c7d3ec9f06b5097aa1bc701",
   "vendor/pokediamond/include-mw/nitro/registers_shared.h": "7349d0d8cc5cb1ede50c016ffe2182158ed428f7714b04178c8e2531509758f1",
   "vendor/pokediamond/include-mw/nitro/types.h": "22ee5fdf4cb9837321abf1e654c2824b038f30fefd7d471084d470711cce4685",
-  "vendor/pokediamond/include-mw/sections.h": "020455e99dc042fb137be003de9994df8897df1b911386a5eab59bc81961ef0d"
+  "vendor/pokediamond/include-mw/sections.h": "020455e99dc042fb137be003de9994df8897df1b911386a5eab59bc81961ef0d",
+  "vendor/sm64ds/include/types.h": "d02733a5530459ca5cd8da02c6c5b2e5ddc380a38ebe36b985df363977a6f434"
 }

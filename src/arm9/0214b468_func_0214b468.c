@@ -1,19 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 0214b468. No matching claim. */
-#include "types.h"
-#include "deps/0214b468_func_0214b468.h"
-
-void func_0214b468(undefined4 param_1,int param_2,undefined4 param_3)
-
-{
-  uint uVar1;
-  
-  uVar1 = *(uint *)(uRam0214b4d4 & 0xfffffffc) >> (uRam0214b4d4 & 3) * 8 |
-          *(uint *)(uRam0214b4d4 & 0xfffffffc) << (uRam0214b4d4 & 3) * -8 + 0x20;
-  if (uVar1 != 0xffffffff) {
-    func_0214c990(uVar1,param_1,param_2 + iRam0214b4d8,param_3,0,0);
-    return;
-  }
-  Mem_CpuCopy32(param_1,param_2 + iRam0214b4d8,param_3,param_3);
-  return;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MI_DmaCopy32Async func_0214c990
+#define MIi_CpuCopy32 Mem_CpuCopy32
+#define GXi_DmaId SDK_data_0216f074
+#define GXS_LoadBGExtPltt func_0214b468
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern u32 GXi_DmaId;
+#pragma thumb off
+void GXS_LoadBGExtPltt(void *src, u32 offset, u32 size){
+    GXi_DmaCopy32Async(GXi_DmaId, src, (void *)(0x06898000 + offset), size, NULL, NULL);
 }
-

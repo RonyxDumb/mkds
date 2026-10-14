@@ -1,19 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 0214c090. No matching claim. */
-#include "types.h"
-#include "deps/0214c090_CopySomePaletteData.h"
-
-void CopySomePaletteData(undefined4 param_1,int param_2,uint param_3)
-
-{
-  uint uVar1;
-  
-  uVar1 = *(uint *)(uRam0214c0f0 & 0xfffffffc) >> (uRam0214c0f0 & 3) * 8 |
-          *(uint *)(uRam0214c0f0 & 0xfffffffc) << (uRam0214c0f0 & 3) * -8 + 0x20;
-  if ((uVar1 != 0xffffffff) && (0x1c < param_3)) {
-    MI_DmaCopy16(uVar1,param_1,param_2 + iRam0214c0f4);
-    return;
-  }
-  CopyMemory16(param_1,param_2 + iRam0214c0f4,param_3);
-  return;
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MIi_CpuCopy16 CopyMemory16
+#define GXi_DmaId SDK_data_0216f074
+#define GX_LoadOBJPltt CopySomePaletteData
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
+extern u32 GXi_DmaId;
+#pragma thumb off
+void GX_LoadOBJPltt(void *src, u32 offset, u32 size){
+    GXi_DmaCopy16(GXi_DmaId, src, (void *)(0x5000200 + offset), size);
 }
-

@@ -1,38 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 02146c24. No matching claim. */
-#include "types.h"
-#include "deps/02146c24_Arm_MathContext_Save.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define ARMMathSaveState Arm_MathContext_Save
+#include "../../vendor/sm64ds/include/types.h"
+struct Pair { u32 a, b; };
 
-void Arm_MathContext_Save(uint *param_1)
+struct ARMMathState {
+    struct Pair p0;   /* 0x00 */
+    struct Pair p8;   /* 0x08 */
+    struct Pair p10;  /* 0x10 */
+    u16 h18;          /* 0x18 */
+    u16 h1a;          /* 0x1a */
+};
 
+void ARMMathSaveState(struct ARMMathState *s)
 {
-  uint uVar1;
-  ushort *puVar2;
-  ushort *puVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  
-  puVar2 = puRam02146c8c;
-  uVar4 = uRam02146c88;
-  uVar1 = uRam02146c84 + 4 & 3;
-  uVar5 = *(uint *)(uRam02146c84 + 4 & 0xfffffffc);
-  *param_1 = *(uint *)(uRam02146c84 & 0xfffffffc) >> (uRam02146c84 & 3) * 8 |
-             *(uint *)(uRam02146c84 & 0xfffffffc) << (uRam02146c84 & 3) * -8 + 0x20;
-  param_1[1] = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
-  uVar5 = uRam02146c90;
-  uVar1 = uVar4 + 4 & 3;
-  uVar6 = *(uint *)(uVar4 + 4 & 0xfffffffc);
-  param_1[2] = *(uint *)(uVar4 & 0xfffffffc) >> (uVar4 & 3) * 8 |
-               *(uint *)(uVar4 & 0xfffffffc) << (uVar4 & 3) * -8 + 0x20;
-  param_1[3] = uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20;
-  puVar3 = puRam02146c94;
-  *(ushort *)(param_1 + 6) = *puVar2 & 3;
-  uVar1 = uVar5 + 4 & 3;
-  uVar4 = *(uint *)(uVar5 + 4 & 0xfffffffc);
-  param_1[4] = *(uint *)(uVar5 & 0xfffffffc) >> (uVar5 & 3) * 8 |
-               *(uint *)(uVar5 & 0xfffffffc) << (uVar5 & 3) * -8 + 0x20;
-  param_1[5] = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  *(ushort *)((int)param_1 + 0x1a) = *puVar3 & 1;
-  return;
+    s->p0 = *(struct Pair*)0x4000290;
+    s->p8 = *(struct Pair*)0x4000298;
+    s->h18 = (u16)(*(volatile u16*)0x4000280 & 3);
+    s->p10 = *(struct Pair*)0x40002b8;
+    s->h1a = (u16)(*(volatile u16*)0x40002b0 & 1);
 }
-

@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 180,
+    "type": 1,
+    "symbol": "Mem_Exp_ConvertFreeBlockToUsedBlock",
+    "target": 33651800,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645812
+  }
+]

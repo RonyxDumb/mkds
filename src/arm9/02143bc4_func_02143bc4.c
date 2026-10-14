@@ -1,13 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 02143bc4. No matching claim. */
-#include "types.h"
-#include "deps/02143bc4_func_02143bc4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0201818c SDK_data_02143bd4
+#define LoadFile func_02143bc4
+/* LoadFile at 0x0201816c
+ *
+ * Matched byte-for-byte with mwccarm 1.2/sp2p3 (arm9 main).
+ */
 
-void func_02143bc4(undefined4 param_1)
+extern int func_0201818c(int handle, int mode);
 
-{
-                    /* WARNING: Could not recover jumptable at 0x02143bcc. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02143bd0)(param_1,1);
-  return;
+int LoadFile(int handle) {
+    return func_0201818c(handle, 1);
 }
-

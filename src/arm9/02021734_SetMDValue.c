@@ -1,17 +1,45 @@
-/* Decompiled C draft; module arm9; ROM address 02021734. No matching claim. */
-#include "types.h"
-#include "deps/02021734_SetMDValue.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define sCallbackTable SDK_data_02174da0
+#define SNDi_SetAlarmHandler SetMDValue
+#include "SND_alarm.h"
+#include "nitro/types.h"
+#include "code32.h"
 
-undefined1 SetMDValue(int param_1,undefined4 param_2,undefined4 param_3)
+struct AlarmCallback {
+    SNDAlarmCallback cb;
+    void *data;
+    u8 id;
+    u8 padding[3];
+};
 
-{
-  int iVar1;
-  
-  iVar1 = iRam02021760;
-  *(undefined4 *)(iRam02021760 + param_1 * 0xc) = param_2;
-  iVar1 = iVar1 + param_1 * 0xc;
-  *(undefined4 *)(iVar1 + 4) = param_3;
-  *(char *)(iVar1 + 8) = *(char *)(iVar1 + 8) + '\x01';
-  return *(undefined1 *)(iVar1 + 8);
+static struct AlarmCallback sCallbackTable[SND_ALARM_COUNT];
+
+void SND_AlarmInit(void) {
+    for (s32 i = 0; i < SND_ALARM_COUNT; i++) {
+        sCallbackTable[i].cb = NULL;
+        sCallbackTable[i].data = NULL;
+        sCallbackTable[i].id = 0;
+    }
 }
 
+void SNDi_IncAlarmId(u32 idx) {
+    struct AlarmCallback *ac = &sCallbackTable[idx];
+    ac->id++;
+}
+
+u8 SNDi_SetAlarmHandler(u32 idx, SNDAlarmCallback cb, void *data) {
+    struct AlarmCallback *ac = &sCallbackTable[idx];
+    ac->cb = cb;
+    ac->data = data;
+    ac->id++;
+    return ac->id;
+}
+
+void SNDi_CallAlarmHandler(s32 idx) {
+    struct AlarmCallback *ac = &sCallbackTable[idx & 0xFF];
+    if (((idx >> 8) & 0xFF) != ac->id)
+        return;
+    if (ac->cb == NULL)
+        return;
+    ac->cb(ac->data);
+}

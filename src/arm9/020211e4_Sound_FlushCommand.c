@@ -1,96 +1,350 @@
-/* Decompiled C draft; module arm9; ROM address 020211e4. No matching claim. */
-#include "types.h"
-#include "deps/020211e4_Sound_FlushCommand.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define SND_RecvCommandReply Sound_CommandReceiveAndReply
+#define DC_FlushRange Arm_FlushRange
+#define PXI_SendWordByFifo Fifo_SendWord
+#define OS_SpinWait Os_SpinWait
+#define RequestCommandProc SoundInternal_RequestCommandProc
+#define sReserveList SDK_data_021732d0
+#define sWaitingCommandListCount SDK_data_021732e4
+#define sCommandArray SDK_data_021735a0
+#define sWaitingCommandListQueueWrite SDK_data_021732e0
+#define sWaitingCommandListQueue SDK_data_021732ec
+#define sCurrentTag SDK_data_021732e8
+#define sReserveListEnd SDK_data_021732d4
+#define SND_FlushCommand Sound_FlushCommand
+#include "SND_alarm.h"
+#include "SND_command.h"
+#include "SND_work.h"
+#include "OS_emulator.h"
+#include "OS_system.h"
+#include "OS_cache.h"
+#include "PXI_fifo.h"
+#include "code32.h"
 
-undefined4 Sound_FlushCommand(uint param_1)
+#define SND_CMD_WAIT_QUEUE_COUNT 8
 
-{
-  uint uVar1;
-  undefined4 *puVar2;
-  int *piVar3;
-  int *piVar4;
-  undefined4 uVar5;
-  int iVar6;
-  uint uVar7;
-  int iVar8;
-  uint uVar9;
-  bool bVar10;
-  bool bVar11;
-  
-  uVar5 = Os_DisableIrq();
-  if (*(uint *)((uint)puRam02021388 & 0xfffffffc) >> ((uint)puRam02021388 & 3) * 8 == 0 &&
-      *(uint *)((uint)puRam02021388 & 0xfffffffc) << ((uint)puRam02021388 & 3) * -8 + 0x20 == 0) {
-    Os_RestoreIrq();
-    return 1;
-  }
-  if (7 < (int)(*(uint *)((uint)piRam0202138c & 0xfffffffc) >> ((uint)piRam0202138c & 3) * 8 |
-               *(uint *)((uint)piRam0202138c & 0xfffffffc) << ((uint)piRam0202138c & 3) * -8 + 0x20)
-     ) {
-    if ((param_1 & 1) == 0) {
-      Os_RestoreIrq();
-      return 0;
+static struct SNDCommand sCommandArray[SND_CMD_COUNT];
+static struct SNDSharedWork sSharedWork;
+static struct SNDCommand *sWaitingCommandListQueue[SND_CMD_WAIT_QUEUE_COUNT + 1];   // not sure why this is one element to large
+static struct SNDCommand *sReserveList;
+static struct SNDCommand *sReserveListEnd;
+static struct SNDCommand *sFreeListEnd;
+static s32 sWaitingCommandListQueueRead;
+static s32 sWaitingCommandListQueueWrite;
+static s32 sWaitingCommandListCount;
+static u32 sCurrentTag;
+static u32 sFinishedTag;
+static struct SNDCommand *sFreeList;
+
+static void InitPXI(void);
+static void RequestCommandProc(void);
+static struct SNDCommand *AllocCommand(void);
+static BOOL IsCommandAvailable(void);
+
+void SND_CommandInit(void) {
+    InitPXI();
+    sFreeList = sCommandArray;
+    for (int i = 0; i < SND_CMD_COUNT - 1; i++) {
+        sCommandArray[i].llNext = &sCommandArray[i+1];
     }
-    do {
-      Sound_CommandReceiveAndReply(1);
-    } while (7 < (int)(*(uint *)((uint)piRam0202138c & 0xfffffffc) >> ((uint)piRam0202138c & 3) * 8
-                      | *(uint *)((uint)piRam0202138c & 0xfffffffc) <<
-                        ((uint)piRam0202138c & 3) * -8 + 0x20));
-  }
-  Arm_FlushRange(uRam02021390,0x1800);
-  iVar6 = Fifo_SendWord(7,*(uint *)((uint)puRam02021388 & 0xfffffffc) >>
-                          ((uint)puRam02021388 & 3) * 8 |
-                          *(uint *)((uint)puRam02021388 & 0xfffffffc) <<
-                          ((uint)puRam02021388 & 3) * -8 + 0x20,0);
-  if (iVar6 < 0) {
-    if ((param_1 & 1) == 0) {
-      Os_RestoreIrq(uVar5);
-      return 0;
-    }
-    iVar6 = Fifo_SendWord(7,*(uint *)((uint)puRam02021388 & 0xfffffffc) >>
-                            ((uint)puRam02021388 & 3) * 8 |
-                            *(uint *)((uint)puRam02021388 & 0xfffffffc) <<
-                            ((uint)puRam02021388 & 3) * -8 + 0x20,0);
-    puVar2 = puRam02021388;
-    while (iVar6 < 0) {
-      Os_RestoreIrq(uVar5);
-      Os_SpinWait(100);
-      uVar5 = Os_DisableIrq();
-      uVar1 = (uint)puVar2 & 3;
-      uVar7 = *(uint *)((uint)puVar2 & 0xfffffffc);
-      iVar6 = Fifo_SendWord(7,uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20,0);
-    }
-  }
-  if ((param_1 & 2) != 0) {
-    SoundInternal_RequestCommandProc();
-  }
-  iVar6 = iRam02021398;
-  piVar4 = piRam02021394;
-  uVar7 = *(uint *)((uint)piRam02021394 & 0xfffffffc) >> ((uint)piRam02021394 & 3) * 8 |
-          *(uint *)((uint)piRam02021394 & 0xfffffffc) << ((uint)piRam02021394 & 3) * -8 + 0x20;
-  uVar1 = (uint)puRam02021388 & 3;
-  uVar9 = *(uint *)((uint)puRam02021388 & 0xfffffffc);
-  iVar8 = uVar7 + 1;
-  *piRam02021394 = iVar8;
-  *(uint *)(iVar6 + uVar7 * 4) = uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20;
-  piVar3 = piRam0202138c;
-  bVar11 = SBORROW4(iVar8,8);
-  bVar10 = iVar8 != 8;
-  if (8 < iVar8) {
-    iVar8 = 0;
-  }
-  if (bVar10 && (int)(uVar7 - 7) < 0 == bVar11) {
-    *piVar4 = iVar8;
-  }
-  puVar2 = puRam020213a0;
-  piVar4 = piRam0202139c;
-  uVar9 = *(uint *)((uint)piVar3 & 0xfffffffc);
-  uVar1 = (uint)piRam0202139c & 3;
-  uVar7 = *(uint *)((uint)piRam0202139c & 0xfffffffc);
-  *puRam02021388 = 0;
-  *puVar2 = 0;
-  *piVar3 = (uVar9 >> ((uint)piVar3 & 3) * 8 | uVar9 << ((uint)piVar3 & 3) * -8 + 0x20) + 1;
-  *piVar4 = (uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20) + 1;
-  Os_RestoreIrq(uVar5);
-  return 1;
+    sCommandArray[SND_CMD_COUNT - 1].llNext = NULL;
+    sFreeListEnd = &sCommandArray[SND_CMD_COUNT - 1];
+    sReserveList = NULL;
+    sReserveListEnd = NULL;
+    sWaitingCommandListCount = 0;
+    sWaitingCommandListQueueRead = 0;
+    sWaitingCommandListQueueWrite = 0;
+    sCurrentTag = 1;
+    sFinishedTag = 0;
+    SNDi_SharedWork = &sSharedWork;
+    SNDi_InitSharedWork(SNDi_SharedWork);
+
+    struct SNDCommand *cmd = SND_AllocCommand(SND_CMD_FLAG_BLOCK);
+    if (cmd == NULL)
+        return;
+
+    cmd->id = SND_CMD_SET_SHARED_WORK;
+    cmd->arg[0] = (u32)SNDi_SharedWork;
+    SND_PushCommand(cmd);
+    (void)SND_FlushCommand(SND_CMD_FLAG_BLOCK);
 }
 
+const struct SNDCommand *SND_RecvCommandReply(u32 flags) {
+    OSIntrMode oldirq = OS_DisableInterrupts();
+
+    if (flags & SND_CMD_FLAG_BLOCK) {
+        u32 tag = SNDi_GetFinishedCommandTag();
+        while (sFinishedTag == tag) {
+            (void)OS_RestoreInterrupts(oldirq);
+            OS_SpinWait(100);
+            oldirq = OS_DisableInterrupts();
+            tag = SNDi_GetFinishedCommandTag();
+        }
+    } else {
+        u32 tag = SNDi_GetFinishedCommandTag();
+        if (sFinishedTag == tag) {
+            (void)OS_RestoreInterrupts(oldirq);
+            return NULL;
+        }
+    }
+
+    struct SNDCommand *queueRead = sWaitingCommandListQueue[sWaitingCommandListQueueRead];
+
+    if (++sWaitingCommandListQueueRead > SND_CMD_WAIT_QUEUE_COUNT)
+        sWaitingCommandListQueueRead = 0;
+
+    struct SNDCommand *cur = queueRead;
+    while (cur->llNext != NULL)
+        cur = cur->llNext;
+
+    if (sFreeListEnd != NULL) {
+        sFreeListEnd->llNext = queueRead;
+    } else {
+        sFreeList = queueRead;
+    }
+
+    sFreeListEnd = cur;
+    sWaitingCommandListCount--;
+    sFinishedTag++;
+
+    (void)OS_RestoreInterrupts(oldirq);
+    return queueRead;
+}
+
+struct SNDCommand *SND_AllocCommand(u32 flags) {
+    struct SNDCommand *cmd;
+    if (!IsCommandAvailable())
+        return NULL;
+
+    cmd = AllocCommand();
+    if (cmd != NULL)
+        return cmd;
+
+    if ((flags & SND_CMD_FLAG_BLOCK) == 0)
+        return NULL;
+
+    if (SND_CountWaitingCommand() > 0) {
+        while (SND_RecvCommandReply(SND_CMD_FLAG_NOBLOCK) != NULL) { }
+
+        cmd = AllocCommand();
+        if (cmd != NULL)
+            return cmd;
+    } else {
+        (void)SND_FlushCommand(SND_CMD_FLAG_BLOCK);
+    }
+
+    RequestCommandProc();
+    
+    do {
+        (void)SND_RecvCommandReply(SND_CMD_FLAG_BLOCK);
+        cmd = AllocCommand();
+    } while (cmd == NULL);
+    return cmd;
+}
+
+void SND_PushCommand(struct SNDCommand *cmd) {
+    OSIntrMode oldirq = OS_DisableInterrupts();
+
+    struct SNDCommand *newend = cmd;
+    if (sReserveListEnd == NULL) {
+        sReserveList = cmd;
+        sReserveListEnd = cmd;
+    } else {
+        sReserveListEnd->llNext = cmd;
+        sReserveListEnd = cmd;
+    }
+
+    cmd->llNext = NULL;
+
+    (void)OS_RestoreInterrupts(oldirq);
+}
+
+BOOL SND_FlushCommand(u32 flags) {
+    OSIntrMode oldirq = OS_DisableInterrupts();
+
+    if (sReserveList == NULL) {
+        (void)OS_RestoreInterrupts(oldirq);
+        return TRUE;
+    }
+
+    if (sWaitingCommandListCount >= SND_CMD_WAIT_QUEUE_COUNT) {
+        if ((flags & SND_CMD_FLAG_BLOCK) == 0) {
+            (void)OS_RestoreInterrupts(oldirq);
+            return FALSE;
+        }
+
+        do {
+            (void)SND_RecvCommandReply(SND_CMD_FLAG_BLOCK);
+        } while (sWaitingCommandListCount >= SND_CMD_WAIT_QUEUE_COUNT);
+    }
+
+    DC_FlushRange(sCommandArray, sizeof(sCommandArray));
+
+    s32 result = PXI_SendWordByFifo(7, (u32)sReserveList, 0);
+    if (result < 0) {
+        if ((flags & SND_CMD_FLAG_BLOCK) == 0) {
+            (void)OS_RestoreInterrupts(oldirq);
+            return FALSE;
+        }
+
+        result = PXI_SendWordByFifo(7, (u32)sReserveList, 0);
+        while (result < 0) {
+            (void)OS_RestoreInterrupts(oldirq);
+            OS_SpinWait(100);
+            oldirq = OS_DisableInterrupts();
+            result = PXI_SendWordByFifo(7, (u32)sReserveList, 0);
+        }
+    }
+
+    if ((flags & SND_CMD_FLAG_IMMEDIATE) != 0) {
+        RequestCommandProc();
+    }
+
+    sWaitingCommandListQueue[sWaitingCommandListQueueWrite] = sReserveList;
+
+    if (++sWaitingCommandListQueueWrite > SND_CMD_WAIT_QUEUE_COUNT) {
+        sWaitingCommandListQueueWrite = 0;
+    }
+
+    sReserveList = NULL;
+    sReserveListEnd = NULL;
+    sWaitingCommandListCount++;
+    sCurrentTag++;
+
+    (void)OS_RestoreInterrupts(oldirq);
+    return TRUE;
+}
+
+void SND_WaitForCommandProc(u32 tag) {
+    if (SND_IsFinishedCommandTag(tag))
+        return;
+
+    while (SND_RecvCommandReply(SND_CMD_FLAG_NOBLOCK) != NULL) { }
+
+    if (SND_IsFinishedCommandTag(tag))
+        return;
+
+    RequestCommandProc();
+
+    if (SND_IsFinishedCommandTag(tag))
+        return;
+
+    do {
+        (void)SND_RecvCommandReply(SND_CMD_FLAG_BLOCK);
+    } while (SND_IsFinishedCommandTag(tag) == 0);
+}
+
+u32 SND_GetCurrentCommandTag(void) {
+    OSIntrMode oldirq = OS_DisableInterrupts();
+
+    u32 retval;
+    if (sReserveList == NULL)
+        retval = sFinishedTag;
+    else
+        retval = sCurrentTag;
+
+    (void)OS_RestoreInterrupts(oldirq);
+    return retval;
+}
+
+BOOL SND_IsFinishedCommandTag(u32 tag) {
+    OSIntrMode oldirq = OS_DisableInterrupts();
+
+    BOOL result;
+    if (tag > sFinishedTag) {
+        if (tag - sFinishedTag < 0x80000000)
+            result = FALSE;
+        else
+            result = TRUE;
+    } else {
+        if (sFinishedTag - tag < 0x80000000)
+            result = TRUE;
+        else
+            result = FALSE;
+    }
+
+    (void)OS_RestoreInterrupts(oldirq);
+    return result;
+}
+
+s32 SND_CountFreeCommand(void) {
+    OSIntrMode oldirq = OS_DisableInterrupts();
+    
+    s32 count = 0;
+    for (struct SNDCommand *cmd = sFreeList; cmd != NULL; cmd = cmd->llNext)
+        count++;
+
+    (void)OS_RestoreInterrupts(oldirq);
+    return count;
+}
+
+s32 SND_CountReservedCommand(void) {
+    OSIntrMode oldirq = OS_DisableInterrupts();
+    
+    s32 count = 0;
+    for (struct SNDCommand *cmd = sReserveList; cmd != NULL; cmd = cmd->llNext)
+        count++;
+
+    (void)OS_RestoreInterrupts(oldirq);
+    return count;
+}
+
+s32 SND_CountWaitingCommand(void) {
+    return SND_CMD_COUNT - SND_CountFreeCommand() - SND_CountReservedCommand();
+}
+
+static void PxiFifoCallback(PXIFifoTag tag, u32 data, BOOL) {
+#pragma unused (tag)
+    OSIntrMode oldirq = OS_DisableInterrupts();
+    SNDi_CallAlarmHandler((s32)data);
+    (void)OS_RestoreInterrupts(oldirq);
+}
+
+static void InitPXI(void) {
+    PXI_SetFifoRecvCallback(PXI_FIFO_TAG_SOUND, PxiFifoCallback);
+
+    if (!IsCommandAvailable())
+        return;
+
+    if (PXI_IsCallbackReady(PXI_FIFO_TAG_SOUND, PXI_PROC_ARM7))
+        return;
+
+    do {
+        OS_SpinWait(100);
+    } while (!PXI_IsCallbackReady(PXI_FIFO_TAG_SOUND, PXI_PROC_ARM7));
+}
+
+static void RequestCommandProc(void) {
+    while (PXI_SendWordByFifo(7, 0, 0) < 0) { }
+}
+
+static struct SNDCommand *AllocCommand(void) {
+    OSIntrMode oldirq = OS_DisableInterrupts();
+    if (sFreeList == NULL) {
+        (void)OS_RestoreInterrupts(oldirq);
+        return NULL;
+    }
+
+    struct SNDCommand *retval = sFreeList;
+
+    sFreeList = sFreeList->llNext;
+    if (sFreeList == NULL)
+        sFreeListEnd = NULL;
+    (void)OS_RestoreInterrupts(oldirq);
+    return retval;
+}
+
+static BOOL IsCommandAvailable(void) {
+    if (!OS_IsRunOnEmulator())
+        return TRUE;
+
+    OSIntrMode oldirq = OS_DisableInterrupts();
+    // TODO use proper register names here
+    // is this some kind of debug or ensata register?
+    *(vu32 *)0x4FFF200 = 0x10;
+    u32 resp = *(vu32 *)0x4FFF200;
+    (void)OS_RestoreInterrupts(oldirq);
+    return resp != 0;
+}

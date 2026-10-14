@@ -1,31 +1,59 @@
-/* Decompiled C draft; module arm9; ROM address 02017640. No matching claim. */
-#include "types.h"
-#include "deps/02017640_Mem_FindTopParentHeapHead.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define NNS_FndGetNextListObject IntrusiveListWrapper_NextItem
+#define FindContainHeap Mem_FindTopParentHeapHead
+#include "nitro.h"
+#include "NNS_FND_heapcommon.h"
+#include "NNS_FND_list.h"
+#include "code32.h"
 
-int Mem_FindTopParentHeapHead(undefined4 param_1,uint param_2)
+BOOL sRootListInitialized;
+NNSFndList sRootList;
 
+void *NNS_FndGetNextListObject(NNSFndList *, void *);
+
+static NNSiFndHeapHead* FindContainHeap(NNSFndList * pList, const void * memBlock)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  int iVar4;
-  
-  iVar2 = IntrusiveListWrapper_NextItem(param_1,0);
-  while( true ) {
-    if (iVar2 == 0) {
-      return 0;
+    NNSiFndHeapHead * pHead = NULL;
+
+    while ((pHead = NNS_FndGetNextListObject(pList, pHead)) != NULL)
+    {
+        if (pHead->heapStart <= memBlock && memBlock < pHead->heapEnd)
+        {
+            NNSiFndHeapHead * ret = FindContainHeap(&pHead->childList, memBlock);
+            if (ret == NULL)
+                ret = pHead;
+            return ret;
+        }
     }
-    uVar1 = iVar2 + 0x18U & 3;
-    uVar3 = *(uint *)(iVar2 + 0x18U & 0xfffffffc);
-    if (((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) <= param_2) &&
-       (uVar1 = iVar2 + 0x1cU & 3, uVar3 = *(uint *)(iVar2 + 0x1cU & 0xfffffffc),
-       param_2 < (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20))) break;
-    iVar2 = IntrusiveListWrapper_NextItem(param_1,iVar2);
-  }
-  iVar4 = Mem_FindTopParentHeapHead(iVar2 + 0xc,param_2);
-  if (iVar4 == 0) {
-    iVar4 = iVar2;
-  }
-  return iVar4;
+    return NULL;
 }
 
+static NNSFndList* FindListContainHeap(const void * memBlock)
+{
+    NNSFndList* ret = &sRootList;
+    NNSiFndHeapHead* pHead = FindContainHeap(&sRootList, memBlock);
+    if (pHead != NULL)
+        ret = &pHead->childList;
+    return ret;
+}
+
+void NNSi_FndInitHeapHead(NNSiFndHeapHead *pHead, u32 signature, void* heapStart, void* heapEnd, u16 optionFlag)
+{
+    pHead->signature = signature;
+    pHead->heapStart = heapStart;
+    pHead->heapEnd = heapEnd;
+    pHead->attribute = 0;
+    SetOptForHeap(pHead, optionFlag);
+    NNS_FndInitList(&pHead->childList, 4);
+    if (!sRootListInitialized)
+    {
+        NNS_FndInitList(&sRootList, 4);
+        sRootListInitialized = TRUE;
+    }
+    NNS_FndAppendListObject(FindListContainHeap(pHead), pHead);
+}
+
+void NNSi_FndFinalizeHeap(NNSiFndHeapHead *pHead)
+{
+    NNS_FndRemoveListObject(FindListContainHeap(pHead), pHead);
+}

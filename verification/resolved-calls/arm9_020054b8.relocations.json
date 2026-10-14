@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Fs_File_Initialize",
+    "target": 33574272,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422508
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Fs_GetOverlayFileId",
+    "target": 33576980,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645966
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Fs_File_OpenById",
+    "target": 33573504,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422309
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "Fs_OverlayInfo_GetBinarySize",
+    "target": 33577088,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645982
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Fs_OverlayInfo_ClearImage",
+    "target": 33577020,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645962
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "Fs_File_Read",
+    "target": 33573036,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422178
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "Fs_File_Close",
+    "target": 33573352,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422253
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "Fs_File_Close",
+    "target": 33573352,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422247
+  }
+]

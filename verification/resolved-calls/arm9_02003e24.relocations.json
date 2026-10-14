@@ -1,0 +1,92 @@
+[
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Fs_File_Initialize",
+    "target": 33574272,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646726
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "Fs_File_OpenRaw",
+    "target": 33573628,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646557
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "Fs_File_Read",
+    "target": 33573036,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646403
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "Mem_CpuFill8",
+    "target": 34918760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942982828
+  },
+  {
+    "offset": 148,
+    "type": 1,
+    "symbol": "Fs_File_Close",
+    "target": 33573352,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646474
+  },
+  {
+    "offset": 192,
+    "type": 1,
+    "symbol": "Fs_File_OpenRaw",
+    "target": 33573628,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646532
+  },
+  {
+    "offset": 216,
+    "type": 1,
+    "symbol": "Fs_File_Read",
+    "target": 33573036,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646378
+  },
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "Mem_CpuFill8",
+    "target": 34918760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942982803
+  },
+  {
+    "offset": 248,
+    "type": 1,
+    "symbol": "Fs_File_Close",
+    "target": 33573352,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646449
+  },
+  {
+    "offset": 296,
+    "type": 2,
+    "symbol": "SDK_data_02004710",
+    "target": 33572624,
+    "thumb": false,
+    "addend": 0,
+    "value": 33572624
+  }
+]

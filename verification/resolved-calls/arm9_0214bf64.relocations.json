@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "MI_DmaCopy32",
+    "target": 34917256,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646521
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Mem_CpuCopy32",
+    "target": 34918444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646811
+  },
+  {
+    "offset": 96,
+    "type": 2,
+    "symbol": "SDK_data_0216f074",
+    "target": 35057780,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057780
+  }
+]

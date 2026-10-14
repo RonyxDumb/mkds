@@ -1,13 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 0214a748. No matching claim. */
-#include "types.h"
-#include "deps/0214a748_G3X_SetFogTable.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MI_Copy32B SDK_data_0214d0e0
+#include "nitro/types.h"
+#include "gx.h"
+#include "code32.h"
 
-void G3X_SetFogTable(undefined4 param_1)
-
-{
-                    /* WARNING: Could not recover jumptable at 0x0214a750. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0214a754)(param_1,uRam0214a758);
-  return;
+#pragma thumb off
+void G3X_SetFogTable(void *tbl_ptr){
+    MI_Copy32B(tbl_ptr, (void *)&reg_G3X_FOG_TABLE_0);
 }
-

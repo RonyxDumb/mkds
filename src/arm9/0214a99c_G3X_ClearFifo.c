@@ -1,15 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 0214a99c. No matching claim. */
-#include "types.h"
-#include "deps/0214a99c_G3X_ClearFifo.h"
-
-void G3X_ClearFifo(void)
-
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_020553c0 GXi_NopClearFifo128_
+#define func_02055780 G3X_ClearFifo
+extern void func_020553c0(unsigned addr);
+void func_02055780(void)
 {
-  GXi_NopClearFifo128_((undefined4 *)(uintptr_t)(uRam0214a9c8));
-  do {
-  } while (((*(uint *)(uRam0214a9cc & 0xfffffffc) >> (uRam0214a9cc & 3) * 8 |
-            *(uint *)(uRam0214a9cc & 0xfffffffc) << (uRam0214a9cc & 3) * -8 + 0x20) & 0x8000000) !=
-           0);
-  return;
+    func_020553c0(0x4000400);
+    while (*(volatile unsigned *)0x4000600 & 0x8000000)
+        ;
 }
-

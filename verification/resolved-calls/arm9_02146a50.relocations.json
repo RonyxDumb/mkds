@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942652701
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "WaitByLoop",
+    "target": 33556068,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210747124
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942652689
+  }
+]

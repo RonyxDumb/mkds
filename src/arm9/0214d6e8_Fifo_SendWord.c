@@ -1,23 +1,41 @@
-/* Decompiled C draft; module arm9; ROM address 0214d6e8. No matching claim. */
-#include "types.h"
-#include "deps/0214d6e8_Fifo_SendWord.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define _ZN3IRQ7DisableEv Os_DisableIrq
+#define _ZN3IRQ7RestoreEj Os_RestoreIrq
+#define IPCSend Fifo_SendWord
+extern unsigned int _ZN3IRQ7DisableEv(void);
+extern void _ZN3IRQ7RestoreEj(unsigned int saved);
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+typedef union {
+    unsigned int raw;
+    struct {
+        unsigned int a : 5;
+        unsigned int b : 1;
+        unsigned int c : 26;
+    } f;
+} IpcCmd;
 
-undefined4 Fifo_SendWord(uint param_1,int param_2,uint param_3)
-
+int IPCSend(unsigned int a, unsigned int c, unsigned int b)
 {
-  if ((*puRam0214d794 & 0x4000) != 0) {
-    *puRam0214d794 = *puRam0214d794 | 0xc000;
-    return 0xffffffff;
-  }
-  Os_DisableIrq(*puRam0214d794 & 0x4000);
-  if ((*puRam0214d794 & 2) == 0) {
-    *puRam0214d798 = param_1 & 0x1f | (param_3 & 1) << 5 | param_2 << 6;
-    Os_RestoreIrq();
-    return 0;
-  }
-  Os_RestoreIrq();
-  return 0xfffffffe;
-}
+    IpcCmd cmd;
+    unsigned int saved;
 
+    cmd.f.a = a;
+    cmd.f.b = b;
+    cmd.f.c = c;
+
+    if (*(volatile unsigned short *)0x4000184 & 0x4000) {
+        *(volatile unsigned short *)0x4000184 |= 0xc000;
+        return -1;
+    }
+
+    saved = _ZN3IRQ7DisableEv();
+
+    if (*(volatile unsigned short *)0x4000184 & 2) {
+        _ZN3IRQ7RestoreEj(saved);
+        return -2;
+    }
+
+    *(volatile unsigned int *)0x4000188 = cmd.raw;
+    _ZN3IRQ7RestoreEj(saved);
+    return 0;
+}

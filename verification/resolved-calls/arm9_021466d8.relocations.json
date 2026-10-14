@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "MIi_CardDmaCopy32",
+    "target": 34919384,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942652728
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Card_WriteRomOperation",
+    "target": 34891568,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645769
+  },
+  {
+    "offset": 72,
+    "type": 2,
+    "symbol": "SDK_data_0217fa40",
+    "target": 35125824,
+    "thumb": false,
+    "addend": 0,
+    "value": 35125824
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_02180080",
+    "target": 35127424,
+    "thumb": false,
+    "addend": 0,
+    "value": 35127424
+  }
+]

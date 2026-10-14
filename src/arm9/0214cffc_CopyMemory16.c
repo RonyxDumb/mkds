@@ -1,15 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0214cffc. No matching claim. */
-#include "types.h"
-#include "deps/0214cffc_CopyMemory16.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define MultiCopyHalf CopyMemory16
+#include "../../vendor/sm64ds/include/types.h"
 
-void CopyMemory16(int param_1,int param_2,int param_3)
-
+/* Copies size bytes from src to dst one halfword at a time. */
+void MultiCopyHalf(const void *src, void *dst, s32 size)
 {
-  int iVar1;
-  
-  for (iVar1 = 0; iVar1 < param_3; iVar1 = iVar1 + 2) {
-    *(undefined2 *)(param_2 + iVar1) = *(undefined2 *)(param_1 + iVar1);
-  }
-  return;
-}
+    s32 offset = 0;
 
+    for (;;) {
+        if (offset >= size)
+            break;
+        *(u16 *)((u32)dst + offset) = *(const u16 *)((u32)src + offset);
+        offset += 2;
+    }
+}

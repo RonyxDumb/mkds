@@ -1,0 +1,146 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Os_ReferSymbol",
+    "target": 33557316,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959090041
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Os_Terminate",
+    "target": 33619228,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959105516
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "EnsureCardEnabled",
+    "target": 34887816,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422662
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959105483
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Os_Thread_Sleep",
+    "target": 33611804,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959103651
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959105470
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "func_02145b54",
+    "target": 34888532,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422820
+  },
+  {
+    "offset": 152,
+    "type": 1,
+    "symbol": "Card_Request",
+    "target": 34891880,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646433
+  },
+  {
+    "offset": 200,
+    "type": 1,
+    "symbol": "Card_Request",
+    "target": 34891880,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646421
+  },
+  {
+    "offset": 212,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959105440
+  },
+  {
+    "offset": 236,
+    "type": 1,
+    "symbol": "Os_Thread_WakeUp",
+    "target": 33611676,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959103577
+  },
+  {
+    "offset": 256,
+    "type": 1,
+    "symbol": "Os_Thread_WakeUpDirect",
+    "target": 33611624,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959103559
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959105432
+  },
+  {
+    "offset": 316,
+    "type": 2,
+    "symbol": "SDK_data_02000b70",
+    "target": 33557360,
+    "thumb": false,
+    "addend": 0,
+    "value": 33557360
+  },
+  {
+    "offset": 320,
+    "type": 2,
+    "symbol": "SDK_data_0217fa40",
+    "target": 35125824,
+    "thumb": false,
+    "addend": 0,
+    "value": 35125824
+  },
+  {
+    "offset": 324,
+    "type": 2,
+    "symbol": "SDK_data_0216ff5c",
+    "target": 35061596,
+    "thumb": false,
+    "addend": 0,
+    "value": 35061596
+  }
+]

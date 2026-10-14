@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_NextItem",
+    "target": 33649468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422777
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Mem_FindTopParentHeapHead",
+    "target": 33650240,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422959
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_NextItem",
+    "target": 33649468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422759
+  }
+]

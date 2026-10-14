@@ -73,3 +73,8 @@ L'ambiente di esecuzione si e disconnesso: exec-server ha restituito `409 Confli
 ## Checkpoint 15 — main
 
 2.289 funzioni; 109.220 / 1.913.676 byte inventariati (5,707340%). Nuova prova CreateCESex_from_thumb, 76 byte e due relocazioni Thumb/ARM; compilazione Clang ARM indipendente riuscita. Ricompilate tutte le 1.038 prove con relocazioni dopo la nuova aggiunta. Le 1.251 prove senza relocazioni erano state ricompilate nella stessa sessione. Proseguire con nuove ricostruzioni di funzioni grandi; non ripetere la ricerca sdk_caller senza modifiche, perche ha prodotto un solo match su 5.688 candidati. Mancano 82.148 byte per raggiungere almeno il 10% dell'inventario.
+
+## Checkpoint 16 — main
+
+2379 funzioni; 126160 / 1.913.676 byte inventariati (6.592548%). +90 funzioni e +16.940 byte inventariati (17.004 byte negli span completi). Tutte le 1270 prove senza relocazioni e le 1109 con relocazioni ricompilate.
+Nuovi strumenti: prepare_donor_candidates.py per C puro di sm64ds-decomp; prepare_sdk_variants.py per SDK pokediamond (rimozione documentata di main.h non pertinente, senza stub). Passare MKDS_DONOR_CONFIG al verificatore SDK. I candidati con ASM sono esclusi; gli hash dei nuovi header sono nel manifest SDK. I percorsi include delle funzioni installate devono puntare agli header fissati, evitando types.h omonimi nelle cartelle del gioco. ROM completa e ABI globale non verificati.

@@ -1,0 +1,83 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Sound_IsCommandAvailable",
+    "target": 33689264,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422637
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Sound_AllocateCommandImpl",
+    "target": 33689336,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422650
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "SND_CountWaitingCommand",
+    "target": 33689632,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422716
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "Sound_CommandReceiveAndReply",
+    "target": 33690760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645777
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "Sound_AllocateCommandImpl",
+    "target": 33689336,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422634
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "Sound_FlushCommand",
+    "target": 33690084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422815
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "SoundInternal_RequestCommandProc",
+    "target": 33689424,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422649
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "Sound_CommandReceiveAndReply",
+    "target": 33690760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645764
+  },
+  {
+    "offset": 136,
+    "type": 1,
+    "symbol": "Sound_AllocateCommandImpl",
+    "target": 33689336,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422623
+  }
+]

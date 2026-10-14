@@ -1,0 +1,83 @@
+[
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Mem_CpuCopy8",
+    "target": 34918908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942981358
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Fs_File_Initialize",
+    "target": 33574272,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422412
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "Fs_GetOverlayFileId",
+    "target": 33576980,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645870
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "Fs_File_OpenById",
+    "target": 33573504,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422213
+  },
+  {
+    "offset": 168,
+    "type": 1,
+    "symbol": "Fs_File_Close",
+    "target": 33573352,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422162
+  },
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "Fs_OverlayInfo_DoLoad",
+    "target": 33576708,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645767
+  },
+  {
+    "offset": 256,
+    "type": 2,
+    "symbol": "SDK_data_0216f35c",
+    "target": 35058524,
+    "thumb": false,
+    "addend": 0,
+    "value": 35058524
+  },
+  {
+    "offset": 260,
+    "type": 2,
+    "symbol": "SDK_data_0216f364",
+    "target": 35058532,
+    "thumb": false,
+    "addend": 0,
+    "value": 35058532
+  },
+  {
+    "offset": 272,
+    "type": 2,
+    "symbol": "SDK_data_0216f36c",
+    "target": 35058540,
+    "thumb": false,
+    "addend": 0,
+    "value": 35058540
+  }
+]

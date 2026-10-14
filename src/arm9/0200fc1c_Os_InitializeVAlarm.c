@@ -1,23 +1,37 @@
-/* Decompiled C draft; module arm9; ROM address 0200fc1c. No matching claim. */
-#include "types.h"
-#include "deps/0200fc1c_Os_InitializeVAlarm.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define OS_DisableIrqMask Os_DisableIrqHandler
+#define OSi_UseVAlarm SDK_data_02170268
+#define OSi_VAlarmQueue SDK_data_02170274
+#define OSi_VFrameCount SDK_data_02170270
+#define OSi_PreviousVCount SDK_data_0217026c
+#define OS_InitVAlarm Os_InitializeVAlarm
+#include "OS_valarm.h"
+#include "OS_interrupt.h"
+#include "code32.h"
 
-void Os_InitializeVAlarm(void)
-
+static struct OSiVAlarmQueue
 {
-  undefined4 *puVar1;
-  
-  puVar1 = puRam0200fc80;
-  if (*psRam0200fc7c == 0) {
-    *psRam0200fc7c = 1;
-    *puVar1 = 0;
-    puVar1[1] = 0;
-    Os_DisableIrqHandler(4);
-    puVar1 = puRam0200fc88;
-    *puRam0200fc84 = 0;
-    *puVar1 = 0;
-    return;
-  }
-  return;
-}
+    OSVAlarm *head;
+    OSVAlarm *tail;
+} OSi_VAlarmQueue;
 
+static u16 OSi_UseVAlarm = FALSE;
+
+static s32 OSi_VFrameCount;
+static s32 OSi_PreviousVCount;
+
+void OS_InitVAlarm(void)
+{
+    if (!OSi_UseVAlarm)
+    {
+        OSi_UseVAlarm = TRUE;
+
+        OSi_VAlarmQueue.head = NULL;
+        OSi_VAlarmQueue.tail = NULL;
+
+        (void)OS_DisableIrqMask(OS_IE_V_COUNT);
+
+        OSi_VFrameCount = 0;
+        OSi_PreviousVCount = 0;
+    }
+}

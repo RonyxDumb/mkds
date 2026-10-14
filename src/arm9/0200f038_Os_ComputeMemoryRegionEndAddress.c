@@ -1,48 +1,177 @@
-/* Decompiled C draft; module arm9; ROM address 0200f038. No matching claim. */
-#include "types.h"
-#include "deps/0200f038_Os_ComputeMemoryRegionEndAddress.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define OS_GetConsoleType Os_GetSystemFlags
+#define OSi_MainExArenaEnabled SDK_data_021701b8
+#define SDK_AUTOLOAD_DTCM_START SDK_data_027e0000
+#define SDK_SYS_STACKSIZE SDK_data_00002800
+#define SDK_IRQ_STACKSIZE SDK_data_00000c00
+#define SDK_SECTION_ARENA_DTCM_START SDK_data_027e00e0
+#define OS_GetInitArenaHi Os_ComputeMemoryRegionEndAddress
+#include "OS_arena.h"
 
-uint Os_ComputeMemoryRegionEndAddress(undefined4 param_1)
+#include "nitro/types.h"
+#include "OS_protectionRegion.h"
+#include "OS_emulator.h"
+#include "mmap.h"
+#include "code32.h"
 
-{
-  uint uVar1;
-  
-  switch(param_1) {
-  case 0:
-    return DAT_0200f148;
-  case 1:
-    return 0;
-  case 2:
-    break;
-  case 3:
-    return 0x2000000;
-  case 4:
-    if (DAT_0200f154 != 0) {
-      if (DAT_0200f154 < 0) {
-        uVar1 = DAT_0200f15c - DAT_0200f154;
-      }
-      else {
-        uVar1 = ((DAT_0200f150 + 0x3f80) - DAT_0200f158) - DAT_0200f154;
-      }
-      return uVar1;
+static BOOL OSi_Initialized = FALSE;
+static BOOL OSi_MainExArenaEnabled = FALSE;
+
+void SDK_MAIN_ARENA_LO(); // TODO: technically this should be defined in the lcf
+extern void SDK_SECTION_ARENA_EX_START(); // TODO: technically this should be defined in the lcf
+extern void SDK_SECTION_ARENA_ITCM_START(); // TODO: technically this should be defined in the lcf
+extern void SDK_SECTION_ARENA_DTCM_START(); // TODO: technically this should be defined in the lcf
+extern void SDK_IRQ_STACKSIZE(); // TODO: technically this should be defined in the lcf
+extern void SDK_SYS_STACKSIZE(); // TODO: technically this should be defined in the lcf
+
+void OS_InitArena(void) {
+    if (OSi_Initialized) {
+        return;
     }
-    uVar1 = DAT_0200f150;
-    if (DAT_0200f150 < DAT_0200f15c) {
-      uVar1 = DAT_0200f15c;
-    }
-    return uVar1;
-  case 5:
-    return DAT_0200f160;
-  case 6:
-    return DAT_0200f164;
-  default:
-    return 0;
-  }
-  if ((*(uint *)(DAT_0200f14c & 0xfffffffc) >> (DAT_0200f14c & 3) * 8 != 0 ||
-       *(uint *)(DAT_0200f14c & 0xfffffffc) << (DAT_0200f14c & 3) * -8 + 0x20 != 0) &&
-     (uVar1 = Os_GetSystemFlags(), (uVar1 & 3) != 1)) {
-    return 0x2700000;
-  }
-  return 0;
+    OSi_Initialized = TRUE;
+
+    OS_SetArenaHi(OS_ARENA_MAIN, OS_GetInitArenaHi(OS_ARENA_MAIN));
+    OS_SetArenaLo(OS_ARENA_MAIN, OS_GetInitArenaLo(OS_ARENA_MAIN));
+
+    OS_SetArenaLo(OS_ARENA_MAINEX, (void *)0);
+    OS_SetArenaHi(OS_ARENA_MAINEX, (void *)0);
+
+    OS_SetArenaHi(OS_ARENA_ITCM, OS_GetInitArenaHi(OS_ARENA_ITCM));
+    OS_SetArenaLo(OS_ARENA_ITCM, OS_GetInitArenaLo(OS_ARENA_ITCM));
+
+    OS_SetArenaHi(OS_ARENA_DTCM, OS_GetInitArenaHi(OS_ARENA_DTCM));
+    OS_SetArenaLo(OS_ARENA_DTCM, OS_GetInitArenaLo(OS_ARENA_DTCM));
+
+    OS_SetArenaHi(OS_ARENA_SHARED, OS_GetInitArenaHi(OS_ARENA_SHARED));
+    OS_SetArenaLo(OS_ARENA_SHARED, OS_GetInitArenaLo(OS_ARENA_SHARED));
+
+    OS_SetArenaHi(OS_ARENA_WRAM_MAIN, OS_GetInitArenaHi(OS_ARENA_WRAM_MAIN));
+    OS_SetArenaLo(OS_ARENA_WRAM_MAIN, OS_GetInitArenaLo(OS_ARENA_WRAM_MAIN));
 }
 
+void OS_InitArenaEx(void) {
+    OS_SetArenaHi(OS_ARENA_MAINEX, OS_GetInitArenaHi(OS_ARENA_MAINEX));
+    OS_SetArenaLo(OS_ARENA_MAINEX, OS_GetInitArenaLo(OS_ARENA_MAINEX));
+
+    if (!OSi_MainExArenaEnabled || (OS_GetConsoleType() & OS_CONSOLE_SIZE_MASK) == OS_CONSOLE_SIZE_4MB) {
+        OS_SetProtectionRegion(1, HW_MAIN_MEM, 4MB);
+        OS_SetProtectionRegion(2, HW_MAIN_MEM_MAIN_END, 128KB);
+    }
+}
+
+void* OS_GetArenaHi(OSArenaId id) {
+    return OSi_GetArenaInfo().hi[id];
+}
+
+void* OS_GetArenaLo(OSArenaId id) {
+    return OSi_GetArenaInfo().lo[id];
+}
+
+void* OS_GetInitArenaHi(OSArenaId id) {
+    switch (id) {
+        case OS_ARENA_MAIN:
+            return (void *)OSi_MAIN_ARENA_HI_DEFAULT;
+        case OS_ARENA_MAINEX:
+            if (!OSi_MainExArenaEnabled || (OS_GetConsoleType() & OS_CONSOLE_SIZE_MASK) == OS_CONSOLE_SIZE_4MB) {
+                return (void *)0;
+            } else {
+                return (void *)OSi_MAINEX_ARENA_HI_DEFAULT;
+            }
+        case OS_ARENA_ITCM:
+            return (void *)HW_ITCM_ARENA_HI_DEFAULT;
+        case OS_ARENA_DTCM:
+        {
+            u32 irqStackLo = (u32) HW_DTCM_IRQ_STACK_END - (s32) SDK_IRQ_STACKSIZE;
+            u32 sysStackLo;
+
+            if (!(s32) SDK_SYS_STACKSIZE) {
+                sysStackLo = HW_DTCM;
+                if (sysStackLo < (u32) SDK_SECTION_ARENA_DTCM_START) {
+                    sysStackLo = (u32) SDK_SECTION_ARENA_DTCM_START;
+                }
+            } else if ((s32) SDK_SYS_STACKSIZE < 0) {
+                sysStackLo = (u32) SDK_SECTION_ARENA_DTCM_START - (s32) SDK_SYS_STACKSIZE;
+            } else {
+                sysStackLo = irqStackLo - (s32) SDK_SYS_STACKSIZE;
+            }
+            return (void *) sysStackLo;
+        }
+        case OS_ARENA_SHARED:
+            return (void *)HW_SHARED_ARENA_HI_DEFAULT;
+        case OS_ARENA_WRAM_MAIN:
+            return (void *)OSi_WRAM_MAIN_ARENA_HI_DEFAULT;
+        default:
+            return NULL;
+    }
+}
+
+void* OS_GetInitArenaLo(OSArenaId id) {
+    switch (id) {
+        case OS_ARENA_MAIN:
+            return (void *)SDK_MAIN_ARENA_LO;
+        case OS_ARENA_MAINEX:
+            if (!OSi_MainExArenaEnabled || (OS_GetConsoleType() & OS_CONSOLE_SIZE_MASK) == OS_CONSOLE_SIZE_4MB) {
+                return NULL;
+            } else {
+                return (void *)SDK_SECTION_ARENA_EX_START;
+            }
+        case OS_ARENA_ITCM:
+            return (void *)SDK_SECTION_ARENA_ITCM_START;
+        case OS_ARENA_DTCM:
+            return (void *)SDK_SECTION_ARENA_DTCM_START;
+        case OS_ARENA_SHARED:
+            return (void *)HW_SHARED_ARENA_LO_DEFAULT;
+        case OS_ARENA_WRAM_MAIN:
+            return (void *)OSi_WRAM_MAIN_ARENA_LO_DEFAULT;
+        default:
+            return NULL;
+    }
+}
+
+void OS_SetArenaHi(OSArenaId id, void* newHi) {
+    OSi_GetArenaInfo().hi[id] = newHi;
+}
+
+void OS_SetArenaLo(OSArenaId id, void* newLo) {
+    OSi_GetArenaInfo().lo[id] = newLo;
+}
+
+void* OS_AllocFromArenaLo(OSArenaId id, u32 size, u32 align) {
+    void* ptr;
+    u8* arenaLo;
+    ptr = OS_GetArenaLo(id);
+    if (!ptr) {
+        return NULL;
+    }
+    arenaLo = ptr = (void *)OSi_ROUND(ptr, align);
+    arenaLo += size;
+    arenaLo = (u8 *)OSi_ROUND(arenaLo, align);
+    if (arenaLo > (u8*)OS_GetArenaHi(id)) {
+        return NULL;
+    }
+    OS_SetArenaLo(id, arenaLo);
+
+    return ptr;
+}
+
+void* OS_AllocFromArenaHi(OSArenaId id, u32 size, u32 align) {
+    void* ptr;
+    u8* arenaHi;
+
+    arenaHi = OS_GetArenaHi(id);
+    if (!arenaHi) {
+        return NULL;
+    }
+
+    arenaHi = (u8 *)OSi_TRUNC(arenaHi, align);
+    arenaHi -= size;
+    arenaHi = ptr = (void *)OSi_TRUNC(arenaHi, align);
+
+    if (arenaHi < (u8*)OS_GetArenaLo(id)) {
+        return NULL;
+    }
+
+    OS_SetArenaHi(id, arenaHi);
+
+    return ptr;
+}

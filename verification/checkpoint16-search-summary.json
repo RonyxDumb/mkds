@@ -1,0 +1,47 @@
+{
+  "checkpoint": 16,
+  "new_functions": 90,
+  "new_inventory_bytes": 16940,
+  "searches": {
+    "sm64ds_top_level": {
+      "sources": 216,
+      "compiled_variants": 1296,
+      "tested": 15,
+      "accepted": 15
+    },
+    "pokediamond_function_bodies": {
+      "compiled_variants": 309,
+      "tested": 142,
+      "accepted": 16
+    },
+    "pokediamond_translation_units": {
+      "tested": 63,
+      "accepted": 59
+    },
+    "pokediamond_auto_inline": {
+      "tested": 3,
+      "accepted": 0
+    }
+  },
+  "unrelocated_audit": {
+    "tested": 1270,
+    "passed": 1270,
+    "exact_code_bytes": 34428,
+    "relocations": 0,
+    "full_rom_link_verified": false,
+    "compiler": "mwccarm 1.2/sp2p3; Clang for explicitly tagged Clang proofs",
+    "verification": "Fresh compilation of current source; complete function bytes and length identical to original decompressed section; no masking or relocations."
+  },
+  "resolved_audit": {
+    "tested": 1109,
+    "passed": 1109,
+    "bytes": 91956,
+    "resolved_relocations": 2882,
+    "full_rom_link_verified": false
+  },
+  "current_inventory_bytes": 126160,
+  "current_inventory_percent": 6.592547536782611,
+  "target_reached": false,
+  "full_rom_link_verified": false,
+  "new_span_bytes": 17004
+}

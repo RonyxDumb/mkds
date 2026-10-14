@@ -1,160 +1,35 @@
-/* Decompiled C draft; module arm9; ROM address 02146dfc. No matching claim. */
-#include "types.h"
-#include "deps/02146dfc_MTX_Concat33.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define MulMat3x3Mat3x3 MTX_Concat33
+typedef long long s64;
+typedef struct { int m[9]; } Mat9;
 
-void MTX_Concat33(uint param_1,uint *param_2,uint *param_3)
-
+void MulMat3x3Mat3x3(const int *A, const int *B, int *dst)
 {
-  uint uVar1;
-  longlong lVar2;
-  uint *puVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar8;
-  uint uVar10;
-  uint uVar11;
-  uint uStack_40;
-  uint uStack_3c;
-  uint uStack_38;
-  uint uStack_34;
-  uint uStack_30;
-  uint uStack_2c;
-  uint uStack_28;
-  uint uStack_24;
-  uint uStack_20;
-  uint uVar7;
-  uint uVar9;
-  
-  uVar1 = param_1 + 4 & 3;
-  uVar8 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  uVar9 = uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20;
-  uVar1 = (uint)(param_2 + 3) & 3;
-  uVar4 = *(uint *)((uint)(param_2 + 3) & 0xfffffffc);
-  uVar10 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  uVar8 = param_1 + 8 & 3;
-  uVar6 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  uVar7 = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
-  uVar8 = (uint)(param_2 + 6) & 3;
-  uVar6 = *(uint *)((uint)(param_2 + 6) & 0xfffffffc);
-  puVar3 = param_3;
-  if (param_3 == param_2) {
-    puVar3 = &uStack_40;
-  }
-  lVar2 = (longlong)(int)(uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20) * (longlong)(int)uVar7 +
-          (longlong)
-          (int)(*(uint *)((uint)param_2 & 0xfffffffc) >> ((uint)param_2 & 3) * 8 |
-               *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20) *
-          (longlong)(int)uVar10 +
-          (longlong)(int)uVar9 * (longlong)(int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
-  *puVar3 = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  uVar1 = (uint)(param_2 + 4) & 3;
-  uVar6 = *(uint *)((uint)(param_2 + 4) & 0xfffffffc);
-  uVar8 = (uint)(param_2 + 1) & 3;
-  uVar11 = *(uint *)((uint)(param_2 + 1) & 0xfffffffc);
-  uVar4 = (uint)(param_2 + 7) & 3;
-  uVar5 = *(uint *)((uint)(param_2 + 7) & 0xfffffffc);
-  lVar2 = (longlong)(int)(uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) * (longlong)(int)uVar7 +
-          (longlong)(int)(uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20) * (longlong)(int)uVar10
-          + (longlong)(int)uVar9 * (longlong)(int)(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20);
-  puVar3[1] = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  uVar1 = (uint)(param_2 + 5) & 3;
-  uVar8 = *(uint *)((uint)(param_2 + 5) & 0xfffffffc);
-  uVar8 = uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20;
-  uVar1 = (uint)(param_2 + 2) & 3;
-  uVar4 = *(uint *)((uint)(param_2 + 2) & 0xfffffffc);
-  uVar11 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  uVar1 = (uint)(param_2 + 8) & 3;
-  uVar4 = *(uint *)((uint)(param_2 + 8) & 0xfffffffc);
-  uVar5 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  lVar2 = (longlong)(int)uVar5 * (longlong)(int)uVar7 +
-          (longlong)(int)uVar11 * (longlong)(int)uVar10 +
-          (longlong)(int)uVar9 * (longlong)(int)uVar8;
-  puVar3[2] = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  uVar1 = param_1 + 0x10 & 3;
-  uVar4 = *(uint *)(param_1 + 0x10 & 0xfffffffc);
-  uVar7 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 0xc & 3;
-  uVar4 = *(uint *)(param_1 + 0xc & 0xfffffffc);
-  uVar9 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 0x14 & 3;
-  uVar4 = *(uint *)(param_1 + 0x14 & 0xfffffffc);
-  uVar6 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  lVar2 = (longlong)(int)uVar5 * (longlong)(int)uVar6 +
-          (longlong)(int)uVar11 * (longlong)(int)uVar9 + (longlong)(int)uVar7 * (longlong)(int)uVar8
-  ;
-  puVar3[5] = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  uVar1 = (uint)(param_2 + 4) & 3;
-  uVar10 = *(uint *)((uint)(param_2 + 4) & 0xfffffffc);
-  uVar8 = (uint)(param_2 + 1) & 3;
-  uVar11 = *(uint *)((uint)(param_2 + 1) & 0xfffffffc);
-  uVar4 = (uint)(param_2 + 7) & 3;
-  uVar5 = *(uint *)((uint)(param_2 + 7) & 0xfffffffc);
-  lVar2 = (longlong)(int)(uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) * (longlong)(int)uVar6 +
-          (longlong)(int)(uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20) * (longlong)(int)uVar9
-          + (longlong)(int)uVar7 *
-            (longlong)(int)(uVar10 >> uVar1 * 8 | uVar10 << uVar1 * -8 + 0x20);
-  puVar3[4] = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  uVar1 = (uint)(param_2 + 3) & 3;
-  uVar8 = *(uint *)((uint)(param_2 + 3) & 0xfffffffc);
-  uVar11 = uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20;
-  uVar5 = *(uint *)((uint)param_2 & 0xfffffffc) >> ((uint)param_2 & 3) * 8 |
-          *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20;
-  uVar1 = (uint)(param_2 + 6) & 3;
-  uVar8 = *(uint *)((uint)(param_2 + 6) & 0xfffffffc);
-  uVar4 = uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20;
-  lVar2 = (longlong)(int)uVar4 * (longlong)(int)uVar6 +
-          (longlong)(int)uVar5 * (longlong)(int)uVar9 + (longlong)(int)uVar7 * (longlong)(int)uVar11
-  ;
-  puVar3[3] = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  uVar1 = param_1 + 0x1c & 3;
-  uVar8 = *(uint *)(param_1 + 0x1c & 0xfffffffc);
-  uVar10 = uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 0x18 & 3;
-  uVar8 = *(uint *)(param_1 + 0x18 & 0xfffffffc);
-  uVar9 = uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 0x20 & 3;
-  uVar8 = *(uint *)(param_1 + 0x20 & 0xfffffffc);
-  uVar6 = uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20;
-  lVar2 = (longlong)(int)uVar4 * (longlong)(int)uVar6 +
-          (longlong)(int)uVar5 * (longlong)(int)uVar9 +
-          (longlong)(int)uVar10 * (longlong)(int)uVar11;
-  puVar3[6] = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  uVar1 = (uint)(param_2 + 4) & 3;
-  uVar7 = *(uint *)((uint)(param_2 + 4) & 0xfffffffc);
-  uVar8 = (uint)(param_2 + 1) & 3;
-  uVar5 = *(uint *)((uint)(param_2 + 1) & 0xfffffffc);
-  uVar4 = (uint)(param_2 + 7) & 3;
-  uVar11 = *(uint *)((uint)(param_2 + 7) & 0xfffffffc);
-  lVar2 = (longlong)(int)(uVar11 >> uVar4 * 8 | uVar11 << uVar4 * -8 + 0x20) * (longlong)(int)uVar6
-          + (longlong)(int)(uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) * (longlong)(int)uVar9
-            + (longlong)(int)uVar10 *
-              (longlong)(int)(uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20);
-  puVar3[7] = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  uVar1 = (uint)(param_2 + 8) & 3;
-  uVar11 = *(uint *)((uint)(param_2 + 8) & 0xfffffffc);
-  uVar8 = (uint)(param_2 + 2) & 3;
-  uVar5 = *(uint *)((uint)(param_2 + 2) & 0xfffffffc);
-  uVar4 = (uint)(param_2 + 5) & 3;
-  uVar7 = *(uint *)((uint)(param_2 + 5) & 0xfffffffc);
-  lVar2 = (longlong)(int)(uVar11 >> uVar1 * 8 | uVar11 << uVar1 * -8 + 0x20) * (longlong)(int)uVar6
-          + (longlong)(int)(uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) * (longlong)(int)uVar9
-            + (longlong)(int)uVar10 *
-              (longlong)(int)(uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20);
-  puVar3[8] = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  if (puVar3 == &uStack_40) {
-    *param_3 = uStack_40;
-    param_3[1] = uStack_3c;
-    param_3[2] = uStack_38;
-    param_3[3] = uStack_34;
-    param_3[4] = uStack_30;
-    param_3[5] = uStack_2c;
-    param_3[6] = uStack_28;
-    param_3[7] = uStack_24;
-    param_3[8] = uStack_20;
-    return;
-  }
-  return;
-}
+    int tmp[9];
+    int a0, a1, a2;
+    int b0, b1, b2;
+    int *d = dst;
 
+    if (dst == B) d = tmp;
+
+    a0 = A[0]; a1 = A[1]; a2 = A[2];
+    d[0] = (int)(((s64)a0 * B[0] + (s64)a1 * B[3] + (s64)a2 * B[6]) >> 12);
+    d[1] = (int)(((s64)a0 * B[1] + (s64)a1 * B[4] + (s64)a2 * B[7]) >> 12);
+    b0 = B[2]; b1 = B[5]; b2 = B[8];
+    d[2] = (int)(((s64)a0 * b0 + (s64)a1 * b1 + (s64)a2 * b2) >> 12);
+
+    a0 = A[3]; a1 = A[4]; a2 = A[5];
+    d[5] = (int)(((s64)a0 * b0 + (s64)a1 * b1 + (s64)a2 * b2) >> 12);
+    d[4] = (int)(((s64)a0 * B[1] + (s64)a1 * B[4] + (s64)a2 * B[7]) >> 12);
+    b0 = B[0]; b1 = B[3]; b2 = B[6];
+    d[3] = (int)(((s64)a0 * b0 + (s64)a1 * b1 + (s64)a2 * b2) >> 12);
+
+    a0 = A[6]; a1 = A[7]; a2 = A[8];
+    d[6] = (int)(((s64)a0 * b0 + (s64)a1 * b1 + (s64)a2 * b2) >> 12);
+    d[7] = (int)(((s64)a0 * B[1] + (s64)a1 * B[4] + (s64)a2 * B[7]) >> 12);
+    d[8] = (int)(((s64)a0 * B[2] + (s64)a1 * B[5] + (s64)a2 * B[8]) >> 12);
+
+    if (d == tmp) {
+        *(Mat9 *)dst = *(Mat9 *)tmp;
+    }
+}

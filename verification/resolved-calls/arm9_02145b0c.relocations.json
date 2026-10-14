@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Os_Thread_SetPriority",
+    "target": 33610976,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959103597
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Os_Thread_WakeUpDirect",
+    "target": 33611624,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959103752
+  },
+  {
+    "offset": 68,
+    "type": 2,
+    "symbol": "SDK_data_0217fa40",
+    "target": 35125824,
+    "thumb": false,
+    "addend": 0,
+    "value": 35125824
+  }
+]

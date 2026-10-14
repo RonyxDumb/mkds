@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Os_EnableIrqHandler",
+    "target": 33606372,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422918
+  },
+  {
+    "offset": 64,
+    "type": 2,
+    "symbol": "SDK_data_0216fee0",
+    "target": 35061472,
+    "thumb": false,
+    "addend": 0,
+    "value": 35061472
+  },
+  {
+    "offset": 68,
+    "type": 2,
+    "symbol": "SDK_data_0216fee0",
+    "target": 35061472,
+    "thumb": false,
+    "addend": 8,
+    "value": 35061480
+  },
+  {
+    "offset": 72,
+    "type": 2,
+    "symbol": "SDK_data_0216fee0",
+    "target": 35061472,
+    "thumb": false,
+    "addend": 4,
+    "value": 35061476
+  }
+]

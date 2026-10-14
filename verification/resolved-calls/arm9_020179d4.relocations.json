@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "Mem_ExpHeapMemoryBlockList_Remove",
+    "target": 33652432,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646053
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "Mem_ExpHeapMemoryBlockList_Remove",
+    "target": 33652432,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646037
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "Mem_Exp_InitializeMemoryBlock",
+    "target": 33652336,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646001
+  },
+  {
+    "offset": 224,
+    "type": 1,
+    "symbol": "Mem_ExpHeapMemoryBlockList_Insert",
+    "target": 33652384,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646009
+  }
+]
