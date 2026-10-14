@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Mem_Exp_Allocate",
+    "target": 33651000,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391240
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Mem_Frame_Allocate",
+    "target": 33652876,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391705
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Mem_Frame_Create",
+    "target": 33652960,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391721
+  }
+]

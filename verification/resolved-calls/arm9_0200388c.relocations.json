@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Fs_SyncReader_Read",
+    "target": 33569496,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645894
+  },
+  {
+    "offset": 128,
+    "type": 1,
+    "symbol": "Fs_SyncReader_Read",
+    "target": 33569496,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645873
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "Fs_SyncReader_Read",
+    "target": 33569496,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645862
+  }
+]

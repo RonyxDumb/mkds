@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "func_0207c078",
+    "target": 34062456,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402487
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "func_0208537c",
+    "target": 34100092,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959411893
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "func_0207c548",
+    "target": 34063688,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402767
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "func_0207c47c",
+    "target": 34063484,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402711
+  },
+  {
+    "offset": 228,
+    "type": 1,
+    "symbol": "func_0207c548",
+    "target": 34063688,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402741
+  },
+  {
+    "offset": 248,
+    "type": 1,
+    "symbol": "func_0207c47c",
+    "target": 34063484,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402685
+  }
+]

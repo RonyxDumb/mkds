@@ -1,0 +1,110 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "CreateMapObjectFromModel_from_thumb",
+    "target": 34193028,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211078002
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "StructMapObject_AddAnimationNsbca_from_thumb",
+    "target": 34192976,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211077985
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "CreateMapObjectFromModel_from_thumb",
+    "target": 34193028,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211077995
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "StructMapObject_AddAnimationNsbca_from_thumb",
+    "target": 34192976,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211077978
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "StructMapObject_MaybeSetPolygonId",
+    "target": 34191680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959419410
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "StructMapObject_MaybeSetPolygonId",
+    "target": 34191680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959419406
+  },
+  {
+    "offset": 100,
+    "type": 2,
+    "symbol": "SDK_data_021674d4",
+    "target": 35026132,
+    "thumb": false,
+    "addend": 0,
+    "value": 35026132
+  },
+  {
+    "offset": 104,
+    "type": 2,
+    "symbol": "SDK_data_0217b198",
+    "target": 35107224,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107224
+  },
+  {
+    "offset": 108,
+    "type": 2,
+    "symbol": "SDK_data_021674e4",
+    "target": 35026148,
+    "thumb": false,
+    "addend": 0,
+    "value": 35026148
+  },
+  {
+    "offset": 112,
+    "type": 2,
+    "symbol": "SDK_data_021674f4",
+    "target": 35026164,
+    "thumb": false,
+    "addend": 0,
+    "value": 35026164
+  },
+  {
+    "offset": 116,
+    "type": 2,
+    "symbol": "SDK_data_0217b19c",
+    "target": 35107228,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107228
+  },
+  {
+    "offset": 120,
+    "type": 2,
+    "symbol": "SDK_data_02167504",
+    "target": 35026180,
+    "thumb": false,
+    "addend": 0,
+    "value": 35026180
+  }
+]

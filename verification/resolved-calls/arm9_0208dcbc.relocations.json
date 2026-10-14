@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Animation_GetCurrentLength",
+    "target": 34110732,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959416846
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Animation_SetAt",
+    "target": 34111364,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959416999
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Animation_SetAt",
+    "target": 34111364,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959416991
+  }
+]

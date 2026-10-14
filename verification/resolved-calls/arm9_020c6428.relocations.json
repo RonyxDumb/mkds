@@ -1,0 +1,83 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "GetCurrentPlayerRacerId",
+    "target": 34295196,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405141
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "GetLeastTimeLap",
+    "target": 33801720,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959281768
+  },
+  {
+    "offset": 192,
+    "type": 1,
+    "symbol": "GetCurrentPlayerRacerId",
+    "target": 34295196,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405099
+  },
+  {
+    "offset": 224,
+    "type": 1,
+    "symbol": "CopyMemory16",
+    "target": 34918396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942783675
+  },
+  {
+    "offset": 236,
+    "type": 1,
+    "symbol": "GetCurrentPlayerRacerId",
+    "target": 34295196,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405088
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "GetCurrentPlayerRacerId",
+    "target": 34295196,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405081
+  },
+  {
+    "offset": 308,
+    "type": 1,
+    "symbol": "TimeTrialCopyToSaveData_from_thumb",
+    "target": 33909868,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210966978
+  },
+  {
+    "offset": 328,
+    "type": 2,
+    "symbol": "SDK_data_0217b3f4",
+    "target": 35107828,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107828
+  },
+  {
+    "offset": 336,
+    "type": 2,
+    "symbol": "SDK_data_021759c0",
+    "target": 35084736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084736
+  }
+]

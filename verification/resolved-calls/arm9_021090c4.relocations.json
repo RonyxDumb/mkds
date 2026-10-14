@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "StructMQRacerEntry_SomeFn_6",
+    "target": 34654316,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942649306
+  },
+  {
+    "offset": 72,
+    "type": 2,
+    "symbol": "SDK_data_0217c780",
+    "target": 35112832,
+    "thumb": false,
+    "addend": 0,
+    "value": 35112832
+  }
+]

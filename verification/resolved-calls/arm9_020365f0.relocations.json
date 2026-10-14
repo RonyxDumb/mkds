@@ -1,0 +1,119 @@
+[
+  {
+    "offset": 4,
+    "type": 1,
+    "symbol": "InitializeSDKModules",
+    "target": 33777340,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645808
+  },
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "InitializeBrightnessContexts",
+    "target": 33788028,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648479
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Os_GetMemoryRegionStartAddress",
+    "target": 33616232,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959382741
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "MemoryRegionAddressAccess",
+    "target": 33777272,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645782
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Os_GetMemoryRegionStartAddress",
+    "target": 33616232,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959382736
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Os_GetMemoryRegionEndAddress",
+    "target": 33616252,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959382738
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "Mem_CreateExpHeap",
+    "target": 33778764,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646147
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "ExecutionContext_Create",
+    "target": 33777040,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422927
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "InitializeGlobalG_M1",
+    "target": 33789132,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648730
+  },
+  {
+    "offset": 120,
+    "type": 2,
+    "symbol": "SDK_data_01ff8000",
+    "target": 33521664,
+    "thumb": false,
+    "addend": 32768,
+    "value": 33554432
+  },
+  {
+    "offset": 124,
+    "type": 2,
+    "symbol": "SDK_data_02174e78",
+    "target": 35081848,
+    "thumb": false,
+    "addend": 0,
+    "value": 35081848
+  },
+  {
+    "offset": 128,
+    "type": 2,
+    "symbol": "SDK_data_02174e88",
+    "target": 35081864,
+    "thumb": false,
+    "addend": 0,
+    "value": 35081864
+  },
+  {
+    "offset": 132,
+    "type": 2,
+    "symbol": "SDK_data_021646ec",
+    "target": 35014380,
+    "thumb": false,
+    "addend": 0,
+    "value": 35014380
+  }
+]

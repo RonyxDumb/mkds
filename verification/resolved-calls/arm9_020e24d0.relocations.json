@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "VecFx32_Subtract",
+    "target": 34899152,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942750195
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "VecFx32_CrossProduct_0",
+    "target": 33789992,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959250118
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "VecFx32_CrossProduct_0",
+    "target": 33789992,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959250114
+  },
+  {
+    "offset": 244,
+    "type": 1,
+    "symbol": "Vector3_MaybeNormalize",
+    "target": 33790048,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959250085
+  },
+  {
+    "offset": 256,
+    "type": 1,
+    "symbol": "func_020d7b88",
+    "target": 34438024,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412076
+  },
+  {
+    "offset": 348,
+    "type": 2,
+    "symbol": "SDK_data_02158a50",
+    "target": 34966096,
+    "thumb": false,
+    "addend": 0,
+    "value": 34966096
+  }
+]

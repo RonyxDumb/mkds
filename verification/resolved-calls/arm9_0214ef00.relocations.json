@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421427
+  }
+]

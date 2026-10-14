@@ -1,58 +1,60 @@
-/* Decompiled C draft; module arm9; ROM address 02082a10. No matching claim. */
-#include "types.h"
-#include "deps/02082a10_func_02082a10.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_02082a10(int param_1,int param_2)
+/* PURPOSE: Places an object's target point a fixed distance ahead of the player kart on the flat (X/Z) ground.
+ *
+ * Args: arg0 (r5) is some aim/marker object; arg1 (r1) is an "already done" flag.
+ *   If arg1 is non-zero the function returns immediately (nothing to do).
+ * Behaviour: reads a global direction vector (offset 0x15c of GetGlobalHD5()),
+ *   flattens it onto the X/Z plane (Y forced to 0). If that horizontal vector is
+ *   long enough (3D squared length >= 0x10) it is normalised. Then it scales the
+ *   direction by a fixed factor (0x5800) and adds it to a base position (offset 0x9c)
+ *   to get a target point; the target's Y is forced to 0x1f400. Finally the target
+ *   is added to a reference position (**obj->0x20, fields +4/+8/+c) and written into
+ *   obj at 0x28/0x2c/0x30.
+ */
 
+typedef struct { int x, y, z; } VecFx32;
+
+typedef struct {
+    char pad9c[0x9c];
+    VecFx32 f9c;                    /* base position vector */
+    char pad2[0x15c - 0x9c - 12];
+    VecFx32 f15c;                   /* direction vector (flattened, normalised) */
+} HD;
+
+typedef struct {
+    char pad0[0x20];
+    int **f20;                      /* pointer to pointer to a reference position */
+    int f24, f28, f2c, f30;
+} Obj;
+
+extern HD *GetGlobalHD5(void);
+extern void Vector3_MaybeNormalize(VecFx32 *dst, VecFx32 *src);
+extern void VecFx32_AddScale1(int scale, VecFx32 *dir, VecFx32 *base, VecFx32 *out);
+
+void func_02082a10(Obj *obj, int done)
 {
-  longlong lVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  int aiStack_28 [3];
-  int aiStack_1c [2];
-  int iStack_14;
-  
-  if (param_2 == 0) {
-    iVar2 = GetGlobalHD5();
-    aiStack_28[0] = *(int *)(iVar2 + 0x15c);
-    aiStack_28[2] = *(int *)(iVar2 + 0x164);
-    lVar1 = (longlong)aiStack_28[2] * (longlong)aiStack_28[2] +
-            (longlong)aiStack_28[0] * (longlong)aiStack_28[0];
-    aiStack_28[1] = 0;
-    if ((int)(uint)((uint)lVar1 < 0x10) <= (int)((ulonglong)lVar1 >> 0x20)) {
-      Vector3_MaybeNormalize((uint)(uintptr_t)(aiStack_28),aiStack_28);
-    }
-    VecFx32_AddScale1(0x5800,(uint)(uintptr_t)(aiStack_28),iVar2 + 0x9c,aiStack_1c);
-    uVar4 = param_1 + 0x20U & 3;
-    uVar3 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-    uVar3 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-    uVar4 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    uVar4 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 4;
-    uVar3 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    *(uint *)(param_1 + 0x28) = aiStack_1c[0] + (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
-    uVar4 = param_1 + 0x20U & 3;
-    uVar3 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-    uVar3 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-    uVar4 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    uVar4 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 8;
-    uVar3 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    *(uint *)(param_1 + 0x2c) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + 0x1f400;
-    uVar4 = param_1 + 0x20U & 3;
-    uVar3 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-    uVar3 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-    uVar4 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    uVar4 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0xc;
-    uVar3 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    *(uint *)(param_1 + 0x30) = iStack_14 + (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
-    return;
-  }
-  return;
-}
+    VecFx32 v;
+    VecFx32 out;
+    HD *hd;
 
+    if (done)
+        return;
+
+    hd = GetGlobalHD5();
+    v = hd->f15c;                   /* ldm/stm copy of 3 words */
+    v.y = 0;                        /* zero kept in lr, reused as y*y seed */
+    /* full 3D squared length (y==0); normalise only if long enough.
+       Including y*y makes mwcc seed the fx64 accumulator with 0*0. */
+    if ((long long)v.x * v.x + (long long)v.y * v.y +
+        (long long)v.z * v.z >= 0x10)
+        Vector3_MaybeNormalize(&v, &v);
+
+    VecFx32_AddScale1(0x5800, &v, &hd->f9c, &out);
+    out.y = 0x1f400;
+
+    /* reload obj->f20 and deref per store (ROM repeats ldr [r5,#0x20]; ldr [r0]) */
+    obj->f28 = out.x + (*obj->f20)[1];
+    obj->f2c = out.y + (*obj->f20)[2];
+    obj->f30 = out.z + (*obj->f20)[3];
+}

@@ -1,32 +1,32 @@
-/* Decompiled C draft; module arm9; ROM address 0205ec14. No matching claim. */
-#include "types.h"
-#include "deps/0205ec14_func_0205ec14.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa08 SDK_data_0217aa08
+// PURPOSE: Loads the selected save data when its ghost exists.
+// The first argument stores the selected slot byte and receives the loaded data.
+// The second argument is probably a course number mapped into one of five slots.
 
-void func_0205ec14(char *param_1,int param_2)
+typedef unsigned char u8;
 
+typedef struct SaveSelectorState {
+    void *field_00;
+} SaveSelectorState;
+
+extern SaveSelectorState *data_0217aa08;
+extern int func_0205743c(u8 slot, void *selectionData, int mode);
+extern void ReadSaveDataSection_NKFE_from_thumb(void *destination, int slot);
+
+void func_0205ec14(char *selection, int course)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  uVar4 = *(uint *)(uRam0205ec9c & 0xfffffffc) >> (uRam0205ec9c & 3) * 8 |
-          *(uint *)(uRam0205ec9c & 0xfffffffc) << (uRam0205ec9c & 3) * -8 + 0x20;
-  uVar5 = (int)((longlong)iRam0205eca0 * (longlong)param_2 >> 0x21) - (param_2 >> 0x1f);
-  uVar1 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  uVar3 = uVar5 & 0xff;
-  iVar2 = func_0205743c(uVar3,(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x2e,2);
-  if (iVar2 == 0) {
-    *param_1 = -1;
-    return;
-  }
-  if (uVar3 != (int)*param_1) {
-    ReadSaveDataSection_NKFE_from_thumb((undefined4)(uintptr_t)(param_1 + 4),uVar3);
-    *param_1 = (char)uVar5;
-    return;
-  }
-  return;
-}
+    u8 slot = (u8)(course / 5);
 
+    if (func_0205743c(slot, (u8 *)data_0217aa08->field_00 + 0x2e, 2) == 0) {
+        *selection = -1;
+        return;
+    }
+
+    if (slot == *selection) {
+        return;
+    }
+
+    ReadSaveDataSection_NKFE_from_thumb(selection + 4, slot);
+    *selection = slot;
+}

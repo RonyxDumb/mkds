@@ -1,21 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 02134db0. No matching claim. */
-#include "types.h"
-#include "deps/02134db0_memchr.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void * memchr(void *__s,int __c,size_t __n)
+typedef unsigned int u32;
+typedef unsigned char u8;
 
-{
-  if (__n != 0) {
-    do {
-      if (((*(uint *)((uint)__s & 0xfffffffc) >> ((uint)__s & 3) * 8 |
-           *(uint *)((uint)__s & 0xfffffffc) << ((uint)__s & 3) * -8 + 0x20) & 0xff) ==
-          (__c & 0xffU)) {
-        return __s;
-      }
-      __n = __n - 1;
-      __s = (void *)((int)__s + 1);
-    } while (__n != 0);
-  }
-  return (void *)0x0;
+void *memchr(const void *src, int val, u32 n) {
+    const u8 *p = (const u8 *)src;
+    u32 v = val & 0xff;
+
+    while (n != 0) {
+        u32 c = *(const u32 *)p & 0xff;
+        p += 1;
+        if (c == v) {
+            return (void *)(p - 1);
+        }
+        n--;
+    }
+    return 0;
 }
-

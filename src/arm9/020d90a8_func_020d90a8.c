@@ -1,105 +1,82 @@
-/* Decompiled C draft; module arm9; ROM address 020d90a8. No matching claim. */
-#include "types.h"
-#include "deps/020d90a8_func_020d90a8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_020d90a8(uint param_1,uint param_2,int param_3)
+// PURPOSE: Updates a route cursor and caches its neighboring path points.
+/*
+ * The second argument selects a route position and the third chooses direction.
+ * The route descriptor probably controls whether the path wraps at its ends.
+ * The object stores the current segment scale and pointers to two POIT entries.
+ */
 
+typedef unsigned short u16;
+
+typedef struct RouteEntry {
+    unsigned char pad00[0x34];
+    int scale;
+    unsigned char pad38[0x54 - 0x38];
+} RouteEntry;
+
+typedef struct RouteDescriptor {
+    RouteEntry *entries;
+    int count;
+    int wraps;
+} RouteDescriptor;
+
+typedef struct RouteCursor {
+    RouteDescriptor *route;
+    int baseScale;
+    u16 pathId;
+    u16 pad0a;
+    int entryIndex;
+    int segmentScale;
+    int directionOffset;
+    int direction;
+    void *point;
+    void *nextPoint;
+} RouteCursor;
+
+extern void *GetLoadedNkmPathEntryPOIT(u16 pathId, int index);
+
+void func_020d90a8(RouteCursor *cursor, int position, int direction)
 {
-  int iVar1;
-  longlong lVar2;
-  uint uVar3;
-  undefined4 uVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  
-  uVar7 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  uVar5 = uVar7 + 8 & 3;
-  uVar3 = *(uint *)(uVar7 + 8 & 0xfffffffc);
-  if (uVar3 >> uVar5 * 8 == 0 && uVar3 << uVar5 * -8 + 0x20 == 0) {
-    if ((param_2 == 0) && (param_3 == 0)) {
-      param_3 = 1;
-    }
-    else {
-      uVar5 = uVar7 + 4 & 3;
-      uVar3 = *(uint *)(uVar7 + 4 & 0xfffffffc);
-      if ((param_2 == (uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20)) && (param_3 != 0)) {
-        param_3 = 0;
-      }
-    }
-  }
-  else if ((param_2 == 0) && (param_3 == 0)) {
-    uVar5 = uVar7 + 4 & 3;
-    uVar3 = *(uint *)(uVar7 + 4 & 0xfffffffc);
-    param_2 = (uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) & 0xffff;
-  }
-  uVar5 = param_2;
-  if (param_3 == 0) {
-    uVar5 = param_2 - 1;
-  }
-  *(uint *)(param_1 + 0xc) = uVar5;
-  uVar6 = *(uint *)(uVar7 & 0xfffffffc) >> (uVar7 & 3) * 8 |
-          *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20;
-  uVar5 = param_1 + 0xc & 3;
-  uVar3 = *(uint *)(param_1 + 0xc & 0xfffffffc);
-  uVar5 = (uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) * 0x54 + uVar6 + 0x34;
-  uVar3 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  uVar5 = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20;
-  lVar2 = CONCAT44(uVar5,uVar6);
-  if (uVar5 != 0) {
-    uVar3 = param_1 + 4 & 3;
-    uVar6 = *(uint *)(param_1 + 4 & 0xfffffffc);
-    lVar2 = (longlong)(int)(uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) * (longlong)(int)uVar5;
-  }
-  if (uVar5 != 0) {
-    uVar5 = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  }
-  else {
-    uVar5 = 0x1000000;
-  }
-  *(uint *)(param_1 + 0x10) = uVar5;
-  if (param_3 == 0) {
-    uVar4 = 0x1000000;
-  }
-  else {
-    uVar4 = 0;
-  }
-  *(undefined4 *)(param_1 + 0x14) = uVar4;
-  *(int *)(param_1 + 0x18) = param_3;
-  uVar5 = param_1 + 0x18 & 3;
-  uVar6 = *(uint *)(param_1 + 0x18 & 0xfffffffc);
-  uVar3 = param_2;
-  if (((uVar6 >> uVar5 * 8 == 0 && uVar6 << uVar5 * -8 + 0x20 == 0) &&
-      (uVar5 = uVar7 + 8 & 3, uVar6 = *(uint *)(uVar7 + 8 & 0xfffffffc),
-      uVar6 >> uVar5 * 8 != 0 || uVar6 << uVar5 * -8 + 0x20 != 0)) &&
-     (uVar5 = uVar7 + 4 & 3, uVar6 = *(uint *)(uVar7 + 4 & 0xfffffffc),
-     param_2 == (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20))) {
-    uVar3 = 0;
-  }
-  uVar4 = GetLoadedNkmPathEntryPOIT(*(undefined2 *)(param_1 + 8),uVar3);
-  *(undefined4 *)(param_1 + 0x1c) = uVar4;
-  uVar5 = param_1 + 0x18 & 3;
-  uVar6 = *(uint *)(param_1 + 0x18 & 0xfffffffc);
-  uVar3 = uVar6 >> uVar5 * 8;
-  iVar1 = uVar6 << uVar5 * -8 + 0x20;
-  if (uVar3 == 0 && iVar1 == 0) {
-    param_2 = param_2 - 1;
-  }
-  else {
-    param_2 = param_2 + 1;
-  }
-  param_2 = param_2 & 0xffff;
-  if (((uVar3 != 0 || iVar1 != 0) &&
-      (uVar5 = uVar7 + 8 & 3, uVar3 = *(uint *)(uVar7 + 8 & 0xfffffffc),
-      uVar3 >> uVar5 * 8 != 0 || uVar3 << uVar5 * -8 + 0x20 != 0)) &&
-     (uVar5 = uVar7 + 4 & 3, uVar3 = *(uint *)(uVar7 + 4 & 0xfffffffc),
-     param_2 == (uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20))) {
-    param_2 = 0;
-  }
-  uVar4 = GetLoadedNkmPathEntryPOIT(*(undefined2 *)(param_1 + 8),param_2);
-  *(undefined4 *)(param_1 + 0x20) = uVar4;
-  return;
-}
+    RouteDescriptor *route = cursor->route;
+    int pointIndex;
+    int entryScale;
+    u16 nextIndex;
 
+    if (route->wraps != 0) {
+        if (position == 0 && direction == 0) {
+            position = (u16)route->count;
+        }
+    } else {
+        if (position == 0 && direction == 0) {
+            direction = 1;
+        } else if (position == route->count && direction != 0) {
+            direction = 0;
+        }
+    }
+
+    cursor->entryIndex = direction != 0 ? position : position - 1;
+
+    entryScale = route->entries[cursor->entryIndex].scale;
+    cursor->segmentScale = entryScale != 0
+        ? (int)(((long long)cursor->baseScale * entryScale) >> 12)
+        : 0x1000000;
+    cursor->directionOffset = direction != 0 ? 0 : 0x1000000;
+    cursor->direction = direction;
+
+    pointIndex = position;
+    if (cursor->direction == 0) {
+        if (route->wraps != 0 && position == route->count) {
+            pointIndex = 0;
+        }
+    }
+    cursor->point = GetLoadedNkmPathEntryPOIT(cursor->pathId, pointIndex);
+
+    nextIndex = cursor->direction != 0 ? position + 1 : position - 1;
+    if (cursor->direction != 0) {
+        if (route->wraps != 0 && nextIndex == route->count) {
+            nextIndex = 0;
+        }
+    }
+    cursor->nextPoint = GetLoadedNkmPathEntryPOIT(cursor->pathId, nextIndex);
+}

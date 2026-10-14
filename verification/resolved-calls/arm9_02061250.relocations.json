@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "PlayerProfileInfo_GetProfileId_from_thumb",
+    "target": 34940160,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194550948
+  },
+  {
+    "offset": 60,
+    "type": 2,
+    "symbol": "SDK_data_0217aa08",
+    "target": 35105288,
+    "thumb": false,
+    "addend": 0,
+    "value": 35105288
+  }
+]

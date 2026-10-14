@@ -1,51 +1,30 @@
-/* Decompiled C draft; module arm9; ROM address 020e4768. No matching claim. */
-#include "types.h"
-#include "deps/020e4768_func_020e4768.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02158f70 SDK_data_02158f70
+/*
+PURPOSE: Creates an object from a template with a fixed initial value.
+This function allocates a 0x40-byte object from the active heap.
+It copies the template data, sets the word at offset 0x38, and returns the object.
+The exact meaning of the field at offset 0x38 is unknown.
+*/
 
-undefined4 * func_020e4768(void)
+typedef unsigned int u32;
 
-{
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 *puVar6;
-  
-  GetActiveExecutionContext();
-  uVar2 = ExecutionContext_GetHeapHandle();
-  puVar3 = (undefined4 *)Mem_AllocateHeap(uVar2,0x40);
-  puVar1 = puRam020e47c4;
-  uVar2 = puRam020e47c4[1];
-  uVar4 = puRam020e47c4[2];
-  uVar5 = puRam020e47c4[3];
-  puVar6 = puRam020e47c4 + 4;
-  *puVar3 = *puRam020e47c4;
-  puVar3[1] = uVar2;
-  puVar3[2] = uVar4;
-  puVar3[3] = uVar5;
-  uVar2 = puVar1[5];
-  uVar4 = puVar1[6];
-  uVar5 = puVar1[7];
-  puVar3[4] = *puVar6;
-  puVar3[5] = uVar2;
-  puVar3[6] = uVar4;
-  puVar3[7] = uVar5;
-  uVar2 = puVar1[9];
-  uVar4 = puVar1[10];
-  uVar5 = puVar1[0xb];
-  puVar3[8] = puVar1[8];
-  puVar3[9] = uVar2;
-  puVar3[10] = uVar4;
-  puVar3[0xb] = uVar5;
-  uVar2 = puVar1[0xd];
-  uVar4 = puVar1[0xe];
-  uVar5 = puVar1[0xf];
-  puVar3[0xc] = puVar1[0xc];
-  puVar3[0xd] = uVar2;
-  puVar3[0xe] = uVar4;
-  puVar3[0xf] = uVar5;
-  puVar3[0xe] = 0x2bc000;
-  return puVar3;
+typedef struct Obj40 {
+    u32 words[0x10];
+} Obj40;
+
+extern void *GetActiveExecutionContext(void);
+extern void *ExecutionContext_GetHeapHandle(void *context);
+extern void *Mem_AllocateHeap(void *heap, u32 size);
+
+extern const Obj40 data_02158f70;
+
+void *func_020e4768(void) {
+    void *context = GetActiveExecutionContext();
+    void *heap = ExecutionContext_GetHeapHandle(context);
+    Obj40 *object = (Obj40 *)Mem_AllocateHeap(heap, 0x40);
+
+    *object = data_02158f70;
+    object->words[14] = 0x2bc000;
+    return object;
 }
-

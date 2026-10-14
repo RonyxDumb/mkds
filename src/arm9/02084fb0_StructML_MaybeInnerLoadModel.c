@@ -1,55 +1,78 @@
-/* Decompiled C draft; module arm9; ROM address 02084fb0. No matching claim. */
-#include "types.h"
-#include "deps/02084fb0_StructML_MaybeInnerLoadModel.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define gRaceConfig SDK_data_021759c0
+// PURPOSE: Loads a model and adjusts its material palette modes.
+// The first argument receives model state built from the resource argument.
+// The third argument probably enables a scene-specific race setting.
+// Matching materials are assigned one of two fixed palette modes.
 
-void StructML_MaybeInnerLoadModel(int param_1,int param_2,int param_3)
+typedef unsigned char u8;
+typedef unsigned int u32;
 
+typedef struct ModelBlock {
+    u8 padding_00[0x18];
+    u8 numMaterials;
+} ModelBlock;
+
+typedef struct ModeResource {
+    u8 padding_00[0x18];
+    u8 flag_18;
+    u8 flag_19;
+} ModeResource;
+
+typedef struct Mode {
+    u32 unknown_00;
+    ModelBlock *model;
+    u8 padding_08[0x4c];
+    int raceSetting;
+    int useSpecialMode;
+} Mode;
+
+typedef struct RaceConfig {
+    u8 padding_00[0x57];
+    signed char setting_57;
+} RaceConfig;
+
+extern RaceConfig *gRaceConfig;
+
+extern int GetCurrentSceneId(void);
+extern void Mode_CreateFromResource(Mode *mode, void *resource);
+extern int ModelBlock_SomeTexPltFn_0(ModelBlock *model, int index);
+extern void ModelBlock_SomeTexPltFn_1(ModelBlock *model, int index, int mode);
+
+void StructML_MaybeInnerLoadModel(Mode *mode, ModeResource *resource,
+                                  int useRaceSetting)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  if ((param_3 == 0) || (iVar1 = GetCurrentSceneId(), iVar1 != 2)) {
-    *(undefined4 *)(param_1 + 0x54) = 0;
-  }
-  else {
-    *(int *)(param_1 + 0x54) =
-         (int)*(char *)((*(uint *)(uRam020850c0 & 0xfffffffc) >> (uRam020850c0 & 3) * 8 |
-                        *(uint *)(uRam020850c0 & 0xfffffffc) << (uRam020850c0 & 3) * -8 + 0x20) +
-                       0x57);
-  }
-  if ((*(char *)(param_2 + 0x18) == '\x01') && (*(char *)(param_2 + 0x19) == '\x01')) {
-    *(undefined4 *)(param_1 + 0x58) = 1;
-  }
-  else {
-    *(undefined4 *)(param_1 + 0x58) = 0;
-  }
-  Mode_CreateFromResource(param_1,param_2);
-  uVar3 = param_1 + 0x54U & 3;
-  uVar2 = *(uint *)(param_1 + 0x54U & 0xfffffffc);
-  if (uVar2 >> uVar3 * 8 == 0 && uVar2 << uVar3 * -8 + 0x20 == 0) {
-    return;
-  }
-  uVar3 = param_1 + 4U & 3;
-  uVar2 = *(uint *)(param_1 + 4U & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  uVar2 = 0;
-  if (*(char *)(uVar3 + 0x18) == '\0') {
-    return;
-  }
-  do {
-    iVar1 = ModelBlock_SomeTexPltFn_0(uVar3,uVar2);
-    if (iVar1 == 1) {
-      ModelBlock_SomeTexPltFn_1(uVar3,uVar2,2);
-    }
-    else {
-      iVar1 = ModelBlock_SomeTexPltFn_0(uVar3,uVar2);
-      if (iVar1 == 2) {
-        ModelBlock_SomeTexPltFn_1(uVar3,uVar2,1);
-      }
-    }
-    uVar2 = uVar2 + 1;
-  } while (uVar2 < *(byte *)(uVar3 + 0x18));
-  return;
-}
+    unsigned int i;
+    ModelBlock *model;
 
+    if (useRaceSetting != 0 && GetCurrentSceneId() == 2) {
+        mode->raceSetting = gRaceConfig->setting_57;
+    } else {
+        mode->raceSetting = 0;
+    }
+
+    if (resource->flag_18 == 1 && resource->flag_19 == 1) {
+        mode->useSpecialMode = 1;
+    } else {
+        mode->useSpecialMode = 0;
+    }
+
+    Mode_CreateFromResource(mode, resource);
+
+    if (mode->raceSetting == 0) {
+        return;
+    }
+
+    model = mode->model;
+    i = 0;
+    if (i < model->numMaterials) {
+        do {
+            if (ModelBlock_SomeTexPltFn_0(model, i) == 1) {
+                ModelBlock_SomeTexPltFn_1(model, i, 2);
+            } else if (ModelBlock_SomeTexPltFn_0(model, i) == 2) {
+                ModelBlock_SomeTexPltFn_1(model, i, 1);
+            }
+            i++;
+        } while (i < model->numMaterials);
+    }
+}

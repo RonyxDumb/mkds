@@ -1,44 +1,57 @@
-/* Decompiled C draft; module arm9; ROM address 0205a858. No matching claim. */
-#include "types.h"
-#include "deps/0205a858_func_0205a858.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa14 SDK_data_0217aa14
+// PURPOSE: Stores a small record in the first free temporary slot.
+// The first two arguments become record bytes, while the last two provide optional data.
+// The record buffer is cleared before the optional data is copied into it.
+// The global work area and the record purpose are probably related to temporary race data.
 
-void func_0205a858(undefined1 param_1,undefined1 param_2,undefined4 param_3,int param_4)
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
 
+typedef struct {
+    void *unknown_00;
+    void *buffer;
+    u8 in_use;
+    u8 value_09;
+    u8 value_0a;
+    u8 data_size;
+} Record;
+
+typedef struct {
+    u8 padding_000[0x324];
+    Record records[16];
+    u8 padding_3e4[0x344];
+    void *unknown_728;
+} RecordWork;
+
+extern RecordWork *data_0217aa14;
+extern void Mem_CpuFill8(void *destination, int value, u32 size);
+extern void Mem_CpuCopy8(const void *source, void *destination, u32 size);
+
+void func_0205a858(u8 value_09, u8 value_0a, const void *source, u8 data_size)
 {
-  uint uVar1;
-  int *piVar2;
-  uint uVar3;
-  
-  uVar3 = 0;
-  do {
-    piVar2 = (int *)(uVar3 * 0xc +
-                    (*(uint *)(uRam0205a904 & 0xfffffffc) >> (uRam0205a904 & 3) * 8 |
-                    *(uint *)(uRam0205a904 & 0xfffffffc) << (uRam0205a904 & 3) * -8 + 0x20) + 0x324)
-    ;
-    if ((char)piVar2[2] == '\0') goto LAB_0205a8a0;
-    uVar3 = uVar3 + 1 & 0xffff;
-  } while (uVar3 < 0x10);
-  piVar2 = (int *)0x0;
-LAB_0205a8a0:
-  *(undefined1 *)((int)piVar2 + 9) = param_1;
-  *(undefined1 *)((int)piVar2 + 10) = param_2;
-  *(undefined1 *)(piVar2 + 2) = 1;
-  uVar3 = (*(uint *)(uRam0205a904 & 0xfffffffc) >> (uRam0205a904 & 3) * 8 |
-          *(uint *)(uRam0205a904 & 0xfffffffc) << (uRam0205a904 & 3) * -8 + 0x20) + 0x728;
-  uVar1 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  *piVar2 = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0x28;
-  uVar3 = (uint)(piVar2 + 1) & 3;
-  uVar1 = *(uint *)((uint)(piVar2 + 1) & 0xfffffffc);
-  Mem_CpuFill8((uint *)(uintptr_t)(uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20),0,0x14);
-  if (param_4 != 0) {
-    uVar3 = (uint)(piVar2 + 1) & 3;
-    uVar1 = *(uint *)((uint)(piVar2 + 1) & 0xfffffffc);
-    Mem_CpuCopy8((ushort *)(uintptr_t)(param_3),(uint *)(uintptr_t)(uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20),param_4);
-    *(char *)((int)piVar2 + 0xb) = (char)param_4;
-    return;
-  }
-  *(undefined1 *)((int)piVar2 + 0xb) = 0;
-  return;
-}
+    u16 i;
+    Record *record;
 
+    for (i = 0; i < 16; i++) {
+        record = &data_0217aa14->records[i];
+        if (record->in_use == 0) {
+            goto found;
+        }
+    }
+    record = 0;
+
+found:
+    record->value_09 = value_09;
+    record->value_0a = value_0a;
+    record->in_use = 1;
+    record->unknown_00 = (u8 *)data_0217aa14->unknown_728 + 0x28;
+    Mem_CpuFill8(record->buffer, 0, 0x14);
+    if (data_size == 0) {
+        record->data_size = 0;
+        return;
+    }
+    Mem_CpuCopy8(source, record->buffer, data_size);
+    record->data_size = data_size;
+}

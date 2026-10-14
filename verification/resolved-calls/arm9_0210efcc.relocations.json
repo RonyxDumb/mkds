@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Fs_FileId_LoadFromPath",
+    "target": 33573716,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959150295
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Fs_File_Initialize",
+    "target": 33574272,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959150428
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Fs_File_OpenById",
+    "target": 33573504,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959150232
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "Sound_ReadSdatFromOpenedFile",
+    "target": 34789060,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942676895
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "Sound_MaybeSetActiveSdat",
+    "target": 34788832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942676832
+  }
+]

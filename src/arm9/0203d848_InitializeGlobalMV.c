@@ -1,51 +1,62 @@
-/* Decompiled C draft; module arm9; ROM address 0203d848. No matching claim. */
-#include "types.h"
-#include "deps/0203d848_InitializeGlobalMV.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02175620 SDK_data_02175620
+#define data_0217561c SDK_data_0217561c
+#define data_021647b8 SDK_data_021647b8
+#define data_021647c8 SDK_data_021647c8
+#define gRaceConfig SDK_data_021759c0
+/* PURPOSE: Sets up the global rank and records manager when a race starts.
+ *
+ * Argument: heap to allocate from (kept across the calls).
+ * Allocates the main manager plus a table with one pointer per course entry,
+ * loads the rank-point and rank-time files, and probably initializes extra
+ * mission-mode area data when the race mode is 4.
+ */
 
-void InitializeGlobalMV(undefined4 param_1)
+typedef struct MVSource {
+    char pad_00[0x98];
+    unsigned short entryCount; /* 0x98: table gets count + 1 slots */
+} MVSource;
 
+typedef struct GlobalMV {
+    char pad_000[0x4c8];
+    void *ranktimeBuf;   /* 0x4c8: "/ranktimeGP.rtt" file buffer */
+    char pad_4cc[0x8];
+    void *entryTable;    /* 0x4d4: entryCount + 1 pointer slots */
+    char pad_4d8[0x4];
+    void *rankpointBuf;  /* 0x4dc: "/rankpoint.rpt" file buffer */
+    char pad_4e0[0x44];
+} GlobalMV;
+
+typedef struct RaceConfigHeader {
+    char pad_00[0x8];
+    int mode; /* 0x8: mode 4 gets the extra mission setup */
+} RaceConfigHeader;
+
+extern MVSource *data_02175620;
+extern GlobalMV *data_0217561c;
+extern RaceConfigHeader *gRaceConfig;
+extern char data_021647b8[];
+extern char data_021647c8[];
+
+extern void *Mem_AllocateHeap(void *heap, unsigned int size);
+extern void *FindFileBuffer_MAR_EFT_from_thumb(const char *path);
+extern void LoadCurrentCourseRanktime(void *buffer);
+extern void SomethingMissionModeType5Areas(void *heap);
+extern void CreateGlobalMV(void);
+
+void InitializeGlobalMV(void *heap)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  uVar2 = Mem_AllocateHeap(param_1,uRam0203d8e4);
-  uVar3 = uRam0203d8e8 & 3;
-  uVar4 = *(uint *)(uRam0203d8e8 & 0xfffffffc);
-  *puRam0203d8ec = uVar2;
-  uVar2 = Mem_AllocateHeap(param_1,(*(ushort *)
-                                     ((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + 0x98) + 1)
-                                   * 4);
-  *(undefined4 *)
-   ((*(uint *)((uint)puRam0203d8ec & 0xfffffffc) >> ((uint)puRam0203d8ec & 3) * 8 |
-    *(uint *)((uint)puRam0203d8ec & 0xfffffffc) << ((uint)puRam0203d8ec & 3) * -8 + 0x20) + 0x4d4) =
-       uVar2;
-  uVar2 = FindFileBuffer_MAR_EFT_from_thumb(uRam0203d8f0);
-  *(undefined4 *)
-   ((*(uint *)((uint)puRam0203d8ec & 0xfffffffc) >> ((uint)puRam0203d8ec & 3) * 8 |
-    *(uint *)((uint)puRam0203d8ec & 0xfffffffc) << ((uint)puRam0203d8ec & 3) * -8 + 0x20) + 0x4dc) =
-       uVar2;
-  uVar2 = FindFileBuffer_MAR_EFT_from_thumb(uRam0203d8f4);
-  puVar1 = puRam0203d8ec;
-  *(undefined4 *)
-   ((*(uint *)((uint)puRam0203d8ec & 0xfffffffc) >> ((uint)puRam0203d8ec & 3) * 8 |
-    *(uint *)((uint)puRam0203d8ec & 0xfffffffc) << ((uint)puRam0203d8ec & 3) * -8 + 0x20) + 0x4c8) =
-       uVar2;
-  uVar3 = (uint)puVar1 & 3;
-  uVar4 = *(uint *)((uint)puVar1 & 0xfffffffc);
-  uVar3 = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + 0x4c8;
-  uVar4 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  LoadCurrentCourseRanktime(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20);
-  uVar3 = (*(uint *)(uRam0203d8f8 & 0xfffffffc) >> (uRam0203d8f8 & 3) * 8 |
-          *(uint *)(uRam0203d8f8 & 0xfffffffc) << (uRam0203d8f8 & 3) * -8 + 0x20) + 8;
-  uVar4 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  if ((uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) == 4) {
-    SomethingMissionModeType5Areas(param_1);
-  }
-  CreateGlobalMV();
-  return;
+    /* Global-based stores reproduce the manager reloads between operations. */
+    data_0217561c = (GlobalMV *)Mem_AllocateHeap(heap, sizeof(GlobalMV));
+    data_0217561c->entryTable =
+        Mem_AllocateHeap(heap, (data_02175620->entryCount + 1) * 4);
+    data_0217561c->rankpointBuf =
+        FindFileBuffer_MAR_EFT_from_thumb(data_021647b8);
+    data_0217561c->ranktimeBuf =
+        FindFileBuffer_MAR_EFT_from_thumb(data_021647c8);
+    LoadCurrentCourseRanktime(data_0217561c->ranktimeBuf);
+    if (gRaceConfig->mode == 4) {
+        SomethingMissionModeType5Areas(heap);
+    }
+    CreateGlobalMV();
 }
-

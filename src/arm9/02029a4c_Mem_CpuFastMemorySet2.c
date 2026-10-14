@@ -1,11 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 02029a4c. No matching claim. */
-#include "types.h"
-#include "deps/02029a4c_Mem_CpuFastMemorySet2.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define Maybe_call_Mem_CpuFastMemorySet Mem_CpuFastMemorySet2
+extern void Mem_CpuFastMemorySet(void *dst, int val);
 
-void Mem_CpuFastMemorySet2(undefined4 param_1,undefined4 param_2)
-
-{
-  Mem_CpuFastMemorySet(param_2,param_1);
-  return;
+void Maybe_call_Mem_CpuFastMemorySet(int val, void *dst) {
+    void *volatile d = dst;
+    Mem_CpuFastMemorySet(d, val);
 }
-

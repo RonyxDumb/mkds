@@ -1,32 +1,40 @@
-/* Decompiled C draft; module arm9; ROM address 02081ab8. No matching claim. */
-#include "types.h"
-#include "deps/02081ab8_func_02081ab8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_02081ab8(int param_1,int param_2)
+// PURPOSE: Updates an object's driver state when its mode is zero.
+// The object and a mode flag are passed as arguments.
+// It loads the selected driver entry, applies the object's configured mode,
+// and then advances or marks its small progress counter.
 
+typedef struct Foo {
+    unsigned char pad_00[0x24];
+    int flags;
+    unsigned char pad_28[0x94 - 0x28];
+    int mode;
+    unsigned char pad_98;
+    unsigned char target;
+    unsigned char current;
+    unsigned char driver_id;
+} Foo;
+
+typedef struct Bar Bar;
+
+extern Bar *GetDriverEntry(int driver_id);
+extern void func_02081ca0(Foo *a, Bar *b, int mode);
+
+void func_02081ab8(Foo *a, int enabled)
 {
-  uint uVar1;
-  byte bVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  
-  if (param_2 != 0) {
-    return;
-  }
-  bVar2 = *(byte *)(param_1 + 0x9a);
-  uVar3 = GetDriverEntry(*(undefined1 *)(param_1 + 0x9b));
-  uVar1 = param_1 + 0x94U & 3;
-  uVar4 = *(uint *)(param_1 + 0x94U & 0xfffffffc);
-  func_02081ca0(param_1,uVar3,uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
-  if (bVar2 < *(byte *)(param_1 + 0x99)) {
-    *(byte *)(param_1 + 0x9a) = bVar2 + 1;
-    return;
-  }
-  if (bVar2 == *(byte *)(param_1 + 0x99)) {
-    uVar1 = param_1 + 0x24U & 3;
-    uVar4 = *(uint *)(param_1 + 0x24U & 0xfffffffc);
-    *(uint *)(param_1 + 0x24) = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) & 0xfffffffe | 1;
-  }
-  return;
-}
+    unsigned char current;
 
+    if (enabled != 0)
+        return;
+
+    current = a->current;
+    func_02081ca0(a, GetDriverEntry(a->driver_id), a->mode);
+
+    if (current >= a->target) {
+        if (current == a->target)
+            a->flags = (a->flags & ~1) | 1;
+    } else {
+        a->current = current + 1;
+    }
+}

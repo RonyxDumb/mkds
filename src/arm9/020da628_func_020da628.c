@@ -1,35 +1,43 @@
-/* Decompiled C draft; module arm9; ROM address 020da628. No matching claim. */
-#include "types.h"
-#include "deps/020da628_func_020da628.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02158140 SDK_data_02158140
+#define data_02158150 SDK_data_02158150
+// PURPOSE: Initializes the state data for this game object.
+// The object receives two default four-word blocks and a state handler is set to mode one.
+// Several counters are cleared; the exact purpose of the two copied blocks is probably setup data.
 
-void func_020da628(int param_1)
+typedef struct StateDualHandler StateDualHandler;
 
+typedef struct {
+    int x;
+    int y;
+    int z;
+    int w;
+} DataBlock;
+
+typedef struct {
+    char pad00[0x10];
+    int f10;
+    int f14;
+    int f18;
+    char pad1c[0x64];
+    char stateHandler[0x24];
+    DataBlock fA4;
+    DataBlock fB4;
+    char padC4[0x34];
+    unsigned short fF8;
+} ObjectState;
+
+extern const DataBlock data_02158140;
+extern const DataBlock data_02158150;
+extern void StateDualHandler_SetState(StateDualHandler *handler, int state);
+
+void func_020da628(ObjectState *object)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  
-  puVar1 = puRam020da67c;
-  *(undefined2 *)(param_1 + 0xf8) = 0x1000;
-  uVar2 = puVar1[1];
-  uVar3 = puVar1[2];
-  uVar4 = puVar1[3];
-  *(undefined4 *)(param_1 + 0xa4) = *puVar1;
-  *(undefined4 *)(param_1 + 0xa8) = uVar2;
-  *(undefined4 *)(param_1 + 0xac) = uVar3;
-  *(undefined4 *)(param_1 + 0xb0) = uVar4;
-  uVar2 = puRam020da680[1];
-  uVar3 = puRam020da680[2];
-  uVar4 = puRam020da680[3];
-  *(undefined4 *)(param_1 + 0xb4) = *puRam020da680;
-  *(undefined4 *)(param_1 + 0xb8) = uVar2;
-  *(undefined4 *)(param_1 + 0xbc) = uVar3;
-  *(undefined4 *)(param_1 + 0xc0) = uVar4;
-  StateDualHandler_SetState(param_1 + 0x80,1);
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  *(undefined4 *)(param_1 + 0x18) = 0;
-  return;
+    object->fF8 = 0x1000;
+    object->fA4 = data_02158140;
+    object->fB4 = data_02158150;
+    StateDualHandler_SetState((StateDualHandler *)object->stateHandler, 1);
+    object->f10 = 0;
+    object->f14 = 0;
+    object->f18 = 0;
 }
-

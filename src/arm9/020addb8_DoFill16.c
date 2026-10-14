@@ -1,11 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 020addb8. No matching claim. */
-#include "types.h"
-#include "deps/020addb8_DoFill16.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void DoFill16(undefined4 param_1,undefined2 param_2)
+// PURPOSE: Fills a memory region with a 16-bit value.
+// Arguments: destination, fill value, and byte count.
+// This probably wraps the platform halfword fill routine.
 
-{
-  Mem_CpuFill16(param_2,param_1);
-  return;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void Mem_CpuFill16(u16 value, void *destination, u32 size);
+
+void DoFill16(u16 *destination, int value, int size) {
+    u16 volatile fill_value = value; // Preserve the required halfword reload.
+    Mem_CpuFill16(fill_value, destination, size);
 }
-

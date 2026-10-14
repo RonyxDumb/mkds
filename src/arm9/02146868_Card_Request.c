@@ -1,62 +1,73 @@
-/* Decompiled C draft; module arm9; ROM address 02146868. No matching claim. */
-#include "types.h"
-#include "deps/02146868_Card_Request.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-bool Card_Request(uint param_1,int param_2,int param_3)
+// PURPOSE: Sends a request to the game card processor and waits for completion.
+// The context owns the shared command block and request status flags.
+// The request type selects the operation, while retryCount limits timeout retries.
 
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+typedef struct CardCommand {
+    u32 result;
+    u8 reserved[0x3c];
+} CardCommand;
+
+typedef struct CardContext {
+    CardCommand *command;
+    int currentCommand;
+    u8 reserved[0x10c];
+    volatile u32 status;
+} CardContext;
+
+extern int Fifo_IsHandlerReady(int tag, int processor);
+extern void Os_SpinWait(u32 cycles);
+extern void Arm_FlushRange(void *address, u32 size);
+extern void Mem_DcDrainWriteBuffer(void);
+extern int Fifo_SendWord(int tag, u32 data, int wait);
+extern u32 Os_DisableIrq(void);
+extern u32 Os_RestoreIrq(u32 state);
+extern void Os_Thread_Sleep(void *queue);
+
+static inline void Card_SendWord(u32 data)
 {
-  uint uVar1;
-  int iVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  
-  uVar4 = param_1 + 0x114 & 3;
-  uVar1 = *(uint *)(param_1 + 0x114 & 0xfffffffc);
-  if (((uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) & 2) == 0) {
-    uVar4 = param_1 + 0x114 & 3;
-    uVar1 = *(uint *)(param_1 + 0x114 & 0xfffffffc);
-    *(uint *)(param_1 + 0x114) = uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20 | 2;
-    iVar2 = Fifo_IsHandlerReady(0xb,1);
-    while (iVar2 == 0) {
-      Os_SpinWait(100);
-      iVar2 = Fifo_IsHandlerReady(0xb,1);
+    while (Fifo_SendWord(11, data, 1) < 0) {
     }
-    Card_Request(param_1,0,1);
-  }
-  Arm_FlushRange(*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-                 *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20,0x40);
-  Mem_DcDrainWriteBuffer();
-  do {
-    *(int *)(param_1 + 4) = param_2;
-    uVar4 = param_1 + 0x114 & 3;
-    uVar1 = *(uint *)(param_1 + 0x114 & 0xfffffffc);
-    *(uint *)(param_1 + 0x114) = uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20 | 0x20;
-    do {
-      iVar2 = Fifo_SendWord(0xb,param_2,1);
-    } while (iVar2 < 0);
-    if (param_2 == 0) {
-      uVar4 = *(uint *)(param_1 & 0xfffffffc);
-      do {
-        iVar2 = Fifo_SendWord(0xb,uVar4 >> (param_1 & 3) * 8 | uVar4 << (param_1 & 3) * -8 + 0x20,1)
-        ;
-      } while (iVar2 < 0);
-    }
-    uVar3 = Os_DisableIrq();
-    uVar4 = param_1 + 0x114 & 3;
-    uVar1 = *(uint *)(param_1 + 0x114 & 0xfffffffc);
-    for (uVar4 = uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20; (uVar4 & 0x20) != 0;
-        uVar4 = uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) {
-      Os_Thread_Sleep(0);
-      uVar4 = param_1 + 0x114 & 3;
-      uVar1 = *(uint *)(param_1 + 0x114 & 0xfffffffc);
-    }
-    Os_RestoreIrq(uVar3);
-    uVar1 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-    uVar4 = uVar1 & 3;
-    uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-    uVar4 = uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20;
-  } while ((uVar4 == 4) && (param_3 = param_3 + -1, 0 < param_3));
-  return uVar4 == 0;
 }
 
+int Card_Request(CardContext *context, int requestType, int retryCount)
+{
+    if ((context->status & 2) == 0) {
+        context->status |= 2;
+        while (!Fifo_IsHandlerReady(11, 1)) {
+            Os_SpinWait(100);
+        }
+
+        (void)Card_Request(context, 0, 1);
+    }
+
+    Arm_FlushRange(context->command, sizeof(*context->command));
+    Mem_DcDrainWriteBuffer();
+
+    do {
+        context->currentCommand = requestType;
+        context->status |= 0x20;
+        Card_SendWord((u32)requestType);
+
+        switch (requestType) {
+        case 0:
+            Card_SendWord((u32)context->command);
+            break;
+        }
+
+        {
+            u32 irqState = Os_DisableIrq();
+
+            while ((context->status & 0x20) != 0) {
+                Os_Thread_Sleep(0);
+            }
+            (void)Os_RestoreIrq(irqState);
+        }
+    } while ((context->command->result == 4) && (--retryCount > 0));
+
+    return context->command->result == 0;
+}

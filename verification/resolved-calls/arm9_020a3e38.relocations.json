@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetGlobalHD4",
+    "target": 33953800,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959354992
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "StructMapObject_SomeFn_9",
+    "target": 34192336,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959414602
+  },
+  {
+    "offset": 116,
+    "type": 2,
+    "symbol": "SDK_data_0217b214",
+    "target": 35107348,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107348
+  },
+  {
+    "offset": 120,
+    "type": 2,
+    "symbol": "SDK_data_0217b204",
+    "target": 35107332,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107332
+  },
+  {
+    "offset": 124,
+    "type": 2,
+    "symbol": "SDK_data_0217b208",
+    "target": 35107336,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107336
+  }
+]

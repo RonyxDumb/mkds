@@ -1,27 +1,38 @@
-/* Decompiled C draft; module arm9; ROM address 02024a28. No matching claim. */
-#include "types.h"
-#include "deps/02024a28_func_02024a28.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_02024a28(undefined4 param_1,undefined4 param_2,int param_3,int param_4)
+/* PURPOSE: Plays a racer effect with a level based on the supplied value.
+ * The first argument is probably a racer entry, and the second identifies
+ * the effect. In mode 2, the third argument is scaled into an 8-bit level
+ * and clamped to 50--127; all other modes use the maximum level.
+ */
 
+typedef unsigned char u8;
+
+extern void StructMQRacerEntry_SomeFn_6(
+    void *racer, int unused, int effectId, int level, int trailingArg);
+
+void func_02024a28(void *racer, int effectId, int value, int mode)
 {
-  uint uVar1;
-  
-  if (param_4 == 2) {
-    uVar1 = ((param_3 << 7) >> 0xc & 0xffU) + 0x14 & 0xff;
-    if (uVar1 < 0x80) {
-      if (uVar1 < 0x32) {
-        uVar1 = 0x32;
-      }
-    }
-    else {
-      uVar1 = 0x7f;
-    }
-  }
-  else {
-    uVar1 = 0x7f;
-  }
-  StructMQRacerEntry_SomeFn_6(param_1,0,param_2,uVar1,0);
-  return;
-}
+    u8 level;
 
+    if (mode == 2)
+    {
+        /* Preserve both byte truncations around the bias addition. */
+        level = (u8)((u8)((value << 7) >> 12) + 20);
+
+        if (level > 127)
+        {
+            level = 127;
+        }
+        else if (level < 50)
+        {
+            level = 50;
+        }
+    }
+    else
+    {
+        level = 127;
+    }
+
+    StructMQRacerEntry_SomeFn_6(racer, 0, effectId, level, 0);
+}

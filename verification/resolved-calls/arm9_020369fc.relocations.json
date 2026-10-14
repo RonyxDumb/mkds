@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Mem_Exp_GetAllocatableSize",
+    "target": 33650368,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391010
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Mem_Frame_GetAllocatableSize",
+    "target": 33652748,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391601
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "Mem_Exp_Allocate",
+    "target": 33651000,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391150
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "Mem_Frame_Allocate",
+    "target": 33652876,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391614
+  },
+  {
+    "offset": 156,
+    "type": 1,
+    "symbol": "Mem_Exp_Create",
+    "target": 33651080,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391162
+  }
+]

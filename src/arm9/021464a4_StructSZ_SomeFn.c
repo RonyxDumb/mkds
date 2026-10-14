@@ -1,77 +1,95 @@
-/* Decompiled C draft; module arm9; ROM address 021464a4. No matching claim. */
-#include "types.h"
-#include "deps/021464a4_StructSZ_SomeFn.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217fa40 SDK_data_0217fa40
+#define CardIRQHandler SDK_data_02146600
+// PURPOSE: Starts an asynchronous game card read with DMA when the transfer is safe.
+// The card state supplies the ROM source, RAM destination, length, and DMA channel.
+// Transfers touching TCM or using unsuitable alignment fall back to another path.
+// The output receives the card control flags before DMA is started.
 
-int StructSZ_SomeFn(int param_1)
+typedef unsigned int u32;
 
+typedef struct CardTransferState {
+    unsigned char pad00[0x1c];
+    u32 source;
+    u32 destination;
+    u32 length;
+    u32 dmaChannel;
+} CardTransferState;
+
+typedef struct CardRomState {
+    void *readFunction;
+    u32 control;
+} CardRomState;
+
+extern CardTransferState data_0217fa40;
+
+extern u32 GetDtcmStartAddress(void);
+extern u32 Os_DisableIrq(void);
+extern void IC_InvalidateRangeNoClean(void *start, u32 length);
+extern void DC_SomeClean(void *start, u32 length);
+extern void DC_InvalidateRangeNoClean(void *start, u32 length);
+extern void Mem_DcDrainWriteBuffer(void);
+extern void Os_SetIrqHandler(u32 mask, void (*handler)(void));
+extern u32 SetIF(u32 mask);
+extern u32 Os_EnableIrqHandler(u32 mask);
+extern void Os_RestoreIrq(u32 state);
+extern void CardIRQHandler(void);
+extern void MaybeGamecardTransferSY(void);
+
+static inline int Card_IsInTcm(u32 buffer, u32 length)
 {
-  bool bVar1;
-  bool bVar2;
-  int iVar3;
-  uint uVar4;
-  undefined4 uVar5;
-  bool bVar6;
-  bool bVar7;
-  int iVar8;
-  uint uVar9;
-  uint uVar10;
-  uint uVar11;
-  
-  iVar3 = iRam021465ec;
-  iVar8 = 0;
-  uVar9 = iRam021465ec + 0x20U & 3;
-  uVar10 = *(uint *)(iRam021465ec + 0x20U & 0xfffffffc);
-  uVar11 = uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20;
-  bVar2 = false;
-  bVar1 = false;
-  uVar9 = iRam021465ec + 0x24U & 3;
-  uVar10 = *(uint *)(iRam021465ec + 0x24U & 0xfffffffc);
-  uVar9 = uVar10 >> uVar9 * 8 | uVar10 << uVar9 * -8 + 0x20;
-  if (((uVar11 & 3) == 0) &&
-     (uVar10 = iRam021465ec + 0x28U & 3, uVar4 = *(uint *)(iRam021465ec + 0x28U & 0xfffffffc),
-     (uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20) < 4)) {
-    uVar10 = GetDtcmStartAddress();
-    bVar7 = true;
-    bVar6 = false;
-    if ((uRam021465f0 < uVar11 + uVar9) && (uVar11 < 0x2000000)) {
-      bVar6 = true;
-    }
-    if ((!bVar6) && ((uVar11 + uVar9 <= uVar10 || (uVar10 + 0x4000 <= uVar11)))) {
-      bVar7 = false;
-    }
-    if (!bVar7) {
-      bVar1 = true;
-    }
-  }
-  if ((bVar1) &&
-     (uVar10 = iVar3 + 0x1cU & 3, uVar4 = *(uint *)(iVar3 + 0x1cU & 0xfffffffc),
-     ((uVar4 >> uVar10 * 8 | uVar4 << uVar10 * -8 + 0x20 | uVar9) & uRam021465f4) == 0)) {
-    bVar2 = true;
-  }
-  if ((bVar2) && (uVar9 != 0)) {
-    iVar8 = 1;
-  }
-  *(uint *)(param_1 + 4) =
-       (*(uint *)(uRam021465f8 & 0xfffffffc) >> (uRam021465f8 & 3) * 8 |
-       *(uint *)(uRam021465f8 & 0xfffffffc) << (uRam021465f8 & 3) * -8 + 0x20) & 0xf8ffffff |
-       0xa1000000;
-  if (iVar8 != 0) {
-    uVar5 = Os_DisableIrq();
-    IC_InvalidateRangeNoClean(uVar11,uVar9);
-    if ((uVar11 & 0x1f) != 0) {
-      uVar11 = uVar11 - (uVar11 & 0x1f);
-      DC_SomeClean(uVar11,0x20);
-      DC_SomeClean(uVar11 + uVar9,0x20);
-      uVar9 = uVar9 + 0x20;
-    }
-    DC_InvalidateRangeNoClean(uVar11,uVar9);
-    Mem_DcDrainWriteBuffer();
-    Os_SetIrqHandler(0x80000,uRam021465fc);
-    SetIF(0x80000);
-    Os_EnableIrqHandler(0x80000);
-    Os_RestoreIrq(uVar5);
-    MaybeGamecardTransferSY();
-  }
-  return iVar8;
+    const u32 itcm = 0x01ff8000;
+    const u32 dtcm = GetDtcmStartAddress();
+
+    return ((itcm < buffer + length) && (itcm + 0x8000 > buffer)) ||
+           ((dtcm < buffer + length) && (dtcm + 0x4000 > buffer));
 }
 
+static inline u32 Card_GetReadControl(void)
+{
+    const u32 control = *(volatile u32 *)0x027ffe60;
+
+    return (control & ~0x07000000) | 0xa1000000;
+}
+
+int StructSZ_SomeFn(CardRomState *romState)
+{
+    CardTransferState *const state = &data_0217fa40;
+    const u32 destination = state->destination;
+    u32 length = state->length;
+    const int isAsync = !(destination & 3) &&
+                        (state->dmaChannel <= 3) &&
+                        !Card_IsInTcm(destination, length) &&
+                        !((state->source | length) & 0x1ff) &&
+                        (length > 0);
+
+    romState->control = Card_GetReadControl();
+
+    if (isAsync) {
+        u32 irqState = Os_DisableIrq();
+
+        IC_InvalidateRangeNoClean((void *)destination, length);
+        {
+            u32 position = destination;
+            u32 misalignment = destination & 0x1f;
+
+            if (misalignment) {
+                position -= misalignment;
+                DC_SomeClean((void *)position, 0x20);
+                DC_SomeClean((void *)(position + length), 0x20);
+                length += 0x20;
+            }
+
+            DC_InvalidateRangeNoClean((void *)position, length);
+            Mem_DcDrainWriteBuffer();
+        }
+
+        Os_SetIrqHandler(0x80000, CardIRQHandler);
+        (void)SetIF(0x80000);
+        (void)Os_EnableIrqHandler(0x80000);
+        Os_RestoreIrq(irqState);
+        MaybeGamecardTransferSY();
+    }
+
+    return isAsync;
+}

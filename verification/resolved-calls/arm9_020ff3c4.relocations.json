@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Vector3_MaybeNormalize",
+    "target": 33790048,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959220501
+  },
+  {
+    "offset": 108,
+    "type": 2,
+    "symbol": "SDK_data_0217bc4c",
+    "target": 35109964,
+    "thumb": false,
+    "addend": 0,
+    "value": 35109964
+  },
+  {
+    "offset": 112,
+    "type": 2,
+    "symbol": "SDK_data_020ff438",
+    "target": 34599992,
+    "thumb": false,
+    "addend": 0,
+    "value": 34599992
+  }
+]

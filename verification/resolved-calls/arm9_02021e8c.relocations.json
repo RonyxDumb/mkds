@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "CellBank_GetObjectTable",
+    "target": 33693512,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645800
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "CellBank_GetMetatileEntry",
+    "target": 33693468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645781
+  }
+]

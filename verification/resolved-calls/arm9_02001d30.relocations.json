@@ -1,0 +1,137 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194375444
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Gfx_ReadPalette",
+    "target": 34294396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942828873
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942659132
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "CopyPaletteTop",
+    "target": 34914656,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942983927
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "CopyPaletteBottom",
+    "target": 34914552,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942983895
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194375422
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "Gfx_ReadCharGraphics",
+    "target": 34294260,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942828817
+  },
+  {
+    "offset": 136,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942659110
+  },
+  {
+    "offset": 164,
+    "type": 1,
+    "symbol": "CopyBgData_Bg1_Top",
+    "target": 34912812,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942983444
+  },
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "CopyBgData_Bg1_Bottom",
+    "target": 34912708,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942983412
+  },
+  {
+    "offset": 196,
+    "type": 1,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194375400
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "MaybeReadScreenBlock_0",
+    "target": 34293776,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942828674
+  },
+  {
+    "offset": 224,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942659088
+  },
+  {
+    "offset": 252,
+    "type": 1,
+    "symbol": "TEQSub_Fn9Impl",
+    "target": 34913644,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942983630
+  },
+  {
+    "offset": 280,
+    "type": 1,
+    "symbol": "TEQSub_Fn25Impl",
+    "target": 34913540,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942983597
+  }
+]

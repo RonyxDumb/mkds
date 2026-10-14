@@ -1,30 +1,45 @@
-/* Decompiled C draft; module arm9; ROM address 020601e4. No matching claim. */
-#include "types.h"
-#include "deps/020601e4_func_020601e4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint func_020601e4(undefined4 param_1,undefined4 param_2)
+// PURPOSE: Gets the character used by a valid time-trial record.
+// The course id and record-slot index select the saved record to inspect.
+// Byte 0x18 is probably its validity flag, and byte 0x19 is the character id.
+// Returns one for a valid record, otherwise probably its character or -1.
 
+#pragma optimize_for_size on
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct TimeTrialRecord {
+    u16 milliseconds;
+    u8 minutes;
+    u8 seconds;
+    u8 recordData[0x14];
+    u8 isValid;
+    u8 character;
+    u8 kart;
+    u8 padding_1b[5];
+} TimeTrialRecord;
+
+extern int TimeTrialRecord_CopyFrom_from_thumb(
+    int courseId, int recordIndex, TimeTrialRecord *record);
+
+int func_020601e4(int courseId, int recordIndex)
 {
-  bool bVar1;
-  int iVar2;
-  uint uVar3;
-  undefined1 auStack_28 [24];
-  char local_10;
-  byte local_f;
-  
-  iVar2 = TimeTrialRecord_CopyFrom_from_thumb(param_1,param_2,(int)(uintptr_t)(auStack_28));
-  if ((iVar2 == 0) || (local_10 == '\0')) {
-    bVar1 = false;
-  }
-  else {
-    bVar1 = true;
-  }
-  if (bVar1) {
-    uVar3 = (uint)local_f;
-  }
-  else {
-    uVar3 = 0xffffffff;
-  }
-  return uVar3;
-}
+    TimeTrialRecord record;
 
+    int result = TimeTrialRecord_CopyFrom_from_thumb(courseId, recordIndex, &record);
+
+    if (result == 0)
+        goto fallback;
+    result = record.isValid;
+    if (result != 0) {
+        result = 1;
+        goto done;
+    }
+
+fallback:
+    result = 0;
+done:
+    return result ? record.character : -1;
+}

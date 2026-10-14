@@ -1,17 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 0203b018. No matching claim. */
-#include "types.h"
-#include "deps/0203b018_FindFormatGhostBinPath.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02164754 SDK_data_02164754
+/* Looks up the course id for an internal id and then formats the ghost
+ * file path "/data/ghost/ghost_%03d.bin" into buf. Returns 0 if the
+ * course id does not exist (-1), otherwise 1. */
+extern char data_02164754[];
 
-undefined4 FindFormatGhostBinPath(undefined4 param_1,undefined4 param_2,undefined4 param_3)
+extern int GetCourseIdFromInternalId(int internalId);
+extern int Util_SNPrintF(char *buf, unsigned int len, const char *fmt, ...);
 
-{
-  uint uVar1;
-  
-  uVar1 = GetCourseIdFromInternalId();
-  if (uVar1 != 0xffffffff) {
-    Util_SNPrintF(param_2,param_3,uRam0203b06c,uVar1 & 0xff);
+int FindFormatGhostBinPath(int internalId, char *buf, unsigned int len) {
+    int courseId = GetCourseIdFromInternalId(internalId);
+    if (courseId == -1) {
+        return 0;
+    }
+    Util_SNPrintF(buf, len, data_02164754, (unsigned char)courseId);
     return 1;
-  }
-  return 0;
 }
-

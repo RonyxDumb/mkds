@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Mem_CpuFill16",
+    "target": 34918372,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942965048
+  },
+  {
+    "offset": 152,
+    "type": 2,
+    "symbol": "SDK_data_021617d8",
+    "target": 35002328,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002328
+  }
+]

@@ -1,22 +1,35 @@
-/* Decompiled C draft; module arm9; ROM address 021435e8. No matching claim. */
-#include "types.h"
-#include "deps/021435e8_func_021435e8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-int func_021435e8(undefined4 param_1)
+// PURPOSE: Sets the wireless manager callback while interrupts are protected.
+// The argument is probably a callback or notification pointer.
+// It returns the wireless manager initialization status.
+// A zero status allows the shared callback field to be updated.
 
+typedef unsigned int u32;
+
+typedef struct WmGlobal {
+    char pad_00[0xc0];
+    void *callback;
+} WmGlobal;
+
+extern u32 Os_DisableIrq(void);
+extern void Os_RestoreIrq(u32 state);
+extern int Wm_CheckInitialized(void);
+extern WmGlobal *Wm_GetGlobal(void);
+
+int func_021435e8(void *callback)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  uVar1 = Os_DisableIrq();
-  iVar2 = Wm_CheckInitialized();
-  if (iVar2 != 0) {
-    Os_RestoreIrq(uVar1);
-    return iVar2;
-  }
-  iVar2 = Wm_GetGlobal();
-  *(undefined4 *)(iVar2 + 0xc0) = param_1;
-  Os_RestoreIrq(uVar1);
-  return 0;
-}
+    u32 state;
+    int status;
 
+    state = Os_DisableIrq();
+    status = Wm_CheckInitialized();
+    if (status != 0) {
+        Os_RestoreIrq(state);
+        return status;
+    }
+
+    Wm_GetGlobal()->callback = callback; // Update the guarded shared field.
+    Os_RestoreIrq(state);
+    return 0;
+}

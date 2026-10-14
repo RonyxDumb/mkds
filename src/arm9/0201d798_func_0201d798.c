@@ -1,68 +1,47 @@
-/* Decompiled C draft; module arm9; ROM address 0201d798. No matching claim. */
-#include "types.h"
-#include "deps/0201d798_func_0201d798.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_0201d798(int *param_1,uint param_2,int param_3)
+/* Builds a probably orthonormal third fx16 basis axis from the two axes at
+ * arg2 + 0x84, then transforms the fx32 vector in arg1 by that basis.
+ * arg0 receives the three fx32 dot-product components.
+ */
+typedef int fx32;
+typedef short fx16;
+typedef long long fx64;
 
+typedef struct VecFx32 {
+    fx32 x, y, z;
+} VecFx32;
+
+typedef struct VecFx16 {
+    fx16 x, y, z;
+} VecFx16;
+
+typedef struct BasisOwner {
+    unsigned char pad0[0x84];
+    VecFx16 axis0;
+    VecFx16 axis1;
+} BasisOwner;
+
+extern void VecFx16_CrossProduct(const VecFx16 *a, const VecFx16 *b,
+                                 VecFx16 *out);
+extern void VecFx16_Normalize(const VecFx16 *in, VecFx16 *out);
+
+#define MUL_FX16_FX32(a, b) ((fx32)(((fx64)(a) * (b) + 0x800) >> 12))
+
+void func_0201d798(VecFx32 *out, const VecFx32 *v, BasisOwner *basis)
 {
-  uint uVar1;
-  longlong lVar2;
-  longlong lVar3;
-  longlong lVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  short local_20;
-  short local_1e;
-  short local_1c;
-  
-  VecFx16_CrossProduct((short *)(uintptr_t)(param_3 + 0x84),(short *)(uintptr_t)(param_3 + 0x8a),&local_20);
-  VecFx16_Normalize(&local_20,&local_20);
-  uVar1 = param_2 + 8 & 3;
-  uVar7 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  uVar5 = param_2 + 4 & 3;
-  uVar6 = *(uint *)(param_2 + 4 & 0xfffffffc);
-  lVar2 = (longlong)(int)(uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20) * (longlong)(int)local_20
-          + 0x800;
-  lVar3 = (longlong)
-          (int)(*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-               *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) *
-          (longlong)(int)*(short *)(param_3 + 0x84) + 0x800;
-  lVar4 = (longlong)(int)(uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) *
-          (longlong)(int)*(short *)(param_3 + 0x8a) + 0x800;
-  *param_1 = ((uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) * 0x100000) +
-             ((uint)lVar3 >> 0xc | (int)((ulonglong)lVar3 >> 0x20) * 0x100000) +
-             ((uint)lVar4 >> 0xc | (int)((ulonglong)lVar4 >> 0x20) * 0x100000);
-  uVar1 = param_2 + 8 & 3;
-  uVar5 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  lVar2 = (longlong)(int)(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) * (longlong)(int)local_1e
-          + 0x800;
-  uVar1 = param_2 + 4 & 3;
-  uVar5 = *(uint *)(param_2 + 4 & 0xfffffffc);
-  lVar3 = (longlong)
-          (int)(*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-               *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) *
-          (longlong)(int)*(short *)(param_3 + 0x86) + 0x800;
-  lVar4 = (longlong)(int)(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) *
-          (longlong)(int)*(short *)(param_3 + 0x8c) + 0x800;
-  param_1[1] = ((uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) * 0x100000) +
-               ((uint)lVar3 >> 0xc | (int)((ulonglong)lVar3 >> 0x20) * 0x100000) +
-               ((uint)lVar4 >> 0xc | (int)((ulonglong)lVar4 >> 0x20) * 0x100000);
-  uVar1 = param_2 + 8 & 3;
-  uVar5 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  lVar2 = (longlong)(int)(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) * (longlong)(int)local_1c
-          + 0x800;
-  uVar1 = param_2 + 4 & 3;
-  uVar5 = *(uint *)(param_2 + 4 & 0xfffffffc);
-  lVar3 = (longlong)
-          (int)(*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-               *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) *
-          (longlong)(int)*(short *)(param_3 + 0x88) + 0x800;
-  lVar4 = (longlong)(int)(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) *
-          (longlong)(int)*(short *)(param_3 + 0x8e) + 0x800;
-  param_1[2] = ((uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) * 0x100000) +
-               ((uint)lVar3 >> 0xc | (int)((ulonglong)lVar3 >> 0x20) * 0x100000) +
-               ((uint)lVar4 >> 0xc | (int)((ulonglong)lVar4 >> 0x20) * 0x100000);
-  return;
-}
+    VecFx16 axis2;
 
+    VecFx16_CrossProduct(&basis->axis0, &basis->axis1, &axis2);
+    VecFx16_Normalize(&axis2, &axis2);
+
+    out->x = MUL_FX16_FX32(v->x, basis->axis0.x)
+           + MUL_FX16_FX32(v->y, basis->axis1.x)
+           + MUL_FX16_FX32(v->z, axis2.x);
+    out->y = MUL_FX16_FX32(v->x, basis->axis0.y)
+           + MUL_FX16_FX32(v->y, basis->axis1.y)
+           + MUL_FX16_FX32(v->z, axis2.y);
+    out->z = MUL_FX16_FX32(v->x, basis->axis0.z)
+           + MUL_FX16_FX32(v->y, basis->axis1.z)
+           + MUL_FX16_FX32(v->z, axis2.z);
+}

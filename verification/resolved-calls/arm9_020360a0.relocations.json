@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "SaveDataIoManager_IsBusy",
+    "target": 33775824,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645768
+  },
+  {
+    "offset": 44,
+    "type": 2,
+    "symbol": "SDK_data_021759d4",
+    "target": 35084756,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084756
+  }
+]

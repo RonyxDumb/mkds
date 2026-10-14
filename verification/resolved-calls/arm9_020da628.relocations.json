@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "StateDualHandler_SetState",
+    "target": 33844172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959271769
+  },
+  {
+    "offset": 84,
+    "type": 2,
+    "symbol": "SDK_data_02158140",
+    "target": 34963776,
+    "thumb": false,
+    "addend": 0,
+    "value": 34963776
+  },
+  {
+    "offset": 88,
+    "type": 2,
+    "symbol": "SDK_data_02158150",
+    "target": 34963792,
+    "thumb": false,
+    "addend": 0,
+    "value": 34963792
+  }
+]

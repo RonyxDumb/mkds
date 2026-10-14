@@ -1,34 +1,46 @@
-/* Decompiled C draft; module arm9; ROM address 0200c894. No matching claim. */
-#include "types.h"
-#include "deps/0200c894_WaitForIRQ.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_027e0000 SDK_data_027e0000
+// PURPOSE: Pauses the game code until a chosen hardware interrupt has happened.
+// arg0 (clear): when nonzero, first clears the requested interrupt-seen bits
+//   so only a NEW interrupt can wake the caller.
+// arg1 (mask): which interrupt bits to wait for.
+// Behaviour: with interrupts disabled it optionally clears the bits in the
+// IRQ check flag (DTCM base + 0x3ff8), re-enables interrupts, and if the bits
+// are not already set it sleeps on the IRQ thread queue (start of DTCM) until
+// an interrupt handler sets one of the requested bits.
 
-void WaitForIRQ(int param_1,uint param_2)
+typedef unsigned int u32;
+typedef unsigned char u8;
 
+extern u32 Os_DisableIrq(void);
+extern void Os_RestoreIrq(u32 irqState);
+extern void Os_Thread_Sleep(void *queue);
+
+// Start of DTCM; the interrupt check flag word sits at +0x3ff8
+// (mirrors HW_INTR_CHECK_BUF).
+extern u8 data_027e0000[];
+
+void WaitForIRQ(int clear, u32 mask)
 {
-  undefined4 uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  Os_DisableIrq();
-  if (param_1 != 0) {
-    uVar4 = iRam0200c908 + 0x3ff8U & 3;
-    uVar3 = *(uint *)(iRam0200c908 + 0x3ff8U & 0xfffffffc);
-    *(uint *)(iRam0200c908 + 0x3ff8) = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) & ~param_2;
-  }
-  Os_RestoreIrq();
-  uVar1 = uRam0200c910;
-  uVar4 = iRam0200c908 + 0x3ff8U & 3;
-  uVar3 = *(uint *)(iRam0200c908 + 0x3ff8U & 0xfffffffc);
-  if ((param_2 & (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20)) == 0) {
-    uVar4 = iRam0200c908 + iRam0200c90c;
-    do {
-      Os_Thread_Sleep(uVar1);
-      uVar3 = uVar4 & 3;
-      uVar2 = *(uint *)(uVar4 & 0xfffffffc);
-    } while ((param_2 & (uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20)) == 0);
-    return;
-  }
-  return;
-}
+    u32 irqState;
 
+    irqState = Os_DisableIrq();
+    if (clear) {
+        // read-modify-write of the check flag with interrupts off
+        // int cursor advanced in place so the base register is reused
+        int a = (int)data_027e0000;
+        a += 0x3000;
+        *(volatile u32 *)(a + 0xff8) &= ~mask;
+    }
+    Os_RestoreIrq(irqState);
+
+    if (!(mask & ((volatile u32 *)((int)data_027e0000 + 0x3000))[0x3fe])) {
+        // different spelling of the same address so the compiler keeps
+        // this pointer computation after the early-return branch
+        volatile u32 *check = (volatile u32 *)((int)data_027e0000 + 0x3ff8);
+        do {
+            // sleep on the IRQ thread queue at the start of DTCM
+            Os_Thread_Sleep((void *)0x027e0000);
+        } while (!(mask & *check));
+    }
+}

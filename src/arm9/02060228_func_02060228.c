@@ -1,18 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 02060228. No matching claim. */
-#include "types.h"
-#include "deps/02060228_func_02060228.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 func_02060228(undefined4 param_1,undefined4 param_2)
+// PURPOSE: Checks whether a time-trial record is valid.
+// The two arguments select a record for the save-data reader.
+// The copied record layout is partly uncertain; its validity byte is at 0x18.
+// Returns one only when copying succeeds and that byte is set.
 
+typedef unsigned char u8;
+
+typedef struct TimeTrialRecord {
+    u8 unknown[0x18];
+    u8 isValid;
+    u8 padding[0xb];
+} TimeTrialRecord;
+
+extern int TimeTrialRecord_CopyFrom_from_thumb(
+    int courseId, int recordIndex, TimeTrialRecord *record);
+
+int func_02060228(int courseId, int recordIndex)
 {
-  int iVar1;
-  undefined1 auStack_28 [24];
-  char local_10;
-  
-  iVar1 = TimeTrialRecord_CopyFrom_from_thumb(param_1,param_2,(int)(uintptr_t)(auStack_28));
-  if ((iVar1 != 0) && (local_10 != '\0')) {
-    return 1;
-  }
-  return 0;
-}
+    TimeTrialRecord record;
 
+    if (TimeTrialRecord_CopyFrom_from_thumb(courseId, recordIndex, &record) != 0) {
+        if (record.isValid != 0) {
+            return 1;
+        }
+    }
+    return 0;
+}

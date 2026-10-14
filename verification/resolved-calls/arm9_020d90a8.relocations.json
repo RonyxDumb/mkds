@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 224,
+    "type": 1,
+    "symbol": "GetLoadedNkmPathEntryPOIT",
+    "target": 33824836,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959268269
+  },
+  {
+    "offset": 292,
+    "type": 1,
+    "symbol": "GetLoadedNkmPathEntryPOIT",
+    "target": 33824836,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959268252
+  }
+]

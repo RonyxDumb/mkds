@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "GetMissionLevelStageInfoByIds_from_thumb",
+    "target": 33909212,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211071762
+  }
+]

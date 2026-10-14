@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "GlobalZ_GetOI",
+    "target": 33943060,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421088
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "FriendCode_SomeFn_from_thumb",
+    "target": 34941476,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194551702
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "GlobalZ_SetOI",
+    "target": 33943156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421090
+  },
+  {
+    "offset": 156,
+    "type": 2,
+    "symbol": "SDK_data_0217aa08",
+    "target": 35105288,
+    "thumb": false,
+    "addend": 0,
+    "value": 35105288
+  }
+]

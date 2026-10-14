@@ -1,25 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 020360a0. No matching claim. */
-#include "types.h"
-#include "deps/020360a0_func_020360a0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define SaveDataIoManagerIsBusy SaveDataIoManager_IsBusy
+#define data_021759d4 SDK_data_021759d4
+#define SaveDataIoManagerIsBusy12 func_020360a0
+// PURPOSE: Checks whether save data input or output is still busy.
+// Takes no arguments.
+// Returns zero when the manager is idle.
+// The pointed-to state probably belongs to the save-data I/O manager.
 
-uint func_020360a0(void)
+extern int SaveDataIoManagerIsBusy(void);
+extern unsigned char *data_021759d4;
 
-{
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar2 = SaveDataIoManager_IsBusy();
-  if (iVar2 == 0) {
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = (*(uint *)(uRam020360cc & 0xfffffffc) >> (uRam020360cc & 3) * 8 |
-            *(uint *)(uRam020360cc & 0xfffffffc) << (uRam020360cc & 3) * -8 + 0x20) + 0x10;
-    uVar1 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  }
-  return uVar3;
+int SaveDataIoManagerIsBusy12(void) {
+    if (SaveDataIoManagerIsBusy()) {
+        return *(int *)(data_021759d4 + 0x10);
+    }
+    return 0;
 }
-

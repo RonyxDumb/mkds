@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "GetDriverEntry",
+    "target": 34056564,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959400677
+  }
+]

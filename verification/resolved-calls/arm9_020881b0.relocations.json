@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Anim_GetNeededBlockSize",
+    "target": 33623448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959300840
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959339640
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "MaybeCreateAnimationBlock",
+    "target": 33623276,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959300783
+  },
+  {
+    "offset": 136,
+    "type": 2,
+    "symbol": "SDK_data_0217af20",
+    "target": 35106592,
+    "thumb": false,
+    "addend": 0,
+    "value": 35106592
+  }
+]

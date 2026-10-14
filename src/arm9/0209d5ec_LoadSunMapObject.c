@@ -1,24 +1,34 @@
-/* Decompiled C draft; module arm9; ROM address 0209d5ec. No matching claim. */
-#include "types.h"
-#include "deps/0209d5ec_LoadSunMapObject.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02167388 SDK_data_02167388
+#define data_0217b18c SDK_data_0217b18c
+#define data_02167394 SDK_data_02167394
+#define data_021673a0 SDK_data_021673a0
+#define data_0217b188 SDK_data_0217b188
+/* PURPOSE: Spawns the sun model plus its low-detail (LOD) twin and gives
+ * the sun a spinning animation and a unique polygon id.
+ *
+ * a0 is probably the map-object spawn context passed through to
+ * CreateMapObjectFromModel_from_thumb. The near model uses "sun.nsbmd" and
+ * gets an "sun.nsbca" animation attached; the LOD model uses
+ * "sun_LOD.nsbmd" and has no animation. The near-model object is stashed
+ * in data_0217b18c so its polygon id can be set from a running item
+ * counter (GetIncrementSomeItemCounter), matching the pattern used by the
+ * other Load*MapObject helpers.
+ */
+extern int data_02167388;  /* string "sun.nsbmd" */
+extern int data_02167394;  /* string "sun.nsbca" */
+extern int data_021673a0;  /* string "sun_LOD.nsbmd" */
+extern void *data_0217b18c;
+extern void *data_0217b188;
+extern void *CreateMapObjectFromModel_from_thumb(void *a0, void *a1);
+extern void StructMapObject_AddAnimationNsbca_from_thumb(void *obj, void *a1);
+extern void StructMapObject_MaybeSetPolygonId(void *obj, int id);
+extern int GetIncrementSomeItemCounter(void);
 
-void LoadSunMapObject(undefined4 param_1)
-
-{
-  undefined4 uVar1;
-  undefined4 uVar2;
-  
-  uVar1 = CreateMapObjectFromModel_from_thumb(param_1,uRam0209d63c);
-  uVar2 = uRam0209d644;
-  *puRam0209d640 = uVar1;
-  StructMapObject_AddAnimationNsbca_from_thumb(uVar1,uVar2);
-  uVar2 = CreateMapObjectFromModel_from_thumb(param_1,uRam0209d648);
-  *puRam0209d64c = uVar2;
-  uVar2 = GetIncrementSomeItemCounter();
-  StructMapObject_MaybeSetPolygonId
-            (*(uint *)((uint)puRam0209d640 & 0xfffffffc) >> ((uint)puRam0209d640 & 3) * 8 |
-             *(uint *)((uint)puRam0209d640 & 0xfffffffc) << ((uint)puRam0209d640 & 3) * -8 + 0x20,
-             uVar2);
-  return;
+void LoadSunMapObject(void *a0) {
+    void *obj = CreateMapObjectFromModel_from_thumb(a0, &data_02167388);
+    data_0217b18c = obj;
+    StructMapObject_AddAnimationNsbca_from_thumb(obj, &data_02167394);
+    data_0217b188 = CreateMapObjectFromModel_from_thumb(a0, &data_021673a0);
+    StructMapObject_MaybeSetPolygonId(data_0217b18c, GetIncrementSomeItemCounter());
 }
-

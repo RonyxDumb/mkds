@@ -2,7 +2,7 @@
 <rect width="1200" height="740" rx="14" fill="#0d1117"/>
 <style>text{font-family:Inter,Segoe UI,Arial,sans-serif}.heading{fill:#e6edf3;font-weight:700}.light{fill:#9da7b3}.module{fill:#e6edf3;font-weight:700}.tile{fill:#8ea3b9;font-size:10px;pointer-events:none}</style>
 <text x="28" y="44" class="heading" font-size="26">Mario Kart DS · Decompilation progress</text>
-<text x="28" y="70" class="light" font-size="14">EUR checkpoint 6 · 217,166 / 1,913,676 verified local byte-exact code bytes · 11.3481%</text>
+<text x="28" y="70" class="light" font-size="14">EUR checkpoint 6 · 286,846 / 1,913,676 verified local byte-exact code bytes · 14.9893%</text>
 <rect x="28" y="91" width="13" height="13" fill="#2ea043"/><text x="47" y="103" class="light" font-size="12">Byte-exact locally</text>
 <rect x="206" y="91" width="13" height="13" fill="#303f52"/><text x="225" y="103" class="light" font-size="12">Not byte-exact / unverified</text>
 <text x="1170" y="103" text-anchor="end" class="light" font-size="12">Tile area ∝ identified function bytes</text>
@@ -14,8 +14,8 @@
 <rect x="30.00" y="240.67" width="1.788" height="98.25" fill="#2ea043"/>
 <title>arm9/001 · 17,112 bytes · 564 verified (3.296%) · 64 functions</title>
 <rect x="30.00" y="338.93" width="54.26" height="55.70" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="30.00" y="338.93" width="26.177" height="55.70" fill="#2ea043"/>
-<title>arm9/002 · 9,700 bytes · 4,680 verified (48.247%) · 64 functions</title>
+<rect x="30.00" y="338.93" width="36.603" height="55.70" fill="#2ea043"/>
+<title>arm9/002 · 9,700 bytes · 6,544 verified (67.464%) · 64 functions</title>
 <rect x="30.00" y="394.62" width="54.26" height="45.95" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="30.00" y="394.62" width="25.996" height="45.95" fill="#2ea043"/>
 <title>arm9/003 · 8,002 bytes · 3,834 verified (47.913%) · 64 functions</title>
@@ -29,331 +29,331 @@
 <rect x="30.00" y="537.81" width="2.653" height="32.41" fill="#2ea043"/>
 <title>arm9/006 · 5,644 bytes · 276 verified (4.890%) · 64 functions</title>
 <rect x="30.00" y="570.22" width="54.26" height="34.08" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="30.00" y="570.22" width="42.338" height="34.08" fill="#2ea043"/>
-<title>arm9/007 · 5,936 bytes · 4,632 verified (78.032%) · 64 functions</title>
+<rect x="30.00" y="570.22" width="43.507" height="34.08" fill="#2ea043"/>
+<title>arm9/007 · 5,936 bytes · 4,760 verified (80.189%) · 64 functions</title>
 <rect x="30.00" y="604.30" width="54.26" height="33.65" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="30.00" y="604.30" width="38.109" height="33.65" fill="#2ea043"/>
-<title>arm9/008 · 5,860 bytes · 4,116 verified (70.239%) · 64 functions</title>
+<rect x="30.00" y="604.30" width="40.627" height="33.65" fill="#2ea043"/>
+<title>arm9/008 · 5,860 bytes · 4,388 verified (74.881%) · 64 functions</title>
 <rect x="30.00" y="637.95" width="54.26" height="33.05" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="30.00" y="637.95" width="31.558" height="33.05" fill="#2ea043"/>
-<title>arm9/009 · 5,756 bytes · 3,348 verified (58.165%) · 64 functions</title>
+<rect x="30.00" y="637.95" width="34.914" height="33.05" fill="#2ea043"/>
+<title>arm9/009 · 5,756 bytes · 3,704 verified (64.350%) · 64 functions</title>
 <rect x="84.26" y="146.00" width="54.26" height="66.64" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="84.26" y="146.00" width="15.034" height="66.64" fill="#2ea043"/>
-<title>arm9/010 · 11,608 bytes · 3,216 verified (27.705%) · 64 functions</title>
+<rect x="84.26" y="146.00" width="15.520" height="66.64" fill="#2ea043"/>
+<title>arm9/010 · 11,608 bytes · 3,320 verified (28.601%) · 64 functions</title>
 <rect x="84.26" y="212.64" width="54.26" height="67.81" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="84.26" y="212.64" width="25.451" height="67.81" fill="#2ea043"/>
-<title>arm9/011 · 11,812 bytes · 5,540 verified (46.901%) · 64 functions</title>
+<rect x="84.26" y="212.64" width="28.189" height="67.81" fill="#2ea043"/>
+<title>arm9/011 · 11,812 bytes · 6,136 verified (51.947%) · 64 functions</title>
 <rect x="84.26" y="280.45" width="54.26" height="20.44" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="84.26" y="280.45" width="33.169" height="20.44" fill="#2ea043"/>
-<title>arm9/012 · 3,560 bytes · 2,176 verified (61.124%) · 64 functions</title>
+<rect x="84.26" y="280.45" width="33.839" height="20.44" fill="#2ea043"/>
+<title>arm9/012 · 3,560 bytes · 2,220 verified (62.360%) · 64 functions</title>
 <rect x="84.26" y="300.89" width="54.26" height="58.35" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="84.26" y="300.89" width="18.409" height="58.35" fill="#2ea043"/>
-<title>arm9/013 · 10,164 bytes · 3,448 verified (33.924%) · 64 functions</title>
+<rect x="84.26" y="300.89" width="19.754" height="58.35" fill="#2ea043"/>
+<title>arm9/013 · 10,164 bytes · 3,700 verified (36.403%) · 64 functions</title>
 <rect x="84.26" y="359.24" width="54.26" height="159.28" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="84.26" y="359.24" width="5.281" height="159.28" fill="#2ea043"/>
-<title>arm9/014 · 27,744 bytes · 2,700 verified (9.732%) · 64 functions</title>
+<rect x="84.26" y="359.24" width="6.689" height="159.28" fill="#2ea043"/>
+<title>arm9/014 · 27,744 bytes · 3,420 verified (12.327%) · 64 functions</title>
 <rect x="84.26" y="518.52" width="54.26" height="26.87" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="84.26" y="518.52" width="54.265" height="26.87" fill="#2ea043"/>
 <title>arm9/015 · 4,680 bytes · 4,680 verified (100.000%) · 64 functions</title>
 <rect x="84.26" y="545.39" width="54.26" height="59.68" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="84.26" y="545.39" width="33.344" height="59.68" fill="#2ea043"/>
-<title>arm9/016 · 10,396 bytes · 6,388 verified (61.447%) · 64 functions</title>
+<rect x="84.26" y="545.39" width="35.181" height="59.68" fill="#2ea043"/>
+<title>arm9/016 · 10,396 bytes · 6,740 verified (64.833%) · 64 functions</title>
 <rect x="84.26" y="605.07" width="54.26" height="65.93" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="84.26" y="605.07" width="3.119" height="65.93" fill="#2ea043"/>
-<title>arm9/017 · 11,484 bytes · 660 verified (5.747%) · 64 functions</title>
+<rect x="84.26" y="605.07" width="5.803" height="65.93" fill="#2ea043"/>
+<title>arm9/017 · 11,484 bytes · 1,228 verified (10.693%) · 64 functions</title>
 <rect x="138.52" y="146.00" width="46.28" height="53.80" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="138.52" y="146.00" width="2.861" height="53.80" fill="#2ea043"/>
-<title>arm9/018 · 7,992 bytes · 494 verified (6.181%) · 64 functions</title>
+<rect x="138.52" y="146.00" width="4.089" height="53.80" fill="#2ea043"/>
+<title>arm9/018 · 7,992 bytes · 706 verified (8.834%) · 64 functions</title>
 <rect x="138.52" y="199.80" width="46.28" height="14.40" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="138.52" y="199.80" width="19.378" height="14.40" fill="#2ea043"/>
-<title>arm9/019 · 2,140 bytes · 896 verified (41.869%) · 64 functions</title>
+<rect x="138.52" y="199.80" width="20.243" height="14.40" fill="#2ea043"/>
+<title>arm9/019 · 2,140 bytes · 936 verified (43.738%) · 64 functions</title>
 <rect x="138.52" y="214.20" width="46.28" height="108.30" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="138.52" y="214.20" width="1.864" height="108.30" fill="#2ea043"/>
-<title>arm9/020 · 16,090 bytes · 648 verified (4.027%) · 64 functions</title>
+<rect x="138.52" y="214.20" width="1.968" height="108.30" fill="#2ea043"/>
+<title>arm9/020 · 16,090 bytes · 684 verified (4.251%) · 64 functions</title>
 <rect x="138.52" y="322.50" width="46.28" height="40.12" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="138.52" y="322.50" width="2.733" height="40.12" fill="#2ea043"/>
-<title>arm9/021 · 5,960 bytes · 352 verified (5.906%) · 64 functions</title>
+<rect x="138.52" y="322.50" width="4.069" height="40.12" fill="#2ea043"/>
+<title>arm9/021 · 5,960 bytes · 524 verified (8.792%) · 64 functions</title>
 <rect x="138.52" y="362.62" width="46.28" height="66.30" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="138.52" y="362.62" width="2.894" height="66.30" fill="#2ea043"/>
-<title>arm9/022 · 9,850 bytes · 616 verified (6.254%) · 64 functions</title>
+<rect x="138.52" y="362.62" width="4.060" height="66.30" fill="#2ea043"/>
+<title>arm9/022 · 9,850 bytes · 864 verified (8.772%) · 64 functions</title>
 <rect x="138.52" y="428.92" width="46.28" height="112.77" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="138.52" y="428.92" width="1.227" height="112.77" fill="#2ea043"/>
 <title>arm9/023 · 16,754 bytes · 444 verified (2.650%) · 64 functions</title>
 <rect x="138.52" y="541.70" width="46.28" height="49.72" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="138.52" y="541.70" width="3.659" height="49.72" fill="#2ea043"/>
-<title>arm9/024 · 7,386 bytes · 584 verified (7.907%) · 64 functions</title>
+<rect x="138.52" y="541.70" width="12.207" height="49.72" fill="#2ea043"/>
+<title>arm9/024 · 7,386 bytes · 1,948 verified (26.374%) · 64 functions</title>
 <rect x="138.52" y="591.41" width="46.28" height="79.59" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="138.52" y="591.41" width="3.476" height="79.59" fill="#2ea043"/>
-<title>arm9/025 · 11,824 bytes · 888 verified (7.510%) · 64 functions</title>
+<rect x="138.52" y="591.41" width="5.887" height="79.59" fill="#2ea043"/>
+<title>arm9/025 · 11,824 bytes · 1,504 verified (12.720%) · 64 functions</title>
 <rect x="184.80" y="146.00" width="66.35" height="39.71" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="184.80" y="146.00" width="6.135" height="39.71" fill="#2ea043"/>
+<rect x="184.80" y="146.00" width="10.340" height="39.71" fill="#2ea043"/>
 <text x="189.8" y="161.0" class="tile">arm9/026</text>
-<title>arm9/026 · 8,458 bytes · 782 verified (9.246%) · 64 functions</title>
+<title>arm9/026 · 8,458 bytes · 1,318 verified (15.583%) · 64 functions</title>
 <rect x="184.80" y="185.71" width="66.35" height="107.21" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="184.80" y="185.71" width="0.442" height="107.21" fill="#2ea043"/>
+<rect x="184.80" y="185.71" width="5.044" height="107.21" fill="#2ea043"/>
 <text x="189.8" y="200.7" class="tile">arm9/027</text>
-<title>arm9/027 · 22,836 bytes · 152 verified (0.666%) · 64 functions</title>
+<title>arm9/027 · 22,836 bytes · 1,736 verified (7.602%) · 64 functions</title>
 <rect x="184.80" y="292.92" width="66.35" height="49.38" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="184.80" y="292.92" width="2.359" height="49.38" fill="#2ea043"/>
+<rect x="184.80" y="292.92" width="9.400" height="49.38" fill="#2ea043"/>
 <text x="189.8" y="307.9" class="tile">arm9/028</text>
-<title>arm9/028 · 10,518 bytes · 374 verified (3.556%) · 64 functions</title>
+<title>arm9/028 · 10,518 bytes · 1,490 verified (14.166%) · 64 functions</title>
 <rect x="184.80" y="342.31" width="66.35" height="52.12" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="184.80" y="342.31" width="6.347" height="52.12" fill="#2ea043"/>
+<rect x="184.80" y="342.31" width="10.746" height="52.12" fill="#2ea043"/>
 <text x="189.8" y="357.3" class="tile">arm9/029</text>
-<title>arm9/029 · 11,102 bytes · 1,062 verified (9.566%) · 64 functions</title>
+<title>arm9/029 · 11,102 bytes · 1,798 verified (16.195%) · 64 functions</title>
 <rect x="184.80" y="394.43" width="66.35" height="53.78" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="184.80" y="394.43" width="1.471" height="53.78" fill="#2ea043"/>
+<rect x="184.80" y="394.43" width="1.889" height="53.78" fill="#2ea043"/>
 <text x="189.8" y="409.4" class="tile">arm9/030</text>
-<title>arm9/030 · 11,454 bytes · 254 verified (2.218%) · 64 functions</title>
+<title>arm9/030 · 11,454 bytes · 326 verified (2.846%) · 64 functions</title>
 <rect x="184.80" y="448.21" width="66.35" height="47.69" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="184.80" y="448.21" width="4.259" height="47.69" fill="#2ea043"/>
+<rect x="184.80" y="448.21" width="8.335" height="47.69" fill="#2ea043"/>
 <text x="189.8" y="463.2" class="tile">arm9/031</text>
-<title>arm9/031 · 10,158 bytes · 652 verified (6.419%) · 64 functions</title>
+<title>arm9/031 · 10,158 bytes · 1,276 verified (12.562%) · 64 functions</title>
 <rect x="184.80" y="495.90" width="66.35" height="41.94" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="184.80" y="495.90" width="3.462" height="41.94" fill="#2ea043"/>
+<rect x="184.80" y="495.90" width="6.017" height="41.94" fill="#2ea043"/>
 <text x="189.8" y="510.9" class="tile">arm9/032</text>
-<title>arm9/032 · 8,932 bytes · 466 verified (5.217%) · 64 functions</title>
+<title>arm9/032 · 8,932 bytes · 810 verified (9.069%) · 64 functions</title>
 <rect x="184.80" y="537.83" width="66.35" height="53.77" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="184.80" y="537.83" width="2.828" height="53.77" fill="#2ea043"/>
+<rect x="184.80" y="537.83" width="3.708" height="53.77" fill="#2ea043"/>
 <text x="189.8" y="552.8" class="tile">arm9/033</text>
-<title>arm9/033 · 11,452 bytes · 488 verified (4.261%) · 64 functions</title>
+<title>arm9/033 · 11,452 bytes · 640 verified (5.589%) · 64 functions</title>
 <rect x="184.80" y="591.60" width="66.35" height="79.40" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="184.80" y="591.60" width="2.699" height="79.40" fill="#2ea043"/>
+<rect x="184.80" y="591.60" width="6.701" height="79.40" fill="#2ea043"/>
 <text x="189.8" y="606.6" class="tile">arm9/034</text>
-<title>arm9/034 · 16,912 bytes · 688 verified (4.068%) · 64 functions</title>
+<title>arm9/034 · 16,912 bytes · 1,708 verified (10.099%) · 64 functions</title>
 <rect x="251.16" y="146.00" width="53.18" height="29.53" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="251.16" y="146.00" width="6.540" height="29.53" fill="#2ea043"/>
-<title>arm9/035 · 5,042 bytes · 620 verified (12.297%) · 64 functions</title>
+<rect x="251.16" y="146.00" width="8.396" height="29.53" fill="#2ea043"/>
+<title>arm9/035 · 5,042 bytes · 796 verified (15.787%) · 64 functions</title>
 <rect x="251.16" y="175.53" width="53.18" height="31.60" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="251.16" y="175.53" width="9.959" height="31.60" fill="#2ea043"/>
-<title>arm9/036 · 5,394 bytes · 1,010 verified (18.725%) · 64 functions</title>
+<rect x="251.16" y="175.53" width="11.497" height="31.60" fill="#2ea043"/>
+<title>arm9/036 · 5,394 bytes · 1,166 verified (21.617%) · 64 functions</title>
 <rect x="251.16" y="207.13" width="53.18" height="38.79" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="251.16" y="207.13" width="6.618" height="38.79" fill="#2ea043"/>
-<title>arm9/037 · 6,622 bytes · 824 verified (12.443%) · 64 functions</title>
+<rect x="251.16" y="207.13" width="8.321" height="38.79" fill="#2ea043"/>
+<title>arm9/037 · 6,622 bytes · 1,036 verified (15.645%) · 64 functions</title>
 <rect x="251.16" y="245.92" width="53.18" height="75.14" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="251.16" y="245.92" width="2.189" height="75.14" fill="#2ea043"/>
-<title>arm9/038 · 12,828 bytes · 528 verified (4.116%) · 64 functions</title>
+<rect x="251.16" y="245.92" width="3.284" height="75.14" fill="#2ea043"/>
+<title>arm9/038 · 12,828 bytes · 792 verified (6.174%) · 64 functions</title>
 <rect x="251.16" y="321.06" width="53.18" height="67.98" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="251.16" y="321.06" width="1.063" height="67.98" fill="#2ea043"/>
-<title>arm9/039 · 11,606 bytes · 232 verified (1.999%) · 64 functions</title>
+<rect x="251.16" y="321.06" width="5.792" height="67.98" fill="#2ea043"/>
+<title>arm9/039 · 11,606 bytes · 1,264 verified (10.891%) · 64 functions</title>
 <rect x="251.16" y="389.04" width="53.18" height="42.31" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="251.16" y="389.04" width="3.504" height="42.31" fill="#2ea043"/>
-<title>arm9/040 · 7,224 bytes · 476 verified (6.589%) · 64 functions</title>
+<rect x="251.16" y="389.04" width="15.520" height="42.31" fill="#2ea043"/>
+<title>arm9/040 · 7,224 bytes · 2,108 verified (29.181%) · 64 functions</title>
 <rect x="251.16" y="431.36" width="53.18" height="135.10" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="251.16" y="431.36" width="2.776" height="135.10" fill="#2ea043"/>
 <title>arm9/041 · 23,064 bytes · 1,204 verified (5.220%) · 64 functions</title>
 <rect x="251.16" y="566.45" width="53.18" height="104.55" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="251.16" y="566.45" width="3.659" height="104.55" fill="#2ea043"/>
-<title>arm9/042 · 17,848 bytes · 1,228 verified (6.880%) · 64 functions</title>
+<rect x="251.16" y="566.45" width="5.972" height="104.55" fill="#2ea043"/>
+<title>arm9/042 · 17,848 bytes · 2,004 verified (11.228%) · 64 functions</title>
 <rect x="304.34" y="146.00" width="68.42" height="126.63" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="304.34" y="146.00" width="0.925" height="126.63" fill="#2ea043"/>
+<rect x="304.34" y="146.00" width="1.909" height="126.63" fill="#2ea043"/>
 <text x="309.3" y="161.0" class="tile">arm9/043</text>
-<title>arm9/043 · 27,812 bytes · 376 verified (1.352%) · 64 functions</title>
+<title>arm9/043 · 27,812 bytes · 776 verified (2.790%) · 64 functions</title>
 <rect x="304.34" y="272.63" width="68.42" height="89.96" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="304.34" y="272.63" width="1.690" height="89.96" fill="#2ea043"/>
+<rect x="304.34" y="272.63" width="3.463" height="89.96" fill="#2ea043"/>
 <text x="309.3" y="287.6" class="tile">arm9/044</text>
-<title>arm9/044 · 19,758 bytes · 488 verified (2.470%) · 64 functions</title>
+<title>arm9/044 · 19,758 bytes · 1,000 verified (5.061%) · 64 functions</title>
 <rect x="304.34" y="362.58" width="68.42" height="38.08" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="304.34" y="362.58" width="4.827" height="38.08" fill="#2ea043"/>
 <text x="309.3" y="377.6" class="tile">arm9/045</text>
 <title>arm9/045 · 8,364 bytes · 590 verified (7.054%) · 64 functions</title>
 <rect x="304.34" y="400.66" width="68.42" height="37.99" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="304.34" y="400.66" width="4.953" height="37.99" fill="#2ea043"/>
+<rect x="304.34" y="400.66" width="11.612" height="37.99" fill="#2ea043"/>
 <text x="309.3" y="415.7" class="tile">arm9/046</text>
-<title>arm9/046 · 8,344 bytes · 604 verified (7.239%) · 64 functions</title>
+<title>arm9/046 · 8,344 bytes · 1,416 verified (16.970%) · 64 functions</title>
 <rect x="304.34" y="438.65" width="68.42" height="71.12" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="304.34" y="438.65" width="1.349" height="71.12" fill="#2ea043"/>
+<rect x="304.34" y="438.65" width="4.381" height="71.12" fill="#2ea043"/>
 <text x="309.3" y="453.7" class="tile">arm9/047</text>
-<title>arm9/047 · 15,620 bytes · 308 verified (1.972%) · 64 functions</title>
+<title>arm9/047 · 15,620 bytes · 1,000 verified (6.402%) · 64 functions</title>
 <rect x="304.34" y="509.77" width="68.42" height="57.42" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="304.34" y="509.77" width="4.731" height="57.42" fill="#2ea043"/>
+<rect x="304.34" y="509.77" width="27.474" height="57.42" fill="#2ea043"/>
 <text x="309.3" y="524.8" class="tile">arm9/048</text>
-<title>arm9/048 · 12,612 bytes · 872 verified (6.914%) · 64 functions</title>
+<title>arm9/048 · 12,612 bytes · 5,064 verified (40.152%) · 64 functions</title>
 <rect x="304.34" y="567.19" width="68.42" height="48.12" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="304.34" y="567.19" width="3.833" height="48.12" fill="#2ea043"/>
+<rect x="304.34" y="567.19" width="12.872" height="48.12" fill="#2ea043"/>
 <text x="309.3" y="582.2" class="tile">arm9/049</text>
-<title>arm9/049 · 10,568 bytes · 592 verified (5.602%) · 64 functions</title>
+<title>arm9/049 · 10,568 bytes · 1,988 verified (18.812%) · 64 functions</title>
 <rect x="304.34" y="615.31" width="68.42" height="55.69" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="304.34" y="615.31" width="3.681" height="55.69" fill="#2ea043"/>
+<rect x="304.34" y="615.31" width="9.163" height="55.69" fill="#2ea043"/>
 <text x="309.3" y="630.3" class="tile">arm9/050</text>
-<title>arm9/050 · 12,232 bytes · 658 verified (5.379%) · 64 functions</title>
+<title>arm9/050 · 12,232 bytes · 1,638 verified (13.391%) · 64 functions</title>
 <rect x="372.77" y="146.00" width="96.43" height="47.00" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="372.77" y="146.00" width="4.348" height="47.00" fill="#2ea043"/>
+<rect x="372.77" y="146.00" width="12.276" height="47.00" fill="#2ea043"/>
 <text x="377.8" y="161.0" class="tile">arm9/051</text>
-<title>arm9/051 · 14,548 bytes · 656 verified (4.509%) · 64 functions</title>
+<title>arm9/051 · 14,548 bytes · 1,852 verified (12.730%) · 64 functions</title>
 <rect x="469.20" y="146.00" width="40.30" height="47.00" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="469.20" y="146.00" width="3.076" height="47.00" fill="#2ea043"/>
 <title>arm9/052 · 6,080 bytes · 464 verified (7.632%) · 64 functions</title>
 <rect x="509.50" y="146.00" width="78.14" height="47.00" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="509.50" y="146.00" width="17.155" height="47.00" fill="#2ea043"/>
+<rect x="509.50" y="146.00" width="28.105" height="47.00" fill="#2ea043"/>
 <text x="514.5" y="161.0" class="tile">arm9/053</text>
-<title>arm9/053 · 11,788 bytes · 2,588 verified (21.955%) · 64 functions</title>
+<title>arm9/053 · 11,788 bytes · 4,240 verified (35.969%) · 64 functions</title>
 <rect x="587.64" y="146.00" width="77.53" height="47.00" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="587.64" y="146.00" width="4.693" height="47.00" fill="#2ea043"/>
+<rect x="587.64" y="146.00" width="17.685" height="47.00" fill="#2ea043"/>
 <text x="592.6" y="161.0" class="tile">arm9/054</text>
-<title>arm9/054 · 11,696 bytes · 708 verified (6.053%) · 64 functions</title>
+<title>arm9/054 · 11,696 bytes · 2,668 verified (22.811%) · 64 functions</title>
 <rect x="665.16" y="146.00" width="69.92" height="47.00" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="665.16" y="146.00" width="3.738" height="47.00" fill="#2ea043"/>
+<rect x="665.16" y="146.00" width="24.817" height="47.00" fill="#2ea043"/>
 <text x="670.2" y="161.0" class="tile">arm9/055</text>
-<title>arm9/055 · 10,548 bytes · 564 verified (5.347%) · 64 functions</title>
+<title>arm9/055 · 10,548 bytes · 3,744 verified (35.495%) · 64 functions</title>
 <rect x="735.08" y="146.00" width="99.77" height="47.00" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="735.08" y="146.00" width="8.113" height="47.00" fill="#2ea043"/>
+<rect x="735.08" y="146.00" width="21.132" height="47.00" fill="#2ea043"/>
 <text x="740.1" y="161.0" class="tile">arm9/056</text>
-<title>arm9/056 · 15,052 bytes · 1,224 verified (8.132%) · 64 functions</title>
+<title>arm9/056 · 15,052 bytes · 3,188 verified (21.180%) · 64 functions</title>
 <rect x="834.85" y="146.00" width="24.18" height="47.00" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="834.85" y="146.00" width="17.817" height="47.00" fill="#2ea043"/>
-<title>arm9/057 · 3,648 bytes · 2,688 verified (73.684%) · 64 functions</title>
+<rect x="834.85" y="146.00" width="24.181" height="47.00" fill="#2ea043"/>
+<title>arm9/057 · 3,648 bytes · 3,648 verified (100.000%) · 64 functions</title>
 <rect x="372.77" y="193.00" width="51.16" height="43.45" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="372.77" y="193.00" width="12.017" height="43.45" fill="#2ea043"/>
-<title>arm9/058 · 7,136 bytes · 1,676 verified (23.487%) · 64 functions</title>
+<rect x="372.77" y="193.00" width="19.645" height="43.45" fill="#2ea043"/>
+<title>arm9/058 · 7,136 bytes · 2,740 verified (38.397%) · 64 functions</title>
 <rect x="372.77" y="236.45" width="51.16" height="77.43" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="372.77" y="236.45" width="1.698" height="77.43" fill="#2ea043"/>
-<title>arm9/059 · 12,716 bytes · 422 verified (3.319%) · 64 functions</title>
+<rect x="372.77" y="236.45" width="11.693" height="77.43" fill="#2ea043"/>
+<title>arm9/059 · 12,716 bytes · 2,906 verified (22.853%) · 64 functions</title>
 <rect x="372.77" y="313.88" width="51.16" height="70.22" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="372.77" y="313.88" width="2.857" height="70.22" fill="#2ea043"/>
-<title>arm9/060 · 11,532 bytes · 644 verified (5.584%) · 64 functions</title>
+<rect x="372.77" y="313.88" width="6.140" height="70.22" fill="#2ea043"/>
+<title>arm9/060 · 11,532 bytes · 1,384 verified (12.001%) · 64 functions</title>
 <rect x="372.77" y="384.09" width="51.16" height="91.33" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="372.77" y="384.09" width="2.347" height="91.33" fill="#2ea043"/>
-<title>arm9/061 · 15,000 bytes · 688 verified (4.587%) · 64 functions</title>
+<rect x="372.77" y="384.09" width="5.389" height="91.33" fill="#2ea043"/>
+<title>arm9/061 · 15,000 bytes · 1,580 verified (10.533%) · 64 functions</title>
 <rect x="372.77" y="475.43" width="51.16" height="111.18" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="372.77" y="475.43" width="1.917" height="111.18" fill="#2ea043"/>
-<title>arm9/062 · 18,260 bytes · 684 verified (3.746%) · 64 functions</title>
+<rect x="372.77" y="475.43" width="4.225" height="111.18" fill="#2ea043"/>
+<title>arm9/062 · 18,260 bytes · 1,508 verified (8.258%) · 64 functions</title>
 <rect x="372.77" y="586.61" width="51.16" height="37.96" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="372.77" y="586.61" width="3.266" height="37.96" fill="#2ea043"/>
 <title>arm9/063 · 6,234 bytes · 398 verified (6.384%) · 64 functions</title>
 <rect x="372.77" y="624.57" width="51.16" height="46.43" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="372.77" y="624.57" width="3.261" height="46.43" fill="#2ea043"/>
-<title>arm9/064 · 7,626 bytes · 486 verified (6.373%) · 64 functions</title>
+<rect x="372.77" y="624.57" width="5.595" height="46.43" fill="#2ea043"/>
+<title>arm9/064 · 7,626 bytes · 834 verified (10.936%) · 64 functions</title>
 <rect x="423.93" y="193.00" width="19.24" height="49.20" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="423.93" y="193.00" width="7.054" height="49.20" fill="#2ea043"/>
-<title>arm9/065 · 3,038 bytes · 1,114 verified (36.669%) · 64 functions</title>
+<rect x="423.93" y="193.00" width="9.207" height="49.20" fill="#2ea043"/>
+<title>arm9/065 · 3,038 bytes · 1,454 verified (47.860%) · 64 functions</title>
 <rect x="443.17" y="193.00" width="111.70" height="49.20" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="443.17" y="193.00" width="4.926" height="49.20" fill="#2ea043"/>
+<rect x="443.17" y="193.00" width="6.826" height="49.20" fill="#2ea043"/>
 <text x="448.2" y="208.0" class="tile">arm9/066</text>
-<title>arm9/066 · 17,640 bytes · 778 verified (4.410%) · 64 functions</title>
+<title>arm9/066 · 17,640 bytes · 1,078 verified (6.111%) · 64 functions</title>
 <rect x="554.87" y="193.00" width="34.95" height="49.20" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="554.87" y="193.00" width="4.243" height="49.20" fill="#2ea043"/>
-<title>arm9/067 · 5,520 bytes · 670 verified (12.138%) · 64 functions</title>
+<rect x="554.87" y="193.00" width="7.079" height="49.20" fill="#2ea043"/>
+<title>arm9/067 · 5,520 bytes · 1,118 verified (20.254%) · 64 functions</title>
 <rect x="589.82" y="193.00" width="58.33" height="49.20" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="589.82" y="193.00" width="6.484" height="49.20" fill="#2ea043"/>
+<rect x="589.82" y="193.00" width="8.840" height="49.20" fill="#2ea043"/>
 <text x="594.8" y="208.0" class="tile">arm9/068</text>
-<title>arm9/068 · 9,212 bytes · 1,024 verified (11.116%) · 64 functions</title>
+<title>arm9/068 · 9,212 bytes · 1,396 verified (15.154%) · 64 functions</title>
 <rect x="648.15" y="193.00" width="210.88" height="49.20" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="648.15" y="193.00" width="10.435" height="49.20" fill="#2ea043"/>
+<rect x="648.15" y="193.00" width="13.551" height="49.20" fill="#2ea043"/>
 <text x="653.2" y="208.0" class="tile">arm9/069</text>
-<title>arm9/069 · 33,304 bytes · 1,648 verified (4.948%) · 64 functions</title>
+<title>arm9/069 · 33,304 bytes · 2,140 verified (6.426%) · 64 functions</title>
 <rect x="423.93" y="242.20" width="63.03" height="146.92" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="423.93" y="242.20" width="0.789" height="146.92" fill="#2ea043"/>
+<rect x="423.93" y="242.20" width="1.832" height="146.92" fill="#2ea043"/>
 <text x="428.9" y="257.2" class="tile">arm9/070</text>
-<title>arm9/070 · 29,728 bytes · 372 verified (1.251%) · 64 functions</title>
+<title>arm9/070 · 29,728 bytes · 864 verified (2.906%) · 64 functions</title>
 <rect x="423.93" y="389.12" width="63.03" height="47.39" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="423.93" y="389.12" width="3.287" height="47.39" fill="#2ea043"/>
+<rect x="423.93" y="389.12" width="8.415" height="47.39" fill="#2ea043"/>
 <text x="428.9" y="404.1" class="tile">arm9/071</text>
-<title>arm9/071 · 9,588 bytes · 500 verified (5.215%) · 64 functions</title>
+<title>arm9/071 · 9,588 bytes · 1,280 verified (13.350%) · 64 functions</title>
 <rect x="423.93" y="436.51" width="63.03" height="57.12" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="423.93" y="436.51" width="3.436" height="57.12" fill="#2ea043"/>
+<rect x="423.93" y="436.51" width="4.156" height="57.12" fill="#2ea043"/>
 <text x="428.9" y="451.5" class="tile">arm9/072</text>
-<title>arm9/072 · 11,558 bytes · 630 verified (5.451%) · 64 functions</title>
+<title>arm9/072 · 11,558 bytes · 762 verified (6.593%) · 64 functions</title>
 <rect x="423.93" y="493.63" width="63.03" height="27.06" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="423.93" y="493.63" width="15.793" height="27.06" fill="#2ea043"/>
+<rect x="423.93" y="493.63" width="17.819" height="27.06" fill="#2ea043"/>
 <text x="428.9" y="508.6" class="tile">arm9/073</text>
-<title>arm9/073 · 5,476 bytes · 1,372 verified (25.055%) · 64 functions</title>
+<title>arm9/073 · 5,476 bytes · 1,548 verified (28.269%) · 64 functions</title>
 <rect x="423.93" y="520.70" width="63.03" height="22.84" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="423.93" y="520.70" width="12.192" height="22.84" fill="#2ea043"/>
+<rect x="423.93" y="520.70" width="15.138" height="22.84" fill="#2ea043"/>
 <text x="428.9" y="535.7" class="tile">arm9/074</text>
-<title>arm9/074 · 4,622 bytes · 894 verified (19.342%) · 64 functions</title>
+<title>arm9/074 · 4,622 bytes · 1,110 verified (24.016%) · 64 functions</title>
 <rect x="423.93" y="543.54" width="63.03" height="23.80" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="423.93" y="543.54" width="6.518" height="23.80" fill="#2ea043"/>
+<rect x="423.93" y="543.54" width="12.277" height="23.80" fill="#2ea043"/>
 <text x="428.9" y="558.5" class="tile">arm9/075</text>
-<title>arm9/075 · 4,816 bytes · 498 verified (10.341%) · 64 functions</title>
+<title>arm9/075 · 4,816 bytes · 938 verified (19.477%) · 64 functions</title>
 <rect x="423.93" y="567.34" width="63.03" height="49.77" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="423.93" y="567.34" width="3.505" height="49.77" fill="#2ea043"/>
+<rect x="423.93" y="567.34" width="5.008" height="49.77" fill="#2ea043"/>
 <text x="428.9" y="582.3" class="tile">arm9/076</text>
-<title>arm9/076 · 10,070 bytes · 560 verified (5.561%) · 64 functions</title>
+<title>arm9/076 · 10,070 bytes · 800 verified (7.944%) · 64 functions</title>
 <rect x="423.93" y="617.11" width="63.03" height="53.89" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="423.93" y="617.11" width="8.371" height="53.89" fill="#2ea043"/>
+<rect x="423.93" y="617.11" width="16.880" height="53.89" fill="#2ea043"/>
 <text x="428.9" y="632.1" class="tile">arm9/077</text>
-<title>arm9/077 · 10,904 bytes · 1,448 verified (13.280%) · 64 functions</title>
+<title>arm9/077 · 10,904 bytes · 2,920 verified (26.779%) · 64 functions</title>
 <rect x="486.96" y="242.20" width="59.11" height="58.65" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="486.96" y="242.20" width="4.270" height="58.65" fill="#2ea043"/>
+<rect x="486.96" y="242.20" width="5.736" height="58.65" fill="#2ea043"/>
 <text x="492.0" y="257.2" class="tile">arm9/078</text>
-<title>arm9/078 · 11,128 bytes · 804 verified (7.225%) · 64 functions</title>
+<title>arm9/078 · 11,128 bytes · 1,080 verified (9.705%) · 64 functions</title>
 <rect x="546.07" y="242.20" width="62.50" height="58.65" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="546.07" y="242.20" width="2.443" height="58.65" fill="#2ea043"/>
+<rect x="546.07" y="242.20" width="8.413" height="58.65" fill="#2ea043"/>
 <text x="551.1" y="257.2" class="tile">arm9/079</text>
-<title>arm9/079 · 11,766 bytes · 460 verified (3.910%) · 64 functions</title>
+<title>arm9/079 · 11,766 bytes · 1,584 verified (13.463%) · 64 functions</title>
 <rect x="608.57" y="242.20" width="78.28" height="58.65" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="608.57" y="242.20" width="1.041" height="58.65" fill="#2ea043"/>
+<rect x="608.57" y="242.20" width="6.586" height="58.65" fill="#2ea043"/>
 <text x="613.6" y="257.2" class="tile">arm9/080</text>
-<title>arm9/080 · 14,738 bytes · 196 verified (1.330%) · 64 functions</title>
+<title>arm9/080 · 14,738 bytes · 1,240 verified (8.414%) · 64 functions</title>
 <rect x="686.85" y="242.20" width="54.00" height="58.65" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="686.85" y="242.20" width="2.465" height="58.65" fill="#2ea043"/>
-<title>arm9/081 · 10,166 bytes · 464 verified (4.564%) · 64 functions</title>
+<rect x="686.85" y="242.20" width="10.347" height="58.65" fill="#2ea043"/>
+<title>arm9/081 · 10,166 bytes · 1,948 verified (19.162%) · 64 functions</title>
 <rect x="740.84" y="242.20" width="80.48" height="58.65" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="740.84" y="242.20" width="3.102" height="58.65" fill="#2ea043"/>
+<rect x="740.84" y="242.20" width="9.901" height="58.65" fill="#2ea043"/>
 <text x="745.8" y="257.2" class="tile">arm9/082</text>
-<title>arm9/082 · 15,152 bytes · 584 verified (3.854%) · 64 functions</title>
+<title>arm9/082 · 15,152 bytes · 1,864 verified (12.302%) · 64 functions</title>
 <rect x="821.32" y="242.20" width="37.71" height="58.65" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="821.32" y="242.20" width="2.613" height="58.65" fill="#2ea043"/>
-<title>arm9/083 · 7,100 bytes · 492 verified (6.930%) · 64 functions</title>
+<rect x="821.32" y="242.20" width="8.010" height="58.65" fill="#2ea043"/>
+<title>arm9/083 · 7,100 bytes · 1,508 verified (21.239%) · 64 functions</title>
 <rect x="486.96" y="300.85" width="59.32" height="36.97" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="486.96" y="300.85" width="4.954" height="36.97" fill="#2ea043"/>
+<rect x="486.96" y="300.85" width="14.762" height="36.97" fill="#2ea043"/>
 <text x="492.0" y="315.8" class="tile">arm9/084</text>
-<title>arm9/084 · 7,040 bytes · 588 verified (8.352%) · 64 functions</title>
+<title>arm9/084 · 7,040 bytes · 1,752 verified (24.886%) · 64 functions</title>
 <rect x="486.96" y="337.82" width="59.32" height="86.64" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="486.96" y="337.82" width="1.122" height="86.64" fill="#2ea043"/>
+<rect x="486.96" y="337.82" width="2.416" height="86.64" fill="#2ea043"/>
 <text x="492.0" y="352.8" class="tile">arm9/085</text>
-<title>arm9/085 · 16,498 bytes · 312 verified (1.891%) · 64 functions</title>
+<title>arm9/085 · 16,498 bytes · 672 verified (4.073%) · 64 functions</title>
 <rect x="486.96" y="424.47" width="59.32" height="79.53" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="486.96" y="424.47" width="1.394" height="79.53" fill="#2ea043"/>
+<rect x="486.96" y="424.47" width="6.643" height="79.53" fill="#2ea043"/>
 <text x="492.0" y="439.5" class="tile">arm9/086</text>
-<title>arm9/086 · 15,144 bytes · 356 verified (2.351%) · 64 functions</title>
+<title>arm9/086 · 15,144 bytes · 1,696 verified (11.199%) · 64 functions</title>
 <rect x="486.96" y="504.00" width="59.32" height="98.96" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="486.96" y="504.00" width="1.996" height="98.96" fill="#2ea043"/>
+<rect x="486.96" y="504.00" width="5.912" height="98.96" fill="#2ea043"/>
 <text x="492.0" y="519.0" class="tile">arm9/087</text>
-<title>arm9/087 · 18,842 bytes · 634 verified (3.365%) · 64 functions</title>
+<title>arm9/087 · 18,842 bytes · 1,878 verified (9.967%) · 64 functions</title>
 <rect x="486.96" y="602.96" width="59.32" height="68.04" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="486.96" y="602.96" width="6.941" height="68.04" fill="#2ea043"/>
 <text x="492.0" y="618.0" class="tile">arm9/088</text>
 <title>arm9/088 · 12,956 bytes · 1,516 verified (11.701%) · 64 functions</title>
 <rect x="546.28" y="300.85" width="65.98" height="62.59" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="546.28" y="300.85" width="4.201" height="62.59" fill="#2ea043"/>
+<rect x="546.28" y="300.85" width="4.440" height="62.59" fill="#2ea043"/>
 <text x="551.3" y="315.8" class="tile">arm9/089</text>
-<title>arm9/089 · 13,256 bytes · 844 verified (6.367%) · 64 functions</title>
+<title>arm9/089 · 13,256 bytes · 892 verified (6.729%) · 64 functions</title>
 <rect x="612.26" y="300.85" width="66.47" height="62.59" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="612.26" y="300.85" width="3.663" height="62.59" fill="#2ea043"/>
+<rect x="612.26" y="300.85" width="5.455" height="62.59" fill="#2ea043"/>
 <text x="617.3" y="315.8" class="tile">arm9/090</text>
-<title>arm9/090 · 13,356 bytes · 736 verified (5.511%) · 64 functions</title>
+<title>arm9/090 · 13,356 bytes · 1,096 verified (8.206%) · 64 functions</title>
 <rect x="678.73" y="300.85" width="51.02" height="62.59" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="678.73" y="300.85" width="3.484" height="62.59" fill="#2ea043"/>
-<title>arm9/091 · 10,250 bytes · 700 verified (6.829%) · 64 functions</title>
+<rect x="678.73" y="300.85" width="4.798" height="62.59" fill="#2ea043"/>
+<title>arm9/091 · 10,250 bytes · 964 verified (9.405%) · 64 functions</title>
 <rect x="729.75" y="300.85" width="53.24" height="62.59" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="729.75" y="300.85" width="2.051" height="62.59" fill="#2ea043"/>
-<title>arm9/092 · 10,696 bytes · 412 verified (3.852%) · 64 functions</title>
+<rect x="729.75" y="300.85" width="5.116" height="62.59" fill="#2ea043"/>
+<title>arm9/092 · 10,696 bytes · 1,028 verified (9.611%) · 64 functions</title>
 <rect x="782.98" y="300.85" width="76.05" height="62.59" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="782.98" y="300.85" width="3.424" height="62.59" fill="#2ea043"/>
+<rect x="782.98" y="300.85" width="6.172" height="62.59" fill="#2ea043"/>
 <text x="788.0" y="315.8" class="tile">arm9/093</text>
-<title>arm9/093 · 15,280 bytes · 688 verified (4.503%) · 64 functions</title>
+<title>arm9/093 · 15,280 bytes · 1,240 verified (8.115%) · 64 functions</title>
 <rect x="546.28" y="363.44" width="59.28" height="64.83" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="546.28" y="363.44" width="1.288" height="64.83" fill="#2ea043"/>
+<rect x="546.28" y="363.44" width="4.748" height="64.83" fill="#2ea043"/>
 <text x="551.3" y="378.4" class="tile">arm9/094</text>
-<title>arm9/094 · 12,336 bytes · 268 verified (2.173%) · 64 functions</title>
+<title>arm9/094 · 12,336 bytes · 988 verified (8.009%) · 64 functions</title>
 <rect x="546.28" y="428.27" width="59.28" height="58.15" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="546.28" y="428.27" width="4.393" height="58.15" fill="#2ea043"/>
+<rect x="546.28" y="428.27" width="6.729" height="58.15" fill="#2ea043"/>
 <text x="551.3" y="443.3" class="tile">arm9/095</text>
-<title>arm9/095 · 11,064 bytes · 820 verified (7.411%) · 64 functions</title>
+<title>arm9/095 · 11,064 bytes · 1,256 verified (11.352%) · 64 functions</title>
 <rect x="546.28" y="486.42" width="59.28" height="45.24" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="546.28" y="486.42" width="8.704" height="45.24" fill="#2ea043"/>
+<rect x="546.28" y="486.42" width="10.082" height="45.24" fill="#2ea043"/>
 <text x="551.3" y="501.4" class="tile">arm9/096</text>
-<title>arm9/096 · 8,608 bytes · 1,264 verified (14.684%) · 64 functions</title>
+<title>arm9/096 · 8,608 bytes · 1,464 verified (17.007%) · 64 functions</title>
 <rect x="546.28" y="531.66" width="59.28" height="39.50" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="546.28" y="531.66" width="5.363" height="39.50" fill="#2ea043"/>
+<rect x="546.28" y="531.66" width="10.947" height="39.50" fill="#2ea043"/>
 <text x="551.3" y="546.7" class="tile">arm9/097</text>
-<title>arm9/097 · 7,516 bytes · 680 verified (9.047%) · 64 functions</title>
+<title>arm9/097 · 7,516 bytes · 1,388 verified (18.467%) · 64 functions</title>
 <rect x="546.28" y="571.16" width="59.28" height="42.50" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="546.28" y="571.16" width="5.396" height="42.50" fill="#2ea043"/>
+<rect x="546.28" y="571.16" width="6.891" height="42.50" fill="#2ea043"/>
 <text x="551.3" y="586.2" class="tile">arm9/098</text>
-<title>arm9/098 · 8,086 bytes · 736 verified (9.102%) · 64 functions</title>
+<title>arm9/098 · 8,086 bytes · 940 verified (11.625%) · 64 functions</title>
 <rect x="546.28" y="613.65" width="59.28" height="57.35" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="546.28" y="613.65" width="3.759" height="57.35" fill="#2ea043"/>
 <text x="551.3" y="628.7" class="tile">arm9/099</text>
@@ -374,9 +374,9 @@
 <rect x="805.74" y="363.44" width="3.200" height="55.69" fill="#2ea043"/>
 <title>arm9/103 · 9,528 bytes · 572 verified (6.003%) · 64 functions</title>
 <rect x="605.56" y="419.13" width="60.64" height="40.36" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="605.56" y="419.13" width="3.397" height="40.36" fill="#2ea043"/>
+<rect x="605.56" y="419.13" width="4.539" height="40.36" fill="#2ea043"/>
 <text x="610.6" y="434.1" class="tile">arm9/104</text>
-<title>arm9/104 · 7,856 bytes · 440 verified (5.601%) · 64 functions</title>
+<title>arm9/104 · 7,856 bytes · 588 verified (7.485%) · 64 functions</title>
 <rect x="605.56" y="459.49" width="60.64" height="69.74" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="605.56" y="459.49" width="0.938" height="69.74" fill="#2ea043"/>
 <text x="610.6" y="474.5" class="tile">arm9/105</text>
@@ -390,35 +390,35 @@
 <text x="610.6" y="597.6" class="tile">arm9/107</text>
 <title>arm9/107 · 6,534 bytes · 532 verified (8.142%) · 64 functions</title>
 <rect x="605.56" y="616.15" width="60.64" height="54.85" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="605.56" y="616.15" width="2.510" height="54.85" fill="#2ea043"/>
+<rect x="605.56" y="616.15" width="5.305" height="54.85" fill="#2ea043"/>
 <text x="610.6" y="631.1" class="tile">arm9/108</text>
-<title>arm9/108 · 10,678 bytes · 442 verified (4.139%) · 64 functions</title>
+<title>arm9/108 · 10,678 bytes · 934 verified (8.747%) · 64 functions</title>
 <rect x="666.21" y="419.13" width="36.16" height="50.72" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="666.21" y="419.13" width="24.616" height="50.72" fill="#2ea043"/>
-<title>arm9/109 · 5,888 bytes · 4,008 verified (68.071%) · 64 functions</title>
+<rect x="666.21" y="419.13" width="26.335" height="50.72" fill="#2ea043"/>
+<title>arm9/109 · 5,888 bytes · 4,288 verified (72.826%) · 64 functions</title>
 <rect x="702.37" y="419.13" width="49.50" height="50.72" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="702.37" y="419.13" width="41.321" height="50.72" fill="#2ea043"/>
 <title>arm9/110 · 8,060 bytes · 6,728 verified (83.474%) · 64 functions</title>
 <rect x="751.87" y="419.13" width="107.17" height="50.72" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="751.87" y="419.13" width="9.065" height="50.72" fill="#2ea043"/>
+<rect x="751.87" y="419.13" width="10.957" height="50.72" fill="#2ea043"/>
 <text x="756.9" y="434.1" class="tile">arm9/111</text>
-<title>arm9/111 · 17,449 bytes · 1,476 verified (8.459%) · 64 functions</title>
+<title>arm9/111 · 17,449 bytes · 1,784 verified (10.224%) · 64 functions</title>
 <rect x="666.21" y="469.86" width="104.26" height="96.52" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="666.21" y="469.86" width="1.162" height="96.52" fill="#2ea043"/>
+<rect x="666.21" y="469.86" width="1.717" height="96.52" fill="#2ea043"/>
 <text x="671.2" y="484.9" class="tile">arm9/112</text>
-<title>arm9/112 · 32,304 bytes · 360 verified (1.114%) · 64 functions</title>
+<title>arm9/112 · 32,304 bytes · 532 verified (1.647%) · 64 functions</title>
 <rect x="770.47" y="469.86" width="88.56" height="96.52" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="770.47" y="469.86" width="5.926" height="96.52" fill="#2ea043"/>
+<rect x="770.47" y="469.86" width="6.081" height="96.52" fill="#2ea043"/>
 <text x="775.5" y="484.9" class="tile">arm9/113</text>
-<title>arm9/113 · 27,440 bytes · 1,836 verified (6.691%) · 64 functions</title>
+<title>arm9/113 · 27,440 bytes · 1,884 verified (6.866%) · 64 functions</title>
 <rect x="666.21" y="566.38" width="61.76" height="56.64" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="666.21" y="566.38" width="25.654" height="56.64" fill="#2ea043"/>
+<rect x="666.21" y="566.38" width="32.716" height="56.64" fill="#2ea043"/>
 <text x="671.2" y="581.4" class="tile">arm9/114</text>
-<title>arm9/114 · 11,228 bytes · 4,664 verified (41.539%) · 64 functions</title>
+<title>arm9/114 · 11,228 bytes · 5,948 verified (52.975%) · 64 functions</title>
 <rect x="666.21" y="623.02" width="61.76" height="47.98" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="666.21" y="623.02" width="39.605" height="47.98" fill="#2ea043"/>
+<rect x="666.21" y="623.02" width="45.630" height="47.98" fill="#2ea043"/>
 <text x="671.2" y="638.0" class="tile">arm9/115</text>
-<title>arm9/115 · 9,512 bytes · 6,100 verified (64.130%) · 64 functions</title>
+<title>arm9/115 · 9,512 bytes · 7,028 verified (73.886%) · 64 functions</title>
 <rect x="727.96" y="566.38" width="43.08" height="38.85" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="727.96" y="566.38" width="39.810" height="38.85" fill="#2ea043"/>
 <title>arm9/116 · 5,372 bytes · 4,964 verified (92.405%) · 64 functions</title>
@@ -429,16 +429,16 @@
 <rect x="771.05" y="566.38" width="33.946" height="57.45" fill="#2ea043"/>
 <title>arm9/118 · 6,892 bytes · 6,260 verified (90.830%) · 64 functions</title>
 <rect x="808.42" y="566.38" width="50.62" height="57.45" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="808.42" y="566.38" width="28.675" height="57.45" fill="#2ea043"/>
-<title>arm9/119 · 9,334 bytes · 5,288 verified (56.653%) · 64 functions</title>
+<rect x="808.42" y="566.38" width="32.515" height="57.45" fill="#2ea043"/>
+<title>arm9/119 · 9,334 bytes · 5,996 verified (64.238%) · 64 functions</title>
 <rect x="771.05" y="623.83" width="58.23" height="47.17" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="771.05" y="623.83" width="22.217" height="47.17" fill="#2ea043"/>
+<rect x="771.05" y="623.83" width="24.515" height="47.17" fill="#2ea043"/>
 <text x="776.0" y="638.8" class="tile">arm9/120</text>
-<title>arm9/120 · 8,817 bytes · 3,364 verified (38.154%) · 64 functions</title>
+<title>arm9/120 · 8,817 bytes · 3,712 verified (42.100%) · 64 functions</title>
 <rect x="829.28" y="623.83" width="29.76" height="47.17" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="829.28" y="623.83" width="3.447" height="47.17" fill="#2ea043"/>
 <title>arm9/121 · 4,506 bytes · 522 verified (11.585%) · 63 functions</title>
-<text x="31.0" y="138.0" class="module" font-size="13">ARM9 · 12.222%</text>
+<text x="31.0" y="138.0" class="module" font-size="13">ARM9 · 17.209%</text>
 <rect x="865.03" y="120.00" width="310.97" height="188.15" rx="3" fill="#15202c" stroke="#5b7187" stroke-width="1.7"/>
 <rect x="871.03" y="146.00" width="48.58" height="36.39" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="871.03" y="146.00" width="1.500" height="36.39" fill="#2ea043"/>

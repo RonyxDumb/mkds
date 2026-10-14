@@ -1,22 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02060414. No matching claim. */
-#include "types.h"
-#include "deps/02060414_func_02060414.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint func_02060414(undefined4 param_1,undefined4 param_2)
+// PURPOSE: Checks whether a cup entry has a record value.
+// Takes the cup and class indices used by the save-data helper.
+// Copies the probably matching entry into a local buffer.
+// Returns its record value, or -1 when no record exists.
 
+extern void CopyCupEntryTo_from_thumb(int entryIndex, int cupIndex,
+                                      void *cupEntry);
+
+int func_02060414(int entryIndex, int cupIndex)
 {
-  uint uVar1;
-  undefined1 auStack_28 [24];
-  char local_10;
-  byte bStack_f;
-  
-  CopyCupEntryTo_from_thumb(param_1,param_2,(undefined4)(uintptr_t)(auStack_28));
-  if (local_10 == '\0') {
-    uVar1 = 0xffffffff;
-  }
-  else {
-    uVar1 = (uint)bStack_f;
-  }
-  return uVar1;
-}
+    unsigned char entry[0x24];
 
+    CopyCupEntryTo_from_thumb(entryIndex, cupIndex, entry);
+    if (entry[0x18] != 0) {
+        return entry[0x19];
+    }
+    return -1;
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Animation_Update",
+    "target": 34110944,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959417032
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Animation_Update",
+    "target": 34110944,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959417030
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Animation_Update",
+    "target": 34110944,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959417028
+  }
+]

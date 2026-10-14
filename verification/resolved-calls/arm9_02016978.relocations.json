@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "MaybeBoundsCheck",
+    "target": 34812532,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942937144
+  }
+]

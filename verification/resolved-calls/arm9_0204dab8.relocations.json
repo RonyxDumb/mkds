@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "SomeFileAsyncReadFunc",
+    "target": 33869660,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422227
+  },
+  {
+    "offset": 132,
+    "type": 2,
+    "symbol": "SDK_data_02175ec0",
+    "target": 35086016,
+    "thumb": false,
+    "addend": 0,
+    "value": 35086016
+  }
+]

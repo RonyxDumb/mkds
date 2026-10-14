@@ -1,18 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 020603bc. No matching claim. */
-#include "types.h"
-#include "deps/020603bc_CupGetResult.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined1 CupGetResult(undefined4 param_1,undefined4 param_2)
+// PURPOSE: Gets the result stored for a cup entry.
+// Copies the requested cup entry into a temporary record.
+// Returns its result byte, or three when the entry has no result.
 
-{
-  undefined1 auStack_28 [24];
-  char local_10;
-  undefined1 uStack_c;
-  
-  CopyCupEntryTo_from_thumb(param_1,param_2,(undefined4)(uintptr_t)(auStack_28));
-  if (local_10 == '\0') {
-    uStack_c = 3;
-  }
-  return uStack_c;
+typedef struct CupEntry {
+    unsigned char pad0[0x18];
+    unsigned char has_result;
+    unsigned char pad19[3];
+    unsigned char result;
+} CupEntry;
+
+extern void CopyCupEntryTo_from_thumb(int cup, int entry, CupEntry *out);
+
+int CupGetResult(int cup, int entry) {
+    CupEntry result;
+
+    CopyCupEntryTo_from_thumb(cup, entry, &result);
+    if (result.has_result != 0) {
+        return result.result;
+    }
+    return 3;
 }
-

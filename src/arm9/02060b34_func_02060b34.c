@@ -1,14 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02060b34. No matching claim. */
-#include "types.h"
-#include "deps/02060b34_func_02060b34.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-bool func_02060b34(undefined4 param_1)
+// PURPOSE: Checks whether an online record has its status flag set.
+// Reads the saved online information for the requested slot.
+// The record layout is only known through its one-bit status field at offset 0x22.
 
-{
-  undefined1 auStack_28 [34];
-  byte local_6;
-  
-  GlobalZ_GetOI(param_1,(int)(uintptr_t)(auStack_28));
-  return (int)((uint)local_6 << 0x1f) < 0;
+typedef struct OnlineInfo {
+    unsigned char unknown_00[0x22];
+    unsigned char status : 1;
+    unsigned char unknown_23;
+} OnlineInfo;
+
+extern int GlobalZ_GetOI(int slot, OnlineInfo *output);
+
+int func_02060b34(int slot) {
+    OnlineInfo info;
+
+    GlobalZ_GetOI(slot, &info);
+    return info.status == 1;
 }
-

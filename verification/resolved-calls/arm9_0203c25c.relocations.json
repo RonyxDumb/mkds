@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "GetCurrentLapCount",
+    "target": 33834520,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942654169
+  },
+  {
+    "offset": 132,
+    "type": 2,
+    "symbol": "SDK_data_0217561c",
+    "target": 35083804,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083804
+  }
+]

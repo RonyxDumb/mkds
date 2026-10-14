@@ -1,0 +1,92 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959262359
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "MaybeGetBBMtxAtPosition",
+    "target": 34499772,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942728626
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959262353
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959262349
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "StructMapObject_MaybeSetNsbcaFrame",
+    "target": 34191228,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942651473
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "DrawObject2D3D",
+    "target": 34192172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942651704
+  },
+  {
+    "offset": 164,
+    "type": 1,
+    "symbol": "func_0209ba58",
+    "target": 34191960,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942651645
+  },
+  {
+    "offset": 204,
+    "type": 1,
+    "symbol": "func_020e5668",
+    "target": 34494056,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942727159
+  },
+  {
+    "offset": 224,
+    "type": 1,
+    "symbol": "func_020e53ac",
+    "target": 34493356,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942726979
+  },
+  {
+    "offset": 244,
+    "type": 2,
+    "symbol": "SDK_data_0217b0e8",
+    "target": 35107048,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107048
+  }
+]

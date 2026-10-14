@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Wm_GetGlobal",
+    "target": 34876072,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421021
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "DC_InvalidateRangeNoClean",
+    "target": 33615420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959105830
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "CopyMemory16",
+    "target": 34918396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942654334
+  }
+]

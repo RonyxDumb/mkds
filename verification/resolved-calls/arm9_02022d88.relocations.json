@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "NFTR_Process",
+    "target": 33703580,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647359
+  },
+  {
+    "offset": 76,
+    "type": 2,
+    "symbol": "SDK_data_021530e8",
+    "target": 34943208,
+    "thumb": false,
+    "addend": 0,
+    "value": 34943208
+  }
+]

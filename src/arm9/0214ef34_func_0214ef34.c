@@ -1,37 +1,34 @@
-/* Decompiled C draft; module arm9; ROM address 0214ef34. No matching claim. */
-#include "types.h"
-#include "deps/0214ef34_func_0214ef34.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-bool func_0214ef34(uint param_1,uint param_2,uint param_3,uint param_4)
+// PURPOSE: Starts automatic microphone sampling through the FIFO.
+// The first three arguments carry the buffer address, size, and sample interval.
+// The fourth argument supplies the microphone format bits for the start command.
+// Each 32-bit parameter is sent as two tagged 16-bit FIFO payloads.
 
+typedef unsigned int u32;
+
+extern int Fifo_SendWord(u32 channel, u32 word, int async);
+
+int func_0214ef34(u32 bufferAddress, u32 bufferSize, u32 interval, u32 format)
 {
-  int iVar1;
-  
-  iVar1 = Fifo_SendWord(9,param_4 | uRam0214f054,0);
-  if (iVar1 < 0) {
-    return false;
-  }
-  iVar1 = Fifo_SendWord(9,param_1 >> 0x10 | 0x10000,0);
-  if (iVar1 < 0) {
-    return false;
-  }
-  iVar1 = Fifo_SendWord(9,param_1 & uRam0214f058 | 0x20000,0);
-  if (iVar1 < 0) {
-    return false;
-  }
-  iVar1 = Fifo_SendWord(9,param_2 >> 0x10 | 0x30000,0);
-  if (-1 < iVar1) {
-    iVar1 = Fifo_SendWord(9,param_2 & uRam0214f058 | 0x40000,0);
-    if (iVar1 < 0) {
-      return false;
+    if (Fifo_SendWord(9, format | 0x02004100, 0) < 0) {
+        return 0;
     }
-    iVar1 = Fifo_SendWord(9,param_3 >> 0x10 | 0x50000,0);
-    if (-1 < iVar1) {
-      iVar1 = Fifo_SendWord(9,param_3 & uRam0214f058 | uRam0214f05c,0);
-      return -1 < iVar1;
+    if (Fifo_SendWord(9, (bufferAddress >> 16) | 0x00010000, 0) < 0) {
+        return 0;
     }
-    return false;
-  }
-  return false;
-}
+    if (Fifo_SendWord(9, (bufferAddress & 0x0000ffff) | 0x00020000, 0) < 0) {
+        return 0;
+    }
+    if (Fifo_SendWord(9, (bufferSize >> 16) | 0x00030000, 0) < 0) {
+        return 0;
+    }
+    if (Fifo_SendWord(9, (bufferSize & 0x0000ffff) | 0x00040000, 0) < 0) {
+        return 0;
+    }
+    if (Fifo_SendWord(9, (interval >> 16) | 0x00050000, 0) < 0) {
+        return 0;
+    }
 
+    return Fifo_SendWord(9, (interval & 0x0000ffff) | 0x01060000, 0) >= 0;
+}

@@ -1,48 +1,63 @@
-/* Decompiled C draft; module arm9; ROM address 020937c4. No matching claim. */
-#include "types.h"
-#include "deps/020937c4_func_020937c4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_020937c4(uint param_1,uint param_2,undefined2 param_3)
+/* PURPOSE: Sets up (spawns) a moving game object from a spawn-description.
+ * Arguments: arg0 = a position record (x,y,z), arg1 = a velocity/scale
+ * record (uses fields 0 and 8), arg2 = a small id/type value (u16).
+ * Calls func_02100138(0x1a2) (probably registers/inits a subsystem),
+ * then asks func_0209bbfc() for a fresh object slot; if none is free it
+ * returns silently. Otherwise it fills the object: lifetime 0x258 at
+ * +0xa0, copies the position (y is offset by +0x2a000), copies two
+ * fields of arg1 to +0x40/+0x48, and stores arg1.x and arg1.z scaled by
+ * 6.0 in fx (value*0x6000>>12) at +0x10/+0x18. The id goes to the u16 at
+ * +0x7e. Several fields are zeroed. */
 
+typedef struct {
+    int x;   /* +0 */
+    int y;   /* +4 */
+    int z;   /* +8 */
+} Vec3;
+
+typedef struct {
+    char pad0[4];
+    int f4;              /* +0x04 */
+    int f8;              /* +0x08 */
+    int fc;              /* +0x0c */
+    int f10;             /* +0x10 */
+    int f14;             /* +0x14 */
+    int f18;             /* +0x18 */
+    char pad1c[0x40 - 0x1c];
+    int f40;             /* +0x40 */
+    int f44;             /* +0x44 */
+    int f48;             /* +0x48 */
+    char pad4c[0x7e - 0x4c];
+    unsigned short f7e;  /* +0x7e */
+    char pad80[0xa0 - 0x80];
+    int fa0;             /* +0xa0 */
+    int fa4;             /* +0xa4 */
+} Obj;
+
+extern void func_02100138(int arg);
+extern Obj *func_0209bbfc(void);
+
+void func_020937c4(Vec3 *pos, Vec3 *vel, int id)
 {
-  uint uVar1;
-  longlong lVar2;
-  int iVar3;
-  uint uVar4;
-  
-  func_02100138(uRam02093880);
-  iVar3 = func_0209bbfc();
-  if (iVar3 != 0) {
-    *(undefined4 *)(iVar3 + 0xa0) = 600;
-    *(uint *)(iVar3 + 4) =
-         *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-         *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-    uVar1 = param_1 + 4 & 3;
-    uVar4 = *(uint *)(param_1 + 4 & 0xfffffffc);
-    *(uint *)(iVar3 + 8) = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x2a000;
-    uVar1 = param_1 + 8 & 3;
-    uVar4 = *(uint *)(param_1 + 8 & 0xfffffffc);
-    *(uint *)(iVar3 + 0xc) = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-    *(uint *)(iVar3 + 0x40) =
-         *(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-         *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20;
-    *(undefined4 *)(iVar3 + 0x44) = 0;
-    uVar1 = param_2 + 8 & 3;
-    uVar4 = *(uint *)(param_2 + 8 & 0xfffffffc);
-    *(uint *)(iVar3 + 0x48) = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-    lVar2 = (ulonglong)
-            (*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-            *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) * 0x6000;
-    *(uint *)(iVar3 + 0x10) = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) * 0x100000;
-    *(undefined4 *)(iVar3 + 0x14) = 0;
-    uVar1 = param_2 + 8 & 3;
-    uVar4 = *(uint *)(param_2 + 8 & 0xfffffffc);
-    lVar2 = (ulonglong)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) * 0x6000;
-    *(uint *)(iVar3 + 0x18) = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) * 0x100000;
-    *(undefined2 *)(iVar3 + 0x7e) = param_3;
-    *(undefined4 *)(iVar3 + 0xa4) = 0;
-    return;
-  }
-  return;
-}
+    Obj *o;
 
+    func_02100138(0x1a2);
+    o = func_0209bbfc();
+    if (o == 0)
+        return;
+
+    o->fa0 = 0x258;
+    o->f4 = pos->x;
+    o->f8 = pos->y + 0x2a000;
+    o->fc = pos->z;
+    o->f40 = vel->x;
+    o->f44 = 0;
+    o->f48 = vel->z;
+    o->f10 = (int)(((long long)vel->x * 0x6000) >> 12);
+    o->f14 = 0;
+    o->f18 = (int)(((long long)vel->z * 0x6000) >> 12);
+    o->f7e = (unsigned short)id;
+    o->fa4 = 0;
+}

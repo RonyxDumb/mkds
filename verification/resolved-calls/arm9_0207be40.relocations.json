@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "GetLoadedNkmPathEntryPOIT",
+    "target": 33824836,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959363690
+  },
+  {
+    "offset": 136,
+    "type": 2,
+    "symbol": "SDK_data_02175620",
+    "target": 35083808,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083808
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "MTX_Concat33",
+    "target": 34893308,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942718754
+  },
+  {
+    "offset": 104,
+    "type": 2,
+    "symbol": "SDK_data_0217c600",
+    "target": 35112448,
+    "thumb": false,
+    "addend": 0,
+    "value": 35112448
+  }
+]

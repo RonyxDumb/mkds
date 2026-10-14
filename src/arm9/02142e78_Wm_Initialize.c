@@ -1,18 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 02142e78. No matching claim. */
-#include "types.h"
-#include "deps/02142e78_Wm_Initialize.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217eed4 SDK_data_0217eed4
+// PURPOSE: Initializes the wireless manager state.
+// Takes the manager work pointer and DMA channel from its caller.
+// Probably clears the manager's status field after successful setup.
 
-void Wm_Initialize(void)
+extern int Wm_InitializeImpl(void *work, unsigned int dma_channel, unsigned int size);
+extern unsigned char *data_0217eed4;
 
-{
-  int iVar1;
-  
-  iVar1 = Wm_InitializeImpl();
-  if (iVar1 == 0) {
-    *(undefined2 *)
-     ((*(uint *)(uRam02142ea8 & 0xfffffffc) >> (uRam02142ea8 & 3) * 8 |
-      *(uint *)(uRam02142ea8 & 0xfffffffc) << (uRam02142ea8 & 3) * -8 + 0x20) + 0x16) = 0;
-  }
-  return;
+int Wm_Initialize(void *work, unsigned int dma_channel) {
+    if (Wm_InitializeImpl(work, dma_channel, 0xf00) == 0) {
+        *(unsigned short *)(data_0217eed4 + 0x16) = 0;
+    }
 }
-

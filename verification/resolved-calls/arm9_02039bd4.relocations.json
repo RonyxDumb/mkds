@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "GX_SetBankForLCDC",
+    "target": 34902744,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942923699
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "Mem_CpuFastMemorySet",
+    "target": 34918492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942927630
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "Mem_CpuFastMemorySet",
+    "target": 34918492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942927624
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "GX_SetBankForLCDC",
+    "target": 34902744,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942923684
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "Mem_CpuFastMemorySet",
+    "target": 34918492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942927615
+  },
+  {
+    "offset": 136,
+    "type": 1,
+    "symbol": "GX_DisableBankForLCDC",
+    "target": 34901420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942923346
+  },
+  {
+    "offset": 152,
+    "type": 2,
+    "symbol": "SDK_data_02175614",
+    "target": 35083796,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083796
+  }
+]

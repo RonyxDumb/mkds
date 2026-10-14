@@ -1,75 +1,63 @@
-/* Decompiled C draft; module arm9; ROM address 02081e5c. No matching claim. */
-#include "types.h"
-#include "deps/02081e5c_func_02081e5c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_02081e5c(int param_1,int param_2)
+/* PURPOSE: Advances one racer's scrolled screen position and ticks its
+   spawn/place counter each frame.
+   obj  = the racer/entity object (r0).
+   skip = if nonzero, do nothing this frame (r1).
+   Reads a shared base pointer (obj->f20) plus this racer's delta vector
+   (from its driver-table entry) and writes the three scrolled coords
+   (0x28/0x2c/0x30 = base + delta>>4). Then it either bumps a small
+   progress counter (0x9a) while it is below the target (0x99), or, once
+   it reaches the target exactly, sets a "done" flag bit in obj->f24.
+   The base pointer is re-read for every coord (aliasing), so it is not
+   cached in a local. */
 
-{
-  uint uVar1;
-  byte bVar2;
-  int iVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar8;
-  uint uVar9;
-  uint uVar7;
-  
-  if (param_2 != 0) {
+typedef struct { int f0, f4, f8, fc; } Vec;
+typedef struct { int x, y, z; } Delta;              /* delta at entry+0x508 */
+typedef struct { char _pad[0x508]; Delta *d; } DriverEntry;
+
+typedef struct {
+    char _pad0[0x20];
+    Vec **f20;              /* 0x20: pointer to shared base-vector pointer */
+    unsigned int f24 : 1;   /* 0x24 bit0: done flag */
+    unsigned int f24_rest : 31;
+    int f28;               /* 0x28: scrolled X */
+    int f2c;               /* 0x2c: scrolled Y */
+    int f30;               /* 0x30: scrolled Z */
+    char _pad34[0x99 - 0x34];
+    unsigned char f99;     /* 0x99: target count */
+    unsigned char f9a;     /* 0x9a: current count */
+    unsigned char f9b;     /* 0x9b: driver id */
+} Obj;
+
+extern DriverEntry *GetDriverEntry(int id);
+
+void func_02081e5c(Obj *obj, int skip) {
+    DriverEntry *entry;
+    Delta *d;
+    int dx, dy, dz;                 /* hoisted up-front (eager load) */
+    unsigned char a, b, lim;
+
+    if (skip) return;
+
+    b = obj->f9b;
+    a = obj->f9a;                   /* survives the call -> callee-saved */
+    entry = GetDriverEntry(b);
+    d = entry->d;
+    dx = d->x;
+    dy = d->y;
+    dz = d->z;
+
+    obj->f28 = (dx >> 4) + (*obj->f20)->f4;   /* operand order -> base=r0,dx=r1 */
+    obj->f2c = (*obj->f20)->f8 + (dy >> 4);
+    obj->f30 = (*obj->f20)->fc + (dz >> 4);
+
+    lim = obj->f99;
+    if ((unsigned int)a < lim) goto bump;   /* real blo to duplicated tail */
+    if (a == lim) {
+        obj->f24 = 1;              /* bitfield set -> bic #1 ; orr #1 */
+    }
     return;
-  }
-  bVar2 = *(byte *)(param_1 + 0x9a);
-  iVar3 = GetDriverEntry(*(undefined1 *)(param_1 + 0x9b));
-  uVar5 = iVar3 + 0x508U & 3;
-  uVar6 = *(uint *)(iVar3 + 0x508U & 0xfffffffc);
-  uVar7 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
-  uVar5 = param_1 + 0x20U & 3;
-  uVar6 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-  uVar6 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
-  uVar5 = uVar6 & 3;
-  uVar4 = *(uint *)(uVar6 & 0xfffffffc);
-  uVar6 = uVar7 + 4 & 3;
-  uVar9 = *(uint *)(uVar7 + 4 & 0xfffffffc);
-  uVar5 = (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) + 4;
-  uVar4 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  uVar1 = uVar7 + 8 & 3;
-  uVar8 = *(uint *)(uVar7 + 8 & 0xfffffffc);
-  *(uint *)(param_1 + 0x28) =
-       (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) +
-       ((int)(*(uint *)(uVar7 & 0xfffffffc) >> (uVar7 & 3) * 8 |
-             *(uint *)(uVar7 & 0xfffffffc) << (uVar7 & 3) * -8 + 0x20) >> 4);
-  uVar5 = param_1 + 0x20U & 3;
-  uVar4 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-  uVar4 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-  uVar5 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  uVar5 = (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) + 8;
-  uVar4 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  *(uint *)(param_1 + 0x2c) =
-       (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) +
-       ((int)(uVar9 >> uVar6 * 8 | uVar9 << uVar6 * -8 + 0x20) >> 4);
-  uVar5 = param_1 + 0x20U & 3;
-  uVar6 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-  uVar6 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
-  uVar5 = uVar6 & 3;
-  uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-  uVar5 = (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) + 0xc;
-  uVar6 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  *(uint *)(param_1 + 0x30) =
-       (uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) +
-       ((int)(uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20) >> 4);
-  if (bVar2 < *(byte *)(param_1 + 0x99)) {
-    *(byte *)(param_1 + 0x9a) = bVar2 + 1;
-    return;
-  }
-  if (bVar2 == *(byte *)(param_1 + 0x99)) {
-    uVar5 = param_1 + 0x24U & 3;
-    uVar6 = *(uint *)(param_1 + 0x24U & 0xfffffffc);
-    *(uint *)(param_1 + 0x24) = (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) & 0xfffffffe | 1;
-  }
-  return;
+bump:
+    obj->f9a = a + 1;
 }
-

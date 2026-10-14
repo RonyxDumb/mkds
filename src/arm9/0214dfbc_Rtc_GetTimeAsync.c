@@ -1,35 +1,47 @@
-/* Decompiled C draft; module arm9; ROM address 0214dfbc. No matching claim. */
-#include "types.h"
-#include "deps/0214dfbc_Rtc_GetTimeAsync.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021803b0 SDK_data_021803b0
+// PURPOSE: Starts an asynchronous read of the current time.
+// The arguments are saved for the completion handler, probably as output data and a callback.
+// Only one RTC time read may run at once.
 
-undefined4 Rtc_GetTimeAsync(undefined4 param_1,undefined4 param_2,undefined4 param_3)
+typedef unsigned int u32;
 
+typedef struct RtcTimeRequest {
+    int busy;
+    void *arg1;
+    void *arg0;
+    unsigned char unknown0c[4];
+    void *arg2;
+    void *unknown14;
+    void *unknown18;
+} RtcTimeRequest;
+
+extern RtcTimeRequest data_021803b0;
+extern u32 Os_DisableIrq(void);
+extern void Os_RestoreIrq(u32 state);
+extern int Rtc_ReadRawTimeAsync(void);
+
+int Rtc_GetTimeAsync(void *arg0, void *arg1, void *arg2)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined4 uVar3;
-  
-  Os_DisableIrq();
-  if (*(uint *)((uint)puRam0214e034 & 0xfffffffc) >> ((uint)puRam0214e034 & 3) * 8 == 0 &&
-      *(uint *)((uint)puRam0214e034 & 0xfffffffc) << ((uint)puRam0214e034 & 3) * -8 + 0x20 == 0) {
-    *puRam0214e034 = 1;
-    Os_RestoreIrq();
-    puVar1 = puRam0214e034;
-    puRam0214e034[5] = 1;
-    puVar1[6] = 0;
-    puVar1[2] = param_1;
-    puVar1[1] = param_2;
-    puVar1[4] = param_3;
-    iVar2 = Rtc_ReadRawTimeAsync();
-    if (iVar2 == 0) {
-      uVar3 = 3;
-    }
-    else {
-      uVar3 = 0;
-    }
-    return uVar3;
-  }
-  Os_RestoreIrq();
-  return 1;
-}
+    u32 state;
 
+    state = Os_DisableIrq();
+    if (data_021803b0.busy != 0) {
+        Os_RestoreIrq(state);
+        return 1;
+    }
+
+    data_021803b0.busy = 1;
+    Os_RestoreIrq(state);
+
+    data_021803b0.unknown14 = (void *)1;
+    data_021803b0.unknown18 = 0;
+    data_021803b0.arg0 = arg0;
+    data_021803b0.arg1 = arg1;
+    data_021803b0.arg2 = arg2;
+
+    if (Rtc_ReadRawTimeAsync() != 0) {
+        return 0;
+    }
+    return 3;
+}

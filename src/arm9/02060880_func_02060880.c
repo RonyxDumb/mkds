@@ -1,19 +1,30 @@
-/* Decompiled C draft; module arm9; ROM address 02060880. No matching claim. */
-#include "types.h"
-#include "deps/02060880_func_02060880.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 func_02060880(undefined4 param_1,int param_2)
+// PURPOSE: Updates an online record's status flag when the record is valid.
+// Reads the selected online-information record into a temporary buffer.
+// The second argument probably controls the record's bit-three status flag.
 
+typedef struct OnlineInfo {
+    unsigned char unknown_00[0x22];
+    unsigned char valid : 1;
+    unsigned char unknown_01 : 2;
+    unsigned char status : 1;
+    unsigned char remaining_flags : 4;
+    unsigned char unknown_23;
+} OnlineInfo;
+
+extern int GlobalZ_GetOI(int slot, OnlineInfo *output);
+extern void GlobalZ_SetOI(int slot, const OnlineInfo *input);
+
+int func_02060880(int slot, int enabled)
 {
-  undefined1 auStack_30 [34];
-  byte local_e;
-  
-  GlobalZ_GetOI(param_1,(int)(uintptr_t)(auStack_30));
-  if (-1 < (int)((uint)local_e << 0x1f)) {
-    return 0;
-  }
-  local_e = local_e & 0xf7 | (param_2 != 0) << 3;
-  GlobalZ_SetOI(param_1,(undefined4)(uintptr_t)(auStack_30));
-  return 1;
-}
+    OnlineInfo info;
 
+    GlobalZ_GetOI(slot, &info);
+    if (info.valid == 1) {
+        info.status = enabled != 0;
+        GlobalZ_SetOI(slot, &info);
+        return 1;
+    }
+    return 0;
+}

@@ -1,22 +1,42 @@
-/* Decompiled C draft; module arm9; ROM address 020b4e0c. No matching claim. */
-#include "types.h"
-#include "deps/020b4e0c_CheckCourseSomeVectorBounds.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 CheckCourseSomeVectorBounds(void)
+// PURPOSE: Checks whether the current player's course vector is in bounds.
+// It returns allowed by default for most courses.
+// On the two special courses, it probably checks the player's current position.
 
+typedef signed int s32;
+typedef unsigned char u8;
+
+typedef struct VecFx32 {
+    s32 x;
+    s32 y;
+    s32 z;
+} VecFx32;
+
+extern int GetCurrentInternalCourseId_0(void);
+extern int GetCurrentPlayerRacerId(void);
+extern void GetDriverVec354(VecFx32 *vector, u8 racerId);
+extern int CheckVectorBounds_Clock_Airship(VecFx32 *vector);
+
+int CheckCourseSomeVectorBounds(void)
 {
-  undefined1 uVar1;
-  int iVar2;
-  undefined4 uVar3;
-  undefined1 auStack_18 [16];
-  
-  uVar3 = 1;
-  iVar2 = GetCurrentInternalCourseId_0();
-  if ((iVar2 == 0x11) || (iVar2 == 0x13)) {
-    uVar1 = GetCurrentPlayerRacerId();
-    GetDriverVec354((undefined4 *)(void *)(auStack_18),uVar1);
-    uVar3 = CheckVectorBounds_Clock_Airship((uint)(uintptr_t)(auStack_18));
-  }
-  return uVar3;
-}
+    int result = 1;
+    int course;
 
+    course = GetCurrentInternalCourseId_0();
+    if (course != 0x11) {
+        if (course != 0x13) {
+            goto done;
+        }
+    }
+
+    {
+        VecFx32 vector;
+
+        GetDriverVec354(&vector, (u8)GetCurrentPlayerRacerId());
+        result = CheckVectorBounds_Clock_Airship(&vector);
+    }
+
+done:
+    return result;
+}

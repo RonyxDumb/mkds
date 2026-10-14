@@ -1,29 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 02142eac. No matching claim. */
-#include "types.h"
-#include "deps/02142eac_func_02142eac.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0216f06c SDK_data_0216f06c
+// PURPOSE: Updates and returns a clock-based counter.
 
-uint func_02142eac(void)
+extern unsigned int data_0216f06c;
+extern void Rtc_Initialize(void);
+extern int Rtc_GetTime(void *time);
 
+unsigned short func_02142eac(void)
 {
-  uint uVar1;
-  int iVar2;
-  undefined1 auStack_10 [4];
-  int local_c;
-  int local_8;
-  
-  if ((*(uint *)((uint)puRam02142f20 & 0xfffffffc) >> ((uint)puRam02142f20 & 3) * 8 |
-      *(uint *)((uint)puRam02142f20 & 0xfffffffc) << ((uint)puRam02142f20 & 3) * -8 + 0x20) ==
-      0x10000) {
-    Rtc_Initialize();
-    iVar2 = Rtc_GetTime((undefined4)(uintptr_t)(auStack_10));
-    if (iVar2 == 0) {
-      *puRam02142f20 = local_8 + local_c * 0x100 & 0xffff;
-    }
-  }
-  uVar1 = (*(uint *)((uint)puRam02142f20 & 0xfffffffc) >> ((uint)puRam02142f20 & 3) * 8 |
-          *(uint *)((uint)puRam02142f20 & 0xfffffffc) << ((uint)puRam02142f20 & 3) * -8 + 0x20) + 1
-          & 0xffff;
-  *puRam02142f20 = uVar1;
-  return uVar1;
-}
+    unsigned int time[3];
 
+    if (data_0216f06c == 0x10000) {
+        Rtc_Initialize();
+        if (Rtc_GetTime(time) == 0) {
+            data_0216f06c = (unsigned short)(time[2] + (time[1] << 8));
+        }
+    }
+
+    return data_0216f06c = (unsigned short)(data_0216f06c + 1);
+}

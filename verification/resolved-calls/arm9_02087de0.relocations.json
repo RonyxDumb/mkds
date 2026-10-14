@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 128,
+    "type": 1,
+    "symbol": "StructML_SomeFn_2",
+    "target": 33622488,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959300828
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "Animation_UpdateImpl",
+    "target": 34110328,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422784
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "MaybeMakeOamSlot",
+    "target": 33694944,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959243873
+  },
+  {
+    "offset": 216,
+    "type": 1,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959223981
+  },
+  {
+    "offset": 260,
+    "type": 1,
+    "symbol": "Mem_DmaFill32",
+    "target": 34917380,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942772230
+  },
+  {
+    "offset": 276,
+    "type": 2,
+    "symbol": "SDK_data_0217b4ac",
+    "target": 35108012,
+    "thumb": false,
+    "addend": 0,
+    "value": 35108012
+  }
+]

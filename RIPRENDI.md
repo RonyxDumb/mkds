@@ -133,3 +133,17 @@ non sommare quelle metriche al corpus corrente.
 REA 6.5.0 + Ghidra 12.1.4 + JDK21 installati in tools/; controllo ownership
 bloccato dal disallineamento tra PID Node e /proc dell'ambiente. Non disabilitare
 il controllo o simulare ps. Raw ARM REA seleziona inoltre ARMv7, non ARMv5T.
+
+## Checkpoint 24 recuperato — 14 ottobre
+
+3.768 funzioni, 286.846 / 1.913.676 byte (14,989267%). +651 funzioni,
++69.680 byte inventariati e +69.800 negli span. 1.409 e 2.359 prove ricompilate,
+7.342 relocazioni risolte. Quattro pool estesi: 120 byte extra non conteggiati.
+Corpus nuovamente ricostruito da ai-tdd-labs/mkds-decomp c6e18fa4b346643b74c402b605a84b43cba16c01,
+non dedotto dai riepiloghi dei precedenti checkpoint perduti. Script
+prepare_mkds_candidates.py; config build/mkds-candidates/config.json; verificatore
+verify_sdk_sources.py con MKDS_SDK_DONOR e MKDS_DONOR_CONFIG. Un solo writer.
+Prove hash-only in checkpoint24-search-summary.json con span_checks espliciti.
+Le nuove prove hex restano ignorate; non pubblicarle. Il pseudocodice Ghidra e
+le osservazioni runtime estese delle sessioni interrotte non sono stati recuperati
+come corpus di artefatti: restano distinti dal matching riprodotto qui.

@@ -1,33 +1,33 @@
-/* Decompiled C draft; module arm9; ROM address 020536e0. No matching claim. */
-#include "types.h"
-#include "deps/020536e0_func_020536e0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa00 SDK_data_0217aa00
+#define func_02053664 SDK_data_02053664
+// PURPOSE: Starts the wireless work callback and marks the request active.
+// Arguments: none; it uses the shared wireless transition context.
+// It probably marks two context flags before starting its embedded work object.
+// If startup does not return status 2, it clears the busy flag.
 
-void func_020536e0(void)
+typedef unsigned int u32;
 
-{
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  int iVar4;
-  
-  uVar2 = uRam02053738;
-  uVar3 = uRam02053734;
-  *(undefined4 *)
-   ((*(uint *)(uRam02053734 & 0xfffffffc) >> (uRam02053734 & 3) * 8 |
-    *(uint *)(uRam02053734 & 0xfffffffc) << (uRam02053734 & 3) * -8 + 0x20) + 0xc) = 1;
-  *(undefined4 *)
-   ((*(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
-    *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) + 0x10) = 1;
-  uVar3 = (*(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
-          *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) + 0x14;
-  uVar1 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  iVar4 = StructWM_SomeFn(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,uVar2,2);
-  if (iVar4 != 2) {
-    *(undefined4 *)
-     ((*(uint *)(uRam02053734 & 0xfffffffc) >> (uRam02053734 & 3) * 8 |
-      *(uint *)(uRam02053734 & 0xfffffffc) << (uRam02053734 & 3) * -8 + 0x20) + 0x10) = 0;
-  }
-  return;
+typedef struct StructWM StructWM;
+
+typedef struct WirelessContext {
+    int state;
+    int unk4;
+    int unk8;
+    int request;
+    int busy;
+    StructWM *work;
+} WirelessContext;
+
+extern WirelessContext *data_0217aa00;
+extern void func_02053664(void);
+extern int StructWM_SomeFn(StructWM *work, int callback, u32 dmaChannel);
+
+void func_020536e0(void) {
+    data_0217aa00->request = 1;
+    data_0217aa00->busy = 1;
+
+    if (StructWM_SomeFn(data_0217aa00->work, (int)func_02053664, 2) != 2) {
+        data_0217aa00->busy = 0;
+    }
 }
-

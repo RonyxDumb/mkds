@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetSomeAED0DriverIdList",
+    "target": 34103384,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657429
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "StructMQRacerEntry_SomeFn_50",
+    "target": 33963204,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959399580
+  },
+  {
+    "offset": 120,
+    "type": 2,
+    "symbol": "SDK_data_021759c0",
+    "target": 35084736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084736
+  },
+  {
+    "offset": 124,
+    "type": 2,
+    "symbol": "SDK_data_0217ad18",
+    "target": 35106072,
+    "thumb": false,
+    "addend": 0,
+    "value": 35106072
+  },
+  {
+    "offset": 132,
+    "type": 2,
+    "symbol": "SDK_data_0217ad14",
+    "target": 35106068,
+    "thumb": false,
+    "addend": 0,
+    "value": 35106068
+  }
+]

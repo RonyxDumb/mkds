@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959264333
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959264329
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959264316
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "DrawObject2D3D",
+    "target": 34192172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942653680
+  },
+  {
+    "offset": 140,
+    "type": 2,
+    "symbol": "SDK_data_0217b0d4",
+    "target": 35107028,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107028
+  }
+]

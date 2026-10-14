@@ -1,37 +1,48 @@
-/* Decompiled C draft; module arm9; ROM address 0210ad58. No matching claim. */
-#include "types.h"
-#include "deps/0210ad58_StructMQRacerEntry_SomeFn_41.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217ccc0 SDK_data_0217ccc0
+#define gRaceConfig SDK_data_021759c0
+// PURPOSE: Records a racer entry unless it belongs to the active racer.
+// The first argument is a racer entry and the second is saved with it.
+// An already-initialized manager does nothing.  The active racer is handled by
+// StructMQRacerEntry_SomeFn_13 instead of being queued.
+typedef signed char s8;
+typedef unsigned short u16;
 
-void StructMQRacerEntry_SomeFn_41(int param_1,undefined4 param_2)
+typedef struct {
+    unsigned char pad00[0x60];
+    int count;
+    int initialized;
+    unsigned char pad68[4];
+    int activeHandled;
+} RacerEntryManager;
 
+typedef struct {
+    unsigned char pad00[0x62];
+    s8 racerIndex;
+} RaceConfig;
+
+typedef struct {
+    unsigned char pad00[0x74];
+    u16 racerIndex;
+} RacerEntry;
+
+extern RacerEntryManager data_0217ccc0;
+extern RaceConfig *gRaceConfig;
+extern void StructMQRacerEntry_SomeFn_13(RacerEntry *entry, void *value, int flag, int reason);
+
+void StructMQRacerEntry_SomeFn_41(RacerEntry *entry, void *value)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar2 = iRam0210adcc;
-  uVar1 = iRam0210adcc + 100U & 3;
-  uVar3 = *(uint *)(iRam0210adcc + 100U & 0xfffffffc);
-  if (uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0) {
-    return;
-  }
-  if ((uint)*(ushort *)(param_1 + 0x74) !=
-      (int)*(char *)((*(uint *)(uRam0210add0 & 0xfffffffc) >> (uRam0210add0 & 3) * 8 |
-                     *(uint *)(uRam0210add0 & 0xfffffffc) << (uRam0210add0 & 3) * -8 + 0x20) + 0x62)
-     ) {
-    uVar1 = iRam0210adcc + 0x60U & 3;
-    uVar3 = *(uint *)(iRam0210adcc + 0x60U & 0xfffffffc);
-    *(int *)(iRam0210adcc + (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) * 4) = param_1;
-    uVar1 = iVar2 + 0x60U & 3;
-    uVar3 = *(uint *)(iVar2 + 0x60U & 0xfffffffc);
-    *(undefined4 *)(iVar2 + (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) * 4 + 0x20) = param_2;
-    uVar1 = iVar2 + 0x60U & 3;
-    uVar3 = *(uint *)(iVar2 + 0x60U & 0xfffffffc);
-    *(uint *)(iVar2 + 0x60) = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 1;
-    return;
-  }
-  StructMQRacerEntry_SomeFn_13(param_1,param_2,1,0x6e);
-  *(undefined4 *)(iVar2 + 0x6c) = 0;
-  return;
-}
+    RacerEntryManager *manager = &data_0217ccc0;
 
+    if (manager->initialized != 0) return;
+
+    if (entry->racerIndex == gRaceConfig->racerIndex) {
+        StructMQRacerEntry_SomeFn_13(entry, value, 1, 0x6e);
+        manager->activeHandled = 0;
+        return;
+    }
+
+    ((RacerEntry **)manager)[manager->count] = entry;
+    ((void **)((unsigned char *)manager + 0x20))[manager->count] = value;
+    manager->count++;
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "NFTR_SomeFn",
+    "target": 34266512,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645796
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "func_020add18",
+    "target": 34266392,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645762
+  }
+]

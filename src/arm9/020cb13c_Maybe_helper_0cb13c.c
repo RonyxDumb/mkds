@@ -1,20 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 020cb13c. No matching claim. */
-#include "types.h"
-#include "deps/020cb13c_Maybe_helper_0cb13c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define Maybe_helper_0287ec Maybe_helper_0cb194
+#define Maybe_check_0287c8 Maybe_check_0cb170
+#define Maybe_helper_028794 Maybe_helper_0cb13c
+#pragma optimize_for_size on
+extern int Maybe_helper_0287ec(void *a0);
+extern int Maybe_check_0287c8(void *a0);
 
-undefined4 Maybe_helper_0cb13c(undefined4 param_1)
-
-{
-  int iVar1;
-  undefined4 uVar2;
-  
-  iVar1 = Maybe_helper_0cb194();
-  if ((iVar1 == 0) && (iVar1 = Maybe_check_0cb170(param_1), iVar1 != 0)) {
-    uVar2 = 1;
-  }
-  else {
-    uVar2 = 0;
-  }
-  return uVar2;
+int Maybe_helper_028794(void *a0) {
+    int r = 0;
+    if (Maybe_helper_0287ec(a0) == 0 && Maybe_check_0287c8(a0) != 0)
+        r = 1;
+    return r;
 }
-

@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "GetExplosionSplashWaveNsbmd_from_thumb",
+    "target": 34417640,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194374246
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "FindFileBuffer_CRS_CST_from_thumb",
+    "target": 33847668,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211008965
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "FindFileBuffer_CRS_CST_from_thumb",
+    "target": 33847668,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211008962
+  },
+  {
+    "offset": 128,
+    "type": 2,
+    "symbol": "SDK_data_02166210",
+    "target": 35021328,
+    "thumb": false,
+    "addend": 0,
+    "value": 35021328
+  },
+  {
+    "offset": 132,
+    "type": 2,
+    "symbol": "SDK_data_02166268",
+    "target": 35021416,
+    "thumb": false,
+    "addend": 0,
+    "value": 35021416
+  },
+  {
+    "offset": 136,
+    "type": 2,
+    "symbol": "SDK_data_02166280",
+    "target": 35021440,
+    "thumb": false,
+    "addend": 0,
+    "value": 35021440
+  }
+]

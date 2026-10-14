@@ -1,13 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 020299f0. No matching claim. */
-#include "types.h"
-#include "deps/020299f0_IsDwc.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-bool IsDwc(void)
+// PURPOSE: Checks whether the DWC boot indicator is active.
+// Probably reads the system boot indicator and accepts only state two.
 
-{
-  short *psVar1;
-  
-  psVar1 = (short *)GetBootIndicatorPointer();
-  return *psVar1 == 2;
+extern unsigned short *GetBootIndicatorPointer(void);
+
+int IsDwc(void) {
+    return *GetBootIndicatorPointer() == 2;
 }
-

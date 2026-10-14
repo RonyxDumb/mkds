@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 168,
+    "type": 1,
+    "symbol": "MTX_RotX33__from_thumb",
+    "target": 34893096,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194418594
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "MTX_RotY33__from_thumb",
+    "target": 34893124,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194418591
+  },
+  {
+    "offset": 224,
+    "type": 1,
+    "symbol": "MTX_Concat33",
+    "target": 34893308,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942760393
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "MTX_RotZ33__from_thumb",
+    "target": 34893152,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194418584
+  },
+  {
+    "offset": 280,
+    "type": 1,
+    "symbol": "MTX_Concat33",
+    "target": 34893308,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942760379
+  },
+  {
+    "offset": 300,
+    "type": 2,
+    "symbol": "SDK_data_0215d4b4",
+    "target": 34985140,
+    "thumb": false,
+    "addend": 0,
+    "value": 34985140
+  }
+]

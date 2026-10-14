@@ -1,19 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 020608fc. No matching claim. */
-#include "types.h"
-#include "deps/020608fc_func_020608fc.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 func_020608fc(undefined4 param_1,undefined4 param_2)
+// PURPOSE: Copies a valid online record payload into an output buffer.
+typedef struct OnlineInfo {
+    unsigned char unknown_00[0x22];
+    unsigned char status;
+    unsigned char unknown_23;
+    unsigned char unknown_24[4];
+} OnlineInfo;
 
+extern int GlobalZ_GetOI(int slot, OnlineInfo *output);
+extern void Mem_CpuCopy8(const void *source, void *destination, unsigned int size);
+
+int func_020608fc(int slot, void *output)
 {
-  undefined1 auStack_30 [14];
-  undefined1 auStack_22 [20];
-  byte local_e;
-  
-  GlobalZ_GetOI(param_1,(int)(uintptr_t)(auStack_30));
-  if ((int)((uint)local_e << 0x1f) < 0) {
-    Mem_CpuCopy8((ushort *)(void *)(auStack_22),(uint *)(uintptr_t)(param_2),0x14);
-    return 1;
-  }
-  return 0;
-}
+    volatile OnlineInfo info;
 
+    GlobalZ_GetOI(slot, (OnlineInfo *)&info);
+    if ((((unsigned int)info.status << 31) >> 31) != 1)
+        return 0;
+
+    Mem_CpuCopy8(&info.unknown_00[0x0e], output, 0x14);
+    return 1;
+}

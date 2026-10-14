@@ -1,30 +1,28 @@
-/* Decompiled C draft; module arm9; ROM address 02057d9c. No matching claim. */
-#include "types.h"
-#include "deps/02057d9c_WaitForWorkerTask.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa0c SDK_data_0217aa0c
+// PURPOSE: Waits until the worker task has finished.
+// This takes no arguments and returns after the pending worker-task flag clears.
+// It probably yields to IRQ processing while the background save worker is busy.
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+typedef struct {
+    u8 pad_00[0xf8];
+    u32 taskPending;
+} SaveWorkerState;
+
+extern SaveWorkerState *data_0217aa0c;
+
+extern void WaitForIRQ(int irq, int flags);
 
 void WaitForWorkerTask(void)
-
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar1 = uRam02057dec;
-  uVar2 = (*(uint *)(uRam02057dec & 0xfffffffc) >> (uRam02057dec & 3) * 8 |
-          *(uint *)(uRam02057dec & 0xfffffffc) << (uRam02057dec & 3) * -8 + 0x20) + 0xf8;
-  uVar3 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if (uVar2 >> uVar3 * 8 == 0 && uVar2 << uVar3 * -8 + 0x20 == 0) {
-    return;
-  }
-  do {
-    WaitForIRQ(1,1);
-    uVar2 = uVar1 & 3;
-    uVar3 = *(uint *)(uVar1 & 0xfffffffc);
-    uVar2 = (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + 0xf8;
-    uVar3 = uVar2 & 3;
-    uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  } while (uVar2 >> uVar3 * 8 != 0 || uVar2 << uVar3 * -8 + 0x20 != 0);
-  return;
-}
+    if (data_0217aa0c->taskPending == 0) {
+        return;
+    }
 
+    do {
+        WaitForIRQ(1, 1);
+    } while (data_0217aa0c->taskPending != 0);
+}

@@ -1,37 +1,59 @@
-/* Decompiled C draft; module arm9; ROM address 020ff344. No matching claim. */
-#include "types.h"
-#include "deps/020ff344_func_020ff344.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217c600 SDK_data_0217c600
+#define func_020ff438 SDK_data_020ff438
+// PURPOSE: Builds an object's orientation matrix and installs its update callback.
+// The object probably stores three orientation vectors together at offset 0x94.
+// It normalizes the first vector when it is long enough, derives the third vector,
+// and applies a shared orientation transform before enabling the update callback.
 
-void func_020ff344(int param_1)
+typedef unsigned char u8;
+typedef int fx32;
 
+typedef struct VecFx32 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+} VecFx32;
+
+typedef struct MtxFx33 {
+    fx32 m[3][3];
+} MtxFx33;
+
+typedef struct Object020ff344 {
+    u8 unused_000[0x74];
+    int flags_074;
+    u8 unused_078[0x1c];
+    MtxFx33 orientation_094;
+    u8 unused_0b8[0x68];
+    void *field_120;
+} Object020ff344;
+
+extern MtxFx33 data_0217c600;
+extern void func_020ff438(void);
+extern void Vector3_MaybeNormalize(VecFx32 *vector, VecFx32 *out);
+extern void Vector3_Cross(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern void MTX_Concat33(const MtxFx33 *left, const MtxFx33 *right,
+                         MtxFx33 *out);
+
+void func_020ff344(Object020ff344 *object)
 {
-  longlong lVar1;
-  uint uVar2;
-  uint uVar4;
-  uint uVar3;
-  uint uVar5;
-  
-  uVar5 = param_1 + 0x98U & 3;
-  uVar2 = *(uint *)(param_1 + 0x98U & 0xfffffffc);
-  uVar3 = uVar2 >> uVar5 * 8 | uVar2 << uVar5 * -8 + 0x20;
-  uVar5 = param_1 + 0x94U & 3;
-  uVar2 = *(uint *)(param_1 + 0x94U & 0xfffffffc);
-  uVar2 = uVar2 >> uVar5 * 8 | uVar2 << uVar5 * -8 + 0x20;
-  uVar5 = param_1 + 0x9cU & 3;
-  uVar4 = *(uint *)(param_1 + 0x9cU & 0xfffffffc);
-  uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-  lVar1 = (longlong)(int)uVar5 * (longlong)(int)uVar5 +
-          (longlong)(int)uVar2 * (longlong)(int)uVar2 + (longlong)(int)uVar3 * (longlong)(int)uVar3;
-  if ((int)(uint)((uint)lVar1 < 0x10) <= (int)((ulonglong)lVar1 >> 0x20)) {
-    Vector3_MaybeNormalize(param_1 + 0x94,(int *)(uintptr_t)(param_1 + 0x94));
-  }
-  Vector3_Cross(param_1 + 0x94,param_1 + 0xa0,(uint *)(uintptr_t)(param_1 + 0xac));
-  MTX_Concat33(uRam020ff3bc,(uint *)(uintptr_t)(param_1 + 0x94),(uint *)(uintptr_t)(param_1 + 0x94));
-  uVar5 = param_1 + 0x74U & 3;
-  uVar2 = *(uint *)(param_1 + 0x74U & 0xfffffffc);
-  if (((uVar2 >> uVar5 * 8 | uVar2 << uVar5 * -8 + 0x20) & 0x180000) == 0) {
-    *(undefined4 *)(param_1 + 0x120) = uRam020ff3c0;
-  }
-  return;
-}
+    if ((long long)object->orientation_094.m[0][0]
+            * object->orientation_094.m[0][0]
+        + (long long)object->orientation_094.m[0][1]
+            * object->orientation_094.m[0][1]
+        + (long long)object->orientation_094.m[0][2]
+            * object->orientation_094.m[0][2] >= 0x10) {
+        Vector3_MaybeNormalize((VecFx32 *)&object->orientation_094,
+                               (VecFx32 *)&object->orientation_094);
+    }
 
+    Vector3_Cross((VecFx32 *)&object->orientation_094,
+                  (VecFx32 *)&object->orientation_094.m[1],
+                  (VecFx32 *)&object->orientation_094.m[2]);
+    MTX_Concat33(&data_0217c600, &object->orientation_094,
+                 &object->orientation_094);
+
+    if ((object->flags_074 & 0x180000) == 0) {
+        object->field_120 = func_020ff438;
+    }
+}

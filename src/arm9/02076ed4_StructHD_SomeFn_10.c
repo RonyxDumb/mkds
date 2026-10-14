@@ -1,90 +1,83 @@
-/* Decompiled C draft; module arm9; ROM address 02076ed4. No matching claim. */
-#include "types.h"
-#include "deps/02076ed4_StructHD_SomeFn_10.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02154fc4 SDK_data_02154fc4
+// PURPOSE: Builds the object's camera view matrix.
+// The object supplies camera position, target, up-vector, and matrix storage.
+// A vertical offset probably raises or lowers the camera before conversion.
 
-void StructHD_SomeFn_10(undefined4 *param_1)
+typedef int fx32;
+typedef long long fx64;
+typedef unsigned int u32;
 
+typedef struct VecFx32 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+} VecFx32;
+
+typedef struct StructHD {
+    VecFx32 up;
+    unsigned char pad_00c[0x18 - 0x0c];
+    VecFx32 target;
+    VecFx32 position;
+    unsigned char matrix[0x15c - 0x30];
+    VecFx32 direction;
+    unsigned char pad_168[0x178 - 0x168];
+    fx32 verticalOffset;
+} StructHD;
+
+extern VecFx32 data_02154fc4;
+
+extern void VecFx32_Subtract(const VecFx32 *a, const VecFx32 *b,
+                             VecFx32 *out);
+extern void Vector3_MaybeNormalize(VecFx32 *dst, VecFx32 *src);
+extern void Vector3_Cross(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern void G3i_LookAt_(const VecFx32 *position, const VecFx32 *up,
+                        const VecFx32 *target, int mode, void *matrix);
+
+void StructHD_SomeFn_10(StructHD *obj)
 {
-  longlong lVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  undefined1 auStack_44 [12];
-  int local_38;
-  int local_34;
-  int local_30;
-  undefined4 local_2c;
-  undefined4 uStack_28;
-  undefined4 uStack_24;
-  int local_20;
-  int local_1c;
-  int local_18;
-  int local_14;
-  int local_10;
-  int local_c;
-  uint uVar5;
-  
-  local_2c = *puRam02077058;
-  uStack_28 = puRam02077058[1];
-  uStack_24 = puRam02077058[2];
-  VecFx32_Subtract((uint)(uintptr_t)(param_1 + 6),(uint)(uintptr_t)(param_1 + 9),&local_38);
-  lVar1 = (longlong)local_30 * (longlong)local_30 +
-          (longlong)local_38 * (longlong)local_38 + (longlong)local_34 * (longlong)local_34;
-  if ((int)(uint)((uint)lVar1 < 0x10) <= (int)((ulonglong)lVar1 >> 0x20)) {
-    Vector3_MaybeNormalize((uint)(uintptr_t)(&local_38),&local_38);
-  }
-  param_1[0x57] = local_38;
-  param_1[0x58] = local_34;
-  param_1[0x59] = local_30;
-  Vector3_Cross((uint)(uintptr_t)(&local_2c),(uint)(uintptr_t)(&local_38),(uint *)(void *)(auStack_44));
-  Vector3_Cross((uint)(uintptr_t)(&local_38),(uint)(uintptr_t)(auStack_44),param_1);
-  if (((*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 == 0 &&
-        *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20 == 0) &&
-      (uVar5 = (uint)(param_1 + 1) & 3, uVar2 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc),
-      uVar2 >> uVar5 * 8 == 0 && uVar2 << uVar5 * -8 + 0x20 == 0)) &&
-     (uVar5 = (uint)(param_1 + 2) & 3, uVar2 = *(uint *)((uint)(param_1 + 2) & 0xfffffffc),
-     uVar2 >> uVar5 * 8 == 0 && uVar2 << uVar5 * -8 + 0x20 == 0)) {
-    *param_1 = 0x1000;
-    param_1[1] = 0x1000;
-    param_1[2] = 0x1000;
-    uVar5 = (uint)(param_1 + 1) & 3;
-    uVar2 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-    uVar3 = uVar2 >> uVar5 * 8 | uVar2 << uVar5 * -8 + 0x20;
-    uVar2 = *(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-            *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
-    uVar5 = (uint)(param_1 + 2) & 3;
-    uVar4 = *(uint *)((uint)(param_1 + 2) & 0xfffffffc);
-    uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-    lVar1 = (longlong)(int)uVar5 * (longlong)(int)uVar5 +
-            (longlong)(int)uVar2 * (longlong)(int)uVar2 +
-            (longlong)(int)uVar3 * (longlong)(int)uVar3;
-    if ((int)(uint)((uint)lVar1 < 0x10) <= (int)((ulonglong)lVar1 >> 0x20)) {
-      Vector3_MaybeNormalize((uint)(uintptr_t)(param_1),param_1);
-    }
-  }
-  *puRam0207705c = 2;
-  uVar5 = (uint)(param_1 + 9) & 3;
-  uVar2 = *(uint *)((uint)(param_1 + 9) & 0xfffffffc);
-  local_20 = (int)(uVar2 >> uVar5 * 8 | uVar2 << uVar5 * -8 + 0x20) >> 4;
-  uVar5 = (uint)(param_1 + 10) & 3;
-  uVar4 = *(uint *)((uint)(param_1 + 10) & 0xfffffffc);
-  uVar2 = (uint)(param_1 + 0x5e) & 3;
-  uVar3 = *(uint *)((uint)(param_1 + 0x5e) & 0xfffffffc);
-  local_1c = (int)((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) +
-                  (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20)) >> 4;
-  uVar5 = (uint)(param_1 + 0xb) & 3;
-  uVar2 = *(uint *)((uint)(param_1 + 0xb) & 0xfffffffc);
-  local_18 = (int)(uVar2 >> uVar5 * 8 | uVar2 << uVar5 * -8 + 0x20) >> 4;
-  uVar5 = (uint)(param_1 + 6) & 3;
-  uVar2 = *(uint *)((uint)(param_1 + 6) & 0xfffffffc);
-  local_14 = (int)(uVar2 >> uVar5 * 8 | uVar2 << uVar5 * -8 + 0x20) >> 4;
-  uVar5 = (uint)(param_1 + 7) & 3;
-  uVar2 = *(uint *)((uint)(param_1 + 7) & 0xfffffffc);
-  local_10 = (int)(uVar2 >> uVar5 * 8 | uVar2 << uVar5 * -8 + 0x20) >> 4;
-  uVar5 = (uint)(param_1 + 8) & 3;
-  uVar2 = *(uint *)((uint)(param_1 + 8) & 0xfffffffc);
-  local_c = (int)(uVar2 >> uVar5 * 8 | uVar2 << uVar5 * -8 + 0x20) >> 4;
-  G3i_LookAt_((uint)(uintptr_t)(&local_20),(undefined4)(uintptr_t)(param_1),(uint)(uintptr_t)(&local_14),1,param_1 + 0xc);
-  return;
-}
+    VecFx32 cross;
+    VecFx32 direction;
+    VecFx32 reference;
+    VecFx32 position;
+    VecFx32 target;
 
+    reference = data_02154fc4;
+    VecFx32_Subtract(&obj->target, &obj->position, &direction);
+
+    if ((fx64)direction.x * direction.x +
+            (fx64)direction.y * direction.y +
+            (fx64)direction.z * direction.z >=
+        0x10) {
+        Vector3_MaybeNormalize(&direction, &direction);
+    }
+
+    obj->direction = direction;
+    Vector3_Cross(&reference, &direction, &cross);
+    Vector3_Cross(&direction, &cross, &obj->up);
+
+    if (obj->up.x == 0 && obj->up.y == 0 && obj->up.z == 0) {
+        obj->up.x = 0x1000;
+        obj->up.y = 0x1000;
+        obj->up.z = 0x1000;
+
+        if ((fx64)obj->up.x * obj->up.x +
+                (fx64)obj->up.y * obj->up.y +
+                (fx64)obj->up.z * obj->up.z >=
+            0x10) {
+            Vector3_MaybeNormalize(&obj->up, &obj->up);
+        }
+    }
+
+    *(volatile u32 *)0x04000440 = 2;
+
+    position.x = obj->position.x >> 4;
+    position.y = (obj->position.y + obj->verticalOffset) >> 4;
+    position.z = obj->position.z >> 4;
+
+    target.x = obj->target.x >> 4;
+    target.y = obj->target.y >> 4;
+    target.z = obj->target.z >> 4;
+
+    G3i_LookAt_(&position, &obj->up, &target, 1, obj->matrix);
+}

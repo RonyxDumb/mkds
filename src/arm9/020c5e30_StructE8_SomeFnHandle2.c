@@ -1,40 +1,32 @@
-/* Decompiled C draft; module arm9; ROM address 020c5e30. No matching claim. */
-#include "types.h"
-#include "deps/020c5e30_StructE8_SomeFnHandle2.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b3f4 SDK_data_0217b3f4
+#define StructE8_SomeFnHandle6 SDK_data_020c5df0
+// PURPOSE: Updates a timed state transition.
+// The shared state probably selects a handler after twenty updates.
+// Before that point, it stores an interpolated value for the transition.
+
+typedef struct {
+    void (*handler)(void);
+    int count;
+    char padding_08[0xd8];
+    int value;
+} StructE8State;
+
+extern StructE8State *data_0217b3f4;
+extern int ComputeValueInterpolation_from_thumb(int, int, int, int, int);
+extern void StructE8_SomeFnHandle6(void);
 
 void StructE8_SomeFnHandle2(void)
-
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  uVar2 = uRam020c5eb0;
-  uVar4 = *(uint *)(uRam020c5eb0 & 0xfffffffc) >> (uRam020c5eb0 & 3) * 8 |
-          *(uint *)(uRam020c5eb0 & 0xfffffffc) << (uRam020c5eb0 & 3) * -8 + 0x20;
-  uVar5 = uVar4 + 4;
-  uVar1 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  uVar5 = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
-  *(uint *)(uVar4 + 4) = uVar5 + 1;
-  if ((int)uVar5 < 0x14) {
-    uVar3 = ComputeValueInterpolation_from_thumb(1,0xffffff00,0,uVar5,0x14);
-    *(undefined4 *)
-     ((*(uint *)(uRam020c5eb0 & 0xfffffffc) >> (uRam020c5eb0 & 3) * 8 |
-      *(uint *)(uRam020c5eb0 & 0xfffffffc) << (uRam020c5eb0 & 3) * -8 + 0x20) + 0xe0) = uVar3;
-    return;
-  }
-  *(undefined4 *)
-   ((*(uint *)(uVar2 & 0xfffffffc) >> (uVar2 & 3) * 8 |
-    *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + 0xe0) = 0;
-  *(undefined4 *)
-   (*(uint *)(uVar2 & 0xfffffffc) >> (uVar2 & 3) * 8 |
-   *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) = uRam020c5eb4;
-  *(undefined4 *)
-   ((*(uint *)(uVar2 & 0xfffffffc) >> (uVar2 & 3) * 8 |
-    *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + 4) = 0;
-  return;
-}
+    int count = data_0217b3f4->count;
 
+    data_0217b3f4->count = count + 1;
+    if (count < 20) {
+        data_0217b3f4->value =
+            ComputeValueInterpolation_from_thumb(1, -256, 0, count, 20);
+    } else {
+        data_0217b3f4->value = 0;
+        data_0217b3f4->handler = StructE8_SomeFnHandle6;
+        data_0217b3f4->count = 0;
+    }
+}

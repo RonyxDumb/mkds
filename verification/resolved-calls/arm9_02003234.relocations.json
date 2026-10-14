@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Fs_SyncReader_Read",
+    "target": 33569496,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646292
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Fs_File_DoExecuteOperation",
+    "target": 33566756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422815
+  }
+]

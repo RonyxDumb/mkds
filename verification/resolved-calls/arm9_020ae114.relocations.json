@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetRacerType",
+    "target": 34267484,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645774
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "GetRacerType",
+    "target": 34267484,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645770
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "GetRacerType",
+    "target": 34267484,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645766
+  }
+]

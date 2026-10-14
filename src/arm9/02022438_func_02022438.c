@@ -1,13 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02022438. No matching claim. */
-#include "types.h"
-#include "deps/02022438_func_02022438.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_02022438(int param_1)
+// PURPOSE: Clears and initializes a small state block.
+// The argument is probably a state record with a 0x18-byte area after its header.
+// It clears that area, then sets two header fields to the initial limit.
 
+typedef unsigned int u32;
+typedef unsigned short u16;
+
+extern void Mem_CpuFill16(u16 value, void *destination, u32 size);
+
+void func_02022438(void *state)
 {
-  Mem_CpuFill16(0,param_1 + 4,0x18);
-  *(undefined4 *)(param_1 + 4) = 0x1000;
-  *(undefined4 *)(param_1 + 8) = 0x1000;
-  return;
-}
+    volatile u16 fill_value;
 
+    fill_value = 0; /* Preserve the required halfword stack reload. */
+    Mem_CpuFill16(fill_value, (char *)state + 4, 0x18);
+    *(u32 *)((char *)state + 4) = 0x1000;
+    *(u32 *)((char *)state + 8) = 0x1000;
+}

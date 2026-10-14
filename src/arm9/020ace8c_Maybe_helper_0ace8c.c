@@ -1,20 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 020ace8c. No matching claim. */
-#include "types.h"
-#include "deps/020ace8c_Maybe_helper_0ace8c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0202881c func_020acebc
+#define Maybe_helper_0287ec Maybe_helper_0ace8c
+#pragma optimize_for_size on
+typedef unsigned short u16;
+typedef struct { u16 pad[8]; u16 f10; } S;
+extern int func_0202881c(S *obj);
 
-undefined4 Maybe_helper_0ace8c(int param_1)
-
-{
-  int iVar1;
-  undefined4 uVar2;
-  
-  iVar1 = func_020acebc();
-  if ((iVar1 == 0) && (*(ushort *)(param_1 + 0x10) < 5)) {
-    uVar2 = 1;
-  }
-  else {
-    uVar2 = 0;
-  }
-  return uVar2;
+int Maybe_helper_0287ec(S *obj) {
+    if (func_0202881c(obj) == 0 && obj->f10 < 5) return 1;
+    return 0;
 }
-

@@ -1,86 +1,89 @@
-/* Decompiled C draft; module arm9; ROM address 020e24d0. No matching claim. */
-#include "types.h"
-#include "deps/020e24d0_func_020e24d0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02158a50 SDK_data_02158a50
+// PURPOSE: Builds a ground-facing rotation and updates the object's movement state.
+// The first argument is the object being updated and the second is a target position.
+// It derives a normal from two facing vectors, normalizes it when long enough,
+// converts that normal to a quaternion, and advances the object's timers and flags.
 
-void func_020e24d0(int param_1,undefined4 param_2)
+typedef int fx32;
+typedef long long fx64;
 
+typedef struct VecFx32 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+} VecFx32;
+
+typedef struct Quaternion {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+    fx32 w;
+} Quaternion;
+
+typedef struct Object {
+    unsigned short f0;
+    unsigned short flags;
+    VecFx32 position;
+    char pad10[4];
+    fx32 f14;
+    char pad18[0x28 - 0x18];
+    VecFx32 direction28;
+    char pad34[0x40 - 0x34];
+    VecFx32 direction40;
+    char pad4c[0xc4 - 0x4c];
+    Quaternion rotation;
+    char padD4[0xfe - 0xd4];
+    signed short timer;
+    char pad100[0x118 - 0x100];
+    fx32 height;
+    char pad11c[0x152 - 0x11c];
+    unsigned short duration;
+} Object;
+
+extern void VecFx32_Subtract(const VecFx32 *a, const VecFx32 *b,
+                             VecFx32 *out);
+extern fx32 VecFx32_CrossProduct_0(const VecFx32 *a, const VecFx32 *b);
+extern void Vector3_MaybeNormalize(VecFx32 *a, VecFx32 *out);
+extern void func_020d7b88(const VecFx32 *normal, Quaternion *rotation);
+extern unsigned short data_02158a50;
+
+void func_020e24d0(Object *object, const VecFx32 *target)
 {
-  longlong lVar1;
-  int iVar2;
-  int iVar3;
-  uint uVar4;
-  uint uVar6;
-  int local_18;
-  int local_14;
-  int local_10;
-  uint uVar5;
-  
-  local_18 = *(int *)(param_1 + 4);
-  local_14 = *(undefined4 *)(param_1 + 8);
-  local_10 = *(undefined4 *)(param_1 + 0xc);
-  VecFx32_Subtract(&local_18,param_2);
-  iVar2 = VecFx32_CrossProduct_0(param_1 + 0x28,(uint)(uintptr_t)(&local_18));
-  iVar3 = VecFx32_CrossProduct_0(param_1 + 0x40,(uint)(uintptr_t)(&local_18));
-  if (iVar2 < 1) {
-    uVar5 = param_1 + 0x28U & 3;
-    uVar4 = *(uint *)(param_1 + 0x28U & 0xfffffffc);
-    uVar5 = -(uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20);
-  }
-  else {
-    uVar5 = param_1 + 0x28U & 3;
-    uVar4 = *(uint *)(param_1 + 0x28U & 0xfffffffc);
-    uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-  }
-  if (iVar3 < 1) {
-    uVar4 = param_1 + 0x40U & 3;
-    uVar6 = *(uint *)(param_1 + 0x40U & 0xfffffffc);
-    uVar4 = -(uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20);
-  }
-  else {
-    uVar4 = param_1 + 0x40U & 3;
-    uVar6 = *(uint *)(param_1 + 0x40U & 0xfffffffc);
-    uVar4 = uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20;
-  }
-  local_18 = uVar5 * 2 + uVar4;
-  if (iVar2 < 1) {
-    uVar5 = param_1 + 0x30U & 3;
-    uVar4 = *(uint *)(param_1 + 0x30U & 0xfffffffc);
-    uVar5 = -(uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20);
-  }
-  else {
-    uVar5 = param_1 + 0x30U & 3;
-    uVar4 = *(uint *)(param_1 + 0x30U & 0xfffffffc);
-    uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-  }
-  if (iVar3 < 1) {
-    uVar4 = param_1 + 0x48U & 3;
-    uVar6 = *(uint *)(param_1 + 0x48U & 0xfffffffc);
-    uVar4 = -(uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20);
-  }
-  else {
-    uVar4 = param_1 + 0x48U & 3;
-    uVar6 = *(uint *)(param_1 + 0x48U & 0xfffffffc);
-    uVar4 = uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20;
-  }
-  local_10 = uVar5 * 2 + uVar4;
-  uVar5 = param_1 + 0x118U & 3;
-  uVar4 = *(uint *)(param_1 + 0x118U & 0xfffffffc);
-  local_14 = ((int)((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) - 0x14000) >> 4) + 0x2000;
-  lVar1 = (longlong)local_10 * (longlong)local_10 +
-          (longlong)local_18 * (longlong)local_18 + (longlong)local_14 * (longlong)local_14;
-  if ((int)(uint)((uint)lVar1 < 0x10) <= (int)((ulonglong)lVar1 >> 0x20)) {
-    Vector3_MaybeNormalize((uint)(uintptr_t)(&local_18),&local_18);
-  }
-  func_020d7b88((uint)(uintptr_t)(&local_18),(undefined4 *)(uintptr_t)(param_1 + 0xc4));
-  *(undefined2 *)(param_1 + 0x152) = 900;
-  if ((0xf < *(short *)(param_1 + 0xfe)) ||
-     (uVar5 = param_1 + 0x14U & 3, uVar4 = *(uint *)(param_1 + 0x14U & 0xfffffffc),
-     uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20, (int)uVar5 < 1)) {
-    uVar5 = 0;
-  }
-  *(uint *)(param_1 + 0x14) = uVar5 + 0x7000;
-  *(ushort *)(param_1 + 2) = *(ushort *)(param_1 + 2) | *puRam020e262c;
-  *(undefined2 *)(param_1 + 0xfe) = 0x14;
-  return;
-}
+    VecFx32 normal;
+    fx32 cross28;
+    fx32 cross40;
+    fx32 value;
 
+    normal = object->position;
+    VecFx32_Subtract(&normal, target, &normal);
+
+    cross28 = VecFx32_CrossProduct_0(&object->direction28, &normal);
+    cross40 = VecFx32_CrossProduct_0(&object->direction40, &normal);
+
+    normal.x = (cross28 > 0 ? object->direction28.x
+                            : -object->direction28.x) * 2;
+    normal.x += cross40 > 0 ? object->direction40.x
+                            : -object->direction40.x;
+    normal.z = (cross28 > 0 ? object->direction28.z
+                            : -object->direction28.z) * 2;
+    normal.z += cross40 > 0 ? object->direction40.z
+                            : -object->direction40.z;
+    normal.y = ((object->height - 0x14000) >> 4) + 0x2000;
+
+    if ((fx64)normal.x * normal.x + (fx64)normal.y * normal.y
+        + (fx64)normal.z * normal.z >= 0x10) {
+        Vector3_MaybeNormalize(&normal, &normal);
+    }
+
+    func_020d7b88(&normal, &object->rotation);
+    object->duration = 0x384;
+
+    if (object->timer > 0xf || (value = object->f14) <= 0) {
+        value = 0;
+    }
+    object->f14 = value + 0x7000;
+
+    object->flags |= data_02158a50;
+    object->timer = 0x14;
+}

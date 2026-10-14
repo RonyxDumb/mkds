@@ -1,17 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 0205fd78. No matching claim. */
-#include "types.h"
-#include "deps/0205fd78_IsMissionStageBeaten.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-bool IsMissionStageBeaten(undefined4 param_1,undefined4 param_2,uint *param_3)
+// PURPOSE: Checks whether a mission stage has been beaten.
+// The two inputs probably identify the mission level and stage.
+// The helper probably writes its status and beaten value into a small result.
 
+typedef unsigned char u8;
+
+extern void GetMissionLevelStageInfoByIds_from_thumb(int levelId, int stageId, u8 *result);
+
+int IsMissionStageBeaten(int levelId, int stageId, int *beaten)
 {
-  char local_10;
-  byte bStack_f;
-  
-  GetMissionLevelStageInfoByIds_from_thumb(param_1,param_2,(undefined4)(uintptr_t)(&local_10));
-  if (local_10 == '\x01') {
-    *param_3 = (uint)bStack_f;
-  }
-  return local_10 == '\x01';
-}
+    u8 result[2];
+    int isBeaten = 0;
 
+    GetMissionLevelStageInfoByIds_from_thumb(levelId, stageId, result);
+    if (result[0] == 1) {
+        *beaten = result[1]; // The helper returned a valid stage record.
+        isBeaten = 1;
+    }
+    return isBeaten;
+}

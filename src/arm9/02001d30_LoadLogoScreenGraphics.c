@@ -1,119 +1,87 @@
-/* Decompiled C draft; module arm9; ROM address 02001d30. No matching claim. */
-#include "types.h"
-#include "deps/02001d30_LoadLogoScreenGraphics.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void LoadLogoScreenGraphics
-               (uint param_1,int param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5)
+// PURPOSE: Loads the logo screen graphics into video memory.
+// The output stores the loaded palette, character graphics, and screen data.
+// The screen selector chooses whether the resources go to the top or bottom display.
+// The remaining arguments identify the three graphics files to load.
 
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+typedef struct {
+    u8 padding[8];
+    u32 size;
+    void *rawData;
+} PaletteData;
+
+typedef struct {
+    u8 padding[0x10];
+    u32 size;
+    void *rawData;
+} CharGraphics;
+
+typedef struct {
+    u8 padding[8];
+    u32 size;
+    u8 rawData[1];
+} ScreenData;
+
+typedef struct {
+    PaletteData *palette;
+    CharGraphics *characters;
+    ScreenData *screen;
+} LogoScreenGraphics;
+
+extern void *find_buf_fn_from_thumb(void *path);
+extern void Gfx_ReadPalette(void *output, void *buffer);
+extern void Gfx_ReadCharGraphics(void *output, void *buffer);
+extern void MaybeReadScreenBlock_0(void *output, void *buffer);
+extern void DC_SomeClean(void *address, u32 size);
+extern void CopyPaletteTop(void *src, u32 offset, u32 size);
+extern void CopyPaletteBottom(void *src, u32 offset, u32 size);
+extern void CopyBgData_Bg1_Top(void *src, u32 offset, u32 size);
+extern void CopyBgData_Bg1_Bottom(void *src, u32 offset, u32 size);
+extern void TEQSub_Fn9Impl(void *src, u32 offset, u32 size);
+extern void TEQSub_Fn25Impl(void *src, u32 offset, u32 size);
+
+void LoadLogoScreenGraphics(LogoScreenGraphics *graphics, int topScreen,
+                            void *palettePath, void *characterPath,
+                            void *screenPath)
 {
-  undefined4 uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  uVar1 = find_buf_fn_from_thumb(param_3);
-  Gfx_ReadPalette((int *)(uintptr_t)(param_1),uVar1);
-  uVar4 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  uVar5 = uVar4 + 0xc;
-  uVar3 = uVar5 & 3;
-  uVar2 = *(uint *)(uVar5 & 0xfffffffc);
-  uVar4 = uVar4 + 8;
-  uVar5 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  DC_SomeClean(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20,
-               uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20);
-  if (param_2 == 0) {
-    uVar4 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-    uVar5 = uVar4 + 0xc;
-    uVar3 = uVar5 & 3;
-    uVar2 = *(uint *)(uVar5 & 0xfffffffc);
-    uVar4 = uVar4 + 8;
-    uVar5 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    CopyPaletteBottom(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20,0,
-                      uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20);
-  }
-  else {
-    uVar4 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-    uVar5 = uVar4 + 0xc;
-    uVar3 = uVar5 & 3;
-    uVar2 = *(uint *)(uVar5 & 0xfffffffc);
-    uVar4 = uVar4 + 8;
-    uVar5 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    CopyPaletteTop(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20,0,
-                   uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20);
-  }
-  uVar1 = find_buf_fn_from_thumb(param_4);
-  Gfx_ReadCharGraphics((int *)(uintptr_t)(param_1 + 4),uVar1);
-  uVar5 = param_1 + 4 & 3;
-  uVar4 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  uVar4 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-  uVar5 = uVar4 + 0x14;
-  uVar3 = uVar5 & 3;
-  uVar2 = *(uint *)(uVar5 & 0xfffffffc);
-  uVar4 = uVar4 + 0x10;
-  uVar5 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  DC_SomeClean(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20,
-               uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20);
-  if (param_2 == 0) {
-    uVar5 = param_1 + 4 & 3;
-    uVar4 = *(uint *)(param_1 + 4 & 0xfffffffc);
-    uVar4 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-    uVar5 = uVar4 + 0x14;
-    uVar3 = uVar5 & 3;
-    uVar2 = *(uint *)(uVar5 & 0xfffffffc);
-    uVar4 = uVar4 + 0x10;
-    uVar5 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    CopyBgData_Bg1_Bottom
-              (uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20,0,
-               uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20);
-  }
-  else {
-    uVar5 = param_1 + 4 & 3;
-    uVar4 = *(uint *)(param_1 + 4 & 0xfffffffc);
-    uVar4 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-    uVar5 = uVar4 + 0x14;
-    uVar3 = uVar5 & 3;
-    uVar2 = *(uint *)(uVar5 & 0xfffffffc);
-    uVar4 = uVar4 + 0x10;
-    uVar5 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    CopyBgData_Bg1_Top(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20,0,
-                       uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20);
-  }
-  uVar1 = find_buf_fn_from_thumb(param_5);
-  MaybeReadScreenBlock_0((int *)(uintptr_t)(param_1 + 8),uVar1);
-  uVar5 = param_1 + 8 & 3;
-  uVar4 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  uVar3 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-  uVar5 = uVar3 + 8;
-  uVar4 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  DC_SomeClean(uVar3 + 0xc,uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
-  if (param_2 != 0) {
-    uVar5 = param_1 + 8 & 3;
-    uVar4 = *(uint *)(param_1 + 8 & 0xfffffffc);
-    uVar3 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-    uVar5 = uVar3 + 8;
-    uVar4 = uVar5 & 3;
-    uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-    TEQSub_Fn9Impl(uVar3 + 0xc,0,uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
-    return;
-  }
-  uVar5 = param_1 + 8 & 3;
-  uVar4 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  uVar3 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-  uVar5 = uVar3 + 8;
-  uVar4 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  TEQSub_Fn25Impl(uVar3 + 0xc,0,uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
-  return;
-}
+    Gfx_ReadPalette(&graphics->palette,
+                    find_buf_fn_from_thumb(palettePath));
+    DC_SomeClean(graphics->palette->rawData, graphics->palette->size);
 
+    if (topScreen != 0) {
+        CopyPaletteTop(graphics->palette->rawData, 0,
+                       graphics->palette->size);
+    } else {
+        CopyPaletteBottom(graphics->palette->rawData, 0,
+                          graphics->palette->size);
+    }
+
+    Gfx_ReadCharGraphics(&graphics->characters,
+                         find_buf_fn_from_thumb(characterPath));
+    DC_SomeClean(graphics->characters->rawData,
+                 graphics->characters->size);
+
+    if (topScreen != 0) {
+        CopyBgData_Bg1_Top(graphics->characters->rawData, 0,
+                           graphics->characters->size);
+    } else {
+        CopyBgData_Bg1_Bottom(graphics->characters->rawData, 0,
+                              graphics->characters->size);
+    }
+
+    MaybeReadScreenBlock_0(&graphics->screen,
+                           find_buf_fn_from_thumb(screenPath));
+    DC_SomeClean(graphics->screen->rawData, graphics->screen->size);
+
+    if (topScreen != 0) {
+        TEQSub_Fn9Impl(graphics->screen->rawData, 0,
+                       graphics->screen->size);
+    } else {
+        TEQSub_Fn25Impl(graphics->screen->rawData, 0,
+                        graphics->screen->size);
+    }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "StructMapObject_SomeFn_2",
+    "target": 34191084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959419223
+  },
+  {
+    "offset": 72,
+    "type": 2,
+    "symbol": "SDK_data_0217b1a0",
+    "target": 35107232,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107232
+  }
+]

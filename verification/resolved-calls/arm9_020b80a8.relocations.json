@@ -1,0 +1,83 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "GetLoadedFont_from_thumb",
+    "target": 34291772,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211077088
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "GetSomeBgCanvasTileData_from_thumb",
+    "target": 34779280,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194421747
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Clear1A44SomeTileData_from_thumb",
+    "target": 34779292,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194421748
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "G2d_Sprite_CreateFromTiles",
+    "target": 33698824,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959270601
+  },
+  {
+    "offset": 184,
+    "type": 1,
+    "symbol": "FormatRacerNameString_from_thumb",
+    "target": 34267120,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211070882
+  },
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "GetCurrentPlayerRacerId",
+    "target": 34295196,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959419660
+  },
+  {
+    "offset": 300,
+    "type": 1,
+    "symbol": "G2d_Text_PrintString",
+    "target": 33702720,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959271513
+  },
+  {
+    "offset": 332,
+    "type": 1,
+    "symbol": "G2d_Text_PrintString",
+    "target": 33702720,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959271505
+  },
+  {
+    "offset": 368,
+    "type": 2,
+    "symbol": "SDK_data_021759c0",
+    "target": 35084736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084736
+  }
+]

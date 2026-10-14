@@ -1,21 +1,27 @@
-/* Decompiled C draft; module arm9; ROM address 02060ac8. No matching claim. */
-#include "types.h"
-#include "deps/02060ac8_func_02060ac8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint func_02060ac8(undefined4 param_1)
+// PURPOSE: Returns the saved online record's first value when its flag is set.
+// Reads one saved online-information record into a temporary buffer.
+// The status bit probably indicates whether the first halfword is usable.
 
+typedef unsigned char u8;
+
+typedef struct OnlineInfo {
+    u8 data[0x22];
+    u8 valid : 1;
+    u8 remainingFlags : 7;
+    u8 trailingByte;
+} OnlineInfo;
+
+extern int GlobalZ_GetOI(int slot, OnlineInfo *output);
+
+int func_02060ac8(int slot)
 {
-  uint uVar1;
-  ushort auStack_28 [17];
-  byte local_6;
-  
-  GlobalZ_GetOI(param_1,(int)(uintptr_t)(auStack_28));
-  if ((int)((uint)local_6 << 0x1f) < 0) {
-    uVar1 = (uint)auStack_28[0];
-  }
-  else {
-    uVar1 = 0xffffffff;
-  }
-  return uVar1;
-}
+    volatile OnlineInfo info;
 
+    GlobalZ_GetOI(slot, (OnlineInfo *)&info);
+    if (info.valid == 1) {
+        return *(volatile unsigned short *)&info.data[0];
+    }
+    return -1;
+}

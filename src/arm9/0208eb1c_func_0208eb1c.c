@@ -1,88 +1,125 @@
-/* Decompiled C draft; module arm9; ROM address 0208eb1c. No matching claim. */
-#include "types.h"
-#include "deps/0208eb1c_func_0208eb1c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define gRaceConfig SDK_data_021759c0
+#define data_0217b08c SDK_data_0217b08c
+#define data_02166418 SDK_data_02166418
+#define data_02166480 SDK_data_02166480
+#define data_0216641c SDK_data_0216641c
+// PURPOSE: Starts an award-track effect for one driver.
+// The driver index selects the racer whose award path supplies the position.
+// The first available group is positioned and moved to the active list.
+// This returns null outside award mode or when no group is available.
 
-int func_0208eb1c(undefined4 param_1)
+typedef unsigned char u8;
+typedef unsigned short u16;
 
+typedef struct VecFx32 {
+    int x;
+    int y;
+    int z;
+} VecFx32;
+
+typedef struct IntrusiveListWrapper {
+    void *first;
+    void *last;
+    u16 count;
+    u16 linkOffset;
+} IntrusiveListWrapper;
+
+typedef struct RaceConfig {
+    int courseId;
+    int field_04;
+    int raceType;
+    int mode;
+} RaceConfig;
+
+typedef struct AwardPathData {
+    int pathIndex;
+    int heightIndex;
+    u8 pad_08[0x18];
+    u8 *points;
+} AwardPathData;
+
+typedef struct DriverEntry {
+    u8 pad_000[0x80];
+    u8 positionAnchor;
+    u8 pad_081[0x50f];
+    AwardPathData *awardPath;
+} DriverEntry;
+
+typedef struct AwardTrackGroup {
+    u8 pad_00[8];
+    IntrusiveListWrapper members;
+    void *positionAnchor;
+    int field_18;
+    int halfHeight;
+    int driverIndex;
+    VecFx32 position;
+} AwardTrackGroup;
+
+typedef struct AwardTrackManager {
+    IntrusiveListWrapper activeItems;
+    IntrusiveListWrapper groups;
+    IntrusiveListWrapper freeItems;
+} AwardTrackManager;
+
+typedef struct AwardPathColumn {
+    int value;
+    int unused;
+} AwardPathColumn;
+
+extern RaceConfig *gRaceConfig;
+extern AwardTrackManager *data_0217b08c;
+extern AwardPathColumn data_02166418[];
+extern int data_02166480[];
+extern AwardPathColumn data_0216641c[];
+
+extern void *IntrusiveListWrapper_GetAtIndex(IntrusiveListWrapper *list,
+                                             int index);
+extern void IntrusiveListWrapper_RemoveItem(IntrusiveListWrapper *list,
+                                            void *item);
+extern void IntrusiveListWrapper_InsertLast(IntrusiveListWrapper *list,
+                                            void *item);
+extern DriverEntry *GetDriverEntry(int index);
+
+AwardTrackGroup *func_0208eb1c(int driverIndex)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  uint uVar7;
-  int iVar8;
-  uint uVar9;
-  int iVar10;
-  uint uVar11;
-  uint uVar12;
-  
-  uVar2 = (*(uint *)(uRam0208ec50 & 0xfffffffc) >> (uRam0208ec50 & 3) * 8 |
-          *(uint *)(uRam0208ec50 & 0xfffffffc) << (uRam0208ec50 & 3) * -8 + 0x20) + 0xc;
-  uVar11 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if ((uVar2 >> uVar11 * 8 | uVar2 << uVar11 * -8 + 0x20) == 5) {
-    iVar3 = IntrusiveListWrapper_GetAtIndex
-                      ((*(uint *)(uRam0208ec54 & 0xfffffffc) >> (uRam0208ec54 & 3) * 8 |
-                       *(uint *)(uRam0208ec54 & 0xfffffffc) << (uRam0208ec54 & 3) * -8 + 0x20) + 0xc
-                       ,0);
-    if (iVar3 != 0) {
-      iVar4 = GetDriverEntry(param_1);
-      uVar2 = iVar4 + 0x590U & 3;
-      uVar11 = *(uint *)(iVar4 + 0x590U & 0xfffffffc);
-      uVar12 = uVar11 >> uVar2 * 8 | uVar11 << uVar2 * -8 + 0x20;
-      uVar2 = uVar12 + 0x20 & 3;
-      uVar11 = *(uint *)(uVar12 + 0x20 & 0xfffffffc);
-      iVar5 = (*(uint *)(uVar12 & 0xfffffffc) >> (uVar12 & 3) * 8 |
-              *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20) * 0xc +
-              (uVar11 >> uVar2 * 8 | uVar11 << uVar2 * -8 + 0x20);
-      iVar6 = *(int *)(iVar5 + 0x44);
-      iVar8 = *(int *)(iVar5 + 0x48);
-      iVar10 = *(int *)(iVar5 + 0x4c);
-      *(int *)(iVar3 + 0x14) = iVar4 + 0x80;
-      *(undefined4 *)(iVar3 + 0x18) = 0;
-      *(undefined4 *)(iVar3 + 0x1c) = 0x400;
-      *(undefined4 *)(iVar3 + 0x20) = param_1;
-      iVar5 = iRam0208ec5c;
-      uVar11 = uVar12 + 4 & 3;
-      uVar7 = *(uint *)(uVar12 + 4 & 0xfffffffc);
-      uVar2 = iRam0208ec58 +
-              (*(uint *)(uVar12 & 0xfffffffc) >> (uVar12 & 3) * 8 |
-              *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20) * 8;
-      uVar1 = uVar2 & 3;
-      uVar9 = *(uint *)(uVar2 & 0xfffffffc);
-      uVar2 = iRam0208ec5c + (uVar7 >> uVar11 * 8 | uVar7 << uVar11 * -8 + 0x20) * 4;
-      uVar11 = uVar2 & 3;
-      uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-      iVar4 = (int)((iVar8 + ((int)(uVar9 >> uVar1 * 8 | uVar9 << uVar1 * -8 + 0x20) >> 4)) -
-                   (uVar2 >> uVar11 * 8 | uVar2 << uVar11 * -8 + 0x20)) / 2;
-      *(int *)(iVar3 + 0x1c) = iVar4;
-      iVar8 = iRam0208ec60;
-      *(int *)(iVar3 + 0x24) = iVar6 << 4;
-      uVar1 = uRam0208ec54;
-      uVar2 = uVar12 + 4 & 3;
-      uVar11 = *(uint *)(uVar12 + 4 & 0xfffffffc);
-      uVar2 = iVar5 + (uVar11 >> uVar2 * 8 | uVar11 << uVar2 * -8 + 0x20) * 4;
-      uVar11 = uVar2 & 3;
-      uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-      *(uint *)(iVar3 + 0x28) = ((uVar2 >> uVar11 * 8 | uVar2 << uVar11 * -8 + 0x20) + iVar4) * 0x10
-      ;
-      uVar2 = iVar8 + (*(uint *)(uVar12 & 0xfffffffc) >> (uVar12 & 3) * 8 |
-                      *(uint *)(uVar12 & 0xfffffffc) << (uVar12 & 3) * -8 + 0x20) * 8;
-      uVar11 = uVar2 & 3;
-      uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-      *(uint *)(iVar3 + 0x2c) = (uVar2 >> uVar11 * 8 | uVar2 << uVar11 * -8 + 0x20) + iVar10 * 0x10;
-      uVar2 = uVar1 & 3;
-      uVar11 = *(uint *)(uVar1 & 0xfffffffc);
-      IntrusiveListWrapper_RemoveItem
-                ((uint *)(uintptr_t)((uVar11 >> uVar2 * 8 | uVar11 << uVar2 * -8 + 0x20) + 0xc),iVar3);
-      IntrusiveListWrapper_InsertLast
-                (*(uint *)(uRam0208ec54 & 0xfffffffc) >> (uRam0208ec54 & 3) * 8 |
-                 *(uint *)(uRam0208ec54 & 0xfffffffc) << (uRam0208ec54 & 3) * -8 + 0x20,iVar3);
-    }
-    return iVar3;
-  }
-  return 0;
-}
+    AwardTrackGroup *group;
+    DriverEntry *driver;
+    AwardPathData *path;
+    VecFx32 position;
+    int height;
 
+    if (gRaceConfig->mode != 5) {
+        goto notAwardMode;
+    }
+
+    group = IntrusiveListWrapper_GetAtIndex(&data_0217b08c->groups, 0);
+    if (group != 0) {
+        driver = GetDriverEntry(driverIndex);
+        path = driver->awardPath;
+        position = *(VecFx32 *)(path->points + path->pathIndex * 0xc + 0x44);
+
+        group->positionAnchor = &driver->positionAnchor;
+        group->field_18 = 0;
+        group->halfHeight = 0x400;
+        group->driverIndex = driverIndex;
+
+        height = position.y +
+                 (data_02166418[path->pathIndex].value >> 4) -
+                 data_02166480[path->heightIndex];
+        group->halfHeight = height / 2;
+        group->position.x = position.x << 4;
+        group->position.y =
+            (data_02166480[path->heightIndex] + height / 2) << 4;
+        group->position.z =
+            data_0216641c[path->pathIndex].value + (position.z << 4);
+
+        IntrusiveListWrapper_RemoveItem(&data_0217b08c->groups, group);
+        IntrusiveListWrapper_InsertLast(&data_0217b08c->activeItems, group);
+    }
+
+    return group;
+
+notAwardMode:
+    return 0;
+}

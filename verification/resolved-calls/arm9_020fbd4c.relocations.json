@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "VecFx32_Norm",
+    "target": 34898636,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942723931
+  },
+  {
+    "offset": 72,
+    "type": 2,
+    "symbol": "SDK_data_021759c0",
+    "target": 35084736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084736
+  }
+]

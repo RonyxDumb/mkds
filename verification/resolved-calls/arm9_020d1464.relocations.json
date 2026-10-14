@@ -1,0 +1,146 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetActiveExecutionContext",
+    "target": 33776872,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959264285
+  },
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "ExecutionContext_GetHeapHandle",
+    "target": 33776864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959264282
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959264731
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "func_020b47c0",
+    "target": 34293696,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393469
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "Gfx_ReadPalette",
+    "target": 34294396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393639
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "func_020b47c0",
+    "target": 34293696,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393462
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "Gfx_ReadCharGraphics",
+    "target": 34294260,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393598
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "func_020b47c0",
+    "target": 34293696,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393453
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "LoadCellBankFrom",
+    "target": 34293996,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393525
+  },
+  {
+    "offset": 184,
+    "type": 1,
+    "symbol": "CellBank_GetMetatileEntry",
+    "target": 33693468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959243390
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "CopySomePaletteData",
+    "target": 34914448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942771410
+  },
+  {
+    "offset": 248,
+    "type": 1,
+    "symbol": "CopyTileDataTop_0",
+    "target": 34914052,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942771304
+  },
+  {
+    "offset": 292,
+    "type": 2,
+    "symbol": "SDK_data_0217b4ac",
+    "target": 35108012,
+    "thumb": false,
+    "addend": 0,
+    "value": 35108012
+  },
+  {
+    "offset": 296,
+    "type": 2,
+    "symbol": "SDK_data_0216b03c",
+    "target": 35041340,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041340
+  },
+  {
+    "offset": 300,
+    "type": 2,
+    "symbol": "SDK_data_0216b05c",
+    "target": 35041372,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041372
+  },
+  {
+    "offset": 304,
+    "type": 2,
+    "symbol": "SDK_data_0216b07c",
+    "target": 35041404,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041404
+  }
+]

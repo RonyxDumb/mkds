@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "TextSystem_SetFadeInSseqId_from_thumb",
+    "target": 34758332,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603755
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194487062
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194487056
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "TextSystem_DisplaySingleButtonDialog_Simple_from_thumb",
+    "target": 34759216,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603962
+  }
+]

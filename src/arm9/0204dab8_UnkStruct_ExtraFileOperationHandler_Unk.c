@@ -1,30 +1,42 @@
-/* Decompiled C draft; module arm9; ROM address 0204dab8. No matching claim. */
-#include "types.h"
-#include "deps/0204dab8_UnkStruct_ExtraFileOperationHandler_Unk.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02175ec0 SDK_data_02175ec0
+// PURPOSE: Starts a pending extra file operation when the handler is ready.
+// The handler and operation selector probably come from the file-loading state machine.
+// It rejects unavailable states, then begins the asynchronous read for a valid handler.
+// Return values are state-machine results whose precise meanings are still uncertain.
 
-undefined4 UnkStruct_ExtraFileOperationHandler_Unk(int param_1,int param_2)
+typedef struct ExtraFileOperationState {
+    unsigned char padding_00[0x0c];
+    int state_0c;
+} ExtraFileOperationState;
 
+typedef struct ExtraFileOperationHandler {
+    unsigned char padding_00[0x38];
+    void *operation_38;
+} ExtraFileOperationHandler;
+
+extern ExtraFileOperationState data_02175ec0;
+extern void SomeFileAsyncReadFunc(ExtraFileOperationHandler *handler);
+
+int UnkStruct_ExtraFileOperationHandler_Unk(ExtraFileOperationHandler *handler, int operation)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  if (param_2 != 0) {
-    if (param_2 == 1) {
-      return 4;
-    }
-    return 8;
-  }
-  uVar1 = iRam0204db3c + 0xcU & 3;
-  uVar2 = *(uint *)(iRam0204db3c + 0xcU & 0xfffffffc);
-  if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == 2) {
-    uVar1 = param_1 + 0x38U & 3;
-    uVar2 = *(uint *)(param_1 + 0x38U & 0xfffffffc);
-    if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
-      SomeFileAsyncReadFunc(param_1);
-      return 6;
-    }
-    return 0;
-  }
-  return 5;
-}
+    switch (operation) {
+    case 0:
+        if (data_02175ec0.state_0c != 2) {
+            return 5;
+        }
 
+        if (handler->operation_38 == 0) {
+            return 0;
+        }
+
+        SomeFileAsyncReadFunc(handler);
+        return 6;
+
+    case 1:
+        return 4;
+
+    default:
+        return 8;
+    }
+}

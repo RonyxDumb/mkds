@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "RunWhenStaffRollCount",
+    "target": 34779560,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942737756
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_0217b4ac",
+    "target": 35108012,
+    "thumb": false,
+    "addend": 0,
+    "value": 35108012
+  }
+]

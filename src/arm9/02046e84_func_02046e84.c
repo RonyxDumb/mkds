@@ -1,35 +1,45 @@
-/* Decompiled C draft; module arm9; ROM address 02046e84. No matching claim. */
-#include "types.h"
-#include "deps/02046e84_func_02046e84.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021759c4 SDK_data_021759c4
+/* PURPOSE: Marks the race scene as suspended.
+ * This routine does nothing unless the scene state is active.
+ * It probably suspends the owned subsystem once, then records that state.
+ * The function takes no arguments and returns no value.
+ */
+
+typedef struct Struct59C4Sub Struct59C4Sub;
+
+typedef union SceneStateFlags {
+    unsigned int value;
+    struct {
+        signed int unknown0 : 1;
+        signed int active : 1;
+        signed int suspended : 1;
+        signed int remaining : 29;
+    } bits;
+} SceneStateFlags;
+
+typedef struct SceneState {
+    unsigned char padding_00[0x30];
+    SceneStateFlags flags;
+    unsigned char padding_34[8];
+    Struct59C4Sub *subsystem;
+} SceneState;
+
+extern SceneState *data_021759c4;
+extern void Struct59C4Sub_SomeFn_2(Struct59C4Sub *subsystem);
 
 void func_02046e84(void)
-
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar3 = *(uint *)(uRam02046ee0 & 0xfffffffc) >> (uRam02046ee0 & 3) * 8 |
-          *(uint *)(uRam02046ee0 & 0xfffffffc) << (uRam02046ee0 & 3) * -8 + 0x20;
-  uVar1 = uVar3 + 0x30;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  uVar1 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  if ((int)(uVar1 << 0x1e) < 0) {
-    if (-1 < (int)(uVar1 << 0x1d)) {
-      uVar3 = uVar3 + 0x3c;
-      uVar1 = uVar3 & 3;
-      uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-      Struct59C4Sub_SomeFn_2(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
-    }
-    uVar2 = *(uint *)(uRam02046ee0 & 0xfffffffc) >> (uRam02046ee0 & 3) * 8 |
-            *(uint *)(uRam02046ee0 & 0xfffffffc) << (uRam02046ee0 & 3) * -8 + 0x20;
-    uVar1 = uVar2 + 0x30;
-    uVar3 = uVar1 & 3;
-    uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-    *(uint *)(uVar2 + 0x30) = uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20 | 4;
-    return;
-  }
-  return;
-}
+    SceneState *scene = data_021759c4;
 
+    if (!scene->flags.bits.active) {
+        return;
+    }
+
+    if (!scene->flags.bits.suspended) {
+        Struct59C4Sub_SomeFn_2(scene->subsystem);
+    }
+
+    /* Reload the global scene pointer after the call, as in the original. */
+    data_021759c4->flags.value |= 4;
+}

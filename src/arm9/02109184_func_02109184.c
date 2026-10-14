@@ -1,46 +1,52 @@
-/* Decompiled C draft; module arm9; ROM address 02109184. No matching claim. */
-#include "types.h"
-#include "deps/02109184_func_02109184.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint func_02109184(uint param_1)
+// PURPOSE: Updates display values from the current position and returns the hardware division result.
 
+typedef int fx32;
+typedef unsigned short u16;
+
+typedef struct {
+    char pad_00[0x0c];
+    int value;
+} FallbackData;
+
+typedef struct {
+    char pad_00[0x40];
+    int value;
+} ObjectData;
+
+typedef struct {
+    ObjectData *object;
+    void *position;
+    int horizontal;
+    int vertical;
+    char pad_10[0x10];
+    FallbackData *fallback;
+} DisplayData;
+
+extern fx32 func_02073e4c(const void *position);
+extern fx32 func_02073e04(const void *position);
+
+int func_02109184(DisplayData *data)
 {
-  ushort *puVar1;
-  uint *puVar2;
-  uint uVar3;
-  uint uVar4;
-  int iVar5;
-  
-  puVar2 = puRam02109204;
-  uVar3 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  if (uVar3 == 0) {
-    uVar3 = param_1 + 0x20 & 3;
-    uVar4 = *(uint *)(param_1 + 0x20 & 0xfffffffc);
-    uVar3 = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + 0xc;
-    uVar4 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    uVar3 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-  }
-  else {
-    uVar3 = uVar3 + 0x40;
-    uVar4 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    uVar3 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-  }
-  *puRam02109200 = 0;
-  *puVar2 = uVar3;
-  uVar3 = param_1 + 4 & 3;
-  uVar4 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  uVar3 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-  iVar5 = func_02073e4c(uVar3);
-  *(int *)(param_1 + 8) = iVar5 >> 0xc;
-  iVar5 = func_02073e04(uVar3);
-  puVar1 = puRam02109200;
-  *(int *)(param_1 + 0xc) = iVar5 >> 0xc;
-  do {
-  } while ((*puVar1 & 0x8000) != 0);
-  return *(uint *)(uRam02109208 & 0xfffffffc) >> (uRam02109208 & 3) * 8 |
-         *(uint *)(uRam02109208 & 0xfffffffc) << (uRam02109208 & 3) * -8 + 0x20;
-}
+    int value;
+    void *position;
 
+    if (data->object != 0) {
+        value = data->object->value;
+    } else {
+        value = data->fallback->value;
+    }
+
+    *(volatile u16 *)0x040002b0 = 0;
+    *(volatile int *)0x040002b8 = value;
+
+    position = data->position;
+    data->horizontal = func_02073e4c(position) >> 12;
+    data->vertical = func_02073e04(position) >> 12;
+
+    while ((*(volatile u16 *)0x040002b0 & 0x8000) != 0) {
+    }
+
+    return *(volatile int *)0x040002b4;
+}

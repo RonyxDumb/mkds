@@ -1,61 +1,94 @@
-/* Decompiled C draft; module arm9; ROM address 020b80a8. No matching claim. */
-#include "types.h"
-#include "deps/020b80a8_DrawRacerNames.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define gRaceConfig SDK_data_021759c0
+// PURPOSE: Draws every racer's name on the race results screen.
+// This builds a temporary text renderer over the shared name-tile buffer.
+// It lays the names out in two rows and draws a one-pixel shadow first.
+// The current racer's colors probably reflect the active race setup.
+
+typedef signed char s8;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct TextSprite {
+    u32 storage[8];
+} TextSprite;
+
+typedef struct TextRenderer {
+    TextSprite *sprite;
+    void *font;
+    int inter_character_width;
+    int line_spacing;
+} TextRenderer;
+
+extern u8 *gRaceConfig;
+
+extern void *GetLoadedFont_from_thumb(int font_index);
+extern u16 *GetSomeBgCanvasTileData_from_thumb(void);
+extern void Clear1A44SomeTileData_from_thumb(void);
+extern void G2d_Sprite_CreateFromTiles(void *sprite, void *tiles, int width,
+                                       int height, int color_mode);
+extern void FormatRacerNameString_from_thumb(int racer_id, u16 *destination,
+                                             int language);
+extern int GetCurrentPlayerRacerId(void);
+extern void G2d_Text_PrintString(void *text, int x, int y, int color,
+                                 u32 flags, u16 *string);
 
 void DrawRacerNames(void)
-
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  uint uVar6;
-  uint uVar7;
-  undefined4 local_90;
-  undefined4 local_88;
-  undefined1 auStack_80 [32];
-  undefined1 *local_60;
-  undefined4 local_5c;
-  undefined4 local_58;
-  undefined4 local_54;
-  undefined1 auStack_50 [44];
-  
-  uVar4 = GetLoadedFont_from_thumb(0);
-  uVar5 = GetSomeBgCanvasTileData_from_thumb();
-  Clear1A44SomeTileData_from_thumb();
-  G2d_Sprite_CreateFromTiles(auStack_80,uVar5,0x20,4,4);
-  uVar7 = 0;
-  local_58 = 1;
-  local_88 = 0xe;
-  local_90 = 0xc;
-  local_60 = auStack_80;
-  local_54 = 0;
-  local_5c = uVar4;
-  do {
-    iVar1 = (uVar7 & 3) << 6;
-    iVar2 = (uVar7 >> 2) * 0x10;
-    FormatRacerNameString_from_thumb(uVar7,(int)(uintptr_t)(auStack_50),0);
-    uVar6 = GetCurrentPlayerRacerId();
-    uVar4 = local_88;
-    if ((uVar7 == uVar6) &&
-       (uVar6 = *(uint *)(uRam020b8218 & 0xfffffffc) >> (uRam020b8218 & 3) * 8 |
-                *(uint *)(uRam020b8218 & 0xfffffffc) << (uRam020b8218 & 3) * -8 + 0x20,
-       uVar4 = local_90, *(char *)(uVar6 + 0x58) != '\0')) {
-      uVar6 = uVar7 * 0x30 + uVar6 + 0x74;
-      uVar3 = uVar6 & 3;
-      uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-      if (uVar6 >> uVar3 * 8 == 0 && uVar6 << uVar3 * -8 + 0x20 == 0) {
-        uVar4 = 10;
-      }
-      else {
-        uVar4 = 8;
-      }
-    }
-    G2d_Text_PrintString(&local_60,iVar1,iVar2 + 9);
-    G2d_Text_PrintString((int)(uintptr_t)(&local_60),iVar1,iVar2 + 8,uVar4,uRam020b821c,(undefined4)(uintptr_t)(auStack_50));
-    uVar7 = uVar7 + 1 & 0xffff;
-  } while (uVar7 < 8);
-  return;
-}
+    TextSprite sprite;
+    TextRenderer text;
+    u16 name[22];
+    void *font;
+    u16 *tiles;
+    u16 racer;
+    int language = 0;
+    int color8 = 8;
+    int color9 = 9;
+    int color10 = 10;
+    int color11 = 11;
+    int color12 = 12;
+    int color13 = 13;
+    int color14 = 14;
+    int color15 = 15;
 
+    font = GetLoadedFont_from_thumb(0);
+    tiles = GetSomeBgCanvasTileData_from_thumb();
+    Clear1A44SomeTileData_from_thumb();
+    G2d_Sprite_CreateFromTiles(&sprite, tiles, 0x20, 4, 4);
+
+    text.sprite = &sprite;
+    text.font = font;
+    text.inter_character_width = 1;
+    text.line_spacing = 0;
+
+    for (racer = 0; (u32)racer < 8; racer++) {
+        int x = (racer % 4) << 6;
+        int y = ((u32)racer >> 2) * 0x10 + 8;
+        int color;
+        int shadow_color;
+
+        FormatRacerNameString_from_thumb(racer, name, language);
+
+        if (racer == GetCurrentPlayerRacerId()) {
+            if (((s8 *)gRaceConfig)[0x58] != 0) {
+                if (*(int *)(gRaceConfig + racer * 0x30 + 0x74) == 0) {
+                    color = color10;
+                    shadow_color = color11;
+                } else {
+                    color = color8;
+                    shadow_color = color9;
+                }
+            } else {
+                color = color12;
+                shadow_color = color13;
+            }
+        } else {
+            color = color14;
+            shadow_color = color15;
+        }
+
+        G2d_Text_PrintString(&text, x, y + 1, shadow_color, 0x40a, name);
+        G2d_Text_PrintString(&text, x, y, color, 0x40a, name);
+    }
+}

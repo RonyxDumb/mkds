@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "FormatCharacterPath",
+    "target": 34112560,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658761
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "FormatCharacterEmblemName",
+    "target": 34112652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658780
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "_snprintf",
+    "target": 34820168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942835648
+  },
+  {
+    "offset": 96,
+    "type": 2,
+    "symbol": "SDK_data_021551b0",
+    "target": 34951600,
+    "thumb": false,
+    "addend": 0,
+    "value": 34951600
+  },
+  {
+    "offset": 100,
+    "type": 2,
+    "symbol": "SDK_data_0217ad34",
+    "target": 35106100,
+    "thumb": false,
+    "addend": 0,
+    "value": 35106100
+  },
+  {
+    "offset": 104,
+    "type": 2,
+    "symbol": "SDK_data_021658e0",
+    "target": 35018976,
+    "thumb": false,
+    "addend": 0,
+    "value": 35018976
+  }
+]

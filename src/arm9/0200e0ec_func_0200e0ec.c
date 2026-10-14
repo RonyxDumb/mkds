@@ -1,29 +1,62 @@
-/* Decompiled C draft; module arm9; ROM address 0200e0ec. No matching claim. */
-#include "types.h"
-#include "deps/0200e0ec_func_0200e0ec.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0216ff5c SDK_data_0216ff5c
+/*
+PURPOSE: Destroys a thread and wakes anything waiting for it to finish.
+The argument is the thread to destroy.
+The current thread is disposed through the dedicated current-thread path.
+Other threads are detached, marked terminated, and followed by a reschedule.
+*/
+typedef unsigned int u32;
 
-void func_0200e0ec(uint param_1)
+typedef struct OsThread OsThread;
 
+typedef struct {
+    OsThread *head;
+    OsThread *tail;
+} OsThreadQueue;
+
+struct OsThread {
+    unsigned char context[0x64];
+    int state;
+    unsigned char fields[0x34];
+    OsThreadQueue joinQueue;
+};
+
+typedef struct {
+    u32 schedulerState;
+    OsThread *currentThread;
+} OsThreadContext;
+
+extern OsThreadContext data_0216ff5c;
+
+extern u32 Os_DisableIrq(void);
+extern void Os_RestoreIrq(u32 state);
+extern void Os_DisposeCurrentThreadImpl(void);
+extern u32 Os_DisableScheduler(void);
+extern void Os_UnlockAllMutexes(OsThread *thread);
+extern void Os_Thread_CancelAlarmForSleep(OsThread *thread);
+extern void Os_PopThread(OsThread *thread);
+extern void Os_Thread_WakeUp(OsThreadQueue *queue);
+extern u32 Os_EnableScheduler(void);
+extern void Os_RescheduleThread(void);
+
+void func_0200e0ec(OsThread *thread)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  
-  uVar2 = Os_DisableIrq();
-  uVar1 = iRam0200e15c + 4U & 3;
-  uVar3 = *(uint *)(iRam0200e15c + 4U & 0xfffffffc);
-  if ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) == param_1) {
-    Os_DisposeCurrentThreadImpl();
-  }
-  Os_DisableScheduler();
-  Os_UnlockAllMutexes(param_1);
-  Os_Thread_CancelAlarmForSleep(param_1);
-  Os_PopThread(param_1);
-  *(undefined4 *)(param_1 + 100) = 2;
-  Os_Thread_WakeUp((uint *)(uintptr_t)(param_1 + 0x9c));
-  Os_EnableScheduler();
-  Os_RestoreIrq(uVar2);
-  Os_RescheduleThread();
-  return;
-}
+    u32 previousIrqState = Os_DisableIrq();
 
+    if (data_0216ff5c.currentThread == thread) {
+        Os_DisposeCurrentThreadImpl();
+    }
+
+    (void)Os_DisableScheduler();
+    Os_UnlockAllMutexes(thread);
+    Os_Thread_CancelAlarmForSleep(thread);
+    Os_PopThread(thread);
+
+    thread->state = 2;
+    Os_Thread_WakeUp(&thread->joinQueue);
+
+    (void)Os_EnableScheduler();
+    Os_RestoreIrq(previousIrqState);
+    Os_RescheduleThread();
+}

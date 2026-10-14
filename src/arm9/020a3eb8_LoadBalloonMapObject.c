@@ -1,24 +1,25 @@
-/* Decompiled C draft; module arm9; ROM address 020a3eb8. No matching claim. */
-#include "types.h"
-#include "deps/020a3eb8_LoadBalloonMapObject.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02167878 SDK_data_02167878
+#define data_02167888 SDK_data_02167888
+#define data_0217b204 SDK_data_0217b204
+/* PURPOSE: Loads the balloon map object (balloon.nsbmd + balloon.nsbtp).
+ * Behaviour: creates the map object from its model and animation, stores it in
+ * a global, then configures it (polygon-id 0x3f and two further properties
+ * 0x1a and 0) and finally marks the caller's struct ready (field 0x1c = 1). */
+extern void *data_0217b204;     /* the created balloon map object */
+extern char data_02167878[];    /* "balloon.nsbmd" */
+extern char data_02167888[];    /* "balloon.nsbtp" */
 
-void LoadBalloonMapObject(int param_1)
+extern void *CreateMapObjectFromModelAndAnimation_from_thumb(void *a0, void *model, void *anim);
+extern void StructMapObject_MaybeSetPolygonId(void *obj, int id);
+extern void StructMapObject_SomeFn_6(void *obj, int a);
+extern void StructMapObject_SomeFn_7(void *obj, int a);
 
-{
-  undefined4 uVar1;
-  
-  uVar1 = CreateMapObjectFromModelAndAnimation_from_thumb(param_1,uRam020a3f0c,uRam020a3f10);
-  *puRam020a3f14 = uVar1;
-  StructMapObject_MaybeSetPolygonId(uVar1,0x3f);
-  StructMapObject_SomeFn_6
-            (*(uint *)((uint)puRam020a3f14 & 0xfffffffc) >> ((uint)puRam020a3f14 & 3) * 8 |
-             *(uint *)((uint)puRam020a3f14 & 0xfffffffc) << ((uint)puRam020a3f14 & 3) * -8 + 0x20,
-             0x1a);
-  StructMapObject_SomeFn_7
-            (*(uint *)((uint)puRam020a3f14 & 0xfffffffc) >> ((uint)puRam020a3f14 & 3) * 8 |
-             *(uint *)((uint)puRam020a3f14 & 0xfffffffc) << ((uint)puRam020a3f14 & 3) * -8 + 0x20,0)
-  ;
-  *(undefined4 *)(param_1 + 0x1c) = 1;
-  return;
+void LoadBalloonMapObject(int *a0) {
+    void *obj = CreateMapObjectFromModelAndAnimation_from_thumb(a0, data_02167878, data_02167888);
+    data_0217b204 = obj;
+    StructMapObject_MaybeSetPolygonId(obj, 0x3f);
+    StructMapObject_SomeFn_6(data_0217b204, 0x1a);
+    StructMapObject_SomeFn_7(data_0217b204, 0);
+    a0[7] = 1;
 }
-

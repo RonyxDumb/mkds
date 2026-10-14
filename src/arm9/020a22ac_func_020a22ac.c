@@ -1,25 +1,27 @@
-/* Decompiled C draft; module arm9; ROM address 020a22ac. No matching claim. */
-#include "types.h"
-#include "deps/020a22ac_func_020a22ac.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b1fc SDK_data_0217b1fc
+/* PURPOSE: During the staff-roll/award sequence, mark a driver's slot in the
+ * shared entry table as "state 10" once its driver-entry lookup succeeds.
+ */
 
-void func_020a22ac(int param_1)
+typedef struct {
+    char pad[0x64];
+    int f64;
+    char pad2[0x70 - 0x64 - 4];
+} SlotEntry;
 
+extern int IsAwardOrStaffRoll(void);
+extern void *GetDriverEntry(int a);
+extern int func_01ffc67c(void *entry);
+extern SlotEntry *data_0217b1fc;
+
+void func_020a22ac(int a)
 {
-  int iVar1;
-  
-  iVar1 = IsAwardOrStaffRoll();
-  if (iVar1 != 1) {
-    return;
-  }
-  GetDriverEntry(param_1);
-  iVar1 = func_01ffc67c();
-  if (iVar1 == 0) {
-    *(undefined4 *)
-     (param_1 * 0x70 +
-      (*(uint *)(uRam020a22fc & 0xfffffffc) >> (uRam020a22fc & 3) * 8 |
-      *(uint *)(uRam020a22fc & 0xfffffffc) << (uRam020a22fc & 3) * -8 + 0x20) + 100) = 10;
-    return;
-  }
-  return;
-}
+    if (IsAwardOrStaffRoll() != 1)
+        return;
 
+    if (func_01ffc67c(GetDriverEntry(a)) != 0)
+        return;
+
+    data_0217b1fc[a].f64 = 10;
+}

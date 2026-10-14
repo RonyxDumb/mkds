@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Rtc_GetDate",
+    "target": 34922552,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942926351
+  }
+]

@@ -1,22 +1,27 @@
-/* Decompiled C draft; module arm9; ROM address 0207b6c0. No matching claim. */
-#include "types.h"
-#include "deps/0207b6c0_CharacterKartContext_SetNsbcaAnimAt.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void CharacterKartContext_SetNsbcaAnimAt(int param_1,undefined2 param_2,int param_3)
+// PURPOSE: Sets a kart character animation at a chosen frame.
+// The context probably stores its animation controller at offset 0x08.
+// The flag selects whether the animation changes with blending.
 
+typedef unsigned short u16;
+
+typedef struct CharacterKartContext {
+    char padding[8];
+    void *animation;
+} CharacterKartContext;
+
+extern void Animation_SetWithBlendAt(void *animation, int animation_index,
+                                     int blend);
+extern void Animation_SetAt(void *animation, int animation_index);
+
+void CharacterKartContext_SetNsbcaAnimAt(CharacterKartContext *context,
+                                         int animation_index, int blend)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  if (param_3 != 0) {
-    uVar1 = param_1 + 8U & 3;
-    uVar2 = *(uint *)(param_1 + 8U & 0xfffffffc);
-    Animation_SetWithBlendAt(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,param_2);
-    return;
-  }
-  uVar1 = param_1 + 8U & 3;
-  uVar2 = *(uint *)(param_1 + 8U & 0xfffffffc);
-  Animation_SetAt(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,param_2);
-  return;
+    if (blend != 0) {
+        Animation_SetWithBlendAt(context->animation, (u16)animation_index,
+                                 blend);
+    } else {
+        Animation_SetAt(context->animation, (u16)animation_index);
+    }
 }
-

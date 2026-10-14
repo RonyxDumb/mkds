@@ -1,15 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 020a9db0. No matching claim. */
-#include "types.h"
-#include "deps/020a9db0_Maybe_helper_0a9db0.h"
-
-void Maybe_helper_0a9db0(undefined4 param_1)
-
-{
-  undefined4 uVar1;
-  
-  uVar1 = CreateMapObjectFromModel_2_from_thumb(param_1,uRam020a9ddc);
-  *puRam020a9de0 = uVar1;
-  StructMapObject_MaybeSetPolygonId(uVar1,0x3f);
-  return;
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define CreateMapObjectFromModel_from_thumb CreateMapObjectFromModel_2_from_thumb
+#define data_02167680 SDK_data_021679e8
+#define data_0217b1f8 SDK_data_0217b230
+#define LoadAirshipMapObject Maybe_helper_0a9db0
+extern int data_02167680;
+extern void *data_0217b1f8;
+extern void *CreateMapObjectFromModel_from_thumb(void *a0, void *a1);
+extern void StructMapObject_MaybeSetPolygonId(void *obj, int id);
+void LoadAirshipMapObject(void *a0) {
+    void *obj = CreateMapObjectFromModel_from_thumb(a0, &data_02167680);
+    data_0217b1f8 = obj;
+    StructMapObject_MaybeSetPolygonId(obj, 0x3f);
 }
-

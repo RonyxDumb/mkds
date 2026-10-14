@@ -1,36 +1,43 @@
-/* Decompiled C draft; module arm9; ROM address 020ec7e8. No matching claim. */
-#include "types.h"
-#include "deps/020ec7e8_func_020ec7e8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-bool func_020ec7e8(int param_1)
+/* PURPOSE: Moves an object and updates its rotation each frame.
+ *
+ * The argument is probably a moving object's state. This adjusts its 16-bit
+ * rotation in the selected direction, applies vertical acceleration, advances
+ * its position, and reports whether it is below a configured height.
+ */
 
+typedef unsigned short u16;
+
+typedef struct {
+    int x;
+    int y;
+    int z;
+} VecFx32;
+
+typedef struct {
+    int f0;
+    VecFx32 position;          /* +0x04 */
+    VecFx32 velocity;          /* +0x10 */
+    char pad1c[0xa0 - 0x1c];
+    int heightLimit;           /* +0xa0 */
+    int verticalAcceleration;  /* +0xa4 */
+    int rotationDirection;     /* +0xa8 */
+    u16 rotation;              /* +0xac */
+    u16 rotationStep;          /* +0xae */
+} MovingObject;
+
+extern void VecFx32_Add(VecFx32 *dst, VecFx32 *a, VecFx32 *b);
+
+int func_020ec7e8(MovingObject *object)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  uVar1 = param_1 + 0xa8U & 3;
-  uVar2 = *(uint *)(param_1 + 0xa8U & 0xfffffffc);
-  if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
-    *(short *)(param_1 + 0xac) = *(short *)(param_1 + 0xac) - *(short *)(param_1 + 0xae);
-  }
-  else {
-    *(short *)(param_1 + 0xac) = *(short *)(param_1 + 0xac) + *(short *)(param_1 + 0xae);
-  }
-  uVar1 = param_1 + 0x14U & 3;
-  uVar4 = *(uint *)(param_1 + 0x14U & 0xfffffffc);
-  uVar2 = param_1 + 0xa4U & 3;
-  uVar3 = *(uint *)(param_1 + 0xa4U & 0xfffffffc);
-  *(uint *)(param_1 + 0x14) =
-       (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) -
-       (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20);
-  VecFx32_Add(param_1 + 4,param_1 + 0x10,(int *)(uintptr_t)(param_1 + 4));
-  uVar1 = param_1 + 8U & 3;
-  uVar4 = *(uint *)(param_1 + 8U & 0xfffffffc);
-  uVar2 = param_1 + 0xa0U & 3;
-  uVar3 = *(uint *)(param_1 + 0xa0U & 0xfffffffc);
-  return (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) <
-         (int)(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20);
-}
+    if (object->rotationDirection != 0)
+        object->rotation += object->rotationStep;
+    else
+        object->rotation -= object->rotationStep;
 
+    object->velocity.y -= object->verticalAcceleration;
+    VecFx32_Add(&object->position, &object->velocity, &object->position);
+
+    return object->position.y < object->heightLimit;
+}

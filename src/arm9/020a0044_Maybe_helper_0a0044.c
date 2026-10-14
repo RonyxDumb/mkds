@@ -1,10 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 020a0044. No matching claim. */
-#include "types.h"
-#include "deps/020a0044_Maybe_helper_0a0044.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0215d4b4 SDK_data_0215d4b4
+#define Maybe_helper_091f24 Maybe_helper_0a0044
+extern short data_0215d4b4[];
 
-int Maybe_helper_0a0044(int param_1)
-
-{
-  return (int)*(short *)(iRam020a0060 + ((param_1 >> 4) * 2 + 1) * 2);
+short Maybe_helper_091f24(int arg) {
+    return data_0215d4b4[((arg >> 4) << 1) + 1];
 }
-

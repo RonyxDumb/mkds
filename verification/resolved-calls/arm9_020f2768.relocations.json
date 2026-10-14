@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Vector3_DotProduct",
+    "target": 34899084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942733632
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "VecFx32_Subtract",
+    "target": 34899152,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942733616
+  },
+  {
+    "offset": 216,
+    "type": 1,
+    "symbol": "Vector3_MaybeNormalize",
+    "target": 33790048,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959233542
+  },
+  {
+    "offset": 244,
+    "type": 1,
+    "symbol": "Vector3_Cross",
+    "target": 33789864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959233489
+  },
+  {
+    "offset": 276,
+    "type": 1,
+    "symbol": "DriverContext_MaybeQueuePlaySfx",
+    "target": 34640068,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942668816
+  }
+]

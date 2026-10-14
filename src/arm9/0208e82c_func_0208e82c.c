@@ -1,76 +1,88 @@
-/* Decompiled C draft; module arm9; ROM address 0208e82c. No matching claim. */
-#include "types.h"
-#include "deps/0208e82c_func_0208e82c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_0208e82c(undefined4 param_1,int param_2,int param_3,int param_4)
+/* Draws a single textured quad (billboard-like strip) through the NDS 3D
+ * geometry engine using immediate-mode MMIO register writes.
+ *
+ * Builds two 4x3 model matrices m0/m1 from the camera matrix `cam`:
+ *   each is a scale (Y from top->_08 / bottom->_08, X/Z = 1.0) whose
+ *   translation column is taken from top->pos / bottom->pos, then
+ *   concatenated with `cam` in place.
+ * Then it begins a primitive, loads m0, emits the top edge (2 verts),
+ * loads m1, emits the bottom edge (2 verts) and ends the primitive.
+ * Texture S/T come from tex->s (0x1c) and tex->t (0x20): each is converted
+ * to a 16-bit texcoord via (x<<8)>>16 then truncated to u16.
+ * Vertex XY positions are fixed 10-bit constants (+/-0.125 in Y).
+ * args: cam = view/proj MtxFx43*; top/bottom = corner params (scale+pos);
+ *        tex = texture-size params (s at 0x1c, t at 0x20). */
 
-{
-  uint uVar1;
-  uint *puVar2;
-  undefined4 *puVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  undefined1 auStack_78 [36];
-  uint local_54;
-  uint local_50;
-  uint local_4c;
-  undefined1 auStack_48 [36];
-  uint local_24;
-  uint local_20;
-  uint local_1c;
-  
-  uVar1 = param_2 + 8U & 3;
-  uVar4 = *(uint *)(param_2 + 8U & 0xfffffffc);
-  MTX_Scale43__from_thumb((undefined4 *)(void *)(auStack_78),0x1000,uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20,0x1000);
-  uVar1 = param_3 + 8U & 3;
-  uVar4 = *(uint *)(param_3 + 8U & 0xfffffffc);
-  MTX_Scale43__from_thumb((undefined4 *)(void *)(auStack_48),0x1000,uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20,0x1000);
-  uVar1 = param_2 + 0x10U & 3;
-  uVar4 = *(uint *)(param_2 + 0x10U & 0xfffffffc);
-  local_54 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  uVar1 = param_2 + 0x14U & 3;
-  uVar4 = *(uint *)(param_2 + 0x14U & 0xfffffffc);
-  local_50 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  uVar1 = param_2 + 0x18U & 3;
-  uVar4 = *(uint *)(param_2 + 0x18U & 0xfffffffc);
-  local_4c = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  uVar1 = param_3 + 0x10U & 3;
-  uVar4 = *(uint *)(param_3 + 0x10U & 0xfffffffc);
-  local_24 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  uVar1 = param_3 + 0x14U & 3;
-  uVar4 = *(uint *)(param_3 + 0x14U & 0xfffffffc);
-  local_20 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  uVar1 = param_3 + 0x18U & 3;
-  uVar4 = *(uint *)(param_3 + 0x18U & 0xfffffffc);
-  local_1c = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  MTX_Concat43((uint)(uintptr_t)(auStack_78),(uint *)(uintptr_t)(param_1),(uint *)(void *)(auStack_78));
-  MTX_Concat43((uint)(uintptr_t)(auStack_48),(uint *)(uintptr_t)(param_1),(uint *)(void *)(auStack_48));
-  *puRam0208e98c = 1;
-  G3_LoadMtx43(auStack_78);
-  puVar2 = puRam0208e990;
-  uVar1 = param_4 + 0x1cU & 3;
-  uVar4 = *(uint *)(param_4 + 0x1cU & 0xfffffffc);
-  *puRam0208e990 = (int)((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) << 8) >> 0x10 & 0xffff;
-  puVar3 = puRam0208e994;
-  *puRam0208e994 = 0x10000;
-  *puVar2 = 0;
-  *puVar3 = 0xf0000;
-  G3_LoadMtx43(auStack_48);
-  puVar2 = puRam0208e990;
-  uVar1 = param_4 + 0x20U & 3;
-  uVar4 = *(uint *)(param_4 + 0x20U & 0xfffffffc);
-  *puRam0208e990 = ((int)((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) << 8) >> 0x10) << 0x10;
-  puVar3 = puRam0208e994;
-  *puRam0208e994 = 0xf0000;
-  uVar1 = param_4 + 0x1cU & 3;
-  uVar5 = *(uint *)(param_4 + 0x1cU & 0xfffffffc);
-  uVar4 = param_4 + 0x20U & 3;
-  uVar6 = *(uint *)(param_4 + 0x20U & 0xfffffffc);
-  *puVar2 = (int)((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) << 8) >> 0x10 & 0xffffU |
-            ((int)((uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20) << 8) >> 0x10) << 0x10;
-  *puVar3 = 0x10000;
-  *puRam0208e998 = 0;
-  return;
+typedef int fx32;
+
+typedef struct { fx32 x, y, z; } VecFx32;
+
+/* NITRO 4x3 fixed-point matrix: 3x3 rotation then translation column. */
+typedef struct {
+    fx32 _00, _01, _02;
+    fx32 _10, _11, _12;
+    fx32 _20, _21, _22;
+    fx32 _30, _31, _32;   /* translation at 0x24 / 0x28 / 0x2c */
+} MtxFx43;
+
+/* Corner descriptor: Y-scale at 0x08, position vector at 0x10..0x18. */
+typedef struct {
+    fx32 _00, _04;
+    fx32 scaleY;          /* 0x08 */
+    fx32 _0c;
+    VecFx32 pos;          /* 0x10, 0x14, 0x18 */
+} Corner;
+
+/* Texture-size params: S at 0x1c, T at 0x20. */
+typedef struct {
+    char _pad[0x1c];
+    fx32 s;               /* 0x1c */
+    fx32 t;               /* 0x20 */
+} TexParam;
+
+extern void MTX_Scale43__from_thumb(MtxFx43 *m, fx32 x, fx32 y, fx32 z);
+extern void MTX_Concat43(const MtxFx43 *a, const MtxFx43 *b, MtxFx43 *ab);
+extern void G3_LoadMtx43(const MtxFx43 *m);
+
+/* Geometry-engine registers (direct volatile MMIO, no extern symbols). */
+#define REG_GE_BEGIN    (*(volatile unsigned long *)0x04000500)
+#define REG_GE_END      (*(volatile unsigned long *)0x04000504)
+#define REG_GE_TEXCOORD (*(volatile unsigned long *)0x04000488)
+#define REG_GE_VTX_10   (*(volatile unsigned long *)0x04000490)
+
+void func_0208e82c(MtxFx43 *cam, Corner *top, Corner *bottom, TexParam *tex) {
+    MtxFx43 m0;
+    MtxFx43 m1;
+
+    MTX_Scale43__from_thumb(&m0, 0x1000, top->scaleY, 0x1000);
+    MTX_Scale43__from_thumb(&m1, 0x1000, bottom->scaleY, 0x1000);
+
+    m0._30 = top->pos.x;
+    m0._31 = top->pos.y;
+    m0._32 = top->pos.z;
+    m1._30 = bottom->pos.x;
+    m1._31 = bottom->pos.y;
+    m1._32 = bottom->pos.z;
+
+    MTX_Concat43(&m0, cam, &m0);
+    MTX_Concat43(&m1, cam, &m1);
+
+    REG_GE_BEGIN = 1;               /* begin primitive (quads) */
+
+    G3_LoadMtx43(&m0);
+    REG_GE_TEXCOORD = (unsigned short)((tex->s << 8) >> 16);
+    REG_GE_VTX_10 = 0x10000;
+    REG_GE_TEXCOORD = 0;
+    REG_GE_VTX_10 = 0xf0000;
+
+    G3_LoadMtx43(&m1);
+    REG_GE_TEXCOORD = ((unsigned short)((tex->t << 8) >> 16)) << 16;
+    REG_GE_VTX_10 = 0xf0000;
+    REG_GE_TEXCOORD = (unsigned short)((tex->s << 8) >> 16)
+                    | (((unsigned short)((tex->t << 8) >> 16)) << 16);
+    REG_GE_VTX_10 = 0x10000;
+
+    REG_GE_END = 0;                 /* end primitive */
 }
-

@@ -1,17 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0209b758. No matching claim. */
-#include "types.h"
-#include "deps/0209b758_StructMapObject_GetAnimationBCAFrameCount.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint StructMapObject_GetAnimationBCAFrameCount(int param_1)
+// PURPOSE: Gets the current frame count of a map object's animation.
+// The object probably stores its animation pointer at offset 0x1C.
+// The returned animation length is converted to the 16-bit frame value.
 
-{
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  
-  uVar1 = param_1 + 0x1cU & 3;
-  uVar2 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-  iVar3 = Animation_GetCurrentLength(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  return (uint)(iVar3 << 4) >> 0x10;
+extern unsigned int Animation_GetCurrentLength(void *animation);
+
+unsigned int StructMapObject_GetAnimationBCAFrameCount(void *object) {
+    return (Animation_GetCurrentLength(*(void **)((char *)object + 0x1C)) << 4) >> 16;
 }
-

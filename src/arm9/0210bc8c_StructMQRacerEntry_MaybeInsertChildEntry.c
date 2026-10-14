@@ -1,22 +1,48 @@
-/* Decompiled C draft; module arm9; ROM address 0210bc8c. No matching claim. */
-#include "types.h"
-#include "deps/0210bc8c_StructMQRacerEntry_MaybeInsertChildEntry.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 StructMQRacerEntry_MaybeInsertChildEntry(int param_1,int param_2)
+// PURPOSE: Adds a child entry to this racer entry when the child is unused.
+// The first argument is probably the list-owning racer entry.
+// The second argument points at the child-entry storage.
+// The racer entry supplies the child's byte offset within that storage.
 
+typedef unsigned short u16;
+
+typedef struct IntrusiveListWrapper IntrusiveListWrapper;
+
+typedef struct StructMQRacerEntry {
+    unsigned char padding[0xA];
+    u16 child_offset;
+} StructMQRacerEntry;
+
+typedef struct StructMQChildEntry {
+    unsigned char padding[8];
+    StructMQRacerEntry *parent;
+} StructMQChildEntry;
+
+extern void IntrusiveListWrapper_InsertLast(IntrusiveListWrapper *list, void *item);
+
+int StructMQRacerEntry_MaybeInsertChildEntry(StructMQRacerEntry *entry, void *child)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  param_2 = param_2 + (uint)*(ushort *)(param_1 + 10);
-  uVar2 = param_2 + 8;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
-    *(int *)(param_2 + 8) = param_1;
-    IntrusiveListWrapper_InsertLast();
-    return 1;
-  }
-  return 0;
-}
+    StructMQChildEntry *child_entry;
+    int inserted;
 
+    child_entry = (StructMQChildEntry *)((unsigned char *)child + entry->child_offset);
+    if (child_entry->parent != 0) {
+        inserted = 0;
+    } else {
+        inserted = 1;
+        child_entry->parent = entry;
+    }
+
+    if (inserted == 0)
+        goto not_inserted;
+
+    IntrusiveListWrapper_InsertLast((IntrusiveListWrapper *)entry, child);
+    goto inserted_entry;
+
+not_inserted:
+    return 0;
+
+inserted_entry:
+    return 1;
+}

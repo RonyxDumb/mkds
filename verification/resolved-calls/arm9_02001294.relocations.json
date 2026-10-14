@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "TextSystem_WasAnyDialogButtonPressed_from_thumb",
+    "target": 34758484,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603820
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "TextSystem_SetFadeInSseqId_from_thumb",
+    "target": 34758332,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603778
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "TextSystem_CloseDialog_from_thumb",
+    "target": 34758592,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603842
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "TextSystem_IsDialogFinished_from_thumb",
+    "target": 34758536,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603824
+  }
+]

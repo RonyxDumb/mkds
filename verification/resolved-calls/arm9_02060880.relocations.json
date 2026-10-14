@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "GlobalZ_GetOI",
+    "target": 33943060,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421278
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "GlobalZ_SetOI",
+    "target": 33943156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421285
+  }
+]

@@ -1,24 +1,38 @@
-/* Decompiled C draft; module arm9; ROM address 0214358c. No matching claim. */
-#include "types.h"
-#include "deps/0214358c_func_0214358c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-int func_0214358c(int param_1,undefined4 param_2,undefined4 param_3)
+// PURPOSE: Sets two wireless manager callbacks while interrupts are protected.
+// The first argument selects a callback slot, probably for a wireless event.
+// It stores the two supplied pointers only when the wireless manager is ready.
 
+typedef unsigned int u32;
+
+typedef struct WmGlobal {
+    char pad_00[0xc4];
+    void *callback[16];
+    void *callback2[16];
+} WmGlobal;
+
+extern u32 Os_DisableIrq(void);
+extern void Os_RestoreIrq(u32 state);
+extern int Wm_CheckInitialized(void);
+extern WmGlobal *Wm_GetGlobal(void);
+
+int func_0214358c(u32 index, void *callback, void *callback2)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  uVar1 = Os_DisableIrq();
-  iVar2 = Wm_CheckInitialized();
-  if (iVar2 != 0) {
-    Os_RestoreIrq(uVar1);
-    return iVar2;
-  }
-  iVar2 = Wm_GetGlobal();
-  iVar2 = iVar2 + param_1 * 4;
-  *(undefined4 *)(iVar2 + 0xc4) = param_2;
-  *(undefined4 *)(iVar2 + 0x104) = param_3;
-  Os_RestoreIrq(uVar1);
-  return 0;
-}
+    u32 state;
+    int status;
+    WmGlobal *global;
 
+    state = Os_DisableIrq();
+    status = Wm_CheckInitialized();
+    if (status != 0) {
+        Os_RestoreIrq(state);
+        return status;
+    }
+
+    global = Wm_GetGlobal();
+    global->callback[index] = callback;
+    global->callback2[index] = callback2;
+    Os_RestoreIrq(state);
+    return 0;
+}

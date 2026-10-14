@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "WaitForIRQ",
+    "target": 33605780,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959345840
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_0217aa0c",
+    "target": 35105292,
+    "thumb": false,
+    "addend": 0,
+    "value": 35105292
+  }
+]

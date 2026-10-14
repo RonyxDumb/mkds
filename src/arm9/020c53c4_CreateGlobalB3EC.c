@@ -1,32 +1,30 @@
-/* Decompiled C draft; module arm9; ROM address 020c53c4. No matching claim. */
-#include "types.h"
-#include "deps/020c53c4_CreateGlobalB3EC.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b3ec SDK_data_0217b3ec
+// PURPOSE: Creates and clears the shared global work record.
+// The record is allocated from the active execution context's heap.
+// Its five pointer-sized fields start empty.
+// Its exact scene-specific role is probably unknown.
+
+typedef struct GlobalB3EC {
+    void *field_00;
+    void *field_04;
+    void *field_08;
+    void *field_0C;
+    void *field_10;
+} GlobalB3EC;
+
+extern void *GetActiveExecutionContext(void);
+extern void *ExecutionContext_GetHeapHandle(void *context);
+extern void *Mem_AllocateHeap(void *heap, unsigned int size);
+extern GlobalB3EC *data_0217b3ec;
 
 void CreateGlobalB3EC(void)
-
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  
-  GetActiveExecutionContext();
-  uVar2 = ExecutionContext_GetHeapHandle();
-  puVar3 = (undefined4 *)Mem_AllocateHeap(uVar2,0x14);
-  puVar1 = puRam020c5418;
-  *puRam020c5418 = puVar3;
-  *puVar3 = 0;
-  *(undefined4 *)
-   ((*(uint *)((uint)puVar1 & 0xfffffffc) >> ((uint)puVar1 & 3) * 8 |
-    *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 4) = 0;
-  *(undefined4 *)
-   ((*(uint *)((uint)puVar1 & 0xfffffffc) >> ((uint)puVar1 & 3) * 8 |
-    *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 8) = 0;
-  *(undefined4 *)
-   ((*(uint *)((uint)puVar1 & 0xfffffffc) >> ((uint)puVar1 & 3) * 8 |
-    *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 0xc) = 0;
-  *(undefined4 *)
-   ((*(uint *)((uint)puVar1 & 0xfffffffc) >> ((uint)puVar1 & 3) * 8 |
-    *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 0x10) = 0;
-  return;
+    data_0217b3ec = (GlobalB3EC *)Mem_AllocateHeap(
+        ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), 0x14);
+    data_0217b3ec->field_00 = 0;
+    data_0217b3ec->field_04 = 0;
+    data_0217b3ec->field_08 = 0;
+    data_0217b3ec->field_0C = 0;
+    data_0217b3ec->field_10 = 0;
 }
-

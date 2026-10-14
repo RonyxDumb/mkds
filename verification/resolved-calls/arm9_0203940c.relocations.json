@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "GetSomeInput",
+    "target": 33788464,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422849
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "StructG_UpdateInput",
+    "target": 33789232,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645812
+  },
+  {
+    "offset": 92,
+    "type": 2,
+    "symbol": "SDK_data_021755dc",
+    "target": 35083740,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083740
+  }
+]

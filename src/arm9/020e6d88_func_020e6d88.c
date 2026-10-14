@@ -1,36 +1,38 @@
-/* Decompiled C draft; module arm9; ROM address 020e6d88. No matching claim. */
-#include "types.h"
-#include "deps/020e6d88_func_020e6d88.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b84c SDK_data_0217b84c
+#define data_0217b860 SDK_data_0217b860
+/* PURPOSE: Builds and normalizes a direction vector.
+ * The argument supplies one of the two input vectors.
+ * A second vector probably comes from another shared course or camera state.
+ * The cross-product result is stored in shared state and normalized in place.
+ */
 
-void func_020e6d88(undefined4 *param_1)
+typedef int fx32;
 
-{
-  uint uVar1;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  uint uVar5;
-  uint uVar2;
-  
-  uVar1 = uRam020e6dec;
-  uVar3 = param_1[1];
-  uVar4 = param_1[2];
-  uVar5 = *(uint *)(uRam020e6de8 & 0xfffffffc) >> (uRam020e6de8 & 3) * 8 |
-          *(uint *)(uRam020e6de8 & 0xfffffffc) << (uRam020e6de8 & 3) * -8 + 0x20;
-  *(undefined4 *)(uVar5 + 0xc) = *param_1;
-  *(undefined4 *)(uVar5 + 0x10) = uVar3;
-  *(undefined4 *)(uVar5 + 0x14) = uVar4;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  uVar3 = *(undefined4 *)(uVar2 + 0x1c);
-  uVar4 = *(undefined4 *)(uVar2 + 0x20);
-  *(undefined4 *)(uVar5 + 0x18) = *(undefined4 *)(uVar2 + 0x18);
-  *(undefined4 *)(uVar5 + 0x1c) = uVar3;
-  *(undefined4 *)(uVar5 + 0x20) = uVar4;
-  Vector3_Cross((uint)(uintptr_t)((undefined4 *)(uVar5 + 0xc)),(uint)(uintptr_t)((undefined4 *)(uVar5 + 0x18)),(uint *)(uintptr_t)(uVar5));
-  uVar2 = *(uint *)(uRam020e6de8 & 0xfffffffc) >> (uRam020e6de8 & 3) * 8 |
-          *(uint *)(uRam020e6de8 & 0xfffffffc) << (uRam020e6de8 & 3) * -8 + 0x20;
-  Vector3_MaybeNormalize(uVar2,(int *)(uintptr_t)(uVar2));
-  return;
+typedef struct VecFx32 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+} VecFx32;
+
+typedef struct DirectionState {
+    VecFx32 direction;
+    VecFx32 input;
+    VecFx32 reference;
+} DirectionState;
+
+extern DirectionState *data_0217b84c;
+extern DirectionState *data_0217b860;
+
+extern void Vector3_Cross(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern void Vector3_MaybeNormalize(const VecFx32 *in, VecFx32 *out);
+
+void func_020e6d88(const VecFx32 *input) {
+    DirectionState *state = data_0217b84c;
+
+    state->input = *input;
+    state->reference = data_0217b860->reference;
+    Vector3_Cross(&state->input, &state->reference, &state->direction);
+    Vector3_MaybeNormalize(&data_0217b84c->direction,
+                           &data_0217b84c->direction);
 }
-

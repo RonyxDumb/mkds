@@ -1,68 +1,94 @@
-/* Decompiled C draft; module arm9; ROM address 02043410. No matching claim. */
-#include "types.h"
-#include "deps/02043410_func_02043410.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02175628 SDK_data_02175628
+#define data_0217aa00 SDK_data_0217aa00
+#define data_02175624 SDK_data_02175624
+// PURPOSE: Resets the player input units and enables wireless input for active players.
+// All eight input units receive the standard key-repeat configuration and have
+// their recorder, touch state, virtual keys, and mode reset. If the wireless
+// context is active, participating players are probably switched to mode 4.
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct InputRecorder {
+    u8 bytes[0x10];
+} InputRecorder;
+
+typedef struct InputTouchState {
+    u8 bytes[0x14];
+} InputTouchState;
+
+typedef struct InputUnit {
+    u8 padding_00[0x28];
+    InputRecorder recorder;
+    u32 field_38;
+    u32 mode;
+    u16 virtual_keys;
+    u16 key_mask;
+    u32 field_44;
+    InputTouchState touch;
+} InputUnit;
+
+typedef struct WirelessContext {
+    u32 state;
+    u32 mode;
+    u8 padding_0008[0x15f6 - 0x8];
+    u8 active_player_mask;
+    u8 padding_15f7[0x1e8c - 0x15f7];
+    u16 player_ids[8];
+} WirelessContext;
+
+typedef struct InputAccumulator {
+    u8 padding_00[8];
+    u32 field_08;
+    u32 field_0c;
+} InputAccumulator;
+
+extern InputUnit data_02175628[];
+extern InputAccumulator *volatile data_02175624;
+extern WirelessContext *data_0217aa00;
+
+extern void StructCY_SomeFn(InputUnit *unit);
+extern void StructCY_SomeFn_0(InputUnit *unit, u16 mask, u16 first_delay,
+                              u16 repeat_delay);
+extern void StructCYB_SomeFn(InputRecorder *recorder);
+extern void StructCYA_SomeFn(InputTouchState *touch);
 
 void func_02043410(void)
-
 {
-  undefined2 uVar1;
-  bool bVar2;
-  int iVar3;
-  undefined4 uVar4;
-  uint uVar5;
-  uint uVar6;
-  int iVar7;
-  uint uVar8;
-  
-  uVar4 = uRam02043534;
-  iVar3 = iRam02043530;
-  uVar8 = 0;
-  uVar1 = (undefined2)uRam02043538;
-  do {
-    iVar7 = uVar8 * 0x5c + iVar3;
-    StructCY_SomeFn((undefined2 *)(uintptr_t)(iVar7));
-    StructCY_SomeFn_0(iVar7,uVar4,0x1e,10);
-    *(undefined4 *)(iVar7 + 0x3c) = 0;
-    *(undefined2 *)(iVar7 + 0x40) = 0;
-    *(undefined4 *)(iVar7 + 0x44) = 0;
-    *(undefined2 *)(iVar7 + 0x42) = uVar1;
-    StructCYB_SomeFn(iVar7 + 0x28);
-    StructCYA_SomeFn((undefined2 *)(uintptr_t)(iVar7 + 0x48));
-    iVar7 = iRam02043530;
-    uVar8 = uVar8 + 1 & 0xffff;
-  } while (uVar8 < 8);
-  bVar2 = false;
-  uVar8 = *(uint *)(uRam0204353c & 0xfffffffc) >> (uRam0204353c & 3) * 8 |
-          *(uint *)(uRam0204353c & 0xfffffffc) << (uRam0204353c & 3) * -8 + 0x20;
-  if (uVar8 == 0) {
-    uVar5 = 0;
-  }
-  else {
-    uVar5 = *(uint *)(uVar8 & 0xfffffffc) >> (uVar8 & 3) * 8 |
-            *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20;
-  }
-  if ((uVar5 != 0) &&
-     (uVar5 = uVar8 + 4 & 3, uVar6 = *(uint *)(uVar8 + 4 & 0xfffffffc),
-     (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) != 0xd)) {
-    bVar2 = true;
-  }
-  if (bVar2) {
-    uVar5 = 0;
-    do {
-      if (((uint)*(byte *)(uVar8 + 0x15f6) & 1 << (*(ushort *)(uVar8 + uVar5 * 2 + 0x1e8c) & 0xff))
-          != 0) {
-        *(undefined4 *)(uVar5 * 0x5c + iVar7 + 0x3c) = 4;
-      }
-      uVar5 = uVar5 + 1 & 0xffff;
-    } while (uVar5 < 8);
-  }
-  uVar5 = uRam02043540;
-  *(undefined4 *)
-   ((*(uint *)(uRam02043540 & 0xfffffffc) >> (uRam02043540 & 3) * 8 |
-    *(uint *)(uRam02043540 & 0xfffffffc) << (uRam02043540 & 3) * -8 + 0x20) + 8) = 0;
-  uVar8 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  *(undefined4 *)((uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) + 0xc) = 0;
-  return;
-}
+    u16 i;
+    WirelessContext *context;
+    int active;
 
+    for (i = 0; i < 8; i++) {
+        StructCY_SomeFn(&data_02175628[i]);
+        StructCY_SomeFn_0(&data_02175628[i], 0xff3, 0x1e, 0xa);
+        data_02175628[i].mode = 0;
+        data_02175628[i].virtual_keys = 0;
+        data_02175628[i].field_44 = 0;
+        data_02175628[i].key_mask = 0x2fff;
+        StructCYB_SomeFn(&data_02175628[i].recorder);
+        StructCYA_SomeFn(&data_02175628[i].touch);
+    }
+
+    context = data_0217aa00;
+    active = 0;
+    if (((context == 0) ? 0 : context->state) != 0) {
+        if (context->mode != 13) {
+            active = 1;
+        }
+    }
+
+    if (active != 0) {
+        for (i = 0; i < 8; i++) {
+            if ((context->active_player_mask &
+                 (1 << context->player_ids[i])) != 0) {
+                data_02175628[i].mode = 4;
+            }
+        }
+    }
+
+    data_02175624->field_08 = 0;
+    data_02175624->field_0c = 0;
+}

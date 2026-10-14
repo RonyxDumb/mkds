@@ -1,20 +1,25 @@
-/* Decompiled C draft; module arm9; ROM address 02088390. No matching claim. */
-#include "types.h"
-#include "deps/02088390_FormatEmblemNsbtx.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02155cf4 SDK_data_02155cf4
+#define data_0217af24 SDK_data_0217af24
+#define gSharedPathBuffer SDK_data_0217af28
+#define data_02165ed4 SDK_data_02165ed4
+/* Builds the emblem texture path for a character:
+ * "%semblem/%s_emblem.nsbtx" with the character name from a 12-byte struct
+ * table (data_02155cf4). Writes into the shared path buffer and returns it. */
+typedef struct EmblemEntry {
+    char *name;
+    int unk4;
+    int unk8;
+} EmblemEntry;
 
-char * FormatEmblemNsbtx(int param_1)
+extern EmblemEntry data_02155cf4[];
+extern char *data_0217af24;
+extern char gSharedPathBuffer[];
+extern char data_02165ed4[];
 
-{
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = iRam020883d4 + param_1 * 0xc;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  _snprintf(pcRam020883dc,0x100,pcRam020883e0,
-            *(uint *)(uRam020883d8 & 0xfffffffc) >> (uRam020883d8 & 3) * 8 |
-            *(uint *)(uRam020883d8 & 0xfffffffc) << (uRam020883d8 & 3) * -8 + 0x20,
-            uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  return pcRam020883dc;
+extern int _snprintf(char *buf, unsigned int len, const char *fmt, ...);
+
+char *FormatEmblemNsbtx(int character) {
+    _snprintf(gSharedPathBuffer, 0x100, data_02165ed4, data_0217af24, data_02155cf4[character].name);
+    return gSharedPathBuffer;
 }
-

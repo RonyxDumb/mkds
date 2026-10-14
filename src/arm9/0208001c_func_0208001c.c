@@ -1,55 +1,38 @@
-/* Decompiled C draft; module arm9; ROM address 0208001c. No matching claim. */
-#include "types.h"
-#include "deps/0208001c_func_0208001c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021557ec SDK_data_021557ec
+// PURPOSE: Records how far an object moved since last frame and, if it moved far
+// enough, turns that movement into a normalized direction vector.
+// Args: s = a tracker struct; newObj = the object's current state.
+// It remembers the previous object, stores the current one, computes the
+// position delta (current - previous) into s->vec, and if the delta's squared
+// length is >= 0x10 it normalizes s->vec; otherwise it leaves it alone.
 
-void func_0208001c(undefined4 *param_1,undefined4 param_2)
+typedef struct { int x, y, z; } VecFx32;
 
-{
-  longlong lVar1;
-  undefined4 *puVar2;
-  uint uVar3;
-  undefined4 uVar4;
-  uint uVar5;
-  uint uVar6;
-  undefined4 uVar7;
-  uint uVar8;
-  uint uVar9;
-  
-  puVar2 = puRam0208009c;
-  param_1[1] = *(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-               *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
-  *param_1 = param_2;
-  uVar4 = puVar2[1];
-  uVar7 = puVar2[2];
-  param_1[2] = *puVar2;
-  param_1[3] = uVar4;
-  param_1[4] = uVar7;
-  uVar8 = (uint)(param_1 + 1) & 3;
-  uVar5 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-  uVar6 = (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-          *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 0x20;
-  uVar9 = uVar6 & 3;
-  uVar3 = *(uint *)(uVar6 & 0xfffffffc);
-  uVar6 = (uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) + 0x20;
-  uVar8 = uVar6 & 3;
-  uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-  VecFx32_Subtract(uVar3 >> uVar9 * 8 | uVar3 << uVar9 * -8 + 0x20,
-                   uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20,param_1 + 2);
-  uVar6 = (uint)(param_1 + 3) & 3;
-  uVar8 = *(uint *)((uint)(param_1 + 3) & 0xfffffffc);
-  uVar9 = uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20;
-  uVar6 = (uint)(param_1 + 2) & 3;
-  uVar8 = *(uint *)((uint)(param_1 + 2) & 0xfffffffc);
-  uVar8 = uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20;
-  uVar6 = (uint)(param_1 + 4) & 3;
-  uVar3 = *(uint *)((uint)(param_1 + 4) & 0xfffffffc);
-  uVar6 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
-  lVar1 = (longlong)(int)uVar6 * (longlong)(int)uVar6 +
-          (longlong)(int)uVar8 * (longlong)(int)uVar8 + (longlong)(int)uVar9 * (longlong)(int)uVar9;
-  if ((int)(uint)((uint)lVar1 < 0x10) <= (int)((ulonglong)lVar1 >> 0x20)) {
-    Vector3_MaybeNormalize((uint)(uintptr_t)(param_1 + 2),param_1 + 2);
-    return;
-  }
-  return;
+typedef struct Obj {
+    char pad[0x20];
+    VecFx32 *pos;  // pointer at 0x20
+} Obj;
+
+typedef struct {
+    Obj *cur;      // 0x00
+    Obj *prev;     // 0x04
+    VecFx32 vec;   // 0x08
+} State;
+
+extern const VecFx32 data_021557ec;
+extern void VecFx32_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *dst);
+extern void Vector3_MaybeNormalize(VecFx32 *a, VecFx32 *b);
+
+void func_0208001c(State *s, Obj *newObj) {
+    s->prev = s->cur;
+    s->cur = newObj;
+    s->vec = data_021557ec;
+    VecFx32_Subtract(s->cur->pos, s->prev->pos, &s->vec);
+    // squared magnitude; ROM loads y,x,z in that order (first two swapped)
+    if ((long long)s->vec.x * s->vec.x
+        + (long long)s->vec.y * s->vec.y
+        + (long long)s->vec.z * s->vec.z < 0x10)
+        return;
+    Vector3_MaybeNormalize(&s->vec, &s->vec);
 }
-

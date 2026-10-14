@@ -1,44 +1,50 @@
-/* Decompiled C draft; module arm9; ROM address 02038de4. No matching claim. */
-#include "types.h"
-#include "deps/02038de4_DisplayConfig_SomeFn.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void DisplayConfig_SomeFn(undefined2 *param_1,undefined2 *param_2)
+// PURPOSE: Initializes a display configuration from its setup values.
+// The source supplies the initial header and two probably engine-specific values.
+// The destination's engine blocks are cleared and its runtime fields are reset.
 
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef unsigned short u16;
+
+typedef struct {
+    u16 values[20];
+} DisplayConfigHeader;
+
+typedef struct {
+    DisplayConfigHeader header;
+    u8 engine_a[0x44];
+    u32 field_6c;
+    u8 engine_b[0x44];
+    u32 field_b4;
+    u32 field_b8;
+    u32 field_bc;
+    u32 field_c0;
+    u32 field_c4;
+    u32 field_c8;
+    u32 field_cc;
+    u32 field_d0;
+    u32 field_d4;
+    u8 field_d8;
+} DisplayConfig;
+
+extern void DisplayEngineConfig_SomeClearFn(void *config, u16 value);
+
+void DisplayConfig_SomeFn(DisplayConfig *config, const DisplayConfigHeader *setup)
 {
-  undefined2 uVar1;
-  undefined2 uVar2;
-  int iVar3;
-  undefined2 *puVar4;
-  undefined2 *puVar5;
-  undefined2 *puVar6;
-  
-  iVar3 = 10;
-  puVar4 = param_1;
-  puVar5 = param_2;
-  do {
-    puVar6 = puVar5 + 1;
-    uVar1 = *puVar5;
-    puVar5 = puVar5 + 2;
-    uVar2 = *puVar6;
-    iVar3 = iVar3 + -1;
-    puVar6 = puVar4 + 1;
-    *puVar4 = uVar1;
-    puVar4 = puVar4 + 2;
-    *puVar6 = uVar2;
-  } while (iVar3 != 0);
-  DisplayEngineConfig_SomeClearFn(param_1 + 0x14,param_2[4]);
-  DisplayEngineConfig_SomeClearFn(param_1 + 0x38,param_2[6]);
-  *(undefined4 *)(param_1 + 0x36) = 0;
-  *(undefined4 *)(param_1 + 0x5e) = 0;
-  *(undefined4 *)(param_1 + 0x60) = 0;
-  *(undefined4 *)(param_1 + 0x62) = 0;
-  *(undefined4 *)(param_1 + 100) = 0;
-  *(undefined4 *)(param_1 + 0x66) = 0;
-  *(undefined4 *)(param_1 + 0x68) = 0;
-  *(undefined4 *)(param_1 + 0x6a) = 0;
-  *(undefined4 *)(param_1 + 0x5a) = 0;
-  *(undefined4 *)(param_1 + 0x5c) = 0;
-  *(undefined1 *)(param_1 + 0x6c) = 0;
-  return;
+    config->header = *setup;
+    DisplayEngineConfig_SomeClearFn(config->engine_a, setup->values[4]);
+    DisplayEngineConfig_SomeClearFn(config->engine_b, setup->values[6]);
+    config->field_6c = 0;
+    config->field_bc = 0;
+    config->field_c0 = 0;
+    config->field_c4 = 0;
+    config->field_c8 = 0;
+    config->field_cc = 0;
+    config->field_d0 = 0;
+    config->field_d4 = 0;
+    config->field_b4 = 0;
+    config->field_b8 = 0;
+    config->field_d8 = 0;
 }
-

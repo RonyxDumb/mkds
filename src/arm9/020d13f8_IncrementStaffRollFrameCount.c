@@ -1,28 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 020d13f8. No matching claim. */
-#include "types.h"
-#include "deps/020d13f8_IncrementStaffRollFrameCount.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b4ac SDK_data_0217b4ac
+// PURPOSE: Advances the ending credits frame counter.
+// The shared credits object probably stores its current frame at offset zero.
+// When the frame reaches 780, the staff-roll action is triggered.
+// It returns the current display scanline counter.
 
-undefined2 IncrementStaffRollFrameCount(void)
+typedef struct {
+    int frame_count;
+} EndingStaffRollObjectData;
 
+extern EndingStaffRollObjectData *data_0217b4ac;
+extern void RunWhenStaffRollCount(void);
+
+unsigned short IncrementStaffRollFrameCount(void)
 {
-  uint uVar1;
-  uint uVar2;
-  int *piVar3;
-  
-  piVar3 = (int *)(*(uint *)(uRam020d1448 & 0xfffffffc) >> (uRam020d1448 & 3) * 8 |
-                  *(uint *)(uRam020d1448 & 0xfffffffc) << (uRam020d1448 & 3) * -8 + 0x20);
-  uVar2 = *(uint *)((uint)piVar3 & 0xfffffffc) >> ((uint)piVar3 & 3) * 8 |
-          *(uint *)((uint)piVar3 & 0xfffffffc) << ((uint)piVar3 & 3) * -8 + 0x20;
-  if ((int)uVar2 < 0x7fffffff) {
-    *piVar3 = uVar2 + 1;
-  }
-  uVar1 = *(uint *)(uRam020d1448 & 0xfffffffc) >> (uRam020d1448 & 3) * 8 |
-          *(uint *)(uRam020d1448 & 0xfffffffc) << (uRam020d1448 & 3) * -8 + 0x20;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  if ((uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) == 0x30c) {
-    RunWhenStaffRollCount();
-  }
-  return *puRam020d144c;
-}
+    if (data_0217b4ac->frame_count < 0x7fffffff)
+        data_0217b4ac->frame_count++;
 
+    if (data_0217b4ac->frame_count == 0x30c)
+        RunWhenStaffRollCount();
+
+    return *(volatile unsigned short *)0x04000304;
+}

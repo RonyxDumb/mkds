@@ -1,13 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0209963c. No matching claim. */
-#include "types.h"
-#include "deps/0209963c_Maybe_helper_09963c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define CreateAllocateMapObject_from_thumb SDK_data_0209bef1
+#define LoadSmanBottomMapObject SDK_data_020996ec
+#define func_020915c0 SDK_data_02099660
+#define Maybe_get_17b0b4 SDK_data_020996d4
+#define Maybe_helper_091214 Maybe_helper_09963c
+extern void CreateAllocateMapObject_from_thumb(void *a0, void *a1, void *a2);
+extern void LoadSmanBottomMapObject(void);
+extern void func_020915c0(void);
+extern void Maybe_get_17b0b4(void);
 
-void Maybe_helper_09963c(void)
-
-{
-                    /* WARNING: Could not recover jumptable at 0x0209964c. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02099650)(uRam02099654,uRam02099658,uRam0209965c);
-  return;
+void Maybe_helper_091214(void) {
+    CreateAllocateMapObject_from_thumb((void *)LoadSmanBottomMapObject,
+                                       (void *)func_020915c0,
+                                       (void *)Maybe_get_17b0b4);
 }
-

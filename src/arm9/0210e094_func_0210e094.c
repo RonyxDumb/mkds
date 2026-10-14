@@ -1,38 +1,42 @@
-/* Decompiled C draft; module arm9; ROM address 0210e094. No matching claim. */
-#include "types.h"
-#include "deps/0210e094_func_0210e094.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_0210e094(int *param_1,int param_2,undefined4 param_3)
+// PURPOSE: Creates and clears a list of sound entries.
+// The output receives its entry count and an allocated entry array.
+// Each entry is initialized with an invalid identifier and empty fields.
 
+typedef struct SoundContext SoundContext;
+typedef void (*SoundDisposeCallback)(void);
+
+typedef struct SoundEntry {
+    int id;
+    int unknown_04;
+    int unknown_08;
+    int unknown_0c;
+} SoundEntry;
+
+typedef struct SoundEntryList {
+    int count;
+    SoundEntry *entries;
+} SoundEntryList;
+
+extern void *Sound_Context_Allocate(SoundContext *context, unsigned int payloadSize,
+                                    SoundDisposeCallback disposeCallback, void *soundArchive,
+                                    void *customArgument);
+
+void func_0210e094(SoundEntryList *list, int count, SoundContext *context)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  *param_1 = param_2;
-  iVar2 = Sound_Context_Allocate(param_3,param_2 << 4,0,0,0);
-  param_1[1] = iVar2;
-  iVar2 = 0;
-  if ((int)(*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-           *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) < 1) {
-    return;
-  }
-  do {
-    uVar1 = (uint)(param_1 + 1) & 3;
-    uVar3 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-    *(undefined4 *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + iVar2 * 0x10) = 0xffffffff;
-    uVar1 = (uint)(param_1 + 1) & 3;
-    uVar3 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-    *(undefined4 *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + iVar2 * 0x10 + 4) = 0;
-    uVar1 = (uint)(param_1 + 1) & 3;
-    uVar3 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-    *(undefined4 *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + iVar2 * 0x10 + 8) = 0;
-    uVar1 = (uint)(param_1 + 1) & 3;
-    uVar3 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-    *(undefined4 *)((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + iVar2 * 0x10 + 0xc) = 0;
-    iVar2 = iVar2 + 1;
-  } while (iVar2 < (int)(*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-                        *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20));
-  return;
-}
+    int index;
 
+    list->count = count;
+    list->entries = Sound_Context_Allocate(context, count << 4, 0, 0, 0);
+    index = 0;
+    if (list->count > 0) {
+        do {
+            list->entries[index].id = -1;
+            list->entries[index].unknown_04 = 0;
+            list->entries[index].unknown_08 = 0;
+            list->entries[index].unknown_0c = 0;
+            index++;
+        } while (index < list->count);
+    }
+}

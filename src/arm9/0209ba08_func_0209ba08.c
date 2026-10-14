@@ -1,31 +1,33 @@
-/* Decompiled C draft; module arm9; ROM address 0209ba08. No matching claim. */
-#include "types.h"
-#include "deps/0209ba08_func_0209ba08.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_0209ba08(int param_1,uint param_2)
+/*
+ * PURPOSE: Update a linked sub-object's low-nibble flags and, if the owner is active, forward the active state and flag bits to a global follow-up handler.
+ */
 
-{
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar3 = param_1 + 0xcU & 3;
-  uVar2 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  if (uVar3 != 0) {
-    uVar2 = uVar3 + 0x14 & 3;
-    uVar1 = *(uint *)(uVar3 + 0x14 & 0xfffffffc);
-    *(uint *)(uVar3 + 0x14) = (uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) & 0xfffffff0;
-    uVar2 = uVar3 + 0x14 & 3;
-    uVar1 = *(uint *)(uVar3 + 0x14 & 0xfffffffc);
-    *(uint *)(uVar3 + 0x14) = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20 | param_2;
-  }
-  uVar3 = param_1 + 0x10U & 3;
-  uVar2 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-  if (uVar2 >> uVar3 * 8 != 0 || uVar2 << uVar3 * -8 + 0x20 != 0) {
-    StructML_SomeFn_8();
-    return;
-  }
-  return;
+typedef struct StructML_Sub {
+    char pad_0x00[0x14];
+    volatile unsigned int flags; /* 0x14 */
+} StructML_Sub;
+
+typedef struct StructML_Owner {
+    char pad_0x00[0xc];
+    StructML_Sub *sub;  /* 0xc */
+    int active;         /* 0x10 */
+} StructML_Owner;
+
+extern void StructML_SomeFn_8(int active, unsigned int flagBits);
+
+void func_0209ba08(StructML_Owner *owner, unsigned int flagBits) {
+    StructML_Sub *sub = owner->sub;
+    int active;
+
+    if (sub != 0) {
+        sub->flags = sub->flags & ~0xf;
+        sub->flags = sub->flags | flagBits;
+    }
+
+    active = owner->active;
+    if (active != 0) {
+        StructML_SomeFn_8(active, flagBits);
+    }
 }
-

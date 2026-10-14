@@ -1,33 +1,32 @@
-/* Decompiled C draft; module arm9; ROM address 0204aba8. No matching claim. */
-#include "types.h"
-#include "deps/0204aba8_func_0204aba8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021759d0 SDK_data_021759d0
+// PURPOSE: Stops the scene sound state when it is running.
+// This routine takes no arguments and returns no value.
+// It probably releases the sound state stored inside the shared system context.
+// It does nothing while another control flag is set or the sound is not running.
+
+typedef struct ExecutionState {
+    unsigned char padding_00[8];
+    unsigned char padding_08[0x14];
+    int unknown_flag : 1;
+    int scene_sseq_started : 1;
+} ExecutionState;
+
+extern ExecutionState *data_021759d0;
+extern void func_0210dc7c(void *holder);
 
 void func_0204aba8(void)
-
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar3 = *(uint *)(uRam0204ac0c & 0xfffffffc) >> (uRam0204ac0c & 3) * 8 |
-          *(uint *)(uRam0204ac0c & 0xfffffffc) << (uRam0204ac0c & 3) * -8 + 0x20;
-  uVar2 = uVar3 + 0x1c;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar2 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  if ((int)(uVar2 << 0x1f) < 0) {
-    return;
-  }
-  if ((int)(uVar2 << 0x1e) < 0) {
-    func_0210dc7c(uVar3 + 8);
-    uVar3 = *(uint *)(uRam0204ac0c & 0xfffffffc) >> (uRam0204ac0c & 3) * 8 |
-            *(uint *)(uRam0204ac0c & 0xfffffffc) << (uRam0204ac0c & 3) * -8 + 0x20;
-    uVar2 = uVar3 + 0x1c;
-    uVar1 = uVar2 & 3;
-    uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-    *(uint *)(uVar3 + 0x1c) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0xfffffffd;
-    return;
-  }
-  return;
-}
+    ExecutionState *state = data_021759d0;
 
+    if (state->unknown_flag) {
+        return;
+    }
+
+    if (!state->scene_sseq_started) {
+        return;
+    }
+
+    func_0210dc7c((unsigned char *)state + 8);
+    data_021759d0->scene_sseq_started = 0;
+}

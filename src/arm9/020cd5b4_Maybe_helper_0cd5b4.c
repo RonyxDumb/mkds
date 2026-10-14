@@ -1,15 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 020cd5b4. No matching claim. */
-#include "types.h"
-#include "deps/020cd5b4_Maybe_helper_0cd5b4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b3fc SDK_data_0217b454
+#define func_020c092c SDK_data_020c092c
+#define Maybe_helper_0c72f4 Maybe_helper_0cd5b4
+extern void *data_0217b3fc;
+extern void func_020c092c(void *a0, void *a1, int a2);
 
-void Maybe_helper_0cd5b4(undefined4 param_1)
-
-{
-                    /* WARNING: Could not recover jumptable at 0x020cd5c4. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam020cd5cc)(param_1,*(uint *)(uRam020cd5c8 & 0xfffffffc) >> (uRam020cd5c8 & 3) * 8 |
-                           *(uint *)(uRam020cd5c8 & 0xfffffffc) << (uRam020cd5c8 & 3) * -8 + 0x20,0)
-  ;
-  return;
+void Maybe_helper_0c72f4(void *a0) {
+    func_020c092c(a0, data_0217b3fc, 0);
 }
-

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "CopyCupEntryTo_from_thumb",
+    "target": 33909372,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211071443
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Mem_CpuCopy8",
+    "target": 34918908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942888361
+  }
+]

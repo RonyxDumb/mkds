@@ -1,29 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 0209f0a8. No matching claim. */
-#include "types.h"
-#include "deps/0209f0a8_LoadPictureMapObjects.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021674d4 SDK_data_021674d4
+#define data_0217b198 SDK_data_0217b198
+#define data_021674e4 SDK_data_021674e4
+#define data_021674f4 SDK_data_021674f4
+#define data_0217b19c SDK_data_0217b19c
+#define data_02167504 SDK_data_02167504
+/* PURPOSE: Load the two "picture" map objects (models + nsbca animations) and set their polygon id.
+ */
+extern int data_021674d4;
+extern int data_021674e4;
+extern int data_021674f4;
+extern int data_02167504;
+extern void *data_0217b198;
+extern void *data_0217b19c;
+extern void *CreateMapObjectFromModel_from_thumb(void *a0, void *a1);
+extern void StructMapObject_AddAnimationNsbca_from_thumb(void *obj, void *a1);
+extern void StructMapObject_MaybeSetPolygonId(void *obj, int id);
 
-void LoadPictureMapObjects(undefined4 param_1)
-
-{
-  undefined4 uVar1;
-  undefined4 uVar2;
-  
-  uVar2 = CreateMapObjectFromModel_from_thumb(param_1,uRam0209f10c);
-  uVar1 = uRam0209f114;
-  *puRam0209f110 = uVar2;
-  StructMapObject_AddAnimationNsbca_from_thumb(uVar2,uVar1);
-  uVar2 = CreateMapObjectFromModel_from_thumb(param_1,uRam0209f118);
-  uVar1 = uRam0209f120;
-  *puRam0209f11c = uVar2;
-  StructMapObject_AddAnimationNsbca_from_thumb(uVar2,uVar1);
-  StructMapObject_MaybeSetPolygonId
-            (*(uint *)((uint)puRam0209f110 & 0xfffffffc) >> ((uint)puRam0209f110 & 3) * 8 |
-             *(uint *)((uint)puRam0209f110 & 0xfffffffc) << ((uint)puRam0209f110 & 3) * -8 + 0x20,
-             0x3f);
-  StructMapObject_MaybeSetPolygonId
-            (*(uint *)((uint)puRam0209f11c & 0xfffffffc) >> ((uint)puRam0209f11c & 3) * 8 |
-             *(uint *)((uint)puRam0209f11c & 0xfffffffc) << ((uint)puRam0209f11c & 3) * -8 + 0x20,
-             0x3f);
-  return;
+void LoadPictureMapObjects(void *a0) {
+    void *obj1 = CreateMapObjectFromModel_from_thumb(a0, &data_021674d4);
+    data_0217b198 = obj1;
+    StructMapObject_AddAnimationNsbca_from_thumb(obj1, &data_021674e4);
+    void *obj2 = CreateMapObjectFromModel_from_thumb(a0, &data_021674f4);
+    data_0217b19c = obj2;
+    StructMapObject_AddAnimationNsbca_from_thumb(obj2, &data_02167504);
+    StructMapObject_MaybeSetPolygonId(data_0217b198, 0x3f);
+    StructMapObject_MaybeSetPolygonId(data_0217b19c, 0x3f);
 }
-

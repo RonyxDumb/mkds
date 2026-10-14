@@ -1,13 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 0214ef00. No matching claim. */
-#include "types.h"
-#include "deps/0214ef00_func_0214ef00.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-bool func_0214ef00(void)
+/* PURPOSE: Sends the system command through the FIFO.
+ * The command word is probably a fixed system message.
+ * Returns whether the FIFO accepted the command.
+ */
+typedef unsigned int u32;
 
+extern int Fifo_SendWord(u32 channel, u32 word, int async);
+
+int func_0214ef00(void)
 {
-  int iVar1;
-  
-  iVar1 = Fifo_SendWord(9,uRam0214ef30,0);
-  return -1 < iVar1;
+    return Fifo_SendWord(9, 0x03004200, 0) >= 0;
 }
-

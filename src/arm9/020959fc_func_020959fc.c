@@ -1,11 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 020959fc. No matching claim. */
-#include "types.h"
-#include "deps/020959fc_func_020959fc.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_02095efc SDK_data_02095efc
+/*
+PURPOSE: Register a handler by passing its callback and id 0x125 to the setup function.
 
-void func_020959fc(void)
+Calls func_0209bf70 with the func_02095efc callback, literal args (0,0,2,1)
+and the id constant 0x125 (pooled: not ARM-immediate-encodable).
+*/
 
-{
-  func_0209bf70(uRam02095a38,0,0,2,1,uRam02095a34);
-  return;
+extern void func_0209bf70(void *arg0, int arg1, int arg2, int arg3, int arg4, void *arg5);
+extern void func_02095efc(void);
+
+void func_020959fc(void) {
+    func_0209bf70(
+        (void *)func_02095efc,  /* r0 - callback */
+        0,                      /* r1 */
+        0,                      /* r2 */
+        2,                      /* r3 */
+        1,                      /* [sp+0] */
+        (void *)0x125           /* [sp+4] - handler id (pool constant) */
+    );
 }
-

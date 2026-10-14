@@ -1,50 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 020ffacc. No matching claim. */
-#include "types.h"
-#include "deps/020ffacc_Maybe_CreateObj_15a068.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021581b8 SDK_data_0215a068
+#define Maybe_CreateObj_1581b8 Maybe_CreateObj_15a068
+typedef unsigned int u32;
 
-undefined4 * Maybe_CreateObj_15a068(void)
+typedef struct Obj40 {
+    u32 w[0x10];
+} Obj40;
 
-{
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 *puVar6;
-  
-  GetActiveExecutionContext();
-  uVar2 = ExecutionContext_GetHeapHandle();
-  puVar3 = (undefined4 *)Mem_AllocateHeap(uVar2,0x40);
-  puVar1 = puRam020ffb18;
-  uVar2 = puRam020ffb18[1];
-  uVar4 = puRam020ffb18[2];
-  uVar5 = puRam020ffb18[3];
-  puVar6 = puRam020ffb18 + 4;
-  *puVar3 = *puRam020ffb18;
-  puVar3[1] = uVar2;
-  puVar3[2] = uVar4;
-  puVar3[3] = uVar5;
-  uVar2 = puVar1[5];
-  uVar4 = puVar1[6];
-  uVar5 = puVar1[7];
-  puVar3[4] = *puVar6;
-  puVar3[5] = uVar2;
-  puVar3[6] = uVar4;
-  puVar3[7] = uVar5;
-  uVar2 = puVar1[9];
-  uVar4 = puVar1[10];
-  uVar5 = puVar1[0xb];
-  puVar3[8] = puVar1[8];
-  puVar3[9] = uVar2;
-  puVar3[10] = uVar4;
-  puVar3[0xb] = uVar5;
-  uVar2 = puVar1[0xd];
-  uVar4 = puVar1[0xe];
-  uVar5 = puVar1[0xf];
-  puVar3[0xc] = puVar1[0xc];
-  puVar3[0xd] = uVar2;
-  puVar3[0xe] = uVar4;
-  puVar3[0xf] = uVar5;
-  return puVar3;
+extern void *GetActiveExecutionContext(void);
+extern void *ExecutionContext_GetHeapHandle(void *ctx);
+extern void *Mem_AllocateHeap(void *heap, u32 size);
+
+extern const Obj40 data_021581b8;
+
+void *Maybe_CreateObj_1581b8(void) {
+    void *ctx = GetActiveExecutionContext();
+    void *heap = ExecutionContext_GetHeapHandle(ctx);
+    Obj40 *obj = (Obj40 *)Mem_AllocateHeap(heap, 0x40);
+    *obj = data_021581b8;
+    return obj;
 }
-

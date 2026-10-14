@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "LightInfo_SomeFn",
+    "target": 34123208,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959309618
+  }
+]

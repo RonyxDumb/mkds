@@ -1,31 +1,44 @@
-/* Decompiled C draft; module arm9; ROM address 020181f0. No matching claim. */
-#include "types.h"
-#include "deps/020181f0_Mem_Frame_AllocFromHead.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint Mem_Frame_AllocFromHead(uint *param_1,int param_2,int param_3)
+// PURPOSE: Allocates memory from the start of a frame heap.
+// The heap pointer addresses its moving head and fixed end pointers.
+// It probably clears newly allocated memory when the preceding heap flag is set.
+// Returns zero when the requested allocation does not fit.
 
+typedef unsigned int u32;
+typedef unsigned short u16;
+
+typedef struct {
+    void *head;
+    void *end;
+} FrameHeap;
+
+extern void MIi_CpuClear32(u32 value, void *destination, u32 size);
+
+void *Mem_Frame_AllocFromHead(FrameHeap *heap, u32 size, u32 alignment)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  uVar3 = *(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-          *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
-  uVar5 = ~(param_3 - 1U) & (param_3 - 1U) + uVar3;
-  uVar1 = (uint)(param_1 + 1) & 3;
-  uVar2 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-  uVar4 = param_2 + uVar5;
-  if (uVar4 <= (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20)) {
-    uVar1 = (uint)(param_1 + -1) & 3;
-    uVar2 = *(uint *)((uint)(param_1 + -1) & 0xfffffffc);
-    if (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 1) != 0) {
-      MIi_CpuClear32(0,(undefined4 *)(uintptr_t)(uVar3),uVar4 - uVar3);
-    }
-    *param_1 = uVar4;
-    return uVar5;
-  }
-  return 0;
-}
+    void *aligned;
+    void *next;
+    void *head;
+    void *end;
+    u32 allocated_size;
 
+    head = heap->head;
+    aligned = (void *)(((alignment - 1) + (u32)head) & ~(alignment - 1));
+    end = heap->end;
+    next = (char *)((u32)size + (u32)aligned);
+    if (next > end) {
+        return 0;
+    }
+
+    allocated_size = (u32)next - (u32)head;
+
+    if ((u16)(((u32 *)heap)[-1] & 0xff) & 1) {
+        volatile u32 clear_value = 0;
+
+        MIi_CpuClear32(clear_value, head, allocated_size);
+    }
+
+    heap->head = next;
+    return aligned;
+}

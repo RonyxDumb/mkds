@@ -1,0 +1,83 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_GetAtIndex",
+    "target": 33649368,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959300577
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "GetDriverEntry",
+    "target": 34056564,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402372
+  },
+  {
+    "offset": 256,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_RemoveItem",
+    "target": 33649492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959300556
+  },
+  {
+    "offset": 272,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_InsertLast",
+    "target": 33649828,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959300636
+  },
+  {
+    "offset": 308,
+    "type": 2,
+    "symbol": "SDK_data_021759c0",
+    "target": 35084736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084736
+  },
+  {
+    "offset": 312,
+    "type": 2,
+    "symbol": "SDK_data_0217b08c",
+    "target": 35106956,
+    "thumb": false,
+    "addend": 0,
+    "value": 35106956
+  },
+  {
+    "offset": 316,
+    "type": 2,
+    "symbol": "SDK_data_02166418",
+    "target": 35021848,
+    "thumb": false,
+    "addend": 0,
+    "value": 35021848
+  },
+  {
+    "offset": 320,
+    "type": 2,
+    "symbol": "SDK_data_02166480",
+    "target": 35021952,
+    "thumb": false,
+    "addend": 0,
+    "value": 35021952
+  },
+  {
+    "offset": 324,
+    "type": 2,
+    "symbol": "SDK_data_0216641c",
+    "target": 35021852,
+    "thumb": false,
+    "addend": 0,
+    "value": 35021852
+  }
+]

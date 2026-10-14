@@ -1,36 +1,38 @@
-/* Decompiled C draft; module arm9; ROM address 020a2f30. No matching claim. */
-#include "types.h"
-#include "deps/020a2f30_func_020a2f30.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_020a2f30(int param_1,undefined4 param_2,int param_3)
+/* PURPOSE: Advances an object's countdown/position timer and, once it
+ * reaches zero or below, resets it and calls func_020d2398 to trigger
+ * whatever happens next (probably a state/step transition).
+ *
+ * r0 is a pointer to some object struct. r1 is stored verbatim into
+ * field 0xa4 (probably a callback or state pointer). r2 is negated and
+ * added onto field 0xd0 (probably a running counter/position, field
+ * 0xd4 used as scratch to hold the negated delta). If the updated
+ * counter is still > 0, the function returns early. Otherwise it
+ * clears several fields, marks field 0xa4 with -1 (probably "no
+ * callback"), sets field 0xf4 to 1 (probably a flag) and clears
+ * field 0xf8, then calls func_020d2398(r0).
+ */
 
+extern void func_020d2398(void *obj);
+
+#define FIELD(base, off) (*(int *)((unsigned char *)(base) + (off)))
+
+void func_020a2f30(void *r0, void *r1, int r2)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  *(undefined4 *)(param_1 + 0xa4) = param_2;
-  *(int *)(param_1 + 0xd4) = -param_3;
-  uVar1 = param_1 + 0xd0U & 3;
-  uVar4 = *(uint *)(param_1 + 0xd0U & 0xfffffffc);
-  uVar3 = param_1 + 0xd4U & 3;
-  uVar2 = *(uint *)(param_1 + 0xd4U & 0xfffffffc);
-  *(uint *)(param_1 + 0xd0) =
-       (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) +
-       (uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20);
-  *(undefined4 *)(param_1 + 0xfc) = 0;
-  uVar1 = param_1 + 0xd0U & 3;
-  uVar3 = *(uint *)(param_1 + 0xd0U & 0xfffffffc);
-  if ((int)(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) < 1) {
-    *(undefined4 *)(param_1 + 0xd8) = 0;
-    *(undefined4 *)(param_1 + 0xd0) = 0;
-    *(undefined4 *)(param_1 + 0xa4) = 0xffffffff;
-    *(undefined4 *)(param_1 + 0xf4) = 1;
-    *(undefined4 *)(param_1 + 0xf8) = 0;
-    func_020d2398();
-    return;
-  }
-  return;
-}
+    FIELD(r0, 0xa4) = (int)r1;
+    FIELD(r0, 0xd4) = -r2;
+    FIELD(r0, 0xd0) = FIELD(r0, 0xd0) + FIELD(r0, 0xd4);
+    FIELD(r0, 0xfc) = 0;
 
+    if (FIELD(r0, 0xd0) > 0) {
+        return;
+    }
+
+    FIELD(r0, 0xd8) = 0;
+    FIELD(r0, 0xd0) = 0;
+    FIELD(r0, 0xa4) = -1;
+    FIELD(r0, 0xf4) = 1;
+    FIELD(r0, 0xf8) = 0;
+    func_020d2398(r0);
+}

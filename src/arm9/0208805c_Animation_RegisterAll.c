@@ -1,91 +1,89 @@
-/* Decompiled C draft; module arm9; ROM address 0208805c. No matching claim. */
-#include "types.h"
-#include "deps/0208805c_Animation_RegisterAll.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217af20 SDK_data_0217af20
+// PURPOSE: Registers every animation entry from a resource.
+// The animation selects the resource format and owns the destination arrays.
+// Each decoded entry is probably attached to the model resource.
+// A null heap reuses the block already stored in the corresponding slot.
 
-void Animation_RegisterAll(int param_1,undefined4 param_2,int param_3)
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
 
+typedef struct AnimationResource {
+    u32 unknown_00;
+    void *unknown_04;
+    u32 unknown_08[24];
+    void *unknown_68;
+} AnimationResource;
+
+typedef struct Animation {
+    u32 unknown_00[5];
+    AnimationResource *resource;
+    u16 jointCount;
+    u16 padding_1a;
+    void **blocks;
+    int *animationIndices;
+    u32 unknown_24;
+    u32 animationType;
+} Animation;
+
+extern u32 data_0217af20;
+
+extern void *Anim_NSBCA_LoadGetJNT0Block(void *resourceData);
+extern void *JNT0_LoadJointByIdx(void *jnt0, int index);
+extern void *MaybeLoadBTP0Format(void *resourceData);
+extern void *BTP0_LoadRawData(void *btp0, int index);
+extern void *MaybeLoadBTA0Format(void *resourceData);
+extern void *BTA0_LoadRawData(void *bta0, int index);
+extern void *MaybeLoadBVA0Format(void *resourceData);
+extern void *BVA0_LoadRawData(void *bva0, int index);
+extern void *MaybeLoadBMA0Format(void *resourceData);
+extern void *BMA0_LoadRawData(void *bma0, int index);
+extern u32 Anim_GetNeededBlockSize(void *joint, void *resourceData);
+extern void *Mem_AllocateHeap(void *heap, unsigned int size);
+extern void MaybeCreateAnimationBlock(
+    void *block, void *joint, void *resourceData, void *unknown);
+
+void Animation_RegisterAll(
+    Animation *animation, void *resourceData, void *heap)
 {
-  undefined4 *puVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  undefined4 uVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  undefined4 uVar9;
-  
-  puVar1 = DAT_020881ac;
-  uVar9 = 0;
-  uVar8 = 0;
-  if (*(short *)(param_1 + 0x18) == 0) {
-    return;
-  }
-  do {
-    uVar4 = param_1 + 0x28U & 3;
-    uVar2 = *(uint *)(param_1 + 0x28U & 0xfffffffc);
-    switch(uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) {
-    case 0:
-      uVar9 = Anim_NSBCA_LoadGetJNT0Block(param_2);
-      uVar9 = JNT0_LoadJointByIdx(uVar9,uVar8);
-      break;
-    case 1:
-      uVar9 = MaybeLoadBTA0Format(param_2);
-      uVar9 = BTA0_LoadRawData(uVar9,uVar8);
-      break;
-    case 2:
-      uVar9 = MaybeLoadBTP0Format(param_2);
-      uVar9 = BTP0_LoadRawData(uVar9,uVar8);
-      break;
-    case 3:
-      uVar9 = MaybeLoadBVA0Format(param_2);
-      uVar9 = BVA0_LoadRawData(uVar9,uVar8);
-      break;
-    case 4:
-      uVar9 = MaybeLoadBMA0Format(param_2);
-      uVar9 = BMA0_LoadRawData(uVar9,uVar8);
-    }
-    if (param_3 == 0) {
-      uVar4 = param_1 + 0x1cU & 3;
-      uVar3 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-      uVar2 = param_1 + 0x20U & 3;
-      uVar6 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-      uVar4 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + uVar8 * 4;
-      uVar3 = uVar4 & 3;
-      uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-      uVar4 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-      *(undefined4 *)((uVar6 >> uVar2 * 8 | uVar6 << uVar2 * -8 + 0x20) + uVar8 * 4) = 0;
-    }
-    else {
-      uVar4 = param_1 + 0x14U & 3;
-      uVar2 = *(uint *)(param_1 + 0x14U & 0xfffffffc);
-      uVar4 = (uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) + 4;
-      uVar2 = uVar4 & 3;
-      uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-      uVar5 = Anim_GetNeededBlockSize((char *)(uintptr_t)(uVar9),uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20);
-      *puVar1 = uVar5;
-      uVar4 = Mem_AllocateHeap(param_3);
-      uVar2 = param_1 + 0x1cU & 3;
-      uVar3 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-      *(uint *)((uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + uVar8 * 4) = uVar4;
-      uVar2 = param_1 + 0x20U & 3;
-      uVar3 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-      *(undefined4 *)((uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + uVar8 * 4) = 0;
-    }
-    uVar2 = param_1 + 0x14U & 3;
-    uVar3 = *(uint *)(param_1 + 0x14U & 0xfffffffc);
-    uVar3 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
-    uVar2 = uVar3 + 4;
-    uVar6 = uVar2 & 3;
-    uVar7 = *(uint *)(uVar2 & 0xfffffffc);
-    uVar3 = uVar3 + 0x68;
-    uVar2 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    MaybeCreateAnimationBlock
-              ((undefined4 *)(uintptr_t)(uVar4),(char *)(uintptr_t)(uVar9),uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20,
-               uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20);
-    uVar8 = uVar8 + 1 & 0xff;
-  } while (uVar8 < *(ushort *)(param_1 + 0x18));
-  return;
-}
+    void *joint = 0;
+    u8 i;
+    void *block;
 
+    for (i = 0; i < animation->jointCount; i++) {
+        switch (animation->animationType) {
+        case 0:
+            joint = JNT0_LoadJointByIdx(
+                Anim_NSBCA_LoadGetJNT0Block(resourceData), i);
+            break;
+        case 2:
+            joint = BTP0_LoadRawData(MaybeLoadBTP0Format(resourceData), i);
+            break;
+        case 1:
+            joint = BTA0_LoadRawData(MaybeLoadBTA0Format(resourceData), i);
+            break;
+        case 3:
+            joint = BVA0_LoadRawData(MaybeLoadBVA0Format(resourceData), i);
+            break;
+        case 4:
+            joint = BMA0_LoadRawData(MaybeLoadBMA0Format(resourceData), i);
+            break;
+        }
+
+        if (heap != 0) {
+            data_0217af20 = Anim_GetNeededBlockSize(
+                joint, animation->resource->unknown_04);
+            block = Mem_AllocateHeap(heap, data_0217af20);
+            animation->blocks[i] = block;
+            animation->animationIndices[i] = 0;
+        } else {
+            block = animation->blocks[i];
+            animation->animationIndices[i] = 0;
+        }
+
+        MaybeCreateAnimationBlock(
+            block, joint, animation->resource->unknown_04,
+            animation->resource->unknown_68);
+    }
+}

@@ -1,25 +1,30 @@
-/* Decompiled C draft; module arm9; ROM address 020250a8. No matching claim. */
-#include "types.h"
-#include "deps/020250a8_func_020250a8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02161ae4 SDK_data_02161ae4
+#define data_02161ae0 SDK_data_02161ae0
+#define data_02174e10 SDK_data_02174e10
+#define data_02161adc SDK_data_02161adc
+#define data_02174e0c SDK_data_02174e0c
+#define data_02174e08 SDK_data_02174e08
+// PURPOSE: Initializes three shared fixed-point ratios.
+//
+// Divides one fixed-point unit by each of three configured values and stores
+// the results in their corresponding shared output slots. The values likely
+// configure related display or scene scaling ratios.
+
+typedef int fx32;
+
+extern void FX_Div(void *a0);
+
+extern fx32 data_02161ae4;
+extern fx32 data_02161ae0;
+extern fx32 data_02161adc;
+extern fx32 data_02174e10;
+extern fx32 data_02174e0c;
+extern fx32 data_02174e08;
 
 void func_020250a8(void)
-
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  
-  uVar2 = FX_Div(0x1000,*(uint *)(uRam02025104 & 0xfffffffc) >> (uRam02025104 & 3) * 8 |
-                        *(uint *)(uRam02025104 & 0xfffffffc) << (uRam02025104 & 3) * -8 + 0x20);
-  uVar1 = uRam02025108 & 3;
-  uVar3 = *(uint *)(uRam02025108 & 0xfffffffc);
-  *puRam0202510c = uVar2;
-  uVar2 = FX_Div(0x1000,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
-  uVar1 = uRam02025110 & 3;
-  uVar3 = *(uint *)(uRam02025110 & 0xfffffffc);
-  *puRam02025114 = uVar2;
-  uVar2 = FX_Div(0x1000,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
-  *puRam02025118 = uVar2;
-  return;
+    data_02174e10 = ((fx32 (*)(fx32, fx32))FX_Div)(0x1000, data_02161ae4);
+    data_02174e0c = ((fx32 (*)(fx32, fx32))FX_Div)(0x1000, data_02161ae0);
+    data_02174e08 = ((fx32 (*)(fx32, fx32))FX_Div)(0x1000, data_02161adc);
 }
-

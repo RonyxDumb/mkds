@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "SetDispcntSubBgMode",
+    "target": 34900276,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942800474
+  }
+]

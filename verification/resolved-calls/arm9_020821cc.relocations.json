@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "GetGlobalHD5",
+    "target": 34031784,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959409070
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "GetDriverEntry",
+    "target": 34056564,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959415260
+  },
+  {
+    "offset": 192,
+    "type": 1,
+    "symbol": "Vector3_MaybeNormalize",
+    "target": 33790048,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959348595
+  },
+  {
+    "offset": 244,
+    "type": 1,
+    "symbol": "VecFx32_AddScale1",
+    "target": 34897880,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942848324
+  },
+  {
+    "offset": 260,
+    "type": 1,
+    "symbol": "GetDriverEntry",
+    "target": 34056564,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959415207
+  },
+  {
+    "offset": 404,
+    "type": 2,
+    "symbol": "SDK_data_021759c0",
+    "target": 35084736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084736
+  },
+  {
+    "offset": 408,
+    "type": 2,
+    "symbol": "SDK_data_0217ae9c",
+    "target": 35106460,
+    "thumb": false,
+    "addend": 0,
+    "value": 35106460
+  }
+]

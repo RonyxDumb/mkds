@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Vector3_Cross",
+    "target": 33789864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959245453
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Vector3_MaybeNormalize",
+    "target": 33790048,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959245496
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_0217b860",
+    "target": 35108960,
+    "thumb": false,
+    "addend": 0,
+    "value": 35108960
+  }
+]

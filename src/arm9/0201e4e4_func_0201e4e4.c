@@ -1,29 +1,28 @@
-/* Decompiled C draft; module arm9; ROM address 0201e4e4. No matching claim. */
-#include "types.h"
-#include "deps/0201e4e4_func_0201e4e4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02173274 SDK_data_02173274
+// PURPOSE: Generates a random normalized flat direction vector.
+// The output receives two fixed-point components from the shared random seed.
+// Its third component is zero before the vector is normalized in place.
 
-void func_0201e4e4(int *param_1)
+typedef int fx32;
 
+typedef struct VecFx32 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+} VecFx32;
+
+extern int data_02173274;
+extern void VecFx32_Normalize(const VecFx32 *src, VecFx32 *dst);
+
+void func_0201e4e4(VecFx32 *out)
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar3 = iRam0201e53c;
-  iVar2 = iRam0201e538;
-  piVar1 = piRam0201e534;
-  iVar4 = (*(uint *)((uint)piRam0201e534 & 0xfffffffc) >> ((uint)piRam0201e534 & 3) * 8 |
-          *(uint *)((uint)piRam0201e534 & 0xfffffffc) << ((uint)piRam0201e534 & 3) * -8 + 0x20) *
-          iRam0201e538 + iRam0201e53c;
-  *piRam0201e534 = iVar4;
-  *param_1 = iVar4 >> 8;
-  iVar3 = (*(uint *)((uint)piVar1 & 0xfffffffc) >> ((uint)piVar1 & 3) * 8 |
-          *(uint *)((uint)piVar1 & 0xfffffffc) << ((uint)piVar1 & 3) * -8 + 0x20) * iVar2 + iVar3;
-  *piVar1 = iVar3;
-  param_1[1] = iVar3 >> 8;
-  param_1[2] = 0;
-  VecFx32_Normalize((uint)(uintptr_t)(param_1),param_1);
-  return;
-}
+    data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173;
+    out->x = data_02173274 >> 8;
 
+    data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173;
+    out->y = data_02173274 >> 8;
+    out->z = 0;
+
+    VecFx32_Normalize(out, out);
+}

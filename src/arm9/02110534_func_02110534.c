@@ -1,28 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 02110534. No matching claim. */
-#include "types.h"
-#include "deps/02110534_func_02110534.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0215c3a4 SDK_data_0215c3a4
+#define data_0217d22c SDK_data_0217d22c
+// PURPOSE: Divides two shared fixed-point values by the supplied value.
+// The function processes the two entries in the shared source array.
+// Each quotient is written to the matching slot in the output array.
+// The fixed-point divide routine probably returns its result in r0.
 
-void func_02110534(undefined4 param_1)
+typedef int fx32;
 
+extern fx32 data_0215c3a4[];
+extern fx32 data_0217d22c[];
+extern void FX_Div(void *a0);
+
+void func_02110534(fx32 divisor)
 {
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  uint uVar4;
-  undefined4 uVar5;
-  int iVar6;
-  
-  iVar3 = iRam02110578;
-  iVar2 = iRam02110574;
-  iVar6 = 0;
-  do {
-    uVar4 = iVar2 + iVar6 * 4;
-    uVar1 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    uVar5 = FX_Div(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20,param_1);
-    *(undefined4 *)(iVar3 + iVar6 * 4) = uVar5;
-    iVar6 = iVar6 + 1;
-  } while (iVar6 < 2);
-  return;
-}
+    int i;
 
+    for (i = 0; i < 2; i++) {
+        data_0217d22c[i] = ((fx32 (*)(fx32, fx32))FX_Div)(data_0215c3a4[i], divisor);
+    }
+}

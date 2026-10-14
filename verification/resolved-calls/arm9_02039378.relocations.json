@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "MaybeBoundsCheck",
+    "target": 34812532,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942901664
+  },
+  {
+    "offset": 144,
+    "type": 2,
+    "symbol": "SDK_data_021755c0",
+    "target": 35083712,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083712
+  }
+]

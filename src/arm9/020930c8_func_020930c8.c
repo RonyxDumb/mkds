@@ -1,69 +1,51 @@
-/* Decompiled C draft; module arm9; ROM address 020930c8. No matching claim. */
-#include "types.h"
-#include "deps/020930c8_func_020930c8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_02091fd8 func_020930c8
+// PURPOSE: Advances the physics/animation timer of every active object in a list.
+// Takes a control block (arg0) holding a pointer-array of objects and a count.
+// For each non-null object whose flag bit 0x800 is set, it fetches that object's
+// 64-bit state block, does one fixed-point step (state = base + rate*state), and
+// then writes a small derived value (high word of state scaled by 25, +200) into
+// the object's +0xA4 field (probably a countdown/frame counter, clamped to 16 bits).
+// Iteration stops early at the first null object pointer.
 
-void func_020930c8(uint param_1)
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long long u64;
 
+typedef struct Object {
+    u16 pad0;           // 0
+    u16 flags;          // 2
+    u8 pad4[0xA4 - 4];  // 4..0xA3
+    u32 field_a4;       // 0xA4: stored as a full word (only low 16 bits meaningful)
+} Object;
+
+typedef struct {
+    Object **list;      // 0: array of object pointers
+    u16 count;          // 4: number of entries
+} Ctrl;
+
+// 64-bit state block returned by func_020d22d0 (a small fx64 accumulator)
+typedef struct {
+    u64 a;              // 0: value (also destination)
+    u64 b;              // 8: rate/multiplier
+    u64 c;              // 0x10: base/offset
+} State;
+
+extern State *func_020d22d0(void);
+
+void func_02091fd8(Ctrl *c)
 {
-  uint uVar1;
-  longlong lVar2;
-  int *piVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar9;
-  uint uVar10;
-  int iVar11;
-  uint uVar12;
-  uint uVar14;
-  uint uVar8;
-  uint uVar13;
-  
-  if (param_1 == 0) {
-    return;
-  }
-  iVar11 = 0;
-  while( true ) {
-    if ((int)(uint)*(ushort *)(param_1 + 4) <= iVar11) {
-      return;
-    }
-    uVar10 = (*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-             *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + iVar11 * 4;
-    uVar1 = uVar10 & 3;
-    uVar10 = *(uint *)(uVar10 & 0xfffffffc);
-    uVar10 = uVar10 >> uVar1 * 8 | uVar10 << uVar1 * -8 + 0x20;
-    if (uVar10 == 0) break;
-    if ((*(ushort *)(uVar10 + 2) & 0x800) != 0) {
-      piVar3 = (int *)func_020d22d0();
-      uVar1 = (uint)(piVar3 + 2) & 3;
-      uVar7 = *(uint *)((uint)(piVar3 + 2) & 0xfffffffc);
-      uVar8 = uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20;
-      uVar6 = *(uint *)((uint)piVar3 & 0xfffffffc) >> ((uint)piVar3 & 3) * 8 |
-              *(uint *)((uint)piVar3 & 0xfffffffc) << ((uint)piVar3 & 3) * -8 + 0x20;
-      uVar1 = (uint)(piVar3 + 1) & 3;
-      uVar4 = *(uint *)((uint)(piVar3 + 1) & 0xfffffffc);
-      lVar2 = (ulonglong)uVar6 * (ulonglong)uVar8;
-      uVar14 = (uint)lVar2;
-      uVar7 = (uint)(piVar3 + 4) & 3;
-      uVar12 = *(uint *)((uint)(piVar3 + 4) & 0xfffffffc);
-      uVar13 = uVar12 >> uVar7 * 8 | uVar12 << uVar7 * -8 + 0x20;
-      uVar7 = (uint)(piVar3 + 3) & 3;
-      uVar5 = *(uint *)((uint)(piVar3 + 3) & 0xfffffffc);
-      uVar12 = (uint)(piVar3 + 5) & 3;
-      uVar9 = *(uint *)((uint)(piVar3 + 5) & 0xfffffffc);
-      *piVar3 = uVar13 + uVar14;
-      piVar3[1] = (uVar9 >> uVar12 * 8 | uVar9 << uVar12 * -8 + 0x20) +
-                  (uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20) * uVar6 +
-                  uVar8 * (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) +
-                  (int)((ulonglong)lVar2 >> 0x20) + (uint)CARRY4(uVar13,uVar14);
-      uVar1 = (uint)(piVar3 + 1) & 3;
-      uVar7 = *(uint *)((uint)(piVar3 + 1) & 0xfffffffc);
-      *(int *)(uVar10 + 0xa4) =
-           (int)((ulonglong)(uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20) * 0x19 >> 0x20) + 200;
-    }
-    iVar11 = iVar11 + 1;
-  }
-  return;
-}
+    int i;
+    Object *o;
 
+    if (c == 0) return;
+
+    for (i = 0; i < c->count && (o = c->list[i]) != 0; i++) {
+        if (o->flags & 0x800) {
+            State *s = func_020d22d0();
+            s->a = s->c + s->b * s->a;                 // 64-bit multiply-add (low 64)
+            o->field_a4 = (u16)((u16)(((u64)(u32)(s->a >> 32) * 25) >> 32) + 0xc8);
+        }
+    }
+}

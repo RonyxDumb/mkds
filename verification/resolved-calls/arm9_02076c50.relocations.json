@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "G3i_FrustumW_",
+    "target": 34910280,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942863081
+  },
+  {
+    "offset": 108,
+    "type": 2,
+    "symbol": "SDK_data_021702a4",
+    "target": 35062436,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062436
+  },
+  {
+    "offset": 112,
+    "type": 2,
+    "symbol": "SDK_data_0217029c",
+    "target": 35062428,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062428
+  }
+]

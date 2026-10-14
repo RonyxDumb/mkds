@@ -1,69 +1,86 @@
-/* Decompiled C draft; module arm9; ROM address 0209d694. No matching claim. */
-#include "types.h"
-#include "deps/0209d694_func_0209d694.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_0209d694(undefined4 *param_1,undefined4 *param_2)
+/*
+ * PURPOSE: Spawns an effect object at a position and sets up its two sprite parts.
+ *
+ * Arguments: pos (r0) = pointer to a 3-component fx32 vector (position),
+ *            vel (r1) = pointer to a 3-component fx32 vector (probably velocity/direction).
+ * Behaviour: plays/queues something with id 0x1ae (probably a sound or effect id),
+ * allocates an effect entry; on failure returns. Otherwise stores type 0x1c2,
+ * copies pos into two slots, copies vel, packs each vel component through a
+ * 64-bit shift ((v<<13)>>12, i.e. v*2 with the high bits folded), creates two
+ * sub-objects with ids 0x35 and 0x34, sets their fields, clears some flags and
+ * sets a timer/state of 0x1f.
+ */
 
+typedef int fx32;
+typedef long long fx64;
+typedef unsigned short u16;
+typedef unsigned char u8;
+
+typedef struct VecFx32 {
+    fx32 x, y, z;
+} VecFx32;
+
+typedef struct SubObj {
+    char pad0[0x70];
+    u16 field70;      /* mode/state halfword */
+    char pad72[0xe];
+    u8 field80;       /* small state byte */
+} SubObj;
+
+typedef struct EffectObj {
+    char pad0[0x2];
+    u16 flags2;         /* +0x02: bit flags, several bits cleared here */
+    VecFx32 pos04;      /* +0x04: working position */
+    VecFx32 scaled10;   /* +0x10: packed/scaled copy of vel */
+    char pad1c[0x24];
+    VecFx32 vel40;      /* +0x40: velocity/direction copy */
+    char pad4c[0x1a];
+    u16 timer66;        /* +0x66: countdown/state, set to 0x1f */
+    char pad68[0x38];
+    u16 type_a0;        /* +0xa0: type id (0x1c2) */
+    char pada2[0x2];
+    int field_a4;       /* +0xa4: cleared */
+    VecFx32 posA8;      /* +0xa8: original spawn position */
+    char padb4[0x4];
+    int field_b8;       /* +0xb8: cleared */
+    SubObj *part_bc;    /* +0xbc: first sprite part (id 0x35) */
+    SubObj *part_c0;    /* +0xc0: second sprite part (id 0x34) */
+} EffectObj;
+
+extern void func_02100138(int id);
+extern EffectObj *func_0209bbfc(void);
+extern SubObj *func_0208b7bc(int id, VecFx32 *pos);
+
+void func_0209d694(VecFx32 *pos, VecFx32 *vel)
 {
-  int iVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  func_02100138(uRam0209d7d8);
-  iVar1 = func_0209bbfc();
-  if (iVar1 != 0) {
-    *(short *)(iVar1 + 0xa0) = (short)uRam0209d7dc;
-    uVar2 = param_1[1];
-    uVar3 = param_1[2];
-    *(undefined4 *)(iVar1 + 0xa8) = *param_1;
-    *(undefined4 *)(iVar1 + 0xac) = uVar2;
-    *(undefined4 *)(iVar1 + 0xb0) = uVar3;
-    *(undefined4 *)(iVar1 + 4) = *(undefined4 *)(iVar1 + 0xa8);
-    *(undefined4 *)(iVar1 + 8) = *(undefined4 *)(iVar1 + 0xac);
-    *(undefined4 *)(iVar1 + 0xc) = *(undefined4 *)(iVar1 + 0xb0);
-    uVar2 = param_2[1];
-    uVar3 = param_2[2];
-    *(undefined4 *)(iVar1 + 0x40) = *param_2;
-    *(undefined4 *)(iVar1 + 0x44) = uVar2;
-    *(undefined4 *)(iVar1 + 0x48) = uVar3;
-    uVar4 = *(uint *)((uint)param_2 & 0xfffffffc) >> ((uint)param_2 & 3) * 8 |
-            *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20;
-    *(uint *)(iVar1 + 0x10) = (uVar4 << 0xd) >> 0xc | (uVar4 >> 0x13) << 0x14;
-    uVar4 = (uint)(param_2 + 1) & 3;
-    uVar5 = *(uint *)((uint)(param_2 + 1) & 0xfffffffc);
-    uVar4 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
-    *(uint *)(iVar1 + 0x14) = (uVar4 << 0xd) >> 0xc | (uVar4 >> 0x13) << 0x14;
-    uVar4 = (uint)(param_2 + 2) & 3;
-    uVar5 = *(uint *)((uint)(param_2 + 2) & 0xfffffffc);
-    uVar4 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
-    *(uint *)(iVar1 + 0x18) = (uVar4 << 0xd) >> 0xc | (uVar4 >> 0x13) << 0x14;
-    *(undefined4 *)(iVar1 + 0xa4) = 0;
-    *(undefined4 *)(iVar1 + 0xb8) = 0;
-    uVar2 = func_0208b7bc(0x35,(uint)(uintptr_t)((undefined4 *)(iVar1 + 4)));
-    *(undefined4 *)(iVar1 + 0xbc) = uVar2;
-    uVar2 = func_0208b7bc(0x34,iVar1 + 4);
-    *(undefined4 *)(iVar1 + 0xc0) = uVar2;
-    uVar4 = iVar1 + 0xbcU & 3;
-    uVar5 = *(uint *)(iVar1 + 0xbcU & 0xfffffffc);
-    *(undefined2 *)((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) + 0x70) = 0x15;
-    uVar4 = iVar1 + 0xc0U & 3;
-    uVar5 = *(uint *)(iVar1 + 0xc0U & 0xfffffffc);
-    *(undefined2 *)((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) + 0x70) = 0x15;
-    uVar4 = iVar1 + 0xbcU & 3;
-    uVar5 = *(uint *)(iVar1 + 0xbcU & 0xfffffffc);
-    *(undefined1 *)((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) + 0x80) = 3;
-    uVar4 = iVar1 + 0xc0U & 3;
-    uVar5 = *(uint *)(iVar1 + 0xc0U & 0xfffffffc);
-    *(undefined1 *)((uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) + 0x80) = 3;
-    *(ushort *)(iVar1 + 2) = *(ushort *)(iVar1 + 2) & 0xfffe;
-    *(ushort *)(iVar1 + 2) = *(ushort *)(iVar1 + 2) & 0xfff7;
-    *(ushort *)(iVar1 + 2) = *(ushort *)(iVar1 + 2) & 0xfffd;
-    *(ushort *)(iVar1 + 2) = *(ushort *)(iVar1 + 2) & 0xfff7;
-    *(undefined2 *)(iVar1 + 0x66) = 0x1f;
-    return;
-  }
-  return;
-}
+    EffectObj *obj;
 
+    func_02100138(0x1ae); /* probably an effect/sound id from the literal pool */
+    obj = func_0209bbfc();
+    if (obj == 0) {
+        return;
+    }
+    obj->type_a0 = 0x1c2;
+    obj->posA8 = *pos;
+    obj->pos04 = obj->posA8; /* re-read from the struct, matches ROM double ldm */
+    obj->vel40 = *vel;
+    /* pack each component through a 64-bit shift: (v << 13) >> 12 */
+    obj->scaled10.x = (fx32)(((fx64)vel->x << 13) >> 12);
+    obj->scaled10.y = (fx32)(((fx64)vel->y << 13) >> 12);
+    obj->scaled10.z = (fx32)(((fx64)vel->z << 13) >> 12);
+    obj->field_a4 = 0;
+    obj->field_b8 = 0;
+    obj->part_bc = func_0208b7bc(0x35, &obj->pos04);
+    obj->part_c0 = func_0208b7bc(0x34, &obj->pos04);
+    obj->part_bc->field70 = 0x15;
+    obj->part_c0->field70 = 0x15;
+    obj->part_bc->field80 = 3;
+    obj->part_c0->field80 = 3;
+    obj->flags2 = obj->flags2 & ~1;
+    obj->flags2 = obj->flags2 & ~8;
+    obj->flags2 = obj->flags2 & ~2;
+    obj->flags2 = obj->flags2 & ~8; /* duplicate clear, present in ROM */
+    obj->timer66 = 0x1f;
+}

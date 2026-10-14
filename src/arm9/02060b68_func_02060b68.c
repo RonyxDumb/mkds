@@ -1,36 +1,37 @@
-/* Decompiled C draft; module arm9; ROM address 02060b68. No matching claim. */
-#include "types.h"
-#include "deps/02060b68_func_02060b68.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa08 SDK_data_0217aa08
+// PURPOSE: Clears the active flag on saved online records that have a friend code.
+
+typedef struct OnlineInfo {
+    unsigned char unknown_00[0x22];
+    unsigned char valid : 1;
+    unsigned char active : 1;
+    unsigned char remaining_flags : 6;
+    unsigned char unknown_23;
+} OnlineInfo;
+
+typedef struct SaveDataHolder {
+    unsigned char unknown_00[0x20];
+    void *online_data;
+} SaveDataHolder;
+
+extern SaveDataHolder *data_0217aa08;
+extern int GlobalZ_GetOI(int slot, OnlineInfo *output);
+extern void GlobalZ_SetOI(int slot, const OnlineInfo *input);
+extern int FriendCode_SomeFn_from_thumb(void *a0);
 
 void func_02060b68(void)
-
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  int iVar5;
-  uint uVar6;
-  undefined1 auStack_40 [34];
-  byte local_1e;
-  
-  iVar2 = iRam02060c08;
-  uVar1 = uRam02060c04;
-  uVar6 = 0;
-  do {
-    GlobalZ_GetOI(uVar6,(int)(uintptr_t)(auStack_40));
-    if ((((int)((uint)local_1e << 0x1f) < 0) && ((int)((uint)local_1e << 0x1e) < 0)) &&
-       (uVar4 = uVar1 & 3, uVar3 = *(uint *)(uVar1 & 0xfffffffc),
-       uVar4 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0x20, uVar3 = uVar4 & 3,
-       uVar4 = *(uint *)(uVar4 & 0xfffffffc),
-       iVar5 = FriendCode_SomeFn_from_thumb
-                         (uVar6 * 0xc + (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + iVar2),
-       iVar5 != 0)) {
-      local_1e = local_1e & 0xfd;
-      GlobalZ_SetOI(uVar6,(undefined4)(uintptr_t)(auStack_40));
-    }
-    uVar6 = uVar6 + 1 & 0xff;
-  } while (uVar6 < 0x3c);
-  return;
-}
+    unsigned char slot;
+    OnlineInfo info;
 
+    for (slot = 0; slot < 60; slot++) {
+        GlobalZ_GetOI(slot, &info);
+        if (info.valid == 1 && info.active == 1) {
+            if (FriendCode_SomeFn_from_thumb((unsigned char *)data_0217aa08->online_data + 0x874 + slot * 12) != 0) {
+                info.active = 0;
+                GlobalZ_SetOI(slot, &info);
+            }
+        }
+    }
+}

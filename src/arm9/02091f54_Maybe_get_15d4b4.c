@@ -1,10 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 02091f54. No matching claim. */
-#include "types.h"
-#include "deps/02091f54_Maybe_get_15d4b4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0215d4b4 SDK_data_0215d4b4
+typedef short s16;
 
-int Maybe_get_15d4b4(int param_1)
+extern const s16 data_0215d4b4[];
 
-{
-  return (int)*(short *)(iRam02091f68 + (param_1 >> 4) * 4);
+s16 Maybe_get_15d4b4(int idx) {
+    return data_0215d4b4[(idx >> 4) << 1];
 }
-

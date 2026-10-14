@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "StateDualHandler_Create",
+    "target": 33844200,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959238517
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "func_020f9c6c",
+    "target": 34577516,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421829
+  },
+  {
+    "offset": 136,
+    "type": 2,
+    "symbol": "SDK_data_0216c6b4",
+    "target": 35047092,
+    "thumb": false,
+    "addend": 0,
+    "value": 35047092
+  },
+  {
+    "offset": 140,
+    "type": 2,
+    "symbol": "SDK_data_020fc2c0",
+    "target": 34587328,
+    "thumb": false,
+    "addend": 0,
+    "value": 34587328
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetBiosBootIndicatorRef",
+    "target": 33747408,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645766
+  }
+]

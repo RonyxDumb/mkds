@@ -1,78 +1,85 @@
-/* Decompiled C draft; module arm9; ROM address 02150c1c. No matching claim. */
-#include "types.h"
-#include "deps/02150c1c_func_02150c1c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0216f26c SDK_data_0216f26c
+/* Streaming hash "Update" step (probably SHA-1/MD5-style context, size ctx>=0x60).
+ * Args: r0=ctx, r1=src data, r2=len. Maintains a 64-bit processed-bit counter
+ * (ctx+0x14 lo / ctx+0x18 hi, incremented by len*8), a partial-block fill count
+ * (ctx+0x1c) and a 0x40-byte block buffer (ctx+0x20). Full 64-byte blocks are
+ * fed to the block-transform through the global function pointer data_0216f26c;
+ * unaligned bulk input is staged through the context buffer first. */
+typedef unsigned char u8;
+typedef unsigned int u32;
 
-void func_02150c1c(int param_1,uint param_2,uint param_3)
+extern void Mem_CpuCopy8(const void *src, void *dst, u32 size);
 
-{
-  uint uVar1;
-  uint uVar3;
-  int iVar4;
-  int iVar5;
-  uint uVar2;
-  
-  iVar5 = param_1 + 0x20;
-  if (param_3 == 0) {
-    return;
-  }
-  uVar2 = param_1 + 0x14U & 3;
-  uVar1 = *(uint *)(param_1 + 0x14U & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  uVar1 = uVar2 + param_3 * 8;
-  if (uVar1 < uVar2) {
-    uVar2 = param_1 + 0x18U & 3;
-    uVar3 = *(uint *)(param_1 + 0x18U & 0xfffffffc);
-    *(uint *)(param_1 + 0x18) = (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + 1;
-  }
-  uVar2 = param_1 + 0x18U & 3;
-  uVar3 = *(uint *)(param_1 + 0x18U & 0xfffffffc);
-  *(uint *)(param_1 + 0x18) = (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) + (param_3 >> 0x1d);
-  *(uint *)(param_1 + 0x14) = uVar1;
-  uVar2 = param_1 + 0x1cU & 3;
-  uVar1 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  if (uVar2 != 0) {
-    if (uVar2 + param_3 < 0x40) {
-      Mem_CpuCopy8((ushort *)(uintptr_t)(param_2),(uint *)(uintptr_t)(iVar5 + uVar2),param_3);
-      uVar2 = param_1 + 0x1cU & 3;
-      uVar1 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-      *(uint *)(param_1 + 0x1c) = (uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) + param_3;
-      return;
+typedef struct HashCtx {
+    u8 unk0[0x14];   /* 0x00: probably hash state words */
+    u32 count_lo;    /* 0x14: total bits processed, low word */
+    u32 count_hi;    /* 0x18: total bits processed, high word */
+    u32 fill;        /* 0x1c: bytes currently buffered (< 0x40) */
+    u8 buf[0x40];    /* 0x20: partial block staging buffer */
+} HashCtx;
+
+/* global pointer to the block transform: (*fn)(ctx, block, 0x40) */
+extern void (*data_0216f26c)(HashCtx *ctx, const u8 *block, u32 size);
+
+void func_02150c1c(HashCtx *ctx, const u8 *src, u32 len) {
+    u8 *buf = ctx->buf;
+    u32 fill;
+    u32 lo;
+    int blocks;
+    u32 n;
+
+    if (len == 0) {
+        return;
     }
-    iVar4 = 0x40 - uVar2;
-    Mem_CpuCopy8((ushort *)(uintptr_t)(param_2),(uint *)(uintptr_t)(iVar5 + uVar2),iVar4);
-    param_3 = param_3 - iVar4;
-    param_2 = param_2 + iVar4;
-    (*(code *)(*(uint *)(uRam02150d74 & 0xfffffffc) >> (uRam02150d74 & 3) * 8 |
-              *(uint *)(uRam02150d74 & 0xfffffffc) << (uRam02150d74 & 3) * -8 + 0x20))
-              (param_1,iVar5,0x40);
-    *(undefined4 *)(param_1 + 0x1c) = 0;
-  }
-  if (0x3f < param_3) {
-    uVar2 = param_3 & 0xffffffc0;
-    param_3 = param_3 - uVar2;
-    if ((param_2 & 3) == 0) {
-      (*(code *)(*(uint *)(uRam02150d74 & 0xfffffffc) >> (uRam02150d74 & 3) * 8 |
-                *(uint *)(uRam02150d74 & 0xfffffffc) << (uRam02150d74 & 3) * -8 + 0x20))
-                (param_1,param_2,uVar2);
-      param_2 = param_2 + uVar2;
+
+    /* 64-bit bit counter += len * 8, with manual carry */
+    lo = ctx->count_lo + (len << 3);
+    if (lo < ctx->count_lo) {
+        ctx->count_hi++;
     }
-    else {
-      do {
-        Mem_CpuCopy8((ushort *)(uintptr_t)(param_2),(uint *)(uintptr_t)(iVar5),0x40);
-        param_2 = param_2 + 0x40;
-        (*(code *)(*(uint *)(uRam02150d74 & 0xfffffffc) >> (uRam02150d74 & 3) * 8 |
-                  *(uint *)(uRam02150d74 & 0xfffffffc) << (uRam02150d74 & 3) * -8 + 0x20))
-                  (param_1,iVar5,0x40);
-        uVar2 = uVar2 - 0x40;
-      } while (0 < (int)uVar2);
+    ctx->count_hi += len >> 29;
+    ctx->count_lo = lo;
+
+    fill = ctx->fill;
+    if (fill != 0) {
+        if (fill + len >= 0x40) {
+            /* complete the buffered block, transform it */
+            n = 0x40 - fill;
+            Mem_CpuCopy8(src, buf + fill, n);
+            len -= n;
+            src += n;
+            (*data_0216f26c)(ctx, buf, 0x40);
+            ctx->fill = 0;
+        } else {
+            /* still not a full block: just append and return */
+            Mem_CpuCopy8(src, buf + fill, len);
+            ctx->fill += len;
+            return;
+        }
     }
-  }
-  *(uint *)(param_1 + 0x1c) = param_3;
-  if (param_3 != 0) {
-    Mem_CpuCopy8((ushort *)(uintptr_t)(param_2),(uint *)(uintptr_t)(iVar5),param_3);
-    return;
-  }
-  return;
+
+    if (len >= 0x40) {
+        blocks = len & ~0x3f;
+        len -= blocks;
+        if (((u32)src & 3) == 0) {
+            /* aligned: transform straight from the source */
+            (*data_0216f26c)(ctx, src, blocks);
+            src += blocks;
+        } else {
+            /* unaligned: stage each block through the context buffer */
+            do {
+                Mem_CpuCopy8(src, buf, 0x40);
+                src += 0x40;
+                (*data_0216f26c)(ctx, buf, 0x40);
+                blocks -= 0x40;
+            } while (blocks > 0);
+        }
+    }
+
+    ctx->fill = len;
+    if (len == 0) {
+        return;
+    }
+    Mem_CpuCopy8(src, buf, len);
 }
-

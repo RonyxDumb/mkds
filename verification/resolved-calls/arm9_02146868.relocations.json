@@ -1,0 +1,101 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Fifo_IsHandlerReady",
+    "target": 34920348,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942652863
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Os_SpinWait",
+    "target": 33619216,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104789
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Fifo_IsHandlerReady",
+    "target": 34920348,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942652853
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "Card_Request",
+    "target": 34891880,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422946
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959103842
+  },
+  {
+    "offset": 128,
+    "type": 1,
+    "symbol": "Mem_DcDrainWriteBuffer",
+    "target": 33615512,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959103850
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942652787
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942652778
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104725
+  },
+  {
+    "offset": 244,
+    "type": 1,
+    "symbol": "Os_Thread_Sleep",
+    "target": 33611804,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959102894
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104719
+  }
+]

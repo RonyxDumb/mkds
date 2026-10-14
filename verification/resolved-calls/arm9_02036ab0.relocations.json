@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Mem_Exp_Finalize",
+    "target": 33651068,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391143
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Mem_Frame_Finalize",
+    "target": 33652948,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391611
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Mem_FindGlobalTopParentHeapHead",
+    "target": 33650000,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959390872
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Mem_Exp_Free",
+    "target": 33650544,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959390995
+  }
+]

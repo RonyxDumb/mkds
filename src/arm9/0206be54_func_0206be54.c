@@ -1,86 +1,118 @@
-/* Decompiled C draft; module arm9; ROM address 0206be54. No matching claim. */
-#include "types.h"
-#include "deps/0206be54_func_0206be54.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 func_0206be54(int param_1,int param_2)
+// PURPOSE: Starts collision handling when a driver state allows it.
+// The first argument is the driver entry and the second selects a state path.
+// Disabled flags and unsupported active states reject the collision.
 
+typedef struct StructMQRacerEntry {
+    char pad_00[0x48];
+    unsigned int field_48;
+    unsigned int field_4c;
+    char pad_50[0x7c - 0x50];
+    unsigned int field_7c;
+    char pad_80[0x180 - 0x80];
+    int field_180;
+} StructMQRacerEntry;
+
+extern void DriverContext_HandleSomeCollision(StructMQRacerEntry *entry,
+                                               int mode);
+
+int func_0206be54(StructMQRacerEntry *entry, int mode)
 {
-  bool bVar1;
-  uint uVar2;
-  bool bVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  uVar5 = param_1 + 0x4cU & 3;
-  uVar4 = *(uint *)(param_1 + 0x4cU & 0xfffffffc);
-  uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-  if ((uVar5 & 0x400000) == 0) {
-    uVar4 = param_1 + 0x7cU & 3;
-    uVar2 = *(uint *)(param_1 + 0x7cU & 0xfffffffc);
-    if (((uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) & 0x200) == 0) {
-      if ((param_2 == 1) || (param_2 == 2)) {
-        bVar1 = true;
-        if (((uVar5 & uRam0206bf84) == 0) &&
-           (uVar5 = param_1 + 0x48U & 3, uVar4 = *(uint *)(param_1 + 0x48U & 0xfffffffc),
-           ((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) & 0x1800) == 0)) {
-          uVar5 = param_1 + 0x180U & 3;
-          uVar4 = *(uint *)(param_1 + 0x180U & 0xfffffffc);
-          uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-          bVar3 = false;
-          if (((uVar5 != 0) && (uVar5 != 1)) && (uVar5 != 2)) {
-            bVar3 = true;
-          }
-          if (!bVar3) {
-            bVar1 = false;
-          }
-        }
-        bVar1 = !bVar1;
-      }
-      else {
-        bVar1 = true;
-        if (((uVar5 & uRam0206bf84) == 0) &&
-           (uVar5 = param_1 + 0x48U & 3, uVar4 = *(uint *)(param_1 + 0x48U & 0xfffffffc),
-           ((uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) & 0x1800) == 0)) {
-          uVar5 = param_1 + 0x180U & 3;
-          uVar4 = *(uint *)(param_1 + 0x180U & 0xfffffffc);
-          uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-          bVar3 = false;
-          if ((uVar5 != 0) && ((uVar5 != 1 && (uVar5 != 2)))) {
-            bVar3 = true;
-          }
-          if (!bVar3) {
-            bVar1 = false;
-          }
-        }
-        if (bVar1) {
-          bVar1 = false;
-        }
-        else {
-          bVar1 = true;
-        }
-      }
-    }
-    else {
-      uVar4 = param_1 + 0x180U & 3;
-      uVar2 = *(uint *)(param_1 + 0x180U & 0xfffffffc);
-      if (((uVar2 >> uVar4 * 8 == 0 && uVar2 << uVar4 * -8 + 0x20 == 0) &&
-          (uVar4 = param_1 + 0x48U & 3, uVar2 = *(uint *)(param_1 + 0x48U & 0xfffffffc),
-          ((uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) & 0x1800) == 0)) &&
-         ((uVar5 & uRam0206bf84) == 0)) {
-        bVar1 = true;
-      }
-      else {
-        bVar1 = false;
-      }
-    }
-  }
-  else {
-    bVar1 = false;
-  }
-  if (!bVar1) {
-    return 0;
-  }
-  DriverContext_HandleSomeCollision(param_1);
-  return 1;
-}
+    int result;
 
+    if ((entry->field_4c & 0x400000) != 0) {
+        result = 0;
+        goto result_ready;
+    }
+    if ((entry->field_7c & 0x200) == 0) {
+        goto inactive;
+    }
+    if (entry->field_180 != 0) {
+        goto active_fail;
+    }
+    if ((entry->field_48 & 0x1800) != 0) {
+        goto active_fail;
+    }
+    if ((entry->field_4c & 0x10000040) == 0) {
+        result = 1;
+        goto result_ready;
+    }
+
+active_fail:
+    result = 0;
+    goto result_ready;
+
+inactive:
+    if (mode == 1) {
+        goto selected_mode;
+    }
+    if (mode != 2) {
+        goto other_mode;
+    }
+
+selected_mode:
+    {
+        int allowed = 1;
+
+        if ((entry->field_4c & 0x10000040) == 0) {
+            if ((entry->field_48 & 0x1800) == 0) {
+                int state = entry->field_180;
+                int other = 0;
+
+                if (state != 0) {
+                    if (state != 1) {
+                        if (state != 2) {
+                            other = allowed;
+                        }
+                    }
+                }
+                if (other == 0) {
+                    allowed = 0;
+                }
+            }
+        }
+        if (allowed == 0) {
+            result = 1;
+        } else {
+            result = 0;
+        }
+    }
+    goto result_ready;
+
+other_mode:
+    {
+        int allowed = 1;
+
+        if ((entry->field_4c & 0x10000040) == 0) {
+            if ((entry->field_48 & 0x1800) == 0) {
+                int state = entry->field_180;
+                int other = 0;
+
+                if (state != 0) {
+                    if (state != 1) {
+                        if (state != 2) {
+                            other = allowed;
+                        }
+                    }
+                }
+                if (other == 0) {
+                    allowed = 0;
+                }
+            }
+        }
+        if (allowed == 0) {
+            result = 1;
+        } else {
+            result = 0;
+        }
+    }
+
+result_ready:
+    if (result == 0) {
+        return 0;
+    }
+
+    DriverContext_HandleSomeCollision(entry, mode);
+    return 1;
+}

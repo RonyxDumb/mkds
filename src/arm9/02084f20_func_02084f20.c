@@ -1,24 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 02084f20. No matching claim. */
-#include "types.h"
-#include "deps/02084f20_func_02084f20.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_02084f20(int param_1)
+// PURPOSE: Applies texture palette settings to every material in a model.
+// The input probably wraps a model pointer at offset four.
+// Each material is processed with the fixed palette mode two.
 
+typedef struct ModelBlock {
+    unsigned char pad[0x18];
+    unsigned char numMaterials;
+} ModelBlock;
+
+typedef struct ModelBlockWrapper {
+    unsigned char pad[4];
+    ModelBlock *model;
+} ModelBlockWrapper;
+
+extern void ModelBlock_SomeTexPltFn_1(ModelBlock *model, int i, int arg1);
+
+void func_02084f20(ModelBlockWrapper *wrapper)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = param_1 + 4U & 3;
-  uVar1 = *(uint *)(param_1 + 4U & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  uVar1 = 0;
-  if (*(char *)(uVar2 + 0x18) == '\0') {
-    return;
-  }
-  do {
-    ModelBlock_SomeTexPltFn_1(uVar2,uVar1,2);
-    uVar1 = uVar1 + 1;
-  } while (uVar1 < *(byte *)(uVar2 + 0x18));
-  return;
-}
+    unsigned int i = 0;
+    ModelBlock *model = wrapper->model;
+    int arg1 = 2;
 
+    if (i < model->numMaterials) {
+        do {
+            ModelBlock_SomeTexPltFn_1(model, i, arg1);
+            i++;
+        } while (i < model->numMaterials);
+    }
+}

@@ -1,20 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02110484. No matching claim. */
-#include "types.h"
-#include "deps/02110484_func_02110484.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0216cb28 SDK_data_0216cb28
+#define data_0217d200 SDK_data_0217d200
+#define data_0217d208 SDK_data_0217d208
+// PURPOSE: Updates two fixed-point values from the current configuration.
+// The first value is probably derived from a global dimension.
+// Both calculations use the same fixed-point divisor.
+
+typedef int fx32;
+
+extern fx32 data_0216cb28;
+extern fx32 data_0217d200;
+extern fx32 data_0217d208;
+extern void FX_Div(void *a0);
 
 void func_02110484(void)
-
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  
-  uVar1 = FX_Div(((*(uint *)(uRam021104cc & 0xfffffffc) >> (uRam021104cc & 3) * 8 |
-                  *(uint *)(uRam021104cc & 0xfffffffc) << (uRam021104cc & 3) * -8 + 0x20) - 0x14) *
-                 0x1000,uRam021104d0);
-  uVar2 = uRam021104d0;
-  *puRam021104d4 = uVar1;
-  uVar2 = FX_Div(0x61000,uVar2);
-  *puRam021104d8 = uVar2;
-  return;
+    data_0217d200 = ((fx32 (*)(fx32, fx32))FX_Div)((data_0216cb28 - 0x14) << 12, 0x8340000);
+    data_0217d208 = ((fx32 (*)(fx32, fx32))FX_Div)(0x61000, 0x8340000);
 }
-

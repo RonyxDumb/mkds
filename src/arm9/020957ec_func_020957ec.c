@@ -1,35 +1,46 @@
-/* Decompiled C draft; module arm9; ROM address 020957ec. No matching claim. */
-#include "types.h"
-#include "deps/020957ec_func_020957ec.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_020957ec(uint param_1)
+/* PURPOSE: Applies a fixed forward-scaled offset to every object in a list, stopping at the first empty slot.
+ *
+ * Arg0 is a list container: a pointer to an array of object pointers (offset 0)
+ * plus a u16 element count (offset 4). The function walks the array from index 0,
+ * for each non-null entry it adds a fixed scale (0x320000, an fx32 constant) times
+ * the entry's direction vector (offset 0x40) to the entry's base-position vector
+ * (a VecFx32* stored at offset 0x9c), writing the result into the entry's own
+ * output vector (offset 0xa4). The walk stops as soon as it hits a null slot
+ * (probably a sparse/null-terminated pool) or once it reaches the count.
+ * If arg0 itself is null the function does nothing.
+ */
 
+typedef struct {
+    int x, y, z;
+} VecFx32;
+
+typedef struct {
+    char pad40[0x40];
+    VecFx32 dir;       /* +0x40: direction vector to add, scaled */
+    char pad9c[0x9c - 0x40 - 0xc];
+    VecFx32 *basePos;  /* +0x9c: pointer to the base position vector */
+    char pada0[4];      /* +0xa0: unused padding */
+    VecFx32 out;        /* +0xa4: result vector written by VecFx32_AddScale1 */
+} Obj020957ec;
+
+typedef struct {
+    Obj020957ec **entries; /* +0x00: array of object pointers */
+    unsigned short count;  /* +0x04: number of slots to scan */
+} List020957ec;
+
+extern void VecFx32_AddScale1(int scale, VecFx32 *dir, VecFx32 *base, VecFx32 *out);
+
+void func_020957ec(List020957ec *list)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  int iVar4;
-  
-  if (param_1 == 0) {
-    return;
-  }
-  iVar4 = 0;
-  while( true ) {
-    if ((int)(uint)*(ushort *)(param_1 + 4) <= iVar4) {
-      return;
-    }
-    uVar3 = (*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + iVar4 * 4;
-    uVar1 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-    if (uVar3 == 0) break;
-    uVar1 = uVar3 + 0x9c & 3;
-    uVar2 = *(uint *)(uVar3 + 0x9c & 0xfffffffc);
-    VecFx32_AddScale1(0x320000,uVar3 + 0x40,uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,
-                      (int *)(uintptr_t)(uVar3 + 0xa4));
-    iVar4 = iVar4 + 1;
-  }
-  return;
-}
+    int i;
+    Obj020957ec *e;
 
+    if (list == 0)
+        return;
+
+    for (i = 0; i < list->count && (e = list->entries[i]) != 0; i++) {
+        VecFx32_AddScale1(0x320000, &e->dir, e->basePos, &e->out);
+    }
+}

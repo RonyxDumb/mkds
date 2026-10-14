@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "GetDriverEntry",
+    "target": 34056564,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959382720
+  },
+  {
+    "offset": 160,
+    "type": 2,
+    "symbol": "SDK_data_0217b1fc",
+    "target": 35107324,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107324
+  }
+]

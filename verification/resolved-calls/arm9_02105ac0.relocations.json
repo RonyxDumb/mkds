@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "NNSi_MaybeSndPlayerStartSeq",
+    "target": 34794688,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942687857
+  },
+  {
+    "offset": 68,
+    "type": 2,
+    "symbol": "SDK_data_0217c794",
+    "target": 35112852,
+    "thumb": false,
+    "addend": 0,
+    "value": 35112852
+  },
+  {
+    "offset": 72,
+    "type": 2,
+    "symbol": "SDK_data_0217d068",
+    "target": 35115112,
+    "thumb": false,
+    "addend": 0,
+    "value": 35115112
+  }
+]

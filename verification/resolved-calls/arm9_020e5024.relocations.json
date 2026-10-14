@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 4,
+    "type": 1,
+    "symbol": "GetActiveExecutionContext",
+    "target": 33776872,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959244078
+  },
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "ExecutionContext_GetHeapHandle",
+    "target": 33776864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959244075
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959244524
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "func_020d49d8",
+    "target": 34425304,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211064411
+  },
+  {
+    "offset": 84,
+    "type": 2,
+    "symbol": "SDK_data_0217b7fc",
+    "target": 35108860,
+    "thumb": false,
+    "addend": 0,
+    "value": 35108860
+  },
+  {
+    "offset": 88,
+    "type": 2,
+    "symbol": "SDK_data_02159018",
+    "target": 34967576,
+    "thumb": false,
+    "addend": 0,
+    "value": 34967576
+  }
+]

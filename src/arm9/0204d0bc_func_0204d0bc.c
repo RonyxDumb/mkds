@@ -1,18 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 0204d0bc. No matching claim. */
-#include "types.h"
-#include "deps/0204d0bc_func_0204d0bc.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_0204d0bc(int param_1,int param_2)
+// PURPOSE: Initializes an output block and reduces the owner's pending count.
+// The first argument is probably an owner object containing two embedded blocks.
+// The second argument receives initialized data and has its field at offset 0x80 cleared.
+// The helper copies or prepares the owner's block at 0x46c8 from the block at 0x46c0.
 
+typedef struct {
+    unsigned char pad[0x80];
+    int field_80;
+} OutputBlock;
+
+typedef struct {
+    unsigned char pad[0x46c0];
+    unsigned char block_46c0;
+    unsigned char pad_46c1[7];
+    unsigned char block_46c8;
+    unsigned char pad_46c9[0x1b];
+    int pending_count;
+} OwnerBlock;
+
+extern void func_0204d110(void *destination, void *source, OutputBlock *output);
+
+void func_0204d0bc(OwnerBlock *owner, OutputBlock *output)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  func_0204d110((uint *)(uintptr_t)(param_1 + iRam0204d108),(undefined4 *)(uintptr_t)(param_1 + iRam0204d10c),(uint *)(uintptr_t)(param_2));
-  *(undefined4 *)(param_2 + 0x80) = 0;
-  uVar1 = param_1 + 0x46e4U & 3;
-  uVar2 = *(uint *)(param_1 + 0x46e4U & 0xfffffffc);
-  *(uint *)(param_1 + 0x46e4) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) - 1;
-  return;
+    func_0204d110(&owner->block_46c8, &owner->block_46c0, output);
+    output->field_80 = 0;
+    owner->pending_count--;
 }
-

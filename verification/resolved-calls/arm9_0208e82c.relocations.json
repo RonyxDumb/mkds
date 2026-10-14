@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "MTX_Scale43__from_thumb",
+    "target": 34894360,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194493039
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "MTX_Scale43__from_thumb",
+    "target": 34894360,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194493034
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "MTX_Concat43",
+    "target": 34894652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942834851
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "MTX_Concat43",
+    "target": 34894652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942834847
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "G3_LoadMtx43",
+    "target": 34907412,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942838032
+  },
+  {
+    "offset": 224,
+    "type": 1,
+    "symbol": "G3_LoadMtx43",
+    "target": 34907412,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942838016
+  }
+]

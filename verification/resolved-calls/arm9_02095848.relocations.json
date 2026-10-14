@@ -1,0 +1,101 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959262704
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959262691
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959262687
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "DrawObject2D3D",
+    "target": 34192172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942652051
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "FX_Atan2",
+    "target": 34899732,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942828937
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "MTX_RotX33__from_thumb",
+    "target": 34893096,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194485506
+  },
+  {
+    "offset": 224,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959262662
+  },
+  {
+    "offset": 244,
+    "type": 1,
+    "symbol": "DrawObject2D3D",
+    "target": 34192172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942652026
+  },
+  {
+    "offset": 260,
+    "type": 2,
+    "symbol": "SDK_data_0217b0e0",
+    "target": 35107040,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107040
+  },
+  {
+    "offset": 264,
+    "type": 2,
+    "symbol": "SDK_data_0215d4b4",
+    "target": 34985140,
+    "thumb": false,
+    "addend": 0,
+    "value": 34985140
+  },
+  {
+    "offset": 268,
+    "type": 2,
+    "symbol": "SDK_data_0217b0e4",
+    "target": 35107044,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107044
+  }
+]

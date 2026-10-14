@@ -1,0 +1,128 @@
+[
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "GetDtcmStartAddress",
+    "target": 33616680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104402
+  },
+  {
+    "offset": 200,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104971
+  },
+  {
+    "offset": 216,
+    "type": 1,
+    "symbol": "IC_InvalidateRangeNoClean",
+    "target": 33615524,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104072
+  },
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104047
+  },
+  {
+    "offset": 252,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104044
+  },
+  {
+    "offset": 268,
+    "type": 1,
+    "symbol": "DC_InvalidateRangeNoClean",
+    "target": 33615420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104033
+  },
+  {
+    "offset": 272,
+    "type": 1,
+    "symbol": "Mem_DcDrainWriteBuffer",
+    "target": 33615512,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104055
+  },
+  {
+    "offset": 284,
+    "type": 1,
+    "symbol": "Os_SetIrqHandler",
+    "target": 33606772,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959101867
+  },
+  {
+    "offset": 292,
+    "type": 1,
+    "symbol": "SetIF",
+    "target": 33606248,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959101734
+  },
+  {
+    "offset": 300,
+    "type": 1,
+    "symbol": "Os_EnableIrqHandler",
+    "target": 33606372,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959101763
+  },
+  {
+    "offset": 308,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104949
+  },
+  {
+    "offset": 312,
+    "type": 1,
+    "symbol": "MaybeGamecardTransferSY",
+    "target": 34891480,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645821
+  },
+  {
+    "offset": 328,
+    "type": 2,
+    "symbol": "SDK_data_0217fa40",
+    "target": 35125824,
+    "thumb": false,
+    "addend": 0,
+    "value": 35125824
+  },
+  {
+    "offset": 344,
+    "type": 2,
+    "symbol": "SDK_data_02146600",
+    "target": 34891264,
+    "thumb": false,
+    "addend": 0,
+    "value": 34891264
+  }
+]

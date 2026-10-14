@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "GetDriverEntry",
+    "target": 34056564,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959416156
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "func_0208b7bc",
+    "target": 34125756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942656221
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "VecFx32_AddScale1",
+    "target": 34897880,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942849207
+  },
+  {
+    "offset": 276,
+    "type": 1,
+    "symbol": "func_0208b5b0",
+    "target": 34125232,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942656042
+  },
+  {
+    "offset": 356,
+    "type": 2,
+    "symbol": "SDK_data_0217ae84",
+    "target": 35106436,
+    "thumb": false,
+    "addend": 0,
+    "value": 35106436
+  },
+  {
+    "offset": 360,
+    "type": 2,
+    "symbol": "SDK_data_02081374",
+    "target": 34083700,
+    "thumb": false,
+    "addend": 0,
+    "value": 34083700
+  }
+]

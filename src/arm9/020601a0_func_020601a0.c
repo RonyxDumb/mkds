@@ -1,30 +1,38 @@
-/* Decompiled C draft; module arm9; ROM address 020601a0. No matching claim. */
-#include "types.h"
-#include "deps/020601a0_func_020601a0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint func_020601a0(undefined4 param_1,undefined4 param_2)
+// PURPOSE: Gets the kart used by a valid saved time-trial record.
 
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct TimeTrialRecord {
+    u16 milliseconds;
+    u8 minutes;
+    u8 seconds;
+    u8 recordData[0x14];
+    u8 isValid;
+    u8 character;
+    u8 kart;
+    u8 padding_1b;
+    u8 unused[8];
+} TimeTrialRecord;
+
+extern int TimeTrialRecord_CopyFrom_from_thumb(
+    int courseId, int recordIndex, TimeTrialRecord *record);
+
+int func_020601a0(int courseId, int recordIndex)
 {
-  bool bVar1;
-  int iVar2;
-  uint uVar3;
-  undefined1 auStack_28 [24];
-  char local_10;
-  byte local_e;
-  
-  iVar2 = TimeTrialRecord_CopyFrom_from_thumb(param_1,param_2,(int)(uintptr_t)(auStack_28));
-  if ((iVar2 == 0) || (local_10 == '\0')) {
-    bVar1 = false;
-  }
-  else {
-    bVar1 = true;
-  }
-  if (bVar1) {
-    uVar3 = (uint)local_e;
-  }
-  else {
-    uVar3 = 0xffffffff;
-  }
-  return uVar3;
-}
+    TimeTrialRecord record;
+    int valid;
 
+    valid = TimeTrialRecord_CopyFrom_from_thumb(courseId, recordIndex, &record);
+    if (valid != 0)
+        if (record.isValid != 0) {
+            valid = 1;
+            goto status_ready;
+        }
+    valid = 0;
+
+status_ready:
+    return valid != 0 ? record.kart : -1;
+}

@@ -1,19 +1,37 @@
-/* Decompiled C draft; module arm9; ROM address 02098374. No matching claim. */
-#include "types.h"
-#include "deps/02098374_func_02098374.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_02098d04 SDK_data_02098d04
+#define func_02098b68 SDK_data_02098b68
+#define data_0217b114 SDK_data_0217b114
+/*
+ * PURPOSE: Creates a map-object manager with no getter callback, flags it as active, and registers it.
+ *
+ * Calls the generic map-object manager creator with a load callback
+ * (func_02098d04), an update/init callback (func_02098b68), and no getter
+ * (0). The returned manager pointer is stored in the global slot
+ * data_0217b114, its field at offset 0x1c is set to 1 (mark active), and the
+ * slot is then registered via func_020d49d8. Returns the stored manager
+ * pointer, re-read from the global.
+ */
 
-uint func_02098374(void)
+typedef struct MapObjectManager {
+    unsigned char pad_0x00[0x1c];
+    int active;
+} MapObjectManager;
 
+extern MapObjectManager *func_0209bf1c(void *load_cb, void *cb1, void *cb2);
+extern void func_020d49d8(void *slot);
+extern void func_02098d04(void);
+extern void func_02098b68(void);
+extern MapObjectManager *data_0217b114;
+
+void *func_02098374(void)
 {
-  int *piVar1;
-  int iVar2;
-  
-  iVar2 = func_0209bf1c(uRam020983b8,uRam020983bc,0);
-  piVar1 = piRam020983c0;
-  *piRam020983c0 = iVar2;
-  *(undefined4 *)(iVar2 + 0x1c) = 1;
-  func_020d49d8(piVar1);
-  return *(uint *)((uint)piRam020983c0 & 0xfffffffc) >> ((uint)piRam020983c0 & 3) * 8 |
-         *(uint *)((uint)piRam020983c0 & 0xfffffffc) << ((uint)piRam020983c0 & 3) * -8 + 0x20;
+    /* create the manager (no getter callback) and remember it in the global slot */
+    data_0217b114 = func_0209bf1c((void *)func_02098d04, (void *)func_02098b68, 0);
+    /* mark it active */
+    data_0217b114->active = 1;
+    /* register the slot (address of the global) */
+    func_020d49d8(&data_0217b114);
+    /* return via a fresh read of the global (ROM reloads it from the pool) */
+    return data_0217b114;
 }
-

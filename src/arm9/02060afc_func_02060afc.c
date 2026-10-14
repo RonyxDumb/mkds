@@ -1,21 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 02060afc. No matching claim. */
-#include "types.h"
-#include "deps/02060afc_func_02060afc.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint func_02060afc(undefined4 param_1)
+// PURPOSE: Returns the record's secondary flag when the record is valid.
+// Reads the selected online-information record into a temporary buffer.
+// The low flag probably gates the bit-three status returned by this helper.
 
+typedef struct OnlineInfo {
+    unsigned char unknown_00[0x22];
+    unsigned char valid : 1;
+    unsigned char unknown_01 : 2;
+    unsigned char status : 1;
+    unsigned char remaining_flags : 4;
+    unsigned char unknown_23;
+} OnlineInfo;
+
+extern int GlobalZ_GetOI(int slot, OnlineInfo *output);
+
+int func_02060afc(int slot)
 {
-  uint uVar1;
-  undefined1 auStack_28 [34];
-  byte local_6;
-  
-  GlobalZ_GetOI(param_1,(int)(uintptr_t)(auStack_28));
-  if ((int)((uint)local_6 << 0x1f) < 0) {
-    uVar1 = ((uint)local_6 << 0x1c) >> 0x1f;
-  }
-  else {
-    uVar1 = 0;
-  }
-  return uVar1;
-}
+    OnlineInfo info;
 
+    GlobalZ_GetOI(slot, &info);
+    return info.valid == 1 ? info.status : 0;
+}

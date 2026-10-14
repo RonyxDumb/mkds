@@ -1,0 +1,92 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "CreateMapObjectFromModel_from_thumb",
+    "target": 34193028,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211079713
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "StructMapObject_AddAnimationNsbca_from_thumb",
+    "target": 34192976,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211079696
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "CreateMapObjectFromModel_from_thumb",
+    "target": 34193028,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211079706
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "GetIncrementSomeItemCounter",
+    "target": 34421804,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942701441
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "StructMapObject_MaybeSetPolygonId",
+    "target": 34191680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421122
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_02167388",
+    "target": 35025800,
+    "thumb": false,
+    "addend": 0,
+    "value": 35025800
+  },
+  {
+    "offset": 84,
+    "type": 2,
+    "symbol": "SDK_data_0217b18c",
+    "target": 35107212,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107212
+  },
+  {
+    "offset": 88,
+    "type": 2,
+    "symbol": "SDK_data_02167394",
+    "target": 35025812,
+    "thumb": false,
+    "addend": 0,
+    "value": 35025812
+  },
+  {
+    "offset": 92,
+    "type": 2,
+    "symbol": "SDK_data_021673a0",
+    "target": 35025824,
+    "thumb": false,
+    "addend": 0,
+    "value": 35025824
+  },
+  {
+    "offset": 96,
+    "type": 2,
+    "symbol": "SDK_data_0217b188",
+    "target": 35107208,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107208
+  }
+]

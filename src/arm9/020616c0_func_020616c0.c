@@ -1,19 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 020616c0. No matching claim. */
-#include "types.h"
-#include "deps/020616c0_func_020616c0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 func_020616c0(int param_1,undefined4 param_2)
+/* PURPOSE: Copies a valid 20-byte record into an output buffer.
+ * The first argument is probably one entry in a 0x30-byte record table, and
+ * the second argument receives its payload. Returns 0 when the entry's valid
+ * bit is clear; otherwise copies the payload and returns 1.
+ */
 
-{
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 8U & 3;
-  uVar2 = *(uint *)(param_1 + 8U & 0xfffffffc);
-  if ((int)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) << 0x1f) < 0) {
-    Mem_CpuCopy8((ushort *)(uintptr_t)(param_1 + 0xc),(uint *)(uintptr_t)(param_2),0x14);
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+typedef struct RecordEntry {
+    u32 unknown0;
+    u32 packedValue;
+    u32 valid : 1;
+    u32 unknownFlags : 31;
+    u8 payload[0x14];
+} RecordEntry;
+
+extern void Mem_CpuCopy8(const void *source, void *destination, u32 size);
+
+int func_020616c0(RecordEntry *entry, void *output) {
+    if (entry->valid != 1) {
+        return 0;
+    }
+
+    Mem_CpuCopy8(entry->payload, output, 0x14);
     return 1;
-  }
-  return 0;
 }
-

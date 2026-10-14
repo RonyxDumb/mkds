@@ -1,22 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 020603e8. No matching claim. */
-#include "types.h"
-#include "deps/020603e8_func_020603e8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint func_020603e8(undefined4 param_1,undefined4 param_2)
+// PURPOSE: Gets the recorded rank for a cup entry.
+// Takes the cup and class identifiers used by the cup-record helper.
+// Copies the entry into a local buffer, then returns its rank when valid.
+// Returns -1 when the entry probably has no saved record.
 
+extern void CopyCupEntryTo_from_thumb(int cup, int cc, void *entry);
+
+int func_020603e8(int cup, int cc)
 {
-  uint uVar1;
-  undefined1 auStack_28 [24];
-  char local_10;
-  byte bStack_e;
-  
-  CopyCupEntryTo_from_thumb(param_1,param_2,(undefined4)(uintptr_t)(auStack_28));
-  if (local_10 == '\0') {
-    uVar1 = 0xffffffff;
-  }
-  else {
-    uVar1 = (uint)bStack_e;
-  }
-  return uVar1;
-}
+    unsigned char entry[0x24];
 
+    CopyCupEntryTo_from_thumb(cup, cc, entry);
+    return entry[0x18] != 0 ? entry[0x1a] : -1;
+}

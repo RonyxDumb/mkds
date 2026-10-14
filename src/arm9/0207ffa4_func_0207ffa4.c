@@ -1,43 +1,47 @@
-/* Decompiled C draft; module arm9; ROM address 0207ffa4. No matching claim. */
-#include "types.h"
-#include "deps/0207ffa4_func_0207ffa4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021557ec SDK_data_021557ec
+// PURPOSE: Initializes a normalized direction tracker between two objects.
 
-void func_0207ffa4(uint *param_1,undefined2 param_2,uint param_3)
+typedef struct VecFx32 {
+    int x;
+    int y;
+    int z;
+} VecFx32;
 
+typedef struct Obj Obj;
+
+typedef struct Source {
+    Obj *objA;
+    char pad04[0x14];
+    VecFx32 *pos;
+} Source;
+
+typedef struct Obj {
+    char pad00[0x18];
+    VecFx32 *pos;
+} Obj;
+
+typedef struct Tracker {
+    Obj *objA;
+    Source *objB;
+    VecFx32 vec;
+    int f14;
+    int f18;
+    unsigned short f1c;
+} Tracker;
+
+extern const VecFx32 data_021557ec;
+extern void VecFx32_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *dst);
+extern void Vector3_MaybeNormalize(VecFx32 *a, VecFx32 *b);
+
+void func_0207ffa4(Tracker *t, unsigned short flag, Source *objB)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  uVar3 = puRam02080018[1];
-  uVar5 = puRam02080018[2];
-  param_1[2] = *puRam02080018;
-  param_1[3] = uVar3;
-  param_1[4] = uVar5;
-  param_1[1] = param_3;
-  uVar3 = (uint)(param_1 + 1) & 3;
-  uVar5 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-  uVar5 = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20;
-  uVar3 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  *param_1 = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20;
-  uVar5 = (uint)(param_1 + 1) & 3;
-  uVar4 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-  uVar3 = (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-          *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 0x18;
-  uVar1 = uVar3 & 3;
-  uVar2 = *(uint *)(uVar3 & 0xfffffffc);
-  uVar3 = (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) + 0x18;
-  uVar5 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  VecFx32_Subtract(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,
-                   uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20,param_1 + 2);
-  Vector3_MaybeNormalize((uint)(uintptr_t)(param_1 + 2),param_1 + 2);
-  param_1[5] = 0;
-  param_1[6] = 0;
-  *(undefined2 *)(param_1 + 7) = param_2;
-  return;
+    t->vec = data_021557ec;
+    t->objB = objB;
+    t->objA = t->objB->objA;
+    VecFx32_Subtract(t->objA->pos, t->objB->pos, &t->vec);
+    Vector3_MaybeNormalize(&t->vec, &t->vec);
+    t->f14 = 0;
+    t->f18 = 0;
+    t->f1c = flag;
 }
-

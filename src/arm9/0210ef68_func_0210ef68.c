@@ -1,29 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 0210ef68. No matching claim. */
-#include "types.h"
-#include "deps/0210ef68_func_0210ef68.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_0210ef68(int param_1)
+/*
+PURPOSE: Resets the dynamic offset for every sound file in a list.
+The argument points to up to 16 sound-file handles followed by a signed count.
+Each listed file has its dynamic FAT offset set to zero.
+*/
 
+typedef struct SoundFileList {
+    void *files[16];
+    int count;
+} SoundFileList;
+
+extern void Sound_SetFileFatDynamicOffsetField(void *file, int offset);
+
+void func_0210ef68(SoundFileList *list)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  
-  uVar2 = param_1 + 0x40U & 3;
-  uVar1 = *(uint *)(param_1 + 0x40U & 0xfffffffc);
-  iVar3 = 0;
-  if ((int)(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) < 1) {
-    return;
-  }
-  do {
-    uVar2 = param_1 + iVar3 * 4;
-    uVar1 = uVar2 & 3;
-    uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-    Sound_SetFileFatDynamicOffsetField(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,0);
-    uVar2 = param_1 + 0x40U & 3;
-    uVar1 = *(uint *)(param_1 + 0x40U & 0xfffffffc);
-    iVar3 = iVar3 + 1;
-  } while (iVar3 < (int)(uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20));
-  return;
-}
+    int index;
 
+    for (index = 0; index < list->count; index++) {
+        Sound_SetFileFatDynamicOffsetField(list->files[index], 0);
+    }
+}

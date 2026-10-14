@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "Sound_MaybeRestoreHeapState",
+    "target": 34789944,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942677863
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Sound_Context_GetMaybeSavedFrameHeapStateId",
+    "target": 34789932,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942677857
+  },
+  {
+    "offset": 136,
+    "type": 2,
+    "symbol": "SDK_data_0215c380",
+    "target": 34980736,
+    "thumb": false,
+    "addend": 0,
+    "value": 34980736
+  },
+  {
+    "offset": 140,
+    "type": 2,
+    "symbol": "SDK_data_0217d130",
+    "target": 35115312,
+    "thumb": false,
+    "addend": 0,
+    "value": 35115312
+  },
+  {
+    "offset": 144,
+    "type": 2,
+    "symbol": "SDK_data_0215c38c",
+    "target": 34980748,
+    "thumb": false,
+    "addend": 0,
+    "value": 34980748
+  }
+]

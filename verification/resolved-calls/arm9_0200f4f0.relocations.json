@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Os_GetSystemFlags",
+    "target": 33613956,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422162
+  },
+  {
+    "offset": 128,
+    "type": 2,
+    "symbol": "SDK_data_021701c4",
+    "target": 35062212,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062212
+  },
+  {
+    "offset": 132,
+    "type": 2,
+    "symbol": "SDK_data_0200f36c",
+    "target": 33616748,
+    "thumb": false,
+    "addend": 0,
+    "value": 33616748
+  },
+  {
+    "offset": 140,
+    "type": 2,
+    "symbol": "SDK_data_021701bc",
+    "target": 35062204,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062204
+  }
+]

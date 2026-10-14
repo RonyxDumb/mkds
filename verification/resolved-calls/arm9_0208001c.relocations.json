@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "VecFx32_Subtract",
+    "target": 34899152,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942850845
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "Vector3_MaybeNormalize",
+    "target": 33790048,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959350770
+  },
+  {
+    "offset": 128,
+    "type": 2,
+    "symbol": "SDK_data_021557ec",
+    "target": 34953196,
+    "thumb": false,
+    "addend": 0,
+    "value": 34953196
+  }
+]

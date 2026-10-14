@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "FX_Sqrt",
+    "target": 34897548,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942760633
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "FX_DivAsync",
+    "target": 34897288,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942760564
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "FX_GetDivResult",
+    "target": 34897448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942760601
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "FX_DivAsync",
+    "target": 34897288,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942760556
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "FX_GetDivResult",
+    "target": 34897448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942760593
+  }
+]

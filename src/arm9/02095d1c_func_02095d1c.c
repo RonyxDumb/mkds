@@ -1,41 +1,39 @@
-/* Decompiled C draft; module arm9; ROM address 02095d1c. No matching claim. */
-#include "types.h"
-#include "deps/02095d1c_func_02095d1c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_02095d1c(uint param_1)
+/* PURPOSE: Runs one update step over a list of active objects, moving each one.
+ *
+ * Argument r0 is a small "list" header: word 0 is a pointer to an array of
+ * object pointers, halfword 4 is how many entries the array has. For every
+ * non-NULL entry the code reads a signed 16-bit speed/value from a sub-object,
+ * scales it (<<12) and divides by 100 to make a fixed-point step, stores that
+ * step in the object (+0xa8), then calls func_020e516c to apply the movement.
+ * Returns immediately if the list pointer is NULL. (field names are guesses.)
+ */
 
+typedef short s16;
+typedef unsigned short u16;
+
+typedef struct {
+    void **entries; /* +0x00: array of object pointers */
+    u16   count;    /* +0x04: number of entries */
+} ObjList;
+
+/* thumb callee: apply movement to object (dst = obj+0xdc, src = obj+4) */
+extern void func_020e516c(void *dst, void *src, int a2, int a3);
+
+void func_02095d1c(ObjList *list)
 {
-  int iVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  int iVar4;
-  uint uVar5;
-  int iVar6;
-  uint uVar7;
-  
-  iVar4 = iRam02095db4;
-  uVar3 = uRam02095db0;
-  if (param_1 == 0) {
-    return;
-  }
-  iVar6 = 0;
-  while( true ) {
-    if ((int)(uint)*(ushort *)(param_1 + 4) <= iVar6) {
-      return;
-    }
-    uVar7 = (*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-            *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + iVar6 * 4;
-    uVar2 = uVar7 & 3;
-    uVar7 = *(uint *)(uVar7 & 0xfffffffc);
-    uVar7 = uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20;
-    if (uVar7 == 0) break;
-    uVar2 = uVar7 + 0x9c & 3;
-    uVar5 = *(uint *)(uVar7 + 0x9c & 0xfffffffc);
-    iVar1 = (int)*(short *)((uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20) + 0x28) << 0xc;
-    *(int *)(uVar7 + 0xa8) = (int)((longlong)iVar4 * (longlong)iVar1 >> 0x25) - (iVar1 >> 0x1f);
-    func_020e516c((uint *)(uintptr_t)(uVar7 + 0xdc),(int *)(uintptr_t)(uVar7 + 4),uVar3,0xe);
-    iVar6 = iVar6 + 1;
-  }
-  return;
-}
+    int i;
+    void *e;
 
+    if (list == 0)
+        return;
+
+    for (i = 0; i < list->count && (e = list->entries[i]) != 0; i++) {
+        void *o = *(void **)((char *)e + 0x9c);   /* sub-object */
+        int v = *(s16 *)((char *)o + 0x28);       /* signed 16-bit value */
+        int sb = v << 12;                          /* to fixed-point */
+        *(int *)((char *)e + 0xa8) = sb / 100;     /* store step */
+        func_020e516c((char *)e + 0xdc, (char *)e + 4, 0x54666, 0xe);
+    }
+}

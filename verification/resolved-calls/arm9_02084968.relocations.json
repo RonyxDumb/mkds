@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "ModelBlock_SetPolygonId",
+    "target": 33632468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959306708
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "ModelBlock_SetLight",
+    "target": 33632684,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959306759
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "ModelBlock_SetEmi",
+    "target": 33632756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959306774
+  }
+]

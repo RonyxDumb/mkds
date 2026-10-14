@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Mem_Exp_Free",
+    "target": 33650544,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959390979
+  }
+]

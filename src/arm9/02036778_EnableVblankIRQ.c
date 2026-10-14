@@ -1,18 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 02036778. No matching claim. */
-#include "types.h"
-#include "deps/02036778_EnableVblankIRQ.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define VblankIRQHandler SDK_data_020367c4
+// PURPOSE: Enables the vertical blank interrupt for the graphics system.
+// It installs the game's VBlank handler and enables its interrupt source.
+// The hardware register write probably acknowledges the pending VBlank state.
+
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void VblankIRQHandler(void);
+extern void Os_SetIrqHandler(u32 mask, void (*handler)(void));
+extern u32 Os_EnableIrqHandler(u32 mask);
+extern u32 Os_EnableIrq(u32 mask);
+extern void GX_VBlankIntr(u32 param);
 
 void EnableVblankIRQ(void)
-
 {
-  undefined2 uVar1;
-  
-  Os_SetIrqHandler(1,uRam020367bc);
-  Os_EnableIrqHandler(1);
-  uVar1 = *puRam020367c0;
-  *puRam020367c0 = 1;
-  Os_EnableIrq(1,uVar1);
-  GX_VBlankIntr(1);
-  return;
+    Os_SetIrqHandler(1, VblankIRQHandler);
+    Os_EnableIrqHandler(1);
+    *(volatile u16 *)0x04000208;
+    *(volatile u16 *)0x04000208 = 1;
+    Os_EnableIrq(1);
+    GX_VBlankIntr(1);
 }
-

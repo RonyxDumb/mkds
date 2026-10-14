@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetBootIndicatorPointer_2",
+    "target": 34400172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645766
+  }
+]

@@ -1,29 +1,36 @@
-/* Decompiled C draft; module arm9; ROM address 02143520. No matching claim. */
-#include "types.h"
-#include "deps/02143520_func_02143520.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-int func_02143520(int param_1)
+/* PURPOSE: Copies received wireless data into a caller-provided buffer.
+ * The destination must be non-null and the wireless subsystem must be ready.
+ * It invalidates the shared receive buffer before copying its 1,980 bytes.
+ * Returns the initialization status, 6 for a null destination, or 0 on success.
+ */
 
+typedef unsigned int u32;
+
+typedef struct StructWM {
+    void *buffer1;
+    void *buffer2;
+} StructWM;
+
+extern StructWM *Wm_GetGlobal(void);
+extern int Wm_CheckInitialized(void);
+extern void DC_InvalidateRangeNoClean(void *start, u32 length);
+extern void MIi_CpuCopyFast(const void *source, void *destination, u32 length);
+
+int func_02143520(void *destination)
 {
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  uint uVar4;
-  
-  iVar2 = Wm_GetGlobal();
-  iVar3 = Wm_CheckInitialized();
-  if (iVar3 != 0) {
-    return iVar3;
-  }
-  if (param_1 != 0) {
-    uVar1 = iVar2 + 4U & 3;
-    uVar4 = *(uint *)(iVar2 + 4U & 0xfffffffc);
-    DC_InvalidateRangeNoClean(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20,uRam02143588);
-    uVar1 = iVar2 + 4U & 3;
-    uVar4 = *(uint *)(iVar2 + 4U & 0xfffffffc);
-    MIi_CpuCopyFast((undefined4 *)(uintptr_t)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20),(undefined4 *)(uintptr_t)(param_1),uRam02143588);
-    return 0;
-  }
-  return 6;
-}
+    StructWM *wireless = Wm_GetGlobal();
+    int result = Wm_CheckInitialized();
 
+    if (result != 0) {
+        return result;
+    }
+    if (destination == 0) {
+        return 6;
+    }
+
+    DC_InvalidateRangeNoClean(wireless->buffer2, 0x7bc);
+    MIi_CpuCopyFast(wireless->buffer2, destination, 0x7bc);
+    return 0;
+}

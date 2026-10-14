@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "ComputeValueInterpolation_from_thumb",
+    "target": 34268352,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211062094
+  },
+  {
+    "offset": 128,
+    "type": 2,
+    "symbol": "SDK_data_0217b3e0",
+    "target": 35107808,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107808
+  },
+  {
+    "offset": 132,
+    "type": 2,
+    "symbol": "SDK_data_020c0f0c",
+    "target": 34344716,
+    "thumb": false,
+    "addend": 0,
+    "value": 34344716
+  }
+]

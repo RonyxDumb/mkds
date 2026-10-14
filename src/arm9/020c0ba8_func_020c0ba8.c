@@ -1,35 +1,35 @@
-/* Decompiled C draft; module arm9; ROM address 020c0ba8. No matching claim. */
-#include "types.h"
-#include "deps/020c0ba8_func_020c0ba8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 func_020c0ba8(undefined4 *param_1,int param_2)
+// PURPOSE: Creates a counted heap allocation record.
+// The output pointer receives a small record for the requested number of items.
+// The record probably owns both an item-pointer array and a fixed-size item buffer.
 
+typedef struct CountedHeapAllocation {
+    void *unused;
+    void *item_buffer;
+    unsigned int count;
+    void *item_pointers;
+    void *items;
+} CountedHeapAllocation;
+
+extern void *GetActiveExecutionContext(void);
+extern void *ExecutionContext_GetHeapHandle(void *context);
+extern void *Mem_AllocateHeap(void *heap, unsigned int size);
+extern void *AllocateActiveHeapSizeCount_from_thumb(unsigned int count,
+                                                     unsigned int item_size);
+
+int func_020c0ba8(CountedHeapAllocation **output, unsigned int count)
 {
-  undefined4 uVar1;
-  
-  if (param_2 != 0) {
-    GetActiveExecutionContext(param_1);
-    uVar1 = ExecutionContext_GetHeapHandle();
-    uVar1 = Mem_AllocateHeap(uVar1,0x14);
-    *param_1 = uVar1;
-    *(undefined4 *)
-     ((*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-      *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 4) = 0;
-    *(int *)((*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-             *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 8) =
-         param_2;
-    GetActiveExecutionContext();
-    uVar1 = ExecutionContext_GetHeapHandle();
-    uVar1 = Mem_AllocateHeap(uVar1,param_2 << 3);
-    *(undefined4 *)
-     ((*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-      *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 0xc) = uVar1;
-    uVar1 = AllocateActiveHeapSizeCount_from_thumb(param_2,0x14);
-    *(undefined4 *)
-     ((*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-      *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 0x10) = uVar1;
-    return 1;
-  }
-  return 0;
-}
+    if (count == 0) {
+        return 0;
+    }
 
+    *output = (CountedHeapAllocation *)Mem_AllocateHeap(
+        ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), 0x14);
+    (*output)->item_buffer = 0;
+    (*output)->count = count;
+    (*output)->item_pointers = Mem_AllocateHeap(
+        ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), count << 3);
+    (*output)->items = AllocateActiveHeapSizeCount_from_thumb(count, 0x14);
+    return 1;
+}

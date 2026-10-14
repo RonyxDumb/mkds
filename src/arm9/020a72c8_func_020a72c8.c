@@ -1,25 +1,39 @@
-/* Decompiled C draft; module arm9; ROM address 020a72c8. No matching claim. */
-#include "types.h"
-#include "deps/020a72c8_func_020a72c8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 func_020a72c8(uint param_1,uint param_2)
+/*
+ * PURPOSE: Removes a balloon/shine from driver a1 and plays the loss effect against driver b (or a1 itself if b is out of range).
+ *
+ * Arguments: a1 - driver index that is losing a balloon/shine.
+ *            b  - driver index of the "attacker"/target driver entry to pass
+ *                 alongside a1's entry; if b is not a valid driver index
+ *                 (>= 8), a1 is used instead.
+ * Returns: 0 if func_020a1154(a1) reports the driver has nothing to lose
+ * (no-op); otherwise decrements a1's balloon/shine count, forwards both
+ * driver entries to func_020a5608 (item-loss/pop effect handler), and
+ * returns 1.
+ */
 
+extern int func_020a1154(int a1);
+extern void MaybeUpdateDriverBalloonShineCount(int a1, int delta);
+extern void *GetDriverEntry(int idx);
+extern void func_020a5608(void *driverEntry1, void *driverEntry2);
+
+int func_020a72c8(int a1, int b)
 {
-  int iVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  
-  iVar1 = func_020a1154();
-  if (iVar1 != 0) {
-    MaybeUpdateDriverBalloonShineCount(param_1,0xffffffff);
-    if (7 < param_2) {
-      param_2 = param_1;
+    if (!func_020a1154(a1)) {
+        goto fail;
     }
-    uVar2 = GetDriverEntry(param_1);
-    uVar3 = GetDriverEntry(param_2);
-    func_020a5608(uVar2,uVar3);
-    return 1;
-  }
-  return 0;
-}
 
+    MaybeUpdateDriverBalloonShineCount(a1, -1);
+
+    if ((unsigned int)b >= 8) {
+        b = a1;
+    }
+
+    func_020a5608(GetDriverEntry(a1), GetDriverEntry(b));
+
+    return 1;
+
+fail:
+    return 0;
+}

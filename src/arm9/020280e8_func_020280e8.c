@@ -1,13 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 020280e8. No matching claim. */
-#include "types.h"
-#include "deps/020280e8_func_020280e8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define GetBootIndicatorPointer func_02028110
+#define IsDwc func_020280e8
+// PURPOSE: Checks whether the DWC boot indicator is active.
+// Probably reads the system boot indicator and accepts only state two.
 
-bool func_020280e8(void)
+extern unsigned short *GetBootIndicatorPointer(void);
 
-{
-  short *psVar1;
-  
-  psVar1 = (short *)func_02028110();
-  return *psVar1 == 2;
+int IsDwc(void) {
+    return *GetBootIndicatorPointer() == 2;
 }
-

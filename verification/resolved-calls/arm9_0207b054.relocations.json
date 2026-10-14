@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Animation_SetLoop",
+    "target": 34110716,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658841
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "Animation_SetWithBlendAt",
+    "target": 34111120,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658934
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "Animation_SetLoop",
+    "target": 34110716,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658828
+  }
+]

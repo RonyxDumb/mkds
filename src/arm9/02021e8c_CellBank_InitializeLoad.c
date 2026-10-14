@@ -1,45 +1,51 @@
-/* Decompiled C draft; module arm9; ROM address 02021e8c. No matching claim. */
-#include "types.h"
-#include "deps/02021e8c_CellBank_InitializeLoad.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void CellBank_InitializeLoad(ushort *param_1)
+// PURPOSE: Prepares a cell bank after it is loaded.
+// The bank contains offsets that are converted into usable pointers.
+// Each metatile entry is fixed up against the object table.
+// The optional final block is probably another nested cell-bank table.
 
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct CellBank {
+    u16 metatile_count;
+    u16 padding_02;
+    u32 metatile_entries;
+    u32 padding_08;
+    u32 nested_bank;
+} CellBank;
+
+typedef struct CellBankEntry {
+    u32 padding_00;
+    u32 object;
+} CellBankEntry;
+
+extern CellBankEntry *CellBank_GetMetatileEntry(CellBank *bank, u16 index);
+extern void *CellBank_GetObjectTable(CellBank *bank);
+
+void CellBank_InitializeLoad(CellBank *bank)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  ushort uVar6;
-  
-  uVar3 = (uint)(param_1 + 2) & 3;
-  uVar4 = *(uint *)((uint)(param_1 + 2) & 0xfffffffc);
-  *(uint *)(param_1 + 2) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + (int)param_1;
-  iVar1 = CellBank_GetObjectTable();
-  uVar6 = 0;
-  if (*param_1 != 0) {
-    do {
-      iVar2 = CellBank_GetMetatileEntry(param_1,uVar6);
-      uVar3 = iVar2 + 4U & 3;
-      uVar4 = *(uint *)(iVar2 + 4U & 0xfffffffc);
-      uVar6 = uVar6 + 1;
-      *(uint *)(iVar2 + 4) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + iVar1;
-    } while (uVar6 < *param_1);
-  }
-  uVar3 = (uint)(param_1 + 6) & 3;
-  uVar4 = *(uint *)((uint)(param_1 + 6) & 0xfffffffc);
-  uVar3 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-  if (uVar3 != 0) {
-    *(uint *)(param_1 + 6) = uVar3 + (int)param_1;
-    uVar3 = (uint)(param_1 + 6) & 3;
-    uVar4 = *(uint *)((uint)(param_1 + 6) & 0xfffffffc);
-    uVar5 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-    uVar3 = uVar5 + 4 & 3;
-    uVar4 = *(uint *)(uVar5 + 4 & 0xfffffffc);
-    *(uint *)(uVar5 + 4) = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + uVar5;
-    *(uint *)(param_1 + 6) = uVar5;
-    return;
-  }
-  return;
-}
+    CellBankEntry *object_table;
+    u16 i;
+    CellBank *nested_bank;
 
+    bank->metatile_entries += (u32)bank;
+    object_table = CellBank_GetObjectTable(bank);
+
+    for (i = 0; i < bank->metatile_count; i++) {
+        CellBankEntry *entry;
+
+        entry = CellBank_GetMetatileEntry(bank, i);
+        entry->object += (u32)object_table;
+    }
+
+    if (bank->nested_bank == 0) {
+        return;
+    }
+
+    bank->nested_bank += (u32)bank;
+    nested_bank = (CellBank *)bank->nested_bank;
+    nested_bank->metatile_entries += (u32)nested_bank;
+    bank->nested_bank = (u32)nested_bank;
+}

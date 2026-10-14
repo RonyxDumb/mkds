@@ -1,11 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 020975ac. No matching claim. */
-#include "types.h"
-#include "deps/020975ac_func_020975ac.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_020980ec SDK_data_020980ec
+#define func_02097ed0 SDK_data_02097ed0
+/*
+PURPOSE: Registers two handler callbacks under ID 0x1d0.
+Thin wrapper: calls func_0209bf70 with two function pointers
+(func_020980ec and func_02097ed0), zeroed middle arguments, a constant
+1 (probably a flag/priority), and the constant 0x1d0 (probably a
+message/event ID or size). No return value.
+*/
+
+typedef void (*Callback)(void);
+
+extern void func_0209bf70(Callback cb1, int a1, Callback cb2, int a2, int a3, int id);
+extern void func_020980ec(void);
+extern void func_02097ed0(void);
 
 void func_020975ac(void)
-
 {
-  func_0209bf70(uRam020975e4,0,uRam020975e8,0,1,0x1d0);
-  return;
+    func_0209bf70((Callback)func_020980ec, 0, (Callback)func_02097ed0, 0, 1, 0x1d0);
 }
-

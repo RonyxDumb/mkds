@@ -1,48 +1,52 @@
-/* Decompiled C draft; module arm9; ROM address 020d6df0. No matching claim. */
-#include "types.h"
-#include "deps/020d6df0_func_020d6df0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0215d4b4 SDK_data_0215d4b4
+// PURPOSE: Builds a rotation matrix from three Euler angles.
+// rotation supplies the X, Y and Z angles in the game's fixed angle format.
+// dst receives the three axis rotations concatenated in X-Y-Z order.
 
-void func_020d6df0(uint param_1,undefined4 param_2)
+typedef signed short s16;
+typedef unsigned short u16;
+typedef signed int s32;
+typedef signed long long s64;
 
+typedef struct {
+    s32 x;
+    s32 y;
+    s32 z;
+} VecFx32;
+
+typedef struct {
+    s32 m[9];
+} MtxFx33;
+
+extern s16 data_0215d4b4[];
+extern void MTX_RotX33__from_thumb(MtxFx33 *dst, s16 sinv, s16 cosv);
+extern void MTX_RotY33__from_thumb(MtxFx33 *dst, s16 sinv, s16 cosv);
+extern void MTX_RotZ33__from_thumb(MtxFx33 *dst, s16 sinv, s16 cosv);
+extern void MTX_Concat33(const MtxFx33 *left, const MtxFx33 *right,
+                         MtxFx33 *dst);
+
+#define ANGLE_TO_INDEX(angle)                                                \
+    ((u16)((((s64)(angle) * 0xb60b60b60bLL) + 0x80000000000LL) >> 44))
+
+void func_020d6df0(const VecFx32 *rotation, MtxFx33 *dst)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  ulonglong uVar4;
-  ulonglong uVar5;
-  uint uVar6;
-  uint uVar7;
-  undefined1 auStack_48 [40];
-  uint uVar8;
-  
-  uVar8 = param_1 + 4 & 3;
-  uVar6 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  uVar6 = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
-  uVar8 = param_1 + 8 & 3;
-  uVar7 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
-  uVar4 = (ulonglong)uRam020d6f18;
-  uVar7 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  uVar5 = (ulonglong)uRam020d6f18;
-  iVar2 = ((int)uVar6 >> 0x1f) * uRam020d6f18;
-  iVar3 = ((int)uVar8 >> 0x1f) * uRam020d6f18;
-  iVar1 = (int)((((int)uVar7 >> 0x1f) * uRam020d6f18 +
-                 uVar7 * 0xb6 + (int)((ulonglong)uRam020d6f18 * (ulonglong)uVar7 >> 0x20) + 0x800) *
-                0x10 >> 0x10) >> 4;
-  MTX_RotX33__from_thumb
-            ((undefined4 *)(uintptr_t)(param_2),(int)*(short *)(iRam020d6f1c + iVar1 * 4),
-             (int)*(short *)(iRam020d6f1c + (iVar1 * 2 + 1) * 2));
-  iVar1 = (int)((iVar2 + uVar6 * 0xb6 + (int)(uVar4 * uVar6 >> 0x20) + 0x800) * 0x10 >> 0x10) >> 4;
-  MTX_RotY33__from_thumb
-            ((undefined4 *)(void *)(auStack_48),(int)*(short *)(iRam020d6f1c + iVar1 * 4),
-             (int)*(short *)(iRam020d6f1c + (iVar1 * 2 + 1) * 2));
-  MTX_Concat33(param_2,(uint *)(void *)(auStack_48),(uint *)(uintptr_t)(param_2));
-  iVar1 = (int)((iVar3 + uVar8 * 0xb6 + (int)(uVar5 * uVar8 >> 0x20) + 0x800) * 0x10 >> 0x10) >> 4;
-  MTX_RotZ33__from_thumb
-            ((undefined4 *)(void *)(auStack_48),(int)*(short *)(iRam020d6f1c + iVar1 * 4),
-             (int)*(short *)(iRam020d6f1c + (iVar1 * 2 + 1) * 2));
-  MTX_Concat33(param_2,(uint *)(void *)(auStack_48),(uint *)(uintptr_t)(param_2));
-  return;
-}
+    MtxFx33 temp;
+    u16 x = ANGLE_TO_INDEX(rotation->x);
+    u16 y = ANGLE_TO_INDEX(rotation->y);
+    u16 z = ANGLE_TO_INDEX(rotation->z);
 
+    MTX_RotX33__from_thumb(dst,
+                           data_0215d4b4[(x >> 4) * 2],
+                           data_0215d4b4[(x >> 4) * 2 + 1]);
+
+    MTX_RotY33__from_thumb(&temp,
+                           data_0215d4b4[(y >> 4) * 2],
+                           data_0215d4b4[(y >> 4) * 2 + 1]);
+    MTX_Concat33(dst, &temp, dst);
+
+    MTX_RotZ33__from_thumb(&temp,
+                           data_0215d4b4[(z >> 4) * 2],
+                           data_0215d4b4[(z >> 4) * 2 + 1]);
+    MTX_Concat33(dst, &temp, dst);
+}

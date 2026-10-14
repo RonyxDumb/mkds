@@ -1,93 +1,91 @@
-/* Decompiled C draft; module arm9; ROM address 02082368. No matching claim. */
-#include "types.h"
-#include "deps/02082368_func_02082368.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define gRaceConfig SDK_data_021759c0
+#define data_0217ae9c SDK_data_0217ae9c
+/* PURPOSE: Steers a kart/camera toward a spot ahead on the track and also
+   sets its turn/lean amount from the current player's speed.
+   obj  = the kart/aim object (r0).
+   skip = if nonzero, do nothing this frame (r1).
+   Grabs the current player's horizontal heading vector (HD5 +0x15c),
+   flattens it to the X/Z plane (Y=0), normalises it if long enough
+   (squared length >= 0x10), scales it by 0x5800 and adds the base
+   position (HD5 +0x9c) to get a target point. The target's Y is taken
+   from the current driver's path node (>>4). The point is then added to
+   a shared reference position (**obj->0x20 fields +4/+8/+c) and stored at
+   obj 0x28/0x2c/0x30. Finally obj+0x58 gets a lean/turn value derived
+   from the driver's speed (0x2a4) times a global factor, clamped and
+   scaled by 0.25. */
 
-void func_02082368(int param_1,int param_2)
+typedef struct { int x, y, z; } VecFx32;
 
-{
-  longlong lVar1;
-  uint uVar2;
-  int iVar3;
-  int iVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  int aiStack_30 [3];
-  int aiStack_24 [2];
-  int iStack_1c;
-  
-  if (param_2 == 0) {
-    iVar3 = GetGlobalHD5();
-    iVar4 = GetDriverEntry((int)*(char *)((*(uint *)(uRam020824c8 & 0xfffffffc) >>
-                                           (uRam020824c8 & 3) * 8 |
-                                          *(uint *)(uRam020824c8 & 0xfffffffc) <<
-                                          (uRam020824c8 & 3) * -8 + 0x20) + 0x62));
-    aiStack_30[0] = *(int *)(iVar3 + 0x15c);
-    aiStack_30[2] = *(int *)(iVar3 + 0x164);
-    lVar1 = (longlong)aiStack_30[2] * (longlong)aiStack_30[2] +
-            (longlong)aiStack_30[0] * (longlong)aiStack_30[0];
-    aiStack_30[1] = 0;
-    if ((int)(uint)((uint)lVar1 < 0x10) <= (int)((ulonglong)lVar1 >> 0x20)) {
-      Vector3_MaybeNormalize((uint)(uintptr_t)(aiStack_30),aiStack_30);
-    }
-    VecFx32_AddScale1(0x5800,(uint)(uintptr_t)(aiStack_30),iVar3 + 0x9c,aiStack_24);
-    iVar3 = GetDriverEntry((int)*(char *)((*(uint *)(uRam020824c8 & 0xfffffffc) >>
-                                           (uRam020824c8 & 3) * 8 |
-                                          *(uint *)(uRam020824c8 & 0xfffffffc) <<
-                                          (uRam020824c8 & 3) * -8 + 0x20) + 0x62));
-    uVar2 = uRam020824cc;
-    uVar8 = iVar3 + 0x508U & 3;
-    uVar5 = *(uint *)(iVar3 + 0x508U & 0xfffffffc);
-    uVar8 = (uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) + 4;
-    uVar5 = uVar8 & 3;
-    uVar6 = *(uint *)(uVar8 & 0xfffffffc);
-    uVar8 = param_1 + 0x20U & 3;
-    uVar7 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-    uVar7 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
-    uVar8 = uVar7 & 3;
-    uVar7 = *(uint *)(uVar7 & 0xfffffffc);
-    uVar8 = (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4;
-    uVar7 = uVar8 & 3;
-    uVar8 = *(uint *)(uVar8 & 0xfffffffc);
-    *(uint *)(param_1 + 0x28) = aiStack_24[0] + (uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20);
-    uVar8 = param_1 + 0x20U & 3;
-    uVar7 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-    uVar7 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
-    uVar8 = uVar7 & 3;
-    uVar7 = *(uint *)(uVar7 & 0xfffffffc);
-    uVar8 = (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 8;
-    uVar7 = uVar8 & 3;
-    uVar8 = *(uint *)(uVar8 & 0xfffffffc);
-    *(uint *)(param_1 + 0x2c) =
-         ((int)(uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20) >> 4) +
-         (uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20);
-    uVar8 = param_1 + 0x20U & 3;
-    uVar5 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-    uVar5 = uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20;
-    uVar8 = uVar5 & 3;
-    uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-    uVar8 = (uVar5 >> uVar8 * 8 | uVar5 << uVar8 * -8 + 0x20) + 0xc;
-    uVar5 = uVar8 & 3;
-    uVar8 = *(uint *)(uVar8 & 0xfffffffc);
-    *(uint *)(param_1 + 0x30) = iStack_1c + (uVar8 >> uVar5 * 8 | uVar8 << uVar5 * -8 + 0x20);
-    uVar8 = iVar4 + 0x2a4U & 3;
-    uVar6 = *(uint *)(iVar4 + 0x2a4U & 0xfffffffc);
-    uVar5 = uVar2 & 3;
-    uVar7 = *(uint *)(uVar2 & 0xfffffffc);
-    lVar1 = (longlong)(int)(uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20) *
-            (longlong)(int)(uVar7 >> uVar5 * 8 | uVar7 << uVar5 * -8 + 0x20) + 0x800;
-    uVar8 = (uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) * 0x100000;
-    if (0x1000 < (int)uVar8) {
-      uVar8 = 0x1000;
-    }
-    uVar8 = 0x1000 - uVar8;
-    *(uint *)(param_1 + 0x58) =
-         uVar8 * 0x400 + 0x800 >> 0xc |
-         ((((int)uVar8 >> 0x1f) << 10 | uVar8 >> 0x16) + (uint)(0xfffff7ff < uVar8 * 0x400)) *
-         0x100000;
-    return;
-  }
-  return;
+typedef struct {
+    char pad9c[0x9c];
+    VecFx32 f9c;                    /* base position vector */
+    char pad2[0x15c - 0x9c - 12];
+    VecFx32 f15c;                   /* heading vector (flattened, normalised) */
+} HD;
+
+typedef struct {
+    char pad0[0x2a4];
+    int f2a4;                       /* +0x2a4: speed */
+    char pad2a8[0x508 - 0x2a8];
+    int *f508;                      /* +0x508: path node {f0,f4,f8} */
+} DriverEntry;
+
+typedef struct { int f0, f4, f8, fc; } Ref;
+
+typedef struct {
+    char pad0[0x20];
+    Ref **f20;                      /* +0x20: ptr to ptr to reference position */
+    char pad24[0x28 - 0x24];
+    int f28, f2c, f30;              /* +0x28/2c/30: scrolled coords */
+    char pad34[0x58 - 0x34];
+    int f58;                        /* +0x58: lean/turn amount */
+} Obj;
+
+typedef struct { char pad62[0x62]; signed char f62; } RaceConfig;
+
+extern HD *GetGlobalHD5(void);
+extern DriverEntry *GetDriverEntry(int id);
+extern void Vector3_MaybeNormalize(VecFx32 *dst, VecFx32 *src);
+extern void VecFx32_AddScale1(int scale, VecFx32 *dir, VecFx32 *base, VecFx32 *out);
+extern RaceConfig *gRaceConfig;
+extern int data_0217ae9c;
+
+static inline int FX_Mul(int a, int b) {
+    return (int)(((long long)a * b + 0x800) >> 12);
 }
 
+void func_02082368(Obj *obj, int skip)
+{
+    HD *hd;
+    DriverEntry *de1, *de2;
+    VecFx32 v;
+    VecFx32 out;
+    int m;
+
+    if (skip)
+        return;
+
+    hd = GetGlobalHD5();
+    de1 = GetDriverEntry(gRaceConfig->f62);
+
+    v = hd->f15c;                   /* ldm/stm 3-word copy */
+    v.y = 0;
+    /* squared horizontal length as fx64; reassoc swaps first two terms */
+    if ((long long)v.x * v.x + (long long)v.y * v.y + (long long)v.z * v.z >= 0x10)
+        Vector3_MaybeNormalize(&v, &v);
+
+    VecFx32_AddScale1(0x5800, &v, &hd->f9c, &out);
+
+    de2 = GetDriverEntry(gRaceConfig->f62);
+    out.y = de2->f508[1] >> 4;
+
+    obj->f28 = out.x + (*obj->f20)->f4;   /* base pointer reloaded per coord */
+    obj->f2c = out.y + (*obj->f20)->f8;
+    obj->f30 = out.z + (*obj->f20)->fc;
+
+    m = FX_Mul(de1->f2a4, data_0217ae9c);
+    if (m > 0x1000)
+        m = 0x1000;
+    obj->f58 = FX_Mul(0x1000 - m, 0x400);
+}

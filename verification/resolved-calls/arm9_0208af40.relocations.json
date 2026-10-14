@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959336740
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959336734
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959336728
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "FindFileBuffer_KME_KM1_KM2_KSB_from_thumb",
+    "target": 33847484,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211012167
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "FindFileBuffer_KME_KM1_KM2_KSB_from_thumb",
+    "target": 33847484,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211012162
+  },
+  {
+    "offset": 152,
+    "type": 2,
+    "symbol": "SDK_data_0217b038",
+    "target": 35106872,
+    "thumb": false,
+    "addend": 0,
+    "value": 35106872
+  },
+  {
+    "offset": 156,
+    "type": 2,
+    "symbol": "SDK_data_021660c8",
+    "target": 35021000,
+    "thumb": false,
+    "addend": 0,
+    "value": 35021000
+  },
+  {
+    "offset": 160,
+    "type": 2,
+    "symbol": "SDK_data_021660e0",
+    "target": 35021024,
+    "thumb": false,
+    "addend": 0,
+    "value": 35021024
+  }
+]

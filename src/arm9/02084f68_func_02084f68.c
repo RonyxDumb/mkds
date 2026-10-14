@@ -1,24 +1,27 @@
-/* Decompiled C draft; module arm9; ROM address 02084f68. No matching claim. */
-#include "types.h"
-#include "deps/02084f68_func_02084f68.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_02084f68(int param_1)
+// PURPOSE: Applies the first texture palette action to every material in a model.
+// The argument probably wraps a pointer to the model at offset 4.
+// Each material receives the fixed action value 1.
 
+typedef struct ModelBlock {
+    unsigned char pad[0x18];
+    unsigned char numMaterials;
+} ModelBlock;
+
+typedef struct ModelBlockHolder {
+    unsigned char pad[4];
+    ModelBlock *model;
+} ModelBlockHolder;
+
+extern void ModelBlock_SomeTexPltFn_1(ModelBlock *model, int i, int arg1);
+
+void func_02084f68(ModelBlockHolder *holder)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = param_1 + 4U & 3;
-  uVar1 = *(uint *)(param_1 + 4U & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  uVar1 = 0;
-  if (*(char *)(uVar2 + 0x18) == '\0') {
-    return;
-  }
-  do {
-    ModelBlock_SomeTexPltFn_1(uVar2,uVar1,1);
-    uVar1 = uVar1 + 1;
-  } while (uVar1 < *(byte *)(uVar2 + 0x18));
-  return;
-}
+    unsigned int i;
+    ModelBlock *model = holder->model;
 
+    for (i = 0; i < model->numMaterials; i++) {
+        ModelBlock_SomeTexPltFn_1(model, i, 1);
+    }
+}

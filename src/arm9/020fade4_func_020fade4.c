@@ -1,31 +1,45 @@
-/* Decompiled C draft; module arm9; ROM address 020fade4. No matching claim. */
-#include "types.h"
-#include "deps/020fade4_func_020fade4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0216c6b4 SDK_data_0216c6b4
+#define func_020fc2c0 SDK_data_020fc2c0
+// PURPOSE: Starts the kart state handler and marks the state as active.
+// The argument is probably a kart state object with control flags and state fields.
+// It creates the handler once, updates its flags, and returns success.
 
-undefined4 func_020fade4(int param_1)
+typedef unsigned short u16;
+typedef unsigned int u32;
 
+extern void StateDualHandler_Create(void *state, void *handler, int count, void *owner);
+extern void func_020f9c6c(void *owner);
+extern void func_020fc2c0(void);
+extern char data_0216c6b4[];
+
+typedef struct KartState {
+    char pad_000[0x74];
+    u32 flags;
+    u16 flags78;
+    char pad_07a[0x120 - 0x7a];
+    void (*handlerFunc)(void);
+    char pad_124[0x2e8 - 0x124];
+    char handlerState[1];
+    char pad_2e9[0x2f6 - 0x2e9];
+    u16 state;
+    u16 nextState;
+    u16 active;
+} KartState;
+
+int func_020fade4(KartState *state)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  if (*(short *)(param_1 + 0x2f6) != 7) {
-    StateDualHandler_Create((undefined4 *)(uintptr_t)(param_1 + 0x2e8),uRam020fae6c,8,param_1);
-    *(undefined2 *)(param_1 + 0x2f8) = 7;
-    *(undefined2 *)(param_1 + 0x2fa) = 1;
-    uVar1 = param_1 + 0x74U & 3;
-    uVar2 = *(uint *)(param_1 + 0x74U & 0xfffffffc);
-    if (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0x180000) == 0) {
-      *(undefined4 *)(param_1 + 0x120) = uRam020fae70;
+    if (state->state != 7) {
+        StateDualHandler_Create(state->handlerState, data_0216c6b4, 8, state);
+        state->nextState = 7;
+        state->active = 1;
+        if ((state->flags & 0x180000) == 0) {
+            state->handlerFunc = func_020fc2c0;
+        }
+        state->flags &= ~0x8000;
+        state->flags |= 0x80000;
+        func_020f9c6c(state);
+        state->flags78 &= ~0x4000;
     }
-    uVar1 = param_1 + 0x74U & 3;
-    uVar2 = *(uint *)(param_1 + 0x74U & 0xfffffffc);
-    *(uint *)(param_1 + 0x74) = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 0xffff7fff;
-    uVar1 = param_1 + 0x74U & 3;
-    uVar2 = *(uint *)(param_1 + 0x74U & 0xfffffffc);
-    *(uint *)(param_1 + 0x74) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20 | 0x80000;
-    func_020f9c6c(param_1);
-    *(ushort *)(param_1 + 0x78) = *(ushort *)(param_1 + 0x78) & 0xbfff;
-  }
-  return 1;
+    return 1;
 }
-

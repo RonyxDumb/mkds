@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "GetGlobalHD4",
+    "target": 33953800,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959389278
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "Vector3_MaybeNormalize",
+    "target": 33790048,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959348321
+  },
+  {
+    "offset": 128,
+    "type": 1,
+    "symbol": "VecFx32_AddScale1",
+    "target": 34897880,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942848057
+  },
+  {
+    "offset": 224,
+    "type": 2,
+    "symbol": "SDK_data_02165958",
+    "target": 35019096,
+    "thumb": false,
+    "addend": 0,
+    "value": 35019096
+  }
+]

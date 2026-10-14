@@ -1,0 +1,101 @@
+[
+  {
+    "offset": 232,
+    "type": 1,
+    "symbol": "Sound_MaybeRestoreHeapState",
+    "target": 34789944,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942686806
+  },
+  {
+    "offset": 244,
+    "type": 1,
+    "symbol": "Sound_Context_GetMaybeSavedFrameHeapStateId",
+    "target": 34789932,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942686800
+  },
+  {
+    "offset": 260,
+    "type": 1,
+    "symbol": "Sound_LoadSbnk",
+    "target": 34793820,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942687768
+  },
+  {
+    "offset": 276,
+    "type": 1,
+    "symbol": "Sound_LoadSbnk",
+    "target": 34793820,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942687764
+  },
+  {
+    "offset": 292,
+    "type": 1,
+    "symbol": "Sound_LoadSarc",
+    "target": 34793876,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942687774
+  },
+  {
+    "offset": 308,
+    "type": 2,
+    "symbol": "SDK_data_0217c784",
+    "target": 35112836,
+    "thumb": false,
+    "addend": 0,
+    "value": 35112836
+  },
+  {
+    "offset": 312,
+    "type": 2,
+    "symbol": "SDK_data_0217c79c",
+    "target": 35112860,
+    "thumb": false,
+    "addend": 0,
+    "value": 35112860
+  },
+  {
+    "offset": 316,
+    "type": 2,
+    "symbol": "SDK_data_0217c7a0",
+    "target": 35112864,
+    "thumb": false,
+    "addend": 0,
+    "value": 35112864
+  },
+  {
+    "offset": 320,
+    "type": 2,
+    "symbol": "SDK_data_0217c774",
+    "target": 35112820,
+    "thumb": false,
+    "addend": 0,
+    "value": 35112820
+  },
+  {
+    "offset": 324,
+    "type": 2,
+    "symbol": "SDK_data_0217d130",
+    "target": 35115312,
+    "thumb": false,
+    "addend": 0,
+    "value": 35115312
+  },
+  {
+    "offset": 328,
+    "type": 2,
+    "symbol": "SDK_data_0217c798",
+    "target": 35112856,
+    "thumb": false,
+    "addend": 0,
+    "value": 35112856
+  }
+]

@@ -1,16 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 0210f9f0. No matching claim. */
-#include "types.h"
-#include "deps/0210f9f0_func_0210f9f0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217d1f0 SDK_data_0217d1f0
+// PURPOSE: Queues a sound effect while advancing the driver's event counter.
+// The supplied driver context is forwarded to the sound queue.
+// The counter probably identifies the next queued sound event.
+extern int data_0217d1f0;
+extern void DriverContext_MaybeQueuePlaySfx(void *ctx, int sound, int volume, int flags);
 
-void func_0210f9f0(undefined4 param_1)
+void func_0210f9f0(void *ctx) {
+    int event = data_0217d1f0;
 
-{
-  uint uVar1;
-  
-  uVar1 = *(uint *)((uint)piRam0210fa24 & 0xfffffffc) >> ((uint)piRam0210fa24 & 3) * 8 |
-          *(uint *)((uint)piRam0210fa24 & 0xfffffffc) << ((uint)piRam0210fa24 & 3) * -8 + 0x20;
-  *piRam0210fa24 = uVar1 + 1;
-  DriverContext_MaybeQueuePlaySfx(param_1,uVar1 + 0xea,0x7f,0);
-  return;
+    data_0217d1f0 = event + 1;
+    DriverContext_MaybeQueuePlaySfx(ctx, event + 0xea, 0x7f, 0);
 }
-

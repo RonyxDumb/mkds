@@ -1,20 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 02061250. No matching claim. */
-#include "types.h"
-#include "deps/02061250_func_02061250.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa08 SDK_data_0217aa08
+/* PURPOSE: Checks whether the current player profile has an ID.
+ * Takes no arguments. It follows the shared player-data pointer to the
+ * profile information at offset 0x4c and returns 1 when its 64-bit profile
+ * ID is nonzero, otherwise 0. The exact outer object types are uncertain. */
 
-bool func_02061250(void)
+typedef unsigned long long u64;
 
+extern void **data_0217aa08;
+extern u64 PlayerProfileInfo_GetProfileId_from_thumb(void *profileInfo);
+
+int func_02061250(void)
 {
-  uint uVar1;
-  uint uVar2;
-  longlong lVar3;
-  
-  uVar2 = *(uint *)(uRam0206128c & 0xfffffffc) >> (uRam0206128c & 3) * 8 |
-          *(uint *)(uRam0206128c & 0xfffffffc) << (uRam0206128c & 3) * -8 + 0x20;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  lVar3 = PlayerProfileInfo_GetProfileId_from_thumb
-                    ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x4c);
-  return lVar3 != 0;
-}
+    void *profileInfo = (char *)*data_0217aa08 + 0x4c;
 
+    return PlayerProfileInfo_GetProfileId_from_thumb(profileInfo) != 0;
+}

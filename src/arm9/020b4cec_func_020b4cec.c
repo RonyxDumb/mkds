@@ -1,27 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 020b4cec. No matching claim. */
-#include "types.h"
-#include "deps/020b4cec_func_020b4cec.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_020b4cec(uint *param_1,int param_2)
+/* PURPOSE: Initializes a fixed-point step state from a divisor.
+ * The first argument points to four related fixed-point state values.
+ * A zero divisor uses 1.0 directly; otherwise the function stores its reciprocal.
+ * The exact role of the two cleared values is uncertain.
+ */
+typedef int fx32;
 
-{
-  uint uVar1;
-  uint uVar2;
-  
-  if (param_2 == 0) {
-    uVar1 = 0x1000;
-  }
-  else {
-    uVar1 = FX_Div(0x1000);
-  }
-  param_1[3] = uVar1;
-  uVar1 = (uint)(param_1 + 3) & 3;
-  uVar2 = *(uint *)((uint)(param_1 + 3) & 0xfffffffc);
-  *param_1 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  param_1[2] = 0;
-  uVar1 = (uint)(param_1 + 2) & 3;
-  uVar2 = *(uint *)((uint)(param_1 + 2) & 0xfffffffc);
-  param_1[1] = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  return;
+typedef struct FxStepState {
+    fx32 reciprocal;
+    fx32 previousOffset;
+    fx32 offset;
+    fx32 step;
+} FxStepState;
+
+extern fx32 FX_Div(fx32 numerator, fx32 denominator);
+
+void func_020b4cec(FxStepState *state, fx32 divisor) {
+    state->step = divisor == 0 ? 0x1000 : FX_Div(0x1000, divisor);
+    state->reciprocal = state->step;
+    state->offset = 0;
+    state->previousOffset = state->offset;
 }
-

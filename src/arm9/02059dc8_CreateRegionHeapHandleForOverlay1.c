@@ -1,25 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 02059dc8. No matching claim. */
-#include "types.h"
-#include "deps/02059dc8_CreateRegionHeapHandleForOverlay1.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa10 SDK_data_0217aa10
+// PURPOSE: Creates the overlay region heap once.
+// The shared system context probably tracks whether this heap already exists.
+// A fixed memory region is used for the heap and its handle is stored in that context.
 
-void CreateRegionHeapHandleForOverlay1(void)
+typedef unsigned int u32;
 
-{
-  uint uVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  
-  uVar2 = *(uint *)(uRam02059e14 & 0xfffffffc) >> (uRam02059e14 & 3) * 8 |
-          *(uint *)(uRam02059e14 & 0xfffffffc) << (uRam02059e14 & 3) * -8 + 0x20;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == 1) {
-    uVar3 = Mem_Exp_Create(uRam02059e18,0x20800,1);
-    *(undefined4 *)
-     ((*(uint *)(uRam02059e14 & 0xfffffffc) >> (uRam02059e14 & 3) * 8 |
-      *(uint *)(uRam02059e14 & 0xfffffffc) << (uRam02059e14 & 3) * -8 + 0x20) + 0xa4) = uVar3;
-    return;
-  }
-  return;
+typedef struct {
+    char padding[0xa4];
+    void *region_heap;
+} SystemContext;
+
+extern void *data_0217aa10;
+extern void *Mem_Exp_Create(void *start, u32 size, int direction);
+
+void CreateRegionHeapHandleForOverlay1(void) {
+    if (*(int *)data_0217aa10 != 1) {
+        return;
+    }
+
+    ((SystemContext *)data_0217aa10)->region_heap =
+        Mem_Exp_Create((void *)0x021a9c00, 0x20800, 1);
 }
-

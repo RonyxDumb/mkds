@@ -1,20 +1,28 @@
-/* Decompiled C draft; module arm9; ROM address 020559ec. No matching claim. */
-#include "types.h"
-#include "deps/020559ec_func_020559ec.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa00 SDK_data_0217aa00
+/* PURPOSE: Copies a 20-byte payload into a selected context slot.
+ * The first argument is the payload source, the second selects a 0x22c-byte
+ * slot, and the third masks the context's existing slot flags.
+ * The selected slot is marked active after the copy.
+ */
 
-void func_020559ec(undefined4 param_1,uint param_2,byte param_3)
+typedef unsigned char u8;
+typedef unsigned int u32;
 
-{
-  byte bVar1;
-  uint uVar2;
-  
-  uVar2 = *(uint *)(uRam02055a44 & 0xfffffffc) >> (uRam02055a44 & 3) * 8 |
-          *(uint *)(uRam02055a44 & 0xfffffffc) << (uRam02055a44 & 3) * -8 + 0x20;
-  bVar1 = *(byte *)(uVar2 + 0x43d);
-  Mem_CpuCopy8((ushort *)(uintptr_t)(param_1),(uint *)(uintptr_t)(param_2 * 0x22c + uVar2 + iRam02055a48),0x14);
-  *(byte *)((*(uint *)(uRam02055a44 & 0xfffffffc) >> (uRam02055a44 & 3) * 8 |
-            *(uint *)(uRam02055a44 & 0xfffffffc) << (uRam02055a44 & 3) * -8 + 0x20) + 0x43d) =
-       bVar1 & param_3 | (byte)(1 << (param_2 & 0xff));
-  return;
+typedef struct UnkStruct_0217aa00 {
+    u8 pad000[0x43d];
+    u8 slotFlags;
+    u8 pad43e[0x45c - 0x43e];
+    u8 slots[1][0x22c];
+} UnkStruct_0217aa00;
+
+extern UnkStruct_0217aa00 *data_0217aa00;
+extern void Mem_CpuCopy8(const void *source, void *destination, u32 size);
+
+void func_020559ec(const void *source, int slotIndex, u32 flagMask) {
+    UnkStruct_0217aa00 *context = data_0217aa00;
+    u8 preservedFlags = context->slotFlags & flagMask;
+
+    Mem_CpuCopy8(source, context->slots[slotIndex], 0x14);
+    data_0217aa00->slotFlags = preservedFlags | (1 << slotIndex);
 }
-

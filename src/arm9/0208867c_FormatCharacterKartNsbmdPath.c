@@ -1,47 +1,45 @@
-/* Decompiled C draft; module arm9; ROM address 0208867c. No matching claim. */
-#include "types.h"
-#include "deps/0208867c_FormatCharacterKartNsbmdPath.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02165f88 SDK_data_02165f88
+#define data_02165e80 SDK_data_02165e80
+#define data_02155d88 SDK_data_02155d88
+#define data_02165ac8 SDK_data_02165ac8
+#define data_02165f80 SDK_data_02165f80
+#define data_0217af24 SDK_data_0217af24
+#define gSharedPathBuffer SDK_data_0217af28
+#define data_02165f90 SDK_data_02165f90
+/* PURPOSE: Builds the file path to a character's kart 3D model (.nsbmd).
+ *
+ * Formats "%s%s%skart_%s.%s" into the shared 0x100-byte path buffer and
+ * returns that buffer. Arguments to the format: the base path prefix
+ * (data_0217af24), a common directory part (data_02165ac8), the character
+ * folder ("mario/" for every 3rd character id, otherwise looked up in a
+ * per-character folder table indexed by character/3 — probably alternate
+ * skins/karts grouped in triples), the kart name from an 8-byte-stride
+ * table, and the "nsbmd" extension. */
+typedef struct KartNameEntry {
+    char *name;   /* kart model name used in "kart_%s" */
+    int unk4;
+} KartNameEntry;
 
-char * FormatCharacterKartNsbmdPath(int param_1)
+extern KartNameEntry data_02155d88[];
+extern char *data_02165e80[];  /* per-character folder strings, index = character/3 */
+extern char *data_02165ac8;
+extern char *data_0217af24;
+extern char gSharedPathBuffer[];   /* shared path buffer (0x100 bytes) */
+extern char data_02165f88[];   /* "mario/" */
+extern char data_02165f80[];   /* "nsbmd" */
+extern char data_02165f90[];   /* "%s%s%skart_%s.%s" */
 
-{
-  uint uVar1;
-  longlong lVar2;
-  int iVar3;
-  uint uVar4;
-  uint uVar5;
-  bool bVar6;
-  
-  iVar3 = iRam02088704 *
-          ((int)((ulonglong)((longlong)(int)uRam02088700 * (longlong)param_1) >> 0x20) -
-          (param_1 >> 0x1f));
-  lVar2 = CONCAT44(iRam02088704,iVar3);
-  bVar6 = param_1 == iVar3;
-  uVar5 = uRam02088700;
-  if (bVar6) {
-    uVar5 = uRam02088708;
-  }
-  if (!bVar6) {
-    lVar2 = (longlong)(int)uVar5 * (longlong)param_1;
-  }
-  if (!bVar6) {
-    lVar2 = CONCAT44((int)((ulonglong)lVar2 >> 0x20) - (param_1 >> 0x1f),uRam0208870c);
-  }
-  if (!bVar6) {
-    uVar5 = (int)lVar2 + (int)((ulonglong)lVar2 >> 0x20) * 4;
-    uVar4 = uVar5 & 3;
-    uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-    uVar5 = uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20;
-  }
-  uVar4 = iRam02088710 + param_1 * 8;
-  uVar1 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  _snprintf(pcRam02088720,0x100,pcRam02088724,
-            *(uint *)(uRam0208871c & 0xfffffffc) >> (uRam0208871c & 3) * 8 |
-            *(uint *)(uRam0208871c & 0xfffffffc) << (uRam0208871c & 3) * -8 + 0x20,
-            *(uint *)(uRam02088714 & 0xfffffffc) >> (uRam02088714 & 3) * 8 |
-            *(uint *)(uRam02088714 & 0xfffffffc) << (uRam02088714 & 3) * -8 + 0x20,uVar5,
-            uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20,uRam02088718);
-  return pcRam02088720;
+extern int _snprintf(char *buf, unsigned int len, const char *fmt, ...);
+
+char *FormatCharacterKartNsbmdPath(int character) {
+    char *ext = data_02165f80; /* hoisted so the extension pointer is materialized early (lr) */
+    _snprintf(gSharedPathBuffer, 0x100, data_02165f90,
+              data_0217af24,
+              data_02165ac8,
+              /* eq-arm first: mario folder when character is a multiple of 3 */
+              (character % 3 == 0) ? data_02165f88 : data_02165e80[character / 3],
+              data_02155d88[character].name,
+              ext);
+    return gSharedPathBuffer;
 }
-

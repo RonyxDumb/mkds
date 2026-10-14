@@ -1,38 +1,53 @@
-/* Decompiled C draft; module arm9; ROM address 02088728. No matching claim. */
-#include "types.h"
-#include "deps/02088728_FormatCharacterEmblemNsbtxPath.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02155cec SDK_data_02155cec
+#define data_02165fbc SDK_data_02165fa4
+#define data_02155cf0 SDK_data_02155cf0
+#define data_02165ac4 SDK_data_02165ac4
+#define data_02165e80 SDK_data_02165e80
+#define data_0217af24 SDK_data_0217af24
+#define gSharedPathBuffer SDK_data_0217af28
+#define data_02165fc4 SDK_data_02165fac
+#define data_02165fcc SDK_data_02165fb4
+#define FormatCharacterEmblemNsbmdPath FormatCharacterEmblemNsbtxPath
+/* PURPOSE: Builds the file path of a character's emblem 3D model (.nsbmd).
+ * Arguments: character index, and a flag selecting which emblem-name table
+ * to use (probably normal vs. alternate/second emblem set).
+ * Behaviour: first formats "%s%s%s" (base path + emblem subdir + character
+ * folder) into the shared 0x100-byte path buffer gSharedPathBuffer, then appends
+ * the emblem file name with "%s%s.%s" (buffer + name + "nsbmd") by formatting
+ * the buffer into itself. Returns the shared buffer. */
+typedef struct EmblemNameEntry {
+    char *name;   /* +0x0: emblem model file name */
+    int unk4;     /* +0x4 */
+    int unk8;     /* +0x8 */
+} EmblemNameEntry; /* stride 0xc */
 
-char * FormatCharacterEmblemNsbtxPath(int param_1,int param_2)
+extern EmblemNameEntry data_02155cec[]; /* table used when flag != 0 */
+extern EmblemNameEntry data_02155cf0[]; /* table used when flag == 0 */
+extern char *data_02165e80[];   /* per-character folder names */
+extern char *data_02165ac4;     /* path segment (probably emblem subdir) */
+extern char *data_0217af24;     /* base path prefix */
+extern char gSharedPathBuffer[];    /* shared 0x100 path buffer */
+extern char data_02165fbc[];    /* "nsbmd" */
+extern char data_02165fc4[];    /* "%s%s%s" */
+extern char data_02165fcc[];    /* "%s%s.%s" */
 
-{
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  uVar2 = uRam020887b8;
-  if (param_2 == 0) {
-    uVar4 = iRam020887bc + param_1 * 0xc;
-    uVar3 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    uVar4 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-  }
-  else {
-    uVar4 = iRam020887b4 + param_1 * 0xc;
-    uVar3 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    uVar4 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-  }
-  uVar3 = iRam020887c4 + param_1 * 4;
-  uVar1 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  _snprintf(pcRam020887cc,0x100,pcRam020887d0,
-            *(uint *)(uRam020887c8 & 0xfffffffc) >> (uRam020887c8 & 3) * 8 |
-            *(uint *)(uRam020887c8 & 0xfffffffc) << (uRam020887c8 & 3) * -8 + 0x20,
-            *(uint *)(uRam020887c0 & 0xfffffffc) >> (uRam020887c0 & 3) * 8 |
-            *(uint *)(uRam020887c0 & 0xfffffffc) << (uRam020887c0 & 3) * -8 + 0x20,
-            uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
-  _snprintf(pcRam020887cc,0x100,pcRam020887d4,pcRam020887cc,uVar4,uVar2);
-  return pcRam020887cc;
+extern int _snprintf(char *buf, unsigned int len, const char *fmt, ...);
+
+char *FormatCharacterEmblemNsbmdPath(int character, int alt) {
+    char *name;                     /* r5: survives both snprintf calls */
+    char *ext = data_02165fbc;      /* r4: "nsbmd", loaded once up front */
+
+    /* both arms are fully predicated in the ROM (movne/mulne vs moveq/muleq) */
+    if (alt != 0) {
+        name = data_02155cec[character].name;
+    } else {
+        name = data_02155cf0[character].name;
+    }
+    _snprintf(gSharedPathBuffer, 0x100, data_02165fc4, data_0217af24,
+              data_02165ac4, data_02165e80[character]);
+    /* second pass appends to the buffer by formatting it into itself */
+    _snprintf(gSharedPathBuffer, 0x100, data_02165fcc, gSharedPathBuffer,
+              name, ext);
+    return gSharedPathBuffer;
 }
-

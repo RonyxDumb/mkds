@@ -1,41 +1,55 @@
-/* Decompiled C draft; module arm9; ROM address 02041a70. No matching claim. */
-#include "types.h"
-#include "deps/02041a70_func_02041a70.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 func_02041a70(undefined4 param_1,int param_2)
+// PURPOSE: Tests whether a point lies inside an oriented volume.
+// The first argument is the point and the second describes the volume.
+// It projects the point's offset onto three axes and checks their limits.
+// The middle axis is probably one-sided while the other two are centered.
 
+typedef int fx32;
+typedef long long fx64;
+
+typedef struct VecFx32 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+} VecFx32;
+
+typedef struct OrientedVolume {
+    VecFx32 origin;
+    fx32 extent0;
+    fx32 extent1;
+    fx32 extent2;
+    VecFx32 axis0;
+    VecFx32 axis1;
+    VecFx32 axis2;
+} OrientedVolume;
+
+extern fx32 Vector3_DotProduct(const VecFx32 *a, const VecFx32 *b);
+extern void VecFx32_Subtract(const VecFx32 *a, const VecFx32 *b,
+                             VecFx32 *out);
+
+int func_02041a70(const VecFx32 *point, const OrientedVolume *volume)
 {
-  longlong lVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  undefined1 auStack_18 [12];
-  
-  VecFx32_Subtract(param_1,param_2,(int *)(void *)(auStack_18));
-  iVar2 = Vector3_DotProduct((uint)(uintptr_t)(auStack_18),param_2 + 0x24);
-  uVar3 = param_2 + 0x10U & 3;
-  uVar4 = *(uint *)(param_2 + 0x10U & 0xfffffffc);
-  lVar1 = (ulonglong)(uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) * 0x64000 + 0x800;
-  if (((int)((uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) * 0x100000) < iVar2) ||
-     (iVar2 < 0)) {
-    return 0;
-  }
-  iVar2 = Vector3_DotProduct((uint)(uintptr_t)(auStack_18),param_2 + 0x18);
-  uVar3 = param_2 + 0xcU & 3;
-  uVar4 = *(uint *)(param_2 + 0xcU & 0xfffffffc);
-  lVar1 = (ulonglong)(uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) * 0x32000 + 0x800;
-  uVar3 = (uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) * 0x100000;
-  if (((int)(iVar2 + uVar3) < 0 == SBORROW4(iVar2,-uVar3)) && (iVar2 <= (int)uVar3)) {
-    iVar2 = Vector3_DotProduct((uint)(uintptr_t)(auStack_18),param_2 + 0x30);
-    uVar3 = param_2 + 0x14U & 3;
-    uVar4 = *(uint *)(param_2 + 0x14U & 0xfffffffc);
-    lVar1 = (ulonglong)(uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) * 0x32000 + 0x800;
-    uVar3 = (uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) * 0x100000;
-    if (((int)(iVar2 + uVar3) < 0 == SBORROW4(iVar2,-uVar3)) && (iVar2 <= (int)uVar3)) {
-      return 1;
-    }
-    return 0;
-  }
-  return 0;
-}
+    VecFx32 offset;
+    fx32 dot;
+    fx32 limit;
 
+    VecFx32_Subtract(point, &volume->origin, &offset);
+
+    dot = Vector3_DotProduct(&offset, &volume->axis1);
+    limit = (fx32)(((fx64)volume->extent1 * 0x64000 + 0x800) >> 12);
+    if (dot > limit || dot < 0)
+        return 0;
+
+    dot = Vector3_DotProduct(&offset, &volume->axis0);
+    limit = (fx32)(((fx64)volume->extent0 * 0x32000 + 0x800) >> 12);
+    if (dot < -limit || dot > limit)
+        return 0;
+
+    dot = Vector3_DotProduct(&offset, &volume->axis2);
+    limit = (fx32)(((fx64)volume->extent2 * 0x32000 + 0x800) >> 12);
+    if (dot < -limit || dot > limit)
+        return 0;
+
+    return 1;
+}

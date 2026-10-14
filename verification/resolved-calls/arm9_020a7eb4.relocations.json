@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "CreateMapObjectFromModel_2_from_thumb",
+    "target": 34192648,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211068816
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "CreateMapObjectFromModel_2_from_thumb",
+    "target": 34192648,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211068811
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "StructMapObject_MaybeSetPolygonId",
+    "target": 34191680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959410323
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "StructMapObject_MaybeSetPolygonId",
+    "target": 34191680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959410319
+  },
+  {
+    "offset": 84,
+    "type": 2,
+    "symbol": "SDK_data_02167920",
+    "target": 35027232,
+    "thumb": false,
+    "addend": 0,
+    "value": 35027232
+  },
+  {
+    "offset": 88,
+    "type": 2,
+    "symbol": "SDK_data_0217b228",
+    "target": 35107368,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107368
+  },
+  {
+    "offset": 92,
+    "type": 2,
+    "symbol": "SDK_data_02167930",
+    "target": 35027248,
+    "thumb": false,
+    "addend": 0,
+    "value": 35027248
+  },
+  {
+    "offset": 96,
+    "type": 2,
+    "symbol": "SDK_data_0217b22c",
+    "target": 35107372,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107372
+  }
+]

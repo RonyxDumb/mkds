@@ -1,23 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 020368e0. No matching claim. */
-#include "types.h"
-#include "deps/020368e0_Mem_CreateChildFrameHeapFromHead.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void Mem_CreateChildFrameHeapFromHead(uint param_1,undefined4 param_2)
+/* PURPOSE: Creates a child frame heap at the start of a parent heap.
+ * The parent heap supplies a block of the requested size with four-byte alignment.
+ * Expandable and frame heaps use their matching allocation routines.
+ * The allocated block becomes a frame heap that grows from its head.
+ */
 
+typedef unsigned int u32;
+
+extern void *Mem_Exp_Allocate(void *heap, unsigned int size, int alignment);
+extern void *Mem_Frame_Allocate(void *heap, unsigned int size, int alignment);
+extern void *Mem_Frame_Create(void *start, u32 size, int direction);
+
+void *Mem_CreateChildFrameHeapFromHead(void *heap, unsigned int size)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  
-  uVar1 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  uVar2 = 0;
-  if (uVar1 == uRam02036940) {
-    uVar2 = Mem_Exp_Allocate(param_1,param_2,4);
-  }
-  else if (uVar1 == uRam02036944) {
-    uVar2 = Mem_Frame_Allocate(param_1,param_2,4);
-  }
-  Mem_Frame_Create(uVar2,param_2,1);
-  return;
-}
+    void *childStorage = 0;
 
+    switch (*(u32 *)heap) {
+    case 0x45585048: /* Expandable-heap signature. */
+        childStorage = Mem_Exp_Allocate(heap, size, 4);
+        break;
+    case 0x46524d48: /* Frame-heap signature. */
+        childStorage = Mem_Frame_Allocate(heap, size, 4);
+        break;
+    }
+
+    return Mem_Frame_Create(childStorage, size, 1);
+}

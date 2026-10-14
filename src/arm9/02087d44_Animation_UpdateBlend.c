@@ -1,72 +1,46 @@
-/* Decompiled C draft; module arm9; ROM address 02087d44. No matching claim. */
-#include "types.h"
-#include "deps/02087d44_Animation_UpdateBlend.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void Animation_UpdateBlend(int param_1)
+// PURPOSE: Updates the blend between two animation tracks.
+// The animation probably keeps the active track index, a track table, and a
+// blend amount in this structure.  Once the active track reaches full weight,
+// it clears the blend state and updates the previous track.
 
+typedef unsigned short u16;
+
+typedef struct AnimationTrack {
+    int field_00;
+    int weight;
+} AnimationTrack;
+
+typedef struct Animation {
+    char pad_00[0x14];
+    void *field_14;
+    char pad_18[2];
+    u16 active_track;
+    AnimationTrack **tracks;
+    char pad_20[0x2c - 0x20];
+    void *blend_state;
+    int blend_amount;
+    AnimationTrack *previous_track;
+} Animation;
+
+extern void StructML_SomeFn_2(void *arg0, AnimationTrack *arg1);
+
+void Animation_UpdateBlend(Animation *animation)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  uVar4 = param_1 + 0x2cU & 3;
-  uVar1 = *(uint *)(param_1 + 0x2cU & 0xfffffffc);
-  if (uVar1 >> uVar4 * 8 == 0 && uVar1 << uVar4 * -8 + 0x20 == 0) {
-    return;
-  }
-  uVar4 = param_1 + 0x1cU & 3;
-  uVar3 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-  uVar1 = param_1 + 0x30U & 3;
-  uVar2 = *(uint *)(param_1 + 0x30U & 0xfffffffc);
-  uVar4 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + (uint)*(ushort *)(param_1 + 0x1a) * 4;
-  uVar3 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  uVar5 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-  uVar4 = uVar5 + 4;
-  uVar3 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  *(uint *)(uVar5 + 4) =
-       (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) +
-       (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  uVar4 = param_1 + 0x34U & 3;
-  uVar1 = *(uint *)(param_1 + 0x34U & 0xfffffffc);
-  uVar5 = uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20;
-  uVar1 = param_1 + 0x30U & 3;
-  uVar2 = *(uint *)(param_1 + 0x30U & 0xfffffffc);
-  uVar4 = uVar5 + 4;
-  uVar3 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  *(uint *)(uVar5 + 4) =
-       (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) -
-       (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  uVar4 = param_1 + 0x1cU & 3;
-  uVar1 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-  uVar4 = (uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) + (uint)*(ushort *)(param_1 + 0x1a) * 4;
-  uVar1 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  uVar4 = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 4;
-  uVar1 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  if (0xfff < (int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20)) {
-    *(undefined4 *)(param_1 + 0x2c) = 0;
-    uVar4 = param_1 + 0x1cU & 3;
-    uVar1 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-    uVar4 = (uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) +
-            (uint)*(ushort *)(param_1 + 0x1a) * 4;
-    uVar1 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    *(undefined4 *)((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 4) = 0x1000;
-    uVar4 = param_1 + 0x14U & 3;
-    uVar3 = *(uint *)(param_1 + 0x14U & 0xfffffffc);
-    uVar1 = param_1 + 0x34U & 3;
-    uVar2 = *(uint *)(param_1 + 0x34U & 0xfffffffc);
-    StructML_SomeFn_2((uint *)(uintptr_t)(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20),
-                      uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-    *(undefined4 *)(param_1 + 0x34) = 0;
-    return;
-  }
-  return;
-}
+    if (animation->blend_state == 0) {
+        return;
+    }
 
+    animation->tracks[animation->active_track]->weight += animation->blend_amount;
+    animation->previous_track->weight -= animation->blend_amount;
+
+    if (animation->tracks[animation->active_track]->weight < 0x1000) {
+        return;
+    }
+
+    animation->blend_state = 0;
+    animation->tracks[animation->active_track]->weight = 0x1000;
+    StructML_SomeFn_2(animation->field_14, animation->previous_track);
+    animation->previous_track = 0;
+}

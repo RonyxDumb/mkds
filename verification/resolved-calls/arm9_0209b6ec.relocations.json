@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Animation_GetCurrentLength",
+    "target": 34110732,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402883
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Nsbmd_GetMDL0Block",
+    "target": 33634096,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959307000
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Nsbtx_GetTEX0Block",
+    "target": 33634032,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959306981
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_InsertLast",
+    "target": 33649828,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959310923
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "Tex0Block_MaybePrepareFields",
+    "target": 34099396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646081
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "func_02010168",
+    "target": 33620328,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959303522
+  },
+  {
+    "offset": 180,
+    "type": 1,
+    "symbol": "Nsbmd_GetMDL0Block",
+    "target": 33634096,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959306962
+  },
+  {
+    "offset": 212,
+    "type": 1,
+    "symbol": "StructML_MaybeInnerLoadModel",
+    "target": 34099120,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645994
+  },
+  {
+    "offset": 248,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959343088
+  },
+  {
+    "offset": 268,
+    "type": 1,
+    "symbol": "Mem_CpuCopy8",
+    "target": 34918908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942850927
+  },
+  {
+    "offset": 288,
+    "type": 2,
+    "symbol": "SDK_data_0217aeb0",
+    "target": 35106480,
+    "thumb": false,
+    "addend": 0,
+    "value": 35106480
+  }
+]

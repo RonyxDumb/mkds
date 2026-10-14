@@ -1,30 +1,44 @@
-/* Decompiled C draft; module arm9; ROM address 0205e548. No matching claim. */
-#include "types.h"
-#include "deps/0205e548_func_0205e548.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa08 SDK_data_0217aa08
+// PURPOSE: Counts valid saved online information records.
+typedef unsigned char u8;
+typedef unsigned int u32;
 
-/* WARNING: Removing unreachable block (ram,0x0205e568) */
+typedef struct OnlineInfo {
+    u8 data[0x22];
+    u8 valid : 1;
+    u8 remainingFlags : 7;
+    u8 trailingByte;
+} OnlineInfo;
 
-char func_0205e548(void)
+typedef struct OnlineInfoTable {
+    u32 unknown0;
+    OnlineInfo records[];
+} OnlineInfoTable;
 
+typedef struct SaveDataHolder {
+    u8 padding[0x20];
+    OnlineInfoTable *onlineInfo;
+} SaveDataHolder;
+
+extern SaveDataHolder *data_0217aa08;
+extern void Mem_CpuCopy8(const void *source, void *destination, u32 size);
+
+int func_0205e548(void)
 {
-  uint uVar1;
-  char cVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  cVar2 = '\0';
-  uVar4 = 0;
-  do {
-    uVar3 = (*(uint *)(uRam0205e5c0 & 0xfffffffc) >> (uRam0205e5c0 & 3) * 8 |
-            *(uint *)(uRam0205e5c0 & 0xfffffffc) << (uRam0205e5c0 & 3) * -8 + 0x20) + 0x20;
-    uVar1 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    if ((int)((uint)*(byte *)(uVar4 * 0x24 + (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) +
-                             0x26) << 0x1f) < 0) {
-      cVar2 = cVar2 + '\x01';
-    }
-    uVar4 = uVar4 + 1 & 0xff;
-  } while (uVar4 < 0x3c);
-  return cVar2;
-}
+    u8 count = 0;
+    u8 index = count;
+    OnlineInfo *output = 0;
 
+    for (; index < 0x3c; index++) {
+        if (output != 0) {
+            Mem_CpuCopy8(&data_0217aa08->onlineInfo->records[index], output,
+                         0x24);
+        }
+        if (data_0217aa08->onlineInfo->records[index].valid != 0) {
+            count++;
+        }
+    }
+
+    return count;
+}

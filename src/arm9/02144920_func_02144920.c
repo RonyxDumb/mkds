@@ -1,63 +1,107 @@
-/* Decompiled C draft; module arm9; ROM address 02144920. No matching claim. */
-#include "types.h"
-#include "deps/02144920_func_02144920.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_02144920(int param_1)
+// PURPOSE: Queues a valid wireless shared-data packet for later processing.
+// The callback provides the packet, its size, its sequence number, and the queue context.
+// Accepted packets are copied into one of four slots and advance the write cursor.
+// An unsuccessful callback probably marks the sharing session as stopped.
 
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    void *buffer1;
+    void *buffer2;
+} WmGlobal;
+
+typedef struct {
+    u16 aidBitmap;
+    u16 receivedBitmap;
+    u16 data[0xfe];
+} WMDataSet;
+
+typedef struct {
+    WMDataSet dataSets[4];
+    u16 sequenceNumbers[4];
+    u16 writeIndex;
+    u16 sendIndex;
+    u16 readIndex;
+    u16 aidBitmap;
+    u16 dataLength;
+    u16 stationCount;
+    u16 dataSetLength;
+    u16 port;
+    u16 doubleMode;
+    u16 currentSequenceNumber;
+    u16 state;
+    u16 reserved;
+} WMDataSharingInfo;
+
+typedef struct {
+    u16 field_00;
+    u16 errorCode;
+    u16 state;
+    u8 pad_06[0x0c - 0x06];
+    u16 *data;
+    u16 length;
+    u8 pad_12[0x1a - 0x12];
+    u16 sequenceNumber;
+    WMDataSharingInfo *info;
+} WMPortRecvCallback;
+
+extern WmGlobal *Wm_GetGlobal(void);
+extern void DC_InvalidateRangeNoClean(void *start, u32 size);
+extern void CopyMemory16(const void *source, void *destination, u32 size);
+
+void func_02144920(WMPortRecvCallback *callback)
 {
-  short sVar1;
-  ushort uVar2;
-  int iVar3;
-  uint uVar4;
-  ushort uVar6;
-  uint uVar7;
-  uint uVar8;
-  ushort *puVar5;
-  uint uVar9;
-  
-  iVar3 = Wm_GetGlobal();
-  uVar9 = param_1 + 0x1cU & 3;
-  uVar7 = *(uint *)(param_1 + 0x1cU & 0xfffffffc);
-  uVar7 = uVar7 >> uVar9 * 8 | uVar7 << uVar9 * -8 + 0x20;
-  uVar9 = iVar3 + 4U & 3;
-  uVar8 = *(uint *)(iVar3 + 4U & 0xfffffffc);
-  uVar9 = uVar8 >> uVar9 * 8 | uVar8 << uVar9 * -8 + 0x20;
-  if (uVar7 == 0) {
-    return;
-  }
-  if (*(short *)(param_1 + 2) != 0) {
-    *(undefined2 *)(uVar7 + 0x81c) = 5;
-    return;
-  }
-  sVar1 = *(short *)(param_1 + 4);
-  if (sVar1 == 7) {
-    return;
-  }
-  if (sVar1 != 9) {
-    if (sVar1 != 0x15) {
-      return;
-    }
-    uVar8 = param_1 + 0xcU & 3;
-    uVar4 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-    puVar5 = (ushort *)(uVar4 >> uVar8 * 8 | uVar4 << uVar8 * -8 + 0x20);
-    uVar2 = *puVar5;
-    uVar6 = *(ushort *)(param_1 + 0x10);
-    DC_InvalidateRangeNoClean(uVar9 + 0x184,2);
-    if ((uVar6 != *(ushort *)(uVar7 + 0x814)) && (0x200 < uVar6)) {
-      uVar6 = 0x200;
-    }
-    if (3 < uVar6) {
-      if (((uint)uVar2 & 1 << (*(ushort *)(uVar9 + 0x184) & 0xff)) != 0) {
-        CopyMemory16((int)(uintptr_t)(puVar5),uVar7 + (uint)*(ushort *)(uVar7 + 0x808) * 0x200,uVar6);
-        *(short *)(uVar7 + (uint)*(ushort *)(uVar7 + 0x808) * 2 + 0x800) =
-             (short)((int)(uint)*(ushort *)(param_1 + 0x1a) >> 1);
-        *(ushort *)(uVar7 + 0x808) = *(short *)(uVar7 + 0x808) + 1U & 3;
-        return;
-      }
-      return;
-    }
-    return;
-  }
-  return;
-}
+    WmGlobal *global;
+    void *wmBuffer;
+    WMDataSharingInfo *info;
+    u32 packetLength;
+    u16 packetBitmap;
+    u16 *packet;
+    u16 aid;
 
+    global = Wm_GetGlobal();
+    info = callback->info;
+    wmBuffer = global->buffer2;
+
+    if (info == 0)
+        return;
+
+    if (callback->errorCode != 0)
+        goto failed;
+
+    if (callback->state == 7)
+        return;
+    if (callback->state == 9)
+        return;
+    if (callback->state != 0x15)
+        return;
+
+    packet = callback->data;
+    packetBitmap = packet[0];
+    packetLength = callback->length;
+
+    DC_InvalidateRangeNoClean((u8 *)wmBuffer + 0x184, 2);
+    aid = *(u16 *)((u8 *)wmBuffer + 0x184);
+
+    if (packetLength != info->dataSetLength) {
+        if (packetLength > 0x200)
+            packetLength = 0x200;
+    }
+
+    if (packetLength < 4)
+        return;
+    if ((packetBitmap & (1U << aid)) == 0)
+        return;
+
+    CopyMemory16(packet, &info->dataSets[info->writeIndex], packetLength);
+    info->sequenceNumbers[info->writeIndex] = callback->sequenceNumber >> 1;
+    info->writeIndex = (info->writeIndex + 1) & 3;
+    return;
+
+failed:
+    info->state = 5;
+}

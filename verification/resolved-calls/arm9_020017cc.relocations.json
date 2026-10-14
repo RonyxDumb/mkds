@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "TextSystem_WasAnyDialogButtonPressed_from_thumb",
+    "target": 34758484,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603486
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "TextSystem_CloseDialog_from_thumb",
+    "target": 34758592,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603510
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "TextSystem_IsDialogFinished_from_thumb",
+    "target": 34758536,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603492
+  },
+  {
+    "offset": 96,
+    "type": 2,
+    "symbol": "SDK_data_021a99e0",
+    "target": 35297760,
+    "thumb": false,
+    "addend": 0,
+    "value": 35297760
+  }
+]

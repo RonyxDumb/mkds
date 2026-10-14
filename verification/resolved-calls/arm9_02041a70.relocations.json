@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "VecFx32_Subtract",
+    "target": 34899152,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942914706
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Vector3_DotProduct",
+    "target": 34899084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942914686
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "Vector3_DotProduct",
+    "target": 34899084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942914663
+  },
+  {
+    "offset": 216,
+    "type": 1,
+    "symbol": "Vector3_DotProduct",
+    "target": 34899084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942914639
+  }
+]

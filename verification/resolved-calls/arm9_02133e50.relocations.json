@@ -1,0 +1,110 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Os_Mutex_TryLock",
+    "target": 33614856,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959122793
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Os_Mutex_Lock",
+    "target": 33615156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959122844
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "Os_Mutex_Unlock",
+    "target": 33615044,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959122788
+  },
+  {
+    "offset": 260,
+    "type": 1,
+    "symbol": "func_021349c4",
+    "target": 34818500,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646426
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "func_02142590",
+    "target": 34874768,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942660492
+  },
+  {
+    "offset": 280,
+    "type": 2,
+    "symbol": "SDK_data_0217eadc",
+    "target": 35121884,
+    "thumb": false,
+    "addend": 0,
+    "value": 35121884
+  },
+  {
+    "offset": 284,
+    "type": 2,
+    "symbol": "SDK_data_0216ff5c",
+    "target": 35061596,
+    "thumb": false,
+    "addend": 0,
+    "value": 35061596
+  },
+  {
+    "offset": 288,
+    "type": 2,
+    "symbol": "SDK_data_0217ea94",
+    "target": 35121812,
+    "thumb": false,
+    "addend": 0,
+    "value": 35121812
+  },
+  {
+    "offset": 292,
+    "type": 2,
+    "symbol": "SDK_data_0217eab8",
+    "target": 35121848,
+    "thumb": false,
+    "addend": 0,
+    "value": 35121848
+  },
+  {
+    "offset": 296,
+    "type": 2,
+    "symbol": "SDK_data_0217e98c",
+    "target": 35121548,
+    "thumb": false,
+    "addend": 0,
+    "value": 35121548
+  },
+  {
+    "offset": 300,
+    "type": 2,
+    "symbol": "SDK_data_0217e994",
+    "target": 35121556,
+    "thumb": false,
+    "addend": 0,
+    "value": 35121556
+  },
+  {
+    "offset": 304,
+    "type": 2,
+    "symbol": "SDK_data_0217e984",
+    "target": 35121540,
+    "thumb": false,
+    "addend": 0,
+    "value": 35121540
+  }
+]

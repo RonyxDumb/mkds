@@ -1,24 +1,32 @@
-/* Decompiled C draft; module arm9; ROM address 0204af70. No matching claim. */
-#include "types.h"
-#include "deps/0204af70_InitializeSystemContext.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021759d0 SDK_data_021759d0
+/* PURPOSE: Creates the main system context and its memory arena.
+ * The argument is the heap used to allocate the context object.
+ * Region 4 supplies the arena memory, then the remaining context fields are populated.
+ */
 
-void InitializeSystemContext(undefined4 param_1)
+typedef unsigned int u32;
 
+typedef struct SystemContext {
+    unsigned char unknown_00[0x24];
+    void *memoryArena;
+} SystemContext;
+
+extern void *Os_GetMemoryRegionStartAddress(int region);
+extern void *Os_GetMemoryRegionEndAddress(int region);
+extern void *Mem_AllocateHeap(void *heap, u32 size);
+extern void *Mem_Frame_Create(void *start, u32 size, int direction);
+extern void PopulateSystemContext(void);
+
+extern SystemContext *data_021759d0;
+
+void InitializeSystemContext(void *heap)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uVar3;
-  
-  iVar1 = Os_GetMemoryRegionStartAddress(4);
-  iVar2 = Os_GetMemoryRegionEndAddress(4);
-  uVar3 = Mem_AllocateHeap(param_1,0x7c);
-  *puRam0204afcc = uVar3;
-  uVar3 = Mem_Frame_Create(iVar1,iVar2 - iVar1,1);
-  *(undefined4 *)
-   ((*(uint *)((uint)puRam0204afcc & 0xfffffffc) >> ((uint)puRam0204afcc & 3) * 8 |
-    *(uint *)((uint)puRam0204afcc & 0xfffffffc) << ((uint)puRam0204afcc & 3) * -8 + 0x20) + 0x24) =
-       uVar3;
-  PopulateSystemContext();
-  return;
-}
+    void *regionStart = Os_GetMemoryRegionStartAddress(4);
+    void *regionEnd = Os_GetMemoryRegionEndAddress(4);
 
+    data_021759d0 = (SystemContext *)Mem_AllocateHeap(heap, 0x7c);
+    data_021759d0->memoryArena = Mem_Frame_Create(
+        regionStart, (u32)regionEnd - (u32)regionStart, 1);
+    PopulateSystemContext();
+}

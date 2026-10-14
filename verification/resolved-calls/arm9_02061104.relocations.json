@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "ConvertFriendCodeTo64_from_thumb",
+    "target": 34941116,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194551274
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Friend_VerifyChecksum_from_thumb",
+    "target": 34941264,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194551307
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "PlayerProfileInfo_GetProfileId_from_thumb",
+    "target": 34940160,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194551021
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "FriendCode_SetProfileIdAndChecksum_from_thumb",
+    "target": 34940120,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194551001
+  },
+  {
+    "offset": 156,
+    "type": 1,
+    "symbol": "GlobalZ_GetOI",
+    "target": 33943060,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420699
+  },
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "FriendCode_HasNonzeroState_0_from_thumb",
+    "target": 34940568,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194551092
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "FriendCode_SameAs_from_thumb",
+    "target": 34939792,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194550893
+  },
+  {
+    "offset": 276,
+    "type": 2,
+    "symbol": "SDK_data_0217aa08",
+    "target": 35105288,
+    "thumb": false,
+    "addend": 0,
+    "value": 35105288
+  }
+]

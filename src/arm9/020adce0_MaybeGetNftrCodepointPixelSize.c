@@ -1,14 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 020adce0. No matching claim. */
-#include "types.h"
-#include "deps/020adce0_MaybeGetNftrCodepointPixelSize.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void MaybeGetNftrCodepointPixelSize(undefined4 param_1,undefined4 param_2,undefined4 param_3)
+// PURPOSE: Gets the font metrics for a character codepoint.
+// The output receives values selected by the font and the supplied character.
+// It probably resolves a fallback glyph before storing the metrics.
 
+typedef unsigned int u32;
+
+typedef struct NFTR_Font {
+    void *glyphInfo;
+} NFTR_Font;
+
+extern int NFTR_SomeFn(NFTR_Font *font, u32 character);
+extern void func_020add18(int *output, NFTR_Font *font, int index);
+
+void MaybeGetNftrCodepointPixelSize(int *output, NFTR_Font *font, u32 character)
 {
-  undefined4 uVar1;
-  
-  uVar1 = NFTR_SomeFn(param_2,param_3);
-  func_020add18((undefined4 *)(uintptr_t)(param_1),param_2,uVar1);
-  return;
+    func_020add18(output, font, NFTR_SomeFn(font, character));
 }
-

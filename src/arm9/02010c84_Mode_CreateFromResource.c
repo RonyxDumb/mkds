@@ -1,27 +1,42 @@
-/* Decompiled C draft; module arm9; ROM address 02010c84. No matching claim. */
-#include "types.h"
-#include "deps/02010c84_Mode_CreateFromResource.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021617f0 SDK_data_021617f0
+#define data_021617ec SDK_data_021617ec
+#define data_021617e8 SDK_data_021617e8
+/* PURPOSE: Initializes a mode object from a resource.
+ * The first argument receives a cleared 0x54-byte mode object.
+ * The second argument is saved as the mode's resource at offset 0x04.
+ * Three global callback values are installed at offsets 0x0c, 0x14, and 0x1c.
+ */
 
-void Mode_CreateFromResource(int param_1,undefined4 param_2)
+typedef unsigned char u8;
+typedef unsigned int u32;
 
+typedef void (*ModeCallback)(void);
+
+typedef struct Mode {
+    u32 unknown_00;
+    void *resource;
+    u32 unknown_08;
+    ModeCallback callback_0c;
+    u32 unknown_10;
+    ModeCallback callback_14;
+    u32 unknown_18;
+    ModeCallback callback_1c;
+    u8 unknown_20[0x34];
+} Mode;
+
+extern void MIi_CpuClear32(u32 value, void *destination, u32 size);
+extern ModeCallback data_021617e8;
+extern ModeCallback data_021617ec;
+extern ModeCallback data_021617f0;
+
+void Mode_CreateFromResource(Mode *mode, void *resource)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  MIi_CpuClear32(0,(undefined4 *)(uintptr_t)(param_1),0x54);
-  uVar2 = uRam02010ce8;
-  uVar3 = uRam02010ce4;
-  *(uint *)(param_1 + 0xc) =
-       *(uint *)(uRam02010ce0 & 0xfffffffc) >> (uRam02010ce0 & 3) * 8 |
-       *(uint *)(uRam02010ce0 & 0xfffffffc) << (uRam02010ce0 & 3) * -8 + 0x20;
-  uVar1 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  *(uint *)(param_1 + 0x14) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  uVar1 = uVar2 & 3;
-  uVar3 = *(uint *)(uVar2 & 0xfffffffc);
-  *(uint *)(param_1 + 0x1c) = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  *(undefined4 *)(param_1 + 4) = param_2;
-  return;
-}
+    volatile u32 clearValue = 0;
 
+    MIi_CpuClear32(clearValue, mode, 0x54);
+    mode->callback_0c = data_021617f0;
+    mode->callback_14 = data_021617ec;
+    mode->callback_1c = data_021617e8;
+    mode->resource = resource;
+}

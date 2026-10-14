@@ -1,95 +1,73 @@
-/* Decompiled C draft; module arm9; ROM address 020d8918. No matching claim. */
-#include "types.h"
-#include "deps/020d8918_func_020d8918.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_020d8918(uint param_1,uint *param_2,uint *param_3)
+// PURPOSE: Interpolates a path point and calculates its scaled direction.
+// The first argument selects an entry from a table of paired vectors.
+// The second argument receives the interpolated point, and the third receives
+// the scaled difference between the pair, probably flipped by the final flag.
 
+typedef int fx32;
+typedef long long s64;
+
+typedef struct VecFx32 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+} VecFx32;
+
+typedef struct PathVectorPair {
+    VecFx32 first;
+    unsigned char pad0c[0x24 - 0x0c];
+    VecFx32 second;
+    unsigned char pad30[0x54 - 0x30];
+} PathVectorPair;
+
+typedef struct PathVectorTable {
+    PathVectorPair *entries;
+} PathVectorTable;
+
+typedef struct PathVectorCursor {
+    PathVectorTable *table;
+    unsigned char pad04[0x0c - 0x04];
+    int index;
+    fx32 scale;
+    fx32 blend;
+    int keepDirection;
+} PathVectorCursor;
+
+extern void VecFx32_Subtract(const VecFx32 *a, const VecFx32 *b,
+                             VecFx32 *out);
+
+#define MUL_FX24(a, b) ((fx32)(((s64)(a) * (b)) >> 24))
+
+void func_020d8918(PathVectorCursor *cursor, VecFx32 *point,
+                   VecFx32 *direction)
 {
-  longlong lVar1;
-  uint uVar2;
-  uint uVar3;
-  int iVar4;
-  int iVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  
-  uVar2 = param_1 + 0xc & 3;
-  uVar3 = *(uint *)(param_1 + 0xc & 0xfffffffc);
-  iVar5 = (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) * 0x54;
-  uVar3 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  uVar2 = param_1 + 0x14 & 3;
-  uVar7 = *(uint *)(param_1 + 0x14 & 0xfffffffc);
-  uVar8 = uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20;
-  uVar2 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  uVar7 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
-  iVar4 = 0x1000000 - uVar8;
-  uVar2 = uVar7 + iVar5;
-  uVar3 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  iVar5 = uVar7 + iVar5;
-  lVar1 = (longlong)(int)(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) * (longlong)iVar4;
-  *param_2 = (uint)lVar1 >> 0x18 | (int)((ulonglong)lVar1 >> 0x20) << 8;
-  uVar2 = iVar5 + 4U & 3;
-  uVar3 = *(uint *)(iVar5 + 4U & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) * (longlong)iVar4;
-  param_2[1] = (uint)lVar1 >> 0x18 | (int)((ulonglong)lVar1 >> 0x20) << 8;
-  uVar2 = iVar5 + 8U & 3;
-  uVar3 = *(uint *)(iVar5 + 8U & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) * (longlong)iVar4;
-  param_2[2] = (uint)lVar1 >> 0x18 | (int)((ulonglong)lVar1 >> 0x20) << 8;
-  uVar2 = iVar5 + 0x24U & 3;
-  uVar3 = *(uint *)(iVar5 + 0x24U & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) * (longlong)(int)uVar8;
-  *param_2 = (*(uint *)((uint)param_2 & 0xfffffffc) >> ((uint)param_2 & 3) * 8 |
-             *(uint *)((uint)param_2 & 0xfffffffc) << ((uint)param_2 & 3) * -8 + 0x20) +
-             ((uint)lVar1 >> 0x18 | (int)((ulonglong)lVar1 >> 0x20) << 8);
-  uVar2 = iVar5 + 0x28U & 3;
-  uVar7 = *(uint *)(iVar5 + 0x28U & 0xfffffffc);
-  uVar3 = (uint)(param_2 + 1) & 3;
-  uVar6 = *(uint *)((uint)(param_2 + 1) & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20) * (longlong)(int)uVar8;
-  param_2[1] = (uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) +
-               ((uint)lVar1 >> 0x18 | (int)((ulonglong)lVar1 >> 0x20) << 8);
-  uVar2 = iVar5 + 0x2cU & 3;
-  uVar7 = *(uint *)(iVar5 + 0x2cU & 0xfffffffc);
-  uVar3 = (uint)(param_2 + 2) & 3;
-  uVar6 = *(uint *)((uint)(param_2 + 2) & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar7 >> uVar2 * 8 | uVar7 << uVar2 * -8 + 0x20) * (longlong)(int)uVar8;
-  param_2[2] = (uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) +
-               ((uint)lVar1 >> 0x18 | (int)((ulonglong)lVar1 >> 0x20) << 8);
-  VecFx32_Subtract(iVar5 + 0x24,iVar5);
-  uVar2 = param_1 + 0x10 & 3;
-  uVar3 = *(uint *)(param_1 + 0x10 & 0xfffffffc);
-  uVar7 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
-  lVar1 = (longlong)
-          (int)(*(uint *)((uint)param_3 & 0xfffffffc) >> ((uint)param_3 & 3) * 8 |
-               *(uint *)((uint)param_3 & 0xfffffffc) << ((uint)param_3 & 3) * -8 + 0x20) *
-          (longlong)(int)uVar7;
-  *param_3 = (uint)lVar1 >> 0x18 | (int)((ulonglong)lVar1 >> 0x20) << 8;
-  uVar2 = (uint)(param_3 + 1) & 3;
-  uVar3 = *(uint *)((uint)(param_3 + 1) & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) * (longlong)(int)uVar7;
-  param_3[1] = (uint)lVar1 >> 0x18 | (int)((ulonglong)lVar1 >> 0x20) << 8;
-  uVar2 = (uint)(param_3 + 2) & 3;
-  uVar3 = *(uint *)((uint)(param_3 + 2) & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) * (longlong)(int)uVar7;
-  param_3[2] = (uint)lVar1 >> 0x18 | (int)((ulonglong)lVar1 >> 0x20) << 8;
-  uVar2 = param_1 + 0x18 & 3;
-  uVar3 = *(uint *)(param_1 + 0x18 & 0xfffffffc);
-  if (uVar3 >> uVar2 * 8 == 0 && uVar3 << uVar2 * -8 + 0x20 == 0) {
-    *param_3 = -(*(uint *)((uint)param_3 & 0xfffffffc) >> ((uint)param_3 & 3) * 8 |
-                *(uint *)((uint)param_3 & 0xfffffffc) << ((uint)param_3 & 3) * -8 + 0x20);
-    uVar2 = (uint)(param_3 + 1) & 3;
-    uVar3 = *(uint *)((uint)(param_3 + 1) & 0xfffffffc);
-    param_3[1] = -(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20);
-    uVar2 = (uint)(param_3 + 2) & 3;
-    uVar3 = *(uint *)((uint)(param_3 + 2) & 0xfffffffc);
-    param_3[2] = -(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20);
-    return;
-  }
-  return;
-}
+    PathVectorPair *pair = &cursor->table->entries[cursor->index];
+    fx32 blend = cursor->blend;
+    fx32 inverseBlend = 0x1000000 - blend;
 
+    point->x = MUL_FX24(pair->first.x, inverseBlend);
+    point->y = MUL_FX24(pair->first.y, inverseBlend);
+    point->z = MUL_FX24(pair->first.z, inverseBlend);
+
+    point->x += MUL_FX24(pair->second.x, blend);
+    point->y += MUL_FX24(pair->second.y, blend);
+    point->z += MUL_FX24(pair->second.z, blend);
+
+    VecFx32_Subtract(&pair->second, &pair->first, direction);
+
+    {
+        fx32 scale = cursor->scale;
+        direction->x = MUL_FX24(direction->x, scale);
+        direction->y = MUL_FX24(direction->y, scale);
+        direction->z = MUL_FX24(direction->z, scale);
+    }
+
+    if (cursor->keepDirection != 0) {
+        return;
+    }
+
+    direction->x = -direction->x;
+    direction->y = -direction->y;
+    direction->z = -direction->z;
+}

@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "StructCY_SomeFn",
+    "target": 33789736,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412920
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "StructCY_SomeFn_0",
+    "target": 33789216,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412785
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "StructCYB_SomeFn",
+    "target": 33860068,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942653276
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "StructCYA_SomeFn",
+    "target": 33845444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942649618
+  },
+  {
+    "offset": 288,
+    "type": 2,
+    "symbol": "SDK_data_02175628",
+    "target": 35083816,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083816
+  },
+  {
+    "offset": 300,
+    "type": 2,
+    "symbol": "SDK_data_0217aa00",
+    "target": 35105280,
+    "thumb": false,
+    "addend": 0,
+    "value": 35105280
+  },
+  {
+    "offset": 304,
+    "type": 2,
+    "symbol": "SDK_data_02175624",
+    "target": 35083812,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083812
+  }
+]

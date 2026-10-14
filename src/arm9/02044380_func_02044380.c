@@ -1,88 +1,86 @@
-/* Decompiled C draft; module arm9; ROM address 02044380. No matching claim. */
-#include "types.h"
-#include "deps/02044380_func_02044380.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define gRaceConfig SDK_data_021759c0
+// PURPOSE: Applies a race setup and initializes all racer slots.
+// The setup supplies shared settings and the kart and character for two racers.
+// The other arguments are saved as additional setup bytes.
+// Missing second-racer values probably select the normal default racer.
 
-void func_02044380(undefined2 *param_1,undefined1 param_2,undefined1 param_3)
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
 
+typedef struct RaceSetup {
+    u8 pad_00[8];
+    u8 field_08;
+    u8 field_09;
+    u8 racer0_kart;
+    u8 racer0_character;
+    u8 pad_0c[0x10];
+    u16 flags;
+    u8 racer1_kart;
+    u8 racer1_character;
+    u8 pad_20[0xc];
+} RaceSetup;
+
+typedef struct RaceConfig {
+    u8 pad_000[0x1e8];
+    u32 field_1e8;
+    u8 pad_1ec[4];
+    u32 field_1f0;
+    u8 pad_1f4[4];
+    u32 field_1f8;
+    u32 field_1fc;
+    u32 field_200;
+    u32 field_204;
+    u32 field_208;
+    u8 pad_20c[4];
+    RaceSetup setup;
+    u8 field_23c;
+    u8 field_23d;
+    u8 pad_23e;
+    u8 field_23f;
+    u8 field_240;
+    u8 pad_241[0x197];
+    u16 field_3d8;
+} RaceConfig;
+
+extern RaceConfig *gRaceConfig;
+extern void StructCO_ConfigureRacerDefault(void *racer, int kart,
+                                           int character, int mode,
+                                           int player, int count);
+
+void func_02044380(const RaceSetup *setup, u8 field_23c, u8 field_23d)
 {
-  undefined2 uVar1;
-  undefined2 uVar2;
-  uint uVar3;
-  byte bVar4;
-  int iVar5;
-  undefined2 *puVar6;
-  undefined2 *puVar7;
-  uint uVar9;
-  undefined2 *puVar8;
-  
-  uVar9 = *(uint *)(uRam02044518 & 0xfffffffc) >> (uRam02044518 & 3) * 8 |
-          *(uint *)(uRam02044518 & 0xfffffffc) << (uRam02044518 & 3) * -8 + 0x20;
-  puVar6 = (undefined2 *)(uVar9 + 0x210);
-  iVar5 = 0xb;
-  puVar7 = param_1;
-  do {
-    puVar8 = puVar7 + 1;
-    uVar1 = *puVar7;
-    puVar7 = puVar7 + 2;
-    uVar2 = *puVar8;
-    iVar5 = iVar5 + -1;
-    puVar8 = puVar6 + 1;
-    *puVar6 = uVar1;
-    puVar6 = puVar6 + 2;
-    *puVar8 = uVar2;
-    uVar3 = uRam02044518;
-  } while (iVar5 != 0);
-  *(undefined1 *)(uVar9 + 0x23c) = param_2;
-  *(undefined1 *)
-   ((*(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
-    *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) + 0x23d) = param_3;
-  uVar9 = uRam02044518;
-  *(undefined4 *)
-   ((*(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
-    *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) + 0x1f0) = 4;
-  *(uint *)((*(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
-            *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) + 0x1e8) =
-       (uint)*(byte *)(param_1 + 4);
-  *(bool *)((*(uint *)(uVar9 & 0xfffffffc) >> (uVar9 & 3) * 8 |
-            *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + 0x23f) =
-       (param_1[0xe] & 0x10) != 0;
-  *(undefined1 *)
-   ((*(uint *)(uVar9 & 0xfffffffc) >> (uVar9 & 3) * 8 |
-    *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + 0x240) = 0;
-  *(undefined4 *)
-   ((*(uint *)(uVar9 & 0xfffffffc) >> (uVar9 & 3) * 8 |
-    *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + 0x204) = 0;
-  *(undefined4 *)
-   ((*(uint *)(uVar9 & 0xfffffffc) >> (uVar9 & 3) * 8 |
-    *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + 0x208) = 0;
-  *(undefined4 *)
-   ((*(uint *)(uVar9 & 0xfffffffc) >> (uVar9 & 3) * 8 |
-    *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + 0x200) = 0;
-  *(undefined2 *)
-   ((*(uint *)(uVar9 & 0xfffffffc) >> (uVar9 & 3) * 8 |
-    *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + 0x3d8) = 0;
-  *(uint *)((*(uint *)(uVar9 & 0xfffffffc) >> (uVar9 & 3) * 8 |
-            *(uint *)(uVar9 & 0xfffffffc) << (uVar9 & 3) * -8 + 0x20) + 0x1f8) =
-       (uint)*(byte *)((int)param_1 + 9);
-  StructCO_ConfigureRacerDefault
-            (0,*(undefined1 *)(param_1 + 5),*(undefined1 *)((int)param_1 + 0xb),0,0xffffffff,3);
-  if ((*(char *)(param_1 + 0xf) == -1) || (*(char *)((int)param_1 + 0x1f) == -1)) {
-    StructCO_ConfigureRacerDefault(1,0xffffffff,0xffffffff,4,0xffffffff,3);
-    *(undefined4 *)
-     ((*(uint *)(uRam02044518 & 0xfffffffc) >> (uRam02044518 & 3) * 8 |
-      *(uint *)(uRam02044518 & 0xfffffffc) << (uRam02044518 & 3) * -8 + 0x20) + 0x1fc) = 0;
-  }
-  else {
-    StructCO_ConfigureRacerDefault();
-    *(undefined4 *)
-     ((*(uint *)(uRam02044518 & 0xfffffffc) >> (uRam02044518 & 3) * 8 |
-      *(uint *)(uRam02044518 & 0xfffffffc) << (uRam02044518 & 3) * -8 + 0x20) + 0x1fc) = 2;
-  }
-  bVar4 = 2;
-  do {
-    StructCO_ConfigureRacerDefault(bVar4,0xffffffff,0xffffffff,4,0xffffffff,3);
-    bVar4 = bVar4 + 1;
-  } while (bVar4 < 8);
-  return;
-}
+    u8 racer;
 
+    gRaceConfig->setup = *setup;
+    gRaceConfig->field_23c = field_23c;
+    gRaceConfig->field_23d = field_23d;
+    gRaceConfig->field_1f0 = 4;
+    gRaceConfig->field_1e8 = setup->field_08;
+    gRaceConfig->field_23f = (setup->flags & 0x10) != 0;
+    gRaceConfig->field_240 = 0;
+    gRaceConfig->field_204 = 0;
+    gRaceConfig->field_208 = 0;
+    gRaceConfig->field_200 = 0;
+    gRaceConfig->field_3d8 = 0;
+    gRaceConfig->field_1f8 = setup->field_09;
+
+    StructCO_ConfigureRacerDefault(0, setup->racer0_kart,
+                                   setup->racer0_character, 0, -1, 3);
+
+    if (setup->racer1_kart != 0xff &&
+        setup->racer1_character != 0xff) {
+        StructCO_ConfigureRacerDefault((void *)1, setup->racer1_kart,
+                                       setup->racer1_character, 1, -1, 3);
+        gRaceConfig->field_1fc = 2;
+    } else {
+        StructCO_ConfigureRacerDefault((void *)1, -1, -1, 4, -1, 3);
+        gRaceConfig->field_1fc = 0;
+    }
+
+    for (racer = 2; racer < 8; racer++) {
+        StructCO_ConfigureRacerDefault((void *)(u32)racer,
+                                       -1, -1, 4, -1, 3);
+    }
+}

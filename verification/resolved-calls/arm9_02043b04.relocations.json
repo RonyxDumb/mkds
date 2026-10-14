@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "StructCY_SomeFn_1",
+    "target": 33789704,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412474
+  },
+  {
+    "offset": 52,
+    "type": 2,
+    "symbol": "SDK_data_02175628",
+    "target": 35083816,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083816
+  }
+]

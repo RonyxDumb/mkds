@@ -1,29 +1,42 @@
-/* Decompiled C draft; module arm9; ROM address 020204c0. No matching claim. */
-#include "types.h"
-#include "deps/020204c0_func_020204c0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 func_020204c0(int param_1)
+// PURPOSE: Checks whether an object contains a valid small header.
+// The object probably holds a pending eight-byte header at offset 0x50.
+// It is accepted only when the object has no linked entry and its values match.
 
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct HeaderObject {
+    u8 _00[0x3C];
+    u16 field_3C;
+    u8 _3E[6];
+    void *field_44;
+    u8 _48[8];
+    u8 header[8];
+} HeaderObject;
+
+extern void Mem_CpuCopy8(const void *source, void *destination, u32 size);
+extern void DC_SomeClean(void *address, u32 size);
+
+int func_020204c0(HeaderObject *object)
 {
-  uint uVar1;
-  uint uVar2;
-  ushort auStack_10 [3];
-  short sStack_a;
-  
-  if (param_1 == 0) {
-    return 0;
-  }
-  if (*(short *)(param_1 + 0x3c) != 0) {
-    Mem_CpuCopy8((ushort *)(uintptr_t)(param_1 + 0x50),(uint *)(void *)(auStack_10),8);
-    DC_SomeClean((uint)(uintptr_t)(auStack_10),8);
-    uVar1 = param_1 + 0x44U & 3;
-    uVar2 = *(uint *)(param_1 + 0x44U & 0xfffffffc);
-    if ((uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) &&
-       (((auStack_10[0] == uRam02020564 || (auStack_10[0] == uRam02020568)) && (sStack_a == 4)))) {
-      return 1;
+    volatile u16 header[4];
+
+    if (object == 0)
+        return 0;
+    if (object->field_3C == 0)
+        return 0;
+
+    Mem_CpuCopy8(object->header, header, 8);
+    DC_SomeClean(header, 8);
+
+    if (object->field_44 == 0) {
+        if (header[0] == 0x2348 || header[0] == 0xBD8A) {
+            if (header[3] == 4)
+                return 1;
+        }
     }
     return 0;
-  }
-  return 0;
 }
-

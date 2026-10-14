@@ -1,25 +1,41 @@
-/* Decompiled C draft; module arm9; ROM address 0205ee14. No matching claim. */
-#include "types.h"
-#include "deps/0205ee14_GlobalZ_GetOI.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa08 SDK_data_0217aa08
+/* PURPOSE: Reads one saved online-information record.
+ * The slot selects a probably online-profile record from the save data.
+ * If output is non-null, the full 0x24-byte record is copied there.
+ * The return value reports whether the record's low status bit is set.
+ */
 
-bool GlobalZ_GetOI(int param_1,int param_2)
+typedef unsigned char u8;
+typedef unsigned int u32;
 
+typedef struct OnlineInfo {
+    u8 data[0x22];
+    u8 valid : 1;
+    u8 remainingFlags : 7;
+    u8 trailingByte;
+} OnlineInfo;
+
+typedef struct OnlineInfoTable {
+    u32 unknown0;
+    OnlineInfo records[];
+} OnlineInfoTable;
+
+typedef struct SaveDataHolder {
+    u8 padding[0x20];
+    OnlineInfoTable *onlineInfo;
+} SaveDataHolder;
+
+extern SaveDataHolder *data_0217aa08;
+extern void Mem_CpuCopy8(const void *source, void *destination, u32 size);
+
+int GlobalZ_GetOI(int slot, OnlineInfo *output)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  if (param_2 != 0) {
-    uVar2 = (*(uint *)(uRam0205ee70 & 0xfffffffc) >> (uRam0205ee70 & 3) * 8 |
-            *(uint *)(uRam0205ee70 & 0xfffffffc) << (uRam0205ee70 & 3) * -8 + 0x20) + 0x20;
-    uVar1 = uVar2 & 3;
-    uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-    Mem_CpuCopy8(param_1 * 0x24 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 4);
-  }
-  uVar2 = (*(uint *)(uRam0205ee70 & 0xfffffffc) >> (uRam0205ee70 & 3) * 8 |
-          *(uint *)(uRam0205ee70 & 0xfffffffc) << (uRam0205ee70 & 3) * -8 + 0x20) + 0x20;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  return (int)((uint)*(byte *)(param_1 * 0x24 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) +
-                              0x26) << 0x1f) < 0;
-}
+    if (output != 0) {
+        Mem_CpuCopy8(&data_0217aa08->onlineInfo->records[slot], output,
+                     sizeof(OnlineInfo));
+    }
 
+    /* Reload through the global because the copy may have changed save data. */
+    return data_0217aa08->onlineInfo->records[slot].valid != 0;
+}

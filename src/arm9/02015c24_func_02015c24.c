@@ -1,24 +1,34 @@
-/* Decompiled C draft; module arm9; ROM address 02015c24. No matching claim. */
-#include "types.h"
-#include "deps/02015c24_func_02015c24.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_02015c24(int param_1,undefined4 param_2,int param_3)
+// PURPOSE: Stores the value selected from a named resource entry.
+// The resource points at a dictionary and carries a 16-bit scale value.
+// The entry flag probably decides whether both values are reduced by half.
 
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef unsigned short u16;
+
+typedef struct ResourceHeader {
+    u8 padding_00[0x2c];
+    u32 value_2c;
+    u8 padding_30[4];
+    u16 dictionary_offset;
+} ResourceHeader;
+
+extern void *NNS_G3dGetResDataByName(void *dictionary, const char *name);
+
+void func_02015c24(ResourceHeader *resource, const char *name, void *output)
 {
-  uint uVar1;
-  ushort *puVar2;
-  uint uVar3;
-  
-  puVar2 = (ushort *)NNS_G3dGetResDataByName(param_1 + (uint)*(ushort *)(param_1 + 0x34));
-  uVar1 = param_1 + 0x2cU & 3;
-  uVar3 = *(uint *)(param_1 + 0x2cU & 0xfffffffc);
-  uVar1 = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0xffff;
-  uVar3 = (uint)*puVar2;
-  if ((puVar2[1] & 1) == 0) {
-    uVar1 = (uVar1 << 0xf) >> 0x10;
-    uVar3 = (uVar3 << 0xf) >> 0x10;
-  }
-  *(uint *)(param_3 + 0x14) = uVar3 + uVar1;
-  return;
-}
+    u8 *entry;
+    u32 scale;
+    u32 value;
 
+    entry = NNS_G3dGetResDataByName((u8 *)resource + resource->dictionary_offset, name);
+    scale = (u16)resource->value_2c;
+    value = *(u16 *)entry;
+    if ((*(u16 *)(entry + 2) & 1) == 0) {
+        scale = (scale << 15) >> 16;
+        value = (value << 15) >> 16;
+    }
+    *(u32 *)((u8 *)output + 0x14) = value + scale;
+}

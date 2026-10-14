@@ -1,36 +1,42 @@
-/* Decompiled C draft; module arm9; ROM address 0203b0f8. No matching claim. */
-#include "types.h"
-#include "deps/0203b0f8_Maybe_banner.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0216478c SDK_data_0216478c
+#define data_021759d0 SDK_data_021759d0
+/* Banner text preparation around a screen transition: in mode 2 a
+ * direct call; otherwise load "/banner.bmg". If the status field is 1 or 2,
+ * it processes the banner buffer and allocates extra state. Finishes with
+ * PopulateNextRaceConfig(). */
+extern char data_0216478c[];
 
-void Maybe_banner(undefined4 param_1)
+struct S021759d0 { char pad[0x20]; int f20; };
+extern struct S021759d0 *data_021759d0;
 
+extern void func_0204f240(void *a, int b);
+extern void *find_buf_fn_from_thumb(char *name);
+extern void func_0204e928(void *a, int b, void *c);
+extern void AllocateSomeZEStuff_from_thumb(void *a);
+extern void PopulateNextRaceConfig(void);
+
+void Maybe_banner(void *arg)
 {
-  uint uVar1;
-  uint uVar2;
-  bool bVar3;
-  undefined4 uVar4;
-  
-  uVar4 = 0;
-  if (*psRam0203b188 == 2) {
-    func_0204f240(param_1,1);
-  }
-  else {
-    uVar4 = find_buf_fn_from_thumb(uRam0203b18c);
-  }
-  bVar3 = true;
-  uVar2 = (*(uint *)(uRam0203b190 & 0xfffffffc) >> (uRam0203b190 & 3) * 8 |
-          *(uint *)(uRam0203b190 & 0xfffffffc) << (uRam0203b190 & 3) * -8 + 0x20) + 0x20;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar2 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  if ((uVar2 != 1) && (uVar2 != 2)) {
-    bVar3 = false;
-  }
-  if (bVar3) {
-    func_0204e928(param_1,uVar2 == 1,uVar4);
-    AllocateSomeZEStuff_from_thumb(param_1);
-  }
-  PopulateNextRaceConfig();
-  return;
-}
+    void *buf = 0;
 
+    if ((*(volatile unsigned short *)0x027ffc40) == 2) {
+        func_0204f240(arg, 1);
+    } else {
+        buf = find_buf_fn_from_thumb(data_0216478c);
+    }
+
+    int f = data_021759d0->f20;
+    int cond = 1;
+    if (f != 1) {
+        if (f != 2) {
+            cond = 0;
+        }
+    }
+    if (cond) {
+        func_0204e928(arg, f == 1, buf);
+        AllocateSomeZEStuff_from_thumb(arg);
+    }
+
+    PopulateNextRaceConfig();
+}

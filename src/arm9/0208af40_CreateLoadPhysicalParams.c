@@ -1,48 +1,52 @@
-/* Decompiled C draft; module arm9; ROM address 0208af40. No matching claim. */
-#include "types.h"
-#include "deps/0208af40_CreateLoadPhysicalParams.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define gPhysicalParams SDK_data_0217b038
+#define data_021660c8 SDK_data_021660c8
+#define data_021660e0 SDK_data_021660e0
+/* PURPOSE: Sets up the memory that holds the karts' and characters' driving
+ * stats and loads them from the game files.
+ *
+ * Arguments: heap handle (r0), kart/racer count (r1).
+ * Allocates a small 0x14-byte state struct into the global gPhysicalParams,
+ * then allocates one array of count*0x98 bytes (probably per-kart physical
+ * params) and one of count*8 bytes (probably per-kart pointers/pairs).
+ * Loads "kartphysicalparam.bin" and "charphysicalparam.bin" from the scene
+ * archives and finally caches a field (+0x10, probably the entry table
+ * pointer) out of the kart param file header.
+ */
 
-void CreateLoadPhysicalParams(undefined4 param_1,int param_2)
+typedef unsigned int u32;
 
+extern void *Mem_AllocateHeap(void *heap, u32 size);
+extern void *FindFileBuffer_KME_KM1_KM2_KSB_from_thumb(const char *path);
+
+extern char data_021660c8[]; /* "kartphysicalparam.bin" */
+extern char data_021660e0[]; /* "charphysicalparam.bin" */
+
+/* Header of the loaded kartphysicalparam.bin file (only +0x10 used here). */
+typedef struct KartParamFile {
+    char pad_00[0x10];
+    void *f10; /* probably pointer/offset to the param entry table */
+} KartParamFile;
+
+/* Global state struct for the physical parameters (size 0x14). */
+typedef struct PhysicalParamState {
+    void *kartParams;        /* 0x00: buffer of count*0x98 bytes */
+    void *pairBuf;           /* 0x04: buffer of count*8 bytes */
+    void *kartTable;         /* 0x08: copy of kartFile->f10 */
+    KartParamFile *kartFile; /* 0x0c: loaded kartphysicalparam.bin */
+    void *charFile;          /* 0x10: loaded charphysicalparam.bin */
+} PhysicalParamState;
+
+extern PhysicalParamState *gPhysicalParams;
+
+void CreateLoadPhysicalParams(void *heap, int count)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  uVar2 = Mem_AllocateHeap(param_1,0x14);
-  *puRam0208afd8 = uVar2;
-  uVar2 = Mem_AllocateHeap(param_1,param_2 * 0x98);
-  *(undefined4 *)
-   (*(uint *)((uint)puRam0208afd8 & 0xfffffffc) >> ((uint)puRam0208afd8 & 3) * 8 |
-   *(uint *)((uint)puRam0208afd8 & 0xfffffffc) << ((uint)puRam0208afd8 & 3) * -8 + 0x20) = uVar2;
-  uVar2 = Mem_AllocateHeap(param_1,param_2 << 3);
-  *(undefined4 *)
-   ((*(uint *)((uint)puRam0208afd8 & 0xfffffffc) >> ((uint)puRam0208afd8 & 3) * 8 |
-    *(uint *)((uint)puRam0208afd8 & 0xfffffffc) << ((uint)puRam0208afd8 & 3) * -8 + 0x20) + 4) =
-       uVar2;
-  uVar2 = FindFileBuffer_KME_KM1_KM2_KSB_from_thumb(uRam0208afdc);
-  *(undefined4 *)
-   ((*(uint *)((uint)puRam0208afd8 & 0xfffffffc) >> ((uint)puRam0208afd8 & 3) * 8 |
-    *(uint *)((uint)puRam0208afd8 & 0xfffffffc) << ((uint)puRam0208afd8 & 3) * -8 + 0x20) + 0xc) =
-       uVar2;
-  uVar2 = FindFileBuffer_KME_KM1_KM2_KSB_from_thumb(uRam0208afe0);
-  puVar1 = puRam0208afd8;
-  *(undefined4 *)
-   ((*(uint *)((uint)puRam0208afd8 & 0xfffffffc) >> ((uint)puRam0208afd8 & 3) * 8 |
-    *(uint *)((uint)puRam0208afd8 & 0xfffffffc) << ((uint)puRam0208afd8 & 3) * -8 + 0x20) + 0x10) =
-       uVar2;
-  uVar3 = (uint)puVar1 & 3;
-  uVar4 = *(uint *)((uint)puVar1 & 0xfffffffc);
-  uVar5 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-  uVar3 = uVar5 + 0xc;
-  uVar4 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  uVar3 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0x10;
-  uVar4 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  *(uint *)(uVar5 + 8) = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-  return;
+    gPhysicalParams = (PhysicalParamState *)Mem_AllocateHeap(heap, 0x14);
+    /* every store goes through the global so mwcc reloads the base pointer */
+    gPhysicalParams->kartParams = Mem_AllocateHeap(heap, count * 0x98);
+    gPhysicalParams->pairBuf = Mem_AllocateHeap(heap, count * 8);
+    gPhysicalParams->kartFile =
+        (KartParamFile *)FindFileBuffer_KME_KM1_KM2_KSB_from_thumb(data_021660c8);
+    gPhysicalParams->charFile = FindFileBuffer_KME_KM1_KM2_KSB_from_thumb(data_021660e0);
+    gPhysicalParams->kartTable = gPhysicalParams->kartFile->f10;
 }
-

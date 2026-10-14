@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "CreateMapObjectFromModel_2_from_thumb",
+    "target": 34192648,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211064011
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "StructMapObject_MaybeSetPolygonId",
+    "target": 34191680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405525
+  },
+  {
+    "offset": 44,
+    "type": 2,
+    "symbol": "SDK_data_02167e14",
+    "target": 35028500,
+    "thumb": false,
+    "addend": 0,
+    "value": 35028500
+  },
+  {
+    "offset": 48,
+    "type": 2,
+    "symbol": "SDK_data_0217b33c",
+    "target": 35107644,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107644
+  }
+]

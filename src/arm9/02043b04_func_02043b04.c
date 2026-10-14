@@ -1,20 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 02043b04. No matching claim. */
-#include "types.h"
-#include "deps/02043b04_func_02043b04.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02175628 SDK_data_02175628
+// PURPOSE: Resets each entry in the global CY object list.
+// The list contains ten fixed-size objects.
+// Each object is passed to its dedicated reset routine.
+
+typedef struct StructCY {
+    char bytes[0x5C];
+} StructCY;
+
+extern StructCY data_02175628[];
+extern void StructCY_SomeFn_1(StructCY *object);
 
 void func_02043b04(void)
-
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar2 = 0;
-  iVar1 = iRam02043b38;
-  do {
-    StructCY_SomeFn_1((undefined2 *)(uintptr_t)(iVar1));
-    iVar2 = iVar2 + 1;
-    iVar1 = iVar1 + 0x5c;
-  } while (iVar2 < 10);
-  return;
-}
+    int i;
 
+    for (i = 0; i < 10; i++) {
+        StructCY_SomeFn_1(&data_02175628[i]);
+    }
+}

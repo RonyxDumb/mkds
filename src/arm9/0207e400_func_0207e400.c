@@ -1,38 +1,56 @@
-/* Decompiled C draft; module arm9; ROM address 0207e400. No matching claim. */
-#include "types.h"
-#include "deps/0207e400_func_0207e400.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_0207e400(int *param_1,int param_2)
+// PURPOSE: Initializes a reaction object and its embedded direction tracker.
+// The first argument is the object being initialized and the second is its source data.
+// It copies the source index, prepares the embedded tracker, and calculates a scaled value.
+// The exact meaning of the source's nested fixed-point value is probably a tuning parameter.
 
+typedef int fx32;
+typedef long long fx64;
+
+typedef struct SourceValue {
+    char pad00[0x10];
+    fx32 value;
+} SourceValue;
+
+typedef struct Source {
+    char pad00[0x74];
+    unsigned short index;
+    char pad76[0x2cc - 0x76];
+    SourceValue *value;
+} Source;
+
+typedef struct DirectionTracker {
+    char data[0x20];
+} DirectionTracker;
+
+typedef struct ReactionObject {
+    Source *source;
+    unsigned short index;
+    unsigned short mode;
+    char pad08[0x88 - 0x08];
+    int limit;
+    int counter;
+    char pad90[0x9c - 0x90];
+    fx32 scaled;
+    char padA0[0xcc - 0xa0];
+    int active;
+} ReactionObject;
+
+extern void func_02080d34(DirectionTracker *t, int flag);
+extern void func_0207f9cc(ReactionObject *obj, int mode);
+
+void func_0207e400(ReactionObject *obj, Source *source)
 {
-  longlong lVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  *param_1 = param_2;
-  *(undefined2 *)(param_1 + 1) = *(undefined2 *)(param_2 + 0x74);
-  uVar2 = uRam0207e4a0;
-  *(ushort *)((int)param_1 + 6) = *(ushort *)(param_1 + 1) & 3;
-  param_1[0x22] = 0x1000;
-  param_1[0x23] = 0;
-  uVar3 = (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-          *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 0x2cc;
-  uVar4 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  uVar3 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0x10;
-  uVar4 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  uVar3 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-  lVar1 = (ulonglong)uVar2 * (ulonglong)uVar3;
-  uVar4 = (uint)lVar1;
-  param_1[0x27] =
-       uVar4 + 0x800 >> 0xc |
-       (((int)uVar3 >> 0x1f) * uVar2 + (int)((ulonglong)lVar1 >> 0x20) + (uint)(0xfffff7ff < uVar4))
-       * 0x100000;
-  func_02080d34(param_1 + 2,(short)param_1[1]);
-  func_0207f9cc((int)(uintptr_t)(param_1),0);
-  param_1[0x33] = 1;
-  return;
-}
+    int zero = 0;
 
+    obj->source = source;
+    obj->index = source->index;
+    obj->mode = obj->index % 4;
+    obj->limit = 0x1000;
+    obj->counter = zero;
+    obj->scaled = (fx32)(((fx64)obj->source->value->value * 0x99a + 0x800) >> 12);
+    func_02080d34((DirectionTracker *)((char *)obj + 8), obj->index);
+    func_0207f9cc(obj, zero);
+    obj->active = 1;
+}

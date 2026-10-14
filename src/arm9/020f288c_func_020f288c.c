@@ -1,85 +1,82 @@
-/* Decompiled C draft; module arm9; ROM address 020f288c. No matching claim. */
-#include "types.h"
-#include "deps/020f288c_func_020f288c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_020f288c(int param_1,uint param_2)
+/* func_020f288c (arm) — orthonormalises a driver-context basis and fires an SFX.
+ *
+ * arg0 (ctx) is a large driver/entity context. arg1 (dir) is a VecFx32*.
+ * It Gram-Schmidt-removes the arg1 component from ctx->f13c
+ * (ctx->f13c -= dir * dot(dir, ctx->f13c)); when ctx->f160 is set it subtracts
+ * the projection once more (a reflection-like extra step). It then normalises
+ * ctx->f13c (only if |v|^2 >= 0x10), builds ctx->f130 = {f13c.x, 0, f13c.z},
+ * normalises that too, stores its cross product with ctx->fF0 into ctx->f148,
+ * and finally queues sfx 0xd5. Probably re-derives a vehicle's up/right basis.
+ *
+ * The two "normalise only if squared length >= 0x10" guards reproduce the ROM's
+ * inlined 64-bit magnitude test; the actual normalise stays a call. */
 
-{
-  longlong lVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint *puVar7;
-  uint uVar8;
-  uint local_20;
-  uint local_1c;
-  uint local_18;
-  uint uVar6;
-  
-  uVar8 = param_1 + 0x13c;
-  puVar7 = (uint *)(param_1 + 0x130);
-  iVar2 = Vector3_DotProduct(param_2,uVar8);
-  lVar1 = (longlong)
-          (int)(*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-               *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) * (longlong)iVar2;
-  local_20 = (uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) << 0x14;
-  uVar6 = param_2 + 4 & 3;
-  uVar3 = *(uint *)(param_2 + 4 & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) * (longlong)iVar2;
-  local_1c = (uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) << 0x14;
-  uVar6 = param_2 + 8 & 3;
-  uVar3 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) * (longlong)iVar2;
-  local_18 = (uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) << 0x14;
-  uVar6 = param_1 + 0x13cU & 3;
-  uVar3 = *(uint *)(param_1 + 0x13cU & 0xfffffffc);
-  *(uint *)(param_1 + 0x13c) = (uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) - local_20;
-  uVar6 = param_1 + 0x140U & 3;
-  uVar3 = *(uint *)(param_1 + 0x140U & 0xfffffffc);
-  *(uint *)(param_1 + 0x140) = (uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) - local_1c;
-  uVar6 = param_1 + 0x144U & 3;
-  uVar3 = *(uint *)(param_1 + 0x144U & 0xfffffffc);
-  *(uint *)(param_1 + 0x144) = (uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) - local_18;
-  uVar6 = param_1 + 0x160U & 3;
-  uVar3 = *(uint *)(param_1 + 0x160U & 0xfffffffc);
-  if (uVar3 >> uVar6 * 8 != 0 || uVar3 << uVar6 * -8 + 0x20 != 0) {
-    VecFx32_Subtract(uVar8,(uint)(uintptr_t)(&local_20),(int *)(uintptr_t)(uVar8));
-  }
-  uVar6 = param_1 + 0x140U & 3;
-  uVar3 = *(uint *)(param_1 + 0x140U & 0xfffffffc);
-  uVar4 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
-  uVar3 = *(uint *)(uVar8 & 0xfffffffc) >> (uVar8 & 3) * 8 |
-          *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20;
-  uVar6 = param_1 + 0x144U & 3;
-  uVar5 = *(uint *)(param_1 + 0x144U & 0xfffffffc);
-  uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
-  lVar1 = (longlong)(int)uVar6 * (longlong)(int)uVar6 +
-          (longlong)(int)uVar3 * (longlong)(int)uVar3 + (longlong)(int)uVar4 * (longlong)(int)uVar4;
-  if ((int)(uint)((uint)lVar1 < 0x10) <= (int)((ulonglong)lVar1 >> 0x20)) {
-    Vector3_MaybeNormalize(uVar8,(int *)(uintptr_t)(uVar8));
-  }
-  uVar6 = param_1 + 0x144U & 3;
-  uVar3 = *(uint *)(param_1 + 0x144U & 0xfffffffc);
-  *puVar7 = *(uint *)(uVar8 & 0xfffffffc) >> (uVar8 & 3) * 8 |
-            *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20;
-  *(undefined4 *)(param_1 + 0x134) = 0;
-  *(uint *)(param_1 + 0x138) = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
-  uVar6 = param_1 + 0x134U & 3;
-  uVar3 = *(uint *)(param_1 + 0x134U & 0xfffffffc);
-  uVar8 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
-  uVar3 = *(uint *)((uint)puVar7 & 0xfffffffc) >> ((uint)puVar7 & 3) * 8 |
-          *(uint *)((uint)puVar7 & 0xfffffffc) << ((uint)puVar7 & 3) * -8 + 0x20;
-  uVar6 = param_1 + 0x138U & 3;
-  uVar4 = *(uint *)(param_1 + 0x138U & 0xfffffffc);
-  uVar6 = uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20;
-  lVar1 = (longlong)(int)uVar6 * (longlong)(int)uVar6 +
-          (longlong)(int)uVar3 * (longlong)(int)uVar3 + (longlong)(int)uVar8 * (longlong)(int)uVar8;
-  if ((int)(uint)((uint)lVar1 < 0x10) <= (int)((ulonglong)lVar1 >> 0x20)) {
-    Vector3_MaybeNormalize((uint)(uintptr_t)(puVar7),puVar7);
-  }
-  Vector3_Cross((uint)(uintptr_t)(puVar7),param_1 + 0xf0,(uint *)(uintptr_t)(param_1 + 0x148));
-  DriverContext_MaybeQueuePlaySfx(param_1,0xd5,0x7f,0);
-  return;
+typedef int fx32;
+typedef long long fx64;
+typedef struct { fx32 x, y, z; } VecFx32;
+
+/* fx32 fixed-point multiply: (a * b) >> 12 via a signed 64-bit product */
+#define FX_MUL(a, b) ((fx32)(((fx64)(a) * (fx32)(b)) >> 12))
+
+typedef struct Ctx {
+    char pad0[0xf0];
+    VecFx32 fF0;                /* 0xf0: cross-product operand */
+    char padFC[0x130 - 0xfc];
+    VecFx32 f130;              /* 0x130: temp {x,0,z} then cross dest input */
+    VecFx32 f13c;              /* 0x13c: primary working direction vector */
+    VecFx32 f148;              /* 0x148: cross-product output */
+    char pad154[0x160 - 0x154];
+    int f160;                  /* 0x160: enables the extra subtract */
+} Ctx;
+
+/* returns dot(a, b) */
+extern fx32 Vector3_DotProduct(const VecFx32 *a, const VecFx32 *b);
+/* out = a - b */
+extern void VecFx32_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+/* out = normalise(in) */
+extern void Vector3_MaybeNormalize(const VecFx32 *in, VecFx32 *out);
+/* out = a x b */
+extern void Vector3_Cross(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern void DriverContext_MaybeQueuePlaySfx(Ctx *ctx, int a, int b, int c);
+
+void func_020f288c(Ctx *ctx, const VecFx32 *dir) {
+    VecFx32 proj;
+    /* cached sub-vector pointers -> held in callee-saved regs (r5, r4) */
+    VecFx32 *v = &ctx->f13c;
+    VecFx32 *w = &ctx->f130;
+    fx32 dot;
+
+    dot = Vector3_DotProduct(dir, v);
+    proj.x = FX_MUL(dir->x, dot);
+    proj.y = FX_MUL(dir->y, dot);
+    proj.z = FX_MUL(dir->z, dot);
+
+    ctx->f13c.x -= proj.x;
+    v->y -= proj.y;
+    v->z -= proj.z;
+
+    if (ctx->f160 != 0)
+        VecFx32_Subtract(v, &proj, v);
+
+    /* first two squares load swapped (y,x,z) under -O4 reassociation */
+    if ((fx64)v->x * v->x + (fx64)v->y * v->y + (fx64)v->z * v->z >= 0x10)
+        Vector3_MaybeNormalize(v, v);
+
+    /* read both surviving components first so v's register frees up and gets
+       reused as the 0 constant (matching the ROM's mov r5,#0 + sbcs r0,r1,r5) */
+    {
+        fx32 vx = v->x;
+        fx32 vz = v->z;
+        w->x = vx;
+        w->y = 0;
+        w->z = vz;
+    }
+
+    if ((fx64)w->x * w->x + (fx64)w->y * w->y + (fx64)w->z * w->z >= 0x10)
+        Vector3_MaybeNormalize(w, w);
+
+    Vector3_Cross(w, &ctx->fF0, &ctx->f148);
+    DriverContext_MaybeQueuePlaySfx(ctx, 0xd5, 0x7f, 0);
 }
-

@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 284,
+    "type": 1,
+    "symbol": "DriverContext_HandleSomeCollision",
+    "target": 33996680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645764
+  }
+]

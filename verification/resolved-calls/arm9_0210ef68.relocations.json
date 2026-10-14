@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Sound_SetFileFatDynamicOffsetField",
+    "target": 34787896,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942676648
+  }
+]

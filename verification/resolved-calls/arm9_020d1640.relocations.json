@@ -1,0 +1,425 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959264614
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940145
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940140
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940135
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Gfx_ReadCharGraphics",
+    "target": 34294260,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393493
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940128
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "LoadCellBankFrom",
+    "target": 34293996,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393420
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940121
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "Gfx_ReadPalette",
+    "target": 34294396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393513
+  },
+  {
+    "offset": 200,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940102
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "NFTR_Load",
+    "target": 34293644,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393306
+  },
+  {
+    "offset": 232,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940094
+  },
+  {
+    "offset": 252,
+    "type": 1,
+    "symbol": "NFTR_Load",
+    "target": 34293644,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393298
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940086
+  },
+  {
+    "offset": 284,
+    "type": 1,
+    "symbol": "NFTR_Load",
+    "target": 34293644,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393290
+  },
+  {
+    "offset": 296,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940078
+  },
+  {
+    "offset": 316,
+    "type": 1,
+    "symbol": "NFTR_Load",
+    "target": 34293644,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393282
+  },
+  {
+    "offset": 328,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940070
+  },
+  {
+    "offset": 348,
+    "type": 1,
+    "symbol": "NFTR_Load",
+    "target": 34293644,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393274
+  },
+  {
+    "offset": 404,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940051
+  },
+  {
+    "offset": 428,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940045
+  },
+  {
+    "offset": 452,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940039
+  },
+  {
+    "offset": 476,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940033
+  },
+  {
+    "offset": 500,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940027
+  },
+  {
+    "offset": 520,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940022
+  },
+  {
+    "offset": 540,
+    "type": 1,
+    "symbol": "Gfx_ReadCharGraphicsV2",
+    "target": 34294124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393346
+  },
+  {
+    "offset": 548,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210940015
+  },
+  {
+    "offset": 568,
+    "type": 1,
+    "symbol": "Gfx_ReadPalette",
+    "target": 34294396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959393407
+  },
+  {
+    "offset": 584,
+    "type": 2,
+    "symbol": "SDK_data_0217b4b0",
+    "target": 35108016,
+    "thumb": false,
+    "addend": 0,
+    "value": 35108016
+  },
+  {
+    "offset": 588,
+    "type": 2,
+    "symbol": "SDK_data_0216b09c",
+    "target": 35041436,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041436
+  },
+  {
+    "offset": 592,
+    "type": 2,
+    "symbol": "SDK_data_0216b0b0",
+    "target": 35041456,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041456
+  },
+  {
+    "offset": 596,
+    "type": 2,
+    "symbol": "SDK_data_0216b0cc",
+    "target": 35041484,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041484
+  },
+  {
+    "offset": 600,
+    "type": 2,
+    "symbol": "SDK_data_0216b0e4",
+    "target": 35041508,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041508
+  },
+  {
+    "offset": 604,
+    "type": 2,
+    "symbol": "SDK_data_0216b0fc",
+    "target": 35041532,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041532
+  },
+  {
+    "offset": 608,
+    "type": 2,
+    "symbol": "SDK_data_021759d0",
+    "target": 35084752,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084752
+  },
+  {
+    "offset": 612,
+    "type": 2,
+    "symbol": "SDK_data_0216b114",
+    "target": 35041556,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041556
+  },
+  {
+    "offset": 616,
+    "type": 2,
+    "symbol": "SDK_data_0216b124",
+    "target": 35041572,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041572
+  },
+  {
+    "offset": 620,
+    "type": 2,
+    "symbol": "SDK_data_0216b134",
+    "target": 35041588,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041588
+  },
+  {
+    "offset": 624,
+    "type": 2,
+    "symbol": "SDK_data_0216b144",
+    "target": 35041604,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041604
+  },
+  {
+    "offset": 628,
+    "type": 2,
+    "symbol": "SDK_data_0216b154",
+    "target": 35041620,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041620
+  },
+  {
+    "offset": 632,
+    "type": 2,
+    "symbol": "SDK_data_0216b164",
+    "target": 35041636,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041636
+  },
+  {
+    "offset": 636,
+    "type": 2,
+    "symbol": "SDK_data_0216b174",
+    "target": 35041652,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041652
+  },
+  {
+    "offset": 640,
+    "type": 2,
+    "symbol": "SDK_data_0216b184",
+    "target": 35041668,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041668
+  },
+  {
+    "offset": 644,
+    "type": 2,
+    "symbol": "SDK_data_0216b194",
+    "target": 35041684,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041684
+  },
+  {
+    "offset": 648,
+    "type": 2,
+    "symbol": "SDK_data_0216b1a4",
+    "target": 35041700,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041700
+  },
+  {
+    "offset": 652,
+    "type": 2,
+    "symbol": "SDK_data_0216b1b4",
+    "target": 35041716,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041716
+  },
+  {
+    "offset": 656,
+    "type": 2,
+    "symbol": "SDK_data_0216b1d0",
+    "target": 35041744,
+    "thumb": false,
+    "addend": 0,
+    "value": 35041744
+  }
+]

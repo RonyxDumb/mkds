@@ -1,0 +1,101 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647528
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Os_DisposeCurrentThreadImpl",
+    "target": 33612128,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645778
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Os_DisableScheduler",
+    "target": 33610652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422624
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Os_UnlockAllMutexes",
+    "target": 33614972,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646486
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Os_Thread_CancelAlarmForSleep",
+    "target": 33611968,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422949
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Os_PopThread",
+    "target": 33613028,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645996
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "Os_Thread_WakeUp",
+    "target": 33611676,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422870
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Os_EnableScheduler",
+    "target": 33610596,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422599
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647513
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "Os_RescheduleThread",
+    "target": 33611344,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422783
+  },
+  {
+    "offset": 112,
+    "type": 2,
+    "symbol": "SDK_data_0216ff5c",
+    "target": 35061596,
+    "thumb": false,
+    "addend": 0,
+    "value": 35061596
+  }
+]

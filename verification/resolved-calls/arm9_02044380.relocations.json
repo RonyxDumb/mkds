@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 212,
+    "type": 1,
+    "symbol": "StructCO_ConfigureRacerDefault",
+    "target": 33843376,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648085
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "StructCO_ConfigureRacerDefault",
+    "target": 33843376,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648072
+  },
+  {
+    "offset": 316,
+    "type": 1,
+    "symbol": "StructCO_ConfigureRacerDefault",
+    "target": 33843376,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648059
+  },
+  {
+    "offset": 376,
+    "type": 1,
+    "symbol": "StructCO_ConfigureRacerDefault",
+    "target": 33843376,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648044
+  },
+  {
+    "offset": 408,
+    "type": 2,
+    "symbol": "SDK_data_021759c0",
+    "target": 35084736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084736
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Vector3_MaybeNormalize",
+    "target": 33790048,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959220534
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Vector3_Cross",
+    "target": 33789864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959220484
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "MTX_Concat33",
+    "target": 34893308,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942719125
+  },
+  {
+    "offset": 120,
+    "type": 2,
+    "symbol": "SDK_data_0217c600",
+    "target": 35112448,
+    "thumb": false,
+    "addend": 0,
+    "value": 35112448
+  },
+  {
+    "offset": 124,
+    "type": 2,
+    "symbol": "SDK_data_020ff438",
+    "target": 34599992,
+    "thumb": false,
+    "addend": 0,
+    "value": 34599992
+  }
+]

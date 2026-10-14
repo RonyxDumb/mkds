@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "NFTR_SomeFn_0",
+    "target": 33696580,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421472
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "NFTR_SomeFn_0",
+    "target": 33696580,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421462
+  },
+  {
+    "offset": 164,
+    "type": 1,
+    "symbol": "G2d_Text_SomeFn_0",
+    "target": 33702896,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645806
+  }
+]

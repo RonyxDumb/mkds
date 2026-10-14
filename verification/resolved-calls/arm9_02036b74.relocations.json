@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Mem_Exp_Allocate",
+    "target": 33651000,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391074
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959383097
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Mem_Frame_Allocate",
+    "target": 33652876,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959391535
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959383094
+  }
+]

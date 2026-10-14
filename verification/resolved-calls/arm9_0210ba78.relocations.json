@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "DriverContext_MaybeQueuePlaySfx",
+    "target": 34640068,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420296
+  },
+  {
+    "offset": 68,
+    "type": 2,
+    "symbol": "SDK_data_0217ccac",
+    "target": 35114156,
+    "thumb": false,
+    "addend": 0,
+    "value": 35114156
+  }
+]

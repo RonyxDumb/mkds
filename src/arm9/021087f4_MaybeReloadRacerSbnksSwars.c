@@ -1,35 +1,55 @@
-/* Decompiled C draft; module arm9; ROM address 021087f4. No matching claim. */
-#include "types.h"
-#include "deps/021087f4_MaybeReloadRacerSbnksSwars.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0216c7d8 SDK_data_0216c7d8
+#define data_0217c77c SDK_data_0217c77c
+// PURPOSE: Reloads the selected racer's sound banks when needed.
+// The racer identifier is probably zero when no racer-specific sound set is needed.
+// It avoids reloading an already active set, otherwise disposing the old resources first.
 
-bool MaybeReloadRacerSbnksSwars(uint param_1)
+typedef unsigned short u16;
+typedef unsigned int u32;
 
+typedef union RacerSoundLoadValue {
+    void *loadedStuff;
+    u16 racerId;
+} RacerSoundLoadValue;
+
+typedef struct RacerSoundLoadContext {
+    RacerSoundLoadValue value;
+    u32 state;
+} RacerSoundLoadContext;
+
+typedef struct RacerSoundRequest {
+    u16 racerId;
+    u16 padding;
+    u32 state;
+} RacerSoundRequest;
+
+extern RacerSoundRequest data_0216c7d8;
+extern RacerSoundLoadContext data_0217c77c;
+extern void Sound_Context_DisposeLoadedStuff(void *loadedStuff);
+extern int MaybeLoadRacerSbnksSwars(int racerId);
+
+int MaybeReloadRacerSbnksSwars(int racerId)
 {
-  uint uVar1;
-  ushort *puVar2;
-  int iVar3;
-  uint uVar4;
-  
-  if (param_1 == 0) {
-    return true;
-  }
-  uVar1 = (uint)(puRam02108874 + 2) & 3;
-  uVar4 = *(uint *)((uint)(puRam02108874 + 2) & 0xfffffffc);
-  if (((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) != 0xff00) && (*puRam02108874 == param_1))
-  {
-    return true;
-  }
-  Sound_Context_DisposeLoadedStuff
-            (*(uint *)(uRam02108878 & 0xfffffffc) >> (uRam02108878 & 3) * 8 |
-             *(uint *)(uRam02108878 & 0xfffffffc) << (uRam02108878 & 3) * -8 + 0x20);
-  puVar2 = puRam02108874;
-  *puRam02108874 = 0;
-  puVar2[2] = 0xff00;
-  puVar2[3] = 0;
-  *puVar2 = (ushort)param_1;
-  puVar2[2] = 0xfe00;
-  puVar2[3] = 0;
-  iVar3 = MaybeLoadRacerSbnksSwars(param_1);
-  return iVar3 != 0;
-}
+    if (racerId == 0) {
+        return 1;
+    }
 
+    if (data_0216c7d8.state != 0xFF00) {
+        if (data_0216c7d8.racerId == racerId) {
+            return 1;
+        }
+    }
+
+    Sound_Context_DisposeLoadedStuff(data_0217c77c.value.loadedStuff);
+
+    data_0216c7d8.state = 0xFF00;
+    data_0216c7d8.racerId = 0;
+    data_0216c7d8.racerId = racerId;
+    data_0216c7d8.state = 0xFE00;
+
+    if (MaybeLoadRacerSbnksSwars(racerId) == 0) {
+        return 0;
+    }
+    return 1;
+}

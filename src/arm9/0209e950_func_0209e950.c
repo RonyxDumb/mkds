@@ -1,16 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0209e950. No matching claim. */
-#include "types.h"
-#include "deps/0209e950_func_0209e950.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02167418 SDK_data_02167418
+#define data_0217b190 SDK_data_0217b190
+// PURPOSE: Loads the fireball map object and marks its owner ready.
+// The argument points to the owning object, whose ready flag is at offset 0x1c.
+// It probably creates the fireball model, saves it globally, and assigns polygon ID 0x3f.
 
-void func_0209e950(int param_1)
+extern char data_02167418[];
+extern void *data_0217b190;
+extern void *CreateMapObjectFromModel_2_from_thumb(void *a0, void *a1);
+extern void StructMapObject_MaybeSetPolygonId(void *obj, int id);
 
-{
-  undefined4 uVar1;
-  
-  uVar1 = CreateMapObjectFromModel_2_from_thumb(param_1,uRam0209e980);
-  *puRam0209e984 = uVar1;
-  StructMapObject_MaybeSetPolygonId(uVar1,0x3f);
-  *(undefined4 *)(param_1 + 0x1c) = 1;
-  return;
+void func_0209e950(int *a0) {
+    StructMapObject_MaybeSetPolygonId(data_0217b190 = CreateMapObjectFromModel_2_from_thumb(a0, data_02167418), 0x3f);
+    a0[7] = 1;
 }
-

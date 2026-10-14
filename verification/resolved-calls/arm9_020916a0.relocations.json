@@ -1,0 +1,92 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959266911
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "MaybeGetBBMtxAtPosition",
+    "target": 34499772,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942733178
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959266905
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959266895
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959266891
+  },
+  {
+    "offset": 168,
+    "type": 1,
+    "symbol": "MTX_RotZ33__from_thumb",
+    "target": 34893152,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194489732
+  },
+  {
+    "offset": 184,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959266874
+  },
+  {
+    "offset": 204,
+    "type": 1,
+    "symbol": "DrawObject2D3D",
+    "target": 34192172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942656238
+  },
+  {
+    "offset": 220,
+    "type": 2,
+    "symbol": "SDK_data_0215d4b4",
+    "target": 34985140,
+    "thumb": false,
+    "addend": 0,
+    "value": 34985140
+  },
+  {
+    "offset": 224,
+    "type": 2,
+    "symbol": "SDK_data_0217b0b8",
+    "target": 35107000,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107000
+  }
+]

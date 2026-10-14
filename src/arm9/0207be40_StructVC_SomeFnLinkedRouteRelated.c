@@ -1,42 +1,51 @@
-/* Decompiled C draft; module arm9; ROM address 0207be40. No matching claim. */
-#include "types.h"
-#include "deps/0207be40_StructVC_SomeFnLinkedRouteRelated.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02175620 SDK_data_02175620
+// PURPOSE: Copies the first four route entries for an object's path.
+typedef unsigned short u16;
 
-void StructVC_SomeFnLinkedRouteRelated(int param_1,int param_2)
+typedef struct {
+    int x;
+    int y;
+    int z;
+} NkmPathEntry;
 
+typedef struct {
+    NkmPathEntry entries[4];
+    int field30;
+    int field34;
+    int field38;
+} RouteOutput;
+
+typedef struct {
+    char pad00[8];
+    void *pathTable;
+} CoursePathState;
+
+typedef struct {
+    char pad00[0x40];
+    u16 pathId;
+} RouteObject;
+
+extern CoursePathState *data_02175620;
+extern NkmPathEntry *GetLoadedNkmPathEntryPOIT(u16 pathId, int index);
+
+void StructVC_SomeFnLinkedRouteRelated(RouteOutput *output, RouteObject *object)
 {
-  uint uVar1;
-  ushort uVar2;
-  undefined4 *puVar3;
-  undefined4 uVar4;
-  uint uVar5;
-  undefined4 uVar6;
-  undefined4 *puVar7;
-  uint uVar8;
-  
-  uVar2 = *(ushort *)(param_2 + 0x40);
-  uVar8 = (*(uint *)(uRam0207bec8 & 0xfffffffc) >> (uRam0207bec8 & 3) * 8 |
-          *(uint *)(uRam0207bec8 & 0xfffffffc) << (uRam0207bec8 & 3) * -8 + 0x20) + 8;
-  uVar1 = uVar8 & 3;
-  uVar5 = *(uint *)(uVar8 & 0xfffffffc);
-  uVar8 = 0;
-  *(undefined4 *)(param_1 + 0x30) = 0;
-  *(undefined4 *)(param_1 + 0x34) = 0;
-  *(undefined4 *)(param_1 + 0x38) = 0;
-  if (*(ushort *)((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) + (uint)uVar2 * 4 + 2) < 4) {
-    return;
-  }
-  do {
-    puVar3 = (undefined4 *)GetLoadedNkmPathEntryPOIT(*(undefined2 *)(param_2 + 0x40),uVar8);
-    puVar7 = (undefined4 *)(uVar8 * 0xc + param_1);
-    uVar4 = puVar3[1];
-    uVar6 = puVar3[2];
-    *puVar7 = *puVar3;
-    puVar7[1] = uVar4;
-    puVar7[2] = uVar6;
-    *(uint *)(param_1 + 0x34) = uVar8;
-    uVar8 = uVar8 + 1 & 0xffff;
-  } while (uVar8 < 4);
-  return;
-}
+    unsigned short i;
+    CoursePathState *state = data_02175620;
+    void *pathTable = state->pathTable;
+    u16 pathId = object->pathId;
 
+    output->field30 = 0;
+    output->field34 = 0;
+    output->field38 = 0;
+
+    if (*(u16 *)((char *)pathTable + ((int)pathId << 2) + 2) < 4) {
+        return;
+    }
+
+    for (i = 0; i < 4; i++) {
+        output->entries[i] = *GetLoadedNkmPathEntryPOIT(object->pathId, i);
+        output->field34 = i;
+    }
+}

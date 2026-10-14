@@ -1,0 +1,110 @@
+[
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Mem_CpuFastMemorySet",
+    "target": 34918492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942653399
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104858
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "Mem_CpuCopy8",
+    "target": 34918908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942653492
+  },
+  {
+    "offset": 164,
+    "type": 1,
+    "symbol": "Os_Thread_Create",
+    "target": 33612428,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104071
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "Os_Thread_WakeUpDirect",
+    "target": 33611624,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959103868
+  },
+  {
+    "offset": 184,
+    "type": 1,
+    "symbol": "Fifo_RegisterHandler",
+    "target": 34920388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942653840
+  },
+  {
+    "offset": 216,
+    "type": 1,
+    "symbol": "Card_SetEnabled",
+    "target": 34887800,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422901
+  },
+  {
+    "offset": 232,
+    "type": 2,
+    "symbol": "SDK_data_0217fa40",
+    "target": 35125824,
+    "thumb": false,
+    "addend": 0,
+    "value": 35125824
+  },
+  {
+    "offset": 236,
+    "type": 2,
+    "symbol": "SDK_data_0217fa00",
+    "target": 35125760,
+    "thumb": false,
+    "addend": 0,
+    "value": 35125760
+  },
+  {
+    "offset": 252,
+    "type": 2,
+    "symbol": "SDK_data_021469a4",
+    "target": 34892196,
+    "thumb": false,
+    "addend": 0,
+    "value": 34892196
+  },
+  {
+    "offset": 256,
+    "type": 2,
+    "symbol": "SDK_data_02180060",
+    "target": 35127392,
+    "thumb": false,
+    "addend": 0,
+    "value": 35127392
+  },
+  {
+    "offset": 260,
+    "type": 2,
+    "symbol": "SDK_data_02146a00",
+    "target": 34892288,
+    "thumb": false,
+    "addend": 0,
+    "value": 34892288
+  }
+]

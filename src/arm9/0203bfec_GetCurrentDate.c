@@ -1,18 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0203bfec. No matching claim. */
-#include "types.h"
-#include "deps/0203bfec_GetCurrentDate.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void GetCurrentDate(undefined4 *param_1)
+// PURPOSE: Gets the current date from the real-time clock.
+// Arguments: a writable three-integer date buffer.
+// Behaviour: probably supplies a default date when the clock read fails.
 
+extern int Rtc_GetDate(void *time);
+
+void GetCurrentDate(int *date)
 {
-  int iVar1;
-  
-  iVar1 = Rtc_GetDate();
-  if (iVar1 != 0) {
-    *param_1 = 5;
-    param_1[1] = 1;
-    param_1[2] = 1;
-  }
-  return;
+    if (Rtc_GetDate(date) != 0) {
+        date[0] = 5;
+        date[1] = 1;
+        date[2] = 1;
+    }
 }
-

@@ -1,27 +1,36 @@
-/* Decompiled C draft; module arm9; ROM address 02039bd4. No matching claim. */
-#include "types.h"
-#include "deps/02039bd4_MaybePrepareVram.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02175614 SDK_data_02175614
+// PURPOSE: Prepares video memory for the selected display mode.
+/* Chooses an LCDC bank arrangement from the current mode value.
+ * The selected VRAM ranges are cleared before LCDC access is disabled.
+ * Mode values outside the known range only disable LCDC access.
+ */
+
+extern int data_02175614;
+
+extern void GX_SetBankForLCDC(int bank);
+extern void GX_DisableBankForLCDC(void);
+extern void Mem_CpuFastMemorySet(int value, void *dst, int size);
 
 void MaybePrepareVram(void)
-
 {
-  switch(*(uint *)(DAT_02039c6c & 0xfffffffc) >> (DAT_02039c6c & 3) * 8 |
-         *(uint *)(DAT_02039c6c & 0xfffffffc) << (DAT_02039c6c & 3) * -8 + 0x20) {
-  case 0:
-    GX_SetBankForLCDC(DAT_02039c70);
-    Mem_CpuFastMemorySet(0,(undefined4 *)(uintptr_t)(0x6800000),0x60000);
-    Mem_CpuFastMemorySet(0,(undefined4 *)(uintptr_t)(DAT_02039c74),0x24000);
-    break;
-  case 1:
-    goto LAB_02039c3c;
-  case 2:
-    break;
-  case 3:
-LAB_02039c3c:
-    GX_SetBankForLCDC(DAT_02039c78);
-    Mem_CpuFastMemorySet(0,(undefined4 *)(uintptr_t)(0x6800000),0xa4000);
-  }
-  GX_DisableBankForLCDC();
-  return;
-}
+    volatile int zero0;
+    volatile int zero1;
+    volatile int zero2;
 
+    switch (data_02175614) {
+    case 0:
+        GX_SetBankForLCDC(0x1f7);
+        Mem_CpuFastMemorySet(zero0 = 0, (void *)0x06800000, 0x60000);
+        Mem_CpuFastMemorySet(zero1 = 0, (void *)0x06880000, 0x24000);
+        break;
+    case 1:
+    case 3:
+        GX_SetBankForLCDC(0x1ff);
+        Mem_CpuFastMemorySet(zero2 = 0, (void *)0x06800000, 0xa4000);
+        break;
+    case 2:
+        break;
+    }
+    GX_DisableBankForLCDC();
+}

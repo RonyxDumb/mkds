@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "Mem_CpuFill8",
+    "target": 34918760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942894116
+  },
+  {
+    "offset": 156,
+    "type": 1,
+    "symbol": "Mem_CpuCopy8",
+    "target": 34918908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942894144
+  },
+  {
+    "offset": 172,
+    "type": 2,
+    "symbol": "SDK_data_0217aa14",
+    "target": 35105300,
+    "thumb": false,
+    "addend": 0,
+    "value": 35105300
+  }
+]

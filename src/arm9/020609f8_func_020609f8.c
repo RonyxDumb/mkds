@@ -1,22 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 020609f8. No matching claim. */
-#include "types.h"
-#include "deps/020609f8_func_020609f8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint func_020609f8(undefined4 param_1)
+// PURPOSE: Returns an online record value when its status flag is set.
+// Reads the online information for the requested slot.
+// The record is probably a saved network profile.
 
+typedef unsigned char u8;
+
+typedef struct OnlineInfo {
+    u8 data[0x22];
+    u8 valid;
+    u8 trailingByte;
+} OnlineInfo;
+
+extern int GlobalZ_GetOI(int slot, OnlineInfo *output);
+
+int func_020609f8(int slot)
 {
-  uint uVar1;
-  undefined1 auStack_28 [8];
-  ushort uStack_20;
-  byte local_6;
-  
-  GlobalZ_GetOI(param_1,(int)(uintptr_t)(auStack_28));
-  if ((int)((uint)local_6 << 0x1f) < 0) {
-    uVar1 = (uint)uStack_20;
-  }
-  else {
-    uVar1 = 0xffffffff;
-  }
-  return uVar1;
-}
+    volatile OnlineInfo info;
 
+    GlobalZ_GetOI(slot, (OnlineInfo *)&info);
+    if ((((unsigned int)info.valid << 31) >> 31) == 1) {
+        return *(volatile unsigned short *)&info.data[8];
+    }
+    return -1;
+}

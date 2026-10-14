@@ -1,22 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 02088430. No matching claim. */
-#include "types.h"
-#include "deps/02088430_FormatCharacterPath.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02165ac4 SDK_data_02165ac4
+#define data_02165e80 SDK_data_02165e80
+#define data_0217af24 SDK_data_0217af24
+#define gSharedPathBuffer SDK_data_0217af28
+#define data_02165f0c SDK_data_02165f0c
+/* PURPOSE: Builds a character's asset file path into the shared path buffer.
+ * Behaviour: formats "<base><segment><characterFolder>" via "%s%s%s" into the
+ * shared 0x100-byte path buffer and returns the buffer. The base prefix and
+ * path segment are fixed globals; the folder name comes from a per-character
+ * pointer table (data_02165e80). */
+extern char *data_02165e80[];   /* per-character folder names */
+extern char *data_02165ac4;     /* path segment pointer */
+extern char *data_0217af24;     /* base path prefix */
+extern char gSharedPathBuffer[];    /* shared 0x100 path buffer */
+extern char data_02165f0c[];    /* "%s%s%s" (this callsite's own pool copy) */
 
-char * FormatCharacterPath(int param_1)
+extern int _snprintf(char *buf, unsigned int len, const char *fmt, ...);
 
-{
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = iRam0208847c + param_1 * 4;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  _snprintf(pcRam02088484,0x100,pcRam02088488,
-            *(uint *)(uRam02088480 & 0xfffffffc) >> (uRam02088480 & 3) * 8 |
-            *(uint *)(uRam02088480 & 0xfffffffc) << (uRam02088480 & 3) * -8 + 0x20,
-            *(uint *)(uRam02088478 & 0xfffffffc) >> (uRam02088478 & 3) * 8 |
-            *(uint *)(uRam02088478 & 0xfffffffc) << (uRam02088478 & 3) * -8 + 0x20,
-            uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  return pcRam02088484;
+char *FormatCharacterPath(int character) {
+    _snprintf(gSharedPathBuffer, 0x100, data_02165f0c, data_0217af24,
+              data_02165ac4, data_02165e80[character]);
+    return gSharedPathBuffer;
 }
-

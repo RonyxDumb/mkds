@@ -1,34 +1,44 @@
-/* Decompiled C draft; module arm9; ROM address 020946b8. No matching claim. */
-#include "types.h"
-#include "deps/020946b8_func_020946b8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+
+/*
+ * PURPOSE: Reset the b4/b8 fields to zero for every entry in an object's pointer array, stopping at the first null entry.
+ */
+
+struct ObjArrayHolder {
+    void **array;        /* offset 0x0: array of entry pointers */
+    unsigned short count; /* offset 0x4: number of entries in array */
+};
+
+struct ArrayEntry {
+    unsigned char pad[0xb4];
+    int field_0xb4;
+    int field_0xb8;
+};
+
+extern struct ObjArrayHolder *func_02100138(int id);
 
 void func_020946b8(void)
-
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  int iVar4;
-  
-  uVar2 = func_02100138(uRam02094720);
-  if (uVar2 == 0) {
-    return;
-  }
-  iVar4 = 0;
-  while( true ) {
-    if ((int)(uint)*(ushort *)(uVar2 + 4) <= iVar4) {
-      return;
-    }
-    uVar3 = (*(uint *)(uVar2 & 0xfffffffc) >> (uVar2 & 3) * 8 |
-            *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20) + iVar4 * 4;
-    uVar1 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-    if (uVar3 == 0) break;
-    *(undefined4 *)(uVar3 + 0xb4) = 0;
-    *(undefined4 *)(uVar3 + 0xb8) = 0;
-    iVar4 = iVar4 + 1;
-  }
-  return;
-}
+    struct ObjArrayHolder *holder = func_02100138(0x13b);
+    int i;
+    struct ArrayEntry *entry;
 
+    if (holder == 0) {
+        return;
+    }
+
+    i = 0;
+    goto check;
+body:
+    entry->field_0xb4 = 0;
+    entry->field_0xb8 = 0;
+    i++;
+check:
+    if (i >= holder->count) {
+        return;
+    }
+    entry = (struct ArrayEntry *)holder->array[i];
+    if (entry != 0) {
+        goto body;
+    }
+}

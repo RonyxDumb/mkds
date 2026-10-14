@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Wm_CheckInitialized",
+    "target": 34876044,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646072
+  },
+  {
+    "offset": 44,
+    "type": 2,
+    "symbol": "SDK_data_0217eed4",
+    "target": 35122900,
+    "thumb": false,
+    "addend": 0,
+    "value": 35122900
+  }
+]

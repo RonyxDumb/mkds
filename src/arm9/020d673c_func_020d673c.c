@@ -1,19 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 020d673c. No matching claim. */
-#include "types.h"
-#include "deps/020d673c_func_020d673c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b650 SDK_data_0217b650
+#define data_0215d4b4 SDK_data_0215d4b4
+// PURPOSE: Updates the object's rotation matrix from the current time.
+// The time helper probably supplies an animation phase.
+// The phase selects a sine/cosine pair for the matrix at offset 0x2c.
+
+typedef signed short s16;
+typedef unsigned int u32;
+
+extern int GetSomeTimeOrDuration(void);
+extern void *data_0217b650;
+extern s16 data_0215d4b4[];
+extern void MTX_RotY33__from_thumb(void *mtx, s16 sinv, s16 cosv);
 
 void func_020d673c(void)
-
 {
-  int iVar1;
-  
-  iVar1 = GetSomeTimeOrDuration();
-  iVar1 = (int)((uint)(iVar1 << 0x19) >> 0x10) >> 4;
-  MTX_RotY33__from_thumb
-            ((undefined4 *)(uintptr_t)((*(uint *)(uRam020d678c & 0xfffffffc) >> (uRam020d678c & 3) * 8 |
-             *(uint *)(uRam020d678c & 0xfffffffc) << (uRam020d678c & 3) * -8 + 0x20) + 0x2c),
-             (int)*(short *)(iRam020d6790 + iVar1 * 4),
-             (int)*(short *)(iRam020d6790 + (iVar1 * 2 + 1) * 2));
-  return;
-}
+    int angle = (int)((u32)(GetSomeTimeOrDuration() << 25) >> 16) >> 4;
 
+    MTX_RotY33__from_thumb((char *)data_0217b650 + 0x2c,
+                            data_0215d4b4[angle * 2],
+                            data_0215d4b4[angle * 2 + 1]);
+}

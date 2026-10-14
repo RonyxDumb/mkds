@@ -1,15 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 020a0294. No matching claim. */
-#include "types.h"
-#include "deps/020a0294_LoadAirshipMapObject.h"
-
-void LoadAirshipMapObject(undefined4 param_1)
-
-{
-  undefined4 uVar1;
-  
-  uVar1 = CreateMapObjectFromModel_from_thumb(param_1,uRam020a02c0);
-  *puRam020a02c4 = uVar1;
-  StructMapObject_MaybeSetPolygonId(uVar1,0x3f);
-  return;
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02167680 SDK_data_02167680
+#define data_0217b1f8 SDK_data_0217b1f8
+extern int data_02167680;
+extern void *data_0217b1f8;
+extern void *CreateMapObjectFromModel_from_thumb(void *a0, void *a1);
+extern void StructMapObject_MaybeSetPolygonId(void *obj, int id);
+void LoadAirshipMapObject(void *a0) {
+    void *obj = CreateMapObjectFromModel_from_thumb(a0, &data_02167680);
+    data_0217b1f8 = obj;
+    StructMapObject_MaybeSetPolygonId(obj, 0x3f);
 }
-

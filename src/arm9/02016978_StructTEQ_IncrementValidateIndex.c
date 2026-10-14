@@ -1,17 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 02016978. No matching claim. */
-#include "types.h"
-#include "deps/02016978_StructTEQ_IncrementValidateIndex.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint StructTEQ_IncrementValidateIndex(int param_1,int param_2)
+// PURPOSE: Advances an index and returns its checked value.
+// The structure probably supplies the bound or validation context at offset 4.
+// The helper returns a 64-bit value; this routine returns its upper half as u16.
 
-{
-  uint uVar1;
-  uint uVar2;
-  uint extraout_r1;
-  
-  uVar1 = param_1 + 4U & 3;
-  uVar2 = *(uint *)(param_1 + 4U & 0xfffffffc);
-  MaybeBoundsCheck(param_2 + 1,uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  return extraout_r1 & 0xffff;
+typedef struct StructTEQ {
+    int unk_0;
+    int unk_4;
+} StructTEQ;
+
+extern unsigned long long MaybeBoundsCheck(int, int);
+
+unsigned short StructTEQ_IncrementValidateIndex(StructTEQ *teq, int index) {
+    return (unsigned short)(MaybeBoundsCheck(index + 1, teq->unk_4) >> 32);
 }
-

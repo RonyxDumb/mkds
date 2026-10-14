@@ -1,40 +1,56 @@
-/* Decompiled C draft; module arm9; ROM address 02003234. No matching claim. */
-#include "types.h"
-#include "deps/02003234_Fs_File_DefaultOperation_OpenFileById.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 Fs_File_DefaultOperation_OpenFileById(int param_1)
+// PURPOSE: Opens a file from its numeric archive ID.
+// The argument is the file object that receives the opened file range.
+// It probably reads the selected archive-table entry before starting operation 7.
 
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+typedef struct FsArchive {
+    u8 pad_00[0x2c];
+    void *fileAllocationTable; /* 0x2c */
+    u32 fileCount;             /* 0x30 */
+} FsArchive;
+
+typedef struct FsFile {
+    u8 pad_00[8];
+    FsArchive *archive;        /* 0x08 */
+    u8 pad_0c[0x24];
+    u32 rangeStart;            /* 0x30 */
+    u32 fileId;                /* 0x34, input file ID on entry */
+    u32 rangeFileId;           /* 0x38 */
+} FsFile;
+
+typedef struct FsSyncReader {
+    FsArchive *archive;
+    void *position;
+} FsSyncReader;
+
+typedef struct FsFileRange {
+    u32 start;
+    u32 end;
+} FsFileRange;
+
+extern void Fs_SyncReader_Read(FsSyncReader *reader, FsFileRange *range, u32 size);
+extern int Fs_File_DoExecuteOperation(FsFile *file, u32 operation);
+
+int Fs_File_DefaultOperation_OpenFileById(FsFile *file)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  uint uVar5;
-  undefined4 uStack_20;
-  undefined4 uStack_1c;
-  uint uStack_18;
-  int iStack_14;
-  
-  uVar1 = param_1 + 8U & 3;
-  uVar4 = *(uint *)(param_1 + 8U & 0xfffffffc);
-  uStack_18 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 0x34U & 3;
-  uVar4 = *(uint *)(param_1 + 0x34U & 0xfffffffc);
-  uVar5 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  uVar4 = uStack_18 + 0x30 & 3;
-  uVar2 = *(uint *)(uStack_18 + 0x30 & 0xfffffffc);
-  uVar1 = uVar5 * 8;
-  if (uVar1 < (uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20)) {
-    uVar4 = uStack_18 + 0x2c & 3;
-    uVar2 = *(uint *)(uStack_18 + 0x2c & 0xfffffffc);
-    iStack_14 = (uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) + uVar1;
-    Fs_SyncReader_Read((uint)(uintptr_t)(&uStack_18),(undefined4)(uintptr_t)(&uStack_20),8);
-    *(undefined4 *)(param_1 + 0x30) = uStack_20;
-    *(undefined4 *)(param_1 + 0x34) = uStack_1c;
-    *(uint *)(param_1 + 0x38) = uVar5;
-    uVar3 = Fs_File_DoExecuteOperation(param_1,7);
-    return uVar3;
-  }
-  return 1;
-}
+    FsFileRange range;
+    FsSyncReader reader;
+    u32 fileId = file->fileId;
 
+    if ((fileId << 3) >= file->archive->fileCount) {
+        return 1;
+    }
+
+    reader.archive = file->archive;
+    reader.position = (u8 *)reader.archive->fileAllocationTable + (fileId << 3);
+    Fs_SyncReader_Read(&reader, &range, 8);
+
+    file->rangeStart = range.start;
+    file->fileId = range.end;
+    file->rangeFileId = fileId;
+    return Fs_File_DoExecuteOperation(file, 7);
+}

@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "StructMapObject_MaybeSetNsbcaFrame",
+    "target": 34191228,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942655406
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959266267
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959266254
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959266250
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "DrawObject2D3D",
+    "target": 34192172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942655614
+  },
+  {
+    "offset": 156,
+    "type": 2,
+    "symbol": "SDK_data_0217b0c0",
+    "target": 35107008,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107008
+  }
+]

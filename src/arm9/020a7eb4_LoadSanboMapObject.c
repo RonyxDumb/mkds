@@ -1,29 +1,35 @@
-/* Decompiled C draft; module arm9; ROM address 020a7eb4. No matching claim. */
-#include "types.h"
-#include "deps/020a7eb4_LoadSanboMapObject.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define CreateMapObjectFromModel_from_thumb CreateMapObjectFromModel_2_from_thumb
+#define func_0209bd90 CreateMapObjectFromModel_2_from_thumb
+#define data_0216687c SDK_data_02167920
+#define data_0217b0e4 SDK_data_0217b228
+#define data_0216688c SDK_data_02167930
+#define data_0217b0e0 SDK_data_0217b22c
+#define LoadBakubakuMapObject LoadSanboMapObject
+/* PURPOSE: Spawns the "bakubaku" (Chain Chomp) map object plus its shadow
+ * model and registers both with the map's polygon-id system.
+ *
+ * a0 is probably the map-object spawn/placement info passed straight
+ * through to both model-creation calls. The two created objects are
+ * stored into fixed global slots (data_0217b0e4 = main model,
+ * data_0217b0e0 = shadow model) and each gets its polygon id set to
+ * the same constant (0x3f).
+ */
 
-void LoadSanboMapObject(undefined4 param_1)
+extern char data_0216687c[];  /* string "bakubaku.nsbmd" */
+extern char data_0216688c[];  /* string "baku_shadow.nsbmd" */
+extern void *data_0217b0e4;   /* stored main object pointer */
+extern void *data_0217b0e0;   /* stored shadow object pointer */
 
-{
-  uint uVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  uint uVar5;
-  
-  uVar3 = CreateMapObjectFromModel_2_from_thumb(param_1,uRam020a7f08);
-  uVar4 = uRam020a7f10;
-  *puRam020a7f0c = uVar3;
-  uVar4 = CreateMapObjectFromModel_2_from_thumb(param_1,uVar4);
-  puVar2 = puRam020a7f0c;
-  *puRam020a7f14 = uVar4;
-  uVar1 = (uint)puVar2 & 3;
-  uVar5 = *(uint *)((uint)puVar2 & 0xfffffffc);
-  StructMapObject_MaybeSetPolygonId(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,0x3f);
-  StructMapObject_MaybeSetPolygonId
-            (*(uint *)((uint)puRam020a7f14 & 0xfffffffc) >> ((uint)puRam020a7f14 & 3) * 8 |
-             *(uint *)((uint)puRam020a7f14 & 0xfffffffc) << ((uint)puRam020a7f14 & 3) * -8 + 0x20,
-             0x3f);
-  return;
+extern void *CreateMapObjectFromModel_from_thumb(void *a0, char *modelName);
+extern void *func_0209bd90(void *a0, char *modelName);
+extern void StructMapObject_MaybeSetPolygonId(void *obj, int id);
+
+void LoadBakubakuMapObject(void *a0) {
+    /* ROM reloads through the globals rather than through locals for the
+       polygon-id calls below, so write every step through data_X. */
+    data_0217b0e4 = CreateMapObjectFromModel_from_thumb(a0, data_0216687c);
+    data_0217b0e0 = func_0209bd90(a0, data_0216688c);
+    StructMapObject_MaybeSetPolygonId(data_0217b0e4, 0x3f);
+    StructMapObject_MaybeSetPolygonId(data_0217b0e0, 0x3f);
 }
-

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "GetCourseIdFromInternalId",
+    "target": 33843276,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657543
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Util_SNPrintF",
+    "target": 33610208,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959376480
+  },
+  {
+    "offset": 84,
+    "type": 2,
+    "symbol": "SDK_data_02164754",
+    "target": 35014484,
+    "thumb": false,
+    "addend": 0,
+    "value": 35014484
+  }
+]

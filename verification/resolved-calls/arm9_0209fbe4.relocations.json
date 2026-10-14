@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "CreateMapObjectFromModelAndAnimation_from_thumb",
+    "target": 34192500,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211077148
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "StructMapObject_MaybeSetPolygonId",
+    "target": 34191680,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959418699
+  },
+  {
+    "offset": 56,
+    "type": 2,
+    "symbol": "SDK_data_0209fc2c",
+    "target": 34208812,
+    "thumb": false,
+    "addend": 0,
+    "value": 34208812
+  },
+  {
+    "offset": 60,
+    "type": 2,
+    "symbol": "SDK_data_021675f8",
+    "target": 35026424,
+    "thumb": false,
+    "addend": 0,
+    "value": 35026424
+  },
+  {
+    "offset": 64,
+    "type": 2,
+    "symbol": "SDK_data_02167608",
+    "target": 35026440,
+    "thumb": false,
+    "addend": 0,
+    "value": 35026440
+  },
+  {
+    "offset": 68,
+    "type": 2,
+    "symbol": "SDK_data_0217b1a8",
+    "target": 35107240,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107240
+  }
+]

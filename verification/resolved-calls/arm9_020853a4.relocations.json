@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "GetSomeRacerValue",
+    "target": 33801672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959348355
+  },
+  {
+    "offset": 52,
+    "type": 2,
+    "symbol": "SDK_data_02175620",
+    "target": 35083808,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083808
+  }
+]

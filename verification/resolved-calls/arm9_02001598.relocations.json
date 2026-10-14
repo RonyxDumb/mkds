@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb",
+    "target": 33847848,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194375968
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194486898
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194486894
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194486890
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "TextSystem_DisplayDoubleButtonDialog_Simple_from_thumb",
+    "target": 34758940,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603725
+  }
+]

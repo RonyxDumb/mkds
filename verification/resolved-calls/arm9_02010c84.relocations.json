@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "MIi_CpuClear32",
+    "target": 34918424,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942969562
+  },
+  {
+    "offset": 92,
+    "type": 2,
+    "symbol": "SDK_data_021617f0",
+    "target": 35002352,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002352
+  },
+  {
+    "offset": 96,
+    "type": 2,
+    "symbol": "SDK_data_021617ec",
+    "target": 35002348,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002348
+  },
+  {
+    "offset": 100,
+    "type": 2,
+    "symbol": "SDK_data_021617e8",
+    "target": 35002344,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002344
+  }
+]

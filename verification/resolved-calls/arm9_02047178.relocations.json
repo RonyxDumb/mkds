@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Os_InitializeTouchPanelFifo",
+    "target": 34925448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942915712
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "ComputeSomeScreenCalibrationStuff",
+    "target": 34925276,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942915667
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "UseSomeCalibrationStuff",
+    "target": 34924948,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942915579
+  }
+]

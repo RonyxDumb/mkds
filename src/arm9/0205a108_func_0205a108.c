@@ -1,16 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 0205a108. No matching claim. */
-#include "types.h"
-#include "deps/0205a108_func_0205a108.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa10 SDK_data_0217aa10
+// PURPOSE: Creates the main frame memory area.
+// The fixed memory region is probably reserved for system frame allocations.
+// The new frame is retained in a global system context.
 
-void func_0205a108(void)
+typedef unsigned int u32;
 
-{
-  undefined4 uVar1;
-  
-  uVar1 = Mem_Frame_Create(uRam0205a138,0x50000,0);
-  *(undefined4 *)
-   ((*(uint *)(uRam0205a13c & 0xfffffffc) >> (uRam0205a13c & 3) * 8 |
-    *(uint *)(uRam0205a13c & 0xfffffffc) << (uRam0205a13c & 3) * -8 + 0x20) + 0xa0) = uVar1;
-  return;
+typedef struct {
+    char padding[0xa0];
+    void *frame;
+} SystemContext;
+
+extern void *data_0217aa10;
+extern void *Mem_Frame_Create(void *start, u32 size, int direction);
+
+void func_0205a108(void) {
+    ((SystemContext *)data_0217aa10)->frame =
+        Mem_Frame_Create((void *)0x02180500, 0x50000, 0);
 }
-

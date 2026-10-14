@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Animation_SetWithBlendAt",
+    "target": 34111120,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658539
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Animation_SetAt",
+    "target": 34111364,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942658593
+  }
+]

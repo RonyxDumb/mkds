@@ -1,43 +1,53 @@
-/* Decompiled C draft; module arm9; ROM address 020905a8. No matching claim. */
-#include "types.h"
-#include "deps/020905a8_StructMQSub2_SomeFn_0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-bool StructMQSub2_SomeFn_0(int param_1)
+// PURPOSE: Updates this queue entry's delay and completion flag.
+// The entry probably stores a driver index and two signed frame counters.
+// It reports whether the active counter wrapped this frame.
 
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+
+typedef struct DriverEntry {
+    char pad_00[0x44];
+    u32 flags;
+} DriverEntry;
+
+typedef struct StructMQSub2 {
+    char pad_00[0x24];
+    u16 driver_index;
+    s16 active_counter;
+    s16 delay_counter;
+} StructMQSub2;
+
+extern DriverEntry *GetDriverEntry(u16 driver_index);
+
+int StructMQSub2_SomeFn_0(StructMQSub2 *entry)
 {
-  uint uVar1;
-  short sVar2;
-  int iVar3;
-  uint uVar4;
-  bool bVar5;
-  bool bVar6;
-  
-  bVar5 = false;
-  *(short *)(param_1 + 0x28) = *(short *)(param_1 + 0x28) + -1;
-  sVar2 = *(short *)(param_1 + 0x28);
-  if (sVar2 < 1) {
-    *(undefined2 *)(param_1 + 0x28) = 0;
-  }
-  iVar3 = GetDriverEntry(*(undefined2 *)(param_1 + 0x24));
-  uVar1 = iVar3 + 0x44U & 3;
-  uVar4 = *(uint *)(iVar3 + 0x44U & 0xfffffffc);
-  bVar6 = ((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) & 0xc0) == 0;
-  if (!bVar6) {
-    *(undefined2 *)(param_1 + 0x28) = 5;
-  }
-  if (bVar6 && sVar2 < 1) {
-    if (*(short *)(param_1 + 0x28) < 1) {
-      *(undefined2 *)(param_1 + 0x26) = 0;
-    }
-  }
-  else {
-    *(short *)(param_1 + 0x26) = *(short *)(param_1 + 0x26) + 1;
-    sVar2 = *(short *)(param_1 + 0x26);
-    if (0x77 < sVar2) {
-      *(undefined2 *)(param_1 + 0x26) = 0;
-    }
-    bVar5 = 0x77 < sVar2;
-  }
-  return bVar5;
-}
+    int wrapped = 0;
+    int active = 0;
 
+    entry->delay_counter--;
+    if (entry->delay_counter <= 0) {
+        entry->delay_counter = 0;
+    } else {
+        active = 1;
+    }
+
+    if (GetDriverEntry(entry->driver_index)->flags & 0xC0) {
+        entry->delay_counter = 5;
+        active = 1;
+    }
+
+    if (active) {
+        entry->active_counter++;
+        if (entry->active_counter >= 0x78) {
+            entry->active_counter = 0;
+            wrapped = 1;
+        }
+    } else if (entry->delay_counter <= 0) {
+        entry->active_counter = 0;
+    }
+
+    return wrapped;
+}

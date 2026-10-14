@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Mem_Frame_Create",
+    "target": 33652960,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959355375
+  },
+  {
+    "offset": 52,
+    "type": 2,
+    "symbol": "SDK_data_0217aa10",
+    "target": 35105296,
+    "thumb": false,
+    "addend": 0,
+    "value": 35105296
+  }
+]

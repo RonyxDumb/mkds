@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "ModelBlock_SomeMatFn_4",
+    "target": 33632612,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959316476
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "ModelBlock_SomeMatFn",
+    "target": 34054476,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421939
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "ModelBlock_SomeMatFn_4",
+    "target": 33632612,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959316468
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "ModelBlock_SomeMatFn",
+    "target": 34054476,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421931
+  }
+]

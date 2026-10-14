@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "GetCurrentInternalCourseId_0",
+    "target": 34295388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645775
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "GetCurrentPlayerRacerId",
+    "target": 34295196,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422938
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "GetDriverVec354",
+    "target": 34056476,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959363254
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "CheckVectorBounds_Clock_Airship",
+    "target": 34295408,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645769
+  }
+]

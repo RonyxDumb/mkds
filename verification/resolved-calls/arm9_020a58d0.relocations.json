@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 20,
+    "type": 2,
+    "symbol": "SDK_data_0209bf1d",
+    "target": 34193181,
+    "thumb": false,
+    "addend": 0,
+    "value": 34193181
+  },
+  {
+    "offset": 24,
+    "type": 2,
+    "symbol": "SDK_data_020a69a0",
+    "target": 34236832,
+    "thumb": false,
+    "addend": 0,
+    "value": 34236832
+  },
+  {
+    "offset": 28,
+    "type": 2,
+    "symbol": "SDK_data_020a683c",
+    "target": 34236476,
+    "thumb": false,
+    "addend": 0,
+    "value": 34236476
+  },
+  {
+    "offset": 32,
+    "type": 2,
+    "symbol": "SDK_data_020a697c",
+    "target": 34236796,
+    "thumb": false,
+    "addend": 0,
+    "value": 34236796
+  }
+]

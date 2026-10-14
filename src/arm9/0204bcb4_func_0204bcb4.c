@@ -1,13 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 0204bcb4. No matching claim. */
-#include "types.h"
-#include "deps/0204bcb4_func_0204bcb4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02179ec0 SDK_data_02179ec0
+// PURPOSE: Updates the system callback pointer safely.
+// The argument supplies a pointer whose low flag bit is discarded.
+// This probably records the pointer while interrupts are disabled.
 
-void func_0204bcb4(uint param_1)
+typedef unsigned int u32;
 
+extern u32 Os_DisableIrq(void);
+extern void Os_RestoreIrq(u32 irqState);
+extern char data_02179ec0[];
+
+void func_0204bcb4(void *value)
 {
-  Os_DisableIrq();
-  *(uint *)(iRam0204bcd8 + 0xb10) = param_1 & 0xfffffffe;
-  Os_RestoreIrq();
-  return;
-}
+    u32 irqState = Os_DisableIrq();
 
+    *(void **)(data_02179ec0 + 0xb10) = (void *)((u32)value & ~1);
+    Os_RestoreIrq(irqState);
+}

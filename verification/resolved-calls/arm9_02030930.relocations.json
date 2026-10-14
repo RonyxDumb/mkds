@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Mem_CpuFastMemorySet",
+    "target": 34918492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942937028
+  }
+]

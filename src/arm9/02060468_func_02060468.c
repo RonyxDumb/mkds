@@ -1,36 +1,54 @@
-/* Decompiled C draft; module arm9; ROM address 02060468. No matching claim. */
-#include "types.h"
-#include "deps/02060468_func_02060468.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa08 SDK_data_0217aa08
+// PURPOSE: Prints a saved friend's code when the selected online record is active.
+// It loads the selected online-information record into a local buffer.
+// The function probably prints the friend code to the supplied output context.
 
-bool func_02060468(int param_1,undefined4 param_2)
+typedef unsigned char u8;
+typedef unsigned long long u64;
 
+typedef struct OnlineInfo {
+    u8 unknown_00[0x22];
+    u8 valid : 1;
+    u8 active : 1;
+    u8 remaining_flags : 6;
+    u8 unknown_23;
+} OnlineInfo;
+
+typedef struct SaveDataHolder {
+    u8 padding[0x20];
+    void *friend_list;
+} SaveDataHolder;
+
+extern int GlobalZ_GetOI(int slot, OnlineInfo *output);
+extern int FriendCode_HasNonzeroState_from_thumb(void *friend_code);
+extern u64 FriendCode_GetFriendCodePacked_0_from_thumb(void *friend_code);
+extern void PrintfUll_from_thumb(u64 value, void *context);
+extern SaveDataHolder *data_0217aa08;
+
+int func_02060468(int slot, void *context)
 {
-  uint uVar1;
-  bool bVar2;
-  int iVar3;
-  uint uVar4;
-  int iVar5;
-  undefined8 uVar6;
-  undefined1 auStack_38 [34];
-  byte local_16;
-  
-  GlobalZ_GetOI(param_1,(int)(uintptr_t)(auStack_38));
-  uVar4 = (*(uint *)(uRam02060508 & 0xfffffffc) >> (uRam02060508 & 3) * 8 |
-          *(uint *)(uRam02060508 & 0xfffffffc) << (uRam02060508 & 3) * -8 + 0x20) + 0x20;
-  uVar1 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  iVar5 = param_1 * 0xc + (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + iRam0206050c;
-  if ((((int)((uint)local_16 << 0x1f) < 0) && ((int)((uint)local_16 << 0x1e) < 0)) &&
-     (iVar3 = FriendCode_HasNonzeroState_from_thumb(iVar5), iVar3 != 0)) {
-    bVar2 = true;
-  }
-  else {
-    bVar2 = false;
-  }
-  if (bVar2) {
-    uVar6 = FriendCode_GetFriendCodePacked_0_from_thumb(iVar5);
-    PrintfUll_from_thumb((int)uVar6,(int)((ulonglong)uVar6 >> 0x20),param_2);
-  }
-  return bVar2;
-}
+    OnlineInfo info;
+    void *friend_code;
+    int result = 0;
+    int should_print;
 
+    GlobalZ_GetOI(slot, &info);
+    friend_code = (char *)data_0217aa08->friend_list + 0x874 + slot * 12;
+    if (info.valid == 1) {
+        if (info.active == 1) {
+            if (FriendCode_HasNonzeroState_from_thumb(friend_code) != 0) {
+                should_print = 1;
+                goto state_done;
+            }
+        }
+    }
+    should_print = 0;
+state_done:
+    if (should_print != 0) {
+        PrintfUll_from_thumb(
+            FriendCode_GetFriendCodePacked_0_from_thumb(friend_code), context);
+        result = 1;
+    }
+    return result;
+}

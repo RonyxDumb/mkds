@@ -1,22 +1,28 @@
-/* Decompiled C draft; module arm9; ROM address 020a7270. No matching claim. */
-#include "types.h"
-#include "deps/020a7270_func_020a7270.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_020a7270(undefined4 param_1)
+/*
+ * PURPOSE: Removes a balloon/shine from a driver and applies the loss effect.
+ *
+ * Arguments: a1 - pointer to a race/driver context object.
+ * Behaviour: bails out immediately if func_020a1154 (probably "does this
+ * driver still have a balloon/shine to lose?") reports false. Otherwise it
+ * decrements the driver's balloon/shine count and forwards both the driver
+ * and its own driver entry to func_020a5608 (probably an item-loss/pop
+ * effect handler), which is called with the same driver entry twice.
+ */
 
+extern int func_020a1154(void *a1);
+extern void MaybeUpdateDriverBalloonShineCount(void *a1, int delta);
+extern void *GetDriverEntry(void *a1);
+extern void func_020a5608(void *driverEntry1, void *driverEntry2);
+
+void func_020a7270(void *a1)
 {
-  int iVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  
-  iVar1 = func_020a1154();
-  if (iVar1 != 0) {
-    MaybeUpdateDriverBalloonShineCount(param_1,0xffffffff);
-    uVar2 = GetDriverEntry(param_1);
-    uVar3 = GetDriverEntry(param_1);
-    func_020a5608(uVar2,uVar3);
-    return;
-  }
-  return;
-}
+    if (!func_020a1154(a1)) {
+        return;
+    }
 
+    MaybeUpdateDriverBalloonShineCount(a1, -1);
+
+    func_020a5608(GetDriverEntry(a1), GetDriverEntry(a1));
+}

@@ -1,83 +1,115 @@
-/* Decompiled C draft; module arm9; ROM address 0206b020. No matching claim. */
-#include "types.h"
-#include "deps/0206b020_func_0206b020.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 func_0206b020(int param_1,int param_2)
+// PURPOSE: Applies a collision response when the racer's state allows it.
+// The first argument is the racer entry and the second describes the collision plane.
+// It rejects disabled racer states, orients the plane normal, and starts the response.
 
+typedef int fx32;
+
+typedef struct VecFx32 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+} VecFx32;
+
+typedef struct StructMQRacerEntry {
+    char pad_00[0x48];
+    unsigned int field_48;
+    unsigned int field_4c;
+    char pad_50[0x7c - 0x50];
+    unsigned int field_7c;
+    VecFx32 field_80;
+    char pad_8c[0x180 - 0x8c];
+    int field_180;
+} StructMQRacerEntry;
+
+typedef struct CollisionPlane {
+    char pad_00[4];
+    VecFx32 field_04;
+    char pad_10[0x28 - 0x10];
+    VecFx32 field_28;
+    VecFx32 field_34;
+    VecFx32 field_40;
+} CollisionPlane;
+
+extern void VecFx32_Subtract(const VecFx32 *a, const VecFx32 *b,
+                             VecFx32 *out);
+extern void VecFx32_CrossProduct(const VecFx32 *a, const VecFx32 *b,
+                                 VecFx32 *out);
+extern fx32 Vector3_DotProduct(const VecFx32 *a, const VecFx32 *b);
+extern void StructMQRacerEntry_SomeFn_59(StructMQRacerEntry *entry,
+                                          const VecFx32 *normal, int mode);
+
+int func_0206b020(StructMQRacerEntry *entry, CollisionPlane *plane)
 {
-  bool bVar1;
-  bool bVar2;
-  uint uVar3;
-  int iVar4;
-  uint uVar5;
-  int iStack_30;
-  int iStack_2c;
-  int iStack_28;
-  undefined1 auStack_24 [12];
-  undefined1 auStack_18 [12];
-  uint uVar6;
-  
-  uVar6 = param_1 + 0x4cU & 3;
-  uVar5 = *(uint *)(param_1 + 0x4cU & 0xfffffffc);
-  uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
-  if ((uVar6 & 0x400000) == 0) {
-    uVar5 = param_1 + 0x7cU & 3;
-    uVar3 = *(uint *)(param_1 + 0x7cU & 0xfffffffc);
-    if (((uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) & 0x200) == 0) {
-      bVar2 = true;
-      if (((uVar6 & uRam0206b168) == 0) &&
-         (uVar6 = param_1 + 0x48U & 3, uVar5 = *(uint *)(param_1 + 0x48U & 0xfffffffc),
-         ((uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) & 0x1800) == 0)) {
-        uVar6 = param_1 + 0x180U & 3;
-        uVar5 = *(uint *)(param_1 + 0x180U & 0xfffffffc);
-        uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
-        bVar1 = false;
-        if ((uVar6 != 0) && ((uVar6 != 1 && (uVar6 != 2)))) {
-          bVar1 = true;
-        }
-        if (!bVar1) {
-          bVar2 = false;
-        }
-      }
-      if (bVar2) {
-        bVar2 = false;
-      }
-      else {
-        bVar2 = true;
-      }
-    }
-    else {
-      uVar5 = param_1 + 0x180U & 3;
-      uVar3 = *(uint *)(param_1 + 0x180U & 0xfffffffc);
-      if (((uVar3 >> uVar5 * 8 == 0 && uVar3 << uVar5 * -8 + 0x20 == 0) &&
-          (uVar5 = param_1 + 0x48U & 3, uVar3 = *(uint *)(param_1 + 0x48U & 0xfffffffc),
-          ((uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) & 0x1800) == 0)) &&
-         ((uVar6 & uRam0206b168) == 0)) {
-        bVar2 = true;
-      }
-      else {
-        bVar2 = false;
-      }
-    }
-  }
-  else {
-    bVar2 = false;
-  }
-  if (bVar2) {
-    iStack_30 = *(int *)(param_2 + 0x28);
-    iStack_2c = *(int *)(param_2 + 0x2c);
-    iStack_28 = *(int *)(param_2 + 0x30);
-    VecFx32_Subtract(param_1 + 0x80,param_2 + 4,(int *)(void *)(auStack_24));
-    VecFx32_CrossProduct(param_2 + 0x40,(uint)(uintptr_t)(auStack_24),(uint *)(void *)(auStack_18));
-    iVar4 = Vector3_DotProduct((uint)(uintptr_t)(auStack_18),param_2 + 0x34);
-    if (iVar4 < 0) {
-      iStack_30 = -iStack_30;
-      iStack_2c = -iStack_2c;
-      iStack_28 = -iStack_28;
-    }
-    StructMQRacerEntry_SomeFn_59(param_1,&iStack_30,0);
-    return 1;
-  }
-  return 0;
-}
+    int result;
+    VecFx32 normal;
+    VecFx32 difference;
+    VecFx32 cross;
 
+    if ((entry->field_4c & 0x400000) != 0) {
+        result = 0;
+        goto result_ready;
+    }
+    if ((entry->field_7c & 0x200) == 0) {
+        goto inactive;
+    }
+    if (entry->field_180 != 0) {
+        goto active_fail;
+    }
+    if ((entry->field_48 & 0x1800) != 0) {
+        goto active_fail;
+    }
+    if ((entry->field_4c & 0x10000040) == 0) {
+        result = 1;
+        goto result_ready;
+    }
+
+active_fail:
+    result = 0;
+    goto result_ready;
+
+inactive:
+    {
+        int allowed = 1;
+
+        if ((entry->field_4c & 0x10000040) == 0) {
+            if ((entry->field_48 & 0x1800) == 0) {
+                int state = entry->field_180;
+                int other = 0;
+
+                if (state != 0) {
+                    if (state != 1) {
+                        if (state != 2) {
+                            other = allowed;
+                        }
+                    }
+                }
+                if (other == 0) {
+                    allowed = 0;
+                }
+            }
+        }
+        if (allowed == 0) {
+            result = 1;
+        } else {
+            result = 0;
+        }
+    }
+
+result_ready:
+    if (result == 0) {
+        return 0;
+    }
+
+    normal = plane->field_28;
+    VecFx32_Subtract(&entry->field_80, &plane->field_04, &difference);
+    VecFx32_CrossProduct(&plane->field_40, &difference, &cross);
+    if (Vector3_DotProduct(&cross, &plane->field_34) < 0) {
+        normal.x = -normal.x;
+        normal.y = -normal.y;
+        normal.z = -normal.z;
+    }
+    StructMQRacerEntry_SomeFn_59(entry, &normal, 0);
+    return 1;
+}

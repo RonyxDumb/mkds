@@ -1,34 +1,51 @@
-/* Decompiled C draft; module arm9; ROM address 020920a0. No matching claim. */
-#include "types.h"
-#include "deps/020920a0_func_020920a0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b0c0 SDK_data_0217b0c0
+/* PURPOSE: Draws one map object on screen (its 3D model plus its 2D icon).
+ *
+ * Arguments: a0 = the render/scene context, o = the map object to draw.
+ * Behaviour: tells the object's model which animation frame to show, sets up
+ *   three drawing parameter blocks (via func_01ff9048), copies the object's
+ *   world position (x,y,z at +4/+8/+c) shifted right 4 into +0x4c/+0x50/+0x54,
+ *   then hands everything to DrawObject2D3D. data_0217b0c0 is a global handle
+ *   (probably the current model/render manager) reloaded for each use.
+ */
 
-void func_020920a0(undefined4 param_1,int param_2)
+typedef struct Obj {
+    char _0[4];
+    int f4;                 /* world X (fx32) */
+    int f8;                 /* world Y (fx32) */
+    int fc;                 /* world Z (fx32) */
+    char _10[0xc];
+    int f1c;                /* param block for id 0x1b (3 entries) */
+    char _20[8];
+    int f28;                /* param block for id 0x19 (0xc entries) */
+    char _2c[0x20];
+    int f4c;                /* X >> 4 */
+    int f50;                /* Y >> 4 */
+    int f54;                /* Z >> 4 */
+    char _58[0x48];
+    unsigned short fa0;     /* nsbca animation frame */
+} Obj;
 
+extern void *data_0217b0c0;
+
+extern void StructMapObject_MaybeSetNsbcaFrame(void *mgr, unsigned short frame);
+extern void func_01ff9048(int id, void *ptr, int count);
+extern void DrawObject2D3D(void *ctx, void *mgr, Obj *o);
+
+void func_020920a0(void *a0, Obj *o)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 local_10;
-  
-  StructMapObject_MaybeSetNsbcaFrame
-            (*(uint *)(uRam0209213c & 0xfffffffc) >> (uRam0209213c & 3) * 8 |
-             *(uint *)(uRam0209213c & 0xfffffffc) << (uRam0209213c & 3) * -8 + 0x20,
-             *(undefined2 *)(param_2 + 0xa0));
-  local_10 = 0x1e;
-  func_01ff9048(0x14,(undefined4)(uintptr_t)(&local_10),1);
-  uVar1 = param_2 + 4U & 3;
-  uVar2 = *(uint *)(param_2 + 4U & 0xfffffffc);
-  *(int *)(param_2 + 0x4c) = (int)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) >> 4;
-  uVar1 = param_2 + 8U & 3;
-  uVar2 = *(uint *)(param_2 + 8U & 0xfffffffc);
-  *(int *)(param_2 + 0x50) = (int)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) >> 4;
-  uVar1 = param_2 + 0xcU & 3;
-  uVar2 = *(uint *)(param_2 + 0xcU & 0xfffffffc);
-  *(int *)(param_2 + 0x54) = (int)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) >> 4;
-  func_01ff9048(0x19,param_2 + 0x28,0xc);
-  func_01ff9048(0x1b,param_2 + 0x1c,3);
-  DrawObject2D3D(param_1,*(uint *)(uRam0209213c & 0xfffffffc) >> (uRam0209213c & 3) * 8 |
-                         *(uint *)(uRam0209213c & 0xfffffffc) << (uRam0209213c & 3) * -8 + 0x20,
-                 param_2);
-  return;
-}
+    volatile int frameId;
 
+    StructMapObject_MaybeSetNsbcaFrame(data_0217b0c0, o->fa0);
+    frameId = 0x1e;
+    func_01ff9048(0x14, (void *)&frameId, 1);
+
+    o->f4c = o->f4 >> 4;
+    o->f50 = o->f8 >> 4;
+    o->f54 = o->fc >> 4;
+    func_01ff9048(0x19, &o->f28, 0xc);
+    func_01ff9048(0x1b, &o->f1c, 3);
+
+    DrawObject2D3D(a0, data_0217b0c0, o);
+}

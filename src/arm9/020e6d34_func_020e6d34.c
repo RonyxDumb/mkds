@@ -1,28 +1,33 @@
-/* Decompiled C draft; module arm9; ROM address 020e6d34. No matching claim. */
-#include "types.h"
-#include "deps/020e6d34_func_020e6d34.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b860 SDK_data_0217b860
+// PURPOSE: Builds and normalizes a direction vector in the supplied state.
+// The first argument provides the input direction.
+// A shared state probably supplies the reference direction.
+// The cross product is written to and normalized in the supplied state.
 
-void func_020e6d34(undefined4 *param_1,int param_2)
+typedef int fx32;
 
+typedef struct VecFx32 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+} VecFx32;
+
+typedef struct DirectionState {
+    VecFx32 direction;
+    VecFx32 input;
+    VecFx32 reference;
+} DirectionState;
+
+extern DirectionState *data_0217b860;
+
+extern void Vector3_Cross(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern void Vector3_MaybeNormalize(const VecFx32 *in, VecFx32 *out);
+
+void func_020e6d34(const VecFx32 *input, DirectionState *state)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  undefined4 uVar3;
-  
-  uVar2 = param_1[1];
-  uVar3 = param_1[2];
-  *(undefined4 *)(param_2 + 0xc) = *param_1;
-  *(undefined4 *)(param_2 + 0x10) = uVar2;
-  *(undefined4 *)(param_2 + 0x14) = uVar3;
-  uVar1 = *(uint *)(uRam020e6d84 & 0xfffffffc) >> (uRam020e6d84 & 3) * 8 |
-          *(uint *)(uRam020e6d84 & 0xfffffffc) << (uRam020e6d84 & 3) * -8 + 0x20;
-  uVar2 = *(undefined4 *)(uVar1 + 0x1c);
-  uVar3 = *(undefined4 *)(uVar1 + 0x20);
-  *(undefined4 *)(param_2 + 0x18) = *(undefined4 *)(uVar1 + 0x18);
-  *(undefined4 *)(param_2 + 0x1c) = uVar2;
-  *(undefined4 *)(param_2 + 0x20) = uVar3;
-  Vector3_Cross((uint)(uintptr_t)((undefined4 *)(param_2 + 0xc)),(uint)(uintptr_t)((undefined4 *)(param_2 + 0x18)),(uint *)(uintptr_t)(param_2));
-  Vector3_MaybeNormalize(param_2,(int *)(uintptr_t)(param_2));
-  return;
+    state->input = *input;
+    state->reference = data_0217b860->reference;
+    Vector3_Cross(&state->input, &state->reference, &state->direction);
+    Vector3_MaybeNormalize(&state->direction, &state->direction);
 }
-

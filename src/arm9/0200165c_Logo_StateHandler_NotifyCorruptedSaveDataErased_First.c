@@ -1,27 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 0200165c. No matching claim. */
-#include "types.h"
-#include "deps/0200165c_Logo_StateHandler_NotifyCorruptedSaveDataErased_First.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+
+// PURPOSE: Shows the message after corrupted save data is erased.
+// Sets the dialog fade-in sound, then fetches the two button-dialog strings.
+// The shared global probably owns the BMG resource at offset 0x38.
+
+#define data_021a99e0 (*(void **)0x021a99e0)
+
+extern void TextSystem_SetFadeInSseqId_from_thumb(int sseqId);
+extern void *Bmg_GetRawStringPointer_from_thumb(void *bmg, int stringId);
+extern void TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(void *message, void *button);
 
 void Logo_StateHandler_NotifyCorruptedSaveDataErased_First(void)
-
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  
-  TextSystem_SetFadeInSseqId_from_thumb(0x21);
-  uVar2 = (*(uint *)(uRam020016a8 & 0xfffffffc) >> (uRam020016a8 & 3) * 8 |
-          *(uint *)(uRam020016a8 & 0xfffffffc) << (uRam020016a8 & 3) * -8 + 0x20) + 0x38;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar3 = Bmg_GetRawStringPointer_from_thumb(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,0x80);
-  uVar2 = (*(uint *)(uRam020016a8 & 0xfffffffc) >> (uRam020016a8 & 3) * 8 |
-          *(uint *)(uRam020016a8 & 0xfffffffc) << (uRam020016a8 & 3) * -8 + 0x20) + 0x38;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar4 = Bmg_GetRawStringPointer_from_thumb(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,4);
-  TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(uVar3,uVar4);
-  return;
-}
+    void *message;
 
+    TextSystem_SetFadeInSseqId_from_thumb(0x21);
+    message = Bmg_GetRawStringPointer_from_thumb(*(void **)((char *)data_021a99e0 + 0x38), 0x80);
+    TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(
+        message,
+        Bmg_GetRawStringPointer_from_thumb(*(void **)((char *)data_021a99e0 + 0x38), 4));
+}

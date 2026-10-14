@@ -1,44 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 020dfcb8. No matching claim. */
-#include "types.h"
-#include "deps/020dfcb8_Maybe_CreateObj_1587b0.h"
-
-uint Maybe_CreateObj_1587b0(void)
-
-{
-  int *piVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  undefined4 *puVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  
-  GetActiveExecutionContext();
-  uVar3 = ExecutionContext_GetHeapHandle();
-  puVar4 = (undefined4 *)Mem_AllocateHeap(uVar3,0x2c);
-  puVar2 = puRam020dfd10;
-  piVar1 = piRam020dfd0c;
-  *piRam020dfd0c = (int)puVar4;
-  uVar3 = puVar2[1];
-  uVar5 = puVar2[2];
-  uVar6 = puVar2[3];
-  *puVar4 = *puVar2;
-  puVar4[1] = uVar3;
-  puVar4[2] = uVar5;
-  puVar4[3] = uVar6;
-  uVar3 = puVar2[5];
-  uVar5 = puVar2[6];
-  uVar6 = puVar2[7];
-  puVar4[4] = puVar2[4];
-  puVar4[5] = uVar3;
-  puVar4[6] = uVar5;
-  puVar4[7] = uVar6;
-  uVar3 = puVar2[9];
-  uVar5 = puVar2[10];
-  puVar4[8] = puVar2[8];
-  puVar4[9] = uVar3;
-  puVar4[10] = uVar5;
-  func_020d49d8(piVar1);
-  return *(uint *)((uint)piRam020dfd0c & 0xfffffffc) >> ((uint)piRam020dfd0c & 3) * 8 |
-         *(uint *)((uint)piRam020dfd0c & 0xfffffffc) << ((uint)piRam020dfd0c & 3) * -8 + 0x20;
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b680 SDK_data_0217b774
+#define data_0215818c SDK_data_021587b0
+#define Maybe_CreateObj_15818c Maybe_CreateObj_1587b0
+typedef unsigned int u32;
+typedef struct Obj2c { u32 w[11]; } Obj2c;
+extern void *GetActiveExecutionContext(void);
+extern void *ExecutionContext_GetHeapHandle(void *ctx);
+extern void *Mem_AllocateHeap(void *heap, u32 size);
+extern void func_020d49d8(void *arg);
+extern Obj2c *data_0217b680;
+extern const Obj2c data_0215818c;
+void *Maybe_CreateObj_15818c(void) {
+    void *ctx = GetActiveExecutionContext();
+    void *heap = ExecutionContext_GetHeapHandle(ctx);
+    Obj2c *obj = (Obj2c *)Mem_AllocateHeap(heap, 0x2c);
+    data_0217b680 = obj;
+    *obj = data_0215818c;
+    func_020d49d8(&data_0217b680);
+    return data_0217b680;
 }
-

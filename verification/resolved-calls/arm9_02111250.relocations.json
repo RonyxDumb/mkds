@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Sound_InitializeContext",
+    "target": 34790600,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942675098
+  },
+  {
+    "offset": 40,
+    "type": 2,
+    "symbol": "SDK_data_0217d32c",
+    "target": 35115820,
+    "thumb": false,
+    "addend": 0,
+    "value": 35115820
+  }
+]

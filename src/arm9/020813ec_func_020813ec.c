@@ -1,98 +1,98 @@
-/* Decompiled C draft; module arm9; ROM address 020813ec. No matching claim. */
-#include "types.h"
-#include "deps/020813ec_func_020813ec.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217ae84 SDK_data_0217ae84
+#define func_02081374 SDK_data_02081374
+/*
+ * PURPOSE: Spawns and updates a racer's slipstream/draft trail effect object.
+ *
+ * Args: idx = racer/driver slot index (r0), v = a VecFx32 direction/position
+ * the effect should follow (r1). Looks up the driver entry for the racer.
+ * If the driver has a certain flag set (+0x4c bit 0x8000), has no effect
+ * object yet (slot +0x28 == 0) and its speed field (+0x2a4) is above 0x1000,
+ * it allocates a 0x53-type effect object, remembers the driver entry in it
+ * (+0x94) and installs func_02081374 as its handler (+0x90), storing it in
+ * the racer's slot. If (still) no object exists it returns.
+ * Otherwise it scales the driver velocity (+0x3b0..+0x3b8) by 0.8 and writes
+ * it to the object (+0x40), computes an offset position via VecFx32_AddScale1,
+ * feeds it to func_0208b5b0, stores v truncated to 16-bit at (+0x50..+0x54)
+ * and marks the driver (+0x48 |= 0x400).
+ */
 
-void func_020813ec(int param_1,uint param_2)
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
 
+typedef struct { int x, y, z; } VecFx32;   /* fx32 3-vector */
+typedef struct { s16 x, y, z; } VecFx16;   /* fx16 3-vector */
+
+typedef struct {
+    char pad00[0x48];
+    int f48;            /* +0x48 flag word, |= 0x400 */
+    int f4c;            /* +0x4c flags, tested & 0x8000 */
+    char pad50[0x1d0 - 0x50];
+    int f1d0;           /* +0x1d0 */
+    char pad1d4[0x2a4 - 0x1d4];
+    int f2a4;           /* +0x2a4 speed */
+    char pad2a8[0x3b0 - 0x2a8];
+    VecFx32 f3b0;       /* +0x3b0 velocity */
+    char pad3bc[0x508 - 0x3bc];
+    int f508;           /* +0x508 heap / scale handle */
+} DriverEntry;
+
+struct Effect;
+
+typedef struct {
+    char pad00[0x28];
+    struct Effect *f28; /* +0x28 effect object pointer */
+    char pad2c[0x58 - 0x2c];
+} Slot;                 /* stride 0x58 */
+
+typedef struct Effect {
+    char pad00[0x40];
+    VecFx32 f40;        /* +0x40 scaled velocity */
+    char pad4c[0x50 - 0x4c];
+    VecFx16 f50;        /* +0x50 direction, 16-bit */
+    char pad56[0x90 - 0x56];
+    void *f90;          /* +0x90 handler */
+    void *f94;          /* +0x94 owning driver entry */
+} Effect;
+
+extern void *GetDriverEntry(int idx);
+extern Slot *data_0217ae84;
+extern void *func_0208b7bc(int type, void *heap);
+extern void func_02081374(void);
+extern void VecFx32_AddScale1(int a, VecFx32 *v, int s, VecFx32 *out);
+extern void func_0208b5b0(void *obj, VecFx32 *v);
+
+void func_020813ec(int idx, VecFx32 *v)
 {
-  int iVar1;
-  longlong lVar2;
-  longlong lVar3;
-  longlong lVar4;
-  undefined4 uVar5;
-  int iVar6;
-  int iVar7;
-  uint uVar8;
-  uint uVar9;
-  uint uVar10;
-  uint uVar11;
-  uint uVar12;
-  uint uVar13;
-  int iVar14;
-  undefined1 auStack_2c [16];
-  
-  iVar6 = GetDriverEntry();
-  uVar8 = iVar6 + 0x4cU & 3;
-  uVar9 = *(uint *)(iVar6 + 0x4cU & 0xfffffffc);
-  iVar14 = param_1 * 0x58 +
-           (*(uint *)(uRam02081550 & 0xfffffffc) >> (uRam02081550 & 3) * 8 |
-           *(uint *)(uRam02081550 & 0xfffffffc) << (uRam02081550 & 3) * -8 + 0x20);
-  if (((((uVar9 >> uVar8 * 8 | uVar9 << uVar8 * -8 + 0x20) & 0x8000) != 0) &&
-      (uVar8 = iVar14 + 0x28U & 3, uVar9 = *(uint *)(iVar14 + 0x28U & 0xfffffffc),
-      uVar9 >> uVar8 * 8 == 0 && uVar9 << uVar8 * -8 + 0x20 == 0)) &&
-     (uVar8 = iVar6 + 0x2a4U & 3, uVar9 = *(uint *)(iVar6 + 0x2a4U & 0xfffffffc),
-     0x1000 < (int)(uVar9 >> uVar8 * 8 | uVar9 << uVar8 * -8 + 0x20))) {
-    uVar8 = iVar6 + 0x508U & 3;
-    uVar9 = *(uint *)(iVar6 + 0x508U & 0xfffffffc);
-    iVar7 = func_0208b7bc(0x53,uVar9 >> uVar8 * 8 | uVar9 << uVar8 * -8 + 0x20);
-    uVar5 = uRam02081554;
-    *(int *)(iVar7 + 0x94) = iVar6;
-    *(undefined4 *)(iVar7 + 0x90) = uVar5;
-    *(int *)(iVar14 + 0x28) = iVar7;
-  }
-  uVar8 = iVar14 + 0x28U & 3;
-  uVar9 = *(uint *)(iVar14 + 0x28U & 0xfffffffc);
-  uVar8 = uVar9 >> uVar8 * 8 | uVar9 << uVar8 * -8 + 0x20;
-  if (uVar8 != 0) {
-    uVar9 = iVar6 + 0x3b0U & 3;
-    uVar12 = *(uint *)(iVar6 + 0x3b0U & 0xfffffffc);
-    uVar12 = uVar12 >> uVar9 * 8 | uVar12 << uVar9 * -8 + 0x20;
-    lVar2 = (ulonglong)uRam02081558 * (ulonglong)uVar12;
-    uVar9 = iVar6 + 0x3b4U & 3;
-    uVar13 = *(uint *)(iVar6 + 0x3b4U & 0xfffffffc);
-    uVar9 = uVar13 >> uVar9 * 8 | uVar13 << uVar9 * -8 + 0x20;
-    lVar3 = (ulonglong)uRam02081558 * (ulonglong)uVar9;
-    iVar7 = ((int)uVar9 >> 0x1f) * uRam02081558;
-    uVar9 = iVar6 + 0x3b8U & 3;
-    uVar13 = *(uint *)(iVar6 + 0x3b8U & 0xfffffffc);
-    uVar9 = uVar13 >> uVar9 * 8 | uVar13 << uVar9 * -8 + 0x20;
-    lVar4 = (ulonglong)uRam02081558 * (ulonglong)uVar9;
-    iVar1 = ((int)uVar9 >> 0x1f) * uRam02081558;
-    *(uint *)(uVar8 + 0x40) =
-         (uint)lVar2 >> 0xc |
-         (((int)uVar12 >> 0x1f) * uRam02081558 + (int)((ulonglong)lVar2 >> 0x20)) * 0x100000;
-    *(uint *)(uVar8 + 0x44) =
-         (uint)lVar3 >> 0xc | (iVar7 + (int)((ulonglong)lVar3 >> 0x20)) * 0x100000;
-    *(uint *)(uVar8 + 0x48) =
-         (uint)lVar4 >> 0xc | (iVar1 + (int)((ulonglong)lVar4 >> 0x20)) * 0x100000;
-    uVar8 = iVar6 + 0x1d0U & 3;
-    uVar12 = *(uint *)(iVar6 + 0x1d0U & 0xfffffffc);
-    uVar9 = iVar6 + 0x508U & 3;
-    uVar13 = *(uint *)(iVar6 + 0x508U & 0xfffffffc);
-    VecFx32_AddScale1(-(uVar12 >> uVar8 * 8 | uVar12 << uVar8 * -8 + 0x20),param_2,
-                      uVar13 >> uVar9 * 8 | uVar13 << uVar9 * -8 + 0x20,(int *)(void *)(auStack_2c));
-    uVar8 = iVar14 + 0x28U & 3;
-    uVar9 = *(uint *)(iVar14 + 0x28U & 0xfffffffc);
-    func_0208b5b0(uVar9 >> uVar8 * 8 | uVar9 << uVar8 * -8 + 0x20,(uint)(uintptr_t)(auStack_2c));
-    uVar8 = param_2 + 4 & 3;
-    uVar13 = *(uint *)(param_2 + 4 & 0xfffffffc);
-    uVar9 = param_2 + 8 & 3;
-    uVar10 = *(uint *)(param_2 + 8 & 0xfffffffc);
-    uVar12 = iVar14 + 0x28U & 3;
-    uVar11 = *(uint *)(iVar14 + 0x28U & 0xfffffffc);
-    uVar12 = uVar11 >> uVar12 * 8 | uVar11 << uVar12 * -8 + 0x20;
-    *(ushort *)(uVar12 + 0x50) =
-         (ushort)(*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8) |
-         (ushort)(*(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20);
-    *(ushort *)(uVar12 + 0x52) =
-         (ushort)(uVar13 >> uVar8 * 8) | (ushort)(uVar13 << uVar8 * -8 + 0x20);
-    *(ushort *)(uVar12 + 0x54) =
-         (ushort)(uVar10 >> uVar9 * 8) | (ushort)(uVar10 << uVar9 * -8 + 0x20);
-    uVar8 = iVar6 + 0x48U & 3;
-    uVar9 = *(uint *)(iVar6 + 0x48U & 0xfffffffc);
-    *(uint *)(iVar6 + 0x48) = uVar9 >> uVar8 * 8 | uVar9 << uVar8 * -8 + 0x20 | 0x400;
-    return;
-  }
-  return;
-}
+    DriverEntry *drv = (DriverEntry *)GetDriverEntry(idx);
+    Slot *slot = &data_0217ae84[idx];
+    VecFx16 dir;
+    VecFx32 vel;
+    VecFx32 pos;
 
+    if ((drv->f4c & 0x8000) && slot->f28 == 0 && drv->f2a4 > 0x1000) {
+        Effect *e = (Effect *)func_0208b7bc(0x53, (void *)drv->f508);
+        e->f94 = drv;
+        e->f90 = (void *)func_02081374;
+        slot->f28 = e;
+    }
+
+    if (slot->f28 == 0)
+        return;
+
+    vel.x = (int)(((long long)drv->f3b0.x * 0xCCD) >> 12);
+    vel.y = (int)(((long long)drv->f3b0.y * 0xCCD) >> 12);
+    vel.z = (int)(((long long)drv->f3b0.z * 0xCCD) >> 12);
+    slot->f28->f40 = vel;
+
+    VecFx32_AddScale1(-drv->f1d0, v, drv->f508, &pos);
+    func_0208b5b0(slot->f28, &pos);
+
+    dir.x = (s16)v->x;
+    dir.y = (s16)v->y;
+    dir.z = (s16)v->z;
+    slot->f28->f50 = dir;
+
+    drv->f48 |= 0x400;
+}

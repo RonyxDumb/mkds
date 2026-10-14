@@ -1,15 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 021090c4. No matching claim. */
-#include "types.h"
-#include "deps/021090c4_DriverContext_MaybeQueuePlaySfx.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217c780 SDK_data_0217c780
+// PURPOSE: Queues a sound effect when sound playback is enabled.
+// The context and three event values are passed to the racer sound handler.
+// The global flag probably disables queued playback when its low bit is clear.
 
-void DriverContext_MaybeQueuePlaySfx(undefined4 param_1,undefined4 param_2,undefined4 param_3)
+extern int data_0217c780;
 
+extern int StructMQRacerEntry_SomeFn_6(void *context, int mode, int event,
+                                       int sound_id, int parameter);
+
+int DriverContext_MaybeQueuePlaySfx(void *context, int event, int sound_id,
+                                    int parameter)
 {
-  if (((*(uint *)(uRam0210910c & 0xfffffffc) >> (uRam0210910c & 3) * 8 |
-       *(uint *)(uRam0210910c & 0xfffffffc) << (uRam0210910c & 3) * -8 + 0x20) & 1) != 0) {
-    StructMQRacerEntry_SomeFn_6(param_1,0,param_2,param_3);
-    return;
-  }
-  return;
-}
+    if ((data_0217c780 & 1) == 0) {
+        return 0;
+    }
 
+    return StructMQRacerEntry_SomeFn_6(context, 0, event, sound_id, parameter);
+}

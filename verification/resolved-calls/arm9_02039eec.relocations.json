@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "OnSceneLoop",
+    "target": 33851388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942660662
+  },
+  {
+    "offset": 68,
+    "type": 2,
+    "symbol": "SDK_data_021646f8",
+    "target": 35014392,
+    "thumb": false,
+    "addend": 0,
+    "value": 35014392
+  }
+]

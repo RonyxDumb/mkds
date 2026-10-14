@@ -1,96 +1,55 @@
-/* Decompiled C draft; module arm9; ROM address 02081618. No matching claim. */
-#include "types.h"
-#include "deps/02081618_func_02081618.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217ae84 SDK_data_0217ae84
+/* PURPOSE: Places a kart's shadow (or attached prop) in the world by adding the
+   kart's position to its matrix and copying the driver's scaled offset values.
+   Args: index = kart/player slot, v = kart world position (fx32 x,y,z).
+   Behaviour: looks up the slot in the global table, grabs its shadow object
+   (bails out if there is none), sets the object's position fields to
+   position + the object's matrix translation, then multiplies three driver
+   values (~0.9 in fx32) and copies them into the object. */
 
-void func_02081618(int param_1,uint param_2)
+typedef struct { int x, y, z; } VecFx;
 
-{
-  int iVar1;
-  longlong lVar2;
-  longlong lVar3;
-  longlong lVar4;
-  int iVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  uint uVar9;
-  int iVar10;
-  uint uVar11;
-  
-  iVar10 = param_1 * 0x58 +
-           (*(uint *)(uRam0208171c & 0xfffffffc) >> (uRam0208171c & 3) * 8 |
-           *(uint *)(uRam0208171c & 0xfffffffc) << (uRam0208171c & 3) * -8 + 0x20);
-  uVar6 = iVar10 + 0x2c;
-  uVar8 = uVar6 & 3;
-  uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-  uVar6 = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
-  if (uVar6 != 0) {
-    uVar8 = uVar6 + 0x20 & 3;
-    uVar7 = *(uint *)(uVar6 + 0x20 & 0xfffffffc);
-    uVar7 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
-    uVar8 = uVar7 & 3;
-    uVar7 = *(uint *)(uVar7 & 0xfffffffc);
-    uVar8 = (uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20) + 4;
-    uVar7 = uVar8 & 3;
-    uVar8 = *(uint *)(uVar8 & 0xfffffffc);
-    *(uint *)(uVar6 + 0x28) =
-         (*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-         *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) +
-         (uVar8 >> uVar7 * 8 | uVar8 << uVar7 * -8 + 0x20);
-    uVar8 = uVar6 + 0x20 & 3;
-    uVar7 = *(uint *)(uVar6 + 0x20 & 0xfffffffc);
-    uVar9 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
-    uVar7 = param_2 + 4 & 3;
-    uVar11 = *(uint *)(param_2 + 4 & 0xfffffffc);
-    uVar8 = uVar9 & 3;
-    uVar9 = *(uint *)(uVar9 & 0xfffffffc);
-    uVar8 = (uVar9 >> uVar8 * 8 | uVar9 << uVar8 * -8 + 0x20) + 8;
-    uVar9 = uVar8 & 3;
-    uVar8 = *(uint *)(uVar8 & 0xfffffffc);
-    *(uint *)(uVar6 + 0x2c) =
-         (uVar11 >> uVar7 * 8 | uVar11 << uVar7 * -8 + 0x20) +
-         (uVar8 >> uVar9 * 8 | uVar8 << uVar9 * -8 + 0x20);
-    uVar8 = uVar6 + 0x20 & 3;
-    uVar7 = *(uint *)(uVar6 + 0x20 & 0xfffffffc);
-    uVar9 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
-    uVar7 = param_2 + 8 & 3;
-    uVar11 = *(uint *)(param_2 + 8 & 0xfffffffc);
-    uVar8 = uVar9 & 3;
-    uVar9 = *(uint *)(uVar9 & 0xfffffffc);
-    uVar8 = (uVar9 >> uVar8 * 8 | uVar9 << uVar8 * -8 + 0x20) + 0xc;
-    uVar9 = uVar8 & 3;
-    uVar8 = *(uint *)(uVar8 & 0xfffffffc);
-    *(uint *)(uVar6 + 0x30) =
-         (uVar11 >> uVar7 * 8 | uVar11 << uVar7 * -8 + 0x20) +
-         (uVar8 >> uVar9 * 8 | uVar8 << uVar9 * -8 + 0x20);
-    iVar5 = GetDriverEntry();
-    uVar6 = iVar5 + 0x3b0U & 3;
-    uVar8 = *(uint *)(iVar5 + 0x3b0U & 0xfffffffc);
-    uVar7 = uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20;
-    lVar2 = (ulonglong)uRam02081720 * (ulonglong)uVar7;
-    uVar6 = iVar5 + 0x3b4U & 3;
-    uVar8 = *(uint *)(iVar5 + 0x3b4U & 0xfffffffc);
-    uVar6 = uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20;
-    lVar3 = (ulonglong)uRam02081720 * (ulonglong)uVar6;
-    iVar1 = ((int)uVar6 >> 0x1f) * uRam02081720;
-    uVar6 = iVar5 + 0x3b8U & 3;
-    uVar8 = *(uint *)(iVar5 + 0x3b8U & 0xfffffffc);
-    uVar6 = uVar8 >> uVar6 * 8 | uVar8 << uVar6 * -8 + 0x20;
-    lVar4 = (ulonglong)uRam02081720 * (ulonglong)uVar6;
-    iVar5 = ((int)uVar6 >> 0x1f) * uRam02081720;
-    uVar6 = iVar10 + 0x2c;
-    uVar8 = uVar6 & 3;
-    uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-    uVar6 = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
-    *(uint *)(uVar6 + 0x40) =
-         (uint)lVar2 >> 0xc |
-         (((int)uVar7 >> 0x1f) * uRam02081720 + (int)((ulonglong)lVar2 >> 0x20)) * 0x100000;
-    *(uint *)(uVar6 + 0x44) =
-         (uint)lVar3 >> 0xc | (iVar1 + (int)((ulonglong)lVar3 >> 0x20)) * 0x100000;
-    *(uint *)(uVar6 + 0x48) =
-         (uint)lVar4 >> 0xc | (iVar5 + (int)((ulonglong)lVar4 >> 0x20)) * 0x100000;
-    return;
+typedef struct Obj {
+  char pad0[0x20];
+  int **mtx;      /* +0x20: pointer to pointer to a matrix row */
+  int _24;        /* +0x24 */
+  int f28;        /* +0x28 */
+  int f2c;        /* +0x2c */
+  int f30;        /* +0x30 */
+  char pad34[0x40 - 0x34];
+  VecFx f40;      /* +0x40: scaled driver offset copied here */
+} Obj;
+
+typedef struct Ent {
+  char pad0[0x2c];
+  Obj *obj;       /* +0x2c */
+  char pad30[0x58 - 0x30];
+} Ent;             /* size 0x58 */
+
+typedef struct Driver {
+  char pad[0x3b0];
+  int s0, s1, s2; /* +0x3b0, +0x3b4, +0x3b8 */
+} Driver;
+
+extern Ent *data_0217ae84;
+extern Driver *GetDriverEntry(int index);
+
+void func_02081618(int index, VecFx *v) {
+  Ent *e = &data_0217ae84[index];
+  Obj *o = e->obj;
+  Driver *d;
+  VecFx tmp;
+  if (o == 0) return;
+  o->f28 = v->x + (*o->mtx)[1];
+  o->f2c = v->y + (*o->mtx)[2];
+  o->f30 = v->z + (*o->mtx)[3];
+  d = GetDriverEntry(index);
+  {
+    int *p = &d->s0;   /* ROM reserves callee-saved r6 = driver + 0x3b0 up front */
+    tmp.x = (int)(((long long)d->s0 * 0x0E66LL) >> 12);
+    tmp.y = (int)(((long long)p[1] * 0x0E66LL) >> 12);
+    tmp.z = (int)(((long long)p[2] * 0x0E66LL) >> 12);
   }
-  return;
+  e->obj->f40 = tmp;
 }
-

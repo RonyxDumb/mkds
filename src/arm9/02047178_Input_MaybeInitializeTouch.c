@@ -1,19 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02047178. No matching claim. */
-#include "types.h"
-#include "deps/02047178_Input_MaybeInitializeTouch.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void Input_MaybeInitializeTouch(void)
+// PURPOSE: Initializes touch input calibration when it is available.
+//
+// Starts the touch-panel FIFO, then prepares a small calibration record.
+// The record is probably consumed only when the preparation succeeds.
 
-{
-  int iVar1;
-  undefined1 auStack_10 [16];
-  
-  Os_InitializeTouchPanelFifo();
-  iVar1 = ComputeSomeScreenCalibrationStuff((undefined2 *)(void *)(auStack_10));
-  if (iVar1 != 0) {
-    UseSomeCalibrationStuff((short *)(void *)(auStack_10));
-    return;
-  }
-  return;
+extern void Os_InitializeTouchPanelFifo(void);
+extern int ComputeSomeScreenCalibrationStuff(void *a0);
+extern void UseSomeCalibrationStuff(void *a0);
+
+void Input_MaybeInitializeTouch(void) {
+    int calibration[3];
+
+    Os_InitializeTouchPanelFifo();
+    if (ComputeSomeScreenCalibrationStuff(calibration) == 0) {
+        return;
+    }
+    UseSomeCalibrationStuff(calibration);
 }
-

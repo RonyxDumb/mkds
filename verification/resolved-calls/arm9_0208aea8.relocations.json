@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "IsAwardOrStaffRoll_0",
+    "target": 33959600,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959382008
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "Mem_CpuCopy8",
+    "target": 34918908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942844601
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "Mem_CpuCopy8",
+    "target": 34918908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942844594
+  },
+  {
+    "offset": 144,
+    "type": 2,
+    "symbol": "SDK_data_0217b038",
+    "target": 35106872,
+    "thumb": false,
+    "addend": 0,
+    "value": 35106872
+  },
+  {
+    "offset": 148,
+    "type": 2,
+    "symbol": "SDK_data_021759c0",
+    "target": 35084736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084736
+  }
+]

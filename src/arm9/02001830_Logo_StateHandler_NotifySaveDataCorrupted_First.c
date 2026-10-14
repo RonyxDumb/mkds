@@ -1,26 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02001830. No matching claim. */
-#include "types.h"
-#include "deps/02001830_Logo_StateHandler_NotifySaveDataCorrupted_First.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void Logo_StateHandler_NotifySaveDataCorrupted_First(void)
+// PURPOSE: Shows the two-part warning when save data is corrupted.
+// The shared message database probably lives through data_021a99e0.
+// It retrieves messages 0x7d and 4, then opens a simple single-button dialog.
 
-{
-  uint uVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  
-  uVar2 = (*(uint *)(uRam02001874 & 0xfffffffc) >> (uRam02001874 & 3) * 8 |
-          *(uint *)(uRam02001874 & 0xfffffffc) << (uRam02001874 & 3) * -8 + 0x20) + 0x38;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar3 = Bmg_GetRawStringPointer_from_thumb(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,0x7d);
-  uVar2 = (*(uint *)(uRam02001874 & 0xfffffffc) >> (uRam02001874 & 3) * 8 |
-          *(uint *)(uRam02001874 & 0xfffffffc) << (uRam02001874 & 3) * -8 + 0x20) + 0x38;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar4 = Bmg_GetRawStringPointer_from_thumb(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,4);
-  TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(uVar3,uVar4);
-  return;
+typedef struct BmgHolder {
+    char pad[0x38];
+    void *bmg;
+} BmgHolder;
+
+#define data_021a99e0 (*(BmgHolder **)0x021a99e0)
+extern void *Bmg_GetRawStringPointer_from_thumb(void *bmg, int id);
+extern void TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(void *text, void *button_text);
+
+void Logo_StateHandler_NotifySaveDataCorrupted_First(void) {
+    void *text = Bmg_GetRawStringPointer_from_thumb(data_021a99e0->bmg, 0x7d);
+    TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(
+        text, Bmg_GetRawStringPointer_from_thumb(data_021a99e0->bmg, 4));
 }
-

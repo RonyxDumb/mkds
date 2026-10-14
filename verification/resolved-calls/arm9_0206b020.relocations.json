@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "VecFx32_Subtract",
+    "target": 34899152,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942872307
+  },
+  {
+    "offset": 236,
+    "type": 1,
+    "symbol": "VecFx32_CrossProduct",
+    "target": 34898848,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942872227
+  },
+  {
+    "offset": 248,
+    "type": 1,
+    "symbol": "Vector3_DotProduct",
+    "target": 34899084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942872283
+  },
+  {
+    "offset": 308,
+    "type": 1,
+    "symbol": "StructMQRacerEntry_SomeFn_59",
+    "target": 33992144,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422749
+  }
+]

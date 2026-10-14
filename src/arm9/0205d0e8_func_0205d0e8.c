@@ -1,28 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 0205d0e8. No matching claim. */
-#include "types.h"
-#include "deps/0205d0e8_func_0205d0e8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa1c SDK_data_0217aa1c
+// PURPOSE: Copies one ten-byte column into each of four rows.
+extern unsigned char *data_0217aa1c;
+extern void Mem_CpuCopy8(void *dst, const void *src, unsigned long size);
 
-void func_0205d0e8(int param_1,int param_2)
-
+void func_0205d0e8(int dst_column, int src_column)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  
-  uVar2 = uRam0205d13c;
-  iVar6 = 0;
-  iVar5 = 0;
-  do {
-    uVar1 = uVar2 & 3;
-    uVar3 = *(uint *)(uVar2 & 0xfffffffc);
-    iVar4 = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + iVar5;
-    Mem_CpuCopy8((ushort *)(uintptr_t)(iVar4 + param_1 * 10),(uint *)(uintptr_t)(iVar4 + param_2 * 10),10);
-    iVar6 = iVar6 + 1;
-    iVar5 = iVar5 + 0x50;
-  } while (iVar6 < 4);
-  return;
-}
+    int width = 10;
+    int src_offset = src_column * width;
+    int dst_offset = dst_column * width;
+    int row = 0;
+    int row_offset = row;
 
+    for (; row < 4; row++, row_offset += 0x50) {
+        Mem_CpuCopy8(data_0217aa1c + row_offset + dst_offset,
+                     data_0217aa1c + row_offset + src_offset,
+                     width);
+    }
+}

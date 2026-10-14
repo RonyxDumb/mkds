@@ -1,15 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 020a6aa8. No matching claim. */
-#include "types.h"
-#include "deps/020a6aa8_LoadShine16MapObject.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02166698 SDK_data_021678cc
+#define data_021666a8 SDK_data_021678dc
+#define data_0217b0c4 SDK_data_0217b224
+#define LoadBasabasaMapObject LoadShine16MapObject
+// PURPOSE: Loads the Basabasa map object and its animation.
+// Arguments: a0 is probably the map-object setup context.
+// Behaviour: creates the model from the Basabasa model and animation assets,
+// then saves it and assigns polygon ID 0x3f.
 
-void LoadShine16MapObject(undefined4 param_1)
+extern int data_02166698;
+extern int data_021666a8;
+extern void *data_0217b0c4;
+extern void *CreateMapObjectFromModelAndAnimation_from_thumb(void *a0, void *a1, void *a2);
+extern void StructMapObject_MaybeSetPolygonId(void *obj, int id);
 
-{
-  undefined4 uVar1;
-  
-  uVar1 = CreateMapObjectFromModelAndAnimation_from_thumb(param_1,uRam020a6ad8,uRam020a6adc);
-  *puRam020a6ae0 = uVar1;
-  StructMapObject_MaybeSetPolygonId(uVar1,0x3f);
-  return;
+void LoadBasabasaMapObject(void *a0) {
+    void *obj = CreateMapObjectFromModelAndAnimation_from_thumb(a0, &data_02166698, &data_021666a8);
+    data_0217b0c4 = obj;
+    StructMapObject_MaybeSetPolygonId(obj, 0x3f);
 }
-

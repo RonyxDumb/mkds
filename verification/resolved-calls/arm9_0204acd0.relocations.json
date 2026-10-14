@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "LoadSomeSseq",
+    "target": 34666672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942847206
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_021759d0",
+    "target": 35084752,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084752
+  }
+]

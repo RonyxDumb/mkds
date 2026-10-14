@@ -1,103 +1,59 @@
-/* Decompiled C draft; module arm9; ROM address 020eb2a0. No matching claim. */
-#include "types.h"
-#include "deps/020eb2a0_func_020eb2a0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_020eb2a0(uint param_1,uint param_2,int param_3,int param_4,uint *param_5)
+/* Builds a clamped offset vector between two points a and b (fx32 vectors).
+ * out = a - b, but the y component is first zeroed so the horizontal (x,z)
+ * length is measured. If that horizontal length^2 >= 0x10 the direction is
+ * normalized into a temp, and the x/z components are pushed inward by 'scale'
+ * along the normalized direction. The y difference is then folded against
+ * 'limit' (limit - dy if dy>0, else -(limit + dy)). Finally, if |y| is smaller
+ * than the horizontal length, x and z are clamped to +/- |y|, and y is zeroed.
+ * Probably a "keep offset inside a cone/box" helper for camera or AI targeting.
+ * args: a, b = points; scale, limit = fx32 scalars; out = result vector. */
 
-{
-  longlong lVar1;
-  int iVar2;
-  int iVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  bool bVar8;
-  int local_28 [2];
-  int local_20;
-  
-  *param_5 = (*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-             *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) -
-             (*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-             *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20);
-  param_5[1] = 0;
-  uVar7 = param_1 + 8 & 3;
-  uVar5 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  uVar6 = param_2 + 8 & 3;
-  uVar4 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  param_5[2] = (uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20) -
-               (uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20);
-  uVar7 = (uint)(param_5 + 1) & 3;
-  uVar6 = *(uint *)((uint)(param_5 + 1) & 0xfffffffc);
-  uVar4 = uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20;
-  uVar6 = *(uint *)((uint)param_5 & 0xfffffffc) >> ((uint)param_5 & 3) * 8 |
-          *(uint *)((uint)param_5 & 0xfffffffc) << ((uint)param_5 & 3) * -8 + 0x20;
-  uVar7 = (uint)(param_5 + 2) & 3;
-  uVar5 = *(uint *)((uint)(param_5 + 2) & 0xfffffffc);
-  uVar7 = uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20;
-  lVar1 = (longlong)(int)uVar7 * (longlong)(int)uVar7 +
-          (longlong)(int)uVar6 * (longlong)(int)uVar6 + (longlong)(int)uVar4 * (longlong)(int)uVar4;
-  if ((int)(uint)((uint)lVar1 < 0x10) <= (int)((ulonglong)lVar1 >> 0x20)) {
-    Vector3_MaybeNormalize((uint)(uintptr_t)(param_5),local_28);
-  }
-  *param_5 = ((uint)((longlong)local_28[0] * (longlong)param_3) >> 0xc |
-             (int)((ulonglong)((longlong)local_28[0] * (longlong)param_3) >> 0x20) << 0x14) -
-             (*(uint *)((uint)param_5 & 0xfffffffc) >> ((uint)param_5 & 3) * 8 |
-             *(uint *)((uint)param_5 & 0xfffffffc) << ((uint)param_5 & 3) * -8 + 0x20);
-  uVar7 = (uint)(param_5 + 2) & 3;
-  uVar6 = *(uint *)((uint)(param_5 + 2) & 0xfffffffc);
-  param_5[2] = ((uint)((longlong)local_20 * (longlong)param_3) >> 0xc |
-               (int)((ulonglong)((longlong)local_20 * (longlong)param_3) >> 0x20) << 0x14) -
-               (uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20);
-  uVar7 = param_1 + 4 & 3;
-  uVar5 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  uVar6 = param_2 + 4 & 3;
-  uVar4 = *(uint *)(param_2 + 4 & 0xfffffffc);
-  param_5[1] = (uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20) -
-               (uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20);
-  uVar7 = (uint)(param_5 + 1) & 3;
-  uVar6 = *(uint *)((uint)(param_5 + 1) & 0xfffffffc);
-  uVar7 = uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20;
-  if ((int)uVar7 < 1) {
-    param_5[1] = -(param_4 + uVar7);
-  }
-  else {
-    param_5[1] = param_4 - uVar7;
-  }
-  uVar7 = (uint)(param_5 + 2) & 3;
-  uVar6 = *(uint *)((uint)(param_5 + 2) & 0xfffffffc);
-  uVar6 = uVar6 >> uVar7 * 8 | uVar6 << uVar7 * -8 + 0x20;
-  uVar7 = (uint)(param_5 + 1) & 3;
-  uVar4 = *(uint *)((uint)(param_5 + 1) & 0xfffffffc);
-  uVar7 = uVar4 >> uVar7 * 8 | uVar4 << uVar7 * -8 + 0x20;
-  uVar4 = *(uint *)((uint)param_5 & 0xfffffffc) >> ((uint)param_5 & 3) * 8 |
-          *(uint *)((uint)param_5 & 0xfffffffc) << ((uint)param_5 & 3) * -8 + 0x20;
-  iVar2 = (int)((ulonglong)((longlong)(int)uVar7 * (longlong)(int)uVar7) >> 0x20);
-  lVar1 = (longlong)(int)uVar4 * (longlong)(int)uVar4 + (longlong)(int)uVar6 * (longlong)(int)uVar6;
-  iVar3 = (int)((ulonglong)lVar1 >> 0x20);
-  bVar8 = (uint)((longlong)(int)uVar7 * (longlong)(int)uVar7) < (uint)lVar1;
-  if ((int)(iVar2 - (iVar3 + (uint)bVar8)) < 0 !=
-      (SBORROW4(iVar2,iVar3) != SBORROW4(iVar2 - iVar3,(uint)bVar8))) {
-    if ((int)uVar7 < 1) {
-      uVar7 = -uVar7;
+typedef int fx32;
+typedef long long fx64;
+
+typedef struct { fx32 x, y, z; } VecFx32;
+
+extern void Vector3_MaybeNormalize(VecFx32 *v, VecFx32 *dst);
+
+void func_020eb2a0(VecFx32 *a, VecFx32 *b, fx32 scale, fx32 limit, VecFx32 *out) {
+    VecFx32 dir;   /* normalized horizontal direction (stack temp) */
+    fx64 mag;
+
+    out->x = a->x - b->x;
+    out->y = 0;
+    out->z = a->z - b->z;
+
+    /* horizontal length^2 (y is 0 here); order y,x,z matches the smull/smlal */
+    mag = (fx64)out->x * out->x + (fx64)out->y * out->y + (fx64)out->z * out->z;
+    if (mag >= 0x10)
+        Vector3_MaybeNormalize(out, &dir);
+
+    /* push x/z inward: out = dir*scale (fx mul, >>12) - out */
+    out->x = (fx32)(((fx64)dir.x * scale) >> 12) - out->x;
+    out->z = (fx32)(((fx64)dir.z * scale) >> 12) - out->z;
+
+    out->y = a->y - b->y;
+    if (out->y > 0)
+        out->y = limit - out->y;
+    else
+        out->y = -(limit + out->y);
+
+    /* clamp x,z to +/- |y| when the horizontal part exceeds |y| */
+    if ((fx64)out->x * out->x + (fx64)out->z * out->z > (fx64)out->y * out->y) {
+        fx32 ay = out->y;
+        if (ay <= 0)
+            ay = -ay;
+        if (out->x > ay)
+            out->x = ay;
+        else if (out->x < -ay)
+            out->x = -ay;
+        if (out->z > ay)
+            out->z = ay;
+        else if (out->z < -ay)
+            out->z = -ay;
     }
-    if ((int)uVar7 < (int)uVar4) {
-      *param_5 = uVar7;
-    }
-    else if ((int)(uVar4 + uVar7) < 0 != SBORROW4(uVar4,-uVar7)) {
-      *param_5 = -uVar7;
-    }
-    uVar6 = (uint)(param_5 + 2) & 3;
-    uVar4 = *(uint *)((uint)(param_5 + 2) & 0xfffffffc);
-    uVar6 = uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20;
-    if ((int)uVar7 < (int)uVar6) {
-      param_5[2] = uVar7;
-    }
-    else if ((int)(uVar6 + uVar7) < 0 != SBORROW4(uVar6,-uVar7)) {
-      param_5[2] = -uVar7;
-    }
-  }
-  param_5[1] = 0;
-  return;
+
+    out->y = 0;
 }
-

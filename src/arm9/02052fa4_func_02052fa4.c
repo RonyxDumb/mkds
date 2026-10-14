@@ -1,33 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 02052fa4. No matching claim. */
-#include "types.h"
-#include "deps/02052fa4_func_02052fa4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa00 SDK_data_0217aa00
+// PURPOSE: Allocates or frees memory while interrupts are disabled.
+typedef unsigned int u32;
 
-undefined4 func_02052fa4(undefined4 param_1,undefined4 param_2,int param_3)
+typedef struct UnkStruct_0217aa00 {
+    char _00[0x1d04];
+    void *heap;
+} UnkStruct_0217aa00;
 
+extern UnkStruct_0217aa00 *data_0217aa00;
+extern u32 Os_DisableIrq(void);
+extern void Os_RestoreIrq(u32 irqState);
+extern void Mem_FreeHeap(void *heap, void *block);
+extern void *Mem_AllocateHeapAligned(void *heap, unsigned int size, int alignment);
+
+void *func_02052fa4(int unused, unsigned int size, void *block)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  undefined4 uVar4;
-  
-  uVar4 = 0;
-  uVar2 = Os_DisableIrq();
-  if (param_3 == 0) {
-    uVar3 = (*(uint *)(uRam0205301c & 0xfffffffc) >> (uRam0205301c & 3) * 8 |
-            *(uint *)(uRam0205301c & 0xfffffffc) << (uRam0205301c & 3) * -8 + 0x20) + 0x1d04;
-    uVar1 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    uVar4 = Mem_AllocateHeapAligned
-                      (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,param_2,0xffffffe0);
-  }
-  else {
-    uVar3 = (*(uint *)(uRam0205301c & 0xfffffffc) >> (uRam0205301c & 3) * 8 |
-            *(uint *)(uRam0205301c & 0xfffffffc) << (uRam0205301c & 3) * -8 + 0x20) + 0x1d04;
-    uVar1 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    Mem_FreeHeap(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,param_3);
-  }
-  Os_RestoreIrq(uVar2);
-  return uVar4;
-}
+    u32 irqState;
+    void *result = 0;
 
+    irqState = Os_DisableIrq();
+    if (block != 0) {
+        Mem_FreeHeap(data_0217aa00->heap, block);
+    } else {
+        result = Mem_AllocateHeapAligned(data_0217aa00->heap, size, -0x20);
+    }
+    Os_RestoreIrq(irqState);
+
+    return result;
+}

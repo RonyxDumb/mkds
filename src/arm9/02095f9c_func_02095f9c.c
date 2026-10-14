@@ -1,14 +1,35 @@
-/* Decompiled C draft; module arm9; ROM address 02095f9c. No matching claim. */
-#include "types.h"
-#include "deps/02095f9c_func_02095f9c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0209702c SDK_data_0209702c
+#define func_02096f54 SDK_data_02096f54
+#define func_02096df0 SDK_data_02096df0
+/* PURPOSE: Creates some kind of task/object via func_0209bf70 and sets its
+ * field at offset 0x28 to a fixed value (0x1b0).
+ * Calls func_0209bf70 with a fixed set of arguments: three function/data
+ * pointers (func_0209702c, func_02096f54, func_02096df0), a zero, and two
+ * extra stack args (1 and 0x16d). The returned pointer (probably a newly
+ * created task/heap object) then has its field at offset 0x28 set to
+ * 0x1b0 (probably a priority or size value).
+ */
+
+extern void *func_0209bf70(void *a0, void *a1, void *a2, int a3, int a4, int a5);
+extern void func_0209702c(void);
+extern void func_02096f54(void);
+extern void func_02096df0(void);
+
+struct Task28 {
+    unsigned char pad[0x28];
+    int field_0x28;
+};
 
 void func_02095f9c(void)
-
 {
-  int iVar1;
-  
-  iVar1 = func_0209bf70(uRam02095fe0,uRam02095fe4,uRam02095fe8,0,1,uRam02095fdc);
-  *(undefined4 *)(iVar1 + 0x28) = 0x1b0;
-  return;
-}
+    struct Task28 *obj = (struct Task28 *)func_0209bf70(
+        (void *)func_0209702c,
+        (void *)func_02096f54,
+        (void *)func_02096df0,
+        0,
+        1,
+        0x16d);
 
+    obj->field_0x28 = 0x1b0;
+}

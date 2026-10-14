@@ -1,33 +1,50 @@
-/* Decompiled C draft; module arm9; ROM address 0200148c. No matching claim. */
-#include "types.h"
-#include "deps/0200148c_Logo_StateHandler_EraseSaveData_First.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+
+/* PURPOSE: Starts erasing save data and shows its progress message.
+ * This function takes no arguments and returns no value.
+ * It replaces the empty save, then probably opens message 0x7e when the
+ * logo context requests visible progress and clears the dialog-active field.
+ */
+
+typedef struct LogoContext {
+    unsigned char padding_00[0x2c];
+    signed int showEraseProgress : 1; /* +0x2c, exact meaning uncertain */
+    unsigned int paddingBits : 31;
+    unsigned char padding_30[4];
+    int progressDialogActive;          /* +0x34 */
+    void *messageArchive;              /* +0x38 */
+} LogoContext;
+
+extern void OverwriteEmptySaveData_from_thumb(void);
+extern void *Bmg_GetRawStringPointer_from_thumb(void *messageArchive, int messageId);
+extern void TextSystem_DisplayProgressDialog_from_thumb(
+    void *message,
+    int option1,
+    int option2,
+    int option3,
+    int option4,
+    int option5);
 
 void Logo_StateHandler_EraseSaveData_First(void)
-
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  
-  OverwriteEmptySaveData_from_thumb();
-  uVar4 = *(uint *)(uRam020014fc & 0xfffffffc) >> (uRam020014fc & 3) * 8 |
-          *(uint *)(uRam020014fc & 0xfffffffc) << (uRam020014fc & 3) * -8 + 0x20;
-  uVar2 = uVar4 + 0x2c;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if ((int)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) << 0x1f) < 0) {
-    uVar4 = uVar4 + 0x38;
-    uVar2 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    uVar3 = Bmg_GetRawStringPointer_from_thumb(uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20,0x7e)
-    ;
-    TextSystem_DisplayProgressDialog_from_thumb(uVar3,1,1,1);
-    *(undefined4 *)
-     ((*(uint *)(uRam020014fc & 0xfffffffc) >> (uRam020014fc & 3) * 8 |
-      *(uint *)(uRam020014fc & 0xfffffffc) << (uRam020014fc & 3) * -8 + 0x20) + 0x34) = 0;
-    return;
-  }
-  return;
-}
+    LogoContext *logoContext;
 
+    OverwriteEmptySaveData_from_thumb();
+
+    /* This relocated overlay pointer has no name in the EUR symbol map. */
+    logoContext = *(LogoContext **)0x021a99e0;
+    if (!logoContext->showEraseProgress) {
+        return;
+    }
+
+    TextSystem_DisplayProgressDialog_from_thumb(
+        Bmg_GetRawStringPointer_from_thumb(logoContext->messageArchive, 0x7e),
+        1,
+        1,
+        1,
+        0,
+        1);
+
+    /* Reload the shared context because the calls may replace it. */
+    (*(LogoContext **)0x021a99e0)->progressDialogActive = 0;
+}

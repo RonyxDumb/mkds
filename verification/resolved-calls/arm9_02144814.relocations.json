@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 152,
+    "type": 1,
+    "symbol": "func_021445e0",
+    "target": 34883040,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422795
+  },
+  {
+    "offset": 180,
+    "type": 1,
+    "symbol": "CopyMemory16",
+    "target": 34918396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942654411
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "Mem_CpuFill16",
+    "target": 34918372,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942654398
+  },
+  {
+    "offset": 212,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959106796
+  },
+  {
+    "offset": 252,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959106791
+  }
+]

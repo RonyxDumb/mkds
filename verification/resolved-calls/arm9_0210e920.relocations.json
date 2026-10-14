@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Sound_LoadSwar",
+    "target": 34793764,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942678522
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Sound_LoadSbnkWithFlags",
+    "target": 34793716,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942678501
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Sound_LoadSarc",
+    "target": 34793876,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942678533
+  },
+  {
+    "offset": 104,
+    "type": 2,
+    "symbol": "SDK_data_0217d130",
+    "target": 35115312,
+    "thumb": false,
+    "addend": 0,
+    "value": 35115312
+  }
+]

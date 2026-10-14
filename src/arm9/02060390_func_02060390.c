@@ -1,22 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 02060390. No matching claim. */
-#include "types.h"
-#include "deps/02060390_func_02060390.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-int func_02060390(undefined4 param_1,undefined4 param_2)
+// PURPOSE: Returns the selected cup entry's signed value.
+// Copies the requested cup and class entry into a local record.
+// Returns its signed byte at offset 0x1d when its flag at 0x18 is set.
+// The record layout is probably a cup-selection entry.
 
+extern void CopyCupEntryTo_from_thumb(int cup, int cc, void *entry);
+
+int func_02060390(int cup, int cc)
 {
-  int iVar1;
-  undefined1 auStack_28 [24];
-  char local_10;
-  char cStack_b;
-  
-  CopyCupEntryTo_from_thumb(param_1,param_2,(undefined4)(uintptr_t)(auStack_28));
-  if (local_10 == '\0') {
-    iVar1 = -1;
-  }
-  else {
-    iVar1 = (int)cStack_b;
-  }
-  return iVar1;
-}
+    char entry[0x24];
 
+    CopyCupEntryTo_from_thumb(cup, cc, entry);
+    if ((unsigned char)entry[0x18] != 0) {
+        return entry[0x1d];
+    }
+    return -1;
+}

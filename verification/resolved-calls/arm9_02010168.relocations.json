@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "ModelBlock_SomeTexPltFn_10",
+    "target": 33621380,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646003
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "ModelBlock_SomeTexPltFn_11",
+    "target": 33620752,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645842
+  }
+]

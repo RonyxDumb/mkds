@@ -1,59 +1,75 @@
-/* Decompiled C draft; module arm9; ROM address 020d12e0. No matching claim. */
-#include "types.h"
-#include "deps/020d12e0_func_020d12e0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b4ac SDK_data_0217b4ac
+// PURPOSE: Builds the staff roll sprites for the current frame.
+// It resets the sprite count and adds the first credits cell while active.
+// The remaining entries are cleared after the completed sprite data is flushed.
+
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u32 first;
+    u32 second;
+} EndingOamRecord;
+
+typedef struct {
+    EndingOamRecord entries[128];
+    u16 count;
+    u16 padding_402;
+} EndingOamBuffer;
+
+typedef struct {
+    int frame_count;
+    void *palette;
+    void *characters;
+    void *first_cell;
+    EndingOamBuffer oam;
+} EndingStaffRollObjectData;
+
+extern EndingStaffRollObjectData *data_0217b4ac;
+
+extern int MaybeMakeOamSlot(void *slot, u16 remaining, void *cell, int unused,
+                            int *attributes, int unused2, int enabled);
+extern void Arm_FlushRange(void *buffer, u32 size);
+extern void Mem_DmaFill32(u32 channel, void *destination, u32 value, u32 size);
 
 void func_020d12e0(void)
-
 {
-  short sVar1;
-  uint uVar2;
-  ushort *puVar4;
-  uint uVar5;
-  uint *puVar6;
-  uint uVar7;
-  undefined4 local_1c;
-  undefined4 local_18;
-  uint uVar3;
-  
-  uVar2 = uRam020d13f4;
-  *(undefined2 *)
-   ((*(uint *)(uRam020d13f4 & 0xfffffffc) >> (uRam020d13f4 & 3) * 8 |
-    *(uint *)(uRam020d13f4 & 0xfffffffc) << (uRam020d13f4 & 3) * -8 + 0x20) + 0x410) = 0;
-  uVar3 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  if ((int)(*(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
-           *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) < 0x21c) {
-    uVar7 = (uint)*(ushort *)(uVar3 + 0x410);
-    uVar2 = uVar3 + 0xc & 3;
-    uVar5 = *(uint *)(uVar3 + 0xc & 0xfffffffc);
-    local_18 = 0x60000;
-    local_1c = 0x80000;
-    puVar6 = (uint *)(uVar3 + 0x10 + uVar7 * 8);
-    sVar1 = MaybeMakeOamSlot((int)(uintptr_t)(puVar6),0x80 - uVar7 & 0xffff,
-                             (ushort *)(uintptr_t)(uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20),0,(uint)(uintptr_t)(&local_1c),0,1);
-    puVar4 = (ushort *)(uVar3 + 0x410);
-    *puVar4 = *puVar4 + sVar1;
-    if (uVar7 < *puVar4) {
-      do {
-        uVar7 = uVar7 + 1;
-        *puVar6 = (*(uint *)((uint)puVar6 & 0xfffffffc) >> ((uint)puVar6 & 3) * 8 |
-                  *(uint *)((uint)puVar6 & 0xfffffffc) << ((uint)puVar6 & 3) * -8 + 0x20) &
-                  0xfffff3ff | 0x400;
-        uVar3 = (uint)(puVar6 + 1) & 3;
-        uVar2 = *(uint *)((uint)(puVar6 + 1) & 0xfffffffc);
-        puVar6[1] = (uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) & 0xfffff3ff | 0x400;
-        puVar6 = puVar6 + 2;
-      } while ((int)uVar7 < (int)(uint)*puVar4);
-    }
-  }
-  Arm_FlushRange((*(uint *)(uRam020d13f4 & 0xfffffffc) >> (uRam020d13f4 & 3) * 8 |
-                 *(uint *)(uRam020d13f4 & 0xfffffffc) << (uRam020d13f4 & 3) * -8 + 0x20) + 0x10,
-                 0x400);
-  uVar3 = *(uint *)(uRam020d13f4 & 0xfffffffc) >> (uRam020d13f4 & 3) * 8 |
-          *(uint *)(uRam020d13f4 & 0xfffffffc) << (uRam020d13f4 & 3) * -8 + 0x20;
-  uVar2 = (uint)*(ushort *)(uVar3 + 0x410);
-  Mem_DmaFill32(3,uVar3 + 0x10 + uVar2 * 8,0xc0,(0x80 - uVar2) * 8);
-  return;
-}
+    int attributes[2];
+    EndingOamBuffer *oam;
+    int i;
+    EndingOamRecord *entry;
+    void *cell;
 
+    data_0217b4ac->oam.count = 0;
+
+    if (data_0217b4ac->frame_count < 0x21c) {
+        oam = &data_0217b4ac->oam;
+        i = oam->count;
+        cell = data_0217b4ac->first_cell;
+        attributes[0] = 0x80000;
+        attributes[1] = 0x60000;
+        entry = &oam->entries[i];
+
+        oam->count += MaybeMakeOamSlot(
+            entry,
+            (u16)(0x80 - i),
+            cell,
+            0,
+            attributes,
+            0,
+            1);
+
+        for (; i < oam->count; i++, entry++) {
+            entry->first = (entry->first & ~0xc00) | 0x400;
+            entry->second = (entry->second & ~0xc00) | 0x400;
+        }
+    }
+
+    Arm_FlushRange(data_0217b4ac->oam.entries, 0x400);
+    Mem_DmaFill32(
+        3,
+        &data_0217b4ac->oam.entries[data_0217b4ac->oam.count],
+        0xc0,
+        (0x80 - data_0217b4ac->oam.count) * 8);
+}

@@ -1,48 +1,45 @@
-/* Decompiled C draft; module arm9; ROM address 0204f8a0. No matching claim. */
-#include "types.h"
-#include "deps/0204f8a0_func_0204f8a0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa00 SDK_data_0217aa00
+// PURPOSE: Applies the requested wireless setting once the shared context is ready.
 
-void func_0204f8a0(void)
+typedef unsigned char u8;
+typedef unsigned short u16;
 
+typedef struct UnkStruct_0217aa00 {
+    int state;
+    u8 pad_004[0x454 - 4];
+    u16 flags;
+} UnkStruct_0217aa00;
+
+extern UnkStruct_0217aa00 *data_0217aa00;
+extern void func_0204bcb4(void *value);
+
+void func_0204f8a0(void *value)
 {
-  bool bVar1;
-  uint uVar2;
-  uint uVar3;
-  bool bVar4;
-  
-  bVar1 = false;
-  uVar3 = *(uint *)(uRam0204f930 & 0xfffffffc) >> (uRam0204f930 & 3) * 8 |
-          *(uint *)(uRam0204f930 & 0xfffffffc) << (uRam0204f930 & 3) * -8 + 0x20;
-  if ((*(ushort *)(uVar3 + 0x454) & 0x40) != 0) {
-    if (uVar3 == 0) {
-      uVar2 = 0;
-    }
-    else {
-      uVar2 = *(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
-              *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20;
-    }
-    bVar4 = true;
-    if ((uVar2 != 1) && (*psRam0204f934 != 2)) {
-      bVar4 = false;
-    }
-    if (bVar4) {
-      bVar1 = true;
-    }
-  }
-  if (bVar1) {
-    if (uVar3 == 0) {
-      uVar3 = 0;
-    }
-    else {
-      uVar3 = *(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
-              *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20;
-    }
-    if (uVar3 == 1) {
-      func_0204bcb4();
-      return;
-    }
-    return;
-  }
-  return;
-}
+    UnkStruct_0217aa00 *context = data_0217aa00;
+    int enabled = 0;
 
+    if ((context->flags & 0x40) != 0) {
+        int state = (context == 0) ? 0 : context->state;
+        int ready = 1;
+
+        if (state != 1) {
+            if (*(volatile u16 *)0x027ffc40 != 2) {
+                ready = 0;
+            }
+        }
+        if (ready != 0) {
+            enabled = 1;
+        }
+    }
+
+    if (enabled == 0) {
+        return;
+    }
+
+    if (((context == 0) ? 0 : context->state) != 1) {
+        return;
+    }
+
+    func_0204bcb4(value);
+}

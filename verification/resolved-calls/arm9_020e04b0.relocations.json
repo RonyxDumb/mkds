@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "MTX_MultVec33",
+    "target": 34893176,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942750757
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "VecFx32_Add",
+    "target": 34899204,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942752260
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "MTX_MultVec33",
+    "target": 34893176,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942750746
+  }
+]

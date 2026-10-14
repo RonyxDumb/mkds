@@ -1,40 +1,44 @@
-/* Decompiled C draft; module arm9; ROM address 0203c25c. No matching claim. */
-#include "types.h"
-#include "deps/0203c25c_UpdatePlayerLapCountIfNot123.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217561c SDK_data_0217561c
+// PURPOSE: Checks whether a player's lap count needs updating.
+// The player index selects a probably race-state record.
+// States 1, 2, and 3 do not need an update.
+// Other states probably update only when the stored lap matches the current lap.
 
-bool UpdatePlayerLapCountIfNot123(int param_1)
+typedef struct PlayerLapRecord {
+    unsigned char padding_00[0x14];
+    int state;
+    unsigned char padding_18[0x38 - 0x18];
+    int lapCount;
+    unsigned char padding_3c[0x8c - 0x3c];
+} PlayerLapRecord;
 
+extern PlayerLapRecord *data_0217561c;
+extern int GetCurrentLapCount(void);
+
+int UpdatePlayerLapCountIfNot123(int playerId)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  bool bVar4;
-  
-  bVar4 = false;
-  uVar2 = (*(uint *)(uRam0203c2e0 & 0xfffffffc) >> (uRam0203c2e0 & 3) * 8 |
-          *(uint *)(uRam0203c2e0 & 0xfffffffc) << (uRam0203c2e0 & 3) * -8 + 0x20) + param_1 * 0x8c +
-          0x14;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar2 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  if (((uVar2 == 1) || (uVar2 == 2)) || (uVar2 == 3)) {
-    bVar4 = true;
-  }
-  bVar4 = !bVar4;
-  if (bVar4) {
-    uVar3 = GetCurrentLapCount();
-    uVar2 = (*(uint *)(uRam0203c2e0 & 0xfffffffc) >> (uRam0203c2e0 & 3) * 8 |
-            *(uint *)(uRam0203c2e0 & 0xfffffffc) << (uRam0203c2e0 & 3) * -8 + 0x20) + param_1 * 0x8c
-            + 0x38;
-    uVar1 = uVar2 & 3;
-    uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-    if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == uVar3) {
-      bVar4 = true;
-    }
-    else {
-      bVar4 = false;
-    }
-  }
-  return bVar4;
-}
+    int is123 = 0;
+    int result;
 
+    if (data_0217561c[playerId].state == 1) {
+        goto state_is_123;
+    }
+    if (data_0217561c[playerId].state == 2) {
+        goto state_is_123;
+    }
+    if (data_0217561c[playerId].state != 3) {
+        goto state_is_not_123;
+    }
+
+state_is_123:
+    is123 = 1;
+
+state_is_not_123:
+
+    result = is123 == 0;
+    if (result != 0) {
+        result = data_0217561c[playerId].lapCount == GetCurrentLapCount();
+    }
+    return result != 0;
+}

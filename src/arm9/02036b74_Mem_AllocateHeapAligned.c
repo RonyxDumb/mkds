@@ -1,25 +1,33 @@
-/* Decompiled C draft; module arm9; ROM address 02036b74. No matching claim. */
-#include "types.h"
-#include "deps/02036b74_Mem_AllocateHeapAligned.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 Mem_AllocateHeapAligned(uint param_1,undefined4 param_2,undefined4 param_3)
+// PURPOSE: Allocates aligned memory from a supported heap.
+// The heap, requested byte count, and alignment are passed to its allocator.
+// Expandable heaps allocate directly; frame heaps probably require interrupts disabled.
+// An unsupported heap signature returns a null pointer.
 
+typedef unsigned int u32;
+
+extern void *Mem_Exp_Allocate(void *heap, unsigned int size, int alignment);
+extern void *Mem_Frame_Allocate(void *heap, unsigned int size, int alignment);
+extern u32 Os_DisableIrq(void);
+extern void Os_RestoreIrq(u32 irqState);
+
+void *Mem_AllocateHeapAligned(void *heap, unsigned int size, int alignment)
 {
-  undefined4 uVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  
-  uVar2 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  uVar3 = 0;
-  if (uVar2 == uRam02036be4) {
-    uVar3 = Mem_Exp_Allocate();
-  }
-  else if (uVar2 == uRam02036be8) {
-    uVar1 = Os_DisableIrq();
-    uVar3 = Mem_Frame_Allocate(param_1,param_2,param_3);
-    Os_RestoreIrq(uVar1);
-  }
-  return uVar3;
-}
+    void *allocatedBlock = 0;
 
+    switch (*(u32 *)heap) {
+    case 0x45585048: /* Expandable-heap signature. */
+        allocatedBlock = Mem_Exp_Allocate(heap, size, alignment);
+        break;
+    case 0x46524d48: { /* Frame-heap signature. */
+        u32 irqState = Os_DisableIrq();
+
+        allocatedBlock = Mem_Frame_Allocate(heap, size, alignment);
+        Os_RestoreIrq(irqState);
+        break;
+    }
+    }
+
+    return allocatedBlock;
+}

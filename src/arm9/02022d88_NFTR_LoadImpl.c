@@ -1,33 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 02022d88. No matching claim. */
-#include "types.h"
-#include "deps/02022d88_NFTR_LoadImpl.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021530e8 SDK_data_021530e8
+/*
+// PURPOSE: Loads an NFTR font and selects its character reader.
+The output font receives the processed version and width-entry size.
+The reader is selected from the loaded font header, probably by encoding.
+*/
 
-void NFTR_LoadImpl(uint param_1,undefined4 param_2)
+typedef unsigned short u16;
 
+typedef struct CommonHeader CommonHeader;
+typedef struct StructFON StructFON;
+
+typedef struct G2d_Font {
+    void *fnif_data;
+    int (*next_char_fn_ptr)(StructFON *);
+    u16 ver_is_old;
+    u16 char_width_entry_size;
+} G2d_Font;
+
+extern int NFTR_Process(CommonHeader *common_h, G2d_Font *font);
+extern int (*data_021530e8[])(StructFON *);
+
+void NFTR_LoadImpl(G2d_Font *out_font, CommonHeader *nftr_ptr)
 {
-  uint uVar1;
-  byte bVar2;
-  int iVar3;
-  short sVar4;
-  uint uVar5;
-  undefined2 uVar6;
-  
-  sVar4 = NFTR_Process(param_2,(int *)(uintptr_t)(param_1));
-  bVar2 = *(byte *)((*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-                    *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + 7);
-  *(short *)(param_1 + 8) = sVar4 + -1;
-  iVar3 = iRam02022dd4;
-  if (*(short *)(param_1 + 8) == 0) {
-    uVar6 = 3;
-  }
-  else {
-    uVar6 = 2;
-  }
-  *(undefined2 *)(param_1 + 10) = uVar6;
-  uVar5 = iVar3 + (uint)bVar2 * 4;
-  uVar1 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  *(uint *)(param_1 + 4) = uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20;
-  return;
+    int ver = NFTR_Process(nftr_ptr, out_font) - 1;
+    unsigned char encoding = ((unsigned char *)out_font->fnif_data)[7];
+    out_font->ver_is_old = ver;
+    out_font->char_width_entry_size = out_font->ver_is_old != 0 ? 2 : 3;
+    out_font->next_char_fn_ptr = data_021530e8[encoding];
 }
-

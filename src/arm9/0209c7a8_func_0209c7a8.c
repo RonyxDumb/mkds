@@ -1,49 +1,53 @@
-/* Decompiled C draft; module arm9; ROM address 0209c7a8. No matching claim. */
-#include "types.h"
-#include "deps/0209c7a8_func_0209c7a8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b184 SDK_data_0217b184
+/*
+ * PURPOSE: Converts an object's raw position into draw-scale units, logs some
+ * debug info about it, then hands it off to the 3D object renderer.
+ *
+ * arg0 (ctx)  - opaque context/list pointer, forwarded unchanged to
+ *               DrawObject2D3D.
+ * arg1 (obj)  - object struct. Its raw fixed-point position fields at +0x4,
+ *               +0x8, +0xc (probably 1/4096 fixed point) are rescaled by >>4
+ *               and stored back at +0x4c/+0x50/+0x54 (1/256 fixed point).
+ *               Field +0x11c is probably a mode flag: when it equals 1, an
+ *               extra debug dump of fields +0xbc/+0xdc runs. Field +0xa0 is
+ *               a u16 nsbtp animation frame index.
+ *
+ * func_01ff9048 is an unnamed itcm debug/log routine, called here as
+ * func_01ff9048(tag, argsPtr, n) purely for its side effects (probably an
+ * internal assert/telemetry logger); its exact semantics don't affect the
+ * observable behaviour of this function.
+ */
 
-void func_0209c7a8(undefined4 param_1,int param_2)
+extern void func_01ff9048(int tag, void *args, int n);
+extern void StructMapObject_SetNsbtpFrame(void *model, unsigned short frame);
+extern void DrawObject2D3D(void *ctx, void *model, void *obj);
 
+extern void *data_0217b184;
+
+void func_0209c7a8(void *ctx, unsigned char *obj)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 local_20;
-  uint local_1c;
-  uint local_18;
-  uint local_14;
-  
-  local_20 = 0x1e;
-  func_01ff9048(0x14,(undefined4)(uintptr_t)(&local_20),1);
-  uVar1 = param_2 + 4U & 3;
-  uVar2 = *(uint *)(param_2 + 4U & 0xfffffffc);
-  *(int *)(param_2 + 0x4c) = (int)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) >> 4;
-  uVar1 = param_2 + 8U & 3;
-  uVar2 = *(uint *)(param_2 + 8U & 0xfffffffc);
-  *(int *)(param_2 + 0x50) = (int)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) >> 4;
-  uVar1 = param_2 + 0xcU & 3;
-  uVar2 = *(uint *)(param_2 + 0xcU & 0xfffffffc);
-  *(int *)(param_2 + 0x54) = (int)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) >> 4;
-  func_01ff9048(0x19,param_2 + 0x28,0xc);
-  uVar1 = param_2 + 0x11cU & 3;
-  uVar2 = *(uint *)(param_2 + 0x11cU & 0xfffffffc);
-  if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) == 1) {
-    uVar1 = param_2 + 0xbcU & 3;
-    uVar2 = *(uint *)(param_2 + 0xbcU & 0xfffffffc);
-    local_1c = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-    uVar1 = param_2 + 0xdcU & 3;
-    uVar2 = *(uint *)(param_2 + 0xdcU & 0xfffffffc);
-    local_18 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-    local_14 = local_1c;
-    func_01ff9048(0x1b,(undefined4)(uintptr_t)(&local_1c),3);
-  }
-  func_01ff9048(0x1b,param_2 + 0x1c,3);
-  StructMapObject_SetNsbtpFrame
-            (*(uint *)(uRam0209c874 & 0xfffffffc) >> (uRam0209c874 & 3) * 8 |
-             *(uint *)(uRam0209c874 & 0xfffffffc) << (uRam0209c874 & 3) * -8 + 0x20,
-             *(undefined2 *)(param_2 + 0xa0));
-  DrawObject2D3D(param_1,*(uint *)(uRam0209c874 & 0xfffffffc) >> (uRam0209c874 & 3) * 8 |
-                         *(uint *)(uRam0209c874 & 0xfffffffc) << (uRam0209c874 & 3) * -8 + 0x20,
-                 param_2);
-  return;
-}
+    int buf[5];
 
+    buf[0] = 0x1e;
+    func_01ff9048(0x14, &buf[0], 1);
+
+    *(int *)(obj + 0x4c) = *(int *)(obj + 0x4) >> 4;
+    *(int *)(obj + 0x50) = *(int *)(obj + 0x8) >> 4;
+    *(int *)(obj + 0x54) = *(int *)(obj + 0xc) >> 4;
+    func_01ff9048(0x19, obj + 0x28, 0xc);
+
+    if (*(int *)(obj + 0x11c) == 1) {
+        int a = *(int *)(obj + 0xbc);
+        int b = *(int *)(obj + 0xdc);
+        buf[1] = a;
+        buf[2] = b;
+        buf[3] = a;
+        func_01ff9048(0x1b, &buf[1], 3);
+    }
+
+    func_01ff9048(0x1b, obj + 0x1c, 3);
+
+    StructMapObject_SetNsbtpFrame(data_0217b184, *(unsigned short *)(obj + 0xa0));
+    DrawObject2D3D(ctx, data_0217b184, obj);
+}

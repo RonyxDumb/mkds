@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "DriverStatus_SomeFn_0",
+    "target": 33815136,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645912
+  },
+  {
+    "offset": 244,
+    "type": 1,
+    "symbol": "StructRC_SomeFn_1",
+    "target": 33814464,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422913
+  },
+  {
+    "offset": 328,
+    "type": 1,
+    "symbol": "StructRC_SomeFn_1",
+    "target": 33814464,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422892
+  },
+  {
+    "offset": 344,
+    "type": 2,
+    "symbol": "SDK_data_02175620",
+    "target": 35083808,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083808
+  }
+]

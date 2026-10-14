@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Struct59C4Sub_SomeFn_3",
+    "target": 34664552,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942850689
+  },
+  {
+    "offset": 92,
+    "type": 2,
+    "symbol": "SDK_data_021759c4",
+    "target": 35084740,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084740
+  }
+]

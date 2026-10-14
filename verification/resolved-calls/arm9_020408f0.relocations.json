@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "MaybeComputeGPScore",
+    "target": 33819276,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645838
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "GetGlobalRK",
+    "target": 34055856,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942704980
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "FX_Div",
+    "target": 34897716,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942915436
+  },
+  {
+    "offset": 396,
+    "type": 2,
+    "symbol": "SDK_data_0217561c",
+    "target": 35083804,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083804
+  },
+  {
+    "offset": 400,
+    "type": 2,
+    "symbol": "SDK_data_021759c0",
+    "target": 35084736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084736
+  }
+]

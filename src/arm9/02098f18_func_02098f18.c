@@ -1,55 +1,77 @@
-/* Decompiled C draft; module arm9; ROM address 02098f18. No matching claim. */
-#include "types.h"
-#include "deps/02098f18_func_02098f18.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_02098f18(uint param_1,undefined4 param_2)
+/*
+ * PURPOSE: Sets up a newly allocated race object using data copied from a source descriptor.
+ *
+ * a1: pointer to a source descriptor; word 0 is a container pointer and halfword 8 is a
+ *     small id, both copied into the new object.
+ * a2: an opaque id (probably owner/player index) stored into the new object and also
+ *     forwarded to func_02100138.
+ *
+ * First calls func_02100138 (probably releases/prepares a previous instance), then
+ * fetches a fresh object via func_0209bbfc(). If none is available the function does
+ * nothing. Otherwise it clears a few flag bits, copies fields from a1, sets a fixed
+ * scale, calls func_020d90a8() to finish base setup, computes a fixed-point-scaled
+ * value from an array entry reached through the container pointer, and finally calls
+ * func_0208b7bc() to initialize a sub-object embedded at offset 4.
+ */
 
+extern void func_02100138(int a0, int a1);
+extern void *func_0209bbfc(void);
+extern void func_020d90a8(void *slot, int a1, int a2);
+extern int func_0208b7bc(int a0, void *a1);
+
+void func_02098f18(void *a1, int a2)
 {
-  longlong lVar1;
-  int iVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  uint uVar6;
-  uint uVar7;
-  uint uVar5;
-  
-  func_02100138(uRam02099000);
-  iVar2 = func_0209bbfc();
-  if (iVar2 != 0) {
-    *(ushort *)(iVar2 + 2) = *(ushort *)(iVar2 + 2) & 0xfffe;
-    *(ushort *)(iVar2 + 2) = *(ushort *)(iVar2 + 2) & 0xfff7;
-    *(ushort *)(iVar2 + 2) = *(ushort *)(iVar2 + 2) & 0xfffd;
-    *(ushort *)(iVar2 + 2) = *(ushort *)(iVar2 + 2) & 0xfff7;
-    *(undefined2 *)(iVar2 + 0x66) = 0x1f;
-    *(undefined2 *)(iVar2 + 0xa8) = *(undefined2 *)(param_1 + 8);
-    *(uint *)(iVar2 + 0xa0) =
-         *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-         *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-    func_020d90a8(iVar2 + 0xa0,0,1);
-    *(undefined4 *)(iVar2 + 0xa4) = 0x7800;
-    uVar6 = iVar2 + 0xa0U & 3;
-    uVar4 = *(uint *)(iVar2 + 0xa0U & 0xfffffffc);
-    uVar5 = uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20;
-    uVar6 = iVar2 + 0xacU & 3;
-    uVar7 = *(uint *)(iVar2 + 0xacU & 0xfffffffc);
-    uVar4 = uVar5 & 3;
-    uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-    uVar6 = (uVar7 >> uVar6 * 8 | uVar7 << uVar6 * -8 + 0x20) * 0x54 +
-            (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) + 0x34;
-    uVar4 = uVar6 & 3;
-    uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-    uVar6 = uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20;
-    lVar1 = (ulonglong)uVar6 * 0x7800;
-    *(uint *)(iVar2 + 0xb0) =
-         (uint)lVar1 >> 0xc |
-         (((int)uVar6 >> 0x1f) * 0x7800 + (int)((ulonglong)lVar1 >> 0x20)) * 0x100000;
-    *(undefined4 *)(iVar2 + 0xc4) = param_2;
-    *(undefined4 *)(iVar2 + 200) = 0xffffb000;
-    *(undefined4 *)(iVar2 + 0xcc) = 0;
-    uVar3 = func_0208b7bc(0x33,iVar2 + 4);
-    *(undefined4 *)(iVar2 + 0xd0) = uVar3;
-    return;
-  }
-  return;
-}
+    unsigned char *src = (unsigned char *)a1;
+    unsigned char *p;
+    unsigned char *destSlot;
+    unsigned short flags;
 
+    func_02100138(0x1ab, a2);
+    p = (unsigned char *)func_0209bbfc();
+    if (p == 0) {
+        return;
+    }
+
+    destSlot = p + 0xa0;
+
+    flags = *(unsigned short *)(p + 2);
+    flags &= ~1;
+    *(unsigned short *)(p + 2) = flags;
+
+    flags = *(unsigned short *)(p + 2);
+    flags &= ~8;
+    *(unsigned short *)(p + 2) = flags;
+
+    flags = *(unsigned short *)(p + 2);
+    flags &= ~2;
+    *(unsigned short *)(p + 2) = flags;
+
+    flags = *(unsigned short *)(p + 2);
+    flags &= ~8;
+    *(unsigned short *)(p + 2) = flags;
+
+    *(unsigned short *)(p + 0x66) = 0x1f;
+    *(unsigned short *)(p + 0xa8) = *(unsigned short *)(src + 8);
+    *(unsigned int *)(p + 0xa0) = *(unsigned int *)(src + 0);
+
+    func_020d90a8(destSlot, 0, 1);
+
+    *(unsigned int *)(p + 0xa4) = 0x7800;
+
+    {
+        unsigned char *container = *(unsigned char **)(p + 0xa0);
+        unsigned int idx = *(unsigned int *)(p + 0xac);
+        unsigned char *arrayBase = *(unsigned char **)container;
+        int v = *(int *)(arrayBase + idx * 0x54 + 0x34);
+        long long prod = (long long)v * 0x7800;
+        *(unsigned int *)(p + 0xb0) = (unsigned int)(prod >> 12);
+    }
+
+    *(unsigned int *)(p + 0xc4) = a2;
+    *(unsigned int *)(p + 0xc8) = -0x5000;
+    *(unsigned int *)(p + 0xcc) = 0;
+
+    *(unsigned int *)(p + 0xd0) = (unsigned int)func_0208b7bc(0x33, p + 4);
+}

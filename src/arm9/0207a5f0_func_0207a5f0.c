@@ -1,54 +1,47 @@
-/* Decompiled C draft; module arm9; ROM address 0207a5f0. No matching claim. */
-#include "types.h"
-#include "deps/0207a5f0_func_0207a5f0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217ad14 SDK_data_0217ad14
+#define data_0217ad18 SDK_data_0217ad18
+// PURPOSE: Applies an animation argument to every loaded model.
 
-void func_0207a5f0(undefined4 param_1)
+typedef unsigned char u8;
 
+typedef struct ModelBlock ModelBlock;
+
+typedef struct ModelRef {
+    u8 unk_00[4];
+    ModelBlock *model;
+} ModelRef;
+
+typedef struct ModelGroup {
+    u8 unk_00[0x10];
+    ModelRef *model_10;
+    ModelRef *model_14;
+    ModelRef *model_18;
+} ModelGroup;
+
+typedef struct ModelEntry {
+    u8 unk_00[0x590];
+    ModelGroup *group;
+    u8 unk_594[0x14];
+} ModelEntry;
+
+extern unsigned short data_0217ad14;
+extern ModelEntry *data_0217ad18;
+extern void Maybe_helper_013044(ModelBlock *model, int arg1);
+
+void func_0207a5f0(int arg0)
 {
-  ushort *puVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar6;
-  int iVar7;
-  uint uVar5;
-  
-  iVar2 = iRam0207a688;
-  puVar1 = puRam0207a680;
-  uVar6 = *(uint *)(uRam0207a684 & 0xfffffffc) >> (uRam0207a684 & 3) * 8 |
-          *(uint *)(uRam0207a684 & 0xfffffffc) << (uRam0207a684 & 3) * -8 + 0x20;
-  iVar7 = 0;
-  if (*puRam0207a680 == 0) {
-    return;
-  }
-  do {
-    uVar3 = uVar6 + 0x590 & 3;
-    uVar4 = *(uint *)(uVar6 + 0x590 & 0xfffffffc);
-    uVar5 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-    uVar3 = uVar5 + 0x14 & 3;
-    uVar4 = *(uint *)(uVar5 + 0x14 & 0xfffffffc);
-    uVar3 = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + 4;
-    uVar4 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    Maybe_helper_013044(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20,param_1);
-    uVar3 = uVar5 + 0x10 & 3;
-    uVar4 = *(uint *)(uVar5 + 0x10 & 0xfffffffc);
-    uVar3 = (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + 4;
-    uVar4 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    Maybe_helper_013044(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20,param_1);
-    uVar3 = uVar5 + 0x18 & 3;
-    uVar4 = *(uint *)(uVar5 + 0x18 & 0xfffffffc);
-    uVar3 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-    if (uVar3 != 0) {
-      uVar3 = uVar3 + 4;
-      uVar4 = uVar3 & 3;
-      uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-      Maybe_helper_013044(uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20,param_1);
-    }
-    iVar7 = iVar7 + 1;
-    uVar6 = uVar6 + iVar2;
-  } while (iVar7 < (int)(uint)*puVar1);
-  return;
-}
+    int i;
+    ModelEntry *entry = data_0217ad18;
 
+    for (i = 0; i < data_0217ad14; i++) {
+        ModelGroup *group = entry->group;
+
+        Maybe_helper_013044(group->model_14->model, arg0);
+        Maybe_helper_013044(group->model_10->model, arg0);
+        if (group->model_18 != 0) {
+            Maybe_helper_013044(group->model_18->model, arg0);
+        }
+        entry++;
+    }
+}

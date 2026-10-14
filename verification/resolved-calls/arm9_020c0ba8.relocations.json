@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "GetActiveExecutionContext",
+    "target": 33776872,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959281222
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "ExecutionContext_GetHeapHandle",
+    "target": 33776864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959281219
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959281668
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "GetActiveExecutionContext",
+    "target": 33776872,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959281212
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "ExecutionContext_GetHeapHandle",
+    "target": 33776864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959281209
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959281658
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "AllocateActiveHeapSizeCount_from_thumb",
+    "target": 34268976,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211062470
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "GetGlobalHD5",
+    "target": 34031784,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959408541
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "Vector3_MaybeNormalize",
+    "target": 33790048,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959348088
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "VecFx32_AddScale1",
+    "target": 34897880,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942847825
+  }
+]

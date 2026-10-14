@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194486732
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194486726
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "TextSystem_DisplaySingleButtonDialog_Simple_from_thumb",
+    "target": 34759216,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603632
+  }
+]

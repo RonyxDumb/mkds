@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "func_020a1154",
+    "target": 34214228,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959416733
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "MaybeUpdateDriverBalloonShineCount",
+    "target": 34214128,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959416703
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "GetDriverEntry",
+    "target": 34056564,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959377308
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "GetDriverEntry",
+    "target": 34056564,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959377305
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "func_020a5608",
+    "target": 34231816,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421115
+  }
+]

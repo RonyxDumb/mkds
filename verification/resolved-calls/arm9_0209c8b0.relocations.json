@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "func_020ead80",
+    "target": 34516352,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942725915
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "func_020ead80",
+    "target": 34516352,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942725902
+  }
+]

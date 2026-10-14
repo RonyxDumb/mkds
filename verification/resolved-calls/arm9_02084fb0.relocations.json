@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "GetCurrentSceneId",
+    "target": 33939616,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959383092
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Mode_CreateFromResource",
+    "target": 33623172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959303960
+  },
+  {
+    "offset": 176,
+    "type": 1,
+    "symbol": "ModelBlock_SomeTexPltFn_0",
+    "target": 33633196,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959306449
+  },
+  {
+    "offset": 200,
+    "type": 1,
+    "symbol": "ModelBlock_SomeTexPltFn_1",
+    "target": 33633528,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959306526
+  },
+  {
+    "offset": 216,
+    "type": 1,
+    "symbol": "ModelBlock_SomeTexPltFn_0",
+    "target": 33633196,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959306439
+  },
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "ModelBlock_SomeTexPltFn_1",
+    "target": 33633528,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959306516
+  },
+  {
+    "offset": 272,
+    "type": 2,
+    "symbol": "SDK_data_021759c0",
+    "target": 35084736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084736
+  }
+]

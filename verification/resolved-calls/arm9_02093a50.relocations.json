@@ -1,0 +1,101 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959264622
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "func_020e6b58",
+    "target": 34499416,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942730800
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959264616
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "MTX_RotY33__from_thumb",
+    "target": 34893124,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194487452
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959264601
+  },
+  {
+    "offset": 156,
+    "type": 1,
+    "symbol": "func_01ff9048",
+    "target": 33525832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959264597
+  },
+  {
+    "offset": 176,
+    "type": 1,
+    "symbol": "DrawObject2D3D",
+    "target": 34192172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942653961
+  },
+  {
+    "offset": 196,
+    "type": 1,
+    "symbol": "DrawObject2D3D",
+    "target": 34192172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942653956
+  },
+  {
+    "offset": 212,
+    "type": 2,
+    "symbol": "SDK_data_0215d4b4",
+    "target": 34985140,
+    "thumb": false,
+    "addend": 0,
+    "value": 34985140
+  },
+  {
+    "offset": 216,
+    "type": 2,
+    "symbol": "SDK_data_0217b0d0",
+    "target": 35107024,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107024
+  },
+  {
+    "offset": 220,
+    "type": 2,
+    "symbol": "SDK_data_0217b0cc",
+    "target": 35107020,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107020
+  }
+]

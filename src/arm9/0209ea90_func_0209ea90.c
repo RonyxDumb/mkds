@@ -1,27 +1,54 @@
-/* Decompiled C draft; module arm9; ROM address 0209ea90. No matching claim. */
-#include "types.h"
-#include "deps/0209ea90_func_0209ea90.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021565ec SDK_data_021565ec
+// PURPOSE: Resets an object's timer/flag fields for a new race lap or checkpoint update.
+// Copies two signed 16-bit values from a config sub-struct (pointed to by
+// obj+0x9c, at offsets 0x28 and 0x2e) into the object, incrementing the
+// second one by 1. Then calls func_020d28e0(obj) to apply the update,
+// clears three flag bits, ORs in a global flag mask, and finally sets a
+// "state" field to 31 (probably a fixed reset/idle state id).
 
-void func_0209ea90(int param_1)
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
 
+// Config sub-struct reached through obj+0x9c; only the two used fields
+// are named, the rest is padding to keep the offsets correct.
+typedef struct {
+    u8 pad0[0x28];
+    s16 field28;   // 0x28
+    u8 pad2a[0x4];
+    s16 field2e;   // 0x2e
+} SubConfig;
+
+typedef struct {
+    u8 pad0[0x2];
+    u16 flags;         // 0x2
+    u8 pad4[0x62];
+    u16 state;          // 0x66
+    u8 pad68[0x32];
+    SubConfig *config;  // 0x9c
+    u16 fieldA0;         // 0xa0
+    u16 fieldA2;         // 0xa2
+} Obj;
+
+extern void func_020d28e0(Obj *obj);
+
+// Global flag mask, read fresh each call (no reloc -> plain data symbol).
+extern volatile u16 data_021565ec;
+
+void func_0209ea90(Obj *obj)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  *(ushort *)(param_1 + 2) = *(ushort *)(param_1 + 2) | *puRam0209eb00;
-  uVar1 = param_1 + 0x9cU & 3;
-  uVar2 = *(uint *)(param_1 + 0x9cU & 0xfffffffc);
-  *(undefined2 *)(param_1 + 0xa0) =
-       *(undefined2 *)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x28);
-  uVar1 = param_1 + 0x9cU & 3;
-  uVar2 = *(uint *)(param_1 + 0x9cU & 0xfffffffc);
-  *(short *)(param_1 + 0xa2) =
-       *(short *)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x2e) + 1;
-  func_020d28e0();
-  *(ushort *)(param_1 + 2) = *(ushort *)(param_1 + 2) & 0xfffe;
-  *(ushort *)(param_1 + 2) = *(ushort *)(param_1 + 2) & 0xfffd;
-  *(ushort *)(param_1 + 2) = *(ushort *)(param_1 + 2) & 0xfff7;
-  *(undefined2 *)(param_1 + 0x66) = 0x1f;
-  return;
-}
+    obj->flags = obj->flags | data_021565ec;
 
+    obj->fieldA0 = (u16)obj->config->field28;
+    obj->fieldA2 = (u16)(obj->config->field2e + 1);
+
+    func_020d28e0(obj);
+
+    obj->flags = obj->flags & ~1;
+    obj->flags = obj->flags & ~2;
+    obj->flags = obj->flags & ~8;
+
+    obj->state = 0x1f;
+}

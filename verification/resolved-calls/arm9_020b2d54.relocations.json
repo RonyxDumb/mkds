@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetCurrentPlayerRacerId_0",
+    "target": 34286992,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645771
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "IsRacerFinishedRace",
+    "target": 33802368,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959301828
+  },
+  {
+    "offset": 56,
+    "type": 2,
+    "symbol": "SDK_data_0217561c",
+    "target": 35083804,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083804
+  }
+]

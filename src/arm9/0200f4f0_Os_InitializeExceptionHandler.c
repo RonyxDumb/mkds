@@ -1,31 +1,45 @@
-/* Decompiled C draft; module arm9; ROM address 0200f4f0. No matching claim. */
-#include "types.h"
-#include "deps/0200f4f0_Os_InitializeExceptionHandler.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021701c4 SDK_data_021701c4
+#define Os_ExceptionHandler SDK_data_0200f36c
+#define data_021701bc SDK_data_021701bc
+// PURPOSE: Sets up the system exception handler.
+// Reads the saved exception location and keeps it only when it is in main RAM.
+// If system flags permit it, the handler is probably installed in both exception vectors.
+// Clears the initialization state when setup is complete.
+
+extern int data_021701c4;
+extern int data_021701bc;
+
+extern int Os_GetSystemFlags(void);
+extern void Os_ExceptionHandler(void);
 
 void Os_InitializeExceptionHandler(void)
-
 {
-  undefined4 uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  uVar3 = *(uint *)((uint)puRam0200f56c & 0xfffffffc) >> ((uint)puRam0200f56c & 3) * 8 |
-          *(uint *)((uint)puRam0200f56c & 0xfffffffc) << ((uint)puRam0200f56c & 3) * -8 + 0x20;
-  if ((uVar3 < 0x2600000) || (0x27fffff < uVar3)) {
-    *puRam0200f570 = 0;
-  }
-  else {
-    *puRam0200f570 = uVar3;
-  }
-  if ((*(uint *)((uint)puRam0200f570 & 0xfffffffc) >> ((uint)puRam0200f570 & 3) * 8 == 0 &&
-       *(uint *)((uint)puRam0200f570 & 0xfffffffc) << ((uint)puRam0200f570 & 3) * -8 + 0x20 == 0) ||
-     (uVar3 = Os_GetSystemFlags(), (uVar3 & 0x40000000) == 0)) {
-    iVar2 = iRam0200f578;
-    uVar1 = uRam0200f574;
-    *puRam0200f56c = uRam0200f574;
-    *(undefined4 *)(iVar2 + 0xfdc) = uVar1;
-  }
-  *puRam0200f57c = 0;
-  return;
-}
+    unsigned int exceptionLocation;
 
+    exceptionLocation = *(volatile unsigned int *)0x027ffd9c;
+    if (exceptionLocation < 0x02600000) {
+        goto clearLocation;
+    }
+    if (exceptionLocation >= 0x02800000) {
+        goto clearLocation;
+    }
+    data_021701c4 = exceptionLocation;
+    goto locationChecked;
+
+clearLocation:
+    data_021701c4 = 0;
+
+locationChecked:
+
+    if ((data_021701c4 == 0) || ((Os_GetSystemFlags() & 0x40000000) == 0)) {
+        volatile unsigned int *vectorBase;
+
+        vectorBase = (volatile unsigned int *)0x027e3000;
+        *(volatile unsigned int *)0x027ffd9c =
+            (unsigned int)(void *)Os_ExceptionHandler;
+        vectorBase[0x3f7] = (unsigned int)(void *)Os_ExceptionHandler;
+    }
+
+    data_021701bc = 0;
+}

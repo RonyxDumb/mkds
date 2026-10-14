@@ -1,21 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 02061220. No matching claim. */
-#include "types.h"
-#include "deps/02061220_func_02061220.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa08 SDK_data_0217aa08
+// PURPOSE: Prints the current player profile ID.
+// The argument is probably the output context used by the profile-ID formatter.
+// It reads the active profile from the global game state and forwards its ID.
 
-void func_02061220(undefined4 param_1)
+typedef unsigned long long u64;
 
+extern void **data_0217aa08;
+extern u64 PlayerProfileInfo_GetProfileId_from_thumb(void *profileInfo);
+extern void PrintfUll_from_thumb(u64 value, void *context);
+
+void func_02061220(void *context)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined8 uVar3;
-  
-  uVar2 = *(uint *)(uRam0206124c & 0xfffffffc) >> (uRam0206124c & 3) * 8 |
-          *(uint *)(uRam0206124c & 0xfffffffc) << (uRam0206124c & 3) * -8 + 0x20;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar3 = PlayerProfileInfo_GetProfileId_from_thumb
-                    ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + 0x4c);
-  PrintfUll_from_thumb((int)uVar3,(int)((ulonglong)uVar3 >> 0x20),param_1);
-  return;
+    PrintfUll_from_thumb(
+        PlayerProfileInfo_GetProfileId_from_thumb((char *)*data_0217aa08 + 0x4c),
+        context);
 }
-

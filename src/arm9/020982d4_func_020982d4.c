@@ -1,19 +1,36 @@
-/* Decompiled C draft; module arm9; ROM address 020982d4. No matching claim. */
-#include "types.h"
-#include "deps/020982d4_func_020982d4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define LoadPakkunZHeadMapObject SDK_data_02098b34
+#define func_02098a58 SDK_data_02098a58
+#define Maybe_get_17b104 SDK_data_02098b1c
+#define data_0217b110 SDK_data_0217b110
+/*
+ * PURPOSE: Creates the Pakkun (Piranha Plant) Z-head map-object manager, flags it active, and registers it.
+ *
+ * No arguments. Allocates/creates the map-object manager for the Pakkun
+ * Z-head, passing three callbacks: the loader (LoadPakkunZHeadMapObject),
+ * an update/init routine (func_02098a58), and a getter (Maybe_get_17b104).
+ * The freshly created manager is stored in the global slot data_0217b110,
+ * its field at offset 0x1c is set to 1 (marks it active/enabled), and the
+ * slot is registered via func_020d49d8 (probably adds it to a list).
+ * Returns the stored manager pointer, re-read from the global.
+ */
 
-uint func_020982d4(void)
+extern void *CreateAllocateMapObject_from_thumb(void *load_cb, void *cb1, void *cb2);
+extern void func_020d49d8(void *slot);
+extern void LoadPakkunZHeadMapObject(void);
+extern void func_02098a58(void);
+extern void Maybe_get_17b104(void);
+extern void *data_0217b110;
 
+void *func_020982d4(void)
 {
-  int *piVar1;
-  int iVar2;
-  
-  iVar2 = CreateAllocateMapObject_from_thumb(uRam02098318,uRam0209831c,uRam02098320);
-  piVar1 = piRam02098324;
-  *piRam02098324 = iVar2;
-  *(undefined4 *)(iVar2 + 0x1c) = 1;
-  func_020d49d8(piVar1);
-  return *(uint *)((uint)piRam02098324 & 0xfffffffc) >> ((uint)piRam02098324 & 3) * 8 |
-         *(uint *)((uint)piRam02098324 & 0xfffffffc) << ((uint)piRam02098324 & 3) * -8 + 0x20;
+    /* create the manager and remember it in the global slot */
+    void *obj = CreateAllocateMapObject_from_thumb(LoadPakkunZHeadMapObject, func_02098a58, Maybe_get_17b104);
+    data_0217b110 = obj;
+    /* mark it active (field at offset 0x1c) */
+    *(int *)((char *)obj + 0x1c) = 1;
+    /* register the slot (address of the global) */
+    func_020d49d8(&data_0217b110);
+    /* return via a fresh read of the global (ROM reloads it from the pool) */
+    return data_0217b110;
 }
-

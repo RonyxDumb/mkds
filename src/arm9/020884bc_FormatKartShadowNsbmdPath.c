@@ -1,22 +1,28 @@
-/* Decompiled C draft; module arm9; ROM address 020884bc. No matching claim. */
-#include "types.h"
-#include "deps/020884bc_FormatKartShadowNsbmdPath.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02165ac8 SDK_data_02165ac8
+#define data_02155d8c SDK_data_02155d8c
+#define data_0217af24 SDK_data_0217af24
+#define gSharedPathBuffer SDK_data_0217af28
+#define data_02165f14 SDK_data_02165f14
+/* PURPOSE: Builds the file path of a kart's shadow model (sh_*.nsbmd).
+ * Behaviour: formats "<base><segment>shadow/sh_<kartName>.nsbmd" into the
+ * shared 0x100-byte path buffer and returns it. The kart name comes from an
+ * 8-byte-stride table (data_02155d8c) indexed by the kart id. */
+typedef struct KartEntry {
+    char *name;   /* +0x0: kart file name */
+    int unk4;     /* +0x4 */
+} KartEntry;
 
-char * FormatKartShadowNsbmdPath(int param_1)
+extern KartEntry data_02155d8c[];   /* kart names, 8-byte stride */
+extern char *data_02165ac8;     /* path segment pointer */
+extern char *data_0217af24;     /* base path prefix */
+extern char gSharedPathBuffer[];    /* shared 0x100 path buffer */
+extern char data_02165f14[];    /* "%s%sshadow/sh_%s.nsbmd" */
 
-{
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = iRam02088508 + param_1 * 8;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  _snprintf(pcRam02088510,0x100,pcRam02088514,
-            *(uint *)(uRam0208850c & 0xfffffffc) >> (uRam0208850c & 3) * 8 |
-            *(uint *)(uRam0208850c & 0xfffffffc) << (uRam0208850c & 3) * -8 + 0x20,
-            *(uint *)(uRam02088504 & 0xfffffffc) >> (uRam02088504 & 3) * 8 |
-            *(uint *)(uRam02088504 & 0xfffffffc) << (uRam02088504 & 3) * -8 + 0x20,
-            uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  return pcRam02088510;
+extern int _snprintf(char *buf, unsigned int len, const char *fmt, ...);
+
+char *FormatKartShadowNsbmdPath(int kart) {
+    _snprintf(gSharedPathBuffer, 0x100, data_02165f14, data_0217af24,
+              data_02165ac8, data_02155d8c[kart].name);
+    return gSharedPathBuffer;
 }
-

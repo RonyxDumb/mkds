@@ -1,83 +1,71 @@
-/* Decompiled C draft; module arm9; ROM address 020f1d70. No matching claim. */
-#include "types.h"
-#include "deps/020f1d70_func_020f1d70.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_020f1d70(int param_1,uint param_2)
+// PURPOSE: Rebuilds a kart movement direction from its current orientation.
+// arg0 is the kart context and arg1 is the direction being adjusted.
+// It removes the orientation component, normalizes the result when large enough,
+// scales its horizontal components, and probably refreshes a perpendicular basis.
 
+typedef int fx32;
+typedef long long fx64;
+
+typedef struct {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+} VecFx32;
+
+#define FX_MUL(a, b) ((fx32)(((fx64)(a) * (fx32)(b)) >> 12))
+
+typedef struct Ctx {
+    char pad0[0x5c];
+    fx32 f5c;
+    fx32 f60;
+    fx32 f64;
+    char pad68[0xf0 - 0x68];
+    VecFx32 fF0;
+    char padFC[0x12c - 0xfc];
+    fx32 f12c;
+    VecFx32 f130;
+    VecFx32 f13c;
+    VecFx32 f148;
+} Ctx;
+
+extern fx32 Vector3_DotProduct(const VecFx32 *a, const VecFx32 *b);
+extern void VecFx32_Subtract(const VecFx32 *a, const VecFx32 *b,
+                             VecFx32 *out);
+extern void Vector3_MaybeNormalize(const VecFx32 *in, VecFx32 *out);
+extern void Vector3_Cross(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+
+void func_020f1d70(Ctx *ctx, const VecFx32 *dir)
 {
-  longlong lVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  int local_20;
-  int local_1c;
-  int local_18;
-  
-  *(uint *)(param_1 + 0x130) =
-       *(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-       *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20;
-  uVar5 = param_2 + 8 & 3;
-  uVar3 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  *(uint *)(param_1 + 0x138) = uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20;
-  iVar2 = Vector3_DotProduct(param_1 + 0xf0);
-  uVar5 = param_1 + 0xf0U & 3;
-  uVar3 = *(uint *)(param_1 + 0xf0U & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) * (longlong)iVar2;
-  local_20 = (*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-             *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) -
-             ((uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) << 0x14);
-  uVar5 = param_1 + 0xf4U & 3;
-  uVar4 = *(uint *)(param_1 + 0xf4U & 0xfffffffc);
-  uVar3 = param_2 + 4 & 3;
-  uVar6 = *(uint *)(param_2 + 4 & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) * (longlong)iVar2;
-  local_1c = (uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) -
-             ((uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) << 0x14);
-  uVar5 = param_1 + 0xf8U & 3;
-  uVar4 = *(uint *)(param_1 + 0xf8U & 0xfffffffc);
-  uVar3 = param_2 + 8 & 3;
-  uVar6 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) * (longlong)iVar2;
-  local_18 = (uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) -
-             ((uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) << 0x14);
-  uVar5 = param_1 + 0xf0U & 3;
-  uVar3 = *(uint *)(param_1 + 0xf0U & 0xfffffffc);
-  *(int *)(param_1 + 0x13c) = (int)(uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) >> 2;
-  uVar5 = param_1 + 0xf4U & 3;
-  uVar3 = *(uint *)(param_1 + 0xf4U & 0xfffffffc);
-  *(int *)(param_1 + 0x140) = (int)(uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) >> 2;
-  uVar5 = param_1 + 0xf8U & 3;
-  uVar3 = *(uint *)(param_1 + 0xf8U & 0xfffffffc);
-  *(int *)(param_1 + 0x144) = (int)(uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) >> 2;
-  VecFx32_Subtract((uint)(uintptr_t)(&local_20),param_1 + 0x13c,(int *)(uintptr_t)(param_1 + 0x13c));
-  uVar5 = param_1 + 0x140U & 3;
-  uVar3 = *(uint *)(param_1 + 0x140U & 0xfffffffc);
-  uVar4 = uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20;
-  uVar5 = param_1 + 0x13cU & 3;
-  uVar3 = *(uint *)(param_1 + 0x13cU & 0xfffffffc);
-  uVar3 = uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20;
-  uVar5 = param_1 + 0x144U & 3;
-  uVar6 = *(uint *)(param_1 + 0x144U & 0xfffffffc);
-  uVar5 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
-  lVar1 = (longlong)(int)uVar5 * (longlong)(int)uVar5 +
-          (longlong)(int)uVar3 * (longlong)(int)uVar3 + (longlong)(int)uVar4 * (longlong)(int)uVar4;
-  if ((int)(uint)((uint)lVar1 < 0x10) <= (int)((ulonglong)lVar1 >> 0x20)) {
-    Vector3_MaybeNormalize(param_1 + 0x13c,(int *)(uintptr_t)(param_1 + 0x13c));
-  }
-  uVar5 = param_1 + 300U & 3;
-  uVar3 = *(uint *)(param_1 + 300U & 0xfffffffc);
-  uVar4 = uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20;
-  uVar5 = param_1 + 0x13cU & 3;
-  uVar3 = *(uint *)(param_1 + 0x13cU & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) * (longlong)(int)uVar4;
-  *(uint *)(param_1 + 0x5c) = (uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) << 0x14;
-  uVar5 = param_1 + 0x144U & 3;
-  uVar3 = *(uint *)(param_1 + 0x144U & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar3 >> uVar5 * 8 | uVar3 << uVar5 * -8 + 0x20) * (longlong)(int)uVar4;
-  *(uint *)(param_1 + 100) = (uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) << 0x14;
-  Vector3_Cross(param_2,param_1 + 0xf0,(uint *)(uintptr_t)(param_1 + 0x148));
-  return;
-}
+    VecFx32 projection;
+    VecFx32 *basis = &ctx->fF0;
+    fx32 dot;
 
+    ctx->f130.x = dir->x;
+    ctx->f130.z = dir->z;
+
+    dot = Vector3_DotProduct(basis, dir);
+    projection.x = dir->x - FX_MUL(basis->x, dot);
+    projection.y = dir->y - FX_MUL(basis->y, dot);
+    projection.z = dir->z - FX_MUL(basis->z, dot);
+
+    ctx->f13c.x = basis->x >> 2;
+    ctx->f13c.y = basis->y >> 2;
+    ctx->f13c.z = basis->z >> 2;
+    VecFx32_Subtract(&projection, &ctx->f13c, &ctx->f13c);
+
+    if ((fx64)ctx->f13c.x * ctx->f13c.x
+        + (fx64)ctx->f13c.y * ctx->f13c.y
+        + (fx64)ctx->f13c.z * ctx->f13c.z >= 0x10) {
+        Vector3_MaybeNormalize(&ctx->f13c, &ctx->f13c);
+    }
+
+    {
+        fx32 scale = ctx->f12c;
+        ctx->f5c = FX_MUL(ctx->f13c.x, scale);
+        ctx->f64 = FX_MUL(ctx->f13c.z, scale);
+    }
+
+    Vector3_Cross(dir, basis, &ctx->f148);
+}

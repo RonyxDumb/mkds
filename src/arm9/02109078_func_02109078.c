@@ -1,15 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 02109078. No matching claim. */
-#include "types.h"
-#include "deps/02109078_func_02109078.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define StructMQRacerEntry_SomeFn_6 func_0210c610
+#define data_0217c780 SDK_data_0217c780
+#define DriverContext_MaybeQueuePlaySfx func_02109078
+// PURPOSE: Queues a sound effect when sound playback is enabled.
+// The context and three event values are passed to the racer sound handler.
+// The global flag probably disables queued playback when its low bit is clear.
 
-void func_02109078(undefined4 param_1,undefined4 param_2,undefined4 param_3)
+extern int data_0217c780;
 
+extern int StructMQRacerEntry_SomeFn_6(void *context, int mode, int event,
+                                       int sound_id, int parameter);
+
+int DriverContext_MaybeQueuePlaySfx(void *context, int event, int sound_id,
+                                    int parameter)
 {
-  if (((*(uint *)(uRam021090c0 & 0xfffffffc) >> (uRam021090c0 & 3) * 8 |
-       *(uint *)(uRam021090c0 & 0xfffffffc) << (uRam021090c0 & 3) * -8 + 0x20) & 1) != 0) {
-    func_0210c610(param_1,0,param_2,param_3);
-    return;
-  }
-  return;
-}
+    if ((data_0217c780 & 1) == 0) {
+        return 0;
+    }
 
+    return StructMQRacerEntry_SomeFn_6(context, 0, event, sound_id, parameter);
+}

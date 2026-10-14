@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "VecFx32_Subtract",
+    "target": 34899152,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942867826
+  },
+  {
+    "offset": 184,
+    "type": 1,
+    "symbol": "VecFx32_AddScale1",
+    "target": 34897880,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942867489
+  },
+  {
+    "offset": 388,
+    "type": 2,
+    "symbol": "SDK_data_02165554",
+    "target": 35018068,
+    "thumb": false,
+    "addend": 0,
+    "value": 35018068
+  },
+  {
+    "offset": 396,
+    "type": 2,
+    "symbol": "SDK_data_02154f94",
+    "target": 34951060,
+    "thumb": false,
+    "addend": 0,
+    "value": 34951060
+  }
+]

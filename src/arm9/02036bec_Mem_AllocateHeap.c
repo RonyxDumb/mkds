@@ -1,22 +1,28 @@
-/* Decompiled C draft; module arm9; ROM address 02036bec. No matching claim. */
-#include "types.h"
-#include "deps/02036bec_Mem_AllocateHeap.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 Mem_AllocateHeap(uint param_1,undefined4 param_2)
+/* PURPOSE: Allocates memory from a supported heap.
+ * The heap and requested byte count are passed to the matching allocator.
+ * Expandable and frame heaps use four-byte alignment.
+ * An unsupported heap signature returns a null pointer.
+ */
 
+typedef unsigned int u32;
+
+extern void *Mem_Exp_Allocate(void *heap, unsigned int size, int alignment);
+extern void *Mem_Frame_Allocate(void *heap, unsigned int size, int alignment);
+
+void *Mem_AllocateHeap(void *heap, unsigned int size)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  
-  uVar1 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  uVar2 = 0;
-  if (uVar1 == uRam02036c44) {
-    uVar2 = Mem_Exp_Allocate(param_1,param_2,4);
-  }
-  else if (uVar1 == uRam02036c48) {
-    uVar2 = Mem_Frame_Allocate(param_1,param_2,4);
-  }
-  return uVar2;
-}
+    void *allocatedBlock = 0;
 
+    switch (*(u32 *)heap) {
+    case 0x45585048: /* Expandable-heap signature. */
+        allocatedBlock = Mem_Exp_Allocate(heap, size, 4);
+        break;
+    case 0x46524d48: /* Frame-heap signature. */
+        allocatedBlock = Mem_Frame_Allocate(heap, size, 4);
+        break;
+    }
+
+    return allocatedBlock;
+}

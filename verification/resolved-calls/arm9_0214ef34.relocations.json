@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421411
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421402
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421392
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421383
+  },
+  {
+    "offset": 184,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421373
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421364
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421353
+  }
+]

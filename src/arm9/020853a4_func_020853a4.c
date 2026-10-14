@@ -1,22 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 020853a4. No matching claim. */
-#include "types.h"
-#include "deps/020853a4_func_020853a4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02175620 SDK_data_02175620
+// PURPOSE: Scales a racer value by the course state's stored factor.
+// The racer ID selects the value to scale.
+// The factor is probably a fixed-point course setting at offset 0x108.
+// The result uses 12 fractional bits with rounding.
 
-uint func_020853a4(void)
+extern int *data_02175620;
+extern int GetSomeRacerValue(int racerId);
 
-{
-  uint uVar1;
-  longlong lVar2;
-  int iVar3;
-  uint uVar4;
-  
-  uVar4 = (*(uint *)(uRam020853d8 & 0xfffffffc) >> (uRam020853d8 & 3) * 8 |
-          *(uint *)(uRam020853d8 & 0xfffffffc) << (uRam020853d8 & 3) * -8 + 0x20) + 0x108;
-  uVar1 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  iVar3 = GetSomeRacerValue();
-  lVar2 = (longlong)iVar3 * (longlong)(int)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x800
-  ;
-  return (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) * 0x100000;
+int func_020853a4(int racerId) {
+    int factor = data_02175620[0x42];
+    int value = GetSomeRacerValue(racerId);
+    return (int)(((long long)value * factor + 0x800) >> 12);
 }
-

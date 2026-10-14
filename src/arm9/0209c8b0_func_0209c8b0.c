@@ -1,47 +1,36 @@
-/* Decompiled C draft; module arm9; ROM address 0209c8b0. No matching claim. */
-#include "types.h"
-#include "deps/0209c8b0_func_0209c8b0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-bool func_0209c8b0(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+/* PURPOSE: Tells another system whether this object just finished, choosing
+ * between a scaled or unscaled speed value depending on a couple of flags.
+ *
+ * arg0 is a pointer to an object; arg1..arg3 are simply forwarded to
+ * func_020ead80 (probably a "finish"/"end" notification call). If bit
+ * 0x800 of the flags at +0x2 is clear AND the mode field at +0x11c is 1,
+ * the value at +0x58 is scaled by the fixed-point (12.20) factor at +0xbc
+ * before being passed on; otherwise the raw value at +0x58 is used.
+ * The result of func_020ead80 is cached at +0xa4 and the function returns
+ * 1 if that result is non-zero, 0 otherwise.
+ */
+extern int func_020ead80(int a0, void *a1, void *a2, int a3, int a4, int a5,
+                          int a6, int a7);
 
+int func_0209c8b0(void *arg0, int arg1, int arg2, int arg3)
 {
-  uint uVar1;
-  longlong lVar2;
-  uint uVar3;
-  undefined4 uVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  
-  if (((*(ushort *)(param_1 + 2) & 0x800) == 0) &&
-     (uVar1 = param_1 + 0x11cU & 3, uVar3 = *(uint *)(param_1 + 0x11cU & 0xfffffffc),
-     (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) == 1)) {
-    uVar1 = param_1 + 0x5cU & 3;
-    uVar8 = *(uint *)(param_1 + 0x5cU & 0xfffffffc);
-    uVar3 = param_1 + 0x58U & 3;
-    uVar6 = *(uint *)(param_1 + 0x58U & 0xfffffffc);
-    uVar7 = param_1 + 0xbcU & 3;
-    uVar5 = *(uint *)(param_1 + 0xbcU & 0xfffffffc);
-    lVar2 = (longlong)(int)(uVar6 >> uVar3 * 8 | uVar6 << uVar3 * -8 + 0x20) *
-            (longlong)(int)(uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20);
-    uVar4 = func_020ead80(param_2,param_1 + 4,param_1 + 0x28,
-                          (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14,
-                          uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20,0,param_3,(uint *)(uintptr_t)(param_4));
-    *(undefined4 *)(param_1 + 0xa4) = uVar4;
-  }
-  else {
-    uVar1 = param_1 + 0x5cU & 3;
-    uVar5 = *(uint *)(param_1 + 0x5cU & 0xfffffffc);
-    uVar3 = param_1 + 0x58U & 3;
-    uVar7 = *(uint *)(param_1 + 0x58U & 0xfffffffc);
-    uVar4 = func_020ead80(param_2,param_1 + 4,param_1 + 0x28,
-                          uVar7 >> uVar3 * 8 | uVar7 << uVar3 * -8 + 0x20,
-                          uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,0,param_3,(uint *)(uintptr_t)(param_4));
-    *(undefined4 *)(param_1 + 0xa4) = uVar4;
-  }
-  uVar1 = param_1 + 0xa4U & 3;
-  uVar3 = *(uint *)(param_1 + 0xa4U & 0xfffffffc);
-  return uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0;
-}
+    unsigned char *b = (unsigned char *)arg0;
 
+    if (!(*(unsigned short *)(b + 2) & 0x800) && *(int *)(b + 0x11c) == 1) {
+        /* fixed-point (12.20) multiply, keep only the low 32 bits of the
+         * 64-bit product shifted right by 12 */
+        long long prod = (long long)*(int *)(b + 0x58) * (long long)*(int *)(b + 0xbc);
+        int r3val = (int)(prod >> 12);
+
+        *(int *)(b + 0xa4) = func_020ead80(arg1, (void *)(b + 4), (void *)(b + 0x28),
+                                            r3val, *(int *)(b + 0x5c), 0, arg2, arg3);
+    } else {
+        *(int *)(b + 0xa4) = func_020ead80(arg1, (void *)(b + 4), (void *)(b + 0x28),
+                                            *(int *)(b + 0x58), *(int *)(b + 0x5c), 0,
+                                            arg2, arg3);
+    }
+
+    return *(int *)(b + 0xa4) != 0 ? 1 : 0;
+}

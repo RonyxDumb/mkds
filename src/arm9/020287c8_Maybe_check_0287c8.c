@@ -1,13 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 020287c8. No matching claim. */
-#include "types.h"
-#include "deps/020287c8_Maybe_check_0287c8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 Maybe_check_0287c8(int param_1)
+typedef unsigned short u16;
+typedef struct { u16 pad0[2]; u16 f4; u16 pad6[3]; u16 fc; } S;
 
-{
-  if ((*(short *)(param_1 + 0xc) == 0) && (*(short *)(param_1 + 4) != 0)) {
-    return 1;
-  }
-  return 0;
+int Maybe_check_0287c8(S *obj) {
+    return obj->fc == 0 && obj->f4 != 0;
 }
-

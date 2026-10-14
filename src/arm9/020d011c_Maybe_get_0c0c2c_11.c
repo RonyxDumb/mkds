@@ -1,13 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 020d011c. No matching claim. */
-#include "types.h"
-#include "deps/020d011c_Maybe_get_0c0c2c_11.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_020c0c2c SDK_data_020c0c2c
+#define data_0217b494 SDK_data_0217b494
+extern void func_020c0c2c(void *a1, int a2);
+extern int data_0217b494;
 
 void Maybe_get_0c0c2c_11(void)
-
 {
-                    /* WARNING: Could not recover jumptable at 0x020d0128. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam020d012c)(uRam020d0130,0x1b4);
-  return;
+    func_020c0c2c(&data_0217b494, 0x1b4);
 }
-

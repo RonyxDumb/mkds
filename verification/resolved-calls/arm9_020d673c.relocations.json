@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetSomeTimeOrDuration",
+    "target": 33955768,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959303707
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "MTX_RotY33__from_thumb",
+    "target": 34893124,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194419056
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_0217b650",
+    "target": 35108432,
+    "thumb": false,
+    "addend": 0,
+    "value": 35108432
+  },
+  {
+    "offset": 84,
+    "type": 2,
+    "symbol": "SDK_data_0215d4b4",
+    "target": 34985140,
+    "thumb": false,
+    "addend": 0,
+    "value": 34985140
+  }
+]

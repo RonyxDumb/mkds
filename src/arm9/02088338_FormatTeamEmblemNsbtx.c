@@ -1,20 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 02088338. No matching claim. */
-#include "types.h"
-#include "deps/02088338_FormatTeamEmblemNsbtx.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02165e4c SDK_data_02165e4c
+#define data_0217af24 SDK_data_0217af24
+#define gSharedPathBuffer SDK_data_0217af28
+#define data_02165eb4 SDK_data_02165eb4
+/* PURPOSE: Builds the file path of a team's emblem texture (Team*_emblem.nsbtx).
+ * Behaviour: picks one of two team emblem name strings (index 1 when team==0,
+ * index 0 otherwise) and formats "<base>emblem/Team<name>_emblem.nsbtx" into
+ * the shared 0x100-byte path buffer, then returns it. */
+extern char *data_02165e4c[];   /* two team emblem name strings */
+extern char *data_0217af24;     /* base path prefix */
+extern char gSharedPathBuffer[];    /* shared 0x100 path buffer */
+extern char data_02165eb4[];    /* "%semblem/Team%s_emblem.nsbtx" */
 
-char * FormatTeamEmblemNsbtx(int param_1)
+extern int _snprintf(char *buf, unsigned int len, const char *fmt, ...);
 
-{
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = iRam02088380 + (uint)(param_1 == 0) * 4;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  _snprintf(pcRam02088388,0x100,pcRam0208838c,
-            *(uint *)(uRam02088384 & 0xfffffffc) >> (uRam02088384 & 3) * 8 |
-            *(uint *)(uRam02088384 & 0xfffffffc) << (uRam02088384 & 3) * -8 + 0x20,
-            uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  return pcRam02088388;
+char *FormatTeamEmblemNsbtx(int team) {
+    _snprintf(gSharedPathBuffer, 0x100, data_02165eb4, data_0217af24,
+              data_02165e4c[team == 0 ? 1 : 0]);
+    return gSharedPathBuffer;
 }
-

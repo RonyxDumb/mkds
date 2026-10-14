@@ -1,29 +1,39 @@
-/* Decompiled C draft; module arm9; ROM address 02018174. No matching claim. */
-#include "types.h"
-#include "deps/02018174_Mem_Frame_AllocFromTail.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint Mem_Frame_AllocFromTail(uint param_1,int param_2,int param_3)
+// PURPOSE: Allocates a block from the end of a frame heap.
+// The heap tracks its lower allocation limit and current tail pointer.
+// The requested size is rounded down from the tail to the requested alignment.
+// The heap probably clears allocated blocks when its low flag bit is set.
 
+typedef unsigned int u32;
+typedef unsigned short u16;
+
+extern void MIi_CpuClear32(u32 value, void *destination, u32 size);
+
+typedef struct {
+    void *head;
+    void *tail;
+} FrameHeap;
+
+void *Mem_Frame_AllocFromTail(FrameHeap *heap, u32 size, u32 alignment)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  uVar4 = param_1 + 4 & 3;
-  uVar3 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-  uVar3 = ~(param_3 - 1U) & uVar4 - param_2;
-  if ((*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-      *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) <= uVar3) {
-    uVar1 = param_1 - 4 & 3;
-    uVar2 = *(uint *)(param_1 - 4 & 0xfffffffc);
-    if (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 1) != 0) {
-      MIi_CpuClear32(0,(undefined4 *)(uintptr_t)(uVar3),uVar4 - uVar3);
-    }
-    *(uint *)(param_1 + 4) = uVar3;
-    return uVar3;
-  }
-  return 0;
-}
+    void *allocated;
+    u32 allocatedSize;
 
+    allocated = (void *)(((u32)heap->tail - size) & ~(alignment - 1));
+    if (allocated < heap->head) {
+        return 0;
+    }
+
+    allocatedSize = (u32)heap->tail - (u32)allocated;
+    {
+        u32 flags = ((u32 *)heap)[-1];
+        if ((u16)(flags & 0xff) & 1) {
+        volatile u32 clearValue = 0;
+        MIi_CpuClear32(clearValue, allocated, allocatedSize);
+        }
+    }
+
+    heap->tail = allocated;
+    return allocated;
+}

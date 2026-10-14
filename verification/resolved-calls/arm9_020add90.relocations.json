@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "NFTR_GetTileIndexForCharacter",
+    "target": 33696996,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959280593
+  }
+]

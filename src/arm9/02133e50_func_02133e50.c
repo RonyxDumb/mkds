@@ -1,84 +1,94 @@
-/* Decompiled C draft; module arm9; ROM address 02133e50. No matching claim. */
-#include "types.h"
-#include "deps/02133e50_func_02133e50.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217eadc SDK_data_0217eadc
+#define data_0216ff5c SDK_data_0216ff5c
+#define data_0217ea94 SDK_data_0217ea94
+#define data_0217eab8 SDK_data_0217eab8
+#define data_0217e98c SDK_data_0217e98c
+#define data_0217e994 SDK_data_0217e994
+#define data_0217e984 SDK_data_0217e984
+typedef unsigned int u32;
+typedef int s32;
 
-void func_02133e50(void)
+typedef struct OSThread {
+    unsigned char pad[0x6c];
+    u32 id;
+} OSThread;
 
-{
-  int *piVar1;
-  int iVar2;
-  code *pcVar3;
-  int iVar4;
-  uint uVar5;
-  uint uVar6;
-  
-  iVar2 = Os_Mutex_TryLock(uRam02133f68);
-  piVar1 = piRam02133f74;
-  if (iVar2 == 0) {
-    uVar6 = iRam02133f6c + 8U & 3;
-    uVar5 = *(uint *)(iRam02133f6c + 8U & 0xfffffffc);
-    uVar6 = (uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) + 0x6c;
-    uVar5 = uVar6 & 3;
-    uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-    *puRam02133f70 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
-    *piVar1 = 1;
-  }
-  else {
-    uVar6 = iRam02133f6c + 8U & 3;
-    uVar5 = *(uint *)(iRam02133f6c + 8U & 0xfffffffc);
-    uVar6 = (uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) + 0x6c;
-    uVar5 = uVar6 & 3;
-    uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-    if ((*(uint *)((uint)puRam02133f70 & 0xfffffffc) >> ((uint)puRam02133f70 & 3) * 8 |
-        *(uint *)((uint)puRam02133f70 & 0xfffffffc) << ((uint)puRam02133f70 & 3) * -8 + 0x20) ==
-        (uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20)) {
-      *piRam02133f74 =
-           (*(uint *)((uint)piRam02133f74 & 0xfffffffc) >> ((uint)piRam02133f74 & 3) * 8 |
-           *(uint *)((uint)piRam02133f74 & 0xfffffffc) << ((uint)piRam02133f74 & 3) * -8 + 0x20) + 1
-      ;
-    }
-    else {
-      Os_Mutex_Lock(uRam02133f68);
-      piVar1 = piRam02133f74;
-      uVar6 = iRam02133f6c + 8U & 3;
-      uVar5 = *(uint *)(iRam02133f6c + 8U & 0xfffffffc);
-      uVar6 = (uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20) + 0x6c;
-      uVar5 = uVar6 & 3;
-      uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-      *puRam02133f70 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
-      *piVar1 = 1;
-    }
-  }
-  iVar2 = iRam02133f7c;
-  piVar1 = piRam02133f78;
-  uVar6 = *(uint *)((uint)piRam02133f78 & 0xfffffffc) >> ((uint)piRam02133f78 & 3) * 8 |
-          *(uint *)((uint)piRam02133f78 & 0xfffffffc) << ((uint)piRam02133f78 & 3) * -8 + 0x20;
-  while (0 < (int)uVar6) {
-    iVar4 = (*(uint *)((uint)piVar1 & 0xfffffffc) >> ((uint)piVar1 & 3) * 8 |
-            *(uint *)((uint)piVar1 & 0xfffffffc) << ((uint)piVar1 & 3) * -8 + 0x20) - 1;
-    uVar6 = iVar2 + iVar4 * 4;
-    uVar5 = uVar6 & 3;
-    uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-    *piVar1 = iVar4;
-    (*(code *)(uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20))();
-    uVar6 = *(uint *)((uint)piVar1 & 0xfffffffc) >> ((uint)piVar1 & 3) * 8 |
-            *(uint *)((uint)piVar1 & 0xfffffffc) << ((uint)piVar1 & 3) * -8 + 0x20;
-  }
-  iVar2 = (*(uint *)((uint)piRam02133f74 & 0xfffffffc) >> ((uint)piRam02133f74 & 3) * 8 |
-          *(uint *)((uint)piRam02133f74 & 0xfffffffc) << ((uint)piRam02133f74 & 3) * -8 + 0x20) - 1;
-  *piRam02133f74 = iVar2;
-  if (iVar2 == 0) {
-    Os_Mutex_Unlock(uRam02133f68);
-  }
-  pcVar3 = (code *)(*(uint *)((uint)puRam02133f80 & 0xfffffffc) >> ((uint)puRam02133f80 & 3) * 8 |
-                   *(uint *)((uint)puRam02133f80 & 0xfffffffc) <<
-                   ((uint)puRam02133f80 & 3) * -8 + 0x20);
-  if (pcVar3 != (code *)0x0) {
-    (*pcVar3)();
-    *puRam02133f80 = 0;
-  }
-  func_021349c4(0);
-  func_02142590();
-  return;
+typedef struct OSThreadInfo {
+    unsigned char pad[8];
+    OSThread *current;
+} OSThreadInfo;
+
+typedef struct OSMutex {
+    unsigned char pad[0x18];
+} OSMutex;
+
+enum { atexit_funcs_access = 0 };
+
+extern OSThreadInfo data_0216ff5c;
+extern OSMutex data_0217eadc[9];
+extern s32 data_0217ea94[9];
+extern s32 data_0217eab8[9];
+
+extern int Os_Mutex_TryLock(OSMutex *mutex);
+extern void Os_Mutex_Lock(OSMutex *mutex);
+extern void Os_Mutex_Unlock(OSMutex *mutex);
+
+static inline OSThread *OS_GetCurrentThread(void) {
+    return data_0216ff5c.current;
 }
 
+static inline u32 OS_GetThreadId(OSThread *thread) {
+    return thread->id;
+}
+
+static inline void __begin_critical_region(int region) {
+    OSThread *currentThread;
+
+    if (Os_Mutex_TryLock(&data_0217eadc[region]) == 0) {
+        currentThread = OS_GetCurrentThread();
+        data_0217ea94[region] = OS_GetThreadId(currentThread);
+        data_0217eab8[region] = 1;
+    } else {
+        currentThread = OS_GetCurrentThread();
+        if (OS_GetThreadId(currentThread) == data_0217ea94[region]) {
+            data_0217eab8[region]++;
+        } else {
+            Os_Mutex_Lock(&data_0217eadc[region]);
+            currentThread = OS_GetCurrentThread();
+            data_0217ea94[region] = OS_GetThreadId(currentThread);
+            data_0217eab8[region] = 1;
+        }
+    }
+}
+
+static inline void __end_critical_region(int region) {
+    if (--data_0217eab8[region] == 0) {
+        Os_Mutex_Unlock(&data_0217eadc[region]);
+    }
+}
+
+extern void (*data_0217e994[64])(void);
+extern int data_0217e98c;
+extern void (*data_0217e984)(void);
+
+extern void func_021349c4(void *stream);
+extern void func_02142590(void);
+
+void func_02133e50(int status) {
+    __begin_critical_region(atexit_funcs_access);
+
+    while (data_0217e98c > 0) {
+        data_0217e994[--data_0217e98c]();
+    }
+
+    __end_critical_region(atexit_funcs_access);
+
+    if (data_0217e984 != 0) {
+        data_0217e984();
+        data_0217e984 = 0;
+    }
+
+    func_021349c4(0);
+    func_02142590();
+}

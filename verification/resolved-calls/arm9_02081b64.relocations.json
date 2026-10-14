@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "VecFx32_AddScale1",
+    "target": 34897880,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942848770
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "VecFx32_AddScale1",
+    "target": 34897880,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942848759
+  },
+  {
+    "offset": 228,
+    "type": 1,
+    "symbol": "GetMQRacerVector333",
+    "target": 33962768,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959392176
+  }
+]

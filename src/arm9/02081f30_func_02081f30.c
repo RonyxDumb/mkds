@@ -1,54 +1,67 @@
-/* Decompiled C draft; module arm9; ROM address 02081f30. No matching claim. */
-#include "types.h"
-#include "deps/02081f30_func_02081f30.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define gRaceConfig SDK_data_021759c0
+#define data_0217ae78 SDK_data_0217ae78
+#define data_02155a14 SDK_data_02155a14
+#define func_020824d0 SDK_data_020824d0
+#define data_0217ae88 SDK_data_0217ae88
+#define func_0208266c SDK_data_0208266c
+#define func_02082034 SDK_data_02082034
+/*
+ * PURPOSE: Turns a race feature (a callback-driven mini-system) on or off
+ * depending on which race mode is currently selected.
+ *
+ * Reads the current race mode from the config (gRaceConfig). Only acts for
+ * two modes: 0x25 (probably "enter"/start of the mode) creates the helper
+ * objects and wires up their update callback at +0x90; 0x10 (probably
+ * "exit"/teardown) swaps one callback and tears the other object down.
+ * Any other mode returns immediately. Two global handles (data_0217ae78 and
+ * data_0217ae88) hold the created objects. func_0208b7bc is an allocator/
+ * constructor (size, params) and func_0208b710 is probably a cleanup call.
+ */
+typedef unsigned int u32;
+
+typedef struct Obj {
+    char pad[0x90];
+    void *cb;           /* update/step callback at +0x90 */
+} Obj;
+
+extern Obj *gRaceConfig;    /* pointer to config; field0 = mode */
+extern Obj *data_0217ae78;
+extern Obj *data_0217ae88;
+extern char data_02155a14[];    /* params passed to the constructor */
+
+extern void func_0208b710(void);
+extern Obj *func_0208b7bc(int size, void *params);
+extern void func_020824d0(void);
+extern void func_0208266c(void);
+extern void func_02082034(void);
 
 void func_02081f30(void)
-
 {
-  undefined4 uVar1;
-  uint uVar2;
-  uint uVar3;
-  int iVar4;
-  
-  uVar2 = *(uint *)(uRam02082018 & 0xfffffffc) >> (uRam02082018 & 3) * 8 |
-          *(uint *)(uRam02082018 & 0xfffffffc) << (uRam02082018 & 3) * -8 + 0x20;
-  uVar3 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  if (uVar3 == 0x10) {
-    uVar3 = *(uint *)((uint)piRam0208201c & 0xfffffffc) >> ((uint)piRam0208201c & 3) * 8 |
-            *(uint *)((uint)piRam0208201c & 0xfffffffc) << ((uint)piRam0208201c & 3) * -8 + 0x20;
-    if (uVar3 != 0) {
-      *(undefined4 *)(uVar3 + 0x90) = uRam02082030;
-    }
-    if (*(uint *)((uint)piRam02082028 & 0xfffffffc) >> ((uint)piRam02082028 & 3) * 8 != 0 ||
-        *(uint *)((uint)piRam02082028 & 0xfffffffc) << ((uint)piRam02082028 & 3) * -8 + 0x20 != 0) {
-      func_0208b710();
-      *piRam02082028 = 0;
-      return;
-    }
-    return;
-  }
-  if (uVar3 != 0x25) {
-    return;
-  }
-  if (*(uint *)((uint)piRam0208201c & 0xfffffffc) >> ((uint)piRam0208201c & 3) * 8 != 0 ||
-      *(uint *)((uint)piRam0208201c & 0xfffffffc) << ((uint)piRam0208201c & 3) * -8 + 0x20 != 0) {
-    func_0208b710();
-    iVar4 = func_0208b7bc(0x3c,uRam02082020);
-    uVar1 = uRam02082024;
-    *piRam0208201c = iVar4;
-    *(undefined4 *)(iVar4 + 0x90) = uVar1;
-  }
-  if (*(uint *)((uint)piRam02082028 & 0xfffffffc) >> ((uint)piRam02082028 & 3) * 8 != 0 ||
-      *(uint *)((uint)piRam02082028 & 0xfffffffc) << ((uint)piRam02082028 & 3) * -8 + 0x20 != 0) {
-    func_0208b710();
-    iVar4 = func_0208b7bc(0x3f,uRam02082020);
-    uVar1 = uRam0208202c;
-    *piRam02082028 = iVar4;
-    *(undefined4 *)(iVar4 + 0x90) = uVar1;
-    return;
-  }
-  return;
-}
+    int mode = *(int *)gRaceConfig;
 
+    if (mode != 0x10) {
+        if (mode != 0x25)
+            return;
+        /* 0x25 = enter: build both helper objects */
+        if (data_0217ae78 != 0) {
+            func_0208b710();
+            data_0217ae78 = func_0208b7bc(0x3c, data_02155a14);
+            data_0217ae78->cb = (void *)func_020824d0;
+        }
+        if (data_0217ae88 == 0)
+            return;
+        func_0208b710();
+        data_0217ae88 = func_0208b7bc(0x3f, data_02155a14);
+        data_0217ae88->cb = (void *)func_0208266c;
+        return;
+    } else {
+        /* 0x10 = exit: swap one callback, tear the other down */
+        if (data_0217ae78 != 0)
+            data_0217ae78->cb = (void *)func_02082034;
+        if (data_0217ae88 == 0)
+            return;
+        func_0208b710();
+        data_0217ae88 = 0;
+    }
+}

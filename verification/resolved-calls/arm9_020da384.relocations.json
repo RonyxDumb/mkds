@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "FindFileBuffer_CRS_CST_from_thumb",
+    "target": 33847668,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210931052
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "FindFileBuffer_CRS_CST_from_thumb",
+    "target": 33847668,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210931047
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "FindFileBuffer_CRS_CST_from_thumb",
+    "target": 33847668,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210931042
+  },
+  {
+    "offset": 124,
+    "type": 2,
+    "symbol": "SDK_data_0217b67c",
+    "target": 35108476,
+    "thumb": false,
+    "addend": 0,
+    "value": 35108476
+  },
+  {
+    "offset": 128,
+    "type": 2,
+    "symbol": "SDK_data_0216bde0",
+    "target": 35044832,
+    "thumb": false,
+    "addend": 0,
+    "value": 35044832
+  },
+  {
+    "offset": 132,
+    "type": 2,
+    "symbol": "SDK_data_0217b678",
+    "target": 35108472,
+    "thumb": false,
+    "addend": 0,
+    "value": 35108472
+  },
+  {
+    "offset": 136,
+    "type": 2,
+    "symbol": "SDK_data_0216bdf8",
+    "target": 35044856,
+    "thumb": false,
+    "addend": 0,
+    "value": 35044856
+  },
+  {
+    "offset": 140,
+    "type": 2,
+    "symbol": "SDK_data_0216be10",
+    "target": 35044880,
+    "thumb": false,
+    "addend": 0,
+    "value": 35044880
+  }
+]

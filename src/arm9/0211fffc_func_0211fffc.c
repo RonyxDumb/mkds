@@ -1,22 +1,28 @@
-/* Decompiled C draft; module arm9; ROM address 0211fffc. No matching claim. */
-#include "types.h"
-#include "deps/0211fffc_func_0211fffc.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217d384 SDK_data_0217d384
+// PURPOSE: Allocates aligned memory from the shared race heap safely.
+// The first argument is probably an unused allocator context.
+// Allocation occurs with interrupts disabled and restores the prior state.
 
-undefined4 func_0211fffc(undefined4 param_1,undefined4 param_2,undefined4 param_3)
+typedef unsigned int u32;
 
+typedef struct RaceState {
+    void *heap;
+} RaceState;
+
+extern RaceState *data_0217d384;
+
+extern u32 Os_DisableIrq(void);
+extern void Os_RestoreIrq(u32 state);
+extern void *Mem_AllocateHeapAligned(void *heap, u32 size, u32 alignment);
+
+void *func_0211fffc(void *unused, u32 size, u32 alignment)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  undefined4 uVar4;
-  
-  uVar2 = Os_DisableIrq();
-  uVar3 = *(uint *)(uRam02120040 & 0xfffffffc) >> (uRam02120040 & 3) * 8 |
-          *(uint *)(uRam02120040 & 0xfffffffc) << (uRam02120040 & 3) * -8 + 0x20;
-  uVar1 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  uVar4 = Mem_AllocateHeapAligned(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,param_2,param_3);
-  Os_RestoreIrq(uVar2);
-  return uVar4;
-}
+    u32 irqState;
+    void *memory;
 
+    irqState = Os_DisableIrq();
+    memory = Mem_AllocateHeapAligned(data_0217d384->heap, size, alignment);
+    Os_RestoreIrq(irqState);
+    return memory;
+}

@@ -1,50 +1,57 @@
-/* Decompiled C draft; module arm9; ROM address 02093b7c. No matching claim. */
-#include "types.h"
-#include "deps/02093b7c_func_02093b7c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021564ac SDK_data_021564ac
+#define data_021564b0 SDK_data_021564b0
+/* PURPOSE: When an item/effect is triggered, shrinks a kart's size vector and
+ * flips on some status flags.
+ * arg0 = kart/object state, arg1 = race/global state, arg2 = pointer to a
+ * "should activate?" byte, arg3 = pointer to a byte that is returned.
+ * If *arg2 == 1: set two counters (0xa0=0x78, 0xa4=1), scale the three
+ * components of the fx32 vector at +0x10/+0x14/+0x18 down by 1/4 (FX_Mul by
+ * 0x400), then force the middle component (+0x14) to 0x4000; OR a flag mask
+ * into the u16 at +0x2; if the race mode (arg1+0x29c) is 1 or 3, OR another
+ * mask into the u32 at +0x78; finally call func_020d26f8. Always returns *arg3. */
 
-undefined1 func_02093b7c(int param_1,int param_2,char *param_3,undefined1 *param_4)
+extern void func_020d26f8(void *a, void *b);
 
+extern unsigned short data_021564ac; /* u16 flag mask for +0x2 */
+extern unsigned int   data_021564b0; /* u32 flag mask for +0x78 */
+
+struct Obj {
+    char pad_00[0x2];
+    unsigned short f2;      /* status flag bits */
+    char pad_04[0x10 - 0x4];
+    int f10;               /* fx32 vector x */
+    int f14;               /* fx32 vector y */
+    int f18;               /* fx32 vector z */
+    char pad_1c[0x78 - 0x1c];
+    unsigned int f78;      /* status flag bits (wide) */
+    char pad_7c[0xa0 - 0x7c];
+    int fa0;
+    int fa4;
+};
+
+struct Race {
+    char pad_000[0x29c];
+    int f29c;              /* race mode */
+};
+
+int func_02093b7c(struct Obj *obj, struct Race *race,
+                  unsigned char *activate, unsigned char *ret)
 {
-  undefined1 uVar1;
-  ushort *puVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  uVar1 = *param_4;
-  if (*param_3 == '\x01') {
-    *(undefined4 *)(param_1 + 0xa0) = 0x78;
-    *(undefined4 *)(param_1 + 0xa4) = 1;
-    uVar4 = param_1 + 0x10U & 3;
-    uVar3 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-    uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-    *(uint *)(param_1 + 0x10) =
-         (uVar4 << 10) >> 0xc | (((int)uVar4 >> 0x1f) << 10 | uVar4 >> 0x16) << 0x14;
-    puVar2 = puRam02093c5c;
-    uVar4 = param_1 + 0x14U & 3;
-    uVar3 = *(uint *)(param_1 + 0x14U & 0xfffffffc);
-    uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-    *(uint *)(param_1 + 0x14) =
-         (uVar4 << 10) >> 0xc | (((int)uVar4 >> 0x1f) << 10 | uVar4 >> 0x16) << 0x14;
-    uVar4 = param_1 + 0x18U & 3;
-    uVar3 = *(uint *)(param_1 + 0x18U & 0xfffffffc);
-    uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-    *(uint *)(param_1 + 0x18) =
-         (uVar4 << 10) >> 0xc | (((int)uVar4 >> 0x1f) << 10 | uVar4 >> 0x16) << 0x14;
-    *(undefined4 *)(param_1 + 0x14) = 0x4000;
-    *(ushort *)(param_1 + 2) = *(ushort *)(param_1 + 2) | *puVar2;
-    uVar4 = param_2 + 0x29cU & 3;
-    uVar3 = *(uint *)(param_2 + 0x29cU & 0xfffffffc);
-    uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-    if ((uVar4 == 1) || (uVar4 == 3)) {
-      uVar4 = param_1 + 0x78U & 3;
-      uVar3 = *(uint *)(param_1 + 0x78U & 0xfffffffc);
-      *(uint *)(param_1 + 0x78) =
-           uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20 |
-           *(uint *)(uRam02093c60 & 0xfffffffc) >> (uRam02093c60 & 3) * 8 |
-           *(uint *)(uRam02093c60 & 0xfffffffc) << (uRam02093c60 & 3) * -8 + 0x20;
-    }
-    func_020d26f8();
-  }
-  return uVar1;
-}
+    unsigned char r = *ret;
 
+    if (*activate == 1) {
+        obj->fa0 = 0x78;
+        obj->fa4 = 1;
+        obj->f10 = (int)(((long long)obj->f10 * 0x400) >> 12);
+        obj->f14 = (int)(((long long)obj->f14 * 0x400) >> 12);
+        obj->f18 = (int)(((long long)obj->f18 * 0x400) >> 12);
+        obj->f14 = 0x4000;
+        obj->f2 |= data_021564ac;
+        if (race->f29c == 1 || race->f29c == 3) {
+            obj->f78 |= data_021564b0;
+        }
+        func_020d26f8(obj, race);
+    }
+    return r;
+}

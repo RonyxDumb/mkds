@@ -1,26 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 020b36dc. No matching claim. */
-#include "types.h"
-#include "deps/020b36dc_InitializeGlobalB358.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b358 SDK_data_0217b358
+// PURPOSE: Creates and clears the shared global work record.
+// The record uses memory from the active execution context's heap.
+// Its three pointer-sized fields are initially empty.
+// The exact role of this record is probably scene-specific.
+
+typedef struct GlobalB358 {
+    void *field_00;
+    void *field_04;
+    void *field_08;
+} GlobalB358;
+
+extern void *GetActiveExecutionContext(void);
+extern void *ExecutionContext_GetHeapHandle(void *context);
+extern void *Mem_AllocateHeap(void *heap, unsigned int size);
+extern GlobalB358 *data_0217b358;
 
 void InitializeGlobalB358(void)
-
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  
-  GetActiveExecutionContext();
-  uVar2 = ExecutionContext_GetHeapHandle();
-  puVar3 = (undefined4 *)Mem_AllocateHeap(uVar2,0xc);
-  puVar1 = puRam020b3720;
-  *puRam020b3720 = puVar3;
-  *puVar3 = 0;
-  *(undefined4 *)
-   ((*(uint *)((uint)puVar1 & 0xfffffffc) >> ((uint)puVar1 & 3) * 8 |
-    *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 4) = 0;
-  *(undefined4 *)
-   ((*(uint *)((uint)puVar1 & 0xfffffffc) >> ((uint)puVar1 & 3) * 8 |
-    *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 8) = 0;
-  return;
+    data_0217b358 = (GlobalB358 *)Mem_AllocateHeap(
+        ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), 0xc);
+    data_0217b358->field_00 = 0;
+    data_0217b358->field_04 = 0;
+    data_0217b358->field_08 = 0;
 }
-

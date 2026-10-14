@@ -1,22 +1,25 @@
-/* Decompiled C draft; module arm9; ROM address 02060a2c. No matching claim. */
-#include "types.h"
-#include "deps/02060a2c_func_02060a2c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint func_02060a2c(undefined4 param_1)
+// PURPOSE: Gets the saved online record value when its flag is set.
+// Takes an online-record slot and reads that record into a temporary buffer.
+// Returns the record's value when bit zero of its status flag is set, otherwise -1.
 
-{
-  uint uVar1;
-  undefined1 auStack_28 [6];
-  ushort uStack_22;
-  byte local_6;
-  
-  GlobalZ_GetOI(param_1,(int)(uintptr_t)(auStack_28));
-  if ((int)((uint)local_6 << 0x1f) < 0) {
-    uVar1 = (uint)uStack_22;
-  }
-  else {
-    uVar1 = 0xffffffff;
-  }
-  return uVar1;
+typedef struct OnlineInfo {
+    unsigned char padding_00[6];
+    unsigned short value_06;
+    unsigned char padding_08[0x1A];
+    volatile unsigned char status_22;
+    unsigned char padding_23;
+} OnlineInfo;
+
+extern int GlobalZ_GetOI(int slot, OnlineInfo *output);
+
+int func_02060a2c(int slot) {
+    OnlineInfo info;
+
+    GlobalZ_GetOI(slot, &info);
+    if ((((unsigned int)info.status_22 << 31) >> 31) == 1) {
+        return info.value_06;
+    }
+    return -1;
 }
-

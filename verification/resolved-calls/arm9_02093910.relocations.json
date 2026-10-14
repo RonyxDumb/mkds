@@ -1,0 +1,92 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "func_0207a780",
+    "target": 34056064,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959397272
+  },
+  {
+    "offset": 136,
+    "type": 1,
+    "symbol": "func_0210b7ec",
+    "target": 34650092,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942768531
+  },
+  {
+    "offset": 148,
+    "type": 1,
+    "symbol": "func_020d4ef4",
+    "target": 34426612,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942712658
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "func_0210b7ec",
+    "target": 34650092,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942768525
+  },
+  {
+    "offset": 176,
+    "type": 1,
+    "symbol": "VecFx32_Add",
+    "target": 34899204,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942830799
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "func_020d275c",
+    "target": 34416476,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942710109
+  },
+  {
+    "offset": 224,
+    "type": 1,
+    "symbol": "func_020d2398",
+    "target": 34415512,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942709864
+  },
+  {
+    "offset": 280,
+    "type": 1,
+    "symbol": "VecFx32_Add",
+    "target": 34899204,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942830773
+  },
+  {
+    "offset": 296,
+    "type": 1,
+    "symbol": "func_020d2398",
+    "target": 34415512,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942709846
+  },
+  {
+    "offset": 308,
+    "type": 2,
+    "symbol": "SDK_data_021564a8",
+    "target": 34956456,
+    "thumb": false,
+    "addend": 0,
+    "value": 34956456
+  }
+]

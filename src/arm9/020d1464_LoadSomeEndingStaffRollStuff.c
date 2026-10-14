@@ -1,91 +1,88 @@
-/* Decompiled C draft; module arm9; ROM address 020d1464. No matching claim. */
-#include "types.h"
-#include "deps/020d1464_LoadSomeEndingStaffRollStuff.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b4ac SDK_data_0217b4ac
+#define data_0216b03c SDK_data_0216b03c
+#define data_0216b05c SDK_data_0216b05c
+#define data_0216b07c SDK_data_0216b07c
+// PURPOSE: Loads graphics for the ending staff roll.
+// It allocates the ending-roll object data and initializes its OAM records.
+// It probably loads the palette, character graphics, and cell data for the credits.
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u32 format;
+    u32 extended_palette;
+    u32 size;
+    void *raw_data;
+} PaletteData;
+
+typedef struct {
+    u16 width;
+    u16 height;
+    u32 pixel_format;
+    u32 mapping_type;
+    u32 character_format;
+    u32 size;
+    void *raw_data;
+} CharacterData;
+
+typedef struct {
+    u32 reserved_low : 10;
+    u32 priority : 2;
+    u32 reserved_high : 20;
+    u32 second_word;
+} EndingOamRecord;
+
+typedef struct {
+    int frame_count;
+    PaletteData *palette;
+    CharacterData *characters;
+    void *first_cell;
+    EndingOamRecord oam[128];
+    u32 unused_tail;
+} EndingStaffRollObjectData;
+
+extern EndingStaffRollObjectData *data_0217b4ac;
+extern char data_0216b03c[];
+extern char data_0216b05c[];
+extern char data_0216b07c[];
+
+extern void *GetActiveExecutionContext(void);
+extern void *ExecutionContext_GetHeapHandle(void *context);
+extern void *Mem_AllocateHeap(void *heap, unsigned int size);
+extern void *func_020b47c0(char *name);
+extern void Gfx_ReadPalette(void *destination, void *buffer);
+extern void Gfx_ReadCharGraphics(void *destination, void *buffer);
+extern void LoadCellBankFrom(void *destination, void *buffer);
+extern void *CellBank_GetMetatileEntry(void *cell_bank, u16 index);
+extern void CopySomePaletteData(void *source, u32 offset, u32 size);
+extern void CopyTileDataTop_0(void *source, u32 offset, u32 size);
 
 void LoadSomeEndingStaffRollStuff(void)
-
 {
-  uint uVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  undefined4 local_8 [2];
-  
-  GetActiveExecutionContext();
-  uVar3 = ExecutionContext_GetHeapHandle();
-  uVar3 = Mem_AllocateHeap(uVar3,uRam020d1584);
-  puVar2 = puRam020d1588;
-  iVar9 = 0;
-  iVar8 = 0;
-  *puRam020d1588 = uVar3;
-  do {
-    iVar9 = iVar9 + 1;
-    iVar7 = (*(uint *)((uint)puVar2 & 0xfffffffc) >> ((uint)puVar2 & 3) * 8 |
-            *(uint *)((uint)puVar2 & 0xfffffffc) << ((uint)puVar2 & 3) * -8 + 0x20) + 0x10;
-    uVar4 = iVar7 + iVar8;
-    uVar5 = uVar4 & 3;
-    uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-    *(uint *)(iVar7 + iVar8) =
-         (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) & 0xfffff3ff | 0xc00;
-    uVar3 = uRam020d158c;
-    iVar8 = iVar8 + 8;
-  } while (iVar9 < 0x80);
-  *(undefined4 *)
-   (*(uint *)((uint)puVar2 & 0xfffffffc) >> ((uint)puVar2 & 3) * 8 |
-   *(uint *)((uint)puVar2 & 0xfffffffc) << ((uint)puVar2 & 3) * -8 + 0x20) = 0;
-  uVar3 = func_020b47c0(uVar3);
-  Gfx_ReadPalette((int *)(uintptr_t)((*(uint *)((uint)puRam020d1588 & 0xfffffffc) >> ((uint)puRam020d1588 & 3) * 8 |
-                  *(uint *)((uint)puRam020d1588 & 0xfffffffc) <<
-                  ((uint)puRam020d1588 & 3) * -8 + 0x20) + 4),uVar3);
-  uVar3 = func_020b47c0(uRam020d1590);
-  Gfx_ReadCharGraphics
-            ((int *)(uintptr_t)((*(uint *)((uint)puRam020d1588 & 0xfffffffc) >> ((uint)puRam020d1588 & 3) * 8 |
-             *(uint *)((uint)puRam020d1588 & 0xfffffffc) << ((uint)puRam020d1588 & 3) * -8 + 0x20) +
-             8),uVar3);
-  local_8[0] = 0;
-  uVar3 = func_020b47c0(uRam020d1594);
-  LoadCellBankFrom(local_8,uVar3);
-  uVar3 = CellBank_GetMetatileEntry((ushort *)(uintptr_t)(local_8[0]),0);
-  puVar2 = puRam020d1588;
-  *(undefined4 *)
-   ((*(uint *)((uint)puRam020d1588 & 0xfffffffc) >> ((uint)puRam020d1588 & 3) * 8 |
-    *(uint *)((uint)puRam020d1588 & 0xfffffffc) << ((uint)puRam020d1588 & 3) * -8 + 0x20) + 0xc) =
-       uVar3;
-  uVar4 = (uint)puVar2 & 3;
-  uVar5 = *(uint *)((uint)puVar2 & 0xfffffffc);
-  uVar4 = (uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20) + 4;
-  uVar5 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-  uVar4 = uVar5 + 0xc;
-  uVar1 = uVar4 & 3;
-  uVar6 = *(uint *)(uVar4 & 0xfffffffc);
-  uVar5 = uVar5 + 8;
-  uVar4 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  CopySomePaletteData(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20,0,
-                      uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
-  uVar4 = (*(uint *)((uint)puRam020d1588 & 0xfffffffc) >> ((uint)puRam020d1588 & 3) * 8 |
-          *(uint *)((uint)puRam020d1588 & 0xfffffffc) << ((uint)puRam020d1588 & 3) * -8 + 0x20) + 8;
-  uVar5 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-  uVar4 = uVar5 + 0x14;
-  uVar1 = uVar4 & 3;
-  uVar6 = *(uint *)(uVar4 & 0xfffffffc);
-  uVar5 = uVar5 + 0x10;
-  uVar4 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  CopyTileDataTop_0(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20,0,
-                    uVar5 >> uVar4 * 8 | uVar5 << uVar4 * -8 + 0x20);
-  _DAT_04000000 = _DAT_04000000 & uRam020d1598 | 0x10;
-  return;
-}
+    void *cell_bank;
+    int i;
 
+    data_0217b4ac = Mem_AllocateHeap(
+        ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), 0x414);
+
+    for (i = 0; i < 128; i++) {
+        data_0217b4ac->oam[i].priority = 3;
+    }
+
+    data_0217b4ac->frame_count = 0;
+    Gfx_ReadPalette(&data_0217b4ac->palette, func_020b47c0(data_0216b03c));
+    Gfx_ReadCharGraphics(&data_0217b4ac->characters, func_020b47c0(data_0216b05c));
+    LoadCellBankFrom((cell_bank = 0, &cell_bank),
+                     func_020b47c0(data_0216b07c));
+    data_0217b4ac->first_cell = CellBank_GetMetatileEntry(cell_bank, 0);
+
+    CopySomePaletteData(data_0217b4ac->palette->raw_data, 0,
+                        data_0217b4ac->palette->size);
+    CopyTileDataTop_0(data_0217b4ac->characters->raw_data, 0,
+                      data_0217b4ac->characters->size);
+
+    *(volatile u32 *)0x04000000 =
+        (*(volatile u32 *)0x04000000 & 0xffcfffef) | 0x10;
+}

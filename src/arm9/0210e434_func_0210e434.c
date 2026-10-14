@@ -1,38 +1,34 @@
-/* Decompiled C draft; module arm9; ROM address 0210e434. No matching claim. */
-#include "types.h"
-#include "deps/0210e434_func_0210e434.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0215c380 SDK_data_0215c380
+#define data_0217d130 SDK_data_0217d130
+#define data_0215c38c SDK_data_0215c38c
+// PURPOSE: Restores the sound heap state when its saved marker changed.
+typedef unsigned int u32;
 
-void func_0210e434(undefined4 *param_1)
+typedef struct {
+    u32 word0;
+    u32 word4;
+    u32 word8;
+} SoundSavedState;
 
+extern SoundSavedState data_0215c380;
+extern void *data_0217d130;
+extern SoundSavedState data_0215c38c;
+
+extern void Sound_MaybeRestoreHeapState(void *context, u32 state);
+extern void Sound_Context_GetMaybeSavedFrameHeapStateId(void *context);
+
+void func_0210e434(SoundSavedState *state)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  
-  if (((*puRam0210e4bc ==
-        (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-        *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20)) &&
-      (uVar1 = (uint)(param_1 + 1) & 3, uVar2 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc),
-      puRam0210e4bc[1] == (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20))) &&
-     (uVar1 = (uint)(param_1 + 2) & 3, uVar2 = *(uint *)((uint)(param_1 + 2) & 0xfffffffc),
-     puRam0210e4bc[2] == (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20))) {
-    return;
-  }
-  uVar1 = (uint)(param_1 + 3) & 3;
-  uVar2 = *(uint *)((uint)(param_1 + 3) & 0xfffffffc);
-  Sound_MaybeRestoreHeapState
-            (*(uint *)(uRam0210e4c0 & 0xfffffffc) >> (uRam0210e4c0 & 3) * 8 |
-             *(uint *)(uRam0210e4c0 & 0xfffffffc) << (uRam0210e4c0 & 3) * -8 + 0x20,
-             uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  Sound_Context_GetMaybeSavedFrameHeapStateId
-            (*(uint *)(uRam0210e4c0 & 0xfffffffc) >> (uRam0210e4c0 & 3) * 8 |
-             *(uint *)(uRam0210e4c0 & 0xfffffffc) << (uRam0210e4c0 & 3) * -8 + 0x20);
-  uVar3 = puRam0210e4c4[1];
-  uVar4 = puRam0210e4c4[2];
-  *param_1 = *puRam0210e4c4;
-  param_1[1] = uVar3;
-  param_1[2] = uVar4;
-  return;
-}
+    SoundSavedState saved;
 
+    saved = data_0215c380;
+    if (saved.word0 == state->word0 && saved.word4 == state->word4 &&
+        saved.word8 == state->word8) {
+        return;
+    }
+
+    Sound_MaybeRestoreHeapState(data_0217d130, ((u32 *)state)[3]);
+    Sound_Context_GetMaybeSavedFrameHeapStateId(data_0217d130);
+    *state = data_0215c38c;
+}

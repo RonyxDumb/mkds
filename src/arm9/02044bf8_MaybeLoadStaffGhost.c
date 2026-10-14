@@ -1,62 +1,86 @@
-/* Decompiled C draft; module arm9; ROM address 02044bf8. No matching claim. */
-#include "types.h"
-#include "deps/02044bf8_MaybeLoadStaffGhost.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define gRaceConfig SDK_data_021759c0
+#define data_0217aa08 SDK_data_0217aa08
+#define data_02175650 SDK_data_02175650
+// PURPOSE: Loads the staff ghost for a selected racer.
+// The first argument is unused, while racerIndex selects the racer slot.
+// Missing or invalid ghost data restores the normal default racer setup.
+// Valid data supplies the recorded kart, character, replay, and race times.
 
-undefined4 MaybeLoadStaffGhost(undefined4 param_1,int param_2)
+typedef unsigned char u8;
+typedef unsigned int u32;
 
+typedef struct StaffGhostRecord {
+    u8 pad_000[4];
+    unsigned int kart : 4;
+    unsigned int character : 6;
+    unsigned int settings_pad : 22;
+    unsigned int valid : 1;
+    unsigned int status_pad : 31;
+    u8 pad_00c[0x230 - 0x00c];
+    u8 replay[1];
+} StaffGhostRecord;
+
+typedef struct SaveDataRoot {
+    u8 pad_000[0x1c];
+    StaffGhostRecord *staff_ghost;
+} SaveDataRoot;
+
+typedef struct RaceConfig {
+    u8 pad_000[0x1f4];
+    int mode;
+    u8 pad_1f8[0x3e8 - 0x1f8];
+    u32 main_time;
+    u32 split_times[5];
+} RaceConfig;
+
+extern RaceConfig *gRaceConfig;
+extern SaveDataRoot *data_0217aa08;
+extern u8 data_02175650[];
+
+extern void StructCO_ConfigureRacerDefault(void *racer, int kart,
+                                           int character, int mode,
+                                           int player, int count);
+extern void Mem_CpuCopy8(const volatile void *source,
+                         volatile void *destination, u32 size);
+extern void StructNKPG_CopyToTime_from_thumb(void *ghost, void *time);
+extern void StructNKPG_AnotherCopyToTime_from_thumb(void *ghost, int index,
+                                                    void *time);
+
+int MaybeLoadStaffGhost(void *unused, int racerIndex)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  
-  uVar3 = (*(uint *)(uRam02044d3c & 0xfffffffc) >> (uRam02044d3c & 3) * 8 |
-          *(uint *)(uRam02044d3c & 0xfffffffc) << (uRam02044d3c & 3) * -8 + 0x20) + 500;
-  uVar6 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  if ((uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) == 2) {
-    return 1;
-  }
-  uVar3 = (*(uint *)(uRam02044d40 & 0xfffffffc) >> (uRam02044d40 & 3) * 8 |
-          *(uint *)(uRam02044d40 & 0xfffffffc) << (uRam02044d40 & 3) * -8 + 0x20) + 0x1c;
-  uVar6 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  uVar3 = uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20;
-  if ((uVar3 != 0) &&
-     (uVar6 = uVar3 + 8 & 3, uVar4 = *(uint *)(uVar3 + 8 & 0xfffffffc),
-     (int)((uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20) << 0x1f) < 0)) {
-    uVar6 = uVar3 + 4 & 3;
-    uVar4 = *(uint *)(uVar3 + 4 & 0xfffffffc);
-    uVar6 = uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20;
-    StructCO_ConfigureRacerDefault(param_2,uVar6 & 0xf,(uVar6 << 0x16) >> 0x1a,2);
-    iVar2 = iRam02044d44;
-    *(undefined4 *)
-     (param_2 * 0x30 +
-      (*(uint *)(uRam02044d3c & 0xfffffffc) >> (uRam02044d3c & 3) * 8 |
-      *(uint *)(uRam02044d3c & 0xfffffffc) << (uRam02044d3c & 3) * -8 + 0x20) + 0x268) = 2;
-    uVar6 = iVar2 + param_2 * 0x5c;
-    uVar4 = uVar6 & 3;
-    uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-    Mem_CpuCopy8((ushort *)(uintptr_t)(uVar3 + 0x230),(uint *)(uintptr_t)(uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20),uRam02044d48);
-    StructNKPG_CopyToTime_from_thumb
-              (uVar3,(ushort *)(uintptr_t)((*(uint *)(uRam02044d3c & 0xfffffffc) >> (uRam02044d3c & 3) * 8 |
-                     *(uint *)(uRam02044d3c & 0xfffffffc) << (uRam02044d3c & 3) * -8 + 0x20) + 1000))
-    ;
-    uVar6 = uRam02044d3c;
-    uVar4 = 1;
-    do {
-      uVar1 = uVar6 & 3;
-      uVar5 = *(uint *)(uVar6 & 0xfffffffc);
-      StructNKPG_AnotherCopyToTime_from_thumb
-                (uVar3,uVar4,
-                 (ushort *)(uintptr_t)((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) + 0x3ec + (uVar4 - 1) * 4));
-      uVar4 = uVar4 + 1 & 0xff;
-    } while (uVar4 < 6);
-    return 1;
-  }
-  StructCO_ConfigureRacerDefault(param_2,0,0,4);
-  return 0;
-}
+    StaffGhostRecord *ghost;
+    u8 splitIndex;
 
+    if (gRaceConfig->mode == 2) {
+        return 1;
+    }
+
+    ghost = data_0217aa08->staff_ghost;
+    if (ghost == 0) {
+        goto use_default;
+    }
+    if (ghost->valid != 1) {
+        goto use_default;
+    }
+
+    StructCO_ConfigureRacerDefault((void *)racerIndex, ghost->kart,
+                                   ghost->character, 2, -1, 3);
+
+    *(int *)((u8 *)gRaceConfig + racerIndex * 0x30 + 0x268) = 2;
+    Mem_CpuCopy8(ghost->replay,
+                 *(void **)(data_02175650 + racerIndex * 0x5c), 0xdcc);
+
+    StructNKPG_CopyToTime_from_thumb(ghost, &gRaceConfig->main_time);
+
+    for (splitIndex = 1; splitIndex <= 5; splitIndex++) {
+        StructNKPG_AnotherCopyToTime_from_thumb(
+            ghost, splitIndex, &gRaceConfig->split_times[splitIndex - 1]);
+    }
+
+    return 1;
+
+use_default:
+    StructCO_ConfigureRacerDefault((void *)racerIndex, 0, 0, 4, -1, 3);
+    return 0;
+}

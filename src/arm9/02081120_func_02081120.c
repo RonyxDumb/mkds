@@ -1,92 +1,109 @@
-/* Decompiled C draft; module arm9; ROM address 02081120. No matching claim. */
-#include "types.h"
-#include "deps/02081120_func_02081120.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217ae84 SDK_data_0217ae84
+/*
+ * PURPOSE: Advances one racer's map/minimap dot to its next spot and, once
+ * it reaches the end, marks that racer finished.
+ *
+ * Args: o = the racer's tracking object, done = nonzero if already handled
+ * (then it returns immediately). Reads the driver's movement deltas from the
+ * driver entry (+0x508), scales them down (>>4) and adds them to the object's
+ * stored position (+0x28/+0x2c/+0x30). Compares the current step counter
+ * (+0x9a) against the target (+0x99): if below target, bump the counter; if
+ * equal, set a "reached" flag in +0x24 and clear field +0x30 of the racer's
+ * global slot (base[driver*0x58]). Otherwise store the driver's heading
+ * (s16 at +0xc4) into +0x6c.
+ */
 
-void func_02081120(int param_1,int param_2)
+typedef unsigned char u8;
 
+typedef struct {
+    int d0;   /* +0x00 */
+    int d4;   /* +0x04 */
+    int d8;   /* +0x08 */
+} Delta;
+
+typedef struct {
+    char pad508[0x508];
+    Delta *f508;        /* +0x508 */
+} DriverEntry;
+
+typedef struct {
+    char padc4[0xc4];
+    int fc4;           /* +0xc4 (low 16 bits used, sign-extended) */
+} DriverEntry2;
+
+typedef struct {
+    int pad0;
+    int f4;   /* +0x04 */
+    int f8;   /* +0x08 */
+    int fc;   /* +0x0c */
+} Node;
+
+typedef struct {
+    Node *node;   /* +0x00 */
+} Holder;
+
+typedef struct {
+    char pad20[0x20];
+    Holder *f20;    /* +0x20 */
+    int f24;        /* +0x24 */
+    int f28;        /* +0x28 */
+    int f2c;        /* +0x2c */
+    int f30;        /* +0x30 */
+    char pad34[0x6c - 0x34];
+    int f6c;        /* +0x6c */
+    char pad70[0x99 - 0x70];
+    u8 f99;         /* +0x99 */
+    u8 f9a;         /* +0x9a */
+    u8 f9b;         /* +0x9b */
+} Obj;
+
+typedef struct {
+    char pad30[0x30];
+    int f30;        /* +0x30 */
+    char pad34[0x58 - 0x34];
+} Slot;             /* size 0x58 */
+
+extern void *GetDriverEntry(int idx);
+extern Slot *data_0217ae84;   /* pointer to slot array base */
+
+void func_02081120(Obj *o, int done)
 {
-  uint uVar1;
-  byte bVar2;
-  bool bVar3;
-  int iVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  uint uVar9;
-  uint uVar10;
-  uint uVar11;
-  
-  if (param_2 != 0) {
-    return;
-  }
-  uVar9 = (uint)*(byte *)(param_1 + 0x9b);
-  bVar2 = *(byte *)(param_1 + 0x9a);
-  bVar3 = false;
-  iVar4 = GetDriverEntry(uVar9);
-  uVar7 = iVar4 + 0x508U & 3;
-  uVar10 = *(uint *)(iVar4 + 0x508U & 0xfffffffc);
-  uVar11 = uVar10 >> uVar7 * 8 | uVar10 << uVar7 * -8 + 0x20;
-  uVar7 = param_1 + 0x20U & 3;
-  uVar10 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-  uVar10 = uVar10 >> uVar7 * 8 | uVar10 << uVar7 * -8 + 0x20;
-  uVar7 = uVar10 & 3;
-  uVar5 = *(uint *)(uVar10 & 0xfffffffc);
-  uVar10 = uVar11 + 4 & 3;
-  uVar8 = *(uint *)(uVar11 + 4 & 0xfffffffc);
-  uVar7 = (uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20) + 4;
-  uVar5 = uVar7 & 3;
-  uVar7 = *(uint *)(uVar7 & 0xfffffffc);
-  uVar1 = uVar11 + 8 & 3;
-  uVar6 = *(uint *)(uVar11 + 8 & 0xfffffffc);
-  *(uint *)(param_1 + 0x28) =
-       (uVar7 >> uVar5 * 8 | uVar7 << uVar5 * -8 + 0x20) +
-       ((int)(*(uint *)(uVar11 & 0xfffffffc) >> (uVar11 & 3) * 8 |
-             *(uint *)(uVar11 & 0xfffffffc) << (uVar11 & 3) * -8 + 0x20) >> 4);
-  uVar7 = param_1 + 0x20U & 3;
-  uVar5 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-  uVar5 = uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20;
-  uVar7 = uVar5 & 3;
-  uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-  uVar7 = (uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20) + 8;
-  uVar5 = uVar7 & 3;
-  uVar7 = *(uint *)(uVar7 & 0xfffffffc);
-  *(uint *)(param_1 + 0x2c) =
-       (uVar7 >> uVar5 * 8 | uVar7 << uVar5 * -8 + 0x20) +
-       ((int)(uVar8 >> uVar10 * 8 | uVar8 << uVar10 * -8 + 0x20) >> 4);
-  uVar7 = param_1 + 0x20U & 3;
-  uVar10 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-  uVar10 = uVar10 >> uVar7 * 8 | uVar10 << uVar7 * -8 + 0x20;
-  uVar7 = uVar10 & 3;
-  uVar10 = *(uint *)(uVar10 & 0xfffffffc);
-  uVar7 = (uVar10 >> uVar7 * 8 | uVar10 << uVar7 * -8 + 0x20) + 0xc;
-  uVar10 = uVar7 & 3;
-  uVar7 = *(uint *)(uVar7 & 0xfffffffc);
-  *(uint *)(param_1 + 0x30) =
-       (uVar7 >> uVar10 * 8 | uVar7 << uVar10 * -8 + 0x20) +
-       ((int)(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20) >> 4);
-  if (bVar2 < *(byte *)(param_1 + 0x99)) {
-    *(byte *)(param_1 + 0x9a) = bVar2 + 1;
-  }
-  else if (bVar2 == *(byte *)(param_1 + 0x99)) {
-    uVar7 = param_1 + 0x24U & 3;
-    uVar10 = *(uint *)(param_1 + 0x24U & 0xfffffffc);
-    bVar3 = true;
-    *(uint *)(param_1 + 0x24) = (uVar10 >> uVar7 * 8 | uVar10 << uVar7 * -8 + 0x20) & 0xfffffffe | 1
-    ;
-  }
-  if (!bVar3) {
-    iVar4 = GetDriverEntry(uVar9);
-    uVar7 = iVar4 + 0xc4U & 3;
-    uVar10 = *(uint *)(iVar4 + 0xc4U & 0xfffffffc);
-    *(int *)(param_1 + 0x6c) =
-         (int)(short)((ushort)(uVar10 >> uVar7 * 8) | (ushort)(uVar10 << uVar7 * -8 + 0x20));
-    return;
-  }
-  *(undefined4 *)
-   (uVar9 * 0x58 +
-    (*(uint *)(uRam02081220 & 0xfffffffc) >> (uRam02081220 & 3) * 8 |
-    *(uint *)(uRam02081220 & 0xfffffffc) << (uRam02081220 & 3) * -8 + 0x20) + 0x30) = 0;
-  return;
-}
+    int reached;
+    u8 cur;
+    u8 drv;
 
+    if (done)
+        return;
+
+    drv = o->f9b;
+    cur = o->f9a;
+    reached = 0;
+
+    {
+        Delta *d = ((DriverEntry *)GetDriverEntry(drv))->f508;
+        int a = d->d0;
+        int b = d->d4;
+        int c = d->d8;
+        o->f28 = (a >> 4) + o->f20->node->f4;
+        o->f2c = o->f20->node->f8 + (b >> 4);
+        o->f30 = o->f20->node->fc + (c >> 4);
+    }
+
+    if (cur >= o->f99) {
+        if (cur == o->f99) {
+            reached = 1;
+            o->f24 = (o->f24 & ~1) | 1;
+        }
+    } else {
+        o->f9a = cur + 1;
+    }
+
+    if (reached) {
+        Slot *base = data_0217ae84;
+        base[drv].f30 = 0;
+    } else {
+        int h = ((DriverEntry2 *)GetDriverEntry(drv))->fc4;
+        o->f6c = (h << 16) >> 16;
+    }
+}

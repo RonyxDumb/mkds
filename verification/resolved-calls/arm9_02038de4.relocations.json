@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "DisplayEngineConfig_SomeClearFn",
+    "target": 33787500,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645777
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "DisplayEngineConfig_SomeClearFn",
+    "target": 33787500,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645774
+  }
+]

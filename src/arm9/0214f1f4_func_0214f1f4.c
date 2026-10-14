@@ -1,32 +1,40 @@
-/* Decompiled C draft; module arm9; ROM address 0214f1f4. No matching claim. */
-#include "types.h"
-#include "deps/0214f1f4_func_0214f1f4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02180414 SDK_data_02180414
+// PURPOSE: Starts a pending operation if no operation is already active.
+// The two arguments are saved for the operation that is probably started here.
+// Interrupts protect the active flag while it is checked and set.
 
-undefined4 func_0214f1f4(undefined4 param_1,undefined4 param_2)
+typedef unsigned int u32;
 
+typedef struct PendingOperation {
+    int active;
+    void *arg0;
+    void *arg1;
+} PendingOperation;
+
+extern PendingOperation data_02180414;
+extern u32 Os_DisableIrq(void);
+extern void Os_RestoreIrq(u32 irqState);
+extern int func_0214ef00(PendingOperation *operation);
+
+int func_0214f1f4(void *arg0, void *arg1)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined4 uVar3;
-  
-  Os_DisableIrq();
-  if (*(uint *)((uint)puRam0214f260 & 0xfffffffc) >> ((uint)puRam0214f260 & 3) * 8 == 0 &&
-      *(uint *)((uint)puRam0214f260 & 0xfffffffc) << ((uint)puRam0214f260 & 3) * -8 + 0x20 == 0) {
-    *puRam0214f260 = 1;
-    Os_RestoreIrq();
-    puVar1 = puRam0214f260;
-    puRam0214f260[1] = param_1;
-    puVar1[2] = param_2;
-    iVar2 = func_0214ef00();
-    if (iVar2 == 0) {
-      uVar3 = 3;
-    }
-    else {
-      uVar3 = 0;
-    }
-    return uVar3;
-  }
-  Os_RestoreIrq();
-  return 1;
-}
+    u32 irqState = Os_DisableIrq();
 
+    if (data_02180414.active != 0) {
+        Os_RestoreIrq(irqState);
+        return 1;
+    }
+
+    data_02180414.active = 1;
+    Os_RestoreIrq(irqState);
+
+    data_02180414.arg0 = arg0;
+    data_02180414.arg1 = arg1;
+
+    if (func_0214ef00(&data_02180414) != 0) {
+        return 0;
+    }
+
+    return 3;
+}

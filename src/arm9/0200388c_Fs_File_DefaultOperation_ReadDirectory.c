@@ -1,71 +1,101 @@
-/* Decompiled C draft; module arm9; ROM address 0200388c. No matching claim. */
-#include "types.h"
-#include "deps/0200388c_Fs_File_DefaultOperation_ReadDirectory.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+// PURPOSE: Reads the next file or folder from an open directory.
+// The argument is the directory file object and supplies the output entry.
+// It reads the entry name unless the caller only wants to advance the listing.
+// Folder entries receive a directory position; file entries receive a file ID.
 
-undefined4 Fs_File_DefaultOperation_ReadDirectory(int param_1)
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
 
+typedef struct FsArchive FsArchive;
+
+typedef struct FsDirectoryPosition {
+    FsArchive *archive;
+    u16 ownId;
+    u16 index;
+    u32 position;
+} FsDirectoryPosition;
+
+typedef struct FsDirectoryEntry {
+    FsArchive *archive;
+    union {
+        u32 fileId;
+        struct {
+            u16 ownId;
+            u16 index;
+        } directory;
+    } id;
+    u32 position;
+    u32 isDirectory;
+    u32 nameLength;
+    char name[128];
+} FsDirectoryEntry;
+
+typedef struct FsFile {
+    u8 pad_00[8];
+    FsArchive *archive;
+    u8 pad_0c[0x14];
+    FsDirectoryPosition current;
+    u32 parent;
+    union {
+        struct {
+            FsDirectoryEntry *entry;
+            u32 skipName;
+        } readDirectory;
+        u8 raw[0x18];
+    } argument;
+} FsFile;
+
+typedef struct FsSyncReader {
+    FsArchive *archive;
+    void *position;
+} FsSyncReader;
+
+extern void Fs_SyncReader_Read(FsSyncReader *reader, void *destination, u32 size);
+
+int Fs_File_DefaultOperation_ReadDirectory(FsFile *file)
 {
-  ushort uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  byte local_18 [2];
-  ushort uStack_16;
-  uint local_14;
-  uint local_10;
-  uint *puVar5;
-  
-  uVar3 = param_1 + 0x30U & 3;
-  uVar4 = *(uint *)(param_1 + 0x30U & 0xfffffffc);
-  puVar5 = (uint *)(uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20);
-  uVar3 = param_1 + 8U & 3;
-  uVar4 = *(uint *)(param_1 + 8U & 0xfffffffc);
-  local_14 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-  uVar3 = param_1 + 0x28U & 3;
-  uVar4 = *(uint *)(param_1 + 0x28U & 0xfffffffc);
-  local_10 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-  Fs_SyncReader_Read((uint)(uintptr_t)(&local_14),(undefined4)(uintptr_t)(local_18),1);
-  puVar5[4] = local_18[0] & 0x7f;
-  puVar5[3] = (int)(uint)local_18[0] >> 7;
-  uVar3 = (uint)(puVar5 + 4) & 3;
-  uVar4 = *(uint *)((uint)(puVar5 + 4) & 0xfffffffc);
-  uVar3 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-  if (uVar3 != 0) {
-    uVar4 = param_1 + 0x34U & 3;
-    uVar2 = *(uint *)(param_1 + 0x34U & 0xfffffffc);
-    if (uVar2 >> uVar4 * 8 == 0 && uVar2 << uVar4 * -8 + 0x20 == 0) {
-      Fs_SyncReader_Read(&local_14,puVar5 + 5);
-      uVar3 = (uint)(puVar5 + 4) & 3;
-      uVar4 = *(uint *)((uint)(puVar5 + 4) & 0xfffffffc);
-      *(undefined1 *)((int)puVar5 + (uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) + 0x14) = 0;
-    }
-    else {
-      local_10 = local_10 + uVar3;
-    }
-    uVar3 = (uint)(puVar5 + 3) & 3;
-    uVar4 = *(uint *)((uint)(puVar5 + 3) & 0xfffffffc);
-    if (uVar4 >> uVar3 * 8 == 0 && uVar4 << uVar3 * -8 + 0x20 == 0) {
-      uVar3 = param_1 + 8U & 3;
-      uVar4 = *(uint *)(param_1 + 8U & 0xfffffffc);
-      *puVar5 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-      puVar5[1] = (uint)*(ushort *)(param_1 + 0x26);
-      *(short *)(param_1 + 0x26) = *(short *)(param_1 + 0x26) + 1;
-    }
-    else {
-      Fs_SyncReader_Read((uint)(uintptr_t)(&local_14),(undefined4)(uintptr_t)(&uStack_16),2);
-      uVar3 = param_1 + 8U & 3;
-      uVar4 = *(uint *)(param_1 + 8U & 0xfffffffc);
-      uVar1 = (ushort)uRam02003998;
-      *puVar5 = uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-      *(ushort *)(puVar5 + 1) = uStack_16 & uVar1;
-      *(undefined2 *)((int)puVar5 + 6) = 0;
-      puVar5[2] = 0;
-    }
-    *(uint *)(param_1 + 0x28) = local_10;
-    return 0;
-  }
-  return 1;
-}
+    FsDirectoryEntry *entry = file->argument.readDirectory.entry;
+    FsSyncReader reader;
 
+    reader.archive = file->archive;
+    reader.position = (void *)file->current.position;
+
+    {
+        u8 descriptor;
+
+        Fs_SyncReader_Read(&reader, &descriptor, sizeof(descriptor));
+        entry->nameLength = (u32)(descriptor & 0x7f);
+        entry->isDirectory = (u32)((descriptor >> 7) & 1);
+    }
+
+    if (entry->nameLength == 0) {
+        return 1;
+    }
+
+    if (!file->argument.readDirectory.skipName) {
+        Fs_SyncReader_Read(&reader, entry->name, entry->nameLength);
+        entry->name[entry->nameLength] = '\0';
+    } else {
+        reader.position = (u8 *)reader.position + entry->nameLength;
+    }
+
+    if (entry->isDirectory) {
+        u16 id;
+
+        Fs_SyncReader_Read(&reader, &id, sizeof(id));
+        entry->archive = file->archive;
+        entry->id.directory.ownId = (u16)(id & 0xfff);
+        entry->id.directory.index = 0;
+        entry->position = 0;
+    } else {
+        entry->archive = file->archive;
+        entry->id.fileId = file->current.index;
+        ++file->current.index;
+    }
+
+    file->current.position = (u32)reader.position;
+    return 0;
+}

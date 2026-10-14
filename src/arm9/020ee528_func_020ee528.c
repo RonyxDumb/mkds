@@ -1,114 +1,105 @@
-/* Decompiled C draft; module arm9; ROM address 020ee528. No matching claim. */
-#include "types.h"
-#include "deps/020ee528_func_020ee528.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+/* func_020ee528 (arm) — refresh a cached transform/frame on an object from its
+ * source struct (self->f10) and report whether a derived triple changed.
+ *
+ * arg0 (self) caches data pulled from src = self->f10:
+ *   - a 3x3 matrix (src+0x150 -> self+0x2c)
+ *   - two vectors (src+0x98 -> self+0x50, src+0xa4 -> self+0x5c)
+ *   - scalars self->f68/f78/f7c (f78 is a rounded fx32 product)
+ *   - self->f80 = sign flag of dot(matrix.row2, self->f5c)
+ *   - self->f6c = self->f50 - src->f8c
+ * It then computes three fx32 products from src (f41c*f428, f420*f42c,
+ * f424*f430) and compares them to the cached triple self->f84/88/8c.
+ * Returns 0 (and leaves the triple) if all three are unchanged; otherwise
+ * stores the new triple and returns 1.  Probably a per-frame dirty check. */
 
-undefined4 func_020ee528(int param_1)
+typedef int fx32;
+typedef long long fx64;
+typedef struct { fx32 x, y, z; } VecFx32;
+typedef struct { VecFx32 r0, r1, r2; } Mtx33;   /* 3x3 fx32 matrix, 0x24 bytes */
 
-{
-  longlong lVar1;
-  bool bVar2;
-  uint uVar3;
-  int iVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  uint uVar7;
-  undefined4 uVar8;
-  uint uVar9;
-  uint uVar10;
-  uint uVar12;
-  uint uVar13;
-  uint uVar11;
-  
-  uVar12 = param_1 + 0x10U & 3;
-  uVar10 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-  uVar11 = uVar10 >> uVar12 * 8 | uVar10 << uVar12 * -8 + 0x20;
-  uVar5 = *(undefined4 *)(uVar11 + 0x154);
-  uVar6 = *(undefined4 *)(uVar11 + 0x158);
-  uVar8 = *(undefined4 *)(uVar11 + 0x15c);
-  *(undefined4 *)(param_1 + 0x2c) = *(undefined4 *)(uVar11 + 0x150);
-  *(undefined4 *)(param_1 + 0x30) = uVar5;
-  *(undefined4 *)(param_1 + 0x34) = uVar6;
-  *(undefined4 *)(param_1 + 0x38) = uVar8;
-  uVar5 = *(undefined4 *)(uVar11 + 0x164);
-  uVar6 = *(undefined4 *)(uVar11 + 0x168);
-  uVar8 = *(undefined4 *)(uVar11 + 0x16c);
-  *(undefined4 *)(param_1 + 0x3c) = *(undefined4 *)(uVar11 + 0x160);
-  *(undefined4 *)(param_1 + 0x40) = uVar5;
-  *(undefined4 *)(param_1 + 0x44) = uVar6;
-  *(undefined4 *)(param_1 + 0x48) = uVar8;
-  uVar12 = uVar11 + 0x170 & 3;
-  uVar10 = *(uint *)(uVar11 + 0x170 & 0xfffffffc);
-  *(uint *)(param_1 + 0x4c) = uVar10 >> uVar12 * 8 | uVar10 << uVar12 * -8 + 0x20;
-  uVar5 = *(undefined4 *)(uVar11 + 0x9c);
-  uVar6 = *(undefined4 *)(uVar11 + 0xa0);
-  *(undefined4 *)(param_1 + 0x50) = *(undefined4 *)(uVar11 + 0x98);
-  *(undefined4 *)(param_1 + 0x54) = uVar5;
-  *(undefined4 *)(param_1 + 0x58) = uVar6;
-  uVar5 = *(undefined4 *)(uVar11 + 0xa8);
-  uVar6 = *(undefined4 *)(uVar11 + 0xac);
-  *(undefined4 *)(param_1 + 0x5c) = *(undefined4 *)(uVar11 + 0xa4);
-  *(undefined4 *)(param_1 + 0x60) = uVar5;
-  *(undefined4 *)(param_1 + 100) = uVar6;
-  uVar12 = uVar11 + 0x2a4 & 3;
-  uVar10 = *(uint *)(uVar11 + 0x2a4 & 0xfffffffc);
-  *(uint *)(param_1 + 0x68) = uVar10 >> uVar12 * 8 | uVar10 << uVar12 * -8 + 0x20;
-  uVar12 = uVar11 + 0x2cc & 3;
-  uVar3 = *(uint *)(uVar11 + 0x2cc & 0xfffffffc);
-  uVar10 = uVar11 + 0xc4 & 3;
-  uVar9 = *(uint *)(uVar11 + 0xc4 & 0xfffffffc);
-  uVar12 = (uVar3 >> uVar12 * 8 | uVar3 << uVar12 * -8 + 0x20) + 8;
-  uVar3 = uVar12 & 3;
-  uVar12 = *(uint *)(uVar12 & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar12 >> uVar3 * 8 | uVar12 << uVar3 * -8 + 0x20) *
-          (longlong)(int)(uVar9 >> uVar10 * 8 | uVar9 << uVar10 * -8 + 0x20) + 0x800;
-  *(uint *)(param_1 + 0x78) = (uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) * 0x100000;
-  uVar12 = uVar11 + 700 & 3;
-  uVar10 = *(uint *)(uVar11 + 700 & 0xfffffffc);
-  *(uint *)(param_1 + 0x7c) = uVar10 >> uVar12 * 8 | uVar10 << uVar12 * -8 + 0x20;
-  iVar4 = VecFx32_CrossProduct_0(param_1 + 0x44,(uint)(uintptr_t)((undefined4 *)(param_1 + 0x5c)));
-  *(uint *)(param_1 + 0x80) = (uint)(0 < iVar4);
-  VecFx32_Subtract(param_1 + 0x50,uVar11 + 0x8c,(int *)(uintptr_t)(param_1 + 0x6c));
-  uVar12 = uVar11 + 0x41c & 3;
-  uVar9 = *(uint *)(uVar11 + 0x41c & 0xfffffffc);
-  uVar10 = uVar11 + 0x428 & 3;
-  uVar3 = *(uint *)(uVar11 + 0x428 & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar9 >> uVar12 * 8 | uVar9 << uVar12 * -8 + 0x20) *
-          (longlong)(int)(uVar3 >> uVar10 * 8 | uVar3 << uVar10 * -8 + 0x20);
-  uVar3 = (uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) << 0x14;
-  uVar12 = uVar11 + 0x420 & 3;
-  uVar7 = *(uint *)(uVar11 + 0x420 & 0xfffffffc);
-  uVar10 = uVar11 + 0x42c & 3;
-  uVar9 = *(uint *)(uVar11 + 0x42c & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) *
-          (longlong)(int)(uVar9 >> uVar10 * 8 | uVar9 << uVar10 * -8 + 0x20);
-  uVar13 = (uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) << 0x14;
-  uVar12 = uVar11 + 0x424 & 3;
-  uVar7 = *(uint *)(uVar11 + 0x424 & 0xfffffffc);
-  uVar10 = uVar11 + 0x430 & 3;
-  uVar9 = *(uint *)(uVar11 + 0x430 & 0xfffffffc);
-  lVar1 = (longlong)(int)(uVar7 >> uVar12 * 8 | uVar7 << uVar12 * -8 + 0x20) *
-          (longlong)(int)(uVar9 >> uVar10 * 8 | uVar9 << uVar10 * -8 + 0x20);
-  uVar9 = (uint)lVar1 >> 0xc | (int)((ulonglong)lVar1 >> 0x20) << 0x14;
-  uVar12 = param_1 + 0x84U & 3;
-  uVar10 = *(uint *)(param_1 + 0x84U & 0xfffffffc);
-  if ((((uVar10 >> uVar12 * 8 | uVar10 << uVar12 * -8 + 0x20) == uVar3) &&
-      (uVar12 = param_1 + 0x88U & 3, uVar10 = *(uint *)(param_1 + 0x88U & 0xfffffffc),
-      (uVar10 >> uVar12 * 8 | uVar10 << uVar12 * -8 + 0x20) == uVar13)) &&
-     (uVar12 = param_1 + 0x8cU & 3, uVar10 = *(uint *)(param_1 + 0x8cU & 0xfffffffc),
-     (uVar10 >> uVar12 * 8 | uVar10 << uVar12 * -8 + 0x20) == uVar9)) {
-    bVar2 = true;
-  }
-  else {
-    bVar2 = false;
-  }
-  if (!bVar2) {
-    *(uint *)(param_1 + 0x84) = uVar3;
-    *(uint *)(param_1 + 0x88) = uVar13;
-    *(uint *)(param_1 + 0x8c) = uVar9;
+/* struct pointed to by src->f2cc; only field at +8 is used */
+typedef struct P { char pad0[8]; fx32 f8; } P;
+
+typedef struct Src {
+    char pad0[0x8c];
+    VecFx32 f8c;        /* 0x8c */
+    VecFx32 f98;        /* 0x98 */
+    VecFx32 fa4;        /* 0xa4 */
+    char pad_b0[0xc4 - 0xb0];
+    fx32 fc4;           /* 0xc4 */
+    char pad_c8[0x150 - 0xc8];
+    Mtx33 f150;         /* 0x150 */
+    char pad_174[0x2a4 - 0x174];
+    fx32 f2a4;          /* 0x2a4 */
+    char pad_2a8[0x2bc - 0x2a8];
+    fx32 f2bc;          /* 0x2bc */
+    char pad_2c0[0x2cc - 0x2c0];
+    P *f2cc;            /* 0x2cc */
+    char pad_2d0[0x41c - 0x2d0];
+    fx32 f41c;          /* 0x41c */
+    fx32 f420;
+    fx32 f424;
+    fx32 f428;
+    fx32 f42c;
+    fx32 f430;
+} Src;
+
+typedef struct Obj {
+    char pad0[0x10];
+    Src *f10;           /* 0x10: source data */
+    char pad14[0x2c - 0x14];
+    Mtx33 f2c;          /* 0x2c: cached matrix (row2 at +0x44) */
+    VecFx32 f50;        /* 0x50 */
+    VecFx32 f5c;        /* 0x5c */
+    fx32 f68;           /* 0x68 */
+    VecFx32 f6c;        /* 0x6c */
+    fx32 f78;           /* 0x78 */
+    fx32 f7c;           /* 0x7c */
+    int f80;            /* 0x80: sign flag */
+    VecFx32 f84;        /* 0x84: dirty-checked triple */
+} Obj;
+
+/* returns dot(a, b) */
+extern fx32 VecFx32_CrossProduct_0(const VecFx32 *a, const VecFx32 *b);
+/* out = a - b */
+extern void VecFx32_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+
+int func_020ee528(Obj *self) {
+    Src *src = self->f10;
+    VecFx32 nv;   /* freshly computed triple, materialized on the stack */
+    int unchanged;
+
+    self->f2c = src->f150;
+    self->f50 = src->f98;
+    self->f5c = src->fa4;
+    self->f68 = src->f2a4;
+    /* rounded fx32 multiply (+0x800 before >>12) */
+    self->f78 = (fx32)(((fx64)src->f2cc->f8 * src->fc4 + 0x800) >> 12);
+    self->f7c = src->f2bc;
+
+    /* dot of the matrix's third row with f5c; store its sign */
+    self->f80 = VecFx32_CrossProduct_0(&self->f2c.r2, &self->f5c) > 0;
+
+    VecFx32_Subtract(&self->f50, &src->f8c, &self->f6c);
+
+    /* three unrounded fx32 products */
+    nv.x = (fx32)(((fx64)src->f41c * src->f428) >> 12);
+    nv.y = (fx32)(((fx64)src->f420 * src->f42c) >> 12);
+    nv.z = (fx32)(((fx64)src->f424 * src->f430) >> 12);
+
+    /* materialize the equality as an int so mwcc emits moveq/mov + cmp
+       (a bool in a register) rather than predicating the return directly */
+    if (self->f84.x == nv.x && self->f84.y == nv.y && self->f84.z == nv.z)
+        unchanged = 1;
+    else
+        unchanged = 0;
+    if (unchanged)
+        goto ret0;
+
+    self->f84 = nv;
     return 1;
-  }
-  return 0;
+ret0:
+    return 0;
 }
-

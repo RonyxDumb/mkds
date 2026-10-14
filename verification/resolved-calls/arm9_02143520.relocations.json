@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Wm_GetGlobal",
+    "target": 34876072,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422301
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Wm_CheckInitialized",
+    "target": 34876044,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422292
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "DC_InvalidateRangeNoClean",
+    "target": 33615420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959107124
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "MIi_CpuCopyFast",
+    "target": 34918568,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942655691
+  }
+]

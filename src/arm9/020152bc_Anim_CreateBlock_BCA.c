@@ -1,38 +1,49 @@
-/* Decompiled C draft; module arm9; ROM address 020152bc. No matching claim. */
-#include "types.h"
-#include "deps/020152bc_Anim_CreateBlock_BCA.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021617d8 SDK_data_021617d8
+// PURPOSE: Creates animation frame entries from a BCA animation block.
 
-void Anim_CreateBlock_BCA(int param_1,int param_2,int param_3)
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
 
+typedef struct {
+    u8 pad0[6];
+    u16 count;
+    u8 pad8[0xc];
+    u16 entry_offsets[1];
+} BcaBlock;
+
+typedef struct {
+    u8 pad0[8];
+    BcaBlock *block;
+    void *shared_data;
+    u8 pad10[9];
+    u8 entry_count;
+    u16 entries[1];
+} AnimBlock;
+
+typedef struct {
+    u8 pad0[0x17];
+    u8 entry_count;
+} AnimCreateInfo;
+
+extern void *data_021617d8;
+extern void Mem_CpuFill16(u16 value, void *destination, u32 size);
+
+void Anim_CreateBlock_BCA(AnimBlock *block, BcaBlock *bca, AnimCreateInfo *info)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  uVar4 = uRam02015354;
-  *(int *)(param_1 + 8) = param_2;
-  uVar5 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  *(uint *)(param_1 + 0xc) = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-  *(undefined1 *)(param_1 + 0x19) = *(undefined1 *)(param_3 + 0x17);
-  Mem_CpuFill16(0,param_1 + 0x1a,(uint)*(byte *)(param_1 + 0x19) << 1);
-  uVar5 = 0;
-  if (*(short *)(param_2 + 6) != 0) {
-    do {
-      iVar1 = uVar5 * 2;
-      iVar2 = uVar5 * 2;
-      uVar5 = uVar5 + 1;
-      uVar4 = param_2 + (uint)*(ushort *)(param_2 + 0x14 + iVar1);
-      uVar3 = uVar4 & 3;
-      uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-      *(ushort *)(param_1 + iVar2 + 0x1a) =
-           (byte)((byte)((uVar4 >> uVar3 * 8) >> 0x18) |
-                 (byte)((uVar4 << uVar3 * -8 + 0x20) >> 0x18)) | 0x100;
-    } while (uVar5 < *(ushort *)(param_2 + 6));
-    return;
-  }
-  return;
-}
+    volatile u16 clear;
+    u32 i;
+    u16 *offsets;
 
+    block->block = bca;
+    block->shared_data = data_021617d8;
+    block->entry_count = info->entry_count;
+    clear = 0;
+    Mem_CpuFill16(clear, block->entries, block->entry_count << 1);
+
+    offsets = bca->entry_offsets;
+    for (i = 0; i < bca->count; i++) {
+        block->entries[i] = (*(u32 *)((u8 *)bca + offsets[i]) >> 24) | 0x100;
+    }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "G2d_ComputeMaxWidthHeight",
+    "target": 33696424,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421387
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "G2d_Text_SomeFn_0",
+    "target": 33702896,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645762
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Mem_AllocateHeapAligned",
+    "target": 33778548,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959406306
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "Struct59C4Sub_Initialize",
+    "target": 34664752,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942850635
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Struct59C4Sub_SomeFn",
+    "target": 34664692,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942850616
+  },
+  {
+    "offset": 156,
+    "type": 2,
+    "symbol": "SDK_data_021759c4",
+    "target": 35084740,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084740
+  }
+]

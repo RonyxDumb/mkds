@@ -1,130 +1,154 @@
-/* Decompiled C draft; module arm9; ROM address 020d1640. No matching claim. */
-#include "types.h"
-#include "deps/020d1640_LoadStatic2DContents.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b4b0 SDK_data_0217b4b0
+#define data_0216b09c SDK_data_0216b09c
+#define data_0216b0b0 SDK_data_0216b0b0
+#define data_0216b0cc SDK_data_0216b0cc
+#define data_0216b0e4 SDK_data_0216b0e4
+#define data_0216b0fc SDK_data_0216b0fc
+#define data_021759d0 SDK_data_021759d0
+#define data_0216b114 SDK_data_0216b114
+#define data_0216b124 SDK_data_0216b124
+#define data_0216b134 SDK_data_0216b134
+#define data_0216b144 SDK_data_0216b144
+#define data_0216b154 SDK_data_0216b154
+#define data_0216b164 SDK_data_0216b164
+#define data_0216b174 SDK_data_0216b174
+#define data_0216b184 SDK_data_0216b184
+#define data_0216b194 SDK_data_0216b194
+#define data_0216b1a4 SDK_data_0216b1a4
+#define data_0216b1b4 SDK_data_0216b1b4
+#define data_0216b1d0 SDK_data_0216b1d0
+/* PURPOSE: Loads the graphics and text used by the DS Download Play screen.
+ * The heap argument supplies a 0x2c-byte resource holder. The function loads
+ * search-icon assets, language-specific font and message data, and the
+ * download-screen background assets into that holder.
+ */
 
-void LoadStatic2DContents(undefined4 param_1)
+typedef unsigned int u32;
 
+typedef struct Static2DContents {
+    void *searchIconLayout;
+    void *searchIconLayoutSecondary;
+    void *searchIconCharacters;
+    void *searchIconCells;
+    void *searchIconPalette;
+    u32 messageFont[3];
+    void *messageData;
+    void *backgroundCharacters;
+    void *backgroundPalette;
+} Static2DContents;
+
+typedef struct SystemSettings {
+    u32 sharedValue;
+    int language;
+} SystemSettings;
+
+extern Static2DContents *data_0217b4b0;
+extern SystemSettings *data_021759d0;
+
+extern char data_0216b09c[];
+extern char data_0216b0b0[];
+extern char data_0216b0cc[];
+extern char data_0216b0e4[];
+extern char data_0216b0fc[];
+extern char data_0216b114[];
+extern char data_0216b124[];
+extern char data_0216b134[];
+extern char data_0216b144[];
+extern char data_0216b154[];
+extern char data_0216b164[];
+extern char data_0216b174[];
+extern char data_0216b184[];
+extern char data_0216b194[];
+extern char data_0216b1a4[];
+extern char data_0216b1b4[];
+extern char data_0216b1d0[];
+
+extern void *Mem_AllocateHeap(void *heap, u32 size);
+extern void *FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(char *name);
+extern void Gfx_ReadCharGraphics(void *destination, void *buffer);
+extern void LoadCellBankFrom(void *destination, void *buffer);
+extern void Gfx_ReadPalette(void *destination, void *buffer);
+extern void NFTR_Load(void *font, void *buffer);
+extern void Gfx_ReadCharGraphicsV2(void *destination, void *buffer);
+
+void LoadStatic2DContents(void *heap)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  
-  uVar2 = Mem_AllocateHeap(param_1,0x2c);
-  *DAT_020d1888 = uVar2;
-  uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d188c);
-  *(undefined4 *)
-   (*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-   *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) = uVar2;
-  uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d1890);
-  *(undefined4 *)
-   ((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-    *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 4) = uVar2
-  ;
-  uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d1894);
-  Gfx_ReadCharGraphics
-            ((int *)(uintptr_t)((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-             *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 8)
-             ,uVar2);
-  uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d1898);
-  LoadCellBankFrom((int *)(uintptr_t)((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-                   *(uint *)((uint)DAT_020d1888 & 0xfffffffc) <<
-                   ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0xc),uVar2);
-  uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d189c);
-  Gfx_ReadPalette((int *)(uintptr_t)((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-                  *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20
-                  ) + 0x10),uVar2);
-  uVar3 = (*(uint *)(DAT_020d18a0 & 0xfffffffc) >> (DAT_020d18a0 & 3) * 8 |
-          *(uint *)(DAT_020d18a0 & 0xfffffffc) << (DAT_020d18a0 & 3) * -8 + 0x20) + 4;
-  uVar1 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  switch(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) {
-  case 0:
-  default:
-switchD_020d16e4_default:
-    uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18a4);
-    NFTR_Load((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-              *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
-              0x14,uVar2);
-    break;
-  case 1:
-    goto switchD_020d16e4_default;
-  case 2:
-    uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18a8);
-    NFTR_Load((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-              *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
-              0x14,uVar2);
-    break;
-  case 3:
-    uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18ac);
-    NFTR_Load((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-              *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
-              0x14,uVar2);
-    break;
-  case 4:
-    uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18b0);
-    NFTR_Load((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-              *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
-              0x14,uVar2);
-    break;
-  case 5:
-    uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18b4);
-    NFTR_Load((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-              *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
-              0x14,uVar2);
-  }
-  uVar3 = (*(uint *)(DAT_020d18a0 & 0xfffffffc) >> (DAT_020d18a0 & 3) * 8 |
-          *(uint *)(DAT_020d18a0 & 0xfffffffc) << (DAT_020d18a0 & 3) * -8 + 0x20) + 4;
-  uVar1 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  switch(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) {
-  case 0:
-  default:
-switchD_020d17b0_default:
-    uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18b8);
-    *(undefined4 *)
-     ((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-      *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
-         uVar2;
-    break;
-  case 1:
-    goto switchD_020d17b0_default;
-  case 2:
-    uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18bc);
-    *(undefined4 *)
-     ((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-      *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
-         uVar2;
-    break;
-  case 3:
-    uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18c0);
-    *(undefined4 *)
-     ((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-      *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
-         uVar2;
-    break;
-  case 4:
-    uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18c4);
-    *(undefined4 *)
-     ((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-      *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
-         uVar2;
-    break;
-  case 5:
-    uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18c8);
-    *(undefined4 *)
-     ((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-      *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) + 0x20) =
-         uVar2;
-  }
-  uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18cc);
-  Gfx_ReadCharGraphicsV2
-            ((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-             *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20) +
-             0x24,uVar2);
-  uVar2 = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(DAT_020d18d0);
-  Gfx_ReadPalette((*(uint *)((uint)DAT_020d1888 & 0xfffffffc) >> ((uint)DAT_020d1888 & 3) * 8 |
-                  *(uint *)((uint)DAT_020d1888 & 0xfffffffc) << ((uint)DAT_020d1888 & 3) * -8 + 0x20
-                  ) + 0x28,uVar2);
-  return;
-}
+    data_0217b4b0 = Mem_AllocateHeap(heap, 0x2c);
 
+    data_0217b4b0->searchIconLayout =
+        FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b09c);
+    data_0217b4b0->searchIconLayoutSecondary =
+        FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b0b0);
+    Gfx_ReadCharGraphics(
+        &data_0217b4b0->searchIconCharacters,
+        FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b0cc));
+    LoadCellBankFrom(
+        &data_0217b4b0->searchIconCells,
+        FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b0e4));
+    Gfx_ReadPalette(
+        &data_0217b4b0->searchIconPalette,
+        FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b0fc));
+
+    switch (data_021759d0->language) {
+    case 0:
+    case 1:
+    default:
+        NFTR_Load(
+            data_0217b4b0->messageFont,
+            FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b114));
+        break;
+    case 2:
+        NFTR_Load(
+            data_0217b4b0->messageFont,
+            FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b124));
+        break;
+    case 3:
+        NFTR_Load(
+            data_0217b4b0->messageFont,
+            FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b134));
+        break;
+    case 4:
+        NFTR_Load(
+            data_0217b4b0->messageFont,
+            FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b144));
+        break;
+    case 5:
+        NFTR_Load(
+            data_0217b4b0->messageFont,
+            FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b154));
+        break;
+    }
+
+    switch (data_021759d0->language) {
+    case 0:
+    case 1:
+    default:
+        data_0217b4b0->messageData =
+            FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b164);
+        break;
+    case 2:
+        data_0217b4b0->messageData =
+            FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b174);
+        break;
+    case 3:
+        data_0217b4b0->messageData =
+            FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b184);
+        break;
+    case 4:
+        data_0217b4b0->messageData =
+            FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b194);
+        break;
+    case 5:
+        data_0217b4b0->messageData =
+            FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b1a4);
+        break;
+    }
+
+    Gfx_ReadCharGraphicsV2(
+        &data_0217b4b0->backgroundCharacters,
+        FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b1b4));
+    Gfx_ReadPalette(
+        &data_0217b4b0->backgroundPalette,
+        FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(data_0216b1d0));
+}

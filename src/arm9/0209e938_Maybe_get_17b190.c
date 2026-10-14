@@ -1,14 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 0209e938. No matching claim. */
-#include "types.h"
-#include "deps/0209e938_Maybe_get_17b190.h"
-
-void Maybe_get_17b190(undefined4 param_1)
-
-{
-                    /* WARNING: Could not recover jumptable at 0x0209e944. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0209e94c)(param_1,*(uint *)(uRam0209e948 & 0xfffffffc) >> (uRam0209e948 & 3) * 8 |
-                           *(uint *)(uRam0209e948 & 0xfffffffc) << (uRam0209e948 & 3) * -8 + 0x20);
-  return;
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217d130 SDK_data_0217b190
+#define Sound_LoadGroup SDK_data_0209bbd0
+#define LoadGroupById Maybe_get_17b190
+extern void *data_0217d130;
+extern void Sound_LoadGroup(void *a0, void *a1);
+void LoadGroupById(void *a0) {
+    Sound_LoadGroup(a0, data_0217d130);
 }
-

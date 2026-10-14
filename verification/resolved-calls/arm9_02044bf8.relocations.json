@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 128,
+    "type": 1,
+    "symbol": "StructCO_ConfigureRacerDefault",
+    "target": 33843376,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647564
+  },
+  {
+    "offset": 180,
+    "type": 1,
+    "symbol": "Mem_CpuCopy8",
+    "target": 34918908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942916434
+  },
+  {
+    "offset": 200,
+    "type": 1,
+    "symbol": "StructNKPG_CopyToTime_from_thumb",
+    "target": 33908196,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194321991
+  },
+  {
+    "offset": 236,
+    "type": 1,
+    "symbol": "StructNKPG_AnotherCopyToTime_from_thumb",
+    "target": 33908236,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194321992
+  },
+  {
+    "offset": 304,
+    "type": 1,
+    "symbol": "StructCO_ConfigureRacerDefault",
+    "target": 33843376,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647520
+  },
+  {
+    "offset": 324,
+    "type": 2,
+    "symbol": "SDK_data_021759c0",
+    "target": 35084736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084736
+  },
+  {
+    "offset": 328,
+    "type": 2,
+    "symbol": "SDK_data_0217aa08",
+    "target": 35105288,
+    "thumb": false,
+    "addend": 0,
+    "value": 35105288
+  },
+  {
+    "offset": 332,
+    "type": 2,
+    "symbol": "SDK_data_02175650",
+    "target": 35083856,
+    "thumb": false,
+    "addend": 0,
+    "value": 35083856
+  }
+]

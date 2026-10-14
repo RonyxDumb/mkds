@@ -1,42 +1,39 @@
-/* Decompiled C draft; module arm9; ROM address 020b17a4. No matching claim. */
-#include "types.h"
-#include "deps/020b17a4_func_020b17a4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+
+// PURPOSE: Configures the sub screen backgrounds for a layered menu display.
+// This sets the sub display mode and initializes backgrounds 1 through 3.
+// It also resets the horizontal offsets for backgrounds 1 through 3.
+
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void SetDispcntSubBgMode(u32 mode);
 
 void func_020b17a4(void)
-
 {
-  ushort uVar1;
-  ushort uVar2;
-  ushort *puVar3;
-  undefined4 *puVar4;
-  ushort *puVar5;
-  undefined4 *puVar6;
-  ushort *puVar7;
-  
-  *puRam020b188c =
-       (*(uint *)((uint)puRam020b188c & 0xfffffffc) >> ((uint)puRam020b188c & 3) * 8 |
-       *(uint *)((uint)puRam020b188c & 0xfffffffc) << ((uint)puRam020b188c & 3) * -8 + 0x20) &
-       0xffffe0ff | 0x1e00;
-  SetDispcntSubBgMode(0);
-  puVar3 = puRam020b1894;
-  *puRam020b1890 = 0;
-  puVar4 = puRam020b1898;
-  *puVar3 = *puVar3 & 0xfffc | 3;
-  puVar5 = puRam020b189c;
-  uVar1 = (ushort)uRam020b18a0;
-  *puVar3 = *puVar3 & 0xffbf;
-  puVar7 = puRam020b18a8;
-  puVar6 = puRam020b18a4;
-  *puVar3 = *puVar3 & 0x43 | 8;
-  *puVar4 = 0x100;
-  uVar2 = (ushort)uRam020b18ac;
-  *puVar5 = *puVar5 & 0xfffc | 2;
-  *puVar5 = *puVar5 & 0xffbf;
-  *puVar5 = *puVar5 & 0x43 | uVar1;
-  *puVar6 = 0x100;
-  *puVar7 = *puVar7 & 0xfffc | 2;
-  *puVar7 = *puVar7 & 0xffbf;
-  *puVar7 = *puVar7 & 0x43 | uVar2;
-  return;
-}
+    *(volatile u32 *)0x04001000 =
+        (*(volatile u32 *)0x04001000 & ~0x1f00) | 0x1e00;
+    SetDispcntSubBgMode(0);
 
+    *(volatile u32 *)0x04001014 = 0;
+
+    *(volatile u16 *)0x0400100a =
+        (*(volatile u16 *)0x0400100a & ~3) | 3;
+    *(volatile u16 *)0x0400100a &= ~0x40;
+    *(volatile u16 *)0x0400100a =
+        (*(volatile u16 *)0x0400100a & 0x43) | 8;
+    *(volatile u32 *)0x04001018 = 0x100;
+
+    *(volatile u16 *)0x0400100c =
+        (*(volatile u16 *)0x0400100c & ~3) | 2;
+    *(volatile u16 *)0x0400100c &= ~0x40;
+    *(volatile u16 *)0x0400100c =
+        (*(volatile u16 *)0x0400100c & 0x43) | 0x4c08;
+    *(volatile u32 *)0x0400101c = 0x100;
+
+    *(volatile u16 *)0x0400100e =
+        (*(volatile u16 *)0x0400100e & ~3) | 2;
+    *(volatile u16 *)0x0400100e &= ~0x40;
+    *(volatile u16 *)0x0400100e =
+        (*(volatile u16 *)0x0400100e & 0x43) | 0x4e08;
+}

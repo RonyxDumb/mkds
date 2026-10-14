@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "Vector3_Cross",
+    "target": 33789864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959352277
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "VecFx32_Subtract",
+    "target": 34899152,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942852378
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "VecFx32_CrossProduct_0",
+    "target": 33789992,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959352301
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "FX_Div",
+    "target": 34897716,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942852012
+  },
+  {
+    "offset": 152,
+    "type": 1,
+    "symbol": "AbsValue",
+    "target": 34027768,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959411738
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "Vector3_Cross",
+    "target": 33789864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959352245
+  },
+  {
+    "offset": 320,
+    "type": 1,
+    "symbol": "VecFx32_Add",
+    "target": 34899204,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942852339
+  },
+  {
+    "offset": 336,
+    "type": 2,
+    "symbol": "SDK_data_021557c4",
+    "target": 34953156,
+    "thumb": false,
+    "addend": 0,
+    "value": 34953156
+  }
+]

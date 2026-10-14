@@ -1,29 +1,39 @@
-/* Decompiled C draft; module arm9; ROM address 02036ab0. No matching claim. */
-#include "types.h"
-#include "deps/02036ab0_Mem_DestroyHeap.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint Mem_DestroyHeap(uint param_1)
+// PURPOSE: Destroys a heap and releases it from its parent.
+// The heap is finalized according to its type.
+// It is probably returned to an expandable parent heap when possible.
 
+typedef unsigned int u32;
+
+extern void Mem_Exp_Finalize(void *heap);
+extern void Mem_Frame_Finalize(void *heap);
+extern void *Mem_FindGlobalTopParentHeapHead(void *heap);
+extern void Mem_Exp_Free(void *heap, void *block);
+
+void Mem_DestroyHeap(void *heap)
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  if (uVar1 == uRam02036b28) {
-    Mem_Exp_Finalize();
-  }
-  else if (uVar1 == uRam02036b2c) {
-    Mem_Frame_Finalize();
-  }
-  uVar1 = Mem_FindGlobalTopParentHeapHead(param_1);
-  if (uVar1 == 0) {
-    return 0;
-  }
-  if ((*(uint *)(uVar1 & 0xfffffffc) >> (uVar1 & 3) * 8 |
-      *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20) != uRam02036b28) {
-    return uRam02036b2c;
-  }
-  uVar1 = Mem_Exp_Free(uVar1,param_1);
-  return uVar1;
-}
+    void *parentHeap;
 
+    switch (*(u32 *)heap) {
+    case 0x45585048:
+        Mem_Exp_Finalize(heap);
+        break;
+    case 0x46524D48:
+        Mem_Frame_Finalize(heap);
+        break;
+    }
+
+    parentHeap = Mem_FindGlobalTopParentHeapHead(heap);
+    if (parentHeap == 0) {
+        return;
+    }
+
+    switch (*(u32 *)parentHeap) {
+    case 0x45585048:
+        Mem_Exp_Free(parentHeap, heap);
+        break;
+    case 0x46524D48:
+        break;
+    }
+}

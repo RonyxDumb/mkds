@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959354168
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Mem_FreeHeap",
+    "target": 33778480,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959394003
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Mem_AllocateHeapAligned",
+    "target": 33778548,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959394012
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959354153
+  },
+  {
+    "offset": 120,
+    "type": 2,
+    "symbol": "SDK_data_0217aa00",
+    "target": 35105280,
+    "thumb": false,
+    "addend": 0,
+    "value": 35105280
+  }
+]

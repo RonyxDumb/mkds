@@ -1,64 +1,65 @@
-/* Decompiled C draft; module arm9; ROM address 02096df0. No matching claim. */
-#include "types.h"
-#include "deps/02096df0_func_02096df0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+/*
+ * Collision test against a cylindrical/spherical object.
+ * args: obj (r0), point p (r1), margin (r2, fx32), out push-out vector (r3).
+ * Computes diff = p - obj->pos; rejects if diff.y >= obj->height + margin
+ * or |diff| >= obj->radius + margin (returns 0). Otherwise, depending on
+ * obj->type, writes either a zero vector or diff normalized and scaled by
+ * the penetration depth into out, and returns 1.
+ */
 
-undefined4 func_02096df0(int param_1,undefined4 param_2,int param_3,uint *param_4)
+typedef int fx32;
+typedef long long s64;
+typedef struct { fx32 x, y, z; } VecFx32;
 
+typedef struct {
+    int unk0;                    /* 0x00 */
+    VecFx32 pos;                 /* 0x04 */
+    char pad10[0x58 - 0x10];
+    fx32 radius;                 /* 0x58 */
+    char pad5c[0xa0 - 0x5c];
+    fx32 height;                 /* 0xa0 (probably vertical extent) */
+    char pada4[0xb0 - 0xa4];
+    int type;                    /* 0xb0 */
+} Obj;
+
+extern void VecFx32_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+extern fx32 VecFx32_Norm(const VecFx32 *v);
+extern void Vector3_MaybeNormalize(VecFx32 *dst, VecFx32 *src);
+
+int func_02096df0(Obj *obj, const VecFx32 *p, fx32 margin, VecFx32 *out)
 {
-  longlong lVar1;
-  uint uVar2;
-  int iVar3;
-  uint uVar4;
-  int iStack_20;
-  int local_1c;
-  int iStack_18;
-  
-  VecFx32_Subtract(param_2,param_1 + 4,&iStack_20);
-  uVar4 = param_1 + 0xa0U & 3;
-  uVar2 = *(uint *)(param_1 + 0xa0U & 0xfffffffc);
-  if ((int)((uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) + param_3) <= local_1c) {
-    return 0;
-  }
-  iVar3 = VecFx32_Norm((uint)(uintptr_t)(&iStack_20));
-  uVar4 = param_1 + 0x58U & 3;
-  uVar2 = *(uint *)(param_1 + 0x58U & 0xfffffffc);
-  if ((int)((uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) + param_3) <= iVar3) {
-    return 0;
-  }
-  uVar4 = param_1 + 0xb0U & 3;
-  uVar2 = *(uint *)(param_1 + 0xb0U & 0xfffffffc);
-  uVar4 = uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20;
-  if (uVar4 == 1) {
-    *param_4 = 0;
-    param_4[1] = 0;
-    param_4[2] = 0;
-    return 1;
-  }
-  if ((uVar4 != 4) &&
-     ((uVar4 != 5 ||
-      (uVar4 = param_1 + 0xa0U & 3, uVar2 = *(uint *)(param_1 + 0xa0U & 0xfffffffc),
-      (int)(uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) < 0x7801)))) {
-    *param_4 = 0;
-    param_4[1] = 0;
-    param_4[2] = 0;
-    return 1;
-  }
-  lVar1 = (longlong)iStack_18 * (longlong)iStack_18 +
-          (longlong)iStack_20 * (longlong)iStack_20 + (longlong)local_1c * (longlong)local_1c;
-  if ((int)(uint)((uint)lVar1 < 0x10) <= (int)((ulonglong)lVar1 >> 0x20)) {
-    Vector3_MaybeNormalize((uint)(uintptr_t)(&iStack_20),&iStack_20);
-  }
-  uVar4 = param_1 + 0x58U & 3;
-  uVar2 = *(uint *)(param_1 + 0x58U & 0xfffffffc);
-  iVar3 = ((uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) + param_3) - iVar3;
-  *param_4 = (uint)((longlong)iStack_20 * (longlong)iVar3) >> 0xc |
-             (int)((ulonglong)((longlong)iStack_20 * (longlong)iVar3) >> 0x20) << 0x14;
-  param_4[1] = (uint)((longlong)local_1c * (longlong)iVar3) >> 0xc |
-               (int)((ulonglong)((longlong)local_1c * (longlong)iVar3) >> 0x20) << 0x14;
-  param_4[2] = (uint)((longlong)iStack_18 * (longlong)iVar3) >> 0xc |
-               (int)((ulonglong)((longlong)iStack_18 * (longlong)iVar3) >> 0x20) << 0x14;
-  return 1;
-}
+    VecFx32 diff;
+    fx32 dist;
 
+    VecFx32_Subtract(p, &obj->pos, &diff);
+    if (diff.y >= obj->height + margin) {
+        return 0;
+    }
+    dist = VecFx32_Norm(&diff);
+    if (dist >= obj->radius + margin) {
+        return 0;
+    }
+    if (obj->type == 1) {
+        out->x = 0;
+        out->y = 0;
+        out->z = 0;
+        return 1;
+    }
+    if (obj->type == 4 || (obj->type == 5 && obj->height > 0x7800)) {
+        /* normalize diff only if its squared magnitude is big enough */
+        if ((s64)diff.x * diff.x + (s64)diff.y * diff.y + (s64)diff.z * diff.z >= 16) {
+            Vector3_MaybeNormalize(&diff, &diff);
+        }
+        dist = (obj->radius + margin) - dist; /* penetration depth, reuses r4 */
+        out->x = (fx32)(((s64)diff.x * dist) >> 12);
+        out->y = (fx32)(((s64)diff.y * dist) >> 12);
+        out->z = (fx32)(((s64)diff.z * dist) >> 12);
+        return 1;
+    }
+    out->x = 0;
+    out->y = 0;
+    out->z = 0;
+    return 1;
+}

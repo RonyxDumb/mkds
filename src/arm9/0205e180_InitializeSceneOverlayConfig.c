@@ -1,23 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 0205e180. No matching claim. */
-#include "types.h"
-#include "deps/0205e180_InitializeSceneOverlayConfig.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217aa20 SDK_data_0217aa20
+/*
+PURPOSE: Initializes the shared scene overlay settings.
 
-void InitializeSceneOverlayConfig(undefined4 param_1)
+The argument is the heap used for the new 16-byte configuration record.
+The function starts the overlay state at zero, sets the requested state to
+the idle value three, and clears the probably optional audio buffer pointer.
+*/
 
+typedef unsigned int u32;
+
+typedef struct SceneOverlayConfig {
+    int overlayState;
+    int requestedState;
+    int unknown_08;
+    void *audioBuffer;
+} SceneOverlayConfig;
+
+extern void *Mem_AllocateHeap(void *heap, u32 size);
+extern SceneOverlayConfig *data_0217aa20;
+
+void InitializeSceneOverlayConfig(void *heap)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = (undefined4 *)Mem_AllocateHeap(param_1,0x10);
-  puVar1 = puRam0205e1c0;
-  *puRam0205e1c0 = puVar2;
-  *puVar2 = 0;
-  *(undefined4 *)
-   ((*(uint *)((uint)puVar1 & 0xfffffffc) >> ((uint)puVar1 & 3) * 8 |
-    *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 4) = 3;
-  *(undefined4 *)
-   ((*(uint *)((uint)puVar1 & 0xfffffffc) >> ((uint)puVar1 & 3) * 8 |
-    *(uint *)((uint)puVar1 & 0xfffffffc) << ((uint)puVar1 & 3) * -8 + 0x20) + 0xc) = 0;
-  return;
+    data_0217aa20 = (SceneOverlayConfig *)Mem_AllocateHeap(heap, 0x10);
+    data_0217aa20->overlayState = 0;
+    data_0217aa20->requestedState = 3;
+    data_0217aa20->audioBuffer = 0;
 }
-

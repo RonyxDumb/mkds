@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "VecFx32_CrossProduct_0",
+    "target": 33789992,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959237786
+  },
+  {
+    "offset": 176,
+    "type": 1,
+    "symbol": "VecFx32_Subtract",
+    "target": 34899152,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942737852
+  }
+]

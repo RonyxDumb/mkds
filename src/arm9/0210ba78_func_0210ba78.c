@@ -1,18 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 0210ba78. No matching claim. */
-#include "types.h"
-#include "deps/0210ba78_func_0210ba78.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217ccac SDK_data_0217ccac
+// PURPOSE: Queues a sound effect and advances its event counter.
+// The context and sound identifier are passed to the driver's sound queue.
+// The counter probably selects a sound variation and determines its volume.
 
-void func_0210ba78(undefined4 param_1,int param_2)
+extern int data_0217ccac;
+extern void DriverContext_MaybeQueuePlaySfx(void *ctx, int sound, int volume, int flags);
 
+void func_0210ba78(void *ctx, int sound)
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)((uint)piRam0210babc & 0xfffffffc) >> ((uint)piRam0210babc & 3) * 8 |
-          *(uint *)((uint)piRam0210babc & 0xfffffffc) << ((uint)piRam0210babc & 3) * -8 + 0x20;
-  DriverContext_MaybeQueuePlaySfx(param_1,param_2 + uVar1,0x7fU - ((int)uVar1 >> 1) & 0xff,0);
-  *piRam0210babc =
-       (*(uint *)((uint)piRam0210babc & 0xfffffffc) >> ((uint)piRam0210babc & 3) * 8 |
-       *(uint *)((uint)piRam0210babc & 0xfffffffc) << ((uint)piRam0210babc & 3) * -8 + 0x20) + 10;
-  return;
-}
+    int event = data_0217ccac;
 
+    DriverContext_MaybeQueuePlaySfx(ctx, sound + event,
+        (unsigned char)(0x7f - (event >> 1)), 0);
+    data_0217ccac += 10;
+}

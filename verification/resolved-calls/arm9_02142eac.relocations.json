@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Rtc_Initialize",
+    "target": 34922740,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657162
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Rtc_GetTime",
+    "target": 34922360,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942657065
+  },
+  {
+    "offset": 116,
+    "type": 2,
+    "symbol": "SDK_data_0216f06c",
+    "target": 35057772,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057772
+  }
+]

@@ -1,37 +1,55 @@
-/* Decompiled C draft; module arm9; ROM address 0207b054. No matching claim. */
-#include "types.h"
-#include "deps/0207b054_StructMQRacerEntry_SomeFn_7.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void StructMQRacerEntry_SomeFn_7(int param_1,undefined2 param_2,undefined2 param_3)
+// PURPOSE: Starts a racer animation and records its blend setting.
+// The racer supplies a character-animation context and an animation number.
+// The context probably remembers whether an earlier animation needs looping.
+// The final argument is stored as the animation's blend setting.
 
+typedef unsigned short u16;
+
+typedef struct Animation {
+    unsigned char unknown_00[0x1a];
+    u16 loop_index;
+} Animation;
+
+typedef struct AnimationState {
+    unsigned char unknown_00[0x14];
+    int active;
+    u16 blend;
+} AnimationState;
+
+typedef struct CharacterKartContext {
+    unsigned char unknown_00[8];
+    Animation *animation;
+    unsigned char unknown_0c[0x18];
+    AnimationState state;
+} CharacterKartContext;
+
+typedef struct StructMQRacerEntry {
+    unsigned char unknown_000[0x590];
+    CharacterKartContext *character_context;
+} StructMQRacerEntry;
+
+extern void Animation_SetLoop(Animation *animation, int animation_index,
+                              int loop);
+extern void Animation_SetWithBlendAt(Animation *animation, u16 animation_index);
+
+void StructMQRacerEntry_SomeFn_7(StructMQRacerEntry *entry, int animation_index,
+                                 u16 blend)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar5;
-  uint uVar4;
-  
-  uVar2 = param_1 + 0x590U & 3;
-  uVar3 = *(uint *)(param_1 + 0x590U & 0xfffffffc);
-  uVar4 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
-  uVar2 = uVar4 + 0x38 & 3;
-  uVar1 = *(uint *)(uVar4 + 0x38 & 0xfffffffc);
-  uVar3 = uVar4 + 8 & 3;
-  uVar5 = *(uint *)(uVar4 + 8 & 0xfffffffc);
-  uVar3 = uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20;
-  if ((uVar1 >> uVar2 * 8 != 0 || uVar1 << uVar2 * -8 + 0x20 != 0) &&
-     (*(short *)(uVar3 + 0x1a) != 0)) {
-    Animation_SetLoop((undefined2 *)(uintptr_t)(uVar3),*(short *)(uVar3 + 0x1a),1);
-  }
-  *(undefined4 *)(uVar4 + 0x38) = 1;
-  *(undefined2 *)(uVar4 + 0x3c) = param_3;
-  uVar2 = param_1 + 0x590U & 3;
-  uVar1 = *(uint *)(param_1 + 0x590U & 0xfffffffc);
-  uVar2 = (uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) + 8;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  Animation_SetWithBlendAt(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,param_2);
-  Animation_SetLoop((undefined2 *)(uintptr_t)(uVar3),param_2,0);
-  return;
-}
+    CharacterKartContext *context = entry->character_context;
+    Animation *animation = context->animation;
+    AnimationState *state = (AnimationState *)((unsigned char *)context + 0x24);
 
+    if (state->active != 0) {
+        if (animation->loop_index != 0) {
+            Animation_SetLoop(animation, animation->loop_index, 1);
+        }
+    }
+
+    state->active = 1;
+    state->blend = blend;
+    Animation_SetWithBlendAt(entry->character_context->animation,
+                             animation_index);
+    Animation_SetLoop(animation, (u16)animation_index, 0);
+}

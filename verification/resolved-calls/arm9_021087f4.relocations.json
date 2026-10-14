@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Sound_Context_DisposeLoadedStuff",
+    "target": 34790380,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942683884
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "MaybeLoadRacerSbnksSwars",
+    "target": 34637948,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645766
+  },
+  {
+    "offset": 128,
+    "type": 2,
+    "symbol": "SDK_data_0216c7d8",
+    "target": 35047384,
+    "thumb": false,
+    "addend": 0,
+    "value": 35047384
+  },
+  {
+    "offset": 132,
+    "type": 2,
+    "symbol": "SDK_data_0217c77c",
+    "target": 35112828,
+    "thumb": false,
+    "addend": 0,
+    "value": 35112828
+  }
+]

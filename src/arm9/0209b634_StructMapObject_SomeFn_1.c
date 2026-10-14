@@ -1,28 +1,34 @@
-/* Decompiled C draft; module arm9; ROM address 0209b634. No matching claim. */
-#include "types.h"
-#include "deps/0209b634_StructMapObject_SomeFn_1.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-uint StructMapObject_SomeFn_1(int param_1)
+// PURPOSE: Returns the current length value for a map object.
+// If the object has a linked entry, it returns that entry's stored value.
+// Otherwise it returns zero without a secondary entry, or derives a value
+// from the object's animation, probably for map-object timing.
 
+typedef struct MapObjectLinkedEntry {
+    unsigned char padding_00[0x1a];
+    unsigned short value_1a;
+} MapObjectLinkedEntry;
+
+typedef struct MapObject {
+    unsigned char padding_00[0x0c];
+    MapObjectLinkedEntry *linked_entry;
+    void *secondary_entry;
+    unsigned char padding_14[0x0c];
+    void *animation;
+} MapObject;
+
+extern unsigned int Animation_GetCurrentLength(void *animation);
+
+unsigned int StructMapObject_SomeFn_1(MapObject *map_object)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar3 = param_1 + 0xcU & 3;
-  uVar2 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  if (uVar3 != 0) {
-    return (uint)*(ushort *)(uVar3 + 0x1a);
-  }
-  uVar3 = param_1 + 0x10U & 3;
-  uVar2 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-  if (uVar2 >> uVar3 * 8 != 0 || uVar2 << uVar3 * -8 + 0x20 != 0) {
-    uVar3 = param_1 + 0x20U & 3;
-    uVar2 = *(uint *)(param_1 + 0x20U & 0xfffffffc);
-    iVar1 = Animation_GetCurrentLength(uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20);
-    return (uint)(iVar1 << 4) >> 0x10;
-  }
-  return 0;
-}
+    if (map_object->linked_entry != 0) {
+        return map_object->linked_entry->value_1a;
+    }
 
+    if (map_object->secondary_entry == 0) {
+        return 0;
+    }
+
+    return (Animation_GetCurrentLength(map_object->animation) << 4) >> 16;
+}

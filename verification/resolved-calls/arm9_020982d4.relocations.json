@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "CreateAllocateMapObject_from_thumb",
+    "target": 34193136,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194307840
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "func_020d49d8",
+    "target": 34425304,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194365876
+  },
+  {
+    "offset": 68,
+    "type": 2,
+    "symbol": "SDK_data_02098b34",
+    "target": 34179892,
+    "thumb": false,
+    "addend": 0,
+    "value": 34179892
+  },
+  {
+    "offset": 72,
+    "type": 2,
+    "symbol": "SDK_data_02098a58",
+    "target": 34179672,
+    "thumb": false,
+    "addend": 0,
+    "value": 34179672
+  },
+  {
+    "offset": 76,
+    "type": 2,
+    "symbol": "SDK_data_02098b1c",
+    "target": 34179868,
+    "thumb": false,
+    "addend": 0,
+    "value": 34179868
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_0217b110",
+    "target": 35107088,
+    "thumb": false,
+    "addend": 0,
+    "value": 35107088
+  }
+]

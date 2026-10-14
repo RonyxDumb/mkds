@@ -1,21 +1,30 @@
-/* Decompiled C draft; module arm9; ROM address 0210bc54. No matching claim. */
-#include "types.h"
-#include "deps/0210bc54_func_0210bc54.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-void func_0210bc54(int param_1,int param_2)
+// PURPOSE: Removes an item and clears its associated pointer.
+// The first argument is probably a list wrapper containing a byte offset.
+// The second argument is the base for the referenced record.
+// If that record still has a pointer at offset eight, it is cleared.
 
+typedef unsigned short u16;
+
+typedef struct ListWrapper {
+    char pad[0x0a];
+    u16 itemOffset;
+} ListWrapper;
+
+typedef struct ItemRecord {
+    char pad[8];
+    void *item;
+} ItemRecord;
+
+extern void IntrusiveListWrapper_RemoveItem(void *wrap);
+
+void func_0210bc54(ListWrapper *wrap, char *base)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  IntrusiveListWrapper_RemoveItem();
-  param_2 = param_2 + (uint)*(ushort *)(param_1 + 10);
-  uVar2 = param_2 + 8;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if (uVar2 >> uVar1 * 8 != 0 || uVar2 << uVar1 * -8 + 0x20 != 0) {
-    *(undefined4 *)(param_2 + 8) = 0;
-  }
-  return;
-}
+    ItemRecord *record;
 
+    IntrusiveListWrapper_RemoveItem(wrap);
+    record = (ItemRecord *)(base + wrap->itemOffset);
+    if (record->item != 0)
+        record->item = 0;
+}

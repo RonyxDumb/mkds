@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "StructWM_SomeFn",
+    "target": 34881040,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942891966
+  },
+  {
+    "offset": 84,
+    "type": 2,
+    "symbol": "SDK_data_0217aa00",
+    "target": 35105280,
+    "thumb": false,
+    "addend": 0,
+    "value": 35105280
+  },
+  {
+    "offset": 88,
+    "type": 2,
+    "symbol": "SDK_data_02053664",
+    "target": 33896036,
+    "thumb": false,
+    "addend": 0,
+    "value": 33896036
+  }
+]

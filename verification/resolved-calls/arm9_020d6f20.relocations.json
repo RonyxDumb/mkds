@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "MTX_RotY33__from_thumb",
+    "target": 34893124,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194418554
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "MTX_MultVec33",
+    "target": 34893176,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942760323
+  },
+  {
+    "offset": 84,
+    "type": 2,
+    "symbol": "SDK_data_0215d4b4",
+    "target": 34985140,
+    "thumb": false,
+    "addend": 0,
+    "value": 34985140
+  }
+]

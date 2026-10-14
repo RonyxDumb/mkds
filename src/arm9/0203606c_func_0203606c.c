@@ -1,15 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 0203606c. No matching claim. */
-#include "types.h"
-#include "deps/0203606c_func_0203606c.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define SaveDataIoManagerIsBusy12 func_020360a0
+#define data_0217aa08 SDK_data_0217aa08
+#define SaveDataHolderIsBusy func_0203606c
+// PURPOSE: Checks whether save data work is still running.
+// The shared holder probably stores its busy flag at byte offset 0x28.
+// A clear flag falls through to the save-data I/O manager query.
 
-void func_0203606c(void)
+#pragma optimize_for_size on
 
+extern void *data_0217aa08;
+extern int SaveDataIoManagerIsBusy12(void);
+
+int SaveDataHolderIsBusy(void)
 {
-  if (*(char *)((*(uint *)(uRam0203609c & 0xfffffffc) >> (uRam0203609c & 3) * 8 |
-                *(uint *)(uRam0203609c & 0xfffffffc) << (uRam0203609c & 3) * -8 + 0x20) + 0x28) ==
-      '\0') {
-    func_020360a0(0);
-  }
-  return;
-}
+    int busy = ((unsigned char *)data_0217aa08)[0x28];
 
+    if (busy != 0)
+        return 1;
+
+    return SaveDataIoManagerIsBusy12();
+}

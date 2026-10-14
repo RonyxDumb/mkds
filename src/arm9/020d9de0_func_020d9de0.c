@@ -1,32 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 020d9de0. No matching claim. */
-#include "types.h"
-#include "deps/020d9de0_func_020d9de0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
 
-undefined4 * func_020d9de0(void)
+// PURPOSE: Allocates and clears a 64-byte heap block.
+// The block comes from the active execution context's heap.
+// Every word in the returned block is initialized to zero.
 
-{
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  
-  GetActiveExecutionContext();
-  uVar1 = ExecutionContext_GetHeapHandle();
-  puVar2 = (undefined4 *)Mem_AllocateHeap(uVar1,0x40);
-  *puVar2 = 0;
-  puVar2[1] = 0;
-  puVar2[2] = 0;
-  puVar2[3] = 0;
-  puVar2[4] = 0;
-  puVar2[5] = 0;
-  puVar2[6] = 0;
-  puVar2[7] = 0;
-  puVar2[8] = 0;
-  puVar2[9] = 0;
-  puVar2[10] = 0;
-  puVar2[0xb] = 0;
-  puVar2[0xc] = 0;
-  puVar2[0xd] = 0;
-  puVar2[0xe] = 0;
-  puVar2[0xf] = 0;
-  return puVar2;
+typedef unsigned int u32;
+
+typedef struct Obj40 {
+    u32 words[0x10];
+} Obj40;
+
+extern void *GetActiveExecutionContext(void);
+extern void *ExecutionContext_GetHeapHandle(void *context);
+extern void *Mem_AllocateHeap(void *heap, unsigned int size);
+
+void *func_020d9de0(void) {
+    Obj40 zero;
+    void *context = GetActiveExecutionContext();
+    void *heap = ExecutionContext_GetHeapHandle(context);
+    Obj40 *object = (Obj40 *)Mem_AllocateHeap(heap, 0x40);
+
+    zero = (Obj40){0};
+    *object = zero;
+    return object;
 }
-

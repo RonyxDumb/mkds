@@ -1,19 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 0212c554. No matching claim. */
-#include "types.h"
-#include "deps/0212c554_func_0212c554.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_02152ce4 SDK_data_02152ce4
+// PURPOSE: Sends a sound command for a player's selected track.
+/*
+ * The handle supplies the player ID when it is valid.
+ * The final argument selects a signed halfword from a command table.
+ */
 
-void func_0212c554(uint param_1,undefined4 param_2,int param_3)
+typedef struct SoundPlayer {
+    unsigned char pad_00[0x3c];
+    unsigned char player_id;
+} SoundPlayer;
 
+extern short data_02152ce4[];
+extern void func_02020d0c(int player_id, int track_mask, int command_value);
+
+void func_0212c554(SoundPlayer **handle, int track_mask, int command_index)
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  if (uVar1 != 0) {
-    func_02020d0c(*(undefined1 *)(uVar1 + 0x3c),param_2,(int)*(short *)(iRam0212c590 + param_3 * 2))
-    ;
-    return;
-  }
-  return;
-}
+    if (*handle == 0) {
+        return;
+    }
 
+    func_02020d0c((*handle)->player_id, track_mask, data_02152ce4[command_index]);
+}

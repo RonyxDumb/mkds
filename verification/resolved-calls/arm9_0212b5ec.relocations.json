@@ -1,0 +1,155 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959172474
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959172463
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "InitializeGlobalTEQ",
+    "target": 33645908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959139271
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "GetVramBg0BaseOffset_Bottom",
+    "target": 34906164,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942677084
+  },
+  {
+    "offset": 232,
+    "type": 1,
+    "symbol": "Mem_CpuFastMemorySet",
+    "target": 34918492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942680160
+  },
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "GetAnotherSubEngineBGOffset",
+    "target": 34906868,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942677252
+  },
+  {
+    "offset": 272,
+    "type": 1,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210847910
+  },
+  {
+    "offset": 284,
+    "type": 1,
+    "symbol": "Gfx_ReadPalette",
+    "target": 34294396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959301339
+  },
+  {
+    "offset": 312,
+    "type": 1,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959139151
+  },
+  {
+    "offset": 348,
+    "type": 1,
+    "symbol": "G2d_Sprite_CreateFromTiles",
+    "target": 33698824,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959152430
+  },
+  {
+    "offset": 368,
+    "type": 1,
+    "symbol": "GetLoadedFont_from_thumb",
+    "target": 34291772,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210958902
+  },
+  {
+    "offset": 420,
+    "type": 1,
+    "symbol": "Mem_CpuFill8",
+    "target": 34918760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942680180
+  },
+  {
+    "offset": 428,
+    "type": 1,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210847871
+  },
+  {
+    "offset": 436,
+    "type": 1,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -8,
+    "value": 4210958837
+  },
+  {
+    "offset": 468,
+    "type": 2,
+    "symbol": "SDK_data_0217d40c",
+    "target": 35116044,
+    "thumb": false,
+    "addend": 0,
+    "value": 35116044
+  },
+  {
+    "offset": 484,
+    "type": 2,
+    "symbol": "SDK_data_0216ea78",
+    "target": 35056248,
+    "thumb": false,
+    "addend": 0,
+    "value": 35056248
+  },
+  {
+    "offset": 488,
+    "type": 2,
+    "symbol": "SDK_data_0216ea94",
+    "target": 35056276,
+    "thumb": false,
+    "addend": 0,
+    "value": 35056276
+  }
+]

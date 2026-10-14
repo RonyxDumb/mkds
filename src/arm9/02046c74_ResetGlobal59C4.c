@@ -1,20 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 02046c74. No matching claim. */
-#include "types.h"
-#include "deps/02046c74_ResetGlobal59C4.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021759c4 SDK_data_021759c4
+// PURPOSE: Clears the current scene subsystem.
+// The global scene state probably owns a subsystem pointer.
+// This function notifies that subsystem before removing the global state.
 
-void ResetGlobal59C4(void)
+typedef struct {
+    char padding[0x3c];
+    void *subsystem;
+} SceneState;
 
-{
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = (*(uint *)((uint)puRam02046ca4 & 0xfffffffc) >> ((uint)puRam02046ca4 & 3) * 8 |
-          *(uint *)((uint)puRam02046ca4 & 0xfffffffc) << ((uint)puRam02046ca4 & 3) * -8 + 0x20) +
-          0x3c;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  Maybe_helper_10f114(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  *puRam02046ca4 = 0;
-  return;
+extern SceneState *data_021759c4;
+extern void Maybe_helper_10f114(void *a0);
+
+void ResetGlobal59C4(void) {
+    Maybe_helper_10f114(data_021759c4->subsystem);
+    data_021759c4 = 0;
 }
-

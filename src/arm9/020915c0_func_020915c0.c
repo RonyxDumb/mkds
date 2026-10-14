@@ -1,32 +1,37 @@
-/* Decompiled C draft; module arm9; ROM address 020915c0. No matching claim. */
-#include "types.h"
-#include "deps/020915c0_func_020915c0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217b0b4 SDK_data_0217b0b4
+/* PURPOSE: Sends a game object's 3D graphics data to the display, then draws it on screen.
+ *
+ * arg0 (r5): a render/context handle passed straight through to DrawObject2D3D.
+ * arg1 (r4): pointer to the object being drawn; we feed several of its fields
+ *            (a matrix-ish thing at +4, data at +0x1c, and a value at +0xb4)
+ *            into the geometry-command helper func_01ff9048 before drawing.
+ * func_01ff9048(cmd, ptr, count) probably packs `count` words from `ptr`
+ * into a graphics/geometry command buffer under command id `cmd`.
+ * The final draw uses a global scene pointer stored in data_0217b0b4.
+ */
 
-void func_020915c0(undefined4 param_1,int param_2)
+typedef unsigned char u8;
 
+extern void func_01ff9048(int cmd, void *ptr, int count);
+extern void *MaybeGetBBMtxAtPosition(void *p);
+extern void DrawObject2D3D(void *ctx, void *scene, void *obj);
+
+extern void *data_0217b0b4;
+
+void func_020915c0(void *arg0, void *arg1)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  undefined4 local_20;
-  uint local_1c;
-  uint local_18;
-  uint local_14;
-  
-  local_20 = 0x1e;
-  func_01ff9048(0x14,(undefined4)(uintptr_t)(&local_20),1);
-  uVar2 = MaybeGetBBMtxAtPosition(param_2 + 4);
-  func_01ff9048(0x19,uVar2,0xc);
-  func_01ff9048(0x1b,param_2 + 0x1c,3);
-  uVar1 = param_2 + 0xb4U & 3;
-  uVar3 = *(uint *)(param_2 + 0xb4U & 0xfffffffc);
-  local_1c = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  local_18 = local_1c;
-  local_14 = local_1c;
-  func_01ff9048(0x1b,(undefined4)(uintptr_t)(&local_1c),3);
-  DrawObject2D3D(param_1,*(uint *)(uRam02091650 & 0xfffffffc) >> (uRam02091650 & 3) * 8 |
-                         *(uint *)(uRam02091650 & 0xfffffffc) << (uRam02091650 & 3) * -8 + 0x20,
-                 param_2);
-  return;
-}
+    int v = 0x1e;   /* sp+0 */
+    int t[3];       /* sp+4, sp+8, sp+0xc */
 
+    func_01ff9048(0x14, &v, 1);
+    func_01ff9048(0x19, MaybeGetBBMtxAtPosition((u8 *)arg1 + 4), 0xc);
+    func_01ff9048(0x1b, (u8 *)arg1 + 0x1c, 3);
+
+    t[0] = *(int *)((u8 *)arg1 + 0xb4);
+    t[1] = t[0];
+    t[2] = t[0];
+    func_01ff9048(0x1b, t, 3);
+
+    DrawObject2D3D(arg0, data_0217b0b4, arg1);
+}
