@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "FUN_037faf70",
+    "target": 58699632,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646850
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "FUN_037faf84",
+    "target": 58699652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646830
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "FUN_037faf84",
+    "target": 58699652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646824
+  },
+  {
+    "offset": 164,
+    "type": 2,
+    "symbol": "SDK_data_03807858",
+    "target": 58751064,
+    "thumb": false,
+    "addend": 0,
+    "value": 58751064
+  }
+]

@@ -1,10 +1,14 @@
-/* Decompiled C draft; module arm7; ROM address 037fbbd8. No matching claim. */
-#include "types.h"
-#include "deps/037fbbd8_FUN_037fbbd8.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_IsChannelActive FUN_037fbbd8
+#include "nitro/snd/common/channel.h"
+#include <nitro/hw/ARM7/ioreg_SND.h>
 
-bool FUN_037fbbd8(int param_1)
-
+#pragma thumb off
+BOOL SND_IsChannelActive(int chNo)
 {
-  return (*(byte *)(param_1 * 0x10 + 0x4000403) & 0x80) != 0;
-}
+    SDK_MINMAX_ASSERT(chNo, SND_CHANNEL_MIN, SND_CHANNEL_MAX);
 
+    u8 reg = *((REGType8v *)(REG_SOUND0CNT_8_ADDR + SND_CHANNEL_REG_OFFSET(chNo)));
+
+    return (reg & REG_SND_SOUND0CNT_8_E_MASK) ? TRUE : FALSE;
+}

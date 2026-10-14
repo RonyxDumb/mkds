@@ -1,27 +1,41 @@
-/* Decompiled C draft; module arm7; ROM address 0600fa80. No matching claim. */
-#include "types.h"
-#include "deps/0600fa80_FUN_0600fa80.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define AllocateHeapBuf FUN_06009138
+#define SetFatalErr FUN_06009360
+#define WSetMacAdrs1 FUN_0600a954
+#define SendMessageToWmDirect FUN_0600f19c
+#define MLME_IssueAuthIndication FUN_0600fa80
 
-bool FUN_0600fa80(undefined4 param_1,undefined2 param_2)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "Param.h"
+#include "WlNic.h"
+#include "WlCmdIf.h"
+#include "MLME.h"
+#include "MAC.h"
+#include "Flash.h"
+
+#include "TxCtrl.h"
+
+#pragma thumb off
+u32 MLME_IssueAuthIndication(u16 *pMacAdrs, u16 algorithm)
 {
-  int iVar1;
-  
-  iVar1 = FUN_06009138((*(uint *)(DAT_0600faf8 & 0xfffffffc) >> (DAT_0600faf8 & 3) * 8 |
-                       *(uint *)(DAT_0600faf8 & 0xfffffffc) << (DAT_0600faf8 & 3) * -8 + 0x20) +
-                       0x188,0x18);
-  if (iVar1 != 0) {
-    *(undefined2 *)(iVar1 + 0xc) = 0x84;
-    *(undefined2 *)(iVar1 + 0xe) = 4;
-    FUN_0600a954((undefined2 *)(uintptr_t)(iVar1 + 0x10),(undefined2 *)(uintptr_t)(param_1));
-    *(undefined2 *)(iVar1 + 0x16) = param_2;
-    FUN_0600f19c((*(uint *)(DAT_0600faf8 & 0xfffffffc) >> (DAT_0600faf8 & 3) * 8 |
-                 *(uint *)(DAT_0600faf8 & 0xfffffffc) << (DAT_0600faf8 & 3) * -8 + 0x20) + 0x188,
-                 iVar1);
-  }
-  else {
-    FUN_06009360(1);
-  }
-  return iVar1 != 0;
-}
+    WlMlmeAuthInd *pInd;
 
+    pInd = (WlMlmeAuthInd *)AllocateHeapBuf(&wlMan->HeapMan.TmpBuf, sizeof(WlMlmeAuthInd));
+    if ((u32)pInd == HEAPBUF_NOT_ENOUGH_MEMORY) {
+        SetFatalErr(WL_FATAL_ERR_NOT_ENOUGH_MEMORY);
+        return FALSE;
+    }
+
+    pInd->header.code = WL_CMDCODE_MLME_AUTH_IND;
+    pInd->header.length = CalcIndMsgLength(WlMlmeAuthInd);
+
+    WSetMacAdrs1(pInd->peerMacAdrs, pMacAdrs);
+    pInd->algorithm = algorithm;
+
+    IssueMlmeIndication(&wlMan->HeapMan.TmpBuf, pInd);
+
+    return TRUE;
+}

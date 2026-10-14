@@ -1,20 +1,29 @@
-/* Decompiled C draft; module arm7; ROM address 060125a8. No matching claim. */
-#include "types.h"
-#include "deps/060125a8_FUN_060125a8.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SendMessageToWmDirect SDK_data_0600f19c
+#define IssueMaDataConfirm FUN_060125a8
+#include "nitro/os/common/interrupt.h"
 
-void FUN_060125a8(undefined4 param_1,int param_2)
+#include "WlSys.h"
 
+#include "WlLib.h"
+#include "MAC.h"
+#include "MA.h"
+#include "WlOpe.h"
+
+#pragma thumb off
+void IssueMaDataConfirm(LPHEAPBUF_MAN pBufMan, void *pBuf)
 {
-  int iVar1;
-  
-  iVar1 = param_2 + (uint)*(ushort *)(param_2 + 0xe) * 2;
-  *(undefined2 *)(param_2 + 0xc) = *(undefined2 *)(iVar1 + 0x10);
-  *(undefined2 *)(iVar1 + 0x12) = 2;
-  *(undefined2 *)(iVar1 + 0x14) = 0;
-  *(undefined2 *)(iVar1 + 0x16) = *(undefined2 *)(param_2 + 0x18);
-                    /* WARNING: Could not recover jumptable at 0x060125d8. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*DAT_060125dc)();
-  return;
-}
+    WlMaDataReq *pReq;
+    WlMaDataCfm *pCfm;
 
+    pReq = (WlMaDataReq *)pBuf;
+    pCfm = (WlMaDataCfm *)WL_CalcConfirmPointer(pReq);
+
+    pReq->header.code = pCfm->header.code;
+
+    pCfm->header.length = CalcCfmMsgLength(WlMaDataCfm);
+    pCfm->resultCode = WL_CMDRES_SUCCESS;
+    pCfm->txStatus = pReq->frame.status;
+
+    SendMessageToWmDirect(pBufMan, pReq);
+}

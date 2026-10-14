@@ -1,13 +1,18 @@
-/* Decompiled C draft; module arm7; ROM address 037f9660. No matching claim. */
-#include "types.h"
-#include "deps/037f9660_FUN_037f9660.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_ThreadIdCount SDK_data_038076ec
+#define OSi_GetUnusedThreadId FUN_037f9660
+#include <nitro/os.h>
+#include <nitro/mi.h>
+#include <nitro/utest.h>
 
-void FUN_037f9660(void)
+#include <nitro/code32.h>
 
-{
-  *DAT_037f9674 =
-       (*(uint *)((uint)DAT_037f9674 & 0xfffffffc) >> ((uint)DAT_037f9674 & 3) * 8 |
-       *(uint *)((uint)DAT_037f9674 & 0xfffffffc) << ((uint)DAT_037f9674 & 3) * -8 + 0x20) + 1;
-  return;
-}
-
+#include  <nitro/codereset.h>
+extern int OSi_ThreadIdCount;
+#pragma thumb off
+int OSi_GetUnusedThreadId (void)
+    {
+        ++OSi_ThreadIdCount;
+        SDK_ASSERT(OSi_ThreadIdCount > 0);
+        return OSi_ThreadIdCount;
+    }

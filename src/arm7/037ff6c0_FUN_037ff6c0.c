@@ -1,41 +1,55 @@
-/* Decompiled C draft; module arm7; ROM address 037ff6c0. No matching claim. */
-#include "types.h"
-#include "deps/037ff6c0_FUN_037ff6c0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define SND_StartAlarm FUN_037ff440
+#define OS_RestoreInterrupts FUN_037faf84
+#define SND_UpdateSharedWork FUN_037ff2f4
+#define StartTimer FUN_037ff6c0
+#include <nitro/snd/common/command.h>
 
-void FUN_037ff6c0(uint param_1,byte param_2,uint param_3)
+#include <nitro/misc.h>
+#include <nitro/os.h>
+#include <nitro/pxi.h>
+#include <nitro/mi.h>
 
-{
-  undefined4 uVar1;
-  int iVar2;
-  
-  uVar1 = FUN_037faf70();
-  iVar2 = 0;
-  for (; (iVar2 < 0x10 && (param_1 != 0)); param_1 = param_1 >> 1) {
-    if ((param_1 & 1) != 0) {
-      *(byte *)(iVar2 * 0x10 + 0x4000403) = *(byte *)(iVar2 * 0x10 + 0x4000403) | 0x80;
-    }
-    iVar2 = iVar2 + 1;
-  }
-  if ((param_2 & 1) == 0) {
-    if ((param_2 & 2) != 0) {
-      *DAT_037ff7b0 = *DAT_037ff7b0 | 0x80;
-    }
-  }
-  else if ((param_2 & 2) == 0) {
-    *(byte *)DAT_037ff7a8 = (byte)*DAT_037ff7a8 | 0x80;
-  }
-  else {
-    *DAT_037ff7a8 = *DAT_037ff7a8 | (ushort)DAT_037ff7ac;
-  }
-  iVar2 = 0;
-  for (; (iVar2 < 8 && (param_3 != 0)); param_3 = param_3 >> 1) {
-    if ((param_3 & 1) != 0) {
-      FUN_037ff440(iVar2);
-    }
-    iVar2 = iVar2 + 1;
-  }
-  FUN_037faf84(uVar1);
-  FUN_037ff2f4();
-  return;
-}
+#include <nitro/snd/common/seq.h>
+#include <nitro/snd/common/capture.h>
+#include <nitro/snd/common/work.h>
+#include <nitro/snd/common/global.h>
+#include <nitro/snd/common/util.h>
+#include <nitro/snd/common/alarm.h>
+#include <nitro/snd/common/main.h>
 
+#pragma thumb off
+void StartTimer (u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32)
+    {
+        OSIntrMode enabled;
+        int i;
+
+        enabled = OS_DisableInterrupts();
+
+        for (i = 0; i < SND_CHANNEL_NUM && chBitMask != 0; i++, chBitMask >>= 1) {
+            if ((chBitMask & 0x01) == 0)
+                continue;
+            SND_StartChannel(i);
+        }
+
+        if (capBitMask & (1 << SND_CAPTURE_0)) {
+            if (capBitMask & (1 << SND_CAPTURE_1)) {
+                SND_StartCaptureBoth();
+            } else {
+                SND_StartCapture(SND_CAPTURE_0);
+            }
+        } else if (capBitMask & (1 << SND_CAPTURE_1))   {
+            SND_StartCapture(SND_CAPTURE_1);
+        }
+
+        for (i = 0; i < SND_ALARM_NUM && alarmBitMask != 0; i++, alarmBitMask >>= 1) {
+            if ((alarmBitMask & 0x01) == 0)
+                continue;
+            SND_StartAlarm(i);
+        }
+
+        (void)OS_RestoreInterrupts(enabled);
+
+        SND_UpdateSharedWork();
+    }

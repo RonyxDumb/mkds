@@ -1,0 +1,137 @@
+[
+  {
+    "offset": 4,
+    "type": 1,
+    "symbol": "FUN_037fc350",
+    "target": 58704720,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645855
+  },
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "FUN_037fd31c",
+    "target": 58708764,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646865
+  },
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "FUN_037fef54",
+    "target": 58715988,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648670
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "FUN_037ff564",
+    "target": 58717540,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942649057
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "FUN_037fba7c",
+    "target": 58702460,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422502
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "FUN_037fb924",
+    "target": 58702116,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422411
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "FUN_037fb95c",
+    "target": 58702172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422423
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "FUN_037fc2f8",
+    "target": 58704632,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645821
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "FUN_037fc2b8",
+    "target": 58704568,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645801
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "FUN_037fd130",
+    "target": 58708272,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646721
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "FUN_037ff908",
+    "target": 58718472,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942649270
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "FUN_037feeb4",
+    "target": 58715828,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648607
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "FUN_037fce24",
+    "target": 58707492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646521
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "FUN_037ff2f4",
+    "target": 58716916,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648876
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "FUN_037fbf70",
+    "target": 58703728,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422794
+  }
+]

@@ -1,13 +1,17 @@
-/* Decompiled C draft; module arm7; ROM address 037fb924. No matching claim. */
-#include "types.h"
-#include "deps/037fb924_FUN_037fb924.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_SetOutputSelector FUN_037fb924
+#include "nitro/snd/common/global.h"
+#include "nitro/snd/common/capture.h"
+#include "nitro/snd/common/channel.h"
+#include <nitro/hw/ARM7/ioreg_SND.h>
+#include <nitro/os/common/system.h>
+#include <nitro/os/common/systemCall.h>
+#include <nitro/spi/common/pm_common.h>
 
-void FUN_037fb924(byte param_1,int param_2,int param_3,int param_4)
-
+#pragma thumb off
+void SND_SetOutputSelector(SNDOutput left, SNDOutput right, SNDChannelOut channel1, SNDChannelOut channel3)
 {
-  *DAT_037fb958 =
-       param_1 | ((*DAT_037fb958 & 0x80) != 0) << 7 | (byte)(param_4 << 5) | (byte)(param_3 << 4) |
-                 (byte)(param_2 << 2);
-  return;
-}
+    BOOL enable = (reg_SND_SOUNDCNT_8 & REG_SND_SOUNDCNT_8_E_MASK) ? TRUE : FALSE;
 
+    reg_SND_SOUNDCNT_8 = REG_SND_SOUNDCNT_8_FIELD(enable, channel3, channel1, right, left);
+}

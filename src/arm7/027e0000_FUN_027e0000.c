@@ -1,56 +1,379 @@
-/* Decompiled C draft; module arm7; ROM address 027e0000. No matching claim. */
-#include "types.h"
-#include "deps/027e0000_FUN_027e0000.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define OS_Terminate FUN_037fb000
+#define SDK_AUTOLOAD_START SDK_data_023801b0
+#define SDK_AUTOLOAD_LIST SDK_data_023a8980
+#define SDK_AUTOLOAD_LIST_END SDK_data_023a89a4
+#define SDK_AUTOLOAD_MAIN_BSS_END SDK_data_027e00dc
+#define wvrVramImageBuf SDK_data_0380a340
+#define wvrVramImageBufSize SDK_data_0380a348
+#define SDK_SUBPRIV_ARENA_LO SDK_data_027fa6e0
+#define WVR_ShelterExtWram FUN_027e0000
+#include "nitro/os/common/printf.h"
+#include "nitro/wm/ARM7/wm.h"
+#include <nitro/ctrdg/ARM7/ctrdg.h>
+#include <nitro/mi/memory.h>
+#include <nitro/os.h>
+#include <nitro/os/common/alloc.h>
+#include <nitro/pxi/common/fifo.h>
+#include <nitro/spi/ARM7/pm.h>
+#include <nitro/spi/common/pm_common.h>
 
-void FUN_027e0000(void)
+#include "wmsp_private.h"
 
+#define THREAD_PRIO_WM_IND_HIGH 3
+#define THREAD_PRIO_WL_HIGH     4
+#define THREAD_PRIO_WM_REQ_HIGH 5
+#define THREAD_PRIO_WM_IND_LOW  7
+#define THREAD_PRIO_WL_LOW      8
+#define THREAD_PRIO_WM_REQ_LOW  9
+
+#define WVR_STATUS_BEFORE_INIT 0
+#define WVR_STATUS_READY       1
+#define WVR_STATUS_LOADING     2
+#define WVR_STATUS_DRIVING     3
+#define WVR_STATUS_UNLOADING   4
+
+#define WVR_THREAD_STACK_SIZE 1024
+#define WVR_THREAD_PRIO_LOW   10
+#define WVR_THREAD_PRIO_HIGH  2
+
+static void *wvrVramImageBuf;
+static u32 wvrVramImageBufSize;
+static OSHeapHandle wvrHeapHandle;
+static u8 wvrStatus;
+static u32 wvrThreadStack[WVR_THREAD_STACK_SIZE / sizeof(u32)];
+static OSThread wvrThread;
+
+static u32 wvrWlWork[WM_WL_WORK_SIZE / sizeof(u32)];
+static u32 wvrWlStack[WM_WL_STACK_SIZE / sizeof(u32)];
+static WlStaElement wvrWlStaElement[WM_WL_CAMTABLE_NUM];
+
+static void WvrBegin(OSHeapHandle handle);
+static void WvrLoad(void);
+static void WvrUnload(void);
+static void WvrPxiWmSubstituteCallback(PXIFifoTag tag, u32 data, BOOL err);
+static void WvrPxiReceiveCallback(PXIFifoTag tag, u32 data, BOOL err);
+static BOOL WvrCheckThreadRunning(OSThread *pThread);
+static BOOL WvrStartUp(void);
+static void WvrStartUpThread(void *arg);
+static BOOL WvrTerminate(void);
+static void WvrTerminateThread(void *arg);
+
+void WVR_Begin(OSHeapHandle handle)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  uint *puVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar8;
-  uint uVar7;
-  
-  iVar1 = DAT_027e00cc;
-  uVar3 = DAT_027e00c4;
-  uVar8 = DAT_027e00c0;
-  while( true ) {
-    if (uVar3 == DAT_027e00c8) {
-      return;
-    }
-    uVar5 = uVar3 + 4 & 3;
-    uVar6 = *(uint *)(uVar3 + 4 & 0xfffffffc);
-    uVar7 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
-    uVar5 = uVar3 + 8 & 3;
-    uVar6 = *(uint *)(uVar3 + 8 & 0xfffffffc);
-    uVar5 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
-    if ((*(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
-        *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20) == 0x6000000) break;
-    uVar8 = uVar8 + uVar7;
-    uVar3 = uVar3 + 0xc;
-  }
-  *DAT_027e00d0 = DAT_027e00cc;
-  iVar2 = uVar7 + uVar5;
-  *DAT_027e00d4 = iVar2;
-  if (DAT_027e00d8 != iVar1 + iVar2) {
-    FUN_037fb000();
-  }
-  puVar4 = (uint *)(*(uint *)((uint)DAT_027e00d0 & 0xfffffffc) >> ((uint)DAT_027e00d0 & 3) * 8 |
-                   *(uint *)((uint)DAT_027e00d0 & 0xfffffffc) <<
-                   ((uint)DAT_027e00d0 & 3) * -8 + 0x20);
-  for (uVar3 = 0; uVar3 < uVar7 >> 2; uVar3 = uVar3 + 1) {
-    *puVar4 = *(uint *)(uVar8 & 0xfffffffc) >> (uVar8 & 3) * 8 |
-              *(uint *)(uVar8 & 0xfffffffc) << (uVar8 & 3) * -8 + 0x20;
-    puVar4 = puVar4 + 1;
-    uVar8 = uVar8 + 4;
-  }
-  for (uVar3 = 0; uVar3 < uVar5 >> 2; uVar3 = uVar3 + 1) {
-    *puVar4 = 0;
-    puVar4 = puVar4 + 1;
-  }
-  return;
+    wvrVramImageBuf = NULL;
+    wvrHeapHandle = handle;
+    MI_CpuClear8(&wvrThread, sizeof(OSThread));
+
+    WvrBegin(handle);
+
+    wvrStatus = WVR_STATUS_DRIVING;
 }
 
+void WVR_Init(OSHeapHandle handle)
+{
+    wvrHeapHandle = handle;
+    wvrStatus = WVR_STATUS_READY;
+    MI_CpuClear8(&wvrThread, sizeof(OSThread));
+
+    PXI_SetFifoRecvCallback(PXI_FIFO_TAG_WVR, WvrPxiReceiveCallback);
+    PXI_SetFifoRecvCallback(PXI_FIFO_TAG_WM, WvrPxiWmSubstituteCallback);
+}
+
+void WVR_Shutdown(void)
+{
+    reg_SND_POWCNT &= ~REG_SND_POWCNT_EWL_MASK;
+
+    PM_SetLEDPattern(WMSP_LED_BLINK_DISABLE);
+    PMi_SetLED(WMSP_LED_BLINK_DISABLE);
+}
+
+static void WvrBegin(OSHeapHandle handle)
+{
+    WlInit wlInit;
+    WmInit wmInit;
+
+    wlInit.workingMemAdrs = (u32)wvrWlWork;
+    wlInit.stack = &wvrWlStack[WM_WL_STACK_SIZE / 4];
+    wlInit.stacksize = WM_WL_STACK_SIZE;
+    wlInit.priority = THREAD_PRIO_WL_HIGH;
+    wlInit.heapType = WL_HEAP_OS;
+    wlInit.heapFunc.os.id = OS_ARENA_WRAM_SUBPRIV;
+    wlInit.heapFunc.os.heapHandle = handle;
+    wlInit.camAdrs = wvrWlStaElement;
+    wlInit.camSize = sizeof(wvrWlStaElement);
+
+    wmInit.dmaNo = WM_SP_WM_DMA_NO;
+    wlInit.dmaMaxSize = WM_DMA_MAX_SIZE;
+
+    wmInit.indPrio_high = THREAD_PRIO_WM_IND_HIGH;
+    wmInit.wlPrio_high = THREAD_PRIO_WL_HIGH;
+    wmInit.reqPrio_high = THREAD_PRIO_WM_REQ_HIGH;
+    wmInit.indPrio_low = THREAD_PRIO_WM_IND_LOW;
+    wmInit.wlPrio_low = THREAD_PRIO_WL_LOW;
+    wmInit.reqPrio_low = THREAD_PRIO_WM_REQ_LOW;
+
+    WM_sp_init(&wlInit, &wmInit);
+}
+
+static void WvrLoad(void)
+{
+    if (wvrVramImageBuf == NULL) {
+        return;
+    }
+
+    MI_CpuCopyFast(wvrVramImageBuf, (void *)HW_EXT_WRAM, wvrVramImageBufSize);
+}
+
+static void WvrUnload(void)
+{
+    if (wvrVramImageBuf == NULL) {
+        return;
+    }
+
+    MI_CpuClearFast((void *)HW_EXT_WRAM, wvrVramImageBufSize);
+}
+
+static void WvrPxiWmSubstituteCallback(PXIFifoTag tag, u32 data, BOOL err)
+{
+    WMCallback *cb = (WMCallback *)data;
+    u16 apiid = *((u16 *)data);
+
+    if (cb == NULL) {
+        return;
+    }
+    MI_CpuClear32(cb, WM_FIFO_BUF_SIZE);
+    cb->apiid = apiid;
+    cb->errcode = WM_ERRCODE_WM_DISABLE;
+    while (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_WM, (u32)cb, FALSE)) {
+    }
+}
+
+static BOOL WvrCheckThreadRunning(OSThread *pThread)
+{
+    OSThread *list;
+
+    if (pThread == NULL) {
+        return FALSE;
+    }
+
+    list = OSi_ThreadInfo.list;
+    while (list) {
+        if (list == pThread) {
+            switch (pThread->state) {
+            case OS_THREAD_STATE_WAITING:
+            case OS_THREAD_STATE_READY:
+                return TRUE;
+            case OS_THREAD_STATE_TERMINATED:
+            default:
+                return FALSE;
+            }
+        }
+        list = list->next;
+    }
+    return FALSE;
+}
+
+static void WvrPxiReceiveCallback(PXIFifoTag tag, u32 data, BOOL err)
+{
+    u32 resData = 0;
+
+    switch (data) {
+    case WVR_PXI_COMMAND_STARTUP:
+        if (WvrStartUp()) {
+            return;
+        }
+        resData = data | WVR_RESULT_ILLEGAL_STATUS;
+        break;
+    case WVR_PXI_COMMAND_TERMINATE:
+        if (WvrTerminate()) {
+            return;
+        }
+        resData = data | WVR_RESULT_ILLEGAL_STATUS;
+        break;
+    default:
+        resData = data | WVR_RESULT_FATAL_ERROR;
+    }
+
+    while (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_WVR, resData, FALSE)) {
+    }
+}
+
+static BOOL WvrStartUp(void)
+{
+    OSIntrMode e = OS_DisableInterrupts();
+
+    if (WvrCheckThreadRunning(&wvrThread)) {
+        OS_RestoreInterrupts(e);
+        return FALSE;
+    }
+    if (wvrStatus != WVR_STATUS_READY) {
+        OS_RestoreInterrupts(e);
+        return FALSE;
+    }
+    wvrStatus = WVR_STATUS_LOADING;
+    OS_RestoreInterrupts(e);
+
+    OS_CreateThread(&wvrThread,
+        WvrStartUpThread,
+        NULL,
+        (void *)(wvrThreadStack + (WVR_THREAD_STACK_SIZE / sizeof(u32))),
+        WVR_THREAD_STACK_SIZE,
+        WVR_THREAD_PRIO_LOW);
+    OS_WakeupThreadDirect(&wvrThread);
+
+    return TRUE;
+}
+
+static void WvrStartUpThread(void *arg)
+{
+    WvrLoad();
+    WvrBegin(wvrHeapHandle);
+    while (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_WVR, WVR_PXI_COMMAND_STARTUP | WVR_RESULT_SUCCESS, FALSE)) {
+    }
+    OS_DisableInterrupts();
+    wvrStatus = WVR_STATUS_DRIVING;
+    OS_ExitThread();
+}
+
+static BOOL WvrTerminate(void)
+{
+    OSIntrMode e = OS_DisableInterrupts();
+
+    if (WvrCheckThreadRunning(&wvrThread)) {
+        OS_RestoreInterrupts(e);
+        return FALSE;
+    }
+    if (wvrStatus != WVR_STATUS_DRIVING) {
+        OS_RestoreInterrupts(e);
+        return FALSE;
+    }
+    wvrStatus = WVR_STATUS_UNLOADING;
+    OS_RestoreInterrupts(e);
+
+    PXI_SetFifoRecvCallback(PXI_FIFO_TAG_WM, WvrPxiWmSubstituteCallback);
+
+    OS_CreateThread(&wvrThread,
+        WvrTerminateThread,
+        NULL,
+        (void *)(wvrThreadStack + (WVR_THREAD_STACK_SIZE / sizeof(u32))),
+        WVR_THREAD_STACK_SIZE,
+        WVR_THREAD_PRIO_HIGH);
+    OS_WakeupThreadDirect(&wvrThread);
+
+    return TRUE;
+}
+
+static void WvrTerminateThread(void *arg)
+{
+    OSIntrMode e;
+    WMSPWork *p = WMSP_GetSystemWork();
+    OSMessage msg;
+
+    if (p->wm7buf != NULL) {
+        if (p->wm7buf->status->state != WM_STATE_READY) {
+            WMSP_CancelVAlarm();
+            WMSP_CancelAllAlarms();
+        }
+    }
+
+    while (TRUE) {
+        if (FALSE == OS_ReceiveMessage(&p->requestQ, &msg, OS_MESSAGE_NOBLOCK)) {
+            break;
+        }
+        if (p->wm7buf != NULL) {
+            WMCallback *cb = WMSP_GetBuffer4Callback2Wm9();
+            MI_CpuClear32(cb, WM_FIFO_BUF_SIZE);
+            cb->apiid = *((u16 *)msg);
+            cb->errcode = WM_ERRCODE_WM_DISABLE;
+            WMSP_ReturnResult2Wm9((void *)cb);
+            *((u16 *)msg) |= WM_API_REQUEST_ACCEPTED;
+        }
+    }
+
+    if (WvrCheckThreadRunning(WMSP_GetRequestThread())) {
+        OS_SendMessage(&p->requestQ, NULL, OS_MESSAGE_BLOCK);
+        OS_JoinThread(WMSP_GetRequestThread());
+    }
+
+    BOOL result[3];
+
+    result[0] = OS_ReceiveMessage(&p->requestQ, &msg, OS_MESSAGE_NOBLOCK);
+    result[1] = OS_ReceiveMessage(&p->confirmQ, &msg, OS_MESSAGE_NOBLOCK);
+    result[2] = OS_ReceiveMessage(&p->toWLmsgQ, &msg, OS_MESSAGE_NOBLOCK);
+    if ((result[0] | result[1] | result[2]) != FALSE) {
+        OS_Terminate();
+    }
+
+    WL_Terminate();
+
+    while (OS_ReceiveMessage(&p->fromWLmsgQ, &msg, OS_MESSAGE_NOBLOCK)) {
+    }
+
+    if (WvrCheckThreadRunning(WMSP_GetIndicateThread())) {
+        OS_SendMessage(&p->fromWLmsgQ, NULL, OS_MESSAGE_BLOCK);
+        OS_JoinThread(WMSP_GetIndicateThread());
+    }
+
+    PM_SetLEDPattern(WMSP_LED_BLINK_DISABLE);
+    PMi_SetLED((PMLEDStatus)WMSP_LED_BLINK_DISABLE);
+
+    if (p->wm7buf != NULL) {
+        if (p->wm7buf->status->state != WM_STATE_READY) {
+            p->wm7buf->status->state = WM_STATE_READY;
+        }
+    }
+
+    WvrUnload();
+
+    while (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_WVR, WVR_PXI_COMMAND_TERMINATE | WVR_RESULT_SUCCESS, FALSE)) {
+    }
+
+    e = OS_DisableInterrupts();
+    wvrStatus = WVR_STATUS_READY;
+    OS_ExitThread();
+}
+
+extern void SDK_AUTOLOAD_START(void);
+extern void SDK_AUTOLOAD_LIST(void);
+extern void SDK_AUTOLOAD_LIST_END(void);
+extern void SDK_AUTOLOAD_MAIN_BSS_END(void);
+extern void SDK_SUBPRIV_ARENA_LO(void);
+
+#include <nitro/code32.h>
+
+void WVR_ShelterExtWram(void)
+{
+    void *src = (void *)SDK_AUTOLOAD_START;
+    u32 *p = (u32 *)SDK_AUTOLOAD_LIST;
+
+    while (p != (u32 *)SDK_AUTOLOAD_LIST_END) {
+        void *dest = (void *)(*(p++));
+        u32 destSize = *(p++);
+        u32 dataSize = *(p++);
+
+        if (dest == (void *)HW_EXT_WRAM) {
+            wvrVramImageBuf = (void *)SDK_AUTOLOAD_MAIN_BSS_END;
+            wvrVramImageBufSize = destSize + dataSize;
+
+            if (((u32)wvrVramImageBuf + wvrVramImageBufSize) != (u32)SDK_SUBPRIV_ARENA_LO) {
+                OS_TPanic("Could not allocate buffer , where is shelter for extra WRAM image , in main memory.\n");
+            }
+
+            s32 i;
+            u32 *p = (u32 *)wvrVramImageBuf;
+            u32 *q = (u32 *)src;
+
+            for (i = 0; i < (destSize / 4); i++) {
+                *p++ = *q++;
+            }
+            for (i = 0; i < (dataSize / 4); i++) {
+                *p++ = 0;
+            }
+            break;
+        }
+        src = (void *)((u32)src + destSize);
+    }
+}
+
+#include <nitro/codereset.h>

@@ -1,18 +1,18 @@
-/* Decompiled C draft; module arm7; ROM address 0600326c. No matching claim. */
-#include "types.h"
-#include "deps/0600326c_FUN_0600326c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMSP_GetBuffer4Callback2Wm9 thunk_FUN_03807424
+#define WMSP_ReturnResult2Wm9 thunk_FUN_038074cc
+#define WmspError FUN_0600326c
+#include "wmsp_private.h"
 
-void FUN_0600326c(undefined2 param_1,undefined2 param_2)
-
+#pragma thumb off
+void WmspError(u16 wlCommand, u16 wlResult)
 {
-  undefined2 *puVar1;
-  
-  puVar1 = (undefined2 *)thunk_FUN_03807424();
-  *puVar1 = 7;
-  puVar1[1] = 1;
-  puVar1[2] = param_1;
-  puVar1[3] = param_2;
-  thunk_FUN_038074cc();
-  return;
-}
+    WMCallback *cb;
 
+    cb = (WMCallback *)WMSP_GetBuffer4Callback2Wm9();
+    cb->apiid = WM_APIID_SET_P_PARAM;
+    cb->errcode = WM_ERRCODE_FAILED;
+    cb->wlCmdID = wlCommand;
+    cb->wlResult = wlResult;
+    WMSP_ReturnResult2Wm9((void *)cb);
+}

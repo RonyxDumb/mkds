@@ -1,47 +1,64 @@
-/* Decompiled C draft; module arm7; ROM address 0600d3a0. No matching claim. */
-#include "types.h"
-#include "deps/0600d3a0_FUN_0600d3a0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WlIntrTxErr FUN_0600d3a0
 
-void FUN_0600d3a0(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "MA.h"
+#include "TxCtrl.h"
+#include "RxCtrl.h"
+#include "MAC.h"
+#include "WlIntr.h"
+#include "Compati.h"
+#include "MA.h"
+#include "WlOpe.h"
+
+#pragma thumb off
+void WlIntrTxErr(void) __attribute__((never_inline))
 {
-  uint uVar1;
-  undefined2 *puVar2;
-  uint uVar3;
-  uint uVar4;
-  int iVar5;
-  uint uVar6;
-  short *psVar7;
-  
-  *DAT_0600d4b4 = 8;
-  if (((int)((uint)*(ushort *)
-                    ((*(uint *)(DAT_0600d4b8 & 0xfffffffc) >> (DAT_0600d4b8 & 3) * 8 |
-                     *(uint *)(DAT_0600d4b8 & 0xfffffffc) << (DAT_0600d4b8 & 3) * -8 + 0x20) + 0x33a
-                    ) << 0x1b) < 0) && ((*DAT_0600d4bc & 1) == 0)) {
-    *DAT_0600d4c0 = *DAT_0600d4c0 ^ 1;
-  }
-  puVar2 = DAT_0600d4c8;
-  uVar4 = *(uint *)(DAT_0600d4b8 & 0xfffffffc) >> (DAT_0600d4b8 & 3) * 8 |
-          *(uint *)(DAT_0600d4b8 & 0xfffffffc) << (DAT_0600d4b8 & 3) * -8 + 0x20;
-  if ((*(ushort *)(uVar4 + 0x690) & 8) != 0) {
-    iVar5 = uVar4 + DAT_0600d4c4;
-    uVar6 = 0;
-    do {
-      if ((((*(short *)(iVar5 + uVar6 * 0x14) != 0) &&
-           (uVar3 = iVar5 + uVar6 * 0x14 + 8, uVar1 = uVar3 & 3,
-           uVar3 = *(uint *)(uVar3 & 0xfffffffc),
-           uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,
-           (*(ushort *)(uVar3 + 0xc) & 0x4000) != 0)) && ((*(ushort *)(uVar3 + 4) & 0xff) != 0)) &&
-         ((psVar7 = (short *)(uVar3 + *(ushort *)(uVar3 + 10) + 5 & 0xfffffffe), *psVar7 == 0 &&
-          (psVar7[1] == 0)))) {
-        *(undefined2 *)(uVar3 + 4) = 0;
-        *puVar2 = 0;
-        *puVar2 = 0x8000;
-        *(short *)(uVar4 + 0x3fe) = *(short *)(uVar4 + 0x3fe) + 1;
-      }
-      uVar6 = uVar6 + 1;
-    } while (uVar6 < 3);
-  }
-  return;
-}
+    LPTXFRM_MAC pMFrm;
+    u32 i;
 
+#if (EMU_MACREG)
+    *(vu16 *)MREG_ISR &= ~MISR_TXERR;
+#else
+    *(vu16 *)MREG_ISR = MISR_TXERR;
+#endif
+
+    if (wlMan->Config.Diversity != WL_CMDLABEL_DIVERSITY_OFF) {
+        if ((*(vu16 *)MREG_SIGNAL_STATE & (SIGNAL_STATE_CCA || SIGNAL_STATE_TXPE)) == 0) {
+            WChangeAntenna();
+        }
+    }
+
+    if (wlMan->WlOperation & MAC_BUG_WEP) {
+        LPWORK_PARAM pWork = &wlMan->Work;
+        LPTX_CTRL pTxCtrl = &wlMan->TxCtrl;
+
+        for (i = 0; i < 3; i++) {
+            if (pTxCtrl->Txq[i].Busy) {
+                pMFrm = (LPTXFRM_MAC)pTxCtrl->Txq[i].pMacFrm;
+
+                if ((pMFrm->Dot11Header.FrameCtrl.Data & B_FC_WEP) && (LoadLow(&pMFrm->MacHeader.Tx.rsv_RetryCount) != 0)) {
+                    u16 *pIcv = (u16 *)(((u32)&pMFrm->Dot11Header + pMFrm->MacHeader.Tx.MPDU - 8 + 1) & 0xFFFFFFFE);
+
+                    if ((pIcv[0] == 0) && (pIcv[1] == 0)) {
+                        pMFrm->MacHeader.Tx.rsv_RetryCount = 0;
+
+                        *(vu16 *)MREG_WEP_CONFIG = 0x0000;
+                        *(vu16 *)MREG_WEP_CONFIG = 0x8000;
+
+                        pWork->WepErrCount++;
+
+                        DbgSetDDO(DDO_WL_MAC, DDO_WL_MAC_WEP_ERR);
+                        DbgWlPutchar(B_WL_DBG_ERRMSG, 'E');
+                        DbgClrDDO(DDO_WL_MAC, DDO_WL_MAC_WEP_ERR);
+                    }
+                }
+            }
+        }
+    }
+
+    DbgWlPutchar(B_WL_DBG_INT, (WL_DBG_INT_TXERR));
+}

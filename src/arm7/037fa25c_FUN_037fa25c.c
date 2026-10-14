@@ -1,11 +1,10 @@
-/* Decompiled C draft; module arm7; ROM address 037fa25c. No matching claim. */
-#include "types.h"
-#include "deps/037fa25c_FUN_037fa25c.h"
-
-void FUN_037fa25c(uint param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_TimerReserved SDK_data_0380787c
+#define OSi_SetTimerReserved FUN_037fa25c
+#include <nitro/os.h>
+extern u16 OSi_TimerReserved;
+#pragma thumb off
+void OSi_SetTimerReserved (int timerNum)
 {
-  *DAT_037fa274 = *DAT_037fa274 | (ushort)(1 << (param_1 & 0xff));
-  return;
+    OSi_TimerReserved |= (1 << timerNum);
 }
-

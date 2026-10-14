@@ -1,28 +1,28 @@
-/* Decompiled C draft; module arm7; ROM address 037fb6c0. No matching claim. */
-#include "types.h"
-#include "deps/037fb6c0_FUN_037fb6c0.h"
-
-void FUN_037fb6c0(uint param_1,int param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define OS_RestoreInterrupts FUN_037faf84
+#define FifoRecvCallbackTable SDK_data_038078bc
+#define PXI_SetFifoRecvCallback FUN_037fb6c0
+#include  <nitro.h>
+extern PXIFifoCallback FifoRecvCallbackTable[PXI_MAX_FIFO_TAG];
+#pragma thumb off
+void PXI_SetFifoRecvCallback (int fifotag, PXIFifoCallback callback)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  FUN_037faf70();
-  *(int *)(DAT_037fb724 + param_1 * 4) = param_2;
-  if (param_2 == 0) {
-    uVar1 = DAT_037fb728 + 0x38cU & 3;
-    uVar2 = *(uint *)(DAT_037fb728 + 0x38cU & 0xfffffffc);
-    *(uint *)(DAT_037fb728 + 0x38c) =
-         (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & ~(1 << (param_1 & 0xff));
-  }
-  else {
-    uVar1 = DAT_037fb728 + 0x38cU & 3;
-    uVar2 = *(uint *)(DAT_037fb728 + 0x38cU & 0xfffffffc);
-    *(uint *)(DAT_037fb728 + 0x38c) =
-         uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20 | 1 << (param_1 & 0xff);
-  }
-  FUN_037faf84();
-  return;
-}
+    OSIntrMode enabled;
+    OSSystemWork * p = OS_GetSystemWork();
 
+    SDK_WARNING(callback == NULL ||
+                FifoRecvCallbackTable[fifotag] == NULL ||
+                FifoRecvCallbackTable[fifotag] == callback,
+                "Fifo Callback overridden [fifotag=%d]\n", fifotag);
+
+    enabled = OS_DisableInterrupts();
+
+    FifoRecvCallbackTable[fifotag] = callback;
+    if (callback) {
+        p->pxiHandleChecker[PXI_PROC_ARM] |= (1UL << fifotag);
+    } else {
+        p->pxiHandleChecker[PXI_PROC_ARM] &= ~(1UL << fifotag);
+    }
+    (void)OS_RestoreInterrupts(enabled);
+}

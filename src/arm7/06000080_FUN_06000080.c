@@ -1,18 +1,28 @@
-/* Decompiled C draft; module arm7; ROM address 06000080. No matching claim. */
-#include "types.h"
-#include "deps/06000080_FUN_06000080.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMSP_GetBuffer4Callback2Wm9 thunk_FUN_03807424
+#define WMSP_ReturnResult2Wm9 thunk_FUN_038074cc
+#define WmspError FUN_06000080
+#include "wmsp_private.h"
+#include <nitro/wram_begin.h>
 
-void FUN_06000080(undefined2 param_1,undefined2 param_2,undefined2 param_3)
+#include <nitro/wram_end.h>
 
+#include <nitro/wram_begin.h>
+
+#include <nitro/wram_end.h>
+
+#include <nitro/wram_begin.h>
+
+#include <nitro/wram_end.h>
+extern void *WMSP_GetBuffer4Callback2Wm9(void);
+extern void WMSP_ReturnResult2Wm9(void *ptr);
+#pragma thumb off
+void WmspError(u16 wmApiID, u16 wlCommand, u16 wlResult)
 {
-  undefined2 *puVar1;
-  
-  puVar1 = (undefined2 *)thunk_FUN_03807424();
-  *puVar1 = param_1;
-  puVar1[1] = 1;
-  puVar1[2] = param_2;
-  puVar1[3] = param_3;
-  thunk_FUN_038074cc();
-  return;
+    WMStartConnectCallback *callback = (WMStartConnectCallback *)WMSP_GetBuffer4Callback2Wm9();
+    callback->apiid = wmApiID;
+    callback->errcode = WM_ERRCODE_FAILED;
+    callback->wlCmdID = wlCommand;
+    callback->wlResult = wlResult;
+    WMSP_ReturnResult2Wm9(callback);
 }
-

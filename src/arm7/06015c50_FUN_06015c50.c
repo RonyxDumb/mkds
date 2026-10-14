@@ -1,55 +1,78 @@
-/* Decompiled C draft; module arm7; ROM address 06015c50. No matching claim. */
-#include "types.h"
-#include "deps/06015c50_FUN_06015c50.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WSetMacAdrs1 FUN_0600a954
+#define NewDefragment FUN_060159f8
+#define MoreDefragment FUN_060157b8
+#define ReleaseHeapBuf FUN_060090b4
+#define AddTask FUN_06008a8c
+#define DefragTask FUN_06015c50
 
-void FUN_06015c50(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "RxCtrl.h"
+#include "MAC.h"
+#include "CAM.h"
+#include "MA.h"
+#include "WlOpe.h"
+extern void NewDefragment(LPRXFRM_MAC pMFrm, LPDEFRAG_TBL pDefragTbl);
+extern void MoreDefragment(LPRXFRM_MAC pMFrm, LPDEFRAG_TBL pDefragTbl);
+#pragma thumb off
+void DefragTask(void)
 {
-  ushort uVar1;
-  uint uVar2;
-  uint uVar3;
-  undefined1 auStack_28 [6];
-  undefined1 auStack_22 [6];
-  undefined2 local_1c;
-  uint uVar4;
-  
-  uVar2 = *(uint *)(DAT_06015d64 & 0xfffffffc) >> (DAT_06015d64 & 3) * 8 |
-          *(uint *)(DAT_06015d64 & 0xfffffffc) << (DAT_06015d64 & 3) * -8 + 0x20;
-  uVar4 = uVar2 + 0x1e8 & 3;
-  uVar3 = *(uint *)(uVar2 + 0x1e8 & 0xfffffffc);
-  uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-  if (uVar4 == 0xffffffff) {
-    return;
-  }
-  if ((*(short *)(uVar2 + 0x34c) == 0x40) && (*(ushort *)(uVar4 + 0x20) <= DAT_06015d68)) {
-    uVar1 = *(ushort *)(uVar4 + 0x24);
-    if ((uVar1 & 0x100) == 0) {
-      FUN_0600a954((undefined2 *)(void *)(auStack_28),(undefined2 *)(uintptr_t)(uVar4 + 0x28));
-      if ((uVar1 & 0x200) == 0) {
-        FUN_0600a954((undefined2 *)(void *)(auStack_22),(undefined2 *)(uintptr_t)(uVar4 + 0x2e));
-      }
-      else {
-        FUN_0600a954((undefined2 *)(void *)(auStack_22),(undefined2 *)(uintptr_t)(uVar4 + 0x34));
-      }
-    }
-    else {
-      FUN_0600a954((undefined2 *)(void *)(auStack_28),(undefined2 *)(uintptr_t)(uVar4 + 0x34));
-      if ((uVar1 & 0x200) != 0) goto LAB_06015d34;
-      FUN_0600a954((undefined2 *)(void *)(auStack_22),(undefined2 *)(uintptr_t)(uVar4 + 0x2e));
-    }
-    local_1c = *(undefined2 *)(uVar4 + 0x3a);
-    if (((uVar1 & 0x400) == 0) || ((*(ushort *)(uVar4 + 0x3a) & 0xf) != 0)) {
-      FUN_060157b8((ushort *)(uintptr_t)(uVar4 + 0x18),(int)(uintptr_t)(auStack_28));
-    }
-    else {
-      FUN_060159f8((ushort *)(uintptr_t)(uVar4 + 0x18),(int)(uintptr_t)(auStack_28));
-    }
-  }
-LAB_06015d34:
-  FUN_060090b4(uVar2 + 0x1e8,uVar4);
-  if (*(short *)(uVar2 + 0x1f0) != 0) {
-    FUN_06008a8c(2,9);
-  }
-  return;
-}
+    LPHEAP_MAN pHeapMan = &wlMan->HeapMan;
+    LPRXPACKET pPacket;
+    LPRXFRM pFrm;
+    DEFRAG_TBL defragTbl;
+    u32 fc;
 
+    pPacket = (LPRXPACKET)GetHeapBufHeadAdrs(&pHeapMan->Defrag);
+    if ((u32)pPacket == HEAPBUF_HEAD_NONE) {
+        return;
+    }
+    pFrm = &pPacket->frame;
+
+    if (wlMan->Work.STA != STA_CLASS3) {
+        goto defrag_task_exit;
+    }
+
+    DbgWlPutchar(B_WL_DBG_DEFRAG, (WL_DBG_DEFRAG_IN));
+
+    if (pFrm->MacHeader.Rx.MPDU > 24 + MAX_DEFRAG_DATASIZE) {
+        DbgPuts("Defrag Limit Len\r");
+        goto defrag_task_exit;
+    }
+
+    fc = pFrm->Dot11Header.FrameCtrl.Data;
+
+    if (fc & B_FC_TODS) {
+        WSetMacAdrs1(defragTbl.DA, pFrm->Dot11Header.Adrs3);
+        if (fc & B_FC_FROMDS) {
+            DbgPuts("defrag from/to ds err\r");
+            goto defrag_task_exit;
+        } else {
+            WSetMacAdrs1(defragTbl.SA, pFrm->Dot11Header.Adrs2);
+        }
+    } else {
+        WSetMacAdrs1(defragTbl.DA, pFrm->Dot11Header.Adrs1);
+        if (fc & B_FC_FROMDS) {
+            WSetMacAdrs1(defragTbl.SA, pFrm->Dot11Header.Adrs3);
+        } else {
+            WSetMacAdrs1(defragTbl.SA, pFrm->Dot11Header.Adrs2);
+        }
+    }
+    defragTbl.SeqCtrl.Data = pFrm->Dot11Header.SeqCtrl.Data;
+
+    if ((fc & B_FC_MOREFRAG) && (pFrm->Dot11Header.SeqCtrl.Bit.FragNum == 0)) {
+        NewDefragment((LPRXFRM_MAC)&pFrm->MacHeader, &defragTbl);
+    } else {
+        MoreDefragment((LPRXFRM_MAC)&pFrm->MacHeader, &defragTbl);
+    }
+
+defrag_task_exit:
+    ReleaseHeapBuf(&pHeapMan->Defrag, pPacket);
+
+    if (GetHeapBufCount(&pHeapMan->Defrag) != 0) {
+        AddTask(TASK_NORMAL_PRIORITY, DEFRAG_TASK_ID);
+    }
+}

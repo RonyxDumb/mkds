@@ -1,47 +1,44 @@
-/* Decompiled C draft; module arm7; ROM address 037ff440. No matching claim. */
-#include "types.h"
-#include "deps/037ff440_FUN_037ff440.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_CancelAlarm FUN_037fa564
+#define OS_CreateAlarm FUN_037fa814
+#define OS_SetAlarm FUN_037fa670
+#define OS_GetTick FUN_037fa278
+#define OS_SetPeriodicAlarm FUN_037fa5f4
+#define SNDi_Work SDK_data_03807ecc
+#define AlarmHandler SDK_data_037ff3d0
+#define SND_StartAlarm FUN_037ff440
+#include <nitro/snd/common/alarm.h>
+#include <nitro/pxi.h>
+#include <nitro/snd/common/work.h>
+extern void AlarmHandler (void * arg);
+#pragma thumb off
+    void SND_StartAlarm (int alarmNo)
+    {
+        OSTick tick;
+        OSTick period;
+        SNDAlarm * alarm;
+        void * arg;
 
-void FUN_037ff440(uint param_1)
+        SDK_MINMAX_ASSERT(alarmNo, SND_ALARM_MIN, SND_ALARM_MAX);
 
-{
-  undefined1 *puVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  longlong lVar7;
-  uint uVar6;
-  
-  puVar1 = (undefined1 *)(DAT_037ff500 + param_1 * 0x40);
-  if (*(char *)(DAT_037ff500 + param_1 * 0x40) != '\0') {
-    FUN_037fa564((undefined4 *)(void *)(puVar1 + 0x14));
-    *puVar1 = 0;
-  }
-  uVar2 = (uint)(puVar1 + 4) & 3;
-  uVar5 = *(uint *)((uint)(puVar1 + 4) & 0xfffffffc);
-  uVar6 = uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20;
-  uVar2 = (uint)(puVar1 + 8) & 3;
-  uVar5 = *(uint *)((uint)(puVar1 + 8) & 0xfffffffc);
-  uVar4 = uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20;
-  uVar2 = (uint)(puVar1 + 0xc) & 3;
-  uVar5 = *(uint *)((uint)(puVar1 + 0xc) & 0xfffffffc);
-  uVar3 = uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20;
-  uVar2 = (uint)(puVar1 + 0x10) & 3;
-  uVar5 = *(uint *)((uint)(puVar1 + 0x10) & 0xfffffffc);
-  uVar2 = uVar5 >> uVar2 * 8 | uVar5 << uVar2 * -8 + 0x20;
-  param_1 = param_1 | (uint)(byte)puVar1[1] << 8;
-  FUN_037fa814((undefined4 *)(void *)(puVar1 + 0x14));
-  if (uVar2 == 0 && uVar3 == 0) {
-    FUN_037fa670((undefined4 *)(void *)(puVar1 + 0x14),uVar6,uVar4,DAT_037ff504,param_1);
-  }
-  else {
-    lVar7 = FUN_037fa278();
-    lVar7 = lVar7 + CONCAT44(uVar4,uVar6);
-    FUN_037fa5f4((undefined4 *)(void *)(puVar1 + 0x14),(int)lVar7,(int)((ulonglong)lVar7 >> 0x20),uVar3,uVar2,DAT_037ff504,
-                 param_1);
-  }
-  *puVar1 = 1;
-  return;
-}
+        alarm = &SNDi_Work.alarm[alarmNo];
 
+        if (alarm->enable) {
+            OS_CancelAlarm(&alarm->alarm);
+            alarm->enable = FALSE;
+        }
+
+        tick = alarm->setting.tick;
+        period = alarm->setting.period;
+        arg = (void *)((alarm->id << 8) | alarmNo);
+
+        OS_CreateAlarm(&alarm->alarm);
+
+        if (period == 0) {
+            OS_SetAlarm(&alarm->alarm, tick, AlarmHandler, arg);
+        } else {
+            OS_SetPeriodicAlarm(&alarm->alarm, OS_GetTick() + tick, period, AlarmHandler, arg);
+        }
+
+        alarm->enable = TRUE;
+    }

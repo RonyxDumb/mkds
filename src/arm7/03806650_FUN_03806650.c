@@ -1,34 +1,44 @@
-/* Decompiled C draft; module arm7; ROM address 03806650. No matching claim. */
-#include "types.h"
-#include "deps/03806650_FUN_03806650.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_ThreadInfo SDK_data_038076fc
+#define WvrCheckThreadRunning FUN_03806650
+#include "nitro/os/common/printf.h"
+#include "nitro/wm/ARM7/wm.h"
+#include <nitro/ctrdg/ARM7/ctrdg.h>
+#include <nitro/mi/memory.h>
+#include <nitro/os.h>
+#include <nitro/os/common/alloc.h>
+#include <nitro/pxi/common/fifo.h>
+#include <nitro/spi/ARM7/pm.h>
+#include <nitro/spi/common/pm_common.h>
 
-undefined4 FUN_03806650(uint param_1)
+#include "wmsp_private.h"
 
+#include <nitro/code32.h>
+
+#include <nitro/codereset.h>
+
+#pragma thumb off
+BOOL WvrCheckThreadRunning(OSThread *pThread)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  if (param_1 == 0) {
-    return 0;
-  }
-  uVar2 = DAT_038066b0 + 8U & 3;
-  uVar1 = *(uint *)(DAT_038066b0 + 8U & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  while( true ) {
-    if (uVar2 == 0) {
-      return 0;
-    }
-    if (uVar2 == param_1) break;
-    uVar1 = uVar2 + 0x4c & 3;
-    uVar2 = *(uint *)(uVar2 + 0x4c & 0xfffffffc);
-    uVar2 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  }
-  uVar2 = param_1 + 0x48 & 3;
-  uVar1 = *(uint *)(param_1 + 0x48 & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  if ((uVar2 != 0) && (uVar2 != 1)) {
-    return 0;
-  }
-  return 1;
-}
+    OSThread *list;
 
+    if (pThread == NULL) {
+        return FALSE;
+    }
+
+    list = OSi_ThreadInfo.list;
+    while (list) {
+        if (list == pThread) {
+            switch (pThread->state) {
+            case OS_THREAD_STATE_WAITING:
+            case OS_THREAD_STATE_READY:
+                return TRUE;
+            case OS_THREAD_STATE_TERMINATED:
+            default:
+                return FALSE;
+            }
+        }
+        list = list->next;
+    }
+    return FALSE;
+}

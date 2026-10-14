@@ -1,18 +1,22 @@
-/* Decompiled C draft; module arm7; ROM address 03805cf0. No matching claim. */
-#include "types.h"
-#include "deps/03805cf0_FUN_03805cf0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define RTC_ReadStatus2 FUN_03805b34
+#define RtcGpioTransfer FUN_038057b4
+#define RTC_WritePulse FUN_03805cf0
+#include "nitro/rtc/ARM7/instruction.h"
 
-bool FUN_03805cf0(undefined4 param_1)
-
+#include "nitro/rtc/ARM7/gpio.h"
+#include <nitro/exi/ARM7/genPort.h>
+extern void RTC_ReadStatus2(RTCRawStatus2 *stat);
+extern void RtcGpioTransfer(u16 inst, u16 param, void *buf, u32 size);
+#pragma thumb off
+BOOL RTC_WritePulse(const RTCRawPulse *pulse)
 {
-  bool bVar1;
-  ushort local_10 [4];
-  
-  FUN_03805b34((undefined4)(uintptr_t)(local_10));
-  bVar1 = (local_10[0] & 0xb) == 1;
-  if (bVar1) {
-    FUN_038057b4(6,0x10,param_1,1);
-  }
-  return bVar1;
-}
+    RTCRawStatus2 stat2;
+    RTC_ReadStatus2(&stat2);
 
+    if ((stat2.intr_mode & RTC_INTERRUPT_MASK_PULSE) == RTC_INTERRUPT_MODE_PULSE) {
+        RtcGpioTransfer(RTC_INSTRUCTION_WRITE, RTC_INSTRUCTION_PULSE, pulse, 1);
+        return TRUE;
+    }
+    return FALSE;
+}

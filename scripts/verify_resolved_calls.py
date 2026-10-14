@@ -15,6 +15,8 @@ for sf in (base/'symbols').glob('*.txt'):
   local[mod][name]=(a,thumb);allsyms.setdefault(name,set()).add((a,thumb))
   f=re.search(r'kind:function\((arm|thumb),size=0x([0-9a-fA-F]+)\)',line)
   if f:inventory[(mod,a)]=(name,f[1],int(f[2],16))
+from supplemental_symbols import augment
+augment(root, base, sections, local, allsyms, inventory)
 extra_symbols=root/'verification/sdk-extra-symbols.tsv'
 if extra_symbols.exists():
  for item in csv.DictReader(extra_symbols.open(),delimiter='\t'):

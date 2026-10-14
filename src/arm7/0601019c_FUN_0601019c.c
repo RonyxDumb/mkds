@@ -1,42 +1,57 @@
-/* Decompiled C draft; module arm7; ROM address 0601019c. No matching claim. */
-#include "types.h"
-#include "deps/0601019c_FUN_0601019c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WStart FUN_06009f84
+#define SetupTimeOut FUN_060098d4
+#define WStop FUN_06009ecc
+#define IssueMlmeConfirm FUN_0600fafc
+#define MLME_JoinTimeOut SDK_data_0601015c
+#define MLME_JoinTask FUN_0601019c
 
-void FUN_0601019c(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "Param.h"
+#include "WlNic.h"
+#include "WlCmdIf.h"
+#include "MLME.h"
+#include "MAC.h"
+#include "Flash.h"
+
+#include "TxCtrl.h"
+extern void IssueMlmeConfirm(void);
+extern void MLME_JoinTimeOut(void *arg);
+#pragma thumb off
+void MLME_JoinTask(void)
 {
-  short sVar1;
-  uint uVar2;
-  uint uVar3;
-  undefined2 *puVar4;
-  
-  uVar3 = *(uint *)(DAT_06010234 & 0xfffffffc) >> (DAT_06010234 & 3) * 8 |
-          *(uint *)(DAT_06010234 & 0xfffffffc) << (DAT_06010234 & 3) * -8 + 0x20;
-  puVar4 = (undefined2 *)(uVar3 + DAT_06010238);
-  sVar1 = *(short *)(uVar3 + 0x404);
-  if (sVar1 == 0x20) {
-    FUN_06009f84();
-    puVar4[2] = 0;
-    puVar4[3] = 0;
-    *puVar4 = 0x21;
-    uVar3 = (uint)(puVar4 + 0xc) & 3;
-    uVar2 = *(uint *)((uint)(puVar4 + 0xc) & 0xfffffffc);
-    FUN_060098d4(*(undefined2 *)((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) + 0x10),
-                 DAT_0601023c);
-  }
-  else if (sVar1 == 0x25) {
-    uVar3 = (uint)(puVar4 + 0xe) & 3;
-    uVar2 = *(uint *)((uint)(puVar4 + 0xe) & 0xfffffffc);
-    *(undefined2 *)((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) + 4) = puVar4[2];
-    uVar3 = (uint)(puVar4 + 0xe) & 3;
-    uVar2 = *(uint *)((uint)(puVar4 + 0xe) & 0xfffffffc);
-    *(undefined2 *)((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) + 6) = puVar4[3];
-    if (puVar4[2] != 0) {
-      FUN_06009ecc();
-    }
-    *puVar4 = 0;
-    FUN_0600fafc();
-  }
-  return;
-}
+    LPMLME_MAN pMLME = &wlMan->MLME;
 
+    switch (pMLME->State) {
+    case MLME_STATE_JOIN_STARTUP:
+        WStart();
+
+        pMLME->Work.Join.Result = FALSE;
+        pMLME->Work.Join.Status = WL_CMDLABEL_STS_SUCCESSFUL;
+
+        pMLME->State = MLME_STATE_JOIN_ING;
+
+        SetupTimeOut(pMLME->pReq.Join->timeOut, MLME_JoinTimeOut);
+        break;
+
+    case MLME_STATE_JOIN_FIN:
+
+        DbgWlPutchar(B_WL_DBG_MLME, (WL_DBG_MLME_JOIN_FIN));
+        DbgClrDDO(DDO_WL_CONNECT, DDO_WL_CONNECT_JOIN);
+
+        pMLME->pCfm.Join->resultCode = pMLME->Work.Join.Result;
+        pMLME->pCfm.Join->statusCode = pMLME->Work.Join.Status;
+
+        if (pMLME->Work.Join.Result != WL_CMDRES_SUCCESS) {
+            WStop();
+        }
+
+        pMLME->State = MLME_STATE_IDLE;
+
+        IssueMlmeConfirm();
+        break;
+    }
+}

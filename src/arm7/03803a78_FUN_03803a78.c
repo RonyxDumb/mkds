@@ -1,17 +1,17 @@
-/* Decompiled C draft; module arm7; ROM address 03803a78. No matching claim. */
-#include "types.h"
-#include "deps/03803a78_FUN_03803a78.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define CTRDGi_ChangeLatestAccessCycle FUN_03803a78
+#include <nitro/ctrdg.h>
 
-void FUN_03803a78(int *param_1)
+#include <../include/ctrdg_work.h>
 
+#include <nitro/os/ARM9/cache.h>
+
+#pragma thumb off
+void CTRDGi_ChangeLatestAccessCycle (CTRDGRomCycle *r)
 {
-  ushort *puVar1;
-  
-  puVar1 = DAT_03803abc;
-  *param_1 = (int)(*DAT_03803abc & 0xc) >> 2;
-  param_1[1] = (int)(*puVar1 & 0x10) >> 4;
-  *puVar1 = *puVar1 & 0xfff3 | 0xc;
-  *puVar1 = *puVar1 & 0xffef;
-  return;
-}
+	r->c1 = MI_GetCartridgeRomCycle1st();
+	r->c2 = MI_GetCartridgeRomCycle2nd();
 
+	MI_SetCartridgeRomCycle1st(MI_CTRDG_ROMCYCLE1_18);
+	MI_SetCartridgeRomCycle2nd(MI_CTRDG_ROMCYCLE2_6);
+}

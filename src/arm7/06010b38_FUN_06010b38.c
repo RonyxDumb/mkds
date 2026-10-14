@@ -1,60 +1,65 @@
-/* Decompiled C draft; module arm7; ROM address 06010b38. No matching claim. */
-#include "types.h"
-#include "deps/06010b38_FUN_06010b38.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WSetStaState FUN_0600a970
+#define WSetMacAdrs1 FUN_0600a954
+#define MLME_AuthTask FUN_06010078
+#define MLME_AuthReqCmd FUN_06010b38
 
-undefined4 FUN_06010b38(int param_1,int param_2)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "Param.h"
+#include "WlNic.h"
+#include "WlCmdIf.h"
+#include "MLME.h"
+#include "MAC.h"
+#include "Flash.h"
+
+#include "TxCtrl.h"
+extern void MLME_AuthTask(void);
+#pragma thumb off
+u16 MLME_AuthReqCmd(WlCmdReq *pReqt, WlCmdCfm *pCfmt)
 {
-  undefined4 uVar1;
-  uint uVar2;
-  uint uVar3;
-  undefined2 *puVar4;
-  
-  uVar3 = *(uint *)(DAT_06010c0c & 0xfffffffc) >> (DAT_06010c0c & 3) * 8 |
-          *(uint *)(DAT_06010c0c & 0xfffffffc) << (DAT_06010c0c & 3) * -8 + 0x20;
-  puVar4 = (undefined2 *)(uVar3 + DAT_06010c10);
-  *(undefined2 *)(param_2 + 2) = 6;
-  if ((*(short *)(uVar3 + 0x32e) == 3) || (*(short *)(uVar3 + 0x32e) == 2)) {
-    if (*(ushort *)(uVar3 + 0x34c) < 0x20) {
-      uVar1 = 1;
-    }
-    else if ((*(ushort *)(param_1 + 0x10) & 1) == 0) {
-      if (*(ushort *)(param_1 + 0x16) < 2) {
-        if (*(ushort *)(param_1 + 0x18) < 0x7d1) {
-          if (*(ushort *)(param_1 + 0x18) < 10) {
-            uVar1 = 5;
-          }
-          else {
-            FUN_0600a970(0x20);
-            *(int *)(puVar4 + 0xc) = param_1;
-            *(int *)(puVar4 + 0xe) = param_2;
-            *puVar4 = 0x30;
-            uVar3 = (uint)(puVar4 + 0xc) & 3;
-            uVar2 = *(uint *)((uint)(puVar4 + 0xc) & 0xfffffffc);
-            *(undefined2 *)(param_2 + 0xe) =
-                 *(undefined2 *)((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) + 0x16);
-            uVar3 = (uint)(puVar4 + 0xc) & 3;
-            uVar2 = *(uint *)((uint)(puVar4 + 0xc) & 0xfffffffc);
-            FUN_0600a954((undefined2 *)(uintptr_t)(param_2 + 8),(undefined2 *)(uintptr_t)((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) + 0x10));
-            FUN_06010078();
-            uVar1 = 0x80;
-          }
-        }
-        else {
-          uVar1 = 5;
-        }
-      }
-      else {
-        uVar1 = 5;
-      }
-    }
-    else {
-      uVar1 = 5;
-    }
-  }
-  else {
-    uVar1 = 0xb;
-  }
-  return uVar1;
-}
+    LPWORK_PARAM pWork = &wlMan->Work;
+    LPCONFIG_PARAM pConfig = &wlMan->Config;
+    LPMLME_MAN pMLME = &wlMan->MLME;
+    WlMlmeAuthReq *pReq = (WlMlmeAuthReq *)pReqt;
+    WlMlmeAuthCfm *pCfm = (WlMlmeAuthCfm *)pCfmt;
 
+    pCfmt->header.length = CalcCfmMsgLength(WlMlmeAuthCfm);
+
+    if ((pConfig->Mode != WL_CMDLABEL_MODE_HOTSPOT) && (pConfig->Mode != WL_CMDLABEL_MODE_CHILD)) {
+        return WL_CMDRES_ILLEGAL_MODE;
+    }
+
+    if (pWork->STA < STA_CLASS1) {
+        return WL_CMDRES_STATE_WRONG;
+    }
+
+    if (pReq->peerMacAdrs[0] & 0x0001) {
+        return WL_CMDRES_INVALID_PARAM;
+    }
+    if (pReq->algorithm > MAX_AUTHTYPE) {
+        return WL_CMDRES_INVALID_PARAM;
+    }
+    if (pReq->timeOut > MAX_AUTH_TIMEOUT) {
+        return WL_CMDRES_INVALID_PARAM;
+    }
+    if (pReq->timeOut < MIN_AUTH_TIMEOUT) {
+        return WL_CMDRES_INVALID_PARAM;
+    }
+
+    WSetStaState(STA_CLASS1);
+
+    pMLME->pReq.Auth = pReq;
+    pMLME->pCfm.Auth = pCfm;
+
+    pMLME->State = MLME_STATE_AUTH_STARTUP;
+
+    pCfm->algorithm = pMLME->pReq.Auth->algorithm;
+    WSetMacAdrs1(pCfm->peerMacAdrs, pMLME->pReq.Auth->peerMacAdrs);
+
+    MLME_AuthTask();
+
+    return WL_CMDRES_OPERATING_MLME;
+}

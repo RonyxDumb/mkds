@@ -14,6 +14,9 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('sdk', type=Path)
 parser.add_argument('system', type=Path)
 parser.add_argument('--component', choices=['sdk', 'system'], required=True)
+parser.add_argument('--cpu', choices=['arm9', 'arm7'], default='arm9')
+parser.add_argument('--inline', dest='inline_mode', choices=['on,noauto', 'on,auto'], default='on,noauto')
+parser.add_argument('--optimization', action='append', choices=['-O0', '-O1', '-O2', '-O3', '-O4,p', '-O4,s'])
 args = parser.parse_args()
 sdk, system = args.sdk.resolve(), args.system.resolve()
 for name, donor in [('nitrosdk', sdk), ('nitrosystem', system)]:
@@ -43,17 +46,20 @@ previous = json.loads(manifest.read_text())
 assert all(headers.get(k) == v for k, v in previous.items()), 'Existing SDK headers changed'
 manifest.write_text(json.dumps(headers, indent=2) + '\n')
 donor = sdk if args.component == 'sdk' else system
-out = root / 'build' / ('nitro-' + args.component + '-candidates'); out.mkdir(exist_ok=True)
-flags = ['-enum', 'int', '-lang', 'c99', '-char', 'signed', '-interworking', '-proc', 'arm946e',
-         '-gccext,on', '-inline', 'on,noauto', '-gccinc', '-fp', 'soft',
-         '-DSDK_CW_FORCE_EXPORT_SUPPORT', '-DSDK_TS', '-DSDK_4M', '-DSDK_ARM9',
+profile = args.cpu + '-' + args.inline_mode.replace(',', '-')
+out = root / 'build' / ('nitro-' + args.component + '-' + profile + '-candidates'); out.mkdir(exist_ok=True)
+flags = ['-enum', 'int', '-lang', 'c99', '-char', 'signed', '-interworking', '-proc', 'arm7tdmi' if args.cpu == 'arm7' else 'arm946e',
+         '-gccext,on', '-inline', args.inline_mode, '-gccinc', '-fp', 'soft',
+         '-DSDK_CW_FORCE_EXPORT_SUPPORT', '-DSDK_TS', '-DSDK_4M', '-DSDK_' + args.cpu.upper(),
          '-DSDK_CW', '-DSDK_FINALROM', '-DSDK_CODE_ARM', '-DNNS_FINALROM']
 for directory in ['vendor/nitrosystem/include', 'vendor/nitrosdk/include',
                   'vendor/nitro-stdinc',
                   'vendor/pokediamond/include-mw', 'vendor/pokediamond/arm9/lib/MSL_C/include',
                   'vendor/nitrosystem/libraries', 'vendor/nitrosdk/libraries']:
     flags += ['-ir', directory]
-sources = [p for p in (donor / 'libraries').rglob('*.c') if 'ARM7' not in p.parts]
+sources = [p for p in (donor / 'libraries').rglob('*.c')
+           if ('ARM9' if args.cpu == 'arm7' else 'ARM7') not in p.parts]
+if args.cpu == 'arm7': flags += ['-DSDK_WIRELESS_IN_VRAM', '-DSDK_NOINIT']
 
 def compile_source(job):
     source, opt = job
@@ -71,7 +77,7 @@ def compile_source(job):
         status, error = 124, 'Compiler timed out'
     return name, dict(source=str(source.relative_to(donor)), flags=current, returncode=status, error=error)
 
-jobs = [(p, opt) for p in sources for opt in ['-O4,p', '-O4,s', '-O2']]
+jobs = [(p, opt) for p in sources for opt in (args.optimization or ['-O4,p', '-O4,s', '-O2'])]
 results = []
 with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
     for i, result in enumerate(pool.map(compile_source, jobs), 1):
@@ -80,6 +86,7 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
 objects = {name: {k: v for k, v in result.items() if k in ['source', 'flags']}
            for name, result in results if result['returncode'] == 0}
 config = dict(object_directory=str(out.relative_to(root)), objects=objects)
+if args.cpu == 'arm7': config['target_modules'] = ['arm7']
 (out / 'config.json').write_text(json.dumps(config, indent=2) + '\n')
 (out / 'build-results.json').write_text(json.dumps(dict(results), indent=2) + '\n')
 print(json.dumps(dict(sources=len(sources), variants=len(jobs), compiled=len(objects))))

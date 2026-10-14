@@ -1,13 +1,20 @@
-/* Decompiled C draft; module arm7; ROM address 0600e8f8. No matching claim. */
-#include "types.h"
-#include "deps/0600e8f8_FUN_0600e8f8.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define CAM_IsActive FUN_0600e8f8
 
-uint FUN_0600e8f8(uint param_1)
+#include "WlSys.h"
+#include "WlLib.h"
 
+#include "WlCmdLabel.h"
+#include "Dot11Frm.h"
+#include "TxCtrl.h"
+#include "WlNic.h"
+#include "MAC.h"
+#include "Compati.h"
+
+#include "CAM.h"
+
+#pragma thumb off
+u32 CAM_IsActive(u32 camAdrs)
 {
-  return (int)(uint)*(ushort *)
-                     ((*(uint *)(DAT_0600e914 & 0xfffffffc) >> (DAT_0600e914 & 3) * 8 |
-                      *(uint *)(DAT_0600e914 & 0xfffffffc) << (DAT_0600e914 & 3) * -8 + 0x20) +
-                     0x530) >> (param_1 & 0xff) & 1;
+    return (wlMan->CamMan.PowerState >> camAdrs) & 1;
 }
-

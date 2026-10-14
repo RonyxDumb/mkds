@@ -1,12 +1,24 @@
-/* Decompiled C draft; module arm7; ROM address 060143ac. No matching claim. */
-#include "types.h"
-#include "deps/060143ac_FUN_060143ac.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SetManCtrlFrame FUN_06014338
+#define TxqPri FUN_0601536c
+#define TxManCtrlFrame FUN_060143ac
 
-void FUN_060143ac(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "TxCtrl.h"
+#include "MAC.h"
+#include "CAM.h"
+#include "MA.h"
+#include "Compati.h"
+#include "WlOpe.h"
+#include "WlIntrTask.h"
+extern void SetManCtrlFrame(LPTXFRM pFrm);
+extern void TxqPri(u32 pri);
+#pragma thumb off
+void TxManCtrlFrame(LPTXFRM pFrm)
 {
-  FUN_06014338();
-  FUN_0601536c(1);
-  return;
+    SetManCtrlFrame(pFrm);
+    TxqPri(QID_MANCTRL);
 }
-

@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "FUN_03805fb4",
+    "target": 58744756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646264
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "FUN_03806028",
+    "target": 58744872,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646290
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "FUN_03806128",
+    "target": 58745128,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646347
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "FUN_03806098",
+    "target": 58744984,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646307
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "FUN_03805ff4",
+    "target": 58744820,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646265
+  }
+]

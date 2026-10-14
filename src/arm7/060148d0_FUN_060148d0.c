@@ -1,21 +1,34 @@
-/* Decompiled C draft; module arm7; ROM address 060148d0. No matching claim. */
-#include "types.h"
-#include "deps/060148d0_FUN_060148d0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableIrqMask thunk_FUN_037f8850
+#define WlIntrMpEndTask FUN_0600db3c
+#define OS_EnableIrqMask thunk_FUN_037f888c
+#define ClearTxMp FUN_060148d0
 
-void FUN_060148d0(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "TxCtrl.h"
+#include "MAC.h"
+#include "CAM.h"
+#include "MA.h"
+#include "Compati.h"
+#include "WlOpe.h"
+#include "WlIntrTask.h"
+
+#pragma thumb off
+void ClearTxMp(void)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  iVar2 = (*(uint *)(DAT_06014924 & 0xfffffffc) >> (DAT_06014924 & 3) * 8 |
-          *(uint *)(DAT_06014924 & 0xfffffffc) << (DAT_06014924 & 3) * -8 + 0x20) + DAT_06014928;
-  uVar1 = thunk_FUN_037f8850(0x1000000);
-  *DAT_0601492c = 2;
-  if (*(short *)(iVar2 + 0x3c) != 0) {
-    FUN_0600db3c();
-  }
-  thunk_FUN_037f888c(uVar1);
-  return;
-}
+    LPTX_CTRL pTxCtrl = &wlMan->TxCtrl;
+    u32 x;
 
+    x = OS_DisableIrqMask(OS_IE_WIRELESS);
+
+    *(vu16 *)MREG_TXQ_RESET = TXQ_RST_MP;
+
+    if (pTxCtrl->Mp.Busy) {
+        WlIntrMpEndTask();
+    }
+
+    OS_EnableIrqMask(x);
+}

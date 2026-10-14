@@ -1,17 +1,27 @@
-/* Decompiled C draft; module arm7; ROM address 060133b4. No matching claim. */
-#include "types.h"
-#include "deps/060133b4_FUN_060133b4.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WL_WriteByte FUN_060096e4
+#define SetDSParamSet FUN_060133b4
 
-undefined4 FUN_060133b4(int param_1)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "TxCtrl.h"
+#include "MAC.h"
+#include "CAM.h"
+#include "MA.h"
+#include "Compati.h"
+#include "WlOpe.h"
+#include "WlIntrTask.h"
+
+#pragma thumb off
+u32 SetDSParamSet(u8 *pBuf)
 {
-  FUN_060096e4((ushort *)(uintptr_t)(param_1),3);
-  FUN_060096e4((ushort *)(uintptr_t)(param_1 + 1),1);
-  FUN_060096e4((ushort *)(uintptr_t)(param_1 + 2),
-               *(ushort *)
-                ((*(uint *)(DAT_060133f8 & 0xfffffffc) >> (DAT_060133f8 & 3) * 8 |
-                 *(uint *)(DAT_060133f8 & 0xfffffffc) << (DAT_060133f8 & 3) * -8 + 0x20) + 0x3be) &
-               0xff);
-  return 3;
-}
+    WL_WriteByte(&pBuf[0], ID_DS_PARAM_ELEMENT);
 
+    WL_WriteByte(&pBuf[1], 1);
+
+    WL_WriteByte(&pBuf[2], wlMan->Work.CurrChannel);
+
+    return 3;
+}

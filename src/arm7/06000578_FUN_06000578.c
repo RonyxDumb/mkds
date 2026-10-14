@@ -1,25 +1,48 @@
-/* Decompiled C draft; module arm7; ROM address 06000578. No matching claim. */
-#include "types.h"
-#include "deps/06000578_FUN_06000578.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_SendMessage thunk_FUN_037f9854
+#define WMSP_GetBuffer4Callback2Wm9 thunk_FUN_03807424
+#define WMSP_ReturnResult2Wm9 thunk_FUN_038074cc
+#define wmspW SDK_data_06019088
+#define WmspPxiCallback FUN_06000578
+#include "wmsp_private.h"
+#include <nitro/wram_begin.h>
 
-void FUN_06000578(undefined4 param_1,undefined2 *param_2,int param_3)
+#include <nitro/wram_end.h>
 
+#include <nitro/wram_begin.h>
+
+#include <nitro/wram_end.h>
+
+#include <nitro/wram_begin.h>
+
+#include <nitro/wram_end.h>
+extern void *WMSP_GetBuffer4Callback2Wm9(void);
+extern void WMSP_ReturnResult2Wm9(void *ptr);
+extern WMSPWork wmspW;
+#pragma thumb off
+void WmspPxiCallback(PXIFifoTag tag, u32 data, BOOL err)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  undefined2 *puVar4;
-  
-  if (((param_3 == 0) && (iVar2 = thunk_FUN_037f9854(DAT_060005d8,param_2,0), iVar2 == 0)) &&
-     (uVar1 = DAT_060005dc + 0x54cU & 3, uVar3 = *(uint *)(DAT_060005dc + 0x54cU & 0xfffffffc),
-     uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0)) {
-    puVar4 = (undefined2 *)thunk_FUN_03807424();
-    *puVar4 = *param_2;
-    puVar4[1] = 8;
-    puVar4[2] = 0;
-    puVar4[3] = 0;
-    thunk_FUN_038074cc();
-  }
-  return;
-}
+#pragma unused(tag)
 
+    BOOL result;
+
+    if (err) {
+        return;
+    }
+
+    WMSP_DLOGF_REQUEST_QUEUE("[R]:=%d", *((u16 *)data) & ~WM_API_REQUEST_ACCEPTED);
+
+    result = OS_SendMessage(&(wmspW.requestQ), (OSMessage)data, OS_MESSAGE_NOBLOCK);
+
+    if (!result) {
+        if (wmspW.wm7buf != NULL) {
+            WMCallback *cb = (WMCallback *)WMSP_GetBuffer4Callback2Wm9();
+
+            cb->apiid = *((u16 *)data);
+            cb->errcode = WM_ERRCODE_FIFO_ERROR;
+            cb->wlCmdID = 0;
+            cb->wlResult = 0;
+            WMSP_ReturnResult2Wm9((void *)cb);
+        }
+    }
+}

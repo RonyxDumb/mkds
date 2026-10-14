@@ -1,27 +1,27 @@
-/* Decompiled C draft; module arm7; ROM address 06005060. No matching claim. */
-#include "types.h"
-#include "deps/06005060_FUN_06005060.h"
-
-void FUN_06005060(int param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMSP_DisconnectCore FUN_06004a9c
+#define WMSP_GetBuffer4Callback2Wm9 thunk_FUN_03807424
+#define WMSP_ReturnResult2Wm9 thunk_FUN_038074cc
+#define WMSP_Disconnect FUN_06005060
+#include "wmsp_private.h"
+extern BOOL WMSP_DisconnectCore(u32 *args, BOOL indicateFlag, u16 *disconnected);
+#pragma thumb off
+void WMSP_Disconnect(OSMessage msg)
 {
-  uint uVar1;
-  int iVar2;
-  undefined2 *puVar3;
-  uint uVar4;
-  undefined2 local_10 [4];
-  
-  uVar1 = param_1 + 4U & 3;
-  uVar4 = *(uint *)(param_1 + 4U & 0xfffffffc);
-  iVar2 = FUN_06004a9c(param_1,0,local_10);
-  if (iVar2 == 1) {
-    puVar3 = (undefined2 *)thunk_FUN_03807424();
-    *puVar3 = 0xd;
-    puVar3[1] = 0;
-    puVar3[4] = (ushort)(uVar4 >> uVar1 * 8) | (ushort)(uVar4 << uVar1 * -8 + 0x20);
-    puVar3[5] = local_10[0];
-    thunk_FUN_038074cc();
-  }
-  return;
-}
+    BOOL result;
+    u16 tryBmp;
+    u16 resBmp;
 
+    tryBmp = (u16)(((u32 *)msg)[1]);
+    result = WMSP_DisconnectCore(msg, FALSE, &resBmp);
+
+    if (result == TRUE) {
+        WMDisconnectCallback *const callback = (WMDisconnectCallback *)WMSP_GetBuffer4Callback2Wm9();
+        callback->apiid = WM_APIID_DISCONNECT;
+        callback->errcode = WM_ERRCODE_SUCCESS;
+        callback->tryBitmap = tryBmp;
+        callback->disconnectedBitmap = resBmp;
+        (void)WMSP_ReturnResult2Wm9(callback);
+        return;
+    }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "thunk_FUN_03807424",
+    "target": 100663476,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959419844
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "thunk_FUN_038074cc",
+    "target": 100663484,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959419839
+  }
+]

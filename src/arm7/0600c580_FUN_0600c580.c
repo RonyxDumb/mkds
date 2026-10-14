@@ -1,16 +1,25 @@
-/* Decompiled C draft; module arm7; ROM address 0600c580. No matching claim. */
-#include "types.h"
-#include "deps/0600c580_FUN_0600c580.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define AdjustRingPointer FUN_0600c580
 
-uint FUN_0600c580(uint param_1)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "MA.h"
+#include "TxCtrl.h"
+#include "RxCtrl.h"
+#include "MAC.h"
+#include "WlIntr.h"
+#include "Compati.h"
+#include "MA.h"
+#include "WlOpe.h"
+
+#pragma thumb off
+void *AdjustRingPointer(void *p)
 {
-  if (DAT_0600c5a0 <= param_1) {
-    param_1 = param_1 - *(ushort *)
-                         ((*(uint *)(DAT_0600c5a4 & 0xfffffffc) >> (DAT_0600c5a4 & 3) * 8 |
-                          *(uint *)(DAT_0600c5a4 & 0xfffffffc) << (DAT_0600c5a4 & 3) * -8 + 0x20) +
-                         0x3de);
-  }
-  return param_1;
-}
+    if ((u32)p >= (MAC_MEM_BASE + MBUF_MAC_RX_END)) {
+        p = (void *)((u32)p - (u32)wlMan->Work.Ofst.RxBuf.Size);
+    }
 
+    return p;
+}

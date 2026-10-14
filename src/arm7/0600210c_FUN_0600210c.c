@@ -1,13 +1,10 @@
-/* Decompiled C draft; module arm7; ROM address 0600210c. No matching claim. */
-#include "types.h"
-#include "deps/0600210c_FUN_0600210c.h"
-
-void FUN_0600210c(undefined4 param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMSPi_WL_NoArg SDK_data_06001fc0
+#define WMSP_WL_DevIdle FUN_0600210c
+#include "wmsp_private.h"
+extern WlCmdCfm *WMSPi_WL_NoArg(u16 *buf, u16 code, u16 cfmLength);
+#pragma thumb off
+WlDevIdleCfm *WMSP_WL_DevIdle(u16 *buf)
 {
-                    /* WARNING: Could not recover jumptable at 0x06002118. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*DAT_06002120)(param_1,DAT_0600211c,1);
-  return;
+    return (WlDevIdleCfm *)WMSPi_WL_NoArg(buf, WL_CMDCODE_DEV_IDLE, 1);
 }
-

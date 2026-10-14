@@ -1,21 +1,35 @@
-/* Decompiled C draft; module arm7; ROM address 037f9960. No matching claim. */
-#include "types.h"
-#include "deps/037f9960_FUN_037f9960.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_RemoveMutexLinkFromQueue FUN_037f9584
+#define OS_WakeupThread FUN_037f9088
+#define OSi_UnlockAllMutex FUN_037f9960
+#include <nitro/types.h>
+#include <nitro.h>
 
-void FUN_037f9960(int param_1)
-
+#pragma thumb off
+void OSi_UnlockAllMutex (OSThread * thread)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  while (uVar1 = param_1 + 0x6cU & 3, uVar3 = *(uint *)(param_1 + 0x6cU & 0xfffffffc),
-        uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0) {
-    iVar2 = FUN_037f9584((uint *)(uintptr_t)(param_1 + 0x6c));
-    *(undefined4 *)(iVar2 + 0xc) = 0;
-    *(undefined4 *)(iVar2 + 8) = 0;
-    FUN_037f9088();
-  }
-  return;
-}
+    OSMutex * mutex;
 
+    SDK_ASSERT(thread);
+
+#ifndef SDK_THREAD_INFINITY
+    while (thread->mutexQueueHead) {
+        mutex = OSi_DequeueHead(thread);
+        SDK_ASSERT(mutex->thread == thread);
+
+        mutex->count = 0;
+        mutex->thread = NULL;
+        OS_WakeupThread(&(mutex->queue));
+    }
+#else
+    while (thread->mutexQueue.head) {
+        mutex = OSi_RemoveMutexLinkFromQueue(&thread->mutexQueue);
+
+        SDK_ASSERT(mutex->thread == thread);
+        mutex->count = 0;
+        mutex->thread = NULL;
+        OS_WakeupThread(&mutex->queue);
+
+    }
+#endif
+}

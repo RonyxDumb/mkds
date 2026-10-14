@@ -1,23 +1,37 @@
-/* Decompiled C draft; module arm7; ROM address 06010fcc. No matching claim. */
-#include "types.h"
-#include "deps/06010fcc_FUN_06010fcc.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WStop FUN_06009ecc
+#define WInitCounter FUN_0600a888
+#define MLME_ResetReqCmd FUN_06010fcc
 
-undefined4 FUN_06010fcc(int param_1,int param_2)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "Param.h"
+#include "WlNic.h"
+#include "WlCmdIf.h"
+#include "MLME.h"
+#include "MAC.h"
+#include "Flash.h"
+
+#include "TxCtrl.h"
+
+#pragma thumb off
+u16 MLME_ResetReqCmd(WlCmdReq *pReqt, WlCmdCfm *pCfmt)
 {
-  undefined4 uVar1;
-  
-  *(undefined2 *)(param_2 + 2) = 1;
-  if (*(ushort *)(param_1 + 0x10) < 2) {
-    FUN_06009ecc(*(ushort *)(param_1 + 0x10));
-    if (*(short *)(param_1 + 0x10) == 1) {
-      FUN_0600a888();
-    }
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = 5;
-  }
-  return uVar1;
-}
+    WlMlmeResetReq *pReq = (WlMlmeResetReq *)pReqt;
 
+    pCfmt->header.length = CalcCfmMsgLength(WlMlmeResetCfm);
+
+    if (pReq->mib > MAX_DEFAULT_MIB) {
+        return WL_CMDRES_INVALID_PARAM;
+    }
+
+    WStop();
+
+    if (pReq->mib == WL_CMDLABEL_RST_MIB_CLR) {
+        WInitCounter();
+    }
+
+    return WL_CMDRES_SUCCESS;
+}

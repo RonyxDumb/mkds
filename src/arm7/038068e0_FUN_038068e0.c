@@ -1,16 +1,18 @@
-/* Decompiled C draft; module arm7; ROM address 038068e0. No matching claim. */
-#include "types.h"
-#include "deps/038068e0_FUN_038068e0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MATH_CountPopulation FUN_038068e0
+#include <nitro/math.h>
 
-uint FUN_038068e0(uint param_1)
-
+#pragma thumb off
+u8 MATH_CountPopulation (u32 x)
 {
-  uint uVar1;
-  
-  param_1 = param_1 - (DAT_03806918 & param_1 >> 1);
-  uVar1 = (param_1 & DAT_0380691c) + (DAT_0380691c & param_1 >> 2);
-  uVar1 = uVar1 + (uVar1 >> 4) & DAT_03806920;
-  uVar1 = uVar1 + (uVar1 >> 8);
-  return uVar1 + (uVar1 >> 0x10) & 0xff;
-}
+	x -= ((x >> 1) & 0x55555555);
+	x = (x & 0x33333333) + ((x >> 2) & 0x33333333);
+	x += (x >> 4);
 
+	x &= 0x0f0f0f0f;
+
+	x += (x >> 8);
+	x += (x >> 16);
+
+	return (u8)x;
+}

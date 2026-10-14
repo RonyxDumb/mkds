@@ -1,32 +1,44 @@
-/* Decompiled C draft; module arm7; ROM address 037f9918. No matching claim. */
-#include "types.h"
-#include "deps/037f9918_FUN_037f9918.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_DequeueItem FUN_037f9918
+#include <nitro/types.h>
+#include <nitro.h>
 
-void FUN_037f9918(int param_1,int param_2)
-
+#pragma thumb off
+void OSi_DequeueItem (OSThread * thread, OSMutex * mutex)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar1 = param_2 + 0x10U & 3;
-  uVar2 = *(uint *)(param_2 + 0x10U & 0xfffffffc);
-  uVar3 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  uVar1 = param_2 + 0x14U & 3;
-  uVar2 = *(uint *)(param_2 + 0x14U & 0xfffffffc);
-  uVar1 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  if (uVar3 == 0) {
-    *(uint *)(param_1 + 0x70) = uVar1;
-  }
-  else {
-    *(uint *)(uVar3 + 0x14) = uVar1;
-  }
-  if (uVar1 == 0) {
-    *(uint *)(param_1 + 0x6c) = uVar3;
-  }
-  else {
-    *(uint *)(uVar1 + 0x10) = uVar3;
-  }
-  return;
-}
+#ifndef SDK_THREAD_INFINITY
+    OSMutex * next = mutex->next;
+    OSMutex * prev = mutex->prev;
 
+    SDK_ASSERT(thread && mutex);
+
+    if (!next) {
+        thread->mutexQueueTail = prev;
+    } else {
+        next->prev = prev;
+    }
+
+    if (!prev) {
+        thread->mutexQueueHead = next;
+    } else {
+        prev->next = next;
+    }
+#else
+    OSMutex * next = mutex->link.next;
+    OSMutex * prev = mutex->link.prev;
+
+    SDK_ASSERT(thread && mutex);
+
+    if (!next) {
+        thread->mutexQueue.tail = prev;
+    } else {
+        next->link.prev = prev;
+    }
+
+    if (!prev) {
+        thread->mutexQueue.head = next;
+    } else {
+        prev->link.next = next;
+    }
+#endif
+}

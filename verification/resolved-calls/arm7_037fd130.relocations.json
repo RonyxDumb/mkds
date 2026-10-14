@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "FUN_037fbd0c",
+    "target": 58703116,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421668
+  },
+  {
+    "offset": 204,
+    "type": 1,
+    "symbol": "FUN_037fbea0",
+    "target": 58703520,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421735
+  },
+  {
+    "offset": 248,
+    "type": 1,
+    "symbol": "FUN_037fbde8",
+    "target": 58703336,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421678
+  },
+  {
+    "offset": 284,
+    "type": 1,
+    "symbol": "FUN_037fbd38",
+    "target": 58703160,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421625
+  },
+  {
+    "offset": 308,
+    "type": 1,
+    "symbol": "FUN_037fbc70",
+    "target": 58702960,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421569
+  },
+  {
+    "offset": 348,
+    "type": 1,
+    "symbol": "FUN_037fbc88",
+    "target": 58702984,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421565
+  },
+  {
+    "offset": 380,
+    "type": 1,
+    "symbol": "FUN_037fbbf4",
+    "target": 58702836,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421520
+  },
+  {
+    "offset": 488,
+    "type": 2,
+    "symbol": "SDK_data_03807ecc",
+    "target": 58752716,
+    "thumb": false,
+    "addend": 0,
+    "value": 58752716
+  }
+]

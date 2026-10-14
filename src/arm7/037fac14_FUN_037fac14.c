@@ -1,16 +1,22 @@
-/* Decompiled C draft; module arm7; ROM address 037fac14. No matching claim. */
-#include "types.h"
-#include "deps/037fac14_FUN_037fac14.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_Terminate FUN_037fb000
+#define OS_SetVAlarmTag FUN_037fac14
+#include <nitro.h>
 
-void FUN_037fac14(int param_1,int param_2)
-
+#pragma thumb off
+void OS_SetVAlarmTag (OSVAlarm * alarm, u32 tag)
 {
-  if (param_2 == 0) {
-    FUN_037fb000();
-  }
-  if (param_1 != 0) {
-    *(int *)(param_1 + 8) = param_2;
-  }
-  return;
-}
+#ifdef SDK_DEBUG
+    SDK_ASSERT(OSi_UseVAlarm);
+    SDK_ASSERT(alarm);
+    SDK_ASSERTMSG(tag > 0, "OSSetVAlarmTag: Tag must be >0.");
+#else
+    if (tag == 0) {
+        OS_Panic("");
+    }
+#endif
 
+    if (alarm) {
+        alarm->tag = tag;
+    }
+}

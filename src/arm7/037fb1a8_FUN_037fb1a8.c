@@ -1,28 +1,30 @@
-/* Decompiled C draft; module arm7; ROM address 037fb1a8. No matching claim. */
-#include "types.h"
-#include "deps/037fb1a8_FUN_037fb1a8.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define OS_RestoreInterrupts FUN_037faf84
+#define MI_WaitDma FUN_037fb1a8
+#include <nitro.h>
 
-void FUN_037fb1a8(int param_1)
+#include "../include/mi_dma.h"
+    #include <nitro/itcm_begin.h>
 
+    #include <nitro/itcm_end.h>
+
+#pragma thumb off
+void MI_WaitDma (u32 dmaNo)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  FUN_037faf70();
-  iVar2 = DAT_037fb210;
-  uVar4 = DAT_037fb210 + (param_1 * 3 + 2) * 4;
-  do {
-    uVar1 = uVar4 & 3;
-    uVar3 = *(uint *)(uVar4 & 0xfffffffc);
-  } while (((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & 0x80000000) != 0);
-  if (param_1 == 0) {
-    uRam040000b0 = 0;
-    *(undefined4 *)(DAT_037fb210 + 4) = 0;
-    *(undefined4 *)(iVar2 + 8) = DAT_037fb214;
-  }
-  FUN_037faf84();
-  return;
-}
+    OSIntrMode enabled = OS_DisableInterrupts();
+    vu32 * dmaCntp = &((vu32 *)REG_DMA0SAD_ADDR)[dmaNo * 3 + 2];
 
+    MIi_ASSERT_DMANO(dmaNo);
+    while (*dmaCntp & REG_MI_DMA0CNT_E_MASK) {
+    }
+
+    if (dmaNo == MIi_DUMMY_DMA_NO) {
+        vu32 * p = (vu32 *)((u32)REG_DMA0SAD_ADDR + dmaNo * 12);
+        *p = (vu32)MIi_DUMMY_SRC;
+        *(p + 1) = (vu32)MIi_DUMMY_DEST;
+        *(p + 2) = (vu32)MIi_DUMMY_CNT;
+    }
+
+    (void)OS_RestoreInterrupts(enabled);
+}

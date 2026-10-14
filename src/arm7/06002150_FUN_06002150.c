@@ -1,13 +1,10 @@
-/* Decompiled C draft; module arm7; ROM address 06002150. No matching claim. */
-#include "types.h"
-#include "deps/06002150_FUN_06002150.h"
-
-void FUN_06002150(undefined4 param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMSPi_WL_NoArg SDK_data_06001fc0
+#define WMSP_WL_ParamGetEnableChannel FUN_06002150
+#include "wmsp_private.h"
+extern WlCmdCfm *WMSPi_WL_NoArg(u16 *buf, u16 code, u16 cfmLength);
+#pragma thumb off
+WlParamGetEnableChannelCfm *WMSP_WL_ParamGetEnableChannel(u16 *buf)
 {
-                    /* WARNING: Could not recover jumptable at 0x0600215c. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*DAT_06002164)(param_1,DAT_06002160,3);
-  return;
+    return (WlParamGetEnableChannelCfm *)WMSPi_WL_NoArg(buf, WL_CMDCODE_PARAM_GET_ENABLECHANNEL, 3);
 }
-

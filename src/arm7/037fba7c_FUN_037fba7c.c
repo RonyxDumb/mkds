@@ -1,11 +1,15 @@
-/* Decompiled C draft; module arm7; ROM address 037fba7c. No matching claim. */
-#include "types.h"
-#include "deps/037fba7c_FUN_037fba7c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_Enable FUN_037fba7c
+#include "nitro/snd/common/global.h"
+#include "nitro/snd/common/capture.h"
+#include "nitro/snd/common/channel.h"
+#include <nitro/hw/ARM7/ioreg_SND.h>
+#include <nitro/os/common/system.h>
+#include <nitro/os/common/systemCall.h>
+#include <nitro/spi/common/pm_common.h>
 
-void FUN_037fba7c(void)
-
+#pragma thumb off
+void SND_Enable(void)
 {
-  *DAT_037fba90 = *DAT_037fba90 | 0x80;
-  return;
+    reg_SND_SOUNDCNT_8 |= REG_SND_SOUNDCNT_8_E_MASK;
 }
-

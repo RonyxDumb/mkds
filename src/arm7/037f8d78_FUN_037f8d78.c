@@ -1,21 +1,26 @@
-/* Decompiled C draft; module arm7; ROM address 037f8d78. No matching claim. */
-#include "types.h"
-#include "deps/037f8d78_FUN_037f8d78.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define OS_RestoreInterrupts FUN_037faf84
+#define OSi_RescheduleCount SDK_data_038076e8
+#define OS_DisableScheduler FUN_037f8d78
+#include <nitro/os.h>
+#include <nitro/mi.h>
+#include <nitro/utest.h>
 
-uint FUN_037f8d78(void)
+#include <nitro/code32.h>
 
+#include  <nitro/codereset.h>
+extern u32 OSi_RescheduleCount;
+#pragma thumb off
+u32 OS_DisableScheduler (void)
 {
-  uint uVar1;
-  uint unaff_r4;
-  
-  FUN_037faf70();
-  uVar1 = *(uint *)((uint)DAT_037f8dac & 0xfffffffc) >> ((uint)DAT_037f8dac & 3) * 8 |
-          *(uint *)((uint)DAT_037f8dac & 0xfffffffc) << ((uint)DAT_037f8dac & 3) * -8 + 0x20;
-  if (uVar1 != 0xffffffff) {
-    *DAT_037f8dac = uVar1 + 1;
-    unaff_r4 = uVar1;
-  }
-  FUN_037faf84();
-  return unaff_r4;
-}
+    OSIntrMode enabled = OS_DisableInterrupts();
+    u32 count;
 
+    if (OSi_RescheduleCount < (u32)(0 - 1)) {
+        count = OSi_RescheduleCount++;
+    }
+    (void)OS_RestoreInterrupts(enabled);
+
+    return count;
+}

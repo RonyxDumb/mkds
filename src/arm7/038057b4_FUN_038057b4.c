@@ -1,19 +1,27 @@
-/* Decompiled C draft; module arm7; ROM address 038057b4. No matching claim. */
-#include "types.h"
-#include "deps/038057b4_FUN_038057b4.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define RTCi_GpioStart FUN_03805fb4
+#define RTCi_GpioSendCommand FUN_03806028
+#define RTCi_GpioReceiveData FUN_03806128
+#define RTCi_GpioSendData FUN_03806098
+#define RTCi_GpioEnd FUN_03805ff4
+#define RtcGpioTransfer FUN_038057b4
+#include "nitro/rtc/ARM7/instruction.h"
 
-void FUN_038057b4(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+#include "nitro/rtc/ARM7/gpio.h"
+#include <nitro/exi/ARM7/genPort.h>
 
+#pragma thumb off
+void RtcGpioTransfer(u16 inst, u16 param, void *buf, u32 size)
 {
-  FUN_03805fb4();
-  FUN_03806028(param_1,param_2);
-  if (param_1 == 6) {
-    FUN_03806098((ushort *)(uintptr_t)(param_3),param_4);
-  }
-  else if (param_1 == 0x86) {
-    FUN_03806128((ushort *)(uintptr_t)(param_3),param_4);
-  }
-  FUN_03805ff4();
-  return;
+    RTCi_GpioStart();
+    RTCi_GpioSendCommand(inst, param);
+    switch (inst) {
+    case RTC_INSTRUCTION_READ:
+        RTCi_GpioReceiveData(buf, size);
+        break;
+    case RTC_INSTRUCTION_WRITE:
+        RTCi_GpioSendData(buf, size);
+        break;
+    }
+    RTCi_GpioEnd();
 }
-

@@ -1,13 +1,20 @@
-/* Decompiled C draft; module arm7; ROM address 0600f118. No matching claim. */
-#include "types.h"
-#include "deps/0600f118_FUN_0600f118.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define InitializeCmdIf FUN_0600f118
 
-void FUN_0600f118(void)
+#include "WlSys.h"
+#include "DbgChar.h"
 
+#include "WlLib.h"
+#include "WlCmdIf.h"
+
+#include "MLME.h"
+#include "MA.h"
+#include "ParamCmd.h"
+#include "DevCmd.h"
+
+#pragma thumb off
+void InitializeCmdIf(void)
 {
-  *(undefined2 *)
-   ((*(uint *)(DAT_0600f130 & 0xfffffffc) >> (DAT_0600f130 & 3) * 8 |
-    *(uint *)(DAT_0600f130 & 0xfffffffc) << (DAT_0600f130 & 3) * -8 + 0x20) + 0x428) = 0;
-  return;
-}
 
+    wlMan->CmdIf.Busy = 0;
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "FUN_03805b8c",
+    "target": 58743692,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422779
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "FUN_03805b60",
+    "target": 58743648,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422753
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "FUN_038057b4",
+    "target": 58742708,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422513
+  },
+  {
+    "offset": 136,
+    "type": 1,
+    "symbol": "FUN_03805930",
+    "target": 58743088,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422603
+  },
+  {
+    "offset": 148,
+    "type": 1,
+    "symbol": "FUN_03805818",
+    "target": 58742808,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422530
+  },
+  {
+    "offset": 168,
+    "type": 1,
+    "symbol": "FUN_038057b4",
+    "target": 58742708,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422500
+  },
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "FUN_038057b4",
+    "target": 58742708,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422495
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "FUN_03805930",
+    "target": 58743088,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422585
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "FUN_03805818",
+    "target": 58742808,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422512
+  },
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "FUN_038057b4",
+    "target": 58742708,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422482
+  }
+]

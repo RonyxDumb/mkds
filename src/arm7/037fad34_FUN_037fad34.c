@@ -1,35 +1,46 @@
-/* Decompiled C draft; module arm7; ROM address 037fad34. No matching claim. */
-#include "types.h"
-#include "deps/037fad34_FUN_037fad34.h"
-
-void FUN_037fad34(undefined4 *param_1,int param_2,undefined2 param_3,undefined4 param_4,
-                 undefined4 param_5)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define OS_Terminate FUN_037fb000
+#define OSi_GetVFrame FUN_037fa920
+#define OSi_InsertVAlarm FUN_037fae5c
+#define OS_RestoreInterrupts FUN_037faf84
+#define OS_SetVAlarm FUN_037fad34
+#include <nitro.h>
+extern s32 OSi_GetVFrame (s32 vcount);
+extern void OSi_InsertVAlarm (OSVAlarm * alarm);
+#pragma thumb off
+void OS_SetVAlarm (OSVAlarm * alarm, s16 count, s16 delay, OSVAlarmHandler handler, void * arg)
 {
-  ushort uVar1;
-  undefined4 uVar2;
-  int iVar3;
-  
-  uVar2 = FUN_037faf70();
-  if ((param_1 == (undefined4 *)0x0) ||
-     (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 != 0 ||
-      *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20 != 0)) {
-    FUN_037fb000();
-  }
-  uVar1 = *DAT_037fadc8;
-  iVar3 = FUN_037fa920((uint)uVar1);
-  param_1[7] = 0;
-  *(short *)(param_1 + 4) = (short)param_2;
-  if (param_2 <= (int)(uint)uVar1) {
-    iVar3 = iVar3 + 1;
-  }
-  param_1[3] = iVar3;
-  *(undefined2 *)((int)param_1 + 0x12) = param_3;
-  *param_1 = param_4;
-  param_1[1] = param_5;
-  param_1[9] = 0;
-  FUN_037fae5c((int)(uintptr_t)(param_1));
-  FUN_037faf84(uVar2);
-  return;
-}
+    OSIntrMode enabled = OS_DisableInterrupts();
+    s32 currentVCount;
+    s32 currentVFrame;
 
+    SDK_ASSERT(OSi_UseVAlarm);
+    SDK_ASSERTMSG(handler, "OS_SetVAlarm: handler must not be NULL.");
+    if (!alarm || alarm->handler) {
+#ifndef SDK_FINALROM
+        OS_Panic("v-alarm could be already used.");
+#else
+        OS_Panic("");
+#endif
+    }
+
+    currentVCount = GX_GetVCount();
+    currentVFrame = OSi_GetVFrame(currentVCount);
+
+    alarm->period = FALSE;
+
+    alarm->fire = count;
+    alarm->frame = (u32)((count > currentVCount) ? currentVFrame : (currentVFrame + 1));
+
+    alarm->delay = delay;
+
+    alarm->handler = handler;
+    alarm->arg = arg;
+
+    alarm->canceled = FALSE;
+
+    OSi_InsertVAlarm(alarm);
+
+    (void)OS_RestoreInterrupts(enabled);
+}

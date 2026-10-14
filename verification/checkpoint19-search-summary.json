@@ -1,0 +1,47 @@
+{
+  "checkpoint": 19,
+  "new_functions": 405,
+  "new_inventory_bytes": 45252,
+  "new_span_bytes": 47336,
+  "arm7_modes_resolved": 910,
+  "arm7_indexed_functions": 982,
+  "mode_conflicts": 0,
+  "search_phases": [
+    {
+      "tested": 144,
+      "accepted": 49
+    },
+    {
+      "tested": 664,
+      "accepted": 194
+    },
+    {
+      "tested": 200,
+      "accepted": 162
+    }
+  ],
+  "arm9_auto_inline": {
+    "tested": 9,
+    "accepted": 0
+  },
+  "fresh_audits": {
+    "unrelocated": {
+      "tested": 1396,
+      "passed": 1396,
+      "span_bytes": 47288
+    },
+    "resolved": {
+      "tested": 1715,
+      "passed": 1715,
+      "span_bytes": 171948,
+      "relocations": 5015
+    }
+  },
+  "total_functions": 3111,
+  "inventory_bytes": 216832,
+  "span_bytes": 219236,
+  "identified_function_bytes": 1913676,
+  "local_percent": 11.330653673871648,
+  "target_reached": true,
+  "full_rom_link_verified": false
+}

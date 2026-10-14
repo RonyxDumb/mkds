@@ -1,14 +1,15 @@
-/* Decompiled C draft; module arm7; ROM address 037fcc30. No matching claim. */
-#include "types.h"
-#include "deps/037fcc30_FUN_037fcc30.h"
-
-void FUN_037fcc30(int param_1,undefined4 param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define CalcRelease FUN_037fc6dc
+#define SND_SetExChannelRelease FUN_037fcc30
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/channel.h"
+extern u16 CalcRelease(int release);
+#pragma thumb off
+void SND_SetExChannelRelease(SNDExChannel *ch_p, int release)
 {
-  undefined2 uVar1;
-  
-  uVar1 = FUN_037fc6dc(param_2);
-  *(undefined2 *)(param_1 + 0x20) = uVar1;
-  return;
-}
+    SDK_MINMAX_ASSERT(release, 0, 127);
 
+    ch_p->release = CalcRelease(release);
+}

@@ -1,17 +1,25 @@
-/* Decompiled C draft; module arm7; ROM address 037f92a4. No matching claim. */
-#include "types.h"
-#include "deps/037f92a4_FUN_037f92a4.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define OSi_ExitThread_ArgSpecified FUN_037f923c
+#define OSi_ThreadInfo SDK_data_038076fc
+#define OS_ExitThread FUN_037f92a4
+#include <nitro/os.h>
+#include <nitro/mi.h>
+#include <nitro/utest.h>
 
-void FUN_037f92a4(void)
+#include <nitro/code32.h>
 
+#include  <nitro/codereset.h>
+extern void OSi_ExitThread_ArgSpecified (OSThread * thread, void * arg);
+extern OSThreadInfo OSi_ThreadInfo;
+#pragma thumb off
+void OS_ExitThread (void)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  FUN_037faf70();
-  uVar1 = DAT_037f92cc + 4U & 3;
-  uVar2 = *(uint *)(DAT_037f92cc + 4U & 0xfffffffc);
-  FUN_037f923c((uint *)(uintptr_t)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20),0);
-  return;
-}
+    (void)OS_DisableInterrupts();
 
+#ifdef SDK_THREAD_INFINITY
+    OSi_ExitThread_ArgSpecified(OS_GetCurrentThread(), 0);
+#else
+    OSi_ExitThread_Destroy();
+#endif
+}

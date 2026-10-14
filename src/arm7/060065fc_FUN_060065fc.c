@@ -1,17 +1,36 @@
-/* Decompiled C draft; module arm7; ROM address 060065fc. No matching claim. */
-#include "types.h"
-#include "deps/060065fc_FUN_060065fc.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WmspSetVTSF FUN_060065fc
+#include "wmsp_private.h"
+#include <nitro/wram_begin.h>
+#include <nitro/wram_end.h>
 
-void FUN_060065fc(void)
-
+#pragma thumb off
+void WmspSetVTSF(void)
 {
-  undefined2 uVar1;
-  
-  uVar1 = *DAT_0600664c;
-  if (*DAT_06006648 < *DAT_06006648) {
-    uVar1 = *DAT_0600664c;
-  }
-  *DAT_06006650 = (short)(CONCAT22(uVar1,*DAT_06006648) * 2 + (uint)*DAT_06006644 * -0x7f >> 7);
-  return;
-}
+    u16 vcount;
+    u32 cur_tsf;
+    u16 low0, low1, high;
+    u32 v_tsf;
 
+    vcount = (u16)GX_GetVCount();
+
+    low0 = *(vu16 *)MREG_TSF0;
+    high = *(vu16 *)MREG_TSF1;
+    low1 = *(vu16 *)MREG_TSF0;
+    if (low0 > low1) {
+        high = *(vu16 *)MREG_TSF1;
+    }
+    cur_tsf = high;
+    cur_tsf <<= 16;
+    cur_tsf |= low1;
+
+    v_tsf = cur_tsf;
+    v_tsf <<= 1;
+    v_tsf -= vcount * 127;
+    v_tsf >>= 7;
+    v_tsf &= 0x0000ffff;
+
+    *(vu16 *)V_TSF = (u16)v_tsf;
+
+    return;
+}

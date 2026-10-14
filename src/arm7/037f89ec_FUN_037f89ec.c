@@ -1,16 +1,16 @@
-/* Decompiled C draft; module arm7; ROM address 037f89ec. No matching claim. */
-#include "types.h"
-#include "deps/037f89ec_FUN_037f89ec.h"
-
-void FUN_037f89ec(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_IrqThreadQueue SDK_data_0380766c
+#define OS_InitIrqTable FUN_037f89ec
+#include <nitro.h>
+    #include <nitro/itcm_begin.h>
+    #include <nitro/itcm_end.h>
+extern OSThreadQueue OSi_IrqThreadQueue;
+#pragma thumb off
+void OS_InitIrqTable (void)
 {
-  undefined4 *puVar1;
-  
-  puVar1 = DAT_037f8a08;
-  DAT_037f8a08[1] = 0;
-  *puVar1 = 0;
-  *DAT_037f8a0c = 0;
-  return;
-}
+    OS_InitThreadQueue(&OSi_IrqThreadQueue);
 
+#ifdef SDK_ARM7
+    OSi_SetVBlankCount(0);
+#endif
+}

@@ -1,0 +1,119 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "FUN_037f9b6c",
+    "target": 58694508,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422928
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "FUN_037f9b00",
+    "target": 58694400,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422898
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "FUN_037f9b14",
+    "target": 58694420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422901
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "FUN_037f9aec",
+    "target": 58694380,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422888
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "FUN_037f9b6c",
+    "target": 58694508,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422918
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "FUN_037f9b00",
+    "target": 58694400,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422888
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "FUN_037f9b14",
+    "target": 58694420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422891
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "FUN_037f9aec",
+    "target": 58694380,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422878
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "FUN_037f9b6c",
+    "target": 58694508,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422908
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "FUN_037f9b00",
+    "target": 58694400,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422878
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "FUN_037f9b14",
+    "target": 58694420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422881
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "FUN_037f9aec",
+    "target": 58694380,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422868
+  },
+  {
+    "offset": 160,
+    "type": 2,
+    "symbol": "SDK_data_03807854",
+    "target": 58751060,
+    "thumb": false,
+    "addend": 0,
+    "value": 58751060
+  }
+]

@@ -1,24 +1,34 @@
-/* Decompiled C draft; module arm7; ROM address 037fea64. No matching claim. */
-#include "types.h"
-#include "deps/037fea64_FUN_037fea64.h"
-
-void FUN_037fea64(int param_1,uint param_2,undefined2 param_3)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define GetPlayerTrack FUN_037fe2e4
+#define SNDi_Work SDK_data_03807ecc
+#define SND_SetTrackAllocatableChannel FUN_037fea64
+#include "nitro/snd/common/seq.h"
+#include "nitro/snd/common/bank.h"
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/mml.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/main.h"
+#include <nitro/misc.h>
+extern SNDTrack *GetPlayerTrack(SNDPlayer *player_p, int trackNo);
+#pragma thumb off
+void SND_SetTrackAllocatableChannel(int playerNo, u32 trackBitMask, u32 chBitMask)
 {
-  byte *pbVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar3 = param_1 * 0x24 + DAT_037fead8;
-  iVar2 = 0;
-  for (; (iVar2 < 0x10 && (param_2 != 0)); param_2 = param_2 >> 1) {
-    if (((param_2 & 1) != 0) && (pbVar1 = (byte *)FUN_037fe2e4(iVar3,iVar2), pbVar1 != (byte *)0x0))
-    {
-      *(undefined2 *)(pbVar1 + 0x1e) = param_3;
-      *pbVar1 = *pbVar1 | 0x80;
-    }
-    iVar2 = iVar2 + 1;
-  }
-  return;
-}
+    SDK_MINMAX_ASSERT(playerNo, SND_PLAYER_MIN, SND_PLAYER_MAX);
 
+    SNDPlayer *player_p = &SNDi_Work.player[playerNo];
+
+    for (int trackNo = 0; trackNo < SND_TRACK_NUM_PER_PLAYER && trackBitMask != 0; trackNo++, trackBitMask >>= 1) {
+        if ((trackBitMask & 1) == 0) {
+            continue;
+        }
+
+        SNDTrack *track_p = GetPlayerTrack(player_p, trackNo);
+        if (track_p == NULL) {
+            continue;
+        }
+
+        track_p->channel_mask = chBitMask;
+        track_p->channel_mask_flag = TRUE;
+    }
+}

@@ -1,10 +1,14 @@
-/* Decompiled C draft; module arm7; ROM address 037fcc14. No matching claim. */
-#include "types.h"
-#include "deps/037fcc14_FUN_037fcc14.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_IsExChannelActive FUN_037fcc14
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/channel.h"
 
-byte FUN_037fcc14(int param_1)
-
+#pragma thumb off
+BOOL SND_IsExChannelActive(SNDExChannel *ch_p)
 {
-  return *(byte *)(param_1 + 3) & 1;
-}
+    SDK_NULL_ASSERT(ch_p);
 
+    return ch_p->active_flag;
+}

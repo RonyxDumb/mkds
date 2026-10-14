@@ -1,25 +1,29 @@
-/* Decompiled C draft; module arm7; ROM address 037fecc8. No matching claim. */
-#include "types.h"
-#include "deps/037fecc8_FUN_037fecc8.h"
-
-void FUN_037fecc8(uint param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FinishPlayer FUN_037fe230
+#define SNDi_Work SDK_data_03807ecc
+#define SNDi_SharedWork SDK_data_03807ec8
+#define SND_StopSeq FUN_037fecc8
+#include "nitro/snd/common/seq.h"
+#include "nitro/snd/common/bank.h"
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/mml.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/main.h"
+#include <nitro/misc.h>
+extern void FinishPlayer(SNDPlayer *player_p);
+#pragma thumb off
+void SND_StopSeq(int playerNo)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  if ((int)((uint)*(byte *)(DAT_037fed1c + param_1 * 0x24) << 0x1f) < 0) {
-    FUN_037fe230((byte *)(uintptr_t)(DAT_037fed1c + param_1 * 0x24));
-    uVar3 = *(uint *)(DAT_037fed20 & 0xfffffffc) >> (DAT_037fed20 & 3) * 8 |
-            *(uint *)(DAT_037fed20 & 0xfffffffc) << (DAT_037fed20 & 3) * -8 + 0x20;
-    if (uVar3 != 0) {
-      uVar1 = uVar3 + 4 & 3;
-      uVar2 = *(uint *)(uVar3 + 4 & 0xfffffffc);
-      *(uint *)(uVar3 + 4) =
-           (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & ~(1 << (param_1 & 0xff));
-    }
-  }
-  return;
-}
+    SDK_MINMAX_ASSERT(playerNo, SND_PLAYER_MIN, SND_PLAYER_MAX);
 
+    SNDPlayer *player_p = &SNDi_Work.player[playerNo];
+
+    if (player_p->active_flag) {
+        FinishPlayer(player_p);
+
+        if (SNDi_SharedWork != NULL) {
+            SNDi_SharedWork->playerStatus &= ~(1 << playerNo);
+        }
+    }
+}

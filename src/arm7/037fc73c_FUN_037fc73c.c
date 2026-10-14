@@ -1,22 +1,23 @@
-/* Decompiled C draft; module arm7; ROM address 037fc73c. No matching claim. */
-#include "types.h"
-#include "deps/037fc73c_FUN_037fc73c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_SinIdx FUN_037fbfa4
+#define SND_GetLfoValue FUN_037fc73c
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/channel.h"
 
-int FUN_037fc73c(int param_1)
-
+#pragma thumb off
+s32 SND_GetLfoValue(SNDLfo *lfo)
 {
-  int iVar1;
-  
-  if (*(char *)(param_1 + 2) == '\0') {
-    iVar1 = 0;
-  }
-  else if (*(ushort *)(param_1 + 6) < *(ushort *)(param_1 + 4)) {
-    iVar1 = 0;
-  }
-  else {
-    iVar1 = FUN_037fbfa4(*(ushort *)(param_1 + 8) >> 8);
-    iVar1 = (uint)*(byte *)(param_1 + 3) * (uint)*(byte *)(param_1 + 2) * iVar1;
-  }
-  return iVar1;
-}
+    if (lfo->param.depth == 0) {
+        return 0;
+    }
+    if (lfo->delay_counter < lfo->param.delay) {
+        return 0;
+    }
 
+    u32 offset = lfo->counter;
+    offset >>= 8;
+
+    return SND_SinIdx((int)offset) * lfo->param.depth * lfo->param.range;
+}

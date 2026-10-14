@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "FUN_037faf70",
+    "target": 58699632,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647599
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "FUN_037f923c",
+    "target": 58692156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422942
+  },
+  {
+    "offset": 40,
+    "type": 2,
+    "symbol": "SDK_data_038076fc",
+    "target": 58750716,
+    "thumb": false,
+    "addend": 0,
+    "value": 58750716
+  }
+]

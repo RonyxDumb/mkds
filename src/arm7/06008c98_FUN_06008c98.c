@@ -1,22 +1,27 @@
-/* Decompiled C draft; module arm7; ROM address 06008c98. No matching claim. */
-#include "types.h"
-#include "deps/06008c98_FUN_06008c98.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define GetHeapBufNextAdrs FUN_06008e48
+#define ReleaseHeapBuf FUN_060090b4
+#define ReleaseAllHeapBuf FUN_06008c98
 
-void FUN_06008c98(uint param_1)
+#include "WlSys.h"
 
+#include "WlLib.h"
+#include "BufMan.h"
+#include "TaskMan.h"
+#include "Param.h"
+extern void *GetHeapBufNextAdrs(void *pBuf);
+extern u32 ReleaseHeapBuf(LPHEAPBUF_MAN pBufMan, void *pBuf);
+#pragma thumb off
+void ReleaseAllHeapBuf(LPHEAPBUF_MAN pHeapBufMan)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar2 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  if (*(short *)(param_1 + 8) != 0) {
-    while (uVar2 != 0xffffffff) {
-      uVar1 = FUN_06008e48(uVar2);
-      FUN_060090b4(param_1,uVar2);
-      uVar2 = uVar1;
-    }
-  }
-  return;
-}
+    u32 *pNext;
+    u32 *pBuf = (u32 *)GetHeapBufHeadAdrs(pHeapBufMan);
 
+    if (pHeapBufMan->Count != 0) {
+        while ((u32)pBuf != HEAPBUF_HEAD_NONE) {
+            pNext = (u32 *)GetHeapBufNextAdrs(pBuf);
+            ReleaseHeapBuf(pHeapBufMan, pBuf);
+            pBuf = pNext;
+        }
+    }
+}

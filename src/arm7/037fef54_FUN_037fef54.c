@@ -1,28 +1,28 @@
-/* Decompiled C draft; module arm7; ROM address 037fef54. No matching claim. */
-#include "types.h"
-#include "deps/037fef54_FUN_037fef54.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SNDi_Work SDK_data_03807ecc
+#define SND_SeqInit FUN_037fef54
+#include "nitro/snd/common/seq.h"
+#include "nitro/snd/common/bank.h"
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/mml.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/main.h"
+#include <nitro/misc.h>
 
-void FUN_037fef54(void)
-
+#pragma thumb off
+void SND_SeqInit(void)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar2 = DAT_037fefb8;
-  iVar3 = 0;
-  do {
-    iVar1 = iVar3 * 0x24;
-    *(byte *)(iVar2 + iVar1) = *(byte *)(iVar2 + iVar1) & 0xfe;
-    *(char *)(iVar2 + iVar1 + 1) = (char)iVar3;
-    iVar1 = DAT_037fefbc;
-    iVar3 = iVar3 + 1;
-  } while (iVar3 < 0x10);
-  iVar2 = 0;
-  do {
-    *(byte *)(iVar1 + iVar2 * 0x40) = *(byte *)(iVar1 + iVar2 * 0x40) & 0xfe;
-    iVar2 = iVar2 + 1;
-  } while (iVar2 < 0x20);
-  return;
-}
+    for (int playerNo = 0; playerNo < SND_PLAYER_NUM; playerNo++) {
+        SNDPlayer *player_p = &SNDi_Work.player[playerNo];
 
+        player_p->active_flag = FALSE;
+        player_p->myNo = (u8)playerNo;
+    }
+
+    for (int trackNo = 0; trackNo < SND_TRACK_NUM; trackNo++) {
+        SNDTrack *track_p = &SNDi_Work.track[trackNo];
+
+        track_p->active_flag = FALSE;
+    }
+}

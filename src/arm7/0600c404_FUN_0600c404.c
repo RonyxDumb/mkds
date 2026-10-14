@@ -1,12 +1,25 @@
-/* Decompiled C draft; module arm7; ROM address 0600c404. No matching claim. */
-#include "types.h"
-#include "deps/0600c404_FUN_0600c404.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableIrqMask thunk_FUN_037f8850
+#define OS_SetIrqFunction thunk_FUN_037f8944
+#define ReleaseIntr FUN_0600c404
 
-void FUN_0600c404(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "MA.h"
+#include "TxCtrl.h"
+#include "RxCtrl.h"
+#include "MAC.h"
+#include "WlIntr.h"
+#include "Compati.h"
+#include "MA.h"
+#include "WlOpe.h"
+
+#pragma thumb off
+void ReleaseIntr(void)
 {
-  thunk_FUN_037f8850(0x1000000);
-  thunk_FUN_037f8944(0x1000000,0);
-  return;
-}
+    OS_DisableIrqMask(OS_IE_WIRELESS);
 
+    OS_SetIrqFunction(OS_IE_WIRELESS, NULL);
+}

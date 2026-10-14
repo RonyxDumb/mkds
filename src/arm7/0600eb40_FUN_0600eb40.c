@@ -1,23 +1,30 @@
-/* Decompiled C draft; module arm7; ROM address 0600eb40. No matching claim. */
-#include "types.h"
-#include "deps/0600eb40_FUN_0600eb40.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define CAM_SetPowerMgtMode FUN_0600eb40
 
-void FUN_0600eb40(uint param_1,int param_2)
+#include "WlSys.h"
+#include "WlLib.h"
 
+#include "WlCmdLabel.h"
+#include "Dot11Frm.h"
+#include "TxCtrl.h"
+#include "WlNic.h"
+#include "MAC.h"
+#include "Compati.h"
+
+#include "CAM.h"
+
+#pragma thumb off
+void CAM_SetPowerMgtMode(u16 camAdrs, u16 pmtMode)
 {
-  int iVar1;
-  
-  iVar1 = (*(uint *)(DAT_0600eb94 & 0xfffffffc) >> (DAT_0600eb94 & 3) * 8 |
-          *(uint *)(DAT_0600eb94 & 0xfffffffc) << (DAT_0600eb94 & 3) * -8 + 0x20) + DAT_0600eb98;
-  *(ushort *)(iVar1 + 2) =
-       *(ushort *)(iVar1 + 2) & ~(ushort)(1 << (param_1 & 0xff)) |
-       (ushort)(param_2 << (param_1 & 0xff));
-  if ((*(ushort *)(iVar1 + 2) & ~*(ushort *)(iVar1 + 6)) == 0) {
-    *DAT_0600eba0 = 8;
-  }
-  else {
-    *DAT_0600eb9c = 8;
-  }
-  return;
-}
+    LPCAM_MAN pCamMan = &wlMan->CamMan;
 
+    CAM_CheckCAM(camAdrs);
+
+    pCamMan->PowerMgtMode = (pCamMan->PowerMgtMode & ~(1 << camAdrs)) | (pmtMode << camAdrs);
+
+    if (pCamMan->PowerMgtMode & ~pCamMan->NotClass3) {
+        *(vu16 *)MREG_TXQ_CLOSE = TXQ_CLOSE_TXQ2;
+    } else {
+        *(vu16 *)MREG_TXQ_OPEN = TXQ_OPEN_TXQ2;
+    }
+}

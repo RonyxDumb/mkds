@@ -1,23 +1,49 @@
-/* Decompiled C draft; module arm7; ROM address 0600d894. No matching claim. */
-#include "types.h"
-#include "deps/0600d894_FUN_0600d894.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define AddTask FUN_06008a8c
+#define WlIntrPreTbtt FUN_0600d894
 
-void FUN_0600d894(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "MA.h"
+#include "TxCtrl.h"
+#include "RxCtrl.h"
+#include "MAC.h"
+#include "WlIntr.h"
+#include "Compati.h"
+#include "MA.h"
+#include "WlOpe.h"
+
+#pragma thumb off
+void WlIntrPreTbtt(void) __attribute__((never_inline))
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)(DAT_0600d918 & 0xfffffffc) >> (DAT_0600d918 & 3) * 8 |
-          *(uint *)(DAT_0600d918 & 0xfffffffc) << (DAT_0600d918 & 3) * -8 + 0x20;
-  *DAT_0600d91c = 0x8000;
-  if ((((*(short *)(uVar1 + 0x34c) == 0x40) && (*(short *)(uVar1 + 0x3c2) != 0)) &&
-      (*(short *)(uVar1 + 0x3b6) == *(short *)(uVar1 + 0x3b4))) &&
-     (*(short *)(uVar1 + 0x3c4) = *(short *)(uVar1 + 0x3c4) + 1,
-     *(ushort *)(uVar1 + 0x3c2) < *(ushort *)(uVar1 + 0x3c4))) {
-    *(undefined2 *)(uVar1 + 0x3c4) = 0;
-    FUN_06008a8c(1,0xd);
-  }
-  *(undefined2 *)(uVar1 + 0x354) = 1;
-  return;
-}
+    LPWORK_PARAM pWork = &wlMan->Work;
 
+#if (EMU_MACREG)
+    *(vu16 *)MREG_ISR &= ~MISR_PRE_TBTT;
+#else
+    *(vu16 *)MREG_ISR = MISR_PRE_TBTT;
+#endif
+
+    DbgWlPutchar(B_WL_DBG_INT, (WL_DBG_INT_PRETBTT));
+    DbgSetDDO(DDO_WL_INT, DDO_WL_INT_PRETBTT);
+
+    if ((pWork->STA == STA_CLASS3) && (pWork->BeaconLostTh != 0) && (pWork->CurrListenInterval == pWork->ListenInterval)) {
+        if (++pWork->BeaconLostCnt > pWork->BeaconLostTh) {
+            DbgSetDDO(DDO_WL_LSTN_INT, DDO_WL_LSTN_INT_BEACON_LOST);
+            DbgSetDDO(DDO_WL_PS2, DDO_WL_PS2_BCN_LOST);
+
+            pWork->BeaconLostCnt = 0;
+
+            AddTask(TASK_HIGH_PRIORITY, MLME_BEACON_LOST_TASK_ID);
+
+            DbgClrDDO(DDO_WL_LSTN_INT, DDO_WL_LSTN_INT_BEACON_LOST);
+            DbgClrDDO(DDO_WL_PS2, DDO_WL_PS2_BCN_LOST);
+        }
+    }
+
+    pWork->PowerState = 1;
+
+    DbgClrDDO(DDO_WL_INT, DDO_WL_INT_PRETBTT);
+}

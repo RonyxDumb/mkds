@@ -1,0 +1,128 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "FUN_06009138",
+    "target": 100700472,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412143
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "FUN_06009360",
+    "target": 100701024,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412277
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "FUN_0600e9a8",
+    "target": 100723112,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959417790
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "FUN_0600e8bc",
+    "target": 100722876,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959417725
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "FUN_0601359c",
+    "target": 100742556,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422642
+  },
+  {
+    "offset": 176,
+    "type": 1,
+    "symbol": "FUN_060133fc",
+    "target": 100742140,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422525
+  },
+  {
+    "offset": 232,
+    "type": 1,
+    "symbol": "FUN_060096c4",
+    "target": 100701892,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412449
+  },
+  {
+    "offset": 244,
+    "type": 1,
+    "symbol": "FUN_060096c4",
+    "target": 100701892,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412446
+  },
+  {
+    "offset": 256,
+    "type": 1,
+    "symbol": "FUN_060096e4",
+    "target": 100701924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412451
+  },
+  {
+    "offset": 272,
+    "type": 1,
+    "symbol": "FUN_060096e4",
+    "target": 100701924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412447
+  },
+  {
+    "offset": 292,
+    "type": 1,
+    "symbol": "FUN_060096c4",
+    "target": 100701892,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412434
+  },
+  {
+    "offset": 304,
+    "type": 1,
+    "symbol": "FUN_060096e4",
+    "target": 100701924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412439
+  },
+  {
+    "offset": 336,
+    "type": 1,
+    "symbol": "FUN_060096e4",
+    "target": 100701924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412431
+  },
+  {
+    "offset": 348,
+    "type": 1,
+    "symbol": "FUN_060096e4",
+    "target": 100701924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959412428
+  }
+]

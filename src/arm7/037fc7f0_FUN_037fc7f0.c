@@ -1,12 +1,13 @@
-/* Decompiled C draft; module arm7; ROM address 037fc7f0. No matching claim. */
-#include "types.h"
-#include "deps/037fc7f0_FUN_037fc7f0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_StartLfo FUN_037fc7f0
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/channel.h"
 
-void FUN_037fc7f0(int param_1)
-
+#pragma thumb off
+void SND_StartLfo(SNDLfo *lfo)
 {
-  *(undefined2 *)(param_1 + 8) = 0;
-  *(undefined2 *)(param_1 + 6) = 0;
-  return;
+    lfo->counter = 0;
+    lfo->delay_counter = 0;
 }
-

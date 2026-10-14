@@ -1,13 +1,11 @@
-/* Decompiled C draft; module arm7; ROM address 06008054. No matching claim. */
-#include "types.h"
-#include "deps/06008054_FUN_06008054.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WmspStabilizeBeacon FUN_06008054
+#include "wmsp_private.h"
 
-void FUN_06008054(void)
-
+#pragma thumb off
+void WmspStabilizeBeacon(void)
 {
-  *DAT_0600807c = 200;
-  *DAT_06008080 = 2000;
-  *DAT_06008088 = (short)DAT_06008084;
-  return;
+    *(vu16 *)MREG_TMPTT_ACT_TIME = 200;
+    *(vu16 *)MREG_TBTT_ACT_TIME = 2000;
+    *(vu16 *)MREG_RF_WAKEUP_TIME = 0x0202;
 }
-

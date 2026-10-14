@@ -1,40 +1,41 @@
-/* Decompiled C draft; module arm7; ROM address 06014708. No matching claim. */
-#include "types.h"
-#include "deps/06014708_FUN_06014708.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableIrqMask thunk_FUN_037f8850
+#define OS_EnableIrqMask thunk_FUN_037f888c
+#define Pri2QBit SDK_data_06019080
+#define ResetTxqPri FUN_06014708
 
-void FUN_06014708(int param_1)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "TxCtrl.h"
+#include "MAC.h"
+#include "CAM.h"
+#include "MA.h"
+#include "Compati.h"
+#include "WlOpe.h"
+#include "WlIntrTask.h"
+extern const u16 Pri2QBit[];
+#pragma thumb off
+void ResetTxqPri(u32 pri)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  int iVar5;
-  int iVar6;
-  uint uVar4;
-  
-  iVar5 = (*(uint *)(DAT_06014790 & 0xfffffffc) >> (DAT_06014790 & 3) * 8 |
-          *(uint *)(DAT_06014790 & 0xfffffffc) << (DAT_06014790 & 3) * -8 + 0x20) + DAT_06014794;
-  iVar6 = iVar5 + param_1 * 0x14;
-  thunk_FUN_037f8850(0x1000000);
-  *DAT_0601479c = *(undefined2 *)(DAT_06014798 + param_1 * 2);
-  if (*(short *)(iVar5 + param_1 * 0x14) != 0) {
-    uVar4 = iVar6 + 0xcU & 3;
-    uVar3 = *(uint *)(iVar6 + 0xcU & 0xfffffffc);
-    uVar4 = uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20;
-    if ((*(ushort *)(uVar4 + 0x14) & 0x4000) == 0) {
-      uVar3 = iVar6 + 8U & 3;
-      uVar1 = *(uint *)(iVar6 + 8U & 0xfffffffc);
-      *(undefined2 *)(uVar4 + 0xc) =
-           *(undefined2 *)((uVar1 >> uVar3 * 8 | uVar1 << uVar3 * -8 + 0x20) + 4);
-    }
-    uVar4 = iVar6 + 8U & 3;
-    uVar1 = *(uint *)(iVar6 + 8U & 0xfffffffc);
-    uVar3 = iVar6 + 0xcU & 3;
-    uVar2 = *(uint *)(iVar6 + 0xcU & 0xfffffffc);
-    *(undefined2 *)((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) + 0x2a) =
-         *(undefined2 *)((uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) + 0x22);
-  }
-  thunk_FUN_037f888c();
-  return;
-}
+    u32 x;
+    LPTXQ pTxq = &wlMan->TxCtrl.Txq[pri];
 
+    x = OS_DisableIrqMask(OS_IE_WIRELESS);
+
+    *(vu16 *)MREG_TXQ_RESET = Pri2QBit[pri];
+
+    if (pTxq->Busy) {
+        if ((pTxq->pFrm->Dot11Header.FrameCtrl.Data & B_FC_WEP) == 0) {
+            pTxq->pFrm->MacHeader.Tx.rsv_RetryCount = pTxq->pMacFrm->MacHeader.Tx.rsv_RetryCount;
+        }
+
+        pTxq->pFrm->Dot11Header.SeqCtrl.Data = pTxq->pMacFrm->Dot11Header.SeqCtrl.Data;
+
+        DbgClrDDO(DDO_WL_PS2, DDO_WL_PS2_TXQ0 << pri);
+        DbgClrDDO(DDO_WL_MACBUG_NOTPOLL, DDO_WL_MACBUG_NOTPOLL_TXQ0 << pri);
+    }
+
+    OS_EnableIrqMask(x);
+}

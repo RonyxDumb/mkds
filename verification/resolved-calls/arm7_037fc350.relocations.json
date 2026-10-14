@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "FUN_037f98e8",
+    "target": 58693864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420255
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "FUN_037fa814",
+    "target": 58697748,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421224
+  },
+  {
+    "offset": 44,
+    "type": 2,
+    "symbol": "SDK_data_038079b4",
+    "target": 58751412,
+    "thumb": false,
+    "addend": 0,
+    "value": 58751412
+  },
+  {
+    "offset": 48,
+    "type": 2,
+    "symbol": "SDK_data_03807994",
+    "target": 58751380,
+    "thumb": false,
+    "addend": 0,
+    "value": 58751380
+  },
+  {
+    "offset": 52,
+    "type": 2,
+    "symbol": "SDK_data_038079d4",
+    "target": 58751444,
+    "thumb": false,
+    "addend": 0,
+    "value": 58751444
+  }
+]

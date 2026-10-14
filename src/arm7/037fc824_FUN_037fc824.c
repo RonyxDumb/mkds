@@ -1,29 +1,29 @@
-/* Decompiled C draft; module arm7; ROM address 037fc824. No matching claim. */
-#include "types.h"
-#include "deps/037fc824_FUN_037fc824.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_StopChannel FUN_037fbd0c
+#define SNDi_Work SDK_data_03807ecc
+#define SND_InvalidateWave FUN_037fc824
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/channel.h"
 
-void FUN_037fc824(uint param_1,uint param_2)
-
+#pragma thumb off
+void SND_InvalidateWave(const void *start, const void *end)
 {
-  int iVar1;
-  uint uVar2;
-  int iVar4;
-  uint uVar5;
-  uint uVar3;
-  
-  iVar1 = DAT_037fc8a8;
-  uVar5 = 0;
-  do {
-    iVar4 = uVar5 * 0x54 + iVar1;
-    if (((((int)((uint)*(byte *)(iVar4 + 3) << 0x1f) < 0) && (*(char *)(iVar4 + 1) == '\0')) &&
-        (uVar3 = iVar4 + 0x44U & 3, uVar2 = *(uint *)(iVar4 + 0x44U & 0xfffffffc),
-        uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20, param_1 <= uVar3)) &&
-       (uVar3 <= param_2)) {
-      *(byte *)(iVar4 + 3) = *(byte *)(iVar4 + 3) & 0xfd;
-      FUN_037fbd0c(uVar5,0);
-    }
-    uVar5 = uVar5 + 1 & 0xff;
-  } while (uVar5 < 0x10);
-  return;
-}
+    for (u8 ch = 0; ch < SND_CHANNEL_NUM; ch++) {
+        SNDExChannel *ch_p = &SNDi_Work.channel[ch];
 
+        if (!ch_p->active_flag) {
+            continue;
+        }
+
+        if (ch_p->type != SND_EX_CHANNEL_PCM) {
+            continue;
+        }
+
+        if (start <= ch_p->data && ch_p->data <= end) {
+            ch_p->start_flag = FALSE;
+            SND_StopChannel(ch, FALSE);
+        }
+    }
+}

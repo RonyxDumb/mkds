@@ -1,18 +1,28 @@
-/* Decompiled C draft; module arm7; ROM address 03807480. No matching claim. */
-#include "types.h"
-#include "deps/03807480_FUN_03807480.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_LockMutex FUN_037f9a0c
+#define SVC_WaitByLoop thunk_FUN_038011a4
+#define OS_UnlockMutex FUN_037f999c
+#define wmspW SDK_data_06019088
+#define WMSP_Wait4Wm9 FUN_03807480
+#include "wmsp_private.h"
+#include <nitro/wram_begin.h>
 
-void FUN_03807480(void)
+#include <nitro/wram_end.h>
 
+#include <nitro/wram_begin.h>
+
+#include <nitro/wram_end.h>
+
+#include <nitro/wram_begin.h>
+
+#include <nitro/wram_end.h>
+extern WMSPWork wmspW;
+#pragma thumb off
+void WMSP_Wait4Wm9(void)
 {
-  ushort *puVar1;
-  
-  FUN_037f9a0c(DAT_038074c4);
-  puVar1 = DAT_038074c8;
-  while ((*puVar1 & 1) != 0) {
-    thunk_FUN_038011a4(0x100);
-  }
-  FUN_037f999c(DAT_038074c4);
-  return;
+    OS_LockMutex(&(wmspW.fifoExclusive));
+    while (OS_GetSystemWork()->wm_callback_control & WM_EXCEPTION_CB_MASK) {
+        SVC_WaitByLoop(256);
+    }
+    OS_UnlockMutex(&(wmspW.fifoExclusive));
 }
-

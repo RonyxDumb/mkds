@@ -1,26 +1,44 @@
-/* Decompiled C draft; module arm7; ROM address 0600c5a8. No matching claim. */
-#include "types.h"
-#include "deps/0600c5a8_FUN_0600c5a8.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableIrqMask thunk_FUN_037f8850
+#define WlIntrMpEnd FUN_0600ca18
+#define OS_EnableIrqMask thunk_FUN_037f888c
+#define MacBugTxMp FUN_0600c5a8
 
-void FUN_0600c5a8(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "MA.h"
+#include "TxCtrl.h"
+#include "RxCtrl.h"
+#include "MAC.h"
+#include "WlIntr.h"
+#include "Compati.h"
+#include "MA.h"
+#include "WlOpe.h"
+extern void WlIntrMpEnd(u32 bMacBugPatch);
+#pragma thumb off
+void MacBugTxMp(void *arg)
 {
-  short sVar1;
-  short *psVar2;
-  undefined4 uVar3;
-  int iVar4;
-  
-  uVar3 = thunk_FUN_037f8850(0x1000000);
-  psVar2 = DAT_0600c60c;
-  sVar1 = *DAT_0600c60c;
-  *DAT_0600c610 = 0x1000;
-  iVar4 = 100;
-  while ((iVar4 != 0 && (sVar1 == *psVar2))) {
-    iVar4 = iVar4 + -1;
-  }
-  *DAT_0600c610 = 0;
-  FUN_0600ca18();
-  thunk_FUN_037f888c(uVar3);
-  return;
-}
+#pragma unused(arg)
 
+    u32 x, i;
+    u16 seqCtrl, seqCtrl2;
+
+    x = OS_DisableIrqMask(OS_IE_WIRELESS);
+
+    seqCtrl = *(vu16 *)MREG_CURR_SEQCTRL;
+    *(vu16 *)MREG_JUMP_TST = 0x1000;
+    for (i = 100; i > 0; i--) {
+        seqCtrl2 = *(vu16 *)MREG_CURR_SEQCTRL;
+        if (seqCtrl != seqCtrl2) {
+            break;
+        }
+    }
+    *(vu16 *)MREG_JUMP_TST = 0x0000;
+    WlIntrMpEnd(FALSE);
+
+    OS_EnableIrqMask(x);
+
+    DbgWlPrint(B_WL_DBG_ERRMSG, "Exec WlIntrMpEnd\r\n");
+}

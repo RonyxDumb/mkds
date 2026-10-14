@@ -1,18 +1,21 @@
-/* Decompiled C draft; module arm7; ROM address 037fe230. No matching claim. */
-#include "types.h"
-#include "deps/037fe230_FUN_037fe230.h"
-
-void FUN_037fe230(byte *param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define ClosePlayerTrack FUN_037fe270
+#define FinishPlayer FUN_037fe230
+#include "nitro/snd/common/seq.h"
+#include "nitro/snd/common/bank.h"
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/mml.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/main.h"
+#include <nitro/misc.h>
+extern void ClosePlayerTrack(SNDPlayer *player_p, int trackNo);
+#pragma thumb off
+void FinishPlayer(SNDPlayer *player_p)
 {
-  int iVar1;
-  
-  iVar1 = 0;
-  do {
-    FUN_037fe270((int)(uintptr_t)(param_1),iVar1);
-    iVar1 = iVar1 + 1;
-  } while (iVar1 < 0x10);
-  *param_1 = *param_1 & 0xfe;
-  return;
-}
+    for (int trackNo = 0; trackNo < SND_TRACK_NUM_PER_PLAYER; trackNo++) {
+        ClosePlayerTrack(player_p, trackNo);
+    }
 
+    player_p->active_flag = FALSE;
+}

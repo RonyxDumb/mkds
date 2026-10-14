@@ -1,16 +1,31 @@
-/* Decompiled C draft; module arm7; ROM address 037f9054. No matching claim. */
-#include "types.h"
-#include "deps/037f9054_FUN_037f9054.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define OSi_RescheduleThread FUN_037f8f48
+#define OS_RestoreInterrupts FUN_037faf84
+#define OS_WakeupThreadDirect FUN_037f9054
+#include <nitro/os.h>
+#include <nitro/mi.h>
+#include <nitro/utest.h>
 
-void FUN_037f9054(int param_1)
+#include <nitro/code32.h>
 
+#include  <nitro/codereset.h>
+extern void OSi_RescheduleThread (void);
+#pragma thumb off
+void OS_WakeupThreadDirect (OSThread * thread)
 {
-  undefined4 uVar1;
-  
-  uVar1 = FUN_037faf70();
-  *(undefined4 *)(param_1 + 0x48) = 1;
-  FUN_037f8f48();
-  FUN_037faf84(uVar1);
-  return;
-}
+    OSIntrMode enable;
 
+    SDK_ASSERT(thread);
+    SDK_ASSERT(thread->state != OS_THREAD_STATE_TERMINATED);
+
+    enable = OS_DisableInterrupts();
+
+    {
+        thread->state = OS_THREAD_STATE_READY;
+        OSi_RescheduleThread();
+
+    }
+
+    (void)OS_RestoreInterrupts(enable);
+}

@@ -1,18 +1,25 @@
-/* Decompiled C draft; module arm7; ROM address 037ff400. No matching claim. */
-#include "types.h"
-#include "deps/037ff400_FUN_037ff400.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_CancelAlarm FUN_037fa564
+#define SNDi_Work SDK_data_03807ecc
+#define SND_StopAlarm FUN_037ff400
+#include <nitro/snd/common/alarm.h>
+#include <nitro/pxi.h>
+#include <nitro/snd/common/work.h>
 
-void FUN_037ff400(int param_1)
+#pragma thumb off
+    void SND_StopAlarm (int alarmNo)
+    {
+        SNDAlarm * alarm;
 
-{
-  undefined1 *puVar1;
-  
-  puVar1 = (undefined1 *)(DAT_037ff43c + param_1 * 0x40);
-  if (*(char *)(DAT_037ff43c + param_1 * 0x40) != '\0') {
-    FUN_037fa564((undefined4 *)(void *)(puVar1 + 0x14));
-    puVar1[1] = puVar1[1] + '\x01';
-    *puVar1 = 0;
-  }
-  return;
-}
+        SDK_MINMAX_ASSERT(alarmNo, SND_ALARM_MIN, SND_ALARM_MAX);
 
+        alarm = &SNDi_Work.alarm[alarmNo];
+
+        if (!alarm->enable)
+            return;
+
+        OS_CancelAlarm(&alarm->alarm);
+
+        alarm->id++;
+        alarm->enable = FALSE;
+    }

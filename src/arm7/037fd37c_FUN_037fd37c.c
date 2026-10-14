@@ -1,23 +1,26 @@
-/* Decompiled C draft; module arm7; ROM address 037fd37c. No matching claim. */
-#include "types.h"
-#include "deps/037fd37c_FUN_037fd37c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SNDi_Work SDK_data_03807ecc
+#define AllocTrack FUN_037fd37c
+#include "nitro/snd/common/seq.h"
+#include "nitro/snd/common/bank.h"
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/mml.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/main.h"
+#include <nitro/misc.h>
 
-int FUN_037fd37c(void)
-
+#pragma thumb off
+int AllocTrack(void)
 {
-  byte bVar1;
-  int iVar2;
-  
-  iVar2 = 0;
-  while( true ) {
-    if (0x1f < iVar2) {
-      return -1;
-    }
-    bVar1 = *(byte *)(DAT_037fd3bc + iVar2 * 0x40);
-    if (-1 < (int)((uint)bVar1 << 0x1f)) break;
-    iVar2 = iVar2 + 1;
-  }
-  *(byte *)(DAT_037fd3bc + iVar2 * 0x40) = bVar1 & 0xfe | 1;
-  return iVar2;
-}
+    for (int trackID = 0; trackID < SND_TRACK_NUM; trackID++) {
+        SNDTrack *track_p = &SNDi_Work.track[trackID];
 
+        if (!track_p->active_flag) {
+            track_p->active_flag = TRUE;
+            return trackID;
+        }
+    }
+
+    return -1;
+}

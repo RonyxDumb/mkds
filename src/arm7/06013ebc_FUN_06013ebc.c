@@ -1,122 +1,121 @@
-/* Decompiled C draft; module arm7; ROM address 06013ebc. No matching claim. */
-#include "types.h"
-#include "deps/06013ebc_FUN_06013ebc.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WCalcManRate FUN_0600a450
+#define WSetMacAdrs3 FUN_0600a8d4
+#define WL_WriteByte FUN_060096e4
+#define WL_ReadByte FUN_060096c4
+#define SetSupRateSet FUN_060133fc
+#define BC_ADRS SDK_data_06018ab4
+#define MakeBeaconFrame FUN_06013ebc
 
-void FUN_06013ebc(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "TxCtrl.h"
+#include "MAC.h"
+#include "CAM.h"
+#include "MA.h"
+#include "Compati.h"
+#include "WlOpe.h"
+#include "WlIntrTask.h"
+extern u32 SetSupRateSet(u8 *pBuf);
+#pragma thumb off
+void MakeBeaconFrame(void)
 {
-  ushort uVar1;
-  short sVar2;
-  undefined2 uVar3;
-  uint uVar4;
-  int iVar5;
-  undefined4 uVar6;
-  undefined2 *puVar7;
-  uint uVar8;
-  uint uVar9;
-  int iVar10;
-  uint uVar11;
-  undefined2 *puVar12;
-  
-  uVar4 = *(uint *)(DAT_06014210 & 0xfffffffc) >> (DAT_06014210 & 3) * 8 |
-          *(uint *)(DAT_06014210 & 0xfffffffc) << (DAT_06014210 & 3) * -8 + 0x20;
-  uVar8 = uVar4 + 0x4ac & 3;
-  uVar11 = *(uint *)(uVar4 + 0x4ac & 0xfffffffc);
-  puVar12 = (undefined2 *)(uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20);
-  *puVar12 = 0;
-  puVar12[1] = 0;
-  puVar12[2] = 0;
-  puVar12[3] = 0;
-  uVar3 = FUN_0600a450();
-  puVar12[4] = uVar3;
-  puVar12[6] = 0x80;
-  puVar12[7] = 0;
-  FUN_0600a8d4(puVar12 + 8,(undefined2 *)(uintptr_t)(DAT_06014214),(undefined2 *)(uintptr_t)(uVar4 + 0x324),(undefined2 *)(uintptr_t)(uVar4 + 0x324));
-  puVar12[0x11] = 0;
-  sVar2 = (short)puVar12 + 0x24;
-  *(undefined4 *)(puVar12 + 0x12) = 0;
-  *(undefined4 *)(puVar12 + 0x14) = 0;
-  puVar12[0x16] = *(undefined2 *)(uVar4 + 0x3b2);
-  puVar12[0x17] = *(undefined2 *)(uVar4 + 0x3c0);
-  puVar7 = puVar12 + 0x18;
-  if ((int)((uint)*(ushort *)(uVar4 + 0x33a) << 0x1f) < 0) {
-    *(undefined2 *)(uVar4 + 0x3d6) = 0;
-  }
-  else {
-    *(short *)(uVar4 + 0x3d6) = (short)puVar7 - sVar2;
-    FUN_060096e4(puVar7);
-    puVar7 = puVar12 + 0x19;
-    FUN_060096e4((ushort *)(uintptr_t)((int)puVar12 + 0x31),*(ushort *)(uVar4 + 0x362) & 0xff);
-    for (uVar8 = 0; uVar8 < *(ushort *)(uVar4 + 0x362); uVar8 = uVar8 + 1) {
-      uVar6 = FUN_060096c4((ushort *)(uintptr_t)(uVar4 + 0x364 + uVar8));
-      FUN_060096e4(puVar7,uVar6);
-      puVar7 = (undefined2 *)((int)puVar7 + 1);
-    }
-    FUN_060096e4((ushort *)(uintptr_t)((int)puVar7 + (-1 - uVar8)),uVar8 & 0xff);
-  }
-  iVar5 = FUN_060133fc((int)(uintptr_t)(puVar7));
-  iVar5 = (int)puVar7 + iVar5;
-  FUN_060096e4((ushort *)(uintptr_t)(iVar5),3);
-  FUN_060096e4((ushort *)(uintptr_t)(iVar5 + 1),1);
-  FUN_060096e4((ushort *)(uintptr_t)(iVar5 + 2),*(ushort *)(uVar4 + 0x3be) & 0xff);
-  *(short *)(uVar4 + 0x3d8) = (short)(iVar5 + 3) - sVar2;
-  *DAT_06014218 = *(short *)(uVar4 + 0x3d8) + 2;
-  FUN_060096e4((ushort *)(uintptr_t)(iVar5 + 3),5);
-  FUN_060096e4((ushort *)(uintptr_t)(iVar5 + 4),5);
-  FUN_060096e4((ushort *)(uintptr_t)(iVar5 + 5),0);
-  FUN_060096e4((ushort *)(uintptr_t)(iVar5 + 6),*(ushort *)(uVar4 + 0x3b8) & 0xff);
-  FUN_060096e4((ushort *)(uintptr_t)(iVar5 + 7),0);
-  FUN_060096e4((ushort *)(uintptr_t)(iVar5 + 8),0);
-  FUN_060096e4((ushort *)(uintptr_t)(iVar5 + 9),0);
-  *(short *)(uVar4 + 0x3da) = (short)(iVar5 + 10) - sVar2;
-  *(ushort *)(uVar4 + 0x3e6) = *(ushort *)(uVar4 + 0x3da) & 1;
-  FUN_060096e4((ushort *)(uintptr_t)(iVar5 + 10),0xdd);
-  FUN_060096e4(iVar5 + 0xb,*(short *)(uVar4 + 0x3e4) + 8U & 0xff);
-  FUN_060096e4(iVar5 + 0xc,0);
-  FUN_060096e4(iVar5 + 0xd,9);
-  FUN_060096e4(iVar5 + 0xe,0xbf);
-  FUN_060096e4(iVar5 + 0xf,0);
-  if (*(short *)(uVar4 + 0x352) == 1) {
-    FUN_060096e4(iVar5 + 0x10,*(ushort *)(uVar4 + 0x33c) & 0xff);
-    FUN_060096e4(iVar5 + 0x11,(int)(uint)*(ushort *)(uVar4 + 0x33c) >> 8);
-  }
-  else {
-    FUN_060096e4(iVar5 + 0x10,0xff);
-    FUN_060096e4(iVar5 + 0x11,0xff);
-  }
-  uVar1 = *DAT_0601421c;
-  FUN_060096e4(iVar5 + 0x12,uVar1 & 0xff);
-  iVar10 = iVar5 + 0x14;
-  FUN_060096e4(iVar5 + 0x13,uVar1 >> 8);
-  uVar8 = uVar4 + 0x3e0 & 3;
-  uVar11 = *(uint *)(uVar4 + 0x3e0 & 0xfffffffc);
-  uVar11 = uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20;
-  for (uVar8 = 0; uVar8 < *(ushort *)(uVar4 + 0x3e4); uVar8 = uVar8 + 1) {
-    uVar6 = FUN_060096c4(uVar11);
-    FUN_060096e4(iVar10,uVar6);
-    iVar10 = iVar10 + 1;
-    uVar11 = uVar11 + 1;
-  }
-  if (*(short *)(uVar4 + 0x3e6) != 0) {
-    uVar8 = uVar4 + 0x3e0 & 3;
-    uVar11 = *(uint *)(uVar4 + 0x3e0 & 0xfffffffc);
-    iVar5 = (uVar11 >> uVar8 * 8 | uVar11 << uVar8 * -8 + 0x20) + (uint)*(ushort *)(uVar4 + 0x3e4);
-    for (uVar9 = 0; uVar9 < *(ushort *)(uVar4 + 0x3e4); uVar9 = uVar9 + 1) {
-      uVar6 = FUN_060096c4(iVar5 + -1);
-      FUN_060096e4(iVar5,uVar6);
-      iVar5 = iVar5 + -1;
-    }
-  }
-  if ((*(ushort *)
-        ((*(uint *)(DAT_06014210 & 0xfffffffc) >> (DAT_06014210 & 3) * 8 |
-         *(uint *)(DAT_06014210 & 0xfffffffc) << (DAT_06014210 & 3) * -8 + 0x20) + 0x690) & 4) != 0)
-  {
-    puVar7 = (undefined2 *)(iVar10 + 3U & 0xfffffffc);
-    *puVar7 = (short)DAT_06014220;
-    puVar7[1] = (short)DAT_06014224;
-  }
-  *(undefined2 *)(uVar4 + 1000) = 0;
-  puVar12[5] = ((short)iVar10 + 0x1c) - sVar2;
-  return;
-}
+    LPTXFRM_MAC pFrm = wlMan->TxCtrl.Beacon.pMacFrm;
+    LPCONFIG_PARAM pConfig = &wlMan->Config;
+    LPWORK_PARAM pWork = &wlMan->Work;
+    LPBEACON_BODY pBody;
+    u8 *pBuf;
+    u8 *p;
+    u32 i, vtsf;
+    u16 *p16;
 
+    p16 = (u16 *)&pFrm->MacHeader.Tx;
+    *p16++ = 0;
+    *p16++ = 0;
+    *p16++ = 0;
+    *p16++ = 0;
+    *p16++ = WCalcManRate();
+
+    pFrm->Dot11Header.FrameCtrl.Data = FC_BEACON;
+    pFrm->Dot11Header.DurationID = 0;
+    WSetMacAdrs3(pFrm->Dot11Header.Adrs1, (u16 *)BC_ADRS, pConfig->MacAdrs, pConfig->MacAdrs);
+    pFrm->Dot11Header.SeqCtrl.Data = 0;
+
+    pBody = (LPBEACON_BODY)pFrm->Body;
+
+    pBody->TimeStamp[0] = 0;
+    pBody->TimeStamp[1] = 0;
+    pBody->BeaconInterval = pWork->BeaconPeriod;
+    pBody->CapaInfo.Data = pWork->CapaInfo;
+
+    pBuf = pBody->Buf;
+    if (pConfig->BeaconType == WL_CMDLABEL_INCLUDE_SSID) {
+        pWork->Ofst.Beacon.SSID = (u16)((u32)pBuf - (u32)pFrm->Body);
+        WL_WriteByte(pBuf++, ID_SSID_ELEMENT);
+        WL_WriteByte(pBuf++, pWork->SSIDLength);
+        for (i = 0; i < pWork->SSIDLength; i++) {
+            WL_WriteByte(pBuf++, WL_ReadByte(&pWork->SSID[i]));
+        }
+        WL_WriteByte(&pBuf[-i - 1], i);
+    } else {
+        pWork->Ofst.Beacon.SSID = 0;
+    }
+
+    pBuf += SetSupRateSet(pBuf);
+
+    WL_WriteByte(pBuf++, ID_DS_PARAM_ELEMENT);
+    WL_WriteByte(pBuf++, 1);
+    WL_WriteByte(pBuf++, pWork->CurrChannel);
+
+    pWork->Ofst.Beacon.TIM = (u16)((u32)pBuf - (u32)pBody);
+    *(u16 *)MREG_BCN_DTIM_OFST = pWork->Ofst.Beacon.TIM + 2;
+    WL_WriteByte(pBuf++, ID_TIM_ELEMENT);
+    WL_WriteByte(pBuf++, 3 + 2);
+    WL_WriteByte(pBuf++, 0);
+    WL_WriteByte(pBuf++, pWork->DTIMPeriod);
+    WL_WriteByte(pBuf++, 0);
+    WL_WriteByte(pBuf++, 0);
+    WL_WriteByte(pBuf++, 0);
+
+    pWork->Ofst.Beacon.GameInfo = (u16)((u32)pBuf - (u32)pBody);
+    pWork->GameInfoAlign = pWork->Ofst.Beacon.GameInfo & 1;
+    WL_WriteByte(pBuf++, ID_GAME_INFO_ELEMENT);
+    WL_WriteByte(pBuf++, 3 + 1 + 4 + pWork->GameInfoLength);
+    WL_WriteByte(pBuf++, GAME_INFO_OUI_0);
+    WL_WriteByte(pBuf++, GAME_INFO_OUI_1);
+    WL_WriteByte(pBuf++, GAME_INFO_OUI_2);
+    WL_WriteByte(pBuf++, GAME_INFO_SUBTYPE);
+    if (pWork->PowerMgtMode == WL_CMDLABEL_PMG_PS) {
+        WL_WriteByte(pBuf++, pConfig->ActiveZone);
+        WL_WriteByte(pBuf++, (pConfig->ActiveZone >> 8));
+    } else {
+        WL_WriteByte(pBuf++, 0xFF);
+        WL_WriteByte(pBuf++, 0xFF);
+    }
+    vtsf = *(u16 *)V_TSF;
+    WL_WriteByte(pBuf++, vtsf & 0x00FF);
+    WL_WriteByte(pBuf++, vtsf >> 8);
+    p = (u8 *)pWork->GameInfoAdrs;
+    for (i = 0; i < pWork->GameInfoLength; i++) {
+        WL_WriteByte(pBuf++, WL_ReadByte(p));
+        p++;
+    }
+    if (pWork->GameInfoAlign) {
+        p = (u8 *)((u32)pWork->GameInfoAdrs + pWork->GameInfoLength - 1);
+        for (i = 0; i < pWork->GameInfoLength; i++, p--) {
+            WL_WriteByte(p + 1, WL_ReadByte(p));
+        }
+    }
+
+    if (wlMan->WlOperation & MAC_BUG_DESTROY_TXBUF) {
+        u16 *pId = (u16 *)(((u32)pBuf + 3) & 0xFFFFFFFC);
+        pId[0] = DESTROY_TXBUF_ID0;
+        pId[1] = DESTROY_TXBUF_ID1;
+    }
+
+    pWork->bUpdateGameInfo = FALSE;
+
+    pFrm->MacHeader.Tx.MPDU = 24 + (u32)pBuf - (u32)pBody + 4;
+}

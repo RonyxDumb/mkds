@@ -1,27 +1,28 @@
-/* Decompiled C draft; module arm7; ROM address 037fe968. No matching claim. */
-#include "types.h"
-#include "deps/037fe968_FUN_037fe968.h"
-
-void FUN_037fe968(uint param_1,uint param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FinishPlayer FUN_037fe230
+#define SNDi_Work SDK_data_03807ecc
+#define SND_InvalidateBank FUN_037fe968
+#include "nitro/snd/common/seq.h"
+#include "nitro/snd/common/bank.h"
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/mml.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/main.h"
+#include <nitro/misc.h>
+extern void FinishPlayer(SNDPlayer *player_p);
+#pragma thumb off
+void SND_InvalidateBank(const void *start, const void *end)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  int iVar4;
-  
-  iVar2 = DAT_037fe9c4;
-  iVar4 = 0;
-  do {
-    if ((((int)((uint)*(byte *)(iVar2 + iVar4 * 0x24) << 0x1f) < 0) &&
-        (uVar3 = iVar2 + iVar4 * 0x24 + 0x20, uVar1 = uVar3 & 3,
-        uVar3 = *(uint *)(uVar3 & 0xfffffffc),
-        uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20, param_1 <= uVar3)) &&
-       (uVar3 <= param_2)) {
-      FUN_037fe230();
-    }
-    iVar4 = iVar4 + 1;
-  } while (iVar4 < 0x10);
-  return;
-}
+    for (int playerNo = 0; playerNo < SND_PLAYER_NUM; playerNo++) {
+        SNDPlayer *player_p = &SNDi_Work.player[playerNo];
 
+        if (!player_p->active_flag) {
+            continue;
+        }
+
+        if (start <= (const void *)(player_p->bank) && (const void *)(player_p->bank) <= end) {
+            FinishPlayer(player_p);
+        }
+    }
+}

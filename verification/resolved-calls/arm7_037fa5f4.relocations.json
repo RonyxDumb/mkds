@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "FUN_037fb000",
+    "target": 58699776,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646390
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "FUN_037faf70",
+    "target": 58699632,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646353
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "FUN_037fa6e4",
+    "target": 58697444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645793
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "FUN_037faf84",
+    "target": 58699652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646343
+  }
+]

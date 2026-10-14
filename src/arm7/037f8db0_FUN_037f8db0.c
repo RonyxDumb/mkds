@@ -1,18 +1,26 @@
-/* Decompiled C draft; module arm7; ROM address 037f8db0. No matching claim. */
-#include "types.h"
-#include "deps/037f8db0_FUN_037f8db0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define OS_RestoreInterrupts FUN_037faf84
+#define OSi_ThreadInfo SDK_data_038076fc
+#define OS_SetSwitchThreadCallback FUN_037f8db0
+#include <nitro/os.h>
+#include <nitro/mi.h>
+#include <nitro/utest.h>
 
-uint FUN_037f8db0(undefined4 param_1)
+#include <nitro/code32.h>
 
+#include  <nitro/codereset.h>
+extern OSThreadInfo OSi_ThreadInfo;
+#pragma thumb off
+OSSwitchThreadCallback OS_SetSwitchThreadCallback (OSSwitchThreadCallback callback)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  FUN_037faf70();
-  uVar1 = DAT_037f8de0 + 0xcU & 3;
-  uVar2 = *(uint *)(DAT_037f8de0 + 0xcU & 0xfffffffc);
-  *(undefined4 *)(DAT_037f8de0 + 0xc) = param_1;
-  FUN_037faf84();
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-}
+    OSSwitchThreadCallback prev;
+    OSIntrMode enabled;
 
+    enabled = OS_DisableInterrupts();
+    prev = OSi_ThreadInfo.switchCallback;
+    OSi_ThreadInfo.switchCallback = callback;
+
+    (void)OS_RestoreInterrupts(enabled);
+    return prev;
+}

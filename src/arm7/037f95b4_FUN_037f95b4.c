@@ -1,29 +1,30 @@
-/* Decompiled C draft; module arm7; ROM address 037f95b4. No matching claim. */
-#include "types.h"
-#include "deps/037f95b4_FUN_037f95b4.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OSi_RemoveLinkFromQueue FUN_037f95b4
+#include <nitro/os.h>
+#include <nitro/mi.h>
+#include <nitro/utest.h>
 
-uint FUN_037f95b4(uint *param_1)
+#include <nitro/code32.h>
 
-{
-  uint uVar1;
-  uint uVar3;
-  uint uVar2;
-  
-  uVar3 = *(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-          *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20;
-  if (uVar3 != 0) {
-    uVar2 = uVar3 + 100 & 3;
-    uVar1 = *(uint *)(uVar3 + 100 & 0xfffffffc);
-    uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-    *param_1 = uVar2;
-    if (uVar2 == 0) {
-      param_1[1] = 0;
-      *(undefined4 *)(uVar3 + 0x5c) = 0;
+#include  <nitro/codereset.h>
+
+#pragma thumb off
+OSThread * OSi_RemoveLinkFromQueue (OSThreadQueue * queue)
+    {
+        OSThread * t = queue->head;
+
+        if (t) {
+            OSThread * next = t->link.next;
+
+            queue->head = next;
+
+            if (next) {
+                next->link.prev = NULL;
+            } else {
+                queue->tail = NULL;
+                t->queue = NULL;
+            }
+        }
+
+        return t;
     }
-    else {
-      *(undefined4 *)(uVar2 + 0x60) = 0;
-    }
-  }
-  return uVar3;
-}
-

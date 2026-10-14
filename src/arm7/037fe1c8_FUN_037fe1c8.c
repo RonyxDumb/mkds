@@ -1,41 +1,40 @@
-/* Decompiled C draft; module arm7; ROM address 037fe1c8. No matching claim. */
-#include "types.h"
-#include "deps/037fe1c8_FUN_037fe1c8.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_FreeExChannel FUN_037fcac8
+#define ChannelCallback FUN_037fe1c8
+#include "nitro/snd/common/seq.h"
+#include "nitro/snd/common/bank.h"
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/mml.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/main.h"
+#include <nitro/misc.h>
 
-void FUN_037fe1c8(uint param_1,int param_2,int param_3)
-
+#pragma thumb off
+void ChannelCallback(SNDExChannel *drop_p, SNDExChannelCallbackStatus status, void *userData)
 {
-  uint uVar1;
-  uint uVar3;
-  uint uVar2;
-  
-  if (param_2 == 1) {
-    *(undefined1 *)(param_1 + 0x22) = 0;
-    FUN_037fcac8();
-  }
-  uVar2 = param_3 + 0x3cU & 3;
-  uVar1 = *(uint *)(param_3 + 0x3cU & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  if (uVar2 == param_1) {
-    uVar2 = param_1 + 0x50 & 3;
-    uVar1 = *(uint *)(param_1 + 0x50 & 0xfffffffc);
-    *(uint *)(param_3 + 0x3c) = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  }
-  else {
-    do {
-      uVar3 = uVar2;
-      uVar2 = uVar3 + 0x50;
-      uVar1 = uVar2 & 3;
-      uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-      uVar2 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-      if (uVar2 == 0) {
-        return;
-      }
-    } while (uVar2 != param_1);
-    uVar2 = param_1 + 0x50 & 3;
-    uVar1 = *(uint *)(param_1 + 0x50 & 0xfffffffc);
-    *(uint *)(uVar3 + 0x50) = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  }
-  return;
-}
+    SNDTrack *track_p = (SNDTrack *)userData;
 
+    SDK_NULL_ASSERT(drop_p);
+    SDK_NULL_ASSERT(track_p);
+
+    if (status == SND_EX_CHANNEL_CALLBACK_FINISH) {
+        drop_p->prio = SND_EX_CHANNEL_STOP_PRIO;
+        SND_FreeExChannel(drop_p);
+    }
+
+    if (track_p->channel_list == drop_p) {
+        track_p->channel_list = drop_p->nextLink;
+        return;
+    }
+
+    SNDExChannel *ch_p = track_p->channel_list;
+
+    while (ch_p->nextLink != NULL) {
+        if (ch_p->nextLink == drop_p) {
+            ch_p->nextLink = drop_p->nextLink;
+            return;
+        }
+        ch_p = ch_p->nextLink;
+    }
+}

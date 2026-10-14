@@ -1,17 +1,18 @@
-/* Decompiled C draft; module arm7; ROM address 037fbd0c. No matching claim. */
-#include "types.h"
-#include "deps/037fbd0c_FUN_037fbd0c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_StopChannel FUN_037fbd0c
+#include "nitro/snd/common/channel.h"
+#include <nitro/hw/ARM7/ioreg_SND.h>
 
-void FUN_037fbd0c(int param_1,uint param_2)
-
+#pragma thumb off
+void SND_StopChannel(int chNo, s32 flags)
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)(param_1 * 0x10 + 0x4000400) & 0x7fffffff;
-  if ((param_2 & 1) != 0) {
-    uVar1 = uVar1 | 0x8000;
-  }
-  *(uint *)(DAT_037fbd34 + param_1 * 0x10) = uVar1;
-  return;
-}
+    SDK_MINMAX_ASSERT(chNo, SND_CHANNEL_MIN, SND_CHANNEL_MAX);
 
+    REGType32v *reg = (REGType32v *)(REG_SOUND0CNT_ADDR + SND_CHANNEL_REG_OFFSET(chNo));
+    u32 ctrl = *reg;
+    ctrl &= ~REG_SND_SOUND0CNT_E_MASK;
+    if (flags & SND_CHANNEL_STOP_HOLD) {
+        ctrl |= REG_SND_SOUND0CNT_HOLD_MASK;
+    }
+    *reg = ctrl;
+}

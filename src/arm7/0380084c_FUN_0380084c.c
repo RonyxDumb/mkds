@@ -1,55 +1,32 @@
-/* Decompiled C draft; module arm7; ROM address 0380084c. No matching claim. */
-#include "types.h"
-#include "deps/0380084c_FUN_0380084c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define OS_SleepThread FUN_037f9104
+#define OS_RestoreInterrupts FUN_037faf84
+#define CARDi_ReadRomIDCore FUN_03800988
+#define OS_WakeupThread FUN_037f9088
+#define OS_WakeupThreadDirect FUN_037f9054
+#define cardi_common SDK_data_038090c0
+#define CARDi_ReadRomID FUN_0380084c
+#include <nitro.h>
 
-undefined4 FUN_0380084c(void)
+#include "../include/card_common.h"
+#include "../include/card_rom.h"
+extern u32 CARDi_ReadRomIDCore (void);
+extern CARDiCommon *p = &cardi_common;
+#pragma thumb off
+    u32 CARDi_ReadRomID (void)
+    {
+        CARDRomStat *const p = &rom_stat;
+        CARDiCommon *const c = &cardi_common;
 
-{
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  undefined4 uVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  code *pcVar8;
-  
-  uVar1 = DAT_03800910;
-  uVar2 = FUN_037faf70();
-  while (uVar7 = uVar1 + 0xfc & 3, uVar3 = *(uint *)(uVar1 + 0xfc & 0xfffffffc),
-        ((uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20) & 4) != 0) {
-    FUN_037f9104(uVar1 + 0xf4);
-  }
-  uVar7 = uVar1 + 0xfc & 3;
-  uVar3 = *(uint *)(uVar1 + 0xfc & 0xfffffffc);
-  *(uint *)(uVar1 + 0xfc) = uVar3 >> uVar7 * 8 | uVar3 << uVar7 * -8 + 0x20 | 4;
-  *(undefined4 *)(uVar1 + 0x3c) = 0;
-  *(undefined4 *)(uVar1 + 0x40) = 0;
-  FUN_037faf84(uVar2);
-  uVar2 = FUN_03800988();
-  uVar3 = DAT_03800910;
-  *(undefined4 *)
-   (*(uint *)(DAT_03800910 & 0xfffffffc) >> (DAT_03800910 & 3) * 8 |
-   *(uint *)(DAT_03800910 & 0xfffffffc) << (DAT_03800910 & 3) * -8 + 0x20) = 0;
-  uVar1 = uVar3 + 0x3c & 3;
-  uVar7 = *(uint *)(uVar3 + 0x3c & 0xfffffffc);
-  pcVar8 = (code *)(uVar7 >> uVar1 * 8 | uVar7 << uVar1 * -8 + 0x20);
-  uVar1 = uVar3 + 0x40 & 3;
-  uVar6 = *(uint *)(uVar3 + 0x40 & 0xfffffffc);
-  uVar4 = FUN_037faf70();
-  uVar7 = uVar3 + 0xfc & 3;
-  uVar5 = *(uint *)(uVar3 + 0xfc & 0xfffffffc);
-  *(uint *)(uVar3 + 0xfc) = (uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20) & 0xffffffb3;
-  FUN_037f9088((uint *)(uintptr_t)(uVar3 + 0xf4));
-  uVar7 = uVar3 + 0xfc & 3;
-  uVar5 = *(uint *)(uVar3 + 0xfc & 0xfffffffc);
-  if (((uVar5 >> uVar7 * 8 | uVar5 << uVar7 * -8 + 0x20) & 0x10) != 0) {
-    FUN_037f9054(uVar3 + 0x48);
-  }
-  FUN_037faf84(uVar4);
-  if (pcVar8 != (code *)0x0) {
-    (*pcVar8)(uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20);
-  }
-  return uVar2;
-}
+        u32 ret = 0;
 
+        SDK_ASSERT(CARD_IsAvailable());
+        SDK_ASSERTMSG(CARDi_GetTargetMode() == CARD_TARGET_ROM, "must be locked by CARD_LockRom()");
+
+        CARDi_WaitTask(c, NULL, NULL);
+
+        ret = CARDi_ReadRomIDCore();
+        CARDi_ReadEnd();
+        return ret;
+    }

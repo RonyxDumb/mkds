@@ -1,12 +1,17 @@
-/* Decompiled C draft; module arm7; ROM address 037fa814. No matching claim. */
-#include "types.h"
-#include "deps/037fa814_FUN_037fa814.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_CreateAlarm FUN_037fa814
+#include <nitro/os.h>
 
-void FUN_037fa814(undefined4 *param_1)
+#include <nitro/code32.h>
 
+#include <nitro/codereset.h>
+
+#pragma thumb off
+void OS_CreateAlarm (OSAlarm * alarm)
 {
-  *param_1 = 0;
-  param_1[2] = 0;
-  return;
-}
+    SDK_ASSERT(OSi_UseAlarm);
+    SDK_ASSERT(alarm);
 
+    alarm->handler = 0;
+    alarm->tag = 0;
+}

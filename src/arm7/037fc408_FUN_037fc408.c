@@ -1,10 +1,10 @@
-/* Decompiled C draft; module arm7; ROM address 037fc408. No matching claim. */
-#include "types.h"
-#include "deps/037fc408_FUN_037fc408.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_IsCaptureActive FUN_037fc408
+#include "nitro/snd/common/capture.h"
+#include <nitro/hw/ARM7/ioreg_SND.h>
 
-bool FUN_037fc408(int param_1)
-
+#pragma thumb off
+BOOL SND_IsCaptureActive(SNDCapture capture)
 {
-  return ((&DAT_04000508)[param_1] & 0x80) != 0;
+    return ((*(REGType8v *)(REG_SNDCAP0CNT_ADDR + capture)) & REG_SND_SNDCAP0CNT_E_MASK) != 0;
 }
-

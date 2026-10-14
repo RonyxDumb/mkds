@@ -1,21 +1,26 @@
-/* Decompiled C draft; module arm7; ROM address 037f916c. No matching claim. */
-#include "types.h"
-#include "deps/037f916c_FUN_037f916c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define OS_SleepThread FUN_037f9104
+#define OS_RestoreInterrupts FUN_037faf84
+#define OS_JoinThread FUN_037f916c
+#include <nitro/os.h>
+#include <nitro/mi.h>
+#include <nitro/utest.h>
 
-void FUN_037f916c(int param_1)
+#include <nitro/code32.h>
 
+#include  <nitro/codereset.h>
+extern void OS_SleepThread (OSThreadQueue * queue);
+#pragma thumb off
+void OS_JoinThread (OSThread * thread)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  
-  uVar2 = FUN_037faf70();
-  uVar1 = param_1 + 0x48U & 3;
-  uVar3 = *(uint *)(param_1 + 0x48U & 0xfffffffc);
-  if ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) != 2) {
-    FUN_037f9104(param_1 + 0x80);
-  }
-  FUN_037faf84(uVar2);
-  return;
-}
+    OSIntrMode enabled = OS_DisableInterrupts();
 
+    SDK_ASSERT(thread);
+
+    if (thread->state != OS_THREAD_STATE_TERMINATED) {
+        OS_SleepThread(&thread->joinQueue);
+    }
+
+    (void)OS_RestoreInterrupts(enabled);
+}

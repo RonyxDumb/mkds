@@ -1,13 +1,15 @@
-/* Decompiled C draft; module arm7; ROM address 037fadcc. No matching claim. */
-#include "types.h"
-#include "deps/037fadcc_FUN_037fadcc.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_CreateVAlarm FUN_037fadcc
+#include <nitro.h>
 
-void FUN_037fadcc(undefined4 *param_1)
-
+#pragma thumb off
+void OS_CreateVAlarm (OSVAlarm * alarm)
 {
-  *param_1 = 0;
-  param_1[2] = 0;
-  param_1[8] = 0;
-  return;
-}
+    SDK_ASSERT(OSi_UseVAlarm);
+    SDK_ASSERT(alarm);
 
+    alarm->handler = 0;
+    alarm->tag = 0;
+
+    alarm->finish = FALSE;
+}

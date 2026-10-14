@@ -1,28 +1,30 @@
-/* Decompiled C draft; module arm7; ROM address 03807424. No matching claim. */
-#include "types.h"
-#include "deps/03807424_FUN_03807424.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_LockMutex FUN_037f9a0c
+#define SVC_WaitByLoop thunk_FUN_038011a4
+#define wmspW SDK_data_06019088
+#define WMSP_GetBuffer4Callback2Wm9 FUN_03807424
+#include "wmsp_private.h"
+#include <nitro/wram_begin.h>
 
-uint FUN_03807424(void)
+#include <nitro/wram_end.h>
 
+#include <nitro/wram_begin.h>
+
+#include <nitro/wram_end.h>
+
+#include <nitro/wram_begin.h>
+
+#include <nitro/wram_end.h>
+extern WMSPWork wmspW;
+#pragma thumb off
+void *WMSP_GetBuffer4Callback2Wm9(void)
 {
-  ushort uVar1;
-  ushort *puVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  FUN_037f9a0c(DAT_03807474);
-  puVar2 = DAT_03807478;
-  while( true ) {
-    uVar1 = *puVar2;
-    if ((uVar1 & 1) == 0) break;
-    thunk_FUN_038011a4(0x100);
-  }
-  *puVar2 = uVar1 | 1;
-  uVar4 = DAT_0380747c + 0x54cU & 3;
-  uVar3 = *(uint *)(DAT_0380747c + 0x54cU & 0xfffffffc);
-  uVar4 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 8;
-  uVar3 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  return uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20;
-}
+    OS_LockMutex(&(wmspW.fifoExclusive));
 
+    while (OS_GetSystemWork()->wm_callback_control & WM_EXCEPTION_CB_MASK) {
+        SVC_WaitByLoop(256);
+    }
+    OS_GetSystemWork()->wm_callback_control |= WM_EXCEPTION_CB_MASK;
+
+    return (void *)(wmspW.wm7buf->fifo7to9);
+}

@@ -1,14 +1,17 @@
-/* Decompiled C draft; module arm7; ROM address 037fcac8. No matching claim. */
-#include "types.h"
-#include "deps/037fcac8_FUN_037fcac8.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_FreeExChannel FUN_037fcac8
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/channel.h"
 
-void FUN_037fcac8(int param_1)
-
+#pragma thumb off
+void SND_FreeExChannel(SNDExChannel *ch_p)
 {
-  if (param_1 != 0) {
-    *(undefined4 *)(param_1 + 0x48) = 0;
-    *(undefined4 *)(param_1 + 0x4c) = 0;
-  }
-  return;
-}
+    if (ch_p == NULL) {
+        return;
+    }
 
+    ch_p->callback = NULL;
+    ch_p->callback_data = NULL;
+}

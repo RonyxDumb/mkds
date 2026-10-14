@@ -1,13 +1,14 @@
-/* Decompiled C draft; module arm7; ROM address 06002098. No matching claim. */
-#include "types.h"
-#include "deps/06002098_FUN_06002098.h"
-
-void FUN_06002098(undefined4 param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMSPi_WL_NoArg SDK_data_06001fc0
+#define WMSP_WL_DevGetWirelessCounter FUN_06002098
+#include "wmsp_private.h"
+extern WlCmdCfm *WMSPi_WL_NoArg(u16 *buf, u16 code, u16 cfmLength);
+#pragma thumb off
+WlDevGetWirelessCounterCfm *WMSP_WL_DevGetWirelessCounter(u16 *buf)
 {
-                    /* WARNING: Could not recover jumptable at 0x060020a4. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*DAT_060020ac)(param_1,DAT_060020a8,0x5c);
-  return;
+#if SDK_VERSION_WL >= 16700
+    return (WlDevGetWirelessCounterCfm *)WMSPi_WL_NoArg(buf, WL_CMDCODE_DEV_GET_INFO, 92);
+#else
+    return (WlDevGetWirelessCounterCfm *)WMSPi_WL_NoArg(buf, WL_CMDCODE_DEV_GET_INFO, 96);
+#endif
 }
-

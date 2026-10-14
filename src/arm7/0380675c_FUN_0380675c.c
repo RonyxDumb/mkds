@@ -1,19 +1,31 @@
-/* Decompiled C draft; module arm7; ROM address 0380675c. No matching claim. */
-#include "types.h"
-#include "deps/0380675c_FUN_0380675c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MIi_CpuCopyFast FUN_037fb2c4
+#define wvrVramImageBuf SDK_data_0380a340
+#define wvrVramImageBufSize SDK_data_0380a348
+#define WvrLoad FUN_0380675c
+#include "nitro/os/common/printf.h"
+#include "nitro/wm/ARM7/wm.h"
+#include <nitro/ctrdg/ARM7/ctrdg.h>
+#include <nitro/mi/memory.h>
+#include <nitro/os.h>
+#include <nitro/os/common/alloc.h>
+#include <nitro/pxi/common/fifo.h>
+#include <nitro/spi/ARM7/pm.h>
+#include <nitro/spi/common/pm_common.h>
 
-void FUN_0380675c(void)
+#include "wmsp_private.h"
 
+#include <nitro/code32.h>
+
+#include <nitro/codereset.h>
+extern void *wvrVramImageBuf;
+extern u32 wvrVramImageBufSize;
+#pragma thumb off
+void WvrLoad(void)
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)(DAT_03806790 & 0xfffffffc) >> (DAT_03806790 & 3) * 8 |
-          *(uint *)(DAT_03806790 & 0xfffffffc) << (DAT_03806790 & 3) * -8 + 0x20;
-  if (uVar1 != 0) {
-    FUN_037fb2c4((undefined4 *)(uintptr_t)(uVar1),(undefined4 *)(uintptr_t)(0x6000000),
-                 *(uint *)(DAT_03806794 & 0xfffffffc) >> (DAT_03806794 & 3) * 8 |
-                 *(uint *)(DAT_03806794 & 0xfffffffc) << (DAT_03806794 & 3) * -8 + 0x20);
-  }
-  return;
-}
+    if (wvrVramImageBuf == NULL) {
+        return;
+    }
 
+    MI_CpuCopyFast(wvrVramImageBuf, (void *)HW_EXT_WRAM, wvrVramImageBufSize);
+}

@@ -1,55 +1,50 @@
-/* Decompiled C draft; module arm7; ROM address 037fcc94. No matching claim. */
-#include "types.h"
-#include "deps/037fcc94_FUN_037fcc94.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SNDi_DecibelSquareTable SDK_data_03806f40
+#define SND_UpdateExChannelEnvelope FUN_037fcc94
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/channel.h"
 
-int FUN_037fcc94(int param_1,int param_2)
-
+#pragma thumb off
+s32 SND_UpdateExChannelEnvelope(SNDExChannel *ch_p, BOOL doPeriodicProc)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  uint uVar4;
-  
-  if (param_2 != 0) {
-    switch(*(undefined1 *)(param_1 + 2)) {
-    case 0:
-      uVar1 = param_1 + 0x10U & 3;
-      uVar2 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-      *(int *)(param_1 + 0x10) =
-           -((int)(-(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) *
-                  (uint)*(byte *)(param_1 + 0x1c)) >> 8);
-      uVar1 = param_1 + 0x10U & 3;
-      uVar2 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-      if (uVar2 >> uVar1 * 8 == 0 && uVar2 << uVar1 * -8 + 0x20 == 0) {
-        *(undefined1 *)(param_1 + 2) = 1;
-      }
-      break;
-    case 1:
-      iVar3 = (int)*(short *)(DAT_037fcd44 + (uint)*(byte *)(param_1 + 0x1d) * 2);
-      uVar1 = iVar3 * 0x80;
-      uVar2 = param_1 + 0x10U & 3;
-      uVar4 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-      *(uint *)(param_1 + 0x10) =
-           (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) - (uint)*(ushort *)(param_1 + 0x1e);
-      uVar2 = param_1 + 0x10U & 3;
-      uVar4 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-      uVar2 = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
-      if (uVar2 == uVar1 || (int)(uVar2 + iVar3 * -0x80) < 0 != SBORROW4(uVar2,uVar1)) {
-        *(uint *)(param_1 + 0x10) = uVar1;
-        *(undefined1 *)(param_1 + 2) = 2;
-      }
-      break;
-    case 2:
-      break;
-    case 3:
-      uVar1 = param_1 + 0x10U & 3;
-      uVar2 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-      *(uint *)(param_1 + 0x10) =
-           (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) - (uint)*(ushort *)(param_1 + 0x20);
-    }
-  }
-  uVar1 = param_1 + 0x10U & 3;
-  uVar2 = *(uint *)(param_1 + 0x10U & 0xfffffffc);
-  return (int)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) >> 7;
-}
+    if (doPeriodicProc) {
+        switch (ch_p->env_status) {
+        case SND_ENV_ATTACK: {
+            s32 env_decay_s32 = -ch_p->env_decay;
 
+            env_decay_s32 *= ch_p->attack;
+            env_decay_s32 >>= 8;
+
+            ch_p->env_decay = -env_decay_s32;
+
+            if (ch_p->env_decay == 0) {
+                ch_p->env_status = SND_ENV_DECAY;
+            }
+            break;
+        }
+
+        case SND_ENV_DECAY: {
+            const s32 sustain_decay = SND_CalcDecibelSquare(ch_p->sustain) << SND_EX_CHANNEL_ENV_DECAY_SHIFT;
+
+            ch_p->env_decay -= ch_p->decay;
+            if (ch_p->env_decay > sustain_decay) {
+                break;
+            }
+            ch_p->env_decay = sustain_decay;
+            ch_p->env_status = SND_ENV_SUSTAIN;
+            break;
+        }
+
+        case SND_ENV_SUSTAIN:
+            break;
+
+        case SND_ENV_RELEASE:
+            ch_p->env_decay -= ch_p->release;
+            break;
+        }
+    }
+
+    return ch_p->env_decay >> SND_EX_CHANNEL_ENV_DECAY_SHIFT;
+}

@@ -1,21 +1,36 @@
-/* Decompiled C draft; module arm7; ROM address 0601262c. No matching claim. */
-#include "types.h"
-#include "deps/0601262c_FUN_0601262c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define CAM_IncFrameCount FUN_0600ecf4
+#define MoveHeapBuf FUN_06009040
+#define TxqPri FUN_0601536c
+#define MA_TestDataReqCmd FUN_0601262c
+#include "nitro/os/common/interrupt.h"
 
-undefined4 FUN_0601262c(int param_1,int param_2)
+#include "WlSys.h"
 
+#include "WlLib.h"
+#include "MAC.h"
+#include "MA.h"
+#include "WlOpe.h"
+
+#pragma thumb off
+u16 MA_TestDataReqCmd(WlCmdReq *pReqt, WlCmdCfm *pCfmt)
 {
-  uint uVar1;
-  
-  *(undefined2 *)(param_2 + 2) = 1;
-  *(short *)(param_1 + 0xc) = (short)DAT_06012688;
-  *(undefined2 *)(param_1 + 0x12) = 0;
-  *(undefined2 *)(param_1 + 0x22) = *(undefined2 *)(param_1 + 0x16);
-  FUN_0600ecf4();
-  uVar1 = *(uint *)(DAT_0601268c & 0xfffffffc) >> (DAT_0601268c & 3) * 8 |
-          *(uint *)(DAT_0601268c & 0xfffffffc) << (DAT_0601268c & 3) * -8 + 0x20;
-  FUN_06009040(uVar1 + 0x200,uVar1 + 0x194,param_1);
-  FUN_0601536c(0);
-  return 0;
-}
+    WlMaDataReq *pReq = (WlMaDataReq *)pReqt;
+    LPTXFRM pFrm;
 
+    pCfmt->header.length = 1;
+
+    pReqt->header.code = CONTINUOUS_DATA_MODE;
+
+    pFrm = (LPTXFRM)&pReq->frame;
+
+    pFrm->FirmHeader.CamAdrs = 0;
+
+    pFrm->MacHeader.Tx.MPDU = pFrm->FirmHeader.Length;
+
+    CAM_IncFrameCount(pFrm);
+    MoveHeapBuf(&wlMan->HeapMan.RequestCmd, &wlMan->HeapMan.TxPri[QID_DATA], pReq);
+    TxqPri(QID_DATA);
+
+    return WL_CMDRES_SUCCESS;
+}

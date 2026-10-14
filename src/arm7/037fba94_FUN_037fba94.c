@@ -1,22 +1,19 @@
-/* Decompiled C draft; module arm7; ROM address 037fba94. No matching claim. */
-#include "types.h"
-#include "deps/037fba94_FUN_037fba94.h"
-
-int FUN_037fba94(int param_1,int param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define sSurroundDecay SDK_data_0380796c
+#define CalcSurroundDecay FUN_037fba94
+#include "nitro/snd/common/channel.h"
+#include <nitro/hw/ARM7/ioreg_SND.h>
+extern int sSurroundDecay;
+#pragma thumb off
+int CalcSurroundDecay(int volume, int pan)
 {
-  uint uVar1;
-  
-  if (param_2 < 0x18) {
-    uVar1 = *(uint *)(DAT_037fbaf8 & 0xfffffffc) >> (DAT_037fbaf8 & 3) * 8 |
-            *(uint *)(DAT_037fbaf8 & 0xfffffffc) << (DAT_037fbaf8 & 3) * -8 + 0x20;
-    return (int)(param_1 * (uVar1 * (param_2 + 0x28) + (DAT_037fbafc - uVar1) * 0x40)) >> 0x15;
-  }
-  if (param_2 < 0x69) {
-    return param_1;
-  }
-  uVar1 = *(uint *)(DAT_037fbaf8 & 0xfffffffc) >> (DAT_037fbaf8 & 3) * 8 |
-          *(uint *)(DAT_037fbaf8 & 0xfffffffc) << (DAT_037fbaf8 & 3) * -8 + 0x20;
-  return (int)(param_1 * (-uVar1 * (param_2 + -0x28) + (uVar1 + DAT_037fbafc) * 0x40)) >> 0x15;
-}
+    if (pan < 24) {
+        volume *= sSurroundDecay * (pan + 40) + ((32767 - sSurroundDecay) << 6);
+        volume >>= 15 + 6;
+    } else if (pan > 104) {
+        volume *= -sSurroundDecay * (pan - 40) + ((32767 + sSurroundDecay) << 6);
+        volume >>= 15 + 6;
+    }
 
+    return volume;
+}

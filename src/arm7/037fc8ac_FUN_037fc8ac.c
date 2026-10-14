@@ -1,20 +1,19 @@
-/* Decompiled C draft; module arm7; ROM address 037fc8ac. No matching claim. */
-#include "types.h"
-#include "deps/037fc8ac_FUN_037fc8ac.h"
-
-uint FUN_037fc8ac(uint param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define sWeakLockChannel SDK_data_03807ea4
+#define sLockChannel SDK_data_03807ea8
+#define SND_GetLockedChannel FUN_037fc8ac
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/channel.h"
+extern u32 sWeakLockChannel;
+extern u32 sLockChannel;
+#pragma thumb off
+u32 SND_GetLockedChannel(u32 flags)
 {
-  uint uVar1;
-  
-  if ((param_1 & 1) == 0) {
-    uVar1 = *(uint *)(DAT_037fc8c8 & 0xfffffffc) >> (DAT_037fc8c8 & 3) * 8 |
-            *(uint *)(DAT_037fc8c8 & 0xfffffffc) << (DAT_037fc8c8 & 3) * -8 + 0x20;
-  }
-  else {
-    uVar1 = *(uint *)(DAT_037fc8c4 & 0xfffffffc) >> (DAT_037fc8c4 & 3) * 8 |
-            *(uint *)(DAT_037fc8c4 & 0xfffffffc) << (DAT_037fc8c4 & 3) * -8 + 0x20;
-  }
-  return uVar1;
+    if (flags & SND_LOCK_IMPLIED_ALLOC_CHANNEL) {
+        return sWeakLockChannel;
+    } else {
+        return sLockChannel;
+    }
 }
-

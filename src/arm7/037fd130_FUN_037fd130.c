@@ -1,74 +1,82 @@
-/* Decompiled C draft; module arm7; ROM address 037fd130. No matching claim. */
-#include "types.h"
-#include "deps/037fd130_FUN_037fd130.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SND_StopChannel FUN_037fbd0c
+#define SND_SetupChannelPcm FUN_037fbea0
+#define SND_SetupChannelPsg FUN_037fbde8
+#define SND_SetupChannelNoise FUN_037fbd38
+#define SND_SetChannelTimer FUN_037fbc70
+#define SND_SetChannelVolume FUN_037fbc88
+#define SND_SetChannelPan FUN_037fbbf4
+#define SNDi_Work SDK_data_03807ecc
+#define SND_UpdateExChannel FUN_037fd130
+#include "nitro/snd/common/exchannel.h"
+#include "nitro/snd/common/util.h"
+#include "nitro/snd/common/work.h"
+#include "nitro/snd/common/channel.h"
 
-void FUN_037fd130(void)
-
+#pragma thumb off
+void SND_UpdateExChannel(void)
 {
-  uint uVar1;
-  char cVar2;
-  uint uVar3;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  
-  iVar4 = DAT_037fd318;
-  iVar5 = 0;
-  do {
-    iVar6 = iVar5 * 0x54 + iVar4;
-    uVar1 = ((uint)*(byte *)(iVar6 + 3) << 0x18) >> 0x1b;
-    if (uVar1 != 0) {
-      if ((uVar1 & 2) != 0) {
-        FUN_037fbd0c(iVar5,0);
-      }
-      uVar1 = ((uint)*(byte *)(iVar6 + 3) << 0x18) >> 0x1b;
-      if ((uVar1 & 1) == 0) {
-        if ((uVar1 & 4) != 0) {
-          FUN_037fbc70(iVar5,*(undefined2 *)(iVar6 + 0x26));
-        }
-        if ((((uint)*(byte *)(iVar6 + 3) << 0x18) >> 0x1b & 8) != 0) {
-          FUN_037fbc88(iVar5,*(ushort *)(iVar6 + 0x24) & 0xff);
-        }
-        if ((((uint)*(byte *)(iVar6 + 3) << 0x18) >> 0x1b & 0x10) != 0) {
-          FUN_037fbbf4(iVar5,*(undefined1 *)(iVar6 + 0x23));
-        }
-      }
-      else {
-        cVar2 = *(char *)(iVar6 + 1);
-        if (cVar2 == '\0') {
-          uVar1 = iVar6 + 0x44U & 3;
-          uVar3 = *(uint *)(iVar6 + 0x44U & 0xfffffffc);
-          FUN_037fbea0(iVar5,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
-        }
-        else if (cVar2 == '\x01') {
-          uVar1 = iVar6 + 0x44U & 3;
-          uVar3 = *(uint *)(iVar6 + 0x44U & 0xfffffffc);
-          FUN_037fbde8(iVar5,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,
-                       *(ushort *)(iVar6 + 0x24) & 0xff,(int)(uint)*(ushort *)(iVar6 + 0x24) >> 8,
-                       *(undefined2 *)(iVar6 + 0x26),*(undefined1 *)(iVar6 + 0x23));
-        }
-        else if (cVar2 == '\x02') {
-          FUN_037fbd38(iVar5,*(ushort *)(iVar6 + 0x24) & 0xff,
-                       (int)(uint)*(ushort *)(iVar6 + 0x24) >> 8,*(undefined2 *)(iVar6 + 0x26),
-                       *(undefined1 *)(iVar6 + 0x23));
-        }
-      }
-    }
-    iVar6 = DAT_037fd318;
-    iVar5 = iVar5 + 1;
-  } while (iVar5 < 0x10);
-  iVar4 = 0;
-  do {
-    iVar5 = iVar4 * 0x54 + iVar6;
-    uVar1 = ((uint)*(byte *)(iVar5 + 3) << 0x18) >> 0x1b;
-    if (uVar1 != 0) {
-      if ((uVar1 & 1) != 0) {
-        *(byte *)(iVar4 * 0x10 + 0x4000403) = *(byte *)(iVar4 * 0x10 + 0x4000403) | 0x80;
-      }
-      *(byte *)(iVar5 + 3) = *(byte *)(iVar5 + 3) & 7;
-    }
-    iVar4 = iVar4 + 1;
-  } while (iVar4 < 0x10);
-  return;
-}
+    SNDExChannel *ch_p;
 
+    for (int ch = 0; ch < SND_CHANNEL_NUM; ch++) {
+        ch_p = &SNDi_Work.channel[ch];
+
+        if (!ch_p->sync_flag) {
+            continue;
+        }
+
+        if (ch_p->sync_flag & SND_EX_CHANNEL_UPDATE_STOP) {
+            SND_StopChannel(ch, FALSE);
+        }
+
+        if (ch_p->sync_flag & SND_EX_CHANNEL_UPDATE_START) {
+            switch (ch_p->type) {
+            case SND_EX_CHANNEL_PCM:
+                SND_SetupChannelPcm(
+                    ch,
+                    ch_p->data,
+                    ch_p->wave.format,
+                    ch_p->wave.loopflag ? SND_CHANNEL_LOOP_REPEAT : SND_CHANNEL_LOOP_1SHOT,
+                    ch_p->wave.loopstart,
+                    ch_p->wave.looplen,
+                    ch_p->volume & 0xFF,
+                    ch_p->volume >> 8,
+                    ch_p->timer,
+                    ch_p->pan);
+                break;
+
+            case SND_EX_CHANNEL_PSG:
+                SND_SetupChannelPsg(ch, ch_p->duty, ch_p->volume & 0xFF, ch_p->volume >> 8, ch_p->timer, ch_p->pan);
+                break;
+
+            case SND_EX_CHANNEL_NOISE:
+                SND_SetupChannelNoise(ch, ch_p->volume & 0xFF, ch_p->volume >> 8, ch_p->timer, ch_p->pan);
+                break;
+            }
+        } else {
+            if (ch_p->sync_flag & SND_EX_CHANNEL_UPDATE_TIMER) {
+                SND_SetChannelTimer(ch, ch_p->timer);
+            }
+            if (ch_p->sync_flag & SND_EX_CHANNEL_UPDATE_VOLUME) {
+                SND_SetChannelVolume(ch, ch_p->volume & 0xFF, ch_p->volume >> 8);
+            }
+            if (ch_p->sync_flag & SND_EX_CHANNEL_UPDATE_PAN) {
+                SND_SetChannelPan(ch, ch_p->pan);
+            }
+        }
+    }
+
+    for (int ch = 0; ch < SND_CHANNEL_NUM; ch++) {
+        ch_p = &SNDi_Work.channel[ch];
+
+        if (!ch_p->sync_flag) {
+            continue;
+        }
+
+        if (ch_p->sync_flag & SND_EX_CHANNEL_UPDATE_START) {
+            SND_StartChannel(ch);
+        }
+
+        ch_p->sync_flag = 0;
+    }
+}

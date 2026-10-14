@@ -1,17 +1,17 @@
-/* Decompiled C draft; module arm7; ROM address 03803c24. No matching claim. */
-#include "types.h"
-#include "deps/03803c24_FUN_03803c24.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define SVC_CpuSet thunk_FUN_038011e4
+#define OS_GetLockID FUN_037f8a1c
+#define CTRDGi_Work SDK_data_03809f38
+#define CTRDGi_InitCommon FUN_03803c24
+#include <nitro/ctrdg.h>
 
-void FUN_03803c24(void)
+#include <../include/ctrdg_work.h>
 
+#include <nitro/os/ARM9/cache.h>
+extern CTRDGWork CTRDGi_Work;
+#pragma thumb off
+void CTRDGi_InitCommon (void)
 {
-  undefined2 uVar1;
-  undefined4 local_8 [2];
-  
-  local_8[0] = 0;
-  thunk_FUN_038011e4(local_8,DAT_03803c5c,DAT_03803c60);
-  uVar1 = FUN_037f8a1c();
-  *(undefined2 *)(DAT_03803c5c + 2) = uVar1;
-  return;
+	SVC_CpuClear(0, &CTRDGi_Work, sizeof(CTRDGi_Work), 32);
+	CTRDGi_Work.lockID = (u16)OS_GetLockID();
 }
-

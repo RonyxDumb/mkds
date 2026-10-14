@@ -1,30 +1,37 @@
-/* Decompiled C draft; module arm7; ROM address 0600d51c. No matching claim. */
-#include "types.h"
-#include "deps/0600d51c_FUN_0600d51c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WlIntrActEnd FUN_0600d51c
 
-void FUN_0600d51c(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "MA.h"
+#include "TxCtrl.h"
+#include "RxCtrl.h"
+#include "MAC.h"
+#include "WlIntr.h"
+#include "Compati.h"
+#include "MA.h"
+#include "WlOpe.h"
+
+#pragma thumb off
+void WlIntrActEnd(void) __attribute__((never_inline))
 {
-  uint uVar1;
-  
-  uVar1 = *(uint *)(DAT_0600d588 & 0xfffffffc) >> (DAT_0600d588 & 3) * 8 |
-          *(uint *)(DAT_0600d588 & 0xfffffffc) << (DAT_0600d588 & 3) * -8 + 0x20;
-  *DAT_0600d58c = 0x2000;
-  *DAT_0600d590 = 0xd;
-  if (*(short *)(uVar1 + 0x35e) == 1) {
-    *(undefined2 *)(uVar1 + 0x35e) = 2;
-    return;
-  }
-  if (*(short *)(uVar1 + 0x35e) != 2) {
-    if (*(short *)(uVar1 + 0x350) == 2) {
-      if (*(short *)(uVar1 + 0x34c) != 0x40) {
-        *DAT_0600d594 = 0;
-      }
-      return;
-    }
-    return;
-  }
-  *(undefined2 *)(uVar1 + 0x35e) = 0;
-  return;
-}
+    LPWORK_PARAM pWork = &wlMan->Work;
 
+#if (EMU_MACREG)
+    *(vu16 *)MREG_ISR &= ~MISR_ACTEND;
+#else
+    *(vu16 *)MREG_ISR = MISR_ACTEND;
+#endif
+
+    TxqClose(TXQ_OPEN_TXQ2 | TXQ_OPEN_TXQ1 | TXQ_OPEN_TXQ0);
+
+    if (pWork->bFirstTbtt == 1) {
+        pWork->bFirstTbtt = 2;
+    } else if (pWork->bFirstTbtt == 2) {
+        pWork->bFirstTbtt = 0;
+    } else if ((pWork->Mode == WL_CMDLABEL_MODE_CHILD) && (pWork->STA != STA_CLASS3)) {
+        *(vu16 *)MREG_MP_POWER_SEQ = 0;
+    }
+}

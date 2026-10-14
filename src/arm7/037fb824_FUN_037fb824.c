@@ -1,11 +1,10 @@
-/* Decompiled C draft; module arm7; ROM address 037fb824. No matching claim. */
-#include "types.h"
-#include "deps/037fb824_FUN_037fb824.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define EXIi_SetBitRcnt0L FUN_037fb824
+#include "nitro/exi.h"
+#include "nitro/exi/ARM7/genPort.h"
 
-void FUN_037fb824(ushort param_1,ushort param_2)
-
+#pragma thumb off
+void EXIi_SetBitRcnt0L(u16 mask, u16 data)
 {
-  *DAT_037fb840 = param_2 | ~param_1 & *DAT_037fb840;
-  return;
+    EXIi_SetRcnt0L(EXIi_GetRcnt0L() & ~mask | data);
 }
-

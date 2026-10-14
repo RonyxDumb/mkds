@@ -1,20 +1,33 @@
-/* Decompiled C draft; module arm7; ROM address 060125e0. No matching claim. */
-#include "types.h"
-#include "deps/060125e0_FUN_060125e0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define ClearTxKeyData FUN_06014930
+#define ClearTxMp FUN_060148d0
+#define ClearTxData FUN_06014818
+#define MA_ClrDataReqCmd FUN_060125e0
+#include "nitro/os/common/interrupt.h"
 
-undefined4 FUN_060125e0(int param_1,int param_2)
+#include "WlSys.h"
 
+#include "WlLib.h"
+#include "MAC.h"
+#include "MA.h"
+#include "WlOpe.h"
+
+#pragma thumb off
+u16 MA_ClrDataReqCmd(WlCmdReq *pReqt, WlCmdCfm *pCfmt)
 {
-  *(undefined2 *)(param_2 + 2) = 1;
-  if ((*(ushort *)(param_1 + 0x10) & 1) != 0) {
-    FUN_06014930();
-  }
-  if ((*(ushort *)(param_1 + 0x10) & 2) != 0) {
-    FUN_060148d0();
-  }
-  if ((*(ushort *)(param_1 + 0x10) & 4) != 0) {
-    FUN_06014818();
-  }
-  return 0;
-}
+    WlMaClrDataReq *pReq = (WlMaClrDataReq *)pReqt;
 
+    pCfmt->header.length = 1;
+
+    if (pReq->flag & WL_CMDLABEL_CLRDATA_KEYDATA) {
+        ClearTxKeyData();
+    }
+    if (pReq->flag & WL_CMDLABEL_CLRDATA_MP) {
+        ClearTxMp();
+    }
+    if (pReq->flag & WL_CMDLABEL_CLRDATA_DATA) {
+        ClearTxData();
+    }
+
+    return WL_CMDRES_SUCCESS;
+}

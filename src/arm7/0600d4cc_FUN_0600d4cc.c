@@ -1,13 +1,34 @@
-/* Decompiled C draft; module arm7; ROM address 0600d4cc. No matching claim. */
-#include "types.h"
-#include "deps/0600d4cc_FUN_0600d4cc.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WUpdateCounter FUN_0600a684
+#define WlIntrCntOvf FUN_0600d4cc
 
-void FUN_0600d4cc(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "MA.h"
+#include "TxCtrl.h"
+#include "RxCtrl.h"
+#include "MAC.h"
+#include "WlIntr.h"
+#include "Compati.h"
+#include "MA.h"
+#include "WlOpe.h"
+
+#pragma thumb off
+void WlIntrCntOvf(void) __attribute__((never_inline))
 {
-  FUN_0600a684();
-  *DAT_0600d500 = (short)DAT_0600d4fc;
-  *DAT_0600d504 = 0x30;
-  return;
-}
+    DbgWlPutchar(B_WL_DBG_INT, (WL_DBG_INT_CNTOVF));
+    DbgSetDDO(DDO_WL_INT, DDO_WL_INT_CNTOVF);
 
+    WUpdateCounter();
+
+    DbgClrDDO(DDO_WL_INT, DDO_WL_INT_CNTOVF);
+
+#if (EMU_MACREG)
+    *(vu16 *)MREG_ISR &= ~MISR_CNT_OVF;
+#else
+    *(vu16 *)MREG_CNTOVF_ISR = 0xFFFF;
+    *(vu16 *)MREG_ISR = MISR_CNT_OVF;
+#endif
+}

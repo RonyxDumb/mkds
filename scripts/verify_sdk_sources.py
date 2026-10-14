@@ -7,6 +7,7 @@ from pathlib import Path
 import csv, hashlib, io, json, os, re, subprocess
 from capstone import Cs, CS_ARCH_ARM, CS_MODE_ARM, CS_MODE_THUMB
 from elftools.elf.elffile import ELFFile
+from proof_span import validate_span
 
 root = Path(__file__).resolve().parents[1]
 donor = Path(os.environ['MKDS_SDK_DONOR']).resolve()
@@ -26,6 +27,14 @@ by_size = {}
 for (module, address), (name, mode, size) in inventory.items():
     if (module, address) not in known and size >= 16:
         by_size.setdefault(size, []).append((module, address, name, mode, original(module, address, size)))
+        if module == 'arm7' and config.get('extend_literal_spans'):
+            # Include only extensions justified by the existing literal/span checker.
+            for span in range(size+2, size+34, 2):
+                try:
+                    code = original(module, address, span)
+                    validate_span(code, address, mode, size)
+                except (AssertionError, StopIteration): continue
+                by_size.setdefault(span, []).append((module, address, name, mode, code))
 proof_path = root / 'verification/sdk-source-proofs.json'
 proofs = json.loads(proof_path.read_text()) if proof_path.exists() else {}
 extra_path = root / 'verification/sdk-extra-symbols.tsv'
@@ -87,6 +96,7 @@ for object_index, obj in enumerate(sorted((root / config.get('object_directory',
                                         relocation['r_addend']))
         skipped = {j for off, typ, _, _ in relocations for j in range(off, off+4)}
         for module, address, name, mode, target in by_size[size]:
+            if config.get('target_modules') and module not in config['target_modules']: continue
             if bool(symbol['st_value'] & 1) != (mode == 'thumb'): continue
             if (module, address) in known or any(code[j] != target[j] for j in range(size) if j not in skipped): continue
             bindings = {}; data_symbols = []; valid = True

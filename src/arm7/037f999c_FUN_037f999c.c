@@ -1,34 +1,29 @@
-/* Decompiled C draft; module arm7; ROM address 037f999c. No matching claim. */
-#include "types.h"
-#include "deps/037f999c_FUN_037f999c.h"
-
-void FUN_037f999c(int param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define OSi_DequeueItem FUN_037f9918
+#define OS_WakeupThread FUN_037f9088
+#define OS_RestoreInterrupts FUN_037faf84
+#define OSi_ThreadInfo SDK_data_038076fc
+#define OS_UnlockMutex FUN_037f999c
+#include <nitro/types.h>
+#include <nitro.h>
+extern void OSi_DequeueItem (OSThread * thread, OSMutex * mutex);
+#pragma thumb off
+void OS_UnlockMutex (OSMutex * mutex)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  uVar2 = FUN_037faf70();
-  uVar1 = DAT_037f9a08 + 4U & 3;
-  uVar3 = *(uint *)(DAT_037f9a08 + 4U & 0xfffffffc);
-  uVar3 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 8U & 3;
-  uVar4 = *(uint *)(param_1 + 8U & 0xfffffffc);
-  if ((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) == uVar3) {
-    uVar1 = param_1 + 0xcU & 3;
-    uVar4 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-    *(uint *)(param_1 + 0xc) = (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) - 1;
-    uVar1 = param_1 + 0xcU & 3;
-    uVar4 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-    if (uVar4 >> uVar1 * 8 == 0 && uVar4 << uVar1 * -8 + 0x20 == 0) {
-      FUN_037f9918(uVar3,param_1);
-      *(undefined4 *)(param_1 + 8) = 0;
-      FUN_037f9088((uint *)(uintptr_t)(param_1));
-    }
-  }
-  FUN_037faf84(uVar2);
-  return;
-}
+    OSIntrMode saved;
+    OSThread * currentThread;
 
+    SDK_ASSERT(mutex);
+
+    saved = OS_DisableInterrupts();
+    currentThread = OS_GetCurrentThread();
+
+    if (mutex->thread == currentThread && --mutex->count == 0) {
+        OSi_DequeueItem(currentThread, mutex);
+        mutex->thread = NULL;
+        OS_WakeupThread(&mutex->queue);
+    }
+
+    (void)OS_RestoreInterrupts(saved);
+}

@@ -1,31 +1,38 @@
-/* Decompiled C draft; module arm7; ROM address 037fb124. No matching claim. */
-#include "types.h"
-#include "deps/037fb124_FUN_037fb124.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableInterrupts FUN_037faf70
+#define OS_RestoreInterrupts FUN_037faf84
+#define MI_StopDma FUN_037fb124
+#include <nitro.h>
 
-void FUN_037fb124(int param_1)
+#include "../include/mi_dma.h"
+    #include <nitro/itcm_begin.h>
 
+    #include <nitro/itcm_end.h>
+
+#pragma thumb off
+void MI_StopDma (u32 dmaNo)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  undefined2 uVar5;
-  
-  uVar3 = FUN_037faf70();
-  iVar1 = (param_1 * 6 + 5) * 2;
-  *(ushort *)(iVar1 + 0x40000b0) = *(ushort *)(iVar1 + 0x40000b0) & 0xcdff;
-  *(ushort *)(iVar1 + 0x40000b0) = *(ushort *)(iVar1 + 0x40000b0) & 0x7fff;
-  iVar2 = DAT_037fb1a0;
-  uVar5 = *(undefined2 *)(iVar1 + 0x40000b0);
-  uVar4 = (uint)*(ushort *)(iVar1 + 0x40000b0);
-  if (param_1 == 0) {
-    uVar5 = 0;
-    uRam040000b0 = 0;
-    *(undefined4 *)(DAT_037fb1a0 + 4) = 0;
-    uVar4 = DAT_037fb1a4;
-    *(uint *)(iVar2 + 8) = DAT_037fb1a4;
-  }
-  FUN_037faf84(uVar3,uVar4,uVar5);
-  return;
-}
+    OSIntrMode enabled = OS_DisableInterrupts();
+    vu16 * dmaCntp = &((vu16 *)REG_DMA0SAD_ADDR)[dmaNo * 6 + 5];
 
+    MIi_ASSERT_DMANO(dmaNo);
+
+    *dmaCntp &= ~((MI_DMA_TIMING_MASK | MI_DMA_CONTINUOUS_ON) >> 16);
+    *dmaCntp &= ~(MI_DMA_ENABLE >> 16);
+
+    {
+        s32 dummy = dmaCntp[0];
+    }
+    {
+        s32 dummy = dmaCntp[0];
+    }
+
+    if (dmaNo == MIi_DUMMY_DMA_NO) {
+        vu32 * p = (vu32 *)((u32)REG_DMA0SAD_ADDR + dmaNo * 12);
+        *p = (vu32)MIi_DUMMY_SRC;
+        *(p + 1) = (vu32)MIi_DUMMY_DEST;
+        *(p + 2) = (vu32)MIi_DUMMY_CNT;
+    }
+
+    (void)OS_RestoreInterrupts(enabled);
+}

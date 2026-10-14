@@ -1,26 +1,37 @@
-/* Decompiled C draft; module arm7; ROM address 06014930. No matching claim. */
-#include "types.h"
-#include "deps/06014930_FUN_06014930.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define OS_DisableIrqMask thunk_FUN_037f8850
+#define WClearKSID FUN_0600aa0c
+#define OS_EnableIrqMask thunk_FUN_037f888c
+#define ClearTxKeyData FUN_06014930
 
-void FUN_06014930(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "TxCtrl.h"
+#include "MAC.h"
+#include "CAM.h"
+#include "MA.h"
+#include "Compati.h"
+#include "WlOpe.h"
+#include "WlIntrTask.h"
+
+#pragma thumb off
+void ClearTxKeyData(void)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  iVar2 = (*(uint *)(DAT_060149a4 & 0xfffffffc) >> (DAT_060149a4 & 3) * 8 |
-          *(uint *)(DAT_060149a4 & 0xfffffffc) << (DAT_060149a4 & 3) * -8 + 0x20) + DAT_060149a8;
-  uVar1 = thunk_FUN_037f8850(0x1000000);
-  if (-1 < (int)((uint)*(ushort *)
-                        ((*(uint *)(DAT_060149a4 & 0xfffffffc) >> (DAT_060149a4 & 3) * 8 |
-                         *(uint *)(DAT_060149a4 & 0xfffffffc) << (DAT_060149a4 & 3) * -8 + 0x20) +
-                        0x33a) << 0x18)) {
-    FUN_0600aa0c(0);
-  }
-  *DAT_060149ac = 0xc0;
-  *(undefined2 *)(iVar2 + 0x50) = 0;
-  *(undefined2 *)(iVar2 + 100) = 0;
-  thunk_FUN_037f888c(uVar1);
-  return;
-}
+    LPTX_CTRL pTxCtrl = &wlMan->TxCtrl;
+    u32 x;
 
+    x = OS_DisableIrqMask(OS_IE_WIRELESS);
+
+    if (wlMan->Config.NullKeyRes == 0) {
+        WClearKSID(NULL);
+    }
+
+    *(vu16 *)MREG_TXQ_RESET = TXQ_RST_KEYIN | TXQ_RST_KEYOUT;
+
+    pTxCtrl->Key[0].Busy = FALSE;
+    pTxCtrl->Key[1].Busy = FALSE;
+
+    OS_EnableIrqMask(x);
+}

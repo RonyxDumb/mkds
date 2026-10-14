@@ -1,12 +1,16 @@
-/* Decompiled C draft; module arm7; ROM address 03805df0. No matching claim. */
-#include "types.h"
-#include "deps/03805df0_FUN_03805df0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define EXIi_SelectRcnt FUN_037fb808
+#define RtcGpioTransfer FUN_038057b4
+#define RTC_ReadDate FUN_03805df0
+#include "nitro/rtc/ARM7/instruction.h"
 
-void FUN_03805df0(undefined4 param_1)
-
+#include "nitro/rtc/ARM7/gpio.h"
+#include <nitro/exi/ARM7/genPort.h>
+extern void RtcGpioTransfer(u16 inst, u16 param, void *buf, u32 size);
+#pragma thumb off
+void RTC_ReadDate(RTCRawDate *date)
 {
-  FUN_037fb808(0x8000);
-  FUN_038057b4(0x86,0x20,param_1,4);
-  return;
-}
+    EXIi_SelectRcnt(EXI_GPIOIF_GPIO);
 
+    RtcGpioTransfer(RTC_INSTRUCTION_READ, RTC_INSTRUCTION_FULL, date, 4);
+}

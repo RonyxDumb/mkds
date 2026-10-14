@@ -1,47 +1,61 @@
-/* Decompiled C draft; module arm7; ROM address 0600ff70. No matching claim. */
-#include "types.h"
-#include "deps/0600ff70_FUN_0600ff70.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MakeAssReqFrame FUN_06013c80
+#define AddTask FUN_06008a8c
+#define TxManCtrlFrame FUN_060143ac
+#define SetupTimeOut FUN_060098d4
+#define ResetTxqPri FUN_06014708
+#define ClearQueuedPri FUN_060147a0
+#define MessageDeleteTx FUN_060143cc
+#define IssueMlmeConfirm FUN_0600fafc
+#define MLME_AssTimeOut SDK_data_0600ff2c
+#define MLME_AssTask FUN_0600ff70
 
-void FUN_0600ff70(void)
+#include "WlSys.h"
+#include "TaskMan.h"
 
+#include "WlLib.h"
+#include "Param.h"
+#include "WlNic.h"
+#include "WlCmdIf.h"
+#include "MLME.h"
+#include "MAC.h"
+#include "Flash.h"
+
+#include "TxCtrl.h"
+extern void IssueMlmeConfirm(void);
+extern void MLME_AssTimeOut(void *arg);
+#pragma thumb off
+void MLME_AssTask(void)
 {
-  short sVar1;
-  uint uVar2;
-  int iVar3;
-  uint uVar4;
-  undefined2 *puVar5;
-  
-  uVar4 = *(uint *)(DAT_06010028 & 0xfffffffc) >> (DAT_06010028 & 3) * 8 |
-          *(uint *)(DAT_06010028 & 0xfffffffc) << (DAT_06010028 & 3) * -8 + 0x20;
-  puVar5 = (undefined2 *)(uVar4 + DAT_0601002c);
-  sVar1 = *(short *)(uVar4 + 0x404);
-  if (sVar1 == 0x50) {
-    uVar4 = (uint)(puVar5 + 0xc) & 3;
-    uVar2 = *(uint *)((uint)(puVar5 + 0xc) & 0xfffffffc);
-    iVar3 = FUN_06013c80((uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) + 0x10);
-    if (iVar3 == 0) {
-      uVar4 = (uint)(puVar5 + 0xe) & 3;
-      uVar2 = *(uint *)((uint)(puVar5 + 0xe) & 0xfffffffc);
-      *(undefined2 *)((uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) + 4) = 8;
-      *puVar5 = 0x53;
-      FUN_06008a8c(2,3);
-    }
-    else {
-      *puVar5 = 0x51;
-      FUN_060143ac();
-      uVar4 = (uint)(puVar5 + 0xc) & 3;
-      uVar2 = *(uint *)((uint)(puVar5 + 0xc) & 0xfffffffc);
-      FUN_060098d4(*(undefined2 *)((uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20) + 0x18),
-                   DAT_06010030);
-    }
-  }
-  else if (sVar1 == 0x53) {
-    FUN_06014708(1);
-    FUN_060147a0(1);
-    FUN_060143cc(1,0);
-    *puVar5 = 0;
-    FUN_0600fafc();
-  }
-  return;
-}
+    LPMLME_MAN pMLME = &wlMan->MLME;
+    void *pFrm;
 
+    switch (pMLME->State) {
+    case MLME_STATE_ASS_STARTUP:
+        pFrm = MakeAssReqFrame(pMLME->pReq.Ass->peerMacAdrs);
+        if ((u32)pFrm == HEAPBUF_NOT_ENOUGH_MEMORY) {
+            pMLME->pCfm.Ass->resultCode = WL_CMDRES_NOT_ENOUGH_MEM;
+
+            pMLME->State = MLME_STATE_ASS_FIN;
+
+            AddTask(TASK_NORMAL_PRIORITY, MLME_ASS_TASK_ID);
+        } else {
+            pMLME->State = MLME_STATE_ASS_ING;
+
+            TxManCtrlFrame((LPTXFRM)pFrm);
+
+            SetupTimeOut(pMLME->pReq.Ass->timeOut, MLME_AssTimeOut);
+        }
+        break;
+
+    case MLME_STATE_ASS_FIN:
+        ResetTxqPri(QID_MANCTRL);
+        ClearQueuedPri(QID_MANCTRL);
+        MessageDeleteTx(QID_MANCTRL, FALSE);
+
+        pMLME->State = MLME_STATE_IDLE;
+
+        IssueMlmeConfirm();
+        break;
+    }
+}
