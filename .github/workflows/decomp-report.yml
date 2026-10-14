@@ -15,6 +15,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - name: Check ROM comparison regression tests
+        run: python3 scripts/test_compare_rom.py
       - name: Generate validated progress report
         run: python3 scripts/export_objdiff_report.py --output build/decomp-report/report.json
       - name: Check report structure

@@ -141,3 +141,37 @@ Non sono stati disabilitati i controlli o inventati risultati. REA non ha
 prodotto pseudocodice per questa sessione; evidenza in
 `verification/rea-checkpoint23.json`. La lingua ARMv7 generica resta inoltre
 inadatta a certificare il modello DS ARMv5T/ARMv4T.
+
+## Ripresa e diagnosi riproducibili
+
+Il controllo preliminare non avvia provider o modifica i controlli REA:
+
+```sh
+python scripts/check_analysis_host.py --output build/analysis-host.json
+```
+
+Il codice di uscita 1 indica un prerequisito dei processi non soddisfatto.
+Il controllo confronta `getpid()` con il PID pubblicato da `/proc/self/status`,
+oltre a eseguire `ps` e cercare il processo corrente. Un `ps` presente o con
+uscita zero, da solo, non dimostra che il namespace sia coerente. Se i PID
+differiscono, eseguire REA su un host Linux o container con `/proc` montato
+nel proprio namespace PID e procps installato. Questo problema non si risolve
+cambiando sorgenti del gioco o disabilitando ownership. Il superamento del
+controllo non certifica l'installazione Ghidra o le ISA Nintendo DS.
+
+Per riprodurre estrazione, entrambi gli audit, test semantici, build ibrida
+e report con un solo comando:
+
+```sh
+python -m pip install -r requirements.txt
+python scripts/validate_checkpoint.py /percorso/AMCP.nds --setup-toolchain
+```
+
+Log e stato si trovano in `build/checkpoint-validation/`. Il comando si ferma
+al primo errore; `completed: false` non e un checkpoint verificato. Il report
+GitHub Actions valida prove archiviate, ma non ricompila la ROM privata.
+Unicorn e ora incluso nelle dipendenze per il confronto semantico ARM/C.
+
+Per compilare il frontend servono git, C++, make e CMake. Se manca CMake:
+`python3 -m pip install cmake`. Lo script riconosce anche il modulo Python
+senza richiedere la directory degli eseguibili pip nel PATH.
