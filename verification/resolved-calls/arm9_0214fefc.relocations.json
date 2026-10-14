@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "func_021501d8",
+    "target": 34931160,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645937
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "func_0214fa7c",
+    "target": 34929276,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422672
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "PM_SetLCDPower",
+    "target": 34928460,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422456
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "func_0214fa7c",
+    "target": 34929276,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422656
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "func_0214fa7c",
+    "target": 34929276,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422651
+  },
+  {
+    "offset": 160,
+    "type": 2,
+    "symbol": "SDK_data_02180434",
+    "target": 35128372,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128372
+  },
+  {
+    "offset": 168,
+    "type": 2,
+    "symbol": "SDK_data_02180438",
+    "target": 35128376,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128376
+  }
+]

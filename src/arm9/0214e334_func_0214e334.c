@@ -1,76 +1,34 @@
-/* Decompiled C draft; module arm9; ROM address 0214e334. No matching claim. */
-#include "types.h"
-#include "deps/0214e334_func_0214e334.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_020a80cc SDK_data_021803d8
+#define data_020a80e4 SDK_data_021803f0
+#define func_0205ea28 func_0214e334
+extern unsigned short data_020a80cc[];
+extern int data_020a80e4[];
 
-void func_0214e334(ushort *param_1,ushort *param_2)
+struct V4 { unsigned short a, b, c, d; };
 
+void func_0205ea28(struct V4 *r0, struct V4 *r1)
 {
-  ushort *puVar1;
-  ushort uVar2;
-  longlong lVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  
-  uVar6 = uRam0214e460;
-  if (*(short *)(iRam0214e45c + 0x30) == 0) {
-    uVar2 = param_2[1];
-    *param_1 = *param_2;
-    param_1[1] = uVar2;
-    uVar2 = param_2[3];
-    param_1[2] = param_2[2];
-    param_1[3] = uVar2;
-    return;
-  }
-  param_1[2] = param_2[2];
-  param_1[3] = param_2[3];
-  puVar1 = param_2 + 2;
-  if (*puVar1 == 0) {
-    param_2 = (ushort *)0x0;
-  }
-  if (*puVar1 != 0) {
-    uVar4 = *(uint *)(uVar6 & 0xfffffffc) >> (uVar6 & 3) * 8 |
-            *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20;
-    uVar5 = uVar6 + 8 & 3;
-    uVar7 = *(uint *)(uVar6 + 8 & 0xfffffffc);
-    uVar7 = uVar7 >> uVar5 * 8 | uVar7 << uVar5 * -8 + 0x20;
-    uVar5 = (uint)*param_2 * 4 - uVar4;
-    lVar3 = (ulonglong)uVar5 * (ulonglong)uVar7;
-    *param_1 = (ushort)((ulonglong)lVar3 >> 0x10) >> 6 |
-               ((short)((int)uVar7 >> 0x1f) * (short)uVar5 +
-               (short)uVar7 * -((short)((int)uVar4 >> 0x1f) + (ushort)((uint)*param_2 * 4 < uVar4))
-               + (short)((ulonglong)lVar3 >> 0x20)) * 0x400;
-    if ((short)*param_1 < 0) {
-      *param_1 = 0;
+    int *p;
+    int t;
+    if (data_020a80cc[0x18] == 0) {
+        *r0 = *r1;
+        return;
     }
-    else if (0xff < (short)*param_1) {
-      *param_1 = 0xff;
+    p = data_020a80e4;
+    r0->c = r1->c;
+    r0->d = r1->d;
+    if (r1->c == 0) {
+        r0->a = 0;
+        r0->b = 0;
+        return;
     }
-    uVar5 = uVar6 + 0xc & 3;
-    uVar4 = *(uint *)(uVar6 + 0xc & 0xfffffffc);
-    uVar4 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-    uVar5 = uVar6 + 0x14 & 3;
-    uVar6 = *(uint *)(uVar6 + 0x14 & 0xfffffffc);
-    uVar5 = uVar6 >> uVar5 * 8 | uVar6 << uVar5 * -8 + 0x20;
-    uVar6 = (uint)param_2[1] * 4 - uVar4;
-    lVar3 = (ulonglong)uVar6 * (ulonglong)uVar5;
-    param_1[1] = (ushort)((ulonglong)lVar3 >> 0x10) >> 6 |
-                 ((short)((int)uVar5 >> 0x1f) * (short)uVar6 +
-                 (short)uVar5 *
-                 -((short)((int)uVar4 >> 0x1f) + (ushort)((uint)param_2[1] * 4 < uVar4)) +
-                 (short)((ulonglong)lVar3 >> 0x20)) * 0x400;
-    if (-1 < (short)param_1[1]) {
-      if (0xbf < (short)param_1[1]) {
-        param_1[1] = 0xbf;
-      }
-      return;
-    }
-    param_1[1] = 0;
-    return;
-  }
-  *param_1 = (ushort)param_2;
-  param_1[1] = (ushort)param_2;
-  return;
+    r0->a = (int)(((long long)p[2] * ((long long)(r1->a << 2) - (long long)p[0])) >> 22);
+    t = (short)r0->a;
+    if (t < 0) { r0->a = 0; }
+    else if (t > 0xff) { r0->a = 0xff; }
+    r0->b = (int)(((long long)p[5] * ((long long)(r1->b << 2) - (long long)p[3])) >> 22);
+    t = (short)r0->b;
+    if (t < 0) { r0->b = 0; return; }
+    if (t > 0xbf) { r0->b = 0xbf; }
 }
-

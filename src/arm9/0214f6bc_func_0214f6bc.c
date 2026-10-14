@@ -1,23 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 0214f6bc. No matching claim. */
-#include "types.h"
-#include "deps/0214f6bc_func_0214f6bc.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0205ff20 func_021501d8
+#define func_0205f8b0 func_0214fa7c
+#define data_020a8114 SDK_data_02180448
+#define func_0205f5fc func_0214f6bc
+int func_0205ff20(int a, int b, int c);
+void func_0205f8b0(int param);
 
-undefined4 func_0214f6bc(uint param_1,undefined4 param_2,undefined4 param_3)
+struct D020a8114 { int w0; int w1; int w2; };
+extern struct D020a8114 data_020a8114;
 
-{
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar2 = func_021501d8();
-  iVar1 = iRam0214f70c;
-  if (iVar2 != 0) {
-    uVar3 = param_1 & 0xff | uRam0214f708;
-    *(undefined4 *)(iRam0214f70c + 4) = param_2;
-    *(undefined4 *)(iVar1 + 8) = param_3;
-    func_0214fa7c(uVar3);
+int func_0205f5fc(int a, int b, int c) {
+    if (!func_0205ff20(a, b, c)) return 1;
+    data_020a8114.w1 = b;
+    data_020a8114.w2 = c;
+    func_0205f8b0((a & 0xff) | 0x3006600);
     return 0;
-  }
-  return 1;
 }
-

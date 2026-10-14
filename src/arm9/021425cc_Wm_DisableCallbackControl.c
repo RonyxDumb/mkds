@@ -1,13 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 021425cc. No matching claim. */
-#include "types.h"
-#include "deps/021425cc_Wm_DisableCallbackControl.h"
-
-void Wm_DisableCallbackControl(void)
-
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0206116c Wm_DisableCallbackControl
+#include "../../vendor/sm64ds/include/types.h"
+void func_0206116c(void)
 {
-  if ((*puRam021425e4 & 1) != 0) {
-    *puRam021425e4 = *puRam021425e4 & 0xfffe;
-  }
-  return;
+    u16 *p = (u16*)0x027fff96;
+    if (*p & 1)
+        *p &= ~1;
 }
-

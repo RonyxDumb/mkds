@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 4,
+    "type": 1,
+    "symbol": "Wm_GetGlobal",
+    "target": 34876072,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422513
+  },
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Wm_CheckInitialized",
+    "target": 34876044,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422504
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "DC_InvalidateRangeNoClean",
+    "target": 33615420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959107341
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "DC_InvalidateRangeNoClean",
+    "target": 33615420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959107328
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "DC_InvalidateRangeNoClean",
+    "target": 33615420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959107318
+  }
+]

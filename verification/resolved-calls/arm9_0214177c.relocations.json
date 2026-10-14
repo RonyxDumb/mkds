@@ -1,0 +1,425 @@
+[
+  {
+    "offset": 244,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645945
+  },
+  {
+    "offset": 268,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645939
+  },
+  {
+    "offset": 292,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645933
+  },
+  {
+    "offset": 316,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645927
+  },
+  {
+    "offset": 340,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645921
+  },
+  {
+    "offset": 364,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645915
+  },
+  {
+    "offset": 388,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645909
+  },
+  {
+    "offset": 412,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645903
+  },
+  {
+    "offset": 436,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645897
+  },
+  {
+    "offset": 460,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645891
+  },
+  {
+    "offset": 484,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645885
+  },
+  {
+    "offset": 508,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645879
+  },
+  {
+    "offset": 532,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645873
+  },
+  {
+    "offset": 556,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645867
+  },
+  {
+    "offset": 580,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645861
+  },
+  {
+    "offset": 604,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645855
+  },
+  {
+    "offset": 628,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645849
+  },
+  {
+    "offset": 652,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645843
+  },
+  {
+    "offset": 676,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645837
+  },
+  {
+    "offset": 700,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645831
+  },
+  {
+    "offset": 724,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645825
+  },
+  {
+    "offset": 756,
+    "type": 1,
+    "symbol": "func_0214177c",
+    "target": 34871164,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422785
+  },
+  {
+    "offset": 772,
+    "type": 1,
+    "symbol": "func_02141c98",
+    "target": 34872472,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645892
+  },
+  {
+    "offset": 856,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645792
+  },
+  {
+    "offset": 876,
+    "type": 1,
+    "symbol": "func_02141b5c",
+    "target": 34872156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645787
+  },
+  {
+    "offset": 892,
+    "type": 1,
+    "symbol": "func_02141c98",
+    "target": 34872472,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645862
+  },
+  {
+    "offset": 908,
+    "type": 2,
+    "symbol": "SDK_data_0216ef98",
+    "target": 35057560,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057560
+  },
+  {
+    "offset": 912,
+    "type": 2,
+    "symbol": "SDK_data_0216efc8",
+    "target": 35057608,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057608
+  },
+  {
+    "offset": 916,
+    "type": 2,
+    "symbol": "SDK_data_0216eff0",
+    "target": 35057648,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057648
+  },
+  {
+    "offset": 920,
+    "type": 2,
+    "symbol": "SDK_data_0216f008",
+    "target": 35057672,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057672
+  },
+  {
+    "offset": 924,
+    "type": 2,
+    "symbol": "SDK_data_0216f018",
+    "target": 35057688,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057688
+  },
+  {
+    "offset": 928,
+    "type": 2,
+    "symbol": "SDK_data_0216f020",
+    "target": 35057696,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057696
+  },
+  {
+    "offset": 932,
+    "type": 2,
+    "symbol": "SDK_data_0216f028",
+    "target": 35057704,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057704
+  },
+  {
+    "offset": 936,
+    "type": 2,
+    "symbol": "SDK_data_0216f030",
+    "target": 35057712,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057712
+  },
+  {
+    "offset": 940,
+    "type": 2,
+    "symbol": "SDK_data_0216f038",
+    "target": 35057720,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057720
+  },
+  {
+    "offset": 944,
+    "type": 2,
+    "symbol": "SDK_data_0216f03c",
+    "target": 35057724,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057724
+  },
+  {
+    "offset": 948,
+    "type": 2,
+    "symbol": "SDK_data_0216f040",
+    "target": 35057728,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057728
+  },
+  {
+    "offset": 952,
+    "type": 2,
+    "symbol": "SDK_data_0216f044",
+    "target": 35057732,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057732
+  },
+  {
+    "offset": 956,
+    "type": 2,
+    "symbol": "SDK_data_0216f048",
+    "target": 35057736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057736
+  },
+  {
+    "offset": 960,
+    "type": 2,
+    "symbol": "SDK_data_0216f04c",
+    "target": 35057740,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057740
+  },
+  {
+    "offset": 964,
+    "type": 2,
+    "symbol": "SDK_data_0216f050",
+    "target": 35057744,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057744
+  },
+  {
+    "offset": 968,
+    "type": 2,
+    "symbol": "SDK_data_0216f054",
+    "target": 35057748,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057748
+  },
+  {
+    "offset": 972,
+    "type": 2,
+    "symbol": "SDK_data_0216f058",
+    "target": 35057752,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057752
+  },
+  {
+    "offset": 976,
+    "type": 2,
+    "symbol": "SDK_data_0216f05c",
+    "target": 35057756,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057756
+  },
+  {
+    "offset": 980,
+    "type": 2,
+    "symbol": "SDK_data_0216f060",
+    "target": 35057760,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057760
+  },
+  {
+    "offset": 984,
+    "type": 2,
+    "symbol": "SDK_data_0216f064",
+    "target": 35057764,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057764
+  },
+  {
+    "offset": 988,
+    "type": 2,
+    "symbol": "SDK_data_0216f068",
+    "target": 35057768,
+    "thumb": false,
+    "addend": 0,
+    "value": 35057768
+  }
+]

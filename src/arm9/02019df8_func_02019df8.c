@@ -1,42 +1,71 @@
-/* Decompiled C draft; module arm9; ROM address 02019df8. No matching claim. */
-#include "types.h"
-#include "deps/02019df8_func_02019df8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0204af3c func_02019df8
+#include "../../vendor/sm64ds/include/types.h"
+#pragma opt_propagation off
+typedef s32 fx32;
 
-void func_02019df8(int param_1)
+#define reg_G3_TEXIMAGE_PARAM (*(volatile u32 *)0x040004a8)
+#define reg_G3_TEXPLTT_BASE   (*(volatile u32 *)0x040004ac)
+#define reg_G3_MTX_MODE       (*(volatile u32 *)0x04000440)
+#define reg_G3_IDENTITY       (*(volatile u32 *)0x04000454)
+#define reg_G3_SCALE          (*(volatile u32 *)0x0400046c)
 
+static inline void G3_MtxMode(int mode)
 {
-  uint uVar1;
-  ushort uVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  int *piVar5;
-  uint uVar6;
-  uint uVar7;
-  
-  uVar1 = param_1 + 0xcU & 3;
-  uVar6 = *(uint *)(param_1 + 0xcU & 0xfffffffc);
-  uVar7 = uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20;
-  uVar1 = param_1 + 4U & 3;
-  uVar6 = *(uint *)(param_1 + 4U & 0xfffffffc);
-  *puRam02019ed0 =
-       (uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20) >> 3 | (uVar7 & 0xf) << 0x1a | 0x40000000 |
-       ((uVar7 << 0x18) >> 0x1c) << 0x14 | ((uVar7 << 0x14) >> 0x1c) << 0x17 |
-       ((uVar7 << 0x12) >> 0x1e) << 0x10 | ((uVar7 << 0x10) >> 0x1e) << 0x12 |
-       ((uVar7 << 0xf) >> 0x1f) << 0x1d;
-  puVar3 = puRam02019ed8;
-  uVar1 = param_1 + 8U & 3;
-  uVar6 = *(uint *)(param_1 + 8U & 0xfffffffc);
-  *puRam02019ed4 =
-       (uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20) >> (4 - ((uVar7 & 0xf) == 2) & 0xff);
-  puVar4 = puRam02019edc;
-  *puVar3 = 3;
-  *puVar4 = 0;
-  piVar5 = piRam02019ee0;
-  uVar2 = *(ushort *)(param_1 + 0x12);
-  *piRam02019ee0 = (uint)*(ushort *)(param_1 + 0x10) << 0xc;
-  *piVar5 = (uint)uVar2 << 0xc;
-  *piVar5 = 0;
-  *puVar3 = 1;
-  return;
+    reg_G3_MTX_MODE = (u32)mode;
 }
 
+static inline void G3_Identity(void)
+{
+    reg_G3_IDENTITY = 0;
+}
+
+static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
+{
+    reg_G3_SCALE = (u32)x;
+    reg_G3_SCALE = (u32)y;
+    reg_G3_SCALE = (u32)z;
+}
+
+static inline void G3_TexPlttBase(u32 addr, u32 texFmt)
+{
+    reg_G3_TEXPLTT_BASE = (u32)(addr >> (4 - (texFmt == 2)));
+}
+
+static inline void G3_TexImageParam(u32 addr, u32 texFmt, u32 texGen, u32 sizeS, u32 sizeT,
+                                    u32 repeat, u32 flip, u32 pltt0)
+{
+    reg_G3_TEXIMAGE_PARAM = (u32)((addr >> 3) | (texFmt << 26) | (texGen << 30)
+        | (sizeS << 20) | (sizeT << 23) | (repeat << 16) | (flip << 18) | (pltt0 << 29));
+}
+
+struct TexParam
+{
+    u32 fmt : 4;
+    u32 sizeS : 4;
+    u32 sizeT : 4;
+    u32 repeat : 2;
+    u32 flip : 2;
+    u32 color0 : 1;
+};
+
+struct Tex
+{
+    int f0;
+    u32 texAddr;
+    u32 pltAddr;
+    struct TexParam param;
+    u16 width;
+    u16 height;
+};
+
+void func_0204af3c(struct Tex *self)
+{
+    struct TexParam p = self->param;
+    G3_TexImageParam(self->texAddr, p.fmt, 1, p.sizeS, p.sizeT, p.repeat, p.flip, p.color0);
+    G3_TexPlttBase(self->pltAddr, p.fmt);
+    G3_MtxMode(3);
+    G3_Identity();
+    G3_Scale(self->width << 12, self->height << 12, 0);
+    G3_MtxMode(1);
+}

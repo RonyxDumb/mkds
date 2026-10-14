@@ -1,13 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 021501c0. No matching claim. */
-#include "types.h"
-#include "deps/021501c0_func_021501c0.h"
-
-void func_021501c0(void)
-
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_020a8114 SDK_data_02180448
+#define func_0205ff08 func_021501c0
+extern int data_020a8114;
+void func_0205ff08(void)
 {
-  do {
-  } while (*(uint *)(uRam021501d4 & 0xfffffffc) >> (uRam021501d4 & 3) * 8 != 0 ||
-           *(uint *)(uRam021501d4 & 0xfffffffc) << (uRam021501d4 & 3) * -8 + 0x20 != 0);
-  return;
+    int *p = &data_020a8114;
+    while (*(volatile int *)p != 0) {
+    }
 }
-

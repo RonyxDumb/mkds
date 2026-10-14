@@ -1,105 +1,121 @@
-/* Decompiled C draft; module arm9; ROM address 0214ec18. No matching claim. */
-#include "types.h"
-#include "deps/0214ec18_TouchPanelFifoCallback.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define Crash Os_Terminate
+#define data_020a80cc SDK_data_021803d8
+#define func_0205f300 TouchPanelFifoCallback
+#include "../../vendor/sm64ds/include/types.h"
+typedef struct {
+    u32 x : 12;
+    u32 y : 12;
+    u32 a : 1;
+    u32 b : 2;
+} TP;
 
-void TouchPanelFifoCallback(undefined4 param_1,uint param_2,int param_3)
+typedef union {
+    TP f;
+    u16 h[2];
+} TPU;
 
+typedef struct {
+    u16 x, y, a, b;
+} Entry;
+
+typedef struct {
+    void (*fn)(int, int, int);
+    Entry e4;
+    u16 fc;
+    char pad0e[2];
+    Entry *f10;
+    u16 f14;
+    char pad16[0x32 - 0x16];
+    u16 f32;
+    volatile u16 f34;
+    volatile u16 f36;
+} S;
+extern S data_020a80cc;
+
+extern void Crash(void);
+
+#pragma opt_strength_reduction off
+void func_0205f300(int a0, unsigned int a1, int a2)
 {
-  ushort *puVar1;
-  uint uVar2;
-  int iVar3;
-  code *pcVar4;
-  uint uVar5;
-  undefined4 uVar7;
-  undefined4 local_10;
-  undefined4 uStack_c;
-  uint uVar6;
-  
-  uVar2 = DAT_0214eecc;
-  uVar6 = ((param_2 & 0x7f00) << 8) >> 0x10;
-  if (param_3 != 0) {
-    pcVar4 = (code *)(*(uint *)(DAT_0214eecc & 0xfffffffc) >> (DAT_0214eecc & 3) * 8 |
-                     *(uint *)(DAT_0214eecc & 0xfffffffc) << (DAT_0214eecc & 3) * -8 + 0x20);
-    *(ushort *)(DAT_0214eecc + 0x34) = *(ushort *)(DAT_0214eecc + 0x34) | (ushort)(1 << uVar6);
-    if (pcVar4 != (code *)0x0) {
-      (*pcVar4)(uVar6,4,0);
-      return;
-    }
-    return;
-  }
-  if (uVar6 == 0x10) {
-    puVar1 = (ushort *)(DAT_0214eecc + 0x14);
-    *(short *)(DAT_0214eecc + 0xc) = *(short *)(DAT_0214eecc + 0xc) + 1;
-    if (*puVar1 <= *(ushort *)(uVar2 + 0xc)) {
-      *(undefined2 *)(uVar2 + 0xc) = 0;
-    }
-    uVar2 = DAT_0214eecc;
-    uVar6 = DAT_0214eecc + 0x10 & 3;
-    uVar5 = *(uint *)(DAT_0214eecc + 0x10 & 0xfffffffc);
-    uVar6 = uVar5 >> uVar6 * 8 | uVar5 << uVar6 * -8 + 0x20;
-    local_10 = CONCAT22(*DAT_0214eed4,*DAT_0214eed0);
-    iVar3 = uVar6 + (uint)*(ushort *)(DAT_0214eecc + 0xc) * 8;
-    *(ushort *)(uVar6 + (uint)*(ushort *)(DAT_0214eecc + 0xc) * 8) =
-         (ushort)((uint)(local_10 << 0x14) >> 0x14);
-    *(ushort *)(iVar3 + 2) = (ushort)((uint)local_10 >> 8) >> 4;
-    *(ushort *)(iVar3 + 4) = (ushort)((uint)(local_10 << 7) >> 0x1f);
-    *(ushort *)(iVar3 + 6) = (ushort)((uint)(local_10 << 5) >> 0x1e);
-    pcVar4 = (code *)(*(uint *)(uVar2 & 0xfffffffc) >> (uVar2 & 3) * 8 |
-                     *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20);
-    if (pcVar4 != (code *)0x0) {
-      (*pcVar4)(0x10,0,*(ushort *)(uVar2 + 0xc) & 0xff);
-      return;
-    }
-    return;
-  }
-  if ((param_2 & 0x1000000) == 0) {
-    return;
-  }
-  switch(param_2 & 0xff) {
-  case 0:
-    if (uVar6 == 0) {
-      uStack_c = CONCAT22(*DAT_0214eed4,*DAT_0214eed0);
-      *(undefined2 *)(DAT_0214eecc + 0x32) = 0;
-      *(ushort *)(uVar2 + 4) = (ushort)((uint)(uStack_c << 0x14) >> 0x14);
-      *(ushort *)(uVar2 + 6) = (ushort)((uint)uStack_c >> 8) >> 4;
-      *(ushort *)(uVar2 + 8) = (ushort)((uint)(uStack_c << 7) >> 0x1f);
-      *(ushort *)(uVar2 + 10) = (ushort)((uint)(uStack_c << 5) >> 0x1e);
-    }
-    else if (uVar6 == 1) {
-      *(undefined2 *)(DAT_0214eecc + 0x32) = 2;
-    }
-    else if (uVar6 == 2) {
-      *(undefined2 *)(DAT_0214eecc + 0x32) = 0;
-    }
-    pcVar4 = (code *)(*(uint *)(DAT_0214eecc & 0xfffffffc) >> (DAT_0214eecc & 3) * 8 |
-                     *(uint *)(DAT_0214eecc & 0xfffffffc) << (DAT_0214eecc & 3) * -8 + 0x20);
-    *(ushort *)(DAT_0214eecc + 0x36) = *(ushort *)(DAT_0214eecc + 0x36) & ~(ushort)(1 << uVar6);
-    if (pcVar4 != (code *)0x0) {
-      (*pcVar4)(uVar6,0,0);
-      return;
-    }
-    return;
-  case 1:
-  default:
-    Os_Terminate();
-    return;
-  case 2:
-    uVar7 = 1;
-    break;
-  case 3:
-    uVar7 = 2;
-    break;
-  case 4:
-    uVar7 = 3;
-  }
-  pcVar4 = (code *)(*(uint *)(DAT_0214eecc & 0xfffffffc) >> (DAT_0214eecc & 3) * 8 |
-                   *(uint *)(DAT_0214eecc & 0xfffffffc) << (DAT_0214eecc & 3) * -8 + 0x20);
-  *(ushort *)(DAT_0214eecc + 0x34) = *(ushort *)(DAT_0214eecc + 0x34) | (ushort)(1 << uVar6);
-  *(ushort *)(uVar2 + 0x36) = *(ushort *)(uVar2 + 0x36) & ~(ushort)(1 << uVar6);
-  if (pcVar4 != (code *)0x0) {
-    (*pcVar4)(uVar6,uVar7,0);
-    return;
-  }
-  return;
-}
+    u16 msg = (u16)a1;
+    u32 bit = (u32)(msg & 0x7f00) << 8 >> 16;
 
+    if (a2 != 0) {
+        data_020a80cc.f34 |= 1 << bit;
+        if (data_020a80cc.fn != 0)
+            data_020a80cc.fn(bit, 4, 0);
+        return;
+    }
+
+    if (bit == 0x10) {
+        TPU t;
+        Entry *e;
+        u16 c;
+        c = data_020a80cc.fc + 1;
+        data_020a80cc.fc = c;
+        if (data_020a80cc.fc >= data_020a80cc.f14)
+            data_020a80cc.fc = 0;
+        e = data_020a80cc.f10 + data_020a80cc.fc;
+        t.h[0] = *(volatile u16 *)0x27fffaa;
+        t.h[1] = *(volatile u16 *)0x27fffac;
+        e->x = t.f.x;
+        e->y = t.f.y;
+        e->a = (unsigned char)t.f.a;
+        e->b = (unsigned char)t.f.b;
+        if (data_020a80cc.fn != 0)
+            data_020a80cc.fn(bit, 0, data_020a80cc.fc & 0xff);
+        return;
+    }
+
+    if ((a1 & 0x1000000) == 0)
+        return;
+
+    {
+        int r4;
+        switch (msg & 0xff) {
+        case 0:
+            switch (bit) {
+            case 0: {
+                TPU t;
+                t.h[0] = *(volatile u16 *)0x27fffaa;
+                t.h[1] = *(volatile u16 *)0x27fffac;
+                data_020a80cc.f32 = 0;
+                data_020a80cc.e4.x = t.f.x;
+                data_020a80cc.e4.y = t.f.y;
+                data_020a80cc.e4.a = (unsigned char)t.f.a;
+                data_020a80cc.e4.b = (unsigned char)t.f.b;
+                break;
+            }
+            case 1:
+                data_020a80cc.f32 = 2;
+                break;
+            case 2:
+                data_020a80cc.f32 = 0;
+                break;
+            }
+            data_020a80cc.f36 &= ~(1 << bit);
+            if (data_020a80cc.fn != 0)
+                data_020a80cc.fn(bit, 0, 0);
+            return;
+        case 4:
+            r4 = 3;
+            break;
+        case 2:
+            r4 = 1;
+            break;
+        case 3:
+            r4 = 2;
+            break;
+        default:
+            goto crash;
+        }
+        data_020a80cc.f34 |= 1 << bit;
+        data_020a80cc.f36 &= ~(1 << bit);
+        if (data_020a80cc.fn != 0)
+            data_020a80cc.fn(bit, r4 & 0xff, 0);
+        return;
+    }
+crash:
+    Crash();
+}

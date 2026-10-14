@@ -1,43 +1,44 @@
-/* Decompiled C draft; module arm9; ROM address 0200e7b0. No matching claim. */
-#include "types.h"
-#include "deps/0200e7b0_Os_GetDebugSystemFlags.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_02057020 Os_AllocateLockId
+#define _ZN3IRQ7DisableEv Os_DisableIrq
+#define func_020570b8 Os_Lock_GetOwnerId
+#define func_02057158 Operation_CartArm9
+#define func_02057178 Operation_CartArm7
+#define _ZN3IRQ7RestoreEj Os_RestoreIrq
+#define func_02058690 Os_GetDebugSystemFlags
+extern int func_02057020(void);
+extern unsigned int _ZN3IRQ7DisableEv(void);
+extern int func_020570b8(unsigned short* p);
+extern int func_02057158(int x);
+extern int func_02057178(int a);
+extern void _ZN3IRQ7RestoreEj(unsigned int flags);
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-undefined4 Os_GetDebugSystemFlags(void)
-
+int func_02058690(void)
 {
-  bool bVar1;
-  undefined2 uVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  int iVar5;
-  undefined4 uVar6;
-  undefined4 local_30;
-  
-  bVar1 = false;
-  uVar2 = Os_AllocateLockId();
-  local_30 = 0x2000000;
-  uVar6 = 0;
-  do {
-    iVar5 = -1;
-    uVar3 = Os_DisableIrq();
-    uVar4 = Os_Lock_GetOwnerId(uRam0200e874);
-    if (((uVar4 & 0x40) != 0) || (iVar5 = Operation_CartArm9(uVar2), iVar5 == 0)) {
-      uVar6 = local_30;
-      if ((_DAT_08000000 == iRam0200e878) &&
-         ((*(uint *)(uRam0200e87c & 0xfffffffc) >> (uRam0200e87c & 3) * 8 |
-          *(uint *)(uRam0200e87c & 0xfffffffc) << (uRam0200e87c & 3) * -8 + 0x20) == uRam0200e880))
-      {
-        uVar6 = 0x1000000;
-      }
-      if (iVar5 == 0) {
-        Operation_CartArm7(uVar2);
-        bVar1 = true;
-      }
-    }
-    Os_RestoreIrq(uVar3);
-  } while (!bVar1);
-  return uVar6;
-}
+    int result;
+    int done = 0;
+    int x;
+    int res;
+    unsigned int irq;
 
+    x = (unsigned short)func_02057020();
+    result = done;
+
+    do {
+        res = -1;
+        irq = _ZN3IRQ7DisableEv();
+        if ((func_020570b8((unsigned short*)0x027fffe8) & 0x40) != 0 || (res = func_02057158(x)) == 0) {
+            if (*(unsigned int*)0x8000000 == 0x544e494e && *(unsigned int*)0x8000004 == 0x4f444e45)
+                result = 0x1000000;
+            else
+                result = 0x2000000;
+            if (res == 0) {
+                func_02057178(x);
+                done = 1;
+            }
+        }
+        _ZN3IRQ7RestoreEj(irq);
+    } while (done == 0);
+
+    return result;
+}

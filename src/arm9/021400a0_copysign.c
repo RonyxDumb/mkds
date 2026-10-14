@@ -1,14 +1,7 @@
-/* Decompiled C draft; module arm9; ROM address 021400a0. No matching claim. */
-#include "types.h"
-#include "deps/021400a0_copysign.h"
-
-double copysign(double __x,double __y)
-
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_020707a4 copysign
+double func_020707a4(double x, double y)
 {
-  undefined4 in_r0;
-  uint in_r1;
-  uint in_r3;
-  
-  return (double)CONCAT44(in_r1 & 0x7fffffff | in_r3 & 0x80000000,in_r0);
+    *(1 + (int *)&x) = (*(1 + (int *)&x) & 0x7fffffff) | (*(1 + (int *)&y) & 0x80000000);
+    return x;
 }
-

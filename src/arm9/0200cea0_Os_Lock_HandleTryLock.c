@@ -1,32 +1,45 @@
-/* Decompiled C draft; module arm9; ROM address 0200cea0. No matching claim. */
-#include "types.h"
-#include "deps/0200cea0_Os_Lock_HandleTryLock.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define _ZN3IRQ10DisableAllEv Os_DisableIrqFiq
+#define _ZN3IRQ7DisableEv Os_DisableIrq
+#define func_0205a74c Mem_Swap16
+#define _ZN3IRQ10RestoreAllEj Os_RestoreIrqFiq
+#define _ZN3IRQ7RestoreEj Os_RestoreIrq
+#define func_02057198 Os_Lock_HandleTryLock
+#include "../../vendor/sm64ds/include/types.h"
+typedef struct {
+    u32 lock;
+    u16 owner;
+} LockObj;
 
-int Os_Lock_HandleTryLock(undefined4 param_1,int param_2,code *param_3,int param_4)
+extern u32 _ZN3IRQ10DisableAllEv(void);
+extern u32 _ZN3IRQ7DisableEv(void);
+extern void _ZN3IRQ10RestoreAllEj(u32 state);
+extern void _ZN3IRQ7RestoreEj(u32 state);
 
+extern u32 func_0205a74c(u32 val, LockObj *addr);
+
+u32 func_02057198(u32 val, LockObj *addr, void (*cleanupFn)(void), u32 useAll)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  if (param_4 == 0) {
-    uVar1 = Os_DisableIrq();
-  }
-  else {
-    uVar1 = Os_DisableIrqFiq();
-  }
-  iVar2 = Mem_Swap16(param_1,(undefined4 *)(uintptr_t)(param_2));
-  if (iVar2 == 0) {
-    if (param_3 != (code *)0x0) {
-      (*param_3)();
-    }
-    *(short *)(param_2 + 4) = (short)param_1;
-  }
-  if (param_4 == 0) {
-    Os_RestoreIrq(uVar1);
-  }
-  else {
-    Os_RestoreIrqFiq(uVar1);
-  }
-  return iVar2;
-}
+    u32 state;
+    u32 old;
 
+    if (useAll)
+        state = _ZN3IRQ10DisableAllEv();
+    else
+        state = _ZN3IRQ7DisableEv();
+
+    old = func_0205a74c(val, addr);
+    if (old == 0)
+    {
+        if (cleanupFn)
+            cleanupFn();
+        addr->owner = (u16)val;
+    }
+
+    if (useAll)
+        _ZN3IRQ10RestoreAllEj(state);
+    else
+        _ZN3IRQ7RestoreEj(state);
+
+    return old;
+}

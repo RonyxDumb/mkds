@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Wm_CheckInitialized",
+    "target": 34876044,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422870
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "func_02142988",
+    "target": 34875784,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422797
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Wm_DisableCallbackControl",
+    "target": 34874828,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422553
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "Fifo_RegisterHandler",
+    "target": 34920388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942656724
+  },
+  {
+    "offset": 108,
+    "type": 2,
+    "symbol": "SDK_data_0217eed4",
+    "target": 35122900,
+    "thumb": false,
+    "addend": 0,
+    "value": 35122900
+  },
+  {
+    "offset": 112,
+    "type": 2,
+    "symbol": "SDK_data_0217eed0",
+    "target": 35122896,
+    "thumb": false,
+    "addend": 0,
+    "value": 35122896
+  }
+]

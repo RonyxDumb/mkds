@@ -1,0 +1,92 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Fs_FindArchiveByMountName",
+    "target": 33571304,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959347951
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Fs_Archive_UnloadFatFnt",
+    "target": 33570640,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959347783
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Fs_Archive_SetExtraFileOperationHandler",
+    "target": 33569888,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959347591
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "Fs_Archive_LoadFromFatFnt",
+    "target": 33570840,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959347800
+  },
+  {
+    "offset": 176,
+    "type": 1,
+    "symbol": "func_020050c0",
+    "target": 33575104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959348862
+  },
+  {
+    "offset": 192,
+    "type": 1,
+    "symbol": "func_020050c0",
+    "target": 33575104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959348858
+  },
+  {
+    "offset": 212,
+    "type": 2,
+    "symbol": "SDK_data_021651d4",
+    "target": 35017172,
+    "thumb": false,
+    "addend": 0,
+    "value": 35017172
+  },
+  {
+    "offset": 216,
+    "type": 2,
+    "symbol": "SDK_data_0204dab8",
+    "target": 33872568,
+    "thumb": false,
+    "addend": 0,
+    "value": 33872568
+  },
+  {
+    "offset": 220,
+    "type": 2,
+    "symbol": "SDK_data_0204db48",
+    "target": 33872712,
+    "thumb": false,
+    "addend": 0,
+    "value": 33872712
+  },
+  {
+    "offset": 224,
+    "type": 2,
+    "symbol": "SDK_data_0204db40",
+    "target": 33872704,
+    "thumb": false,
+    "addend": 0,
+    "value": 33872704
+  }
+]

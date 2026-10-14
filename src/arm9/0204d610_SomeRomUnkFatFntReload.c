@@ -1,38 +1,47 @@
-/* Decompiled C draft; module arm9; ROM address 0204d610. No matching claim. */
-#include "types.h"
-#include "deps/0204d610_SomeRomUnkFatFntReload.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0205d23c Fs_FindArchiveByMountName
+#define func_0205caa8 Fs_Archive_UnloadFatFnt
+#define func_0205c7c4 Fs_Archive_SetExtraFileOperationHandler
+#define func_0205cb68 Fs_Archive_LoadFromFatFnt
+#define func_0205db88 func_020050c0
+#define data_02099e6c SDK_data_021651d4
+#define func_02042668 SDK_data_0204dab8
+#define func_020426f8 SDK_data_0204db48
+#define func_020426f0 SDK_data_0204db40
+#define func_020423dc SomeRomUnkFatFntReload
+extern void *func_0205d23c(void *p, int a);
+extern void func_0205caa8(void);
+extern void func_0205c7c4(void *p, void *fn, int b);
+extern void func_0205cb68(void *p, int a, int b0, int b4, int c0, int c4, void *fn1, void *fn2);
+extern void func_0205db88(int idx, int a, int b);
 
-uint SomeRomUnkFatFntReload(uint param_1)
+extern int data_02099e6c;
+extern void func_02042668(void);
+extern void func_020426f8(void);
+extern void func_020426f0(void);
 
+struct Pair { int *f0; int f4; };
+
+int func_020423dc(int *r6)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uVar3;
-  int iVar4;
-  uint uVar5;
-  uint uVar6;
-  uint local_30 [8];
-  
-  uVar3 = Fs_FindArchiveByMountName(uRam0204d6e4,3);
-  Fs_Archive_UnloadFatFnt();
-  Fs_Archive_SetExtraFileOperationHandler(uVar3,uRam0204d6e8,0xffffffff);
-  uVar6 = param_1 + 4;
-  uVar5 = *(uint *)(param_1 & 0xfffffffc);
-  iVar4 = 0;
-  do {
-    local_30[iVar4 * 2] = uVar6 + 4;
-    local_30[iVar4 * 2 + 1] =
-         *(uint *)(uVar6 & 0xfffffffc) >> (uVar6 & 3) * 8 |
-         *(uint *)(uVar6 & 0xfffffffc) << (uVar6 & 3) * -8 + 0x20;
-    iVar1 = iVar4 * 2;
-    iVar2 = iVar4 * 2;
-    iVar4 = iVar4 + 1;
-    uVar6 = local_30[iVar2] + (local_30[iVar1 + 1] + 0x1f & 0xffffffe0);
-  } while (iVar4 < 4);
-  Fs_Archive_LoadFromFatFnt
-            (uVar3,0,local_30[0],local_30[1],local_30[2],local_30[3],uRam0204d6ec,uRam0204d6f0);
-  func_020050c0(0,local_30[4],local_30[5]);
-  func_020050c0(1,local_30[6],local_30[7]);
-  return uVar5 >> (param_1 & 3) * 8 | uVar5 << (param_1 & 3) * -8 + 0x20;
-}
+    int r5;
+    void *h;
+    int r3;
+    struct Pair arr[4];
 
+    h = func_0205d23c(&data_02099e6c, 3);
+    func_0205caa8();
+    func_0205c7c4(h, &func_02042668, -1);
+    r5 = *r6;
+    r6++;
+    for (r3 = 0; r3 < 4; r3++) {
+        arr[r3].f0 = r6 + 1;
+        arr[r3].f4 = *r6;
+        r6 = (int *)((char *)arr[r3].f0 + ((arr[r3].f4 + 0x1f) & ~0x1f));
+    }
+    func_0205cb68(h, 0, (int)arr[0].f0, arr[0].f4, (int)arr[1].f0, arr[1].f4,
+                  &func_020426f8, &func_020426f0);
+    func_0205db88(0, (int)arr[2].f0, arr[2].f4);
+    func_0205db88(1, (int)arr[3].f0, arr[3].f4);
+    return r5;
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Wm_GetGlobal",
+    "target": 34876072,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421488
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "func_02142988",
+    "target": 34875784,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421413
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "SetSomeFunctionPtr",
+    "target": 34876428,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421567
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "WM_SomeFn",
+    "target": 34876088,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421478
+  }
+]

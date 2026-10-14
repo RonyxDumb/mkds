@@ -1,13 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 0214fb90. No matching claim. */
-#include "types.h"
-#include "deps/0214fb90_func_0214fb90.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0205fbd0 SDK_data_0214fe88
+#define func_0205f994 func_0214fb90
+extern void func_0205fbd0(int a, int b, int c);
 
-void func_0214fb90(undefined4 param_1,undefined4 param_2)
-
+void func_0205f994(int a, int b)
 {
-                    /* WARNING: Could not recover jumptable at 0x0214fba0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0214fba4)(0xe,param_1,param_2);
-  return;
+    func_0205fbd0(0xe, a, b);
 }
-

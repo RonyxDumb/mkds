@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Os_AllocateLockId",
+    "target": 33606952,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421273
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647083
+  },
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "Os_Lock_GetOwnerId",
+    "target": 33607104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421296
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Operation_CartArm9",
+    "target": 33607264,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421332
+  },
+  {
+    "offset": 156,
+    "type": 1,
+    "symbol": "Operation_CartArm7",
+    "target": 33607296,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421323
+  },
+  {
+    "offset": 168,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647061
+  }
+]

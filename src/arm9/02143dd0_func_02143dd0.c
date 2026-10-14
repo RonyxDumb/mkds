@@ -1,21 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 02143dd0. No matching claim. */
-#include "types.h"
-#include "deps/02143dd0_func_02143dd0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_020614d0 func_02142a30
+#define WM_SetCallbackTable SetSomeFunctionPtr
+#define WM_SendCommand WM_SomeFn
+#define func_02062200 func_02143dd0
+#include "../../vendor/sm64ds/include/types.h"
+extern int func_020614d0(int x);
+extern void WM_SetCallbackTable(int i, int val);
+extern int WM_SendCommand(int a, int b);
 
-int func_02143dd0(undefined4 param_1)
-
-{
-  int iVar1;
-  
-  iVar1 = func_02142a30();
-  if (iVar1 == 0) {
-    SetSomeFunctionPtr(1,param_1);
-    iVar1 = WM_SomeFn(1,0);
-    if (iVar1 == 0) {
-      iVar1 = 2;
-    }
-    return iVar1;
-  }
-  return iVar1;
+int func_02062200(int x) {
+    int r = func_020614d0(x);
+    if (r != 0) return r;
+    WM_SetCallbackTable(1, x);
+    r = WM_SendCommand(1, 0);
+    if (r == 0) return 2;
+    return r;
 }
-

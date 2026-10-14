@@ -1,26 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 02142c24. No matching claim. */
-#include "types.h"
-#include "deps/02142c24_func_02142c24.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0206152c Wm_CheckInitialized
+#define WM_CheckStateEx func_02142988
+#define func_0206116c Wm_DisableCallbackControl
+#define func_0205ba64 Fifo_RegisterHandler
+#define data_020a89ac SDK_data_0217eed4
+#define data_020a89a8 SDK_data_0217eed0
+#define func_02061674 func_02142c24
+#include "../../vendor/sm64ds/include/types.h"
+extern int func_0206152c(void);
+extern int WM_CheckStateEx(int a, int b);
+extern void func_0206116c(void);
+extern void func_0205ba64(int idx, void *handler);
 
-int func_02142c24(void)
+extern int data_020a89ac;
+extern u16 data_020a89a8;
 
+int func_02061674(void)
 {
-  undefined2 *puVar1;
-  int iVar2;
-  
-  iVar2 = Wm_CheckInitialized();
-  if (iVar2 != 0) {
-    return 3;
-  }
-  iVar2 = func_02142988(1,0);
-  if (iVar2 == 0) {
-    Wm_DisableCallbackControl();
-    Fifo_RegisterHandler(10,0);
-    puVar1 = puRam02142c94;
-    *puRam02142c90 = 0;
-    *puVar1 = 0;
+    int r;
+    if (func_0206152c() != 0)
+        return 3;
+    r = WM_CheckStateEx(1, 0);
+    if (r != 0)
+        return r;
+    func_0206116c();
+    func_0205ba64(0xa, 0);
+    data_020a89ac = 0;
+    data_020a89a8 = 0;
     return 0;
-  }
-  return iVar2;
 }
-

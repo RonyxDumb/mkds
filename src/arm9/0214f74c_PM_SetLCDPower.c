@@ -1,49 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 0214f74c. No matching claim. */
-#include "types.h"
-#include "deps/0214f74c_PM_SetLCDPower.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0205fa78 func_0214fc74
+#define func_0205fab4 func_0214fcb0
+#define data_020a8110 SDK_data_02180440
+#define func_0205f68c PM_SetLCDPower
+extern int func_0205fa78(int a);
+extern int func_0205fab4(int x, int y, int z);
+extern int data_020a8110;
 
-undefined4 PM_SetLCDPower(int param_1,int param_2,int param_3,int param_4)
-
-{
-  uint uVar1;
-  uint *puVar2;
-  uint uVar3;
-  
-  puVar2 = puRam0214f834;
-  uVar3 = uRam0214f830;
-  if (param_1 == 0) {
-    *puRam0214f838 = *puRam0214f838 & 0xfffe;
-    uVar1 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    *puVar2 = uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20;
-    if (param_2 != 0) {
-      if (param_4 == 0) {
-        func_0214fcb0(param_2,0,0);
-      }
-      else {
-        func_0214fc74(param_2);
-      }
+int func_0205f68c(int mode, int arg1, int arg2, int arg3) {
+    if (mode == 0) goto block0;
+    if (mode != 1) goto done;
+    if (arg2 == 0) {
+        if ((unsigned int)(*(int*)0x27ffc3c - data_020a8110) <= 7) return 0;
     }
-  }
-  else if (param_1 == 1) {
-    if ((param_3 == 0) &&
-       ((*(uint *)(uRam0214f830 & 0xfffffffc) >> (uRam0214f830 & 3) * 8 |
-        *(uint *)(uRam0214f830 & 0xfffffffc) << (uRam0214f830 & 3) * -8 + 0x20) -
-        (*(uint *)((uint)puRam0214f834 & 0xfffffffc) >> ((uint)puRam0214f834 & 3) * 8 |
-        *(uint *)((uint)puRam0214f834 & 0xfffffffc) << ((uint)puRam0214f834 & 3) * -8 + 0x20) < 8))
-    {
-      return 0;
+    if (arg1 != 0) {
+        if (arg3 != 0) func_0205fa78(arg1);
+        else func_0205fab4(arg1, 0, 0);
     }
-    if (param_2 != 0) {
-      if (param_4 == 0) {
-        func_0214fcb0(param_2,0,0);
-      }
-      else {
-        func_0214fc74(param_2);
-      }
+    *(volatile unsigned short*)0x4000304 |= 1;
+    goto done;
+block0:
+    *(volatile unsigned short*)0x4000304 &= ~1;
+    data_020a8110 = *(int*)0x27ffc3c;
+    if (arg1 != 0) {
+        if (arg3 != 0) func_0205fa78(arg1);
+        else func_0205fab4(arg1, 0, 0);
     }
-    *puRam0214f838 = *puRam0214f838 | 1;
-  }
-  return 1;
+done:
+    return 1;
 }
-

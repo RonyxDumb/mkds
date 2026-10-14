@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Wm_GetGlobal",
+    "target": 34876072,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422192
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "func_02142988",
+    "target": 34875784,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422110
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "DC_InvalidateRangeNoClean",
+    "target": 33615420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959106997
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "SetSomeFunctionPtr",
+    "target": 34876428,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422230
+  },
+  {
+    "offset": 236,
+    "type": 1,
+    "symbol": "WM_SomeFn",
+    "target": 34876088,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422141
+  }
+]

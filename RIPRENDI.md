@@ -78,3 +78,9 @@ L'ambiente di esecuzione si e disconnesso: exec-server ha restituito `409 Confli
 
 2379 funzioni; 126160 / 1.913.676 byte inventariati (6.592548%). +90 funzioni e +16.940 byte inventariati (17.004 byte negli span completi). Tutte le 1270 prove senza relocazioni e le 1109 con relocazioni ricompilate.
 Nuovi strumenti: prepare_donor_candidates.py per C puro di sm64ds-decomp; prepare_sdk_variants.py per SDK pokediamond (rimozione documentata di main.h non pertinente, senza stub). Passare MKDS_DONOR_CONFIG al verificatore SDK. I candidati con ASM sono esclusi; gli hash dei nuovi header sono nel manifest SDK. I percorsi include delle funzioni installate devono puntare agli header fissati, evitando types.h omonimi nelle cartelle del gioco. ROM completa e ABI globale non verificati.
+
+## Checkpoint 17 — main
+
+2.454 funzioni; 135.620 / 1.913.676 byte inventariati (7,086884%); 135.940 byte negli span completi. Tutte le 1.278 prove senza relocazioni e le 1.176 con relocazioni sono state ricompilate; 3.133 relocazioni risolte. +75 funzioni dalla ricerca ricorsiva sm64ds-decomp, +9.460 byte inventariati. Le 75 nuove funzioni compilano anche con Clang ARM. Mancano 55.748 byte per raggiungere almeno il 10%.
+
+Ricerca eseguita su 1.912 sorgenti C, 11.472 varianti compilate: evitare di ripeterla senza modifiche. Provenienza e hash sono nel ledger SDK. Prossimo lavoro: nuove famiglie di librerie DS o ricostruzioni delle funzioni grandi del gioco. Un solo writer dei registri alla volta; lavorare su main. ROM completa, ABI globale e comportamento del gioco restano non verificati.

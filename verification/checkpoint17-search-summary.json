@@ -1,0 +1,39 @@
+{
+  "checkpoint": 17,
+  "donor": "https://github.com/tangosdev/sm64ds-decomp",
+  "donor_commit": "3b5601ac1ebc6aae732f2557af6eca9d2442055d",
+  "pure_c_sources": 1912,
+  "compiled_variants": 11472,
+  "tested_byte_candidates": 75,
+  "new_functions": 75,
+  "new_inventory_bytes": 9460,
+  "new_span_bytes": 9556,
+  "current_functions": 2454,
+  "current_inventory_bytes": 135620,
+  "current_full_span_bytes": 135940,
+  "current_inventory_percent": 7.086884091141865,
+  "byte_denominator": 1913676,
+  "unrelocated_audit": {
+    "tested": 1278,
+    "passed": 1278,
+    "exact_code_bytes": 35120,
+    "relocations": 0,
+    "full_rom_link_verified": false,
+    "compiler": "mwccarm 1.2/sp2p3; Clang for explicitly tagged Clang proofs",
+    "verification": "Fresh compilation of current source; complete function bytes and length identical to original decompressed section; no masking or relocations."
+  },
+  "resolved_audit": {
+    "tested": 1176,
+    "passed": 1176,
+    "bytes": 100820,
+    "resolved_relocations": 3133,
+    "full_rom_link_verified": false
+  },
+  "clang_new_functions": {
+    "tested": 75,
+    "passed": 75,
+    "errors": []
+  },
+  "target_reached": false,
+  "full_rom_link_verified": false
+}

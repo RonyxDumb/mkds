@@ -1,38 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 0200e884. No matching claim. */
-#include "types.h"
-#include "deps/0200e884_Os_GetSystemFlags.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_02058690 Os_GetDebugSystemFlags
+#define func_020587dc Os_IsEmulator
+#define func_0205865c Os_ExistsSioConnection
+#define data_0209a040 SDK_data_021617cc
+#define func_02058764 Os_GetSystemFlags
+extern int func_02058690(void);
+extern int func_020587dc(void);
+extern int func_0205865c(void);
+extern int data_0209a040;
 
-uint Os_GetSystemFlags(void)
-
-{
-  uint uVar1;
-  int iVar2;
-  
-  if ((*(uint *)((uint)puRam0200e8f4 & 0xfffffffc) >> ((uint)puRam0200e8f4 & 3) * 8 |
-      *(uint *)((uint)puRam0200e8f4 & 0xfffffffc) << ((uint)puRam0200e8f4 & 3) * -8 + 0x20) ==
-      0xffffffff) {
-    uVar1 = Os_GetDebugSystemFlags();
-    iVar2 = Os_IsEmulator();
-    if (iVar2 == 0) {
-      iVar2 = Os_ExistsSioConnection();
-      if (iVar2 == 0) {
-        if ((uVar1 & 0x1000000) == 0) {
-          uVar1 = uVar1 | 0x80000000;
-        }
-        else {
-          uVar1 = uVar1 | 0x20000000;
-        }
-      }
-      else {
-        uVar1 = uVar1 | 0x40000000;
-      }
+int func_02058764(void) {
+    if (data_0209a040 == -1) {
+        int r4 = func_02058690();
+        int flags;
+        if (func_020587dc()) flags = r4 | 0x10000000;
+        else if (func_0205865c()) flags = r4 | 0x40000000;
+        else if (r4 & 0x1000000) flags = r4 | 0x20000000;
+        else flags = r4 | 0x80000000;
+        data_0209a040 = flags | *(unsigned short *)0x27ffffa;
     }
-    else {
-      uVar1 = uVar1 | 0x10000000;
-    }
-    *puRam0200e8f4 = uVar1 | *puRam0200e8f8;
-  }
-  return *(uint *)((uint)puRam0200e8f4 & 0xfffffffc) >> ((uint)puRam0200e8f4 & 3) * 8 |
-         *(uint *)((uint)puRam0200e8f4 & 0xfffffffc) << ((uint)puRam0200e8f4 & 3) * -8 + 0x20;
+    return data_0209a040;
 }
-

@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Os_GetDebugSystemFlags",
+    "target": 33613744,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422915
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Os_IsEmulator",
+    "target": 33614076,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645780
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Os_ExistsSioConnection",
+    "target": 33613692,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422896
+  },
+  {
+    "offset": 112,
+    "type": 2,
+    "symbol": "SDK_data_021617cc",
+    "target": 35002316,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002316
+  }
+]

@@ -1,31 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 0214fefc. No matching claim. */
-#include "types.h"
-#include "deps/0214fefc_func_0214fefc.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0205ff20 func_021501d8
+#define func_0205f8b0 func_0214fa7c
+#define func_0205f68c PM_SetLCDPower
+#define data_020a8108 SDK_data_02180434
+#define data_020a810c SDK_data_02180438
+#define func_0205fc44 func_0214fefc
+extern int func_0205ff20(void);
+extern void func_0205f8b0(int param);
+extern void func_0205f68c(int a, int b, int c, int d);
+extern volatile int data_020a8108;
+extern int data_020a810c;
 
-undefined4 func_0214fefc(uint param_1,uint param_2)
-
+int func_0205fc44(unsigned int a, unsigned int b)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  
-  iVar3 = func_021501d8();
-  uVar1 = uRam0214ffa0;
-  if (iVar3 != 0) {
-    *puRam0214ff9c = 0;
-    func_0214fa7c(uVar1);
-    puVar2 = puRam0214ffa4;
-    do {
-    } while (*(uint *)((uint)puRam0214ff9c & 0xfffffffc) >> ((uint)puRam0214ff9c & 3) * 8 == 0 &&
-             *(uint *)((uint)puRam0214ff9c & 0xfffffffc) << ((uint)puRam0214ff9c & 3) * -8 + 0x20 ==
-             0);
-    *puRam0214ff9c = 0;
-    *puVar2 = 0;
-    PM_SetLCDPower(0,2,0,0);
-    func_0214fa7c(param_1 & 0xff | uRam0214ffa8);
-    func_0214fa7c(param_2 & uRam0214ffac | uRam0214ffb0);
-    return 0;
-  }
-  return 1;
-}
+    volatile int *p;
 
+    if (!func_0205ff20()) return 1;
+    data_020a8108 = 0;
+    func_0205f8b0(0x3006000);
+    p = &data_020a8108;
+    while (!*p) { }
+    *p = 0;
+    data_020a810c = 0;
+    func_0205f68c(0, 2, 0, 0);
+    func_0205f8b0((a & 0xff) | 0x2006100);
+    func_0205f8b0((b & 0xffff) | 0x1010000);
+    return 0;
+}

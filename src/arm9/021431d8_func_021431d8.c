@@ -1,44 +1,34 @@
-/* Decompiled C draft; module arm9; ROM address 021431d8. No matching claim. */
-#include "types.h"
-#include "deps/021431d8_func_021431d8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define WM_GetSystemWork Wm_GetGlobal
+#define func_0206152c Wm_CheckInitialized
+#define _ZN4CP1519InvalidateDataCacheEjj DC_InvalidateRangeNoClean
+#define func_020618b8 func_021431d8
+#include "../../vendor/sm64ds/include/types.h"
+extern void *WM_GetSystemWork(void);
+extern int func_0206152c(void);
+extern void _ZN4CP1519InvalidateDataCacheEjj(unsigned int addr, unsigned int n);
 
-undefined2 func_021431d8(void)
+struct Obj { int f0; unsigned char *f4; };
 
+int func_020618b8(void)
 {
-  uint uVar1;
-  short sVar2;
-  int iVar3;
-  int iVar4;
-  uint uVar5;
-  short *psVar6;
-  
-  iVar3 = Wm_GetGlobal();
-  iVar4 = Wm_CheckInitialized();
-  if (iVar4 != 0) {
-    return 0;
-  }
-  uVar1 = iVar3 + 4U & 3;
-  uVar5 = *(uint *)(iVar3 + 4U & 0xfffffffc);
-  DC_InvalidateRangeNoClean(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,2);
-  uVar1 = iVar3 + 4U & 3;
-  uVar5 = *(uint *)(iVar3 + 4U & 0xfffffffc);
-  psVar6 = (short *)(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20);
-  sVar2 = *psVar6;
-  if (sVar2 == 9) {
-    DC_InvalidateRangeNoClean((int)psVar6 + iRam0214327c,2);
-    uVar1 = iVar3 + 4U & 3;
-    uVar5 = *(uint *)(iVar3 + 4U & 0xfffffffc);
-    psVar6 = (short *)(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20);
-    if (psVar6[0xbf] == 0) {
-      return 0;
+    struct Obj *o = (struct Obj *)WM_GetSystemWork();
+    unsigned char *b;
+    if (func_0206152c())
+        return 0;
+    _ZN4CP1519InvalidateDataCacheEjj((unsigned int)o->f4, 2);
+    b = o->f4;
+    switch (*(u16 *)b) {
+    case 9:
+        _ZN4CP1519InvalidateDataCacheEjj((unsigned int)(b + 0x17e), 2);
+        b = o->f4;
+        if (*(u16 *)(b + 0x17e) == 0)
+            return 0;
+        /* fall through */
+    case 0xa:
+    case 0xb:
+        _ZN4CP1519InvalidateDataCacheEjj((unsigned int)(b + 0xb8), 2);
+        return *(u16 *)(o->f4 + 0xb8);
     }
-  }
-  else if ((sVar2 != 10) && (sVar2 != 0xb)) {
     return 0;
-  }
-  DC_InvalidateRangeNoClean((uint)(uintptr_t)(psVar6 + 0x5c),2);
-  uVar1 = iVar3 + 4U & 3;
-  uVar5 = *(uint *)(iVar3 + 4U & 0xfffffffc);
-  return *(undefined2 *)((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) + 0xb8);
 }
-

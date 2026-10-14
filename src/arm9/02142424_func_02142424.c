@@ -1,22 +1,13 @@
-/* Decompiled C draft; module arm9; ROM address 02142424. No matching claim. */
-#include "types.h"
-#include "deps/02142424_func_02142424.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_02071974 func_021423e4
+#define func_020719b4 func_02142424
+void func_02071974(int arg);
 
-undefined4 func_02142424(undefined4 param_1,int param_2,uint param_3)
-
-{
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = *(uint *)(param_3 & 0xfffffffc) >> (param_3 & 3) * 8 |
-          *(uint *)(param_3 & 0xfffffffc) << (param_3 & 3) * -8 + 0x20;
-  uVar2 = 0;
-  if (uVar1 != 0) {
-    do {
-      func_021423e4(param_2 + uVar2);
-      uVar2 = uVar2 + 1;
-    } while (uVar2 < uVar1);
-  }
-  return 0;
+int func_020719b4(int a, int base, int *pcount) {
+    int count = *pcount;
+    int i;
+    for (i = 0; (unsigned)i < (unsigned)count; i++) {
+        func_02071974(base + i);
+    }
+    return 0;
 }
-

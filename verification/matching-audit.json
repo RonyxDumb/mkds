@@ -1,7 +1,7 @@
 {
-  "tested": 1270,
-  "passed": 1270,
-  "exact_code_bytes": 34428,
+  "tested": 1278,
+  "passed": 1278,
+  "exact_code_bytes": 35120,
   "relocations": 0,
   "full_rom_link_verified": false,
   "compiler": "mwccarm 1.2/sp2p3; Clang for explicitly tagged Clang proofs",

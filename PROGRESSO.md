@@ -16,6 +16,7 @@
 | 14 | 7.986 | 66,34% | 2.288 | 109.144 |
 | 15 | 7.987 | 66,35% | 2.289 | 109.220 |
 | 16 | 8,028 | 66.69% | 2,379 | 126,160 |
+| 17 | 8,052 | 66.89% | 2,454 | 135,620 |
 
 Checkpoint 4: 846 puntatori tipizzati, 484 nuove compilazioni riuscite.
 
@@ -45,3 +46,5 @@ Checkpoint 14: +625 funzioni e +46.242 byte inventariati. C SDK recuperato e ric
 Checkpoint 15: ROM EUR fornita e verificata; tutte le 2.288 prove precedenti ricompilate. Nuovo match Thumb CreateCESex_from_thumb: 76 byte e due chiamate Thumb/ARM risolte; ricompilazione Clang ARM riuscita. Tutte le 1.038 prove con relocazioni ricompilate. Copertura locale: 5,707340%; ROM completa e ABI globale non verificati.
 
 Checkpoint 16: +90 funzioni e +16.940 byte inventariati (17.004 byte negli span completi) locali verificati da ricostruzioni C pubbliche di sm64ds-decomp e pokediamond, con commit, hash e flag registrati. Tutte le prove MW ricompilate; nessun corpo assembly importato. Copertura locale: 6.592548%.
+
+Checkpoint 17: +75 funzioni; +9.460 byte inventariati (9.556 negli span completi). Ricerca ricorsiva di 1.912 sorgenti C pubblici di sm64ds-decomp, 11.472 varianti compilate. Tutte le 2.454 prove ricompilate e confrontate; le 75 nuove funzioni compilano anche con Clang ARM. Copertura locale: 7,086884%.

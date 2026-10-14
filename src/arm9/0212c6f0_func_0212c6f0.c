@@ -1,14 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0212c6f0. No matching claim. */
-#include "types.h"
-#include "deps/0212c6f0_func_0212c6f0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_ov007_020c3d1c SDK_data_0212c018
+#define func_ov007_020c13f4 func_0212c6f0
+/* func_ov007_020c13f4 at 0x020c13f4 - thunk: Player::St_EndingFly_Main(*p) */
 
-void func_0212c6f0(uint param_1)
+extern int func_ov007_020c3d1c(int player);
 
+int func_ov007_020c13f4(int *p)
 {
-                    /* WARNING: Could not recover jumptable at 0x0212c6f8. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0212c6fc)(*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-                   *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20);
-  return;
+    return func_ov007_020c3d1c(*p);
 }
-

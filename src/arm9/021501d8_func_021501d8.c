@@ -1,18 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 021501d8. No matching claim. */
-#include "types.h"
-#include "deps/021501d8_func_021501d8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define _ZN3IRQ7DisableEv Os_DisableIrq
+#define _ZN3IRQ7RestoreEj Os_RestoreIrq
+#define data_020a8114 SDK_data_02180448
+#define func_0205ff20 func_021501d8
+#include "../../vendor/sm64ds/include/types.h"
+extern u32 _ZN3IRQ7DisableEv(void);
+extern void _ZN3IRQ7RestoreEj(u32 prev);
 
-undefined4 func_021501d8(void)
+extern u32 data_020a8114;  /* 0x020a8114 */
 
-{
-  Os_DisableIrq();
-  if (*(uint *)((uint)puRam02150224 & 0xfffffffc) >> ((uint)puRam02150224 & 3) * 8 != 0 ||
-      *(uint *)((uint)puRam02150224 & 0xfffffffc) << ((uint)puRam02150224 & 3) * -8 + 0x20 != 0) {
-    Os_RestoreIrq();
-    return 0;
-  }
-  *puRam02150224 = 1;
-  Os_RestoreIrq();
-  return 1;
+u32 func_0205ff20(void) {
+    u32 saved = _ZN3IRQ7DisableEv();
+    u32 r2 = data_020a8114;
+    if (r2 != 0) {
+        _ZN3IRQ7RestoreEj(saved);
+        return 0;
+    }
+    data_020a8114 = 1;
+    _ZN3IRQ7RestoreEj(saved);
+    return 1;
 }
-

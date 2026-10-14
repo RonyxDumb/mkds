@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Pm_GetBacklightFlags",
+    "target": 34930132,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645954
+  }
+]

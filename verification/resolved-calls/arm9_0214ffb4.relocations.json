@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "func_02150164",
+    "target": 34931044,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645861
+  },
+  {
+    "offset": 200,
+    "type": 1,
+    "symbol": "func_02150164",
+    "target": 34931044,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645816
+  },
+  {
+    "offset": 216,
+    "type": 2,
+    "symbol": "SDK_data_02180474",
+    "target": 35128436,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128436
+  },
+  {
+    "offset": 220,
+    "type": 2,
+    "symbol": "SDK_data_02180470",
+    "target": 35128432,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128432
+  },
+  {
+    "offset": 224,
+    "type": 2,
+    "symbol": "SDK_data_02180434",
+    "target": 35128372,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128372
+  },
+  {
+    "offset": 228,
+    "type": 2,
+    "symbol": "SDK_data_02180438",
+    "target": 35128376,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128376
+  },
+  {
+    "offset": 232,
+    "type": 2,
+    "symbol": "SDK_data_02180448",
+    "target": 35128392,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128392
+  }
+]

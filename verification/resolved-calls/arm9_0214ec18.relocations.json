@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 676,
+    "type": 1,
+    "symbol": "Os_Terminate",
+    "target": 33619228,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959096214
+  },
+  {
+    "offset": 692,
+    "type": 2,
+    "symbol": "SDK_data_021803d8",
+    "target": 35128280,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128280
+  }
+]

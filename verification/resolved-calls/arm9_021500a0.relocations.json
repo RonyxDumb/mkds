@@ -1,0 +1,92 @@
+[
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "func_0214d5b8",
+    "target": 34919864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420214
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Fifo_IsHandlerReady",
+    "target": 34920348,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420330
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "Fifo_RegisterHandler",
+    "target": 34920388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420335
+  },
+  {
+    "offset": 136,
+    "type": 1,
+    "symbol": "Os_Mutex_Initialize",
+    "target": 33615296,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959094052
+  },
+  {
+    "offset": 168,
+    "type": 2,
+    "symbol": "SDK_data_02180430",
+    "target": 35128368,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128368
+  },
+  {
+    "offset": 172,
+    "type": 2,
+    "symbol": "SDK_data_02180448",
+    "target": 35128392,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128392
+  },
+  {
+    "offset": 176,
+    "type": 2,
+    "symbol": "SDK_data_0214ffb4",
+    "target": 34930612,
+    "thumb": false,
+    "addend": 0,
+    "value": 34930612
+  },
+  {
+    "offset": 180,
+    "type": 2,
+    "symbol": "SDK_data_02180470",
+    "target": 35128432,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128432
+  },
+  {
+    "offset": 184,
+    "type": 2,
+    "symbol": "SDK_data_02180458",
+    "target": 35128408,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128408
+  },
+  {
+    "offset": 192,
+    "type": 2,
+    "symbol": "SDK_data_02180440",
+    "target": 35128384,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128384
+  }
+]

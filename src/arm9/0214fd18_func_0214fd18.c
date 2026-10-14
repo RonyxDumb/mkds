@@ -1,18 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0214fd18. No matching claim. */
-#include "types.h"
-#include "deps/0214fd18_func_0214fd18.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0205f9e8 func_0214fd54
+#define func_0205ff08 func_021501c0
+#define func_0205ff00 SDK_data_021501b8
+#define func_0205f9ac func_0214fd18
+extern int func_0205f9e8(int a, int b, void *c, int *d);
+extern void func_0205ff08(void);
+extern void func_0205ff00(void);
 
-int func_0214fd18(undefined4 param_1,undefined4 param_2)
-
-{
-  int iVar1;
-  int aiStack_8 [2];
-  
-  iVar1 = func_0214fd54(param_1,param_2,uRam0214fd50,(undefined4)(uintptr_t)(aiStack_8));
-  if (iVar1 == 0) {
-    func_021501c0();
-    return aiStack_8[0];
-  }
-  return iVar1;
+int func_0205f9ac(int a, int b) {
+    int local;
+    int r = func_0205f9e8(a, b, (void *)func_0205ff00, &local);
+    if (r != 0) return r;
+    func_0205ff08();
+    return local;
 }
-

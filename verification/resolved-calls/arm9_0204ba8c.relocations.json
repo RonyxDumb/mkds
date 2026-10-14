@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Os_Thread_IsTerminated",
+    "target": 33611888,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959359860
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Os_Thread_WakeUpDirect",
+    "target": 33611624,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959359788
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Os_Thread_Join",
+    "target": 33611908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959359857
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "Os_Thread_IsTerminated",
+    "target": 33611888,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959359850
+  },
+  {
+    "offset": 72,
+    "type": 2,
+    "symbol": "SDK_data_021759d8",
+    "target": 35084760,
+    "thumb": false,
+    "addend": 0,
+    "value": 35084760
+  }
+]

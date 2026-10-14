@@ -1,30 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 02150164. No matching claim. */
-#include "types.h"
-#include "deps/02150164_func_02150164.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_020a8114 SDK_data_02180448
+#define func_0205feac func_02150164
+typedef void (*Callback)(int, int);
 
-void func_02150164(undefined4 param_1)
+struct CallbackSlot {
+    int flag;       /* 0x0 */
+    Callback cb;    /* 0x4 */
+    int arg;        /* 0x8 */
+};
 
-{
-  uint uVar1;
-  undefined4 *puVar2;
-  uint uVar3;
-  code *pcVar4;
-  
-  puVar2 = puRam021501b4;
-  uVar1 = (uint)(puRam021501b4 + 1) & 3;
-  uVar3 = *(uint *)((uint)(puRam021501b4 + 1) & 0xfffffffc);
-  pcVar4 = (code *)(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
-  if (*(uint *)((uint)puRam021501b4 & 0xfffffffc) >> ((uint)puRam021501b4 & 3) * 8 != 0 ||
-      *(uint *)((uint)puRam021501b4 & 0xfffffffc) << ((uint)puRam021501b4 & 3) * -8 + 0x20 != 0) {
-    *puRam021501b4 = 0;
-  }
-  uVar1 = (uint)(puVar2 + 2) & 3;
-  uVar3 = *(uint *)((uint)(puVar2 + 2) & 0xfffffffc);
-  if (pcVar4 != (code *)0x0) {
-    puRam021501b4[1] = 0;
-    (*pcVar4)(param_1,uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
-    return;
-  }
-  return;
+extern struct CallbackSlot data_020a8114;
+
+void func_0205feac(int a) {
+    int flag = data_020a8114.flag;
+    Callback f = data_020a8114.cb;
+    int arg = data_020a8114.arg;
+    if (flag != 0) {
+        data_020a8114.flag = 0;
+    }
+    if (f == 0) {
+        return;
+    }
+    data_020a8114.cb = 0;
+    f(a, arg);
 }
-

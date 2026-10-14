@@ -1,29 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 02143e10. No matching claim. */
-#include "types.h"
-#include "deps/02143e10_StructWM_SomeFn.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_020616e8 Wm_Initialize
+#define WM_SetCallbackTable SetSomeFunctionPtr
+#define WM_GetSystemWork Wm_GetGlobal
+#define WM_SendCommand WM_SomeFn
+#define func_02062240 StructWM_SomeFn
+extern int func_020616e8(int a, int b);
+extern void WM_SetCallbackTable(int i, int val);
+extern int *WM_GetSystemWork(void);
+extern int WM_SendCommand(int a, int b, int c, int d, int e);
 
-int StructWM_SomeFn(undefined4 param_1,undefined4 param_2,undefined4 param_3)
-
+int func_02062240(int arg0, int arg1, int arg2)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  iVar2 = Wm_Initialize(param_1,param_3);
-  if (iVar2 == 0) {
-    SetSomeFunctionPtr(0,param_2);
-    uVar3 = Wm_GetGlobal();
-    uVar1 = uVar3 + 4 & 3;
-    uVar4 = *(uint *)(uVar3 + 4 & 0xfffffffc);
-    iVar2 = WM_SomeFn(0,3,*(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
-                          *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20,
-                      uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
-    if (iVar2 == 0) {
-      iVar2 = 2;
-    }
-    return iVar2;
-  }
-  return iVar2;
+    int *p;
+    int r;
+    r = func_020616e8(arg0, arg2);
+    if (r) return r;
+    WM_SetCallbackTable(0, arg1);
+    p = WM_GetSystemWork();
+    r = WM_SendCommand(0, 3, p[0], p[1], p[4]);
+    if (r == 0) return 2;
+    return r;
 }
-

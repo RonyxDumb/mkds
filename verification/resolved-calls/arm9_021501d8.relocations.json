@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959094958
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959094958
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959094951
+  },
+  {
+    "offset": 76,
+    "type": 2,
+    "symbol": "SDK_data_02180448",
+    "target": 35128392,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128392
+  }
+]

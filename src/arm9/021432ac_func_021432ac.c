@@ -1,45 +1,34 @@
-/* Decompiled C draft; module arm9; ROM address 021432ac. No matching claim. */
-#include "types.h"
-#include "deps/021432ac_func_021432ac.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define WM_GetSystemWork Wm_GetGlobal
+#define func_0206152c Wm_CheckInitialized
+#define _ZN4CP1519InvalidateDataCacheEjj DC_InvalidateRangeNoClean
+#define func_020619ac func_021432ac
+#include "../../vendor/sm64ds/include/types.h"
+extern int WM_GetSystemWork(void);
+extern int func_0206152c(void);
+extern void _ZN4CP1519InvalidateDataCacheEjj(u32 a, u32 b);
 
-int func_021432ac(int param_1,uint param_2)
-
+char* func_020619ac(char* a, unsigned int idx)
 {
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  uint uVar4;
-  int aiStack_50 [16];
-  
-  iVar2 = Wm_GetGlobal();
-  iVar3 = Wm_CheckInitialized();
-  if (iVar3 != 0) {
+    int h;
+    int n;
+    char* local[16];
+    int i;
+    h = WM_GetSystemWork();
+    if (func_0206152c() != 0) return 0;
+    if (idx < 1) goto ret0;
+    if (idx > 0xf) { ret0: return 0; }
+    _ZN4CP1519InvalidateDataCacheEjj((u32)*(char**)(h + 4) + 0x17e, 2);
+    if ((*(u16*)(*(char**)(h + 4) + 0x100 + 0x7e) & (1u << idx)) == 0) return 0;
+    n = *(u16*)(a + 4);
+    if (n == 0) return 0;
+    local[0] = a + 0xa;
+    i = 0;
+    for (;;) {
+        if (idx == *(u16*)(local[i] + 4)) return local[i];
+        i++;
+        local[i] = (char*)(*(u16*)(a + 6) + (u32)local[i - 1]);
+        if (i >= *(volatile u16*)(a + 4)) break;
+    }
     return 0;
-  }
-  if ((param_2 == 0) || (0xf < param_2)) {
-    return 0;
-  }
-  uVar1 = iVar2 + 4U & 3;
-  uVar4 = *(uint *)(iVar2 + 4U & 0xfffffffc);
-  DC_InvalidateRangeNoClean((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + iRam021433ac,2);
-  uVar1 = iVar2 + 4U & 3;
-  uVar4 = *(uint *)(iVar2 + 4U & 0xfffffffc);
-  if (((uint)*(ushort *)((uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20) + 0x17e) &
-      1 << (param_2 & 0xff)) == 0) {
-    return 0;
-  }
-  if (*(short *)(param_1 + 4) != 0) {
-    iVar2 = 0;
-    do {
-      if (param_2 == *(ushort *)(aiStack_50[iVar2] + 4)) {
-        return aiStack_50[iVar2];
-      }
-      iVar3 = iVar2 + 1;
-      aiStack_50[iVar3] = (uint)*(ushort *)(param_1 + 6) + aiStack_50[iVar2];
-      iVar2 = iVar3;
-    } while (iVar3 < (int)(uint)*(ushort *)(param_1 + 4));
-    return 0;
-  }
-  return 0;
 }
-

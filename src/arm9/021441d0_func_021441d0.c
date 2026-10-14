@@ -1,22 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 021441d0. No matching claim. */
-#include "types.h"
-#include "deps/021441d0_func_021441d0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define WM_GetSystemWork Wm_GetGlobal
+#define WM_CheckStateEx func_02142988
+#define WM_SetCallbackTable SetSomeFunctionPtr
+#define WM_SendCommand WM_SomeFn
+#define func_0206259c func_021441d0
+extern int WM_GetSystemWork(void);
+extern int WM_CheckStateEx(int a, int b);
+extern void WM_SetCallbackTable(int i, int val);
+extern int WM_SendCommand(int a, int b, int c);
 
-int func_021441d0(undefined4 param_1,undefined4 param_2)
-
+int func_0206259c(int a, int b)
 {
-  int iVar1;
-  
-  Wm_GetGlobal();
-  iVar1 = func_02142988(1,9);
-  if (iVar1 == 0) {
-    SetSomeFunctionPtr(0x23,param_1);
-    iVar1 = WM_SomeFn(0x23,1,param_2);
-    if (iVar1 == 0) {
-      iVar1 = 2;
-    }
-    return iVar1;
-  }
-  return iVar1;
+    int r;
+    WM_GetSystemWork();
+    r = WM_CheckStateEx(1, 9);
+    if (r != 0)
+        return r;
+    WM_SetCallbackTable(0x23, a);
+    r = WM_SendCommand(0x23, 1, b);
+    if (r == 0)
+        r = 2;
+    return r;
 }
-

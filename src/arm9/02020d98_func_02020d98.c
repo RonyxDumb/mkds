@@ -1,13 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 02020d98. No matching claim. */
-#include "types.h"
-#include "deps/02020d98_func_02020d98.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0205a924 SDK_data_020208a4
+#define func_0205ad54 func_02020d98
+extern void func_0205a924(int, int, int, int);
 
-void func_02020d98(undefined4 param_1,undefined4 param_2)
-
-{
-                    /* WARNING: Could not recover jumptable at 0x02020da8. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02020dac)(param_1,0x1a,param_2,2);
-  return;
+void func_0205ad54(int a, int b) {
+    func_0205a924(a, 0x1a, b, 2);
 }
-

@@ -1,52 +1,68 @@
-/* Decompiled C draft; module arm9; ROM address 0214ffb4. No matching claim. */
-#include "types.h"
-#include "deps/0214ffb4_Fifo8Handler.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0205feac func_02150164
+#define data_020a813c SDK_data_02180474
+#define data_020a8138 SDK_data_02180470
+#define data_020a8108 SDK_data_02180434
+#define data_020a810c SDK_data_02180438
+#define data_020a8114 SDK_data_02180448
+#define func_0205fcfc Fifo8Handler
+extern void func_0205feac(int a);
 
-void Fifo8Handler(undefined4 param_1,uint param_2,int param_3)
+typedef struct {
+    short *ptr;
+    int pad;
+} PtrEntry;
+extern PtrEntry data_020a813c[];
 
+typedef struct {
+    unsigned short flag;
+    short pad;
+    int pad2;
+} FlagEntry;
+extern FlagEntry data_020a8138[];
+
+extern int data_020a8108;
+extern int data_020a810c;
+
+typedef struct {
+    char pad[0xc];
+    int *fc;
+} StructH;
+extern StructH data_020a8114;
+
+void func_0205fcfc(int a0, unsigned int msg, int flag)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint *puVar6;
-  undefined2 *puVar5;
-  
-  if (param_3 == 0) {
-    uVar3 = param_2 & 0xff;
-    uVar1 = ((param_2 & 0x7f00) << 8) >> 0x10;
-    if ((uVar1 < 0x70) || (0x73 < uVar1)) {
-      if (uVar1 == 0x60) {
-        *puRam02150094 = 1;
-      }
-      else if (uVar1 == 0x62) {
-        *puRam02150098 = 1;
-      }
-      else if (uVar1 == 0x67) {
-        uVar1 = iRam0215009c + 0xcU & 3;
-        uVar4 = *(uint *)(iRam0215009c + 0xcU & 0xfffffffc);
-        puVar6 = (uint *)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
-        if (puVar6 != (uint *)0x0) {
-          *puVar6 = uVar3;
-        }
-        uVar3 = 0;
-      }
-    }
-    else {
-      uVar4 = iRam0215008c + (uVar1 - 0x70) * 8;
-      uVar2 = uVar4 & 3;
-      uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-      puVar5 = (undefined2 *)(uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20);
-      if (puVar5 != (undefined2 *)0x0) {
-        *puVar5 = (short)uVar3;
-      }
-      *(undefined2 *)(iRam02150090 + (uVar1 - 0x70) * 8) = 1;
-      uVar3 = 0;
-    }
-    func_02150164(uVar3);
-    return;
-  }
-  func_02150164(2);
-  return;
-}
+    unsigned short cmd;
+    unsigned short val;
 
+    if (flag != 0) {
+        func_0205feac(2);
+        return;
+    }
+
+    cmd = (msg & 0x7f00) >> 8;
+    val = (msg & 0xff) << 16 >> 16;
+
+    if (cmd >= 0x70 && cmd <= 0x73) {
+        int idx = cmd - 0x70;
+        unsigned short pv = val & 0xff;
+        short *p = data_020a813c[idx].ptr;
+        if (p != 0) {
+            *p = pv;
+        }
+        data_020a8138[idx].flag = 1;
+        val = 0;
+    } else if (cmd == 0x60) {
+        data_020a8108 = 1;
+    } else if (cmd == 0x62) {
+        data_020a810c = 1;
+    } else if (cmd == 0x67) {
+        int *q = data_020a8114.fc;
+        if (q != 0) {
+            *q = val;
+        }
+        val = 0;
+    }
+
+    func_0205feac(val);
+}

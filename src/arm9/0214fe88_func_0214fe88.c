@@ -1,24 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 0214fe88. No matching claim. */
-#include "types.h"
-#include "deps/0214fe88_func_0214fe88.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0205ff20 func_021501d8
+#define func_0205f8b0 func_0214fa7c
+#define data_020a8114 SDK_data_02180448
+#define func_0205fbd0 func_0214fe88
+int func_0205ff20(int a, int b, int c);
+void func_0205f8b0(int param);
 
-undefined4 func_0214fe88(uint param_1,undefined4 param_2,undefined4 param_3)
+struct D020a8114 { int w0; int w1; int w2; };
+extern struct D020a8114 data_020a8114;
 
-{
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  
-  iVar2 = func_021501d8();
-  iVar1 = iRam0214feec;
-  if (iVar2 != 0) {
-    uVar3 = param_1 >> 0x10 & 0xff | uRam0214fef0;
-    *(undefined4 *)(iRam0214feec + 4) = param_2;
-    *(undefined4 *)(iVar1 + 8) = param_3;
-    func_0214fa7c(uVar3);
-    func_0214fa7c(param_1 & uRam0214fef4 | uRam0214fef8);
+int func_0205fbd0(int a, int b, int c) {
+    if (!func_0205ff20(a, b, c)) return 1;
+    data_020a8114.w1 = b;
+    data_020a8114.w2 = c;
+    func_0205f8b0((int)(((unsigned int)a >> 0x10) & 0xff) | 0x2006300);
+    func_0205f8b0((a & 0xffff) | 0x1010000);
     return 0;
-  }
-  return 1;
 }
-

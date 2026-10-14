@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "G3X_GetMtxStackLevelPV",
+    "target": 34907676,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422786
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "G3X_GetMtxStackLevelPJ",
+    "target": 34907632,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422770
+  }
+]

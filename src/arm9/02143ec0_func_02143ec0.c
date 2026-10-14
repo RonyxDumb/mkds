@@ -1,21 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 02143ec0. No matching claim. */
-#include "types.h"
-#include "deps/02143ec0_func_02143ec0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define WM_CheckStateEx func_02142988
+#define WM_SetCallbackTable SetSomeFunctionPtr
+#define WM_SendCommand WM_SomeFn
+#define func_020622f0 func_02143ec0
+extern int WM_CheckStateEx(int a, int b);
+extern void WM_SetCallbackTable(int i, int val);
+extern int WM_SendCommand(int a, int b);
 
-int func_02143ec0(undefined4 param_1)
-
+int func_020622f0(int this)
 {
-  int iVar1;
-  
-  iVar1 = func_02142988(1,1);
-  if (iVar1 == 0) {
-    SetSomeFunctionPtr(5,param_1);
-    iVar1 = WM_SomeFn(5,0);
-    if (iVar1 == 0) {
-      iVar1 = 2;
-    }
-    return iVar1;
-  }
-  return iVar1;
+    int r;
+    r = WM_CheckStateEx(1, 1);
+    if (r != 0) return r;
+    WM_SetCallbackTable(5, this);
+    r = WM_SendCommand(5, 0);
+    if (r == 0) return 2;
+    return r;
 }
-

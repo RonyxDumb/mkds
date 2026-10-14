@@ -1,13 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0213a450. No matching claim. */
-#include "types.h"
-#include "deps/0213a450_func_0213a450.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0201818c SDK_data_0213a460
+#define func_0201817c func_0213a450
+/* func_0201817c at 0x0201817c - thunk: func_0201818c(handle, 0) */
 
-void func_0213a450(undefined4 param_1)
+extern int func_0201818c(int handle, int mode);
 
+int func_0201817c(int handle)
 {
-                    /* WARNING: Could not recover jumptable at 0x0213a458. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0213a45c)(param_1,0);
-  return;
+    return func_0201818c(handle, 0);
 }
-

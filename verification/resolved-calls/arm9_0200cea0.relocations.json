@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Os_DisableIrqFiq",
+    "target": 33619148,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648706
+  },
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648692
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Mem_Swap16",
+    "target": 34919228,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942973719
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "Os_RestoreIrqFiq",
+    "target": 33619168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648694
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648680
+  }
+]

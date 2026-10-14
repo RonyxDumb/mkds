@@ -1,18 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 02142a8c. No matching claim. */
-#include "types.h"
-#include "deps/02142a8c_Wm_CheckInitialized.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_020a89a8 SDK_data_0217eed0
+#define func_0206152c Wm_CheckInitialized
+extern unsigned short data_020a89a8;
 
-undefined4 Wm_CheckInitialized(void)
-
+int func_0206152c(void)
 {
-  undefined4 uVar1;
-  
-  if (*psRam02142aa4 == 0) {
-    uVar1 = 3;
-  }
-  else {
-    uVar1 = 0;
-  }
-  return uVar1;
+    return data_020a89a8 ? 0 : 3;
 }
-

@@ -1,46 +1,39 @@
-/* Decompiled C draft; module arm9; ROM address 021436d0. No matching claim. */
-#include "types.h"
-#include "deps/021436d0_func_021436d0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define WM_GetSystemWork Wm_GetGlobal
+#define WM_CheckStateEx func_02142988
+#define _ZN4CP1519InvalidateDataCacheEjj DC_InvalidateRangeNoClean
+#define WM_SetCallbackTable SetSomeFunctionPtr
+#define WM_SendCommand WM_SomeFn
+#define func_02061d30 func_021436d0
+#include "../../vendor/sm64ds/include/types.h"
+extern int WM_GetSystemWork(void);
+extern int WM_CheckStateEx(int count, int a, int b, int c, int d, int e);
+extern void _ZN4CP1519InvalidateDataCacheEjj(u32 a, u32 b);
+extern void WM_SetCallbackTable(int i, int val);
+extern int WM_SendCommand(int a, int b, int c);
 
-int func_021436d0(undefined4 param_1,uint param_2)
-
+int func_02061d30(int self, unsigned int idx)
 {
-  uint uVar1;
-  short sVar2;
-  int iVar3;
-  int iVar4;
-  uint uVar5;
-  short *psVar6;
-  
-  iVar3 = Wm_GetGlobal();
-  iVar4 = func_02142988(5,7,9,8);
-  if (iVar4 != 0) {
-    return iVar4;
-  }
-  uVar1 = iVar3 + 4U & 3;
-  uVar5 = *(uint *)(iVar3 + 4U & 0xfffffffc);
-  psVar6 = (short *)(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20);
-  sVar2 = *psVar6;
-  if ((sVar2 == 7) || (sVar2 == 9)) {
-    if ((param_2 == 0) || (0xf < param_2)) {
-      return 6;
+    int h;
+    int* o;
+    int r;
+    h = WM_GetSystemWork();
+    r = WM_CheckStateEx(5, 7, 9, 8, 0xa, 0xb);
+    if (r != 0) return r;
+    o = *(int**)(h + 4);
+    {
+        u16 v = *(u16*)o;
+        if (v == 7 || v == 9) {
+            if (idx < 1) goto ret6;
+            if (idx > 0xf) { ret6: return 6; }
+            _ZN4CP1519InvalidateDataCacheEjj((u32)o + 0x17e, 2);
+            if ((*(u16*)((char*)*(int**)(h + 4) + 0x17e) & (1u << idx)) == 0) return 7;
+        } else {
+            if (idx != 0) return 6;
+        }
     }
-    DC_InvalidateRangeNoClean((int)psVar6 + iRam021437d4,2);
-    uVar1 = iVar3 + 4U & 3;
-    uVar5 = *(uint *)(iVar3 + 4U & 0xfffffffc);
-    if (((uint)*(ushort *)((uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) + 0x17e) &
-        1 << (param_2 & 0xff)) == 0) {
-      return 7;
-    }
-  }
-  else if (param_2 != 0) {
-    return 6;
-  }
-  SetSomeFunctionPtr(0xd,param_1);
-  iVar3 = WM_SomeFn(0xd,1,1 << (param_2 & 0xff));
-  if (iVar3 == 0) {
-    iVar3 = 2;
-  }
-  return iVar3;
+    WM_SetCallbackTable(0xd, self);
+    r = WM_SendCommand(0xd, 1, 1u << idx);
+    if (r == 0) return 2;
+    return r;
 }
-

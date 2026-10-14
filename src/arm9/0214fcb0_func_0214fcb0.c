@@ -1,28 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 0214fcb0. No matching claim. */
-#include "types.h"
-#include "deps/0214fcb0_func_0214fcb0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0205fbd0 func_0214fe88
+#define func_0205fab4 func_0214fcb0
+#include "../../vendor/sm64ds/include/types.h"
+extern int func_0205fbd0(int v, int b, int c);
 
-void func_0214fcb0(int param_1)
-
+int func_0205fab4(int x, int b, int c)
 {
-  int iVar1;
-  
-  if (param_1 == 1) {
-    iVar1 = 1;
-  }
-  else if (param_1 == 2) {
-    iVar1 = 3;
-  }
-  else if (param_1 == 3) {
-    iVar1 = 2;
-  }
-  else {
-    iVar1 = 0;
-  }
-  if (iVar1 != 0) {
-    func_0214fe88(iVar1);
-    return;
-  }
-  return;
+    int v;
+    switch (x) {
+    case 1: v = 1; break;
+    case 3: v = 2; break;
+    case 2: v = 3; break;
+    default: v = 0; break;
+    }
+    if (v == 0) return 0xffff;
+    return func_0205fbd0(v, b, c);
 }
-
