@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "StructTEQ_IsTEQSubListFull",
+    "target": 33646944,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646068
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "StructTEQ_GetNextFreeTEQSub",
+    "target": 33646008,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645827
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "StructTEQ_ReserveTEQSub",
+    "target": 33646040,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645828
+  },
+  {
+    "offset": 124,
+    "type": 2,
+    "symbol": "SDK_data_02173220",
+    "target": 35074592,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074592
+  }
+]

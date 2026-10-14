@@ -1,0 +1,56 @@
+{
+  "checkpoint": 18,
+  "new_functions": 252,
+  "new_inventory_bytes": 35960,
+  "new_span_bytes": 35960,
+  "current_functions": 2706,
+  "current_inventory_bytes": 171580,
+  "current_full_span_bytes": 171900,
+  "current_inventory_percent": 8.965990063103682,
+  "byte_denominator": 1913676,
+  "unrelocated_audit": {
+    "tested": 1331,
+    "passed": 1331,
+    "exact_code_bytes": 43088,
+    "relocations": 0,
+    "full_rom_link_verified": false,
+    "compiler": "mwccarm 1.2/sp2p3; Clang for explicitly tagged Clang proofs",
+    "verification": "Fresh compilation of current source; complete function bytes and length identical to original decompressed section; no masking or relocations."
+  },
+  "resolved_audit": {
+    "tested": 1375,
+    "passed": 1375,
+    "bytes": 128812,
+    "resolved_relocations": 3802,
+    "full_rom_link_verified": false
+  },
+  "new_functions_after_inline_asm_removal": {
+    "tested": 252,
+    "passed": 252,
+    "discarded_unpublished": []
+  },
+  "searches": {
+    "sdk_bodies": {
+      "tested": 81,
+      "accepted": 53
+    },
+    "system_bodies": {
+      "tested": 293,
+      "accepted": 107
+    },
+    "sdk_complete": {
+      "tested": 15,
+      "accepted": 10
+    },
+    "system_complete": {
+      "tested": 93,
+      "accepted": 82
+    }
+  },
+  "sdk_sources": 195,
+  "sdk_variants_compiled": 543,
+  "system_sources": 96,
+  "system_variants_compiled": 276,
+  "target_reached": false,
+  "full_rom_link_verified": false
+}

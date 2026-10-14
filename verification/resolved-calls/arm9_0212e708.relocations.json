@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "NNS_SndArcGetSeqInfo",
+    "target": 34788636,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421822
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Sound_GetSbnkPointer",
+    "target": 34792760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422841
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Sound_PrepareSseqData",
+    "target": 34792288,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422713
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "Sound_MaybeGetRawFilePointer",
+    "target": 34787924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421614
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "MaybeCheckScreenCalibration",
+    "target": 34923620,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422534
+  }
+]

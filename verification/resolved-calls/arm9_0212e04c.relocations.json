@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959129867
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Sound_MaybeSetActiveSdat",
+    "target": 34788832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422296
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Sound_MaybeGetRawFilePointer",
+    "target": 34787924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422066
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Sound_SetFileFatDynamicOffsetField",
+    "target": 34787896,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422054
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Sound_MaybeSetActiveSdat",
+    "target": 34788832,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422286
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959129857
+  }
+]

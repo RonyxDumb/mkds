@@ -1,44 +1,49 @@
-/* Decompiled C draft; module arm9; ROM address 020232b0. No matching claim. */
-#include "types.h"
-#include "deps/020232b0_func_020232b0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G2dMapScrToChar256x16Pltt func_02023244
+#define NNS_G2dMapScrToCharText func_020232b0
+#include <nitro.h>
 
-void func_020232b0(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,
-                  int param_7,int param_8)
+#include <nnsys/g2d/g2d_CharCanvas.h>
+#include <nnsys/g2d/fmt/g2d_Oam_data.h>
+#include <nnsys/g2d/g2d_config.h>
 
+#include "g2di_BitReader.h"
+extern void NNS_G2dMapScrToChar256x16Pltt (void * areaBase, int areaWidth, int areaHeight, NNSG2d256x16PlttBGWidth scnWidth, int charNo, int cplt);
+#pragma thumb off
+void NNS_G2dMapScrToCharText (void * scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, NNSG2dTextBGWidth scnWidth, int charNo, int cplt)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  if (param_6 < 0x21) {
-    func_02023244((ushort *)(uintptr_t)(param_1 + (param_6 * param_5 + param_4) * 2),param_2,param_3,param_6,param_7,
-                  param_8);
-    return;
-  }
-  param_3 = param_5 + param_3;
-  if (param_3 <= param_5) {
-    return;
-  }
-  do {
-    iVar1 = param_5;
-    if (0x1f < param_5) {
-      iVar1 = param_5 + 0x20;
-    }
-    iVar3 = param_4;
-    if (param_4 < param_4 + param_2) {
-      do {
-        iVar2 = iVar3;
-        if (0x1f < iVar3) {
-          iVar2 = iVar3 + 0x3e0;
-        }
-        iVar3 = iVar3 + 1;
-        *(ushort *)(param_1 + iVar1 * 0x40 + iVar2 * 2) =
-             (ushort)((uint)(param_8 << 0x1c) >> 0x10) | (ushort)param_7;
-        param_7 = param_7 + 1;
-      } while (iVar3 < param_4 + param_2);
-    }
-    param_5 = param_5 + 1;
-  } while (param_5 < param_3);
-  return;
-}
+    NNS_G2D_POINTER_ASSERT(scnBase);
+    NNS_G2D_ALIGN_ASSERT(scnBase, 2);
+    NNS_G2D_ASSERT(0 < areaWidth);
+    NNS_G2D_ASSERT(0 < areaHeight);
+    NNS_G2D_ASSERT(0 <= areaLeft);
+    NNS_G2D_ASSERT(0 <= areaTop);
+    NNS_G2D_ASSERT(areaLeft + areaWidth <= scnWidth);
+    NNS_G2D_ASSERT(areaTop + areaHeight <= MAX_TEXT_BG_CHEIGHT);
+    NNS_G2D_TEXT_BG_WIDTH_ASSERT(scnWidth);
+    NNS_G2D_ASSERT(0 <= charNo);
+    NNS_G2D_ASSERT(charNo + (areaHeight * areaWidth) <= MAX_TEXT_BG_CHARACTER);
+    NNS_G2D_MINMAX_ASSERT(cplt, 0, 15);
 
+    if ( scnWidth <= 32 ) {
+        void * areaBase = (u16 *)scnBase + (scnWidth * areaTop + areaLeft);
+        NNS_G2dMapScrToChar256x16Pltt(areaBase, areaWidth, areaHeight,
+                                      (NNSG2d256x16PlttBGWidth)scnWidth, charNo, cplt);
+    } else {
+        const int areaRight = areaLeft + areaWidth;
+        const int areaBottom = areaTop + areaHeight;
+        const u16 cplt_sft = (u16)(cplt << 12);
+        u16 * const pScrBase = (u16 *)scnBase;
+        int x, y;
+
+        for (y = areaTop; y < areaBottom; ++y) {
+            const int py = (y < 32) ? y: y + 32;
+            u16 * pScr = pScrBase + py * 32;
+
+            for (x = areaLeft; x < areaRight; ++x) {
+                const int px = (x < 32) ? x: x + 32 * 31;
+                *(pScr + px) = (u16)(cplt_sft | charNo++);
+            }
+        }
+    }
+}

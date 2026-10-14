@@ -1,37 +1,55 @@
-/* Decompiled C draft; module arm9; ROM address 0212ea28. No matching claim. */
-#include "types.h"
-#include "deps/0212ea28_func_0212ea28.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNSi_SndPlayerAllocSeqPlayer func_0212c0e0
+#define NNSi_SndPlayerAllocHeap func_0212bfbc
+#define NNSi_SndArcLoadBank Sound_GetSbnkPointer
+#define NNSi_SndPlayerFreeSeqPlayer func_0212c0d4
+#define NNSi_SndPlayerStartSeq func_0212c078
+#define NNS_SndPlayerSetInitialVolume func_0212c668
+#define NNS_SndPlayerSetChannelPriority func_0212c5c4
+#define NNS_SndPlayerSetSeqArcNo func_0212c450
+#define StartSeqArc func_0212ea28
+#include <nnsys/snd/sndarc_player.h>
 
-undefined4
-func_0212ea28(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
-             uint param_5,int param_6,undefined4 param_7,undefined4 param_8)
+#include <nnsys/misc.h>
+#include <nnsys/snd/sndarc.h>
+#include <nnsys/snd/player.h>
+#include <nnsys/snd/sndarc_loader.h>
 
+#pragma thumb off
+BOOL StartSeqArc (NNSSndHandle * handle, int playerNo, int bankNo, int playerPrio, const NNSSndSeqArcSeqInfo * sound, const NNSSndSeqArc * seqArc, int seqArcNo, int index)
 {
-  uint uVar1;
-  int iVar2;
-  undefined4 uVar3;
-  int iVar4;
-  uint uVar5;
-  undefined4 uStack_1c;
-  
-  iVar2 = func_0212c0e0((undefined4 *)(uintptr_t)(param_1),param_2,param_4);
-  if (iVar2 == 0) {
-    return 0;
-  }
-  uVar3 = func_0212bfbc(param_2,iVar2);
-  iVar4 = Sound_GetSbnkPointer(param_3,6,uVar3,0);
-  if (iVar4 == 0) {
-    uVar1 = param_6 + 0x18U & 3;
-    uVar5 = *(uint *)(param_6 + 0x18U & 0xfffffffc);
-    func_0212c078(iVar2,param_6 + (uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20),
-                  *(uint *)(param_5 & 0xfffffffc) >> (param_5 & 3) * 8 |
-                  *(uint *)(param_5 & 0xfffffffc) << (param_5 & 3) * -8 + 0x20,uStack_1c);
-    func_0212c668(param_1,*(undefined1 *)(param_5 + 6));
-    func_0212c5c4(param_1,*(undefined1 *)(param_5 + 7));
-    func_0212c450(param_1,param_7,param_8);
-    return 1;
-  }
-  func_0212c0d4(iVar2);
-  return 0;
-}
+    NNSSndSeqPlayer * player;
+    NNSSndHeapHandle heap;
+    SNDBankData * bank;
+    NNSSndArcLoadResult result;
 
+    NNS_NULL_ASSERT(handle);
+    NNS_MINMAX_ASSERT(playerNo, 0, NNS_SND_PLAYER_NO_MAX);
+    NNS_MINMAX_ASSERT(playerPrio, 0, NNS_SND_PLAYER_PRIO_MAX);
+    NNS_NULL_ASSERT(sound);
+    NNS_NULL_ASSERT(seqArc);
+
+    player = NNSi_SndPlayerAllocSeqPlayer(handle, playerNo, playerPrio);
+    if (player == NULL) return FALSE;
+
+    heap = NNSi_SndPlayerAllocHeap(playerNo, player);
+
+    result = NNSi_SndArcLoadBank(bankNo, NNS_SND_ARC_LOAD_BANK | NNS_SND_ARC_LOAD_WAVE, heap, FALSE, &bank);
+    if (result != NNS_SND_ARC_LOAD_SUCESS) {
+        NNSi_SndPlayerFreeSeqPlayer(player);
+        return FALSE;
+    }
+
+    NNSi_SndPlayerStartSeq(
+        player,
+        (u8 *)seqArc + seqArc->baseOffset,
+        sound->offset,
+        bank
+        );
+
+    NNS_SndPlayerSetInitialVolume(handle, sound->param.volume);
+    NNS_SndPlayerSetChannelPriority(handle, sound->param.channelPrio);
+    NNS_SndPlayerSetSeqArcNo(handle, seqArcNo, index);
+
+    return TRUE;
+}

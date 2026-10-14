@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Sound_GetActiveSdat",
+    "target": 34788816,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421445
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Sound_GetPlayerInfoEntry",
+    "target": 34788236,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421296
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "func_0212c7b8",
+    "target": 34785208,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420534
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "func_0212c7a0",
+    "target": 34785184,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420525
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "func_0212c700",
+    "target": 34785024,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420472
+  }
+]

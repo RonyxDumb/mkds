@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "SND_GetWaveDataAddress",
+    "target": 33692008,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148229
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "func_020219e8",
+    "target": 33692136,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148254
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "Sound_Context_Allocate",
+    "target": 34790268,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422767
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "Sound_ReadFile",
+    "target": 34787964,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422181
+  },
+  {
+    "offset": 204,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959129044
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "SND_SetWaveDataAddress",
+    "target": 33692080,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148198
+  },
+  {
+    "offset": 240,
+    "type": 2,
+    "symbol": "SDK_data_0212df28",
+    "target": 34791208,
+    "thumb": false,
+    "addend": 0,
+    "value": 34791208
+  }
+]

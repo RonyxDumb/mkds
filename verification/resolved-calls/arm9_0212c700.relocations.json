@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Sound_Context_Allocate",
+    "target": 34790268,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647060
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "Sound_InitializeContext",
+    "target": 34790600,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647131
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_InsertLast",
+    "target": 33649828,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959139142
+  },
+  {
+    "offset": 152,
+    "type": 2,
+    "symbol": "SDK_data_0212bd10",
+    "target": 34782480,
+    "thumb": false,
+    "addend": 0,
+    "value": 34782480
+  },
+  {
+    "offset": 156,
+    "type": 2,
+    "symbol": "SDK_data_0217d89c",
+    "target": 35117212,
+    "thumb": false,
+    "addend": 0,
+    "value": 35117212
+  }
+]

@@ -1,12 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 02010f24. No matching claim. */
-#include "types.h"
-#include "deps/02010f24_func_02010f24.h"
-
-void func_02010f24(uint param_1,int param_2,int param_3,int param_4,int param_5,uint param_6)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G3dGlb SDK_data_0217029c
+#define NNS_G3dGlbPolygonAttr func_02010f24
+#include <nnsys/g3d/glbstate.h>
+#include <nnsys/g3d/gecom.h>
+extern NNSG3dGlb NNS_G3dGlb;
+#pragma thumb off
+void NNS_G3dGlbPolygonAttr (int light, GXPolygonMode polyMode, GXCull cullMode, int polygonID, int alpha, int misc)
 {
-  *(uint *)(iRam02010f4c + 0x9c) =
-       param_6 | param_1 | param_2 << 4 | param_3 << 6 | param_4 << 0x18 | param_5 << 0x10;
-  return;
-}
+    GX_LIGHTMASK_ASSERT(light);
+    GX_POLYGONMODE_ASSERT(polyMode);
+    GX_CULL_ASSERT(cullMode);
+    GX_POLYGON_ATTR_POLYGONID_ASSERT(polygonID);
+    GX_POLYGON_ATTR_ALPHA_ASSERT(alpha);
 
+    NNS_G3dGlb.prmPolygonAttr = GX_PACK_POLYGONATTR_PARAM(light,
+                                                          polyMode,
+                                                          cullMode,
+                                                          polygonID,
+                                                          alpha,
+                                                          misc);
+}

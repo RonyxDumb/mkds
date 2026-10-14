@@ -1,19 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 0212bbfc. No matching claim. */
-#include "types.h"
-#include "deps/0212bbfc_func_0212bbfc.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define sCaptureLock SDK_data_0217d438
+#define NNS_SndLockCapture func_0212bbfc
+#include <nnsys/snd/resource_mgr.h>
 
-bool func_0212bbfc(uint param_1)
-
+#include <nitro/snd.h>
+#include <nnsys/misc.h>
+extern u32 sCaptureLock;
+#pragma thumb off
+BOOL NNS_SndLockCapture (u32 capBitFlag)
 {
-  uint uVar1;
-  bool bVar2;
-  
-  uVar1 = *(uint *)((uint)puRam0212bc1c & 0xfffffffc) >> ((uint)puRam0212bc1c & 3) * 8 |
-          *(uint *)((uint)puRam0212bc1c & 0xfffffffc) << ((uint)puRam0212bc1c & 3) * -8 + 0x20;
-  bVar2 = (param_1 & uVar1) == 0;
-  if (bVar2) {
-    *puRam0212bc1c = uVar1 | param_1;
-  }
-  return bVar2;
-}
+    if (capBitFlag & sCaptureLock) return FALSE;
 
+    sCaptureLock |= capBitFlag;
+
+    return TRUE;
+}

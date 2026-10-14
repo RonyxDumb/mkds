@@ -1,52 +1,62 @@
-/* Decompiled C draft; module arm9; ROM address 02143c80. No matching claim. */
-#include "types.h"
-#include "deps/02143c80_func_02143c80.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMi_CheckStateEx func_02142988
+#define WmCheckParentParameter func_02143c30
+#define WMi_SetCallbackTable SetSomeFunctionPtr
+#define DC_StoreRange DC_SomeClean
+#define WMi_SendCommand WM_SomeFn
+#define WM_SetParentParameter func_02143c80
+#include <nitro/wm.h>
 
-int func_02143c80(undefined4 param_1,uint param_2)
-
+#include "wm_arm9_private.h"
+extern BOOL WmCheckParentParameter (const WMParentParam * param);
+#pragma thumb off
+WMErrCode WM_SetParentParameter (WMCallbackFunc callback, const WMParentParam * pparaBuf)
 {
-  int iVar1;
-  
-  iVar1 = func_02142988(1,2);
-  if (iVar1 != 0) {
-    return iVar1;
-  }
-  if (param_2 != 0) {
-    if ((*(short *)(param_2 + 4) != 0) &&
-       (*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 == 0 &&
-        *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20 == 0)) {
-      return 6;
-    }
-    if (*(short *)(param_2 + 0x14) == 0) {
-      iVar1 = 0;
-    }
-    else {
-      iVar1 = 0x2a;
-    }
-    if ((uint)*(ushort *)(param_2 + 0x34) + iVar1 < 0x201) {
-      if (*(short *)(param_2 + 0x14) == 0) {
-        iVar1 = 0;
-      }
-      else {
-        iVar1 = 6;
-      }
-      if ((uint)*(ushort *)(param_2 + 0x36) + iVar1 < 0x201) {
-        func_02143c30(param_2);
-        SetSomeFunctionPtr(7,param_1);
-        DC_SomeClean(param_2,0x40);
-        if (*(short *)(param_2 + 4) != 0) {
-          DC_SomeClean(*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-                       *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20);
-        }
-        iVar1 = WM_SomeFn(7,1,param_2);
-        if (iVar1 == 0) {
-          iVar1 = 2;
-        }
-        return iVar1;
-      }
-    }
-    return 6;
-  }
-  return 6;
-}
+    WMErrCode result;
 
+    result = WMi_CheckState(WM_STATE_IDLE);
+    WM_CHECK_RESULT(result);
+
+    if (pparaBuf == NULL) {
+        WM_WARNING("Parameter \"pparaBuf\" must not be NULL.\n");
+        return WM_ERRCODE_INVALID_PARAM;
+    }
+
+    if ((u32)pparaBuf & 0x01f) {
+        WM_WARNING("Parameter \"pparaBuf\" is not 32-byte aligned.\n");
+    }
+
+    if (pparaBuf->userGameInfoLength > 0) {
+        if (pparaBuf->userGameInfo == NULL) {
+            WM_WARNING("Parameter \"pparaBuf->userGameInfo\" must not be NULL.\n");
+            return WM_ERRCODE_INVALID_PARAM;
+        }
+
+        if ((u32)(pparaBuf->userGameInfo) & 0x01f) {
+            WM_WARNING("Parameter \"pparaBuf->userGameInfo\" is not 32-byte aligned.\n");
+        }
+    }
+
+    if ((pparaBuf->parentMaxSize +
+         (pparaBuf->KS_Flag ? WM_SIZE_KS_PARENT_DATA + WM_SIZE_MP_PARENT_PADDING : 0) >
+         WM_SIZE_MP_DATA_MAX)
+        || (pparaBuf->childMaxSize +
+            (pparaBuf->KS_Flag ? WM_SIZE_KS_CHILD_DATA + WM_SIZE_MP_CHILD_PADDING : 0) >
+            WM_SIZE_MP_DATA_MAX)) {
+        WM_WARNING("Transfer data size is over %d byte.\n", WM_SIZE_MP_DATA_MAX);
+        return WM_ERRCODE_INVALID_PARAM;
+    }
+    (void)WmCheckParentParameter(pparaBuf);
+
+    WMi_SetCallbackTable(WM_APIID_SET_P_PARAM, callback);
+    DC_StoreRange((void *)pparaBuf, WM_PARENT_PARAM_SIZE);
+
+    if (pparaBuf->userGameInfoLength > 0) {
+        DC_StoreRange(pparaBuf->userGameInfo, pparaBuf->userGameInfoLength);
+    }
+
+    result = WMi_SendCommand(WM_APIID_SET_P_PARAM, 1, (u32)pparaBuf);
+    WM_CHECK_RESULT(result);
+
+    return WM_ERRCODE_OPERATING;
+}

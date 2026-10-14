@@ -1,40 +1,42 @@
-/* Decompiled C draft; module arm9; ROM address 0212ec04. No matching claim. */
-#include "types.h"
-#include "deps/0212ec04_func_0212ec04.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_SndArcGetSeqArcInfo Sound_GetSarcInfoEntry
+#define NNS_SndArcGetFileAddress Sound_MaybeGetRawFilePointer
+#define NNSi_SndSeqArcGetSeqInfo func_0212f788
+#define StartSeqArc func_0212ea28
+#define NNS_SndArcPlayerStartSeqArcEx func_0212ec04
+#include <nnsys/snd/sndarc_player.h>
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
-
-void func_0212ec04(undefined4 param_1,uint param_2,uint param_3,uint param_4,undefined4 param_5,
-                  undefined4 param_6)
-
+#include <nnsys/misc.h>
+#include <nnsys/snd/sndarc.h>
+#include <nnsys/snd/player.h>
+#include <nnsys/snd/sndarc_loader.h>
+extern BOOL StartSeqArc (NNSSndHandle * handle, int playerNo, int bankNo, int playerPrio, const NNSSndSeqArcSeqInfo * sound, const NNSSndSeqArc * seqArc, int seqArcNo, int index);
+#pragma thumb off
+BOOL NNS_SndArcPlayerStartSeqArcEx (NNSSndHandle * handle, int playerNo, int bankNo, int playerPrio, int seqArcNo, int index)
 {
-  uint uVar1;
-  int iVar2;
-  
-  uVar1 = Sound_GetSarcInfoEntry(param_5);
-  if (uVar1 == 0) {
-    return;
-  }
-  iVar2 = Sound_MaybeGetRawFilePointer
-                    (*(uint *)(uVar1 & 0xfffffffc) >> (uVar1 & 3) * 8 |
-                     *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20);
-  if (iVar2 != 0) {
-    iVar2 = func_0212f788(iVar2,param_6);
-    if (iVar2 != 0) {
-      if ((int)param_4 < 0) {
-        param_4 = (uint)*(byte *)(iVar2 + 8);
-      }
-      if ((int)param_3 < 0) {
-        param_3 = (uint)*(ushort *)(iVar2 + 4);
-      }
-      if ((int)param_2 < 0) {
-        param_2 = (uint)*(byte *)(iVar2 + 9);
-      }
-      func_0212ea28(param_1,param_2,param_3,param_4);
-      return;
-    }
-    return;
-  }
-  return;
-}
+    const NNSSndArcSeqArcInfo * info;
+    const NNSSndSeqArc * seqArc;
+    const NNSSndSeqArcSeqInfo * sound;
 
+    NNS_NULL_ASSERT(handle);
+    NNS_MAX_ASSERT(playerNo, NNS_SND_PLAYER_NUM - 1);
+    NNS_MAX_ASSERT(playerPrio, NNS_SND_PLAYER_PRIO_MAX);
+
+    info = NNS_SndArcGetSeqArcInfo(seqArcNo);
+    if (info == NULL) return FALSE;
+    seqArc = (NNSSndSeqArc *)NNS_SndArcGetFileAddress(info->fileId);
+    if (seqArc == NULL) return FALSE;
+    sound = NNSi_SndSeqArcGetSeqInfo(seqArc, index);
+    if (sound == NULL) return FALSE;
+
+    return StartSeqArc(
+        handle,
+        playerNo   >= 0 ? playerNo   : sound->param.playerNo,
+        bankNo     >= 0 ? bankNo     : sound->param.bankNo,
+        playerPrio >= 0 ? playerPrio : sound->param.playerPrio,
+        sound,
+        seqArc,
+        seqArcNo,
+        index
+        );
+}

@@ -17,6 +17,7 @@
 | 15 | 7.987 | 66,35% | 2.289 | 109.220 |
 | 16 | 8,028 | 66.69% | 2,379 | 126,160 |
 | 17 | 8,052 | 66.89% | 2,454 | 135,620 |
+| 18 | 8,141 | 67.63% | 2,706 | 171,580 |
 
 Checkpoint 4: 846 puntatori tipizzati, 484 nuove compilazioni riuscite.
 
@@ -48,3 +49,5 @@ Checkpoint 15: ROM EUR fornita e verificata; tutte le 2.288 prove precedenti ric
 Checkpoint 16: +90 funzioni e +16.940 byte inventariati (17.004 byte negli span completi) locali verificati da ricostruzioni C pubbliche di sm64ds-decomp e pokediamond, con commit, hash e flag registrati. Tutte le prove MW ricompilate; nessun corpo assembly importato. Copertura locale: 6.592548%.
 
 Checkpoint 17: +75 funzioni; +9.460 byte inventariati (9.556 negli span completi). Ricerca ricorsiva di 1.912 sorgenti C pubblici di sm64ds-decomp, 11.472 varianti compilate. Tutte le 2.454 prove ricompilate e confrontate; le 75 nuove funzioni compilano anche con Clang ARM. Copertura locale: 7,086884%.
+
+Checkpoint 18: +252 funzioni e +35.960 byte inventariati da NitroSDK e NitroSystem. Tutte le 2.706 prove ricompilate; 3.802 relocazioni risolte. L'assembly inline CLZ nell'header e stato sostituito da una sola dichiarazione esterna, senza implementazione; tutte le 252 nuove prove sono state confermate dopo la modifica. Copertura locale: 8,965990%.

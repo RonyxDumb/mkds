@@ -1,26 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 01ff9490. No matching claim. */
-#include "types.h"
-#include "deps/01ff9490_func_01ff9490.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define texmtxCalc_flagTR_ func_01ff9490
+#include <nnsys/g3d/cgtool/maya.h>
+#include <nnsys/g3d/kernel.h>
+#include <nnsys/g3d/gecom.h>
+#include <nnsys/g3d/sbc.h>
+#include <nnsys/g3d/util.h>
 
-void func_01ff9490(uint *param_1,int param_2)
+#include <nitro/code32.h>
+#include <nitro/codereset.h>
 
+#pragma thumb off
+void texmtxCalc_flagTR_ (MtxFx44 * m, const NNSG3dMatAnmResult * anm)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_2 + 0x18U & 3;
-  uVar2 = *(uint *)(param_2 + 0x18U & 0xfffffffc);
-  *param_1 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  uVar1 = param_2 + 0x1cU & 3;
-  uVar2 = *(uint *)(param_2 + 0x1cU & 0xfffffffc);
-  param_1[5] = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  param_1[1] = 0;
-  param_1[0xc] = 0;
-  uVar1 = param_2 + 0x1cU & 3;
-  uVar2 = *(uint *)(param_2 + 0x1cU & 0xfffffffc);
-  param_1[0xd] = (uint)*(ushort *)(param_2 + 0x2e) *
-                 ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) * -2 + 0x2000) * 8;
-  param_1[4] = 0;
-  return;
-}
+    m->_00 = anm->scaleS;
+    m->_11 = anm->scaleT;
 
+    m->_01 = 0;
+
+    m->_30 = 0;
+    m->_31 = ((-2 * anm->scaleT + FX32_ONE * 2) * anm->origHeight << 3);
+
+    m->_10 = 0;
+}

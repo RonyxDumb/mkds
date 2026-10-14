@@ -1,0 +1,128 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Fs_File_Seek",
+    "target": 33572928,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959118933
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Fs_File_Read",
+    "target": 33573036,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959118951
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "Sound_Context_Allocate",
+    "target": 34790268,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646029
+  },
+  {
+    "offset": 168,
+    "type": 1,
+    "symbol": "Fs_File_Seek",
+    "target": 33572928,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959118899
+  },
+  {
+    "offset": 204,
+    "type": 1,
+    "symbol": "Fs_File_Read",
+    "target": 33573036,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959118917
+  },
+  {
+    "offset": 256,
+    "type": 1,
+    "symbol": "Sound_Context_Allocate",
+    "target": 34790268,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645996
+  },
+  {
+    "offset": 300,
+    "type": 1,
+    "symbol": "Fs_File_Seek",
+    "target": 33572928,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959118866
+  },
+  {
+    "offset": 336,
+    "type": 1,
+    "symbol": "Fs_File_Read",
+    "target": 33573036,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959118884
+  },
+  {
+    "offset": 404,
+    "type": 1,
+    "symbol": "Sound_Context_Allocate",
+    "target": 34790268,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645959
+  },
+  {
+    "offset": 448,
+    "type": 1,
+    "symbol": "Fs_File_Seek",
+    "target": 33572928,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959118829
+  },
+  {
+    "offset": 484,
+    "type": 1,
+    "symbol": "Fs_File_Read",
+    "target": 33573036,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959118847
+  },
+  {
+    "offset": 528,
+    "type": 2,
+    "symbol": "SDK_data_0212d22c",
+    "target": 34787884,
+    "thumb": false,
+    "addend": 0,
+    "value": 34787884
+  },
+  {
+    "offset": 532,
+    "type": 2,
+    "symbol": "SDK_data_0212d220",
+    "target": 34787872,
+    "thumb": false,
+    "addend": 0,
+    "value": 34787872
+  },
+  {
+    "offset": 536,
+    "type": 2,
+    "symbol": "SDK_data_0212d214",
+    "target": 34787860,
+    "thumb": false,
+    "addend": 0,
+    "value": 34787860
+  }
+]

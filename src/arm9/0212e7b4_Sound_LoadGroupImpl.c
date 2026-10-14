@@ -1,68 +1,60 @@
-/* Decompiled C draft; module arm9; ROM address 0212e7b4. No matching claim. */
-#include "types.h"
-#include "deps/0212e7b4_Sound_LoadGroupImpl.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_SndArcGetGroupInfo Sound_GetGroupInfoEntry
+#define NNSi_SndArcLoadSeqArc Sound_GetSarcPointer
+#define NNSi_SndArcLoadBank Sound_GetSbnkPointer
+#define NNSi_SndArcLoadWaveArc Sound_GetSwarPointer
+#define NNSi_SndArcLoadGroup Sound_LoadGroupImpl
+#include <nnsys/snd/sndarc_loader.h>
 
-int Sound_LoadGroupImpl(undefined4 param_1,undefined4 param_2)
+#include <nitro/types.h>
 
+#include <nnsys/snd/seqdata.h>
+#include <nnsys/snd/sndarc.h>
+
+#include <nitro/snd.h>
+
+#include <nnsys/misc.h>
+#include <nnsys/snd/heap.h>
+extern NNSSndArcLoadResult NNSi_SndArcLoadSeq (int seqNo, u32 loadFlag, NNSSndHeapHandle heap, BOOL bSetAddr, struct NNSSndSeqData ** pData);
+extern NNSSndArcLoadResult NNSi_SndArcLoadSeqArc (int seqArcNo, u32 loadFlag, NNSSndHeapHandle heap, BOOL bSetAddr, struct NNSSndSeqArc ** pData);
+extern NNSSndArcLoadResult NNSi_SndArcLoadBank (int bankNo, u32 loadFlag, NNSSndHeapHandle heap, BOOL bSetAddr, struct SNDBankData ** pData);
+extern NNSSndArcLoadResult NNSi_SndArcLoadWaveArc (int waveArcNo, u32 loadFlag, NNSSndHeapHandle heap, BOOL bSetAddr, struct SNDWaveArc ** pData);
+#pragma thumb off
+NNSSndArcLoadResult NNSi_SndArcLoadGroup (int groupNo, NNSSndHeapHandle heap)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  int iVar4;
-  undefined1 *puVar5;
-  uint uVar6;
-  
-  uVar2 = Sound_GetGroupInfoEntry();
-  if (uVar2 == 0) {
-    return 1;
-  }
-  uVar6 = 0;
-  if (*(uint *)(uVar2 & 0xfffffffc) >> (uVar2 & 3) * 8 != 0 ||
-      *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20 != 0) {
-    puVar5 = (undefined1 *)(uVar2 + 4);
-    do {
-      switch(*puVar5) {
-      case 0:
-        uVar1 = (uint)(puVar5 + 4) & 3;
-        uVar3 = *(uint *)((uint)(puVar5 + 4) & 0xfffffffc);
-        iVar4 = NNSi_SndArcLoadSeq(uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2
-                                   ,1);
-        if (iVar4 != 0) {
-          return iVar4;
-        }
-        break;
-      case 1:
-        uVar1 = (uint)(puVar5 + 4) & 3;
-        uVar3 = *(uint *)((uint)(puVar5 + 4) & 0xfffffffc);
-        iVar4 = Sound_GetSbnkPointer
-                          (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2,1);
-        if (iVar4 != 0) {
-          return iVar4;
-        }
-        break;
-      case 2:
-        uVar1 = (uint)(puVar5 + 4) & 3;
-        uVar3 = *(uint *)((uint)(puVar5 + 4) & 0xfffffffc);
-        iVar4 = Sound_GetSwarPointer
-                          (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2,1);
-        if (iVar4 != 0) {
-          return iVar4;
-        }
-        break;
-      case 3:
-        uVar1 = (uint)(puVar5 + 4) & 3;
-        uVar3 = *(uint *)((uint)(puVar5 + 4) & 0xfffffffc);
-        iVar4 = Sound_GetSarcPointer
-                          (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20,puVar5[1],param_2,1);
-        if (iVar4 != 0) {
-          return iVar4;
-        }
-      }
-      uVar6 = uVar6 + 1;
-      puVar5 = puVar5 + 8;
-    } while (uVar6 < (*(uint *)(uVar2 & 0xfffffffc) >> (uVar2 & 3) * 8 |
-                     *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20));
-  }
-  return 0;
-}
+    const NNSSndArcGroupInfo * info;
+    const NNSSndArcGroupItem * item;
+    NNSSndArcLoadResult result;
+    int itemNo;
 
+    info = NNS_SndArcGetGroupInfo(groupNo);
+    if (info == NULL) return NNS_SND_ARC_LOAD_ERROR_INVALID_GROUP_NO;
+
+    for (itemNo = 0; itemNo < info->count; itemNo++) {
+        item = &info->item[ itemNo ];
+
+        switch (item->type) {
+        case NNS_SNDARC_SNDTYPE_SEQ:
+            result = NNSi_SndArcLoadSeq((int)(item->index), item->loadFlag, heap, TRUE, NULL);
+            if (result != NNS_SND_ARC_LOAD_SUCESS) return result;
+            break;
+        case NNS_SNDARC_SNDTYPE_SEQARC:
+            result = NNSi_SndArcLoadSeqArc((int)(item->index), item->loadFlag, heap, TRUE, NULL);
+            if (result != NNS_SND_ARC_LOAD_SUCESS) return result;
+            break;
+        case NNS_SNDARC_SNDTYPE_BANK:
+            result = NNSi_SndArcLoadBank((int)(item->index), item->loadFlag, heap, TRUE, NULL);
+            if (result != NNS_SND_ARC_LOAD_SUCESS) return result;
+            break;
+        case NNS_SNDARC_SNDTYPE_WAVEARC:
+            result = NNSi_SndArcLoadWaveArc((int)(item->index), item->loadFlag, heap, TRUE, NULL);
+            if (result != NNS_SND_ARC_LOAD_SUCESS) return result;
+            break;
+        default:
+            NNS_ASSERT(FALSE);
+            break;
+        }
+    }
+
+    return NNS_SND_ARC_LOAD_SUCESS;
+}

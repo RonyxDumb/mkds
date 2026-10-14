@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "ArcEntry_ValidateNarcHeader",
+    "target": 33653920,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645836
+  },
+  {
+    "offset": 164,
+    "type": 1,
+    "symbol": "Fs_Archive_Initialize",
+    "target": 33571384,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402386
+  },
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "strlen",
+    "target": 34841652,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942942731
+  },
+  {
+    "offset": 204,
+    "type": 1,
+    "symbol": "Fs_RegisterArchive",
+    "target": 33571112,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402308
+  },
+  {
+    "offset": 288,
+    "type": 1,
+    "symbol": "Fs_Archive_LoadFromFatFnt",
+    "target": 33570840,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402219
+  },
+  {
+    "offset": 316,
+    "type": 1,
+    "symbol": "Fs_UnregisterArchive",
+    "target": 33570960,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402242
+  }
+]

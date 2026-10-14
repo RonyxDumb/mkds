@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Sound_GetSbnkInfoEntry",
+    "target": 34788436,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421888
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Sound_PrepareSbnkData",
+    "target": 34792040,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422778
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "Sound_MaybeGetRawFilePointer",
+    "target": 34787924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421741
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "Sound_GetSwarInfoEntry",
+    "target": 34788336,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421835
+  },
+  {
+    "offset": 184,
+    "type": 1,
+    "symbol": "Sound_GetSwarPointer",
+    "target": 34792592,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422886
+  },
+  {
+    "offset": 252,
+    "type": 1,
+    "symbol": "func_0212dd64",
+    "target": 34790756,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422410
+  },
+  {
+    "offset": 304,
+    "type": 1,
+    "symbol": "func_02021cd4",
+    "target": 33692884,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959147929
+  }
+]

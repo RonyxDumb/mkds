@@ -1,65 +1,41 @@
-/* Decompiled C draft; module arm9; ROM address 01ff9828. No matching claim. */
-#include "types.h"
-#include "deps/01ff9828_func_01ff9828.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define texmtxCalc_flag_ func_01ff9828
+#include <nnsys/g3d/cgtool/maya.h>
+#include <nnsys/g3d/kernel.h>
+#include <nnsys/g3d/gecom.h>
+#include <nnsys/g3d/sbc.h>
+#include <nnsys/g3d/util.h>
 
-void func_01ff9828(uint *param_1,int param_2)
+#include <nitro/code32.h>
+#include <nitro/codereset.h>
 
+#pragma thumb off
+void texmtxCalc_flag_ (MtxFx44 * m, const NNSG3dMatAnmResult * anm)
 {
-  int iVar1;
-  longlong lVar2;
-  longlong lVar3;
-  int iVar4;
-  int iVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar9;
-  uint uVar10;
-  uint uVar11;
-  uint uVar12;
-  uint uVar8;
-  
-  iVar5 = (uint)*(ushort *)(param_2 + 0x2c) << 0xc;
-  iVar1 = (uint)*(ushort *)(param_2 + 0x2e) << 0xc;
-  FX_DivAsync(iVar1,iVar5);
-  uVar8 = param_2 + 0x18U & 3;
-  uVar6 = *(uint *)(param_2 + 0x18U & 0xfffffffc);
-  uVar6 = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
-  uVar8 = param_2 + 0x1cU & 3;
-  uVar7 = *(uint *)(param_2 + 0x1cU & 0xfffffffc);
-  uVar8 = uVar7 >> uVar8 * 8 | uVar7 << uVar8 * -8 + 0x20;
-  lVar2 = (longlong)(int)uVar6 * (longlong)(int)*(short *)(param_2 + 0x22);
-  uVar11 = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  lVar2 = (longlong)(int)uVar6 * (longlong)(int)*(short *)(param_2 + 0x20);
-  uVar12 = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  lVar2 = (longlong)(int)uVar8 * (longlong)(int)*(short *)(param_2 + 0x20);
-  lVar3 = (longlong)(int)uVar8 * (longlong)(int)*(short *)(param_2 + 0x22);
-  uVar9 = (uint)lVar2 >> 0xc | (int)((ulonglong)lVar2 >> 0x20) << 0x14;
-  uVar7 = (uint)lVar3 >> 0xc | (int)((ulonglong)lVar3 >> 0x20) << 0x14;
-  *param_1 = uVar11;
-  param_1[5] = uVar7;
-  iVar4 = FX_GetDivResult();
-  param_1[1] = (int)(-uVar9 * iVar4) >> 0xc;
-  FX_DivAsync(iVar5,iVar1);
-  uVar8 = param_2 + 0x18U & 3;
-  uVar6 = *(uint *)(param_2 + 0x18U & 0xfffffffc);
-  uVar10 = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
-  uVar8 = param_2 + 0x24U & 3;
-  uVar6 = *(uint *)(param_2 + 0x24U & 0xfffffffc);
-  lVar2 = (longlong)(int)uVar10 * (longlong)(int)(uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20);
-  param_1[0xc] = (uint)*(ushort *)(param_2 + 0x2c) * (uVar10 - (uVar12 + uVar11)) * 8 -
-                 (uint)*(ushort *)(param_2 + 0x2c) *
-                 ((uint)lVar2 >> 8 | (int)((ulonglong)lVar2 >> 0x20) << 0x18);
-  uVar8 = param_2 + 0x1cU & 3;
-  uVar6 = *(uint *)(param_2 + 0x1cU & 0xfffffffc);
-  uVar10 = uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20;
-  uVar8 = param_2 + 0x28U & 3;
-  uVar6 = *(uint *)(param_2 + 0x28U & 0xfffffffc);
-  lVar2 = (longlong)(int)uVar10 * (longlong)(int)(uVar6 >> uVar8 * 8 | uVar6 << uVar8 * -8 + 0x20);
-  param_1[0xd] = (uint)*(ushort *)(param_2 + 0x2e) *
-                 ((uint)lVar2 >> 8 | (int)((ulonglong)lVar2 >> 0x20) << 0x18) +
-                 (uint)*(ushort *)(param_2 + 0x2e) * (((uVar9 - uVar7) - uVar10) + 0x2000) * 8;
-  iVar5 = FX_GetDivResult();
-  param_1[4] = (int)(uVar12 * iVar5) >> 0xc;
-  return;
-}
+    fx32 ss_sin, ss_cos;
+    fx32 st_sin, st_cos;
+    fx32 tmpW, tmpH;
 
+    tmpW = (s32)anm->origWidth << FX32_SHIFT;
+    tmpH = (s32)anm->origHeight << FX32_SHIFT;
+    FX_DivAsync(tmpH, tmpW);
+
+    ss_sin = (fx32)((fx64)anm->scaleS * anm->sinR >> FX32_SHIFT);
+    ss_cos = (fx32)((fx64)anm->scaleS * anm->cosR >> FX32_SHIFT);
+    st_sin = (fx32)((fx64)anm->scaleT * anm->sinR >> FX32_SHIFT);
+    st_cos = (fx32)((fx64)anm->scaleT * anm->cosR >> FX32_SHIFT);
+
+    m->_00 = ss_cos;
+    m->_11 = st_cos;
+
+    m->_01 = -st_sin * FX_GetDivResult() >> FX32_SHIFT;
+    FX_DivAsync(tmpW, tmpH);
+
+    m->_30 = ((-ss_sin - ss_cos + anm->scaleS) * anm->origWidth << 3) -
+             (fx32)((fx64)anm->scaleS * anm->transS >> (FX32_SHIFT - 4)) * anm->origWidth;
+
+    m->_31 = ((st_sin - st_cos - anm->scaleT + FX32_ONE * 2) * anm->origHeight << 3) +
+             (fx32)((fx64)anm->scaleT * anm->transT >> (FX32_SHIFT - 4)) * anm->origHeight;
+
+    m->_10 = ss_sin * FX_GetDivResult() >> FX32_SHIFT;
+}

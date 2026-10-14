@@ -1,29 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 02015274. No matching claim. */
-#include "types.h"
-#include "deps/02015274_Anim_UnkFnPtr_BCA.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define getJntSRTAnmResult_ func_02014c5c
+#define NNSi_G3dAnmCalcNsBca Anim_UnkFnPtr_BCA
+#include <nnsys/g3d/anm/nsbca.h>
+#include <nnsys/g3d/sbc.h>
+#include <nnsys/g3d/binres/res_struct_accessor.h>
 
-void Anim_UnkFnPtr_BCA(undefined4 param_1,uint param_2,undefined4 param_3)
+#include <nitro/code32.h>
 
+#include <nitro/codereset.h>
+extern void getJntSRTAnmResult_ (const NNSG3dResJntAnm * pJntAnm, u32 dataIdx, fx32 Frame, NNSG3dJntAnmResult * pResult);
+#pragma thumb off
+void NNSi_G3dAnmCalcNsBca (NNSG3dJntAnmResult * pResult, const NNSG3dAnmObj * pAnmObj, u32 dataIdx)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar4;
-  uint uVar3;
-  
-  uVar3 = param_2 + 8 & 3;
-  uVar2 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  uVar4 = *(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-          *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20;
-  uVar2 = (uint)*(ushort *)(uVar3 + 4);
-  iVar1 = uVar2 * 0x1000;
-  if ((int)(uVar4 + uVar2 * -0x1000) < 0 == SBORROW4(uVar4,iVar1)) {
-    uVar4 = iVar1 - 1;
-  }
-  else if ((int)uVar4 < 0) {
-    uVar4 = 0;
-  }
-  func_02014c5c(uVar3,param_3,uVar4,(uint *)(uintptr_t)(param_1));
-  return;
-}
+    NNS_G3D_NULL_ASSERT(pResult);
+    NNS_G3D_NULL_ASSERT(pAnmObj);
 
+    {
+        fx32 frame;
+        NNSG3dResJntAnm * anm = (NNSG3dResJntAnm *)(pAnmObj->resAnm);
+
+        if (pAnmObj->frame >= (anm->numFrame << FX32_SHIFT))
+            frame = (anm->numFrame << FX32_SHIFT) - 1;
+        else if (pAnmObj->frame < 0)
+            frame = 0;
+        else
+            frame = pAnmObj->frame;
+
+        getJntSRTAnmResult_(anm, dataIdx, frame, pResult);
+    }
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "func_0212c0e0",
+    "target": 34783456,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420325
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "func_0212bfbc",
+    "target": 34783164,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420244
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Sound_GetSbnkPointer",
+    "target": 34792760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422636
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "func_0212c0d4",
+    "target": 34783444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420303
+  },
+  {
+    "offset": 148,
+    "type": 1,
+    "symbol": "func_0212c078",
+    "target": 34783352,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420269
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "func_0212c668",
+    "target": 34784872,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420646
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "func_0212c5c4",
+    "target": 34784708,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420602
+  },
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "func_0212c450",
+    "target": 34784336,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420505
+  }
+]

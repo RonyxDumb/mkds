@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "Nsbmd_GetMDL0Block",
+    "target": 33634096,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646479
+  },
+  {
+    "offset": 200,
+    "type": 1,
+    "symbol": "Nsbtx_GetTEX0Block",
+    "target": 33634032,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646460
+  },
+  {
+    "offset": 216,
+    "type": 1,
+    "symbol": "func_020100fc",
+    "target": 33620220,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420219
+  },
+  {
+    "offset": 224,
+    "type": 1,
+    "symbol": "Nsbtx_GetTEX0Block",
+    "target": 33634032,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646454
+  },
+  {
+    "offset": 244,
+    "type": 1,
+    "symbol": "func_020107e4",
+    "target": 33621988,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420654
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "Tex0_CleanGetKeys",
+    "target": 33622148,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420689
+  },
+  {
+    "offset": 388,
+    "type": 2,
+    "symbol": "SDK_data_021619f8",
+    "target": 35002872,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002872
+  },
+  {
+    "offset": 392,
+    "type": 2,
+    "symbol": "SDK_data_021619f0",
+    "target": 35002864,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002864
+  }
+]

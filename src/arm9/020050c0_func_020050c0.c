@@ -1,30 +1,45 @@
-/* Decompiled C draft; module arm9; ROM address 020050c0. No matching claim. */
-#include "types.h"
-#include "deps/020050c0_func_020050c0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define DGT_SetOverlayTableMode func_02150dc8
+#define FSi_CompareDigest Fs_ComputeCompareDigest
+#define OS_Terminate Os_Terminate
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define SDK_OVERLAYTABLE_DIGEST SDK_data_0216f2dc
+#define fsi_ovt9 SDK_data_0216f35c
+#define fsi_ovt7 SDK_data_0216f364
+#define FS_AttachOverlayTable func_020050c0
+#include <nitro/os.h>
+#include <nitro/mi.h>
+#include <nitro/fs.h>
+#include <nitro/mb.h>
+#include <nitro/dgt/common.h>
+#include <nitro/dgt/dgt.h>
 
-void func_020050c0(int param_1,int param_2,int param_3)
-
+#include "../include/util.h"
+#include "../include/rom.h"
+#include "../include/mw_dtor.h"
+extern BOOL FSi_CompareDigest (const u8 *spec_digest, void *src, int len);
+extern u8 SDK_OVERLAYTABLE_DIGEST[];
+#pragma thumb off
+void FS_AttachOverlayTable (MIProcessor target, const void *ptr, u32 len)
 {
-  undefined4 uVar1;
-  int iVar2;
-  int *piVar3;
-  
-  if ((param_2 != 0) && (param_1 == 0)) {
-    uVar1 = func_02150dc8(1);
-    iVar2 = Fs_ComputeCompareDigest(uRam02005138,param_2,param_3);
-    if (iVar2 == 0) {
-      Os_Terminate();
-    }
-    func_02150dc8(uVar1);
-  }
-  piVar3 = piRam0200513c;
-  if (param_1 != 0) {
-    piVar3 = piRam02005140;
-  }
-  Os_DisableIrq();
-  *piVar3 = param_2;
-  piVar3[1] = param_3;
-  Os_RestoreIrq();
-  return;
-}
+#ifdef  SDK_TS
+	if ((ptr != NULL) && (target == MI_PROCESSOR_ARM9)) {
+		int bak_ovt_mode = DGT_SetOverlayTableMode(TRUE);
+		if (!FSi_CompareDigest((const u8 *)SDK_OVERLAYTABLE_DIGEST, (void *)ptr, (int)len)) {
+			OS_TPanic("FS_AttachOverlayTable() failed! (invalid overlay-table data)");
+		}
+		(void)DGT_SetOverlayTableMode(bak_ovt_mode);
+	}
+#endif
 
+	{
+		CARDRomRegion *const pr = (target == MI_PROCESSOR_ARM9) ? &fsi_ovt9 : &fsi_ovt7;
+		OSIntrMode bak_psr = OS_DisableInterrupts();
+
+		pr->offset = (u32)ptr;
+		pr->length = len;
+
+		(void)OS_RestoreInterrupts(bak_psr);
+	}
+}

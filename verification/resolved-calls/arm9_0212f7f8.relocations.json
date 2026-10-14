@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "_s32_div_f",
+    "target": 34812008,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942649359
+  }
+]

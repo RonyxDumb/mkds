@@ -1,68 +1,78 @@
-/* Decompiled C draft; module arm9; ROM address 02012b30. No matching claim. */
-#include "types.h"
-#include "deps/02012b30_MaybeDisposeCommonHeaderFileData.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G3dGetMdlSet Nsbmd_GetMDL0Block
+#define NNS_G3dGetTex Nsbtx_GetTEX0Block
+#define NNS_G3dReleaseMdlSet func_020100fc
+#define NNS_G3dPlttReleasePlttKey func_020107e4
+#define NNS_G3dTexReleaseTexKey Tex0_CleanGetKeys
+#define NNS_GfdDefaultFuncFreePlttVram SDK_data_021619f8
+#define NNS_GfdDefaultFuncFreeTexVram SDK_data_021619f0
+#define NNS_G3dResDefaultRelease MaybeDisposeCommonHeaderFileData
+#include <nnsys/g3d/util.h>
+#include <nnsys/g3d/gecom.h>
+#include <nnsys/g3d/binres/res_struct_accessor.h>
+#include <nnsys/g3d/anm.h>
+#include <nnsys/g3d/glbstate.h>
 
-uint MaybeDisposeCommonHeaderFileData(uint param_1)
-
+#pragma thumb off
+void NNS_G3dResDefaultRelease (void * pResData)
 {
-  undefined4 uVar1;
-  int iVar2;
-  int iVar3;
-  uint uVar4;
-  int iStack_18;
-  int aiStack_14 [2];
-  
-  uVar4 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  if (uVar4 <= uRam02012c98) {
-    if (uRam02012c98 <= uVar4) {
-      return param_1;
-    }
-    if (uVar4 <= uRam02012c9c) {
-      if (uVar4 < uRam02012c9c) {
-        return uRam02012ca0;
-      }
-      return uRam02012c9c;
-    }
-    return uRam02012ca4;
-  }
-  if (uRam02012ca8 < uVar4) {
-    if (uVar4 != uRam02012cb0) {
-      return uRam02012cb0;
-    }
-  }
-  else {
-    if (uRam02012ca8 <= uVar4) {
-      return param_1;
-    }
-    if (uVar4 != uRam02012cac) {
-      return param_1;
-    }
-    uVar1 = Nsbmd_GetMDL0Block();
-    iVar2 = Nsbtx_GetTEX0Block(param_1);
-    if (iVar2 != 0) {
-      func_020100fc(uVar1);
-    }
-  }
-  iVar2 = Nsbtx_GetTEX0Block(param_1);
-  if (iVar2 == 0) {
-    return 0;
-  }
-  iVar3 = func_020107e4();
-  Tex0_CleanGetKeys(iVar2,&iStack_18,aiStack_14);
-  if (iVar3 != 0) {
-    (*(code *)(*(uint *)(uRam02012cb4 & 0xfffffffc) >> (uRam02012cb4 & 3) * 8 |
-              *(uint *)(uRam02012cb4 & 0xfffffffc) << (uRam02012cb4 & 3) * -8 + 0x20))(iVar3);
-  }
-  if (aiStack_14[0] != 0) {
-    (*(code *)(*(uint *)(uRam02012cb8 & 0xfffffffc) >> (uRam02012cb8 & 3) * 8 |
-              *(uint *)(uRam02012cb8 & 0xfffffffc) << (uRam02012cb8 & 3) * -8 + 0x20))();
-  }
-  if (iStack_18 != 0) {
-    uVar4 = (*(code *)(*(uint *)(uRam02012cb8 & 0xfffffffc) >> (uRam02012cb8 & 3) * 8 |
-                      *(uint *)(uRam02012cb8 & 0xfffffffc) << (uRam02012cb8 & 3) * -8 + 0x20))();
-    return uVar4;
-  }
-  return 0;
-}
+    u8 * binFile = (u8 *)pResData;
+    BOOL failed = FALSE;
 
+    NNS_G3D_NULL_ASSERT(pResData);
+
+    switch (*(u32 *)&binFile[0]) {
+    case NNS_G3D_SIGNATURE_NSBMD:
+    {
+        NNSG3dResTex * tex;
+        NNSG3dResMdlSet * mdlSet = NNS_G3dGetMdlSet(pResData);
+        NNS_G3D_NULL_ASSERT(mdlSet);
+        tex = NNS_G3dGetTex((NNSG3dResFileHeader *) pResData);
+
+        if (tex) {
+
+            NNS_G3dReleaseMdlSet(mdlSet);
+        }
+    }
+
+    case NNS_G3D_SIGNATURE_NSBTX:
+    {
+        NNSG3dResTex * tex;
+        NNSG3dPlttKey plttKey;
+        NNSG3dTexKey texKey, tex4x4Key;
+        int status;
+        tex = NNS_G3dGetTex((NNSG3dResFileHeader *) pResData);
+
+        if (tex) {
+            plttKey = NNS_G3dPlttReleasePlttKey(tex);
+            NNS_G3dTexReleaseTexKey(tex, &texKey, &tex4x4Key);
+
+            if (plttKey > 0) {
+                status = NNS_GfdFreePlttVram(plttKey);
+                NNS_G3D_ASSERTMSG(!status, "NNS_GfdFreePlttVram failed");
+            }
+
+            if (tex4x4Key > 0) {
+                status = NNS_GfdFreeTexVram(tex4x4Key);
+                NNS_G3D_ASSERTMSG(!status, "NNS_GfdFreeTexVram failed");
+            }
+
+            if (texKey > 0) {
+                status = NNS_GfdFreeTexVram(texKey);
+                NNS_G3D_ASSERTMSG(!status, "NNS_GfdFreeTexVram failed");
+            }
+        }
+    }
+    break;
+    case NNS_G3D_SIGNATURE_NSBCA:
+    case NNS_G3D_SIGNATURE_NSBVA:
+    case NNS_G3D_SIGNATURE_NSBMA:
+    case NNS_G3D_SIGNATURE_NSBTP:
+    case NNS_G3D_SIGNATURE_NSBTA:
+        break;
+    default:
+        NNS_G3D_ASSERTMSG(1==0, "unknown file signature: '%c%c%c%c' found.\n",
+                          binFile[0], binFile[1], binFile[2], binFile[3]);
+        break;
+    };
+}

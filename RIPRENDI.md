@@ -84,3 +84,11 @@ Nuovi strumenti: prepare_donor_candidates.py per C puro di sm64ds-decomp; prepar
 2.454 funzioni; 135.620 / 1.913.676 byte inventariati (7,086884%); 135.940 byte negli span completi. Tutte le 1.278 prove senza relocazioni e le 1.176 con relocazioni sono state ricompilate; 3.133 relocazioni risolte. +75 funzioni dalla ricerca ricorsiva sm64ds-decomp, +9.460 byte inventariati. Le 75 nuove funzioni compilano anche con Clang ARM. Mancano 55.748 byte per raggiungere almeno il 10%.
 
 Ricerca eseguita su 1.912 sorgenti C, 11.472 varianti compilate: evitare di ripeterla senza modifiche. Provenienza e hash sono nel ledger SDK. Prossimo lavoro: nuove famiglie di librerie DS o ricostruzioni delle funzioni grandi del gioco. Un solo writer dei registri alla volta; lavorare su main. ROM completa, ABI globale e comportamento del gioco restano non verificati.
+
+## Checkpoint 18 — main
+
+2.706 funzioni; 171.580 / 1.913.676 byte inventariati (8,965990%); 171.900 byte negli span completi. Ricompilate tutte le 1.331 prove senza relocazioni e le 1.375 con relocazioni; 3.802 relocazioni risolte. +252 funzioni e +35.960 byte. Mancano 19.788 byte per raggiungere almeno il 10%.
+
+Nuova ricerca: prepare_nitro_candidates.py per ntrtwl/NitroSDK e ntrtwl/NitroSystem. Oggetti di ricerca possono contenere primitive ASM, ma i relativi corpi non vengono importati; anche i file completi contenenti ASM vengono esclusi. L'header CLZ inline contiene ora soltanto una dichiarazione esterna. Nessuna implementazione finta viene fornita e le 252 prove sono state ricompilate dopo questa modifica. La dipendenza standard C in vendor/nitro-stdinc fornisce dichiarazioni, non implementazioni. SDK e header restano fissati tramite hash e commit.
+
+In questo ambiente le dipendenze Python sono state installate in tools/pythondeps (ignorata da Git). Impostare PYTHONPATH a quella directory per i verificatori; se manca, installare capstone==5.0.9, pyelftools==0.33, ziglang==0.14.1 e ndspy==4.2.0. Prossime ricerche: varianti di compilazione o altre versioni compatibili delle librerie; non ripetere le stesse ricerche senza modifiche. Un solo writer dei registri alla volta. ROM completa e ABI globale non verificati.

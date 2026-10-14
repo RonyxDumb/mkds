@@ -1,19 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 0212c918. No matching claim. */
-#include "types.h"
-#include "deps/0212c918_func_0212c918.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define ForceStopStrm func_0212c824
+#define NNS_SndStrmStop func_0212c918
+#include <nnsys/snd/stream.h>
 
-void func_0212c918(int param_1)
+#include <nitro/snd.h>
 
+#include <nnsys/misc.h>
+#include <nnsys/snd/resource_mgr.h>
+extern void ForceStopStrm (NNSSndStrm * stream);
+#pragma thumb off
+void NNS_SndStrmStop (NNSSndStrm * stream)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 0x24U & 3;
-  uVar2 = *(uint *)(param_1 + 0x24U & 0xfffffffc);
-  if ((int)((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) << 0x1f) < 0) {
-    func_0212c824();
-    return;
-  }
-  return;
-}
+    NNS_NULL_ASSERT(stream);
 
+    if (!stream->activeFlag) return;
+
+    ForceStopStrm(stream);
+}

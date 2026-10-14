@@ -1,36 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 02022b44. No matching claim. */
-#include "types.h"
-#include "deps/02022b44_NFTR_SomeFn_0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNSi_G2dFontGetTextHeight NFTR_SomeFn_0
+#include <nitro.h>
 
-int NFTR_SomeFn_0(uint param_1,int param_2,undefined4 param_3)
+#include <nnsys/g2d/g2d_Font.h>
+#include <nnsys/g2d/load/g2d_NFT_load.h>
+#include <nnsys/g2d/fmt/g2d_Font_data.h>
+#include <nnsys/g2d/g2d_config.h>
 
+#pragma thumb off
+int NNSi_G2dFontGetTextHeight (const NNSG2dFont * pFont, int vSpace, const void * txt)
 {
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  uint uVar4;
-  undefined4 local_28;
-  undefined4 local_24;
-  undefined4 local_20;
-  code *pcVar5;
-  
-  local_24 = 0;
-  local_20 = 0;
-  uVar1 = param_1 + 4 & 3;
-  uVar4 = *(uint *)(param_1 + 4 & 0xfffffffc);
-  pcVar5 = (code *)(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20);
-  iVar3 = 1;
-  local_28 = param_3;
-  iVar2 = (*pcVar5)(&local_28);
-  while (iVar2 != 0) {
-    if (iVar2 == 10) {
-      iVar3 = iVar3 + 1;
-    }
-    iVar2 = (*pcVar5)(&local_28);
-  }
-  return iVar3 * (param_2 +
-                 *(char *)((*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-                           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) + 1)) -
-         param_2;
-}
+    const void * pos = txt;
+    int lines = 1;
+    NNSG2dTextRect rect = {0, 0};
+    u16 c;
+    NNSiG2dSplitCharCallback getNextChar;
 
+    NNS_G2D_FONT_ASSERT(pFont);
+    NNS_G2D_POINTER_ASSERT(txt);
+
+    getNextChar = NNSi_G2dFontGetSpliter(pFont);
+
+    while ((c = getNextChar((const void **)&pos)) != 0) {
+        if (c == '\n') {
+            lines++;
+        }
+    }
+
+    return lines * (NNS_G2dFontGetLineFeed(pFont) + vSpace) - vSpace;
+}

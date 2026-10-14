@@ -1,26 +1,34 @@
-/* Decompiled C draft; module arm9; ROM address 0214461c. No matching claim. */
-#include "types.h"
-#include "deps/0214461c_func_0214461c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WmGetSharedDataAddress func_021445e0
+#define WM_GetSharedDataAddress func_0214461c
+#include <nitro/wm.h>
 
-void func_0214461c(int param_1,ushort *param_2,uint param_3)
-
+#include    "wm_arm9_private.h"
+extern u16 * WmGetSharedDataAddress (WMDataSharingInfo * dsInfo, u32 aidBitmap, u16 * receiveBuf, u32 aid);
+#pragma thumb off
+u16 * WM_GetSharedDataAddress (WMDataSharingInfo * dsInfo, WMDataSet * receiveData, u16 aid)
 {
-  uint uVar1;
-  
-  uVar1 = 1 << (param_3 & 0xff);
-  if (param_1 == 0) {
-    return;
-  }
-  if (param_2 == (ushort *)0x0) {
-    return;
-  }
-  if ((*param_2 & uVar1) == 0) {
-    return;
-  }
-  if ((param_2[1] & uVar1) != 0) {
-    func_021445e0(param_1,(uint)*param_2,param_2 + 2);
-    return;
-  }
-  return;
-}
+    u32 aidBitmap = receiveData->aidBitmap;
+    u32 receivedBitmap = receiveData->receivedBitmap;
+    u32 aidBit = (1U << aid);
 
+    if (dsInfo == NULL) {
+        WM_WARNING("Parameter \"dsInfo\" must not be NULL.\n");
+        return NULL;
+    }
+
+    if (receiveData == NULL) {
+        WM_WARNING("Parameter \"receiveData\" must not be NULL.\n");
+        return NULL;
+    }
+
+    if (!(aidBitmap & aidBit)) {
+        return NULL;
+    }
+
+    if (!(receivedBitmap & aidBit)) {
+        return NULL;
+    }
+
+    return WmGetSharedDataAddress(dsInfo, aidBitmap, receiveData->data, aid);
+}

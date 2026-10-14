@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "func_02142a30",
+    "target": 34875952,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420138
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959104993
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "SetSomeFunctionPtr",
+    "target": 34876428,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420235
+  },
+  {
+    "offset": 136,
+    "type": 1,
+    "symbol": "WM_SomeFn",
+    "target": 34876088,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420144
+  }
+]

@@ -1,13 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 02013aa8. No matching claim. */
-#include "types.h"
-#include "deps/02013aa8_MaybeLoadBTA0Format.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNSi_G3dGetBinaryBlockFromFile SDK_data_02013c18
+#define NNS_G3dGetTexSRTAnmSet MaybeLoadBTA0Format
+#include <nnsys/g3d/binres/res_struct_accessor.h>
 
-void MaybeLoadBTA0Format(undefined4 param_1)
-
+#include "res_print_internal.h"
+extern const void * NNSi_G3dGetBinaryBlockFromFile (const u8 * pFileHead, u32 fileSignature, u32 blockSignature);
+#pragma thumb off
+const NNSG3dResTexSRTAnmSet * NNS_G3dGetTexSRTAnmSet (const u8 * pFileHead)
 {
-                    /* WARNING: Could not recover jumptable at 0x02013ab4. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02013ab8)(param_1,uRam02013abc,uRam02013ac0);
-  return;
+    const void * pVisBlk
+        = NNSi_G3dGetBinaryBlockFromFile(pFileHead,
+                                         NNS_G3D_SIGNATURE_NSBTA,
+                                         NNS_G3D_DATABLK_TEXSRT_ANM);
+    NNS_G3D_NULL_ASSERT(pVisBlk);
+    return (const NNSG3dResTexSRTAnmSet *)pVisBlk;
 }
-

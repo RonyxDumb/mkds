@@ -1,36 +1,34 @@
-/* Decompiled C draft; module arm9; ROM address 01ff81b4. No matching claim. */
-#include "types.h"
-#include "deps/01ff81b4_func_01ff81b4.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G3dGeBufferOP_N func_01ff9048
+#define NNSi_G3dFuncSbc_POSSCALE func_01ff81b4
+#include <nnsys/g3d/sbc.h>
+#include <nnsys/g3d/kernel.h>
+#include <nnsys/g3d/binres/res_struct.h>
+#include <nnsys/g3d/glbstate.h>
+#include <nnsys/g3d/gecom.h>
+#include <nnsys/g3d/binres/res_struct_accessor.h>
+#include <nnsys/g3d/util.h>
 
-void func_01ff81b4(int *param_1,int param_2)
-
+#pragma thumb off
+void NNSi_G3dFuncSbc_POSSCALE (NNSG3dRS * rs, u32 opt)
 {
-  uint uVar1;
-  uint uStack_18;
-  uint uStack_14;
-  uint uStack_10;
-  uint uVar2;
-  
-  uVar2 = (uint)(param_1 + 2) & 3;
-  uVar1 = *(uint *)((uint)(param_1 + 2) & 0xfffffffc);
-  uVar2 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-  if (((uVar2 & 0x100) == 0) && ((uVar2 & 0x200) == 0)) {
-    if (param_2 == 0) {
-      uVar2 = (uint)(param_1 + 0x38) & 3;
-      uVar1 = *(uint *)((uint)(param_1 + 0x38) & 0xfffffffc);
-      uStack_10 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-    }
-    else {
-      uVar2 = (uint)(param_1 + 0x39) & 3;
-      uVar1 = *(uint *)((uint)(param_1 + 0x39) & 0xfffffffc);
-      uStack_10 = uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20;
-    }
-    uStack_18 = uStack_10;
-    uStack_14 = uStack_10;
-    func_01ff9048(0x1b,(undefined4)(uintptr_t)(&uStack_18),3);
-  }
-  *param_1 = (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-             *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 1;
-  return;
-}
+    VecFx32 s;
+    NNS_G3D_NULL_ASSERT(rs);
+    NNS_G3D_ASSERT(opt == NNS_G3D_SBCFLG_000 ||
+                   opt == NNS_G3D_SBCFLG_001);
 
+    if (!(rs->flag & NNS_G3D_RSFLAG_OPT_NOGECMD) &&
+        !(rs->flag & NNS_G3D_RSFLAG_OPT_SKIP_SBCDRAW)) {
+        if (opt == NNS_G3D_SBCFLG_000) {
+            s.x = s.y = s.z = rs->posScale;
+        } else {
+            s.x = s.y = s.z = rs->invPosScale;
+        }
+
+        NNS_G3dGeBufferOP_N(G3OP_MTX_SCALE,
+                            (u32 *)&s.x,
+                            G3OP_MTX_SCALE_NPARAMS);
+    }
+
+    rs->c += 1;
+}

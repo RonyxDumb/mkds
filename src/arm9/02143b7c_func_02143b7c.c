@@ -1,21 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 02143b7c. No matching claim. */
-#include "types.h"
-#include "deps/02143b7c_func_02143b7c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMi_CheckStateEx func_02142988
+#define WMi_SetCallbackTable SetSomeFunctionPtr
+#define WMi_SendCommand WM_SomeFn
+#define WM_EndParent func_02143b7c
+#include <nitro/wm.h>
 
-int func_02143b7c(undefined4 param_1)
+#include "wm_arm9_private.h"
 
+#pragma thumb off
+WMErrCode WM_EndParent (WMCallbackFunc callback)
 {
-  int iVar1;
-  
-  iVar1 = func_02142988(1,7);
-  if (iVar1 == 0) {
-    SetSomeFunctionPtr(9,param_1);
-    iVar1 = WM_SomeFn(9,0);
-    if (iVar1 == 0) {
-      iVar1 = 2;
-    }
-    return iVar1;
-  }
-  return iVar1;
-}
+    WMErrCode result;
 
+    result = WMi_CheckState(WM_STATE_PARENT);
+    WM_CHECK_RESULT(result);
+
+    WMi_SetCallbackTable(WM_APIID_END_PARENT, callback);
+
+    result = WMi_SendCommand(WM_APIID_END_PARENT, 0);
+    WM_CHECK_RESULT(result);
+
+    return WM_ERRCODE_OPERATING;
+}

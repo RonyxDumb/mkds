@@ -1,18 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 02111118. No matching claim. */
-#include "types.h"
-#include "deps/02111118_func_02111118.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define sChannelLock SDK_data_0217d328
+#define sCaptureLock SDK_data_0217d324
+#define sAlarmLock SDK_data_0217d320
+#define NNSi_SndInitResourceMgr func_02111118
+#include <nnsys/snd/resource_mgr.h>
 
-void func_02111118(void)
-
+#include <nitro/snd.h>
+#include <nnsys/misc.h>
+extern u32 sChannelLock;
+extern u32 sCaptureLock;
+extern u32 sAlarmLock;
+#pragma thumb off
+void NNSi_SndInitResourceMgr (void)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = puRam02111140;
-  puVar1 = puRam0211113c;
-  *puRam02111138 = 0;
-  *puVar1 = 0;
-  *puVar2 = 0;
-  return;
+    sChannelLock = 0;
+    sCaptureLock = 0;
+    sAlarmLock = 0;
 }
-

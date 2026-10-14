@@ -1,28 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 020136f0. No matching claim. */
-#include "types.h"
-#include "deps/020136f0_Nsbtx_GetTEX0Block.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G3dGetTex Nsbtx_GetTEX0Block
+#include <nnsys/g3d/binres/res_struct_accessor.h>
 
-int Nsbtx_GetTEX0Block(uint param_1)
-
+#pragma thumb off
+NNSG3dResTex * NNS_G3dGetTex (const NNSG3dResFileHeader * header)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  
-  uVar3 = param_1 + *(ushort *)(param_1 + 0xc);
-  if (*(short *)(param_1 + 0xe) != 1) {
-    uVar1 = uVar3 + 4 & 3;
-    uVar3 = *(uint *)(uVar3 + 4 & 0xfffffffc);
-    return param_1 + (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20);
-  }
-  if ((*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-      *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) == uRam0201372c) {
-    iVar2 = param_1 + (*(uint *)(uVar3 & 0xfffffffc) >> (uVar3 & 3) * 8 |
-                      *(uint *)(uVar3 & 0xfffffffc) << (uVar3 & 3) * -8 + 0x20);
-  }
-  else {
-    iVar2 = 0;
-  }
-  return iVar2;
-}
+    u32 * blks;
+    NNS_G3D_NULL_ASSERT(header);
+    NNS_G3D_ASSERT(header->sigVal == NNS_G3D_SIGNATURE_NSBMD ||
+                   header->sigVal == NNS_G3D_SIGNATURE_NSBTX);
 
+    blks = (u32 *)((u8 *)header + header->headerSize);
+
+    if (header->dataBlocks == 1) {
+        if (header->sigVal == NNS_G3D_SIGNATURE_NSBTX) {
+            return (NNSG3dResTex *)((u8 *)header + blks[0]);
+        } else {
+            return NULL;
+        }
+    } else {
+        return (NNSG3dResTex *)((u8 *)header + blks[1]);
+    }
+}

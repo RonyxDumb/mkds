@@ -1,43 +1,32 @@
-/* Decompiled C draft; module arm9; ROM address 02011558. No matching claim. */
-#include "types.h"
-#include "deps/02011558_func_02011558.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define blendScaleVec_ func_02011558
+#include <nnsys/g3d/anm.h>
+#include <nnsys/g3d/kernel.h>
 
-void func_02011558(int *param_1,uint param_2,int param_3,int param_4)
+#include <nnsys/g3d/anm/nsbca.h>
+#include <nnsys/g3d/anm/nsbma.h>
+#include <nnsys/g3d/anm/nsbta.h>
+#include <nnsys/g3d/anm/nsbtp.h>
+#include <nnsys/g3d/anm/nsbva.h>
+#include <nnsys/g3d/binres/res_struct_accessor.h>
 
+#include <nitro/code32.h>
+#include <nitro/codereset.h>
+
+#include <nitro/code32.h>
+#include <nitro/codereset.h>
+
+#pragma thumb off
+void blendScaleVec_ (VecFx32 * v0, const VecFx32 * v1, fx32 ratio, BOOL isV1One)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  if (param_4 != 0) {
-    *param_1 = (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-               *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + param_3;
-    uVar1 = (uint)(param_1 + 1) & 3;
-    uVar2 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-    param_1[1] = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + param_3;
-    uVar1 = (uint)(param_1 + 2) & 3;
-    uVar2 = *(uint *)((uint)(param_1 + 2) & 0xfffffffc);
-    param_1[2] = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + param_3;
-    return;
-  }
-  *param_1 = (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-             *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) +
-             ((int)(param_3 *
-                   (*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-                   *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20)) >> 0xc);
-  uVar1 = param_2 + 4 & 3;
-  uVar3 = *(uint *)(param_2 + 4 & 0xfffffffc);
-  uVar2 = (uint)(param_1 + 1) & 3;
-  uVar4 = *(uint *)((uint)(param_1 + 1) & 0xfffffffc);
-  param_1[1] = (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) +
-               ((int)(param_3 * (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20)) >> 0xc);
-  uVar1 = param_2 + 8 & 3;
-  uVar3 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  uVar2 = (uint)(param_1 + 2) & 3;
-  uVar4 = *(uint *)((uint)(param_1 + 2) & 0xfffffffc);
-  param_1[2] = (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) +
-               ((int)(param_3 * (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20)) >> 0xc);
-  return;
-}
+    if (isV1One) {
 
+        v0->x += ratio;
+        v0->y += ratio;
+        v0->z += ratio;
+    } else {
+        v0->x += ratio * v1->x >> FX32_SHIFT;
+        v0->y += ratio * v1->y >> FX32_SHIFT;
+        v0->z += ratio * v1->z >> FX32_SHIFT;
+    }
+}

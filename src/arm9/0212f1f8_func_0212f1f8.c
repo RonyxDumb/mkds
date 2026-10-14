@@ -1,131 +1,298 @@
-/* Decompiled C draft; module arm9; ROM address 0212f1f8. No matching claim. */
-#include "types.h"
-#include "deps/0212f1f8_func_0212f1f8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define HeadphoneProc func_0212f1f8
+#include <nnsys/snd/output_effect.h>
 
-void func_0212f1f8(int param_1,int param_2,uint param_3,int param_4)
+#include <nitro.h>
 
+#include <nnsys/misc.h>
+#include <nnsys/snd/capture.h>
+#include <nnsys/snd/config.h>
+
+#define SAMPLING_RATE  32000
+
+#define SURROUND_MIX_DELAY       2
+#define HEADEPHONE_MIX_DELAY    24
+#define HEADEPHONE_SHIFT         2
+
+#define DECAY_RATIO    0x3000
+
+#define S16_MAX ((s16)0x7fff)
+#define S16_MIN ((s16) - 0x8000)
+
+struct CallbackInfo;
+
+typedef void (*EffectFunc)(void * bufferL_p, void * bufferR_p, u32 len, struct CallbackInfo * info);
+
+typedef struct CallbackInfo {
+    NNSSndCaptureOutputEffectType type;
+    EffectFunc effectFunc;
+    NNSSndCaptureCallback cbFunc;
+    void * cbArg;
+    NNSSndCaptureCallback cbPostFunc;
+    void * cbPostArg;
+    union {
+        s32 surround[ SURROUND_MIX_DELAY ];
+        s32 headphone[ HEADEPHONE_MIX_DELAY ][2];
+    } buffer;
+} CallbackInfo;
+
+static CallbackInfo sCallbackInfo = {
+    (NNSSndCaptureOutputEffectType) - 1,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+};
+
+static void EffectCallback(void * bufferL_p, void * bufferR_p, u32 len, NNSSndCaptureFormat format, void * arg);
+static void SurroundProc(void * bufferL_p, void * bufferR_p, u32 len, CallbackInfo * info);
+static void NothingProc(void * bufferL_p, void * bufferR_p, u32 len, CallbackInfo * info);
+
+#ifndef SDK_SMALL_BUILD
+static void HeadphoneProc(void * bufferL_p, void * bufferR_p, u32 len, CallbackInfo * info);
+static void MonoProc(void * bufferL_p, void * bufferR_p, u32 len, CallbackInfo * info);
+#endif
+
+static s16 Cut_S32toS16(s32 val);
+
+static NNS_SND_INLINE s16 Cut_S32toS16 (s32 val)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  uint uVar6;
-  int iVar7;
-  uint uVar8;
-  int iVar9;
-  uint uVar10;
-  int iVar11;
-  int iVar12;
-  int iVar13;
-  
-  iVar4 = iRam0212f3f4;
-  param_3 = param_3 >> 1;
-  iVar11 = 0;
-  iVar5 = iVar11;
-  if (0x18 < param_3) {
-    do {
-      iVar11 = 0;
-      do {
-        iVar7 = iVar11 + iVar5;
-        iVar9 = param_4 + iVar11 * 8;
-        uVar10 = iVar9 + 0x18;
-        uVar6 = uVar10 & 3;
-        uVar2 = *(uint *)(uVar10 & 0xfffffffc);
-        uVar10 = iVar9 + 0x1c;
-        uVar1 = uVar10 & 3;
-        uVar10 = *(uint *)(uVar10 & 0xfffffffc);
-        iVar9 = (int)*(short *)(param_1 + iVar7 * 2) +
-                (uVar2 >> uVar6 * 8 | uVar2 << uVar6 * -8 + 0x20);
-        iVar12 = (int)*(short *)(param_2 + iVar7 * 2) +
-                 (uVar10 >> uVar1 * 8 | uVar10 << uVar1 * -8 + 0x20);
-        if (iVar9 < -0x8000) {
-          iVar3 = -0x8000;
-        }
-        else {
-          iVar3 = iVar9;
-          if (iVar4 < iVar9) {
-            iVar3 = iVar4;
-          }
-        }
-        *(short *)(param_1 + iVar7 * 2) = (short)iVar3;
-        if (iVar12 < -0x8000) {
-          iVar3 = -0x8000;
-        }
-        else {
-          iVar3 = iVar12;
-          if (iVar4 < iVar12) {
-            iVar3 = iVar4;
-          }
-        }
-        iVar13 = param_4 + iVar11 * 8;
-        *(short *)(param_2 + iVar7 * 2) = (short)iVar3;
-        iVar11 = iVar11 + 1;
-        *(int *)(iVar13 + 0x18) = iVar12 + 1 >> 2;
-        *(int *)(iVar13 + 0x1c) = iVar9 + 1 >> 2;
-      } while (iVar11 < 0x18);
-      iVar11 = iVar5 + 0x18;
-      uVar10 = iVar5 + 0x30;
-      iVar5 = iVar11;
-    } while (uVar10 < param_3);
-  }
-  iVar4 = iRam0212f3f4;
-  param_3 = param_3 - iVar11;
-  uVar10 = 0;
-  if (param_3 != 0) {
-    do {
-      iVar7 = uVar10 + iVar11;
-      iVar5 = param_4 + uVar10 * 8;
-      uVar6 = iVar5 + 0x18;
-      uVar1 = uVar6 & 3;
-      uVar8 = *(uint *)(uVar6 & 0xfffffffc);
-      uVar6 = iVar5 + 0x1c;
-      uVar2 = uVar6 & 3;
-      uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-      iVar12 = (int)*(short *)(param_1 + iVar7 * 2) +
-               (uVar8 >> uVar1 * 8 | uVar8 << uVar1 * -8 + 0x20);
-      iVar9 = (int)*(short *)(param_2 + iVar7 * 2) +
-              (uVar6 >> uVar2 * 8 | uVar6 << uVar2 * -8 + 0x20);
-      iVar5 = -0x8000;
-      if ((-0x8001 < iVar12) && (iVar5 = iVar12, iVar4 < iVar12)) {
-        iVar5 = iVar4;
-      }
-      *(short *)(param_1 + iVar7 * 2) = (short)iVar5;
-      iVar5 = -0x8000;
-      if ((-0x8001 < iVar9) && (iVar5 = iVar9, iVar4 < iVar9)) {
-        iVar5 = iVar4;
-      }
-      uVar10 = uVar10 + 1;
-      *(short *)(param_2 + iVar7 * 2) = (short)iVar5;
-    } while (uVar10 < param_3);
-  }
-  uVar10 = 0;
-  if (-param_3 != -0x18) {
-    do {
-      iVar5 = param_4 + param_3 * 8 + uVar10 * 8;
-      uVar6 = iVar5 + 0x18;
-      uVar1 = uVar6 & 3;
-      uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-      iVar4 = param_4 + uVar10 * 8;
-      *(uint *)(iVar4 + 0x18) = uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20;
-      uVar6 = iVar5 + 0x1c;
-      uVar1 = uVar6 & 3;
-      uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-      uVar10 = uVar10 + 1;
-      *(uint *)(iVar4 + 0x1c) = uVar6 >> uVar1 * 8 | uVar6 << uVar1 * -8 + 0x20;
-    } while (uVar10 < -param_3 + 0x18);
-  }
-  uVar10 = 0;
-  if (param_3 != 0) {
-    do {
-      iVar4 = (uVar10 + iVar11) * 2;
-      iVar5 = param_4 + ((uVar10 + 0x18) - param_3) * 8;
-      *(int *)(iVar5 + 0x18) = *(short *)(param_2 + iVar4) + 1 >> 2;
-      uVar10 = uVar10 + 1;
-      *(int *)(iVar5 + 0x1c) = *(short *)(param_1 + iVar4) + 1 >> 2;
-    } while (uVar10 < param_3);
-    return;
-  }
-  return;
+    if (val < S16_MIN) val = S16_MIN;
+    else if (val > S16_MAX) val = S16_MAX;
+    return (s16)val;
 }
 
+BOOL NNS_SndCaptureStartOutputEffect (void * buffer, u32 bufSize, NNSSndCaptureOutputEffectType type)
+{
+    NNS_ASSERTMSG(((u32)buffer & 0x1f) == 0, "buffer address must be aligned to 32 bytes boundary.");
+    NNS_ASSERTMSG((bufSize & 0x7f) == 0, "buffer size must be aligned to 128 bytes boundary.");
+
+    NNS_SndCaptureChangeOutputEffect(type);
+
+    return NNS_SndCaptureStartEffect(
+        buffer,
+        bufSize,
+        NNS_SND_CAPTURE_FORMAT_PCM16,
+        SAMPLING_RATE,
+        2,
+        EffectCallback,
+        &sCallbackInfo
+        );
+}
+
+void NNS_SndCaptureStopOutputEffect (void)
+{
+    if (sCallbackInfo.type == NNS_SND_CAPTURE_OUTPUT_EFFECT_SURROUND) {
+        SNDi_SetSurroundDecay(0);
+    }
+
+    NNS_SndCaptureStopEffect();
+}
+
+void NNS_SndCaptureChangeOutputEffect (NNSSndCaptureOutputEffectType type)
+{
+    OSIntrMode enabled;
+
+    if (type == sCallbackInfo.type) return;
+
+    if (sCallbackInfo.type == NNS_SND_CAPTURE_OUTPUT_EFFECT_SURROUND) {
+        SNDi_SetSurroundDecay(0);
+    }
+
+    enabled = OS_DisableInterrupts();
+
+    MI_CpuClear16(&sCallbackInfo.buffer, sizeof(sCallbackInfo.buffer));
+    sCallbackInfo.type = type;
+
+    switch (type) {
+    case NNS_SND_CAPTURE_OUTPUT_EFFECT_SURROUND:
+        sCallbackInfo.effectFunc = SurroundProc;
+        break;
+#ifndef SDK_SMALL_BUILD
+    case NNS_SND_CAPTURE_OUTPUT_EFFECT_HEADPHONE:
+        sCallbackInfo.effectFunc = HeadphoneProc;
+        break;
+    case NNS_SND_CAPTURE_OUTPUT_EFFECT_MONO:
+        sCallbackInfo.effectFunc = MonoProc;
+        break;
+    case NNS_SND_CAPTURE_OUTPUT_EFFECT_NORMAL:
+        sCallbackInfo.effectFunc = NothingProc;
+        break;
+#endif
+    default:
+        sCallbackInfo.effectFunc = NothingProc;
+        break;
+    }
+
+    (void)OS_RestoreInterrupts(enabled);
+
+    if (type == NNS_SND_CAPTURE_OUTPUT_EFFECT_SURROUND) {
+        SNDi_SetSurroundDecay(DECAY_RATIO);
+    }
+}
+
+void NNS_SndCaptureSetOutputEffectCallback (NNSSndCaptureCallback func, void * arg)
+{
+    OSIntrMode enabled = OS_DisableInterrupts();;
+
+    sCallbackInfo.cbFunc = func;
+    sCallbackInfo.cbArg = arg;
+
+    (void)OS_RestoreInterrupts(enabled);
+}
+
+void NNS_SndCaptureSetPostOutputEffectCallback (NNSSndCaptureCallback func, void * arg)
+{
+    OSIntrMode enabled = OS_DisableInterrupts();;
+
+    sCallbackInfo.cbPostFunc = func;
+    sCallbackInfo.cbPostArg = arg;
+
+    (void)OS_RestoreInterrupts(enabled);
+}
+
+static void EffectCallback (void * bufferL_p, void * bufferR_p, u32 len, NNSSndCaptureFormat format, void * arg)
+{
+    CallbackInfo * info = (CallbackInfo *)arg;
+
+    if (info->cbFunc != NULL) {
+        info->cbFunc(bufferL_p, bufferR_p, len, format, info->cbArg);
+    }
+
+    info->effectFunc(bufferL_p, bufferR_p, len, info);
+
+    if (info->cbPostFunc != NULL) {
+        info->cbPostFunc(bufferL_p, bufferR_p, len, format, info->cbPostArg);
+    }
+
+    DC_FlushRange(bufferL_p, len);
+    DC_FlushRange(bufferR_p, len);
+}
+
+static void NothingProc (void *, void *, u32, CallbackInfo *)
+{
+
+}
+
+static void SurroundProc (void * bufferL_p, void * bufferR_p, u32 len, CallbackInfo * info)
+{
+    s16 * lp = (s16 *)bufferL_p;
+    s16 * rp = (s16 *)bufferR_p;
+    s16 org[ SURROUND_MIX_DELAY ];
+    const unsigned long samples = len >> 1;
+    long i;
+
+#if SURROUND_MIX_DELAY >= 1
+
+    for (i = 0; i < SURROUND_MIX_DELAY; i++) {
+        s32 temp = lp[ i + samples - SURROUND_MIX_DELAY ] - rp[ i + samples - SURROUND_MIX_DELAY ];
+        org[i] = Cut_S32toS16(temp);
+    }
+#endif
+
+    {
+        s16 * lpi = &lp[samples - 1];
+        s16 * rpi = &rp[samples - 1];
+        for ( ; lpi >= &lp[SURROUND_MIX_DELAY]; lpi--, rpi--) {
+            s32 diff = lpi[ -SURROUND_MIX_DELAY ] - rpi[ -SURROUND_MIX_DELAY ];
+            s32 templ = *lpi + diff;
+            s32 tempr = *rpi - diff;
+
+            if (diff >= 0) {
+                if (templ < (s32)S16_MAX) *lpi = (s16)templ;
+                else *lpi = S16_MAX;
+                if (tempr > (s32)S16_MIN) *rpi = (s16)tempr;
+                else *rpi = S16_MIN;
+            } else {
+                if (templ > (s32)S16_MIN) *lpi = (s16)templ;
+                else *lpi = S16_MIN;
+                if (tempr < (s32)S16_MAX) *rpi = (s16)tempr;
+                else *rpi = S16_MAX;
+            }
+        }
+    }
+
+#if SURROUND_MIX_DELAY >= 1
+    for (i = SURROUND_MIX_DELAY - 1; i >= 0; i--) {
+        s32 temp = lp[i] + info->buffer.surround[i];
+        lp[i] = Cut_S32toS16(temp);
+        temp = rp[i] - info->buffer.surround[i];
+        rp[i] = Cut_S32toS16(temp);
+    }
+
+    for (i = 0; i < SURROUND_MIX_DELAY; i++) {
+        info->buffer.surround[i] = org[i];
+    }
+#endif
+}
+
+#ifndef SDK_SMALL_BUILD
+static void HeadphoneProc (void * bufferL_p, void * bufferR_p, u32 len, CallbackInfo * info)
+{
+    s16 * lp = (s16 *)bufferL_p;
+    s16 * rp = (s16 *)bufferR_p;
+    const unsigned long samples = len >> 1;
+    int i;
+    s32 l;
+    s32 r;
+    int offset;
+    unsigned long rest_samples;
+
+    offset = 0;
+    while (samples > HEADEPHONE_MIX_DELAY + offset) {
+        for (i = 0; i < HEADEPHONE_MIX_DELAY; i++) {
+            const register int x = i + offset;
+
+            l = lp[ x ] + info->buffer.headphone[i][0];
+            r = rp[ x ] + info->buffer.headphone[i][1];
+
+            lp[ x ] = Cut_S32toS16(l);
+            rp[ x ] = Cut_S32toS16(r);
+            info->buffer.headphone[i][0] = (r + 1) >> HEADEPHONE_SHIFT;
+            info->buffer.headphone[i][1] = (l + 1) >> HEADEPHONE_SHIFT;
+        }
+        offset += HEADEPHONE_MIX_DELAY;
+    }
+
+    rest_samples = samples - offset;
+    for (i = 0; i < rest_samples; i++) {
+        const int x = i + offset;
+
+        l = lp[ x ] + info->buffer.headphone[i][0];
+        r = rp[ x ] + info->buffer.headphone[i][1];
+        lp[ x ] = Cut_S32toS16(l);
+        rp[ x ] = Cut_S32toS16(r);
+    }
+
+    for (i = 0; i < HEADEPHONE_MIX_DELAY - rest_samples; i++) {
+        info->buffer.headphone[i][0] = info->buffer.headphone[ i + rest_samples ][0];
+        info->buffer.headphone[i][1] = info->buffer.headphone[ i + rest_samples ][1];
+    }
+
+    for (i = 0; i < rest_samples; i++) {
+        const long x = (long)(i + HEADEPHONE_MIX_DELAY - rest_samples);
+
+        info->buffer.headphone[ x ][0] = (rp[ i + offset ] + 1) >> HEADEPHONE_SHIFT;
+        info->buffer.headphone[ x ][1] = (lp[ i + offset ] + 1) >> HEADEPHONE_SHIFT;
+    }
+}
+
+static void MonoProc (void * bufferL_p, void * bufferR_p, u32 len, CallbackInfo *)
+{
+    s16 * lp = (s16 *)bufferL_p;
+    s16 * rp = (s16 *)bufferR_p;
+    const unsigned long samples = len >> 1;
+    register s32 x;
+    int i;
+
+    for (i = 0; i < samples; i++) {
+        x = lp[ i ];
+        x += rp[ i ];
+        x++;
+        x >>= 1;
+        lp[ i ] = (s16)x;
+    }
+    MI_CpuCopyFast(bufferL_p, bufferR_p, len);
+}
+#endif

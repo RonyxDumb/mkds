@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Mem_GetMemoryBlockRegion",
+    "target": 33652472,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646234
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "Mem_ExpHeapMemoryBlockList_Remove",
+    "target": 33652432,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646221
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Mem_Exp_CoalesceFreedRegion",
+    "target": 33651156,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645899
+  }
+]

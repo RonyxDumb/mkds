@@ -1,97 +1,108 @@
-/* Decompiled C draft; module arm9; ROM address 02014ad0. No matching claim. */
-#include "types.h"
-#include "deps/02014ad0_func_02014ad0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define getTransData_ func_02014ad0
+#include <nnsys/g3d/anm/nsbca.h>
+#include <nnsys/g3d/sbc.h>
+#include <nnsys/g3d/binres/res_struct_accessor.h>
 
-void func_02014ad0(uint *param_1,int param_2,uint param_3,int param_4)
+#include <nitro/code32.h>
 
+#include <nitro/codereset.h>
+
+#pragma thumb off
+void getTransData_ (fx32 * pVal, fx32 Frame, const u32 * pData, const NNSG3dResJntAnm * pJntAnm)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  uVar4 = param_3 + 4 & 3;
-  uVar3 = *(uint *)(param_3 + 4 & 0xfffffffc);
-  uVar2 = *(uint *)(param_3 & 0xfffffffc) >> (param_3 & 3) * 8 |
-          *(uint *)(param_3 & 0xfffffffc) << (param_3 & 3) * -8 + 0x20;
-  uVar1 = param_2 >> 0xc;
-  param_4 = param_4 + (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20);
-  if ((uVar2 & 0xc0000000) != 0) {
-    uVar4 = uVar2 & uRam02014c58;
-    if ((uVar2 & 0x40000000) == 0) {
-      if ((uVar1 & 3) == 0) {
-        uVar1 = uVar1 >> 2;
-      }
-      else {
-        if (uVar1 <= uVar4 >> 0x10) {
-          if ((uVar1 & 1) != 0) {
-            if ((uVar1 & 2) == 0) {
-              uVar4 = uVar1 >> 2;
-              uVar1 = uVar4 + 1;
-            }
-            else {
-              uVar1 = uVar1 >> 2;
-              uVar4 = uVar1 + 1;
-            }
-            if ((uVar2 & 0x20000000) == 0) {
-              uVar4 = param_4 + uVar4 * 4;
-              uVar2 = uVar4 & 3;
-              uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-              uVar2 = uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20;
-              uVar1 = param_4 + uVar1 * 4;
-              uVar4 = uVar1 & 3;
-              uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-              uVar1 = uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20;
-              *param_1 = uVar2 * 3 + uVar1 >> 2 |
-                         ((((int)uVar2 >> 0x1f) << 1 | uVar2 >> 0x1f) + ((int)uVar2 >> 0x1f) +
-                          (uint)CARRY4(uVar2 * 2,uVar2) + ((int)uVar1 >> 0x1f) +
-                         (uint)CARRY4(uVar2 * 3,uVar1)) * 0x40000000;
-              return;
-            }
-            *param_1 = *(short *)(param_4 + uVar4 * 2) * 3 + (int)*(short *)(param_4 + uVar1 * 2) >>
-                       2;
-            return;
-          }
-          uVar1 = uVar1 >> 2;
-          goto LAB_02014be0;
-        }
-        uVar1 = (uVar1 & 3) + (uVar4 >> 0x12);
-      }
-    }
-    else if ((uVar1 & 1) == 0) {
-      uVar1 = uVar1 >> 1;
-    }
-    else {
-      if (uVar1 <= uVar4 >> 0x10) {
-        uVar1 = uVar1 >> 1;
-LAB_02014be0:
-        if ((uVar2 & 0x20000000) == 0) {
-          uVar4 = param_4 + uVar1 * 4;
-          uVar2 = uVar4 & 3;
-          uVar3 = *(uint *)(uVar4 & 0xfffffffc);
-          uVar1 = param_4 + uVar1 * 4 + 4;
-          uVar4 = uVar1 & 3;
-          uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-          *param_1 = ((int)(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) >> 1) +
-                     ((int)(uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20) >> 1);
-          return;
-        }
-        *param_1 = (int)*(short *)(param_4 + uVar1 * 2) + (int)*(short *)(param_4 + uVar1 * 2 + 2)
-                   >> 1;
-        return;
-      }
-      uVar1 = (uVar4 >> 0x11) + 1;
-    }
-  }
-  if ((uVar2 & 0x20000000) == 0) {
-    uVar1 = param_4 + uVar1 * 4;
-    uVar4 = uVar1 & 3;
-    uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-    *param_1 = uVar1 >> uVar4 * 8 | uVar1 << uVar4 * -8 + 0x20;
-  }
-  else {
-    *param_1 = (int)*(short *)(param_4 + uVar1 * 2);
-  }
-  return;
-}
+    u32 frame = (u32)FX_Whole(Frame);
+    const void * pArray = (const void *)((const u8 *)pJntAnm + *(pData + 1));
+    NNSG3dJntAnmTInfo info = (NNSG3dJntAnmTInfo) * pData;
+    u32 last_interp;
+    u32 idx;
+    u32 idx_sub;
 
+    NNS_G3D_NULL_ASSERT(pVal);
+    NNS_G3D_NULL_ASSERT(pArray);
+
+    if (!(info & NNS_G3D_JNTANM_TINFO_STEP_MASK)) {
+        idx = frame;
+        goto TRANS_NONINTERP;
+    }
+
+    last_interp = ((u32)info & NNS_G3D_JNTANM_TINFO_LAST_INTERP_MASK) >>
+                  NNS_G3D_JNTANM_TINFO_LAST_INTERP_SHIFT;
+
+    if (info & NNS_G3D_JNTANM_TINFO_STEP_2) {
+
+        if (frame & 1) {
+            if (frame > last_interp) {
+                idx = (last_interp >> 1) + 1;
+                goto TRANS_NONINTERP;
+            } else {
+                idx = frame >> 1;
+                goto TRANS_INTERP_2;
+            }
+        } else {
+            idx = frame >> 1;
+            goto TRANS_NONINTERP;
+        }
+    } else {
+        if (frame & 3) {
+            if (frame > last_interp) {
+                idx = (last_interp >> 2) + (frame & 3);
+                goto TRANS_NONINTERP;
+            }
+
+            if (frame & 1) {
+                fx32 v, v_sub;
+                if (frame & 2) {
+                    idx_sub = (frame >> 2);
+                    idx = idx_sub + 1;
+                } else {
+                    idx = (frame >> 2);
+                    idx_sub = idx + 1;
+                }
+
+                if (info & NNS_G3D_JNTANM_TINFO_FX16ARRAY) {
+                    const fx16 * p_fx16 = (const fx16 *)pArray;
+
+                    v = *(p_fx16 + idx);
+                    v_sub = *(p_fx16 + idx_sub);
+                    *pVal = (v + v + v + v_sub) >> 2;
+                } else {
+                    const fx32 * p_fx32 = (const fx32 *)pArray;
+
+                    v = *(p_fx32 + idx);
+                    v_sub = *(p_fx32 + idx_sub);
+
+                    *pVal = (fx32)(((fx64)v + v + v + v_sub) >> 2);
+                }
+                return;
+            } else {
+                idx = frame >> 2;
+                goto TRANS_INTERP_2;
+            }
+        } else {
+            idx = frame >> 2;
+            goto TRANS_NONINTERP;
+        }
+    }
+    NNS_G3D_ASSERT(0);
+TRANS_INTERP_2:
+    if (info & NNS_G3D_JNTANM_TINFO_FX16ARRAY) {
+        const fx16 * p_fx16 = (const fx16 *)pArray;
+
+        *pVal = (*(p_fx16 + idx) + *(p_fx16 + idx + 1)) >> 1;
+    } else {
+        const fx32 * p_fx32 = (const fx32 *)pArray;
+
+        fx32 v1 = *(p_fx32 + idx) >> 1;
+        fx32 v2 = *(p_fx32 + idx + 1) >> 1;
+        *pVal = v1 + v2;
+    }
+    return;
+TRANS_NONINTERP:
+    if (info & NNS_G3D_JNTANM_TINFO_FX16ARRAY) {
+        *pVal = *((const fx16 *)pArray + idx);
+    } else {
+        *pVal = *((const fx32 *)pArray + idx);
+    }
+    return;
+}

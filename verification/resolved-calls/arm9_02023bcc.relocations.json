@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 388,
+    "type": 1,
+    "symbol": "StructCL_SomeFn",
+    "target": 33701252,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645771
+  }
+]

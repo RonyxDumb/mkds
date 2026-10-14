@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 72,
+    "type": 1,
+    "symbol": "Matrix4x3_Identity",
+    "target": 34894268,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942963262
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "func_02147954",
+    "target": 34896212,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942963746
+  },
+  {
+    "offset": 200,
+    "type": 1,
+    "symbol": "MTX_Identity33_",
+    "target": 34892988,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942962910
+  },
+  {
+    "offset": 292,
+    "type": 2,
+    "symbol": "SDK_data_0217029c",
+    "target": 35062428,
+    "thumb": false,
+    "addend": 0,
+    "value": 35062428
+  },
+  {
+    "offset": 312,
+    "type": 2,
+    "symbol": "SDK_data_0217029c",
+    "target": 35062428,
+    "thumb": false,
+    "addend": 76,
+    "value": 35062504
+  },
+  {
+    "offset": 316,
+    "type": 2,
+    "symbol": "SDK_data_0217029c",
+    "target": 35062428,
+    "thumb": false,
+    "addend": 8,
+    "value": 35062436
+  },
+  {
+    "offset": 360,
+    "type": 2,
+    "symbol": "SDK_data_0217029c",
+    "target": 35062428,
+    "thumb": false,
+    "addend": 188,
+    "value": 35062616
+  }
+]

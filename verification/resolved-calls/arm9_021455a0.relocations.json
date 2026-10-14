@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "func_02142988",
+    "target": 34875784,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420143
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "CopyMemory16",
+    "target": 34918396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942653562
+  },
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959105038
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "SetSomeFunctionPtr",
+    "target": 34876428,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420280
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "WM_SomeFn",
+    "target": 34876088,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420185
+  },
+  {
+    "offset": 196,
+    "type": 2,
+    "symbol": "SDK_data_0217f960",
+    "target": 35125600,
+    "thumb": false,
+    "addend": 0,
+    "value": 35125600
+  }
+]

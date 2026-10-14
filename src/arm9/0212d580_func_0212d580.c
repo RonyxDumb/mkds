@@ -1,30 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 0212d580. No matching claim. */
-#include "types.h"
-#include "deps/0212d580_func_0212d580.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_SndArcGetSeqArcInfo Sound_GetSarcInfoEntry
+#define NNS_SndArcGetFileAddress Sound_MaybeGetRawFilePointer
+#define NNSi_SndSeqArcGetSeqInfo func_0212f788
+#define NNS_SndArcGetSeqArcParam func_0212d580
+#include <nnsys/snd/sndarc.h>
+#include <nnsys/snd/config.h>
 
-int func_0212d580(undefined4 param_1,undefined4 param_2)
-
+#include <nitro/snd.h>
+#include <nnsys/misc.h>
+#include <nnsys/snd/player.h>
+extern const NNSSndArcSeqArcInfo * NNS_SndArcGetSeqArcInfo (int seqArcNo);
+extern void * NNS_SndArcGetFileAddress (u32 fileId);
+#pragma thumb off
+const NNSSndSeqParam * NNS_SndArcGetSeqArcParam (int seqArcNo, int index)
 {
-  uint uVar1;
-  int iVar2;
-  
-  uVar1 = Sound_GetSarcInfoEntry();
-  if (uVar1 == 0) {
-    return 0;
-  }
-  iVar2 = Sound_MaybeGetRawFilePointer
-                    (*(uint *)(uVar1 & 0xfffffffc) >> (uVar1 & 3) * 8 |
-                     *(uint *)(uVar1 & 0xfffffffc) << (uVar1 & 3) * -8 + 0x20);
-  if (iVar2 != 0) {
-    iVar2 = func_0212f788(iVar2,param_2);
-    if (iVar2 == 0) {
-      iVar2 = 0;
-    }
-    else {
-      iVar2 = iVar2 + 4;
-    }
-    return iVar2;
-  }
-  return 0;
-}
+    const NNSSndArcSeqArcInfo * info;
+    const NNSSndSeqArc * seqArc;
+    const NNSSndSeqArcSeqInfo * sound;
 
+    info = NNS_SndArcGetSeqArcInfo(seqArcNo);
+    if (info == NULL) return NULL;
+
+    seqArc = (const NNSSndSeqArc *)NNS_SndArcGetFileAddress(info->fileId);
+    if (seqArc == NULL) return NULL;
+
+    sound = NNSi_SndSeqArcGetSeqInfo(seqArc, index);
+    if (sound == NULL) return NULL;
+
+    return &sound->param;
+}

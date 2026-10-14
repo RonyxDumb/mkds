@@ -1,27 +1,133 @@
-/* Decompiled C draft; module arm9; ROM address 020182c0. No matching claim. */
-#include "types.h"
-#include "deps/020182c0_GetFileBuffer.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define FS_InitFile Fs_File_Initialize
+#define FS_OpenFile Fs_File_Open
+#define FS_CloseFile Fs_File_Close
+#define NNS_FndGetArchiveFileByName GetFileBuffer
+#include <string.h>
 
-int GetFileBuffer(undefined4 param_1)
+#include <nnsys/misc.h>
+#include <nnsys/fnd/archive.h>
 
+#include "archive_block.h"
+
+static BOOL IsValidArchiveBinary (NNSiFndArchiveHeader * arcBinary)
 {
-  uint uVar1;
-  int iVar2;
-  uint uVar3;
-  int iVar4;
-  undefined1 auStack_58 [8];
-  int local_50;
-  int local_34;
-  
-  iVar4 = 0;
-  Fs_File_Initialize((undefined4 *)(void *)(auStack_58));
-  iVar2 = Fs_File_Open(auStack_58,param_1);
-  if (iVar2 != 0) {
-    uVar1 = local_50 + 100U & 3;
-    uVar3 = *(uint *)(local_50 + 100U & 0xfffffffc);
-    iVar4 = (uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + local_34;
-    Fs_File_Close((int)(uintptr_t)(auStack_58));
-  }
-  return iVar4;
+    NNS_NULL_ASSERT(arcBinary);
+
+    if (arcBinary->signature != 'CRAN') return FALSE;
+    if (arcBinary->byteOrder != 0xfffe) return FALSE;
+    if (arcBinary->version   != 0x0100) return FALSE;
+
+    return TRUE;
 }
 
+BOOL NNS_FndMountArchive (NNSFndArchive * archive, const char * arcName, void * arcBinary)
+{
+    NNSiFndArchiveHeader * arc = (NNSiFndArchiveHeader *)arcBinary;
+    NNSiFndArchiveFatBlockHeader * fat = NULL;
+    NNSiFndArchiveDirBlockHeader * fnt = NULL;
+    NNSiFndArchiveImgBlockHeader * img = NULL;
+
+    NNS_NULL_ASSERT(arcName);
+    NNS_NULL_ASSERT(arcBinary);
+
+    if (!IsValidArchiveBinary(arc)) {
+        OS_Printf("This archive binary is invalid.\n");
+        return FALSE;
+    }
+    {
+        int count;
+        NNSiFndArchiveBlockHeader * block = (NNSiFndArchiveBlockHeader *)((u32)arc + arc->headerSize);
+
+        for (count = 0; count<arc->dataBlocks; count++)
+        {
+            switch (block->blockType)
+            {
+            case 'FATB': fat = (NNSiFndArchiveFatBlockHeader *)block;    break;
+            case 'FNTB': fnt = (NNSiFndArchiveDirBlockHeader *)block;    break;
+            case 'FIMG': img = (NNSiFndArchiveImgBlockHeader *)block;    break;
+            }
+            block = (NNSiFndArchiveBlockHeader *)((u32)block + block->blockSize);
+        }
+
+        FS_InitArchive(&archive->fsArchive);
+        archive->arcBinary = arc;
+        archive->fatData = (NNSiFndArchiveFatData *)fat;
+        archive->fileImage = (u32)(img + 1);
+
+        if (!FS_RegisterArchiveName(&archive->fsArchive, arcName, strlen(arcName))) {
+            OS_Printf("archive cannot register to file system.\n");
+            return FALSE;
+        }
+        if (!FS_LoadArchive(&archive->fsArchive,
+                            (u32)(img + 1),
+                            (u32)(fat + 1) - (u32)(img + 1), fat->blockSize - sizeof(NNSiFndArchiveFatBlockHeader),
+                            (u32)(fnt + 1) - (u32)(img + 1), fnt->blockSize - sizeof(NNSiFndArchiveDirBlockHeader),
+                            NULL, NULL)
+            ) {
+            OS_Printf("archive cannot load to file system.\n");
+            FS_ReleaseArchiveName(&archive->fsArchive);
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+BOOL NNS_FndUnmountArchive (NNSFndArchive * archive)
+{
+    NNS_NULL_ASSERT(archive);
+
+    if (!FS_UnloadArchive(&archive->fsArchive)) {
+        return FALSE;
+    }
+    FS_ReleaseArchiveName(&archive->fsArchive);
+    return TRUE;
+}
+
+void * NNS_FndGetArchiveFileByName (const char * path)
+{
+    void * addr = NULL;
+    FSFile file;
+
+    NNS_NULL_ASSERT(path);
+    FS_InitFile(&file);
+
+    if (FS_OpenFile(&file, path)) {
+        NNSFndArchive * archive = (NNSFndArchive *)FS_GetAttachedArchive(&file);
+
+        addr = (void *)(archive->fileImage + FS_GetFileImageTop(&file));
+        (void)FS_CloseFile(&file);
+    }
+
+    return addr;
+}
+
+void * NNS_FndGetArchiveFileByIndex (NNSFndArchive * archive, u32 index)
+{
+    void * addr = NULL;
+
+    NNS_NULL_ASSERT(archive);
+
+    if (index < archive->fatData->numFiles) {
+        addr = (void *)(archive->fileImage + archive->fatData->fatEntries[index].fileTop);
+    }
+    return addr;
+}
+
+BOOL NNS_FndOpenArchiveFileByIndex (FSFile * file, NNSFndArchive * archive, u32 index)
+{
+    BOOL result = FALSE;
+
+    NNS_NULL_ASSERT(file);
+    NNS_NULL_ASSERT(archive);
+
+    if (index < archive->fatData->numFiles) {
+        FSFileID fileID;
+
+        fileID.arc = &archive->fsArchive;
+        fileID.file_id = index;
+
+        result = FS_OpenFileFast(file, fileID);
+    }
+    return result;
+}

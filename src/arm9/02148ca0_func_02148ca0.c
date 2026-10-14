@@ -1,13 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02148ca0. No matching claim. */
-#include "types.h"
-#include "deps/02148ca0_func_02148ca0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define gGXState SDK_data_021802b0
+#define GX_GetSizeOfX_ SDK_data_02148cd0
+#define GX_GetSizeOfSubOBJ func_02148ca0
+#include <nitro/gx/gx_vramcnt.h>
+#include <nitro/hw/ARM9/ioreg_G3X.h>
+#include <nitro/hw/ARM9/ioreg_GX.h>
+#include <nitro/hw/ARM9/ioreg_GXS.h>
 
-void func_02148ca0(void)
-
+#include "gxstate.h"
+    #include <nitro/code32.h>
+#include <nitro/codereset.h>
+    #include <nitro/code32.h>
+    #include <nitro/codereset.h>
+extern u32 GX_GetSizeOfX_ (u32 bit);
+#pragma thumb off
+u32 GX_GetSizeOfSubOBJ (void)
 {
-                    /* WARNING: Could not recover jumptable at 0x02148cac. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02148cb4)(*(undefined2 *)(iRam02148cb0 + 0x14));
-  return;
+	return GX_GetSizeOfX_(gGXState.vramCnt.sub_obj);
 }
-

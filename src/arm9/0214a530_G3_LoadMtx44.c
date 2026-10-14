@@ -1,17 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 0214a530. No matching claim. */
-#include "types.h"
-#include "deps/0214a530_G3_LoadMtx44.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define GX_SendFifo64B SDK_data_0214c74c
+#include <nitro/gx/g3imm.h>
+#include <nitro/mi/dma.h>
+#include "../include/gxasm.h"
 
-void G3_LoadMtx44(void)
-
+#pragma thumb off
+void G3_LoadMtx44 (const MtxFx44 *m)
 {
-  code *UNRECOVERED_JUMPTABLE;
-  
-  UNRECOVERED_JUMPTABLE = pcRam0214a548;
-  *puRam0214a544 = 0x16;
-                    /* WARNING: Could not recover jumptable at 0x0214a540. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*UNRECOVERED_JUMPTABLE)();
-  return;
-}
+	SDK_NULL_ASSERT(m);
 
+	reg_G3X_GXFIFO = G3OP_MTX_LOAD_4x4;
+	GX_SendFifo64B(&m->_00, (void *)&reg_G3X_GXFIFO);
+}

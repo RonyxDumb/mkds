@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Maybe_helper_0218f4",
+    "target": 33691892,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959149570
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "SND_SetChannelVolume",
+    "target": 33688172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148635
+  },
+  {
+    "offset": 112,
+    "type": 2,
+    "symbol": "SDK_data_0217dd28",
+    "target": 35118376,
+    "thumb": false,
+    "addend": 0,
+    "value": 35118376
+  }
+]

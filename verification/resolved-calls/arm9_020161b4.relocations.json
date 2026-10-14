@@ -1,0 +1,74 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "func_0201625c",
+    "target": 33645148,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645788
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "func_0201625c",
+    "target": 33645148,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645780
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "func_02016134",
+    "target": 33644852,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422919
+  },
+  {
+    "offset": 148,
+    "type": 2,
+    "symbol": "SDK_data_02173210",
+    "target": 35074576,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074576
+  },
+  {
+    "offset": 152,
+    "type": 2,
+    "symbol": "SDK_data_02015fa0",
+    "target": 33644448,
+    "thumb": false,
+    "addend": 0,
+    "value": 33644448
+  },
+  {
+    "offset": 156,
+    "type": 2,
+    "symbol": "SDK_data_021619ec",
+    "target": 35002860,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002860
+  },
+  {
+    "offset": 160,
+    "type": 2,
+    "symbol": "SDK_data_02015f98",
+    "target": 33644440,
+    "thumb": false,
+    "addend": 0,
+    "value": 33644440
+  },
+  {
+    "offset": 164,
+    "type": 2,
+    "symbol": "SDK_data_021619f0",
+    "target": 35002864,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002864
+  }
+]

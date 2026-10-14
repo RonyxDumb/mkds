@@ -1,21 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 021438a8. No matching claim. */
-#include "types.h"
-#include "deps/021438a8_func_021438a8.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMi_CheckStateEx func_02142988
+#define WMi_SetCallbackTable SetSomeFunctionPtr
+#define WMi_SendCommand WM_SomeFn
+#define WM_EndScan func_021438a8
+#include <nitro/wm.h>
 
-int func_021438a8(undefined4 param_1)
+#include "wm_arm9_private.h"
 
+#pragma thumb off
+WMErrCode WM_EndScan (WMCallbackFunc callback)
 {
-  int iVar1;
-  
-  iVar1 = func_02142988(1,5);
-  if (iVar1 == 0) {
-    SetSomeFunctionPtr(0xb,param_1);
-    iVar1 = WM_SomeFn(0xb,0);
-    if (iVar1 == 0) {
-      iVar1 = 2;
-    }
-    return iVar1;
-  }
-  return iVar1;
-}
+    WMErrCode result;
 
+    result = WMi_CheckState(WM_STATE_SCAN);
+    WM_CHECK_RESULT(result);
+
+    WMi_SetCallbackTable(WM_APIID_END_SCAN, callback);
+
+    result = WMi_SendCommand(WM_APIID_END_SCAN, 0);
+    WM_CHECK_RESULT(result);
+
+    return WM_ERRCODE_OPERATING;
+}

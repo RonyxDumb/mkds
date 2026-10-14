@@ -1,13 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 0214f4a4. No matching claim. */
-#include "types.h"
-#include "deps/0214f4a4_func_0214f4a4.h"
-
-void func_0214f4a4(undefined4 param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define PMi_DeleteList SDK_data_0214f54c
+#define PMi_PostSleepCallbackList SDK_data_02180444
+#define PM_DeletePostSleepCallback func_0214f4a4
+#include <nitro/spi/ARM9/pm.h>
+#include <nitro/pxi.h>
+#include <nitro/gx.h>
+#include <nitro/spi/common/config.h>
+#include <nitro/ctrdg.h>
+#include <nitro/mb.h>
+extern void PMi_DeleteList (PMSleepCallbackInfo ** listp, PMSleepCallbackInfo * info);
+extern PMSleepCallbackInfo * PMi_PostSleepCallbackList;
+#pragma thumb off
+void PM_DeletePostSleepCallback (PMSleepCallbackInfo * info)
 {
-                    /* WARNING: Could not recover jumptable at 0x0214f4b0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0214f4b4)(uRam0214f4b8,param_1);
-  return;
+    PMi_DeleteList(&PMi_PostSleepCallbackList, info);
 }
-

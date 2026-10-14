@@ -1,36 +1,33 @@
-/* Decompiled C draft; module arm9; ROM address 02143fbc. No matching claim. */
-#include "types.h"
-#include "deps/02143fbc_func_02143fbc.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMi_GetSystemWork Wm_GetGlobal
+#define WMi_CheckStateEx func_02142988
+#define DC_InvalidateRange DC_InvalidateRangeNoClean
+#define WMi_SetCallbackTable SetSomeFunctionPtr
+#define WMi_SendCommand WM_SomeFn
+#define WM_EndMP func_02143fbc
+#include <nitro/wm.h>
 
-int func_02143fbc(undefined4 param_1)
+#include "wm_arm9_private.h"
 
+#pragma thumb off
+WMErrCode WM_EndMP (WMCallbackFunc callback)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  iVar1 = Wm_GetGlobal();
-  iVar2 = func_02142988(2,9,10);
-  if (iVar2 != 0) {
-    return iVar2;
-  }
-  uVar4 = iVar1 + 4U & 3;
-  uVar3 = *(uint *)(iVar1 + 4U & 0xfffffffc);
-  DC_InvalidateRangeNoClean((uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0xc,4);
-  uVar4 = iVar1 + 4U & 3;
-  uVar3 = *(uint *)(iVar1 + 4U & 0xfffffffc);
-  uVar4 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0xc;
-  uVar3 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  if (uVar4 >> uVar3 * 8 != 0 || uVar4 << uVar3 * -8 + 0x20 != 0) {
-    SetSomeFunctionPtr(0x10,param_1);
-    iVar1 = WM_SomeFn(0x10,0);
-    if (iVar1 == 0) {
-      iVar1 = 2;
-    }
-    return iVar1;
-  }
-  return 3;
-}
+    WMErrCode result;
+    WMArm9Buf * p = WMi_GetSystemWork();
 
+    result = WMi_CheckStateEx(2, WM_STATE_MP_PARENT, WM_STATE_MP_CHILD);
+    WM_CHECK_RESULT(result);
+
+    DC_InvalidateRange(&(p->status->mp_flag), 4);
+    if (p->status->mp_flag == FALSE) {
+        WM_WARNING("It is not MP mode now.\n");
+        return WM_ERRCODE_ILLEGAL_STATE;
+    }
+
+    WMi_SetCallbackTable(WM_APIID_END_MP, callback);
+
+    result = WMi_SendCommand(WM_APIID_END_MP, 0);
+    WM_CHECK_RESULT(result);
+
+    return WM_ERRCODE_OPERATING;
+}

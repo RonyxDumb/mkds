@@ -1,13 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 0212e8f4. No matching claim. */
-#include "types.h"
-#include "deps/0212e8f4_Sound_LoadSbnkWithFlags.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNSi_SndArcLoadBank Sound_GetSbnkPointer
+#define NNS_SndArcLoadBankEx Sound_LoadSbnkWithFlags
+#include <nnsys/snd/sndarc_loader.h>
 
-bool Sound_LoadSbnkWithFlags(void)
+#include <nitro/types.h>
 
+#include <nnsys/snd/seqdata.h>
+#include <nnsys/snd/sndarc.h>
+
+#include <nitro/snd.h>
+
+#include <nnsys/misc.h>
+#include <nnsys/snd/heap.h>
+extern NNSSndArcLoadResult NNSi_SndArcLoadBank (int bankNo, u32 loadFlag, NNSSndHeapHandle heap, BOOL bSetAddr, struct SNDBankData ** pData);
+#pragma thumb off
+BOOL NNS_SndArcLoadBankEx (int bankNo, u32 loadFlag, NNSSndHeapHandle heap)
 {
-  int iVar1;
-  
-  iVar1 = Sound_GetSbnkPointer();
-  return iVar1 == 0;
-}
+    NNSSndArcLoadResult result;
 
+    result = NNSi_SndArcLoadBank(bankNo, loadFlag, heap, TRUE, NULL);
+
+    return result == NNS_SND_ARC_LOAD_SUCESS ? TRUE : FALSE;
+}

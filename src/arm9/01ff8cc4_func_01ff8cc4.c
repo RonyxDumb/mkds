@@ -1,22 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 01ff8cc4. No matching claim. */
-#include "types.h"
-#include "deps/01ff8cc4_func_01ff8cc4.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNSi_G3dFuncSbc_NOP func_01ff8cc4
+#include <nnsys/g3d/sbc.h>
+#include <nnsys/g3d/kernel.h>
+#include <nnsys/g3d/binres/res_struct.h>
+#include <nnsys/g3d/glbstate.h>
+#include <nnsys/g3d/gecom.h>
+#include <nnsys/g3d/binres/res_struct_accessor.h>
+#include <nnsys/g3d/util.h>
 
-void func_01ff8cc4(int *param_1)
-
+#pragma thumb off
+void NNSi_G3dFuncSbc_NOP (NNSG3dRS * rs, u32)
 {
-  uint uVar1;
-  uint uVar2;
-  code *pcVar3;
-  
-  uVar1 = (uint)(param_1 + 3) & 3;
-  uVar2 = *(uint *)((uint)(param_1 + 3) & 0xfffffffc);
-  pcVar3 = (code *)(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  if (pcVar3 != (code *)0x0) {
-    (*pcVar3)();
-  }
-  *param_1 = (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-             *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20) + 1;
-  return;
-}
+    NNS_G3D_NULL_ASSERT(rs);
 
+#if !defined(NNS_G3D_SBC_CALLBACK_TIMING_A_DISABLE) || \
+    !defined(NNS_G3D_SBC_CALLBACK_TIMING_B_DISABLE) || \
+    !defined(NNS_G3D_SBC_CALLBACK_TIMING_C_DISABLE)
+
+    if (rs->cbVecFunc[NNS_G3D_SBC_NOP]) {
+        (*rs->cbVecFunc[NNS_G3D_SBC_NOP])(rs);
+    }
+#endif
+
+    rs->c++;
+}

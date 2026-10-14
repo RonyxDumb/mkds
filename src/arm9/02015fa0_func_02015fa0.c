@@ -1,107 +1,409 @@
-/* Decompiled C draft; module arm9; ROM address 02015fa0. No matching claim. */
-#include "types.h"
-#include "deps/02015fa0_func_02015fa0.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define vramRegions_ SDK_data_02161a18
+#define tex4x4SearchArray_ SDK_data_021619fc
+#define texNrmSearchArray_ SDK_data_02161a04
+#define NNS_GfdAllocFrmTexVram func_02015fa0
 
-uint func_02015fa0(int param_1,int param_2)
+#include <nnsys/gfd/gfd_common.h>
+#include <nnsys/gfd/VramManager/gfd_VramMan.h>
+#include <nnsys/gfd/VramManager/gfd_FrameTexVramMan.h>
 
+#define NNS_GFD_TEX_SLOT_SIZE               0x20000
+
+#define NNS_GFD_NUM_TEX_VRAM_REGION         5
+#define NNS_GFD_NUM_TEX_VRAM_REGION_4x4     2
+#define NNS_GFD_INVALID_ADDR                0xFFFFFFFF
+
+typedef struct NNSGfdFrmTexRegionState {
+    u32 head;
+    u32 tail;
+    BOOL bActive;
+    const BOOL bHalfSize;
+    const u16 index;
+    const u16 pad16_;
+    const u32 baseAddress;
+} NNSGfdFrmTexRegionState;
+
+typedef struct NNSGfdFrmTexVramMnager {
+    u16 numSlot;
+} NNSGfdFrmTexVramMnager;
+
+static NNSGfdFrmTexVramMnager frmExVramMan_;
+
+static NNSGfdFrmTexRegionState vramRegions_[NNS_GFD_NUM_TEX_VRAM_REGION] = {
+    { NNS_GFD_INVALID_ADDR, NNS_GFD_INVALID_ADDR, FALSE, FALSE, 0, 0xFFFF, 0x0                                               },
+    { NNS_GFD_INVALID_ADDR, NNS_GFD_INVALID_ADDR, FALSE, TRUE, 1, 0xFFFF, (u32)NNS_GFD_TEX_SLOT_SIZE                             },
+    { NNS_GFD_INVALID_ADDR, NNS_GFD_INVALID_ADDR, FALSE, TRUE, 2, 0xFFFF, (u32)(NNS_GFD_TEX_SLOT_SIZE + NNS_GFD_TEX_SLOT_SIZE / 2) },
+    { NNS_GFD_INVALID_ADDR, NNS_GFD_INVALID_ADDR, FALSE, FALSE, 3, 0xFFFF, (u32)(NNS_GFD_TEX_SLOT_SIZE * 2)                         },
+    { NNS_GFD_INVALID_ADDR, NNS_GFD_INVALID_ADDR, FALSE, FALSE, 4, 0xFFFF, (u32)(NNS_GFD_TEX_SLOT_SIZE * 3)                         }
+};
+
+static NNSGfdFrmTexRegionState * texNrmSearchArray_[NNS_GFD_NUM_TEX_VRAM_REGION] = {
+    &vramRegions_[4],
+    &vramRegions_[3],
+    &vramRegions_[0],
+    &vramRegions_[2],
+    &vramRegions_[1]
+};
+
+static NNSGfdFrmTexRegionState * tex4x4SearchArray_[NNS_GFD_NUM_TEX_VRAM_REGION_4x4] = {
+    &vramRegions_[0],
+    &vramRegions_[3]
+};
+
+typedef struct NNSiGfdDefaultDebugContext {
+    u32 szTotalFree;
+    u32 szTotalReserved;
+
+}NNSiGfdDefaultDebugContext;
+
+static NNS_GFD_INLINE BOOL IsSlotNumValid_ (u16 numSlot)
 {
-  bool bVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  int *piVar5;
-  uint uVar6;
-  int iVar8;
-  uint uVar9;
-  uint unaff_r8;
-  int *piVar7;
-  
-  if (param_1 == 0) {
-    uVar9 = 0x10;
-  }
-  else {
-    uVar9 = param_1 + 0xfU & 0xfffffff0;
-  }
-  if (uRam0201611c <= uVar9) {
-    return 0;
-  }
-  if (param_2 == 0) {
-    iVar8 = 0;
-    do {
-      uVar6 = iRam0201612c + iVar8 * 4;
-      uVar4 = uVar6 & 3;
-      uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-      uVar2 = uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20;
-      uVar6 = uVar2 + 8 & 3;
-      uVar4 = *(uint *)(uVar2 + 8 & 0xfffffffc);
-      if ((uVar4 >> uVar6 * 8 != 0 || uVar4 << uVar6 * -8 + 0x20 != 0) &&
-         (uVar6 = uVar2 + 4 & 3, uVar4 = *(uint *)(uVar2 + 4 & 0xfffffffc),
-         uVar9 <= (uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20) -
-                  (*(uint *)(uVar2 & 0xfffffffc) >> (uVar2 & 3) * 8 |
-                  *(uint *)(uVar2 & 0xfffffffc) << (uVar2 & 3) * -8 + 0x20))) {
-        uVar6 = uVar2 + 4 & 3;
-        uVar4 = *(uint *)(uVar2 + 4 & 0xfffffffc);
-        bVar1 = true;
-        *(uint *)(uVar2 + 4) = (uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20) - uVar9;
-        uVar6 = uVar2 + 4 & 3;
-        uVar3 = *(uint *)(uVar2 + 4 & 0xfffffffc);
-        uVar4 = uVar2 + 0x14 & 3;
-        uVar2 = *(uint *)(uVar2 + 0x14 & 0xfffffffc);
-        unaff_r8 = (uVar3 >> uVar6 * 8 | uVar3 << uVar6 * -8 + 0x20) +
-                   (uVar2 >> uVar4 * 8 | uVar2 << uVar4 * -8 + 0x20);
-        goto LAB_020160f0;
-      }
-      iVar8 = iVar8 + 1;
-    } while (iVar8 < 5);
-    bVar1 = false;
-  }
-  else {
-    iVar8 = 0;
-    do {
-      uVar6 = iRam02016128 + iVar8 * 4;
-      uVar4 = uVar6 & 3;
-      uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-      piVar7 = (int *)(uVar6 >> uVar4 * 8 | uVar6 << uVar4 * -8 + 0x20);
-      uVar6 = (uint)(piVar7 + 2) & 3;
-      uVar4 = *(uint *)((uint)(piVar7 + 2) & 0xfffffffc);
-      if ((uVar4 >> uVar6 * 8 != 0 || uVar4 << uVar6 * -8 + 0x20 != 0) &&
-         (uVar6 = (uint)(piVar7 + 1) & 3, uVar4 = *(uint *)((uint)(piVar7 + 1) & 0xfffffffc),
-         uVar9 <= (uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20) -
-                  (*(uint *)((uint)piVar7 & 0xfffffffc) >> ((uint)piVar7 & 3) * 8 |
-                  *(uint *)((uint)piVar7 & 0xfffffffc) << ((uint)piVar7 & 3) * -8 + 0x20))) {
-        piVar5 = piRam02016124;
-        if (((short)piVar7[4] != 0) && (piVar5 = piRam02016120, (short)piVar7[4] != 3)) {
-          piVar5 = (int *)0x0;
-        }
-        uVar6 = (uint)(piVar5 + 2) & 3;
-        uVar4 = *(uint *)((uint)(piVar5 + 2) & 0xfffffffc);
-        if ((uVar4 >> uVar6 * 8 != 0 || uVar4 << uVar6 * -8 + 0x20 != 0) &&
-           (uVar6 = (uint)(piVar5 + 1) & 3, uVar4 = *(uint *)((uint)(piVar5 + 1) & 0xfffffffc),
-           uVar9 >> 1 <=
-           (uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20) -
-           (*(uint *)((uint)piVar5 & 0xfffffffc) >> ((uint)piVar5 & 3) * 8 |
-           *(uint *)((uint)piVar5 & 0xfffffffc) << ((uint)piVar5 & 3) * -8 + 0x20))) {
-          uVar2 = *(uint *)((uint)piVar7 & 0xfffffffc) >> ((uint)piVar7 & 3) * 8 |
-                  *(uint *)((uint)piVar7 & 0xfffffffc) << ((uint)piVar7 & 3) * -8 + 0x20;
-          bVar1 = true;
-          *piVar7 = uVar2 + uVar9;
-          *piVar5 = (*(uint *)((uint)piVar5 & 0xfffffffc) >> ((uint)piVar5 & 3) * 8 |
-                    *(uint *)((uint)piVar5 & 0xfffffffc) << ((uint)piVar5 & 3) * -8 + 0x20) +
-                    (uVar9 >> 1);
-          uVar6 = (uint)(piVar7 + 5) & 3;
-          uVar4 = *(uint *)((uint)(piVar7 + 5) & 0xfffffffc);
-          unaff_r8 = uVar2 + (uVar4 >> uVar6 * 8 | uVar4 << uVar6 * -8 + 0x20);
-          goto LAB_020160f0;
-        }
-      }
-      iVar8 = iVar8 + 1;
-    } while (iVar8 < 2);
-    bVar1 = false;
-  }
-LAB_020160f0:
-  if (!bVar1) {
-    return 0;
-  }
-  return uRam02016130 & unaff_r8 >> 3 | (uVar9 >> 4) << 0x10 | param_2 << 0x1f;
+    if ( numSlot > 0 && numSlot <= 4 ) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
 }
 
+static NNS_GFD_INLINE void ResetRegionNormal_ (NNSGfdFrmTexRegionState * pRegion)
+{
+    NNS_GFD_NULL_ASSERT(pRegion);
+
+    pRegion->head = 0x0;
+    pRegion->tail = NNS_GFD_TEX_SLOT_SIZE;
+}
+
+static NNS_GFD_INLINE void ResetRegionHalf_ (NNSGfdFrmTexRegionState * pRegion)
+{
+    NNS_GFD_NULL_ASSERT(pRegion);
+
+    pRegion->head = 0x0;
+    pRegion->tail = NNS_GFD_TEX_SLOT_SIZE / 2;
+}
+
+static NNS_GFD_INLINE BOOL IsRegionStateValid_ (const NNSGfdFrmTexRegionState * pRegion)
+{
+    NNS_GFD_NULL_ASSERT(pRegion);
+
+    if ( pRegion->head != NNS_GFD_INVALID_ADDR &&
+         pRegion->tail != NNS_GFD_INVALID_ADDR ) {
+        if ( pRegion->head <= pRegion->tail ) {
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+static NNS_GFD_INLINE BOOL IsVramManagerValid_ ()
+{
+    int i;
+
+    for (i = 0; i < NNS_GFD_NUM_TEX_VRAM_REGION; i++)
+    {
+        if ( !IsRegionStateValid_(&vramRegions_[i])) {
+            return FALSE;
+        }
+    }
+    return TRUE;
+}
+
+static NNS_GFD_INLINE u32 GetReagionCapacity_ (const NNSGfdFrmTexRegionState * pRegion)
+{
+    NNS_GFD_NULL_ASSERT(pRegion);
+    NNS_GFD_ASSERT(IsRegionStateValid_(pRegion));
+
+    return (u32)(pRegion->tail - pRegion->head);
+}
+
+static NNS_GFD_INLINE u32 AllocFromReagionHead_ (NNSGfdFrmTexRegionState * pRegion, u32 szByte)
+{
+    NNS_GFD_NULL_ASSERT(pRegion);
+    NNS_GFD_ASSERT(IsRegionStateValid_(pRegion));
+    NNS_GFD_ASSERT(GetReagionCapacity_(pRegion) >= szByte);
+
+    {
+        const u32 result = pRegion->head;
+
+        pRegion->head += szByte;
+
+        return result;
+    }
+}
+
+static NNS_GFD_INLINE u32 AllocFromReagionTail_ (NNSGfdFrmTexRegionState * pRegion, u32 szByte)
+{
+    NNS_GFD_NULL_ASSERT(pRegion);
+    NNS_GFD_ASSERT(IsRegionStateValid_(pRegion));
+    NNS_GFD_ASSERT(GetReagionCapacity_(pRegion) >= szByte);
+
+    {
+        pRegion->tail -= szByte;
+        return pRegion->tail;
+    }
+}
+
+static NNS_GFD_INLINE NNSGfdFrmTexRegionState * Get4x4IdxRegion_ (const NNSGfdFrmTexRegionState * pRegion)
+{
+    NNS_GFD_NULL_ASSERT(pRegion);
+    switch ( pRegion->index ) {
+    case 0:
+        return &vramRegions_[1];
+    case 3:
+        return &vramRegions_[2];
+    default:
+        NNS_GFD_WARNING("Invalid region is detected. in Get4x4IdxRegion_(). "); break;
+    }
+    return NULL;
+}
+
+static NNS_GFD_INLINE BOOL DoAlloc4x4_ (u32 szByte, u32 * addr)
+{
+    NNS_GFD_NULL_ASSERT(addr);
+    NNS_GFD_ASSERTMSG(IsVramManagerValid_(), "Make sure to Initialize the manager.");
+
+    {
+        int i;
+        NNSGfdFrmTexRegionState * pRegion = NULL;
+        NNSGfdFrmTexRegionState * pPltRegion = NULL;
+
+        for (i = 0; i < NNS_GFD_NUM_TEX_VRAM_REGION_4x4; i++)
+        {
+            pRegion = tex4x4SearchArray_[i];
+
+            if ( pRegion->bActive &&
+                 GetReagionCapacity_(pRegion) >= szByte ) {
+                pPltRegion = Get4x4IdxRegion_(pRegion);
+
+                if ( pPltRegion->bActive &&
+                     GetReagionCapacity_(pPltRegion) >= szByte / 2 ) {
+                    *addr = AllocFromReagionHead_(pRegion, szByte);
+                    (void)AllocFromReagionHead_(pPltRegion, szByte / 2);
+
+                    *addr += pRegion->baseAddress;
+
+                    return TRUE;
+                }
+            }
+        }
+
+        NNS_GFD_WARNING("We have no memory for 4x4 Tex.");
+        return FALSE;
+    }
+}
+
+static NNS_GFD_INLINE BOOL DoAllocNrm_ (u32 szByte, u32 * addr)
+{
+    NNS_GFD_NULL_ASSERT(addr);
+    NNS_GFD_ASSERTMSG(IsVramManagerValid_(), "Make sure to Initialize the manager.");
+
+    {
+        int i;
+        NNSGfdFrmTexRegionState * pRegion = NULL;
+
+        for (i = 0; i < NNS_GFD_NUM_TEX_VRAM_REGION; i++)
+        {
+            pRegion = texNrmSearchArray_[i];
+            if ( pRegion->bActive ) {
+                if ( GetReagionCapacity_(pRegion) >= szByte ) {
+                    *addr = AllocFromReagionTail_(pRegion, szByte);
+
+                    *addr += pRegion->baseAddress;
+
+                    return TRUE;
+                }
+            }
+        }
+
+        NNS_GFD_WARNING("We have no memory for Nrm Tex.");
+        return FALSE;
+    }
+}
+
+static void DefaultDebugDumpFunc_ (int index, u32 startAddr, u32 endAddr, u32 blockMax, BOOL bActive, void * pUserContext)
+{
+#ifdef SDK_FINALROM
+    #pragma unused(index)
+#endif
+
+    NNSiGfdDefaultDebugContext * pContext = (NNSiGfdDefaultDebugContext *)pUserContext;
+    NNS_GFD_NULL_ASSERT(pContext);
+
+    if ( bActive ) {
+        OS_Printf("%02d    : 0x%08x  : 0x%08x  : 0x%08x  \n",
+                  index,
+                  startAddr,
+                  endAddr,
+                  endAddr - startAddr);
+
+        pContext->szTotalFree += endAddr - startAddr;
+        pContext->szTotalReserved += blockMax;
+    } else {
+        OS_Printf("%02d    : ----------  : ----------  : ----------  \n", index);
+    }
+}
+
+void NNSi_GfdSetTexNrmSearchArray (int idx1st, int idx2nd, int idx3rd, int idx4th, int idx5th)
+{
+    NNS_GFD_MINMAX_ASSERT(idx1st, 0, NNS_GFD_NUM_TEX_VRAM_REGION - 1);
+    NNS_GFD_MINMAX_ASSERT(idx2nd, 0, NNS_GFD_NUM_TEX_VRAM_REGION - 1);
+    NNS_GFD_MINMAX_ASSERT(idx3rd, 0, NNS_GFD_NUM_TEX_VRAM_REGION - 1);
+    NNS_GFD_MINMAX_ASSERT(idx4th, 0, NNS_GFD_NUM_TEX_VRAM_REGION - 1);
+    NNS_GFD_MINMAX_ASSERT(idx5th, 0, NNS_GFD_NUM_TEX_VRAM_REGION - 1);
+
+    texNrmSearchArray_[0] = &vramRegions_[idx1st];
+    texNrmSearchArray_[1] = &vramRegions_[idx2nd];
+    texNrmSearchArray_[2] = &vramRegions_[idx3rd];
+    texNrmSearchArray_[3] = &vramRegions_[idx4th];
+    texNrmSearchArray_[4] = &vramRegions_[idx5th];
+}
+
+void NNS_GfdDumpFrmTexVramManager (void)
+{
+    const NNSGfdFrmTexRegionState * pState = NULL;
+
+    NNSiGfdDefaultDebugContext context = { 0, 0 };
+
+    OS_Printf("===== NNS_Gfd FrmTexVramManager Dump =====\n");
+    OS_Printf("index : head-Addr   : tail-addr   : free-size \n");
+
+    NNS_GfdDumpFrmTexVramManagerEx(DefaultDebugDumpFunc_, &context);
+
+    OS_Printf("    %08d / %08d bytes (%6.2f%%) used \n",
+              context.szTotalReserved - context.szTotalFree,
+              context.szTotalReserved,
+              100.0f * (context.szTotalReserved - context.szTotalFree) / context.szTotalReserved);
+
+    OS_Printf("==========================================\n");
+}
+
+void NNS_GfdDumpFrmTexVramManagerEx (NNSGfdFrmTexVramDebugDumpCallBack pFunc, void * pUserContext)
+{
+    int i;
+    const NNSGfdFrmTexRegionState * pState = NULL;
+    NNS_GFD_NULL_ASSERT(pFunc);
+
+    for (i = 0; i < NNS_GFD_NUM_TEX_VRAM_REGION; i++)
+    {
+        pState = &vramRegions_[i];
+        (*pFunc)(i,
+                 pState->head + pState->baseAddress,
+                 pState->tail + pState->baseAddress,
+                 (pState->bHalfSize) ? (u32)(NNS_GFD_TEX_SLOT_SIZE / 2) : NNS_GFD_TEX_SLOT_SIZE,
+                 pState->bActive,
+                 pUserContext);
+    }
+}
+
+void NNS_GfdInitFrmTexVramManager (u16 numSlot, BOOL useAsDefault)
+{
+    NNS_GFD_ASSERT(IsSlotNumValid_(numSlot));
+
+    if ( numSlot <= 2 ) {
+        NNSi_GfdSetTexNrmSearchArray(4, 3, 2, 0, 1);
+    } else {
+        NNSi_GfdSetTexNrmSearchArray(4, 3, 0, 2, 1);
+    }
+
+    frmExVramMan_.numSlot = numSlot;
+    NNS_GfdResetFrmTexVramState();
+
+    if (useAsDefault) {
+        NNS_GfdDefaultFuncAllocTexVram = NNS_GfdAllocFrmTexVram;
+        NNS_GfdDefaultFuncFreeTexVram = NNS_GfdFreeFrmTexVram;
+    }
+}
+
+void NNS_GfdResetFrmTexVramState (void)
+{
+    int i;
+    u16 numSlot = frmExVramMan_.numSlot;
+
+    const numRegion = (numSlot > 1) ? numSlot + 1 : numSlot + 0;
+
+    NNS_GFD_ASSERT(IsSlotNumValid_(numSlot));
+
+    for (i = 0; i < NNS_GFD_NUM_TEX_VRAM_REGION; i++) {
+        if ( i < numRegion ) {
+            vramRegions_[i].bActive = TRUE;
+        } else {
+            vramRegions_[i].bActive = FALSE;
+        }
+
+        if ( vramRegions_[i].bHalfSize ) {
+            ResetRegionHalf_(&vramRegions_[i]);
+        } else {
+            ResetRegionNormal_(&vramRegions_[i]);
+        }
+    }
+}
+
+NNSGfdTexKey NNS_GfdAllocFrmTexVram (u32 szByte, BOOL is4x4comp, u32 opt)
+{
+#pragma unused(opt)
+
+    u32 addr;
+    BOOL result;
+
+    NNS_GFD_ASSERTMSG(IsVramManagerValid_(), "Make sure to Initialize the manager.");
+
+    {
+        szByte = NNSi_GfdGetTexKeyRoundupSize(szByte);
+
+        if ( szByte >= NNS_GFD_TEXSIZE_MAX ) {
+            NNS_GFD_WARNING("Allocation size is too big. : NNS_GfdAllocFrmTexVram()");
+            return NNS_GFD_ALLOC_ERROR_TEXKEY;
+        }
+
+        NNS_GFD_MINMAX_ASSERT(szByte, NNS_GFD_TEXSIZE_MIN, NNS_GFD_TEXSIZE_MAX);
+    }
+
+    if ( is4x4comp ) {
+        result = DoAlloc4x4_(szByte, &addr);
+    } else {
+        result = DoAllocNrm_(szByte, &addr);
+    }
+
+    if ( result ) {
+        return NNS_GfdMakeTexKey(addr, szByte, is4x4comp);
+    } else {
+        NNS_GFD_WARNING("failure in Vram Allocation. : NNS_GfdAllocFrmTexVram()");
+        return NNS_GFD_ALLOC_ERROR_TEXKEY;
+    }
+}
+
+int NNS_GfdFreeFrmTexVram (NNSGfdTexKey texKey)
+{
+#pragma unused(texKey)
+
+    NNS_GFD_ASSERTMSG(IsVramManagerValid_(), "Make sure to Initialize the manager.");
+
+    return 0;
+}
+
+void NNS_GfdGetFrmTexVramState (NNSGfdFrmTexVramState * pState)
+{
+    int i;
+    NNS_GFD_NULL_ASSERT(pState);
+    NNS_GFD_ASSERTMSG(IsVramManagerValid_(), "Make sure to Initialize the manager.");
+
+    for (i = 0; i < NNS_GFD_NUM_TEX_VRAM_REGION; i++)
+    {
+        pState->address[i * 2 + 0] = vramRegions_[i].head;
+        pState->address[i * 2 + 1] = vramRegions_[i].tail;
+    }
+}
+
+void NNS_GfdSetFrmTexVramState (const NNSGfdFrmTexVramState * pState)
+{
+    int i;
+    NNS_GFD_NULL_ASSERT(pState);
+    NNS_GFD_ASSERTMSG(IsVramManagerValid_(), "Make sure to Initialize the manager.");
+
+    for (i = 0; i < NNS_GFD_NUM_TEX_VRAM_REGION; i++)
+    {
+        vramRegions_[i].head = pState->address[i * 2 + 0];
+        vramRegions_[i].tail = pState->address[i * 2 + 1];
+    }
+}

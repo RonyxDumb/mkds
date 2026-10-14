@@ -1,13 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 02013a30. No matching claim. */
-#include "types.h"
-#include "deps/02013a30_Anim_NSBCA_LoadGetJNT0Block.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNSi_G3dGetBinaryBlockFromFile SDK_data_02013c18
+#define NNS_G3dGetJntAnmSet Anim_NSBCA_LoadGetJNT0Block
+#include <nnsys/g3d/binres/res_struct_accessor.h>
 
-void Anim_NSBCA_LoadGetJNT0Block(undefined4 param_1)
-
+#include "res_print_internal.h"
+extern const void * NNSi_G3dGetBinaryBlockFromFile (const u8 * pFileHead, u32 fileSignature, u32 blockSignature);
+#pragma thumb off
+const NNSG3dResJntAnmSet * NNS_G3dGetJntAnmSet (const u8 * pFileHead)
 {
-                    /* WARNING: Could not recover jumptable at 0x02013a3c. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02013a40)(param_1,uRam02013a44,uRam02013a48);
-  return;
+    const void * pVisBlk
+        = NNSi_G3dGetBinaryBlockFromFile(pFileHead,
+                                         NNS_G3D_SIGNATURE_NSBCA,
+                                         NNS_G3D_DATABLK_JNT_ANM);
+    NNS_G3D_NULL_ASSERT(pVisBlk);
+    return (const NNSG3dResJntAnmSet *)pVisBlk;
 }
-

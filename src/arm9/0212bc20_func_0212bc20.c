@@ -1,18 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 0212bc20. No matching claim. */
-#include "types.h"
-#include "deps/0212bc20_func_0212bc20.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define sChannelLock SDK_data_0217d440
+#define NNS_SndUnlockChannel func_0212bc20
+#include <nnsys/snd/resource_mgr.h>
 
-void func_0212bc20(uint param_1)
-
+#include <nitro/snd.h>
+#include <nnsys/misc.h>
+extern u32 sChannelLock;
+#pragma thumb off
+void NNS_SndUnlockChannel (u32 chBitFlag)
 {
-  if (param_1 != 0) {
-    SND_UnlockChannel(param_1,0);
-    *puRam0212bc54 =
-         (*(uint *)((uint)puRam0212bc54 & 0xfffffffc) >> ((uint)puRam0212bc54 & 3) * 8 |
-         *(uint *)((uint)puRam0212bc54 & 0xfffffffc) << ((uint)puRam0212bc54 & 3) * -8 + 0x20) &
-         ~param_1;
-    return;
-  }
-  return;
-}
+    NNS_ASSERT((chBitFlag & sChannelLock) == chBitFlag);
 
+    if (chBitFlag == 0) return;
+
+    SND_UnlockChannel(chBitFlag, 0);
+
+    sChannelLock &= ~chBitFlag;
+}

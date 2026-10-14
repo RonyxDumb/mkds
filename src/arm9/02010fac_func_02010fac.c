@@ -1,13 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 02010fac. No matching claim. */
-#include "types.h"
-#include "deps/02010fac_func_02010fac.h"
-
-void func_02010fac(int param_1,int param_2,int param_3,int param_4)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G3dGlb SDK_data_0217029c
+#define NNS_G3dGlbLightVector func_02010fac
+#include <nnsys/g3d/glbstate.h>
+#include <nnsys/g3d/gecom.h>
+extern NNSG3dGlb NNS_G3dGlb;
+#pragma thumb off
+void NNS_G3dGlbLightVector (GXLightId lightID, fx16 x, fx16 y, fx16 z)
 {
-  *(uint *)(iRam02010fe0 + param_1 * 4) =
-       uRam02010fdc & param_2 >> 3 | (uRam02010fdc & param_3 >> 3) << 10 |
-       (uRam02010fdc & param_4 >> 3) << 0x14 | param_1 << 0x1e;
-  return;
-}
+    GX_LIGHTID_ASSERT(lightID);
 
+    NNS_G3D_ASSERT(x >= -FX16_ONE && x < FX16_ONE);
+    NNS_G3D_ASSERT(y >= -FX16_ONE && y < FX16_ONE);
+    NNS_G3D_ASSERT(z >= -FX16_ONE && z < FX16_ONE);
+
+    NNS_G3dGlb.lightVec[lightID] = GX_PACK_LIGHTVECTOR_PARAM(lightID, x, y, z);
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Sound_GetGroupInfoEntry",
+    "target": 34788136,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421656
+  },
+  {
+    "offset": 128,
+    "type": 1,
+    "symbol": "NNSi_SndArcLoadSeq",
+    "target": 34793224,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422899
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "Sound_GetSarcPointer",
+    "target": 34793112,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422860
+  },
+  {
+    "offset": 216,
+    "type": 1,
+    "symbol": "Sound_GetSbnkPointer",
+    "target": 34792760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422761
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "Sound_GetSwarPointer",
+    "target": 34792592,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422707
+  }
+]

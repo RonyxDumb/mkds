@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Sound_GetSarcInfoEntry",
+    "target": 34788536,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421476
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "Sound_MaybeGetRawFilePointer",
+    "target": 34787924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421316
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "func_0212f788",
+    "target": 34797448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646474
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "func_0212ea28",
+    "target": 34794024,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422812
+  }
+]

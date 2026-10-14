@@ -1,10 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 0201694c. No matching claim. */
-#include "types.h"
-#include "deps/0201694c_StructTEQ_IsCounterEmpty.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define IsVramTransferTaskQueueEmpty_ StructTEQ_IsCounterEmpty
+#include <nnsys/gfd/VramTransferMan/gfd_VramTransferManager.h>
 
-bool StructTEQ_IsCounterEmpty(int param_1)
-
+#pragma thumb off
+BOOL IsVramTransferTaskQueueEmpty_ (const NNSGfdVramTransferTaskQueue * pQueue)
 {
-  return *(short *)(param_1 + 0xc) == 0;
+    return (pQueue->numTasks == 0) ? TRUE: FALSE;
 }
-

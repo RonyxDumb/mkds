@@ -1,20 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 02016554. No matching claim. */
-#include "types.h"
-#include "deps/02016554_InitializeGlobalTEQ.h"
-
-void InitializeGlobalTEQ(undefined4 param_1,undefined4 param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define s_VramTransferManager SDK_data_02173220
+#define ResetTaskQueue_ SDK_data_0201661c
+#define NNS_GfdInitVramTransferManager InitializeGlobalTEQ
+#include <nnsys/gfd/VramTransferMan/gfd_VramTransferManager.h>
+extern NNSGfdVramTransferManager s_VramTransferManager;
+extern void ResetTaskQueue_ (NNSGfdVramTransferTaskQueue * pQueue);
+#pragma thumb off
+void NNS_GfdInitVramTransferManager (NNSGfdVramTransferTask * pTaskArray, u32 lengthOfArray)
 {
-  undefined4 *puVar1;
-  code *UNRECOVERED_JUMPTABLE;
-  
-  UNRECOVERED_JUMPTABLE = pcRam02016570;
-  puVar1 = puRam0201656c;
-  *puRam0201656c = param_1;
-  puVar1[1] = param_2;
-                    /* WARNING: Could not recover jumptable at 0x02016568. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*UNRECOVERED_JUMPTABLE)(puVar1);
-  return;
-}
+    NNS_GFD_NULL_ASSERT(pTaskArray);
+    NNS_GFD_NON_ZERO_ASSERT(lengthOfArray);
 
+    {
+        NNSGfdVramTransferManager * pMan = &s_VramTransferManager;
+
+        pMan->taskQueue.pTaskArray = pTaskArray;
+        pMan->taskQueue.lengthOfArray = lengthOfArray;
+
+        ResetTaskQueue_(&pMan->taskQueue);
+    }
+}

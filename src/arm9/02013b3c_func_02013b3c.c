@@ -1,22 +1,39 @@
-/* Decompiled C draft; module arm9; ROM address 02013b3c. No matching claim. */
-#include "types.h"
-#include "deps/02013b3c_func_02013b3c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNSi_G3dGetTexPatAnmDataByIdx func_02013b20
+#define NNSi_G3dGetTexPatAnmFV func_02013b3c
+#include <nnsys/g3d/binres/res_struct_accessor.h>
 
-int func_02013b3c(int param_1,undefined4 param_2,uint param_3)
-
+#include "res_print_internal.h"
+extern const NNSG3dResDictTexPatAnmData * NNSi_G3dGetTexPatAnmDataByIdx (const NNSG3dResTexPatAnm * pPatAnm, u32 idx);
+#pragma thumb off
+const NNSG3dResTexPatAnmFV * NNSi_G3dGetTexPatAnmFV (const NNSG3dResTexPatAnm * pPatAnm, u32 idx, u32 frame)
 {
-  ushort *puVar1;
-  uint uVar2;
-  
-  puVar1 = (ushort *)func_02013b20();
-  param_1 = param_1 + (uint)puVar1[3];
-  uVar2 = (int)(short)puVar1[2] * param_3 >> 0xc;
-  while ((uVar2 != 0 && (param_3 <= *(ushort *)(param_1 + uVar2 * 4)))) {
-    uVar2 = uVar2 - 1;
-  }
-  while ((uVar2 + 1 < (uint)*puVar1 && (*(ushort *)(param_1 + uVar2 * 4 + 4) <= param_3))) {
-    uVar2 = uVar2 + 1;
-  }
-  return param_1 + uVar2 * 4;
-}
+    NNS_G3D_ASSERT(IsValidAnimHeader(&pPatAnm->anmHeader, 'M', 'TP'));
+    {
+        const NNSG3dResDictTexPatAnmData * pAnmData =
+            NNSi_G3dGetTexPatAnmDataByIdx(pPatAnm, idx);
+        {
 
+            const NNSG3dResTexPatAnmFV * pfvArray
+                = (const NNSG3dResTexPatAnmFV *)((u8 *)pPatAnm + pAnmData->offset);
+
+            const u32 fvIdx = (u32)((fx32)pAnmData->ratioDataFrame * frame >> FX32_SHIFT);
+            NNS_G3D_ASSERT(fvIdx < pAnmData->numFV);
+
+            {
+                u32 realFvIdx = fvIdx;
+
+                while (realFvIdx > 0 && pfvArray[ realFvIdx ].idxFrame >= frame) {
+                    realFvIdx--;
+                }
+
+                while (realFvIdx + 1 < pAnmData->numFV && pfvArray[ realFvIdx + 1 ].idxFrame <= frame) {
+                    realFvIdx++;
+                }
+                NNS_G3D_ASSERT(realFvIdx < pAnmData->numFV);
+
+                return &pfvArray[realFvIdx];
+            }
+        }
+    }
+}

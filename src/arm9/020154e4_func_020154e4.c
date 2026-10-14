@@ -1,49 +1,64 @@
-/* Decompiled C draft; module arm9; ROM address 020154e4. No matching claim. */
-#include "types.h"
-#include "deps/020154e4_func_020154e4.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define GetMatColAnmuAlphaValue_ func_020154e4
+#include <nnsys/g3d/anm/nsbma.h>
+#include <nnsys/g3d/binres/res_struct_accessor.h>
 
-uint func_020154e4(int param_1,uint param_2,uint param_3)
-
+#pragma thumb off
+u16 GetMatColAnmuAlphaValue_ (const NNSG3dResMatCAnm * pAnm, u32 info, u32 frame)
 {
-  uint uVar1;
-  
-  if ((param_2 & 0x20000000) != 0) {
-    return param_2 & 0xffff;
-  }
-  param_1 = param_1 + (param_2 & uRam020155d0);
-  if ((param_2 & 0xc0000000) == 0) {
-    return (uint)*(byte *)(param_1 + param_3);
-  }
-  uVar1 = param_2 & uRam020155d4;
-  if ((param_2 & 0x40000000) == 0) {
-    if ((param_3 & 3) == 0) {
-      return (uint)*(byte *)(param_1 + (param_3 >> 2));
-    }
-    if (param_3 <= uVar1 >> 0x10) {
-      if ((param_3 & 1) == 0) {
-        return ((uint)*(byte *)(param_1 + (param_3 >> 2)) +
-               (uint)*(byte *)(param_1 + (param_3 >> 2) + 1)) * 0x8000 >> 0x10;
-      }
-      if ((param_3 & 2) == 0) {
-        uVar1 = param_3 >> 2;
-        param_3 = uVar1 + 1;
-      }
-      else {
-        param_3 = param_3 >> 2;
-        uVar1 = param_3 + 1;
-      }
-      return ((uint)*(byte *)(param_1 + uVar1) * 3 + (uint)*(byte *)(param_1 + param_3)) * 0x4000 >>
-             0x10;
-    }
-    return (uint)*(byte *)((param_3 & 3) + param_1 + (uVar1 >> 0x12));
-  }
-  if ((param_3 & 1) == 0) {
-    return (uint)*(byte *)(param_1 + (param_3 >> 1));
-  }
-  if (param_3 <= uVar1 >> 0x10) {
-    return ((uint)*(byte *)(param_1 + (param_3 >> 1)) +
-           (uint)*(byte *)(param_1 + (param_3 >> 1) + 1)) * 0x8000 >> 0x10;
-  }
-  return (uint)*(byte *)(param_1 + (uVar1 >> 0x11) + 1);
-}
+    const u8 * pDataHead;
+    u32 last_interp;
 
+    if (info & NNS_G3D_MATCANM_ELEM_CONST) {
+        return (u16)(info & NNS_G3D_MATCANM_ELEM_OFFSET_CONSTANT_MASK);
+    }
+
+    pDataHead = (const u8 *)pAnm + (info & NNS_G3D_MATCANM_ELEM_OFFSET_CONSTANT_MASK);
+
+    if (!(info & NNS_G3D_MATCANM_ELEM_STEP_MASK)) {
+        return *(pDataHead + frame);
+    }
+
+    last_interp = (NNS_G3D_MATCANM_ELEM_LAST_INTERP_MASK & info)
+                  >> NNS_G3D_MATCANM_ELEM_LAST_INTERP_SHIFT;
+    if (info & NNS_G3D_MATCANM_ELEM_STEP_2) {
+        if (frame & 1) {
+            if (frame > last_interp) {
+                return *(pDataHead + (last_interp >> 1) + 1);
+            } else {
+                return (u16)((*(pDataHead + (frame >> 1)) + *(pDataHead + (frame >> 1) + 1)) >> 1);
+            }
+        } else {
+            return *(pDataHead + (frame >> 1));
+        }
+    } else {
+        if (frame & 3) {
+            if (frame > last_interp) {
+                return *(pDataHead + (last_interp >> 2) + (frame & 3));
+            }
+
+            if (frame & 1) {
+                u32 idx, idx_sub;
+                u32 v, v_sub;
+
+                if (frame & 2) {
+                    idx_sub = (frame >> 2);
+                    idx = idx_sub + 1;
+                } else {
+                    idx = (frame >> 2);
+                    idx_sub = idx + 1;
+                }
+
+                v = *(pDataHead + idx);
+                v_sub = *(pDataHead + idx_sub);
+
+                return (u16)((v + v + v + v_sub) >> 2);
+            } else {
+                return (u16)((*(pDataHead + (frame >> 2)) + *(pDataHead + (frame >> 2) + 1)) >> 1);
+            }
+        } else {
+            return *(pDataHead + (frame >> 2));
+        }
+    }
+    NNS_G3D_ASSERT(0);
+}

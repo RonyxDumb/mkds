@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Fs_File_Initialize",
+    "target": 33574272,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959403177
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Fs_File_Open",
+    "target": 33573424,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402962
+  },
+  {
+    "offset": 64,
+    "type": 1,
+    "symbol": "Fs_File_Close",
+    "target": 33573352,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402936
+  }
+]

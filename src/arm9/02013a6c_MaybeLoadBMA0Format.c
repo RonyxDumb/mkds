@@ -1,13 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 02013a6c. No matching claim. */
-#include "types.h"
-#include "deps/02013a6c_MaybeLoadBMA0Format.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNSi_G3dGetBinaryBlockFromFile SDK_data_02013c18
+#define NNS_G3dGetMatCAnmSet MaybeLoadBMA0Format
+#include <nnsys/g3d/binres/res_struct_accessor.h>
 
-void MaybeLoadBMA0Format(undefined4 param_1)
-
+#include "res_print_internal.h"
+extern const void * NNSi_G3dGetBinaryBlockFromFile (const u8 * pFileHead, u32 fileSignature, u32 blockSignature);
+#pragma thumb off
+const NNSG3dResMatCAnmSet * NNS_G3dGetMatCAnmSet (const u8 * pFileHead)
 {
-                    /* WARNING: Could not recover jumptable at 0x02013a78. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02013a7c)(param_1,uRam02013a80,uRam02013a84);
-  return;
+    const void * pVisBlk
+        = NNSi_G3dGetBinaryBlockFromFile(pFileHead,
+                                         NNS_G3D_SIGNATURE_NSBMA,
+                                         NNS_G3D_DATABLK_MATC_ANM);
+    NNS_G3D_NULL_ASSERT(pVisBlk);
+    return (const NNSG3dResMatCAnmSet *)pVisBlk;
 }
-

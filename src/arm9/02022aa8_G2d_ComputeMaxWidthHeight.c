@@ -1,30 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 02022aa8. No matching claim. */
-#include "types.h"
-#include "deps/02022aa8_G2d_ComputeMaxWidthHeight.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNSi_G2dFontGetStringWidth NFTR_GetStringWidth
+#define NNSi_G2dFontGetTextRect G2d_ComputeMaxWidthHeight
+#include <nitro.h>
 
-void G2d_ComputeMaxWidthHeight(int *param_1,uint param_2,undefined4 param_3,int param_4,int param_5)
-
+#include <nnsys/g2d/g2d_Font.h>
+#include <nnsys/g2d/load/g2d_NFT_load.h>
+#include <nnsys/g2d/fmt/g2d_Font_data.h>
+#include <nnsys/g2d/g2d_config.h>
+extern int NNSi_G2dFontGetStringWidth (const NNSG2dFont * pFont, int hSpace, const void * str, const void ** pPos);
+#pragma thumb off
+NNSG2dTextRect NNSi_G2dFontGetTextRect (const NNSG2dFont * pFont, int hSpace, int vSpace, const void * txt)
 {
-  char cVar1;
-  int iVar2;
-  int iVar3;
-  int local_28;
-  
-  local_28 = 0;
-  iVar3 = 1;
-  if (param_5 != 0) {
-    do {
-      iVar2 = NFTR_GetStringWidth(param_2,param_3,param_5,&param_5);
-      if (local_28 < iVar2) {
-        local_28 = iVar2;
-      }
-      iVar3 = iVar3 + 1;
-    } while (param_5 != 0);
-  }
-  cVar1 = *(char *)((*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-                    *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) + 1);
-  *param_1 = local_28;
-  param_1[1] = (iVar3 + -1) * (param_4 + cVar1) - param_4;
-  return;
-}
+    int lines = 1;
+    NNSG2dTextRect rect = {0, 0};
 
+    NNS_G2D_FONT_ASSERT(pFont);
+    NNS_G2D_POINTER_ASSERT(txt);
+
+    while (txt != NULL) {
+        const int width = NNSi_G2dFontGetStringWidth(pFont, hSpace, txt, &txt);
+        if (width > rect.width) {
+            rect.width = width;
+        }
+        lines++;
+    }
+
+    rect.height = ((lines - 1) * (NNS_G2dFontGetLineFeed(pFont) + vSpace) - vSpace);
+
+    return rect;
+}

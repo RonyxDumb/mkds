@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "MIi_CpuCopyFast",
+    "target": 34918568,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942993913
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "func_01ff9234",
+    "target": 33526324,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645841
+  },
+  {
+    "offset": 184,
+    "type": 1,
+    "symbol": "func_01ff921c",
+    "target": 33526300,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645829
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "func_01ff921c",
+    "target": 33526300,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645823
+  },
+  {
+    "offset": 228,
+    "type": 1,
+    "symbol": "MIi_CpuSend32",
+    "target": 34918468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942993860
+  },
+  {
+    "offset": 240,
+    "type": 2,
+    "symbol": "SDK_data_02173204",
+    "target": 35074564,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074564
+  },
+  {
+    "offset": 244,
+    "type": 2,
+    "symbol": "SDK_data_02173208",
+    "target": 35074568,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074568
+  }
+]

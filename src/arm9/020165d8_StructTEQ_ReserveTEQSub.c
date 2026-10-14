@@ -1,20 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 020165d8. No matching claim. */
-#include "types.h"
-#include "deps/020165d8_StructTEQ_ReserveTEQSub.h"
-
-undefined4 StructTEQ_ReserveTEQSub(int param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define IsVramTransferTaskQueueFull_ StructTEQ_IsTEQSubListFull
+#define GetNextIndex_ StructTEQ_IncrementValidateIndex
+#define NNSi_GfdPushVramTransferTaskQueue StructTEQ_ReserveTEQSub
+#include <nnsys/gfd/VramTransferMan/gfd_VramTransferManager.h>
+extern BOOL IsVramTransferTaskQueueFull_ (const NNSGfdVramTransferTaskQueue * pQueue);
+extern u16 GetNextIndex_ (const NNSGfdVramTransferTaskQueue * pQueue, u16 idx);
+#pragma thumb off
+BOOL NNSi_GfdPushVramTransferTaskQueue (NNSGfdVramTransferTaskQueue * pQueue)
 {
-  undefined2 uVar1;
-  int iVar2;
-  
-  iVar2 = StructTEQ_IsTEQSubListFull();
-  if (iVar2 == 0) {
-    uVar1 = StructTEQ_IncrementValidateIndex(param_1,*(undefined2 *)(param_1 + 10));
-    *(undefined2 *)(param_1 + 10) = uVar1;
-    *(short *)(param_1 + 0xc) = *(short *)(param_1 + 0xc) + 1;
-    return 1;
-  }
-  return 0;
-}
+    NNS_GFD_NULL_ASSERT(pQueue);
 
+    if ( !IsVramTransferTaskQueueFull_(pQueue)) {
+        pQueue->idxRear = GetNextIndex_(pQueue, pQueue->idxRear);
+        pQueue->numTasks++;
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}

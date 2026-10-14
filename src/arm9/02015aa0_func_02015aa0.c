@@ -1,92 +1,93 @@
-/* Decompiled C draft; module arm9; ROM address 02015aa0. No matching claim. */
-#include "types.h"
-#include "deps/02015aa0_func_02015aa0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define GetTexSRTAnmVectorVal_ func_02015aa0
+#include <nnsys/g3d/anm/nsbta.h>
+#include <nnsys/g3d/binres/res_struct_accessor.h>
 
-uint func_02015aa0(int param_1,uint param_2,uint param_3,uint param_4)
-
+#pragma thumb off
+fx32 GetTexSRTAnmVectorVal_ (const NNSG3dResTexSRTAnm * pTexAnm, u32 info, u32 data, u32 frame)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  if ((param_2 & 0x20000000) != 0) {
-    return param_3;
-  }
-  param_1 = param_1 + param_3;
-  if ((param_2 & 0xc0000000) != 0) {
-    uVar3 = param_2 & uRam02015b98;
-    if ((param_2 & 0x40000000) == 0) {
-      if ((param_4 & 3) == 0) {
-        param_4 = param_4 >> 2;
-      }
-      else {
-        if (param_4 <= uVar3) {
-          if ((param_4 & 1) != 0) {
-            if ((param_4 & 2) == 0) {
-              uVar3 = param_4 >> 2;
-              param_4 = uVar3 + 1;
-            }
-            else {
-              param_4 = param_4 >> 2;
-              uVar3 = param_4 + 1;
-            }
-            if ((param_2 & 0x10000000) == 0) {
-              uVar3 = param_1 + uVar3 * 4;
-              uVar2 = uVar3 & 3;
-              uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-              uVar3 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
-              uVar2 = param_1 + param_4 * 4;
-              uVar1 = uVar2 & 3;
-              uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-              uVar2 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-            }
-            else {
-              uVar3 = (uint)*(short *)(param_1 + uVar3 * 2);
-              uVar2 = (uint)*(short *)(param_1 + param_4 * 2);
-            }
-            return (int)(uVar3 * 3 + uVar2) >> 2;
-          }
-          param_4 = param_4 >> 2;
-          goto LAB_02015b6c;
-        }
-        param_4 = (param_4 & 3) + (uVar3 >> 2);
-      }
-    }
-    else if ((param_4 & 1) == 0) {
-      param_4 = param_4 >> 1;
-    }
-    else {
-      if (param_4 <= uVar3) {
-        param_4 = param_4 >> 1;
-LAB_02015b6c:
-        if ((param_2 & 0x10000000) == 0) {
-          uVar3 = param_1 + param_4 * 4;
-          uVar2 = uVar3 & 3;
-          uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-          uVar3 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
-          uVar2 = param_1 + param_4 * 4 + 4;
-          uVar1 = uVar2 & 3;
-          uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-          uVar2 = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-        }
-        else {
-          uVar3 = (uint)*(short *)(param_1 + param_4 * 2);
-          uVar2 = (uint)*(short *)(param_1 + param_4 * 2 + 2);
-        }
-        return (int)(uVar3 + uVar2) >> 1;
-      }
-      param_4 = (uVar3 >> 1) + 1;
-    }
-  }
-  if ((param_2 & 0x10000000) == 0) {
-    uVar3 = param_1 + param_4 * 4;
-    uVar2 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    uVar3 = uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20;
-  }
-  else {
-    uVar3 = (uint)*(short *)(param_1 + param_4 * 2);
-  }
-  return uVar3;
-}
+    u32 idx, idx_sub;
+    u32 last_interp;
+    const void * pDataHead;
 
+    if (info & NNS_G3D_TEXSRTANM_ELEM_CONST) {
+        return (fx32)data;
+    }
+
+    pDataHead = (const void *)((u8 *)pTexAnm + data);
+
+    if (!(info & NNS_G3D_TEXSRTANM_ELEM_STEP_MASK)) {
+        idx = frame;
+        goto TEXSRT_VAL_NONINTERP;
+    }
+
+    last_interp = (NNS_G3D_TEXSRTANM_ELEM_LAST_INTERP_MASK & info) >>
+                  NNS_G3D_TEXSRTANM_ELEM_LAST_INTERP_SHIFT;
+
+    if (info & NNS_G3D_TEXSRTANM_ELEM_STEP_2) {
+        if (frame & 1) {
+            if (frame > last_interp) {
+                idx = (last_interp >> 1) + 1;
+                goto TEXSRT_VAL_NONINTERP;
+            } else {
+                idx = frame >> 1;
+                goto TEXSRT_VAL_INTERP_2;
+            }
+        } else {
+            idx = frame >> 1;
+            goto TEXSRT_VAL_NONINTERP;
+        }
+    } else {
+        if (frame & 3) {
+            if (frame > last_interp) {
+                idx = (last_interp >> 2) + (frame & 3);
+                goto TEXSRT_VAL_NONINTERP;
+            }
+
+            if (frame & 1) {
+                fx32 v, v_sub;
+                if (frame & 2) {
+                    idx_sub = (frame >> 2);
+                    idx = idx_sub + 1;
+                } else {
+                    idx = (frame >> 2);
+                    idx_sub = idx + 1;
+                }
+
+                if (info & NNS_G3D_TEXSRTANM_ELEM_FX16) {
+                    v = *((const fx16 *)pDataHead + idx);
+                    v_sub = *((const fx16 *)pDataHead + idx_sub);
+                } else {
+                    v = *((const fx32 *)pDataHead + idx);
+                    v_sub = *((const fx32 *)pDataHead + idx_sub);
+                }
+                return (v + v + v + v_sub) >> 2;
+            } else {
+                idx = frame >> 2;
+                goto TEXSRT_VAL_INTERP_2;
+            }
+        } else {
+            idx = frame >> 2;
+            goto TEXSRT_VAL_NONINTERP;
+        }
+    }
+    NNS_G3D_ASSERT(0);
+TEXSRT_VAL_NONINTERP:
+    if (info & NNS_G3D_TEXSRTANM_ELEM_FX16) {
+        return *((const fx16 *)pDataHead + idx);
+    } else {
+        return *((const fx32 *)pDataHead + idx);
+    }
+TEXSRT_VAL_INTERP_2:
+    {
+        fx32 v0, v1;
+        if (info & NNS_G3D_TEXSRTANM_ELEM_FX16) {
+            v0 = *((const fx16 *)pDataHead + idx);
+            v1 = *((const fx16 *)pDataHead + idx + 1);
+        } else {
+            v0 = *((const fx32 *)pDataHead + idx);
+            v1 = *((const fx32 *)pDataHead + idx + 1);
+        }
+        return ((v0 + v1) >> 1);
+    }
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "NNSi_SndPlayerStopSeq",
+    "target": 34783256,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422544
+  },
+  {
+    "offset": 64,
+    "type": 2,
+    "symbol": "SDK_data_0217d45c",
+    "target": 35116124,
+    "thumb": false,
+    "addend": 0,
+    "value": 35116124
+  }
+]

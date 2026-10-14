@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "DC_InvalidateRangeNoClean",
+    "target": 33615420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959403880
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_02174e00",
+    "target": 35081728,
+    "thumb": false,
+    "addend": 0,
+    "value": 35081728
+  }
+]

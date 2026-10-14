@@ -1,43 +1,50 @@
-/* Decompiled C draft; module arm9; ROM address 02144514. No matching claim. */
-#include "types.h"
-#include "deps/02144514_func_02144514.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMi_GetSystemWork Wm_GetGlobal
+#define WMi_CheckStateEx func_02142988
+#define DC_InvalidateRange DC_InvalidateRangeNoClean
+#define DC_StoreRange DC_SomeClean
+#define WMi_SetCallbackTable SetSomeFunctionPtr
+#define WMi_SendCommand WM_SomeFn
+#define WM_StartDCF func_02144514
+#include <nitro/wm.h>
 
-int func_02144514(undefined4 param_1,int param_2,uint param_3)
+#include "wm_arm9_private.h"
 
+#pragma thumb off
+WMErrCode WM_StartDCF (WMCallbackFunc callback, WMDcfRecvBuf * recvBuf, u16 recvBufSize)
 {
-  int iVar1;
-  int iVar2;
-  uint uVar3;
-  uint uVar4;
-  
-  iVar1 = Wm_GetGlobal();
-  iVar2 = func_02142988(1,8);
-  if (iVar2 != 0) {
-    return iVar2;
-  }
-  uVar4 = iVar1 + 4U & 3;
-  uVar3 = *(uint *)(iVar1 + 4U & 0xfffffffc);
-  DC_InvalidateRangeNoClean((uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0x10,4);
-  uVar4 = iVar1 + 4U & 3;
-  uVar3 = *(uint *)(iVar1 + 4U & 0xfffffffc);
-  uVar4 = (uVar3 >> uVar4 * 8 | uVar3 << uVar4 * -8 + 0x20) + 0x10;
-  uVar3 = uVar4 & 3;
-  uVar4 = *(uint *)(uVar4 & 0xfffffffc);
-  if ((uVar4 >> uVar3 * 8 | uVar4 << uVar3 * -8 + 0x20) == 1) {
-    return 3;
-  }
-  if (param_3 < 0x10) {
-    return 6;
-  }
-  if (param_2 != 0) {
-    DC_SomeClean(param_2,param_3);
-    SetSomeFunctionPtr(0x11,param_1);
-    iVar1 = WM_SomeFn(0x11,2,param_2,param_3);
-    if (iVar1 == 0) {
-      iVar1 = 2;
-    }
-    return iVar1;
-  }
-  return 6;
-}
+    WMErrCode result;
+    WMArm9Buf * p = WMi_GetSystemWork();
 
+    result = WMi_CheckState(WM_STATE_CHILD);
+    WM_CHECK_RESULT(result);
+
+    DC_InvalidateRange(&(p->status->dcf_flag), 4);
+    if (p->status->dcf_flag == TRUE) {
+        WM_WARNING("Already DCF mode. So can't start DCF again.\n");
+        return WM_ERRCODE_ILLEGAL_STATE;
+    }
+
+    if (recvBufSize < 16) {
+        WM_WARNING("Parameter \"recvBufSize\" must not be less than %d.\n", 16);
+        return WM_ERRCODE_INVALID_PARAM;
+    }
+
+    if (recvBuf == NULL) {
+        WM_WARNING("Parameter \"recvBuf\" must not be NULL.\n");
+        return WM_ERRCODE_INVALID_PARAM;
+    }
+
+    if ((u32)recvBuf & 0x01f) {
+
+        WM_WARNING("Parameter \"recvBuf\" is not 32-byte aligned.\n");
+    }
+
+    DC_StoreRange(recvBuf, recvBufSize);
+    WMi_SetCallbackTable(WM_APIID_START_DCF, callback);
+
+    result = WMi_SendCommand(WM_APIID_START_DCF, 2, (u32)recvBuf, (u32)recvBufSize);
+    WM_CHECK_RESULT(result);
+
+    return WM_ERRCODE_OPERATING;
+}

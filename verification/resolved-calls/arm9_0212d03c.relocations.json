@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "NNS_Snd_func_02068a34",
+    "target": 34797536,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648280
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "NNS_Snd_func_02068a4c",
+    "target": 34797512,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648269
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "func_0212cbd8",
+    "target": 34786264,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422670
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "func_0212f7f8",
+    "target": 34797560,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942648273
+  },
+  {
+    "offset": 152,
+    "type": 1,
+    "symbol": "SND_SetChannelVolume",
+    "target": 33688172,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148132
+  },
+  {
+    "offset": 172,
+    "type": 2,
+    "symbol": "SDK_data_0217ddd0",
+    "target": 35118544,
+    "thumb": false,
+    "addend": 0,
+    "value": 35118544
+  }
+]

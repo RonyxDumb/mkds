@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Sound_MaybeGetRawFilePointer",
+    "target": 34787924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421940
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Sound_GetActiveSdat",
+    "target": 34788816,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422157
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Sound_AllocateReadEntireFile",
+    "target": 34792412,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645834
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "Sound_SetFileFatDynamicOffsetField",
+    "target": 34787896,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421913
+  },
+  {
+    "offset": 120,
+    "type": 2,
+    "symbol": "SDK_data_0212dfdc",
+    "target": 34791388,
+    "thumb": false,
+    "addend": 0,
+    "value": 34791388
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "WaitForTPFlags",
+    "target": 34923292,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422619
+  },
+  {
+    "offset": 84,
+    "type": 2,
+    "symbol": "SDK_data_021803d8",
+    "target": 35128280,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128280
+  }
+]

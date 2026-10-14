@@ -1,14 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 0212bb7c. No matching claim. */
-#include "types.h"
-#include "deps/0212bb7c_func_0212bb7c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define sAlarmLock SDK_data_0217d43c
+#define NNS_SndFreeAlarm func_0212bb7c
+#include <nnsys/snd/resource_mgr.h>
 
-void func_0212bb7c(uint param_1)
-
+#include <nitro/snd.h>
+#include <nnsys/misc.h>
+extern u32 sAlarmLock;
+#pragma thumb off
+void NNS_SndFreeAlarm (int alarmNo)
 {
-  *puRam0212bb98 =
-       (*(uint *)((uint)puRam0212bb98 & 0xfffffffc) >> ((uint)puRam0212bb98 & 3) * 8 |
-       *(uint *)((uint)puRam0212bb98 & 0xfffffffc) << ((uint)puRam0212bb98 & 3) * -8 + 0x20) &
-       ~(1 << (param_1 & 0xff));
-  return;
-}
+    NNS_MINMAX_ASSERT(alarmNo, SND_ALARM_MIN, SND_ALARM_MAX);
+    NNS_ASSERT(sAlarmLock & (1 << alarmNo));
 
+    sAlarmLock &= ~(1 << alarmNo);
+}

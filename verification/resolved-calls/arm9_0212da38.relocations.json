@@ -1,0 +1,83 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "Sound_Context_DisposeLoadedStuff",
+    "target": 34790380,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645860
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_GetPrevItem",
+    "target": 33649448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959137831
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_GetPrevItem",
+    "target": 33649448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959137828
+  },
+  {
+    "offset": 144,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_GetPrevItem",
+    "target": 33649448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959137814
+  },
+  {
+    "offset": 164,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_RemoveItem",
+    "target": 33649492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959137820
+  },
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "Mem_RestoreFrameHeapState",
+    "target": 33652568,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959138583
+  },
+  {
+    "offset": 200,
+    "type": 1,
+    "symbol": "func_0212d968",
+    "target": 34789736,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422872
+  },
+  {
+    "offset": 212,
+    "type": 1,
+    "symbol": "Mem_CreateFrameHeapState",
+    "target": 33652660,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959138600
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "Sound_Context_MaybeReset",
+    "target": 34789772,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422876
+  }
+]

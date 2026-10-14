@@ -1,19 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 02143c30. No matching claim. */
-#include "types.h"
-#include "deps/02143c30_func_02143c30.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WmCheckParentParameter func_02143c30
+#include <nitro/wm.h>
 
-undefined4 func_02143c30(int param_1)
+#include "wm_arm9_private.h"
 
+#pragma thumb off
+BOOL WmCheckParentParameter (const WMParentParam * param)
 {
-  if (0x70 < *(ushort *)(param_1 + 4)) {
-    return 0;
-  }
-  if ((9 < *(ushort *)(param_1 + 0x18)) && (*(ushort *)(param_1 + 0x18) < 0x3e9)) {
-    if ((*(ushort *)(param_1 + 0x32) != 0) && (*(ushort *)(param_1 + 0x32) < 0xf)) {
-      return 1;
+    if (param->userGameInfoLength > WM_SIZE_USER_GAMEINFO) {
+        OS_TWarning("User gameInfo length must be less than %d .\n", WM_SIZE_USER_GAMEINFO);
+        return FALSE;
     }
-    return 0;
-  }
-  return 0;
-}
 
+    if ((param->beaconPeriod < 10) || (param->beaconPeriod > 1000)) {
+        OS_TWarning("Beacon send period must be between 10 and 1000 .\n");
+        return FALSE;
+    }
+
+    if ((param->channel < 1) || (param->channel > 14)) {
+        OS_TWarning("Channel must be between 1 and 14 .\n");
+        return FALSE;
+    }
+
+    return TRUE;
+}

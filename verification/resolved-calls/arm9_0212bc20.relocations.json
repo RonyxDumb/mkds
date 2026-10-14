@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "SND_UnlockChannel",
+    "target": 33688224,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959149465
+  },
+  {
+    "offset": 52,
+    "type": 2,
+    "symbol": "SDK_data_0217d440",
+    "target": 35116096,
+    "thumb": false,
+    "addend": 0,
+    "value": 35116096
+  }
+]

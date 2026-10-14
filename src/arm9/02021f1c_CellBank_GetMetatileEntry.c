@@ -1,27 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 02021f1c. No matching claim. */
-#include "types.h"
-#include "deps/02021f1c_CellBank_GetMetatileEntry.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G2dGetCellDataByIdx CellBank_GetMetatileEntry
+#include <nitro.h>
 
-int CellBank_GetMetatileEntry(ushort *param_1,uint param_2)
+#include <nnsys/g2d/load/g2d_NCE_load.h>
+#include <nnsys/g2d/g2d_Load.h>
 
+#include "g2di_Debug.h"
+
+#pragma thumb off
+const NNSG2dCellData * NNS_G2dGetCellDataByIdx (const NNSG2dCellDataBank * pCellData, u16 idx)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  
-  if (param_2 < *param_1) {
-    if ((param_1[1] & 1) == 0) {
-      uVar1 = (uint)(param_1 + 2) & 3;
-      uVar2 = *(uint *)((uint)(param_1 + 2) & 0xfffffffc);
-      iVar3 = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + param_2 * 8;
-    }
-    else {
-      uVar1 = (uint)(param_1 + 2) & 3;
-      uVar2 = *(uint *)((uint)(param_1 + 2) & 0xfffffffc);
-      iVar3 = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + param_2 * 0x10;
-    }
-    return iVar3;
-  }
-  return 0;
-}
+    NNS_G2D_NULL_ASSERT(pCellData);
 
+    if (idx >= pCellData->numCells) {
+        return NULL;
+    }
+
+    if (NNSi_G2dCellBankHasBR(pCellData)) {
+        const NNSG2dCellDataWithBR * pCellBR =
+            (const NNSG2dCellDataWithBR *)(pCellData->pCellDataArrayHead) + idx;
+        return &pCellBR->cellData;
+    } else {
+        return pCellData->pCellDataArrayHead + idx;
+    }
+}

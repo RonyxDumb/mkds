@@ -1,23 +1,58 @@
-/* Decompiled C draft; module arm9; ROM address 02011034. No matching claim. */
-#include "types.h"
-#include "deps/02011034_func_02011034.h"
-
-void func_02011034(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G3dGeBufferOP_N func_01ff9048
+#define NNS_G3dGlb SDK_data_0217029c
+#define NNS_G3dGlbFlushP func_02011034
+#include <nnsys/g3d/glbstate.h>
+#include <nnsys/g3d/gecom.h>
+extern NNSG3dGlb NNS_G3dGlb;
+#pragma thumb off
+void NNS_G3dGlbFlushP (void)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  func_01ff9048(*(uint *)(uRam02011070 & 0xfffffffc) >> (uRam02011070 & 3) * 8 |
-                *(uint *)(uRam02011070 & 0xfffffffc) << (uRam02011070 & 3) * -8 + 0x20,
-                uRam02011070 + 4,0x3e);
-  uVar1 = uRam02011070;
-  uVar3 = uRam02011070 + 0xfc & 3;
-  uVar2 = *(uint *)(uRam02011070 + 0xfc & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  *(uint *)(uRam02011070 + 0xfc) = uVar3 & 0xfffffffe;
-  *(uint *)(uVar1 + 0xfc) = uVar3 & 0xfffffffc;
-  return;
-}
+    static const u32 sz = (sizeof(NNS_G3dGlb.cmd0) +
+                           sizeof(NNS_G3dGlb.mtxmode_proj) +
+                           sizeof(NNS_G3dGlb.projMtx) +
+                           sizeof(NNS_G3dGlb.mtxmode_posvec) +
+                           sizeof(NNS_G3dGlb.cameraMtx) +
+                           sizeof(NNS_G3dGlb.cmd1) +
+                           sizeof(NNS_G3dGlb.lightVec[0]) * 4 +
+                           sizeof(NNS_G3dGlb.cmd2) +
+                           sizeof(NNS_G3dGlb.prmMatColor0) +
+                           sizeof(NNS_G3dGlb.prmMatColor1) +
+                           sizeof(NNS_G3dGlb.prmPolygonAttr) +
+                           sizeof(NNS_G3dGlb.prmViewPort) +
+                           sizeof(NNS_G3dGlb.cmd4) +
+                           sizeof(NNS_G3dGlb.prmBaseTrans) +
+                           sizeof(NNS_G3dGlb.prmBaseRot) +
+                           sizeof(NNS_G3dGlb.prmBaseScale) +
+                           sizeof(NNS_G3dGlb.prmTexImageParam) +
+                           sizeof(NNS_G3dGlb.cmd3) +
+                           sizeof(NNS_G3dGlb.lightColor[0]) * 4) / 4;
 
+    NNS_G3D_ASSERT(NNS_G3dGlb.cmd0 == ((G3OP_MTX_MODE << 0) |
+                                       (G3OP_MTX_LOAD_4x4 << 8) |
+                                       (G3OP_MTX_MODE << 16) |
+                                       (G3OP_MTX_LOAD_4x3 << 24)));
+    NNS_G3D_ASSERT(NNS_G3dGlb.mtxmode_proj == GX_MTXMODE_PROJECTION);
+    NNS_G3D_ASSERT(NNS_G3dGlb.mtxmode_posvec == GX_MTXMODE_POSITION_VECTOR);
+    NNS_G3D_ASSERT(NNS_G3dGlb.cmd1 == ((G3OP_LIGHT_VECTOR << 0) |
+                                       (G3OP_LIGHT_VECTOR << 8) |
+                                       (G3OP_LIGHT_VECTOR << 16) |
+                                       (G3OP_LIGHT_VECTOR << 24)));
+    NNS_G3D_ASSERT(NNS_G3dGlb.cmd2 == ((G3OP_DIF_AMB << 0) |
+                                       (G3OP_SPE_EMI << 8) |
+                                       (G3OP_POLYGON_ATTR << 16) |
+                                       (G3OP_VIEWPORT << 24)));
+    NNS_G3D_ASSERT(NNS_G3dGlb.cmd3 == ((G3OP_LIGHT_COLOR << 0) |
+                                       (G3OP_LIGHT_COLOR << 8) |
+                                       (G3OP_LIGHT_COLOR << 16) |
+                                       (G3OP_LIGHT_COLOR << 24)));
+    NNS_G3D_ASSERT(NNS_G3dGlb.cmd4 == ((G3OP_MTX_MULT_4x3 << 0) |
+                                       (G3OP_MTX_SCALE << 8) |
+                                       (G3OP_TEXIMAGE_PARAM << 16)));
+
+    NNS_G3dGeBufferData_N((u32 *)&NNS_G3dGlb.cmd0, sz);
+
+    NNS_G3dGlb.flag &= ~NNS_G3D_GLB_FLAG_FLUSH_WVP;
+    NNS_G3dGlb.flag &= ~NNS_G3D_GLB_FLAG_FLUSH_VP;
+
+}

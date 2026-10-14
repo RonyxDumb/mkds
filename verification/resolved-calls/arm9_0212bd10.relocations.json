@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Sound_Context_Dispose",
+    "target": 34790572,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647775
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_RemoveItem",
+    "target": 33649492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959139708
+  },
+  {
+    "offset": 88,
+    "type": 2,
+    "symbol": "SDK_data_0217d89c",
+    "target": 35117212,
+    "thumb": false,
+    "addend": 0,
+    "value": 35117212
+  }
+]

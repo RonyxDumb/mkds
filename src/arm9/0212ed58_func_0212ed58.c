@@ -1,18 +1,29 @@
-/* Decompiled C draft; module arm9; ROM address 0212ed58. No matching claim. */
-#include "types.h"
-#include "deps/0212ed58_func_0212ed58.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define StartSeq MaybeStartSeq
+#define NNS_SndArcPlayerStartSeq func_0212ed58
+#include <nnsys/snd/sndarc_player.h>
 
-void func_0212ed58(undefined4 param_1,undefined4 param_2)
-
+#include <nnsys/misc.h>
+#include <nnsys/snd/sndarc.h>
+#include <nnsys/snd/player.h>
+#include <nnsys/snd/sndarc_loader.h>
+extern BOOL StartSeq (NNSSndHandle * handle, int playerNo, int bankNo, int playerPrio, const NNSSndArcSeqInfo * info, int seqNo);
+#pragma thumb off
+BOOL NNS_SndArcPlayerStartSeq (NNSSndHandle * handle, int seqNo)
 {
-  int iVar1;
-  
-  iVar1 = NNS_SndArcGetSeqInfo(param_2);
-  if (iVar1 != 0) {
-    MaybeStartSeq(param_1,*(undefined1 *)(iVar1 + 9),*(undefined2 *)(iVar1 + 4),
-                  *(undefined1 *)(iVar1 + 8));
-    return;
-  }
-  return;
-}
+    const NNSSndArcSeqInfo * info;
 
+    NNS_NULL_ASSERT(handle);
+
+    info = NNS_SndArcGetSeqInfo(seqNo);
+    if (info == NULL) return FALSE;
+
+    return StartSeq(
+        handle,
+        info->param.playerNo,
+        info->param.bankNo,
+        info->param.playerPrio,
+        info,
+        seqNo
+        );
+}

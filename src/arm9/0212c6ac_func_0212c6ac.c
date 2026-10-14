@@ -1,22 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 0212c6ac. No matching claim. */
-#include "types.h"
-#include "deps/0212c6ac_func_0212c6ac.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define sSeqPlayer SDK_data_0217d45c
+#define NNS_SndPlayerStopSeqAll func_0212c6ac
+#include <nnsys/snd/player.h>
 
-void func_0212c6ac(undefined4 param_1)
+#include <nitro/os.h>
+#include <nitro/snd.h>
 
+#include <nnsys/misc.h>
+#include <nnsys/snd/main.h>
+extern void NNSi_SndPlayerStopSeq (NNSSndSeqPlayer * seqPlayer, int fadeFrame);
+extern NNSSndSeqPlayer sSeqPlayer[ SND_PLAYER_NUM ];
+#pragma thumb off
+void NNS_SndPlayerStopSeqAll (int fadeFrame)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar2 = 0;
-  iVar1 = iRam0212c6ec;
-  do {
-    if (*(char *)(iVar1 + 0x2c) != '\0') {
-      NNSi_SndPlayerStopSeq(iVar1,param_1);
-    }
-    iVar2 = iVar2 + 1;
-    iVar1 = iVar1 + 0x44;
-  } while (iVar2 < 0x10);
-  return;
-}
+    NNSSndSeqPlayer * seqPlayer;
+    int i;
 
+    for (i = 0; i < SND_PLAYER_NUM; i++) {
+        seqPlayer = &sSeqPlayer[ i ];
+
+        if (seqPlayer->status != NNS_SND_SEQ_PLAYER_STATUS_STOP) {
+            NNSi_SndPlayerStopSeq(seqPlayer, fadeFrame);
+        }
+    }
+}

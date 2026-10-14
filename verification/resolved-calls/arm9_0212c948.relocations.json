@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "SND_StartTimer",
+    "target": 33688620,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148719
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "func_0214f4ec",
+    "target": 34927852,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942681304
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "func_0214f4d4",
+    "target": 34927828,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942681296
+  }
+]

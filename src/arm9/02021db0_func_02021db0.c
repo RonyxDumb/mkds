@@ -1,22 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02021db0. No matching claim. */
-#include "types.h"
-#include "deps/02021db0_func_02021db0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G2dGetAnimSequenceByIdx func_02021db0
+#include <nitro.h>
 
-int func_02021db0(ushort *param_1,uint param_2)
+#include <nnsys/g2d/load/g2d_NAN_load.h>
+#include <nnsys/g2d/g2d_Load.h>
 
+#include "g2di_Debug.h"
+
+#pragma thumb off
+const NNSG2dAnimSequenceData * NNS_G2dGetAnimSequenceByIdx (const NNSG2dAnimBankData * pAnimBank, u16 idx)
 {
-  uint uVar1;
-  uint uVar2;
-  int iVar3;
-  
-  if (param_2 < *param_1) {
-    uVar1 = (uint)(param_1 + 2) & 3;
-    uVar2 = *(uint *)((uint)(param_1 + 2) & 0xfffffffc);
-    iVar3 = (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) + param_2 * 0x10;
-  }
-  else {
-    iVar3 = 0;
-  }
-  return iVar3;
-}
+    NNS_G2D_NULL_ASSERT(pAnimBank);
 
+    if (NNS_G2dGetNumAnimSequence(pAnimBank) > idx) {
+        return &pAnimBank->pSequenceArrayHead[idx];
+    } else {
+        return NULL;
+    }
+}

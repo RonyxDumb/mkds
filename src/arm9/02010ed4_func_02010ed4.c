@@ -1,21 +1,17 @@
-/* Decompiled C draft; module arm9; ROM address 02010ed4. No matching claim. */
-#include "types.h"
-#include "deps/02010ed4_func_02010ed4.h"
-
-undefined4 func_02010ed4(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MTX_Inverse43 func_0214755c
+#define NNS_G3dGlb SDK_data_0217029c
+#define NNS_G3dGlbGetInvV func_02010ed4
+#include <nnsys/g3d/glbstate.h>
+#include <nnsys/g3d/gecom.h>
+extern NNSG3dGlb NNS_G3dGlb;
+#pragma thumb off
+const MtxFx43 * NNS_G3dGlbGetInvV (void)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = iRam02010f18 + 0xfcU & 3;
-  uVar2 = *(uint *)(iRam02010f18 + 0xfcU & 0xfffffffc);
-  if (((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) & 8) == 0) {
-    func_0214755c((uint *)(uintptr_t)(uRam02010f1c),(uint *)(uintptr_t)(uRam02010f20));
-    uVar1 = iRam02010f18 + 0xfcU & 3;
-    uVar2 = *(uint *)(iRam02010f18 + 0xfcU & 0xfffffffc);
-    *(uint *)(iRam02010f18 + 0xfc) = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20 | 8;
-  }
-  return uRam02010f20;
+    if (!(NNS_G3dGlb.flag & NNS_G3D_GLB_FLAG_INVCAMERA_UPTODATE)) {
+        s32 result = MTX_Inverse43(&NNS_G3dGlb.cameraMtx, &NNS_G3dGlb.invCameraMtx);
+        NNS_G3D_ASSERT(!result);
+        NNS_G3dGlb.flag |= NNS_G3D_GLB_FLAG_INVCAMERA_UPTODATE;
+    }
+    return &NNS_G3dGlb.invCameraMtx;
 }
-

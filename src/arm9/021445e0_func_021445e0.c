@@ -1,13 +1,21 @@
-/* Decompiled C draft; module arm9; ROM address 021445e0. No matching claim. */
-#include "types.h"
-#include "deps/021445e0_func_021445e0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MATH_CountPopulation Math_CountPopulation
+#define WmGetSharedDataAddress func_021445e0
+#include <nitro/wm.h>
 
-int func_021445e0(int param_1,uint param_2,int param_3,uint param_4)
+#include    "wm_arm9_private.h"
 
+#pragma thumb off
+u16 * WmGetSharedDataAddress (WMDataSharingInfo * dsInfo, u32 aidBitmap, u16 * receiveBuf, u32 aid)
 {
-  int iVar1;
-  
-  iVar1 = Math_CountPopulation(param_2 & (1 << (param_4 & 0xff)) - 1U);
-  return (uint)*(ushort *)(param_1 + 0x810) * iVar1 + param_3;
-}
+    u32 mask;
+    u32 count;
+    u32 offset;
 
+    mask = (0x0001U << aid) - 1U;
+    aidBitmap &= mask;
+    count = MATH_CountPopulation(aidBitmap);
+    offset = dsInfo->dataLength * count;
+
+    return (u16 *)(((u8 *)receiveBuf) + offset);
+}

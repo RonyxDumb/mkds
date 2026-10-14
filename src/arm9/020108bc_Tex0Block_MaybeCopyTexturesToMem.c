@@ -1,50 +1,76 @@
-/* Decompiled C draft; module arm9; ROM address 020108bc. No matching claim. */
-#include "types.h"
-#include "deps/020108bc_Tex0Block_MaybeCopyTexturesToMem.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define GX_BeginLoadTex func_0214c6a8
+#define GX_LoadTex func_0214c544
+#define GX_EndLoadTex func_0214c4d4
+#define NNS_G3dTexLoad Tex0Block_MaybeCopyTexturesToMem
+#include <nnsys/g3d/kernel.h>
+#include <nnsys/g3d/anm.h>
+#include <nnsys/g3d/binres/res_struct.h>
+#include <nnsys/g3d/binres/res_struct_accessor.h>
 
-void Tex0Block_MaybeCopyTexturesToMem(int param_1,int param_2)
-
+#pragma thumb off
+void NNS_G3dTexLoad (NNSG3dResTex * pTex, BOOL exec_begin_end)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  
-  if (param_2 != 0) {
-    func_0214c6a8();
-  }
-  if (*(short *)(param_1 + 0xc) != 0) {
-    uVar1 = param_1 + 8U & 3;
-    uVar3 = *(uint *)(param_1 + 8U & 0xfffffffc);
-    uVar2 = param_1 + 0x14U & 3;
-    uVar4 = *(uint *)(param_1 + 0x14U & 0xfffffffc);
-    func_0214c544(param_1 + (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20),
-                  ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) & uRam02010990) << 3);
-    *(ushort *)(param_1 + 0x10) = *(ushort *)(param_1 + 0x10) | 1;
-  }
-  uVar1 = (uint)*(ushort *)(param_1 + 0x1c) << 3;
-  if (*(ushort *)(param_1 + 0x1c) != 0) {
-    uVar2 = param_1 + 0x18U & 3;
-    uVar4 = *(uint *)(param_1 + 0x18U & 0xfffffffc);
-    uVar3 = param_1 + 0x24U & 3;
-    uVar5 = *(uint *)(param_1 + 0x24U & 0xfffffffc);
-    uVar6 = (uVar4 >> uVar2 * 8 | uVar4 << uVar2 * -8 + 0x20) & uRam02010990;
-    uVar2 = uVar6 << 3;
-    uVar4 = param_1 + 0x28U & 3;
-    uVar7 = *(uint *)(param_1 + 0x28U & 0xfffffffc);
-    func_0214c544(param_1 + (uVar5 >> uVar3 * 8 | uVar5 << uVar3 * -8 + 0x20),uVar2,uVar1);
-    func_0214c544(param_1 + (uVar7 >> uVar4 * 8 | uVar7 << uVar4 * -8 + 0x20),
-                  ((uRam02010994 & uVar6 << 3) >> 1) + 0x20000 + ((uVar2 & 0x40000) >> 2),uVar1 >> 1
-                 );
-    *(ushort *)(param_1 + 0x20) = *(ushort *)(param_1 + 0x20) | 1;
-  }
-  if (param_2 != 0) {
-    func_0214c4d4();
-    return;
-  }
-  return;
-}
+    NNS_G3D_NULL_ASSERT(pTex);
+    NNS_G3D_WARNING(!(pTex->texInfo.flag & NNS_G3D_RESTEX_LOADED),
+                    "NNS_G3dTexLoad: texture already loaded");
+    NNS_G3D_WARNING(!(pTex->tex4x4Info.flag & NNS_G3D_RESTEX4x4_LOADED),
+                    "NNS_G3dTex4x4Load: texture already loaded");
 
+    if (exec_begin_end) {
+        GX_BeginLoadTex();
+    }
+
+    {
+        u32 sz;
+        const void * pData;
+        u32 from;
+
+        sz = (u32)pTex->texInfo.sizeTex << 3;
+        if (sz > 0) {
+            NNS_G3D_ASSERT(pTex->texInfo.vramKey != 0);
+            NNS_G3D_ASSERTMSG(sz <= NNS_GfdGetTexKeySize(pTex->texInfo.vramKey),
+                              "NNS_G3dTexLoad: texKey size not enough, "
+                              "0x%05x bytes required.", sz);
+
+            pData = NNS_G3dGetTexData(pTex);
+            from = NNS_GfdGetTexKeyAddr(pTex->texInfo.vramKey);
+
+            GX_LoadTex(pData, from, sz);
+
+            pTex->texInfo.flag |= NNS_G3D_RESTEX_LOADED;
+        }
+    }
+
+    {
+
+        u32 sz;
+        const void * pData;
+        const void * pDataPlttIdx;
+        u32 from;
+
+        sz = (u32)pTex->tex4x4Info.sizeTex << 3;
+
+        if (sz > 0) {
+            NNS_G3D_ASSERT(pTex->tex4x4Info.sizeTex != 0);
+            NNS_G3D_ASSERTMSG(NNS_GfdGetTexKey4x4Flag(pTex->tex4x4Info.vramKey),
+                              "NNS_G3dTexLoad(4x4): texKey is not for 4x4comp textures");
+            NNS_G3D_ASSERTMSG(sz <= NNS_GfdGetTexKeySize(pTex->tex4x4Info.vramKey),
+                              "NNS_G3dTexLoad(4x4): texKey size not enough, "
+                              "0x%05x bytes required.", sz);
+
+            pData = NNS_G3dGetTex4x4Data(pTex);
+            pDataPlttIdx = NNS_G3dGetTex4x4PlttIdxData(pTex);
+            from = NNS_GfdGetTexKeyAddr(pTex->tex4x4Info.vramKey);
+
+            GX_LoadTex(pData, from, sz);
+            GX_LoadTex(pDataPlttIdx, GX_COMP4x4_PLTT_IDX(from), sz >> 1);
+
+            pTex->tex4x4Info.flag |= NNS_G3D_RESTEX4x4_LOADED;
+        }
+    }
+
+    if (exec_begin_end) {
+        GX_EndLoadTex();
+    }
+}

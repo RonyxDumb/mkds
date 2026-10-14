@@ -1,34 +1,40 @@
-/* Decompiled C draft; module arm9; ROM address 02015b9c. No matching claim. */
-#include "types.h"
-#include "deps/02015b9c_Anim_UnkFnPtr_BTP.h"
-
-void Anim_UnkFnPtr_BTP(undefined4 param_1,uint param_2,undefined2 param_3)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNSi_G3dGetTexPatAnmFV func_02013b3c
+#define NNSi_G3dGetTexPatAnmTexNameByIdx func_02013bcc
+#define SetTexParamaters_ func_02015c7c
+#define NNSi_G3dGetTexPatAnmPlttNameByIdx func_02013bbc
+#define SetPlttParamaters_ func_02015c24
+#define NNSi_G3dAnmCalcNsBtp Anim_UnkFnPtr_BTP
+#include <nnsys/g3d/anm/nsbtp.h>
+#include <nnsys/g3d/binres/res_struct_accessor.h>
+extern void SetTexParamaters_ (const NNSG3dResTex * pTex, const NNSG3dResName * pTexName, NNSG3dMatAnmResult * pResult);
+extern void SetPlttParamaters_ (const NNSG3dResTex * pTex, const NNSG3dResName * pPlttName, NNSG3dMatAnmResult * pResult);
+#pragma thumb off
+void NNSi_G3dAnmCalcNsBtp (NNSG3dMatAnmResult * pResult, const NNSG3dAnmObj * pAnmObj, u32 dataIdx)
 {
-  uint uVar1;
-  int iVar2;
-  undefined4 uVar3;
-  uint uVar4;
-  uint uVar5;
-  
-  uVar1 = param_2 + 8 & 3;
-  uVar4 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  uVar5 = uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20;
-  iVar2 = func_02013b3c(uVar5,param_3,
-                        ((*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-                         *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) << 4) >> 0x10
-                       );
-  uVar3 = func_02013bcc(uVar5,*(undefined1 *)(iVar2 + 2));
-  uVar1 = param_2 + 0x14 & 3;
-  uVar4 = *(uint *)(param_2 + 0x14 & 0xfffffffc);
-  func_02015c7c(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20,uVar3,param_1);
-  if (*(char *)(iVar2 + 3) != -1) {
-    uVar3 = func_02013bbc(uVar5);
-    uVar1 = param_2 + 0x14 & 3;
-    uVar4 = *(uint *)(param_2 + 0x14 & 0xfffffffc);
-    func_02015c24(uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20,uVar3,param_1);
-    return;
-  }
-  return;
-}
+    NNS_G3D_NULL_ASSERT(pResult);
+    NNS_G3D_NULL_ASSERT(pAnmObj);
+    NNS_G3D_NULL_ASSERT(pAnmObj->resTex);
 
+    {
+
+        const NNSG3dResTexPatAnm * pPatAnm
+            = (const NNSG3dResTexPatAnm *)pAnmObj->resAnm;
+
+        const NNSG3dResTexPatAnmFV * pTexFV
+            = NNSi_G3dGetTexPatAnmFV(pPatAnm,
+                                     (u16)dataIdx,
+                                     (u16)FX_Whole(pAnmObj->frame));
+        NNS_G3D_NULL_ASSERT(pTexFV);
+
+        SetTexParamaters_(pAnmObj->resTex,
+                          NNSi_G3dGetTexPatAnmTexNameByIdx(pPatAnm, pTexFV->idTex),
+                          pResult);
+
+        if (pTexFV->idPltt != 255) {
+            SetPlttParamaters_(pAnmObj->resTex,
+                               NNSi_G3dGetTexPatAnmPlttNameByIdx(pPatAnm, pTexFV->idPltt),
+                               pResult);
+        }
+    }
+}

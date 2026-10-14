@@ -1,11 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 020d3e18. No matching claim. */
-#include "types.h"
-#include "deps/020d3e18_func_020d3e18.h"
-
-bool func_020d3e18(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define ctrdgi_task_work SDK_data_0217b4e4
+#define CTRDGi_IsTaskAvailable func_020d3e18
+#include <nitro.h>
+extern CTRDGiTaskWork *ctrdgi_task_work;
+#pragma thumb off
+BOOL CTRDGi_IsTaskAvailable (void)
 {
-  return *(uint *)(uRam020d3e30 & 0xfffffffc) >> (uRam020d3e30 & 3) * 8 != 0 ||
-         *(uint *)(uRam020d3e30 & 0xfffffffc) << (uRam020d3e30 & 3) * -8 + 0x20 != 0;
+	return (ctrdgi_task_work != NULL);
 }
-

@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "func_020170e4",
+    "target": 33648868,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422868
+  },
+  {
+    "offset": 72,
+    "type": 2,
+    "symbol": "SDK_data_02173250",
+    "target": 35074640,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074640
+  },
+  {
+    "offset": 76,
+    "type": 2,
+    "symbol": "SDK_data_02017190",
+    "target": 33649040,
+    "thumb": false,
+    "addend": 0,
+    "value": 33649040
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_021619f4",
+    "target": 35002868,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002868
+  },
+  {
+    "offset": 84,
+    "type": 2,
+    "symbol": "SDK_data_02017138",
+    "target": 33648952,
+    "thumb": false,
+    "addend": 0,
+    "value": 33648952
+  },
+  {
+    "offset": 88,
+    "type": 2,
+    "symbol": "SDK_data_021619f8",
+    "target": 35002872,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002872
+  }
+]

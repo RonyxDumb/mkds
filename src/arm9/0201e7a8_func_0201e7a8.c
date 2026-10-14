@@ -1,102 +1,209 @@
-/* Decompiled C draft; module arm9; ROM address 0201e7a8. No matching claim. */
-#include "types.h"
-#include "deps/0201e7a8_func_0201e7a8.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define PXI_Init func_0214d5b8
+#define PXI_IsCallbackReady Fifo_IsHandlerReady
+#define OS_GetLockID Os_AllocateLockId
+#define OS_DisableInterrupts Os_DisableIrq
+#define OS_RestoreInterrupts Os_RestoreIrq
+#define OSi_TryLockVram func_0200ff04
+#define PXI_SetFifoRecvCallback Fifo_RegisterHandler
+#define PXI_SendWordByFifo Fifo_SendWord
+#define OSi_UnlockVram Os_UnlockVram
+#define wvrLockId SDK_data_02173278
+#define wvrCallback SDK_data_02173284
+#define wvrVRam SDK_data_0217327c
+#define WvrReceiveCallback SDK_data_0201e5ac
+#define WvrDummyAsyncCallback SDK_data_0201e5a8
+#define wvrArg SDK_data_02173280
+#define WVR_StartUpAsync func_0201e7a8
+#include <nitro/wvr/common/wvr_common.h>
+#include <nitro/wvr/ARM9/wvr.h>
+#include <nitro/pxi.h>
+#include <nitro/os/ARM9/vramExclusive.h>
+#include <nitro/gx/gx_vramcnt.h>
+#include <nitro/wm.h>
 
-undefined4 func_0201e7a8(int param_1,int param_2,undefined4 param_3)
+static void WvrReceiveCallback(PXIFifoTag tag, u32 data, BOOL err);
+static void WvrDummyAsyncCallback(void * arg, WVRResult result);
 
+static WVRCallbackFunc wvrCallback = NULL;
+static void * wvrArg = NULL;
+static vu16 wvrVRam = 0;
+static vu16 wvrLockId = 0;
+
+WVRResult WVR_StartUpAsync (GXVRamARM7 vram, WVRCallbackFunc callback, void * arg)
 {
-  short sVar1;
-  short *psVar2;
-  int *piVar3;
-  undefined1 *puVar4;
-  undefined1 *puVar5;
-  undefined4 *puVar6;
-  int iVar7;
-  undefined4 uVar8;
-  
-  func_0214d5b8();
-  iVar7 = Fifo_IsHandlerReady(0xf,1);
-  psVar2 = psRam0201ea10;
-  if (iVar7 == 0) {
-    return 2;
-  }
-  sVar1 = *psRam0201ea10;
-  while (sVar1 == 0) {
-    iVar7 = Os_AllocateLockId();
-    if (iVar7 == -3) {
-      return 7;
+    OSIntrMode e;
+
+    PXI_Init();
+    if (!PXI_IsCallbackReady(PXI_FIFO_TAG_WVR, PXI_PROC_ARM7)) {
+        return WVR_RESULT_DISABLE;
     }
-    *psVar2 = (short)iVar7;
-    sVar1 = *psVar2;
-  }
-  uVar8 = Os_DisableIrq();
-  if (*(uint *)((uint)piRam0201ea14 & 0xfffffffc) >> ((uint)piRam0201ea14 & 3) * 8 != 0 ||
-      *(uint *)((uint)piRam0201ea14 & 0xfffffffc) << ((uint)piRam0201ea14 & 3) * -8 + 0x20 != 0) {
-    Os_RestoreIrq();
-    return 5;
-  }
-  if (*psRam0201ea18 != 0) {
-    Os_RestoreIrq();
-    return 5;
-  }
-  if (param_1 == 4) {
-    iVar7 = func_0200ff04(4,*psRam0201ea10);
-    puVar4 = puRam0201ea1c;
-    if (iVar7 == 0) {
-      Os_RestoreIrq(uVar8);
-      return 6;
+
+    while (wvrLockId == 0) {
+        s32 result = OS_GetLockID();
+
+        if (result == OS_LOCK_ID_ERROR) {
+            return WVR_RESULT_FATAL_ERROR;
+        }
+        wvrLockId = (u16)result;
     }
-    *psRam0201ea18 = 4;
-    *puVar4 = 0x82;
-  }
-  else if (param_1 == 8) {
-    iVar7 = func_0200ff04(8,*psRam0201ea10);
-    puVar4 = puRam0201ea20;
-    if (iVar7 == 0) {
-      Os_RestoreIrq(uVar8);
-      return 6;
+
+    e = OS_DisableInterrupts();
+
+    if (wvrCallback != NULL) {
+        (void)OS_RestoreInterrupts(e);
+        return WVR_RESULT_ILLEGAL_STATUS;
     }
-    *psRam0201ea18 = 8;
-    *puVar4 = 0x82;
-  }
-  else {
-    if (param_1 != 0xc) {
-      Os_RestoreIrq();
-      return 3;
+
+    if (wvrVRam) {
+
+        (void)OS_RestoreInterrupts(e);
+        return WVR_RESULT_ILLEGAL_STATUS;
     }
-    iVar7 = func_0200ff04(0xc,*psRam0201ea10);
-    puVar4 = puRam0201ea1c;
-    if (iVar7 == 0) {
-      Os_RestoreIrq(uVar8);
-      return 6;
+    switch (vram) {
+    case GX_VRAM_ARM7_128_C:
+        if (!OSi_TryLockVram(OS_VRAM_BANK_ID_C, wvrLockId)) {
+
+            (void)OS_RestoreInterrupts(e);
+            return WVR_RESULT_VRAM_LOCKED;
+        }
+        wvrVRam = OS_VRAM_BANK_ID_C;
+
+        reg_GX_VRAMCNT_C = ((2 << REG_GX_VRAMCNT_C_MST_SHIFT) |
+                            (0 << REG_GX_VRAMCNT_C_OFS_SHIFT) | (1 << REG_GX_VRAMCNT_C_E_SHIFT));
+        break;
+    case GX_VRAM_ARM7_128_D:
+        if (!OSi_TryLockVram(OS_VRAM_BANK_ID_D, wvrLockId)) {
+
+            (void)OS_RestoreInterrupts(e);
+            return WVR_RESULT_VRAM_LOCKED;
+        }
+        wvrVRam = OS_VRAM_BANK_ID_D;
+
+        reg_GX_VRAMCNT_D = ((2 << REG_GX_VRAMCNT_D_MST_SHIFT) |
+                            (0 << REG_GX_VRAMCNT_D_OFS_SHIFT) | (1 << REG_GX_VRAMCNT_D_E_SHIFT));
+        break;
+    case GX_VRAM_ARM7_256_CD:
+        if (!OSi_TryLockVram((OS_VRAM_BANK_ID_C | OS_VRAM_BANK_ID_D), wvrLockId)) {
+
+            (void)OS_RestoreInterrupts(e);
+            return WVR_RESULT_VRAM_LOCKED;
+        }
+        wvrVRam = OS_VRAM_BANK_ID_C | OS_VRAM_BANK_ID_D;
+
+        reg_GX_VRAMCNT_C = ((2 << REG_GX_VRAMCNT_C_MST_SHIFT) |
+                            (0 << REG_GX_VRAMCNT_C_OFS_SHIFT) | (1 << REG_GX_VRAMCNT_C_E_SHIFT));
+        reg_GX_VRAMCNT_D = ((2 << REG_GX_VRAMCNT_D_MST_SHIFT) |
+                            (1 << REG_GX_VRAMCNT_D_OFS_SHIFT) | (1 << REG_GX_VRAMCNT_D_E_SHIFT));
+        break;
+    default:
+        (void)OS_RestoreInterrupts(e);
+        return WVR_RESULT_INVALID_PARAM;
     }
-    *psRam0201ea18 = 0xc;
-    puVar5 = puRam0201ea20;
-    *puVar4 = 0x82;
-    *puVar5 = 0x8a;
-  }
-  iVar7 = Fifo_IsHandlerReady(0xf,0);
-  if (iVar7 == 0) {
-    Fifo_RegisterHandler(0xf,uRam0201ea24);
-  }
-  puVar6 = puRam0201ea2c;
-  if (param_2 == 0) {
-    *piRam0201ea14 = iRam0201ea28;
-  }
-  else {
-    *piRam0201ea14 = param_2;
-  }
-  *puVar6 = param_3;
-  iVar7 = Fifo_SendWord(0xf,0x10000,0);
-  if (iVar7 < 0) {
-    Os_UnlockVram(*psRam0201ea18,*psRam0201ea10);
-    piVar3 = piRam0201ea14;
-    *psRam0201ea18 = 0;
-    *piVar3 = 0;
-    Os_RestoreIrq(uVar8);
-    return 4;
-  }
-  Os_RestoreIrq(uVar8);
-  return 1;
+
+    if (!PXI_IsCallbackReady(PXI_FIFO_TAG_WVR, PXI_PROC_ARM9)) {
+        PXI_SetFifoRecvCallback(PXI_FIFO_TAG_WVR, WvrReceiveCallback);
+    }
+
+    if (callback == NULL) {
+        wvrCallback = WvrDummyAsyncCallback;
+    } else {
+        wvrCallback = callback;
+    }
+    wvrArg = arg;
+
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_WVR, WVR_PXI_COMMAND_STARTUP, FALSE)) {
+        OSi_UnlockVram(wvrVRam, wvrLockId);
+        wvrVRam = 0;
+        wvrCallback = NULL;
+        (void)OS_RestoreInterrupts(e);
+        return WVR_RESULT_FIFO_ERROR;
+    }
+
+    (void)OS_RestoreInterrupts(e);
+    return WVR_RESULT_OPERATING;
 }
 
+WVRResult WVR_TerminateAsync (WVRCallbackFunc callback, void * arg)
+{
+    OSIntrMode e;
+
+    PXI_Init();
+    if (!PXI_IsCallbackReady(PXI_FIFO_TAG_WVR, PXI_PROC_ARM7)) {
+        return WVR_RESULT_DISABLE;
+    }
+
+    e = OS_DisableInterrupts();
+
+    if (wvrCallback != NULL) {
+        (void)OS_RestoreInterrupts(e);
+        return WVR_RESULT_ILLEGAL_STATUS;
+    }
+
+    if (!PXI_IsCallbackReady(PXI_FIFO_TAG_WVR, PXI_PROC_ARM9)) {
+        PXI_SetFifoRecvCallback(PXI_FIFO_TAG_WVR, WvrReceiveCallback);
+    }
+
+    if (callback == NULL) {
+        wvrCallback = WvrDummyAsyncCallback;
+    } else {
+        wvrCallback = callback;
+    }
+    wvrArg = arg;
+
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_WVR, WVR_PXI_COMMAND_TERMINATE, FALSE)) {
+        wvrCallback = NULL;
+        (void)OS_RestoreInterrupts(e);
+        return WVR_RESULT_FIFO_ERROR;
+    }
+
+    (void)OS_RestoreInterrupts(e);
+    return WVR_RESULT_OPERATING;
+}
+
+static void WvrReceiveCallback (PXIFifoTag tag, u32 data, BOOL err)
+{
+#pragma unused(tag , err)
+
+    WVRCallbackFunc cb = wvrCallback;
+    void * cbArg = wvrArg;
+    WVRResult result = (WVRResult)(data & 0x000000ff);
+
+    switch (data & 0xffff0000) {
+    case WVR_PXI_COMMAND_STARTUP:
+        switch (result) {
+        case WVR_RESULT_FATAL_ERROR:
+
+            if ((wvrVRam != 0) && (wvrLockId != 0)) {
+                OSi_UnlockVram(wvrVRam, wvrLockId);
+                wvrVRam = 0;
+            }
+            break;
+        }
+        break;
+    case WVR_PXI_COMMAND_TERMINATE:
+        switch (result) {
+        case WVR_RESULT_SUCCESS:
+
+            if ((wvrVRam != 0) && (wvrLockId != 0)) {
+                OSi_UnlockVram(wvrVRam, wvrLockId);
+                wvrVRam = 0;
+            }
+            break;
+        }
+
+        PXI_SetFifoRecvCallback(PXI_FIFO_TAG_WVR, NULL);
+        break;
+    }
+
+    if (cb != NULL) {
+        wvrCallback = NULL;
+        wvrArg = NULL;
+        cb(cbArg, result);
+    }
+}
+
+static void WvrDummyAsyncCallback (void * arg, WVRResult result)
+{
+#pragma unused(arg , result)
+}

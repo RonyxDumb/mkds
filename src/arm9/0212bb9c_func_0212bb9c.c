@@ -1,28 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 0212bb9c. No matching claim. */
-#include "types.h"
-#include "deps/0212bb9c_func_0212bb9c.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define sAlarmLock SDK_data_0217d43c
+#define NNS_SndAllocAlarm func_0212bb9c
+#include <nnsys/snd/resource_mgr.h>
 
-int func_0212bb9c(void)
-
+#include <nitro/snd.h>
+#include <nnsys/misc.h>
+extern u32 sAlarmLock;
+#pragma thumb off
+int NNS_SndAllocAlarm (void)
 {
-  int iVar1;
-  uint uVar2;
-  
-  uVar2 = 1;
-  iVar1 = 0;
-  do {
-    if (((*(uint *)((uint)puRam0212bbdc & 0xfffffffc) >> ((uint)puRam0212bbdc & 3) * 8 |
-         *(uint *)((uint)puRam0212bbdc & 0xfffffffc) << ((uint)puRam0212bbdc & 3) * -8 + 0x20) &
-        uVar2) == 0) {
-      *puRam0212bbdc =
-           *(uint *)((uint)puRam0212bbdc & 0xfffffffc) >> ((uint)puRam0212bbdc & 3) * 8 |
-           *(uint *)((uint)puRam0212bbdc & 0xfffffffc) << ((uint)puRam0212bbdc & 3) * -8 + 0x20 |
-           uVar2;
-      return iVar1;
-    }
-    iVar1 = iVar1 + 1;
-    uVar2 = uVar2 << 1;
-  } while (iVar1 < 8);
-  return -1;
-}
+    int alarmNo;
+    u32 mask = 1;
 
+    for (alarmNo = 0; alarmNo < SND_ALARM_NUM; alarmNo++, mask <<= 1) {
+        if ((sAlarmLock & mask) == 0) {
+            sAlarmLock |= mask;
+            return alarmNo;
+        }
+    }
+
+    return -1;
+}

@@ -1,24 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 02015e28. No matching claim. */
-#include "types.h"
-#include "deps/02015e28_Anim_UnkFnPtr_BVA.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNSi_G3dAnmCalcNsBva Anim_UnkFnPtr_BVA
+#include <nnsys/g3d/anm/nsbva.h>
+#include <nnsys/g3d/binres/res_struct_accessor.h>
 
-void Anim_UnkFnPtr_BVA(uint *param_1,uint param_2,int param_3)
-
+#pragma thumb off
+void NNSi_G3dAnmCalcNsBva (NNSG3dVisAnmResult * pResult, const NNSG3dAnmObj * pAnmObj, u32 dataIdx)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar3 = param_2 + 8 & 3;
-  uVar2 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  uVar3 = uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20;
-  uVar1 = ((int)(*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-                *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20) >> 0xc) *
-          (uint)*(ushort *)(uVar3 + 6) + param_3;
-  uVar3 = uVar3 + (uVar1 >> 5) * 4 + 0xc;
-  uVar2 = uVar3 & 3;
-  uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-  *param_1 = (uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20) & 1 << (uVar1 & 0x1f);
-  return;
-}
+    NNS_G3D_NULL_ASSERT(pResult);
+    NNS_G3D_NULL_ASSERT(pAnmObj);
+    NNS_G3D_NULL_ASSERT(pAnmObj->resAnm);
 
+    {
+        u32 frame = (u32)FX_Whole(pAnmObj->frame);
+        const NNSG3dResVisAnm * pVisAnm = pAnmObj->resAnm;
+        u32 pos = frame * pVisAnm->numNode + dataIdx;
+        u32 n = pos >> 5;
+        u32 mask = 1U << (pos & 0x1f);
+
+        pResult->isVisible = (BOOL)(pVisAnm->visData[n] & mask);
+    }
+}

@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "Os_UnlockVram",
+    "target": 33619580,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959408152
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "Os_UnlockVram",
+    "target": 33619580,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959408135
+  },
+  {
+    "offset": 196,
+    "type": 1,
+    "symbol": "Fifo_RegisterHandler",
+    "target": 34920388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942956115
+  },
+  {
+    "offset": 252,
+    "type": 2,
+    "symbol": "SDK_data_02173284",
+    "target": 35074692,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074692
+  },
+  {
+    "offset": 256,
+    "type": 2,
+    "symbol": "SDK_data_02173280",
+    "target": 35074688,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074688
+  },
+  {
+    "offset": 260,
+    "type": 2,
+    "symbol": "SDK_data_0217327c",
+    "target": 35074684,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074684
+  },
+  {
+    "offset": 264,
+    "type": 2,
+    "symbol": "SDK_data_02173278",
+    "target": 35074680,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074680
+  }
+]

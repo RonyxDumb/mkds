@@ -1,23 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 020172d8. No matching claim. */
-#include "types.h"
-#include "deps/020172d8_IntrusiveListWrapper_GetAtIndex.h"
-
-int IntrusiveListWrapper_GetAtIndex(undefined4 param_1,int param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_FndGetNextListObject IntrusiveListWrapper_NextItem
+#define NNS_FndGetNthListObject IntrusiveListWrapper_GetAtIndex
+#include <nnsys/misc.h>
+#include <nnsys/fnd/list.h>
+extern void * NNS_FndGetNextListObject (NNSFndList * list, void * object);
+#pragma thumb off
+void * NNS_FndGetNthListObject (NNSFndList * list, u16 index)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar2 = 0;
-  iVar1 = IntrusiveListWrapper_NextItem(param_1,0);
-  while( true ) {
-    if (iVar1 == 0) {
-      return 0;
-    }
-    if (iVar2 == param_2) break;
-    iVar2 = iVar2 + 1;
-    iVar1 = IntrusiveListWrapper_NextItem(param_1);
-  }
-  return iVar1;
-}
+    int count = 0;
+    NNSFndLink * object = NULL;
 
+    NNS_NULL_ASSERT(list);
+
+    while ((object = NNS_FndGetNextListObject(list, object)) != NULL)
+    {
+        if (index == count) {
+            return object;
+        }
+        count++;
+    }
+    return NULL;
+}

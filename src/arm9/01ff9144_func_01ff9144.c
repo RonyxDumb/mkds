@@ -1,36 +1,45 @@
-/* Decompiled C draft; module arm9; ROM address 01ff9144. No matching claim. */
-#include "types.h"
-#include "deps/01ff9144_func_01ff9144.h"
-
-void func_01ff9144(uint param_1,uint param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G3dGeBufferOP_N func_01ff9048
+#define NNS_G3dGeFlushBuffer func_01ff9234
+#define MI_SendGXCommandAsyncFast func_0214ccd4
+#define MI_SendGXCommandAsync func_0214ced0
+#define GXi_DmaId SDK_data_0216f074
+#define NNS_G3dFlagUseFastDma SDK_data_0217320c
+#define NNS_G3dFlagGXDmaAsync SDK_data_02173208
+#define simpleUnlock_ SDK_data_01ff9210
+#define NNS_G3dGeSendDL func_01ff9144
+#include <nnsys/g3d/gecom.h>
+extern void NNS_G3dGeBufferOP_N (u32 op, const u32 * args, u32 num);
+extern void NNS_G3dGeFlushBuffer (void);
+extern BOOL NNS_G3dFlagUseFastDma;
+extern volatile int NNS_G3dFlagGXDmaAsync;
+extern void simpleUnlock_ (void * arg);
+#pragma thumb off
+void NNS_G3dGeSendDL (const void * src, u32 szByte)
 {
-  uint uVar1;
-  undefined4 *puVar2;
-  uint uVar3;
-  
-  if ((0xff < param_2) &&
-     ((*(uint *)(uRam01ff9200 & 0xfffffffc) >> (uRam01ff9200 & 3) * 8 |
-      *(uint *)(uRam01ff9200 & 0xfffffffc) << (uRam01ff9200 & 3) * -8 + 0x20) != 0xffffffff)) {
-    func_01ff9234();
-    puVar2 = puRam01ff9208;
-    uVar1 = uRam01ff9204 & 3;
-    uVar3 = *(uint *)(uRam01ff9204 & 0xfffffffc);
-    *puRam01ff9208 = 1;
-    if (uVar3 >> uVar1 * 8 != 0 || uVar3 << uVar1 * -8 + 0x20 != 0) {
-      func_0214ccd4(*(uint *)(uRam01ff9200 & 0xfffffffc) >> (uRam01ff9200 & 3) * 8 |
-                    *(uint *)(uRam01ff9200 & 0xfffffffc) << (uRam01ff9200 & 3) * -8 + 0x20,param_1,
-                    param_2,uRam01ff920c,(undefined4)(uintptr_t)(puVar2));
-      return;
-    }
-    func_0214ced0(*(uint *)(uRam01ff9200 & 0xfffffffc) >> (uRam01ff9200 & 3) * 8 |
-                  *(uint *)(uRam01ff9200 & 0xfffffffc) << (uRam01ff9200 & 3) * -8 + 0x20,param_1,
-                  param_2,uRam01ff920c,(undefined4)(uintptr_t)(puVar2));
-    return;
-  }
-  func_01ff9048(*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-                *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20,param_1 + 4,
-                (param_2 >> 2) - 1);
-  return;
-}
+    NNS_G3D_NULL_ASSERT(src);
+    NNS_G3D_ASSERT(szByte >= 4);
 
+    if (szByte < 256 || GX_DMAID == GX_DMA_NOT_USE) {
+        NNS_G3dGeBufferOP_N(*(const u32 *)src,
+                            (const u32 *)src + 1,
+                            (szByte >> 2) - 1);
+    } else {
+        NNS_G3dGeFlushBuffer();
+        NNS_G3dFlagGXDmaAsync = 1;
+
+        if (NNS_G3dFlagUseFastDma) {
+            MI_SendGXCommandAsyncFast(GX_DMAID,
+                                      src,
+                                      szByte,
+                                      &simpleUnlock_,
+                                      (void *)&NNS_G3dFlagGXDmaAsync);
+        } else {
+            MI_SendGXCommandAsync(GX_DMAID,
+                                  src,
+                                  szByte,
+                                  &simpleUnlock_,
+                                  (void *)&NNS_G3dFlagGXDmaAsync);
+        }
+    }
+}

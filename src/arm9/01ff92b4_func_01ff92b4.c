@@ -1,17 +1,19 @@
-/* Decompiled C draft; module arm9; ROM address 01ff92b4. No matching claim. */
-#include "types.h"
-#include "deps/01ff92b4_func_01ff92b4.h"
-
-uint func_01ff92b4(void)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G3dGeFlushBuffer func_01ff9234
+#define NNS_G3dGeBuffer SDK_data_02173204
+#define NNS_G3dGeReleaseBuffer func_01ff92b4
+#include <nnsys/g3d/gecom.h>
+extern void NNS_G3dGeFlushBuffer (void);
+extern NNSG3dGeBuffer * NNS_G3dGeBuffer;
+#pragma thumb off
+NNSG3dGeBuffer * NNS_G3dGeReleaseBuffer (void)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  func_01ff9234();
-  uVar1 = (uint)puRam01ff92dc & 3;
-  uVar2 = *(uint *)((uint)puRam01ff92dc & 0xfffffffc);
-  *puRam01ff92dc = 0;
-  return uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-}
+    NNSG3dGeBuffer * p;
 
+    NNS_G3dGeFlushBuffer();
+
+    p = NNS_G3dGeBuffer;
+    NNS_G3dGeBuffer = NULL;
+
+    return p;
+}

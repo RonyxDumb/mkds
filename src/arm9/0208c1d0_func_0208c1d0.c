@@ -1,12 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 0208c1d0. No matching claim. */
-#include "types.h"
-#include "deps/0208c1d0_func_0208c1d0.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define CTRDGi_WriteAgbFlashSectorAsync SDK_data_0217b064
+#define CTRDG_WriteAgbFlashSectorAsync func_0208c1d0
+#include <nitro.h>
 
-void func_0208c1d0(void)
-
+#pragma thumb off
+void CTRDG_WriteAgbFlashSectorAsync (u16 secNo, u8 *src, CTRDG_TASK_FUNC callback)
 {
-  (*(code *)(*(uint *)(uRam0208c1f0 & 0xfffffffc) >> (uRam0208c1f0 & 3) * 8 |
-            *(uint *)(uRam0208c1f0 & 0xfffffffc) << (uRam0208c1f0 & 3) * -8 + 0x20))();
-  return;
+	(*CTRDGi_WriteAgbFlashSectorAsync)(secNo, src, callback);
 }
-

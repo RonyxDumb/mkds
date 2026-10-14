@@ -1,16 +1,20 @@
-/* Decompiled C draft; module arm9; ROM address 02021868. No matching claim. */
-#include "types.h"
-#include "deps/02021868_func_02021868.h"
-
-int func_02021868(int param_1,int param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define DC_InvalidateRange DC_InvalidateRangeNoClean
+#define SNDi_SharedWork SDK_data_02174e00
+#define SND_GetPlayerLocalVariable func_02021868
+#include <nitro/snd/common/work.h>
+extern SNDSharedWork * SNDi_SharedWork;
+#pragma thumb off
+s16 SND_GetPlayerLocalVariable (int playerNo, int varNo)
 {
-  DC_InvalidateRangeNoClean
-            ((*(uint *)(uRam020218b8 & 0xfffffffc) >> (uRam020218b8 & 3) * 8 |
-             *(uint *)(uRam020218b8 & 0xfffffffc) << (uRam020218b8 & 3) * -8 + 0x20) + 0x20 +
-             param_1 * 0x24 + param_2 * 2,2);
-  return (int)*(short *)((*(uint *)(uRam020218b8 & 0xfffffffc) >> (uRam020218b8 & 3) * 8 |
-                         *(uint *)(uRam020218b8 & 0xfffffffc) << (uRam020218b8 & 3) * -8 + 0x20) +
-                         param_1 * 0x24 + param_2 * 2 + 0x20);
-}
+    SDK_NULL_ASSERT(SNDi_SharedWork);
+    SDK_MINMAX_ASSERT(playerNo, SND_PLAYER_MIN, SND_PLAYER_MAX);
+    SDK_MINMAX_ASSERT(varNo, 0, SND_PLAYER_VARIABLE_NUM - 1);
 
+#ifdef SDK_ARM9
+    DC_InvalidateRange((void *)&SNDi_SharedWork->player[playerNo].variable[varNo],
+                       sizeof(SNDi_SharedWork->player[playerNo].variable[varNo]));
+#endif
+
+    return SNDi_SharedWork->player[playerNo].variable[varNo];
+}

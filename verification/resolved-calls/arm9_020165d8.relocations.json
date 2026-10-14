@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "StructTEQ_IsTEQSubListFull",
+    "target": 33646944,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645982
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "StructTEQ_IncrementValidateIndex",
+    "target": 33646968,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645981
+  }
+]

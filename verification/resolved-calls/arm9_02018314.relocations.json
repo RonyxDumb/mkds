@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Fs_Archive_UnloadFatFnt",
+    "target": 33570640,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402251
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Fs_UnregisterArchive",
+    "target": 33570960,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402325
+  }
+]

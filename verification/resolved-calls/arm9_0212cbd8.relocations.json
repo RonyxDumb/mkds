@@ -1,0 +1,101 @@
+[
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "SND_StopTimer",
+    "target": 33688508,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148516
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "func_02021114",
+    "target": 33689876,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148855
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "Sound_FlushCommand",
+    "target": 33690084,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148904
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "func_02021154",
+    "target": 33689940,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148866
+  },
+  {
+    "offset": 132,
+    "type": 1,
+    "symbol": "Os_ReceiveMessage",
+    "target": 33614396,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959129974
+  },
+  {
+    "offset": 156,
+    "type": 1,
+    "symbol": "func_0212bbe0",
+    "target": 34782176,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421913
+  },
+  {
+    "offset": 172,
+    "type": 1,
+    "symbol": "func_0212bc20",
+    "target": 34782240,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421925
+  },
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "func_0212bb7c",
+    "target": 34782076,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421880
+  },
+  {
+    "offset": 220,
+    "type": 1,
+    "symbol": "func_02020930",
+    "target": 33687856,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959148317
+  },
+  {
+    "offset": 244,
+    "type": 2,
+    "symbol": "SDK_data_0217ddd0",
+    "target": 35118544,
+    "thumb": false,
+    "addend": 0,
+    "value": 35118544
+  },
+  {
+    "offset": 248,
+    "type": 2,
+    "symbol": "SDK_data_0217ddb0",
+    "target": 35118512,
+    "thumb": false,
+    "addend": 0,
+    "value": 35118512
+  }
+]

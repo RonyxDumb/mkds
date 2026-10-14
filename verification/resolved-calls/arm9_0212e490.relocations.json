@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Sound_GetSwarInfoEntry",
+    "target": 34788336,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421906
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Sound_PrepareSwarDataImpl",
+    "target": 34791608,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422709
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "Sound_PrepareSwarData",
+    "target": 34791916,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422779
+  },
+  {
+    "offset": 140,
+    "type": 1,
+    "symbol": "Sound_MaybeGetRawFilePointer",
+    "target": 34787924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421772
+  }
+]

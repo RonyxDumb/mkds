@@ -1,29 +1,25 @@
-/* Decompiled C draft; module arm9; ROM address 02015eb8. No matching claim. */
-#include "types.h"
-#include "deps/02015eb8_func_02015eb8.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNSi_G3dGetJointScaleBasic func_02015eb8
+#include <nnsys/g3d/cgtool/basic.h>
+#include <nnsys/g3d/gecom.h>
+#include <nnsys/g3d/binres/res_struct.h>
 
-void func_02015eb8(uint *param_1,uint param_2,undefined4 param_3,uint param_4)
-
+#pragma thumb off
+void NNSi_G3dGetJointScaleBasic (NNSG3dJntAnmResult * pResult, const fx32 * p, const u8 *, u32 srtflag)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  if ((param_4 & 4) == 0) {
-    param_1[1] = *(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-                 *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20;
-    uVar1 = param_2 + 4 & 3;
-    uVar2 = *(uint *)(param_2 + 4 & 0xfffffffc);
-    param_1[2] = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-    uVar1 = param_2 + 8 & 3;
-    uVar2 = *(uint *)(param_2 + 8 & 0xfffffffc);
-    param_1[3] = uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20;
-  }
-  else {
-    *param_1 = *(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-               *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20 | 1;
-  }
-  *param_1 = *(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-             *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20 | 0x18;
-  return;
-}
 
+    NNS_G3D_NULL_ASSERT(pResult);
+
+    if (srtflag & NNS_G3D_SRTFLAG_SCALE_ONE) {
+        pResult->flag |= NNS_G3D_JNTANM_RESULTFLAG_SCALE_ONE;
+    } else {
+        NNS_G3D_NULL_ASSERT(p);
+
+        pResult->scale.x = *(p + 0);
+        pResult->scale.y = *(p + 1);
+        pResult->scale.z = *(p + 2);
+    }
+
+    pResult->flag |= NNS_G3D_JNTANM_RESULTFLAG_SCALEEX0_ONE |
+                     NNS_G3D_JNTANM_RESULTFLAG_SCALEEX1_ONE;
+}

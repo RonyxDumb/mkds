@@ -1,20 +1,33 @@
-/* Decompiled C draft; module arm9; ROM address 02143280. No matching claim. */
-#include "types.h"
-#include "deps/02143280_func_02143280.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMi_CheckInitialized Wm_CheckInitialized
+#define WM_GetAllowedChannel func_02143280
+#include <nitro/wm.h>
 
-undefined2 func_02143280(void)
+#include "wm_arm9_private.h"
 
+#pragma thumb off
+u16 WM_GetAllowedChannel (void)
 {
-  undefined2 uVar1;
-  int iVar2;
-  
-  iVar2 = Wm_CheckInitialized();
-  if (iVar2 == 0) {
-    uVar1 = *puRam021432a8;
-  }
-  else {
-    uVar1 = 0x8000;
-  }
-  return uVar1;
-}
+#ifdef WM_PRECALC_ALLOWEDCHANNEL
+    WMErrCode result;
 
+    result = WMi_CheckInitialized();
+    if (result != WM_ERRCODE_SUCCESS) {
+        return WM_GET_ALLOWED_CHANNEL_BEFORE_INIT;
+    }
+
+    return *((u16 *)((u32)(OS_GetSystemWork()->nvramUserInfo) +
+                     ((sizeof(NVRAMConfig) + 3) & ~0x00000003) + 6));
+#else
+    WMErrCode result;
+    WMArm9Buf * p = WMi_GetSystemWork();
+
+    result = WMi_CheckIdle();
+    if (result != WM_ERRCODE_SUCCESS) {
+        return WM_GET_ALLOWED_CHANNEL_BEFORE_INIT;
+    }
+
+    DC_InvalidateRange(&(p->status->allowedChannel), 2);
+    return p->status->allowedChannel;
+#endif
+}

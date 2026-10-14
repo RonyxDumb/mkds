@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Sound_GetSarcInfoEntry",
+    "target": 34788536,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422922
+  },
+  {
+    "offset": 32,
+    "type": 1,
+    "symbol": "Sound_MaybeGetRawFilePointer",
+    "target": 34787924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422763
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "func_0212f788",
+    "target": 34797448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647922
+  }
+]

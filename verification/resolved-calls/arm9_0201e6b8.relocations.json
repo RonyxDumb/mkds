@@ -1,0 +1,119 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "func_0214d5b8",
+    "target": 34919864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942955963
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Fifo_IsHandlerReady",
+    "target": 34920348,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942956081
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959407981
+  },
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959407980
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "Fifo_IsHandlerReady",
+    "target": 34920348,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942956064
+  },
+  {
+    "offset": 112,
+    "type": 1,
+    "symbol": "Fifo_RegisterHandler",
+    "target": 34920388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942956069
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "Fifo_SendWord",
+    "target": 34920168,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942956002
+  },
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959407950
+  },
+  {
+    "offset": 208,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959407945
+  },
+  {
+    "offset": 224,
+    "type": 2,
+    "symbol": "SDK_data_02173284",
+    "target": 35074692,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074692
+  },
+  {
+    "offset": 228,
+    "type": 2,
+    "symbol": "SDK_data_0201e5ac",
+    "target": 33678764,
+    "thumb": false,
+    "addend": 0,
+    "value": 33678764
+  },
+  {
+    "offset": 232,
+    "type": 2,
+    "symbol": "SDK_data_0201e5a8",
+    "target": 33678760,
+    "thumb": false,
+    "addend": 0,
+    "value": 33678760
+  },
+  {
+    "offset": 236,
+    "type": 2,
+    "symbol": "SDK_data_02173280",
+    "target": 35074688,
+    "thumb": false,
+    "addend": 0,
+    "value": 35074688
+  }
+]

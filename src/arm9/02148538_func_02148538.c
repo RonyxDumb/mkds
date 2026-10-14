@@ -1,103 +1,95 @@
-/* Decompiled C draft; module arm9; ROM address 02148538. No matching claim. */
-#include "types.h"
-#include "deps/02148538_func_02148538.h"
-
-int func_02148538(int param_1,int param_2)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define FX_AtanTable_ SDK_data_021614b4
+#define FX_Atan2 func_02148538
+#include <nitro/fx/fx_trig.h>
+#include <nitro/fx/fx_cp.h>
+#include <nitro/fx/fx_const.h>
+extern const fx16 FX_AtanTable_[128 + 1];
+#pragma thumb off
+fx16 FX_Atan2 (fx32 y, fx32 x)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  if (param_1 < 1) {
-    if (-1 < param_1) {
-      iVar2 = iRam021486fc;
-      if (-1 < param_2) {
-        iVar2 = 0;
-      }
-      return iVar2;
-    }
-    iVar2 = -param_1;
-    iVar3 = iVar2;
-    if (param_2 < 0) {
-      iVar4 = -param_2;
-      if (param_1 == param_2 || iVar4 + param_1 < 0 != SBORROW4(iVar4,iVar2)) {
-        if (iVar2 <= iVar4) {
-          return iRam0214870c;
-        }
-        iVar1 = 0;
-        iVar2 = iVar4;
-        iVar4 = iRam02148708;
-      }
-      else {
-        iVar1 = 1;
-        iVar3 = iVar4;
-        iVar4 = iRam02148704;
-      }
-    }
-    else {
-      if (param_2 < 1) {
-        return iRam02148708;
-      }
-      if (param_2 + param_1 < 0 == SBORROW4(param_2,iVar2)) {
-        if (param_2 <= iVar2) {
-          return -0xc91;
-        }
-        iVar1 = 0;
-        iVar3 = param_2;
-        iVar4 = iVar1;
-      }
-      else {
-        iVar1 = 1;
-        iVar2 = param_2;
-        iVar4 = iRam02148708;
-      }
-    }
-  }
-  else {
-    iVar3 = param_1;
-    iVar4 = iRam021486f4;
-    if (param_2 < 1) {
-      if (-1 < param_2) {
-        return iRam021486f4;
-      }
-      iVar2 = -param_2;
-      if (iVar2 < param_1) {
-        iVar1 = 1;
-      }
-      else {
-        if (iVar2 <= param_1) {
-          return iRam02148700;
-        }
-        iVar1 = 0;
-        iVar3 = iVar2;
-        iVar2 = param_1;
-        iVar4 = iRam021486fc;
-      }
-    }
-    else if (param_1 < param_2) {
-      iVar1 = 1;
-      iVar3 = param_2;
-      iVar2 = param_1;
-      iVar4 = 0;
-    }
-    else {
-      if (param_1 <= param_2) {
-        return iRam021486f8;
-      }
-      iVar1 = 0;
-      iVar2 = param_2;
-    }
-  }
-  if (iVar3 == 0) {
-    return 0;
-  }
-  if (iVar1 != 0) {
-    iVar2 = FX_Div(iVar2);
-    return (iVar4 + *(short *)(iRam02148710 + (iVar2 >> 5) * 2)) * 0x10000 >> 0x10;
-  }
-  iVar2 = FX_Div(iVar2);
-  return (iVar4 - *(short *)(iRam02148710 + (iVar2 >> 5) * 2)) * 0x10000 >> 0x10;
-}
+	fx32 a, b, c;
+	int sgn;
 
+	if (y > 0) {
+		if (x > 0) {
+			if (x > y) {
+				a = y;
+				b = x;
+				c = 0;
+				sgn = 1;
+			} else if (x < y)   {
+				a = x;
+				b = y;
+				c = 6434;
+				sgn = 0;
+			} else {
+				return (fx16)3217;
+			}
+		} else if (x < 0)   {
+			x = -x;
+			if (x < y) {
+				a = x;
+				b = y;
+				c = 6434;
+				sgn = 1;
+			} else if (x > y)   {
+				a = y;
+				b = x;
+				c = 12868;
+				sgn = 0;
+			} else {
+				return (fx16)9651;
+			}
+		} else {
+			return (fx16)6434;
+		}
+	} else if (y < 0)   {
+		y = -y;
+		if (x < 0) {
+			x = -x;
+			if (x > y) {
+				a = y;
+				b = x;
+				c = -12868;
+				sgn = 1;
+			} else if (x < y)   {
+				a = x;
+				b = y;
+				c = -6434;
+				sgn = 0;
+			} else {
+				return (fx16) - 9651;
+			}
+		} else if (x > 0)   {
+			if (x < y) {
+				a = x;
+				b = y;
+				c = -6434;
+				sgn = 1;
+			} else if (x > y)   {
+				a = y;
+				b = x;
+				c = 0;
+				sgn = 0;
+			} else {
+				return (fx16) - 3217;
+			}
+		} else {
+			return (fx16) - 6434;
+		}
+	} else {
+		if (x >= 0) {
+			return 0;
+		} else {
+			return (fx16)12868;
+		}
+	}
+
+	if (b == 0)
+		return 0;
+	if (sgn)
+		return (fx16)(c + FX_AtanTable_[FX_Div(a, b) >> 5]);
+	else
+		return (fx16)(c - FX_AtanTable_[FX_Div(a, b) >> 5]);
+}

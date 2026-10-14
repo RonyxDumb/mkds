@@ -1,26 +1,156 @@
-/* Decompiled C draft; module arm9; ROM address 02017274. No matching claim. */
-#include "types.h"
-#include "deps/02017274_func_02017274.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define NNS_GfdResetLnkPlttVramState func_020170e4
+#define mgr_ SDK_data_02173250
+#define NNS_GfdAllocLnkPlttVram SDK_data_02017190
+#define NNS_GfdDefaultFuncAllocPlttVram SDK_data_021619f4
+#define NNS_GfdFreeLnkPlttVram SDK_data_02017138
+#define NNS_GfdDefaultFuncFreePlttVram SDK_data_021619f8
+#define NNS_GfdInitLnkPlttVramManager func_02017274
+#include <nnsys/gfd/gfd_common.h>
+#include <nnsys/gfd/VramManager/gfd_LinkedListPlttVramMan.h>
+#include "gfdi_LinkedListVramMan_Common.h"
 
-void func_02017274(undefined4 param_1,undefined4 param_2,undefined4 param_3,int param_4)
+#define GFD_SLOT_SIZE        0x18000
+#define NNS_GFD_BARPLTT_FREE_ERROR_INVALID_SIZE 1
 
+typedef struct NNS_GfdLnkPlttVramManager {
+    NNSiGfdLnkVramMan mgr;
+    NNSiGfdLnkVramBlock * pBlockPoolList;
+    u32 szByte;
+    NNSiGfdLnkVramBlock * pWorkHead;
+    u32 szByteManagementWork;
+} NNS_GfdLnkPlttVramManager;
+
+static NNS_GfdLnkPlttVramManager mgr_;
+
+void NNS_GfdDumpLnkPlttVramManager (void)
 {
-  int iVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  
-  iVar1 = iRam020172bc;
-  *(undefined4 *)(iRam020172bc + 8) = param_1;
-  *(undefined4 *)(iVar1 + 0xc) = param_2;
-  *(undefined4 *)(iVar1 + 0x10) = param_3;
-  func_020170e4();
-  puVar3 = puRam020172cc;
-  uVar2 = uRam020172c8;
-  if (param_4 != 0) {
-    *puRam020172c4 = uRam020172c0;
-    *puVar3 = uVar2;
-    return;
-  }
-  return;
+    OS_Printf("=== NNS_Gfd LnkPlttVramManager Dump ===\n");
+    OS_Printf("   address:        size    \n");
+    OS_Printf("=======================================\n");
+
+    OS_Printf("------ Free Blocks                -----\n");
+
+    NNSi_GfdDumpLnkVramManFreeListInfo(mgr_.mgr.pFreeList, mgr_.szByte);
+
+    OS_Printf("=======================================\n");
 }
 
+void NNS_GfdDumpLnkPlttVramManagerEx (NNSGfdLnkDumpCallBack pFunc, void * pUserData)
+{
+    NNS_GFD_NULL_ASSERT(pFunc);
+    NNSi_GfdDumpLnkVramManFreeListInfoEx(mgr_.mgr.pFreeList, pFunc, pUserData);
+}
+
+u32 NNS_GfdGetLnkPlttVramManagerWorkSize (u32 numMemBlk)
+{
+    return numMemBlk * sizeof(NNSiGfdLnkVramBlock);
+}
+
+void NNS_GfdInitLnkPlttVramManager (u32 szByte, void * pManagementWork, u32 szByteManagementWork, BOOL useAsDefault)
+{
+    NNS_GFD_ASSERT(szByte <= GFD_SLOT_SIZE);
+    NNS_GFD_NULL_ASSERT(pManagementWork);
+    NNS_GFD_ASSERT(szByteManagementWork != 0);
+
+    {
+        mgr_.szByte = szByte;
+        mgr_.pWorkHead = pManagementWork;
+        mgr_.szByteManagementWork = szByteManagementWork;
+
+        NNS_GfdResetLnkPlttVramState();
+
+        if ( useAsDefault ) {
+            NNS_GfdDefaultFuncAllocPlttVram = NNS_GfdAllocLnkPlttVram;
+            NNS_GfdDefaultFuncFreePlttVram = NNS_GfdFreeLnkPlttVram;
+        }
+    }
+}
+
+NNSGfdPlttKey NNS_GfdAllocLnkPlttVram (u32 szByte, BOOL b4Pltt, u32 opt)
+{
+#pragma unused(opt)
+    u32 addr;
+    BOOL result;
+
+    {
+        szByte = NNSi_GfdGetPlttKeyRoundupSize(szByte);
+
+        if ( szByte >= NNS_GFD_PLTTSIZE_MAX ) {
+            NNS_GFD_WARNING("Allocation size is too big. : NNS_GfdAllocLnkPlttVram()");
+            return NNS_GFD_ALLOC_ERROR_PLTTKEY;
+        }
+
+        NNS_GFD_MINMAX_ASSERT(szByte, NNS_GFD_PLTTSIZE_MIN, NNS_GFD_PLTTSIZE_MAX);
+    }
+
+    if ( b4Pltt ) {
+        result = NNSi_GfdAllocLnkVramAligned(&mgr_.mgr,
+                                             &mgr_.pBlockPoolList,
+                                             &addr,
+                                             szByte,
+                                             0x08);
+
+        if ( addr + szByte > NNS_GFD_4PLTT_MAX_ADDR ) {
+            if ( !NNSi_GfdFreeLnkVram(&mgr_.mgr,
+                                      &mgr_.pBlockPoolList,
+                                      addr,
+                                      szByte)) {
+
+            }
+
+            return NNS_GFD_ALLOC_ERROR_PLTTKEY;
+        }
+    } else {
+        result = NNSi_GfdAllocLnkVramAligned(&mgr_.mgr,
+                                             &mgr_.pBlockPoolList,
+                                             &addr,
+                                             szByte,
+                                             0x10);
+    }
+
+    if ( result ) {
+        return NNS_GfdMakePlttKey(addr, szByte);
+    } else {
+        NNS_GFD_WARNING("failure in Vram Allocation. : NNS_GfdAllocLnkPlttVram()");
+        return NNS_GFD_ALLOC_ERROR_PLTTKEY;
+    }
+}
+
+int NNS_GfdFreeLnkPlttVram (NNSGfdPlttKey plttKey)
+{
+    const u32 addr = NNS_GfdGetPlttKeyAddr(plttKey);
+    const u32 szByte = NNS_GfdGetPlttKeySize(plttKey);
+
+    const BOOL result = NNSi_GfdFreeLnkVram(&mgr_.mgr,
+                                            &mgr_.pBlockPoolList,
+                                            addr,
+                                            szByte);
+
+    if ( result ) {
+        return 0;
+    } else {
+        return NNS_GFD_BARPLTT_FREE_ERROR_INVALID_SIZE;
+    }
+}
+
+void NNS_GfdResetLnkPlttVramState (void)
+{
+    mgr_.pBlockPoolList
+        = NNSi_GfdInitLnkVramBlockPool(
+              (NNSiGfdLnkVramBlock *)mgr_.pWorkHead,
+              mgr_.szByteManagementWork / sizeof(NNSiGfdLnkVramBlock));
+
+    {
+        BOOL result;
+        NNSi_GfdInitLnkVramMan(&mgr_.mgr);
+
+        result = NNSi_GfdAddNewFreeBlock(&mgr_.mgr,
+                                         &mgr_.pBlockPoolList,
+                                         0,
+                                         mgr_.szByte);
+        NNS_GFD_ASSERT(result);
+    }
+
+    NNSi_GfdMergeAllFreeBlocks(&mgr_.mgr, &mgr_.pBlockPoolList);
+}

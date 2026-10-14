@@ -1,36 +1,52 @@
-/* Decompiled C draft; module arm9; ROM address 0214a840. No matching claim. */
-#include "types.h"
-#include "deps/0214a840_G3X_ResetMatrixStack2.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define G3X_ResetMtxStack G3X_ResetMatrixStack2
+#include <nitro/gx/g3x.h>
+#include <nitro/gx/g3imm.h>
+#include <nitro/gx/gx.h>
+#include <nitro/gx/gx_bgcnt.h>
+#include <nitro/hw/ARM9/ioreg_GX.h>
+#include <nitro/hw/ARM9/ioreg_G3.h>
+#include <nitro/hw/ARM9/ioreg_G2.h>
+#include <nitro/fx/fx_const.h>
+#include <nitro/mi/dma.h>
+#include <nitro/mi/memory.h>
 
-void G3X_ResetMatrixStack2(void)
+#include "gxasm.h"
 
+#include <nitro/code32.h>
+
+#include <nitro/codereset.h>
+extern int G3X_GetMtxStackLevelPV (s32 *level);
+extern int G3X_GetMtxStackLevelPJ (s32 *level);
+#pragma thumb off
+void G3X_ResetMtxStack (void)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  int local_10;
-  int local_c;
-  
-  *puRam0214a8dc =
-       *(uint *)((uint)puRam0214a8dc & 0xfffffffc) >> ((uint)puRam0214a8dc & 3) * 8 |
-       *(uint *)((uint)puRam0214a8dc & 0xfffffffc) << ((uint)puRam0214a8dc & 3) * -8 + 0x20 | 0x8000
-  ;
-  do {
-    iVar2 = G3X_GetMtxStackLevelPV(&local_10);
-  } while (iVar2 != 0);
-  do {
-    iVar2 = G3X_GetMtxStackLevelPJ(&local_c);
-    puVar1 = puRam0214a8e0;
-  } while (iVar2 != 0);
-  *puRam0214a8e0 = 3;
-  *puRam0214a8e4 = 0;
-  *puVar1 = 0;
-  if (local_c != 0) {
-    *piRam0214a8e8 = local_c;
-  }
-  *puRam0214a8e0 = 2;
-  puVar1 = puRam0214a8e4;
-  *piRam0214a8e8 = local_10;
-  *puVar1 = 0;
-  return;
-}
+	s32 levelPV;
+	s32 levelPJ;
+#ifdef SDK_DEBUG
+	{
+		GXPower power = GX_GetPower();
+		SDK_WARNING(power & GX_POWER_GE, "GX_POWER_GE is off now, registers for it not changes.");
+	}
+#endif
+	G3X_ResetMtxStackOverflow();
 
+	while (G3X_GetMtxStackLevelPV(&levelPV))
+		;
+
+	while (G3X_GetMtxStackLevelPJ(&levelPJ))
+		;
+
+	G3_MtxMode(GX_MTXMODE_TEXTURE);
+	G3_Identity();
+	G3_MtxMode(GX_MTXMODE_PROJECTION);
+
+	if (levelPJ != 0) {
+		G3_PopMtx(levelPJ);
+	}
+
+	G3_MtxMode(GX_MTXMODE_POSITION_VECTOR);
+	G3_PopMtx(levelPV);
+	G3_Identity();
+
+}

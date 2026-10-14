@@ -1,34 +1,38 @@
-/* Decompiled C draft; module arm9; ROM address 02023244. No matching claim. */
-#include "types.h"
-#include "deps/02023244_func_02023244.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G2dMapScrToChar256x16Pltt func_02023244
+#include <nitro.h>
 
-void func_02023244(ushort *param_1,int param_2,int param_3,int param_4,ushort param_5,int param_6)
+#include <nnsys/g2d/g2d_CharCanvas.h>
+#include <nnsys/g2d/fmt/g2d_Oam_data.h>
+#include <nnsys/g2d/g2d_config.h>
 
+#include "g2di_BitReader.h"
+
+#pragma thumb off
+void NNS_G2dMapScrToChar256x16Pltt (void * areaBase, int areaWidth, int areaHeight, NNSG2d256x16PlttBGWidth scnWidth, int charNo, int cplt)
 {
-  ushort uVar1;
-  ushort *puVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar3 = 0;
-  if (param_3 < 1) {
-    return;
-  }
-  do {
-    puVar2 = param_1;
-    iVar4 = 0;
-    if (0 < param_2) {
-      do {
-        uVar1 = (ushort)((uint)(param_6 << 0x1c) >> 0x10) | param_5;
-        iVar4 = iVar4 + 1;
-        param_5 = param_5 + 1;
-        *puVar2 = uVar1;
-        puVar2 = puVar2 + 1;
-      } while (iVar4 < param_2);
-    }
-    iVar3 = iVar3 + 1;
-    param_1 = param_1 + param_4;
-  } while (iVar3 < param_3);
-  return;
-}
+    u16 * pScrBase;
+    int x, y;
+    const u16 cplt_sft = (u16)(cplt << 12);
 
+    NNS_G2D_POINTER_ASSERT(areaBase);
+    NNS_G2D_ALIGN_ASSERT(areaBase, 2);
+    NNS_G2D_ASSERT(0 < areaWidth);
+    NNS_G2D_ASSERT(0 < areaHeight);
+    NNS_G2D_ASSERT(areaHeight <= MAX_256x16PLTT_BG_CHEIGHT);
+    NNS_G2D_256x16PLTT_BG_WIDTH_ASSERT(scnWidth);
+    NNS_G2D_ASSERT(areaWidth <= scnWidth);
+    NNS_G2D_ASSERT(0 <= charNo);
+    NNS_G2D_ASSERT(charNo + (areaHeight * areaWidth) <= MAX_256x16PLTT_BG_CHARACTER);
+    NNS_G2D_MINMAX_ASSERT(cplt, 0, 15);
+
+    pScrBase = areaBase;
+
+    for (y = 0; y < areaHeight; ++y) {
+        u16 * pScr = pScrBase;
+        for (x = 0; x < areaWidth; ++x) {
+            *pScr++ = (u16)(cplt_sft | charNo++);
+        }
+        pScrBase += scnWidth;
+    }
+}

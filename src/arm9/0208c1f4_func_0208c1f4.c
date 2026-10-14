@@ -1,12 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 0208c1f4. No matching claim. */
-#include "types.h"
-#include "deps/0208c1f4_func_0208c1f4.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define CTRDGi_EraseAgbFlashChipAsync SDK_data_0217b070
+#define CTRDG_EraseAgbFlashChipAsync func_0208c1f4
+#include <nitro.h>
 
-void func_0208c1f4(void)
-
+#pragma thumb off
+void CTRDG_EraseAgbFlashChipAsync (CTRDG_TASK_FUNC callback)
 {
-  (*(code *)(*(uint *)(uRam0208c214 & 0xfffffffc) >> (uRam0208c214 & 3) * 8 |
-            *(uint *)(uRam0208c214 & 0xfffffffc) << (uRam0208c214 & 3) * -8 + 0x20))();
-  return;
+	(*CTRDGi_EraseAgbFlashChipAsync)(callback);
 }
-

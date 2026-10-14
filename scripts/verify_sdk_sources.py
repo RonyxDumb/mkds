@@ -49,7 +49,7 @@ def function_source(text, name):
         depth += (clean[end] == '{') - (clean[end] == '}'); end += 1
     if depth: return None
     source = text[start:end]
-    if re.search(r'\b(?:asm|__asm|__asm__)\b', source): return None
+    if re.search(r'\b(?:asm|__asm|__asm__)\b', clean[start:end]): return None
     source = re.sub(r'^\s*static\s+', '', source)
     return source
 
@@ -60,7 +60,8 @@ def save_registry(path, rows):
     tmp.replace(path)
 
 accepted = 0; tested = 0; errors = []
-for obj in sorted((root / config.get('object_directory', 'build/sdk')).glob('*.o')):
+for object_index, obj in enumerate(sorted((root / config.get('object_directory', 'build/sdk')).glob('*.o')), 1):
+    if object_index % 50 == 0: print('Objects', object_index, 'new matches', accepted, flush=True)
     if object_manifest and obj.name not in object_manifest: continue
     paths = [donor / object_manifest[obj.name]['source']] if obj.name in object_manifest else [p for folder in ['arm9/lib/NitroSDK/src', 'arm9/lib/libnns/src', 'arm9/lib/syscall'] for p in (donor / folder).rglob(obj.stem + '.c')]
     if len(paths) != 1: continue

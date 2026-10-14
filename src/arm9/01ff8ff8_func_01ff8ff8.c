@@ -1,30 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 01ff8ff8. No matching claim. */
-#include "types.h"
-#include "deps/01ff8ff8_func_01ff8ff8.h"
-
-void func_01ff8ff8(uint param_1)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G3dFuncSbcTable SDK_data_0216196c
+#define G3dDrawInternal_Loop_ func_01ff8ff8
+#include <nnsys/g3d/sbc.h>
+#include <nnsys/g3d/kernel.h>
+#include <nnsys/g3d/binres/res_struct.h>
+#include <nnsys/g3d/glbstate.h>
+#include <nnsys/g3d/gecom.h>
+#include <nnsys/g3d/binres/res_struct_accessor.h>
+#include <nnsys/g3d/util.h>
+extern NNSG3dFuncSbc NNS_G3dFuncSbcTable[NNS_G3D_SBC_COMMAND_NUM];
+#pragma thumb off
+void G3dDrawInternal_Loop_ (NNSG3dRS * pRS)
 {
-  int iVar1;
-  uint uVar2;
-  uint uVar3;
-  uint uVar4;
-  uint *puVar5;
-  
-  iVar1 = iRam01ff9044;
-  puVar5 = (uint *)(param_1 + 8);
-  do {
-    *puVar5 = (*(uint *)((uint)puVar5 & 0xfffffffc) >> ((uint)puVar5 & 3) * 8 |
-              *(uint *)((uint)puVar5 & 0xfffffffc) << ((uint)puVar5 & 3) * -8 + 0x20) & 0xffffffbf;
-    uVar4 = (uint)*(byte *)(*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-                           *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20);
-    uVar3 = iVar1 + (uVar4 & 0x1f) * 4;
-    uVar2 = uVar3 & 3;
-    uVar3 = *(uint *)(uVar3 & 0xfffffffc);
-    (*(code *)(uVar3 >> uVar2 * 8 | uVar3 << uVar2 * -8 + 0x20))(param_1,uVar4 & 0xe0);
-    uVar3 = param_1 + 8 & 3;
-    uVar2 = *(uint *)(param_1 + 8 & 0xfffffffc);
-  } while (((uVar2 >> uVar3 * 8 | uVar2 << uVar3 * -8 + 0x20) & 0x20) == 0);
-  return;
-}
+    do {
+        pRS->flag &= ~NNS_G3D_RSFLAG_SKIP;
+        NNS_G3D_ASSERTMSG(NNS_G3dFuncSbcTable[NNS_G3D_GET_SBCCMD(*pRS->c)],
+                          "SBC command not found / disabled.");
 
+        (*NNS_G3dFuncSbcTable[NNS_G3D_GET_SBCCMD(*pRS->c)])
+            (pRS, NNS_G3D_GET_SBCFLG(*pRS->c));
+    }
+    while (!(pRS->flag & NNS_G3D_RSFLAG_RETURN));
+}

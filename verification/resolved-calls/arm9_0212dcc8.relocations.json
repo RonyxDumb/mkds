@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "Mem_Frame_Create",
+    "target": 33652960,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959138545
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Sound_Context_SetHeap",
+    "target": 34789852,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422760
+  },
+  {
+    "offset": 136,
+    "type": 1,
+    "symbol": "Mem_Frame_Finalize",
+    "target": 33652948,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959138527
+  }
+]

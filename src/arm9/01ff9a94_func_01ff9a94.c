@@ -1,40 +1,58 @@
-/* Decompiled C draft; module arm9; ROM address 01ff9a94. No matching claim. */
-#include "types.h"
-#include "deps/01ff9a94_func_01ff9a94.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G3dGeBufferOP_N func_01ff9048
+#define NNSi_G3dSendJointSRTMaya func_01ff9a94
+#include <nnsys/g3d/cgtool/maya.h>
+#include <nnsys/g3d/kernel.h>
+#include <nnsys/g3d/gecom.h>
+#include <nnsys/g3d/sbc.h>
+#include <nnsys/g3d/util.h>
 
-void func_01ff9a94(uint param_1)
+#include <nitro/code32.h>
+#include <nitro/codereset.h>
 
+#pragma thumb off
+void NNSi_G3dSendJointSRTMaya (const NNSG3dJntAnmResult * result)
 {
-  uint uVar1;
-  bool bVar2;
-  
-  uVar1 = *(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-          *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20;
-  bVar2 = (uVar1 & 4) == 0;
-  if (((uVar1 & 0x20) != 0) && ((uVar1 & 8) == 0)) {
-    if (bVar2) {
-      func_01ff9048(0x1c,param_1 + 0x4c,3);
-    }
-    bVar2 = false;
-    func_01ff9048(0x1b,param_1 + 0x10,3);
-  }
-  if (((*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-       *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) & 2) == 0) {
-    if (bVar2) {
-      func_01ff9048(0x19,param_1 + 0x28,0xc);
-    }
-    else {
-      func_01ff9048(0x1a,param_1 + 0x28,9);
-    }
-  }
-  else if (bVar2) {
-    func_01ff9048(0x1c,param_1 + 0x4c,3);
-  }
-  if (((*(uint *)(param_1 & 0xfffffffc) >> (param_1 & 3) * 8 |
-       *(uint *)(param_1 & 0xfffffffc) << (param_1 & 3) * -8 + 0x20) & 1) == 0) {
-    func_01ff9048(0x1b,param_1 + 4,3);
-    return;
-  }
-  return;
-}
+    BOOL trFlag = FALSE;
 
+    if (!(result->flag & NNS_G3D_JNTANM_RESULTFLAG_TRANS_ZERO)) {
+        trFlag = TRUE;
+    }
+
+    if ((result->flag & NNS_G3D_JNTANM_RESULTFLAG_MAYA_SSC) &&
+        !(result->flag & NNS_G3D_JNTANM_RESULTFLAG_SCALEEX0_ONE)) {
+        if (trFlag) {
+            NNS_G3dGeBufferOP_N(G3OP_MTX_TRANS,
+                                (u32 *)&result->trans.x,
+                                G3OP_MTX_TRANS_NPARAMS);
+            trFlag = FALSE;
+        }
+        NNS_G3dGeBufferOP_N(G3OP_MTX_SCALE,
+                            (u32 *)&result->scaleEx0.x,
+                            G3OP_MTX_SCALE_NPARAMS);
+    }
+
+    if (!(result->flag & NNS_G3D_JNTANM_RESULTFLAG_ROT_ZERO)) {
+        if (trFlag) {
+            NNS_G3dGeBufferOP_N(G3OP_MTX_MULT_4x3,
+                                (u32 *)&result->rot._00,
+                                G3OP_MTX_MULT_4x3_NPARAMS);
+        } else {
+            NNS_G3dGeBufferOP_N(G3OP_MTX_MULT_3x3,
+                                (u32 *)&result->rot._00,
+                                G3OP_MTX_MULT_3x3_NPARAMS);
+        }
+    } else {
+        if (trFlag) {
+            NNS_G3dGeBufferOP_N(G3OP_MTX_TRANS,
+                                (u32 *)&result->trans.x,
+                                G3OP_MTX_TRANS_NPARAMS);
+        }
+    }
+
+    if (!(result->flag & NNS_G3D_JNTANM_RESULTFLAG_SCALE_ONE)) {
+        NNS_G3dGeBufferOP_N(G3OP_MTX_SCALE,
+                            (u32 *)&result->scale.x,
+                            G3OP_MTX_SCALE_NPARAMS);
+    }
+}

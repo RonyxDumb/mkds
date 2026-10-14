@@ -1,28 +1,31 @@
-/* Decompiled C draft; module arm9; ROM address 01ff94d4. No matching claim. */
-#include "types.h"
-#include "deps/01ff94d4_func_01ff94d4.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define texmtxCalc_flagTS_ func_01ff94d4
+#include <nnsys/g3d/cgtool/maya.h>
+#include <nnsys/g3d/kernel.h>
+#include <nnsys/g3d/gecom.h>
+#include <nnsys/g3d/sbc.h>
+#include <nnsys/g3d/util.h>
 
-void func_01ff94d4(int *param_1,int param_2)
+#include <nitro/code32.h>
+#include <nitro/codereset.h>
 
+#pragma thumb off
+void texmtxCalc_flagTS_ (MtxFx44 * m, const NNSG3dMatAnmResult * anm)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar3 = (uint)*(ushort *)(param_2 + 0x2c) << 0xc;
-  iVar1 = (uint)*(ushort *)(param_2 + 0x2e) << 0xc;
-  FX_DivAsync(iVar1,iVar3);
-  *param_1 = (int)*(short *)(param_2 + 0x22);
-  param_1[5] = (int)*(short *)(param_2 + 0x22);
-  iVar2 = FX_GetDivResult();
-  param_1[1] = -(int)*(short *)(param_2 + 0x20) * iVar2 >> 0xc;
-  FX_DivAsync(iVar3,iVar1);
-  param_1[0xc] = (uint)*(ushort *)(param_2 + 0x2c) *
-                 (0x1000 - ((int)*(short *)(param_2 + 0x20) + (int)*(short *)(param_2 + 0x22))) * 8;
-  param_1[0xd] = (uint)*(ushort *)(param_2 + 0x2e) *
-                 (((int)*(short *)(param_2 + 0x20) - (int)*(short *)(param_2 + 0x22)) + 0x1000) * 8;
-  iVar3 = FX_GetDivResult();
-  param_1[4] = *(short *)(param_2 + 0x20) * iVar3 >> 0xc;
-  return;
-}
+    fx32 tmpW, tmpH;
 
+    tmpW = (s32)anm->origWidth << FX32_SHIFT;
+    tmpH = (s32)anm->origHeight << FX32_SHIFT;
+    FX_DivAsync(tmpH, tmpW);
+
+    m->_00 = anm->cosR;
+    m->_11 = anm->cosR;
+
+    m->_01 = -anm->sinR * FX_GetDivResult() >> FX32_SHIFT;
+    FX_DivAsync(tmpW, tmpH);
+
+    m->_30 = ((-anm->sinR - anm->cosR + FX32_ONE) * anm->origWidth << 3);
+    m->_31 = ((anm->sinR - anm->cosR + FX32_ONE) * anm->origHeight << 3);
+
+    m->_10 = anm->sinR * FX_GetDivResult() >> FX32_SHIFT;
+}

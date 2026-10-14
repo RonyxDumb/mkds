@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959128960
+  },
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_NextItem",
+    "target": 33649468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959136547
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_NextItem",
+    "target": 33649468,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959136542
+  },
+  {
+    "offset": 76,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_RemoveItem",
+    "target": 33649492,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959136541
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "func_0212ee54",
+    "target": 34795092,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422939
+  },
+  {
+    "offset": 104,
+    "type": 1,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959128942
+  }
+]

@@ -1,20 +1,14 @@
-/* Decompiled C draft; module arm9; ROM address 02010f74. No matching claim. */
-#include "types.h"
-#include "deps/02010f74_func_02010f74.h"
-
-void func_02010f74(uint param_1,int param_2,int param_3)
-
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define NNS_G3dGlb SDK_data_0217029c
+#define NNS_G3dGlbMaterialColorDiffAmb func_02010f74
+#include <nnsys/g3d/glbstate.h>
+#include <nnsys/g3d/gecom.h>
+extern NNSG3dGlb NNS_G3dGlb;
+#pragma thumb off
+void NNS_G3dGlbMaterialColorDiffAmb (GXRgb diffuse, GXRgb ambient, BOOL IsSetVtxColor)
 {
-  bool bVar1;
-  
-  bVar1 = param_3 != 0;
-  if (bVar1) {
-    param_3 = 1;
-  }
-  if (!bVar1) {
-    param_3 = 0;
-  }
-  *(uint *)(iRam02010f94 + 0x94) = param_1 | param_2 << 0x10 | param_3 << 0xf;
-  return;
-}
+    GXRGB_ASSERT(diffuse);
+    GXRGB_ASSERT(ambient);
 
+    NNS_G3dGlb.prmMatColor0 = GX_PACK_DIFFAMB_PARAM(diffuse, ambient, IsSetVtxColor);
+}

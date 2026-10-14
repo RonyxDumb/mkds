@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "func_02142a30",
+    "target": 34875952,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420243
+  },
+  {
+    "offset": 52,
+    "type": 1,
+    "symbol": "SetSomeFunctionPtr",
+    "target": 34876428,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420355
+  },
+  {
+    "offset": 84,
+    "type": 1,
+    "symbol": "WM_SomeFn",
+    "target": 34876088,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420262
+  }
+]

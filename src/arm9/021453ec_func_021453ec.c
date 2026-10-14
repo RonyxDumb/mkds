@@ -1,21 +1,24 @@
-/* Decompiled C draft; module arm9; ROM address 021453ec. No matching claim. */
-#include "types.h"
-#include "deps/021453ec_func_021453ec.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define WMi_CheckStateEx func_02142988
+#define WMi_SetCallbackTable SetSomeFunctionPtr
+#define WMi_SendCommand WM_SomeFn
+#define WM_SetEntry func_021453ec
+#include <nitro/wm.h>
 
-int func_021453ec(undefined4 param_1,undefined4 param_2)
+#include "wm_arm9_private.h"
 
+#pragma thumb off
+WMErrCode WM_SetEntry (WMCallbackFunc callback, BOOL enabled)
 {
-  int iVar1;
-  
-  iVar1 = func_02142988(2,7,9);
-  if (iVar1 == 0) {
-    SetSomeFunctionPtr(0x21,param_1);
-    iVar1 = WM_SomeFn(0x21,1,param_2);
-    if (iVar1 == 0) {
-      iVar1 = 2;
-    }
-    return iVar1;
-  }
-  return iVar1;
-}
+    WMErrCode result;
 
+    result = WMi_CheckStateEx(2, WM_STATE_PARENT, WM_STATE_MP_PARENT);
+    WM_CHECK_RESULT(result);
+
+    WMi_SetCallbackTable(WM_APIID_SET_ENTRY, callback);
+
+    result = WMi_SendCommand(WM_APIID_SET_ENTRY, 1, (u32)enabled);
+    WM_CHECK_RESULT(result);
+
+    return WM_ERRCODE_OPERATING;
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "Sound_Context_DisposeLoadedStuff",
+    "target": 34790380,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422924
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "Mem_Frame_Finalize",
+    "target": 33652948,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959138564
+  }
+]

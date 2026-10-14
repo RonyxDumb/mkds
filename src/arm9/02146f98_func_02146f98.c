@@ -1,61 +1,64 @@
-/* Decompiled C draft; module arm9; ROM address 02146f98. No matching claim. */
-#include "types.h"
-#include "deps/02146f98_func_02146f98.h"
+/* SDK C reconstruction; complete local bytes verified. Full ROM remains unverified. */
+#define MTX_RotAxis33 func_02146f98
+#include <nitro/code32.h>
 
-void func_02146f98(int *param_1,uint param_2,int param_3,int param_4)
+#include <nitro/fx/fx_mtx33.h>
+#include <nitro/fx/fx_const.h>
+#include <nitro/fx/fx_cp.h>
 
+#include <nitro/code16.h>
+
+#include <nitro/code32.h>
+
+#include <nitro/code16.h>
+
+#include <nitro/code32.h>
+#include <nitro/code16.h>
+
+#include <nitro/code32.h>
+#include <nitro/code16.h>
+
+#include <nitro/code32.h>
+
+#include <nitro/codereset.h>
+
+#pragma thumb off
+void MTX_RotAxis33 (MtxFx33 *pDst, const VecFx32 *vec, fx32 sinVal, fx32 cosVal)
 {
-  ulonglong uVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  longlong lVar4;
-  uint uVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar9;
-  uint uVar10;
-  uint uVar11;
-  uint uVar8;
-  
-  uVar9 = *(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-          *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20;
-  uVar5 = param_2 + 4 & 3;
-  uVar7 = *(uint *)(param_2 + 4 & 0xfffffffc);
-  uVar8 = uVar7 >> uVar5 * 8 | uVar7 << uVar5 * -8 + 0x20;
-  uVar5 = param_2 + 8 & 3;
-  uVar7 = *(uint *)(param_2 + 8 & 0xfffffffc);
-  uVar6 = uVar7 >> uVar5 * 8 | uVar7 << uVar5 * -8 + 0x20;
-  uVar1 = (longlong)(int)uVar9 * (longlong)(int)uVar9;
-  uVar5 = 0x1000 - param_4;
-  uVar2 = (longlong)(int)uVar5 * (longlong)(int)uVar9;
-  lVar3 = (uVar2 & 0xffffffff) * (ulonglong)uVar8;
-  lVar4 = (uVar1 & 0xffffffff) * (ulonglong)uVar5;
-  uVar10 = (uint)((longlong)param_3 * (longlong)(int)uVar9) >> 0xc |
-           (int)((ulonglong)((longlong)param_3 * (longlong)(int)uVar9) >> 0x20) << 0x14;
-  *param_1 = ((uint)lVar4 >> 0x18 |
-             (((int)uVar5 >> 0x1f) * (int)uVar1 +
-             uVar5 * (int)(uVar1 >> 0x20) + (int)((ulonglong)lVar4 >> 0x20)) * 0x100) + param_4;
-  uVar11 = (uint)lVar3 >> 0x18 |
-           (((int)uVar8 >> 0x1f) * (int)uVar2 +
-           uVar8 * (int)(uVar2 >> 0x20) + (int)((ulonglong)lVar3 >> 0x20)) * 0x100;
-  lVar3 = (longlong)(int)uVar8 * (longlong)(int)uVar8 * (longlong)(int)uVar5;
-  param_1[4] = ((uint)lVar3 >> 0x18 | (int)((ulonglong)lVar3 >> 0x20) * 0x100) + param_4;
-  lVar3 = (longlong)(int)uVar6 * (longlong)(int)uVar6 * (longlong)(int)uVar5;
-  param_1[8] = ((uint)lVar3 >> 0x18 | (int)((ulonglong)lVar3 >> 0x20) * 0x100) + param_4;
-  uVar9 = (uint)((longlong)param_3 * (longlong)(int)uVar8) >> 0xc |
-          (int)((ulonglong)((longlong)param_3 * (longlong)(int)uVar8) >> 0x20) << 0x14;
-  uVar7 = (uint)((longlong)param_3 * (longlong)(int)uVar6) >> 0xc |
-          (int)((ulonglong)((longlong)param_3 * (longlong)(int)uVar6) >> 0x20) << 0x14;
-  param_1[1] = uVar11 + uVar7;
-  param_1[3] = uVar11 - uVar7;
-  uVar7 = (uint)(uVar2 * (longlong)(int)uVar6) >> 0x18 |
-          (int)(uVar2 * (longlong)(int)uVar6 >> 0x20) * 0x100;
-  param_1[2] = uVar7 - uVar9;
-  param_1[6] = uVar7 + uVar9;
-  lVar3 = (longlong)(int)uVar5 * (longlong)(int)uVar8 * (longlong)(int)uVar6;
-  uVar5 = (uint)lVar3 >> 0x18 | (int)((ulonglong)lVar3 >> 0x20) * 0x100;
-  param_1[5] = uVar5 + uVar10;
-  param_1[7] = uVar5 - uVar10;
-  return;
-}
+	fx64 t, ss, cc, xx, yy, zz;
+	fx32 t01;
+	fx32 s2;
+	SDK_NULL_ASSERT(pDst);
+	SDK_NULL_ASSERT(vec);
 
+	t = (fx64)(FX32_ONE - (fx32)cosVal);
+	ss = (fx64)sinVal;
+	cc = (fx64)cosVal;
+	xx = (fx64)vec->x;
+	yy = (fx64)vec->y;
+	zz = (fx64)vec->z;
+
+	t01 = (fx32)((xx * xx * t) >> (FX64_SHIFT + FX64_SHIFT));
+	pDst->_00 = t01 + cosVal;
+
+	t01 = (fx32)((yy * yy * t) >> (FX64_SHIFT + FX64_SHIFT));
+	pDst->_11 = t01 + cosVal;
+
+	t01 = (fx32)((zz * zz * t) >> (FX64_SHIFT + FX64_SHIFT));
+	pDst->_22 = t01 + cosVal;
+
+	t01 = (fx32)((t * xx * yy) >> (FX64_SHIFT + FX64_SHIFT));
+	s2 = (fx32)((ss * zz) >> FX64_SHIFT);
+	pDst->_01 = t01 + s2;
+	pDst->_10 = t01 - s2;
+
+	t01 = (fx32)((t * xx * zz) >> (FX64_SHIFT + FX64_SHIFT));
+	s2 = (fx32)((ss * yy) >> FX64_SHIFT);
+	pDst->_02 = t01 - s2;
+	pDst->_20 = t01 + s2;
+
+	t01 = (fx32)((t * yy * zz) >> (FX64_SHIFT + FX64_SHIFT));
+	s2 = (fx32)((ss * xx) >> FX64_SHIFT);
+	pDst->_12 = t01 + s2;
+	pDst->_21 = t01 - s2;
+}

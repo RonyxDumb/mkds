@@ -1,31 +1,32 @@
-/* Decompiled C draft; module arm9; ROM address 020247fc. No matching claim. */
-#include "types.h"
-#include "deps/020247fc_func_020247fc.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define NNSi_G2dBitReaderRead func_020247fc
+#include <nnsys/g2d/g2d_config.h>
 
-uint func_020247fc(undefined4 *param_1,int param_2)
+#include "g2di_BitReader.h"
 
+static NNS_G2D_INLINE void BitReaderReload (NNSiG2dBitReader * reader)
 {
-  byte bVar1;
-  uint uVar2;
-  int iVar3;
-  undefined1 *puVar4;
-  
-  iVar3 = (int)*(char *)(param_1 + 1);
-  bVar1 = *(byte *)((int)param_1 + 5);
-  if (iVar3 < param_2) {
-    puVar4 = (undefined1 *)
-             (*(uint *)((uint)param_1 & 0xfffffffc) >> ((uint)param_1 & 3) * 8 |
-             *(uint *)((uint)param_1 & 0xfffffffc) << ((uint)param_1 & 3) * -8 + 0x20);
-    *param_1 = puVar4 + 1;
-    *(undefined1 *)((int)param_1 + 5) = *puVar4;
-    *(undefined1 *)(param_1 + 1) = 8;
-    uVar2 = func_020247fc();
-    uVar2 = uVar2 | (uint)bVar1 << (param_2 - iVar3 & 0xffU);
-  }
-  else {
-    uVar2 = (uint)(bVar1 >> (iVar3 - param_2 & 0xffU));
-    *(char *)(param_1 + 1) = (char)(iVar3 - param_2);
-  }
-  return uVar2 & 0xff >> (8U - param_2 & 0xff);
+    reader->bits = *(reader->src)++;
+    reader->availableBits = 8;
 }
 
+u32 NNSi_G2dBitReaderRead (NNSiG2dBitReader * reader, int nBits)
+{
+    u32 val = reader->bits;
+    int nAvlBits = reader->availableBits;
+
+    SDK_ASSERT(nBits <= 8);
+
+    if (nAvlBits < nBits) {
+        int lack = nBits - nAvlBits;
+        val <<= lack;
+        BitReaderReload(reader);
+        val |= NNSi_G2dBitReaderRead(reader, lack);
+    } else {
+        val >>= (nAvlBits - nBits);
+        reader->availableBits = (s8)(nAvlBits - nBits);
+    }
+
+    val &= 0xFF >> (8 - nBits);
+    return val;
+}

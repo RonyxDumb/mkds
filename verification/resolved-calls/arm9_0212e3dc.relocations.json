@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Sound_GetFileSize",
+    "target": 34788096,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421889
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Sound_Context_Allocate",
+    "target": 34790268,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422416
+  },
+  {
+    "offset": 128,
+    "type": 1,
+    "symbol": "Sound_ReadFile",
+    "target": 34787964,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421830
+  },
+  {
+    "offset": 160,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959128693
+  }
+]

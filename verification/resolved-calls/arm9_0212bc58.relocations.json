@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "SND_LockChannel",
+    "target": 33688268,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959149455
+  },
+  {
+    "offset": 80,
+    "type": 2,
+    "symbol": "SDK_data_0217d440",
+    "target": 35116096,
+    "thumb": false,
+    "addend": 0,
+    "value": 35116096
+  }
+]

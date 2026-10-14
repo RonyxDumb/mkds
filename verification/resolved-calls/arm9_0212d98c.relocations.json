@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Mem_Frame_Allocate",
+    "target": 33652876,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959138744
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "func_0212da1c",
+    "target": 34789916,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645782
+  },
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "IntrusiveListWrapper_InsertLast",
+    "target": 33649828,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959137973
+  }
+]

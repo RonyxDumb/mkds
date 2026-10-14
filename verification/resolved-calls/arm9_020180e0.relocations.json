@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "Mem_Frame_Initialize",
+    "target": 33653360,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645843
+  }
+]

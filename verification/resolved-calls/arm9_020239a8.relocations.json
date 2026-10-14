@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 468,
+    "type": 1,
+    "symbol": "func_02024184",
+    "target": 33702276,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646144
+  },
+  {
+    "offset": 488,
+    "type": 1,
+    "symbol": "StructCL_SomeFn",
+    "target": 33701252,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645883
+  }
+]
