@@ -1,3 +1,84 @@
+diff --git a/bridge/ghidra/ReaGhidraBridge.java b/bridge/ghidra/ReaGhidraBridge.java
+index 25256fc..4543e10 100644
+--- a/bridge/ghidra/ReaGhidraBridge.java
++++ b/bridge/ghidra/ReaGhidraBridge.java
+@@ -684,7 +684,7 @@ public final class ReaGhidraBridge extends HeadlessScript {
+             JsonObject context = new JsonObject();
+             context.addProperty("address", canonicalAddress(entry));
+             JsonArray registers = new JsonArray();
+-            for (String name : new String[] { "CS", "DS", "ES", "SS" }) {
++            for (String name : new String[] { "CS", "DS", "ES", "SS", "TMode" }) {
+                 Register register = currentProgram.getRegister(name);
+                 if (register == null) continue;
+                 JsonObject row = new JsonObject();
+diff --git a/bridge/ghidra/ReaGhidraPrepareRaw.java b/bridge/ghidra/ReaGhidraPrepareRaw.java
+index 1433313..e65fbd2 100644
+--- a/bridge/ghidra/ReaGhidraPrepareRaw.java
++++ b/bridge/ghidra/ReaGhidraPrepareRaw.java
+@@ -40,6 +40,21 @@ public final class ReaGhidraPrepareRaw extends GhidraScript {
+                 "Raw binary import must map file offset 0 at the caller-supplied entry"
+             );
+         }
++        String dsProfile = System.getenv("REA_GHIDRA_ARM_PROFILE");
++        if (dsProfile != null) {
++            String dsLanguage = dsProfile.equals("nds-arm9") ? "ARM:LE:32:v5t" :
++                dsProfile.equals("nds-arm7") ? "ARM:LE:32:v4t" : "invalid";
++            if (!expectedLanguage.equals(dsLanguage)) throw new IllegalArgumentException("DS CPU/language mismatch");
++            String mode = System.getenv("REA_GHIDRA_ARM_MODE");
++            if (mode == null) mode = "arm";
++            if (!mode.equals("arm") && !mode.equals("thumb")) throw new IllegalArgumentException("Invalid DS entry mode");
++            if (entry.getOffset() % (mode.equals("thumb") ? 2 : 4) != 0)
++                throw new IllegalArgumentException("Unaligned DS entry");
++            var register = currentProgram.getRegister("TMode");
++            if (register == null) throw new IllegalStateException("DS language lacks TMode");
++            currentProgram.getProgramContext().setValue(register, block.getStart(), block.getEnd(),
++                mode.equals("thumb") ? java.math.BigInteger.ONE : java.math.BigInteger.ZERO);
++        }
+         addEntryPoint(entry);
+         if (!disassemble(entry) || createFunction(entry, "entry") == null) {
+             throw new IllegalStateException("Raw binary entry cannot be decoded as a function");
+diff --git a/bridge/process/linux_proc_namespace.py b/bridge/process/linux_proc_namespace.py
+new file mode 100644
+index 0000000..49e32f3
+--- /dev/null
++++ b/bridge/process/linux_proc_namespace.py
+@@ -0,0 +1,36 @@
++"""Resolve local PIDs to procfs PIDs using kernel pidfds, never guessed offsets."""
++import errno
++import json
++import os
++
++def ids(status, field):
++    return list(map(int, next(line.split(':', 1)[1] for line in status.splitlines() if line.startswith(field + ':')).split()))
++
++self_status = open('/proc/self/status').read()
++depth = len(ids(self_status, 'NSpid')) - 1
++assert ids(self_status, 'NSpid')[depth] == os.getpid()
++result = []
++for outer in os.listdir('/proc'):
++    if not outer.isdigit():
++        continue
++    try:
++        status = open('/proc/' + outer + '/status').read()
++        candidates = ids(status, 'NSpid')
++        if len(candidates) <= depth:
++            continue
++        local = candidates[depth]
++        fd = os.pidfd_open(local, 0)
++        try:
++            info = open('/proc/self/fdinfo/' + str(fd)).read()
++            # The kernel fd binds the local PID to exactly one live task.
++            if ids(info, 'Pid') != [int(outer)]:
++                continue
++            if ids(info, 'NSpid') != candidates:
++                continue
++            result.append({'outer': outer, 'pid': local})
++        finally:
++            os.close(fd)
++    except OSError as error:
++        if error.errno not in (errno.ENOENT, errno.ESRCH):
++            raise
++print(json.dumps(result))
 diff --git a/package.json b/package.json
 index 12a81a9..d8b2bed 100644
 --- a/package.json
@@ -10,10 +91,83 @@ index 12a81a9..d8b2bed 100644
      "bridge/process/ProcessRunTokenReader.swift",
      "bridge/process/ProcessRunTokenReaderMain.swift",
      "bridge/ghidra/ReaGhidraBridge.java",
+diff --git a/src/ghidra/GhidraAnalysisProfile.ts b/src/ghidra/GhidraAnalysisProfile.ts
+index 01e87ac..7ec6c30 100644
+--- a/src/ghidra/GhidraAnalysisProfile.ts
++++ b/src/ghidra/GhidraAnalysisProfile.ts
+@@ -26,7 +26,10 @@ import {
+   ghidraPowerPcLanguage,
+   ghidraPowerPcProfileParameters,
+ } from "./GhidraPowerPcProfile.js";
+-import { ghidraRawBinaryLanguage } from "./GhidraRawBinaryLanguage.js";
++import {
++  ghidraRawBinaryLanguage,
++  ghidraDsEntryMode,
++} from "./GhidraRawBinaryLanguage.js";
+
+ import {
+   ghidraProcessorUnsupportedReason,
+@@ -151,6 +154,12 @@ export const resolveGhidraAnalysisProfile = async (
+           jump_table_evidence: "typed-case-default-blocks-v1",
+           decompiler_jump_loads: true,
+           loader: "BinaryLoader",
++          ...(ghidraDsEntryMode() === undefined
++            ? {}
++            : {
++                arm_entry_mode: ghidraDsEntryMode() ?? "arm",
++                arm_profile: process.env.REA_GHIDRA_ARM_PROFILE ?? "unknown",
++              }),
+           language_id: language.languageId,
+           compiler_spec_id: language.compilerSpecId,
+           language_selection: "caller-supplied-v1",
+diff --git a/src/ghidra/GhidraLoadImageValues.ts b/src/ghidra/GhidraLoadImageValues.ts
+index f06f4fd..76c1ecf 100644
+--- a/src/ghidra/GhidraLoadImageValues.ts
++++ b/src/ghidra/GhidraLoadImageValues.ts
+@@ -10,7 +10,10 @@ import type { JsonValue } from "../domain/jsonValue.js";
+ import type { BinaryTarget } from "../domain/binaryTargetTypes.js";
+ import { validateDosComLength } from "../domain/dosCom.js";
+ import { err, ok, type Result } from "../domain/result.js";
+-import { ghidraRawBinaryLanguage } from "./GhidraRawBinaryLanguage.js";
++import {
++  ghidraRawBinaryLanguage,
++  ghidraDsEntryMode,
++} from "./GhidraRawBinaryLanguage.js";
+
+ const sha256 = (bytes: Buffer): string =>
+   createHash("sha256").update(bytes).digest("hex");
+@@ -437,6 +440,18 @@ export const attestGhidraRawBinaryLoadImage = (
+     observations.entry_points.find((entry) => entry === target.entryPoint) ??
+       null,
+   );
++  const mode = ghidraDsEntryMode();
++  if (mode !== undefined) {
++    const context = observations.entry_context.find(
++      (row) => row.address === target.entryPoint,
++    );
++    const tmode = context?.registers.find((row) => row.name === "TMode");
++    check(
++      "entry_tmode",
++      mode === "thumb" ? "0x1" : "0x0",
++      tmode?.value_hex ?? null,
++    );
++  }
+   check("relocation_records", [], observations.relocations);
+   return ok(
+     nativeLoadImageSchema.parse({
 diff --git a/src/ghidra/GhidraProviderClient.ts b/src/ghidra/GhidraProviderClient.ts
-index da81fca..deccf21 100644
+index da81fca..977c3eb 100644
 --- a/src/ghidra/GhidraProviderClient.ts
 +++ b/src/ghidra/GhidraProviderClient.ts
+@@ -547,7 +547,7 @@ export const createGhidraProviderClient = (input: {
+     ...(target.format === "raw-binary"
+       ? [
+           "Headerless raw-binary analysis uses the caller-supplied architecture and entry address; file offset 0 is mapped at that address. Headers are not discovered from file bytes.",
+-          "Little-endian generic Ghidra languages are used for x86, x86_64, arm, arm64, and NMOS 6502. Big-endian, Thumb-only, Cortex-M, 65C02, 65816, and other processor variants are unsupported in this increment.",
++          "Raw ARM defaults to ARMv7. The local REA_GHIDRA_ARM_PROFILE override selects nds-arm9 (ARMv5T) or nds-arm7 (ARMv4T); REA_GHIDRA_ARM_MODE selects the explicit arm or thumb entry state for this local DS adapter. CPU-specific peripherals, overlays and complete DS memory maps are not modeled.",
+           "Static analysis does not emulate reset vectors, memory-mapped I/O, or firmware boot sequences.",
+         ]
+       : []),
 @@ -617,7 +617,8 @@ export const createGhidraProviderClient = (input: {
          : target.path,
      targetSha256: target.sha256,
@@ -34,66 +188,181 @@ index da81fca..deccf21 100644
            metadata = nativeAotOwner?.readTypeDetail(address);
            if (
              metadata !== undefined &&
-diff --git a/src/process/ProcessOwnershipObservation.ts b/src/process/ProcessOwnershipObservation.ts
-index 3b4311c..83fb9de 100644
---- a/src/process/ProcessOwnershipObservation.ts
-+++ b/src/process/ProcessOwnershipObservation.ts
-@@ -1,4 +1,5 @@
- import { readFile } from "node:fs/promises";
-+import { LinuxProcNamespace } from "./LinuxProcNamespace.js";
- import { AnalysisCapabilityUnavailableError } from "../domain/analysisErrorCore.js";
- 
- import { launcherIdentityFailure } from "./ProcessOwnershipIdentity.js";
-@@ -254,7 +255,23 @@ export const createSystemProcessOwnershipHost = (
-             : { compileTimeoutMs: options.compileTimeoutMs }),
-         })
-       : undefined;
-+  let namespace: Promise<LinuxProcNamespace | undefined> | undefined;
-+  const procNamespace = () => (namespace ??= LinuxProcNamespace.detect());
-+  const readProc = async (
-+    pid: number,
-+    file: "stat" | "environ",
-+    signal?: AbortSignal,
-+  ) => {
-+    const translated = await procNamespace();
-+    return translated === undefined
-+      ? readFile(`/proc/${pid}/${file}`, { encoding: "utf8", signal })
-+      : translated.read(pid, file, signal);
-+  };
-   const listProcesses = async (signal?: AbortSignal) => {
-+    if (platform === "linux") {
-+      const translated = await procNamespace();
-+      if (translated !== undefined) return translated.listProcesses(signal);
-+    }
-     if (platform === "win32") return [];
-     const { stdout } = await execFileOutput(
-       "ps",
-@@ -285,10 +302,7 @@ export const createSystemProcessOwnershipHost = (
-         await Promise.all(
-           processes.map(async ({ pid }) => {
-             try {
--              const stat = await readFile(`/proc/${String(pid)}/stat`, {
--                encoding: "utf8",
--                ...(signal === undefined ? {} : { signal }),
--              });
-+              const stat = await readProc(pid, "stat", signal);
-               const identity = parseLinuxProcessStartTime(stat);
-               return [
-                 pid,
-@@ -387,9 +401,7 @@ export const createSystemProcessOwnershipHost = (
-     async environment(pid, signal) {
-       signal?.throwIfAborted();
-       if (platform === "linux")
--        return parseProcessEnvironment(
--          await readFile(`/proc/${pid}/environ`, { encoding: "utf8", signal }),
--        );
-+        return parseProcessEnvironment(await readProc(pid, "environ", signal));
-       if (platform === "darwin") {
-         const process = (await listProcesses(signal)).find(
-           (entry) => entry.pid === pid,
+diff --git a/src/ghidra/GhidraRawBinaryLanguage.ts b/src/ghidra/GhidraRawBinaryLanguage.ts
+index e904697..c46ee50 100644
+--- a/src/ghidra/GhidraRawBinaryLanguage.ts
++++ b/src/ghidra/GhidraRawBinaryLanguage.ts
+@@ -15,7 +15,15 @@ export interface GhidraRawBinaryLanguage {
+  */
+ export const ghidraRawBinaryLanguage = (
+   architecture: RawBinaryAdmission["architecture"],
++  armProfile = process.env.REA_GHIDRA_ARM_PROFILE,
+ ): GhidraRawBinaryLanguage => {
++  if (
++    armProfile !== undefined &&
++    (architecture !== "arm" || !["nds-arm9", "nds-arm7"].includes(armProfile))
++  )
++    throw new Error(
++      "REA_GHIDRA_ARM_PROFILE requires raw ARM and nds-arm9 or nds-arm7",
++    );
+   switch (architecture) {
+     case "6502":
+       return {
+@@ -37,7 +45,12 @@ export const ghidraRawBinaryLanguage = (
+       };
+     case "arm":
+       return {
+-        languageId: "ARM:LE:32:v7",
++        languageId:
++          armProfile === "nds-arm9"
++            ? "ARM:LE:32:v5t"
++            : armProfile === "nds-arm7"
++              ? "ARM:LE:32:v4t"
++              : "ARM:LE:32:v7",
+         compilerSpecId: "default",
+         defaultAddressSpace: "ram",
+       };
+@@ -49,3 +62,17 @@ export const ghidraRawBinaryLanguage = (
+       };
+   }
+ };
++
++/** Local DS entry state, committed into profile and measured after import. */
++export const ghidraDsEntryMode = (): "arm" | "thumb" | undefined => {
++  const profile = process.env.REA_GHIDRA_ARM_PROFILE;
++  const mode = process.env.REA_GHIDRA_ARM_MODE;
++  if (profile === undefined) {
++    if (mode !== undefined)
++      throw new Error("ARM mode requires an explicit DS profile");
++    return undefined;
++  }
++  if (mode !== undefined && mode !== "arm" && mode !== "thumb")
++    throw new Error("REA_GHIDRA_ARM_MODE must be arm or thumb");
++  return mode ?? "arm";
++};
+diff --git a/src/ghidra/GhidraRawBinaryLoadImage.test.ts b/src/ghidra/GhidraRawBinaryLoadImage.test.ts
+index d09b3a5..117658d 100644
+--- a/src/ghidra/GhidraRawBinaryLoadImage.test.ts
++++ b/src/ghidra/GhidraRawBinaryLoadImage.test.ts
+@@ -1,10 +1,44 @@
+-import { describe, expect, it } from "vitest";
++import { afterEach, describe, expect, it, vi } from "vitest";
+
+ import { attestGhidraRawBinaryLoadImage } from "./GhidraLoadImageValues.js";
+ import { fixtureRawBinaryLoadImage } from "./GhidraRawBinaryLoadImage.fixture.js";
+ import { ghidraRawBinaryLanguage } from "./GhidraRawBinaryLanguage.js";
+
+ describe("raw-binary Ghidra language binding", () => {
++  afterEach(() => vi.unstubAllEnvs());
++  it.each(["arm", "thumb"])(
++    "attests DS %s state and rejects a wrong TMode",
++    (mode) => {
++      vi.stubEnv("REA_GHIDRA_ARM_PROFILE", "nds-arm9");
++      vi.stubEnv("REA_GHIDRA_ARM_MODE", mode);
++      const f = fixtureRawBinaryLoadImage();
++      f.observation.language_id = "ARM:LE:32:v5t";
++      const value = mode === "thumb" ? "0x1" : "0x0";
++      f.observation.entry_context = [
++        {
++          address: f.target.entryPoint,
++          registers: [{ name: "TMode", value_hex: value }],
++        },
++      ];
++      expect(
++        attestGhidraRawBinaryLoadImage(f.snapshot, f.target, f.observation),
++      ).toMatchObject({ ok: true, value: { status: "verified" } });
++      f.observation.entry_context = [];
++      expect(
++        attestGhidraRawBinaryLoadImage(f.snapshot, f.target, f.observation),
++      ).toMatchObject({ ok: true, value: { status: "mismatch" } });
++    },
++  );
++  it("binds each explicit DS CPU and rejects invalid profiles", () => {
++    expect(ghidraRawBinaryLanguage("arm", "nds-arm9").languageId).toBe(
++      "ARM:LE:32:v5t",
++    );
++    expect(ghidraRawBinaryLanguage("arm", "nds-arm7").languageId).toBe(
++      "ARM:LE:32:v4t",
++    );
++    expect(() => ghidraRawBinaryLanguage("arm", "invalid")).toThrow();
++    expect(() => ghidraRawBinaryLanguage("x86", "nds-arm9")).toThrow();
++  });
+   it("maps the four admitted families to little-endian generic languages", () => {
+     expect(ghidraRawBinaryLanguage("x86")).toEqual({
+       languageId: "x86:LE:32:default",
+diff --git a/src/process/LinuxProcNamespace.integration.test.ts b/src/process/LinuxProcNamespace.integration.test.ts
+new file mode 100644
+index 0000000..bb151e6
+--- /dev/null
++++ b/src/process/LinuxProcNamespace.integration.test.ts
+@@ -0,0 +1,64 @@
++import { spawn } from "node:child_process";
++import { verifyOwnedInferiorsEnded } from "./ownedDebuggerSession.js";
++import { randomUUID } from "node:crypto";
++import { describe, expect, it } from "vitest";
++import {
++  createSystemProcessOwnershipHost,
++  observeProcessStartIdentity,
++} from "./ProcessOwnershipObservation.js";
++
++describe.runIf(process.platform === "linux")(
++  "real Linux procfs ownership",
++  () => {
++    it("finds this runtime's actual PID", async () => {
++      const host = createSystemProcessOwnershipHost();
++      await host.prepare?.();
++      expect(
++        (await host.listProcesses()).some((row) => row.pid === process.pid),
++      ).toBe(true);
++      expect(
++        (await observeProcessStartIdentity(process.pid, host))?.state,
++      ).toBe("readable");
++    });
++
++    it("authenticates a real child and rejects the wrong ownership token", async () => {
++      const host = createSystemProcessOwnershipHost();
++      const token = randomUUID();
++      const child = spawn(
++        process.execPath,
++        ["-e", "setTimeout(() => {}, 30000)"],
++        {
++          env: { ...process.env, REA_PROCESS_RUN_ID: token },
++          stdio: "ignore",
++        },
++      );
++      try {
++        await new Promise<void>((resolve, reject) => {
++          child.once("spawn", resolve);
++          child.once("error", reject);
++        });
++        expect(child.pid).toBeDefined();
++        const own = await observeProcessStartIdentity(child.pid!, host, token);
++        const foreign = await observeProcessStartIdentity(
++          child.pid!,
++          host,
++          "wrong-token",
++        );
++        expect(own?.state).toBe("readable");
++        if (own?.state !== "readable") throw new Error("Missing identity");
++        expect(
++          await verifyOwnedInferiorsEnded([
++            { pid: String(child.pid), startTime: own.identity.replace(/^linux-starttime:/, "") },
++          ]),
++        ).toBe(false);
++        expect(foreign?.state).toBe("unavailable");
++      } finally {
++        const exited = new Promise<void>((resolve) =>
++          child.once("exit", () => resolve()),
++        );
++        child.kill();
++        await exited;
++      }
++    });
++  },
++);
 diff --git a/src/process/LinuxProcNamespace.ts b/src/process/LinuxProcNamespace.ts
 new file mode 100644
-index 00000000..9cabdcfd
+index 0000000..9cabdcf
 --- /dev/null
 +++ b/src/process/LinuxProcNamespace.ts
 @@ -0,0 +1,158 @@
@@ -255,108 +524,90 @@ index 00000000..9cabdcfd
 +    return value;
 +  }
 +}
-diff --git a/src/process/LinuxProcNamespace.integration.test.ts b/src/process/LinuxProcNamespace.integration.test.ts
-new file mode 100644
-index 00000000..9d3424ca
---- /dev/null
-+++ b/src/process/LinuxProcNamespace.integration.test.ts
-@@ -0,0 +1,57 @@
-+import { spawn } from "node:child_process";
-+import { randomUUID } from "node:crypto";
-+import { describe, expect, it } from "vitest";
-+import {
-+  createSystemProcessOwnershipHost,
-+  observeProcessStartIdentity,
-+} from "./ProcessOwnershipObservation.js";
-+
-+describe.runIf(process.platform === "linux")(
-+  "real Linux procfs ownership",
-+  () => {
-+    it("finds this runtime's actual PID", async () => {
-+      const host = createSystemProcessOwnershipHost();
-+      await host.prepare?.();
-+      expect(
-+        (await host.listProcesses()).some((row) => row.pid === process.pid),
-+      ).toBe(true);
-+      expect(
-+        (await observeProcessStartIdentity(process.pid, host))?.state,
-+      ).toBe("readable");
-+    });
-+
-+    it("authenticates a real child and rejects the wrong ownership token", async () => {
-+      const host = createSystemProcessOwnershipHost();
-+      const token = randomUUID();
-+      const child = spawn(
-+        process.execPath,
-+        ["-e", "setTimeout(() => {}, 30000)"],
-+        {
-+          env: { ...process.env, REA_PROCESS_RUN_ID: token },
-+          stdio: "ignore",
-+        },
-+      );
-+      try {
-+        await new Promise<void>((resolve, reject) => {
-+          child.once("spawn", resolve);
-+          child.once("error", reject);
-+        });
-+        expect(child.pid).toBeDefined();
-+        const own = await observeProcessStartIdentity(child.pid!, host, token);
-+        const foreign = await observeProcessStartIdentity(
-+          child.pid!,
-+          host,
-+          "wrong-token",
-+        );
-+        expect(own?.state).toBe("readable");
-+        expect(foreign?.state).toBe("unavailable");
-+      } finally {
-+        const exited = new Promise<void>((resolve) =>
-+          child.once("exit", () => resolve()),
-+        );
-+        child.kill();
-+        await exited;
-+      }
-+    });
-+  },
-+);
-diff --git a/bridge/process/linux_proc_namespace.py b/bridge/process/linux_proc_namespace.py
-new file mode 100644
-index 00000000..49e32f3b
---- /dev/null
-+++ b/bridge/process/linux_proc_namespace.py
-@@ -0,0 +1,36 @@
-+"""Resolve local PIDs to procfs PIDs using kernel pidfds, never guessed offsets."""
-+import errno
-+import json
-+import os
-+
-+def ids(status, field):
-+    return list(map(int, next(line.split(':', 1)[1] for line in status.splitlines() if line.startswith(field + ':')).split()))
-+
-+self_status = open('/proc/self/status').read()
-+depth = len(ids(self_status, 'NSpid')) - 1
-+assert ids(self_status, 'NSpid')[depth] == os.getpid()
-+result = []
-+for outer in os.listdir('/proc'):
-+    if not outer.isdigit():
-+        continue
-+    try:
-+        status = open('/proc/' + outer + '/status').read()
-+        candidates = ids(status, 'NSpid')
-+        if len(candidates) <= depth:
-+            continue
-+        local = candidates[depth]
-+        fd = os.pidfd_open(local, 0)
-+        try:
-+            info = open('/proc/self/fdinfo/' + str(fd)).read()
-+            # The kernel fd binds the local PID to exactly one live task.
-+            if ids(info, 'Pid') != [int(outer)]:
-+                continue
-+            if ids(info, 'NSpid') != candidates:
-+                continue
-+            result.append({'outer': outer, 'pid': local})
-+        finally:
-+            os.close(fd)
-+    except OSError as error:
-+        if error.errno not in (errno.ENOENT, errno.ESRCH):
-+            raise
-+print(json.dumps(result))
+diff --git a/src/process/ProcessOwnershipObservation.ts b/src/process/ProcessOwnershipObservation.ts
+index 3b4311c..83fb9de 100644
+--- a/src/process/ProcessOwnershipObservation.ts
++++ b/src/process/ProcessOwnershipObservation.ts
+@@ -1,4 +1,5 @@
+ import { readFile } from "node:fs/promises";
++import { LinuxProcNamespace } from "./LinuxProcNamespace.js";
+ import { AnalysisCapabilityUnavailableError } from "../domain/analysisErrorCore.js";
+
+ import { launcherIdentityFailure } from "./ProcessOwnershipIdentity.js";
+@@ -254,7 +255,23 @@ export const createSystemProcessOwnershipHost = (
+             : { compileTimeoutMs: options.compileTimeoutMs }),
+         })
+       : undefined;
++  let namespace: Promise<LinuxProcNamespace | undefined> | undefined;
++  const procNamespace = () => (namespace ??= LinuxProcNamespace.detect());
++  const readProc = async (
++    pid: number,
++    file: "stat" | "environ",
++    signal?: AbortSignal,
++  ) => {
++    const translated = await procNamespace();
++    return translated === undefined
++      ? readFile(`/proc/${pid}/${file}`, { encoding: "utf8", signal })
++      : translated.read(pid, file, signal);
++  };
+   const listProcesses = async (signal?: AbortSignal) => {
++    if (platform === "linux") {
++      const translated = await procNamespace();
++      if (translated !== undefined) return translated.listProcesses(signal);
++    }
+     if (platform === "win32") return [];
+     const { stdout } = await execFileOutput(
+       "ps",
+@@ -285,10 +302,7 @@ export const createSystemProcessOwnershipHost = (
+         await Promise.all(
+           processes.map(async ({ pid }) => {
+             try {
+-              const stat = await readFile(`/proc/${String(pid)}/stat`, {
+-                encoding: "utf8",
+-                ...(signal === undefined ? {} : { signal }),
+-              });
++              const stat = await readProc(pid, "stat", signal);
+               const identity = parseLinuxProcessStartTime(stat);
+               return [
+                 pid,
+@@ -387,9 +401,7 @@ export const createSystemProcessOwnershipHost = (
+     async environment(pid, signal) {
+       signal?.throwIfAborted();
+       if (platform === "linux")
+-        return parseProcessEnvironment(
+-          await readFile(`/proc/${pid}/environ`, { encoding: "utf8", signal }),
+-        );
++        return parseProcessEnvironment(await readProc(pid, "environ", signal));
+       if (platform === "darwin") {
+         const process = (await listProcesses(signal)).find(
+           (entry) => entry.pid === pid,
+diff --git a/src/process/ownedDebuggerSession.ts b/src/process/ownedDebuggerSession.ts
+index 7fc2c0b..aad129d 100644
+--- a/src/process/ownedDebuggerSession.ts
++++ b/src/process/ownedDebuggerSession.ts
+@@ -1,4 +1,5 @@
+ import { readFile } from "node:fs/promises";
++import { LinuxProcNamespace } from "./LinuxProcNamespace.js";
+
+ import { parseLinuxProcessStartTime } from "./ProcessOwnershipObservation.js";
+
+@@ -26,13 +27,17 @@ const readLinuxProcessStartTime: ProcessStartTimeReader = async (pid) => {
+     );
+   let stat: string;
+   try {
+-    stat = await readFile(`/proc/${pid}/stat`, "utf8");
++    const namespace = await LinuxProcNamespace.detect();
++    stat =
++      namespace === undefined
++        ? await readFile(`/proc/${pid}/stat`, "utf8")
++        : await namespace.read(Number(pid), "stat");
+   } catch (cause: unknown) {
+     if (
+       typeof cause === "object" &&
+       cause !== null &&
+       "code" in cause &&
+-      cause.code === "ENOENT"
++      (cause.code === "ENOENT" || cause.code === "ESRCH")
+     )
+       return null;
+     throw cause;

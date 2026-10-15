@@ -21,6 +21,15 @@ def main():
     if subprocess.run([*command, '--reverse', '--check', str(patch)], capture_output=True).returncode == 0:
         print('Patch already applied')
         return
+    upgrade = ROOT / 'scripts/rea/upgrade-ds.patch'
+    if subprocess.run([*command, '--check', str(upgrade)], capture_output=True).returncode == 0:
+        subprocess.run([*command, str(upgrade)], check=True)
+        verified = subprocess.run([*command, '--reverse', '--check', str(patch)], capture_output=True)
+        if verified.returncode != 0:
+            subprocess.run([*command, '--reverse', str(upgrade)], check=True)
+            raise SystemExit('Upgrade did not produce the complete tested patch; upgrade reverted')
+        print('Upgraded the earlier PID fix; rebuild REA with npm run build:cached')
+        return
     subprocess.run([*command, '--check', str(patch)], check=True)
     subprocess.run([*command, str(patch)], check=True)
     print('Applied; run npm ci and npm run build:cached in the REA checkout')

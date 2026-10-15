@@ -1,12 +1,12 @@
-# Copertura misurata — checkpoint 29
+# Copertura misurata — checkpoint 30
 
-**15.249290% dei byte dei corpi funzione identificati è verificato localmente.**
+**15.252007% dei byte dei corpi funzione identificati è verificato localmente.**
 
-291,822 / 1,913,676 byte; 3819 / 12038 funzioni. È una misura sull'inventario Ghidra, non un matching della ROM intera. I corpi possono includere dati, falsi positivi e byte sovrapposti.
+291,874 / 1,913,676 byte; 3820 / 12038 funzioni. È una misura sull'inventario Ghidra, non un matching della ROM intera. I corpi possono includere dati, falsi positivi e byte sovrapposti.
 
 | Modulo | Byte funzioni | Byte locali identici | Copertura |
 |---|---:|---:|---:|
-| arm9 | 1397108 | 245408 | 17.565428% |
+| arm9 | 1397108 | 245460 | 17.569150% |
 | arm9_ov000 | 174497 | 204 | 0.116907% |
 | arm9_ov001 | 100010 | 672 | 0.671933% |
 | arm9_ov003 | 94969 | 194 | 0.204277% |

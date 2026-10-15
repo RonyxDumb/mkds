@@ -1,0 +1,17 @@
+{
+  "module": "arm7",
+  "name": "Arm7Entry",
+  "address": "0x2380000",
+  "bytes": 284,
+  "mode": "arm",
+  "profile": "nds-arm7",
+  "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+  "section": "arm7_0.bin",
+  "section_offset": 0,
+  "section_sha256": "92ce999da92568982ba9379b6af96369524e3bdb1178c01c174862c9b3a0216c",
+  "sha256": "1b448c2924466f590ce079327d8757c5f7ff49adf8f93903d60a9806349ab247",
+  "limitations": [
+    "Isolated inventory span; external memory and callees unavailable.",
+    "Pseudocode is an analysis draft, not matching C."
+  ]
+}

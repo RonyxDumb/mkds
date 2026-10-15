@@ -1,0 +1,17 @@
+{
+  "module": "arm9",
+  "name": "func_0200104c",
+  "address": "0x200104c",
+  "bytes": 52,
+  "mode": "arm",
+  "profile": "nds-arm9",
+  "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+  "section": "arm9_0.bin",
+  "section_offset": 4172,
+  "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+  "sha256": "2bf908162e04e9fe695908f504cb19cd94722cca6bb81a1048877b2c8fccb4dd",
+  "limitations": [
+    "Isolated inventory span; external memory and callees unavailable.",
+    "Pseudocode is an analysis draft, not matching C."
+  ]
+}

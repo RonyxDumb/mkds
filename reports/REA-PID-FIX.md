@@ -73,3 +73,9 @@ La funzione di esempio inizia al byte zero del file ed è caricata a
 `0x02083a24`; non passare questo indirizzo base a un intero modulo ARM9.
 La prova è solo di analisi statica: eseguire il gioco e osservare GDB rimangono
 operazioni separate.
+
+## Aggiornamento checkpoint 30
+
+La patch locale ora include profili DS, modalità ARM/Thumb attestata e controllo
+PID degli inferior debugger. Vedere [CHECKPOINT-30.md](CHECKPOINT-30.md) per prove,
+comandi e limiti attuali. Ricostruire REA dopo aver applicato la nuova patch.

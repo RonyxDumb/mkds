@@ -1,0 +1,22 @@
+{
+  "rea_revision": "fffb0741936067530d1ce9777461cd53e87398c2",
+  "node": "24.19.0",
+  "ghidra": "12.1.4",
+  "build_passed": true,
+  "tests_passed": 149,
+  "test_files_passed": 6,
+  "patch_fresh_install": true,
+  "patch_upgrade_from_v1": true,
+  "patch_idempotent": true,
+  "real_provider_targets": [
+    "arm9:0200104c:arm",
+    "arm9_ov000:02180500:thumb",
+    "arm7:02380000:arm"
+  ],
+  "unsupported_selection_checks_passed": 3,
+  "limits": [
+    "No complete live DS memory model",
+    "Other procfs capture/sampling paths not converted",
+    "No full ROM equivalence claim"
+  ]
+}

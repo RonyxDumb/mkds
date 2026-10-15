@@ -1,0 +1,17 @@
+{
+  "module": "arm9_ov000",
+  "name": "func_ov000_02180500",
+  "address": "0x2180500",
+  "bytes": 52,
+  "mode": "thumb",
+  "profile": "nds-arm9",
+  "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+  "section": "arm9_ov000.bin",
+  "section_offset": 32,
+  "section_sha256": "61bd886e282f3c1585406470b166f9cfb444dbdc070f3083d52a2dd29808e63f",
+  "sha256": "c27551f0841b8e0acc789e28f9c062f9807e9d6ec8764d265c8dc57618df8f12",
+  "limitations": [
+    "Isolated inventory span; external memory and callees unavailable.",
+    "Pseudocode is an analysis draft, not matching C."
+  ]
+}

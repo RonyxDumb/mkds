@@ -4250,5 +4250,11 @@
     "source_sha256": "fda966ac770e95987e4bc28f670a5201115d9368d7ab6869ef59dc889785d90b",
     "size": 256,
     "audit": "checkpoint29-search-summary.json"
+  },
+  "arm9_0200104c": {
+    "size": 52,
+    "sha256": "2bf908162e04e9fe695908f504cb19cd94722cca6bb81a1048877b2c8fccb4dd",
+    "source_sha256": "5f4399d0e586f00bb2fbe9ae525c7c23fa2babcc2486c1debee01e5bd6ee3247",
+    "audit": "rea-ds-matching-audit.json"
   }
 }
