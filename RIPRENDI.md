@@ -162,3 +162,15 @@ connessioni localhost tra comandi separati funzionino. Input missions/time-trial
 eseguiti 3600 frame ciascuno; Grand Prix 7200 e navigazione 2400. Osservazioni ROM
 originale in RUNTIME-2026-10-15.json, nessuna gara/missione completata o intero gioco
 esplorato. Proseguire con vere nuove ricostruzioni, VS/menu restanti e missioni ulteriori.
+
+## REA/Ghidra riparato — 15 ottobre 2026
+
+Patch locale scripts/rea/pid-namespace.patch per REA fffb0741936067530d1ce9777461cd53e87398c2.
+Namespace PID risolte con NSpid + pidfd kernel; token/starttime restano controllati.
+Socket Unix vietato: REA_GHIDRA_TRANSPORT=authenticated-loopback-tcp, read-only.
+REA decompile reale riuscito su funzione 02083a24 di 188 byte; JSON evidence in
+reports/rea/02083a24-evidence.json. 29 test processi, 72 test Ghidra, build passati.
+Usare sh scripts/rea/run.sh; ripristino patch con scripts/rea/apply_fix.py.
+Ghidra12.1.4/JDK21 installati in tools ignorata. Profilo raw ARM generico resta v7;
+non dichiarare profilo DS ARMv5T, emulator-to-Ghidra live o matching aggiuntivo.
+Altri consumer /proc capture/debugger REA non convertiti. Dettagli reports/REA-PID-FIX.md.

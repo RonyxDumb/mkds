@@ -1,0 +1,362 @@
+diff --git a/package.json b/package.json
+index 12a81a9..d8b2bed 100644
+--- a/package.json
++++ b/package.json
+@@ -53,6 +53,7 @@
+     "bridge/native/NativeUIChildren.swift",
+     "bridge/native/ReaNativeUI.swift",
+     "bridge/native/rea_lldb_tracer.py",
++    "bridge/process/linux_proc_namespace.py",
+     "bridge/process/ProcessRunTokenReader.swift",
+     "bridge/process/ProcessRunTokenReaderMain.swift",
+     "bridge/ghidra/ReaGhidraBridge.java",
+diff --git a/src/ghidra/GhidraProviderClient.ts b/src/ghidra/GhidraProviderClient.ts
+index da81fca..deccf21 100644
+--- a/src/ghidra/GhidraProviderClient.ts
++++ b/src/ghidra/GhidraProviderClient.ts
+@@ -617,7 +617,8 @@ export const createGhidraProviderClient = (input: {
+         : target.path,
+     targetSha256: target.sha256,
+     transport:
+-      installation.platform === "win32"
++      installation.platform === "win32" ||
++      input.environment.REA_GHIDRA_TRANSPORT === "authenticated-loopback-tcp"
+         ? "authenticated-loopback-tcp"
+         : "unix-socket",
+     providerVersion: prerequisites.value.providerVersion,
+@@ -884,8 +885,7 @@ export const createGhidraProviderClient = (input: {
+             if (!derived.ok) return derived;
+           }
+           let metadata:
+-            | ReturnType<NativeAotPeResult["readTypeDetail"]>
+-            | undefined;
++            ReturnType<NativeAotPeResult["readTypeDetail"]> | undefined;
+           metadata = nativeAotOwner?.readTypeDetail(address);
+           if (
+             metadata !== undefined &&
+diff --git a/src/process/ProcessOwnershipObservation.ts b/src/process/ProcessOwnershipObservation.ts
+index 3b4311c..83fb9de 100644
+--- a/src/process/ProcessOwnershipObservation.ts
++++ b/src/process/ProcessOwnershipObservation.ts
+@@ -1,4 +1,5 @@
+ import { readFile } from "node:fs/promises";
++import { LinuxProcNamespace } from "./LinuxProcNamespace.js";
+ import { AnalysisCapabilityUnavailableError } from "../domain/analysisErrorCore.js";
+ 
+ import { launcherIdentityFailure } from "./ProcessOwnershipIdentity.js";
+@@ -254,7 +255,23 @@ export const createSystemProcessOwnershipHost = (
+             : { compileTimeoutMs: options.compileTimeoutMs }),
+         })
+       : undefined;
++  let namespace: Promise<LinuxProcNamespace | undefined> | undefined;
++  const procNamespace = () => (namespace ??= LinuxProcNamespace.detect());
++  const readProc = async (
++    pid: number,
++    file: "stat" | "environ",
++    signal?: AbortSignal,
++  ) => {
++    const translated = await procNamespace();
++    return translated === undefined
++      ? readFile(`/proc/${pid}/${file}`, { encoding: "utf8", signal })
++      : translated.read(pid, file, signal);
++  };
+   const listProcesses = async (signal?: AbortSignal) => {
++    if (platform === "linux") {
++      const translated = await procNamespace();
++      if (translated !== undefined) return translated.listProcesses(signal);
++    }
+     if (platform === "win32") return [];
+     const { stdout } = await execFileOutput(
+       "ps",
+@@ -285,10 +302,7 @@ export const createSystemProcessOwnershipHost = (
+         await Promise.all(
+           processes.map(async ({ pid }) => {
+             try {
+-              const stat = await readFile(`/proc/${String(pid)}/stat`, {
+-                encoding: "utf8",
+-                ...(signal === undefined ? {} : { signal }),
+-              });
++              const stat = await readProc(pid, "stat", signal);
+               const identity = parseLinuxProcessStartTime(stat);
+               return [
+                 pid,
+@@ -387,9 +401,7 @@ export const createSystemProcessOwnershipHost = (
+     async environment(pid, signal) {
+       signal?.throwIfAborted();
+       if (platform === "linux")
+-        return parseProcessEnvironment(
+-          await readFile(`/proc/${pid}/environ`, { encoding: "utf8", signal }),
+-        );
++        return parseProcessEnvironment(await readProc(pid, "environ", signal));
+       if (platform === "darwin") {
+         const process = (await listProcesses(signal)).find(
+           (entry) => entry.pid === pid,
+diff --git a/src/process/LinuxProcNamespace.ts b/src/process/LinuxProcNamespace.ts
+new file mode 100644
+index 00000000..9cabdcfd
+--- /dev/null
++++ b/src/process/LinuxProcNamespace.ts
+@@ -0,0 +1,158 @@
++import { readFile } from "node:fs/promises";
++import { fileURLToPath } from "node:url";
++import { execFileOutput } from "./ExecFileOutput.js";
++import type { ProcessTableEntry } from "./ProcessOwnership.js";
++
++/** Translate only kernel-reported IDs in this exact PID namespace. */
++export class LinuxProcNamespace {
++  private constructor(private readonly depth: number) {}
++
++  static async detect(): Promise<LinuxProcNamespace | undefined> {
++    const status = await readFile("/proc/self/status", "utf8");
++    const ids = LinuxProcNamespace.ids(status, "NSpid");
++    if (ids[0] === process.pid) return undefined;
++    if (ids.length < 2 || ids.at(-1) !== process.pid)
++      throw new Error("Cannot bind procfs PID namespace to REA's actual PID");
++    return new LinuxProcNamespace(ids.length - 1);
++  }
++
++  private static ids(status: string, field: string): number[] {
++    const value = new RegExp(`^${field}:\\s*(.*)$`, "m").exec(status)?.[1];
++    if (value === undefined || !/^\d+(?:\s+\d+)*\s*$/.test(value))
++      throw new Error("Missing or malformed procfs field " + field);
++    return value.trim().split(/\s+/).map(Number);
++  }
++
++  private async entries(signal?: AbortSignal) {
++    signal?.throwIfAborted();
++    const result: {
++      outer: string;
++      pid: number;
++      parent: number;
++      group: number;
++      uid: number;
++      state: string;
++      command: string;
++    }[] = [];
++    // Scan directories, never guess an outer PID from an offset or a cached PID.
++    const { stdout } = await execFileOutput(
++      "python3",
++      [
++        fileURLToPath(
++          new URL(
++            "../../bridge/process/linux_proc_namespace.py",
++            import.meta.url,
++          ),
++        ),
++      ],
++      { ...(signal === undefined ? {} : { signal }) },
++    );
++    const mappings: unknown = JSON.parse(stdout);
++    if (!Array.isArray(mappings))
++      throw new Error("Malformed kernel PID mapping");
++    for (const mapping of mappings) {
++      if (
++        typeof mapping !== "object" ||
++        mapping === null ||
++        typeof mapping.outer !== "string" ||
++        !/^\d+$/.test(mapping.outer) ||
++        !Number.isSafeInteger(mapping.pid) ||
++        mapping.pid <= 0
++      )
++        throw new Error("Malformed kernel PID mapping row");
++      const outer = mapping.outer as string;
++      signal?.throwIfAborted();
++      try {
++        const status = await readFile(`/proc/${outer}/status`, {
++          encoding: "utf8",
++          signal,
++        });
++        const ids = LinuxProcNamespace.ids(status, "NSpid");
++        if (ids.length <= this.depth) continue;
++        if (ids[this.depth] !== mapping.pid)
++          throw new Error("Kernel PID mapping changed");
++        const groups = LinuxProcNamespace.ids(status, "NSpgid");
++        if (
++          ids.length !== this.depth + 1 ||
++          String(ids[0]) !== outer ||
++          groups.length !== ids.length
++        )
++          throw new Error("Ambiguous procfs namespace mapping");
++        const pid = ids[this.depth];
++        const group = groups[this.depth];
++        if (pid === undefined || group === undefined || pid <= 0 || group < 0)
++          throw new Error("Invalid procfs process identity");
++        const parent = LinuxProcNamespace.ids(status, "PPid")[0];
++        const uid = LinuxProcNamespace.ids(status, "Uid")[1];
++        const state = /^State:\s+(\S+)/m.exec(status)?.[1];
++        const command = (
++          await readFile(`/proc/${outer}/cmdline`, { encoding: "utf8", signal })
++        )
++          .replace(/\0/g, " ")
++          .trim();
++        if (parent === undefined || uid === undefined || state === undefined)
++          throw new Error("Incomplete procfs process identity");
++        result.push({ outer, pid, parent, group, uid, state, command });
++      } catch (error) {
++        signal?.throwIfAborted();
++        if (
++          (error as NodeJS.ErrnoException).code === "ENOENT" ||
++          (error as NodeJS.ErrnoException).code === "ESRCH"
++        )
++          continue;
++        throw error;
++      }
++    }
++    if (new Set(result.map((x) => x.pid)).size !== result.length)
++      throw new Error("Duplicate namespace PID");
++    return result;
++  }
++
++  async listProcesses(
++    signal?: AbortSignal,
++  ): Promise<readonly ProcessTableEntry[]> {
++    const entries = await this.entries(signal);
++    const parents = new Map(entries.map((x) => [Number(x.outer), x.pid]));
++    return entries.map((x) => ({
++      pid: x.pid,
++      parentPid: parents.get(x.parent) ?? 0,
++      processGroupId: x.group,
++      uid: x.uid,
++      state: x.state,
++      command: x.command,
++    }));
++  }
++
++  async read(
++    pid: number,
++    file: "stat" | "environ",
++    signal?: AbortSignal,
++  ): Promise<string> {
++    const entry = (await this.entries(signal)).find((x) => x.pid === pid);
++    if (entry === undefined)
++      throw Object.assign(
++        new Error("Process is not visible in this PID namespace"),
++        { code: "ESRCH" },
++      );
++    const value = await readFile(`/proc/${entry.outer}/${file}`, {
++      encoding: "utf8",
++      signal,
++    });
++    // Revalidate mapping after reading. Existing REA start-time/token brackets
++    // still enforce ownership and reject PID reuse across observations.
++    const status = await readFile(`/proc/${entry.outer}/status`, {
++      encoding: "utf8",
++      signal,
++    });
++    const ids = LinuxProcNamespace.ids(status, "NSpid");
++    if (ids.length !== this.depth + 1 || ids[this.depth] !== pid)
++      throw new Error("Process namespace identity changed during read");
++    if (
++      !(await this.entries(signal)).some(
++        (x) => x.outer === entry.outer && x.pid === pid,
++      )
++    )
++      throw new Error("Kernel PID binding changed during read");
++    return value;
++  }
++}
+diff --git a/src/process/LinuxProcNamespace.integration.test.ts b/src/process/LinuxProcNamespace.integration.test.ts
+new file mode 100644
+index 00000000..9d3424ca
+--- /dev/null
++++ b/src/process/LinuxProcNamespace.integration.test.ts
+@@ -0,0 +1,57 @@
++import { spawn } from "node:child_process";
++import { randomUUID } from "node:crypto";
++import { describe, expect, it } from "vitest";
++import {
++  createSystemProcessOwnershipHost,
++  observeProcessStartIdentity,
++} from "./ProcessOwnershipObservation.js";
++
++describe.runIf(process.platform === "linux")(
++  "real Linux procfs ownership",
++  () => {
++    it("finds this runtime's actual PID", async () => {
++      const host = createSystemProcessOwnershipHost();
++      await host.prepare?.();
++      expect(
++        (await host.listProcesses()).some((row) => row.pid === process.pid),
++      ).toBe(true);
++      expect(
++        (await observeProcessStartIdentity(process.pid, host))?.state,
++      ).toBe("readable");
++    });
++
++    it("authenticates a real child and rejects the wrong ownership token", async () => {
++      const host = createSystemProcessOwnershipHost();
++      const token = randomUUID();
++      const child = spawn(
++        process.execPath,
++        ["-e", "setTimeout(() => {}, 30000)"],
++        {
++          env: { ...process.env, REA_PROCESS_RUN_ID: token },
++          stdio: "ignore",
++        },
++      );
++      try {
++        await new Promise<void>((resolve, reject) => {
++          child.once("spawn", resolve);
++          child.once("error", reject);
++        });
++        expect(child.pid).toBeDefined();
++        const own = await observeProcessStartIdentity(child.pid!, host, token);
++        const foreign = await observeProcessStartIdentity(
++          child.pid!,
++          host,
++          "wrong-token",
++        );
++        expect(own?.state).toBe("readable");
++        expect(foreign?.state).toBe("unavailable");
++      } finally {
++        const exited = new Promise<void>((resolve) =>
++          child.once("exit", () => resolve()),
++        );
++        child.kill();
++        await exited;
++      }
++    });
++  },
++);
+diff --git a/bridge/process/linux_proc_namespace.py b/bridge/process/linux_proc_namespace.py
+new file mode 100644
+index 00000000..49e32f3b
+--- /dev/null
++++ b/bridge/process/linux_proc_namespace.py
+@@ -0,0 +1,36 @@
++"""Resolve local PIDs to procfs PIDs using kernel pidfds, never guessed offsets."""
++import errno
++import json
++import os
++
++def ids(status, field):
++    return list(map(int, next(line.split(':', 1)[1] for line in status.splitlines() if line.startswith(field + ':')).split()))
++
++self_status = open('/proc/self/status').read()
++depth = len(ids(self_status, 'NSpid')) - 1
++assert ids(self_status, 'NSpid')[depth] == os.getpid()
++result = []
++for outer in os.listdir('/proc'):
++    if not outer.isdigit():
++        continue
++    try:
++        status = open('/proc/' + outer + '/status').read()
++        candidates = ids(status, 'NSpid')
++        if len(candidates) <= depth:
++            continue
++        local = candidates[depth]
++        fd = os.pidfd_open(local, 0)
++        try:
++            info = open('/proc/self/fdinfo/' + str(fd)).read()
++            # The kernel fd binds the local PID to exactly one live task.
++            if ids(info, 'Pid') != [int(outer)]:
++                continue
++            if ids(info, 'NSpid') != candidates:
++                continue
++            result.append({'outer': outer, 'pid': local})
++        finally:
++            os.close(fd)
++    except OSError as error:
++        if error.errno not in (errno.ENOENT, errno.ESRCH):
++            raise
++print(json.dumps(result))
