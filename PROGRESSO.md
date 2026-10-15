@@ -69,3 +69,7 @@ Checkpoint 27: +12 funzioni e +568 byte inventariati; totale 3.789 funzioni,
 288.062 byte, 15,052809%. Ricompilate 1.421 prove senza relocazioni e 2.368 con
 relocazioni, tutte identiche; 7.372 relocazioni risolte. 20.792 casi ARM/Thumb-C
 passati sui nuovi helper missioni/gara. Nessun matching della ROM intera dichiarato.
+
+Checkpoint 28: +22 funzioni e +1.308 byte; totale 3.811 funzioni,
+289.370 byte inventariati, 15,121159%. Accessori risorse 3D e menu/emblema;
+42.235 nuovi casi semantici passati, senza equivalenza dell'intera ROM dichiarata.

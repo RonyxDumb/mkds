@@ -33,6 +33,14 @@
       "evidence_address": "0x020b3208",
       "kind": "literal",
       "thumb": false
+    },
+    {
+      "module": "arm9",
+      "name": "Menu_EmblemOverlayQuery_021a23c8",
+      "address": "0x021a23c8",
+      "evidence_address": "0x0204a5a0",
+      "kind": "arm-blx",
+      "thumb": true
     }
   ]
 }

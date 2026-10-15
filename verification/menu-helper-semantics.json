@@ -1,0 +1,9 @@
+{
+  "passed": 1275,
+  "cases": {
+    "option": 1215,
+    "emblem": 60
+  },
+  "method": "Original helper instructions versus host C with scripted external callees; results, call order and complete emblem buffers",
+  "full_rom_link_verified": false
+}

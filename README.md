@@ -6,7 +6,7 @@ Work-in-progress C decompilation of **Mario Kart DS (Europe)** for Nintendo DS.
 
 ## Progress
 ![Function inventory treemap](docs/progress-treemap.svg)
-Checkpoint 27: **3,789 locally verified functions, 288,062 inventory bytes (15.052809%)**. This includes 1,421 unrelocated matches and 2,368 matches after resolving all ARM/Thumb relocations. Full-ROM matching remains unverified.
+Checkpoint 28: **3,811 locally verified functions, 289,370 inventory bytes (15.121159%)**. This includes 1,441 unrelocated matches and 2,370 matches after resolving all ARM/Thumb relocations. Full-ROM matching remains unverified.
 
 The treemap is weighted by **identified function bytes**, with verified local matches highlighted. Compilation success is **not** evidence of correct behavior or matching assembly. These are local checkpoint measurements, not whole-game completion percentages. See [detailed measurements](reports/MISURA-DECOMP.md) and [GitHub Actions reports](https://github.com/RonyxDumb/mkds/actions/workflows/decomp-report.yml).
 
@@ -29,3 +29,5 @@ Checkpoint 22 reported additional local results but its source corpus is unavail
 [Checkpoint 26](reports/CHECKPOINT-26.md): +5 verified C functions / +252 bytes. [Menu exploration with screenshots](reports/MENU-EXPLORATION-2026-10-15.md): Options, Records, WFC Setup, multiplayer, race modes and ghosts; original reference ROM, bounded coverage.
 
 [Checkpoint 27](reports/CHECKPOINT-27.md): +12 verified C functions / +568 bytes; mission queries, boss checks and save dialog; 20,792 original ARM/Thumb versus host C cases passed.
+
+[Checkpoint 28](reports/CHECKPOINT-28.md): +22 verified C functions / +1,308 bytes; 3D resource accessors and menu/emblem helpers; 42,235 additional semantic cases passed.

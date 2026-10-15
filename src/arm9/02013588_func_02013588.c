@@ -1,26 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 02013588. No matching claim. */
-#include "types.h"
-#include "deps/02013588_func_02013588.h"
-
-void func_02013588(int param_1,int param_2,uint param_3)
-
+/* C reconstructed from reference ARM/Thumb instructions.
+ * Complete local bytes verified; full ROM and global ABI remain unverified. */
+void func_02013588(void *base, unsigned index, unsigned value)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  uVar1 = param_1 + 8U & 3;
-  uVar2 = *(uint *)(param_1 + 8U & 0xfffffffc);
-  param_1 = param_1 + (uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20);
-  uVar1 = (uint)*(ushort *)(param_1 + 4 + (uint)*(ushort *)(param_1 + 10)) * param_2 +
-          param_1 + 4 + (uint)*(ushort *)(param_1 + 10) + 4;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  param_1 = param_1 + (uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20);
-  uVar1 = param_1 + 0xc;
-  uVar2 = uVar1 & 3;
-  uVar1 = *(uint *)(uVar1 & 0xfffffffc);
-  *(uint *)(param_1 + 0xc) =
-       (uVar1 >> uVar2 * 8 | uVar1 << uVar2 * -8 + 0x20) & 0xfffffff0 | param_3;
-  return;
+    char *block=(char *)base+*((unsigned *)base+2);
+    unsigned offset=*(unsigned short *)(block+10);
+    char *dictionary=block+4;
+    unsigned stride=*(unsigned short *)(dictionary+offset);
+    char *entry=dictionary+offset+stride*index;
+    unsigned *material=(unsigned *)(block+*(unsigned *)(entry+4));
+    material[3]=(material[3] & ~0xfu) | (value<<0);
 }
-

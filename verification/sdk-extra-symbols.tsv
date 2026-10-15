@@ -1030,3 +1030,4 @@ arm9	Menu_EmblemNamesCustom	0x2155cec	0
 arm9	Menu_EmblemNamesCharacter	0x2155cf0	0
 arm9	Menu_EmblemOverlayInitialize	0x21a23f4	1
 arm9	Menu_RaceOptionBase	0x0217b354	0
+arm9	Menu_EmblemOverlayQuery_021a23c8	0x021a23c8	1

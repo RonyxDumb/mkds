@@ -216,3 +216,18 @@ verify_sdk_sources.py con MKDS_DONOR_CONFIG=build/mkds-opposite-isa/config.json.
 Non ripetere senza modifiche. Prossimi near miss manuali: opzioni menu 020b2d04,
 emblema 0204a598 (flusso/epiloghi diversi); non inclusi. Nessuna nuova osservazione
 REA/runtime. Lavorare su main, un solo writer. ROM completa e ABI non verificati.
+
+## Checkpoint 28 — accessori 3D e near miss risolti
+
+3.811 funzioni, 289.370 / 1.913.676 byte (15,121159%). +22 funzioni e +1.308 byte.
+Venti funzioni ARM senza relocazioni: lookup risorse tramite offset/stride,
+getter e setter materiali. Risolti 020b2d04 Thumb (-O4,s) e 0204a598 ARM (-O4,p)
+con switch, preservando ordine rami/epiloghi. Nuovo binding overlay 021a23c8
+provato da BLX 0204a5a0 in menu-symbol-evidence.json. Nessuno stub nel gioco.
+40.960 casi test_resource_semantics.py: risultati e buffer4096 completi.
+1.275 casi test_menu_helper_semantics.py: risultati, chiamate e buffer emblema,
+callee esterni controllati nelle sole fixture. Fixture valide e allineate.
+Ricerca cloni delle venti funzioni: zero copie ulteriori non verificate.
+Prossimi candidati Dict_SomeFn_0 (02013754) e NNS_G3dGetResDataByName (020138b4);
+prime ricostruzioni non matching, escluse. Nessuna nuova analisi REA/runtime.
+Lavorare su main; un solo writer. ROM completa e ABI globale non verificati.

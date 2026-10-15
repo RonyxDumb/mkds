@@ -1,0 +1,28 @@
+{
+  "passed": 40960,
+  "cases": {
+    "JNT0_LoadJointByIdx": 2048,
+    "BMA0_LoadRawData": 2048,
+    "BTA0_LoadRawData": 2048,
+    "BTP0_LoadRawData": 2048,
+    "BVA0_LoadRawData": 2048,
+    "func_02013314": 2048,
+    "func_02013344": 2048,
+    "func_02013378": 2048,
+    "ModelBlock_SomeTexPltFn_0": 2048,
+    "ModelBlock_SomeTexPltFn": 2048,
+    "func_02013424": 2048,
+    "func_02013468": 2048,
+    "ModelBlock_SomeTexPltFn_3": 2048,
+    "ModelBlock_SomeTexPltFn_1": 2048,
+    "ModelBlock_SomeTexPltFn_8": 2048,
+    "func_02013588": 2048,
+    "ModelBlock_SomeTexPltFn_7": 2048,
+    "ModelBlock_SomeTexPltFn_6": 2048,
+    "ModelBlock_SomeTexPltFn_5": 2048,
+    "ModelBlock_SomeTexPltFn_4": 2048
+  },
+  "method": "Original ARM versus current host C; return values and complete 4096-byte buffers",
+  "scope": "Valid aligned synthetic dictionaries, eight entries; no global ABI or whole-ROM equivalence",
+  "full_rom_link_verified": false
+}
