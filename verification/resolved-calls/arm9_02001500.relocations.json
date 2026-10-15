@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "TextSystem_WasAnyDialogButtonPressed_from_thumb",
+    "target": 34758484,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603665
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "TextSystem_CloseDialog_from_thumb",
+    "target": 34758592,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603689
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "TextSystem_IsDialogFinished_from_thumb",
+    "target": 34758536,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603671
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "TextSystem_IsButton2Focused_from_thumb",
+    "target": 34758496,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194603656
+  }
+]

@@ -1,16 +1,9 @@
-/* Decompiled C draft; module arm9; ROM address 02088888. No matching claim. */
-#include "types.h"
-#include "deps/02088888_SetCurrentlyInKartModelMenu.h"
-
-void SetCurrentlyInKartModelMenu(int param_1)
-
+/* C reconstructed from original ARM/Thumb instructions.
+ * Complete local bytes verified; full ROM and global ABI remain unverified. */
+void SetCurrentlyInKartModelMenu(int value)
 {
-  if (param_1 == 0) {
-    *puRam020888ac = uRam020888b0;
-  }
-  else {
-    *puRam020888ac = uRam020888a8;
-  }
-  return;
+    if (value)
+        *(void **)0x0217af24 = (void *)0x02165fd4;
+    else
+        *(void **)0x0217af24 = (void *)0x02165fec;
 }
-

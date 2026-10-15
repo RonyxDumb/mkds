@@ -1,0 +1,224 @@
+{
+  "checkpoint": 27,
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "GetCurrentMissionLevelStage",
+      "mode": "arm",
+      "address": "0x020adbc4",
+      "size": "32",
+      "sha256": "ab49e5a54243eda795fadcc98463b7d5b1e9ee8fa55452c21211f799b0d2f049",
+      "source_sha256": "b781c0e09c72b268745952f65edd794e8c08d7014b7e407c999963c3b9e50a42",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "manual_mission"
+    },
+    {
+      "module": "arm9",
+      "name": "GetCurrentMissionLevel",
+      "mode": "arm",
+      "address": "0x020adbe4",
+      "size": "32",
+      "sha256": "8984d5f7e59df201995b9a90a947e5a1e4b33093ead7afe696a08c4f443a83a0",
+      "source_sha256": "cf4781b06ffe370fcbdf9849f2667ebcc8c517f4d0bab7c2da5e90095dde9f13",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "manual_mission"
+    },
+    {
+      "module": "arm9",
+      "name": "GetCurrentMissionLevelStage_0",
+      "mode": "arm",
+      "address": "0x020b2f18",
+      "size": "32",
+      "sha256": "ab49e5a54243eda795fadcc98463b7d5b1e9ee8fa55452c21211f799b0d2f049",
+      "source_sha256": "396c081f643e9af04eea845b8f564db4a59b3ca0d3833caa52f8bea0e7fccb1c",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "manual_mission"
+    },
+    {
+      "module": "arm9",
+      "name": "GetCurrentMissionLevel_0",
+      "mode": "arm",
+      "address": "0x020b2f38",
+      "size": "32",
+      "sha256": "8984d5f7e59df201995b9a90a947e5a1e4b33093ead7afe696a08c4f443a83a0",
+      "source_sha256": "bd02f2ccfa50664e62fd1b02ad1bec8b3b395a370faa329f2c0c21cb795c8f9f",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "manual_mission"
+    },
+    {
+      "module": "arm9",
+      "name": "GetCurrentMissionStage",
+      "mode": "arm",
+      "address": "0x020cc598",
+      "size": "32",
+      "sha256": "ab49e5a54243eda795fadcc98463b7d5b1e9ee8fa55452c21211f799b0d2f049",
+      "source_sha256": "39fea594cf00bf81e8dbfc963b3801b568b91f691bbf293659926df7e3848dde",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "manual_mission"
+    },
+    {
+      "module": "arm9",
+      "name": "GetCurrentMissionLevel_1",
+      "mode": "arm",
+      "address": "0x020cc5b8",
+      "size": "32",
+      "sha256": "8984d5f7e59df201995b9a90a947e5a1e4b33093ead7afe696a08c4f443a83a0",
+      "source_sha256": "a2d0da1e45ba292cdee1a5c3a10bc0966e0eab5a4d816a7118002cc9eefd7846",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "manual_mission"
+    },
+    {
+      "module": "arm9",
+      "name": "GetCurrentPlayerRacerId",
+      "mode": "arm",
+      "address": "0x020b4d9c",
+      "size": "40",
+      "sha256": "7a4bd9b2bcfd9611ea42d9c9d4fc1f843664abfa4330b9ca499b08a88fa89f26",
+      "source_sha256": "6bda507879ed94a5612462beee4ad515f8d8f1bd20d120df8a3d9785ec147bcb",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "manual_mission"
+    },
+    {
+      "module": "arm9",
+      "name": "IsRacerFinishStatus4",
+      "mode": "arm",
+      "address": "0x0203f2b4",
+      "size": "40",
+      "sha256": "2a9eb96e4f51fd254de074a233296da031f50f0eeafa261a039e18cab391c009",
+      "source_sha256": "1ee8555b7295a514dd2c51b98cac7ad668d437a163ccc4bb97ebd74f04b3254a",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "manual_mission"
+    },
+    {
+      "module": "arm9",
+      "name": "SetCurrentlyInKartModelMenu",
+      "mode": "arm",
+      "address": "0x02088888",
+      "size": "44",
+      "sha256": "74bac053f96de58278f9603c3bddbcf78294dd542e6fc4632611ec80757541ba",
+      "source_sha256": "ea0d98f978d232c7005f4af6a1ac67dd7b8e83f911644722d6ad46c8abc5b93b",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "manual_mission"
+    },
+    {
+      "module": "arm9",
+      "name": "IsCurrentMission_Boss6OrBoss7_from_thumb",
+      "mode": "thumb",
+      "address": "0x020b2f58",
+      "size": "48",
+      "sha256": "011461f624f6e4cfb6cdc5d3797e4944b69a27de0c3d4bb0bffb2fda093e3796",
+      "source_sha256": "ad993ec90983eab4b4597e07db656bc4c58df7cb8ec0a14120524be9e249d16e",
+      "relocations": "4",
+      "optimization": "-O4,s",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "IsInBossMissionStage",
+      "mode": "arm",
+      "address": "0x021054d0",
+      "size": "52",
+      "sha256": "c0dd9f7018aef9d001954c41bae59c42fe1b39db630e04511bdf4fbf7c885f7c",
+      "source_sha256": "7c85fcde30d2e70755e525363a3a3219eb29057a8ca0ccbd1223a34dbba089f2",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "manual_mission"
+    },
+    {
+      "module": "arm9",
+      "name": "Logo_StateHandler_AskEraseSaveData_Second",
+      "mode": "arm",
+      "address": "0x02001500",
+      "size": "152",
+      "sha256": "2109092b9511d52820a98e7a7b4cd9fba894cc10928dbed17c3bf2c1c4208aaa",
+      "source_sha256": "c948c1344676847b9b45c7df08fd740e6886aec795433225c93141120bd94ec1",
+      "relocations": "4",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "fresh_audits": {
+    "unrelocated": {
+      "tested": 1421,
+      "passed": 1421,
+      "exact_code_bytes": 48486,
+      "relocations": 0,
+      "full_rom_link_verified": false,
+      "compiler": "mwccarm 1.2/sp2p3; Clang for explicitly tagged Clang proofs",
+      "verification": "Fresh compilation of current source; complete function bytes and length identical to original decompressed section; no masking or relocations."
+    },
+    "resolved": {
+      "tested": 2368,
+      "passed": 2368,
+      "bytes": 242100,
+      "resolved_relocations": 7372,
+      "full_rom_link_verified": false
+    }
+  },
+  "total_functions": 3789,
+  "inventory_bytes": 288062,
+  "identified_function_bytes": 1913676,
+  "new_inventory_bytes": 568,
+  "full_rom_link_verified": false,
+  "method": "Manual typed C reconstructed from original ARM/Thumb instructions; complete final-source recompilation audits and fully resolved bytes; no masking.",
+  "opposite_isa_search": {
+    "build": {
+      "candidate_sources": 3537,
+      "compiled_objects": 3537,
+      "donor_commit": "c6e18fa4b346643b74c402b605a84b43cba16c01",
+      "full_rom_link_verified": false
+    },
+    "search": {
+      "tested": 0,
+      "accepted": 0
+    }
+  },
+  "semantics": {
+    "passed": 20792,
+    "cases": {
+      "GetCurrentMissionLevelStage": 1792,
+      "GetCurrentMissionLevel": 1792,
+      "GetCurrentMissionLevelStage_0": 1792,
+      "GetCurrentMissionLevel_0": 1792,
+      "GetCurrentMissionStage": 1792,
+      "GetCurrentMissionLevel_1": 1792,
+      "IsInBossMissionStage": 1792,
+      "IsCurrentMission_Boss6OrBoss7_from_thumb": 7168,
+      "GetCurrentPlayerRacerId": 1024,
+      "IsRacerFinishStatus4": 56
+    },
+    "method": "Original ARM/Thumb in Unicorn versus host-compiled current C; global pointers redirected only",
+    "full_rom_link_verified": false
+  }
+}

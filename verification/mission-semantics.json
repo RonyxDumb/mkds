@@ -1,0 +1,17 @@
+{
+  "passed": 20792,
+  "cases": {
+    "GetCurrentMissionLevelStage": 1792,
+    "GetCurrentMissionLevel": 1792,
+    "GetCurrentMissionLevelStage_0": 1792,
+    "GetCurrentMissionLevel_0": 1792,
+    "GetCurrentMissionStage": 1792,
+    "GetCurrentMissionLevel_1": 1792,
+    "IsInBossMissionStage": 1792,
+    "IsCurrentMission_Boss6OrBoss7_from_thumb": 7168,
+    "GetCurrentPlayerRacerId": 1024,
+    "IsRacerFinishStatus4": 56
+  },
+  "method": "Original ARM/Thumb in Unicorn versus host-compiled current C; global pointers redirected only",
+  "full_rom_link_verified": false
+}

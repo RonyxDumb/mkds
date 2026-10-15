@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 4,
+    "type": 10,
+    "symbol": "GetCurrentMissionLevel_0",
+    "target": 34287416,
+    "thumb": false,
+    "addend": -4,
+    "value": 4025284607
+  },
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "GetCurrentMissionLevelStage_0",
+    "target": 34287384,
+    "thumb": false,
+    "addend": -4,
+    "value": 4023973887
+  },
+  {
+    "offset": 20,
+    "type": 10,
+    "symbol": "GetCurrentMissionLevel_0",
+    "target": 34287416,
+    "thumb": false,
+    "addend": -4,
+    "value": 4024760319
+  },
+  {
+    "offset": 28,
+    "type": 10,
+    "symbol": "GetCurrentMissionLevelStage_0",
+    "target": 34287384,
+    "thumb": false,
+    "addend": -4,
+    "value": 4023449599
+  }
+]

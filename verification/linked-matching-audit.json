@@ -1,8 +1,7 @@
 {
-  "tested": 2366,
-  "passed": 2366,
-  "bytes": 241900,
-  "resolved_relocations": 7364,
-  "full_rom_link_verified": false,
-  "scope": "Complete session audit, followed by individual recompilation of five final formatted menu sources"
+  "tested": 2368,
+  "passed": 2368,
+  "bytes": 242100,
+  "resolved_relocations": 7372,
+  "full_rom_link_verified": false
 }

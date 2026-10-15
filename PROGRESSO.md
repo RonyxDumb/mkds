@@ -64,3 +64,8 @@ Checkpoint 19: +405 funzioni ARM7 e +45.252 byte inventariati (47.336 negli span
 Checkpoint 23: due funzioni di gara ricostruite e verificate, +184 byte. Audit completo: 1.400 senza relocazioni e 1.717 con relocazioni. Confronto semantico ARM/C: 197.888 casi passati. Le prove mancanti del checkpoint 22 restano escluse.
 
 Checkpoint 24 recuperato: +651 funzioni, +69.680 byte inventariati, 14,989267%. Audit completo riuscito.
+
+Checkpoint 27: +12 funzioni e +568 byte inventariati; totale 3.789 funzioni,
+288.062 byte, 15,052809%. Ricompilate 1.421 prove senza relocazioni e 2.368 con
+relocazioni, tutte identiche; 7.372 relocazioni risolte. 20.792 casi ARM/Thumb-C
+passati sui nuovi helper missioni/gara. Nessun matching della ROM intera dichiarato.

@@ -200,3 +200,19 @@ REA ha esportato4 segmenti ARM in reports/rea/menus/, incluso Maybe_wifi 1.076 b
 Profilo raw generico v7 e nessun collegamento live emulatore-Ghidra: le funzioni
 matching sono ricostruzioni statiche indipendenti, non hit runtime dimostrati.
 Codice di questo checkpoint pubblicato su main nel commit remoto 26ffd6351f6c41dd4a920808d0a2d960c8eed50e; report finale successivo.
+
+## Checkpoint 27 — missioni e query tipizzate
+
+3.789 funzioni, 288.062 / 1.913.676 byte (15,052809%). +12 funzioni e +568 byte.
+Tutte le 1.421 prove senza relocazioni e 2.368 con relocazioni ricompilate;
+7.372 relocazioni risolte. Span completi 290.586 byte, extra esclusi dal numeratore.
+Hash-only checkpoint27-search-summary.json; 20.792 casi semantici original ARM/Thumb
+contro C host in test_mission_semantics.py (richiede unicorn==2.1.4 e gcc).
+Campi missione signed8, ID locale signed8/rete unsigned8, stride Racer 0x8c.
+Ricerca opposta ISA: 3.537 oggetti donor, nessun match. Riproduzione:
+prepare_mkds_candidates.py e prepare_alternate_donor_candidates.py, poi
+prepare_opposite_isa_candidates.py DONOR CONFIG_PRINCIPALE CONFIG_EXTRA;
+verify_sdk_sources.py con MKDS_DONOR_CONFIG=build/mkds-opposite-isa/config.json.
+Non ripetere senza modifiche. Prossimi near miss manuali: opzioni menu 020b2d04,
+emblema 0204a598 (flusso/epiloghi diversi); non inclusi. Nessuna nuova osservazione
+REA/runtime. Lavorare su main, un solo writer. ROM completa e ABI non verificati.

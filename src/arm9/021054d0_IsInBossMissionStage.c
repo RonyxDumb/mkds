@@ -1,24 +1,25 @@
-/* Decompiled C draft; module arm9; ROM address 021054d0. No matching claim. */
-#include "types.h"
-#include "deps/021054d0_IsInBossMissionStage.h"
+/* C reconstructed from original ARM/Thumb instructions.
+ * Complete local bytes verified; full ROM and global ABI remain unverified. */
+/* Only the observed fields are named; the remaining layout is padding. */
+typedef struct {
+    int padding_00[2];
+    int mode;                       /* 0x08 */
+    int player_mode;                /* 0x0c */
+    char padding_10[0x44];
+    signed char level;              /* 0x54 */
+    signed char stage;              /* 0x55 */
+    char padding_56[12];
+    signed char player;             /* 0x62 */
+    unsigned char network_player;   /* 0x63 */
+} RaceConfig;
 
-/* WARNING: Removing unreachable block (ram,0x021054f0) */
-
-bool IsInBossMissionStage(void)
-
+int IsInBossMissionStage(void)
 {
-  uint uVar1;
-  uint uVar2;
-  uint uVar3;
-  
-  uVar3 = *(uint *)(uRam02105500 & 0xfffffffc) >> (uRam02105500 & 3) * 8 |
-          *(uint *)(uRam02105500 & 0xfffffffc) << (uRam02105500 & 3) * -8 + 0x20;
-  uVar2 = uVar3 + 8;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  if ((uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20) != 4) {
-    return false;
-  }
-  return *(char *)(uVar3 + 0x55) == '\t';
+    RaceConfig *config = *(RaceConfig **)0x021759c0;
+    int result = 0;
+    if (config->mode != 4)
+        return result;
+    if ((config->mode == 4 ? config->stage : -1) == 9)
+        result = 1;
+    return result;
 }
-
