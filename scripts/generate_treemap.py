@@ -53,8 +53,10 @@ def main():
     p.add_argument('--output', default='docs/progress-treemap.svg')
     a=p.parse_args()
     source=Path(a.input)
+    checkpoint_label='snapshot'
     if source.exists():
         original=json.loads(source.read_text(encoding='utf-8'))
+        checkpoint_label='checkpoint '+str(original['checkpoint'])
         modules={}
         for m in original['modules']:
             funcs=m['functions'];groups=[]
@@ -72,7 +74,7 @@ def main():
       '<rect width="1200" height="740" rx="14" fill="#0d1117"/>',
       '<style>text{font-family:Inter,Segoe UI,Arial,sans-serif}.heading{fill:#e6edf3;font-weight:700}.light{fill:#9da7b3}.module{fill:#e6edf3;font-weight:700}.tile{fill:#8ea3b9;font-size:10px;pointer-events:none}</style>',
       '<text x="28" y="44" class="heading" font-size="26">Mario Kart DS · Decompilation progress</text>',
-      f'<text x="28" y="70" class="light" font-size="14">EUR checkpoint 6 · {exact:,} / {total:,} verified local byte-exact code bytes · {exact/total*100:.4f}%</text>',
+      f'<text x="28" y="70" class="light" font-size="14">EUR {checkpoint_label} · {exact:,} / {total:,} verified local byte-exact code bytes · {exact/total*100:.4f}%</text>',
       '<rect x="28" y="91" width="13" height="13" fill="#2ea043"/><text x="47" y="103" class="light" font-size="12">Byte-exact locally</text>',
       '<rect x="206" y="91" width="13" height="13" fill="#303f52"/><text x="225" y="103" class="light" font-size="12">Not byte-exact / unverified</text>',
       '<text x="1170" y="103" text-anchor="end" class="light" font-size="12">Tile area ∝ identified function bytes</text>']

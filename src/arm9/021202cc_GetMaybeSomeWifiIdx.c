@@ -1,13 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 021202cc. No matching claim. */
-#include "types.h"
-#include "deps/021202cc_GetMaybeSomeWifiIdx.h"
+/* C reconstructed from reference ARM instructions; full local bytes verified.
+ * No whole-ROM or global ABI equivalence claim. */
+struct WifiNibble {
+    unsigned char value : 4;
+    unsigned char rest : 4;
+};
 
-byte GetMaybeSomeWifiIdx(int param_1)
-
+unsigned GetMaybeSomeWifiIdx(int i)
 {
-  return *(byte *)(param_1 * 0x244 +
-                   (*(uint *)(uRam021202ec & 0xfffffffc) >> (uRam021202ec & 3) * 8 |
-                   *(uint *)(uRam021202ec & 0xfffffffc) << (uRam021202ec & 3) * -8 + 0x20) + 0x450)
-         & 0xf;
+    return ((struct WifiNibble *)(
+        *(unsigned *)0x0217d384 + i * 0x244 + 0x450))->value;
 }
-

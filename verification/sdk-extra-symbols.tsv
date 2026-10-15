@@ -1026,3 +1026,7 @@ arm9	SDK_data_02180414	0x02180414	0
 arm9	SDK_data_0216f26c	0x0216f26c	0
 arm9	SDK_data_02082fec	0x02082fec	0
 arm9	SDK_data_0216ec60	0x0216ec60	0
+arm9	Menu_EmblemNamesCustom	0x2155cec	0
+arm9	Menu_EmblemNamesCharacter	0x2155cf0	0
+arm9	Menu_EmblemOverlayInitialize	0x21a23f4	1
+arm9	Menu_RaceOptionBase	0x0217b354	0

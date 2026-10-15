@@ -1,0 +1,38 @@
+{
+  "reference_section": "arm9_0.bin",
+  "reference_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+  "bindings": [
+    {
+      "module": "arm9",
+      "name": "Menu_EmblemNamesCustom",
+      "address": "0x2155cec",
+      "evidence_address": "0x20884b4",
+      "kind": "literal",
+      "thumb": false
+    },
+    {
+      "module": "arm9",
+      "name": "Menu_EmblemNamesCharacter",
+      "address": "0x2155cf0",
+      "evidence_address": "0x20884b8",
+      "kind": "literal",
+      "thumb": false
+    },
+    {
+      "module": "arm9",
+      "name": "Menu_EmblemOverlayInitialize",
+      "address": "0x21a23f4",
+      "evidence_address": "0x204a610",
+      "kind": "arm-blx",
+      "thumb": true
+    },
+    {
+      "module": "arm9",
+      "name": "Menu_RaceOptionBase",
+      "address": "0x0217b354",
+      "evidence_address": "0x020b3208",
+      "kind": "literal",
+      "thumb": false
+    }
+  ]
+}

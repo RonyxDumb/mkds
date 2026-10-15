@@ -24,6 +24,7 @@
 | 23 | 8,308 | 69.01% | 3,117 | 217,166 |
 | 24 | non rimisurato | — | 3,768 | 286,846 |
 | 25 | 8,589 | 71.35% | 3,772 | 287,242 |
+| 26 | 8,590 | 71.36% | 3,777 | 287,494 |
 
 Checkpoint 4: 846 puntatori tipizzati, 484 nuove compilazioni riuscite.
 

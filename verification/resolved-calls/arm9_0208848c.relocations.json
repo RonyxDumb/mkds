@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 40,
+    "type": 2,
+    "symbol": "Menu_EmblemNamesCustom",
+    "target": 34954476,
+    "thumb": false,
+    "addend": 0,
+    "value": 34954476
+  },
+  {
+    "offset": 44,
+    "type": 2,
+    "symbol": "Menu_EmblemNamesCharacter",
+    "target": 34954480,
+    "thumb": false,
+    "addend": 0,
+    "value": 34954480
+  }
+]

@@ -15,6 +15,7 @@
 #include <cstring>
 #include <dlfcn.h>
 #include <sstream>
+#include <iostream>
 #include <stdexcept>
 #include <algorithm>
 
@@ -117,18 +118,20 @@ static void Capture(melonDS::NDS& nds,const std::string& prefix) {
 }
 int main(int argc,char** argv) {
  try {
- if(argc<3) { fprintf(stderr,"usage: melonds-headless ROM frames [output-prefix] [--gdb] [--inputs timeline.tsv] [--capture-every frames]\n");return 2; }
+ if(argc<3) { fprintf(stderr,"usage: melonds-headless ROM frames [output-prefix] [--gdb] [--inputs timeline.tsv] [--capture-every frames] [--interactive]\n");return 2; }
  int frames=std::stoi(argv[2]);if(frames<1 || frames>36000)return 2;
- bool gdb=false;int captureEvery=0;std::string prefix,inputPath;
+ bool gdb=false,interactive=false;int captureEvery=0;std::string prefix,inputPath;
  for(int i=3;i<argc;i++) {
   std::string option=argv[i];
   if(option=="--gdb")gdb=true;
+  else if(option=="--interactive")interactive=true;
   else if(option=="--inputs" && i+1<argc)inputPath=argv[++i];
   else if(option=="--capture-every" && i+1<argc) {captureEvery=std::stoi(argv[++i]);if(captureEvery<1)return 2;}
   else if(prefix.empty() && option.rfind("--",0)!=0)prefix=option;
   else return 2;
  }
- if(captureEvery && prefix.empty())return 2;
+ if((captureEvery || interactive) && prefix.empty())return 2;
+ if(interactive && !inputPath.empty())return 2;
  auto events=inputPath.empty()?std::vector<InputEvent>{}:LoadInputs(inputPath,frames);size_t eventIndex=0;
  std::ifstream input(argv[1],std::ios::binary);if(!input)return 2;
  std::vector<melonDS::u8> rom((std::istreambuf_iterator<char>(input)),{});
@@ -138,10 +141,21 @@ int main(int argc,char** argv) {
  auto nds=std::make_unique<melonDS::NDS>(std::move(args));
  nds->SetNDSCart(std::move(cart));nds->Reset();nds->SetupDirectBoot("AMCP.nds");nds->Start();
  nds->RTC.SetDateTime(2026,1,1,0,0,0);
+ int remaining=0;unsigned liveKeys=0;int liveX=-1,liveY=-1;
+ std::ofstream controls;if(interactive)controls.open(prefix+"-inputs.tsv");
  for(int frame=0;frame<frames && nds->IsRunning();frame++) {
+  if(interactive && remaining==0) {
+   if(frame>0)Capture(*nds,prefix+"-"+std::to_string(frame));
+   printf("{\"paused_frame\":%d}\n",frame);fflush(stdout);
+   std::string command;if(!std::getline(std::cin,command) || command=="quit")break;
+   std::istringstream row(command);std::string extra;
+   if(!(row>>remaining>>liveKeys>>liveX>>liveY) || row>>extra || remaining<1 || remaining>frames-frame || liveKeys>4095 || !((liveX==-1 && liveY==-1)||(liveX>=0 && liveX<256 && liveY>=0 && liveY<192)))throw std::runtime_error("Invalid interactive input");
+   controls<<frame<<" "<<frame+remaining<<" "<<liveKeys<<" "<<liveX<<" "<<liveY<<"\n";controls.flush();
+  }
   while(eventIndex<events.size() && events[eventIndex].last<=frame)eventIndex++;
   unsigned keys=0;int x=-1,y=-1;
   if(eventIndex<events.size() && events[eventIndex].first<=frame) {auto e=events[eventIndex];keys=e.keys;x=e.x;y=e.y;}
+  if(interactive){keys=liveKeys;x=liveX;y=liveY;remaining--;}
   nds->SetKeyMask(0xFFF ^ keys);
   if(x>=0)nds->TouchScreen(x,y);else nds->ReleaseScreen();
   nds->RunFrame();

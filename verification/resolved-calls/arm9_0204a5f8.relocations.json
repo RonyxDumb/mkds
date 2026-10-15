@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 8,
+    "type": 1,
+    "symbol": "GetActiveExecutionContext",
+    "target": 33776872,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402424
+  },
+  {
+    "offset": 12,
+    "type": 1,
+    "symbol": "ExecutionContext_GetHeapHandle",
+    "target": 33776864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959402421
+  },
+  {
+    "offset": 16,
+    "type": 1,
+    "symbol": "MaybeInitializeSomeWirelessShit",
+    "target": 33790376,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959405798
+  },
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "MaybeResetInput",
+    "target": 33831956,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959416192
+  },
+  {
+    "offset": 24,
+    "type": 1,
+    "symbol": "Menu_EmblemOverlayInitialize",
+    "target": 35267572,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194656119
+  }
+]

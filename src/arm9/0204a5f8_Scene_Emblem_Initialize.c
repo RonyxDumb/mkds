@@ -1,15 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 0204a5f8. No matching claim. */
-#include "types.h"
-#include "deps/0204a5f8_Scene_Emblem_Initialize.h"
+/* C reconstructed from reference ARM instructions; full local bytes verified.
+ * No whole-ROM or global ABI equivalence claim. */
+extern void *GetActiveExecutionContext(void);
+extern void *ExecutionContext_GetHeapHandle(void *);
+extern void MaybeInitializeSomeWirelessShit(void *);
+extern void MaybeResetInput(void);
+extern void Menu_EmblemOverlayInitialize(void);
 
 void Scene_Emblem_Initialize(void)
-
 {
-  GetActiveExecutionContext();
-  ExecutionContext_GetHeapHandle();
-  MaybeInitializeSomeWirelessShit();
-  MaybeResetInput();
-  func_0x021a23f4();
-  return;
+    MaybeInitializeSomeWirelessShit(
+        ExecutionContext_GetHeapHandle(GetActiveExecutionContext()));
+    MaybeResetInput();
+    Menu_EmblemOverlayInitialize();
 }
-
