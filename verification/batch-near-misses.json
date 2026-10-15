@@ -1,0 +1,249 @@
+{
+  "fingerprint": "df0dd5da3b8458493522fe4e1dcde57127a51f19b64e1d06b3a7185fbe341a02",
+  "scope": "Priority hints only, not partial matches",
+  "near_misses": [
+    {
+      "address": "0x209e508",
+      "differing_bytes": 734,
+      "module": "arm9",
+      "name": "func_0209e508",
+      "optimization": "-O2",
+      "size": 1072,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x2136f14",
+      "differing_bytes": 954,
+      "module": "arm9",
+      "name": "func_02136f14",
+      "optimization": "-O4,s",
+      "size": 1092,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x20d029c",
+      "differing_bytes": 1110,
+      "module": "arm9",
+      "name": "func_020d029c",
+      "optimization": "-O4,p",
+      "size": 1052,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x20a79c4",
+      "differing_bytes": 1131,
+      "module": "arm9",
+      "name": "func_020a79c4",
+      "optimization": "-O1",
+      "size": 1260,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x20979c8",
+      "differing_bytes": 1224,
+      "module": "arm9",
+      "name": "func_020979c8",
+      "optimization": "-O2",
+      "size": 952,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x2032ac4",
+      "differing_bytes": 1244,
+      "module": "arm9",
+      "name": "func_02032ac4",
+      "optimization": "-O3",
+      "size": 1232,
+      "variant": "draft"
+    },
+    {
+      "address": "0x202bb80",
+      "differing_bytes": 1289,
+      "module": "arm9",
+      "name": "func_0202bb80",
+      "optimization": "-O4,s",
+      "size": 1364,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x20c3654",
+      "differing_bytes": 1342,
+      "module": "arm9",
+      "name": "func_020c3654",
+      "optimization": "-O1",
+      "size": 1304,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x20720dc",
+      "differing_bytes": 1376,
+      "module": "arm9",
+      "name": "DriverContext_Fn1",
+      "optimization": "-O1",
+      "size": 1316,
+      "variant": "draft"
+    },
+    {
+      "address": "0x21410bc",
+      "differing_bytes": 1388,
+      "module": "arm9",
+      "name": "func_021410bc",
+      "optimization": "-O2",
+      "size": 1148,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x203810c",
+      "differing_bytes": 1408,
+      "module": "arm9",
+      "name": "SetGlobalDisplayConfig_Bg3",
+      "optimization": "-O2",
+      "size": 1476,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x20386d0",
+      "differing_bytes": 1408,
+      "module": "arm9",
+      "name": "SetGlobalDisplayConfig_Bg2",
+      "optimization": "-O2",
+      "size": 1476,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x20b3728",
+      "differing_bytes": 1487,
+      "module": "arm9",
+      "name": "MaybeWhenFinishFlagpole",
+      "optimization": "-O3",
+      "size": 948,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x202c0d4",
+      "differing_bytes": 1532,
+      "module": "arm9",
+      "name": "Maybe_mb_select_menu_etc_download_m_bg_00",
+      "optimization": "-O3",
+      "size": 1416,
+      "variant": "draft"
+    },
+    {
+      "address": "0x20a8a6c",
+      "differing_bytes": 1556,
+      "module": "arm9",
+      "name": "func_020a8a6c",
+      "optimization": "-O2",
+      "size": 1132,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x213377c",
+      "differing_bytes": 1559,
+      "module": "arm9",
+      "name": "func_0213377c",
+      "optimization": "-O0",
+      "size": 1580,
+      "variant": "draft"
+    },
+    {
+      "address": "0x2086a04",
+      "differing_bytes": 1675,
+      "module": "arm9",
+      "name": "func_02086a04",
+      "optimization": "-O2",
+      "size": 1160,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x20af99c",
+      "differing_bytes": 1744,
+      "module": "arm9",
+      "name": "func_020af99c",
+      "optimization": "-O2",
+      "size": 972,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x2045084",
+      "differing_bytes": 1790,
+      "module": "arm9",
+      "name": "PrepareCurrentRaceRacer",
+      "optimization": "-O2",
+      "size": 1292,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x213e468",
+      "differing_bytes": 1916,
+      "module": "arm9",
+      "name": "func_0213e468",
+      "optimization": "-O0",
+      "size": 2192,
+      "variant": "draft"
+    },
+    {
+      "address": "0x20a3154",
+      "differing_bytes": 1965,
+      "module": "arm9",
+      "name": "func_020a3154",
+      "optimization": "-O4,s",
+      "size": 1116,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x2046024",
+      "differing_bytes": 2246,
+      "module": "arm9",
+      "name": "func_02046024",
+      "optimization": "-O2",
+      "size": 1280,
+      "variant": "symbolic-globals"
+    },
+    {
+      "address": "0x20f41c4",
+      "differing_bytes": 2247,
+      "module": "arm9",
+      "name": "func_020f41c4",
+      "optimization": "-O2",
+      "size": 1068,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x2094768",
+      "differing_bytes": 2406,
+      "module": "arm9",
+      "name": "func_02094768",
+      "optimization": "-O4,p",
+      "size": 1128,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x2150228",
+      "differing_bytes": 2410,
+      "module": "arm9",
+      "name": "func_02150228",
+      "optimization": "-O1",
+      "size": 1000,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x207cd74",
+      "differing_bytes": 2524,
+      "module": "arm9",
+      "name": "func_0207cd74",
+      "optimization": "-O2",
+      "size": 1056,
+      "variant": "native-loads"
+    },
+    {
+      "address": "0x20192e0",
+      "differing_bytes": 3174,
+      "module": "arm9",
+      "name": "func_020192e0",
+      "optimization": "-O2",
+      "size": 2120,
+      "variant": "native-loads"
+    }
+  ]
+}

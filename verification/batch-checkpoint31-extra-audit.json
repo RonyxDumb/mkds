@@ -1,0 +1,44 @@
+{
+  "new_matches": [
+    {
+      "module": "arm7",
+      "name": "FUN_06009710",
+      "mode": "arm",
+      "address": "0x06009710",
+      "size": "60",
+      "sha256": "637696d95ba48c3a0c952620df300f6ff61a18ac5c5d4d72c6ad21a1d54f98fe",
+      "source_sha256": "cd0617e8858d0d01239df4112652395ffbb9bd156aa71d94a691c5cdf4a22e70",
+      "relocations": "2",
+      "optimization": "-O2",
+      "processor": "arm7tdmi",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm7",
+      "name": "FUN_0600974c",
+      "mode": "arm",
+      "address": "0x0600974c",
+      "size": "60",
+      "sha256": "3c2b135978826c640c7adddb77f62152aaa3788e92c318dab14a1634fb0b32ab",
+      "source_sha256": "ab14870c4e6d7c98b5835d651dba38ea2a25163e2cb777ed7004a58f6240222d",
+      "relocations": "2",
+      "optimization": "-O2",
+      "processor": "arm7tdmi",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 2,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 2,
+      "passed": 2
+    },
+    "unrelocated": {
+      "tested": 0,
+      "passed": 0
+    }
+  }
+}

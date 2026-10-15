@@ -1,0 +1,130 @@
+{
+  "new_matches": [
+    {
+      "module": "arm7",
+      "name": "FUN_037fcc24",
+      "mode": "arm",
+      "address": "0x037fcc24",
+      "size": "12",
+      "sha256": "619886ee4d8442e756bde9b5dbff5b9e9a76a85a3d795bb7b2dcd80ae02dbe87",
+      "source_sha256": "4c72a3f075992003a9da15d6fc3607f46e83cb51a9728a9dd373e94774351f28",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "mw_batch_draft"
+    },
+    {
+      "module": "arm7",
+      "name": "FUN_037f8af4",
+      "mode": "arm",
+      "address": "0x037f8af4",
+      "size": "8",
+      "sha256": "6d5a4840c44a1411d11982bfb3c00d1e3fc7556a167a7d29e4c38df0312d171d",
+      "source_sha256": "4b74e4e479bdd04b24f5c9fbf0773f9a471345f5dc1a2022fac2f6a5abcbdbd0",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "mw_batch_draft"
+    },
+    {
+      "module": "arm7",
+      "name": "FUN_037f8d38",
+      "mode": "arm",
+      "address": "0x037f8d38",
+      "size": "8",
+      "sha256": "05141bd4fd8e6b124f485d5927bbc20ff97fcf27a8a4b6013bd61578a7898e06",
+      "source_sha256": "e0f4577e13bd11fb52dea027cd4403edddec6722a1dc3429319ca5a6d4ca9650",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "mw_batch_draft"
+    },
+    {
+      "module": "arm7",
+      "name": "FUN_037fcc4c",
+      "mode": "arm",
+      "address": "0x037fcc4c",
+      "size": "8",
+      "sha256": "0998aabde260034f784225c5b5f20876b0145076db7ad06edd35bc3313ed9d25",
+      "source_sha256": "d80e65978444072300b34379a8d85045711f145e68b4cf1b125ff36bb73cbfc3",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "mw_batch_draft"
+    },
+    {
+      "module": "arm7",
+      "name": "FUN_037fc294",
+      "mode": "arm",
+      "address": "0x037fc294",
+      "size": "4",
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "source_sha256": "8f97ff8dfbc24a2cd66d8592bb23332e960ff88671b4a6a092bbd61b49878210",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "mw_batch_draft"
+    },
+    {
+      "module": "arm7",
+      "name": "FUN_037fc298",
+      "mode": "arm",
+      "address": "0x037fc298",
+      "size": "4",
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "source_sha256": "c5d00009a5171f6b5b3bd056788e20b2f50f2b37a991b8a4324e3e3a31af72d6",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "mw_batch_draft"
+    },
+    {
+      "module": "arm7",
+      "name": "FUN_06001c94",
+      "mode": "arm",
+      "address": "0x06001c94",
+      "size": "4",
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "source_sha256": "8b91464cd5eb6e0f2ff88fbd6a806f67f54efb45f14bb36168d5694226ffbef3",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "mw_batch_draft"
+    },
+    {
+      "module": "arm7",
+      "name": "FUN_060164f4",
+      "mode": "arm",
+      "address": "0x060164f4",
+      "size": "4",
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "source_sha256": "aa49c71440484b7157a4006f1bc6e081b56c3e258a1fe66b2ef500e4267b4e39",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "mw_batch_draft"
+    }
+  ],
+  "total_functions": 8,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 0,
+      "passed": 0
+    },
+    "unrelocated": {
+      "tested": 8,
+      "passed": 8
+    }
+  }
+}

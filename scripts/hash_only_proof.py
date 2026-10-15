@@ -23,7 +23,8 @@ def validate_hash_only(root, module, address, inventory_size, proof):
     assert any(r['module'] == module and int(r['address'], 16) == address
                and all(r[field] == proof[field] for field in ['sha256', 'source_sha256', 'size'])
                for r in audit['new_matches'])
-    result = audit['fresh_audits']['resolved']
-    assert result['tested'] == result['passed']
-    assert result['passed'] + audit['fresh_audits']['unrelocated']['passed'] == audit['total_functions']
-    assert result['passed'] > 0 and audit['full_rom_link_verified'] is False
+    groups = [audit['fresh_audits'][name] for name in ['resolved', 'unrelocated']]
+    assert all(isinstance(group['tested'], int) and group['tested'] >= 0
+               and group['tested'] == group['passed'] for group in groups)
+    assert sum(group['passed'] for group in groups) == audit['total_functions'] > 0
+    assert audit['full_rom_link_verified'] is False

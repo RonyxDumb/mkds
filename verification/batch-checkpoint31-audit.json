@@ -1,0 +1,111 @@
+{
+  "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+  "fresh_audits": {
+    "resolved": {
+      "passed": 5,
+      "tested": 5
+    },
+    "unrelocated": {
+      "passed": 2,
+      "tested": 2
+    }
+  },
+  "full_rom_link_verified": false,
+  "new_matches": [
+    {
+      "address": "0x037f83c0",
+      "mode": "arm",
+      "module": "arm7",
+      "name": "FUN_037f83c0",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "relocations": "12",
+      "sha256": "c971e571030cfb2fe71cb6421cd1ceab34031c20dbb89868b0ebb78afcf9dc32",
+      "size": "172",
+      "source_sha256": "aa4e445e69afd1d28f9a32d73f67a73fb9aca5c6632a75d88b0a1c9f36cd290d",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "address": "0x037fb014",
+      "mode": "arm",
+      "module": "arm7",
+      "name": "FUN_037fb014",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "relocations": "9",
+      "sha256": "54171c29d0e3c03a6efa5242cd48c46e39d7d917469ecde27af8c666e586c7f0",
+      "size": "84",
+      "source_sha256": "5c07f028729de8aca31274568ac343af684fe8b20fc31aac095436b7852c7c57",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "address": "0x0600a8d4",
+      "kind": "mw_batch_draft",
+      "mode": "arm",
+      "module": "arm7",
+      "name": "FUN_0600a8d4",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "relocations": "0",
+      "sha256": "282257863ef28d536cece8223288981b7f3ef8fc6073061bd7c2d9dba868e3ea",
+      "size": "76",
+      "source_sha256": "f4e45752ed1fde795d17f1c6022f886f077ffc41d13e5c616f0751f464bc3f0e",
+      "status": "EXACT_LOCAL_BYTES"
+    },
+    {
+      "address": "0x037fb068",
+      "mode": "arm",
+      "module": "arm7",
+      "name": "FUN_037fb068",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "relocations": "1",
+      "sha256": "2e7b638cffc8c6bbe0847698cef0faa79258371cee0f3184c6ae44b56119adbd",
+      "size": "48",
+      "source_sha256": "4757fcb243470967b97d85b2d62894224a116122a0cd1ed7f5c27b386f044de8",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "address": "0x020c4bb0",
+      "mode": "arm",
+      "module": "arm9",
+      "name": "IncrementRaceIntroFrameCounter",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "relocations": "1",
+      "sha256": "49683e8532ba2d985583720a9ade94bf3fc80234dc3dcb402426bf042b42bb27",
+      "size": "40",
+      "source_sha256": "83db733a798b2cc916db49e6576cc6157a49dacde7dad4bbdacfffd02fa5aab4",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "address": "0x037fafd4",
+      "mode": "arm",
+      "module": "arm7",
+      "name": "FUN_037fafd4",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "relocations": "2",
+      "sha256": "2ea18512b29a8a579088cd6fbb6cb9fbf981d94367cc5306d102f9a259377be9",
+      "size": "32",
+      "source_sha256": "6871d30f1cf4e7b69c0daae7ce85fdd3c4304799a28284efe007fe730d18c48b",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "address": "0x0600a954",
+      "kind": "mw_batch_draft",
+      "mode": "arm",
+      "module": "arm7",
+      "name": "FUN_0600a954",
+      "optimization": "-O4,p",
+      "processor": "arm7tdmi",
+      "relocations": "0",
+      "sha256": "8b8f981bb0eec3028fa808b213782e4fe902c8f78959c7a691b59d6c70d8af96",
+      "size": "28",
+      "source_sha256": "a79025dfb28f6e9f7b0ba1f1fdd070f4f7b21123b29287df734df0da05ee74de",
+      "status": "EXACT_LOCAL_BYTES"
+    }
+  ],
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "total_functions": 7
+}

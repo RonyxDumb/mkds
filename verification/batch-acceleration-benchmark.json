@@ -1,0 +1,532 @@
+{
+  "environment": {
+    "rea": "6.5.0 local DS adapter",
+    "ghidra": "12.1.4",
+    "node": "24.19.0",
+    "platform": "Linux",
+    "filesystem_cache": "Not evicted; cold means no result-cache hits, not cold OS caches"
+  },
+  "rea": {
+    "persistent": {
+      "mode": "persistent-mcp",
+      "module": "arm9",
+      "target_sha256": "982fd1492ab81f9c3c214af728b9899883f8b0b22129a6508e906e4a9120a0aa",
+      "base_address": "0x200104c",
+      "bytes": 2796,
+      "targets": [
+        {
+          "module": "arm9",
+          "name": "func_0200104c",
+          "address": "0x200104c",
+          "bytes": 52,
+          "mode": "arm",
+          "profile": "nds-arm9",
+          "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+          "section": "arm9_0.bin",
+          "section_offset": 4172,
+          "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+          "sha256": "2bf908162e04e9fe695908f504cb19cd94722cca6bb81a1048877b2c8fccb4dd",
+          "limitations": [
+            "Isolated inventory span; external memory and callees unavailable.",
+            "Pseudocode is an analysis draft, not matching C."
+          ]
+        },
+        {
+          "module": "arm9",
+          "name": "Logo_StateHandler_EraseCorruptedSaveData_Second",
+          "address": "0x20016ac",
+          "bytes": 196,
+          "mode": "arm",
+          "profile": "nds-arm9",
+          "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+          "section": "arm9_0.bin",
+          "section_offset": 5804,
+          "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+          "sha256": "7ad38e89abda8a1d21ad51c358ec58cdc8a648e2b2b4d65a2bb4941e0fb31549",
+          "limitations": [
+            "Isolated inventory span; external memory and callees unavailable.",
+            "Pseudocode is an analysis draft, not matching C."
+          ]
+        },
+        {
+          "module": "arm9",
+          "name": "Logo_StateHandler_ReadSaveData_Second",
+          "address": "0x20019b0",
+          "bytes": 148,
+          "mode": "arm",
+          "profile": "nds-arm9",
+          "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+          "section": "arm9_0.bin",
+          "section_offset": 6576,
+          "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+          "sha256": "104f0a5b75c6ef67f59fb593ae7c4cefcc07d02c15b93994ec4b1016c4bd5810",
+          "limitations": [
+            "Isolated inventory span; external memory and callees unavailable.",
+            "Pseudocode is an analysis draft, not matching C."
+          ]
+        },
+        {
+          "module": "arm9",
+          "name": "Scene_Logo_VBlankImpl",
+          "address": "0x2001abc",
+          "bytes": 124,
+          "mode": "arm",
+          "profile": "nds-arm9",
+          "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+          "section": "arm9_0.bin",
+          "section_offset": 6844,
+          "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+          "sha256": "105f510282df2f7e725db4614f3ee9787832e63e134281558af05dcdfde992b1",
+          "limitations": [
+            "Isolated inventory span; external memory and callees unavailable.",
+            "Pseudocode is an analysis draft, not matching C."
+          ]
+        }
+      ],
+      "results": [
+        {
+          "address": "0x200104c",
+          "seconds": 11.36505588700038,
+          "has_pseudocode": true,
+          "pseudocode_sha256": "d43b1689ef3f6e680e90910d3e40c2578ea0647b215895fd69c801ad5efadcdd"
+        },
+        {
+          "address": "0x20016ac",
+          "seconds": 0.02049614499992458,
+          "has_pseudocode": true,
+          "pseudocode_sha256": "76c1ba7b109cd0230d13bb172901ea0fbd72ebe5b187184b39204b16c7cb5fc5"
+        },
+        {
+          "address": "0x20019b0",
+          "seconds": 0.010288851000041177,
+          "has_pseudocode": true,
+          "pseudocode_sha256": "1166be9ae938c3001944c6e95b59b1333c93550974784e930c2cc6d1437a2754"
+        },
+        {
+          "address": "0x2001abc",
+          "seconds": 0.013305948999914108,
+          "has_pseudocode": true,
+          "pseudocode_sha256": "2188cf75b897c54635935290574a2f8bdd9252c8b52b8e73f2af56f1fb866ee2"
+        }
+      ],
+      "matching_claim": false,
+      "limitations": [
+        "Single initialized span only; external memory and callees remain incomplete.",
+        "Entry mode is explicit for the group; mixed ISA groups are rejected."
+      ],
+      "seconds_before_close": 13.163139932000377,
+      "seconds": 13.606139247000101,
+      "provider_sessions": 1
+    },
+    "one_shot": {
+      "mode": "one-shot",
+      "module": "arm9",
+      "target_sha256": "982fd1492ab81f9c3c214af728b9899883f8b0b22129a6508e906e4a9120a0aa",
+      "base_address": "0x200104c",
+      "bytes": 2796,
+      "targets": [
+        {
+          "module": "arm9",
+          "name": "func_0200104c",
+          "address": "0x200104c",
+          "bytes": 52,
+          "mode": "arm",
+          "profile": "nds-arm9",
+          "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+          "section": "arm9_0.bin",
+          "section_offset": 4172,
+          "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+          "sha256": "2bf908162e04e9fe695908f504cb19cd94722cca6bb81a1048877b2c8fccb4dd",
+          "limitations": [
+            "Isolated inventory span; external memory and callees unavailable.",
+            "Pseudocode is an analysis draft, not matching C."
+          ]
+        },
+        {
+          "module": "arm9",
+          "name": "Logo_StateHandler_EraseCorruptedSaveData_Second",
+          "address": "0x20016ac",
+          "bytes": 196,
+          "mode": "arm",
+          "profile": "nds-arm9",
+          "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+          "section": "arm9_0.bin",
+          "section_offset": 5804,
+          "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+          "sha256": "7ad38e89abda8a1d21ad51c358ec58cdc8a648e2b2b4d65a2bb4941e0fb31549",
+          "limitations": [
+            "Isolated inventory span; external memory and callees unavailable.",
+            "Pseudocode is an analysis draft, not matching C."
+          ]
+        },
+        {
+          "module": "arm9",
+          "name": "Logo_StateHandler_ReadSaveData_Second",
+          "address": "0x20019b0",
+          "bytes": 148,
+          "mode": "arm",
+          "profile": "nds-arm9",
+          "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+          "section": "arm9_0.bin",
+          "section_offset": 6576,
+          "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+          "sha256": "104f0a5b75c6ef67f59fb593ae7c4cefcc07d02c15b93994ec4b1016c4bd5810",
+          "limitations": [
+            "Isolated inventory span; external memory and callees unavailable.",
+            "Pseudocode is an analysis draft, not matching C."
+          ]
+        },
+        {
+          "module": "arm9",
+          "name": "Scene_Logo_VBlankImpl",
+          "address": "0x2001abc",
+          "bytes": 124,
+          "mode": "arm",
+          "profile": "nds-arm9",
+          "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+          "section": "arm9_0.bin",
+          "section_offset": 6844,
+          "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+          "sha256": "105f510282df2f7e725db4614f3ee9787832e63e134281558af05dcdfde992b1",
+          "limitations": [
+            "Isolated inventory span; external memory and callees unavailable.",
+            "Pseudocode is an analysis draft, not matching C."
+          ]
+        }
+      ],
+      "results": [
+        {
+          "address": "0x200104c",
+          "seconds": 13.606547182999748,
+          "has_pseudocode": true,
+          "pseudocode_sha256": "d43b1689ef3f6e680e90910d3e40c2578ea0647b215895fd69c801ad5efadcdd"
+        },
+        {
+          "address": "0x20016ac",
+          "seconds": 14.936914455000078,
+          "has_pseudocode": true,
+          "pseudocode_sha256": "76c1ba7b109cd0230d13bb172901ea0fbd72ebe5b187184b39204b16c7cb5fc5"
+        },
+        {
+          "address": "0x20019b0",
+          "seconds": 12.878005978999681,
+          "has_pseudocode": true,
+          "pseudocode_sha256": "1166be9ae938c3001944c6e95b59b1333c93550974784e930c2cc6d1437a2754"
+        },
+        {
+          "address": "0x2001abc",
+          "seconds": 12.494215405999967,
+          "has_pseudocode": true,
+          "pseudocode_sha256": "2188cf75b897c54635935290574a2f8bdd9252c8b52b8e73f2af56f1fb866ee2"
+        }
+      ],
+      "matching_claim": false,
+      "limitations": [
+        "Single initialized span only; external memory and callees remain incomplete.",
+        "Entry mode is explicit for the group; mixed ISA groups are rejected."
+      ],
+      "seconds_before_close": 53.975800153999444,
+      "seconds": 53.97610859699944,
+      "provider_sessions": 4
+    },
+    "identical_pseudocode": true,
+    "speed_ratio": 3.967040731918142
+  },
+  "searches": {
+    "batch-small": {
+      "available_candidates": 6578,
+      "cache_hits": 0,
+      "compiler_invocations": 6578,
+      "completed": 6578,
+      "fingerprint": "cae1af143c639bbe4f4d455736b309e6b0f42e92b0988f299c641addf97eac70",
+      "full_rom_link_verified": false,
+      "outcomes": {
+        "compile_error": 2214,
+        "exact": 7,
+        "mismatch": 4229,
+        "unresolved": 128
+      },
+      "seconds": 29.75183166500028,
+      "selected": 6578,
+      "workers": 4,
+      "exact_candidate_count": 7
+    },
+    "batch-small-warm": {
+      "available_candidates": 6578,
+      "cache_hits": 6578,
+      "compiler_invocations": 0,
+      "completed": 6578,
+      "fingerprint": "cae1af143c639bbe4f4d455736b309e6b0f42e92b0988f299c641addf97eac70",
+      "full_rom_link_verified": false,
+      "outcomes": {
+        "compile_error": 2214,
+        "exact": 7,
+        "mismatch": 4229,
+        "unresolved": 128
+      },
+      "seconds": 5.616531846999351,
+      "selected": 6578,
+      "workers": 4,
+      "exact_candidate_count": 7
+    },
+    "batch-full": {
+      "available_candidates": 9913,
+      "cache_hits": 0,
+      "compiler_invocations": 59470,
+      "completed": 9913,
+      "fingerprint": "a955910e9a19d59c2d22843e8c7bc2c505738823b2b0eafc7e89080bcbc3ceb0",
+      "full_rom_link_verified": false,
+      "outcomes": {
+        "compile_error": 25794,
+        "exact": 2,
+        "mismatch": 32240,
+        "unresolved": 1434
+      },
+      "seconds": 191.91974456800017,
+      "selected": 9913,
+      "workers": 8,
+      "exact_candidate_count": 2
+    },
+    "batch-frontend-exhaustive": {
+      "available_candidates": 10425,
+      "cache_hits": 0,
+      "compiler_invocations": 3000,
+      "completed": 500,
+      "cpu_seconds_self_and_children": 46.307443,
+      "fingerprint": "b33e9cde73be83115735d1bafa8dde4f7560eb1ac3fd56da064440a096ad11b1",
+      "full_rom_link_verified": false,
+      "largest_child_rss_kib": 121380,
+      "optimization_attempts_skipped": 0,
+      "outcomes": {
+        "compile_error": 2574,
+        "mismatch": 378,
+        "unresolved": 48
+      },
+      "peak_python_rss_kib": 121380,
+      "seconds": 16.76541779299987,
+      "selected": 500,
+      "workers": 4,
+      "exact_candidate_count": 0
+    },
+    "batch-frontend-fast": {
+      "available_candidates": 10425,
+      "cache_hits": 0,
+      "compiler_invocations": 1015,
+      "completed": 500,
+      "cpu_seconds_self_and_children": 24.924970000000002,
+      "fingerprint": "b33e9cde73be83115735d1bafa8dde4f7560eb1ac3fd56da064440a096ad11b1",
+      "full_rom_link_verified": false,
+      "largest_child_rss_kib": 116692,
+      "optimization_attempts_skipped": 1985,
+      "outcomes": {
+        "compile_error": 589,
+        "mismatch": 378,
+        "unresolved": 48
+      },
+      "peak_python_rss_kib": 116820,
+      "seconds": 11.163444086000709,
+      "selected": 500,
+      "workers": 4,
+      "exact_candidate_count": 0
+    },
+    "batch-frontend-warm": {
+      "available_candidates": 10425,
+      "cache_hits": 1015,
+      "compiler_invocations": 0,
+      "completed": 500,
+      "cpu_seconds_self_and_children": 6.839824,
+      "fingerprint": "b33e9cde73be83115735d1bafa8dde4f7560eb1ac3fd56da064440a096ad11b1",
+      "full_rom_link_verified": false,
+      "largest_child_rss_kib": 0,
+      "optimization_attempts_skipped": 1985,
+      "outcomes": {
+        "compile_error": 589,
+        "mismatch": 378,
+        "unresolved": 48
+      },
+      "peak_python_rss_kib": 115116,
+      "seconds": 6.5929565209999055,
+      "selected": 500,
+      "workers": 4,
+      "exact_candidate_count": 0
+    },
+    "batch-release-cold": {
+      "available_candidates": 10425,
+      "cache_hits": 0,
+      "compiler_invocations": 1015,
+      "completed": 500,
+      "cpu_seconds_self_and_children": 24.721041,
+      "fingerprint": "df0dd5da3b8458493522fe4e1dcde57127a51f19b64e1d06b3a7185fbe341a02",
+      "full_rom_link_verified": false,
+      "largest_child_rss_kib": 117180,
+      "optimization_attempts_skipped": 1985,
+      "outcomes": {
+        "compile_error": 589,
+        "mismatch": 378,
+        "unresolved": 48
+      },
+      "peak_python_rss_kib": 117308,
+      "seconds": 11.254528463000497,
+      "selected": 500,
+      "workers": 4,
+      "exact_candidate_count": 0
+    },
+    "batch-release-warm": {
+      "available_candidates": 10425,
+      "cache_hits": 1015,
+      "compiler_invocations": 0,
+      "completed": 500,
+      "cpu_seconds_self_and_children": 6.214542,
+      "fingerprint": "df0dd5da3b8458493522fe4e1dcde57127a51f19b64e1d06b3a7185fbe341a02",
+      "full_rom_link_verified": false,
+      "largest_child_rss_kib": 0,
+      "optimization_attempts_skipped": 1985,
+      "outcomes": {
+        "compile_error": 589,
+        "mismatch": 378,
+        "unresolved": 48
+      },
+      "peak_python_rss_kib": 116176,
+      "seconds": 5.976932902000044,
+      "selected": 500,
+      "workers": 4,
+      "exact_candidate_count": 0
+    }
+  },
+  "tests": {
+    "batch_matching": {
+      "passed": 15,
+      "skipped": 0
+    },
+    "hash_only_archive": {
+      "passed": 5
+    },
+    "rom_comparison": {
+      "passed": 3
+    },
+    "independent_resolver_objects": {
+      "tested": 22,
+      "passed": 22,
+      "cases": [
+        {
+          "module": "arm7",
+          "address": "0x0600974c",
+          "relocations": 2
+        },
+        {
+          "module": "arm7",
+          "address": "0x037fcc4c",
+          "relocations": 0
+        },
+        {
+          "module": "arm7",
+          "address": "0x037f8af4",
+          "relocations": 0
+        },
+        {
+          "module": "arm7",
+          "address": "0x037fb068",
+          "relocations": 1
+        },
+        {
+          "module": "arm7",
+          "address": "0x060164f4",
+          "relocations": 0
+        },
+        {
+          "module": "arm7",
+          "address": "0x0600a954",
+          "relocations": 0
+        },
+        {
+          "module": "arm7",
+          "address": "0x037f8d38",
+          "relocations": 0
+        },
+        {
+          "module": "arm7",
+          "address": "0x037f83c0",
+          "relocations": 12
+        },
+        {
+          "module": "arm7",
+          "address": "0x0600a8d4",
+          "relocations": 0
+        },
+        {
+          "module": "arm9",
+          "address": "0x020c4bb0",
+          "relocations": 1
+        },
+        {
+          "module": "arm7",
+          "address": "0x037fc294",
+          "relocations": 0
+        },
+        {
+          "module": "arm7",
+          "address": "0x037fc298",
+          "relocations": 0
+        },
+        {
+          "module": "arm7",
+          "address": "0x037fafd4",
+          "relocations": 2
+        },
+        {
+          "module": "arm7",
+          "address": "0x037fb014",
+          "relocations": 9
+        },
+        {
+          "module": "arm7",
+          "address": "0x037fcc24",
+          "relocations": 0
+        },
+        {
+          "module": "arm7",
+          "address": "0x06001c94",
+          "relocations": 0
+        },
+        {
+          "module": "arm7",
+          "address": "0x06009710",
+          "relocations": 2
+        },
+        {
+          "module": "arm9",
+          "address": "0x02016638",
+          "relocations": 2
+        },
+        {
+          "module": "arm9",
+          "address": "0x0212baa8",
+          "relocations": 13
+        },
+        {
+          "module": "arm9",
+          "address": "0x02015894",
+          "relocations": 5
+        },
+        {
+          "module": "arm9",
+          "address": "0x0212e0b8",
+          "relocations": 11
+        },
+        {
+          "module": "arm9",
+          "address": "0x0205fe1c",
+          "relocations": 4
+        }
+      ]
+    }
+  },
+  "new_functions": 17,
+  "new_inventory_bytes": 652,
+  "full_rom_link_verified": false,
+  "limits": [
+    "No claim of a whole-project speed multiplier.",
+    "Child max RSS is not the sum or peak of the process family.",
+    "REA produces drafts; only separate fresh independent audits register exact matches."
+  ]
+}
