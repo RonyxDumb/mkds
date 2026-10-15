@@ -1,0 +1,3287 @@
+{
+  "date": "2026-10-15",
+  "scope": "Original reference ROM menu observations. No reconstructed-ROM comparison or complete-game coverage.",
+  "rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+  "emulator_core_commit": "906e9ebb27da8c6a715cd7abab4abfe8a8d29427",
+  "frontend_source_sha256": "c1133798350e89bca3ba8188c20676740c410e8ccfa90deaca5e48971023a552",
+  "frontend_binary_sha256": "063457b7fce88cbc0751a4d3f1dd614dac489fab3c95d133c04c6e55575f4b53",
+  "sessions": [
+    {
+      "id": "options-records-wfc",
+      "input_timeline": "scripts/inputs/menu-options-records-wfc.tsv",
+      "input_sha256": "4b6b61fb9030e5086f5c8a8a6749aac7aa5ac3aa1be2381137a13b0a1e5c3c9e",
+      "executed_frames": 19854,
+      "input_blocks": 256,
+      "snapshot_pairs": 256,
+      "snapshots": [
+        {
+          "frame": 1000,
+          "label": "Main menu",
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 1004,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 1124,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 1128,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "fea63742aca152081b691bf3348136bdf6cb53cecc6deac1fef0b20d42b23bc4"
+        },
+        {
+          "frame": 1248,
+          "label": "Initial nickname confirmation",
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "e7e0d6a88a50fd6919d4ca32fb7a371b5aa0f784989ae97cf1cc782502894394"
+        },
+        {
+          "frame": 1252,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "a33e7d8db7a96dc3c4bc3b074708cf26d0ffdd6e87a4e889c84c6bd50c1ed550"
+        },
+        {
+          "frame": 1372,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "470d896036ce037836b08e32c7d2e6bcad719ef13867cc1b88e25ce47f66748c"
+        },
+        {
+          "frame": 1376,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "eafaf58285d0653aeb3231088236f610232755e9a81e69c46e293a77d5c0f8f9"
+        },
+        {
+          "frame": 1496,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "d9df9a952d223b8f0f3a1eb093c6e2b92fd5eda552304f707ea17c749cfa6561"
+        },
+        {
+          "frame": 1500,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "52b8a3d64bdfcb93d3bcbdddbc436ee3b68fcf75d74f72c27724dd9116db228e"
+        },
+        {
+          "frame": 1620,
+          "label": "Main menu after initial profile",
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 1624,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "fea63742aca152081b691bf3348136bdf6cb53cecc6deac1fef0b20d42b23bc4"
+        },
+        {
+          "frame": 1744,
+          "label": "Options",
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "269c2c3ffbb7eb0b4b65677528066dec81ec4aa09597ce6bf852507090cf440d"
+        },
+        {
+          "frame": 1748,
+          "label": null,
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "cbbffabb20a16100431db1a4d3a05c7f292059bd4269bdc68a1bb7ce047a0e1a"
+        },
+        {
+          "frame": 1868,
+          "label": "Sound Surround, Locate Friend ON",
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "c37e377cabe9edcf5ca3530aba837c35e5d1b8b7ccfad0065e82dafbbe783d73"
+        },
+        {
+          "frame": 1872,
+          "label": null,
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "b12563fd6e0ab552983f559f40dce2220759c74d480ba06977d05f46a8504a5a"
+        },
+        {
+          "frame": 1932,
+          "label": "Sound Stereo",
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "fc8d0eda33b0527e180e7f5e1c71838d004471798ffe8a29d3aae9b352879575"
+        },
+        {
+          "frame": 1936,
+          "label": null,
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "30b02f5fc5d6af741fd43bd1369f1276f755b0e8ae260b026d133ded73d4e2c3"
+        },
+        {
+          "frame": 1996,
+          "label": "Sound Headphones",
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "ffebba5d54fa8ac58ce4c18eadc8a3036cd9f735788f5341816f5e5f8fabffcd"
+        },
+        {
+          "frame": 2000,
+          "label": null,
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "bf1b4e300efd3b84a00288fae0918579e1a4481673d3d1bf5b5824a9ac82d0a1"
+        },
+        {
+          "frame": 2060,
+          "label": "Sound Surround restored",
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "c37e377cabe9edcf5ca3530aba837c35e5d1b8b7ccfad0065e82dafbbe783d73"
+        },
+        {
+          "frame": 2064,
+          "label": null,
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "8b217a19b1cead7f435c6c63ea5221ad78c7ed4bdf6d0d7853858b9889310c18"
+        },
+        {
+          "frame": 2124,
+          "label": null,
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "8b217a19b1cead7f435c6c63ea5221ad78c7ed4bdf6d0d7853858b9889310c18"
+        },
+        {
+          "frame": 2128,
+          "label": null,
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "ed40768ad28909a9ea3d39bcd937e9798250aedff72fddc74e40ae2597efc313"
+        },
+        {
+          "frame": 2188,
+          "label": "Locate Friend OFF",
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "8cbec94b1fdfd40b14e066deea74e07b280c306a35116c539f3bb36056f1cc15"
+        },
+        {
+          "frame": 2192,
+          "label": null,
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "720c5cb03af0844be45e43c50d67c7383196d96a7bca93fec5894471d075f60b"
+        },
+        {
+          "frame": 2252,
+          "label": "Locate Friend ON restored",
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "8b217a19b1cead7f435c6c63ea5221ad78c7ed4bdf6d0d7853858b9889310c18"
+        },
+        {
+          "frame": 2256,
+          "label": null,
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "7eef88913b946c405907d7adfe4fdc59eb1629f4f21233f908904ba58a2f734a"
+        },
+        {
+          "frame": 2376,
+          "label": null,
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "db9001114925db774387e62701a04de47ed6f4de90518cb9ab4b551764c6ef11"
+        },
+        {
+          "frame": 2380,
+          "label": null,
+          "top_sha256": "1f2dfd1b0b543c1382b6f508529e10bc91eecc7737fd371f08aef0089fbcf7d4",
+          "bottom_sha256": "9efe7e26151f29d4b6f8d5cfad247bb3f41ef2fe052e77e2fd947956e582d223"
+        },
+        {
+          "frame": 2500,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "4cc4c7cf29d5ddd752ea23321ef9b640c25640fd7b25d417e3ed0b0e2b963db1"
+        },
+        {
+          "frame": 2504,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "4cc4c7cf29d5ddd752ea23321ef9b640c25640fd7b25d417e3ed0b0e2b963db1"
+        },
+        {
+          "frame": 2524,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "4cc4c7cf29d5ddd752ea23321ef9b640c25640fd7b25d417e3ed0b0e2b963db1"
+        },
+        {
+          "frame": 2528,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "e8d071016ed22313e9cbd76b92d5dbd0a35c7bd8d2bb532d502511a4cf9c8cbc"
+        },
+        {
+          "frame": 2648,
+          "label": "Options after Settings",
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "269c2c3ffbb7eb0b4b65677528066dec81ec4aa09597ce6bf852507090cf440d"
+        },
+        {
+          "frame": 2652,
+          "label": null,
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "0e775bce766d65bb8f7646a73a531c0195668e21194778716f21b7a6a91592ee"
+        },
+        {
+          "frame": 2772,
+          "label": "Edit: Nickname and Emblem",
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "506902befe1b5feb0b3e390e9b97acf83d282a88f141e4bc5870e68e2d45112a"
+        },
+        {
+          "frame": 2776,
+          "label": null,
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "506902befe1b5feb0b3e390e9b97acf83d282a88f141e4bc5870e68e2d45112a"
+        },
+        {
+          "frame": 2896,
+          "label": null,
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "506902befe1b5feb0b3e390e9b97acf83d282a88f141e4bc5870e68e2d45112a"
+        },
+        {
+          "frame": 2900,
+          "label": null,
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "74775409a2f9cca4f1eff6a46dce1301c7b75451ef3237ce008d0c53b17f0b32"
+        },
+        {
+          "frame": 3020,
+          "label": "Nickname keyboard",
+          "top_sha256": "62447369dcfcc11970ce9f24972b96c6dace33a9b6f8edc2e2c4c3c5f15ae8bb",
+          "bottom_sha256": "790b135955ab54f2a2a6df439ff24318b1672bffc222ce357d965975d5f091be"
+        },
+        {
+          "frame": 3024,
+          "label": null,
+          "top_sha256": "62447369dcfcc11970ce9f24972b96c6dace33a9b6f8edc2e2c4c3c5f15ae8bb",
+          "bottom_sha256": "b59b3d4690812b3799df920db0152aedd1204541957065793a64e39b90a3d549"
+        },
+        {
+          "frame": 3084,
+          "label": "Nickname accented-character keyboard",
+          "top_sha256": "62447369dcfcc11970ce9f24972b96c6dace33a9b6f8edc2e2c4c3c5f15ae8bb",
+          "bottom_sha256": "b59b3d4690812b3799df920db0152aedd1204541957065793a64e39b90a3d549"
+        },
+        {
+          "frame": 3088,
+          "label": null,
+          "top_sha256": "62447369dcfcc11970ce9f24972b96c6dace33a9b6f8edc2e2c4c3c5f15ae8bb",
+          "bottom_sha256": "01b532133431349e5236c7c148409911f96a3042913f45f3967dce38b912f881"
+        },
+        {
+          "frame": 3148,
+          "label": "Nickname Japanese keyboard",
+          "top_sha256": "62447369dcfcc11970ce9f24972b96c6dace33a9b6f8edc2e2c4c3c5f15ae8bb",
+          "bottom_sha256": "01b532133431349e5236c7c148409911f96a3042913f45f3967dce38b912f881"
+        },
+        {
+          "frame": 3152,
+          "label": null,
+          "top_sha256": "62447369dcfcc11970ce9f24972b96c6dace33a9b6f8edc2e2c4c3c5f15ae8bb",
+          "bottom_sha256": "8a2a910d09c53361ff380c2d0b77ad65fc6e1811fed56db3e6e5c0fa0261517e"
+        },
+        {
+          "frame": 3212,
+          "label": "Nickname symbol keyboard",
+          "top_sha256": "62447369dcfcc11970ce9f24972b96c6dace33a9b6f8edc2e2c4c3c5f15ae8bb",
+          "bottom_sha256": "8a2a910d09c53361ff380c2d0b77ad65fc6e1811fed56db3e6e5c0fa0261517e"
+        },
+        {
+          "frame": 3216,
+          "label": null,
+          "top_sha256": "62447369dcfcc11970ce9f24972b96c6dace33a9b6f8edc2e2c4c3c5f15ae8bb",
+          "bottom_sha256": "c10e85249e62cc6e65f462e033913a3f6f4b8ed3ed706428cd6c5db53efc503c"
+        },
+        {
+          "frame": 3276,
+          "label": "Nickname icon keyboard",
+          "top_sha256": "62447369dcfcc11970ce9f24972b96c6dace33a9b6f8edc2e2c4c3c5f15ae8bb",
+          "bottom_sha256": "c10e85249e62cc6e65f462e033913a3f6f4b8ed3ed706428cd6c5db53efc503c"
+        },
+        {
+          "frame": 3280,
+          "label": null,
+          "top_sha256": "62447369dcfcc11970ce9f24972b96c6dace33a9b6f8edc2e2c4c3c5f15ae8bb",
+          "bottom_sha256": "c2457b30ca0688555b7dc80ac404e6a9bcdf17d36b05b83eeac98d558d561395"
+        },
+        {
+          "frame": 3400,
+          "label": "Edit after canceling nickname",
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "506902befe1b5feb0b3e390e9b97acf83d282a88f141e4bc5870e68e2d45112a"
+        },
+        {
+          "frame": 3404,
+          "label": null,
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "364593fe727d1133bc844fd2729a1a15c8be0cc28d2b3c2951aed898202a1998"
+        },
+        {
+          "frame": 3584,
+          "label": "Emblem Paint editor",
+          "top_sha256": "316268bef28d33fb19f21ce869fdadb159e4262af93387663f8fcbb3a765fd42",
+          "bottom_sha256": "e6db78a8e1c0dd0d7ad3d41e37ddf5ab10a2f2d40bc1c7e579593ac7c51904f7"
+        },
+        {
+          "frame": 3588,
+          "label": null,
+          "top_sha256": "39717d54c8c490f711cdb1178b2bb96bea6be90c2fe2d0669ab4c0f7b846de95",
+          "bottom_sha256": "2f66a3b3e1ec82180e01443609f0a218ae88d5a5d3faa18794021eaf6827599e"
+        },
+        {
+          "frame": 3708,
+          "label": "Emblem Camera controls",
+          "top_sha256": "e994e6d617dec1362738f4906a56de3185fe9e15867927b8090891ad872165ea",
+          "bottom_sha256": "14a70e9b13c18af72ecab9751eebbbbdda6b8269592d136e87050b8ed3973f42"
+        },
+        {
+          "frame": 3712,
+          "label": null,
+          "top_sha256": "a98ed2ee2d4037da9453427b1ae186c9d82e9112c58019f45481da566a1ca928",
+          "bottom_sha256": "14a70e9b13c18af72ecab9751eebbbbdda6b8269592d136e87050b8ed3973f42"
+        },
+        {
+          "frame": 3772,
+          "label": null,
+          "top_sha256": "f2378037823bed9fbce6a8cab9e10dfdcf0ae8b5130620679523c79c1edd775e",
+          "bottom_sha256": "14a70e9b13c18af72ecab9751eebbbbdda6b8269592d136e87050b8ed3973f42"
+        },
+        {
+          "frame": 3776,
+          "label": null,
+          "top_sha256": "f7e16fee5a5fceec2f6190e3495b84c58617562517f65ac59ac480e262d3af2f",
+          "bottom_sha256": "20c363b9b61aed8609ec72bd92a3d620d2fcc70455dc681a76aa569505d49ad7"
+        },
+        {
+          "frame": 3896,
+          "label": "Emblem Paint",
+          "top_sha256": "54ea025183d51a996aedc3fe1b4ee4c21163d8dda20798e5c7cd269806981b46",
+          "bottom_sha256": "455719ff6527271ffef7068433151c2d7d4d715d2e2009db25540019b947b101"
+        },
+        {
+          "frame": 3900,
+          "label": null,
+          "top_sha256": "78464ff7a7bce66a18ba70ee8baa5accfcc29653b6b73893c264ddc7dbd8e31a",
+          "bottom_sha256": "3fc14673a4ee60c269f1abb96bfeb7abc69f056d225ffe9b338fadab7c615243"
+        },
+        {
+          "frame": 4020,
+          "label": null,
+          "top_sha256": "223dcbdf13c1764e42eec9d1ba15f7abef62f073ca31fb77c2b50bd718e8e759",
+          "bottom_sha256": "fe3950a9990df6270f5f06bdca291ed529d1461b600383a1720000d8f743ef9b"
+        },
+        {
+          "frame": 4024,
+          "label": null,
+          "top_sha256": "9e4fb6992ef602422ed400d49ecc2b146a5184552757dae8cf267e3d3af2d9b3",
+          "bottom_sha256": "39e2308b8f9f028308bc6f51807174d65d2135372202a24118eb737203e7970e"
+        },
+        {
+          "frame": 4144,
+          "label": null,
+          "top_sha256": "20f90cf8e9d27d3178185976e61d291a2d6ee67e9dd6f6b65bbf2fa31ebfdf5d",
+          "bottom_sha256": "5e21b4b533b32c55a6e0adf2f074eb0e8070bfa8c61306a18733dc2890b93ee3"
+        },
+        {
+          "frame": 4148,
+          "label": null,
+          "top_sha256": "cd236791fe8532ac89e36669b4c348567dd3e1b888602c43e0f597778881f2db",
+          "bottom_sha256": "c02f6a7a4e007ebeb5d31cdff6415ee5411c672c8f6c5def70c19198c9da6010"
+        },
+        {
+          "frame": 4268,
+          "label": "Emblem quit menu",
+          "top_sha256": "f6e6b9658990aa7a2b4d50bb52efa9c13d4cea6064c4ea46fc721a8acd200627",
+          "bottom_sha256": "3fd03ccaeaa2de6b993e971af2ea653bac6ebbcbd148d88879bc2b101d85f736"
+        },
+        {
+          "frame": 4272,
+          "label": null,
+          "top_sha256": "f2378037823bed9fbce6a8cab9e10dfdcf0ae8b5130620679523c79c1edd775e",
+          "bottom_sha256": "0d25bcbe5da32d5f1559e58b0a35c61cdfb3a2bde7d81f0350e25ef2da6c138a"
+        },
+        {
+          "frame": 4392,
+          "label": "Edit after quit without saving",
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "364593fe727d1133bc844fd2729a1a15c8be0cc28d2b3c2951aed898202a1998"
+        },
+        {
+          "frame": 4396,
+          "label": null,
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "4f168d99130be517831888da04aaefb8eae97fe72595c15d62abedc0626e109a"
+        },
+        {
+          "frame": 4516,
+          "label": "Options",
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "0e775bce766d65bb8f7646a73a531c0195668e21194778716f21b7a6a91592ee"
+        },
+        {
+          "frame": 4520,
+          "label": null,
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "f3a449c2a494bab20c287182a93ccb1531de62c20e79e6429202c5f71a6d4bfe"
+        },
+        {
+          "frame": 4640,
+          "label": "Erase all data confirmation, NO selected",
+          "top_sha256": "f3fee43e185643f33d79183f56a3e1ac8bda2aaca6e9ad9412ecbe0444b70a15",
+          "bottom_sha256": "bb88b04b6f1315dc499da076f97e22d115e9362c363be33784131f14920571c3"
+        },
+        {
+          "frame": 4644,
+          "label": null,
+          "top_sha256": "f3fee43e185643f33d79183f56a3e1ac8bda2aaca6e9ad9412ecbe0444b70a15",
+          "bottom_sha256": "8d956e1cca359c6e79d55148d2f3510c976717a95afe001cd8cbdbacc7120cfb"
+        },
+        {
+          "frame": 4764,
+          "label": null,
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "f3a449c2a494bab20c287182a93ccb1531de62c20e79e6429202c5f71a6d4bfe"
+        },
+        {
+          "frame": 4768,
+          "label": null,
+          "top_sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437",
+          "bottom_sha256": "9c4bd5545807454716af48b005f0e0535d7086e5e29c96f080d6164745de58cb"
+        },
+        {
+          "frame": 4888,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 4892,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "d025e0744810af331a2c80b58a74f2e46b4bd355f19213c8cc158eb927db92e0"
+        },
+        {
+          "frame": 5012,
+          "label": "Records overview",
+          "top_sha256": "340826faf0ed6be19606ca31c477074acf1c8865e030f317a93527d062b0dd05",
+          "bottom_sha256": "9c8bebfe8b32540c1f67108069aa52f6329b9969f346d808c0309dc9cfc67fd9"
+        },
+        {
+          "frame": 5016,
+          "label": null,
+          "top_sha256": "340826faf0ed6be19606ca31c477074acf1c8865e030f317a93527d062b0dd05",
+          "bottom_sha256": "16999c69403ba1a520138e878c0737b503908b090c016ca62d11ddf0b72245fe"
+        },
+        {
+          "frame": 5136,
+          "label": "Grand Prix records Mushroom Cup",
+          "top_sha256": "c12b9d360906c443c76b6be9414c47974b323471f7f919dc0d97e7627b52be94",
+          "bottom_sha256": "1a9be1a0e032f565b56c1a202806788e7db8b3093ded7b0d7d7abfdd67a79b94"
+        },
+        {
+          "frame": 5140,
+          "label": null,
+          "top_sha256": "1f914cf95d78cc066eba82826b2e7b5c870d35d08c0d99dc01751b99aad953fa",
+          "bottom_sha256": "8f4ba3c9f436b1ebe9d231f80bc687a23768b096987387b1d39b35752f415507"
+        },
+        {
+          "frame": 5200,
+          "label": "Grand Prix records Flower Cup",
+          "top_sha256": "c49a474bf06434f00389aaf1bcab55d87ef13592946187b35971f18ba827434f",
+          "bottom_sha256": "1a9be1a0e032f565b56c1a202806788e7db8b3093ded7b0d7d7abfdd67a79b94"
+        },
+        {
+          "frame": 5204,
+          "label": null,
+          "top_sha256": "e2eb17c5366a810eda2a510f042930cf8b8497e72a23fefb3245ddd5f08f1bdc",
+          "bottom_sha256": "8f4ba3c9f436b1ebe9d231f80bc687a23768b096987387b1d39b35752f415507"
+        },
+        {
+          "frame": 5264,
+          "label": "Grand Prix records Shell Cup",
+          "top_sha256": "05ecfe32fa052297a1ff99e3f55bab0340059374a165d57c3a1ff94179270a96",
+          "bottom_sha256": "1a9be1a0e032f565b56c1a202806788e7db8b3093ded7b0d7d7abfdd67a79b94"
+        },
+        {
+          "frame": 5268,
+          "label": null,
+          "top_sha256": "ea10f3f22146f3a3323c7564e26f725c71ac851f6838589dba8bd5c4cd66c9dc",
+          "bottom_sha256": "8f4ba3c9f436b1ebe9d231f80bc687a23768b096987387b1d39b35752f415507"
+        },
+        {
+          "frame": 5328,
+          "label": "Grand Prix records Banana Cup",
+          "top_sha256": "fb190672e6782dcb3c91ef0256ec53ff19903be586e5fcb375bcc7c226d7b5cf",
+          "bottom_sha256": "1a9be1a0e032f565b56c1a202806788e7db8b3093ded7b0d7d7abfdd67a79b94"
+        },
+        {
+          "frame": 5332,
+          "label": null,
+          "top_sha256": "de39c725d73ca921e0cd3a8bfd2c2634587c5e171c295a75e79f1f17f6c22332",
+          "bottom_sha256": "8f4ba3c9f436b1ebe9d231f80bc687a23768b096987387b1d39b35752f415507"
+        },
+        {
+          "frame": 5392,
+          "label": null,
+          "top_sha256": "c12b9d360906c443c76b6be9414c47974b323471f7f919dc0d97e7627b52be94",
+          "bottom_sha256": "1a9be1a0e032f565b56c1a202806788e7db8b3093ded7b0d7d7abfdd67a79b94"
+        },
+        {
+          "frame": 5396,
+          "label": null,
+          "top_sha256": "1f914cf95d78cc066eba82826b2e7b5c870d35d08c0d99dc01751b99aad953fa",
+          "bottom_sha256": "8f4ba3c9f436b1ebe9d231f80bc687a23768b096987387b1d39b35752f415507"
+        },
+        {
+          "frame": 5456,
+          "label": null,
+          "top_sha256": "c49a474bf06434f00389aaf1bcab55d87ef13592946187b35971f18ba827434f",
+          "bottom_sha256": "1a9be1a0e032f565b56c1a202806788e7db8b3093ded7b0d7d7abfdd67a79b94"
+        },
+        {
+          "frame": 5460,
+          "label": null,
+          "top_sha256": "e2eb17c5366a810eda2a510f042930cf8b8497e72a23fefb3245ddd5f08f1bdc",
+          "bottom_sha256": "8f4ba3c9f436b1ebe9d231f80bc687a23768b096987387b1d39b35752f415507"
+        },
+        {
+          "frame": 5520,
+          "label": null,
+          "top_sha256": "05ecfe32fa052297a1ff99e3f55bab0340059374a165d57c3a1ff94179270a96",
+          "bottom_sha256": "1a9be1a0e032f565b56c1a202806788e7db8b3093ded7b0d7d7abfdd67a79b94"
+        },
+        {
+          "frame": 5524,
+          "label": null,
+          "top_sha256": "ea10f3f22146f3a3323c7564e26f725c71ac851f6838589dba8bd5c4cd66c9dc",
+          "bottom_sha256": "8f4ba3c9f436b1ebe9d231f80bc687a23768b096987387b1d39b35752f415507"
+        },
+        {
+          "frame": 5584,
+          "label": null,
+          "top_sha256": "fb190672e6782dcb3c91ef0256ec53ff19903be586e5fcb375bcc7c226d7b5cf",
+          "bottom_sha256": "1a9be1a0e032f565b56c1a202806788e7db8b3093ded7b0d7d7abfdd67a79b94"
+        },
+        {
+          "frame": 5588,
+          "label": null,
+          "top_sha256": "b8d6c74c4a2bc7a3321564990328bad668d915adfd72e9659d5cd206e70463f1",
+          "bottom_sha256": "496b94ef2efdadab058568ab227534a0496a03fa83c8236b293f1531a83381ce"
+        },
+        {
+          "frame": 5708,
+          "label": null,
+          "top_sha256": "340826faf0ed6be19606ca31c477074acf1c8865e030f317a93527d062b0dd05",
+          "bottom_sha256": "9c8bebfe8b32540c1f67108069aa52f6329b9969f346d808c0309dc9cfc67fd9"
+        },
+        {
+          "frame": 5712,
+          "label": null,
+          "top_sha256": "340826faf0ed6be19606ca31c477074acf1c8865e030f317a93527d062b0dd05",
+          "bottom_sha256": "d60a6a518d72e54ca1223674b4cc9008449ccfd79c671cca3a2db7f5812cc4cd"
+        },
+        {
+          "frame": 5832,
+          "label": "Time Trial records Figure-8 Circuit",
+          "top_sha256": "79586e0379b1e23b5427982d7685fc37f56582056c1397e8265ada91ebe32ed8",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 5836,
+          "label": null,
+          "top_sha256": "231158d8e1707c57a56184576b5687fa6638eba50a16357dbab36e724f0c4ca1",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 5896,
+          "label": "Time Trial records Yoshi Falls",
+          "top_sha256": "645af8b26071a2f1f84da190d9a4c6cffc5dee2769ff07bad3df3297d780d3ec",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 5900,
+          "label": null,
+          "top_sha256": "f623d373fe239c2266e205d1016b9f8f1a966393b10ab7393358b3bb7a33807b",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 5960,
+          "label": "Time Trial records Cheep Cheep Beach",
+          "top_sha256": "763441ef8a962eddc9e9acf1376dca54eee29cdcb3696733ede9920b49be7e4c",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 5964,
+          "label": null,
+          "top_sha256": "679cc7051c2346a1515977db47b71075daaffe1a41d32f7830c958ee1d386c2c",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6024,
+          "label": "Time Trial records Luigi’s Mansion",
+          "top_sha256": "4de73e25787e4269e2e53acd52e4e4cd3d4a445d08c4b1886f0c37f388ad530b",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6028,
+          "label": null,
+          "top_sha256": "7e7af47c37b4e2e3850c1f3c40522a43793b5a3decc675fed8527b826f59b0ec",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6088,
+          "label": "Time Trial records Desert Hills",
+          "top_sha256": "a36d08d2632f81dc6e498e40360743b9679bd1b0de8e851d114a1634da7b5499",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6092,
+          "label": null,
+          "top_sha256": "7361d2a427c0a1f0d9d37476342fb7c0e1e64f53d29dec4322d1bfed08a84fd8",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6152,
+          "label": "Time Trial records Delfino Square",
+          "top_sha256": "d0fc3b89ec312b2109ac4a7e4de288dbf4f4c00720e540b578e372300b0b138c",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6156,
+          "label": null,
+          "top_sha256": "c35b174b10b4cbe4bf30ea05295a611375880d09177612fbc7c64f83ec4c84ef",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6216,
+          "label": "Time Trial records Waluigi Pinball",
+          "top_sha256": "4ad7eb21212a842a6aeab382f2763df6464ae3cb3397991a021153e44bb3ebd7",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6220,
+          "label": null,
+          "top_sha256": "cade2c79b87d567043752edc319c6949b53d235092798eb7eff36a6d154bea98",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6280,
+          "label": "Time Trial records Shroom Ridge",
+          "top_sha256": "dbc0cb275a90cde30d7e8d92c9486d24d0e2fdb1b54b4679054d6fa9f8fcb43a",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6284,
+          "label": null,
+          "top_sha256": "0d0ebb993f30b5ca124cc0461d6aa7bbd4f185d174cf9a61eee87f95b88cabc5",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6344,
+          "label": "Time Trial records SNES Mario Circuit 1",
+          "top_sha256": "f83e3a0f9159fa83c42b8f38dd64d1cfc2e88bdb619ccf0e8795b64d4ae5f9be",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6348,
+          "label": null,
+          "top_sha256": "ee0ce608da1c73943bff392dbd04caec0699b9782361364430b4b1f7fcbfcde3",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6408,
+          "label": "Time Trial records N64 Moo Moo Farm",
+          "top_sha256": "b1b76219e9c90b4ad5569579370d14b3e9206f9ac3fea37d36ff81cd1061c900",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6412,
+          "label": null,
+          "top_sha256": "d3250db41ef67ce61ec86f817f61ee13b0bb135605d6bc328f05178e2094952e",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6472,
+          "label": "Time Trial records GBA Peach Circuit",
+          "top_sha256": "00128add06bf2667561ef9e4fee8af5de23bc5d64feb92bf664f683ffc8589ad",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6476,
+          "label": null,
+          "top_sha256": "5b15b5cb6f48c477ef3794cf80d466340ed074779f4a37a7c7e6f91e05768430",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6536,
+          "label": "Time Trial records GCN Luigi Circuit",
+          "top_sha256": "03c9afc68596bb31f60c96b004a6bad17f09492979a30755d909ac915f02df6b",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6540,
+          "label": null,
+          "top_sha256": "4d5e4768e4b4ab1ef3bee5f76246c3364b4677cd4d7db0cffbeb0ee1799e2dd2",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6600,
+          "label": "Time Trial records SNES Donut Plains 1",
+          "top_sha256": "c5d007743c348ec44aefcecf75e6148146298047527d28137fea21e405e94482",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6604,
+          "label": null,
+          "top_sha256": "d99c19ecc48846f47c02ea5bf4b61429bd5ff3097041f2044eb3f5511a0e8d0b",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6664,
+          "label": "Time Trial records N64 Frappe Snowland",
+          "top_sha256": "56d2975b49453aa73190ceda86393c9f4387d32ed5f7ebf9db8f1929bf30260e",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6668,
+          "label": null,
+          "top_sha256": "614011fffb7f753692732494ae9a50d35e786a23e5edfc513ab1cf718f1bc70f",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6728,
+          "label": "Time Trial records GBA Bowser Castle 2",
+          "top_sha256": "2623a2f28b2e41615a2716b2c372047e51172cdaa69195065e0a52c66776bc95",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6732,
+          "label": null,
+          "top_sha256": "7c13329b6ede29ca3d241f5fe5936e7017245a7c28e6b991ec8c517a55033dd0",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6792,
+          "label": "Time Trial records GCN Baby Park",
+          "top_sha256": "fddba141cf930374973cca4a34e2c492afbc723eea6efc8428ac013036d929c8",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6796,
+          "label": null,
+          "top_sha256": "7c8ba457fc6cf650c2fdd9e423980910a87566a4c9daa6ac9a7077c84a9b5ea8",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6856,
+          "label": null,
+          "top_sha256": "79586e0379b1e23b5427982d7685fc37f56582056c1397e8265ada91ebe32ed8",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6860,
+          "label": null,
+          "top_sha256": "231158d8e1707c57a56184576b5687fa6638eba50a16357dbab36e724f0c4ca1",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6920,
+          "label": null,
+          "top_sha256": "645af8b26071a2f1f84da190d9a4c6cffc5dee2769ff07bad3df3297d780d3ec",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6924,
+          "label": null,
+          "top_sha256": "f623d373fe239c2266e205d1016b9f8f1a966393b10ab7393358b3bb7a33807b",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 6984,
+          "label": null,
+          "top_sha256": "763441ef8a962eddc9e9acf1376dca54eee29cdcb3696733ede9920b49be7e4c",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 6988,
+          "label": null,
+          "top_sha256": "679cc7051c2346a1515977db47b71075daaffe1a41d32f7830c958ee1d386c2c",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7048,
+          "label": null,
+          "top_sha256": "4de73e25787e4269e2e53acd52e4e4cd3d4a445d08c4b1886f0c37f388ad530b",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7052,
+          "label": null,
+          "top_sha256": "7e7af47c37b4e2e3850c1f3c40522a43793b5a3decc675fed8527b826f59b0ec",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7112,
+          "label": null,
+          "top_sha256": "a36d08d2632f81dc6e498e40360743b9679bd1b0de8e851d114a1634da7b5499",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7116,
+          "label": null,
+          "top_sha256": "7361d2a427c0a1f0d9d37476342fb7c0e1e64f53d29dec4322d1bfed08a84fd8",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7176,
+          "label": null,
+          "top_sha256": "d0fc3b89ec312b2109ac4a7e4de288dbf4f4c00720e540b578e372300b0b138c",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7180,
+          "label": null,
+          "top_sha256": "c35b174b10b4cbe4bf30ea05295a611375880d09177612fbc7c64f83ec4c84ef",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7240,
+          "label": null,
+          "top_sha256": "4ad7eb21212a842a6aeab382f2763df6464ae3cb3397991a021153e44bb3ebd7",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7244,
+          "label": null,
+          "top_sha256": "cade2c79b87d567043752edc319c6949b53d235092798eb7eff36a6d154bea98",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7304,
+          "label": null,
+          "top_sha256": "dbc0cb275a90cde30d7e8d92c9486d24d0e2fdb1b54b4679054d6fa9f8fcb43a",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7308,
+          "label": null,
+          "top_sha256": "0d0ebb993f30b5ca124cc0461d6aa7bbd4f185d174cf9a61eee87f95b88cabc5",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7368,
+          "label": null,
+          "top_sha256": "f83e3a0f9159fa83c42b8f38dd64d1cfc2e88bdb619ccf0e8795b64d4ae5f9be",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7372,
+          "label": null,
+          "top_sha256": "ee0ce608da1c73943bff392dbd04caec0699b9782361364430b4b1f7fcbfcde3",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7432,
+          "label": null,
+          "top_sha256": "b1b76219e9c90b4ad5569579370d14b3e9206f9ac3fea37d36ff81cd1061c900",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7436,
+          "label": null,
+          "top_sha256": "d3250db41ef67ce61ec86f817f61ee13b0bb135605d6bc328f05178e2094952e",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7496,
+          "label": null,
+          "top_sha256": "00128add06bf2667561ef9e4fee8af5de23bc5d64feb92bf664f683ffc8589ad",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7500,
+          "label": null,
+          "top_sha256": "5b15b5cb6f48c477ef3794cf80d466340ed074779f4a37a7c7e6f91e05768430",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7560,
+          "label": null,
+          "top_sha256": "03c9afc68596bb31f60c96b004a6bad17f09492979a30755d909ac915f02df6b",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7564,
+          "label": null,
+          "top_sha256": "4d5e4768e4b4ab1ef3bee5f76246c3364b4677cd4d7db0cffbeb0ee1799e2dd2",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7624,
+          "label": null,
+          "top_sha256": "c5d007743c348ec44aefcecf75e6148146298047527d28137fea21e405e94482",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7628,
+          "label": null,
+          "top_sha256": "d99c19ecc48846f47c02ea5bf4b61429bd5ff3097041f2044eb3f5511a0e8d0b",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7688,
+          "label": null,
+          "top_sha256": "56d2975b49453aa73190ceda86393c9f4387d32ed5f7ebf9db8f1929bf30260e",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7692,
+          "label": null,
+          "top_sha256": "614011fffb7f753692732494ae9a50d35e786a23e5edfc513ab1cf718f1bc70f",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7752,
+          "label": null,
+          "top_sha256": "2623a2f28b2e41615a2716b2c372047e51172cdaa69195065e0a52c66776bc95",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7756,
+          "label": null,
+          "top_sha256": "7c13329b6ede29ca3d241f5fe5936e7017245a7c28e6b991ec8c517a55033dd0",
+          "bottom_sha256": "dd156a168051ce6523e2f75dec3988e7d21fe125d866ccc51c913c6630c85740"
+        },
+        {
+          "frame": 7816,
+          "label": null,
+          "top_sha256": "fddba141cf930374973cca4a34e2c492afbc723eea6efc8428ac013036d929c8",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 7820,
+          "label": null,
+          "top_sha256": "fddba141cf930374973cca4a34e2c492afbc723eea6efc8428ac013036d929c8",
+          "bottom_sha256": "f9c5fae8a3a52e35c4f97cff3efa804d224133af31d775f0fee68f21c775fe93"
+        },
+        {
+          "frame": 7940,
+          "label": "Time Trial erase confirmation, NO selected",
+          "top_sha256": "fddba141cf930374973cca4a34e2c492afbc723eea6efc8428ac013036d929c8",
+          "bottom_sha256": "48b6ccb370dbd65d1cd88c1dfa998f6860bf6c0a6c1648fee2cd8b63671aea0e"
+        },
+        {
+          "frame": 7944,
+          "label": null,
+          "top_sha256": "fddba141cf930374973cca4a34e2c492afbc723eea6efc8428ac013036d929c8",
+          "bottom_sha256": "c451432ade9edd809df42b7bfa9900c9369aa25b0489efcd9259d45699b0a074"
+        },
+        {
+          "frame": 8064,
+          "label": null,
+          "top_sha256": "fddba141cf930374973cca4a34e2c492afbc723eea6efc8428ac013036d929c8",
+          "bottom_sha256": "96ffd2fd36ae142ece239a89edd9c13863e916789821b204a67d77b0a1498855"
+        },
+        {
+          "frame": 8068,
+          "label": null,
+          "top_sha256": "de33589301b2ab2fc28148deca5873c7e34e3c8eae934a61c8002623d37eaeb0",
+          "bottom_sha256": "7d0ce87e8bb6404c655e6cd616f9bc740ff64656f0fbeda331cfaab25fdca3b1"
+        },
+        {
+          "frame": 8188,
+          "label": null,
+          "top_sha256": "340826faf0ed6be19606ca31c477074acf1c8865e030f317a93527d062b0dd05",
+          "bottom_sha256": "4c44ff149441fa83d7fe88591cfb5ffaf9bc75ad98881f05316993efca18a4db"
+        },
+        {
+          "frame": 8192,
+          "label": null,
+          "top_sha256": "340826faf0ed6be19606ca31c477074acf1c8865e030f317a93527d062b0dd05",
+          "bottom_sha256": "be2d68e3325a09c82bc563f5ccb86d9b2445c75a955fb1e84cd7cb06660c677b"
+        },
+        {
+          "frame": 8312,
+          "label": "Friends records empty-roster message",
+          "top_sha256": "181f9177dcadc759e31fd4070eb15f062e7090e6d4037fcb7c90d68ea4130131",
+          "bottom_sha256": "4312947c57e2609b7d5d0f9d5683075f30a4e5ed9ef6b8ab295928112495c8d0"
+        },
+        {
+          "frame": 8316,
+          "label": null,
+          "top_sha256": "181f9177dcadc759e31fd4070eb15f062e7090e6d4037fcb7c90d68ea4130131",
+          "bottom_sha256": "4312947c57e2609b7d5d0f9d5683075f30a4e5ed9ef6b8ab295928112495c8d0"
+        },
+        {
+          "frame": 8436,
+          "label": null,
+          "top_sha256": "181f9177dcadc759e31fd4070eb15f062e7090e6d4037fcb7c90d68ea4130131",
+          "bottom_sha256": "4312947c57e2609b7d5d0f9d5683075f30a4e5ed9ef6b8ab295928112495c8d0"
+        },
+        {
+          "frame": 8440,
+          "label": null,
+          "top_sha256": "181f9177dcadc759e31fd4070eb15f062e7090e6d4037fcb7c90d68ea4130131",
+          "bottom_sha256": "60b364ac5ab81b2ef077bbb1274f59fc08f36d063923dfd56df656e3ddab7cd4"
+        },
+        {
+          "frame": 8560,
+          "label": null,
+          "top_sha256": "340826faf0ed6be19606ca31c477074acf1c8865e030f317a93527d062b0dd05",
+          "bottom_sha256": "edb669bf542de97650fdf07e95de13aa65afe1c7d14f319bb8d14cda4da98bbe"
+        },
+        {
+          "frame": 8564,
+          "label": null,
+          "top_sha256": "340826faf0ed6be19606ca31c477074acf1c8865e030f317a93527d062b0dd05",
+          "bottom_sha256": "edb669bf542de97650fdf07e95de13aa65afe1c7d14f319bb8d14cda4da98bbe"
+        },
+        {
+          "frame": 8744,
+          "label": null,
+          "top_sha256": "340826faf0ed6be19606ca31c477074acf1c8865e030f317a93527d062b0dd05",
+          "bottom_sha256": "edb669bf542de97650fdf07e95de13aa65afe1c7d14f319bb8d14cda4da98bbe"
+        },
+        {
+          "frame": 8748,
+          "label": null,
+          "top_sha256": "90df2f336b7d5f38e8273577f5cb2ae67cf8f8550bb83f93f0614a05cf2a38a6",
+          "bottom_sha256": "289fb3c56c7edabcf4adb84f1a7e572970be569bb9c873d627272aaffcf4205f"
+        },
+        {
+          "frame": 8868,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 8872,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "e9908e18495b1fec42bfabbe53724c493ffda811464bf09ddc1b21cd8abbb4e9"
+        },
+        {
+          "frame": 9052,
+          "label": "Nintendo WFC main menu",
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "cbb9a26cd8cf04de39601cd3ff809bf9e0eab281bda616e84d1fb14bd7f5bd45"
+        },
+        {
+          "frame": 9056,
+          "label": null,
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "4c60f442476e5e541793c503657c6b2f91d46732f416de1a1e078a7c30485108"
+        },
+        {
+          "frame": 9176,
+          "label": "Friend Code: no code before first WFC connection",
+          "top_sha256": "b67dd0e859a75048202fe55ca57ef15d858081047a45630d9af9cfdd4fd5b021",
+          "bottom_sha256": "683f54d314dc36945c29313586b1187a04e7b8dbd72f04d7c35de1d1531eefc8"
+        },
+        {
+          "frame": 9180,
+          "label": null,
+          "top_sha256": "a113dbb8f2b4c6c2f3db3e5f80e0ceca02d54d85b51427276d79a940e21d44a1",
+          "bottom_sha256": "36f98200d03204c1822b03df08418a8990eb3f14aff9aec9642e18a1b9d891b4"
+        },
+        {
+          "frame": 9300,
+          "label": null,
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "4923da3432e6f51e5978fa90a0a6c81af05158a58cd19fac00b478233b1dc086"
+        },
+        {
+          "frame": 9304,
+          "label": null,
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "6b9a363adb04fa031e9e11dc5f85865d69c181fbc3ea08addf49e22f1abe21fd"
+        },
+        {
+          "frame": 9604,
+          "label": "Nintendo Wi-Fi Connection Setup",
+          "top_sha256": "c7eaf349417586a4a922cadd620456f1d1d7fb0fb4416f2fbe3ef2d5b8cde5fc",
+          "bottom_sha256": "5d26cf0d4e2ab4d84c7be5db268231c9ac1a15a75d20b32e680d7e6b5a7d48a0"
+        },
+        {
+          "frame": 9608,
+          "label": null,
+          "top_sha256": "c7eaf349417586a4a922cadd620456f1d1d7fb0fb4416f2fbe3ef2d5b8cde5fc",
+          "bottom_sha256": "d64c6743d77556470ab7dcb28dece3509e469381c832b5507e8a7d788e5771ea"
+        },
+        {
+          "frame": 9728,
+          "label": "WFC Setup Options",
+          "top_sha256": "0fb557892c69df21c5700f7ac3248382cec024337e29e9a684f84bf4c2ae1d45",
+          "bottom_sha256": "ebf80a92e1ff6a71a6272fe6e68180fbc3a87b20a2a26487d4a8966eb2be7efa"
+        },
+        {
+          "frame": 9732,
+          "label": null,
+          "top_sha256": "0fb557892c69df21c5700f7ac3248382cec024337e29e9a684f84bf4c2ae1d45",
+          "bottom_sha256": "2701381747a1d8dc455e224b7d77eedc429a751ddc8a10b9fca6b6f331698a94"
+        },
+        {
+          "frame": 9852,
+          "label": "WFC System Information (virtual DS)",
+          "top_sha256": "5290a023e46f0804137a054f3fb5d811802ec85e0aa58cef6ca9a80d27e49f60",
+          "bottom_sha256": "12b6538be3895351b66c7912da4de040be99c18a111f63100f1d53cf2e9c02b4"
+        },
+        {
+          "frame": 9856,
+          "label": null,
+          "top_sha256": "5290a023e46f0804137a054f3fb5d811802ec85e0aa58cef6ca9a80d27e49f60",
+          "bottom_sha256": "12b6538be3895351b66c7912da4de040be99c18a111f63100f1d53cf2e9c02b4"
+        },
+        {
+          "frame": 9916,
+          "label": null,
+          "top_sha256": "0fb557892c69df21c5700f7ac3248382cec024337e29e9a684f84bf4c2ae1d45",
+          "bottom_sha256": "ebf80a92e1ff6a71a6272fe6e68180fbc3a87b20a2a26487d4a8966eb2be7efa"
+        },
+        {
+          "frame": 9920,
+          "label": null,
+          "top_sha256": "0fb557892c69df21c5700f7ac3248382cec024337e29e9a684f84bf4c2ae1d45",
+          "bottom_sha256": "ebf80a92e1ff6a71a6272fe6e68180fbc3a87b20a2a26487d4a8966eb2be7efa"
+        },
+        {
+          "frame": 9980,
+          "label": null,
+          "top_sha256": "c7eaf349417586a4a922cadd620456f1d1d7fb0fb4416f2fbe3ef2d5b8cde5fc",
+          "bottom_sha256": "a3090b3121a9987528613724d6919519c6c7ffa0643ec6028c01e3c227826f86"
+        },
+        {
+          "frame": 9984,
+          "label": null,
+          "top_sha256": "c7eaf349417586a4a922cadd620456f1d1d7fb0fb4416f2fbe3ef2d5b8cde5fc",
+          "bottom_sha256": "35532d6d48f7fcbb0039e9600c464bd3f77c8624c1c63e30a99f0e207ffd6295"
+        },
+        {
+          "frame": 10104,
+          "label": "WFC connection slots and Nintendo USB Connector",
+          "top_sha256": "e7c6144da656fd20eede4a353234a48418166fd7f15838f1b703f6afde075f18",
+          "bottom_sha256": "4d995460fc7c5b2b6af14bf3dad14d0cc9d9ea7fca742cdf9c3b7da71ee8201d"
+        },
+        {
+          "frame": 10108,
+          "label": null,
+          "top_sha256": "e7c6144da656fd20eede4a353234a48418166fd7f15838f1b703f6afde075f18",
+          "bottom_sha256": "f7f7f24a6f559b8dbef8c478db366737be4d0fac2f0f3231e2bf141746c573a0"
+        },
+        {
+          "frame": 10228,
+          "label": "WFC Connection 1 settings (preconfigured virtual melonAP)",
+          "top_sha256": "9e6485b5cafdf9e3f810f803fac617b780d1d34e18355a28b40970343fb1a471",
+          "bottom_sha256": "0e73573d839179055e33dceaad76c4ee2202964cebf0b9b3d6871443414ef159"
+        },
+        {
+          "frame": 10232,
+          "label": null,
+          "top_sha256": "9e6485b5cafdf9e3f810f803fac617b780d1d34e18355a28b40970343fb1a471",
+          "bottom_sha256": "46d13ea1ff1335d4a5536719cd416499160be5acde8faad67776f07745559ff3"
+        },
+        {
+          "frame": 10352,
+          "label": "WFC SSID keyboard (no changes saved)",
+          "top_sha256": "dc38761c78fd7c9e47fd55d2eceb9bd56ccc62d2994bc5977be0912ff7b2e257",
+          "bottom_sha256": "6ffa40ff861d4c9bf161fdfd9f91213688ead4622e6a6515b876be47109e9bbf"
+        },
+        {
+          "frame": 10356,
+          "label": null,
+          "top_sha256": "dc38761c78fd7c9e47fd55d2eceb9bd56ccc62d2994bc5977be0912ff7b2e257",
+          "bottom_sha256": "ce9229b79d52e07699aaaa19b251cd9720610558fccbb57cc3c8fd3fe259d9d2"
+        },
+        {
+          "frame": 10416,
+          "label": null,
+          "top_sha256": "9e6485b5cafdf9e3f810f803fac617b780d1d34e18355a28b40970343fb1a471",
+          "bottom_sha256": "0e73573d839179055e33dceaad76c4ee2202964cebf0b9b3d6871443414ef159"
+        },
+        {
+          "frame": 10420,
+          "label": null,
+          "top_sha256": "9e6485b5cafdf9e3f810f803fac617b780d1d34e18355a28b40970343fb1a471",
+          "bottom_sha256": "07fa1e5899be4589814a790c2943e5173845fb381307ed030f5b6b46f301168e"
+        },
+        {
+          "frame": 10480,
+          "label": null,
+          "top_sha256": "e7c6144da656fd20eede4a353234a48418166fd7f15838f1b703f6afde075f18",
+          "bottom_sha256": "4d995460fc7c5b2b6af14bf3dad14d0cc9d9ea7fca742cdf9c3b7da71ee8201d"
+        },
+        {
+          "frame": 10484,
+          "label": null,
+          "top_sha256": "e7c6144da656fd20eede4a353234a48418166fd7f15838f1b703f6afde075f18",
+          "bottom_sha256": "8939d81d8fb60c128b74102a22c5faea69e0761b306e983e0f343eda408eab98"
+        },
+        {
+          "frame": 10604,
+          "label": "WFC Connection 2: Search AP, AOSS, Manual Setup",
+          "top_sha256": "3cb80532318bc2a0e3257795f91c0fd30126ae79036e11d44aeb04ab314ba256",
+          "bottom_sha256": "1346951d1f3811a2b6af4a12b2eee0848ed079df3ef80162d3ecc478d3ffa8ff"
+        },
+        {
+          "frame": 10608,
+          "label": null,
+          "top_sha256": "3cb80532318bc2a0e3257795f91c0fd30126ae79036e11d44aeb04ab314ba256",
+          "bottom_sha256": "e85e4a14c515800b11ff741a1125883962e6798fc238855470347483218b0c32"
+        },
+        {
+          "frame": 10908,
+          "label": "WFC Search Access Point in progress",
+          "top_sha256": "bed1aad3b706a52caa3afdee7d89129598a73185e8192cd18562c2a4535aaa31",
+          "bottom_sha256": "2ee0b9e957d03778027a29a8b9a8c49b89f78ea8a0b0e6cc2b6fd2ad4d40e7c4"
+        },
+        {
+          "frame": 11808,
+          "label": "WFC Access Point result: virtual melonAP detected",
+          "top_sha256": "94bf0bfea013be7223bb2335124ec185e1df5a375064f90f3a95b99e7c4c8b3b",
+          "bottom_sha256": "0e83867baae771dd23bf4160647d084e08bcb1eef45a26ed78afbcc2971d24d6"
+        },
+        {
+          "frame": 11812,
+          "label": null,
+          "top_sha256": "94bf0bfea013be7223bb2335124ec185e1df5a375064f90f3a95b99e7c4c8b3b",
+          "bottom_sha256": "348d6242892fac2008fa39542518a8d0062897432cdcb948215dd13c8778e21a"
+        },
+        {
+          "frame": 11872,
+          "label": null,
+          "top_sha256": "3cb80532318bc2a0e3257795f91c0fd30126ae79036e11d44aeb04ab314ba256",
+          "bottom_sha256": "1346951d1f3811a2b6af4a12b2eee0848ed079df3ef80162d3ecc478d3ffa8ff"
+        },
+        {
+          "frame": 11876,
+          "label": null,
+          "top_sha256": "3cb80532318bc2a0e3257795f91c0fd30126ae79036e11d44aeb04ab314ba256",
+          "bottom_sha256": "f5bd58d663d9dae8bd3738381f8095b98382bee310ee69a605cd265d78aa694a"
+        },
+        {
+          "frame": 11996,
+          "label": "WFC AOSS instructions and pairing wait (canceled)",
+          "top_sha256": "9070f66af100c931662510c3a185673ddffbdd1420072d2f382ca6bfa2d6d50d",
+          "bottom_sha256": "57e4d8a84154409ffe7940f74d58346ffd2864c7246ee28fb2b81a145280c8ce"
+        },
+        {
+          "frame": 12000,
+          "label": null,
+          "top_sha256": "9070f66af100c931662510c3a185673ddffbdd1420072d2f382ca6bfa2d6d50d",
+          "bottom_sha256": "324405f080c35de577e56cf30b854c735f109d1fae981528e512026457b6cee8"
+        },
+        {
+          "frame": 12060,
+          "label": null,
+          "top_sha256": "9070f66af100c931662510c3a185673ddffbdd1420072d2f382ca6bfa2d6d50d",
+          "bottom_sha256": "eb173178e8c05065e714c25193acb44b73850db493a3f7d2031e2f7848219863"
+        },
+        {
+          "frame": 12064,
+          "label": null,
+          "top_sha256": "9070f66af100c931662510c3a185673ddffbdd1420072d2f382ca6bfa2d6d50d",
+          "bottom_sha256": "eb173178e8c05065e714c25193acb44b73850db493a3f7d2031e2f7848219863"
+        },
+        {
+          "frame": 12184,
+          "label": null,
+          "top_sha256": "9070f66af100c931662510c3a185673ddffbdd1420072d2f382ca6bfa2d6d50d",
+          "bottom_sha256": "eb173178e8c05065e714c25193acb44b73850db493a3f7d2031e2f7848219863"
+        },
+        {
+          "frame": 12188,
+          "label": null,
+          "top_sha256": "9070f66af100c931662510c3a185673ddffbdd1420072d2f382ca6bfa2d6d50d",
+          "bottom_sha256": "e10938abb43396e611e87164790afa857f045309e912f222d6062d1bf774a581"
+        },
+        {
+          "frame": 12368,
+          "label": "AOSS still waiting after cancel attempts; allow documented timeout",
+          "top_sha256": "9070f66af100c931662510c3a185673ddffbdd1420072d2f382ca6bfa2d6d50d",
+          "bottom_sha256": "bf8446050a3e17d5aca496ea71e84bed2ea50415511347402db74c4512e4d63a"
+        },
+        {
+          "frame": 15968,
+          "label": "AOSS canceled; returned to Connection 2 method selection within 3600 more frames",
+          "top_sha256": "3cb80532318bc2a0e3257795f91c0fd30126ae79036e11d44aeb04ab314ba256",
+          "bottom_sha256": "e5708c0309fab32e86ee71886f84190315f464b688b9ac8e49bb092cd14496a0"
+        },
+        {
+          "frame": 15972,
+          "label": null,
+          "top_sha256": "3cb80532318bc2a0e3257795f91c0fd30126ae79036e11d44aeb04ab314ba256",
+          "bottom_sha256": "49cd727a6bae19f34c58603f8e2db3549646c839add5f3ff7ac2003c23558d5f"
+        },
+        {
+          "frame": 16092,
+          "label": "WFC Manual Setup",
+          "top_sha256": "ee40e38c351d85558f724328bb534809a809123afc60f3a768cddd70f4132ae0",
+          "bottom_sha256": "cd7a96afeb9665478668092f471133cece2610641fcf0669efbda38553cbb22f"
+        },
+        {
+          "frame": 16096,
+          "label": null,
+          "top_sha256": "ee40e38c351d85558f724328bb534809a809123afc60f3a768cddd70f4132ae0",
+          "bottom_sha256": "654ca24f50284cf80690a7e33bea223ab4e478be6e05997d2701a88a18ce17f4"
+        },
+        {
+          "frame": 16216,
+          "label": "WFC WEP key keyboard",
+          "top_sha256": "05f3808d675f2046791bc362b37888ddcd51876c9c62ed3bf44ead54e9c12262",
+          "bottom_sha256": "aa3659242464b813860f2005bae21acaf2299fd24b7b477e290a412907376def"
+        },
+        {
+          "frame": 16220,
+          "label": null,
+          "top_sha256": "05f3808d675f2046791bc362b37888ddcd51876c9c62ed3bf44ead54e9c12262",
+          "bottom_sha256": "bb1028c98397e00ea60ec5a6c658a286a72124e927a2728679284f721aa1007a"
+        },
+        {
+          "frame": 16280,
+          "label": null,
+          "top_sha256": "ee40e38c351d85558f724328bb534809a809123afc60f3a768cddd70f4132ae0",
+          "bottom_sha256": "6bb309947a99047e0ccd5e475ce0ba38021305572931c30f942e4d26bfa62759"
+        },
+        {
+          "frame": 16284,
+          "label": null,
+          "top_sha256": "ee40e38c351d85558f724328bb534809a809123afc60f3a768cddd70f4132ae0",
+          "bottom_sha256": "ed6aea8807fcf1bedec993d2fe81bdeb1a0bb8264f4879df10f585931c4146b8"
+        },
+        {
+          "frame": 16314,
+          "label": null,
+          "top_sha256": "ee40e38c351d85558f724328bb534809a809123afc60f3a768cddd70f4132ae0",
+          "bottom_sha256": "1ac0615fb1ed732449e8e49bdfa8bf12843e51124881165b4715d43c77f482c3"
+        },
+        {
+          "frame": 16318,
+          "label": null,
+          "top_sha256": "ee40e38c351d85558f724328bb534809a809123afc60f3a768cddd70f4132ae0",
+          "bottom_sha256": "25f65f631d17350fe50825eb47d3af3d5187ac4baa948d7c36d63bb67b6cd91e"
+        },
+        {
+          "frame": 16438,
+          "label": "WFC manual IP numeric keyboard",
+          "top_sha256": "e73dd49916cefbb64e5476202c3d43f0993e62184460851f03827d8137ccc7ed",
+          "bottom_sha256": "f925ab9a6f952fe31ca28b82aaf50b27aa5700bcac472923bc1f0b654a46138b"
+        },
+        {
+          "frame": 16442,
+          "label": null,
+          "top_sha256": "e73dd49916cefbb64e5476202c3d43f0993e62184460851f03827d8137ccc7ed",
+          "bottom_sha256": "0518584c6006d1219526a3f9c4f6a83905b56555602698e905fb6500483aa357"
+        },
+        {
+          "frame": 16502,
+          "label": null,
+          "top_sha256": "ee40e38c351d85558f724328bb534809a809123afc60f3a768cddd70f4132ae0",
+          "bottom_sha256": "a5d8ee7223ce1a4339ab019d15bf0a0a4211bbdd1f7dc771793d207d9cff8119"
+        },
+        {
+          "frame": 16506,
+          "label": null,
+          "top_sha256": "ee40e38c351d85558f724328bb534809a809123afc60f3a768cddd70f4132ae0",
+          "bottom_sha256": "9aa0b5d57faabd353fdd8a5ad0b2031a8500c480d41d57e0a04abb115f283865"
+        },
+        {
+          "frame": 16566,
+          "label": null,
+          "top_sha256": "3cb80532318bc2a0e3257795f91c0fd30126ae79036e11d44aeb04ab314ba256",
+          "bottom_sha256": "5586814873fb8fe482a1417d06c0620062762374f87d1fbc512ba2b186e71dd5"
+        },
+        {
+          "frame": 16570,
+          "label": null,
+          "top_sha256": "3cb80532318bc2a0e3257795f91c0fd30126ae79036e11d44aeb04ab314ba256",
+          "bottom_sha256": "5586814873fb8fe482a1417d06c0620062762374f87d1fbc512ba2b186e71dd5"
+        },
+        {
+          "frame": 16630,
+          "label": null,
+          "top_sha256": "e7c6144da656fd20eede4a353234a48418166fd7f15838f1b703f6afde075f18",
+          "bottom_sha256": "46e8219e4482e4dba448b15dcdd6ef0f1e591c6f944cbfc85553b83080295d97"
+        },
+        {
+          "frame": 16634,
+          "label": null,
+          "top_sha256": "e7c6144da656fd20eede4a353234a48418166fd7f15838f1b703f6afde075f18",
+          "bottom_sha256": "2ff31214c8bdbc7c2e850417d5a908a1d42b1b640f121411a2b890ee7035d104"
+        },
+        {
+          "frame": 16754,
+          "label": "Nintendo Wi-Fi USB Connector instructions",
+          "top_sha256": "56e3eb5157396b9dd93d3b0c975db5f8fa780410f3449a5989c07b394bc93045",
+          "bottom_sha256": "c044eab474943b94608c03ba212e2bc60b0514c35c83e1f1d7996b78a1c1531e"
+        },
+        {
+          "frame": 16758,
+          "label": null,
+          "top_sha256": "56e3eb5157396b9dd93d3b0c975db5f8fa780410f3449a5989c07b394bc93045",
+          "bottom_sha256": "c044eab474943b94608c03ba212e2bc60b0514c35c83e1f1d7996b78a1c1531e"
+        },
+        {
+          "frame": 16818,
+          "label": null,
+          "top_sha256": "e7c6144da656fd20eede4a353234a48418166fd7f15838f1b703f6afde075f18",
+          "bottom_sha256": "d03df0b5ab0c0756dad970d8df37d37ee7f350b8c67587508508edcc9557d56b"
+        },
+        {
+          "frame": 16822,
+          "label": null,
+          "top_sha256": "ceb0a42ee503d5e74071e587a64369f066d6c37d9ffd293b0a29fdbff312cd3b",
+          "bottom_sha256": "d03df0b5ab0c0756dad970d8df37d37ee7f350b8c67587508508edcc9557d56b"
+        },
+        {
+          "frame": 16882,
+          "label": null,
+          "top_sha256": "c7eaf349417586a4a922cadd620456f1d1d7fb0fb4416f2fbe3ef2d5b8cde5fc",
+          "bottom_sha256": "5d26cf0d4e2ab4d84c7be5db268231c9ac1a15a75d20b32e680d7e6b5a7d48a0"
+        },
+        {
+          "frame": 16886,
+          "label": null,
+          "top_sha256": "c7eaf349417586a4a922cadd620456f1d1d7fb0fb4416f2fbe3ef2d5b8cde5fc",
+          "bottom_sha256": "5d26cf0d4e2ab4d84c7be5db268231c9ac1a15a75d20b32e680d7e6b5a7d48a0"
+        },
+        {
+          "frame": 17006,
+          "label": "WFC menu after returning from Setup",
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "5c98eddc7471cb9b1f7759a836618c3a81fb11da473cf36b53b447f9f686a953"
+        },
+        {
+          "frame": 17010,
+          "label": null,
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "bb2a62f26fb52d7019026d4d186b358087d7a748b831f7ba227303ef39c5c128"
+        },
+        {
+          "frame": 17310,
+          "label": "Nintendo WFC Match first-use information page 1",
+          "top_sha256": "37a75e5cc4047d205ee45dbfb2b1d04cf7f64fff3d3f531673c9eb12c12a95f5",
+          "bottom_sha256": "1892c1ce56694dc38822e951ab712d636a3b754708aab1854f3a1a37ab980024"
+        },
+        {
+          "frame": 17314,
+          "label": null,
+          "top_sha256": "37a75e5cc4047d205ee45dbfb2b1d04cf7f64fff3d3f531673c9eb12c12a95f5",
+          "bottom_sha256": "b977094d1b3668263d4bbcce77a7fe6bafca684a7c7b0d0971dba035fd49319d"
+        },
+        {
+          "frame": 17434,
+          "label": "Nintendo WFC Match first-use information page 2",
+          "top_sha256": "0cb9cf50386eb306de984e8423800a7ae92398720cd555a5c06476183e99b5fd",
+          "bottom_sha256": "1e9a9866587ed22ad3758bd0ecb813e4d80303b73ae7baa36c545d6508ccc385"
+        },
+        {
+          "frame": 17438,
+          "label": null,
+          "top_sha256": "0cb9cf50386eb306de984e8423800a7ae92398720cd555a5c06476183e99b5fd",
+          "bottom_sha256": "f570a6351b5d6d881ce42358b6a6ab608bb3d6a6d9066429d73a19cef71bf941"
+        },
+        {
+          "frame": 17558,
+          "label": "Nintendo WFC Match first-use information page 3",
+          "top_sha256": "4aaef4075a1cfd7af893fb40148fa22b551028c0da407945166b51874c27223c",
+          "bottom_sha256": "40643353f8a0127fb7ae2bb58b51196b37cd0b85e4c05a5f3db63658adf0c12b"
+        },
+        {
+          "frame": 17562,
+          "label": null,
+          "top_sha256": "eb4959815d14322a31f529c828374aaa532bb91350269374ce581aefa2d22532",
+          "bottom_sha256": "40643353f8a0127fb7ae2bb58b51196b37cd0b85e4c05a5f3db63658adf0c12b"
+        },
+        {
+          "frame": 17682,
+          "label": "Nintendo WFC Match connecting",
+          "top_sha256": "4aaef4075a1cfd7af893fb40148fa22b551028c0da407945166b51874c27223c",
+          "bottom_sha256": "40643353f8a0127fb7ae2bb58b51196b37cd0b85e4c05a5f3db63658adf0c12b"
+        },
+        {
+          "frame": 19482,
+          "label": "Nintendo WFC Match: Unable to connect",
+          "top_sha256": "7889a3d818fc9bc50026fff80bff8e21af5ac65e7501168d6b993d8ee7cdac54",
+          "bottom_sha256": "1892c1ce56694dc38822e951ab712d636a3b754708aab1854f3a1a37ab980024"
+        },
+        {
+          "frame": 19486,
+          "label": null,
+          "top_sha256": "7889a3d818fc9bc50026fff80bff8e21af5ac65e7501168d6b993d8ee7cdac54",
+          "bottom_sha256": "b977094d1b3668263d4bbcce77a7fe6bafca684a7c7b0d0971dba035fd49319d"
+        },
+        {
+          "frame": 19606,
+          "label": "Nintendo WFC connection failure: confirm access point settings",
+          "top_sha256": "748e285a4d4ad9e1f36afffc822180b59a393c8032370b48ee3497b804b252d1",
+          "bottom_sha256": "1892c1ce56694dc38822e951ab712d636a3b754708aab1854f3a1a37ab980024"
+        },
+        {
+          "frame": 19610,
+          "label": null,
+          "top_sha256": "748e285a4d4ad9e1f36afffc822180b59a393c8032370b48ee3497b804b252d1",
+          "bottom_sha256": "b977094d1b3668263d4bbcce77a7fe6bafca684a7c7b0d0971dba035fd49319d"
+        },
+        {
+          "frame": 19730,
+          "label": "Transition after Nintendo WFC connection failure",
+          "top_sha256": "dd663323c5a6cb8a7d1897d8c7a70d502a4b8f8fccc2f42e52e7a2814851068b",
+          "bottom_sha256": "683f54d314dc36945c29313586b1187a04e7b8dbd72f04d7c35de1d1531eefc8"
+        },
+        {
+          "frame": 19734,
+          "label": null,
+          "top_sha256": "becd679373fa0319b370d20939566088b619836829a904e4e90be09ff2947ad7",
+          "bottom_sha256": "36f98200d03204c1822b03df08418a8990eb3f14aff9aec9642e18a1b9d891b4"
+        },
+        {
+          "frame": 19854,
+          "label": "WFC main menu after failed connection",
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "cbb9a26cd8cf04de39601cd3ff809bf9e0eab281bda616e84d1fb14bd7f5bd45"
+        }
+      ]
+    },
+    {
+      "id": "multiplayer-vs",
+      "input_timeline": "scripts/inputs/menu-multiplayer-vs.tsv",
+      "input_sha256": "e6c392afe419597afac5db25d4bb9daf998608d165b9fdafc377a6c880b08094",
+      "executed_frames": 9584,
+      "input_blocks": 124,
+      "snapshot_pairs": 124,
+      "snapshots": [
+        {
+          "frame": 1000,
+          "label": "Fresh main menu",
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 1004,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "ec2c3f5fb1a378f7f4337db040092fc2e387d3416332077e42293d27b82c4e8a"
+        },
+        {
+          "frame": 1124,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "e7e0d6a88a50fd6919d4ca32fb7a371b5aa0f784989ae97cf1cc782502894394"
+        },
+        {
+          "frame": 1128,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "a33e7d8db7a96dc3c4bc3b074708cf26d0ffdd6e87a4e889c84c6bd50c1ed550"
+        },
+        {
+          "frame": 1248,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "470d896036ce037836b08e32c7d2e6bcad719ef13867cc1b88e25ce47f66748c"
+        },
+        {
+          "frame": 1252,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "eafaf58285d0653aeb3231088236f610232755e9a81e69c46e293a77d5c0f8f9"
+        },
+        {
+          "frame": 1372,
+          "label": "Initial emblem confirmation (NO)",
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "d9df9a952d223b8f0f3a1eb093c6e2b92fd5eda552304f707ea17c749cfa6561"
+        },
+        {
+          "frame": 1376,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "52b8a3d64bdfcb93d3bcbdddbc436ee3b68fcf75d74f72c27724dd9116db228e"
+        },
+        {
+          "frame": 1496,
+          "label": "Main menu after profile setup",
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 1500,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "ec2c3f5fb1a378f7f4337db040092fc2e387d3416332077e42293d27b82c4e8a"
+        },
+        {
+          "frame": 1680,
+          "label": "Multiplayer: choose existing group or create group",
+          "top_sha256": "2079bd18d8fc2b21c092fc3a8e08b3a160f3247151d940c7a6cb5fa2f5cb85b3",
+          "bottom_sha256": "28cee39582708d753b6e9f3fada486e9dd4791cca772f3a3a308c43013176c7c"
+        },
+        {
+          "frame": 1684,
+          "label": null,
+          "top_sha256": "2079bd18d8fc2b21c092fc3a8e08b3a160f3247151d940c7a6cb5fa2f5cb85b3",
+          "bottom_sha256": "28cee39582708d753b6e9f3fada486e9dd4791cca772f3a3a308c43013176c7c"
+        },
+        {
+          "frame": 1864,
+          "label": "Multiplayer Normal/Simple selection",
+          "top_sha256": "39b36b9537ad31003e2c477d610a5034ee7290f15d14d4b4d52fbd4c4dd6e41a",
+          "bottom_sha256": "b5cbf86f537434b09ba6f866aea046b7925807f9105260050cc8b65d238a7fe6"
+        },
+        {
+          "frame": 1868,
+          "label": null,
+          "top_sha256": "39b36b9537ad31003e2c477d610a5034ee7290f15d14d4b4d52fbd4c4dd6e41a",
+          "bottom_sha256": "3c7da77d5806dd25035792a5e05dac216998acc6458eaa8179260dc112d24a2e"
+        },
+        {
+          "frame": 2048,
+          "label": "Normal multiplayer host lobby 1/8 racers",
+          "top_sha256": "c897e3f2c84d21e1ce09e21436148cdeccd335f4272fc76c5060321ea7cec9a0",
+          "bottom_sha256": "5710a9608517da3527a7cd8728414e1e205edeb0972ded88b917311f6232fc18"
+        },
+        {
+          "frame": 2052,
+          "label": null,
+          "top_sha256": "c897e3f2c84d21e1ce09e21436148cdeccd335f4272fc76c5060321ea7cec9a0",
+          "bottom_sha256": "5710a9608517da3527a7cd8728414e1e205edeb0972ded88b917311f6232fc18"
+        },
+        {
+          "frame": 2172,
+          "label": "Normal lobby Cut Off unavailable with one racer",
+          "top_sha256": "a60885cabaf8499c46abac86b9b496568c89d9d6acda57aa8777b12d74d9ef9f",
+          "bottom_sha256": "5710a9608517da3527a7cd8728414e1e205edeb0972ded88b917311f6232fc18"
+        },
+        {
+          "frame": 2176,
+          "label": null,
+          "top_sha256": "f82d33c7a357aafbb05deba83dd4cf7a69c50a23e2c69dd80cc9391dc01e0f9e",
+          "bottom_sha256": "6d6e3c3124e41a599123d99e4e2e155ab981db7acca38879c80615a63c5566e6"
+        },
+        {
+          "frame": 2296,
+          "label": "Normal/Simple selection after cancel",
+          "top_sha256": "39b36b9537ad31003e2c477d610a5034ee7290f15d14d4b4d52fbd4c4dd6e41a",
+          "bottom_sha256": "b5cbf86f537434b09ba6f866aea046b7925807f9105260050cc8b65d238a7fe6"
+        },
+        {
+          "frame": 2300,
+          "label": null,
+          "top_sha256": "39b36b9537ad31003e2c477d610a5034ee7290f15d14d4b4d52fbd4c4dd6e41a",
+          "bottom_sha256": "b5cbf86f537434b09ba6f866aea046b7925807f9105260050cc8b65d238a7fe6"
+        },
+        {
+          "frame": 2480,
+          "label": "Simple download-play host lobby",
+          "top_sha256": "c897e3f2c84d21e1ce09e21436148cdeccd335f4272fc76c5060321ea7cec9a0",
+          "bottom_sha256": "5710a9608517da3527a7cd8728414e1e205edeb0972ded88b917311f6232fc18"
+        },
+        {
+          "frame": 2484,
+          "label": null,
+          "top_sha256": "ca7b75727e0e32fbb579a5a11912b4a589593ae46f840c45d1cc2b191ae7ee50",
+          "bottom_sha256": "6d6e3c3124e41a599123d99e4e2e155ab981db7acca38879c80615a63c5566e6"
+        },
+        {
+          "frame": 2664,
+          "label": "Normal/Simple selection after Simple cancel",
+          "top_sha256": "39b36b9537ad31003e2c477d610a5034ee7290f15d14d4b4d52fbd4c4dd6e41a",
+          "bottom_sha256": "b5cbf86f537434b09ba6f866aea046b7925807f9105260050cc8b65d238a7fe6"
+        },
+        {
+          "frame": 2668,
+          "label": null,
+          "top_sha256": "39b36b9537ad31003e2c477d610a5034ee7290f15d14d4b4d52fbd4c4dd6e41a",
+          "bottom_sha256": "4c361d82b4b540867abeacc9126f5ce68850fbd7c05219ce09711949032b507d"
+        },
+        {
+          "frame": 2788,
+          "label": "Multiplayer group search",
+          "top_sha256": "2079bd18d8fc2b21c092fc3a8e08b3a160f3247151d940c7a6cb5fa2f5cb85b3",
+          "bottom_sha256": "28cee39582708d753b6e9f3fada486e9dd4791cca772f3a3a308c43013176c7c"
+        },
+        {
+          "frame": 2792,
+          "label": null,
+          "top_sha256": "4ddccd4e8cea1b18688b078114e7d7b62e4ba05c3b89c69904434aed81a0f719",
+          "bottom_sha256": "69d033e3f2dc13e189c8bcdc8d447c26e7963ed877991e452732deacafe3f7b0"
+        },
+        {
+          "frame": 2912,
+          "label": "Main menu",
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 2916,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "2bd851f65ad0a6488651225b6da4b531512a34de9b1136b83845a6c0a215842c"
+        },
+        {
+          "frame": 3036,
+          "label": "Single Player mode selection",
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "2932a0713d5f402b8df0f6e5ab11ce20e150fb406530fc2221043eccb0ee8938"
+        },
+        {
+          "frame": 3040,
+          "label": null,
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "c1c3027755b3e2213edce55bf413f310267cb2a9bb86698dcb934a9297b74548"
+        },
+        {
+          "frame": 3160,
+          "label": "Grand Prix engine classes: 50cc, 100cc, 150cc",
+          "top_sha256": "c4660bd6a98cfe42f972a1fb8f0470d17b9883cd850c338350769bd525344b84",
+          "bottom_sha256": "57cb9660468ae678b950f904ca4d740b5310d5b95573822493daf7c557b7fef2"
+        },
+        {
+          "frame": 3164,
+          "label": null,
+          "top_sha256": "c4660bd6a98cfe42f972a1fb8f0470d17b9883cd850c338350769bd525344b84",
+          "bottom_sha256": "229e99135f0c0b58ab372b02b8472fd2eef4b3bea59733d079f114a2c50b15cf"
+        },
+        {
+          "frame": 3284,
+          "label": "Grand Prix character selection",
+          "top_sha256": "7e72922f85c95d881c988234dee89353a99508815128e2234d7422ab28a65931",
+          "bottom_sha256": "a08b8db62a960657368606a619f032eb508b847f4549adc42892e6c1a76aaffb"
+        },
+        {
+          "frame": 3288,
+          "label": null,
+          "top_sha256": "4a742e4bcd5bd3a743cab7c89098af0bfaf1b196b9d791b595ecc77611172357",
+          "bottom_sha256": "d27cb5b23b50e14975f7b19d96605510eba6d5f841a187a1343f9aa7554360e2"
+        },
+        {
+          "frame": 3408,
+          "label": "Grand Prix kart selection",
+          "top_sha256": "df18807aeb1b5b70e749fb974f3de9d07534079662697a7a4a5c2117f8cc5096",
+          "bottom_sha256": "88041c715f65e4ffcfbcb6efad82683a5c77b78d3aa12a9761415e996c0c5a5a"
+        },
+        {
+          "frame": 3412,
+          "label": null,
+          "top_sha256": "e3686b70ec187db624573f109a6e15263b9f08566a5983680d6a818620dd6fbf",
+          "bottom_sha256": "a8563d9afc11196496f7e8a26c5181b98b1ed5e296fd10e8861623aa3ce44f43"
+        },
+        {
+          "frame": 3532,
+          "label": "Grand Prix cup selection with locked cups visible",
+          "top_sha256": "57a43351e3e7680aef661335a906a998f0624add5ff4bdb66a9900a48b4ac51a",
+          "bottom_sha256": "c56a6118c94e8efeb05f910a73127b0a60c6c550e87aac6cbae432e5254df06b"
+        },
+        {
+          "frame": 3536,
+          "label": null,
+          "top_sha256": "57a43351e3e7680aef661335a906a998f0624add5ff4bdb66a9900a48b4ac51a",
+          "bottom_sha256": "a8d1d985b52c815410358302c4ae240c634991b64811d97e8d26a63ac678c73c"
+        },
+        {
+          "frame": 3656,
+          "label": "Grand Prix cup confirmation",
+          "top_sha256": "91c1da8189e5f7cd59d673ea234d28282cd49a8a7843e429ebe256758e86c605",
+          "bottom_sha256": "87d07184a3e7db29c10167b6198aae68cfc2853212df787ccc28df4c6c558e30"
+        },
+        {
+          "frame": 3660,
+          "label": null,
+          "top_sha256": "91c1da8189e5f7cd59d673ea234d28282cd49a8a7843e429ebe256758e86c605",
+          "bottom_sha256": "f0d224a68ddb46ef4e9604ed7392a6b2d04f53fabc9453e4dc1f9665bff92c3e"
+        },
+        {
+          "frame": 4560,
+          "label": "Figure-8 Circuit intro/start",
+          "top_sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3",
+          "bottom_sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3"
+        },
+        {
+          "frame": 4564,
+          "label": null,
+          "top_sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3",
+          "bottom_sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3"
+        },
+        {
+          "frame": 4684,
+          "label": "Figure-8 Circuit starting grid",
+          "top_sha256": "9771df87db23fc0eb71c9fd7d2d1f9bb2c626fab22748e3036253cc56adc0b1f",
+          "bottom_sha256": "9ceedbe05200d01915ec7586c682ba5bcdb593778144f48da5c5cb38773984bf"
+        },
+        {
+          "frame": 5284,
+          "label": null,
+          "top_sha256": "f887b5f396d2995a7198a62b8cea71587f4ee3b0f56f16f4b37e0801c8abbf73",
+          "bottom_sha256": "1867376965bafb4a0a967c700d877bc39d79fa751432d4efa0e08a1463842c01"
+        },
+        {
+          "frame": 5288,
+          "label": null,
+          "top_sha256": "752aa94aba20ad2d24864a73a4cf158dad545156702055dabceb441233a35cbf",
+          "bottom_sha256": "818e10f9a20c60372530f6d7c478ea9cc2f227f9f18d52a7793a5b3c882b7773"
+        },
+        {
+          "frame": 5408,
+          "label": "Grand Prix pause menu Continue/Quit",
+          "top_sha256": "752aa94aba20ad2d24864a73a4cf158dad545156702055dabceb441233a35cbf",
+          "bottom_sha256": "62d756b4ef836e979f1a9aa67b3b72e45623b5479cd3fbab62613b8000f84787"
+        },
+        {
+          "frame": 5412,
+          "label": null,
+          "top_sha256": "752aa94aba20ad2d24864a73a4cf158dad545156702055dabceb441233a35cbf",
+          "bottom_sha256": "3193392d1665dcdba16db47e6eb21ba3afb7862fa63de731bcd8e8d333b7a776"
+        },
+        {
+          "frame": 5532,
+          "label": "Main menu after Grand Prix quit",
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 5536,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "2bd851f65ad0a6488651225b6da4b531512a34de9b1136b83845a6c0a215842c"
+        },
+        {
+          "frame": 5656,
+          "label": "Single Player mode selection",
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "2932a0713d5f402b8df0f6e5ab11ce20e150fb406530fc2221043eccb0ee8938"
+        },
+        {
+          "frame": 5660,
+          "label": null,
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "8fe99e6c8b0cf6afa626b32ba4863393369cf6e9240aa5a3c4c228a95c42990f"
+        },
+        {
+          "frame": 5780,
+          "label": "VS engine class selection",
+          "top_sha256": "befefa3389584d0fca51176521acf763d6bc78ed242b3287ea36a4b711652b83",
+          "bottom_sha256": "a08b8db62a960657368606a619f032eb508b847f4549adc42892e6c1a76aaffb"
+        },
+        {
+          "frame": 5784,
+          "label": null,
+          "top_sha256": "3df4de1d7914c351f221293bec83e6b563cb069ff38157088ede4451e0954430",
+          "bottom_sha256": "d27cb5b23b50e14975f7b19d96605510eba6d5f841a187a1343f9aa7554360e2"
+        },
+        {
+          "frame": 5904,
+          "label": "VS character selection",
+          "top_sha256": "6df42c6d30f5b4ed59efca8189d3eeb8a8f367a405445dc96140b613359d22d0",
+          "bottom_sha256": "88041c715f65e4ffcfbcb6efad82683a5c77b78d3aa12a9761415e996c0c5a5a"
+        },
+        {
+          "frame": 5908,
+          "label": null,
+          "top_sha256": "07073fc812b5cb3f8797ff10d6476536bc42e5d06ab12da9594a06f5deedb9fb",
+          "bottom_sha256": "a8563d9afc11196496f7e8a26c5181b98b1ed5e296fd10e8861623aa3ce44f43"
+        },
+        {
+          "frame": 6028,
+          "label": "VS kart selection",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "a4f5db9b52da4083ee1f2b9bf525c174b7a60e4ec16e291d7d903c699ee25cf9"
+        },
+        {
+          "frame": 6032,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "7488658e68b23032c31ea3b97222b9a96f3f1b808af36d2b01be4458fbb8ef64"
+        },
+        {
+          "frame": 6152,
+          "label": "VS Game Settings: class, CPU, course, rules, team",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "7488658e68b23032c31ea3b97222b9a96f3f1b808af36d2b01be4458fbb8ef64"
+        },
+        {
+          "frame": 6156,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "3cba85cfb3c19b268adc4a867ca03ce44f85abd6f52b1bf586ddb821135a3f92"
+        },
+        {
+          "frame": 6216,
+          "label": "VS class 100cc",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "abe1ab232fb14ca8fd90c4d238e59c3fcda9e7b57446d81fe87578b3895ec004"
+        },
+        {
+          "frame": 6220,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "f1774ac4d66c06347b48d8e1a20e53e7f954dad9220237304725b632c76ecb95"
+        },
+        {
+          "frame": 6280,
+          "label": "VS class 150cc",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "483b411180a278f778ae611b520fa9243bda2f9c1cec278b580a52e8c6768233"
+        },
+        {
+          "frame": 6284,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "bd38011d14182da799b6b7aac352945da3d73adc8676cb0d72083fb4c9f4dfac"
+        },
+        {
+          "frame": 6344,
+          "label": "VS class 50cc restored",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "a4f5db9b52da4083ee1f2b9bf525c174b7a60e4ec16e291d7d903c699ee25cf9"
+        },
+        {
+          "frame": 6348,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "834039d4019540600b1ab2fa4d35fac5f447ee7b57bc898982b14bf63f17f22c"
+        },
+        {
+          "frame": 6408,
+          "label": "VS CPU Hard",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "d6714aa298430d0dcac54b9b51bf57614d9711322f69655d1f1fe17d4e3ab9a9"
+        },
+        {
+          "frame": 6412,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "1271fa3a240619ef32e536c429793b552bf535613aec5aa2560c2846f17af2e5"
+        },
+        {
+          "frame": 6472,
+          "label": "VS CPU Easy",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "5be12c58cf7d0d9a992ee684259e00cec9a03fb273c1fa58dad4990ad3c59453"
+        },
+        {
+          "frame": 6476,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "a20804c3f0569056f1ea586690483a52236ad4d37127c27ddaf1e9acc77661d8"
+        },
+        {
+          "frame": 6536,
+          "label": "VS CPU Normal restored",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "7488658e68b23032c31ea3b97222b9a96f3f1b808af36d2b01be4458fbb8ef64"
+        },
+        {
+          "frame": 6540,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "90f7cb7cd86f08b877f12847d32bd76cb426183b1b9899f25e56a7390a338527"
+        },
+        {
+          "frame": 6600,
+          "label": "VS course In Order",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "494a824d5a4395c1eaed83b45d7c0464193ee85284dd204fd859b0fa9a355a2f"
+        },
+        {
+          "frame": 6604,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "b3f987b33f19ad27be9b4cb3055ec307c19bd1610a9edf0ed50226f9493d4214"
+        },
+        {
+          "frame": 6664,
+          "label": "VS course Random",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "5a11009ec3d34dc3d939c7276c6d36e5745b8534bc2bb7bd226f5881fc381cb4"
+        },
+        {
+          "frame": 6668,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "d04181df05021b964ce01641e26551d972417590e7a855e46a7fc37edd7b848c"
+        },
+        {
+          "frame": 6728,
+          "label": "VS course Choose restored",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "904197ad039c20e7f6e11e08dfa21e25fe4c2e0dcc295d24637b5018c7294bd0"
+        },
+        {
+          "frame": 6732,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "3c5efcf5447b3e72bb6668b4ec46f20b5d1074a03e34cfa88fbb5d9de714d9d5"
+        },
+        {
+          "frame": 6852,
+          "label": "VS rules Wins with editable target",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "43f4aa76205499a83e5bc4e017d1f7165c7f7313c1de58e9c41456af80932d65"
+        },
+        {
+          "frame": 6856,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "796192de5b825753a63f137dd5594e1bd0eab49ba966afb98b177830dd099d1b"
+        },
+        {
+          "frame": 6976,
+          "label": "VS rules Races with editable count",
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "e102eb0528cf68dac3490debec31f0f2a766dcb529a8d8055ac1fa5ac5d0f0ca"
+        },
+        {
+          "frame": 6980,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "49205ce187fb82ec76e99d0cd9bd4dae50654e9db26174f75e97837e57d7d781"
+        },
+        {
+          "frame": 7040,
+          "label": null,
+          "top_sha256": "b4b19869569c2e13d31662394fd792353a63bfa6c2dfe6fc9bdf6ca899c3a2c2",
+          "bottom_sha256": "dbf8620693c00da373031ac38e61ec13ddab0c0850737bc1d15bb9a598996be0"
+        },
+        {
+          "frame": 7044,
+          "label": null,
+          "top_sha256": "76702e7a835c3f3502e7177406b09fa553307110843fd3cfc106d7a166cd9353",
+          "bottom_sha256": "cadb7b8109916447f612bf043c47da838a7d11ce49d449da16bbd7b6be9f0899"
+        },
+        {
+          "frame": 7104,
+          "label": "VS team ON",
+          "top_sha256": "3fb9ef13cae80492cf24e8d552e917ec3d85f592919e7d877458e859f01dcada",
+          "bottom_sha256": "d3977357eb10a8a760006229347d34150db83b1ae407ca4c878cef2224209fa1"
+        },
+        {
+          "frame": 7108,
+          "label": null,
+          "top_sha256": "3fb9ef13cae80492cf24e8d552e917ec3d85f592919e7d877458e859f01dcada",
+          "bottom_sha256": "72afb3710bed6c8733f54278b1382080b78ce42d8ca626e5ac3d53107ddb2e4f"
+        },
+        {
+          "frame": 7228,
+          "label": "VS cup selection after game settings",
+          "top_sha256": "317572038843864fb82a5d7ffde2a01f0423a1f334695eff92e08f1df0670d22",
+          "bottom_sha256": "c56a6118c94e8efeb05f910a73127b0a60c6c550e87aac6cbae432e5254df06b"
+        },
+        {
+          "frame": 7232,
+          "label": null,
+          "top_sha256": "317572038843864fb82a5d7ffde2a01f0423a1f334695eff92e08f1df0670d22",
+          "bottom_sha256": "a8d1d985b52c815410358302c4ae240c634991b64811d97e8d26a63ac678c73c"
+        },
+        {
+          "frame": 7352,
+          "label": "VS individual course selection",
+          "top_sha256": "3219901f09b8cc6f0c68c0315c3a82ce1b06b7a16f6dbb2a12007a39fbc41759",
+          "bottom_sha256": "d3866c9f17accc9f588207db9af6258e76e5c2c1a14efe3d5f30082766ae2fd8"
+        },
+        {
+          "frame": 7356,
+          "label": null,
+          "top_sha256": "d67c1d205789dc4fbc4883d6a1b5b7ff967576e653fc1bbb68fed30ee29e3fbf",
+          "bottom_sha256": "0c1d5c5735c666963b4a7bf97162ff968889a6b8591897a288cc04f86ba610eb"
+        },
+        {
+          "frame": 7476,
+          "label": null,
+          "top_sha256": "317572038843864fb82a5d7ffde2a01f0423a1f334695eff92e08f1df0670d22",
+          "bottom_sha256": "c56a6118c94e8efeb05f910a73127b0a60c6c550e87aac6cbae432e5254df06b"
+        },
+        {
+          "frame": 7480,
+          "label": null,
+          "top_sha256": "64398962f28fe748ffb4d429f8fa69192fe76a32cf70687fbb66cbe5791bde08",
+          "bottom_sha256": "519cb20418d27810d9f12c334c39d82e64db662b001b142fcc7483fcfd9fdfde"
+        },
+        {
+          "frame": 7600,
+          "label": null,
+          "top_sha256": "3fb9ef13cae80492cf24e8d552e917ec3d85f592919e7d877458e859f01dcada",
+          "bottom_sha256": "2c6269cbd5fb03b6bb73e85e770fd34d2a66b438416c3964f6d6ffd7f9c19b57"
+        },
+        {
+          "frame": 7604,
+          "label": null,
+          "top_sha256": "a11775093f35cbefdf0474b14b1b6d78939b0801d003281e592c0ae54479d05f",
+          "bottom_sha256": "dd94445b6a8494213dcccd94b6ec3aaee35a1a33fe1b471c621cef6c71e93762"
+        },
+        {
+          "frame": 7724,
+          "label": null,
+          "top_sha256": "42da46ff3f5d796770f5b02a041eefee34c0d483c8f0f64f4a3591a67db810b7",
+          "bottom_sha256": "a010c46182ae6b53052a734fa08ef14151ca85cdfcf12ca5974a9e28da658ad4"
+        },
+        {
+          "frame": 7728,
+          "label": null,
+          "top_sha256": "7037539a2b1d23b4dc92b7f73eee22b016b96d773b513be4c3761ff183f9b8f6",
+          "bottom_sha256": "2546578a9e58a863255030e5172450b8ab276a93600bc2834563e5f405ecdd11"
+        },
+        {
+          "frame": 7848,
+          "label": null,
+          "top_sha256": "73d57dbcaa2d572e502cb50b521d137db83d78f20d532388abdef66a02af0534",
+          "bottom_sha256": "a08b8db62a960657368606a619f032eb508b847f4549adc42892e6c1a76aaffb"
+        },
+        {
+          "frame": 7852,
+          "label": null,
+          "top_sha256": "ad8f8e494ec569170b6e7ab0e1f853f7a487c2e6379e9da73050f86e3ec0db83",
+          "bottom_sha256": "f0a11df1b83763044e7b6cdff51d45526f84a638b9f2d6047234893862e64578"
+        },
+        {
+          "frame": 7972,
+          "label": null,
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "a31e2872e56e4984e6260039751cbf26b2fb029836cd4ec4fd412ec3bd323cbb"
+        },
+        {
+          "frame": 7976,
+          "label": null,
+          "top_sha256": "2f48fde311b46664db38413c465227222a8d22bf9c68e40d226d97acbfc4170b",
+          "bottom_sha256": "47866910773919ddaf571e1e116236fa6e3af6f37589cd21b23d6f3652b1f34d"
+        },
+        {
+          "frame": 8096,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 8100,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "ec2c3f5fb1a378f7f4337db040092fc2e387d3416332077e42293d27b82c4e8a"
+        },
+        {
+          "frame": 8220,
+          "label": null,
+          "top_sha256": "2079bd18d8fc2b21c092fc3a8e08b3a160f3247151d940c7a6cb5fa2f5cb85b3",
+          "bottom_sha256": "28cee39582708d753b6e9f3fada486e9dd4791cca772f3a3a308c43013176c7c"
+        },
+        {
+          "frame": 8224,
+          "label": null,
+          "top_sha256": "2079bd18d8fc2b21c092fc3a8e08b3a160f3247151d940c7a6cb5fa2f5cb85b3",
+          "bottom_sha256": "28cee39582708d753b6e9f3fada486e9dd4791cca772f3a3a308c43013176c7c"
+        },
+        {
+          "frame": 8344,
+          "label": null,
+          "top_sha256": "2079bd18d8fc2b21c092fc3a8e08b3a160f3247151d940c7a6cb5fa2f5cb85b3",
+          "bottom_sha256": "28cee39582708d753b6e9f3fada486e9dd4791cca772f3a3a308c43013176c7c"
+        },
+        {
+          "frame": 8348,
+          "label": null,
+          "top_sha256": "2079bd18d8fc2b21c092fc3a8e08b3a160f3247151d940c7a6cb5fa2f5cb85b3",
+          "bottom_sha256": "28cee39582708d753b6e9f3fada486e9dd4791cca772f3a3a308c43013176c7c"
+        },
+        {
+          "frame": 8468,
+          "label": null,
+          "top_sha256": "2079bd18d8fc2b21c092fc3a8e08b3a160f3247151d940c7a6cb5fa2f5cb85b3",
+          "bottom_sha256": "28cee39582708d753b6e9f3fada486e9dd4791cca772f3a3a308c43013176c7c"
+        },
+        {
+          "frame": 8472,
+          "label": null,
+          "top_sha256": "2079bd18d8fc2b21c092fc3a8e08b3a160f3247151d940c7a6cb5fa2f5cb85b3",
+          "bottom_sha256": "28cee39582708d753b6e9f3fada486e9dd4791cca772f3a3a308c43013176c7c"
+        },
+        {
+          "frame": 8592,
+          "label": null,
+          "top_sha256": "2079bd18d8fc2b21c092fc3a8e08b3a160f3247151d940c7a6cb5fa2f5cb85b3",
+          "bottom_sha256": "28cee39582708d753b6e9f3fada486e9dd4791cca772f3a3a308c43013176c7c"
+        },
+        {
+          "frame": 8596,
+          "label": null,
+          "top_sha256": "4ddccd4e8cea1b18688b078114e7d7b62e4ba05c3b89c69904434aed81a0f719",
+          "bottom_sha256": "69d033e3f2dc13e189c8bcdc8d447c26e7963ed877991e452732deacafe3f7b0"
+        },
+        {
+          "frame": 8716,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 8720,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 8840,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 8844,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 8964,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 8968,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 9088,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 9092,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "e9908e18495b1fec42bfabbe53724c493ffda811464bf09ddc1b21cd8abbb4e9"
+        },
+        {
+          "frame": 9212,
+          "label": "WFC menu revisited after backing out of VS",
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "a4189d284d72a7e2f013b1db7d09b8b126a212060c9c8d409a3e6ed1fa90098e"
+        },
+        {
+          "frame": 9216,
+          "label": null,
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "c5649dabe7756aee8e834e50fc023676387865ba4bc706c7c0807f5ec0a3f004"
+        },
+        {
+          "frame": 9336,
+          "label": null,
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "cbb9a26cd8cf04de39601cd3ff809bf9e0eab281bda616e84d1fb14bd7f5bd45"
+        },
+        {
+          "frame": 9340,
+          "label": null,
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "cbb9a26cd8cf04de39601cd3ff809bf9e0eab281bda616e84d1fb14bd7f5bd45"
+        },
+        {
+          "frame": 9460,
+          "label": null,
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "cbb9a26cd8cf04de39601cd3ff809bf9e0eab281bda616e84d1fb14bd7f5bd45"
+        },
+        {
+          "frame": 9464,
+          "label": null,
+          "top_sha256": "4fcbce39d6b6876b3f6031eb27d3ca6989109ca8cd370d8524236518540e373f",
+          "bottom_sha256": "6b9a363adb04fa031e9e11dc5f85865d69c181fbc3ea08addf49e22f1abe21fd"
+        },
+        {
+          "frame": 9584,
+          "label": null,
+          "top_sha256": "c7eaf349417586a4a922cadd620456f1d1d7fb0fb4416f2fbe3ef2d5b8cde5fc",
+          "bottom_sha256": "5d26cf0d4e2ab4d84c7be5db268231c9ac1a15a75d20b32e680d7e6b5a7d48a0"
+        }
+      ]
+    },
+    {
+      "id": "battle-missions-time-trials",
+      "input_timeline": "scripts/inputs/menu-battle-missions-time-trials.tsv",
+      "input_sha256": "55ccfabe4bc2477cc0734c9f7fa60d9d8d36b135226dc086176ac66a155e5841",
+      "executed_frames": 16044,
+      "input_blocks": 157,
+      "snapshot_pairs": 157,
+      "snapshots": [
+        {
+          "frame": 1000,
+          "label": "Main menu, clean boot",
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 1004,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "2bd851f65ad0a6488651225b6da4b531512a34de9b1136b83845a6c0a215842c"
+        },
+        {
+          "frame": 1124,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "e7e0d6a88a50fd6919d4ca32fb7a371b5aa0f784989ae97cf1cc782502894394"
+        },
+        {
+          "frame": 1128,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "a33e7d8db7a96dc3c4bc3b074708cf26d0ffdd6e87a4e889c84c6bd50c1ed550"
+        },
+        {
+          "frame": 1248,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "470d896036ce037836b08e32c7d2e6bcad719ef13867cc1b88e25ce47f66748c"
+        },
+        {
+          "frame": 1252,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "eafaf58285d0653aeb3231088236f610232755e9a81e69c46e293a77d5c0f8f9"
+        },
+        {
+          "frame": 1372,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "d9df9a952d223b8f0f3a1eb093c6e2b92fd5eda552304f707ea17c749cfa6561"
+        },
+        {
+          "frame": 1376,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "52b8a3d64bdfcb93d3bcbdddbc436ee3b68fcf75d74f72c27724dd9116db228e"
+        },
+        {
+          "frame": 1496,
+          "label": "Main menu after initial profile",
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 1500,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "2bd851f65ad0a6488651225b6da4b531512a34de9b1136b83845a6c0a215842c"
+        },
+        {
+          "frame": 1620,
+          "label": "Single Player mode selection",
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "2932a0713d5f402b8df0f6e5ab11ce20e150fb406530fc2221043eccb0ee8938"
+        },
+        {
+          "frame": 1624,
+          "label": null,
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "aab0508c8d3aad1b9b47034a06ab0535a88123a3381f268857c96b00291f4fc8"
+        },
+        {
+          "frame": 1744,
+          "label": "Battle type: Balloon Battle / Shine Runners",
+          "top_sha256": "388d8a7b1db3b4b6b1c30339218f490ab997c4a9a0392e8945d53402a56e19c2",
+          "bottom_sha256": "69962fc19f3a648a8004656a891072c50c0a567d2e910809713f14c7e36a871e"
+        },
+        {
+          "frame": 1748,
+          "label": null,
+          "top_sha256": "388d8a7b1db3b4b6b1c30339218f490ab997c4a9a0392e8945d53402a56e19c2",
+          "bottom_sha256": "95a2fd5888e0a8b9a19ca76b3518660edad073fb3ca4c931cb8b5ab579846451"
+        },
+        {
+          "frame": 1868,
+          "label": "Balloon Battle character selection",
+          "top_sha256": "a36db67c2095c1f9dae3585fe8176aa567e41145024df54721e4d174f95cadc2",
+          "bottom_sha256": "a08b8db62a960657368606a619f032eb508b847f4549adc42892e6c1a76aaffb"
+        },
+        {
+          "frame": 1872,
+          "label": null,
+          "top_sha256": "3c75ff7e3bf1449122302fad789d9eff0507d587b1ce5127861de2ecd14fe845",
+          "bottom_sha256": "d27cb5b23b50e14975f7b19d96605510eba6d5f841a187a1343f9aa7554360e2"
+        },
+        {
+          "frame": 1992,
+          "label": "Balloon Battle kart selection",
+          "top_sha256": "ce7e5348f7926d1dcf7e55c98d187f74fbedd5bada6d12b1ad982fc1a9f5907a",
+          "bottom_sha256": "d78809f173edfcbba481cf88530eda64018a25b74e1981fa6d162c7b72462f6f"
+        },
+        {
+          "frame": 1996,
+          "label": null,
+          "top_sha256": "ce7e5348f7926d1dcf7e55c98d187f74fbedd5bada6d12b1ad982fc1a9f5907a",
+          "bottom_sha256": "d6318739304f17acf2ba1adc92f3c00a9bf6193e13a9d7bc7092d33358aa68b9"
+        },
+        {
+          "frame": 2116,
+          "label": "Balloon Battle game settings",
+          "top_sha256": "ce7e5348f7926d1dcf7e55c98d187f74fbedd5bada6d12b1ad982fc1a9f5907a",
+          "bottom_sha256": "d6318739304f17acf2ba1adc92f3c00a9bf6193e13a9d7bc7092d33358aa68b9"
+        },
+        {
+          "frame": 2120,
+          "label": null,
+          "top_sha256": "ce7e5348f7926d1dcf7e55c98d187f74fbedd5bada6d12b1ad982fc1a9f5907a",
+          "bottom_sha256": "16b4c84cc2b916d6c9401a9482f9332055ffc23c9c9ca988e9ae1c00086b4ffe"
+        },
+        {
+          "frame": 2240,
+          "label": "Battle arena preview Nintendo DS",
+          "top_sha256": "e56cc3d509d6b2522e88c39e1f072c2e030773483a988dea6299ad8ba79fec7a",
+          "bottom_sha256": "da60d64ea4ecdc852e1041b70f7a2df7c04adbf0a1a7f651eb833b59a08cdfc5"
+        },
+        {
+          "frame": 2244,
+          "label": null,
+          "top_sha256": "1372dc5c44897b44d74b217ee68b63619ee5ffab9d91bbf62fa014dbe4108c08",
+          "bottom_sha256": "5a804a62b4c88bfb84bb0ecc0437204555df2fc1cc077972ed90a7af71001b14"
+        },
+        {
+          "frame": 2304,
+          "label": "Battle arena preview Twilight House",
+          "top_sha256": "eb02ae39f43db2d92047a91cc8624a27df41bce5b21ab9f94dbe85df815142e8",
+          "bottom_sha256": "5a804a62b4c88bfb84bb0ecc0437204555df2fc1cc077972ed90a7af71001b14"
+        },
+        {
+          "frame": 2308,
+          "label": null,
+          "top_sha256": "dd890ed01b5644688b06dba422513ea2f627aeabd5d8723c513e3384c2d59b62",
+          "bottom_sha256": "862387938e2911241430e38dfb60f4a06ef4a59b0e40c7cd1d504f252d0d7be7"
+        },
+        {
+          "frame": 2368,
+          "label": "Battle arena preview Palm Shore",
+          "top_sha256": "776e9d7bdfb310338d9e6bfd47ace09e7a8884940db2ad15e8582d350277235d",
+          "bottom_sha256": "862387938e2911241430e38dfb60f4a06ef4a59b0e40c7cd1d504f252d0d7be7"
+        },
+        {
+          "frame": 2372,
+          "label": null,
+          "top_sha256": "f6369fd19338c6c7c8f8e3692096014145379f704baa6b0f027bd0cdf1d65414",
+          "bottom_sha256": "2c28ea96eebb7d1effe2670a6b923410e924cb4d2c44cc0d579ec0ac28b03e2f"
+        },
+        {
+          "frame": 2432,
+          "label": "Battle arena preview Tart Top",
+          "top_sha256": "a8980fdfc4f3488aebfe1bd87cdcae5df97ac63809090f546066c5e188ddbf36",
+          "bottom_sha256": "2c28ea96eebb7d1effe2670a6b923410e924cb4d2c44cc0d579ec0ac28b03e2f"
+        },
+        {
+          "frame": 2436,
+          "label": null,
+          "top_sha256": "52f7976ae99ae588d296a46fc4224f9767ed33574273cbb045f4b8d228d4a0ea",
+          "bottom_sha256": "30e984f8aa522e56d25781b0c0bbf732cd2b1f3a5c5d939e4ea54efa486977d1"
+        },
+        {
+          "frame": 2496,
+          "label": "Battle arena preview Block Fort",
+          "top_sha256": "5063d18217d4504f1c14428e5f60ebe17042c753865a86a6af6b84c5f3f6877d",
+          "bottom_sha256": "30e984f8aa522e56d25781b0c0bbf732cd2b1f3a5c5d939e4ea54efa486977d1"
+        },
+        {
+          "frame": 2500,
+          "label": null,
+          "top_sha256": "d3e77f4d2b89d5752cb321bd5f39e511eec920c1ebab2344be5008cdac37a7eb",
+          "bottom_sha256": "5e8316cef27be971f0caa3178006a9bf264cf83da5903180af6cb975b458c4f4"
+        },
+        {
+          "frame": 2560,
+          "label": "Battle arena preview Pipe Plaza",
+          "top_sha256": "22482287fa282d1a40de13d504989463ada790ea0ea1d564fe656d1781f46bb8",
+          "bottom_sha256": "5e8316cef27be971f0caa3178006a9bf264cf83da5903180af6cb975b458c4f4"
+        },
+        {
+          "frame": 2564,
+          "label": null,
+          "top_sha256": "664a644d6c2983a32926749b9ceb2da8e4d92b6627feade6673ffeffe230e7f0",
+          "bottom_sha256": "28f508dc3eba484124384191dc865c3ea0844d1e17d1cdf13e6ac89a8e8b3dbf"
+        },
+        {
+          "frame": 2684,
+          "label": "Battle game settings after arena back",
+          "top_sha256": "ce7e5348f7926d1dcf7e55c98d187f74fbedd5bada6d12b1ad982fc1a9f5907a",
+          "bottom_sha256": "d78809f173edfcbba481cf88530eda64018a25b74e1981fa6d162c7b72462f6f"
+        },
+        {
+          "frame": 2688,
+          "label": null,
+          "top_sha256": "b4f545dadc4b7e664df242d19d2bd3e0b31626ed5353ed24513787141c0ca9ff",
+          "bottom_sha256": "785f31c0f1cb9d0c7947c3ebdf875ee9b2133f66d279415bc165d350535dc922"
+        },
+        {
+          "frame": 2808,
+          "label": null,
+          "top_sha256": "27ab02c91905c38e8fc71a39d8909d6f23f4beb67a51092290fafff655c055fb",
+          "bottom_sha256": "a08b8db62a960657368606a619f032eb508b847f4549adc42892e6c1a76aaffb"
+        },
+        {
+          "frame": 2812,
+          "label": null,
+          "top_sha256": "78d6c17fa2bdb6b0f5d01b0ef9f500af4f5c641145bf4258e1d4b60cec1af50f",
+          "bottom_sha256": "f0a11df1b83763044e7b6cdff51d45526f84a638b9f2d6047234893862e64578"
+        },
+        {
+          "frame": 2932,
+          "label": "Battle type selection after backing out",
+          "top_sha256": "388d8a7b1db3b4b6b1c30339218f490ab997c4a9a0392e8945d53402a56e19c2",
+          "bottom_sha256": "69962fc19f3a648a8004656a891072c50c0a567d2e910809713f14c7e36a871e"
+        },
+        {
+          "frame": 2936,
+          "label": null,
+          "top_sha256": "388d8a7b1db3b4b6b1c30339218f490ab997c4a9a0392e8945d53402a56e19c2",
+          "bottom_sha256": "69962fc19f3a648a8004656a891072c50c0a567d2e910809713f14c7e36a871e"
+        },
+        {
+          "frame": 3056,
+          "label": "Shine Runners character selection",
+          "top_sha256": "3659b4786a9f17fbfda26a7365bf5cc8665eed5f953db71ded0ff898ebc45181",
+          "bottom_sha256": "a08b8db62a960657368606a619f032eb508b847f4549adc42892e6c1a76aaffb"
+        },
+        {
+          "frame": 3060,
+          "label": null,
+          "top_sha256": "b605a098a81446c74b8363c518358e2d803aa582909cb010944fa593026215b9",
+          "bottom_sha256": "d27cb5b23b50e14975f7b19d96605510eba6d5f841a187a1343f9aa7554360e2"
+        },
+        {
+          "frame": 3180,
+          "label": "Shine Runners kart selection",
+          "top_sha256": "9db703eb98bf1c40a73bc37762446267919ac55702254289649b061a3f89c4e5",
+          "bottom_sha256": "d78809f173edfcbba481cf88530eda64018a25b74e1981fa6d162c7b72462f6f"
+        },
+        {
+          "frame": 3184,
+          "label": null,
+          "top_sha256": "9db703eb98bf1c40a73bc37762446267919ac55702254289649b061a3f89c4e5",
+          "bottom_sha256": "d6318739304f17acf2ba1adc92f3c00a9bf6193e13a9d7bc7092d33358aa68b9"
+        },
+        {
+          "frame": 3304,
+          "label": "Shine Runners game settings",
+          "top_sha256": "9db703eb98bf1c40a73bc37762446267919ac55702254289649b061a3f89c4e5",
+          "bottom_sha256": "d6318739304f17acf2ba1adc92f3c00a9bf6193e13a9d7bc7092d33358aa68b9"
+        },
+        {
+          "frame": 3308,
+          "label": null,
+          "top_sha256": "9db703eb98bf1c40a73bc37762446267919ac55702254289649b061a3f89c4e5",
+          "bottom_sha256": "16b4c84cc2b916d6c9401a9482f9332055ffc23c9c9ca988e9ae1c00086b4ffe"
+        },
+        {
+          "frame": 3428,
+          "label": "Shine Runners arena selection",
+          "top_sha256": "4541f8e525cbf2c0c76f772c4feae8baf56ab0396daf67a8c8823d96848762b4",
+          "bottom_sha256": "da60d64ea4ecdc852e1041b70f7a2df7c04adbf0a1a7f651eb833b59a08cdfc5"
+        },
+        {
+          "frame": 3432,
+          "label": null,
+          "top_sha256": "9c7348dc548bf4b8cc6547e631565de24076701d4b6099aace9a9de0421124ce",
+          "bottom_sha256": "4adc76e7f3fd82dfac399e57d80b169100052bd1c16a4df203efb6ed40c72c6e"
+        },
+        {
+          "frame": 3552,
+          "label": null,
+          "top_sha256": "9db703eb98bf1c40a73bc37762446267919ac55702254289649b061a3f89c4e5",
+          "bottom_sha256": "d78809f173edfcbba481cf88530eda64018a25b74e1981fa6d162c7b72462f6f"
+        },
+        {
+          "frame": 3556,
+          "label": null,
+          "top_sha256": "ff9ab2d2aff985a675a8a6c882eb0d43773d582e5f4f3575d3eadb9a473b67b9",
+          "bottom_sha256": "785f31c0f1cb9d0c7947c3ebdf875ee9b2133f66d279415bc165d350535dc922"
+        },
+        {
+          "frame": 3676,
+          "label": null,
+          "top_sha256": "db3c6f95a8521ba6d2699373d201f6bb96db64acde9978e016d8f701293d7533",
+          "bottom_sha256": "a08b8db62a960657368606a619f032eb508b847f4549adc42892e6c1a76aaffb"
+        },
+        {
+          "frame": 3680,
+          "label": null,
+          "top_sha256": "e90c04619d3bfee6e81ce46c93659abda0415e2708357a2222b044e43971833a",
+          "bottom_sha256": "f0a11df1b83763044e7b6cdff51d45526f84a638b9f2d6047234893862e64578"
+        },
+        {
+          "frame": 3800,
+          "label": null,
+          "top_sha256": "388d8a7b1db3b4b6b1c30339218f490ab997c4a9a0392e8945d53402a56e19c2",
+          "bottom_sha256": "69962fc19f3a648a8004656a891072c50c0a567d2e910809713f14c7e36a871e"
+        },
+        {
+          "frame": 3804,
+          "label": null,
+          "top_sha256": "3abac04f5cc054ed5e667f1945c9b8a08cb1bbc1cd97f35ac5c5e3fd8472947a",
+          "bottom_sha256": "2f14372f7a99fe8b11157f21984819f37e33a5f48a0266e8f9aaf9ee4fb501c9"
+        },
+        {
+          "frame": 3924,
+          "label": "Single Player mode selection",
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "6374220c562f46b266e0931dfbb3030fa16e8ac85c055beca3087f3624d0ed16"
+        },
+        {
+          "frame": 3928,
+          "label": null,
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "81c9d0d039cfcb6920a77027b925c3b34cdff176fe143ed4f0b6016ccb89f6e8"
+        },
+        {
+          "frame": 4048,
+          "label": "Missions level selection",
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 4052,
+          "label": null,
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 4172,
+          "label": null,
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 4176,
+          "label": null,
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3b99e5e93afb25fe28d8eeba7de87b646597f54a62e71a965802c1556954100d"
+        },
+        {
+          "frame": 4296,
+          "label": "Mission 1-1 briefing preview",
+          "top_sha256": "5b34e9ff2c9e84d3c0949adc3386bbd7e648eed95e6adad1dde199b5448f6783",
+          "bottom_sha256": "3a3f5244294506592d1136c222c01eb4d166edd074da55eb24bec8db74dd4785"
+        },
+        {
+          "frame": 4300,
+          "label": null,
+          "top_sha256": "5b34e9ff2c9e84d3c0949adc3386bbd7e648eed95e6adad1dde199b5448f6783",
+          "bottom_sha256": "5cc95c14b1a73c797128094d3f4e25e825f06cdabd947555b8d734944399db16"
+        },
+        {
+          "frame": 4360,
+          "label": "Mission 1-2 briefing preview",
+          "top_sha256": "00d26f4ed5d7e6ebe64c0e28e8fe1fc7d0f688fc0acb155d2097f7ac44d48485",
+          "bottom_sha256": "b1f8fe6f546dd531f4ffdeeae2c90fe8d0f49348b8d644f21b9d8e6d7fde3f3b"
+        },
+        {
+          "frame": 4364,
+          "label": null,
+          "top_sha256": "00d26f4ed5d7e6ebe64c0e28e8fe1fc7d0f688fc0acb155d2097f7ac44d48485",
+          "bottom_sha256": "4e46e3a9587aed99c576630a71c6d6e10ef8bb3ef7ee2413627d3f1e239abc14"
+        },
+        {
+          "frame": 4424,
+          "label": "Mission 1-3 briefing preview",
+          "top_sha256": "2733d026f451e274b5b976569084262f37ef2dd6649d0b0f4a2e6b15bc09568d",
+          "bottom_sha256": "a902e5fced5229cbb0eebf1d54571b0f93eec1e2f7ffcc2a2676b10bb71f5ae0"
+        },
+        {
+          "frame": 4428,
+          "label": null,
+          "top_sha256": "2733d026f451e274b5b976569084262f37ef2dd6649d0b0f4a2e6b15bc09568d",
+          "bottom_sha256": "adb5f8691e44fd39cb8e3c815864dfd6b959428bbdf748588a57928ada06477a"
+        },
+        {
+          "frame": 4488,
+          "label": "Mission 1-5 briefing preview",
+          "top_sha256": "df54ab15457daeff51798b5f90aa8770b3b9586e3881faa6e96e8ee5ac9d32d3",
+          "bottom_sha256": "b5b7f72570034fa53eb73f9d3f1c540a4b44719c8f5648ce15b8de79a55740a2"
+        },
+        {
+          "frame": 4492,
+          "label": null,
+          "top_sha256": "df54ab15457daeff51798b5f90aa8770b3b9586e3881faa6e96e8ee5ac9d32d3",
+          "bottom_sha256": "1e502afc131918a4476a39f5870135ad75ec0eee449e820738a045496501fb00"
+        },
+        {
+          "frame": 4552,
+          "label": "Mission 1-8 briefing preview",
+          "top_sha256": "43db75a65b180f3df524acf98073e7bbd1f6d593e53f8cf9e796c11d75f77707",
+          "bottom_sha256": "9dbea348cd10c4f186fb8b57fc5f065a45c5cf2fa5a7c2291b545f94f7aa3431"
+        },
+        {
+          "frame": 4556,
+          "label": null,
+          "top_sha256": "43db75a65b180f3df524acf98073e7bbd1f6d593e53f8cf9e796c11d75f77707",
+          "bottom_sha256": "d956c376b163a2d6267063e24e9f605a0e7557e700e04f580f45e38d75504862"
+        },
+        {
+          "frame": 4616,
+          "label": "Mission 1-7 briefing preview",
+          "top_sha256": "c08f6229080551113dba0f2f20d22faabdd1b4457d8b5286529f2d827eb24724",
+          "bottom_sha256": "eb6d804e10146317695ff91e2a230ba204dce47cfc8586fb40bfa0ffdc56b0fa"
+        },
+        {
+          "frame": 4620,
+          "label": null,
+          "top_sha256": "c08f6229080551113dba0f2f20d22faabdd1b4457d8b5286529f2d827eb24724",
+          "bottom_sha256": "afb84b761b2beb07ccaf3a8eb8eccc882d782f2f4acb32c4c472fe35db3ce271"
+        },
+        {
+          "frame": 4680,
+          "label": "Mission 1-6 briefing preview",
+          "top_sha256": "af699293a847ae9002227b373bc7c989f9dbe390f3677caae82594fb99993c67",
+          "bottom_sha256": "8b78267357fe8c58c55101479c028291baac3365532c05f7dd35f9bf7aa14591"
+        },
+        {
+          "frame": 4684,
+          "label": null,
+          "top_sha256": "af699293a847ae9002227b373bc7c989f9dbe390f3677caae82594fb99993c67",
+          "bottom_sha256": "30910040a6d09f5e779ece60cd647d0442abb41ea321c4db0956645f97f016c0"
+        },
+        {
+          "frame": 4744,
+          "label": "Mission 1-4 briefing preview",
+          "top_sha256": "021485095ccd257336be5c3a7f8c93293f1ef425060d1d7cf8a2fdea1df98f98",
+          "bottom_sha256": "2c1a133046ca82805f5ebecf2aca3098a94e1230497c78659ade20ee2f191ba8"
+        },
+        {
+          "frame": 4748,
+          "label": null,
+          "top_sha256": "021485095ccd257336be5c3a7f8c93293f1ef425060d1d7cf8a2fdea1df98f98",
+          "bottom_sha256": "c7f5d251204daf5416482e1af69d3d961694d1e2f3aef24365017fd3fd3e5f77"
+        },
+        {
+          "frame": 4808,
+          "label": "Mission 1-1 briefing selected again",
+          "top_sha256": "5b34e9ff2c9e84d3c0949adc3386bbd7e648eed95e6adad1dde199b5448f6783",
+          "bottom_sha256": "3a3f5244294506592d1136c222c01eb4d166edd074da55eb24bec8db74dd4785"
+        },
+        {
+          "frame": 4812,
+          "label": null,
+          "top_sha256": "5b34e9ff2c9e84d3c0949adc3386bbd7e648eed95e6adad1dde199b5448f6783",
+          "bottom_sha256": "c7f5d251204daf5416482e1af69d3d961694d1e2f3aef24365017fd3fd3e5f77"
+        },
+        {
+          "frame": 5812,
+          "label": null,
+          "top_sha256": "5b34e9ff2c9e84d3c0949adc3386bbd7e648eed95e6adad1dde199b5448f6783",
+          "bottom_sha256": "76a8fe78d4aca72d3bd9d3e625f2f84f1f0cf3d295fbbe7ec78cc69d0aa800af"
+        },
+        {
+          "frame": 5816,
+          "label": null,
+          "top_sha256": "5b34e9ff2c9e84d3c0949adc3386bbd7e648eed95e6adad1dde199b5448f6783",
+          "bottom_sha256": "76a8fe78d4aca72d3bd9d3e625f2f84f1f0cf3d295fbbe7ec78cc69d0aa800af"
+        },
+        {
+          "frame": 5936,
+          "label": "Mission 1-1 confirmation OK/Back",
+          "top_sha256": "5b34e9ff2c9e84d3c0949adc3386bbd7e648eed95e6adad1dde199b5448f6783",
+          "bottom_sha256": "76a8fe78d4aca72d3bd9d3e625f2f84f1f0cf3d295fbbe7ec78cc69d0aa800af"
+        },
+        {
+          "frame": 5940,
+          "label": null,
+          "top_sha256": "5b34e9ff2c9e84d3c0949adc3386bbd7e648eed95e6adad1dde199b5448f6783",
+          "bottom_sha256": "ab2f9777c75f11779a4d567b630d6f76e2b4e149aa925bca03cc4cf276045f3f"
+        },
+        {
+          "frame": 6940,
+          "label": "Mission 1-1 running",
+          "top_sha256": "a17ddf8ab82c9f8b13d6f31ddb17b7645187bba9131f1f4a4b2d641c32c11fa1",
+          "bottom_sha256": "cd73ef98cd8d49edf2f373d826f9a0fad9afb6f22d1dd45fe3ee6206cb83f939"
+        },
+        {
+          "frame": 6944,
+          "label": null,
+          "top_sha256": "1733a744692d612e8e008e9f4bb3931f73a42ccf01944eb98132d9cfabe4b43a",
+          "bottom_sha256": "871e004cc89d16ef398d737d96964ced008a13281551f5fd90129634dce50ff9"
+        },
+        {
+          "frame": 7064,
+          "label": "Mission pause: Continue, Restart, Select Mission, Quit",
+          "top_sha256": "1733a744692d612e8e008e9f4bb3931f73a42ccf01944eb98132d9cfabe4b43a",
+          "bottom_sha256": "db28c76fce9feabac706efa6427dec92f650049f356a76ff14543b2ad5cd7a55"
+        },
+        {
+          "frame": 7068,
+          "label": null,
+          "top_sha256": "1733a744692d612e8e008e9f4bb3931f73a42ccf01944eb98132d9cfabe4b43a",
+          "bottom_sha256": "0ef03f8f246034198c7a1f4d74140d5276d3d02983efc6f398c875a77739bca4"
+        },
+        {
+          "frame": 8868,
+          "label": "Mission Failed after deliberate timeout without driving",
+          "top_sha256": "dc8e6f97a9717215daebf7fcd1917003633edcbecfe399d0bd548bce50107aaf",
+          "bottom_sha256": "0d5e7451fa518c98b53f1f21f99c2cc954571e16b60a8a77f6f4aa17c7f92997"
+        },
+        {
+          "frame": 8872,
+          "label": null,
+          "top_sha256": "44da0b8120fbe9c2abf1cefd1682d29c560e83f84cb3dd090dd93dcd9d624503",
+          "bottom_sha256": "688c285dfc74a172317a5b4eeb824a8c81416afbe0e1a4b5d51c67d953ba144d"
+        },
+        {
+          "frame": 8992,
+          "label": "Mission failure menu: Retry, Select Mission, Quit",
+          "top_sha256": "64c201821c8d5e999af654a7423444e9330b4d068109d39e3bd7e4922238d541",
+          "bottom_sha256": "3f1031b0446fa1cb557099a4a40607013c0368599d243686114e1ddb2f7b896e"
+        },
+        {
+          "frame": 8996,
+          "label": null,
+          "top_sha256": "41a5b0edfa69c570820156efa3edab07d34e76d18be8c15d54e20606a4eeed84",
+          "bottom_sha256": "225fdc09681afe6220c342c472f4991ee11a033a498a38b740f3cbe06b3780be"
+        },
+        {
+          "frame": 9116,
+          "label": "Mission grid after Select Mission",
+          "top_sha256": "5b34e9ff2c9e84d3c0949adc3386bbd7e648eed95e6adad1dde199b5448f6783",
+          "bottom_sha256": "4f394043739b853be3dfcd1eed221d7b97f737adadb7e1206965c9ef93532642"
+        },
+        {
+          "frame": 9120,
+          "label": null,
+          "top_sha256": "5b34e9ff2c9e84d3c0949adc3386bbd7e648eed95e6adad1dde199b5448f6783",
+          "bottom_sha256": "d7085a0c29195dba09c68370c615e13e286806d5a9d78490495266caad1da2cd"
+        },
+        {
+          "frame": 9240,
+          "label": "Mission grid (back navigation still on this page)",
+          "top_sha256": "5b34e9ff2c9e84d3c0949adc3386bbd7e648eed95e6adad1dde199b5448f6783",
+          "bottom_sha256": "3a3f5244294506592d1136c222c01eb4d166edd074da55eb24bec8db74dd4785"
+        },
+        {
+          "frame": 9244,
+          "label": null,
+          "top_sha256": "5b34e9ff2c9e84d3c0949adc3386bbd7e648eed95e6adad1dde199b5448f6783",
+          "bottom_sha256": "5cc95c14b1a73c797128094d3f4e25e825f06cdabd947555b8d734944399db16"
+        },
+        {
+          "frame": 9304,
+          "label": "Mission 1-2 confirmation opened while testing navigation",
+          "top_sha256": "00d26f4ed5d7e6ebe64c0e28e8fe1fc7d0f688fc0acb155d2097f7ac44d48485",
+          "bottom_sha256": "78c82738b3f81d92a541315083ac73f4c2286292286198046a2119d2088ac5e5"
+        },
+        {
+          "frame": 9308,
+          "label": null,
+          "top_sha256": "00d26f4ed5d7e6ebe64c0e28e8fe1fc7d0f688fc0acb155d2097f7ac44d48485",
+          "bottom_sha256": "78c82738b3f81d92a541315083ac73f4c2286292286198046a2119d2088ac5e5"
+        },
+        {
+          "frame": 9368,
+          "label": null,
+          "top_sha256": "00d26f4ed5d7e6ebe64c0e28e8fe1fc7d0f688fc0acb155d2097f7ac44d48485",
+          "bottom_sha256": "78c82738b3f81d92a541315083ac73f4c2286292286198046a2119d2088ac5e5"
+        },
+        {
+          "frame": 9372,
+          "label": null,
+          "top_sha256": "00d26f4ed5d7e6ebe64c0e28e8fe1fc7d0f688fc0acb155d2097f7ac44d48485",
+          "bottom_sha256": "df862f80791be52d10e6e558a731a71fd4a5d4ff51d06e1422e16d116119de72"
+        },
+        {
+          "frame": 9432,
+          "label": "Mission grid, 1-2 selected",
+          "top_sha256": "00d26f4ed5d7e6ebe64c0e28e8fe1fc7d0f688fc0acb155d2097f7ac44d48485",
+          "bottom_sha256": "b1f8fe6f546dd531f4ffdeeae2c90fe8d0f49348b8d644f21b9d8e6d7fde3f3b"
+        },
+        {
+          "frame": 9436,
+          "label": null,
+          "top_sha256": "00d26f4ed5d7e6ebe64c0e28e8fe1fc7d0f688fc0acb155d2097f7ac44d48485",
+          "bottom_sha256": "d956c376b163a2d6267063e24e9f605a0e7557e700e04f580f45e38d75504862"
+        },
+        {
+          "frame": 9496,
+          "label": null,
+          "top_sha256": "c08f6229080551113dba0f2f20d22faabdd1b4457d8b5286529f2d827eb24724",
+          "bottom_sha256": "a395baf220ad3441fd9dec2b0be817aa7feaf060674723423a7dd73fa0f49785"
+        },
+        {
+          "frame": 9500,
+          "label": null,
+          "top_sha256": "c08f6229080551113dba0f2f20d22faabdd1b4457d8b5286529f2d827eb24724",
+          "bottom_sha256": "e60fdfb001ad324cc7d68eedb6b72d600df6e6e2183d56e79f665acf5dcbe4f9"
+        },
+        {
+          "frame": 9560,
+          "label": "Mission grid, 1-7 selected",
+          "top_sha256": "c08f6229080551113dba0f2f20d22faabdd1b4457d8b5286529f2d827eb24724",
+          "bottom_sha256": "eb6d804e10146317695ff91e2a230ba204dce47cfc8586fb40bfa0ffdc56b0fa"
+        },
+        {
+          "frame": 9564,
+          "label": null,
+          "top_sha256": "b349f61e9cb7eb02e552bd979429408f891d65abc76ef7fe9f9e3b0c679192b4",
+          "bottom_sha256": "4c63f3537a6a1b121e45d03b95e96db90ff1d6afc37aec042c867c68139f36d5"
+        },
+        {
+          "frame": 9684,
+          "label": "Mission level selection after back",
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 9714,
+          "label": null,
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "455baf2961aea8e6318e73dc517ab67cc1f7131c49a93127e02946b5a7bba779"
+        },
+        {
+          "frame": 9894,
+          "label": "Single Player mode after held-back input",
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "455baf2961aea8e6318e73dc517ab67cc1f7131c49a93127e02946b5a7bba779"
+        },
+        {
+          "frame": 9898,
+          "label": null,
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "89fa5e4ea2834797a13bef3b1ab68b0162b0dbc7d3b19bbb08c8281ea4937a63"
+        },
+        {
+          "frame": 10198,
+          "label": "Mission level selection after longer settling",
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 10202,
+          "label": null,
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 10502,
+          "label": "Level 2 click after settling does not open it",
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 10506,
+          "label": null,
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 10626,
+          "label": "Level 3 selection does not open it",
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 10630,
+          "label": null,
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 10750,
+          "label": "Level 4 selection does not open it",
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 10754,
+          "label": null,
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 10874,
+          "label": "Level 5 selection does not open it",
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 10878,
+          "label": null,
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 10998,
+          "label": "Level 6 selection does not open it",
+          "top_sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013",
+          "bottom_sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "frame": 11028,
+          "label": null,
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "455baf2961aea8e6318e73dc517ab67cc1f7131c49a93127e02946b5a7bba779"
+        },
+        {
+          "frame": 11208,
+          "label": null,
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "455baf2961aea8e6318e73dc517ab67cc1f7131c49a93127e02946b5a7bba779"
+        },
+        {
+          "frame": 11212,
+          "label": null,
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "9063825cd8255eec4c7a51384eaa689b78c6a8a5bacdc241b3bec9c6e7cd744e"
+        },
+        {
+          "frame": 11512,
+          "label": "Time Trials / Send Ghost / Receive Ghost submenu",
+          "top_sha256": "2fdd290479647c227e5c0068422a38c6025130a034b06d819a2d51baf51d9726",
+          "bottom_sha256": "c83f385a2314ca3d9af9ebcd6fbf3307f4b118bc433fb96e8caadf7af0a8121d"
+        },
+        {
+          "frame": 11516,
+          "label": null,
+          "top_sha256": "2fdd290479647c227e5c0068422a38c6025130a034b06d819a2d51baf51d9726",
+          "bottom_sha256": "bb1578f2ff93ecc66d5ec5cc755ab95273334bffbb8ea2f4ee8ba651807c16d8"
+        },
+        {
+          "frame": 11696,
+          "label": "Time Trial character selection",
+          "top_sha256": "d6cb9effd20f6df905fbf778fd2ced2607e3ae74fad3e6e7493b7784221657d1",
+          "bottom_sha256": "a08b8db62a960657368606a619f032eb508b847f4549adc42892e6c1a76aaffb"
+        },
+        {
+          "frame": 11700,
+          "label": null,
+          "top_sha256": "4de186b134830afa0a63d139098c067d725f98125055820dff0361e47eae7176",
+          "bottom_sha256": "d27cb5b23b50e14975f7b19d96605510eba6d5f841a187a1343f9aa7554360e2"
+        },
+        {
+          "frame": 11880,
+          "label": "Time Trial kart selection",
+          "top_sha256": "4f3975ffd5834377993f5432e1946981504bd151e1d67d7b9bc029889c4f4756",
+          "bottom_sha256": "4c19ee137a2d93f5280c87e0bba3e0c6a5cad48f43a93e6b2e8c3941aecc593b"
+        },
+        {
+          "frame": 11884,
+          "label": null,
+          "top_sha256": "5bc9cf45a45e02a418ed2f7d5be0c61798724369ae133d5ac7c8700bf8f6711a",
+          "bottom_sha256": "a8563d9afc11196496f7e8a26c5181b98b1ed5e296fd10e8861623aa3ce44f43"
+        },
+        {
+          "frame": 12064,
+          "label": "Time Trial cup selection",
+          "top_sha256": "317572038843864fb82a5d7ffde2a01f0423a1f334695eff92e08f1df0670d22",
+          "bottom_sha256": "c56a6118c94e8efeb05f910a73127b0a60c6c550e87aac6cbae432e5254df06b"
+        },
+        {
+          "frame": 12068,
+          "label": null,
+          "top_sha256": "317572038843864fb82a5d7ffde2a01f0423a1f334695eff92e08f1df0670d22",
+          "bottom_sha256": "a8d1d985b52c815410358302c4ae240c634991b64811d97e8d26a63ac678c73c"
+        },
+        {
+          "frame": 12248,
+          "label": "Time Trial course selection",
+          "top_sha256": "c630d731ca11da9757c04af1deb7f032b168c49df4ad93b980afa1a7ad946e34",
+          "bottom_sha256": "d3866c9f17accc9f588207db9af6258e76e5c2c1a14efe3d5f30082766ae2fd8"
+        },
+        {
+          "frame": 12252,
+          "label": null,
+          "top_sha256": "c630d731ca11da9757c04af1deb7f032b168c49df4ad93b980afa1a7ad946e34",
+          "bottom_sha256": "8e3a7119d67b7e30fa94dbcaa199191868e7fb1883eca54ad4dbec67329c8746"
+        },
+        {
+          "frame": 12432,
+          "label": "Time Trial course confirmation",
+          "top_sha256": "c630d731ca11da9757c04af1deb7f032b168c49df4ad93b980afa1a7ad946e34",
+          "bottom_sha256": "4fdfe071cbc3e787ecc8c62f8ab50fdb80899d31a19ba746133341cf6e3d7d3f"
+        },
+        {
+          "frame": 12436,
+          "label": null,
+          "top_sha256": "c630d731ca11da9757c04af1deb7f032b168c49df4ad93b980afa1a7ad946e34",
+          "bottom_sha256": "f675b1f56a250f72d8f2e32920c8435827bd89eba8438a8b5c9f2665149c0e00"
+        },
+        {
+          "frame": 13936,
+          "label": "Time Trial running",
+          "top_sha256": "4b42d5d18c01a84201785e4f611079b0fb5a8756e3228d2b4de2ae0077e129c3",
+          "bottom_sha256": "5f3a3ca9e58cc5b8152dc88cebf66a5f38ada74b5806310155da25bb40ec2251"
+        },
+        {
+          "frame": 13940,
+          "label": null,
+          "top_sha256": "f9c541dd2069405900043a9429b781244b1b669a6f0d9f6e1dcec74f5abd0a9c",
+          "bottom_sha256": "87f2877f0c8a15fb947db1b4bdbb22e19ec3710ba3959683ed898272bef02691"
+        },
+        {
+          "frame": 14060,
+          "label": "Time Trial pause Continue/Restart/Change Course/Change Character/Quit",
+          "top_sha256": "f9c541dd2069405900043a9429b781244b1b669a6f0d9f6e1dcec74f5abd0a9c",
+          "bottom_sha256": "87f2877f0c8a15fb947db1b4bdbb22e19ec3710ba3959683ed898272bef02691"
+        },
+        {
+          "frame": 14064,
+          "label": null,
+          "top_sha256": "f9c541dd2069405900043a9429b781244b1b669a6f0d9f6e1dcec74f5abd0a9c",
+          "bottom_sha256": "470556efdbd7dc7fa92a87aec3d3d489837302705fd2014eb4b3bc07f9f23c74"
+        },
+        {
+          "frame": 14084,
+          "label": null,
+          "top_sha256": "f9c541dd2069405900043a9429b781244b1b669a6f0d9f6e1dcec74f5abd0a9c",
+          "bottom_sha256": "470556efdbd7dc7fa92a87aec3d3d489837302705fd2014eb4b3bc07f9f23c74"
+        },
+        {
+          "frame": 14088,
+          "label": null,
+          "top_sha256": "f9c541dd2069405900043a9429b781244b1b669a6f0d9f6e1dcec74f5abd0a9c",
+          "bottom_sha256": "9aacd9f8d2ab3256b611c0bdbe7517e95e720d88fb8a833559c6e540a6809b29"
+        },
+        {
+          "frame": 14108,
+          "label": null,
+          "top_sha256": "f9c541dd2069405900043a9429b781244b1b669a6f0d9f6e1dcec74f5abd0a9c",
+          "bottom_sha256": "9aacd9f8d2ab3256b611c0bdbe7517e95e720d88fb8a833559c6e540a6809b29"
+        },
+        {
+          "frame": 14112,
+          "label": null,
+          "top_sha256": "f9c541dd2069405900043a9429b781244b1b669a6f0d9f6e1dcec74f5abd0a9c",
+          "bottom_sha256": "1d930e7904251f2a0dc06e5b2fe76665c056a1ab25aefa35f5c32e904bf2b9c8"
+        },
+        {
+          "frame": 14132,
+          "label": null,
+          "top_sha256": "f9c541dd2069405900043a9429b781244b1b669a6f0d9f6e1dcec74f5abd0a9c",
+          "bottom_sha256": "1d930e7904251f2a0dc06e5b2fe76665c056a1ab25aefa35f5c32e904bf2b9c8"
+        },
+        {
+          "frame": 14136,
+          "label": null,
+          "top_sha256": "f9c541dd2069405900043a9429b781244b1b669a6f0d9f6e1dcec74f5abd0a9c",
+          "bottom_sha256": "1342e6d5eb0b3477817192e00b537a83546887bf2bc0ddcccac2de5fb7fe916e"
+        },
+        {
+          "frame": 14156,
+          "label": null,
+          "top_sha256": "f9c541dd2069405900043a9429b781244b1b669a6f0d9f6e1dcec74f5abd0a9c",
+          "bottom_sha256": "1342e6d5eb0b3477817192e00b537a83546887bf2bc0ddcccac2de5fb7fe916e"
+        },
+        {
+          "frame": 14160,
+          "label": null,
+          "top_sha256": "f9c541dd2069405900043a9429b781244b1b669a6f0d9f6e1dcec74f5abd0a9c",
+          "bottom_sha256": "49ef4c9580f922284a8b3745f6a44896fe45f7346b0c49b7e6ec9821034c18f3"
+        },
+        {
+          "frame": 14340,
+          "label": "Main menu after Time Trial quit",
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "frame": 14344,
+          "label": null,
+          "top_sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832",
+          "bottom_sha256": "2bd851f65ad0a6488651225b6da4b531512a34de9b1136b83845a6c0a215842c"
+        },
+        {
+          "frame": 14644,
+          "label": "Single Player mode after Time Trial quit",
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "2932a0713d5f402b8df0f6e5ab11ce20e150fb406530fc2221043eccb0ee8938"
+        },
+        {
+          "frame": 14648,
+          "label": null,
+          "top_sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19",
+          "bottom_sha256": "9063825cd8255eec4c7a51384eaa689b78c6a8a5bacdc241b3bec9c6e7cd744e"
+        },
+        {
+          "frame": 14948,
+          "label": "Time Trials submenu before ghost tests",
+          "top_sha256": "2fdd290479647c227e5c0068422a38c6025130a034b06d819a2d51baf51d9726",
+          "bottom_sha256": "c83f385a2314ca3d9af9ebcd6fbf3307f4b118bc433fb96e8caadf7af0a8121d"
+        },
+        {
+          "frame": 14952,
+          "label": null,
+          "top_sha256": "2fdd290479647c227e5c0068422a38c6025130a034b06d819a2d51baf51d9726",
+          "bottom_sha256": "c83f385a2314ca3d9af9ebcd6fbf3307f4b118bc433fb96e8caadf7af0a8121d"
+        },
+        {
+          "frame": 15252,
+          "label": "Time Trials submenu; first Send Ghost touch missed the button",
+          "top_sha256": "2fdd290479647c227e5c0068422a38c6025130a034b06d819a2d51baf51d9726",
+          "bottom_sha256": "c83f385a2314ca3d9af9ebcd6fbf3307f4b118bc433fb96e8caadf7af0a8121d"
+        },
+        {
+          "frame": 15256,
+          "label": null,
+          "top_sha256": "2fdd290479647c227e5c0068422a38c6025130a034b06d819a2d51baf51d9726",
+          "bottom_sha256": "889e4cc1b407da3c1d6c0431de6b858ddd79d84fab89c96059941e521348cd71"
+        },
+        {
+          "frame": 15556,
+          "label": "Send Ghost: You have no ghost data to send",
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "c0df8c7fb47ad5ff3860b3c2c03df2c05f40f2378afc87e70720f9508007470d"
+        },
+        {
+          "frame": 15560,
+          "label": null,
+          "top_sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e",
+          "bottom_sha256": "da9c2eebfbd22cf23a40f8ed796c63613be88109f18a73050558eef483e7f23b"
+        },
+        {
+          "frame": 15740,
+          "label": null,
+          "top_sha256": "2fdd290479647c227e5c0068422a38c6025130a034b06d819a2d51baf51d9726",
+          "bottom_sha256": "aff39ebd8a7ef59e2a6b2725ee64f615c21956980b90da722426877fb8410964"
+        },
+        {
+          "frame": 15744,
+          "label": null,
+          "top_sha256": "2fdd290479647c227e5c0068422a38c6025130a034b06d819a2d51baf51d9726",
+          "bottom_sha256": "5d06ba8555200d2478dcb71cb465dcdc42fad55accf07fbcfbe1ef41f657096d"
+        },
+        {
+          "frame": 16044,
+          "label": "Receive Ghost: Select Ghost Host, no host listed",
+          "top_sha256": "d1f9c341ac2a255ea8b1a9290ba627e7f6bde960ca8ac149632af99e123d4811",
+          "bottom_sha256": "ecdc06231b1ac6946a3fe6b98bb36b0b9c4a0958a8fa644203e47910f71aad18"
+        }
+      ]
+    }
+  ],
+  "total_scripted_frames": 45482,
+  "total_snapshot_pairs": 537,
+  "replay_prefix": {
+    "frames": 1744,
+    "scope": "Same reference ROM, interactive vs timeline playback",
+    "top": {
+      "equal": true,
+      "sha256": "4a0f55c5146bd9d69b79695688146feb7334a4f916f5b3d81a8f2167e9f77437"
+    },
+    "bottom": {
+      "equal": true,
+      "sha256": "269c2c3ffbb7eb0b4b65677528066dec81ec4aa09597ce6bf852507090cf440d"
+    }
+  },
+  "full_game_explored": false,
+  "online_connected": false,
+  "second_player_connected": false,
+  "full_rom_equivalence_verified": false,
+  "checkpoint": 26,
+  "new_matching_functions": 5,
+  "new_matching_bytes": 252,
+  "identified_function_bytes": 1913676,
+  "local_byte_exact_percent": 15.023128262046448,
+  "fixed_rtc": "2026-01-01T00:00:00",
+  "jit_enabled": false
+}

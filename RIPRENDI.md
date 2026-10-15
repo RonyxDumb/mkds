@@ -174,3 +174,29 @@ Usare sh scripts/rea/run.sh; ripristino patch con scripts/rea/apply_fix.py.
 Ghidra12.1.4/JDK21 installati in tools ignorata. Profilo raw ARM generico resta v7;
 non dichiarare profilo DS ARMv5T, emulator-to-Ghidra live o matching aggiuntivo.
 Altri consumer /proc capture/debugger REA non convertiti. Dettagli reports/REA-PID-FIX.md.
+
+## Checkpoint 26 — menu esplorati e cinque funzioni nuove
+
+3.777 funzioni, 287.494 / 1.913.676 byte (15,023128%). +5 funzioni, +252 byte
+rispetto al cp25; 1.411 prove senza relocazioni e 2.366 con, 7.364 relocazioni.
+Nuove funzioni: CheckWiFiStatus_Second 88, Emblem_Initialize 40,
+FormatCharacterEmblemName 48, GetMaybeSomeWifiIdx 36, ClearRaceOptionMenuEntries 40.
+Pure C ARM/Thumb; sorgenti finali ricompilati; nuovi binding verificati da
+verify_menu_symbols.py. Hash-only checkpoint26-search-summary.json.
+Treemap ora legge il checkpoint dal report, eliminata etichetta fissa checkpoint6.
+
+Menu eseguiti sulla ROM ORIGINALE: 19.854 frame Opzioni/Record/WFC, 9.584
+multiplayer/GP/VS, 16.044 Battaglia/Missioni/TimeTrial/ghost. Totale 45.482.
+537 snapshot-pair endpoint, non 537 menu distinti. Replay dei primi 1.744 frame
+identico su entrambi gli schermi. ROM SHA1 verificato. Screenshot e limiti in
+reports/MENU-EXPLORATION-2026-10-15.md e relativo JSON. Input in scripts/inputs/menu-*.tsv.
+Frontend ora --interactive: duration keys touchX touchY, blocchi limitati, quit;
+registra timeline e capture numeriche. No callback di persistenza salvataggi,
+MP/Net sono stub: WFC non si connette, melonAP è virtuale.
+Quattro coppe/16circuiti nel save iniziale; livello1 missioni con 8 briefing,
+livelli 2–6 e boss non aperti. Nessuna missione o coppa completata. GhostSend
+non ha dati; GhostReceive non ha host. Non dichiarare intero gioco esplorato.
+REA ha esportato4 segmenti ARM in reports/rea/menus/, incluso Maybe_wifi 1.076 byte.
+Profilo raw generico v7 e nessun collegamento live emulatore-Ghidra: le funzioni
+matching sono ricostruzioni statiche indipendenti, non hit runtime dimostrati.
+Codice di questo checkpoint pubblicato su main nel commit remoto 26ffd6351f6c41dd4a920808d0a2d960c8eed50e; report finale successivo.

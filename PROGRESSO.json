@@ -31,6 +31,6 @@
   "local_byte_exact_span_bytes": 290018,
   "session_new_exact_span_bytes": 252,
   "target_reached": true,
-  "emulator_scope": "Reference ROM only: Grand Prix 7200 frames, navigation 2400, missions/time-trials/battle 3600 each. Entry/playback observed, no completed races or whole-game equivalence. GDB ARM9/ARM7 read+detach OK in same subprocess environment.",
+  "emulator_scope": "Reference ROM only: 19854 frames Options/Records/WFC, 9584 Multiplayer/GP/VS, 16044 Battle/Missions/TimeTrial/Ghost. 45482 total; 1744-frame same-ROM interactive/timeline prefix identical on both screens. No online/second-player connection, unlock completion or reconstructed-ROM equivalence.",
   "compilable_measurement_note": "Current checks inventory, not a fresh global source compilation; prior checkpoint24 field was stale."
 }

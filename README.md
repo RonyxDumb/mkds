@@ -25,3 +25,5 @@ Checkpoint 22 reported additional local results but its source corpus is unavail
 [Checkpoint 24 recovery](reports/CHECKPOINT-24.md): +651 freshly audited C matches, +3.641160 percentage points of the unchanged function inventory.
 
 [Checkpoint 25](reports/CHECKPOINT-25.md): four pending C matches freshly audited; bounded mission, time-trial and battle observations; reproducible local GDB launch. REA/Ghidra remains blocked.
+
+[Checkpoint 26](reports/CHECKPOINT-26.md): +5 verified C functions / +252 bytes. [Menu exploration with screenshots](reports/MENU-EXPLORATION-2026-10-15.md): Options, Records, WFC Setup, multiplayer, race modes and ghosts; original reference ROM, bounded coverage.
