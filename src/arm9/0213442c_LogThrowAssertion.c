@@ -1,12 +1,15 @@
-/* Decompiled C draft; module arm9; ROM address 0213442c. No matching claim. */
-#include "types.h"
-#include "deps/0213442c_LogThrowAssertion.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0216ec60 SDK_data_0216ec60
+/* Assert logger: formats condition/file/function/line into the
+ * assert buffer and calls the assert-fail handler. (Parked: mwld
+ * placement mystery, see PLAN.) */
+extern char data_0216ec60[];
 
-void LogThrowAssertion(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+extern void SomeSprintf(const char *fmt, ...);
+extern void OnAssertionFailed(void);
 
+void LogThrowAssertion(const char *cond, const char *file, const char *func, int line)
 {
-  SomeSprintf(uRam02134468,param_1,param_2,param_3,param_4);
-  OnAssertionFailed();
-  return;
+    SomeSprintf(data_0216ec60, cond, file, func, line);
+    OnAssertionFailed();
 }
-

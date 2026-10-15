@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194487175
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "Bmg_GetRawStringPointer_from_thumb",
+    "target": 34291580,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194487169
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "TextSystem_DisplaySingleButtonDialog_Simple_from_thumb",
+    "target": 34759216,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194604075
+  },
+  {
+    "offset": 68,
+    "type": 2,
+    "symbol": "SDK_data_021a99e0",
+    "target": 35297760,
+    "thumb": false,
+    "addend": 0,
+    "value": 35297760
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "SomeSprintf",
+    "target": 34820420,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646586
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "OnAssertionFailed",
+    "target": 34815960,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422686
+  },
+  {
+    "offset": 60,
+    "type": 2,
+    "symbol": "SDK_data_0216ec60",
+    "target": 35056736,
+    "thumb": false,
+    "addend": 0,
+    "value": 35056736
+  }
+]

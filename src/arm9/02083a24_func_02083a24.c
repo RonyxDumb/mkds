@@ -1,47 +1,73 @@
-/* Decompiled C draft; module arm9; ROM address 02083a24. No matching claim. */
-#include "types.h"
-#include "deps/02083a24_func_02083a24.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_0217ae84 SDK_data_0217ae84
+#define data_02155a14 SDK_data_02155a14
+#define func_02082fec SDK_data_02082fec
+/* PURPOSE: Attaches two helper objects to a racer so the game can track that racer.
+ *
+ * Arguments: a0 = owner/context object (its field at +4 is passed to the factory),
+ *            a1 = a small kind/id byte stored on each helper,
+ *            sub = the racer's sub-struct; its u16 at +0x74 indexes the global
+ *                  racer-entry array (base *data_0217ae84, stride 0x58).
+ * Behaviour: if the racer entry already has either of its two slots (+0x20/+0x24)
+ *            filled, do nothing and return 0. Otherwise build 2 helper objects via
+ *            func_0208b7bc, store them into the two slots, and fill each helper's
+ *            back-pointer (sub), index, kind byte and callback (func_02082fec).
+ *            Returns 1 on success.
+ */
 
-undefined4 func_02083a24(int param_1,undefined1 param_2,int param_3)
+typedef unsigned char  u8;
+typedef unsigned short u16;
 
+/* Helper object produced by the factory. Only the fields written here are known. */
+typedef struct Helper {
+    u8  pad[0x90];
+    void *f90;   /* callback -> func_02082fec */
+    void *f94;   /* back-pointer to the racer sub-struct */
+    u8  f98;     /* kind byte (a1 & 0xff) */
+    u8  pad99[2];
+    u8  f9b;     /* slot index (0 or 1) */
+} Helper;
+
+/* One entry of the global racer array; stride is 0x58. */
+typedef struct RacerEntry {
+    u8  pad20[0x20];
+    void *slots[2]; /* +0x20, +0x24 */
+    u8  pad28[0x58 - 0x28];
+} RacerEntry;
+
+/* Owner/context object: only its +4 field is used. */
+typedef struct Owner {
+    void *pad0;
+    void *f4;
+} Owner;
+
+/* sub-struct: only the u16 racer index at +0x74 is used. */
+typedef struct Sub {
+    u8  pad0[0x74];
+    u16 f74;
+} Sub;
+
+extern RacerEntry *data_0217ae84;      /* pointer to base of racer-entry array */
+extern int         data_02155a14;      /* config/data passed to the factory */
+extern Helper     *func_0208b7bc(void *a, void *b);
+extern void        func_02082fec(void);
+
+int func_02083a24(Owner *a0, int a1, Sub *sub)
 {
-  uint uVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  uint uVar5;
-  uint uVar6;
-  int iVar7;
-  
-  uVar4 = uRam02083adc;
-  uVar3 = uRam02083ad8;
-  uVar2 = uRam02083ad4;
-  iVar7 = (uint)*(ushort *)(param_3 + 0x74) * 0x58 +
-          (*(uint *)(uRam02083ad4 & 0xfffffffc) >> (uRam02083ad4 & 3) * 8 |
-          *(uint *)(uRam02083ad4 & 0xfffffffc) << (uRam02083ad4 & 3) * -8 + 0x20);
-  uVar6 = iVar7 + 0x20;
-  uVar1 = uVar6 & 3;
-  uVar6 = *(uint *)(uVar6 & 0xfffffffc);
-  if ((uVar6 >> uVar1 * 8 == 0 && uVar6 << uVar1 * -8 + 0x20 == 0) &&
-     (uVar6 = iVar7 + 0x24, uVar1 = uVar6 & 3, uVar6 = *(uint *)(uVar6 & 0xfffffffc),
-     uVar6 >> uVar1 * 8 == 0 && uVar6 << uVar1 * -8 + 0x20 == 0)) {
-    uVar6 = 0;
-    do {
-      uVar1 = param_1 + 4U & 3;
-      uVar5 = *(uint *)(param_1 + 4U & 0xfffffffc);
-      iVar7 = func_0208b7bc(uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20,uVar3);
-      uVar1 = uVar2 & 3;
-      uVar5 = *(uint *)(uVar2 & 0xfffffffc);
-      *(int *)((uint)*(ushort *)(param_3 + 0x74) * 0x58 +
-               (uVar5 >> uVar1 * 8 | uVar5 << uVar1 * -8 + 0x20) + uVar6 * 4 + 0x20) = iVar7;
-      *(int *)(iVar7 + 0x94) = param_3;
-      *(char *)(iVar7 + 0x9b) = (char)uVar6;
-      *(undefined1 *)(iVar7 + 0x98) = param_2;
-      uVar6 = uVar6 + 1 & 0xffff;
-      *(undefined4 *)(iVar7 + 0x90) = uVar4;
-    } while (uVar6 < 2);
-    return 1;
-  }
-  return 0;
-}
+    RacerEntry *e = &data_0217ae84[sub->f74];
+    if (e->slots[0] != 0 || e->slots[1] != 0)
+        return 0;
 
+    {
+        u16 i = 0;
+        for (; i < 2; i++) {
+            Helper *o = func_0208b7bc(a0->f4, &data_02155a14);
+            data_0217ae84[sub->f74].slots[i] = o;
+            o->f94 = sub;
+            o->f9b = (u8)i;
+            o->f98 = (u8)a1;
+            o->f90 = (void *)func_02082fec;
+        }
+    }
+    return 1;
+}

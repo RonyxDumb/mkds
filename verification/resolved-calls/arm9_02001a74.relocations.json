@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "StateDualHandler_Execute",
+    "target": 33844032,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942716460
+  },
+  {
+    "offset": 56,
+    "type": 1,
+    "symbol": "NavigationContext_OnSceneUpdate_from_thumb",
+    "target": 34756904,
+    "thumb": true,
+    "addend": -8,
+    "value": 4194602909
+  },
+  {
+    "offset": 68,
+    "type": 2,
+    "symbol": "SDK_data_021a99e0",
+    "target": 35297760,
+    "thumb": false,
+    "addend": 0,
+    "value": 35297760
+  }
+]

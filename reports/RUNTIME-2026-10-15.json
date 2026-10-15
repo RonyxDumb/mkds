@@ -1,0 +1,6748 @@
+{
+  "rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+  "emulator_commit": "906e9ebb27da8c6a715cd7abab4abfe8a8d29427",
+  "scenarios": [
+    {
+      "scenario": "grand-prix",
+      "requested_frames": 7200,
+      "completed_last_frame": 7200,
+      "observations": [
+        {
+          "frame": 1,
+          "arm9_pc": 33556896,
+          "arm7_pc": 37224744,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 61,
+          "arm9_pc": 34890784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 61,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 121,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 121,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 181,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 181,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 241,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58699772,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 241,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 301,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58699736,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 536870943
+        },
+        {
+          "frame": 301,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 361,
+          "arm9_pc": 34918432,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 361,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 421,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 421,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 481,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 481,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 541,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 541,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 601,
+          "arm9_pc": 34796784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871122,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 601,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 661,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 661,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 721,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 721,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 781,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 781,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 841,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 841,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 901,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 901,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 961,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 961,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1021,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1021,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1081,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1081,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1141,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1141,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1201,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1201,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1261,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1261,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1321,
+          "arm9_pc": 34890808,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1073741855,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1321,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1381,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1381,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1441,
+          "arm9_pc": 34890808,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1441,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1501,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1501,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1561,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1561,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1621,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1621,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1681,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1681,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1741,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1741,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1801,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58703104,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1801,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1861,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1861,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1921,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58707852,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 1921,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1981,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1981,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2041,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58705276,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 2041,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2101,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2101,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2161,
+          "arm9_pc": 34919684,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2161,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2221,
+          "arm9_pc": 34890784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2221,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2281,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2281,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            23,
+            38,
+            53,
+            68,
+            83,
+            98,
+            113
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2341,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2341,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            23,
+            38,
+            53,
+            68,
+            83,
+            98,
+            113
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2401,
+          "arm9_pc": 34890784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2401,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 2461,
+          "arm9_pc": 34919680,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2461,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            26729,
+            25312,
+            24902,
+            628,
+            736,
+            41,
+            363,
+            49
+          ]
+        },
+        {
+          "frame": 2521,
+          "arm9_pc": 34097652,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2521,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            23,
+            38,
+            53,
+            68,
+            83,
+            98,
+            113
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2581,
+          "arm9_pc": 34097652,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2581,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            23,
+            38,
+            53,
+            68,
+            83,
+            98,
+            113
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2641,
+          "arm9_pc": 34097652,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2641,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            23,
+            38,
+            53,
+            68,
+            83,
+            98,
+            113
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2701,
+          "arm9_pc": 33525224,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2701,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            23,
+            38,
+            53,
+            68,
+            83,
+            98,
+            113
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2761,
+          "arm9_pc": 33964316,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2761,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            23,
+            38,
+            53,
+            68,
+            83,
+            98,
+            113
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2821,
+          "arm9_pc": 34918488,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2821,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            22,
+            39,
+            53,
+            68,
+            82,
+            99,
+            113
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2881,
+          "arm9_pc": 33964176,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2881,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            19,
+            39,
+            52,
+            66,
+            81,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2941,
+          "arm9_pc": 33554292,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2941,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            18,
+            39,
+            52,
+            67,
+            81,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3001,
+          "arm9_pc": 33521684,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871122,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3001,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            67,
+            82,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3061,
+          "arm9_pc": 33606328,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612946,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3061,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            101,
+            118
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3121,
+          "arm9_pc": 33554296,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3121,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            101,
+            118
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3181,
+          "arm9_pc": 33526308,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3181,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            101,
+            118
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3241,
+          "arm9_pc": 33963316,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3241,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            101,
+            118
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3301,
+          "arm9_pc": 33526072,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3301,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            101,
+            118
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3361,
+          "arm9_pc": 34919932,
+          "arm7_pc": 58699648,
+          "arm9_cpsr": 1073742034,
+          "arm7_cpsr": 536871122
+        },
+        {
+          "frame": 3361,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3421,
+          "arm9_pc": 33641104,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3421,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3481,
+          "arm9_pc": 33640120,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3481,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3541,
+          "arm9_pc": 34426076,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3541,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3601,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3601,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3661,
+          "arm9_pc": 34918488,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3661,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3721,
+          "arm9_pc": 33526308,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3721,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3781,
+          "arm9_pc": 34899496,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3781,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3841,
+          "arm9_pc": 34426160,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3841,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3901,
+          "arm9_pc": 34918488,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3901,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3961,
+          "arm9_pc": 33640508,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3961,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            51,
+            66,
+            84,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4021,
+          "arm9_pc": 34918488,
+          "arm7_pc": 58709048,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 536870943
+        },
+        {
+          "frame": 4021,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            51,
+            66,
+            84,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4081,
+          "arm9_pc": 34500216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4081,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            51,
+            66,
+            84,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4141,
+          "arm9_pc": 33526064,
+          "arm7_pc": 58707264,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4141,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            51,
+            66,
+            84,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4201,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4201,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            51,
+            66,
+            84,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4261,
+          "arm9_pc": 33526036,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4261,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            51,
+            66,
+            84,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4321,
+          "arm9_pc": 33526308,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4321,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            51,
+            66,
+            84,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4381,
+          "arm9_pc": 34426160,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4381,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            51,
+            66,
+            84,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4441,
+          "arm9_pc": 33526308,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4441,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            51,
+            66,
+            84,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4501,
+          "arm9_pc": 33554296,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4501,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            51,
+            66,
+            84,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4561,
+          "arm9_pc": 33526072,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4561,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4621,
+          "arm9_pc": 33554296,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4621,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4681,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4681,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4741,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4741,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4801,
+          "arm9_pc": 34424084,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4801,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4861,
+          "arm9_pc": 33526308,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4861,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4921,
+          "arm9_pc": 33526052,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4921,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 4981,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 4981,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5041,
+          "arm9_pc": 34916368,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5041,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5101,
+          "arm9_pc": 4294903544,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612946,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5101,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5161,
+          "arm9_pc": 33554296,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5161,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5221,
+          "arm9_pc": 33963220,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5221,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5281,
+          "arm9_pc": 33790164,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5281,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5341,
+          "arm9_pc": 34426112,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5341,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5401,
+          "arm9_pc": 34426076,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5401,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5461,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5461,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5521,
+          "arm9_pc": 33526308,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5521,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5581,
+          "arm9_pc": 34796712,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871122,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5581,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5641,
+          "arm9_pc": 33521696,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871122,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5641,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5701,
+          "arm9_pc": 33554296,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5701,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5761,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5761,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5821,
+          "arm9_pc": 33526312,
+          "arm7_pc": 58696344,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 536871122
+        },
+        {
+          "frame": 5821,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5881,
+          "arm9_pc": 33606340,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612946,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5881,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 5941,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 5941,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6001,
+          "arm9_pc": 34056772,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6001,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6061,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6061,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6121,
+          "arm9_pc": 33525820,
+          "arm7_pc": 58708748,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6121,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6181,
+          "arm9_pc": 33554296,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6181,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6241,
+          "arm9_pc": 34917592,
+          "arm7_pc": 58712156,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6241,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6301,
+          "arm9_pc": 34426160,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6301,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6361,
+          "arm9_pc": 33526308,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6361,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6421,
+          "arm9_pc": 34918488,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6421,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6481,
+          "arm9_pc": 33526316,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6481,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6541,
+          "arm9_pc": 33526048,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6541,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6601,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6601,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6661,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6661,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6721,
+          "arm9_pc": 33554296,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6721,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6781,
+          "arm9_pc": 33554304,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6781,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6841,
+          "arm9_pc": 33554296,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6841,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6901,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6901,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 6961,
+          "arm9_pc": 33526312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 6961,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 7021,
+          "arm9_pc": 33554296,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 7021,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 7081,
+          "arm9_pc": 33526348,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 7081,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 7141,
+          "arm9_pc": 33554296,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 7141,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 7200,
+          "arm9_pc": 33554296,
+          "arm7_pc": 58712840,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 7200,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            17,
+            39,
+            52,
+            66,
+            83,
+            102,
+            117
+          ],
+          "lap_settings_raw": 3
+        }
+      ],
+      "framebuffer_sha256": [
+        {
+          "file": "today-grand-prix-1200-bottom.rgba",
+          "sha256": "d9df9a952d223b8f0f3a1eb093c6e2b92fd5eda552304f707ea17c749cfa6561"
+        },
+        {
+          "file": "today-grand-prix-1200-top.rgba",
+          "sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e"
+        },
+        {
+          "file": "today-grand-prix-2400-bottom.rgba",
+          "sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3"
+        },
+        {
+          "file": "today-grand-prix-2400-top.rgba",
+          "sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3"
+        },
+        {
+          "file": "today-grand-prix-3600-bottom.rgba",
+          "sha256": "0aede5c99bc07c31d975377f3527ec6e3a391c82bd18050b2403721ad0a519a0"
+        },
+        {
+          "file": "today-grand-prix-3600-top.rgba",
+          "sha256": "b7327abb53b8688d7d1af3167050dca1602405191988b984fe122c66047399f5"
+        },
+        {
+          "file": "today-grand-prix-4800-bottom.rgba",
+          "sha256": "d15ba0666d763e668f695c21aa0b12793255ab6acb93085548e649a6d0f4e78f"
+        },
+        {
+          "file": "today-grand-prix-4800-top.rgba",
+          "sha256": "f888d9b6e9e542d30db38c41c1c3322f5c901a0c2aba9266c3f7b942a53618f5"
+        },
+        {
+          "file": "today-grand-prix-6000-bottom.rgba",
+          "sha256": "cf207171246d44a37215e6f6cd3b8c4297e609ed67d76765468700c9df899523"
+        },
+        {
+          "file": "today-grand-prix-6000-top.rgba",
+          "sha256": "4dab3e73248fd15c8e47b83561756a1f2419cbf20bc26c1d69d62b62c8edad0a"
+        },
+        {
+          "file": "today-grand-prix-7200-bottom.rgba",
+          "sha256": "889bfe91ae1fd9dc7e7a9d24d04570d29999df09cb24c4d3cc12cfa883b05956"
+        },
+        {
+          "file": "today-grand-prix-7200-top.rgba",
+          "sha256": "a1888fac39fe3e16814ca59d5e53ed5069a3490e5f019fe54c7d297b1e151a67"
+        },
+        {
+          "file": "today-grand-prix-bottom.rgba",
+          "sha256": "889bfe91ae1fd9dc7e7a9d24d04570d29999df09cb24c4d3cc12cfa883b05956"
+        },
+        {
+          "file": "today-grand-prix-top.rgba",
+          "sha256": "a1888fac39fe3e16814ca59d5e53ed5069a3490e5f019fe54c7d297b1e151a67"
+        }
+      ],
+      "scope": "Reference ROM; bounded scripted playback only; no full-mode completion claim"
+    },
+    {
+      "scenario": "navigation",
+      "requested_frames": 2400,
+      "completed_last_frame": 2400,
+      "observations": [
+        {
+          "frame": 1,
+          "arm9_pc": 33556896,
+          "arm7_pc": 37224744,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 61,
+          "arm9_pc": 34890784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 61,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 121,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 121,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 181,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 181,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 241,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58699772,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 241,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 301,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58699736,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 536870943
+        },
+        {
+          "frame": 301,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 361,
+          "arm9_pc": 34918432,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 361,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 421,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 421,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 481,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 481,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 541,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 541,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 601,
+          "arm9_pc": 34796784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871122,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 601,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 661,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 661,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 721,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 721,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 781,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 781,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 841,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 841,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 901,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 901,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 961,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 961,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1021,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1021,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1081,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1081,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1141,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1141,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1201,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1201,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1261,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1261,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1321,
+          "arm9_pc": 34890808,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1073741855,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1321,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1381,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1381,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1441,
+          "arm9_pc": 34890808,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1441,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1501,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1501,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1561,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1561,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1621,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1621,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1681,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1681,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1741,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1741,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1801,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58703104,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1801,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1861,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1861,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1921,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58707852,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 1921,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1981,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1981,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2041,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58705276,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 2041,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2101,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2101,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2161,
+          "arm9_pc": 34919684,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2161,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2221,
+          "arm9_pc": 34890784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2221,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2281,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2281,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            23,
+            38,
+            53,
+            68,
+            83,
+            98,
+            113
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2341,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2341,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            8,
+            23,
+            38,
+            53,
+            68,
+            83,
+            98,
+            113
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2400,
+          "arm9_pc": 34890780,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2400,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 37132772,
+          "place_fields_raw": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "framebuffer_sha256": [
+        {
+          "file": "today-navigation-1200-bottom.rgba",
+          "sha256": "d9df9a952d223b8f0f3a1eb093c6e2b92fd5eda552304f707ea17c749cfa6561"
+        },
+        {
+          "file": "today-navigation-1200-top.rgba",
+          "sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e"
+        },
+        {
+          "file": "today-navigation-1500-bottom.rgba",
+          "sha256": "2932a0713d5f402b8df0f6e5ab11ce20e150fb406530fc2221043eccb0ee8938"
+        },
+        {
+          "file": "today-navigation-1500-top.rgba",
+          "sha256": "7b9fba21167f3bb0ce8116ca198c9ffdedbcf0db106c0f473f863077bf77ea19"
+        },
+        {
+          "file": "today-navigation-1800-bottom.rgba",
+          "sha256": "252b2058e503809d55f2b72d240386eac735cb2c4514e55def5b8cb383fd9dd2"
+        },
+        {
+          "file": "today-navigation-1800-top.rgba",
+          "sha256": "a2a1310cbd0458c7d181244658ede8634d15a5cb6f0c9b0f194cad4ba26dc584"
+        },
+        {
+          "file": "today-navigation-2100-bottom.rgba",
+          "sha256": "87d07184a3e7db29c10167b6198aae68cfc2853212df787ccc28df4c6c558e30"
+        },
+        {
+          "file": "today-navigation-2100-top.rgba",
+          "sha256": "317572038843864fb82a5d7ffde2a01f0423a1f334695eff92e08f1df0670d22"
+        },
+        {
+          "file": "today-navigation-2400-bottom.rgba",
+          "sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3"
+        },
+        {
+          "file": "today-navigation-2400-top.rgba",
+          "sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3"
+        },
+        {
+          "file": "today-navigation-300-bottom.rgba",
+          "sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3"
+        },
+        {
+          "file": "today-navigation-300-top.rgba",
+          "sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3"
+        },
+        {
+          "file": "today-navigation-600-bottom.rgba",
+          "sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "file": "today-navigation-600-top.rgba",
+          "sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832"
+        },
+        {
+          "file": "today-navigation-900-bottom.rgba",
+          "sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "file": "today-navigation-900-top.rgba",
+          "sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832"
+        },
+        {
+          "file": "today-navigation-bottom.rgba",
+          "sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3"
+        },
+        {
+          "file": "today-navigation-top.rgba",
+          "sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3"
+        }
+      ],
+      "scope": "Reference ROM; bounded scripted playback only; no full-mode completion claim"
+    },
+    {
+      "scenario": "missions",
+      "requested_frames": 3600,
+      "completed_last_frame": 3600,
+      "observations": [
+        {
+          "frame": 1,
+          "arm9_pc": 33556896,
+          "arm7_pc": 37224744,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 61,
+          "arm9_pc": 34890784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 61,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 121,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 121,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 181,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 181,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 241,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58699772,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 241,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 301,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58699736,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 536870943
+        },
+        {
+          "frame": 301,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 361,
+          "arm9_pc": 34918432,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 361,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 421,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 421,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 481,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 481,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 541,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 541,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 601,
+          "arm9_pc": 34796784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871122,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 601,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 661,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 661,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 721,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 721,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 781,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 781,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 841,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 841,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 901,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 901,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 961,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 961,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1021,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1021,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1081,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1081,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1141,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1141,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1201,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1201,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1261,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1261,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1321,
+          "arm9_pc": 34890808,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1073741855,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1321,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1381,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1381,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1441,
+          "arm9_pc": 34890808,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1441,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1501,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1501,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1561,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1561,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1621,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1621,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1681,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1681,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1741,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1741,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1801,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58703104,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1801,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1861,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1861,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1921,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58707808,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1921,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1981,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1981,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2041,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58705276,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 2041,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2101,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2101,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2161,
+          "arm9_pc": 34890784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2161,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2221,
+          "arm9_pc": 34890784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2221,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2281,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2281,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 2341,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2341,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 2401,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2401,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 2461,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2461,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 2521,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2521,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 2581,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2581,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 2641,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2641,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 2701,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2701,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 2761,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2761,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 2821,
+          "arm9_pc": 33613312,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2821,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 2881,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2881,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 2941,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2941,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 3001,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3001,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 3061,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3061,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 3121,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3121,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 3181,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3181,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 3241,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3241,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 3301,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3301,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 3361,
+          "arm9_pc": 34919948,
+          "arm7_pc": 58696332,
+          "arm9_cpsr": 1073742034,
+          "arm7_cpsr": 536871122
+        },
+        {
+          "frame": 3361,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 3421,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3421,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 3481,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3481,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 3541,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3541,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        },
+        {
+          "frame": 3600,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3600,
+          "state_ptr": 37543128,
+          "mode_raw": 4,
+          "lap_override_raw": 255,
+          "places_ptr": 37071428,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 1
+        }
+      ],
+      "framebuffer_sha256": [
+        {
+          "file": "today-missions-1200-bottom.rgba",
+          "sha256": "d9df9a952d223b8f0f3a1eb093c6e2b92fd5eda552304f707ea17c749cfa6561"
+        },
+        {
+          "file": "today-missions-1200-top.rgba",
+          "sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e"
+        },
+        {
+          "file": "today-missions-1800-bottom.rgba",
+          "sha256": "3c470d8e63bd9d51903686c315ed5bf5330352ae4c9a11a46ca3236d7608b401"
+        },
+        {
+          "file": "today-missions-1800-top.rgba",
+          "sha256": "5c587a7564efaa3c161ca93ba4595520f813eebc044e523adcf75df0064f2013"
+        },
+        {
+          "file": "today-missions-2400-bottom.rgba",
+          "sha256": "56905bac557c9ce7c953e10e50995331e369a25290ef401adaf9c9c5f631c17c"
+        },
+        {
+          "file": "today-missions-2400-top.rgba",
+          "sha256": "178aa8d43c9b963da5d24208be47bd64c64ad547070f187d41f98954342eb797"
+        },
+        {
+          "file": "today-missions-3000-bottom.rgba",
+          "sha256": "9ad3c321abe43b23910ccf5de67cc66304edc011a5a0fe4a6d09330f227e8fe3"
+        },
+        {
+          "file": "today-missions-3000-top.rgba",
+          "sha256": "19f232cbe1e357df03fc4cd9de224bb6da8cb0242f58ca35c4c378644e11e659"
+        },
+        {
+          "file": "today-missions-3600-bottom.rgba",
+          "sha256": "23ab5e277a88c8df2c3b660fc1fab73e67fef7bc41a04a0d307af00d66ca0c62"
+        },
+        {
+          "file": "today-missions-3600-top.rgba",
+          "sha256": "0747df744e7fa1fbac76a2c6a28d8179d7beadadcce66abcbe92ffe739554845"
+        },
+        {
+          "file": "today-missions-600-bottom.rgba",
+          "sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "file": "today-missions-600-top.rgba",
+          "sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832"
+        },
+        {
+          "file": "today-missions-bottom.rgba",
+          "sha256": "23ab5e277a88c8df2c3b660fc1fab73e67fef7bc41a04a0d307af00d66ca0c62"
+        },
+        {
+          "file": "today-missions-top.rgba",
+          "sha256": "0747df744e7fa1fbac76a2c6a28d8179d7beadadcce66abcbe92ffe739554845"
+        }
+      ],
+      "scope": "Reference ROM; bounded scripted playback only; no full-mode completion claim"
+    },
+    {
+      "scenario": "time-trials",
+      "requested_frames": 3600,
+      "completed_last_frame": 3600,
+      "observations": [
+        {
+          "frame": 1,
+          "arm9_pc": 33556896,
+          "arm7_pc": 37224744,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 61,
+          "arm9_pc": 34890784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 61,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 121,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 121,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 181,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 181,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 241,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58699772,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 241,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 301,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58699736,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 536870943
+        },
+        {
+          "frame": 301,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 361,
+          "arm9_pc": 34918432,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 361,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 421,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 421,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 481,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 481,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 541,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 541,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 601,
+          "arm9_pc": 34796784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871122,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 601,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 661,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 661,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 721,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 721,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 781,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 781,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 841,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 841,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 901,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 901,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 961,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 961,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1021,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1021,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1081,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1081,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1141,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1141,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1201,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1201,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1261,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1261,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1321,
+          "arm9_pc": 34890808,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1073741855,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1321,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1381,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1381,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1441,
+          "arm9_pc": 34890808,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1441,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1501,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1501,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1561,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1561,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1621,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1621,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1681,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1681,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1741,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1741,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1801,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58703104,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1801,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1861,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1861,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1921,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58707808,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1921,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1981,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1981,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2041,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58707752,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 536870943
+        },
+        {
+          "frame": 2041,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2101,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2101,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2161,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2161,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2221,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2221,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2281,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2281,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2341,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2341,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2401,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2401,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2461,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2461,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2521,
+          "arm9_pc": 34890784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2521,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2581,
+          "arm9_pc": 34919708,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2581,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2641,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2641,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2701,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2701,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2761,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2761,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2821,
+          "arm9_pc": 33611488,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2821,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2881,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2881,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 2941,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2941,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3001,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3001,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3061,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3061,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3121,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3121,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3181,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3181,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3241,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3241,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3301,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3301,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3361,
+          "arm9_pc": 34919948,
+          "arm7_pc": 58696332,
+          "arm9_cpsr": 1073742034,
+          "arm7_cpsr": 536871122
+        },
+        {
+          "frame": 3361,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3421,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3421,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3481,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3481,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3541,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3541,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        },
+        {
+          "frame": 3600,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3600,
+          "state_ptr": 37543128,
+          "mode_raw": 1,
+          "lap_override_raw": 255,
+          "places_ptr": 37052324,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 3
+        }
+      ],
+      "framebuffer_sha256": [
+        {
+          "file": "today-time-trials-1200-bottom.rgba",
+          "sha256": "d9df9a952d223b8f0f3a1eb093c6e2b92fd5eda552304f707ea17c749cfa6561"
+        },
+        {
+          "file": "today-time-trials-1200-top.rgba",
+          "sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e"
+        },
+        {
+          "file": "today-time-trials-1800-bottom.rgba",
+          "sha256": "c83f385a2314ca3d9af9ebcd6fbf3307f4b118bc433fb96e8caadf7af0a8121d"
+        },
+        {
+          "file": "today-time-trials-1800-top.rgba",
+          "sha256": "2fdd290479647c227e5c0068422a38c6025130a034b06d819a2d51baf51d9726"
+        },
+        {
+          "file": "today-time-trials-2400-bottom.rgba",
+          "sha256": "34c3fc5221184b68298b88b9ac962410d996977e077aff510e3c9dff5857d1c8"
+        },
+        {
+          "file": "today-time-trials-2400-top.rgba",
+          "sha256": "c630d731ca11da9757c04af1deb7f032b168c49df4ad93b980afa1a7ad946e34"
+        },
+        {
+          "file": "today-time-trials-3000-bottom.rgba",
+          "sha256": "de89f17f464f6352c01fcbb51c319a6baa434123418ac3f3ab85d352ad18f625"
+        },
+        {
+          "file": "today-time-trials-3000-top.rgba",
+          "sha256": "33393afe23d3993d0e2ddf148afe7567bb6cd9bb6ba04ef80e865f18894f7c14"
+        },
+        {
+          "file": "today-time-trials-3600-bottom.rgba",
+          "sha256": "b281137dd007cf6fb536144e3f484b0feff50c2779e4d23a38fc032e15770853"
+        },
+        {
+          "file": "today-time-trials-3600-top.rgba",
+          "sha256": "bd92159d0f974131af0bff216c335a279a79c31b28025b856802b2578a4c562b"
+        },
+        {
+          "file": "today-time-trials-600-bottom.rgba",
+          "sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "file": "today-time-trials-600-top.rgba",
+          "sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832"
+        },
+        {
+          "file": "today-time-trials-bottom.rgba",
+          "sha256": "b281137dd007cf6fb536144e3f484b0feff50c2779e4d23a38fc032e15770853"
+        },
+        {
+          "file": "today-time-trials-top.rgba",
+          "sha256": "bd92159d0f974131af0bff216c335a279a79c31b28025b856802b2578a4c562b"
+        }
+      ],
+      "scope": "Reference ROM; bounded scripted playback only; no full-mode completion claim"
+    },
+    {
+      "scenario": "battle",
+      "requested_frames": 3600,
+      "completed_last_frame": 3600,
+      "observations": [
+        {
+          "frame": 1,
+          "arm9_pc": 33556896,
+          "arm7_pc": 37224744,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 61,
+          "arm9_pc": 34890784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 61,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 121,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 121,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 181,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 181,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 241,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58699772,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 241,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 301,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58699736,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 536870943
+        },
+        {
+          "frame": 301,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 361,
+          "arm9_pc": 34918432,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 361,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 421,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 421,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 481,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 481,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 541,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 541,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 601,
+          "arm9_pc": 34796784,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536871122,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 601,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 661,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 661,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 721,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 721,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 781,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 781,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 841,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 841,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 901,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 901,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 961,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 961,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1021,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1021,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1081,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1081,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1141,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1141,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1201,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1201,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1261,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1261,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1321,
+          "arm9_pc": 34890808,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1073741855,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1321,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1381,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1381,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1441,
+          "arm9_pc": 34890808,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2147483679,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1441,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1501,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1501,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1561,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1561,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1621,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1621,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1681,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1681,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1741,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1741,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1801,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58703104,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1801,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1861,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1861,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1921,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58707808,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1921,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 1981,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 1981,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2041,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58708184,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 2041,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2101,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2101,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2161,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2161,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2221,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2221,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2281,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2281,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2341,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2341,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2401,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2401,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2461,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2461,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2521,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2521,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2581,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2581,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2641,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2641,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2701,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2701,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2761,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2761,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2821,
+          "arm9_pc": 33522064,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612946,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2821,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2881,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2881,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 2941,
+          "arm9_pc": 33619216,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 2941,
+          "state_ptr": 37543128,
+          "mode_raw": 0,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 3001,
+          "arm9_pc": 34890808,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1073741855,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3001,
+          "state_ptr": 37543128,
+          "mode_raw": 2,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 3061,
+          "arm9_pc": 34919668,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3061,
+          "state_ptr": 37543128,
+          "mode_raw": 2,
+          "lap_override_raw": 255,
+          "places_ptr": 0
+        },
+        {
+          "frame": 3121,
+          "arm9_pc": 33619216,
+          "arm7_pc": 58724208,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 1610612767
+        },
+        {
+          "frame": 3121,
+          "state_ptr": 37543128,
+          "mode_raw": 2,
+          "lap_override_raw": 255,
+          "places_ptr": 37049636,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 60
+        },
+        {
+          "frame": 3181,
+          "arm9_pc": 33606324,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612946,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3181,
+          "state_ptr": 37543128,
+          "mode_raw": 2,
+          "lap_override_raw": 255,
+          "places_ptr": 37049636,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 60
+        },
+        {
+          "frame": 3241,
+          "arm9_pc": 34919572,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 536870943,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3241,
+          "state_ptr": 37543128,
+          "mode_raw": 2,
+          "lap_override_raw": 255,
+          "places_ptr": 37049636,
+          "place_fields_raw": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "frame": 3301,
+          "arm9_pc": 34890780,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 2684354591,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3301,
+          "state_ptr": 37543128,
+          "mode_raw": 2,
+          "lap_override_raw": 255,
+          "places_ptr": 37049636,
+          "place_fields_raw": [
+            65436,
+            65076,
+            34269,
+            588,
+            1753,
+            2,
+            60363,
+            65106
+          ],
+          "lap_settings_raw": 60
+        },
+        {
+          "frame": 3361,
+          "arm9_pc": 33526344,
+          "arm7_pc": 58696972,
+          "arm9_cpsr": 31,
+          "arm7_cpsr": 536870943
+        },
+        {
+          "frame": 3361,
+          "state_ptr": 37543128,
+          "mode_raw": 2,
+          "lap_override_raw": 255,
+          "places_ptr": 37049636,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 60
+        },
+        {
+          "frame": 3421,
+          "arm9_pc": 33554296,
+          "arm7_pc": 58724272,
+          "arm9_cpsr": 536871071,
+          "arm7_cpsr": 31
+        },
+        {
+          "frame": 3421,
+          "state_ptr": 37543128,
+          "mode_raw": 2,
+          "lap_override_raw": 255,
+          "places_ptr": 37049636,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 60
+        },
+        {
+          "frame": 3481,
+          "arm9_pc": 33964232,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3481,
+          "state_ptr": 37543128,
+          "mode_raw": 2,
+          "lap_override_raw": 255,
+          "places_ptr": 37049636,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 60
+        },
+        {
+          "frame": 3541,
+          "arm9_pc": 33525684,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3541,
+          "state_ptr": 37543128,
+          "mode_raw": 2,
+          "lap_override_raw": 255,
+          "places_ptr": 37049636,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 60
+        },
+        {
+          "frame": 3600,
+          "arm9_pc": 33525812,
+          "arm7_pc": 4444,
+          "arm9_cpsr": 1610612767,
+          "arm7_cpsr": 2147483679
+        },
+        {
+          "frame": 3600,
+          "state_ptr": 37543128,
+          "mode_raw": 2,
+          "lap_override_raw": 255,
+          "places_ptr": 37049636,
+          "place_fields_raw": [
+            1,
+            18,
+            35,
+            52,
+            69,
+            86,
+            103,
+            120
+          ],
+          "lap_settings_raw": 60
+        }
+      ],
+      "framebuffer_sha256": [
+        {
+          "file": "today-battle-1200-bottom.rgba",
+          "sha256": "d9df9a952d223b8f0f3a1eb093c6e2b92fd5eda552304f707ea17c749cfa6561"
+        },
+        {
+          "file": "today-battle-1200-top.rgba",
+          "sha256": "10ba58b6e2ba01941798932d3cb6c66ad4f28aa1468351f60a388b7ff09ac66e"
+        },
+        {
+          "file": "today-battle-1800-bottom.rgba",
+          "sha256": "69962fc19f3a648a8004656a891072c50c0a567d2e910809713f14c7e36a871e"
+        },
+        {
+          "file": "today-battle-1800-top.rgba",
+          "sha256": "388d8a7b1db3b4b6b1c30339218f490ab997c4a9a0392e8945d53402a56e19c2"
+        },
+        {
+          "file": "today-battle-2400-bottom.rgba",
+          "sha256": "990583808a8932e84e3448817923167af426ac28393a62397170cc65d24877be"
+        },
+        {
+          "file": "today-battle-2400-top.rgba",
+          "sha256": "f12057f99fcd24b6773d081ade6e57368995b121e16d5e72009ea782dc438c30"
+        },
+        {
+          "file": "today-battle-3000-bottom.rgba",
+          "sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3"
+        },
+        {
+          "file": "today-battle-3000-top.rgba",
+          "sha256": "4f65b4ab3d7b5cbf2b1b1f49bab217fa2664b33f78b25e6b56c0569790cbb0c3"
+        },
+        {
+          "file": "today-battle-3600-bottom.rgba",
+          "sha256": "effb20652e63344efc78afb11df7bd11307020e88456b45d9291af723aeb0453"
+        },
+        {
+          "file": "today-battle-3600-top.rgba",
+          "sha256": "70bd372c5c970200ddbdd1e030bf3bb69df727f90acacd30396070f9a0f66829"
+        },
+        {
+          "file": "today-battle-600-bottom.rgba",
+          "sha256": "b9aa2ef0f52b490d28dd1908a5a2213d82a7229cf80b8fbe05cd427e27eb658d"
+        },
+        {
+          "file": "today-battle-600-top.rgba",
+          "sha256": "826cebc9fbc4b45cba849dbdae7e1f544eedbe28847cd0a20f9f156f4db14832"
+        },
+        {
+          "file": "today-battle-bottom.rgba",
+          "sha256": "effb20652e63344efc78afb11df7bd11307020e88456b45d9291af723aeb0453"
+        },
+        {
+          "file": "today-battle-top.rgba",
+          "sha256": "70bd372c5c970200ddbdd1e030bf3bb69df727f90acacd30396070f9a0f66829"
+        }
+      ],
+      "scope": "Reference ROM; bounded scripted playback only; no full-mode completion claim"
+    }
+  ],
+  "gdb": {
+    "arm9": {
+      "cpu": "arm9",
+      "port": 3333,
+      "stop_reply": "S02",
+      "registers": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        33556480,
+        50343804,
+        33556480,
+        33556480,
+        211,
+        50347968,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        50347904,
+        0,
+        50343804,
+        33556480,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        211,
+        16,
+        16
+      ],
+      "pc": 33556480,
+      "sp": 50343804,
+      "lr": 33556480,
+      "cpsr": 211,
+      "scope": "One stopped CPU observation, not a matching proof",
+      "detach_reply": "OK"
+    },
+    "arm7": {
+      "cpu": "arm7",
+      "port": 3334,
+      "stop_reply": "S02",
+      "registers": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        37224448,
+        58785152,
+        37224448,
+        37224448,
+        211,
+        58785728,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        58785664,
+        0,
+        58785152,
+        37224448,
+        0,
+        0,
+        0,
+        0,
+        16,
+        16,
+        211,
+        16,
+        16
+      ],
+      "pc": 37224448,
+      "sp": 58785152,
+      "lr": 37224448,
+      "cpsr": 211,
+      "scope": "One stopped CPU observation, not a matching proof",
+      "detach_reply": "OK"
+    }
+  },
+  "analysis_host": {
+    "runtime_pid": 10,
+    "proc_self_pid": 7070,
+    "pid_namespace_consistent": false,
+    "ownership_checks_disabled": false,
+    "ps_exit_code": 1,
+    "ps_stderr": "fatal library error, lookup self",
+    "ps_reports_current_process": false,
+    "rea_process_prerequisite_passed": false,
+    "scope": "Process prerequisite only; does not validate Ghidra installation or DS profile",
+    "recovery": "Run REA in a Linux host/container whose /proc belongs to the same PID namespace as its processes, with procps installed. Installing ps alone cannot repair a namespace mismatch."
+  },
+  "rea_ghidra_connected": false,
+  "full_game_explored": false
+}

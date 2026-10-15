@@ -147,3 +147,18 @@ Prove hash-only in checkpoint24-search-summary.json con span_checks espliciti.
 Le nuove prove hex restano ignorate; non pubblicarle. Il pseudocodice Ghidra e
 le osservazioni runtime estese delle sessioni interrotte non sono stati recuperati
 come corpus di artefatti: restano distinti dal matching riprodotto qui.
+
+## Checkpoint 25 — 15 ottobre 2026
+
+3.772 funzioni, 287.242 / 1.913.676 byte (15,009960%). Quattro ricostruzioni C
+pendenti recuperate e ricompilate: +396 byte. Tutte le 1.409 prove senza relocazioni
+e 2.363 con relocazioni ricompilate, 7.356 relocazioni. Nessuna nuova analisi Ghidra.
+Hash-only checkpoint25-search-summary.json; report CHECKPOINT-25.md.
+REA resta bloccato: PID e /proc incoerenti; unshare user/PID rifiutato su uid_map.
+Runtime REA e installazione Ghidra/JDK21 precedenti assenti dal ripristino.
+GDB funziona avviando core e osservatore nello stesso subprocess: nuovo
+run_gdb_observation.py, ARM9/ARM7 entry osservate e detach OK. Non supporre che
+connessioni localhost tra comandi separati funzionino. Input missions/time-trials/battle
+eseguiti 3600 frame ciascuno; Grand Prix 7200 e navigazione 2400. Osservazioni ROM
+originale in RUNTIME-2026-10-15.json, nessuna gara/missione completata o intero gioco
+esplorato. Proseguire con vere nuove ricostruzioni, VS/menu restanti e missioni ulteriori.

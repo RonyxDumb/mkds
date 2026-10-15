@@ -1,20 +1,37 @@
-/* Decompiled C draft; module arm9; ROM address 02001a74. No matching claim. */
-#include "types.h"
-#include "deps/02001a74_Scene_Logo_UpdateImpl.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021a99e0 SDK_data_021a99e0
+// PURPOSE: Updates the logo scene state each frame.
+// The argument is probably the current scene state and may be absent.
+// It advances the logo state handler, then clears the scene flag while the
+// shared logo context is in state 11 before updating navigation contexts.
 
-void Scene_Logo_UpdateImpl(int param_1)
+typedef unsigned short u16;
 
+typedef struct LogoContext {
+    char pad_00[0x18];
+    int stateHandler;
+    char pad_1c[0x26 - 0x1c];
+    u16 state;
+} LogoContext;
+
+typedef struct SceneLogo {
+    char pad_00[4];
+    u16 flag;
+} SceneLogo;
+
+extern LogoContext *data_021a99e0;
+extern void StateDualHandler_Execute(void *handler);
+extern void NavigationContext_OnSceneUpdate_from_thumb(void);
+
+void Scene_Logo_UpdateImpl(SceneLogo *scene)
 {
-  StateDualHandler_Execute
-            ((*(uint *)(uRam02001ab8 & 0xfffffffc) >> (uRam02001ab8 & 3) * 8 |
-             *(uint *)(uRam02001ab8 & 0xfffffffc) << (uRam02001ab8 & 3) * -8 + 0x20) + 0x18);
-  if ((param_1 != 0) &&
-     (*(short *)((*(uint *)(uRam02001ab8 & 0xfffffffc) >> (uRam02001ab8 & 3) * 8 |
-                 *(uint *)(uRam02001ab8 & 0xfffffffc) << (uRam02001ab8 & 3) * -8 + 0x20) + 0x26) ==
-      0xb)) {
-    *(undefined2 *)(param_1 + 4) = 0;
-  }
-  NavigationContext_OnSceneUpdate_from_thumb();
-  return;
-}
+    StateDualHandler_Execute(&data_021a99e0->stateHandler);
 
+    if (scene != 0) {
+        if (data_021a99e0->state == 11) {
+            scene->flag = 0;
+        }
+    }
+
+    NavigationContext_OnSceneUpdate_from_thumb();
+}

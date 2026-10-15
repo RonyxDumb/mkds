@@ -1,26 +1,22 @@
-/* Decompiled C draft; module arm9; ROM address 02001144. No matching claim. */
-#include "types.h"
-#include "deps/02001144_Logo_StateHandler_NotifyWiFiHelp_First.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define data_021a99e0 SDK_data_021a99e0
+// PURPOSE: Shows the first Wi-Fi help dialog.
+// The global work object probably owns the BMG message table at offset 0x38.
+// It displays message 0x8a together with message 4 as the button prompt.
 
-void Logo_StateHandler_NotifyWiFiHelp_First(void)
+typedef struct {
+    char pad_00[0x38];
+    void *bmg;
+} LogoWork;
 
-{
-  uint uVar1;
-  uint uVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  
-  uVar2 = (*(uint *)(uRam02001188 & 0xfffffffc) >> (uRam02001188 & 3) * 8 |
-          *(uint *)(uRam02001188 & 0xfffffffc) << (uRam02001188 & 3) * -8 + 0x20) + 0x38;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar3 = Bmg_GetRawStringPointer_from_thumb(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,0x8a);
-  uVar2 = (*(uint *)(uRam02001188 & 0xfffffffc) >> (uRam02001188 & 3) * 8 |
-          *(uint *)(uRam02001188 & 0xfffffffc) << (uRam02001188 & 3) * -8 + 0x20) + 0x38;
-  uVar1 = uVar2 & 3;
-  uVar2 = *(uint *)(uVar2 & 0xfffffffc);
-  uVar4 = Bmg_GetRawStringPointer_from_thumb(uVar2 >> uVar1 * 8 | uVar2 << uVar1 * -8 + 0x20,4);
-  TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(uVar3,uVar4);
-  return;
+extern LogoWork *data_021a99e0;
+extern void *Bmg_GetRawStringPointer_from_thumb(void *bmg, int message_id);
+extern void TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(void *text, void *button);
+
+void Logo_StateHandler_NotifyWiFiHelp_First(void) {
+    void *text = Bmg_GetRawStringPointer_from_thumb(data_021a99e0->bmg, 0x8a);
+
+    TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(
+        text,
+        Bmg_GetRawStringPointer_from_thumb(data_021a99e0->bmg, 4));
 }
-

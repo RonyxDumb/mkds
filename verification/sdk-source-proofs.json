@@ -74246,5 +74246,126 @@
     "donor_commit": "c6e18fa4b346643b74c402b605a84b43cba16c01",
     "donor_source_sha256": "8681fd6f5af4a238a6b971ee82a6dfdef1ef93927e125ff62ed751bd4b62a7ad",
     "complete_translation_unit": true
+  },
+  "arm9_02083a24": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-msgstyle",
+      "gcc"
+    ],
+    "donor_source": "ai/permuter_out/fablehigh_02083a24.c",
+    "donor_function": "func_02083a24",
+    "source_sha256": "871b805c4403735c897a9e80e47bb67b5701e53d507e085eabbebcea2eeeefa2",
+    "bindings": {
+      "func_0208b7bc": "func_0208b7bc",
+      "data_0217ae84": "SDK_data_0217ae84",
+      "data_02155a14": "SDK_data_02155a14",
+      "func_02082fec": "SDK_data_02082fec",
+      "func_02083a24": "func_02083a24"
+    },
+    "donor_repository": "https://github.com/ai-tdd-labs/mkds-decomp.git",
+    "donor_commit": "c6e18fa4b346643b74c402b605a84b43cba16c01",
+    "donor_source_sha256": "336ee993678a4cf599e2835011f1c5e0cb67035f7832bde9675f47c261c5f272",
+    "complete_translation_unit": true
+  },
+  "arm9_02001a74": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-msgstyle",
+      "gcc"
+    ],
+    "donor_source": "ai/scratch/agent_02001a74.c",
+    "donor_function": "Scene_Logo_UpdateImpl",
+    "source_sha256": "b0ea80ac166a7a13352b1c0713e41ea882bef239cdc68e16579dd692d14c182d",
+    "bindings": {
+      "StateDualHandler_Execute": "StateDualHandler_Execute",
+      "NavigationContext_OnSceneUpdate_from_thumb": "NavigationContext_OnSceneUpdate_from_thumb",
+      "data_021a99e0": "SDK_data_021a99e0",
+      "Scene_Logo_UpdateImpl": "Scene_Logo_UpdateImpl"
+    },
+    "donor_repository": "https://github.com/ai-tdd-labs/mkds-decomp.git",
+    "donor_commit": "c6e18fa4b346643b74c402b605a84b43cba16c01",
+    "donor_source_sha256": "7a847eab02d8dba061ab9254521754e5f27abeab03b22657568c7c09a92d3b3d",
+    "complete_translation_unit": true
+  },
+  "arm9_02001144": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-msgstyle",
+      "gcc"
+    ],
+    "donor_source": "ai/scratch/agent_02001144.c",
+    "donor_function": "Logo_StateHandler_NotifyWiFiHelp_First",
+    "source_sha256": "d6249c2b3516b59ceb744142aeecdd1d80540a8da559ce767a43f113b388c5e3",
+    "bindings": {
+      "Bmg_GetRawStringPointer_from_thumb": "Bmg_GetRawStringPointer_from_thumb",
+      "TextSystem_DisplaySingleButtonDialog_Simple_from_thumb": "TextSystem_DisplaySingleButtonDialog_Simple_from_thumb",
+      "data_021a99e0": "SDK_data_021a99e0",
+      "Logo_StateHandler_NotifyWiFiHelp_First": "Logo_StateHandler_NotifyWiFiHelp_First"
+    },
+    "donor_repository": "https://github.com/ai-tdd-labs/mkds-decomp.git",
+    "donor_commit": "c6e18fa4b346643b74c402b605a84b43cba16c01",
+    "donor_source_sha256": "1aa43467670343457747b86634e713679000ac3c32e1bd3304839a778dc87329",
+    "complete_translation_unit": true
+  },
+  "arm9_0213442c": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-msgstyle",
+      "gcc"
+    ],
+    "donor_source": "ai/scratch/agent_0213442c.c",
+    "donor_function": "LogThrowAssertion",
+    "source_sha256": "7723038827c6d97a896d34380fea95605d84661a41a08967275de4f37368b21a",
+    "bindings": {
+      "SomeSprintf": "SomeSprintf",
+      "OnAssertionFailed": "OnAssertionFailed",
+      "data_0216ec60": "SDK_data_0216ec60",
+      "LogThrowAssertion": "LogThrowAssertion"
+    },
+    "donor_repository": "https://github.com/ai-tdd-labs/mkds-decomp.git",
+    "donor_commit": "c6e18fa4b346643b74c402b605a84b43cba16c01",
+    "donor_source_sha256": "f983b553dd10bdba2e2a14041a62081ef10e2e4e00eba12048c9e07ef6db526a",
+    "complete_translation_unit": true
   }
 }
