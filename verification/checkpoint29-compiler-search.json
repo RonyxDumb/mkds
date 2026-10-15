@@ -1,0 +1,88 @@
+{
+  "profiles": [
+    {
+      "component": "sdk",
+      "cpu": "arm9",
+      "compiler_version": "sp2",
+      "compiler_sha256": "bfd6a72247c34abbea607a140a62c5e8df93e957c921ac91ec782b61eb969f80",
+      "compiled_objects": 543,
+      "tested": 1,
+      "accepted": 0
+    },
+    {
+      "component": "system",
+      "cpu": "arm9",
+      "compiler_version": "sp2",
+      "compiler_sha256": "bfd6a72247c34abbea607a140a62c5e8df93e957c921ac91ec782b61eb969f80",
+      "compiled_objects": 276,
+      "tested": 1,
+      "accepted": 0
+    },
+    {
+      "component": "sdk",
+      "cpu": "arm7",
+      "compiler_version": "sp2",
+      "compiler_sha256": "bfd6a72247c34abbea607a140a62c5e8df93e957c921ac91ec782b61eb969f80",
+      "compiled_objects": 564,
+      "tested": 9,
+      "accepted": 0
+    },
+    {
+      "component": "sdk",
+      "cpu": "arm9",
+      "compiler_version": "sp3",
+      "compiler_sha256": "6e253a8fcc9102a1b24ec0b4c856a89958bf693370792f06727c5b1e6cecab28",
+      "compiled_objects": 543,
+      "tested": 0,
+      "accepted": 0
+    },
+    {
+      "component": "system",
+      "cpu": "arm9",
+      "compiler_version": "sp3",
+      "compiler_sha256": "6e253a8fcc9102a1b24ec0b4c856a89958bf693370792f06727c5b1e6cecab28",
+      "compiled_objects": 276,
+      "tested": 0,
+      "accepted": 0
+    },
+    {
+      "component": "sdk",
+      "cpu": "arm7",
+      "compiler_version": "sp3",
+      "compiler_sha256": "6e253a8fcc9102a1b24ec0b4c856a89958bf693370792f06727c5b1e6cecab28",
+      "compiled_objects": 564,
+      "tested": 9,
+      "accepted": 0
+    },
+    {
+      "component": "sdk",
+      "cpu": "arm9",
+      "compiler_version": "sp4",
+      "compiler_sha256": "875edcddbc579a41625ac2fb7398520f9e4698301f6876e3141cea0ee9f3024d",
+      "compiled_objects": 543,
+      "tested": 0,
+      "accepted": 0
+    },
+    {
+      "component": "system",
+      "cpu": "arm9",
+      "compiler_version": "sp4",
+      "compiler_sha256": "875edcddbc579a41625ac2fb7398520f9e4698301f6876e3141cea0ee9f3024d",
+      "compiled_objects": 276,
+      "tested": 0,
+      "accepted": 0
+    },
+    {
+      "component": "sdk",
+      "cpu": "arm7",
+      "compiler_version": "sp4",
+      "compiler_sha256": "875edcddbc579a41625ac2fb7398520f9e4698301f6876e3141cea0ee9f3024d",
+      "compiled_objects": 564,
+      "tested": 9,
+      "accepted": 0
+    }
+  ],
+  "compiled_objects": 4149,
+  "accepted": 0,
+  "full_rom_link_verified": false
+}

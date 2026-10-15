@@ -4202,5 +4202,53 @@
     "sha256": "f86f4d4fd57008da1d90ff0037cc74e62eb4903869c70bab8e29dbfa2c4c2bdf",
     "source_sha256": "c19400dc44033e63dd1b725f2e0a9bfe530c0d2bafa7141b39af3a630b80da84",
     "audit": "checkpoint28-search-summary.json"
+  },
+  "arm9_020155d8": {
+    "sha256": "55c2cfe3a6f2cd914b2340f8d9250108e65997f6d8f32417440549b2c4e2949c",
+    "source_sha256": "d9590a2b511a88ede50a7eb257f1c2173503bd5465854bbf2cab62ae780d023d",
+    "size": 432,
+    "audit": "checkpoint29-search-summary.json"
+  },
+  "arm9_02013754": {
+    "sha256": "0363c47c2ca7c8d6cd84a9b8122b56ac9ae835524bd8d93cba458098b83043d5",
+    "source_sha256": "382c57eb89646d5b61b463e0a1ba8e374740eeb62f5bfff6ac4b933dcc586c5c",
+    "size": 352,
+    "audit": "checkpoint29-search-summary.json"
+  },
+  "arm9_020138b4": {
+    "sha256": "803ec2d2c122f1879ad7d21d4780676f58f4a75ce007b5f5e43231d4364d9722",
+    "source_sha256": "e0b1788d318cb6f70b8ce62a756ab653f7fea8280ff5dc99acc34d884557897f",
+    "size": 380,
+    "audit": "checkpoint29-search-summary.json"
+  },
+  "arm9_0205fe1c": {
+    "sha256": "9a9480b9a683a6af960b9de2f44d57f2e42a8eb01dbeae32c04c26deec369b90",
+    "source_sha256": "d7d27e7fdbdcd618c4e02205cdc2ceef8ea1ac221d546ab0e387f84d39e73310",
+    "size": 488,
+    "audit": "checkpoint29-search-summary.json"
+  },
+  "arm9_02016638": {
+    "sha256": "0ff810e9430837bafdff191be48522c3c956e6539e7861cdee8548dd87a8735b",
+    "source_sha256": "a6c1aa444261b6dadaaa2cf1bb44f77f2c028eabf6ca77dd0585d82bdf38d63a",
+    "size": 68,
+    "audit": "checkpoint29-search-summary.json"
+  },
+  "arm9_0212baa8": {
+    "sha256": "694a94ab89d3306fae0982a26cc4dcdb5baeaa5b3019f0ee42e45ae81dcac6b2",
+    "source_sha256": "b5675017c55532947457e82ef6a1f5ac15bf0c9d7110b0e98d27da15bb5dff54",
+    "size": 168,
+    "audit": "checkpoint29-search-summary.json"
+  },
+  "arm9_0212e0b8": {
+    "sha256": "967749d8e6d6b1f24663c00e86da0dd56be72eb6e542c00b2ea2467228cc820e",
+    "source_sha256": "fb17dcb187670c29d1b798e898e86842719adfe4ecb3efd4b0e779d365a965b4",
+    "size": 308,
+    "audit": "checkpoint29-search-summary.json"
+  },
+  "arm9_02015894": {
+    "sha256": "b9a195ee75d6c011835d5d9ee8c15fe2cd4271afd7ed24fc78eb3880c69f4e42",
+    "source_sha256": "fda966ac770e95987e4bc28f670a5201115d9368d7ab6869ef59dc889785d90b",
+    "size": 256,
+    "audit": "checkpoint29-search-summary.json"
   }
 }

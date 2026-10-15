@@ -2,6 +2,7 @@
 from pathlib import Path
 import csv,os,subprocess,io,hashlib,json,concurrent.futures,importlib.util
 from elftools.elf.elffile import ELFFile
+from matching_compiler import compiler_for
 root=Path(__file__).resolve().parents[1]
 base=Path(os.environ['MKDS_BASELINE']);manifest=json.loads((base/'manifest.json').read_text())
 sections={m['name']:[(s['base'],(base/'binaries'/s['file']).read_bytes()) for s in m['sections']] for m in manifest['modules']}
@@ -15,7 +16,7 @@ def verify(r):
  obj=out/f"{r['module']}_{addr:08x}.o";processor='arm7tdmi' if r['module']=='arm7' else 'arm946e'
  if r.get('kind')=='sdk_source':
   meta=json.loads((root/'verification/sdk-source-proofs.json').read_text())[f"{r['module']}_{addr:08x}"]
-  subprocess.run([os.environ['WIBO'],os.environ['MWCCARM'],*meta['flags'],'-c',str(src),'-o',str(obj)],cwd=root,check=True,capture_output=True)
+  subprocess.run([os.environ['WIBO'],compiler_for(root,meta),*meta['flags'],'-c',str(src),'-o',str(obj)],cwd=root,check=True,capture_output=True)
   elf=ELFFile(io.BytesIO(obj.read_bytes()));sym=next(s for s in elf.get_section_by_name('.symtab').iter_symbols() if s.name==r['name']);idx=sym['st_shndx'];start=sym['st_value']&~1;code=elf.get_section(idx).data()[start:start+sym['st_size']]
   assert sym['st_size']==size and code==original
   assert not any(start<=x['r_offset']<start+size for sec in elf.iter_sections() if sec['sh_type'] in ['SHT_REL','SHT_RELA'] and sec['sh_info']==idx for x in sec.iter_relocations())
@@ -41,5 +42,5 @@ def verify(r):
    r['optimization']=opt;r['processor']=processor;return r
  raise AssertionError('Mismatch: '+str(src))
 with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:verified=list(pool.map(verify,rows))
-summary={'tested':len(verified),'passed':len(verified),'exact_code_bytes':sum(int(r['size']) for r in verified),'relocations':0,'full_rom_link_verified':False,'compiler':'mwccarm 1.2/sp2p3; Clang for explicitly tagged Clang proofs','verification':'Fresh compilation of current source; complete function bytes and length identical to original decompressed section; no masking or relocations.'}
+summary={'tested':len(verified),'passed':len(verified),'exact_code_bytes':sum(int(r['size']) for r in verified),'relocations':0,'full_rom_link_verified':False,'compiler':'Per-function recorded MWCC variants (SHA-256 checked); default 1.2/sp2p3; Clang for explicitly tagged proofs','verification':'Fresh compilation of current source; complete function bytes and length identical to original decompressed section; no masking or relocations.'}
 (root/'verification/matching-audit.json').write_text(json.dumps(summary,indent=2)+'\n');print(json.dumps(summary))

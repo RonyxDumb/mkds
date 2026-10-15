@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 120,
+    "type": 1,
+    "symbol": "GetCourseIdFromInternalId",
+    "target": 33843276,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959396972
+  },
+  {
+    "offset": 240,
+    "type": 1,
+    "symbol": "Mem_CpuCopy8",
+    "target": 34918908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942888634
+  },
+  {
+    "offset": 264,
+    "type": 1,
+    "symbol": "CalculateCRCChecksum_from_thumb",
+    "target": 33862276,
+    "thumb": true,
+    "addend": -8,
+    "value": 4211059926
+  },
+  {
+    "offset": 484,
+    "type": 2,
+    "symbol": "SDK_data_0215494c",
+    "target": 34949452,
+    "thumb": false,
+    "addend": 0,
+    "value": 34949452
+  }
+]

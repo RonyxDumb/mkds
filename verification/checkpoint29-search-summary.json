@@ -1,0 +1,151 @@
+{
+  "checkpoint": 29,
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "func_020155d8",
+      "mode": "arm",
+      "address": "0x020155d8",
+      "size": "432",
+      "kind": "sdk_source",
+      "sha256": "55c2cfe3a6f2cd914b2340f8d9250108e65997f6d8f32417440549b2c4e2949c",
+      "relocations": "0",
+      "status": "EXACT_LOCAL_BYTES",
+      "source_sha256": "d9590a2b511a88ede50a7eb257f1c2173503bd5465854bbf2cab62ae780d023d",
+      "optimization": "-O4,p",
+      "processor": "arm946e"
+    },
+    {
+      "module": "arm9",
+      "name": "Dict_SomeFn_0",
+      "mode": "arm",
+      "address": "0x02013754",
+      "size": "352",
+      "kind": "sdk_source",
+      "sha256": "0363c47c2ca7c8d6cd84a9b8122b56ac9ae835524bd8d93cba458098b83043d5",
+      "relocations": "0",
+      "status": "EXACT_LOCAL_BYTES",
+      "source_sha256": "382c57eb89646d5b61b463e0a1ba8e374740eeb62f5bfff6ac4b933dcc586c5c",
+      "optimization": "-O4,p",
+      "processor": "arm946e"
+    },
+    {
+      "module": "arm9",
+      "name": "NNS_G3dGetResDataByName",
+      "mode": "arm",
+      "address": "0x020138b4",
+      "size": "380",
+      "kind": "sdk_source",
+      "sha256": "803ec2d2c122f1879ad7d21d4780676f58f4a75ce007b5f5e43231d4364d9722",
+      "relocations": "0",
+      "status": "EXACT_LOCAL_BYTES",
+      "source_sha256": "e0b1788d318cb6f70b8ce62a756ab653f7fea8280ff5dc99acc34d884557897f",
+      "optimization": "-O4,p",
+      "processor": "arm946e"
+    },
+    {
+      "module": "arm9",
+      "name": "GenerateTimeTrialCodeImpl",
+      "mode": "arm",
+      "address": "0x0205fe1c",
+      "size": "488",
+      "sha256": "9a9480b9a683a6af960b9de2f44d57f2e42a8eb01dbeae32c04c26deec369b90",
+      "source_sha256": "d7d27e7fdbdcd618c4e02205cdc2ceef8ea1ac221d546ab0e387f84d39e73310",
+      "relocations": "4",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "StructTEQSub_HandleTEQSub",
+      "mode": "arm",
+      "address": "0x02016638",
+      "size": "68",
+      "sha256": "0ff810e9430837bafdff191be48522c3c956e6539e7861cdee8548dd87a8735b",
+      "source_sha256": "a6c1aa444261b6dadaaa2cf1bb44f77f2c028eabf6ca77dd0585d82bdf38d63a",
+      "relocations": "2",
+      "optimization": "-O2",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "Sound_EnsureInitialized",
+      "mode": "arm",
+      "address": "0x0212baa8",
+      "size": "168",
+      "sha256": "694a94ab89d3306fae0982a26cc4dcdb5baeaa5b3019f0ee42e45ae81dcac6b2",
+      "source_sha256": "b5675017c55532947457e82ef6a1f5ac15bf0c9d7110b0e98d27da15bb5dff54",
+      "relocations": "13",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "Sound_PrepareSwarDataImpl",
+      "mode": "arm",
+      "address": "0x0212e0b8",
+      "size": "308",
+      "sha256": "967749d8e6d6b1f24663c00e86da0dd56be72eb6e542c00b2ea2467228cc820e",
+      "source_sha256": "fb17dcb187670c29d1b798e898e86842719adfe4ecb3efd4b0e779d365a965b4",
+      "relocations": "11",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_02015894",
+      "mode": "arm",
+      "address": "0x02015894",
+      "size": "256",
+      "sha256": "b9a195ee75d6c011835d5d9ee8c15fe2cd4271afd7ed24fc78eb3880c69f4e42",
+      "source_sha256": "fda966ac770e95987e4bc28f670a5201115d9368d7ab6869ef59dc889785d90b",
+      "relocations": "5",
+      "optimization": "-O2",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 3819,
+  "new_span_bytes": 2452,
+  "new_inventory_bytes": 2452,
+  "identified_function_bytes": 1913676,
+  "local_byte_exact_bytes": 291822,
+  "local_byte_exact_percent": 15.249289848438293,
+  "fresh_audits": {
+    "unrelocated": {
+      "tested": 1444,
+      "passed": 1444,
+      "exact_code_bytes": 50798,
+      "relocations": 0,
+      "full_rom_link_verified": false,
+      "compiler": "Per-function recorded MWCC variants (SHA-256 checked); default 1.2/sp2p3; Clang for explicitly tagged proofs",
+      "verification": "Fresh compilation of current source; complete function bytes and length identical to original decompressed section; no masking or relocations."
+    },
+    "resolved": {
+      "tested": 2375,
+      "passed": 2375,
+      "bytes": 243548,
+      "resolved_relocations": 7414,
+      "full_rom_link_verified": false
+    }
+  },
+  "dictionary_semantic_tests": {
+    "tested": 9792,
+    "passed": 9792,
+    "counts": [
+      0,
+      1,
+      2,
+      7,
+      15,
+      16,
+      32
+    ],
+    "full_rom_link_verified": false
+  },
+  "full_rom_link_verified": false
+}

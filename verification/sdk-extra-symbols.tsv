@@ -1031,3 +1031,14 @@ arm9	Menu_EmblemNamesCharacter	0x2155cf0	0
 arm9	Menu_EmblemOverlayInitialize	0x21a23f4	1
 arm9	Menu_RaceOptionBase	0x0217b354	0
 arm9	Menu_EmblemOverlayQuery_021a23c8	0x021a23c8	1
+arm9	SDK_data_0215494c	0x0215494c	0
+arm9	SDK_data_02152c54	0x02152c54	0
+arm9	SDK_data_0217d41c	0x0217d41c	0
+arm9	SDK_data_0212b9f8	0x0212b9f8	0
+arm9	SDK_data_0217d420	0x0217d420	0
+arm9	SDK_data_0217d42c	0x0217d42c	0
+arm9	SDK_data_0212b9ec	0x0212b9ec	0
+arm9	SDK_data_0217d414	0x0217d414	0
+arm9	SDK_data_0217d418	0x0217d418	0
+arm9	SDK_data_0217dec8	0x0217dec8	0
+arm9	SDK_data_0212df7c	0x0212df7c	0

@@ -1,111 +1,571 @@
-/* Decompiled C draft; module arm9; ROM address 020138b4. No matching claim. */
-#include "types.h"
-#include "deps/020138b4_NNS_G3dGetResDataByName.h"
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define NNSG3D_BINRES_RES_STRUCT_ACCESSOR_INLINE_H_
+#include <nnsys/g3d/binres/res_struct_accessor.h>
+#if 1
+#define NNSG3D_BINRES_RES_STRUCT_ACCESSOR_INLINE_H_
 
-int NNS_G3dGetResDataByName(int param_1,uint param_2)
+#ifdef __cplusplus
+extern "C" {
+#endif
 
+NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetResNameByIdx (const NNSG3dResDict * dict, u32 idx)
 {
-  byte bVar1;
-  ushort *puVar2;
-  int iVar3;
-  uint uVar4;
-  uint uVar5;
-  byte *pbVar6;
-  uint uVar7;
-  uint uVar8;
-  byte *pbVar9;
-  uint uVar10;
-  uint uVar11;
-  uint uVar12;
-  uint uVar13;
-  int iVar14;
-  int iVar15;
-  uint uVar16;
-  
-  if (*(byte *)(param_1 + 1) < 0x10) {
-    uVar5 = param_2 + 4 & 3;
-    uVar16 = *(uint *)(param_2 + 4 & 0xfffffffc);
-    uVar13 = param_2 + 8 & 3;
-    uVar8 = *(uint *)(param_2 + 8 & 0xfffffffc);
-    uVar7 = param_2 + 0xc & 3;
-    uVar4 = *(uint *)(param_2 + 0xc & 0xfffffffc);
-    uVar10 = 0;
-    if (*(byte *)(param_1 + 1) != 0) {
-      iVar3 = 0;
-      iVar14 = param_1 + (uint)*(ushort *)(param_1 + 6);
-      iVar14 = iVar14 + (uint)*(ushort *)(iVar14 + 2);
-      do {
-        uVar11 = iVar14 + iVar3;
-        uVar12 = uVar11 & 3;
-        uVar11 = *(uint *)(uVar11 & 0xfffffffc);
-        iVar15 = iVar14 + iVar3;
-        if ((((uVar11 >> uVar12 * 8 | uVar11 << uVar12 * -8 + 0x20) ==
-              (*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-              *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20)) &&
-            (uVar11 = iVar15 + 4U & 3, uVar12 = *(uint *)(iVar15 + 4U & 0xfffffffc),
-            (uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20) ==
-            (uVar16 >> uVar5 * 8 | uVar16 << uVar5 * -8 + 0x20))) &&
-           ((uVar11 = iVar15 + 8U & 3, uVar12 = *(uint *)(iVar15 + 8U & 0xfffffffc),
-            (uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20) ==
-            (uVar8 >> uVar13 * 8 | uVar8 << uVar13 * -8 + 0x20) &&
-            (uVar11 = iVar15 + 0xcU & 3, uVar12 = *(uint *)(iVar15 + 0xcU & 0xfffffffc),
-            (uVar12 >> uVar11 * 8 | uVar12 << uVar11 * -8 + 0x20) ==
-            (uVar4 >> uVar7 * 8 | uVar4 << uVar7 * -8 + 0x20))))) {
-          return *(ushort *)(param_1 + (uint)*(ushort *)(param_1 + 6)) * uVar10 +
-                 param_1 + (uint)*(ushort *)(param_1 + 6) + 4;
-        }
-        uVar10 = uVar10 + 1;
-        iVar3 = iVar3 + 0x10;
-      } while (uVar10 < *(byte *)(param_1 + 1));
-    }
-  }
-  else {
-    pbVar9 = (byte *)(param_1 + 8);
-    uVar5 = (uint)*(byte *)(param_1 + 9);
-    if (uVar5 != 0) {
-      uVar13 = (uint)pbVar9[uVar5 * 4];
-      pbVar6 = pbVar9 + uVar5 * 4;
-      if (uVar13 < *pbVar9) {
-        do {
-          uVar5 = param_2 + ((int)uVar13 >> 5) * 4;
-          uVar7 = uVar5 & 3;
-          uVar4 = *(uint *)(uVar5 & 0xfffffffc);
-          uVar5 = uVar13 & 0x1f;
-          bVar1 = *pbVar6;
-          uVar13 = (uint)pbVar9[(uint)pbVar6[((uVar4 >> uVar7 * 8 | uVar4 << uVar7 * -8 + 0x20) >>
-                                              uVar5 & 1) + 1] * 4];
-          pbVar6 = pbVar9 + (uint)pbVar6[((uVar4 >> uVar7 * 8 | uVar4 << uVar7 * -8 + 0x20) >> uVar5
-                                         & 1) + 1] * 4;
-        } while (uVar13 < bVar1);
-      }
-      uVar7 = (uint)pbVar6[3];
-      puVar2 = (ushort *)(param_1 + (uint)*(ushort *)(param_1 + 6));
-      uVar5 = (int)puVar2 + uVar7 * 0x10 + (uint)puVar2[1];
-      uVar13 = uVar5 & 3;
-      uVar5 = *(uint *)(uVar5 & 0xfffffffc);
-      iVar3 = uVar7 * 0x10 + (uint)puVar2[1];
-      if (((((uVar5 >> uVar13 * 8 | uVar5 << uVar13 * -8 + 0x20) ==
-             (*(uint *)(param_2 & 0xfffffffc) >> (param_2 & 3) * 8 |
-             *(uint *)(param_2 & 0xfffffffc) << (param_2 & 3) * -8 + 0x20)) &&
-           (uVar5 = (int)puVar2 + iVar3 + 4, uVar13 = uVar5 & 3,
-           uVar8 = *(uint *)(uVar5 & 0xfffffffc), uVar5 = param_2 + 4 & 3,
-           uVar4 = *(uint *)(param_2 + 4 & 0xfffffffc),
-           (uVar8 >> uVar13 * 8 | uVar8 << uVar13 * -8 + 0x20) ==
-           (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20))) &&
-          (uVar5 = (int)puVar2 + iVar3 + 8, uVar13 = uVar5 & 3,
-          uVar8 = *(uint *)(uVar5 & 0xfffffffc), uVar5 = param_2 + 8 & 3,
-          uVar4 = *(uint *)(param_2 + 8 & 0xfffffffc),
-          (uVar8 >> uVar13 * 8 | uVar8 << uVar13 * -8 + 0x20) ==
-          (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20))) &&
-         (uVar5 = (int)puVar2 + iVar3 + 0xc, uVar13 = uVar5 & 3,
-         uVar8 = *(uint *)(uVar5 & 0xfffffffc), uVar5 = param_2 + 0xc & 3,
-         uVar4 = *(uint *)(param_2 + 0xc & 0xfffffffc),
-         (uVar8 >> uVar13 * 8 | uVar8 << uVar13 * -8 + 0x20) ==
-         (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20))) {
-        return (int)puVar2 + *puVar2 * uVar7 + 4;
-      }
-    }
-  }
-  return 0;
+    NNSG3dResDictEntryHeader * hdr;
+    NNS_G3D_NULL_ASSERT(dict);
+
+
+        NNS_G3D_ASSERT(dict->ofsEntry != 0);
+        hdr = (NNSG3dResDictEntryHeader *)((u8 *)dict + dict->ofsEntry);
+        return (NNSG3dResName *)((u8 *)hdr +
+                                 hdr->ofsName +
+                                 sizeof(NNSG3dResName) * idx);
+
 }
 
+NNS_G3D_RES_INLINE void * NNS_G3dGetResDataByIdx (const NNSG3dResDict * dict, u32 idx)
+{
+    NNSG3dResDictEntryHeader * hdr;
+    NNS_G3D_NULL_ASSERT(dict);
+
+
+        NNS_G3D_ASSERT(dict->ofsEntry != 0);
+        hdr = (NNSG3dResDictEntryHeader *)((u8 *)dict + dict->ofsEntry);
+        return (void *)(&hdr->data[0] + hdr->sizeUnit * idx);
+
+}
+
+NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetTexNameByIdx (const NNSG3dResTex * tex, u32 idx)
+{
+    NNS_G3D_NULL_ASSERT(tex);
+
+    if (tex)
+        return NNS_G3dGetResNameByIdx(&tex->dict, idx);
+    else
+        return NULL;
+}
+
+NNS_G3D_RES_INLINE int NNS_G3dGetTexIdxByName (const NNSG3dResTex * tex, const NNSG3dResName * name)
+{
+    NNS_G3D_NULL_ASSERT(tex);
+
+    if (tex)
+        return NNS_G3dGetResDictIdxByName(&tex->dict, name);
+    else
+        return -1;
+}
+
+NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetPlttNameByIdx (const NNSG3dResTex * tex, u32 idx)
+{
+    const NNSG3dResDict * dict;
+    NNS_G3D_NULL_ASSERT(tex);
+
+    NNS_G3D_ASSERT(tex->plttInfo.ofsDict != 0);
+
+    if (tex && tex->plttInfo.ofsDict != 0) {
+        dict = (const NNSG3dResDict *)((u8 *)tex + tex->plttInfo.ofsDict);
+        return NNS_G3dGetResNameByIdx(dict, idx);
+    } else {
+        return NULL;
+    }
+}
+
+NNS_G3D_RES_INLINE int NNS_G3dGetPlttIdxByName (const NNSG3dResTex * tex, const NNSG3dResName * name)
+{
+    const NNSG3dResDict * dict;
+    NNS_G3D_NULL_ASSERT(tex);
+
+    NNS_G3D_ASSERT(tex->plttInfo.ofsDict != 0);
+
+    if (tex && tex->plttInfo.ofsDict != 0) {
+        dict = (const NNSG3dResDict *)((u8 *)tex + tex->plttInfo.ofsDict);
+        return NNS_G3dGetResDictIdxByName(dict, name);
+    } else {
+        return -1;
+    }
+}
+
+NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetNodeNameByIdx (const NNSG3dResNodeInfo * nodeinfo, u32 idx)
+{
+    NNS_G3D_NULL_ASSERT(nodeinfo);
+
+    if (nodeinfo)
+        return NNS_G3dGetResNameByIdx(&nodeinfo->dict, idx);
+    else
+        return NULL;
+}
+
+NNS_G3D_RES_INLINE int NNS_G3dGetNodeIdxByName (const NNSG3dResNodeInfo * nodeinfo, const NNSG3dResName * name)
+{
+    NNS_G3D_NULL_ASSERT(nodeinfo);
+
+    if (nodeinfo)
+        return NNS_G3dGetResDictIdxByName(&nodeinfo->dict, name);
+    else
+        return -1;
+}
+
+NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetMatNameByIdx (const NNSG3dResMat * mat, u32 idx)
+{
+    NNS_G3D_NULL_ASSERT(mat);
+
+    if (mat)
+        return NNS_G3dGetResNameByIdx(&mat->dict, idx);
+    else
+        return NULL;
+}
+
+NNS_G3D_RES_INLINE int NNS_G3dGetMatIdxByName (const NNSG3dResMat * mat, const NNSG3dResName * name)
+{
+    NNS_G3D_NULL_ASSERT(mat);
+
+    if (mat)
+        return NNS_G3dGetResDictIdxByName(&mat->dict, name);
+    else
+        return -1;
+}
+
+NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetShpNameByIdx (const NNSG3dResShp * shp, u32 idx)
+{
+    NNS_G3D_NULL_ASSERT(shp);
+
+    if (shp)
+        return NNS_G3dGetResNameByIdx(&shp->dict, idx);
+    else
+        return NULL;
+}
+
+NNS_G3D_RES_INLINE int NNS_G3dGetShpIdxByName (const NNSG3dResShp * shp, const NNSG3dResName * name)
+{
+    NNS_G3D_NULL_ASSERT(shp);
+
+    if (shp)
+        return NNS_G3dGetResDictIdxByName(&shp->dict, name);
+    else
+        return -1;
+}
+
+NNS_G3D_RES_INLINE NNSG3dResMdlInfo * NNS_G3dGetMdlInfo (const NNSG3dResMdl * mdl)
+{
+    NNS_G3D_NULL_ASSERT(mdl);
+
+    if (mdl)
+        return (NNSG3dResMdlInfo *)&mdl->info;
+    else
+        return NULL;
+}
+
+NNS_G3D_RES_INLINE NNSG3dResNodeInfo * NNS_G3dGetNodeInfo (const NNSG3dResMdl * mdl)
+{
+    NNS_G3D_NULL_ASSERT(mdl);
+
+    if (mdl)
+        return (NNSG3dResNodeInfo *)&mdl->nodeInfo;
+    else
+        return NULL;
+}
+
+NNS_G3D_RES_INLINE u8 * NNS_G3dGetSbc (const NNSG3dResMdl * mdl)
+{
+    NNS_G3D_NULL_ASSERT(mdl);
+
+    if (mdl && mdl->ofsSbc != 0)
+        return (u8 *)((u8 *)mdl + mdl->ofsSbc);
+    else
+        return NULL;
+}
+
+NNS_G3D_RES_INLINE NNSG3dResMat * NNS_G3dGetMat (const NNSG3dResMdl * mdl)
+{
+    NNS_G3D_NULL_ASSERT(mdl);
+    NNS_G3D_ASSERT(mdl->ofsMat != 0);
+
+    if (mdl && mdl->ofsMat != 0)
+        return (NNSG3dResMat *)((u8 *)mdl + mdl->ofsMat);
+    else
+        return NULL;
+}
+
+NNS_G3D_RES_INLINE NNSG3dResShp * NNS_G3dGetShp (const NNSG3dResMdl * mdl)
+{
+    NNS_G3D_NULL_ASSERT(mdl);
+    NNS_G3D_ASSERT(mdl->ofsShp != 0);
+
+    if (mdl && mdl->ofsShp != 0)
+        return (NNSG3dResShp *)((u8 *)mdl + mdl->ofsShp);
+    else
+        return NULL;
+}
+
+NNS_G3D_RES_INLINE NNSG3dResMdl * NNS_G3dGetMdlByIdx (const NNSG3dResMdlSet * mdlSet, u32 idx)
+{
+    NNSG3dResDictMdlSetData * data;
+    NNS_G3D_NULL_ASSERT(mdlSet);
+
+    if (mdlSet) {
+        data = (NNSG3dResDictMdlSetData *)NNS_G3dGetResDataByIdx(&mdlSet->dict, idx);
+        if (data) {
+            NNS_G3D_ASSERT(data->offset != 0);
+            return (NNSG3dResMdl *)((u8 *)mdlSet + data->offset);
+        }
+    }
+    return NULL;
+}
+
+NNS_G3D_RES_INLINE const NNSG3dResName * NNS_G3dGetMdlNameByIdx (const NNSG3dResMdlSet * mdlSet, u32 idx)
+{
+    NNS_G3D_NULL_ASSERT(mdlSet);
+
+    if (mdlSet)
+        return NNS_G3dGetResNameByIdx(&mdlSet->dict, idx);
+    else
+        return NULL;
+}
+
+NNS_G3D_RES_INLINE NNSG3dResMdl * NNS_G3dGetMdlByName (const NNSG3dResMdlSet * mdlSet, const NNSG3dResName * name)
+{
+    NNSG3dResDictMdlSetData * data;
+    NNS_G3D_NULL_ASSERT(mdlSet);
+
+    if (mdlSet) {
+        data = (NNSG3dResDictMdlSetData *)NNS_G3dGetResDataByName(&mdlSet->dict, name);
+        if (data) {
+            NNS_G3D_ASSERT(data->offset != 0);
+            return (NNSG3dResMdl *)((u8 *)mdlSet + data->offset);
+        }
+    }
+
+    return NULL;
+}
+
+NNS_G3D_RES_INLINE int NNS_G3dGetMdlIdxByName (const NNSG3dResMdlSet * mdlSet, const NNSG3dResName * name)
+{
+    NNS_G3D_NULL_ASSERT(mdlSet);
+
+    if (mdlSet)
+        return NNS_G3dGetResDictIdxByName(&mdlSet->dict, name);
+    else
+        return -1;
+}
+
+NNS_G3D_RES_INLINE NNSG3dResMdlSet * NNS_G3dCheckMdlSet (const NNSG3dResDataBlockHeader * dataBlkHeader)
+{
+    NNS_G3D_NULL_ASSERT(dataBlkHeader);
+
+    if (dataBlkHeader->kind == NNS_G3D_DATABLK_MDLSET) {
+        return (NNSG3dResMdlSet *)dataBlkHeader;
+    } else {
+        return NULL;
+    }
+}
+
+NNS_G3D_RES_INLINE NNSG3dResTex * NNS_G3dCheckTex (const NNSG3dResDataBlockHeader * dataBlkHeader)
+{
+    NNS_G3D_NULL_ASSERT(dataBlkHeader);
+
+    if (dataBlkHeader->kind == NNS_G3D_DATABLK_TEX) {
+        return (NNSG3dResTex *)dataBlkHeader;
+    } else {
+        return NULL;
+    }
+}
+
+NNS_G3D_RES_INLINE NNSG3dResNodeData * NNS_G3dGetNodeDataByIdx (const NNSG3dResNodeInfo * info, u32 idx)
+{
+    NNSG3dResDictNodeData * data;
+    NNS_G3D_NULL_ASSERT(info);
+
+    if (info) {
+        data = (NNSG3dResDictNodeData *)NNS_G3dGetResDataByIdx(&info->dict, idx);
+        if (data) {
+            NNS_G3D_ASSERT(data->offset != 0);
+            return (NNSG3dResNodeData *)((u8 *)info + data->offset);
+        }
+    }
+
+    return NULL;
+}
+
+NNS_G3D_RES_INLINE NNSG3dResMatData * NNS_G3dGetMatDataByIdx (const NNSG3dResMat * mat, u32 idx)
+{
+    NNSG3dResDictMatData * data;
+    NNS_G3D_NULL_ASSERT(mat);
+
+    if (mat) {
+        data = (NNSG3dResDictMatData *)NNS_G3dGetResDataByIdx(&mat->dict, idx);
+        if (data) {
+            NNS_G3D_ASSERT(data->offset != 0);
+            return (NNSG3dResMatData *)((u8 *)mat + data->offset);
+        }
+    }
+
+    return NULL;
+}
+
+NNS_G3D_RES_INLINE NNSG3dResShpData * NNS_G3dGetShpDataByIdx (const NNSG3dResShp * shp, u32 idx)
+{
+    NNSG3dResDictShpData * data;
+    NNS_G3D_NULL_ASSERT(shp);
+
+    if (shp) {
+        data = (NNSG3dResDictShpData *)NNS_G3dGetResDataByIdx(&shp->dict, idx);
+        if (data) {
+            NNS_G3D_ASSERT(data->offset != 0);
+            return (NNSG3dResShpData *)((u8 *)shp + data->offset);
+        }
+    }
+
+    return NULL;
+}
+
+NNS_G3D_RES_INLINE NNSG3dResDictTexData * NNS_G3dGetTexDataByName (const NNSG3dResTex * tex, const NNSG3dResName * name)
+{
+    NNS_G3D_NULL_ASSERT(tex);
+
+    if (tex)
+        return (NNSG3dResDictTexData *)NNS_G3dGetResDataByName(&tex->dict, name);
+    else
+        return NULL;
+}
+
+NNS_G3D_RES_INLINE NNSG3dResDictTexData * NNS_G3dGetTexDataByIdx (const NNSG3dResTex * tex, u32 idx)
+{
+    NNS_G3D_NULL_ASSERT(tex);
+
+    if (tex)
+        return (NNSG3dResDictTexData *)NNS_G3dGetResDataByIdx(&tex->dict, idx);
+    else
+        return NULL;
+}
+
+NNS_G3D_RES_INLINE NNSG3dResDictPlttData * NNS_G3dGetPlttDataByName (const NNSG3dResTex * tex, const NNSG3dResName * name)
+{
+    NNSG3dResDict * dict;
+    NNS_G3D_NULL_ASSERT(tex);
+    NNS_G3D_ASSERT(tex->plttInfo.ofsDict != 0);
+
+    if (tex && tex->plttInfo.ofsDict != 0) {
+        dict = (NNSG3dResDict *)((u8 *)tex + tex->plttInfo.ofsDict);
+        return (NNSG3dResDictPlttData *)NNS_G3dGetResDataByName(dict, name);
+    } else {
+        return NULL;
+    }
+}
+
+NNS_G3D_RES_INLINE NNSG3dResDictPlttData * NNS_G3dGetPlttDataByIdx (const NNSG3dResTex * tex, u32 idx)
+{
+    NNSG3dResDict * dict;
+    NNS_G3D_NULL_ASSERT(tex);
+    NNS_G3D_ASSERT(tex->plttInfo.ofsDict != 0);
+
+    if (tex && tex->plttInfo.ofsDict != 0) {
+        dict = (NNSG3dResDict *)((u8 *)tex + tex->plttInfo.ofsDict);
+        return (NNSG3dResDictPlttData *)NNS_G3dGetResDataByIdx(dict, idx);
+    } else {
+        return NULL;
+    }
+}
+
+NNS_G3D_RES_INLINE const void * NNS_G3dGetTexData (const NNSG3dResTex * tex)
+{
+    return (u8 *)tex + tex->texInfo.ofsTex;
+}
+
+NNS_G3D_RES_INLINE const void * NNS_G3dGetTex4x4Data (const NNSG3dResTex * tex)
+{
+    return (u8 *)tex + tex->tex4x4Info.ofsTex;
+}
+
+NNS_G3D_RES_INLINE const void * NNS_G3dGetTex4x4PlttIdxData (const NNSG3dResTex * tex)
+{
+    return (u8 *)tex + tex->tex4x4Info.ofsTexPlttIdx;
+}
+
+NNS_G3D_RES_INLINE const void * NNS_G3dGetPlttData (const NNSG3dResTex * tex)
+{
+    return (u8 *)tex + tex->plttInfo.ofsPlttData;
+}
+
+NNS_G3D_RES_INLINE const void * NNS_G3dGetShpDLPtr (const NNSG3dResShpData * shp)
+{
+    return (u8 *)shp + shp->ofsDL;
+}
+
+NNS_G3D_RES_INLINE u32 NNS_G3dGetShpDLSize (const NNSG3dResShpData * shp)
+{
+    return shp->sizeDL;
+}
+
+NNS_G3D_RES_INLINE BOOL NNS_G3dIsMatAnm (const void * pAnm)
+{
+    const NNSG3dResAnmHeader * hdr = (const NNSG3dResAnmHeader *) pAnm;
+    return hdr != NULL && hdr->category0 == 'M';
+}
+
+NNS_G3D_RES_INLINE BOOL NNS_G3dIsJntAnm (const void * pAnm)
+{
+    const NNSG3dResAnmHeader * hdr = (const NNSG3dResAnmHeader *) pAnm;
+    return hdr != NULL && hdr->category0 == 'J';
+}
+
+NNS_G3D_RES_INLINE BOOL NNS_G3dIsVisAnm (const void * pAnm)
+{
+    const NNSG3dResAnmHeader * hdr = (const NNSG3dResAnmHeader *) pAnm;
+    return hdr != NULL && hdr->category0 == 'V';
+}
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+
+
+void * NNS_G3dGetResDataByName (const NNSG3dResDict * dict, const NNSG3dResName * name)
+{
+    NNS_G3D_NULL_ASSERT(dict);
+
+
+
+    if (dict->numEntry < 16) {
+        u32 idx;
+        const NNSG3dResName * n;
+        u32 v0 = name->val[0];
+        u32 v1 = name->val[1];
+        u32 v2 = name->val[2];
+        u32 v3 = name->val[3];
+
+        for (idx = 0; idx < dict->numEntry; ++idx) {
+            n = NNS_G3dGetResNameByIdx(dict, idx);
+            if (n->val[0] == v0 &&
+                n->val[1] == v1 &&
+                n->val[2] == v2 &&
+                n->val[3] == v3) {
+                return NNS_G3dGetResDataByIdx(dict, idx);
+            }
+        }
+    } else {
+        const NNSG3dResName * n;
+        const NNSG3dResDictTreeNode * treeBase;
+        const NNSG3dResDictTreeNode * p, * x;
+
+        treeBase = &dict->node[0];
+        p = treeBase;
+
+        if (p->idxLeft != 0) {
+            x = treeBase + p->idxLeft;
+            while (p->refBit > x->refBit) {
+                p = x;
+
+                x = treeBase + *(&x->idxLeft +
+                                 ((name->val[x->refBit >> 5] >> (x->refBit & 31)) & 1));
+            }
+
+            n = NNS_G3dGetResNameByIdx(dict, x->idxEntry);
+
+            if (n->val[0] == name->val[0] &&
+                n->val[1] == name->val[1] &&
+                n->val[2] == name->val[2] &&
+                n->val[3] == name->val[3]) {
+                return NNS_G3dGetResDataByIdx(dict, x->idxEntry);
+            }
+        }
+    }
+    return NULL;
+}
+
+int NNS_G3dGetResDictIdxByName (const NNSG3dResDict * dict, const NNSG3dResName * name)
+{
+    NNS_G3D_NULL_ASSERT(dict);
+
+
+
+    if (dict->numEntry < 16) {
+        u32 idx;
+        const NNSG3dResName * n;
+        u32 v0 = name->val[0];
+        u32 v1 = name->val[1];
+        u32 v2 = name->val[2];
+        u32 v3 = name->val[3];
+
+        for (idx = 0; idx < dict->numEntry; ++idx) {
+            n = NNS_G3dGetResNameByIdx(dict, idx);
+            if (n->val[0] == v0 &&
+                n->val[1] == v1 &&
+                n->val[2] == v2 &&
+                n->val[3] == v3) {
+                return (int)idx;
+            }
+        }
+    } else {
+        const NNSG3dResName * n;
+        const NNSG3dResDictTreeNode * treeBase;
+        const NNSG3dResDictTreeNode * p, * x;
+
+        treeBase = &dict->node[0];
+
+        p = treeBase;
+
+        if (p->idxLeft != 0) {
+            x = treeBase + p->idxLeft;
+            while (p->refBit > x->refBit) {
+                p = x;
+                x = treeBase + *(&x->idxLeft +
+                                 ((name->val[x->refBit >> 5] >> (x->refBit & 31)) & 1));
+            }
+
+            n = NNS_G3dGetResNameByIdx(dict, x->idxEntry);
+
+            if (n->val[0] == name->val[0] &&
+                n->val[1] == name->val[1] &&
+                n->val[2] == name->val[2] &&
+                n->val[3] == name->val[3]) {
+                return x->idxEntry;
+            }
+        }
+    }
+    return -1;
+}
+
+NNSG3dResDataBlockHeader * NNS_G3dGetDataBlockHeaderByIdx (const NNSG3dResFileHeader * header, u32 idx)
+{
+    u32 * blks;
+    NNS_G3D_NULL_ASSERT(header);
+
+    if (idx < header->dataBlocks) {
+        blks = (u32 *)((u8 *)header + header->headerSize);
+        return (NNSG3dResDataBlockHeader *)((u8 *)header + blks[idx]);
+    } else {
+        return NULL;
+    }
+}
+
+NNSG3dResMdlSet * NNS_G3dGetMdlSet (const NNSG3dResFileHeader * header)
+{
+    u32 * blks;
+    NNS_G3D_NULL_ASSERT(header);
+    NNS_G3D_ASSERT(header->sigVal == NNS_G3D_SIGNATURE_NSBMD);
+    NNS_G3D_ASSERTMSG(header->version == (2 | (0 << 8)), ".nsbmd version is different. convert again.");
+
+    blks = (u32 *)((u8 *)header + header->headerSize);
+    return (NNSG3dResMdlSet *)((u8 *)header + blks[0]);
+}
+
+NNSG3dResTex * NNS_G3dGetTex (const NNSG3dResFileHeader * header)
+{
+    u32 * blks;
+    NNS_G3D_NULL_ASSERT(header);
+    NNS_G3D_ASSERT(header->sigVal == NNS_G3D_SIGNATURE_NSBMD ||
+                   header->sigVal == NNS_G3D_SIGNATURE_NSBTX);
+
+    blks = (u32 *)((u8 *)header + header->headerSize);
+
+    if (header->dataBlocks == 1) {
+        if (header->sigVal == NNS_G3D_SIGNATURE_NSBTX) {
+            return (NNSG3dResTex *)((u8 *)header + blks[0]);
+        } else {
+            return NULL;
+        }
+    } else {
+        return (NNSG3dResTex *)((u8 *)header + blks[1]);
+    }
+}

@@ -1,0 +1,119 @@
+[
+  {
+    "offset": 40,
+    "type": 1,
+    "symbol": "Sound_InitializeImpl",
+    "target": 33689188,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959149795
+  },
+  {
+    "offset": 80,
+    "type": 1,
+    "symbol": "func_0214f4ec",
+    "target": 34927852,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942682235
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "func_0214f4d4",
+    "target": 34927828,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942682227
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "func_0212bb50",
+    "target": 34782032,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645777
+  },
+  {
+    "offset": 96,
+    "type": 1,
+    "symbol": "func_0212d0ec",
+    "target": 34787564,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942647159
+  },
+  {
+    "offset": 100,
+    "type": 1,
+    "symbol": "func_0212c310",
+    "target": 34784016,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646271
+  },
+  {
+    "offset": 140,
+    "type": 2,
+    "symbol": "SDK_data_0217d41c$3459",
+    "target": 35116060,
+    "thumb": false,
+    "addend": 0,
+    "value": 35116060
+  },
+  {
+    "offset": 144,
+    "type": 2,
+    "symbol": "SDK_data_0212b9f8",
+    "target": 34781688,
+    "thumb": false,
+    "addend": 0,
+    "value": 34781688
+  },
+  {
+    "offset": 148,
+    "type": 2,
+    "symbol": "SDK_data_0217d420",
+    "target": 35116064,
+    "thumb": false,
+    "addend": 0,
+    "value": 35116064
+  },
+  {
+    "offset": 152,
+    "type": 2,
+    "symbol": "SDK_data_0217d42c",
+    "target": 35116076,
+    "thumb": false,
+    "addend": 0,
+    "value": 35116076
+  },
+  {
+    "offset": 156,
+    "type": 2,
+    "symbol": "SDK_data_0212b9ec",
+    "target": 34781676,
+    "thumb": false,
+    "addend": 0,
+    "value": 34781676
+  },
+  {
+    "offset": 160,
+    "type": 2,
+    "symbol": "SDK_data_0217d414",
+    "target": 35116052,
+    "thumb": false,
+    "addend": 0,
+    "value": 35116052
+  },
+  {
+    "offset": 164,
+    "type": 2,
+    "symbol": "SDK_data_0217d418",
+    "target": 35116056,
+    "thumb": false,
+    "addend": 0,
+    "value": 35116056
+  }
+]

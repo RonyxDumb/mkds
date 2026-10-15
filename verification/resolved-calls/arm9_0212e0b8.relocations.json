@@ -1,0 +1,101 @@
+[
+  {
+    "offset": 20,
+    "type": 1,
+    "symbol": "Sound_MaybeGetRawFilePointer",
+    "target": 34787924,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422048
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "Sound_ReadFile",
+    "target": 34787964,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422051
+  },
+  {
+    "offset": 124,
+    "type": 1,
+    "symbol": "Sound_GetActiveSdat",
+    "target": 34788816,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422245
+  },
+  {
+    "offset": 148,
+    "type": 1,
+    "symbol": "Sound_Context_Allocate",
+    "target": 34790268,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422602
+  },
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "Sound_ReadFile",
+    "target": 34787964,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422016
+  },
+  {
+    "offset": 232,
+    "type": 1,
+    "symbol": "Mem_CpuCopy8",
+    "target": 34918908,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942677525
+  },
+  {
+    "offset": 248,
+    "type": 1,
+    "symbol": "Mem_CpuFill8",
+    "target": 34918760,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942677484
+  },
+  {
+    "offset": 260,
+    "type": 1,
+    "symbol": "DC_SomeClean",
+    "target": 33615448,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959128869
+  },
+  {
+    "offset": 280,
+    "type": 1,
+    "symbol": "Sound_SetFileFatDynamicOffsetField",
+    "target": 34787896,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959421976
+  },
+  {
+    "offset": 300,
+    "type": 2,
+    "symbol": "SDK_data_0217dec8$3123",
+    "target": 35118792,
+    "thumb": false,
+    "addend": 0,
+    "value": 35118792
+  },
+  {
+    "offset": 304,
+    "type": 2,
+    "symbol": "SDK_data_0212df7c",
+    "target": 34791292,
+    "thumb": false,
+    "addend": 0,
+    "value": 34791292
+  }
+]

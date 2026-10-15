@@ -1,59 +1,591 @@
-/* Decompiled C draft; module arm9; ROM address 0212e0b8. No matching claim. */
-#include "types.h"
-#include "deps/0212e0b8_Sound_PrepareSwarDataImpl.h"
+#define NNS_SndArcGetFileAddress Sound_MaybeGetRawFilePointer
+#define NNS_SndArcReadFile Sound_ReadFile
+#define NNS_SndArcGetCurrent Sound_GetActiveSdat
+#define NNS_SndHeapAlloc Sound_Context_Allocate
+#define MI_CpuCopy8 Mem_CpuCopy8
+#define MI_CpuFill8 Mem_CpuFill8
+#define DC_StoreRange DC_SomeClean
+#define NNS_SndArcSetFileAddress Sound_SetFileFatDynamicOffsetField
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#include <nnsys/snd/sndarc_loader.h>
 
-int Sound_PrepareSwarDataImpl(undefined4 param_1,int param_2,int param_3)
+#include <nitro/types.h>
 
+#include <nnsys/snd/seqdata.h>
+#include <nnsys/snd/sndarc.h>
+
+#include <nitro/snd.h>
+
+#include <nnsys/misc.h>
+#include <nnsys/snd/heap.h>
+#undef NNS_SndArcGetFileAddress
+#undef NNS_SndArcReadFile
+#undef NNS_SndArcGetCurrent
+#undef NNS_SndHeapAlloc
+#undef MI_CpuCopy8
+#undef MI_CpuFill8
+#undef DC_StoreRange
+#undef NNS_SndArcSetFileAddress
+
+#define RESERVED_AREASIZE 32
+
+#define ROUNDUP(value, align) (((value) + ((align) - 1)) & ~((align) - 1))
+#define SNDHEAP_ALIGN(value) (ROUNDUP(value + RESERVED_AREASIZE, 32) + 32)
+
+static NNSSndSeqData * LoadSeq(u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr);
+static NNSSndSeqArc * LoadSeqArc(u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr);
+static SNDBankData * LoadBank(u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr);
+static SNDWaveArc * LoadWaveArc(u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr);
+static SNDWaveArc * Sound_PrepareSwarDataImpl(u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr);
+
+static BOOL LoadSingleWaves(SNDWaveArc * waveArc, const SNDBankData * bank, int waveArcNo, u32 fileId, NNSSndHeapHandle heap);
+static BOOL LoadSingleWave(SNDWaveArc * waveArc, int waveNo, u32 fileId, NNSSndHeapHandle heap);
+
+static void DisposeCallback(void * mem, NNSSndArc * arc, u32 fileId);
+static void SeqDisposeCallback(void * mem, u32 size, u32 data1, u32 data2);
+static void BankDisposeCallback(void * mem, u32 size, u32 data1, u32 data2);
+static void WaveArcDisposeCallback(void * mem, u32 size, u32 data1, u32 data2);
+static void SDK_data_0212df7c(void * mem, u32 size, u32 data1, u32 data2);
+static void SingleWaveDisposeCallback(void * mem, u32 size, u32 data1, u32 data2);
+
+BOOL NNS_SndArcLoadGroup (int groupNo, NNSSndHeapHandle heap)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  uint uVar4;
-  int iVar6;
-  undefined4 *puVar7;
-  undefined1 auStack_20 [4];
-  uint uVar5;
-  
-  puVar7 = (undefined4 *)auStack_20;
-  iVar3 = Sound_MaybeGetRawFilePointer();
-  if (iVar3 == 0) {
-    iVar3 = Sound_ReadFile(param_1,iRam0212e1e4,0x3c,0);
-    if (iVar3 != 0x3c) {
-      return 0;
-    }
-    uVar5 = iRam0212e1e4 + 0x38U & 3;
-    uVar4 = *(uint *)(iRam0212e1e4 + 0x38U & 0xfffffffc);
-    uVar5 = uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20;
-    if (param_2 == 0) {
-      puVar7 = (undefined4 *)&stack0xffffffe4;
-    }
-    iVar1 = uVar5 * 4;
-    iVar2 = uVar5 * 8;
-    if (param_2 == 0) {
-      return 0;
-    }
-    if (param_3 != 0) {
-      Sound_GetActiveSdat(iVar2);
-    }
-    *puVar7 = param_1;
-    iVar3 = Sound_Context_Allocate(param_2,iVar2 + 0x5c,uRam0212e1e8);
-    if (iVar3 == 0) {
-      return 0;
-    }
-    iVar6 = Sound_ReadFile(param_1,iVar3,iVar1 + 0x3c,0);
-    if (iVar6 != iVar1 + 0x3c) {
-      return 0;
-    }
-    uVar5 = iVar3 + 0x38U & 3;
-    uVar4 = *(uint *)(iVar3 + 0x38U & 0xfffffffc);
-    Mem_CpuCopy8((ushort *)(uintptr_t)(iVar3 + 0x3c),(uint *)(uintptr_t)(iVar3 + 0x3c + (uVar4 >> uVar5 * 8 | uVar4 << uVar5 * -8 + 0x20) * 4),
-                 iVar1);
-    Mem_CpuFill8((uint *)(uintptr_t)(iVar3 + 0x3c),0,iVar1);
-    DC_SomeClean(iVar3,iVar2 + 0x3c);
-    if (param_3 != 0) {
-      Sound_SetFileFatDynamicOffsetField(param_1,iVar3);
-    }
-  }
-  return iVar3;
+    NNSSndArcLoadResult result;
+
+    result = NNSi_SndArcLoadGroup(groupNo, heap);
+
+    return result == NNS_SND_ARC_LOAD_SUCESS ? TRUE : FALSE;
 }
 
+BOOL NNS_SndArcLoadSeq (int seqNo, NNSSndHeapHandle heap)
+{
+    NNSSndArcLoadResult result;
+
+    result = NNSi_SndArcLoadSeq(seqNo, NNS_SND_ARC_LOAD_ALL, heap, TRUE, NULL);
+
+    return result == NNS_SND_ARC_LOAD_SUCESS ? TRUE : FALSE;
+}
+
+BOOL NNS_SndArcLoadSeqArc (int seqArcNo, NNSSndHeapHandle heap)
+{
+    NNSSndArcLoadResult result;
+
+    result = NNSi_SndArcLoadSeqArc(seqArcNo, NNS_SND_ARC_LOAD_ALL, heap, TRUE, NULL);
+
+    return result == NNS_SND_ARC_LOAD_SUCESS ? TRUE : FALSE;
+}
+
+BOOL NNS_SndArcLoadBank (int bankNo, NNSSndHeapHandle heap)
+{
+    NNSSndArcLoadResult result;
+
+    result = NNSi_SndArcLoadBank(bankNo, NNS_SND_ARC_LOAD_ALL, heap, TRUE, NULL);
+
+    return result == NNS_SND_ARC_LOAD_SUCESS ? TRUE : FALSE;
+}
+
+BOOL NNS_SndArcLoadWaveArc (int waveArcNo, NNSSndHeapHandle heap)
+{
+    NNSSndArcLoadResult result;
+
+    result = NNSi_SndArcLoadWaveArc(waveArcNo, NNS_SND_ARC_LOAD_ALL, heap, TRUE, NULL);
+
+    return result == NNS_SND_ARC_LOAD_SUCESS ? TRUE : FALSE;
+}
+
+BOOL NNS_SndArcLoadSeqEx (int seqNo, u32 loadFlag, NNSSndHeapHandle heap)
+{
+    NNSSndArcLoadResult result;
+
+    result = NNSi_SndArcLoadSeq(seqNo, loadFlag, heap, TRUE, NULL);
+
+    return result == NNS_SND_ARC_LOAD_SUCESS ? TRUE : FALSE;
+}
+
+BOOL NNS_SndArcLoadBankEx (int bankNo, u32 loadFlag, NNSSndHeapHandle heap)
+{
+    NNSSndArcLoadResult result;
+
+    result = NNSi_SndArcLoadBank(bankNo, loadFlag, heap, TRUE, NULL);
+
+    return result == NNS_SND_ARC_LOAD_SUCESS ? TRUE : FALSE;
+}
+
+NNSSndArcLoadResult NNSi_SndArcLoadGroup (int groupNo, NNSSndHeapHandle heap)
+{
+    const NNSSndArcGroupInfo * info;
+    const NNSSndArcGroupItem * item;
+    NNSSndArcLoadResult result;
+    int itemNo;
+
+    info = NNS_SndArcGetGroupInfo(groupNo);
+    if (info == NULL) return NNS_SND_ARC_LOAD_ERROR_INVALID_GROUP_NO;
+
+    for (itemNo = 0; itemNo < info->count; itemNo++) {
+        item = &info->item[ itemNo ];
+
+        switch (item->type) {
+        case NNS_SNDARC_SNDTYPE_SEQ:
+            result = NNSi_SndArcLoadSeq((int)(item->index), item->loadFlag, heap, TRUE, NULL);
+            if (result != NNS_SND_ARC_LOAD_SUCESS) return result;
+            break;
+        case NNS_SNDARC_SNDTYPE_SEQARC:
+            result = NNSi_SndArcLoadSeqArc((int)(item->index), item->loadFlag, heap, TRUE, NULL);
+            if (result != NNS_SND_ARC_LOAD_SUCESS) return result;
+            break;
+        case NNS_SNDARC_SNDTYPE_BANK:
+            result = NNSi_SndArcLoadBank((int)(item->index), item->loadFlag, heap, TRUE, NULL);
+            if (result != NNS_SND_ARC_LOAD_SUCESS) return result;
+            break;
+        case NNS_SNDARC_SNDTYPE_WAVEARC:
+            result = NNSi_SndArcLoadWaveArc((int)(item->index), item->loadFlag, heap, TRUE, NULL);
+            if (result != NNS_SND_ARC_LOAD_SUCESS) return result;
+            break;
+        default:
+            NNS_ASSERT(FALSE);
+            break;
+        }
+    }
+
+    return NNS_SND_ARC_LOAD_SUCESS;
+}
+
+NNSSndArcLoadResult NNSi_SndArcLoadSeq (int seqNo, u32 loadFlag, NNSSndHeapHandle heap, BOOL bSetAddr, struct NNSSndSeqData ** pData)
+{
+    const NNSSndArcSeqInfo * seqInfo;
+    NNSSndSeqData * seqData = NULL;
+    SNDBankData * bank = NULL;
+    NNSSndArcLoadResult result;
+
+    seqInfo = NNS_SndArcGetSeqInfo(seqNo);
+    if (seqInfo == NULL) return NNS_SND_ARC_LOAD_ERROR_INVALID_SEQ_NO;
+
+    result = NNSi_SndArcLoadBank(seqInfo->param.bankNo, loadFlag, heap, bSetAddr, NULL);
+    if (result != NNS_SND_ARC_LOAD_SUCESS) return result;
+
+    if (loadFlag & NNS_SND_ARC_LOAD_SEQ) {
+        seqData = LoadSeq(seqInfo->fileId, heap, bSetAddr);
+        if (seqData == NULL) {
+            return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_SEQ;
+        }
+    } else {
+        seqData = (NNSSndSeqData *)Sound_MaybeGetRawFilePointer(seqInfo->fileId);
+    }
+
+    if (pData != NULL) *pData = seqData;
+
+    return NNS_SND_ARC_LOAD_SUCESS;
+}
+
+NNSSndArcLoadResult NNSi_SndArcLoadSeqArc (int seqArcNo, u32 loadFlag, NNSSndHeapHandle heap, BOOL bSetAddr, struct NNSSndSeqArc ** pData)
+{
+    const NNSSndArcSeqArcInfo * seqArcInfo;
+    NNSSndSeqArc * seqArc = NULL;
+
+    seqArcInfo = NNS_SndArcGetSeqArcInfo(seqArcNo);
+    if (seqArcInfo == NULL) return NNS_SND_ARC_LOAD_ERROR_INVALID_SEQARC_NO;
+
+    if (loadFlag & NNS_SND_ARC_LOAD_SEQARC) {
+        seqArc = LoadSeqArc(seqArcInfo->fileId, heap, bSetAddr);
+        if (seqArc == NULL) {
+            return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_SEQARC;
+        }
+    } else {
+        seqArc = (NNSSndSeqArc *)Sound_MaybeGetRawFilePointer(seqArcInfo->fileId);
+    }
+
+    if (pData != NULL) *pData = seqArc;
+
+    return NNS_SND_ARC_LOAD_SUCESS;
+}
+
+NNSSndArcLoadResult NNSi_SndArcLoadBank (int bankNo, u32 loadFlag, NNSSndHeapHandle heap, BOOL bSetAddr, struct SNDBankData ** pData)
+{
+    const NNSSndArcBankInfo * bankInfo;
+    const NNSSndArcWaveArcInfo * waveArcInfo;
+    SNDBankData * bank = NULL;
+    SNDWaveArc * waveArc;
+    NNSSndArcLoadResult result;
+    int i;
+
+    bankInfo = NNS_SndArcGetBankInfo(bankNo);
+    if (bankInfo == NULL) return NNS_SND_ARC_LOAD_ERROR_INVALID_BANK_NO;
+
+    if (loadFlag & NNS_SND_ARC_LOAD_BANK) {
+        bank = LoadBank(bankInfo->fileId, heap, bSetAddr);
+        if (bank == NULL) {
+            return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_BANK;
+        }
+    } else {
+        bank = (SNDBankData *)Sound_MaybeGetRawFilePointer(bankInfo->fileId);
+    }
+
+    for (i = 0; i < NNS_SND_ARC_BANK_TO_WAVEARC_NUM; i++) {
+        if (bankInfo->waveArcNo[i] == NNS_SND_ARC_INVALID_WAVEARC_NO) continue;
+
+        waveArcInfo = NNS_SndArcGetWaveArcInfo(bankInfo->waveArcNo[i]);
+        if (waveArcInfo == NULL) return NNS_SND_ARC_LOAD_ERROR_INVALID_WAVEARC_NO;
+
+        result = NNSi_SndArcLoadWaveArc(bankInfo->waveArcNo[i], loadFlag, heap, bSetAddr, &waveArc);
+        if (result != NNS_SND_ARC_LOAD_SUCESS) return result;
+
+        if (waveArcInfo->flags & NNS_SND_ARC_WAVEARC_SINGLE_LOAD) {
+
+            if (loadFlag & NNS_SND_ARC_LOAD_WAVE) {
+                if (!LoadSingleWaves(waveArc, bank, i, waveArcInfo->fileId, heap)) {
+                    return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_WAVE;
+                }
+            }
+        }
+
+        if (bank != NULL && waveArc != NULL) {
+            SND_AssignWaveArc(bank, i, waveArc);
+        }
+    }
+
+    if (pData != NULL) *pData = bank;
+
+    return NNS_SND_ARC_LOAD_SUCESS;
+}
+
+NNSSndArcLoadResult NNSi_SndArcLoadWaveArc (int waveArcNo, u32 loadFlag, NNSSndHeapHandle heap, BOOL bSetAddr, struct SNDWaveArc ** pData)
+{
+    const NNSSndArcWaveArcInfo * waveArcInfo;
+    SNDWaveArc * waveArc = NULL;
+
+    waveArcInfo = NNS_SndArcGetWaveArcInfo(waveArcNo);
+    if (waveArcInfo == NULL) return NNS_SND_ARC_LOAD_ERROR_INVALID_WAVEARC_NO;
+
+    if (loadFlag & NNS_SND_ARC_LOAD_WAVE) {
+        if (waveArcInfo->flags & NNS_SND_ARC_WAVEARC_SINGLE_LOAD) {
+
+            waveArc = Sound_PrepareSwarDataImpl(waveArcInfo->fileId, heap, bSetAddr);
+        } else {
+
+            waveArc = LoadWaveArc(waveArcInfo->fileId, heap, bSetAddr);
+        }
+
+        if (waveArc == NULL) {
+            return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_WAVE;
+        }
+    } else {
+        waveArc = (SNDWaveArc *)Sound_MaybeGetRawFilePointer(waveArcInfo->fileId);
+    }
+
+    if (pData != NULL) *pData = waveArc;
+
+    return NNS_SND_ARC_LOAD_SUCESS;
+}
+
+void * NNSi_SndArcLoadFile (u32 fileId, NNSSndHeapDisposeCallback callback, u32 data1, u32 data2, NNSSndHeapHandle heap)
+{
+    void * buffer;
+    u32 len;
+
+    len = NNS_SndArcGetFileSize(fileId);
+    if (len == 0) return NULL;
+
+    if (heap == NNS_SND_HEAP_INVALID_HANDLE) return NULL;
+
+    buffer = Sound_Context_Allocate(heap, len + RESERVED_AREASIZE, callback, data1, data2);
+    if (buffer == NULL) return NULL;
+
+    if (Sound_ReadFile(fileId, buffer, (s32)len, 0) != len) {
+        return NULL;
+    }
+
+    DC_SomeClean(buffer, len);
+
+    return buffer;
+}
+
+static NNSSndSeqData * LoadSeq (u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr)
+{
+    void * buffer;
+
+    buffer = Sound_MaybeGetRawFilePointer(fileId);
+    if (buffer == NULL) {
+        buffer = NNSi_SndArcLoadFile(
+            fileId,
+            SeqDisposeCallback,
+            bSetAddr ? (u32)Sound_GetActiveSdat() : 0,
+            fileId,
+            heap
+            );
+
+        if (bSetAddr && buffer != NULL) {
+            Sound_SetFileFatDynamicOffsetField(fileId, buffer);
+        }
+    }
+
+    return (NNSSndSeqData *)buffer;
+}
+
+static NNSSndSeqArc * LoadSeqArc (u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr)
+{
+    void * buffer;
+
+    buffer = Sound_MaybeGetRawFilePointer(fileId);
+    if (buffer == NULL) {
+        buffer = NNSi_SndArcLoadFile(
+            fileId,
+            SeqDisposeCallback,
+            bSetAddr ? (u32)Sound_GetActiveSdat() : 0,
+            fileId,
+            heap
+            );
+
+        if (bSetAddr && buffer != NULL) {
+            Sound_SetFileFatDynamicOffsetField(fileId, buffer);
+        }
+    }
+
+    return (NNSSndSeqArc *)buffer;
+}
+
+static SNDBankData * LoadBank (u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr)
+{
+    void * buffer;
+
+    buffer = Sound_MaybeGetRawFilePointer(fileId);
+    if (buffer == NULL) {
+        buffer = NNSi_SndArcLoadFile(
+            fileId,
+            BankDisposeCallback,
+            bSetAddr ? (u32)Sound_GetActiveSdat() : 0,
+            fileId,
+            heap
+            );
+
+        if (bSetAddr && buffer != NULL) {
+            Sound_SetFileFatDynamicOffsetField(fileId, buffer);
+        }
+    }
+
+    return (SNDBankData *)buffer;
+}
+
+static SNDWaveArc * LoadWaveArc (u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr)
+{
+    void * buffer;
+
+    buffer = Sound_MaybeGetRawFilePointer(fileId);
+    if (buffer == NULL) {
+        buffer = NNSi_SndArcLoadFile(
+            fileId,
+            WaveArcDisposeCallback,
+            bSetAddr ? (u32)Sound_GetActiveSdat() : 0,
+            fileId,
+            heap
+            );
+
+        if (bSetAddr && buffer != NULL) {
+            Sound_SetFileFatDynamicOffsetField(fileId, buffer);
+        }
+    }
+
+    return (SNDWaveArc *)buffer;
+}
+
+static SNDWaveArc * Sound_PrepareSwarDataImpl (u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr)
+{
+    static SNDWaveArc SDK_data_0217dec8;
+    SNDWaveArc * waveArc;
+    u32 len;
+    u32 tableSize;
+    s32 readSize;
+
+    waveArc = (SNDWaveArc *)Sound_MaybeGetRawFilePointer(fileId);
+    if (waveArc == NULL) {
+
+        readSize = Sound_ReadFile(fileId, &SDK_data_0217dec8, sizeof(SDK_data_0217dec8), 0);
+        if (readSize != sizeof(SDK_data_0217dec8)) {
+            return NULL;
+        }
+
+        tableSize = sizeof(u32) * SDK_data_0217dec8.waveCount;
+        len = sizeof(SDK_data_0217dec8) + tableSize * 2;
+
+        if (heap == NNS_SND_HEAP_INVALID_HANDLE) {
+            return NULL;
+        }
+
+        waveArc = (SNDWaveArc *)Sound_Context_Allocate(
+            heap,
+            len + RESERVED_AREASIZE,
+            SDK_data_0212df7c,
+            bSetAddr ? (u32)Sound_GetActiveSdat() : 0,
+            fileId
+            );
+        if (waveArc == NULL) {
+            return NULL;
+        }
+
+        readSize = Sound_ReadFile(
+            fileId,
+            waveArc,
+            (s32)(sizeof(SDK_data_0217dec8) + tableSize),
+            0
+            );
+        if (readSize != sizeof(SDK_data_0217dec8) + tableSize) {
+            return NULL;
+        }
+
+        Mem_CpuCopy8(waveArc->waveOffset, &waveArc->waveOffset[ waveArc->waveCount ], tableSize);
+        MI_CpuClear8(waveArc->waveOffset, tableSize);
+
+        DC_SomeClean(waveArc, len);
+
+        if (bSetAddr) {
+            Sound_SetFileFatDynamicOffsetField(fileId, waveArc);
+        }
+    }
+
+    return waveArc;
+}
+
+static void DisposeCallback (void * mem, NNSSndArc * arc, u32 fileId)
+{
+    NNSSndArc * oldArc;
+    OSIntrMode old;
+
+    if (arc == NULL) return;
+
+    old = OS_DisableInterrupts();
+    oldArc = NNS_SndArcSetCurrent(arc);
+
+    if (mem == Sound_MaybeGetRawFilePointer(fileId)) {
+        Sound_SetFileFatDynamicOffsetField(fileId, NULL);
+    }
+
+    (void)NNS_SndArcSetCurrent(oldArc);
+    (void)OS_RestoreInterrupts(old);
+}
+
+static void SeqDisposeCallback (void * mem, u32 size, u32 data1, u32 data2)
+{
+    NNSSndArc * arc = (NNSSndArc *)data1;
+    u32 fileId = data2;
+
+    DisposeCallback(mem, arc, fileId);
+    SND_InvalidateSeqData(mem, (u8 *)mem + size);
+}
+
+static void BankDisposeCallback (void * mem, u32 size, u32 data1, u32 data2)
+{
+    SNDBankData * bank = (SNDBankData *)mem;
+    NNSSndArc * arc = (NNSSndArc *)data1;
+    u32 fileId = data2;
+
+    DisposeCallback(mem, arc, fileId);
+    SND_InvalidateBankData(mem, (u8 *)mem + size);
+
+    SND_DestroyBank(bank);
+}
+
+static void WaveArcDisposeCallback (void * mem, u32 size, u32 data1, u32 data2)
+{
+    SNDWaveArc * waveArc = (SNDWaveArc *)mem;
+    NNSSndArc * arc = (NNSSndArc *)data1;
+    u32 fileId = data2;
+
+    DisposeCallback(mem, arc, fileId);
+    SND_InvalidateWaveData(mem, (u8 *)mem + size);
+
+    SND_DestroyWaveArc(waveArc);
+}
+
+static void SDK_data_0212df7c (void * mem, u32 size, u32 data1, u32 data2)
+{
+    SNDWaveArc * waveArc = (SNDWaveArc *)mem;
+    NNSSndArc * arc = (NNSSndArc *)data1;
+    u32 fileId = data2;
+
+    (void)size;
+
+    DisposeCallback(mem, arc, fileId);
+    SND_DestroyWaveArc(waveArc);
+}
+
+static void SingleWaveDisposeCallback (void * mem, u32 size, u32 data1, u32 data2)
+{
+    SNDWaveArc * waveArc = (SNDWaveArc *)data1;
+    u32 waveNo = data2;
+
+    if (mem == SND_GetWaveDataAddress(waveArc, (int)waveNo)) {
+        SND_SetWaveDataAddress(waveArc, (int)waveNo, NULL);
+    }
+
+    SND_InvalidateWaveData(mem, (u8 *)mem + size);
+}
+
+static BOOL LoadSingleWave (SNDWaveArc * waveArc, int waveNo, u32 fileId, NNSSndHeapHandle heap)
+{
+    SNDWaveData * buffer;
+    u32 len;
+    u32 begin;
+    u32 end;
+    u32 waveCount;
+
+    NNS_MINMAX_ASSERT(waveNo, 0, SND_GetWaveDataCount(waveArc) - 1);
+
+    if (SND_GetWaveDataAddress(waveArc, waveNo) != NULL) {
+        return TRUE;
+    }
+
+    waveCount = SND_GetWaveDataCount(waveArc);
+
+    begin = waveArc->waveOffset[ waveArc->waveCount + waveNo ];
+    if (waveNo < waveCount - 1) {
+        end = waveArc->waveOffset[ waveArc->waveCount + waveNo + 1 ];
+    } else {
+        end = waveArc->fileHeader.fileSize;
+    }
+
+    len = end - begin;
+
+    if (heap == NNS_SND_HEAP_INVALID_HANDLE) {
+        return FALSE;
+    }
+
+    buffer = (SNDWaveData *)Sound_Context_Allocate(
+        heap,
+        len + RESERVED_AREASIZE,
+        SingleWaveDisposeCallback,
+        (u32)waveArc,
+        (u32)waveNo
+        );
+    if (buffer == NULL) return FALSE;
+
+    if (Sound_ReadFile(fileId, buffer, (s32)len, (s32)begin) != len) {
+        return FALSE;
+    }
+
+    DC_SomeClean(buffer, len);
+    SND_SetWaveDataAddress(waveArc, waveNo, buffer);
+
+    return TRUE;
+}
+
+BOOL LoadSingleWaves (SNDWaveArc * waveArc, const SNDBankData * bank, int waveArcNo, u32 fileId, NNSSndHeapHandle heap)
+{
+    SNDInstPos pos = SND_GetFirstInstDataPos(bank);
+    SNDInstData inst;
+
+    NNS_NULL_ASSERT(waveArc);
+
+    if (bank == NULL) {
+        NNS_WARNING(bank != NULL, "Cannot load single wave data because the bank data is not on Memory.");
+        return FALSE;
+    }
+
+    while (SND_GetNextInstData(bank, &inst, &pos)) {
+        if (inst.type == SND_INST_PCM && waveArcNo == inst.param.wave[1]) {
+            if (!LoadSingleWave(waveArc, inst.param.wave[0], fileId, heap)) {
+                return FALSE;
+            }
+        }
+    }
+
+    return TRUE;
+}

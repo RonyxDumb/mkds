@@ -8,6 +8,8 @@ import csv, hashlib, io, json, os, re, subprocess
 from capstone import Cs, CS_ARCH_ARM, CS_MODE_ARM, CS_MODE_THUMB
 from elftools.elf.elffile import ELFFile
 from proof_span import validate_span
+from matching_compiler import compiler_record
+from sdk_source_variants import source_variant
 
 root = Path(__file__).resolve().parents[1]
 donor = Path(os.environ['MKDS_SDK_DONOR']).resolve()
@@ -50,7 +52,13 @@ def function_source(text, name):
     # Preserve source positions while ignoring braces in comments and strings.
     clean = re.sub(r'/\*.*?\*/|//[^\n]*|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'',
                    lambda m: ''.join('\n' if c == '\n' else ' ' for c in m.group()), text, flags=re.S)
-    match = re.search(r'\b' + re.escape(name) + r'\s*\([^;{}]*\)\s*\{', clean)
+    match = None
+    for candidate in re.finditer(r'\b' + re.escape(name) + r'\s*\([^;{}]*\)\s*\{', clean):
+        prefix = clean[clean.rfind('\n', 0, candidate.start()) + 1:candidate.start()]
+        # Calls inside if/while blocks are not function definitions.
+        if re.fullmatch(r'[\w\s*]*', prefix) and not re.search(r'\b(?:if|while|for|switch|return)\b', prefix):
+            match = candidate
+            break
     if not match: return None
     start = clean.rfind('\n', 0, match.start()) + 1
     opening = clean.index('{', match.start()); end = opening + 1; depth = 1
@@ -74,7 +82,7 @@ for object_index, obj in enumerate(sorted((root / config.get('object_directory',
     if object_manifest and obj.name not in object_manifest: continue
     paths = [donor / object_manifest[obj.name]['source']] if obj.name in object_manifest else [p for folder in ['arm9/lib/NitroSDK/src', 'arm9/lib/libnns/src', 'arm9/lib/syscall'] for p in (donor / folder).rglob(obj.stem + '.c')]
     if len(paths) != 1: continue
-    donor_file = paths[0]; text = donor_file.read_text()
+    donor_file = paths[0]; text = source_variant(donor_file.read_text(), config.get('transformations', []))
     for include in config.get('drop_includes', []):
         text = re.sub(r'^\s*#include\s*"' + re.escape(include) + r'"[^\n]*\n', '', text, flags=re.M)
     current_flags = object_manifest.get(obj.name, {}).get('flags', flags)
@@ -106,8 +114,16 @@ for object_index, obj in enumerate(sorted((root / config.get('object_directory',
                     if len(decoded) != 1 or decoded[0].mnemonic not in ['b','bl','blx']: valid = False; break
                     destination = int(decoded[0].op_str.lstrip('#'), 0)
                     entry = inventory.get((module, destination))
-                    if entry is None: valid = False; break
-                    replacement = entry[0]
+                    if entry is None:
+                        if not config.get('allow_observed_call_targets'): valid = False; break
+                        is_thumb = (mode == 'arm') if decoded[0].mnemonic == 'blx' else (mode == 'thumb')
+                        if destination % (2 if is_thumb else 4): valid = False; break
+                        if not any(start <= destination < start + len(data) for spans in namespace['sections'].values() for start, data in spans):
+                            valid = False; break
+                        replacement = f'SDK_call_{destination:08x}'
+                        data_symbols.append(dict(module=module, name=replacement, address=f'0x{destination:08x}', thumb='1' if is_thumb else '0'))
+                    else:
+                        replacement = entry[0]
                 elif typ == 2:
                     destination = (int.from_bytes(target[off:off+4], 'little') - addend) & 0xffffffff
                     replacement = f'SDK_data_{destination:08x}'
@@ -118,7 +134,24 @@ for object_index, obj in enumerate(sorted((root / config.get('object_directory',
             if not valid: continue
             bindings[symbol.name] = name
             if any(new in bindings and new!=old and bindings[new]!=new for old,new in bindings.items()):continue
-            preamble = '\n'.join(f'#define {old} {new}' for old,new in bindings.items() if old != new) + '\n'
+            # MW names function-local statics as name$NNNN. Rename C tokens
+            # directly so aliases cannot corrupt unrelated SDK header fields.
+            source_bindings = {}
+            for old, new in bindings.items():
+                identifier = re.sub(r'\$[0-9]+$', '', old)
+                if identifier in source_bindings and source_bindings[identifier] != new:
+                    valid = False; break
+                source_bindings[identifier] = new
+            if not valid: continue
+            def renamed(value):
+                token = re.compile(r'/\*.*?\*/|//[^\n]*|\"(?:\\.|[^\"\\])*\"|\'(?:\\.|[^\'\\])*\'|[A-Za-z_]\w*', re.S)
+                def replace(match):
+                    word = match.group()
+                    before = value[:match.start()].rstrip()
+                    if before.endswith('.') or before.endswith('->'): return word
+                    return source_bindings.get(word, word)
+                return token.sub(replace, value)
+            preamble = ''
             includes = '\n'.join(re.findall(r'^\s*#include[^\n]+', text, flags=re.M))
             # File-local data needs an external typed declaration at the observed original address.
             declarations = []
@@ -135,18 +168,29 @@ for object_index, obj in enumerate(sorted((root / config.get('object_directory',
             if config.get('complete_translation_unit'):
                 clean = re.sub(r'/\*.*?\*/|//[^\n]*|"(?:\\.|[^"\\])*"', '', text, flags=re.S)
                 if re.search(r'\b(?:asm|__asm|__asm__)\b', clean): continue
-                source = '/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */\n' + preamble + text
+                source = '/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */\n' + renamed(text)
+                # Public SDK identifiers are declared by included headers.
+                # Scope aliases to the includes, excluding local names and fields.
+                public_aliases = {old: new for old, new in source_bindings.items()
+                                  if old != new and re.match(r'(?:NNSi?_|[A-Z]{2,}_)', old)}
+                if public_aliases:
+                    source = ''.join('#define ' + old + ' ' + new + '\n'
+                                     for old, new in public_aliases.items()) + source
+                    last_include = max((m.end() for m in re.finditer(r'^\s*#include[^\n]*\n', source, re.M)), default=0)
+                    source = source[:last_include] + ''.join('#undef ' + old + '\n' for old in public_aliases) + source[last_include:]
                 for old, replacement in config.get('include_rewrites', {}).items():
                     source = re.sub(r'(#\s*include\s*")' + re.escape(old) + r'(")',
                                     lambda m: m.group(1) + replacement + m.group(2), source)
+            if not config.get('complete_translation_unit'): source = renamed(source)
+            source = '\n'.join(line.rstrip() for line in source.splitlines()) + '\n'
             tag = f'{module}_{address:08x}'; src = out / (tag + '.c'); fresh = src.with_suffix('.o'); src.write_text(source); tested += 1
             result = subprocess.run([os.environ['WIBO'], os.environ['MWCCARM'], *current_flags, '-c', str(src), '-o', str(fresh)], cwd=root, capture_output=True, timeout=60)
             if result.returncode:
-                errors.append(dict(tag=tag, error=result.stderr.decode(errors='replace')[:1200])); continue
+                errors.append(dict(tag=tag, error=(result.stdout+result.stderr).decode(errors='replace')[:2400])); continue
             previous = {}
             for item in data_symbols:
                 previous[item['name']] = namespace['local'][module].get(item['name'])
-                namespace['local'][module][item['name']] = (int(item['address'],16), False)
+                namespace['local'][module][item['name']] = (int(item['address'],16), item['thumb']=='1')
             try: actual, applied = resolve_link(fresh.read_bytes(), module, name, address)
             except (ValueError, KeyError, StopIteration, TypeError, IndexError): actual = None
             for key, value in previous.items():
@@ -168,6 +212,9 @@ for object_index, obj in enumerate(sorted((root / config.get('object_directory',
                                source_sha256=row['source_sha256'], bindings=bindings, donor_repository=donor_repository, donor_commit=donor_commit,
                                donor_source_sha256=hashlib.sha256(donor_file.read_bytes()).hexdigest())
             proofs[tag]['complete_translation_unit'] = bool(config.get('complete_translation_unit'))
+            variant = compiler_record(root)
+            if variant is not None: proofs[tag]['compiler'] = variant
+            if config.get('transformations'): proofs[tag]['transformations'] = config['transformations']
             if config.get('drop_includes'): proofs[tag]['dropped_includes'] = config['drop_includes']
             proof_path.write_text(json.dumps(proofs, indent=2) + '\n')
             if applied:

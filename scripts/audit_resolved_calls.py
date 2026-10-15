@@ -2,6 +2,7 @@
 from pathlib import Path
 import re,os,csv,json,hashlib,io,subprocess,concurrent.futures
 from elftools.elf.elffile import ELFFile
+from matching_compiler import compiler_for
 from capstone import Cs,CS_ARCH_ARM,CS_MODE_THUMB,CS_MODE_ARM
 root=Path(__file__).resolve().parents[1];base=Path(os.environ['MKDS_BASELINE']);manifest=json.loads((base/'manifest.json').read_text())
 sections={m['name']:[(s['base'],(base/'binaries'/s['file']).read_bytes()) for s in m['sections']] for m in manifest['modules']}
@@ -27,6 +28,8 @@ if extra_symbols.exists():
 def original(mod,a,n):
  return next(b[a-start:a-start+n] for start,b in sections[mod] if start<=a and a+n<=start+len(b))
 def resolve(mod,name):
+ # MW appends a deterministic scope suffix to function-local static data.
+ if re.fullmatch(r'SDK_data_[0-9a-f]{8}\$[0-9]+',name):name=name.rsplit('$',1)[0]
  if name in local[mod]:return local[mod][name]
  choices=allsyms.get(name,set())
  if len(choices)!=1:raise ValueError('unresolved or ambiguous symbol '+name)
@@ -78,7 +81,7 @@ def verify(r):
  args=[os.environ['WIBO'],os.environ['MWCCARM'],r['optimization'],'-enum','int','-lang','c99','-char','signed','-interworking','-proc',r['processor'],'-gccext,on','-msgstyle','gcc','-c',str(dest),'-o',str(proof)]
  if r['mode']=='thumb':args.insert(-4,'-thumb')
  key=f"{r['module']}_{addr:08x}"
- if key in overrides:args=[os.environ['WIBO'],os.environ['MWCCARM'],*overrides[key]['flags'],'-c',str(dest),'-o',str(proof)]
+ if key in overrides:args=[os.environ['WIBO'],compiler_for(root,overrides[key]),*overrides[key]['flags'],'-c',str(dest),'-o',str(proof)]
  p=subprocess.run(args,cwd=root,capture_output=True,timeout=30);assert p.returncode==0,p.stderr
  code,relocs=linked(proof.read_bytes(),r['module'],r['name'],addr)
  assert code==original(r['module'],addr,n)

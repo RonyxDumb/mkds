@@ -27,6 +27,8 @@ known={(r['module'],int(r['address'],16)) for r in csv.DictReader((root/'verific
 def original(mod,a,n):
  return next(b[a-start:a-start+n] for start,b in sections[mod] if start<=a and a+n<=start+len(b))
 def resolve(mod,name):
+ # MW appends a deterministic scope suffix to function-local static data.
+ if re.fullmatch(r'SDK_data_[0-9a-f]{8}\$[0-9]+',name):name=name.rsplit('$',1)[0]
  if name in local[mod]:return local[mod][name]
  choices=allsyms.get(name,set())
  if len(choices)!=1:raise ValueError('unresolved or ambiguous symbol '+name)

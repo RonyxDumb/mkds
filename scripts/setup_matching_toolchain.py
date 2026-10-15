@@ -21,7 +21,7 @@ archive = download('https://github.com/decompme/compilers/releases/download/comp
                    out / 'mwccarm.zip', 'dc386e37b2176e960954a733de928337d9b7e7620b9e94228008c31774339ace')
 with zipfile.ZipFile(archive) as package:
     for name in package.namelist():
-        if name.startswith('mwccarm/1.2/sp2p3/') and not name.endswith('/'):
+        if any(name.startswith('mwccarm/1.2/' + version + '/') for version in ['base', 'sp2', 'sp2p3', 'sp3', 'sp4']) and not name.endswith('/'):
             package.extract(name, out)
 compiler = out / 'mwccarm/1.2/sp2p3/mwccarm.exe'
 assert hashlib.sha256(compiler.read_bytes()).hexdigest() == 'a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81'
