@@ -231,3 +231,12 @@ Ricerca cloni delle venti funzioni: zero copie ulteriori non verificate.
 Prossimi candidati Dict_SomeFn_0 (02013754) e NNS_G3dGetResDataByName (020138b4);
 prime ricostruzioni non matching, escluse. Nessuna nuova analisi REA/runtime.
 Lavorare su main; un solo writer. ROM completa e ABI globale non verificati.
+
+## Checkpoint 32 — 16 ottobre 2026
+
+3.848 funzioni, 293.278 byte (15,325374%); +11 funzioni, +752 byte.
+Helper Thumb di comandi/liste e dispatcher. Vedere reports/CHECKPOINT-32.md.
+Ricerca riproducibile in scripts/search_thumb_command_family.py.
+Target 18% ancora aperto: 51.184 byte mancanti. Lavorare su main.
+Audit globale fresco: 1.454 senza relocazioni e 2.394 con, tutti PASS;
+7.477 relocazioni. Nessuna nuova prova runtime o semantica.

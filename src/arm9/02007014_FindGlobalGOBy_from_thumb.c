@@ -1,20 +1,3 @@
-/* Decompiled C draft; module arm9; ROM address 02007014. No matching claim. */
-#include "types.h"
-#include "deps/02007014_FindGlobalGOBy_from_thumb.h"
-
-int * FindGlobalGOBy_from_thumb(int param_1)
-
-{
-  int *piVar1;
-  
-  piVar1 = (int *)GetGlobalGO_from_thumb();
-  while( true ) {
-    if (piVar1 == (int *)0x0) {
-      return (int *)0x0;
-    }
-    if (*piVar1 == param_1) break;
-    piVar1 = (int *)piVar1[10];
-  }
-  return piVar1;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+typedef struct Node{int id; char pad[36];struct Node *next;} Node;extern Node *GetGlobalGO_from_thumb(void);
+Node *FindGlobalGOBy_from_thumb(int id){Node *p=GetGlobalGO_from_thumb();while(p){if(p->id==id)return p;p=p->next;}return 0;}

@@ -1,18 +1,3 @@
-/* Decompiled C draft; module arm9; ROM address 02006f14. No matching claim. */
-#include "types.h"
-#include "deps/02006f14_func_02006f14.h"
-
-undefined4 func_02006f14(int param_1,int param_2)
-
-{
-  int *piVar1;
-  
-  piVar1 = (int *)func_020070b8();
-  if ((*piVar1 != 4) && (*piVar1 != 6)) {
-    func_020070c0(param_1 + -0xe);
-    func_020070cc(param_2 + -0xe);
-    return 1;
-  }
-  return 0;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+extern int *func_020070b8(void);extern void func_020070c0(int);extern void func_020070cc(int);
+int func_02006f14(int x,int y){int *p=func_020070b8();if(*p==4 || *p==6)return 0;func_020070c0(x-14);func_020070cc(y-14);return 1;}

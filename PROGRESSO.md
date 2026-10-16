@@ -73,3 +73,8 @@ passati sui nuovi helper missioni/gara. Nessun matching della ROM intera dichiar
 Checkpoint 28: +22 funzioni e +1.308 byte; totale 3.811 funzioni,
 289.370 byte inventariati, 15,121159%. Accessori risorse 3D e menu/emblema;
 42.235 nuovi casi semantici passati, senza equivalenza dell'intera ROM dichiarata.
+
+Checkpoint 32: +11 funzioni Thumb e +752 byte; totale 3.848 funzioni,
+293.278 byte inventariati (15,325374%). Comandi, liste e dispatcher.
+Tutte le nuove prove ricompilate e confrontate da resolver indipendente;
+33 relocazioni. Target 18% ancora aperto, 51.184 byte mancanti.

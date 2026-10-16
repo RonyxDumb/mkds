@@ -1,0 +1,65 @@
+[
+  {
+    "offset": 6,
+    "type": 10,
+    "symbol": "Os_DisableIrq",
+    "target": 33619104,
+    "thumb": false,
+    "addend": -4,
+    "value": 4015058952
+  },
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "GetGlobalGO_from_thumb",
+    "target": 33583168,
+    "thumb": true,
+    "addend": -4,
+    "value": 4179423232
+  },
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -4,
+    "value": 4015058952
+  },
+  {
+    "offset": 46,
+    "type": 10,
+    "symbol": "SetGlobalGO_from_thumb",
+    "target": 33583156,
+    "thumb": true,
+    "addend": -4,
+    "value": 4177915904
+  },
+  {
+    "offset": 52,
+    "type": 10,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -4,
+    "value": 4014141448
+  },
+  {
+    "offset": 84,
+    "type": 10,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -4,
+    "value": 4013092872
+  },
+  {
+    "offset": 108,
+    "type": 10,
+    "symbol": "Os_RestoreIrq",
+    "target": 33619124,
+    "thumb": false,
+    "addend": -4,
+    "value": 4012306440
+  }
+]

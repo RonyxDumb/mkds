@@ -1,0 +1,57 @@
+{
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "func_02006ddc",
+      "mode": "thumb",
+      "address": "0x02006ddc",
+      "size": "26",
+      "sha256": "fefd302beb74e495df6eb154dfb1c13fa4aa5637eaf6e0621dca9331a9f7a379",
+      "source_sha256": "98ce9e733393cde265bee20761d1d5ecebb47715e5d9f130403c6c4ad4511549",
+      "relocations": "1",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_02006db0",
+      "mode": "thumb",
+      "address": "0x02006db0",
+      "size": "44",
+      "sha256": "7117f89de2f0806f57b0394fc1737c1b1ea8a7bd55e7b3a0d2650859ac2259a0",
+      "source_sha256": "27a392db78499945660a981799f880eae506d18aad497e18fcb906f4563c711a",
+      "relocations": "2",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_02006d78",
+      "mode": "thumb",
+      "address": "0x02006d78",
+      "size": "54",
+      "sha256": "4c831f61a133dea65e3da5f46fab80e2c38e9105b5aa2a5881da362b3f41fc8f",
+      "source_sha256": "0ccd84b0ac5f0faed705e870af78a59795b42eacf1bd53eb5b9fd1325cf2a724",
+      "relocations": "3",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 3,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 3,
+      "passed": 3
+    },
+    "unrelocated": {
+      "tested": 0,
+      "passed": 0
+    }
+  }
+}

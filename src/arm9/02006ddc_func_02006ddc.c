@@ -1,18 +1,3 @@
-/* Decompiled C draft; module arm9; ROM address 02006ddc. No matching claim. */
-#include "types.h"
-#include "deps/02006ddc_func_02006ddc.h"
-
-void func_02006ddc(undefined2 param_1,undefined4 param_2)
-
-{
-  undefined4 local_a0 [2];
-  undefined2 local_98;
-  undefined4 local_90;
-  
-  local_a0[0] = 2;
-  local_98 = param_1;
-  local_90 = param_2;
-  func_0200704c((undefined4)(uintptr_t)(local_a0));
-  return;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+extern void func_0200704c(void *);
+void func_02006ddc(unsigned short id,unsigned int arg){unsigned char cmd[156];*(unsigned int *)cmd=2;*(unsigned short *)(cmd+8)=id;*(unsigned int *)(cmd+16)=arg;func_0200704c(cmd);}

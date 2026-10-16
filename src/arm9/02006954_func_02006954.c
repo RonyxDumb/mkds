@@ -1,16 +1,3 @@
-/* Decompiled C draft; module arm9; ROM address 02006954. No matching claim. */
-#include "types.h"
-#include "deps/02006954_func_02006954.h"
-
-undefined2 func_02006954(int param_1,int param_2)
-
-{
-  undefined2 uVar1;
-  
-  uVar1 = 0;
-  if ((0 < param_2) && (param_1 != 0)) {
-    uVar1 = func_02006c2c();
-  }
-  return uVar1;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+extern unsigned int func_02006c2c(void *,int);
+unsigned short func_02006954(void *p,int n){unsigned short v=0;if(n>0 && p)v=(unsigned short)func_02006c2c(p,n);return v;}
