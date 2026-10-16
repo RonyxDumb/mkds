@@ -1,19 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 020271e8. No matching claim. */
-#include "types.h"
-#include "deps/020271e8_func_020271e8.h"
-
-void func_020271e8(void)
-
-{
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar1 = iRam02027218;
-  iVar2 = *piRam02027214;
-  iVar3 = *(int *)(iVar2 + 0x60) * 8;
-  func_02025c6c(0x18,(int)*(short *)(iRam02027218 + iVar3),*(undefined4 *)(iVar2 + 0x28));
-  func_02025c6c(0x19,(int)*(short *)(iVar1 + iVar3),*(undefined4 *)(iVar2 + 0x28));
-  return;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+typedef struct CharacterSelectState {
+ unsigned char reserved00[0x1c]; struct { unsigned char pad[12]; void *cellbank; void *a,*b; unsigned char *icons; unsigned char tail[40]; } render;
+ int cursor, previous_cursor, timer, phase, alpha;
+ unsigned short render_value;
+ unsigned char reserved76[6];
+ int character_count, mode;
+ short neighbors[4];
+ unsigned char reserved8c[4];
+ struct {int character;short cell,unused;} entries[12];
+ int current_character,current_value;
+} CharacterSelectState;
+#define state (*(CharacterSelectState **)0x2174e14u)
+extern short data_02153554[];
+extern void func_02025c6c(int,int,void *);
+void func_020271e8(void){CharacterSelectState *s=state;void *gfx=(unsigned char *)s+0x1c;int off=s->cursor*4;func_02025c6c(24,data_02153554[off],*(void **)((unsigned char *)gfx+0xc));func_02025c6c(25,data_02153554[off],*(void **)((unsigned char *)gfx+0xc));}

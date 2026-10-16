@@ -6,7 +6,7 @@
       "name": "VerifySelectCharacterFiles_from_thumb",
       "role": "Controllo risorse grafiche",
       "inventory_bytes": 200,
-      "local_byte_exact": false,
+      "local_byte_exact": true,
       "subgroup": "controller",
       "source": "src/arm9/02025f90_VerifySelectCharacterFiles_from_thumb.c"
     },
@@ -87,7 +87,7 @@
       "name": "func_0202719c",
       "role": "Evidenziazione icona",
       "inventory_bytes": 76,
-      "local_byte_exact": false,
+      "local_byte_exact": true,
       "subgroup": "controller",
       "source": "src/arm9/0202719c_func_0202719c.c"
     },
@@ -96,7 +96,7 @@
       "name": "func_020271e8",
       "role": "Aggiornamento celle selezionate",
       "inventory_bytes": 52,
-      "local_byte_exact": false,
+      "local_byte_exact": true,
       "subgroup": "controller",
       "source": "src/arm9/020271e8_func_020271e8.c"
     },
@@ -209,10 +209,10 @@
       "source": "src/arm9/02027be0_func_02027be0.c"
     }
   ],
-  "exact_functions": 12,
+  "exact_functions": 15,
   "total_functions": 23,
   "inventory_bytes": 7084,
-  "exact_inventory_bytes": 2500,
+  "exact_inventory_bytes": 2828,
   "navigation_complete_local_matching": true,
   "full_menu_complete": false,
   "entry_evidence": [

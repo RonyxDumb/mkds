@@ -5,6 +5,8 @@ are invented, and calls requiring wider or aggregate ABI reasoning are skipped.
 """
 import json
 import re
+import csv
+import hashlib
 from functools import lru_cache
 
 
@@ -15,6 +17,19 @@ def _proof_index(path, modified, size):
         module, address = tag.rsplit('_', 1)
         name = proof['bindings'][proof['donor_function']]
         index[module, name] = (address, proof)
+    return index
+
+@lru_cache(maxsize=8)
+def _game_proof_index(root, signatures):
+    from pathlib import Path
+    root=Path(root)
+    typed=json.loads(Path(signatures[0][0]).read_text());index={}
+    for registry,modified,size in signatures[1:]:
+        with open(registry) as stream:
+            for row in csv.DictReader(stream,delimiter='\t'):
+                address=row['address'][2:];tag=row['module']+'_'+address
+                if tag in typed:
+                    index[row['module'],row['name']]=(address,{'game_source_sha256':row['source_sha256']})
     return index
 
 def split_arguments(text):
@@ -39,6 +54,12 @@ def recover_sdk_calls(root, module, declarations, body):
     changed = 0
     stat = ledger.stat()
     index = _proof_index(ledger, stat.st_mtime_ns, stat.st_size)
+    index = dict(index)
+    batch = root / 'verification/batch-source-proofs.json'
+    registries = [root/'verification'/name for name in ['local-byte-exact.tsv','local-linked-byte-exact.tsv']]
+    if batch.exists() and all(p.exists() for p in registries):
+        paths=[batch,*registries]
+        index.update(_game_proof_index(str(root),tuple((str(p),p.stat().st_mtime_ns,p.stat().st_size) for p in paths)))
     calls = set(re.findall(r'\b([A-Za-z_]\w*)\s*\(', body))
     for original in sorted(calls):
         entry = index.get((module, original))
@@ -46,6 +67,9 @@ def recover_sdk_calls(root, module, declarations, body):
         address, proof = entry
         source = root / 'src' / module / (address + '_' + original + '.c')
         text = source.read_text()
+        expected=proof.get('game_source_sha256')
+        if expected is not None and hashlib.sha256(source.read_bytes()).hexdigest()!=expected:
+            raise ValueError('Verified caller-signature source changed')
         signature = re.search(r'(?m)^([^\n;{}#]+?)\b' + re.escape(original) + r'\s*\(([^;{}]*)\)\s*\{', text)
         if not signature: continue
         result = abi_type(signature.group(1), True)

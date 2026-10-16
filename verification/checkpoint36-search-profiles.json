@@ -1,0 +1,28 @@
+{
+  "profiles": [
+    {
+      "profile": "menu36",
+      "attempts": 581,
+      "exact_candidates": 1
+    },
+    {
+      "profile": "dependencies36",
+      "attempts": 1013,
+      "exact_candidates": 0
+    },
+    {
+      "profile": "render36",
+      "attempts": 68,
+      "exact_candidates": 3
+    },
+    {
+      "profile": "controller36",
+      "attempts": 10,
+      "exact_candidates": 0
+    }
+  ],
+  "new_unique_matches": 4,
+  "new_inventory_bytes": 362,
+  "target_percent": 16,
+  "target_reached": false
+}

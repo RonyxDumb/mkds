@@ -1,0 +1,67 @@
+{
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "func_0202719c",
+      "mode": "thumb",
+      "address": "0x0202719c",
+      "size": "76",
+      "sha256": "90ec8cfe4f3c8781575ed2885d48e06befab4d5244dca4104641830c7a6acdba",
+      "source_sha256": "b159e452646410c9baf0f0762ae83bdada8844f6631e68e2408271e110e66dfe",
+      "relocations": "1",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_020271e8",
+      "mode": "thumb",
+      "address": "0x020271e8",
+      "size": "52",
+      "sha256": "6756f35948a07aaa08efd230d2df108cc809b823035e352051b0242107ed13bf",
+      "source_sha256": "b0e438e5ab65d853a3db8673a698c7a6534b481e6c11e26b9e735a509c9a6f57",
+      "relocations": "3",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_02025f54",
+      "mode": "thumb",
+      "address": "0x02025f54",
+      "size": "42",
+      "sha256": "71393f632256020d291583bbec1e05bbafc868a43cc232b100c28292a594f099",
+      "source_sha256": "714e65a58ba1f9df7969ea2878fbd7112fb36a2d78eb04dadd78e4bd79cacf5c",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "mw_batch_draft"
+    }
+  ],
+  "total_functions": 3,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 2,
+      "passed": 2
+    },
+    "unrelocated": {
+      "tested": 1,
+      "passed": 1
+    }
+  },
+  "span_checks": {
+    "arm9_02025f54": {
+      "validator": "proof_span.validate_span",
+      "inventory_size": 34,
+      "span_size": 42,
+      "sha256": "71393f632256020d291583bbec1e05bbafc868a43cc232b100c28292a594f099",
+      "validated": true
+    }
+  }
+}

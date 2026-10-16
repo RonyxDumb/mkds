@@ -498,5 +498,89 @@
       "path": "tools/mwccarm/1.2/base/mwccarm.exe",
       "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
     }
+  },
+  "arm9_0202719c": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "b159e452646410c9baf0f0762ae83bdada8844f6631e68e2408271e110e66dfe",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
+  },
+  "arm9_020271e8": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "b0e438e5ab65d853a3db8673a698c7a6534b481e6c11e26b9e735a509c9a6f57",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
+  },
+  "arm9_02025f54": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "714e65a58ba1f9df7969ea2878fbd7112fb36a2d78eb04dadd78e4bd79cacf5c",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
+  },
+  "arm9_02025f90": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "055b0b6cd2edda759e6f9c2682bb0815e0c538d8ffbf944b2f9d204fdef0b23b",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
   }
 }

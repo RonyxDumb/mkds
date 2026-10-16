@@ -1,6 +1,6 @@
 # Famiglia: selezione personaggi
 
-Blocco controller fissato: **12/23 funzioni** con matching locale, **2500/7084 byte inventariati**.
+Blocco controller fissato: **15/23 funzioni** con matching locale, **2828/7084 byte inventariati**.
 
 Il sottogruppo di navigazione è completo: **6/6**, cinque griglie e dispatcher. Il menu intero non è completo. Le dipendenze UI/SDK condivise restano esterne al perimetro; i nomi descrittivi sono inferenze dai riferimenti statici.
 
@@ -8,7 +8,7 @@ Le griglie sono selezionate dal numero di personaggi visibili (8–12). Le quatt
 
 | Indirizzo | Ruolo | Byte inventariati | Matching locale |
 |---|---|---:|---|
-| 0x02025f90 | Controllo risorse grafiche | 200 | Aperto |
+| 0x02025f90 | Controllo risorse grafiche | 200 | Verificato |
 | 0x02026058 | Configurazione blending/display | 140 | Aperto |
 | 0x020260e4 | Uscita e distruzione heap | 60 | Verificato |
 | 0x02026120 | Controller principale: input e fasi | 1914 | Aperto |
@@ -17,8 +17,8 @@ Le griglie sono selezionate dal numero di personaggi visibili (8–12). Le quatt
 | 0x020270d0 | Controllo blocco interazione | 44 | Verificato |
 | 0x020270fc | Dispatcher griglia e cambio selezione | 124 | Verificato |
 | 0x02027188 | Dispatcher aggiornamento icone | 18 | Verificato |
-| 0x0202719c | Evidenziazione icona | 76 | Aperto |
-| 0x020271e8 | Aggiornamento celle selezionate | 52 | Aperto |
+| 0x0202719c | Evidenziazione icona | 76 | Verificato |
+| 0x020271e8 | Aggiornamento celle selezionate | 52 | Verificato |
 | 0x0202721c | Aggiornamento grafica associata | 112 | Aperto |
 | 0x0202728c | Aggiornamento parametro grafico | 52 | Verificato |
 | 0x020272c0 | Aggiornamento coordinate grafiche | 44 | Verificato |

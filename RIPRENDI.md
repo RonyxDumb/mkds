@@ -282,3 +282,22 @@ Proseguire sugli helper evidenziazione/visibilità, poi 02026910 (init) e
 02026120 (input/fasi). Il campo +0x64 è cursore precedente, non tasti.
 Non ripetere invariati i 266 tentativi di search_character_select_family.py.
 Per il 18% mancano 45.498 byte. Main soltanto, un writer dei registri.
+
+## Checkpoint 36 — obiettivo 16% non raggiunto
+
+3.894 funzioni, 299.326 byte inventariati (15,641415%). +4 funzioni e +362 byte inventariati (370 nello span):
+0202719c (76), 020271e8 (52), 02025f54 (42), 02025f90 (200).
+Controller personaggi 15/23 matching; navigazione resta 6/6. Target attuale 16%,
+mancano 6.863 byte inventariati. Non dichiarare raggiunto il 16%.
+Evidenziazione e celle richiedono il blocco grafico annidato a state+0x1c.
+search_character_render_family.py riproduce i candidati. Prove nei due audit
+checkpoint36-menu-audit.json e checkpoint36-resources-audit.json: quattro
+ricompilazioni indipendenti, 24 relocazioni. Nessun audit globale nuovo.
+sdk_signatures.py ora usa anche i prototipi delle prove batch di gioco, con
+controllo SHA sorgente e indice cache invalidato dai registri. Non inventa
+argomenti mancanti. Sette test passati; navigazione 2.240 casi riconfermata.
+Ricerche chiuse: menu base (581 tentativi), dipendenze a tre livelli (1.013),
+render tipizzato (68, comprende duplicati), controller con call-site corretti
+(10, zero match). Non ripetere invariate. I due controller grandi init/input
+restano non matching e fuori dal numeratore. Priorità stessa famiglia.
+Main remoto al checkpoint35 fino alla pubblicazione di questo checkpoint.

@@ -1,0 +1,31 @@
+{
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "VerifySelectCharacterFiles_from_thumb",
+      "mode": "thumb",
+      "address": "0x02025f90",
+      "size": "200",
+      "sha256": "1d5fbb5dfa504fe683942c37be9d436a1b86566054e29a765e041df14ba43b5a",
+      "source_sha256": "055b0b6cd2edda759e6f9c2682bb0815e0c538d8ffbf944b2f9d204fdef0b23b",
+      "relocations": "20",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 1,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 1,
+      "passed": 1
+    },
+    "unrelocated": {
+      "tested": 0,
+      "passed": 0
+    }
+  }
+}
