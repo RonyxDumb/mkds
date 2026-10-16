@@ -6,7 +6,7 @@ Work-in-progress C decompilation of **Mario Kart DS (Europe)** for Nintendo DS.
 
 ## Progress
 ![Function inventory treemap](docs/progress-treemap.svg)
-Checkpoint 33: **3,871 locally verified functions, 295,894 inventory bytes (15.462074%)**. This includes 1,462 unrelocated matches and 2,409 matches after resolving all ARM/Thumb relocations. Full-ROM matching remains unverified.
+Checkpoint 34: **3,881 locally verified functions, 296,578 inventory bytes (15.497817%)**. This includes 1,462 unrelocated matches and 2,419 matches after resolving all ARM/Thumb relocations. Full-ROM matching remains unverified.
 
 The treemap is weighted by **identified function bytes**, with verified local matches highlighted. Compilation success is **not** evidence of correct behavior or matching assembly. These are local checkpoint measurements, not whole-game completion percentages. See [detailed measurements](reports/MISURA-DECOMP.md) and [GitHub Actions reports](https://github.com/RonyxDumb/mkds/actions/workflows/decomp-report.yml).
 

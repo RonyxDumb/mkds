@@ -1,34 +1,3 @@
-/* Decompiled C draft; module arm9; ROM address 02009974. No matching claim. */
-#include "types.h"
-#include "deps/02009974_func_02009974.h"
-
-byte func_02009974(void)
-
-{
-  byte bVar1;
-  int iVar2;
-  byte bVar3;
-  byte bVar4;
-  
-  iVar2 = *piRam020099bc;
-  if (*(short *)(iVar2 + 0x12) == 0) {
-    bVar3 = 0;
-  }
-  else {
-    bVar3 = 2;
-  }
-  if (*(short *)(iVar2 + 0x14) == 0) {
-    bVar4 = 0;
-  }
-  else {
-    bVar4 = 4;
-  }
-  if (*(short *)(iVar2 + 0x16) == 0) {
-    bVar1 = 0;
-  }
-  else {
-    bVar1 = 8;
-  }
-  return bVar1 | bVar4 | *(short *)(iVar2 + 0xe) != 0 | bVar3;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+extern unsigned short *data_0216fda8;
+unsigned char func_02009974(void){unsigned short *p=data_0216fda8;unsigned int a=p[9]?2:0,b=p[7]?1:0,c=p[10]?4:0,d=p[11]?8:0;return (unsigned char)(d|(c|(b|a)));}

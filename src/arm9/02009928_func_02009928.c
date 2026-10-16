@@ -1,18 +1,3 @@
-/* Decompiled C draft; module arm9; ROM address 02009928. No matching claim. */
-#include "types.h"
-#include "deps/02009928_func_02009928.h"
-
-void func_02009928(undefined2 param_1,int param_2)
-
-{
-  undefined2 local_8;
-  undefined2 local_6;
-  
-  if ((param_2 != 2) && (param_2 != 0)) {
-    local_6 = (undefined2)param_2;
-    local_8 = param_1;
-    (**(code **)(*piRam02009950 + iRam02009954))(0xff,&local_8);
-  }
-  return;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+typedef struct Context{unsigned char pad[1308];void (*callback)(int,void *);} Context;extern Context *data_0216fda8;
+void func_02009928(unsigned short a,unsigned short b){unsigned short args[2];if(b!=2 && b!=0){args[0]=a;args[1]=b;data_0216fda8->callback(255,args);}}

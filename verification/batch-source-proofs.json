@@ -139,5 +139,175 @@
       "path": "tools/mwccarm/2.0/base/mwccarm.exe",
       "sha256": "7150fa4fe4cb6db6867ac530ec1a0754f6ca4df92868d963a7875196f9222880"
     }
+  },
+  "arm9_020095c4": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "16d222902d84f124912a4883c7d4ca7e6bce309bbd9ee59818395362efc71063"
+  },
+  "arm9_020096f4": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "e92726e56b440d5a1df28bf1dc34d9092068da7b9a0a6f93dbdbab52fcbe18f2"
+  },
+  "arm9_0200bd0c": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "5d5b232465388d552f04d7ce0d3ffab9c54dbb911b202f1d1aaf847aaaed702b"
+  },
+  "arm9_02009974": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "8b05221a9f3db88a83eab4a14255e03ce5b4e8df4190b623b6cd03befac015de"
+  },
+  "arm9_020095fc": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "a59230e7a4acb7c468a7f98e62307fbae03f124a9be8b1cb0e3c3fe06fc7a9ae"
+  },
+  "arm9_0200973c": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "db3b69c857234508db5aed6e9df8169fa4f07479413a342057a9320d72e75077"
+  },
+  "arm9_020097ac": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "b1c8959546376314b9c89c8a0a59005353f7ae6eb066bdee28bced559ec929b9"
+  },
+  "arm9_02009928": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "a7046c0f200938ca57397df0445ee899614964b0255e175ccf5563d3b8e76120"
+  },
+  "arm9_0200b820": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "604849a8d8d901da0b34c234ac175f5ecce6fca7c15e22cb8009b201dc9d1848"
+  },
+  "arm9_0200bcd8": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "bc6872256d3784e861f8a33705b65ab02962d8573573bff78310d9c82273e916"
   }
 }

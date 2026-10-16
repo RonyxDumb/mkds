@@ -1,0 +1,11 @@
+[
+  {
+    "offset": 20,
+    "type": 10,
+    "symbol": "CopyMemory16",
+    "target": 34918396,
+    "thumb": false,
+    "addend": -4,
+    "value": 3964989763
+  }
+]

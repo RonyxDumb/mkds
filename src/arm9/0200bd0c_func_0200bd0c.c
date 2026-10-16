@@ -1,23 +1,3 @@
-/* Decompiled C draft; module arm9; ROM address 0200bd0c. No matching claim. */
-#include "types.h"
-#include "deps/0200bd0c_func_0200bd0c.h"
-
-undefined4 func_0200bd0c(void)
-
-{
-  bool bVar1;
-  undefined4 uVar2;
-  int iVar3;
-  
-  uVar2 = 0;
-  bVar1 = false;
-  iVar3 = *piRam0200bd30;
-  if ((*(short *)(iVar3 + 0x1a) == 1) && (*(short *)(iVar3 + 0x20) == 0)) {
-    bVar1 = true;
-  }
-  if ((bVar1) && (*(short *)(iVar3 + 0x1c) == 0)) {
-    uVar2 = 1;
-  }
-  return uVar2;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+typedef struct State{unsigned char pad[26];unsigned short a,b,c,d;} State;extern State *data_0216fdec;
+int func_0200bd0c(void){int result=0,ready=0;State *p=data_0216fdec;if(p->a==1 && p->d==0)ready=1;if(ready && p->b==0)result=1;return result;}

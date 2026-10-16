@@ -82,3 +82,5 @@ Tutte le nuove prove ricompilate e confrontate da resolver indipendente;
 Checkpoint 33: 3.871 funzioni, 295.894 byte inventariati (15,462074%).
 +23 funzioni e +2.616 byte; 40 byte di pool ulteriori verificati ma non contati.
 Il 18% resta aperto: 48.568 byte mancanti. Nessuna ROM completa matching.
+
+Checkpoint 34: +10 funzioni Thumb e +684 byte; 3.881 funzioni, 296.578 byte (15,497817%). Dieci prove ricompilate indipendentemente e 3.089 fixture semantiche passate. Nessuna nuova equivalenza globale dichiarata.

@@ -1,0 +1,11 @@
+{
+  "cases": 3089,
+  "passed": true,
+  "by_model": {
+    "state_transition": 1024,
+    "flag_mask": 1024,
+    "availability": 1024,
+    "list_append": 17
+  },
+  "scope": "Original Thumb versus explicit models on valid synthetic state and acyclic lists; not full game equivalence."
+}

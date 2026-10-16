@@ -250,3 +250,15 @@ Corretto sdk_signatures.py: ricerca del simbolo rinominato; batch ora include
 varianti typed-sdk-calls/typed-sdk-globals. batch-source-proofs.json registra
 i compilatori alternativi e relativi flag, usati da entrambi gli audit.
 Non ripetere i 20.352 profili donor o i 49.949 tentativi MWCC 2.0 invariati.
+
+## Checkpoint 34 — 16 ottobre 2026
+
+3.881 funzioni; 296.578 / 1.913.676 byte (15,497817%). Dieci helper Thumb
+di stato/lista, callback e lettura file ricostruiti: +684 byte. Audit mirato
+fresco: dieci ricompilazioni e tutte le 15 relocazioni verificate dal resolver
+indipendente. 3.089 fixture semantiche sulle routine Thumb originali contro
+modelli espliciti: stato, flag, disponibilità e liste acicliche.
+Ricerca riproducibile: search_wireless_state_family.py (22 tentativi);
+0200bd34 resta non matching. Non ripetere senza cambiare ricostruzione.
+Audit precedente conservato; nessun nuovo audit globale o test runtime.
+Per il 18% mancano 47.884 byte. ROM completa e ABI globale non verificati.

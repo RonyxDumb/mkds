@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 40,
+    "type": 10,
+    "symbol": "Fs_File_Initialize",
+    "target": 33574272,
+    "thumb": false,
+    "addend": -4,
+    "value": 3939825659
+  },
+  {
+    "offset": 48,
+    "type": 10,
+    "symbol": "Fs_File_Open",
+    "target": 33573424,
+    "thumb": false,
+    "addend": -4,
+    "value": 3911776251
+  },
+  {
+    "offset": 78,
+    "type": 10,
+    "symbol": "Fs_File_Close",
+    "target": 33573352,
+    "thumb": false,
+    "addend": -4,
+    "value": 3908499451
+  },
+  {
+    "offset": 98,
+    "type": 10,
+    "symbol": "Fs_File_Read",
+    "target": 33573036,
+    "thumb": false,
+    "addend": -4,
+    "value": 3897489403
+  },
+  {
+    "offset": 104,
+    "type": 10,
+    "symbol": "Fs_File_Close",
+    "target": 33573352,
+    "thumb": false,
+    "addend": -4,
+    "value": 3907581947
+  }
+]
