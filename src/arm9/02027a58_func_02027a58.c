@@ -1,86 +1,23 @@
-/* Decompiled C draft; module arm9; ROM address 02027a58. No matching claim. */
-#include "types.h"
-#include "deps/02027a58_func_02027a58.h"
-
-void func_02027a58(void)
-
-{
-  undefined2 *puVar1;
-  undefined2 *puVar2;
-  undefined2 *puVar3;
-  undefined2 *puVar4;
-  undefined2 *puVar5;
-  undefined2 *puVar6;
-  undefined2 *puVar7;
-  undefined2 *puVar8;
-  undefined2 *puVar9;
-  int iVar10;
-  
-  puVar9 = DAT_02027bdc;
-  puVar8 = DAT_02027bd8;
-  puVar7 = DAT_02027bd4;
-  puVar6 = DAT_02027bd0;
-  puVar5 = DAT_02027bcc;
-  puVar4 = DAT_02027bc8;
-  puVar3 = DAT_02027bc4;
-  puVar2 = DAT_02027bc0;
-  puVar1 = DAT_02027bbc;
-  iVar10 = *DAT_02027bb8;
-  switch(*(undefined4 *)(iVar10 + 0x60)) {
-  case 0:
-    *(undefined2 *)(iVar10 + 0x84) = *DAT_02027bbc;
-    *(undefined2 *)(iVar10 + 0x86) = puVar1[1];
-    *(undefined2 *)(iVar10 + 0x88) = puVar1[2];
-    *(undefined2 *)(iVar10 + 0x8a) = puVar1[3];
-    return;
-  case 1:
-    *(undefined2 *)(iVar10 + 0x84) = *DAT_02027bc0;
-    *(undefined2 *)(iVar10 + 0x86) = puVar2[1];
-    *(undefined2 *)(iVar10 + 0x88) = puVar2[2];
-    *(undefined2 *)(iVar10 + 0x8a) = puVar2[3];
-    return;
-  case 2:
-    *(undefined2 *)(iVar10 + 0x84) = *DAT_02027bc4;
-    *(undefined2 *)(iVar10 + 0x86) = puVar3[1];
-    *(undefined2 *)(iVar10 + 0x88) = puVar3[2];
-    *(undefined2 *)(iVar10 + 0x8a) = puVar3[3];
-    return;
-  case 3:
-    *(undefined2 *)(iVar10 + 0x84) = *DAT_02027bc8;
-    *(undefined2 *)(iVar10 + 0x86) = puVar4[1];
-    *(undefined2 *)(iVar10 + 0x88) = puVar4[2];
-    *(undefined2 *)(iVar10 + 0x8a) = puVar4[3];
-    return;
-  case 4:
-    *(undefined2 *)(iVar10 + 0x84) = *DAT_02027bcc;
-    *(undefined2 *)(iVar10 + 0x86) = puVar5[1];
-    *(undefined2 *)(iVar10 + 0x88) = puVar5[2];
-    *(undefined2 *)(iVar10 + 0x8a) = puVar5[3];
-    return;
-  case 5:
-    *(undefined2 *)(iVar10 + 0x84) = *DAT_02027bd0;
-    *(undefined2 *)(iVar10 + 0x86) = puVar6[1];
-    *(undefined2 *)(iVar10 + 0x88) = puVar6[2];
-    *(undefined2 *)(iVar10 + 0x8a) = puVar6[3];
-    return;
-  case 6:
-    *(undefined2 *)(iVar10 + 0x84) = *DAT_02027bd4;
-    *(undefined2 *)(iVar10 + 0x86) = puVar7[1];
-    *(undefined2 *)(iVar10 + 0x88) = puVar7[2];
-    *(undefined2 *)(iVar10 + 0x8a) = puVar7[3];
-    return;
-  case 7:
-    *(undefined2 *)(iVar10 + 0x84) = *DAT_02027bd8;
-    *(undefined2 *)(iVar10 + 0x86) = puVar8[1];
-    *(undefined2 *)(iVar10 + 0x88) = puVar8[2];
-    *(undefined2 *)(iVar10 + 0x8a) = puVar8[3];
-    return;
-  case 8:
-    *(undefined2 *)(iVar10 + 0x84) = *DAT_02027bdc;
-    *(undefined2 *)(iVar10 + 0x86) = puVar9[1];
-    *(undefined2 *)(iVar10 + 0x88) = puVar9[2];
-    *(undefined2 *)(iVar10 + 0x8a) = puVar9[3];
-  }
-  return;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+typedef struct CharacterSelectState {
+ unsigned char reserved00[0x60];
+ int cursor, previous_cursor, timer, phase, alpha;
+ unsigned short render_value;
+ unsigned char reserved76[6];
+ int character_count, mode;
+ short neighbors[4];
+ unsigned char reserved8c[4];
+ struct {int character;short cell,unused;} entries[12];
+ int current_character,current_value;
+} CharacterSelectState;
+#define state (*(CharacterSelectState **)0x2174e14u)
+extern const unsigned short data_02153734[4];
+extern const unsigned short data_0215373c[4];
+extern const unsigned short data_02153744[4];
+extern const unsigned short data_0215374c[4];
+extern const unsigned short data_02153754[4];
+extern const unsigned short data_0215375c[4];
+extern const unsigned short data_02153764[4];
+extern const unsigned short data_0215376c[4];
+extern const unsigned short data_02153774[4];
+void func_02027a58(void){CharacterSelectState *s=state;switch(s->cursor){case 0:s->neighbors[0]=data_02153734[0];s->neighbors[1]=data_02153734[1];s->neighbors[2]=data_02153734[2];s->neighbors[3]=data_02153734[3];return;case 1:s->neighbors[0]=data_0215373c[0];s->neighbors[1]=data_0215373c[1];s->neighbors[2]=data_0215373c[2];s->neighbors[3]=data_0215373c[3];return;case 2:s->neighbors[0]=data_02153744[0];s->neighbors[1]=data_02153744[1];s->neighbors[2]=data_02153744[2];s->neighbors[3]=data_02153744[3];return;case 3:s->neighbors[0]=data_0215374c[0];s->neighbors[1]=data_0215374c[1];s->neighbors[2]=data_0215374c[2];s->neighbors[3]=data_0215374c[3];return;case 4:s->neighbors[0]=data_02153754[0];s->neighbors[1]=data_02153754[1];s->neighbors[2]=data_02153754[2];s->neighbors[3]=data_02153754[3];return;case 5:s->neighbors[0]=data_0215375c[0];s->neighbors[1]=data_0215375c[1];s->neighbors[2]=data_0215375c[2];s->neighbors[3]=data_0215375c[3];return;case 6:s->neighbors[0]=data_02153764[0];s->neighbors[1]=data_02153764[1];s->neighbors[2]=data_02153764[2];s->neighbors[3]=data_02153764[3];return;case 7:s->neighbors[0]=data_0215376c[0];s->neighbors[1]=data_0215376c[1];s->neighbors[2]=data_0215376c[2];s->neighbors[3]=data_0215376c[3];return;case 8:s->neighbors[0]=data_02153774[0];s->neighbors[1]=data_02153774[1];s->neighbors[2]=data_02153774[2];s->neighbors[3]=data_02153774[3];return;default:return;}}

@@ -84,3 +84,5 @@ Checkpoint 33: 3.871 funzioni, 295.894 byte inventariati (15,462074%).
 Il 18% resta aperto: 48.568 byte mancanti. Nessuna ROM completa matching.
 
 Checkpoint 34: +10 funzioni Thumb e +684 byte; 3.881 funzioni, 296.578 byte (15,497817%). Dieci prove ricompilate indipendentemente e 3.089 fixture semantiche passate. Nessuna nuova equivalenza globale dichiarata.
+
+Checkpoint 35: famiglia selezione personaggi. Navigazione completa 6/6; controller 12/23 matching. +9 funzioni, +2.386 byte inventariati (2.760 nello span); totale 298.964 byte, 15,622498%. 2.240 casi C/Thumb passati con dipendenze grafiche controllate.

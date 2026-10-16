@@ -1,0 +1,234 @@
+{
+  "scope": "Fixed 23-function controller block, 02025f90 through 02027be0; shared UI/SDK dependencies outside scope. Roles inferred from static calls, resources and field accesses, not original names. This scope is not the whole menu dependency closure.",
+  "functions": [
+    {
+      "address": "0x02025f90",
+      "name": "VerifySelectCharacterFiles_from_thumb",
+      "role": "Controllo risorse grafiche",
+      "inventory_bytes": 200,
+      "local_byte_exact": false,
+      "subgroup": "controller",
+      "source": "src/arm9/02025f90_VerifySelectCharacterFiles_from_thumb.c"
+    },
+    {
+      "address": "0x02026058",
+      "name": "func_02026058",
+      "role": "Configurazione blending/display",
+      "inventory_bytes": 140,
+      "local_byte_exact": false,
+      "subgroup": "controller",
+      "source": "src/arm9/02026058_func_02026058.c"
+    },
+    {
+      "address": "0x020260e4",
+      "name": "func_020260e4",
+      "role": "Uscita e distruzione heap",
+      "inventory_bytes": 60,
+      "local_byte_exact": true,
+      "subgroup": "controller",
+      "source": "src/arm9/020260e4_func_020260e4.c"
+    },
+    {
+      "address": "0x02026120",
+      "name": "func_02026120",
+      "role": "Controller principale: input e fasi",
+      "inventory_bytes": 1914,
+      "local_byte_exact": false,
+      "subgroup": "controller",
+      "source": "src/arm9/02026120_func_02026120.c"
+    },
+    {
+      "address": "0x02026910",
+      "name": "Maybe_select_character_s",
+      "role": "Inizializzazione menu",
+      "inventory_bytes": 1702,
+      "local_byte_exact": false,
+      "subgroup": "controller",
+      "source": "src/arm9/02026910_Maybe_select_character_s.c"
+    },
+    {
+      "address": "0x02027084",
+      "name": "func_02027084",
+      "role": "Aggiornamento parametri delle icone",
+      "inventory_bytes": 76,
+      "local_byte_exact": false,
+      "subgroup": "controller",
+      "source": "src/arm9/02027084_func_02027084.c"
+    },
+    {
+      "address": "0x020270d0",
+      "name": "func_020270d0",
+      "role": "Controllo blocco interazione",
+      "inventory_bytes": 44,
+      "local_byte_exact": true,
+      "subgroup": "controller",
+      "source": "src/arm9/020270d0_func_020270d0.c"
+    },
+    {
+      "address": "0x020270fc",
+      "name": "func_020270fc",
+      "role": "Dispatcher griglia e cambio selezione",
+      "inventory_bytes": 124,
+      "local_byte_exact": true,
+      "subgroup": "navigation",
+      "source": "src/arm9/020270fc_func_020270fc.c"
+    },
+    {
+      "address": "0x02027188",
+      "name": "func_02027188",
+      "role": "Dispatcher aggiornamento icone",
+      "inventory_bytes": 18,
+      "local_byte_exact": true,
+      "subgroup": "controller",
+      "source": "src/arm9/02027188_func_02027188.c"
+    },
+    {
+      "address": "0x0202719c",
+      "name": "func_0202719c",
+      "role": "Evidenziazione icona",
+      "inventory_bytes": 76,
+      "local_byte_exact": false,
+      "subgroup": "controller",
+      "source": "src/arm9/0202719c_func_0202719c.c"
+    },
+    {
+      "address": "0x020271e8",
+      "name": "func_020271e8",
+      "role": "Aggiornamento celle selezionate",
+      "inventory_bytes": 52,
+      "local_byte_exact": false,
+      "subgroup": "controller",
+      "source": "src/arm9/020271e8_func_020271e8.c"
+    },
+    {
+      "address": "0x0202721c",
+      "name": "func_0202721c",
+      "role": "Aggiornamento grafica associata",
+      "inventory_bytes": 112,
+      "local_byte_exact": false,
+      "subgroup": "controller",
+      "source": "src/arm9/0202721c_func_0202721c.c"
+    },
+    {
+      "address": "0x0202728c",
+      "name": "func_0202728c",
+      "role": "Aggiornamento parametro grafico",
+      "inventory_bytes": 52,
+      "local_byte_exact": true,
+      "subgroup": "controller",
+      "source": "src/arm9/0202728c_func_0202728c.c"
+    },
+    {
+      "address": "0x020272c0",
+      "name": "func_020272c0",
+      "role": "Aggiornamento coordinate grafiche",
+      "inventory_bytes": 44,
+      "local_byte_exact": true,
+      "subgroup": "controller",
+      "source": "src/arm9/020272c0_func_020272c0.c"
+    },
+    {
+      "address": "0x020272ec",
+      "name": "func_020272ec",
+      "role": "Rimozione evidenziazione",
+      "inventory_bytes": 96,
+      "local_byte_exact": false,
+      "subgroup": "controller",
+      "source": "src/arm9/020272ec_func_020272ec.c"
+    },
+    {
+      "address": "0x0202734c",
+      "name": "func_0202734c",
+      "role": "Visibilit\u00e0 icone",
+      "inventory_bytes": 116,
+      "local_byte_exact": false,
+      "subgroup": "controller",
+      "source": "src/arm9/0202734c_func_0202734c.c"
+    },
+    {
+      "address": "0x020273c0",
+      "name": "func_020273c0",
+      "role": "Avvio transizione di uscita",
+      "inventory_bytes": 100,
+      "local_byte_exact": false,
+      "subgroup": "controller",
+      "source": "src/arm9/020273c0_func_020273c0.c"
+    },
+    {
+      "address": "0x02027424",
+      "name": "func_02027424",
+      "role": "Inoltro azione condizionale",
+      "inventory_bytes": 36,
+      "local_byte_exact": true,
+      "subgroup": "controller",
+      "source": "src/arm9/02027424_func_02027424.c"
+    },
+    {
+      "address": "0x02027448",
+      "name": "func_02027448",
+      "role": "Griglia con 12 personaggi",
+      "inventory_bytes": 434,
+      "local_byte_exact": true,
+      "subgroup": "navigation",
+      "source": "src/arm9/02027448_func_02027448.c"
+    },
+    {
+      "address": "0x02027648",
+      "name": "func_02027648",
+      "role": "Griglia con 11 personaggi",
+      "inventory_bytes": 444,
+      "local_byte_exact": true,
+      "subgroup": "navigation",
+      "source": "src/arm9/02027648_func_02027648.c"
+    },
+    {
+      "address": "0x02027850",
+      "name": "func_02027850",
+      "role": "Griglia con 10 personaggi",
+      "inventory_bytes": 446,
+      "local_byte_exact": true,
+      "subgroup": "navigation",
+      "source": "src/arm9/02027850_func_02027850.c"
+    },
+    {
+      "address": "0x02027a58",
+      "name": "func_02027a58",
+      "role": "Griglia con 9 personaggi",
+      "inventory_bytes": 332,
+      "local_byte_exact": true,
+      "subgroup": "navigation",
+      "source": "src/arm9/02027a58_func_02027a58.c"
+    },
+    {
+      "address": "0x02027be0",
+      "name": "func_02027be0",
+      "role": "Griglia con 8 personaggi",
+      "inventory_bytes": 466,
+      "local_byte_exact": true,
+      "subgroup": "navigation",
+      "source": "src/arm9/02027be0_func_02027be0.c"
+    }
+  ],
+  "exact_functions": 12,
+  "total_functions": 23,
+  "inventory_bytes": 7084,
+  "exact_inventory_bytes": 2500,
+  "navigation_complete_local_matching": true,
+  "full_menu_complete": false,
+  "entry_evidence": [
+    {
+      "source": "src/arm9/020cb6c0_func_020cb6c0.c",
+      "detail": "States 5,8,15,21 call Maybe_select_character_s; adjacent states call the kart-selection initializer."
+    },
+    {
+      "source": "src/arm9_ov000/02184950_FUN_02184950.c",
+      "detail": "Additional entry calls the same initializer in mode 2."
+    }
+  ],
+  "field_evidence": {
+    "0x60": "Current cursor; changed by directional input in 02026120.",
+    "0x64": "Previous cursor, passed to 020270fc before/after movement; not a key bitmask.",
+    "0x7c": "Number of visible characters; dispatcher selects 8/9/10/11/12.",
+    "0x84..0x8a": "Signed destinations for key masks 0x40,0x80,0x10,0x20; -1 prevents movement."
+  }
+}

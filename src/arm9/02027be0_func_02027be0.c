@@ -1,116 +1,26 @@
-/* Decompiled C draft; module arm9; ROM address 02027be0. No matching claim. */
-#include "types.h"
-#include "deps/02027be0_func_02027be0.h"
-
-void func_02027be0(void)
-
-{
-  undefined2 *puVar1;
-  undefined2 *puVar2;
-  undefined2 *puVar3;
-  undefined2 *puVar4;
-  undefined2 *puVar5;
-  undefined2 *puVar6;
-  undefined2 *puVar7;
-  undefined2 *puVar8;
-  undefined2 *puVar9;
-  undefined2 *puVar10;
-  undefined2 *puVar11;
-  undefined2 *puVar12;
-  int iVar13;
-  
-  puVar12 = DAT_02027df4;
-  puVar11 = DAT_02027df0;
-  puVar10 = DAT_02027dec;
-  puVar9 = DAT_02027de8;
-  puVar8 = DAT_02027de4;
-  puVar7 = DAT_02027de0;
-  puVar6 = DAT_02027ddc;
-  puVar5 = DAT_02027dd8;
-  puVar4 = DAT_02027dd4;
-  puVar3 = DAT_02027dd0;
-  puVar2 = DAT_02027dcc;
-  puVar1 = DAT_02027dc8;
-  iVar13 = *DAT_02027dc4;
-  switch(*(undefined4 *)(iVar13 + 0x60)) {
-  case 0:
-    *(undefined2 *)(iVar13 + 0x84) = *DAT_02027dc8;
-    *(undefined2 *)(iVar13 + 0x86) = puVar1[1];
-    *(undefined2 *)(iVar13 + 0x88) = puVar1[2];
-    *(undefined2 *)(iVar13 + 0x8a) = puVar1[3];
-    return;
-  case 1:
-    if (*(int *)(iVar13 + 100) != 4) {
-      *(undefined2 *)(iVar13 + 0x84) = *DAT_02027dd0;
-      *(undefined2 *)(iVar13 + 0x86) = puVar3[1];
-      *(undefined2 *)(iVar13 + 0x88) = puVar3[2];
-      *(undefined2 *)(iVar13 + 0x8a) = puVar3[3];
-      return;
-    }
-    *(undefined2 *)(iVar13 + 0x84) = *DAT_02027dcc;
-    *(undefined2 *)(iVar13 + 0x86) = puVar2[1];
-    *(undefined2 *)(iVar13 + 0x88) = puVar2[2];
-    *(undefined2 *)(iVar13 + 0x8a) = puVar2[3];
-    return;
-  case 2:
-    *(undefined2 *)(iVar13 + 0x84) = *DAT_02027dd4;
-    *(undefined2 *)(iVar13 + 0x86) = puVar4[1];
-    *(undefined2 *)(iVar13 + 0x88) = puVar4[2];
-    *(undefined2 *)(iVar13 + 0x8a) = puVar4[3];
-    return;
-  case 3:
-    break;
-  case 4:
-    if ((*(int *)(iVar13 + 100) != 2) && (*(int *)(iVar13 + 100) != 7)) {
-      *(undefined2 *)(iVar13 + 0x84) = *DAT_02027de4;
-      *(undefined2 *)(iVar13 + 0x86) = puVar8[1];
-      *(undefined2 *)(iVar13 + 0x88) = puVar8[2];
-      *(undefined2 *)(iVar13 + 0x8a) = puVar8[3];
-      return;
-    }
-    *(undefined2 *)(iVar13 + 0x84) = *DAT_02027de0;
-    *(undefined2 *)(iVar13 + 0x86) = puVar7[1];
-    *(undefined2 *)(iVar13 + 0x88) = puVar7[2];
-    *(undefined2 *)(iVar13 + 0x8a) = puVar7[3];
-    return;
-  case 5:
-    *(undefined2 *)(iVar13 + 0x84) = *DAT_02027de8;
-    *(undefined2 *)(iVar13 + 0x86) = puVar9[1];
-    *(undefined2 *)(iVar13 + 0x88) = puVar9[2];
-    *(undefined2 *)(iVar13 + 0x8a) = puVar9[3];
-    return;
-  case 6:
-    if (*(int *)(iVar13 + 100) != 4) {
-      *(undefined2 *)(iVar13 + 0x84) = *DAT_02027df0;
-      *(undefined2 *)(iVar13 + 0x86) = puVar11[1];
-      *(undefined2 *)(iVar13 + 0x88) = puVar11[2];
-      *(undefined2 *)(iVar13 + 0x8a) = puVar11[3];
-      return;
-    }
-    *(undefined2 *)(iVar13 + 0x84) = *DAT_02027dec;
-    *(undefined2 *)(iVar13 + 0x86) = puVar10[1];
-    *(undefined2 *)(iVar13 + 0x88) = puVar10[2];
-    *(undefined2 *)(iVar13 + 0x8a) = puVar10[3];
-    return;
-  case 7:
-    *(undefined2 *)(iVar13 + 0x84) = *DAT_02027df4;
-    *(undefined2 *)(iVar13 + 0x86) = puVar12[1];
-    *(undefined2 *)(iVar13 + 0x88) = puVar12[2];
-    *(undefined2 *)(iVar13 + 0x8a) = puVar12[3];
-  default:
-    return;
-  }
-  if ((*(int *)(iVar13 + 100) != 1) && (*(int *)(iVar13 + 100) != 6)) {
-    *(undefined2 *)(iVar13 + 0x84) = *DAT_02027ddc;
-    *(undefined2 *)(iVar13 + 0x86) = puVar6[1];
-    *(undefined2 *)(iVar13 + 0x88) = puVar6[2];
-    *(undefined2 *)(iVar13 + 0x8a) = puVar6[3];
-    return;
-  }
-  *(undefined2 *)(iVar13 + 0x84) = *DAT_02027dd8;
-  *(undefined2 *)(iVar13 + 0x86) = puVar5[1];
-  *(undefined2 *)(iVar13 + 0x88) = puVar5[2];
-  *(undefined2 *)(iVar13 + 0x8a) = puVar5[3];
-  return;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+typedef struct CharacterSelectState {
+ unsigned char reserved00[0x60];
+ int cursor, previous_cursor, timer, phase, alpha;
+ unsigned short render_value;
+ unsigned char reserved76[6];
+ int character_count, mode;
+ short neighbors[4];
+ unsigned char reserved8c[4];
+ struct {int character;short cell,unused;} entries[12];
+ int current_character,current_value;
+} CharacterSelectState;
+#define state (*(CharacterSelectState **)0x2174e14u)
+extern const unsigned short data_0215377c[4];
+extern const unsigned short data_02153784[4];
+extern const unsigned short data_0215378c[4];
+extern const unsigned short data_02153794[4];
+extern const unsigned short data_0215379c[4];
+extern const unsigned short data_021537a4[4];
+extern const unsigned short data_021537ac[4];
+extern const unsigned short data_021537b4[4];
+extern const unsigned short data_021537bc[4];
+extern const unsigned short data_021537c4[4];
+extern const unsigned short data_021537cc[4];
+extern const unsigned short data_021537d4[4];
+void func_02027be0(void){CharacterSelectState *s=state;switch(s->cursor){case 0:s->neighbors[0]=data_0215377c[0];s->neighbors[1]=data_0215377c[1];s->neighbors[2]=data_0215377c[2];s->neighbors[3]=data_0215377c[3];return;case 1:if(s->previous_cursor==4){s->neighbors[0]=data_02153784[0];s->neighbors[1]=data_02153784[1];s->neighbors[2]=data_02153784[2];s->neighbors[3]=data_02153784[3];return;}s->neighbors[0]=data_0215378c[0];s->neighbors[1]=data_0215378c[1];s->neighbors[2]=data_0215378c[2];s->neighbors[3]=data_0215378c[3];return;case 2:s->neighbors[0]=data_02153794[0];s->neighbors[1]=data_02153794[1];s->neighbors[2]=data_02153794[2];s->neighbors[3]=data_02153794[3];return;case 3:if(s->previous_cursor==1 || s->previous_cursor==6){s->neighbors[0]=data_0215379c[0];s->neighbors[1]=data_0215379c[1];s->neighbors[2]=data_0215379c[2];s->neighbors[3]=data_0215379c[3];return;}s->neighbors[0]=data_021537a4[0];s->neighbors[1]=data_021537a4[1];s->neighbors[2]=data_021537a4[2];s->neighbors[3]=data_021537a4[3];return;case 4:if(s->previous_cursor==2 || s->previous_cursor==7){s->neighbors[0]=data_021537ac[0];s->neighbors[1]=data_021537ac[1];s->neighbors[2]=data_021537ac[2];s->neighbors[3]=data_021537ac[3];return;}s->neighbors[0]=data_021537b4[0];s->neighbors[1]=data_021537b4[1];s->neighbors[2]=data_021537b4[2];s->neighbors[3]=data_021537b4[3];return;case 5:s->neighbors[0]=data_021537bc[0];s->neighbors[1]=data_021537bc[1];s->neighbors[2]=data_021537bc[2];s->neighbors[3]=data_021537bc[3];return;case 6:if(s->previous_cursor==4){s->neighbors[0]=data_021537c4[0];s->neighbors[1]=data_021537c4[1];s->neighbors[2]=data_021537c4[2];s->neighbors[3]=data_021537c4[3];return;}s->neighbors[0]=data_021537cc[0];s->neighbors[1]=data_021537cc[1];s->neighbors[2]=data_021537cc[2];s->neighbors[3]=data_021537cc[3];return;case 7:s->neighbors[0]=data_021537d4[0];s->neighbors[1]=data_021537d4[1];s->neighbors[2]=data_021537d4[2];s->neighbors[3]=data_021537d4[3];return;default:return;}}

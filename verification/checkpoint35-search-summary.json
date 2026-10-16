@@ -1,0 +1,1958 @@
+{
+  "attempts": [
+    {
+      "address": "0x2027448",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 0,
+      "optimization": "-O4,p",
+      "outcome": "exact"
+    },
+    {
+      "address": "0x2027648",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027648",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027648",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027648",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027648",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027648",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 0,
+      "optimization": "-O4,p",
+      "outcome": "exact"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 6,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 6,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 6,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 6,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 6,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027850",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 0,
+      "optimization": "-O4,p",
+      "outcome": "exact"
+    },
+    {
+      "address": "0x2027a58",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 0,
+      "optimization": "-O4,p",
+      "outcome": "exact"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 11,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 11,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 11,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 11,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 11,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 6,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 6,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 6,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 6,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 6,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 11,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 11,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 11,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 11,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 11,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 8,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 8,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 8,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 8,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 8,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 7,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 4,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 3,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027be0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 0,
+      "optimization": "-O4,p",
+      "outcome": "exact"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 14,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20260e4",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 0,
+      "optimization": "-O4,p",
+      "outcome": "exact"
+    },
+    {
+      "address": "0x2027424",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 0,
+      "optimization": "-O4,p",
+      "outcome": "exact"
+    },
+    {
+      "address": "0x20272c0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272c0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272c0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272c0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272c0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 10,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272c0",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 0,
+      "optimization": "-O4,p",
+      "outcome": "exact"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 68,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 69,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 69,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 69,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 69,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 47,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 47,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 46,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 46,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 46,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 65,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 85,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 85,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 85,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 85,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 110,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 112,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 112,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 112,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 112,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20270fc",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 0,
+      "optimization": "-O4,p",
+      "outcome": "exact"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 68,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 69,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 69,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 69,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 69,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 47,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 47,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 46,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 46,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 46,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 64,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 85,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 85,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 85,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 85,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 110,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 112,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 112,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 112,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 112,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2025f90",
+      "diagnostic": "\r\nErrors caused tool to abort.\r\n### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n### mwccarm.exe Compiler:\r\n#    File: build\\character-select\\sources\\9b3cf011f70c35828e063b8af8540adce985b0af1af4805215e20931809ce516.c\r\n# -----------------------------------------------------------------------------\r\n#     100: dFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02026030); \r\n#   Error:                                                                 ^\r\n#   illegal use of type 'void'\r\n### mwccarm.exe Compiler:\r\n#     101:   Gfx_ReadCharGraphics(&local_10,uVar1); \r\n#   Error:                                       ^\r\n#   illegal implicit conversion from 'unsigned int *' to\r\n#   'int *'\r\n### mwccarm.exe Compiler:\r\n#     102: dFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(uRam02026034); \r\n#   Error:                                                                 ^\r\n#   illegal use of type 'void'\r\n### mwccarm.exe Compiler:\r\n#     103:   LoadCellBankFrom(lo",
+      "differences": null,
+      "optimization": "-O4,p",
+      "outcome": "compile_error"
+    },
+    {
+      "address": "0x2025f90",
+      "diagnostic": "\r\nErrors caused tool to abort.\r\n### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n### mwccarm.exe Compiler:\r\n#    File: build\\character-select\\sources\\67a7877f446cbd82118ea82c571e913b2fbd3eed81a927cde3e25fd9532943a4.c\r\n# -----------------------------------------------------------------------------\r\n#     100: 2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(((undefined4)0x02161b3cu)); \r\n#   Error:                                                                 ^\r\n#   illegal use of type 'void'\r\n### mwccarm.exe Compiler:\r\n#     101:   Gfx_ReadCharGraphics(&local_10,uVar1); \r\n#   Error:                                       ^\r\n#   illegal implicit conversion from 'unsigned int *' to\r\n#   'int *'\r\n### mwccarm.exe Compiler:\r\n#     102: 2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb(((undefined4)0x02161b5cu)); \r\n#   Error:                                                                 ^\r\n#   illegal use of type 'void'\r\n### mwccarm.exe Compiler:\r\n#     103:   LoadCellBankFrom(lo",
+      "differences": null,
+      "optimization": "-O4,p",
+      "outcome": "compile_error"
+    },
+    {
+      "address": "0x2026058",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 146,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2026058",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 146,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2026058",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 146,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2026058",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 143,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2026058",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 146,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2026058",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 74,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2026058",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 74,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2026058",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 74,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2026058",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 48,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2026058",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 74,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2026120",
+      "diagnostic": "\r\nErrors caused tool to abort.\r\n### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n### mwccarm.exe Compiler:\r\n#    File: build\\character-select\\sources\\536f84f3e8f678b5c17ee118f752c341382bb5e38c9908ad96a9fa06217e85ca.c\r\n# -----------------------------------------------------------------------------\r\n#     206:       func_02027424(1); \r\n#   Error:                      ^\r\n#   function call 'func_02027424(int)' does not match\r\n#   'func_02027424()'\r\n### mwccarm.exe Compiler:\r\n#     378:           func_02027424(1); \r\n#   Error:                          ^\r\n#   function call 'func_02027424(int)' does not match\r\n#   'func_02027424()'\r\n### mwccarm.exe Compiler:\r\n#     393:           func_02027424(1); \r\n#   Error:                          ^\r\n#   function call 'func_02027424(int)' does not match\r\n#   'func_02027424()'\r\n### mwccarm.exe Compiler:\r\n#     412:         func_02027424(1); \r\n#   Error:                        ^\r\n#   function call 'func_02027424(int)' does n",
+      "differences": null,
+      "optimization": "-O4,p",
+      "outcome": "compile_error"
+    },
+    {
+      "address": "0x2026910",
+      "diagnostic": "\r\nErrors caused tool to abort.\r\n### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n### mwccarm.exe Compiler:\r\n#    File: build\\character-select\\sources\\d45b4159a01d51c3d508bd3c23571feb7b0309db1405a8df71eefaad65047c54.c\r\n# -----------------------------------------------------------------------------\r\n#     184:   uVar4 = Mem_CreateOrphanChildHeap(); \r\n#   Error:                                     ^\r\n#   function call 'Mem_CreateOrphanChildHeap()' does not match\r\n#   'Mem_CreateOrphanChildHeap(unsigned int)'\r\n### mwccarm.exe Compiler:\r\n#     261: 02026cbc,DAT_02026cc0,DAT_02026cc4,DAT_02026cb4,0,0,DAT_02026cb8); \r\n#   Error:                                                                 ^\r\n#   illegal implicit conversion from 'unsigned int' to\r\n#   'void (*)(...)'\r\n### mwccarm.exe Compiler:\r\n#     263: al_4c),DAT_02026ccc,DAT_02026cd0,0,DAT_02026cc8,0,0,DAT_02026cb8); \r\n#   Error:                                                                 ^\r\n#   ille",
+      "differences": null,
+      "optimization": "-O4,p",
+      "outcome": "compile_error"
+    },
+    {
+      "address": "0x2026910",
+      "diagnostic": "\r\nErrors caused tool to abort.\r\n### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n### mwccarm.exe Compiler:\r\n#    File: build\\character-select\\sources\\e8f4a2702f51d1b3126f5c878c20ee8f1799cfeb8a0be3bb2602a277c6cf0986.c\r\n# -----------------------------------------------------------------------------\r\n#     184:   uVar4 = Mem_CreateOrphanChildHeap(); \r\n#   Error:                                     ^\r\n#   function call 'Mem_CreateOrphanChildHeap()' does not match\r\n#   'Mem_CreateOrphanChildHeap(unsigned int)'\r\n### mwccarm.exe Compiler:\r\n#     185:   iVar5 = Mem_AllocateHeap((void *)(uVar4),(int)(DAT_02026c8c)); \r\n#   Error:                                                                ^\r\n#   illegal implicit conversion from 'void *' to\r\n#   'int'\r\n### mwccarm.exe Compiler:\r\n#     261: 02026cbc,DAT_02026cc0,DAT_02026cc4,DAT_02026cb4,0,0,DAT_02026cb8); \r\n#   Error:                                                                 ^\r\n#   illegal implicit conver",
+      "differences": null,
+      "optimization": "-O4,p",
+      "outcome": "compile_error"
+    },
+    {
+      "address": "0x2027084",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 70,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027084",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 70,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027084",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 70,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027084",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 70,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027084",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 70,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027084",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 60,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027084",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 60,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027084",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 60,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027084",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 60,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x2027084",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 60,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 65,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 87,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 87,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 87,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 87,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 68,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202719c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 21,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 21,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 21,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 21,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 21,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 37,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 37,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 37,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 45,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20271e8",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 37,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202721c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202721c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202721c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202721c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 75,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202721c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 72,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202721c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 90,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202721c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 90,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202721c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 90,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202721c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 96,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202721c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 90,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 96,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 94,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 94,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 94,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 94,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 85,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 84,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 84,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 84,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20272ec",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 84,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 115,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 127,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 127,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 127,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 127,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 108,
+      "optimization": "-O4,p",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 109,
+      "optimization": "-O4,s",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 109,
+      "optimization": "-O2",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 109,
+      "optimization": "-O1",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x202734c",
+      "diagnostic": "### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n",
+      "differences": 109,
+      "optimization": "-O3",
+      "outcome": "mismatch"
+    },
+    {
+      "address": "0x20273c0",
+      "diagnostic": "\r\nErrors caused tool to abort.\r\n### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n### mwccarm.exe Compiler:\r\n#    File: build\\character-select\\sources\\8c06bd1becab87744e34993017b6559105ce319675b70951a51c59ca2f9fdcf8.c\r\n# -----------------------------------------------------------------------------\r\n#      91:   func_02128310(); \r\n#   Error:                 ^\r\n#   function call 'func_02128310()' does not match\r\n#   'func_02128310(int)'\r\n### mwccarm.exe Compiler:\r\n#      92:   func_02027424(3); \r\n#   Error:                  ^\r\n#   function call 'func_02027424(int)' does not match\r\n#   'func_02027424()'\r\n",
+      "differences": null,
+      "optimization": "-O4,p",
+      "outcome": "compile_error"
+    },
+    {
+      "address": "0x20273c0",
+      "diagnostic": "\r\nErrors caused tool to abort.\r\n### mwccarm.exe Usage Warning:\r\n#   Environment variable 'MWCIncludes' not found\r\n### mwccarm.exe Compiler:\r\n#    File: build\\character-select\\sources\\4130fe3299ac0ccfa61ff42a81a3264242097cba3e9c871e0b1d33d227007267.c\r\n# -----------------------------------------------------------------------------\r\n#      91:   func_02128310(); \r\n#   Error:                 ^\r\n#   function call 'func_02128310()' does not match\r\n#   'func_02128310(int)'\r\n### mwccarm.exe Compiler:\r\n#      92:   func_02027424(3); \r\n#   Error:                  ^\r\n#   function call 'func_02027424(int)' does not match\r\n#   'func_02027424()'\r\n",
+      "differences": null,
+      "optimization": "-O4,p",
+      "outcome": "compile_error"
+    }
+  ],
+  "exact": [
+    {
+      "address": "0x2027448",
+      "mode": "thumb",
+      "module": "arm9",
+      "name": "func_02027448",
+      "optimization": "-O4,p",
+      "size": 512,
+      "source": "src/arm9/02027448_func_02027448.c",
+      "variant": "character-select-typed"
+    },
+    {
+      "address": "0x2027648",
+      "mode": "thumb",
+      "module": "arm9",
+      "name": "func_02027648",
+      "optimization": "-O4,p",
+      "size": 520,
+      "source": "src/arm9/02027648_func_02027648.c",
+      "variant": "character-select-typed"
+    },
+    {
+      "address": "0x2027850",
+      "mode": "thumb",
+      "module": "arm9",
+      "name": "func_02027850",
+      "optimization": "-O4,p",
+      "size": 520,
+      "source": "src/arm9/02027850_func_02027850.c",
+      "variant": "character-select-typed"
+    },
+    {
+      "address": "0x2027a58",
+      "mode": "thumb",
+      "module": "arm9",
+      "name": "func_02027a58",
+      "optimization": "-O4,p",
+      "size": 392,
+      "source": "src/arm9/02027a58_func_02027a58.c",
+      "variant": "character-select-typed"
+    },
+    {
+      "address": "0x2027be0",
+      "mode": "thumb",
+      "module": "arm9",
+      "name": "func_02027be0",
+      "optimization": "-O4,p",
+      "size": 536,
+      "source": "src/arm9/02027be0_func_02027be0.c",
+      "variant": "character-select-typed"
+    },
+    {
+      "address": "0x20260e4",
+      "mode": "thumb",
+      "module": "arm9",
+      "name": "func_020260e4",
+      "optimization": "-O4,p",
+      "size": 60,
+      "source": "src/arm9/020260e4_func_020260e4.c",
+      "variant": "character-select-typed"
+    },
+    {
+      "address": "0x2027424",
+      "mode": "thumb",
+      "module": "arm9",
+      "name": "func_02027424",
+      "optimization": "-O4,p",
+      "size": 36,
+      "source": "src/arm9/02027424_func_02027424.c",
+      "variant": "character-select-typed"
+    },
+    {
+      "address": "0x20272c0",
+      "mode": "thumb",
+      "module": "arm9",
+      "name": "func_020272c0",
+      "optimization": "-O4,p",
+      "size": 44,
+      "source": "src/arm9/020272c0_func_020272c0.c",
+      "variant": "character-select-typed"
+    },
+    {
+      "address": "0x20270fc",
+      "mode": "thumb",
+      "module": "arm9",
+      "name": "func_020270fc",
+      "optimization": "-O4,p",
+      "size": 140,
+      "source": "src/arm9/020270fc_func_020270fc.c",
+      "variant": "character-select-typed"
+    }
+  ]
+}

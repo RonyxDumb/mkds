@@ -1,0 +1,83 @@
+[
+  {
+    "offset": 356,
+    "type": 2,
+    "symbol": "data_02153734",
+    "target": 34944820,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944820
+  },
+  {
+    "offset": 360,
+    "type": 2,
+    "symbol": "data_0215373c",
+    "target": 34944828,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944828
+  },
+  {
+    "offset": 364,
+    "type": 2,
+    "symbol": "data_02153744",
+    "target": 34944836,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944836
+  },
+  {
+    "offset": 368,
+    "type": 2,
+    "symbol": "data_0215374c",
+    "target": 34944844,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944844
+  },
+  {
+    "offset": 372,
+    "type": 2,
+    "symbol": "data_02153754",
+    "target": 34944852,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944852
+  },
+  {
+    "offset": 376,
+    "type": 2,
+    "symbol": "data_0215375c",
+    "target": 34944860,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944860
+  },
+  {
+    "offset": 380,
+    "type": 2,
+    "symbol": "data_02153764",
+    "target": 34944868,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944868
+  },
+  {
+    "offset": 384,
+    "type": 2,
+    "symbol": "data_0215376c",
+    "target": 34944876,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944876
+  },
+  {
+    "offset": 388,
+    "type": 2,
+    "symbol": "data_02153774",
+    "target": 34944884,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944884
+  }
+]

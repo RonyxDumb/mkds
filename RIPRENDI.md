@@ -262,3 +262,23 @@ Ricerca riproducibile: search_wireless_state_family.py (22 tentativi);
 0200bd34 resta non matching. Non ripetere senza cambiare ricostruzione.
 Audit precedente conservato; nessun nuovo audit globale o test runtime.
 Per il 18% mancano 47.884 byte. ROM completa e ABI globale non verificati.
+
+## Checkpoint 35 — selezione personaggi, lavoro per famiglie
+
+Priorità dell'utente: completare famiglie collegate, non raccogliere foglie sparse.
+Perimetro fissato in verification/character-select-family.json e report dedicato:
+23 funzioni, 7.084 byte inventariati, 12 matching (2.500 byte).
+Completato il sottogruppo navigazione: cinque griglie 8–12 personaggi + dispatcher
+020270fc, 6/6 matching. Altre tre ricostruzioni nello stesso controller.
+Totale corpus: 3.890 funzioni, 298.964 byte inventariati, 15,622498%.
+MWCC 1.2/base necessario per il vecchio schema switch Thumb. Compilatore e flag
+registrati; nove prove ricompilate indipendentemente, 71 relocazioni.
+proof_span riconosce soltanto lo switch Thumb MW limitato e il suo NOP di
+allineamento terminale: 374 byte di tabelle/literal/padding esclusi dal numeratore.
+2.240 casi C host/originale Thumb con buffer completi e tracce chiamate:
+il dispatcher esegue le cinque griglie originali; quattro dipendenze UI sono
+fixture in entrambi gli ambienti. Nessuna equivalenza del menu completo.
+Proseguire sugli helper evidenziazione/visibilità, poi 02026910 (init) e
+02026120 (input/fasi). Il campo +0x64 è cursore precedente, non tasti.
+Non ripetere invariati i 266 tentativi di search_character_select_family.py.
+Per il 18% mancano 45.498 byte. Main soltanto, un writer dei registri.

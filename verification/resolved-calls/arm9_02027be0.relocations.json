@@ -1,0 +1,110 @@
+[
+  {
+    "offset": 488,
+    "type": 2,
+    "symbol": "data_0215377c",
+    "target": 34944892,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944892
+  },
+  {
+    "offset": 492,
+    "type": 2,
+    "symbol": "data_02153784",
+    "target": 34944900,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944900
+  },
+  {
+    "offset": 496,
+    "type": 2,
+    "symbol": "data_0215378c",
+    "target": 34944908,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944908
+  },
+  {
+    "offset": 500,
+    "type": 2,
+    "symbol": "data_02153794",
+    "target": 34944916,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944916
+  },
+  {
+    "offset": 504,
+    "type": 2,
+    "symbol": "data_0215379c",
+    "target": 34944924,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944924
+  },
+  {
+    "offset": 508,
+    "type": 2,
+    "symbol": "data_021537a4",
+    "target": 34944932,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944932
+  },
+  {
+    "offset": 512,
+    "type": 2,
+    "symbol": "data_021537ac",
+    "target": 34944940,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944940
+  },
+  {
+    "offset": 516,
+    "type": 2,
+    "symbol": "data_021537b4",
+    "target": 34944948,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944948
+  },
+  {
+    "offset": 520,
+    "type": 2,
+    "symbol": "data_021537bc",
+    "target": 34944956,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944956
+  },
+  {
+    "offset": 524,
+    "type": 2,
+    "symbol": "data_021537c4",
+    "target": 34944964,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944964
+  },
+  {
+    "offset": 528,
+    "type": 2,
+    "symbol": "data_021537cc",
+    "target": 34944972,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944972
+  },
+  {
+    "offset": 532,
+    "type": 2,
+    "symbol": "data_021537d4",
+    "target": 34944980,
+    "thumb": false,
+    "addend": 0,
+    "value": 34944980
+  }
+]

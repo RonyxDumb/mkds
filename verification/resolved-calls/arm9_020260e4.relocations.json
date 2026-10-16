@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 12,
+    "type": 10,
+    "symbol": "GetGlobalCA_from_thumb",
+    "target": 33724720,
+    "thumb": true,
+    "addend": -4,
+    "value": 4229885955
+  },
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "func_0211f498",
+    "target": 34731160,
+    "thumb": true,
+    "addend": -4,
+    "value": 4190957817
+  },
+  {
+    "offset": 34,
+    "type": 10,
+    "symbol": "Mem_DestroyHeap",
+    "target": 33778352,
+    "thumb": false,
+    "addend": -4,
+    "value": 3973378064
+  }
+]

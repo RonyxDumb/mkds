@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "cases": 2240,
+  "functions": {
+    "02027448": 288,
+    "02027648": 288,
+    "02027850": 288,
+    "02027a58": 288,
+    "02027be0": 288,
+    "020270fc": 800
+  },
+  "scope": "Host C versus original Thumb; full 512-byte state and ordered dependency calls; four rendering/animation dependencies controlled in fixtures. No full-game equivalence."
+}
