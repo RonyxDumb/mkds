@@ -29,13 +29,13 @@ by_size = {}
 for (module, address), (name, mode, size) in inventory.items():
     if (module, address) not in known and size >= 16:
         by_size.setdefault(size, []).append((module, address, name, mode, original(module, address, size)))
-        if module == 'arm7' and config.get('extend_literal_spans'):
+        if (module == 'arm7' and config.get('extend_literal_spans')) or module in config.get('extend_literal_modules', []):
             # Include only extensions justified by the existing literal/span checker.
             for span in range(size+2, size+34, 2):
                 try:
                     code = original(module, address, span)
                     validate_span(code, address, mode, size)
-                except (AssertionError, StopIteration): continue
+                except (AssertionError, StopIteration, ValueError): continue
                 by_size.setdefault(span, []).append((module, address, name, mode, code))
 proof_path = root / 'verification/sdk-source-proofs.json'
 proofs = json.loads(proof_path.read_text()) if proof_path.exists() else {}

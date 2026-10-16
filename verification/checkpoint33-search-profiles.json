@@ -1,0 +1,140 @@
+{
+  "profiles": [
+    {
+      "profile": "donor-optimization-variants",
+      "objects": 20352,
+      "tested": 0,
+      "accepted": 0
+    },
+    {
+      "profile": "compiler2-mkds",
+      "objects": 1551,
+      "tested": 0,
+      "accepted": 0
+    },
+    {
+      "profile": "base-system9",
+      "objects": 552,
+      "tested": 2,
+      "accepted": 0
+    },
+    {
+      "profile": "compiler2-sdk9",
+      "objects": 1086,
+      "tested": 1,
+      "accepted": 1
+    },
+    {
+      "profile": "mkds-candidates",
+      "objects": 1551,
+      "tested": 0,
+      "accepted": 0
+    },
+    {
+      "profile": "base-system-historical",
+      "objects": 276,
+      "tested": 1,
+      "accepted": 0
+    },
+    {
+      "profile": "base-sdk7",
+      "objects": 1128,
+      "tested": 19,
+      "accepted": 1
+    },
+    {
+      "profile": "mkds-opposite-isa",
+      "objects": 3537,
+      "tested": 0,
+      "accepted": 0
+    },
+    {
+      "profile": "extended-sdk9",
+      "objects": 543,
+      "tested": 1,
+      "accepted": 0
+    },
+    {
+      "profile": "base-sdk9",
+      "objects": 1086,
+      "tested": 4,
+      "accepted": 1
+    },
+    {
+      "profile": "g3d-cleanup/base",
+      "objects": 6,
+      "tested": 0,
+      "accepted": 0
+    },
+    {
+      "profile": "g3d-cleanup/sp2p3",
+      "objects": 6,
+      "tested": 1,
+      "accepted": 1
+    },
+    {
+      "profile": "pure-c-siblings/sdk7/search",
+      "objects": 60,
+      "tested": 1,
+      "accepted": 1
+    },
+    {
+      "profile": "pure-c-siblings/sdk9/search",
+      "objects": 90,
+      "tested": 3,
+      "accepted": 3
+    },
+    {
+      "profile": "pokediamond-arm7/base",
+      "objects": 180,
+      "tested": 42,
+      "accepted": 0
+    },
+    {
+      "profile": "pokediamond-arm7/compiler2",
+      "objects": 180,
+      "tested": 0,
+      "accepted": 0
+    },
+    {
+      "profile": "pokediamond-arm7/sp2p3",
+      "objects": 180,
+      "tested": 48,
+      "accepted": 6
+    },
+    {
+      "profile": "sm64ds-new/base",
+      "objects": 258,
+      "tested": 0,
+      "accepted": 0
+    },
+    {
+      "profile": "corrected-sdk-calls.json",
+      "available_candidates": 719,
+      "completed": 719,
+      "compiler_invocations": 2034,
+      "exact_candidates": 3,
+      "seconds": 16.085013234000144,
+      "full_rom_link_verified": false
+    },
+    {
+      "profile": "corrected-sdk-calls-base.json",
+      "available_candidates": 716,
+      "completed": 716,
+      "compiler_invocations": 2031,
+      "exact_candidates": 0,
+      "seconds": 16.26774862299999,
+      "full_rom_link_verified": false
+    },
+    {
+      "profile": "compiler2-drafts.json",
+      "available_candidates": 11108,
+      "completed": 11108,
+      "compiler_invocations": 49949,
+      "exact_candidates": 8,
+      "seconds": 235.22768592500006,
+      "full_rom_link_verified": false
+    }
+  ],
+  "full_rom_link_verified": false
+}

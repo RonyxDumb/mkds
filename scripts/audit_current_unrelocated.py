@@ -8,14 +8,17 @@ base=Path(os.environ['MKDS_BASELINE']);manifest=json.loads((base/'manifest.json'
 sections={m['name']:[(s['base'],(base/'binaries'/s['file']).read_bytes()) for s in m['sections']] for m in manifest['modules']}
 rows=list(csv.DictReader((root/'verification/local-byte-exact.tsv').open(),delimiter='\t'))
 out=root/'verification/mw-objects';out.mkdir(exist_ok=True)
+batch_path=root/'verification/batch-source-proofs.json'
+batch_metadata=json.loads(batch_path.read_text()) if batch_path.exists() else {}
 def verify(r):
  addr=int(r['address'],16);size=int(r['size']);src=root/'src'/r['module']/f"{addr:08x}_{r['name']}.c"
  assert hashlib.sha256(src.read_bytes()).hexdigest()==r['source_sha256']
  original=next(b[addr-a:addr-a+size] for a,b in sections[r['module']] if a<=addr and addr+size<=a+len(b))
  assert hashlib.sha256(original).hexdigest()==r['sha256']
  obj=out/f"{r['module']}_{addr:08x}.o";processor='arm7tdmi' if r['module']=='arm7' else 'arm946e'
- if r.get('kind')=='sdk_source':
-  meta=json.loads((root/'verification/sdk-source-proofs.json').read_text())[f"{r['module']}_{addr:08x}"]
+ tag=f"{r['module']}_{addr:08x}"
+ if r.get('kind')=='sdk_source' or tag in batch_metadata:
+  meta=batch_metadata[tag] if tag in batch_metadata else json.loads((root/'verification/sdk-source-proofs.json').read_text())[tag]
   subprocess.run([os.environ['WIBO'],compiler_for(root,meta),*meta['flags'],'-c',str(src),'-o',str(obj)],cwd=root,check=True,capture_output=True)
   elf=ELFFile(io.BytesIO(obj.read_bytes()));sym=next(s for s in elf.get_section_by_name('.symtab').iter_symbols() if s.name==r['name']);idx=sym['st_shndx'];start=sym['st_value']&~1;code=elf.get_section(idx).data()[start:start+sym['st_size']]
   assert sym['st_size']==size and code==original

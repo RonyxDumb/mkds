@@ -1,7 +1,7 @@
 {
-  "tested": 1454,
-  "passed": 1454,
-  "exact_code_bytes": 50954,
+  "tested": 1455,
+  "passed": 1455,
+  "exact_code_bytes": 51042,
   "relocations": 0,
   "full_rom_link_verified": false,
   "compiler": "Per-function recorded MWCC variants (SHA-256 checked); default 1.2/sp2p3; Clang for explicitly tagged proofs",

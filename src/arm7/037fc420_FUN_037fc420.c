@@ -1,15 +1,29 @@
-/* Decompiled C draft; module arm7; ROM address 037fc420. No matching claim. */
-#include "types.h"
-#include "deps/037fc420_FUN_037fc420.h"
+#define SND_SetupCapture FUN_037fc420
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#include "SND_capture.h"
 
-void FUN_037fc420(int param_1,int param_2,undefined4 param_3,undefined2 param_4,int param_5,
-                 int param_6,byte param_7)
+#include "registers.h"
+#include "code32.h"
+#undef SND_SetupCapture
 
+enum SNDLoop
 {
-  (&DAT_04000508)[param_1] =
-       param_7 | (byte)(param_2 << 3) | (param_5 == 0) << 2 | (byte)(param_6 << 1);
-  *(undefined4 *)(param_1 * 8 + 0x4000510) = param_3;
-  *(undefined2 *)(param_1 * 8 + 0x4000514) = param_4;
-  return;
+    SND_CAP_LOOP = 0,
+    SND_CAP_ONESHOT = 1
+};
+
+void FUN_037fc420(
+    int idx, int format, void *captureData, int size, BOOL loop, int capCtrlSrc, int capCtrlDst)
+{
+    int off = idx * 8;
+
+    reg_SNDCAPxCNT(idx) = (u8)((format << 3) | ((loop ? SND_CAP_LOOP : SND_CAP_ONESHOT) << 2) |
+                               (capCtrlSrc << 1) | capCtrlDst);
+    *(vu32 *)(0x4000510 + off) = (u32)captureData;
+    *(vu16 *)(0x4000514 + off) = (u16)size;
 }
 
+BOOL SND_IsCaptureActive(int idx)
+{
+    return (reg_SNDCAPxCNT(idx) & 0x80) != 0;
+}

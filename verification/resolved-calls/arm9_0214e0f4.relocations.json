@@ -1,0 +1,56 @@
+[
+  {
+    "offset": 68,
+    "type": 1,
+    "symbol": "func_0214d5b8",
+    "target": 34919864,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422238
+  },
+  {
+    "offset": 88,
+    "type": 1,
+    "symbol": "Fifo_IsHandlerReady",
+    "target": 34920348,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422354
+  },
+  {
+    "offset": 108,
+    "type": 1,
+    "symbol": "Fifo_RegisterHandler",
+    "target": 34920388,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422359
+  },
+  {
+    "offset": 124,
+    "type": 2,
+    "symbol": "SDK_data_021803ac",
+    "target": 35128236,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128236
+  },
+  {
+    "offset": 128,
+    "type": 2,
+    "symbol": "SDK_data_021803b0",
+    "target": 35128240,
+    "thumb": false,
+    "addend": 0,
+    "value": 35128240
+  },
+  {
+    "offset": 132,
+    "type": 2,
+    "symbol": "SDK_data_0214d9e8",
+    "target": 34920936,
+    "thumb": false,
+    "addend": 0,
+    "value": 34920936
+  }
+]

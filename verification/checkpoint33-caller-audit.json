@@ -1,0 +1,44 @@
+{
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "func_0210b564",
+      "mode": "arm",
+      "address": "0x0210b564",
+      "size": "172",
+      "sha256": "9d749f6e55fb3a9d78a3820372e3f8fd81b54420227b217e5ca18a90fee6e453",
+      "source_sha256": "0f8bb613f6792dce905499af2684ba009290ba7bb3151a57f042e7f1d94dc0ac",
+      "relocations": "4",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "CheckZetaInvokeBeta",
+      "mode": "arm",
+      "address": "0x02133f84",
+      "size": "84",
+      "sha256": "f747b8e6e61162565c8edca6c3fb8bedd5bbfe5087d86cd6914013e349a06ef9",
+      "source_sha256": "058ce51e5988aba47c76b4a37eb3f169106f906adae2c335c67bdb9c46815787",
+      "relocations": "2",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 2,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 2,
+      "passed": 2
+    },
+    "unrelocated": {
+      "tested": 0,
+      "passed": 0
+    }
+  }
+}

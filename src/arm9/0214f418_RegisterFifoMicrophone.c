@@ -1,28 +1,440 @@
-/* Decompiled C draft; module arm9; ROM address 0214f418. No matching claim. */
-#include "types.h"
-#include "deps/0214f418_RegisterFifoMicrophone.h"
+#define PXI_Init func_0214d5b8
+#define PXI_IsCallbackReady Fifo_IsHandlerReady
+#define PXI_SetFifoRecvCallback Fifo_RegisterHandler
+#define MIC_Init RegisterFifoMicrophone
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#include    <nitro/spi.h>
 
-void RegisterFifoMicrophone(void)
+typedef enum MICLock {
+    MIC_LOCK_OFF = 0,
+    MIC_LOCK_ON,
+    MIC_LOCK_MAX
+} MICLock;
 
+typedef struct MICWork {
+    MICLock lock;
+    MICCallback callback;
+    void * callbackArg;
+    MICResult commonResult;
+    MICCallback full;
+    void * fullArg;
+    void * dst_buf;
+} MICWork;
+
+static u16 SDK_data_02180410;
+static MICWork SDK_data_02180414;
+
+static void SDK_data_0214f060(PXIFifoTag tag, u32 data, BOOL err);
+static BOOL MicDoSampling(u16 type);
+static BOOL MicStartAutoSampling(void * buf, u32 size, u32 span, u8 flags);
+static BOOL MicStopAutoSampling(void);
+static BOOL MicAdjustAutoSampling(u32 span);
+static void MicGetResultCallback(MICResult result, void * arg);
+static void MicWaitBusy(void);
+
+void RegisterFifoMicrophone (void)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  int iVar3;
-  
-  puVar1 = puRam0214f498;
-  if (*psRam0214f494 == 0) {
-    *psRam0214f494 = 1;
-    *puVar1 = 0;
-    puVar1[1] = 0;
+    if (SDK_data_02180410) {
+        return;
+    }
+
+    SDK_data_02180410 = 1;
+
+    SDK_data_02180414.lock = MIC_LOCK_OFF;
+    SDK_data_02180414.callback = NULL;
+
     func_0214d5b8();
-    do {
-      iVar3 = Fifo_IsHandlerReady(9,1);
-      uVar2 = uRam0214f4a0;
-    } while (iVar3 == 0);
-    *puRam0214f49c = 0;
-    Fifo_RegisterHandler(9,uVar2);
-    return;
-  }
-  return;
+    while (!Fifo_IsHandlerReady(PXI_FIFO_TAG_MIC, PXI_PROC_ARM7)) {
+    }
+
+    OS_GetSystemWork()->mic_last_address = 0;
+    Fifo_RegisterHandler(PXI_FIFO_TAG_MIC, SDK_data_0214f060);
 }
 
+MICResult MIC_DoSamplingAsync (MICSamplingType type, void * buf, MICCallback callback, void * arg)
+{
+    OSIntrMode enabled;
+    u16 wtype;
+
+    SDK_NULL_ASSERT(buf);
+    SDK_NULL_ASSERT(callback);
+
+    if (type >= MIC_SAMPLING_TYPE_MAX) {
+        return MIC_RESULT_ILLEGAL_PARAMETER;
+    }
+
+    switch (type) {
+    case MIC_SAMPLING_TYPE_8BIT:
+        wtype = SPI_MIC_SAMPLING_TYPE_8BIT;
+        break;
+    case MIC_SAMPLING_TYPE_12BIT:
+        wtype = SPI_MIC_SAMPLING_TYPE_12BIT;
+        break;
+    case MIC_SAMPLING_TYPE_SIGNED_8BIT:
+        wtype = SPI_MIC_SAMPLING_TYPE_S8BIT;
+        break;
+    case MIC_SAMPLING_TYPE_SIGNED_12BIT:
+        wtype = SPI_MIC_SAMPLING_TYPE_S12BIT;
+        break;
+    default:
+        return MIC_RESULT_ILLEGAL_PARAMETER;
+    }
+
+    enabled = OS_DisableInterrupts();
+
+    if (SDK_data_02180414.lock != MIC_LOCK_OFF) {
+        (void)OS_RestoreInterrupts(enabled);
+        return MIC_RESULT_BUSY;
+    }
+
+    SDK_data_02180414.lock = MIC_LOCK_ON;
+    (void)OS_RestoreInterrupts(enabled);
+
+    SDK_data_02180414.callback = callback;
+    SDK_data_02180414.callbackArg = arg;
+    SDK_data_02180414.dst_buf = buf;
+
+    if (MicDoSampling(wtype)) {
+        return MIC_RESULT_SUCCESS;
+    }
+
+    return MIC_RESULT_SEND_ERROR;
+}
+
+MICResult MIC_DoSampling (MICSamplingType type, void * buf)
+{
+    SDK_data_02180414.commonResult = MIC_DoSamplingAsync(type, buf, MicGetResultCallback, NULL);
+    if (SDK_data_02180414.commonResult == MIC_RESULT_SUCCESS) {
+        MicWaitBusy();
+    }
+    return SDK_data_02180414.commonResult;
+}
+
+MICResult MIC_StartAutoSamplingAsync (const MICAutoParam * param, MICCallback callback, void * arg)
+{
+    OSIntrMode enabled;
+    u8 flags;
+
+    SDK_NULL_ASSERT(callback);
+    SDK_NULL_ASSERT(param->buffer);
+
+    {
+
+        if ((u32)(param->buffer) & 0x01f) {
+#ifdef  SDK_DEBUG
+            OS_TWarning("Parameter param->buffer must be 32-byte aligned.\n");
+#endif
+            return MIC_RESULT_ILLEGAL_PARAMETER;
+        }
+
+        if (param->size & 0x01f) {
+#ifdef  SDK_DEBUG
+            OS_TWarning("Parameter param->size must be a multiple of 32-byte.\n");
+#endif
+            return MIC_RESULT_ILLEGAL_PARAMETER;
+        }
+
+        if (param->size <= 0) {
+            return MIC_RESULT_ILLEGAL_PARAMETER;
+        }
+
+        if (param->rate < MIC_SAMPLING_RATE_LIMIT) {
+            return MIC_RESULT_ILLEGAL_PARAMETER;
+        }
+
+        switch (param->type) {
+        case MIC_SAMPLING_TYPE_8BIT:
+            flags = SPI_MIC_SAMPLING_TYPE_8BIT;
+            break;
+        case MIC_SAMPLING_TYPE_12BIT:
+            flags = SPI_MIC_SAMPLING_TYPE_12BIT;
+            break;
+        case MIC_SAMPLING_TYPE_SIGNED_8BIT:
+            flags = SPI_MIC_SAMPLING_TYPE_S8BIT;
+            break;
+        case MIC_SAMPLING_TYPE_SIGNED_12BIT:
+            flags = SPI_MIC_SAMPLING_TYPE_S12BIT;
+            break;
+        case MIC_SAMPLING_TYPE_12BIT_FILTER_OFF:
+            flags = (SPI_MIC_SAMPLING_TYPE_12BIT | SPI_MIC_SAMPLING_TYPE_FILTER_OFF);
+            break;
+        case MIC_SAMPLING_TYPE_SIGNED_12BIT_FILTER_OFF:
+            flags = (SPI_MIC_SAMPLING_TYPE_S12BIT | SPI_MIC_SAMPLING_TYPE_FILTER_OFF);
+            break;
+        default:
+            return MIC_RESULT_ILLEGAL_PARAMETER;
+        }
+
+        if (param->loop_enable) {
+            flags = (u8)(flags | SPI_MIC_SAMPLING_TYPE_LOOP_ON);
+        } else {
+            flags = (u8)(flags | SPI_MIC_SAMPLING_TYPE_LOOP_OFF);
+        }
+
+        flags = (u8)(flags | SPI_MIC_SAMPLING_TYPE_CORRECT_OFF);
+    }
+
+    enabled = OS_DisableInterrupts();
+    if (SDK_data_02180414.lock != MIC_LOCK_OFF) {
+        (void)OS_RestoreInterrupts(enabled);
+        return MIC_RESULT_BUSY;
+    }
+    SDK_data_02180414.lock = MIC_LOCK_ON;
+    (void)OS_RestoreInterrupts(enabled);
+
+    SDK_data_02180414.callback = callback;
+    SDK_data_02180414.callbackArg = arg;
+    SDK_data_02180414.full = param->full_callback;
+    SDK_data_02180414.fullArg = param->full_arg;
+    if (MicStartAutoSampling(param->buffer, param->size, param->rate, flags)) {
+        return MIC_RESULT_SUCCESS;
+    }
+    return MIC_RESULT_SEND_ERROR;
+}
+
+MICResult MIC_StartAutoSampling (const MICAutoParam * param)
+{
+    SDK_data_02180414.commonResult = MIC_StartAutoSamplingAsync(param, MicGetResultCallback, NULL);
+    if (SDK_data_02180414.commonResult == MIC_RESULT_SUCCESS) {
+        MicWaitBusy();
+    }
+    return SDK_data_02180414.commonResult;
+}
+
+MICResult MIC_StopAutoSamplingAsync (MICCallback callback, void * arg)
+{
+    OSIntrMode enabled;
+
+    SDK_NULL_ASSERT(callback);
+
+    enabled = OS_DisableInterrupts();
+    if (SDK_data_02180414.lock != MIC_LOCK_OFF) {
+        (void)OS_RestoreInterrupts(enabled);
+        return MIC_RESULT_BUSY;
+    }
+    SDK_data_02180414.lock = MIC_LOCK_ON;
+    (void)OS_RestoreInterrupts(enabled);
+
+    SDK_data_02180414.callback = callback;
+    SDK_data_02180414.callbackArg = arg;
+    if (MicStopAutoSampling()) {
+        return MIC_RESULT_SUCCESS;
+    }
+    return MIC_RESULT_SEND_ERROR;
+}
+
+MICResult MIC_StopAutoSampling (void)
+{
+    SDK_data_02180414.commonResult = MIC_StopAutoSamplingAsync(MicGetResultCallback, NULL);
+    if (SDK_data_02180414.commonResult == MIC_RESULT_SUCCESS) {
+        MicWaitBusy();
+    }
+    return SDK_data_02180414.commonResult;
+}
+
+MICResult MIC_AdjustAutoSamplingAsync (u32 rate, MICCallback callback, void * arg)
+{
+    OSIntrMode enabled;
+
+    SDK_NULL_ASSERT(callback);
+
+    if (rate < MIC_SAMPLING_RATE_LIMIT) {
+        return MIC_RESULT_ILLEGAL_PARAMETER;
+    }
+
+    enabled = OS_DisableInterrupts();
+    if (SDK_data_02180414.lock != MIC_LOCK_OFF) {
+        (void)OS_RestoreInterrupts(enabled);
+        return MIC_RESULT_BUSY;
+    }
+    SDK_data_02180414.lock = MIC_LOCK_ON;
+    (void)OS_RestoreInterrupts(enabled);
+
+    SDK_data_02180414.callback = callback;
+    SDK_data_02180414.callbackArg = arg;
+    if (MicAdjustAutoSampling(rate)) {
+        return MIC_RESULT_SUCCESS;
+    }
+    return MIC_RESULT_SEND_ERROR;
+}
+
+MICResult MIC_AdjustAutoSampling (u32 rate)
+{
+    SDK_data_02180414.commonResult = MIC_AdjustAutoSamplingAsync(rate, MicGetResultCallback, NULL);
+    if (SDK_data_02180414.commonResult == MIC_RESULT_SUCCESS) {
+        MicWaitBusy();
+    }
+    return SDK_data_02180414.commonResult;
+}
+
+void * MIC_GetLastSamplingAddress (void)
+{
+    return (void *)(OS_GetSystemWork()->mic_last_address);
+}
+
+static void SDK_data_0214f060 (PXIFifoTag tag, u32 data, BOOL err)
+{
+#pragma unused(tag)
+
+    u16 command;
+    u16 pxiresult;
+    MICResult result;
+    MICCallback cb;
+
+    if (err) {
+        if (SDK_data_02180414.lock != MIC_LOCK_OFF) {
+            SDK_data_02180414.lock = MIC_LOCK_OFF;
+        }
+        if (SDK_data_02180414.callback) {
+            cb = SDK_data_02180414.callback;
+            SDK_data_02180414.callback = NULL;
+            cb(MIC_RESULT_FATAL_ERROR, SDK_data_02180414.callbackArg);
+        }
+    }
+
+    command = (u16)((data & SPI_PXI_RESULT_COMMAND_MASK) >> SPI_PXI_RESULT_COMMAND_SHIFT);
+    pxiresult = (u16)((data & SPI_PXI_RESULT_DATA_MASK) >> SPI_PXI_RESULT_DATA_SHIFT);
+
+    switch (pxiresult) {
+    case SPI_PXI_RESULT_SUCCESS:
+        result = MIC_RESULT_SUCCESS;
+        break;
+    case SPI_PXI_RESULT_INVALID_COMMAND:
+        result = MIC_RESULT_INVALID_COMMAND;
+        break;
+    case SPI_PXI_RESULT_INVALID_PARAMETER:
+        result = MIC_RESULT_ILLEGAL_PARAMETER;
+        break;
+    case SPI_PXI_RESULT_ILLEGAL_STATUS:
+        result = MIC_RESULT_ILLEGAL_STATUS;
+        break;
+    case SPI_PXI_RESULT_EXCLUSIVE:
+        result = MIC_RESULT_BUSY;
+        break;
+    default:
+        result = MIC_RESULT_FATAL_ERROR;
+    }
+
+    if (command == SPI_PXI_COMMAND_MIC_BUFFER_FULL) {
+        if (SDK_data_02180414.full) {
+            SDK_data_02180414.full(result, SDK_data_02180414.fullArg);
+        }
+    } else {
+        if (command == SPI_PXI_COMMAND_MIC_SAMPLING) {
+            if (SDK_data_02180414.dst_buf) {
+                *(u16 *)(SDK_data_02180414.dst_buf) = OS_GetSystemWork()->mic_sampling_data;
+            }
+        }
+
+        if (SDK_data_02180414.lock != MIC_LOCK_OFF) {
+            SDK_data_02180414.lock = MIC_LOCK_OFF;
+        }
+
+        if (SDK_data_02180414.callback) {
+            cb = SDK_data_02180414.callback;
+            SDK_data_02180414.callback = NULL;
+            cb(result, SDK_data_02180414.callbackArg);
+        }
+    }
+}
+
+static BOOL MicDoSampling (u16 type)
+{
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_MIC,
+                               SPI_PXI_START_BIT |
+                               SPI_PXI_END_BIT |
+                               (0 << SPI_PXI_INDEX_SHIFT) |
+                               (SPI_PXI_COMMAND_MIC_SAMPLING << 8) | (u32)type, 0)) {
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+static BOOL MicStartAutoSampling (void * buf, u32 size, u32 span, u8 flags)
+{
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_MIC,
+                               SPI_PXI_START_BIT |
+                               (0 << SPI_PXI_INDEX_SHIFT) |
+                               (SPI_PXI_COMMAND_MIC_AUTO_ON << 8) | (u32)flags, 0)) {
+        return FALSE;
+    }
+
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_MIC, (1 << SPI_PXI_INDEX_SHIFT) | ((u32)buf >> 16), 0)) {
+        return FALSE;
+    }
+
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_MIC,
+                               (2 << SPI_PXI_INDEX_SHIFT) | ((u32)buf & 0x0000ffff), 0)) {
+        return FALSE;
+    }
+
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_MIC, (3 << SPI_PXI_INDEX_SHIFT) | (size >> 16), 0)) {
+        return FALSE;
+    }
+
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_MIC,
+                               (4 << SPI_PXI_INDEX_SHIFT) | (size & 0x0000ffff), 0)) {
+        return FALSE;
+    }
+
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_MIC, (5 << SPI_PXI_INDEX_SHIFT) | (span >> 16), 0)) {
+        return FALSE;
+    }
+
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_MIC,
+                               SPI_PXI_END_BIT |
+                               (6 << SPI_PXI_INDEX_SHIFT) | (span & 0x0000ffff), 0)) {
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+static BOOL MicStopAutoSampling (void)
+{
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_MIC,
+                               SPI_PXI_START_BIT |
+                               SPI_PXI_END_BIT |
+                               (0 << SPI_PXI_INDEX_SHIFT) | (SPI_PXI_COMMAND_MIC_AUTO_OFF << 8), 0)) {
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+static BOOL MicAdjustAutoSampling (u32 span)
+{
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_MIC,
+                               SPI_PXI_START_BIT |
+                               (0 << SPI_PXI_INDEX_SHIFT) |
+                               (SPI_PXI_COMMAND_MIC_AUTO_ADJUST << 8), 0)) {
+        return FALSE;
+    }
+
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_MIC, (1 << SPI_PXI_INDEX_SHIFT) | (span >> 16), 0)) {
+        return FALSE;
+    }
+
+    if (0 > PXI_SendWordByFifo(PXI_FIFO_TAG_MIC,
+                               SPI_PXI_END_BIT |
+                               (2 << SPI_PXI_INDEX_SHIFT) | (span & 0x0000ffff), 0)) {
+        return FALSE;
+    }
+    return TRUE;
+}
+
+static void MicGetResultCallback (MICResult result, void * arg)
+{
+    SDK_data_02180414.commonResult = result;
+}
+
+#include <nitro/code32.h>
+
+extern void MicWaitBusy (void);
+
+#include <nitro/codereset.h>
+#undef PXI_Init
+#undef PXI_IsCallbackReady
+#undef PXI_SetFifoRecvCallback
+#undef MIC_Init

@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 28,
+    "type": 1,
+    "symbol": "FUN_038027a8",
+    "target": 58730408,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942652806
+  },
+  {
+    "offset": 36,
+    "type": 1,
+    "symbol": "thunk_FUN_038011ca",
+    "target": 58702260,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645767
+  },
+  {
+    "offset": 44,
+    "type": 1,
+    "symbol": "FUN_037fafd4",
+    "target": 58699732,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959422349
+  },
+  {
+    "offset": 48,
+    "type": 1,
+    "symbol": "FUN_037fba7c",
+    "target": 58702460,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942645814
+  }
+]

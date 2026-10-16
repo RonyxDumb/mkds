@@ -240,3 +240,13 @@ Ricerca riproducibile in scripts/search_thumb_command_family.py.
 Target 18% ancora aperto: 51.184 byte mancanti. Lavorare su main.
 Audit globale fresco: 1.454 senza relocazioni e 2.394 con, tutti PASS;
 7.477 relocazioni. Nessuna nuova prova runtime o semantica.
+
+## Checkpoint 33 — 16 ottobre 2026
+
+3.871 funzioni; 295.894 byte inventariati (15,462074%). +23 funzioni,
++2.616 byte; 40 byte extra di literal pool esclusi. Target 18% NON raggiunto:
+48.568 byte mancanti. Vedere reports/CHECKPOINT-33.md e profili di ricerca JSON.
+Corretto sdk_signatures.py: ricerca del simbolo rinominato; batch ora include
+varianti typed-sdk-calls/typed-sdk-globals. batch-source-proofs.json registra
+i compilatori alternativi e relativi flag, usati da entrambi gli audit.
+Non ripetere i 20.352 profili donor o i 49.949 tentativi MWCC 2.0 invariati.

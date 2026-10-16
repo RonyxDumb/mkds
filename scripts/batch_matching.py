@@ -26,6 +26,7 @@ from capstone.arm import ARM_OP_MEM, ARM_REG_PC
 from elftools.elf.elffile import ELFFile
 from arm_load_model import simplify_word_reads, parenthesized
 from matching_resolver import MatchingContext
+from sdk_signatures import recover_sdk_calls
 
 ROOT = Path(__file__).resolve().parents[1]
 PREAMBLE = '''typedef unsigned char uint8_t; typedef unsigned short uint16_t; typedef unsigned int uint32_t; typedef unsigned long long uint64_t;
@@ -106,6 +107,9 @@ def variants(context, module, address, original, body, declarations):
         declarations = re.sub(r'^#define ' + variable + r'\b.*$', '', declarations, flags=re.M)
     body, _ = simplify_word_reads(body)
     yield 'native-loads', body, declarations
+    typed_declarations, typed_body, changed_calls = recover_sdk_calls(ROOT, module, declarations, body)
+    if changed_calls:
+        yield 'typed-sdk-calls', typed_body, typed_declarations
     # Replacing constant memory lvalues by actual data symbols preserves aliasing
     # information the compiler loses when the global address is a local integer.
     globals_ = []
@@ -132,6 +136,9 @@ def variants(context, module, address, original, body, declarations):
 
     if globals_:
         yield 'symbolic-globals', symbolic, declarations + '\n' + '\n'.join(sorted(set(globals_))) + '\n'
+        typed_declarations, typed_body, changed_calls = recover_sdk_calls(ROOT, module, declarations, symbolic)
+        if changed_calls:
+            yield 'typed-sdk-globals', typed_body, typed_declarations + '\n' + '\n'.join(sorted(set(globals_))) + '\n'
 
 
 def candidates(context, include_known=False, modules=None, minimum=1, maximum=32768):
@@ -259,6 +266,7 @@ def main():
     parser.add_argument('--min-bytes', type=int, default=1)
     parser.add_argument('--max-bytes', type=int, default=32768)
     parser.add_argument('--module', action='append')
+    parser.add_argument('--variant', action='append', help='Select named candidate transformations')
     parser.add_argument('--optimization', action='append', default=None)
     parser.add_argument('--cache', type=Path, default=ROOT / 'build/matching-cache')
     parser.add_argument('--summary', type=Path, default=ROOT / 'build/batch-matching.json')
@@ -274,6 +282,8 @@ def main():
     search = Search(context, os.environ.get('MWCCARM', ROOT / 'tools/mwccarm/1.2/sp2p3/mwccarm.exe'),
                     os.environ.get('WIBO', ROOT / 'tools/wibo'), args.cache, args.optimization or ['-O4,p', '-O2', '-O3', '-O4,s', '-O1', '-O0'], not args.exhaustive_errors)
     pool = list(candidates(context, args.include_known, args.module, args.min_bytes, args.max_bytes))
+    if args.variant:
+        pool = [candidate for candidate in pool if candidate.variant in args.variant]
     priority = {}
     if args.queue:
         priority = {(r['module'], int(r['address'], 16)): index for index, r in enumerate(json.loads(args.queue.read_text()).get('near_misses', []))}

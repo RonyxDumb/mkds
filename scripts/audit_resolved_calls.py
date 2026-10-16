@@ -72,6 +72,11 @@ def linked(data,mod,name,addr):
 rows=list(csv.DictReader((root/'verification/local-linked-byte-exact.tsv').open(),delimiter='\t'))
 sdk_meta=root/'verification/sdk-source-proofs.json'
 overrides=json.loads(sdk_meta.read_text()) if sdk_meta.exists() else {}
+batch_meta=root/'verification/batch-source-proofs.json'
+if batch_meta.exists():
+ batch_overrides=json.loads(batch_meta.read_text())
+ if overrides.keys() & batch_overrides.keys():raise ValueError('Conflicting compiler metadata')
+ overrides.update(batch_overrides)
 audit_objects=root/'build/linked-audit-objects'
 audit_objects.mkdir(parents=True,exist_ok=True)
 def verify(r):

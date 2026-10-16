@@ -99,3 +99,16 @@ L'RSS massimo dei figli non è la memoria totale della famiglia di processi.
 
 Verifiche: `test_batch_matching.py`, `test_hash_only_proof.py`, `test_compare_rom.py`.
 Il test reale di compilazione viene saltato se il toolchain privato non è presente.
+
+## Profili e prototipi dal checkpoint 33
+
+`--variant typed-sdk-calls --variant typed-sdk-globals` seleziona le varianti
+con firme ricavate dal C verificato. Il recupero usa il simbolo rinominato,
+non il nome storico del donor. Non inventa argomenti mancanti.
+
+`accept_batch_matches.py` registra compilatore e flag per le nuove prove in
+`verification/batch-source-proofs.json`; i due audit indipendenti rispettano
+questa scelta e controllano lo SHA-256 del compilatore. Per un esperimento
+2.0/base impostare MWCCARM sia nella ricerca sia nell’accettazione.
+`setup_matching_toolchain.py` ripristina anche quella variante dall’archivio
+con hash fissato.

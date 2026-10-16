@@ -1,0 +1,128 @@
+[
+  {
+    "offset": 152,
+    "type": 1,
+    "symbol": "Nsbtx_GetTEX0Block",
+    "target": 33634032,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646373
+  },
+  {
+    "offset": 164,
+    "type": 1,
+    "symbol": "Tex0Block_GetTextureDataSize",
+    "target": 33622456,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420692
+  },
+  {
+    "offset": 176,
+    "type": 1,
+    "symbol": "Tex0Block_GetCompressedTextureDataSize",
+    "target": 33622444,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420686
+  },
+  {
+    "offset": 188,
+    "type": 1,
+    "symbol": "Tex0Block_GetPaletteDataSize",
+    "target": 33622136,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420606
+  },
+  {
+    "offset": 444,
+    "type": 1,
+    "symbol": "Tex0Block_SetTexturesVramKeys",
+    "target": 33622424,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420614
+  },
+  {
+    "offset": 456,
+    "type": 1,
+    "symbol": "Tex0Block_SetPaletteVramKey",
+    "target": 33622128,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420537
+  },
+  {
+    "offset": 468,
+    "type": 1,
+    "symbol": "Tex0Block_MaybeCopyTexturesToMem",
+    "target": 33622204,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420553
+  },
+  {
+    "offset": 480,
+    "type": 1,
+    "symbol": "Tex0Block_MaybeCopyPaletteToMem",
+    "target": 33622020,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420504
+  },
+  {
+    "offset": 504,
+    "type": 1,
+    "symbol": "Nsbmd_GetMDL0Block",
+    "target": 33634096,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646301
+  },
+  {
+    "offset": 520,
+    "type": 1,
+    "symbol": "func_02010168",
+    "target": 33620328,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420071
+  },
+  {
+    "offset": 600,
+    "type": 2,
+    "symbol": "SDK_data_021619ec",
+    "target": 35002860,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002860
+  },
+  {
+    "offset": 604,
+    "type": 2,
+    "symbol": "SDK_data_021619f4",
+    "target": 35002868,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002868
+  },
+  {
+    "offset": 608,
+    "type": 2,
+    "symbol": "SDK_data_021619f8",
+    "target": 35002872,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002872
+  },
+  {
+    "offset": 612,
+    "type": 2,
+    "symbol": "SDK_data_021619f0",
+    "target": 35002864,
+    "thumb": false,
+    "addend": 0,
+    "value": 35002864
+  }
+]

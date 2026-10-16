@@ -5,6 +5,17 @@ are invented, and calls requiring wider or aggregate ABI reasoning are skipped.
 """
 import json
 import re
+from functools import lru_cache
+
+
+@lru_cache(maxsize=8)
+def _proof_index(path, modified, size):
+    index = {}
+    for tag, proof in json.loads(path.read_text()).items():
+        module, address = tag.rsplit('_', 1)
+        name = proof['bindings'][proof['donor_function']]
+        index[module, name] = (address, proof)
+    return index
 
 def split_arguments(text):
     if text.strip() in ['', 'void']: return []
@@ -26,14 +37,16 @@ def recover_sdk_calls(root, module, declarations, body):
     ledger = root / 'verification/sdk-source-proofs.json'
     if not ledger.exists(): return declarations, body, 0
     changed = 0
-    for tag, proof in json.loads(ledger.read_text()).items():
-        if not tag.startswith(module + '_'): continue
-        address = tag[len(module)+1:]
-        original = proof['bindings'][proof['donor_function']]
-        if not re.search(r'\b' + re.escape(original) + r'\s*\(', body): continue
+    stat = ledger.stat()
+    index = _proof_index(ledger, stat.st_mtime_ns, stat.st_size)
+    calls = set(re.findall(r'\b([A-Za-z_]\w*)\s*\(', body))
+    for original in sorted(calls):
+        entry = index.get((module, original))
+        if entry is None: continue
+        address, proof = entry
         source = root / 'src' / module / (address + '_' + original + '.c')
         text = source.read_text()
-        signature = re.search(r'(?m)^([^\n;{}#]+?)\b' + re.escape(proof['donor_function']) + r'\s*\(([^;{}]*)\)\s*\{', text)
+        signature = re.search(r'(?m)^([^\n;{}#]+?)\b' + re.escape(original) + r'\s*\(([^;{}]*)\)\s*\{', text)
         if not signature: continue
         result = abi_type(signature.group(1), True)
         params = [abi_type(p) for p in split_arguments(signature.group(2))]

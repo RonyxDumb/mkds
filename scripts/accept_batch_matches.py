@@ -15,6 +15,7 @@ import subprocess
 import hashlib
 from batch_matching import ROOT, MatchingContext, Candidate, Search, atomic_json, digest
 from proof_span import validate_span
+from matching_compiler import compiler_record
 
 
 def write_proof_json(path, value):
@@ -52,6 +53,9 @@ def main():
     registries = [list(csv.DictReader(path.open(), delimiter='\t')) for path in paths]
     known = {(r['module'], int(r['address'], 16)) for rows in registries for r in rows}
     entries = json.loads((ROOT / 'verification/hash-only-proofs.json').read_text())
+    batch_path = ROOT / 'verification/batch-source-proofs.json'
+    batch_proofs = json.loads(batch_path.read_text()) if batch_path.exists() else {}
+    compiler_variant = compiler_record(ROOT)
     new = []
     audit = {'new_matches': new, 'total_functions': 0, 'full_rom_link_verified': False,
              'scope': 'Fresh targeted compilation of this batch only; earlier proofs retain their own audits.',
@@ -91,6 +95,10 @@ def main():
                    status='EXACT_LOCAL_LINKED_BYTES' if relocs else 'EXACT_LOCAL_BYTES')
         if not relocs:
             row['kind'] = 'mw_batch_draft'
+        metadata = {'flags': result['flags'], 'source_sha256': row['source_sha256']}
+        if compiler_variant is not None:
+            metadata['compiler'] = compiler_variant
+        independent.overrides[candidate.tag] = metadata
         try:
             independent.verify(row)
             index = ROOT / 'baseline/pseudocode' / module / 'index.tsv'
@@ -112,9 +120,11 @@ def main():
         bucket['passed'] += 1
         audit['total_functions'] += 1
         entries[candidate.tag] = {**{key: row[key] for key in ['sha256', 'source_sha256']}, 'size': candidate.size, 'audit': args.audit_name}
+        batch_proofs[candidate.tag] = metadata
         # Each completed proof is independently resumable. Never lose prior successes.
         write_proof_json(audit_path, audit)
         write_proof_json(ROOT / 'verification/hash-only-proofs.json', entries)
+        write_proof_json(batch_path, batch_proofs)
         for registry, rows in zip(paths, registries):
             write_registry(registry, rows)
         print('ACCEPTED', candidate.tag, candidate.size, len(relocs), flush=True)

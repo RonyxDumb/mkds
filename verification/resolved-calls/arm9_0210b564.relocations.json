@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 60,
+    "type": 1,
+    "symbol": "DriverContext_MaybeQueuePlaySfx",
+    "target": 34640068,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420615
+  },
+  {
+    "offset": 92,
+    "type": 1,
+    "symbol": "DriverContext_MaybeQueuePlaySfx",
+    "target": 34640068,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420607
+  },
+  {
+    "offset": 116,
+    "type": 1,
+    "symbol": "func_0210bb74",
+    "target": 34650996,
+    "thumb": false,
+    "addend": -8,
+    "value": 3942646117
+  },
+  {
+    "offset": 152,
+    "type": 1,
+    "symbol": "DriverContext_MaybeQueuePlaySfx",
+    "target": 34640068,
+    "thumb": false,
+    "addend": -8,
+    "value": 3959420592
+  }
+]

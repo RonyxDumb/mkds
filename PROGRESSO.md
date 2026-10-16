@@ -78,3 +78,7 @@ Checkpoint 32: +11 funzioni Thumb e +752 byte; totale 3.848 funzioni,
 293.278 byte inventariati (15,325374%). Comandi, liste e dispatcher.
 Tutte le nuove prove ricompilate e confrontate da resolver indipendente;
 33 relocazioni. Target 18% ancora aperto, 51.184 byte mancanti.
+
+Checkpoint 33: 3.871 funzioni, 295.894 byte inventariati (15,462074%).
++23 funzioni e +2.616 byte; 40 byte di pool ulteriori verificati ma non contati.
+Il 18% resta aperto: 48.568 byte mancanti. Nessuna ROM completa matching.

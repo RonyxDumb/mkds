@@ -14,7 +14,8 @@ parser.add_argument('config', type=Path)
 parser.add_argument('--output', type=Path, default=Path('build/source-variants'))
 parser.add_argument('--transformation', action='append', choices=[
     'omit_simple_null_returns', 'unchecked_g3d_dict_accessors',
-    'unchecked_g3d_dict_accessors_all_units'])
+    'unchecked_g3d_dict_accessors_all_units', 'g3d_unconditional_setup_cleanup',
+    'externalize_asm_functions'])
 args = parser.parse_args()
 donor = args.donor.resolve()
 config = json.loads(args.config.read_text())
