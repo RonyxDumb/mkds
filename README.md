@@ -8,7 +8,7 @@ Work-in-progress C decompilation of **Mario Kart DS (Europe)** for Nintendo DS.
 
 ## Progress
 ![Function inventory treemap](docs/progress-treemap.svg)
-Checkpoint 36: **3,894 locally verified functions, 299,326 inventory bytes (15.641415%)**. This includes 1,464 unrelocated matches and 2,430 matches after resolving all ARM/Thumb relocations. Full-ROM matching remains unverified.
+Checkpoint 38: **3,901 locally verified functions, 301,880 inventory bytes (15.774875%)**. This includes 1,464 unrelocated matches and 2,437 matches after resolving all ARM/Thumb relocations. Full-ROM matching remains unverified.
 
 The treemap is weighted by **identified function bytes**, with verified local matches highlighted. Compilation success is **not** evidence of correct behavior or matching assembly. These are local checkpoint measurements, not whole-game completion percentages. See [detailed measurements](reports/MISURA-DECOMP.md) and [GitHub Actions reports](https://github.com/RonyxDumb/mkds/actions/workflows/decomp-report.yml).
 
@@ -42,4 +42,8 @@ Batch analysis and resumable matching: [workflow and measured timings](docs/BATC
 
 [Checkpoint 33](reports/CHECKPOINT-33.md): +23 verified functions, +2,616 inventory bytes; caller-signature recovery fixed and historical library variants checked. **18% remains unreached.**
 
-Current subsystem: [character selection](reports/CHARACTER-SELECT-FAMILY.md). Navigation cluster: **6/6 exact**, with 2,240 C/Thumb comparison cases. Full controller scope: **15/23 exact**; initialization and main input/state machine remain open.
+Current subsystem: [character selection](reports/CHARACTER-SELECT-FAMILY.md). Navigation cluster: **6/6 exact**, with 2,240 C/Thumb comparison cases. Full controller scope: **22/23 exact**; initialization remains open.
+
+[Checkpoint 37](reports/CHECKPOINT-37.md): +2 character-selection render/exit helpers, +176 freshly compiled and independently audited bytes.
+
+[Checkpoint 38](reports/CHECKPOINT-38.md): +5 verified functions / +2,378 inventory bytes, including the complete input/state controller. Fixed controller scope: **22/23**; initializer remains excluded with 19 differing bytes.

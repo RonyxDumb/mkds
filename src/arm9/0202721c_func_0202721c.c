@@ -1,23 +1,8 @@
-/* Decompiled C draft; module arm9; ROM address 0202721c. No matching claim. */
-#include "types.h"
-#include "deps/0202721c_func_0202721c.h"
-
-void func_0202721c(void)
-
-{
-  int iVar1;
-  
-  iVar1 = *piRam02027284;
-  if (*(int *)(iVar1 + iRam02027288) == 0) {
-    func_02124748((int)*(short *)(iVar1 + *(int *)(iVar1 + 0x60) * 8 + 0x94),
-                  *(undefined4 *)(iVar1 + 0x40),*(undefined4 *)(iVar1 + 0x38),
-                  *(undefined4 *)(iVar1 + 0x44),0,2,*(undefined4 *)(iVar1 + 8),
-                  *(undefined4 *)(iVar1 + 0xc));
-    func_02124748((int)*(short *)(*piRam02027284 + *(int *)(*piRam02027284 + 0x60) * 8 + 0x94),
-                  *(undefined4 *)(iVar1 + 0x40),*(undefined4 *)(iVar1 + 0x38),
-                  *(undefined4 *)(iVar1 + 0x44),0,1,*(undefined4 *)(iVar1 + 8),
-                  *(undefined4 *)(iVar1 + 0xc));
-  }
-  return;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+typedef struct State {unsigned char pad[0x60]; int cursor,previous,timer,phase,alpha; unsigned short value; unsigned char pad76[6]; int count,mode; short neighbors[4]; int transition; struct {int character;short cell,pad;} entries[12];} State;
+extern State *data_02174e14;
+#define state data_02174e14
+#define system_mode (*(unsigned short *)0x27ffc40u)
+extern short data_02153554[];
+extern void func_02124748(int,void*,void*,void*,int,int,int,int);
+void func_0202721c(void){State *s=state;if(*(int *)((unsigned char *)s+296)==0){unsigned char *gfx=(unsigned char *)s+0x38;func_02124748(s->entries[s->cursor].cell,*(void **)(gfx+8),*(void **)(gfx+0),*(void **)(gfx+12),0,2,*(int *)((unsigned char *)s+8),*(int *)((unsigned char *)s+12));func_02124748(state->entries[state->cursor].cell,*(void **)(gfx+8),*(void **)(gfx+0),*(void **)(gfx+12),0,1,*(int *)((unsigned char *)s+8),*(int *)((unsigned char *)s+12));}}

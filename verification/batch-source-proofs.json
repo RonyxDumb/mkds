@@ -582,5 +582,152 @@
       "path": "tools/mwccarm/1.2/base/mwccarm.exe",
       "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
     }
+  },
+  "arm9_020273c0": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "b4848274ebbf737927378fc77ba94ac326ea04190fefd51f55723b496067d53c",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
+  },
+  "arm9_02027084": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "a41bf0f209c89e8ee741a0f971f6729558fea3a19b557b630e2dfbc21987b0c3",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
+  },
+  "arm9_0202721c": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "253ba84fae1bbef9aa09caddacf3a7c2eb99213551ef7ff6146836613e32e132",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
+  },
+  "arm9_02026058": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "997a570cb5fd4912a6fcae70f479db9fd2a25db3368c075a7df758a43295ed4e",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
+  },
+  "arm9_020272ec": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "dffb77affce7a22b7cf47a67314e0420f5072d893237b640888d42605cf5b99c",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
+  },
+  "arm9_0202734c": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "dcd875f5f71b28de67c82a9c7fd04c899380d3d2857128fa986850aa3563ec93",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
+  },
+  "arm9_02026120": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "6df7d6243aa65bd370ab046a8e6a115c888578a72734cfda9f86a202be843e05",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
   }
 }

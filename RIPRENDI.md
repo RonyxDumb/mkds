@@ -1,5 +1,20 @@
 # Riprendere il lavoro
 
+## Checkpoint 38 — 17 ottobre 2026
+
+Famiglia selezione personaggi: **22/23 matching**, 5.382/7.084 byte inventariati. L’obiettivo richiesto 23/23 resta aperto: soltanto `02026910` (inizializzatore) è non matching. Non cambiare perimetro e non conteggiare questo candidato.
+
+Il controller `02026120` è stato ricompilato e verificato su tutto lo span di 2.032 byte, incluse 104 relocazioni. Le altre quattro aggiunte sono `02026058`, `0202721c`, `020272ec`, `0202734c`; tutte hanno audit indipendenti checkpoint38.
+
+Prossimo punto concreto: `scripts/inputs/character-select/initializer-candidate.c`. Compila con MW 1.2/base e produce 1.908 byte, con 19 differenze residue in tre sequenze di accesso allo stato: riempimento degli slot mancanti, copia del cursore precedente e azzeramento del flag del giocatore. Eseguire `python scripts/check_character_initializer_candidate.py` per ottenere gli indirizzi e gli hash correnti. Il candidato non è integrato in src né nei registri matching. Non sostituire i byte compilati e non ignorare le differenze di registri.
+
+Copertura globale: 3.901 funzioni, 301.880/1.913.676 byte inventariati (15,774875%). Matching della ROM intera e comportamento in gioco non verificati. Lavorare esclusivamente su main.
+
+Ripristinare i binari privati del riferimento e la toolchain ignorata da Git prima di eseguire gli script. `scripts/setup_matching_toolchain.py` recupera i compilatori; usare `tools/mwccarm/1.2/base/mwccarm.exe` per queste prove. Misura: `python scripts/measure_progress.py`; test span: `python scripts/test_thumb_switch_span.py`; regressioni navigazione: `python scripts/test_character_select_navigation.py`.
+
+## Cronologia precedente
+
+
 ## Stato corrente — 14 ottobre 2026
 
 Lavorare esclusivamente su `main`. La PR #2 e stata integrata nel commit

@@ -15,7 +15,7 @@
       "name": "func_02026058",
       "role": "Configurazione blending/display",
       "inventory_bytes": 140,
-      "local_byte_exact": false,
+      "local_byte_exact": true,
       "subgroup": "controller",
       "source": "src/arm9/02026058_func_02026058.c"
     },
@@ -33,7 +33,7 @@
       "name": "func_02026120",
       "role": "Controller principale: input e fasi",
       "inventory_bytes": 1914,
-      "local_byte_exact": false,
+      "local_byte_exact": true,
       "subgroup": "controller",
       "source": "src/arm9/02026120_func_02026120.c"
     },
@@ -51,7 +51,7 @@
       "name": "func_02027084",
       "role": "Aggiornamento parametri delle icone",
       "inventory_bytes": 76,
-      "local_byte_exact": false,
+      "local_byte_exact": true,
       "subgroup": "controller",
       "source": "src/arm9/02027084_func_02027084.c"
     },
@@ -105,7 +105,7 @@
       "name": "func_0202721c",
       "role": "Aggiornamento grafica associata",
       "inventory_bytes": 112,
-      "local_byte_exact": false,
+      "local_byte_exact": true,
       "subgroup": "controller",
       "source": "src/arm9/0202721c_func_0202721c.c"
     },
@@ -132,7 +132,7 @@
       "name": "func_020272ec",
       "role": "Rimozione evidenziazione",
       "inventory_bytes": 96,
-      "local_byte_exact": false,
+      "local_byte_exact": true,
       "subgroup": "controller",
       "source": "src/arm9/020272ec_func_020272ec.c"
     },
@@ -141,7 +141,7 @@
       "name": "func_0202734c",
       "role": "Visibilit\u00e0 icone",
       "inventory_bytes": 116,
-      "local_byte_exact": false,
+      "local_byte_exact": true,
       "subgroup": "controller",
       "source": "src/arm9/0202734c_func_0202734c.c"
     },
@@ -150,7 +150,7 @@
       "name": "func_020273c0",
       "role": "Avvio transizione di uscita",
       "inventory_bytes": 100,
-      "local_byte_exact": false,
+      "local_byte_exact": true,
       "subgroup": "controller",
       "source": "src/arm9/020273c0_func_020273c0.c"
     },
@@ -209,10 +209,10 @@
       "source": "src/arm9/02027be0_func_02027be0.c"
     }
   ],
-  "exact_functions": 15,
+  "exact_functions": 22,
   "total_functions": 23,
   "inventory_bytes": 7084,
-  "exact_inventory_bytes": 2828,
+  "exact_inventory_bytes": 5382,
   "navigation_complete_local_matching": true,
   "full_menu_complete": false,
   "entry_evidence": [

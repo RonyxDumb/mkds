@@ -1,22 +1,16 @@
-/* Decompiled C draft; module arm9; ROM address 020273c0. No matching claim. */
-#include "types.h"
-#include "deps/020273c0_func_020273c0.h"
-
-void func_020273c0(void)
-
-{
-  int *piVar1;
-  
-  piVar1 = piRam02027418;
-  *(undefined4 *)(*piRam02027418 + 0x68) = 0;
-  *(undefined4 *)(*piVar1 + 0x8c) = 2;
-  *(undefined4 *)(*piVar1 + 0x6c) = 8;
-  func_02128310();
-  func_02027424(3);
-  func_02025f14((int *)(uintptr_t)(*piRam02027418 + 0xf8),2);
-  func_02025f14((int *)(uintptr_t)(*piRam02027418 + iRam0202741c),2);
-  func_02025f14((int *)(uintptr_t)(*piRam02027418 + iRam02027420),2);
-  func_020789d4();
-  return;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+typedef struct CharacterSelectState {
+ unsigned char reserved00[0x1c]; struct { unsigned char pad[12]; void *cellbank; void *a,*b; unsigned char *icons; unsigned char tail[40]; } render;
+ int cursor, previous_cursor, timer, phase, alpha;
+ unsigned short render_value;
+ unsigned char reserved76[6];
+ int character_count, mode;
+ short neighbors[4];
+ unsigned char reserved8c[4];
+ struct {int character;short cell,unused;} entries[12];
+ int current_character,current_value;
+} CharacterSelectState;
+extern CharacterSelectState *data_02174e14;
+#define state data_02174e14
+extern void func_02128310(int);extern void func_02027424(int);extern void func_02025f14(void *,int);extern void func_020789d4(void);
+void func_020273c0(void){state->timer=0;*(int *)((unsigned char *)state+0x8c)=2;state->phase=8;func_02128310(0);func_02027424(3);func_02025f14((unsigned char *)state+0xf8,2);func_02025f14((unsigned char *)state+264,2);func_02025f14((unsigned char *)state+280,2);func_020789d4();}

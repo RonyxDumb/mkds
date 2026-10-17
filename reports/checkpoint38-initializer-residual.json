@@ -1,0 +1,30 @@
+{
+  "outcome": "mismatch",
+  "compiled_bytes": 1908,
+  "reference_bytes": 1908,
+  "differing_bytes": 19,
+  "addresses": [
+    "0x2026dc7",
+    "0x2026dc8",
+    "0x2026dca",
+    "0x2026dcd",
+    "0x2026dce",
+    "0x2026e0d",
+    "0x2026e0e",
+    "0x2026e10",
+    "0x2026e12",
+    "0x2026e14",
+    "0x2026e7f",
+    "0x2026e81",
+    "0x2026e82",
+    "0x2026e84",
+    "0x2026e87",
+    "0x2026e88",
+    "0x2026e8c",
+    "0x2026e96",
+    "0x2026e9a"
+  ],
+  "source_sha256": "5d1155fd272ce4db23c9be4f7a153ea051edd6292db6d4b74760f1c4d794b2c0",
+  "compiler_sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399",
+  "registered": false
+}

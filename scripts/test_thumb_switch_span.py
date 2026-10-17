@@ -22,4 +22,21 @@ class ThumbSwitchSpanTests(unittest.TestCase):
     def test_truncated_table_rejected(self):
         with self.assertRaises(AssertionError):validate_span(self.code[:20],0x2000000,'thumb',16)
 
+class FragmentedPoolTests(unittest.TestCase):
+    def setUp(self):
+        # The first pool word also decodes as LDR to executable BX/NOP bytes.
+        # It must remain data, rather than inventing a third data pool.
+        self.code=b''.join(x.to_bytes(2,'little') for x in [
+            0x4802,0x4903,0x2200,0x2300,0xe004,0x46c0,
+            0x4802,0,0x3344,0x1122,0x4801,0x2000,0x4770,0x46c0,
+            0x7788,0x5566])
+    def test_forward_pools_do_not_decode_themselves(self):
+        validate_span(self.code,0x2000000,'thumb',16)
+    def test_alignment_requires_exact_pool_skip(self):
+        broken=self.code[:8]+bytes.fromhex('03e0')+self.code[10:]
+        with self.assertRaises(AssertionError):validate_span(broken,0x2000000,'thumb',16)
+    def test_unknown_padding_is_not_excluded(self):
+        broken=self.code[:10]+bytes.fromhex('0020')+self.code[12:]
+        with self.assertRaises(AssertionError):validate_span(broken,0x2000000,'thumb',16)
+
 if __name__=='__main__':unittest.main()

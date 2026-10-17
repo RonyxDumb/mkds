@@ -1,0 +1,41 @@
+{
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "func_02026120",
+      "mode": "thumb",
+      "address": "0x02026120",
+      "size": "2032",
+      "sha256": "5cf553bda81228392d1da569df0064516a6a84ed9092d4caf704db173a859319",
+      "source_sha256": "6df7d6243aa65bd370ab046a8e6a115c888578a72734cfda9f86a202be843e05",
+      "relocations": "104",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 1,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 1,
+      "passed": 1
+    },
+    "unrelocated": {
+      "tested": 0,
+      "passed": 0
+    }
+  },
+  "span_checks": {
+    "arm9_02026120": {
+      "validator": "proof_span.validate_span",
+      "inventory_size": 1914,
+      "span_size": 2032,
+      "sha256": "5cf553bda81228392d1da569df0064516a6a84ed9092d4caf704db173a859319",
+      "validated": true
+    }
+  },
+  "final_source_normalization": "Trailing whitespace removed, then freshly recompiled and independently verified again."
+}

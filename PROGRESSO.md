@@ -88,3 +88,7 @@ Checkpoint 34: +10 funzioni Thumb e +684 byte; 3.881 funzioni, 296.578 byte (15,
 Checkpoint 35: famiglia selezione personaggi. Navigazione completa 6/6; controller 12/23 matching. +9 funzioni, +2.386 byte inventariati (2.760 nello span); totale 298.964 byte, 15,622498%. 2.240 casi C/Thumb passati con dipendenze grafiche controllate.
 
 Checkpoint 36: quattro funzioni collegate al menu personaggi, +362 byte inventariati (370 nello span). Totale 299.326 byte e 3.894 funzioni; 15,641415%. Target16% non raggiunto, 6.863 byte mancanti. Famiglia personaggi 15/23.
+
+Checkpoint 37: due routine icone/transizione del menu personaggi, +176 byte. Totale 299.502 byte e 3.896 funzioni; 15,650612%. Famiglia personaggi 17/23; nove relocazioni confermate indipendentemente.
+
+Checkpoint 38: +5 funzioni verificate, +2.378 byte inventariati (+2.496 nello span). Famiglia personaggi 22/23; inizializzatore ancora non matching (19 byte differenti). Totale 301.880 byte, 3.901 funzioni, 15,774875%.

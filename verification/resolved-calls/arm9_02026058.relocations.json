@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 18,
+    "type": 10,
+    "symbol": "G2x_SetBlendAlpha_",
+    "target": 34907148,
+    "thumb": false,
+    "addend": -4,
+    "value": 3922784548
+  },
+  {
+    "offset": 96,
+    "type": 10,
+    "symbol": "func_0202ba14",
+    "target": 33733140,
+    "thumb": true,
+    "addend": -4,
+    "value": 4239192069
+  },
+  {
+    "offset": 112,
+    "type": 2,
+    "symbol": "data_02174e14",
+    "target": 35081748,
+    "thumb": false,
+    "addend": 0,
+    "value": 35081748
+  }
+]

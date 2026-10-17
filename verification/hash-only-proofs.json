@@ -4713,5 +4713,48 @@
     "source_sha256": "055b0b6cd2edda759e6f9c2682bb0815e0c538d8ffbf944b2f9d204fdef0b23b",
     "size": 200,
     "audit": "checkpoint36-resources-audit.json"
+  },
+  "arm9_020273c0": {
+    "sha256": "2665e83159f77499dc87540f60a86c9eab395e0770fd3999ba5cccb3b4055e56",
+    "source_sha256": "b4848274ebbf737927378fc77ba94ac326ea04190fefd51f55723b496067d53c",
+    "size": 100,
+    "audit": "checkpoint37-character-render-audit.json"
+  },
+  "arm9_02027084": {
+    "sha256": "c0b2a528db23b6e35fbc1213e8dfaa941583ee87879594534a41297dbb8efaff",
+    "source_sha256": "a41bf0f209c89e8ee741a0f971f6729558fea3a19b557b630e2dfbc21987b0c3",
+    "size": 76,
+    "audit": "checkpoint37-character-render-audit.json"
+  },
+  "arm9_0202721c": {
+    "sha256": "45717344abf3e77956d58b492ba042bf0d93125d0ebc5388f7d2820ea336b3a8",
+    "source_sha256": "253ba84fae1bbef9aa09caddacf3a7c2eb99213551ef7ff6146836613e32e132",
+    "size": 112,
+    "audit": "checkpoint38-character-helpers-audit.json"
+  },
+  "arm9_02026058": {
+    "sha256": "1716a74cc740fe340b2894a858362f9efee46697461d22e7973c0d02e82cee8c",
+    "source_sha256": "997a570cb5fd4912a6fcae70f479db9fd2a25db3368c075a7df758a43295ed4e",
+    "size": 140,
+    "audit": "checkpoint38-character-helpers-audit.json"
+  },
+  "arm9_020272ec": {
+    "sha256": "9fb9cfdee4d0f9d5b46953983f3889714476ecb58890c1116fd40d6cf775734f",
+    "source_sha256": "dffb77affce7a22b7cf47a67314e0420f5072d893237b640888d42605cf5b99c",
+    "size": 96,
+    "audit": "checkpoint38-character-helpers-audit.json"
+  },
+  "arm9_0202734c": {
+    "sha256": "5db11b90531f7d9d2af0c3eb48394b11395376c2f3ae0a9b1d2dad59d6305c85",
+    "source_sha256": "dcd875f5f71b28de67c82a9c7fd04c899380d3d2857128fa986850aa3563ec93",
+    "size": 116,
+    "audit": "checkpoint38-character-helpers-audit.json"
+  },
+  "arm9_02026120": {
+    "sha256": "5cf553bda81228392d1da569df0064516a6a84ed9092d4caf704db173a859319",
+    "source_sha256": "6df7d6243aa65bd370ab046a8e6a115c888578a72734cfda9f86a202be843e05",
+    "size": 2032,
+    "audit": "checkpoint38-character-controller-audit.json",
+    "inventory_size": 1914
   }
 }

@@ -39,8 +39,10 @@ def validate_span(code, address, mode, inventory_size):
         return
     assert len(code) > inventory_size
     literal_bytes = set()
+    switch_bytes=thumb_switch_bytes(code,address) if mode=='thumb' else set()
     step = 4 if mode == 'arm' else 2
     for offset in range(0, len(code) - step + 1, step):
+        if mode=='thumb' and (offset in literal_bytes or offset in switch_bytes):continue
         word = int.from_bytes(code[offset:offset+step], 'little')
         if mode == 'arm' and word & 0x0f7f0000 == 0x051f0000:
             displacement = word & 0xfff
@@ -69,4 +71,31 @@ def validate_span(code, address, mode, inventory_size):
         if (literal_bytes == set(range(end, len(code))) and end >= 8
                 and code[end-8:end] == bytes.fromhex('0040bde81eff2fe1')):
             remaining = 0
+    if remaining != 0 and mode == 'thumb':
+        # Embedded pools can themselves decode as LDR literals. Walk forward,
+        # skipping already established data, so those false instructions cannot
+        # invent exclusions inside later executable code.
+        actual=set()
+        for offset in range(0,len(code)-1,2):
+            if offset in actual or offset in switch_bytes:continue
+            word=int.from_bytes(code[offset:offset+2],'little')
+            if word & 0xf800 != 0x4800:continue
+            relative=(((address+offset+4)&~3)+(word&255)*4)-address
+            if offset < relative and relative+4<=len(code):actual.update(range(relative,relative+4))
+        pads=set()
+        starts=[p for p in sorted(actual) if p-1 not in actual]
+        for start in starts:
+            if start<4 or code[start-2:start]!=bytes.fromhex('c046'):continue
+            prev=int.from_bytes(code[start-4:start-2],'little')
+            end=start
+            while end in actual:end+=1
+            # An unconditional B must skip precisely this pool, or BX returns
+            # immediately before the final aligned pool. No arbitrary NOPs.
+            if prev & 0xf800==0xe000:
+                delta=prev&0x7ff
+                if delta&0x400:delta-=0x800
+                if start+delta*2==end:pads.update(range(start-2,start))
+            elif prev & 0xff87==0x4700 and end==len(code):pads.update(range(start-2,start))
+        if len(code)-len(actual|switch_bytes|pads)==inventory_size:
+            remaining=0
     assert remaining == 0, 'Span/body difference is not accounted for by literal loads or the checked shared return'
