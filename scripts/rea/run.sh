@@ -6,7 +6,7 @@ export GHIDRA_INSTALL_DIR="${GHIDRA_INSTALL_DIR:-$root/tools/ghidra_12.1.4_PUBLI
 export JAVA_HOME="${JAVA_HOME:-$root/tools/jdk21/jdk-21.0.12.1+1}"
 export REA_GHIDRA_TRANSPORT=authenticated-loopback-tcp
 if [ ! -f "$root/tools/rea-source/dist/cli.js" ] || [ ! -x "$JAVA_HOME/bin/java" ]; then
-    echo "Restore and build the pinned REA clone and JDK21; see reports/REA-PID-FIX.md" >&2
+    echo "Restore and build the pinned REA clone and JDK21; see BUILD.md" >&2
     exit 1
 fi
 if [ ! -x "$GHIDRA_INSTALL_DIR/support/analyzeHeadless" ]; then

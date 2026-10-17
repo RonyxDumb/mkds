@@ -1,49 +1,14 @@
 # Mario Kart DS (EUR)
+
 [![Matching](https://decompilati.onl/badge/mario-kart-ds/matching.svg)](https://decompilati.onl/projects/mario-kart-ds)
 [![Functions](https://decompilati.onl/badge/mario-kart-ds/functions.svg)](https://decompilati.onl/projects/mario-kart-ds)
 
-Work-in-progress C decompilation of **Mario Kart DS (Europe)** for Nintendo DS.
+Work-in-progress C decompilation of Mario Kart DS (Europe), with AI assistance.
 
-**ROM INFO**: game code `AMCP`, SHA-1 `ce97d9b43f0d3ca0d48b781983e8a16f6393378f`.
+Reference ROM: `AMCP`, SHA-1 `ce97d9b43f0d3ca0d48b781983e8a16f6393378f`.
+Supply your own ROM; game binaries and assets are not included.
 
-## Progress
-![Function inventory treemap](docs/progress-treemap.svg)
-Checkpoint 38: **3,901 locally verified functions, 301,880 inventory bytes (15.774875%)**. This includes 1,464 unrelocated matches and 2,437 matches after resolving all ARM/Thumb relocations. Full-ROM matching remains unverified.
+See [BUILD.md](BUILD.md) for setup and verification.
+Matching measures locally verified function bytes; a complete matching ROM build is not yet available.
 
-The treemap is weighted by **identified function bytes**, with verified local matches highlighted. Compilation success is **not** evidence of correct behavior or matching assembly. These are local checkpoint measurements, not whole-game completion percentages. See [detailed measurements](reports/MISURA-DECOMP.md) and [GitHub Actions reports](https://github.com/RonyxDumb/mkds/actions/workflows/decomp-report.yml).
-
-You can check it online on [Decomp.dev](https://decomp.dev/RonyxDumb/mkds).
-
-## AI disclosure
-
-**AI-assisted project.** Artificial intelligence has been used to help analyze disassembly, reconstruct C code, resolve compilation issues, and automate verification. AI-generated changes require independent validation; unverified code must not be treated as matching or accurate by default.
-
-## Legal
-
-This repository does not distribute Nintendo ROMs or proprietary game assets. A legally obtained **Mario Kart DS (EUR)** copy is required for reference and verification.
-
-Checkpoint 22 reported additional local results but its source corpus is unavailable here; those results are excluded from the published metrics.
-
-[Checkpoint 24 recovery](reports/CHECKPOINT-24.md): +651 freshly audited C matches, +3.641160 percentage points of the unchanged function inventory.
-
-[Checkpoint 25](reports/CHECKPOINT-25.md): four pending C matches freshly audited; bounded mission, time-trial and battle observations; reproducible local GDB launch. REA/Ghidra remains blocked.
-
-[Checkpoint 26](reports/CHECKPOINT-26.md): +5 verified C functions / +252 bytes. [Menu exploration with screenshots](reports/MENU-EXPLORATION-2026-10-15.md): Options, Records, WFC Setup, multiplayer, race modes and ghosts; original reference ROM, bounded coverage.
-
-[Checkpoint 27](reports/CHECKPOINT-27.md): +12 verified C functions / +568 bytes; mission queries, boss checks and save dialog; 20,792 original ARM/Thumb versus host C cases passed.
-
-[Checkpoint 28](reports/CHECKPOINT-28.md): +22 verified C functions / +1,308 bytes; 3D resource accessors and menu/emblem helpers; 42,235 additional semantic cases passed.
-
-[Checkpoint 29](reports/CHECKPOINT-29.md): +8 verified C functions / +2,452 bytes; dictionary searches, material/texture animation, time-trial codes and audio loading; 9,792 dictionary semantic cases passed. The 18% inventory target remains open.
-
-Batch analysis and resumable matching: [workflow and measured timings](docs/BATCH-MATCHING.md).
-
-[Checkpoint 32](reports/CHECKPOINT-32.md): +11 typed Thumb command/list helpers, +752 freshly compiled and independently audited bytes.
-
-[Checkpoint 33](reports/CHECKPOINT-33.md): +23 verified functions, +2,616 inventory bytes; caller-signature recovery fixed and historical library variants checked. **18% remains unreached.**
-
-Current subsystem: [character selection](reports/CHARACTER-SELECT-FAMILY.md). Navigation cluster: **6/6 exact**, with 2,240 C/Thumb comparison cases. Full controller scope: **22/23 exact**; initialization remains open.
-
-[Checkpoint 37](reports/CHECKPOINT-37.md): +2 character-selection render/exit helpers, +176 freshly compiled and independently audited bytes.
-
-[Checkpoint 38](reports/CHECKPOINT-38.md): +5 verified functions / +2,378 inventory bytes, including the complete input/state controller. Fixed controller scope: **22/23**; initializer remains excluded with 19 differing bytes.
+![Function inventory](docs/progress-treemap.svg)
