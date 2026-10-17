@@ -1,0 +1,83 @@
+{
+  "base_commit": "82499354a8c5b790a3d43c15c5540ffb0ea335bf",
+  "previous_exact_functions": 3942,
+  "current_exact_functions": 3944,
+  "previous_inventory_bytes": 305160,
+  "current_inventory_bytes": 305316,
+  "lost_exact_proofs": 0,
+  "fuzzy_promoted_to_exact": 1,
+  "fuzzy_remaining": 20,
+  "reference_inventory_bytes": 1913676,
+  "reference_inventory_unchanged": true,
+  "previous_unrelocated_fresh_audit": {
+    "tested": 1466,
+    "passed": 1466,
+    "exact_code_bytes": 51516,
+    "relocations": 0,
+    "full_rom_link_verified": false,
+    "compiler": "Per-function recorded MWCC variants (SHA-256 checked); default 1.2/sp2p3; Clang for explicitly tagged proofs",
+    "verification": "Fresh compilation of current source; complete function bytes and length identical to original decompressed section; no masking or relocations."
+  },
+  "previous_resolved_fresh_audit": {
+    "tested": 2476,
+    "passed": 2476,
+    "bytes": 256750,
+    "resolved_relocations": 7916,
+    "full_rom_link_verified": false
+  },
+  "new_audits": [
+    "verification/continuity-20261017-short-audit.json",
+    "verification/continuity-20261017-arm7-audit.json"
+  ],
+  "searches": [
+    {
+      "available_candidates": 11026,
+      "cache_hits": 0,
+      "compiler_invocations": 7335,
+      "completed": 2500,
+      "cpu_seconds_self_and_children": 104.345947,
+      "fingerprint": "90a4e2f8bcae29159fe2e1cc06ec3708ae87492834d7af372e5c5b76d8646c7f",
+      "full_rom_link_verified": false,
+      "largest_child_rss_kib": 154696,
+      "optimization_attempts_skipped": 7665,
+      "outcomes": {
+        "compile_error": 2829,
+        "compiler_failure": 2,
+        "mismatch": 4162,
+        "unresolved": 342
+      },
+      "peak_python_rss_kib": 154696,
+      "seconds": 35.435324778999984,
+      "selected": 2500,
+      "workers": 4,
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81"
+    },
+    {
+      "available_candidates": 11026,
+      "cache_hits": 0,
+      "compiler_invocations": 46912,
+      "completed": 11026,
+      "cpu_seconds_self_and_children": 527.949806,
+      "fingerprint": "833aab7c4c80a9b49ddef695ea6ea6c864aa7dd84757e21059730f46317ddd18",
+      "full_rom_link_verified": false,
+      "largest_child_rss_kib": 262720,
+      "optimization_attempts_skipped": 19240,
+      "outcomes": {
+        "compile_error": 10790,
+        "exact": 1,
+        "mismatch": 34423,
+        "unresolved": 1698
+      },
+      "peak_python_rss_kib": 262720,
+      "seconds": 196.93060875399996,
+      "selected": 11026,
+      "workers": 4,
+      "compiler": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "compiler_sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
+  ],
+  "full_rom_link_verified": false,
+  "unrecoverable_chat_claim_percent": 16.418035,
+  "chat_claim_counted_as_verified": false
+}

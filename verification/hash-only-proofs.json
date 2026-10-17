@@ -5004,5 +5004,17 @@
     "source_sha256": "51f1110889fb8421580e828f1d3172dfa72947c4f999e85906d63aeb692eb6c3",
     "size": 104,
     "audit": "checkpoint41-refined-siblings-audit.json"
+  },
+  "arm9_02037a40": {
+    "sha256": "fc9d051cdef471689b1bc283952b976346b209057b099ac03fd035df9a6fecb3",
+    "source_sha256": "9cb30609f32586edf1038c91da6d48f26ddd65ba617ca8c5eb60d7a8d2daae91",
+    "size": 84,
+    "audit": "continuity-20261017-short-audit.json"
+  },
+  "arm7_037f8c74": {
+    "sha256": "a6bd6ee035e22c7281a272816fd17a2470e000d8541ccbe8cdb61ded9f5e4640",
+    "source_sha256": "1065e2a05a45a9698a74a2e5447004f43b6b90e957878049fd72f593b7c2da3a",
+    "size": 72,
+    "audit": "continuity-20261017-arm7-audit.json"
   }
 }

@@ -1,0 +1,31 @@
+{
+  "new_matches": [
+    {
+      "module": "arm7",
+      "name": "FUN_037f8c74",
+      "mode": "arm",
+      "address": "0x037f8c74",
+      "size": "72",
+      "sha256": "a6bd6ee035e22c7281a272816fd17a2470e000d8541ccbe8cdb61ded9f5e4640",
+      "source_sha256": "1065e2a05a45a9698a74a2e5447004f43b6b90e957878049fd72f593b7c2da3a",
+      "relocations": "2",
+      "optimization": "-O2",
+      "processor": "arm7tdmi",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 1,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 1,
+      "passed": 1
+    },
+    "unrelocated": {
+      "tested": 0,
+      "passed": 0
+    }
+  }
+}

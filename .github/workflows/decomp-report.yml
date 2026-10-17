@@ -15,6 +15,19 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check continuity of exact proofs
+        env:
+          PREVIOUS_SHA: ${{ github.event.before }}
+        run: |
+          base="$PREVIOUS_SHA"
+          if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ]; then
+            base=$(git rev-parse HEAD^)
+          fi
+          python3 scripts/check_continuity.py --base "$base"
+      - name: Test continuity failure detection
+        run: python3 scripts/test_continuity.py
       - name: Check ROM comparison regression tests
         run: python3 scripts/test_compare_rom.py
       - name: Generate validated progress report

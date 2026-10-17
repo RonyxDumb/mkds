@@ -1,8 +1,7 @@
 {
-  "tested": 2452,
-  "passed": 2452,
-  "bytes": 254646,
-  "resolved_relocations": 7808,
-  "full_rom_link_verified": false,
-  "verification": "Fresh audit_resolved_calls.verify: first 2300 rows completed in global run; final 152 rows rechecked after restoring hash-verified MWCCARM 2.0/base. No comparison failures."
+  "tested": 2476,
+  "passed": 2476,
+  "bytes": 256750,
+  "resolved_relocations": 7916,
+  "full_rom_link_verified": false
 }

@@ -44,8 +44,25 @@ its source corpus is unavailable. Detailed proof records remain in `verification
 | 39 | 3,911 | 302,550 |
 | 40 | 3,917 | 303,032 |
 | 41 | 3,942 | 305,160 |
+| 42 | 3,944 | 305,316 |
 
 ## Current work
+
+Checkpoint 42: 3,944 functions, 305,316 / 1,913,676 inventory bytes
+(15.954425%). `LoopFn_Some3D` at `02037a40`: recovered the unsigned
+16-bit field at offset 10. Original uses `ldrh`; the fuzzy draft used
+`ldrsh`. Fresh compilation and independent relocation audit verify all 84 bytes.
+Proof: `verification/continuity-20261017-short-audit.json`.
+ARM7 `FUN_037f8c74`: recovered typed call arguments, verified all 72 bytes
+with MWCC 1.2/base at `-O2`, including both relocations. Proof:
+`verification/continuity-20261017-arm7-audit.json`.
+20 fuzzy drafts remain separate. The previous fuzzy source stays in Git.
+Continuity checks compare against immutable commit `82499354a8c5b790a3d43c15c5540ffb0ea335bf`.
+The earlier chat claim of 16.418035% has no recoverable source/proof checkpoint
+in this checkout and is not included in measured progress.
+
+### Previous checkpoint details
+
 
 Checkpoint 41: 3,942 functions, 305,160 / 1,913,676 inventory bytes (15.946273%).
 25 new exact functions, 2,128 bytes: corrected inferred local-array extents,
@@ -55,7 +72,7 @@ Fresh proof audits: `verification/checkpoint41-local-arrays-audit.json`,
 `verification/checkpoint41-siblings-audit.json`,
 `verification/checkpoint41-refined-siblings-audit.json`.
 
-21 unaccepted fuzzy drafts are parked in `verification/fuzzy-candidates.json`.
+At checkpoint 41, 21 unaccepted fuzzy drafts were parked in `verification/fuzzy-candidates.json`.
 They match at least 95% of their complete resolved bytes, but byte similarity is
 not semantic correctness; they do not increase the exact count. Drafts explicitly
 using Ghidra's `unaff_*` or `extraout_*` values were excluded from this bank.

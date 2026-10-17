@@ -16,17 +16,6 @@
     },
     {
       "module": "arm9",
-      "address": "0x2037a40",
-      "source": "scripts/inputs/fuzzy/arm9_02037a40.c",
-      "source_sha256": "91e3a1db7e5d1e4512f3a28401cb8d0cd73a4f085968ab3050ecf8cd88fd9525",
-      "reference_sha256": "fc9d051cdef471689b1bc283952b976346b209057b099ac03fd035df9a6fecb3",
-      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
-      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
-      "optimization": "-O4,p",
-      "differing_bytes": 1
-    },
-    {
-      "module": "arm9",
       "address": "0x2118b48",
       "source": "scripts/inputs/fuzzy/arm9_02118b48.c",
       "source_sha256": "dfd7cf4adb0c893e4a6f298ea7d0f5f9cac042c7ba221fe110bc49219f2a6cc2",

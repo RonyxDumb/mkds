@@ -2,7 +2,7 @@
 <rect width="1200" height="740" rx="14" fill="#0d1117"/>
 <style>text{font-family:Inter,Segoe UI,Arial,sans-serif}.heading{fill:#e6edf3;font-weight:700}.light{fill:#9da7b3}.module{fill:#e6edf3;font-weight:700}.tile{fill:#8ea3b9;font-size:10px;pointer-events:none}</style>
 <text x="28" y="44" class="heading" font-size="26">Mario Kart DS · Decompilation progress</text>
-<text x="28" y="70" class="light" font-size="14">EUR checkpoint 41 · 305,160 / 1,913,676 verified local byte-exact code bytes · 15.9463%</text>
+<text x="28" y="70" class="light" font-size="14">EUR checkpoint 42 · 305,316 / 1,913,676 verified local byte-exact code bytes · 15.9544%</text>
 <rect x="28" y="91" width="13" height="13" fill="#2ea043"/><text x="47" y="103" class="light" font-size="12">Byte-exact locally</text>
 <rect x="206" y="91" width="13" height="13" fill="#303f52"/><text x="225" y="103" class="light" font-size="12">Not byte-exact / unverified</text>
 <text x="1170" y="103" text-anchor="end" class="light" font-size="12">Tile area ∝ identified function bytes</text>
@@ -83,8 +83,8 @@
 <rect x="138.52" y="541.70" width="12.207" height="49.72" fill="#2ea043"/>
 <title>arm9/024 · 7,386 bytes · 1,948 verified (26.374%) · 64 functions</title>
 <rect x="138.52" y="591.41" width="46.28" height="79.59" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="138.52" y="591.41" width="5.887" height="79.59" fill="#2ea043"/>
-<title>arm9/025 · 11,824 bytes · 1,504 verified (12.720%) · 64 functions</title>
+<rect x="138.52" y="591.41" width="6.216" height="79.59" fill="#2ea043"/>
+<title>arm9/025 · 11,824 bytes · 1,588 verified (13.430%) · 64 functions</title>
 <rect x="184.80" y="146.00" width="66.35" height="39.71" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="184.80" y="146.00" width="10.340" height="39.71" fill="#2ea043"/>
 <text x="189.8" y="161.0" class="tile">arm9/026</text>
@@ -438,7 +438,7 @@
 <rect x="829.28" y="623.83" width="29.76" height="47.17" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="829.28" y="623.83" width="3.447" height="47.17" fill="#2ea043"/>
 <title>arm9/121 · 4,506 bytes · 522 verified (11.585%) · 63 functions</title>
-<text x="31.0" y="138.0" class="module" font-size="13">ARM9 · 18.396%</text>
+<text x="31.0" y="138.0" class="module" font-size="13">ARM9 · 18.402%</text>
 <rect x="865.03" y="120.00" width="310.97" height="188.15" rx="3" fill="#15202c" stroke="#5b7187" stroke-width="1.7"/>
 <rect x="871.03" y="146.00" width="48.58" height="36.39" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="871.03" y="146.00" width="1.676" height="36.39" fill="#2ea043"/>
@@ -565,8 +565,8 @@
 <text x="1031.5" y="326.2" class="module" font-size="13">ARM9_OV003 · 0.204%</text>
 <rect x="865.03" y="518.40" width="310.97" height="158.60" rx="3" fill="#15202c" stroke="#5b7187" stroke-width="1.7"/>
 <rect x="871.03" y="544.40" width="33.32" height="44.26" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="871.03" y="544.40" width="12.395" height="44.26" fill="#2ea043"/>
-<title>arm7/000 · 5,732 bytes · 2,132 verified (37.195%) · 64 functions</title>
+<rect x="871.03" y="544.40" width="12.814" height="44.26" fill="#2ea043"/>
+<title>arm7/000 · 5,732 bytes · 2,204 verified (38.451%) · 64 functions</title>
 <rect x="871.03" y="588.66" width="33.32" height="46.02" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="871.03" y="588.66" width="20.867" height="46.02" fill="#2ea043"/>
 <title>arm7/001 · 5,960 bytes · 3,732 verified (62.617%) · 64 functions</title>
@@ -617,7 +617,7 @@
 <rect x="1090.38" y="650.78" width="79.62" height="20.22" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="1090.38" y="650.78" width="14.967" height="20.22" fill="#2ea043"/>
 <title>arm7/015 · 6,256 bytes · 1,176 verified (18.798%) · 22 functions</title>
-<text x="872.0" y="536.4" class="module" font-size="13">ARM7 · 31.801%</text>
+<text x="872.0" y="536.4" class="module" font-size="13">ARM7 · 31.849%</text>
 <text x="28" y="707" class="light" font-size="12">12,038 identified functions · Colored bytes are local verified matches; compilable nonmatching C is not counted as matching.</text>
 <text x="28" y="725" class="light" font-size="12">This is an inventory-weighted local comparison, NOT whole-ROM completion. No full-ROM build is verified.</text>
 </svg>

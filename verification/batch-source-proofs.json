@@ -1451,5 +1451,41 @@
       "-gccext,on"
     ],
     "source_sha256": "51f1110889fb8421580e828f1d3172dfa72947c4f999e85906d63aeb692eb6c3"
+  },
+  "arm9_02037a40": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on"
+    ],
+    "source_sha256": "9cb30609f32586edf1038c91da6d48f26ddd65ba617ca8c5eb60d7a8d2daae91"
+  },
+  "arm7_037f8c74": {
+    "flags": [
+      "-O2",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm7tdmi",
+      "-gccext,on"
+    ],
+    "source_sha256": "1065e2a05a45a9698a74a2e5447004f43b6b90e957878049fd72f593b7c2da3a",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
   }
 }

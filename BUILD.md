@@ -15,6 +15,16 @@ export WIBO="$PWD/tools/wibo"
 export MWCCARM="$PWD/tools/mwccarm/1.2/sp2p3/mwccarm.exe"
 ```
 
+## Continuity
+
+Before changing sources, record `git rev-parse HEAD` and keep that immutable SHA.
+Run `python scripts/check_continuity.py --base <SHA>` before publishing. This
+rejects lost exact proofs, changed reference inventories and stale source hashes.
+CI repeats it against the previous branch head. It does not replace fresh byte
+audits. Keep fuzzy candidates separate; never resume from an older copy by
+replacing the current registries. Unpublished results require recoverable source
+and proof records before they can enter the measured count.
+
 ## Matching
 
 ```sh

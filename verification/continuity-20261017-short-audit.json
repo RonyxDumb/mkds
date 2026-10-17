@@ -1,0 +1,31 @@
+{
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "LoopFn_Some3D",
+      "mode": "arm",
+      "address": "0x02037a40",
+      "size": "84",
+      "sha256": "fc9d051cdef471689b1bc283952b976346b209057b099ac03fd035df9a6fecb3",
+      "source_sha256": "9cb30609f32586edf1038c91da6d48f26ddd65ba617ca8c5eb60d7a8d2daae91",
+      "relocations": "2",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 1,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 1,
+      "passed": 1
+    },
+    "unrelocated": {
+      "tested": 0,
+      "passed": 0
+    }
+  }
+}
