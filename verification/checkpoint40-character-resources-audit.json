@@ -1,0 +1,70 @@
+{
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "func_02025884",
+      "mode": "thumb",
+      "address": "0x02025884",
+      "size": "80",
+      "sha256": "3bc7c0745436add68e7f1fdd48ba36ffab2cd6a992ea9690008d2b8a113118ce",
+      "source_sha256": "b11c7357503a23821733d210c92ef6c1c687a81063f5e8a81d7bb69c81d68d96",
+      "relocations": "3",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_02025854",
+      "mode": "thumb",
+      "address": "0x02025854",
+      "size": "46",
+      "sha256": "dd59293655af479259b202817f00176dfd1a1a606a1ddc4b49c9ed988ffd1e25",
+      "source_sha256": "8588591f01762f623b486f301b110c2ba9efeb7f5a7300e37630cbbffe574e05",
+      "relocations": "2",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_02025904",
+      "mode": "thumb",
+      "address": "0x02025904",
+      "size": "80",
+      "sha256": "eb25e0eaee60a58ed5f9b22a51c1eac399aac2aca6e53ee9246ff6d3976d3c17",
+      "source_sha256": "52b71ae5ef838420385558e225b96abc42b903f22934d57ae7a5b15a56fd7a14",
+      "relocations": "3",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_020258d4",
+      "mode": "thumb",
+      "address": "0x020258d4",
+      "size": "46",
+      "sha256": "c730b7fdb8549071ab7917228f545655d211de097b1c364f1abef059202f82b4",
+      "source_sha256": "84ef07a615fca29c6eced46a89f055ffdb36ff67aa79830a0d162ffe10f35617",
+      "relocations": "2",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 4,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 4,
+      "passed": 4
+    },
+    "unrelocated": {
+      "tested": 0,
+      "passed": 0
+    }
+  }
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 26,
+    "type": 10,
+    "symbol": "Gfx_ReadCharGraphicsV2",
+    "target": 34294124,
+    "thumb": false,
+    "addend": -4,
+    "value": 3899060367
+  },
+  {
+    "offset": 46,
+    "type": 10,
+    "symbol": "Gfx_ReadPalette",
+    "target": 34294396,
+    "thumb": false,
+    "addend": -4,
+    "value": 3907317903
+  },
+  {
+    "offset": 70,
+    "type": 10,
+    "symbol": "MaybeReadScreenBlock_0",
+    "target": 34293776,
+    "thumb": false,
+    "addend": -4,
+    "value": 4020433038
+  }
+]

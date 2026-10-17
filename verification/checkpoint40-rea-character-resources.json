@@ -1,0 +1,883 @@
+{
+  "mode": "persistent-mcp",
+  "module": "arm9",
+  "target_sha256": "7a9a1193c73217bfb847758db731f719a367b4b73225cbc261b803381e6b0720",
+  "base_address": "0x2025854",
+  "bytes": 2052,
+  "targets": [
+    {
+      "module": "arm9",
+      "name": "func_02025854",
+      "address": "0x2025854",
+      "bytes": 46,
+      "mode": "thumb",
+      "profile": "nds-arm9",
+      "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+      "section": "arm9_0.bin",
+      "section_offset": 153684,
+      "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+      "sha256": "dd59293655af479259b202817f00176dfd1a1a606a1ddc4b49c9ed988ffd1e25",
+      "limitations": [
+        "Isolated inventory span; external memory and callees unavailable.",
+        "Pseudocode is an analysis draft, not matching C."
+      ]
+    },
+    {
+      "module": "arm9",
+      "name": "func_02025884",
+      "address": "0x2025884",
+      "bytes": 80,
+      "mode": "thumb",
+      "profile": "nds-arm9",
+      "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+      "section": "arm9_0.bin",
+      "section_offset": 153732,
+      "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+      "sha256": "3bc7c0745436add68e7f1fdd48ba36ffab2cd6a992ea9690008d2b8a113118ce",
+      "limitations": [
+        "Isolated inventory span; external memory and callees unavailable.",
+        "Pseudocode is an analysis draft, not matching C."
+      ]
+    },
+    {
+      "module": "arm9",
+      "name": "func_020258d4",
+      "address": "0x20258d4",
+      "bytes": 46,
+      "mode": "thumb",
+      "profile": "nds-arm9",
+      "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+      "section": "arm9_0.bin",
+      "section_offset": 153812,
+      "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+      "sha256": "c730b7fdb8549071ab7917228f545655d211de097b1c364f1abef059202f82b4",
+      "limitations": [
+        "Isolated inventory span; external memory and callees unavailable.",
+        "Pseudocode is an analysis draft, not matching C."
+      ]
+    },
+    {
+      "module": "arm9",
+      "name": "func_02025904",
+      "address": "0x2025904",
+      "bytes": 80,
+      "mode": "thumb",
+      "profile": "nds-arm9",
+      "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+      "section": "arm9_0.bin",
+      "section_offset": 153860,
+      "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+      "sha256": "eb25e0eaee60a58ed5f9b22a51c1eac399aac2aca6e53ee9246ff6d3976d3c17",
+      "limitations": [
+        "Isolated inventory span; external memory and callees unavailable.",
+        "Pseudocode is an analysis draft, not matching C."
+      ]
+    },
+    {
+      "module": "arm9",
+      "name": "func_02025954",
+      "address": "0x2025954",
+      "bytes": 150,
+      "mode": "thumb",
+      "profile": "nds-arm9",
+      "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+      "section": "arm9_0.bin",
+      "section_offset": 153940,
+      "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+      "sha256": "0123c9623f7f7256f529d776ca5eb6119e387af9965309d03e4463e16714bbca",
+      "limitations": [
+        "Isolated inventory span; external memory and callees unavailable.",
+        "Pseudocode is an analysis draft, not matching C."
+      ]
+    },
+    {
+      "module": "arm9",
+      "name": "func_02025a00",
+      "address": "0x2025a00",
+      "bytes": 80,
+      "mode": "thumb",
+      "profile": "nds-arm9",
+      "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+      "section": "arm9_0.bin",
+      "section_offset": 154112,
+      "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+      "sha256": "1b019a43e83fe5f2bd40274823589701dc8d79dc4470a6a8d0272f65c004b33e",
+      "limitations": [
+        "Isolated inventory span; external memory and callees unavailable.",
+        "Pseudocode is an analysis draft, not matching C."
+      ]
+    },
+    {
+      "module": "arm9",
+      "name": "VerifySelectCharacterFiles_from_thumb",
+      "address": "0x2025f90",
+      "bytes": 200,
+      "mode": "thumb",
+      "profile": "nds-arm9",
+      "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f",
+      "section": "arm9_0.bin",
+      "section_offset": 155536,
+      "section_sha256": "38b6f636ca920d3a3e7d540d8e51a7be14efd0811b72c2ea590577722f3b7857",
+      "sha256": "1d5fbb5dfa504fe683942c37be9d436a1b86566054e29a765e041df14ba43b5a",
+      "limitations": [
+        "Isolated inventory span; external memory and callees unavailable.",
+        "Pseudocode is an analysis draft, not matching C."
+      ]
+    }
+  ],
+  "results": [
+    {
+      "address": "0x2025854",
+      "seconds": 11.706260117,
+      "has_pseudocode": true,
+      "pseudocode_sha256": "50d387ce8572a81804a86c1bac921a441b262c0bc76afd29b348bc37eaa6d662"
+    },
+    {
+      "address": "0x2025884",
+      "seconds": 0.016575807999970493,
+      "has_pseudocode": true,
+      "pseudocode_sha256": "08a5370e1d9c0fc5f9a47d5b5330cecc8bbd584980e52acecb9b9b9b9a8a2629"
+    },
+    {
+      "address": "0x20258d4",
+      "seconds": 0.011361927999985255,
+      "has_pseudocode": true,
+      "pseudocode_sha256": "dbe100a4b90d77895e2730afd611c7bed82b430214ff81f0b675afc4094e0f3a"
+    },
+    {
+      "address": "0x2025904",
+      "seconds": 0.012399779000020317,
+      "has_pseudocode": true,
+      "pseudocode_sha256": "d1d214394a480cbc9103a7f000fa9662969a5d7b8fd3c868a0ac6a7167443f08"
+    },
+    {
+      "address": "0x2025954",
+      "seconds": 0.017137340999966,
+      "has_pseudocode": true,
+      "pseudocode_sha256": "973b235b4134c4af7eabc96773e17c3c2b1d055bef318128b4aff3091cccb50f"
+    },
+    {
+      "address": "0x2025a00",
+      "seconds": 0.013549283000031664,
+      "has_pseudocode": true,
+      "pseudocode_sha256": "d21720ad586bfc4f5c2c71486718c2a0438dfce4df923880c66b9d38d8d44a92"
+    },
+    {
+      "address": "0x2025f90",
+      "seconds": 0.019963123000025007,
+      "has_pseudocode": true,
+      "pseudocode_sha256": "ca595e8e908391be345d59fb8bcf3879f45a62654d1fb1873a018992675dcc5f"
+    }
+  ],
+  "matching_claim": false,
+  "limitations": [
+    "Single initialized span only; external memory and callees remain incomplete.",
+    "Entry mode is explicit for the group; mixed ISA groups are rejected."
+  ],
+  "seconds_before_close": 13.93884088499999,
+  "seconds": 14.39856664399997,
+  "provider_sessions": 1,
+  "evidence": [
+    {
+      "evidence_id": "ev_a0b4fa8f4a6bccabe3604b4ee1a0a7987bca4ae5d0eb0d21d846470a8a41c535",
+      "subject": {
+        "name": "group.bin",
+        "digest": {
+          "sha256": "7a9a1193c73217bfb847758db731f719a367b4b73225cbc261b803381e6b0720"
+        },
+        "local_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/group.bin",
+        "format": "raw-binary",
+        "architecture": "arm"
+      },
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "ghidra",
+          "name": "Ghidra",
+          "version": "12.1.4"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "raw-binary",
+          "architecture": "arm",
+          "available_architectures": [
+            "arm"
+          ],
+          "import_mode": "ephemeral-source-immutable",
+          "annotation_policy": "atomic-function-entry-metadata-v1",
+          "load_image_observations": "source-mappings-entry-context-v2",
+          "function_body_evidence": "complete-inclusive-ranges-v1",
+          "function_references": "complete-body-and-entry-reference-manager-v2",
+          "call_relationship_coverage": "function-body-call-coverage-v5",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "string_inventory_evidence": "defined-data-coverage-v1",
+          "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+          "procedure_file_offset_resolution": "address-first-unique-target-source-mapping-v2",
+          "instruction_flow_evidence": "decoded-return-pcode-v1",
+          "instruction_references": "exact-address-incoming-v1",
+          "function_boundary_observations": "ghidra-function-boundary-limitations-v3",
+          "no_return_repair": "returning-imports-decoded-return-v2",
+          "process_launch": "inspected-jvm-launch-support-v1",
+          "load_image_evidence": "independent-raw-mapping-context-v4",
+          "jump_table_evidence": "typed-case-default-blocks-v1",
+          "decompiler_jump_loads": true,
+          "loader": "BinaryLoader",
+          "arm_entry_mode": "thumb",
+          "arm_profile": "nds-arm9",
+          "language_id": "ARM:LE:32:v5t",
+          "compiler_spec_id": "default",
+          "language_selection": "caller-supplied-v1",
+          "entry_point": "0x2025854",
+          "entry_seed": "external-entry-and-function-before-analysis-v1",
+          "analyzer_preset": "ghidra-default",
+          "analysis_seeds": {
+            "format": "rea-ghidra-seeds-v1",
+            "path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "configured_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "sha256": "fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098",
+            "entries": {
+              "function": 7,
+              "code": 0,
+              "label": 0
+            }
+          }
+        },
+        "digest": "315e4eeb97a7e18e9254facf4e5dd929bdff63fcdb648b082481897bfa226b57"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x2025854"
+      },
+      "raw_result": {
+        "value": "\nvoid func_02025854(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,\n                  undefined4 param_5,undefined4 param_6,undefined4 param_7)\n\n{\n  func_02025884(param_2,param_3,param_4,param_5,param_6,param_7);\n  func_02025954(param_1,param_2,param_6);\n  return;\n}\n\n",
+        "limitations": []
+      },
+      "normalized_result": "\nvoid func_02025854(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,\n                  undefined4 param_5,undefined4 param_6,undefined4 param_7)\n\n{\n  func_02025884(param_2,param_3,param_4,param_5,param_6,param_7);\n  func_02025954(param_1,param_2,param_6);\n  return;\n}\n\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+        "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+        "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+        "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+        "Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.",
+        "External functions and functions without an analyzable body return null; other decompiler failures remain explicit.",
+        "Headerless raw-binary analysis uses the caller-supplied architecture and entry address; file offset 0 is mapped at that address. Headers are not discovered from file bytes.",
+        "Raw ARM defaults to ARMv7. The local REA_GHIDRA_ARM_PROFILE override selects nds-arm9 (ARMv5T) or nds-arm7 (ARMv4T); REA_GHIDRA_ARM_MODE selects the explicit arm or thumb entry state for this local DS adapter. CPU-specific peripherals, overlays and complete DS memory maps are not modeled.",
+        "Static analysis does not emulate reset vectors, memory-mapped I/O, or firmware boot sequences.",
+        "Ghidra analysis was seeded before auto-analysis from /workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv (sha256 fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098: 7 function, 0 code, 0 label entries). Seeded functions, code and names are caller assertions, not Ghidra discoveries.",
+        "Seed outcome: 6 functions created, 1 already present, 0 failed; 0 code seeds decoded, 0 failed; 0 labels applied, 0 failed; 0 seeds outside initialized memory."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_362cc5bda496f234b175804c8c9abc225326fabab9f7055bbbd3f715433402dd",
+      "subject": {
+        "name": "group.bin",
+        "digest": {
+          "sha256": "7a9a1193c73217bfb847758db731f719a367b4b73225cbc261b803381e6b0720"
+        },
+        "local_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/group.bin",
+        "format": "raw-binary",
+        "architecture": "arm"
+      },
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "ghidra",
+          "name": "Ghidra",
+          "version": "12.1.4"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "raw-binary",
+          "architecture": "arm",
+          "available_architectures": [
+            "arm"
+          ],
+          "import_mode": "ephemeral-source-immutable",
+          "annotation_policy": "atomic-function-entry-metadata-v1",
+          "load_image_observations": "source-mappings-entry-context-v2",
+          "function_body_evidence": "complete-inclusive-ranges-v1",
+          "function_references": "complete-body-and-entry-reference-manager-v2",
+          "call_relationship_coverage": "function-body-call-coverage-v5",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "string_inventory_evidence": "defined-data-coverage-v1",
+          "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+          "procedure_file_offset_resolution": "address-first-unique-target-source-mapping-v2",
+          "instruction_flow_evidence": "decoded-return-pcode-v1",
+          "instruction_references": "exact-address-incoming-v1",
+          "function_boundary_observations": "ghidra-function-boundary-limitations-v3",
+          "no_return_repair": "returning-imports-decoded-return-v2",
+          "process_launch": "inspected-jvm-launch-support-v1",
+          "load_image_evidence": "independent-raw-mapping-context-v4",
+          "jump_table_evidence": "typed-case-default-blocks-v1",
+          "decompiler_jump_loads": true,
+          "loader": "BinaryLoader",
+          "arm_entry_mode": "thumb",
+          "arm_profile": "nds-arm9",
+          "language_id": "ARM:LE:32:v5t",
+          "compiler_spec_id": "default",
+          "language_selection": "caller-supplied-v1",
+          "entry_point": "0x2025854",
+          "entry_seed": "external-entry-and-function-before-analysis-v1",
+          "analyzer_preset": "ghidra-default",
+          "analysis_seeds": {
+            "format": "rea-ghidra-seeds-v1",
+            "path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "configured_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "sha256": "fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098",
+            "entries": {
+              "function": 7,
+              "code": 0,
+              "label": 0
+            }
+          }
+        },
+        "digest": "315e4eeb97a7e18e9254facf4e5dd929bdff63fcdb648b082481897bfa226b57"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x2025884"
+      },
+      "raw_result": {
+        "value": "\nvoid func_02025884(int param_1,int param_2,int param_3,int param_4,int param_5,code *param_6)\n\n{\n  undefined4 uVar1;\n  \n  if (param_2 != 0) {\n    uVar1 = (*param_6)(param_2);\n    func_0x020b496c(param_1 + param_5 * 4,uVar1);\n  }\n  if (param_3 != 0) {\n    uVar1 = (*param_6)(param_3);\n    func_0x020b4a7c(param_1 + 0x10,uVar1);\n  }\n  if (param_4 != 0) {\n    uVar1 = (*param_6)(param_4);\n    func_0x020b4810(param_1 + 0x14 + param_5 * 4,uVar1);\n  }\n  return;\n}\n\n",
+        "limitations": []
+      },
+      "normalized_result": "\nvoid func_02025884(int param_1,int param_2,int param_3,int param_4,int param_5,code *param_6)\n\n{\n  undefined4 uVar1;\n  \n  if (param_2 != 0) {\n    uVar1 = (*param_6)(param_2);\n    func_0x020b496c(param_1 + param_5 * 4,uVar1);\n  }\n  if (param_3 != 0) {\n    uVar1 = (*param_6)(param_3);\n    func_0x020b4a7c(param_1 + 0x10,uVar1);\n  }\n  if (param_4 != 0) {\n    uVar1 = (*param_6)(param_4);\n    func_0x020b4810(param_1 + 0x14 + param_5 * 4,uVar1);\n  }\n  return;\n}\n\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+        "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+        "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+        "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+        "Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.",
+        "External functions and functions without an analyzable body return null; other decompiler failures remain explicit.",
+        "Headerless raw-binary analysis uses the caller-supplied architecture and entry address; file offset 0 is mapped at that address. Headers are not discovered from file bytes.",
+        "Raw ARM defaults to ARMv7. The local REA_GHIDRA_ARM_PROFILE override selects nds-arm9 (ARMv5T) or nds-arm7 (ARMv4T); REA_GHIDRA_ARM_MODE selects the explicit arm or thumb entry state for this local DS adapter. CPU-specific peripherals, overlays and complete DS memory maps are not modeled.",
+        "Static analysis does not emulate reset vectors, memory-mapped I/O, or firmware boot sequences.",
+        "Ghidra analysis was seeded before auto-analysis from /workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv (sha256 fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098: 7 function, 0 code, 0 label entries). Seeded functions, code and names are caller assertions, not Ghidra discoveries.",
+        "Seed outcome: 6 functions created, 1 already present, 0 failed; 0 code seeds decoded, 0 failed; 0 labels applied, 0 failed; 0 seeds outside initialized memory."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_8fab3dd3fbb5da5d58f6c9b862d6d72f9030f41bed0be31c559d3b4ef53478f8",
+      "subject": {
+        "name": "group.bin",
+        "digest": {
+          "sha256": "7a9a1193c73217bfb847758db731f719a367b4b73225cbc261b803381e6b0720"
+        },
+        "local_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/group.bin",
+        "format": "raw-binary",
+        "architecture": "arm"
+      },
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "ghidra",
+          "name": "Ghidra",
+          "version": "12.1.4"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "raw-binary",
+          "architecture": "arm",
+          "available_architectures": [
+            "arm"
+          ],
+          "import_mode": "ephemeral-source-immutable",
+          "annotation_policy": "atomic-function-entry-metadata-v1",
+          "load_image_observations": "source-mappings-entry-context-v2",
+          "function_body_evidence": "complete-inclusive-ranges-v1",
+          "function_references": "complete-body-and-entry-reference-manager-v2",
+          "call_relationship_coverage": "function-body-call-coverage-v5",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "string_inventory_evidence": "defined-data-coverage-v1",
+          "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+          "procedure_file_offset_resolution": "address-first-unique-target-source-mapping-v2",
+          "instruction_flow_evidence": "decoded-return-pcode-v1",
+          "instruction_references": "exact-address-incoming-v1",
+          "function_boundary_observations": "ghidra-function-boundary-limitations-v3",
+          "no_return_repair": "returning-imports-decoded-return-v2",
+          "process_launch": "inspected-jvm-launch-support-v1",
+          "load_image_evidence": "independent-raw-mapping-context-v4",
+          "jump_table_evidence": "typed-case-default-blocks-v1",
+          "decompiler_jump_loads": true,
+          "loader": "BinaryLoader",
+          "arm_entry_mode": "thumb",
+          "arm_profile": "nds-arm9",
+          "language_id": "ARM:LE:32:v5t",
+          "compiler_spec_id": "default",
+          "language_selection": "caller-supplied-v1",
+          "entry_point": "0x2025854",
+          "entry_seed": "external-entry-and-function-before-analysis-v1",
+          "analyzer_preset": "ghidra-default",
+          "analysis_seeds": {
+            "format": "rea-ghidra-seeds-v1",
+            "path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "configured_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "sha256": "fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098",
+            "entries": {
+              "function": 7,
+              "code": 0,
+              "label": 0
+            }
+          }
+        },
+        "digest": "315e4eeb97a7e18e9254facf4e5dd929bdff63fcdb648b082481897bfa226b57"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x20258d4"
+      },
+      "raw_result": {
+        "value": "\nvoid func_020258d4(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,\n                  undefined4 param_5,undefined4 param_6,undefined4 param_7)\n\n{\n  func_02025904(param_2,param_3,param_4,param_5,param_6,param_7);\n  func_02025954(param_1,param_2,param_6);\n  return;\n}\n\n",
+        "limitations": []
+      },
+      "normalized_result": "\nvoid func_020258d4(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,\n                  undefined4 param_5,undefined4 param_6,undefined4 param_7)\n\n{\n  func_02025904(param_2,param_3,param_4,param_5,param_6,param_7);\n  func_02025954(param_1,param_2,param_6);\n  return;\n}\n\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+        "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+        "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+        "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+        "Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.",
+        "External functions and functions without an analyzable body return null; other decompiler failures remain explicit.",
+        "Headerless raw-binary analysis uses the caller-supplied architecture and entry address; file offset 0 is mapped at that address. Headers are not discovered from file bytes.",
+        "Raw ARM defaults to ARMv7. The local REA_GHIDRA_ARM_PROFILE override selects nds-arm9 (ARMv5T) or nds-arm7 (ARMv4T); REA_GHIDRA_ARM_MODE selects the explicit arm or thumb entry state for this local DS adapter. CPU-specific peripherals, overlays and complete DS memory maps are not modeled.",
+        "Static analysis does not emulate reset vectors, memory-mapped I/O, or firmware boot sequences.",
+        "Ghidra analysis was seeded before auto-analysis from /workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv (sha256 fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098: 7 function, 0 code, 0 label entries). Seeded functions, code and names are caller assertions, not Ghidra discoveries.",
+        "Seed outcome: 6 functions created, 1 already present, 0 failed; 0 code seeds decoded, 0 failed; 0 labels applied, 0 failed; 0 seeds outside initialized memory."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_19cec61a17276a5f89b278e1426ed017d14169493b166031fc0e040e86acc84c",
+      "subject": {
+        "name": "group.bin",
+        "digest": {
+          "sha256": "7a9a1193c73217bfb847758db731f719a367b4b73225cbc261b803381e6b0720"
+        },
+        "local_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/group.bin",
+        "format": "raw-binary",
+        "architecture": "arm"
+      },
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "ghidra",
+          "name": "Ghidra",
+          "version": "12.1.4"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "raw-binary",
+          "architecture": "arm",
+          "available_architectures": [
+            "arm"
+          ],
+          "import_mode": "ephemeral-source-immutable",
+          "annotation_policy": "atomic-function-entry-metadata-v1",
+          "load_image_observations": "source-mappings-entry-context-v2",
+          "function_body_evidence": "complete-inclusive-ranges-v1",
+          "function_references": "complete-body-and-entry-reference-manager-v2",
+          "call_relationship_coverage": "function-body-call-coverage-v5",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "string_inventory_evidence": "defined-data-coverage-v1",
+          "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+          "procedure_file_offset_resolution": "address-first-unique-target-source-mapping-v2",
+          "instruction_flow_evidence": "decoded-return-pcode-v1",
+          "instruction_references": "exact-address-incoming-v1",
+          "function_boundary_observations": "ghidra-function-boundary-limitations-v3",
+          "no_return_repair": "returning-imports-decoded-return-v2",
+          "process_launch": "inspected-jvm-launch-support-v1",
+          "load_image_evidence": "independent-raw-mapping-context-v4",
+          "jump_table_evidence": "typed-case-default-blocks-v1",
+          "decompiler_jump_loads": true,
+          "loader": "BinaryLoader",
+          "arm_entry_mode": "thumb",
+          "arm_profile": "nds-arm9",
+          "language_id": "ARM:LE:32:v5t",
+          "compiler_spec_id": "default",
+          "language_selection": "caller-supplied-v1",
+          "entry_point": "0x2025854",
+          "entry_seed": "external-entry-and-function-before-analysis-v1",
+          "analyzer_preset": "ghidra-default",
+          "analysis_seeds": {
+            "format": "rea-ghidra-seeds-v1",
+            "path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "configured_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "sha256": "fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098",
+            "entries": {
+              "function": 7,
+              "code": 0,
+              "label": 0
+            }
+          }
+        },
+        "digest": "315e4eeb97a7e18e9254facf4e5dd929bdff63fcdb648b082481897bfa226b57"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x2025904"
+      },
+      "raw_result": {
+        "value": "\nvoid func_02025904(int param_1,int param_2,int param_3,int param_4,int param_5,code *param_6)\n\n{\n  undefined4 uVar1;\n  \n  if (param_2 != 0) {\n    uVar1 = (*param_6)(param_2);\n    func_0x020b4934(param_1 + param_5 * 4,uVar1);\n  }\n  if (param_3 != 0) {\n    uVar1 = (*param_6)(param_3);\n    func_0x020b4a44(param_1 + 0x10,uVar1);\n  }\n  if (param_4 != 0) {\n    uVar1 = (*param_6)(param_4);\n    func_0x020b47d8(param_1 + 0x14 + param_5 * 4,uVar1);\n  }\n  return;\n}\n\n",
+        "limitations": []
+      },
+      "normalized_result": "\nvoid func_02025904(int param_1,int param_2,int param_3,int param_4,int param_5,code *param_6)\n\n{\n  undefined4 uVar1;\n  \n  if (param_2 != 0) {\n    uVar1 = (*param_6)(param_2);\n    func_0x020b4934(param_1 + param_5 * 4,uVar1);\n  }\n  if (param_3 != 0) {\n    uVar1 = (*param_6)(param_3);\n    func_0x020b4a44(param_1 + 0x10,uVar1);\n  }\n  if (param_4 != 0) {\n    uVar1 = (*param_6)(param_4);\n    func_0x020b47d8(param_1 + 0x14 + param_5 * 4,uVar1);\n  }\n  return;\n}\n\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+        "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+        "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+        "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+        "Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.",
+        "External functions and functions without an analyzable body return null; other decompiler failures remain explicit.",
+        "Headerless raw-binary analysis uses the caller-supplied architecture and entry address; file offset 0 is mapped at that address. Headers are not discovered from file bytes.",
+        "Raw ARM defaults to ARMv7. The local REA_GHIDRA_ARM_PROFILE override selects nds-arm9 (ARMv5T) or nds-arm7 (ARMv4T); REA_GHIDRA_ARM_MODE selects the explicit arm or thumb entry state for this local DS adapter. CPU-specific peripherals, overlays and complete DS memory maps are not modeled.",
+        "Static analysis does not emulate reset vectors, memory-mapped I/O, or firmware boot sequences.",
+        "Ghidra analysis was seeded before auto-analysis from /workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv (sha256 fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098: 7 function, 0 code, 0 label entries). Seeded functions, code and names are caller assertions, not Ghidra discoveries.",
+        "Seed outcome: 6 functions created, 1 already present, 0 failed; 0 code seeds decoded, 0 failed; 0 labels applied, 0 failed; 0 seeds outside initialized memory."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_55791557ef4170ba762c94195e76362f9389987b1f4f014a568ee2b7be2ac403",
+      "subject": {
+        "name": "group.bin",
+        "digest": {
+          "sha256": "7a9a1193c73217bfb847758db731f719a367b4b73225cbc261b803381e6b0720"
+        },
+        "local_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/group.bin",
+        "format": "raw-binary",
+        "architecture": "arm"
+      },
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "ghidra",
+          "name": "Ghidra",
+          "version": "12.1.4"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "raw-binary",
+          "architecture": "arm",
+          "available_architectures": [
+            "arm"
+          ],
+          "import_mode": "ephemeral-source-immutable",
+          "annotation_policy": "atomic-function-entry-metadata-v1",
+          "load_image_observations": "source-mappings-entry-context-v2",
+          "function_body_evidence": "complete-inclusive-ranges-v1",
+          "function_references": "complete-body-and-entry-reference-manager-v2",
+          "call_relationship_coverage": "function-body-call-coverage-v5",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "string_inventory_evidence": "defined-data-coverage-v1",
+          "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+          "procedure_file_offset_resolution": "address-first-unique-target-source-mapping-v2",
+          "instruction_flow_evidence": "decoded-return-pcode-v1",
+          "instruction_references": "exact-address-incoming-v1",
+          "function_boundary_observations": "ghidra-function-boundary-limitations-v3",
+          "no_return_repair": "returning-imports-decoded-return-v2",
+          "process_launch": "inspected-jvm-launch-support-v1",
+          "load_image_evidence": "independent-raw-mapping-context-v4",
+          "jump_table_evidence": "typed-case-default-blocks-v1",
+          "decompiler_jump_loads": true,
+          "loader": "BinaryLoader",
+          "arm_entry_mode": "thumb",
+          "arm_profile": "nds-arm9",
+          "language_id": "ARM:LE:32:v5t",
+          "compiler_spec_id": "default",
+          "language_selection": "caller-supplied-v1",
+          "entry_point": "0x2025854",
+          "entry_seed": "external-entry-and-function-before-analysis-v1",
+          "analyzer_preset": "ghidra-default",
+          "analysis_seeds": {
+            "format": "rea-ghidra-seeds-v1",
+            "path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "configured_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "sha256": "fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098",
+            "entries": {
+              "function": 7,
+              "code": 0,
+              "label": 0
+            }
+          }
+        },
+        "digest": "315e4eeb97a7e18e9254facf4e5dd929bdff63fcdb648b082481897bfa226b57"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x2025954"
+      },
+      "raw_result": {
+        "value": "\nvoid func_02025954(int param_1,int param_2,int param_3)\n\n{\n  int iVar1;\n  undefined4 unaff_r5;\n  undefined4 uVar2;\n  \n  if (param_1 == 0) {\n    uVar2 = 0xf;\n    switch(param_3) {\n    case 0:\n      param_1 = 4;\n      unaff_r5 = 8;\n      break;\n    case 1:\n      param_1 = 5;\n      unaff_r5 = 9;\n      break;\n    case 2:\n      param_1 = 6;\n      unaff_r5 = 10;\n      break;\n    case 3:\n      param_1 = 7;\n      unaff_r5 = 0xb;\n    }\n  }\n  else {\n    uVar2 = 0x1f;\n    switch(param_3) {\n    case 0:\n      param_1 = 0x14;\n      unaff_r5 = 0x18;\n      break;\n    case 1:\n      param_1 = 0x15;\n      unaff_r5 = 0x19;\n      break;\n    case 2:\n      param_1 = 0x16;\n      unaff_r5 = 0x1a;\n      break;\n    case 3:\n      param_1 = 0x17;\n      unaff_r5 = 0x1b;\n    }\n  }\n  iVar1 = *(int *)(param_2 + param_3 * 4);\n  func_0x02016468(param_1,0,*(undefined4 *)(iVar1 + 0x14),*(undefined4 *)(iVar1 + 0x10));\n  func_0x02016468(uVar2,0,*(undefined4 *)(*(int *)(param_2 + 0x10) + 0xc),DAT_020259fc);\n  iVar1 = *(int *)(param_2 + param_3 * 4 + 0x14);\n  func_0x02016468(unaff_r5,0,iVar1 + 0xc,*(undefined4 *)(iVar1 + 8));\n  return;\n}\n\n",
+        "limitations": []
+      },
+      "normalized_result": "\nvoid func_02025954(int param_1,int param_2,int param_3)\n\n{\n  int iVar1;\n  undefined4 unaff_r5;\n  undefined4 uVar2;\n  \n  if (param_1 == 0) {\n    uVar2 = 0xf;\n    switch(param_3) {\n    case 0:\n      param_1 = 4;\n      unaff_r5 = 8;\n      break;\n    case 1:\n      param_1 = 5;\n      unaff_r5 = 9;\n      break;\n    case 2:\n      param_1 = 6;\n      unaff_r5 = 10;\n      break;\n    case 3:\n      param_1 = 7;\n      unaff_r5 = 0xb;\n    }\n  }\n  else {\n    uVar2 = 0x1f;\n    switch(param_3) {\n    case 0:\n      param_1 = 0x14;\n      unaff_r5 = 0x18;\n      break;\n    case 1:\n      param_1 = 0x15;\n      unaff_r5 = 0x19;\n      break;\n    case 2:\n      param_1 = 0x16;\n      unaff_r5 = 0x1a;\n      break;\n    case 3:\n      param_1 = 0x17;\n      unaff_r5 = 0x1b;\n    }\n  }\n  iVar1 = *(int *)(param_2 + param_3 * 4);\n  func_0x02016468(param_1,0,*(undefined4 *)(iVar1 + 0x14),*(undefined4 *)(iVar1 + 0x10));\n  func_0x02016468(uVar2,0,*(undefined4 *)(*(int *)(param_2 + 0x10) + 0xc),DAT_020259fc);\n  iVar1 = *(int *)(param_2 + param_3 * 4 + 0x14);\n  func_0x02016468(unaff_r5,0,iVar1 + 0xc,*(undefined4 *)(iVar1 + 8));\n  return;\n}\n\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+        "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+        "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+        "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+        "Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.",
+        "External functions and functions without an analyzable body return null; other decompiler failures remain explicit.",
+        "Headerless raw-binary analysis uses the caller-supplied architecture and entry address; file offset 0 is mapped at that address. Headers are not discovered from file bytes.",
+        "Raw ARM defaults to ARMv7. The local REA_GHIDRA_ARM_PROFILE override selects nds-arm9 (ARMv5T) or nds-arm7 (ARMv4T); REA_GHIDRA_ARM_MODE selects the explicit arm or thumb entry state for this local DS adapter. CPU-specific peripherals, overlays and complete DS memory maps are not modeled.",
+        "Static analysis does not emulate reset vectors, memory-mapped I/O, or firmware boot sequences.",
+        "Ghidra analysis was seeded before auto-analysis from /workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv (sha256 fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098: 7 function, 0 code, 0 label entries). Seeded functions, code and names are caller assertions, not Ghidra discoveries.",
+        "Seed outcome: 6 functions created, 1 already present, 0 failed; 0 code seeds decoded, 0 failed; 0 labels applied, 0 failed; 0 seeds outside initialized memory."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_bc4533842d475fdbd5afe311744a69209a4e536e8146d0a272b5619bfeafffa0",
+      "subject": {
+        "name": "group.bin",
+        "digest": {
+          "sha256": "7a9a1193c73217bfb847758db731f719a367b4b73225cbc261b803381e6b0720"
+        },
+        "local_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/group.bin",
+        "format": "raw-binary",
+        "architecture": "arm"
+      },
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "ghidra",
+          "name": "Ghidra",
+          "version": "12.1.4"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "raw-binary",
+          "architecture": "arm",
+          "available_architectures": [
+            "arm"
+          ],
+          "import_mode": "ephemeral-source-immutable",
+          "annotation_policy": "atomic-function-entry-metadata-v1",
+          "load_image_observations": "source-mappings-entry-context-v2",
+          "function_body_evidence": "complete-inclusive-ranges-v1",
+          "function_references": "complete-body-and-entry-reference-manager-v2",
+          "call_relationship_coverage": "function-body-call-coverage-v5",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "string_inventory_evidence": "defined-data-coverage-v1",
+          "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+          "procedure_file_offset_resolution": "address-first-unique-target-source-mapping-v2",
+          "instruction_flow_evidence": "decoded-return-pcode-v1",
+          "instruction_references": "exact-address-incoming-v1",
+          "function_boundary_observations": "ghidra-function-boundary-limitations-v3",
+          "no_return_repair": "returning-imports-decoded-return-v2",
+          "process_launch": "inspected-jvm-launch-support-v1",
+          "load_image_evidence": "independent-raw-mapping-context-v4",
+          "jump_table_evidence": "typed-case-default-blocks-v1",
+          "decompiler_jump_loads": true,
+          "loader": "BinaryLoader",
+          "arm_entry_mode": "thumb",
+          "arm_profile": "nds-arm9",
+          "language_id": "ARM:LE:32:v5t",
+          "compiler_spec_id": "default",
+          "language_selection": "caller-supplied-v1",
+          "entry_point": "0x2025854",
+          "entry_seed": "external-entry-and-function-before-analysis-v1",
+          "analyzer_preset": "ghidra-default",
+          "analysis_seeds": {
+            "format": "rea-ghidra-seeds-v1",
+            "path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "configured_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "sha256": "fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098",
+            "entries": {
+              "function": 7,
+              "code": 0,
+              "label": 0
+            }
+          }
+        },
+        "digest": "315e4eeb97a7e18e9254facf4e5dd929bdff63fcdb648b082481897bfa226b57"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x2025a00"
+      },
+      "raw_result": {
+        "value": "\nundefined4\nfunc_02025a00(undefined4 param_1,undefined4 param_2,int param_3,short *param_4,undefined4 param_5)\n\n{\n  undefined4 uVar1;\n  \n  uVar1 = func_0x021243ac(param_2,(int)*param_4,*(undefined4 *)(param_3 + 0x14),param_4[1],\n                          param_4[2],(int)param_4[3],*(undefined4 *)(param_3 + 8),\n                          *(undefined4 *)(param_3 + 0xc),*(undefined4 *)(param_3 + 0x18),param_5);\n  func_0x021241c0(param_1,(int)*param_4,*(undefined4 *)(param_3 + 0x14),\n                  *(undefined4 *)(param_3 + 0xc),*(undefined4 *)(param_3 + 0x18));\n  return uVar1;\n}\n\n",
+        "limitations": []
+      },
+      "normalized_result": "\nundefined4\nfunc_02025a00(undefined4 param_1,undefined4 param_2,int param_3,short *param_4,undefined4 param_5)\n\n{\n  undefined4 uVar1;\n  \n  uVar1 = func_0x021243ac(param_2,(int)*param_4,*(undefined4 *)(param_3 + 0x14),param_4[1],\n                          param_4[2],(int)param_4[3],*(undefined4 *)(param_3 + 8),\n                          *(undefined4 *)(param_3 + 0xc),*(undefined4 *)(param_3 + 0x18),param_5);\n  func_0x021241c0(param_1,(int)*param_4,*(undefined4 *)(param_3 + 0x14),\n                  *(undefined4 *)(param_3 + 0xc),*(undefined4 *)(param_3 + 0x18));\n  return uVar1;\n}\n\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+        "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+        "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+        "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+        "Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.",
+        "External functions and functions without an analyzable body return null; other decompiler failures remain explicit.",
+        "Headerless raw-binary analysis uses the caller-supplied architecture and entry address; file offset 0 is mapped at that address. Headers are not discovered from file bytes.",
+        "Raw ARM defaults to ARMv7. The local REA_GHIDRA_ARM_PROFILE override selects nds-arm9 (ARMv5T) or nds-arm7 (ARMv4T); REA_GHIDRA_ARM_MODE selects the explicit arm or thumb entry state for this local DS adapter. CPU-specific peripherals, overlays and complete DS memory maps are not modeled.",
+        "Static analysis does not emulate reset vectors, memory-mapped I/O, or firmware boot sequences.",
+        "Ghidra analysis was seeded before auto-analysis from /workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv (sha256 fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098: 7 function, 0 code, 0 label entries). Seeded functions, code and names are caller assertions, not Ghidra discoveries.",
+        "Seed outcome: 6 functions created, 1 already present, 0 failed; 0 code seeds decoded, 0 failed; 0 labels applied, 0 failed; 0 seeds outside initialized memory."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    },
+    {
+      "evidence_id": "ev_22b654786940a0d4a194d55677713436d690dc73bed51125c41181d8a3049538",
+      "subject": {
+        "name": "group.bin",
+        "digest": {
+          "sha256": "7a9a1193c73217bfb847758db731f719a367b4b73225cbc261b803381e6b0720"
+        },
+        "local_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/group.bin",
+        "format": "raw-binary",
+        "architecture": "arm"
+      },
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "analysis_profile": {
+        "provider": {
+          "id": "ghidra",
+          "name": "Ghidra",
+          "version": "12.1.4"
+        },
+        "parameters": {
+          "target_kind": "executable",
+          "target_format": "raw-binary",
+          "architecture": "arm",
+          "available_architectures": [
+            "arm"
+          ],
+          "import_mode": "ephemeral-source-immutable",
+          "annotation_policy": "atomic-function-entry-metadata-v1",
+          "load_image_observations": "source-mappings-entry-context-v2",
+          "function_body_evidence": "complete-inclusive-ranges-v1",
+          "function_references": "complete-body-and-entry-reference-manager-v2",
+          "call_relationship_coverage": "function-body-call-coverage-v5",
+          "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+          "string_inventory_evidence": "defined-data-coverage-v1",
+          "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+          "procedure_file_offset_resolution": "address-first-unique-target-source-mapping-v2",
+          "instruction_flow_evidence": "decoded-return-pcode-v1",
+          "instruction_references": "exact-address-incoming-v1",
+          "function_boundary_observations": "ghidra-function-boundary-limitations-v3",
+          "no_return_repair": "returning-imports-decoded-return-v2",
+          "process_launch": "inspected-jvm-launch-support-v1",
+          "load_image_evidence": "independent-raw-mapping-context-v4",
+          "jump_table_evidence": "typed-case-default-blocks-v1",
+          "decompiler_jump_loads": true,
+          "loader": "BinaryLoader",
+          "arm_entry_mode": "thumb",
+          "arm_profile": "nds-arm9",
+          "language_id": "ARM:LE:32:v5t",
+          "compiler_spec_id": "default",
+          "language_selection": "caller-supplied-v1",
+          "entry_point": "0x2025854",
+          "entry_seed": "external-entry-and-function-before-analysis-v1",
+          "analyzer_preset": "ghidra-default",
+          "analysis_seeds": {
+            "format": "rea-ghidra-seeds-v1",
+            "path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "configured_path": "/workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv",
+            "sha256": "fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098",
+            "entries": {
+              "function": 7,
+              "code": 0,
+              "label": 0
+            }
+          }
+        },
+        "digest": "315e4eeb97a7e18e9254facf4e5dd929bdff63fcdb648b082481897bfa226b57"
+      },
+      "predicate_type": "rea.analysis",
+      "operation": "procedure_pseudo_code",
+      "parameters": {
+        "procedure": "0x2025f90"
+      },
+      "raw_result": {
+        "value": "\nvoid VerifySelectCharacterFiles_from_thumb(void)\n\n{\n  undefined4 uVar1;\n  undefined4 local_10;\n  undefined4 local_c;\n  undefined4 local_8 [2];\n  \n  local_10 = 0;\n  local_c = 0;\n  local_8[0] = 0;\n  uVar1 = func_0x02047a28(DAT_02026030);\n  func_0x020b49f4(&local_10,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026034);\n  func_0x020b48ec(local_8,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026038);\n  func_0x020b4a7c(&local_c,uVar1);\n  uVar1 = func_0x02047a28(DAT_0202603c);\n  func_0x020b49f4(&local_10,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026040);\n  func_0x020b48ec(local_8,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026044);\n  func_0x020b4a7c(&local_c,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026048);\n  func_0x020b49f4(&local_10,uVar1);\n  uVar1 = func_0x02047a28(DAT_0202604c);\n  func_0x020b48ec(local_8,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026050);\n  func_0x020b49f4(&local_10,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026054);\n  func_0x020b48ec(local_8,uVar1);\n  return;\n}\n\n",
+        "limitations": []
+      },
+      "normalized_result": "\nvoid VerifySelectCharacterFiles_from_thumb(void)\n\n{\n  undefined4 uVar1;\n  undefined4 local_10;\n  undefined4 local_c;\n  undefined4 local_8 [2];\n  \n  local_10 = 0;\n  local_c = 0;\n  local_8[0] = 0;\n  uVar1 = func_0x02047a28(DAT_02026030);\n  func_0x020b49f4(&local_10,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026034);\n  func_0x020b48ec(local_8,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026038);\n  func_0x020b4a7c(&local_c,uVar1);\n  uVar1 = func_0x02047a28(DAT_0202603c);\n  func_0x020b49f4(&local_10,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026040);\n  func_0x020b48ec(local_8,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026044);\n  func_0x020b4a7c(&local_c,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026048);\n  func_0x020b49f4(&local_10,uVar1);\n  uVar1 = func_0x02047a28(DAT_0202604c);\n  func_0x020b48ec(local_8,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026050);\n  func_0x020b49f4(&local_10,uVar1);\n  uVar1 = func_0x02047a28(DAT_02026054);\n  func_0x020b48ec(local_8,uVar1);\n  return;\n}\n\n",
+      "confidence": "observed",
+      "authority": "shipped-artifact",
+      "environment": null,
+      "limitations": [
+        "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+        "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+        "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+        "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+        "Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.",
+        "External functions and functions without an analyzable body return null; other decompiler failures remain explicit.",
+        "Headerless raw-binary analysis uses the caller-supplied architecture and entry address; file offset 0 is mapped at that address. Headers are not discovered from file bytes.",
+        "Raw ARM defaults to ARMv7. The local REA_GHIDRA_ARM_PROFILE override selects nds-arm9 (ARMv5T) or nds-arm7 (ARMv4T); REA_GHIDRA_ARM_MODE selects the explicit arm or thumb entry state for this local DS adapter. CPU-specific peripherals, overlays and complete DS memory maps are not modeled.",
+        "Static analysis does not emulate reset vectors, memory-mapped I/O, or firmware boot sequences.",
+        "Ghidra analysis was seeded before auto-analysis from /workspace/scratch/262b30bfe7d0/mkds/build/rea-graphics40/seeds.tsv (sha256 fbb8fb15da18cde2804b6c690bc7d78f5c2da4b89a71545cea2c372719d70098: 7 function, 0 code, 0 label entries). Seeded functions, code and names are caller assertions, not Ghidra discoveries.",
+        "Seed outcome: 6 functions created, 1 already present, 0 failed; 0 code seeds decoded, 0 failed; 0 labels applied, 0 failed; 0 seeds outside initialized memory."
+      ],
+      "relationship_coverage": null,
+      "locations": [],
+      "evidence_links": []
+    }
+  ],
+  "reference_rom_sha1": "ce97d9b43f0d3ca0d48b781983e8a16f6393378f"
+}

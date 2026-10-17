@@ -1,0 +1,40 @@
+{
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "func_02025954",
+      "mode": "thumb",
+      "address": "0x02025954",
+      "size": "172",
+      "sha256": "657289d743dafad98eb5c020a8c4517fdd82a40e4c56f673bd7366bc38e99c42",
+      "source_sha256": "26dcbf70afa48df14abef91f6cc7ce3c5c63ad1531e27d9be0b6ebc28b94de0a",
+      "relocations": "3",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 1,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 1,
+      "passed": 1
+    },
+    "unrelocated": {
+      "tested": 0,
+      "passed": 0
+    }
+  },
+  "span_checks": {
+    "arm9_02025954": {
+      "validator": "proof_span.validate_span",
+      "inventory_size": 150,
+      "span_size": 172,
+      "sha256": "657289d743dafad98eb5c020a8c4517fdd82a40e4c56f673bd7366bc38e99c42",
+      "validated": true
+    }
+  }
+}

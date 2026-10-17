@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 122,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3981244400
+  },
+  {
+    "offset": 136,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3980720112
+  },
+  {
+    "offset": 154,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3980195824
+  }
+]

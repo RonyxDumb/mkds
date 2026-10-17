@@ -4817,5 +4817,42 @@
     "source_sha256": "0772e1ac01deb44d7e60ff1b366f2fa5b912f4c86577a4ec15927b0153b240ad",
     "size": 64,
     "audit": "checkpoint39-character-transition-audit.json"
+  },
+  "arm9_02025884": {
+    "sha256": "3bc7c0745436add68e7f1fdd48ba36ffab2cd6a992ea9690008d2b8a113118ce",
+    "source_sha256": "b11c7357503a23821733d210c92ef6c1c687a81063f5e8a81d7bb69c81d68d96",
+    "size": 80,
+    "audit": "checkpoint40-character-resources-audit.json"
+  },
+  "arm9_02025854": {
+    "sha256": "dd59293655af479259b202817f00176dfd1a1a606a1ddc4b49c9ed988ffd1e25",
+    "source_sha256": "8588591f01762f623b486f301b110c2ba9efeb7f5a7300e37630cbbffe574e05",
+    "size": 46,
+    "audit": "checkpoint40-character-resources-audit.json"
+  },
+  "arm9_02025904": {
+    "sha256": "eb25e0eaee60a58ed5f9b22a51c1eac399aac2aca6e53ee9246ff6d3976d3c17",
+    "source_sha256": "52b71ae5ef838420385558e225b96abc42b903f22934d57ae7a5b15a56fd7a14",
+    "size": 80,
+    "audit": "checkpoint40-character-resources-audit.json"
+  },
+  "arm9_020258d4": {
+    "sha256": "c730b7fdb8549071ab7917228f545655d211de097b1c364f1abef059202f82b4",
+    "source_sha256": "84ef07a615fca29c6eced46a89f055ffdb36ff67aa79830a0d162ffe10f35617",
+    "size": 46,
+    "audit": "checkpoint40-character-resources-audit.json"
+  },
+  "arm9_02025a00": {
+    "sha256": "1b019a43e83fe5f2bd40274823589701dc8d79dc4470a6a8d0272f65c004b33e",
+    "source_sha256": "f7814b7664347894e93e8c57a655069311c9e68c7d81f9ecf16dc05945effbdb",
+    "size": 80,
+    "audit": "checkpoint40-character-resource-entry-audit.json"
+  },
+  "arm9_02025954": {
+    "sha256": "657289d743dafad98eb5c020a8c4517fdd82a40e4c56f673bd7366bc38e99c42",
+    "source_sha256": "26dcbf70afa48df14abef91f6cc7ce3c5c63ad1531e27d9be0b6ebc28b94de0a",
+    "size": 172,
+    "audit": "checkpoint40-character-allocation-audit.json",
+    "inventory_size": 150
   }
 }

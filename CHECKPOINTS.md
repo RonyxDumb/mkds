@@ -42,15 +42,19 @@ its source corpus is unavailable. Detailed proof records remain in `verification
 | 37 | 3,896 | 299,502 |
 | 38 | 3,901 | 301,880 |
 | 39 | 3,911 | 302,550 |
+| 40 | 3,917 | 303,032 |
 
 ## Current work
 
-Checkpoint 39: 3,911 functions, 302,550 / 1,913,676 inventory bytes (15.809886%).
-Ten graphics/transition helpers added: 670 inventory bytes, 690 complete-span bytes.
-Audits: `verification/checkpoint39-character-graphics-audit.json`,
-`verification/checkpoint39-character-graphics-followup-audit.json`,
-`verification/checkpoint39-character-transition-audit.json`.
-Reproduce the search with `python scripts/search_character_graphics.py`.
+Checkpoint 40: 3,917 functions, 303,032 / 1,913,676 inventory bytes (15.835073%).
+Six resource-loading/allocation helpers added: 482 inventory bytes, 504 full-span bytes.
+REA/Ghidra produced seven drafts in one persistent session (14.4 seconds); one target
+was already exact and does not count as new. Evidence:
+`verification/checkpoint40-rea-character-resources.json`. Fresh compilation and
+independent relocation audits: `verification/checkpoint40-character-*-audit.json`.
+Reproduce with `python scripts/search_character_resources.py`; allocation requires
+MWCCARM 1.2/base. The bounded Thumb switch validator now handles separate selector
+and dispatch registers; all table and pool bytes remain part of the exact proof.
 Character-selection controller: 22/23 functions, 5,382/7,084 inventory bytes.
 The remaining initializer at `02026910` has 19 differing bytes and is excluded.
 

@@ -1,13 +1,4 @@
-/* Decompiled C draft; module arm9; ROM address 02025854. No matching claim. */
-#include "types.h"
-#include "deps/02025854_func_02025854.h"
-
-void func_02025854(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
-                  undefined4 param_5,undefined4 param_6,undefined4 param_7)
-
-{
-  func_02025884(param_2,param_3,param_4,param_5,param_6,param_7);
-  func_02025954(param_1,param_2,param_6);
-  return;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+extern void func_02025884(void *,int,int,int,int,void *(*)(int));
+extern void func_02025954(int,void *,int);
+void func_02025854(int sub,void *out,int characters,int palette,int screen,int layer,void *(*load)(int)){func_02025884(out,characters,palette,screen,layer,load);func_02025954(sub,out,layer);}

@@ -1,24 +1,5 @@
-/* Decompiled C draft; module arm9; ROM address 02025904. No matching claim. */
-#include "types.h"
-#include "deps/02025904_func_02025904.h"
-
-void func_02025904(int param_1,int param_2,int param_3,int param_4,int param_5,code *param_6)
-
-{
-  undefined4 uVar1;
-  
-  if (param_2 != 0) {
-    uVar1 = (*param_6)(param_2);
-    MaybeReadCharBlock_1((int *)(uintptr_t)(param_1 + param_5 * 4),uVar1);
-  }
-  if (param_3 != 0) {
-    uVar1 = (*param_6)(param_3);
-    Gfx_ReadPaletteRelative((int *)(uintptr_t)(param_1 + 0x10),uVar1);
-  }
-  if (param_4 != 0) {
-    uVar1 = (*param_6)(param_4);
-    MaybeReadScreenBlock((int *)(uintptr_t)(param_1 + 0x14 + param_5 * 4),uVar1);
-  }
-  return;
-}
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+extern void MaybeReadCharBlock_1(void *,void *);
+extern void Gfx_ReadPaletteRelative(void *,void *);
+extern void MaybeReadScreenBlock(void *,void *);
+void func_02025904(int *out,int characters,int palette,int screen,int layer,void *(*load)(int)){if(characters)MaybeReadCharBlock_1(out+layer,load(characters));if(palette)Gfx_ReadPaletteRelative(out+4,load(palette));if(screen)MaybeReadScreenBlock(out+5+layer,load(screen));}

@@ -939,5 +939,111 @@
       "path": "tools/mwccarm/1.2/base/mwccarm.exe",
       "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
     }
+  },
+  "arm9_02025884": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "b11c7357503a23821733d210c92ef6c1c687a81063f5e8a81d7bb69c81d68d96"
+  },
+  "arm9_02025854": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "8588591f01762f623b486f301b110c2ba9efeb7f5a7300e37630cbbffe574e05"
+  },
+  "arm9_02025904": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "52b71ae5ef838420385558e225b96abc42b903f22934d57ae7a5b15a56fd7a14"
+  },
+  "arm9_020258d4": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "84ef07a615fca29c6eced46a89f055ffdb36ff67aa79830a0d162ffe10f35617"
+  },
+  "arm9_02025a00": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "f7814b7664347894e93e8c57a655069311c9e68c7d81f9ecf16dc05945effbdb"
+  },
+  "arm9_02025954": {
+    "flags": [
+      "-O4,p",
+      "-enum",
+      "int",
+      "-lang",
+      "c99",
+      "-char",
+      "signed",
+      "-interworking",
+      "-proc",
+      "arm946e",
+      "-gccext,on",
+      "-thumb"
+    ],
+    "source_sha256": "26dcbf70afa48df14abef91f6cc7ce3c5c63ad1531e27d9be0b6ebc28b94de0a",
+    "compiler": {
+      "path": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399"
+    }
   }
 }

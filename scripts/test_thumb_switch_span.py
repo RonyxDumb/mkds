@@ -8,6 +8,14 @@ class ThumbSwitchSpanTests(unittest.TestCase):
     def test_bounded_table_is_excluded(self):
         self.assertEqual(thumb_switch_bytes(self.code,0x2000000),set(range(18,22)))
         validate_span(self.code,0x2000000,'thumb',20)
+    def test_separate_index_and_dispatch_register(self):
+        # CMP r2,#1; ADDS r1,r2,r2; dispatch through r1.
+        code=b''.join(x.to_bytes(2,'little') for x in
+            [0x2a01,0xd809,0x1891,0x4479,0x8909,0x0409,0x1409,0x4479,0x4708,5,5,0x4770])
+        self.assertEqual(thumb_switch_bytes(code,0x2000000),set(range(18,22)))
+        validate_span(code,0x2000000,'thumb',20)
+        broken=bytes.fromhex('0129')+code[2:]  # bound checks wrong register
+        self.assertEqual(thumb_switch_bytes(broken,0x2000000),set())
     def test_unexplained_bytes_rejected(self):
         with self.assertRaises(AssertionError):validate_span(self.code+b'\x00\x00',0x2000000,'thumb',20)
     def test_destination_inside_table_rejected(self):

@@ -14,16 +14,17 @@ def thumb_switch_bytes(code, address):
     half=lambda p:int.from_bytes(code[p:p+2], 'little')
     for start in range(0,len(code)-16,2):
         reg=half(start)&7
-        pattern=[0x1800|(reg<<6)|(reg<<3)|reg,0x4478|reg,
+        selector=(half(start)>>3)&7
+        pattern=[0x1800|(selector<<6)|(selector<<3)|reg,0x4478|reg,
                  0x8900|(reg<<3)|reg,0x0400|(reg<<3)|reg,
                  0x1400|(reg<<3)|reg,0x4478|reg,0x4700|(reg<<3)]
         if [half(start+i*2) for i in range(7)]!=pattern:continue
         cmp_at=start-4
-        if cmp_at>=0 and half(cmp_at)&0xff00==0x2800|(reg<<8) and half(start-2)&0xff00==0xd800:
+        if cmp_at>=0 and half(cmp_at)&0xff00==0x2800|(selector<<8) and half(start-2)&0xff00==0xd800:
             pass
         else:
             cmp_at=start-6
-            if not (cmp_at>=0 and half(cmp_at)&0xff00==0x2800|(reg<<8)
+            if not (cmp_at>=0 and half(cmp_at)&0xff00==0x2800|(selector<<8)
                     and half(start-4)==0xd900 and half(start-2)&0xf800==0xe000):continue
         count=(half(cmp_at)&255)+1;table=start+14;end=table+count*2
         assert end<=len(code),'Truncated Thumb switch table'
