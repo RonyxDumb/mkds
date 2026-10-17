@@ -1,0 +1,416 @@
+[
+  {
+    "offset": 40,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4240635688
+  },
+  {
+    "offset": 48,
+    "type": 10,
+    "symbol": "MaybeReadCharBlock_1",
+    "target": 34294068,
+    "thumb": false,
+    "addend": -4,
+    "value": 3968530325
+  },
+  {
+    "offset": 56,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4240111400
+  },
+  {
+    "offset": 64,
+    "type": 10,
+    "symbol": "Gfx_ReadPaletteRelative",
+    "target": 34294340,
+    "thumb": false,
+    "addend": -4,
+    "value": 3976918933
+  },
+  {
+    "offset": 72,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4239587112
+  },
+  {
+    "offset": 80,
+    "type": 10,
+    "symbol": "MaybeReadScreenBlock",
+    "target": 34293720,
+    "thumb": false,
+    "addend": -4,
+    "value": 3956078485
+  },
+  {
+    "offset": 88,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4239062824
+  },
+  {
+    "offset": 96,
+    "type": 10,
+    "symbol": "MaybeReadCharBlock_1",
+    "target": 34294068,
+    "thumb": false,
+    "addend": -4,
+    "value": 3966957461
+  },
+  {
+    "offset": 104,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4238538536
+  },
+  {
+    "offset": 112,
+    "type": 10,
+    "symbol": "Gfx_ReadPaletteRelative",
+    "target": 34294340,
+    "thumb": false,
+    "addend": -4,
+    "value": 3975346069
+  },
+  {
+    "offset": 120,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4238014248
+  },
+  {
+    "offset": 128,
+    "type": 10,
+    "symbol": "MaybeReadScreenBlock",
+    "target": 34293720,
+    "thumb": false,
+    "addend": -4,
+    "value": 3954505621
+  },
+  {
+    "offset": 140,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 3988322071
+  },
+  {
+    "offset": 154,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4236900136
+  },
+  {
+    "offset": 168,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4236441384
+  },
+  {
+    "offset": 182,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4235982632
+  },
+  {
+    "offset": 190,
+    "type": 10,
+    "symbol": "Gfx_ReadCharGraphicsRelative",
+    "target": 34294204,
+    "thumb": false,
+    "addend": -4,
+    "value": 3968399253
+  },
+  {
+    "offset": 198,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4235458344
+  },
+  {
+    "offset": 208,
+    "type": 10,
+    "symbol": "func_020b48b4",
+    "target": 34293940,
+    "thumb": false,
+    "addend": -4,
+    "value": 3959093141
+  },
+  {
+    "offset": 216,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4234868520
+  },
+  {
+    "offset": 224,
+    "type": 10,
+    "symbol": "Gfx_ReadPaletteRelative",
+    "target": 34294340,
+    "thumb": false,
+    "addend": -4,
+    "value": 3971676053
+  },
+  {
+    "offset": 232,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4234344232
+  },
+  {
+    "offset": 246,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4233885480
+  },
+  {
+    "offset": 260,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4233426728
+  },
+  {
+    "offset": 268,
+    "type": 10,
+    "symbol": "Gfx_ReadCharGraphicsRelative",
+    "target": 34294204,
+    "thumb": false,
+    "addend": -4,
+    "value": 3965777813
+  },
+  {
+    "offset": 276,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4232902440
+  },
+  {
+    "offset": 288,
+    "type": 10,
+    "symbol": "func_020b48b4",
+    "target": 34293940,
+    "thumb": false,
+    "addend": -4,
+    "value": 3956471701
+  },
+  {
+    "offset": 296,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4232247080
+  },
+  {
+    "offset": 304,
+    "type": 10,
+    "symbol": "Gfx_ReadPaletteRelative",
+    "target": 34294340,
+    "thumb": false,
+    "addend": -4,
+    "value": 3969054613
+  },
+  {
+    "offset": 312,
+    "type": 10,
+    "symbol": "func_020cccb4",
+    "target": 34393268,
+    "thumb": true,
+    "addend": -4,
+    "value": 4257675181
+  },
+  {
+    "offset": 320,
+    "type": 10,
+    "symbol": "func_020cccb4",
+    "target": 34393268,
+    "thumb": true,
+    "addend": -4,
+    "value": 4257413037
+  },
+  {
+    "offset": 338,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3918853879
+  },
+  {
+    "offset": 352,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3918329591
+  },
+  {
+    "offset": 368,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3917805303
+  },
+  {
+    "offset": 384,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3917281015
+  },
+  {
+    "offset": 388,
+    "type": 10,
+    "symbol": "func_020cccb4",
+    "target": 34393268,
+    "thumb": true,
+    "addend": -4,
+    "value": 4255184813
+  },
+  {
+    "offset": 396,
+    "type": 10,
+    "symbol": "func_020cccb4",
+    "target": 34393268,
+    "thumb": true,
+    "addend": -4,
+    "value": 4254922669
+  },
+  {
+    "offset": 414,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3916363511
+  },
+  {
+    "offset": 428,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3915839223
+  },
+  {
+    "offset": 444,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3915314935
+  },
+  {
+    "offset": 460,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3914790647
+  },
+  {
+    "offset": 474,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3914397431
+  },
+  {
+    "offset": 488,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3913873143
+  },
+  {
+    "offset": 500,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3913479927
+  },
+  {
+    "offset": 514,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3913086711
+  },
+  {
+    "offset": 528,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3912562423
+  }
+]

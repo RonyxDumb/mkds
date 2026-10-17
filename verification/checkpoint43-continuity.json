@@ -1,0 +1,39 @@
+{
+  "base_commit": "6b0b0034ef52156ebac59abcca0864a8dbe840af",
+  "checkpoint": 43,
+  "previous_functions": 3944,
+  "current_functions": 3947,
+  "previous_inventory_bytes": 305316,
+  "current_inventory_bytes": 306500,
+  "identified_function_bytes": 1913676,
+  "local_byte_exact_percent": 16.01629533944095,
+  "minimum_16_percent_target_reached": true,
+  "lost_exact_proofs": 0,
+  "fuzzy_promoted": 3,
+  "fuzzy_remaining": 17,
+  "new_proof_audit": "verification/checkpoint43-unsigned-loads-audit.json",
+  "fresh_fuzzy_recheck": {
+    "tested": 17,
+    "passed": 17
+  },
+  "additional_compiler_search": {
+    "available_candidates": 11024,
+    "cache_hits": 0,
+    "compiler_invocations": 9162,
+    "completed": 2717,
+    "fingerprint": "39ec366c96a3151f86ceea5e7b1a7f5c061f16a0cb366fde9918c2aca71e7c8f",
+    "full_rom_link_verified": false,
+    "optimization_attempts_skipped": 7140,
+    "outcomes": {
+      "compile_error": 2976,
+      "mismatch": 5542,
+      "unresolved": 644
+    },
+    "seconds": 50.76507785000001,
+    "selected": 11024,
+    "workers": 4,
+    "stopped_before_completion": true,
+    "accepted_matches_from_this_search": 0
+  },
+  "full_rom_link_verified": false
+}

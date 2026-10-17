@@ -5016,5 +5016,23 @@
     "source_sha256": "1065e2a05a45a9698a74a2e5447004f43b6b90e957878049fd72f593b7c2da3a",
     "size": 72,
     "audit": "continuity-20261017-arm7-audit.json"
+  },
+  "arm9_02118b48": {
+    "sha256": "a6c57dda870580e45fd33b53b910d7b7bae3f95edb9a83cca06c83db1aa9400c",
+    "source_sha256": "56c6731495b14708f21c1f134fe7d795a2372a8c25fab551607be0e110192426",
+    "size": 508,
+    "audit": "checkpoint43-unsigned-loads-audit.json"
+  },
+  "arm9_0211efec": {
+    "sha256": "57e04ff48039b7e6085103c7c3bb2667891407fc1d50fbaf115d99311251dec9",
+    "source_sha256": "4159c4aae1fb8b49cd6f278a97dbb6a13435c1ce6b52a72ebdfb110a62dfda22",
+    "size": 596,
+    "audit": "checkpoint43-unsigned-loads-audit.json"
+  },
+  "arm9_ov001_02181124": {
+    "sha256": "9d811023ac35dfa37e2d366bf8505e01b8bf547f42fc5c55ba839eb5aaef6bb6",
+    "source_sha256": "4a037464f6cd7c039006fc0ad9b29ce37aa9047da00bb10fac54ce966813973f",
+    "size": 80,
+    "audit": "checkpoint43-unsigned-loads-audit.json"
   }
 }

@@ -45,8 +45,21 @@ its source corpus is unavailable. Detailed proof records remain in `verification
 | 40 | 3,917 | 303,032 |
 | 41 | 3,942 | 305,160 |
 | 42 | 3,944 | 305,316 |
+| 43 | 3,947 | 306,500 |
 
 ## Current work
+
+Checkpoint 43: 3,947 functions, 306,500 / 1,913,676 inventory bytes
+(16.016295%). Three fuzzy drafts promoted after unsigned load corrections:
+`02118b48` (508 bytes), `0211efec` (596 bytes), `02181124` in overlay 1
+(80 bytes). Fresh compilation and independent complete relocation checks passed;
+82 relocations resolved. Proof: `verification/checkpoint43-unsigned-loads-audit.json`.
+All checkpoint 42 exact proofs remain; 17 fuzzy candidates remain separate and
+the original candidate sources are retained. The 16% inventory threshold is met;
+whole-ROM matching is still unverified. The separate 17% target remains open.
+
+### Checkpoint 42
+
 
 Checkpoint 42: 3,944 functions, 305,316 / 1,913,676 inventory bytes
 (15.954425%). `LoopFn_Some3D` at `02037a40`: recovered the unsigned
