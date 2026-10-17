@@ -1,0 +1,122 @@
+{
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "func_02073fb0",
+      "mode": "arm",
+      "address": "0x02073fb0",
+      "size": "24",
+      "sha256": "1f48da0661a195208f7721896e799c4de7373aa216f2b83d32c054a7d0d70d84",
+      "source_sha256": "38de05dd0f67ce3da1015ed522175e6f3d964da4aa3cf472439dcb3ef85d6c48",
+      "relocations": "1",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "InitializeModelResourceList",
+      "mode": "arm",
+      "address": "0x0208533c",
+      "size": "24",
+      "sha256": "aa29f51db13b03270dca6bd7eb95e5d7c6037e9883659c02a62fcfbedff64d1e",
+      "source_sha256": "f5c100e8466de655669d5bb770cae025393744dedb6b409f31decc837d1bcf2a",
+      "relocations": "2",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_0208bf40",
+      "mode": "arm",
+      "address": "0x0208bf40",
+      "size": "44",
+      "sha256": "ab5464b1f30fe5c75d5eb7203a068d385400e1bfd3990389ccf3affab16c5208",
+      "source_sha256": "be3c055f40768bff568b5b1b69df71ad5e3bf79e0523b97222103596f3f24d41",
+      "relocations": "3",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_0209b710",
+      "mode": "arm",
+      "address": "0x0209b710",
+      "size": "36",
+      "sha256": "0e0f41079c03ffc371d67f63f422031221c1797094b0bb3a762e0fd9e238684e",
+      "source_sha256": "d236762ae53774b87fa0733efe818841d32ac24a2c0676a81cc159a829d08580",
+      "relocations": "1",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_02108c04",
+      "mode": "arm",
+      "address": "0x02108c04",
+      "size": "24",
+      "sha256": "847abfadbc95968bede26625ae09ebd6b11765ed3cb9397292a529d3f84de66f",
+      "source_sha256": "076c26e674780ec922651e2fb3dc92fed9b07ccbb8046ad42d4777468b809dc9",
+      "relocations": "2",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_021105a0",
+      "mode": "arm",
+      "address": "0x021105a0",
+      "size": "56",
+      "sha256": "94aa447165a1666fc84efcf8d5b8562c2ca44213dfee7f2f3de448528711be7a",
+      "source_sha256": "26a2123f82170ff32a3720910fc77648681a0ea3c48a2c8a10c686cd17f65f3c",
+      "relocations": "2",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9_ov001",
+      "name": "func_ov001_02181510",
+      "mode": "arm",
+      "address": "0x02181510",
+      "size": "24",
+      "sha256": "565ea0920fe73604ea7db52f216c5b749d3fcf977afda8e1d45539837c57f621",
+      "source_sha256": "f551d4c045882458be30e81f72396d101b811db6118e034c4b27cf0c91ee9a22",
+      "relocations": "2",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_020f11f0",
+      "mode": "arm",
+      "address": "0x020f11f0",
+      "size": "104",
+      "sha256": "4a9d104b47552952e2b2a99d0d1b29d1f4cdd17d52b2c3f16299b74a821a9306",
+      "source_sha256": "51f1110889fb8421580e828f1d3172dfa72947c4f999e85906d63aeb692eb6c3",
+      "relocations": "2",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 8,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 8,
+      "passed": 8
+    },
+    "unrelocated": {
+      "tested": 0,
+      "passed": 0
+    }
+  }
+}

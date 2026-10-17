@@ -1,13 +1,18 @@
-/* Decompiled C draft; module arm9; ROM address 0208bf40. No matching claim. */
-#include "types.h"
-#include "deps/0208bf40_func_0208bf40.h"
-
-void func_0208bf40(int param_1)
-
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+/* Verified complete local bytes; any relocations fully resolved. Caller ABI and full ROM remain unverified. */
+extern unsigned int func_020896e0(unsigned int);
+extern unsigned int func_02089c3c(unsigned int, unsigned int);
+extern unsigned int func_0209033c(unsigned int, unsigned int);
+unsigned int func_0208bf40(unsigned int r0,unsigned int r1,unsigned int r2,unsigned int r3)
 {
-  func_020896e0();
-  func_02089c3c(param_1 + 0x140,param_1);
-  func_0209033c(param_1 + 0x11c,param_1);
-  return;
+unsigned int cmp_a,cmp_b,r4;
+L_208c0a0: r4 = r0;
+L_208c0a4: r0 = func_020896e0(r0);
+L_208c0a8: r1 = r4;
+L_208c0ac: r0 = (r4+0x140u);
+L_208c0b0: r0 = func_02089c3c(r0,r1);
+L_208c0b4: r1 = r4;
+L_208c0b8: r0 = (r4+0x11cu);
+L_208c0bc: r0 = func_0209033c(r0,r1);
+L_208c0c4: return r0;
 }
-

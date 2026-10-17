@@ -1,13 +1,10 @@
-/* Decompiled C draft; module arm9; ROM address 02073fb0. No matching claim. */
-#include "types.h"
-#include "deps/02073fb0_func_02073fb0.h"
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0205fbd0 func_02073fc8
+#define func_0205f994 func_02073fb0
+extern void func_0205fbd0(int a, int b, int c);
 
-void func_02073fb0(undefined4 param_1,undefined4 param_2)
-
+void func_0205f994(int a, int b)
 {
-                    /* WARNING: Could not recover jumptable at 0x02073fc0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02073fc4)(0x2800,param_1,param_2);
-  return;
+    func_0205fbd0(0x2800, a, b);
 }
-

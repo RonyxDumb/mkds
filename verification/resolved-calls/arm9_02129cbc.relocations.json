@@ -1,0 +1,281 @@
+[
+  {
+    "offset": 6,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4268488477
+  },
+  {
+    "offset": 20,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4268029725
+  },
+  {
+    "offset": 34,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4267570973
+  },
+  {
+    "offset": 48,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4267112221
+  },
+  {
+    "offset": 62,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4266653469
+  },
+  {
+    "offset": 76,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4266194717
+  },
+  {
+    "offset": 90,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4265735965
+  },
+  {
+    "offset": 102,
+    "type": 10,
+    "symbol": "Gfx_ReadCharGraphics",
+    "target": 34294260,
+    "thumb": false,
+    "addend": -4,
+    "value": 3999856522
+  },
+  {
+    "offset": 108,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4265146141
+  },
+  {
+    "offset": 120,
+    "type": 10,
+    "symbol": "LoadCellBankFrom",
+    "target": 34293996,
+    "thumb": false,
+    "addend": -4,
+    "value": 3990550410
+  },
+  {
+    "offset": 126,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4264556317
+  },
+  {
+    "offset": 138,
+    "type": 10,
+    "symbol": "Gfx_ReadPalette",
+    "target": 34294396,
+    "thumb": false,
+    "addend": -4,
+    "value": 4003133322
+  },
+  {
+    "offset": 154,
+    "type": 10,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -4,
+    "value": 3901683429
+  },
+  {
+    "offset": 172,
+    "type": 10,
+    "symbol": "CopyTileDataTop_0",
+    "target": 34914052,
+    "thumb": false,
+    "addend": -4,
+    "value": 3905744930
+  },
+  {
+    "offset": 190,
+    "type": 10,
+    "symbol": "TEQSub_Fn35Impl",
+    "target": 34913956,
+    "thumb": false,
+    "addend": -4,
+    "value": 3902074914
+  },
+  {
+    "offset": 206,
+    "type": 10,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -4,
+    "value": 3899979493
+  },
+  {
+    "offset": 224,
+    "type": 10,
+    "symbol": "CopySomePaletteData",
+    "target": 34914448,
+    "thumb": false,
+    "addend": -4,
+    "value": 3917017122
+  },
+  {
+    "offset": 244,
+    "type": 10,
+    "symbol": "CopySomePaletteData",
+    "target": 34914448,
+    "thumb": false,
+    "addend": -4,
+    "value": 3916361762
+  },
+  {
+    "offset": 262,
+    "type": 10,
+    "symbol": "TEQSub_Fn30Impl",
+    "target": 34914344,
+    "thumb": false,
+    "addend": -4,
+    "value": 3912429602
+  },
+  {
+    "offset": 268,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4259903261
+  },
+  {
+    "offset": 276,
+    "type": 10,
+    "symbol": "Gfx_ReadCharGraphicsV2",
+    "target": 34294124,
+    "thumb": false,
+    "addend": -4,
+    "value": 3989632906
+  },
+  {
+    "offset": 286,
+    "type": 10,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -4,
+    "value": 3897358053
+  },
+  {
+    "offset": 298,
+    "type": 10,
+    "symbol": "CopyBgData_Bg3_Bottom",
+    "target": 34912292,
+    "thumb": false,
+    "addend": -4,
+    "value": 3978227745
+  },
+  {
+    "offset": 304,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4258723613
+  },
+  {
+    "offset": 316,
+    "type": 10,
+    "symbol": "MaybeReadScreenBlock_0",
+    "target": 34293776,
+    "thumb": false,
+    "addend": -4,
+    "value": 3976918922
+  },
+  {
+    "offset": 322,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4258133789
+  },
+  {
+    "offset": 334,
+    "type": 10,
+    "symbol": "MaybeReadScreenBlock_0",
+    "target": 34293776,
+    "thumb": false,
+    "addend": -4,
+    "value": 3976394634
+  },
+  {
+    "offset": 340,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4257543965
+  },
+  {
+    "offset": 348,
+    "type": 10,
+    "symbol": "Gfx_ReadPalette",
+    "target": 34294396,
+    "thumb": false,
+    "addend": -4,
+    "value": 3996186506
+  },
+  {
+    "offset": 358,
+    "type": 10,
+    "symbol": "Arm_FlushRange",
+    "target": 33615476,
+    "thumb": false,
+    "addend": -4,
+    "value": 3894998757
+  },
+  {
+    "offset": 370,
+    "type": 10,
+    "symbol": "CopyPaletteBottom",
+    "target": 34914552,
+    "thumb": false,
+    "addend": -4,
+    "value": 3915706402
+  }
+]

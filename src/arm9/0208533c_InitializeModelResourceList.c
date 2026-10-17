@@ -1,13 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 0208533c. No matching claim. */
-#include "types.h"
-#include "deps/0208533c_InitializeModelResourceList.h"
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define IntrusiveListWrapper_InitializeEmpty IntrusiveListWrapper_InitializeEmpty
+#define data_0217aeb0 data_0217aeb0
+extern void IntrusiveListWrapper_InitializeEmpty(void *a1, int a2);
+extern int data_0217aeb0;
 
 void InitializeModelResourceList(void)
-
 {
-                    /* WARNING: Could not recover jumptable at 0x02085348. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam0208534c)(uRam02085350,0);
-  return;
+    IntrusiveListWrapper_InitializeEmpty(&data_0217aeb0, 0x0);
 }
-

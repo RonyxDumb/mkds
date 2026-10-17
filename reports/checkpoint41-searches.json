@@ -1,0 +1,33 @@
+{
+  "sp2p3": {
+    "fingerprint": "90a4e2f8bcae29159fe2e1cc06ec3708ae87492834d7af372e5c5b76d8646c7f",
+    "selected": 7867,
+    "completed": 7867,
+    "compiler_invocations": 30687,
+    "outcomes": {
+      "compile_error": 7515,
+      "mismatch": 22032,
+      "unresolved": 1140
+    },
+    "seconds": 138.33363371500002,
+    "exact_candidates": 0
+  },
+  "base": {
+    "fingerprint": "833aab7c4c80a9b49ddef695ea6ea6c864aa7dd84757e21059730f46317ddd18",
+    "selected": 7867,
+    "completed": 7867,
+    "compiler_invocations": 30687,
+    "outcomes": {
+      "compile_error": 7515,
+      "mismatch": 22032,
+      "unresolved": 1140
+    },
+    "seconds": 112.4453781709999,
+    "exact_candidates": 0
+  },
+  "sdk_and_donor_searches": "Pinned donor 1551 units, 6204 alternative optimization profiles, 181 NitroSDK units and 92 NitroSystem MWCCARM 2.0 units: no new accepted proof.",
+  "new_exact_functions": 25,
+  "new_exact_bytes": 2128,
+  "target_percent": 17,
+  "target_reached": false
+}

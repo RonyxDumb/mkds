@@ -1,0 +1,20 @@
+[
+  {
+    "offset": 16,
+    "type": 2,
+    "symbol": "IntrusiveListWrapper_InitializeEmpty",
+    "target": 33649976,
+    "thumb": false,
+    "addend": 0,
+    "value": 33649976
+  },
+  {
+    "offset": 20,
+    "type": 2,
+    "symbol": "data_0217aeb0",
+    "target": 35106480,
+    "thumb": false,
+    "addend": 0,
+    "value": 35106480
+  }
+]

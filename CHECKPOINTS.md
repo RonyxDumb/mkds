@@ -43,18 +43,27 @@ its source corpus is unavailable. Detailed proof records remain in `verification
 | 38 | 3,901 | 301,880 |
 | 39 | 3,911 | 302,550 |
 | 40 | 3,917 | 303,032 |
+| 41 | 3,942 | 305,160 |
 
 ## Current work
 
-Checkpoint 40: 3,917 functions, 303,032 / 1,913,676 inventory bytes (15.835073%).
-Six resource-loading/allocation helpers added: 482 inventory bytes, 504 full-span bytes.
-REA/Ghidra produced seven drafts in one persistent session (14.4 seconds); one target
-was already exact and does not count as new. Evidence:
-`verification/checkpoint40-rea-character-resources.json`. Fresh compilation and
-independent relocation audits: `verification/checkpoint40-character-*-audit.json`.
-Reproduce with `python scripts/search_character_resources.py`; allocation requires
-MWCCARM 1.2/base. The bounded Thumb switch validator now handles separate selector
-and dispatch registers; all table and pool bytes remain part of the exact proof.
+Checkpoint 41: 3,942 functions, 305,160 / 1,913,676 inventory bytes (15.946273%).
+25 new exact functions, 2,128 bytes: corrected inferred local-array extents,
+reused verified C for same-shaped sibling functions, and refined comparison types.
+The 17% exact target remains unmet: 20,165 inventory bytes remain.
+Fresh proof audits: `verification/checkpoint41-local-arrays-audit.json`,
+`verification/checkpoint41-siblings-audit.json`,
+`verification/checkpoint41-refined-siblings-audit.json`.
+
+21 unaccepted fuzzy drafts are parked in `verification/fuzzy-candidates.json`.
+They match at least 95% of their complete resolved bytes, but byte similarity is
+not semantic correctness; they do not increase the exact count. Drafts explicitly
+using Ghidra's `unaff_*` or `extraout_*` values were excluded from this bank.
+Reproduce their comparisons with `python scripts/check_fuzzy_candidates.py`.
+REA keyboard evidence: `verification/checkpoint41-rea-keyboard.json`.
+Search results, including unsuccessful broad searches, are summarized in
+`reports/checkpoint41-searches.json`.
+
 Character-selection controller: 22/23 functions, 5,382/7,084 inventory bytes.
 The remaining initializer at `02026910` has 19 differing bytes and is excluded.
 

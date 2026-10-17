@@ -1,13 +1,11 @@
-/* Decompiled C draft; module arm9; ROM address 02108c04. No matching claim. */
-#include "types.h"
-#include "deps/02108c04_func_02108c04.h"
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+/* Public C reconstruction; complete local function bytes verified. Full ROM remains unverified. */
+#define func_0212c6f0 func_0212c6f0
+#define data_0217c788 data_0217c788
+extern void func_0212c6f0(void *a1, int a2);
+extern int data_0217c788;
 
 void func_02108c04(void)
-
 {
-                    /* WARNING: Could not recover jumptable at 0x02108c10. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*pcRam02108c14)(uRam02108c18,1);
-  return;
+    func_0212c6f0(&data_0217c788, 0x1);
 }
-

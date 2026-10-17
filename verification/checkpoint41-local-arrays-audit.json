@@ -1,0 +1,109 @@
+{
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "func_0208ab00",
+      "mode": "arm",
+      "address": "0x0208ab00",
+      "size": "76",
+      "sha256": "2a092bc6fd654266d68fa0b7b28720c9956d6fb33cf03c3ce31e338f64445ffe",
+      "source_sha256": "f71f87adec4732e8eb9478622cae431d842fa2608f2443715958b43addeedce6",
+      "relocations": "2",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_020e512c",
+      "mode": "thumb",
+      "address": "0x020e512c",
+      "size": "64",
+      "sha256": "30273837dae1f143cb468e48c1eea71e6af4ec05e9a3c36e8914aa422e5aba79",
+      "source_sha256": "4a077ad3b6ddff148f80deb57f2d418b7177169dd21fec76978deb148b5b0714",
+      "relocations": "1",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_020e55b4",
+      "mode": "arm",
+      "address": "0x020e55b4",
+      "size": "128",
+      "sha256": "f971425e7e25333a39808489c2adb0a88b0480e57729d2f125329740ff192465",
+      "source_sha256": "8232e644154ac18e1009e0a07ad817b062249d49d0ec5ed5bfe284d48736259e",
+      "relocations": "4",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_020e6a74",
+      "mode": "arm",
+      "address": "0x020e6a74",
+      "size": "68",
+      "sha256": "82be668f4410d2a47dc2819554f39f309a21dc116cb24309ce3d6cab03b9057b",
+      "source_sha256": "3f4eab2239f8b1079118573e8ba3b01d0e9339d8b0411aca2ff62e3f09e0dffe",
+      "relocations": "2",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_0211db90",
+      "mode": "thumb",
+      "address": "0x0211db90",
+      "size": "436",
+      "sha256": "8f167d314c8c08364e6e47b827cd0630c4fa70ff87efb2e89e0467d5793e58ff",
+      "source_sha256": "b229dc5749b5892a60f1f0e637bf7feabdcd349988df0bad44e22555ba85e510",
+      "relocations": "29",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_0211f61c",
+      "mode": "thumb",
+      "address": "0x0211f61c",
+      "size": "148",
+      "sha256": "ed2810078a4716df860f43c181165a1bd2fe1c5c14fd944d0235b8f85ec7a9c1",
+      "source_sha256": "b256595b071ac04a15e22d9d5802481ffd876ddf665e75613a4c8055ac1fe3e0",
+      "relocations": "10",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "Maybe_Keyboard_s_10key",
+      "mode": "thumb",
+      "address": "0x02129cbc",
+      "size": "444",
+      "sha256": "961155a1c1e961142e8fe50ceb2f5e5b34ef1b0fb46a048d207c53ba5d5003a0",
+      "source_sha256": "620b2ea4dd2f58c024f408b80761fde6edc0a03338f6f4431a344c275eb87be5",
+      "relocations": "31",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 7,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 7,
+      "passed": 7
+    },
+    "unrelocated": {
+      "tested": 0,
+      "passed": 0
+    }
+  }
+}

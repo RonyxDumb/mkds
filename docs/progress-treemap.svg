@@ -2,7 +2,7 @@
 <rect width="1200" height="740" rx="14" fill="#0d1117"/>
 <style>text{font-family:Inter,Segoe UI,Arial,sans-serif}.heading{fill:#e6edf3;font-weight:700}.light{fill:#9da7b3}.module{fill:#e6edf3;font-weight:700}.tile{fill:#8ea3b9;font-size:10px;pointer-events:none}</style>
 <text x="28" y="44" class="heading" font-size="26">Mario Kart DS · Decompilation progress</text>
-<text x="28" y="70" class="light" font-size="14">EUR checkpoint 40 · 303,032 / 1,913,676 verified local byte-exact code bytes · 15.8351%</text>
+<text x="28" y="70" class="light" font-size="14">EUR checkpoint 41 · 305,160 / 1,913,676 verified local byte-exact code bytes · 15.9463%</text>
 <rect x="28" y="91" width="13" height="13" fill="#2ea043"/><text x="47" y="103" class="light" font-size="12">Byte-exact locally</text>
 <rect x="206" y="91" width="13" height="13" fill="#303f52"/><text x="225" y="103" class="light" font-size="12">Not byte-exact / unverified</text>
 <text x="1170" y="103" text-anchor="end" class="light" font-size="12">Tile area ∝ identified function bytes</text>
@@ -65,8 +65,8 @@
 <rect x="138.52" y="146.00" width="20.894" height="53.80" fill="#2ea043"/>
 <title>arm9/018 · 7,992 bytes · 3,608 verified (45.145%) · 64 functions</title>
 <rect x="138.52" y="199.80" width="46.28" height="14.40" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="138.52" y="199.80" width="20.243" height="14.40" fill="#2ea043"/>
-<title>arm9/019 · 2,140 bytes · 936 verified (43.738%) · 64 functions</title>
+<rect x="138.52" y="199.80" width="21.022" height="14.40" fill="#2ea043"/>
+<title>arm9/019 · 2,140 bytes · 972 verified (45.421%) · 64 functions</title>
 <rect x="138.52" y="214.20" width="46.28" height="108.30" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="138.52" y="214.20" width="1.968" height="108.30" fill="#2ea043"/>
 <title>arm9/020 · 16,090 bytes · 684 verified (4.251%) · 64 functions</title>
@@ -140,8 +140,8 @@
 <rect x="251.16" y="389.04" width="15.520" height="42.31" fill="#2ea043"/>
 <title>arm9/040 · 7,224 bytes · 2,108 verified (29.181%) · 64 functions</title>
 <rect x="251.16" y="431.36" width="53.18" height="135.10" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="251.16" y="431.36" width="2.776" height="135.10" fill="#2ea043"/>
-<title>arm9/041 · 23,064 bytes · 1,204 verified (5.220%) · 64 functions</title>
+<rect x="251.16" y="431.36" width="2.961" height="135.10" fill="#2ea043"/>
+<title>arm9/041 · 23,064 bytes · 1,284 verified (5.567%) · 64 functions</title>
 <rect x="251.16" y="566.45" width="53.18" height="104.55" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="251.16" y="566.45" width="5.972" height="104.55" fill="#2ea043"/>
 <title>arm9/042 · 17,848 bytes · 2,004 verified (11.228%) · 64 functions</title>
@@ -150,9 +150,9 @@
 <text x="309.3" y="161.0" class="tile">arm9/043</text>
 <title>arm9/043 · 27,812 bytes · 776 verified (2.790%) · 64 functions</title>
 <rect x="304.34" y="272.63" width="68.42" height="89.96" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="304.34" y="272.63" width="3.463" height="89.96" fill="#2ea043"/>
+<rect x="304.34" y="272.63" width="3.546" height="89.96" fill="#2ea043"/>
 <text x="309.3" y="287.6" class="tile">arm9/044</text>
-<title>arm9/044 · 19,758 bytes · 1,000 verified (5.061%) · 64 functions</title>
+<title>arm9/044 · 19,758 bytes · 1,024 verified (5.183%) · 64 functions</title>
 <rect x="304.34" y="362.58" width="68.42" height="38.08" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="304.34" y="362.58" width="4.827" height="38.08" fill="#2ea043"/>
 <text x="309.3" y="377.6" class="tile">arm9/045</text>
@@ -170,20 +170,20 @@
 <text x="309.3" y="524.8" class="tile">arm9/048</text>
 <title>arm9/048 · 12,612 bytes · 5,064 verified (40.152%) · 64 functions</title>
 <rect x="304.34" y="567.19" width="68.42" height="48.12" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="304.34" y="567.19" width="14.089" height="48.12" fill="#2ea043"/>
+<rect x="304.34" y="567.19" width="14.244" height="48.12" fill="#2ea043"/>
 <text x="309.3" y="582.2" class="tile">arm9/049</text>
-<title>arm9/049 · 10,568 bytes · 2,176 verified (20.590%) · 64 functions</title>
+<title>arm9/049 · 10,568 bytes · 2,200 verified (20.818%) · 64 functions</title>
 <rect x="304.34" y="615.31" width="68.42" height="55.69" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="304.34" y="615.31" width="9.163" height="55.69" fill="#2ea043"/>
 <text x="309.3" y="630.3" class="tile">arm9/050</text>
 <title>arm9/050 · 12,232 bytes · 1,638 verified (13.391%) · 64 functions</title>
 <rect x="372.77" y="146.00" width="96.43" height="47.00" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="372.77" y="146.00" width="12.886" height="47.00" fill="#2ea043"/>
+<rect x="372.77" y="146.00" width="13.390" height="47.00" fill="#2ea043"/>
 <text x="377.8" y="161.0" class="tile">arm9/051</text>
-<title>arm9/051 · 14,548 bytes · 1,944 verified (13.363%) · 64 functions</title>
+<title>arm9/051 · 14,548 bytes · 2,020 verified (13.885%) · 64 functions</title>
 <rect x="469.20" y="146.00" width="40.30" height="47.00" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="469.20" y="146.00" width="3.076" height="47.00" fill="#2ea043"/>
-<title>arm9/052 · 6,080 bytes · 464 verified (7.632%) · 64 functions</title>
+<rect x="469.20" y="146.00" width="3.579" height="47.00" fill="#2ea043"/>
+<title>arm9/052 · 6,080 bytes · 540 verified (8.882%) · 64 functions</title>
 <rect x="509.50" y="146.00" width="78.14" height="47.00" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="509.50" y="146.00" width="28.105" height="47.00" fill="#2ea043"/>
 <text x="514.5" y="161.0" class="tile">arm9/053</text>
@@ -204,8 +204,8 @@
 <rect x="834.85" y="146.00" width="24.181" height="47.00" fill="#2ea043"/>
 <title>arm9/057 · 3,648 bytes · 3,648 verified (100.000%) · 64 functions</title>
 <rect x="372.77" y="193.00" width="51.16" height="43.45" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="372.77" y="193.00" width="19.645" height="43.45" fill="#2ea043"/>
-<title>arm9/058 · 7,136 bytes · 2,740 verified (38.397%) · 64 functions</title>
+<rect x="372.77" y="193.00" width="19.904" height="43.45" fill="#2ea043"/>
+<title>arm9/058 · 7,136 bytes · 2,776 verified (38.901%) · 64 functions</title>
 <rect x="372.77" y="236.45" width="51.16" height="77.43" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="372.77" y="236.45" width="11.693" height="77.43" fill="#2ea043"/>
 <title>arm9/059 · 12,716 bytes · 2,906 verified (22.853%) · 64 functions</title>
@@ -297,9 +297,9 @@
 <rect x="821.32" y="242.20" width="8.010" height="58.65" fill="#2ea043"/>
 <title>arm9/083 · 7,100 bytes · 1,508 verified (21.239%) · 64 functions</title>
 <rect x="486.96" y="300.85" width="59.32" height="36.97" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="486.96" y="300.85" width="14.762" height="36.97" fill="#2ea043"/>
+<rect x="486.96" y="300.85" width="16.953" height="36.97" fill="#2ea043"/>
 <text x="492.0" y="315.8" class="tile">arm9/084</text>
-<title>arm9/084 · 7,040 bytes · 1,752 verified (24.886%) · 64 functions</title>
+<title>arm9/084 · 7,040 bytes · 2,012 verified (28.580%) · 64 functions</title>
 <rect x="486.96" y="337.82" width="59.32" height="86.64" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="486.96" y="337.82" width="2.416" height="86.64" fill="#2ea043"/>
 <text x="492.0" y="352.8" class="tile">arm9/085</text>
@@ -309,9 +309,9 @@
 <text x="492.0" y="439.5" class="tile">arm9/086</text>
 <title>arm9/086 · 15,144 bytes · 1,696 verified (11.199%) · 64 functions</title>
 <rect x="486.96" y="504.00" width="59.32" height="98.96" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="486.96" y="504.00" width="5.912" height="98.96" fill="#2ea043"/>
+<rect x="486.96" y="504.00" width="6.240" height="98.96" fill="#2ea043"/>
 <text x="492.0" y="519.0" class="tile">arm9/087</text>
-<title>arm9/087 · 18,842 bytes · 1,878 verified (9.967%) · 64 functions</title>
+<title>arm9/087 · 18,842 bytes · 1,982 verified (10.519%) · 64 functions</title>
 <rect x="486.96" y="602.96" width="59.32" height="68.04" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="486.96" y="602.96" width="6.941" height="68.04" fill="#2ea043"/>
 <text x="492.0" y="618.0" class="tile">arm9/088</text>
@@ -335,9 +335,9 @@
 <text x="788.0" y="315.8" class="tile">arm9/093</text>
 <title>arm9/093 · 15,280 bytes · 1,292 verified (8.455%) · 64 functions</title>
 <rect x="546.28" y="363.44" width="59.28" height="64.83" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="546.28" y="363.44" width="4.748" height="64.83" fill="#2ea043"/>
+<rect x="546.28" y="363.44" width="4.863" height="64.83" fill="#2ea043"/>
 <text x="551.3" y="378.4" class="tile">arm9/094</text>
-<title>arm9/094 · 12,336 bytes · 988 verified (8.009%) · 64 functions</title>
+<title>arm9/094 · 12,336 bytes · 1,012 verified (8.204%) · 64 functions</title>
 <rect x="546.28" y="428.27" width="59.28" height="58.15" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="546.28" y="428.27" width="7.651" height="58.15" fill="#2ea043"/>
 <text x="551.3" y="443.3" class="tile">arm9/095</text>
@@ -351,9 +351,9 @@
 <text x="551.3" y="546.7" class="tile">arm9/097</text>
 <title>arm9/097 · 7,516 bytes · 1,388 verified (18.467%) · 64 functions</title>
 <rect x="546.28" y="571.16" width="59.28" height="42.50" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="546.28" y="571.16" width="6.891" height="42.50" fill="#2ea043"/>
+<rect x="546.28" y="571.16" width="7.302" height="42.50" fill="#2ea043"/>
 <text x="551.3" y="586.2" class="tile">arm9/098</text>
-<title>arm9/098 · 8,086 bytes · 940 verified (11.625%) · 64 functions</title>
+<title>arm9/098 · 8,086 bytes · 996 verified (12.318%) · 64 functions</title>
 <rect x="546.28" y="613.65" width="59.28" height="57.35" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="546.28" y="613.65" width="3.759" height="57.35" fill="#2ea043"/>
 <text x="551.3" y="628.7" class="tile">arm9/099</text>
@@ -371,8 +371,8 @@
 <text x="731.0" y="378.4" class="tile">arm9/102</text>
 <title>arm9/102 · 14,258 bytes · 228 verified (1.599%) · 64 functions</title>
 <rect x="805.74" y="363.44" width="53.30" height="55.69" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="805.74" y="363.44" width="3.200" height="55.69" fill="#2ea043"/>
-<title>arm9/103 · 9,528 bytes · 572 verified (6.003%) · 64 functions</title>
+<rect x="805.74" y="363.44" width="6.467" height="55.69" fill="#2ea043"/>
+<title>arm9/103 · 9,528 bytes · 1,156 verified (12.133%) · 64 functions</title>
 <rect x="605.56" y="419.13" width="60.64" height="40.36" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="605.56" y="419.13" width="4.817" height="40.36" fill="#2ea043"/>
 <text x="610.6" y="434.1" class="tile">arm9/104</text>
@@ -390,9 +390,9 @@
 <text x="610.6" y="597.6" class="tile">arm9/107</text>
 <title>arm9/107 · 6,534 bytes · 532 verified (8.142%) · 64 functions</title>
 <rect x="605.56" y="616.15" width="60.64" height="54.85" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="605.56" y="616.15" width="6.259" height="54.85" fill="#2ea043"/>
+<rect x="605.56" y="616.15" width="8.780" height="54.85" fill="#2ea043"/>
 <text x="610.6" y="631.1" class="tile">arm9/108</text>
-<title>arm9/108 · 10,678 bytes · 1,102 verified (10.320%) · 64 functions</title>
+<title>arm9/108 · 10,678 bytes · 1,546 verified (14.478%) · 64 functions</title>
 <rect x="666.21" y="419.13" width="36.16" height="50.72" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="666.21" y="419.13" width="26.335" height="50.72" fill="#2ea043"/>
 <title>arm9/109 · 5,888 bytes · 4,288 verified (72.826%) · 64 functions</title>
@@ -438,11 +438,11 @@
 <rect x="829.28" y="623.83" width="29.76" height="47.17" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="829.28" y="623.83" width="3.447" height="47.17" fill="#2ea043"/>
 <title>arm9/121 · 4,506 bytes · 522 verified (11.585%) · 63 functions</title>
-<text x="31.0" y="138.0" class="module" font-size="13">ARM9 · 18.265%</text>
+<text x="31.0" y="138.0" class="module" font-size="13">ARM9 · 18.396%</text>
 <rect x="865.03" y="120.00" width="310.97" height="188.15" rx="3" fill="#15202c" stroke="#5b7187" stroke-width="1.7"/>
 <rect x="871.03" y="146.00" width="48.58" height="36.39" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="871.03" y="146.00" width="1.500" height="36.39" fill="#2ea043"/>
-<title>arm9_ov000/000 · 6,607 bytes · 204 verified (3.088%) · 64 functions</title>
+<rect x="871.03" y="146.00" width="1.676" height="36.39" fill="#2ea043"/>
+<title>arm9_ov000/000 · 6,607 bytes · 228 verified (3.451%) · 64 functions</title>
 <rect x="871.03" y="182.39" width="48.58" height="57.78" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <title>arm9_ov000/001 · 10,492 bytes · 0 verified (0.000%) · 64 functions</title>
 <rect x="871.03" y="240.17" width="48.58" height="61.99" fill="#303f52" stroke="#101b26" stroke-width="1"/>
@@ -491,11 +491,11 @@
 <title>arm9_ov000/020 · 8,128 bytes · 0 verified (0.000%) · 64 functions</title>
 <rect x="1124.38" y="276.67" width="45.62" height="25.49" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <title>arm9_ov000/021 · 4,346 bytes · 0 verified (0.000%) · 37 functions</title>
-<text x="872.0" y="138.0" class="module" font-size="13">ARM9_OV000 · 0.117%</text>
+<text x="872.0" y="138.0" class="module" font-size="13">ARM9_OV000 · 0.131%</text>
 <rect x="865.03" y="308.15" width="159.50" height="210.24" rx="3" fill="#15202c" stroke="#5b7187" stroke-width="1.7"/>
 <rect x="871.03" y="334.15" width="25.28" height="47.20" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="871.03" y="334.15" width="2.896" height="47.20" fill="#2ea043"/>
-<title>arm9_ov001/000 · 4,538 bytes · 520 verified (11.459%) · 64 functions</title>
+<rect x="871.03" y="334.15" width="4.322" height="47.20" fill="#2ea043"/>
+<title>arm9_ov001/000 · 4,538 bytes · 776 verified (17.100%) · 64 functions</title>
 <rect x="896.31" y="334.15" width="34.67" height="47.20" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="896.31" y="334.15" width="1.003" height="47.20" fill="#2ea043"/>
 <title>arm9_ov001/001 · 6,224 bytes · 180 verified (2.892%) · 64 functions</title>
@@ -525,7 +525,7 @@
 <title>arm9_ov001/012 · 7,254 bytes · 0 verified (0.000%) · 64 functions</title>
 <rect x="1013.03" y="470.50" width="5.51" height="41.89" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <title>arm9_ov001/013 · 878 bytes · 0 verified (0.000%) · 12 functions</title>
-<text x="872.0" y="326.2" class="module" font-size="13">ARM9_OV001 · 0.700%</text>
+<text x="872.0" y="326.2" class="module" font-size="13">ARM9_OV001 · 0.956%</text>
 <rect x="1024.54" y="308.15" width="151.46" height="210.24" rx="3" fill="#15202c" stroke="#5b7187" stroke-width="1.7"/>
 <rect x="1030.54" y="334.15" width="30.12" height="54.80" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="1030.54" y="334.15" width="0.659" height="54.80" fill="#2ea043"/>
@@ -571,8 +571,8 @@
 <rect x="871.03" y="588.66" width="20.867" height="46.02" fill="#2ea043"/>
 <title>arm7/001 · 5,960 bytes · 3,732 verified (62.617%) · 64 functions</title>
 <rect x="871.03" y="634.68" width="33.32" height="36.32" fill="#303f52" stroke="#101b26" stroke-width="1"/>
-<rect x="871.03" y="634.68" width="23.038" height="36.32" fill="#2ea043"/>
-<title>arm7/002 · 4,704 bytes · 3,252 verified (69.133%) · 64 functions</title>
+<rect x="871.03" y="634.68" width="23.208" height="36.32" fill="#2ea043"/>
+<title>arm7/002 · 4,704 bytes · 3,276 verified (69.643%) · 64 functions</title>
 <rect x="904.36" y="544.40" width="57.52" height="45.74" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="904.36" y="544.40" width="31.415" height="45.74" fill="#2ea043"/>
 <text x="909.4" y="559.4" class="tile">arm7/003</text>
@@ -617,7 +617,7 @@
 <rect x="1090.38" y="650.78" width="79.62" height="20.22" fill="#303f52" stroke="#101b26" stroke-width="1"/>
 <rect x="1090.38" y="650.78" width="14.967" height="20.22" fill="#2ea043"/>
 <title>arm7/015 · 6,256 bytes · 1,176 verified (18.798%) · 22 functions</title>
-<text x="872.0" y="536.4" class="module" font-size="13">ARM7 · 31.784%</text>
+<text x="872.0" y="536.4" class="module" font-size="13">ARM7 · 31.801%</text>
 <text x="28" y="707" class="light" font-size="12">12,038 identified functions · Colored bytes are local verified matches; compilable nonmatching C is not counted as matching.</text>
 <text x="28" y="725" class="light" font-size="12">This is an inventory-weighted local comparison, NOT whole-ROM completion. No full-ROM build is verified.</text>
 </svg>

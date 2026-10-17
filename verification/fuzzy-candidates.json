@@ -1,0 +1,238 @@
+{
+  "status": "UNACCEPTED_CANDIDATES",
+  "metric": "Full-span byte equality after resolving all relocations; not a semantic correctness score.",
+  "counts_toward_exact_progress": false,
+  "candidates": [
+    {
+      "module": "arm9",
+      "address": "0x2116888",
+      "source": "scripts/inputs/fuzzy/arm9_02116888.c",
+      "source_sha256": "d11e5418b577a2d2675f71071783d203735deba41e6fd6ca955cc645ee4c5baa",
+      "reference_sha256": "1424f9ee63e6cfb3c5906ee5d1ee4964173128de31e9ebdde976f721e5ebaa2f",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 4
+    },
+    {
+      "module": "arm9",
+      "address": "0x2037a40",
+      "source": "scripts/inputs/fuzzy/arm9_02037a40.c",
+      "source_sha256": "91e3a1db7e5d1e4512f3a28401cb8d0cd73a4f085968ab3050ecf8cd88fd9525",
+      "reference_sha256": "fc9d051cdef471689b1bc283952b976346b209057b099ac03fd035df9a6fecb3",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 1
+    },
+    {
+      "module": "arm9",
+      "address": "0x2118b48",
+      "source": "scripts/inputs/fuzzy/arm9_02118b48.c",
+      "source_sha256": "dfd7cf4adb0c893e4a6f298ea7d0f5f9cac042c7ba221fe110bc49219f2a6cc2",
+      "reference_sha256": "a6c57dda870580e45fd33b53b910d7b7bae3f95edb9a83cca06c83db1aa9400c",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 10
+    },
+    {
+      "module": "arm9",
+      "address": "0x200850c",
+      "source": "scripts/inputs/fuzzy/arm9_0200850c.c",
+      "source_sha256": "685564d375610793dd54b12cef2bc9b149881a7e95f54fcacf87dce42286db4f",
+      "reference_sha256": "7aee019aad58878467dd4e791b4424ce6bc7ad8088ac5439dd72100ad9c58a75",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 2
+    },
+    {
+      "module": "arm9",
+      "address": "0x20472e4",
+      "source": "scripts/inputs/fuzzy/arm9_020472e4.c",
+      "source_sha256": "00102880d59645d85d66b7a368040ff00f59abf002c94f5b169190695b83ac06",
+      "reference_sha256": "aac12550f94e3415c9e4776651b889c0b48994bce9f33296268aee05a1fc50de",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O1",
+      "differing_bytes": 4
+    },
+    {
+      "module": "arm9",
+      "address": "0x211efec",
+      "source": "scripts/inputs/fuzzy/arm9_0211efec.c",
+      "source_sha256": "980058b603c4e1956249c79fd9ee77c8c55265be392d188feaa887c9410c2d05",
+      "reference_sha256": "57e04ff48039b7e6085103c7c3bb2667891407fc1d50fbaf115d99311251dec9",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 13
+    },
+    {
+      "module": "arm9",
+      "address": "0x211a3bc",
+      "source": "scripts/inputs/fuzzy/arm9_0211a3bc.c",
+      "source_sha256": "921360ee1e491f416a0b40567b1d7764eef80adbe99b10d1410add119d23f526",
+      "reference_sha256": "c467856b42abe52a78f54dd51a004550a32c5ce46de031626276c608b2b4b931",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 17
+    },
+    {
+      "module": "arm9",
+      "address": "0x20917d0",
+      "source": "scripts/inputs/fuzzy/arm9_020917d0.c",
+      "source_sha256": "7240355dcc2e60a6c1534cfac4b22dd763e1e9f6d7209bdfdc7d8fab0e1306f2",
+      "reference_sha256": "988b2f7dc528e6d1b55f14923ae64b1e1238299f971279e1284d7f10cce3bc4d",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 2
+    },
+    {
+      "module": "arm9",
+      "address": "0x2047544",
+      "source": "scripts/inputs/fuzzy/arm9_02047544.c",
+      "source_sha256": "07604da838b4c98cb4dd6a5099c61143eb2f2f686442572357b36b32b87af69b",
+      "reference_sha256": "1ffff26fa84565856610182c9af0d41f447b2efcfae7c2bd7113b16dd9d80cd6",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 6
+    },
+    {
+      "module": "arm9_ov001",
+      "address": "0x2181124",
+      "source": "scripts/inputs/fuzzy/arm9_ov001_02181124.c",
+      "source_sha256": "59bd6ddac047b20c82899c87a950b4fb505b1c34c9d9aca1d3a08527d42de604",
+      "reference_sha256": "9d811023ac35dfa37e2d366bf8505e01b8bf547f42fc5c55ba839eb5aaef6bb6",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 2
+    },
+    {
+      "module": "arm9",
+      "address": "0x211f244",
+      "source": "scripts/inputs/fuzzy/arm9_0211f244.c",
+      "source_sha256": "08a9379d95d08e5a6cd1bbe46070425b72039c762a028e6d44f8c6883aec4b52",
+      "reference_sha256": "bd184dc741a838bdc03fa2eabd42d84f74e5f98cc4af30bc198593c7c74d038f",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 3
+    },
+    {
+      "module": "arm9",
+      "address": "0x2117224",
+      "source": "scripts/inputs/fuzzy/arm9_02117224.c",
+      "source_sha256": "65149d9475e86c9a2344d61b21b7f51a80fb5063d509a051b4e0bb43b7c270cc",
+      "reference_sha256": "45f9f321c06c09a4f557314d02fa252952c9dafba63c1592d0779fbf83580b5a",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 4
+    },
+    {
+      "module": "arm9",
+      "address": "0x21172a8",
+      "source": "scripts/inputs/fuzzy/arm9_021172a8.c",
+      "source_sha256": "7eac8fc116a32be74f375242d157e5b6da5a1c3b5cb7e2c4449e36cf7f0d2e7e",
+      "reference_sha256": "bb356bbbeedc82287b74e868e5388e06a57905a3d93b8f02bc7b73b63fc59dfd",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 4
+    },
+    {
+      "module": "arm9",
+      "address": "0x20518c8",
+      "source": "scripts/inputs/fuzzy/arm9_020518c8.c",
+      "source_sha256": "5c95da29aedf028397a22292dcbc1764041f3df7a77118b664007b3d75c86d83",
+      "reference_sha256": "7d60d923c78ac47de35011d5c96fa58b9fe9a9ef8b2494e7ec60da091779920e",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 5
+    },
+    {
+      "module": "arm9",
+      "address": "0x2052ecc",
+      "source": "scripts/inputs/fuzzy/arm9_02052ecc.c",
+      "source_sha256": "42d0465ac1d02dc94bdde308321795b23929e15f15b958bb2e0057f791ee8c49",
+      "reference_sha256": "a2dc6ff244b2ab6ea72aa008ec77b9e65049bb9d8ec0b4be72d88d7cf17e5747",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 9
+    },
+    {
+      "module": "arm9",
+      "address": "0x2088518",
+      "source": "scripts/inputs/fuzzy/arm9_02088518.c",
+      "source_sha256": "998775132667642e7dadb792f905907003b986a1b249ac02b0c05434d6a375cb",
+      "reference_sha256": "de4e08d6c8f5395d1e139afb15fed1ca03e517e61fe73007400460d64f028764",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 4
+    },
+    {
+      "module": "arm9",
+      "address": "0x2088574",
+      "source": "scripts/inputs/fuzzy/arm9_02088574.c",
+      "source_sha256": "f4e83bc8ac864619c9e67e59b2e783ee5d843d4d822cfd76a4fe1ac4fe1997f5",
+      "reference_sha256": "c954023bc3cfacb13cc86b64d614e3c1f0e252613bd4476093cde521b2157349",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 4
+    },
+    {
+      "module": "arm9",
+      "address": "0x2052da4",
+      "source": "scripts/inputs/fuzzy/arm9_02052da4.c",
+      "source_sha256": "7af6f975e3f60dc6c102b567481641a3409431738698b38e45138f6c956d8e40",
+      "reference_sha256": "9d6a6186e34581b79b00b06c810e7a7ca9ac7ba30ec6913d0ae3b42ad8a0c952",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 9
+    },
+    {
+      "module": "arm9",
+      "address": "0x200c7f4",
+      "source": "scripts/inputs/fuzzy/arm9_0200c7f4.c",
+      "source_sha256": "835728ccd88889a3c2a1ddb846832da13fe24d15a15a349cfc3528c6e21a2f99",
+      "reference_sha256": "ad3a3e8e6cde06d9f24425261cd0deb586731afa892a17181558361af1240ae1",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 5
+    },
+    {
+      "module": "arm9",
+      "address": "0x20ada2c",
+      "source": "scripts/inputs/fuzzy/arm9_020ada2c.c",
+      "source_sha256": "ee34a3e4abd225b205d082245fc3703dc56eabb3867bdd78d70ea2f959dad7b5",
+      "reference_sha256": "702be018543ddfd3948a76589724817bf0adaa46e72be51ce4541341b3f7664f",
+      "compiler": "tools/mwccarm/1.2/sp2p3/mwccarm.exe",
+      "compiler_sha256": "a0db9f5dd49ceb619dbc64993660b39f96cca10821a698a9859824e2d4ae2a81",
+      "optimization": "-O4,p",
+      "differing_bytes": 4
+    },
+    {
+      "module": "arm9",
+      "address": "0x2026910",
+      "source": "scripts/inputs/character-select/initializer-candidate.c",
+      "source_sha256": "5d1155fd272ce4db23c9be4f7a153ea051edd6292db6d4b74760f1c4d794b2c0",
+      "reference_sha256": "7b3c5935e44af00ed73d581ef8400f0fec715154308e0548fb93dd22bddd1e19",
+      "compiler": "tools/mwccarm/1.2/base/mwccarm.exe",
+      "compiler_sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399",
+      "optimization": "-O4,p",
+      "differing_bytes": 19
+    }
+  ]
+}

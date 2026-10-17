@@ -1,0 +1,263 @@
+[
+  {
+    "offset": 26,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4277663529
+  },
+  {
+    "offset": 34,
+    "type": 10,
+    "symbol": "MaybeReadCharBlock_1",
+    "target": 34294068,
+    "thumb": false,
+    "addend": -4,
+    "value": 4005623702
+  },
+  {
+    "offset": 42,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4277139241
+  },
+  {
+    "offset": 54,
+    "type": 10,
+    "symbol": "MaybeReadScreenBlock",
+    "target": 34293720,
+    "thumb": false,
+    "addend": -4,
+    "value": 3993565078
+  },
+  {
+    "offset": 62,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4276483881
+  },
+  {
+    "offset": 76,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4276025129
+  },
+  {
+    "offset": 90,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4275566377
+  },
+  {
+    "offset": 106,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4275042089
+  },
+  {
+    "offset": 114,
+    "type": 10,
+    "symbol": "MaybeReadCharBlock_1",
+    "target": 34294068,
+    "thumb": false,
+    "addend": -4,
+    "value": 4003002262
+  },
+  {
+    "offset": 122,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4274517801
+  },
+  {
+    "offset": 134,
+    "type": 10,
+    "symbol": "MaybeReadScreenBlock",
+    "target": 34293720,
+    "thumb": false,
+    "addend": -4,
+    "value": 3990943638
+  },
+  {
+    "offset": 142,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4273862441
+  },
+  {
+    "offset": 156,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4273403689
+  },
+  {
+    "offset": 170,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4272944937
+  },
+  {
+    "offset": 184,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4272486185
+  },
+  {
+    "offset": 192,
+    "type": 10,
+    "symbol": "Gfx_ReadPaletteRelative",
+    "target": 34294340,
+    "thumb": false,
+    "addend": -4,
+    "value": 4009293718
+  },
+  {
+    "offset": 204,
+    "type": 10,
+    "symbol": "Mem_AllocateHeap",
+    "target": 33778668,
+    "thumb": false,
+    "addend": -4,
+    "value": 4022794008
+  },
+  {
+    "offset": 218,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4271372073
+  },
+  {
+    "offset": 226,
+    "type": 10,
+    "symbol": "Gfx_ReadCharGraphicsRelative",
+    "target": 34294204,
+    "thumb": false,
+    "addend": -4,
+    "value": 4003788694
+  },
+  {
+    "offset": 234,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4270847785
+  },
+  {
+    "offset": 244,
+    "type": 10,
+    "symbol": "func_020b48b4",
+    "target": 34293940,
+    "thumb": false,
+    "addend": -4,
+    "value": 3994482582
+  },
+  {
+    "offset": 252,
+    "type": 10,
+    "symbol": "find_buf_fn_from_thumb",
+    "target": 33847708,
+    "thumb": true,
+    "addend": -4,
+    "value": 4270257961
+  },
+  {
+    "offset": 264,
+    "type": 10,
+    "symbol": "Gfx_ReadPaletteRelative",
+    "target": 34294340,
+    "thumb": false,
+    "addend": -4,
+    "value": 4006934422
+  },
+  {
+    "offset": 278,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3957389048
+  },
+  {
+    "offset": 298,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3956733688
+  },
+  {
+    "offset": 314,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3956209400
+  },
+  {
+    "offset": 328,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3955685112
+  },
+  {
+    "offset": 342,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3955291896
+  },
+  {
+    "offset": 360,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3954636536
+  }
+]

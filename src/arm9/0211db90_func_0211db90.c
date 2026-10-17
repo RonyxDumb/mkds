@@ -1,6 +1,101 @@
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+typedef unsigned char uint8_t; typedef unsigned short uint16_t; typedef unsigned int uint32_t; typedef unsigned long long uint64_t;
+typedef signed char int8_t; typedef short int16_t; typedef int int32_t; typedef long long int64_t; typedef unsigned int uintptr_t; typedef int intptr_t;
+#define bool _Bool
+#define true 1
+#define false 0
+#define UINT32_MAX 0xffffffffU
+#define INT32_MAX 0x7fffffff
+#define INT32_MIN (-2147483647-1)
+#define __attribute__(x)
+extern int __builtin_clz(unsigned int);
+
+
+
+typedef unsigned char byte;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+typedef unsigned long ulong;
+typedef long long longlong;
+typedef unsigned long long ulonglong;
+typedef unsigned char undefined;
+typedef uint8_t undefined1;
+typedef uint16_t undefined2;
+typedef uint32_t undefined4;
+typedef uint64_t undefined8;
+/* Unknown executable address: the return convention still needs validation. */
+typedef void code();
+static inline bool CARRY4(uint32_t a,uint32_t b){return (uint64_t)a+b>UINT32_MAX;}
+static inline bool SBORROW4(uint32_t a,uint32_t b){int64_t r=(int64_t)(int32_t)a-(int64_t)(int32_t)b;return r<INT32_MIN||r>INT32_MAX;}
+static inline bool SCARRY4(uint32_t a,uint32_t b){int64_t r=(int64_t)(int32_t)a+(int64_t)(int32_t)b;return r<INT32_MIN||r>INT32_MAX;}
+static inline uint32_t LZCOUNT(uint32_t a){return a?(uint32_t)__builtin_clz(a):32u;}
+#define CONCAT11(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+#define CONCAT12(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffULL)<<16)|((uint64_t)(lo)&0xffffULL)))
+#define CONCAT13(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffULL)<<24)|((uint64_t)(lo)&0xffffffULL)))
+#define CONCAT14(hi,lo) ((uint64_t)((((uint64_t)(hi)&0xffULL)<<32)|((uint64_t)(lo)&0xffffffffULL)))
+#define CONCAT15(hi,lo) ((uint64_t)((((uint64_t)(hi)&0xffULL)<<40)|((uint64_t)(lo)&0xffffffffffULL)))
+#define CONCAT22(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffULL)<<16)|((uint64_t)(lo)&0xffffULL)))
+#define CONCAT31(hi,lo) ((uint32_t)((((uint64_t)(hi)&0xffffffULL)<<8)|((uint64_t)(lo)&0xffULL)))
+#define CONCAT44(hi,lo) ((uint64_t)((((uint64_t)(hi)&0xffffffffULL)<<32)|((uint64_t)(lo)&0xffffffffULL)))
+#define SUB21(v,n) ((uint32_t)((uint64_t)(v)>>(8u*(n))))
+#define SUB43(v,n) ((uint32_t)((uint64_t)(v)>>(8u*(n))))
+#define SUB84(v,n) ((uint32_t)((uint64_t)(v)>>(8u*(n))))
+#define ZEXT48(v) ((uint64_t)(uint32_t)(v))
+typedef uint8_t mkds_alias_u8 __attribute__((may_alias,aligned(1)));
+#define MKDS_SLICE_1(obj,n) (*(mkds_alias_u8 *)((uint8_t *)&(obj)+(n)))
+typedef uint16_t mkds_alias_u16 __attribute__((may_alias,aligned(1)));
+#define MKDS_SLICE_2(obj,n) (*(mkds_alias_u16 *)((uint8_t *)&(obj)+(n)))
+typedef uint32_t mkds_alias_u32 __attribute__((may_alias,aligned(1)));
+#define MKDS_SLICE_4(obj,n) (*(mkds_alias_u32 *)((uint8_t *)&(obj)+(n)))
+typedef uint64_t mkds_alias_u64 __attribute__((may_alias,aligned(1)));
+#define MKDS_SLICE_8(obj,n) (*(mkds_alias_u64 *)((uint8_t *)&(obj)+(n)))
+
+
+typedef unsigned char   undefined;
+
+typedef unsigned long    ulong;
+typedef unsigned char    undefined1;
+typedef unsigned short    undefined2;
+typedef unsigned int    undefined4;
+typedef unsigned long long    undefined8;
+typedef unsigned short    ushort;
+typedef int    wchar_t;
+typedef unsigned short    wchar16;
+typedef ulong size_t;
+
+typedef unsigned int    uint;
+typedef long long    longlong;
+typedef unsigned char    byte;
+
+/* Function-specific inferred declarations. */
+undefined4 AllocateReserveTEQSub(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+void Gfx_ReadCharGraphicsRelative(int *param_1,int param_2);
+void Gfx_ReadPaletteRelative(int *param_1,int param_2);
+void MaybeReadCharBlock_1(int *param_1,int param_2);
+void MaybeReadScreenBlock(int *param_1,int param_2);
+undefined4 Mem_AllocateHeap(uint param_1,undefined4 param_2);
+int find_buf_fn_from_thumb(undefined4 param_1);
+void func_020b48b4(int *param_1,int param_2);
+void func_0211db90(void);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Decompiled C draft; module arm9; ROM address 0211db90. No matching claim. */
-#include "types.h"
-#include "deps/0211db90_func_0211db90.h"
+
+
 
 void func_0211db90(void)
 
@@ -8,55 +103,55 @@ void func_0211db90(void)
   undefined4 uVar1;
   int local_10;
   int local_c;
-  int local_8 [2];
+  int local_8 [1];
   
   local_10 = 0;
   local_c = 0;
   local_8[0] = 0;
-  if (*(int *)(*piRam0211dd04 + 0x2c) == 3) {
-    uVar1 = find_buf_fn_from_thumb(*puRam0211dd08);
+  if (*(int *)(*((int *)0x0217d368u) + 0x2c) == 3) {
+    uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dc08u));
     MaybeReadCharBlock_1(&local_c,uVar1);
-    uVar1 = find_buf_fn_from_thumb(*puRam0211dd0c);
-    MaybeReadScreenBlock((int *)(uintptr_t)(*piRam0211dd04 + 0x20),uVar1);
-    uVar1 = find_buf_fn_from_thumb(*puRam0211dd10);
-    *(undefined4 *)(*piRam0211dd04 + 4) = uVar1;
-    uVar1 = find_buf_fn_from_thumb(*puRam0211dd14);
-    *(undefined4 *)(*piRam0211dd04 + 8) = uVar1;
-    uVar1 = find_buf_fn_from_thumb(*puRam0211dd18);
-    *(undefined4 *)(*piRam0211dd04 + 0xc) = uVar1;
+    uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dbdcu));
+    MaybeReadScreenBlock((int *)(uintptr_t)(*((int *)0x0217d368u) + 0x20),uVar1);
+    uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dbe0u));
+    *(undefined4 *)(*((int *)0x0217d368u) + 4) = uVar1;
+    uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dc00u));
+    *(undefined4 *)(*((int *)0x0217d368u) + 8) = uVar1;
+    uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dbfcu));
+    *(undefined4 *)(*((int *)0x0217d368u) + 0xc) = uVar1;
   }
   else {
-    uVar1 = find_buf_fn_from_thumb(*puRam0211dd1c);
+    uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dbe4u));
     MaybeReadCharBlock_1(&local_c,uVar1);
-    uVar1 = find_buf_fn_from_thumb(*puRam0211dd20);
-    MaybeReadScreenBlock((int *)(uintptr_t)(*piRam0211dd04 + 0x20),uVar1);
-    uVar1 = find_buf_fn_from_thumb(*puRam0211dd24);
-    *(undefined4 *)(*piRam0211dd04 + 4) = uVar1;
-    uVar1 = find_buf_fn_from_thumb(*puRam0211dd28);
-    *(undefined4 *)(*piRam0211dd04 + 8) = uVar1;
-    uVar1 = find_buf_fn_from_thumb(*puRam0211dd2c);
-    *(undefined4 *)(*piRam0211dd04 + 0xc) = uVar1;
+    uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dbf0u));
+    MaybeReadScreenBlock((int *)(uintptr_t)(*((int *)0x0217d368u) + 0x20),uVar1);
+    uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dbf4u));
+    *(undefined4 *)(*((int *)0x0217d368u) + 4) = uVar1;
+    uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dbd4u));
+    *(undefined4 *)(*((int *)0x0217d368u) + 8) = uVar1;
+    uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dbe8u));
+    *(undefined4 *)(*((int *)0x0217d368u) + 0xc) = uVar1;
   }
-  uVar1 = find_buf_fn_from_thumb(*puRam0211dd30);
+  uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dbd8u));
   Gfx_ReadPaletteRelative(local_8,uVar1);
-  uVar1 = Mem_AllocateHeap(*(undefined4 *)(*piRam0211dd04 + 0x28),uRam0211dd34);
-  *(undefined4 *)(*piRam0211dd04 + 0x24) = uVar1;
-  uVar1 = find_buf_fn_from_thumb(*puRam0211dd38);
+  uVar1 = Mem_AllocateHeap(*(undefined4 *)(*((int *)0x0217d368u) + 0x28),((undefined4)0x00000800u));
+  *(undefined4 *)(*((int *)0x0217d368u) + 0x24) = uVar1;
+  uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dbf8u));
   Gfx_ReadCharGraphicsRelative(&local_10,uVar1);
-  uVar1 = find_buf_fn_from_thumb(*puRam0211dd3c);
-  func_020b48b4((int *)(uintptr_t)(*piRam0211dd04),uVar1);
-  uVar1 = find_buf_fn_from_thumb(*puRam0211dd40);
-  Gfx_ReadPaletteRelative((int *)(uintptr_t)(*piRam0211dd04 + 0x10),uVar1);
+  uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dc04u));
+  func_020b48b4((int *)(uintptr_t)(*((int *)0x0217d368u)),uVar1);
+  uVar1 = find_buf_fn_from_thumb(*((undefined4 *)0x0216dbecu));
+  Gfx_ReadPaletteRelative((int *)(uintptr_t)(*((int *)0x0217d368u) + 0x10),uVar1);
   AllocateReserveTEQSub(0x14,0,*(undefined4 *)(local_c + 0x14),*(undefined4 *)(local_c + 0x10));
   AllocateReserveTEQSub
-            (0x1b,0,*(int *)(*piRam0211dd04 + 0x20) + 0xc,
-             *(undefined4 *)(*(int *)(*piRam0211dd04 + 0x20) + 8));
-  AllocateReserveTEQSub(0x1b,uRam0211dd34,*(undefined4 *)(*piRam0211dd04 + 0x24),uRam0211dd34);
+            (0x1b,0,*(int *)(*((int *)0x0217d368u) + 0x20) + 0xc,
+             *(undefined4 *)(*(int *)(*((int *)0x0217d368u) + 0x20) + 8));
+  AllocateReserveTEQSub(0x1b,((undefined4)0x00000800u),*(undefined4 *)(*((int *)0x0217d368u) + 0x24),((undefined4)0x00000800u));
   AllocateReserveTEQSub(0x1f,0,*(undefined4 *)(local_8[0] + 0xc),0x80);
   AllocateReserveTEQSub(0x23,0,*(undefined4 *)(local_10 + 0x14),*(undefined4 *)(local_10 + 0x10));
   AllocateReserveTEQSub
-            (0x1e,0,*(undefined4 *)(*(int *)(*piRam0211dd04 + 0x10) + 0xc),
-             *(undefined4 *)(*(int *)(*piRam0211dd04 + 0x10) + 8));
+            (0x1e,0,*(undefined4 *)(*(int *)(*((int *)0x0217d368u) + 0x10) + 0xc),
+             *(undefined4 *)(*(int *)(*((int *)0x0217d368u) + 0x10) + 8));
   return;
 }
 
