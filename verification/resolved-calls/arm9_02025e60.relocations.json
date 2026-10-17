@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 10,
+    "type": 10,
+    "symbol": "GetGlobalCA_from_thumb",
+    "target": 33724720,
+    "thumb": true,
+    "addend": -4,
+    "value": 4251054083
+  },
+  {
+    "offset": 72,
+    "type": 2,
+    "symbol": "data_02153274",
+    "target": 34943604,
+    "thumb": false,
+    "addend": 0,
+    "value": 34943604
+  },
+  {
+    "offset": 76,
+    "type": 2,
+    "symbol": "data_02153240",
+    "target": 34943552,
+    "thumb": false,
+    "addend": 0,
+    "value": 34943552
+  }
+]

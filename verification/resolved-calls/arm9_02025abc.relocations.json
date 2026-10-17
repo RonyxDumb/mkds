@@ -1,0 +1,29 @@
+[
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "Gfx_ReadCharGraphics",
+    "target": 34294260,
+    "thumb": false,
+    "addend": -4,
+    "value": 4019122318
+  },
+  {
+    "offset": 42,
+    "type": 10,
+    "symbol": "LoadCellBankFrom",
+    "target": 34293996,
+    "thumb": false,
+    "addend": -4,
+    "value": 4009947278
+  },
+  {
+    "offset": 58,
+    "type": 10,
+    "symbol": "Gfx_ReadPalette",
+    "target": 34294396,
+    "thumb": false,
+    "addend": -4,
+    "value": 4022530190
+  }
+]

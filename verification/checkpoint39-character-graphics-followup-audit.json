@@ -1,0 +1,45 @@
+{
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "PlayerGfxData_Create_from_thumb",
+      "mode": "thumb",
+      "address": "0x02025abc",
+      "size": "100",
+      "sha256": "461fe9835cbba679889713b8a026408f5b1459d33848027de861b82be22a6115",
+      "source_sha256": "f083616872a80c9f3156dd0b620f751a8cd0062d21953c37777710796f934461",
+      "relocations": "3",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    },
+    {
+      "module": "arm9",
+      "name": "func_02025edc",
+      "mode": "thumb",
+      "address": "0x02025edc",
+      "size": "56",
+      "sha256": "03c768401028d003b2aab6bf278f172f8142468acd09207d2c1aeda946add1b0",
+      "source_sha256": "b4f6b204a037dd3c9d679518f730575594f08e6ab44ca9bb304d54d3145f2b3c",
+      "relocations": "0",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_BYTES",
+      "kind": "mw_batch_draft"
+    }
+  ],
+  "total_functions": 2,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 1,
+      "passed": 1
+    },
+    "unrelocated": {
+      "tested": 1,
+      "passed": 1
+    }
+  }
+}

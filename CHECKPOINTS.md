@@ -41,10 +41,16 @@ its source corpus is unavailable. Detailed proof records remain in `verification
 | 36 | 3,894 | 299,326 |
 | 37 | 3,896 | 299,502 |
 | 38 | 3,901 | 301,880 |
+| 39 | 3,911 | 302,550 |
 
 ## Current work
 
-Checkpoint 38: 3,901 functions, 301,880 / 1,913,676 inventory bytes (15.774875%).
+Checkpoint 39: 3,911 functions, 302,550 / 1,913,676 inventory bytes (15.809886%).
+Ten graphics/transition helpers added: 670 inventory bytes, 690 complete-span bytes.
+Audits: `verification/checkpoint39-character-graphics-audit.json`,
+`verification/checkpoint39-character-graphics-followup-audit.json`,
+`verification/checkpoint39-character-transition-audit.json`.
+Reproduce the search with `python scripts/search_character_graphics.py`.
 Character-selection controller: 22/23 functions, 5,382/7,084 inventory bytes.
 The remaining initializer at `02026910` has 19 differing bytes and is excluded.
 

@@ -1,0 +1,31 @@
+{
+  "new_matches": [
+    {
+      "module": "arm9",
+      "name": "func_02025f14",
+      "mode": "thumb",
+      "address": "0x02025f14",
+      "size": "64",
+      "sha256": "2e83be4b7a8abb439fdb9b535780635f6dd58573f4f31364961810ff32769332",
+      "source_sha256": "0772e1ac01deb44d7e60ff1b366f2fa5b912f4c86577a4ec15927b0153b240ad",
+      "relocations": "3",
+      "optimization": "-O4,p",
+      "processor": "arm946e",
+      "status": "EXACT_LOCAL_LINKED_BYTES"
+    }
+  ],
+  "total_functions": 1,
+  "full_rom_link_verified": false,
+  "scope": "Fresh targeted compilation of this batch only; earlier proofs retain their own audits.",
+  "compiler_sha256": "87b4f748825ded418355e4ae35e032ce8b27c083cc4c60598ce2a75d346e4399",
+  "fresh_audits": {
+    "resolved": {
+      "tested": 1,
+      "passed": 1
+    },
+    "unrelocated": {
+      "tested": 0,
+      "passed": 0
+    }
+  }
+}

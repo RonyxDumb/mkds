@@ -1,0 +1,47 @@
+[
+  {
+    "offset": 18,
+    "type": 10,
+    "symbol": "func_02124ed0",
+    "target": 34754256,
+    "thumb": true,
+    "addend": -4,
+    "value": 4197839103
+  },
+  {
+    "offset": 38,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3975739376
+  },
+  {
+    "offset": 54,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3975215088
+  },
+  {
+    "offset": 72,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3974559728
+  },
+  {
+    "offset": 86,
+    "type": 10,
+    "symbol": "AllocateReserveTEQSub",
+    "target": 33645672,
+    "thumb": false,
+    "addend": -4,
+    "value": 3974166512
+  }
+]

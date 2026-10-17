@@ -1,0 +1,38 @@
+[
+  {
+    "offset": 8,
+    "type": 10,
+    "symbol": "GetPortraitNceNcgr_from_thumb",
+    "target": 34291736,
+    "thumb": true,
+    "addend": -4,
+    "value": 4198822030
+  },
+  {
+    "offset": 16,
+    "type": 10,
+    "symbol": "GetPortraitNceNcer_from_thumb",
+    "target": 34291724,
+    "thumb": true,
+    "addend": -4,
+    "value": 4198166670
+  },
+  {
+    "offset": 24,
+    "type": 10,
+    "symbol": "GetPortraitPalette_from_thumb",
+    "target": 34291760,
+    "thumb": true,
+    "addend": -4,
+    "value": 4199084174
+  },
+  {
+    "offset": 32,
+    "type": 10,
+    "symbol": "GetPortraitBNCL_from_thumb",
+    "target": 34291712,
+    "thumb": true,
+    "addend": -4,
+    "value": 4197249166
+  }
+]

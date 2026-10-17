@@ -1,37 +1,12 @@
-/* Decompiled C draft; module arm9; ROM address 02025b20. No matching claim. */
-#include "types.h"
-#include "deps/02025b20_func_02025b20.h"
-
-void func_02025b20(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,
-                  int param_7,code *param_8)
-
-{
-  undefined4 uVar1;
-  
-  if (param_2 != 0) {
-    uVar1 = (*param_8)(param_2);
-    Gfx_ReadCharGraphicsRelative((int *)(uintptr_t)(param_1),uVar1);
-  }
-  if (param_3 != 0) {
-    uVar1 = (*param_8)(param_3);
-    func_020b48b4((int *)(uintptr_t)(param_1 + 8),uVar1);
-  }
-  if (param_4 != 0) {
-    uVar1 = (*param_8)(param_4);
-    Gfx_ReadPaletteRelative((int *)(uintptr_t)(param_1 + 4),uVar1);
-  }
-  if (param_5 != 0) {
-    uVar1 = (*param_8)();
-    *(undefined4 *)(param_1 + 0xc) = uVar1;
-  }
-  if (param_6 != 0) {
-    uVar1 = (*param_8)();
-    *(undefined4 *)(param_1 + 0x14) = uVar1;
-  }
-  if (param_7 != 0) {
-    uVar1 = (*param_8)();
-    *(undefined4 *)(param_1 + 0x10) = uVar1;
-  }
-  return;
+/* Batch reconstruction: complete local bytes verified; full-ROM linking and caller ABI remain unverified. */
+extern void Gfx_ReadCharGraphicsRelative(void *,void *);
+extern void func_020b48b4(void *,void *);
+extern void Gfx_ReadPaletteRelative(void *,void *);
+void func_02025b20(int * out,int characters,int cells,int palette,int layout,int animation,int extra,void *(*load)(int)){
+if(characters)Gfx_ReadCharGraphicsRelative(out,load(characters));
+if(cells)func_020b48b4((char *)out+8,load(cells));
+if(palette)Gfx_ReadPaletteRelative((char *)out+4,load(palette));
+if(layout)*(void **)((char *)out+12)=load(layout);
+if(animation)*(void **)((char *)out+20)=load(animation);
+if(extra)*(void **)((char *)out+16)=load(extra);
 }
-
