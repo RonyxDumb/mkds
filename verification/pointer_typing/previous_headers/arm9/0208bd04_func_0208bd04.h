@@ -1,5 +1,0 @@
-#pragma once
-/* Function-specific inferred declarations. */
-void func_0208bd04(undefined4 param_1);
-#define pcRam0208bd1c (*(undefined **)(uintptr_t)0x208bd1cu)
-#define uRam0208bd18 (*(uint *)(uintptr_t)0x208bd18u)

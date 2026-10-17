@@ -20,3 +20,9 @@ tools/
 # New private byte proofs use audited hash-only records for publication.
 verification/resolved-calls/*.linked.hex
 verification/leafs/*.original.hex
+
+# Disposable source backups; earlier versions remain in Git history.
+verification/previous_drafts/
+verification/address_calls/previous_headers/
+verification/pointer_typing/previous_headers/
+verification/explicit_arm_casts/previous_sources/
