@@ -1,4 +1,6 @@
 # Mario Kart DS (EUR)
+[![Matching](https://decompilati.onl/badge/mario-kart-ds/matching.svg)](https://decompilati.onl/projects/mario-kart-ds)
+[![Functions](https://decompilati.onl/badge/mario-kart-ds/functions.svg)](https://decompilati.onl/projects/mario-kart-ds)
 
 Work-in-progress C decompilation of **Mario Kart DS (Europe)** for Nintendo DS.
 
