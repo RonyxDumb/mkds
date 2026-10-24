@@ -1,0 +1,17 @@
+# Formatting for src/, include/ and libs/. Run clang-format before committing C/C++.
+Language: Cpp
+BasedOnStyle: LLVM
+IndentWidth: 4
+ColumnLimit: 120
+PointerAlignment: Right
+InsertBraces: true
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortCaseLabelsOnASingleLine: false
+IndentCaseLabels: true
+IndentPPDirectives: BeforeHash
+AccessModifierOffset: -4
+SpaceAfterCStyleCast: true
+AlignTrailingComments: Leave
+SortIncludes: Never

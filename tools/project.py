@@ -1,0 +1,240 @@
+"""Project settings shared by configure.py and the tools: edit this file when starting a new game.
+
+Everything game-specific lives here: the game's short name, its versions (ROM file, secure-area CRC), the compiler
+for game code and for each library folder, and per-path flag differences (-thumb included). The tools read the
+memory layout (module base addresses) from the dsd extract, so nothing here needs addresses.
+
+CC_FLAGS is the compiler command line for game code; tools/configure.py and tools/probe_compilers.py both use it.
+
+The version the tools work on is VERSION: the first entry of VERSIONS, or $DECOMP_VERSION when set.
+"""
+import os
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+
+# Short name used for file names: extract/baserom_<GAME>_<ver>.nds, build/<ver>/<GAME>_<ver>.nds, <GAME>_<ver>.sha1.
+GAME = "mkds"
+
+VERSIONS = {
+    "usa": {
+        "baserom": f"extract/baserom_{GAME}_usa.nds",
+        # Header field at 0x6C (secure-area CRC), written by tools/fix_header.py when no ARM7 BIOS is supplied
+        # (`--arm7-bios`). None takes it from the base ROM.
+        "secure_area_crc": None,
+    },
+}
+
+VERSION = os.environ.get("DECOMP_VERSION") or next(iter(VERSIONS))
+
+# Placeholder names (func_<addr>, func_ovNNN_<addr>, data_...) carry the reference version's addresses. Every other
+# version's own placeholders carry its name (func_usa_<addr>; tools/tag_placeholders.py, run by configure.py after
+# dsd init), so a name that comes from shared source never collides with another version's placeholder for a
+# different object. The reference is the European version.
+REFERENCE_VERSION = "eur"
+PLACEHOLDER = re.compile(r"^(func|data)_(?:([a-z]+)_)?(?:(ov\d{3})_)?([0-9a-f]{8})$")
+
+
+def placeholder(kind: str, addr: int, module: str = "main", ver: str = VERSION) -> str:
+    """The placeholder name of a function or data object (kind "func" or "data") at addr in module, for ver."""
+    tag = "" if ver == REFERENCE_VERSION else f"{ver}_"
+    ov = f"{module}_" if module.startswith("ov") else ""
+    return f"{kind}_{tag}{ov}{addr:08x}"
+
+# Extra `dsd init` options, used once when configure.py generates config/<ver>/. If init stops with "Local function
+# call ... leads to no function" (e.g. a one-instruction `bx lr` function its analysis doesn't find), the hidden stock
+# option "--allow-unknown-function-calls" gives such call targets a function symbol; fix their sizes afterwards.
+DSD_INIT_FLAGS = ["--allow-unknown-function-calls"]
+
+# ---- compilers ---------------------------------------------------------------------------------------------------
+# Pin each code family by evidence (tools/probe_compilers.py) and record the evidence in docs/compiler.md.
+# Game code and each library are often built with different CodeWarrior versions.
+MWCC_VERSION = "1.2/base"           # game code: verified on Thumb (switch tables); ARM: base, sp2, sp2p3 not separated
+# decomp.me's compiler id for each installed build (from decomp.me's compiler list), for objdiff's scratch button.
+DECOMP_ME_IDS = {
+    "1.2/b56": "mwcc_20_56", "1.2/base": "mwcc_20_72", "1.2/sp2": "mwcc_20_79", "1.2/sp2p3": "mwcc_20_82",
+    "1.2/sp3": "mwcc_20_84", "1.2/sp4": "mwcc_20_87",
+    "2.0/base": "mwcc_30_114", "2.0/sp1": "mwcc_30_123", "2.0/sp1p2": "mwcc_30_126", "2.0/sp1p5": "mwcc_30_131",
+    "2.0/sp1p6": "mwcc_30_133", "2.0/sp1p7": "mwcc_30_134", "2.0/sp2": "mwcc_30_136", "2.0/sp2p2": "mwcc_30_137",
+    "2.0/sp2p3": "mwcc_30_138", "2.0/sp2p4": "mwcc_30_139",
+}
+DECOMP_ME_COMPILER = DECOMP_ME_IDS.get(MWCC_VERSION)  # None: no decomp.me id (DSi builds); objdiff gets no scratches
+# Sources under these paths (folders or single files; the longest matching prefix wins) compile with another
+# installed version (folders under tools/mwccarm/).
+PATH_COMPILERS = {
+    # assumed: the game code's build; not yet probed from this ROM (docs/compiler.md, Open)
+    "libs/nds/": "1.2/base",  # NitroSDK
+    "libs/nns/": "1.2/base",  # NitroSystem
+    "libs/msl/": "1.2/base",  # C runtime
+}
+# Flags from CC_FLAGS that sources under these paths must not get.
+PATH_DROP_FLAGS = {
+    # assumed: the libraries use the default inlining and signed char (not yet probed; docs/compiler.md, Open)
+    "libs/nds/": ["-inline on,noauto", "-char unsigned"],
+    "libs/nns/": ["-inline on,noauto", "-char unsigned"],
+    "libs/msl/": ["-inline on,noauto", "-char unsigned"],
+}
+# Flags added for sources under these paths. A game with Thumb code: "src/": ["-thumb"], with an empty list for an
+# ARM-only folder or file. An ARM function inside a Thumb file can be written between `#pragma thumb off` and
+# `#pragma thumb on` instead (same code as compiling it in an ARM file).
+# C++ dialect (-lang) for .cpp sources under these paths; others use c++. A prebuilt C++ runtime can be Embedded C++
+# ("ec++"): its operator new/delete then take no throw() and get no exception-specification frame.
+PATH_CPP_DIALECT = {}
+PATH_ADD_FLAGS = {
+    # assumed, as above
+    "libs/nds/": ["-char signed"],
+    "libs/nns/": ["-char signed"],
+    "libs/msl/": ["-char signed"],
+    # the overlays are Thumb game code (an ARM file in them gets a per-file entry with an empty list)
+    "src/00/": ["-thumb"],
+    "src/01/": ["-thumb"],
+    "src/03/": ["-thumb"],
+}
+
+
+def path_setting(table: dict, path, default=None):
+    """The value for the longest key of table that path starts with, or default."""
+    keys = [k for k in table if str(path).startswith(k)]
+    return table[max(keys, key=len)] if keys else default
+
+
+# Compiler flags for game code: a common starting point for DS CodeWarrior games, not evidence for this game.
+# Check each against the original's codegen (tools/probe_compilers.py), note the evidence beside it as "verified: ...",
+# and record it in docs/compiler.md. Library folders drop flags through PATH_DROP_FLAGS.
+CC_FLAGS = [
+    "-O4,p",              # verified against -O4,s, -O3, -O2 and -O3,p (docs/probes/)
+    "-inline on,noauto",  # verified: auto inlines a same-file call the game keeps out of line; on/off not separated
+    "-enum int",
+    "-char unsigned",     # verified: a byte walk over a char path is ldrb; ldrsb with -char signed
+    "-str noreuse",       # verified: four identical format strings in one function stay four copies
+    "-proc arm946e",
+    "-gccext,on",
+    "-fp soft",
+    "-Cpp_exceptions off",
+    "-RTTI off",          # C++ only (vtables without a typeinfo pointer)
+    "-interworking",      # leaf returns are bx lr
+    "-w off",
+    "-sym on",
+    "-gccinc",            # treat #include "" and <> alike
+    "-nolink",
+    "-msgstyle gcc",
+]
+
+
+# Compiler builds that emit a file's functions in reverse definition order (each function gets its own .text
+# section; the linker keeps the object's section order). Verified: 1.2 base/sp2p3/sp4 at -O0..-O4 reverse; 2.0
+# keeps definition order. Under 1.2 the first function a file defines sits at the highest address.
+REVERSED_EMIT_COMPILERS = ("1.2/",)
+
+
+def emits_reversed(src) -> bool:
+    """True when the compiler for src emits functions in reverse definition order, so the source defines them in
+    descending address order."""
+    return (path_setting(PATH_COMPILERS, src) or MWCC_VERSION).startswith(REVERSED_EMIT_COMPILERS)
+
+def source_flags(src) -> tuple[str | None, list[str]]:
+    """(compiler version or None for MWCC_VERSION, compiler flags) for one source file, language flag included."""
+    drop = path_setting(PATH_DROP_FLAGS, src, [])
+    flags = [f for f in CC_FLAGS if f not in drop] + path_setting(PATH_ADD_FLAGS, src, [])
+    return path_setting(PATH_COMPILERS, src), flags + [lang_flag(src)]
+
+
+def lang_flag(src) -> str:
+    """The -lang flag for one source file: C, or the path's C++ dialect for a .cpp file."""
+    return "-lang=" + (path_setting(PATH_CPP_DIALECT, src, "c++") if str(src).endswith(".cpp") else "c")
+
+
+LD_FLAGS = [
+    "-proc arm946e",
+    "-dead",
+    "-nostdlib",
+    "-interworking",
+    "-map closure,unused",
+    "-msgstyle gcc",
+    "-m Entry",
+]
+# The assembler, for regions written as .s files.
+MWASM_VERSION = "2.0/sp2p3"
+
+# ---- paths -------------------------------------------------------------------------------------------------------
+CONFIG = ROOT / "config" / VERSION / "arm9"
+BUILD = ROOT / "build" / VERSION
+EXTRACT = ROOT / "extract" / VERSION
+
+
+def _yaml_base(path):
+    m = re.search(r"^base_address:\s*(\d+)", path.read_text(), re.M) if path.is_file() else None
+    return int(m.group(1)) if m else None
+
+
+def _base_addresses():
+    """{module: base address} for 'main', 'itcm', 'dtcm' and 'ovNNN', read from the dsd extract."""
+    bases = {}
+    for module, name in (("main", "arm9"), ("itcm", "itcm"), ("dtcm", "dtcm")):
+        if (base := _yaml_base(EXTRACT / "arm9" / f"{name}.yaml")) is not None:
+            bases[module] = base
+    ovl = EXTRACT / "arm9_overlays" / "overlays.yaml"
+    if ovl.is_file():
+        # One "- id: N" entry per overlay; the entries also carry file_id, so anchor on the list marker.
+        for entry in re.split(r"^\s*- ", ovl.read_text(), flags=re.M)[1:]:
+            oid = re.search(r"^id:\s*(\d+)", entry, re.M)
+            base = re.search(r"^\s*base_address:\s*(\d+)", entry, re.M)
+            if oid and base:
+                bases[f"ov{int(oid.group(1)):03d}"] = int(base.group(1))
+    return bases
+
+
+BASES = _base_addresses()
+# Hardware sizes of the tightly coupled memories, for address-to-module lookups.
+TCM_SIZES = {"itcm": 0x8000, "dtcm": 0x4000}
+
+
+def module_base(module: str) -> int:
+    """Base address of 'main', 'itcm', 'dtcm' or an overlay ('ov001'); needs the ROM extracted (configure.py)."""
+    if module not in BASES:
+        raise SystemExit(f"no base address for {module}: extract the ROM first (python3 tools/configure.py)")
+    return BASES[module]
+
+
+def module_paths(module: str) -> tuple[Path, Path, Path]:
+    """(config dir, extracted binary, rebuilt binary) of 'main', 'itcm', 'dtcm' or an overlay."""
+    if module == "main":
+        return CONFIG, EXTRACT / "arm9/arm9.bin", BUILD / "build/arm9.bin"
+    if module in ("itcm", "dtcm"):
+        return CONFIG / module, EXTRACT / f"arm9/{module}.bin", BUILD / f"build/{module}.bin"
+    return CONFIG / "overlays" / module, EXTRACT / f"arm9_overlays/{module}.bin", BUILD / f"build/arm9_{module}.bin"
+
+
+def modules() -> list[str]:
+    """Every module of the extracted ROM: 'main' first, then the TCMs and overlays."""
+    return ["main"] + sorted(m for m in BASES if m != "main")
+
+
+def main_end() -> int:
+    """First address past the main module: where the overlays start, or the end of its .bss in a game without any."""
+    ovs = [v for k, v in BASES.items() if k.startswith("ov")]
+    if ovs:
+        return min(ovs)
+    arm9 = EXTRACT / "arm9" / "arm9.yaml"
+    m = re.search(r"^bss_end:\s*(\d+)", arm9.read_text(), re.M) if arm9.is_file() else None
+    if not m:
+        raise SystemExit("the ROM isn't extracted (python3 tools/configure.py): main_end() has no answer")
+    return int(m.group(1))
+
+
+def tcm_module(addr: int):
+    """'itcm' or 'dtcm' when addr lies in one of them, else None."""
+    for module, size in TCM_SIZES.items():
+        if module in BASES and BASES[module] <= addr < BASES[module] + size:
+            return module
+    return None
+
+
+# ---- linker script -----------------------------------------------------------------------------------------------
+# Constants the linker script must define for the game's code (tools/lcf_force_active.py adds them). Read their
+# values from the original's literal pools; the overlay ids (SDK_OVERLAY_OVnnn_ID) are added automatically.
+LCF_SYMBOLS = {
+    # "SDK_IRQ_STACKSIZE": "0x1000",
+    # "SDK_SYS_STACKSIZE": "0",
+}

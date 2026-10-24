@@ -1,0 +1,22 @@
+# Never commit game data: ROMs, BIOS dumps, extracted assets, disassembly
+*.nds
+*.zip
+*.bin
+*.sav
+extract/*
+!extract/README.md
+
+# Build output and downloaded tools
+build/
+tools/bin/
+tools/mwccarm/
+.ninja_*
+build.ninja
+objdiff.json
+compile_commands.json
+__pycache__/
+
+# Search output the permute tools write next to sources
+*.best.c
+*.best.cpp
+perm_*/
