@@ -11,6 +11,7 @@ build/
 tools/bin/
 tools/mwccarm/
 .ninja_*
+*.hex
 build.ninja
 objdiff.json
 compile_commands.json
