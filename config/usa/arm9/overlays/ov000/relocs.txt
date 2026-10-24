@@ -781,7 +781,7 @@ from:0x021837be kind:thumb_call to:0x02125fc0 module:main
 from:0x021837c4 kind:thumb_call_arm to:0x02036f10 module:main
 from:0x021837ce kind:thumb_call_arm to:0x0212ecc0 module:main
 from:0x021837d8 kind:load to:0x021b4c34 module:overlay(0)
-from:0x021837dc kind:load to:0x021b0648 module:overlay(0)
+from:0x021837dc kind:load to:0x021b064c add:-0x4 module:overlay(0)
 from:0x021837e0 kind:load to:0x0217d048 module:main
 from:0x0218380c kind:thumb_call_arm to:0x0212ecc0 module:main
 from:0x02183818 kind:load to:0x021b4c34 module:overlay(0)
