@@ -1,0 +1,140 @@
+#pragma once
+
+#include "types.h"
+#include "Main/Unknown/code_02036bec.h"
+#include "Main/Unknown/code_0204799c.h"
+#include "Main/Unknown/code_020ae4c0.h"
+#include "Main/Unknown/code_020b3f7c.h"
+#include "Main/Unknown/code_02125f88.h"
+#include "Main/Unknown/code_02128210.h"
+#include "Main/Unknown/code_0212ecc0.h"
+#include "Main/Unknown/code_02147fd8.h"
+#include "Main/Unknown/unk_0217d068.h"
+#include "Main/Unknown/unk_02175628.h"
+#include "Main/Unknown/code_0212426c.h"
+
+// One 0x40-byte element of the arrays held by Unk021a9bdc.
+typedef struct Unk021a9bdcEntry {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s16 mUnk_04;
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u8 mUnk_08[0x38];
+} Unk021a9bdcEntry;
+
+// Object that holds a count at offset 6.
+typedef struct Unk021a9bdcCount {
+    /* 00 */ u8 mUnk_00[6];
+    /* 06 */ u16 mUnk_06;
+} Unk021a9bdcCount;
+
+// Object behind data_ov001_021a9bdc.
+typedef struct Unk021a9bdc {
+    /* 00 */ u8 mUnk_00[4];
+    /* 04 */ void *mUnk_04;
+    /* 08 */ Unk021a9bdcCount *mUnk_08;
+    /* 0c */ u8 mUnk_0c[4];
+    /* 10 */ Unk021a9bdcCount *mUnk_10;
+    /* 14 */ u8 mUnk_14[4];
+    /* 18 */ void *mUnk_18;
+    /* 1c */ Unk021a9bdcCount *mUnk_1c;
+    /* 20 */ void *mUnk_20;
+    /* 24 */ Unk021a9bdcCount *mUnk_24;
+    /* 28 */ u8 mUnk_28[0x10];
+    /* 38 */ Unk021a9bdcEntry *mUnk_38;
+    /* 3c */ Unk021a9bdcEntry *mUnk_3c;
+    /* 40 */ void *mUnk_40;
+    /* 44 */ void *mUnk_44;
+    /* 48 */ void *mUnk_48;
+    /* 4c */ void *mUnk_4c;
+    /* 50 */ s32 mUnk_50;
+    /* 54 */ s32 mUnk_54;
+    /* 58 */ s32 mUnk_58;
+    /* 5c */ s32 mUnk_5c;
+    /* 60 */ s32 mUnk_60;
+    /* 64 */ s32 mUnk_64;
+    /* 68 */ s32 mUnk_68;
+    /* 6c */ s32 mUnk_6c;
+    /* 70 */ s32 mUnk_70;
+    /* 74 */ s32 mUnk_74;
+    /* 78 */ s32 mUnk_78[2];
+    /* 80 */ s16 mUnk_80;
+    /* 82 */ u8 mUnk_82[2];
+    /* 84 */ s32 mUnk_84;
+    /* 88 */ s32 mUnk_88;
+    /* 8c */ s32 mUnk_8c;
+    /* 90 */ s32 mUnk_90;
+} Unk021a9bdc;
+
+// Object behind data_021759d4.
+typedef struct Unk021759d4 {
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ s32 mUnk_0c;
+} Unk021759d4;
+
+extern Unk021a9bdc *data_ov001_021a9bdc;
+extern u16 data_ov001_021a67c0[];
+extern u16 data_ov001_021a67c4[];
+extern u16 data_ov001_021a67c8[];
+extern u16 data_ov001_021a67d4[];
+extern u16 data_ov001_021a67e0[];
+extern u16 data_ov001_021a67ec[];
+extern u16 data_ov001_021a67f8[];
+extern u16 data_ov001_021a6804[];
+extern u16 data_ov001_021a6810[];
+extern u16 data_ov001_021a681c[];
+extern u16 data_ov001_021a6850[][2];
+extern s32 data_ov001_021a6900[];
+extern Unk021759d4 *data_021759d4;
+
+s16 func_020ae488(s32 a);
+s16 func_020adc64(s32 a);
+s32 func_02125f54(void);
+s32 func_02125f60(void);
+s32 func_02060268(s32 a);
+void func_02060004(s32 a);
+void func_02057d9c(void);
+void func_02145d38(void);
+void func_02111488(s32 a);
+void func_02117218(void);
+s32 func_0201ea84(void *a, s32 b, s32 c);
+void func_021172a8(void *heap);
+void *func_02111318(void);
+void *func_0211130c(void);
+
+void func_ov001_02195a6c(void);
+void func_ov001_02195ba4(void);
+void func_ov001_02195d64(void);
+void func_ov001_02195e38(void);
+void func_ov001_02195ea0(void);
+void func_ov001_02195eb8(void);
+void func_ov001_02195ff8(void);
+void func_ov001_02196058(void);
+void func_ov001_021960a4(void);
+void func_ov001_0219623c(void);
+void func_ov001_021963a8(void);
+void func_ov001_02196514(void);
+void func_ov001_02196724(void);
+void func_ov001_021968bc(void);
+void func_ov001_02196904(void);
+void func_ov001_02196960(void *heap);
+s32 func_ov001_02196c4c(void);
+void func_ov001_02196cd0(void);
+void func_ov001_02196d78(void);
+void func_ov001_02196d8c(void);
+void func_ov001_02196dbc(void);
+void func_ov001_02196e30(void);
+void func_ov001_02196e54(void);
+void func_ov001_02196e88(void);
+void func_ov001_02196eb0(void);
+void func_ov001_02196ecc(void);
+void func_ov001_02196f64(void);
+void func_ov001_02196f80(void);
+void func_ov001_02196fb0(void);
+void func_ov001_02196fc4(void);
+void func_ov001_02196fd8(void);
+void func_ov001_02197010(void);
+void func_ov001_02197024(void);
+void func_ov001_0219703c(void);
+void func_ov001_02197058(void);
+void func_ov001_021978b4(void);
+s32 func_ov001_02197210(void);

@@ -21,10 +21,10 @@ Every function is decompiled from the game's own code. Code from other decompila
 
 | Measure | Progress |
 |---|---|
-| Matched code | 0.77% (14,460 / 1,886,100 bytes) |
-| Linked code (complete units) | 0.00% (0 bytes) |
-| Overall accuracy (fuzzy) | 1.02% |
-| Matched functions | 73 / 11,501 |
+| Matched code | 1.03% (19,382 / 1,886,100 bytes) |
+| Linked code (complete units) | 0.26% (4,922 bytes) |
+| Overall accuracy (fuzzy) | 1.28% |
+| Matched functions | 93 / 11,501 |
 
 _Last updated 2026-10-24. Full history: [`progress/history.csv`](progress/history.csv)._
 <!-- progress:end -->
