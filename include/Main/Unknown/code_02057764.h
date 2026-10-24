@@ -1,0 +1,11 @@
+#pragma once
+
+#include "types.h"
+#include "01/code_02195a6c.h"
+#include "03/code_021b94b8.h"
+#include "Main/Unknown/code_0204b418.h"
+#include "Main/Unknown/code_0204b6cc.h"
+#include "Main/Unknown/code_02057000.h"
+
+void func_02057764(u32 param_1);
+void func_020577b4(u32 param_1);

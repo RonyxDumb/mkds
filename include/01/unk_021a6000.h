@@ -1,0 +1,11 @@
+#pragma once
+
+#include "types.h"
+
+// Objects whose layout isn't known yet.
+extern u8 data_ov001_021a6574[];
+extern u8 data_ov001_021a65b0[];
+extern u8 data_ov001_021a65b4[];
+extern u8 data_ov001_021a65b8[];
+extern u8 data_ov001_021a65bc[];
+extern u8 data_ov001_021a65d4[];

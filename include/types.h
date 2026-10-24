@@ -25,3 +25,7 @@ typedef struct Vec3 {
     /* 4 */ s32 y;
     /* 8 */ s32 z;
 } Vec3;
+
+// Function types for calls through pointers whose target isn't known.
+typedef void UnkFunc();
+typedef u32 UnkWordFunc();

@@ -1,0 +1,66 @@
+#pragma once
+
+#include "types.h"
+
+// Objects whose layout isn't known yet.
+extern u8 data_0216d1f4[];
+extern u8 data_0216d1f8[];
+extern u8 data_0216d1fc[];
+extern u8 data_0216d200[];
+extern u8 data_0216d204[];
+extern u8 data_0216d208[];
+extern u8 data_0216d20c[];
+extern u8 data_0216d210[];
+extern u8 data_0216d214[];
+extern u8 data_0216d218[];
+extern u8 data_0216d21c[];
+extern u8 data_0216d220[];
+extern u8 data_0216d224[];
+extern u8 data_0216d228[];
+extern u8 data_0216d22c[];
+extern u8 data_0216d230[];
+extern u8 data_0216d234[];
+extern u8 data_0216d238[];
+extern u8 data_0216d3e4[];
+extern u8 data_0216d3f0[];
+extern u8 data_0216d3f4[];
+extern u8 data_0216d3f8[];
+extern u8 data_0216d3fc[];
+extern u8 data_0216d400[];
+extern u8 data_0216d404[];
+extern u8 data_0216d4bc[];
+extern u8 data_0216d4c0[];
+extern u8 data_0216d4c4[];
+extern u8 data_0216d4c8[];
+extern u8 data_0216d524[];
+extern u8 data_0216d528[];
+extern u8 data_0216d530[];
+extern u8 data_0216d534[];
+extern u8 data_0216d538[];
+extern u8 data_0216d53c[];
+extern u8 data_0216d548[];
+extern u8 data_0216dbd4[];
+extern u8 data_0216dbd8[];
+extern u8 data_0216dbdc[];
+extern u8 data_0216dbe0[];
+extern u8 data_0216dbe4[];
+extern u8 data_0216dbe8[];
+extern u8 data_0216dbec[];
+extern u8 data_0216dbf0[];
+extern u8 data_0216dbf4[];
+extern u8 data_0216dbf8[];
+extern u8 data_0216dbfc[];
+extern u8 data_0216dc00[];
+extern u8 data_0216dc04[];
+extern u8 data_0216dc08[];
+extern u8 data_0216de50[];
+extern u8 data_0216de54[];
+extern u8 data_0216de58[];
+extern u8 data_0216dec4[];
+extern u8 data_0216dec8[];
+extern u8 data_0216decc[];
+extern u8 data_0216ded0[];
+extern u8 data_0216ded4[];
+extern u8 data_0216ded8[];
+extern u8 data_0216dedc[];
+extern u8 data_0216dee0[];

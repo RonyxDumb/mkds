@@ -1,0 +1,7 @@
+#pragma once
+
+#include "types.h"
+#include "00/code_0218f000.h"
+#include "00/code_02190000.h"
+
+void func_ov000_0218f130(int *param_1);

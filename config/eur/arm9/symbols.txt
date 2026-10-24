@@ -7046,7 +7046,7 @@ func_02132e40 kind:function(arm,size=0x58) addr:0x02132e40
 .L_02132e4c kind:label(arm) addr:0x02132e4c
 func_02132e98 kind:function(arm,size=0x1b0) addr:0x02132e98
 func_02133048 kind:function(arm,size=0x20) addr:0x02133048
-func_02133068 kind:function(arm,size=0x20c) addr:0x02133068
+_s32_div_f kind:function(arm,size=0x20c) addr:0x02133068
 func_02133274 kind:function(arm,size=0x1e4) addr:0x02133274
 .L_0213327c kind:label(arm) addr:0x0213327c
 func_02133458 kind:function(arm,size=0x30) addr:0x02133458

@@ -1,0 +1,5 @@
+#pragma once
+
+#include "types.h"
+
+void func_02039520(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3);
