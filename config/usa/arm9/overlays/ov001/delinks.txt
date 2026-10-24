@@ -6,6 +6,5 @@
 
 // provisional: file name and boundaries
 src/01/code_02195a6c.c:
-    complete
     .text       start:0x02195a4c end:0x02196d88
     .data       start:0x021a82b8 end:0x021a82dc

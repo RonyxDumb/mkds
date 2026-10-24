@@ -22,7 +22,7 @@ Every function is decompiled from the game's own code. Code from other decompila
 | Measure | Progress |
 |---|---|
 | Matched code | 1.29% (24,338 / 1,886,100 bytes) |
-| Linked code (complete units) | 0.52% (9,878 bytes) |
+| Linked code (complete units) | 0.00% (0 bytes) |
 | Overall accuracy (fuzzy) | 1.54% |
 | Matched functions | 113 / 11,501 |
 
