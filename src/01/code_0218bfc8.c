@@ -1,0 +1,25 @@
+#include "01/code_0218bfc8.h"
+
+void func_ov001_0218bfc8(int param_1) {
+    u32 uVar1;
+    int iVar2;
+    func_ov001_02187218(param_1, 2, ((u32) ((u32) (&func_ov001_0218c584))));
+    func_ov001_02188d64(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000015cu)),
+                        *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000160u)));
+    func_ov001_0219b1c4(*(u32 *) (param_1 + ((int) 0x00000304u)),
+                        *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000164u)),
+                        *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000160u)), 0);
+    func_ov001_02188cd8(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000168u)),
+                        *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000016cu)));
+    iVar2 = *(int *) (param_1 + 0xa0);
+    func_ov001_021889ec(param_1, *(u32 *) (iVar2 + ((int) 0x00000178u)), *(u32 *) (iVar2 + ((int) 0x0000017cu)),
+                        *(u32 *) (iVar2 + ((int) 0x00000170u)), *(u32 *) (iVar2 + ((int) 0x00000174u)));
+    uVar1 = func_ov001_02187fc0(param_1);
+    func_ov001_02188968(param_1, (u32 *) (u32) (uVar1));
+    uVar1 = func_ov001_02187fc0(param_1);
+    func_ov001_02188980(param_1, (u32 *) (u32) (uVar1));
+    func_ov001_02188e24((int) (param_1), (u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000180u))),
+                        (int) (((u32) ((u32) (&func_ov001_0218c354)))));
+    func_ov001_0218c5fc((u32) (param_1));
+    return;
+}

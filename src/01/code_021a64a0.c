@@ -1,0 +1,41 @@
+#include "01/code_021a64a0.h"
+
+void func_ov001_021a651c(void) {
+    u32 uVar1;
+    u32 local_10;
+    u32 local_c;
+    u32 local_8[1];
+    local_10 = 0;
+    local_c = 0;
+    local_8[0] = 0;
+    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a993c))))));
+    func_020b496c(&local_10, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a9938))))));
+    func_020b48ec(&local_c, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a9944))))));
+    func_020b4a7c(local_8, uVar1);
+    return;
+}
+
+// non-matching: 0x68 bytes, original 0x70; 18 instructions differ; first at +0x0: original `push {lr}`, ours `push {r4,
+// lr}`
+void func_ov001_021a64ac(u32 param_1) {
+    int iVar1;
+    u32 uVar2;
+    iVar1 = ((u32) func_02036bec((void *) (param_1), (u32) (0x10)));
+    *((int *) ((u32) (&data_ov001_021ca424))) = iVar1;
+    uVar2 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a993c))))));
+    func_020b49bc((Unk020b4934 **) ((int *) (u32) (*((int *) ((u32) (&data_ov001_021ca424))))), (void *) (uVar2));
+    uVar2 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a9938))))));
+    func_020b48b4((void **) ((int *) (u32) (*((int *) ((u32) (&data_ov001_021ca424))) + 4)), (void *) (uVar2));
+    uVar2 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a9944))))));
+    func_020b4a44((Unk020b4a44 **) ((int *) (u32) (*((int *) ((u32) (&data_ov001_021ca424))) + 8)), (void *) (uVar2));
+    uVar2 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a9940))))));
+    *(u32 *) (*((int *) ((u32) (&data_ov001_021ca424))) + 0xc) = uVar2;
+    return;
+}
+
+void func_ov001_021a64a0(void) {
+    *((u32 *) ((u32) (&data_ov001_021ca424))) = 0;
+    return;
+}

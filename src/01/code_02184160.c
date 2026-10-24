@@ -1,0 +1,16 @@
+#include "01/code_02184160.h"
+
+void func_ov001_02184160(int param_1) {
+    u32 uVar1;
+    func_ov001_02187218(param_1, 8, 0);
+    func_ov001_02188d64(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000210u)),
+                        *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000214u)));
+    uVar1 = *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000021cu));
+    func_ov001_02188c48(param_1, uVar1, uVar1);
+    func_ov001_02188998(param_1, (u32 *) (u32) (*(u32 *) (param_1 + 0x9c)));
+    uVar1 = *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000218u));
+    func_ov001_02188cd8(param_1, uVar1, uVar1);
+    func_ov001_02188e24((int) (param_1), (u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000220u))),
+                        (int) (((u32) ((u32) (&func_ov001_021841e0)))));
+    return;
+}

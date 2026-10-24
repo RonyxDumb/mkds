@@ -1,0 +1,27 @@
+#include "01/code_021910fc.h"
+
+void func_ov001_0219116c(int param_1) {
+    func_ov001_02187218(param_1, 7, 0);
+    func_ov001_02188d30(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000234u)),
+                        *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000238u)),
+                        ((u32) ((u32) (&func_ov001_021918c8))));
+    func_ov001_021922e0((int) (param_1));
+    return;
+}
+
+void func_ov001_02191130(int param_1) {
+    func_ov001_02187218(param_1, 7, 0);
+    func_ov001_02188d30(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000022cu)),
+                        *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000230u)),
+                        ((u32) ((u32) (&func_ov001_0219116c))));
+    func_ov001_021921e4((int) (param_1));
+    return;
+}
+
+u32 func_ov001_021910fc(int param_1) {
+    if ((*(u32 *) (param_1 + ((int) 0x000002c8u)) & ((u32) 0x001e34efu)) != 0) {
+        func_020d2774((int) (param_1), (u32) (((u32) 0x00000218u)));
+        *(u32 *) (param_1 + ((int) 0x00000158u)) = 0;
+    }
+    return 0;
+}
