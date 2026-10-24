@@ -21,8 +21,9 @@
    ```
    The first run downloads `dsd` and the CodeWarrior compilers into `tools/` (both checked against pinned SHA-256
    hashes), extracts the ROM, splits it into objects, links it and checks the result against `mkds_usa.sha1`.
-   objdiff is downloaded the first time a target needs it (`ninja report`, `ninja objdiff`). For another version,
-   pass its name (`python3 tools/configure.py <ver>`) and set `DECOMP_VERSION=<ver>` for the other tools.
+   objdiff is downloaded the first time a target needs it (`ninja report`, `ninja objdiff`). For the European
+   version, pass the version (`python3 tools/configure.py eur`, checked against `mkds_eur.sha1`) and set
+   `DECOMP_VERSION=eur` for the other tools.
 4. Enable the repository hooks (the pre-push hook keeps the progress graph current):
    ```shell
    git config core.hooksPath .githooks

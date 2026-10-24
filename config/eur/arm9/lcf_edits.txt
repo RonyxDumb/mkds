@@ -1,0 +1,1 @@
+# place / alias / inner edits for the linker script, see tools/lcf_force_active.py.

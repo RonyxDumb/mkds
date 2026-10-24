@@ -9,6 +9,7 @@ own dump of the game; see [INSTALL.md](INSTALL.md).
 | Version | Game code | SHA-1 |
 | --- | --- | --- |
 | USA | `AMCE` | `691e00d9a5dd80b04f80cc7559503e8b06848785` |
+| Europe | `AMCP` | `ce97d9b43f0d3ca0d48b781983e8a16f6393378f` |
 
 Every function is decompiled from the game's own code. Code from other decompilations is not accepted.
 

@@ -24,6 +24,10 @@ VERSIONS = {
         # (`--arm7-bios`). None takes it from the base ROM.
         "secure_area_crc": None,
     },
+    "eur": {
+        "baserom": f"extract/baserom_{GAME}_eur.nds",
+        "secure_area_crc": None,
+    },
 }
 
 VERSION = os.environ.get("DECOMP_VERSION") or next(iter(VERSIONS))
