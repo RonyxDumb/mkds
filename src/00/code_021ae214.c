@@ -1,0 +1,20 @@
+#include "00/code_021ae214.h"
+
+void func_ov000_021ae228(int param_1) {
+    u32 uVar1;
+    uVar1 = func_ov000_021ae314();
+    *(u32 *) (param_1 + 0x28) = uVar1;
+    *(u8 *) (param_1 + 8) = 1;
+    *(u32 *) (param_1 + 4) = 1;
+    func_0200e01c((int) (0));
+    return;
+}
+
+void func_ov000_021ae214(u32 param_1) {
+    int iVar1;
+    iVar1 = *(int *) (*(int *) (((int) (u32) ((unsigned char *) &data_0216ff5c)) + 4) + 0xa4);
+    if (iVar1 != 0) {
+        *(u32 *) (iVar1 + 0x38) = param_1;
+    }
+    return;
+}

@@ -1,0 +1,31 @@
+#include "00/code_021806a0.h"
+
+unsigned int func_ov000_021806d4(void) {
+    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
+                                                        const unsigned int *) ((unsigned char *) (unsigned int) ((
+                                                                                   (u32) (&data_ov000_021b4c64))) +
+                                                                               0))) +
+                                                    16));
+}
+
+unsigned int func_ov000_021806c4(void) {
+    return ((unsigned int) *(
+        const short *) ((unsigned char *) (unsigned int) (((unsigned int) *(
+                            const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_ov000_021b4c64))) +
+                                                   0))) +
+                        0 + (0x18u)));
+}
+
+void func_ov000_021806b8(unsigned int p0) {
+    *(unsigned short *) ((unsigned char *) (unsigned int) (((unsigned int) *(
+                             const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_ov000_021b4c64))) +
+                                                    0))) +
+                         24) = (unsigned short) (p0);
+}
+
+u32 func_ov000_021806a0(void) {
+    if (0 <= *(int *) (*((int *) ((u32) (&data_ov000_021b4c64))) + 0x14)) {
+        return 1;
+    }
+    return 0;
+}

@@ -1,0 +1,26 @@
+#include "00/code_02181df8.h"
+
+// non-matching: 0x88 bytes, original 0x94; 26 instructions differ; first at +0x0: original `push {lr}`, ours `push {r4,
+// lr}`
+void func_ov000_02181df8(void) {
+    u32 uVar1;
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov000_021b0af4))))));
+    *(u32 *) (*((int *) ((u32) (&data_ov000_021b4c6c))) + 0x2c) = uVar1;
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov000_021b0b0c))))));
+    *(u32 *) (*((int *) ((u32) (&data_ov000_021b4c6c))) + 0x30) = uVar1;
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov000_021b0b24))))));
+    func_020b49bc((Unk020b4934 **) ((int *) (u32) (*((int *) ((u32) (&data_ov000_021b4c6c))) + 0x24)),
+                  (void *) (uVar1));
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov000_021b0b40))))));
+    func_020b48b4((void **) ((int *) (u32) (*((int *) ((u32) (&data_ov000_021b4c6c))) + 0x20)), (void *) (uVar1));
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov000_021b0b5c))))));
+    func_020b4a44((Unk020b4a44 **) ((int *) (u32) (*((int *) ((u32) (&data_ov000_021b4c6c))) + 0x28)),
+                  (void *) (uVar1));
+    ((u32) func_02016468((u32) (0x23), (u32) (0),
+                         (void *) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov000_021b4c6c))) + 0x24) + 0x14)),
+                         (u32) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov000_021b4c6c))) + 0x24) + 0x10))));
+    ((u32) func_02016468((u32) (0x1e), (u32) (0),
+                         (void *) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov000_021b4c6c))) + 0x28) + 0xc)),
+                         (u32) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov000_021b4c6c))) + 0x28) + 8))));
+    return;
+}

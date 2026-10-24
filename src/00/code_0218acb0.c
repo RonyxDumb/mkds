@@ -1,0 +1,20 @@
+#include "00/code_0218acb0.h"
+
+void func_ov000_0218acf0(int param_1, u32 param_2) {
+    *(u32 *) (param_1 + 0x28) = param_2;
+    return;
+}
+
+void func_ov000_0218acd8(int param_1) {
+    func_ov000_0218ae5c((u32 *) ((u32 *) (u32) (param_1 + 0x14)));
+    func_ov000_0218ae5c((u32 *) ((u32 *) (u32) (param_1 + 8)));
+    return;
+}
+
+void func_ov000_0218acb0(int param_1) {
+    func_ov000_0218e53c(*(u32 *) (param_1 + 0x20));
+    *(u32 *) (param_1 + 0x20) = 0xffffffff;
+    func_ov000_0218ae5c((u32 *) ((u32 *) (u32) (param_1 + 0x14)));
+    func_ov000_0218ae5c((u32 *) ((u32 *) (u32) (param_1 + 8)));
+    return;
+}
