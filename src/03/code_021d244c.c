@@ -1,0 +1,21 @@
+#include "03/code_021d244c.h"
+
+// non-matching: 8 instructions differ; first at +0x4: original nothing, ours `ldr r6, [pc, #0x30] (->0x38)`
+void func_ov003_021d244c(void) {
+    int iVar4;
+    int iVar3;
+    int iVar2;
+    int *piVar1;
+    iVar2 = ((u32) 0x0000078cu);
+    piVar1 = ((int *) ((u32) (&data_ov003_021da2c4)));
+    iVar4 = 0;
+    iVar3 = 0;
+    do {
+        func_ov003_021d1490(*(u32 *) (*piVar1 + iVar3 + iVar2));
+        iVar3 = iVar3 + 4;
+        iVar4 = iVar4 + 1;
+    } while (iVar4 < 2);
+    func_ov003_021d1d4c(*(u32 *) (*((int *) ((u32) (&data_ov003_021da2c4))) + ((int) 0x00000788u)));
+    func_ov003_021d2808(((int *) ((u32) (&data_ov003_021da2c4))));
+    return;
+}
