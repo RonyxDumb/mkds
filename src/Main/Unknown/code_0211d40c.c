@@ -1,0 +1,14 @@
+#include "Main/Unknown/code_0211d40c.h"
+
+#pragma thumb on
+
+u32 func_0211d40c(u32 param_1) {
+    u32 uVar1;
+    uVar1 = func_0211d650();
+    if (uVar1 > param_1) {
+        return 1;
+    }
+    return 0;
+}
+
+#pragma thumb off

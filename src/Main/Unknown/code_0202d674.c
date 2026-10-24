@@ -1,0 +1,12 @@
+#include "Main/Unknown/code_0202d674.h"
+
+#pragma thumb on
+
+void func_0202d674(void) {
+    u32 uVar1;
+    uVar1 = ((int) func_020b3f7c((void *) (*(u32 *) (*((int *) ((u32) (&data_02174e40))) + 0xac)), (s32) (0)));
+    func_0212658c((u32) (uVar1), (u32) (0), (u32) (0), (u32) (0), (u32) (0), (u32) (0), (u32) (0));
+    return;
+}
+
+#pragma thumb off

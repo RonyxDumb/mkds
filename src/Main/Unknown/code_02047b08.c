@@ -1,0 +1,16 @@
+#include "Main/Unknown/code_02047b08.h"
+
+#pragma thumb on
+
+void func_02047b08(u32 param_1) {
+    int iVar1;
+    iVar1 = func_02047b30((u32) (*(u32 *) (((u32) (u32) ((unsigned char *) &data_02164e04)) + 0x0)),
+                          (s8 *) ((s8 *) (u32) (param_1)));
+    if (iVar1 == 0) {
+        func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x48)),
+                      (s8 *) ((s8 *) (u32) (param_1)));
+    }
+    return;
+}
+
+#pragma thumb off

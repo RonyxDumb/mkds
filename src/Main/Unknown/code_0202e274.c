@@ -1,0 +1,67 @@
+#include "Main/Unknown/code_0202e274.h"
+
+#pragma thumb on
+
+void func_0202e274(void) {
+    u32 uVar1;
+    u32 local_18;
+    u32 local_14;
+    u32 local_10;
+    u32 local_c[1];
+    local_18 = 0;
+    local_14 = 0;
+    local_10 = 0;
+    local_c[0] = 0;
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02162f58))))));
+    func_020b496c(&local_18, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02162f78))))));
+    func_020b496c(&local_18, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02162f98))))));
+    func_020b496c(&local_18, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02162fb8))))));
+    func_020b496c(&local_18, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02162fd8))))));
+    func_020b49f4(&local_18, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02162ff8))))));
+    func_020b49f4(&local_18, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02163018))))));
+    func_020b49f4(&local_18, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_0216303c))))));
+    func_020b49f4(&local_18, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02163060))))));
+    func_020b48ec(&local_10, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02163080))))));
+    func_020b48ec(&local_10, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_021630a0))))));
+    func_020b48ec(&local_10, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_021630c4))))));
+    func_020b48ec(&local_10, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_021630e8))))));
+    func_020b4a7c(&local_14, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02163108))))));
+    func_020b4a7c(&local_14, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02163128))))));
+    func_020b4a7c(&local_14, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02163148))))));
+    func_020b4a7c(&local_14, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02163168))))));
+    func_020b4a7c(&local_14, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02163188))))));
+    func_020b4a7c(&local_14, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_021631a8))))));
+    func_020b4a7c(&local_14, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_021631c8))))));
+    func_020b4a7c(&local_14, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_021631e8))))));
+    func_020b4810(local_c, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02163204))))));
+    func_020b4810(local_c, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02163220))))));
+    func_020b4810(local_c, uVar1);
+    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_02163240))))));
+    func_020b4810(local_c, uVar1);
+    func_02117388();
+    return;
+}
+
+#pragma thumb off

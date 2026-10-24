@@ -1,0 +1,23 @@
+#include "Main/Unknown/code_0200b1b0.h"
+
+#pragma thumb on
+
+u32 func_0200b1b0(u32 param_1, u32 param_2) {
+    u32 uVar1;
+    int iVar2;
+    if (16 <= param_1) {
+        return 0;
+    }
+    uVar1 = ((s64) func_0200fca0());
+    iVar2 = func_02008934(param_1);
+    if (iVar2 == 0) {
+        func_0200fcb4((u32) (uVar1));
+        return 0;
+    }
+    func_0214d1fc((const void *) ((u16 *) (u32) (iVar2 + ((u32) 0x000004c0u))), (void *) ((u32 *) (u32) (param_2)),
+                  (u32) (0xc0));
+    func_0200fcb4((u32) (uVar1));
+    return 1;
+}
+
+#pragma thumb off

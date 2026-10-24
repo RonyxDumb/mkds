@@ -1,0 +1,19 @@
+#include "Main/Unknown/code_02128570.h"
+
+#pragma thumb on
+
+void func_02128570(void) {
+    int iVar1;
+    iVar1 = *((int *) ((u32) (&data_0217d3f8)));
+    if (*(int *) (iVar1 + ((int) 0x00000814u)) != 0) {
+        *(u32 *) (iVar1 + 8) = 3;
+        func_02128624((int) (0));
+        return;
+    }
+    if (*(int *) (iVar1 + ((int) 0x00000818u)) != 0) {
+        *(u32 *) (iVar1 + 8) = 4;
+    }
+    return;
+}
+
+#pragma thumb off
