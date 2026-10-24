@@ -79,7 +79,8 @@ def check_pointer(obj, r, funcs, syms, code, local, tables, base, blob) -> int:
     site = local[fn.name] + off - fn["st_value"]
     if not base <= site <= base + len(blob) - 4:
         return 0
-    addend = struct.unpack_from("<I", code, off)[0]  # REL: the addend is the word in the object
+    # mwcc writes RELA (the addend is in the entry); a REL object keeps it in the word itself
+    addend = r["r_addend"] if r.is_RELA() else struct.unpack_from("<I", code, off)[0]
     actual = struct.unpack_from("<I", blob, site - base)[0]
     if (actual | 1) == ((want + addend) | 1):  # a Thumb function pointer carries the Thumb bit
         return 0
