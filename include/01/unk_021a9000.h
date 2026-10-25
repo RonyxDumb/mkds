@@ -243,3 +243,4 @@ extern Unk021a9ba4 *data_ov001_021a9bbc;
 extern Unk021a9ba4 *data_ov001_021a9bc0;
 extern Unk0219b418 *data_ov001_021a9bcc;
 extern struct Unk021a9ba4 *data_ov001_021a9b8c;
+extern Unk021a9ba4 *data_ov001_021a9bc4;

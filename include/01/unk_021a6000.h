@@ -114,3 +114,7 @@ extern const u16 data_ov001_021a66e4[13];
 extern const u16 data_ov001_021a66a4[8];
 extern const u16 data_ov001_021a6684[4];
 extern const u16 data_ov001_021a668c[4];
+extern u16 data_ov001_021a65c8;
+extern u16 data_ov001_021a65cc;
+extern u16 data_ov001_021a65d0;
+extern const u32 data_ov001_021a6598;

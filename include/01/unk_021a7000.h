@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "01/code_02190ee0.h"
 
 // Objects whose layout isn't known yet.
 extern const s32 data_ov001_021a7058[16];
@@ -51,3 +52,4 @@ extern s32 data_ov001_021a7018[16];
 extern s32 data_ov001_021a7098[29];
 extern s32 data_ov001_021a73ac[3][29];
 extern s32 data_ov001_021a7508[3][29];
+extern Unk02190ee0 data_ov001_021a7de8;

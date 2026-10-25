@@ -7,6 +7,4 @@
 #include "01/code_0218ac04.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_ov001_0218add0();
-void func_ov001_0218aef4();
-void func_ov001_0218ae60(Unk02188950 *param_1);
+#include "01/code_0218add0.h"

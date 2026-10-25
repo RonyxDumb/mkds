@@ -1,7 +1,7 @@
 #include "01/code_0218ad68.h"
 
 void func_ov001_0218ad68(int param_1) {
-    func_ov001_0218aef4();
+    func_ov001_0218aef4((Unk02188950 *) (param_1));
     func_ov001_02187218((Unk02188950 *) (param_1), (int) (3), (s32 (*)(Unk02188950 *)) ((int) (0)));
     func_ov001_02188d64((Unk02188950 *) (param_1), (s32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001dcu))), (s32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001e0u))));
     func_ov001_02188c90((Unk02188950 *) (param_1));

@@ -59,9 +59,9 @@ void func_ov001_0218e208(Unk0218d87c *param_1)
     if (param_1 != 0) {
         for (i = 0; i < param_1->mUnk_04 && (obj = param_1->mUnk_00[i]) != 0; i++) {
             if (func_02062ec4() != 0) {
-                func_ov001_0218e4ac(obj);
+                func_ov001_0218e4ac((Unk02188950 *) (obj));
             } else {
-                func_ov001_0218e520(obj);
+                func_ov001_0218e520((Unk02188950 *) (obj));
             }
             if (data_021759c0->mUnk_08 == 4) {
                 a0 = obj->mUnk_0a0;
