@@ -95,7 +95,7 @@ void func_ov001_02197d58(void) {
 next:
     bits = e->mUnk_00 & 1;
     if ((u16)bits == 0 && sel > 2) {
-        goto buttons;
+        goto skip;
     }
     if ((u16)bits == 0) {
         func_ov001_02198264((s32) (data_ov001_021a9be0->mUnk_28));
@@ -118,7 +118,7 @@ next:
     }
     func_ov001_021982e8();
     return;
-buttons:
+skip:
     if (func_020ae408(8, 0x40) != 0) {
         func_ov001_02198264((s32) (data_ov001_021a9be0->mUnk_28));
         data_ov001_021a9be0->mUnk_28--;

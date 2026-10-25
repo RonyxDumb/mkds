@@ -60,7 +60,7 @@ void func_ov001_02181c3c(void *param_1, Unk02181c3c *param_2) {
                 found = 0;
             checked:
                 if (!found) {
-                    goto none_in_range;
+                    goto skip;
                 }
             }
             n = param_2->mUnk_0a0 + 1;
@@ -69,7 +69,7 @@ void func_ov001_02181c3c(void *param_1, Unk02181c3c *param_2) {
             }
             param_2->mUnk_0a0 = n;
             break;
-        none_in_range:
+        skip:
             param_2->mUnk_0a0 = 0;
             break;
         }

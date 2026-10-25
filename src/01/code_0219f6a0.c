@@ -42,7 +42,7 @@ void func_ov001_0219fc70(void) {
             flag_b = 1;
         }
         if (!flag_b || func_02128210(data_02175628[slot].mUnk_48, data_02175628[slot].mUnk_4a) == 0) {
-            goto no_confirm;
+            goto skip;
         }
     }
     if (func_ov001_021a071c() != 0) {
@@ -54,7 +54,7 @@ void func_ov001_0219fc70(void) {
     func_ov001_021a03a0();
     func_02128310(0);
     return;
-no_confirm:
+skip:
     if (result <= 8) {
         target = data_ov001_021a6d98[result];
         if (target == 8 && data_ov001_021ca414->mUnk_a0 == 0) {

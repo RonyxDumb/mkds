@@ -22,7 +22,7 @@ void func_ov001_0219dadc(void) {
     }
     flags = data_02175628[index].mUnk_00 & 2;
     if (flags != 0) {
-        goto update_selection;
+        goto next;
     }
     cond2 = 0;
     cond1 = 0;
@@ -34,7 +34,7 @@ void func_ov001_0219dadc(void) {
         cond2 = 1;
     }
     if (cond2 != 0 && func_02128210(data_02175628[index].mUnk_48, data_02175628[index].mUnk_4a) != 0) {
-update_selection:
+next:
         data_ov001_021a9bfc->mUnk_04 = 5;
         data_ov001_021a9bfc->mUnk_20 = 2;
         if (data_ov001_021a9bfc->mUnk_0c != data_ov001_021a9bfc->mUnk_10) {
