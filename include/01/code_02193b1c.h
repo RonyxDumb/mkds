@@ -36,6 +36,12 @@ typedef struct Unk021a8294 {
     /* 00 */ void (*mUnk_00[5])(void);
 } Unk021a8294;
 
+// Object behind Unk021a9bd8::mUnk_40.
+typedef struct Unk021a9bd8_40 {
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ u8 *mUnk_0c;
+} Unk021a9bd8_40;
+
 // Object behind data_ov001_021a9bd8.
 typedef struct Unk021a9bd8 {
     /* 00 */ u8 mUnk_00[4];
@@ -48,17 +54,27 @@ typedef struct Unk021a9bd8 {
     /* 1c */ Unk021a9bdcCount *mUnk_1c;
     /* 20 */ void *mUnk_20;
     /* 24 */ Unk021a9bdcCount *mUnk_24;
-    /* 28 */ u8 mUnk_28[0x28];
+    /* 28 */ void *mUnk_28;
+    /* 2c */ void *mUnk_2c;
+    /* 30 */ u8 mUnk_30[0x4];
+    /* 34 */ void *mUnk_34;
+    /* 38 */ void *mUnk_38;
+    /* 3c */ void *mUnk_3c;
+    /* 40 */ Unk021a9bd8_40 *mUnk_40;
+    /* 44 */ void *mUnk_44;
+    /* 48 */ void *mUnk_48;
+    /* 4c */ void *mUnk_4c;
     /* 50 */ Unk021a9bdcEntry *mUnk_50;
     /* 54 */ Unk021a9bdcEntry *mUnk_54;
-    /* 58 */ u8 mUnk_58[8];
+    /* 58 */ void *mUnk_58;
+    /* 5c */ u8 mUnk_5c[0x4];
     /* 60 */ s32 mUnk_60;
     /* 64 */ s32 mUnk_64;
     /* 68 */ s32 mUnk_68;
     /* 6c */ s32 mUnk_6c;
     /* 70 */ s32 mUnk_70;
     /* 74 */ s32 mUnk_74;
-    /* 78 */ u8 mUnk_78[4];
+    /* 78 */ s32 mUnk_78;
     /* 7c */ s32 mUnk_7c;
     /* 80 */ s32 mUnk_80;
     /* 84 */ s32 mUnk_84;
@@ -77,15 +93,15 @@ extern const char data_ov001_021a8260[];
 extern u8 data_ov001_021a65dc[];
 extern s32 data_ov001_021a65e4[];
 extern u8 data_ov001_021a65f0[][4];
-extern u16 data_ov001_021a666c[4];
-extern u16 data_ov001_021a6654[4];
-extern u16 data_ov001_021a66cc[4][3];
-extern u16 data_ov001_021a665c[4];
-extern u16 data_ov001_021a6614[4];
-extern u16 data_ov001_021a662c[4];
-extern u16 data_ov001_021a663c[4];
-extern u16 data_ov001_021a66b4[4][3];
-extern u16 data_ov001_021a6674[4][2];
+extern const u16 data_ov001_021a666c[4];
+extern const u16 data_ov001_021a6654[4];
+extern const u16 data_ov001_021a66cc[4][3];
+extern const u16 data_ov001_021a665c[4];
+extern const u16 data_ov001_021a6614[4];
+extern const u16 data_ov001_021a662c[4];
+extern const u16 data_ov001_021a663c[4];
+extern const u16 data_ov001_021a66b4[4][3];
+extern const u16 data_ov001_021a6674[4][2];
 
 void func_ov001_02193b1c(void);
 void func_ov001_02193b28(void *heap);

@@ -17,7 +17,7 @@ typedef struct Unk021a9bf0 {
     /* 0x08 */ void *mUnk_08;
     /* 0x0c */ void *mUnk_0c;
     /* 0x10 */ void *mUnk_10;
-    /* 0x14 */ u8 mUnk_14[4];
+    /* 0x14 */ void *mUnk_14;
     /* 0x18 */ Unk021a9bf0Entry *mUnk_18;
     /* 0x1c */ Unk021a9bf0Entry *mUnk_1c;
     /* 0x20 */ void *mUnk_20;
@@ -29,7 +29,7 @@ typedef struct Unk021a9bf0 {
     /* 0x38 */ s32 mUnk_38;
     /* 0x3c */ s32 mUnk_3c;
     /* 0x40 */ s32 mUnk_40;
-    /* 0x44 */ u8 mUnk_44[4];
+    /* 0x44 */ s32 mUnk_44;
 } Unk021a9bf0;
 
 extern Unk021a9bf0 *data_ov001_021a9bf0;

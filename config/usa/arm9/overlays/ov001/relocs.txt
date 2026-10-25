@@ -4050,10 +4050,8 @@ from:0x02194ce0 kind:load to:0x021a6740 module:overlay(1)
 from:0x02194cf0 kind:load to:0x021a66e0 module:overlay(1)
 from:0x02194cf4 kind:load to:0x02056ded module:main
 from:0x02194d12 kind:thumb_call to:0x02194c7c module:overlay(1)
-from:0x02194d1a kind:thumb_call to:0x02194cf8 module:overlay(1)
 from:0x02194d24 kind:load to:0x021a9bb8 module:overlay(1)
 from:0x02194d42 kind:thumb_call to:0x02194c7c module:overlay(1)
-from:0x02194d4a kind:thumb_call to:0x02194d28 module:overlay(1)
 from:0x02194d54 kind:load to:0x021a9bb8 module:overlay(1)
 from:0x02194d66 kind:thumb_call to:0x02194ce4 module:overlay(1)
 from:0x02194d7e kind:thumb_call_arm to:0x02016468 module:main

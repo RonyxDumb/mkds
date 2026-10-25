@@ -88,7 +88,8 @@ typedef struct Unk021a9bf8 {
     /* 001c */ s32 mUnk_1c;
     /* 0020 */ s32 mUnk_20;
     /* 0024 */ s32 mUnk_24;
-    /* 0028 */ u8 pad_28[8];
+    /* 0028 */ s32 mUnk_28;
+    /* 002c */ s32 mUnk_2c;
     /* 0030 */ u16 mUnk_30[64][32];
     /* 1030 */ void *mUnk_1030;
     /* 1034 */ Unk021a9bf8Entry *mUnk_1034[2];
