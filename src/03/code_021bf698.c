@@ -26,18 +26,15 @@ void func_ov003_021bf6c8(u32 param_1, u32 param_2, u32 param_3, u32 param_4) {
     return;
 }
 
-// non-matching: 2 instructions differ; first at +0x4: original nothing, ours `ldr r7, [pc, #0x24] (->0x2c)`
 void func_ov003_021bf698(void) {
     int iVar3;
     int iVar2;
-    int *piVar1;
-    piVar1 = ((int *) ((u32) (&data_ov003_021da150)));
     iVar3 = 0;
     iVar2 = 0;
     do {
-        if (0 != *(int *) (*piVar1 + iVar2)) {
+        if (0 != *(int *) (*(int *) data_ov003_021da150 + iVar2)) {
             func_ov003_021d197c();
-            *(u32 *) (*piVar1 + iVar2) = 0;
+            *(u32 *) (*(int *) data_ov003_021da150 + iVar2) = 0;
         }
         iVar2 = iVar2 + 4;
         iVar3 = iVar3 + 1;

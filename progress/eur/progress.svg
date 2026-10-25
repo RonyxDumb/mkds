@@ -15,14 +15,18 @@ text{font:12px -apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-
 <text x="40" y="88.0" class="muted" text-anchor="end">3.75%</text>
 <line x1="48" x2="544" y1="24.0" y2="24.0" class="grid" stroke-width="1"/>
 <text x="40" y="28.0" class="muted" text-anchor="end">5%</text>
-<text class="muted" x="296.0" y="288" text-anchor="middle">2026-10-25</text>
-<circle cx="296.0" cy="86.8" r="4" class="dot0" stroke-width="2"/>
-<circle cx="296.0" cy="36.5" r="4" class="dot1" stroke-width="2"/>
-<circle cx="296.0" cy="264.0" r="4" class="dot2" stroke-width="2"/>
-<line x1="554" x2="566" y1="264.0" y2="264.0" class="ln2" stroke-width="2"/>
-<text class="lbl" x="572" y="268.0">Linked code 0.00%</text>
-<line x1="554" x2="566" y1="86.8" y2="86.8" class="ln0" stroke-width="2"/>
-<text class="lbl" x="572" y="90.8">Matched code 3.69%</text>
-<line x1="554" x2="566" y1="36.5" y2="36.5" class="ln1" stroke-width="2"/>
-<text class="lbl" x="572" y="40.5">Overall accuracy 4.74%</text>
+<line x1="296.0" x2="296.0" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<text class="muted" x="48.0" y="288" text-anchor="start">2026-10-25</text>
+<polyline points="48.0,86.8 544.0,85.6" fill="none" class="ln0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="48.0,36.5 544.0,36.3" fill="none" class="ln1" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="48.0,264.0 544.0,262.8" fill="none" class="ln2" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="544.0" cy="85.6" r="4" class="dot0" stroke-width="2"/>
+<circle cx="544.0" cy="36.3" r="4" class="dot1" stroke-width="2"/>
+<circle cx="544.0" cy="262.8" r="4" class="dot2" stroke-width="2"/>
+<line x1="554" x2="566" y1="262.8" y2="262.8" class="ln2" stroke-width="2"/>
+<text class="lbl" x="572" y="266.8">Linked code 0.02%</text>
+<line x1="554" x2="566" y1="85.6" y2="85.6" class="ln0" stroke-width="2"/>
+<text class="lbl" x="572" y="89.6">Matched code 3.72%</text>
+<line x1="554" x2="566" y1="36.3" y2="36.3" class="ln1" stroke-width="2"/>
+<text class="lbl" x="572" y="40.3">Overall accuracy 4.74%</text>
 </svg>
