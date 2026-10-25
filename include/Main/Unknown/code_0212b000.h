@@ -7,3 +7,4 @@ void func_0212b91c(void);
 void func_0212b7fc(void);
 void func_0212b80c(void);
 void func_0212b7e8(void);
+void func_0212b7d8(void);

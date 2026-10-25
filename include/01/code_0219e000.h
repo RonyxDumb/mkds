@@ -7,3 +7,5 @@
 void func_ov001_0219e118(void);
 void func_ov001_0219ea6c(void);
 void func_ov001_0219ea8c(void);
+void func_ov001_0219eab4(void);
+s32 func_ov001_0219ead4(void);

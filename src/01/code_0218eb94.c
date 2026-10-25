@@ -37,7 +37,7 @@ void func_ov001_0218ec40(Unk02188950 *param_1) {
 }
 
 void func_ov001_0218eb94(Unk02188950 *param_1) {
-    Unk020d22d0 *rng;
+    Unk020f41c4_B *rng;
     func_0207a974((u16) data_021759c0->mUnk_62);
     rng = func_020d22d0();
     rng->mUnk_00 = rng->mUnk_08 * rng->mUnk_00 + rng->mUnk_10;

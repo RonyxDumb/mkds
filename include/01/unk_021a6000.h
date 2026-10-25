@@ -3,7 +3,7 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
-extern u16 data_ov001_021a6574;
+extern const u16 data_ov001_021a6574;
 extern const u16 data_ov001_021a65b0;
 extern u8 data_ov001_021a65b4[];
 extern u8 data_ov001_021a65b8[];
@@ -67,3 +67,6 @@ extern u16 data_ov001_021a6a00[];
 extern u16 data_ov001_021a6a08[];
 extern u16 data_ov001_021a6a10[];
 extern u16 data_ov001_021a6a18[];
+extern u16 data_ov001_021a6a9c[3];
+extern u16 data_ov001_021a6aa4[3];
+extern u16 data_ov001_021a6ab4[3];

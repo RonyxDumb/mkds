@@ -1,11 +1,20 @@
 #pragma once
 
 #include "types.h"
+#include "01/code_0219b250.h"
 #include "01/code_021987d4.h"
 #include "01/code_0219a950.h"
 #include "01/code_0219bb48.h"
 #include "01/code_02193b1c.h"
 #include "00/code_02182fdc.h"
+
+// Object behind data_ov001_021a9b90.
+typedef struct Unk021a9b90 {
+    /* 00 */ u8 mUnk_00[0x4];
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u8 mUnk_06[0x3e];
+    /* 44 */ s32 mUnk_44;
+} Unk021a9b90;
 
 // One 0x40-byte element of the arrays behind Unk021a9bf8::mUnk_1034.
 typedef struct Unk021a9bf8Entry {
@@ -95,7 +104,7 @@ extern u8 data_ov001_021a9944[];
 extern Unk021a99e4 *data_ov001_021a99e4;
 extern u8 data_ov001_021a9b88[];
 extern u16 data_ov001_021a9ba0;
-extern u8 data_ov001_021a9b90[];
+extern Unk021a9b90 *data_ov001_021a9b90;
 extern u8 data_ov001_021a9bd0[];
 extern u8 data_ov001_021a9bec[];
 extern Unk021a9bf8 *data_ov001_021a9bf8;
@@ -149,3 +158,4 @@ typedef struct Unk021a9be0 {
 } Unk021a9be0;
 
 extern Unk021a9be0 *data_ov001_021a9be0;
+extern Unk0219b418 *data_ov001_021a9b98;

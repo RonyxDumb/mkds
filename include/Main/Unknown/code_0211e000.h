@@ -11,3 +11,4 @@ s32 func_0211e274(u32 kind);
 s32 func_0211e1f0(u32 kind);
 void func_0211e38c(u32 kind, void *out);
 void func_0211e2f8(u32 kind, void *out);
+s32 func_0211e130(void);

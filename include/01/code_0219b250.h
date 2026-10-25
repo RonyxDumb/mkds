@@ -2,13 +2,19 @@
 
 #include "types.h"
 
+// Object whose member at 8 receives a value.
+typedef struct Unk0219b250_Item {
+    /* 00 */ u8 mUnk_00[8];
+    /* 08 */ s32 mUnk_08;
+} Unk0219b250_Item;
+
 typedef struct Unk0219b250 {
     /* 00 */ u8 mUnk_00[0x10];
     /* 10 */ u32 mUnk_10;
     /* 14 */ void *mUnk_14;
     /* 18 */ u32 mUnk_18;
-    /* 1c */ void *mUnk_1c;
-    /* 20 */ void *mUnk_20;
+    /* 1c */ Unk0219b250_Item *mUnk_1c;
+    /* 20 */ Unk0219b250_Item *mUnk_20;
     /* 24 */ void *mUnk_24;
     /* 28 */ void *mUnk_28;
 } Unk0219b250;

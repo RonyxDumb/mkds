@@ -6,7 +6,9 @@
 typedef struct Unk021759c0 {
     /* 00 */ u8 mUnk_00[0x8];
     /* 08 */ s32 mUnk_08;
-    /* 0c */ u8 mUnk_0c[0x4b];
+    /* 00c */ u8 mUnk_00c[0x23];
+    /* 2f */ u8 mUnk_2f;
+    /* 030 */ u8 mUnk_030[0x27];
     /* 57 */ s8 mUnk_57;
     /* 58 */ u8 mUnk_58[0xa];
     /* 62 */ s8 mUnk_62;

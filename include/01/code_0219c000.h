@@ -5,3 +5,6 @@
 
 // Declared here until the code that defines them is decompiled.
 void func_ov001_0219c480(void);
+void func_ov001_0219c428(void);
+void func_ov001_0219c458(void);
+void func_ov001_0219c46c(void);

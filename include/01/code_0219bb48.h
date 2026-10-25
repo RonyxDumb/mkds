@@ -24,7 +24,8 @@
 typedef struct Unk021a9bf4Entry {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s16 mUnk_04;
-    /* 06 */ u8 mUnk_06[0x3a];
+    /* 06 */ s16 mUnk_06;
+    /* 08 */ u8 mUnk_08[0x38];
 } Unk021a9bf4Entry;
 
 // Object that holds a count at offset 6.
@@ -46,7 +47,7 @@ typedef struct Unk021a9bf4 {
     /* 08 */ void *mUnk_08;
     /* 0c */ void *mUnk_0c;
     /* 10 */ Unk021a9bf4Count *mUnk_10;
-    /* 14 */ u8 mUnk_14[4];
+    /* 14 */ void *mUnk_14;
     /* 18 */ void *mUnk_18;
     /* 1c */ void *mUnk_1c;
     /* 20 */ void *mUnk_20;

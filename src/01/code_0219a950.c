@@ -93,10 +93,10 @@ void func_ov001_0219ac98(void) {
         }
     }
     for (i = 0; i < 3; i++) {
-        *(u32 *)(data_ov001_021a9bf0->mUnk_18 + (data_ov001_021a6aac[i] << 6)) = 0;
+        data_ov001_021a9bf0->mUnk_18[data_ov001_021a6aac[i]].mUnk_00 = 0;
     }
     if (best > 4) {
-        *(u32 *)(data_ov001_021a9bf0->mUnk_18 + (data_ov001_021a6aac[best - 5] << 6)) = 1;
+        data_ov001_021a9bf0->mUnk_18[data_ov001_021a6aac[best - 5]].mUnk_00 = 1;
     }
 }
 
