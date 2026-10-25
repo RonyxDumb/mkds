@@ -32,7 +32,12 @@ typedef struct Unk021ca41c_0848 {
 
 // Object behind the pointer at 0x85c of Unk021ca41c.
 typedef struct Unk021ca41c_085c {
-    /* 00 */ u8 mUnk_00[0x14];
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 mUnk_02[0x2];
+    /* 04 */ struct Unk021a5a58 *mUnk_04;
+    /* 08 */ void *mUnk_08;
+    /* 0c */ void *mUnk_0c;
+    /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
 } Unk021ca41c_085c;
 

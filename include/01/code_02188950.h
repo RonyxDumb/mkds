@@ -297,7 +297,7 @@ typedef struct Unk02188950 {
     /* 270 */ s32 mUnk_270;
     /* 274 */ s32 mUnk_274;
     /* 278 */ s32 mUnk_278;
-    /* 27c */ u8 mUnk_27c[0x4];
+    /* 27c */ u32 mUnk_27c;
     /* 280 */ s32 mUnk_280;
     /* 284 */ s32 mUnk_284;
     /* 288 */ s32 mUnk_288;

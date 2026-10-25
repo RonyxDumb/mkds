@@ -1,12 +1,12 @@
 #include "01/code_0218dde8.h"
 
 void func_ov001_0218de14(u32 param_1, int param_2) {
-    func_ov001_02186368();
+    func_ov001_02186368((void *) (param_1), (Unk02188950 *) (param_2));
     if (*(int *) (param_2 + 0xa8) == 0) {
-        func_ov001_021861f4((u32) (param_1), (int) (param_2), (int) (0));
+        func_ov001_021861f4((void *) (param_1), (Unk02188950 *) (param_2), (s32) (0));
         return;
     }
-    func_ov001_021861f4((u32) (param_1), (int) (param_2), (int) (1));
+    func_ov001_021861f4((void *) (param_1), (Unk02188950 *) (param_2), (s32) (1));
     return;
 }
 

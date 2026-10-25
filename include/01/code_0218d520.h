@@ -21,9 +21,17 @@ typedef struct Unk0218d954 {
     /* 1c */ s32 **mUnk_1c;
 } Unk0218d954;
 
+// Object at Unk0218d950_10::mUnk_04.
+typedef struct Unk0218d950_10_04 {
+    /* 00 */ u8 mUnk_00[0x18];
+    /* 18 */ u8 mUnk_18;
+} Unk0218d950_10_04;
+
 // Object at Unk0218d950::mUnk_10.
 typedef struct Unk0218d950_10 {
-    /* 00 */ u8 mUnk_00[0x2c];
+    /* 00 */ u8 mUnk_00[0x4];
+    /* 04 */ Unk0218d950_10_04 *mUnk_04;
+    /* 08 */ u8 mUnk_08[0x24];
     /* 2c */ Unk02188950 *mUnk_2c;
 } Unk0218d950_10;
 

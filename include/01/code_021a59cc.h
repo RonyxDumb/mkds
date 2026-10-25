@@ -2,12 +2,42 @@
 
 #include "types.h"
 
+// Object at Unk021a5a58_2c::mUnk_2c.
+typedef struct Unk021a5a58_2c_2c {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u8 mUnk_04[0x4];
+    /* 08 */ s16 mUnk_08[4];
+} Unk021a5a58_2c_2c;
+
+// Object at Unk021a5a58::mUnk_2c.
+typedef struct Unk021a5a58_2c {
+    /* 00 */ u8 mUnk_00[0x8];
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ u8 mUnk_0c[0x8];
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ u8 mUnk_18[0x14];
+    /* 2c */ Unk021a5a58_2c_2c *mUnk_2c;
+    /* 30 */ u8 mUnk_30[0x24];
+} Unk021a5a58_2c;
+
 // Object that the per-entry update callbacks around func_ov001_021a5a58 work on.
 typedef struct Unk021a5a58 {
-    /* 00 */ u8 mUnk_00[0x10];
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 mUnk_02[0x2];
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
-    /* 14 */ u8 mUnk_14[0x4];
+    /* 14 */ s32 mUnk_14;
     /* 18 */ s32 mUnk_18;
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ s32 mUnk_20;
+    /* 24 */ s32 mUnk_24;
+    /* 28 */ s32 mUnk_28;
+    /* 2c */ Unk021a5a58_2c mUnk_2c;
+    /* 80 */ struct Unk021ca41c_085c *mUnk_80;
+    /* 84 */ s32 (*mUnk_84)(struct Unk021a5a58 *);
 } Unk021a5a58;
 
 s32 func_ov001_021a6430(s32 a, s32 b, s32 c, s32 d, s32 e, u16 f, s32 g);
