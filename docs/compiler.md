@@ -36,10 +36,12 @@ what it shows and the command that reruns it on every installed build
   `-str reuse` the copies merge (0x124 bytes).
 - `-O4,p`: `-O4,s`, `-O3` and `-O2` break main 0x0204e3b4 and ov001 0x02194c7c; `-O3`, `-O2` and `-O3,p` break
   ov003 0x021c88c4.
-- Some game files are compiled for size. `src/01/code_0218550c.c` (ov001, USA 0x021854ec-0x02185784) has five
-  two-case switch functions whose cases share one exit block; at `-O4,p` the return sequence is repeated in each case
-  (0x32 bytes instead of 0x2a). All 14 functions of the file match at `-O4,s`, at `-O3`, and at the build's `-O4,p`
-  with `#pragma optimize_for_size on` in the file, so the file carries that pragma.
+- Some game files are compiled for size and carry `#pragma optimize_for_size on`: `src/01/code_0218550c.c`,
+  `code_021804e0.c`, `code_02180610.c`, `code_021857a4.c` and `code_02185438.c`. In `code_0218550c.c` (ov001, USA
+  0x021854ec-0x02185784) five two-case switch functions share one exit block; at `-O4,p` the return sequence is
+  repeated in each case (0x32 bytes instead of 0x2a). All 14 functions of that file match at `-O4,s`, at `-O3`, and at
+  the build's `-O4,p` with the pragma. The others show the same two signs: switch cases that share an epilogue, and
+  aggregate copies kept as loops instead of unrolled (`code_021804e0.c`, `code_02180610.c`).
 - Inlining: `-inline auto` inlines a same-file call (ov001 0x02194ce4 into 0x02194c7c, `thumb_switch_ov001.c`)
   that the game keeps out of line.
 
@@ -114,23 +116,24 @@ first on one known match and one deliberate compile error.
 ## What 1.2 base never emits
 
 Hand-written routines are kept as asm only where a rule of the compiler rules their code out. These were read from
-the 1.2 base `mwccarm.exe` (image base 0x400000) and checked under gdb and on compiled code:
+the 1.2 base `mwccarm.exe` and checked under gdb and on compiled code:
 
-- ldm/stm: the ARM backend builds them only when lowering the IR's block-move operations (0x4eeac0) and in
+- ldm/stm: the ARM backend builds them only when lowering the IR's block-move operations and in
   prologues/epilogues (`stmdb sp!`, `ldmia sp!`). The IR block moves come only from struct copies (lists upward from
   r0, the base moved to another register first, a lone word as ldr/str), struct zero fills, 8-byte copies
   (`{r2, r3}`, no writeback) and by-value struct arguments. Unrolled loads and stores are never merged. A hook on
   the instruction builders saw no other source.
 - Thumb constants: 0-255 is `movs`, a complement or negation under 256 adds `mvns`/`negs`, anything else is a
-  literal-pool load (0x4eb980; gdb shows 0x1000 taking the pool path). `movs; lsls` is never built.
-- Registers: after r0-r3 and ip the colourer opens lr before r4 (table at 0x5e90a0), so a function that saves r4
-  also saves lr.
+  literal-pool load (gdb shows 0x1000 taking the pool path). `movs; lsls` is never built.
+- Registers: after r0-r3 and ip the colourer opens the callee-saved registers in order; in a leaf ARM function lr
+  comes before r4, in other functions lr is already a scratch register. Either way a function that saves r4 also
+  saves lr.
 - `tst`: built only by one peephole on `and`/`eor` that needs a flag set only on flag-setting forms, which that
   peephole isn't registered for; no compiled file checked built a `tst`, and C bit tests give `ands`.
 - Tail calls: a call in tail position to a named function becomes `ldr ip, =callee; bx ip` (ARM, interworking;
-  the register is fixed in the tail-call builder at 0x4e39b0; r3 in Thumb); no other register is used.
+  the register is fixed in the tail-call builder; r3 in Thumb); no other register is used.
 - ARM constants: an immediate is `mov`, a complement immediate `mvn`, a negated one `mov` + `rsb`; only other values
-  come from the literal pool (0x4edd10), so -3 is never a pool load. No IR operation counts leading zeros and no
+  come from the literal pool, so -3 is never a pool load. No IR operation counts leading zeros and no
   code builds `clz`.
 - Conditions: compiled comparisons use eq/ne/lt/lo/gt/hi/le/ls/ge/hs; mi/pl come only from the compare-with-0 fold,
   which deletes the `cmp`, so a `cmp` feeding mi/pl is not compiled code.
