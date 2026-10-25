@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "01/code_02196da8.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_0204799c.h"
 #include "Main/Unknown/code_020ae4c0.h"
@@ -127,7 +128,6 @@ s32 func_ov001_02196c4c(void);
 void func_ov001_02196cd0(void);
 void func_ov001_02196d78(void);
 void func_ov001_02196d8c(void);
-void func_ov001_02196dbc(void);
 void func_ov001_02196e30(void);
 void func_ov001_02196e54(void);
 void func_ov001_02196e88(void);
