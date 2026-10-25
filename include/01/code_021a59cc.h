@@ -40,7 +40,7 @@ typedef struct Unk021a5a58 {
     /* 84 */ s32 (*mUnk_84)(struct Unk021a5a58 *);
 } Unk021a5a58;
 
-s32 func_ov001_021a6430(s32 a, s32 b, s32 c, s32 d, s32 e, u16 f, s32 g);
+void func_ov001_021a6430(s32 a, s32 flagB, void *c, void *d, u32 e, u16 f, s32 flagG);
 void func_ov001_021a63d8(void);
 void func_ov001_021a63cc(s32 value);
 void func_ov001_021a63c0(u8 value);

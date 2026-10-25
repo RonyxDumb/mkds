@@ -1,14 +1,8 @@
 #include "Main/Unknown/code_020c0b84.h"
 
-void func_020c0b84(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) ((
-                           (unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0))) +
-                       0) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) ((
-                           (unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0))) +
-                       12) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) ((
-                           (unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0))) +
-                       16) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned int) (0x0u);
+void func_020c0b84(void **param_1) {
+    ((u32 *) *param_1)[0] = 0;
+    ((u32 *) *param_1)[3] = 0;
+    ((u32 *) *param_1)[4] = 0;
+    *param_1 = 0;
 }

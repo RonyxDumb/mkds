@@ -12,4 +12,4 @@
 
 void func_0211de40(u32 param_1);
 void func_0211de98(void);
-void func_0211ded0(int param_1, u32 param_2, u32 param_3, u32 param_4, u16 param_5, int param_6);
+void func_0211ded0(u32 param_1, void *param_2, void *param_3, u32 param_4, u16 param_5, s32 param_6);

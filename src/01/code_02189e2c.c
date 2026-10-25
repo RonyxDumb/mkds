@@ -46,7 +46,7 @@ void func_ov001_0218a120(Unk0218d87c *param_1) {
             }
         }
     }
-    func_020a2314((unsigned int)func_ov001_0218a2d4);
+    func_020a2314((void (*)(void)) func_ov001_0218a2d4);
 }
 
 void func_ov001_0218a074(u32 param_1, Unk02188950 *param_2) {
@@ -104,7 +104,7 @@ void func_ov001_02189fe0(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
         }
     }
     param_1->mUnk_2e0 = 1;
-    func_ov001_021881f4((int)param_1, (u32)func_ov001_02189fe0);
+    func_ov001_021881f4((Unk02188950 *) param_1, (UnkFunc *) func_ov001_02189fe0);
 }
 
 void func_ov001_02189ed8(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
@@ -115,7 +115,7 @@ void func_ov001_02189ed8(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
         func_ov001_02187bfc((Unk02188950 *) (param_1), (Vec3 *) (0), (s32) (0));
     }
     param_1->mUnk_2e0 = 2;
-    func_ov001_021881f4((int)param_1, (u32)func_ov001_02189ed8);
+    func_ov001_021881f4((Unk02188950 *) param_1, (UnkFunc *) func_ov001_02189ed8);
     if (func_ov001_021871f8(param_1, 7) != 0) {
         v.x = param_1->mUnk_004.x - param_2->mUnk_50.x;
         v.y = 0;
@@ -145,9 +145,9 @@ void func_ov001_02189e2c(Unk0218d87c *param_1) {
             func_ov001_021870e4(param_1, obj, (const char *) data_ov001_021a7b14, (const char *) data_ov001_021a7b24, (const char *) data_ov001_021a7b34);
             func_ov001_021870b0(param_1, obj, (const char *) data_ov001_021a7b44);
             a0 = obj->mUnk_0a0;
-            func_ov001_0218875c((int)obj, a0->mUnk_008, a0->mUnk_00c, a0->mUnk_20c);
-            func_ov001_021888a4((int)obj, 0, 0x23000);
-            func_ov001_021881f4((int)obj, (u32)func_ov001_02189ed8);
+            func_ov001_0218875c((Unk02188950 *) obj, (s32) (a0->mUnk_008), (s32) (a0->mUnk_00c), (s32) (a0->mUnk_20c));
+            func_ov001_021888a4((Unk02188950 *) obj, (s32) (0), (s32) (0x23000));
+            func_ov001_021881f4((Unk02188950 *) obj, (UnkFunc *) func_ov001_02189ed8);
         }
     }
 }

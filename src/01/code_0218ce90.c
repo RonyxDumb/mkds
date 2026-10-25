@@ -28,7 +28,7 @@ void func_ov001_0218cf94(Unk0218d87c *param_1) {
             }
         }
     }
-    func_020a2314((unsigned int)func_ov001_0218d280);
+    func_020a2314((void (*)(void)) func_ov001_0218d280);
 }
 
 void func_ov001_0218cedc(u32 param_1, Unk02188950 *param_2) {

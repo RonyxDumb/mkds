@@ -169,7 +169,7 @@ void func_ov001_0219eab4(void)
 
 void func_ov001_0219ea8c(void)
 {
-    u32 heap = func_020364e0(func_020364e8());
+    u32 heap = (u32) func_020364e0(func_020364e8());
 
     data_ov001_021ca40c = func_02036bec((void *) heap, 4);
     func_ov001_0219e6ec((void *) heap);

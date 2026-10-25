@@ -16,7 +16,7 @@ void func_020a7148(u32 param_1) {
             (u32) (param_1));
         func_020a233c((unsigned int) (((u32) (&func_020a72c8))));
         func_020a2328((unsigned int) (((u32) (&func_020a7270))));
-        func_020a2314((unsigned int) (((u32) (&func_020a71c8))));
+        func_020a2314((void (*)(void)) (((u32) (&func_020a71c8))));
         return;
     }
     func_020d2398((void *) ((unsigned int) (param_1)));

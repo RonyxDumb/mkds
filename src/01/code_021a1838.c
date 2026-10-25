@@ -153,11 +153,11 @@ void func_ov001_021a1858(s32 param_1, void *param_2, void *param_3) {
     func_ov001_021a1cb0();
     func_ov001_021a1bf8();
     func_ov001_021a1a04();
-    func_02036820((u32)data_ov001_021ca418->mUnk_20);
+    func_02036820((void *) data_ov001_021ca418->mUnk_20);
 }
 
 void func_ov001_021a1838(void)
 {
-    func_02036ab0((u32)data_ov001_021ca418->mUnk_20);
+    func_02036ab0((void *) data_ov001_021ca418->mUnk_20);
     data_ov001_021ca418 = 0;
 }

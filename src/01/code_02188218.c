@@ -9,7 +9,6 @@ unsigned short func_ov001_02188220(Unk02188950 *param_1) {
     return uVar1 & 0xffff;
 }
 
-void func_ov001_02188218(int param_1, u32 param_2) {
-    *(u32 *) (param_1 + 0xb4) = param_2;
-    return;
+void func_ov001_02188218(Unk02188950 *param_1, s32 param_2) {
+    param_1->mUnk_0b4 = param_2;
 }

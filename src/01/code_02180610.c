@@ -138,7 +138,7 @@ void func_ov001_02180800(void) {
 
 #pragma thumb off
 
-unsigned int func_ov001_021807e4(void) {
+void *func_ov001_021807e4(void) {
     return func_020364e0(func_020364e8());
 }
 

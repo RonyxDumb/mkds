@@ -223,7 +223,7 @@ void func_ov001_021a0190(s32 param_1, s32 param_2, s32 param_3) {
     data_ov001_021ca414->mUnk_b0 = data_ov001_021ca414->mUnk_9e;
     func_ov001_021a0774();
     func_ov001_021a04f0();
-    func_02036820(data_ov001_021ca414->mUnk_5c);
+    func_02036820((void *) (data_ov001_021ca414->mUnk_5c));
 }
 
 void func_ov001_021a0140(void)
@@ -237,7 +237,7 @@ void func_ov001_021a0140(void)
         break;
     }
     func_ov001_021a64a0();
-    func_02036ab0(data_ov001_021ca414->mUnk_5c);
+    func_02036ab0((void *) (data_ov001_021ca414->mUnk_5c));
     data_ov001_021ca414 = 0;
 }
 

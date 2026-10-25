@@ -166,7 +166,7 @@ int func_ov001_0218d520(Unk02188950 *param_1) {
     s32 t;
     s32 *v;
 
-    if (func_ov001_021881a8((int)param_1, (u32) func_ov001_02187fc0(param_1), param_1->mUnk_0a0->mUnk_0a0, 0)) {
+    if (func_ov001_021881a8((Unk02188950 *) param_1, (Vec3 *) func_ov001_02187fc0(param_1), (s32) (param_1->mUnk_0a0->mUnk_0a0), (s32) (0))) {
         if (func_020a1154(data_021759c0->mUnk_62) <= 1) {
             r4 = 0x1000 - param_1->mUnk_0a0->mUnk_0ac;
             t = func_ov001_02187f38((Unk02188950 *) (param_1));

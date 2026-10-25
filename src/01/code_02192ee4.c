@@ -13,7 +13,7 @@ void func_ov001_02192ee4(void)
     if (data_ov001_021a9bd0->mUnk_0c != -1) {
         data_ov001_021a9bd0->mUnk_18.mUnk_04();
         func_ov001_021932c8();
-        func_02036ab0((u32) data_ov001_021a9bd0->mUnk_04);
+        func_02036ab0((void *) data_ov001_021a9bd0->mUnk_04);
         data_ov001_021a9bd0->mUnk_04 = func_020369fc(data_ov001_021a9bd0->mUnk_00);
         switch (data_ov001_021a9bd0->mUnk_0c) {
         case 0:

@@ -10,7 +10,7 @@ void func_ov001_0219baf4(void) {
     func_0211de34();
     func_0211df38();
     func_02117218();
-    func_02036ab0((u32) (*(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x44)));
+    func_02036ab0((void *) (*(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x44)));
     *((int *) ((u32) (&data_ov001_021a9bf4))) = 0;
     return;
 }

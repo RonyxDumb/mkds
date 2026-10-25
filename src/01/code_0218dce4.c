@@ -22,7 +22,7 @@ void *func_ov001_0218ddb4(void) {
 
 void func_ov001_0218dd9c(Unk02188950 *param_1) {
     param_1->mUnk_2e0 = 0;
-    func_ov001_021881f4((int)param_1, (u32)func_ov001_0218dd9c);
+    func_ov001_021881f4((Unk02188950 *) param_1, (UnkFunc *) func_ov001_0218dd9c);
 }
 
 void func_ov001_0218dd50(Unk02188950 *param_1) {

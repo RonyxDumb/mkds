@@ -16,7 +16,7 @@ void func_0202808c(void) {
     } else {
         func_0211f498();
     }
-    func_02036ab0((u32) (*(u32 *) (*((int *) ((u32) (&data_02174e18))) + 0x8c)));
+    func_02036ab0((void *) (*(u32 *) (*((int *) ((u32) (&data_02174e18))) + 0x8c)));
     *((int *) ((u32) (&data_02174e18))) = 0;
     return;
 }

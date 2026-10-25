@@ -4,7 +4,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 void func_020a2300(unsigned int p0);
-void func_020a2314(unsigned int p0);
+void func_020a2314(void (*param_1)(void));
 void func_020a2328(unsigned int p0);
 void func_020a233c(unsigned int p0);
 void func_020a2350(unsigned int p0);

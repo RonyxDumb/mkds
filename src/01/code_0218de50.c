@@ -27,8 +27,8 @@ void func_ov001_0218de50(Unk0218d87c *param_1) {
                                 (const char *) data_ov001_021a7dc8);
             func_ov001_021870b0(param_1, p, (const char *) data_ov001_021a7dd8);
             a0 = p->mUnk_0a0;
-            func_ov001_0218875c((int)p, a0->mUnk_008, a0->mUnk_00c, a0->mUnk_240);
-            func_ov001_021888a4((int)p, 0, 0x19000);
+            func_ov001_0218875c((Unk02188950 *) p, (s32) (a0->mUnk_008), (s32) (a0->mUnk_00c), (s32) (a0->mUnk_240));
+            func_ov001_021888a4((Unk02188950 *) p, (s32) (0), (s32) (0x19000));
             func_ov001_02188200(p, func_ov001_0218f9a8);
             func_ov001_02187cd4((int)p, 0);
             p->mUnk_002 |= data_ov001_021a65b0;

@@ -1,34 +1,19 @@
 #include "01/code_02188484.h"
 
-void func_ov001_021888a4(int param_1, int param_2, u32 param_3) {
-    u32 *puVar1;
-    int *piVar2;
+void func_ov001_021888a4(Unk02188950 *param_1, s32 param_2, s32 param_3) {
     if (param_2 == 0) {
-        *(u32 *) (param_1 + ((int) 0x0000027cu)) = 1;
+        param_1->mUnk_27c = 1;
     } else {
-        *(u32 *) (param_1 + ((int) 0x0000027cu)) = 2;
+        param_1->mUnk_27c = 2;
     }
-    puVar1 = (u32 *) (param_1 + ((int) 0x0000028cu));
-    *puVar1 = 0;
-    *(u32 *) (param_1 + ((int) 0x00000280u)) = *puVar1;
-    piVar2 = (int *) (param_1 + ((int) 0x00000290u));
-    *piVar2 = param_2;
-    *(int *) (param_1 + ((int) 0x00000284u)) = *piVar2;
-    puVar1 = (u32 *) (param_1 + ((int) 0x00000294u));
-    *puVar1 = 0;
-    *(u32 *) (param_1 + ((int) 0x00000288u)) = *puVar1;
-    *(u32 *) (param_1 + ((int) 0x000002b0u)) = 0;
-    puVar1 = (u32 *) (param_1 + ((int) 0x000002a4u));
-    *puVar1 = param_3;
-    *(u32 *) (param_1 + ((int) 0x00000298u)) = *puVar1;
-    puVar1 = (u32 *) (param_1 + ((int) 0x000002a8u));
-    *puVar1 = ((u32) 0x0000a000u);
-    *(u32 *) (param_1 + ((int) 0x0000029cu)) = *puVar1;
-    puVar1 = (u32 *) (param_1 + ((int) 0x000002acu));
-    *puVar1 = param_3;
-    *(u32 *) (param_1 + ((int) 0x000002a0u)) = *puVar1;
-    *(u32 *) (param_1 + ((int) 0x000002b4u)) = 0;
-    return;
+    param_1->mUnk_280 = param_1->mUnk_28c = 0;
+    param_1->mUnk_284 = param_1->mUnk_290 = param_2;
+    param_1->mUnk_288 = param_1->mUnk_294 = 0;
+    param_1->mUnk_2b0 = 0;
+    param_1->mUnk_298 = param_1->mUnk_2a4 = param_3;
+    param_1->mUnk_29c = param_1->mUnk_2a8 = 0xa000;
+    param_1->mUnk_2a0 = param_1->mUnk_2ac = param_3;
+    param_1->mUnk_2b4 = 0;
 }
 
 void func_ov001_0218883c(int param_1, int param_2, u32 param_3, u32 param_4, u32 param_5) {
@@ -48,44 +33,23 @@ void func_ov001_0218883c(int param_1, int param_2, u32 param_3, u32 param_4, u32
     return;
 }
 
-void func_ov001_0218875c(int param_1, int param_2, u32 param_3, int param_4) {
-    u32 *puVar1;
-    int *piVar2;
-    int *piVar3;
-    int *piVar4;
-    int *piVar5;
+void func_ov001_0218875c(Unk02188950 *param_1, s32 param_2, s32 param_3, s32 param_4) {
     if (param_4 == 0) {
-        *(u32 *) (param_1 + ((int) 0x00000234u)) = 0;
+        param_1->mUnk_234 = 0;
     } else {
-        *(u32 *) (param_1 + ((int) 0x00000234u)) = 2;
+        param_1->mUnk_234 = 2;
     }
-    piVar2 = (int *) (param_1 + ((int) 0x00000250u));
-    *piVar2 = 0;
-    piVar5 = (int *) (param_1 + ((int) 0x00000244u));
-    *piVar5 = *piVar2;
-    piVar2 = (int *) (param_1 + ((int) 0x00000254u));
-    *piVar2 = param_2;
-    piVar3 = (int *) (param_1 + ((int) 0x00000248u));
-    *piVar3 = *piVar2;
-    piVar2 = (int *) (param_1 + ((int) 0x00000258u));
-    *piVar2 = 0;
-    piVar4 = (int *) (param_1 + ((int) 0x0000024cu));
-    *piVar4 = *piVar2;
-    *(u32 *) (param_1 + ((int) 0x00000274u)) = 0;
-    puVar1 = (u32 *) (param_1 + ((int) 0x00000268u));
-    *puVar1 = param_3;
-    *(u32 *) (param_1 + ((int) 0x0000025cu)) = *puVar1;
-    piVar2 = (int *) (param_1 + ((int) 0x0000026cu));
-    *piVar2 = param_4;
-    *(int *) (param_1 + ((int) 0x00000260u)) = *piVar2;
-    puVar1 = (u32 *) (param_1 + ((int) 0x00000270u));
-    *puVar1 = param_3;
-    *(u32 *) (param_1 + ((int) 0x00000264u)) = *puVar1;
-    *(u32 *) (param_1 + ((int) 0x00000278u)) = 0;
-    *(int *) (param_1 + ((int) 0x00000238u)) = *(int *) (param_1 + 4) + *piVar5;
-    *(int *) (param_1 + ((int) 0x0000023cu)) = *(int *) (param_1 + 8) + *piVar3;
-    *(int *) (param_1 + ((int) 0x00000240u)) = *(int *) (param_1 + 0xc) + *piVar4;
-    return;
+    param_1->mUnk_244 = param_1->mUnk_250 = 0;
+    param_1->mUnk_248 = param_1->mUnk_254 = param_2;
+    param_1->mUnk_24c = param_1->mUnk_258 = 0;
+    param_1->mUnk_274 = 0;
+    param_1->mUnk_25c = param_1->mUnk_268 = param_3;
+    param_1->mUnk_260 = param_1->mUnk_26c = param_4;
+    param_1->mUnk_264 = param_1->mUnk_270 = param_3;
+    param_1->mUnk_278 = 0;
+    param_1->mUnk_238.x = param_1->mUnk_004.x + param_1->mUnk_244;
+    param_1->mUnk_238.y = param_1->mUnk_004.y + param_1->mUnk_248;
+    param_1->mUnk_238.z = param_1->mUnk_004.z + param_1->mUnk_24c;
 }
 
 void func_ov001_021886f8(int param_1, u32 param_2, u32 param_3, u32 param_4, int param_5, u32 param_6) {

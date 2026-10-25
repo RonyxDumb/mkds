@@ -102,7 +102,7 @@ void func_ov001_0218e8d8(int param_1) {
 
 void func_ov001_0218e8b0(u32 param_1) {
     func_ov001_02187218((Unk02188950 *) (param_1), (int) (1), (s32 (*)(Unk02188950 *)) ((int) (0)));
-    func_ov001_021888a4((int) (param_1), (int) (0), (u32) (((u32) 0x00019000u)));
+    func_ov001_021888a4((Unk02188950 *) (param_1), (s32) (0), (s32) (((u32) 0x00019000u)));
     func_0206184c();
     func_ov001_021827f0();
     return;
@@ -122,7 +122,7 @@ void func_ov001_0218e860(Unk02188950 *param_1) {
 // (->0x1b0)`, ours `ldr r2, [pc, #0x58] (->0x6c)`
 void func_ov001_0218e7d0(int param_1) {
     func_ov001_02187218((Unk02188950 *) (param_1), (int) (1), (s32 (*)(Unk02188950 *)) ((int) (0)));
-    func_ov001_021888a4((int) (param_1), (int) (0), (u32) (((u32) 0x00019000u)));
+    func_ov001_021888a4((Unk02188950 *) (param_1), (s32) (0), (s32) (((u32) 0x00019000u)));
     func_ov001_02188d64((Unk02188950 *) (param_1), (s32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000198u))), (s32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000019cu))));
     func_ov001_02188d1c((Unk02188950 *) (param_1), (s32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001a0u))), (s32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001a4u))));
     func_ov001_02188cec((Unk02188950 *) (param_1), (s32) (0));
@@ -137,7 +137,7 @@ void func_ov001_0218e7d0(int param_1) {
 
 void func_ov001_0218e7b0(u32 param_1) {
     func_ov001_02187218((Unk02188950 *) (param_1), (int) (1), (s32 (*)(Unk02188950 *)) ((int) (0)));
-    func_ov001_021888a4((int) (param_1), (int) (0), (u32) (((u32) 0x00019000u)));
+    func_ov001_021888a4((Unk02188950 *) (param_1), (s32) (0), (s32) (((u32) 0x00019000u)));
     return;
 }
 

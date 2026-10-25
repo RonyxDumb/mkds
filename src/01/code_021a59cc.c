@@ -17,26 +17,26 @@
 #include "01/unk_021a7000.h"
 
 
-s32 func_ov001_021a6430(s32 a, s32 b, s32 c, s32 d, s32 e, u16 f, s32 g) {
+void func_ov001_021a6430(s32 a, s32 flagB, void *c, void *d, u32 e, u16 f, s32 flagG) {
     s32 v0 = 14;
     Unk021ca424 *p;
     u8 *dst;
     s32 v1;
 
-    if (g != 0) {
-        if (g == 1) {
+    if (flagG != 0) {
+        if (flagG == 1) {
             v0 = 30;
         }
     }
     p = data_ov001_021ca424;
-    func_02124748((u32) (data_ov001_021a7664[a]), (void *) (p->mUnk_04), (void *) (p->mUnk_00), (void *) (p->mUnk_0c), (s32) (g), (u32) (e), (void *) (c), (void *) (d));
+    func_02124748((u32) (data_ov001_021a7664[a]), (void *) p->mUnk_04, (void *) p->mUnk_00, (void *) p->mUnk_0c, (s32) (flagG), (u32) (e), (void *) (c), (void *) (d));
     dst = data_ov001_021ca424->mUnk_08->mUnk_0c;
-    if (b != 0) {
+    if (flagB != 0) {
         v1 = data_ov001_021a7674[a];
     } else {
         v1 = 7;
     }
-    return func_02016468(v0, f << 5, dst + (v1 << 5), 32);
+    func_02016468(v0, f << 5, dst + (v1 << 5), 32);
 }
 
 void func_ov001_021a63d8(void) {

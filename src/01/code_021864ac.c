@@ -292,11 +292,11 @@ void func_ov001_021864ac(u32 param_1, Unk02188950 *param_2) {
         func_ov001_02188e94(param_2, &param_2->mUnk_1f4);
     }
     if (param_2->mUnk_20c != 0 &&
-        func_ov001_021881a8((int) param_2, (u32) &param_2->mUnk_200, param_2->mUnk_1f8, param_2->mUnk_1fc)) {
+        func_ov001_021881a8((Unk02188950 *) param_2, (Vec3 *) &param_2->mUnk_200, (s32) (param_2->mUnk_1f8), (s32) (param_2->mUnk_1fc))) {
         func_ov001_02188e94(param_2, &param_2->mUnk_20c);
     }
     if (param_2->mUnk_224 != 0 &&
-        !func_ov001_021881a8((int) param_2, (u32) &param_2->mUnk_218, param_2->mUnk_210, param_2->mUnk_214)) {
+        !func_ov001_021881a8((Unk02188950 *) param_2, (Vec3 *) &param_2->mUnk_218, (s32) (param_2->mUnk_210), (s32) (param_2->mUnk_214))) {
         func_ov001_02188e94(param_2, &param_2->mUnk_224);
     }
     if (param_2->mUnk_228 != 0 && param_2->mUnk_1c8.y == 0 && -param_2->mUnk_0a0->mUnk_018 < param_2->mUnk_174 &&

@@ -137,7 +137,7 @@ void func_ov001_0219f058(void *param_1, void *param_2, void *param_3)
     }
     func_ov001_0219f4f8();
     func_ov001_0219f2a4();
-    func_02036820((u32) data_ov001_021ca410->mUnk_18);
+    func_02036820((void *) data_ov001_021ca410->mUnk_18);
 }
 
 void func_ov001_0219efec(void)
@@ -155,6 +155,6 @@ void func_ov001_0219efec(void)
         func_0210593c(4);
         break;
     }
-    func_02036ab0((u32) data_ov001_021ca410->mUnk_18);
+    func_02036ab0((void *) data_ov001_021ca410->mUnk_18);
     data_ov001_021ca410 = 0;
 }
