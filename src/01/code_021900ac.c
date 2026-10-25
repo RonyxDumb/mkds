@@ -42,7 +42,7 @@ void func_ov001_02190948(Unk02188950 *param_1)
             func_ov001_02191c14(b);
         }
     } else {
-        func_ov001_02190acc(param_1);
+        func_ov001_02190acc((Unk02188950 *) (param_1));
     }
 }
 
@@ -315,7 +315,7 @@ void func_ov001_02190270(Unk02188950 *param_1)
 void func_ov001_02190248(Unk02188950 *param_1)
 {
     func_ov001_02188218((int)param_1, (u16)param_1->mUnk_0a0->mUnk_1ec);
-    func_ov001_02190c08(param_1);
+    func_ov001_02190c08((Unk02188950 *) (param_1));
 }
 
 int func_ov001_02190168(Unk02188950 *param_1)

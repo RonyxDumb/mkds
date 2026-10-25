@@ -58,7 +58,9 @@ typedef struct Unk021ca414 {
 // One 0x40-byte element of the tables behind Unk021ca418::mUnk_14 and mUnk_18.
 typedef struct Unk021ca418_Cell {
     /* 00 */ s32 mUnk_00;
-    /* 04 */ u8 mUnk_04[0x3c];
+    /* 04 */ s16 mUnk_04;
+    /* 06 */ s16 mUnk_06;
+    /* 08 */ u8 mUnk_08[0x38];
 } Unk021ca418_Cell;
 
 // Object behind data_ov001_021ca418.
@@ -72,9 +74,16 @@ typedef struct Unk021ca418 {
     /* 18 */ Unk021ca418_Cell *mUnk_18;
     /* 1c */ void *mUnk_1c;
     /* 20 */ void *mUnk_20;
-    /* 24 */ u8 mUnk_24[0x10];
+    /* 24 */ s32 mUnk_24;
+    /* 28 */ s32 mUnk_28;
+    /* 2c */ s32 mUnk_2c;
+    /* 30 */ s32 mUnk_30;
     /* 34 */ s32 mUnk_34;
     /* 38 */ s32 mUnk_38;
+    /* 3c */ u8 mUnk_3c[0x8];
+    /* 44 */ void *mUnk_44;
+    /* 48 */ void *mUnk_48;
+    /* 4c */ s32 mUnk_4c;
 } Unk021ca418;
 
 extern u8 data_ov001_021ca400[];

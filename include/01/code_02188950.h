@@ -202,7 +202,7 @@ typedef struct Unk02188950 {
     /* 0b4 */ s32 mUnk_0b4;
     /* 0b8 */ s32 mUnk_0b8;
     /* 0bc */ Unk02188950_bc mUnk_0bc[5];
-    /* 134 */ u8 mUnk_134[0x4];
+    /* 134 */ s32 mUnk_134;
     /* 138 */ s32 mUnk_138;
     /* 13c */ s32 mUnk_13c;
     /* 140 */ s32 mUnk_140;
