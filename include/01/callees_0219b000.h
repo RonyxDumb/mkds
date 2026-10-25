@@ -6,3 +6,5 @@
 void func_ov001_0219b1c4();
 unsigned int func_ov001_0219b510(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
                                  unsigned int);
+int func_ov001_0219b574(void);
+void func_ov001_0219b540(void);
