@@ -52,13 +52,13 @@ void func_ov001_0219cf60(void) {
     func_02016468(10, 0, data_ov001_021a9bf8->mUnk_30, 0x600);
 }
 
-// non-matching: only the first statement differs. The original loads the address of data_ov001_021a6bc4 (and its
-// pool word) before it reads mUnk_14; the compiled code loads it after mUnk_1034.
 void func_ov001_0219cec4(void) {
     s32 i;
     u16 x = data_ov001_021a9bf8->mUnk_1054[0]->mUnk_06;
 
-    data_ov001_021a9bf8->mUnk_1034[0][data_ov001_021a6bc4[0]].mUnk_06 = -data_ov001_021a9bf8->mUnk_14;
+    for (i = 0; i < 1; i++) {
+        data_ov001_021a9bf8->mUnk_1034[0][data_ov001_021a6bc4[i]].mUnk_06 = -data_ov001_021a9bf8->mUnk_14;
+    }
     for (i = 0; i < 3; i++) {
         data_ov001_021a9bf8->mUnk_1034[0][data_ov001_021a6bd0[i]].mUnk_06 = data_ov001_021a9bf8->mUnk_1c - data_ov001_021a9bf8->mUnk_14;
     }

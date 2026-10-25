@@ -169,17 +169,15 @@ void func_ov001_0219bfc0(void) {
     func_0211e0c4(data_ov001_021a6b78[data_ov001_021a9bf4->mUnk_60]);
 }
 
-// non-matching: the three display-register updates at the start use r2/r0/r1 for address, value and mask where the
-// original uses r1/r3/r2; every other instruction matches.
 void func_ov001_0219bb48(u32 param_1, u32 param_2, u32 param_3) {
     u32 heap;
     s32 rem;
     s32 i;
 
-    *(vu16 *)0x04001008 &= ~3;
+    *(vu16 *)0x04001008 = *(vu16 *)0x04001008 & ~3;
     *(vu16 *)0x0400100e = (*(vu16 *)0x0400100e & ~3) | 1;
     *(vu16 *)0x0400100e = (*(vu16 *)0x0400100e & 0x43) | 0x8300;
-    heap = func_02036948();
+    heap = func_02036948(param_1);
     data_ov001_021a9bf4 = func_02036bec((void *)heap, 0x70);
     data_ov001_021a9bf4->mUnk_44 = heap;
     data_ov001_021a9bf4->mUnk_48 = 0;

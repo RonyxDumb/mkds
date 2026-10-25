@@ -178,24 +178,17 @@ void func_ov001_021a03a0(void)
     }
 }
 
-// non-matching: the four hardware-register updates at the start use r1, r0, r2, r3, r6 where the original uses r6 (BG0
-// pointer), r7 (mask 3, then 0x43), r1 (1, then the pool constants), r3 (BG1 pointer) and r2 (value); the second
-// func_021243ac call loads mUnk_10->mUnk_06 and the table word in the opposite order (+0x16c/+0x16e).
-void func_ov001_021a0190(s32 param_1, s32 param_2, s32 param_3)
-{
+void func_ov001_021a0190(s32 param_1, s32 param_2, s32 param_3) {
     s32 i;
     s32 heap;
     s32 rem;
-    vu16 *bg0;
-    vu16 *bg1;
+    u16 base;
 
-    bg0 = (vu16 *) 0x04000008;
-    bg1 = (vu16 *) 0x0400000a;
-    *bg0 = (*bg0 & ~3) | 1;
-    *bg1 = (*bg1 & ~3) | 1;
-    *bg0 = (*bg0 & 0x43) | 0xd204;
-    *bg1 = (*bg1 & 0x43) | 0x9004;
-    heap = func_02036948();
+    *(vu16 *)0x04000008 = (*(vu16 *)0x04000008 & ~3) | 1;
+    *(vu16 *)0x0400000a = (*(vu16 *)0x0400000a & ~3) | 1;
+    *(vu16 *)0x04000008 = (*(vu16 *)0x04000008 & 0x43) | 0xd204;
+    *(vu16 *)0x0400000a = (*(vu16 *)0x0400000a & 0x43) | 0x9004;
+    heap = func_02036948(param_1);
     data_ov001_021ca414 = func_02036bec((void *) heap, 0xc0);
     data_ov001_021ca414->mUnk_5c = heap;
     data_ov001_021ca414->mUnk_60 = 0;
@@ -222,7 +215,8 @@ void func_ov001_021a0190(s32 param_1, s32 param_2, s32 param_3)
     rem = func_02148ca0();
     for (i = 0; i < 9; i++) {
         rem -= func_021243ac((void *) data_ov001_021ca414->mUnk_5c, data_ov001_021a6e10[i][0], data_ov001_021ca414->mUnk_18, data_ov001_021a6e34[i][0], data_ov001_021a6e58[i][0], data_ov001_021a6e7c[i][5], data_ov001_021ca414->mUnk_0c, data_ov001_021ca414->mUnk_10, data_ov001_021ca414->mUnk_44, rem);
-        rem -= func_021243ac((void *) data_ov001_021ca414->mUnk_5c, data_ov001_021a6e10[i][1], data_ov001_021ca414->mUnk_18, data_ov001_021a6e34[i][1], data_ov001_021a6e58[i][1], data_ov001_021ca414->mUnk_10->mUnk_06 + data_ov001_021a6e10[i][0], data_ov001_021ca414->mUnk_0c, data_ov001_021ca414->mUnk_10, data_ov001_021ca414->mUnk_44, rem);
+        base = data_ov001_021a6e10[i][0];
+        rem -= func_021243ac((void *) data_ov001_021ca414->mUnk_5c, data_ov001_021a6e10[i][1], data_ov001_021ca414->mUnk_18, data_ov001_021a6e34[i][1], data_ov001_021a6e58[i][1], base + data_ov001_021ca414->mUnk_10->mUnk_06, data_ov001_021ca414->mUnk_0c, data_ov001_021ca414->mUnk_10, data_ov001_021ca414->mUnk_44, rem);
     }
     func_ov001_021a64ac(data_ov001_021ca414->mUnk_5c);
     func_ov001_021a0b3c();

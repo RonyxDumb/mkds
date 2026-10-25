@@ -237,20 +237,17 @@ void func_ov001_02198d20(void)
     }
 }
 
-// non-matching: the first statements use other registers (the object pointer lands in r0 and the first count in r2
-// instead of r2 and r1) and the address of data_ov001_021a6a20 is not loaded ahead of the 0x24 constant; the loops match.
-void func_ov001_02198bbc(void)
-{
+void func_ov001_02198bbc(void) {
     s32 i;
     s32 j;
     u16 a;
     u16 b;
-    Unk021a9be8 *p;
 
-    p = data_ov001_021a9be8;
-    a = p->mUnk_74->mUnk_06;
-    b = p->mUnk_78->mUnk_06;
-    p->mUnk_54[data_ov001_021a6a20[0]].mUnk_06 = p->mUnk_24;
+    a = data_ov001_021a9be8->mUnk_74->mUnk_06;
+    b = data_ov001_021a9be8->mUnk_78->mUnk_06;
+    for (i = 0; i < 1; i++) {
+        data_ov001_021a9be8->mUnk_54[data_ov001_021a6a20[i]].mUnk_06 = data_ov001_021a9be8->mUnk_24;
+    }
     for (i = 0; i < 2; i++) {
         (data_ov001_021a9be8->mUnk_54 + a)[data_ov001_021a6a24[i]].mUnk_06 = data_ov001_021a9be8->mUnk_24;
     }
