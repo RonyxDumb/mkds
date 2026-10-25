@@ -33,7 +33,16 @@ _Last updated 2026-10-25. Over time: [graph](progress/usa/progress.svg), [`progr
 
 ### Europe
 <!-- progress:eur:start -->
-_Not recorded yet._
+![Europe: function bytes by module](progress/eur/treemap.svg)
+
+| Measure | Progress |
+|---|---|
+| Matched code | 3.69% (69,612 / 1,886,120 bytes) |
+| Linked code (complete units) | 0.00% (0 bytes) |
+| Overall accuracy (fuzzy) | 4.74% |
+| Matched functions | 1,760 / 11,501 |
+
+_Last updated 2026-10-25. Over time: [graph](progress/eur/progress.svg), [`progress/eur/history.csv`](progress/eur/history.csv)._
 <!-- progress:eur:end -->
 
 ## Documentation
