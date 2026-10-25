@@ -11,3 +11,4 @@ void func_021055b0(s32 a);
 void func_02105ac0(s32 a);
 void func_0210593c(u32 param_1);
 void func_02105a30(u32 param_1);
+void func_021057f0(u32 a, u32 b);

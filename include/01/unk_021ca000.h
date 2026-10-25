@@ -67,6 +67,19 @@ typedef struct Unk021ca410 {
     /* 58 */ s32 mUnk_58;
 } Unk021ca410;
 
+// Object behind Unk021ca414::mUnk_1c.
+typedef struct Unk021ca414_1c {
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ u8 *mUnk_0c;
+} Unk021ca414_1c;
+
+// 0x2c-byte element of the table behind Unk021ca414::mUnk_50.
+typedef struct Unk021ca414_50 {
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u8 mUnk_0e[0x1e];
+} Unk021ca414_50;
+
 // Object behind data_ov001_021ca414.
 typedef struct Unk021ca414 {
     /* 00 */ void *mUnk_00;
@@ -76,12 +89,13 @@ typedef struct Unk021ca414 {
     /* 10 */ Unk021b4c74_16f0 *mUnk_10;
     /* 14 */ void *mUnk_14;
     /* 18 */ void *mUnk_18;
-    /* 1c */ u8 mUnk_1c[0x24];
+    /* 1c */ Unk021ca414_1c *mUnk_1c;
+    /* 20 */ u16 mUnk_20[0x10];
     /* 40 */ Unk02124b1c *mUnk_40;
     /* 44 */ Unk02124b1c *mUnk_44;
     /* 48 */ void *mUnk_48;
     /* 4c */ void *mUnk_4c;
-    /* 50 */ void *mUnk_50;
+    /* 50 */ Unk021ca414_50 *mUnk_50;
     /* 54 */ void *mUnk_54;
     /* 58 */ void *mUnk_58;
     /* 5c */ u32 mUnk_5c;

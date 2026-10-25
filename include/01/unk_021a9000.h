@@ -51,17 +51,25 @@ typedef struct Unk021a9bd0 {
 
 // Object behind data_ov001_021a9b90.
 typedef struct Unk021a9b90 {
-    /* 00 */ u8 mUnk_00[0x4];
+    /* 00 */ s32 mUnk_00;
     /* 04 */ u16 mUnk_04;
     /* 06 */ u16 mUnk_06;
     /* 08 */ u16 mUnk_08;
-    /* 0a */ u8 mUnk_0a[0x4];
+    /* 0a */ u16 mUnk_0a;
+    /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mUnk_0e;
     /* 10 */ u16 mUnk_10;
     /* 12 */ u16 mUnk_12;
     /* 14 */ u16 mUnk_14;
     /* 16 */ u16 mUnk_16;
-    /* 18 */ u8 mUnk_18[0x2c];
+    /* 18 */ UnkFunc *mUnk_18;
+    /* 1c */ UnkFunc *mUnk_1c;
+    /* 20 */ UnkFunc *mUnk_20;
+    /* 24 */ UnkFunc *mUnk_24;
+    /* 28 */ Vec3 mUnk_28;
+    /* 34 */ Vec3 mUnk_34;
+    /* 40 */ u16 mUnk_40;
+    /* 42 */ u16 mUnk_42;
     /* 44 */ s32 mUnk_44;
 } Unk021a9b90;
 
@@ -264,3 +272,6 @@ extern Unk021a9ba4 *data_ov001_021a9bc0;
 extern Unk0219b418 *data_ov001_021a9bcc;
 extern struct Unk021a9ba4 *data_ov001_021a9b8c;
 extern Unk021a9ba4 *data_ov001_021a9bc4;
+extern u16 data_ov001_021a9b94;
+extern const char *data_ov001_021a90e8[5];
+extern const char *data_ov001_021a92c8[5];

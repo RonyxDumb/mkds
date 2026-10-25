@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "01/code_02181c3c.h"
 
 // Declared here until the code that defines them is decompiled.
 u32 func_0209b620(int param_1);
@@ -24,3 +25,4 @@ u16 func_0209b634(void *param_1);
 u32 func_0209b60c(void *param_1);
 void func_0209b904(void *param_1, u32 param_2, u16 param_3);
 void func_0209b7a0(void *param_1, s32 param_2, s32 param_3);
+Unk02181c3c *func_0209bbfc(Unk02181c3c_list *param_1);

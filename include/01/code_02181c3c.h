@@ -53,12 +53,14 @@ typedef struct Unk02181c3c {
     /* 058 */ s32 mUnk_058;
     /* 05c */ u8 mUnk_05c[0x8];
     /* 064 */ s16 mUnk_064;
-    /* 066 */ u8 mUnk_066[0x36];
+    /* 066 */ u8 mUnk_066[0x12];
+    /* 078 */ s32 mUnk_078;
+    /* 07c */ u8 mUnk_07c[0x20];
     /* 09c */ Unk02181c3c_9c *mUnk_09c;
     /* 0a0 */ u16 mUnk_0a0;
     /* 0a2 */ u8 mUnk_0a2[0x2];
     /* 0a4 */ s32 mUnk_0a4;
-    /* 0a8 */ u8 mUnk_0a8[0x4];
+    /* 0a8 */ s32 mUnk_0a8;
     /* 0ac */ s32 mUnk_0ac;
     /* 0b0 */ s32 mUnk_0b0;
     /* 0b4 */ Unk02181c3c_b4 mUnk_0b4;

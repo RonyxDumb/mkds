@@ -210,7 +210,7 @@ void func_ov001_021a0190(s32 param_1, s32 param_2, s32 param_3) {
     data_ov001_021ca414->mUnk_54 = func_02047a28(data_ov001_021a94a4);
     data_ov001_021ca414->mUnk_58 = func_0204799c(data_ov001_021a94b0);
     data_ov001_021ca414->mUnk_4c = func_02047a28(data_ov001_021a94bc);
-    data_ov001_021ca414->mUnk_50 = (u8 *) func_0204799c(data_ov001_021a94d0) + 8;
+    data_ov001_021ca414->mUnk_50 = (Unk021ca414_50 *) ((u8 *) func_0204799c(data_ov001_021a94d0) + 8);
     func_021243ac((void *) data_ov001_021ca414->mUnk_5c, 0, data_ov001_021ca414->mUnk_08, 0xd2, 0x46, 0, data_ov001_021ca414->mUnk_00, data_ov001_021ca414->mUnk_04, data_ov001_021ca414->mUnk_40, 0x8000);
     rem = func_02148ca0();
     for (i = 0; i < 9; i++) {
