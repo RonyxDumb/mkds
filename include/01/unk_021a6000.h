@@ -26,3 +26,7 @@ extern s16 data_ov001_021a6de8[];
 extern s16 data_ov001_021a6dac[];
 extern s16 data_ov001_021a6dc0[];
 extern s16 data_ov001_021a6dfc[];
+extern u16 data_ov001_021a6f28[4];
+extern u16 data_ov001_021a6f68[6];
+extern u32 data_ov001_021a6f90[4];
+extern u16 data_ov001_021a6fa0[4][3];
