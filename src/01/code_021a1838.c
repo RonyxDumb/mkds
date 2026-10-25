@@ -119,7 +119,7 @@ void func_ov001_021a1964(void)
 }
 
 void func_ov001_021a1858(s32 param_1, void *param_2, void *param_3) {
-    u32 heap;
+    void *heap;
     Unk021ca418 *p;
     vu16 *bg0 = (vu16 *)0x4000008;
     vu16 *bg1 = (vu16 *)0x400000a;
@@ -130,10 +130,10 @@ void func_ov001_021a1858(s32 param_1, void *param_2, void *param_3) {
     *bg1 = (*bg1 & 0x43) | 0x9204;
     *(vu32 *)0x4000010 = 0xc00000;
     *(vu32 *)0x4000014 = 0xc00000;
-    heap = (u32) func_02036948((void *) param_1);
-    p = func_02036bec((void *)heap, 0x50);
+    heap = func_02036948((void *) param_1);
+    p = func_02036bec(heap, 0x50);
     data_ov001_021ca418 = p;
-    p->mUnk_20 = (void *)heap;
+    p->mUnk_20 = heap;
     data_ov001_021ca418->mUnk_24 = 0;
     data_ov001_021ca418->mUnk_3c = 0;
     data_ov001_021ca418->mUnk_38 = 1;

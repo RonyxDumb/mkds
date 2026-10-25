@@ -99,10 +99,10 @@ void func_ov001_0219f058(void *param_1, void *param_2, void *param_3)
 
     *(vu16 *) 0x4000008 = (*(vu16 *) 0x4000008 & 0x43) | 0x9004;
     {
-        u32 heap = (u32) func_02036948((void *) param_1);
+        void *heap = func_02036948((void *) param_1);
 
-        data_ov001_021ca410 = func_02036bec((void *) heap, 0x5c);
-        data_ov001_021ca410->mUnk_18 = (void *) heap;
+        data_ov001_021ca410 = func_02036bec(heap, 0x5c);
+        data_ov001_021ca410->mUnk_18 = heap;
     }
     data_ov001_021ca410->mUnk_1c = 0;
     data_ov001_021ca410->mUnk_50 = param_2;
