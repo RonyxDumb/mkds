@@ -63,7 +63,7 @@ void func_ov001_0218e92c(int param_1) {
                         *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000174u)));
     func_ov001_02188d1c(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000178u)),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000017cu)));
-    func_ov001_02188c90(param_1);
+    func_ov001_02188c90((Unk02188950 *) (param_1));
     func_ov001_02188cec(param_1, 0);
     func_ov001_02188e24((int) (param_1), (u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000194u))),
                         (int) (((u32) ((u32) (&func_ov001_0218ead0)))));
@@ -106,7 +106,7 @@ void func_ov001_0218e8d8(int param_1) {
     func_ov001_02188d30(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000168u)),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000016cu)),
                         ((u32) ((u32) (&func_ov001_0218e92c))));
-    func_ov001_02188c90(param_1);
+    func_ov001_02188c90((Unk02188950 *) (param_1));
     func_ov001_02188cec(param_1, 0);
     func_ov001_02182a3c(0);
     func_020d2774((int) (param_1), (u32) (((u32) 0x00000230u)));
@@ -145,7 +145,7 @@ void func_ov001_0218e7d0(int param_1) {
     func_ov001_02188d1c(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001a0u)),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001a4u)));
     func_ov001_02188cec(param_1, 0);
-    func_ov001_02188c90(param_1);
+    func_ov001_02188c90((Unk02188950 *) (param_1));
     if (*((int *) ((u32) (&data_0217d20c))) != 3) {
         *((int *) ((u32) (&data_0217d21c))) = *((int *) ((u32) (&data_0217d20c)));
     }
@@ -180,7 +180,7 @@ void func_ov001_0218e710(int param_1) {
     func_ov001_02187218(param_1, 8, 0);
     func_ov001_02188d64(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + 0x78),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + 0x7c));
-    func_ov001_02188c90(param_1);
+    func_ov001_02188c90((Unk02188950 *) (param_1));
     func_ov001_02188cec(param_1, 0);
     if (*((int *) ((u32) (&data_0217d20c))) != 6) {
         *((int *) ((u32) (&data_0217d21c))) = *((int *) ((u32) (&data_0217d20c)));

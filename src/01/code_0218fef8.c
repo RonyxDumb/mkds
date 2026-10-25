@@ -1,7 +1,7 @@
 #include "01/code_0218fef8.h"
 
 void func_ov001_0219006c(u32 param_1) {
-    func_ov001_021900ac();
+    func_ov001_021900ac((Unk02188950 *) (param_1));
     func_ov001_02188260((u32) (param_1));
     return;
 }

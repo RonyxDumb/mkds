@@ -12,12 +12,11 @@ void func_ov001_0218bfc8(int param_1) {
     func_ov001_02188cd8(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000168u)),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000016cu)));
     iVar2 = *(int *) (param_1 + 0xa0);
-    func_ov001_021889ec(param_1, *(u32 *) (iVar2 + ((int) 0x00000178u)), *(u32 *) (iVar2 + ((int) 0x0000017cu)),
-                        *(u32 *) (iVar2 + ((int) 0x00000170u)), *(u32 *) (iVar2 + ((int) 0x00000174u)));
+    func_ov001_021889ec((Unk02188950 *) (param_1), (s32) (*(u32 *) (iVar2 + ((int) 0x00000178u))), (s32) (*(u32 *) (iVar2 + ((int) 0x0000017cu))), (s32) (*(u32 *) (iVar2 + ((int) 0x00000170u))), (s32) (*(u32 *) (iVar2 + ((int) 0x00000174u))));
     uVar1 = func_ov001_02187fc0(param_1);
-    func_ov001_02188968(param_1, (u32 *) (u32) (uVar1));
+    func_ov001_02188968((Unk02188950 *) (param_1), (Vec3 *) ((u32 *) (u32) (uVar1)));
     uVar1 = func_ov001_02187fc0(param_1);
-    func_ov001_02188980(param_1, (u32 *) (u32) (uVar1));
+    func_ov001_02188980((Unk02188950 *) (param_1), (Vec3 *) ((u32 *) (u32) (uVar1)));
     func_ov001_02188e24((int) (param_1), (u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000180u))),
                         (int) (((u32) ((u32) (&func_ov001_0218c354)))));
     func_ov001_0218c5fc((u32) (param_1));
