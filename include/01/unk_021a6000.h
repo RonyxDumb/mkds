@@ -10,3 +10,5 @@ extern u8 data_ov001_021a65b8[];
 extern u8 data_ov001_021a65bc[];
 extern u8 data_ov001_021a65d4[];
 extern const u16 data_ov001_021a6580;
+extern const Vec3 data_ov001_021a6b20;
+extern const Vec3 data_ov001_021a6b2c;

@@ -12,6 +12,5 @@ void func_ov001_02183104(void) {
     unsigned int v9 = ((u32) (&func_ov001_02185f04));
     unsigned int v10 = ((u32) (&func_ov001_021860cc));
     unsigned int v12 =
-        func_ov001_0219b510((unsigned int) (v8), (unsigned int) (v9), (unsigned int) (v10), (unsigned int) (0x2u),
-                            (unsigned int) (0x1u), (unsigned int) (v4), (unsigned int) (0x0u));
+        (unsigned int) func_ov001_0219b510((u32) ((unsigned int) (v8)), (u32) ((unsigned int) (v9)), (u32) ((unsigned int) (v10)), (u32) ((unsigned int) (0x2u)), (u16) ((unsigned int) (0x1u)), (u16) ((unsigned int) (v4)), (u16) ((unsigned int) (0x0u)));
 }

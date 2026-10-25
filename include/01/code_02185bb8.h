@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "01/code_0219b250.h"
 #include "01/code_02181820.h"
 #include "Main/Unknown/code_01ff9000.h"
 #include "Main/Unknown/code_020b502c.h"
@@ -58,13 +59,7 @@ typedef struct Unk02185c4c {
     /* 04 */ u16 mUnk_04;
 } Unk02185c4c;
 
-// Object returned by func_ov001_0219b478.
-typedef struct Unk0219b478 {
-    /* 00 */ u8 mUnk_00[0x10];
-    /* 10 */ void *mUnk_10;
-} Unk0219b478;
-
-extern Unk0219b478 *data_ov001_021a9b9c;
+extern Unk0219b418 *data_ov001_021a9b9c;
 
 void func_ov001_02185bb8(void *param_1, Unk02185bb8 *param_2);
 void func_ov001_02185c4c(Unk02185c4c *param_1);

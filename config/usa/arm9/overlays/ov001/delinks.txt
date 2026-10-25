@@ -462,12 +462,20 @@ src/01/code_0219b240.c:
     .text       start:0x0219b220 end:0x0219b230
 
 // provisional: file name and boundaries
+src/01/code_0219b250.c:
+    .text       start:0x0219b230 end:0x0219b554
+
+// provisional: file name and boundaries
 src/01/code_0219b81c.c:
     .text       start:0x0219b7fc end:0x0219b814
 
 // provisional: file name and boundaries
 src/01/code_0219baf4.c:
     .text       start:0x0219bad4 end:0x0219bb28
+
+// provisional: file name and boundaries
+src/01/code_0219bb48.c:
+    .text       start:0x0219bb28 end:0x0219c408
 
 // provisional: file name and boundaries
 src/01/code_0219c544.c:

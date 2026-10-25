@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "01/code_0219bb48.h"
 #include "01/code_02193b1c.h"
 
 // Objects whose layout isn't known yet.
@@ -30,6 +31,5 @@ extern u8 data_ov001_021a9bd0[];
 extern u8 data_ov001_021a9be4[];
 extern u8 data_ov001_021a9bec[];
 extern u8 data_ov001_021a9bf0[];
-extern u8 data_ov001_021a9bf4[];
 extern u8 data_ov001_021a9bf8[];
 extern u8 data_ov001_021a9bfc[];

@@ -53,8 +53,8 @@ u32 func_ov001_02185d74(Unk02185bb8 *param_1, Unk02185d74 *param_2, u8 *param_3,
 
 void func_ov001_02185d1c(void *param_1) {
     data_ov001_021a9b9c = func_ov001_0219b478(param_1, "MissionGate.nsbmd");
-    func_ov001_0219b2e8(data_ov001_021a9b9c, "MissionGate.nsbtp");
-    func_ov001_0219b380(data_ov001_021a9b9c, "MissionGate.nsbma");
+    func_ov001_0219b2e8((Unk0219b250 *)data_ov001_021a9b9c, "MissionGate.nsbtp");
+    func_ov001_0219b380((Unk0219b250 *)data_ov001_021a9b9c, "MissionGate.nsbma");
     func_0209b940(data_ov001_021a9b9c, 0x3f);
     func_0209ba08(data_ov001_021a9b9c, 2);
     func_020849a0(data_ov001_021a9b9c->mUnk_10, 0x294a);
