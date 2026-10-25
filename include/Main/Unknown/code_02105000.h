@@ -9,3 +9,5 @@ void func_02105b28(u32 param_1, u8 param_2);
 void func_02105d70(void);
 void func_021055b0(s32 a);
 void func_02105ac0(s32 a);
+void func_0210593c(u32 param_1);
+void func_02105a30(u32 param_1);

@@ -6,3 +6,4 @@
 void func_0214d02c(u32 *param_1, u32 *param_2, int param_3);
 void func_0214d344();
 void func_0214d05c(u32 param_1, void *param_2, u32 param_3);
+void func_0214d0a8(const void *src, void *dst, u32 size);

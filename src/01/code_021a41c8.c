@@ -188,7 +188,7 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                         buf[1] = (func_ov001_021a63b4() == 1) ? 2 : 1;
                         buf[2] = func_ov001_021a63b4();
                         func_020ac284(p, data_ov001_021ca41c->mUnk_0c7c, func_ov001_02181268());
-                        func_ov001_021810bc(data_ov001_021ca41c->mUnk_0c7c, buf);
+                        func_ov001_021810bc((u8 *) (data_ov001_021ca41c->mUnk_0c7c), (u16 *) (buf));
                         func_ov001_0218107c();
                         data_ov001_021ca41c->mUnk_108c = func_ov001_021a4914;
                         func_ov001_021a5d00(data_ov001_021ca41c->mUnk_085c, a);

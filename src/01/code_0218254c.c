@@ -23,7 +23,7 @@ u8 func_ov001_0218274c(Unk02181c3c *param_1, Unk0218274c *param_2, u8 *param_3, 
         if (param_1->mUnk_0f8 != 3 && param_1->mUnk_0f8 != 5 && param_1->mUnk_0f8 != 6) {
             func_020d2398(param_1);
             if (data_021759c0->mUnk_08 == 4) {
-                func_ov001_021815d0(1);
+                func_ov001_021815d0((s32) (1));
             }
         }
     }

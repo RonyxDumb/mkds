@@ -34,9 +34,33 @@ typedef struct Unk021a9bd0 {
 typedef struct Unk021a9b90 {
     /* 00 */ u8 mUnk_00[0x4];
     /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[0x3e];
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u8 mUnk_0a[0x4];
+    /* 0e */ u16 mUnk_0e;
+    /* 10 */ u16 mUnk_10;
+    /* 12 */ u16 mUnk_12;
+    /* 14 */ u16 mUnk_14;
+    /* 16 */ u16 mUnk_16;
+    /* 18 */ u8 mUnk_18[0x2c];
     /* 44 */ s32 mUnk_44;
 } Unk021a9b90;
+
+// Object behind data_ov001_021a9b88: a square grid of mUnk_00 by mUnk_00 cells.
+typedef struct Unk021a9b88 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ u16 *mUnk_18;
+    /* 1c */ u8 *mUnk_1c;
+    /* 20 */ u8 *mUnk_20;
+    /* 24 */ u8 *mUnk_24;
+    /* 28 */ u8 *mUnk_28;
+    /* 2c */ u8 *mUnk_2c;
+} Unk021a9b88;
 
 // One 0x40-byte element of the arrays behind Unk021a9bf8::mUnk_1034.
 typedef struct Unk021a9bf8Entry {
@@ -124,7 +148,7 @@ extern u8 data_ov001_021a993c[];
 extern u8 data_ov001_021a9940[];
 extern u8 data_ov001_021a9944[];
 extern Unk021a99e4 *data_ov001_021a99e4;
-extern u8 data_ov001_021a9b88[];
+extern Unk021a9b88 *data_ov001_021a9b88;
 extern u16 data_ov001_021a9ba0;
 extern Unk021a9b90 *data_ov001_021a9b90;
 extern Unk021a9bd0 *data_ov001_021a9bd0;
@@ -217,3 +241,4 @@ extern Unk021a9ba4 *data_ov001_021a9bb8;
 extern Unk021a9ba4 *data_ov001_021a9bbc;
 extern Unk021a9ba4 *data_ov001_021a9bc0;
 extern Unk0219b418 *data_ov001_021a9bcc;
+extern struct Unk021a9ba4 *data_ov001_021a9b8c;

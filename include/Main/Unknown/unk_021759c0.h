@@ -4,7 +4,8 @@
 
 // Object behind data_021759c0.
 typedef struct Unk021759c0 {
-    /* 00 */ u8 mUnk_00[0x8];
+    /* 00 */ s32 mUnk_00;
+    /* 004 */ u8 mUnk_004[0x4];
     /* 08 */ s32 mUnk_08;
     /* 00c */ u8 mUnk_00c[0x23];
     /* 2f */ u8 mUnk_2f;
