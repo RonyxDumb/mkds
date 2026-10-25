@@ -88,14 +88,10 @@ extern Unk021759d4 *data_021759d4;
 
 s16 func_020ae488(s32 a);
 s16 func_020adc64(s32 a);
-s32 func_02125f54(void);
-s32 func_02125f60(void);
 s32 func_02060268(s32 a);
 void func_02060004(s32 a);
 void func_02057d9c(void);
 void func_02145d38(void);
-void func_02111488(s32 a);
-void func_02117218(void);
 s32 func_0201ea84(void *a, s32 b, s32 c);
 void func_021172a8(void *heap);
 void *func_02111318(void);
@@ -138,3 +134,7 @@ void func_ov001_0219703c(void);
 void func_ov001_02197058(void);
 void func_ov001_021978b4(void);
 s32 func_ov001_02197210(void);
+
+#include "Main/Unknown/code_02111488.h"
+#include "Main/Unknown/code_02117218.h"
+#include "Main/Unknown/code_02125f54.h"

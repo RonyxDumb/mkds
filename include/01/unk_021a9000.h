@@ -36,3 +36,14 @@ extern u8 data_ov001_021a9bfc[];
 
 extern u8 data_ov001_021a9bc8[];
 extern u8 data_ov001_021a9be0[];
+
+extern u8 data_ov001_021a9b8c[];
+extern u8 data_ov001_021a9ba4[];
+extern u8 data_ov001_021a9ba8[];
+extern u8 data_ov001_021a9bac[];
+extern u8 data_ov001_021a9bb0[];
+extern u8 data_ov001_021a9bb4[];
+extern u8 data_ov001_021a9bb8[];
+extern u8 data_ov001_021a9bbc[];
+extern u8 data_ov001_021a9bc0[];
+extern u8 data_ov001_021a9bc4[];
