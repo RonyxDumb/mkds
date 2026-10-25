@@ -26,7 +26,6 @@ void func_02111b40(void) {
     unsigned int v22;
     unsigned int v23;
     unsigned int v24;
-    unsigned int v26;
     *(unsigned int *) ((v13) + (0)) = (unsigned int) (v12);
     v15 = ((unsigned int) *(unsigned int *) ((v1) + (0)));
     v16 = ((unsigned int) *(unsigned int *) ((v15) + (96)));
@@ -39,7 +38,7 @@ void func_02111b40(void) {
     v23 = ((v18) | (v22));
     v24 = 0x4000014u;
     *(unsigned int *) ((v24) + (0)) = (unsigned int) (v23);
-    v26 = func_02111428((unsigned int) (v24), (unsigned int) (v5), (unsigned int) (v10));
+    func_02111428((unsigned int) (v24), (unsigned int) (v5), (unsigned int) (v10));
 }
 
 #pragma thumb off
