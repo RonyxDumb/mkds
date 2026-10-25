@@ -2,7 +2,7 @@
 
 void func_ov001_02183880(u32 param_1) {
     func_ov001_02183ff4((Unk02188950 *) (param_1));
-    func_ov001_02188260((u32) (param_1));
+    func_ov001_02188260((Unk02188950 *) (param_1));
     return;
 }
 

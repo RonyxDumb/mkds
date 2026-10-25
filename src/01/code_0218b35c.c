@@ -89,7 +89,7 @@ void func_ov001_0218b35c(Unk0218d87c *param_1) {
     if (param_1 != 0) {
         for (i = 0; i < param_1->mUnk_04 && (obj = param_1->mUnk_00[i]) != 0; i++) {
             if (data_021759c0->mUnk_08 == 4) {
-                func_ov001_02181b8c((u32)obj);
+                func_ov001_02181b8c(obj);
             }
             func_ov001_021870e4((void *) (param_1), (Unk02188950 *) (obj), (const char *) ("kuriking.nsbmd"), (const char *) ("kuriking.nsbca"), (const char *) ("kuriking.prm"));
             func_ov001_021870b0((void *) (param_1), (Unk02188950 *) (obj), (const char *) ("sh_circle.nsbmd"));

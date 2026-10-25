@@ -82,9 +82,9 @@ void func_ov001_021a5140(void) {
     if (p->mUnk_004) {
         func_0214d1fc(p->mUnk_008, data_ov001_021ca41c->mUnk_087c, 0x200);
         func_020ac454(data_ov001_021ca41c->mUnk_087c, data_ov001_021ca41c->mUnk_0c7c, func_ov001_02181268());
-        func_ov001_02181124((int) data_ov001_021ca41c->mUnk_0c7c);
+        func_ov001_02181124(data_ov001_021ca41c->mUnk_0c7c);
         func_ov001_02181098();
-        func_ov001_02181124((int) data_ov001_021ca41c->mUnk_0c7c);
+        func_ov001_02181124(data_ov001_021ca41c->mUnk_0c7c);
         func_ov001_02181048();
     }
     func_ov001_021a63cc((s32) (2));

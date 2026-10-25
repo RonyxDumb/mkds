@@ -8,4 +8,4 @@
 
 u8 func_ov001_02181b54(void);
 Unk02188950 *func_ov001_02181b68(int param_1);
-void func_ov001_02181b8c(u32 param_1);
+void func_ov001_02181b8c(Unk02188950 *a);

@@ -80,7 +80,7 @@ void func_ov001_0218fcc4(Unk0218fa78 *param_1) {
         for (i = 0; i < param_1->mUnk_04 && (obj = param_1->mUnk_00[i]) != 0; i++) {
             func_ov001_021870e4((void *)zero, obj, (const char *) zero, (const char *) zero, (const char *) data_ov001_021a7eb0);
             if (data_021759c0->mUnk_08 == 4) {
-                func_ov001_02181b8c((u32)obj);
+                func_ov001_02181b8c(obj);
             }
             func_ov001_02190080(obj);
         }
@@ -154,7 +154,7 @@ void func_ov001_0218fa78(Unk0218fa78 *param_1) {
     if (param_1 != 0) {
         for (i = 0; i < param_1->mUnk_04 && (obj = param_1->mUnk_00[i]) != 0; i++) {
             if (data_021759c0->mUnk_08 == 4) {
-                func_ov001_02181b8c((u32)obj);
+                func_ov001_02181b8c(obj);
             }
             func_ov001_021870e4(param_1, obj, (const char *) data_ov001_021a7e60, (const char *) data_ov001_021a7e70, (const char *) data_ov001_021a7e80);
             func_ov001_021870b0(param_1, obj, (const char *) data_ov001_021a7e90);

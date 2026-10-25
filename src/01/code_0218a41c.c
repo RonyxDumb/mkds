@@ -14,5 +14,5 @@ void func_ov001_0218a41c(Unk02188950 *param_1) {
     } else {
         func_ov001_0218a4d0((int)param_1);
     }
-    func_ov001_02188260((u32)param_1);
+    func_ov001_02188260(param_1);
 }

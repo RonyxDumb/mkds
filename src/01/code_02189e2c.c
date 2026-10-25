@@ -140,14 +140,14 @@ void func_ov001_02189e2c(Unk0218d87c *param_1) {
     if (param_1 != 0) {
         for (i = 0; i < param_1->mUnk_04 && (obj = param_1->mUnk_00[i]) != 0; i++) {
             if (data_021759c0->mUnk_08 == 4) {
-                func_ov001_02181b8c((u32)obj);
+                func_ov001_02181b8c(obj);
             }
             func_ov001_021870e4(param_1, obj, (const char *) data_ov001_021a7b14, (const char *) data_ov001_021a7b24, (const char *) data_ov001_021a7b34);
             func_ov001_021870b0(param_1, obj, (const char *) data_ov001_021a7b44);
             a0 = obj->mUnk_0a0;
-            func_ov001_0218875c((Unk02188950 *) obj, (s32) (a0->mUnk_008), (s32) (a0->mUnk_00c), (s32) (a0->mUnk_20c));
-            func_ov001_021888a4((Unk02188950 *) obj, (s32) (0), (s32) (0x23000));
-            func_ov001_021881f4((Unk02188950 *) obj, (UnkFunc *) func_ov001_02189ed8);
+            func_ov001_0218875c(obj, (s32) (a0->mUnk_008), (s32) (a0->mUnk_00c), (s32) (a0->mUnk_20c));
+            func_ov001_021888a4(obj, (s32) (0), (s32) (0x23000));
+            func_ov001_021881f4(obj, (UnkFunc *) func_ov001_02189ed8);
         }
     }
 }
