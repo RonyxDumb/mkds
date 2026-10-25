@@ -4,7 +4,7 @@ u32 func_ov001_0218b8d4(u32 param_1) {
     int iVar1;
     iVar1 = func_02061fec();
     if (iVar1 == 1) {
-        func_ov001_02188e88((u32) (param_1));
+        func_ov001_02188e88((Unk02188950 *) ((u32) (param_1)));
     }
     return 0;
 }

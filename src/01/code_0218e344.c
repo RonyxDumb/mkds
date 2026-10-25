@@ -4,7 +4,7 @@ void func_ov001_0218e344(int param_1) {
     int iVar1;
     iVar1 = func_ov001_021871f8((int) (param_1), (int) (5));
     if (iVar1 != 0) {
-        func_ov001_0218edc8((int) (param_1));
+        func_ov001_0218edc8((Unk02188950 *) ((int) (param_1)));
     }
     *(u32 *) (param_1 + ((int) 0x000002d8u)) = 0xd;
     func_ov001_02188200((int) (param_1), (u32) (((u32) ((u32) (&func_ov001_0218e344)))));

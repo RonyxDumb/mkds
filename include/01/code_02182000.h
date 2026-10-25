@@ -9,3 +9,4 @@ void func_ov001_02182a3c();
 void func_ov001_02182bdc();
 void func_ov001_02182d30();
 void func_ov001_02182e84();
+void func_ov001_021828f0(void);

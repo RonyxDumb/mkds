@@ -11998,11 +11998,11 @@ data_usa_0217d1dc kind:bss addr:0x0217d1dc
 data_usa_0217d1e0 kind:bss addr:0x0217d1e0
 data_usa_0217d1e4 kind:bss addr:0x0217d1e4
 data_usa_0217d1e8 kind:bss addr:0x0217d1e8
-data_usa_0217d1ec kind:bss addr:0x0217d1ec
+data_0217d20c kind:bss addr:0x0217d1ec
 data_usa_0217d1f0 kind:bss addr:0x0217d1f0
 data_usa_0217d1f4 kind:bss addr:0x0217d1f4
 data_usa_0217d1f8 kind:bss addr:0x0217d1f8
-data_usa_0217d1fc kind:bss addr:0x0217d1fc
+data_0217d21c kind:bss addr:0x0217d1fc
 data_0217d220 kind:bss addr:0x0217d200
 data_usa_0217d204 kind:bss addr:0x0217d204
 data_usa_0217d20c kind:bss addr:0x0217d20c
