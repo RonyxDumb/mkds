@@ -36,11 +36,10 @@ what it shows and the command that reruns it on every installed build
   `-str reuse` the copies merge (0x124 bytes).
 - `-O4,p`: `-O4,s`, `-O3` and `-O2` break main 0x0204e3b4 and ov001 0x02194c7c; `-O3`, `-O2` and `-O3,p` break
   ov003 0x021c88c4.
-- Some game files are built at another level (found while matching them; they aren't in the repository yet): two
-  Thumb files at 0x0202941c and 0x02029930 match only at `-O4,s` or `-O3` (not separated); `-O4,p` and `-O3,p` each
-  miss one function (a loop entered by a jump to its test, and a multiply by a loop index that is not
-  strength-reduced). The ARM files around them match at `-O4,p`. When such a file is added, it gets per-file entries
-  in `tools/project.py` (`PATH_DROP_FLAGS` and `PATH_ADD_FLAGS`).
+- Some game files are compiled for size. `src/01/code_0218550c.c` (ov001, USA 0x021854ec-0x02185784) has five
+  two-case switch functions whose cases share one exit block; at `-O4,p` the return sequence is repeated in each case
+  (0x32 bytes instead of 0x2a). All 14 functions of the file match at `-O4,s`, at `-O3`, and at the build's `-O4,p`
+  with `#pragma optimize_for_size on` in the file, so the file carries that pragma.
 - Inlining: `-inline auto` inlines a same-file call (ov001 0x02194ce4 into 0x02194c7c, `thumb_switch_ov001.c`)
   that the game keeps out of line.
 
