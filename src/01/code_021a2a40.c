@@ -89,7 +89,7 @@ void func_ov001_021a2e0c(void)
         func_ov001_02184fd8(entry_d, func_ov001_02184fc8(entry_c), func_ov001_02184fb8(entry_c));
         entry_d = func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 10);
         func_ov001_02184fd8(entry_d, func_ov001_02184fc8(entry_c), func_ov001_02184fb8(entry_c));
-        func_ov001_021a63c0(data_ov001_021ca41c->mUnk_1080 + 1);
+        func_ov001_021a63c0((u8) (data_ov001_021ca41c->mUnk_1080 + 1));
         func_0212ecc0(data_0217d068, 0, 0x1f1);
     }
     sel = data_ov001_021ca41c->mUnk_1084;

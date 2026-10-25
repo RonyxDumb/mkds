@@ -130,7 +130,7 @@ void func_ov001_021a30e0(void) {
                     func_02105ac0(0x1ef);
                 }
             }
-            func_ov001_021a5f70(0, func_ov001_02192a6c(), func_ov001_02192a60(), 0, 0, 0);
+            func_ov001_021a5f70((s32) (0), (s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()), (s32) (0), (s32) (0), (s32) (0));
             break;
         case 2:
             func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xb), -5);
@@ -182,12 +182,12 @@ void func_ov001_021a30e0(void) {
                     func_02105ac0(0x1ef);
                 }
             }
-            func_ov001_021a5f70(0, func_ov001_02192a6c(), func_ov001_02192a60(), 0, 0, 0);
+            func_ov001_021a5f70((s32) (0), (s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()), (s32) (0), (s32) (0), (s32) (0));
             break;
         }
     }
 
-    if (func_ov001_02192a54() && func_ov001_021a62c4(func_ov001_02192a6c(), func_ov001_02192a60())) {
+    if (func_ov001_02192a54() && func_ov001_021a62c4((s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()))) {
         func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xb), -5);
         func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xc), 0);
         func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xd), -5);
@@ -224,7 +224,7 @@ void func_ov001_021a30e0(void) {
         dx += func_ov001_021928c8(0x10) ? 1 : 0;
         dy += func_ov001_021928c8(0x40) ? -1 : 0;
         dy += func_ov001_021928c8(0x80) ? 1 : 0;
-        if (func_ov001_021a5f70(func_ov001_02192a48(), func_ov001_02192a6c(), func_ov001_02192a60(), func_ov001_02192a04(1), dx, dy)) {
+        if (func_ov001_021a5f70((s32) (func_ov001_02192a48()), (s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()), (s32) (func_ov001_02192a04(1)), (s32) (dx), (s32) (dy))) {
             if (func_ov001_021a639c() == 3) {
                 data_ov001_021ca41c->mUnk_1080 = func_ov001_021a63b4() - 1;
                 func_0212ecc0(data_0217d068, 0, 0x1f4);
@@ -238,11 +238,11 @@ void func_ov001_021a30e0(void) {
                 func_0212ecc0(data_0217d068, 0, 0x1f4);
             }
         }
-        if (func_ov001_02192a48() && !func_ov001_02192a24() && func_ov001_021a62c4(func_ov001_02192a6c(), func_ov001_02192a60())) {
+        if (func_ov001_02192a48() && !func_ov001_02192a24() && func_ov001_021a62c4((s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()))) {
             data_ov001_021ca41c->mUnk_10b8 = 1;
         } else if (func_ov001_02192a48() &&
-                   (func_ov001_021a62c4(func_ov001_02192a6c(), func_ov001_02192a60()) ||
-                    func_ov001_021a62c4(func_ov001_02192a3c(), func_ov001_02192a30())) &&
+                   (func_ov001_021a62c4((s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60())) ||
+                    func_ov001_021a62c4((s32) (func_ov001_02192a3c()), (s32) (func_ov001_02192a30()))) &&
                    (func_ov001_021a633c() != func_ov001_021a6314() || func_ov001_021a6328() != func_ov001_021a6300())) {
             data_ov001_021ca41c->mUnk_10b8 = 1;
         } else if (func_ov001_02192a14(1)) {
@@ -252,7 +252,7 @@ void func_ov001_021a30e0(void) {
             data_ov001_021ca41c->mUnk_10b8 = 1;
         }
     } else {
-        func_ov001_021a5f70(0, func_ov001_02192a6c(), func_ov001_02192a60(), 0, 0, 0);
+        func_ov001_021a5f70((s32) (0), (s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()), (s32) (0), (s32) (0), (s32) (0));
     }
 
     func_ov001_02184fd8(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0), func_ov001_021a633c(), func_ov001_021a6328());
@@ -261,7 +261,7 @@ void func_ov001_021a30e0(void) {
     func_ov001_02184fd8(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 3), func_ov001_021a633c(), func_ov001_021a6328());
 
     if (data_ov001_021ca41c->mUnk_1094 == 0 && func_ov001_02192a48() &&
-        func_ov001_021a62c4(func_ov001_02192a6c(), func_ov001_02192a60())) {
+        func_ov001_021a62c4((s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()))) {
         func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0), -5);
         data_ov001_021ca41c->mUnk_1088 = -1;
     } else if (data_ov001_021ca41c->mUnk_1094 == 0 && func_ov001_02192a48() &&

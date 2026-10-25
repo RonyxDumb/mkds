@@ -76,7 +76,7 @@ s32 func_ov001_02180eec(s32 p0, s32 p1, s32 p2, s32 p3, s32 p4) {
 // non-matching: the original keeps x, y, lim[2] and the two scan bytes in one 6-byte stack area addressed through r4 (sp+0x24),
 // walks lim with r5, reads mUnk_2c once per pop and passes a stack zero as the first argument (frame 0x3c, 0x204 bytes);
 // here the frame is 0x34, mUnk_2c is reloaded and lim is indexed (0x20c bytes)
-s32 func_ov001_02180ce8(u8 p0, u8 p1, s32 p2) {
+s32 func_ov001_02180ce8(s32 p0, s32 p1, s32 p2) {
     s32 result;
     s32 top;
     s32 k;

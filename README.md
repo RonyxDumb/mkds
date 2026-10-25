@@ -23,10 +23,10 @@ Each version's section is recorded from a build of that version (`python3 tools/
 
 | Measure | Progress |
 |---|---|
-| Matched code | 10.87% (204,954 / 1,886,100 bytes) |
+| Matched code | 11.17% (210,590 / 1,886,100 bytes) |
 | Linked code (complete units) | 0.00% (0 bytes) |
-| Overall accuracy (fuzzy) | 12.35% |
-| Matched functions | 2,584 / 11,501 |
+| Overall accuracy (fuzzy) | 12.65% |
+| Matched functions | 2,640 / 11,501 |
 
 _Last updated 2026-10-25. Over time: [graph](progress/usa/progress.svg), [`progress/usa/history.csv`](progress/usa/history.csv)._
 <!-- progress:usa:end -->

@@ -13,12 +13,13 @@
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_0212426c.h"
 #include "00/code_02182fdc.h"
+#include "01/code_02196e30.h"
 
 // One 0x40-byte element of the arrays held by Unk021a9bdc.
 typedef struct Unk021a9bdcEntry {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 06 */ s16 mUnk_06;
     /* 08 */ u8 mUnk_08[0x38];
 } Unk021a9bdcEntry;
 

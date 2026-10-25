@@ -16,3 +16,4 @@ s32 func_020601e4(s32 a, s32 b);
 s32 func_020601a0(s32 a, s32 b);
 s32 func_02060134(s32 a, s32 b, void *out);
 s32 func_020600d0(s32 a, s32 b, void *out);
+s32 func_020600b4(s32 a);

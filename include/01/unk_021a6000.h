@@ -132,3 +132,5 @@ extern const u16 data_ov001_021a6634[4];
 extern const u16 data_ov001_021a6664[4];
 extern const u16 data_ov001_021a664c[4];
 extern const u16 data_ov001_021a6644[4];
+extern const u16 data_ov001_021a660c[];
+extern const s32 data_ov001_021a6980[];

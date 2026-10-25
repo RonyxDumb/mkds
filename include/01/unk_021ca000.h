@@ -118,6 +118,40 @@ typedef struct Unk021ca418 {
     /* 4c */ s32 mUnk_4c;
 } Unk021ca418;
 
+// Object behind data_ov001_021ca420, allocated by func_ov001_021a6238.
+typedef struct Unk021ca420 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ u8 mUnk_08;
+    /* 09 */ u8 mUnk_09[0x3];
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ u8 mUnk_1c[0xc];
+    /* 28 */ s32 mUnk_28;
+    /* 2c */ s32 mUnk_2c;
+    /* 30 */ s32 mUnk_30;
+    /* 34 */ s32 mUnk_34;
+    /* 38 */ s32 mUnk_38;
+    /* 3c */ s32 mUnk_3c;
+    /* 40 */ s32 mUnk_40;
+} Unk021ca420;
+
+// Object behind the pointer at 0x08 of Unk021ca424.
+typedef struct Unk021ca424_08 {
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ u8 *mUnk_0c;
+} Unk021ca424_08;
+
+// Object behind data_ov001_021ca424.
+typedef struct Unk021ca424 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ Unk021ca424_08 *mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+} Unk021ca424;
+
 extern Unk021ca400 *data_ov001_021ca400;
 extern u8 *data_ov001_021ca404;
 extern u8 *data_ov001_021ca408;
@@ -125,4 +159,5 @@ extern void *data_ov001_021ca40c;
 extern Unk021ca410 *data_ov001_021ca410;
 extern Unk021ca414 *data_ov001_021ca414;
 extern Unk021ca418 *data_ov001_021ca418;
-extern u8 data_ov001_021ca424[];
+extern Unk021ca424 *data_ov001_021ca424;
+extern Unk021ca420 *data_ov001_021ca420;
