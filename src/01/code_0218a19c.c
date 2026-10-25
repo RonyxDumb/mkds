@@ -10,14 +10,14 @@ u32 func_ov001_0218a2b8(u32 param_1) {
 }
 
 void func_ov001_0218a290(int param_1) {
-    func_ov001_02187218(param_1, 8, ((u32) ((u32) (&func_ov001_0218a2b8))));
+    func_ov001_02187218((Unk02188950 *) (param_1), (int) (8), (int) (((u32) ((u32) (&func_ov001_0218a2b8)))));
     func_ov001_02188d64(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + 100),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + 0x68));
     return;
 }
 
 void func_ov001_0218a250(int param_1) {
-    func_ov001_02187218(param_1, 8, 0);
+    func_ov001_02187218((Unk02188950 *) (param_1), (int) (8), (int) (0));
     func_ov001_02188d30(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + 0x58),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + 0x5c), ((u32) ((u32) (&func_ov001_0218a290))));
     func_ov001_02188e74((int) (param_1), (u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000148u))),
@@ -26,7 +26,7 @@ void func_ov001_0218a250(int param_1) {
 }
 
 void func_ov001_0218a20c(int param_1) {
-    func_ov001_02187218(param_1, 8, 0);
+    func_ov001_02187218((Unk02188950 *) (param_1), (int) (8), (int) (0));
     func_ov001_02188d64(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + 0x4c),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + 0x50));
     func_ov001_02188e24((int) (param_1), (u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + 0x54)),
@@ -36,7 +36,7 @@ void func_ov001_0218a20c(int param_1) {
 }
 
 void func_ov001_0218a1d0(int param_1) {
-    func_ov001_02187218(param_1, 8, 0);
+    func_ov001_02187218((Unk02188950 *) (param_1), (int) (8), (int) (0));
     func_ov001_02188d64(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + 0x40),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + 0x44));
     func_ov001_02188e74((int) (param_1), (u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000148u))),
@@ -45,7 +45,7 @@ void func_ov001_0218a1d0(int param_1) {
 }
 
 void func_ov001_0218a19c(int param_1) {
-    func_ov001_02187218(param_1, 8, 0);
+    func_ov001_02187218((Unk02188950 *) (param_1), (int) (8), (int) (0));
     func_ov001_02188d64(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + 0x34),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + 0x38));
     func_ov001_02188e24((int) (param_1), (u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + 0x3c)),

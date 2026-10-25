@@ -181,7 +181,7 @@ Unk0208c5b8 *func_0208c5b8(int idx);
 void func_0208c534(Unk0208c5b8 *p);
 void func_0208c188(u32 arg);
 void func_0208c1ac(u32 arg);
-void func_0208b748(u32 idx, const Vec3 *pos, Unk0206bcb0 *p, void (*cb)(Unk0206c1ac *, Unk0206bcb0 *));
+void func_0208b748(u32 idx, const Vec3 *pos, void *p, void (*cb)());
 int func_0206c494(Unk0206bcb0 *p);
 void func_0206cc60(Unk0206bcb0 *p, int arg);
 void func_0208ccf0(Unk0208c5b8 *p);

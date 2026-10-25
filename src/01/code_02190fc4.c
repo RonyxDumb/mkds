@@ -1,7 +1,7 @@
 #include "01/code_02190fc4.h"
 
 void func_ov001_02191064(int param_1) {
-    func_ov001_02187218(param_1, 7, ((u32) ((u32) (&func_ov001_021910d4))));
+    func_ov001_02187218((Unk02188950 *) (param_1), (int) (7), (int) (((u32) ((u32) (&func_ov001_021910d4)))));
     func_ov001_02188d30(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000021cu)),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000220u)),
                         ((u32) ((u32) (&func_ov001_02191130))));
@@ -15,14 +15,14 @@ void func_ov001_02191064(int param_1) {
 }
 
 void func_ov001_02191034(int param_1) {
-    func_ov001_02187218(param_1, 7, 0);
+    func_ov001_02187218((Unk02188950 *) (param_1), (int) (7), (int) (0));
     func_ov001_02188d64(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000024cu)),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000250u)));
     return;
 }
 
 void func_ov001_02190fc4(int param_1) {
-    func_ov001_02187218(param_1, 7, ((u32) ((u32) (&func_ov001_021910d4))));
+    func_ov001_02187218((Unk02188950 *) (param_1), (int) (7), (int) (((u32) ((u32) (&func_ov001_021910d4)))));
     func_ov001_02188d30(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000023cu)),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000240u)),
                         ((u32) ((u32) (&func_ov001_02191034))));

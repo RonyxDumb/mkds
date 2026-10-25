@@ -1,7 +1,7 @@
 #include "01/code_02191b40.h"
 
 void func_ov001_02191bc0(int param_1) {
-    func_ov001_02187218(param_1, 3, 0);
+    func_ov001_02187218((Unk02188950 *) (param_1), (int) (3), (int) (0));
     func_ov001_02188d30(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000002acu)),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000002b0u)),
                         ((u32) ((u32) (&func_ov001_02191e90))));
@@ -13,7 +13,7 @@ void func_ov001_02191bc0(int param_1) {
 }
 
 void func_ov001_02191b40(int param_1) {
-    func_ov001_02187218(param_1, 3, 0);
+    func_ov001_02187218((Unk02188950 *) (param_1), (int) (3), (int) (0));
     func_ov001_02188d30(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000002b4u)),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000002b8u)),
                         ((u32) ((u32) (&func_ov001_02191e1c))));

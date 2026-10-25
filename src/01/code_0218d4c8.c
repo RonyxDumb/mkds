@@ -2,7 +2,7 @@
 
 void func_ov001_0218d4c8(int param_1) {
     u32 uVar1;
-    func_ov001_02187218(param_1, 1, ((u32) ((u32) (&func_ov001_0218d520))));
+    func_ov001_02187218((Unk02188950 *) (param_1), (int) (1), (int) (((u32) ((u32) (&func_ov001_0218d520)))));
     func_ov001_02188dcc((int) (param_1), (int) (0));
     func_ov001_02188d64(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + 0x88),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + 0x8c));
