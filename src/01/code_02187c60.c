@@ -15,7 +15,7 @@ void func_ov001_02187c88(Unk02188950 *param_1, s32 param_2, const Vec3 *param_3)
     param_1->mUnk_2e4 = param_2;
     param_1->mUnk_2f4 = *param_3;
     param_1->mUnk_304->mUnk_10->mUnk_2c = param_1;
-    func_020109c4((int) param_1->mUnk_304->mUnk_10, (u32) func_ov001_02187d14, 0, 6, 3);
+    func_020109c4((void *) param_1->mUnk_304->mUnk_10, (void (*)(void *)) func_ov001_02187d14, (u32) (0), (u8) (6), (u8) (3));
 }
 
 void func_ov001_02187c60(Unk02188950 *param_1, void *param_2) {

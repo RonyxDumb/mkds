@@ -14,7 +14,7 @@
 #include "Main/Unknown/unk_0217c000.h"
 
 void func_ov001_0218b72c(Unk02188950 *param_1) {
-    func_020ac588(0x191, 0x32, (u32)param_1);
+    func_020ac588((u32) (0x191), (int) (0x32), (void *) param_1);
     param_1->mUnk_094 = func_02036bec((void *)func_020364e0(func_020364e8()), 0x44);
     func_02109110(param_1->mUnk_094, 0xf, &param_1->mUnk_004);
     param_1->mUnk_070 = data_0217cc6c[15];

@@ -263,5 +263,5 @@ void func_ov001_021a2a40(void)
     func_020783c8();
     func_020780b0();
     func_020ac390(func_ov001_02181174(), data_ov001_021ca41c->mUnk_087c, func_ov001_02181268());
-    func_020ac2c4(func_ov001_02181174(), (int)data_ov001_021ca41c->mUnk_0a7c, func_ov001_02181268());
+    func_020ac2c4((const u8 *) func_ov001_02181174(), data_ov001_021ca41c->mUnk_0a7c, func_ov001_02181268());
 }

@@ -87,7 +87,7 @@ void func_ov001_0218a074(u32 param_1, Unk02188950 *param_2) {
 }
 
 void func_ov001_0218a034(Unk02188950 *param_1) {
-    func_020ac588(0xc9, 0xa, (u32)param_1);
+    func_020ac588((u32) (0xc9), (int) (0xa), (void *) param_1);
     param_1->mUnk_094 = func_02036bec((void *)func_020364e0(func_020364e8()), 0x44);
     func_02109110(param_1->mUnk_094, 0xc, &param_1->mUnk_004);
     param_1->mUnk_070 = data_0217cbec[0x50 / 4];
