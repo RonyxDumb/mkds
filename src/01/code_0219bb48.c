@@ -139,6 +139,11 @@ void func_ov001_0219bff4(void) {
     }
 }
 
+void func_ov001_0219bfc0(void) {
+    func_0202949c(data_ov001_021a6b78[data_ov001_021a9bf4->mUnk_60]);
+    func_0211e0c4(data_ov001_021a6b78[data_ov001_021a9bf4->mUnk_60]);
+}
+
 void func_ov001_0219be5c(void) {
     u16 n = data_ov001_021a9bf4->mUnk_04->mUnk_06;
 
@@ -162,11 +167,6 @@ void func_ov001_0219be5c(void) {
     func_02124140(1, 0, data_ov001_021a9bf4->mUnk_08, data_ov001_021a9bf4->mUnk_30, data_ov001_021a9bf4->mUnk_04);
     func_02124140(2, 0, data_ov001_021a9bf4->mUnk_08, data_ov001_021a9bf4->mUnk_30, data_ov001_021a9bf4->mUnk_04);
     func_02124140(4, 0, data_ov001_021a9bf4->mUnk_08, data_ov001_021a9bf4->mUnk_30, data_ov001_021a9bf4->mUnk_04);
-}
-
-void func_ov001_0219bfc0(void) {
-    func_0202949c(data_ov001_021a6b78[data_ov001_021a9bf4->mUnk_60]);
-    func_0211e0c4(data_ov001_021a6b78[data_ov001_021a9bf4->mUnk_60]);
 }
 
 void func_ov001_0219bb48(u32 param_1, u32 param_2, u32 param_3) {

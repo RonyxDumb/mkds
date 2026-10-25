@@ -3,6 +3,23 @@
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_020b4000.h"
 
+void func_ov001_0218b5d8(Unk0218d87c *param_1) {
+    s32 i;
+    Unk02188950 *obj;
+
+    if (param_1 != 0) {
+        for (i = 0; i < param_1->mUnk_04 && (obj = param_1->mUnk_00[i]) != 0; i++) {
+            func_ov001_0219b1c4(obj->mUnk_304, obj->mUnk_0a0->mUnk_080, obj->mUnk_0a0->mUnk_050, 0);
+            if (func_02062ec4()) {
+                func_ov001_0218b770((int)obj);
+            } else {
+                func_ov001_0218b7c8((int)obj);
+            }
+        }
+    }
+    func_020a2314((void (*)(void)) func_ov001_0218b8f0);
+}
+
 void func_ov001_0218b404(u32 param_1, Unk02188950 *param_2) {
     s32 var;
 
@@ -63,23 +80,6 @@ void func_ov001_0218b404(u32 param_1, Unk02188950 *param_2) {
     }
     param_2->mUnk_134 = var;
     func_0209b734(param_2->mUnk_304, (u16)param_2->mUnk_134);
-}
-
-void func_ov001_0218b5d8(Unk0218d87c *param_1) {
-    s32 i;
-    Unk02188950 *obj;
-
-    if (param_1 != 0) {
-        for (i = 0; i < param_1->mUnk_04 && (obj = param_1->mUnk_00[i]) != 0; i++) {
-            func_ov001_0219b1c4(obj->mUnk_304, obj->mUnk_0a0->mUnk_080, obj->mUnk_0a0->mUnk_050, 0);
-            if (func_02062ec4()) {
-                func_ov001_0218b770((int)obj);
-            } else {
-                func_ov001_0218b7c8((int)obj);
-            }
-        }
-    }
-    func_020a2314((void (*)(void)) func_ov001_0218b8f0);
 }
 
 void func_ov001_0218b35c(Unk0218d87c *param_1) {
