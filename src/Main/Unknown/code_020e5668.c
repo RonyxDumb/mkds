@@ -1,0 +1,14 @@
+#include "Main/Unknown/code_020e5668.h"
+
+void func_020e5668(u32 arg0, u32 arg1) {
+    u32 value0 = (u32) arg0;
+    u32 value1 = (u32) arg1;
+    u32 value2;
+    value2 = (u32) * (const u32 *) ((value1) + (0));
+    value2 = ((u32) ((s32) value2 >> 4));
+    *(u32 *) ((value0) + (36)) = (u32) value2;
+    value1 = (u32) * (const u32 *) ((value1) + (8));
+    value1 = ((u32) ((s32) value1 >> 4));
+    *(u32 *) ((value0) + (44)) = (u32) value1;
+    return;
+}

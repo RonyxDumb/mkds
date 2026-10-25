@@ -38,3 +38,17 @@ extern u8 data_0217d3f8[];
 extern u8 data_0217d3fc[];
 extern u8 data_0217d400[];
 extern u8 data_0217d408[];
+
+extern u8 data_0217d1f0[];
+extern u8 data_0217d22c[];
+extern u8 data_0217d320[];
+extern u8 data_0217d324[];
+extern u8 data_0217d328[];
+extern u8 data_0217d32c[];
+extern u8 data_0217d40c[];
+extern u8 data_0217d438[];
+extern u8 data_0217d43c[];
+extern u8 data_0217d440[];
+extern u8 data_0217dda8[];
+extern u8 data_0217ddd0[];
+extern u8 data_0217dec4[];

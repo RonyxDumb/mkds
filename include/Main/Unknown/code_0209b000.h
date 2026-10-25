@@ -1,9 +1,10 @@
 #pragma once
 
+#include "Main/Unknown/code_0209b60c.h"
+
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-u32 func_0209b620(int param_1);
 void func_0209b77c(int param_1, int param_2);
 void func_0209ba88(u32 param_1, int param_2, int param_3);
 void func_0209bb2c(u32 param_1, int param_2, int param_3);
