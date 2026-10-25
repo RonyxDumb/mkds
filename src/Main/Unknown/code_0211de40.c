@@ -31,9 +31,9 @@ void func_0211de98(void) {
     local_10 = 0;
     local_c[0] = 0;
     uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_0216de54))))));
-    func_020b49f4(&local_10, uVar1);
+    func_020b49f4((void **) (&local_10), (void *) (uVar1));
     uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_0216de58))))));
-    func_020b48ec(local_c, uVar1);
+    func_020b48ec((void **) (local_c), (void *) (uVar1));
     return;
 }
 

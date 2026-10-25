@@ -586,6 +586,10 @@ src/01/code_0219f688.c:
     .text       start:0x0219f668 end:0x0219f680
 
 // provisional: file name and boundaries
+src/01/code_0219f6a0.c:
+    .text       start:0x0219f680 end:0x0219ff94
+
+// provisional: file name and boundaries
 src/01/code_021a0e08.c:
     .text       start:0x021a0de8 end:0x021a0e14
 

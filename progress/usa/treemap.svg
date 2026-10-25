@@ -309,11 +309,11 @@
 <rect class="todo gap" x="629.4" y="276.8" width="27.4" height="23.3" stroke-width="2"/>
 <rect class="matched" x="629.4" y="277.8" width="3.33" height="21.3"/>
 <rect class="todo gap" x="656.8" y="237.7" width="45.2" height="24.5" stroke-width="2"/>
-<rect class="matched" x="656.8" y="238.7" width="0.45" height="22.5"/>
+<rect class="matched" x="656.8" y="238.7" width="9.88" height="22.5"/>
 <rect class="todo gap" x="656.8" y="262.2" width="44.4" height="38.0" stroke-width="2"/>
 <rect class="todo gap" x="701.2" y="262.2" width="0.8" height="38.0" stroke-width="2"/>
 <rect class="matched" x="701.2" y="263.2" width="0.24" height="36.0"/>
-<text class="lbl" x="525.4" y="208.3">ov001 24.4%</text>
+<text class="lbl" x="525.4" y="208.3">ov001 25.9%</text>
 <rect class="todo gap" x="523.4" y="322.1" width="29.5" height="21.1" stroke-width="2"/>
 <rect class="matched" x="523.4" y="323.1" width="0.89" height="19.1"/>
 <rect class="todo gap" x="523.4" y="343.2" width="29.5" height="58.8" stroke-width="2"/>

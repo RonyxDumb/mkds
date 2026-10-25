@@ -61,7 +61,8 @@ typedef struct Unk020b4934 {
 } Unk020b4934;
 
 typedef struct Unk020b47d8 {
-    /* 0000 */ u8 pad_00[0xc];
+    /* 0000 */ u8 pad_00[8];
+    /* 0008 */ u32 mUnk_08;
     /* 000c */ u8 mUnk_0c[1];
 } Unk020b47d8;
 
