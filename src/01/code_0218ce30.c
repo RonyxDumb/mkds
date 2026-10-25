@@ -11,6 +11,6 @@ void func_ov001_0218ce30(u32 param_1, int param_2) {
     if (iVar1 == 2) {
         func_020d2774((int) (param_2), (u32) (((u32) 0x00000253u)));
     }
-    func_ov001_021864ac((u32) (param_1), (int) (param_2));
+    func_ov001_021864ac((u32) (param_1), (Unk02188950 *) ((int) (param_2)));
     return;
 }

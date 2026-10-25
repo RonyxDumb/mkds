@@ -206,7 +206,7 @@ int func_ov001_0218a590(Unk02188950 *param_1) {
 
 int func_ov001_0218a568(Unk02188950 *param_1) {
     if ((param_1->mUnk_2c8 & 0x1e34ef) != 0) {
-        param_1->mUnk_158 = (u32) &func_ov001_0218a590;
+        param_1->mUnk_158 = func_ov001_0218a590;
     }
     return 0;
 }
