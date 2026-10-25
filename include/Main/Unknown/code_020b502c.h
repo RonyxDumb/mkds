@@ -79,7 +79,6 @@ extern s16 data_0215d4b4[];
 
 extern void func_0207a91c(Vec3 *dst, u8 idx);
 extern void func_0207a948(Vec3 *dst, u8 idx);
-extern u16 func_0207a880(s32 idx);
 extern u16 func_020435bc(void);
 extern u16 func_020b4d9c(void);
 extern u16 func_020b6368(void);
@@ -108,3 +107,5 @@ u16 func_020b6338(s32 idx);
 s32 func_02147f34(s32 num, s32 den);
 s32 func_02147f18(s32 x);
 void func_021484d0(const Vec3 *a, const Vec3 *b, Vec3 *out);
+
+#include "Main/Unknown/code_0207a880.h"

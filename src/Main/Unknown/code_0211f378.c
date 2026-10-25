@@ -1,0 +1,10 @@
+#include "Main/Unknown/code_0211f378.h"
+
+#pragma thumb on
+void func_0211f378(void) {
+    u32 value3;
+    value3 = (u32) &func_0211f598;
+    func_0211f598();
+    return;
+}
+#pragma thumb off

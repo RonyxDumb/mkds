@@ -166,14 +166,11 @@ int func_0206c094(Unk0206bcb0 *p);
 int func_0206c0a8(Unk0206bcb0 *p);
 int func_0206c0b0(Unk0206bcb0 *p);
 int func_0206c0e0(Unk0206bcb0 *p);
-void func_0206c11c(Unk0206bcb0 *p);
-void func_0206c14c(Unk0206bcb0 *p);
 void func_0206c17c(Unk0206bcb0 *p);
 void func_0206c1ac(Unk0206c1ac *obj, Unk0206bcb0 *p);
 void func_0206c2b4(Unk0206c1ac *obj, Unk0206bcb0 *p);
 int func_0206c354(Unk0206bcb0 *p, const Vec3 *a, int flag);
 void func_0206c450(Unk0206c1ac *obj, Unk0206bcb0 *p);
-void func_0206c488(Unk0206c1ac *obj, Unk0206bcb0 *p);
 
 void func_02055c5c(void);
 void func_02068a64(Unk0206bcb0 *p, int a, int b);
@@ -218,3 +215,6 @@ void func_02063b30(const Unk0206bcb0 *p, Vec3 *out);
 s16 func_02148538(s32 y, s32 x);
 s32 func_0214848c(const Vec3 *a, const Vec3 *b);
 s32 func_021482cc(const Vec3 *v);
+
+#include "Main/Unknown/code_0206c11c.h"
+#include "Main/Unknown/code_0206c488.h"

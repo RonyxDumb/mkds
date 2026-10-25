@@ -1,3 +1,6 @@
+#include "Main/Unknown/code_02050000.h"
+#include "Main/Unknown/code_02058b10.h"
+#include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02050034.h"
 
 unsigned int func_02050064(unsigned int p0) {
@@ -11,12 +14,13 @@ unsigned int func_02050064(unsigned int p0) {
                 156));
 }
 
-// non-matching: 0x4c bytes, original 0x30; 9 instructions differ; first at +0x8: original `ldr r1, [pc, #0x1c]
-// (->0x2c)`, ours `ldr r2, [pc, #0x38] (->0x48)`
-void func_02050034(u8 param_1) {
-    *(u8 *) ((*(u32 *) (((u32) (&data_0217aa00)) & 0xfffffffc) >> (((u32) (&data_0217aa00)) & 3) * 8 |
-              *(u32 *) (((u32) (&data_0217aa00)) & 0xfffffffc) << (((u32) (&data_0217aa00)) & 3) * -8 + 0x20) +
-             0x15f6) = param_1;
+void func_02050034(u8 arg0) {
+    u32 value0 = (u32) arg0;
+    u32 value1;
+    value1 = (u32) &data_0217aa00;
+    value1 = (u32) * (const u32 *) ((value1) + (0));
+    value1 = (value1) + (0x1000u);
+    *(u8 *) ((value1) + (1526)) = (u8) value0;
     func_02050080();
     func_02058b10();
     return;

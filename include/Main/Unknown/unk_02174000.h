@@ -24,3 +24,9 @@ extern u8 data_02174e70[];
 extern u8 data_02174e88[];
 
 extern u8 data_02174e78[];
+
+extern u8 data_02174da0[];
+extern u8 data_02174e04[];
+extern u8 data_02174e08[];
+extern u8 data_02174e0c[];
+extern u8 data_02174e10[];

@@ -52,3 +52,14 @@ extern u8 data_0217d440[];
 extern u8 data_0217dda8[];
 extern u8 data_0217ddd0[];
 extern u8 data_0217dec4[];
+
+extern u8 data_0217d1e8[];
+extern u8 data_0217d1ec[];
+extern u8 data_0217d1f8[];
+extern u8 data_0217d200[];
+extern u8 data_0217d208[];
+extern u8 data_0217d33c[];
+extern u8 data_0217d340[];
+extern u8 data_0217d404[];
+extern u8 data_0217d410[];
+extern u8 data_0217df08[];

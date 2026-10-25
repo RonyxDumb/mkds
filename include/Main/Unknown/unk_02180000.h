@@ -12,3 +12,5 @@ extern u8 data_021802b0[];
 extern u8 data_021803b0[];
 extern u8 data_021803d8[];
 extern u8 data_02180414[];
+
+extern u8 data_021802ac[];

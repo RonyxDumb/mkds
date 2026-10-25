@@ -1,0 +1,23 @@
+#include "Main/Unknown/code_020e6f9c.h"
+
+#pragma thumb on
+u32 func_020e6f9c(u32 arg0) {
+    u32 value0 = (u32) arg0;
+    u32 value1;
+    u32 value4;
+    value4 = (value0) + (0u);
+    value0 = (u32) func_020364e8();
+    value0 = (u32) func_020364e0((unsigned int) value0);
+    value1 = (u32) * (const u16 *) ((value4) + 4u);
+    value1 = (value1 << 2);
+    value0 = (u32) func_02036bec((void *) value0, (u32) value1);
+    *(u32 *) ((value4) + 0u) = (u32) value0;
+    value1 = 0u;
+    *(u16 *) ((value4) + 4u) = (u16) value1;
+    value0 = 3u;
+    *(u32 *) ((value4) + 24u) = (u32) value0;
+    *(u32 *) ((value4) + 28u) = (u32) value1;
+    *(u32 *) ((value4) + 32u) = (u32) value0;
+    return (u32) value0;
+}
+#pragma thumb off
