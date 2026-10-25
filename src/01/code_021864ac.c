@@ -261,9 +261,9 @@ void func_ov001_021864ac(u32 param_1, Unk02188950 *param_2) {
         cur = func_0209b620((int) param_2->mUnk_304);
         if (param_2->mUnk_1d8 != 0) {
             if (prev < param_2->mUnk_1d8 && param_2->mUnk_1d8 <= cur) {
-                func_ov001_02188e94((u32) param_2, &param_2->mUnk_1dc);
+                func_ov001_02188e94(param_2, &param_2->mUnk_1dc);
             } else if ((u32) cur < (u32) prev && (param_2->mUnk_1d8 <= cur || prev < param_2->mUnk_1d8)) {
-                func_ov001_02188e94((u32) param_2, &param_2->mUnk_1dc);
+                func_ov001_02188e94(param_2, &param_2->mUnk_1dc);
             }
         }
         if (param_2->mUnk_1e0 != 0) {
@@ -281,7 +281,7 @@ void func_ov001_021864ac(u32 param_1, Unk02188950 *param_2) {
             }
         }
         if (!func_ov001_0219b240((int) param_2->mUnk_304)) {
-            func_ov001_02188e94((u32) param_2, &param_2->mUnk_1d4);
+            func_ov001_02188e94(param_2, &param_2->mUnk_1d4);
         }
     }
 
@@ -289,24 +289,24 @@ void func_ov001_021864ac(u32 param_1, Unk02188950 *param_2) {
     if (param_2->mUnk_1f0 != 0 && param_2->mUnk_0b0 == param_2->mUnk_1f0) {
         param_2->mUnk_1f0 = 0;
         param_2->mUnk_0b0 = 0;
-        func_ov001_02188e94((u32) param_2, &param_2->mUnk_1f4);
+        func_ov001_02188e94(param_2, &param_2->mUnk_1f4);
     }
     if (param_2->mUnk_20c != 0 &&
         func_ov001_021881a8((int) param_2, (u32) &param_2->mUnk_200, param_2->mUnk_1f8, param_2->mUnk_1fc)) {
-        func_ov001_02188e94((u32) param_2, &param_2->mUnk_20c);
+        func_ov001_02188e94(param_2, &param_2->mUnk_20c);
     }
     if (param_2->mUnk_224 != 0 &&
         !func_ov001_021881a8((int) param_2, (u32) &param_2->mUnk_218, param_2->mUnk_210, param_2->mUnk_214)) {
-        func_ov001_02188e94((u32) param_2, &param_2->mUnk_224);
+        func_ov001_02188e94(param_2, &param_2->mUnk_224);
     }
     if (param_2->mUnk_228 != 0 && param_2->mUnk_1c8.y == 0 && -param_2->mUnk_0a0->mUnk_018 < param_2->mUnk_174 &&
         param_2->mUnk_0a0->mUnk_018 > param_2->mUnk_174 && -param_2->mUnk_0a0->mUnk_018 < param_2->mUnk_1c8.x &&
         param_2->mUnk_0a0->mUnk_018 > param_2->mUnk_1c8.x && -param_2->mUnk_0a0->mUnk_018 < param_2->mUnk_1c8.z &&
         param_2->mUnk_0a0->mUnk_018 > param_2->mUnk_1c8.z && (param_2->mUnk_2c8 & 0x1e34ef)) {
-        func_ov001_02188e94((u32) param_2, &param_2->mUnk_228);
+        func_ov001_02188e94(param_2, &param_2->mUnk_228);
     }
     if (param_2->mUnk_22c != 0 && param_2->mUnk_1c8.y <= 0 && (param_2->mUnk_2c8 & 0x1e34ef)) {
-        func_ov001_02188e94((u32) param_2, &param_2->mUnk_22c);
+        func_ov001_02188e94(param_2, &param_2->mUnk_22c);
     }
 
     for (i = 0; i < 5; i++) {

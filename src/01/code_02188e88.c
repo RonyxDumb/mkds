@@ -128,7 +128,7 @@ u32 func_ov001_02188eac(Unk02188950 *param_1, s32 param_2, Vec3 *param_3, s32 pa
     return 0;
 }
 
-void func_ov001_02188e94(u32 param_1, void (**param_2)()) {
+void func_ov001_02188e94(Unk02188950 *param_1, void (**param_2)()) {
     void (*fn)() = *param_2;
 
     *param_2 = 0;
@@ -138,5 +138,5 @@ void func_ov001_02188e94(u32 param_1, void (**param_2)()) {
 }
 
 void func_ov001_02188e88(Unk02188950 *param_1) {
-    func_ov001_02187218(param_1, 0, 0);
+    func_ov001_02187218(param_1, 0, (s32 (*)(Unk02188950 *)) (0));
 }

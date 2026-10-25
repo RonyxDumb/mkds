@@ -36,7 +36,7 @@ extern Unk021a9ba4 *data_ov001_021a9ba4;
 extern Unk021a9ba4 *data_ov001_021a9ba8;
 
 void func_ov001_02188e88(Unk02188950 *param_1);
-void func_ov001_02188e94(u32 param_1, void (**param_2)());
+void func_ov001_02188e94(Unk02188950 *param_1, void (**param_2)());
 u32 func_ov001_02188eac(Unk02188950 *param_1, s32 param_2, Vec3 *param_3, s32 param_4);
 u32 func_ov001_02188f04(Unk02188950 *param_1, Vec3 *param_2, s32 param_3);
 void func_ov001_02188fdc(void *param_1);

@@ -1,7 +1,7 @@
 #include "01/code_02188158.h"
 
-void func_ov001_02188200(int param_1, u32 param_2) {
-    *(u32 *) (param_1 + ((int) 0x000002d4u)) = param_2;
+void func_ov001_02188200(Unk02188950 *param_1, UnkFunc *param_2) {
+    param_1->mUnk_2d4 = param_2;
     return;
 }
 

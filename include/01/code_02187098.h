@@ -10,7 +10,7 @@ void func_ov001_021870e4(void *param_1, Unk02188950 *param_2, int param_3, int p
 int func_ov001_021871d0(Unk02188950 *param_1);
 u32 func_ov001_021871f8(Unk02188950 *param_1, int param_2);
 void func_ov001_0218720c(Unk02188950 *param_1);
-void func_ov001_02187218(Unk02188950 *param_1, int param_2, int param_3);
+void func_ov001_02187218(Unk02188950 *param_1, int param_2, s32 (*param_3)(Unk02188950 *));
 void func_ov001_021872e0(Unk02188950 *param_1, int param_2, int param_3, int param_4, int param_5, int param_6,
                          int param_7, int param_8, u32 param_9);
 void func_ov001_0218742c(Unk0206c1ac *param_1, const UnkVec16 *param_2);

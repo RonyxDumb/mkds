@@ -61,9 +61,9 @@ void func_ov001_021872e0(Unk02188950 *param_1, int param_2, int param_3, int par
     }
 }
 
-void func_ov001_02187218(Unk02188950 *param_1, int param_2, int param_3) {
+void func_ov001_02187218(Unk02188950 *param_1, int param_2, s32 (*param_3)(Unk02188950 *)) {
     param_1->mUnk_158 = 0;
-    param_1->mUnk_15c = (s32 (*)(struct Unk02188950 *))param_3;
+    param_1->mUnk_15c = param_3;
     param_1->mUnk_150 = param_2;
     param_1->mUnk_0b0 = 0;
     param_1->mUnk_0b4 = param_1->mUnk_0b4 > 0 ? param_1->mUnk_0b4 - 1 : 0;
