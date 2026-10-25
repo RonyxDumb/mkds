@@ -136,6 +136,7 @@ typedef struct Unk02188950_bc {
     /* 14 */ void *mUnk_14;
 } Unk02188950_bc;
 
+// Layout provisional: functions on objects that share this prefix use different types at 0xa0 and 0xa8.
 typedef struct Unk02188950 {
     /* 000 */ u8 mUnk_000[0x2];
     /* 002 */ u16 mUnk_002;
