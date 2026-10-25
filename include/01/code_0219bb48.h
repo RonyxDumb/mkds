@@ -49,7 +49,7 @@ typedef struct Unk021a9bf4 {
     /* 10 */ Unk021a9bf4Count *mUnk_10;
     /* 14 */ void *mUnk_14;
     /* 18 */ void *mUnk_18;
-    /* 1c */ void *mUnk_1c;
+    /* 1c */ Unk020b4a44 *mUnk_1c;
     /* 20 */ void *mUnk_20;
     /* 24 */ void *mUnk_24;
     /* 28 */ Unk021a9bf4Block *mUnk_28;
@@ -58,7 +58,7 @@ typedef struct Unk021a9bf4 {
     /* 34 */ Unk021a9bf4Entry *mUnk_34;
     /* 38 */ void *mUnk_38;
     /* 3c */ void *mUnk_3c;
-    /* 40 */ u8 mUnk_40[4];
+    /* 40 */ void *mUnk_40;
     /* 44 */ u32 mUnk_44;
     /* 48 */ s32 mUnk_48;
     /* 4c */ s32 mUnk_4c;

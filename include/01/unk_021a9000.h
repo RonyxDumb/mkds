@@ -30,8 +30,8 @@ typedef struct Unk021a9bec {
     /* 18 */ void *mUnk_18;
     /* 1c */ Unk021a9bf0Entry *mUnk_1c;
     /* 20 */ void *mUnk_20;
-    /* 24 */ void *mUnk_24;
-    /* 28 */ void *mUnk_28;
+    /* 24 */ Unk020b4934 *mUnk_24;
+    /* 28 */ Unk020b4a44 *mUnk_28;
     /* 2c */ void *mUnk_2c;
     /* 30 */ void *mUnk_30;
 } Unk021a9bec;

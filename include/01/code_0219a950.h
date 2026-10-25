@@ -22,7 +22,7 @@ typedef struct Unk021a9bf0 {
     /* 0x1c */ Unk021a9bf0Entry *mUnk_1c;
     /* 0x20 */ void *mUnk_20;
     /* 0x24 */ void *mUnk_24;
-    /* 0x28 */ u8 mUnk_28[4];
+    /* 0x28 */ void *mUnk_28;
     /* 0x2c */ void *mUnk_2c;
     /* 0x30 */ s32 mUnk_30;
     /* 0x34 */ s32 mUnk_34;

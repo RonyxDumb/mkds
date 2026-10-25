@@ -1,64 +1,36 @@
 #include "01/code_0219c544.h"
 
-// non-matching: 0x190 bytes, original 0x1ac; 52 instructions differ; first at +0x0: original `push {lr}`, ours `push
-// {r4, lr}`
 void func_ov001_0219c544(void) {
-    u32 uVar1;
-    int local_18;
-    int local_14;
-    int local_10;
-    int local_c[1];
-    local_18 = 0;
-    local_14 = 0;
-    local_10 = 0;
-    local_c[0] = 0;
-    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a87b8))))));
-    func_020b4934((Unk020b4934 **) (&local_14), (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a8794))))));
-    func_020b47d8((Unk020b47d8 **) (local_c), (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a87a8))))));
-    func_020b4a44((Unk020b4a44 **) (&local_10), (void *) (uVar1));
-    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x44)),
-                                 (u32) (((u32) 0x00000800u))));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x40) = uVar1;
-    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a879c))))));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 4) = uVar1;
-    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a87b0))))));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 8) = uVar1;
-    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a87bc))))));
-    func_020b48b4((void **) ((int *) (u32) (*((int *) ((u32) (&data_ov001_021a9bf4))))), (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a8790))))));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x10) = uVar1;
-    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a87a0))))));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x14) = uVar1;
-    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a87ac))))));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x18) = uVar1;
-    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a87a4))))));
-    func_020b49bc((Unk020b4934 **) (&local_18), (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a87b4))))));
-    func_020b48b4((void **) ((int *) (u32) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0xc)), (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a8798))))));
-    func_020b4a44((Unk020b4a44 **) ((int *) (u32) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x1c)),
-                  (void *) (uVar1));
-    uVar1 = (u32) func_020b4018((int) (0));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x20) = uVar1;
-    uVar1 = (u32) func_020b400c((int) (0));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x24) = uVar1;
-    uVar1 = (u32) func_020b4030((int) (0));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x28) = uVar1;
-    uVar1 = (u32) func_020b4000((int) (0));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x2c) = uVar1;
-    ((u32) func_02016468((u32) (0x17), (u32) (0), (void *) (*(u32 *) (local_14 + 0x14)),
-                         (u32) (*(u32 *) (local_14 + 0x10))));
-    ((u32) func_02016468((u32) (0x1f), (u32) (0), (void *) (*(u32 *) (local_10 + 0xc)), (u32) (0x20)));
-    ((u32) func_02016468((u32) (0x1b), (u32) (0), (void *) (local_c[0] + 0xc), (u32) (*(u32 *) (local_c[0] + 8))));
-    ((u32) func_02016468((u32) (0x1b), (u32) (((u32) 0x00000800u)),
-                         (void *) (*(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x40)),
-                         (u32) (((u32) 0x00000800u))));
-    ((u32) func_02016468((u32) (0x23), (u32) (0), (void *) (*(u32 *) (local_18 + 0x14)),
-                         (u32) (*(u32 *) (local_18 + 0x10))));
-    ((u32) func_02016468((u32) (0x1e), (u32) (0),
-                         (void *) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x1c) + 0xc)),
-                         (u32) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x1c) + 8))));
-    return;
+    Unk020b4934 *a;
+    Unk020b4934 *b;
+    Unk020b4a44 *c;
+    Unk020b47d8 *d;
+
+    a = 0;
+    b = 0;
+    c = 0;
+    d = 0;
+    func_020b4934(&b, func_0204799c(data_ov001_021a87b8));
+    func_020b47d8(&d, func_0204799c(data_ov001_021a8794));
+    func_020b4a44(&c, func_0204799c(data_ov001_021a87a8));
+    data_ov001_021a9bf4->mUnk_40 = func_02036bec((void *)data_ov001_021a9bf4->mUnk_44, 0x800);
+    data_ov001_021a9bf4->mUnk_04 = func_0204799c(data_ov001_021a879c);
+    data_ov001_021a9bf4->mUnk_08 = func_0204799c(data_ov001_021a87b0);
+    func_020b48b4(&data_ov001_021a9bf4->mUnk_00, func_0204799c(data_ov001_021a87bc));
+    data_ov001_021a9bf4->mUnk_10 = func_0204799c(data_ov001_021a8790);
+    data_ov001_021a9bf4->mUnk_14 = func_0204799c(data_ov001_021a87a0);
+    data_ov001_021a9bf4->mUnk_18 = func_0204799c(data_ov001_021a87ac);
+    func_020b49bc(&a, func_0204799c(data_ov001_021a87a4));
+    func_020b48b4(&data_ov001_021a9bf4->mUnk_0c, func_0204799c(data_ov001_021a87b4));
+    func_020b4a44(&data_ov001_021a9bf4->mUnk_1c, func_0204799c(data_ov001_021a8798));
+    data_ov001_021a9bf4->mUnk_20 = func_020b4018(0);
+    data_ov001_021a9bf4->mUnk_24 = func_020b400c(0);
+    data_ov001_021a9bf4->mUnk_28 = func_020b4030(0);
+    data_ov001_021a9bf4->mUnk_2c = func_020b4000(0);
+    func_02016468(0x17, 0, b->mUnk_14, b->mUnk_10);
+    func_02016468(0x1f, 0, c->mUnk_0c, 0x20);
+    func_02016468(0x1b, 0, d->mUnk_0c, d->mUnk_08);
+    func_02016468(0x1b, 0x800, data_ov001_021a9bf4->mUnk_40, 0x800);
+    func_02016468(0x23, 0, a->mUnk_14, a->mUnk_10);
+    func_02016468(0x1e, 0, data_ov001_021a9bf4->mUnk_1c->mUnk_0c, data_ov001_021a9bf4->mUnk_1c->mUnk_08);
 }

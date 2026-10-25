@@ -24,7 +24,8 @@ typedef struct Unk021a9bd4 {
     /* 1c */ void *mUnk_1c;
     /* 20 */ Unk021a9bdcEntry *mUnk_20;
     /* 24 */ void *mUnk_24;
-    /* 28 */ u8 mUnk_28[8];
+    /* 28 */ Unk020b4934 *mUnk_28;
+    /* 2c */ Unk020b4a44 *mUnk_2c;
     /* 30 */ void *mUnk_30;
     /* 34 */ void *mUnk_34;
     /* 38 */ void *mUnk_38;
