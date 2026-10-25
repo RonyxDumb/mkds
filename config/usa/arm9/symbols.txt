@@ -2729,7 +2729,7 @@ func_02073e88 kind:function(arm,size=0x10) addr:0x02073e88
 func_usa_02073e98 kind:function(arm,size=0x20) addr:0x02073e98
 func_usa_02073eb8 kind:function(arm,size=0xd8) addr:0x02073eb8
 func_usa_02073f90 kind:function(arm,size=0x20) addr:0x02073f90
-func_usa_02073fb0 kind:function(arm,size=0x18) addr:0x02073fb0
+func_02073fb0 kind:function(arm,size=0x18) addr:0x02073fb0
 func_usa_02073fc8 kind:function(arm,size=0xd4) addr:0x02073fc8
 func_usa_0207409c kind:function(arm,size=0x104) addr:0x0207409c
 func_usa_020741a0 kind:function(arm,size=0x434) addr:0x020741a0
@@ -11265,7 +11265,7 @@ data_usa_02175652 kind:bss addr:0x02175652
 data_usa_02175654 kind:bss addr:0x02175654
 data_usa_0217565c kind:bss addr:0x0217565c
 data_usa_02175660 kind:bss addr:0x02175660
-data_usa_021758c8 kind:bss addr:0x021758c8
+data_021758e8 kind:bss addr:0x021758c8
 data_usa_02175908 kind:bss addr:0x02175908
 data_021759c0 kind:bss addr:0x021759a0
 data_usa_021759a4 kind:bss addr:0x021759a4
@@ -11951,7 +11951,7 @@ data_usa_0217c8d8 kind:bss addr:0x0217c8d8
 data_0217c91c kind:bss addr:0x0217c8fc
 data_usa_0217ca4c kind:bss addr:0x0217ca4c
 data_usa_0217cacc kind:bss addr:0x0217cacc
-data_usa_0217cbcc kind:bss addr:0x0217cbcc
+data_0217cbec kind:bss addr:0x0217cbcc
 data_usa_0217cc4c kind:bss addr:0x0217cc4c
 data_usa_0217cc8c kind:bss addr:0x0217cc8c
 data_usa_0217cc90 kind:bss addr:0x0217cc90
