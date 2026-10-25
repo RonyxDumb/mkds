@@ -7,3 +7,4 @@ void func_ov001_0218b034();
 void func_ov001_0218b298();
 void func_ov001_0218b2a8();
 void func_ov001_0218b928();
+void func_ov001_0218b1d8();
