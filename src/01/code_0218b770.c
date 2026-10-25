@@ -16,14 +16,14 @@ u32 func_ov001_0218b850(int param_1) {
         func_ov001_02187af4((int) (param_1));
         func_ov001_02187518((int) (param_1), (u32) (((u32) 0xfffff99au)), (u32) (0), (u32) (((u32) 0xfffff99au)),
                             (u32) (((u32) 0x0000042bu)), (u32) (0));
-        func_020d2774((int) (param_1), (u32) (((u32) 0x0000021eu)));
+        func_020d2774((void *) ((int) (param_1)), (u32) (((u32) 0x0000021eu)));
     } else {
         iVar1 = func_0209b620((int) (*(u32 *) (param_1 + ((int) 0x00000304u))));
         if (iVar1 == 0x68) {
             func_ov001_02187af4((int) (param_1));
             func_ov001_02187518((int) (param_1), (u32) (((u32) 0xfffff99au)), (u32) (0), (u32) (((u32) 0xfffff99au)),
                                 (u32) (((u32) 0x0000042cu)), (u32) (0));
-            func_020d2774((int) (param_1), (u32) (((u32) 0x0000021fu)));
+            func_020d2774((void *) ((int) (param_1)), (u32) (((u32) 0x0000021fu)));
         }
     }
     return 0;

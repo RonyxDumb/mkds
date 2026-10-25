@@ -1,7 +1,7 @@
 #include "01/code_02184e18.h"
 
 void func_ov001_02184f40(u32 param_1) {
-    func_020d2774((int) (param_1), (u32) (((u32) 0x0000020fu)));
+    func_020d2774((void *) ((int) (param_1)), (u32) (((u32) 0x0000020fu)));
     func_ov001_02187af4((int) (param_1));
     func_ov001_02187518((int) (param_1), (u32) (((u32) 0x000008cdu)), (u32) (0), (u32) (((u32) 0x0000119au)),
                         (u32) (((u32) 0x00000413u)), (u32) (0));
@@ -9,7 +9,7 @@ void func_ov001_02184f40(u32 param_1) {
 }
 
 void func_ov001_02184f04(u32 param_1) {
-    func_020d2774((int) (param_1), (u32) (((u32) 0x0000020fu)));
+    func_020d2774((void *) ((int) (param_1)), (u32) (((u32) 0x0000020fu)));
     func_ov001_02187af4((int) (param_1));
     func_ov001_02187518((int) (param_1), (u32) (((u32) 0xfffff733u)), (u32) (0), (u32) (((u32) 0x0000119au)),
                         (u32) (((u32) 0x00000413u)), (u32) (0));
@@ -17,7 +17,7 @@ void func_ov001_02184f04(u32 param_1) {
 }
 
 void func_ov001_02184ec8(u32 param_1) {
-    func_020d2774((int) (param_1), (u32) (((u32) 0x0000020fu)));
+    func_020d2774((void *) ((int) (param_1)), (u32) (((u32) 0x0000020fu)));
     func_ov001_02187af4((int) (param_1));
     func_ov001_02187518((int) (param_1), (u32) (((u32) 0xfffff000u)), (u32) (0), (u32) (((u32) 0x00001333u)),
                         (u32) (((u32) 0x00000444u)), (u32) (0));
@@ -25,7 +25,7 @@ void func_ov001_02184ec8(u32 param_1) {
 }
 
 void func_ov001_02184e8c(u32 param_1) {
-    func_020d2774((int) (param_1), (u32) (((u32) 0x0000020fu)));
+    func_020d2774((void *) ((int) (param_1)), (u32) (((u32) 0x0000020fu)));
     func_ov001_02187af4((int) (param_1));
     func_ov001_02187518((int) (param_1), (u32) (((u32) 0x00001000u)), (u32) (0), (u32) (((u32) 0x00001333u)),
                         (u32) (((u32) 0x00000444u)), (u32) (0));

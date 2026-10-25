@@ -68,19 +68,19 @@ void func_ov001_0219e8d8(s16 *param_1) {
     void *heap;
 
     heap = (void *)func_020364e0(func_020364e8());
-    *(void **)data_ov001_021ca404 = func_02036bec(heap, 0x808);
+    data_ov001_021ca404 = func_02036bec(heap, 0x808);
     func_ov001_021987d4(heap, *param_1);
 }
 
 void func_ov001_0219e8c0(void) {
     func_ov001_021987bc();
-    *(void **)data_ov001_021ca404 = 0;
+    data_ov001_021ca404 = 0;
 }
 
 void func_ov001_0219e89c(void) {
     u8 *p;
 
     func_ov001_0219854c();
-    p = *(u8 **)data_ov001_021ca404;
+    p = data_ov001_021ca404;
     func_020ae5f0((int)p, (int)(p + 0x404));
 }

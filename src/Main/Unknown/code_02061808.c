@@ -16,6 +16,6 @@ unsigned int func_02061818(void) {
                                592));
 }
 
-unsigned int func_02061808(void) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aa6c))) + 0));
+void *func_02061808(void) {
+    return (void *) ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aa6c))) + 0));
 }

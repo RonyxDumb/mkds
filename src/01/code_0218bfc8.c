@@ -18,6 +18,6 @@ void func_ov001_0218bfc8(int param_1) {
     uVar1 = func_ov001_02187fc0(param_1);
     func_ov001_02188980((Unk02188950 *) (param_1), (Vec3 *) ((u32 *) (u32) (uVar1)));
     func_ov001_02188e24((Unk02188950 *) ((int) (param_1)), (s32) ((u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000180u)))), (UnkFunc *) ((int) (((u32) ((u32) (&func_ov001_0218c354))))));
-    func_ov001_0218c5fc((u32) (param_1));
+    func_ov001_0218c5fc((Unk02188950 *) ((u32) (param_1)));
     return;
 }

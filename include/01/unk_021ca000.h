@@ -72,7 +72,7 @@ typedef struct Unk021ca418 {
 } Unk021ca418;
 
 extern u8 data_ov001_021ca400[];
-extern u8 data_ov001_021ca404[];
+extern u8 *data_ov001_021ca404;
 extern u8 *data_ov001_021ca408;
 extern u8 data_ov001_021ca40c[];
 extern Unk021ca410 *data_ov001_021ca410;

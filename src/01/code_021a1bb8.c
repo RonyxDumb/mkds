@@ -64,7 +64,7 @@ void func_ov001_021a2048(void *p0, Unk021a2048 *p1)
     Unk02061808 *g;
     Vec3 v = {0, 0, 0};
 
-    g = (Unk02061808 *)func_02061808();
+    g = func_02061808();
     switch (p1->mUnk_a0) {
     case 0:
         p1->mUnk_a0 = 1;

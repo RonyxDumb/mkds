@@ -29,7 +29,7 @@ void func_ov001_0218a20c(int param_1) {
     func_ov001_02188d64(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + 0x4c),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + 0x50));
     func_ov001_02188e24((Unk02188950 *) ((int) (param_1)), (s32) ((u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + 0x54))), (UnkFunc *) ((int) (((u32) ((u32) (&func_ov001_0218a250))))));
-    func_020d2774((int) (param_1), (u32) (((u32) 0x00000235u)));
+    func_020d2774((void *) ((int) (param_1)), (u32) (((u32) 0x00000235u)));
     return;
 }
 

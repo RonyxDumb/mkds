@@ -3,7 +3,7 @@
 u32 func_0209753c(u32 param_1) {
     u32 uVar1;
     int iVar2;
-    uVar1 = func_02100138((u32) (0x000001a9u));
+    uVar1 = (u32) func_02100138((u32) (0x000001a9u));
     iVar2 = func_0209bc5c((u32) (uVar1), (int) (param_1));
     *(u32 *) (iVar2 + 0xebc) = 0xaa;
     return 1;

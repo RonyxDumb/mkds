@@ -78,14 +78,14 @@ void func_ov001_0218da1c(Unk02188950 *param_1) {
     func_ov001_02187af4((int)param_1);
     func_ov001_021875c0((int)param_1, 0, param_1->mUnk_248 >> 4, 0, 0x427, 0xf);
     func_ov001_021875c0((int)param_1, 0, param_1->mUnk_248 >> 4, 0, 0x426, 0xf);
-    func_020d2774((int)param_1, 0x24d);
+    func_020d2774(param_1, 0x24d);
     func_ov001_02188230(param_1);
-    if (func_ov001_02188220((int)param_1) == 2) {
-        func_020d2774((int)param_1, 0x24c);
-    } else if (func_ov001_02188220((int)param_1) >= 3) {
+    if (func_ov001_02188220(param_1) == 2) {
+        func_020d2774(param_1, 0x24c);
+    } else if (func_ov001_02188220(param_1) >= 3) {
         param_1->mUnk_0ac = 0;
     }
-    func_0209b688(param_1->mUnk_304, func_ov001_02188220((int)param_1));
+    func_0209b688(param_1->mUnk_304, func_ov001_02188220(param_1));
 }
 
 void func_ov001_0218d9cc(Unk02188950 *param_1) {
@@ -93,7 +93,7 @@ void func_ov001_0218d9cc(Unk02188950 *param_1) {
     int i;
     Unk02188950 *q;
 
-    list = (Unk0218d87c *)func_02100138(0x1fe);
+    list = func_02100138(0x1fe);
     if (list != 0) {
         for (i = 0; i < list->mUnk_04 && (q = list->mUnk_00[i]) != 0; i++) {
             func_ov001_02188e24(q, (s32) (q->mUnk_0a8 * 15), (UnkFunc *)func_ov001_0218da1c);
@@ -124,7 +124,7 @@ void func_ov001_0218d8f4(Unk02188950 *param_1, int param_2) {
     Unk0218d87c *list;
     int i;
 
-    list = (Unk0218d87c *)func_02100138(0x1fe);
+    list = func_02100138(0x1fe);
     if (list != 0) {
         for (i = 0; i < list->mUnk_04 && list->mUnk_00[i] != 0; i++) {
             func_ov001_02188d64(param_1, param_1->mUnk_0a0->mUnk_088, param_1->mUnk_0a0->mUnk_08c * param_2 / 100);
@@ -137,7 +137,7 @@ void func_ov001_0218d87c(Unk02188950 *param_1, int param_2) {
     int i;
     Unk02188950 *q;
 
-    list = (Unk0218d87c *)func_02100138(0x1fe);
+    list = func_02100138(0x1fe);
     if (list != 0) {
         for (i = 0; i < list->mUnk_04 && (q = list->mUnk_00[i]) != 0; i++) {
             q->mUnk_13c = q->mUnk_0a0->mUnk_0d8 * q->mUnk_0a8 * 100 / param_2;
@@ -190,7 +190,7 @@ int func_ov001_0218d520(Unk02188950 *param_1) {
                 func_ov001_02188d30(param_1, param_1->mUnk_0a0->mUnk_118, param_1->mUnk_0a0->mUnk_11c,
                                     func_ov001_0218d800);
                 r4 -= param_1->mUnk_0a0->mUnk_130;
-                func_020d2774((int)param_1, 0x24b);
+                func_020d2774(param_1, 0x24b);
             } else if (func_ov001_02188084(param_1, param_1->mUnk_0a0->mUnk_10c, param_1->mUnk_0a0->mUnk_110,
                                            param_1->mUnk_0a0->mUnk_114)) {
                 param_1->mUnk_0a8 = param_1->mUnk_0a0->mUnk_12c;
@@ -198,7 +198,7 @@ int func_ov001_0218d520(Unk02188950 *param_1) {
                 func_ov001_02188d30(param_1, param_1->mUnk_0a0->mUnk_104, param_1->mUnk_0a0->mUnk_108,
                                     func_ov001_0218d800);
                 r4 -= param_1->mUnk_0a0->mUnk_130;
-                func_020d2774((int)param_1, 0x24b);
+                func_020d2774(param_1, 0x24b);
             }
         }
         func_ov001_0218d824(param_1, r4);
@@ -212,20 +212,20 @@ int func_ov001_0218d520(Unk02188950 *param_1) {
         param_1->mUnk_0a8 = param_1->mUnk_0a8 - 1;
     }
     if (func_ov001_021871f8(param_1, 5)) {
-        if (func_ov001_02188220((int)param_1) == 2) {
+        if (func_ov001_02188220(param_1) == 2) {
             param_1->mUnk_140 = param_1->mUnk_140 + 1 >= 6 ? 0 : param_1->mUnk_140 + 1;
             if (param_1->mUnk_140 == 0) {
                 func_ov001_021875c0((int)param_1, 0, 0, 0, 0x3f9, 0x1c);
             }
             param_1->mUnk_144 = param_1->mUnk_144 + 1 >= 0x12 ? 0 : param_1->mUnk_144 + 1;
             if (param_1->mUnk_144 == 0) {
-                func_020d2774((int)param_1, 0x24f);
+                func_020d2774(param_1, 0x24f);
             }
-        } else if (func_ov001_02188220((int)param_1) == 1) {
+        } else if (func_ov001_02188220(param_1) == 1) {
             param_1->mUnk_140 = param_1->mUnk_140 + 1 >= 0x12 ? 0 : param_1->mUnk_140 + 1;
             if (param_1->mUnk_140 == 0) {
                 func_ov001_021875c0((int)param_1, 0, 0, 0, 0x3f8, 0x1c);
-                func_020d2774((int)param_1, 0x24e);
+                func_020d2774(param_1, 0x24e);
             }
         }
     }
