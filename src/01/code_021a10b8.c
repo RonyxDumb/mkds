@@ -249,15 +249,15 @@ void func_ov001_021a10b8(void)
     void *i = 0;
     void *j = 0;
 
-    func_020b496c(&g, func_0204799c(*(const char **)data_ov001_021a92bc));
-    func_020b4a7c(&j, func_0204799c(*(const char **)data_ov001_021a92a8));
-    func_020b4810(&h, func_0204799c(*(const char **)data_ov001_021a928c));
-    func_020b4810(&i, func_0204799c(*(const char **)data_ov001_021a92c0));
-    func_020b49f4(&a, func_0204799c(*(const char **)data_ov001_021a9278));
-    func_020b48ec(&b, func_0204799c(*(const char **)data_ov001_021a92c4));
-    func_020b4a7c(&c, func_0204799c(*(const char **)data_ov001_021a9298));
-    func_020b49f4(&d, func_0204799c(*(const char **)data_ov001_021a92b0));
-    func_020b48ec(&e, func_0204799c(*(const char **)data_ov001_021a9284));
-    func_020b4a7c(&f, func_0204799c(*(const char **)data_ov001_021a927c));
+    func_020b496c(&g, func_0204799c(data_ov001_021a92bc));
+    func_020b4a7c(&j, func_0204799c(data_ov001_021a92a8));
+    func_020b4810(&h, func_0204799c(data_ov001_021a928c));
+    func_020b4810(&i, func_0204799c(data_ov001_021a92c0));
+    func_020b49f4(&a, func_0204799c(data_ov001_021a9278));
+    func_020b48ec(&b, func_0204799c(data_ov001_021a92c4));
+    func_020b4a7c(&c, func_0204799c(data_ov001_021a9298));
+    func_020b49f4(&d, func_0204799c(data_ov001_021a92b0));
+    func_020b48ec(&e, func_0204799c(data_ov001_021a9284));
+    func_020b4a7c(&f, func_0204799c(data_ov001_021a927c));
     func_ov001_021a651c();
 }

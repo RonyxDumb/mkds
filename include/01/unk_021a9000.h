@@ -156,21 +156,21 @@ typedef struct Unk021a99e4 {
 } Unk021a99e4;
 
 // Objects whose layout isn't known yet.
-extern u8 data_ov001_021a9278[];
-extern u8 data_ov001_021a927c[];
+extern const char *data_ov001_021a9278;
+extern const char *data_ov001_021a927c;
 extern u8 data_ov001_021a9280[];
-extern u8 data_ov001_021a9284[];
-extern u8 data_ov001_021a928c[];
-extern u8 data_ov001_021a9298[];
+extern const char *data_ov001_021a9284;
+extern const char *data_ov001_021a928c;
+extern const char *data_ov001_021a9298;
 extern u8 data_ov001_021a929c[];
 extern u8 data_ov001_021a92a0[];
 extern u8 data_ov001_021a92a4[];
-extern u8 data_ov001_021a92a8[];
+extern const char *data_ov001_021a92a8;
 extern u8 data_ov001_021a92ac[];
-extern u8 data_ov001_021a92b0[];
-extern u8 data_ov001_021a92bc[];
-extern u8 data_ov001_021a92c0[];
-extern u8 data_ov001_021a92c4[];
+extern const char *data_ov001_021a92b0;
+extern const char *data_ov001_021a92bc;
+extern const char *data_ov001_021a92c0;
+extern const char *data_ov001_021a92c4;
 extern u8 data_ov001_021a9938[];
 extern u8 data_ov001_021a993c[];
 extern u8 data_ov001_021a9940[];
