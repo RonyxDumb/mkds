@@ -1625,8 +1625,8 @@ data_usa_ov001_021a8fd8 kind:data(any) addr:0x021a8fd8
 data_usa_ov001_021a8ff0 kind:data(any) addr:0x021a8ff0
 data_usa_ov001_021a9008 kind:data(any) addr:0x021a9008
 data_usa_ov001_021a9014 kind:data(any) addr:0x021a9014
-data_usa_ov001_021a9034 kind:data(any) addr:0x021a9034
-data_usa_ov001_021a9054 kind:data(any) addr:0x021a9054
+data_ov001_021a9064 kind:data(any) addr:0x021a9034
+data_ov001_021a9084 kind:data(any) addr:0x021a9054
 data_ov001_021a90a4 kind:data(any) addr:0x021a9074
 data_ov001_021a90a8 kind:data(any) addr:0x021a9078
 data_usa_ov001_021a907c kind:data(any) addr:0x021a907c

@@ -15,8 +15,11 @@
 #include "01/code_0219e000.h"
 #include "Main/Unknown/code_02048000.h"
 
+static Unk021a9034 data_ov001_021a9064 = {func_ov001_0219e9e0, func_ov001_0219e960, func_ov001_0219e9c8, func_ov001_0219e9a4, 0, 0, 10, 10, 0};
+static Unk021a9034 data_ov001_021a9084 = {func_ov001_0219ea8c, func_ov001_0219ea48, func_ov001_0219ea74, func_ov001_0219ea6c, 0, 0, 30, 1, 0};
+
 int func_ov001_0219ea14(void *param_1) {
-    Unk021a9034 local = {func_ov001_0219ea8c, func_ov001_0219ea48, func_ov001_0219ea74, func_ov001_0219ea6c, 0, 0, 1, 30, 0};
+    Unk021a9034 local = data_ov001_021a9084;
 
     func_020487fc(param_1, &local);
     return 0;
@@ -50,7 +53,7 @@ void func_ov001_0219e960(s16 *param_1) {
 }
 
 int func_ov001_0219e92c(void *param_1) {
-    Unk021a9034 local = {func_ov001_0219e9e0, func_ov001_0219e960, func_ov001_0219e9c8, func_ov001_0219e9a4, 0, 0, 10, 10, 0};
+    Unk021a9034 local = data_ov001_021a9064;
 
     func_020487fc(param_1, &local);
     return 0;
