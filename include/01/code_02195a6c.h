@@ -69,6 +69,7 @@ typedef struct Unk021a9bdc {
 typedef struct Unk021759d4 {
     /* 00 */ u8 mUnk_00[0xc];
     /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
 } Unk021759d4;
 
 extern Unk021a9bdc *data_ov001_021a9bdc;

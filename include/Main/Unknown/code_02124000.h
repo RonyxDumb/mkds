@@ -9,3 +9,5 @@ u32 func_02124c70(int param_1, u32 param_2, int param_3, u32 param_4, int param_
 void func_02124140(u32 a, u32 b, void *c, void *d, void *e);
 void func_02124224(s32 a, u32 b, void *c, void *d, void *e, void *f, s8 g);
 void func_02124248(s32 a, s32 b, void *c, void *d, void *e, void *f, s8 g);
+void func_02124100(s32 a, s32 b, void *c, void *d, void *e);
+void func_02124a20(s32 a, s32 b, void *c, void *d);
