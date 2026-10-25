@@ -14,3 +14,5 @@ void func_ov001_02188e88(u32 param_1);
 u32 func_ov001_02188eac(int param_1, int param_2, int *param_3, int param_4);
 u32 func_ov001_02188f04();
 u16 func_ov001_0218820c();
+void func_ov001_02188230(Unk02188950 *param_1);
+int func_ov001_02188084(Unk02188950 *param_1, int param_2, int param_3, int param_4);
