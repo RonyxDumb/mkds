@@ -139,7 +139,8 @@ w("")
 # ---- rules ----
 w(f"rule download_tool\n  command = {PY} tools/download_tool.py $tool $tag --path $path --outputs $out\n  description = DOWNLOAD $tool\n")
 w(f"rule extract\n  command = {DSD} rom extract --rom $in --output-path $outdir {bios_flag}\n  description = EXTRACT $in\n")
-w(f"rule delink\n  command = {DSD} delink -c $config && {PY} tools/delink_multidef.py $out\n  description = DELINK\n")
+w(f"rule delink\n  command = {DSD} delink -c $config && {PY} tools/delink_multidef.py @{build_dir}/delink_multidef.rsp\n"
+  f"  rspfile = {build_dir}/delink_multidef.rsp\n  rspfile_content = $out\n  description = DELINK\n")
 w(f"rule lcf\n  command = {DSD} lcf -c $config && {PY} tools/lcf_force_active.py $lcf_raw $lcf_final --config-dir {config_dir}\n  description = LCF\n")
 w(f"rule mwcc\n  command = {WINE} $cc $base_flags $cc_flags {' '.join('-i ' + d for d in include_dirs)} "
   f"-d version_{ver.upper()} -MD -c $in -o $outdir && {PY} tools/transform_dep.py $basefile.d $basefile.d && {PY} tools/demote_multidef.py $out\n"

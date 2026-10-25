@@ -9,7 +9,9 @@ a weak symbol, so this rewrites STB_WEAK to 13. The delinked objects come first 
 copies win, as in the original build.
 
 Mark such symbols `weak` in symbols.txt; run on the delinked objects after `dsd delink`.
+Arguments may also come from a shell-quoted response file, written as `@path`.
 """
+import shlex
 import sys
 from pathlib import Path
 
@@ -18,7 +20,14 @@ from elftools.elf.elffile import ELFFile
 STB_WEAK = 2
 STB_MW_MULTIDEF = 13
 
-for path in map(Path, sys.argv[1:]):
+paths = []
+for arg in sys.argv[1:]:
+    if arg.startswith("@"):
+        paths.extend(shlex.split(Path(arg[1:]).read_text()))
+    else:
+        paths.append(arg)
+
+for path in map(Path, paths):
     data = bytearray(path.read_bytes())
     with open(path, "rb") as fh:
         elf = ELFFile(fh)
