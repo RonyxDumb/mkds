@@ -150,7 +150,7 @@ void func_ov001_0218d824(Unk02188950 *param_1, int param_2) {
     Unk02188950_a0 *a;
 
     a = param_1->mUnk_0a0;
-    func_ov001_02188cd8(param_1, a->mUnk_090 * param_2 / 100, a->mUnk_094);
+    func_ov001_02188cd8((Unk02188950 *) (param_1), (s32) (a->mUnk_090 * param_2 / 100), (s32) (a->mUnk_094));
     a = param_1->mUnk_0a0;
     func_ov001_02188c48(param_1, a->mUnk_098 * param_2 / 100, a->mUnk_09c);
     func_ov001_02188998(param_1, func_ov001_02187ee8(param_1));

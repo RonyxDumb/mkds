@@ -4,26 +4,27 @@
 #include "01/code_02188950.h"
 
 typedef struct Unk021a9bc8 {
-    /* 0x00 */ u8 mUnk_00[4];
-    /* 0x04 */ u32 mUnk_04;
-    /* 0x08 */ u32 mUnk_08;
-    /* 0x0c */ u8 mUnk_0c[4];
-    /* 0x10 */ u32 mUnk_10;
-    /* 0x14 */ u8 mUnk_14[4];
-    /* 0x18 */ u32 mUnk_18;
-    /* 0x1c */ u32 mUnk_1c;
-    /* 0x20 */ u8 mUnk_20[8];
-    /* 0x28 */ u32 mUnk_28;
-    /* 0x2c */ u32 mUnk_2c;
-    /* 0x30 */ u32 mUnk_30;
-    /* 0x34 */ u32 mUnk_34;
-    /* 0x38 */ u32 mUnk_38;
-    /* 0x3c */ u32 mUnk_3c;
-    /* 0x40 */ u32 mUnk_40;
-    /* 0x44 */ u32 mUnk_44;
-    /* 0x48 */ u32 mUnk_48;
-    /* 0x4c */ u32 mUnk_4c;
-    /* 0x50 */ u32 mUnk_50;
+    /* 0x00 */ s32 mUnk_00;
+    /* 0x04 */ s32 mUnk_04;
+    /* 0x08 */ s32 mUnk_08;
+    /* 0x0c */ s32 mUnk_0c;
+    /* 0x10 */ s32 mUnk_10;
+    /* 0x14 */ s32 mUnk_14;
+    /* 0x18 */ s32 mUnk_18;
+    /* 0x1c */ s32 mUnk_1c;
+    /* 0x20 */ s32 mUnk_20;
+    /* 0x24 */ s32 mUnk_24;
+    /* 0x28 */ s32 mUnk_28;
+    /* 0x2c */ s32 mUnk_2c;
+    /* 0x30 */ s32 mUnk_30;
+    /* 0x34 */ s32 mUnk_34;
+    /* 0x38 */ s32 mUnk_38;
+    /* 0x3c */ s32 mUnk_3c;
+    /* 0x40 */ s32 mUnk_40;
+    /* 0x44 */ s32 mUnk_44;
+    /* 0x48 */ s32 mUnk_48;
+    /* 0x4c */ s32 mUnk_4c;
+    /* 0x50 */ s32 mUnk_50;
 } Unk021a9bc8;
 
 extern Unk021a9bc8 *data_ov001_021a9bc8;

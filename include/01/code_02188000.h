@@ -5,7 +5,7 @@
 #include "01/code_02188950.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_ov001_02188cd8();
+void func_ov001_02188cd8(Unk02188950 *param_1, s32 param_2, s32 param_3);
 void func_ov001_02188cec();
 void func_ov001_02188d1c();
 void func_ov001_02188d30();

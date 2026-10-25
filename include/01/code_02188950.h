@@ -78,7 +78,10 @@ typedef struct Unk02188950_a0 {
     /* 15c */ s32 mUnk_15c;
     /* 160 */ s32 mUnk_160;
     /* 164 */ s32 mUnk_164;
-    /* 168 */ u8 mUnk_168[0x14];
+    /* 168 */ u8 mUnk_168[0x4];
+    /* 16c */ s32 mUnk_16c;
+    /* 170 */ s32 mUnk_170;
+    /* 174 */ u8 mUnk_174[0x8];
     /* 17c */ s32 mUnk_17c;
     /* 180 */ s32 mUnk_180;
     /* 184 */ s32 mUnk_184;
@@ -120,12 +123,28 @@ typedef struct Unk02188950_a0 {
     /* 214 */ s32 mUnk_214;
     /* 218 */ s32 mUnk_218;
     /* 21c */ s32 mUnk_21c;
-    /* 220 */ u8 mUnk_220[0x20];
+    /* 220 */ s32 mUnk_220;
+    /* 224 */ s32 mUnk_224;
+    /* 228 */ s32 mUnk_228;
+    /* 22c */ s32 mUnk_22c;
+    /* 230 */ s32 mUnk_230;
+    /* 234 */ s32 mUnk_234;
+    /* 238 */ s32 mUnk_238;
+    /* 23c */ s32 mUnk_23c;
     /* 240 */ s32 mUnk_240;
-    /* 244 */ u8 mUnk_244[0x78];
+    /* 244 */ u8 mUnk_244[0x28];
+    /* 26c */ s32 mUnk_26c;
+    /* 270 */ s32 mUnk_270;
+    /* 274 */ s32 mUnk_274;
+    /* 278 */ s32 mUnk_278;
+    /* 27c */ s32 mUnk_27c;
+    /* 280 */ s32 mUnk_280;
+    /* 284 */ u8 mUnk_284[0x38];
     /* 2bc */ u32 mUnk_2bc;
     /* 2c0 */ u32 mUnk_2c0;
     /* 2c4 */ u32 mUnk_2c4;
+    /* 2c8 */ s32 mUnk_2c8;
+    /* 2cc */ s32 mUnk_2cc;
 } Unk02188950_a0;
 
 typedef struct Unk02188950_9c {

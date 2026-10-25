@@ -3,6 +3,7 @@
 #include "types.h"
 #include "01/code_02195a6c.h"
 #include "Main/Unknown/unk_0217a000.h"
+#include "00/code_02182fdc.h"
 
 // Object behind data_ov001_021a9be4.
 typedef struct Unk021a9be4 {
@@ -37,12 +38,15 @@ typedef struct Unk021a9be8 {
     /* 38 */ s32 mUnk_38;
     /* 3c */ s32 mUnk_3c;
     /* 40 */ s32 mUnk_40[2][2];
-    /* 50 */ u8 mUnk_50[4];
+    /* 50 */ void *mUnk_50;
     /* 54 */ Unk021a9bdcEntry *mUnk_54;
     /* 58 */ Unk021a9bdcEntry *mUnk_58;
     /* 5c */ void *mUnk_5c;
     /* 60 */ void *mUnk_60;
-    /* 64 */ u8 mUnk_64[0x10];
+    /* 64 */ Unk020b4934 *mUnk_64;
+    /* 68 */ Unk020b4934 *mUnk_68;
+    /* 6c */ Unk020b4a44 *mUnk_6c;
+    /* 70 */ Unk020b4a44 *mUnk_70;
     /* 74 */ Unk021a9bdcCount *mUnk_74;
     /* 78 */ Unk021a9bdcCount *mUnk_78;
     /* 7c */ void *mUnk_7c;

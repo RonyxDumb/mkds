@@ -41,3 +41,8 @@ extern const s32 data_ov001_021a6fc8[4];
 extern const s32 data_ov001_021a6fe8[12];
 extern u32 data_ov001_021a6584;
 extern u32 data_ov001_021a657c;
+extern u8 data_ov001_021a6a28[];
+extern const u16 data_ov001_021a6588;
+extern const u16 data_ov001_021a658c;
+extern const u16 data_ov001_021a6590;
+extern const u16 data_ov001_021a6594;

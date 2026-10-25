@@ -226,11 +226,11 @@ void func_ov001_02190468(Unk02188950 *param_1)
         b = 0;
     }
     if (param_1->mUnk_0a8 == 4) {
-        func_ov001_02192174(a);
+        func_ov001_02192174((Unk02188950 *) (a));
         func_ov001_021920dc(b);
     } else {
         func_ov001_021920dc(a);
-        func_ov001_02192174(b);
+        func_ov001_02192174((Unk02188950 *) (b));
     }
 }
 

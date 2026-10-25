@@ -6,7 +6,16 @@
 // What data_0217aa08 points to.
 typedef struct Unk0217aa08_00 {
     /* 00 */ u8 mUnk_00[0x31];
-    /* 31 */ u8 mUnk_31;
+    /* 31 */ union {
+        u8 mUnk_31;
+        struct {
+            u8 mUnk_31_0 : 1;
+            u8 mUnk_31_1 : 2;
+            u8 mUnk_31_3 : 1;
+            u8 mUnk_31_4 : 1;
+            u8 mUnk_31_5 : 3;
+        };
+    };
     /* 32 */ u8 mUnk_32[0x2];
     /* 34 */ u32 mUnk_34;
     /* 38 */ u32 mUnk_38;

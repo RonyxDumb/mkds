@@ -20,3 +20,8 @@ extern u8 data_ov001_021a7da0[];
 extern u8 data_ov001_021a7db4[];
 extern u8 data_ov001_021a7dc8[];
 extern u8 data_ov001_021a7dd8[];
+extern const char data_ov001_021a7b14[];
+extern const char data_ov001_021a7b24[];
+extern const char data_ov001_021a7b34[];
+extern const char data_ov001_021a7b44[];
+extern Unk021a7c08 data_ov001_021a7ad0;

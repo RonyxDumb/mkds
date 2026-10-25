@@ -75,7 +75,8 @@ typedef struct Unk0206bcb0 {
     /* 44 */ vu32 mUnk_44;
     /* 48 */ vu32 mUnk_48;
     /* 4c */ vu32 mUnk_4c;
-    /* 50 */ u8 mUnk_50[0x18];
+    /* 50 */ Vec3 mUnk_50;
+    /* 05c */ u8 mUnk_05c[0xc];
     /* 68 */ Vec3 mUnk_68;
     /* 74 */ u16 mUnk_74;
     /* 76 */ u8 mUnk_76[0x2];
