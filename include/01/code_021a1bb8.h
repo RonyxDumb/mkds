@@ -20,7 +20,7 @@ typedef struct Unk021a2048 {
     /* 68 */ u8 mUnk_68[0x34];
     /* 9c */ Unk021a2048_9c *mUnk_9c;
     /* a0 */ s32 mUnk_a0;
-    /* a4 */ u32 mUnk_a4;
+    /* a4 */ void *mUnk_a4;
 } Unk021a2048;
 
 // Object returned by func_02061808.

@@ -64,7 +64,7 @@ void func_ov001_02182f1c(unsigned int p0, unsigned int p1) {
     *(unsigned short *) ((v1) + (2)) = (unsigned short) (v35);
     v37 = 0x3f5u;
     v38 = ((v1) + (0x4u));
-    v39 = ((unsigned int) func_0208b7bc(v37, v38));
+    v39 = ((unsigned int) func_0208b7bc((u32) (v37), (const Vec3 *) (v38)));
     v40 = ((v1) + (0x0u));
     v41 = ((v40) + (0xfcu));
     *(unsigned int *) ((v41) + (0)) = (unsigned int) (v39);

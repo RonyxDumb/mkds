@@ -192,8 +192,8 @@ void func_ov001_0218e690(u32 param_1) {
     func_ov001_02187218((Unk02188950 *) (param_1), (int) (8), (s32 (*)(Unk02188950 *)) ((int) (0)));
     func_ov001_02188d64(param_1, *(u32 *) (*(int *) (param_1 + 0xa0) + 0x70),
                         *(u32 *) (*(int *) (param_1 + 0xa0) + 0x74));
-    func_0208b7bc(((u32) 0x000003feu), param_1 + 4);
-    func_0208b7bc(((u32) 0x000003fdu), param_1 + 4);
+    func_0208b7bc((u32) (((u32) 0x000003feu)), (const Vec3 *) (param_1 + 4));
+    func_0208b7bc((u32) (((u32) 0x000003fdu)), (const Vec3 *) (param_1 + 4));
     if (*((int *) ((u32) (&data_0217d20c))) != 7) {
         *((int *) ((u32) (&data_0217d21c))) = *((int *) ((u32) (&data_0217d20c)));
     }

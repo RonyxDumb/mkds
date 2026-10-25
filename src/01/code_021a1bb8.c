@@ -103,13 +103,13 @@ void func_ov001_021a2048(void *p0, Unk021a2048 *p1)
     case 1:
         switch (p1->mUnk_9c->mUnk_28) {
         case 0:
-            func_0208b5b0((void *) (p1->mUnk_a4), (const Vec3 *) (&g->mUnk_024));
+            func_0208b5b0(p1->mUnk_a4, &g->mUnk_024);
             break;
         case 1:
             break;
         case 2:
             func_ov001_021a2218(p1, g, &v);
-            func_0208b5b0((void *) (p1->mUnk_a4), (const Vec3 *) (&v));
+            func_0208b5b0(p1->mUnk_a4, &v);
             break;
         }
         break;
