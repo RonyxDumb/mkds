@@ -8,3 +8,6 @@ void func_ov001_02185f04();
 void func_ov001_02185fb0();
 void func_ov001_021857c0(u32 param_1, u32 param_2);
 void func_ov001_021857a4(u32 param_1);
+void *func_ov001_021852f8(const char *name, void *a, void *b);
+void *func_ov001_02185160(void *obj, int index);
+void func_ov001_02185018(void *entry, int value);

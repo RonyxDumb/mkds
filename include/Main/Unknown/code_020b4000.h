@@ -15,3 +15,4 @@ void func_020b49f4(void **param_1, void *param_2);
 void func_020b4a7c(void **param_1, void *param_2);
 s32 func_020b4e70(const Vec3 *param_1);
 void *func_020b403c(s32 index);
+void func_020b486c(void **out, void *file);

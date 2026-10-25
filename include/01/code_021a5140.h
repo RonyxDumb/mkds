@@ -1,0 +1,100 @@
+#pragma once
+
+#include "types.h"
+#include "Main/Unknown/unk_0217a000.h"
+
+// Object behind the pointers at 0x82c and 0x830 of Unk021ca41c.
+typedef struct Unk021ca41c_082c {
+    /* 00 */ u8 mUnk_00[0x8];
+    /* 08 */ u32 mUnk_08;
+    /* 0c */ u16 *mUnk_0c;
+} Unk021ca41c_082c;
+
+// Object behind the pointer at 0x83c of Unk021ca41c.
+typedef struct Unk021ca41c_83c {
+    /* 00 */ u8 mUnk_00[0x14];
+    /* 14 */ u8 *mUnk_14;
+} Unk021ca41c_83c;
+
+// Object behind data_ov001_021ca41c, allocated by func_ov001_021a5140.
+typedef struct Unk021ca41c {
+    /* 0000 */ u8 mUnk_0000[0x404];
+    /* 0404 */ u8 mUnk_0404[0x404];
+    /* 0808 */ void *mUnk_0808;
+    /* 080c */ void *mUnk_080c;
+    /* 0810 */ void *mUnk_0810;
+    /* 0814 */ void *mUnk_0814;
+    /* 0818 */ void *mUnk_0818;
+    /* 081c */ void *mUnk_081c;
+    /* 0820 */ void *mUnk_0820;
+    /* 0824 */ void *mUnk_0824;
+    /* 0828 */ void *mUnk_0828;
+    /* 082c */ Unk021ca41c_082c *mUnk_082c;
+    /* 0830 */ Unk021ca41c_082c *mUnk_0830;
+    /* 0834 */ void *mUnk_0834;
+    /* 0838 */ void *mUnk_0838;
+    /* 083c */ Unk021ca41c_83c *mUnk_083c;
+    /* 0840 */ void *mUnk_0840;
+    /* 0844 */ void *mUnk_0844;
+    /* 0848 */ void *mUnk_0848;
+    /* 084c */ void *mUnk_084c;
+    /* 0850 */ void *mUnk_0850;
+    /* 0854 */ void *mUnk_0854;
+    /* 0858 */ void *mUnk_0858;
+    /* 085c */ void *mUnk_085c;
+    /* 0860 */ void *mUnk_0860;
+    /* 0864 */ void *mUnk_0864;
+    /* 0868 */ void *mUnk_0868;
+    /* 086c */ void *mUnk_086c;
+    /* 0870 */ void *mUnk_0870;
+    /* 0874 */ void *mUnk_0874;
+    /* 0878 */ void *mUnk_0878;
+    /* 087c */ u8 mUnk_087c[0x200];
+    /* 0a7c */ u8 mUnk_0a7c[0x200];
+    /* 0c7c */ u8 mUnk_0c7c[0x400];
+    /* 107c */ s32 mUnk_107c;
+    /* 1080 */ s32 mUnk_1080;
+    /* 1084 */ s32 mUnk_1084;
+    /* 1088 */ s32 mUnk_1088;
+    /* 108c */ UnkFunc *mUnk_108c;
+    /* 1090 */ s32 mUnk_1090;
+    /* 1094 */ s32 mUnk_1094;
+    /* 1098 */ s32 mUnk_1098;
+    /* 109c */ s32 mUnk_109c;
+    /* 10a0 */ s32 mUnk_10a0;
+    /* 10a4 */ u8 mUnk_10a4[0x4];
+    /* 10a8 */ s32 mUnk_10a8;
+    /* 10ac */ s32 mUnk_10ac;
+    /* 10b0 */ s32 mUnk_10b0;
+    /* 10b4 */ s32 mUnk_10b4;
+    /* 10b8 */ s32 mUnk_10b8;
+    /* 10bc */ s32 mUnk_10bc;
+} Unk021ca41c;
+
+// Block of 20 halfwords that func_020391d4 fills with defaults and func_02038d88 reads.
+typedef struct Unk020391d4 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u16 mUnk_0e;
+    /* 10 */ u16 mUnk_10;
+    /* 12 */ u16 mUnk_12;
+    /* 14 */ u16 mUnk_14;
+    /* 16 */ u16 mUnk_16;
+    /* 18 */ u16 mUnk_18;
+    /* 1a */ u16 mUnk_1a;
+    /* 1c */ u16 mUnk_1c;
+    /* 1e */ u16 mUnk_1e;
+    /* 20 */ u16 mUnk_20;
+    /* 22 */ u16 mUnk_22;
+    /* 24 */ u16 mUnk_24;
+    /* 26 */ u16 mUnk_26;
+} Unk020391d4;
+
+extern Unk021ca41c *data_ov001_021ca41c;
+
+void func_ov001_021a5140(void);
