@@ -188,7 +188,7 @@ void func_ov001_021a0190(s32 param_1, s32 param_2, s32 param_3) {
     *(vu16 *)0x0400000a = (*(vu16 *)0x0400000a & ~3) | 1;
     *(vu16 *)0x04000008 = (*(vu16 *)0x04000008 & 0x43) | 0xd204;
     *(vu16 *)0x0400000a = (*(vu16 *)0x0400000a & 0x43) | 0x9004;
-    heap = func_02036948(param_1);
+    heap = (u32) func_02036948((void *) param_1);
     data_ov001_021ca414 = func_02036bec((void *) heap, 0xc0);
     data_ov001_021ca414->mUnk_5c = heap;
     data_ov001_021ca414->mUnk_60 = 0;

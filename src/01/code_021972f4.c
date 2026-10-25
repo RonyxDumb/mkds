@@ -33,9 +33,9 @@ void func_ov001_021975f4(u16 param_1)
         index = data_ov001_021a6850[0][0];
         data_ov001_021a9bdc->mUnk_38[index].mUnk_00 = 1;
         tile = data_ov001_021a6864[result];
-        func_02124748(tile, data_ov001_021a9bdc->mUnk_2c, data_ov001_021a9bdc->mUnk_28, data_ov001_021a9bdc->mUnk_34, 0, index, data_ov001_021a9bdc->mUnk_04, data_ov001_021a9bdc->mUnk_08);
+        func_02124748((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_28), (void *) (data_ov001_021a9bdc->mUnk_34), (s32) (0), (u32) (index), (void *) (data_ov001_021a9bdc->mUnk_04), (void *) (data_ov001_021a9bdc->mUnk_08));
         palette = (u8 *)((Unk020b4a44 *)data_ov001_021a9bdc->mUnk_30)->mUnk_0c;
-        func_02016468(0xe, data_ov001_021a683c[0] << 5, palette + (func_02124a68(tile, data_ov001_021a9bdc->mUnk_2c, data_ov001_021a9bdc->mUnk_34) << 5), 0x20);
+        func_02016468(0xe, data_ov001_021a683c[0] << 5, palette + (func_02124a68((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_34)) << 5), 0x20);
         result = func_020601a0(data_ov001_021a6900[data_ov001_021a9bdc->mUnk_6c], value);
         slot = data_ov001_021a6850[0][1];
         data_ov001_021a9bdc->mUnk_38[slot].mUnk_00 = 1;
@@ -58,9 +58,9 @@ void func_ov001_021975f4(u16 param_1)
         index = data_ov001_021a6850[param_1][0];
         data_ov001_021a9bdc->mUnk_3c[index].mUnk_00 = 1;
         tile = data_ov001_021a6864[result];
-        func_02124748(tile, data_ov001_021a9bdc->mUnk_2c, data_ov001_021a9bdc->mUnk_28, data_ov001_021a9bdc->mUnk_34, 1, index, data_ov001_021a9bdc->mUnk_18, data_ov001_021a9bdc->mUnk_1c);
+        func_02124748((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_28), (void *) (data_ov001_021a9bdc->mUnk_34), (s32) (1), (u32) (index), (void *) (data_ov001_021a9bdc->mUnk_18), (void *) (data_ov001_021a9bdc->mUnk_1c));
         palette = (u8 *)((Unk020b4a44 *)data_ov001_021a9bdc->mUnk_30)->mUnk_0c;
-        func_02016468(0x1e, data_ov001_021a683c[param_1] << 5, palette + (func_02124a68(tile, data_ov001_021a9bdc->mUnk_2c, data_ov001_021a9bdc->mUnk_34) << 5), 0x20);
+        func_02016468(0x1e, data_ov001_021a683c[param_1] << 5, palette + (func_02124a68((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_34)) << 5), 0x20);
         result = func_020601a0(data_ov001_021a6900[data_ov001_021a9bdc->mUnk_6c], value);
         slot = data_ov001_021a6852[param_1][0];
         data_ov001_021a9bdc->mUnk_3c[slot].mUnk_00 = 1;
@@ -127,9 +127,9 @@ void func_ov001_021972f4(void)
         result = func_020601e4(data_ov001_021a6900[data_ov001_021a9bdc->mUnk_6c], 5);
         data_ov001_021a9bdc->mUnk_38[5].mUnk_00 = 1;
         tile = data_ov001_021a6864[result];
-        func_02124748(tile, data_ov001_021a9bdc->mUnk_2c, data_ov001_021a9bdc->mUnk_28, data_ov001_021a9bdc->mUnk_34, 0, 5, data_ov001_021a9bdc->mUnk_04, data_ov001_021a9bdc->mUnk_08);
+        func_02124748((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_28), (void *) (data_ov001_021a9bdc->mUnk_34), (s32) (0), (u32) (5), (void *) (data_ov001_021a9bdc->mUnk_04), (void *) (data_ov001_021a9bdc->mUnk_08));
         palette = (u8 *)((Unk020b4a44 *)data_ov001_021a9bdc->mUnk_30)->mUnk_0c;
-        func_02016468(0xe, 0x80, palette + (func_02124a68(tile, data_ov001_021a9bdc->mUnk_2c, data_ov001_021a9bdc->mUnk_34) << 5), 0x20);
+        func_02016468(0xe, 0x80, palette + (func_02124a68((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_34)) << 5), 0x20);
         result = func_020601a0(data_ov001_021a6900[data_ov001_021a9bdc->mUnk_6c], 5);
         data_ov001_021a9bdc->mUnk_38[6].mUnk_00 = 1;
         func_021171a0(result, data_ov001_021a9bdc->mUnk_04, data_ov001_021a9bdc->mUnk_08, 6, 6, 0);

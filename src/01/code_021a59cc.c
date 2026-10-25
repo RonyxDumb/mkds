@@ -29,7 +29,7 @@ s32 func_ov001_021a6430(s32 a, s32 b, s32 c, s32 d, s32 e, u16 f, s32 g) {
         }
     }
     p = data_ov001_021ca424;
-    func_02124748(data_ov001_021a7664[a], p->mUnk_04, p->mUnk_00, p->mUnk_0c, g, e, c, d);
+    func_02124748((u32) (data_ov001_021a7664[a]), (void *) (p->mUnk_04), (void *) (p->mUnk_00), (void *) (p->mUnk_0c), (s32) (g), (u32) (e), (void *) (c), (void *) (d));
     dst = data_ov001_021ca424->mUnk_08->mUnk_0c;
     if (b != 0) {
         v1 = data_ov001_021a7674[a];

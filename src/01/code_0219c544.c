@@ -40,13 +40,13 @@ void func_ov001_0219c544(void) {
     uVar1 = ((int) func_0204799c((const char *) (*((u32 *) ((u32) (&data_ov001_021a8798))))));
     func_020b4a44((Unk020b4a44 **) ((int *) (u32) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x1c)),
                   (void *) (uVar1));
-    uVar1 = func_020b4018((int) (0));
+    uVar1 = (u32) func_020b4018((int) (0));
     *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x20) = uVar1;
-    uVar1 = func_020b400c((int) (0));
+    uVar1 = (u32) func_020b400c((int) (0));
     *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x24) = uVar1;
-    uVar1 = func_020b4030((int) (0));
+    uVar1 = (u32) func_020b4030((int) (0));
     *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x28) = uVar1;
-    uVar1 = func_020b4000((int) (0));
+    uVar1 = (u32) func_020b4000((int) (0));
     *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf4))) + 0x2c) = uVar1;
     ((u32) func_02016468((u32) (0x17), (u32) (0), (void *) (*(u32 *) (local_14 + 0x14)),
                          (u32) (*(u32 *) (local_14 + 0x10))));
