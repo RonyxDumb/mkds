@@ -13,10 +13,9 @@ void func_ov001_021881f4(int param_1, u32 param_2) {
 u32 func_ov001_021881a8(int param_1, u32 param_2, int param_3, int param_4) {
     int iVar1;
     if ((((param_3 != 0) || (param_4 != 0)) &&
-         ((param_3 == 0 || (iVar1 = func_ov001_02188f04(param_1, param_2), iVar1 != 0)))) &&
+         ((param_3 == 0 || (iVar1 = func_ov001_02188f04((Unk02188950 *) (param_1), (Vec3 *) (param_2), (s32) (param_3)), iVar1 != 0)))) &&
         ((param_4 == 0 ||
-          (iVar1 = func_ov001_02188eac((int) (param_1), (int) (*(u32 *) (param_1 + ((int) 0x000001a8u))),
-                                       (int *) ((int *) (u32) (param_2)), (int) (param_4)),
+          (iVar1 = func_ov001_02188eac((Unk02188950 *) ((int) (param_1)), (s32) ((int) (*(u32 *) (param_1 + ((int) 0x000001a8u)))), (Vec3 *) ((int *) ((int *) (u32) (param_2))), (s32) ((int) (param_4))),
            iVar1 != 0)))) {
         return 1;
     }

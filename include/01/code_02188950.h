@@ -46,9 +46,7 @@ typedef struct Unk02188950_a0 {
 
 typedef struct Unk02188950 {
     /* 000 */ u8 mUnk_000[0x4];
-    /* 004 */ s32 mUnk_004;
-    /* 008 */ s32 mUnk_008;
-    /* 00c */ s32 mUnk_00c;
+    /* 004 */ Vec3 mUnk_004;
     /* 010 */ u8 mUnk_010[0x90];
     /* 0a0 */ Unk02188950_a0 *mUnk_0a0;
     /* 0a4 */ struct Unk0218dabc *mUnk_0a4;

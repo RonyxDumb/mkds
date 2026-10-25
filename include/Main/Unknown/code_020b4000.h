@@ -13,3 +13,4 @@ void func_020b48ec();
 void func_020b496c();
 void func_020b49f4();
 void func_020b4a7c();
+s32 func_020b4e70(const Vec3 *param_1);
