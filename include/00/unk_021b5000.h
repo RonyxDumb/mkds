@@ -15,3 +15,5 @@ extern u8 data_ov000_021b5df4[];
 extern u8 data_ov000_021b5f50[];
 extern u8 data_ov000_021b5f98[];
 extern u8 data_ov000_021b5fdc[];
+
+extern u8 data_ov000_021b5f54[];
