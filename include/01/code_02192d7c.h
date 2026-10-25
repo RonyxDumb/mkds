@@ -24,5 +24,5 @@ typedef struct Unk02192d7c {
 } Unk02192d7c;
 
 void func_ov001_02192d7c(void *param_1, Unk02192d7c *param_2);
-void func_ov001_02192dd4(Unk0219b250 *param_1);
+void func_ov001_02192dd4(Unk0219b478 *param_1);
 void func_ov001_02192e10(Unk02188950 *param_1);

@@ -66,7 +66,7 @@ void func_ov001_02194730(void *heap) {
     data_ov001_021a9bd8->mUnk_88 = 0;
     data_ov001_021a9bd8->mUnk_8c = 0;
     for (i = 0; i < 2; i++) {
-        (&data_ov001_021a9bd8->mUnk_80)[i] = 0;
+        data_ov001_021a9bd8->mUnk_80[i] = 0;
     }
     func_ov001_021953d0();
     func_021172a8(heap);

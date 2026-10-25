@@ -36,8 +36,8 @@ void *func_ov001_0219b4d8(char *p0) {
     return out;
 }
 
-Unk0219b418 *func_ov001_0219b478(Unk0219b250 *p0, char *p1) {
-    Unk0219b418 *o = func_02036bec((void *) func_020364e0(func_020364e8()), (u32) (0x2c));
+Unk0219b250 *func_ov001_0219b478(Unk0219b478 *p0, char *p1) {
+    Unk0219b250 *o = func_02036bec((void *) func_020364e0(func_020364e8()), (u32) (0x2c));
     if (p0 != 0) {
         p0->mUnk_18 = 1;
     }
@@ -49,8 +49,8 @@ Unk0219b418 *func_ov001_0219b478(Unk0219b250 *p0, char *p1) {
     return o;
 }
 
-Unk0219b418 *func_ov001_0219b418(Unk0219b250 *p0, char *p1) {
-    Unk0219b418 *o = func_02036bec((void *) func_020364e0(func_020364e8()), (u32) (0x2c));
+Unk0219b250 *func_ov001_0219b418(Unk0219b478 *p0, char *p1) {
+    Unk0219b250 *o = func_02036bec((void *) func_020364e0(func_020364e8()), (u32) (0x2c));
     void *r = func_ov001_0219b4d8((char *) (p1));
     if (p0 != 0) {
         p0->mUnk_18 = 1;

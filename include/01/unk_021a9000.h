@@ -263,14 +263,14 @@ typedef struct Unk021a9be0 {
 } Unk021a9be0;
 
 extern Unk021a9be0 *data_ov001_021a9be0;
-extern Unk0219b418 *data_ov001_021a9b98;
+extern Unk0219b250 *data_ov001_021a9b98;
 extern Unk021a9ba4 *data_ov001_021a9bac;
 extern Unk021a9ba4 *data_ov001_021a9bb0;
 extern Unk021a9ba4 *data_ov001_021a9bb4;
 extern Unk021a9ba4 *data_ov001_021a9bb8;
 extern Unk021a9ba4 *data_ov001_021a9bbc;
 extern Unk021a9ba4 *data_ov001_021a9bc0;
-extern Unk0219b418 *data_ov001_021a9bcc;
+extern Unk0219b250 *data_ov001_021a9bcc;
 extern struct Unk021a9ba4 *data_ov001_021a9b8c;
 extern Unk021a9ba4 *data_ov001_021a9bc4;
 extern u16 data_ov001_021a9b94;

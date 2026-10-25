@@ -103,11 +103,11 @@ void func_ov001_02194fd8(s32 a) {
 void func_ov001_02194f20(void) {
     s32 i;
 
-    data_ov001_021a9bd8->mUnk_54[data_ov001_021a65fc[0]].mUnk_04 = -func_020adc64(6 - data_ov001_021a9bd8->mUnk_80);
-    data_ov001_021a9bd8->mUnk_54[data_ov001_021a65fc[1]].mUnk_04 = func_020adc64(6 - data_ov001_021a9bd8->mUnk_84);
+    data_ov001_021a9bd8->mUnk_54[data_ov001_021a65fc[0]].mUnk_04 = -func_020adc64(6 - data_ov001_021a9bd8->mUnk_80[0]);
+    data_ov001_021a9bd8->mUnk_54[data_ov001_021a65fc[1]].mUnk_04 = func_020adc64(6 - data_ov001_021a9bd8->mUnk_80[1]);
     for (i = 0; i < 2; i++) {
-        if ((&data_ov001_021a9bd8->mUnk_80)[i] > 0) {
-            (&data_ov001_021a9bd8->mUnk_80)[i]--;
+        if (data_ov001_021a9bd8->mUnk_80[i] > 0) {
+            data_ov001_021a9bd8->mUnk_80[i]--;
             data_ov001_021a9bd8->mUnk_54[data_ov001_021a6600[i]].mUnk_00 = 0;
             data_ov001_021a9bd8->mUnk_54[data_ov001_021a65fc[i]].mUnk_00 = 1;
         } else {

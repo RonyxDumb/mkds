@@ -96,7 +96,7 @@ next:
     if ((a == 0 && data_ov001_021a9bd8->mUnk_88 != 0) || (b == 0 && data_ov001_021a9bd8->mUnk_88 == 0) ||
         (u16)(data_02175628[idx].mUnk_02 & 0x20) != 0) {
         data_ov001_021a9bd8->mUnk_7c = 1;
-        data_ov001_021a9bd8->mUnk_80 = 6;
+        data_ov001_021a9bd8->mUnk_80[0] = 6;
         data_ov001_021a9bd8->mUnk_88 = 1;
         func_ov001_02194a0c();
         func_0212ecc0(data_0217d068, 0, 2);
@@ -105,7 +105,7 @@ next:
     if ((a == 1 && data_ov001_021a9bd8->mUnk_8c != 0) || (b == 1 && data_ov001_021a9bd8->mUnk_8c == 0) ||
         (u16)(data_02175628[idx].mUnk_02 & 0x10) != 0) {
         data_ov001_021a9bd8->mUnk_7c = 0;
-        data_ov001_021a9bd8->mUnk_84 = 6;
+        data_ov001_021a9bd8->mUnk_80[1] = 6;
         data_ov001_021a9bd8->mUnk_8c = 1;
         func_ov001_02194a0c();
         func_0212ecc0(data_0217d068, 0, 2);

@@ -14,7 +14,7 @@ void func_ov001_02192e10(Unk02188950 *param_1)
     func_02146dfc(m, param_1->mUnk_028, param_1->mUnk_028);
 }
 
-void func_ov001_02192dd4(Unk0219b250 *param_1)
+void func_ov001_02192dd4(Unk0219b478 *param_1)
 {
     data_ov001_021a9bcc = func_ov001_0219b478(param_1, "StopSign.nsbmd");
     func_0209b940(data_ov001_021a9bcc, 0x3f);

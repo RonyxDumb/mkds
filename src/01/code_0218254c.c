@@ -30,14 +30,14 @@ u8 func_ov001_0218274c(Unk02181c3c *param_1, Unk0218274c *param_2, u8 *param_3, 
     return b;
 }
 
-void func_ov001_021826fc(Unk0219b250 *param_1)
+void func_ov001_021826fc(Unk0219b478 *param_1)
 {
     data_ov001_021a9b98 = func_ov001_0219b478(param_1, data_ov001_021a78c0);
     func_ov001_0219b2e8((Unk0219b250 *)data_ov001_021a9b98, data_ov001_021a78cc);
     func_0209b940(data_ov001_021a9b98, 0x3f);
     func_0209ba08(data_ov001_021a9b98, 2);
     func_020849a0(data_ov001_021a9b98->mUnk_10, 0x294a);
-    param_1->mUnk_1c = (void *)1;
+    param_1->mUnk_1c = 1;
 }
 
 void func_ov001_0218263c(void *param_1, Unk02181c3c *param_2)
