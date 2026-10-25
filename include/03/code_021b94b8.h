@@ -1,5 +1,7 @@
 #pragma once
 
+#include "03/code_021b94ac.h"
+
 #include "types.h"
 #include "Main/Unknown/code_0214cfe4.h"
 
@@ -172,7 +174,6 @@ void func_ov003_021b916c(s32 count, Unk021b916c *out, const u8 *source);
 s32 func_ov003_021b91a4(Unk021ba1b0 *request);
 s32 func_ov003_021b91f0(Unk021ba734 *list);
 s32 func_ov003_021b929c(Unk021b94c4 *req);
-s32 func_ov003_021b94ac(void);
 s32 func_ov003_021ba818(s32 (*callback)(void *), void *buffer, u32 size);
 s32 func_ov003_021ba910(Unk021ba778Src *rec, Unk021d8a4c *key, u32 flags);
 s32 func_ov003_021ba9c0(void);
