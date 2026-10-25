@@ -31,11 +31,11 @@ typedef struct Unk02188950_a0 {
     /* 098 */ s32 mUnk_098;
     /* 09c */ s32 mUnk_09c;
     /* 0a0 */ s32 mUnk_0a0;
-    /* 0a4 */ u8 mUnk_0a4[0x4];
+    /* 0a4 */ s32 mUnk_0a4;
     /* 0a8 */ s32 mUnk_0a8;
     /* 0ac */ s32 mUnk_0ac;
     /* 0b0 */ s32 mUnk_0b0;
-    /* 0b4 */ u8 mUnk_0b4[0x4];
+    /* 0b4 */ s32 mUnk_0b4;
     /* 0b8 */ s32 mUnk_0b8;
     /* 0bc */ s32 mUnk_0bc;
     /* 0c0 */ s32 mUnk_0c0;
@@ -164,6 +164,12 @@ typedef struct Unk02188950_bc {
     /* 14 */ void *mUnk_14;
 } Unk02188950_bc;
 
+// Object behind Unk02188950::mUnk_300.
+typedef struct Unk02188950_300 {
+    /* 00 */ u8 mUnk_00[0x54];
+    /* 54 */ s32 mUnk_54;
+} Unk02188950_300;
+
 // Layout provisional: functions on objects that share this prefix use different types at 0xa0 and 0xa8.
 typedef struct Unk02188950 {
     /* 000 */ u16 mUnk_000;
@@ -194,7 +200,7 @@ typedef struct Unk02188950 {
     /* 0ac */ s32 mUnk_0ac;
     /* 0b0 */ s32 mUnk_0b0;
     /* 0b4 */ s32 mUnk_0b4;
-    /* 0b8 */ u8 mUnk_0b8[0x4];
+    /* 0b8 */ s32 mUnk_0b8;
     /* 0bc */ Unk02188950_bc mUnk_0bc[5];
     /* 134 */ u8 mUnk_134[0x4];
     /* 138 */ s32 mUnk_138;
@@ -292,7 +298,10 @@ typedef struct Unk02188950 {
     /* 2d8 */ s32 mUnk_2d8;
     /* 2dc */ UnkFunc *mUnk_2dc;
     /* 2e0 */ s32 mUnk_2e0;
-    /* 2e4 */ u8 mUnk_2e4[0x20];
+    /* 2e4 */ s32 mUnk_2e4;
+    /* 2e8 */ Vec3 mUnk_2e8;
+    /* 2f4 */ Vec3 mUnk_2f4;
+    /* 300 */ void *mUnk_300;
     /* 304 */ struct Unk0218d950 *mUnk_304;
     /* 308 */ void *mUnk_308;
 } Unk02188950;

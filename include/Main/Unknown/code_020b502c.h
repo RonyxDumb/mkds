@@ -19,9 +19,18 @@ typedef struct {
     /* 10 */ s32 mUnk_10;
 } Unk020b57e4;
 
+// One entry of the table at Unk02175620::mUnk_08.
+typedef struct {
+    /* 00 */ u8 mUnk_00[2];
+    /* 02 */ u16 mUnk_02;
+} Unk02175620_08;
+
 // Object behind data_02175620.
 typedef struct {
-    /* 00 */ u8 mUnk_00[0x2c];
+    /* 00 */ u8 mUnk_00[0x8];
+    /* 08 */ Unk02175620_08 *mUnk_08;
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u8 mUnk_0e[0x1e];
     /* 2c */ Unk020b57e4 *mUnk_2c;
     /* 30 */ u8 mUnk_30[0x28];
     /* 58 */ u16 mUnk_58;

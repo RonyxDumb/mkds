@@ -11,7 +11,7 @@ void func_ov001_0218ead0(int param_1) {
     func_ov001_0218f850((int) (param_1));
     func_ov001_02188e24((Unk02188950 *) ((int) (param_1)), (s32) ((u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001a8u)))), (UnkFunc *) ((int) (((u32) ((u32) (&func_ov001_0218eb94))))));
     func_ov001_02182a3c(0);
-    func_ov001_02187e48((int) (param_1), (int) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000140u))));
+    func_ov001_02187e48((Unk02188950 *) ((int) (param_1)), (s32) ((int) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000140u)))));
     iVar1 = *(int *) (param_1 + 0xa8);
     if (iVar1 == 1) {
         uVar4 = 2;

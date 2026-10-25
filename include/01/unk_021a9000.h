@@ -108,7 +108,36 @@ extern Unk021a9b90 *data_ov001_021a9b90;
 extern u8 data_ov001_021a9bd0[];
 extern u8 data_ov001_021a9bec[];
 extern Unk021a9bf8 *data_ov001_021a9bf8;
-extern u8 data_ov001_021a9bfc[];
+// One pair of halfwords of the object behind data_ov001_021a9bfc.
+typedef struct Unk021a9bfc_18 {
+    /* 00 */ s16 mUnk_00;
+    /* 02 */ s16 mUnk_02;
+} Unk021a9bfc_18;
+
+// Object behind data_ov001_021a9bfc.
+typedef struct Unk021a9bfc {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ Unk021a9bfc_18 mUnk_18[2];
+    /* 20 */ s32 mUnk_20;
+    /* 24 */ s32 mUnk_24;
+    /* 28 */ s32 mUnk_28[2];
+    /* 30 */ u8 mUnk_30[4];
+    /* 34 */ Unk021a9bdcEntry *mUnk_34;
+    /* 38 */ void *mUnk_38;
+    /* 3c */ u8 mUnk_3c[8];
+    /* 44 */ Unk021a9bdcCount *mUnk_44;
+    /* 48 */ void *mUnk_48;
+    /* 4c */ void *mUnk_4c;
+    /* 50 */ void *mUnk_50;
+    /* 54 */ void *mUnk_54;
+} Unk021a9bfc;
+
+extern Unk021a9bfc *data_ov001_021a9bfc;
 extern const char *data_ov001_021a90a8;
 extern const char *data_ov001_021a90e4;
 extern const char *data_ov001_021a90cc;

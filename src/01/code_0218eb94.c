@@ -27,9 +27,9 @@ void func_ov001_0218ec40(Unk02188950 *param_1) {
         func_ov001_02188cd8((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_230), (s32) (param_1->mUnk_0a0->mUnk_234));
         func_ov001_02188c48(param_1, param_1->mUnk_0a0->mUnk_238, param_1->mUnk_0a0->mUnk_23c);
     }
-    func_ov001_02188998(param_1, ((Vec3 *) func_ov001_02187fc0(param_1)));
+    func_ov001_02188998(param_1, ((Vec3 *) func_ov001_02187fc0((Unk02188950 *) (param_1))));
     func_ov001_02188de0(param_1, param_1->mUnk_0a0->mUnk_138, param_1->mUnk_0a0->mUnk_13c,
-                        ((Vec3 *) func_ov001_02187fc0(param_1)), 0);
+                        ((Vec3 *) func_ov001_02187fc0((Unk02188950 *) (param_1))), 0);
     if (data_0217d20c != 5) {
         data_0217d21c = data_0217d20c;
     }
@@ -41,9 +41,9 @@ void func_ov001_0218eb94(Unk02188950 *param_1) {
     func_0207a974((u16) data_021759c0->mUnk_62);
     rng = func_020d22d0();
     rng->mUnk_00 = rng->mUnk_08 * rng->mUnk_00 + rng->mUnk_10;
-    param_1->mUnk_004.x = ((Vec3 *) func_ov001_02187fc0(param_1))->x;
-    param_1->mUnk_004.y = param_1->mUnk_0a0->mUnk_080 + ((Vec3 *) func_ov001_02187fc0(param_1))->y;
-    param_1->mUnk_004.z = ((Vec3 *) func_ov001_02187fc0(param_1))->z;
+    param_1->mUnk_004.x = ((Vec3 *) func_ov001_02187fc0((Unk02188950 *) (param_1)))->x;
+    param_1->mUnk_004.y = param_1->mUnk_0a0->mUnk_080 + ((Vec3 *) func_ov001_02187fc0((Unk02188950 *) (param_1)))->y;
+    param_1->mUnk_004.z = ((Vec3 *) func_ov001_02187fc0((Unk02188950 *) (param_1)))->z;
     func_ov001_02187218(param_1, 5, (s32 (*)(Unk02188950 *)) func_ov001_0218edb8);
     func_ov001_0218f900(param_1);
     func_ov001_02188e24(param_1, param_1->mUnk_0a0->mUnk_1b4, 0);

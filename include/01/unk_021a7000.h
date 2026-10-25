@@ -27,3 +27,5 @@ extern const char data_ov001_021a7b44[];
 extern Unk021a7c08 data_ov001_021a7ad0;
 extern char data_ov001_021a78c0[];
 extern char data_ov001_021a78cc[];
+extern Vec3 data_ov001_021a7a64;
+extern Vec3 data_ov001_021a7a70;

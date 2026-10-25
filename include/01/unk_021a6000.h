@@ -70,3 +70,8 @@ extern u16 data_ov001_021a6a18[];
 extern u16 data_ov001_021a6a9c[3];
 extern u16 data_ov001_021a6aa4[3];
 extern u16 data_ov001_021a6ab4[3];
+extern const u8 data_ov001_021a6c1c[2][2];
+extern const u8 data_ov001_021a6c20[3][2];
+extern const s32 data_ov001_021a6c28[2];
+extern const s32 data_ov001_021a6c30[2];
+extern const u8 data_ov001_021a6c38[2][11];

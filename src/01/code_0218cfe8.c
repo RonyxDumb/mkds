@@ -55,13 +55,13 @@ u32 func_ov001_0218d0fc(int param_1) {
     int iVar1;
     iVar1 = func_0209b620((int) (*(u32 *) (param_1 + ((int) 0x00000304u))));
     if (iVar1 == 0x33) {
-        func_ov001_02187af4((int) (param_1));
+        func_ov001_02187af4((Unk02188950 *) ((int) (param_1)));
         func_ov001_021875c0((int) (param_1), (u32) (((u32) 0xfffff666u)), (u32) (0), (u32) (((u32) 0x00000400u)),
                             (u32) (((u32) 0x00000434u)), (u32) (0));
     } else {
         iVar1 = func_0209b620((int) (*(u32 *) (param_1 + ((int) 0x00000304u))));
         if (iVar1 == 0x66) {
-            func_ov001_02187af4((int) (param_1));
+            func_ov001_02187af4((Unk02188950 *) ((int) (param_1)));
             func_ov001_021875c0((int) (param_1), (u32) (((u32) 0x0000099au)), (u32) (0), (u32) (((u32) 0x00000400u)),
                                 (u32) (((u32) 0x00000434u)), (u32) (0));
         }

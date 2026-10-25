@@ -19,7 +19,7 @@ void func_ov001_02190948(Unk02188950 *param_1)
     u32 a;
     u32 b;
 
-    if (func_ov001_0218820c(param_1)) {
+    if (func_ov001_0218820c((Unk02188950 *) (param_1))) {
         r4 = func_0207a974((u16)data_021759c0->mUnk_62);
         func_ov001_02187218(param_1, 3, func_ov001_02190a20);
         func_ov001_02188c48(param_1, param_1->mUnk_0a0->mUnk_2c4, 0x270f000);
