@@ -293,8 +293,16 @@ src/01/code_0218ce30.c:
     .text       start:0x0218ce10 end:0x0218ce70
 
 // provisional: file name and boundaries
+src/01/code_0218ce90.c:
+    .text       start:0x0218ce70 end:0x0218cfc8
+
+// provisional: file name and boundaries
 src/01/code_0218cfe8.c:
     .text       start:0x0218cfc8 end:0x0218d260
+
+// provisional: file name and boundaries
+src/01/code_0218d280.c:
+    .text       start:0x0218d260 end:0x0218d4a8
 
 // provisional: file name and boundaries
 src/01/code_0218d4c8.c:
@@ -305,8 +313,16 @@ src/01/code_0218d520.c:
     .text       start:0x0218d500 end:0x0218dcc4
 
 // provisional: file name and boundaries
+src/01/code_0218dce4.c:
+    .text       start:0x0218dcc4 end:0x0218ddc8
+
+// provisional: file name and boundaries
 src/01/code_0218dde8.c:
     .text       start:0x0218ddc8 end:0x0218de30
+
+// provisional: file name and boundaries
+src/01/code_0218de50.c:
+    .text       start:0x0218de30 end:0x0218df00
 
 // provisional: file name and boundaries
 src/01/code_0218e344.c:

@@ -6,7 +6,7 @@
 typedef struct Unk02188950_a0 {
     /* 000 */ u8 mUnk_000[0x4];
     /* 004 */ s32 mUnk_004;
-    /* 008 */ u8 mUnk_008[0x4];
+    /* 008 */ s32 mUnk_008;
     /* 00c */ u32 mUnk_00c;
     /* 010 */ s32 mUnk_010;
     /* 014 */ s32 mUnk_014;
@@ -15,7 +15,9 @@ typedef struct Unk02188950_a0 {
     /* 020 */ s32 mUnk_020;
     /* 024 */ u8 mUnk_024[0xc];
     /* 030 */ s32 mUnk_030;
-    /* 034 */ u8 mUnk_034[0x44];
+    /* 034 */ u8 mUnk_034[0x3c];
+    /* 070 */ s32 mUnk_070;
+    /* 074 */ s32 mUnk_074;
     /* 078 */ s32 mUnk_078;
     /* 07c */ s32 mUnk_07c;
     /* 080 */ s32 mUnk_080;
@@ -115,7 +117,9 @@ typedef struct Unk02188950_a0 {
     /* 214 */ s32 mUnk_214;
     /* 218 */ s32 mUnk_218;
     /* 21c */ s32 mUnk_21c;
-    /* 220 */ u8 mUnk_220[0x9c];
+    /* 220 */ u8 mUnk_220[0x20];
+    /* 240 */ s32 mUnk_240;
+    /* 244 */ u8 mUnk_244[0x78];
     /* 2bc */ u32 mUnk_2bc;
     /* 2c0 */ u32 mUnk_2c0;
     /* 2c4 */ u32 mUnk_2c4;
@@ -148,7 +152,9 @@ typedef struct Unk02188950 {
     /* 020 */ s32 mUnk_020;
     /* 024 */ s32 mUnk_024;
     /* 028 */ s32 mUnk_028[9];
-    /* 04c */ u8 mUnk_04c[0x24];
+    /* 04c */ u8 mUnk_04c[0x18];
+    /* 064 */ s16 mUnk_064;
+    /* 066 */ u8 mUnk_066[0xa];
     /* 070 */ u32 mUnk_070;
     /* 074 */ u8 mUnk_074[0x4];
     /* 078 */ u32 mUnk_078;
@@ -260,7 +266,9 @@ typedef struct Unk02188950 {
     /* 2d0 */ s32 mUnk_2d0;
     /* 2d4 */ UnkFunc *mUnk_2d4;
     /* 2d8 */ s32 mUnk_2d8;
-    /* 2dc */ u8 mUnk_2dc[0x28];
+    /* 2dc */ u8 mUnk_2dc[0x4];
+    /* 2e0 */ s32 mUnk_2e0;
+    /* 2e4 */ u8 mUnk_2e4[0x20];
     /* 304 */ struct Unk0218d950 *mUnk_304;
     /* 308 */ void *mUnk_308;
 } Unk02188950;

@@ -4,7 +4,7 @@
 
 // Objects whose layout isn't known yet.
 extern u16 data_ov001_021a6574;
-extern u16 data_ov001_021a65b0;
+extern const u16 data_ov001_021a65b0;
 extern u8 data_ov001_021a65b4[];
 extern u8 data_ov001_021a65b8[];
 extern u8 data_ov001_021a65bc[];

@@ -17,3 +17,4 @@ void func_0209b940(void *param_1, u32 param_2);
 void func_0209ba08(void *param_1, u32 param_2);
 void *func_0209bf48(UnkFunc *param_1, UnkFunc *param_2, void *param_3);
 void func_0209b8ac(void *param_1, u32 param_2);
+void *func_0209bf1c(UnkFunc *param_1, UnkFunc *param_2, UnkFunc *param_3);
