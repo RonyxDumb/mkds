@@ -1,5 +1,8 @@
 #pragma once
 
+#include "00/code_02180638.h"
+#include "00/code_021806e0.h"
+
 #include "types.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_0204799c.h"
@@ -217,10 +220,7 @@ s32 func_02016468(u32, u32, void *, u32);
 
 void *func_ov000_021804e0(void);
 void *func_ov000_021804f4(void);
-void func_ov000_02180638(s32);
-s32 func_ov000_02180644(void);
 u32 func_ov000_02180668(u32);
-void func_ov000_021806e0(s32);
 void func_ov000_021806ec(const Unk021b0cd4 *);
 void func_ov000_02182e18(void);
 void func_ov000_02184354(void);

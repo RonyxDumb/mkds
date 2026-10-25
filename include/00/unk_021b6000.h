@@ -8,3 +8,5 @@ extern u8 data_ov000_021b63a4[];
 extern u8 data_ov000_021b63ac[];
 extern u8 data_ov000_021b63b4[];
 extern u8 data_ov000_021b63d8[];
+
+extern u8 data_ov000_021b63a8[];

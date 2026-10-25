@@ -1,0 +1,11 @@
+#include "00/code_02194b9c.h"
+
+u32 func_ov000_02194b9c(u32 arg0, u32 arg1) {
+    u32 value0 = (u32) arg0;
+    u32 value1 = (u32) arg1;
+    u32 value2;
+    value2 = (u32) * (const u32 *) ((value0) + 0u);
+    value0 = (u32) * (const u32 *) ((value1) + 0u);
+    value0 = (value2) - (value0);
+    return (u32) value0;
+}
