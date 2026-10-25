@@ -20,9 +20,7 @@
 #include "Main/Unknown/unk_0217d068.h"
 #include "01/code_021a1000.h"
 
-// non-matching: in the mUnk_34 index branch for bit 0x40 the object pointer is in r3 and the index in r2; the original has them in r2 and r3
-void func_ov001_021a13d8(void)
-{
+void func_ov001_021a13d8(void) {
     u32 r5 = -1;
     Unk02175628Index idx = UNK_02175628_INDEX_8;
     s32 b1;
@@ -70,11 +68,11 @@ void func_ov001_021a13d8(void)
     return;
 next:
     if (r5 <= 3) {
-        t = data_ov001_021a6f80[r5];
-        if (data_ov001_021ca418->mUnk_34 == t) {
+        s = data_ov001_021a6f80[r5];
+        if (data_ov001_021ca418->mUnk_34 == s) {
             data_ov001_021ca418->mUnk_38 = 0;
         }
-        data_ov001_021ca418->mUnk_34 = t;
+        data_ov001_021ca418->mUnk_34 = s;
         func_ov001_021a1978();
         return;
     }
@@ -85,12 +83,12 @@ next:
     }
     if (func_020ae408(8, 0x40) != 0) {
         if (func_02056dec(0x10) != 0) {
+            t = data_ov001_021ca418->mUnk_34;
             o = data_ov001_021ca418;
-            t = o->mUnk_34;
             s = data_ov001_021a6f20[t];
         } else {
+            t = data_ov001_021ca418->mUnk_34;
             o = data_ov001_021ca418;
-            t = o->mUnk_34;
             s = data_ov001_021a6f40[t];
         }
         if (s != 0) {
@@ -99,12 +97,12 @@ next:
         }
     } else if (func_020ae408(8, 0x80) != 0) {
         if (func_02056dec(0x10) != 0) {
+            t = data_ov001_021ca418->mUnk_34;
             o = data_ov001_021ca418;
-            t = o->mUnk_34;
             s = data_ov001_021a6f30[t];
         } else {
+            t = data_ov001_021ca418->mUnk_34;
             o = data_ov001_021ca418;
-            t = o->mUnk_34;
             s = data_ov001_021a6f48[t];
         }
         if (s != 0) {
@@ -113,12 +111,12 @@ next:
         }
     } else if (func_020ae408(8, 0x20) != 0) {
         if (func_02056dec(0x10) != 0) {
+            t = data_ov001_021ca418->mUnk_34;
             o = data_ov001_021ca418;
-            t = o->mUnk_34;
             s = data_ov001_021a6f38[t];
         } else {
+            t = data_ov001_021ca418->mUnk_34;
             o = data_ov001_021ca418;
-            t = o->mUnk_34;
             s = data_ov001_021a6f50[t];
         }
         if (s != 0) {
@@ -127,12 +125,12 @@ next:
         }
     } else if (func_020ae408(8, 0x10) != 0) {
         if (func_02056dec(0x10) != 0) {
+            t = data_ov001_021ca418->mUnk_34;
             o = data_ov001_021ca418;
-            t = o->mUnk_34;
             s = data_ov001_021a6f60[t];
         } else {
+            t = data_ov001_021ca418->mUnk_34;
             o = data_ov001_021ca418;
-            t = o->mUnk_34;
             s = data_ov001_021a6f58[t];
         }
         if (s != 0) {

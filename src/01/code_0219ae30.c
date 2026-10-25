@@ -17,12 +17,12 @@ void func_ov001_0219af90(s32 a) {
     func_02124a20(data_ov001_021a6aa4[a], 15, data_ov001_021a9bf0->mUnk_0c, data_ov001_021a9bf0->mUnk_10);
 }
 
-// non-matching: registers only; the value read from mUnk_04[3] is in r3 and the object pointer temporary in r2, the original has them the other way round
 void func_ov001_0219ae88(void) {
     s32 i;
     s32 j;
-    s32 k;
+    u16 *p;
     s32 n;
+
     data_ov001_021a9bf0->mUnk_34 = 0;
     data_ov001_021a9bf0->mUnk_38 = 0;
     data_ov001_021a9bf0->mUnk_3c = ~0xbf;
@@ -34,16 +34,17 @@ void func_ov001_0219ae88(void) {
         data_ov001_021a9bf0->mUnk_18[data_ov001_021a6aac[i]].mUnk_06 = ~0xbf;
     }
     for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            data_ov001_021a9bf0->mUnk_18[n + data_ov001_021a6ae4[i][j]].mUnk_06 = ~0xbf;
+        for (j = 0, p = data_ov001_021a6ae4[i]; j < 3; j++) {
+            data_ov001_021a9bf0->mUnk_18[n + *p].mUnk_06 = ~0xbf;
+            p++;
         }
     }
-    for (k = 0; k < 3; k++) {
-        data_ov001_021a9bf0->mUnk_1c[data_ov001_021a6ab4[k]].mUnk_04 = 0xe0;
-        data_ov001_021a9bf0->mUnk_1c[data_ov001_021a6ac4[k]].mUnk_04 = 0xe0;
-        data_ov001_021a9bf0->mUnk_1c[data_ov001_021a6a9c[k]].mUnk_04 = 0xe0;
-        data_ov001_021a9bf0->mUnk_1c[data_ov001_021a6aa4[k]].mUnk_04 = 0xe0;
-        func_ov001_0219af90(k);
+    for (i = 0; i < 3; i++) {
+        data_ov001_021a9bf0->mUnk_1c[data_ov001_021a6ab4[i]].mUnk_04 = 0xe0;
+        data_ov001_021a9bf0->mUnk_1c[data_ov001_021a6ac4[i]].mUnk_04 = 0xe0;
+        data_ov001_021a9bf0->mUnk_1c[data_ov001_021a6a9c[i]].mUnk_04 = 0xe0;
+        data_ov001_021a9bf0->mUnk_1c[data_ov001_021a6aa4[i]].mUnk_04 = 0xe0;
+        func_ov001_0219af90(i);
     }
 }
 

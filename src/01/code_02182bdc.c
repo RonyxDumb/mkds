@@ -29,7 +29,6 @@ void func_ov001_02182e84(void) {
     }
 }
 
-// non-matching: the two 64-bit right shifts of the zero-extended high word get their register pair swapped (r1/r0 instead of r0/r1) and the shifts emitted in the other order; 6 words
 void func_ov001_02182d30(void) {
     Unk0206bcb0 *c;
     Unk02181c3c *o;
@@ -39,14 +38,14 @@ void func_ov001_02182d30(void) {
     Unk0210b7a8 arg;
 
     c = func_0207a974((u16) data_021759c0->mUnk_62);
-    o = func_0209bbfc(func_02100138(0x68));
+    o = func_0209bbfc((Unk02181c3c_list *) (func_02100138((u32) (0x68))));
     if (o != 0) {
         rnd = func_020d22d0();
-        rnd->mUnk_00 = rnd->mUnk_08 * rnd->mUnk_00 + rnd->mUnk_10;
-        a = (u16) (((u64) (u32) (rnd->mUnk_00 >> 32)) >> 16);
+        rnd->mUnk_00 = (s64) rnd->mUnk_08 * (s64) rnd->mUnk_00 + rnd->mUnk_10;
+        a = (u16) (((u64) (u32) (rnd->mUnk_00 >> 32) * 0x10000) >> 32);
         rnd = func_020d22d0();
-        rnd->mUnk_00 = rnd->mUnk_08 * rnd->mUnk_00 + rnd->mUnk_10;
-        b = (u32) (((u64) (u32) (rnd->mUnk_00 >> 32)) >> 21) + 0x800;
+        rnd->mUnk_00 = (s64) rnd->mUnk_08 * (s64) rnd->mUnk_00 + rnd->mUnk_10;
+        b = (u32) (((u64) (u32) (rnd->mUnk_00 >> 32) * 0x800) >> 32) + 0x800;
         o->mUnk_0f8 = 3;
         o->mUnk_0b0 = 0x99a;
         o->mUnk_0a0 = 0x10;
@@ -65,37 +64,38 @@ void func_ov001_02182d30(void) {
     }
 }
 
-// non-matching: same difference as func_ov001_02182d30 (two 64-bit right shifts, register pair swapped); 5 words
 void func_ov001_02182bdc(void) {
     Unk0206bcb0 *c;
     Unk02181c3c *o;
     Unk020f41c4_B *rnd;
     s32 a;
     s32 b;
-    s32 v;
+    u8 n;
+    Unk02188950 *v;
     Unk0210b7a8 arg;
 
     c = func_0207a974((u16) data_021759c0->mUnk_62);
-    o = func_0209bbfc(func_02100138(0x68));
+    o = func_0209bbfc((Unk02181c3c_list *) (func_02100138((u32) (0x68))));
     if (o != 0) {
         rnd = func_020d22d0();
-        rnd->mUnk_00 = rnd->mUnk_08 * rnd->mUnk_00 + rnd->mUnk_10;
-        a = (u16) (((u64) (u32) (rnd->mUnk_00 >> 32)) >> 16);
+        rnd->mUnk_00 = (s64) rnd->mUnk_08 * (s64) rnd->mUnk_00 + rnd->mUnk_10;
+        a = (u16) (((u64) (u32) (rnd->mUnk_00 >> 32) * 0x10000) >> 32);
         rnd = func_020d22d0();
-        rnd->mUnk_00 = rnd->mUnk_08 * rnd->mUnk_00 + rnd->mUnk_10;
-        b = (u32) (((u64) (u32) (rnd->mUnk_00 >> 32)) >> 21) + 0x800;
+        rnd->mUnk_00 = (s64) rnd->mUnk_08 * (s64) rnd->mUnk_00 + rnd->mUnk_10;
+        b = (u32) (((u64) (u32) (rnd->mUnk_00 >> 32) * 0x800) >> 32) + 0x800;
         o->mUnk_0f8 = 5;
         o->mUnk_0b0 = 0x99a;
         o->mUnk_0a0 = 0x10;
         o->mUnk_0ac = 0x1e;
         v = 0;
         if (data_021759c0->mUnk_08 == 4) {
+            n = 0;
             if (data_021759c0->mUnk_08 == 4) {
-                v = func_ov001_02181b54();
+                n = func_ov001_02181b54();
             }
-            v = (u32) func_ov001_02181b68(v);
+            v = func_ov001_02181b68(n);
         }
-        o->mUnk_0e8 = (Vec3 *) (v + 4);
+        o->mUnk_0e8 = &v->mUnk_004;
         o->mUnk_004.x = c->mUnk_80.x;
         o->mUnk_004.y = c->mUnk_80.y + 0x1a000;
         o->mUnk_004.z = c->mUnk_80.z;

@@ -79,28 +79,28 @@ void func_ov001_021a0b3c(void) {
     data_ov001_021ca414->mUnk_44[45].mUnk_00 = 1;
 }
 
-// non-matching: 0x19c bytes against the original's 0x198. In the cnt >= 50 half the factor (cnt - 50) is moved to
-// a second register before each multiply (adds r1, r5, #0; muls r1, r0) where the original multiplies in place
-// (muls r0, r4); r4/r5 are swapped and the channel spills use other slots.
 void func_ov001_021a09a4(void) {
-    s32 c1;
-    s32 c0;
-    s32 c2;
-    volatile u16 zero;
-    u16 *p0;
-    u16 *p1;
     s32 k;
-    s32 cnt;
-    s32 t;
     s32 ra;
     s32 ga;
     s32 ba;
     s32 rb;
     s32 gb;
     s32 bb;
+    s32 c0;
+    s32 c1;
+    s32 c2;
+    volatile u16 zero;
+    u8 *pal;
+    s32 col0;
+    s32 col1;
+    s32 cnt;
+    s32 t;
+    s32 d;
     s32 r;
     s32 g;
     s32 bl;
+
     if (data_ov001_021ca414->mUnk_a0 != 0) {
         if (data_ov001_021ca414->mUnk_a4 == 0) {
             data_ov001_021ca414->mUnk_a8 = data_ov001_021ca414->mUnk_a8 + 1;
@@ -118,15 +118,16 @@ void func_ov001_021a09a4(void) {
             }
             zero = 0;
             func_0214cfe4(zero, data_ov001_021ca414->mUnk_20, 0x20);
-            p0 = (u16 *) (data_ov001_021ca414->mUnk_1c->mUnk_0c + c0 * 32);
-            p1 = (u16 *) (data_ov001_021ca414->mUnk_1c->mUnk_0c + c1 * 32);
+            pal = data_ov001_021ca414->mUnk_1c->mUnk_0c;
             for (k = 0; k < 16; k++) {
-                ra = p0[k] & 0x1f;
-                ga = (p0[k] & 0x3e0) >> 5;
-                ba = (p0[k] & 0x7c00) >> 10;
-                rb = p1[k] & 0x1f;
-                gb = (p1[k] & 0x3e0) >> 5;
-                bb = (p1[k] & 0x7c00) >> 10;
+                col0 = ((u16 *)(pal + c0 * 32))[k];
+                col1 = ((u16 *)(pal + c1 * 32))[k];
+                ra = col0 & 0x1f;
+                ga = (col0 & 0x3e0) >> 5;
+                ba = (col0 & 0x7c00) >> 10;
+                rb = col1 & 0x1f;
+                gb = (col1 & 0x3e0) >> 5;
+                bb = (col1 & 0x7c00) >> 10;
                 cnt = data_ov001_021ca414->mUnk_a8;
                 if (cnt < 50) {
                     r = ra + cnt * (rb - ra) * 2 / 100;
@@ -134,11 +135,14 @@ void func_ov001_021a09a4(void) {
                     bl = ba + cnt * (bb - ba) * 2 / 100;
                 } else {
                     t = cnt - 50;
-                    r = rb + (ra - rb) * t * 2 / 100;
-                    g = gb + (ga - gb) * t * 2 / 100;
-                    bl = bb + (ba - bb) * t * 2 / 100;
+                    d = ra - rb;
+                    r = rb + d * t * 2 / 100;
+                    d = ga - gb;
+                    g = gb + d * t * 2 / 100;
+                    d = ba - bb;
+                    bl = bb + d * t * 2 / 100;
                 }
-                data_ov001_021ca414->mUnk_20[k] = r | (g << 5) | (bl << 10);
+                data_ov001_021ca414->mUnk_20[k] = r | ((bl << 10) | (g << 5));
             }
             func_0200ee74((u32) data_ov001_021ca414->mUnk_20, 0x20);
             func_02016468(0x1e, c2 << 5, data_ov001_021ca414->mUnk_20, 0x20);

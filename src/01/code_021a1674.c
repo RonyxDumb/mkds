@@ -2,44 +2,39 @@
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_02105000.h"
 
-// non-matching: same instructions; the stack slots of the loop counter k and of the table pointer are swapped
-// (original: pointer at sp+4, k at sp+0xc).
 void func_ov001_021a16e4(void) {
     s16 a;
     s16 b;
-    s32 k;
     s32 j;
     s32 i;
-    s32 nb;
     data_ov001_021ca418->mUnk_2c = data_ov001_021ca418->mUnk_2c + 1;
     a = func_020ae4c0(1, 0xe0, 0, data_ov001_021ca418->mUnk_2c, 10);
     b = func_020ae4c0(1, -0xc0, 0, data_ov001_021ca418->mUnk_2c, 10);
-    nb = -b;
-    data_ov001_021ca418->mUnk_30 = nb;
+    data_ov001_021ca418->mUnk_30 = -b;
     for (i = 0; i < 6; i++) {
-        data_ov001_021ca418->mUnk_14[data_ov001_021a6f68[i]].mUnk_06 = nb;
+        data_ov001_021ca418->mUnk_14[data_ov001_021a6f68[i]].mUnk_06 = -b;
     }
     data_ov001_021ca418->mUnk_14[6].mUnk_06 = b;
-    for (k = 0; k < 4; k++) {
-        data_ov001_021ca418->mUnk_14[data_ov001_021a6f28[k]].mUnk_06 = nb;
+    for (i = 0; i < 4; i++) {
+        data_ov001_021ca418->mUnk_14[data_ov001_021a6f28[i]].mUnk_06 = -b;
         if (func_02056dec(0x10)) {
-            switch (k) {
+            switch (i) {
             case 0:
             case 2:
                 for (j = 0; j < 3; j++) {
-                    data_ov001_021ca418->mUnk_18[data_ov001_021a6fa0[k][j]].mUnk_04 = -a;
+                    data_ov001_021ca418->mUnk_18[data_ov001_021a6fa0[i][j]].mUnk_04 = -a;
                 }
                 break;
             case 1:
             case 3:
                 for (j = 0; j < 3; j++) {
-                    data_ov001_021ca418->mUnk_18[data_ov001_021a6fa0[k][j]].mUnk_04 = a;
+                    data_ov001_021ca418->mUnk_18[data_ov001_021a6fa0[i][j]].mUnk_04 = a;
                 }
                 break;
             }
         } else {
             for (j = 0; j < 3; j++) {
-                data_ov001_021ca418->mUnk_18[data_ov001_021a6fa0[k][j]].mUnk_04 = a;
+                data_ov001_021ca418->mUnk_18[data_ov001_021a6fa0[i][j]].mUnk_04 = a;
             }
         }
     }

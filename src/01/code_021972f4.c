@@ -12,9 +12,7 @@
 #include "Main/Unknown/code_02060000.h"
 #include "Main/Unknown/code_02116000.h"
 
-// non-matching: parameter lives in r5 and the scaled index in r4 in the idx != 0 branch; the original has them swapped (register assignment only)
-void func_ov001_021975f4(u16 param_1)
-{
+void func_ov001_021975f4(u16 param_1) {
     u32 time;
     u16 str[16];
     u16 name[10];
@@ -25,17 +23,18 @@ void func_ov001_021975f4(u16 param_1)
     u16 slot;
     u16 pal;
     u8 *palette;
-    u16 cnt;
 
     if (param_1 == 0) {
+        u16 cnt;
+
         value = data_ov001_021a6828[0];
         result = func_020601e4(data_ov001_021a6900[data_ov001_021a9bdc->mUnk_6c], value);
         index = data_ov001_021a6850[0][0];
         data_ov001_021a9bdc->mUnk_38[index].mUnk_00 = 1;
         tile = data_ov001_021a6864[result];
-        func_02124748((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_28), (void *) (data_ov001_021a9bdc->mUnk_34), (s32) (0), (u32) (index), (void *) (data_ov001_021a9bdc->mUnk_04), (void *) (data_ov001_021a9bdc->mUnk_08));
+        func_02124748(tile, data_ov001_021a9bdc->mUnk_2c, data_ov001_021a9bdc->mUnk_28, data_ov001_021a9bdc->mUnk_34, 0, index, data_ov001_021a9bdc->mUnk_04, data_ov001_021a9bdc->mUnk_08);
         palette = (u8 *)((Unk020b4a44 *)data_ov001_021a9bdc->mUnk_30)->mUnk_0c;
-        func_02016468(0xe, data_ov001_021a683c[0] << 5, palette + (func_02124a68((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_34)) << 5), 0x20);
+        func_02016468(0xe, data_ov001_021a683c[0] << 5, palette + (func_02124a68(tile, data_ov001_021a9bdc->mUnk_2c, data_ov001_021a9bdc->mUnk_34) << 5), 0x20);
         result = func_020601a0(data_ov001_021a6900[data_ov001_021a9bdc->mUnk_6c], value);
         slot = data_ov001_021a6850[0][1];
         data_ov001_021a9bdc->mUnk_38[slot].mUnk_00 = 1;
@@ -53,14 +52,16 @@ void func_ov001_021975f4(u16 param_1)
         data_ov001_021a9bdc->mUnk_38[cnt + pal].mUnk_00 = 1;
         func_0212426c(0, pal, data_ov001_021a9bdc->mUnk_10, str, data_ov001_021a9bdc->mUnk_08, data_ov001_021a9bdc->mUnk_38);
     } else {
+        u16 cnt;
+
         value = data_ov001_021a6828[param_1];
         result = func_020601e4(data_ov001_021a6900[data_ov001_021a9bdc->mUnk_6c], value);
         index = data_ov001_021a6850[param_1][0];
         data_ov001_021a9bdc->mUnk_3c[index].mUnk_00 = 1;
         tile = data_ov001_021a6864[result];
-        func_02124748((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_28), (void *) (data_ov001_021a9bdc->mUnk_34), (s32) (1), (u32) (index), (void *) (data_ov001_021a9bdc->mUnk_18), (void *) (data_ov001_021a9bdc->mUnk_1c));
+        func_02124748(tile, data_ov001_021a9bdc->mUnk_2c, data_ov001_021a9bdc->mUnk_28, data_ov001_021a9bdc->mUnk_34, 1, index, data_ov001_021a9bdc->mUnk_18, data_ov001_021a9bdc->mUnk_1c);
         palette = (u8 *)((Unk020b4a44 *)data_ov001_021a9bdc->mUnk_30)->mUnk_0c;
-        func_02016468(0x1e, data_ov001_021a683c[param_1] << 5, palette + (func_02124a68((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_34)) << 5), 0x20);
+        func_02016468(0x1e, data_ov001_021a683c[param_1] << 5, palette + (func_02124a68(tile, data_ov001_021a9bdc->mUnk_2c, data_ov001_021a9bdc->mUnk_34) << 5), 0x20);
         result = func_020601a0(data_ov001_021a6900[data_ov001_021a9bdc->mUnk_6c], value);
         slot = data_ov001_021a6852[param_1][0];
         data_ov001_021a9bdc->mUnk_3c[slot].mUnk_00 = 1;
