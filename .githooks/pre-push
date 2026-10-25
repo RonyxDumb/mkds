@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Refuses to push unless the README progress graph reflects the current build.
+# Refuses to push unless the recorded progress of the version being built matches the build.
 # Enable with: git config core.hooksPath .githooks
 set -e
 cd "$(git rev-parse --show-toplevel)"

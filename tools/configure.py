@@ -8,7 +8,8 @@ Pipeline:  baserom --dsd rom extract--> extract/<ver>/
            dsd lcf + mwldarm         -> build/<ver>/arm9.o + module binaries
            dsd rom config/build      -> build/<ver>/<game>_<ver>.nds, checked against <game>_<ver>.sha1
 
-For a game with several versions, pass the version here and set DECOMP_VERSION=<ver> for the other tools.
+For a game with several versions, pass the version here; the other tools then work on the configured version
+(DECOMP_VERSION=<ver> overrides it for one command).
 """
 import argparse
 import hashlib
@@ -42,6 +43,7 @@ args = parser.parse_args()
 
 ver = args.version
 info = VERSIONS[ver]
+os.environ["DECOMP_VERSION"] = ver  # for the tools run below, before build.ninja names the new version
 PY = shlex.quote(sys.executable)
 DSD = str(args.dsd)
 WINE = args.wine

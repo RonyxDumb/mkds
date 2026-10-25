@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Tracks matching progress over time and renders the README graph and treemap.
+"""Tracks matching progress over time, per version, and renders its graph and treemap.
 
-  progress.py update   append the current objdiff report to progress/history.csv
-                       (if it changed), redraw progress/progress.svg and
-                       progress/treemap.svg, rewrite the
-                       README section between the progress markers
-  progress.py check    exit 1 if the report differs from the last recorded point
-                       (used by .githooks/pre-push)
+  progress.py update   append the current objdiff report to progress/<ver>/history.csv
+                       (if it changed), redraw progress/<ver>/progress.svg and
+                       progress/<ver>/treemap.svg, rewrite the version's
+                       README section between its progress markers
+  progress.py check    exit 1 if the report differs from the version's last recorded
+                       point (used by .githooks/pre-push)
 
-Both read build/<ver>/report.json, so run `ninja report` first.
+The version is the configured one (tools/project.py); each version keeps its own history and README section, so
+updating one never touches another. Both read build/<ver>/report.json, so run `ninja report` first.
 
 Every percentage is a share of one fixed size: the bytes of the code sections in config/ (kind:code sections of every
 module's delinks.txt). objdiff's own total only covers bytes that have a symbol, so it grows whenever a commit names
@@ -22,14 +23,16 @@ import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from project import VERSION, module_paths, modules  # noqa: E402  (tools/project.py)
+from project import VERSION, configured_version, module_paths, modules  # noqa: E402  (tools/project.py)
 
 ROOT = Path(__file__).resolve().parent.parent
-HISTORY = ROOT / "progress" / "history.csv"
-SVG = ROOT / "progress" / "progress.svg"
-TREEMAP = ROOT / "progress" / "treemap.svg"
+HISTORY = ROOT / "progress" / VERSION / "history.csv"
+SVG = ROOT / "progress" / VERSION / "progress.svg"
+TREEMAP = ROOT / "progress" / VERSION / "treemap.svg"
 README = ROOT / "README.md"
-START, END = "<!-- progress:start -->", "<!-- progress:end -->"
+LABELS = {"usa": "USA", "eur": "Europe"}
+LABEL = LABELS.get(VERSION, VERSION.upper())
+START, END = f"<!-- progress:{VERSION}:start -->", f"<!-- progress:{VERSION}:end -->"
 FIELDS = ["date", "matched_code", "complete_code", "total_code", "matched_functions", "total_functions",
           "fuzzy_match_percent"]
 
@@ -60,8 +63,8 @@ def image_code() -> int:
     return total
 
 
-def read_report(ver: str) -> dict:
-    path = ROOT / "build" / ver / "report.json"
+def read_report() -> dict:
+    path = ROOT / "build" / VERSION / "report.json"
     if not path.is_file():
         sys.exit(f"{path} missing; run `ninja report` first")
     m = json.loads(path.read_text())["measures"]
@@ -144,7 +147,7 @@ def render_svg(rows: list[dict]) -> str:
 
     out = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" '
-        f'role="img" aria-label="Decompilation progress over time">',
+        f'role="img" aria-label="Decompilation progress over time ({LABEL})">',
         "<style>",
         _theme_css(light=True),
         "@media (prefers-color-scheme: dark){" + _theme_css(light=False) + "}",
@@ -214,10 +217,10 @@ def render_svg(rows: list[dict]) -> str:
 TILE_FUNCTIONS = 64  # functions per treemap tile, in address order
 
 
-def function_states(ver: str) -> dict[str, list[tuple[int, str]]]:
+def function_states() -> dict[str, list[tuple[int, str]]]:
     """Per module, (size, state) of every function in address order; state is 'linked' (in a complete unit),
     'matched' (100% in objdiff) or 'todo'."""
-    report = json.loads((ROOT / "build" / ver / "report.json").read_text())
+    report = json.loads((ROOT / "build" / VERSION / "report.json").read_text())
     state = {}
     for unit in report["units"]:
         linked = unit.get("metadata", {}).get("complete", False)
@@ -269,10 +272,10 @@ def squarify(weights: list[float], x: float, y: float, w: float, h: float) -> li
     return rects
 
 
-def render_treemap(ver: str) -> str:
+def render_treemap() -> str:
     """Every function of the ROM as area: one box per module, tiles of TILE_FUNCTIONS functions in address order,
     each filled left to right by its linked and matched share."""
-    states = function_states(ver)
+    states = function_states()
     W, H, T = 720, 420, 56
     colors = {k: (lc, dc) for k, _, lc, dc in SERIES}
     light = ".bg{fill:#fcfcfb}.lbl{fill:#52514e}.muted{fill:#898781}.todo{fill:#e1e0d9}.gap{stroke:#fcfcfb}" + \
@@ -281,12 +284,12 @@ def render_treemap(ver: str) -> str:
         f".matched{{fill:{colors['matched_code'][1]}}}.linked{{fill:{colors['complete_code'][1]}}}"
     out = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" '
-        f'role="img" aria-label="Matched and linked code by module">',
+        f'role="img" aria-label="Matched and linked code by module ({LABEL})">',
         f"<style>{light}@media (prefers-color-scheme: dark){{{dark}}}"
         "text{font:12px -apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}"
         ".head{font-weight:600}</style>",
         f'<rect class="bg" width="{W}" height="{H}" rx="6"/>',
-        f'<text class="lbl head" x="16" y="24">Function bytes by module</text>',
+        f'<text class="lbl head" x="16" y="24">{LABEL}: function bytes by module</text>',
         f'<text class="muted" x="{W - 16}" y="24" text-anchor="end">area: function size; '
         f'% after a module: its function bytes matched</text>',
     ]
@@ -325,11 +328,10 @@ def render_treemap(ver: str) -> str:
 def readme_section(rows: list[dict]) -> str:
     r = rows[-1]
     fn = f"{r['matched_functions']:,} / {r['total_functions']:,}"
+    rel = f"progress/{VERSION}"
     return "\n".join([
         START,
-        "![Decompilation progress over time](progress/progress.svg)",
-        "",
-        "![Function bytes by module](progress/treemap.svg)",
+        f"![{LABEL}: function bytes by module]({rel}/treemap.svg)",
         "",
         "| Measure | Progress |",
         "|---|---|",
@@ -341,7 +343,8 @@ def readme_section(rows: list[dict]) -> str:
         *([("All code is linked from this repository's source and the ROM matches byte for byte. See "
             "[docs/decompiling.md](docs/decompiling.md) for functions objdiff scores below 100% with identical "
             "code."), ""] if r["complete_code"] == IMAGE_CODE else []),
-        f"_Last updated {r['date'][:10]}. Full history: [`progress/history.csv`](progress/history.csv)._",
+        f"_Last updated {r['date'][:10]}. Over time: [graph]({rel}/progress.svg), "
+        f"[`{rel}/history.csv`]({rel}/history.csv)._",
         END,
     ])
 
@@ -349,15 +352,18 @@ def readme_section(rows: list[dict]) -> str:
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("cmd", choices=["update", "check"])
-    p.add_argument("--version", default=VERSION)
     a = p.parse_args()
 
-    cur = read_report(a.version)
+    built = configured_version()
+    if built and built != VERSION:
+        sys.exit(f"DECOMP_VERSION is {VERSION} but build.ninja builds {built}: unset it, or configure {VERSION}.")
+    cur = read_report()
     rows = read_history()
 
     if a.cmd == "check":
         if not rows or not same(rows[-1], cur):
-            sys.exit("Progress graph is out of date: run `ninja report && tools/progress.py update` and commit.")
+            sys.exit(f"{LABEL} progress is out of date: run `ninja report && python3 tools/progress.py update` "
+                     "and commit.")
         return
 
     if not rows or not same(rows[-1], cur):
@@ -368,15 +374,16 @@ def main() -> None:
             wr.writeheader()
             wr.writerows(rows)
     SVG.write_text(render_svg(rows))
-    TREEMAP.write_text(render_treemap(a.version))
+    TREEMAP.write_text(render_treemap())
 
     text = README.read_text()
     if START in text and END in text:
         text = text[:text.index(START)] + readme_section(rows) + text[text.index(END) + len(END):]
     else:
-        text = text.rstrip() + "\n\n## Progress\n" + readme_section(rows) + "\n"
+        text = text.rstrip() + f"\n\n## Progress: {LABEL}\n" + readme_section(rows) + "\n"
     README.write_text(text)
-    print(f"matched {pct(rows[-1], 'matched_code'):.2f}%, overall {pct(rows[-1], 'fuzzy_match_percent'):.2f}%, "
+    print(f"{LABEL}: matched {pct(rows[-1], 'matched_code'):.2f}%, "
+          f"overall {pct(rows[-1], 'fuzzy_match_percent'):.2f}%, "
           f"linked {pct(rows[-1], 'complete_code'):.2f}% ({len(rows)} points)")
 
 

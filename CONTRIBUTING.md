@@ -83,7 +83,8 @@ The full steps and tools are in [docs/decompiling.md](docs/decompiling.md), "Wor
 - `tools/check_calls.py`, `tools/check_callees.py` and `tools/check_strings.py` end with a count of 0.
 - `tools/check_signatures.py` lists no function and `tools/check_units.py` prints OK for every unit (both after
   `ninja report`; each exits non-zero otherwise).
-- No function's score in `build/<ver>/report.json` got worse; `tools/progress.py update` before pushing.
+- No function's score in `build/<ver>/report.json` got worse; `tools/progress.py update` before pushing (records
+  the version you built).
 - Docs say only what has been checked; anything unverified says so.
 
 ## Rules

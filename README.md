@@ -14,10 +14,12 @@ own dump of the game; see [INSTALL.md](INSTALL.md).
 Every function is decompiled from the game's own code. Code from other decompilations is not accepted.
 
 ## Progress
-<!-- progress:start -->
-![Decompilation progress over time](progress/progress.svg)
+Each version's section is recorded from a build of that version (`python3 tools/configure.py <ver>`):
+`ninja report && python3 tools/progress.py update`.
 
-![Function bytes by module](progress/treemap.svg)
+### USA
+<!-- progress:usa:start -->
+![USA: function bytes by module](progress/usa/treemap.svg)
 
 | Measure | Progress |
 |---|---|
@@ -26,8 +28,13 @@ Every function is decompiled from the game's own code. Code from other decompila
 | Overall accuracy (fuzzy) | 1.54% |
 | Matched functions | 113 / 11,501 |
 
-_Last updated 2026-10-24. Full history: [`progress/history.csv`](progress/history.csv)._
-<!-- progress:end -->
+_Last updated 2026-10-24. Over time: [graph](progress/usa/progress.svg), [`progress/usa/history.csv`](progress/usa/history.csv)._
+<!-- progress:usa:end -->
+
+### Europe
+<!-- progress:eur:start -->
+_Not recorded yet._
+<!-- progress:eur:end -->
 
 ## Documentation
 - [INSTALL.md](INSTALL.md): setting up and building
