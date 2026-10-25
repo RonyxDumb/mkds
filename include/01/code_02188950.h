@@ -133,7 +133,7 @@ typedef struct Unk02188950_bc {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
     /* 08 */ Vec3 mUnk_08;
-    /* 14 */ s32 mUnk_14;
+    /* 14 */ void *mUnk_14;
 } Unk02188950_bc;
 
 typedef struct Unk02188950 {

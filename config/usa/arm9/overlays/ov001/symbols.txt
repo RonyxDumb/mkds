@@ -91,7 +91,7 @@ func_usa_ov001_02181bb0 kind:function(thumb,size=0x1c) addr:0x02181bb0
 func_usa_ov001_02181bcc kind:function(thumb,size=0x1c) addr:0x02181bcc
 func_usa_ov001_02181be8 kind:function(thumb,size=0x18) addr:0x02181be8
 func_ov001_02181c20 kind:function(thumb,size=0x1c) addr:0x02181c00
-func_usa_ov001_02181c1c kind:function(thumb,size=0x910) addr:0x02181c1c
+func_ov001_02181c3c kind:function(thumb,size=0x910) addr:0x02181c1c
 .L_02182516 kind:label(thumb) addr:0x02182516 local
 func_usa_ov001_0218252c kind:function(thumb,size=0x2) addr:0x0218252c
 func_usa_ov001_02182530 kind:function(thumb,size=0xec) addr:0x02182530
@@ -107,7 +107,7 @@ func_usa_ov001_02182b9c kind:function(thumb,size=0x20) addr:0x02182b9c
 func_usa_ov001_02182bbc kind:function(thumb,size=0x154) addr:0x02182bbc
 func_usa_ov001_02182d10 kind:function(thumb,size=0x154) addr:0x02182d10
 func_usa_ov001_02182e64 kind:function(thumb,size=0x34) addr:0x02182e64
-func_usa_ov001_02182e98 kind:function(thumb,size=0x64) addr:0x02182e98
+func_ov001_02182eb8 kind:function(thumb,size=0x64) addr:0x02182e98
 func_ov001_02182f1c kind:function(thumb,size=0x7c) addr:0x02182efc
 func_usa_ov001_02182f78 kind:function(thumb,size=0xf8) addr:0x02182f78
 func_usa_ov001_02183070 kind:function(thumb,size=0x18) addr:0x02183070
