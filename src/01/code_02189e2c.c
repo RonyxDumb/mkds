@@ -142,8 +142,8 @@ void func_ov001_02189e2c(Unk0218d87c *param_1) {
             if (data_021759c0->mUnk_08 == 4) {
                 func_ov001_02181b8c((u32)obj);
             }
-            func_ov001_021870e4(param_1, obj, (int)data_ov001_021a7b14, (int)data_ov001_021a7b24, (int)data_ov001_021a7b34);
-            func_ov001_021870b0(param_1, obj, (int)data_ov001_021a7b44);
+            func_ov001_021870e4(param_1, obj, (const char *) data_ov001_021a7b14, (const char *) data_ov001_021a7b24, (const char *) data_ov001_021a7b34);
+            func_ov001_021870b0(param_1, obj, (const char *) data_ov001_021a7b44);
             a0 = obj->mUnk_0a0;
             func_ov001_0218875c((int)obj, a0->mUnk_008, a0->mUnk_00c, a0->mUnk_20c);
             func_ov001_021888a4((int)obj, 0, 0x23000);

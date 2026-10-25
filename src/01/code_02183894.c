@@ -52,7 +52,7 @@ void func_ov001_02183894(Unk02188950 *param_1) {
         func_ov001_02188cd8(param_1, param_1->mUnk_0a0->mUnk_0c0, param_1->mUnk_0a0->mUnk_0c0);
         func_ov001_02188e24(param_1, param_1->mUnk_0a0->mUnk_0c8, 0);
     } else {
-        func_ov001_02187e78((int)param_1);
+        func_ov001_02187e78((Unk02188950 *) param_1);
         func_ov001_02187218(param_1, 1, 0);
         func_ov001_02188d64(param_1, param_1->mUnk_0a0->mUnk_09c, param_1->mUnk_0a0->mUnk_0a0);
         func_ov001_02188c48(param_1, param_1->mUnk_0a0->mUnk_0a8, param_1->mUnk_0a0->mUnk_0a8);

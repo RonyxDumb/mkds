@@ -1,18 +1,15 @@
 #include "01/code_0218e690.h"
 
-// non-matching: 6 instructions differ; first at +0x60: original `ldr r0, [pc, #0x48] (->0x4ec)`, ours `ldr r2, [pc,
-// #0x48] (->0xac)`
-void func_ov001_0218ead0(int param_1) {
+void func_ov001_0218ead0(Unk02188950 *param_1) {
     int iVar1;
-    u32 *puVar2;
-    u32 *puVar3;
     u32 uVar4;
-    func_ov001_02187218((Unk02188950 *) (param_1), (int) (5), (s32 (*)(Unk02188950 *)) ((int) (((u32) ((u32) (&func_ov001_0218edb8))))));
-    func_ov001_0218f850((int) (param_1));
-    func_ov001_02188e24((Unk02188950 *) ((int) (param_1)), (s32) ((u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001a8u)))), (UnkFunc *) ((int) (((u32) ((u32) (&func_ov001_0218eb94))))));
+
+    func_ov001_02187218(param_1, 5, (s32 (*)(Unk02188950 *)) func_ov001_0218edb8);
+    func_ov001_0218f850((int) param_1);
+    func_ov001_02188e24(param_1, param_1->mUnk_0a0->mUnk_1a8, (UnkFunc *) func_ov001_0218eb94);
     func_ov001_02182a3c(0);
-    func_ov001_02187e48((Unk02188950 *) ((int) (param_1)), (s32) ((int) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000140u)))));
-    iVar1 = *(int *) (param_1 + 0xa8);
+    func_ov001_02187e48(param_1, param_1->mUnk_0a0->mUnk_140);
+    iVar1 = param_1->mUnk_0a8;
     if (iVar1 == 1) {
         uVar4 = 2;
     } else if (iVar1 == 2) {
@@ -22,19 +19,15 @@ void func_ov001_0218ead0(int param_1) {
     } else {
         uVar4 = 1;
     }
-    *(u32 *) (param_1 + 0xa8) = uVar4;
-    if (*((int *) ((u32) (&data_0217d20c))) != 3) {
-        *((int *) ((u32) (&data_0217d21c))) = *((int *) ((u32) (&data_0217d20c)));
+    param_1->mUnk_0a8 = uVar4;
+    if (data_0217d20c != 3) {
+        data_0217d21c = data_0217d20c;
     }
-    *((int *) ((u32) (&data_0217d20c))) = 3;
-    puVar2 = (u32 *) (param_1 + ((int) 0x00000270u));
-    *puVar2 = *(u32 *) (*(int *) (param_1 + 0xa0) + 0xc);
-    puVar3 = (u32 *) (param_1 + ((int) 0x00000264u));
-    *puVar3 = *puVar2;
-    puVar2 = (u32 *) (param_1 + ((int) 0x00000268u));
-    *puVar2 = *puVar3;
-    *(u32 *) (param_1 + ((int) 0x0000025cu)) = *puVar2;
-    return;
+    data_0217d20c = 3;
+    param_1->mUnk_270 = param_1->mUnk_0a0->mUnk_00c;
+    param_1->mUnk_264 = param_1->mUnk_270;
+    param_1->mUnk_268 = param_1->mUnk_264;
+    param_1->mUnk_25c = param_1->mUnk_268;
 }
 
 u32 func_ov001_0218ea98(int param_1) {
@@ -63,9 +56,9 @@ void func_ov001_0218e92c(int param_1) {
     func_ov001_02188c90((Unk02188950 *) (param_1));
     func_ov001_02188cec((Unk02188950 *) (param_1), (s32) (0));
     func_ov001_02188e24((Unk02188950 *) ((int) (param_1)), (s32) ((u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000194u)))), (UnkFunc *) ((int) (((u32) ((u32) (&func_ov001_0218ead0))))));
-    func_ov001_021875c0((int) (param_1), (u32) (0), (u32) (0), (u32) (0), (u32) (((u32) 0x00000431u)), (u32) (0));
-    func_ov001_021875c0((int) (param_1), (u32) (0), (u32) (0), (u32) (0), (u32) (((u32) 0x00000430u)), (u32) (0));
-    func_ov001_021875c0((int) (param_1), (u32) (0), (u32) (0), (u32) (0), (u32) (((u32) 0x00000432u)), (u32) (0));
+    func_ov001_021875c0((Unk02188950 *) (param_1), (u32) (0), (u32) (0), (u32) (0), (u32) (((u32) 0x00000431u)), (u32) (0));
+    func_ov001_021875c0((Unk02188950 *) (param_1), (u32) (0), (u32) (0), (u32) (0), (u32) (((u32) 0x00000430u)), (u32) (0));
+    func_ov001_021875c0((Unk02188950 *) (param_1), (u32) (0), (u32) (0), (u32) (0), (u32) (((u32) 0x00000432u)), (u32) (0));
     if (*((int *) ((u32) (&data_0217d20c))) != 4) {
         *((int *) ((u32) (&data_0217d21c))) = *((int *) ((u32) (&data_0217d20c)));
     }
@@ -115,17 +108,14 @@ void func_ov001_0218e8b0(u32 param_1) {
     return;
 }
 
-// non-matching: 0x4c bytes, original 0x50; 10 instructions differ; first at +0x6: original `ldr r2, [pc, #0x34]
-// (->0x20c)`, ours `ldr r2, [pc, #0x30] (->0x38)`
-void func_ov001_0218e860(int param_1) {
-    func_ov001_02187218((Unk02188950 *) (param_1), (int) (5), (s32 (*)(Unk02188950 *)) ((int) (((u32) ((u32) (&func_ov001_0218f688))))));
-    func_ov001_0218f850((int) (param_1));
-    func_ov001_02188e24((Unk02188950 *) ((int) (param_1)), (s32) ((u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001a8u)))), (UnkFunc *) ((int) (((u32) ((u32) (&func_ov001_0218e8b0))))));
-    if (*((int *) ((u32) (&data_0217d20c))) != 3) {
-        *((int *) ((u32) (&data_0217d21c))) = *((int *) ((u32) (&data_0217d20c)));
+void func_ov001_0218e860(Unk02188950 *param_1) {
+    func_ov001_02187218(param_1, 5, (s32 (*)(Unk02188950 *)) func_ov001_0218f688);
+    func_ov001_0218f850((int) param_1);
+    func_ov001_02188e24(param_1, param_1->mUnk_0a0->mUnk_1a8, (UnkFunc *) func_ov001_0218e8b0);
+    if (data_0217d20c != 3) {
+        data_0217d21c = data_0217d20c;
     }
-    *((int *) ((u32) (&data_0217d20c))) = 3;
-    return;
+    data_0217d20c = 3;
 }
 
 // non-matching: 0x8c bytes, original 0x90; 12 instructions differ; first at +0x10: original `ldr r2, [pc, #0x5c]

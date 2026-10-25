@@ -313,7 +313,7 @@ void func_ov001_021864ac(u32 param_1, Unk02188950 *param_2) {
         func_ov001_02187684(param_2, i, &vel);
         if (param_2->mUnk_0bc[i].mUnk_14 != 0) {
             if (param_2->mUnk_0bc[i].mUnk_04 > 0 && --param_2->mUnk_0bc[i].mUnk_04 == 0) {
-                func_0208b6b0((u32) &param_2->mUnk_0bc[i].mUnk_14);
+                func_0208b6b0(&param_2->mUnk_0bc[i].mUnk_14);
             } else {
                 func_0208b5b0(param_2->mUnk_0bc[i].mUnk_14, &vel);
             }

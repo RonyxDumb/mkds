@@ -107,7 +107,7 @@ void func_ov001_02181c3c(void *param_1, Unk02181c3c *param_2) {
             if (param_2->mUnk_0fc != 0) {
                 func_0208b5b0(param_2->mUnk_0fc, &param_2->mUnk_004);
                 if (param_2->mUnk_100-- < 0) {
-                    func_0208b6b0((unsigned int) &param_2->mUnk_0fc);
+                    func_0208b6b0(&param_2->mUnk_0fc);
                 }
             }
             break;

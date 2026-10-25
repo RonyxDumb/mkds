@@ -22,7 +22,7 @@ void func_ov001_02187614(Unk02188950 *param_1, s32 param_2, s32 param_3, s32 par
     func_ov001_02187684(param_1, param_2, &pos);
     if (param_6 != 0) {
         if (param_1->mUnk_0bc[param_2].mUnk_14 != 0) {
-            func_0208b6b0((u32) &param_1->mUnk_0bc[param_2].mUnk_14);
+            func_0208b6b0(&param_1->mUnk_0bc[param_2].mUnk_14);
         }
         param_1->mUnk_0bc[param_2].mUnk_14 = func_0208b7bc(param_6, &pos);
     }

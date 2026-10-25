@@ -14,10 +14,10 @@ void func_ov001_02191130(int param_1) {
     return;
 }
 
-u32 func_ov001_021910fc(int param_1) {
-    if ((*(u32 *) (param_1 + ((int) 0x000002c8u)) & ((u32) 0x001e34efu)) != 0) {
-        func_020d2774((void *) ((int) (param_1)), (u32) (((u32) 0x00000218u)));
-        *(u32 *) (param_1 + ((int) 0x00000158u)) = 0;
+s32 func_ov001_021910fc(Unk02188950 *param_1) {
+    if ((param_1->mUnk_2c8 & 0x001e34ef) != 0) {
+        func_020d2774(param_1, 0x218);
+        param_1->mUnk_158 = 0;
     }
     return 0;
 }

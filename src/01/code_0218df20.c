@@ -99,7 +99,7 @@ void func_ov001_0218df20(u32 param_1, Unk02188950 *param_2)
             }
             if (func_ov001_021871f8(param_2, 3) != 0) {
                 if (func_ov001_021881a8((int)param_2, (u32)func_ov001_02187fc0(param_2), param_2->mUnk_0a0->mUnk_138, 0) != 0) {
-                    func_ov001_02187e78((int)param_2);
+                    func_ov001_02187e78((Unk02188950 *) param_2);
                 }
                 func_ov001_02188200(param_2, func_ov001_0218e344);
                 param_2->mUnk_002 &= ~0x40;

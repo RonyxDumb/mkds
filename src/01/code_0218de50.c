@@ -23,9 +23,9 @@ void func_ov001_0218de50(Unk0218d87c *param_1) {
             if (data_021759c0->mUnk_08 == 4) {
                 func_ov001_02181b8c((u32)p);
             }
-            func_ov001_021870e4(param_1, p, (int)data_ov001_021a7da0, (int)data_ov001_021a7db4,
-                                (int)data_ov001_021a7dc8);
-            func_ov001_021870b0(param_1, p, (int)data_ov001_021a7dd8);
+            func_ov001_021870e4(param_1, p, (const char *) data_ov001_021a7da0, (const char *) data_ov001_021a7db4,
+                                (const char *) data_ov001_021a7dc8);
+            func_ov001_021870b0(param_1, p, (const char *) data_ov001_021a7dd8);
             a0 = p->mUnk_0a0;
             func_ov001_0218875c((int)p, a0->mUnk_008, a0->mUnk_00c, a0->mUnk_240);
             func_ov001_021888a4((int)p, 0, 0x19000);

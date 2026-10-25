@@ -58,10 +58,10 @@ void func_ov001_0218e38c(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
     param_1->mUnk_014 = 0;
     param_1->mUnk_018 = ((s64)-param_1->mUnk_0a0->mUnk_024 * data_0215d4b4[(param_2->mUnk_236 >> 4) * 2 + 1]) >> 12;
     func_ov001_021829ac(param_1->mUnk_0a0->mUnk_190);
-    func_ov001_0218ead0((int) (param_1));
+    func_ov001_0218ead0((Unk02188950 *) (param_1));
     param_1->mUnk_2d8 = 0;
     func_ov001_02188200((Unk02188950 *) (param_1), (UnkFunc *) (func_ov001_0218f9a8));
-    func_ov001_0218e860((int) (param_1));
+    func_ov001_0218e860((Unk02188950 *) (param_1));
     param_1->mUnk_0a8 = 0;
     func_020d2774(param_1, 0x22c);
     param_1->mUnk_25c = param_1->mUnk_268 = param_1->mUnk_264 = param_1->mUnk_270 = param_1->mUnk_0a0->mUnk_00c;

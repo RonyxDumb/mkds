@@ -15,15 +15,15 @@ void func_ov001_0218a30c(Unk02188950 *param_1) {
 
     func_ov001_02187218(param_1, 8, 0);
     func_ov001_02187af4((Unk02188950 *) ((int)param_1));
-    func_ov001_021875c0((int)param_1, 0, 0x2000, 0, 0x421, 0);
-    func_ov001_021875c0((int)param_1, 0, 0x2000, 0, 0x40c, 0);
-    func_ov001_021875c0((int)param_1, 0, 0x2000, 0, 0x40e, 0);
-    func_ov001_021875c0((int)param_1, 0, 0x2000, 0, 0x40d, 0);
-    func_ov001_021875c0((int)param_1, 0, 0x2000, 0, 0x40f, 0);
+    func_ov001_021875c0((Unk02188950 *) param_1, 0, 0x2000, 0, 0x421, 0);
+    func_ov001_021875c0((Unk02188950 *) param_1, 0, 0x2000, 0, 0x40c, 0);
+    func_ov001_021875c0((Unk02188950 *) param_1, 0, 0x2000, 0, 0x40e, 0);
+    func_ov001_021875c0((Unk02188950 *) param_1, 0, 0x2000, 0, 0x40d, 0);
+    func_ov001_021875c0((Unk02188950 *) param_1, 0, 0x2000, 0, 0x40f, 0);
     local = data_ov001_021a7ad0;
     local.mUnk_04 = &param_1->mUnk_004;
     local.mUnk_0c = func_020d4ef4(&param_1->mUnk_004);
-    func_0210b734((unsigned int)&local, func_02108e7c());
+    func_0210b734(&local, func_02108e7c());
     param_1->mUnk_002 |= data_ov001_021a6588;
     param_1->mUnk_002 |= data_ov001_021a658c;
     param_1->mUnk_002 |= data_ov001_021a6590;

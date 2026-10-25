@@ -71,6 +71,7 @@ typedef struct Unk021a9b90 {
     /* 40 */ u16 mUnk_40;
     /* 42 */ u16 mUnk_42;
     /* 44 */ s32 mUnk_44;
+    /* 48 */ struct Unk02188950 *mUnk_48[8];
 } Unk021a9b90;
 
 // Object behind data_ov001_021a9b88: a square grid of mUnk_00 by mUnk_00 cells.

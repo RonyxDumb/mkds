@@ -7,5 +7,5 @@
 #include "Main/Unknown/unk_021759c0.h"
 
 u8 func_ov001_02181b54(void);
-u32 func_ov001_02181b68(int param_1);
+Unk02188950 *func_ov001_02181b68(int param_1);
 void func_ov001_02181b8c(u32 param_1);

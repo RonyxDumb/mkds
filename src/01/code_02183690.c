@@ -33,7 +33,7 @@ int func_ov001_02183690(Unk02188950 *param_1) {
     } else if (param_1->mUnk_000 == 0x1f5) {
         if (func_0209b620((int)param_1->mUnk_304) == 0x2b || func_0209b620((int)param_1->mUnk_304) == 0x48) {
             func_ov001_02187af4(param_1);
-            func_ov001_02187518((int)param_1, 0, 0, 0, 0x410, 0);
+            func_ov001_02187518((Unk02188950 *) param_1, 0, 0, 0, 0x410, 0);
         }
     }
     return 0;

@@ -1,14 +1,13 @@
 #include "01/code_02187e78.h"
 
-void func_ov001_02187e78(int param_1) {
+void func_ov001_02187e78(Unk02188950 *param_1) {
     int iVar1;
-    if (*(int *) (param_1 + ((int) 0x00000148u)) < (int) (u32) * (u16 *) (*((int *) ((u32) (&data_02175620))) + 0xc)) {
-        iVar1 = *(int *) (param_1 + ((int) 0x0000014cu)) + 1;
-        if (iVar1 >= (int) (u32) * (u16 *) (*(int *) (*((int *) ((u32) (&data_02175620))) + 8) +
-                                            ((u32) (*(int *) (param_1 + ((int) 0x00000148u)) << 0x10) >> 0xe) + 2)) {
+
+    if (param_1->mUnk_148 < data_02175620->mUnk_0c) {
+        iVar1 = param_1->mUnk_14c + 1;
+        if (iVar1 >= data_02175620->mUnk_08[(u16) param_1->mUnk_148].mUnk_02) {
             iVar1 = 0;
         }
-        *(int *) (param_1 + ((int) 0x0000014cu)) = iVar1;
+        param_1->mUnk_14c = iVar1;
     }
-    return;
 }

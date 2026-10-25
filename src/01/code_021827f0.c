@@ -42,7 +42,7 @@ void func_ov001_02182a3c(s32 param_1)
                         r = ((u64)(u32)(rng->mUnk_00 >> 32) * 0x10000) >> 32;
                         p->mUnk_0b0 = 0x1000;
                         p->mUnk_0a0 = 0;
-                        p->mUnk_0e8 = (Vec3 *)((data_021759c0->mUnk_08 == 4 ? func_ov001_02181b68(data_021759c0->mUnk_08 == 4 ? func_ov001_02181b54() : 0) : 0) + 4);
+                        p->mUnk_0e8 = (Vec3 *)((data_021759c0->mUnk_08 == 4 ? (u32) func_ov001_02181b68(data_021759c0->mUnk_08 == 4 ? func_ov001_02181b54() : 0) : 0) + 4);
                         p->mUnk_004.x = p->mUnk_0e8->x;
                         p->mUnk_004.y = p->mUnk_0e8->y;
                         p->mUnk_004.z = p->mUnk_0e8->z;

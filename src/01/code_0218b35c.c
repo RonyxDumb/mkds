@@ -33,7 +33,7 @@ void func_ov001_0218b404(u32 param_1, Unk02188950 *param_2) {
                     func_ov001_02188200((Unk02188950 *) (param_2), (UnkFunc *) (func_ov001_0218b6f8));
                 }
             }
-            func_ov001_02187e78((int)param_2);
+            func_ov001_02187e78((Unk02188950 *) param_2);
             if (param_2->mUnk_14c == 0) {
                 func_ov001_02187e48(param_2, 3);
             }
@@ -91,8 +91,8 @@ void func_ov001_0218b35c(Unk0218d87c *param_1) {
             if (data_021759c0->mUnk_08 == 4) {
                 func_ov001_02181b8c((u32)obj);
             }
-            func_ov001_021870e4((void *) (param_1), (Unk02188950 *) (obj), (int) ("kuriking.nsbmd"), (int) ("kuriking.nsbca"), (int) ("kuriking.prm"));
-            func_ov001_021870b0((void *) (param_1), (Unk02188950 *) (obj), (int) ("sh_circle.nsbmd"));
+            func_ov001_021870e4((void *) (param_1), (Unk02188950 *) (obj), (const char *) ("kuriking.nsbmd"), (const char *) ("kuriking.nsbca"), (const char *) ("kuriking.prm"));
+            func_ov001_021870b0((void *) (param_1), (Unk02188950 *) (obj), (const char *) ("sh_circle.nsbmd"));
             func_ov001_0219b31c(obj->mUnk_304, "kuriking.nsbta");
             func_ov001_0219b2e8(obj->mUnk_304, "kuriking.nsbtp");
             func_ov001_0219b380(obj->mUnk_304, "kuriking.nsbma");

@@ -25,7 +25,7 @@ void func_ov001_02182e84(void) {
     c = func_0207a974((u16) data_021759c0->mUnk_62);
     o = func_0209bbfc(func_02100138(0x68));
     if (o != 0) {
-        func_ov001_02182f1c((unsigned int) (o), (unsigned int) (c));
+        func_ov001_02182f1c(o, c);
     }
 }
 
@@ -93,7 +93,7 @@ void func_ov001_02182bdc(void) {
             if (data_021759c0->mUnk_08 == 4) {
                 v = func_ov001_02181b54();
             }
-            v = func_ov001_02181b68(v);
+            v = (u32) func_ov001_02181b68(v);
         }
         o->mUnk_0e8 = (Vec3 *) (v + 4);
         o->mUnk_004.x = c->mUnk_80.x;

@@ -18,7 +18,7 @@ void func_ov001_02187444(Unk02188950 *param_1, u32 param_2, int param_3) {
             param_1->mUnk_0bc[i].mUnk_08.y = -func_020d3d48(0);
             param_1->mUnk_0bc[i].mUnk_08.z = param_1->mUnk_004.z;
             if (param_1->mUnk_0bc[i].mUnk_14 != 0) {
-                func_0208b6b0((u32) &param_1->mUnk_0bc[i].mUnk_14);
+                func_0208b6b0(&param_1->mUnk_0bc[i].mUnk_14);
             }
             func_0208e490(param_2, &param_1->mUnk_0bc[i].mUnk_08, 1);
             param_1->mUnk_0bc[i].mUnk_00 = 0;
@@ -48,7 +48,7 @@ void func_ov001_021872e0(Unk02188950 *param_1, int param_2, int param_3, int par
             func_ov001_02187684(param_1, i, &pos);
             if (param_8 != 0) {
                 if (param_1->mUnk_0bc[i].mUnk_14 != 0) {
-                    func_0208b6b0((u32) &param_1->mUnk_0bc[i].mUnk_14);
+                    func_0208b6b0(&param_1->mUnk_0bc[i].mUnk_14);
                 }
                 rot.x = ((s64) param_7 * data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2] >> 12) +
                         ((s64) param_5 * data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2 + 1] >> 12);
@@ -105,11 +105,12 @@ int func_ov001_021871d0(Unk02188950 *param_1) {
     return 0;
 }
 
-void func_ov001_021870e4(void *param_1, Unk02188950 *param_2, int param_3, int param_4, int param_5) {
+void func_ov001_021870e4(void *param_1, Unk02188950 *param_2, const char *param_3, const char *param_4,
+                         const char *param_5) {
     if (param_1 != 0 && param_3 != 0) {
         param_2->mUnk_304 = (struct Unk0219b250 *) func_ov001_0219b478((Unk0219b250 *) (param_1), (char *) (param_3));
         if (param_4 != 0) {
-            func_ov001_0219b3b4(param_2->mUnk_304, (char *) (param_4));
+            func_ov001_0219b3b4((Unk0219b250 *) (param_2->mUnk_304), (char *) (param_4));
         }
     }
     if (param_5 != 0) {
@@ -129,7 +130,7 @@ void func_ov001_021870e4(void *param_1, Unk02188950 *param_2, int param_3, int p
     param_2->mUnk_148 = param_2->mUnk_09c->mUnk_26;
 }
 
-void func_ov001_021870b0(void *param_1, Unk02188950 *param_2, int param_3) {
+void func_ov001_021870b0(void *param_1, Unk02188950 *param_2, const char *param_3) {
     if (param_1 != 0 && param_3 != 0) {
         param_2->mUnk_308 = func_ov001_0219b418((Unk0219b250 *) (param_1), (char *) (param_3));
         func_0209b940(param_2->mUnk_308, 0x3f);

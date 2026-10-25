@@ -108,10 +108,10 @@ void func_ov001_0218ba48(Unk02188950 *param_1) {
     func_0209b688((void *) (param_1->mUnk_304), (u16) (func_ov001_02188220((Unk02188950 *) ((int) (param_1)))));
     if (func_ov001_02188220((Unk02188950 *) ((int) (param_1))) == 0) {
         func_ov001_0218c6b4((int) (param_1));
-        func_ov001_0218756c((int) (param_1), 0, 0x1800, 0, 0x419, 0);
+        func_ov001_0218756c((Unk02188950 *) (param_1), 0, 0x1800, 0, 0x419, 0);
     } else if (func_ov001_02188220((Unk02188950 *) ((int) (param_1))) == 1) {
         func_ov001_0218c63c((int) (param_1));
-        func_ov001_0218756c((int) (param_1), 0, 0x1800, 0, 0x41a, 0);
+        func_ov001_0218756c((Unk02188950 *) (param_1), 0, 0x1800, 0, 0x41a, 0);
     }
 }
 
@@ -141,7 +141,7 @@ void func_ov001_0218b928(Unk02188950 *param_1) {
 
         local.mUnk_04 = &param_1->mUnk_004;
         local.mUnk_0c = func_020d4ef4(local.mUnk_04);
-        func_0210b734((u32) &local, func_02108e7c());
+        func_0210b734(&local, func_02108e7c());
     }
     param_1->mUnk_002 |= data_ov001_021a659c;
     param_1->mUnk_002 |= data_ov001_021a65a0;

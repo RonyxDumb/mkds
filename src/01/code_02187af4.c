@@ -77,7 +77,7 @@ void func_ov001_02187af4(Unk02188950 *param_1) {
 
     for (i = 0; i < 5; i++) {
         if (param_1->mUnk_0bc[i].mUnk_14 != 0) {
-            func_0208b6b0((u32) &param_1->mUnk_0bc[i].mUnk_14);
+            func_0208b6b0(&param_1->mUnk_0bc[i].mUnk_14);
         }
     }
     param_1->mUnk_0b8 = 0;

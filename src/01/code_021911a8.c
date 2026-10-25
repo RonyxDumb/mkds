@@ -22,7 +22,7 @@ void func_ov001_021913b8(Unk02188950 *param_1) {
     Unk0206bcb0 *pVar1 = func_0207a974((u16)data_021759c0->mUnk_62);
     Vec3 local = {0, 0, 0};
 
-    func_ov001_02187e78((int) (param_1));
+    func_ov001_02187e78((Unk02188950 *) (param_1));
     func_ov001_02187218((Unk02188950 *) (param_1), (int) (3), (s32 (*)(Unk02188950 *)) (func_ov001_02191470));
     func_ov001_02188d64(param_1, param_1->mUnk_0a0->mUnk_0d0, param_1->mUnk_0a0->mUnk_0d4);
     func_ov001_02188950(param_1, &local);
@@ -58,8 +58,8 @@ void func_ov001_02191258(Unk02188950 *param_1) {
     func_ov001_02188950(param_1, &local);
     func_ov001_02188200((Unk02188950 *) (param_1), (UnkFunc *) (func_ov001_02192878));
     func_02073fb0(param_1->mUnk_078 & 0x3fffffe0, 0x1000);
-    func_ov001_02187518((int) (param_1), (u32) (0x1000), (u32) (0), (u32) (0x2000), (u32) (0x414), (u32) (0));
-    func_ov001_02187518((int) (param_1), (u32) (0x1000), (u32) (0), (u32) (0x2000), (u32) (0x415), (u32) (0));
+    func_ov001_02187518((Unk02188950 *) (param_1), (u32) (0x1000), (u32) (0), (u32) (0x2000), (u32) (0x414), (u32) (0));
+    func_ov001_02187518((Unk02188950 *) (param_1), (u32) (0x1000), (u32) (0), (u32) (0x2000), (u32) (0x415), (u32) (0));
     func_020d2774(param_1, 0x218);
 }
 
