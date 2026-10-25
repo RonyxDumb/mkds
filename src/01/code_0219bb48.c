@@ -170,15 +170,15 @@ void func_ov001_0219be5c(void) {
 }
 
 void func_ov001_0219bb48(u32 param_1, u32 param_2, u32 param_3) {
-    u32 heap;
+    void *heap;
     s32 rem;
     s32 i;
 
     *(vu16 *)0x04001008 = *(vu16 *)0x04001008 & ~3;
     *(vu16 *)0x0400100e = (*(vu16 *)0x0400100e & ~3) | 1;
     *(vu16 *)0x0400100e = (*(vu16 *)0x0400100e & 0x43) | 0x8300;
-    heap = (u32) func_02036948((void *) param_1);
-    data_ov001_021a9bf4 = func_02036bec((void *)heap, 0x70);
+    heap = func_02036948((void *) param_1);
+    data_ov001_021a9bf4 = func_02036bec(heap, 0x70);
     data_ov001_021a9bf4->mUnk_44 = heap;
     data_ov001_021a9bf4->mUnk_48 = 0;
     data_ov001_021a9bf4->mUnk_60 = 0;
@@ -186,31 +186,31 @@ void func_ov001_0219bb48(u32 param_1, u32 param_2, u32 param_3) {
     data_ov001_021a9bf4->mUnk_68 = param_3;
     data_ov001_021a9bf4->mUnk_6c = 0;
     func_ov001_0219c544();
-    func_02117224(data_ov001_021a9bf4->mUnk_44);
-    func_02124ed0((void *)data_ov001_021a9bf4->mUnk_44, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_08, &data_ov001_021a9bf4->mUnk_30);
-    func_02124ed0((void *)data_ov001_021a9bf4->mUnk_44, data_ov001_021a9bf4->mUnk_10, data_ov001_021a9bf4->mUnk_18, &data_ov001_021a9bf4->mUnk_34);
+    func_02117224((u32) data_ov001_021a9bf4->mUnk_44);
+    func_02124ed0(data_ov001_021a9bf4->mUnk_44, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_08, &data_ov001_021a9bf4->mUnk_30);
+    func_02124ed0(data_ov001_021a9bf4->mUnk_44, data_ov001_021a9bf4->mUnk_10, data_ov001_021a9bf4->mUnk_18, &data_ov001_021a9bf4->mUnk_34);
     data_ov001_021a9bf4->mUnk_38 = func_02047a28("common.bmg");
     data_ov001_021a9bf4->mUnk_3c = func_0204799c("menu.bmg");
     rem = 0x8000;
-    rem -= func_021243ac((void *)data_ov001_021a9bf4->mUnk_44, 0, data_ov001_021a9bf4->mUnk_08, 0xb4, 0xd, 0, data_ov001_021a9bf4->mUnk_00, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_30, rem);
-    rem -= func_021243ac((void *)data_ov001_021a9bf4->mUnk_44, 1, data_ov001_021a9bf4->mUnk_08, 0xb4, 0xd, 1, data_ov001_021a9bf4->mUnk_00, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_30, rem);
-    rem -= func_021243ac((void *)data_ov001_021a9bf4->mUnk_44, 2, data_ov001_021a9bf4->mUnk_08, 0x96, 0xd, 2, data_ov001_021a9bf4->mUnk_00, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_30, rem);
-    rem -= func_021243ac((void *)data_ov001_021a9bf4->mUnk_44, 3, data_ov001_021a9bf4->mUnk_08, 0x50, 0xd, 3, data_ov001_021a9bf4->mUnk_00, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_30, rem);
-    rem -= func_021243ac((void *)data_ov001_021a9bf4->mUnk_44, 4, data_ov001_021a9bf4->mUnk_08, 0x96, 0xd, 4, data_ov001_021a9bf4->mUnk_00, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_30, rem);
-    func_021243ac((void *)data_ov001_021a9bf4->mUnk_44, 5, data_ov001_021a9bf4->mUnk_08, 0x50, 0xd, 5, data_ov001_021a9bf4->mUnk_00, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_30, rem);
+    rem -= func_021243ac(data_ov001_021a9bf4->mUnk_44, 0, data_ov001_021a9bf4->mUnk_08, 0xb4, 0xd, 0, data_ov001_021a9bf4->mUnk_00, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_30, rem);
+    rem -= func_021243ac(data_ov001_021a9bf4->mUnk_44, 1, data_ov001_021a9bf4->mUnk_08, 0xb4, 0xd, 1, data_ov001_021a9bf4->mUnk_00, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_30, rem);
+    rem -= func_021243ac(data_ov001_021a9bf4->mUnk_44, 2, data_ov001_021a9bf4->mUnk_08, 0x96, 0xd, 2, data_ov001_021a9bf4->mUnk_00, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_30, rem);
+    rem -= func_021243ac(data_ov001_021a9bf4->mUnk_44, 3, data_ov001_021a9bf4->mUnk_08, 0x50, 0xd, 3, data_ov001_021a9bf4->mUnk_00, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_30, rem);
+    rem -= func_021243ac(data_ov001_021a9bf4->mUnk_44, 4, data_ov001_021a9bf4->mUnk_08, 0x96, 0xd, 4, data_ov001_021a9bf4->mUnk_00, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_30, rem);
+    func_021243ac(data_ov001_021a9bf4->mUnk_44, 5, data_ov001_021a9bf4->mUnk_08, 0x50, 0xd, 5, data_ov001_021a9bf4->mUnk_00, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_30, rem);
     rem = func_02148ca0();
     for (i = 0; i < 5; i++) {
-        rem -= func_021243ac((void *)data_ov001_021a9bf4->mUnk_44, data_ov001_021a6b54[i], data_ov001_021a9bf4->mUnk_18, data_ov001_021a6b48[i], data_ov001_021a6b60[i], i,
+        rem -= func_021243ac(data_ov001_021a9bf4->mUnk_44, data_ov001_021a6b54[i], data_ov001_021a9bf4->mUnk_18, data_ov001_021a6b48[i], data_ov001_021a6b60[i], i,
                              data_ov001_021a9bf4->mUnk_0c, data_ov001_021a9bf4->mUnk_10, data_ov001_021a9bf4->mUnk_34, rem);
     }
-    func_021243ac((void *)data_ov001_021a9bf4->mUnk_44, 5, data_ov001_021a9bf4->mUnk_18, 0x32, 0xd, 0xb, data_ov001_021a9bf4->mUnk_0c, data_ov001_021a9bf4->mUnk_10, data_ov001_021a9bf4->mUnk_34, rem);
+    func_021243ac(data_ov001_021a9bf4->mUnk_44, 5, data_ov001_021a9bf4->mUnk_18, 0x32, 0xd, 0xb, data_ov001_021a9bf4->mUnk_0c, data_ov001_021a9bf4->mUnk_10, data_ov001_021a9bf4->mUnk_34, rem);
     func_0212426c(1, data_ov001_021a6b54[0], data_ov001_021a9bf4->mUnk_18, func_020b3f7c(data_ov001_021a9bf4->mUnk_3c, 8), data_ov001_021a9bf4->mUnk_10, data_ov001_021a9bf4->mUnk_34);
     func_0212426c(1, data_ov001_021a6b54[3], data_ov001_021a9bf4->mUnk_18, func_020b3f7c(data_ov001_021a9bf4->mUnk_3c, 9), data_ov001_021a9bf4->mUnk_10, data_ov001_021a9bf4->mUnk_34);
     func_0212426c(1, data_ov001_021a6b54[4], data_ov001_021a9bf4->mUnk_18, func_020b3f7c(data_ov001_021a9bf4->mUnk_3c, data_ov001_021a6b40[0]), data_ov001_021a9bf4->mUnk_10, data_ov001_021a9bf4->mUnk_34);
     func_0212426c(1, 5, data_ov001_021a9bf4->mUnk_18, func_020b3f7c(data_ov001_021a9bf4->mUnk_38, 4), data_ov001_021a9bf4->mUnk_10, data_ov001_021a9bf4->mUnk_34);
-    func_0211de40(data_ov001_021a9bf4->mUnk_44);
-    func_0211df44(data_ov001_021a9bf4->mUnk_44);
-    func_0212b928((void *)data_ov001_021a9bf4->mUnk_44, data_ov001_021a9bf4->mUnk_1c, 4);
+    func_0211de40((u32) data_ov001_021a9bf4->mUnk_44);
+    func_0211df44((u32) data_ov001_021a9bf4->mUnk_44);
+    func_0212b928(data_ov001_021a9bf4->mUnk_44, data_ov001_021a9bf4->mUnk_1c, 4);
     func_0212b7fc();
     func_ov001_0219be5c();
     func_ov001_0219c480();

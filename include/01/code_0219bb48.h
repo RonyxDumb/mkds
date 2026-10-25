@@ -59,7 +59,7 @@ typedef struct Unk021a9bf4 {
     /* 38 */ void *mUnk_38;
     /* 3c */ void *mUnk_3c;
     /* 40 */ void *mUnk_40;
-    /* 44 */ u32 mUnk_44;
+    /* 44 */ void *mUnk_44;
     /* 48 */ s32 mUnk_48;
     /* 4c */ s32 mUnk_4c;
     /* 50 */ s32 mUnk_50;

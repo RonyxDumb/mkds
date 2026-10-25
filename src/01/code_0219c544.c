@@ -13,7 +13,7 @@ void func_ov001_0219c544(void) {
     func_020b4934(&b, func_0204799c(data_ov001_021a87b8));
     func_020b47d8(&d, func_0204799c(data_ov001_021a8794));
     func_020b4a44(&c, func_0204799c(data_ov001_021a87a8));
-    data_ov001_021a9bf4->mUnk_40 = func_02036bec((void *)data_ov001_021a9bf4->mUnk_44, 0x800);
+    data_ov001_021a9bf4->mUnk_40 = func_02036bec(data_ov001_021a9bf4->mUnk_44, 0x800);
     data_ov001_021a9bf4->mUnk_04 = func_0204799c(data_ov001_021a879c);
     data_ov001_021a9bf4->mUnk_08 = func_0204799c(data_ov001_021a87b0);
     func_020b48b4(&data_ov001_021a9bf4->mUnk_00, func_0204799c(data_ov001_021a87bc));

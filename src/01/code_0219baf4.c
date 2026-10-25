@@ -8,6 +8,6 @@ void func_ov001_0219baf4(void) {
     func_0211de34();
     func_0211df38();
     func_02117218();
-    func_02036ab0((void *)data_ov001_021a9bf4->mUnk_44);
+    func_02036ab0(data_ov001_021a9bf4->mUnk_44);
     data_ov001_021a9bf4 = 0;
 }
