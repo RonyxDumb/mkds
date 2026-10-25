@@ -89,7 +89,10 @@ typedef struct Unk02188950_a0 {
     /* 198 */ s32 mUnk_198;
     /* 19c */ s32 mUnk_19c;
     /* 1a0 */ s32 mUnk_1a0;
-    /* 1a4 */ u8 mUnk_1a4[0x10];
+    /* 1a4 */ s32 mUnk_1a4;
+    /* 1a8 */ s32 mUnk_1a8;
+    /* 1ac */ s32 mUnk_1ac;
+    /* 1b0 */ s32 mUnk_1b0;
     /* 1b4 */ s32 mUnk_1b4;
     /* 1b8 */ s32 mUnk_1b8;
     /* 1bc */ s32 mUnk_1bc;
@@ -142,7 +145,7 @@ typedef struct Unk02188950_bc {
 
 // Layout provisional: functions on objects that share this prefix use different types at 0xa0 and 0xa8.
 typedef struct Unk02188950 {
-    /* 000 */ u8 mUnk_000[0x2];
+    /* 000 */ u16 mUnk_000;
     /* 002 */ u16 mUnk_002;
     /* 004 */ Vec3 mUnk_004;
     /* 010 */ s32 mUnk_010;

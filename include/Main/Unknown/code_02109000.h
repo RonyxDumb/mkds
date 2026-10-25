@@ -10,3 +10,4 @@ void func_02109184();
 void func_0210920c();
 void func_021092b0();
 void func_02109468(void);
+void func_02109060(void *param_1, u32 param_2);

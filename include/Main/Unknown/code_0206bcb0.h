@@ -84,7 +84,8 @@ typedef struct Unk0206bcb0 {
     /* 80 */ Vec3 mUnk_80;
     /* 8c */ u8 mUnk_8c[0xc];
     /* 98 */ Vec3 mUnk_98;
-    /* a4 */ u8 mUnk_a4[0x1c];
+    /* a4 */ Vec3 mUnk_a4;
+    /* 0b0 */ u8 mUnk_0b0[0x10];
     /* c0 */ s32 mUnk_c0;
     /* c4 */ u8 mUnk_c4[0x14];
     /* d8 */ s32 mUnk_d8;
@@ -97,7 +98,9 @@ typedef struct Unk0206bcb0 {
     /* 168 */ Vec3 mUnk_168;
     /* 174 */ u8 mUnk_174[0xc];
     /* 180 */ vs32 mUnk_180;
-    /* 184 */ u8 mUnk_184[0x4c];
+    /* 184 */ u8 mUnk_184[0x34];
+    /* 1b8 */ Vec3 mUnk_1b8;
+    /* 1c4 */ u8 mUnk_1c4[0xc];
     /* 1d0 */ s32 mUnk_1d0;
     /* 1d4 */ u8 mUnk_1d4[0x34];
     /* 208 */ Unk0206c5e4_208 *mUnk_208;

@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "01/code_02187098.h"
+#include "01/code_02187684.h"
 #include "01/code_02188950.h"
 
 // Declared here until the code that defines them is decompiled.
@@ -14,5 +15,4 @@ u32 func_ov001_02187fc0();
 int func_ov001_02187f7c(Unk02188950 *param_1);
 Vec3 *func_ov001_02187ee8(Unk02188950 *param_1);
 void func_ov001_02187c60(Unk02188950 *param_1, void *param_2);
-void func_ov001_02187684(Unk02188950 *param_1, int param_2, Vec3 *param_3);
 u16 func_ov001_02187024(Vec3 *param_1, Vec3 *param_2, s32 param_3, s32 param_4);
