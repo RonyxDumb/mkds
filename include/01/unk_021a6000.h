@@ -97,3 +97,5 @@ extern const s16 data_ov001_021a6cb0[7];
 extern const s16 data_ov001_021a6cc0[7];
 extern const s16 data_ov001_021a6cd0[7];
 extern const u16 data_ov001_021a6ce0[7][11];
+extern u16 data_ov001_021a6578;
+extern u32 data_ov001_021a6f74[3];

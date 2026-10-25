@@ -110,7 +110,9 @@ typedef struct Unk021ca418 {
     /* 30 */ s32 mUnk_30;
     /* 34 */ s32 mUnk_34;
     /* 38 */ s32 mUnk_38;
-    /* 3c */ u8 mUnk_3c[0x8];
+    /* 3c */ s32 mUnk_3c;
+    /* 40 */ s16 mUnk_40;
+    /* 42 */ u8 mUnk_42[0x2];
     /* 44 */ void *mUnk_44;
     /* 48 */ void *mUnk_48;
     /* 4c */ s32 mUnk_4c;

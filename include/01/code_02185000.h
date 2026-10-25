@@ -11,3 +11,4 @@ void *func_ov001_02185160(void *obj, int index);
 void func_ov001_02185018(void *entry, int value);
 s32 func_ov001_021850b4(void *list, s32 start, s32 x, s32 y);
 void func_ov001_021850a4(void *entry, s32 value);
+void func_ov001_0218516c(void *param_1, void *param_2);

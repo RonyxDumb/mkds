@@ -47,3 +47,7 @@ extern char data_ov001_021a7d1c[];
 extern char data_ov001_021a7d2c[];
 extern char data_ov001_021a7d3c[];
 extern char data_ov001_021a7d4c[];
+extern s32 data_ov001_021a7018[16];
+extern s32 data_ov001_021a7098[29];
+extern s32 data_ov001_021a73ac[3][29];
+extern s32 data_ov001_021a7508[3][29];
