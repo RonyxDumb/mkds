@@ -1,11 +1,8 @@
 #include "01/code_0219d26c.h"
 
-// non-matching: 0x50 bytes, original 0x54; 13 instructions differ; first at +0x0: original `push {lr}`, ours `push {r4,
-// lr}`
 void func_ov001_0219d26c(void) {
-    *((u16 *) 0x0400000cu) = *((u16 *) 0x0400000cu) & 0x43 | (u16) ((u32) 0x00001e10u);
-    *((u32 *) 0x04000000u) = *((u32 *) 0x04000000u) & ((u32) 0xffffe0ffu) | ((u32) 0x00001800u);
-    func_02036ab0((void *) (*(u32 *) (*((int *) ((u32) (&data_ov001_021a9bf8))) + ((int) 0x00001030u))));
-    *((int *) ((u32) (&data_ov001_021a9bf8))) = 0;
-    return;
+    *(vu16 *)0x400000c = (u16)((*(vu16 *)0x400000c & 0x43) | 0x1e10);
+    *(vu32 *)0x4000000 = (*(vu32 *)0x4000000 & ~0x1f00) | 0x1800;
+    func_02036ab0(data_ov001_021a9bf8->mUnk_1030);
+    data_ov001_021a9bf8 = 0;
 }

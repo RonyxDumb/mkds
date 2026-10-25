@@ -1,23 +1,12 @@
 #include "01/code_0219e5a0.h"
 
-// non-matching: 0x84 bytes, original 0x8c; 17 instructions differ; first at +0x0: original `push {r4, lr}`, ours `push
-// {r4, r5, lr}`
-void func_ov001_0219e5d4(int param_1) {
-    int iVar1;
-    param_1 = param_1 * 4;
-    iVar1 = *(int *) (*((int *) ((u32) (&data_ov001_021ca400))) + param_1 + 0x38);
-    ((u32) func_02016468((u32) (4), (u32) (0), (void *) (*(u32 *) (iVar1 + 0x14)), (u32) (*(u32 *) (iVar1 + 0x10))));
-    iVar1 = *(int *) (*((int *) ((u32) (&data_ov001_021ca400))) + param_1 + 0x40);
-    ((u32) func_02016468((u32) (8), (u32) (0), (void *) (iVar1 + 0xc), (u32) (*(u32 *) (iVar1 + 8))));
-    iVar1 = *(int *) (*((int *) ((u32) (&data_ov001_021ca400))) + param_1 + 0x48);
-    ((u32) func_02016468((u32) (0xf), (u32) (0), (void *) (*(u32 *) (iVar1 + 0xc)), (u32) (*(u32 *) (iVar1 + 8))));
-    iVar1 = *(int *) (*((int *) ((u32) (&data_ov001_021ca400))) + param_1 + 0x50);
-    ((u32) func_02016468((u32) (0x14), (u32) (0), (void *) (*(u32 *) (iVar1 + 0x14)), (u32) (*(u32 *) (iVar1 + 0x10))));
-    iVar1 = *(int *) (*((int *) ((u32) (&data_ov001_021ca400))) + param_1 + 0x58);
-    ((u32) func_02016468((u32) (0x18), (u32) (0), (void *) (iVar1 + 0xc), (u32) (*(u32 *) (iVar1 + 8))));
-    iVar1 = *(int *) (*((int *) ((u32) (&data_ov001_021ca400))) + param_1 + 0x60);
-    ((u32) func_02016468((u32) (0x1f), (u32) (0), (void *) (*(u32 *) (iVar1 + 0xc)), (u32) (*(u32 *) (iVar1 + 8))));
-    return;
+void func_ov001_0219e5d4(int i) {
+    func_02016468(4, 0, data_ov001_021ca400->mUnk_038[i]->mUnk_14, data_ov001_021ca400->mUnk_038[i]->mUnk_10);
+    func_02016468(8, 0, data_ov001_021ca400->mUnk_040[i]->mUnk_0c, data_ov001_021ca400->mUnk_040[i]->mUnk_08);
+    func_02016468(0xf, 0, data_ov001_021ca400->mUnk_048[i]->mUnk_0c, data_ov001_021ca400->mUnk_048[i]->mUnk_08);
+    func_02016468(0x14, 0, data_ov001_021ca400->mUnk_050[i]->mUnk_14, data_ov001_021ca400->mUnk_050[i]->mUnk_10);
+    func_02016468(0x18, 0, data_ov001_021ca400->mUnk_058[i]->mUnk_0c, data_ov001_021ca400->mUnk_058[i]->mUnk_08);
+    func_02016468(0x1f, 0, data_ov001_021ca400->mUnk_060[i]->mUnk_0c, data_ov001_021ca400->mUnk_060[i]->mUnk_08);
 }
 
 void func_ov001_0219e5a0(void) {
