@@ -1,12 +1,34 @@
 #pragma once
 
 #include "types.h"
+#include "01/code_02188e88.h"
 #include "01/code_0219b250.h"
 #include "01/code_021987d4.h"
 #include "01/code_0219a950.h"
 #include "01/code_0219bb48.h"
 #include "01/code_02193b1c.h"
 #include "00/code_02182fdc.h"
+
+// Four callbacks; the first receives Unk021a9bd0::mUnk_04.
+typedef struct Unk021a9bd0_18 {
+    /* 00 */ void (*mUnk_00)(void *);
+    /* 04 */ UnkFunc *mUnk_04;
+    /* 08 */ UnkFunc *mUnk_08;
+    /* 0c */ UnkFunc *mUnk_0c;
+} Unk021a9bd0_18;
+
+// Allocated by func_ov001_02192fb8 and held in data_ov001_021a9bd0.
+typedef struct Unk021a9bd0 {
+    /* 00 */ void *mUnk_00;
+    /* 04 */ void *mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s16 mUnk_14;
+    /* 16 */ u8 mUnk_16[2];
+    /* 18 */ Unk021a9bd0_18 mUnk_18;
+    /* 28 */ void *mUnk_28;
+} Unk021a9bd0;
 
 // Object behind data_ov001_021a9b90.
 typedef struct Unk021a9b90 {
@@ -105,7 +127,7 @@ extern Unk021a99e4 *data_ov001_021a99e4;
 extern u8 data_ov001_021a9b88[];
 extern u16 data_ov001_021a9ba0;
 extern Unk021a9b90 *data_ov001_021a9b90;
-extern u8 data_ov001_021a9bd0[];
+extern Unk021a9bd0 *data_ov001_021a9bd0;
 extern u8 data_ov001_021a9bec[];
 extern Unk021a9bf8 *data_ov001_021a9bf8;
 // One pair of halfwords of the object behind data_ov001_021a9bfc.
@@ -188,3 +210,10 @@ typedef struct Unk021a9be0 {
 
 extern Unk021a9be0 *data_ov001_021a9be0;
 extern Unk0219b418 *data_ov001_021a9b98;
+extern Unk021a9ba4 *data_ov001_021a9bac;
+extern Unk021a9ba4 *data_ov001_021a9bb0;
+extern Unk021a9ba4 *data_ov001_021a9bb4;
+extern Unk021a9ba4 *data_ov001_021a9bb8;
+extern Unk021a9ba4 *data_ov001_021a9bbc;
+extern Unk021a9ba4 *data_ov001_021a9bc0;
+extern Unk0219b418 *data_ov001_021a9bcc;

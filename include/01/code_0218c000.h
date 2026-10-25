@@ -10,3 +10,4 @@ void func_ov001_0218c61c();
 void func_ov001_0218c62c();
 s32 func_ov001_0218c5ac(Unk02188950 *param_1);
 s32 func_ov001_0218c5d4(Unk02188950 *param_1);
+u32 func_ov001_0218c790(Unk02188950 *param_1);

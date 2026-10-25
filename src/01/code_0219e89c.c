@@ -27,7 +27,7 @@ void func_ov001_0219e9e0(s16 *param_1) {
 
     heap = (void *)func_020364e0(func_020364e8());
     data_ov001_021ca408 = func_02036bec(heap, 0x808);
-    func_ov001_02192fb8(heap, *param_1);
+    func_ov001_02192fb8((void *) (heap), (s16) (*param_1));
 }
 
 void func_ov001_0219e9c8(void) {

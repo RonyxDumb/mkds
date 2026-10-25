@@ -4,7 +4,7 @@
 
 // Object behind func_ov001_02188c90 and the per-state functions around func_ov001_021900ac.
 typedef struct Unk02188950_a0 {
-    /* 000 */ u8 mUnk_000[0x4];
+    /* 000 */ s32 mUnk_000;
     /* 004 */ s32 mUnk_004;
     /* 008 */ s32 mUnk_008;
     /* 00c */ u32 mUnk_00c;
@@ -80,10 +80,11 @@ typedef struct Unk02188950_a0 {
     /* 15c */ s32 mUnk_15c;
     /* 160 */ s32 mUnk_160;
     /* 164 */ s32 mUnk_164;
-    /* 168 */ u8 mUnk_168[0x4];
+    /* 168 */ s32 mUnk_168;
     /* 16c */ s32 mUnk_16c;
     /* 170 */ s32 mUnk_170;
-    /* 174 */ u8 mUnk_174[0x8];
+    /* 174 */ s32 mUnk_174;
+    /* 178 */ s32 mUnk_178;
     /* 17c */ s32 mUnk_17c;
     /* 180 */ s32 mUnk_180;
     /* 184 */ s32 mUnk_184;
@@ -134,14 +135,29 @@ typedef struct Unk02188950_a0 {
     /* 238 */ s32 mUnk_238;
     /* 23c */ s32 mUnk_23c;
     /* 240 */ s32 mUnk_240;
-    /* 244 */ u8 mUnk_244[0x28];
+    /* 244 */ u8 mUnk_244[0x10];
+    /* 254 */ s32 mUnk_254;
+    /* 258 */ s32 mUnk_258;
+    /* 25c */ u8 mUnk_25c[0x10];
     /* 26c */ s32 mUnk_26c;
     /* 270 */ s32 mUnk_270;
     /* 274 */ s32 mUnk_274;
     /* 278 */ s32 mUnk_278;
     /* 27c */ s32 mUnk_27c;
     /* 280 */ s32 mUnk_280;
-    /* 284 */ u8 mUnk_284[0x38];
+    /* 284 */ u8 mUnk_284[0x8];
+    /* 28c */ s32 mUnk_28c;
+    /* 290 */ s32 mUnk_290;
+    /* 294 */ s32 mUnk_294;
+    /* 298 */ s32 mUnk_298;
+    /* 29c */ s32 mUnk_29c;
+    /* 2a0 */ s32 mUnk_2a0;
+    /* 2a4 */ s32 mUnk_2a4;
+    /* 2a8 */ s32 mUnk_2a8;
+    /* 2ac */ s32 mUnk_2ac;
+    /* 2b0 */ s32 mUnk_2b0;
+    /* 2b4 */ s32 mUnk_2b4;
+    /* 2b8 */ s32 mUnk_2b8;
     /* 2bc */ u32 mUnk_2bc;
     /* 2c0 */ u32 mUnk_2c0;
     /* 2c4 */ u32 mUnk_2c4;

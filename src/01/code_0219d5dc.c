@@ -5,5 +5,5 @@
 void func_ov001_0219d5dc(void) {
     Unk021a8cd0 local = data_ov001_021a8cd0;
 
-    func_ov001_02192eac(local.mUnk_00);
+    func_ov001_02192eac((UnkFunc **) (local.mUnk_00));
 }

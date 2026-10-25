@@ -253,8 +253,16 @@ src/01/code_02188218.c:
     .text       start:0x021881f8 end:0x02188210
 
 // provisional: file name and boundaries
+src/01/code_02188230.c:
+    .text       start:0x02188210 end:0x02188240
+
+// provisional: file name and boundaries
 src/01/code_02188260.c:
     .text       start:0x02188240 end:0x02188298
+
+// provisional: file name and boundaries
+src/01/code_021882b8.c:
+    .text       start:0x02188298 end:0x02188464
 
 // provisional: file name and boundaries
 src/01/code_02188484.c:
@@ -265,8 +273,16 @@ src/01/code_02188950.c:
     .text       start:0x02188930 end:0x02188cb8
 
 // provisional: file name and boundaries
+src/01/code_02188cd8.c:
+    .text       start:0x02188cb8 end:0x02188d84
+
+// provisional: file name and boundaries
 src/01/code_02188da4.c:
     .text       start:0x02188d84 end:0x02188dc0
+
+// provisional: file name and boundaries
+src/01/code_02188de0.c:
+    .text       start:0x02188dc0 end:0x02188e04
 
 // provisional: file name and boundaries
 src/01/code_02188e24.c:
@@ -275,6 +291,10 @@ src/01/code_02188e24.c:
 // provisional: file name and boundaries
 src/01/code_02188e88.c:
     .text       start:0x02188e68 end:0x0218928c
+
+// provisional: file name and boundaries
+src/01/code_021892ac.c:
+    .text       start:0x0218928c end:0x021899c4
 
 // provisional: file name and boundaries
 src/01/code_02189dd8.c:
@@ -509,16 +529,32 @@ src/01/code_02191870.c:
     .text       start:0x02191850 end:0x02191868
 
 // provisional: file name and boundaries
+src/01/code_02191888.c:
+    .text       start:0x02191868 end:0x02191b20
+
+// provisional: file name and boundaries
 src/01/code_02191b40.c:
     .text       start:0x02191b20 end:0x02191bf4
+
+// provisional: file name and boundaries
+src/01/code_02191c14.c:
+    .text       start:0x02191bf4 end:0x02191da8
 
 // provisional: file name and boundaries
 src/01/code_02191dc8.c:
     .text       start:0x02191da8 end:0x02191dc0
 
 // provisional: file name and boundaries
+src/01/code_02191de0.c:
+    .text       start:0x02191dc0 end:0x02191dfc
+
+// provisional: file name and boundaries
 src/01/code_02191e1c.c:
     .text       start:0x02191dfc end:0x02191eac
+
+// provisional: file name and boundaries
+src/01/code_02191ecc.c:
+    .text       start:0x02191eac end:0x02192154
 
 // provisional: file name and boundaries
 src/01/code_02192174.c:
@@ -549,16 +585,32 @@ src/01/code_02192d60.c:
     .text       start:0x02192d40 end:0x02192d5c
 
 // provisional: file name and boundaries
+src/01/code_02192d7c.c:
+    .text       start:0x02192d5c end:0x02192e58
+
+// provisional: file name and boundaries
 src/01/code_02192e78.c:
     .text       start:0x02192e58 end:0x02192e8c
+
+// provisional: file name and boundaries
+src/01/code_02192eac.c:
+    .text       start:0x02192e8c end:0x02192ea4
 
 // provisional: file name and boundaries
 src/01/code_02192ec4.c:
     .text       start:0x02192ea4 end:0x02192ec4
 
 // provisional: file name and boundaries
+src/01/code_02192ee4.c:
+    .text       start:0x02192ec4 end:0x02192f6c
+
+// provisional: file name and boundaries
 src/01/code_02192f8c.c:
     .text       start:0x02192f6c end:0x02192f98
+
+// provisional: file name and boundaries
+src/01/code_02192fb8.c:
+    .text       start:0x02192f98 end:0x021932a8
 
 // provisional: file name and boundaries
 src/01/code_02193308.c:

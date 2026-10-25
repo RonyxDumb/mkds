@@ -14,7 +14,7 @@
 void func_ov001_02199964(void)
 {
     UnkFunc *tbl[4] = { func_ov001_02199f44, func_ov001_02199f38, func_ov001_021999a8, func_ov001_02199988 };
-    func_ov001_02192eac(tbl);
+    func_ov001_02192eac((UnkFunc **) (tbl));
 }
 
 void func_ov001_021997dc(void)

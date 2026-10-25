@@ -394,7 +394,7 @@ void func_ov001_02198854(void)
 {
     UnkFunc *table[4] = { func_ov001_02199640, func_ov001_021995f8, func_ov001_02198918, func_ov001_02198878 };
 
-    func_ov001_02192eac(table);
+    func_ov001_02192eac((UnkFunc **) (table));
 }
 
 void func_ov001_021987d4(void *heap, s16 param_2)
