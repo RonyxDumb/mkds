@@ -173,7 +173,7 @@ void func_ov001_021a2a40(void)
         t -= 0x100000;
     }
     data_ov001_021ca41c->mUnk_10a8 = t;
-    func_020ae6ac((int)data_ov001_021ca41c, (int)data_ov001_021ca41c->mUnk_0404);
+    func_020ae6ac((void *) ((int)data_ov001_021ca41c), (void *) ((int)data_ov001_021ca41c->mUnk_0404));
     func_ov001_0218516c(data_ov001_021ca41c->mUnk_0828, data_ov001_021ca41c->mUnk_0000);
     switch (data_ov001_021ca41c->mUnk_1090) {
     case 0:
@@ -259,7 +259,7 @@ void func_ov001_021a2a40(void)
         func_ov001_0218516c(data_ov001_021ca41c->mUnk_0858, data_ov001_021ca41c->mUnk_0404);
         break;
     }
-    func_020ae630((int)data_ov001_021ca41c, (int)data_ov001_021ca41c->mUnk_0404);
+    func_020ae630((void *) ((int)data_ov001_021ca41c), (void *) ((int)data_ov001_021ca41c->mUnk_0404));
     func_020783c8();
     func_020780b0();
     func_020ac390(func_ov001_02181174(), data_ov001_021ca41c->mUnk_087c, func_ov001_02181268());

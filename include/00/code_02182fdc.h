@@ -128,6 +128,8 @@ typedef struct Unk0217b488 {
     /* 0018 */ s32 mUnk_18;
     /* 001c */ u8 mUnk_001c[0x38];
     /* 0054 */ u8 mUnk_54;
+    /* 0055 */ u8 mUnk_0055[0x1b];
+    /* 0070 */ s32 mUnk_70;
 } Unk0217b488;
 
 typedef struct Unk0217d384 {
@@ -184,7 +186,7 @@ void func_ov000_02184130(void);
 
 void func_0202b604(void);
 s32 func_02036d08(void);
-void func_02036f10(s32);
+void func_02036f10(s16);
 u8 func_0205e548(void);
 Unk0217ad04 *func_02077f00(void);
 void func_020ac2fc(void *, void *, s32);

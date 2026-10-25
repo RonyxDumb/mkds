@@ -5,7 +5,9 @@
 // Objects whose layout isn't known yet.
 // What data_0217aa08 points to.
 typedef struct Unk0217aa08_00 {
-    /* 00 */ u8 mUnk_00[0x31];
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ u8 mUnk_0c[0x14];
+    /* 20 */ u8 mUnk_20[0x11];
     /* 31 */ union {
         u8 mUnk_31;
         struct {

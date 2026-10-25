@@ -9,8 +9,7 @@ void func_020ada94(void) {
                      0x14))();
     *(u32 *) (*((int *) ((u32) (&data_0217b340))) + 4) = 0;
     func_021258f0();
-    func_020ae5f0((int) (*((int *) ((u32) (&data_0217b340))) + 0xb0),
-                  (int) (*((int *) ((u32) (&data_0217b340))) + ((int) 0x000004b4u)));
+    func_020ae5f0((void *) (*((int *) ((u32) (&data_0217b340))) + 0xb0), (void *) (*((int *) ((u32) (&data_0217b340))) + ((int) 0x000004b4u)));
     return;
 }
 

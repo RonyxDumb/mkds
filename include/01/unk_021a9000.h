@@ -19,6 +19,23 @@ typedef struct Unk021a9bd0_18 {
 
 extern const Unk021a9bd0_18 data_ov001_021a8170;
 
+// Object behind data_ov001_021a9bec.
+typedef struct Unk021a9bec {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ void *mUnk_18;
+    /* 1c */ Unk021a9bf0Entry *mUnk_1c;
+    /* 20 */ void *mUnk_20;
+    /* 24 */ void *mUnk_24;
+    /* 28 */ void *mUnk_28;
+    /* 2c */ void *mUnk_2c;
+    /* 30 */ void *mUnk_30;
+} Unk021a9bec;
+
 // Allocated by func_ov001_02192fb8 and held in data_ov001_021a9bd0.
 typedef struct Unk021a9bd0 {
     /* 00 */ void *mUnk_00;
@@ -155,7 +172,7 @@ extern Unk021a9b88 *data_ov001_021a9b88;
 extern u16 data_ov001_021a9ba0;
 extern Unk021a9b90 *data_ov001_021a9b90;
 extern Unk021a9bd0 *data_ov001_021a9bd0;
-extern u8 data_ov001_021a9bec[];
+extern Unk021a9bec *data_ov001_021a9bec;
 extern Unk021a9bf8 *data_ov001_021a9bf8;
 // One pair of halfwords of the object behind data_ov001_021a9bfc.
 typedef struct Unk021a9bfc_18 {
@@ -175,7 +192,7 @@ typedef struct Unk021a9bfc {
     /* 20 */ s32 mUnk_20;
     /* 24 */ s32 mUnk_24;
     /* 28 */ s32 mUnk_28[2];
-    /* 30 */ u8 mUnk_30[4];
+    /* 30 */ void *mUnk_30;
     /* 34 */ Unk021a9bdcEntry *mUnk_34;
     /* 38 */ void *mUnk_38;
     /* 3c */ u8 mUnk_3c[8];

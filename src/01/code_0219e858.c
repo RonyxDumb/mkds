@@ -5,11 +5,9 @@
 void func_ov001_0219e858(int param_1) {
     u16 uVar1;
     int iVar2;
-    func_020ae6ac((int) (*((int *) ((u32) (&data_ov001_021ca404)))),
-                  (int) (*((int *) ((u32) (&data_ov001_021ca404))) + ((int) 0x00000404u)));
+    func_020ae6ac((void *) (*((int *) ((u32) (&data_ov001_021ca404)))), (void *) (*((int *) ((u32) (&data_ov001_021ca404))) + ((int) 0x00000404u)));
     func_ov001_02198554();
-    func_020ae630((int) (*((int *) ((u32) (&data_ov001_021ca404)))),
-                  (int) (*((int *) ((u32) (&data_ov001_021ca404))) + ((int) 0x00000404u)));
+    func_020ae630((void *) (*((int *) ((u32) (&data_ov001_021ca404)))), (void *) (*((int *) ((u32) (&data_ov001_021ca404))) + ((int) 0x00000404u)));
     if ((param_1 != 0) && (iVar2 = func_ov001_0219853c(), iVar2 != -1)) {
         uVar1 = func_ov001_0219853c();
         *(u16 *) (param_1 + 4) = uVar1;

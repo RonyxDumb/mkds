@@ -3,6 +3,13 @@
 #include "types.h"
 #include "00/code_02182fdc.h"
 
+// What Unk021ca400::mUnk_02c points to.
+typedef struct Unk021ca400_2c {
+    /* 00 */ u8 mUnk_00[8];
+    /* 08 */ u32 mUnk_08;
+    /* 0c */ void *mUnk_0c;
+} Unk021ca400_2c;
+
 // Object behind data_ov001_021ca400.
 typedef struct Unk021ca400 {
     /* 000 */ s32 mUnk_000;
@@ -11,14 +18,27 @@ typedef struct Unk021ca400 {
     /* 00c */ s32 mUnk_00c;
     /* 010 */ void *mUnk_010;
     /* 014 */ s16 mUnk_014;
+    /* 016 */ u8 mUnk_016[0x2];
     /* 018 */ s32 mUnk_018;
     /* 01c */ void *mUnk_01c;
     /* 020 */ s32 *mUnk_020;
     /* 024 */ void *mUnk_024;
-    /* 028 */ u8 mUnk_028[8];
+    /* 028 */ u8 mUnk_028[0x4];
+    /* 02c */ Unk021ca400_2c *mUnk_02c;
     /* 030 */ void *mUnk_030;
     /* 034 */ void *mUnk_034;
-    /* 038 */ u8 mUnk_038[0x30];
+    /* 038 */ void *mUnk_038;
+    /* 03c */ void *mUnk_03c;
+    /* 040 */ void *mUnk_040;
+    /* 044 */ void *mUnk_044;
+    /* 048 */ void *mUnk_048;
+    /* 04c */ void *mUnk_04c;
+    /* 050 */ void *mUnk_050;
+    /* 054 */ void *mUnk_054;
+    /* 058 */ void *mUnk_058;
+    /* 05c */ void *mUnk_05c;
+    /* 060 */ void *mUnk_060;
+    /* 064 */ void *mUnk_064;
     /* 068 */ u8 mUnk_068[0x404];
     /* 46c */ void *mUnk_46c;
 } Unk021ca400;

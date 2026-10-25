@@ -355,7 +355,7 @@ void func_ov000_021837b8(void) {
             data_ov000_021b4c74->mUnk_20 = 4;
             data_ov000_021b4c74->mUnk_08 = 0;
             func_02125fc0();
-            func_02036f10(30);
+            func_02036f10((s16) (30));
             func_0212ecc0(data_0217d068, 0, 0x20c);
         }
     }

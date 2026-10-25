@@ -11,8 +11,7 @@ void func_0202f160(void) {
         func_021258f0();
     }
     (**(UnkFunc **) (*(int *) (*((int *) ((u32) (&data_02174e4c))) + ((int) 0x0000080cu)) + 0xc))();
-    func_020ae5f0((int) (*((int *) ((u32) (&data_02174e4c)))),
-                  (int) (*((int *) ((u32) (&data_02174e4c))) + ((int) 0x00000404u)));
+    func_020ae5f0((void *) (*((int *) ((u32) (&data_02174e4c)))), (void *) (*((int *) ((u32) (&data_02174e4c))) + ((int) 0x00000404u)));
     return;
 }
 
