@@ -10,3 +10,4 @@ unsigned int func_02126474(unsigned int, unsigned int, unsigned int, unsigned in
 void func_0212658c(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6, u32 param_7);
 void func_02126730(void);
 void func_02126834(void);
+void func_0212611c(u32 a, u32 b, u32 c, u32 d);

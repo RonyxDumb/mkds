@@ -98,7 +98,7 @@ next:
         goto buttons;
     }
     if ((u16)bits == 0) {
-        func_ov001_02198264(data_ov001_021a9be0->mUnk_28);
+        func_ov001_02198264((s32) (data_ov001_021a9be0->mUnk_28));
         switch (sel) {
             case 0: dir = 0; break;
             case 1: dir = 1; break;
@@ -106,10 +106,10 @@ next:
         }
         if (data_ov001_021a9be0->mUnk_28 != dir) {
             data_ov001_021a9be0->mUnk_28 = dir;
-            func_ov001_0219829c(data_ov001_021a9be0->mUnk_28);
+            func_ov001_0219829c((s32) (data_ov001_021a9be0->mUnk_28));
         }
     } else {
-        func_ov001_02198264(data_ov001_021a9be0->mUnk_28);
+        func_ov001_02198264((s32) (data_ov001_021a9be0->mUnk_28));
     }
     switch (data_ov001_021a9be0->mUnk_28) {
         case 0: data_ov001_021a9be0->mUnk_34 = 1; break;
@@ -120,20 +120,20 @@ next:
     return;
 buttons:
     if (func_020ae408(8, 0x40) != 0) {
-        func_ov001_02198264(data_ov001_021a9be0->mUnk_28);
+        func_ov001_02198264((s32) (data_ov001_021a9be0->mUnk_28));
         data_ov001_021a9be0->mUnk_28--;
         if (data_ov001_021a9be0->mUnk_28 < 0) {
             data_ov001_021a9be0->mUnk_28 = 2;
         }
-        func_ov001_0219829c(data_ov001_021a9be0->mUnk_28);
+        func_ov001_0219829c((s32) (data_ov001_021a9be0->mUnk_28));
         func_0212ecc0(data_0217d068, 0, 0);
     } else if (func_020ae408(8, 0x80) != 0) {
-        func_ov001_02198264(data_ov001_021a9be0->mUnk_28);
+        func_ov001_02198264((s32) (data_ov001_021a9be0->mUnk_28));
         data_ov001_021a9be0->mUnk_28++;
         if (data_ov001_021a9be0->mUnk_28 >= 3) {
             data_ov001_021a9be0->mUnk_28 = 0;
         }
-        func_ov001_0219829c(data_ov001_021a9be0->mUnk_28);
+        func_ov001_0219829c((s32) (data_ov001_021a9be0->mUnk_28));
         func_0212ecc0(data_0217d068, 0, 0);
     }
 }
@@ -152,7 +152,7 @@ void func_ov001_02197c9c(void) {
         case 2: data_ov001_021a9be0->mUnk_0c[13].mUnk_04 = v; break;
     }
     if (data_ov001_021a9be0->mUnk_20 == 5) {
-        func_ov001_0219829c(data_ov001_021a9be0->mUnk_28);
+        func_ov001_0219829c((s32) (data_ov001_021a9be0->mUnk_28));
     }
     if (data_ov001_021a9be0->mUnk_20 >= 10) {
         func_ov001_021982d4();

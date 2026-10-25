@@ -10,3 +10,4 @@ void func_02125fd4(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32 param
 void *func_021250b0(void *heap);
 void func_02125c2c(void);
 void func_02125de0(void *heap, void *arg);
+s32 func_02125f6c(void);

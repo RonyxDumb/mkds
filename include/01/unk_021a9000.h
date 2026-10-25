@@ -17,6 +17,8 @@ typedef struct Unk021a9bd0_18 {
     /* 0c */ UnkFunc *mUnk_0c;
 } Unk021a9bd0_18;
 
+extern const Unk021a9bd0_18 data_ov001_021a8170;
+
 // Allocated by func_ov001_02192fb8 and held in data_ov001_021a9bd0.
 typedef struct Unk021a9bd0 {
     /* 00 */ void *mUnk_00;
@@ -222,13 +224,14 @@ typedef struct Unk021a9be0 {
     /* 04 */ void *mUnk_04;
     /* 08 */ void *mUnk_08;
     /* 0c */ Unk021a9bdcEntry *mUnk_0c;
-    /* 10 */ u8 mUnk_10[8];
+    /* 10 */ void *mUnk_10;
+    /* 14 */ u32 mUnk_14;
     /* 18 */ s32 mUnk_18;
     /* 1c */ s32 mUnk_1c;
     /* 20 */ s32 mUnk_20;
     /* 24 */ s32 mUnk_24;
     /* 28 */ s32 mUnk_28;
-    /* 2c */ u8 mUnk_2c[4];
+    /* 2c */ void *mUnk_2c;
     /* 30 */ s32 mUnk_30;
     /* 34 */ s32 mUnk_34;
 } Unk021a9be0;

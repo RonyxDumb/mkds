@@ -15,3 +15,4 @@ void func_020574a0(void);
 void func_02057944(int param_1, u32 param_2);
 void func_02057ca4(u32 param_1);
 void func_02057cfc();
+void func_02057130(void);
