@@ -8,31 +8,32 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "01/code_0218f000.h"
 
-// non-matching: same instructions up to the 64-bit multiplies, then x/z and the sin/cos high words land in different
-// registers and stack slots (the original keeps the high word of z in r7 and spills those of x, sin and cos; it is 4 bytes longer)
 void func_ov001_0218f724(Unk02188950 *param_1) {
     Vec3 local_1;
     Vec3 local_2;
-    u32 angle;
-    s32 sin;
-    s32 cos;
-    s32 x;
-    s32 z;
+    u32 a;
+    s32 i;
+    s32 s;
+    s32 c;
+    s64 z;
+    s64 x;
     func_021484d0(data_021759c0->mUnk_08 == 4 ? func_ov001_02181a94() : 0,
                   data_021759c0->mUnk_08 == 4 ? func_ov001_02181a88() : 0, &local_1);
     local_1.y = 0;
-    angle = 0;
+    a = 0;
     if (data_021759c0->mUnk_08 == 4) {
-        angle = func_ov001_02181a68();
+        a = func_ov001_02181a68();
     }
-    angle = (data_021759c0->mUnk_08 == 4 ? func_ov001_02181a78() : 0) - angle;
+    a = (data_021759c0->mUnk_08 == 4 ? func_ov001_02181a78() : 0) - a;
     func_021484d0(&param_1->mUnk_004, data_021759c0->mUnk_08 == 4 ? func_ov001_02181a94() : 0, &local_2);
-    cos = data_0215d4b4[((u16)angle >> 4) * 2 + 1];
-    x = local_2.x;
-    sin = data_0215d4b4[((u16)angle >> 4) * 2];
-    z = local_2.z;
-    local_1.x += (s32)((s64)x * cos >> 12) + (s32)((s64)z * sin >> 12) - x;
-    local_1.z += (s32)((s64)z * cos >> 12) - (s32)((s64)x * sin >> 12) - z;
+    for (i = 0; i < 1; i++) {
+        c = data_0215d4b4[((u16)a >> 4) * 2 + 1];
+        x = local_2.x;
+        s = data_0215d4b4[((u16)a >> 4) * 2];
+        z = local_2.z;
+    }
+    local_1.x += (s32)(z * s >> 12) + (s32)(x * c >> 12) - local_2.x;
+    local_1.z += (s32)(z * c >> 12) - (s32)(x * s >> 12) - local_2.z;
     func_ov001_02188950(param_1, &local_1);
 }
 
