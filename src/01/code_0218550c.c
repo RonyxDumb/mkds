@@ -14,6 +14,7 @@
 #pragma optimize_for_size on
 
 #pragma thumb off
+
 void func_ov001_02185778(int param_1)
 {
     if (param_1 != 0) {
@@ -28,15 +29,6 @@ void func_ov001_02185740(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32
     *(vu16 *)0x0400000a = (*(vu16 *)0x0400000a & 0x43) | (param_1 << 14) | (param_2 << 7) | (param_3 << 8) | (param_4 << 2) | (param_5 << 13);
 }
 
-void func_ov001_021856a8(u32 param_1)
-{
-    *(vu32 *)0x04000000 = (*(vu32 *)0x04000000 & ~0x1f00) | (param_1 << 8);
-}
-
-void func_ov001_0218568c(u32 param_1)
-{
-    *(vu32 *)0x04001000 = (*(vu32 *)0x04001000 & ~0x1f00) | (param_1 << 8);
-}
 #pragma thumb on
 
 void func_ov001_021856ec(void)
@@ -65,6 +57,20 @@ void func_ov001_021856c0(void)
         break;
     }
 }
+
+#pragma thumb off
+
+void func_ov001_021856a8(u32 param_1)
+{
+    *(vu32 *)0x04000000 = (*(vu32 *)0x04000000 & ~0x1f00) | (param_1 << 8);
+}
+
+void func_ov001_0218568c(u32 param_1)
+{
+    *(vu32 *)0x04001000 = (*(vu32 *)0x04001000 & ~0x1f00) | (param_1 << 8);
+}
+
+#pragma thumb on
 
 void func_ov001_02185658(void)
 {
