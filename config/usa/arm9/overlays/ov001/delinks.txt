@@ -622,6 +622,18 @@ src/01/code_021a1bb8.c:
     .text       start:0x021a1b98 end:0x021a2378
 
 // provisional: file name and boundaries
+src/01/code_021a2408.c:
+    .text       start:0x021a23e8 end:0x021a2a20
+
+// provisional: file name and boundaries
+src/01/code_021a30e0.c:
+    .text       start:0x021a30c0 end:0x021a3ffc
+
+// provisional: file name and boundaries
+src/01/code_021a41c8.c:
+    .text       start:0x021a41a8 end:0x021a4704
+
+// provisional: file name and boundaries
 src/01/code_021a5140.c:
     .text       start:0x021a5120 end:0x021a59ac
 

@@ -8,3 +8,4 @@ void func_020caba4();
 void func_020cac18(void);
 int func_020cadac(int param_1);
 void func_020ca6c4(void);
+void func_020ca9e4(void);

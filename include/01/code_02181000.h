@@ -10,3 +10,5 @@ s8 func_ov001_0218180c(void);
 void func_ov001_02181aa0(void);
 void func_ov001_02181098(void);
 void func_ov001_02181048(void);
+void func_ov001_0218107c(void);
+s32 func_ov001_021810bc(u8 *a, u16 *b);
