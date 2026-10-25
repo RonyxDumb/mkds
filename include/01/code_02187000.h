@@ -1,10 +1,11 @@
 #pragma once
 
+#include "01/code_0218720c.h"
+
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
 u32 func_ov001_021871f8(int param_1, int param_2);
-void func_ov001_0218720c();
 void func_ov001_02187218();
 void func_ov001_021872e0(int param_1, int param_2, int param_3, int param_4, int param_5, u16 param_6, int param_7,
                          int param_8, u32 param_9);

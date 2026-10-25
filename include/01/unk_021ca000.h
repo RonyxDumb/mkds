@@ -10,3 +10,7 @@ extern u8 data_ov001_021ca410[];
 extern u8 data_ov001_021ca414[];
 extern u8 data_ov001_021ca418[];
 extern u8 data_ov001_021ca424[];
+
+extern u8 data_ov001_021ca408[];
+extern u8 data_ov001_021ca41c[];
+extern u8 data_ov001_021ca420[];
