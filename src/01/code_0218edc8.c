@@ -185,7 +185,7 @@ void func_ov001_0218ee88(Unk02188950 *param_1) {
     p = func_0207a974((u16)data_021759c0->mUnk_62);
     func_02147fd8(-param_1->mUnk_0a0->mUnk_0e8, &p->mUnk_68, &p->mUnk_80, &v);
     param_1->mUnk_004.x = v.x;
-    param_1->mUnk_004.y = param_1->mUnk_09c->mUnk_04 + param_1->mUnk_0a0->mUnk_080;
+    param_1->mUnk_004.y = param_1->mUnk_09c->mUnk_00.y + param_1->mUnk_0a0->mUnk_080;
     param_1->mUnk_004.z = v.z;
     param_1->mUnk_1a8 = (u16)(func_02148714(p->mUnk_80.x - param_1->mUnk_004.x, p->mUnk_80.z - param_1->mUnk_004.z) + 0x4000);
     param_1->mUnk_184 = param_1->mUnk_1a8;

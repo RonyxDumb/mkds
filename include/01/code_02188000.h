@@ -17,3 +17,4 @@ int func_ov001_02188084(Unk02188950 *param_1, int param_2, int param_3, int para
 void *func_ov001_02188000(Unk02188950 *param_1, s32 param_2, s32 param_3);
 void *func_ov001_02188104(Unk02188950 *param_1, s32 param_2, s32 param_3);
 void func_ov001_02188de0(Unk02188950 *param_1, s32 param_2, s32 param_3, Vec3 *param_4, UnkFunc *param_5);
+void func_ov001_02188d08(Unk02188950 *param_1, s32 param_2, s32 param_3);

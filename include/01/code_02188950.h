@@ -4,7 +4,9 @@
 
 // Object behind func_ov001_02188c90 and the per-state functions around func_ov001_021900ac.
 typedef struct Unk02188950_a0 {
-    /* 000 */ u8 mUnk_000[0x80];
+    /* 000 */ u8 mUnk_000[0x78];
+    /* 078 */ s32 mUnk_078;
+    /* 07c */ s32 mUnk_07c;
     /* 080 */ s32 mUnk_080;
     /* 084 */ s32 mUnk_084;
     /* 088 */ s32 mUnk_088;
@@ -50,7 +52,9 @@ typedef struct Unk02188950_a0 {
     /* 128 */ s32 mUnk_128;
     /* 12c */ s32 mUnk_12c;
     /* 130 */ s32 mUnk_130;
-    /* 134 */ u8 mUnk_134[0xc];
+    /* 134 */ s32 mUnk_134;
+    /* 138 */ s32 mUnk_138;
+    /* 13c */ s32 mUnk_13c;
     /* 140 */ s32 mUnk_140;
     /* 144 */ s32 mUnk_144;
     /* 148 */ s32 mUnk_148;
@@ -72,7 +76,13 @@ typedef struct Unk02188950_a0 {
     /* 198 */ s32 mUnk_198;
     /* 19c */ s32 mUnk_19c;
     /* 1a0 */ s32 mUnk_1a0;
-    /* 1a4 */ u8 mUnk_1a4[0x28];
+    /* 1a4 */ u8 mUnk_1a4[0x10];
+    /* 1b4 */ s32 mUnk_1b4;
+    /* 1b8 */ s32 mUnk_1b8;
+    /* 1bc */ s32 mUnk_1bc;
+    /* 1c0 */ s32 mUnk_1c0;
+    /* 1c4 */ s32 mUnk_1c4;
+    /* 1c8 */ s32 mUnk_1c8;
     /* 1cc */ s32 mUnk_1cc;
     /* 1d0 */ s32 mUnk_1d0;
     /* 1d4 */ s32 mUnk_1d4;
@@ -101,8 +111,7 @@ typedef struct Unk02188950_a0 {
 } Unk02188950_a0;
 
 typedef struct Unk02188950_9c {
-    /* 0 */ u8 mUnk_00[0x4];
-    /* 4 */ s32 mUnk_04;
+    /* 00 */ Vec3 mUnk_00;
 } Unk02188950_9c;
 
 typedef struct Unk02188950 {
@@ -112,7 +121,8 @@ typedef struct Unk02188950 {
     /* 010 */ s32 mUnk_010;
     /* 014 */ s32 mUnk_014;
     /* 018 */ s32 mUnk_018;
-    /* 01c */ u8 mUnk_01c[0x54];
+    /* 01c */ s32 mUnk_01c;
+    /* 020 */ u8 mUnk_020[0x50];
     /* 070 */ u32 mUnk_070;
     /* 074 */ u8 mUnk_074[0x4];
     /* 078 */ u32 mUnk_078;
@@ -124,7 +134,8 @@ typedef struct Unk02188950 {
     /* 0a4 */ struct Unk0218dabc *mUnk_0a4;
     /* 0a8 */ s32 mUnk_0a8;
     /* 0ac */ s32 mUnk_0ac;
-    /* 0b0 */ u8 mUnk_0b0[0x8c];
+    /* 0b0 */ u8 mUnk_0b0[0x88];
+    /* 138 */ s32 mUnk_138;
     /* 13c */ s32 mUnk_13c;
     /* 140 */ s32 mUnk_140;
     /* 144 */ s32 mUnk_144;
