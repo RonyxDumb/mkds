@@ -13,7 +13,7 @@ void func_ov001_02185b7c(void) {
 }
 
 void func_ov001_02185b64(void) {
-    func_0209bf48((UnkFunc *) func_ov001_02185c4c, (UnkFunc *) func_ov001_02185bb8, (void *) (0));
+    func_0209bf48((UnkFunc *) func_ov001_02185c4c, (UnkFunc *) func_ov001_02185bb8, (UnkFunc *) (0));
 }
 
 u16 func_ov001_02185b50(Unk02185bb8 *param_1) {

@@ -49,16 +49,16 @@ void func_ov001_0218263c(void *param_1, Unk02181c3c *param_2)
 
     if (param_2->mUnk_0b0 > 0 && param_2->mUnk_0a0 != 0) {
         a = 0x1e;
-        func_01ff9048((u32) (0x14), (u32) (&a), (int) (1));
-        func_01ff9048((u32) (0x19), (u32) (func_020e6cbc((u32) (&param_2->mUnk_004))), (int) (0xc));
+        func_01ff9048((u32) (0x14), (void *) (&a), (int) (1));
+        func_01ff9048((u32) (0x19), (void *) (func_020e6cbc((Vec3 *) (&param_2->mUnk_004))), (int) (0xc));
         s = param_2->mUnk_0b0;
         if (s != 0x1000) {
             v.x = s;
             v.y = s;
             v.z = s;
-            func_01ff9048((u32) (0x1b), (u32) (&v), (int) (3));
+            func_01ff9048((u32) (0x1b), (void *) (&v), (int) (3));
         }
-        func_01ff9048((u32) (0x1b), (u32) (&param_2->mUnk_01c), (int) (3));
+        func_01ff9048((u32) (0x1b), (void *) (&param_2->mUnk_01c), (int) (3));
         func_0209b940(data_ov001_021a9b98, func_020d3c44());
         t = param_2->mUnk_0a0;
         if (t >= 0x1f) {
@@ -67,7 +67,7 @@ void func_ov001_0218263c(void *param_1, Unk02181c3c *param_2)
         func_0209b9a4(data_ov001_021a9b98, t);
         func_0209b688((void *) (data_ov001_021a9b98), (u16) param_2->mUnk_0a4);
         func_0209bbd0(param_1, data_ov001_021a9b98);
-        func_0209bb2c((u32) (param_1), (int) (data_ov001_021a9b98), (int) (param_2));
+        func_0209bb2c((void *) (param_1), (void *) (data_ov001_021a9b98), (void *) (param_2));
     }
 }
 

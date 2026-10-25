@@ -17,7 +17,7 @@ void *func_ov001_0218ddcc(void) {
 }
 
 void *func_ov001_0218ddb4(void) {
-    return func_0209bf48(func_ov001_0218e208, func_ov001_0218df20, 0);
+    return func_0209bf48((UnkFunc *) (func_ov001_0218e208), (UnkFunc *) (func_ov001_0218df20), (UnkFunc *) (0));
 }
 
 void func_ov001_0218dd9c(Unk02188950 *param_1) {

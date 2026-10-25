@@ -35,8 +35,8 @@ void func_020e6ab8(unsigned int p0) {
 
 void func_020e6a74(void) {
     u32 local_8[1];
-    func_01ff9048((u32) (0x17), (u32) (*(u32 *) (((u32) ((u32) (&data_0217b854))))), (int) (0xc));
+    func_01ff9048((u32) (0x17), (void *) (*(u32 *) (((u32) ((u32) (&data_0217b854))))), (int) (0xc));
     local_8[0] = 0x1e;
-    func_01ff9048((u32) (0x13), (u32) ((u32) (u32) (local_8)), (int) (1));
+    func_01ff9048((u32) (0x13), (void *) ((u32) (u32) (local_8)), (int) (1));
     return;
 }

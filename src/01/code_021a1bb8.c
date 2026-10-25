@@ -49,7 +49,7 @@ void func_ov001_021a2284(void *p0, Unk021a2048 *p1)
 
 void *func_ov001_021a226c(void)
 {
-    return func_0209bf48((UnkFunc *)func_ov001_021a2300, (UnkFunc *)func_ov001_021a2284, 0);
+    return func_0209bf48((UnkFunc *)func_ov001_021a2300, (UnkFunc *)func_ov001_021a2284, (UnkFunc *) (0));
 }
 
 void func_ov001_021a2218(Unk021a2048 *o, Unk02061808 *g, Vec3 *out)
@@ -119,7 +119,7 @@ void func_ov001_021a2048(void *p0, Unk021a2048 *p1)
 
 void *func_ov001_021a2034(void)
 {
-    return func_0209bf48(0, (UnkFunc *)func_ov001_021a2048, 0);
+    return func_0209bf48((UnkFunc *) (0), (UnkFunc *)func_ov001_021a2048, (UnkFunc *) (0));
 }
 
 void func_ov001_021a1f60(void)

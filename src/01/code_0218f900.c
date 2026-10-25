@@ -14,11 +14,11 @@ void *func_ov001_0218fa04(void) {
 }
 
 void *func_ov001_0218f9ec(void) {
-    return func_0209bf48(func_ov001_0218fbe0, func_ov001_0218fb24, 0);
+    return func_0209bf48((UnkFunc *) (func_ov001_0218fbe0), (UnkFunc *) (func_ov001_0218fb24), (UnkFunc *) (0));
 }
 
 void *func_ov001_0218f9d4(void) {
-    return func_0209bf48(func_ov001_0218fcc4, func_ov001_0218fc4c, 0);
+    return func_0209bf48((UnkFunc *) (func_ov001_0218fcc4), (UnkFunc *) (func_ov001_0218fc4c), (UnkFunc *) (0));
 }
 
 u16 func_ov001_0218f9c0(Unk02188950 *param_1) {

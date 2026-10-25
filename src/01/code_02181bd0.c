@@ -23,5 +23,5 @@ void *func_ov001_02181bec(void)
 
 void *func_ov001_02181bd0(void)
 {
-    return func_0209bf48((UnkFunc *) (func_ov001_02182550), (UnkFunc *) (func_ov001_02181c3c), (void *) (func_ov001_0218254c));
+    return func_0209bf48((UnkFunc *) (func_ov001_02182550), (UnkFunc *) (func_ov001_02181c3c), (UnkFunc *) (func_ov001_0218254c));
 }

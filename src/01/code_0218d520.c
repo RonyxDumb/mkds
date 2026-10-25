@@ -85,7 +85,7 @@ void func_ov001_0218da1c(Unk02188950 *param_1) {
     } else if (func_ov001_02188220(param_1) >= 3) {
         param_1->mUnk_0ac = 0;
     }
-    func_0209b688(param_1->mUnk_304, func_ov001_02188220(param_1));
+    func_0209b688((void *) (param_1->mUnk_304), (u16) (func_ov001_02188220(param_1)));
 }
 
 void func_ov001_0218d9cc(Unk02188950 *param_1) {

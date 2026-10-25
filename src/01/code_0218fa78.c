@@ -143,7 +143,7 @@ void func_ov001_0218fb24(u32 param_1, Unk02188950 *param_2) {
         }
         param_2->mUnk_134 = value;
     }
-    func_0209b688(param_2->mUnk_304, (u16)param_2->mUnk_134);
+    func_0209b688((void *) (param_2->mUnk_304), (u16)param_2->mUnk_134);
     func_ov001_021864ac(param_1, param_2);
 }
 

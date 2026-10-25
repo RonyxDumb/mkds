@@ -68,13 +68,13 @@ void func_ov001_0218d2c4(Unk02188950 *param_1) {
 
     func_ov001_02187218(param_1, 8, 0);
     func_ov001_02188d64((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_070), (s32) (param_1->mUnk_0a0->mUnk_074));
-    func_0209b688(param_1->mUnk_304, 0);
+    func_0209b688((void *) (param_1->mUnk_304), (u16) (0));
     list = func_02100138(0x1fe);
     if (list != 0) {
         for (i = 0; i < list->mUnk_04 && (p = list->mUnk_00[i]) != 0; i++) {
             func_ov001_02187218(p, 1, 0);
             func_ov001_02188d64((Unk02188950 *) (p), (s32) (p->mUnk_0a0->mUnk_070), (s32) (p->mUnk_0a0->mUnk_074));
-            func_0209b688(p->mUnk_304, 0);
+            func_0209b688((void *) (p->mUnk_304), (u16) (0));
         }
     }
     local = data_ov001_021a7c08;
