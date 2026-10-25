@@ -34,7 +34,11 @@ src/01/code_02180c88.c:
 
 // provisional: file name and boundaries
 src/01/code_02180cb4.c:
-    .text       start:0x02180c94 end:0x02180fe4
+    .text       start:0x02180c94 end:0x02180cc8
+
+// provisional: file name and boundaries
+src/01/code_02180ce8.c:
+    .text       start:0x02180cc8 end:0x02180fe4
 
 // provisional: file name and boundaries
 src/01/code_02181004.c:

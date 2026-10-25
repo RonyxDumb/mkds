@@ -6,6 +6,7 @@
 #include "01/code_02181004.h"
 #include "01/code_02181274.h"
 #include "01/code_02180cb4.h"
+#include "01/code_02180ce8.h"
 #include "01/code_0218107c.h"
 #include "01/unk_021ca000.h"
 #include "00/code_02182fdc.h"
