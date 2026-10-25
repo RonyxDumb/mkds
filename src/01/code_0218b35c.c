@@ -51,7 +51,7 @@ void func_ov001_0218b404(u32 param_1, Unk02188950 *param_2) {
         param_2->mUnk_2b8 = 1;
     }
     func_ov001_021864ac(param_1, param_2);
-    func_ov001_0219b1fc((Unk0219b250 *)param_2->mUnk_304);
+    func_ov001_0219b1fc(param_2->mUnk_304);
     var = param_2->mUnk_134 + 1;
     if (var >= func_ov001_02188220(param_2) * 30) {
         var = func_ov001_02188220(param_2) * 30;
@@ -71,7 +71,7 @@ void func_ov001_0218b5d8(Unk0218d87c *param_1) {
 
     if (param_1 != 0) {
         for (i = 0; i < param_1->mUnk_04 && (obj = param_1->mUnk_00[i]) != 0; i++) {
-            func_ov001_0219b1c4((Unk0219b250 *)obj->mUnk_304, obj->mUnk_0a0->mUnk_080, obj->mUnk_0a0->mUnk_050, 0);
+            func_ov001_0219b1c4(obj->mUnk_304, obj->mUnk_0a0->mUnk_080, obj->mUnk_0a0->mUnk_050, 0);
             if (func_02062ec4()) {
                 func_ov001_0218b770((int)obj);
             } else {
@@ -93,9 +93,9 @@ void func_ov001_0218b35c(Unk0218d87c *param_1) {
             }
             func_ov001_021870e4((void *) (param_1), (Unk02188950 *) (obj), (int) ("kuriking.nsbmd"), (int) ("kuriking.nsbca"), (int) ("kuriking.prm"));
             func_ov001_021870b0((void *) (param_1), (Unk02188950 *) (obj), (int) ("sh_circle.nsbmd"));
-            func_ov001_0219b31c((Unk0219b250 *)obj->mUnk_304, "kuriking.nsbta");
-            func_ov001_0219b2e8((Unk0219b250 *)obj->mUnk_304, "kuriking.nsbtp");
-            func_ov001_0219b380((Unk0219b250 *)obj->mUnk_304, "kuriking.nsbma");
+            func_ov001_0219b31c(obj->mUnk_304, "kuriking.nsbta");
+            func_ov001_0219b2e8(obj->mUnk_304, "kuriking.nsbtp");
+            func_ov001_0219b380(obj->mUnk_304, "kuriking.nsbma");
             func_ov001_0218c728((int)obj);
             func_ov001_02188200((Unk02188950 *) (obj), (UnkFunc *) (func_ov001_0218b6f8));
         }

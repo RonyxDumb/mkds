@@ -257,7 +257,7 @@ void func_ov001_021864ac(u32 param_1, Unk02188950 *param_2) {
 
     if (param_2->mUnk_304 != 0) {
         prev = func_0209b620((int) param_2->mUnk_304);
-        func_ov001_0219b250((Unk0219b250 *)param_2->mUnk_304);
+        func_ov001_0219b250(param_2->mUnk_304);
         cur = func_0209b620((int) param_2->mUnk_304);
         if (param_2->mUnk_1d8 != 0) {
             if (prev < param_2->mUnk_1d8 && param_2->mUnk_1d8 <= cur) {

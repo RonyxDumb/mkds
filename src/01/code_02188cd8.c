@@ -11,12 +11,12 @@ void func_ov001_02188d8c(Unk02188950 *param_1, Vec3 *param_2) {
 }
 
 void func_ov001_02188d64(Unk02188950 *param_1, s32 param_2, s32 param_3) {
-    func_ov001_0219b208((Unk0219b250 *) param_1->mUnk_304, (u16) param_2, param_3, 0);
+    func_ov001_0219b208(param_1->mUnk_304, (u16) param_2, param_3, 0);
     param_1->mUnk_1d4 = 0;
 }
 
 void func_ov001_02188d30(Unk02188950 *param_1, s32 param_2, s32 param_3, UnkFunc *param_4) {
-    func_ov001_0219b208((Unk0219b250 *) param_1->mUnk_304, (u16) param_2, param_3, 1);
+    func_ov001_0219b208(param_1->mUnk_304, (u16) param_2, param_3, 1);
     if (param_4 == 0) {
         param_4 = func_ov001_02188e88;
     }

@@ -105,7 +105,7 @@ void func_ov001_0218d9cc(Unk02188950 *param_1) {
 void func_ov001_0218d950(Unk02188950 *param_1) {
     s32 prod;
     float f;
-    Unk0218d954 *s;
+    Unk0219b250_Item *s;
 
     func_ov001_02187218(param_1, 1, (s32 (*)(Unk02188950 *)) (0));
     func_ov001_02188d64((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_088), (s32) (param_1->mUnk_0a0->mUnk_08c));

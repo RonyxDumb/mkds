@@ -107,9 +107,9 @@ int func_ov001_021871d0(Unk02188950 *param_1) {
 
 void func_ov001_021870e4(void *param_1, Unk02188950 *param_2, int param_3, int param_4, int param_5) {
     if (param_1 != 0 && param_3 != 0) {
-        param_2->mUnk_304 = (struct Unk0218d950 *) func_ov001_0219b478((Unk0219b250 *) (param_1), (char *) (param_3));
+        param_2->mUnk_304 = (struct Unk0219b250 *) func_ov001_0219b478((Unk0219b250 *) (param_1), (char *) (param_3));
         if (param_4 != 0) {
-            func_ov001_0219b3b4((Unk0219b250 *) (param_2->mUnk_304), (char *) (param_4));
+            func_ov001_0219b3b4(param_2->mUnk_304, (char *) (param_4));
         }
     }
     if (param_5 != 0) {

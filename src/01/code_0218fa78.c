@@ -158,7 +158,7 @@ void func_ov001_0218fa78(Unk0218fa78 *param_1) {
             }
             func_ov001_021870e4(param_1, obj, (int)data_ov001_021a7e60, (int)data_ov001_021a7e70, (int)data_ov001_021a7e80);
             func_ov001_021870b0(param_1, obj, (int)data_ov001_021a7e90);
-            func_ov001_0219b2e8((Unk0219b250 *)obj->mUnk_304, data_ov001_021a7ea0);
+            func_ov001_0219b2e8(obj->mUnk_304, data_ov001_021a7ea0);
             obj->mUnk_234 = 1;
             if (i == 0) {
                 obj->mUnk_002 |= data_ov001_021a65c0;

@@ -30,7 +30,7 @@ typedef struct Unk02187d14_00 {
 // Argument of func_ov001_02187d14.
 typedef struct Unk02187d14 {
     /* 00 */ Unk02187d14_00 *mUnk_00;
-    /* 04 */ Unk0218d950_10 *mUnk_04;
+    /* 04 */ Unk0219b250_10 *mUnk_04;
 } Unk02187d14;
 
 void func_ov001_02187d14(Unk02187d14 *param_1);

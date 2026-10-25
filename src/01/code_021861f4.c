@@ -15,7 +15,7 @@
 void func_ov001_02186368(void *param_1, Unk02188950 *param_2) {
     s32 i;
     s32 depth;
-    Unk0218d950_10_04 *obj;
+    Unk0219b250_10_04 *obj;
     s32 level;
     s32 value;
     Vec3 v;

@@ -2,15 +2,34 @@
 
 #include "types.h"
 
-// Object whose member at 8 receives a value.
+// Object at Unk0219b250::mUnk_1c and mUnk_20 (a 0x38-byte allocation).
 typedef struct Unk0219b250_Item {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ u8 mUnk_10[0xa];
+    /* 1a */ u16 mUnk_1a;
+    /* 1c */ s32 **mUnk_1c;
 } Unk0219b250_Item;
 
+// Object at Unk0219b250_10::mUnk_04.
+typedef struct Unk0219b250_10_04 {
+    /* 00 */ u8 mUnk_00[0x18];
+    /* 18 */ u8 mUnk_18;
+} Unk0219b250_10_04;
+
+// Object at Unk0219b250::mUnk_10 (a 0x6c-byte allocation).
+typedef struct Unk0219b250_10 {
+    /* 00 */ u8 mUnk_00[0x4];
+    /* 04 */ Unk0219b250_10_04 *mUnk_04;
+    /* 08 */ u8 mUnk_08[0x24];
+    /* 2c */ struct Unk02188950 *mUnk_2c;
+} Unk0219b250_10;
+
+// Object behind Unk02188950::mUnk_304.
 typedef struct Unk0219b250 {
     /* 00 */ u8 mUnk_00[0x10];
-    /* 10 */ u32 mUnk_10;
+    /* 10 */ Unk0219b250_10 *mUnk_10;
     /* 14 */ void *mUnk_14;
     /* 18 */ u32 mUnk_18;
     /* 1c */ Unk0219b250_Item *mUnk_1c;
