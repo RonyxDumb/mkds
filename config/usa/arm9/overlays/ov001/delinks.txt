@@ -389,20 +389,40 @@ src/01/code_0218c55c.c:
     .text       start:0x0218c53c end:0x0218c564
 
 // provisional: file name and boundaries
+src/01/code_0218c584.c:
+    .text       start:0x0218c564 end:0x0218c5dc
+
+// provisional: file name and boundaries
 src/01/code_0218c5fc.c:
     .text       start:0x0218c5dc end:0x0218c5fc
+
+// provisional: file name and boundaries
+src/01/code_0218c61c.c:
+    .text       start:0x0218c5fc end:0x0218c61c
 
 // provisional: file name and boundaries
 src/01/code_0218c63c.c:
     .text       start:0x0218c61c end:0x0218c770
 
 // provisional: file name and boundaries
+src/01/code_0218c790.c:
+    .text       start:0x0218c770 end:0x0218c7b4
+
+// provisional: file name and boundaries
 src/01/code_0218c7d4.c:
     .text       start:0x0218c7b4 end:0x0218c7e0
 
 // provisional: file name and boundaries
+src/01/code_0218c800.c:
+    .text       start:0x0218c7e0 end:0x0218c810
+
+// provisional: file name and boundaries
 src/01/code_0218c830.c:
     .text       start:0x0218c810 end:0x0218c85c
+
+// provisional: file name and boundaries
+src/01/code_0218c87c.c:
+    .text       start:0x0218c85c end:0x0218ce10
 
 // provisional: file name and boundaries
 src/01/code_0218ce30.c:
@@ -439,6 +459,10 @@ src/01/code_0218dde8.c:
 // provisional: file name and boundaries
 src/01/code_0218de50.c:
     .text       start:0x0218de30 end:0x0218df00
+
+// provisional: file name and boundaries
+src/01/code_0218df20.c:
+    .text       start:0x0218df00 end:0x0218e324
 
 // provisional: file name and boundaries
 src/01/code_0218e344.c:
@@ -898,8 +922,16 @@ src/01/code_021a30e0.c:
     .text       start:0x021a30c0 end:0x021a3ffc
 
 // provisional: file name and boundaries
+src/01/code_021a401c.c:
+    .text       start:0x021a3ffc end:0x021a41a8
+
+// provisional: file name and boundaries
 src/01/code_021a41c8.c:
     .text       start:0x021a41a8 end:0x021a4704
+
+// provisional: file name and boundaries
+src/01/code_021a4724.c:
+    .text       start:0x021a4704 end:0x021a5120
 
 // provisional: file name and boundaries
 src/01/code_021a5140.c:

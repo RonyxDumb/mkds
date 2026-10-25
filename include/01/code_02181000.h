@@ -15,3 +15,4 @@ s32 func_ov001_021810bc(u8 *a, u16 *b);
 void func_ov001_021815d0(s32 param_1);
 void func_ov001_02181660(u16 param_1);
 void func_ov001_0218155c(s32 param_1);
+void func_ov001_02181844(u16 param_1, u16 param_2, u16 param_3, u16 param_4);

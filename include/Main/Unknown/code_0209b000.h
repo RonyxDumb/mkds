@@ -21,3 +21,4 @@ void *func_0209bf1c(UnkFunc *param_1, UnkFunc *param_2, UnkFunc *param_3);
 void func_0209b9a4(void *param_1, u16 param_2);
 void func_0209bbd0(void *param_1, void *param_2);
 u16 func_0209b634(void *param_1);
+u32 func_0209b60c(void *param_1);
