@@ -44,7 +44,8 @@ typedef struct Unk021b4c70 {
 typedef struct Unk02124b1c {
     /* 0000 */ s32 mUnk_00;
     /* 0004 */ s16 mUnk_04;
-    /* 0006 */ u8 pad_06[0x3a];
+    /* 0006 */ s16 mUnk_06;
+    /* 0008 */ u8 mUnk_0008[0x38];
 } Unk02124b1c;
 
 // Object behind Unk021b4c74::mUnk_16f0; the u16 at 6 is a count.

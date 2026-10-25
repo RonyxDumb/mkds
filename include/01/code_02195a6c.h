@@ -12,6 +12,7 @@
 #include "Main/Unknown/unk_0217d068.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_0212426c.h"
+#include "00/code_02182fdc.h"
 
 // One 0x40-byte element of the arrays held by Unk021a9bdc.
 typedef struct Unk021a9bdcEntry {
@@ -29,17 +30,20 @@ typedef struct Unk021a9bdcCount {
 
 // Object behind data_ov001_021a9bdc.
 typedef struct Unk021a9bdc {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ Unk020b4934 *mUnk_00;
     /* 04 */ void *mUnk_04;
     /* 08 */ Unk021a9bdcCount *mUnk_08;
     /* 0c */ u8 mUnk_0c[4];
     /* 10 */ Unk021a9bdcCount *mUnk_10;
-    /* 14 */ u8 mUnk_14[4];
+    /* 14 */ Unk020b4934 *mUnk_14;
     /* 18 */ void *mUnk_18;
     /* 1c */ Unk021a9bdcCount *mUnk_1c;
     /* 20 */ void *mUnk_20;
     /* 24 */ Unk021a9bdcCount *mUnk_24;
-    /* 28 */ u8 mUnk_28[0x10];
+    /* 28 */ u32 mUnk_28;
+    /* 2c */ u32 mUnk_2c;
+    /* 30 */ u32 mUnk_30;
+    /* 34 */ u32 mUnk_34;
     /* 38 */ Unk021a9bdcEntry *mUnk_38;
     /* 3c */ Unk021a9bdcEntry *mUnk_3c;
     /* 40 */ void *mUnk_40;

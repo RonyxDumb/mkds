@@ -10,3 +10,4 @@ u32 func_02036948();
 u32 func_02036ab0(u32 param_1);
 u32 func_02036b74();
 void func_02036820(u32 heap);
+void *func_020369fc(void *param_1);

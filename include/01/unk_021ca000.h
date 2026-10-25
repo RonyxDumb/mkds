@@ -30,7 +30,11 @@ typedef struct Unk021ca414 {
     /* 40 */ Unk02124b1c *mUnk_40;
     /* 44 */ Unk02124b1c *mUnk_44;
     /* 48 */ void *mUnk_48;
-    /* 4c */ u8 mUnk_4c[0x14];
+    /* 4c */ void *mUnk_4c;
+    /* 50 */ void *mUnk_50;
+    /* 54 */ void *mUnk_54;
+    /* 58 */ void *mUnk_58;
+    /* 5c */ u32 mUnk_5c;
     /* 60 */ u32 mUnk_60;
     /* 64 */ s32 mUnk_64;
     /* 68 */ s32 mUnk_68;
@@ -41,9 +45,11 @@ typedef struct Unk021ca414 {
     /* 9c */ s16 mUnk_9c;
     /* 9e */ s16 mUnk_9e;
     /* a0 */ s32 mUnk_a0;
-    /* a4 */ u8 mUnk_a4[4];
+    /* a4 */ s32 mUnk_a4;
     /* a8 */ s32 mUnk_a8;
-    /* ac */ u8 mUnk_ac[8];
+    /* ac */ s32 mUnk_ac;
+    /* b0 */ s16 mUnk_b0;
+    /* b2 */ u8 mUnk_b2[0x2];
     /* b4 */ void *mUnk_b4;
     /* b8 */ void *mUnk_b8;
     /* bc */ s32 mUnk_bc;

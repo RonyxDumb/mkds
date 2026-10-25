@@ -8,3 +8,4 @@ void func_0203bc64(u8 *param_1);
 void func_0203be88(u8 *param_1, u32 param_2, u32 param_3);
 void func_0203bea4();
 int func_0203bedc(u32 param_1);
+u32 func_0203b680(void *a, u32 b, u32 c);

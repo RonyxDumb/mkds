@@ -46,3 +46,24 @@ extern const u16 data_ov001_021a6588;
 extern const u16 data_ov001_021a658c;
 extern const u16 data_ov001_021a6590;
 extern const u16 data_ov001_021a6594;
+extern u16 data_ov001_021a6e34[9][2];
+extern u16 data_ov001_021a6e58[9][2];
+typedef struct Unk021a6c04 {
+    /* 00 */ u8 mUnk_00;
+    /* 01 */ u8 mUnk_01;
+    /* 02 */ u8 mUnk_02;
+    /* 03 */ u8 mUnk_03;
+} Unk021a6c04;
+
+extern const Unk021a6c04 data_ov001_021a6c04[];
+extern const u8 data_ov001_021a6bf0[6][3];
+extern const u8 data_ov001_021a6bc4[];
+extern const u8 data_ov001_021a6bc8[];
+extern const u8 data_ov001_021a6bcc[];
+extern const u8 data_ov001_021a6bd0[];
+extern const u8 data_ov001_021a6bd4[];
+extern const u8 data_ov001_021a6be0[];
+extern u16 data_ov001_021a6a00[];
+extern u16 data_ov001_021a6a08[];
+extern u16 data_ov001_021a6a10[];
+extern u16 data_ov001_021a6a18[];
