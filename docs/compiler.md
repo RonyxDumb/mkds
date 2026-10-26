@@ -48,8 +48,8 @@ what it shows and the command that reruns it on every installed build
 ### Libraries
 
 Library code in main is 0x02003024-0x0200589c, 0x0200c46c-0x020249b8 and 0x0212b9ec-0x0215109c: nothing in them
-calls game code, and each reads its own data. About 60 functions decompiled from all of it except the soft-float
-runtime and its stubs match on 1.2 base.
+calls game code, and each reads its own data. 203 functions in `libs/Unknown`, from all of it except the soft-float
+runtime and its stubs, match on 1.2 base.
 
 - Build: base, sp2 and sp2p3 differ only in Thumb switch tables and one cast-twin index idiom (over every file in
   the repository); library code has neither, so the three build identical bytes. b56 is ruled out in most areas
@@ -60,6 +60,9 @@ runtime and its stubs match on 1.2 base.
 - `-inline on,noauto`: `auto` inlines 0x0201ec30's two helpers, `off` drops the static inline 0x02011c58 needs.
 - `-proc arm946e`: 0x0214843c needs `smulbb`/`smlabb`.
 - `-str noreuse`, `-enum int`: as the game code; nothing in the library code separates them.
+- `#pragma avoid_byte all`: library code at 0x02133da8-0x021423e4 reads and writes bytes through word loads and
+  rotated word stores, never `ldrb`/`strb`; this pragma makes 1.2 base do the same. All 19 library files from that
+  range start with it (95 functions match).
 - 112 functions can't be 1.2 output and stay asm (the list below, cross-function branches, `pop {.., pc}`).
 
 ## Tools
@@ -163,5 +166,4 @@ Settings not yet backed by an exact match.
   default aren't separated. Thumb files in main call per-file out-of-line ARM copies of small register-writing
   helpers, while ARM functions inline the same bodies: no single helper form explains both yet.
 - `-enum int` vs `min`: no probe separates them.
-- Library code: the byte stores at 0x02133da8-0x021423e4 use a variable `ror` that 1.2 never builds from C.
 - Library code in ov000 (from 0x02185920) and ov003: not probed.
