@@ -48,7 +48,7 @@ what it shows and the command that reruns it on every installed build
 ### Libraries
 
 Library code in main is 0x02003024-0x0200589c, 0x0200c46c-0x020249b8 and 0x0212b9ec-0x0215109c: nothing in them
-calls game code, and each reads its own data. 203 functions in `libs/Unknown`, from all of it except the soft-float
+calls game code, and each reads its own data. 1123 functions in `libs/Unknown`, from all of it except the soft-float
 runtime and its stubs, match on 1.2 base.
 
 - Build: base, sp2 and sp2p3 differ only in Thumb switch tables and one cast-twin index idiom (over every file in
@@ -59,10 +59,11 @@ runtime and its stubs, match on 1.2 base.
 - `-char signed`: 0x0200d118 is 0x8c8 bytes with signed chars, 0x8b4 unsigned (the game uses unsigned).
 - `-inline on,noauto`: `auto` inlines 0x0201ec30's two helpers, `off` drops the static inline 0x02011c58 needs.
 - `-proc arm946e`: 0x0214843c needs `smulbb`/`smlabb`.
-- `-str noreuse`, `-enum int`: as the game code; nothing in the library code separates them.
+- `-str noreuse`, `-enum int`: as the game code. One function, 0x0214177c, shares its literals the `reuse` way: it
+  matches with `#pragma dont_reuse_strings off` in its file (0x3e0 bytes; 0x3e8 without).
 - `#pragma avoid_byte all`: library code at 0x02133da8-0x021423e4 reads and writes bytes through word loads and
-  rotated word stores, never `ldrb`/`strb`; this pragma makes 1.2 base do the same. All 19 library files from that
-  range start with it (95 functions match).
+  rotated word stores, never `ldrb`/`strb`; this pragma makes 1.2 base do the same. All 20 library files from that
+  range start with it (105 functions match).
 - 112 functions can't be 1.2 output and stay asm (the list below, cross-function branches, `pop {.., pc}`).
 
 ## Tools
