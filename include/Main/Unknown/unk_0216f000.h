@@ -19,8 +19,9 @@ extern u8 data_0216fde8[];
 extern u8 data_0216fdec[];
 extern u8 data_0216fdf4[];
 extern u8 data_0216ff5c[];
+extern u8 data_0216f2dc[];
+extern u8 OverlaySignatures[][0x14];
 
-extern u8 data_0216f350[];
 extern u8 data_0216ff4c[];
 extern u8 data_0216ff58[];
 

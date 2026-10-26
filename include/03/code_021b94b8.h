@@ -203,7 +203,6 @@ void func_ov003_021ba734(Unk021ba734 *list, Unk021ba778Src *src, s32 count);
 void func_ov003_021ba744(Unk021ba1b0 *request, Unk021ba778Src *rec);
 void func_ov003_021ba778(Unk021ba778Src *src, Unk021ba778Dst *dst);
 
-void func_0214d168(void *dst, u8 value, u32 size);
 void func_0200f8b8(UnkTimer *timer);
 void func_0200fb08(UnkTimer *timer);
 void func_0200eb90(UnkQueue *queue, void **slots, s32 count);

@@ -13,4 +13,5 @@ static inline void func_0214d05c_inline(void *p, u32 n) {
     func_0214d05c(v, p, n);
 }
 void func_0214d0a8(const void *src, void *dst, u32 size);
+void func_0214d168(void *dst, u8 value, u32 size);
 void func_0214d1fc(const void *src, void *dst, u32 size);

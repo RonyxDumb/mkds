@@ -3,6 +3,12 @@
 #include "types.h"
 #include "code_02003024.h"
 
+// Two words func_02003234 reads into mUnk_30 of Unk02003024.
+typedef struct Unk02003234 {
+    /* 00 */ u32 mUnk_00;
+    /* 04 */ u32 mUnk_04;
+} Unk02003234;
+
 // func_02003ad8 passes mUnk_04 to the callback at mUnk_50 of mUnk_00 and adds the count to it.
 typedef struct Unk02003ad8 {
     /* 00 */ Unk02003a6c *mUnk_00;

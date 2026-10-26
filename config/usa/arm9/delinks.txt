@@ -25,12 +25,24 @@ libs/Unknown/src/code_02003234.c:
     .text       start:0x02003234 end:0x02003be0
 
 // provisional: file name and boundaries
+libs/Unknown/src/code_02003be0.c:
+    .text       start:0x02003be0 end:0x02004238
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_02004238.c:
     .text       start:0x02004238 end:0x02004270
 
 // provisional: file name and boundaries
+libs/Unknown/src/code_02004270.c:
+    .text       start:0x02004270 end:0x02004d80
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_02004d80.c:
     .text       start:0x02004d80 end:0x02004dc0
+
+// provisional: file name and boundaries
+libs/Unknown/src/code_02004dc0.c:
+    .text       start:0x02004dc0 end:0x0200589c
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0200635c.c:

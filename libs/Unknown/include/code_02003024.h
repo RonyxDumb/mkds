@@ -2,18 +2,21 @@
 
 #include "types.h"
 
+struct Unk02003024;
 struct Unk02003a6c;
 struct Unk02003670;
 
-// Two words moved as a whole (func_02003234 reads one into mUnk_30 of Unk02003024, func_02003670 stores one).
-typedef struct Unk02003234 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-} Unk02003234;
+// Pair stored by func_02005814 and func_02003670 and read by func_02004a80: an Unk02003a6c and a number.
+typedef struct Unk02005814 {
+    /* 00 */ struct Unk02003a6c *mUnk_00;
+    /* 04 */ s32 mUnk_04;
+} Unk02005814;
 
-// 12 bytes at 0x20 and at 0x30 of Unk02003024 (assigned as a whole by func_0200399c). Different functions write the
-// region with different types: an Unk02003a6c pointer (func_02003aa4, func_0200388c), an Unk02003670 pointer
-// (func_02003670, func_020032b0), two words (func_02003234) and a u8 pointer with two lengths (func_020032b0).
+// 12 bytes at 0x20 and at 0x30 of Unk02003024 (assigned as a whole by func_0200399c, func_02004c20 and
+// func_020047ec; data_0216f344). Different functions use the region with different types: an Unk02003a6c pointer
+// (func_02003aa4, func_0200388c, func_02004c20), an Unk02003670 pointer (func_02003670, func_020032b0), three words
+// (func_02003234, func_02004afc), an Unk02005814 (func_02003670, func_02004a80), a u8 pointer with two lengths
+// (func_020032b0) and a pointer with two signed words (func_02004840, func_02004b98, func_02003a6c).
 typedef union Unk02003024U {
     struct {
         /* 00 */ u32 mUnk_00;
@@ -21,7 +24,7 @@ typedef union Unk02003024U {
         /* 08 */ u32 mUnk_08;
     } w;
     struct {
-        /* 00 */ Unk02003234 mUnk_00;
+        /* 00 */ Unk02005814 mUnk_00;
         /* 08 */ u32 mUnk_08;
     } d;
     struct {
@@ -41,16 +44,21 @@ typedef union Unk02003024U {
         /* 08 */ u16 mUnk_08;
         /* 0a */ u16 mUnk_0a;
     } b;
+    struct {
+        /* 00 */ void *mUnk_00;
+        /* 04 */ s32 mUnk_04;
+        /* 08 */ s32 mUnk_08;
+    } p;
 } Unk02003024U;
 
-// Object passed to func_02003024; mUnk_08 is the Unk02003a6c it works through.
+// 0x48-byte record, set up by func_02004d80 (also used as a local); mUnk_08 is the Unk02003a6c it works through.
 typedef struct Unk02003024 {
     // func_020031a0 links mUnk_00 and mUnk_04 to each other, then clears both.
     /* 00 */ struct Unk02003024 *mUnk_00;
     /* 04 */ struct Unk02003024 *mUnk_04;
     /* 08 */ struct Unk02003a6c *mUnk_08;
-    /* 0c */ u32 mUnk_0c; // bit 2 selects the path in func_02003024; func_020031a0 clears 0x4f
-    /* 10 */ u32 mUnk_10;
+    /* 0c */ volatile u32 mUnk_0c; // bit 2 selects the path in func_02003024; func_020031a0 clears 0x4f
+    /* 10 */ u32 mUnk_10; // index passed to func_02003024 by func_0200442c and func_02004474
     /* 14 */ s32 mUnk_14; // set from a return value in func_02003024 and func_020031a0
     /* 18 */ u8 mUnk_18[0x8];
     /* 20 */ Unk02003024U mUnk_20;
@@ -59,24 +67,31 @@ typedef struct Unk02003024 {
     /* 3c */ const u8 *mUnk_3c;
     /* 40 */ u32 mUnk_40;
     /* 44 */ Unk02003024U *mUnk_44;
-    /* 48 */ u32 mUnk_48;
 } Unk02003024;
 
-// Object at mUnk_08 of Unk02003024. mUnk_1c holds bits 0x100 and 0x200 that func_02003024 and func_02003ad8 set and
-// clear; the address of mUnk_0c goes to func_0200e01c; mUnk_48 to mUnk_54 are called from func_02003024,
-// func_02003a34, func_02003a6c and func_02003ad8.
+// 0x5c-byte object (func_02004238 clears 0x5c bytes; data_0216f36c) at mUnk_08 of Unk02003024. Links at mUnk_04 and
+// mUnk_08 (func_02004128, func_02004090), flags at mUnk_1c, the list of Unk02003024 at mUnk_24; the addresses of
+// mUnk_0c and mUnk_14 go to func_0200df9c and func_0200e01c; mUnk_48 to mUnk_54 are called from func_02003024,
+// func_02003a34, func_02003a6c, func_02003ad8, func_02004270 and func_02004518.
 typedef struct Unk02003a6c {
     /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04[0x08];
-    /* 0c */ u8 mUnk_0c[0x10];
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u8 mUnk_20[0x0c];
+    /* 04 */ struct Unk02003a6c *mUnk_04;
+    /* 08 */ struct Unk02003a6c *mUnk_08;
+    /* 0c */ u8 mUnk_0c[0x8];
+    /* 14 */ u8 mUnk_14[0x8];
+    /* 1c */ volatile u32 mUnk_1c;
+    /* 20 */ u32 mUnk_20;
+    /* 24 */ struct Unk02003024 *mUnk_24;
+    /* 28 */ u8 *mUnk_28;
     /* 2c */ u32 mUnk_2c;
     /* 30 */ u32 mUnk_30;
     /* 34 */ u32 mUnk_34;
-    /* 38 */ u8 mUnk_38[0x10];
-    /* 48 */ s32 (*mUnk_48)(struct Unk02003a6c *a, u32 b);
-    /* 4c */ s32 (*mUnk_4c)(struct Unk02003a6c *a, u32 b);
+    /* 38 */ u32 mUnk_38;
+    /* 3c */ u32 mUnk_3c;
+    /* 40 */ u32 mUnk_40;
+    /* 44 */ u32 mUnk_44;
+    /* 48 */ s32 (*mUnk_48)(struct Unk02003a6c *a, void *b, u32 c, u32 d);
+    /* 4c */ s32 (*mUnk_4c)(struct Unk02003a6c *a, void *b, u32 c, u32 d);
     /* 50 */ s32 (*mUnk_50)(struct Unk02003a6c *a, void *b, u32 c, u32 d);
     /* 54 */ s32 (*mUnk_54)(Unk02003024 *a, u32 b);
     /* 58 */ u32 mUnk_58;

@@ -61,24 +61,32 @@ s32 func_02003aa4(Unk02003024 *a, u32 b) {
     return func_02003024(a, 2);
 }
 
-// non-matching: the pointer from mUnk_08 should sit in lr with r0 untouched; here it takes r0 and the argument
-// moves to r3 (9 words differ from +0x8)
 s32 func_02003a6c(Unk02003024 *a) {
     Unk02003a6c *o;
+    void *buf;
+    u32 pos;
+    u32 n;
 
+    pos = a->mUnk_2c;
+    n = a->mUnk_30.p.mUnk_08;
     o = a->mUnk_08;
-    a->mUnk_2c += a->mUnk_30.w.mUnk_08;
-    return o->mUnk_48(o, a->mUnk_30.w.mUnk_00);
+    buf = a->mUnk_30.p.mUnk_00;
+    a->mUnk_2c = pos + n;
+    return o->mUnk_48(o, buf, pos, n);
 }
 
-// non-matching: the pointer from mUnk_08 should sit in lr with r0 untouched; here it takes r0 and the argument
-// moves to r3 (9 words differ from +0x8)
 s32 func_02003a34(Unk02003024 *a) {
     Unk02003a6c *o;
+    void *buf;
+    u32 pos;
+    u32 n;
 
+    pos = a->mUnk_2c;
+    n = a->mUnk_30.p.mUnk_08;
     o = a->mUnk_08;
-    a->mUnk_2c += a->mUnk_30.w.mUnk_08;
-    return o->mUnk_4c(o, a->mUnk_30.w.mUnk_00);
+    buf = a->mUnk_30.p.mUnk_00;
+    a->mUnk_2c = pos + n;
+    return o->mUnk_4c(o, buf, pos, n);
 }
 
 s32 func_0200399c(Unk02003024 *a) {
