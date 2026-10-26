@@ -37,11 +37,11 @@ what it shows and the command that reruns it on every installed build
 - `-O4,p`: `-O4,s`, `-O3` and `-O2` break main 0x0204e3b4 and ov001 0x02194c7c; `-O3`, `-O2` and `-O3,p` break
   ov003 0x021c88c4.
 - Some game files are compiled for size and carry `#pragma optimize_for_size on`: `src/01/code_0218550c.c`,
-  `code_021804e0.c`, `code_02180610.c`, `code_021857a4.c` and `code_02185438.c`. In `code_0218550c.c` (ov001, USA
+  `code_021804e0.c`, `code_021857a4.c` and `code_02185438.c`. In `code_0218550c.c` (ov001, USA
   0x021854ec-0x02185784) five two-case switch functions share one exit block; at `-O4,p` the return sequence is
   repeated in each case (0x32 bytes instead of 0x2a). All 14 functions of that file match at `-O4,s`, at `-O3`, and at
   the build's `-O4,p` with the pragma. The others show the same two signs: switch cases that share an epilogue, and
-  aggregate copies kept as loops instead of unrolled (`code_021804e0.c`, `code_02180610.c`).
+  aggregate copies kept as loops instead of unrolled (`code_021804e0.c`).
 - Inlining: `-inline auto` inlines a same-file call (ov001 0x02194ce4 into 0x02194c7c, `thumb_switch_ov001.c`)
   that the game keeps out of line.
 
