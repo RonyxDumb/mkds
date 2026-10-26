@@ -21,3 +21,4 @@ u32 func_0214d5b8(void);
 s32 func_0214d6e8(u32 a, u32 b, u32 c);
 s32 func_0214d79c(u32 a, u32 b);
 void func_0214d7c4(u32 a, UnkFunc *fn);
+void func_0214d0fc(const void *src, void *dst);
