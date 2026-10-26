@@ -8,8 +8,9 @@
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "code_0200fd1c.h"
-#include "Main/Unknown/code_02145000.h"
+#include "code_0214578c.h"
 #include "Main/Unknown/code_02146000.h"
+#include "code_021458c4.h"
 #include "Main/Unknown/code_02150000.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_0216f000.h"
@@ -332,7 +333,7 @@ void func_020050b0(Unk02003a6c *p) {
 }
 
 s32 func_02005064(Unk02003a6c *p, void *buf, u32 off, u32 n) {
-    func_021461d8(data_0216f358, off, (u32) buf, n, (u32) func_020050b0, (u32) p, 1);
+    func_021461d8(data_0216f358, off, (u32) buf, n, func_020050b0, (u32) p, 1);
     return 6;
 }
 
