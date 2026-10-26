@@ -2,7 +2,6 @@
 #include "Main/Unknown/code_02148000.h"
 #include "code_02012b30.h"
 #include "Main/Unknown/code_02021000.h"
-#include "Main/Unknown/code_02022000.h"
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_020ae000.h"
 #include "Main/Unknown/code_020e6000.h"

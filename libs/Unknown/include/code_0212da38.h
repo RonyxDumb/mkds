@@ -45,12 +45,20 @@ typedef struct Unk020219f0 {
     /* 0a */ u16 mUnk_0a;
 } Unk020219f0;
 
+// Entry of 8 bytes in the table at 0x18 of an Unk02021968: func_02021be8 clears the entries of a chain linked through
+// mUnk_04, func_02021c34 and func_02021cd4 move entries between the chains of two objects.
+typedef struct Unk02021be8 {
+    /* 00 */ void *mUnk_00;
+    /* 04 */ void *mUnk_04;
+} Unk02021be8;
+
 // Object with two tables of mUnk_38 words from 0x3c. func_02021968 and func_020219b0 read and write the first;
 // func_0212de34 reads the second, whose words b and b + 1 bound a block (the last block ends at mUnk_08).
 typedef struct Unk02021968 {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ u32 mUnk_08;
-    /* 0c */ u8 mUnk_0c[0x2c];
+    /* 0c */ u8 mUnk_0c[0xc];
+    /* 18 */ Unk02021be8 mUnk_18[4];
     /* 38 */ u32 mUnk_38;
     /* 3c */ u32 mUnk_3c[1];
 } Unk02021968;

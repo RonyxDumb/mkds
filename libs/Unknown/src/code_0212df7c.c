@@ -1,5 +1,6 @@
 #include "code_0212df7c.h"
 #include "code_020207ec.h"
+#include "code_020219e8.h"
 #include "code_02020eb0.h"
 #include "code_0212c478.h"
 #include "code_0212c6ac.h"
@@ -474,16 +475,16 @@ void func_0212e018(u8 *a, u32 b, Unk0212d5f8 *c, u32 d) {
 void func_0212dfdc(u8 *a, u32 b, Unk0212d5f8 *c, u32 d) {
     func_0212e04c(a, c, d);
     func_020209bc(a, a + b);
-    func_02021c34(a);
+    func_02021c34((Unk02021968 *) a);
 }
 
 void func_0212dfa0(u8 *a, u32 b, Unk0212d5f8 *c, u32 d) {
     func_0212e04c(a, c, d);
     func_02020990(a, a + b);
-    func_02021be8(a);
+    func_02021be8((Unk02021968 *) a);
 }
 
 void func_0212df7c(u8 *a, u32 b, Unk0212d5f8 *c, u32 d) {
     func_0212e04c(a, c, d);
-    func_02021be8(a);
+    func_02021be8((Unk02021968 *) a);
 }

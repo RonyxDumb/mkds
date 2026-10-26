@@ -10,3 +10,4 @@ extern u8 data_02152c31[][4];
 extern u8 data_02152c32[][4];
 extern u8 data_02152c33[][4];
 extern s16 data_02152ce4[];
+extern u8 data_02152de4[];
