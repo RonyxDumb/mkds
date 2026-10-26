@@ -38,7 +38,7 @@ void func_ov001_02182a3c(s32 param_1)
                 if (n <= param_1) {
                     if (p->mUnk_0e8 == 0) {
                         rng = func_020d22d0();
-                        rng->mUnk_00 = rng->mUnk_08 * rng->mUnk_00 + rng->mUnk_10;
+                        rng->mUnk_00 = (s64) rng->mUnk_08 * (s64) rng->mUnk_00 + rng->mUnk_10;
                         r = ((u64)(u32)(rng->mUnk_00 >> 32) * 0x10000) >> 32;
                         p->mUnk_0b0 = 0x1000;
                         p->mUnk_0a0 = 0;

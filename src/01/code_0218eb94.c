@@ -39,7 +39,7 @@ void func_ov001_0218eb94(Unk02188950 *param_1) {
     Unk020f41c4_B *rng;
     func_0207a974((u16) data_021759c0->mUnk_62);
     rng = func_020d22d0();
-    rng->mUnk_00 = rng->mUnk_08 * rng->mUnk_00 + rng->mUnk_10;
+    rng->mUnk_00 = (s64) rng->mUnk_08 * (s64) rng->mUnk_00 + rng->mUnk_10;
     param_1->mUnk_004.x = ((Vec3 *) func_ov001_02187fc0((Unk02188950 *) (param_1)))->x;
     param_1->mUnk_004.y = param_1->mUnk_0a0->mUnk_080 + ((Vec3 *) func_ov001_02187fc0((Unk02188950 *) (param_1)))->y;
     param_1->mUnk_004.z = ((Vec3 *) func_ov001_02187fc0((Unk02188950 *) (param_1)))->z;

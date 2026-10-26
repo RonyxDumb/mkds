@@ -20,8 +20,8 @@ void func_ov001_021a2300(Unk021a2300 *p)
         while (i < p->mUnk_04 && (o = p->mUnk_00[i]) != 0) {
             d = data_0217561c;
             b = &d->mUnk_498;
-            b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
-            o->mUnk_a0 = (u16)(((u64)(b->mUnk_00 >> 32) * 0x46) >> 32);
+            b->mUnk_00 = (s64) b->mUnk_08 * (s64) b->mUnk_00 + b->mUnk_10;
+            o->mUnk_a0 = (u16)(((s64)(b->mUnk_00 >> 32) * 0x46) >> 32);
             o->mUnk_02 &= ~2;
             o->mUnk_02 &= ~8;
             o->mUnk_66 = 0x1f;
@@ -39,8 +39,8 @@ void func_ov001_021a2284(void *p0, Unk021a2048 *p1)
     if (p1->mUnk_a0 < 0) {
         d = data_0217561c;
         b = &d->mUnk_498;
-        b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
-        p1->mUnk_a0 = (u16)(((u64)(b->mUnk_00 >> 32) * 0x46) >> 32) + 0x46;
+        b->mUnk_00 = (s64) b->mUnk_08 * (s64) b->mUnk_00 + b->mUnk_10;
+        p1->mUnk_a0 = (u16)(((s64)(b->mUnk_00 >> 32) * 0x46) >> 32) + 0x46;
         if (!(p1->mUnk_02 & 0x12)) {
             func_0208b7bc(0x435, &p1->mUnk_04);
         }
