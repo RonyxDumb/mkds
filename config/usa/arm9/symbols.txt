@@ -7043,7 +7043,7 @@ _fflt kind:label(arm) addr:0x02132440
 func_usa_0213250c kind:function(arm,size=0x4ec) addr:0x0213250c
 _fsub kind:function(arm,size=0x448) addr:0x021329f8
 _ll_udiv kind:function(arm,size=0x58) addr:0x02132e40
-.L_02132e4c kind:label(arm) addr:0x02132e4c
+_ull_mod kind:label(arm) addr:0x02132e4c
 func_usa_02132e98 kind:function(arm,size=0x1b0) addr:0x02132e98
 _ll_mul kind:function(arm,size=0x20) addr:0x02133048
 _s32_div_f kind:function(arm,size=0x20c) addr:0x02133068
@@ -7171,12 +7171,11 @@ func_02141b5c kind:function(arm,size=0x13c) addr:0x02141b5c
 func_02141c98 kind:function(arm,size=0x27c) addr:0x02141c98
 func_02141f14 kind:function(arm,size=0x1ac) addr:0x02141f14
 func_021420c0 kind:function(arm,size=0x8c) addr:0x021420c0
-func_usa_0214214c kind:function(arm,size=0xcc) addr:0x0214214c
-func_usa_02142218 kind:function(arm,size=0xc) addr:0x02142218
-func_usa_02142224 kind:function(arm,size=0x7c) addr:0x02142224
+func_0214214c kind:function(arm,size=0xd8) addr:0x0214214c
+func_02142224 kind:function(arm,size=0x7c) addr:0x02142224
 func_021422a0 kind:function(arm,size=0xc8) addr:0x021422a0
-func_usa_02142368 kind:function(arm,size=0xc) addr:0x02142368
-func_usa_02142374 kind:function(arm,size=0x70) addr:0x02142374
+func_02142368 kind:function(arm,size=0xc) addr:0x02142368
+func_02142374 kind:function(arm,size=0x70) addr:0x02142374
 func_usa_021423e4 kind:function(arm,size=0x14) addr:0x021423e4
 func_usa_021423f8 kind:function(arm,size=0x14) addr:0x021423f8
 func_usa_0214240c kind:function(arm,size=0x10) addr:0x0214240c
@@ -8826,7 +8825,7 @@ data_usa_0215d14c kind:data(any) addr:0x0215d14c
 data_usa_0215d164 kind:data(any) addr:0x0215d164
 data_usa_0215d168 kind:data(any) addr:0x0215d168
 data_usa_0215d170 kind:data(any) addr:0x0215d170
-data_usa_0215d184 kind:data(any) addr:0x0215d184
+data_0215d184 kind:data(any) addr:0x0215d184
 data_0215d204 kind:data(any) addr:0x0215d204
 data_0215d284 kind:data(any) addr:0x0215d284
 data_0215d384 kind:data(any) addr:0x0215d384

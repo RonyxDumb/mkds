@@ -3,9 +3,8 @@
 #include "code_0213ee6c.h"
 #include "code_02134890.h"
 #include "code_0213a460.h"
+#include "code_0214177c.h"
 #include "Main/Unknown/code_02130000.h"
-#include "Main/Unknown/code_02141000.h"
-#include "Main/Unknown/code_02142000.h"
 
 // 1 when a and b have the same mUnk_02 and the same digits (missing digits count as 0), or both have mUnk_05[0] == 0.
 int func_0214166c(const Unk02136638 *a, const Unk02136638 *b) {
