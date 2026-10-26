@@ -773,15 +773,10 @@ src/03/code_021b7d84.c:
     complete
     .text       start:0x021b7d84 end:0x021b7da0
 
-// provisional: file name and boundaries
-src/03/code_021ba1a8.c:
+src/03/code_021b94b8.c:
     complete
-    .text       start:0x021ba1a8 end:0x021ba1b0
-
-// provisional: file name and boundaries
-src/03/code_021ba734.c:
-    complete
-    .text       start:0x021ba734 end:0x021ba744
+    .text       start:0x021b94b8 end:0x021ba818
+    .data       start:0x021d687c end:0x021d68ac
 
 // provisional: file name and boundaries
 src/03/code_021bf4dc.c:
@@ -877,11 +872,6 @@ src/03/code_021d326c.c:
 src/03/code_021d34c0.c:
     complete
     .text       start:0x021d34c0 end:0x021d34c8
-
-// provisional: file name and boundaries
-src/03/code_021ba70c.c:
-    complete
-    .text       start:0x021ba70c end:0x021ba734
 
 // provisional: file name and boundaries
 src/03/code_021cdbfc.c:

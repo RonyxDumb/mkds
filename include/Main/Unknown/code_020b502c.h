@@ -2,7 +2,6 @@
 
 #include "Main/Unknown/code_020b1dbc.h"
 #include "Main/Unknown/code_020b4e5c.h"
-#include "Main/Unknown/code_020b523c.h"
 
 #include "types.h"
 #include "Main/Unknown/code_02039860.h"
@@ -95,6 +94,7 @@ extern void func_020b6a18(UnkPair020b502c *a, UnkPair020b502c *b);
 
 s32 func_020b502c(s32 a, s32 b);
 void func_020b503c(Unk020b503c *p, s32 scale);
+s32 func_020b523c(void);
 s32 func_020b5250(s32 x);
 s32 func_020b5258(s32 x);
 s32 func_020b5270(s32 x);
