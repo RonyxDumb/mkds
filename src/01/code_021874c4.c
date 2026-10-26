@@ -1,73 +1,49 @@
 #include "01/code_021874c4.h"
 
-void func_ov001_021875c0(int param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6) {
-    int iVar1;
-    int iVar2;
-    iVar2 = 0;
-    iVar1 = param_1;
-    do {
-        if (*(int *) (iVar1 + 0xd0) == 0) {
-            *(u32 *) (param_1 + iVar2 * 0x18 + 0xbc) = 1;
-            func_ov001_02187614((int) (param_1), (int) (iVar2), (int) (param_2), (int) (param_3), (int) (param_4),
-                                (int) (param_5), (u32) (param_6));
+void func_ov001_021875c0(Unk02188950 *param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6) {
+    int i;
+
+    for (i = 0; i < 5; i++) {
+        if (param_1->mUnk_0bc[i].mUnk_14 == 0) {
+            param_1->mUnk_0bc[i].mUnk_00 = 1;
+            func_ov001_02187614(param_1, i, param_2, param_3, param_4, param_5, param_6);
             return;
         }
-        iVar1 = iVar1 + 0x18;
-        iVar2 = iVar2 + 1;
-    } while (iVar2 < 5);
-    return;
+    }
 }
 
-void func_ov001_0218756c(int param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6) {
-    int iVar1;
-    int iVar2;
-    iVar2 = 0;
-    iVar1 = param_1;
-    do {
-        if (*(int *) (iVar1 + 0xd0) == 0) {
-            *(u32 *) (param_1 + iVar2 * 0x18 + 0xbc) = 2;
-            func_ov001_02187614((int) (param_1), (int) (iVar2), (int) (param_2), (int) (param_3), (int) (param_4),
-                                (int) (param_5), (u32) (param_6));
+void func_ov001_0218756c(Unk02188950 *param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6) {
+    int i;
+
+    for (i = 0; i < 5; i++) {
+        if (param_1->mUnk_0bc[i].mUnk_14 == 0) {
+            param_1->mUnk_0bc[i].mUnk_00 = 2;
+            func_ov001_02187614(param_1, i, param_2, param_3, param_4, param_5, param_6);
             return;
         }
-        iVar1 = iVar1 + 0x18;
-        iVar2 = iVar2 + 1;
-    } while (iVar2 < 5);
-    return;
+    }
 }
 
-void func_ov001_02187518(int param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6) {
-    int iVar1;
-    int iVar2;
-    iVar2 = 0;
-    iVar1 = param_1;
-    do {
-        if (*(int *) (iVar1 + 0xd0) == 0) {
-            *(u32 *) (param_1 + iVar2 * 0x18 + 0xbc) = 4;
-            func_ov001_02187614((int) (param_1), (int) (iVar2), (int) (param_2), (int) (param_3), (int) (param_4),
-                                (int) (param_5), (u32) (param_6));
+void func_ov001_02187518(Unk02188950 *param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6) {
+    int i;
+
+    for (i = 0; i < 5; i++) {
+        if (param_1->mUnk_0bc[i].mUnk_14 == 0) {
+            param_1->mUnk_0bc[i].mUnk_00 = 4;
+            func_ov001_02187614(param_1, i, param_2, param_3, param_4, param_5, param_6);
             return;
         }
-        iVar1 = iVar1 + 0x18;
-        iVar2 = iVar2 + 1;
-    } while (iVar2 < 5);
-    return;
+    }
 }
 
-void func_ov001_021874c4(int param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6) {
-    int iVar1;
-    int iVar2;
-    iVar2 = 0;
-    iVar1 = param_1;
-    do {
-        if (*(int *) (iVar1 + 0xd0) == 0) {
-            *(u32 *) (param_1 + iVar2 * 0x18 + 0xbc) = 5;
-            func_ov001_02187614((int) (param_1), (int) (iVar2), (int) (param_2), (int) (param_3), (int) (param_4),
-                                (int) (param_5), (u32) (param_6));
+void func_ov001_021874c4(Unk02188950 *param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6) {
+    int i;
+
+    for (i = 0; i < 5; i++) {
+        if (param_1->mUnk_0bc[i].mUnk_14 == 0) {
+            param_1->mUnk_0bc[i].mUnk_00 = 5;
+            func_ov001_02187614(param_1, i, param_2, param_3, param_4, param_5, param_6);
             return;
         }
-        iVar1 = iVar1 + 0x18;
-        iVar2 = iVar2 + 1;
-    } while (iVar2 < 5);
-    return;
+    }
 }

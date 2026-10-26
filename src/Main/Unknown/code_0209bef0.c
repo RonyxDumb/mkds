@@ -12,7 +12,7 @@ u32 func_0209bf48(u32 arg0, u32 arg1, u32 arg2) {
     value4 = (value1) + (0u);
     value6 = (value2) + (0u);
     value0 = (u32) func_020364e8();
-    value0 = (u32) func_020364e0((unsigned int) value0);
+    value0 = (u32) func_020364e0((void *) value0);
     value1 = 40u;
     value0 = (u32) func_02036bec((void *) value0, (u32) value1);
     *(u32 *) ((value0) + 8u) = (u32) value5;
@@ -36,7 +36,7 @@ u32 func_0209bf1c(u32 arg0, u32 arg1, u32 arg2) {
     value4 = (value1) + (0u);
     value6 = (value2) + (0u);
     value0 = (u32) func_020364e8();
-    value0 = (u32) func_020364e0((unsigned int) value0);
+    value0 = (u32) func_020364e0((void *) value0);
     value1 = 44u;
     value0 = (u32) func_02036bec((void *) value0, (u32) value1);
     value1 = 1u;
@@ -62,7 +62,7 @@ u32 func_0209bef0(u32 arg0, u32 arg1, u32 arg2) {
     value4 = (value1) + (0u);
     value6 = (value2) + (0u);
     value0 = (u32) func_020364e8();
-    value0 = (u32) func_020364e0((unsigned int) value0);
+    value0 = (u32) func_020364e0((void *) value0);
     value1 = 44u;
     value0 = (u32) func_02036bec((void *) value0, (u32) value1);
     value1 = 2u;

@@ -47,7 +47,8 @@ typedef struct Unk021b4c70 {
 typedef struct Unk02124b1c {
     /* 0000 */ s32 mUnk_00;
     /* 0004 */ s16 mUnk_04;
-    /* 0006 */ u8 pad_06[0x3a];
+    /* 0006 */ s16 mUnk_06;
+    /* 0008 */ u8 mUnk_0008[0x38];
 } Unk02124b1c;
 
 // Object behind Unk021b4c74::mUnk_16f0; the u16 at 6 is a count.
@@ -64,7 +65,8 @@ typedef struct Unk020b4934 {
 } Unk020b4934;
 
 typedef struct Unk020b47d8 {
-    /* 0000 */ u8 pad_00[0xc];
+    /* 0000 */ u8 pad_00[8];
+    /* 0008 */ u32 mUnk_08;
     /* 000c */ u8 mUnk_0c[1];
 } Unk020b47d8;
 
@@ -120,8 +122,17 @@ typedef struct Unk021b0cd4 {
 } Unk021b0cd4;
 
 typedef struct Unk0217b488 {
-    /* 0000 */ u8 pad_00[0x54];
+    /* 0000 */ u8 mUnk_0000[0x4];
+    /* 0004 */ s32 mUnk_04;
+    /* 0008 */ s32 mUnk_08;
+    /* 000c */ s32 mUnk_0c;
+    /* 0010 */ u8 mUnk_0010[0x4];
+    /* 0014 */ s32 mUnk_14;
+    /* 0018 */ s32 mUnk_18;
+    /* 001c */ u8 mUnk_001c[0x38];
     /* 0054 */ u8 mUnk_54;
+    /* 0055 */ u8 mUnk_0055[0x1b];
+    /* 0070 */ s32 mUnk_70;
 } Unk0217b488;
 
 typedef struct Unk0217d384 {
@@ -177,7 +188,7 @@ void func_ov000_021840c8(void);
 void func_ov000_02184130(void);
 
 s32 func_02036d08(void);
-void func_02036f10(s32);
+void func_02036f10(s16);
 u8 func_0205e548(void);
 Unk0217ad04 *func_02077f00(void);
 void func_020ac2fc(void *, void *, s32);

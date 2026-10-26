@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020d22c0.h"
 
-unsigned int func_020d22d0(void) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b4bc))) + 0));
+Unk020f41c4_B *func_020d22d0(void) {
+    return (Unk020f41c4_B *) ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b4bc))) + 0));
 }
 
 unsigned int func_020d22c0(void) {

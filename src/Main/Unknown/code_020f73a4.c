@@ -22,7 +22,7 @@ u32 func_020f73a4(void) {
     u32 value0;
     u32 value1;
     value0 = (u32) func_020364e8();
-    value0 = (u32) func_020364e0((unsigned int) value0);
+    value0 = (u32) func_020364e0((void *) value0);
     value1 = 0xcu;
     value0 = (u32) func_02036bec((void *) value0, (u32) value1);
     value1 = (u32) &data_0217bc4c;

@@ -5,6 +5,6 @@ void func_020c8084(void) {
     u32 value12;
     value12 = (u32) &func_020c0b84;
     value0 = (u32) &data_0217b41c;
-    func_020c0b84((unsigned int) value0);
+    func_020c0b84((void **) value0);
     return;
 }

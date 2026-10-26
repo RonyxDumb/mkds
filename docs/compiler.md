@@ -7,10 +7,8 @@ to reproduce it; a setting with no exact match that breaks when it changes is un
 
 | Code | Compiler | Flags | Evidence |
 |---|---|---|---|
-| Game code (main + overlays) | 1.2 base (ARM: base, sp2, sp2p3 not separated) | `-O4,p -inline on,noauto -char unsigned -str noreuse -proc arm946e -interworking` | exact matches below |
-| NitroSDK | 1.2 base (assumed) | `-O4,p`, default inlining, `-char signed`, `-proc arm946e`, `-interworking` (assumed) | none yet: see Open |
-| NitroSystem | 1.2 base (assumed) | as NitroSDK (assumed) | none yet: see Open |
-| C runtime (MSL), C files | 1.2 base (assumed) | as NitroSDK (assumed) | none yet: see Open |
+| Game code (main + overlays) | 1.2 base (ARM: sp2 identical) | `-O4,p -inline on,noauto -char unsigned -str noreuse -proc arm946e -interworking` | exact matches below |
+| Library code (`libs/`) | 1.2 base (sp2, sp2p3 identical) | `-O4,p -inline on,noauto -char signed -str noreuse -proc arm946e -interworking` | below |
 
 ### Game code
 
@@ -30,25 +28,39 @@ what it shows and the command that reruns it on every installed build
   and on no 2.0 build at any `-proc`; in the disassembly, every ARM game function returns through
   `ldm {.., lr}; bx lr`, never `ldm {.., pc}`, which 1.2 sp3/sp4 emit under `-proc arm946e`. DSP multiplies (`smulbb`,
   `smlabb`) in game code need `-proc arm946e`.
+- ARM sp2p3: `func_020f40a0` and `func_020f4754` (main) index an array written twice, once with a cast; base and sp2
+  fold it into `mla` and an offset, sp2p3 indexes through a register. sp2 builds the same ARM bytes as base.
 - `-char unsigned`: a function walking a `char` path (main 0x02047780, `thumb_char_strings.c`) is 0x13c bytes with
   `ldrb`; with `-char signed` it is 0x144 bytes.
 - `-str noreuse`: the same function references eight literals for four copies each of two format strings; with
   `-str reuse` the copies merge (0x124 bytes).
 - `-O4,p`: `-O4,s`, `-O3` and `-O2` break main 0x0204e3b4 and ov001 0x02194c7c; `-O3`, `-O2` and `-O3,p` break
   ov003 0x021c88c4.
-- Some game files are built at another level (found while matching them; they aren't in the repository yet): two
-  Thumb files at 0x0202941c and 0x02029930 match only at `-O4,s` or `-O3` (not separated); `-O4,p` and `-O3,p` each
-  miss one function (a loop entered by a jump to its test, and a multiply by a loop index that is not
-  strength-reduced). The ARM files around them match at `-O4,p`. When such a file is added, it gets per-file entries
-  in `tools/project.py` (`PATH_DROP_FLAGS` and `PATH_ADD_FLAGS`).
+- Some game files are compiled for size and carry `#pragma optimize_for_size on`: `src/01/code_0218550c.c`,
+  `code_021804e0.c`, `code_021857a4.c` and `code_02185438.c`. In `code_0218550c.c` (ov001, USA
+  0x021854ec-0x02185784) five two-case switch functions share one exit block; at `-O4,p` the return sequence is
+  repeated in each case (0x32 bytes instead of 0x2a). All 14 functions of that file match at `-O4,s`, at `-O3`, and at
+  the build's `-O4,p` with the pragma. The others show the same two signs: switch cases that share an epilogue, and
+  aggregate copies kept as loops instead of unrolled (`code_021804e0.c`).
 - Inlining: `-inline auto` inlines a same-file call (ov001 0x02194ce4 into 0x02194c7c, `thumb_switch_ov001.c`)
   that the game keeps out of line.
 
 ### Libraries
 
-Not probed from this ROM yet. `tools/project.py` builds NitroSDK, NitroSystem and the C runtime with the game code's
-build (1.2 base) at `-O4,p`, with the default inlining and `-char signed`, as a starting point. Each setting needs
-probes written from this ROM's library code before it counts as verified.
+Library code in main is 0x02003024-0x0200589c, 0x0200c46c-0x020249b8 and 0x0212b9ec-0x0215109c: nothing in them
+calls game code, and each reads its own data. About 60 functions decompiled from all of it except the soft-float
+runtime and its stubs match on 1.2 base.
+
+- Build: base, sp2 and sp2p3 differ only in Thumb switch tables and one cast-twin index idiom (over every file in
+  the repository); library code has neither, so the three build identical bytes. b56 is ruled out in most areas
+  (it updates a pointer argument's field through a computed address, `add rX, rB, #off`).
+- `-O4,p`: 0x0201ca6c needs it (`-O3,p` gives 0xd48 bytes, not 0xd2c); `-O4,s`, `-O3` and `-O2` break functions
+  with loops or early returns.
+- `-char signed`: 0x0200d118 is 0x8c8 bytes with signed chars, 0x8b4 unsigned (the game uses unsigned).
+- `-inline on,noauto`: `auto` inlines 0x0201ec30's two helpers, `off` drops the static inline 0x02011c58 needs.
+- `-proc arm946e`: 0x0214843c needs `smulbb`/`smlabb`.
+- `-str noreuse`, `-enum int`: as the game code; nothing in the library code separates them.
+- 112 functions can't be 1.2 output and stay asm (the list below, cross-function branches, `pop {.., pc}`).
 
 ## Tools
 
@@ -115,38 +127,41 @@ first on one known match and one deliberate compile error.
 ## What 1.2 base never emits
 
 Hand-written routines are kept as asm only where a rule of the compiler rules their code out. These were read from
-the 1.2 base `mwccarm.exe` (image base 0x400000) and checked under gdb and on compiled code:
+the 1.2 base `mwccarm.exe` and checked under gdb and on compiled code:
 
-- ldm/stm: the ARM backend builds them only when lowering the IR's block-move operations (0x4eeac0) and in
+- ldm/stm: the ARM backend builds them only when lowering the IR's block-move operations and in
   prologues/epilogues (`stmdb sp!`, `ldmia sp!`). The IR block moves come only from struct copies (lists upward from
   r0, the base moved to another register first, a lone word as ldr/str), struct zero fills, 8-byte copies
   (`{r2, r3}`, no writeback) and by-value struct arguments. Unrolled loads and stores are never merged. A hook on
   the instruction builders saw no other source.
 - Thumb constants: 0-255 is `movs`, a complement or negation under 256 adds `mvns`/`negs`, anything else is a
-  literal-pool load (0x4eb980; gdb shows 0x1000 taking the pool path). `movs; lsls` is never built.
-- Registers: after r0-r3 and ip the colourer opens lr before r4 (table at 0x5e90a0), so a function that saves r4
-  also saves lr.
+  literal-pool load (gdb shows 0x1000 taking the pool path). `movs; lsls` is never built.
+- Registers: after r0-r3 and ip the colourer opens the callee-saved registers in order; in a leaf ARM function lr
+  comes before r4, in other functions lr is already a scratch register. Either way a function that saves r4 also
+  saves lr.
 - `tst`: built only by one peephole on `and`/`eor` that needs a flag set only on flag-setting forms, which that
   peephole isn't registered for; no compiled file checked built a `tst`, and C bit tests give `ands`.
 - Tail calls: a call in tail position to a named function becomes `ldr ip, =callee; bx ip` (ARM, interworking;
-  the register is fixed in the tail-call builder at 0x4e39b0; r3 in Thumb); no other register is used.
+  the register is fixed in the tail-call builder; r3 in Thumb); no other register is used.
 - ARM constants: an immediate is `mov`, a complement immediate `mvn`, a negated one `mov` + `rsb`; only other values
-  come from the literal pool (0x4edd10), so -3 is never a pool load. No IR operation counts leading zeros and no
+  come from the literal pool, so -3 is never a pool load. No IR operation counts leading zeros and no
   code builds `clz`.
 - Conditions: compiled comparisons use eq/ne/lt/lo/gt/hi/le/ls/ge/hs; mi/pl come only from the compare-with-0 fold,
   which deletes the `cmp`, so a `cmp` feeding mi/pl is not compiled code.
 - `subs` with a carry test: the compare fold maps conditions to eq/ne/mi/pl only; `subs` otherwise appears only in
   64-bit arithmetic, so `subs; bcc/bcs` is not compiled code.
+- Rotates: shift pairs (`(w >> k) | (w << (32 - k))`) stay two shifts; `ror` appears only in the signed `% 2^n`
+  sequence (`rsb ..., lsl #24; add ..., ror #24`), so a `ror rX, rX, rY` by a variable amount is not compiled C.
+- Thumb `stm rN!` is built only for block moves; scattered stores of constants and parameters stay `str`, on every
+  1.2, 2.0 and DSi build.
 
 ## Open
 
 Settings not yet backed by an exact match.
 
-- Game code: `-inline on` vs `off` vs the default. Thumb files in main call per-file out-of-line ARM copies of small
-  register-writing helpers (placed after the file's functions, in reverse order of first use), while ARM game
-  functions and some ov000 Thumb code have the same bodies inlined. No single setting with one form of the helpers
-  explains both yet.
-- Game ARM code: 1.2 base, sp2 and sp2p3 not separated (assumed to share the Thumb code's build).
+- Game code `-inline`: `off` is ruled out (`src/01/code_02180ce8.c` needs a static inline expanded); `on` and the
+  default aren't separated. Thumb files in main call per-file out-of-line ARM copies of small register-writing
+  helpers, while ARM functions inline the same bodies: no single helper form explains both yet.
 - `-enum int` vs `min`: no probe separates them.
-- Libraries (NitroSDK, NitroSystem, C runtime): the compiler build and every flag; no probe written from this ROM
-  yet.
+- Library code: the byte stores at 0x02133da8-0x021423e4 use a variable `ror` that 1.2 never builds from C.
+- Library code in ov000 (from 0x02185920) and ov003: not probed.

@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-void func_020ae5f0(int param_1, int param_2) {
+void func_020ae5f0(void *param_1, void *param_2) {
     if (param_1 != 0) {
         func_0200ee74((u32) (param_1), (int) (0x00000400u));
         func_0214bfcc((u32) (param_1), (int) (0), (u32) (0x00000400u));

@@ -17,16 +17,7 @@ void func_0208b6d0(u32 *param_1) {
     return;
 }
 
-void func_0208b6b0(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) ((
-                           (unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0))) +
-                       36) =
-        (unsigned int) ((
-            (((((unsigned int) *(
-                  const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                             const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0))) +
-                                         36))) &
-              ~(0x1u))) |
-            (0x1u)));
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned int) (0x0u);
+void func_0208b6b0(void **p0) {
+    *(unsigned int *) ((unsigned char *) *p0 + 36) = (*(unsigned int *) ((unsigned char *) *p0 + 36) & ~0x1u) | 0x1u;
+    *p0 = 0;
 }

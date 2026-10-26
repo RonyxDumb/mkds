@@ -23,7 +23,7 @@ void func_02111368(void) {
     value0 = (u32) * (const u32 *) ((value0) + 0u);
     value1 = (u32) &data_0217d340;
     value1 = (u32) * (const u32 *) ((value1) + 0u);
-    func_020ae5f0((int) value0, (int) value1);
+    func_020ae5f0((void *) value0, (void *) value1);
     return;
 }
 #pragma thumb off

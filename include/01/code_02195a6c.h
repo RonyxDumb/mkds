@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "01/code_02196da8.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_0204799c.h"
 #include "Main/Unknown/code_020ae4c0.h"
@@ -12,12 +13,14 @@
 #include "Main/Unknown/unk_0217d068.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_0212426c.h"
+#include "00/code_02182fdc.h"
+#include "01/code_02196e30.h"
 
 // One 0x40-byte element of the arrays held by Unk021a9bdc.
 typedef struct Unk021a9bdcEntry {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 06 */ s16 mUnk_06;
     /* 08 */ u8 mUnk_08[0x38];
 } Unk021a9bdcEntry;
 
@@ -29,17 +32,20 @@ typedef struct Unk021a9bdcCount {
 
 // Object behind data_ov001_021a9bdc.
 typedef struct Unk021a9bdc {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ Unk020b4934 *mUnk_00;
     /* 04 */ void *mUnk_04;
     /* 08 */ Unk021a9bdcCount *mUnk_08;
     /* 0c */ u8 mUnk_0c[4];
     /* 10 */ Unk021a9bdcCount *mUnk_10;
-    /* 14 */ u8 mUnk_14[4];
+    /* 14 */ Unk020b4934 *mUnk_14;
     /* 18 */ void *mUnk_18;
     /* 1c */ Unk021a9bdcCount *mUnk_1c;
     /* 20 */ void *mUnk_20;
     /* 24 */ Unk021a9bdcCount *mUnk_24;
-    /* 28 */ u8 mUnk_28[0x10];
+    /* 28 */ void *mUnk_28;
+    /* 2c */ void *mUnk_2c;
+    /* 30 */ Unk020b4a44 *mUnk_30;
+    /* 34 */ void *mUnk_34;
     /* 38 */ Unk021a9bdcEntry *mUnk_38;
     /* 3c */ Unk021a9bdcEntry *mUnk_3c;
     /* 40 */ void *mUnk_40;
@@ -69,6 +75,7 @@ typedef struct Unk021a9bdc {
 typedef struct Unk021759d4 {
     /* 00 */ u8 mUnk_00[0xc];
     /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
 } Unk021759d4;
 
 extern Unk021a9bdc *data_ov001_021a9bdc;
@@ -117,24 +124,4 @@ s32 func_ov001_02196c4c(void);
 void func_ov001_02196cd0(void);
 void func_ov001_02196d78(void);
 void func_ov001_02196d8c(void);
-void func_ov001_02196dbc(void);
-void func_ov001_02196e30(void);
-void func_ov001_02196e54(void);
-void func_ov001_02196e88(void);
-void func_ov001_02196eb0(void);
-void func_ov001_02196ecc(void);
-void func_ov001_02196f64(void);
-void func_ov001_02196f80(void);
-void func_ov001_02196fb0(void);
-void func_ov001_02196fc4(void);
-void func_ov001_02196fd8(void);
-void func_ov001_02197010(void);
-void func_ov001_02197024(void);
-void func_ov001_0219703c(void);
-void func_ov001_02197058(void);
 void func_ov001_021978b4(void);
-s32 func_ov001_02197210(void);
-
-#include "Main/Unknown/code_02111488.h"
-#include "Main/Unknown/code_02117218.h"
-#include "Main/Unknown/code_02125f54.h"

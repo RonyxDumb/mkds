@@ -1,41 +1,22 @@
 #include "01/code_0219de58.h"
 
-// non-matching: 0x100 bytes, original 0x10c; 32 instructions differ; first at +0x0: original `push {lr}`, ours `push
-// {r4, lr}`
 void func_ov001_0219de58(void) {
-    u32 uVar1;
-    int local_10;
-    int local_c;
-    int local_8[1];
-    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov001_021a8ce0))))));
-    func_020b4934((Unk020b4934 **) (&local_10), (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov001_021a8cfc))))));
-    func_020b47d8((Unk020b47d8 **) (&local_c), (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov001_021a8d14))))));
-    func_020b4a44((Unk020b4a44 **) (local_8), (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov001_021a8d30))))));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bfc))) + 0x44) = uVar1;
-    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov001_021a8d4c))))));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bfc))) + 0x48) = uVar1;
-    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov001_021a8d68))))));
-    *(u32 *) (*((int *) ((u32) (&data_ov001_021a9bfc))) + 0x4c) = uVar1;
-    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov001_021a8d84))))));
-    func_020b49bc((Unk020b4934 **) ((int *) (u32) (*((int *) ((u32) (&data_ov001_021a9bfc))) + 0x3c)),
-                  (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov001_021a8da4))))));
-    func_020b48b4((void **) ((int *) (u32) (*((int *) ((u32) (&data_ov001_021a9bfc))) + 0x38)), (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov001_021a8dc4))))));
-    func_020b4a44((Unk020b4a44 **) ((int *) (u32) (*((int *) ((u32) (&data_ov001_021a9bfc))) + 0x40)),
-                  (void *) (uVar1));
-    ((u32) func_02016468((u32) (4), (u32) (0), (void *) (*(u32 *) (local_10 + 0x14)),
-                         (u32) (*(u32 *) (local_10 + 0x10))));
-    ((u32) func_02016468((u32) (8), (u32) (0), (void *) (local_c + 0xc), (u32) (*(u32 *) (local_c + 8))));
-    ((u32) func_02016468((u32) (0xf), (u32) (0), (void *) (*(u32 *) (local_8[0] + 0xc)), (u32) (((u32) 0x00000100u))));
-    ((u32) func_02016468((u32) (0x23), (u32) (0),
-                         (void *) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov001_021a9bfc))) + 0x3c) + 0x14)),
-                         (u32) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov001_021a9bfc))) + 0x3c) + 0x10))));
-    ((u32) func_02016468((u32) (0x1e), (u32) (0),
-                         (void *) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov001_021a9bfc))) + 0x40) + 0xc)),
-                         (u32) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov001_021a9bfc))) + 0x40) + 8))));
-    return;
+    Unk020b4934 *a;
+    Unk020b47d8 *b;
+    Unk020b4a44 *c;
+
+    func_020b4934(&a, func_0204799c((const char *)data_ov001_021a8ce0));
+    func_020b47d8(&b, func_0204799c((const char *)data_ov001_021a8cfc));
+    func_020b4a44(&c, func_0204799c((const char *)data_ov001_021a8d14));
+    data_ov001_021a9bfc->mUnk_44 = func_0204799c((const char *)data_ov001_021a8d30);
+    data_ov001_021a9bfc->mUnk_48 = func_0204799c((const char *)data_ov001_021a8d4c);
+    data_ov001_021a9bfc->mUnk_4c = func_0204799c((const char *)data_ov001_021a8d68);
+    func_020b49bc(&data_ov001_021a9bfc->mUnk_3c, func_0204799c((const char *)data_ov001_021a8d84));
+    func_020b48b4(&data_ov001_021a9bfc->mUnk_38, func_0204799c((const char *)data_ov001_021a8da4));
+    func_020b4a44(&data_ov001_021a9bfc->mUnk_40, func_0204799c((const char *)data_ov001_021a8dc4));
+    func_02016468(4, 0, a->mUnk_14, a->mUnk_10);
+    func_02016468(8, 0, b->mUnk_0c, b->mUnk_08);
+    func_02016468(0xf, 0, c->mUnk_0c, 0x100);
+    func_02016468(0x23, 0, data_ov001_021a9bfc->mUnk_3c->mUnk_14, data_ov001_021a9bfc->mUnk_3c->mUnk_10);
+    func_02016468(0x1e, 0, data_ov001_021a9bfc->mUnk_40->mUnk_0c, data_ov001_021a9bfc->mUnk_40->mUnk_08);
 }

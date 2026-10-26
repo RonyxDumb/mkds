@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020c0b84(unsigned int p0);
+void func_020c0b84(void **param_1);

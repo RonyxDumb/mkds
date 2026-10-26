@@ -8,4 +8,4 @@
 #include "Main/Unknown/code_0214c000.h"
 #include "Main/Unknown/unk_02174000.h"
 
-void func_02036438(void);
+void func_02036438(void *heap);

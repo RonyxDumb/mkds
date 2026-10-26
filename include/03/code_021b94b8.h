@@ -189,11 +189,15 @@ s32 func_ov003_021ba05c(Unk021b94c4 *req);
 void func_ov003_021ba164(void *ptr);
 void *func_ov003_021ba178(u32 size);
 s32 func_ov003_021ba18c(s32 state);
+void func_ov003_021ba1a8(u32 ms);
 s32 func_ov003_021ba1b0(Unk021ba1b0 *request, Unk021ba734 *out);
 s32 func_ov003_021ba394(Unk021ba734 **out);
 s32 func_ov003_021ba524(void);
 s32 func_ov003_021ba560(void);
 s32 func_ov003_021ba61c(void *(*alloc)(u32), void (*release)(void *));
+s32 func_ov003_021ba70c(void *msg);
+s32 func_ov003_021ba720(void *msg);
+void func_ov003_021ba734(Unk021ba734 *list, Unk021ba778Src *src, s32 count);
 void func_ov003_021ba744(Unk021ba1b0 *request, Unk021ba778Src *rec);
 void func_ov003_021ba778(Unk021ba778Src *src, Unk021ba778Dst *dst);
 
@@ -211,7 +215,3 @@ void func_0200dc3c(u32 ms);
 
 #include "03/code_021b7cac.h"
 #include "03/code_021b7d84.h"
-#include "03/code_021ba1a8.h"
-#include "03/code_021ba734.h"
-
-#include "03/code_021ba70c.h"

@@ -79,17 +79,11 @@ DECOMP_ME_COMPILER = DECOMP_ME_IDS.get(MWCC_VERSION)  # None: no decomp.me id (D
 # Sources under these paths (folders or single files; the longest matching prefix wins) compile with another
 # installed version (folders under tools/mwccarm/).
 PATH_COMPILERS = {
-    # assumed: the game code's build; not yet probed from this ROM (docs/compiler.md, Open)
-    "libs/nds/": "1.2/base",  # NitroSDK
-    "libs/nns/": "1.2/base",  # NitroSystem
-    "libs/msl/": "1.2/base",  # C runtime
+    "libs/": "1.2/base",  # verified: library code in main (docs/compiler.md, Libraries); sp2, sp2p3 identical
 }
 # Flags from CC_FLAGS that sources under these paths must not get.
 PATH_DROP_FLAGS = {
-    # assumed: the libraries use the default inlining and signed char (not yet probed; docs/compiler.md, Open)
-    "libs/nds/": ["-inline on,noauto", "-char unsigned"],
-    "libs/nns/": ["-inline on,noauto", "-char unsigned"],
-    "libs/msl/": ["-inline on,noauto", "-char unsigned"],
+    "libs/": ["-char unsigned"],  # verified: library code uses signed char (docs/compiler.md, Libraries)
 }
 # Flags added for sources under these paths. A game with Thumb code: "src/": ["-thumb"], with an empty list for an
 # ARM-only folder or file. An ARM function inside a Thumb file can be written between `#pragma thumb off` and
@@ -98,10 +92,7 @@ PATH_DROP_FLAGS = {
 # ("ec++"): its operator new/delete then take no throw() and get no exception-specification frame.
 PATH_CPP_DIALECT = {}
 PATH_ADD_FLAGS = {
-    # assumed, as above
-    "libs/nds/": ["-char signed"],
-    "libs/nns/": ["-char signed"],
-    "libs/msl/": ["-char signed"],
+    "libs/": ["-char signed"],
     # the overlays are Thumb game code (an ARM file in them gets a per-file entry with an empty list)
     "src/00/": ["-thumb"],
     "src/01/": ["-thumb"],

@@ -80,7 +80,9 @@ typedef struct Unk0206bcb0 {
     /* 44 */ vu32 mUnk_44;
     /* 48 */ vu32 mUnk_48;
     /* 4c */ vu32 mUnk_4c;
-    /* 50 */ u8 mUnk_50[0x24];
+    /* 50 */ Vec3 mUnk_50;
+    /* 05c */ u8 mUnk_05c[0xc];
+    /* 68 */ Vec3 mUnk_68;
     /* 74 */ u16 mUnk_74;
     /* 76 */ u8 mUnk_76[0x2];
     /* 78 */ s32 mUnk_78;
@@ -88,7 +90,8 @@ typedef struct Unk0206bcb0 {
     /* 80 */ Vec3 mUnk_80;
     /* 8c */ u8 mUnk_8c[0xc];
     /* 98 */ Vec3 mUnk_98;
-    /* a4 */ u8 mUnk_a4[0x1c];
+    /* a4 */ Vec3 mUnk_a4;
+    /* 0b0 */ u8 mUnk_0b0[0x10];
     /* c0 */ s32 mUnk_c0;
     /* c4 */ u8 mUnk_c4[0x14];
     /* d8 */ s32 mUnk_d8;
@@ -101,7 +104,9 @@ typedef struct Unk0206bcb0 {
     /* 168 */ Vec3 mUnk_168;
     /* 174 */ u8 mUnk_174[0xc];
     /* 180 */ vs32 mUnk_180;
-    /* 184 */ u8 mUnk_184[0x4c];
+    /* 184 */ u8 mUnk_184[0x34];
+    /* 1b8 */ Vec3 mUnk_1b8;
+    /* 1c4 */ u8 mUnk_1c4[0xc];
     /* 1d0 */ s32 mUnk_1d0;
     /* 1d4 */ u8 mUnk_1d4[0x34];
     /* 208 */ Unk0206c5e4_208 *mUnk_208;
@@ -166,11 +171,14 @@ int func_0206c094(Unk0206bcb0 *p);
 int func_0206c0a8(Unk0206bcb0 *p);
 int func_0206c0b0(Unk0206bcb0 *p);
 int func_0206c0e0(Unk0206bcb0 *p);
+void func_0206c11c(Unk0206bcb0 *p);
+void func_0206c14c(Unk0206bcb0 *p);
 void func_0206c17c(Unk0206bcb0 *p);
 void func_0206c1ac(Unk0206c1ac *obj, Unk0206bcb0 *p);
 void func_0206c2b4(Unk0206c1ac *obj, Unk0206bcb0 *p);
 int func_0206c354(Unk0206bcb0 *p, const Vec3 *a, int flag);
 void func_0206c450(Unk0206c1ac *obj, Unk0206bcb0 *p);
+void func_0206c488(Unk0206c1ac *obj, Unk0206bcb0 *p);
 
 void func_02055c5c(void);
 void func_02068a64(Unk0206bcb0 *p, int a, int b);
@@ -181,7 +189,7 @@ Unk0208c5b8 *func_0208c5b8(int idx);
 void func_0208c534(Unk0208c5b8 *p);
 void func_0208c188(u32 arg);
 void func_0208c1ac(u32 arg);
-void func_0208b748(u32 idx, const Vec3 *pos, Unk0206bcb0 *p, void (*cb)(Unk0206c1ac *, Unk0206bcb0 *));
+void func_0208b748(u32 idx, const Vec3 *pos, void *p, void (*cb)());
 int func_0206c494(Unk0206bcb0 *p);
 void func_0206cc60(Unk0206bcb0 *p, int arg);
 void func_0208ccf0(Unk0208c5b8 *p);
@@ -193,7 +201,6 @@ void func_0206ceb4(s32 *out, Unk0206bcb0 *p);
 extern Unk0217d26c data_0217d26c;
 extern Unk0217d26c data_0217d284;
 Unk0206cdd4_B *func_0207a6b0(void);
-void func_ov001_0218171c(void);
 void func_0206d020(Unk0206bcb0 *p, int a, int b);
 void func_01ffc9e8(Unk0206bcb0 *p, int a);
 void func_020681f0(Unk0206bcb0 *p);
@@ -215,6 +222,3 @@ void func_02063b30(const Unk0206bcb0 *p, Vec3 *out);
 s16 func_02148538(s32 y, s32 x);
 s32 func_0214848c(const Vec3 *a, const Vec3 *b);
 s32 func_021482cc(const Vec3 *v);
-
-#include "Main/Unknown/code_0206c11c.h"
-#include "Main/Unknown/code_0206c488.h"

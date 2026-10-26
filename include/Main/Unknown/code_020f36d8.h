@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Main/Unknown/code_020f4090.h"
-
 #include "types.h"
 #include "Main/Unknown/code_02147fd8.h"
 #include "Main/Unknown/code_020b502c.h"
@@ -152,17 +150,16 @@ s32 func_020f3bb4(Unk020f371c_Ref *a, Unk020f371c_Ref *b, Unk020f371c_Ref *out, 
 s32 func_020f3c54(Unk020f371c_Ref *in, Unk020f371c_Ref *out, Vec3 *pos);
 s32 func_020f3fa8(Unk020f3fa8 *p, Vec3 *v);
 void func_020f4020(Unk020f3fa8 *p, Vec3 *points, s32 scale);
+s32 func_020f4090(s32 idx);
+void func_020f40a0(s32 idx, s32 amount);
+void func_020f40dc(Unk020f40dc *rec, s32 kind, s32 count);
 void func_020f413c(Unk020f40dc *rec, s32 *kind, s32 *count);
 void func_020f4188(Unk020f40dc *rec, s32 v);
 s32 func_020f4198(Unk020f40dc *rec, s32 v);
+void func_020f41b0(Unk020f40dc *rec);
 void func_020f41c4(Unk020f40dc *rec);
 void func_020f45f0(Unk020f40dc *rec, s32 keep);
 void func_020f4718(Unk020f40dc *rec);
 void func_020f4754(Unk020f40dc *rec, s32 n);
 void func_020f47e4(Unk020f40dc *rec, s32 kind);
 void func_020f4884(Unk020f40dc *rec);
-
-#include "Main/Unknown/code_020f40a0.h"
-#include "Main/Unknown/code_020f41b0.h"
-
-#include "Main/Unknown/code_020f40dc.h"

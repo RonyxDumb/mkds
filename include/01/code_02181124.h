@@ -5,7 +5,7 @@
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_02133000.h"
 
-u32 func_ov001_02181124(int param_1);
+u32 func_ov001_02181124(u8 *a);
 unsigned int func_ov001_02181174(void);
 unsigned int func_ov001_02181180(void);
 unsigned int func_ov001_02181194(void);

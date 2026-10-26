@@ -46,26 +46,17 @@ unsigned int func_ov001_02181174(void) {
                                                     32));
 }
 
-// non-matching: 2 instructions differ; first at +0x6: original nothing, ours `ldr r7, [pc, #0x44] (->0x4c)`
-u32 func_ov001_02181124(int param_1) {
-    int *piVar1;
-    int *piVar2;
-    int iVar3;
-    u32 local_18;
-    piVar1 = ((int *) ((u32) (&data_ov001_021a9b88)));
-    iVar3 = 0;
-    local_18 = 0;
-    piVar2 = (int *) *((int *) ((u32) (&data_ov001_021a9b88)));
-    if (0 < *piVar2 * *piVar2) {
-        do {
-            if (*(unsigned char *) (piVar2[8] + iVar3) != *(unsigned char *) (param_1 + iVar3)) {
-                local_18 = 1;
-                func_ov001_021811c8();
-                *(u8 *) (*(int *) (*piVar1 + 0x20) + iVar3) = *(u8 *) (param_1 + iVar3);
-            }
-            iVar3 = iVar3 + 1;
-            piVar2 = (int *) *piVar1;
-        } while (iVar3 < *piVar2 * *piVar2);
+u32 func_ov001_02181124(u8 *a) {
+    int i;
+    u32 ret;
+
+    ret = 0;
+    for (i = 0; i < data_ov001_021a9b88->mUnk_00 * data_ov001_021a9b88->mUnk_00; i++) {
+        if (data_ov001_021a9b88->mUnk_20[i] != a[i]) {
+            ret = 1;
+            func_ov001_021811c8();
+            data_ov001_021a9b88->mUnk_20[i] = a[i];
+        }
     }
-    return local_18;
+    return ret;
 }

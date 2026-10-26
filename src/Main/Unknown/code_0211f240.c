@@ -12,8 +12,7 @@ void func_0211f244(int param_1, int param_2, u32 param_3, u32 param_4, u32 param
         uVar1 = 0x1e;
     }
     puVar2 = (u32 *) *((int *) ((u32) (&data_0217d37c)));
-    func_02124748(*(u16 *) (((u32) (u32) ((unsigned char *) &data_0215d014)) + param_1 * 2), puVar2[1], *puVar2,
-                  puVar2[3], param_7, param_5, param_3, param_4);
+    func_02124748((u32) (*(u16 *) (((u32) (u32) ((unsigned char *) &data_0215d014)) + param_1 * 2)), (void *) (puVar2[1]), (void *) (*puVar2), (void *) (puVar2[3]), (s32) (param_7), (u32) (param_5), (void *) (param_3), (void *) (param_4));
     ((u32) func_02016468((u32) (uVar1), (u32) ((u32) param_6 << 5),
                          (void *) (*(int *) (*(int *) (*((int *) ((u32) (&data_0217d37c))) + 8) + 0xc) +
                                    (u32) ((unsigned short *) &data_0215d00c)[param_2] * 0x20),

@@ -1,25 +1,26 @@
 #include "01/code_02188e24.h"
 
-void func_ov001_02188e74(int param_1, u32 param_2, u32 param_3) {
-    *(u32 *) (param_1 + ((int) 0x000001d8u)) = param_2;
-    *(u32 *) (param_1 + ((int) 0x000001dcu)) = param_3;
+void func_ov001_02188e74(Unk02188950 *param_1, s32 param_2, UnkFunc *param_3) {
+    param_1->mUnk_1d8 = param_2;
+    param_1->mUnk_1dc = param_3;
     return;
 }
 
-void func_ov001_02188e48(int param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5) {
-    *(u32 *) (param_1 + ((int) 0x000001e0u)) = param_2;
-    *(u32 *) (param_1 + ((int) 0x000001e4u)) = param_3;
-    *(u32 *) (param_1 + ((int) 0x000001e8u)) = param_4;
-    *(u32 *) (param_1 + ((int) 0x000001ecu)) = param_5;
+void func_ov001_02188e48(Unk02188950 *param_1, s32 param_2, void (*param_3)(Unk02188950 *), s32 param_4,
+                         void (*param_5)(Unk02188950 *)) {
+    param_1->mUnk_1e0 = param_2;
+    param_1->mUnk_1e4 = param_3;
+    param_1->mUnk_1e8 = param_4;
+    param_1->mUnk_1ec = param_5;
     return;
 }
 
-void func_ov001_02188e24(int param_1, u32 param_2, int param_3) {
-    *(u32 *) (param_1 + ((int) 0x000001f0u)) = param_2;
-    *(u32 *) (param_1 + 0xb0) = 0;
+void func_ov001_02188e24(Unk02188950 *param_1, s32 param_2, UnkFunc *param_3) {
+    param_1->mUnk_1f0 = param_2;
+    param_1->mUnk_0b0 = 0;
     if (param_3 == 0) {
-        param_3 = ((int) ((u32) (&func_ov001_02188e88)));
+        param_3 = (UnkFunc *) func_ov001_02188e88;
     }
-    *(int *) (param_1 + ((int) 0x000001f4u)) = param_3;
+    param_1->mUnk_1f4 = param_3;
     return;
 }

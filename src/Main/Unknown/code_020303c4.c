@@ -6,7 +6,7 @@
 // lr}`
 void func_020303c4(void) {
     func_0204f7f4();
-    func_02036ab0((u32) (*(u32 *) (*((int *) ((u32) (&data_02174e54))) + 0x3c)));
+    func_02036ab0((void *) (*(u32 *) (*((int *) ((u32) (&data_02174e54))) + 0x3c)));
     *((int *) ((u32) (&data_02174e54))) = 0;
     return;
 }

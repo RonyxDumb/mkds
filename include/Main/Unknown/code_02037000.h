@@ -1,0 +1,7 @@
+#pragma once
+
+#include "types.h"
+
+// Declared here until the code that defines them is decompiled.
+void func_02037abc(void *obj);
+void func_020370d4(s16 a);

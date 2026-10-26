@@ -58,6 +58,14 @@ Lessons for getting functions to match exactly. Compiler and flags: see `compile
    - `tools/sync_linked_symbols.py --write`, then `ninja` and `ninja check`: inside complete units, `symbols.txt`
      takes the linked binary's names and bindings. Never run it after a failed build: it rewrites the config from a
      stale link.
+   - Link many units in one build; split the group only when the ROM differs.
+   - `ORDER` in a file whose ARM functions sit in `#pragma thumb off`/`on` blocks: `reorder_functions.py` breaks it;
+     reorder by hand, one block per run of ARM functions.
+   - Data that won't range (conflicts, a link-order cycle, one unit's data inside another's): wrong file boundaries
+     (1.00).
+   - ROM shorter after linking: a function reached only by a main-module pointer into an address range several
+     overlays share is stripped by `-dead`; list it in `config/<ver>/arm9/force_active.txt`.
+   - Undefined `_ull_mul` or `_fflt`: see 1.00.
 
 When a unit breaks the ROM on linking, `python3 tools/diff_rom.py` shows where the rebuilt module first differs and
 which pointers moved; read the differing pool words (a wrong table or field behind a masked relocation).
@@ -105,7 +113,56 @@ Each rule reads "the binary shows X -> write Y, because Z". Tags say where a rul
 CodeWarrior for DS 2.0 sp2p2 game code (`-O4,p -ipa file -inline on,noauto`); [2.0-all] also on 2.0 sp1p5 library
 code; [SP-diff] differs between 2.0 service packs; [host] depends on the host running the compiler; [mwld] [dsd]
 [objdiff] [mwasm] are tool behaviour. Untagged rules were seen on 2.0 builds and are probably general. This game is
-built with 1.2 base (`compiler.md`), so check a rule against this game's code before relying on it.
+built with 1.2 base (`compiler.md`), so check a rule against this game's code before relying on it;
+1.00 lists what holds here.
+
+### 1.00 Game compiler (1.2 base)
+
+Found on the game's code; where they differ from the 2.0 rules below, these hold.
+
+Registers:
+- Numbering: parameters, @temps (newest first), named locals in declaration order, optimiser temporaries (loop
+  pointers, CSE, split lifetimes), backend temporaries. A higher number gets the lower register; spill slots go in
+  number order. K = 14 on ARM, 8 on Thumb; select takes the lowest free register. Leaf ARM functions open lr before
+  r4. Thumb code is never scheduled.
+- Parameter register untouched through the first statements -> it is the first call's argument: fix the callee's
+  signature (`()` drops it).
+- On a hardware register, `x = x & m` and `x &= m` colour differently.
+- A value below the inner row pointer of a nested table loop -> a named row pointer declared before it
+  (`for (j = 0, p = tab[i]; j < 3; j++, p++)`).
+- A counter in a higher slot than a later loop's -> one counter reused for both loops.
+- An if/else local in the wrong register -> declare it in each arm.
+- A value numbered after the loop pointers -> a repeated expression, not a local.
+- Thumb `muls rD, rS` operand order -> the difference is a variable (`d = a - b; ... d * t`).
+- Load order inside a call argument -> a local assigned just before the call, first in the sum.
+- `cmp; beq; movs 0; b; movs 1` -> enum or pointer constants; integer 0/1 folds to `bne -> movs 1`.
+- `lsrs` first with the result in the high register -> high word of a multiply,
+  `(u16)(((u64)(u32)(x >> 32) * 0x10000) >> 32)`.
+- Split variables go in order of first use, not declaration: give an earlier block its own variable.
+- Redundant casts can move registers.
+- A load stays where written only across a flowgraph-node boundary that survives the first clean-up passes (an
+  `if`, `switch`, `goto`, `return`, label, a loop that runs once); `{}`, `do {} while (0)` and early-folded
+  conditions don't count. A never-read local assigned in a conditional still makes such a boundary.
+- A small struct moved as a whole stays in memory: its field at offset 0 gets copy propagation across calls and stores,
+  a `u8` array element never does.
+
+Data:
+- A function that copies an initialised table matches whatever the values are: check them against the ROM.
+- A file's objects (data, local initialisers, `.rodata`, `.bss`) are sorted by size, smallest first
+  (`tools/data_order.py` models ties); uninitialised file-scope definitions follow in reverse order, then each
+  function's strings by ascending function address. An object after strings, or a smaller one after a bigger one,
+  starts a new file. A `.bss` pointer used by one run of consecutive units marks one file.
+
+Other:
+- A `for` clause runs after the body: an increment that comes first in the original goes in the clause after `i++`.
+- `#pragma optimize_for_size on` covers the whole file. Signs: a Thumb leaf saving r4 and lr without a call, indexed
+  loops, loops entered by `b test` without a guard, cases sharing an epilogue. Speed and size code in one range
+  means a file boundary.
+- An inline's locals go after all the caller's: a `static inline` wrapper with a `volatile` local gives a call its
+  own argument slot (`func_0214d05c_inline`).
+- 64-bit products: only `_ll_mul` exists, so use `(s64)` operands (unsigned ones call `_ull_mul`). `u64 /` calls
+  `_ll_udiv`. `_fflt` is a label inside the unsigned conversion; name it in `symbols.txt`.
+- Functions defined out of address order show their calls to each other as mismatches; reorder.
 
 ### 1.0 Meta-rules (read these first)
 
@@ -755,7 +812,6 @@ Link order and linking:
 - 64x32 multiply with known-zero high word: up to 2.0 sp2 emits umull + mla against a zeroed register; sp2p2+ drops
   it. [SP-diff]
 - The soft-float/division runtime itself is hand-written assembly (written as asm bodies).
-
 ### 1.14 Asm bodies
 
 - Hand-written routines (start-up, soft-float/division, SHA-1 block, cache/protection/irq/context, ITCM copy/fill
@@ -774,6 +830,8 @@ Link order and linking:
 - A `bl` to the function starting right where the caller ends stays a mismatch (99.99%): symbol + -8 addend lands
   inside the caller. Linking is the proof.
 - A `bl` to another function of the same unit counts as a mismatch while that callee doesn't match.
+- Calls between functions of one file show as mismatches when the file defines its functions out of address order
+  (the delinked target's relocation addends then point inside the caller); reordering fixes the score.
 - Stripped weak copies (inline destructors) in our objects shift objdiff's view of later relocations (99.9x%).
 - Data inside asm bodies (no `$d` mapping symbol) and a data block whose delinked target has no mapping symbol (scored
   as instructions: 40% for a parameter block) -> < 100% with identical bytes.
@@ -798,6 +856,12 @@ Link order and linking:
 - Thumb code has no `umull`/`smull` for 64-bit products; it calls a runtime helper, so the 2.0 sp2-vs-sp2p2 multiply
   idiom only exists in ARM code.
 - Thumb has no conditional execution other than branches: where ARM code would predicate an arm, Thumb code branches.
+
+## Versions
+
+- Version differences go under `#ifdef version_<VER>` (the build passes `-d version_USA` or `-d version_EUR`).
+- Keep every version's `delinks.txt` on the same file list; ranges move by that version's offsets (overlay 1: code
+  +0x20, data +0x20 or +0x30).
 
 ## Placeholders
 

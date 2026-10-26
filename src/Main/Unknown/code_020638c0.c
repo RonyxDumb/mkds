@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020638c0.h"
 
 void func_020638dc(u32 param_1) {
-    func_020109c4((int) (param_1), (u32) (((u32) (&func_0206390c))), (u32) (0), (u8) (6), (u8) (3));
+    func_020109c4((void *) (param_1), (void (*)(void *)) (((u32) (&func_0206390c))), (u32) (0), (u8) (6), (u8) (3));
     return;
 }
 

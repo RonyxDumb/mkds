@@ -3,8 +3,46 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
+// What data_0217aa08 points to.
+typedef struct Unk0217aa08_00 {
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ u8 mUnk_0c[0x14];
+    /* 20 */ u8 mUnk_20[0x11];
+    /* 31 */ union {
+        u8 mUnk_31;
+        struct {
+            u8 mUnk_31_0 : 1;
+            u8 mUnk_31_1 : 2;
+            u8 mUnk_31_3 : 1;
+            u8 mUnk_31_4 : 1;
+            u8 mUnk_31_5 : 3;
+        };
+    };
+    /* 32 */ u8 mUnk_32[0x2];
+    /* 34 */ u32 mUnk_34;
+    /* 38 */ u32 mUnk_38;
+    /* 3c */ u32 mUnk_3c;
+    /* 40 */ u32 mUnk_40;
+    /* 44 */ u32 mUnk_44;
+    /* 48 */ u32 mUnk_48;
+} Unk0217aa08_00;
+
+typedef struct Unk0217aa08_04 {
+    /* 000 */ u8 mUnk_000[0x4];
+    /* 004 */ u8 mUnk_004 : 1;
+    /* 005 */ u8 mUnk_005[0x3];
+    /* 008 */ u8 mUnk_008[0x200];
+} Unk0217aa08_04;
+
+typedef struct Unk0217aa08 {
+    /* 00 */ Unk0217aa08_00 *mUnk_00;
+    /* 04 */ Unk0217aa08_04 *mUnk_04;
+    /* 08 */ u8 mUnk_08[0x20];
+    /* 28 */ u8 mUnk_28;
+} Unk0217aa08;
+
 extern u8 data_0217aa00[];
-extern u8 data_0217aa08[];
+extern Unk0217aa08 *data_0217aa08;
 extern u8 data_0217aa0c[];
 extern u8 data_0217aa10[];
 extern u8 data_0217aa14[];

@@ -7,15 +7,13 @@ void func_0202a604(u32 param_1) {
     int iVar1;
     iVar1 = func_02049b6c();
     if (iVar1 == 0) {
-        func_020ae6ac((int) (*((int *) ((u32) (&data_02174e24)))),
-                      (int) (*((int *) ((u32) (&data_02174e24))) + ((int) 0x00000404u)));
+        func_020ae6ac((void *) (*((int *) ((u32) (&data_02174e24)))), (void *) (*((int *) ((u32) (&data_02174e24))) + ((int) 0x00000404u)));
         if (*(int *) (*((int *) ((u32) (&data_02174e24))) + ((int) 0x00000808u)) == 0) {
             func_02029aa0((int) (param_1));
         } else {
             func_02032ac4((int) (param_1));
         }
-        func_020ae630((int) (*((int *) ((u32) (&data_02174e24)))),
-                      (int) (*((int *) ((u32) (&data_02174e24))) + ((int) 0x00000404u)));
+        func_020ae630((void *) (*((int *) ((u32) (&data_02174e24)))), (void *) (*((int *) ((u32) (&data_02174e24))) + ((int) 0x00000404u)));
         func_0212a920();
     }
     return;
@@ -39,8 +37,7 @@ void func_0202a5a0(void) {
     } else {
         func_02032aa8();
     }
-    func_020ae5f0((int) (*((int *) ((u32) (&data_02174e24)))),
-                  (int) (*((int *) ((u32) (&data_02174e24))) + ((int) 0x00000404u)));
+    func_020ae5f0((void *) (*((int *) ((u32) (&data_02174e24)))), (void *) (*((int *) ((u32) (&data_02174e24))) + ((int) 0x00000404u)));
     return;
 }
 

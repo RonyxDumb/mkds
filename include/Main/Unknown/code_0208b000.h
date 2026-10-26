@@ -3,4 +3,5 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-u32 func_0208b7bc();
+void *func_0208b7bc(u32 param_1, const Vec3 *param_2);
+void func_0208b5b0(void *param_1, const Vec3 *param_2);
