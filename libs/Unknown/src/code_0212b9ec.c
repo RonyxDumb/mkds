@@ -1,0 +1,20 @@
+#include "code_0212b9ec.h"
+#include "code_020207ec.h"
+#include "code_02020eb0.h"
+#include "code_0212c9d4.h"
+#include "Main/Unknown/code_02020000.h"
+#include "Main/Unknown/code_02021000.h"
+
+void func_0212b9f8(void *a) {
+    u32 v;
+
+    func_0212cb78();
+    func_02020bbc(0, 0, 0, 0);
+    v = func_02021114();
+    func_020211e4(1);
+    func_02021154(v);
+}
+
+void func_0212b9ec(void *a) {
+    func_0212cad8();
+}

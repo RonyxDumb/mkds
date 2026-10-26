@@ -9,7 +9,7 @@
 typedef struct Unk0212c700 {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ Unk0212d9dc *mUnk_08;
-    /* 0c */ u32 mUnk_0c;
+    /* 0c */ Unk0212c400 *mUnk_0c;
     /* 10 */ u32 mUnk_10;
     /* 14 */ u8 mUnk_14[1];
 } Unk0212c700;

@@ -1,0 +1,164 @@
+#include "code_02150228.h"
+#include "Main/Unknown/code_0214d000.h"
+
+u8 data_0216f0a8 = 0x80;
+u32 data_0216f0ac[48] = {
+    1,  6, 11, 0, 5, 10, 15, 4, 9, 14, 3,  8, 13, 2, 7,  12, 5, 8,  11, 14, 1, 4,  7, 10,
+    13, 0, 3,  6, 9, 12, 15, 2, 0, 7,  14, 5, 12, 3, 10, 1,  8, 15, 6,  13, 4, 11, 2, 9,
+};
+u32 data_0216f16c[64] = {
+    0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee, 0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
+    0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be, 0x6b901122, 0xfd987193, 0xa679438e, 0x49b40821,
+    0xf61e2562, 0xc040b340, 0x265e5a51, 0xe9b6c7aa, 0xd62f105d, 0x02441453, 0xd8a1e681, 0xe7d3fbc8,
+    0x21e1cde6, 0xc33707d6, 0xf4d50d87, 0x455a14ed, 0xa9e3e905, 0xfcefa3f8, 0x676f02d9, 0x8d2a4c8a,
+    0xfffa3942, 0x8771f681, 0x6d9d6122, 0xfde5380c, 0xa4beea44, 0x4bdecfa9, 0xf6bb4b60, 0xbebfbc70,
+    0x289b7ec6, 0xeaa127fa, 0xd4ef3085, 0x04881d05, 0xd9d4d039, 0xe6db99e5, 0x1fa27cf8, 0xc4ac5665,
+    0xf4292244, 0x432aff97, 0xab9423a7, 0xfc93a039, 0x655b59c3, 0x8f0ccc92, 0xffeff47d, 0x85845dd1,
+    0x6fa87e4f, 0xfe2ce6e0, 0xa3014314, 0x4e0811a1, 0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391,
+};
+
+void func_021506d4(Unk02150610 *ctx, const u8 *src, u32 n) {
+    u32 off;
+    u32 room;
+    int blocks;
+    const u8 *p;
+
+    off = (u32) ctx->mUnk_10 & 0x3f;
+    ctx->mUnk_10 += n;
+    room = 0x40 - off;
+    if (room > n) {
+        if (n == 0) {
+            return;
+        }
+        func_0214d1fc(src, ctx->mUnk_18 + off, n);
+        return;
+    }
+    func_0214d1fc(src, ctx->mUnk_18 + off, room);
+    func_02150228(ctx);
+    n -= room;
+    blocks = n >> 6;
+    p = src + room;
+    for (; blocks > 0; blocks--) {
+        func_0214d1fc(p, ctx->mUnk_18, 0x40);
+        p += 0x40;
+        func_02150228(ctx);
+    }
+    if ((n & 0x3f) == 0) {
+        return;
+    }
+    func_0214d1fc(p, ctx->mUnk_18, n & 0x3f);
+}
+
+// non-matching: the byte count is loaded into r1 where the original holds it in r3 (mov r1, #0 for the fill value
+// comes before it); 9 words differ from +0x38 on.
+void func_02150610(u8 *out, Unk02150610 *ctx) {
+    u32 lo;
+    u32 hi;
+    u32 n;
+    u32 m;
+    u64 bits;
+
+    bits = ctx->mUnk_10 << 3;
+    lo = (u32) bits;
+    hi = (u32) (bits >> 32);
+    func_021506d4(ctx, &data_0216f0a8, 1);
+    n = (u32) ctx->mUnk_10 & 0x3f;
+    m = 0x40 - n;
+    if (m < 8) {
+        func_0214d168(ctx->mUnk_18 + n, 0, m);
+        func_02150228(ctx);
+        n = 0;
+        m = 0x40;
+    }
+    if (m > 8) {
+        func_0214d168(ctx->mUnk_18 + n, 0, m - 8);
+    }
+    ctx->mUnk_50 = lo;
+    ctx->mUnk_54 = hi;
+    func_02150228(ctx);
+    func_0214d1fc(ctx, out, 0x10);
+    func_0214d168(ctx, 0, 0x58);
+}
+
+// non-matching: same size; the first two loops match, but in the last two the loaded index word and the
+// running sum take each other's registers (r1 and r8 in the third loop), which moves the schedule; 99 words
+// differ from +0x1fc on.
+void func_02150228(Unk02150610 *q) {
+    const u32 *w;
+    const u32 *p;
+    s32 i;
+    u32 a;
+    u32 b;
+    u32 c;
+    u32 d;
+    u32 t;
+    u32 *x;
+    const u32 *k;
+
+    x = (u32 *) q->mUnk_18;
+    a = q->mUnk_00[0];
+    b = q->mUnk_00[1];
+    c = q->mUnk_00[2];
+    d = q->mUnk_00[3];
+    k = data_0216f16c;
+    for (i = 0, w = x; i < 4; i++) {
+        t = *k++;
+        t += a + ((b & c) | (~b & d)) + *w++;
+        a = b + ((t << 7) | (t >> 25));
+        t = *k++;
+        t += d + ((a & b) | (~a & c)) + *w++;
+        d = a + ((t << 12) | (t >> 20));
+        t = *k++;
+        t += c + ((d & a) | (~d & b)) + *w++;
+        c = d + ((t << 17) | (t >> 15));
+        t = *k++;
+        t += b + ((c & d) | (~c & a)) + *w++;
+        b = c + ((t << 22) | (t >> 10));
+    }
+    for (i = 0, p = data_0216f0ac; i < 4; i++) {
+        t = *k++;
+        t += a + ((b & d) | (c & ~d)) + x[*p++];
+        a = b + ((t << 5) | (t >> 27));
+        t = *k++;
+        t += d + ((a & c) | (b & ~c)) + x[*p++];
+        d = a + ((t << 9) | (t >> 23));
+        t = *k++;
+        t += c + ((d & b) | (a & ~b)) + x[*p++];
+        c = d + ((t << 14) | (t >> 18));
+        t = *k++;
+        t += b + ((c & a) | (d & ~a)) + x[*p++];
+        b = c + ((t << 20) | (t >> 12));
+    }
+    for (i = 0; i < 4; i++) {
+        t = *k++;
+        t += a + (b ^ c ^ d) + x[*p++];
+        a = b + ((t << 4) | (t >> 28));
+        t = *k++;
+        t += d + (a ^ b ^ c) + x[*p++];
+        d = a + ((t << 11) | (t >> 21));
+        t = *k++;
+        t += c + (d ^ a ^ b) + x[*p++];
+        c = d + ((t << 16) | (t >> 16));
+        t = *k++;
+        t += b + (c ^ d ^ a) + x[*p++];
+        b = c + ((t << 23) | (t >> 9));
+    }
+    for (i = 0; i < 4; i++) {
+        t = *k++;
+        t += a + (c ^ (b | ~d)) + x[*p++];
+        a = b + ((t << 6) | (t >> 26));
+        t = *k++;
+        t += d + (b ^ (a | ~c)) + x[*p++];
+        d = a + ((t << 10) | (t >> 22));
+        t = *k++;
+        t += c + (a ^ (d | ~b)) + x[*p++];
+        c = d + ((t << 15) | (t >> 17));
+        t = *k++;
+        t += b + (d ^ (c | ~a)) + x[*p++];
+        b = c + ((t << 21) | (t >> 11));
+    }
+    q->mUnk_00[0] += a;
+    q->mUnk_00[1] += b;
+    q->mUnk_00[2] += c;
+    q->mUnk_00[3] += d;
+}

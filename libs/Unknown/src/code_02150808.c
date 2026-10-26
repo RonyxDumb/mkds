@@ -1,6 +1,7 @@
-#include "code_02150994.h"
+#include "code_02150808.h"
 #include "Main/Unknown/code_02150000.h"
 #include "Main/Unknown/code_0214d000.h"
+#include "Main/Unknown/code_02150d78.h"
 
 void func_02150c1c(Unk02150a10 *ctx, u8 *src, u32 n) {
     u8 *buf;
@@ -147,4 +148,41 @@ void func_02150994(Unk02150a10 *ctx, u8 *data, int n) {
         *(u32 *) (data + 0x38) = b;
         data += 0x40;
     }
+}
+
+void func_02150808(u8 *a, const u8 *b, u32 n, const u8 *c, s32 m) {
+    u8 buf0[0x40];
+    u8 buf1[0x40];
+    u8 buf2[0x14];
+    Unk02150a10 v;
+    u8 *p;
+    s32 i;
+
+    p = buf2;
+    if (a == 0 || b == 0 || n == 0 || c == 0 || m == 0) {
+        return;
+    }
+    if (m > 0x40) {
+        func_02150d78(&v);
+        func_02150c1c(&v, (u8 *) c, m);
+        func_02150a10(&v, p);
+        c = p;
+        m = 0x14;
+    }
+    for (i = 0; i < m; i++) {
+        buf0[i] = *c ^ 0x36;
+        buf1[i] = *c++ ^ 0x5c;
+    }
+    for (; i < 0x40; i++) {
+        buf0[i] = 0x36;
+        buf1[i] = 0x5c;
+    }
+    func_02150d78(&v);
+    func_02150c1c(&v, buf0, 0x40);
+    func_02150c1c(&v, (u8 *) b, n);
+    func_02150a10(&v, p);
+    func_02150d78(&v);
+    func_02150c1c(&v, buf1, 0x40);
+    func_02150c1c(&v, p, 0x14);
+    func_02150a10(&v, a);
 }

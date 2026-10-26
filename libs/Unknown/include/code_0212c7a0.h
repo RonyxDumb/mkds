@@ -5,7 +5,7 @@
 
 // 0x24 bytes; data_0217d89c holds an array of them. mUnk_0c is a list header.
 typedef struct Unk0212c7a0 {
-    /* 00 */ u8 mUnk_00[0xc];
+    /* 00 */ Unk02017328 mUnk_00;
     /* 0c */ Unk02017328 mUnk_0c;
     /* 18 */ u32 mUnk_18;
     /* 1c */ u32 mUnk_1c;

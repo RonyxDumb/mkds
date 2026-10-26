@@ -5,18 +5,23 @@
 
 // 0x44 bytes; sixteen of them in data_0217d45c. Most functions take a pointer to a pointer to one.
 typedef struct Unk0212c400 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04[0x18];
+    /* 00 */ struct Unk0212c400 **mUnk_00;
+    /* 04 */ struct Unk0212c7a0 *mUnk_04;
+    /* 08 */ struct Unk0212c700 *mUnk_08;
+    /* 0c */ u8 mUnk_0c[0x10];
     /* 1c */ Unk0212f7c8 mUnk_1c;
     /* 2c */ u8 mUnk_2c;
     /* 2d */ u8 mUnk_2d;
-    /* 2e */ u8 mUnk_2e[6];
+    /* 2e */ u8 mUnk_2e;
+    /* 2f */ u8 mUnk_2f;
+    /* 30 */ u32 mUnk_30;
     /* 34 */ u16 mUnk_34;
     /* 36 */ u8 mUnk_36[2];
     /* 38 */ u16 mUnk_38;
     /* 3a */ u16 mUnk_3a;
     /* 3c */ u8 mUnk_3c;
-    /* 3d */ u8 mUnk_3d[3];
+    /* 3d */ u8 mUnk_3d;
+    /* 3e */ s16 mUnk_3e;
     /* 40 */ u8 mUnk_40;
     /* 41 */ u8 mUnk_41;
     /* 42 */ u8 mUnk_42[2];

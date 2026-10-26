@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02150d78.h"
 
-void func_02150d78(unsigned int p0) {
+void func_02150d78(Unk02150a10 *p0) {
     *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned int) (0x67452301u);
     *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 4) = (unsigned int) (0xefcdab89u);
     *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 8) = (unsigned int) (0x98badcfeu);
