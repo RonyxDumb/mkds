@@ -55,6 +55,8 @@ void func_02150c1c(Unk02150a10 *ctx, u8 *src, u32 n) {
     func_0214d1fc(src, buf, n);
 }
 
+// Callers pass ctx and out only. The prologue pushes r0-r3 (the form 1.2 gives a variadic function), and the call
+// to func_0214d018 at the end clears the pushed ctx.
 void func_02150a10(Unk02150a10 *ctx, u8 *out, ...) {
     volatile u32 z;
     u32 *w;
