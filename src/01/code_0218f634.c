@@ -7,6 +7,7 @@
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "01/code_0218f000.h"
+#include "code_02147cd8.h"
 
 void func_ov001_0218f724(Unk02188950 *param_1) {
     Vec3 local_1;

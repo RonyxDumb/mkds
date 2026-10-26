@@ -6,7 +6,6 @@
 #include "types.h"
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/code_02147000.h"
-#include "Main/Unknown/code_02147fd8.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_021759c0.h"
 
@@ -113,8 +112,5 @@ s32 func_020b5f68(const UnkPair020b502c *p);
 void func_020b5fe4(const Vec3 *pos, UnkPair020b502c *out);
 void func_020b6078(s32 idx, UnkPair020b502c *out);
 u16 func_020b6338(s32 idx);
-
-s32 func_02147f18(s32 x);
-void func_021484d0(const Vec3 *a, const Vec3 *b, Vec3 *out);
 
 #include "Main/Unknown/code_0207a880.h"

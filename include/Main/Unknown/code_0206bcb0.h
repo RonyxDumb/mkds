@@ -8,7 +8,6 @@
 #include "types.h"
 #include "code_02148538.h"
 #include "Main/Unknown/code_02039860.h"
-#include "Main/Unknown/code_02147fd8.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_021759c0.h"
 
@@ -220,5 +219,3 @@ s32 func_02039828(const Vec3 *a, const Vec3 *b);
 void func_02063b10(const Unk0206bcb0 *p, Vec3 *out);
 void func_02063b30(const Unk0206bcb0 *p, Vec3 *out);
 
-s32 func_0214848c(const Vec3 *a, const Vec3 *b);
-s32 func_021482cc(const Vec3 *v);

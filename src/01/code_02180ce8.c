@@ -3,6 +3,7 @@
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_0214d000.h"
+#include "code_02147cd8.h"
 
 s32 func_ov001_02180eec(s32 p0, s32 p1, s32 p2, s32 p3, s32 p4) {
     s32 dy;

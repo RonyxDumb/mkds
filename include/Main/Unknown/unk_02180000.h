@@ -6,8 +6,8 @@
 extern u8 data_0218049c[];
 extern u8 data_021804a0[];
 
-extern u8 data_021802a0[];
-extern u8 data_021802a4[];
+extern u32 data_021802a0;
+extern UnkWordFunc *data_021802a4;
 extern u16 data_021802a8;
 extern u8 data_021802b0[];
 extern u16 data_021802b2;

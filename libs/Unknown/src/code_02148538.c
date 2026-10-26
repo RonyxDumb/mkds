@@ -1,5 +1,5 @@
 #include "code_02148538.h"
-#include "Main/Unknown/code_02147000.h"
+#include "code_02147cd8.h"
 #include "Main/Unknown/unk_02161000.h"
 
 // Returns a u16 from the signs of a and b and which magnitude is larger. Equal magnitudes and zero inputs return

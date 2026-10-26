@@ -7,6 +7,8 @@
 #include "Main/Unknown/code_020d2000.h"
 #include "Main/Unknown/code_020d3000.h"
 #include "Main/Unknown/code_02146000.h"
+#include "code_02147cd8.h"
+#include "code_02146d78.h"
 #include "Main/Unknown/code_0209bef0.h"
 
 void *func_ov001_02185ef4(void) {

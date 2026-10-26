@@ -1,0 +1,19 @@
+#include "code_02146a50.h"
+#include "code_0200fd1c.h"
+#include "code_0214d5b8.h"
+#include "code_0214f4a4.h"
+#include "Main/Unknown/code_02000000.h"
+
+void func_02146ab4(void) {
+    if (((s32) (*(vu16 *) 0x027FFFA8 & 0x8000)) >> 15 != 0) {
+        func_0214fb54();
+    }
+    func_02146a50(1, 1);
+    func_0200fd1c();
+}
+
+void func_02146a50(u32 a, s32 b) {
+    while (func_0214d6e8(14, a, 0) != 0) {
+        WaitByLoop(b);
+    }
+}

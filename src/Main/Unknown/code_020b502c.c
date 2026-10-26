@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_020b502c.h"
+#include "code_02147cd8.h"
 
 u16 func_020b6338(s32 idx) {
     return (u16) ((0x18000 - func_0207a880(idx)) % 0x10000);

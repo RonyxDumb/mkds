@@ -3,7 +3,6 @@
 #include "types.h"
 #include "01/code_02188950.h"
 #include "Main/Unknown/code_02039860.h"
-#include "Main/Unknown/code_02147fd8.h"
 
 typedef struct Unk02185f04_1 {
     /* 00 */ u8 mUnk_00[0x50];
