@@ -1,4 +1,4 @@
-#include "01/code_0219e89c.h"
+#include "01/code_0219e824.h"
 #include "01/unk_021ca000.h"
 #include "01/code_02192ec4.h"
 #include "01/code_02192e78.h"
@@ -14,6 +14,13 @@
 #include "01/code_02198000.h"
 #include "01/code_0219e000.h"
 #include "Main/Unknown/code_02048000.h"
+#include "01/code_0219e0a8.h"
+#include "01/code_0219f000.h"
+#include "01/unk_021a6000.h"
+#include "Main/Unknown/code_02105000.h"
+
+u8 *data_ov001_021ca404;
+u8 *data_ov001_021ca408;
 
 static Unk021a9034 data_ov001_021a9064 = {func_ov001_0219e9e0, func_ov001_0219e960, func_ov001_0219e9c8, func_ov001_0219e9a4, 0, 0, 10, 10, 0};
 static Unk021a9034 data_ov001_021a9084 = {func_ov001_0219ea8c, func_ov001_0219ea48, func_ov001_0219ea74, func_ov001_0219ea6c, 0, 0, 30, 1, 0};
@@ -86,4 +93,23 @@ void func_ov001_0219e89c(void) {
     func_ov001_0219854c();
     p = data_ov001_021ca404;
     func_020ae5f0((void *) ((int)p), (void *) (p + 0x404));
+}
+
+void func_ov001_0219e858(s16 *a) {
+    func_020ae6ac(data_ov001_021ca404, data_ov001_021ca404 + 0x404);
+    func_ov001_02198554();
+    func_020ae630(data_ov001_021ca404, data_ov001_021ca404 + 0x404);
+    if (a != 0 && func_ov001_0219853c() != -1) {
+        a[2] = func_ov001_0219853c();
+    }
+}
+
+int func_ov001_0219e824(void *param_1)
+{
+    Unk021a9034 callbacks = {
+        func_ov001_0219e8d8, func_ov001_0219e858, func_ov001_0219e8c0, func_ov001_0219e89c, 0, 0, 10, 10, 0,
+    };
+
+    func_020487fc(param_1, &callbacks);
+    return 0;
 }
