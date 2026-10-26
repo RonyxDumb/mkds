@@ -232,7 +232,7 @@
 <rect class="todo gap" x="459.2" y="261.5" width="60.3" height="46.7" stroke-width="2"/>
 <rect class="matched" x="459.2" y="262.5" width="31.94" height="44.7"/>
 <rect class="todo gap" x="387.7" y="308.2" width="46.7" height="93.8" stroke-width="2"/>
-<rect class="matched" x="387.7" y="309.2" width="17.75" height="91.8"/>
+<rect class="matched" x="387.7" y="309.2" width="41.56" height="91.8"/>
 <rect class="todo gap" x="434.4" y="308.2" width="35.7" height="37.9" stroke-width="2"/>
 <rect class="matched" x="434.4" y="309.2" width="0.13" height="35.9"/>
 <rect class="todo gap" x="470.2" y="308.2" width="26.3" height="37.9" stroke-width="2"/>
@@ -251,7 +251,7 @@
 <rect class="matched" x="468.2" y="388.4" width="5.76" height="12.6"/>
 <rect class="todo gap" x="517.5" y="387.4" width="1.9" height="14.6" stroke-width="2"/>
 <rect class="matched" x="517.5" y="388.4" width="0.19" height="12.6"/>
-<text class="lbl" x="20.0" y="71.0">main 6.8%</text>
+<text class="lbl" x="20.0" y="71.0">main 8.1%</text>
 <rect class="todo gap" x="523.4" y="76.0" width="34.4" height="21.1" stroke-width="2"/>
 <rect class="matched" x="523.4" y="77.0" width="2.10" height="19.1"/>
 <rect class="todo gap" x="523.4" y="97.1" width="34.4" height="34.3" stroke-width="2"/>

@@ -36,6 +36,7 @@ extern u8 data_0216ef70[];
 double func_0213ee6c(double a, double b);
 double func_021400a0(double a, double b);
 double func_021400c8(double a);
+double func_021400ec(double a, int *e);
 double func_021401ac(double a, int n);
 double func_02140490(double a, double b);
 double func_0214049c(const Unk02136638 *d);
