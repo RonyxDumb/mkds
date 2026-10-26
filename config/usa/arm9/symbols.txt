@@ -7039,7 +7039,7 @@ func_usa_02132200 kind:function(arm,size=0xc4) addr:0x02132200
 _ffix kind:function(arm,size=0x9c) addr:0x021322c8
 func_usa_02132364 kind:function(arm,size=0x5c) addr:0x02132364
 func_usa_021323c4 kind:function(arm,size=0x148) addr:0x021323c4
-.L_02132440 kind:label(arm) addr:0x02132440
+_fflt kind:label(arm) addr:0x02132440
 func_usa_0213250c kind:function(arm,size=0x4ec) addr:0x0213250c
 _fsub kind:function(arm,size=0x448) addr:0x021329f8
 func_usa_02132e40 kind:function(arm,size=0x58) addr:0x02132e40
