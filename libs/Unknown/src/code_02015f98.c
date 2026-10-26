@@ -1,4 +1,5 @@
 #include "code_02015f98.h"
+#include "Main/Unknown/unk_02161000.h"
 
 void func_0201625c(u32 a, u32 b, u32 c, u32 d, u32 e) {
     data_02161a04[0] = &data_02161a18[a];
@@ -17,8 +18,8 @@ void func_020161b4(u32 a, u32 b) {
     data_02173210 = a;
     func_02016134();
     if (b != 0) {
-        data_021619ec = (UnkFunc *) func_02015fa0;
-        data_021619f0 = (UnkFunc *) func_02015f98;
+        data_021619ec = (u32 (*)(s32, s32, s32)) func_02015fa0;
+        data_021619f0 = (void (*)(void *)) func_02015f98;
     }
 }
 

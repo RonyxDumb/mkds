@@ -13,8 +13,6 @@ typedef struct Unk02015fa0 {
     /* 14 */ u32 mUnk_14;
 } Unk02015fa0;
 
-extern UnkFunc *data_021619ec;
-extern UnkFunc *data_021619f0;
 extern Unk02015fa0 *data_021619fc[2];
 extern Unk02015fa0 *data_02161a04[5];
 extern Unk02015fa0 data_02161a18[5];
