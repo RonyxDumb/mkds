@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_0212d214.h"
 #include "Main/Unknown/code_0212d5d0.h"
 #include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/code_02020000.h"
+#include "Main/Unknown/code_0202041c.h"
 #include "Main/Unknown/code_02021000.h"
 
 u8 data_0217dec8[0x3c];
