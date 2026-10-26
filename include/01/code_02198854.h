@@ -5,17 +5,6 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "00/code_02182fdc.h"
 
-// Object behind data_ov001_021a9be4.
-typedef struct Unk021a9be4 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ s16 mUnk_0c;
-    /* 0e */ s16 mUnk_0e;
-    /* 10 */ void *mUnk_10;
-    /* 14 */ void *mUnk_14;
-} Unk021a9be4;
-
 // An s16 pair of Unk021a9be8.
 typedef struct Unk021a9be8Pair {
     /* 00 */ s16 mUnk_00;
@@ -71,7 +60,6 @@ typedef struct Unk02125de0Arg {
     /* 24 */ s32 mUnk_24;
 } Unk02125de0Arg;
 
-extern Unk021a9be4 *data_ov001_021a9be4;
 extern Unk021a9be8 *data_ov001_021a9be8;
 extern u8 data_ov001_021a6a20[];
 extern u8 data_ov001_021a6a24[];
@@ -83,7 +71,6 @@ extern s32 data_ov001_021a6a44[];
 extern u8 data_ov001_021a6a50[][3][2];
 extern u8 data_ov001_021a6a5c[][12];
 
-void func_ov001_021987d4(void *heap, s16 param_2);
 void func_ov001_02198854(void);
 void func_ov001_02198878(void);
 void func_ov001_02198918(void);
@@ -95,3 +82,12 @@ void func_ov001_02198d20(void);
 void func_ov001_02198d8c(void);
 void func_ov001_02198e94(void);
 void func_ov001_02198ec0(void);
+void func_ov001_021992a0(void);
+void func_ov001_021992dc(void);
+void func_ov001_02199374(void);
+void func_ov001_021993b8(void);
+void func_ov001_02199420(void);
+void func_ov001_02199464(void);
+void func_ov001_021995f8(void);
+void func_ov001_02199640(void *param_1);
+void func_ov001_021997dc(void);
