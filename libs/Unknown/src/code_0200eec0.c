@@ -11,7 +11,7 @@
 #include "code_0200fd1c.h"
 #include "code_0200fe7c.h"
 #include "Main/Unknown/code_02146000.h"
-#include "Main/Unknown/code_0214d000.h"
+#include "code_0214d5b8.h"
 #include "Main/Unknown/code_02150000.h"
 
 // Calls fifteen functions in a fixed order.

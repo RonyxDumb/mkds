@@ -3,7 +3,7 @@
 #include "code_0200c914.h"
 #include "Main/Unknown/code_0200edc0.h"
 #include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_0214d000.h"
+#include "code_0214d5b8.h"
 
 u16 data_02180430;
 vu32 data_02180438;

@@ -2,6 +2,7 @@
 #include "Main/Unknown/code_0200f000.h"
 #include "code_0214cfe4.h"
 #include "Main/Unknown/code_0214d000.h"
+#include "code_0214d5b8.h"
 
 u16 data_0217027c;
 u16 data_02170280;

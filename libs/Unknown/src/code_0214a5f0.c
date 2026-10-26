@@ -19,9 +19,9 @@ void func_0214a648(void) {
     volatile u32 b;
     s32 i;
 
-    if (data_0216f074 != -1) {
-        func_0214ca38(data_0216f074, (void *) 0x4000330, 0, 0x10, 0, 0);
-        func_0214cc04(data_0216f074, (void *) 0x4000360, 0, 0x60);
+    if (data_0216f074[0] != -1) {
+        func_0214ca38(data_0216f074[0], (void *) 0x4000330, 0, 0x10, 0, 0);
+        func_0214cc04(data_0216f074[0], (void *) 0x4000360, 0, 0x60);
     } else {
         a = 0;
         func_0214d018(a, (void *) 0x4000330, 0x10);
