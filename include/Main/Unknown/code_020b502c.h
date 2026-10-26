@@ -6,6 +6,7 @@
 #include "types.h"
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_021759c0.h"
 
@@ -83,7 +84,6 @@ typedef struct {
 
 extern Unk0217b3c0 *data_0217b3c0;
 extern Unk02175620 *data_02175620;
-extern s16 data_0215d4b4[];
 
 extern void func_0207a91c(Vec3 *dst, u8 idx);
 extern void func_0207a948(Vec3 *dst, u8 idx);

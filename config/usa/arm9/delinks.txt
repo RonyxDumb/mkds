@@ -481,8 +481,16 @@ libs/Unknown/src/code_020182c0.c:
     .text       start:0x020182c0 end:0x020184e4
 
 // provisional: file name and boundaries
+libs/Unknown/src/code_020184e4.c:
+    .text       start:0x020184e4 end:0x0201c4e8
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_0201c4e8.c:
     .text       start:0x0201c4e8 end:0x0201c528
+
+// provisional: file name and boundaries
+libs/Unknown/src/code_0201c528.c:
+    .text       start:0x0201c528 end:0x0201e5a8
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020203d4.c:
