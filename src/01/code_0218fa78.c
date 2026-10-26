@@ -24,6 +24,7 @@
 #include "01/code_02191000.h"
 #include "01/unk_021a6000.h"
 #include "01/unk_021a7000.h"
+#include "Main/Unknown/code_020a128c.h"
 
 void func_ov001_0218fee0(Unk02188950 *param_1) {
     param_1->mUnk_2e0 = 2;

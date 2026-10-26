@@ -139,5 +139,5 @@ void func_ov001_0218c0a4(Unk02188950 *param_1) {
         func_0208b7bc(0x3f7, &pos);
         func_0208b7bc(0x3f6, &pos);
     }
-    func_020d2774(param_1, 0x222);
+    func_020d2774((int) (param_1), (u32) (0x222));
 }

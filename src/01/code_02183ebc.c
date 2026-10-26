@@ -8,6 +8,6 @@ void func_ov001_02183ed4(int param_1) {
 }
 
 u32 func_ov001_02183ebc(u32 param_1) {
-    func_020d275c((void *) ((int) (param_1)), (u32) (((u32) 0x00000243u)));
+    func_020d275c((int) ((int) (param_1)), (u32) (((u32) 0x00000243u)));
     return 0;
 }

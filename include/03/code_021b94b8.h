@@ -1,5 +1,7 @@
 #pragma once
 
+#include "03/code_021b94ac.h"
+
 #include "types.h"
 #include "Main/Unknown/code_0214cfe4.h"
 
@@ -155,14 +157,12 @@ void func_ov003_021b7ba0(s32 id, Unk021b7ba0 *set);
 void func_ov003_021b7ba8(Unk021b7ba0 *set);
 u16 func_ov003_021b7c44(u16 value);
 u16 func_ov003_021b7c94(u16 value);
-u32 func_ov003_021b7cac(u32 value);
 s32 func_ov003_021b7ce4(s32 id);
 s32 func_ov003_021b7cec(s32 id, Unk021b7cec *addr, u32 length);
 s32 func_ov003_021b7cf8(s32 arg0, s32 arg1, s32 arg2);
 s32 func_ov003_021b7d00(s32 id, s32 arg1, s32 arg2, void *value, s32 length);
 s32 func_ov003_021b7d1c(s32 count, Unk021b7ba0 *set, void *arg2, void *arg3, Unk021b7d1c *arg4);
 s32 func_ov003_021b7d68(s32 id, void *buffer, s32 length, s32 flags, Unk021b7cec *out, s32 *outLength);
-void func_ov003_021b7d84(void *dst, s32 value, u32 size);
 s32 func_ov003_021b7dc8(void);
 s32 func_ov003_021b7df4(u32 arg0, u32 mask, u32 arg2);
 s32 func_ov003_021b86e4(s32 mode, Unk021b86e4 *buf, Unk021b916c *list, s32 id);
@@ -172,7 +172,6 @@ void func_ov003_021b916c(s32 count, Unk021b916c *out, const u8 *source);
 s32 func_ov003_021b91a4(Unk021ba1b0 *request);
 s32 func_ov003_021b91f0(Unk021ba734 *list);
 s32 func_ov003_021b929c(Unk021b94c4 *req);
-s32 func_ov003_021b94ac(void);
 s32 func_ov003_021ba818(s32 (*callback)(void *), void *buffer, u32 size);
 s32 func_ov003_021ba910(Unk021ba778Src *rec, Unk021d8a4c *key, u32 flags);
 s32 func_ov003_021ba9c0(void);
@@ -190,15 +189,11 @@ s32 func_ov003_021ba05c(Unk021b94c4 *req);
 void func_ov003_021ba164(void *ptr);
 void *func_ov003_021ba178(u32 size);
 s32 func_ov003_021ba18c(s32 state);
-void func_ov003_021ba1a8(u32 ms);
 s32 func_ov003_021ba1b0(Unk021ba1b0 *request, Unk021ba734 *out);
 s32 func_ov003_021ba394(Unk021ba734 **out);
 s32 func_ov003_021ba524(void);
 s32 func_ov003_021ba560(void);
 s32 func_ov003_021ba61c(void *(*alloc)(u32), void (*release)(void *));
-s32 func_ov003_021ba70c(void *msg);
-s32 func_ov003_021ba720(void *msg);
-void func_ov003_021ba734(Unk021ba734 *list, Unk021ba778Src *src, s32 count);
 void func_ov003_021ba744(Unk021ba1b0 *request, Unk021ba778Src *rec);
 void func_ov003_021ba778(Unk021ba778Src *src, Unk021ba778Dst *dst);
 
@@ -213,3 +208,10 @@ u32 func_0200fcb4(u32 state);
 s32 func_0200eae8(UnkQueue *queue, void *entry, s32 block);
 void func_0200f950(UnkTimer *timer, u64 ticks, void (*handler)(void *), void *arg);
 void func_0200dc3c(u32 ms);
+
+#include "03/code_021b7cac.h"
+#include "03/code_021b7d84.h"
+#include "03/code_021ba1a8.h"
+#include "03/code_021ba734.h"
+
+#include "03/code_021ba70c.h"

@@ -69,7 +69,7 @@ int func_ov001_021928c8(int param_1) {
 
 void func_ov001_02192890(Unk02188950 *param_1) {
     param_1->mUnk_094 = func_02036bec((void *)func_020364e0(func_020364e8()), 0x44);
-    func_02109110(param_1->mUnk_094, 0xc, &param_1->mUnk_004);
+    func_02109110((u32) (param_1->mUnk_094), (u32) (0xc), (u32) (&param_1->mUnk_004));
     param_1->mUnk_070 = data_0217cbec[0x14];
 }
 

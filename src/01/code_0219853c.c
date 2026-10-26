@@ -17,6 +17,8 @@
 #include "Main/Unknown/code_02125000.h"
 #include "Main/Unknown/code_0212b000.h"
 #include "01/unk_021a6000.h"
+#include "Main/Unknown/code_02056d40.h"
+#include "Main/Unknown/code_02125f54.h"
 
 void func_ov001_021987d4(void *heap, s16 param_2)
 {

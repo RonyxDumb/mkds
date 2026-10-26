@@ -1,11 +1,15 @@
+#include "Main/Unknown/unk_027e0000.h"
 #include "Main/Unknown/code_020fcb9c.h"
 
-// non-matching: 0x48 bytes, original 0x1c; 13 instructions differ; first at +0x0: original nothing, ours `stmdb sp!,
-// {lr}`
-void func_020fcb9c(int param_1, int param_2) {
-    *(u32 *) (param_1 + 0x228) =
-        param_2 * 0x210 +
-        (*(u32 *) (((u32) (&data_027e00c8)) & 0xfffffffc) >> (((u32) (&data_027e00c8)) & 3) * 8 |
-         *(u32 *) (((u32) (&data_027e00c8)) & 0xfffffffc) << (((u32) (&data_027e00c8)) & 3) * -8 + 0x20);
+void func_020fcb9c(int arg0, int arg1) {
+    u32 value0 = (u32) arg0;
+    u32 value1 = (u32) arg1;
+    u32 value2;
+    u32 value3;
+    value3 = ((u32) &data_027e00c8);
+    value2 = 0x210u;
+    value3 = (u32) * (const u32 *) ((value3) + (0));
+    value2 = (value1) * (value2) + (value3);
+    *(u32 *) ((value0) + (552)) = (u32) value2;
     return;
 }

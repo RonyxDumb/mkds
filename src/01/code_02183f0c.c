@@ -26,7 +26,7 @@ void func_ov001_02183ff4(Unk02188950 *param_1) {
     func_ov001_021874c4((Unk02188950 *) param_1, 0, 0, 0, 0x423, 0);
     func_ov001_021874c4((Unk02188950 *) param_1, 0, 0, 0, 0x425, 0);
     func_ov001_02187444(param_1, 4, 0);
-    func_020d2774(param_1, 0x244);
+    func_020d2774((int) (param_1), (u32) (0x244));
     param_1->mUnk_002 |= data_ov001_021a6578;
 }
 

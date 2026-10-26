@@ -1,6 +1,7 @@
 #include "01/code_0219dadc.h"
 #include "01/code_0219d000.h"
 #include "01/unk_021a6000.h"
+#include "Main/Unknown/code_02056d40.h"
 
 void func_ov001_0219dadc(void) {
     Unk02175628Index index = UNK_02175628_INDEX_8;

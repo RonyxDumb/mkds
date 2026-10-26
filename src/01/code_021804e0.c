@@ -17,6 +17,7 @@
 #include "Main/Unknown/code_02048000.h"
 #include "Main/Unknown/code_020ae718.h"
 #include "01/code_0219e824.h"
+#include "Main/Unknown/code_020ca820.h"
 
 #pragma optimize_for_size on
 #pragma thumb off

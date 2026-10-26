@@ -18,6 +18,7 @@
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_0203b000.h"
 #include "Main/Unknown/code_02116000.h"
+#include "Main/Unknown/code_0203b680.h"
 
 void func_ov001_021a0734(void)
 {
@@ -27,7 +28,7 @@ void func_ov001_021a0734(void)
     func_0202947c((s8) (data_ov001_021ca414->mUnk_9e + 1));
     v0 = func_02029608();
     v1 = func_020295f8();
-    func_02029468((u16) (func_0203b680(data_ov001_021ca414->mUnk_4c, v0, v1) - 1));
+    func_02029468((unsigned int) ((u16) (func_0203b680((u32) (data_ov001_021ca414->mUnk_4c), (u32) (v0), (u32) (v1)) - 1)));
 }
 
 s32 func_ov001_021a071c(void)

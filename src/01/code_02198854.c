@@ -20,6 +20,8 @@
 #include "Main/Unknown/code_02105000.h"
 #include "Main/Unknown/code_02124000.h"
 #include "Main/Unknown/code_02125000.h"
+#include "Main/Unknown/code_02056d40.h"
+#include "Main/Unknown/code_02125f54.h"
 
 void func_ov001_021997dc(void)
 {

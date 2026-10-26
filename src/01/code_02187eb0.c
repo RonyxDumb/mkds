@@ -11,6 +11,7 @@
 #include "Main/Unknown/code_020f4000.h"
 #include "Main/Unknown/code_020fd000.h"
 #include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/code_02042044.h"
 
 Unk0206bcb0 *func_ov001_02188104(Unk02188950 *param_1, s32 param_2, s32 param_3) {
     Unk0206bcb0 *q;
@@ -52,21 +53,21 @@ Unk0206bcb0 *func_ov001_02188000(Unk02188950 *param_1, s32 param_2, s32 param_3)
 
 Unk02042044 *func_ov001_02187fc0(Unk02188950 *param_1) {
     if (param_1->mUnk_148 < data_02175620->mUnk_0c) {
-        return func_02042044(param_1->mUnk_148, param_1->mUnk_14c);
+        return (Unk02042044 *) func_02042044((u16) (param_1->mUnk_148),(u16) (param_1->mUnk_14c));
     }
     return 0;
 }
 
 s32 func_ov001_02187f7c(Unk02188950 *param_1) {
     if (param_1->mUnk_148 < data_02175620->mUnk_0c) {
-        return func_02042044(param_1->mUnk_148, param_1->mUnk_14c)->mUnk_0e;
+        return ((Unk02042044 *) func_02042044((u16) (param_1->mUnk_148), (u16) (param_1->mUnk_14c)))->mUnk_0e;
     }
     return 0;
 }
 
 s32 func_ov001_02187f38(Unk02188950 *param_1) {
     if (param_1->mUnk_148 < data_02175620->mUnk_0c) {
-        return func_02042044(param_1->mUnk_148, param_1->mUnk_14c)->mUnk_10;
+        return ((Unk02042044 *) func_02042044((u16) (param_1->mUnk_148), (u16) (param_1->mUnk_14c)))->mUnk_10;
     }
     return 0;
 }
@@ -80,7 +81,7 @@ Unk02042044 *func_ov001_02187ee8(Unk02188950 *param_1) {
         if (n >= g->mUnk_08[(u16) param_1->mUnk_148].mUnk_02) {
             n = 0;
         }
-        return func_02042044(param_1->mUnk_148, n);
+        return (Unk02042044 *) func_02042044((u16) (param_1->mUnk_148),(u16) (n));
     }
     return 0;
 }

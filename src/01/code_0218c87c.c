@@ -40,14 +40,14 @@ void func_ov001_0218cdb8(Unk02188950 *param_1)
     c->mUnk_0a4 = (struct Unk0218dabc *)b;
     d->mUnk_0a4 = (struct Unk0218dabc *)c;
     param_1->mUnk_094 = func_02036bec((void *)func_020364e0(func_020364e8()), 0x44);
-    func_02109110(param_1->mUnk_094, 0xd, &param_1->mUnk_004);
+    func_02109110((u32) (param_1->mUnk_094), (u32) (0xd), (u32) (&param_1->mUnk_004));
     param_1->mUnk_070 = data_0217cbec[0x1d];
 }
 
 void func_ov001_0218cd80(Unk02188950 *param_1)
 {
     param_1->mUnk_094 = func_02036bec((void *)func_020364e0(func_020364e8()), 0x44);
-    func_02109110(param_1->mUnk_094, 0xd, &param_1->mUnk_004);
+    func_02109110((u32) (param_1->mUnk_094), (u32) (0xd), (u32) (&param_1->mUnk_004));
     param_1->mUnk_070 = data_0217cbec[0x1d];
 }
 
@@ -78,13 +78,13 @@ void func_ov001_0218cbdc(Unk02188950 *param_1, Unk02188950_a0 *param_2)
             param_1->mUnk_2d8 = 0xc;
             func_02073fb0(param_1->mUnk_078 & 0x3fffffe0, 0x1000);
             param_1->mUnk_078 |= data_ov001_021a65ac;
-            func_020d26ec(param_2, 0x252);
+            func_020d26ec((u32) (param_2), (u32) (0x252));
         }
     } else {
         param_1->mUnk_2d8 = 0xa;
         func_02073fb0(param_1->mUnk_078 & 0x3fffffe0, 0x1000);
         param_1->mUnk_078 |= data_ov001_021a65ac;
-        func_020d26ec(param_2, 0x251);
+        func_020d26ec((u32) (param_2), (u32) (0x251));
     }
     func_ov001_02188200(param_1, func_ov001_0218cbdc);
 }

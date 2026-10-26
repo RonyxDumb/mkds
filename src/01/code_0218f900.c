@@ -8,17 +8,18 @@
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_020d2000.h"
 #include "01/code_0218f000.h"
+#include "Main/Unknown/code_0209bef0.h"
 
 void *func_ov001_0218fa04(void) {
-    return func_0209bf1c(func_ov001_0218fa78, func_ov001_0218fa58, func_ov001_02187098);
+    return (void *) func_0209bf1c((u32) (func_ov001_0218fa78), (u32) (func_ov001_0218fa58), (u32) (func_ov001_02187098));
 }
 
 void *func_ov001_0218f9ec(void) {
-    return func_0209bf48((UnkFunc *) (func_ov001_0218fbe0), (UnkFunc *) (func_ov001_0218fb24), (UnkFunc *) (0));
+    return (void *) func_0209bf48((u32) ((UnkFunc *) (func_ov001_0218fbe0)), (u32) ((UnkFunc *) (func_ov001_0218fb24)), (u32) ((UnkFunc *) (0)));
 }
 
 void *func_ov001_0218f9d4(void) {
-    return func_0209bf48((UnkFunc *) (func_ov001_0218fcc4), (UnkFunc *) (func_ov001_0218fc4c), (UnkFunc *) (0));
+    return (void *) func_0209bf48((u32) ((UnkFunc *) (func_ov001_0218fcc4)), (u32) ((UnkFunc *) (func_ov001_0218fc4c)), (u32) ((UnkFunc *) (0)));
 }
 
 u16 func_ov001_0218f9c0(Unk02188950 *param_1) {
@@ -38,6 +39,6 @@ void func_ov001_0218f900(Unk02188950 *param_1) {
     func_ov001_021875c0((Unk02188950 *) param_1, 0, 0, 0, 0x41b, 0);
     func_ov001_021875c0((Unk02188950 *) param_1, 0, 0, 0, 0x41c, 0);
     func_ov001_021875c0((Unk02188950 *) param_1, 0, 0, 0, 0x41d, 0);
-    func_020d2774(param_1, 0x22e);
+    func_020d2774((int) (param_1), (u32) (0x22e));
     param_1->mUnk_002 &= ~1;
 }

@@ -12,9 +12,9 @@ void func_ov001_02183ad8(Unk02188950 *param_1) {
     func_ov001_02188cec(param_1, param_1->mUnk_0a0->mUnk_0d4);
     func_ov001_02188de0(param_1, 0, param_1->mUnk_0a0->mUnk_0e4, &r4->mUnk_80, func_ov001_02183c08);
     if (param_1->mUnk_000 == 0x1f5) {
-        func_020d2774(param_1, 0x214);
+        func_020d2774((int) (param_1), (u32) (0x214));
     } else if (param_1->mUnk_000 == 0x1f6) {
-        func_020d2774(param_1, 0x245);
+        func_020d2774((int) (param_1), (u32) (0x245));
     }
     func_ov001_02184e6c((u32)param_1);
 }

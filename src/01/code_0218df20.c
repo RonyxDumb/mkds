@@ -31,6 +31,7 @@
 #include "Main/Unknown/code_02068000.h"
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_02110000.h"
+#include "Main/Unknown/code_020a128c.h"
 
 void func_ov001_0218e298(Unk02188950 *param_1, Unk0206bcb0 *param_2)
 {
@@ -147,9 +148,9 @@ void func_ov001_0218df20(u32 param_1, Unk02188950 *param_2)
         if (data_0217d20c == 0) {
             func_02110350(param_2->mUnk_094);
         } else if (func_02110324() != 0) {
-            func_020d275c(param_2, 0x22a);
+            func_020d275c((int) (param_2), (u32) (0x22a));
         } else if (data_0217d20c == 4) {
-            func_020d275c(param_2, 0x22b);
+            func_020d275c((int) (param_2), (u32) (0x22b));
         }
     }
     func_ov001_021864ac(param_1, param_2);

@@ -1,3 +1,5 @@
+#include "Main/Unknown/code_02018000.h"
+#include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/code_0208b870.h"
 
 // non-matching: 0x84 bytes, original 0x6c; 12 instructions differ; first at +0x8: original `ldr r0, [pc, #0x4c]
@@ -18,23 +20,31 @@ void func_0208b8c8(void) {
     return;
 }
 
-// non-matching: 0xac bytes, original 0x58; 29 instructions differ; first at +0x4: original `ldr r1, [pc, #0x40]
-// (->0x4c)`, ours `ldr r1, [pc, #0x94] (->0xa0)`
-void func_0208b870(u32 param_1) {
-    u32 uVar1;
-    func_02018674(
-        (int) (*(u32 *) (((u32) (&data_0217b044)) & 0xfffffffc) >> (((u32) (&data_0217b044)) & 3) * 8 |
-               *(u32 *) (((u32) (&data_0217b044)) & 0xfffffffc) << (((u32) (&data_0217b044)) & 3) * -8 + 0x20),
-        (u32) (param_1));
-    func_02018674(
-        (int) (*(u32 *) (((u32) (&data_0217b04c)) & 0xfffffffc) >> (((u32) (&data_0217b04c)) & 3) * 8 |
-               *(u32 *) (((u32) (&data_0217b04c)) & 0xfffffffc) << (((u32) (&data_0217b04c)) & 3) * -8 + 0x20),
-        (u32) (param_1));
-    uVar1 = *(u32 *) (((u32) (&data_0217b03c)) & 0xfffffffc) >> (((u32) (&data_0217b03c)) & 3) * 8 |
-            *(u32 *) (((u32) (&data_0217b03c)) & 0xfffffffc) << (((u32) (&data_0217b03c)) & 3) * -8 + 0x20;
-    if (uVar1 != 0) {
-        func_02018674((int) (uVar1), (u32) (param_1));
+void func_0208b870(u32 arg0) {
+    u32 value0 = (u32) arg0;
+    u32 value1;
+    u32 value4;
+    u32 compareLeft0;
+    u32 compareRight0;
+    value1 = (u32) &data_0217b044;
+    value4 = value0;
+    value0 = (u32) * (const u32 *) ((value1) + (0));
+    value1 = value4;
+    func_02018674((int) value0, (u32) value1);
+    value0 = (u32) &data_0217b04c;
+    value1 = value4;
+    value0 = (u32) * (const u32 *) ((value0) + (0));
+    func_02018674((int) value0, (u32) value1);
+    value0 = (u32) &data_0217b03c;
+    value0 = (u32) * (const u32 *) ((value0) + (0));
+    compareLeft0 = value0;
+    compareRight0 = 0u;
+    if ((u32) compareLeft0 == (u32) compareRight0) {
+    }
+    if ((u32) compareLeft0 == (u32) compareRight0) {
         return;
     }
+    value1 = value4;
+    func_02018674((int) value0, (u32) value1);
     return;
 }

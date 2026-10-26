@@ -1,0 +1,14 @@
+#include "00/code_021a3668.h"
+
+void func_ov000_021a3668(u32 arg0) {
+    u32 value0 = (u32) arg0;
+    u32 value1;
+    u32 value2;
+    u32 value3;
+    value1 = (value0) + (0u);
+    value0 = 5u;
+    value2 = 0u;
+    value3 = (u32) &func_ov000_021a3704;
+    func_ov000_021a3704((unsigned int) value0, (unsigned int) value1, (unsigned int) value2);
+    return;
+}

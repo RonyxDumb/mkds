@@ -36,6 +36,6 @@ void func_ov001_0218ac04(Unk02188950 *param_1) {
     func_ov001_02188cd8((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_1b0), (s32) (param_1->mUnk_0a0->mUnk_1b4));
     func_ov001_02188db8(param_1, func_ov001_0218ae60);
     func_ov001_02188e24(param_1, param_1->mUnk_0a0->mUnk_1bc, func_ov001_0218acb4);
-    func_020d2774(param_1, 0x239);
+    func_020d2774((int) (param_1), (u32) (0x239));
     param_1->mUnk_002 |= data_ov001_021a6594;
 }

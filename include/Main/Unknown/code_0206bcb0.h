@@ -1,5 +1,10 @@
 #pragma once
 
+#include "Main/Unknown/code_02074854.h"
+#include "Main/Unknown/code_0207a104.h"
+#include "Main/Unknown/code_02086080.h"
+#include "Main/Unknown/code_0210a578.h"
+
 #include "types.h"
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/code_02147fd8.h"
@@ -166,17 +171,13 @@ int func_0206c094(Unk0206bcb0 *p);
 int func_0206c0a8(Unk0206bcb0 *p);
 int func_0206c0b0(Unk0206bcb0 *p);
 int func_0206c0e0(Unk0206bcb0 *p);
-void func_0206c11c(Unk0206bcb0 *p);
-void func_0206c14c(Unk0206bcb0 *p);
 void func_0206c17c(Unk0206bcb0 *p);
 void func_0206c1ac(Unk0206c1ac *obj, Unk0206bcb0 *p);
 void func_0206c2b4(Unk0206c1ac *obj, Unk0206bcb0 *p);
 int func_0206c354(Unk0206bcb0 *p, const Vec3 *a, int flag);
 void func_0206c450(Unk0206c1ac *obj, Unk0206bcb0 *p);
-void func_0206c488(Unk0206c1ac *obj, Unk0206bcb0 *p);
 
 void func_02055c5c(void);
-void func_02074854(void);
 void func_02068a64(Unk0206bcb0 *p, int a, int b);
 void func_0207b0d0(Unk0206bcb0 *p);
 void func_02080ee4(Unk0206bcb0 *p);
@@ -197,7 +198,6 @@ void func_0206ceb4(s32 *out, Unk0206bcb0 *p);
 extern Unk0217d26c data_0217d26c;
 extern Unk0217d26c data_0217d284;
 Unk0206cdd4_B *func_0207a6b0(void);
-void func_ov001_0218171c(void);
 void func_0206d020(Unk0206bcb0 *p, int a, int b);
 void func_01ffc9e8(Unk0206bcb0 *p, int a);
 void func_020681f0(Unk0206bcb0 *p);
@@ -205,11 +205,7 @@ void func_02109078(Unk0206bcb0 *p, int a, int b, int c);
 void func_0210ddf4(Unk0217d26c *queue, int key, void (*cb)(Unk0206bcb0 *, int), Unk0206bcb0 *p, int arg);
 void func_020718c8(Unk0206bcb0 *p, int arg);
 void func_02071944(Unk0206bcb0 *p, int arg);
-int func_02086080(int idx);
 void func_021035ac(int idx);
-u16 func_0207a134(void);
-u16 func_0207a11c(void);
-u16 func_0207a104(void);
 void func_02079f70(void *obj, u16 a, u16 b, u16 c);
 int func_0206bcb0(Unk0206bcb0 *p, int a, int b);
 int func_0206be54(Unk0206bcb0 *p, int a);
@@ -219,8 +215,10 @@ void func_020397a8(const Vec3 *a, const Vec3 *b, Vec3 *axb);
 s32 func_02039828(const Vec3 *a, const Vec3 *b);
 void func_02063b10(const Unk0206bcb0 *p, Vec3 *out);
 void func_02063b30(const Unk0206bcb0 *p, Vec3 *out);
-int func_0210a578(void);
 
 s16 func_02148538(s32 y, s32 x);
 s32 func_0214848c(const Vec3 *a, const Vec3 *b);
 s32 func_021482cc(const Vec3 *v);
+
+#include "Main/Unknown/code_0206c11c.h"
+#include "Main/Unknown/code_0206c488.h"

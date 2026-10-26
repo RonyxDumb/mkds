@@ -71,7 +71,7 @@ void func_ov001_0218e8d8(int param_1) {
     func_ov001_02188c90((Unk02188950 *) (param_1));
     func_ov001_02188cec((Unk02188950 *) (param_1), (s32) (0));
     func_ov001_02182a3c(0);
-    func_020d2774((void *) ((int) (param_1)), (u32) (((u32) 0x00000230u)));
+    func_020d2774((int) ((int) (param_1)), (u32) (((u32) 0x00000230u)));
     return;
 }
 

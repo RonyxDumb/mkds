@@ -1,0 +1,14 @@
+#include "Main/Unknown/code_020d7da8.h"
+
+#pragma thumb on
+void func_020d7da8(u32 arg0, u32 arg1, u32 arg2) {
+    u32 value0 = (u32) arg0;
+    u32 value1 = (u32) arg1;
+    u32 value2 = (u32) arg2;
+    u32 value3;
+    value1 = (u32) * (const u16 *) ((value1) + 38u);
+    value3 = (u32) &func_020d7db4;
+    func_020d7db4((int *) value0, (u16) value1, (int) value2);
+    return;
+}
+#pragma thumb off

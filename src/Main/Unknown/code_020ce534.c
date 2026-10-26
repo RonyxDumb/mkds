@@ -1,0 +1,10 @@
+#include "Main/Unknown/code_020ce534.h"
+
+void func_020ce534(void) {
+    u32 value0;
+    u32 value12;
+    value12 = (u32) &func_020c0b84;
+    value0 = (u32) &data_0217b47c;
+    func_020c0b84((void **) value0);
+    return;
+}

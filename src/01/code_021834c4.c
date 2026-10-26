@@ -8,7 +8,7 @@ u32 func_ov001_021835e0(u16 *param_1) {
         func_ov001_021872e0((Unk02188950 *) ((int) ((int) (u32) (param_1))), (int) (((u32) 0x00001000u)), (int) (0), (int) (0), (int) (0), (int) ((u16) (((u32) 0x00000666u))), (int) (((u32) 0xfffff000u)), (int) (((u32) 0x00000428u)), (u32) (0));
         func_ov001_021872e0((Unk02188950 *) ((int) ((int) (u32) (param_1))), (int) (((u32) 0x00001000u)), (int) (0), (int) (0), (int) (0), (int) ((u16) (((u32) 0x00000666u))), (int) (((u32) 0xfffff000u)), (int) (((u32) 0x00000429u)), (u32) (0));
         func_ov001_021872e0((Unk02188950 *) ((int) ((int) (u32) (param_1))), (int) (((u32) 0x00001000u)), (int) (0), (int) (0), (int) (0), (int) ((u16) (((u32) 0x00000800u))), (int) (((u32) 0xfffff000u)), (int) (((u32) 0x0000042au)), (u32) (0));
-        func_020d2774((void *) ((int) ((int) (u32) (param_1))), (u32) (((u32) 0x00000240u)));
+        func_020d2774((int) ((int) ((int) (u32) (param_1))), (u32) (((u32) 0x00000240u)));
     }
     return 0;
 }

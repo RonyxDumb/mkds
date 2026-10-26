@@ -7,6 +7,7 @@
 #include "Main/Unknown/code_020b4000.h"
 #include "00/code_02182fdc.h"
 #include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/code_0209bef0.h"
 
 void func_ov001_021a2300(Unk021a2300 *p)
 {
@@ -49,7 +50,7 @@ void func_ov001_021a2284(void *p0, Unk021a2048 *p1)
 
 void *func_ov001_021a226c(void)
 {
-    return func_0209bf48((UnkFunc *)func_ov001_021a2300, (UnkFunc *)func_ov001_021a2284, (UnkFunc *) (0));
+    return (void *) func_0209bf48((u32) ((UnkFunc *)func_ov001_021a2300), (u32) ((UnkFunc *)func_ov001_021a2284), (u32) ((UnkFunc *) (0)));
 }
 
 void func_ov001_021a2218(Unk021a2048 *o, Unk02061808 *g, Vec3 *out)
@@ -119,7 +120,7 @@ void func_ov001_021a2048(void *p0, Unk021a2048 *p1)
 
 void *func_ov001_021a2034(void)
 {
-    return func_0209bf48((UnkFunc *) (0), (UnkFunc *)func_ov001_021a2048, (UnkFunc *) (0));
+    return (void *) func_0209bf48((u32) ((UnkFunc *) (0)), (u32) ((UnkFunc *)func_ov001_021a2048), (u32) ((UnkFunc *) (0)));
 }
 
 void func_ov001_021a1f60(void)

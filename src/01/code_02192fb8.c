@@ -4,6 +4,8 @@
 #include "Main/Unknown/code_0212a000.h"
 #include "Main/Unknown/code_0214a000.h"
 #include "Main/Unknown/code_0214d000.h"
+#include "Main/Unknown/code_0214a2a0.h"
+#include "Main/Unknown/code_0214a2f4.h"
 
 void func_ov001_02193144(void)
 {
@@ -45,10 +47,10 @@ void func_ov001_021930ac(void)
     *(vu16 *) 0x04000008 = (*(vu16 *) 0x04000008 & ~3) | 2;
     *(vu16 *) 0x0400000a = (*(vu16 *) 0x0400000a & 0x43) | 0x9204;
     *(vu16 *) 0x0400000a = (*(vu16 *) 0x0400000a & ~3) | 1;
-    d1 = func_0214a2f4();
+    d1 = (void *) func_0214a2f4();
     a = 0;
     func_0214d05c(a, d1, 0x1000);
-    d2 = func_0214a2a0();
+    d2 = (void *) func_0214a2a0();
     b = 0;
     func_0214d05c(b, d2, 0x1000);
 }

@@ -7,9 +7,10 @@
 #include "Main/Unknown/code_020d2000.h"
 #include "Main/Unknown/code_020d3000.h"
 #include "Main/Unknown/code_02146000.h"
+#include "Main/Unknown/code_0209bef0.h"
 
 void *func_ov001_02185ef4(void) {
-    return func_0209bf48((UnkFunc *) (0), (UnkFunc *) (0), (UnkFunc *) (0));
+    return (void *) func_0209bf48((u32) ((UnkFunc *) (0)), (u32) ((UnkFunc *) (0)), (u32) ((UnkFunc *) (0)));
 }
 
 void func_ov001_02185dd0(Unk02185bb8 *param_1) {

@@ -2,13 +2,16 @@
 #include "01/unk_021a6000.h"
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_020b4000.h"
+#include "Main/Unknown/code_0209bef0.h"
+#include "Main/Unknown/code_020b47b4.h"
+#include "00/code_02182fdc.h"
 
 void *func_ov001_02189dbc(void) {
-    return func_0209bf1c(func_ov001_02189e2c, func_ov001_02189e0c, func_ov001_02187098);
+    return (void *) func_0209bf1c((u32) (func_ov001_02189e2c), (u32) (func_ov001_02189e0c), (u32) (func_ov001_02187098));
 }
 
 void *func_ov001_02189da4(void) {
-    return func_0209bf48(func_ov001_0218a120, func_ov001_0218a074, 0);
+    return (void *) func_0209bf48((u32) (func_ov001_0218a120), (u32) (func_ov001_0218a074), (u32) (0));
 }
 
 #pragma thumb off
@@ -83,7 +86,7 @@ void func_ov001_021899e4(void) {
                 row = func_ov001_0218b2d4((Unk02188950 *)obj);
                 dst = (*(Unk020b4a44 **)func_020b85f0(6))->mUnk_0c;
                 res = 0;
-                func_020b4a44(&res, func_020b47c0("race_transfer_map_mr_s_o.NCLR"));
+                func_020b4a44((Unk020b4a44 **) (&res), (void *) (func_020b47c0((u32) ("race_transfer_map_mr_s_o.NCLR"))));
                 for (k = 0; k < 16; k++) {
                     dst[0x50 + k] = res->mUnk_0c[(row + 2) * 16 + k];
                 }

@@ -6,5 +6,5 @@
 #include "Main/Unknown/unk_027e0000.h"
 
 void func_020f1104(int param_1);
-void func_020f112c(int param_1, int param_2);
-void func_020f1150(int param_1, int param_2);
+void func_020f112c(int arg0, int arg1);
+void func_020f1150(int arg0, int arg1);

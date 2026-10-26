@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_02057000.h"
 #include "Main/Unknown/code_02125000.h"
 #include "Main/Unknown/code_02126000.h"
+#include "Main/Unknown/code_02125f54.h"
 
 void func_ov001_02193774(void) {
     Unk02175628Index idx = UNK_02175628_INDEX_8;

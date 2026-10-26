@@ -1,0 +1,11 @@
+#include "Main/Unknown/code_02061644.h"
+
+u32 func_02061644(u32 arg0) {
+    u32 value0 = (u32) arg0;
+    u32 value1;
+    u32 value12;
+    value12 = (u32) &func_02036bec;
+    value1 = 0x600u;
+    value0 = (u32) func_02036bec((void *) value0, (u32) value1);
+    return (u32) value0;
+}

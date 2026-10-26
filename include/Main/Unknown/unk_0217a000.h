@@ -70,3 +70,13 @@ extern u8 data_0217aec8[];
 extern u8 data_0217aed0[];
 extern u8 data_0217af24[];
 extern u8 data_0217af28[];
+
+extern u8 data_0217aa04[];
+extern u8 data_0217aa24[];
+extern u8 data_0217aa2c[];
+extern u8 data_0217acac[];
+
+extern u8 data_0217aa18[];
+extern u8 data_0217aa1c[];
+extern u8 data_0217ad18[];
+extern u8 data_0217aeb0[];

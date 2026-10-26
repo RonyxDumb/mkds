@@ -1,10 +1,14 @@
+#include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_0203c8c0.h"
 
-// non-matching: 0x38 bytes, original 0x1c; 9 instructions differ; first at +0x0: original `ldr r2, [pc, #0x10]
-// (->0x18)`, ours `ldr r3, [pc, #0x2c] (->0x34)`
-u16 func_0203c8c0(int param_1) {
-    return *(u16 *) (param_1 * 0x8c +
-                     (*(u32 *) (((u32) (&data_0217561c)) & 0xfffffffc) >> (((u32) (&data_0217561c)) & 3) * 8 |
-                      *(u32 *) (((u32) (&data_0217561c)) & 0xfffffffc) << (((u32) (&data_0217561c)) & 3) * -8 + 0x20) +
-                     0x4e);
+u16 func_0203c8c0(int arg0) {
+    u32 value0 = (u32) arg0;
+    u32 value1;
+    u32 value2;
+    value2 = (u32) &data_0217561c;
+    value1 = 0x8cu;
+    value2 = (u32) * (const u32 *) ((value2) + (0));
+    value1 = (value0) * (value1) + (value2);
+    value0 = (u32) * (const u16 *) ((value1) + (78));
+    return (u16) value0;
 }

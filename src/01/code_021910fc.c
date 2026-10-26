@@ -16,7 +16,7 @@ void func_ov001_02191130(int param_1) {
 
 s32 func_ov001_021910fc(Unk02188950 *param_1) {
     if ((param_1->mUnk_2c8 & 0x001e34ef) != 0) {
-        func_020d2774(param_1, 0x218);
+        func_020d2774((int) (param_1), (u32) (0x218));
         param_1->mUnk_158 = 0;
     }
     return 0;

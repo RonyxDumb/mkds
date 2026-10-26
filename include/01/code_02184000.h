@@ -8,4 +8,3 @@
 #include "01/code_02184f7c.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_ov001_02184874();

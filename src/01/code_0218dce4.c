@@ -11,13 +11,14 @@
 #include "01/code_0218d000.h"
 #include "01/code_0218e000.h"
 #include "01/unk_021a7000.h"
+#include "Main/Unknown/code_0209bef0.h"
 
 void *func_ov001_0218ddcc(void) {
-    return func_0209bf1c(func_ov001_0218de50, func_ov001_0218de14, func_ov001_02187098);
+    return (void *) func_0209bf1c((u32) (func_ov001_0218de50), (u32) (func_ov001_0218de14), (u32) (func_ov001_02187098));
 }
 
 void *func_ov001_0218ddb4(void) {
-    return func_0209bf48((UnkFunc *) (func_ov001_0218e208), (UnkFunc *) (func_ov001_0218df20), (UnkFunc *) (0));
+    return (void *) func_0209bf48((u32) ((UnkFunc *) (func_ov001_0218e208)), (u32) ((UnkFunc *) (func_ov001_0218df20)), (u32) ((UnkFunc *) (0)));
 }
 
 void func_ov001_0218dd9c(Unk02188950 *param_1) {
@@ -27,21 +28,21 @@ void func_ov001_0218dd9c(Unk02188950 *param_1) {
 
 void func_ov001_0218dd50(Unk02188950 *param_1) {
     if (func_ov001_02188220(param_1) >= 2) {
-        func_020d2774(param_1, 0x248);
+        func_020d2774((int) (param_1), (u32) (0x248));
     } else if (func_ov001_02188220(param_1) >= 1) {
-        func_020d2774(param_1, 0x249);
+        func_020d2774((int) (param_1), (u32) (0x249));
     } else {
-        func_020d2774(param_1, 0x24a);
+        func_020d2774((int) (param_1), (u32) (0x24a));
     }
 }
 
 void func_ov001_0218dd04(Unk02188950 *param_1) {
     if (func_ov001_02188220(param_1) >= 2) {
-        func_020d2774(param_1, 0x248);
+        func_020d2774((int) (param_1), (u32) (0x248));
     } else if (func_ov001_02188220(param_1) >= 1) {
-        func_020d2774(param_1, 0x249);
+        func_020d2774((int) (param_1), (u32) (0x249));
     } else {
-        func_020d2774(param_1, 0x24a);
+        func_020d2774((int) (param_1), (u32) (0x24a));
     }
 }
 

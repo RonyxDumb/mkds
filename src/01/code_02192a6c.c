@@ -5,10 +5,11 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "01/code_02192000.h"
+#include "Main/Unknown/code_0209bef0.h"
 
 void *func_ov001_02192d48(void)
 {
-    return func_0209bf1c(func_ov001_02192dd4, func_ov001_02192d7c, 0);
+    return (void *) func_0209bf1c((u32) (func_ov001_02192dd4), (u32) (func_ov001_02192d7c), (u32) (0));
 }
 
 void func_ov001_02192d28(void)

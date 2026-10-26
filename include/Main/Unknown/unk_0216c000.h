@@ -66,3 +66,6 @@ extern const char *data_0216cca4;
 extern const char *data_0216ccb0;
 extern const char *data_0216ccd8;
 extern const char *data_0216cd34;
+extern u8 data_0216ca40[];
+extern u8 data_0216c414[];
+extern u8 data_0216cb28[];

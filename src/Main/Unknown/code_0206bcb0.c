@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_0206bcb0.h"
+#include "01/code_0218171c.h"
 
 void func_0206ceb4(s32 *out, Unk0206bcb0 *p) {
     int id;

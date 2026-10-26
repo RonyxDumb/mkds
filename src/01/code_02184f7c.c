@@ -10,6 +10,7 @@
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_020ae000.h"
 #include "Main/Unknown/code_020e6000.h"
+#include "Main/Unknown/code_020220f0.h"
 
 Unk021ca41c_085c *func_ov001_021852f8(const char *param_1, void *param_2, void *param_3) {
     s16 *box;
@@ -20,10 +21,10 @@ Unk021ca41c_085c *func_ov001_021852f8(const char *param_1, void *param_2, void *
     Unk021852f8_02 *rec;
     Unk021a5a58_2c_2c *cell;
 
-    list = func_02036bec((void *)func_020364e0(func_020364e8()), 0x18);
-    data = func_0204799c(param_1);
+    list = func_02036bec((void *)func_020364e0(func_020364e8()), (u32) (0x18));
+    data = func_0204799c((const char *) (param_1));
     list->mUnk_00 = data->mUnk_00;
-    list->mUnk_04 = func_02036bec((void *)func_020364e0(func_020364e8()), list->mUnk_00 * 0x88);
+    list->mUnk_04 = func_02036bec((void *)func_020364e0(func_020364e8()), (u32) (list->mUnk_00 * 0x88));
     list->mUnk_08 = param_2;
     list->mUnk_0c = param_3;
     rec = data->mUnk_02;
@@ -159,7 +160,7 @@ void func_ov001_02185018(Unk021a5a58 *param_1, s32 param_2) {
 
 s32 func_ov001_02184ff8(Unk021a5a58 *param_1) {
     if (param_1->mUnk_0c != 0) {
-        return func_020220f0(&param_1->mUnk_2c);
+        return func_020220f0((u32) (&param_1->mUnk_2c));
     }
     return -5;
 }
@@ -193,9 +194,9 @@ void func_ov001_02184f9c(Unk021a5a58 *param_1, s32 param_2, s32 param_3, s32 par
 }
 
 void func_ov001_02184f8c(void *param_1) {
-    func_020d2774(param_1, 0x210);
+    func_020d2774((int) (param_1), (u32) (0x210));
 }
 
 void func_ov001_02184f7c(void *param_1) {
-    func_020d2774(param_1, 0x210);
+    func_020d2774((int) (param_1), (u32) (0x210));
 }

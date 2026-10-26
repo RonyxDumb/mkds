@@ -1,6 +1,8 @@
 #include "01/code_021a0774.h"
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_02105000.h"
+#include "Main/Unknown/code_02029520.h"
+#include "Main/Unknown/code_0203b680.h"
 
 void func_ov001_021a0b3c(void) {
     u16 cnt10;
@@ -213,6 +215,6 @@ void func_ov001_021a0774(void) {
     d = data_ov001_021ca414;
     func_0212426c(0, 0, data_ov001_021ca414->mUnk_08,
                   func_020b3f7c(d->mUnk_58,
-                                d->mUnk_50[func_0203b680(data_ov001_021ca414->mUnk_4c, func_02029608(), d->mUnk_9e + 1) - 1].mUnk_0c),
+                                d->mUnk_50[func_0203b680((u32) (data_ov001_021ca414->mUnk_4c), (u32) (func_02029608()), (u32) (d->mUnk_9e + 1)) - 1].mUnk_0c),
                   d->mUnk_04, d->mUnk_40);
 }
