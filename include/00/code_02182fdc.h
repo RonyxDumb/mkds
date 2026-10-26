@@ -19,6 +19,7 @@
 #include "Main/Unknown/unk_0217d068.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_0212426c.h"
+#include "code_02016468.h"
 
 // Allocated by func_ov000_02182fdc and held in data_ov000_021b4c70.
 typedef struct Unk021b4c70 {
@@ -218,7 +219,6 @@ void func_02126638(void *, s32, s32, s32, s32, s32, s32);
 void func_021282c8(void);
 void func_02128374(void);
 void func_0212b928(void *, void *, u32);
-s32 func_02016468(u32, u32, void *, u32);
 
 u32 func_ov000_02180668(u32);
 void func_ov000_02182e18(void);
