@@ -10,7 +10,6 @@ void func_0200f364(u32 v);
 void func_0200f36c(void);
 void func_0200f3f4(u32 v);
 void func_0200f484(void);
-void func_0200f4f0(void);
 void func_0200f790(void);
 u32 func_0200fc8c(void);
 u32 func_0200f328(void);

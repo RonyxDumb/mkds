@@ -9,6 +9,7 @@
 #include "code_0214d5b8.h"
 #include "Main/Unknown/code_02000000.h"
 #include "Main/Unknown/code_0200c000.h"
+#include "code_0200c46c.h"
 #include "code_0214c778.h"
 
 #pragma thumb on

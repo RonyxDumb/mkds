@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_0208ec64.h"
+#include "code_020172d0.h"
 
 // non-matching: 0xa4 bytes, original 0x74; 35 instructions differ; first at +0x0: original `stmdb sp!, {r4, r5, lr}`,
 // ours `stmdb sp!, {r4, r5, r6, r7, r8, lr}`
@@ -7,7 +8,7 @@ int func_0208ec64(u32 param_1) {
     int iVar2;
     u32 uVar3;
     iVar2 = func_020172d8(
-        (u32) ((*(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc) >> (((u32) (&data_0217b08c)) & 3) * 8 |
+        (Unk02017328 *) ((*(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc) >> (((u32) (&data_0217b08c)) & 3) * 8 |
                 *(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc) << (((u32) (&data_0217b08c)) & 3) * -8 + 0x20) +
                0xc),
         (int) (0));
