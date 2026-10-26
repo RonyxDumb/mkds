@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+struct Unk0212d5f8;
+
 // Objects whose layout isn't known yet.
 extern u8 data_0217d014[];
 extern u8 data_0217d018[];
@@ -51,7 +53,7 @@ extern u8 data_0217d43c[];
 extern u8 data_0217d440[];
 extern u8 data_0217dda8[];
 extern u8 data_0217ddd0[];
-extern u8 data_0217dec4[];
+extern struct Unk0212d5f8 *data_0217dec4;
 extern u8 data_0217d1e8[];
 extern u8 data_0217d1ec[];
 extern u8 data_0217d1f8[];

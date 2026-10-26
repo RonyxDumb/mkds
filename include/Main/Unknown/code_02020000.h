@@ -10,3 +10,4 @@ u16 func_020205e8();
 void func_02020720(int param_1, u32 param_2);
 void func_020208d8(void);
 void func_02020904(u32 param_1);
+void func_02020990(void *param_1, void *param_2);

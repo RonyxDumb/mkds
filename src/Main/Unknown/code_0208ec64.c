@@ -18,11 +18,13 @@ int func_0208ec64(u32 param_1) {
         *(u32 *) (iVar2 + 0x1c) = 0x400;
         uVar1 = uVar3 & 3;
         uVar3 = *(u32 *) (uVar3 & 0xfffffffc);
-        func_02017354((u32 *) ((u32 *) (u32) ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0xc)), (int) (iVar2));
+        func_02017354((Unk02017328 *) ((u32 *) (u32) ((uVar3 >> uVar1 * 8 | uVar3 << uVar1 * -8 + 0x20) + 0xc)),
+                      (void *) (iVar2));
         func_020174a4(
-            (u32) (*(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc) >> (((u32) (&data_0217b08c)) & 3) * 8 |
-                   *(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc) << (((u32) (&data_0217b08c)) & 3) * -8 + 0x20),
-            (int) (iVar2));
+            (Unk02017328 *) (*(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc) >> (((u32) (&data_0217b08c)) & 3) * 8 |
+                             *(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc)
+                                 << (((u32) (&data_0217b08c)) & 3) * -8 + 0x20),
+            (void *) (iVar2));
     }
     return iVar2;
 }
