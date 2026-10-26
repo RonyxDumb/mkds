@@ -3,6 +3,8 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
+extern s16 data_021614b4[];
+extern s16 data_021615b8[];
 extern u8 data_02161780[];
 extern u8 data_02161790[];
 extern u8 data_02161794[];
