@@ -1,12 +1,23 @@
 #pragma once
 
 #include "types.h"
+#include "code_0200e904.h" // Unk0200eb90
 #include "code_0212c7f0.h" // Unk0212c7f0
 #include "code_0212da38.h" // Unk02017328
 
 struct Unk02005210;
+struct Unk02142aa8;
+struct Unk021425e8;
 
-extern u8 data_0217eed4[];
+// The object that func_02142c98 sets up.
+extern struct Unk02142aa8 *data_0217eed4;
+extern u16 data_0217eed0;
+extern Unk0200eb90 data_0217eed8;
+// Word array that func_02142c98 gives data_0217eed8, an object func_021425e8 fills in before calling the function
+// pointers, and the ten 0x100-byte buffers func_02142c98 passes to func_0200eae8.
+extern void *data_0217eef8[10];
+extern struct Unk021425e8 data_0217ef20;
+extern u8 data_0217ef60[10][0x100];
 extern struct Unk02005210 *data_0217eeb0;
 // Function pointers called and cleared by func_02133e50 (data_0217e984) and func_02133f84 (data_0217e988).
 extern void (*data_0217e984)(void);

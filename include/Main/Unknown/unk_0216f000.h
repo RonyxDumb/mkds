@@ -4,6 +4,7 @@
 #include "code_0200e0ec.h" // Unk0200db5c, Unk0200dce0
 
 // Objects whose layout isn't known yet.
+extern u32 data_0216f06c;
 extern u8 data_0216f2d4[];
 extern u8 data_0216f3cc[];
 extern u8 data_0216f3d0[];

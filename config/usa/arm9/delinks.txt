@@ -4817,12 +4817,28 @@ libs/Unknown/src/code_0214177c.c:
     .text       start:0x0214177c end:0x021423e4
 
 // provisional: file name and boundaries
+libs/Unknown/src/code_0214259c.c:
+    .text       start:0x0214259c end:0x02142aa8
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_02142aa8.c:
     .text       start:0x02142aa8 end:0x02142ab8
 
 // provisional: file name and boundaries
+libs/Unknown/src/code_02142ab8.c:
+    .text       start:0x02142ab8 end:0x02142c0c
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_02142c0c.c:
     .text       start:0x02142c0c end:0x02142c24
+
+// provisional: file name and boundaries
+libs/Unknown/src/code_02142c24.c:
+    .text       start:0x02142c24 end:0x02142eac
+
+// provisional: file name and boundaries
+libs/Unknown/src/code_02142eac.c:
+    .text       start:0x02142eac end:0x021445e0
 
 // provisional: file name and boundaries
 libs/Unknown/src/code_021445e0.c:
