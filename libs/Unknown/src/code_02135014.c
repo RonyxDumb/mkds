@@ -1,11 +1,11 @@
 #pragma avoid_byte all
 
 #include "code_02135014.h"
+#include "code_02134890.h"
 #include "code_02134d30.h"
 #include "code_021352e0.h"
 #include "code_0213c94c.h"
 #include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_02134000.h"
 #include "Main/Unknown/unk_0216e000.h"
 #include "Main/Unknown/unk_0216f000.h"
 #include "Main/Unknown/unk_0217e000.h"
@@ -31,23 +31,23 @@ void *func_02135258(void *p, const u8 *b, u32 n) {
 int func_02135144(const u8 *fmt, ...) {
     int r;
 
-    if (func_0213c94c(&data_0216ebc8, -1) >= 0) {
+    if (func_0213c94c(&data_0216eb7c[1], -1) >= 0) {
         return -1;
     }
-    if (func_0200ec08(data_0217eb18) == 0) {
+    if (func_0200ec08(data_0217eadc[3]) == 0) {
         data_0217ea94[3] = *(u32 *) (*(u32 *) (data_0216ff5c + 8) + 0x6c);
         data_0217eab8[3] = 1;
     } else if (data_0217ea94[3] == *(u32 *) (*(u32 *) (data_0216ff5c + 8) + 0x6c)) {
         data_0217eab8[3]++;
     } else {
-        func_0200ed34(data_0217eb18);
+        func_0200ed34(data_0217eadc[3]);
         data_0217ea94[3] = *(u32 *) (*(u32 *) (data_0216ff5c + 8) + 0x6c);
         data_0217eab8[3] = 1;
     }
-    r = func_021352e0(func_021352a8, &data_0216ebc8, fmt, (char *) (((int) &fmt & ~3) + 4));
+    r = func_021352e0(func_021352a8, &data_0216eb7c[1], fmt, (char *) (((int) &fmt & ~3) + 4));
     data_0217eab8[3]--;
     if (data_0217eab8[3] == 0) {
-        func_0200ecc4(data_0217eb18);
+        func_0200ecc4(data_0217eadc[3]);
     }
     return r;
 }

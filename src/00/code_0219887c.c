@@ -19,8 +19,7 @@ void func_ov000_021988d4(int param_1, u32 param_2) {
 
 void func_ov000_021988a4(int param_1, u32 param_2) {
     if (param_1 == 0) {
-        func_0213442c((u32) (((u32) ((u32) (&data_ov000_021b3f8c)))), (u32) (((u32) ((u32) (&data_ov000_021b3f98)))),
-                      (u32) (0), (u32) (((u32) 0x0000019cu)));
+        func_0213442c(data_ov000_021b3f8c, data_ov000_021b3f98, 0, 0x19c);
     }
     *(u32 *) (param_1 + 0x40) = param_2;
     return;
@@ -28,8 +27,7 @@ void func_ov000_021988a4(int param_1, u32 param_2) {
 
 u32 func_ov000_0219887c(int param_1) {
     if (param_1 == 0) {
-        func_0213442c((u32) (((u32) ((u32) (&data_ov000_021b3f8c)))), (u32) (((u32) ((u32) (&data_ov000_021b3f98)))),
-                      (u32) (0), (u32) (((u32) 0x000001a3u)));
+        func_0213442c(data_ov000_021b3f8c, data_ov000_021b3f98, 0, 0x1a3);
     }
     return *(u32 *) (param_1 + 0x40);
 }

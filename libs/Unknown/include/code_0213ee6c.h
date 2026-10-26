@@ -21,7 +21,7 @@ typedef struct Unk02140c28 {
 
 // Read as a float by func_0214049c.
 extern float data_0216ec98;
-// Read as a float by func_0213ee6c.
+// Read as a float by func_0213ee6c and func_02134398.
 extern float data_0216ec9c;
 
 // Two doubles each, indexed 0/1 by func_0213ee6c.

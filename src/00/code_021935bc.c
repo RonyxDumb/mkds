@@ -9,8 +9,7 @@ u32 func_ov000_021935bc(u32 param_1, u32 param_2, u32 *param_3, u32 *param_4, u3
     param_2 = param_2 & ((u32) 0x0000ffffu);
     iVar1 = func_ov000_02193634((int) (uVar2), (int) (uVar3), (int) (param_2));
     if (iVar1 == 0) {
-        func_0213442c((u32) (((u32) ((u32) (&data_ov000_021b323c)))), (u32) (((u32) ((u32) (&data_ov000_021b31f8)))),
-                      (u32) (0), (u32) (0xb7));
+        func_0213442c(data_ov000_021b323c, data_ov000_021b31f8, 0, 0xb7);
     }
     iVar1 = func_ov000_02193634((int) (uVar2), (int) (uVar3), (int) (param_2));
     if (iVar1 == 0) {

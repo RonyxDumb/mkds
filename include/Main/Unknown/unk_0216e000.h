@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0213c94c.h" // Unk0213c94c
+#include "code_0213442c.h" // Unk0213c94c
 
 // Objects whose layout isn't known yet.
 extern u8 data_0216e0a8[];
@@ -27,6 +27,7 @@ extern u8 data_0216ea14[];
 extern u8 data_0216ea30[];
 extern u8 data_0216ea4c[];
 
-// Passed by func_02135144 to func_0213c94c and func_021352e0.
-extern Unk0213c94c data_0216ebc8;
+// Walked by func_021343b0; func_02134890 compares its argument with entries 1 and 2; func_02135144 passes entry 1
+// to func_0213c94c and func_021352e0.
+extern Unk0213c94c data_0216eb7c[3];
 extern u32 data_0216eeb8;

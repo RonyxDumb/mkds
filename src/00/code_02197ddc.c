@@ -18,8 +18,7 @@ int func_ov000_02197e58(int param_1) {
 void func_ov000_02197e20(int *param_1, u8 param_2) {
     int iVar1;
     if (param_1[2] >= param_1[1]) {
-        func_0213442c((u32) (((u32) ((u32) (&data_ov000_021b3f34)))), (u32) (((u32) ((u32) (&data_ov000_021b3ebc)))),
-                      (u32) (0), (u32) (0x23));
+        func_0213442c(data_ov000_021b3f34, data_ov000_021b3ebc, 0, 0x23);
     }
     iVar1 = param_1[2];
     param_1[2] = iVar1 + 1;
@@ -30,8 +29,7 @@ void func_ov000_02197e20(int *param_1, u8 param_2) {
 void func_ov000_02197ddc(int *param_1, u32 param_2) {
     int iVar1;
     if (param_1[2] + 2 > param_1[1]) {
-        func_0213442c((u32) (((u32) ((u32) (&data_ov000_021b3f10)))), (u32) (((u32) ((u32) (&data_ov000_021b3ebc)))),
-                      (u32) (0), (u32) (0x2e));
+        func_0213442c(data_ov000_021b3f10, data_ov000_021b3ebc, 0, 0x2e);
     }
     iVar1 = param_1[2];
     param_1[2] = iVar1 + 1;

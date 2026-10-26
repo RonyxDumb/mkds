@@ -18,8 +18,7 @@ int func_ov000_02191200(int *param_1) {
             return 0;
         }
         if (local_10 != 3) {
-            func_0213442c((u32) (((u32) ((u32) (&data_ov000_021b2b70)))),
-                          (u32) (((u32) ((u32) (&data_ov000_021b2b88)))), (u32) (0), (u32) (((u32) 0x000002efu)));
+            func_0213442c(data_ov000_021b2b70, data_ov000_021b2b88, 0, 0x2ef);
         }
         *(u32 *) (iVar2 + ((int) 0x000001d8u)) = 2;
         iVar1 = 0;

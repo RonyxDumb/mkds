@@ -5,8 +5,7 @@ u32 func_ov000_02198fdc(int param_1) {
     int *piVar2;
     iVar1 = func_ov000_0218dc44((u32 *) ((u32 *) (u32) (*(u32 *) (param_1 + 0x60))));
     if (iVar1 <= 0) {
-        func_0213442c((u32) (((u32) ((u32) (&data_ov000_021b3fb0)))), (u32) (((u32) ((u32) (&data_ov000_021b3fb8)))),
-                      (u32) (0), (u32) (((u32) 0x00000475u)));
+        func_0213442c(data_ov000_021b3fb0, data_ov000_021b3fb8, 0, 0x475);
     }
     piVar2 = (int *) func_ov000_0218dbf8((int *) ((int *) (u32) (*(u32 *) (param_1 + 0x60))), (int) (iVar1 + -1));
     iVar1 = func_ov000_02198714((u32 *) ((u32 *) (u32) (param_1)), (u32) (*(int *) (param_1 + 0x50) + *piVar2),

@@ -5,8 +5,7 @@ int func_ov000_0218dd8c(int *param_1, int param_2, u32 param_3) {
     int iVar2;
     int iVar3;
     if (param_2 == 0) {
-        func_0213442c((u32) (((u32) ((u32) (&data_ov000_021b2354)))), (u32) (((u32) ((u32) (&data_ov000_021b2358)))),
-                      (u32) (0), (u32) (0xd3));
+        func_0213442c(data_ov000_021b2354, data_ov000_021b2358, 0, 0xd3);
     }
     iVar3 = 0;
     if (0 < param_1[1]) {
