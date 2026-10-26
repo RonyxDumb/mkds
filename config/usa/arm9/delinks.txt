@@ -4413,6 +4413,14 @@ src/Main/Unknown/code_021384cc.c:
     .text       start:0x021384cc end:0x021384dc
 
 // provisional: file name and boundaries
+libs/Unknown/src/code_0213a460.c:
+    .text       start:0x0213a460 end:0x0213c94c
+
+// provisional: file name and boundaries
+libs/Unknown/src/code_0213c94c.c:
+    .text       start:0x0213c94c end:0x0213c9e8
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_0213c9e8.c:
     .text       start:0x0213c9e8 end:0x0213c9f8
 
