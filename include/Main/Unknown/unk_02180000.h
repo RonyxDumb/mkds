@@ -9,6 +9,13 @@ extern u8 data_021804a0[];
 extern u8 data_021802a0[];
 extern u8 data_021802a4[];
 extern u8 data_021802b0[];
+extern u32 data_021802cc;
+extern u32 data_021802d0;
+extern u32 data_021802d4;
+extern u32 data_021802d8;
+extern u32 data_021802dc;
+extern u32 data_021802e0;
+extern u32 data_021802e4;
 
 extern u8 data_021802ac[];
 

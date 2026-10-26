@@ -4745,6 +4745,14 @@ src/Main/Unknown/code_0214a730.c:
     .text       start:0x0214a730 end:0x0214a748
 
 // provisional: file name and boundaries
+libs/Unknown/src/code_0214a748.c:
+    .text       start:0x0214a748 end:0x0214b338
+
+// provisional: file name and boundaries
+libs/Unknown/src/code_0214b338.c:
+    .text       start:0x0214b338 end:0x0214b824
+
+// provisional: file name and boundaries
 libs/Unknown/src/code_0214b824.c:
     .text       start:0x0214b824 end:0x0214c1bc
 
