@@ -2,8 +2,7 @@
 #include "code_02003024.h"
 #include "code_02004270.h"
 #include "Main/Unknown/code_02004d80.h"
-#include "Main/Unknown/code_0200d000.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "code_0200dc3c.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "Main/Unknown/code_0214d000.h"
 
@@ -197,7 +196,7 @@ u32 func_02003cfc(Unk02003a6c *p0, u32 p1) {
         if (p0->mUnk_1c & 0x10) {
             p0->mUnk_1c |= 0x40;
             do {
-                func_0200e01c(p0->mUnk_14);
+                func_0200e01c(&p0->mUnk_14);
             } while (p0->mUnk_1c & 0x40);
         } else {
             p0->mUnk_1c |= 8;
@@ -253,7 +252,7 @@ void func_02003be0(Unk02003a6c *p0, u32 p1) {
         state = func_0200fca0();
         p->mUnk_14 = p1;
         p0->mUnk_1c &= ~0x200;
-        func_0200df9c(p0->mUnk_0c);
+        func_0200df9c(&p0->mUnk_0c);
         func_0200fcb4(state);
     }
 }

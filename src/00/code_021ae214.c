@@ -6,7 +6,7 @@ void func_ov000_021ae228(int param_1) {
     *(u32 *) (param_1 + 0x28) = uVar1;
     *(u8 *) (param_1 + 8) = 1;
     *(u32 *) (param_1 + 4) = 1;
-    func_0200e01c((int) (0));
+    func_0200e01c((Unk0200df9c *) (0));
     return;
 }
 

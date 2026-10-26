@@ -6,7 +6,7 @@ void func_02047468(u32 param_1, u32 param_2) {
     u32 uVar1;
     u8 auStack_8c[128];
     uVar1 = func_02048440();
-    func_0200d9e0(auStack_8c, 0x80, ((u32) ((u32) (&data_02164ffc))), param_1, uVar1);
+    func_0200d9e0((char *) auStack_8c, 0x80, (const char *) ((u32) ((u32) (&data_02164ffc))), param_1, uVar1);
     func_02047498((u32) ((u32) (u32) (auStack_8c)), (int) (param_2));
     return;
 }

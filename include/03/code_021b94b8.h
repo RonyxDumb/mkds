@@ -6,14 +6,8 @@
 #include "Main/Unknown/code_0214cfe4.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "Main/Unknown/code_0214d000.h"
-
-// 0x2c-byte object handed to func_0200fb08, func_0200f950 and func_0200f8b8; only its address is used here.
-typedef struct UnkTimer {
-    /* 00 */ u32 mUnk_00[0xb];
-} UnkTimer;
-
-// Object behind data_ov003_021d8a2c; only its address is used here.
-typedef struct UnkQueue UnkQueue;
+#include "code_0200dc3c.h"
+#include "code_0200e904.h" // Unk0200eb90
 
 typedef struct Unk021b94c4 {
     /* 000 */ u16 mUnk_000;
@@ -150,7 +144,7 @@ extern void (*data_ov003_021d8a10)(s32);
 extern void *data_ov003_021d8a14;
 extern void (*data_ov003_021d8a18)(void *);
 extern void *data_ov003_021d8a1c[4];
-extern UnkQueue data_ov003_021d8a2c;
+extern Unk0200eb90 data_ov003_021d8a2c;
 extern Unk021d8a4c data_ov003_021d8a4c;
 extern Unk021ba778Src data_ov003_021d8ac0;
 
@@ -202,14 +196,6 @@ s32 func_ov003_021ba720(void *msg);
 void func_ov003_021ba734(Unk021ba734 *list, Unk021ba778Src *src, s32 count);
 void func_ov003_021ba744(Unk021ba1b0 *request, Unk021ba778Src *rec);
 void func_ov003_021ba778(Unk021ba778Src *src, Unk021ba778Dst *dst);
-
-void func_0200f8b8(UnkTimer *timer);
-void func_0200fb08(UnkTimer *timer);
-void func_0200eb90(UnkQueue *queue, void **slots, s32 count);
-s32 func_0200ea3c(UnkQueue *queue, void **entry, s32 block);
-s32 func_0200eae8(UnkQueue *queue, void *entry, s32 block);
-void func_0200f950(UnkTimer *timer, u64 ticks, void (*handler)(void *), void *arg);
-void func_0200dc3c(u32 ms);
 
 #include "03/code_021b7cac.h"
 #include "03/code_021b7d84.h"

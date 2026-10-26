@@ -3,7 +3,7 @@
 #include "code_02134890.h"
 #include "code_02134398.h"
 #include "code_0213ee6c.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "code_0200e904.h"
 #include "Main/Unknown/unk_0216e000.h"
 #include "Main/Unknown/unk_0216f000.h"
 #include "Main/Unknown/unk_0217e000.h"
@@ -61,17 +61,17 @@ u32 func_02134890(const u8 *a, u32 b, u32 c, Unk0213c94c *d) {
     }
     p = data_0217eadc[i];
     if (func_0200ec08(p) == 0) {
-        data_0217ea94[i] = *(u32 *) (*(u32 *) (data_0216ff5c + 8) + 0x6c);
+        data_0217ea94[i] = data_0216ff5c.mUnk_08->mUnk_6c;
         data_0217eab8[i] = 1;
     } else {
         u32 v;
 
         v = data_0217ea94[i];
-        if (v == *(u32 *) (*(u32 *) (data_0216ff5c + 8) + 0x6c)) {
+        if (v == data_0216ff5c.mUnk_08->mUnk_6c) {
             data_0217eab8[i]++;
         } else {
             func_0200ed34(p);
-            data_0217ea94[i] = *(u32 *) (*(u32 *) (data_0216ff5c + 8) + 0x6c);
+            data_0217ea94[i] = data_0216ff5c.mUnk_08->mUnk_6c;
             data_0217eab8[i] = 1;
         }
     }

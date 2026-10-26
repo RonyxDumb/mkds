@@ -85,7 +85,7 @@ s32 func_ov003_021ba61c(void *(*alloc)(u32), void (*release)(void *)) {
                     break;
                 case 6:
                     return 0;
-            // placeholder: labels that fall into default only give the original's jump table its size
+                    // placeholder: labels that fall into default only give the original's jump table its size
                 case 8:
                 case 0xa:
                 case 0xc:
@@ -125,7 +125,7 @@ s32 func_ov003_021ba560(void) {
                 result = 0;
                 data_ov003_021d8a18(data_ov003_021d8a14);
                 break;
-        // placeholder: labels that fall into default only give the original's jump table its size
+                // placeholder: labels that fall into default only give the original's jump table its size
             case 8:
             case 0xa:
             case 0xc:
@@ -172,7 +172,7 @@ s32 func_ov003_021ba394(Unk021ba734 **out) {
     Unk021ba778Src *buffer;
     Unk021ba734 *list;
     void *msg;
-    UnkTimer timer;
+    Unk0200fb08 timer;
     s32 i;
     if (data_ov003_021d8a0c == 0 || data_ov003_021d8a18 == 0) {
         return -1;
@@ -220,7 +220,7 @@ s32 func_ov003_021ba394(Unk021ba734 **out) {
                 case 8:
                 case 0x12:
                     break;
-            // placeholder: labels that fall into default only give the original's jump table its size
+                    // placeholder: labels that fall into default only give the original's jump table its size
                 case 0xc:
                 case 0xd:
                 default:
@@ -260,7 +260,7 @@ s32 func_ov003_021ba1b0(Unk021ba1b0 *request, Unk021ba734 *out) {
     s32 done;
     u32 flags;
     void *msg;
-    UnkTimer timer;
+    Unk0200fb08 timer;
     done = 0;
     result = -1;
     if (request->mUnk_24 == 0) {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_0200e904.h" // Unk0200df9c
 
 struct Unk02003024;
 struct Unk02003a6c;
@@ -60,7 +61,7 @@ typedef struct Unk02003024 {
     /* 0c */ volatile u32 mUnk_0c; // bit 2 selects the path in func_02003024; func_020031a0 clears 0x4f
     /* 10 */ u32 mUnk_10; // index passed to func_02003024 by func_0200442c and func_02004474
     /* 14 */ s32 mUnk_14; // set from a return value in func_02003024 and func_020031a0
-    /* 18 */ u8 mUnk_18[0x8];
+    /* 18 */ Unk0200df9c mUnk_18;
     /* 20 */ Unk02003024U mUnk_20;
     /* 2c */ u32 mUnk_2c;
     /* 30 */ Unk02003024U mUnk_30;
@@ -77,8 +78,8 @@ typedef struct Unk02003a6c {
     /* 00 */ u32 mUnk_00;
     /* 04 */ struct Unk02003a6c *mUnk_04;
     /* 08 */ struct Unk02003a6c *mUnk_08;
-    /* 0c */ u8 mUnk_0c[0x8];
-    /* 14 */ u8 mUnk_14[0x8];
+    /* 0c */ Unk0200df9c mUnk_0c;
+    /* 14 */ Unk0200df9c mUnk_14;
     /* 1c */ volatile u32 mUnk_1c;
     /* 20 */ u32 mUnk_20;
     /* 24 */ struct Unk02003024 *mUnk_24;

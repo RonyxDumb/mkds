@@ -1,11 +1,11 @@
 #pragma once
 
 #include "types.h"
+#include "code_0200e904.h" // Unk0200df9c
 
 // Fixed-address object in the data TCM; the code reads and writes words at these offsets.
 typedef struct Unk027e0000 {
-    /* 0000 */ u32 mUnk_0000;
-    /* 0004 */ u32 mUnk_0004;
+    /* 0000 */ Unk0200df9c mUnk_0000;
     /* 0008 */ u8 mUnk_0008[0x3380 - 0x8];
     /* 3380 */ u32 mUnk_3380;
     /* 3384 */ u8 mUnk_3384[0x3f7c - 0x3384];

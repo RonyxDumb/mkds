@@ -1,7 +1,6 @@
 #include "code_02003024.h"
 #include "Main/Unknown/code_02004d80.h"
-#include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_0200d000.h"
+#include "code_0200dc3c.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "Main/Unknown/code_0214d000.h"
 
@@ -27,7 +26,7 @@ void func_020031a0(Unk02003024 *a, s32 b) {
     a->mUnk_04 = a->mUnk_00;
     a->mUnk_0c &= ~0x4f;
     a->mUnk_14 = b;
-    func_0200df9c(a->mUnk_18);
+    func_0200df9c(&a->mUnk_18);
     func_0200fcb4(s);
 }
 
@@ -68,7 +67,7 @@ s32 func_02003024(Unk02003024 *a, u32 b) {
             s = func_0200fca0();
             if (p->mUnk_1c & 0x200) {
                 do {
-                    func_0200e01c(p->mUnk_0c);
+                    func_0200e01c(&p->mUnk_0c);
                 } while (p->mUnk_1c & 0x200);
             }
             r = a->mUnk_14;

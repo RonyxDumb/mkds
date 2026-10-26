@@ -1,6 +1,6 @@
 #include "code_0200c894.h"
 #include "code_0200c914.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "code_0200dc3c.h"
 #include "Main/Unknown/code_02000000.h"
 #include "Main/Unknown/code_0200c000.h"
 #include "Main/Unknown/code_0200f000.h"
@@ -26,6 +26,6 @@ void func_0200c894(u32 a, u32 b) {
     }
     q = &p->mUnk_3ff8;
     do {
-        func_0200e01c(&data_027e0000);
+        func_0200e01c(&data_027e0000.mUnk_0000);
     } while ((b & *q) == 0);
 }

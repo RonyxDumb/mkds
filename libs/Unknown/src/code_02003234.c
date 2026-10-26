@@ -1,7 +1,6 @@
 #include "code_02003234.h"
 #include "Main/Unknown/code_02004d80.h"
-#include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_0200d000.h"
+#include "code_0200dc3c.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "Main/Unknown/code_0214d000.h"
 
@@ -43,7 +42,7 @@ void func_02003ad8(Unk02003ad8 *a, void *b, u32 c) {
             s = func_0200fca0();
             if (o->mUnk_1c & 0x200) {
                 do {
-                    func_0200e01c(o->mUnk_0c);
+                    func_0200e01c(&o->mUnk_0c);
                 } while (o->mUnk_1c & 0x200);
             }
             func_0200fcb4(s);

@@ -8,7 +8,7 @@ void func_ov000_021ae958(void) {
         *(u8 *) (puVar1 + 2) = 0;
         if (puVar1[1] - 1 <= 1) {
             puVar1[1] = 0;
-            func_0200df68((int) (*puVar1));
+            func_0200df68((Unk0200db5c *) (*puVar1));
         }
     }
     return;

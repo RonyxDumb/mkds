@@ -2,8 +2,7 @@
 #include "code_02003024.h"
 #include "code_02003be0.h"
 #include "Main/Unknown/code_02004d80.h"
-#include "Main/Unknown/code_0200d000.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "code_0200dc3c.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "Main/Unknown/code_0214d000.h"
 
@@ -158,11 +157,11 @@ u32 func_02004918(Unk02003024 *p0) {
         if (r) {
             p0->mUnk_0c |= 4;
             do {
-                func_0200e01c(p0->mUnk_18);
+                func_0200e01c(&p0->mUnk_18);
             } while ((p0->mUnk_0c & 0x40) == 0);
         } else {
             do {
-                func_0200e01c(p0->mUnk_18);
+                func_0200e01c(&p0->mUnk_18);
             } while (((p0->mUnk_0c & 1) ? 1 : 0) != 0);
         }
     }
@@ -300,7 +299,7 @@ Unk02003024 *func_02004518(Unk02003a6c *p0) {
         state = func_0200fca0();
         p->mUnk_0c |= 0x40;
         if (((p->mUnk_0c & 4) ? 1 : 0) != 0) {
-            func_0200df9c(p->mUnk_18);
+            func_0200df9c(&p->mUnk_18);
             func_0200fcb4(state);
             return 0;
         }
@@ -318,7 +317,7 @@ Unk02003024 *func_02004518(Unk02003a6c *p0) {
     if (p0->mUnk_1c & 0x40) {
         p0->mUnk_1c &= ~0x40;
         p0->mUnk_1c |= 8;
-        func_0200df9c(p0->mUnk_14);
+        func_0200df9c(&p0->mUnk_14);
     }
     func_0200fcb4(state);
     return 0;
@@ -336,7 +335,7 @@ void func_02004474(Unk02003024 *p0) {
         state = func_0200fca0();
         p0->mUnk_0c |= 0x40;
         if (((p0->mUnk_0c & 4) ? 1 : 0) != 0) {
-            func_0200df9c(p0->mUnk_18);
+            func_0200df9c(&p0->mUnk_18);
             func_0200fcb4(state);
             return;
         }
@@ -419,7 +418,7 @@ u32 func_02004270(Unk02003024 *p0, u32 p1) {
             return 1;
         }
         do {
-            func_0200e01c(p0->mUnk_18);
+            func_0200e01c(&p0->mUnk_18);
         } while ((p0->mUnk_0c & 0x40) == 0);
         func_0200fcb4(state);
     }

@@ -10,8 +10,8 @@ void func_ov003_021cd918(unsigned int p0) {
     unsigned int v10 = ((u32) (&data_ov003_021d77c4));
     unsigned int v11 = ((unsigned int) *(unsigned char *) ((v5) + (0)));
     unsigned int v12 = ((unsigned int) *(unsigned char *) ((v5) + (1)));
-    unsigned int v13 = func_0200da28((unsigned int) (p0), (unsigned int) (v10), (unsigned int) (v11),
-                                     (unsigned int) (v12), (unsigned int) (v6), (unsigned int) (v8));
+    unsigned int v13 = func_0200da28((char *) (p0), (const char *) (v10), (unsigned int) (v11), (unsigned int) (v12),
+                                     (unsigned int) (v6), (unsigned int) (v8));
 }
 
 void func_ov003_021cd8e8(unsigned int p0) {
@@ -24,8 +24,8 @@ void func_ov003_021cd8e8(unsigned int p0) {
     unsigned int v10 = ((u32) (&data_ov003_021d77c4));
     unsigned int v11 = ((unsigned int) *(unsigned char *) ((v5) + (0)));
     unsigned int v12 = ((unsigned int) *(unsigned char *) ((v5) + (1)));
-    unsigned int v13 = func_0200da28((unsigned int) (p0), (unsigned int) (v10), (unsigned int) (v11),
-                                     (unsigned int) (v12), (unsigned int) (v6), (unsigned int) (v8));
+    unsigned int v13 = func_0200da28((char *) (p0), (const char *) (v10), (unsigned int) (v11), (unsigned int) (v12),
+                                     (unsigned int) (v6), (unsigned int) (v8));
 }
 
 void func_ov003_021cd8b8(unsigned int p0) {
@@ -38,8 +38,8 @@ void func_ov003_021cd8b8(unsigned int p0) {
     unsigned int v10 = ((u32) (&data_ov003_021d77c4));
     unsigned int v11 = ((unsigned int) *(unsigned char *) ((v5) + (0)));
     unsigned int v12 = ((unsigned int) *(unsigned char *) ((v5) + (1)));
-    unsigned int v13 = func_0200da28((unsigned int) (p0), (unsigned int) (v10), (unsigned int) (v11),
-                                     (unsigned int) (v12), (unsigned int) (v6), (unsigned int) (v8));
+    unsigned int v13 = func_0200da28((char *) (p0), (const char *) (v10), (unsigned int) (v11), (unsigned int) (v12),
+                                     (unsigned int) (v6), (unsigned int) (v8));
 }
 
 void func_ov003_021cd888(unsigned int p0) {
@@ -52,8 +52,8 @@ void func_ov003_021cd888(unsigned int p0) {
     unsigned int v10 = ((u32) (&data_ov003_021d77c4));
     unsigned int v11 = ((unsigned int) *(unsigned char *) ((v5) + (0)));
     unsigned int v12 = ((unsigned int) *(unsigned char *) ((v5) + (1)));
-    unsigned int v13 = func_0200da28((unsigned int) (p0), (unsigned int) (v10), (unsigned int) (v11),
-                                     (unsigned int) (v12), (unsigned int) (v6), (unsigned int) (v8));
+    unsigned int v13 = func_0200da28((char *) (p0), (const char *) (v10), (unsigned int) (v11), (unsigned int) (v12),
+                                     (unsigned int) (v6), (unsigned int) (v8));
 }
 
 void func_ov003_021cd858(unsigned int p0) {
@@ -66,8 +66,8 @@ void func_ov003_021cd858(unsigned int p0) {
     unsigned int v10 = ((u32) (&data_ov003_021d77c4));
     unsigned int v11 = ((unsigned int) *(unsigned char *) ((v5) + (0)));
     unsigned int v12 = ((unsigned int) *(unsigned char *) ((v5) + (1)));
-    unsigned int v13 = func_0200da28((unsigned int) (p0), (unsigned int) (v10), (unsigned int) (v11),
-                                     (unsigned int) (v12), (unsigned int) (v6), (unsigned int) (v8));
+    unsigned int v13 = func_0200da28((char *) (p0), (const char *) (v10), (unsigned int) (v11), (unsigned int) (v12),
+                                     (unsigned int) (v6), (unsigned int) (v8));
 }
 
 u8 func_ov003_021cd844(int param_1) {
