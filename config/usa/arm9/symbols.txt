@@ -12160,7 +12160,6 @@ data_02180444 kind:bss addr:0x02180424
 data_02180448 kind:bss addr:0x02180428
 data_02180458 kind:bss addr:0x02180438
 data_02180470 kind:bss addr:0x02180450
-data_usa_02180454 kind:bss addr:0x02180454
 data_02180490 kind:bss addr:0x02180470
 data_usa_02180474 kind:bss addr:0x02180474
 data_usa_02180478 kind:bss addr:0x02180478
