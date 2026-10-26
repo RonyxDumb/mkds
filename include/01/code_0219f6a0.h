@@ -12,7 +12,6 @@
 #include "Main/Unknown/code_02127000.h"
 #include "Main/Unknown/code_0212775c.h"
 #include "Main/Unknown/code_02128210.h"
-#include "Main/Unknown/code_0212ecc0.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "01/code_0219f000.h"
@@ -21,6 +20,7 @@
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_0205f000.h"
 #include "Main/Unknown/code_02105000.h"
+#include "code_0212df7c.h"
 
 s32 func_ov001_0219f6a0(s16 param_1);
 void func_ov001_0219f6e0(void);

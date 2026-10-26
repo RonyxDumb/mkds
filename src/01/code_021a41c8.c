@@ -1,5 +1,4 @@
 #include "01/code_021a41c8.h"
-#include "Main/Unknown/code_0212ecc0.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "01/code_02181070.h"
 #include "01/code_0218108c.h"
@@ -12,6 +11,7 @@
 #include "01/code_021a5000.h"
 #include "01/code_021a6000.h"
 #include "Main/Unknown/code_020ac000.h"
+#include "code_0212df7c.h"
 
 void func_ov001_021a41c8(s32 a, s32 b) {
     s32 n;
@@ -49,7 +49,8 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                         func_0212ecc0(data_0217d068, 0, 0x1f0);
                     }
                     if (func_ov001_021a639c() == 1) {
-                        func_ov001_021a5ab0((void *) (data_ov001_021ca41c->mUnk_0858), (s32) (func_ov001_021a637c() + 0xe));
+                        func_ov001_021a5ab0((void *) (data_ov001_021ca41c->mUnk_0858),
+                                            (s32) (func_ov001_021a637c() + 0xe));
                         func_ov001_021a63a8((s32) (0));
                     }
                     data_ov001_021ca41c->mUnk_1094 = 3;

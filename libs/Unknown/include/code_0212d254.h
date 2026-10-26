@@ -5,7 +5,8 @@
 
 // 12-byte records at 0x20 of Unk0212f788; func_0212f788 returns one unless its first word is -1.
 typedef struct Unk0212f788 {
-    /* 00 */ u8 mUnk_00[0x1c];
+    /* 00 */ u8 mUnk_00[0x18];
+    /* 18 */ u32 mUnk_18;
     /* 1c */ u32 mUnk_1c; // number of records
     /* 20 */ u32 mUnk_20[3];
 } Unk0212f788;
@@ -63,7 +64,7 @@ typedef struct Unk0212d5f8 {
     /* 8c */ Unk0212d38c *mUnk_8c;
 } Unk0212d5f8;
 
-Unk0212f788 *func_0212d254(u32 a);
+void *func_0212d254(u32 a);
 s32 func_0212d27c(u32 a, void *dst, u32 n, u32 off);
 u32 func_0212d300(u32 a);
 void *func_0212d328(s32 a);

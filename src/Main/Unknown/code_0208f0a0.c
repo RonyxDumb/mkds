@@ -7,10 +7,11 @@ void func_0208f0a0(void) {
     u32 uVar2;
     int iVar3;
     u32 uVar4;
-    iVar3 = func_0201733c(
-        (u32) (*(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc) >> (((u32) (&data_0217b08c)) & 3) * 8 |
-               *(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc) << (((u32) (&data_0217b08c)) & 3) * -8 + 0x20),
-        (int) (0));
+    iVar3 = (int) func_0201733c(
+        (Unk02017328 *) (u32) (*(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc) >> (((u32) (&data_0217b08c)) & 3) * 8 |
+                               *(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc)
+                                   << (((u32) (&data_0217b08c)) & 3) * -8 + 0x20),
+        (void *) (0));
     uVar2 = ((u32) (&data_0217b08c));
     if (iVar3 == 0) {
         return;
@@ -19,7 +20,8 @@ void func_0208f0a0(void) {
         func_0208e99c((int) (iVar3));
         uVar1 = uVar2 & 3;
         uVar4 = *(u32 *) (uVar2 & 0xfffffffc);
-        iVar3 = func_0201733c((u32) (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20), (int) (iVar3));
+        iVar3 = (int) func_0201733c((Unk02017328 *) (u32) (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20),
+                                    (void *) (iVar3));
     } while (iVar3 != 0);
     return;
 }

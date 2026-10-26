@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "code_0212c7f0.h" // Unk0212c7f0
+#include "code_0212da38.h" // Unk02017328
 
 struct Unk02005210;
 
@@ -21,3 +23,6 @@ extern u32 data_0217eab8[];
 // 0x14-byte entries passed to func_0200ec08, func_0200ecc4 and func_0200ed34; func_02133e50 uses entry 0,
 // func_02134890 entries 3-5, func_02135144 entry 3 and func_02139e20 entry 7.
 extern u8 data_0217eadc[][0x14];
+extern u8 data_0217e3e0[];
+extern Unk02017328 data_0217e3f8;
+extern Unk0212c7f0 data_0217e404[4];

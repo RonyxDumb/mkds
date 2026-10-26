@@ -1,6 +1,6 @@
 #include "code_0212d254.h"
 #include "code_02004270.h"
-#include "Main/Unknown/code_0212f000.h"
+#include "code_0212f788.h"
 #include "Main/Unknown/unk_0217d000.h"
 
 u32 *func_0212d580(s32 a, s32 b) {
@@ -185,7 +185,7 @@ s32 func_0212d27c(u32 a, void *dst, u32 n, u32 off) {
     return func_020048ac(&d->mUnk_34, dst, n);
 }
 
-Unk0212f788 *func_0212d254(u32 a) {
+void *func_0212d254(u32 a) {
     Unk0212d254 *t = data_0217dec4->mUnk_84;
 
     if (a >= t->mUnk_08) {

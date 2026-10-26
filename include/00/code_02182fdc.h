@@ -10,7 +10,6 @@
 #include "Main/Unknown/code_020b3f7c.h"
 #include "Main/Unknown/code_02125f88.h"
 #include "Main/Unknown/code_02128210.h"
-#include "Main/Unknown/code_0212ecc0.h"
 #include "Main/Unknown/code_02147fd8.h"
 #include "code_0214cfe4.h"
 #include "Main/Unknown/unk_0217d068.h"
@@ -236,3 +235,4 @@ u8 func_ov000_0219bb50(void);
 #include "Main/Unknown/code_02120240.h"
 #include "Main/Unknown/code_021281b4.h"
 #include "Main/Unknown/code_0212a910.h"
+#include "code_0212df7c.h"

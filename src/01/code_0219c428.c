@@ -1,10 +1,10 @@
 #include "01/code_0219c428.h"
 #include "01/code_0219bb48.h"
 #include "Main/Unknown/code_0212b000.h"
-#include "Main/Unknown/code_0212ecc0.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "01/code_0219c000.h"
 #include "01/unk_021a6000.h"
+#include "code_0212df7c.h"
 
 void func_ov001_0219c480(void) {
     u16 cnt;

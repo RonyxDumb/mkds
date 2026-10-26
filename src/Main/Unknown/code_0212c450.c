@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0212c450.h"
 
-u32 func_0212c450(u32 arg0, u32 arg1, u32 arg2) {
+u32 func_0212c450(Unk0212c400 **arg0, u32 arg1, u32 arg2) {
     u32 value0 = (u32) arg0;
     u32 value1 = (u32) arg1;
     u32 value2 = (u32) arg2;
