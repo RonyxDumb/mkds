@@ -7,6 +7,7 @@
 #include "01/code_02198000.h"
 #include "01/unk_021a6000.h"
 #include "01/unk_021a9000.h"
+#include "code_0201ea58.h"
 
 void func_ov001_02198014(void) {
     s16 v;

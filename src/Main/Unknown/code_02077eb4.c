@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02077eb4.h"
+#include "code_020176c0.h"
 
 #pragma thumb on
 
@@ -6,7 +7,7 @@ void func_02077eb4(u32 param_1, u32 *param_2) {
     u32 uVar1;
     u32 uVar2;
     uVar1 = ((u32) func_02036bec((void *) (param_1), (u32) (((u32) 0x0000f000u))));
-    uVar2 = func_02017988((void *) ((void *) (uVar1)), (unsigned int) ((unsigned int) (((u32) 0x0000f000u))),
+    uVar2 = (u32) func_02017988((void *) ((void *) (uVar1)), (unsigned int) ((unsigned int) (((u32) 0x0000f000u))),
                           (unsigned int) ((unsigned int) (0)));
     param_2[1] = uVar2;
     *param_2 = uVar1;

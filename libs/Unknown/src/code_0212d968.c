@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_02018000.h"
 #include "Main/Unknown/code_02021000.h"
 #include "Main/Unknown/code_0212da1c.h"
+#include "code_02017f24.h"
 
 u32 func_0212d9dc(Unk0212d9dc *a, void *p) {
     func_02017538(&a->mUnk_04, 12);

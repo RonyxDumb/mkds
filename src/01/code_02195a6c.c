@@ -3,6 +3,7 @@
 #include "Main/Unknown/code_02117218.h"
 #include "Main/Unknown/code_02125f54.h"
 #include "Main/Unknown/code_02148ca0.h"
+#include "code_0201ea58.h"
 
 void func_ov001_02196d8c(void) {
     data_ov001_021a9bdc->mUnk_54 = 0x10;

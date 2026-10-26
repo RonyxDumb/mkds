@@ -8,6 +8,7 @@
 #include "Main/Unknown/code_02020000.h"
 #include "Main/Unknown/code_02021000.h"
 #include "Main/Unknown/code_020219b0.h"
+#include "code_02017f24.h"
 
 void func_0212df28(void *buf, u32 size, void *p, u32 idx) {
     u8 *q = buf;

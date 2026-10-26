@@ -1,4 +1,5 @@
 #include "01/code_0219f6a0.h"
+#include "code_0201ea58.h"
 
 void func_ov001_0219ff8c(void) {
     func_021055b0(data_ov001_021ca414->mUnk_a8);

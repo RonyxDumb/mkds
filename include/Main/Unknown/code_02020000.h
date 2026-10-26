@@ -5,10 +5,6 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_020203e4(void);
-u32 func_0202056c(u32 v);
-u16 func_020205e8();
-void func_02020720(int param_1, u32 param_2);
 u32 func_02020844(u32 param_1);
 void func_020208d8(void);
 void func_02020904(u32 param_1);

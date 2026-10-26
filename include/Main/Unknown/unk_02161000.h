@@ -26,7 +26,7 @@ extern void (*data_02161ac0[])(s32 a, s32 b, s32 c, s32 d);
 extern void (*data_02161ac8[])(s32 a, s32 b, void *c);
 extern Unk02148038 data_02161ad0;
 
-extern u8 data_02161ad8[];
+extern u8 data_02161ad8;
 
 extern u8 data_02161adc[];
 extern u8 data_02161ae0[];

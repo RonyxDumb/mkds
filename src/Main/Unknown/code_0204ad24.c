@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_0204ad24.h"
+#include "code_02017f24.h"
 
 void func_0204ad24(void) {
     u32 value0;

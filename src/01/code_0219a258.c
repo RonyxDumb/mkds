@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_02128210.h"
 #include "01/code_0219c000.h"
 #include "01/unk_021a6000.h"
+#include "code_0201ea58.h"
 
 void func_ov001_0219a258(void) {
     Unk02175628Index i = UNK_02175628_INDEX_8;
