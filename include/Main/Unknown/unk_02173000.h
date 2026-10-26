@@ -8,7 +8,6 @@ extern u32 data_02173274;
 extern u8 data_0217320c[];
 
 extern u8 data_02173220[];
-extern u8 data_021732b0[];
 
 extern vu16 data_02173278;
 extern vu16 data_0217327c;

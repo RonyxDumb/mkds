@@ -1,4 +1,6 @@
 #include "code_0212c9d4.h"
+#include "code_020207ec.h"
+#include "code_02020eb0.h"
 #include "code_0200e904.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0214d000.h"

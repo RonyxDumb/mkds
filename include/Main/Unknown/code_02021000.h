@@ -4,10 +4,6 @@
 #include "code_0212da38.h" // Unk02021968, Unk020219f0, Unk02021bc8
 
 // Declared here until the code that defines them is decompiled.
-u32 func_02021114(void);
-void func_02021154(u32 param_1);
-u32 func_020211e4(u32 param_1);
-s16 func_02021868(u32 a, u32 b);
 u16 func_020218f4(s32 a);
 void *func_02021968(Unk02021968 *param_1, u32 param_2);
 u32 func_020219e8(Unk02021968 *param_1);

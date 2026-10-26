@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02020e3c.h"
+#include "code_02020e64.h"
 
 void func_02020e50(void) {
     u32 value0;
