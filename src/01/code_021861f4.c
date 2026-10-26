@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_020d3000.h"
-#include "Main/Unknown/code_02012000.h"
+#include "code_02012b30.h"
 #include "Main/Unknown/code_02021000.h"
 #include "Main/Unknown/code_02022000.h"
 #include "Main/Unknown/code_020ae000.h"
@@ -35,14 +35,14 @@ void func_ov001_02186368(void *param_1, Unk02188950 *param_2) {
             level = 0x1f;
         }
         if (level >= 0x1f) {
-            func_02012ffc(param_2->mUnk_304->mUnk_10->mUnk_04, 1);
+            func_02012ffc((Unk0201290c *) param_2->mUnk_304->mUnk_10->mUnk_04, 1);
             func_0209b940(param_2->mUnk_304, 3);
         } else if (param_2->mUnk_27c <= 1) {
-            func_02012ffc(param_2->mUnk_304->mUnk_10->mUnk_04, 1);
+            func_02012ffc((Unk0201290c *) param_2->mUnk_304->mUnk_10->mUnk_04, 1);
             func_0209b940(param_2->mUnk_304, 3);
         } else {
             obj = param_2->mUnk_304->mUnk_10->mUnk_04;
-            func_02012ffc(obj, 1);
+            func_02012ffc((Unk0201290c *) obj, 1);
             for (i = 0; i < obj->mUnk_18; i++) {
                 func_0209b904(param_2->mUnk_304, func_020d3c44(), i);
             }

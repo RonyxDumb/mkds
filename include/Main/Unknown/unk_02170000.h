@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "code_02013bdc.h"
+#include "code_02010c84.h"
 #include "code_0200e0ec.h" // Unk0200db5c
 #include "code_0200f7a0.h" // Unk02170260
 
@@ -20,3 +22,6 @@ extern u32 data_0217026c;
 extern u32 data_02170270;
 extern u32 data_02170274[2];
 extern u8 data_02170344[];
+
+extern Unk0217029c data_0217029c;
+extern Unk02170500 *data_02170500;

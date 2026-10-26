@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 func_02013bbc(u32 arg0, u32 arg1);
-u32 func_02013bcc(u32 arg0, u32 arg1);
+u32 *func_02013bbc(const void *a, u32 b);
+u32 *func_02013bcc(const void *a, u32 b);

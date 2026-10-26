@@ -21,3 +21,5 @@ void func_0214d0e0(const void *src, void *dst);
 void func_0214d0fc(const void *src, void *dst);
 void func_0214d118(const void *src, void *dst);
 void func_0214d13c(const void *src, void *dst);
+void func_0214d044(const void *a, vu32 *b, u32 c);
+void func_0214d32c(s32 *p);

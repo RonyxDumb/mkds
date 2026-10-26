@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_02013b20(u32 arg0, u32 arg1);
+void *func_02013b20(const void *a, u32 b);

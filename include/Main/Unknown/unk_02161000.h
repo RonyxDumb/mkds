@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "code_02010c84.h"
+#include "code_02010fac.h"
 #include "code_02147cd8.h"
 
 // Objects whose layout isn't known yet.
@@ -34,3 +36,32 @@ extern u16 data_021616bc[];
 extern u8 data_021616cc[];
 extern u8 data_021616ce[];
 extern u8 data_021616d0[];
+
+extern u32 data_021617d0;
+extern Unk021617f4 data_021617f4[];
+extern Unk021617f8 data_021617f8[];
+extern u32 data_021617f0;
+extern u32 data_021617ec;
+extern u32 data_021617e8;
+extern void (*data_0216185c[])(Unk0201290c_1c *);
+extern u32 data_0216186c[2];
+extern u32 data_02161874[2];
+extern s32 data_0216189c[16];
+extern u32 data_021618dc[];
+extern u32 data_021618e0[];
+extern u32 data_021618e8[];
+extern Vec3 data_0216190c;
+extern Vec3 data_02161918;
+extern u32 data_02161924[];
+extern u32 data_02161928[];
+extern Vec3 data_02161930[];
+extern Vec3 data_02161954;
+extern Vec3 data_02161960;
+extern void (*data_021619f0)(void *);
+extern void (*data_021619f8)(void *);
+
+extern UnkFunc *data_021617d4;
+extern UnkFunc *data_021617d8;
+extern UnkFunc *data_021617dc;
+extern UnkFunc *data_021617e0;
+extern UnkFunc *data_021617e4;
