@@ -29,7 +29,8 @@ Lessons for getting functions to match exactly. Compiler and flags: see `compile
    (`tools/check_units.py` checks both). Shared types go in `include/`, library declarations in
    `libs/<name>/include/`; each function has one declaration, with the definition's types
    (`tools/check_signatures.py`), and every call has a declaration in scope: the build's `-w off` hides an undeclared
-   call, `tools/check_protos.py` lists them.
+   call, `tools/check_protos.py` lists them. It builds `ninja protos`, which rechecks only the files that changed
+   (or whose headers did), so a rerun takes under a second.
 5. `ninja report`, then rename the original symbols to the names your code uses:
    `python3 tools/sync_symbols.py build/usa/<path>.o main --write`. It finds each matching function by its bytes and
    reads every referenced address from the original code (ARM and Thumb calls); identical candidates are settled with

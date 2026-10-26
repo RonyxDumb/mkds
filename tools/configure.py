@@ -145,6 +145,10 @@ w(f"rule lcf\n  command = {DSD} lcf -c $config && {PY} tools/lcf_force_active.py
 w(f"rule mwcc\n  command = {WINE} $cc $base_flags $cc_flags {' '.join('-i ' + d for d in include_dirs)} "
   f"-d version_{ver.upper()} -MD -c $in -o $outdir && {PY} tools/transform_dep.py $basefile.d $basefile.d && {PY} tools/demote_multidef.py $out\n"
   f"  depfile = $basefile.d\n  deps = gcc\n  description = MWCC $in\n")
+# The same compile with -requireprotos, writing the calls that have no declaration in scope (tools/check_protos.py).
+w(f"rule protos\n  command = {PY} tools/check_protos.py --one $out $basefile.d -- {WINE} $cc $base_flags $cc_flags "
+  f"{' '.join('-i ' + d for d in include_dirs)} -d version_{ver.upper()} -MD -c $in -o $outdir\n"
+  f"  depfile = $basefile.d\n  deps = gcc\n  description = PROTOS $in\n")
 w(f"rule expand_incbin\n  command = {PY} tools/expand_incbin.py $in $out\n  description = EXPAND $in\n")
 w(f"rule mwasm\n  command = {WINE} {ASM} -proc arm5TE $in -o $out\n  description = MWASM $in\n")
 w(f"rule mwld\n  command = {WINE} {LD} {' '.join(LD_FLAGS)} @$objects $lcf -o $out\n  description = LINK $out\n")
@@ -193,6 +197,7 @@ build([lcf_raw, delinks["arm9_objects_file"], lcf_final], "lcf", dsd_config_file
 # ---- compile ----
 # The ROM links the delinked originals until a unit is complete; the compiled objects feed objdiff (report).
 compiled_objects = []
+protos = []
 for src in sources:
     obj = build_dir / src.with_suffix(".o")
     compiled_objects.append(str(obj))
@@ -215,6 +220,17 @@ for src in sources:
         "outdir": str(obj.parent),
         "basefile": str(obj.with_suffix("")),
     })
+    if src.parts[0] in ("src", "libs"):
+        pobj = build_dir / "protos" / src.with_suffix(".o")
+        protos.append(str(pobj.with_suffix(".txt")))
+        build(protos[-1], "protos", [str(src)], implicit=[cc, "tools/check_protos.py"] + tool_outputs, variables={
+            "cc": cc,
+            "base_flags": " ".join(flags[:-1]).replace("-w off", "-w on -requireprotos"),
+            "cc_flags": flags[-1],
+            "outdir": str(pobj.parent),
+            "basefile": str(pobj.with_suffix("")),
+        })
+build("protos", "phony", protos)
 
 # ---- link / rom ----
 arm9_o = str(build_dir / "arm9.o")
