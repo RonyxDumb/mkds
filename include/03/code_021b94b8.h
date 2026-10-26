@@ -4,6 +4,8 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0214cfe4.h"
+#include "Main/Unknown/code_0200f000.h"
+#include "Main/Unknown/code_0214d000.h"
 
 // 0x2c-byte object handed to func_0200fb08, func_0200f950 and func_0200f8b8; only its address is used here.
 typedef struct UnkTimer {
@@ -201,14 +203,11 @@ void func_ov003_021ba734(Unk021ba734 *list, Unk021ba778Src *src, s32 count);
 void func_ov003_021ba744(Unk021ba1b0 *request, Unk021ba778Src *rec);
 void func_ov003_021ba778(Unk021ba778Src *src, Unk021ba778Dst *dst);
 
-void func_0214d1fc(const void *src, void *dst, u32 size);
 void func_0214d168(void *dst, u8 value, u32 size);
 void func_0200f8b8(UnkTimer *timer);
 void func_0200fb08(UnkTimer *timer);
-u32 func_0200fca0(void);
 void func_0200eb90(UnkQueue *queue, void **slots, s32 count);
 s32 func_0200ea3c(UnkQueue *queue, void **entry, s32 block);
-u32 func_0200fcb4(u32 state);
 s32 func_0200eae8(UnkQueue *queue, void *entry, s32 block);
 void func_0200f950(UnkTimer *timer, u64 ticks, void (*handler)(void *), void *arg);
 void func_0200dc3c(u32 ms);

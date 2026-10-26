@@ -7,7 +7,7 @@ u32 func_02004db0(void) {
     return (u32) value0;
 }
 
-void func_02004d80(u32 arg0) {
+void func_02004d80(Unk02003024 *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value2;
