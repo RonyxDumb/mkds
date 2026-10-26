@@ -11,9 +11,9 @@ void func_ov000_0219c79c(u32 param_1, u32 param_2, u32 param_3, u32 param_4) {
     u32 *puVar1;
     u32 iVar2;
     u64 uVar3;
-    func_0213a2d0((u32 *) ((u32 *) (u32) (*((int *) ((u32) (&data_ov000_021b565c))) + 0x4c)), (u32) (param_1));
-    func_0213a2d0((u32 *) ((u32 *) (u32) (*((int *) ((u32) (&data_ov000_021b565c))) + ((int) 0x0000014cu))),
-                  (u32) (param_2));
+    func_0213a2d0((char *) ((u32 *) (u32) (*((int *) ((u32) (&data_ov000_021b565c))) + 0x4c)), (const u8 *) (param_1));
+    func_0213a2d0((char *) ((u32 *) (u32) (*((int *) ((u32) (&data_ov000_021b565c))) + ((int) 0x0000014cu))),
+                  (const u8 *) (param_2));
     iVar2 = *((int *) ((u32) (&data_ov000_021b565c)));
     uVar3 = func_0200f5ac();
     *(u64 *) (iVar2 + 0x38) = uVar3;

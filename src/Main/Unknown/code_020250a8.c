@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_020250a8.h"
+#include "code_02147cd8.h"
 
 u32 func_020250a8(void) {
     u32 value0;

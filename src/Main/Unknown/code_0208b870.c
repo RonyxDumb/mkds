@@ -10,11 +10,11 @@ void func_0208b8c8(void) {
     if (pcVar1 != (UnkFunc *) 0x0) {
         (*pcVar1)();
     }
-    func_0201873c(*(u32 *) (((u32) ((u32) (&data_0217b044)))));
-    func_0201873c(*(u32 *) (((u32) ((u32) (&data_0217b04c)))));
+    func_0201873c((Unk020184e4 *) (*(u32 *) (((u32) ((u32) (&data_0217b044))))));
+    func_0201873c((Unk020184e4 *) (*(u32 *) (((u32) ((u32) (&data_0217b04c))))));
     if (*(u32 *) (((u32) ((u32) (&data_0217b03c)))) >> (((u32) ((u32) (&data_0217b03c))) & 3) * 8 != 0 ||
         *(u32 *) (((u32) ((u32) (&data_0217b03c)))) << (((u32) ((u32) (&data_0217b03c))) & 3) * -8 + 0x20 != 0) {
-        func_0201873c();
+        func_0201873c((Unk020184e4 *) (*(u32 *) (((u32) ((u32) (&data_0217b03c))))));
         return;
     }
     return;
@@ -30,11 +30,11 @@ void func_0208b870(u32 arg0) {
     value4 = value0;
     value0 = (u32) * (const u32 *) ((value1) + (0));
     value1 = value4;
-    func_02018674((int) value0, (u32) value1);
+    func_02018674((Unk020184e4 *) value0, (Unk02012f58 *) value1);
     value0 = (u32) &data_0217b04c;
     value1 = value4;
     value0 = (u32) * (const u32 *) ((value0) + (0));
-    func_02018674((int) value0, (u32) value1);
+    func_02018674((Unk020184e4 *) value0, (Unk02012f58 *) value1);
     value0 = (u32) &data_0217b03c;
     value0 = (u32) * (const u32 *) ((value0) + (0));
     compareLeft0 = value0;
@@ -45,6 +45,6 @@ void func_0208b870(u32 arg0) {
         return;
     }
     value1 = value4;
-    func_02018674((int) value0, (u32) value1);
+    func_02018674((Unk020184e4 *) value0, (Unk02012f58 *) value1);
     return;
 }

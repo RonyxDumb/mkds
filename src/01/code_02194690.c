@@ -6,6 +6,7 @@
 #include "Main/Unknown/code_02125000.h"
 #include "Main/Unknown/code_02126000.h"
 #include "Main/Unknown/code_02117218.h"
+#include "Main/Unknown/code_02148ca0.h"
 
 void func_ov001_02194a34(void) {
     data_ov001_021a9bd8->mUnk_64 = 1;

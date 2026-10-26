@@ -1,5 +1,6 @@
 #include "01/code_02193b1c.h"
 #include "Main/Unknown/code_02111488.h"
+#include "code_0201ea58.h"
 
 void func_ov001_021944e0(void) {
     s16 v;

@@ -1,5 +1,6 @@
 #include "Main/Unknown/unk_027e0000.h"
 #include "Main/Unknown/code_020f1104.h"
+#include "code_02147cd8.h"
 
 void func_020f1150(int arg0, int arg1) {
     u32 value0 = (u32) arg0;

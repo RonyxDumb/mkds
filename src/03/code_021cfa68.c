@@ -6,7 +6,7 @@ u32 func_ov003_021cfa68(void) {
         func_0200fd1c();
     }
     func_ov003_021d07b0((u32) (3));
-    iVar1 = func_02143d88((u32) (((u32) ((u32) (&func_ov003_021d0134)))));
+    iVar1 = func_02143d88((Unk021425e8Func) func_ov003_021d0134);
     if (iVar1 != 2) {
         func_ov003_021d07b0((u32) (9));
         return 0;

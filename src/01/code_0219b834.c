@@ -9,6 +9,7 @@
 #include "01/unk_021a6000.h"
 #include "Main/Unknown/code_02087000.h"
 #include "Main/Unknown/code_0212b000.h"
+#include "code_0201ea58.h"
 
 void func_ov001_0219ba3c(void) {
     u16 n;

@@ -16,7 +16,7 @@ void func_0204840c(u32 param_1, u8 *param_2) {
     u32 uVar1;
     if (*param_2 != '\0') {
         uVar1 = func_02048474();
-        func_0200d9e0(param_1, 0x80, ((u32) ((u32) (&data_02165148))), param_2, uVar1,
+        func_0200d9e0((char *) param_1, 0x80, (const char *) ((u32) ((u32) (&data_02165148))), param_2, uVar1,
                       ((u32) ((u32) (&data_0216515c))));
     }
     return;
@@ -24,7 +24,8 @@ void func_0204840c(u32 param_1, u8 *param_2) {
 
 void func_020483e4(u32 param_1, u8 *param_2) {
     if (*param_2 != '\0') {
-        func_0200d9e0(param_1, 0x80, ((u32) ((u32) (&data_0216512c))), param_2, ((u32) ((u32) (&data_02165140))));
+        func_0200d9e0((char *) param_1, 0x80, (const char *) ((u32) ((u32) (&data_0216512c))), param_2,
+                      ((u32) ((u32) (&data_02165140))));
     }
     return;
 }

@@ -19,6 +19,6 @@ void func_0204bca0(void) {
     u32 value12;
     value12 = (u32) &func_0200df68;
     value0 = (u32) &data_02175dd8;
-    func_0200df68((int) value0);
+    func_0200df68((Unk0200db5c *) value0);
     return;
 }

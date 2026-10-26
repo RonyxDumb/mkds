@@ -2,6 +2,7 @@
 #include "01/code_02184000.h"
 #include "01/unk_021a6000.h"
 #include "Main/Unknown/code_02109000.h"
+#include "code_02147cd8.h"
 
 void func_ov001_02184874(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
     s32 scale;

@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02151718.h"
+#include "code_020205b0.h"
 
 #pragma thumb on
 
@@ -62,7 +63,7 @@ u32 func_02151718(int param_1) {
     local_18 = 0;
     iVar4 = param_1;
     do {
-        uVar1 = func_020205e8(param_1 + ((int) 0x00000500u), iVar4, 0xfe);
+        uVar1 = func_020205e8((const u16 *) (param_1 + ((int) 0x00000500u)), (const u8 *) iVar4, 0xfe);
         *(u16 *) (iVar4 + 0xfe) = uVar1;
         do {
             func_021511d8(iVar5, iVar3, iVar4);

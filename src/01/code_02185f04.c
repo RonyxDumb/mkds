@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_02117000.h"
 #include "Main/Unknown/code_02118000.h"
 #include "Main/Unknown/code_0211e000.h"
+#include "code_02147cd8.h"
 
 s32 func_ov001_021860cc(Unk02188950 *param_1, Vec3 *param_2, s32 param_3, Vec3 *param_4) {
     s32 d1;

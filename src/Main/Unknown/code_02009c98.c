@@ -4,7 +4,7 @@
 
 int func_02009c98(void) {
     int iVar1;
-    iVar1 = func_02143dd0((u32) (*(u32 *) (*((int *) ((u32) (&data_0216fda8))) + ((int) 0x00000508u))));
+    iVar1 = func_02143dd0(*(Unk021425e8Func *) (*((int *) ((u32) (&data_0216fda8))) + ((int) 0x00000508u)));
     func_02009928((u16) (1), (int) (iVar1));
     if (iVar1 == 2) {
         iVar1 = 0;

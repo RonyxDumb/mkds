@@ -16,9 +16,8 @@
 #include "Main/Unknown/code_0211de40.h"
 #include "Main/Unknown/code_0211df44.h"
 #include "Main/Unknown/code_0212426c.h"
-#include "Main/Unknown/code_0212ecc0.h"
-#include "Main/Unknown/code_02147fd8.h"
 #include "Main/Unknown/unk_0217d068.h"
+#include "code_0212df7c.h"
 
 // One 0x40-byte element of the arrays held by Unk021a9bf4.
 typedef struct Unk021a9bf4Entry {

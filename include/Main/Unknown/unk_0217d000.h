@@ -2,6 +2,16 @@
 
 #include "types.h"
 
+#include "code_0212c478.h" // Unk0212c400
+#include "code_0212c7a0.h" // Unk0212c7a0
+#include "code_0212c7f0.h" // Unk0212c8a4
+#include "code_0212c9d4.h" // Unk0212ccd4, Unk0212c9d4
+#include "code_0200e904.h" // Unk0200eb90
+#include "code_0212da38.h" // Unk02017328
+
+struct Unk0212d5f8;
+struct Unk0212ef48;
+
 // Objects whose layout isn't known yet.
 extern u8 data_0217d014[];
 extern u8 data_0217d018[];
@@ -46,12 +56,19 @@ extern u8 data_0217d324[];
 extern u8 data_0217d328[];
 extern u8 data_0217d32c[];
 extern u8 data_0217d40c[];
-extern u8 data_0217d438[];
-extern u8 data_0217d43c[];
-extern u8 data_0217d440[];
-extern u8 data_0217dda8[];
-extern u8 data_0217ddd0[];
-extern u8 data_0217dec4[];
+extern u32 data_0217d438;
+extern u32 data_0217d43c;
+extern u32 data_0217d440;
+extern u32 data_0217dda8;
+extern Unk0212ccd4 data_0217ddd0;
+extern Unk0212c400 data_0217d45c[16];
+extern Unk0212c7a0 data_0217d89c[];
+extern Unk02017328 data_0217dd1c;
+extern Unk0212c8a4 data_0217dd28[];
+extern s32 data_0217ddac;
+extern Unk0200eb90 data_0217ddb0;
+extern Unk0212c9d4 data_0217de24[8];
+extern struct Unk0212d5f8 *data_0217dec4;
 extern u8 data_0217d1e8[];
 extern u8 data_0217d1ec[];
 extern u8 data_0217d1f8[];
@@ -61,4 +78,5 @@ extern u8 data_0217d33c[];
 extern u8 data_0217d340[];
 extern u8 data_0217d404[];
 extern u8 data_0217d410[];
+extern struct Unk0212ef48 *data_0217df04;
 extern u8 data_0217df08[];

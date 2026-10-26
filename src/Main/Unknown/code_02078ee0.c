@@ -4,9 +4,9 @@
 
 void func_02078f78(u32 param_1) {
     u32 uVar1;
-    uVar1 = func_020136f0();
+    uVar1 = (u32) func_020136f0((Unk020136f0 *) param_1);
     *(u32 *) (*((int *) ((u32) (&data_0217ad08))) + ((int) 0x000001d4u)) = uVar1;
-    func_02012cbc((u32) (param_1));
+    func_02012cbc((Unk020136f0 *) (param_1));
     return;
 }
 

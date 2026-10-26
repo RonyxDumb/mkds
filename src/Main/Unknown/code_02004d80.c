@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02004d80.h"
+#include "code_02004dc0.h"
 
 u32 func_02004db0(void) {
     u32 value0;

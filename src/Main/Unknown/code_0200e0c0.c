@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0200e0c0.h"
 
-void func_0200e0c0(u32 arg0) {
+void func_0200e0c0(Unk0200db5c *arg0) {
     u32 value0 = (u32) arg0;
     u32 compareLeft0;
     u32 compareRight0;
@@ -14,6 +14,6 @@ void func_0200e0c0(u32 arg0) {
     if ((u32) compareLeft0 == (u32) compareRight0) {
         return;
     }
-    func_0200f8b8((UnkTimer *) value0);
+    func_0200f8b8((Unk0200fb08 *) value0);
     return;
 }

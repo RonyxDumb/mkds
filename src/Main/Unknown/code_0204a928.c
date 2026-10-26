@@ -25,6 +25,6 @@ void func_0204a928(u32 arg0) {
     *(u32 *) ((value0) + (8)) = (u32) value1;
     value0 = (u32) * (const u32 *) ((value0) + (0));
     value1 = 0xdccu;
-    func_0200ee58((u32) value0, (int) value1);
+    func_0200ee58((void *) value0, (int) value1);
     return;
 }

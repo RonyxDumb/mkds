@@ -1,5 +1,6 @@
 #pragma once
 
+#include "code_021458c4.h"
 #include "types.h"
 #include "01/code_02196da8.h"
 #include "Main/Unknown/code_02036bec.h"
@@ -8,13 +9,12 @@
 #include "Main/Unknown/code_020b3f7c.h"
 #include "Main/Unknown/code_02125f88.h"
 #include "Main/Unknown/code_02128210.h"
-#include "Main/Unknown/code_0212ecc0.h"
-#include "Main/Unknown/code_02147fd8.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_0212426c.h"
 #include "00/code_02182fdc.h"
 #include "01/code_02196e30.h"
+#include "code_0212df7c.h"
 
 // One 0x40-byte element of the arrays held by Unk021a9bdc.
 typedef struct Unk021a9bdcEntry {
@@ -98,8 +98,6 @@ s16 func_020adc64(s32 a);
 s32 func_02060268(s32 a);
 void func_02060004(s32 a);
 void func_02057d9c(void);
-void func_02145d38(void);
-s32 func_0201ea84(void *a, s32 b, s32 c);
 void func_021172a8(void *heap);
 void *func_02111318(void);
 void *func_0211130c(void);

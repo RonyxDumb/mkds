@@ -1,5 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "code_02003024.h"
 
-u32 func_0200320c(u32 arg0);
+s32 func_0200320c(Unk02003024 *a);

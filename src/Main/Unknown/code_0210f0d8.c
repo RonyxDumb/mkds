@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_0210f0d8.h"
+#include "code_020203e4.h"
 
 void func_0210f114(void) {
     func_020203e4();
@@ -7,7 +8,7 @@ void func_0210f114(void) {
 }
 
 void func_0210f0f4(int param_1) {
-    func_0214f264((u32) (param_1 + 0x400));
+    func_0214f264((Unk0214f2a8 *) (param_1 + 0x400));
     func_0202041c();
     return;
 }

@@ -9,16 +9,16 @@
 #include "Main/Unknown/code_02029520.h"
 #include "Main/Unknown/code_02036000.h"
 #include "Main/Unknown/code_02127000.h"
-#include "Main/Unknown/code_0212ecc0.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "Main/Unknown/code_020b3f7c.h"
-#include "Main/Unknown/code_02147fd8.h"
 #include "01/code_0219ffb4.h"
 #include "01/code_021a0000.h"
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_0203b000.h"
 #include "Main/Unknown/code_02116000.h"
 #include "Main/Unknown/code_0203b680.h"
+#include "code_0212df7c.h"
+#include "Main/Unknown/code_02148ca0.h"
 
 void func_ov001_021a0734(void)
 {

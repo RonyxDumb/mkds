@@ -14,11 +14,12 @@
 #include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Unknown/code_020b4000.h"
 #include "Main/Unknown/code_0204799c.h"
-#include "Main/Unknown/code_0212ecc0.h"
 #include "Main/Unknown/code_02128210.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "01/code_021a1000.h"
+#include "code_0212df7c.h"
+#include "code_0201ea58.h"
 
 void func_ov001_021a13d8(void) {
     u32 r5 = -1;

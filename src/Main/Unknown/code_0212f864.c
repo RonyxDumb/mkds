@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0212f864.h"
 
-void func_0212f864(u32 arg0) {
+void func_0212f864(Unk0212f7c8 *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value2;

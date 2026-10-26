@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0201750c.h"
 
-void func_02017538(u32 *arg0, u16 arg1) {
+void func_02017538(Unk02017328 *arg0, u16 arg1) {
     u32 value0 = (u32) arg0;
     u32 value1 = (u32) arg1;
     u32 value2;

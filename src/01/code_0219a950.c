@@ -15,10 +15,10 @@
 #include "Main/Unknown/code_02114000.h"
 #include "Main/Unknown/code_02125f88.h"
 #include "Main/Unknown/code_0212426c.h"
-#include "Main/Unknown/code_0212ecc0.h"
 #include "Main/Unknown/code_021262f0.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/unk_0217d068.h"
+#include "code_0212df7c.h"
 
 void func_ov001_0219ae10(void) {
     data_ov001_021a9bf0->mUnk_34 = 5;
@@ -117,20 +117,20 @@ void func_ov001_0219a9a0(void *heap) {
     data_ov001_021a9bf0->mUnk_2c = heap;
     data_ov001_021a9bf0->mUnk_30 = 0;
     switch (func_0211147c()) {
-    case 1:
-    case 5:
-        data_ov001_021a9bf0->mUnk_40 = 0;
-        break;
-    case 2:
-        data_ov001_021a9bf0->mUnk_40 = 1;
-        break;
-    case 3:
-        if (func_021143b4()) {
-            data_ov001_021a9bf0->mUnk_40 = 2;
-        } else {
+        case 1:
+        case 5:
             data_ov001_021a9bf0->mUnk_40 = 0;
-        }
-        break;
+            break;
+        case 2:
+            data_ov001_021a9bf0->mUnk_40 = 1;
+            break;
+        case 3:
+            if (func_021143b4()) {
+                data_ov001_021a9bf0->mUnk_40 = 2;
+            } else {
+                data_ov001_021a9bf0->mUnk_40 = 0;
+            }
+            break;
     }
     func_ov001_0219b000();
     for (i = 0; i < 3; i++) {

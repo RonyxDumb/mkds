@@ -13,10 +13,9 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02124000.h"
-#include "Main/Unknown/code_0212ecc0.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "01/unk_021a7000.h"
-
+#include "code_0212df7c.h"
 
 void func_ov001_021a6430(s32 a, s32 flagB, void *c, void *d, u32 e, u16 f, s32 flagG) {
     s32 v0 = 14;
@@ -200,43 +199,43 @@ s32 func_ov001_021a5f70(s32 a, s32 x, s32 y, s32 d, s32 dx, s32 dy) {
         data_ov001_021ca420->mUnk_34 = ex;
         data_ov001_021ca420->mUnk_38 = ey;
         switch (data_ov001_021ca420->mUnk_00) {
-        case 0:
-        case 1:
-            if (data_ov001_021ca420->mUnk_30 != 0) {
-                switch (data_ov001_021ca420->mUnk_04) {
-                case 0:
-                    if (func_ov001_02180eec(ax, ay, bx, by, col) != 0) {
-                        result = 1;
-                    } else {
-                        result = 0;
-                    }
-                    break;
-                case 1:
-                    for (i = 0; i < 0x2000; i += 0x1000) {
-                        for (j = 0; j < 0x2000; j += 0x1000) {
-                            if (func_ov001_02180eec(ax + i, ay + j, bx + i, by + j, col) != 0) {
+            case 0:
+            case 1:
+                if (data_ov001_021ca420->mUnk_30 != 0) {
+                    switch (data_ov001_021ca420->mUnk_04) {
+                        case 0:
+                            if (func_ov001_02180eec(ax, ay, bx, by, col) != 0) {
                                 result = 1;
+                            } else {
+                                result = 0;
                             }
-                        }
-                    }
-                    break;
-                case 2:
-                    for (i = -0x1000; i < 0x2000; i += 0x1000) {
-                        for (j = -0x1000; j < 0x2000; j += 0x1000) {
-                            if (func_ov001_02180eec(ax + i, ay + j, bx + i, by + j, col) != 0) {
-                                result = 1;
+                            break;
+                        case 1:
+                            for (i = 0; i < 0x2000; i += 0x1000) {
+                                for (j = 0; j < 0x2000; j += 0x1000) {
+                                    if (func_ov001_02180eec(ax + i, ay + j, bx + i, by + j, col) != 0) {
+                                        result = 1;
+                                    }
+                                }
                             }
-                        }
+                            break;
+                        case 2:
+                            for (i = -0x1000; i < 0x2000; i += 0x1000) {
+                                for (j = -0x1000; j < 0x2000; j += 0x1000) {
+                                    if (func_ov001_02180eec(ax + i, ay + j, bx + i, by + j, col) != 0) {
+                                        result = 1;
+                                    }
+                                }
+                            }
+                            break;
                     }
-                    break;
                 }
-            }
-            d = result;
-            break;
-        case 2:
-        case 3:
-            d = 1;
-            break;
+                d = result;
+                break;
+            case 2:
+            case 3:
+                d = 1;
+                break;
         }
     }
     func_ov001_021a63d8();
@@ -247,40 +246,42 @@ s32 func_ov001_021a5f70(s32 a, s32 x, s32 y, s32 d, s32 dx, s32 dy) {
             col = data_ov001_021ca420->mUnk_08;
         }
         switch (data_ov001_021ca420->mUnk_00) {
-        case 0:
-        case 1:
-            switch (data_ov001_021ca420->mUnk_04) {
             case 0:
-                if (func_ov001_02181020(data_ov001_021ca420->mUnk_34, data_ov001_021ca420->mUnk_38, col) != 0) {
-                    result = 1;
-                }
-                break;
             case 1:
-                for (i = 0; i < 2; i++) {
-                    for (j = 0; j < 2; j++) {
-                        if (func_ov001_02181020(data_ov001_021ca420->mUnk_34 + i, data_ov001_021ca420->mUnk_38 + j, col) != 0) {
+                switch (data_ov001_021ca420->mUnk_04) {
+                    case 0:
+                        if (func_ov001_02181020(data_ov001_021ca420->mUnk_34, data_ov001_021ca420->mUnk_38, col) != 0) {
                             result = 1;
                         }
-                    }
+                        break;
+                    case 1:
+                        for (i = 0; i < 2; i++) {
+                            for (j = 0; j < 2; j++) {
+                                if (func_ov001_02181020(data_ov001_021ca420->mUnk_34 + i,
+                                                        data_ov001_021ca420->mUnk_38 + j, col) != 0) {
+                                    result = 1;
+                                }
+                            }
+                        }
+                        break;
+                    case 2:
+                        for (i = -1; i < 2; i++) {
+                            for (j = -1; j < 2; j++) {
+                                if (func_ov001_02181020(data_ov001_021ca420->mUnk_34 + i,
+                                                        data_ov001_021ca420->mUnk_38 + j, col) != 0) {
+                                    result = 1;
+                                }
+                            }
+                        }
+                        break;
                 }
                 break;
             case 2:
-                for (i = -1; i < 2; i++) {
-                    for (j = -1; j < 2; j++) {
-                        if (func_ov001_02181020(data_ov001_021ca420->mUnk_34 + i, data_ov001_021ca420->mUnk_38 + j, col) != 0) {
-                            result = 1;
-                        }
-                    }
-                }
+                result = func_ov001_021a62ac();
                 break;
-            }
-            break;
-        case 2:
-            result = func_ov001_021a62ac();
-            break;
-        case 3:
-            result = func_ov001_021a6278();
-            break;
+            case 3:
+                result = func_ov001_021a6278();
+                break;
         }
     }
     data_ov001_021ca420->mUnk_30 = a;

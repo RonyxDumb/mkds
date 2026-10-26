@@ -1,0 +1,8 @@
+#pragma once
+
+#include "types.h"
+#include "code_0213442c.h" // Unk0213c94c
+
+u32 func_02134890(const u8 *a, u32 b, u32 c, Unk0213c94c *d);
+int func_021349c4(Unk0213c94c *a);
+double func_02134ae8(double a, int n);

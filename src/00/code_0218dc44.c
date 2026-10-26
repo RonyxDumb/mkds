@@ -3,8 +3,7 @@
 void func_ov000_0218dc48(int *param_1) {
     int iVar1;
     if (param_1 == (int *) 0x0) {
-        func_0213442c((u32) (((u32) ((u32) (&data_ov000_021b2334)))), (u32) (((u32) ((u32) (&data_ov000_021b22dc)))),
-                      (u32) (0), (u32) (0x69));
+        func_0213442c(data_ov000_021b2334, data_ov000_021b22dc, 0, 0x69);
     }
     iVar1 = 0;
     if (0 < *param_1) {

@@ -1,12 +1,14 @@
 #pragma once
 
 #include "types.h"
+#include "code_0200e0ec.h" // Unk0200db5c
 
 // Declared here until the code that defines them is decompiled.
-void func_0200e01c(void *param_1);
-void func_0200e084(int param_1);
-void func_0200ecc4(int param_1);
-void func_0200ed34(int param_1);
-void func_0200ee58(u32 param_1, int param_2);
+s32 func_0200e6ec(Unk0200db5c *t);
+void func_0200e738(Unk0200db5c *t);
+void func_0200ee08(void);
+void func_0200ee3c(void *p, u32 n);
+void func_0200ee58(void *p, u32 n);
 void func_0200ee74(u32 param_1, int param_2);
 u32 func_0200ee98();
+void func_0200eea4(void *p, u32 n);

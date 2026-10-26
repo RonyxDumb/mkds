@@ -4,13 +4,16 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_0204799c.h"
-#include "Main/Unknown/code_02012000.h"
+#include "code_02012b30.h"
+#include "code_02021db0.h"
 #include "Main/Unknown/code_02021000.h"
-#include "Main/Unknown/code_02022000.h"
+#include "code_02022030.h"
+#include "code_020222ec.h"
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_020ae000.h"
 #include "Main/Unknown/code_020e6000.h"
 #include "Main/Unknown/code_020220f0.h"
+#include "code_02147cd8.h"
 
 Unk021ca41c_085c *func_ov001_021852f8(const char *param_1, void *param_2, void *param_3) {
     s16 *box;
@@ -36,7 +39,7 @@ Unk021ca41c_085c *func_ov001_021852f8(const char *param_1, void *param_2, void *
         entry->mUnk_08 = (s32)(rec[i].mUnk_04 > 0 ? 0.5f + (float)(rec[i].mUnk_04 << 12) : (float)(rec[i].mUnk_04 << 12) - 0.5f);
         entry->mUnk_18 = 0x1000;
         entry->mUnk_0c = rec[i].mUnk_06 != 0;
-        func_02022904(&entry->mUnk_2c, func_02021db0(param_3, rec[i].mUnk_00), param_2);
+        func_02022904((Unk02022030 *) &entry->mUnk_2c, func_02021db0(param_3, rec[i].mUnk_00), param_2);
         if (rec[i].mUnk_06 > 1) {
             entry->mUnk_2c.mUnk_08 = 1;
         } else {
@@ -91,18 +94,18 @@ void func_ov001_0218516c(Unk021ca41c_085c *param_1, Unk0218516c *param_2) {
                     cell = entry->mUnk_2c.mUnk_2c;
                     pos_a[0] = x << 12;
                     pos_a[1] = y << 12;
-                    param_2->mUnk_400 += func_020224e0(&param_2->mUnk_000[param_2->mUnk_400 * 8], 0x80 - param_2->mUnk_400, cell, mtx, pos_a, idx, 1);
+                    param_2->mUnk_400 += func_020224e0((Unk020224e0_o *) &param_2->mUnk_000[param_2->mUnk_400 * 8], 0x80 - param_2->mUnk_400, (Unk020224e0_c *) cell, mtx, pos_a, idx, 1);
                 } else {
                     cell = entry->mUnk_2c.mUnk_2c;
                     pos_b[0] = x << 12;
                     pos_b[1] = y << 12;
-                    param_2->mUnk_400 += func_020224e0(&param_2->mUnk_000[param_2->mUnk_400 * 8], 0x80 - param_2->mUnk_400, cell, 0, pos_b, 0, 0);
+                    param_2->mUnk_400 += func_020224e0((Unk020224e0_o *) &param_2->mUnk_000[param_2->mUnk_400 * 8], 0x80 - param_2->mUnk_400, (Unk020224e0_c *) cell, 0, pos_b, 0, 0);
                 }
             }
         }
         if (sub->mUnk_08 != 0) {
-            func_02022890(&entry->mUnk_2c, 0x1000);
-            func_020228c0(&entry->mUnk_2c, 0x1000);
+            func_02022890((Unk02022030 *) &entry->mUnk_2c, 0x1000);
+            func_020228c0((Unk02022030 *) &entry->mUnk_2c, 0x1000);
         }
     }
 }
@@ -143,7 +146,7 @@ void func_ov001_02185018(Unk021a5a58 *param_1, s32 param_2) {
         sub->mUnk_14 = 2;
         param_1->mUnk_2c.mUnk_08 = 1;
     } else if (param_2 == -2) {
-        func_02022040(sub);
+        func_02022040((Unk02022030 *) sub);
         sub->mUnk_14 = 1;
         param_1->mUnk_2c.mUnk_08 = 1;
     } else if (param_2 == -3) {
@@ -154,7 +157,7 @@ void func_ov001_02185018(Unk021a5a58 *param_1, s32 param_2) {
         param_1->mUnk_0c = 0;
     } else if (param_2 >= 0) {
         param_1->mUnk_0c = 1;
-        func_02022898(sub, param_2);
+        func_02022898((Unk02022030 *) sub, param_2);
     }
 }
 

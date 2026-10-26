@@ -1,7 +1,6 @@
 #include "code_02003234.h"
 #include "Main/Unknown/code_02004d80.h"
-#include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_0200d000.h"
+#include "code_0200dc3c.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "Main/Unknown/code_0214d000.h"
 
@@ -43,7 +42,7 @@ void func_02003ad8(Unk02003ad8 *a, void *b, u32 c) {
             s = func_0200fca0();
             if (o->mUnk_1c & 0x200) {
                 do {
-                    func_0200e01c(o->mUnk_0c);
+                    func_0200e01c(&o->mUnk_0c);
                 } while (o->mUnk_1c & 0x200);
             }
             func_0200fcb4(s);
@@ -61,24 +60,32 @@ s32 func_02003aa4(Unk02003024 *a, u32 b) {
     return func_02003024(a, 2);
 }
 
-// non-matching: the pointer from mUnk_08 should sit in lr with r0 untouched; here it takes r0 and the argument
-// moves to r3 (9 words differ from +0x8)
 s32 func_02003a6c(Unk02003024 *a) {
     Unk02003a6c *o;
+    void *buf;
+    u32 pos;
+    u32 n;
 
+    pos = a->mUnk_2c;
+    n = a->mUnk_30.p.mUnk_08;
     o = a->mUnk_08;
-    a->mUnk_2c += a->mUnk_30.w.mUnk_08;
-    return o->mUnk_48(o, a->mUnk_30.w.mUnk_00);
+    buf = a->mUnk_30.p.mUnk_00;
+    a->mUnk_2c = pos + n;
+    return o->mUnk_48(o, buf, pos, n);
 }
 
-// non-matching: the pointer from mUnk_08 should sit in lr with r0 untouched; here it takes r0 and the argument
-// moves to r3 (9 words differ from +0x8)
 s32 func_02003a34(Unk02003024 *a) {
     Unk02003a6c *o;
+    void *buf;
+    u32 pos;
+    u32 n;
 
+    pos = a->mUnk_2c;
+    n = a->mUnk_30.p.mUnk_08;
     o = a->mUnk_08;
-    a->mUnk_2c += a->mUnk_30.w.mUnk_08;
-    return o->mUnk_4c(o, a->mUnk_30.w.mUnk_00);
+    buf = a->mUnk_30.p.mUnk_00;
+    a->mUnk_2c = pos + n;
+    return o->mUnk_4c(o, buf, pos, n);
 }
 
 s32 func_0200399c(Unk02003024 *a) {

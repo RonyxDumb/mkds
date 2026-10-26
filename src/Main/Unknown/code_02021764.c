@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02021764.h"
+#include "code_02020eb0.h"
 
 u32 func_02021764(u32 arg0) {
     u32 value0 = (u32) arg0;

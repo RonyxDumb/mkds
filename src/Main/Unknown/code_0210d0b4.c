@@ -20,7 +20,7 @@ void func_0210d0ec(void) {
 }
 
 void func_0210d0b4(u32 param_1, int param_2, u32 param_3) {
-    func_0212ec04((u32) (param_2), (u32) (0xffffffff), (u32) (0xffffffff), (u32) (param_3),
+    func_0212ec04((Unk0212c400 **) (param_2), (u32) (0xffffffff), (u32) (0xffffffff), (u32) (param_3),
                   (u32) (*(u8 *) (param_2 + 0x18)), (u32) (*(u16 *) (param_2 + 0x16)));
     return;
 }

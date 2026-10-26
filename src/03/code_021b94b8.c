@@ -172,7 +172,7 @@ s32 func_ov003_021ba394(Unk021ba734 **out) {
     Unk021ba778Src *buffer;
     Unk021ba734 *list;
     void *msg;
-    UnkTimer timer;
+    Unk0200fb08 timer;
     s32 i;
     if (data_ov003_021d8a0c == 0 || data_ov003_021d8a18 == 0) {
         return -1;
@@ -260,7 +260,7 @@ s32 func_ov003_021ba1b0(Unk021ba1b0 *request, Unk021ba734 *out) {
     s32 done;
     u32 flags;
     void *msg;
-    UnkTimer timer;
+    Unk0200fb08 timer;
     done = 0;
     result = -1;
     if (request->mUnk_24 == 0) {

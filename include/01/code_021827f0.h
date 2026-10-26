@@ -9,9 +9,9 @@
 #include "Main/Unknown/code_020d2000.h"
 #include "Main/Unknown/code_020d22c0.h"
 #include "Main/Unknown/code_020f36d8.h"
-#include "Main/Unknown/code_0212c000.h"
-#include "Main/Unknown/code_0212ecc0.h"
+#include "code_0212c478.h"
 #include "Main/Unknown/unk_021759c0.h"
+#include "code_0212df7c.h"
 
 void func_ov001_021827f0(void);
 void func_ov001_021828f0(void);

@@ -67,10 +67,28 @@ def read_report() -> dict:
     path = ROOT / "build" / VERSION / "report.json"
     if not path.is_file():
         sys.exit(f"{path} missing; run `ninja report` first")
-    m = json.loads(path.read_text())["measures"]
+    report = json.loads(path.read_text())
+    m = report["measures"]
     row = {k: int(m.get(k, 0)) for k in FIELDS[1:-1]}
     row["fuzzy_match_percent"] = round(float(m.get("fuzzy_match_percent", 0)), 3)
+    # objdiff counts every symbol in a code section as a function, so data placed inside .text is not one.
+    data = data_symbols()
+    for unit in report["units"]:
+        for fn in unit.get("functions", []):
+            if fn["name"] in data:
+                row["total_functions"] -= 1
+                if fn.get("fuzzy_match_percent", 0) >= 100:
+                    row["matched_functions"] -= 1
     return row
+
+
+def data_symbols() -> set[str]:
+    names = set()
+    for module in modules():
+        path = module_paths(module)[0] / "symbols.txt"
+        if path.is_file():
+            names.update(m.group(1) for m in re.finditer(r"^(\S+) kind:data\b", path.read_text(), re.M))
+    return names
 
 
 def read_history() -> list[dict]:

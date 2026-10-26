@@ -1,6 +1,7 @@
 #include "01/code_02181c3c.h"
 #include "01/code_02182000.h"
 #include "Main/Unknown/code_020d8000.h"
+#include "code_02147cd8.h"
 
 void func_ov001_02181c3c(void *param_1, Unk02181c3c *param_2) {
     s32 n;

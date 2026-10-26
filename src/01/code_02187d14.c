@@ -1,16 +1,16 @@
 #include "01/code_02187d14.h"
 #include "01/code_021a1bb8.h"
 #include "Main/Unknown/code_02061808.h"
-#include "Main/Unknown/code_02147fd8.h"
+#include "code_02147288.h"
+#include "code_02147cd8.h"
 #include "Main/Unknown/code_020de9ec.h"
 #include "01/unk_021a7000.h"
-#include "Main/Unknown/code_02012000.h"
+#include "code_02012b30.h"
 #include "Main/Unknown/code_02042000.h"
 #include "Main/Unknown/code_020ac000.h"
 #include "Main/Unknown/code_020da000.h"
 #include "Main/Unknown/code_020f4000.h"
 #include "Main/Unknown/code_020fd000.h"
-#include "Main/Unknown/code_02147000.h"
 
 void func_ov001_02187e48(Unk02188950 *param_1, s32 param_2) {
     s32 v;

@@ -7,7 +7,7 @@
 #include "00/code_02198714.h"
 #include "00/code_02199000.h"
 #include "00/unk_021b3000.h"
-#include "Main/Unknown/code_02134000.h"
+#include "code_0213442c.h"
 
 u32 func_ov000_02198d04(u32 param_1);
 u32 func_ov000_02198d50(u32 param_1);

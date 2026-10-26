@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_0204ad24.h"
+#include "code_02017f24.h"
 
 void func_0204ad24(void) {
     u32 value0;
@@ -9,6 +10,6 @@ void func_0204ad24(void) {
     value0 = (u32) * (const u32 *) ((value0) + (0));
     value1 = 3u;
     value0 = (u32) * (const u32 *) ((value0) + (36));
-    func_0201804c((u32) value0, (u32) value1);
+    func_0201804c((void *) value0, (u32) value1);
     return;
 }

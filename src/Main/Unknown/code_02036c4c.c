@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02036c4c.h"
+#include "code_020176c0.h"
 
 u32 func_02036c4c(u32 arg0, u32 arg1) {
     u32 value0 = (u32) arg0;
