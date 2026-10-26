@@ -3,7 +3,7 @@
 #include "03/code_021b94ac.h"
 
 #include "types.h"
-#include "Main/Unknown/code_0214cfe4.h"
+#include "code_0214cfe4.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "code_0200f7a0.h"
 #include "Main/Unknown/code_0214d000.h"

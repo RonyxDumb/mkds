@@ -14,3 +14,12 @@ extern u8 data_021803d8[];
 extern u8 data_02180414[];
 
 extern u8 data_021802ac[];
+
+extern u32 data_021802e8;
+extern u32 data_021802ec;
+extern u8 *data_021802f0;
+extern s32 data_021802f4;
+extern u8 *data_021802f8;
+extern u32 data_021802fc;
+extern u32 data_02180300;
+extern u32 data_02180304;

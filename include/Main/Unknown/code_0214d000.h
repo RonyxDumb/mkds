@@ -17,7 +17,6 @@ void func_0214d168(void *dst, u8 value, u32 size);
 void func_0214d1fc(const void *src, void *dst, u32 size);
 void func_0214d018(u32 v, void *dst, u32 n);
 s32 func_0214d33c(s32 v, s32 *p);
-void func_0214d594(void);
 u32 func_0214d5b8(void);
 s32 func_0214d6e8(u32 a, u32 b, u32 c);
 s32 func_0214d79c(u32 a, u32 b);

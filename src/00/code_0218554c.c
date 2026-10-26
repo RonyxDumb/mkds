@@ -16,12 +16,12 @@ void func_ov000_0218554c(void) {
     uVar1 = ((int) func_0204799c((const char *) (((u32) ((u32) (&data_ov000_021b0fa0))))));
     func_020b4a44((Unk020b4a44 **) ((int *) (u32) (*((int *) ((u32) (&data_ov000_021b4c88))) + 0x3c)),
                   (void *) (uVar1));
-    func_0214bf04((u32) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov000_021b4c88))) + 0x38) + 0x14)), (int) (0),
-                  (u32) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov000_021b4c88))) + 0x38) + 0x10)));
-    func_0214c090((u32) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov000_021b4c88))) + 0x3c) + 0xc)), (int) (0),
-                  (u32) (((u32) 0x000001a0u)));
-    func_0214c090(
-        (u32) (*(int *) (*(int *) (*((int *) ((u32) (&data_ov000_021b4c88))) + 0x3c) + 0xc) + ((int) 0x000001c0u)),
-        (int) (((int) 0x000001c0u)), (u32) (0x40));
+    func_0214bf04((const void *) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov000_021b4c88))) + 0x38) + 0x14)),
+                  (int) (0), (u32) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov000_021b4c88))) + 0x38) + 0x10)));
+    func_0214c090((const void *) (*(u32 *) (*(int *) (*((int *) ((u32) (&data_ov000_021b4c88))) + 0x3c) + 0xc)),
+                  (int) (0), (u32) (((u32) 0x000001a0u)));
+    func_0214c090((const void *) (*(int *) (*(int *) (*((int *) ((u32) (&data_ov000_021b4c88))) + 0x3c) + 0xc) +
+                                  ((int) 0x000001c0u)),
+                  (int) (((int) 0x000001c0u)), (u32) (0x40));
     return;
 }

@@ -18,9 +18,9 @@ void func_02036438(void *heap) {
     iVar3 = *(int *) (iVar2 + 0x24);
     iVar2 = ((u32) func_020d1630());
     iVar2 = *(int *) (iVar2 + 0x28);
-    func_0214b9c4((u32) (*(u32 *) (iVar3 + 0x14)), (int) (0), (u32) (*(u32 *) (iVar3 + 0x10)));
-    func_0214b824((u32) (*(u32 *) (iVar3 + 0x14)), (int) (0), (u32) (*(u32 *) (iVar3 + 0x10)));
-    func_0214c0f8((u32) (*(u32 *) (iVar2 + 0xc)), (int) (0), (u32) (*(u32 *) (iVar2 + 8)));
+    func_0214b9c4((const void *) (*(u32 *) (iVar3 + 0x14)), (int) (0), (u32) (*(u32 *) (iVar3 + 0x10)));
+    func_0214b824((const void *) (*(u32 *) (iVar3 + 0x14)), (int) (0), (u32) (*(u32 *) (iVar3 + 0x10)));
+    func_0214c0f8((const void *) (*(u32 *) (iVar2 + 0xc)), (int) (0), (u32) (*(u32 *) (iVar2 + 8)));
     return;
 }
 

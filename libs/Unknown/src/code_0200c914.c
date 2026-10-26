@@ -3,7 +3,6 @@
 #include "Main/Unknown/code_0200c000.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_0214c000.h"
 #include "Main/Unknown/code_0214d000.h"
 
 u16 data_021617bc[8] = {8, 9, 10, 11, 3, 4, 5, 6};

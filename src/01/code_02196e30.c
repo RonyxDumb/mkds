@@ -1,6 +1,6 @@
 #include "01/code_02196e30.h"
 #include "01/code_02195a6c.h"
-#include "Main/Unknown/code_0214cfe4.h"
+#include "code_0214cfe4.h"
 #include "Main/Unknown/code_02125000.h"
 #include "01/unk_021a6000.h"
 #include "01/code_02193b1c.h"

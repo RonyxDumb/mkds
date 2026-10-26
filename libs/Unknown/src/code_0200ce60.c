@@ -5,7 +5,6 @@
 #include "Main/Unknown/code_0200c000.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_0214c000.h"
 #include "Main/Unknown/code_0214d000.h"
 
 s32 data_0216ff40;

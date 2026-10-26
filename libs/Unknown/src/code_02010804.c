@@ -1,5 +1,5 @@
 #include "code_02010804.h"
-#include "Main/Unknown/code_0214c000.h"
+#include "code_0214c1bc.h"
 
 void func_02010870(Unk02010804 *a, u32 b) {
     a->mUnk_2c = b;

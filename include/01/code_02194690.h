@@ -8,7 +8,7 @@
 #include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Unknown/code_0212426c.h"
 #include "Main/Unknown/code_02147fd8.h"
-#include "Main/Unknown/code_0214cfe4.h"
+#include "code_0214cfe4.h"
 #include "Main/Unknown/code_0211d000.h"
 
 void func_ov001_02194690(void);
