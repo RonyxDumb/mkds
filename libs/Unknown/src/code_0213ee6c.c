@@ -612,9 +612,8 @@ double func_021400a0(double a, double b) {
     return a;
 }
 
-static const double k0 = -1.904654299957768e-09;
-
 double func_0213ee6c(double a, double b) {
+    static const double k0 = -1.904654299957768e-09;
     int q;
     double z, c, p1, b1, t1, t, s1, t3;
     double d, u, v, w, r, s, s0, s2, s3, t2, t4, z1, z2, p2;
