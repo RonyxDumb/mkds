@@ -13,7 +13,9 @@ one kind are laid out in object order without overlaps, and prints the delinks l
 --write replaces the unit's data ranges in delinks.txt (only when every section was placed consistently).
 """
 import argparse
+import fcntl
 import json
+import os
 import re
 import struct
 import sys
@@ -277,8 +279,18 @@ def main():
         for name, (lo, hi) in list(ranges.items()):
             if name in bounds and not any(hi <= a < bounds[name][1] for a in sym_addrs):
                 ranges[name] = (lo, bounds[name][1])
-        write_ranges(delinks_path, args.source, ranges)
-        add_boundaries(module, ranges, bounds)
+        # Several of these can run at once (tools/try_link.py): one writer at a time, and each file is replaced
+        # whole so a reader never sees half of it.
+        with open(BUILD / ".data_ranges.lock", "w") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            write_ranges(delinks_path, args.source, ranges)
+            add_boundaries(module, ranges, bounds)
+
+
+def write_whole(path: Path, text: str):
+    tmp = path.with_name(path.name + f".{os.getpid()}.tmp")
+    tmp.write_text(text)
+    os.replace(tmp, path)
 
 
 def write_ranges(path: Path, src: str, ranges: dict[str, tuple[int, int]]):
@@ -306,7 +318,7 @@ def write_ranges(path: Path, src: str, ranges: dict[str, tuple[int, int]]):
                 del out[j]
             continue
         i += 1
-    path.write_text("\n".join(out) + "\n")
+    write_whole(path, "\n".join(out) + "\n")
 
 
 def load_symbols_any(module: str) -> set[int]:
@@ -345,7 +357,7 @@ def add_boundaries(module: str, ranges: dict[str, tuple[int, int]], bounds: dict
         idx = next((i for a, i in sorted(data_lines) if a > at), len(lines))
         lines.insert(idx, line)
         data_lines = [(a, i + 1 if i >= idx else i) for a, i in data_lines] + [(at, idx)]
-    path.write_text("\n".join(lines) + "\n")
+    write_whole(path, "\n".join(lines) + "\n")
 
 
 if __name__ == "__main__":
