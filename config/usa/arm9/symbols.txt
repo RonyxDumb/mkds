@@ -7707,7 +7707,6 @@ func_02152ae0 kind:function(thumb,size=0x28) addr:0x02152ae0
 func_usa_02152b08 kind:function(thumb,size=0x54) addr:0x02152b08
 data_02152b5c kind:data(any) addr:0x02152b5c
 data_02152b80 kind:data(any) addr:0x02152b80
-func_usa_02152bba kind:function(thumb,size=0x4) addr:0x02152bba
 data_usa_02152bc0 kind:data(any) addr:0x02152bc0
 data_usa_02152bcc kind:data(any) addr:0x02152bcc
 data_usa_02152be4 kind:data(any) addr:0x02152be4

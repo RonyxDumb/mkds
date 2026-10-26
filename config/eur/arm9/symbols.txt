@@ -7705,7 +7705,6 @@ func_02152ac4 kind:function(thumb,size=0x4) addr:0x02152ac4
 func_02152ac8 kind:function(thumb,size=0x18) addr:0x02152ac8
 func_02152ae0 kind:function(thumb,size=0x28) addr:0x02152ae0
 func_02152b08 kind:function(thumb,size=0x54) addr:0x02152b08
-func_02152bba kind:function(thumb,size=0x4) addr:0x02152bba
 data_02152bc0 kind:data(any) addr:0x02152bc0
 data_02152bcc kind:data(any) addr:0x02152bcc
 data_02152be4 kind:data(any) addr:0x02152be4
