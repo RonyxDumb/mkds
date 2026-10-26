@@ -244,11 +244,8 @@ from:0x02181c18 kind:load to:0x0218263d module:overlay(1)
 from:0x02181c1c kind:load to:0x0209bf1d module:main
 from:0x02181c2e kind:thumb_call to:0x0209bfa8 module:main
 from:0x02181c38 kind:load to:0x0218274d module:overlay(1)
-from:0x02181c4c kind:thumb_call to:0x02182536 module:overlay(1)
 from:0x02181c8a kind:thumb_call to:0x02182eb8 module:overlay(1)
 from:0x02181c9e kind:thumb_call_arm to:0x02148504 module:main
-from:0x02181cae kind:thumb_call to:0x02182536 module:overlay(1)
-from:0x02181cba kind:thumb_call to:0x02182536 module:overlay(1)
 from:0x02181cc6 kind:thumb_call_arm to:0x02133048 module:main
 from:0x02181cee kind:thumb_call_arm to:0x020d2600 module:main
 from:0x02181cfe kind:thumb_call to:0x02182eb8 module:overlay(1)
