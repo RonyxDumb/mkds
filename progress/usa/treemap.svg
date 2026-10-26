@@ -12,7 +12,7 @@
 <rect class="todo gap" x="18.0" y="76.0" width="29.2" height="28.3" stroke-width="2"/>
 <rect class="matched" x="18.0" y="77.0" width="10.20" height="26.3"/>
 <rect class="todo gap" x="18.0" y="104.3" width="29.2" height="32.3" stroke-width="2"/>
-<rect class="matched" x="18.0" y="105.3" width="2.16" height="30.3"/>
+<rect class="matched" x="18.0" y="105.3" width="23.21" height="30.3"/>
 <rect class="todo gap" x="18.0" y="136.5" width="29.2" height="25.2" stroke-width="2"/>
 <rect class="matched" x="18.0" y="137.5" width="1.30" height="23.2"/>
 <rect class="todo gap" x="18.0" y="161.8" width="29.2" height="40.7" stroke-width="2"/>
@@ -20,9 +20,9 @@
 <rect class="todo gap" x="18.0" y="202.5" width="29.2" height="37.4" stroke-width="2"/>
 <rect class="matched" x="18.0" y="203.5" width="2.23" height="35.4"/>
 <rect class="todo gap" x="18.0" y="239.9" width="29.2" height="18.5" stroke-width="2"/>
-<rect class="matched" x="18.0" y="240.9" width="0.87" height="16.5"/>
+<rect class="matched" x="18.0" y="240.9" width="12.29" height="16.5"/>
 <rect class="todo gap" x="18.0" y="258.4" width="29.2" height="31.1" stroke-width="2"/>
-<rect class="matched" x="18.0" y="259.4" width="0.92" height="29.1"/>
+<rect class="matched" x="18.0" y="259.4" width="3.78" height="29.1"/>
 <rect class="todo gap" x="18.0" y="289.5" width="29.2" height="19.5" stroke-width="2"/>
 <rect class="matched" x="18.0" y="290.5" width="0.83" height="17.5"/>
 <rect class="todo gap" x="18.0" y="309.0" width="29.2" height="51.5" stroke-width="2"/>
@@ -251,7 +251,7 @@
 <rect class="matched" x="495.4" y="371.4" width="2.77" height="28.4"/>
 <rect class="todo gap" x="495.4" y="400.7" width="24.1" height="1.3" stroke-width="2"/>
 <rect class="matched" x="495.4" y="401.7" width="2.24" height="0.0"/>
-<text class="lbl" x="20.0" y="71.0">main 4.9%</text>
+<text class="lbl" x="20.0" y="71.0">main 5.5%</text>
 <rect class="todo gap" x="523.4" y="76.0" width="34.4" height="21.1" stroke-width="2"/>
 <rect class="matched" x="523.4" y="77.0" width="2.10" height="19.1"/>
 <rect class="todo gap" x="523.4" y="97.1" width="34.4" height="34.3" stroke-width="2"/>

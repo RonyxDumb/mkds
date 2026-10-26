@@ -7,3 +7,4 @@ void func_0214c028(u32 param_1, int param_2, u32 param_3);
 void func_0214c090(u32 param_1, int param_2, u32 param_3);
 void func_0214c0f8(u32 param_1, int param_2, u32 param_3);
 void func_0214c160();
+void func_0214cb10(u32 a, u32 b, void *c, u32 d);
