@@ -26,5 +26,5 @@ void func_ov000_0218da04(unsigned int p0, unsigned int p1) {
     unsigned int v4 = ((unsigned int) *(unsigned int *) ((v2) + (20)));
     unsigned int v5 = ((unsigned int) *(unsigned int *) ((v2) + (0)));
     unsigned int v6 = ((unsigned int) *(unsigned int *) ((v2) + (8)));
-    unsigned int v7 = func_021382a8((unsigned int) (v4), (unsigned int) (v5), (unsigned int) (v6), (unsigned int) (v3));
+    func_021382a8((u8 *) (v4), (unsigned int) (v5), (unsigned int) (v6), (int (*)(void *, void *))(v3));
 }

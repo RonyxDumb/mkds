@@ -10,7 +10,7 @@ int func_ov003_021cd0d0(int *param_1) {
     iVar5 = 0;
     iVar3 = *param_1;
     do {
-        iVar2 = func_02134d30((u32) (iVar3 + 0x20), (u32) data_ov003_021d6638, (int) (6));
+        iVar2 = func_02134d30((const u8 *) (iVar3 + 0x20), (const u8 *) data_ov003_021d6638, (int) (6));
         if (iVar2 != 0) {
             iVar4 = iVar4 + 1;
         }

@@ -4,8 +4,8 @@
 // #0x20] (->0x24)`
 u32 func_ov000_021874c0(void) {
     u32 uVar1;
-    func_0200ed34((int) (*((int *) ((u32) (&data_ov000_021b4cb0))) + ((int) 0x000001dcu)));
+    func_0200ed34((void *) (*((int *) ((u32) (&data_ov000_021b4cb0))) + ((int) 0x000001dcu)));
     uVar1 = *(u32 *) *((int *) ((u32) (&data_ov000_021b4cb0)));
-    func_0200ecc4((int) (*((int *) ((u32) (&data_ov000_021b4cb0))) + ((int) 0x000001dcu)));
+    func_0200ecc4((void *) (*((int *) ((u32) (&data_ov000_021b4cb0))) + ((int) 0x000001dcu)));
     return uVar1;
 }

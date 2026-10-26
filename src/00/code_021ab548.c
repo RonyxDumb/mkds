@@ -22,7 +22,7 @@ u32 func_ov000_021ab548(int param_1, u32 param_2) {
         puVar2 = *(u32 **) (param_1 + ((int) 0x000007e8u));
         puVar3 = puVar2;
         do {
-            iVar1 = func_0213a074((u32) (*(u32 *) *puVar3), (u32) (param_2));
+            iVar1 = func_0213a074((const u8 *) (*(u32 *) *puVar3), (const u8 *) (param_2));
             if (iVar1 == 0) {
                 return puVar2[iVar4];
             }

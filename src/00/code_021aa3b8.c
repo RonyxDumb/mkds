@@ -9,7 +9,7 @@ void func_ov000_021aa3b8(int param_1, int param_2) {
     func_ov000_021aa50c((int *) ((int *) (u32) (param_1)), (u32) ((u32) (u32) (auStack_20)), (u32) (1));
     func_0214d1fc((const void *) ((u16 *) (u32) (param_1 + ((int) 0x000003d0u))),
                   (void *) ((u32 *) (u32) (param_1 + ((int) 0x00000378u))), (u32) (0x58));
-    iVar1 = func_02134d30((u32) (param_2), (u32) ((u32) (u32) (auStack_20)), (int) (0x10));
+    iVar1 = func_02134d30((const u8 *) (param_2), (const u8 *) ((u32) (u32) (auStack_20)), (int) (0x10));
     if (iVar1 != 0) {
         *(u8 *) (param_1 + ((int) 0x00000429u)) = 9;
         return;
@@ -19,7 +19,7 @@ void func_ov000_021aa3b8(int param_1, int param_2) {
     func_ov000_021aa468((int *) ((int *) (u32) (param_1)), (u32) ((u32) (u32) (auStack_20)), (u32) (1));
     func_0214d1fc((const void *) ((u16 *) (u32) (param_1 + ((int) 0x0000031cu))),
                   (void *) ((u32 *) (u32) (param_1 + ((int) 0x000002c0u))), (u32) (0x5c));
-    iVar1 = func_02134d30((u32) (param_2 + 0x10), (u32) ((u32) (u32) (auStack_20)), (int) (0x14));
+    iVar1 = func_02134d30((const u8 *) (param_2 + 0x10), (const u8 *) ((u32) (u32) (auStack_20)), (int) (0x14));
     if (iVar1 != 0) {
         *(u8 *) (param_1 + ((int) 0x00000429u)) = 9;
         return;

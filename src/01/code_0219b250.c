@@ -10,7 +10,7 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02087000.h"
 #include "Main/Unknown/code_02088000.h"
-#include "Main/Unknown/code_02135000.h"
+#include "code_02135014.h"
 #include "Main/Unknown/code_0209b000.h"
 
 
@@ -31,7 +31,7 @@ void *func_ov001_0219b510(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4, u16 p5, u16 p6
 void *func_ov001_0219b4d8(char *p0) {
     char buf[0x100];
     void *out = 0;
-    func_02135048((s8 *) buf, 0x100, (s8 *) "data/MissionRun/%s", (s8 *) p0);
+    func_02135048((u8 *) buf, 0x100, (const u8 *) "data/MissionRun/%s", (s8 *) p0);
     func_02048590(buf, (u32) func_020364e0(func_020364e8()), &out);
     return out;
 }
