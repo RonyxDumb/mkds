@@ -53,3 +53,36 @@ extern u16 data_0215caa4[];
 extern u16 data_0215cab4[];
 extern u16 data_0215cacc[];
 extern u32 data_0215cadc[];
+extern u16 data_0215ca9c[];
+extern u16 data_0215cafc[][4];
+extern u32 data_0215cbec[][4];
+extern u16 data_0215cc6c[];
+extern u16 data_0215cc70[];
+extern u32 data_0215cc9c[];
+extern u16 data_0215ccac[][2];
+extern u16 data_0215ccb4[];
+extern u16 data_0215ccc0[];
+extern u32 data_0215cccc[];
+extern u32 data_0215ccd8[];
+extern u32 data_0215cce4[];
+extern u32 data_0215ccf0[];
+extern u32 data_0215ccfc[];
+extern u32 data_0215cd08[];
+extern u32 data_0215cd18[];
+extern u32 data_0215cd24[];
+extern u32 data_0215cd28[];
+extern u16 data_0215cd4e[];
+extern u16 data_0215cd60[][2];
+
+// Element of data_0215cd74: read as a word and as two halfwords.
+typedef union Unk0215cd74 {
+    /* 00 */ u32 mUnk_00;
+    /* 00 */ u16 h[2];
+} Unk0215cd74;
+
+extern Unk0215cd74 data_0215cd74[];
+extern u16 data_0215cd88[][2];
+extern u16 data_0215cdb0[][2];
+extern u16 data_0215cdc4[][2];
+extern u32 data_0215cdd8[];
+extern u32 data_0215cdec[];

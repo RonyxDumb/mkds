@@ -6,3 +6,5 @@
 #include "Main/Unknown/code_021173e4.h"
 void func_021171a0(s32 a, void *b, void *c, u32 d, u16 e, s32 f);
 s32 func_02117418(void);
+void func_02117060(void);
+void func_021170f8(void);

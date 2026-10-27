@@ -30,7 +30,7 @@ unsigned int func_020296c0(unsigned int p0) {
                                4));
 }
 
-unsigned int func_020296ac(unsigned int p0) {
+unsigned int func_020296ac(u16 p0) {
     return ((unsigned int) *(
         const unsigned int *) ((unsigned char *) (unsigned int) ((
                                    (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) ((
@@ -120,7 +120,7 @@ unsigned int func_0202962c(void) {
                                0));
 }
 
-unsigned int func_02029618(unsigned int p0) {
+unsigned int func_02029618(u16 p0) {
     return ((unsigned int) *(
         const unsigned int *) ((unsigned char *) (unsigned int) ((
                                    (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) ((
@@ -217,7 +217,7 @@ void func_02029560(unsigned int p0) {
                        0) = (unsigned int) (p0);
 }
 
-void func_02029550(unsigned int p0) {
+void func_02029550(u16 p0) {
     *(unsigned short *) ((unsigned char *) (unsigned int) ((
                              (((unsigned int) *(
                                  const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_02174e1c))) +
