@@ -1,5 +1,10 @@
 #pragma once
 
+#include "03/code_021c20c0.h"
+#include "03/code_021c20dc.h"
+#include "03/code_021c4ad4.h"
+#include "03/code_021d079c.h"
+
 #include "types.h"
 
 // Objects whose layout isn't known yet.
@@ -12,9 +17,7 @@ extern u8 data_ov003_021da164[];
 extern u8 data_ov003_021da168[];
 extern u8 data_ov003_021da16c[];
 extern u8 data_ov003_021da170[];
-extern u8 data_ov003_021da178[];
 extern u8 data_ov003_021da17c[];
-extern u8 data_ov003_021da180[];
 extern u8 data_ov003_021da190[];
 extern u8 data_ov003_021da194[];
 extern u8 data_ov003_021da1a8[];
@@ -24,7 +27,6 @@ extern u8 data_ov003_021da1c0[];
 extern u8 data_ov003_021da1c4[];
 extern u8 data_ov003_021da1c8[];
 extern u8 data_ov003_021da1cc[];
-extern u8 data_ov003_021da1d0[];
 extern u8 data_ov003_021da1d4[];
 extern u8 data_ov003_021da1d8[];
 extern u8 data_ov003_021da1dc[];
@@ -63,7 +65,6 @@ extern u8 data_ov003_021da280[];
 extern u8 data_ov003_021da284[];
 extern u8 data_ov003_021da288[];
 extern u8 data_ov003_021da2a4[];
-extern u8 data_ov003_021da2a8[];
 extern u8 data_ov003_021da2ac[];
 extern u8 data_ov003_021da2c0[];
 extern u8 data_ov003_021da2c4[];

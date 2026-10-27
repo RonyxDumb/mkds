@@ -1,5 +1,10 @@
 #pragma once
 
+#include "03/code_021b7ba0.h"
+#include "03/code_021b7ba8.h"
+#include "03/code_021b7c44.h"
+#include "03/code_021b7c94.h"
+
 #include "03/code_021b94ac.h"
 
 #include "types.h"
@@ -96,12 +101,6 @@ typedef struct Unk021d6808 {
     /* 2 */ s16 mUnk_02;
 } Unk021d6808;
 
-typedef struct Unk021b7ba0 {
-    /* 0 */ s32 mUnk_00;
-    /* 4 */ u16 mUnk_04;
-    /* 6 */ u16 mUnk_06;
-} Unk021b7ba0;
-
 typedef struct Unk021b7d1c {
     /* 0 */ s32 mUnk_00;
     /* 4 */ s32 mUnk_04;
@@ -150,10 +149,6 @@ extern Unk021d8a4c data_ov003_021d8a4c;
 extern Unk021ba778Src data_ov003_021d8ac0;
 
 void func_ov000_021a6894(void);
-void func_ov003_021b7ba0(s32 id, Unk021b7ba0 *set);
-void func_ov003_021b7ba8(Unk021b7ba0 *set);
-u16 func_ov003_021b7c44(u16 value);
-u16 func_ov003_021b7c94(u16 value);
 s32 func_ov003_021b7ce4(s32 id);
 s32 func_ov003_021b7cec(s32 id, Unk021b7cec *addr, u32 length);
 s32 func_ov003_021b7cf8(s32 arg0, s32 arg1, s32 arg2);

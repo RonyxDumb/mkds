@@ -2,7 +2,7 @@
 
 // non-matching: 10 instructions differ; first at +0x0: original `push {lr}`, ours `push {r4, lr}`
 void func_ov003_021c6a18(void) {
-    u32 local_10;
+    s32 local_10;
     int local_c[1];
     func_ov003_021bf410();
     func_ov003_021d2f00((u32 *) (u32) (*(u32 *) (*((int *) ((u32) (&data_ov003_021da1f8))) + 4)));
