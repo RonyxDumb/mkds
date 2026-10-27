@@ -18,6 +18,6 @@ void func_ov000_021a8ae8(u32 arg0) {
     value1 = (value0) + (0u);
     value0 = (u32) &data_ov000_021b6004;
     value3 = (u32) &func_ov000_021a8ad0;
-    func_ov000_021a8ad0((u32) value0, (int) value1);
+    func_ov000_021a8ad0((Unk021a8ab8 **) value0, (Unk021a8ab8 *) value1);
     return;
 }

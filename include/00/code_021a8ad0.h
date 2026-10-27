@@ -2,5 +2,6 @@
 
 #include "types.h"
 #include "00/code_021a8000.h"
+#include "00/types_021a8ab8.h"
 
-void func_ov000_021a8ad0(u32 param_1, int param_2);
+void func_ov000_021a8ad0(Unk021a8ab8 **head, Unk021a8ab8 *node);

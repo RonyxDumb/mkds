@@ -1,4 +1,5 @@
 #include "00/code_0218b64c.h"
+#include "00/code_021a3690.h"
 
 // non-matching: 23 instructions differ; first at +0x2: original `sub sp, #0x14`, ours `sub sp, #0x1c`
 int func_ov000_0218b668(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6, int param_7,
@@ -7,7 +8,7 @@ int func_ov000_0218b668(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32 
     if ((param_7 == 0) && (*((int *) ((u32) (&data_ov000_021b4d28))) != 1)) {
         return 0;
     }
-    iVar1 = func_ov000_021a3690((u32) (((u32) 0x00000638u)));
+    iVar1 = (int) func_ov000_021a3690((u32) (((u32) 0x00000638u)));
     if (iVar1 == 0) {
         return 0;
     }

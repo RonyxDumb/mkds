@@ -1,8 +1,9 @@
 #include "00/code_02197ddc.h"
+#include "00/code_021a3690.h"
 
 u32 func_ov000_02197e60(int *param_1, int param_2) {
     int iVar1;
-    iVar1 = func_ov000_021a3690((u32) (param_2));
+    iVar1 = (int) func_ov000_021a3690((u32) (param_2));
     *param_1 = iVar1;
     if (*param_1 == 0) {
         return 0;
