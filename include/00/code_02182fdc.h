@@ -106,6 +106,8 @@ typedef struct Unk0217b488 {
     /* 0054 */ u8 mUnk_54;
     /* 0055 */ u8 mUnk_0055[0x1b];
     /* 0070 */ s32 mUnk_70;
+    /* 0074 */ u8 mUnk_0074[0x78];
+    /* 00ec */ s32 mUnk_ec[4];
 } Unk0217b488;
 
 // Object at member 0x8 of Unk0217d384.

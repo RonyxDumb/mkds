@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_021000c8.h"
 
-unsigned int func_021000c8(unsigned int p0) {
-    return ((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (p0) + 4));
+unsigned int func_021000c8(Unk02100094 *p) {
+    return p->mUnk_04;
 }

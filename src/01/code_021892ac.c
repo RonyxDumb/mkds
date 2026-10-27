@@ -30,7 +30,7 @@ void func_ov001_02189880(void) {
     s32 i;
     s32 count;
     u32 unk;
-    Unk021a9ba4_00 *elem;
+    Unk0217b498_00 *elem;
     Vec3 *pos;
 
     count = 0;
@@ -68,7 +68,7 @@ void func_ov001_02189718(void) {
     s32 i;
     s32 count;
     u32 unk;
-    Unk021a9ba4_00 *elem;
+    Unk0217b498_00 *elem;
     Vec3 *pos;
 
     count = 0;
@@ -106,7 +106,7 @@ void func_ov001_021895b8(void) {
     s32 i;
     s32 count;
     u32 unk;
-    Unk021a9ba4_00 *elem;
+    Unk0217b498_00 *elem;
     Vec3 *pos;
 
     count = 0;
@@ -141,7 +141,7 @@ void func_ov001_02189444(void) {
     s32 i;
     s32 count;
     u32 unk;
-    Unk021a9ba4_00 *elem;
+    Unk0217b498_00 *elem;
     Vec3 *pos;
 
     count = 0;
@@ -176,7 +176,7 @@ void func_ov001_021892c8(void) {
     s32 i;
     s32 count;
     u32 unk;
-    Unk021a9ba4_00 *elem;
+    Unk0217b498_00 *elem;
     Vec3 *pos;
 
     count = 0;

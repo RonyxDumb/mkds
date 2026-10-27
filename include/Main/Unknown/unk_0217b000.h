@@ -26,26 +26,26 @@ typedef struct Unk020de84c_08 {
     /* 04 */ s32 mUnk_04;
 } Unk020de84c_08;
 
-// 0x14-byte elements of the table at member 0x10 of Unk0217b498.
-typedef struct Unk0217b498_10 {
+// 8-byte elements of the table at member 0xc of Unk0217b498 (UnkPair020b502c of code_020b502c.h is this type).
+typedef struct Unk0217b498_0c {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
+} Unk0217b498_0c;
+
+// 0x14-byte elements of the table at member 0x10 of Unk0217b498.
+typedef struct Unk0217b498_10 {
+    /* 00 */ Unk0217b498_0c mUnk_00;
+    /* 08 */ struct Unk020224e0_c *mUnk_08;
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mUnk_0e;
     /* 10 */ u16 mUnk_10;
     /* 12 */ u8 mUnk_12[2];
 } Unk0217b498_10;
 
-// 8-byte elements of the table at member 0xc of Unk0217b498.
-typedef struct Unk0217b498_0c {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-} Unk0217b498_0c;
-
 // Elements of the table at member 0 of Unk0217b498.
 typedef struct Unk0217b498_00 {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u8 mUnk_00[2];
+    /* 02 */ u16 mUnk_02;
     /* 04 */ Vec3 mUnk_04;
     /* 10 */ u8 mUnk_10[0xc];
     /* 1c */ s32 mUnk_1c;
@@ -53,7 +53,8 @@ typedef struct Unk0217b498_00 {
     /* 7e */ u16 mUnk_7e;
 } Unk0217b498_00;
 
-// Object behind data_0217b498.
+// Object behind data_0217b494, data_0217b498, data_0217b4a0 and the ov001 pointers data_ov001_021a9b8c and
+// data_ov001_021a9ba4 to data_ov001_021a9bc4 (func_020c0c2c and func_020c0ba8 allocate it).
 typedef struct Unk0217b498 {
     /* 00 */ Unk0217b498_00 **mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -181,7 +182,29 @@ typedef struct Unk0217b3dc {
 } Unk0217b3dc;
 
 extern Unk0217b3dc *data_0217b3dc;
-extern u8 data_0217b3e0[];
+// Object behind data_0217b3e0, 0x20e4 bytes, allocated by func_020c3200.
+typedef struct Unk0217b3e0 {
+    /* 0000 */ s32 mUnk_0000[8];
+    /* 0020 */ s32 mUnk_0020[8];
+    /* 0040 */ s32 mUnk_0040[8];
+    /* 0060 */ s32 mUnk_0060[8];
+    /* 0080 */ s32 mUnk_0080[8];
+    /* 00a0 */ s32 mUnk_00a0;
+    /* 00a4 */ s32 mUnk_00a4;
+    /* 00a8 */ s32 mUnk_00a8;
+    /* 00ac */ void *mUnk_00ac;
+    /* 00b0 */ s32 mUnk_00b0;
+    /* 00b4 */ s32 mUnk_00b4;
+    /* 00b8 */ struct Unk020b4a44 *mUnk_00b8;
+    /* 00bc */ struct Unk020b4934 *mUnk_00bc;
+    /* 00c0 */ struct Unk020b47d8 *mUnk_00c0[6];
+    /* 00d8 */ u16 mUnk_00d8[2][0x800];
+    /* 20d8 */ s32 mUnk_20d8;
+    /* 20dc */ s32 mUnk_20dc;
+    /* 20e0 */ s32 mUnk_20e0;
+} Unk0217b3e0;
+
+extern Unk0217b3e0 *data_0217b3e0;
 extern u8 data_0217b3e8[];
 extern u8 data_0217b3f0[];
 extern u8 data_0217b3f4[];
@@ -331,7 +354,7 @@ extern u8 data_0217b480[];
 extern u8 data_0217b484[];
 extern u8 data_0217b48c[];
 extern u8 data_0217b490[];
-extern u8 data_0217b494[];
+extern Unk0217b498 *data_0217b494;
 extern Unk0217b498 *data_0217b498;
 extern Unk0217b498 *data_0217b4a0;
 extern s32 data_0217b890;

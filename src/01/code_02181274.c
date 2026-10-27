@@ -81,7 +81,7 @@ void func_ov001_021814fc(void) {
 void func_ov001_02181410(void) {
     s32 i;
     s32 count;
-    Unk021a9ba4_00 *e;
+    Unk0217b498_00 *e;
     Vec3 *pos;
     unsigned int v;
 

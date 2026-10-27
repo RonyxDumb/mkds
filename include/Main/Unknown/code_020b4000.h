@@ -49,3 +49,6 @@ void func_020b49bc(Unk020b4934 **, void *);
 void func_020b4a44(Unk020b4a44 **, void *);
 void func_020b4cec(void *p, s32 a);
 void func_020b478c(void *a, void *b);
+void func_020b4bf8(s32 *a, s32 b, s32 c);
+void func_020b4cb0(s32 *a, s32 b);
+s32 func_020b4b98(s32 a);

@@ -121,6 +121,35 @@ extern u8 data_0217aa2c[];
 extern u8 data_0217acac[];
 
 extern u8 data_0217aa18[];
-extern u8 data_0217aa1c[];
+// 0xa-byte elements of the rows (eight each) of the table at member 0 of Unk0217aa1c.
+typedef struct Unk0217aa1c_00 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 mUnk_02;
+    /* 03 */ u8 mUnk_03;
+    /* 04 */ u8 mUnk_04;
+    /* 05 */ u8 mUnk_05;
+    /* 06 */ u8 mUnk_06[4];
+} Unk0217aa1c_00;
+
+// 4-byte object, two of which make an element of the table at member 0x144 of Unk0217aa1c.
+typedef struct Unk0217aa1c_144_00 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 mUnk_02;
+    /* 03 */ u8 mUnk_03;
+} Unk0217aa1c_144_00;
+
+// 8-byte elements of the table at member 0x144 of Unk0217aa1c.
+typedef struct Unk0217aa1c_144 {
+    /* 00 */ Unk0217aa1c_144_00 mUnk_00[2];
+} Unk0217aa1c_144;
+
+// Object behind data_0217aa1c.
+typedef struct Unk0217aa1c {
+    /* 000 */ Unk0217aa1c_00 mUnk_000[4][8];
+    /* 140 */ u8 mUnk_140[4];
+    /* 144 */ Unk0217aa1c_144 mUnk_144[4];
+} Unk0217aa1c;
+
+extern Unk0217aa1c *data_0217aa1c;
 extern u8 data_0217ad18[];
 extern u8 data_0217aeb0[];

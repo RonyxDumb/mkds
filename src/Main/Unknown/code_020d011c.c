@@ -34,5 +34,5 @@ void func_020d0134(void *param_1) {
 }
 
 s32 func_020d011c(void) {
-    return func_020c0c2c(data_0217b494, 0x1b4);
+    return func_020c0c2c(&data_0217b494, 0x1b4);
 }

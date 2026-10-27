@@ -22,7 +22,7 @@ void func_ov001_02189160(void) {
     s32 i;
     s32 n = 0;
     u32 v = func_020c0db0();
-    Unk021a9ba4_00 *el;
+    Unk0217b498_00 *el;
     Vec3 *pos;
 
     for (i = 0; i < data_ov001_021a9ba8->mUnk_08; i++) {
@@ -57,7 +57,7 @@ void func_ov001_02188ff8(void) {
     s32 i;
     s32 n = 0;
     u32 v = func_020c0db0();
-    Unk021a9ba4_00 *el;
+    Unk0217b498_00 *el;
     Vec3 *pos;
 
     for (i = 0; i < data_ov001_021a9ba4->mUnk_08; i++) {

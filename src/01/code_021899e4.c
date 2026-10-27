@@ -29,7 +29,7 @@ void func_ov001_02189c10(void) {
     s32 i;
     s32 count = 0;
     u32 arg;
-    Unk021a9ba4_00 *obj;
+    Unk0217b498_00 *obj;
     Vec3 *pos;
 
     var = func_020c0db0();
@@ -72,7 +72,7 @@ void func_ov001_021899e4(void) {
     s32 count = 0;
     s32 row;
     s32 k;
-    Unk021a9ba4_00 *obj;
+    Unk0217b498_00 *obj;
     u16 *dst;
     Unk020b4a44 *res;
     Vec3 *pos;
