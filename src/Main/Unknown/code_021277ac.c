@@ -62,12 +62,12 @@ void func_021277f8(void *param_1, void *param_2, s32 param_3)
 {
     Unk0217d3f0_2098 *p;
 
-    p = &data_0217d3f4->mUnk_834;
+    p = &data_0217d3f4->mUnk_834[0];
     p->mUnk_18(p, 5);
-    p = &data_0217d3f4->mUnk_854;
+    p = &data_0217d3f4->mUnk_834[1];
     p->mUnk_18(p, 5);
-    func_0212583c(&data_0217d3f4->mUnk_874, 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, param_1);
-    func_0212583c(&data_0217d3f4->mUnk_884, 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, param_2);
+    func_0212583c(&data_0217d3f4->mUnk_874[0], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, param_1);
+    func_0212583c(&data_0217d3f4->mUnk_874[1], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, param_2);
     func_021281b4();
     data_0217d3f4->mUnk_8a0 = 1;
     func_021278c8();

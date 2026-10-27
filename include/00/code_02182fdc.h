@@ -301,8 +301,7 @@ void func_020ac2fc(void *, void *, s32);
 #include "Main/Unknown/code_02124bf0.h"
 #include "Main/Unknown/code_02124f4c.h"
 #include "Main/Unknown/code_0212658c.h"
-void func_021282c8(void);
-void func_02128374(void);
+#include "Main/Unknown/code_02128274.h"
 #include "Main/Unknown/code_0212b928.h"
 
 u32 func_ov000_02180668(u32);

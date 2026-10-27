@@ -2,14 +2,12 @@
 
 #pragma thumb on
 
-unsigned int func_02128898(void) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217d3fc))) + 0));
+Unk0217d3fc_00 *func_02128898(void) {
+    return &data_0217d3fc->mUnk_00;
 }
 
-unsigned int func_02128884(void) {
-    return (
-        (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217d3fc))) + 0))) +
-        (0x404u));
+Unk0217d3fc_00 *func_02128884(void) {
+    return &data_0217d3fc->mUnk_404;
 }
 
 #pragma thumb off

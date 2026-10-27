@@ -527,10 +527,8 @@ typedef struct Unk0217d3f4 {
     /* 02c */ u16 mUnk_2c[0x400];
     /* 82c */ u32 mUnk_82c;
     /* 830 */ u32 mUnk_830;
-    /* 834 */ Unk0217d3f0_2098 mUnk_834;
-    /* 854 */ Unk0217d3f0_2098 mUnk_854;
-    /* 874 */ Unk0217d3f0_2178 mUnk_874;
-    /* 884 */ Unk0217d3f0_2178 mUnk_884;
+    /* 834 */ Unk0217d3f0_2098 mUnk_834[2];
+    /* 874 */ Unk0217d3f0_2178 mUnk_874[2];
     /* 894 */ u8 *mUnk_894[2];
     /* 89c */ s32 mUnk_89c;
     /* 8a0 */ u32 mUnk_8a0;
@@ -538,6 +536,78 @@ typedef struct Unk0217d3f4 {
     /* 8a8 */ s32 mUnk_8a8[2];
     /* 8b0 */ s32 mUnk_8b0;
 } Unk0217d3f4;
+
+// Object behind data_0217d3f8: 0x828 bytes allocated by func_021287cc.
+typedef struct Unk0217d3f8 {
+    /* 000 */ s32 mUnk_00;
+    /* 004 */ s32 mUnk_04;
+    /* 008 */ s32 mUnk_08;
+    /* 00c */ s32 mUnk_0c;
+    /* 010 */ u16 mUnk_10[0x400];
+    /* 810 */ s32 mUnk_810;
+    /* 814 */ s32 mUnk_814;
+    /* 818 */ s32 mUnk_818;
+    /* 81c */ s32 mUnk_81c;
+    /* 820 */ s32 mUnk_820;
+    /* 824 */ s32 mUnk_824;
+} Unk0217d3f8;
+
+// Objects of 0x404 bytes; two of them make the object behind data_0217d3fc.
+typedef struct Unk0217d3fc_00 {
+    /* 000 */ u8 mUnk_00[0x400];
+    /* 400 */ u16 mUnk_400;
+    /* 402 */ u16 mUnk_402;
+} Unk0217d3fc_00;
+
+// Object behind data_0217d3fc: 0x808 bytes allocated by func_02128958.
+typedef struct Unk0217d3fc {
+    /* 000 */ Unk0217d3fc_00 mUnk_00;
+    /* 404 */ Unk0217d3fc_00 mUnk_404;
+} Unk0217d3fc;
+
+// Objects of 0x18 bytes, three of them at 0x2c of Unk0217d400: 0 and 1 are read as halfword strings, 2 also as the
+// fields at 0x10, 0x14 and 0x16.
+typedef struct Unk0217d400_2c {
+    /* 00 */ union {
+        u16 mUnk_00[12];
+        struct {
+            /* 00 */ u16 mUnk_00_0[8];
+            /* 10 */ s32 mUnk_10;
+            /* 14 */ s16 mUnk_14;
+            /* 16 */ s16 mUnk_16;
+        };
+    };
+} Unk0217d400_2c;
+
+// Object behind data_0217d400: 0xc4 bytes allocated by func_0212a1e0.
+typedef struct Unk0217d400 {
+    /* 00 */ void *mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s32 mUnk_14[2];
+    /* 1c */ s32 mUnk_1c[2];
+    /* 24 */ s32 mUnk_24;
+    /* 28 */ s32 mUnk_28;
+    /* 2c */ Unk0217d400_2c mUnk_2c[3];
+    /* 74 */ Unk0217d350_3c *mUnk_74[2][2];
+    /* 84 */ s16 mUnk_84;
+    /* 86 */ s16 mUnk_86;
+    /* 88 */ s16 mUnk_88;
+    /* 8a */ s16 mUnk_8a;
+    /* 8c */ s16 mUnk_8c;
+    /* 8e */ u8 mUnk_8e[2];
+    /* 90 */ struct Unk020b47d8 *mUnk_90;
+    /* 94 */ struct Unk020b4934 *mUnk_94;
+    /* 98 */ struct Unk020b4a44 *mUnk_98;
+    /* 9c */ void *mUnk_9c[2];
+    /* a4 */ struct Unk0201ea30 *mUnk_a4[2];
+    /* ac */ void *mUnk_ac[2];
+    /* b4 */ void *mUnk_b4[2];
+    /* bc */ void *mUnk_bc;
+    /* c0 */ void *mUnk_c0;
+} Unk0217d400;
 
 // Objects whose layout isn't known yet.
 extern u8 data_0217d014[];
@@ -568,9 +638,9 @@ extern u8 data_0217d388[0x64];
 extern Unk0217d3ec *data_0217d3ec;
 extern Unk0217d3f0 *data_0217d3f0;
 extern Unk0217d3f4 *data_0217d3f4;
-extern u8 data_0217d3f8[];
-extern u8 data_0217d3fc[];
-extern u8 data_0217d400[];
+extern Unk0217d3f8 *data_0217d3f8;
+extern Unk0217d3fc *data_0217d3fc;
+extern Unk0217d400 *data_0217d400;
 extern u8 data_0217d408[];
 extern u32 data_0217d1f0;
 extern s32 data_0217d22c[];

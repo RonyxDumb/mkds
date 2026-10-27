@@ -18,3 +18,4 @@ s32 func_020616c0(void *a, void *b);
 s32 func_02061704(void *a, void *b);
 s32 func_0206174c(void *a);
 s32 func_020617a8(u32 *a);
+s32 func_02061104(const void *a);
