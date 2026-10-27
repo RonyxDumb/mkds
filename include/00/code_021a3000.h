@@ -5,6 +5,7 @@
 // Declared here until the code that defines them is decompiled.
 s32 func_ov000_021a377c(void);
 s32 func_ov000_021a32a0(u32 a, void *b, s32 c);
+s32 func_ov000_021a3264(u32 a, void *b, s32 c);
 u32 func_ov000_021a3758(void *a);
 void func_ov000_021a3910(void);
 void func_ov000_021a397c(s32 a);

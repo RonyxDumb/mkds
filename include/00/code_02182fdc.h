@@ -20,6 +20,7 @@
 #include "Main/Unknown/unk_0217d068.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_0212426c.h"
+#include "Main/Unknown/code_02124094.h" // Unk02124b1c
 #include "code_02016468.h"
 
 // Allocated by func_ov000_02182fdc and held in data_ov000_021b4c70.
@@ -47,14 +48,6 @@ typedef struct Unk021b4c70 {
     /* 1058 */ void *mUnk_1058;
     /* 105c */ void *mUnk_105c;
 } Unk021b4c70;
-
-// 0x40-byte element of the table behind Unk021b4c74::mUnk_10d4.
-typedef struct Unk02124b1c {
-    /* 0000 */ s32 mUnk_00;
-    /* 0004 */ s16 mUnk_04;
-    /* 0006 */ s16 mUnk_06;
-    /* 0008 */ u8 mUnk_0008[0x38];
-} Unk02124b1c;
 
 // Object behind Unk021b4c74::mUnk_16f0; the u16 at 6 is a count.
 typedef struct Unk021b4c74_16f0 {
@@ -303,9 +296,6 @@ void func_020ac2fc(void *, void *, s32);
 #include "Main/Unknown/code_02108a40.h"
 #include "Main/Unknown/code_02120294.h"
 #include "Main/Unknown/code_02120610.h"
-void func_02124a98(u32, s32, void *, void *);
-void func_02124b1c(Unk02124b1c *, u32, s32);
-u16 func_0212497c(u32, void *, void *);
 void func_02124c30(void *, void *, void *, void *, void *);
 void func_02124fac(u32, u16 *);
 #include "Main/Unknown/code_0212658c.h"
