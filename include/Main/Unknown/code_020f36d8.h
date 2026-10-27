@@ -121,6 +121,8 @@ typedef struct {
     /* 4b0 */ Unk020f41c4_B mUnk_4b0;
     /* 4c8 */ u8 mUnk_4c8[4];
     /* 4cc */ s32 mUnk_4cc;
+    /* 4d0 */ u8 mUnk_4d0[0x10];
+    /* 4e0 */ s32 mUnk_4e0;
 } Unk0217561c;
 
 // Entry of the table behind data_0217bc34.

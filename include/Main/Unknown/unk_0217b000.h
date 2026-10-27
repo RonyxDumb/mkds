@@ -166,7 +166,28 @@ extern u8 data_0217b330[];
 extern u8 data_0217b334[];
 extern u8 data_0217b340[];
 extern u8 data_0217b344[];
-extern u8 data_0217b350[];
+// Object behind data_0217b350 (words from 0x828 to 0x910 read and written by func_020aeb7c).
+typedef struct Unk0217b350 {
+    /* 000 */ u8 mUnk_000[0x828];
+    /* 828 */ s32 mUnk_828;
+    /* 82c */ s32 mUnk_82c;
+    /* 830 */ u8 mUnk_830[8];
+    /* 838 */ s32 mUnk_838;
+    /* 83c */ s32 mUnk_83c;
+    /* 840 */ s32 mUnk_840;
+    /* 844 */ u8 mUnk_844[8];
+    /* 84c */ s32 mUnk_84c;
+    /* 850 */ s32 mUnk_850;
+    /* 854 */ u8 mUnk_854[0x44];
+    /* 898 */ s32 mUnk_898;
+    /* 89c */ u8 mUnk_89c[0x40];
+    /* 8dc */ s32 mUnk_8dc;
+    /* 8e0 */ u8 mUnk_8e0[0x2c];
+    /* 90c */ s32 mUnk_90c;
+    /* 910 */ s32 mUnk_910;
+} Unk0217b350;
+
+extern Unk0217b350 *data_0217b350;
 extern u8 data_0217b354[];
 extern u8 data_0217b3c4[];
 extern u8 data_0217b3d8[];

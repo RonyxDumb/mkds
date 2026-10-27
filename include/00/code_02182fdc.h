@@ -99,7 +99,7 @@ typedef struct Unk0217b488 {
     /* 0004 */ s32 mUnk_04;
     /* 0008 */ s32 mUnk_08;
     /* 000c */ s32 mUnk_0c;
-    /* 0010 */ u8 mUnk_0010[0x4];
+    /* 0010 */ s32 mUnk_10;
     /* 0014 */ s32 mUnk_14;
     /* 0018 */ s32 mUnk_18;
     /* 001c */ s32 mUnk_1c;

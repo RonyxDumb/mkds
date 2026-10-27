@@ -2697,6 +2697,10 @@ src/Main/Unknown/code_020ae754.c:
     .text       start:0x020ae754 end:0x020ae770
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_020aeb7c.c:
+    .text       start:0x020aeb7c end:0x020af66c
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_020b19a0.c:
     .text       start:0x020b19a0 end:0x020b19b4
 
