@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_021100dc.h"
 
-u32 func_021100dc(u32 arg0, u32 arg1, u32 arg2) {
+u32 func_021100dc(Unk0212c400 **arg0, u32 arg1, u32 arg2) {
     u32 value0 = (u32) arg0;
     u32 value1 = (u32) arg1;
     u32 value2 = (u32) arg2;

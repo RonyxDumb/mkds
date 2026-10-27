@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_02105ec0.h"
+#include "Main/Unknown/code_0210e33c.h" // Unk0217c7b4
 
 // Declared here until the code that defines them is decompiled.
 void func_0210d078();
@@ -20,3 +21,4 @@ void func_0210d9a0(void *a, u32 b);
 void func_0210dd44(void *a);
 void func_0210d7dc(u32 a, u32 b, Unk0212c400 **c);
 void func_0210dc50(void *a);
+void func_0210dccc(void *a, u32 b, u32 c, u32 d, Unk0217c7b4 *e);

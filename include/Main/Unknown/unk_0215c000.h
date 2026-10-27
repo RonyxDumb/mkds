@@ -35,6 +35,7 @@ extern u16 data_0215cf14[];
 extern u32 data_0215cf2c[];
 extern u16 data_0215cf4c[][4];
 extern u32 data_0215cf8c[][4];
+extern s32 data_0215c3a4[];
 extern u16 data_0215c3ac[];
 extern u16 data_0215c3b0[];
 extern u16 data_0215c3bc[];

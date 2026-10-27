@@ -30,3 +30,6 @@ s32 func_020601a0(s32 a, s32 b);
 s32 func_02060134(s32 a, s32 b, void *out);
 s32 func_020600d0(s32 a, s32 b, void *out);
 s32 func_020600b4(s32 a);
+void func_02060510(u8 a, u8 b);
+void func_02060b68(void);
+void func_02060c0c(void *a);

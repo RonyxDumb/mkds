@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02060c38.h"
 
-void func_02060c38(u32 arg0) {
+void func_02060c38(void *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value2;

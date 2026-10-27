@@ -2,7 +2,8 @@
 
 #include "types.h"
 #include "Main/Unknown/unk_0217c000.h"
+#include "code_0212c478.h" // Unk0212c400
 
-unsigned int func_02108e6c(unsigned int p0);
+Unk0212c400 **func_02108e6c(unsigned int p0);
 unsigned int func_02108e7c(void);
 unsigned int func_02108e88(void);

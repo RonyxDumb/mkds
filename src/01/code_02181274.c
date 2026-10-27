@@ -110,16 +110,16 @@ void func_ov001_021813f4(void *p0) {
 void func_ov001_02181274(s32 p0, s32 p1, s32 p2) {
     s32 j;
     s32 i;
-    u32 heap;
+    void *heap;
 
-    heap = (u32) func_020364e0(func_020364e8());
+    heap = func_020364e0(func_020364e8());
     data_ov001_021a9b88 = (Unk021a9b88 *) func_02036b74(heap, 0x30, 0x20);
     data_ov001_021a9b88->mUnk_00 = p0;
     data_ov001_021a9b88->mUnk_04 = p1;
     data_ov001_021a9b88->mUnk_08 = p2;
-    heap = (u32) func_020364e0(func_020364e8());
+    heap = func_020364e0(func_020364e8());
     data_ov001_021a9b88->mUnk_18 = (u16 *) func_02036b74(heap, data_ov001_021a9b88->mUnk_08 * 2, 0x20);
-    heap = (u32) func_020364e0(func_020364e8());
+    heap = func_020364e0(func_020364e8());
     data_ov001_021a9b88->mUnk_1c = (u8 *) func_02036b74(
         heap, data_ov001_021a9b88->mUnk_04 / 8 * (data_ov001_021a9b88->mUnk_04 / 8), 0x20);
     func_0214d168(data_ov001_021a9b88->mUnk_1c, data_ov001_021a9b88->mUnk_00 / 8 * data_ov001_021a9b88->mUnk_00 / 8,
@@ -130,16 +130,16 @@ void func_ov001_02181274(s32 p0, s32 p1, s32 p2) {
                 j + i * data_ov001_021a9b88->mUnk_00 / 8;
         }
     }
-    heap = (u32) func_020364e0(func_020364e8());
+    heap = func_020364e0(func_020364e8());
     data_ov001_021a9b88->mUnk_20 = (u8 *) func_02036b74(
         heap, data_ov001_021a9b88->mUnk_00 * data_ov001_021a9b88->mUnk_00 + 0x40, 0x20);
-    heap = (u32) func_020364e0(func_020364e8());
+    heap = func_020364e0(func_020364e8());
     data_ov001_021a9b88->mUnk_24 = (u8 *) func_02036b74(
         heap, data_ov001_021a9b88->mUnk_00 * data_ov001_021a9b88->mUnk_00 + 0x40, 0x20);
-    heap = (u32) func_020364e0(func_020364e8());
+    heap = func_020364e0(func_020364e8());
     data_ov001_021a9b88->mUnk_28 = (u8 *) func_02036b74(
         heap, data_ov001_021a9b88->mUnk_00 * data_ov001_021a9b88->mUnk_00, 0x20);
-    heap = (u32) func_020364e0(func_020364e8());
+    heap = func_020364e0(func_020364e8());
     data_ov001_021a9b88->mUnk_2c = (u8 *) func_02036b74(
         heap, data_ov001_021a9b88->mUnk_00 * data_ov001_021a9b88->mUnk_00 * 2, 0x20);
 }

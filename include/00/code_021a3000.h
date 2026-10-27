@@ -3,6 +3,9 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
+s32 func_ov000_021a377c(void);
+void func_ov000_021a3910(void);
+void func_ov000_021a397c(s32 a);
 void func_ov000_021a360c(u32 param_1, u32 param_2, u32 param_3, u32 param_4);
 void func_ov000_021a363c(u32 param_1, u32 param_2, u32 param_3, u32 param_4);
 u32 func_ov000_021a3690(u32 param_1);

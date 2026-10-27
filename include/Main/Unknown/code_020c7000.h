@@ -11,3 +11,4 @@ s32 func_020c7b0c(void);
 s32 func_020c7c1c(void);
 s32 func_020c7d54(void);
 s32 func_020c7f84(void);
+s32 func_020c7108(void);

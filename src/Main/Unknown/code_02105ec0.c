@@ -1050,7 +1050,7 @@ void func_02106580(void) {
             }
         }
     }
-    ((u32 *) data_0217d1f8)[0] = data_0217d20c;
+    data_0217d1f8 = data_0217d20c;
 }
 
 void func_021062a8(void) {

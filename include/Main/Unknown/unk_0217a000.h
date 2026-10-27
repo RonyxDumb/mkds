@@ -25,6 +25,7 @@ typedef struct Unk0217aa08_00 {
     /* 40 */ u32 mUnk_40;
     /* 44 */ u32 mUnk_44;
     /* 48 */ u32 mUnk_48;
+    /* 4c */ u8 mUnk_4c[0x40];
 } Unk0217aa08_00;
 
 typedef struct Unk0217aa08_04 {

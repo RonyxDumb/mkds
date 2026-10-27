@@ -40,7 +40,7 @@ typedef struct Unk021073ec {
 // Object behind data_0217c7f0.
 typedef struct Unk0217c7f0 {
     /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
+    /* 04 */ s32 mUnk_04;
     /* 08 */ u32 mUnk_08;
     /* 0c */ u32 mUnk_0c;
     /* 10 */ u32 mUnk_10;

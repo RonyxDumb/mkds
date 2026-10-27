@@ -115,8 +115,44 @@ typedef struct Unk0217b488 {
     /* 0070 */ s32 mUnk_70;
 } Unk0217b488;
 
+// Object at member 0x8 of Unk0217d384.
+typedef struct Unk0217d384_08 {
+    /* 00 */ u8 mUnk_00[0xe];
+    /* 0e */ u16 mUnk_0e;
+    /* 10 */ u16 mUnk_10;
+    /* 12 */ u16 mUnk_12;
+} Unk0217d384_08;
+
+// 0xc-byte elements of the table at member 0x19f0 of Unk0217d384.
+typedef struct Unk0217d384_19f0 {
+    /* 00 */ u8 mUnk_00[0xc];
+} Unk0217d384_19f0;
+
+// 0x10-byte object at member 0x1f20 of Unk0217d384.
+typedef struct Unk0217d384_1f20 {
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ s32 mUnk_0c;
+} Unk0217d384_1f20;
+
 typedef struct Unk0217d384 {
-    /* 0000 */ u8 pad_00[0x1f52];
+    /* 0000 */ void *mUnk_0000;
+    /* 0004 */ u8 mUnk_0004[0x4];
+    /* 0008 */ Unk0217d384_08 mUnk_0008;
+    /* 001c */ u8 mUnk_001c[0xb10];
+    /* 0b2c */ u8 mUnk_0b2c[0xe24];
+    /* 1950 */ u8 mUnk_1950[0x60];
+    /* 19b0 */ u8 mUnk_19b0[0x40];
+    /* 19f0 */ Unk0217d384_19f0 mUnk_19f0[0x3c];
+    /* 1cc0 */ u8 mUnk_1cc0[0x3c];
+    /* 1cfc */ s32 mUnk_1cfc;
+    /* 1d00 */ u8 mUnk_1d00[0x220];
+    /* 1f20 */ Unk0217d384_1f20 mUnk_1f20;
+    /* 1f30 */ u8 mUnk_1f30[0x8];
+    /* 1f38 */ s32 mUnk_1f38;
+    /* 1f3c */ u8 mUnk_1f3c[0x8];
+    /* 1f44 */ s32 mUnk_1f44;
+    /* 1f48 */ s32 mUnk_1f48;
+    /* 1f4c */ u8 mUnk_1f4c[0x6];
     /* 1f52 */ u8 mUnk_1f52;
 } Unk0217d384;
 
