@@ -37,6 +37,6 @@ void func_020d3cc8(void) {
     }
 }
 
-void func_020d3c94(Unk020e71a0 *param_1, s32 param_2, Vec3 *param_3) {
-    func_020d2c2c(&param_1->mUnk_04, &param_1->mUnk_10, param_1->mUnk_58.x, param_1->mUnk_64, param_2, param_3);
+s32 func_020d3c94(Unk020e71a0 *param_1, s32 param_2, Vec3 *param_3) {
+    return func_020d2c2c(&param_1->mUnk_04, &param_1->mUnk_10, param_1->mUnk_58.x, param_1->mUnk_64, param_2, param_3);
 }

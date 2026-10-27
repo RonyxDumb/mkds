@@ -542,3 +542,4 @@ extern u8 data_0217bdc0[];
 extern u8 data_0217bd6c[];
 extern u8 data_0217bdc1[];
 extern u8 data_0217bd81[];
+extern void *data_0217b224;
