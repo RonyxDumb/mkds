@@ -4,6 +4,7 @@
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_020e6b58.h"
+#include "Main/Unknown/code_01ffdee4.h" // Unk0217b614
 
 // Objects whose layout isn't known yet.
 extern u8 data_0217b038[];
@@ -261,3 +262,6 @@ extern u16 data_0217b874;
 extern u16 data_0217b878;
 extern u8 data_0217b990[];
 extern Vec3 data_0217b9a8;
+extern void *data_0217b5d0[16];
+extern s32 data_0217b610;
+extern Unk0217b614 data_0217b614;

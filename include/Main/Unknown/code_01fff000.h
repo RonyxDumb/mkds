@@ -9,3 +9,4 @@ void func_01fffe8c(u32 a, const void *b, void *c, u32 d);
 void func_01fffec4(u32 a, const void *b, void *c, u32 d);
 void func_01ffff38(u32 a, const void *b, void *c, u32 d);
 s32 func_01fff95c(Unk027e00cc *a, Unk020f41c4_A *p, s32 f);
+void func_01fff434(s32 a, s32 b, s32 c, Vec3 *d, const Vec3 *e, const Vec3 *f, s64 *g);
