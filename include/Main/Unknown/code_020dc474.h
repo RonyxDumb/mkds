@@ -23,7 +23,7 @@ typedef struct Unk020dc474 {
     /* 02 */ u16 mUnk_02;
     /* 04 */ Vec3 mUnk_04;
     /* 10 */ Vec3 mUnk_10;
-    /* 1c */ u8 mUnk_1c[0xc];
+    /* 1c */ Vec3 mUnk_1c;
     /* 28 */ Unk020dc474_28 mUnk_28;
     /* 58 */ u8 mUnk_58[0x18];
     /* 70 */ s32 mUnk_70;
@@ -52,7 +52,7 @@ typedef struct Unk020dc474 {
     /* fc */ s32 mUnk_fc;
     /* 100 */ Unk020d849c mUnk_100;
     /* 160 */ Vec3 *mUnk_160[4];
-    /* 170 */ u8 mUnk_170[0x30];
+    /* 170 */ Vec3 mUnk_170[4];
     /* 1a0 */ Unk020d84e4 mUnk_1a0;
     /* 1d8 */ Unk020dc474_1d8 *mUnk_1d8;
     /* 1dc */ s32 mUnk_1dc;
@@ -61,8 +61,9 @@ typedef struct Unk020dc474 {
     /* 1f0 */ Vec3 *mUnk_1f0;
     /* 1f4 */ Vec3 *mUnk_1f4;
     /* 1f8 */ u16 mUnk_1f8;
-    /* 1fa */ u8 mUnk_1fa[2];
+    /* 1fa */ s16 mUnk_1fa;
     /* 1fc */ s32 mUnk_1fc;
+    /* 200 */ Vec3 mUnk_200;
 } Unk020dc474;
 
 void func_020dc474(Unk020dc474 *p);

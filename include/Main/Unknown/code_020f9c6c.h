@@ -12,7 +12,7 @@ typedef struct Unk020fa294 {
     /* 26 */ u16 mUnk_26;
     /* 28 */ s16 mUnk_28;
     /* 2a */ s16 mUnk_2a;
-    /* 2c */ u8 mUnk_2c[2];
+    /* 2c */ s16 mUnk_2c;
     /* 2e */ u16 mUnk_2e;
     /* 30 */ u8 mUnk_30[6];
     /* 36 */ s16 mUnk_36;

@@ -1,11 +1,11 @@
 #include "Main/Unknown/code_020d849c.h"
 #include "Main/Unknown/code_020d8cac.h"
 
-void func_020d8620(Unk020d84e4 *p) {
-    Unk02042044 *a = p->mUnk_00.mUnk_1c;
-    p->mUnk_00.mUnk_1c = p->mUnk_00.mUnk_20;
-    p->mUnk_00.mUnk_20 = a;
-    p->mUnk_00.mUnk_18 = p->mUnk_00.mUnk_18 == 0;
+void func_020d8620(Unk020e0144 *p) {
+    Unk02042044 *a = p->mUnk_1c;
+    p->mUnk_1c = p->mUnk_20;
+    p->mUnk_20 = a;
+    p->mUnk_18 = p->mUnk_18 == 0;
 }
 
 void func_020d859c(Unk020d84e4 *p, u16 b, s32 c) {

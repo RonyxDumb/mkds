@@ -21,6 +21,7 @@ typedef struct Unk0217ca6c {
 
 extern Unk0217ca6c data_0217ca6c[];
 extern s32 data_0217caec[];
+extern s32 data_0217caec[];
 extern Unk0217ca6c data_0217c8f8;
 
 // Objects whose layout isn't known yet.

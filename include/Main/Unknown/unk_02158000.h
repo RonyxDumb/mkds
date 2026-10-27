@@ -4,6 +4,15 @@
 
 extern Vec3 data_0215807c;
 extern Vec3 data_02158088;
+extern struct Unk020d7b88 data_02158140;
+extern struct Unk020d7b88 data_02158150;
+extern struct Unk020db1b0 data_02158164;
+extern struct Unk020db20c data_0215818c;
+extern struct Unk020db268 data_021581b8;
+extern Vec3 data_021581f8;
+extern struct Unk020dbe74 data_02158238;
+extern struct Unk020dbed0 data_02158260;
+extern struct Unk020dbf2c data_0215828c;
 // Object of 0x28 bytes made by func_020de2d8 and the other factories that copy a template from 0x02158xxx.
 typedef struct Unk020de2d8 {
     /* 00 */ u32 mUnk_00[10];
@@ -56,7 +65,7 @@ extern const u32 data_02158094[];
 extern u8 data_02158160[];
 extern u8 data_0215877c[];
 extern u8 data_02158780[];
-extern u8 data_02158908[];
+extern s32 data_02158908;
 extern u8 data_02158bb4[];
 extern u8 data_02158bb8[];
 extern u8 data_02158fe4[];

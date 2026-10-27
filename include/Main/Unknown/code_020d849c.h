@@ -23,7 +23,7 @@ typedef struct Unk020d849c {
     /* 5c */ s32 mUnk_5c;
 } Unk020d849c;
 
-void func_020d8620(Unk020d84e4 *p);
+void func_020d8620(Unk020e0144 *p);
 void func_020d859c(Unk020d84e4 *p, u16 a, s32 b);
 s32 func_020d84e4(Unk020d84e4 *p);
 void func_020d84c0(Unk020d849c *p, s32 a);

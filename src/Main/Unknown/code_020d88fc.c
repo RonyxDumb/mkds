@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020d88fc.h"
 
-u32 func_020d88fc(u32 arg0) {
+Vec3 *func_020d88fc(Unk020e0144 *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value2;
@@ -10,5 +10,5 @@ u32 func_020d88fc(u32 arg0) {
     value0 = 0x54u;
     value0 = (value1) * (value0) + (value2);
     value0 = (value0) + (0x48u);
-    return (u32) value0;
+    return (Vec3 *) value0;
 }

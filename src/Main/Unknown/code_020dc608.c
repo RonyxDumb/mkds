@@ -76,12 +76,12 @@ void func_020dd6c8(void *a, Unk020dc474 *p, void *b, u32 c) {
     p->mUnk_28.mUnk_24.x = p->mUnk_04.x >> 4;
     p->mUnk_28.mUnk_24.y = p->mUnk_04.y >> 4;
     p->mUnk_28.mUnk_24.z = p->mUnk_04.z >> 4;
-    func_020ea8a8(data_0217b6cc, &p->mUnk_28, p->mUnk_1c, c);
+    func_020ea8a8(data_0217b6cc, &p->mUnk_28, &p->mUnk_1c, c);
     func_01ffccd0(&s, &p->mUnk_d4);
     s.mUnk_24.x = p->mUnk_04.x >> 4;
     s.mUnk_24.y = p->mUnk_04.y >> 4;
     s.mUnk_24.z = p->mUnk_04.z >> 4;
-    func_020ea868(data_0217b6d0, &s, p->mUnk_1c, c);
+    func_020ea868(data_0217b6d0, &s, &p->mUnk_1c, c);
 }
 
 // non-matching: the original keeps the constant 0 in r1 (stored to the words at 0x48 and 0x50 and passed as the zero arguments) and copies it into r4 (mov r4, r1); this build uses r4 itself for the zeros and the registers of the code after it differ (0x448 bytes vs 0x44c)
