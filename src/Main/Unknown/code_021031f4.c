@@ -23,7 +23,7 @@ void func_02103554(u32 param_1) {
 
     func_020e6488(&v, func_020d21ec(param_1), 0, 0);
     func_020e6ab8(v);
-    func_0210340c((Unk0210340c *) data_0217c664, (Unk020ed4d0 *) v);
+    func_0210340c((Unk0210340c *) data_0217c664, (Unk020e6488 *) v);
 }
 
 void func_02103544(u32 param_1, u32 param_2) {
@@ -32,7 +32,7 @@ void func_02103544(u32 param_1, u32 param_2) {
 
 #pragma thumb on
 void func_02103468(void) {
-    Unk020ed4d0 *q;
+    Unk020e6488 *q;
     s32 i;
 
     data_0217c654 = func_02036bec(func_020364e0(func_020364e8()), 0xd0);
@@ -52,7 +52,7 @@ void func_02103468(void) {
     *(u32 *) 0x4000448 = 1;
 }
 
-void func_0210340c(Unk0210340c *p, Unk020ed4d0 *q) {
+void func_0210340c(Unk0210340c *p, Unk020e6488 *q) {
     u32 t;
 
     p->mUnk_00 = q;

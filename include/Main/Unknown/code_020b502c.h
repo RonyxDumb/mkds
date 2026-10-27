@@ -29,12 +29,20 @@ typedef struct {
     /* 02 */ u16 mUnk_02;
 } Unk02175620_08;
 
+// Object behind Unk02175620::mUnk_018; the byte at 0x04.
+typedef struct {
+    /* 00 */ u8 mUnk_00[4];
+    /* 04 */ u8 mUnk_04;
+} Unk02175620_18;
+
 // Object behind data_02175620.
 typedef struct {
     /* 00 */ u8 mUnk_00[0x8];
     /* 08 */ Unk02175620_08 *mUnk_08;
     /* 0c */ u16 mUnk_0c;
-    /* 0e */ u8 mUnk_0e[0x1e];
+    /* 00e */ u8 mUnk_00e[0xa];
+    /* 018 */ Unk02175620_18 *mUnk_018;
+    /* 01c */ u8 mUnk_01c[0x10];
     /* 2c */ Unk020b57e4 *mUnk_2c;
     /* 30 */ u8 mUnk_30[0x28];
     /* 58 */ u16 mUnk_58;

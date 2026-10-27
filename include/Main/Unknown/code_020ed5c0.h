@@ -2,13 +2,12 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_020e5d0c.h"
 
 // Object updated through its flags word and three vectors; read by the
 // functions below and by func_020ed718's third argument.
 typedef struct Unk020ed5c0 {
-    /* 000 */ u8 mUnk_000[0x14];
-    /* 014 */ volatile u32 mUnk_014;
-    /* 018 */ u8 mUnk_018[0x2c];
+    /* 000 */ u8 mUnk_000[0x44];
     /* 044 */ s32 mUnk_044;
     /* 048 */ s32 mUnk_048;
     /* 04c */ u8 mUnk_04c[4];
@@ -119,7 +118,7 @@ typedef struct Unk020eda5c {
 
 #include "Main/Unknown/code_020f36d8.h"
 
-void func_020ed5c0(Unk020ed5c0 *p, Unk020ed5c0 *q, Vec3 *v);
+void func_020ed5c0(Unk020ed5c0 *p, Unk020e6488 *q, Vec3 *v);
 void func_020ed718(Unk020ed718 *p, void *a, void (*cb)(void *, void *, void *));
 void func_020ed79c(Unk020ed718 *p, Vec3 *v);
 void *func_020ed98c(Unk020ed5c0 *p, Vec3 *v);

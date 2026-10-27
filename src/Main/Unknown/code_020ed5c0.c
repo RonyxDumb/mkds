@@ -398,18 +398,18 @@ void *func_020ed98c(Unk020ed5c0 *p, Vec3 *v) {
 void func_020ed79c(Unk020ed718 *p, Vec3 *v) {
     s16 d8;
     s32 i;
-    Unk020ed5c0 *d;
+    Unk020e6488 *d;
     s32 n;
     s32 sel;
     Unk020ed5c0 *q;
     void *r;
 
-    d = ((Unk020ed5c0 **) data_0217bbfc)[p->mUnk_000];
+    d = data_0217bbfc[p->mUnk_000];
     n = p->mUnk_010;
     sel = p->mUnk_014;
     func_020e6a18(d);
-    d->mUnk_014 &= ~0x3f000000;
-    d->mUnk_014 |= 0x4000000;
+    d->mUnk_14 &= ~0x3f000000;
+    d->mUnk_14 |= 0x4000000;
     for (i = 0; i < n; i++) {
         q = p->mUnk_004[i];
         if ((q->mUnk_074 & 0x10000) != 0) {
@@ -421,12 +421,12 @@ void func_020ed79c(Unk020ed718 *p, Vec3 *v) {
             func_0208ab4c(&q->mUnk_07c);
         }
         if ((d8 = q->mUnk_0d8) != 0x1f) {
-            d->mUnk_014 &= ~0x1f0000;
-            d->mUnk_014 |= (u32) (u16) d8 << 16;
+            d->mUnk_14 &= ~0x1f0000;
+            d->mUnk_14 |= (u32) (u16) d8 << 16;
         }
         if (i == sel) {
-            d->mUnk_014 &= ~0x3f000000;
-            d->mUnk_014 |= 0x3000000;
+            d->mUnk_14 &= ~0x3f000000;
+            d->mUnk_14 |= 0x3000000;
         }
         if (q->mUnk_0f0.y < 0xfae || (q->mUnk_074 & 0x80) != 0) {
             q->mUnk_0ac = *v;
@@ -451,8 +451,8 @@ void func_020ed79c(Unk020ed718 *p, Vec3 *v) {
         }
         func_020e67c4(d, r, &q->mUnk_068, 0, 0x1f);
         if ((d8 = q->mUnk_0d8) != 0x1f) {
-            d->mUnk_014 &= ~0x1f0000;
-            d->mUnk_014 |= 0x1f0000;
+            d->mUnk_14 &= ~0x1f0000;
+            d->mUnk_14 |= 0x1f0000;
         }
     }
 }
@@ -473,17 +473,17 @@ void func_020ed718(Unk020ed718 *p, void *a, void (*cb)(void *, void *, void *)) 
         } else {
             func_0208ab4c(&q->mUnk_07c);
         }
-        cb(q, a, ((Unk020ed5c0 **) data_0217bbfc)[p->mUnk_000]);
+        cb(q, a, data_0217bbfc[p->mUnk_000]);
     }
 }
 
-void func_020ed5c0(Unk020ed5c0 *p, Unk020ed5c0 *q, Vec3 *v) {
+void func_020ed5c0(Unk020ed5c0 *p, Unk020e6488 *q, Vec3 *v) {
     s16 d;
     void *r;
 
     if ((d = p->mUnk_0d8) != 0x1f) {
-        q->mUnk_014 &= ~0x1f0000;
-        q->mUnk_014 |= (u32) (u16) d << 16;
+        q->mUnk_14 &= ~0x1f0000;
+        q->mUnk_14 |= (u32) (u16) d << 16;
     }
     func_020e6a18(q);
     if (p->mUnk_0f0.y < 0xfae || (p->mUnk_074 & 0x80) != 0) {
@@ -509,7 +509,7 @@ void func_020ed5c0(Unk020ed5c0 *p, Unk020ed5c0 *q, Vec3 *v) {
     }
     func_020e67c4(q, r, &p->mUnk_068, 0, 0x1f);
     if ((d = p->mUnk_0d8) != 0x1f) {
-        q->mUnk_014 &= ~0x1f0000;
-        q->mUnk_014 |= 0x1f0000;
+        q->mUnk_14 &= ~0x1f0000;
+        q->mUnk_14 |= 0x1f0000;
     }
 }

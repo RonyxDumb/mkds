@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_020e5d0c.h"
 
 // Object handled by the functions below.
 typedef struct Unk02102674 {
@@ -57,19 +58,6 @@ typedef struct Unk020748a8 {
     /* 15c */ Vec3 mUnk_15c;
 } Unk020748a8;
 
-// Object of 48 bytes returned by func_020e6cf8.
-typedef struct Unk020e6cf8 {
-    /* 000 */ Vec3 mUnk_00;
-    /* 00c */ Vec3 mUnk_0c;
-    /* 018 */ u8 mUnk_018[0x18];
-} Unk020e6cf8;
-
-// Object handled by func_021027ac.
-typedef struct Unk021027ac {
-    /* 00 */ u8 mUnk_00[0x14];
-    /* 14 */ u32 mUnk_14;
-} Unk021027ac;
-
 // Row of the 0xc-byte table behind data_0215a3b0.
 typedef struct Unk0215a3b0 {
     /* 00 */ s16 mUnk_00;
@@ -86,5 +74,5 @@ void func_02102674(void);
 void func_02102718(void);
 void func_02102744(Unk02102674 *p);
 void func_02102764(void *param_1, Unk02102674 *param_2, void *param_3);
-void func_021027ac(Unk02102674 *p, s32 param_2, Unk021027ac *t);
+void func_021027ac(Unk02102674 *p, s32 param_2, Unk020e6488 *t);
 void func_0210298c(Unk02102674 *p);

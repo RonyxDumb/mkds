@@ -126,18 +126,16 @@ void func_021003e8(Unk020f41c4_A *p, u32 sel, s32 v1) {
     }
 }
 
-// non-matching: the pointer argument of func_020e6854 needs an explicit (u32) cast against the
-// shared declaration, which costs a stack slot (0x24 vs 0x1c); the three v[] stores are also
-// emitted interleaved with their loads (original: ldr p->0x70, 0x6c, 0x68 into r3, r2, r1, then
-// `mov r0, #0x1b`, then the three stores).
-void func_021001ac(Unk020f41c4_A *p, s32 param_2, Unk020ed578 *q) {
+// non-matching: the three v[] stores are emitted interleaved with their loads (original: ldr
+// p->0x70, 0x6c, 0x68 into r3, r2, r1, then `mov r0, #0x1b`, then the three stores).
+void func_021001ac(Unk020f41c4_A *p, s32 param_2, Unk020e6488 *q) {
     s32 a;
     s32 n;
     s32 b;
     s32 t;
     s16 d;
     s32 v[3];
-    Unk020ed578 *r;
+    Unk020e6488 *r;
     s32 i;
     s32 b2;
 
@@ -152,7 +150,7 @@ void func_021001ac(Unk020f41c4_A *p, s32 param_2, Unk020ed578 *q) {
     v[2] = p->mUnk_70;
     func_01ff9048(0x1b, v, 3);
     if (p->mUnk_160 < 0xe && p->mUnk_13a >= 3) {
-        r = (Unk020ed578 *) func_020ed578(p->mUnk_160);
+        r = func_020ed578(p->mUnk_160);
         n = p->mUnk_164;
         b2 = p->mUnk_158;
         if (p->mUnk_d8 < 0x1f) {
@@ -177,7 +175,7 @@ void func_021001ac(Unk020f41c4_A *p, s32 param_2, Unk020ed578 *q) {
             t = func_020d3c44();
             r->mUnk_14 = r->mUnk_14 & ~0x3f000000;
             r->mUnk_14 = r->mUnk_14 | (t << 24);
-            func_020e6854((u32) r, (u32) &p->mUnk_50, 1, 0x1f);
+            func_020e6854(r, &p->mUnk_50, 1, 0x1f);
             i++;
         }
         b = 1;
@@ -193,5 +191,5 @@ void func_021001ac(Unk020f41c4_A *p, s32 param_2, Unk020ed578 *q) {
     d = p->mUnk_d8;
     q->mUnk_14 = q->mUnk_14 & ~0x1f0000;
     q->mUnk_14 = q->mUnk_14 | ((u16) d << 16);
-    func_020ed588((int) p, (u32) q);
+    func_020ed588(p, q);
 }

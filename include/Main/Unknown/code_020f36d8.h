@@ -43,6 +43,8 @@ typedef struct {
     /* 74 */ Vec3 mUnk_74[4];
 } Unk020f3fa8;
 
+extern Unk020f3fa8 data_0217bb88;
+
 // Element returned through data_027e00cc.
 typedef struct {
     /* 00 */ u8 mUnk_00[0x44];
@@ -121,9 +123,17 @@ typedef struct {
     /* 10 */ u64 mUnk_10;
 } Unk020f41c4_B;
 
+// Entry of the array at Unk0217561c::mUnk_000; the halfword at 0x44.
+typedef struct {
+    /* 00 */ u8 mUnk_00[0x44];
+    /* 44 */ u16 mUnk_44;
+    /* 46 */ u8 mUnk_46[0x46];
+} Unk0217561c_000;
+
 // Object behind data_0217561c.
 typedef struct {
-    /* 000 */ u8 mUnk_000[0x474];
+    /* 000 */ Unk0217561c_000 mUnk_000[8];
+    /* 460 */ u8 mUnk_460[0x14];
     /* 474 */ s8 mUnk_474[8];
     /* 47c */ Unk020f41c4_B mUnk_47c;
     /* 494 */ u8 mUnk_494[4];

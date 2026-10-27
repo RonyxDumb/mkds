@@ -19,3 +19,4 @@ void func_020d278c(void *p0);
 u32 func_020d286c(void *param_1);
 void func_020d27fc(void *a);
 s32 func_020d2234(void *a, Unk020ed5c0 *b);
+u32 func_020d2210(void *param_1);

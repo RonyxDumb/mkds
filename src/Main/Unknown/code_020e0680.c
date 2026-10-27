@@ -55,7 +55,7 @@ void func_020e2f0c(Unk020e1e98 *a, Unk020e1e98_09c *b) {
     a->mUnk_0a0 = b->mUnk_2a;
     a->mUnk_080.mUnk_10 = 0;
     a->mUnk_080.mUnk_12 = 1;
-    func_020e516c(&a->mUnk_0b4.mUnk_08, &a->mUnk_004, (s32) (((s64) a->mUnk_01c * 0x1b000) >> 12), 0x1e);
+    func_020e516c(&a->mUnk_0b4.mUnk_08, &a->mUnk_004, (s32) (((s64) a->mUnk_01c.x * 0x1b000) >> 12), 0x1e);
     a->mUnk_002 |= data_02158b7c;
 }
 
@@ -457,10 +457,10 @@ void func_020e1f54(Unk020e1e98 *a, Unk020e1e98_09c *b, Unk020e1e98_154 *c) {
     a->mUnk_0fc = b->mUnk_2a;
     a->mUnk_130 = b->mUnk_2c;
     a->mUnk_0a0 = *(s32 *) (func_02042044(b->mUnk_26, a->mUnk_0fc) + 4);
-    a->mUnk_114.x = (s32) (((s64) c->mUnk_00 * a->mUnk_01c) >> 12);
-    a->mUnk_114.y = (s32) (((s64) c->mUnk_04 * a->mUnk_020) >> 12);
-    a->mUnk_114.z = (s32) (((s64) c->mUnk_08 * a->mUnk_024) >> 12);
-    a->mUnk_120 = (s32) (((s64) c->mUnk_0c * a->mUnk_024) >> 12);
+    a->mUnk_114.x = (s32) (((s64) c->mUnk_00 * a->mUnk_01c.x) >> 12);
+    a->mUnk_114.y = (s32) (((s64) c->mUnk_04 * a->mUnk_01c.y) >> 12);
+    a->mUnk_114.z = (s32) (((s64) c->mUnk_08 * a->mUnk_01c.z) >> 12);
+    a->mUnk_120 = (s32) (((s64) c->mUnk_0c * a->mUnk_01c.z) >> 12);
     a->mUnk_152 = (u16) ((u32) ((s16) b->mUnk_28 * 0xfa) / 100);
     a->mUnk_150 = a->mUnk_152;
     a->mUnk_100 = c->mUnk_10;

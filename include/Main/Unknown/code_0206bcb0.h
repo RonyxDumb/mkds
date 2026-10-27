@@ -207,6 +207,8 @@ typedef struct Unk0206bcb0 {
     /* 590 */ void *mUnk_590;
 } Unk0206bcb0;
 
+extern Unk0206bcb0 *data_0217b8c8;
+
 extern int data_02154f10[];
 
 void func_0206bf88(Unk0206bcb0 *p, int mode);

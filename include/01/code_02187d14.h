@@ -12,6 +12,10 @@ typedef struct Unk02012f58 {
     /* 24 */ Vec3 mUnk_24;
 } Unk02012f58;
 
+extern Unk02012f58 data_0217ba88;
+
+extern Unk02012f58 data_0217bab8;
+
 // Object returned by func_020ac524(0xc9).
 typedef struct Unk020ac524 {
     /* 00 */ u8 mUnk_00[0xac];

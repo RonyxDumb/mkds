@@ -17,7 +17,7 @@ typedef struct {
 } Unk0210340c;
 
 void func_021031f4(Unk02102674 *p);
-void func_0210340c(Unk0210340c *p, Unk020ed4d0 *q);
+void func_0210340c(Unk0210340c *p, Unk020e6488 *q);
 void func_02103468(void);
 void func_02103544(u32 param_1, u32 param_2);
 void func_02103554(u32 param_1);

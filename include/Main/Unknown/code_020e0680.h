@@ -126,9 +126,7 @@ typedef struct Unk020e1e98 {
     /* 002 */ u16 mUnk_002;
     /* 004 */ Vec3 mUnk_004;
     /* 010 */ Vec3 mUnk_010;
-    /* 01c */ s32 mUnk_01c;
-    /* 020 */ s32 mUnk_020;
-    /* 024 */ s32 mUnk_024;
+    /* 01c */ Vec3 mUnk_01c;
     /* 028 */ Vec3 mUnk_028;
     /* 034 */ Vec3 mUnk_034;
     /* 040 */ Vec3 mUnk_040;

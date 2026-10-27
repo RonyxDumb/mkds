@@ -27,7 +27,7 @@ void func_020f5008(Unk0206bcb0 *a, void *b, void *c) {
     if (a->mUnk_12c.z == 0) {
         return;
     }
-    func_020ed5c0((Unk020ed5c0 *) a, (Unk020ed5c0 *) c, (Vec3 *) b);
+    func_020ed5c0((Unk020ed5c0 *) a, c, b);
 }
 
 // Decreases the 0x130 word by one; when it goes below zero func_020f7658 runs first.

@@ -3,12 +3,6 @@
 #include "types.h"
 #include "Main/Unknown/code_020e0680.h"
 
-// Object behind data_0217b7b8: only the halfword at 0x18 is written here.
-typedef struct Unk020e3618 {
-    /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ u16 mUnk_18;
-} Unk020e3618;
-
 // Block of eleven words.
 typedef struct Unk020e039c {
     /* 00 */ u32 mUnk_00[11];
@@ -65,4 +59,4 @@ void *func_020e37f4(void);
 void *func_020e3798(void);
 void *func_020e373c(void);
 void func_020e3724(void);
-void func_020e3618(s32 a, Unk020e1e98 *b, s32 c, u32 d);
+void func_020e3618(s32 a, Unk020e1e98 *b, s32 c, u16 d);

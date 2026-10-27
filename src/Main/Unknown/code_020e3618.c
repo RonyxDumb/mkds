@@ -118,29 +118,29 @@ void *func_020e373c(void) {
 }
 
 void func_020e3724(void) {
-    func_020e6a18(*(void **) data_0217b7b8);
+    func_020e6a18(data_0217b7b8);
 }
 
-void func_020e3618(s32 a, Unk020e1e98 *b, s32 c, u32 d) {
-    void *p;
+void func_020e3618(s32 a, Unk020e1e98 *b, s32 c, u16 d) {
+    Unk020e6b58 *p;
 
     switch (b->mUnk_080.mUnk_0e) {
         case 4:
-            ((Unk020e3618 *) *(void **) data_0217b7b8)->mUnk_18 = 1;
+            data_0217b7b8->mUnk_18 = 1;
             p = func_020e6cf8(&b->mUnk_004);
-            func_020e67c4(*(void **) data_0217b7b8, p, &b->mUnk_01c, 0, d);
+            func_020e67c4(data_0217b7b8, p, &b->mUnk_01c, 0, d);
             break;
         case 5:
             break;
         case 6:
         case 7:
-            ((Unk020e3618 *) *(void **) data_0217b7b8)->mUnk_18 = 1;
+            data_0217b7b8->mUnk_18 = 1;
             p = func_020e6cf8(&b->mUnk_004);
-            func_020e66e4(*(void **) data_0217b7b8, p, b->mUnk_0b4.mUnk_04, &b->mUnk_01c, 0, d);
+            func_020e66e4(data_0217b7b8, p, b->mUnk_0b4.mUnk_04, &b->mUnk_01c, 0, d);
             break;
         default:
-            ((Unk020e3618 *) *(void **) data_0217b7b8)->mUnk_18 = 0;
+            data_0217b7b8->mUnk_18 = 0;
             p = func_020e6cf8(&b->mUnk_004);
-            func_020e67c4(*(void **) data_0217b7b8, p, &b->mUnk_01c, 0, d);
+            func_020e67c4(data_0217b7b8, p, &b->mUnk_01c, 0, d);
     }
 }

@@ -1,18 +1,7 @@
 #pragma once
 
 #include "types.h"
-
-// Object allocated by func_020ed4d0 (0x2c bytes); two words are updated there.
-typedef struct {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ volatile u32 mUnk_10;
-    /* 14 */ volatile u32 mUnk_14;
-    /* 18 */ u8 mUnk_18[4];
-    /* 1c */ u32 *mUnk_1c;
-    /* 20 */ u32 *mUnk_20;
-    /* 24 */ u8 mUnk_24[8];
-} Unk020ed4d0;
+#include "Main/Unknown/code_020e5d0c.h"
 
 // Object behind the first parameter of the functions below from its first
 // byte: the pointer at 0x00c, the vectors at 0x050, 0x05c, 0x0e4, 0x0f0,
@@ -61,24 +50,6 @@ typedef struct Unk020ec8bc_00c {
     /* 1f4 */ s32 mUnk_1f4;
 } Unk020ec8bc_00c;
 
-// Object behind data_0217bbfc from its first byte: the pointers at 0x00 to 0x34.
-typedef struct {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
-    /* 28 */ u32 mUnk_28;
-    /* 2c */ u32 mUnk_2c;
-    /* 30 */ u32 mUnk_30;
-    /* 34 */ u32 mUnk_34;
-} Unk0217bbfc;
-
 // One element of the table behind data_0217bc34 from its first byte: the
 // pointer at 0x14.
 typedef struct {
@@ -94,5 +65,5 @@ s32 func_020ed0f4(Unk020ec8bc *p);
 void func_020ed268(Unk020ec8bc *p, u8 *q, s32 a, s32 b, s32 c, s32 d, s32 e, s32 f, u16 g, s32 h);
 void func_020ed2f8(void);
 void *func_020ed490(u8 *a);
-Unk020ed4d0 *func_020ed4d0(u8 *a, u8 *b, u8 *c);
+Unk020e6488 *func_020ed4d0(u8 *a, u8 *b, u8 *c);
 void *func_020ed548(u8 *a);
