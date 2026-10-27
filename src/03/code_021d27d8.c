@@ -1,0 +1,44 @@
+#include "03/code_021d27d8.h"
+#include "03/code_021d28b0.h"
+#include "code_0200c914.h"
+#include "code_0200fd1c.h"
+#include "code_020176c0.h"
+#include "Main/Unknown/code_0214d000.h"
+
+void *func_ov003_021d285c(u32 size, s32 alignment) {
+    u32 interrupts = func_0200ca9c(1);
+    void *block = func_02017938(data_ov003_021da2c8, size, alignment);
+
+    if (block == 0) {
+        func_0200fd1c();
+    }
+    func_0200cae4(interrupts);
+    return block;
+}
+
+void *func_ov003_021d283c(u32 size, s32 alignment) {
+    void *block = func_ov003_021d285c(size, alignment);
+
+    func_0214d168(block, 0, size);
+    return block;
+}
+
+void func_ov003_021d2808(void *storage) {
+    void **block = storage;
+    u32 interrupts = func_0200ca9c(1);
+
+    if (*block != 0) {
+        func_02017770(data_ov003_021da2c8, *block);
+        func_0200cae4(interrupts);
+        *block = 0;
+    }
+}
+
+void func_ov003_021d27d8(void *block) {
+    u32 interrupts = func_0200ca9c(1);
+
+    if (block != 0) {
+        func_02017770(data_ov003_021da2c8, block);
+        func_0200cae4(interrupts);
+    }
+}
