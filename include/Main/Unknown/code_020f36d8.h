@@ -15,7 +15,11 @@ typedef struct Unk020f371c {
     /* 00 */ struct Unk020f371c *mUnk_00[3];
     /* 0c */ struct Unk020f371c *mUnk_0c[3];
     /* 18 */ Vec3 *mUnk_18;
-    /* 1c */ u8 mUnk_1c[8];
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ u8 mUnk_20;
+    /* 21 */ u8 mUnk_21;
+    /* 22 */ u8 mUnk_22;
+    /* 23 */ u8 mUnk_23;
     /* 24 */ u16 mUnk_24;
     /* 26 */ u16 mUnk_26;
 } Unk020f371c;
@@ -130,7 +134,7 @@ typedef struct {
 typedef struct {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
-    /* 08 */ u8 mUnk_08[4];
+    /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
     /* 14 */ u8 mUnk_14[8];
@@ -142,11 +146,13 @@ typedef struct {
     /* 30 */ s32 (*mUnk_30)(void *, s32, s32, s32, s32);
     /* 34 */ u8 mUnk_34[4];
     /* 38 */ void (*mUnk_38)(void *);
-    /* 3c */ u8 mUnk_3c[0xc];
+    /* 3c */ u8 mUnk_3c[8];
+    /* 44 */ s32 mUnk_44;
     /* 48 */ void (*mUnk_48)(void *, void *, s32);
-    /* 4c */ u8 mUnk_4c[4];
+    /* 4c */ s32 mUnk_4c;
     /* 50 */ void (*mUnk_50)(void *);
-    /* 54 */ u8 mUnk_54[8];
+    /* 54 */ u8 mUnk_54[4];
+    /* 58 */ u32 mUnk_58;
     /* 5c */ s32 mUnk_5c;
     /* 60 */ u8 mUnk_60[8];
     /* 68 */ s32 mUnk_68;
@@ -154,11 +160,41 @@ typedef struct {
     /* 70 */ s32 mUnk_70;
     /* 74 */ s32 mUnk_74;
     /* 78 */ s32 mUnk_78;
-    /* 7c */ u8 mUnk_7c[4];
+    /* 7c */ s32 mUnk_7c;
     /* 80 */ s32 mUnk_80;
-    /* 84 */ u8 mUnk_84[0x20];
+    /* 84 */ u8 mUnk_84[0x18];
+    /* 9c */ s32 mUnk_9c;
+    /* a0 */ u8 mUnk_a0[4];
     /* a4 */ s32 mUnk_a4;
 } Unk0217bc34;
+
+extern Unk0217bc34 data_0215a5a4;
+
+extern Unk0217bc34 data_02159dac;
+
+extern Unk0217bc34 data_0215a244;
+
+extern Unk0217bc34 data_0215a308;
+
+extern Unk0217bc34 data_02159e70;
+
+extern Unk0217bc34 data_0215a4dc;
+
+extern Unk0217bc34 data_02159f84;
+
+extern Unk0217bc34 data_02159abc;
+
+extern Unk0217bc34 data_02159cdc;
+
+extern Unk0217bc34 data_021599f8;
+
+extern Unk0217bc34 data_021596bc;
+
+extern Unk0217bc34 data_0215978c;
+
+extern Unk0217bc34 data_02159854;
+
+extern Unk0217bc34 data_02159934;
 
 // Two words of a row of data_0215961c.
 typedef struct {
@@ -173,13 +209,50 @@ typedef struct {
 
 // Entry of the table behind data_0217bc48.
 typedef struct {
-    /* 00 */ u8 mUnk_00[8];
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
     /* 18 */ void (*mUnk_18)(void *, void *);
 } Unk0217bc48;
+
+extern Unk0217bc48 data_0215a4c0;
+
+extern Unk0217bc48 data_0215a174;
+
+extern Unk0217bc48 data_0215a2ec;
+
+extern Unk0217bc48 data_0215a588;
+
+extern Unk0217bc48 data_02159d90;
+
+extern Unk0217bc48 data_021599dc;
+
+extern Unk0217bc48 data_021598fc;
+
+extern Unk0217bc48 data_02159680;
+
+extern Unk0217bc48 data_02159f4c;
+
+extern Unk0217bc48 data_02159aa0;
+
+extern Unk0217bc48 data_02159cc0;
+
+extern Unk0217bc48 data_02159e54;
+
+extern Unk0217bc48 data_02159664;
+
+extern Unk0217bc48 data_021596a0;
+
+extern Unk0217bc48 data_02159f68;
+
+extern Unk0217bc48 data_02159770;
+
+extern Unk0217bc48 data_02159838;
+
+extern Unk0217bc48 data_02159918;
 
 // Entry of the table behind data_027e00cc.
 typedef struct {
@@ -197,7 +270,7 @@ typedef struct {
 } Unk027e00cc;
 
 // Object with a u16 at 0x1f8 and a pointer at 0x1fc.
-typedef struct {
+typedef struct Unk020f40dc_Owner {
     /* 000 */ u8 mUnk_000[0x14];
     /* 014 */ s32 mUnk_14;
     /* 018 */ u8 mUnk_018[0x18];
@@ -208,11 +281,18 @@ typedef struct {
     /* 048 */ u32 mUnk_48;
     /* 04c */ u8 mUnk_04c[0x4];
     /* 050 */ s32 mUnk_50;
-    /* 054 */ u8 mUnk_054[0x1a4];
+    /* 054 */ u8 mUnk_054[0x198];
+    /* 1ec */ u16 mUnk_1ec;
+    /* 1ee */ u8 mUnk_1ee[2];
+    /* 1f0 */ s32 mUnk_1f0;
+    /* 1f4 */ u8 mUnk_1f4[4];
     /* 1f8 */ u16 mUnk_1f8;
     /* 1fa */ u8 mUnk_1fa[2];
     /* 1fc */ Unk0206bcb0 *mUnk_1fc;
-    /* 200 */ u8 mUnk_200[0x10];
+    /* 200 */ u8 mUnk_200[4];
+    /* 204 */ s32 mUnk_204;
+    /* 208 */ s32 mUnk_208;
+    /* 20c */ u8 mUnk_20c[4];
 } Unk020f40dc_Owner;
 
 // Value of the first word of Unk020f40dc.
@@ -237,7 +317,7 @@ extern void func_020d7d18(Unk020f3fa8 *p, s32 mode, Vec3 **path, s32 scale);
 extern void *func_020fe828(s32 idx);
 extern void *func_020fe958(s32 idx);
 #include "Main/Unknown/code_020ee684.h"
-extern void func_020f49bc(Unk020f40dc *rec);
+#include "Main/Unknown/code_020f5008.h"
 
 extern s32 data_0217bc38[];
 extern Unk0217bc34 *data_0217bc34;

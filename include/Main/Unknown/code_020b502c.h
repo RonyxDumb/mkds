@@ -38,7 +38,8 @@ typedef struct {
     /* 2c */ Unk020b57e4 *mUnk_2c;
     /* 30 */ u8 mUnk_30[0x28];
     /* 58 */ u16 mUnk_58;
-    /* 5a */ u8 mUnk_5a[0x56];
+    /* 5a */ u8 mUnk_5a[0x52];
+    /* ac */ struct Unk020f371c *mUnk_ac;
     /* b0 */ s32 mUnk_b0;
     /* b4 */ u8 mUnk_b4[0x50];
     /* 104 */ u32 mUnk_104;

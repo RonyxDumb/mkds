@@ -125,3 +125,4 @@ extern s32 data_0216c7d4;
 extern s32 data_0216c7f8[];
 extern s32 data_0216c82c[];
 extern u8 data_0216c8d0[];
+extern u32 data_0216c648[];

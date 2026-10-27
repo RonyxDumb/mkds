@@ -19,3 +19,7 @@ extern u16 data_021595c8;
 extern Vec3 data_021595d8;
 extern u32 data_021595e4[];
 extern u16 data_02159618;
+extern u16 data_0215969c;
+extern u8 data_02159764;
+extern u16 data_02159834;
+extern u16 data_02159b64;

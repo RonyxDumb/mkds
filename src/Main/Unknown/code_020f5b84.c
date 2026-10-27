@@ -1,0 +1,42 @@
+#include "Main/Unknown/code_020f5b84.h"
+
+#include "Main/Unknown/code_020fe000.h"
+#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_020f1180.h"
+#include "Main/Unknown/code_020f11f0.h"
+#include "Main/Unknown/code_020f1d70.h"
+#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/code_020f5d6c.h"
+
+void func_020f5b84(Unk0206bcb0 *a) {
+    func_020f2228(a, 0x8800);
+    if (!(*(u32 *) &a->mUnk_74 & 1)) {
+        func_0210ddf4(&data_0217d294, a->mUnk_d4 & ~0xc000001f, func_020f5fb8, a, 0);
+    }
+    if (*(u32 *) &a->mUnk_74 & 1) {
+        return;
+    }
+    if (a->mUnk_240 > 0x10) {
+        if (func_020f11f0((u32) a, 0) == 0) {
+            return;
+        }
+        ((u16 *) &a->mUnk_244)[4] = 4;
+        ((u16 *) &a->mUnk_244)[5] = 1;
+        if (!(*(u32 *) &a->mUnk_74 & 0x8000000)) {
+            return;
+        }
+        func_020fe71c(1, a->mUnk_228->mUnk_1f8, ((s16 *) &a->mUnk_4c)[1]);
+        return;
+    }
+    if (a->mUnk_240 > 4) {
+        if (func_020f1180(a, 0) == 0) {
+            return;
+        }
+        ((u16 *) &a->mUnk_244)[4] = 4;
+        ((u16 *) &a->mUnk_244)[5] = 1;
+        if (!(*(u32 *) &a->mUnk_74 & 0x8000000)) {
+            return;
+        }
+        func_020fe71c(1, a->mUnk_228->mUnk_1f8, ((s16 *) &a->mUnk_4c)[1]);
+    }
+}
