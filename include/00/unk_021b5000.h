@@ -5,11 +5,10 @@
 #include "00/code_0219c93c.h"
 #include "00/code_0219d934.h"
 #include "00/code_0219de4c.h"
-
 #include "types.h"
+#include "00/code_021a31a4.h"
 
 // Objects whose layout isn't known yet.
-extern u8 data_ov000_021b5dd0[];
 extern u8 data_ov000_021b5dec[];
 extern u8 data_ov000_021b5df0[];
 extern u8 data_ov000_021b5df4[];
