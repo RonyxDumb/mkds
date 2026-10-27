@@ -25,12 +25,12 @@ void func_0211ded0(u32 param_1, void *param_2, void *param_3, u32 param_4, u16 p
 
 void func_0211de98(void) {
     u32 uVar1;
-    u32 local_10;
+    Unk020b4934 *local_10;
     u32 local_c[1];
     local_10 = 0;
     local_c[0] = 0;
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216de54))));
-    func_020b49f4((void **) (&local_10), (void *) (uVar1));
+    func_020b49f4(&local_10, (void *) (uVar1));
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216de58))));
     func_020b48ec((void **) (local_c), (void *) (uVar1));
     return;

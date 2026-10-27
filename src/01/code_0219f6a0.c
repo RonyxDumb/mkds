@@ -276,12 +276,12 @@ void func_ov001_0219f8ec(void) {
 }
 
 void func_ov001_0219f85c(void) {
-    void *local_0 = 0;
+    Unk020b4934 *local_0 = 0;
     void *local_4 = 0;
-    void *local_8 = 0;
-    void *local_c = 0;
-    void *local_10 = 0;
-    void *local_14 = 0;
+    Unk020b4a44 *local_8 = 0;
+    Unk020b4934 *local_c = 0;
+    Unk020b47d8 *local_10 = 0;
+    Unk020b4a44 *local_14 = 0;
 
     func_020b496c(&local_c, func_0204799c(data_ov001_021a90a8));
     func_020b4810(&local_10, func_0204799c(data_ov001_021a90e4));

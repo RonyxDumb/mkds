@@ -224,12 +224,12 @@ void func_0211a794(void) {
 }
 
 void func_0211a6bc(void) {
-    void *a = 0;
+    Unk020b4934 *a = 0;
     void *b = 0;
-    void *c = 0;
-    void *d = 0;
-    void *e = 0;
-    void *f = 0;
+    Unk020b4a44 *c = 0;
+    Unk020b4934 *d = 0;
+    Unk020b47d8 *e = 0;
+    Unk020b4a44 *f = 0;
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
         func_020b496c(&d, func_0204799c(data_0216d894));
         func_020b4a7c(&f, func_0204799c(data_0216d88c));

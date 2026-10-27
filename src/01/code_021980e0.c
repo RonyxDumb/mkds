@@ -18,12 +18,12 @@
 
 void func_ov001_021984ac(void)
 {
-    void *a = 0;
+    Unk020b4934 *a = 0;
     void *b = 0;
-    void *c = 0;
-    void *d = 0;
-    void *e = 0;
-    void *f = 0;
+    Unk020b4a44 *c = 0;
+    Unk020b4934 *d = 0;
+    Unk020b4a44 *e = 0;
+    Unk020b47d8 *f = 0;
 
     func_020b496c(&d, func_0204799c(data_ov001_021a835c));
     func_020b4a7c(&e, func_0204799c(data_ov001_021a8360));

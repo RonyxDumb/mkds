@@ -2,6 +2,7 @@
 #include "Main/Unknown/code_020d3b10.h"
 #include "Main/Unknown/code_020ea670.h"
 #include "Main/Unknown/unk_0217b000.h"
+#include "Main/Unknown/code_020d94dc.h"
 
 // non-matching: in the case 1 and case 2 range tests the compiled code keeps the three differences in other registers (the original has the first difference in lr, the third in r0 and the negated bound in r5; compiled r0, r1 and r6); 37 words differ
 s32 func_020d3e34(Vec3 *param_1, s32 param_2, Unk020e71a0 *param_3, Vec3 *param_4) {
@@ -87,13 +88,13 @@ s32 func_020d3e18(void) {
 }
 
 s32 func_020d3df4(s32 param_1) {
-    return data_0217b4e4 != 0 ? param_1 - data_0217b4e4->mUnk_004 : 0x270f000;
+    return data_0217b4e4 != 0 ? param_1 - data_0217b4e4->mUnk_04 : 0x270f000;
 }
 
 s32 func_020d3dd8(void) {
-    return data_0217b4e4 != 0 ? data_0217b4e4->mUnk_030 : 0;
+    return data_0217b4e4 != 0 ? data_0217b4e4->mUnk_30 : 0;
 }
 
 u32 func_020d3dbc(void) {
-    return data_0217b4e4 != 0 ? data_0217b4e4->mUnk_02c : 0;
+    return data_0217b4e4 != 0 ? data_0217b4e4->mUnk_2c : 0;
 }

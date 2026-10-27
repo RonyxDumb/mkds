@@ -4,7 +4,8 @@
 
 #include "Main/Unknown/unk_0217b000.h"
 
-// Objects returned by func_020b47d8, func_020b4934, func_020b49bc and func_020b4a44.
+// Objects stored through the first parameter: Unk020b47d8 by func_020b47d8 and func_020b4810, Unk020b4934 by
+// func_020b4934, func_020b496c, func_020b49bc and func_020b49f4, Unk020b4a44 by func_020b4a44 and func_020b4a7c.
 typedef struct Unk020b4934 {
     /* 0000 */ u8 pad_00[0x10];
     /* 0010 */ u32 mUnk_10;
@@ -29,11 +30,11 @@ void *func_020b400c(int param_1);
 void *func_020b4018(int param_1);
 void *func_020b4030(int param_1);
 void func_020b41e8(int param_1, int param_2, int param_3, int param_4, int param_5);
-void func_020b4810(void **param_1, void *param_2);
+void func_020b4810(Unk020b47d8 **param_1, void *param_2);
 void func_020b48ec(void **param_1, void *param_2);
-void func_020b496c(void **param_1, void *param_2);
-void func_020b49f4(void **param_1, void *param_2);
-void func_020b4a7c(void **param_1, void *param_2);
+void func_020b496c(Unk020b4934 **param_1, void *param_2);
+void func_020b49f4(Unk020b4934 **param_1, void *param_2);
+void func_020b4a7c(Unk020b4a44 **param_1, void *param_2);
 s32 func_020b4e70(const Vec3 *param_1);
 void *func_020b403c(s32 index);
 void func_020b486c(void **out, void *file);

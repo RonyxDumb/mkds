@@ -21,7 +21,7 @@ s32 func_ov001_02189d88(void) {
 }
 
 void func_ov001_02189d74(void) {
-    func_020c0b84((void **) &data_ov001_021a9bc4);
+    func_020c0b84(&data_ov001_021a9bc4);
 }
 
 void func_ov001_02189c10(void) {
@@ -63,7 +63,7 @@ s32 func_ov001_02189bd8(void) {
 }
 
 void func_ov001_02189bc4(void) {
-    func_020c0b84((void **) &data_ov001_021a9bc0);
+    func_020c0b84(&data_ov001_021a9bc0);
 }
 
 void func_ov001_021899e4(void) {

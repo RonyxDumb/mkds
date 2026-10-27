@@ -4,35 +4,35 @@
 
 void func_0211e074(void) {
     u32 uVar1;
-    u32 local_10;
+    Unk020b4934 *local_10;
     u32 local_c;
-    u32 local_8[1];
+    Unk020b4a44 *local_8[1];
     local_10 = 0;
     local_c = 0;
     local_8[0] = 0;
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216ded4))));
-    func_020b496c((void **) (&local_10), (void *) (uVar1));
+    func_020b496c(&local_10, (void *) (uVar1));
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216ded8))));
     func_020b48ec((void **) (&local_c), (void *) (uVar1));
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216dec4))));
-    func_020b4a7c((void **) (local_8), (void *) (uVar1));
+    func_020b4a7c(local_8, (void *) (uVar1));
     return;
 }
 
 void func_0211e024(void) {
     u32 uVar1;
-    u32 local_10;
+    Unk020b4934 *local_10;
     u32 local_c;
-    u32 local_8[1];
+    Unk020b4a44 *local_8[1];
     local_10 = 0;
     local_c = 0;
     local_8[0] = 0;
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216dedc))));
-    func_020b496c((void **) (&local_10), (void *) (uVar1));
+    func_020b496c(&local_10, (void *) (uVar1));
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216decc))));
     func_020b48ec((void **) (&local_c), (void *) (uVar1));
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216dee0))));
-    func_020b4a7c((void **) (local_8), (void *) (uVar1));
+    func_020b4a7c(local_8, (void *) (uVar1));
     return;
 }
 

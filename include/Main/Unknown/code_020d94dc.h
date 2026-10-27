@@ -38,7 +38,7 @@ typedef struct Unk020d9cf4_68 {
     /* 08 */ u8 mUnk_08[0x64];
 } Unk020d9cf4_68;
 
-// Object behind data_0217b678, 0x180 bytes.
+// Object behind data_0217b678 and data_0217b4e4, 0x180 bytes.
 typedef struct Unk020d9cf4 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;

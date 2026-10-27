@@ -542,7 +542,7 @@ void func_020d2e24(void) {
     n = data_0217b4f0->mUnk_128;
     p = data_0217b4f0->mUnk_008;
     if (data_0217b4e4 != 0) {
-        func_020d9900((Unk020d9cf4 *) data_0217b4e4);
+        func_020d9900(data_0217b4e4);
     }
     func_020e52bc();
     for (i = 0; i < n; p++, i++) {

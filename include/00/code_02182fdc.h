@@ -94,23 +94,40 @@ typedef struct Unk021b4c74 {
 
 // Four callbacks, passed to func_ov000_021806ec by func_ov000_0218330c.
 
+// Object behind data_0217b488, 0x130 bytes (func_020cefa0 allocates it).
 typedef struct Unk0217b488 {
-    /* 0000 */ u8 mUnk_0000[0x4];
-    /* 0004 */ s32 mUnk_04;
-    /* 0008 */ s32 mUnk_08;
-    /* 000c */ s32 mUnk_0c;
-    /* 0010 */ s32 mUnk_10;
-    /* 0014 */ s32 mUnk_14;
-    /* 0018 */ s32 mUnk_18;
-    /* 001c */ s32 mUnk_1c;
-    /* 0020 */ u8 mUnk_0020[0x34];
-    /* 0054 */ u8 mUnk_54;
-    /* 0055 */ u8 mUnk_0055[3];
-    /* 0058 */ s32 mUnk_58;
-    /* 005c */ u8 mUnk_005c[0x14];
-    /* 0070 */ s32 mUnk_70;
-    /* 0074 */ u8 mUnk_0074[0x78];
-    /* 00ec */ s32 mUnk_ec[4];
+    /* 000 */ s32 mUnk_00;
+    /* 004 */ s32 mUnk_04;
+    /* 008 */ s32 mUnk_08;
+    /* 00c */ s32 mUnk_0c;
+    /* 010 */ s32 mUnk_10;
+    /* 014 */ s32 mUnk_14;
+    /* 018 */ s32 mUnk_18;
+    /* 01c */ s32 mUnk_1c;
+    /* 020 */ u8 mUnk_20[0x30];
+    /* 050 */ s32 mUnk_50;
+    /* 054 */ u8 mUnk_54;
+    /* 055 */ u8 mUnk_55[0x3];
+    /* 058 */ s32 mUnk_58;
+    /* 05c */ u8 mUnk_5c[0x10];
+    /* 06c */ s32 mUnk_6c;
+    /* 070 */ s32 mUnk_70;
+    /* 074 */ s32 mUnk_74;
+    /* 078 */ s32 mUnk_78;
+    /* 07c */ s32 mUnk_7c;
+    /* 080 */ s32 mUnk_80;
+    /* 084 */ s32 mUnk_84;
+    /* 088 */ s32 mUnk_88;
+    /* 08c */ s32 mUnk_8c;
+    /* 090 */ s32 mUnk_90;
+    /* 094 */ s32 mUnk_94;
+    /* 098 */ u8 mUnk_98[0x10];
+    /* 0a8 */ u16 mUnk_a8;
+    /* 0aa */ u8 mUnk_aa[0x42];
+    /* 0ec */ s32 mUnk_ec[4];
+    /* 0fc */ u8 mUnk_fc[0x10];
+    /* 10c */ s32 mUnk_10c[8];
+    /* 12c */ s32 mUnk_12c;
 } Unk0217b488;
 
 // Object at member 0x8 of Unk0217d384.

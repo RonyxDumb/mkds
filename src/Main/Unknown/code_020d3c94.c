@@ -3,11 +3,12 @@
 #include "Main/Unknown/code_020d2c2c.h"
 #include "Main/Unknown/code_020e6fd4.h"
 #include "Main/Unknown/unk_0217b000.h"
+#include "Main/Unknown/code_020d94dc.h"
 #include "Main/Unknown/code_020d2000.h"
 
 s32 func_020d3d48(s32 param_1) {
     if (data_0217b4e4 != 0 && data_0217b4e4->mUnk_170 != 0) {
-        return param_1 - data_0217b4e4->mUnk_004;
+        return param_1 - data_0217b4e4->mUnk_04;
     }
     return data_0217b4d8 != 0 ? param_1 - data_0217b4d8->mUnk_00 : 0x270f000;
 }

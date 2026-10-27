@@ -160,7 +160,7 @@ void func_020d4590(void)
         func_020d47e0();
     }
     if (data_0217b4e4 != 0) {
-        func_020d9f8c((Unk020d9cf4 *) data_0217b4e4);
+        func_020d9f8c(data_0217b4e4);
     }
 }
 
@@ -179,7 +179,7 @@ void func_020d4484(Unk020d4418 *p)
     v = &p->mUnk_30;
     func_020d4d44(v);
     if (data_0217b4e4 != 0) {
-        func_020d9e60((Unk020d9cf4 *) data_0217b4e4, v);
+        func_020d9e60(data_0217b4e4, v);
     }
     i = 0;
     n = data_0217b4f0->mUnk_12a;

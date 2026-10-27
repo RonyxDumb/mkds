@@ -33,8 +33,8 @@ void func_020d1464(void) {
         w[0] = (w[0] & ~0xc00) | 0xc00;
     }
     data_0217b4ac->mUnk_00 = 0;
-    func_020b4a7c((void **) &data_0217b4ac->mUnk_04, func_020b47c0("ending_staffRoll_m_o_00.NCLR"));
-    func_020b49f4((void **) &data_0217b4ac->mUnk_08, func_020b47c0("ending_staffRoll_m_00.nce.ncgr"));
+    func_020b4a7c(&data_0217b4ac->mUnk_04, func_020b47c0("ending_staffRoll_m_o_00.NCLR"));
+    func_020b49f4(&data_0217b4ac->mUnk_08, func_020b47c0("ending_staffRoll_m_00.nce.ncgr"));
     a = 0;
     func_020b48ec((void **) &a, func_020b47c0("ending_staffRoll_m_00.nce.ncer"));
     data_0217b4ac->mUnk_0c = (Unk020224e0_c *)func_02021f1c(a, 0);
