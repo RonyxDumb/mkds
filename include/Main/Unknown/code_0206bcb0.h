@@ -318,7 +318,7 @@ Unk0206cdd4_B *func_0207a6b0(void);
 void func_0206d020(Unk0206bcb0 *p, int a, int b);
 void func_01ffc9e8(Unk0206bcb0 *p, int a);
 void func_020681f0(Unk0206bcb0 *p);
-void func_0210ddf4(Unk0217d26c *queue, int key, void (*cb)(Unk0206bcb0 *, int), Unk0206bcb0 *p, int arg);
+#include "Main/Unknown/code_0210dc7c.h"
 void func_020718c8(Unk0206bcb0 *p, int arg);
 void func_02071944(Unk0206bcb0 *p, int arg);
 #include "Main/Unknown/code_021035ac.h"

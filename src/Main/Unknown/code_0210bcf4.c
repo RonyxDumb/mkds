@@ -68,7 +68,7 @@ void func_0210bf24(u32 a, u32 b, u32 c, u32 d) {
     if (data_0217d084.mUnk_10 == 0) {
         return;
     }
-    v = (Unk0210bf24 *) func_0210e128(data_0217d034);
+    v = (Unk0210bf24 *) func_0210e128((Unk0217c7c4 *) data_0217d034);
     func_0210c084(v, 0);
     w = v->mUnk_10;
     if (w != 0) {

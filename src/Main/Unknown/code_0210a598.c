@@ -8,7 +8,7 @@
 #include "Main/Unknown/code_0210aa14.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-void func_0210a5a8(Unk0206bcb0 *a, Unk0210bf24 *b)
+void func_0210a5a8(Unk0206bcb0 *a, Unk0210a5a8 *b)
 {
     if (a->mUnk_7c & 4) {
         a->mUnk_00.mUnk_2c = (void (*)(void *, void *, u32)) func_0210ab44;

@@ -36,8 +36,6 @@ typedef struct Unk0210bf24 {
     /* 18 */ u8 mUnk_18;
     /* 19 */ u8 mUnk_19;
     /* 1a */ u8 mUnk_1a;
-    /* 1b */ u8 mUnk_1b[0x21];
-    /* 3c */ UnkWordFunc *mUnk_3c;
 } Unk0210bf24;
 
 // Object at 0x20 of Unk0210bcf4: words at 0x08 and 0x0c.
