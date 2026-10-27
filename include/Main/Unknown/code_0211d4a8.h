@@ -4,8 +4,7 @@
 #include "Main/Unknown/unk_0217d000.h"
 
 typedef struct Unk0215cd4c {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
+    /* 00 */ u16 mUnk_00[2];
 } Unk0215cd4c;
 
 extern Unk0215cd4c data_0215cd4c[];

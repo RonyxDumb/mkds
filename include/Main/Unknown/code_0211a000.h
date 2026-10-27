@@ -3,4 +3,4 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_0211a794(void);
+#include "Main/Unknown/code_02119e14.h"
