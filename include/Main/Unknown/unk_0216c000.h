@@ -140,3 +140,4 @@ extern u8 data_0216c394[];
 extern u8 data_0216c3a4[];
 extern u8 data_0216c3b4[];
 extern u8 data_0216c3c4[];
+extern u8 data_0216cb30[];

@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_02108950.h"
 
-unsigned int func_02108950(void) {
-    return ((u32) (&data_0217c7b4));
+Unk0217c7b4 *func_02108950(void) {
+    return &data_0217c7b4;
 }

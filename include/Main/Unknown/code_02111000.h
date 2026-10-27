@@ -8,3 +8,4 @@ void func_02111a98(void);
 void func_02111494(const void *param_1);
 void func_02111024(void);
 void func_02111250(void *a, u32 b);
+u32 func_02111158(s32 a);

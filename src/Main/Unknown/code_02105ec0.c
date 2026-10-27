@@ -112,7 +112,7 @@ void func_02108720(void) {
     func_0210efac((void *) func_0210ef50());
     ((u32 *) &data_0216c7d8)[0] = data_0215a6f4[0];
     ((u32 *) &data_0216c7d8)[1] = data_0215a6f4[1];
-    func_0210e4ec(data_0217c7b4);
+    func_0210e4ec(&data_0217c7b4);
 }
 
 // non-matching: 25 words from +0xb8 are the same instructions with swapped registers:
@@ -139,7 +139,7 @@ void func_02108598(u32 a, u32 b) {
     }
     ((u32 *) &data_0216c7d8)[0] = data_0215a6ec[0];
     ((u32 *) &data_0216c7d8)[1] = data_0215a6ec[1];
-    func_0210e4ec(data_0217c7b4);
+    func_0210e4ec(&data_0217c7b4);
     data_0217c77c = func_0212dcc8((void *) b, c);
     d = 0;
     data_0217d130 = 0;
@@ -303,7 +303,7 @@ void func_021074ac(void) {
     s32 b;
     u32 d;
     Unk0212d9dc *p;
-    Unk021074ac buf;
+    Unk0210e524 buf;
     Unk021073ec s;
 
     if (*(vu16 *) 0x027ffc40 == 2 && func_0205e0a0() == 6) {

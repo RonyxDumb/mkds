@@ -37,14 +37,6 @@ typedef struct Unk021073ec {
     /* 02 */ u8 mUnk_02;
 } Unk021073ec;
 
-// 0x04-byte argument of func_0210e888.
-typedef struct Unk021074ac {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
-} Unk021074ac;
-
 // Object behind data_0217c7f0.
 typedef struct Unk0217c7f0 {
     /* 00 */ u32 mUnk_00;
@@ -118,7 +110,7 @@ extern Unk0217c854 *data_0217c854;
 typedef struct Unk0217d060 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u8 mUnk_04[8];
-    /* 0c */ u32 mUnk_0c;
+    /* 0c */ Unk0212c400 *mUnk_0c;
 } Unk0217d060;
 
 extern Unk0217d060 *data_0217d060;
