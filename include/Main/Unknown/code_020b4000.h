@@ -21,3 +21,4 @@ u32 func_020b4024(u32 arg0);
 void func_020b46d0(void *a, s32 b, s32 c, s32 d, s32 e, void *f, s32 g, s32 h);
 s32 func_020b4acc(void);
 s32 func_020b4b54(void);
+void func_020b44a4(u16 *a, s32 b, s32 c, s32 d, s32 e, u16 f);
