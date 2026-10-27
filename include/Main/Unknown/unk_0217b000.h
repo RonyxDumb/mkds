@@ -101,8 +101,8 @@ extern u8 data_0217b858[];
 extern Unk020e6b58 *data_0217b85c;
 extern Unk020e6b58 *data_0217b860;
 extern u8 data_0217b868[];
-extern u8 data_0217bc5c[];
-extern u8 data_0217bc60[];
+extern s32 data_0217bc5c;
+extern s32 data_0217bc60;
 
 extern u8 data_0217b220[];
 extern u8 data_0217b358[];
@@ -122,7 +122,9 @@ extern u8 data_0217b4e8[];
 extern u8 data_0217b7c4[];
 extern u8 data_0217b86c[];
 extern Unk020e6488 *data_0217bbfc[];
-extern u8 data_0217bd30[];
+struct Unk020f41c4_A;
+
+extern struct Unk020f41c4_A **data_0217bd30;
 
 extern u8 data_0217b040[];
 extern u8 data_0217b234[];
@@ -183,7 +185,7 @@ typedef struct Unk0217b9ec {
 } Unk0217b9ec;
 
 extern Unk0217b9ec data_0217b9ec;
-extern u8 data_0217bc4c[];
+extern Vec3 *data_0217bc4c;
 extern void *data_0217b7d0;
 extern void *data_0217b7cc;
 extern void *data_0217b7c0;
@@ -280,3 +282,13 @@ extern s32 data_0217b8d4;
 extern s32 data_0217b8dc;
 extern s32 data_0217b8f4;
 extern u32 data_0217b8fc;
+extern s32 data_0217bce8[];
+extern s32 data_0217bc58;
+extern s32 data_0217bca0[];
+extern u16 data_0217bc54;
+extern u16 data_0217bc50;
+extern u16 data_0217bc7c[];
+extern s32 data_0217bd3c;
+extern s32 data_0217bd40;
+extern s32 data_0217bd44;
+extern volatile s32 data_0217bd34;

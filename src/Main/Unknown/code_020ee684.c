@@ -159,9 +159,9 @@ void func_020f0df8(Unk027e00cc *v1, void *a) {
 
 // non-matching: the 0xf00 flag block passes its arguments in other registers (0xfc vs 0xf4 bytes)
 void func_020f0d04(Unk020f41c4_A *p) {
-    void (*f)(void *, void *, s32);
+    void *(*f)(void *, void *, s32);
     s32 i;
-    s32 z;
+    void *z;
 
     z = 0;
     i = p->mUnk_44;
@@ -796,7 +796,7 @@ void func_020efa60(Unk020eda5c *a, s32 f) {
     Unk020ed5c0 *b;
     Unk020ed5c0_d0 *p;
     s32 (*cb)(void *, void *);
-    s32 v;
+    void (*v)(struct Unk020f41c4_A *);
 
     a->mUnk_020--;
     b = a->mUnk_014[a->mUnk_020];

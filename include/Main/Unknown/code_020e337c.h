@@ -5,7 +5,9 @@
 
 // Record behind data_0217ca6c.
 typedef struct Unk0217ca6c {
-    /* 000 */ u8 mUnk_000[0x68];
+    /* 000 */ u8 mUnk_000[0x44];
+    /* 044 */ s32 mUnk_044;
+    /* 048 */ u8 mUnk_048[0x20];
     /* 068 */ s32 mUnk_068;
     /* 06c */ u8 mUnk_06c[0x20];
     /* 08c */ s32 mUnk_08c;

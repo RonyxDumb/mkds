@@ -94,8 +94,8 @@ void func_020f572c(Unk0206bcb0 *a) {
     }
     if (a->mUnk_240 <= 0x14) {
         r = k->mUnk_1d0 + (s32) ((a->mUnk_e0 * 3) >> 1);
-        n = a->mUnk_50.z - k->mUnk_1e0;
-        t = a->mUnk_50.x - k->mUnk_1d8;
+        n = a->mUnk_50.z - k->mUnk_1d8.z;
+        t = a->mUnk_50.x - k->mUnk_1d8.x;
         if ((s64) t * t + (s64) n * n >= (s64) r * r) {
             return;
         }
@@ -228,8 +228,8 @@ s32 func_020f5324(void *a0, s32 b) {
     a = a0;
     k = func_0207a974(b);
     r = k->mUnk_1d0 + (s32) ((a->mUnk_e0 * 3) >> 1);
-    n = a->mUnk_50.z - k->mUnk_1e0;
-    t = a->mUnk_50.x - k->mUnk_1d8;
+    n = a->mUnk_50.z - k->mUnk_1d8.z;
+    t = a->mUnk_50.x - k->mUnk_1d8.x;
     if ((s64) t * t + (s64) n * n < (s64) r * r) {
         return 1;
     }

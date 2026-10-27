@@ -55,7 +55,7 @@ Unk020e6488 *func_020ed4d0(u8 *a, u8 *b, u8 *c) {
     return p;
 }
 
-void *func_020ed490(u8 *a) {
+void *func_020ed490(u8 *a, u8 *b) {
     void *p;
     void *q;
 
@@ -172,7 +172,7 @@ void func_020ece1c(Unk020ec8bc *p, s32 a, s32 b, s32 c) {
     s32 n;
     s32 s;
 
-    func_020f2228(p, a, b, c);
+    func_020f2228((Unk0206bcb0 *) p, a);
     if (p->mUnk_158 != 0 && (p->mUnk_074 & 0x20000) != 0) {
         n = func_0207a974(p->mUnk_078 & 0xff)->mUnk_98.y + 0x1e000;
         if (p->mUnk_050.y < n) {

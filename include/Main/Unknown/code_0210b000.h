@@ -14,6 +14,8 @@ typedef struct Unk0210b7a8 {
 } Unk0210b7a8;
 
 void func_0210bc14(void);
+
+extern Unk0210b7a8 data_0216c698;
 #include "Main/Unknown/code_0210b760.h"
 #include "Main/Unknown/code_0210b610.h"
 #include "Main/Unknown/code_0210b870.h"

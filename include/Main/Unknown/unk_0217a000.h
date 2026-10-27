@@ -45,7 +45,13 @@ extern u8 data_0217aa00[];
 extern Unk0217aa08 *data_0217aa08;
 extern u8 data_0217aa0c[];
 extern u8 data_0217aa10[];
-extern u8 data_0217aa14[];
+// Object behind data_0217aa14 with a halfword at 0x724.
+typedef struct Unk0217aa14 {
+    /* 000 */ u8 mUnk_000[0x724];
+    /* 724 */ u16 mUnk_724;
+} Unk0217aa14;
+
+extern Unk0217aa14 *data_0217aa14;
 extern u8 data_0217aa54[];
 extern u8 data_0217aa64[];
 extern u8 data_0217aa6c[];

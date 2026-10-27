@@ -35,9 +35,13 @@ typedef struct {
     /* 04 */ u8 mUnk_04;
 } Unk02175620_18;
 
+struct Unk020fa294;
+
 // Object behind data_02175620.
 typedef struct {
-    /* 00 */ u8 mUnk_00[0x8];
+    /* 00 */ struct Unk020fa294 *mUnk_00;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u8 mUnk_06[2];
     /* 08 */ Unk02175620_08 *mUnk_08;
     /* 0c */ u16 mUnk_0c;
     /* 00e */ u8 mUnk_00e[0xa];

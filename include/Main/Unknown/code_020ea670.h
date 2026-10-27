@@ -1,12 +1,13 @@
 #pragma once
 
 #include "types.h"
+#include "code_02012b30.h"
 #include "Main/Unknown/code_020ebef8.h"
 
 // First argument of func_020ea670, func_020ea740, func_020ea7cc and func_020ea8a8.
 typedef struct Unk020ea670 {
-    /* 000 */ u8 mUnk_000[4];
-    /* 004 */ void *mUnk_004;
+    /* 000 */ void *mUnk_000;
+    /* 004 */ Unk0201290c *mUnk_004;
 } Unk020ea670;
 
 extern Unk020ea670 *data_0217bbf8;

@@ -64,6 +64,6 @@ void func_020ece1c(Unk020ec8bc *p, s32 a, s32 b, s32 c);
 s32 func_020ed0f4(Unk020ec8bc *p);
 void func_020ed268(Unk020ec8bc *p, u8 *q, s32 a, s32 b, s32 c, s32 d, s32 e, s32 f, u16 g, s32 h);
 void func_020ed2f8(void);
-void *func_020ed490(u8 *a);
+void *func_020ed490(u8 *a, u8 *b);
 Unk020e6488 *func_020ed4d0(u8 *a, u8 *b, u8 *c);
 void *func_020ed548(u8 *a);

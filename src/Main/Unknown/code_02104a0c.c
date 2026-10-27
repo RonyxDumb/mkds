@@ -217,9 +217,9 @@ void func_02104a0c(Unk0206bcb0 *p) {
     Unk021052fc *b;
     if ((*(u32 *) &p->mUnk_74 & 0x180000) != 0) {
         if ((*(u32 *) &p->mUnk_74 & 0x80000) != 0) {
-            func_020f6e58(p);
+            func_020f6e58((Unk020f41c4_A *) p);
         } else if ((*(u32 *) &p->mUnk_74 & 0x100000) != 0) {
-            func_020f758c(p);
+            func_020f758c((Unk020f41c4_A *) p);
         }
     } else if ((*(u32 *) &p->mUnk_74 & 0x8000) != 0) {
         if (data_021759c0->mUnk_08 == 2) {

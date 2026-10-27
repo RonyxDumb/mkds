@@ -1,0 +1,279 @@
+#include "Main/Unknown/code_020f9c6c.h"
+
+#include "Main/Unknown/unk_02159000.h"
+#include "Main/Unknown/code_020d5000.h"
+#include "Main/Unknown/code_020fe000.h"
+#include "Main/Unknown/code_020b502c.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/unk_0217b000.h"
+#include "Main/Unknown/unk_027e0000.h"
+#include "Main/Unknown/code_01ffd000.h"
+#include "Main/Unknown/code_020364e0.h"
+#include "Main/Unknown/code_02036bec.h"
+#include "Main/Unknown/code_02079b40.h"
+#include "Main/Unknown/code_020ec8bc.h"
+#include "Main/Unknown/code_020ee684.h"
+#include "Main/Unknown/code_020f1a24.h"
+#include "Main/Unknown/code_020f2dac.h"
+#include "Main/Unknown/code_020f5008.h"
+#include "Main/Unknown/code_020f5d6c.h"
+#include "Main/Unknown/code_020f73a4.h"
+#include "Main/Unknown/code_020f7c90.h"
+#include "Main/Unknown/code_020f81c0.h"
+#include "Main/Unknown/code_020f82c4.h"
+#include "Main/Unknown/code_020f9334.h"
+#include "Main/Unknown/code_02102674.h"
+#include "Main/Unknown/code_021031f4.h"
+#include "Main/Unknown/code_02103890.h"
+#include "Main/Unknown/code_020f6be8.h"
+
+#pragma thumb off
+
+void *func_020fa3d0(s32 param_1, u16 param_2, void *param_3, void *param_4) {
+    Unk020f41c4_A *p;
+    Unk027e00cc *e;
+
+    p = 0;
+    if (data_027e00cc[param_1].mUnk_20 - data_027e00cc[param_1].mUnk_1c <= 0) {
+        return 0;
+    }
+    func_020f1048(&data_027e00cc[param_1], 1, (Unk020f41c4_A **) &p, param_2, param_3);
+    e = &data_027e00cc[param_1];
+    e->mUnk_1c++;
+    func_020f0ea0(&data_027e00cc[p->mUnk_44], p);
+    func_020f98a0(p, param_3, param_4, 0, 0);
+    if (param_2 == 8) {
+        p->mUnk_78 |= data_02159cbc;
+    }
+    return p;
+}
+
+#pragma thumb on
+
+// non-matching: 66 words differ from +0x8; the locals n and i sit in swapped stack slots
+// (here n is at 0x28; the original keeps i at 0x28 and n at 0x2c).
+void func_020fa294(void) {
+    u32 n;
+    u32 i;
+    u16 f;
+    s32 z1;
+    s32 z2;
+    s32 z3;
+    Unk020f41c4_A *q;
+    u32 v;
+    Vec3 m;
+    Unk020fa294 *e;
+
+    n = data_02175620->mUnk_04;
+    f = data_02159cbc;
+    z1 = -2;
+    z2 = 0;
+    z3 = 0;
+    for (i = 0; i < n; i++) {
+        e = &data_02175620->mUnk_00[i];
+        if (e->mUnk_24 == 0x6d) {
+            if (func_01ffdee4((int *) e, (u32 *) z2, z2, 0xa000, 8, z1, (int *) z2, (int *) &m, (int *) z2, (u32 *) z2,
+                              (u32 *) z2, (int *) z2, (u16 *) z2, &v) == 0) {
+                m = data_02159cb0;
+            }
+            q = 0;
+            if (data_027e00cc[e->mUnk_28].mUnk_20 - data_027e00cc[e->mUnk_28].mUnk_1c > 0) {
+                func_020f1048(&data_027e00cc[e->mUnk_28], 1, (Unk020f41c4_A **) &q, 8, (Vec3 *) e);
+                data_027e00cc[e->mUnk_28].mUnk_1c++;
+                func_020f0ea0(&data_027e00cc[q->mUnk_44], q);
+                func_020f98a0(q, (Vec3 *) e, &m, (u16 *) z3, z3);
+                q->mUnk_78 |= f;
+            }
+            if (q != 0) {
+                if ((q->mUnk_74 & 0x180000) == 0) {
+                    q->mUnk_120 = data_0217bc34[q->mUnk_44].mUnk_28;
+                }
+                func_020f6a6c((Unk0206bcb0 *) q, &v);
+            }
+        }
+    }
+}
+
+// non-matching: 0x154 bytes vs 0x158; the loop over data_027e00cc is strength reduced here
+// (counter in one register, byte offset in another); the original tests the counter before
+// the first pass (cmp r5, #0xe; bge) and multiplies it by 0x44 with muls every pass.
+void func_020fa13c(void) {
+    void *b;
+    s32 a;
+    s32 i;
+    s32 j;
+    Unk020f40dc *p;
+    u8 v;
+
+    b = func_020364e0(func_020364e8());
+    a = 0;
+    func_020f7ec8();
+    func_020f82e8(1);
+    func_020f82c4(1);
+    func_020f82a4(1);
+    func_020f4b8c();
+    func_020f1a24();
+    func_020f73a4();
+    func_020f357c();
+    v = data_021759c0->mUnk_3d0;
+    data_027e00c4 = v;
+    *(void **) data_027e00c8 = func_02036bec(b, v * 0x210);
+    for (i = 0; i < data_027e00c4; i++) {
+        func_020efbd4(&((Unk020ee684 *) *(void **) data_027e00c8)[i], (u16) i);
+    }
+    data_027e00cc = func_02036bec(b, 0x3b8);
+    for (j = 0; j < 0xe; j++) {
+        func_020f02c0((Unk020f02c0 *) &data_027e00cc[j], j, &a);
+    }
+    func_020ed2f8();
+    if (data_021759c0->mUnk_08 == 5) {
+        func_020fe46c();
+        func_020fe450();
+    }
+    if (data_021759c0->mUnk_08 == 1) {
+        for (i = 0; i < data_027e00c4; i++) {
+            p = &((Unk020ee684 *) *(void **) data_027e00c8)[i].mUnk_030;
+            func_020f47e4(p, 5);
+            switch (func_02079b40((u16) i)) {
+                case 0:
+                    func_020f4754(p, 1);
+                    break;
+                case 1:
+                    func_020f4754(p, 2);
+                    break;
+            }
+        }
+    }
+    data_0217bd30 = func_02036bec(func_020364e0(func_020364e8()), 0x40);
+    func_020fa294();
+    func_02102674();
+    func_02103468();
+    func_02104970();
+}
+
+s32 func_020fa0e8(s32 param_1, s32 param_2) {
+    switch (param_2) {
+        case 0:
+            return (u8) ((u8) data_0217bc34[param_1].mUnk_4c + 1);
+        case 1:
+            return 0x12;
+        case 2:
+            return 3;
+        case 3:
+            return (u8) ((param_1 == 0xb ? 3 : 2) + 1);
+    }
+    return 0;
+}
+
+#pragma thumb off
+
+s32 func_020fa0b8(void *param_1, s32 param_2, s32 param_3) {
+    Unk020f41c4_A *p = param_1;
+
+    if (p->mUnk_70 < param_2) {
+        p->mUnk_70 += param_3;
+        if (p->mUnk_70 > param_2) {
+            p->mUnk_70 = param_2;
+        }
+        return 1;
+    }
+    return 0;
+}
+
+// non-matching: 19 words differ from +0xc; here the address of data_0217bc34 is loaded
+// before the stores to param_1, the original loads param_1->mUnk_44 there and reads the
+// table pointer after them, and it loads the row's mUnk_6c before the first smull.
+void func_020fa030(Unk020f41c4_A *param_1) {
+    Unk0217bc34 *e;
+
+    param_1->mUnk_74 |= 0x40;
+    param_1->mUnk_6c = param_1->mUnk_70;
+    param_1->mUnk_68 = param_1->mUnk_6c;
+    e = &data_0217bc34[param_1->mUnk_44];
+    param_1->mUnk_dc = (s32) (((s64) param_1->mUnk_6c * e->mUnk_64) >> 12);
+    param_1->mUnk_e0 = (s32) (((s64) param_1->mUnk_6c * e->mUnk_6c) >> 12);
+    func_020d5148(param_1->mUnk_da, param_1->mUnk_e0 + 0xa000);
+}
+
+// non-matching: 19 words differ from +0x10; same table-lookup schedule as func_020fa030:
+// the address of data_0217bc34 is hoisted here, param_1->mUnk_44 and the row's mUnk_6c
+// are hoisted in the original.
+void func_020f9fa8(Unk020f41c4_A *param_1) {
+    Unk0217bc34 *e;
+
+    param_1->mUnk_74 |= 0x40;
+    param_1->mUnk_6c = param_1->mUnk_70;
+    param_1->mUnk_68 = param_1->mUnk_6c;
+    e = &data_0217bc34[param_1->mUnk_44];
+    param_1->mUnk_dc = (s32) (((s64) param_1->mUnk_6c * e->mUnk_64) >> 12);
+    param_1->mUnk_e0 = (s32) (((s64) param_1->mUnk_6c * e->mUnk_6c) >> 12);
+    func_020d5148(param_1->mUnk_da, param_1->mUnk_e0);
+}
+
+// non-matching: 30 words differ from +0x0; the original keeps param_1->mUnk_70 and
+// param_1->mUnk_44 in r4/r5, computes param_1->mUnk_44 * 0xa8 once with mul and adds it
+// to the reloaded table pointer for both lookups; here each lookup uses a separate mla.
+void func_020f9f08(void *param_1, s32 param_2, s32 param_3) {
+    Unk020f41c4_A *p = param_1;
+
+    p->mUnk_68 = (s32) (((s64) p->mUnk_70 * param_2) >> 12);
+    p->mUnk_6c = (s32) (((s64) p->mUnk_70 * param_3) >> 12);
+    p->mUnk_dc = (s32) (((s64) p->mUnk_6c * data_0217bc34[p->mUnk_44].mUnk_64) >> 12);
+    p->mUnk_e0 = (s32) (((s64) p->mUnk_6c * data_0217bc34[p->mUnk_44].mUnk_68) >> 12);
+    func_020d5148(p->mUnk_da, p->mUnk_e0 + 0xa000);
+}
+
+// non-matching: 0x148 bytes vs 0x140; the original branches the early-out block out of line
+// (.L_020f9ef0) where this compile predicates it inline.
+s32 func_020f9dc8(Unk020f41c4_A *param_1) {
+    if (param_1->mUnk_100 > -0x29 && param_1->mUnk_100 < 0x29 && param_1->mUnk_68 - param_1->mUnk_6c > -0x29 &&
+        param_1->mUnk_68 - param_1->mUnk_6c < 0x29) {
+        param_1->mUnk_100 = 0;
+        return 0;
+    }
+    param_1->mUnk_74 |= 0x40;
+    param_1->mUnk_6c += param_1->mUnk_100;
+    param_1->mUnk_100 += (s32) (((s64) (param_1->mUnk_70 - param_1->mUnk_6c) * 0x333) >> 12);
+    param_1->mUnk_100 = (s32) (((s64) param_1->mUnk_100 * 0xc00) >> 12);
+    param_1->mUnk_68 = param_1->mUnk_70 * 2 - param_1->mUnk_6c;
+    param_1->mUnk_dc = (s32) (((s64) param_1->mUnk_6c * data_0217bc34[param_1->mUnk_44].mUnk_64) >> 12);
+    param_1->mUnk_e0 = (s32) (((s64) param_1->mUnk_6c * data_0217bc34[param_1->mUnk_44].mUnk_6c) >> 12);
+    func_020d5148(param_1->mUnk_da, param_1->mUnk_e0 + 0xa000);
+    return 1;
+}
+
+// non-matching: 52 words differ from +0x0; the original saves 4 bytes of stack
+// (sub sp, sp, #4, undone again on the mUnk_100 == 0 return) and hoists param_1->mUnk_44
+// and param_1->mUnk_6c above the store to mUnk_74; this compile saves no stack and
+// hoists the address of data_0217bc34 instead.
+s32 func_020f9ce8(Unk020f41c4_A *param_1) {
+    if (param_1->mUnk_100 == 0) {
+        return 0;
+    }
+    param_1->mUnk_74 |= 0x40;
+    param_1->mUnk_6c += (s32) (((s64) (param_1->mUnk_100 - param_1->mUnk_6c) * 0x333) >> 12);
+    param_1->mUnk_68 = param_1->mUnk_70 * 2 - param_1->mUnk_6c;
+    param_1->mUnk_dc = (s32) (((s64) param_1->mUnk_6c * data_0217bc34[param_1->mUnk_44].mUnk_64) >> 12);
+    param_1->mUnk_e0 = (s32) (((s64) param_1->mUnk_6c * data_0217bc34[param_1->mUnk_44].mUnk_6c) >> 12);
+    func_020d5148(param_1->mUnk_da, param_1->mUnk_e0 + 0xa000);
+    return 1;
+}
+
+void func_020f9ca8(void *param_1) {
+    Unk020f41c4_A *p = param_1;
+
+    if (p->mUnk_da != -1) {
+        return;
+    }
+    p->mUnk_da = func_020d555c(&p->mUnk_50, p->mUnk_e0 + 0xa000, 0x4000, p);
+}
+
+void func_020f9c6c(Unk020f41c4_A *param_1) {
+    if (param_1->mUnk_da != -1) {
+        return;
+    }
+    param_1->mUnk_da = func_020d555c(&param_1->mUnk_50, param_1->mUnk_e0, 0x4000, param_1);
+}
+
+#pragma thumb on

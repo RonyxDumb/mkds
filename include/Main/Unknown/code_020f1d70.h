@@ -26,8 +26,7 @@ void func_020f1ea4(void *a0, s32 b, s32 c, s32 d);
 void func_020f1f98(Unk0206bcb0 *a, Vec3 *b, Vec3 *c);
 void func_020f2028(Unk0206bcb0 *a);
 void func_020f2150(void *a0);
-// Reads only its first two arguments; code_020ec8bc.c passes four, so this declaration names none.
-void func_020f2228();
+void func_020f2228(Unk0206bcb0 *a, s32 b);
 void func_020f2768(Unk0206bcb0 *a, Vec3 *b, Vec3 *c);
 void func_020f288c(Unk0206bcb0 *a, Vec3 *b);
 void func_020f29e8(u32 a);
