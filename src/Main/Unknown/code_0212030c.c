@@ -30,8 +30,8 @@ UnkFunc *const data_0216e21c[14] = {
     0, func_02120044,
 };
 
-u32 func_021205e8(void *a) {
-    return func_ov000_021a3758(a);
+u32 func_021205e8(void) {
+    return func_ov000_021a3758();
 }
 
 #pragma thumb on

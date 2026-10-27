@@ -8,3 +8,6 @@ void func_0205db50(void);
 void func_0205dc84(void);
 u8 func_0205db28(void);
 void func_0205d76c(s32 a, u8 b);
+u8 func_0205d360(u32 a);
+u8 func_0205d27c(u32 a);
+u16 func_0205d3f0(u32 a);

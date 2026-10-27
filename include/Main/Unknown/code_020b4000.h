@@ -14,7 +14,7 @@ typedef struct Unk020b4934 {
 typedef struct Unk020b47d8 {
     /* 0000 */ u8 pad_00[8];
     /* 0008 */ u32 mUnk_08;
-    /* 000c */ u8 mUnk_0c[1];
+    /* 000c */ u16 mUnk_0c[1];
 } Unk020b47d8;
 
 typedef struct Unk020b4a44 {
@@ -52,3 +52,6 @@ void func_020b478c(void *a, void *b);
 void func_020b4bf8(s32 *a, s32 b, s32 c);
 void func_020b4cb0(s32 *a, s32 b);
 s32 func_020b4b98(s32 a);
+s32 func_020b4b10(void);
+void func_020b4520(u16 *a, s32 b, s32 c, s32 d, s32 e, u16 *f, s32 g, s32 h);
+void func_020b4428(u16 *a, s32 b, s32 c, s32 d, s32 e, s32 f);
