@@ -1,14 +1,14 @@
 #include "Main/Unknown/code_020d849c.h"
 #include "Main/Unknown/code_020d8cac.h"
 
-void func_020d8620(Unk020d849c *p) {
+void func_020d8620(Unk020d84e4 *p) {
     Unk02042044 *a = p->mUnk_00.mUnk_1c;
     p->mUnk_00.mUnk_1c = p->mUnk_00.mUnk_20;
     p->mUnk_00.mUnk_20 = a;
     p->mUnk_00.mUnk_18 = p->mUnk_00.mUnk_18 == 0;
 }
 
-void func_020d859c(Unk020d849c *p, s32 b, s32 c) {
+void func_020d859c(Unk020d84e4 *p, s32 b, s32 c) {
     s32 a;
     s32 d;
     func_020d90a8(&p->mUnk_00, b, c);
@@ -22,7 +22,7 @@ void func_020d859c(Unk020d849c *p, s32 b, s32 c) {
     p->mUnk_00.mUnk_10 = (s32)(((s64)d * p->mUnk_00.mUnk_00->mUnk_00[p->mUnk_00.mUnk_0c].mUnk_34) >> 12);
 }
 
-s32 func_020d84e4(Unk020d849c *p) {
+s32 func_020d84e4(Unk020d84e4 *p) {
     s32 r;
     s32 a;
     s32 b;
@@ -43,7 +43,7 @@ s32 func_020d84e4(Unk020d849c *p) {
 }
 
 void func_020d84c0(Unk020d849c *p, s32 a) {
-    s32 t = p->mUnk_34;
+    s32 t = p->mUnk_00.mUnk_34;
     p->mUnk_54 = a;
     a = t != 0 ? (s32)(((s64)a * t) >> 12) : 0x1000000;
     p->mUnk_58 = a;

@@ -93,7 +93,7 @@ void *func_020e039c(void) {
 
     data_0217b764 = p;
     *(Unk020e039c *) p = *(const Unk020e039c *) data_0215887c;
-    func_020d49d8((unsigned int) &data_0217b764);
+    func_020d49d8(&data_0217b764);
     return data_0217b764;
 }
 
@@ -102,7 +102,7 @@ void *func_020e0340(void) {
 
     data_0217b760 = p;
     *(Unk020e0340 *) p = *(const Unk020e0340 *) data_02158854;
-    func_020e6f50((unsigned int) &data_0217b760);
+    func_020e6f50(&data_0217b760);
     return data_0217b760;
 }
 
@@ -127,7 +127,7 @@ void func_020e01f0(void *a0, Unk020e005c *a1) {
                 ? 2
                 : (a1->mUnk_070 == data_0217ca6c[3].mUnk_20 ? 3 : 4);
         buf.mUnk_00 = 0x17e;
-        buf.mUnk_04 = (s32) &a1->mUnk_004;
+        buf.mUnk_04 = &a1->mUnk_004;
         buf.mUnk_08 = k;
         buf.mUnk_0c = func_020d4ef4(&a1->mUnk_004);
         func_0210b7a8(&buf);

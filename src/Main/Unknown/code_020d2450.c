@@ -8,8 +8,8 @@ void func_020d2450(int param_1) {
                           (short) (0xfffffffe), (int *) (0), (int *) ((int *) (void *) (auStack_28)), (int *) (0),
                           (u32 *) (0), (u32 *) (0), (int *) (0), (u16 *) (0), (u32 *) (0));
     if (iVar1 != 0) {
-        func_020d7b88((u32) ((u32) (u32) (auStack_28)), (u32 *) ((u32 *) (void *) (auStack_1c)));
-        func_01ffccd0((int *) ((int *) (u32) (param_1 + 0x28)), (u32) ((u32) (u32) (auStack_1c)));
+        func_020d7b88((Vec3 *) ((u32) (u32) (auStack_28)), (u32 *) ((u32 *) (void *) (auStack_1c)));
+        func_01ffccd0((int *) ((int *) (u32) (param_1 + 0x28)), (void *) ((u32) (u32) (auStack_1c)));
         return;
     }
     return;

@@ -28,7 +28,7 @@ Unk020fffa8 *func_020fffa8(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
     data_0217c624 = p;
     *p = data_0215a12c;
-    func_020e6f50((u32) &data_0217c624);
+    func_020e6f50(&data_0217c624);
     return data_0217c624;
 }
 
@@ -38,7 +38,7 @@ Unk020fff4c *func_020fff4c(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     data_0217c62c = p;
     *p = data_0215a100;
-    func_020d49d8((u32) &data_0217c62c);
+    func_020d49d8(&data_0217c62c);
     return data_0217c62c;
 }
 

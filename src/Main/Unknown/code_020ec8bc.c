@@ -275,7 +275,7 @@ void func_020ec9c0(Unk020ec8bc *p, s32 a, s32 b, s32 c, s32 e) {
                 q->y = n;
             }
         } else {
-            func_020d8474((u32) t, (u32) q);
+            func_020d8474((Unk020d849c *) t, q);
         }
         q->y = q->y + r->y;
     }

@@ -68,7 +68,7 @@ Unk020e466c *func_020e466c(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     data_0217b7e4 = p;
     *p = *(Unk020e466c *) data_02158ec4;
-    func_020d49d8((u32) &data_0217b7e4);
+    func_020d49d8(&data_0217b7e4);
     return data_0217b7e4;
 }
 
@@ -77,7 +77,7 @@ Unk020e4610 *func_020e4610(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
     data_0217b7dc = p;
     *p = *(Unk020e4610 *) data_02158e9c;
-    func_020e6f50((u32) &data_0217b7dc);
+    func_020e6f50(&data_0217b7dc);
     return data_0217b7dc;
 }
 

@@ -112,8 +112,8 @@ s32 func_020e516c(void *param_1, Vec3 *v, s32 param_3, u32 param_4) {
     s.y = s.y + 0x1999;
     if (func_01ffdee4((int *) &s, 0, 0, 0xa000, 8, -2, 0, (int *) &buf1, 0, 0, 0, 0, 0, 0) != 0) {
         r = 1;
-        func_020d7b88((u32) &buf1, (u32 *) &buf2);
-        func_01ffccd0((int *) param_1, (u32) &buf2);
+        func_020d7b88((Vec3 *) &buf1, &buf2);
+        func_01ffccd0((int *) param_1, &buf2);
         d = param_3 / 10;
         ((Unk020e516c *) param_1)->mUnk_000 = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_000 * d) >> 12);
         ((Unk020e516c *) param_1)->mUnk_004 = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_004 * d) >> 12);

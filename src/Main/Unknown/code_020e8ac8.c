@@ -85,7 +85,7 @@ void func_020ea1d4(Vec3 *param_1, const Vec3 *param_2, const Vec3 *param_3) {
                     data_0217b9cc[i] = data_0217bb28;
                 }
             }
-        } while (func_020d7c84(&data_0217bb88, 0, data_0217b9cc) != 0);
+        } while (func_020d7c84(&data_0217bb88.mUnk_00, 0, data_0217b9cc) != 0);
     }
     func_020d8488((u32) &data_0217bb88, (u32) &v);
     data_0217b878 += 0x64;

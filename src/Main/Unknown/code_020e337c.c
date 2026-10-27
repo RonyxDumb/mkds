@@ -19,7 +19,7 @@ void func_020e3414(Unk020e1e98 *a) {
                 ? 2
                 : (a->mUnk_070 == data_0217ca6c[3].mUnk_20 ? 3 : 4);
         buf.mUnk_00 = 0x128;
-        buf.mUnk_04 = (s32) &a->mUnk_004;
+        buf.mUnk_04 = &a->mUnk_004;
         buf.mUnk_08 = v;
         buf.mUnk_0c = func_020d4ef4(&a->mUnk_004);
         func_0210b7a8(&buf);

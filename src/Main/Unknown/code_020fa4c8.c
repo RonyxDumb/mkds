@@ -544,8 +544,8 @@ void func_020fb038(Unk020fc2e8 *param_1) {
         0x10) {
         func_02039860(&param_1->mUnk_000.mUnk_5c, &s.mUnk_00);
     }
-    func_020d7b88((u32) &s.mUnk_00, (u32 *) &s.mUnk_0c);
-    func_01ffccd0((int *) &param_1->mUnk_000.mUnk_94, (u32) &s.mUnk_0c);
+    func_020d7b88((Vec3 *) &s.mUnk_00, &s.mUnk_0c);
+    func_01ffccd0((int *) &param_1->mUnk_000.mUnk_94, &s.mUnk_0c);
 }
 
 // non-matching: registers only (0x168 bytes both): the original keeps param_1 in r6, param_2 in r5 and the

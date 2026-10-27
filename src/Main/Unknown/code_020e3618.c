@@ -93,7 +93,7 @@ void *func_020e37f4(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     data_0217b7bc = p;
     *(Unk020e039c *) p = *(const Unk020e039c *) data_02158c10;
-    func_020d49d8((unsigned int) &data_0217b7bc);
+    func_020d49d8(&data_0217b7bc);
     return data_0217b7bc;
 }
 
@@ -103,7 +103,7 @@ void *func_020e3798(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     data_0217b7c0 = p;
     *(Unk020e039c *) p = *(const Unk020e039c *) data_02158be4;
-    func_020d49d8((unsigned int) &data_0217b7c0);
+    func_020d49d8(&data_0217b7c0);
     return data_0217b7c0;
 }
 
@@ -113,7 +113,7 @@ void *func_020e373c(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
     data_0217b7b4 = p;
     *(Unk020e0340 *) p = *(const Unk020e0340 *) data_02158bbc;
-    func_020e6f50((unsigned int) &data_0217b7b4);
+    func_020e6f50(&data_0217b7b4);
     return data_0217b7b4;
 }
 

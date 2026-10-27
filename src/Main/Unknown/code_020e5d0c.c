@@ -91,8 +91,8 @@ void func_020e64b8(void *p, void *a, void *b, s32 c) {
     func_020e6514(((Unk020e6488 *) p)->mUnk_24, (Unk020e6514 *) ((Unk020e6488 *) p)->mUnk_28, (Unk020e6488 *) p);
 }
 
-void func_020e6488(u32 *param_1, u32 param_2, u32 param_3, u32 param_4) {
-    *param_1 = (u32) func_02036bec(func_020364e0(func_020364e8()), 0x2c);
+void func_020e6488(Unk020e6488 **param_1, void *param_2, u32 param_3, u32 param_4) {
+    *param_1 = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     func_020e64b8((void *) *param_1, (void *) param_2, (void *) param_3, param_4);
 }
 
@@ -110,7 +110,7 @@ Unk020e5a40 *func_020e63dc(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     data_0217b840 = p;
     *p = *(Unk020e5a40 *) data_021592a4;
-    func_020d49d8((u32) &data_0217b840);
+    func_020d49d8(&data_0217b840);
     return data_0217b840;
 }
 
@@ -119,7 +119,7 @@ Unk020e59e4 *func_020e6380(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
     data_0217b834 = p;
     *p = *(Unk020e59e4 *) data_0215927c;
-    func_020e6f50((u32) &data_0217b834);
+    func_020e6f50(&data_0217b834);
     return data_0217b834;
 }
 
@@ -151,14 +151,14 @@ void func_020e61a8(u32 param_1, Unk020e5e24 *a) {
                 n = 4;
             }
             s.mUnk_00 = 0x173;
-            s.mUnk_04 = (s32) &a->mUnk_04;
+            s.mUnk_04 = &a->mUnk_04;
             s.mUnk_08 = n;
             s.mUnk_0c = func_020d4ef4(&a->mUnk_04);
             func_0210b7a8(&s);
         }
     }
     func_020d7734(a->mUnk_a0, v, buf);
-    func_01ffccd0((int *) &a->mUnk_28, (u32) buf);
+    func_01ffccd0((int *) &a->mUnk_28, (void *) buf);
     func_02147fd8(-a->mUnk_f8, &a->mUnk_28.mUnk_0c, &a->mUnk_bc, &a->mUnk_04);
     a->mUnk_ec.x = a->mUnk_04.x >> 4;
     a->mUnk_ec.y = a->mUnk_04.y >> 4;
@@ -272,7 +272,7 @@ Unk020e5a40 *func_020e5d78(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     data_0217b82c = p;
     *p = *(Unk020e5a40 *) data_021591dc;
-    func_020d49d8((u32) &data_0217b82c);
+    func_020d49d8(&data_0217b82c);
     return data_0217b82c;
 }
 

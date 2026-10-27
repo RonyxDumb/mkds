@@ -259,7 +259,7 @@ void func_020f4020(Unk020f3fa8 *p, Vec3 *points, s32 scale) {
         p->mUnk_74[i] = points[i];
     }
     p->mUnk_60 = 0;
-    func_020d7d18(p, 1, p->mUnk_64, scale);
+    func_020d7d18(&p->mUnk_00, 1, p->mUnk_64, scale);
 }
 
 s32 func_020f3fa8(Unk020f3fa8 *p, Vec3 *v) {
@@ -273,7 +273,7 @@ s32 func_020f3fa8(Unk020f3fa8 *p, Vec3 *v) {
     p->mUnk_64[1] = p->mUnk_64[2];
     p->mUnk_64[2] = p->mUnk_64[3];
     p->mUnk_64[3] = first;
-    return func_020d7c84(p, 1, p->mUnk_64);
+    return func_020d7c84(&p->mUnk_00, 1, p->mUnk_64);
 }
 
 s32 func_020f3c54(Unk020f371c_Ref *in, Unk020f371c_Ref *out, Vec3 *pos) {

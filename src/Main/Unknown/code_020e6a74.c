@@ -18,7 +18,7 @@ unsigned int func_020e6b14(void) {
         (0x18u));
 }
 
-void func_020e6ab8(unsigned int p0) {
+void func_020e6ab8(Unk020e6488 *p0) {
     *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 16) = (unsigned int) ((
         (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 16))) & (0x8000ffffu)));
     *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 16) = (unsigned int) ((

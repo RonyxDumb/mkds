@@ -24,7 +24,7 @@ void func_020ec194(Unk020ec194 *param_1) {
     p->z = 0;
     param_1->mUnk_004 = param_1->mUnk_0b0;
     func_020d7a3c(&param_1->mUnk_0bc, param_1->mUnk_0c8, &v);
-    func_01ffccd0((int *) &param_1->mUnk_028, (u32) &v);
+    func_01ffccd0((int *) &param_1->mUnk_028, &v);
 }
 
 void func_020ebef8(Unk020ebef8 *param_1, Vec3 *param_2) {

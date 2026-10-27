@@ -5,7 +5,7 @@
 
 // Declared here until the code that defines them is decompiled.
 void func_01ffcc50(int param_1);
-void func_01ffccd0(int *param_1, u32 param_2);
+void func_01ffccd0(void *param_1, void *param_2);
 void func_01ffc064(Vec3 *a, const Vec3 *b, s32 c, Unk0206bcb0 *p);
 s32 func_01ffc27c(Unk0206bcb0 *p, s32 a);
 void func_01ffc090(Unk0206bcb0 *p, s32 a);

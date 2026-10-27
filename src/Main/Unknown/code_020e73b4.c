@@ -142,7 +142,7 @@ void func_020e7760(void) {
             break;
     }
     data_0217b9dc.mUnk_00 = 0x101;
-    data_0217b9dc.mUnk_04 = (s32) &data_0217b930;
+    data_0217b9dc.mUnk_04 = &data_0217b930;
     data_0217b9dc.mUnk_08 = 1;
     func_02046be8(&data_0217b9ec, (UnkFunc *const *) data_0216c33c, 7, 0);
     func_02046bcc(&data_0217b9ec, 0);
@@ -170,10 +170,10 @@ void func_020e7460(void) {
     }
     func_020e64b8(&data_0217ba2c, func_0204799c((const char *) data_0216c374),
                   func_0204799c((const char *) data_0216c384), 0);
-    func_020e6ab8((unsigned int) &data_0217ba2c);
+    func_020e6ab8(&data_0217ba2c);
     data_0217ba2c.mUnk_14 |= 0xc0;
     func_020e64b8(&data_0217ba00, func_0204799c((const char *) data_0216c394), 0, 0);
-    func_020e6ab8((unsigned int) &data_0217ba00);
+    func_020e6ab8(&data_0217ba00);
     data_0217ba00.mUnk_14 |= 0xc0;
     data_0217b8a4 = func_02036bec(h, 0x78);
     data_0217b8a8 = func_02036bec(h, 0x78);
@@ -222,12 +222,12 @@ void func_020e7460(void) {
         s++;
         q++;
     }
-    func_020e6488((u32 *) data_0217baf4, (u32) func_0204799c((const char *) data_0216c3a4),
+    func_020e6488((Unk020e6488 **) data_0217baf4, func_0204799c((const char *) data_0216c3a4),
                   (u32) func_0204799c((const char *) data_0216c3b4), 0);
-    func_020e6ab8((unsigned int) data_0217bae8[0].mUnk_0c);
+    func_020e6ab8(data_0217bae8[0].mUnk_0c);
     data_0217bae8[0].mUnk_0c->mUnk_14 |= 0xc0;
-    func_020e6488(data_0217bb04, (u32) func_0204799c((const char *) data_0216c3c4), 0, 0);
-    func_020e6ab8((unsigned int) data_0217bae8[1].mUnk_0c);
+    func_020e6488((Unk020e6488 **) data_0217bb04, func_0204799c((const char *) data_0216c3c4), 0, 0);
+    func_020e6ab8(data_0217bae8[1].mUnk_0c);
     data_0217bae8[1].mUnk_0c->mUnk_14 |= 0xc0;
 }
 #pragma thumb off
@@ -246,6 +246,6 @@ Unk020e6fd4 *func_020e73b4(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
     data_0217b864 = p;
     *p = *(Unk020e6fd4 *) data_02159348;
-    func_020e6f50((unsigned int) &data_0217b864);
+    func_020e6f50(&data_0217b864);
     return (Unk020e6fd4 *) data_0217b864;
 }

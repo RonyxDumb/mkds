@@ -58,7 +58,7 @@ Unk0215950c *func_020ec370(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     data_0217bbec = p;
     *p = data_0215950c;
-    func_020d49d8((unsigned int) &data_0217bbec);
+    func_020d49d8(&data_0217bbec);
     return data_0217bbec;
 }
 
@@ -68,7 +68,7 @@ Unk021594e4 *func_020ec314(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
     data_0217bbf4 = p;
     *p = data_021594e4;
-    func_020e6f50((unsigned int) &data_0217bbf4);
+    func_020e6f50(&data_0217bbf4);
     return data_0217bbf4;
 }
 

@@ -22,7 +22,7 @@ Unk020e5080 *func_020e5080(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     data_0217b7f8 = p;
     *p = *(Unk020e5080 *) data_02159044;
-    func_020d49d8((u32) &data_0217b7f8);
+    func_020d49d8(&data_0217b7f8);
     return data_0217b7f8;
 }
 
@@ -31,7 +31,7 @@ Unk020e5024 *func_020e5024(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     data_0217b7fc = p;
     *p = *(Unk020e5024 *) data_02159018;
-    func_020d49d8((u32) &data_0217b7fc);
+    func_020d49d8(&data_0217b7fc);
     return data_0217b7fc;
 }
 
@@ -40,7 +40,7 @@ Unk020e4fc8 *func_020e4fc8(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
     data_0217b7f4 = p;
     *p = *(Unk020e4fc8 *) data_02158ff0;
-    func_020e6f50((u32) &data_0217b7f4);
+    func_020e6f50(&data_0217b7f4);
     return data_0217b7f4;
 }
 

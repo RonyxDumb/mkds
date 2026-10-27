@@ -52,7 +52,7 @@ void func_020e8790(void) {
     data_0217b9cc[1] = data_0217bb28;
     data_0217b9cc[2] = &data_0217bb34;
     data_0217b9cc[3] = &data_0217bb40;
-    func_020d7d18(&data_0217bb88, 0, data_0217b9cc, 0x1ec);
+    func_020d7d18(&data_0217bb88.mUnk_00, 0, data_0217b9cc, 0x1ec);
     t = (s32) (((s64) data_0217b9a8.z * data_0215f4b4[1]) >> 12) -
         (s32) (((s64) data_0217b9a8.x * data_0215f4b4[0]) >> 12);
     data_0217b8b4 = 0x8000;
@@ -183,7 +183,7 @@ void func_020e82dc(void) {
     data_0217b9cc[1] = data_0217bb28;
     data_0217b9cc[2] = &data_0217bb34;
     data_0217b9cc[3] = &data_0217bb40;
-    func_020d7d18(&data_0217bb88, 0, data_0217b9cc, 0x1ec);
+    func_020d7d18(&data_0217bb88.mUnk_00, 0, data_0217b9cc, 0x1ec);
     data_0217b878 = 0;
     func_020ea1d4(&data_0217b990, &data_021593e0, &data_021593ec);
 }

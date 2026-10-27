@@ -40,7 +40,7 @@ void func_020f91fc(void *param_1, s32 param_2) {
         return;
     }
     a = data_0216c698;
-    a.mUnk_04 = (s32) &p->mUnk_50;
+    a.mUnk_04 = &p->mUnk_50;
     a.mUnk_00 = param_2;
     a.mUnk_0c = p->mUnk_d4 & ~0xc000001f;
     func_0210b7a8(&a);

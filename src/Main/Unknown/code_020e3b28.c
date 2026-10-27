@@ -214,7 +214,7 @@ void *func_020e3e48(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x30);
     *(void **) data_0217b7c4 = p;
     *(Unk020e3e48 *) p = *(const Unk020e3e48 *) data_02158ce8;
-    func_020d49d8((unsigned int) &data_0217b7c4);
+    func_020d49d8(&data_0217b7c4);
     return *(void **) data_0217b7c4;
 }
 
@@ -224,7 +224,7 @@ void *func_020e3dec(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
     data_0217b7c8 = p;
     *(Unk020e0340 *) p = *(const Unk020e0340 *) data_02158cc0;
-    func_020e6f50((unsigned int) &data_0217b7c8);
+    func_020e6f50(&data_0217b7c8);
     return data_0217b7c8;
 }
 

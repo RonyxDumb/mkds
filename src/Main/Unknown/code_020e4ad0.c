@@ -36,7 +36,7 @@ void func_020e4ad0(Unk020e43a8 *p) {
             k = 4;
         }
         s.mUnk_00 = 0x10b;
-        s.mUnk_04 = (s32) &p->mUnk_04;
+        s.mUnk_04 = &p->mUnk_04;
         s.mUnk_08 = k;
         s.mUnk_0c = func_020d4ef4(&p->mUnk_04);
         func_0210b7a8(&s);

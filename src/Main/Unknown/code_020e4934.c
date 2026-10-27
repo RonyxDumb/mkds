@@ -6,7 +6,7 @@ u8 func_020e4934(Unk020e43a8 *param_1, Unk020ec6e4 *param_2, u8 *param_3, u8 *pa
         param_1->mUnk_90 = 1;
         param_1->mUnk_92 = 1;
         param_1->mUnk_02 = param_1->mUnk_02 | *((u16 *) ((u32) (&data_02158fe4)));
-        func_020d26f8((int) (param_1), (int) (param_2));
+        func_020d26f8((void *) (param_1), (void *) (param_2));
     }
     return *param_4;
 }
