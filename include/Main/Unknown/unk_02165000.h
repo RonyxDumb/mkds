@@ -22,3 +22,4 @@ extern u8 data_02165fec[];
 
 extern u8 data_021653b8[];
 extern u8 data_0216569c[];
+extern Vec3 data_02165530;

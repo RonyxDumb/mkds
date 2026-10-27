@@ -121,7 +121,7 @@ void func_020e2a74(Unk020e20a8 *a, Unk020e1e98 *b, u32 c, u32 d) {
     s16 v;
     s16 w;
     Vec3 *m;
-    s16 *tbl;
+    const s16 *tbl;
     Unk020e1e98_12c *r;
     s32 buf[12];
     s32 one;

@@ -1150,7 +1150,7 @@ void func_020eec48(Unk020eda5c *a, s32 i, Unk020ed5c0 *v) {
 
 // non-matching: the loop body keeps the table base and the vector pointers in other registers (84 words)
 void func_020eea6c(Unk020eda5c *a) {
-    s16 *v1;
+    const s16 *v1;
     s32 c;
     s32 x;
     s32 y;

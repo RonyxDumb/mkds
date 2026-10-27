@@ -71,9 +71,36 @@ typedef struct Unk0206ceb4 {
     /* 1c */ s16 mUnk_1c;
 } Unk0206ceb4;
 
+// Four words written by func_01ffd190 and func_01ffcebc.
+typedef struct Unk01ffd190 {
+    /* 0 */ s32 mUnk_00;
+    /* 4 */ s32 mUnk_04;
+    /* 8 */ s32 mUnk_08;
+    /* c */ s32 mUnk_0c;
+} Unk01ffd190;
+
 typedef struct Unk0206bcb0_514 {
-    /* 0 */ u8 mUnk_00[0x2c];
+    /* 00 */ Vec3 mUnk_00;
+    /* 0c */ u8 mUnk_0c[4];
+    /* 10 */ Vec3 mUnk_10;
+    /* 1c */ u8 mUnk_1c[0x10];
     /* 2c */ u32 mUnk_2c;
+    /* 30 */ u32 mUnk_30;
+    /* 34 */ u8 mUnk_34[0xc];
+    /* 40 */ s16 mUnk_40;
+    /* 42 */ u8 mUnk_42[2];
+    /* 44 */ u32 mUnk_44;
+    /* 48 */ u32 mUnk_48;
+    /* 4c */ Unk01ffd190 mUnk_4c;
+    /* 5c */ s16 mUnk_5c;
+    /* 5e */ u8 mUnk_5e[2];
+    /* 60 */ s32 mUnk_60;
+    /* 64 */ s32 mUnk_64;
+    /* 68 */ u8 mUnk_68[0x30];
+    /* 98 */ Vec3 mUnk_98;
+    /* a4 */ s32 mUnk_a4;
+    /* a8 */ Vec3 mUnk_a8;
+    /* b4 */ u16 mUnk_b4;
 } Unk0206bcb0_514;
 
 typedef struct Unk0206c5e4_208 {
@@ -152,9 +179,11 @@ typedef struct Unk0206bcb0 {
     /* 244 */ Vec3 mUnk_244;
     /* 250 */ s32 mUnk_250;
     /* 254 */ s32 mUnk_254;
-    /* 258 */ u8 mUnk_258[8];
+    /* 258 */ u8 mUnk_258[4];
+    /* 25c */ s32 mUnk_25c;
     /* 260 */ s32 mUnk_260;
-    /* 264 */ u8 mUnk_264[0x20];
+    /* 264 */ u8 mUnk_264[0x14];
+    /* 278 */ Vec3 mUnk_278;
     /* 284 */ Vec3 mUnk_284;
     /* 290 */ Vec3 mUnk_290;
     /* 29c */ s32 mUnk_29c;
@@ -166,9 +195,12 @@ typedef struct Unk0206bcb0 {
     /* 2bc */ s32 mUnk_2bc;
     /* 2c0 */ u8 mUnk_2c0[0x4];
     /* 2c4 */ s32 mUnk_2c4;
-    /* 2c8 */ u8 mUnk_2c8[0x4];
+    /* 2c8 */ s16 mUnk_2c8;
+    /* 2ca */ u8 mUnk_2ca[2];
     /* 2cc */ Unk0206cdd4_A *mUnk_2cc;
-    /* 2d0 */ u8 mUnk_2d0[0x2c];
+    /* 2d0 */ u8 mUnk_2d0[8];
+    /* 2d8 */ Vec3 mUnk_2d8;
+    /* 2e4 */ u8 mUnk_2e4[0x18];
     /* 2fc */ s32 mUnk_2fc;
     /* 300 */ u16 mUnk_300;
     /* 302 */ u16 mUnk_302;
@@ -203,7 +235,9 @@ typedef struct Unk0206bcb0 {
     /* 514 */ Unk0206bcb0_514 *mUnk_514;
     /* 518 */ u8 mUnk_518[0x20];
     /* 538 */ Unk0206ceb4 mUnk_538;
-    /* 556 */ u8 mUnk_556[0x3a];
+    /* 556 */ u8 mUnk_556[6];
+    /* 55c */ s32 mUnk_55c;
+    /* 560 */ u8 mUnk_560[0x30];
     /* 590 */ void *mUnk_590;
 } Unk0206bcb0;
 

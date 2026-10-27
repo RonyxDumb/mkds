@@ -10,3 +10,4 @@ void func_0210add4(void);
 void func_0210aefc(void);
 void func_0210a598(Unk0206bcb0 *a, s32 b);
 void func_0210a77c(void);
+void func_0210af40(Unk0206bcb0 *p, s32 a, s32 b);
