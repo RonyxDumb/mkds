@@ -18,3 +18,6 @@ s32 func_020b4e70(const Vec3 *param_1);
 void *func_020b403c(s32 index);
 void func_020b486c(void **out, void *file);
 u32 func_020b4024(u32 arg0);
+void func_020b46d0(void *a, s32 b, s32 c, s32 d, s32 e, void *f, s32 g, s32 h);
+s32 func_020b4acc(void);
+s32 func_020b4b54(void);

@@ -11,3 +11,4 @@ void func_020adec0();
 void func_020adf00();
 
 #include "Main/Unknown/code_020add50.h"
+void func_020adff0(u32 a, u16 *b, u32 c);
