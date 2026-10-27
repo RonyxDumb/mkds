@@ -1,5 +1,10 @@
 #pragma once
 
+#include "00/code_021804f4.h"
+#include "00/code_021806ec.h"
+#include "00/code_0219bb50.h"
+#include "00/code_ov000_021804e0.h"
+
 #include "00/code_02180638.h"
 #include "00/code_021806e0.h"
 
@@ -112,12 +117,6 @@ typedef struct Unk021b4c74 {
 } Unk021b4c74;
 
 // Four callbacks, passed to func_ov000_021806ec by func_ov000_0218330c.
-typedef struct Unk021b0cd4 {
-    /* 0000 */ void (*mUnk_00)(void *);
-    /* 0004 */ void (*mUnk_04)(void);
-    /* 0008 */ void (*mUnk_08)(void);
-    /* 000c */ void (*mUnk_0c)(void);
-} Unk021b0cd4;
 
 typedef struct Unk0217b488 {
     /* 0000 */ u8 mUnk_0000[0x4];
@@ -221,14 +220,10 @@ void func_02128374(void);
 void func_0212b928(void *, void *, u32);
 s32 func_02016468(u32, u32, void *, u32);
 
-void *func_ov000_021804e0(void);
-void *func_ov000_021804f4(void);
 u32 func_ov000_02180668(u32);
-void func_ov000_021806ec(const Unk021b0cd4 *);
 void func_ov000_02182e18(void);
 void func_ov000_02184354(void);
 void func_ov000_021843a8(void *heap);
-u8 func_ov000_0219bb50(void);
 
 #include "Main/Unknown/code_0202b604.h"
 #include "Main/Unknown/code_02120240.h"

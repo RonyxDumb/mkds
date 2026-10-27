@@ -1,13 +1,14 @@
 #pragma once
 
+#include "00/code_0219b8a8.h"
+#include "00/code_0219c384.h"
+#include "00/code_0219c93c.h"
+#include "00/code_0219d934.h"
+#include "00/code_0219de4c.h"
+
 #include "types.h"
 
 // Objects whose layout isn't known yet.
-extern u8 data_ov000_021b54c8[];
-extern u8 data_ov000_021b5650[];
-extern u8 data_ov000_021b565c[];
-extern u8 data_ov000_021b5664[];
-extern u8 data_ov000_021b566c[];
 extern u8 data_ov000_021b5dd0[];
 extern u8 data_ov000_021b5dec[];
 extern u8 data_ov000_021b5df0[];
