@@ -10,3 +10,4 @@ s32 func_020eafc4(const Vec3 *param_1, const Vec3 *param_2, const s32 *param_3, 
 void func_020ea4bc(u32 a, u32 b, u32 c, u32 d, u32 e);
 void func_020ea868(void *p0, void *p1, void *p2, u32 p3);
 void func_020ea8a8(void *p0, void *p1, void *p2, u32 p3);
+void func_020eacc0(Vec3 *a, s32 b, Vec3 *c, Vec3 *d);

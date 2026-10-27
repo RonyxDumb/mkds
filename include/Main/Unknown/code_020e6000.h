@@ -12,3 +12,5 @@ void *func_020e6cbc(Vec3 *param_1);
 void *func_020e6b58(Vec3 *param_1);
 s32 func_020e69bc(Vec3 *param_1);
 void *func_020e6cf8(void *p0);
+void func_020e64b8(void *p, void *a, void *b, s32 c);
+void *func_020e6b94(Vec3 *v);

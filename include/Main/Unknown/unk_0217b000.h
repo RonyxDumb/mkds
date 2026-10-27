@@ -187,3 +187,6 @@ extern void *data_0217b7e0;
 extern void *data_0217b7e4;
 extern void *data_0217b7e8;
 extern void *data_0217b7ec;
+extern void **data_0217b5c4;
+extern s16 data_0217b5a8;
+extern u16 *data_0217b5bc;
