@@ -13,4 +13,4 @@ typedef struct Unk02042044 {
     /* 12 */ s16 mUnk_12;
 } Unk02042044;
 
-Unk02042044 *func_02042044(u32 arg0, u32 arg1);
+Unk02042044 *func_02042044(u16 arg0, u16 arg1);

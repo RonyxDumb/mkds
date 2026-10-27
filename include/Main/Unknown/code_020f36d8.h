@@ -314,8 +314,7 @@ typedef struct {
 } Unk020f40dc;
 
 extern Unk0206bcb0 *func_0207a974(s32 idx);
-extern s32 func_020d7c84(Unk020d849c *p, s32 mode, Vec3 **path);
-extern void func_020d7d18(Unk020d849c *p, s32 mode, Vec3 **path, s32 scale);
+#include "Main/Unknown/code_020d6dc0.h"
 
 extern s32 data_0217bc38[];
 extern Unk0217bc34 *data_0217bc34;

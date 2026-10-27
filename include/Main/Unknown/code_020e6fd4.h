@@ -18,7 +18,7 @@ typedef struct Unk020e71a0_94 {
 // Object behind Unk020e71a0.mUnk_98: func_020e6f58 copies its 0x04 into the callback slot at 0x1c of a Unk020e6fd4
 // and its 0x20 into the word at 0x18; func_020d6968 reads 0x20 and func_020f944c reads 0x28.
 typedef struct Unk020e71a0_98 {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ s32 (*mUnk_00)(struct Unk020e71a0 *a, s32 *b, s32 *c);
     /* 04 */ void (*mUnk_04)(struct Unk020e71a0 *e, s32 z, u8 *a, u8 *b);
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;

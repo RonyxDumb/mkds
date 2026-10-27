@@ -7,6 +7,7 @@
 #include "Main/Unknown/code_020b502c.h"
 #include "code_02012b30.h"
 #include "Main/Unknown/code_020f9c6c.h"
+#include "Main/Unknown/code_020d6dc0.h"
 
 // Two words of the object allocated by func_020d98a4; the function at 0x04, 0x08 and 0x0c holds loaded files.
 typedef struct Unk020d98a4 {
@@ -89,14 +90,6 @@ typedef struct Unk020da414 {
     /* 00 */ s32 mUnk_00[0x10];
 } Unk020da414;
 
-// Four words; Unk020da494 holds one at 0xa4 and one at 0xb4.
-typedef struct Unk020da494_a4 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-} Unk020da494_a4;
-
 // Object of at least 0x104 bytes.
 typedef struct Unk020da494 {
     /* 00 */ u8 mUnk_00[4];
@@ -107,8 +100,8 @@ typedef struct Unk020da494 {
     /* 94 */ u8 mUnk_94[8];
     /* 9c */ Unk020fa294 *mUnk_9c;
     /* a0 */ s32 mUnk_a0;
-    /* a4 */ Unk020da494_a4 mUnk_a4;
-    /* b4 */ Unk020da494_a4 mUnk_b4;
+    /* a4 */ Unk020d7b88 mUnk_a4;
+    /* b4 */ Unk020d7b88 mUnk_b4;
     /* c4 */ u8 mUnk_c4[8];
     /* cc */ Unk020e0144 mUnk_cc;
     /* f0 */ u16 mUnk_f0;

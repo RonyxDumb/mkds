@@ -8,7 +8,7 @@ void func_020d8620(Unk020d84e4 *p) {
     p->mUnk_00.mUnk_18 = p->mUnk_00.mUnk_18 == 0;
 }
 
-void func_020d859c(Unk020d84e4 *p, s32 b, s32 c) {
+void func_020d859c(Unk020d84e4 *p, u16 b, s32 c) {
     s32 a;
     s32 d;
     func_020d90a8(&p->mUnk_00, b, c);

@@ -4,18 +4,5 @@
 #include "01/code_02181c3c.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_020d7b88(Vec3 *param_1, void *param_2);
-void func_020d7b34(u32 param_1, void *param_2);
-void func_020d7938(void *param_1, void *param_2, void *param_3);
-void func_020d788c(void *param_1, u32 param_2, void *param_3);
-void func_020d76a8(void *param_1, u32 param_2, void *param_3);
-void func_020d73f0(void *param_1, void *param_2);
-void func_020d7d4c();
-void func_020d7e44(u32 param_1, int param_2);
-void func_020d7a3c(void *param_1, u16 param_2, void *param_3);
-s32 func_020d70ac(Vec3 *a, Vec3 *b);
-void func_020d759c(void *p0, void *p1, void *p2, s32 p3);
-void func_020d79b0(void *param_1, u32 param_2, void *param_3);
-void func_020d77e0(void *param_1, u16 param_2, void *param_3);
-void func_020d720c(Vec3 *param_1, u32 *param_2);
-void func_020d7734(void *param_1, u16 param_2, void *param_3);
+#include "Main/Unknown/code_020d6dc0.h"
+#include "Main/Unknown/code_020d7df8.h"

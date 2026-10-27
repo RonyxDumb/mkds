@@ -79,14 +79,6 @@ typedef struct Unk020e516c {
     /* 030 */ u16 mUnk_030;
 } Unk020e516c;
 
-// Filled through its address by func_020d7b88, then read by func_01ffccd0.
-typedef struct Unk020d7b88 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-} Unk020d7b88;
-
 void func_020e5348(u32 param_1, u32 param_2);
 void func_020e5370(void *param_1, void *param_2, u32 param_3, u32 param_4);
 void func_020e53ac(Unk020e516c *p, void *param_2, u32 param_3, u32 param_4);

@@ -7,7 +7,11 @@ typedef struct Unk020e0144_00_0 {
     /* 00 */ Vec3 mUnk_00[4];
     /* 30 */ s32 mUnk_30;
     /* 34 */ s32 mUnk_34;
-    /* 38 */ u8 mUnk_38[0x1c];
+    /* 38 */ s32 mUnk_38;
+    /* 3c */ s32 mUnk_3c;
+    /* 40 */ s32 mUnk_40;
+    /* 44 */ s32 mUnk_44;
+    /* 48 */ Vec3 mUnk_48;
 } Unk020e0144_00_0;
 
 typedef struct Unk020e0144_00 {

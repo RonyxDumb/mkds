@@ -8,4 +8,4 @@
 #include "Main/Unknown/code_020d8cac.h"
 #include "Main/Unknown/code_020d8bc0.h"
 #include "Main/Unknown/code_020d8918.h"
-void func_020d8460(void *p, Vec3 *v);
+#include "Main/Unknown/code_020d7df8.h"

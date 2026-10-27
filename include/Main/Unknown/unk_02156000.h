@@ -13,3 +13,7 @@ extern const u32 data_02156904;
 extern const u32 data_02156908;
 extern const u32 data_0215690c;
 extern const u32 data_02156910;
+extern struct Unk0217b654 data_021569fc;
+extern struct Unk0217b650 data_02156a24;
+extern struct Unk0217b650 data_02156a80;
+extern struct Unk02156adc data_02156adc;

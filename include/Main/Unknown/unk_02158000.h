@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+extern Vec3 data_0215807c;
+extern Vec3 data_02158088;
 // Object of 0x28 bytes made by func_020de2d8 and the other factories that copy a template from 0x02158xxx.
 typedef struct Unk020de2d8 {
     /* 00 */ u32 mUnk_00[10];

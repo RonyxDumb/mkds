@@ -47,11 +47,11 @@ void func_020da494(Unk020da494 *a, Unk020fa294 *b) {
         q->y = 0;
         q->z = 0;
         {
-            Unk020da494_a4 x = {0, 0, 0, 0x1000};
+            Unk020d7b88 x = {0, 0, 0, 0x1000};
             a->mUnk_a4 = x;
         }
         {
-            Unk020da494_a4 y = {0, 0, 0, 0x1000};
+            Unk020d7b88 y = {0, 0, 0, 0x1000};
             a->mUnk_b4 = y;
         }
         a->mUnk_f0 = 0;
@@ -66,11 +66,11 @@ void func_020da494(Unk020da494 *a, Unk020fa294 *b) {
         func_02046be8(&a->mUnk_80, data_0216be68, 6, a);
         a->mUnk_f8 = 0x1000;
         {
-            Unk020da494_a4 x = {0, 0, 0, 0x1000};
+            Unk020d7b88 x = {0, 0, 0, 0x1000};
             a->mUnk_a4 = x;
         }
         {
-            Unk020da494_a4 y = {0, 0, 0, 0x1000};
+            Unk020d7b88 y = {0, 0, 0, 0x1000};
             a->mUnk_b4 = y;
         }
         func_02046bcc(&a->mUnk_80, 1);

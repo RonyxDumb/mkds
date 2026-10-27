@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_020d849c.h"
+#include "Main/Unknown/code_020d6dc0.h"
 
 // Object at 0x1d8 of Unk020dc474: a word at 0xa8.
 typedef struct Unk020dc474_1d8 {
@@ -39,9 +40,9 @@ typedef struct Unk020dc474 {
     /* a0 */ Vec3 mUnk_a0;
     /* ac */ s32 mUnk_ac;
     /* b0 */ s32 mUnk_b0;
-    /* b4 */ u8 mUnk_b4[0x10];
-    /* c4 */ u8 mUnk_c4[0x10];
-    /* d4 */ u8 mUnk_d4[0x10];
+    /* b4 */ Unk020d7b88 mUnk_b4;
+    /* c4 */ Unk020d7b88 mUnk_c4;
+    /* d4 */ Unk020d7b88 mUnk_d4;
     /* e4 */ s32 mUnk_e4;
     /* e8 */ s32 mUnk_e8;
     /* ec */ s32 mUnk_ec;

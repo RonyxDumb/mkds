@@ -29,10 +29,10 @@ void func_020d91dc(Unk020e0144_00_0 *a, s32 b, Vec3 *c) {
     c->y = c->y + (s32)(((s64)a->mUnk_00[3].y * b) >> 24);
 }
 
-void func_020d90a8(Unk020e0144 *a, s32 b, s32 c) {
+void func_020d90a8(Unk020e0144 *a, u16 b, s32 c) {
     Unk020e0144_00 *p;
-    s32 d;
-    s32 e;
+    u16 d;
+    u16 e;
     s32 k;
     p = a->mUnk_00;
     if (p->mUnk_08 != 0) {
