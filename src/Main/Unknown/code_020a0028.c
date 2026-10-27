@@ -1,0 +1,78 @@
+#include "Main/Unknown/code_020a0028.h"
+#include "Main/Unknown/code_020d8bc0.h"
+#include "Main/Unknown/code_020d7da8.h"
+#include "Main/Unknown/code_0209b000.h"
+#include "Main/Unknown/code_01ff9000.h"
+#include "Main/Unknown/code_02146000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_02167000.h"
+#include "Main/Unknown/unk_0217b000.h"
+
+void func_020a0294(void *a) {
+    data_0217b1f8 = func_0209be84(a, data_02167680);
+    func_0209b940(data_0217b1f8, 0x3f);
+}
+
+void func_020a018c(void *a, Unk020a018c *p) {
+    s32 v;
+    s32 q[9];
+    Vec3 w;
+
+    v = 0x1e;
+    func_01ff9048(0x14, &v, 1);
+    w.y = (p->mUnk_a0 + p->mUnk_ac) >> 4;
+    w.x = 0;
+    w.z = 0;
+    func_01ff9048(0x1c, &w, 3);
+    p->mUnk_28.mUnk_24.x = p->mUnk_04.x >> 4;
+    p->mUnk_28.mUnk_24.y = p->mUnk_04.y >> 4;
+    p->mUnk_28.mUnk_24.z = p->mUnk_04.z >> 4;
+    func_01ff9048(0x19, &p->mUnk_28, 0xc);
+    if (p->mUnk_7e != 0) {
+        func_02146d44(q, data_0215d4b4[((p->mUnk_7e >> 4) << 1)], data_0215d4b4[((p->mUnk_7e >> 4) << 1) + 1]);
+        func_01ff9048(0x1a, q, 9);
+    }
+    func_01ff9048(0x1b, &p->mUnk_1c, 3);
+    func_0209bb2c(a, data_0217b1f8, p);
+}
+
+void func_020a0064(Unk020a0064 *p) {
+    s32 i;
+    Unk020a018c *o;
+    s32 z;
+    s32 v;
+
+    if (p == 0) {
+        return;
+    }
+    z = 0;
+    for (i = 0; i < p->mUnk_04 && (o = p->mUnk_00[i]) != 0; i++) {
+        func_020d7da8(&o->mUnk_c8, o->mUnk_9c, z);
+        o->mUnk_a4 = (o->mUnk_9c->mUnk_28 * 0x5000L) / 100;
+        v = o->mUnk_a4;
+        o->mUnk_c8.mUnk_04 = v;
+        o->mUnk_c8.mUnk_10 = ((s64)v * o->mUnk_c8.mUnk_00->mUnk_00[o->mUnk_c8.mUnk_0c].mUnk_34) >> 12;
+        o->mUnk_a0 = o->mUnk_04.y;
+        func_020d8bf8(&o->mUnk_c8, &o->mUnk_04, &o->mUnk_10);
+        o->mUnk_a0 = o->mUnk_a0 - o->mUnk_04.y;
+        o->mUnk_a8 = 0;
+        o->mUnk_b4 = 0;
+        o->mUnk_b8 = 0x50000;
+        o->mUnk_bc = 0;
+        o->mUnk_c0 = 0xb6;
+        o->mUnk_c4 = 0;
+        if (o->mUnk_9c->mUnk_2a != 0) {
+            o->mUnk_ec = 0;
+        } else {
+            o->mUnk_ec = 2;
+        }
+    }
+}
+
+s32 func_020a0044(s32 a) {
+    return data_0215d4b4[((a >> 4) << 1) + 1];
+}
+
+s32 func_020a0028(s32 a, s32 b) {
+    return (s32)(((s64)a * b + 0x800) >> 12);
+}

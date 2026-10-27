@@ -1,0 +1,49 @@
+#pragma once
+
+#include "types.h"
+#include "Main/Unknown/code_020e005c.h" // Unk020e0144
+#include "Main/Unknown/code_020e6b58.h" // Unk020e6b58
+#include "Main/Unknown/code_020f9c6c.h" // Unk020fa294
+
+// Object with the Unk020e0144 base at 0xc8 (func_020a018c, func_020a0064).
+typedef struct Unk020a018c {
+    /* 00 */ u8 mUnk_00[2];
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ Vec3 mUnk_04;
+    /* 10 */ Vec3 mUnk_10;
+    /* 1c */ Vec3 mUnk_1c;
+    /* 28 */ Unk020e6b58 mUnk_28;
+    /* 58 */ u8 mUnk_58[0x18];
+    /* 70 */ s32 mUnk_70;
+    /* 74 */ u8 mUnk_74[4];
+    /* 78 */ u32 mUnk_78;
+    /* 7c */ u8 mUnk_7c[2];
+    /* 7e */ u16 mUnk_7e;
+    /* 80 */ u8 mUnk_80[0x1c];
+    /* 9c */ Unk020fa294 *mUnk_9c;
+    /* a0 */ s32 mUnk_a0;
+    /* a4 */ s32 mUnk_a4;
+    /* a8 */ s16 mUnk_a8;
+    /* aa */ u8 mUnk_aa[2];
+    /* ac */ s32 mUnk_ac;
+    /* b0 */ s32 mUnk_b0;
+    /* b4 */ s32 mUnk_b4;
+    /* b8 */ s32 mUnk_b8;
+    /* bc */ u32 mUnk_bc;
+    /* c0 */ s32 mUnk_c0;
+    /* c4 */ s32 mUnk_c4;
+    /* c8 */ Unk020e0144 mUnk_c8;
+    /* ec */ s32 mUnk_ec;
+} Unk020a018c;
+
+// Array of object pointers: pointer to the array and the number of entries (func_020a0064).
+typedef struct Unk020a0064 {
+    /* 00 */ Unk020a018c **mUnk_00;
+    /* 04 */ u16 mUnk_04;
+} Unk020a0064;
+
+void func_020a0294(void *a);
+void func_020a018c(void *a, Unk020a018c *p);
+void func_020a0064(Unk020a0064 *p);
+s32 func_020a0044(s32 a);
+s32 func_020a0028(s32 a, s32 b);

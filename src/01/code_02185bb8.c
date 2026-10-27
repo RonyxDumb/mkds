@@ -21,7 +21,7 @@ void func_ov001_02185dd0(Unk02185bb8 *param_1) {
     s32 r6;
     s16 saved;
 
-    func_020d2450((int)param_1);
+    func_020d2450(param_1);
     param_1->mUnk_07e = (s32)(((s64)param_1->mUnk_09c->mUnk_10 * 0xB60B60B60BLL + 0x80000000000LL) >> 44);
     func_02146d44(mtx, data_0215d4b4[(param_1->mUnk_07e >> 4) * 2], data_0215d4b4[(param_1->mUnk_07e >> 4) * 2 + 1]);
     func_02146dfc(mtx, param_1->mUnk_028, param_1->mUnk_028);
