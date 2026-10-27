@@ -145,3 +145,7 @@ extern u8 data_0216ca68[];
 extern u8 data_0216ca84[];
 extern void (*data_0216cb1c[1])(void *a, u32 b, u32 c, u32 d);
 extern u16 data_0216cb20;
+extern s32 data_0216c3d4;
+extern u32 data_0216c404;
+extern Vec3 data_0216c3d8;
+extern u32 data_0216c3e4[];

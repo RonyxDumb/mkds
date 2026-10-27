@@ -24,9 +24,9 @@ void func_020e47c8(Unk020e43a8 *p, Vec3 *param_2) {
     p->mUnk_04.y = p->mUnk_04.y + (s32) (((s64) p->mUnk_1c.y * 0xa000) >> 12);
     p->mUnk_a0.mUnk_18 = p->mUnk_04;
     p->mUnk_c4 = 4;
-    p->mUnk_10 = 0;
-    p->mUnk_14 = 0;
-    p->mUnk_18 = 0;
+    p->mUnk_10.x = 0;
+    p->mUnk_10.y = 0;
+    p->mUnk_10.z = 0;
     func_020ec854(p, p->mUnk_04.y - 0x1e000, 0x400, 0x400, 0x4000, 0x1800);
     p->mUnk_90 = 0;
     p->mUnk_92 = 1;

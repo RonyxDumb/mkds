@@ -18,7 +18,7 @@ void func_020e57a0(Unk020e43a8 *p, Vec3 *param_2, s32 param_3, Vec3 *param_4) {
     s.x = p->mUnk_58.x;
     s.y = y;
     s.z = 0;
-    func_020eafc4(param_2, &p->mUnk_04, (s32 *) &p->mUnk_28, &p->mUnk_58, &s, param_3, param_4);
+    func_020eafc4(param_2, &p->mUnk_04, &p->mUnk_28.mUnk_00, &p->mUnk_58, &s, param_3, param_4);
 }
 
 #pragma thumb on

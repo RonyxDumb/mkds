@@ -24,9 +24,9 @@ s32 func_ov001_021860cc(Unk02188950 *param_1, Vec3 *param_2, s32 param_3, Vec3 *
         }
         return 0;
     case 2:
-        return func_020ead80(param_2, &param_1->mUnk_238, param_1->mUnk_028, param_1->mUnk_25c, param_1->mUnk_260, param_1->mUnk_260, param_3, param_4);
+        return func_020ead80(param_2, &param_1->mUnk_238, (Vec3 *) param_1->mUnk_028, param_1->mUnk_25c, param_1->mUnk_260, param_1->mUnk_260, param_3, param_4);
     case 1:
-        return func_020eafc4(param_2, &param_1->mUnk_238, param_1->mUnk_028, (Vec3 *) &param_1->mUnk_25c, (Vec3 *) &param_1->mUnk_25c, param_3, param_4);
+        return func_020eafc4(param_2, &param_1->mUnk_238, (Vec3 *) param_1->mUnk_028, (Vec3 *) &param_1->mUnk_25c, (Vec3 *) &param_1->mUnk_25c, param_3, param_4);
     default:
         return 0;
     }

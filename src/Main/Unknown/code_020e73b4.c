@@ -92,7 +92,7 @@ void func_020e7760(void) {
         a = 0;
     }
     data_0217b8f8 = a;
-    *(s32 *) data_0217b890 = 4;
+    data_0217b890 = 4;
     data_0217b87c = 1;
     data_0217b884 = func_02044618();
     func_020ea37c();
@@ -142,10 +142,10 @@ void func_020e7760(void) {
             break;
     }
     data_0217b9dc.mUnk_00 = 0x101;
-    data_0217b9dc.mUnk_04 = &data_0217b930;
+    data_0217b9dc.mUnk_04 = (s32) &data_0217b930;
     data_0217b9dc.mUnk_08 = 1;
-    func_02046be8((unsigned int) data_0217b9ec, (unsigned int) data_0216c33c, 7, 0);
-    func_02046bcc((int) data_0217b9ec, 0);
+    func_02046be8((unsigned int) &data_0217b9ec, (unsigned int) data_0216c33c, 7, 0);
+    func_02046bcc((int) &data_0217b9ec, 0);
 }
 
 // non-matching: the first loop's preheader only: the original puts the shared zero
@@ -222,13 +222,13 @@ void func_020e7460(void) {
         s++;
         q++;
     }
-    func_020e6488(data_0217baf4, (u32) func_0204799c((const char *) data_0216c3a4),
+    func_020e6488((u32 *) data_0217baf4, (u32) func_0204799c((const char *) data_0216c3a4),
                   (u32) func_0204799c((const char *) data_0216c3b4), 0);
-    func_020e6ab8((unsigned int) data_0217bae8.mUnk_0c);
-    data_0217bae8.mUnk_0c->mUnk_14 |= 0xc0;
+    func_020e6ab8((unsigned int) data_0217bae8[0].mUnk_0c);
+    data_0217bae8[0].mUnk_0c->mUnk_14 |= 0xc0;
     func_020e6488(data_0217bb04, (u32) func_0204799c((const char *) data_0216c3c4), 0, 0);
-    func_020e6ab8((unsigned int) data_0217bae8.mUnk_1c);
-    data_0217bae8.mUnk_1c->mUnk_14 |= 0xc0;
+    func_020e6ab8((unsigned int) data_0217bae8[1].mUnk_0c);
+    data_0217bae8[1].mUnk_0c->mUnk_14 |= 0xc0;
 }
 #pragma thumb off
 

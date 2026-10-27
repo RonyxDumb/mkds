@@ -7,7 +7,11 @@
 // Object updated through its flags word and three vectors; read by the
 // functions below and by func_020ed718's third argument.
 typedef struct Unk020ed5c0 {
-    /* 000 */ u8 mUnk_000[0x44];
+    /* 000 */ u8 mUnk_000[2];
+    /* 002 */ u16 mUnk_002;
+    /* 004 */ u8 mUnk_004[0x10];
+    /* 014 */ volatile u32 mUnk_014;
+    /* 018 */ u8 mUnk_018[0x2c];
     /* 044 */ s32 mUnk_044;
     /* 048 */ s32 mUnk_048;
     /* 04c */ u8 mUnk_04c[4];

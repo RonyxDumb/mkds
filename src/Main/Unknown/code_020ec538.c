@@ -1,0 +1,106 @@
+#include "Main/Unknown/code_020ec538.h"
+
+#include "Main/Unknown/code_020d6000.h"
+#include "code_02147cd8.h"
+
+const Vec3 data_0215957c = {0x1000, 0, 0};
+const Vec3 data_02159588 = {0x1000, 0, 0};
+const Vec3 data_02159594 = {0, 0, 0};
+
+void func_020ec854(Unk020e43a8 *param_1, s32 param_2, u32 param_3, u16 param_4, u32 param_5, s32 param_6) {
+    param_1->mUnk_0a0 = param_2;
+    param_1->mUnk_0a4 = param_3;
+    param_1->mUnk_0a8 = 1;
+    param_1->mUnk_0ac = 0;
+    param_1->mUnk_0ae = param_4;
+    param_1->mUnk_0b0 = param_5;
+    param_1->mUnk_0b4 = param_6;
+}
+
+s32 func_020ec7e8(Unk020e43a8 *param_1) {
+    if (param_1->mUnk_0a8) {
+        param_1->mUnk_0ac = param_1->mUnk_0ac + param_1->mUnk_0ae;
+    } else {
+        param_1->mUnk_0ac = param_1->mUnk_0ac - param_1->mUnk_0ae;
+    }
+    param_1->mUnk_10.y = param_1->mUnk_10.y - param_1->mUnk_0a4;
+    func_02148504(&param_1->mUnk_04, &param_1->mUnk_10, &param_1->mUnk_04);
+    return param_1->mUnk_04.y < param_1->mUnk_0a0;
+}
+
+// non-matching: the else arm's two locals land in the opposite registers: x in r1 and z in r0
+// here, x in r0 and z in r1 in the original (words +0x74..+0x84); the loads, the negate and the
+// two stores are otherwise the same.
+void func_020ec6e4(Unk020e43a8 *param_1, Unk020ec6e4 *param_2) {
+    Vec3 v;
+    s32 s;
+
+    func_021484d0(&param_1->mUnk_04, &param_2->mUnk_080, &v);
+    if ((s64) v.z * param_2->mUnk_0a4 - (s64) v.x * param_2->mUnk_0ac < 0) {
+        s32 x = param_2->mUnk_050.x;
+        s32 z = param_2->mUnk_050.z;
+        v.z = -x;
+        v.x = z;
+        v.y = 0;
+        param_1->mUnk_0a8 = 1;
+    } else {
+        s32 x = param_2->mUnk_050.x;
+        s32 z = param_2->mUnk_050.z;
+        v.z = x;
+        v.x = -z;
+        v.y = 0;
+        param_1->mUnk_0a8 = 0;
+    }
+    s = param_1->mUnk_0b4;
+    param_1->mUnk_10.x = (s32) (((s64) v.x * s) >> 12);
+    param_1->mUnk_10.y = (s32) (((s64) v.y * s) >> 12);
+    param_1->mUnk_10.z = (s32) (((s64) v.z * s) >> 12);
+    param_1->mUnk_10.x = param_1->mUnk_10.x + (param_2->mUnk_0a4 >> 1);
+    param_1->mUnk_10.z = param_1->mUnk_10.z + (param_2->mUnk_0ac >> 1);
+    param_1->mUnk_10.y = param_1->mUnk_0b0;
+}
+
+// non-matching: the first Vec3 ternary `param_2 ? param_2->mUnk_050 :
+// param_1->mUnk_04` is folded into the destination here, while the original
+// materialises it in a stack temporary at sp+0 and then copies it to the local
+// (words +0x14..+0x4c); also the else arm's out.x/out.z exchange lands in r2/r1
+// instead of r1/r2 (words +0x10c..+0x11c).
+void func_020ec538(Unk020e43a8 *param_1, Unk020ec6e4 *param_2) {
+    Vec3 out;
+    Vec3 a;
+    Vec3 b;
+    s32 s;
+
+    a = param_2 ? param_2->mUnk_050 : param_1->mUnk_04;
+    b = param_2 ? param_2->mUnk_05c : data_02159594;
+    func_021484d0(&param_1->mUnk_04, &a, &out);
+    if ((s64) out.z * b.x - (s64) out.x * b.z < 0) {
+        if (func_020d6f78(&b, &out) == 0) {
+            out = data_0215957c;
+        } else {
+            s32 x = out.x;
+            s32 z = out.z;
+            out.z = -x;
+            out.x = z;
+            out.y = 0;
+        }
+        param_1->mUnk_0a8 = 1;
+    } else {
+        if (func_020d6f78(&b, &out) == 0) {
+            out = data_02159588;
+        } else {
+            s32 z = out.z;
+            out.z = out.x;
+            out.x = -z;
+            out.y = 0;
+        }
+        param_1->mUnk_0a8 = 0;
+    }
+    s = param_1->mUnk_0b4;
+    param_1->mUnk_10.x = (s32) (((s64) out.x * s) >> 12);
+    param_1->mUnk_10.y = (s32) (((s64) out.y * s) >> 12);
+    param_1->mUnk_10.z = (s32) (((s64) out.z * s) >> 12);
+    param_1->mUnk_10.x = param_1->mUnk_10.x + (b.x >> 1);
+    param_1->mUnk_10.z = param_1->mUnk_10.z + (b.z >> 1);
+    param_1->mUnk_10.y = param_1->mUnk_0b0;
+}

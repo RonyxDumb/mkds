@@ -16,7 +16,7 @@ void func_020e6df0(Unk020e6b58 *p) {
     data_0217b850->mUnk_18.x = 0;
     data_0217b850->mUnk_18.y = -p->mUnk_0c.z;
     data_0217b850->mUnk_18.z = p->mUnk_0c.y;
-    func_02146d0c((const s32 *) p, (s32 *) data_0217b848);
+    func_02146d0c(p, data_0217b848);
     func_02146dfc((const s32 *) data_0217b850, (const s32 *) data_0217b848, (s32 *) data_0217b860);
     {
         Unk020e6b58 *h;

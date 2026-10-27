@@ -14,6 +14,8 @@ typedef struct Unk02012f58 {
 
 extern Unk02012f58 data_0217ba88;
 
+extern Unk02012f58 data_0217ba58;
+
 extern Unk02012f58 data_0217bab8;
 
 // Object returned by func_020ac524(0xc9).

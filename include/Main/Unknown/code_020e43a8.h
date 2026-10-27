@@ -12,13 +12,13 @@ typedef struct Unk020e43a8_28 {
 // Object read through mUnk_9c; only the s16 at 0x28 is seen.
 typedef struct Unk020e4a68 Unk020e4a68;
 
+// Object passed to func_020e43a8 and the functions after it, and to func_020ec1fc and
+// func_020ec41c to func_020ec854; the words from 0xa0 to 0xc8 are read two ways.
 typedef struct Unk020e43a8 {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
     /* 04 */ Vec3 mUnk_04;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
+    /* 10 */ Vec3 mUnk_10;
     /* 1c */ Vec3 mUnk_1c;
     /* 28 */ Unk020e43a8_28 mUnk_28;
     /* 4c */ Vec3 mUnk_4c;
@@ -38,12 +38,31 @@ typedef struct Unk020e43a8 {
     /* 92 */ u16 mUnk_92;
     /* 94 */ u8 mUnk_94[0x08];
     /* 9c */ Unk020e4a68 *mUnk_9c;
-    /* a0 */ Unk020e43a8_28 mUnk_a0;
-    /* c4 */ u16 mUnk_c4;
-    /* c6 */ s16 mUnk_c6;
+    /* a0 */ union {
+        struct {
+            /* a0 */ Unk020e43a8_28 mUnk_a0;
+            /* c4 */ u16 mUnk_c4;
+            /* c6 */ s16 mUnk_c6;
+        };
+        // As func_020ec1fc, func_020ec538, func_020ec6e4, func_020ec7e8 and func_020ec854 read it:
+        // halfwords at 0xac and 0xae, a word at 0xc4.
+        struct {
+            /* a0 */ s32 mUnk_0a0;
+            /* a4 */ s32 mUnk_0a4;
+            /* a8 */ u32 mUnk_0a8;
+            /* ac */ u16 mUnk_0ac;
+            /* ae */ u16 mUnk_0ae;
+            /* b0 */ u32 mUnk_0b0;
+            /* b4 */ s32 mUnk_0b4;
+            /* b8 */ u8 mUnk_0b8[4];
+            /* bc */ s32 mUnk_0bc;
+            /* c0 */ s32 mUnk_0c0;
+            /* c4 */ s32 mUnk_0c4;
+        };
+    };
     /* c8 */ s32 mUnk_c8;
     /* cc */ s32 mUnk_cc;
-    /* d0 */ u8 mUnk_d0[0x04];
+    /* d0 */ s32 mUnk_d0;
     /* d4 */ s32 mUnk_d4;
     /* d8 */ s32 mUnk_d8;
     /* dc */ s32 mUnk_dc;
@@ -52,7 +71,9 @@ typedef struct Unk020e43a8 {
     /* 100 */ s32 mUnk_100;
     /* 104 */ s32 mUnk_104;
     /* 108 */ s32 mUnk_108;
-    /* 10c */ u8 mUnk_10c[0x18];
+    /* 10c */ u8 mUnk_10c[0x08];
+    /* 114 */ u8 mUnk_114[0x04];
+    /* 118 */ u8 mUnk_118[0x0c];
     /* 124 */ s32 mUnk_124;
     /* 128 */ s32 mUnk_128;
     /* 12c */ s32 mUnk_12c;

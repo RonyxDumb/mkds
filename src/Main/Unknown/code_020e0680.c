@@ -340,7 +340,7 @@ void func_020e2400(Unk020e1e98 *a, Vec3 *b, s32 c, Vec3 *d) {
     f.x = a->mUnk_114.x;
     f.y = 0;
     f.z = a->mUnk_120;
-    func_020eafc4(b, &a->mUnk_004, &a->mUnk_028.x, &e, &f, c, d);
+    func_020eafc4(b, &a->mUnk_004, &a->mUnk_028, &e, &f, c, d);
 }
 
 #pragma thumb on
@@ -420,8 +420,8 @@ void func_020e20a8(Unk020e20a8 *a) {
     func_020ea55c(&data_0217b788, (void *) func_020d21ec((u32) data_0216c08c), 7);
     func_020ea55c(&data_0217b798, (void *) func_020d21ec((u32) data_0216c0a0), 7);
     func_020ea55c(&data_0217b7b0, (void *) func_020d21ec((u32) data_0216c0b8), 7);
-    func_020ea4bc(2, (u32) data_0217b7a0, (u32) &data_0217b78c, b, func_020d21ec((u32) data_0216c0cc));
-    func_020ea4bc(2, (u32) data_0217b794, (u32) &data_0217b7a8, c, func_020d21ec((u32) data_0216c0d8));
+    func_020ea4bc(2, data_0217b7a0, &data_0217b78c, (void *) b, (void *) func_020d21ec((u32) data_0216c0cc));
+    func_020ea4bc(2, data_0217b794, &data_0217b7a8, (void *) c, (void *) func_020d21ec((u32) data_0216c0d8));
     func_02084968(data_0217b7a0, 0x3f, 2, 0x294a);
     for (k1 = 0, y1 = ((Unk0217b7a0 *) data_0217b7a0)->mUnk_04; k1 < y1->mUnk_18; k1++) {
         func_020134b0(y1, k1, 7);
@@ -1119,7 +1119,7 @@ s32 func_020e0764(Unk020e005c *a, Vec3 *b, s32 c, u32 d, Unk020e0764 *o, Unk020e
             v.x = x;
             v.y = 0;
             v.z = y;
-            x = func_020d6f78(&v, &v, 0);
+            x = func_020d6f78(&v, &v);
             if (x == 0) {
                 w = data_021588f0;
             }
@@ -1141,7 +1141,7 @@ s32 func_020e0764(Unk020e005c *a, Vec3 *b, s32 c, u32 d, Unk020e0764 *o, Unk020e
     v.x = x;
     v.y = 0;
     v.z = y;
-    x = func_020d6f78(&v, &v, 0);
+    x = func_020d6f78(&v, &v);
     if (x == 0) {
         w = data_021588fc;
     }

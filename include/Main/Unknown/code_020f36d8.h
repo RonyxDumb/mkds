@@ -123,9 +123,11 @@ typedef struct {
     /* 10 */ u64 mUnk_10;
 } Unk020f41c4_B;
 
-// Entry of the array at Unk0217561c::mUnk_000; the halfword at 0x44.
+// Entry of the array at Unk0217561c::mUnk_000; the word at 0x14 and the halfword at 0x44.
 typedef struct {
-    /* 00 */ u8 mUnk_00[0x44];
+    /* 00 */ u8 mUnk_00[0x14];
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ u8 mUnk_18[0x2c];
     /* 44 */ u16 mUnk_44;
     /* 46 */ u8 mUnk_46[0x46];
 } Unk0217561c_000;
