@@ -53,7 +53,7 @@ void func_020e71a0(Unk020e71a0 *p) {
     if ((p->mUnk_02 & 2) == 0) {
         q->mUnk_40 = p->mUnk_78 & ~0xc000001f;
         a = (func_020d4ddc(p) == 0);
-        b = (q->mUnk_34 & 1) != 0;
+        b = (q->mUnk_00.mUnk_34 & 1) != 0;
         if (a != 0) {
             if (b != 0) {
                 goto ret;
@@ -68,7 +68,7 @@ void func_020e71a0(Unk020e71a0 *p) {
             return;
         }
     call:
-        func_0210cfbc(q, 2, 1);
+        func_0210cfbc(&q->mUnk_00, 2, 1);
     } else {
         s32 v;
 
@@ -76,11 +76,11 @@ void func_020e71a0(Unk020e71a0 *p) {
         q->mUnk_40 = v;
         if (func_020d4d60(p, v) != 0) {
             p->mUnk_78 |= data_02159310;
-            if ((q->mUnk_34 & 1) != 0) {
-                func_0210cfbc(q, 2, 1);
+            if ((q->mUnk_00.mUnk_34 & 1) != 0) {
+                func_0210cfbc(&q->mUnk_00, 2, 1);
             }
-        } else if ((q->mUnk_34 & 1) == 0) {
-            func_0210cfbc(q, 2, 1);
+        } else if ((q->mUnk_00.mUnk_34 & 1) == 0) {
+            func_0210cfbc(&q->mUnk_00, 2, 1);
         }
     }
 }

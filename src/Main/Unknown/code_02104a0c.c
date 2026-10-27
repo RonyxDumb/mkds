@@ -191,7 +191,7 @@ s32 func_02104c68(Unk020edb8c *p0, Unk0206bcb0 *p1) {
     }
     if ((p0->mUnk_0c->mUnk_1ec & 0x10) != 0) {
         func_020f3150(p1, p0, 0, 1, 0x4000, 0x3000, 0x59a);
-        func_021090c4(p1, 0xda, 0x7f, 0);
+        func_021090c4(&p1->mUnk_00, 0xda, 0x7f, 0);
         p1->mUnk_12c.y = 1;
         return p1->mUnk_12c.y;
     } else {
@@ -250,7 +250,7 @@ void func_02104a0c(Unk0206bcb0 *p) {
             if (p->mUnk_12c.y != 0) {
                 p->mUnk_05c.y <<= 1;
             }
-            func_02109060(p, 0xda);
+            func_02109060(&p->mUnk_00, 0xda);
             func_020f6a6c(p, &buf);
         }
     }

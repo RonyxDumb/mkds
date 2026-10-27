@@ -26,11 +26,11 @@ u32 func_0210bc8c(int a, int b) {
     return 1;
 }
 
-void func_0210bc54(Unk02017328 *a, u8 *b) {
+void func_0210bc54(Unk02017328 *a, void *b) {
     Unk0210bc54 *p;
 
     func_02017354(a, b);
-    p = (Unk0210bc54 *) (b + a->mUnk_0a);
+    p = (Unk0210bc54 *) ((u8 *) b + a->mUnk_0a);
     if (p->mUnk_08 != 0) {
         p->mUnk_08 = 0;
     }

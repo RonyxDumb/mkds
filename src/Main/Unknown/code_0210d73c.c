@@ -1,5 +1,3 @@
 #include "Main/Unknown/code_0210d73c.h"
 
-unsigned int func_0210d73c(unsigned int p0) {
-    return p0;
-}
+void func_0210d73c(Unk0217d070 *p0) {}

@@ -7,3 +7,4 @@
 // Declared here until the code that defines them is decompiled.
 void func_0210f868(u32 a, u32 b);
 void func_0210faf4(void);
+u32 func_0210fad4(void);

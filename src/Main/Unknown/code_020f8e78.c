@@ -83,19 +83,17 @@ void func_020f9114(void *param_1) {
     s32 a = p->mUnk_44;
 
     func_02109038((u32) p, (u32) data_0217bc34[a].mUnk_a0, (u32) &p->mUnk_50);
-    func_0210cf9c(p, 1);
+    func_0210cf9c(&p->mUnk_00, 1);
     p->mUnk_74 |= 0x400000;
 }
 
-// non-matching: the bit test uses r0 where the original uses r1:
-// `ldr r1,[r4,#0x74]; ands r1,r1,#0x400000` against `ldr r0; ands r0`.
 void func_020f90dc(void *param_1) {
     Unk020f41c4_A *p = param_1;
     if ((p->mUnk_74 & 0x400000) == 0) {
         return;
     }
-    func_02109054();
-    p->mUnk_30 = 0;
+    func_02109054(&p->mUnk_00);
+    p->mUnk_00.mUnk_30 = 0;
     p->mUnk_74 &= ~0x400000;
 }
 
@@ -151,7 +149,7 @@ void func_020f8e78(void *param_1) {
     p->mUnk_11c = 1;
     if ((p->mUnk_74 & 0x400000) == 0) {
         func_02109038((u32) p, (u32) data_0217bc34[p->mUnk_44].mUnk_a0, (u32) &p->mUnk_50);
-        func_0210cf9c(p, 1);
+        func_0210cf9c(&p->mUnk_00, 1);
         p->mUnk_74 |= 0x400000;
     }
     if ((p->mUnk_74 & 0x180000) == 0) {

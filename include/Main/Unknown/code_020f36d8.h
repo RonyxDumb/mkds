@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02146d78.h"
+#include "Main/Unknown/code_0210bcf4.h"
 
 // Object whose first word is compared with a stored value.
 typedef struct {
@@ -49,12 +50,8 @@ extern Unk020f3fa8 data_0217bb88;
 // Element returned through data_027e00cc: the first 0x12c bytes, which the elements of every entry share (the
 // element sizes in the data_0217bc34 entries start at 0x12c).
 typedef struct Unk020f41c4_A {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[0x2c];
-    /* 30 */ void (*mUnk_30)(void *, void *);
-    /* 34 */ u16 mUnk_34;
-    /* 36 */ u8 mUnk_36[0xa];
+    /* 00 */ Unk0210bfbc mUnk_00;
+    /* 3c */ u8 mUnk_3c[4];
     /* 40 */ s32 mUnk_40;
     /* 44 */ s32 mUnk_44;
     /* 48 */ s32 mUnk_48;
@@ -287,7 +284,7 @@ typedef struct Unk020f40dc_Owner {
     /* 054 */ u8 mUnk_054[0x198];
     /* 1ec */ u16 mUnk_1ec;
     /* 1ee */ u8 mUnk_1ee[2];
-    /* 1f0 */ struct Unk0206bcb0 *mUnk_1f0;
+    /* 1f0 */ Unk020f371c *mUnk_1f0;
     /* 1f4 */ u8 mUnk_1f4[4];
     /* 1f8 */ u16 mUnk_1f8;
     /* 1fa */ u8 mUnk_1fa[2];

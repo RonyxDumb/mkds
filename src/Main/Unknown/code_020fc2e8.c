@@ -20,7 +20,7 @@
 
 void func_020fc94c(Unk020fc2e8 *p) {
     func_0210b850((u32) p->mUnk_300);
-    p->mUnk_000.mUnk_30 = func_0210a67c;
+    p->mUnk_000.mUnk_00.mUnk_30 = (void (*)(void *, void *, void *)) func_0210a67c;
     p->mUnk_160 = 0;
     p->mUnk_000.mUnk_0c4 = p->mUnk_000.mUnk_50;
     func_020f9c40((int) p);

@@ -12,8 +12,8 @@ void func_0210cf20(int param_1, u32 param_2) {
     *(u16 *) (param_1 + 0x34) = 0;
     *(u32 *) (param_1 + 0x28) = param_2;
     *(u32 *) (param_1 + 0x18) = 3;
-    func_0210bce0((unsigned int) ((u32 *) (u32) (param_1 + 0x1c)));
-    func_0210bce0((unsigned int) ((u32 *) (u32) (param_1)));
+    func_0210bce0((u32 *) (u32) (param_1 + 0x1c));
+    func_0210bce0((u32 *) (u32) (param_1));
     func_0210bc8c((int) (((u32) (&data_0217d028))), (int) (param_1));
     return;
 }

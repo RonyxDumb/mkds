@@ -10,6 +10,7 @@
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_0210bcf4.h"
 
 typedef struct UnkVec16 {
     s16 x;
@@ -58,9 +59,19 @@ typedef struct Unk0206cdd4_B {
     /* 4 */ s32 mUnk_04;
 } Unk0206cdd4_B;
 
+struct Unk0206bcb0;
+
+// 16-byte entry of the table at Unk0217d26c::mUnk_04: func_0210dd44 calls mUnk_04 with the words at 8 and 0xc.
+typedef struct Unk0210ddf4 {
+    /* 00 */ u32 mUnk_00;
+    /* 04 */ void (*mUnk_04)(struct Unk0206bcb0 *, s32);
+    /* 08 */ struct Unk0206bcb0 *mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+} Unk0210ddf4;
+
 typedef struct Unk0217d26c {
     /* 0 */ s32 mUnk_00;
-    /* 4 */ void *mUnk_04;
+    /* 4 */ Unk0210ddf4 *mUnk_04;
 } Unk0217d26c;
 
 extern Unk0217d26c data_0217d294;
@@ -108,11 +119,22 @@ typedef struct Unk0206c5e4_208 {
     /* 0 */ s32 mUnk_00;
 } Unk0206c5e4_208;
 
+// The 0x38 bytes at 0x450 of a Unk0206bcb0: words at 0x08, 0x28, 0x30 and 0x34 and a byte at 0x2c.
+typedef struct Unk0206bcb0_A {
+    /* 00 */ u8 mUnk_00[8];
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ u8 mUnk_0c[0x1c];
+    /* 28 */ s32 mUnk_28;
+    /* 2c */ u8 mUnk_2c;
+    /* 2d */ u8 mUnk_2d[3];
+    /* 30 */ u32 mUnk_30;
+    /* 34 */ u32 mUnk_34;
+} Unk0206bcb0_A;
+
 typedef struct Unk0206bcb0 {
-    /* 0 */ struct Unk0206bcb0 *mUnk_00;
-    /* 4 */ u8 mUnk_04[0x2c];
-    /* 30 */ void (*mUnk_30)(void);
-    /* 34 */ u8 mUnk_34[0xc];
+    /* 00 */ Unk0210bfbc mUnk_00;
+    /* 3c */ u8 mUnk_3c;
+    /* 3d */ u8 mUnk_3d[3];
     /* 40 */ u32 mUnk_40;
     /* 44 */ vu32 mUnk_44;
     /* 48 */ vu32 mUnk_48;
@@ -230,9 +252,17 @@ typedef struct Unk0206bcb0 {
     /* 3e8 */ u8 mUnk_3e8[0x34];
     /* 41c */ Vec3 mUnk_41c;
     /* 428 */ Vec3 mUnk_428;
-    /* 434 */ u8 mUnk_434[0x8c];
+    /* 434 */ u8 mUnk_434[0x1c];
+    /* 450 */ Unk0206bcb0_A mUnk_450;
+    /* 488 */ u32 mUnk_488;
+    /* 48c */ s32 (*mUnk_48c)(void *);
+    /* 490 */ u32 mUnk_490;
+    /* 494 */ u8 mUnk_494[0x24];
+    /* 4b8 */ s32 mUnk_4b8;
+    /* 4bc */ u8 mUnk_4bc[4];
     /* 4c0 */ s32 mUnk_4c0;
-    /* 4c4 */ u8 mUnk_4c4[0x40];
+    /* 4c4 */ u8 mUnk_4c4[0x3c];
+    /* 500 */ u32 mUnk_500;
     /* 504 */ u16 mUnk_504;
     /* 506 */ u16 mUnk_506;
     /* 508 */ u8 mUnk_508[0xc];
@@ -283,11 +313,11 @@ void func_0206cdd4(Unk0206bcb0 *p);
 void func_0206ceb4(s32 *out, Unk0206bcb0 *p);
 extern Unk0217d26c data_0217d26c;
 extern Unk0217d26c data_0217d284;
+extern Unk0217d26c data_0217d28c;
 Unk0206cdd4_B *func_0207a6b0(void);
 void func_0206d020(Unk0206bcb0 *p, int a, int b);
 void func_01ffc9e8(Unk0206bcb0 *p, int a);
 void func_020681f0(Unk0206bcb0 *p);
-void *func_02109078(Unk0206bcb0 *p, int a, int b, int c);
 void func_0210ddf4(Unk0217d26c *queue, int key, void (*cb)(Unk0206bcb0 *, int), Unk0206bcb0 *p, int arg);
 void func_020718c8(Unk0206bcb0 *p, int arg);
 void func_02071944(Unk0206bcb0 *p, int arg);

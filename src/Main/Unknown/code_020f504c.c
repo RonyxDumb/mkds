@@ -184,7 +184,7 @@ void func_020f53d0(Unk0206bcb0 *a) {
 
     func_020f8e78(a);
     func_0210b850((u32) a->mUnk_258);
-    a->mUnk_30 = func_0210a77c;
+    a->mUnk_00.mUnk_30 = (void (*)(void *, void *, void *)) func_0210a77c;
     func_02046be8((u32) &a->mUnk_23c, (u32) data_0216c648, 7, (u32) a);
     if (a->mUnk_254 != 0) {
         if (a->mUnk_21c != 0) {
@@ -255,7 +255,7 @@ s32 func_020f5240(Unk020edb8c *a, Unk0206bcb0 *b) {
     o = a->mUnk_0c;
     if (o->mUnk_1ec & 0x10) {
         func_020f3150(b, a, 0, 1, 0x4000, 0x3000, 0x59a);
-        func_021090c4(b, 0xda, 0x7f, 0);
+        func_021090c4(&b->mUnk_00, 0xda, 0x7f, 0);
         b->mUnk_12c.y = 1;
         return b->mUnk_12c.y;
     }
@@ -285,7 +285,7 @@ void func_020f518c(Unk0206bcb0 *a) {
     if (a->mUnk_12c.y != 0) {
         a->mUnk_05c.y = a->mUnk_05c.y * 2;
     }
-    func_02109060(a, 0xda);
+    func_02109060(&a->mUnk_00, 0xda);
     func_020f6a6c(a, &v);
 }
 
@@ -317,7 +317,7 @@ void func_020f50b4(Unk0206bcb0 *a) {
     if (a->mUnk_12c.y == 0) {
         return;
     }
-    func_021090c4(a, 0xda, 0x7f, 0);
+    func_021090c4(&a->mUnk_00, 0xda, 0x7f, 0);
 }
 
 // Runs func_02069db8 on the 0x1fc word of b's 0x04 object, marks b, sets the 0x204 word of

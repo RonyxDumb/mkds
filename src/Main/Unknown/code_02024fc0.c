@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02024fc0.h"
+#include "Main/Unknown/code_02109000.h"
 
 void func_02024fc0(u32 arg0, u32 arg1) {
     u32 value0 = (u32) arg0;
@@ -19,6 +20,6 @@ void func_02024fc0(u32 arg0, u32 arg1) {
     value12 = (u32) &func_02109078;
     value1 = (u32) * (const u32 *) ((value1) + (92));
     value3 = ((u32) ((s32) value3 >> 16));
-    func_02109078((Unk0206bcb0 *) value0, (int) value1, (int) value2, (int) value3);
+    func_02109078((Unk0210bfbc *) value0, (int) value1, (int) value2, (int) value3);
     return;
 }

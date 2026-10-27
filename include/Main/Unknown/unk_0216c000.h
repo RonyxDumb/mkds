@@ -158,3 +158,4 @@ extern Vec3 data_0216c6a8;
 extern Vec3 data_0216c734;
 extern u8 data_0216c740[];
 extern u8 data_0216c770[];
+extern s32 data_0216cb24;

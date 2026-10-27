@@ -185,7 +185,7 @@ u32 func_020ff538(Unk020edb8c *a, Unk020ff438 *e) {
     e->mUnk_130.z = 0;
     if ((a->mUnk_0c->mUnk_1ec & 0x10) != 0) {
         func_020f3150((Unk0206bcb0 *) e, a, 0, 1, 0x4000, 0x3000, 0x59a);
-        func_021090c4(e, 0xda, 0x7f, 0);
+        func_021090c4(&e->mUnk_000.mUnk_00, 0xda, 0x7f, 0);
         e->mUnk_13c = 1;
         return e->mUnk_13c;
     }
@@ -217,7 +217,7 @@ void func_020ff438(Unk020ff438 *e) {
             if (e->mUnk_13c != 0) {
                 e->mUnk_000.mUnk_5c.y *= 2;
             }
-            func_02109060(e, 0xda);
+            func_02109060(&e->mUnk_000.mUnk_00, 0xda);
             func_020f6a6c((Unk0206bcb0 *) e, &t);
         }
     }

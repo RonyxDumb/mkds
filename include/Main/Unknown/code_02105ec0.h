@@ -3,6 +3,7 @@
 #include "types.h"
 #include "code_0212c478.h"
 #include "code_0212c6ac.h"
+#include "Main/Unknown/code_0210e33c.h"
 
 // 0x08-byte entries behind data_0216c860.
 typedef struct Unk0216c860 {
@@ -60,22 +61,17 @@ typedef struct Unk0217c7a4 {
 // View of data_0217c7c4; func_0210e280 takes it.
 typedef struct Unk0217c7c4 {
     /* 00 */ s32 mUnk_00;
-    /* 04 */ u8 mUnk_04[8];
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ u8 *mUnk_08;
     /* 0c */ u8 *mUnk_0c;
     /* 10 */ s32 mUnk_10;
 } Unk0217c7c4;
 
-// Object data_0217c788 points to.
-typedef struct Unk0217c788_00 {
-    /* 00 */ u8 mUnk_00[0x38];
-    /* 38 */ u16 mUnk_38;
-    /* 3a */ u16 mUnk_3a;
-} Unk0217c788_00;
-
-// View of data_0217c788.
-typedef struct Unk0217c788 {
-    /* 00 */ Unk0217c788_00 *mUnk_00;
-} Unk0217c788;
+// The first eight bytes of each element of the table an Unk0217c7c4 describes: a handle at 0 and a word at 4.
+typedef struct Unk0210e2c4 {
+    /* 00 */ Unk0212c400 *mUnk_00;
+    /* 04 */ s32 mUnk_04;
+} Unk0210e2c4;
 
 // Object behind data_0217c814.
 typedef struct Unk0217c814 {
@@ -108,9 +104,9 @@ extern Unk0217c854 *data_0217c854;
 
 // Object data_0217d060 points to.
 typedef struct Unk0217d060 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04[8];
+    /* 00 */ Unk0215c380 mUnk_00;
     /* 0c */ Unk0212c400 *mUnk_0c;
+    /* 10 */ Unk0217c7b4 *mUnk_10;
 } Unk0217d060;
 
 extern Unk0217d060 *data_0217d060;

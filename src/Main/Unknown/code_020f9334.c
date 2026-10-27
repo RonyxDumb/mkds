@@ -100,8 +100,8 @@ void func_020f992c(Unk020f41c4_A *param_1) {
         param_1->mUnk_da = func_020d5344(param_1->mUnk_da);
     }
     if ((param_1->mUnk_74 & 0x400000) != 0) {
-        func_02109054(param_1);
-        param_1->mUnk_30 = 0;
+        func_02109054(&param_1->mUnk_00);
+        param_1->mUnk_00.mUnk_30 = 0;
         param_1->mUnk_74 &= ~0x400000;
     }
     param_1->mUnk_74 |= 4;

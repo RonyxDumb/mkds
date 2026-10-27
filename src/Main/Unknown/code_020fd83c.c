@@ -273,7 +273,7 @@ void func_020fd9d8(Unk020fdae8 *e) {
     if (e->mUnk_130 == 0) {
         return;
     }
-    func_021090c4(e, 0xda, 0x7f, 0);
+    func_021090c4(&e->mUnk_000.mUnk_00, 0xda, 0x7f, 0);
 }
 
 void func_020fd938(Unk020fdae8 *e, Vec3 *a, Unk020e6488 *b) {

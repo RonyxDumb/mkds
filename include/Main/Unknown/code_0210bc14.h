@@ -11,5 +11,5 @@ typedef struct Unk0210bc54 {
 } Unk0210bc54;
 
 u32 func_0210bc8c(int a, int b);
-void func_0210bc54(Unk02017328 *a, u8 *b);
+void func_0210bc54(Unk02017328 *a, void *b);
 void func_0210bc14(void);

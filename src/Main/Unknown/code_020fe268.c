@@ -23,7 +23,7 @@ s32 func_020fe268(Unk020edb8c *a, Unk020fdae8 *e) {
     } else {
         func_020f3150((Unk0206bcb0 *) e, a, 3, 1, 0x6000, 0x5000, 0x59a);
     }
-    func_021090c4(e, 0xda, 0x7f, 0);
+    func_021090c4(&e->mUnk_000.mUnk_00, 0xda, 0x7f, 0);
     e->mUnk_130 = 1;
     return e->mUnk_130;
 }

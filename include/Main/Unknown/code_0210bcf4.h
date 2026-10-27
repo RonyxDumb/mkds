@@ -1,12 +1,17 @@
 #pragma once
 
 #include "types.h"
+#include "code_0212c478.h" // Unk0212c400
+#include "code_0212d254.h" // Unk0212d580
 #include "code_0212da38.h" // Unk02017328
 
 // data_0217d048 is addressed in rows of twelve bytes; func_0210bfbc and func_0210c0bc address the
-// container of one of those rows.
+// container of one of those rows. Unk0206bcb0 and the data_027e00cc elements (Unk020f41c4_A) start with it:
+// func_02109078 and func_021090c4 pass either one to func_0210c610 and func_0210c86c.
 typedef struct Unk0210bfbc {
-    /* 00 */ u8 mUnk_00[0xc];
+    /* 00 */ u8 mUnk_00[2];
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u8 mUnk_04[8];
     /* 0c */ Unk02017328 mUnk_0c;
     /* 18 */ u32 mUnk_18;
     /* 1c */ u8 mUnk_1c[0xc];
@@ -21,34 +26,39 @@ typedef struct Unk0210bfbc {
 // Returned by func_0210e128 and passed to func_0210bcf4; func_0210c084 writes its byte at 0x19.
 // func_0210bf24 subtracts one Unk02017328 from mUnk_10 to reach the Unk0210bfbc holding it.
 typedef struct Unk0210bf24 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ u8 mUnk_04[4];
-    /* 08 */ u8 mUnk_08[8];
+    /* 00 */ Unk0212c400 *mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ u32 mUnk_08;
+    /* 0c */ u32 mUnk_0c;
     /* 10 */ Unk02017328 *mUnk_10;
     /* 14 */ s16 mUnk_14;
     /* 16 */ u16 mUnk_16;
     /* 18 */ u8 mUnk_18;
     /* 19 */ u8 mUnk_19;
     /* 1a */ u8 mUnk_1a;
+    /* 1b */ u8 mUnk_1b[0x21];
+    /* 3c */ UnkWordFunc *mUnk_3c;
 } Unk0210bf24;
 
-// What func_0212d580 points at; only its byte at 4 is read.
-typedef struct Unk0212d580 {
-    /* 0 */ u8 mUnk_00[4];
-    /* 4 */ u8 mUnk_04;
-} Unk0212d580;
+// Object at 0x20 of Unk0210bcf4: words at 0x08 and 0x0c.
+typedef struct Unk0210bcf4_20 {
+    /* 00 */ u8 mUnk_00[8];
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+} Unk0210bcf4_20;
 
 // Held on the stack by func_0210bcf4 and func_0210ca4c and passed to the three functions
 // data_0217d018, data_0217d014 and data_0217d01c point at.
 typedef struct Unk0210bcf4 {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ Unk0210bfbc *mUnk_00;
     /* 04 */ u32 mUnk_04;
-    /* 08 */ u8 mUnk_08[8];
-    /* 10 */ u32 mUnk_10;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
     /* 18 */ u32 mUnk_18;
     /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
+    /* 20 */ Unk0210bcf4_20 *mUnk_20;
 } Unk0210bcf4;
 
 void func_0210c0bc(Unk0210bfbc *p);

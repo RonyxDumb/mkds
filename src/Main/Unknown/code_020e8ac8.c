@@ -464,7 +464,7 @@ void func_020e8ac8(void) {
                 for (i = 0; i < data_0217b5a8; i++) {
                     Unk020f41c4_A *q = data_0217b5c4[i];
 
-                    if ((q->mUnk_02 & 0x40) == 0 && func_020d3e34(&data_0217b93c, 0x12000, q, &t) != 0) {
+                    if ((q->mUnk_00.mUnk_02 & 0x40) == 0 && func_020d3e34(&data_0217b93c, 0x12000, q, &t) != 0) {
                         lo.x = t.x < lo.x ? t.x : lo.x;
                         lo.y = t.y < lo.y ? t.y : lo.y;
                         lo.z = t.z < lo.z ? t.z : lo.z;

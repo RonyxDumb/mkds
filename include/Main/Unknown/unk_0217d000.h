@@ -138,7 +138,7 @@ typedef struct Unk0217d070 {
 
 // Object at data_0217d084 (0x1c bytes); func_0210dc60 stores its second argument at 0x00.
 typedef struct Unk0217d084 {
-    /* 00 */ void *mUnk_00;
+    /* 00 */ Unk0217d070 *mUnk_00;
     /* 04 */ u32 mUnk_04;
     /* 08 */ u32 mUnk_08;
     /* 0c */ u32 mUnk_0c;
@@ -420,7 +420,7 @@ extern u8 data_0217d014[];
 extern u8 data_0217d018[];
 extern u8 data_0217d01c[];
 extern u8 data_0217d028[];
-extern u8 data_0217d064[];
+extern u32 data_0217d064;
 extern u8 data_0217d134[];
 extern u8 data_0217d178[];
 extern s32 data_0217d1f4;
@@ -509,3 +509,5 @@ extern u32 data_0217d024[];
 extern u8 data_0217d034[];
 extern u8 data_0217d048[];
 extern u8 data_0217d054[];
+extern u32 data_0217d020;
+extern void *data_0217d06c;

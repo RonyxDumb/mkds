@@ -50,7 +50,7 @@ void func_020f4f44(Unk0206bcb0 *a) {
     if ((*(u32 *) &a->mUnk_74 & 3) != 0) {
         return;
     }
-    func_02109060(a, 0xda);
+    func_02109060(&a->mUnk_00, 0xda);
     func_020f6a6c(a, &n);
     if ((*(u32 *) &a->mUnk_74 & 0x180000) == 0) {
         a->mUnk_120 = func_020f4fd0;

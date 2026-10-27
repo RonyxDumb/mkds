@@ -2,12 +2,12 @@
 
 #include "types.h"
 #include "code_02146d78.h"
+#include "Main/Unknown/code_0210bcf4.h"
 
-// Object behind Unk020e71a0.mUnk_94, passed to func_0210cfbc.
+// Object behind Unk020e71a0.mUnk_94, passed to func_0210cfbc (which reads its halfword at 0x34).
 typedef struct Unk020e71a0_94 {
-    /* 00 */ u8 mUnk_00[0x34];
-    /* 34 */ u16 mUnk_34;
-    /* 36 */ u8 mUnk_36[0x0a];
+    /* 00 */ Unk0210bfbc mUnk_00;
+    /* 3c */ u8 mUnk_3c[4];
     /* 40 */ s32 mUnk_40;
 } Unk020e71a0_94;
 

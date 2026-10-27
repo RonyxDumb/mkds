@@ -6,11 +6,11 @@
 #include "Main/Unknown/unk_0217d068.h"
 
 void func_02108b2c(void) {
-    func_0212c6f0((Unk0212c400 **) data_0217c788, 1);
-    if (((Unk0212c400 **) data_0217c788)[0] != 0) {
-        func_0212c6f0((Unk0212c400 **) data_0217c788, 0);
+    func_0212c6f0(&data_0217c788, 1);
+    if (data_0217c788 != 0) {
+        func_0212c6f0(&data_0217c788, 0);
     }
-    func_0212ecc0(data_0217c788, 0, 0x204);
+    func_0212ecc0(&data_0217c788, 0, 0x204);
 }
 
 void func_02108adc(void) {
@@ -30,7 +30,7 @@ void func_02108a8c(void) {
 }
 
 void func_02108a40(void) {
-    func_0212c6f0((Unk0212c400 **) data_0217c788, 1);
+    func_0212c6f0(&data_0217c788, 1);
     func_0212c6f0((Unk0212c400 **) data_0217c778, 1);
     func_0212ecc0(&data_0217d068, 0, 0x207);
 }

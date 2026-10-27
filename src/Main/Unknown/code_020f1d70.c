@@ -139,7 +139,7 @@ void func_020f288c(Unk0206bcb0 *a, Vec3 *b) {
         func_02039860((const Vec3 *) q, q);
     }
     func_020397a8((const Vec3 *) q, &a->mUnk_f0, (Vec3 *) &a->mUnk_144[4]);
-    func_021090c4(a, 0xd5, 0x7f, 0);
+    func_021090c4(&a->mUnk_00, 0xd5, 0x7f, 0);
 }
 
 void func_020f2768(Unk0206bcb0 *a, Vec3 *b, Vec3 *c) {
@@ -164,7 +164,7 @@ void func_020f2768(Unk0206bcb0 *a, Vec3 *b, Vec3 *c) {
     *(Vec3 *) &a->mUnk_138.y = *p;
     func_020397a8((const Vec3 *) p, &a->mUnk_f0, (Vec3 *) &a->mUnk_144[4]);
     a->mUnk_f0.y += 1;
-    func_021090c4(a, 0xd5, 0x7f, 0);
+    func_021090c4(&a->mUnk_00, 0xd5, 0x7f, 0);
 }
 
 // non-matching: 8 instructions differ; first at +0x1a4: the 64-bit dot-product accumulator uses r1/r2

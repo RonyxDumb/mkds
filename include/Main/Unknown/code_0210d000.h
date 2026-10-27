@@ -22,3 +22,4 @@ void func_0210dd44(void *a);
 void func_0210d7dc(u32 a, u32 b, Unk0212c400 **c);
 void func_0210dc50(void *a);
 void func_0210dccc(void *a, u32 b, u32 c, u32 d, Unk0217c7b4 *e);
+void func_0210d834(s32 a);

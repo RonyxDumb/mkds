@@ -6089,7 +6089,7 @@ func_0210d73c kind:function(arm,size=0x4) addr:0x0210d73c
 func_0210d740 kind:function(arm,size=0x6c) addr:0x0210d740
 func_0210d7ac kind:function(arm,size=0x30) addr:0x0210d7ac
 func_0210d7dc kind:function(arm,size=0x58) addr:0x0210d7dc
-func_usa_0210d834 kind:function(arm,size=0x20) addr:0x0210d834
+func_0210d834 kind:function(arm,size=0x20) addr:0x0210d834
 func_0210d854 kind:function(arm,size=0x3c) addr:0x0210d854
 func_0210d890 kind:function(arm,size=0x4) addr:0x0210d890
 func_0210d894 kind:function(arm,size=0xcc) addr:0x0210d894
@@ -6166,7 +6166,7 @@ func_usa_0210fa40 kind:function(arm,size=0x34) addr:0x0210fa40
 func_usa_0210fa74 kind:function(arm,size=0x38) addr:0x0210fa74
 func_0210faac kind:function(arm,size=0x18) addr:0x0210faac
 func_0210fac4 kind:function(arm,size=0x10) addr:0x0210fac4
-func_usa_0210fad4 kind:function(arm,size=0x20) addr:0x0210fad4
+func_0210fad4 kind:function(arm,size=0x20) addr:0x0210fad4
 func_0210faf4 kind:function(arm,size=0x1c) addr:0x0210faf4
 func_0210fb10 kind:function(arm,size=0x44) addr:0x0210fb10
 func_0210fb54 kind:function(arm,size=0x14) addr:0x0210fb54
@@ -10520,7 +10520,7 @@ data_0216ca68 kind:data(any) addr:0x0216ca48
 data_0216ca84 kind:data(any) addr:0x0216ca64
 data_0216cb1c kind:data(any) addr:0x0216cafc
 data_0216cb20 kind:data(any) addr:0x0216cb00
-data_usa_0216cb04 kind:data(any) addr:0x0216cb04
+data_0216cb24 kind:data(any) addr:0x0216cb04
 data_0216cb28 kind:data(any) addr:0x0216cb08
 data_0216cb2c kind:data(any) addr:0x0216cb0c
 data_0216cb30 kind:data(any) addr:0x0216cb10
@@ -11961,7 +11961,7 @@ data_0217d010 kind:bss addr:0x0217cff0
 data_0217d014 kind:bss addr:0x0217cff4
 data_0217d018 kind:bss addr:0x0217cff8
 data_0217d01c kind:bss addr:0x0217cffc
-data_usa_0217d000 kind:bss addr:0x0217d000
+data_0217d020 kind:bss addr:0x0217d000
 data_0217d024 kind:bss addr:0x0217d004
 data_0217d028 kind:bss addr:0x0217d008
 data_0217d034 kind:bss addr:0x0217d014
@@ -11970,7 +11970,7 @@ data_0217d054 kind:bss addr:0x0217d034
 data_0217d060 kind:bss addr:0x0217d040
 data_0217d064 kind:bss addr:0x0217d044
 data_0217d068 kind:bss addr:0x0217d048
-data_usa_0217d04c kind:bss addr:0x0217d04c
+data_0217d06c kind:bss addr:0x0217d04c
 data_0217d070 kind:bss addr:0x0217d050
 data_0217d07c kind:bss addr:0x0217d05c
 data_0217d084 kind:bss addr:0x0217d064
@@ -12011,7 +12011,7 @@ data_usa_0217d238 kind:bss addr:0x0217d238
 data_0217d26c kind:bss addr:0x0217d24c
 data_usa_0217d254 kind:bss addr:0x0217d254
 data_0217d284 kind:bss addr:0x0217d264
-data_usa_0217d26c kind:bss addr:0x0217d26c
+data_0217d28c kind:bss addr:0x0217d26c
 data_0217d294 kind:bss addr:0x0217d274
 data_0217d29c kind:bss addr:0x0217d27c
 data_0217d2a4 kind:bss addr:0x0217d284

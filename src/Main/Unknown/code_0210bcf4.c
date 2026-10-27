@@ -121,7 +121,7 @@ u32 func_0210bcf4(u32 a, u32 b, u32 c, u32 d, u32 e) {
     }
     st.mUnk_00 = 0;
     st.mUnk_04 = c;
-    st.mUnk_20 = e;
+    st.mUnk_20 = (Unk0210bcf4_20 *) e;
     st.mUnk_14 = 0;
     st.mUnk_1c = 0;
     st.mUnk_18 = 0;
@@ -142,7 +142,7 @@ u32 func_0210bcf4(u32 a, u32 b, u32 c, u32 d, u32 e) {
         func_0212c6f0((Unk0212c400 **) d, 0);
         return v;
     }
-    n = st.mUnk_1c + (((Unk0212d580 *) func_0212d580(a, b))->mUnk_04 - 0x40);
+    n = st.mUnk_1c + (func_0212d580(a, b)->mUnk_04 - 0x40);
     if (n > 0) {
         if (n >= 0x7f) {
             n = 0x7f;
