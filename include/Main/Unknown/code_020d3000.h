@@ -9,3 +9,4 @@ void *func_020d34d4(void *param_1, int param_2);
 int func_020d3d48(int param_1);
 u16 func_020d3c2c();
 void func_020d3cc8(void);
+u32 func_020d34c4(void *a, s32 b);

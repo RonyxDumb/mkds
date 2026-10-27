@@ -17,6 +17,8 @@ typedef struct Unk020edb8c {
     u8 mUnk_78[4];
     s32 mUnk_7c;
     s32 mUnk_80;
+    u8 mUnk_84[8];
+    s32 mUnk_8c;
 } Unk020edb8c;
 
 void func_020f1d70(void *a0, const Vec3 *b);

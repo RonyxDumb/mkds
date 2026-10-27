@@ -149,7 +149,9 @@ typedef struct Unk0206bcb0 {
     /* 128 */ u8 mUnk_128[4];
     /* 12c */ Vec3 mUnk_12c;
     /* 138 */ Vec3 mUnk_138;
-    /* 144 */ u8 mUnk_144[0xc];
+    /* 144 */ u8 mUnk_144[4];
+    /* 148 */ s32 mUnk_148;
+    /* 14c */ u8 mUnk_14c[4];
     /* 150 */ Vec3 mUnk_150;
     /* 15c */ Vec3 mUnk_15c;
     /* 168 */ Vec3 mUnk_168;

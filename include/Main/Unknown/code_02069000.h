@@ -10,3 +10,4 @@ void func_02069db8(Unk0206bcb0 *a);
 void func_02069c38(Unk0206bcb0 *a);
 void func_02069e10(Unk0206bcb0 *a);
 void func_02069068(Unk0206bcb0 *p);
+void func_020695c4(Unk0206bcb0 *p);

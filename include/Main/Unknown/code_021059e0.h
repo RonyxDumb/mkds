@@ -1,0 +1,15 @@
+#pragma once
+
+#include "types.h"
+#include "code_0212c478.h" // Unk0212c400
+#include "Main/Unknown/code_02105ec0.h"
+
+void func_02105d70(void);
+void func_02105c4c(void);
+void func_02105b64(s32 a);
+void func_02105b48(void);
+void func_02105b28(u32 a, u32 b);
+void func_02105b0c(Unk0212c400 **a, u32 b);
+void func_02105ac0(s32 a);
+void func_02105a30(u32 a);
+void func_021059e0(void);

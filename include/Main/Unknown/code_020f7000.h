@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020f36d8.h"
 
 // Declared here until the code that defines them is decompiled.
@@ -14,3 +15,4 @@ void func_020f70f0(void *p);
 void func_020f705c(void *p);
 void func_020f7600(void *p);
 void func_020f73fc(void *p);
+void func_020f758c(Unk0206bcb0 *p);
