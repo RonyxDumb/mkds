@@ -83,7 +83,7 @@ typedef struct Unk0217d350 {
     /* 60 */ s32 mUnk_60;
     /* 64 */ s32 mUnk_64;
     /* 68 */ s32 mUnk_68;
-    /* 6c */ u8 mUnk_6c[4];
+    /* 6c */ s32 mUnk_6c;
     /* 70 */ s32 mUnk_70;
     /* 74 */ s16 mUnk_74;
     /* 76 */ s16 mUnk_76;
@@ -349,6 +349,20 @@ typedef struct Unk0217d378 {
 } Unk0217d378;
 
 
+// Halfword objects behind data_0217d34c member 0x4.
+typedef struct Unk0217d34c_04 {
+    /* 00 */ u16 mUnk_00;
+} Unk0217d34c_04;
+
+// Object behind data_0217d34c.
+typedef struct Unk0217d34c {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 mUnk_02[2];
+    /* 04 */ Unk0217d34c_04 *mUnk_04;
+    /* 08 */ void *mUnk_08;
+    /* 0c */ void *mUnk_0c;
+} Unk0217d34c;
+
 // Objects whose layout isn't known yet.
 extern u8 data_0217d014[];
 extern u8 data_0217d018[];
@@ -363,7 +377,6 @@ extern s32 data_0217d21c;
 extern u8 data_0217d220[];
 extern u8 data_0217d244[];
 extern u8 data_0217d344[];
-extern u8 data_0217d34c[];
 extern Unk0217d350 *data_0217d350;
 extern Unk0217d354 *data_0217d354;
 extern u8 data_0217d358[];
@@ -420,6 +433,7 @@ extern Unk0217d084 data_0217d084;
 extern struct Unk0212d5f8 data_0217d0a0;
 extern Unk0217d32c data_0217d32c;
 extern Unk0217d348 *data_0217d348;
+extern Unk0217d34c *data_0217d34c;
 extern Unk0217d360 *data_0217d360;
 extern Unk0217d364 *data_0217d364;
 extern u32 data_0217d1bc;
