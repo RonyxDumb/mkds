@@ -72,10 +72,18 @@ typedef struct Unk0217aa00 {
 extern Unk0217aa00 *data_0217aa00;
 extern Unk0217aa08 *data_0217aa08;
 extern u8 data_0217aa0c[];
-extern u8 data_0217aa10[];
+// Object behind data_0217aa10; func_0212034c reads the word at 0.
+typedef struct Unk0217aa10 {
+    /* 00 */ s32 mUnk_00;
+} Unk0217aa10;
+
+extern Unk0217aa10 *data_0217aa10;
 // Object behind data_0217aa14.
 typedef struct Unk0217aa14 {
-    /* 000 */ u8 mUnk_000[0x724];
+    /* 000 */ u8 mUnk_000[0x10];
+    /* 010 */ u16 mUnk_010;
+    /* 012 */ u16 mUnk_012;
+    /* 014 */ u8 mUnk_014[0x710];
     /* 724 */ u16 mUnk_724;
     /* 726 */ u8 mUnk_726[0x36];
     /* 75c */ u16 mUnk_75c;

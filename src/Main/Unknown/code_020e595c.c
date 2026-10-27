@@ -57,7 +57,7 @@ void func_020e5990(u32 param_1, Unk020e43a8 *p, u32 param_3, u32 param_4) {
 }
 
 void func_020e595c(u32 param_1, Unk020e43a8 *p) {
-    func_02046b40((u32) &p->mUnk_80);
+    func_02046b40(&p->mUnk_80);
     func_020d77e0(&p->mUnk_a0.mUnk_0c.y, p->mUnk_7e, &p->mUnk_a0);
     func_01ffccd0((int *) &p->mUnk_28, (u32) &p->mUnk_a0);
 }

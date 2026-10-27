@@ -85,7 +85,7 @@ void func_020e44e4(u32 param_1, Unk020e43a8 *p) {
     s32 old;
     s32 d;
     old = p->mUnk_7e;
-    func_02046b40((u32) &p->mUnk_80);
+    func_02046b40(&p->mUnk_80);
     d = p->mUnk_7e - old;
     if (d > 0x8000) {
         d -= 0x10000;

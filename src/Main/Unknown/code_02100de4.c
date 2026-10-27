@@ -305,7 +305,7 @@ void func_02101c84(Unk02101c84 *p) {
     Vec3 *w;
     Vec3 v;
 
-    func_02046b40((u32) p->mUnk_12c);
+    func_02046b40((void *) p->mUnk_12c);
     func_021484d0(&p->mUnk_000.mUnk_50, &p->mUnk_000.mUnk_0e4, &p->mUnk_000.mUnk_5c);
     if (p->mUnk_000.mUnk_d0 != &p->mUnk_000.mUnk_0c4) {
         return;

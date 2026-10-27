@@ -10,7 +10,7 @@ void func_0205b0b4(void) {
         func_0205b0f4();
     }
     func_02046b40(
-        (u32) (*(u32 *) (((u32) (&data_0217aa14)) & 0xfffffffc) >> (((u32) (&data_0217aa14)) & 3) * 8 |
+        (void *) (*(u32 *) (((u32) (&data_0217aa14)) & 0xfffffffc) >> (((u32) (&data_0217aa14)) & 3) * 8 |
                *(u32 *) (((u32) (&data_0217aa14)) & 0xfffffffc) << (((u32) (&data_0217aa14)) & 3) * -8 + 0x20));
     return;
 }

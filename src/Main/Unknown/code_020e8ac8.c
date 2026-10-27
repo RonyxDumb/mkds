@@ -136,7 +136,7 @@ void func_020e9d10(void) {
         func_020e9658();
         func_020e8ac8();
     }
-    func_02046b40((u32) &data_0217b9ec);
+    func_02046b40(&data_0217b9ec);
     if (data_0217b9ec.mUnk_00e != 0) {
         return;
     }

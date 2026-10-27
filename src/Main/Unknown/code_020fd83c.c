@@ -171,7 +171,7 @@ void func_020fdc08(Unk020fdae8 *e, Unk020fdae8 *b, Unk021052fc *c) {
     Unk021052fc *v1;
 
     b->mUnk_000.mUnk_d4 |= data_02159f2c;
-    func_02046b40((u32) &e->mUnk_184);
+    func_02046b40(&e->mUnk_184);
     if (c->mUnk_02 & 0x100) {
         e->mUnk_198 = 0;
         func_020f0f70(data_027e00cc + e->mUnk_000.mUnk_44, &e->mUnk_000);
@@ -210,7 +210,7 @@ void func_020fdae8(Unk020fdae8 *e) {
         func_020fdc08(e, e, e->mUnk_198);
         return;
     }
-    func_02046b40((u32) &e->mUnk_184);
+    func_02046b40(&e->mUnk_184);
     if ((e->mUnk_000.mUnk_74 & 0x80000) || e->mUnk_170 < 0) {
         func_020f7104(&e->mUnk_000, 1);
     }

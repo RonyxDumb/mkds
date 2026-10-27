@@ -142,7 +142,7 @@ void func_020e01f0(void *a0, Unk020e005c *a1) {
     }
     a1->mUnk_0e8 = a1->mUnk_004;
     func_020d8a5c(b, &a1->mUnk_004);
-    func_02046b40((u32) &a1->mUnk_080);
+    func_02046b40(&a1->mUnk_080);
     func_021484d0(&a1->mUnk_004, &a1->mUnk_0e8, &a1->mUnk_010);
     func_02147fd8(-a1->mUnk_104, &a1->mUnk_034, &a1->mUnk_004, &a1->mUnk_0f4);
 }

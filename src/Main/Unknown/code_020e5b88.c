@@ -27,7 +27,7 @@ void func_020e5bd4(u32 param_1, Unk020e43a8 *p) {
         s.mUnk_0c = func_020d4ef4(&p->mUnk_04);
         func_0210b7a8(&s);
     }
-    func_02046b40((u32) &p->mUnk_80);
+    func_02046b40(&p->mUnk_80);
 }
 
 u8 func_020e5ba0(Unk020e43a8 *p, void *param_2, u8 *param_3, u8 *param_4) {
