@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020d4a18.h"
 
 #pragma thumb on
-void func_020d4a18(u32 arg0) {
+void func_020d4a18(Unk020e6fd4 *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     value1 = 0u;

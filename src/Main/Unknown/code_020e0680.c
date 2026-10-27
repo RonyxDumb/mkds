@@ -231,7 +231,7 @@ void func_020e2630(u32 a, Unk020e1e98 *b) {
                         b->mUnk_0cc = -b->mUnk_0cc;
                         func_020d759c(&b->mUnk_0c4, &b->mUnk_0b4, &b->mUnk_0c4, 0x8cd);
                         b->mUnk_152 = 0x320;
-                        func_020d2774((int) b, b->mUnk_160);
+                        func_020d2774((Unk020e71a0 *) b, b->mUnk_160);
                     } else if (f && b != 0) {
                         b->mUnk_0fe = 0xf;
                         b->mUnk_010.y = 0;
@@ -278,7 +278,7 @@ void func_020e2630(u32 a, Unk020e1e98 *b) {
     if (b->mUnk_078 & 8) {
         func_0210b7ec(b->mUnk_158, b->mUnk_078 & 0x3FFFFFE0);
     }
-    func_020d275c((int) b, b->mUnk_15c);
+    func_020d275c((Unk020e71a0 *) b, b->mUnk_15c);
     if (b->mUnk_004.y < 0) {
         func_020e1e98(b);
     }

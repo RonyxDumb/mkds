@@ -1,21 +1,12 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020e6fd4.h"
 
-// Object whose counters run and wrap and whose three fixed-point words follow the
-// vector at mUnk_fc.
+// Object of func_021052fc (func_0210543c allocates them): the shared Unk020e71a0 part, then counters that run and
+// wrap and whose three fixed-point words follow the vector at mUnk_fc.
 typedef struct Unk021052fc {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ Vec3 mUnk_04;
-    /* 10 */ u8 mUnk_10[0xc];
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ u8 mUnk_28[0x3c];
-    /* 64 */ s16 mUnk_64;
-    /* 66 */ u16 mUnk_66;
-    /* 68 */ u8 mUnk_68[0x38];
+    /* 00 */ Unk020e71a0 mUnk_00;
     /* a0 */ u16 mUnk_a0;
     /* a2 */ u16 mUnk_a2;
     /* a4 */ u16 mUnk_a4;

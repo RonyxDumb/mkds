@@ -59,7 +59,7 @@ void func_ov001_0218cedc(u32 param_1, Unk02188950 *param_2) {
     }
     if (func_020d2c2c((u32 *)&param_2->mUnk_238, (u32 *)&param_2->mUnk_010, param_2->mUnk_0a0->mUnk_100,
                       param_2->mUnk_064, 9, 0) == 2) {
-        func_020d2774((int) (param_2), (u32) (0x253));
+        func_020d2774((Unk020e71a0 *) (param_2), (u32) (0x253));
     }
     func_ov001_021864ac(param_1, param_2);
 }

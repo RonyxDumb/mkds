@@ -61,7 +61,7 @@ void func_020ffeb8(void *a, Unk020ffb1c *e, void *c, s32 d) {
 // mla r6,r1,r2,r3, table base loaded before the test of n) where the original
 // uses r2 for the high word and r1 for 6 (umull r3,ip,r2,r1; mla r6,r3,r1,r2,
 // base loaded after `cmp r4,#0`); 13 words from +0x70, 0xe4 bytes in both.
-void func_020ffdd4(Unk020e705c *v1) {
+void func_020ffdd4(Unk020e6fd4 *v1) {
     Unk020f41c4_B *q;
     void **arr;
     Unk020ffb1c *e;

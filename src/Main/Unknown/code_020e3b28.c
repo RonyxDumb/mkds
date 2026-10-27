@@ -257,7 +257,7 @@ void func_020e3bc0(s32 a, Unk020e38a0 *b) {
         return;
     }
     if (b->mUnk_094 != 0) {
-        func_020d275c((int) b, 0x189);
+        func_020d275c((Unk020e71a0 *) b, 0x189);
     }
     b->mUnk_148 += b->mUnk_146;
     if (b->mUnk_148 >= 0x4000 && b->mUnk_148 < b->mUnk_146 + 0x4000) {

@@ -28,6 +28,6 @@ unsigned int func_020f8e3c(unsigned int arg0, unsigned int arg1) {
     if ((u32) compareLeft1 == (u32) compareRight1) {
         return (unsigned int) value0;
     }
-    value0 = (u32) func_020719bc((u32) value0, (u32) value1);
+    value0 = (u32) func_020719bc((Unk0210bfbc *) value0, (u32) value1);
     return (unsigned int) value0;
 }

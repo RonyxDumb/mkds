@@ -34,11 +34,14 @@ typedef struct Unk021759c0 {
     /* 56 */ u8 mUnk_56[1];
     /* 57 */ s8 mUnk_57;
     /* 58 */ s8 mUnk_58;
-    /* 59 */ u8 mUnk_59[9];
+    /* 59 */ u8 mUnk_59[7];
+    /* 60 */ u16 mUnk_60;
     /* 62 */ s8 mUnk_62;
     /* 63 */ u8 mUnk_63[0xd];
     /* 70 */ Unk021759c0_70 mUnk_70[18];
     /* 3d0 */ u8 mUnk_3d0;
+    /* 3d1 */ u8 mUnk_3d1[7];
+    /* 3d8 */ u16 mUnk_3d8;
 } Unk021759c0;
 
 extern Unk021759c0 *data_021759c0;

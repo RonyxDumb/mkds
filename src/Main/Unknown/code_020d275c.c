@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020d275c.h"
 
-void func_020d2774(int arg0, u32 arg1) {
+void func_020d2774(Unk020e71a0 *arg0, u32 arg1) {
     u32 value0 = (u32) arg0;
     u32 value1 = (u32) arg1;
     u32 value2;
@@ -14,7 +14,7 @@ void func_020d2774(int arg0, u32 arg1) {
     return;
 }
 
-void func_020d275c(int arg0, u32 arg1) {
+void func_020d275c(Unk020e71a0 *arg0, u32 arg1) {
     u32 value0 = (u32) arg0;
     u32 value1 = (u32) arg1;
     u32 value2;

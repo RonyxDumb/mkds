@@ -106,5 +106,5 @@ void func_020e44e4(u32 param_1, Unk020e43a8 *p) {
     if (p->mUnk_15c == -1) {
         return;
     }
-    func_020d275c((int) p, p->mUnk_15c);
+    func_020d275c((Unk020e71a0 *) p, p->mUnk_15c);
 }

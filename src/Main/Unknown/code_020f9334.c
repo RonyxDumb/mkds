@@ -227,9 +227,9 @@ void func_020f944c(void *param_1, void *param_2) {
     Vec3 a;
     Vec3 t;
     s32 b;
-    Unk020f944c *q;
+    Unk020e71a0 *q;
     Unk020f41c4_A *p = param_1;
-    Unk020f944c *r = param_2;
+    Unk020e71a0 *r = param_2;
 
     if (func_020d3e34(&p->mUnk_50, p->mUnk_e0, r, &a) == 0) {
         return;

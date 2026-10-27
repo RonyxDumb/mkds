@@ -11,10 +11,10 @@
 
 void func_ov001_0218c62c(void *param_1)
 {
-    func_020d2774((int) (param_1), (u32) (0x223));
+    func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x223));
 }
 
 void func_ov001_0218c61c(void *param_1)
 {
-    func_020d2774((int) (param_1), (u32) (0x223));
+    func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x223));
 }

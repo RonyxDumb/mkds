@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020e6f9c.h"
 
 #pragma thumb on
-u32 func_020e6f9c(u32 arg0) {
+u32 func_020e6f9c(Unk020e6fd4 *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value4;

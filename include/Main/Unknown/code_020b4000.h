@@ -47,3 +47,4 @@ void func_020b48b4(void **, void *);
 void func_020b4934(Unk020b4934 **, void *);
 void func_020b49bc(Unk020b4934 **, void *);
 void func_020b4a44(Unk020b4a44 **, void *);
+void func_020b4cec(void *p, s32 a);

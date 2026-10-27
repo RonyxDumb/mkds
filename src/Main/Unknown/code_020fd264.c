@@ -68,12 +68,12 @@ void func_020fd684(void *param_1, Vec3 *param_2, Vec3 *param_3) {
     if (e->mUnk_198 == 0) {
         return;
     }
-    e->mUnk_198->mUnk_04 = *b;
-    e->mUnk_198->mUnk_04.y += e->mUnk_19c;
+    e->mUnk_198->mUnk_00.mUnk_04 = *b;
+    e->mUnk_198->mUnk_00.mUnk_04.y += e->mUnk_19c;
     v1 = e->mUnk_198;
-    v1->mUnk_02 &= ~2;
-    v1->mUnk_02 &= ~8;
-    v1->mUnk_66 = 0x1f;
+    v1->mUnk_00.mUnk_02 &= ~2;
+    v1->mUnk_00.mUnk_02 &= ~8;
+    v1->mUnk_00.mUnk_66 = 0x1f;
 }
 
 void func_020fd540(void **param_1, Vec3 *v, s32 a) {
@@ -104,12 +104,12 @@ void func_020fd540(void **param_1, Vec3 *v, s32 a) {
         e->mUnk_000.mUnk_120 = (void (*)(Unk020f41c4_A *)) func_020fdae8;
     }
     if (v1 != 0) {
-        v1->mUnk_02 &= ~2;
-        v1->mUnk_02 &= ~8;
-        v1->mUnk_66 = 0x1f;
-        v1->mUnk_02 &= ~4;
-        if (v1->mUnk_00 != 0x191) {
-            v1->mUnk_02 &= ~1;
+        v1->mUnk_00.mUnk_02 &= ~2;
+        v1->mUnk_00.mUnk_02 &= ~8;
+        v1->mUnk_00.mUnk_66 = 0x1f;
+        v1->mUnk_00.mUnk_02 &= ~4;
+        if (v1->mUnk_00.mUnk_00 != 0x191) {
+            v1->mUnk_00.mUnk_02 &= ~1;
         }
     }
     *param_1 = 0;
@@ -130,7 +130,7 @@ void func_020fd494(void **param_1) {
     func_02046bcc(&e->mUnk_184, 0);
     v1 = e->mUnk_198;
     if (v1 != 0) {
-        v1->mUnk_02 &= ~1;
+        v1->mUnk_00.mUnk_02 &= ~1;
         func_020d2398(v1);
         e->mUnk_198 = 0;
         func_020f0f70(data_027e00cc + e->mUnk_000.mUnk_44, &e->mUnk_000);
@@ -178,10 +178,10 @@ void *func_020fd338(void *param_1, s32 a) {
         return 0;
     }
     func_020d233c(v1);
-    v1->mUnk_02 |= data_02159f18;
-    v1->mUnk_02 |= data_02159f1c;
-    v1->mUnk_02 |= data_02159f20;
-    v1->mUnk_02 |= data_02159f24;
+    v1->mUnk_00.mUnk_02 |= data_02159f18;
+    v1->mUnk_00.mUnk_02 |= data_02159f1c;
+    v1->mUnk_00.mUnk_02 |= data_02159f20;
+    v1->mUnk_00.mUnk_02 |= data_02159f24;
     e->mUnk_198 = v1;
     e->mUnk_19c = a;
     return e;

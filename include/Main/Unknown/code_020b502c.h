@@ -29,10 +29,12 @@ typedef struct {
     /* 02 */ u16 mUnk_02;
 } Unk02175620_08;
 
-// Object behind Unk02175620::mUnk_018; the byte at 0x04.
+// Object behind Unk02175620::mUnk_018; the byte at 0x04 and the word at 0x20.
 typedef struct {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u8 mUnk_04;
+    /* 05 */ u8 mUnk_05[0x1b];
+    /* 20 */ s32 mUnk_20;
 } Unk02175620_18;
 
 struct Unk020fa294;

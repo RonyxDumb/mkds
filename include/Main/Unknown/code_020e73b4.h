@@ -42,7 +42,7 @@ extern Unk0217bb08 data_0217bae8[];
 
 extern Unk0217bb08 data_0217baf4[];
 
-Unk020e705c *func_020e73b4(void);
+Unk020e6fd4 *func_020e73b4(void);
 Unk020e7410 *func_020e7410(void);
 void func_020e7460(void);
 void func_020e7760(void);

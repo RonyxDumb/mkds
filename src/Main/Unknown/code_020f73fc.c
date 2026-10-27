@@ -23,7 +23,7 @@
 // second product becomes a smull after reloading mUnk_e0 (0x464 bytes). At +0x278 the two address
 // pieces of data_027e00c8[...] are built with `bic r0, r0, #0xff00` in the original, `and r0, r0,
 // #0xff` here.
-void func_020f77f8(void *param_1, s32 param_2, Vec3 *param_3, Vec3 *param_4, Unk020f944c *param_5) {
+void func_020f77f8(void *param_1, s32 param_2, Vec3 *param_3, Vec3 *param_4, Unk020e71a0 *param_5) {
     Unk020f41c4_A *p = param_1;
     Vec3 v;
     Vec3 v2;

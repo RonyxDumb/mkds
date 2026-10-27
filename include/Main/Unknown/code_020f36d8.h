@@ -95,7 +95,7 @@ typedef struct Unk020f41c4_A {
 } Unk020f41c4_A;
 
 // Three 64-bit words: x, a and c of x = x * a + c.
-typedef struct {
+typedef struct Unk020f41c4_B {
     /* 00 */ u64 mUnk_00;
     /* 08 */ u64 mUnk_08;
     /* 10 */ u64 mUnk_10;
@@ -118,7 +118,8 @@ typedef struct {
     /* 47c */ Unk020f41c4_B mUnk_47c;
     /* 494 */ u8 mUnk_494[4];
     /* 498 */ Unk020f41c4_B mUnk_498;
-    /* 4b0 */ u8 mUnk_4b0[0x1c];
+    /* 4b0 */ Unk020f41c4_B mUnk_4b0;
+    /* 4c8 */ u8 mUnk_4c8[4];
     /* 4cc */ s32 mUnk_4cc;
 } Unk0217561c;
 

@@ -6,7 +6,7 @@ void func_ov001_02191bc0(int param_1) {
     func_ov001_02188cec((Unk02188950 *) (param_1), (s32) (0));
     func_ov001_02188c90((Unk02188950 *) (param_1));
     func_ov001_021922e0((int) (param_1));
-    func_020d2774((int) ((int) (param_1)), (u32) (((u32) 0x00000215u)));
+    func_020d2774((Unk020e71a0 *) ((int) (param_1)), (u32) (((u32) 0x00000215u)));
     return;
 }
 

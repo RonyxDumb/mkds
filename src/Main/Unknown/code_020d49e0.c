@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020d49e0.h"
 
 #pragma thumb on
-u32 func_020d49f0(u32 arg0) {
+u32 func_020d49f0(Unk020e6fd4 *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value4;
@@ -19,7 +19,7 @@ u32 func_020d49f0(u32 arg0) {
 #pragma thumb off
 
 #pragma thumb on
-u32 func_020d49e0(u32 arg0, u32 arg1) {
+u32 func_020d49e0(Unk020e6fd4 *arg0, Unk020e71a0 *arg1) {
     u32 value0 = (u32) arg0;
     u32 value1 = (u32) arg1;
     u32 value2;

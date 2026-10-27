@@ -8,7 +8,7 @@ void *func_02100138(u32 param_1) {
 
     for (i = 0; i < n; i++) {
         if (data_0216b288[i].mUnk_00 == param_1) {
-            return ((Unk021000d0 *) data_0216b288[i].mUnk_04)->mUnk_30;
+            return data_0216b288[i].mUnk_04->mUnk_30;
         }
     }
     return 0;
@@ -20,7 +20,7 @@ void *func_021000d0(u32 param_1) {
 
     for (i = 0; i < n; i++) {
         if (data_0216b288[i].mUnk_00 == param_1) {
-            return ((Unk021000d0 *) data_0216b288[i].mUnk_04)->mUnk_24;
+            return data_0216b288[i].mUnk_04->mUnk_24;
         }
     }
     return 0;

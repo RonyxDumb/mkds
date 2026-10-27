@@ -240,12 +240,12 @@ Unk020e7410 *func_020e7410(void) {
     return p;
 }
 
-Unk020e705c *func_020e73b4(void) {
-    Unk020e705c *p;
+Unk020e6fd4 *func_020e73b4(void) {
+    Unk020e6fd4 *p;
 
     p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
     data_0217b864 = p;
-    *p = *(Unk020e705c *) data_02159348;
+    *p = *(Unk020e6fd4 *) data_02159348;
     func_020e6f50((unsigned int) &data_0217b864);
-    return (Unk020e705c *) data_0217b864;
+    return (Unk020e6fd4 *) data_0217b864;
 }
