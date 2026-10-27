@@ -174,8 +174,7 @@ typedef struct Unk0217d348 {
     /* 76 */ u8 mUnk_76[2];
     /* 78 */ void *mUnk_78;
     /* 7c */ void *mUnk_7c;
-    /* 80 */ s32 mUnk_80;
-    /* 84 */ s32 mUnk_84;
+    /* 80 */ s32 mUnk_80[2];
     /* 88 */ s32 mUnk_88;
     /* 8c */ s32 mUnk_8c;
     /* 90 */ s32 mUnk_90;
