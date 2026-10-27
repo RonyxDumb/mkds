@@ -5,7 +5,7 @@
 // Object whose counters run and wrap and whose three fixed-point words follow the
 // vector at mUnk_fc.
 typedef struct Unk021052fc {
-    /* 00 */ u8 mUnk_00[2];
+    /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
     /* 04 */ Vec3 mUnk_04;
     /* 10 */ u8 mUnk_10[0xc];

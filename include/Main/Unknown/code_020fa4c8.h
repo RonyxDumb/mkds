@@ -21,13 +21,15 @@ typedef struct Unk020fb038 {
     /* 18 */ u8 mUnk_18[8];
 } Unk020fb038;
 
-// Element of data_027e00cc[5]: 0x31c bytes (the size in data_0217bc34[5]), taken by the functions of this file
-// from func_020fad9c to func_020fc268 and by the ones code_020fc000.h declares.
+// Element of data_027e00cc[5]: 0x31c bytes (the size in data_0217bc34[5]), handled by the functions of this file
+// from func_020fad9c to func_020fc268 and by those of code_020fc2e8.c, code_020fcbb8.c and code_020fcf10.c.
 typedef struct Unk020fc2e8 {
     /* 000 */ Unk020f41c4_A mUnk_000;
     /* 12c */ u8 mUnk_12c[4];
     /* 130 */ u32 mUnk_130;
-    /* 134 */ u8 mUnk_134[0x34];
+    /* 134 */ u8 mUnk_134[0x2c];
+    /* 160 */ s32 mUnk_160;
+    /* 164 */ u8 mUnk_164[4];
     /* 168 */ Unk0206bcb0 *mUnk_168;
     /* 16c */ u8 mUnk_16c[0xb0];
     /* 21c */ s32 mUnk_21c;
@@ -35,14 +37,13 @@ typedef struct Unk020fc2e8 {
     /* 228 */ Unk020f40dc_Owner *mUnk_228;
     /* 22c */ Vec3 mUnk_22c;
     /* 238 */ Vec3 mUnk_238;
-    /* 244 */ u8 mUnk_244[0xc];
-    /* 250 */ s32 mUnk_250;
-    /* 254 */ s32 mUnk_254;
-    /* 258 */ s32 mUnk_258;
+    /* 244 */ Vec3 mUnk_244;
+    /* 250 */ Vec3 mUnk_250;
     /* 25c */ s32 mUnk_25c;
     /* 260 */ s32 mUnk_260;
-    /* 264 */ u32 mUnk_264;
-    /* 268 */ u8 mUnk_268[4];
+    /* 264 */ s32 mUnk_264;
+    /* 268 */ u16 mUnk_268;
+    /* 26a */ u8 mUnk_26a[2];
     /* 26c */ s32 mUnk_26c;
     /* 270 */ s32 mUnk_270;
     /* 274 */ u16 mUnk_274;

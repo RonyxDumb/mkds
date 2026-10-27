@@ -11,7 +11,7 @@
 
 #pragma thumb on
 void func_020e730c(void) {
-    Unk020e71a0 *e;
+    Unk020e730c *e;
     s32 n;
     s32 i;
 
@@ -21,14 +21,14 @@ void func_020e730c(void) {
     for (i = 0; i < ((Unk020e705c *) data_0217b864)->mUnk_04; i++) {
         s32 k;
 
-        e = (Unk020e71a0 *) ((Unk020e705c *) data_0217b864)->mUnk_00[i];
+        e = (Unk020e730c *) ((Unk020e705c *) data_0217b864)->mUnk_00[i];
         k = e->mUnk_a0;
-        (*(Vec3 ***) data_0217b86c)[k] = &e->mUnk_04;
+        (*(Vec3 ***) data_0217b86c)[k] = &e->mUnk_00.mUnk_04;
         (*(u16 **) data_0217b868)[k] = e->mUnk_a2;
     }
 }
 
-void func_020e72cc(Unk020e71a0 *p, Unk020e72cc *q) {
+void func_020e72cc(Unk020e730c *p, Unk020e72cc *q) {
     p->mUnk_a0 = q->mUnk_28;
     switch (data_021759c0->mUnk_010) {
         case 0:

@@ -313,15 +313,15 @@ void func_020fb7f8(Unk020fc2e8 *param_1) {
             q = &param_1->mUnk_000.mUnk_f0;
         }
         if (q != 0) {
-            v.x = param_1->mUnk_250 * 2;
-            v.y = param_1->mUnk_254 * 2;
-            v.z = param_1->mUnk_258 * 2;
+            v.x = param_1->mUnk_250.x * 2;
+            v.y = param_1->mUnk_250.y * 2;
+            v.z = param_1->mUnk_250.z * 2;
             func_020397a8(q, &v, &v);
             func_02147fd8((s32) (((s64) (param_1->mUnk_25c - 0x10000) * 0xccd) >> 12), q, &v, &v);
         } else {
-            v.x = (s32) (((s64) param_1->mUnk_258 * 0x2000) >> 12);
+            v.x = (s32) (((s64) param_1->mUnk_250.z * 0x2000) >> 12);
             v.y = (s32) (((s64) (param_1->mUnk_25c - 0x10000) * 0xccd) >> 12);
-            v.z = -(s32) (((s64) param_1->mUnk_250 * 0x2000) >> 12);
+            v.z = -(s32) (((s64) param_1->mUnk_250.x * 0x2000) >> 12);
         }
         if (param_1->mUnk_2ec == 0) {
             func_021484d0(&v, &param_1->mUnk_298, &param_1->mUnk_28c);

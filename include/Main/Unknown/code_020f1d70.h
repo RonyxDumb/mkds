@@ -8,7 +8,8 @@ typedef struct Unk020edb8c {
     u8 mUnk_00[0xc];
     Unk020f40dc_Owner *mUnk_0c;
     Unk0206bcb0 *mUnk_10;
-    u8 mUnk_14[0x24];
+    u8 mUnk_14[0x18];
+    Vec3 mUnk_2c;
     Vec3 mUnk_38;
     Vec3 mUnk_44;
     u8 mUnk_50[0x18];

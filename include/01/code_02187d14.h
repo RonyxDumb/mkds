@@ -12,6 +12,8 @@ typedef struct Unk02012f58 {
     /* 24 */ Vec3 mUnk_24;
 } Unk02012f58;
 
+extern Unk02012f58 data_0217c600;
+
 extern Unk02012f58 data_0217ba88;
 
 extern Unk02012f58 data_0217ba58;

@@ -317,8 +317,6 @@ typedef struct {
 extern Unk0206bcb0 *func_0207a974(s32 idx);
 extern s32 func_020d7c84(Unk020f3fa8 *p, s32 mode, Vec3 **path);
 extern void func_020d7d18(Unk020f3fa8 *p, s32 mode, Vec3 **path, s32 scale);
-extern void *func_020fe828(s32 idx);
-extern void *func_020fe958(s32 idx);
 
 extern s32 data_0217bc38[];
 extern Unk0217bc34 *data_0217bc34;

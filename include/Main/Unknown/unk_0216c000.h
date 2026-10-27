@@ -154,3 +154,7 @@ extern u8 data_0216c6f4[];
 extern u8 data_0216c704[];
 extern u32 data_0216cbc0[6];
 extern u32 data_0216cbd8[][6];
+extern Vec3 data_0216c6a8;
+extern Vec3 data_0216c734;
+extern u8 data_0216c740[];
+extern u8 data_0216c770[];
