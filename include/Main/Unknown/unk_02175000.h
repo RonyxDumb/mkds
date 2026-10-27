@@ -16,6 +16,7 @@ typedef struct Unk021759d0 {
 extern u8 data_021755a0[];
 extern u8 data_021755a8[];
 extern u8 data_021755b4[];
+extern u16 data_021755dc;
 extern u8 data_02175624[];
 extern u8 data_021759c8[];
 extern u8 data_021759cc[];

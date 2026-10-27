@@ -1,0 +1,46 @@
+#include "Main/Unknown/code_0212a724.h"
+#include "Main/Unknown/unk_0217d000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Unknown/code_02124094.h"
+#include "Main/Unknown/code_02120610.h"
+
+s32 func_0212a8d0(void) {
+    s32 r = 0;
+    if (!data_0217aa08->mUnk_00->mUnk_31_4) {
+        if (func_021213f4() != 0) {
+            r = 1;
+        }
+    }
+    return r;
+}
+
+#pragma thumb on
+// non-matching: the byte pointer for the 0x18-byte rows is in r4 and the second loop's counter in r5; the original has them swapped
+void func_0212a724(void) {
+    s32 a[2] = {0x4000, 0x4000};
+    u8 b[2][2][2] = {{{0x50, 0x10}, {0x50, 0x10}}, {{0x50, 0x10}, {0x50, 0x10}}};
+    u8 c[2][12][2] = {{{8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}},
+                      {{16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}}};
+    s32 i;
+    s32 j;
+    s32 k;
+    s32 l;
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            a[1] -= func_021243ac(data_0217d400->mUnk_00, data_0215d0e4[i][j], data_0217d400->mUnk_ac[i], b[i][j][0], b[i][j][1],
+                                  data_0215d128[i][j][0], data_0217d400->mUnk_90, data_0217d400->mUnk_9c[i],
+                                  data_0217d400->mUnk_74[i][1], a[1]);
+        }
+    }
+    for (j = 0; j < 2; j++) {
+        for (l = 0; l < 2; l++) {
+            for (k = 0; k < data_0215d0e0[j]; k++) {
+                a[l] -= func_021243ac(data_0217d400->mUnk_00, data_0215d134[j][k], data_0217d400->mUnk_ac[j], c[j][k][0], c[j][k][1],
+                                      data_0215d14c[j][k], data_0217d400->mUnk_90, data_0217d400->mUnk_9c[j],
+                                      data_0217d400->mUnk_74[j][l], a[l]);
+            }
+        }
+    }
+}
+#pragma thumb off

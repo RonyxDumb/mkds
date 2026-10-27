@@ -9,6 +9,7 @@
 #include "01/code_0219bb48.h"
 #include "01/code_02193b1c.h"
 #include "00/code_02182fdc.h"
+#include "Main/Unknown/types_02180728.h" // Unk02180728
 
 // Four callbacks; the first receives Unk021a9bd0::mUnk_04.
 typedef struct Unk021a9bd0_18 {
@@ -136,14 +137,6 @@ typedef struct Unk021a9bf8 {
     /* 1080 */ void *mUnk_1080;
     /* 1084 */ void *mUnk_1084;
 } Unk021a9bf8;
-
-// Four words set up by func_ov001_02180728.
-typedef struct Unk02180728 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ void *mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-} Unk02180728;
 
 // Object that func_ov001_02180610 allocates and data_ov001_021a99e4 points to.
 typedef struct Unk021a99e4 {
