@@ -19,4 +19,27 @@
   of the build here.
 - The repository has no license file yet.
 
+
+## License review (2026-10-27)
+
+The license files at the versions used by this build were checked directly:
+
+- dsd v0.12.1: [MIT](https://github.com/AetiasHax/ds-decomp/blob/v0.12.1/LICENSE).
+- wibo `420a75b7f80435824c3a633571277f90ae056119`:
+  [MIT](https://github.com/decompals/wibo/blob/420a75b7f80435824c3a633571277f90ae056119/LICENSE).
+- objdiff v3.8.2: [MIT](https://github.com/encounter/objdiff/blob/v3.8.2/LICENSE-MIT) or
+  [Apache-2.0](https://github.com/encounter/objdiff/blob/v3.8.2/LICENSE-APACHE).
+
+These tools are used as separate programs; their source and downloaded executables are not committed. Keep their
+copyright and license notices when distributing copies of the tools. Their licenses do not license the game or
+this repository's source.
+
+CodeWarrior is proprietary. Its executable hashes identify the build; they do not establish permission to use or
+redistribute it. Its license terms have not been verified here. The absence of a root license also means this
+repository cannot be described as generally licensed under MIT, Apache-2.0 or another open-source license.
+
+The overlay 0 and 3 additions in this change were reconstructed from the European ROM, without importing source
+or headers from other decompilations. This review does not certify the provenance of every pre-existing source
+file or the legal status of the project as a whole.
+
 How to decompile and match: [decompiling.md](decompiling.md). Compiler evidence: [compiler.md](compiler.md).
