@@ -276,7 +276,7 @@ void func_0211e958(void *a, void *b, void *c) {
                                data_0215cf14[i], data_0215cf04[i], data_0217d378->mUnk_0c, data_0217d378->mUnk_10,
                                data_0217d378->mUnk_1c, m);
         }
-        func_0211de40((u32) data_0217d378->mUnk_28);
+        func_0211de40(data_0217d378->mUnk_28);
     } else {
         func_0211f4b0(data_0217d378->mUnk_28, data_0217d378->mUnk_4c);
         func_0211f380();

@@ -131,7 +131,7 @@ void func_02115d90(void) {
     data_0217d350->mUnk_58 = 7;
     data_0217d350->mUnk_5c = 0;
     func_021282c8();
-    func_0212ecc0(data_0217d068, 0, 5);
+    func_0212ecc0(&data_0217d068, 0, 5);
 }
 
 void func_02115d08(void) {

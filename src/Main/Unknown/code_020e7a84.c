@@ -255,7 +255,7 @@ void func_020e7fa8(void) {
     if ((data_0217c780 & 1) == 0) {
         return;
     }
-    if (data_0217d084[3] == 0) {
+    if (data_0217d084.mUnk_0c == 0) {
         return;
     }
     if (q[0] != 0) {

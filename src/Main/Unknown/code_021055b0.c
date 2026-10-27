@@ -14,10 +14,10 @@ void func_0210593c(u32 a) {
     if (a != 4) {
         return;
     }
-    if (((Unk0217d070 *) data_0217d070)->mUnk_0c != 0) {
+    if (data_0217d070.mUnk_0c != 0) {
         return;
     }
-    func_0210d5c0(data_0217d070);
+    func_0210d5c0(&data_0217d070);
 }
 
 void func_021057f0(u32 a, u32 b) {
@@ -71,10 +71,10 @@ void func_021055b0(s32 a) {
     u32 f;
     s32 n;
     if (*(s32 *) data_0217c784 == 0) {
-        if (((Unk0217d070 *) data_0217d070)->mUnk_0c != 0) {
+        if (data_0217d070.mUnk_0c != 0) {
             return;
         }
-        func_0210d5c0(data_0217d070);
+        func_0210d5c0(&data_0217d070);
         return;
     }
     if (a != 0 && a != 0x32) {

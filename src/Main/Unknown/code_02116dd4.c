@@ -21,7 +21,7 @@ void func_02116e70(void) {
 
 // non-matching: 0x98 bytes, original 0x9c; 37 instructions differ; first at +0x0: original `push {r4, r5, r6, lr}`,
 // ours `push {r4, r5, r6, r7, lr}`
-void func_02116dd4(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u16 param_5, u32 param_6) {
+void func_02116dd4(void *param_1, u32 param_2, u32 param_3, u32 param_4, u16 param_5, u32 param_6) {
     int *piVar1;
     int iVar2;
     u32 uVar3;

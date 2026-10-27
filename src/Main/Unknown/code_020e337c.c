@@ -15,9 +15,9 @@ void func_020e3414(Unk020e1e98 *a) {
         return;
     }
     if ((a->mUnk_078 & 0x4) == 0) {
-        v = a->mUnk_070 == ((Unk0217ca6c *) data_0217ca6c)->mUnk_068
+        v = a->mUnk_070 == data_0217ca6c[2].mUnk_20
                 ? 2
-                : (a->mUnk_070 == ((Unk0217ca6c *) data_0217ca6c)->mUnk_08c ? 3 : 4);
+                : (a->mUnk_070 == data_0217ca6c[3].mUnk_20 ? 3 : 4);
         buf.mUnk_00 = 0x128;
         buf.mUnk_04 = (s32) &a->mUnk_004;
         buf.mUnk_08 = v;

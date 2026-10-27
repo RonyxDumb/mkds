@@ -36,7 +36,7 @@ s32 func_ov001_02197210(void) {
         if (func_0205fdb4(data_ov001_021a6900[data_ov001_021a9bdc->mUnk_6c], buf) != 0) {
             return 1;
         }
-        func_0212ecc0(data_0217d068, 0, 0x16);
+        func_0212ecc0(&data_0217d068, 0, 0x16);
         return 0;
     }
     return 0;
@@ -134,7 +134,7 @@ void func_ov001_02196f80(void) {
     data_ov001_021a9bdc->mUnk_54 = 7;
     data_ov001_021a9bdc->mUnk_58 = 0;
     data_ov001_021a9bdc->mUnk_3c[13].mUnk_00 = 1;
-    func_0212ecc0(data_0217d068, 0, 4);
+    func_0212ecc0(&data_0217d068, 0, 4);
 }
 
 void func_ov001_02196f64(void) {
@@ -185,5 +185,5 @@ void func_ov001_02196e54(void) {
 void func_ov001_02196e30(void) {
     data_ov001_021a9bdc->mUnk_54 = 13;
     data_ov001_021a9bdc->mUnk_58 = 0;
-    func_0212ecc0(data_0217d068, 0, 6);
+    func_0212ecc0(&data_0217d068, 0, 6);
 }

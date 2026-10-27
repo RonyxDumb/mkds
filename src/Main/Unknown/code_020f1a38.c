@@ -40,7 +40,7 @@ void func_020f1b10(void) {
         if (v != 0) {
             v = ((u32(*)(void)) v)();
         } else {
-            v = *(u32 *) &data_0217ca6c[0x44];
+            v = data_0217ca6c[1].mUnk_20;
         }
         data_0217bc34[i].mUnk_a4 = v;
     }

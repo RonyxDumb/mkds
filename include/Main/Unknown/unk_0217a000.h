@@ -41,14 +41,30 @@ typedef struct Unk0217aa08 {
     /* 28 */ u8 mUnk_28;
 } Unk0217aa08;
 
-extern u8 data_0217aa00[];
+// Object behind data_0217aa00.
+typedef struct Unk0217aa00 {
+    /* 0000 */ u32 mUnk_0000;
+    /* 0004 */ s32 mUnk_0004;
+    /* 0008 */ u8 mUnk_0008[0x42a];
+    /* 0432 */ u16 mUnk_0432;
+    /* 0434 */ u8 mUnk_0434[0x11c2];
+    /* 15f6 */ u8 mUnk_15f6;
+    /* 15f7 */ u8 mUnk_15f7[0x8f1];
+    /* 1ee8 */ u64 mUnk_1ee8;
+    /* 1ef0 */ u64 mUnk_1ef0;
+    /* 1ef8 */ u64 mUnk_1ef8;
+} Unk0217aa00;
+
+extern Unk0217aa00 *data_0217aa00;
 extern Unk0217aa08 *data_0217aa08;
 extern u8 data_0217aa0c[];
 extern u8 data_0217aa10[];
-// Object behind data_0217aa14 with a halfword at 0x724.
+// Object behind data_0217aa14.
 typedef struct Unk0217aa14 {
     /* 000 */ u8 mUnk_000[0x724];
     /* 724 */ u16 mUnk_724;
+    /* 726 */ u8 mUnk_726[0x36];
+    /* 75c */ u16 mUnk_75c;
 } Unk0217aa14;
 
 extern Unk0217aa14 *data_0217aa14;

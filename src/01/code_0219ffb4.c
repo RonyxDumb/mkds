@@ -134,7 +134,7 @@ s32 func_ov001_021a0488(void)
 {
     data_ov001_021ca414->mUnk_64 = 4;
     data_ov001_021ca414->mUnk_68 = 0;
-    return func_0212ecc0(data_0217d068, 0, 5);
+    return func_0212ecc0(&data_0217d068, 0, 5);
 }
 
 void func_ov001_021a0428(void)

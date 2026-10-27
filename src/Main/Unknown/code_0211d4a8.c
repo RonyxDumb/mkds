@@ -37,7 +37,7 @@ void func_0211d56c(void) {
         }
     }
     if (a != 0) {
-        func_0212ecc0(data_0217d068, 0, 0);
+        func_0212ecc0(&data_0217d068, 0, 0);
     }
 }
 
@@ -70,7 +70,7 @@ void func_0211d4a8(void) {
         }
     }
     if (a != 0) {
-        func_0212ecc0(data_0217d068, 0, 0);
+        func_0212ecc0(&data_0217d068, 0, 0);
     }
 }
 

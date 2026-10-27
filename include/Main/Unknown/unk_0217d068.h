@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_0212c478.h" // Unk0212c400
 
-// Object used by several units; its layout isn't known yet.
-extern u8 data_0217d068[];
+// Passed by address to func_0212ecc0, func_02105b28 and func_0212c6a0; func_02110754 tests it for null.
+extern Unk0212c400 *data_0217d068;

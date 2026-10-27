@@ -10,6 +10,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_02036bec.h"
+#include "Main/Unknown/code_020b4000.h"
 #include "Main/Unknown/code_0204799c.h"
 #include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Unknown/code_020b3f7c.h"
@@ -60,25 +61,6 @@ typedef struct Unk021b4c74_16f0 {
     /* 0000 */ u8 pad_00[6];
     /* 0006 */ u16 mUnk_06;
 } Unk021b4c74_16f0;
-
-// Objects returned by func_020b47d8, func_020b4934, func_020b49bc and func_020b4a44.
-typedef struct Unk020b4934 {
-    /* 0000 */ u8 pad_00[0x10];
-    /* 0010 */ u32 mUnk_10;
-    /* 0014 */ void *mUnk_14;
-} Unk020b4934;
-
-typedef struct Unk020b47d8 {
-    /* 0000 */ u8 pad_00[8];
-    /* 0008 */ u32 mUnk_08;
-    /* 000c */ u8 mUnk_0c[1];
-} Unk020b47d8;
-
-typedef struct Unk020b4a44 {
-    /* 0000 */ u8 pad_00[8];
-    /* 0008 */ u32 mUnk_08;
-    /* 000c */ u16 *mUnk_0c;
-} Unk020b4a44;
 
 // Object behind data_ov000_021b4c74; mUnk_00 selects the handler run by func_ov000_0218338c.
 typedef struct Unk021b4c74 {
@@ -190,11 +172,6 @@ void func_02036f10(s16);
 u8 func_0205e548(void);
 Unk0217ad04 *func_02077f00(void);
 void func_020ac2fc(void *, void *, s32);
-void func_020b47d8(Unk020b47d8 **, void *);
-void func_020b48b4(void **, void *);
-void func_020b4934(Unk020b4934 **, void *);
-void func_020b49bc(Unk020b4934 **, void *);
-void func_020b4a44(Unk020b4a44 **, void *);
 #include "Main/Unknown/code_0210895c.h"
 #include "Main/Unknown/code_02108a40.h"
 s32 func_0212111c(void);

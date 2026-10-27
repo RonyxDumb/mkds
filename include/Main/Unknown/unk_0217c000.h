@@ -6,6 +6,21 @@
 #include "code_0212c478.h" // Unk0212c400
 #include "code_0212da38.h" // Unk0212d9dc
 
+// 0x24-byte entries of the array at data_0217ca6c; func_02109468 fills the first one.
+typedef struct Unk0217ca6c {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ s32 mUnk_20;
+} Unk0217ca6c;
+
+extern Unk0217ca6c data_0217ca6c[];
+
 // Objects whose layout isn't known yet.
 extern u8 data_0217c778[];
 extern u8 data_0217c784[];
@@ -21,7 +36,6 @@ extern u32 data_0217c780;
 extern u32 data_0217cc6c[];
 extern u8 data_0217c664[];
 extern u8 data_0217c7fc[];
-extern u8 data_0217ca6c[];
 extern u8 data_0217ccac[];
 extern u8 data_0217cd30[];
 extern u8 data_0217c644[];

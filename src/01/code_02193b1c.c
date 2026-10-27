@@ -101,7 +101,7 @@ next:
         data_ov001_021a9bd8->mUnk_80[0] = 6;
         data_ov001_021a9bd8->mUnk_88 = 1;
         func_ov001_02194a0c();
-        func_0212ecc0(data_0217d068, 0, 2);
+        func_0212ecc0(&data_0217d068, 0, 2);
         return;
     }
     if ((a == 1 && data_ov001_021a9bd8->mUnk_8c != 0) || (b == 1 && data_ov001_021a9bd8->mUnk_8c == 0) ||
@@ -110,7 +110,7 @@ next:
         data_ov001_021a9bd8->mUnk_80[1] = 6;
         data_ov001_021a9bd8->mUnk_8c = 1;
         func_ov001_02194a0c();
-        func_0212ecc0(data_0217d068, 0, 2);
+        func_0212ecc0(&data_0217d068, 0, 2);
     }
 }
 

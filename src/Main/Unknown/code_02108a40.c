@@ -32,5 +32,5 @@ void func_02108a8c(void) {
 void func_02108a40(void) {
     func_0212c6f0((Unk0212c400 **) data_0217c788, 1);
     func_0212c6f0((Unk0212c400 **) data_0217c778, 1);
-    func_0212ecc0(data_0217d068, 0, 0x207);
+    func_0212ecc0(&data_0217d068, 0, 0x207);
 }

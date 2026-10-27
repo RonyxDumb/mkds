@@ -266,7 +266,7 @@ void func_020f62b0(Unk020edb8c *a, Unk020f40dc *b) {
 
     if (data_0217c780 & 1) {
         p = (Unk0212c400 **) func_0210e128((void *) func_02108ea0(0));
-        if (data_0217d084[3] != 0) {
+        if (data_0217d084.mUnk_0c != 0) {
             if (*p != 0) {
                 func_0212c6f0(p, 0);
             }

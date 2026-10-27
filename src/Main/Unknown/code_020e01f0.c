@@ -123,9 +123,9 @@ void func_020e01f0(void *a0, Unk020e005c *a1) {
         if ((a1->mUnk_078 & 4) != 0) {
             return;
         }
-        k = a1->mUnk_070 == ((Unk0217ca6c *) data_0217ca6c)->mUnk_068
+        k = a1->mUnk_070 == data_0217ca6c[2].mUnk_20
                 ? 2
-                : (a1->mUnk_070 == ((Unk0217ca6c *) data_0217ca6c)->mUnk_08c ? 3 : 4);
+                : (a1->mUnk_070 == data_0217ca6c[3].mUnk_20 ? 3 : 4);
         buf.mUnk_00 = 0x17e;
         buf.mUnk_04 = (s32) &a1->mUnk_004;
         buf.mUnk_08 = k;

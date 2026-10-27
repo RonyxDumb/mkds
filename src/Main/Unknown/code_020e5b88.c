@@ -14,9 +14,9 @@ void func_020e5bd4(u32 param_1, Unk020e43a8 *p) {
 
     *(u16 *) &p->mUnk_a0.mUnk_18 = *(u16 *) &p->mUnk_a0.mUnk_18 + 1;
     if ((*(u16 *) &p->mUnk_a0.mUnk_18 & 0x1f) == 0 && (p->mUnk_78 & 4) == 0) {
-        if (p->mUnk_70 == ((Unk0217ca6c *) data_0217ca6c)->mUnk_068) {
+        if (p->mUnk_70 == data_0217ca6c[2].mUnk_20) {
             n = 2;
-        } else if (p->mUnk_70 == ((Unk0217ca6c *) data_0217ca6c)->mUnk_08c) {
+        } else if (p->mUnk_70 == data_0217ca6c[3].mUnk_20) {
             n = 3;
         } else {
             n = 4;

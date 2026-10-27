@@ -251,14 +251,14 @@ other:
         data_ov001_021a9bdc->mUnk_78[0] = 6;
         data_ov001_021a9bdc->mUnk_88 = 1;
         func_ov001_02197010();
-        func_0212ecc0(data_0217d068, 0, 2);
+        func_0212ecc0(&data_0217d068, 0, 2);
     } else if ((a == 1 && data_ov001_021a9bdc->mUnk_8c != 0) || (b == 1 && data_ov001_021a9bdc->mUnk_8c == 0) ||
                (u16) (data_02175628[idx].mUnk_02 & 0x10) != 0) {
         data_ov001_021a9bdc->mUnk_70 = 0;
         data_ov001_021a9bdc->mUnk_78[1] = 6;
         data_ov001_021a9bdc->mUnk_8c = 1;
         func_ov001_02197010();
-        func_0212ecc0(data_0217d068, 0, 2);
+        func_0212ecc0(&data_0217d068, 0, 2);
     }
 done:
     if (func_ov001_02196c4c() != 0) {

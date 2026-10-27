@@ -28,9 +28,9 @@ void func_020e4ad0(Unk020e43a8 *p) {
         Unk0210b7a8 s;
         u32 k;
 
-        if (p->mUnk_70 == ((Unk0217ca6c *) data_0217ca6c)->mUnk_068) {
+        if (p->mUnk_70 == data_0217ca6c[2].mUnk_20) {
             k = 2;
-        } else if (p->mUnk_70 == ((Unk0217ca6c *) data_0217ca6c)->mUnk_08c) {
+        } else if (p->mUnk_70 == data_0217ca6c[3].mUnk_20) {
             k = 3;
         } else {
             k = 4;

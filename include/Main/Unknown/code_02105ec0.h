@@ -115,25 +115,6 @@ typedef struct Unk0217d060 {
 
 extern Unk0217d060 *data_0217d060;
 
-// View of data_0217d070.
-typedef struct Unk0217d070 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-} Unk0217d070;
-
-// View of data_0217d084.
-typedef struct Unk0217d084 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ Unk0212c400 **mUnk_18;
-} Unk0217d084;
-
 // Object behind data_0217d234.
 typedef struct Unk0217d234 {
     /* 00 */ u32 mUnk_00;

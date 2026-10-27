@@ -38,7 +38,7 @@ void func_0211de98(void) {
 
 // non-matching: 0x50 bytes, original 0x58; 15 instructions differ; first at +0x0: original `push {lr}`, ours `push {r4,
 // lr}`
-void func_0211de40(u32 param_1) {
+void func_0211de40(void *param_1) {
     int iVar1;
     u32 uVar2;
     iVar1 = ((u32) func_02036bec((void *) (param_1), (u32) (0xc)));

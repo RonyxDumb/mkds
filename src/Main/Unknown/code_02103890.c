@@ -63,7 +63,7 @@ void func_0210465c(Unk021035ac *p) {
     if (d == 0 && data_0217c64c == 0 && p == (Unk021035ac *) data_0217c654) {
         r = (u32 *) func_02108e6c(6);
         func_0212c6f0((Unk0212c400 **) r, 1);
-        if ((data_0217c780 & 1) != 0 && data_0217d084[3] != 0) {
+        if ((data_0217c780 & 1) != 0 && data_0217d084.mUnk_0c != 0) {
             if (*(u32 *) r != 0) {
                 func_0212c6f0((Unk0212c400 **) r, 0);
             }
@@ -162,7 +162,7 @@ void func_0210449c(Unk021035ac *p) {
         return;
     }
     r = func_0210e128((void *) func_02108ea0(0));
-    if (data_0217d084[3] == 0) {
+    if (data_0217d084.mUnk_0c == 0) {
         return;
     }
     if (*(u32 *) r != 0) {

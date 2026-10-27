@@ -33,7 +33,7 @@ void func_020f91fc(void *param_1, s32 param_2) {
     if (param_2 == 1) {
         return;
     }
-    if ((s32) (p->mUnk_d4 & ~0xc000001f) >= ((Unk0217ca6c *) data_0217ca6c)->mUnk_044) {
+    if ((s32) (p->mUnk_d4 & ~0xc000001f) >= data_0217ca6c[1].mUnk_20) {
         return;
     }
     if (param_2 == 1) {

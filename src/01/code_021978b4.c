@@ -127,7 +127,7 @@ skip:
             data_ov001_021a9be0->mUnk_28 = 2;
         }
         func_ov001_0219829c((s32) (data_ov001_021a9be0->mUnk_28));
-        func_0212ecc0(data_0217d068, 0, 0);
+        func_0212ecc0(&data_0217d068, 0, 0);
     } else if (func_020ae408(8, 0x80) != 0) {
         func_ov001_02198264((s32) (data_ov001_021a9be0->mUnk_28));
         data_ov001_021a9be0->mUnk_28++;
@@ -135,7 +135,7 @@ skip:
             data_ov001_021a9be0->mUnk_28 = 0;
         }
         func_ov001_0219829c((s32) (data_ov001_021a9be0->mUnk_28));
-        func_0212ecc0(data_0217d068, 0, 0);
+        func_0212ecc0(&data_0217d068, 0, 0);
     }
 }
 
