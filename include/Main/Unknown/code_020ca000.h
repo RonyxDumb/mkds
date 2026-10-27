@@ -12,3 +12,6 @@ void func_020ca9e4(void);
 void func_020ca688(unsigned int p0);
 void func_020ca844(void);
 void func_020ca6a8(void);
+s32 func_020ca3e4(void);
+s32 func_020ca534(void);
+s32 func_020ca670(void);

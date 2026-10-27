@@ -54,7 +54,18 @@ extern u8 data_0217b350[];
 extern u8 data_0217b354[];
 extern u8 data_0217b3c4[];
 extern u8 data_0217b3d8[];
-extern u8 data_0217b3dc[];
+// Object behind data_0217b3dc, 0x25c bytes, allocated by func_020beb9c.
+typedef struct Unk0217b3dc {
+    /* 000 */ u16 mUnk_000;
+    /* 004 */ s32 mUnk_004;
+    /* 008 */ s32 mUnk_008;
+    /* 00c */ s32 mUnk_00c;
+    /* 010 */ void (*mUnk_010[49])(void);
+    /* 0d4 */ void (*mUnk_0d4[49])(void);
+    /* 198 */ void (*mUnk_198[49])(void *);
+} Unk0217b3dc;
+
+extern Unk0217b3dc *data_0217b3dc;
 extern u8 data_0217b3e0[];
 extern u8 data_0217b3e8[];
 extern u8 data_0217b3f0[];
