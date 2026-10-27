@@ -29,11 +29,11 @@ void func_ov001_02185dd0(Unk02185bb8 *param_1) {
     r6 = (s32)(((s64)param_1->mUnk_01c.y * 0xF000LL) >> 12);
     saved = param_1->mUnk_09c->mUnk_28;
     param_1->mUnk_09c->mUnk_28 = 0x12;
-    param_1->mUnk_0a0 = func_020d34d4(param_1, 0x66);
-    param_1->mUnk_0a4 = func_020d34d4(param_1, 0x66);
+    param_1->mUnk_0a0 = func_020d34d4((Unk020e71a0 *) param_1, 0x66);
+    param_1->mUnk_0a4 = func_020d34d4((Unk020e71a0 *) param_1, 0x66);
     param_1->mUnk_09c->mUnk_28 = saved;
-    func_02147fd8(-(param_1->mUnk_058 + r4), (const Vec3 *)param_1->mUnk_028, &param_1->mUnk_004, &param_1->mUnk_0a0->mUnk_004);
-    func_02147fd8(param_1->mUnk_058 + r4, (const Vec3 *)param_1->mUnk_028, &param_1->mUnk_004, &param_1->mUnk_0a4->mUnk_004);
+    func_02147fd8(-(param_1->mUnk_058 + r4), (const Vec3 *)param_1->mUnk_028, &param_1->mUnk_004, &param_1->mUnk_0a0->mUnk_04);
+    func_02147fd8(param_1->mUnk_058 + r4, (const Vec3 *)param_1->mUnk_028, &param_1->mUnk_004, &param_1->mUnk_0a4->mUnk_04);
     func_020d2950(param_1->mUnk_0a0, r4);
     func_020d2950(param_1->mUnk_0a4, r4);
     func_020d2584(param_1->mUnk_0a0, r6);

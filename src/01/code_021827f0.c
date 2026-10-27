@@ -84,7 +84,7 @@ void func_ov001_021829ac(s32 param_1)
                 n++;
                 if (n <= param_1) {
                     if ((p->mUnk_002 & 0x100) == 0) {
-                        func_020d2398(p);
+                        func_020d2398((Unk020e71a0 *) p);
                     }
                     if (data_021759c0->mUnk_08 == 4) {
                         func_ov001_0218155c((s32) (1));

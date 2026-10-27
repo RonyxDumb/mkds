@@ -31,10 +31,10 @@ void func_ov001_0218cdb8(Unk02188950 *param_1)
     Unk02188950 *c;
     Unk02188950 *d;
 
-    a = func_020d34d4(param_1, 0x1fe);
-    b = func_020d34d4(param_1, 0x1fe);
-    c = func_020d34d4(param_1, 0x1fe);
-    d = func_020d34d4(param_1, 0x1fe);
+    a = (Unk02188950 *) func_020d34d4((Unk020e71a0 *) param_1, 0x1fe);
+    b = (Unk02188950 *) func_020d34d4((Unk020e71a0 *) param_1, 0x1fe);
+    c = (Unk02188950 *) func_020d34d4((Unk020e71a0 *) param_1, 0x1fe);
+    d = (Unk02188950 *) func_020d34d4((Unk020e71a0 *) param_1, 0x1fe);
     a->mUnk_0a4 = (struct Unk0218dabc *)param_1;
     b->mUnk_0a4 = (struct Unk0218dabc *)a;
     c->mUnk_0a4 = (struct Unk0218dabc *)b;

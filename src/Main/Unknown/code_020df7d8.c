@@ -13,7 +13,7 @@ u8 func_020df7d8(Unk020df6c8 *a, Unk020dea50_1 *b, void *c, u8 *d) {
 
     m = (1 << b->mUnk_74) & 0xff;
     if ((a->mUnk_e4 & m) == 0) {
-        if (func_020d26f8(a, b) != 0) {
+        if (func_020d26f8((Unk020e71a0 *) a, (Unk0206bcb0 *) b) != 0) {
             a->mUnk_78 |= data_02158778;
             a->mUnk_e4 |= m;
         }

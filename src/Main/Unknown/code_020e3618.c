@@ -73,7 +73,7 @@ void func_020e38a0(Unk020e38a0 *a, Unk020e1e98_09c *b) {
     a->mUnk_002 &= ~8;
     a->mUnk_066 = 0x1f;
     if (b->mUnk_10 < 0) {
-        func_020d278c(a);
+        func_020d278c((Unk020e71a0 *) a);
     }
 }
 

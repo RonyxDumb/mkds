@@ -8,6 +8,6 @@ void func_0209decc(unsigned int p0) {
     unsigned int v7;
     unsigned int v9;
     *(unsigned short *) ((p0) + (2)) = (unsigned short) (v5);
-    v7 = func_020d2398((void *) ((unsigned int) (p0)));
-    v9 = func_020d28e0((unsigned int) (p0));
+    func_020d2398((void *) ((unsigned int) (p0)));
+    func_020d28e0((Unk020e71a0 *) (p0));
 }

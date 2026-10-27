@@ -213,7 +213,7 @@ void func_020edf10(Unk020eda5c *p) {
                 func_020ee160(q, e);
             } else if ((data_0217b5bc[j] & 0x2000) != 0) {
                 Unk020f41c4_A *e = data_0217b5c4[j];
-                if (func_020d2234(e, q) == 0) {
+                if (func_020d2234((Unk020e71a0 *) e, q) == 0) {
                     continue;
                 }
                 func_020f944c(q, e);

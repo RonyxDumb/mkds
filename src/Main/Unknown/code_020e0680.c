@@ -317,7 +317,7 @@ void func_020e24d0(Unk020e1e98 *a, Vec3 *b) {
 u8 func_020e2494(Unk020e1e98 *a, Unk020e246c *b, u8 *c, u8 *d) {
     if (*c == 1) {
         func_020e24d0(a, &b->mUnk_080);
-        func_020d26f8(a, b);
+        func_020d26f8((Unk020e71a0 *) a, (Unk0206bcb0 *) b);
     }
     return *d;
 }
@@ -469,7 +469,7 @@ void func_020e1f54(Unk020e1e98 *a, Unk020e1e98_09c *b, Unk020e1e98_154 *c) {
     a->mUnk_110 = c->mUnk_1c;
     func_020e1e98(a);
     a->mUnk_15c = c->mUnk_2c;
-    a->mUnk_158 = func_020d286c(a);
+    a->mUnk_158 = (u32) func_020d286c((Unk020e71a0 *) a);
     func_0210b850(a->mUnk_158);
     a->mUnk_094->mUnk_30 = (u32) &func_0210a6ec;
     a->mUnk_160 = c->mUnk_30;

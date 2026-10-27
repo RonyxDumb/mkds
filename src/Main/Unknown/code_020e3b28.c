@@ -194,7 +194,7 @@ void func_020e3ef4(Unk020e3ef4 *a, Unk020e1e98_09c *b, Unk020e1e98_154 *c) {
         a->mUnk_15c = c->mUnk_18;
     }
     if (a->mUnk_15c != -1) {
-        func_020d27fc(a);
+        func_020d27fc((Unk020e71a0 *) a);
     }
 }
 

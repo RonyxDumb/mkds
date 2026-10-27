@@ -108,6 +108,18 @@ typedef struct Unk0217b4f8 {
     /* 54 */ s32 mUnk_54;
 } Unk0217b4f8;
 
+// 16-byte rows of the table behind data_0217b4d4 (func_020d34e4 reads the halfwords).
+typedef struct Unk0217b4d4 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u16 mUnk_0e;
+} Unk0217b4d4;
+
 // Objects whose layout isn't known yet.
 extern u8 data_0217b038[];
 extern u8 data_0217b03c[];
@@ -181,6 +193,7 @@ extern struct Unk020f41c4_B *data_0217b4b8;
 extern struct Unk020f41c4_B *data_0217b4bc;
 extern Unk0217b4d8 *data_0217b4d8;
 extern Vec3 *data_0217b4dc;
+extern s32 data_0217b4e0;
 extern Unk0217b4e4 *data_0217b4e4;
 extern s32 data_0217b4ec;
 extern struct Unk0217b4f0 *data_0217b4f0;
@@ -260,6 +273,12 @@ extern u8 data_0217b49c[];
 extern u8 data_0217b4a8[];
 extern u8 data_0217b4ac[];
 extern Unk0217b4b4 *data_0217b4b4;
+extern u16 data_0217b4c0;
+extern u16 data_0217b4c4;
+extern u16 data_0217b4c8;
+extern u16 data_0217b4cc;
+extern u16 data_0217b4d0;
+extern Unk0217b4d4 *data_0217b4d4;
 extern Unk020e71a0 **data_0217b4e8;
 extern u8 data_0217b7c4[];
 extern u8 data_0217b86c[];

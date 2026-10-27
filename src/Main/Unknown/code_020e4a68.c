@@ -12,5 +12,5 @@ void func_020e4a68(Unk020e43a8 *p) {
         p->mUnk_92 = 1;
         return;
     }
-    func_020d2398(p);
+    func_020d2398((Unk020e71a0 *) p);
 }

@@ -6,7 +6,7 @@ void func_020a6c64(u32 arg0) {
     u32 value2;
     u32 value4;
     value4 = value0;
-    value0 = (u32) func_020d2398((void *) value0);
+    func_020d2398((void *) value0);
     value0 = (u32) func_020364e8();
     value0 = (u32) func_020364e0((void *) value0);
     value1 = 0x44u;

@@ -25,7 +25,7 @@ u8 func_020dea50(Unk020de6a8 *a, Unk020dea50_1 *b, void *c, u8 *d) {
     func_020deb2c(&a->mUnk_004, b, n != 0 ? a->mUnk_0f2 : a->mUnk_0f4, (int) m, a->mUnk_0ac);
     if (a->mUnk_0f8 != 0 || a->mUnk_09c->mUnk_32 != 0) {
         a->mUnk_0a4 = 0x80;
-        func_020d2398(a);
+        func_020d2398((Unk020e71a0 *) a);
     }
     return *d;
 }

@@ -22,7 +22,7 @@ void func_020dab2c(Unk020da494 *p) {
     }
     p->mUnk_100--;
     if (p->mUnk_100 == 0) {
-        func_020d2398(p);
+        func_020d2398((Unk020e71a0 *) p);
     }
 }
 
@@ -110,7 +110,7 @@ u32 func_020da73c(Unk020da494 *p, Unk0206bcb0 *a, u8 *b, u8 *c) {
                 p->mUnk_80.mUnk_10 = 2;
                 p->mUnk_80.mUnk_12 = 1;
                 func_020d26ec((u32) &a->mUnk_00, 0x185);
-                func_020d26f8(p, a);
+                func_020d26f8((Unk020e71a0 *) p, (Unk0206bcb0 *) a);
                 func_020da820(p, &a->mUnk_a4);
                 p->mUnk_02 = p->mUnk_02 | *(u16 *) data_02158160;
             }

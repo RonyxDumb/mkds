@@ -4,7 +4,7 @@
 
 u8 func_020de4a0(Unk020e43a8 *a, void *b, u8 *c, u8 *d) {
     if (func_020ec450(a, b, c) != 0) {
-        func_020d26f8(a, b);
+        func_020d26f8((Unk020e71a0 *) a, b);
     }
     return *d;
 }

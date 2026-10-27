@@ -222,7 +222,7 @@ u8 func_020dd230(Unk020dc474 *p, void *a, u8 *b, u8 *c) {
         if (p->mUnk_8e != 2 || p->mUnk_10.y < 0x4000) {
             p->mUnk_90 = 2;
             p->mUnk_92 = 1;
-            func_020d26f8(p, a);
+            func_020d26f8((Unk020e71a0 *) p, a);
         }
     }
     return *c;

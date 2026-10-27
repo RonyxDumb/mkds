@@ -59,7 +59,7 @@ u32 func_0210543c(void) {
 }
 
 void func_021053e4(Unk021052fc *p) {
-    func_020d233c(p);
+    func_020d233c(&p->mUnk_00);
     p->mUnk_00.mUnk_66 = 0x1f;
     p->mUnk_00.mUnk_02 &= ~2;
     p->mUnk_00.mUnk_02 &= ~8;

@@ -199,7 +199,7 @@ void func_020fdc08(Unk020fdae8 *e, Unk020fdae8 *b, Unk021052fc *c) {
     if (e->mUnk_170 == 0) {
         v1 = e->mUnk_198;
         v1->mUnk_00.mUnk_02 &= ~1;
-        func_020d2398(v1);
+        func_020d2398(&v1->mUnk_00);
         e->mUnk_198 = 0;
         func_020f0f70(data_027e00cc + e->mUnk_000.mUnk_44, &e->mUnk_000);
     }

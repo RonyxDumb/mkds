@@ -131,7 +131,7 @@ void func_020fd494(void **param_1) {
     v1 = e->mUnk_198;
     if (v1 != 0) {
         v1->mUnk_00.mUnk_02 &= ~1;
-        func_020d2398(v1);
+        func_020d2398(&v1->mUnk_00);
         e->mUnk_198 = 0;
         func_020f0f70(data_027e00cc + e->mUnk_000.mUnk_44, &e->mUnk_000);
     } else {
@@ -177,7 +177,7 @@ void *func_020fd338(void *param_1, s32 a) {
     if (e == 0) {
         return 0;
     }
-    func_020d233c(v1);
+    func_020d233c(&v1->mUnk_00);
     v1->mUnk_00.mUnk_02 |= data_02159f18;
     v1->mUnk_00.mUnk_02 |= data_02159f1c;
     v1->mUnk_00.mUnk_02 |= data_02159f20;

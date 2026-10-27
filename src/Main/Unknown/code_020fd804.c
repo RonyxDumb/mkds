@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020fd804.h"
 
-u32 func_020fd804(u32 arg0) {
+void func_020fd804(u32 arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 compareLeft0;
@@ -13,11 +13,10 @@ u32 func_020fd804(u32 arg0) {
     if ((u32) compareLeft0 == (u32) compareRight0) {
     }
     if ((u32) compareLeft0 == (u32) compareRight0) {
-        return (u32) value0;
+        return;
     }
     value1 = (u32) * (const u16 *) ((value0) + (2));
     value1 = (value1) & ~(1u);
     *(u16 *) ((value0) + (2)) = (u16) value1;
-    value0 = (u32) func_020d2398((void *) value0);
-    return (u32) value0;
+    func_020d2398((void *) value0);
 }

@@ -32,7 +32,7 @@ void func_020e5bd4(u32 param_1, Unk020e43a8 *p) {
 
 u8 func_020e5ba0(Unk020e43a8 *p, void *param_2, u8 *param_3, u8 *param_4) {
     if (func_020ec450(p, param_2, param_3) != 0) {
-        func_020d26f8(p, param_2);
+        func_020d26f8((Unk020e71a0 *) p, param_2);
     }
     return *param_4;
 }
