@@ -224,7 +224,7 @@ void func_02124b1c(Unk02124b1c *, u32, s32);
 u16 func_0212497c(u32, void *, void *);
 void func_02124c30(void *, void *, void *, void *, void *);
 void func_02124fac(u32, u16 *);
-void func_02126638(void *, s32, s32, s32, s32, s32, s32);
+#include "Main/Unknown/code_0212658c.h"
 void func_021282c8(void);
 void func_02128374(void);
 #include "Main/Unknown/code_0212b928.h"
