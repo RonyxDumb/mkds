@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_021001ac.h"
 #include "Main/Unknown/code_020f8e3c.h"
 
-void func_02100bf0(Unk020f41c4_A *p) {
+void func_02100bf0(Unk02101c84 *p) {
     if (p->mUnk_164 < 0x1f) {
         p->mUnk_164 += 5;
     }
@@ -39,8 +39,8 @@ void func_02100bf0(Unk020f41c4_A *p) {
     } else {
         p->mUnk_16c += p->mUnk_178;
         p->mUnk_174 += p->mUnk_180;
-        func_02101618(p, 1, (p->mUnk_74 & 0x8000000) ? 4 : 5);
-        if (!(p->mUnk_74 & 0x8000000)) {
+        func_02101618(p, 1, (p->mUnk_000.mUnk_74 & 0x8000000) ? 4 : 5);
+        if (!(p->mUnk_000.mUnk_74 & 0x8000000)) {
             return;
         }
         if (p->mUnk_24c != 0) {
@@ -59,17 +59,17 @@ void func_02100bf0(Unk020f41c4_A *p) {
     }
 }
 
-void func_02100bc8(Unk020f41c4_A *p) {
-    p->mUnk_268 = ((p->mUnk_74 & 0x10000000) ? 0xf : 0) - p->mUnk_268;
+void func_02100bc8(Unk02101c84 *p) {
+    p->mUnk_268 = ((p->mUnk_000.mUnk_74 & 0x10000000) ? 0xf : 0) - p->mUnk_268;
     p->mUnk_24c = 0;
 }
 
-void func_02100b84(Unk020f41c4_A *p) {
+void func_02100b84(Unk02101c84 *p) {
     p->mUnk_268--;
     if (p->mUnk_268 >= 0) {
         return;
     }
-    p->mUnk_24c = (p->mUnk_74 & 0x10000000) == 0;
+    p->mUnk_24c = (p->mUnk_000.mUnk_74 & 0x10000000) == 0;
     p->mUnk_13c = 5;
     p->mUnk_13e = 1;
 }

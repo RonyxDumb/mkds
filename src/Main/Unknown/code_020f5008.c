@@ -27,7 +27,7 @@ void func_020f5008(Unk0206bcb0 *a, void *b, void *c) {
     if (a->mUnk_12c.z == 0) {
         return;
     }
-    func_020ed5c0((Unk020ed5c0 *) a, c, b);
+    func_020ed5c0((Unk020f41c4_A *) a, c, b);
 }
 
 // Decreases the 0x130 word by one; when it goes below zero func_020f7658 runs first.
@@ -192,7 +192,7 @@ void func_020f49bc(Unk020f40dc *a) {
     q = &p->mUnk_98;
     r = &p->mUnk_a4;
     func_020f0ea0(data_027e00cc + e->mUnk_44, e);
-    func_020efd1c((Unk020ee684 *) a->mUnk_04, (Unk020ed5c0 *) e);
+    func_020efd1c((Unk020ee684 *) a->mUnk_04, e);
     func_02147fd8(0xb33, r, &e->mUnk_5c, &e->mUnk_5c);
     *(Vec3 *) &e->mUnk_50 = *q;
     func_020f6630(e, 0, q, r, &p->mUnk_244);

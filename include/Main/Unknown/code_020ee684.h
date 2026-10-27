@@ -40,7 +40,7 @@ typedef struct Unk020eda5c_090 {
     /* 000 */ u8 mUnk_000[0xc];
     /* 00c */ Unk020eda5c_1ec *mUnk_00c;
     /* 010 */ u8 mUnk_010[4];
-    /* 014 */ Unk020ed5c0 *mUnk_014[3];
+    /* 014 */ Unk020f41c4_A *mUnk_014[3];
     /* 020 */ u8 mUnk_020[8];
     /* 028 */ u16 mUnk_028;
     /* 02a */ u8 mUnk_02a[2];
@@ -69,15 +69,6 @@ typedef struct Unk020eda5c_09c {
     /* 000 */ u8 mUnk_000[0x9c];
     /* 09c */ Vec3 mUnk_09c;
 } Unk020eda5c_09c;
-
-// The first object of a cell from its first byte, up to the word at 0x120.
-typedef struct Unk020ed5c0_d0 {
-    /* 000 */ u8 mUnk_000[0xd0];
-    /* 0d0 */ void *mUnk_0d0;
-    /* 0d4 */ s32 mUnk_0d4;
-    /* 0d8 */ u8 mUnk_0d8[0x48];
-    /* 120 */ void (*mUnk_120)(struct Unk020f41c4_A *);
-} Unk020ed5c0_d0;
 
 // Element of the table behind data_0217562a.
 typedef struct Unk0217562a {
@@ -136,25 +127,25 @@ typedef struct Unk020f02c0 {
 
 void func_020ee684(Unk020eda5c *a, Unk020eda5c_1ec *b);
 void func_020ee6a8(Unk020eda5c *a);
-void func_020ee6e8(Unk020eda5c *a, s32 i, Unk020ed5c0 *v);
+void func_020ee6e8(Unk020eda5c *a, s32 i, Unk020f41c4_A *v);
 void func_020ee748(Unk020eda5c *a);
 void func_020ee9b0(Unk020eda5c *a);
 void func_020eea6c(Unk020eda5c *a);
-void func_020eec48(Unk020eda5c *a, s32 i, Unk020ed5c0 *v);
+void func_020eec48(Unk020eda5c *a, s32 i, Unk020f41c4_A *v);
 void func_020eecdc(Unk020eda5c *a);
 void func_020ef1cc(Unk020eda5c_090 *p);
-void func_020ef340(Unk020eda5c *a, Unk020ed5c0 *b, Unk020ed5c0 *c);
+void func_020ef340(Unk020eda5c *a, Unk020f41c4_A *b, Unk020f41c4_A *c);
 void func_020ef350(Unk020eda5c *a);
 void func_020ef4a0(Unk020eda5c *a);
 void func_020ef65c(Unk020eda5c *a, Vec3 *v, Vec3 *w);
 void func_020ef8c4(Unk020eda5c *a);
 void func_020ef9a8(Unk020eda5c *a);
-void func_020efa48(Unk020eda5c *a, Unk020ed5c0 *v);
+void func_020efa48(Unk020eda5c *a, Unk020f41c4_A *v);
 void func_020efa60(Unk020eda5c *a, s32 f);
-void func_020efb84(Unk020eda5c *p, Unk020ed5c0 *v);
+void func_020efb84(Unk020eda5c *p, Unk020f41c4_A *v);
 void func_020efbd4(Unk020ee684 *a, s32 n);
 void func_020efc74(Unk020ee684 *p, s32 a);
-void func_020efd1c(Unk020ee684 *p, Unk020ed5c0 *a);
+void func_020efd1c(Unk020ee684 *p, Unk020f41c4_A *a);
 s32 func_020efd84(Unk020ee684 *p, s32 a);
 void func_020efea4(Unk020ee684 *p);
 void func_020eff40(Unk020ee684 *p);

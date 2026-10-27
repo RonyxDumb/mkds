@@ -82,8 +82,7 @@ void func_020f77f8(void *param_1, s32 param_2, Vec3 *param_3, Vec3 *param_4, Unk
             break;
         case 2:
             if (p->mUnk_74 & 0x1000) {
-                func_020eda5c(&((Unk020ee684 *) *(void **) data_027e00c8)[(u16) (p->mUnk_78 & 0xff)].mUnk_058,
-                              (Unk020ed5c0 *) p);
+                func_020eda5c(&((Unk020ee684 *) *(void **) data_027e00c8)[(u16) (p->mUnk_78 & 0xff)].mUnk_058, p);
             }
             if ((s64) param_4->x * param_4->x + (s64) param_4->y * param_4->y + (s64) param_4->z * param_4->z >= 0x10 &&
                 func_02039860(param_4, &v2) != 0) {

@@ -3,54 +3,12 @@
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020e5d0c.h"
+#include "Main/Unknown/code_020f36d8.h"
 
-// Object updated through its flags word and three vectors; read by the
-// functions below and by func_020ed718's third argument.
-typedef struct Unk020ed5c0 {
-    /* 000 */ u8 mUnk_000[2];
-    /* 002 */ u16 mUnk_002;
-    /* 004 */ u8 mUnk_004[0x10];
-    /* 014 */ volatile u32 mUnk_014;
-    /* 018 */ u8 mUnk_018[0x2c];
-    /* 044 */ s32 mUnk_044;
-    /* 048 */ s32 mUnk_048;
-    /* 04c */ u8 mUnk_04c[4];
-    /* 050 */ Vec3 mUnk_050;
-    /* 05c */ Vec3 mUnk_05c;
-    /* 068 */ Vec3 mUnk_068;
-    /* 074 */ u32 mUnk_074;
-    /* 078 */ u16 mUnk_078;
-    /* 07a */ u8 mUnk_07a[2];
-    /* 07c */ u16 mUnk_07c;
-    /* 07e */ u8 mUnk_07e[0x12];
-    /* 090 */ u16 *mUnk_090;
-    /* 094 */ Vec3 mUnk_094;
-    /* 0a0 */ Vec3 mUnk_0a0;
-    /* 0ac */ Vec3 mUnk_0ac;
-    /* 0b8 */ s32 mUnk_0b8;
-    /* 0bc */ s32 mUnk_0bc;
-    /* 0c0 */ s32 mUnk_0c0;
-    /* 0c4 */ u8 mUnk_0c4[0xc];
-    /* 0d0 */ Vec3 *mUnk_0d0;
-    /* 0d4 */ u8 mUnk_0d4[4];
-    /* 0d8 */ s16 mUnk_0d8;
-    /* 0da */ s16 mUnk_0da;
-    /* 0dc */ u8 mUnk_0dc[4];
-    /* 0e0 */ s32 mUnk_0e0;
-    /* 0e4 */ Vec3 mUnk_0e4;
-    /* 0f0 */ Vec3 mUnk_0f0;
-    /* 0fc */ u8 mUnk_0fc[0x1a];
-    /* 116 */ u16 mUnk_116;
-    /* 118 */ u8 mUnk_118[4];
-    /* 11c */ s32 mUnk_11c;
-    /* 120 */ u8 mUnk_120[0x50];
-    /* 170 */ void *mUnk_170;
-} Unk020ed5c0;
-
-// Object with an array of Unk020ed5c0 pointers at 0x04 and a word at 0x10.
+// Object with an array of Unk020f41c4_A pointers at 0x04 and a word at 0x10.
 typedef struct Unk020ed718 {
     /* 000 */ s32 mUnk_000;
-    /* 004 */ Unk020ed5c0 **mUnk_004;
+    /* 004 */ Unk020f41c4_A **mUnk_004;
     /* 008 */ u8 mUnk_008[8];
     /* 010 */ s32 mUnk_010;
     /* 014 */ s32 mUnk_014;
@@ -86,14 +44,14 @@ typedef struct {
     /* 18 */ Vec3 mUnk_18;
 } Unk020eda5c_02c;
 
-// Object with three Unk020ed5c0 pointers at 0x14.
+// Object with three Unk020f41c4_A pointers at 0x14.
 typedef struct Unk020eda5c {
     /* 000 */ s32 mUnk_000;
     /* 004 */ s32 mUnk_004;
     /* 008 */ s32 mUnk_008;
     /* 00c */ Unk020eda5c_1ec *mUnk_00c;
     /* 010 */ Unk0206bcb0 *mUnk_010;
-    /* 014 */ Unk020ed5c0 *mUnk_014[3];
+    /* 014 */ Unk020f41c4_A *mUnk_014[3];
     /* 020 */ s32 mUnk_020;
     /* 024 */ s32 mUnk_024;
     /* 028 */ u16 mUnk_028;
@@ -120,13 +78,11 @@ typedef struct Unk020eda5c {
     /* 18c */ u16 mUnk_18c[3];
 } Unk020eda5c;
 
-#include "Main/Unknown/code_020f36d8.h"
-
-void func_020ed5c0(Unk020ed5c0 *p, Unk020e6488 *q, Vec3 *v);
+void func_020ed5c0(Unk020f41c4_A *p, Unk020e6488 *q, Vec3 *v);
 void func_020ed718(Unk020ed718 *p, void *a, void (*cb)(void *, void *, void *));
 void func_020ed79c(Unk020ed718 *p, Vec3 *v);
-void *func_020ed98c(Unk020ed5c0 *p, Vec3 *v);
-void func_020eda5c(Unk020eda5c *p, Unk020ed5c0 *q);
+void *func_020ed98c(Unk020f41c4_A *p, Vec3 *v);
+void func_020eda5c(Unk020eda5c *p, Unk020f41c4_A *q);
 void func_020edad8(Unk020eda5c *p);
 void func_020edb00(Unk020eda5c *p);
 s32 func_020edb8c(Unk020eda5c *p, s32 a, s32 b, s32 c, Vec3 *d);
@@ -135,5 +91,5 @@ void func_020eddb4(Unk020eda5c *p);
 void func_020ee2e4(Unk020eda5c *a, Unk020f40dc *b);
 s32 func_020ee528(Unk020eda5c *a);
 void func_020edf10(Unk020eda5c *p);
-void func_020ee160(Unk020ed5c0 *a, Unk020ed5c0 *b);
-s32 func_020ee284(Unk020ed5c0 *p, Vec3 *v, s32 d);
+void func_020ee160(Unk020f41c4_A *a, Unk020f41c4_A *b);
+s32 func_020ee284(Unk020f41c4_A *p, Vec3 *v, s32 d);

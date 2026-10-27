@@ -3,24 +3,11 @@
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020e5d0c.h"
+#include "Main/Unknown/code_020f36d8.h"
 
-// Object handled by the functions below.
+// Element of data_027e00cc[10]: 0x1b4 bytes (the size in data_0217bc34[10]), handled by the functions below.
 typedef struct Unk02102674 {
-    /* 000 */ u8 mUnk_000[0x44];
-    /* 044 */ s32 mUnk_44;
-    /* 048 */ u8 mUnk_048[0x8];
-    /* 050 */ Vec3 mUnk_50;
-    /* 05c */ u8 mUnk_05c[0xc];
-    /* 068 */ s32 mUnk_68;
-    /* 06c */ s32 mUnk_6c;
-    /* 070 */ s32 mUnk_70;
-    /* 074 */ u32 mUnk_74;
-    /* 078 */ u16 mUnk_78;
-    /* 07a */ u8 mUnk_07a[0x5e];
-    /* 0d8 */ s16 mUnk_d8;
-    /* 0da */ u8 mUnk_0da[0x42];
-    /* 11c */ s32 mUnk_11c;
-    /* 120 */ u8 mUnk_120[0xc];
+    /* 000 */ Unk020f41c4_A mUnk_000;
     /* 12c */ Unk0206bcb0 *mUnk_12c;
     /* 130 */ u8 mUnk_130[0x8];
     /* 138 */ s32 mUnk_138;
@@ -45,6 +32,7 @@ typedef struct Unk02102674 {
     /* 194 */ s32 mUnk_194;
     /* 198 */ s32 mUnk_198;
     /* 19c */ s32 mUnk_19c;
+    /* 1a0 */ u8 mUnk_1a0[0x14];
 } Unk02102674;
 
 // Object returned by func_020748a8 and passed to the vector helpers by func_0210298c.

@@ -88,7 +88,7 @@ void func_021031f4(Unk02102674 *p) {
     u16 v;
     u64 w;
 
-    b2 = (u16) ((p->mUnk_78 & 0x8000) == 0 ? (u16) (p->mUnk_78 & ~0xff00) : 8);
+    b2 = (u16) ((p->mUnk_000.mUnk_78 & 0x8000) == 0 ? (u16) (p->mUnk_000.mUnk_78 & ~0xff00) : 8);
     a = data_021759c0->mUnk_62;
     if (data_021759c0->mUnk_08 == 2) {
         b3 = data_021759c0->mUnk_3d0;
