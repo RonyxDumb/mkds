@@ -308,7 +308,7 @@ void func_0206cc60(Unk0206bcb0 *p, int arg);
 void func_0208ccf0(Unk0208c5b8 *p);
 void func_0208d6b0(Unk0208c5b8 *p);
 void func_0208d650(Unk0208c5b8 *p);
-void func_0210b4e0(Unk0206bcb0 *p, int dir, s32 a, s32 b);
+#include "Main/Unknown/code_0210ab48.h"
 void func_0206cdd4(Unk0206bcb0 *p);
 void func_0206ceb4(s32 *out, Unk0206bcb0 *p);
 extern Unk0217d26c data_0217d26c;

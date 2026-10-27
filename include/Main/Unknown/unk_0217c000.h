@@ -20,6 +20,7 @@ typedef struct Unk0217ca6c {
 } Unk0217ca6c;
 
 extern Unk0217ca6c data_0217ca6c[];
+extern Unk0217ca6c data_0217c8f8;
 
 // Objects whose layout isn't known yet.
 extern u8 data_0217c778[];
