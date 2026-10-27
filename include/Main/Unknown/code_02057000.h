@@ -3,6 +3,7 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
+u32 func_02057df0(void (*a)(void));
 void func_02057304(int param_1);
 u32 func_020573c8(u32 param_1);
 void func_0205746c();

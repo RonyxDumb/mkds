@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020b837c.h"
 
-unsigned int func_020b8454(unsigned int p0) {
-    return ((unsigned int) *(
+Unk020224e0_c *func_020b8454(unsigned int p0) {
+    return ((Unk020224e0_c *) *(
         const unsigned int *) ((unsigned char *) (unsigned int) ((
                                    (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) ((
                                                                                  (u32) (&data_0217b3c4))) +
@@ -90,8 +90,8 @@ unsigned int func_020b8394(unsigned int p0) {
                                1868));
 }
 
-unsigned int func_020b837c(unsigned int p0) {
-    return ((unsigned int) *(
+Unk020224e0_c *func_020b837c(unsigned int p0) {
+    return ((Unk020224e0_c *) *(
         const unsigned int *) ((unsigned char *) (unsigned int) ((
                                    (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) ((
                                                                                  (u32) (&data_0217b3c4))) +
