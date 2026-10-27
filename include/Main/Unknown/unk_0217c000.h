@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "code_0212c478.h" // Unk0212c400
+#include "code_0212da38.h" // Unk0212d9dc
 
 // Objects whose layout isn't known yet.
 extern u8 data_0217c778[];
@@ -42,3 +44,17 @@ extern u8 data_0217c65c[];
 extern u32 data_0217c6e4[];
 extern u32 data_0217c704[];
 extern u8 data_0217c648[];
+extern u16 data_0217c76c[];
+extern u16 data_0217c770[];
+extern Unk0212d9dc *data_0217c77c;
+extern u32 data_0217c78c;
+extern Unk0212d9dc *data_0217c790;
+extern u32 data_0217c794;
+extern u32 data_0217c798[];
+extern u32 data_0217c7a8;
+extern u8 data_0217c7ac[];
+extern u32 data_0217c7b0;
+extern u8 data_0217c7d8[];
+extern s32 data_0217c804[];
+extern u32 data_0217c80c[];
+extern Unk0212c400 *data_0217c81c;

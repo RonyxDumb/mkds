@@ -40,6 +40,8 @@ typedef struct {
     /* 58 */ u16 mUnk_58;
     /* 5a */ u8 mUnk_5a[0x56];
     /* b0 */ s32 mUnk_b0;
+    /* b4 */ u8 mUnk_b4[0x50];
+    /* 104 */ u32 mUnk_104;
 } Unk02175620;
 
 // Eight words.

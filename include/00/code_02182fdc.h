@@ -195,12 +195,8 @@ void func_020b48b4(void **, void *);
 void func_020b4934(Unk020b4934 **, void *);
 void func_020b49bc(Unk020b4934 **, void *);
 void func_020b4a44(Unk020b4a44 **, void *);
-void func_0210895c(void);
-void func_02108990(void);
-void func_02108a40(void);
-void func_02108a8c(void);
-void func_02108adc(void);
-void func_02108b2c(void);
+#include "Main/Unknown/code_0210895c.h"
+#include "Main/Unknown/code_02108a40.h"
 s32 func_0212111c(void);
 void *func_02120294(u32);
 void *func_021202b0(u32);

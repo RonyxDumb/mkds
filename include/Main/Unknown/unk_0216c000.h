@@ -121,3 +121,7 @@ extern u8 data_0216c60c[];
 extern void (*data_0216c634[])(void *);
 extern u8 data_0216c7b4[];
 extern u8 data_0216c7c4[];
+extern s32 data_0216c7d4;
+extern s32 data_0216c7f8[];
+extern s32 data_0216c82c[];
+extern u8 data_0216c8d0[];

@@ -80,3 +80,5 @@ extern u8 data_0217d404[];
 extern u8 data_0217d410[];
 extern struct Unk0212ef48 *data_0217df04;
 extern u8 data_0217df08[];
+extern u8 data_0217d070[];
+extern Unk0212d9dc *data_0217d130;
