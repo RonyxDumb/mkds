@@ -7,5 +7,5 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 int func_02073e04(u32 param_1);
-void func_02073e4c(u32 param_1);
+int func_02073e4c(u32 param_1);
 unsigned int func_02073e88(void);

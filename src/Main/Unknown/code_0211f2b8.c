@@ -21,7 +21,7 @@ void func_0211f328(void) {
 
 // non-matching: 0x68 bytes, original 0x70; 18 instructions differ; first at +0x0: original `push {lr}`, ours `push {r4,
 // lr}`
-void func_0211f2b8(u32 param_1) {
+void func_0211f2b8(void *param_1) {
     int iVar1;
     u32 uVar2;
     iVar1 = ((u32) func_02036bec((void *) (param_1), (u32) (0x10)));

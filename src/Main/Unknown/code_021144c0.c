@@ -4,7 +4,7 @@
 
 // non-matching: 0x40 bytes, original 0x44; 16 instructions differ; first at +0x0: original `push {r4, lr}`, ours `push
 // {r4, r5, lr}`
-void func_021144c0(u32 param_1) {
+void func_021144c0(void *param_1) {
     int iVar1;
     u32 uVar2;
     iVar1 = ((u32) func_02036bec((void *) (param_1), (u32) (0x10)));

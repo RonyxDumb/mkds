@@ -3,7 +3,7 @@
 #include "code_0212f788.h"
 #include "Main/Unknown/unk_0217d000.h"
 
-u32 *func_0212d580(s32 a, s32 b) {
+Unk0212d580 *func_0212d580(s32 a, s32 b) {
     u32 *p;
     Unk0212f788 *q;
     u32 *r;
@@ -20,7 +20,7 @@ u32 *func_0212d580(s32 a, s32 b) {
     if (r == 0) {
         return 0;
     }
-    return r + 1;
+    return (Unk0212d580 *) (r + 1);
 }
 
 void *func_0212d51c(s32 a) {

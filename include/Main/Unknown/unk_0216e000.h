@@ -33,3 +33,4 @@ extern Unk0212f1f8 data_0216eaa4;
 // to func_0213c94c and func_021352e0.
 extern Unk0213c94c data_0216eb7c[3];
 extern u32 data_0216eeb8;
+extern char data_0216e09c[];

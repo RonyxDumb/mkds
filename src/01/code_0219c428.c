@@ -44,5 +44,5 @@ void func_ov001_0219c428(void) {
     data_ov001_021a9bf4->mUnk_4c = 3;
     data_ov001_021a9bf4->mUnk_50 = 0;
     func_0212b7e8();
-    func_0212ecc0(data_0217d068, 0, 5);
+    func_0212ecc0(&data_0217d068, 0, 5);
 }

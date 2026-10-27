@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-void func_020ae3b4(u32 param_1) {
+u32 func_020ae3b4(u32 param_1) {
     int iVar1;
     u32 uVar2;
     iVar1 = ((u32) func_020ae3f4());
@@ -11,8 +11,7 @@ void func_020ae3b4(u32 param_1) {
     } else {
         uVar2 = ((int) func_020ae3d8());
     }
-    func_02046524((int *) ((int *) (u32) (uVar2)), (u32) (param_1));
-    return;
+    return func_02046524((int *) ((int *) (u32) (uVar2)), (u32) (param_1));
 }
 
 #pragma thumb off

@@ -3,4 +3,5 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_020e5348(u32 param_1, u32 param_2);
+#include "Main/Unknown/code_020e516c.h"
+#include "Main/Unknown/code_020e5634.h"

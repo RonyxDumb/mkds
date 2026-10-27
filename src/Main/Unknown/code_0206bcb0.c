@@ -1,6 +1,7 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "01/code_0218171c.h"
 #include "code_02147cd8.h"
+#include "Main/Unknown/code_02109000.h"
 
 void func_0206ceb4(s32 *out, Unk0206bcb0 *p) {
     int id;
@@ -122,7 +123,7 @@ void func_0206cc60(Unk0206bcb0 *p, int arg) {
     if (!(p->mUnk_7c & 0x1)) {
         return;
     }
-    func_02109078(p, 0xd1, 0x7f, 0);
+    func_02109078(&p->mUnk_00, 0xd1, 0x7f, 0);
 }
 
 // non-matching: register allocation (hasB/dirv/turn in r5/r7/r6, original r6/r5/r7; table index mul r2/r3 swapped)

@@ -3,6 +3,13 @@
 #include "types.h"
 #include "code_02003024.h"
 
+// What func_0212d580 points at; its bytes at 4 and 5 are read.
+typedef struct Unk0212d580 {
+    /* 0 */ u8 mUnk_00[4];
+    /* 4 */ u8 mUnk_04;
+    /* 5 */ u8 mUnk_05;
+} Unk0212d580;
+
 // 12-byte records at 0x20 of Unk0212f788; func_0212f788 returns one unless its first word is -1.
 typedef struct Unk0212f788 {
     /* 00 */ u8 mUnk_00[0x18];
@@ -73,4 +80,4 @@ void *func_0212d3f0(s32 a);
 void *func_0212d454(s32 a);
 u32 *func_0212d4b8(s32 a);
 void *func_0212d51c(s32 a);
-u32 *func_0212d580(s32 a, s32 b);
+Unk0212d580 *func_0212d580(s32 a, s32 b);

@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_0210a63c.h"
 
-unsigned int func_0210a63c(unsigned int p0) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 8));
+u32 func_0210a63c(Unk0210bf24 *b) {
+    return b->mUnk_08;
 }

@@ -94,7 +94,7 @@ void func_ov001_021982e8(void)
         func_021282c8();
         break;
     }
-    func_0212ecc0(data_0217d068, 0, 5);
+    func_0212ecc0(&data_0217d068, 0, 5);
 }
 
 void func_ov001_021982d4(void)

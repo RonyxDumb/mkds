@@ -1,0 +1,146 @@
+#include "Main/Unknown/code_020e3618.h"
+#include "Main/Unknown/unk_02158000.h"
+#include "Main/Unknown/unk_0216c000.h"
+#include "Main/Unknown/code_02084000.h"
+#include "Main/Unknown/code_02087000.h"
+#include "Main/Unknown/code_020ea000.h"
+#include "Main/Unknown/code_020ea588.h"
+
+#include "Main/Unknown/code_020d2000.h"
+#include "Main/Unknown/code_020d49d8.h"
+#include "Main/Unknown/code_020e6000.h"
+#include "Main/Unknown/code_020e6f50.h"
+#include "Main/Unknown/code_020364e0.h"
+#include "Main/Unknown/code_02036bec.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/unk_0217b000.h"
+
+#pragma thumb off
+
+s32 func_020e3af0(u32 a) {
+    switch (a) {
+        case 0xcc:
+            return 1;
+        default:
+            return 0;
+    }
+}
+
+#pragma thumb on
+
+void func_020e3a7c(void) {
+    void *p;
+
+    p = (void *) func_020d21ec((u32) data_0216c148);
+    func_020ea588(&data_0217b7d0, p, 0);
+    func_020ea4bc(0, data_0217b7d0, &data_0217b7cc, p, (void *) func_020d21ec((u32) data_0216c158));
+    ((Unk020e1dc0 *) *(void **) data_0217b7c4)->mUnk_2c = func_02087d0c(data_0217b7cc);
+    func_02084968(data_0217b7d0, 0x3f, 2, 0x294a);
+    func_020e1dc0(*(void **) data_0217b7c4, data_0217b7d0);
+}
+
+void func_020e38a0(Unk020e38a0 *a, Unk020e1e98_09c *b) {
+    a->mUnk_0e8 = a->mUnk_004;
+    a->mUnk_0a0 = a->mUnk_028;
+    a->mUnk_0c4 = a->mUnk_028;
+    a->mUnk_124.x = 0;
+    a->mUnk_124.y = 0;
+    a->mUnk_124.z = 0;
+    a->mUnk_130 = 1;
+    a->mUnk_144 = ((b->mUnk_28 * 0x10000) / 0x168) >> 1;
+    a->mUnk_146 = (0x10000 / b->mUnk_2a) >> 1;
+    a->mUnk_14c = b->mUnk_2c;
+    a->mUnk_14e = b->mUnk_2e;
+    a->mUnk_150 = 0;
+    a->mUnk_148 = 0;
+    if (data_021759c0->mUnk_08 == 5) {
+        a->mUnk_146 = 0;
+        a->mUnk_148 = ((b->mUnk_30 * 0x10000) / 0x168) >> 1;
+    }
+    a->mUnk_100 = (s32) (((s64) a->mUnk_01c * 0x5a000) >> 12);
+    a->mUnk_104 = (s32) (((s64) a->mUnk_020 * 0x1e000) >> 12) >> 1;
+    a->mUnk_108 = (s32) (((s64) a->mUnk_024 * 0x15e000) >> 12);
+    a->mUnk_10c = (s32) (((s64) a->mUnk_024 * 0x32000) >> 12);
+    a->mUnk_110 = 0;
+    a->mUnk_114.x = 1;
+    a->mUnk_114.y = 0;
+    a->mUnk_114.z = 1;
+    a->mUnk_120 = 0x800;
+    a->mUnk_134 = 0;
+    a->mUnk_138 = 0;
+    a->mUnk_002 |= data_02158c88;
+    a->mUnk_002 &= ~2;
+    a->mUnk_002 &= ~8;
+    a->mUnk_066 = 0x1f;
+    if (b->mUnk_10 < 0) {
+        func_020d278c(a);
+    }
+}
+
+#pragma thumb off
+
+void *func_020e3850(void) {
+    Unk020e03f8 *p;
+
+    p = func_02036bec(func_020364e0(func_020364e8()), 0x40);
+    *p = *(const Unk020e03f8 *) data_02158c3c;
+    return p;
+}
+
+void *func_020e37f4(void) {
+    void *p;
+
+    p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
+    data_0217b7bc = p;
+    *(Unk020e039c *) p = *(const Unk020e039c *) data_02158c10;
+    func_020d49d8((unsigned int) &data_0217b7bc);
+    return data_0217b7bc;
+}
+
+void *func_020e3798(void) {
+    void *p;
+
+    p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
+    data_0217b7c0 = p;
+    *(Unk020e039c *) p = *(const Unk020e039c *) data_02158be4;
+    func_020d49d8((unsigned int) &data_0217b7c0);
+    return data_0217b7c0;
+}
+
+void *func_020e373c(void) {
+    void *p;
+
+    p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
+    data_0217b7b4 = p;
+    *(Unk020e0340 *) p = *(const Unk020e0340 *) data_02158bbc;
+    func_020e6f50((unsigned int) &data_0217b7b4);
+    return data_0217b7b4;
+}
+
+void func_020e3724(void) {
+    func_020e6a18(data_0217b7b8);
+}
+
+void func_020e3618(s32 a, Unk020e1e98 *b, s32 c, u16 d) {
+    Unk020e6b58 *p;
+
+    switch (b->mUnk_080.mUnk_0e) {
+        case 4:
+            data_0217b7b8->mUnk_18 = 1;
+            p = func_020e6cf8(&b->mUnk_004);
+            func_020e67c4(data_0217b7b8, p, &b->mUnk_01c, 0, d);
+            break;
+        case 5:
+            break;
+        case 6:
+        case 7:
+            data_0217b7b8->mUnk_18 = 1;
+            p = func_020e6cf8(&b->mUnk_004);
+            func_020e66e4(data_0217b7b8, p, b->mUnk_0b4.mUnk_04, &b->mUnk_01c, 0, d);
+            break;
+        default:
+            data_0217b7b8->mUnk_18 = 0;
+            p = func_020e6cf8(&b->mUnk_004);
+            func_020e67c4(data_0217b7b8, p, &b->mUnk_01c, 0, d);
+    }
+}

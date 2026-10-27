@@ -109,7 +109,7 @@ void func_ov001_021a1978(void)
     data_ov001_021ca418->mUnk_2c = 0;
     data_ov001_021ca418->mUnk_4c = 1;
     func_ov001_021a1bb8();
-    func_0212ecc0(data_0217d068, 0, 5);
+    func_0212ecc0(&data_0217d068, 0, 5);
 }
 
 void func_ov001_021a1964(void)

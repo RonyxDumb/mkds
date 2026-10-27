@@ -3,6 +3,8 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_02111428();
-void func_02111a98(void);
-void func_02111494(const void *param_1);
+#include "Main/Unknown/code_02111428.h"
+#include "Main/Unknown/code_02111a98.h"
+#include "Main/Unknown/code_02111494.h"
+#include "Main/Unknown/code_021108bc.h"
+#include "Main/Unknown/code_02111158.h"

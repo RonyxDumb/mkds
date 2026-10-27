@@ -98,9 +98,8 @@ s16 func_020adc64(s32 a);
 s32 func_02060268(s32 a);
 void func_02060004(s32 a);
 void func_02057d9c(void);
-void func_021172a8(void *heap);
-void *func_02111318(void);
-void *func_0211130c(void);
+#include "Main/Unknown/code_021172a8.h"
+#include "Main/Unknown/code_0211130c.h"
 
 void func_ov001_02195a6c(void);
 void func_ov001_02195ba4(void);

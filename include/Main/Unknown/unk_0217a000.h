@@ -25,6 +25,7 @@ typedef struct Unk0217aa08_00 {
     /* 40 */ u32 mUnk_40;
     /* 44 */ u32 mUnk_44;
     /* 48 */ u32 mUnk_48;
+    /* 4c */ u8 mUnk_4c[0x40];
 } Unk0217aa08_00;
 
 typedef struct Unk0217aa08_04 {
@@ -41,11 +42,46 @@ typedef struct Unk0217aa08 {
     /* 28 */ u8 mUnk_28;
 } Unk0217aa08;
 
-extern u8 data_0217aa00[];
+// Elements of the array at member 0x1e52 of data_0217aa00.
+typedef struct Unk0217aa00_1e52 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 mUnk_02[6];
+} Unk0217aa00_1e52;
+
+// Object at member 0x1ee8 of data_0217aa00: three 64-bit words.
+typedef struct Unk0217aa00_1ee8 {
+    /* 00 */ u64 mUnk_00;
+    /* 08 */ u64 mUnk_08;
+    /* 10 */ u64 mUnk_10;
+} Unk0217aa00_1ee8;
+
+// Object behind data_0217aa00.
+typedef struct Unk0217aa00 {
+    /* 0000 */ u32 mUnk_0000;
+    /* 0004 */ s32 mUnk_0004;
+    /* 0008 */ u8 mUnk_0008[0x42a];
+    /* 0432 */ u16 mUnk_0432;
+    /* 0434 */ u8 mUnk_0434[0x11c2];
+    /* 15f6 */ u8 mUnk_15f6;
+    /* 15f7 */ u8 mUnk_15f7[0x85b];
+    /* 1e52 */ Unk0217aa00_1e52 mUnk_1e52[18];
+    /* 1ee2 */ u8 mUnk_1ee2[6];
+    /* 1ee8 */ Unk0217aa00_1ee8 mUnk_1ee8;
+} Unk0217aa00;
+
+extern Unk0217aa00 *data_0217aa00;
 extern Unk0217aa08 *data_0217aa08;
 extern u8 data_0217aa0c[];
 extern u8 data_0217aa10[];
-extern u8 data_0217aa14[];
+// Object behind data_0217aa14.
+typedef struct Unk0217aa14 {
+    /* 000 */ u8 mUnk_000[0x724];
+    /* 724 */ u16 mUnk_724;
+    /* 726 */ u8 mUnk_726[0x36];
+    /* 75c */ u16 mUnk_75c;
+} Unk0217aa14;
+
+extern Unk0217aa14 *data_0217aa14;
 extern u8 data_0217aa54[];
 extern u8 data_0217aa64[];
 extern u8 data_0217aa6c[];

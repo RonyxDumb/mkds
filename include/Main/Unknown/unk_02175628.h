@@ -20,4 +20,14 @@ typedef struct Unk02175628 {
     /* 5a */ u8 mUnk_5a[2];
 } Unk02175628;
 
+extern Unk02175628 data_02175680[];
+
+extern Unk02175628 data_0217567c[];
+
+extern Unk02175628 data_02175674[];
+
+extern Unk02175628 data_02175672[];
+
+extern Unk02175628 data_02175670[];
+
 extern Unk02175628 data_02175628[];

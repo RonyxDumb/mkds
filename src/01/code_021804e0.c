@@ -23,7 +23,7 @@
 #pragma thumb off
 
 unsigned int func_ov001_02180ad0(Unk02180728 *p0, u32 p1, u32 p2, u32 p3, u32 p4, u16 *p5) {
-    return func_02024340((unsigned int) p0, p1, p2, p3, p4, (unsigned int) p5);
+    return func_02024340(p0, p1, p2, p3, p4, p5);
 }
 
 #pragma thumb on

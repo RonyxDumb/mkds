@@ -72,7 +72,7 @@ void func_ov001_0219f1f4(void)
     data_ov001_021ca410->mUnk_24 = 0;
     data_ov001_021ca410->mUnk_48 = 0x100;
     func_ov001_0219f37c();
-    func_0212ecc0(data_0217d068, 0, 5);
+    func_0212ecc0(&data_0217d068, 0, 5);
 }
 
 void func_ov001_0219f198(void)

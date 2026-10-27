@@ -1,0 +1,339 @@
+#include "Main/Unknown/code_020f830c.h"
+
+#include "Main/Unknown/code_020f7c90.h"
+#include "Main/Unknown/code_0205a000.h"
+#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Unknown/unk_0217b000.h"
+#include "Main/Unknown/code_02079b40.h"
+#include "Main/Unknown/code_020be930.h"
+#include "Main/Unknown/code_020fa4c8.h"
+#include "Main/Unknown/code_020f81c0.h"
+
+// non-matching: 0x37c bytes vs 0x398 bytes. The original multiplies the subscript by the table stride
+// inside both counting loops (`mla fp, r3, 0x44, r2` / `mla sl, r3, 0xa8, r1` and
+// `mla r1, r7, 0x1c, ip`); here the subscript loops are turned into walking pointers
+// (`add r2, r2, #0x44` / `add r7, r7, #0x1c`). A `u16` counter gives the original's mla form but
+// adds two masking words per iteration, which the original does not have.
+s32 func_020f8a04(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6) {
+    Unk0217bc6c *q;
+    Unk020f41c4_B *b;
+    u16 *row;
+    s32 m;
+    u32 i;
+    s32 j;
+    s32 t;
+    s32 x;
+    s32 sel;
+    u16 acc;
+    u16 k;
+
+    sel = 0x13;
+    if (param_2 != 0) {
+        i = (u16) (param_2 - 1);
+        m = 0;
+        q = &data_0217bc74;
+    } else {
+        i = (u16) (param_3 - 1);
+        m = param_1;
+        q = param_4 != 0 ? &data_0217bc6c : &data_0217bc64;
+    }
+    row = q->mUnk_04[i];
+    acc = 0;
+    t = 0;
+    if (data_021759c0->mUnk_08 != 4) {
+        for (j = 0; j < 0xe; j++) {
+            t += (u16) (data_0217bc34[j].mUnk_90 * (data_027e00cc[j].mUnk_1c - data_027e00cc[j].mUnk_18));
+        }
+    }
+    for (j = 0; j < param_6; j++) {
+        if (!((j == 8 && data_0217bc60 > 0) || (j == 7 && data_0217bc5c > 0) || (j == 0xf && data_0217bc58 > 0))) {
+            if (data_027e00cc[data_0217bc48[j].mUnk_08].mUnk_20 - data_027e00cc[data_0217bc48[j].mUnk_08].mUnk_1c > 0 &&
+                data_0217bc48[j].mUnk_00 != 0) {
+                x = data_0217bc34[data_0217bc48[j].mUnk_08].mUnk_90 * data_0217bc48[j].mUnk_0c;
+                if (x == 0 || t + x <= 0x28) {
+                    if (j < 9 || m == 0) {
+                        acc = acc + row[j];
+                    } else if (m == 1) {
+                        acc = acc + ((s16) row[j] >> 2);
+                    } else {
+                        acc = 3 * row[j] + acc;
+                    }
+                }
+            }
+        }
+        data_0217bc7c[j] = acc;
+    }
+    b = &data_0217561c->mUnk_47c;
+    if (acc != 0) {
+        b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
+    }
+    k = (u16) (acc != 0 ? (u32) (((u64) (u32) (b->mUnk_00 >> 32) * (u32) acc) >> 32) : (u32) (b->mUnk_00 >> 32));
+    for (j = 0; j < param_6; j++) {
+        if (k < data_0217bc7c[j]) {
+            sel = j;
+            break;
+        }
+    }
+    if (func_020fab34(&sel) != 0) {
+        func_020faa78(sel);
+    }
+    if (param_5 != 0) {
+        if (param_2 != 0) {
+            data_0217bc50 = 0;
+            for (j = 0; j < param_6; j++) {
+                if (j == sel || data_0217bc7c[j] != 0) {
+                    data_0217bca0[data_0217bc50] = j;
+                    data_0217bc50++;
+                }
+            }
+        } else {
+            data_0217bc50 = 0;
+        }
+    }
+    return sel;
+}
+
+void func_020f89b0(Unk020ee684 *param_1, Unk020ee684 *param_2) {
+    param_1->mUnk_018 = param_2;
+    param_1->mUnk_000 = 0;
+    param_1->mUnk_004 = 0;
+    param_1->mUnk_00c = 0x13;
+    param_1->mUnk_010 = 0x13;
+    param_1->mUnk_014 = 0x13;
+    param_1->mUnk_020 = 0;
+    param_1->mUnk_024 = data_021759c0->mUnk_70[param_2->mUnk_1f8].mUnk_00 == 3;
+}
+
+// non-matching: the two lookups at the end (7 words from +0x1c0): the original loads the subscript
+// (`ldr r3, [sl, #0x10]`) before the table pointer value (`ldr r2, [r0]`) and keeps the first
+// element in r4 (`mla r4, r3, r0, r2`), then loads `[r4, #8]` before the second pointer value;
+// here the pointer value comes first, the element lands in r3 and the second pointer value is
+// loaded before `[r3, #8]`. Every other instruction matches.
+void func_020f87a8(Unk020ee684 *param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5) {
+    Unk020ee684 *p;
+    Unk0217bc48 *e;
+    Unk027e00cc *v;
+    s32 a;
+    s32 b;
+
+    p = param_1->mUnk_018;
+    a = data_021759c0->mUnk_08 == 5;
+    if (param_1->mUnk_000 != 0) {
+        return;
+    }
+    if (param_1->mUnk_014 != 0x13) {
+        return;
+    }
+    param_1->mUnk_000 = 1;
+    param_1->mUnk_00c = 0x13;
+    if (!a) {
+        func_020be930(param_1->mUnk_018->mUnk_1f8);
+    }
+    if (a) {
+        param_1->mUnk_01c = 0;
+        param_1->mUnk_004 = 0;
+        param_1->mUnk_008 = 0x85;
+        param_1->mUnk_028 = 0x10;
+        param_1->mUnk_02c = 4;
+    } else if (param_5 != 0) {
+        param_1->mUnk_01c = 1;
+        param_1->mUnk_004 = 0x4d;
+        param_1->mUnk_008 = 0x65;
+        param_1->mUnk_028 = 8;
+        param_1->mUnk_02c = 3;
+    } else {
+        param_1->mUnk_01c = 0;
+        param_1->mUnk_004 = 0;
+        param_1->mUnk_008 = 0xd5;
+        param_1->mUnk_028 = 0x10;
+        param_1->mUnk_02c = 4;
+    }
+    b = p->mUnk_1f8 == data_021759c0->mUnk_62;
+    if (p->mUnk_058.mUnk_000 != 0xf && p->mUnk_058.mUnk_004 >= 9) {
+        param_1->mUnk_010 = func_020f8a04(0, param_2, param_3, param_4, b, 9);
+    } else {
+        param_1->mUnk_010 = func_020f8a04(func_02079b40(p->mUnk_1f8), param_2, param_3, param_4, b, 0x12);
+    }
+    if (a) {
+        func_0205a750(param_1->mUnk_010);
+        param_1->mUnk_020 = 1;
+        return;
+    }
+    e = &data_0217bc48[param_1->mUnk_010];
+    v = &data_027e00cc[e->mUnk_08];
+    v->mUnk_1c += e->mUnk_0c;
+}
+
+// non-matching: the two lookups (7 words from +0x3c): the original loads the subscript
+// (`ldr r1, [r0, #0x10]`) before the table pointer value (`ldr r2, [r1]`) and keeps the first
+// element in lr (`mla lr, r1, r2, r3`), then loads `[lr, #8]` before `[r0]`; here the pointer value
+// comes first, the element lands in r3 and `[r3, #8]`/`[r0]` swap. Every other instruction matches.
+void func_020f86c4(Unk020ee684 *param_1) {
+    Unk020ee684 *p;
+    Unk0217bc48 *e;
+    Unk027e00cc *v;
+
+    p = param_1->mUnk_018;
+    if (p->mUnk_014 != 0x13) {
+        p->mUnk_014 = 0x13;
+    }
+    if (param_1->mUnk_000 != 0) {
+        if (p->mUnk_020 == 0) {
+            e = &data_0217bc48[p->mUnk_010];
+            v = &data_027e00cc[e->mUnk_08];
+            v->mUnk_1c -= e->mUnk_0c;
+        }
+        p->mUnk_000 = 0;
+        p->mUnk_004 = 0;
+        p->mUnk_00c = 0x13;
+        p->mUnk_010 = 0x13;
+        p->mUnk_014 = 0x13;
+        p->mUnk_020 = 0;
+    } else {
+        if (p->mUnk_030.mUnk_00 != 0x13) {
+            func_020f45f0(&p->mUnk_030, 1);
+        }
+    }
+    param_1->mUnk_000 = 1;
+    param_1->mUnk_004 = 0;
+    param_1->mUnk_008 = 0x85;
+    param_1->mUnk_00c = 0x13;
+    param_1->mUnk_014 = 0x13;
+    param_1->mUnk_010 = 0x13;
+    param_1->mUnk_020 = 1;
+}
+
+// non-matching: the second lookup (3 words from +0xb0): the original loads the subscript
+// (`ldr r1, [ip, #8]`) before the table pointer value (`ldr r2, [r0]`) and keeps the first element
+// in r3; here the pointer value comes first and the element lands in r1. Every other instruction
+// matches.
+s32 func_020f850c(Unk020ee684 *param_1, Unk020ee684 *param_2) {
+    Unk0217bc48 *e;
+    Unk027e00cc *v;
+    s32 a;
+    u32 b;
+
+    switch (param_1->mUnk_000) {
+        case 1:
+            param_1->mUnk_004++;
+            a = data_021759c0->mUnk_08;
+            if (a == 5 && param_1->mUnk_020 != 0) {
+                b = param_2->mUnk_1f8 & 0xff;
+                if (func_0205a310(((u8 *) *(void **) data_0217aa18)[b]) == 0) {
+                    b = func_0205a2ac(((u8 *) *(void **) data_0217aa18)[b]);
+                    if (func_020faca4(b) != 0) {
+                        func_020faa78(b);
+                    }
+                    e = &data_0217bc48[b];
+                    v = &data_027e00cc[e->mUnk_08];
+                    v->mUnk_1c += e->mUnk_0c;
+                    param_1->mUnk_010 = b;
+                    param_1->mUnk_020 = 0;
+                    param_1->mUnk_008 += param_1->mUnk_004 - 0x6f;
+                } else if (param_1->mUnk_004 > 0x6e) {
+                    param_1->mUnk_004 = 0x67;
+                }
+                return 0;
+            }
+            if (param_1->mUnk_004 > 0x3c &&
+                (((param_2->mUnk_1ec & 0x241) == 0x241 && a != 5 && param_1->mUnk_01c == 0) ||
+                 param_1->mUnk_004 > param_1->mUnk_008)) {
+                param_1->mUnk_004 = 0;
+                param_1->mUnk_000 = 2;
+            }
+            break;
+        case 2:
+            param_1->mUnk_004++;
+            if (param_1->mUnk_004 > param_1->mUnk_028 * 2) {
+                return 1;
+            }
+            break;
+    }
+    return 0;
+}
+
+// non-matching: the two lookups (6 words from +0x10): the original loads the subscript
+// (`ldr ip, [r0, #0x10]`) before the table pointer value (`ldr r3, [r1]`) and keeps the first
+// element in lr (`mla lr, ip, r1, r3`), then loads `[lr, #8]` before `[r2]`; here the pointer
+// value is loaded first, the element lands in the other of the two registers and `[r2]` comes
+// before `[lr, #8]`. Every other instruction matches.
+void func_020f8498(Unk020ee684 *param_1) {
+    Unk0217bc48 *e;
+    Unk027e00cc *v;
+
+    e = &data_0217bc48[param_1->mUnk_010];
+    v = &data_027e00cc[e->mUnk_08];
+    v->mUnk_1c -= e->mUnk_0c;
+    param_1->mUnk_000 = 0;
+    param_1->mUnk_004 = 0;
+    param_1->mUnk_00c = 0x13;
+    param_1->mUnk_010 = 0x13;
+    param_1->mUnk_014 = 0x13;
+    param_1->mUnk_020 = 0;
+}
+
+// non-matching: same two lookups as func_020f8498 (subscript and pointer value in the other
+// order and in the other of the two registers, `[r2]` before `[lr, #8]`); because the body does
+// not reach lr, this copy also has no `push {lr}` / `sub sp, sp, #4` stack reservation (0x70 vs 0x80).
+void func_020f8418(Unk020ee684 *param_1) {
+    Unk0217bc48 *e;
+    Unk027e00cc *v;
+
+    if (param_1->mUnk_020 == 0) {
+        e = &data_0217bc48[param_1->mUnk_010];
+        v = &data_027e00cc[e->mUnk_08];
+        v->mUnk_1c -= e->mUnk_0c;
+    }
+    param_1->mUnk_000 = 0;
+    param_1->mUnk_004 = 0;
+    param_1->mUnk_00c = 0x13;
+    param_1->mUnk_010 = 0x13;
+    param_1->mUnk_014 = 0x13;
+    param_1->mUnk_020 = 0;
+}
+
+// non-matching: the second `if (n != 0)` (three words at 0x94, 0x98 and 0xa0 of the original):
+// the original keeps the 64-bit product general (`movne lr, #0` for the zero high word of both
+// operands, then `umullne ip, r4, r3, r1; mlane r4, r3, lr, r4; mlane r4, lr, r1, r4`, with
+// `ldreq r4, [r6, #4]` on the false path); here the multiply reduces to one `umullne` and its
+// high word. The prologue also keeps one value more (`push {r4, r5, r6, r7, lr}` and a stack
+// slot; the original `push {r4, r5, r6, lr}`), and n/q/i/b sit in r3/r2/r1/ip where the
+// original has r1/r2/r4/r6.
+void func_020f830c(Unk020ee684 *param_1) {
+    Unk020f41c4_B *b;
+    u16 n;
+    s32 *q;
+    u32 i;
+
+    switch (param_1->mUnk_000) {
+        case 1:
+            if (data_0217bc50 != 0) {
+                n = data_0217bc50;
+                q = data_0217bca0;
+            } else {
+                n = data_0217bc54;
+                q = data_0217bce8;
+            }
+            b = &data_0217561c->mUnk_498;
+            i = 0;
+            if (n != 0) {
+                b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
+            }
+            if (n != 0) {
+                i = (u16) (((u64) (u32) (b->mUnk_00 >> 32) * (u32) n) >> 32);
+            }
+            if (param_1->mUnk_00c == q[i]) {
+                i = (u16) (i + 1);
+                if (i >= n) {
+                    i = 0;
+                }
+            }
+            param_1->mUnk_00c = q[i];
+            break;
+        case 2:
+            param_1->mUnk_00c = param_1->mUnk_010;
+            break;
+    }
+}

@@ -9,3 +9,7 @@ extern u8 data_021564c0[];
 extern u8 data_02156598[];
 extern u8 data_021565e4[];
 extern u8 data_021568e8[];
+extern const u32 data_02156904;
+extern const u32 data_02156908;
+extern const u32 data_0215690c;
+extern const u32 data_02156910;

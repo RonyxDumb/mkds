@@ -178,7 +178,7 @@ void func_ov001_0219348c(void) {
     s32 flag;
 
     if (func_02125f6c() != 0) {
-        func_0212ecc0(data_0217d068, 0, 0x22);
+        func_0212ecc0(&data_0217d068, 0, 0x22);
     }
     if (data_0217aa08->mUnk_28 == 0) {
         if (data_021759d4->mUnk_0c != 0) {

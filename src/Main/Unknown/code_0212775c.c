@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-u32 func_02127794(void) {
+s32 func_02127794(void) {
     if (*(int *) (*((int *) ((u32) (&data_0217d3f4))) + 0x20) != 0) {
         return 0xffffffff;
     }

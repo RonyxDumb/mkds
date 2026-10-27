@@ -1,5 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_0210bcf4.h"
 
-unsigned int func_0210a63c(unsigned int p0);
+u32 func_0210a63c(Unk0210bf24 *b);

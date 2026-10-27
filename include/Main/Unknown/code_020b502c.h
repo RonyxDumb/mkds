@@ -29,17 +29,32 @@ typedef struct {
     /* 02 */ u16 mUnk_02;
 } Unk02175620_08;
 
+// Object behind Unk02175620::mUnk_018; the byte at 0x04.
+typedef struct {
+    /* 00 */ u8 mUnk_00[4];
+    /* 04 */ u8 mUnk_04;
+} Unk02175620_18;
+
+struct Unk020fa294;
+
 // Object behind data_02175620.
 typedef struct {
-    /* 00 */ u8 mUnk_00[0x8];
+    /* 00 */ struct Unk020fa294 *mUnk_00;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u8 mUnk_06[2];
     /* 08 */ Unk02175620_08 *mUnk_08;
     /* 0c */ u16 mUnk_0c;
-    /* 0e */ u8 mUnk_0e[0x1e];
+    /* 00e */ u8 mUnk_00e[0xa];
+    /* 018 */ Unk02175620_18 *mUnk_018;
+    /* 01c */ u8 mUnk_01c[0x10];
     /* 2c */ Unk020b57e4 *mUnk_2c;
     /* 30 */ u8 mUnk_30[0x28];
     /* 58 */ u16 mUnk_58;
-    /* 5a */ u8 mUnk_5a[0x56];
+    /* 5a */ u8 mUnk_5a[0x52];
+    /* ac */ struct Unk020f371c *mUnk_ac;
     /* b0 */ s32 mUnk_b0;
+    /* b4 */ u8 mUnk_b4[0x50];
+    /* 104 */ u32 mUnk_104;
 } Unk02175620;
 
 // Eight words.

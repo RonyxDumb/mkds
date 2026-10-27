@@ -1,13 +1,9 @@
 #include "Main/Unknown/code_0210ab30.h"
 
-unsigned int func_0210ab44(unsigned int p0) {
-    return p0;
-}
+void func_0210ab44(Unk0206bcb0 *a, Unk0210bf24 *b, s32 c) {}
 
-unsigned int func_0210ab40(unsigned int p0) {
-    return p0;
-}
+void func_0210ab40(Unk0206bcb0 *a, Unk0210bf24 *b, s32 c) {}
 
-void func_0210ab30(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 44) = (unsigned int) (((u32) (&func_0210ab40)));
+void func_0210ab30(Unk0206bcb0 *a) {
+    a->mUnk_00.mUnk_2c = (void (*)(void *, void *, u32)) func_0210ab40;
 }

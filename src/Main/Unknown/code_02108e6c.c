@@ -8,6 +8,6 @@ unsigned int func_02108e7c(void) {
     return ((u32) (&data_0217c83c));
 }
 
-unsigned int func_02108e6c(unsigned int p0) {
-    return ((((u32) (&data_0217c838))) + (((p0) << 2)));
+Unk0212c400 **func_02108e6c(unsigned int p0) {
+    return (Unk0212c400 **) ((((u32) (&data_0217c838))) + (((p0) << 2)));
 }

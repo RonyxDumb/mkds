@@ -3,7 +3,7 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_0211f598(void);
-void func_0211f5d0(void);
-void func_0211fd28(void);
-u32 func_0211fd68(void);
+#include "Main/Unknown/code_0211f4b0.h"
+#include "Main/Unknown/code_0211f6cc.h"
+#include "Main/Unknown/code_0211f394.h"
+#include "Main/Unknown/code_0211f2ac.h"

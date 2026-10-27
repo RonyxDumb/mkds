@@ -1,0 +1,37 @@
+#include "Main/Unknown/code_0210b760.h"
+
+#include "Main/Unknown/code_0210bcf4.h"
+#include "Main/Unknown/unk_0217c000.h"
+
+void func_0210b7ec(u32 p, u32 b) {
+    s32 a;
+    s32 c;
+
+    a = ((Unk0210b7a8 *) p)->mUnk_00;
+    if (a == -1) {
+        ((Unk0210b7a8 *) p)->mUnk_00 = b;
+        ((Unk0210b7a8 *) p)->mUnk_08 = 0;
+        return;
+    }
+    c = ((Unk0210b7a8 *) p)->mUnk_08;
+    ((Unk0210b7a8 *) p)->mUnk_04 = a;
+    ((Unk0210b7a8 *) p)->mUnk_00 = b;
+    ((Unk0210b7a8 *) p)->mUnk_08 =
+        (((Unk0210b7a8 *) p)->mUnk_04 - ((Unk0210b7a8 *) p)->mUnk_00) >> ((Unk0210b7a8 *) p)->mUnk_0c;
+    a = ((Unk0210b7a8 *) p)->mUnk_08;
+    if (a > 0x600 || a < -0x600) {
+        ((Unk0210b7a8 *) p)->mUnk_08 = c;
+    }
+}
+
+void func_0210b7a8(Unk0210b7a8 *p) {
+    if (data_0217c780 & 1) {
+        func_0210bf24(0, p->mUnk_00, p->mUnk_04, (u32) p);
+    }
+}
+
+void func_0210b760(Unk0210b7a8 *p, u32 b) {
+    if (data_0217c780 & 1) {
+        func_0210bee8(0, p->mUnk_00, p->mUnk_04, b, (u32) p);
+    }
+}

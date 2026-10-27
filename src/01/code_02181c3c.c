@@ -150,8 +150,7 @@ void func_ov001_02181c3c(void *param_1, Unk02181c3c *param_2) {
                               (int *) &out1, (int *) &out2, &flags, 0, 0, 0, 0) != 0) {
                 func_02148504(&param_2->mUnk_004, &delta, &param_2->mUnk_004);
                 if (flags & 0x214300) {
-                    func_020eaa14((u32 *) &param_2->mUnk_010, (u32 *) &out2, 0x1000, 0x1000, 0xc00,
-                                  (u32 *) &param_2->mUnk_010);
+                    func_020eaa14(&param_2->mUnk_010, &out2, 0x1000, 0x1000, 0xc00, &param_2->mUnk_010);
                     if ((s64) param_2->mUnk_010.x * param_2->mUnk_010.x +
                             (s64) param_2->mUnk_010.y * param_2->mUnk_010.y +
                             (s64) param_2->mUnk_010.z * param_2->mUnk_010.z >=
