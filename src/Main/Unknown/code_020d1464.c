@@ -10,7 +10,7 @@
 #include "Main/Unknown/code_02037000.h"
 
 void func_020d159c(void) {
-    func_0200ee74((u32) &data_0217b4ac->mUnk_10, 0x400);
+    func_0200ee74(&data_0217b4ac->mUnk_10, 0x400);
     func_0214bfcc(&data_0217b4ac->mUnk_10, 0, 0x400);
     if (data_0217b4ac->mUnk_00 == 0x1a4) {
         func_02036fec(0x78, 1);

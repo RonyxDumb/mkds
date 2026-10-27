@@ -36,7 +36,7 @@ void func_020217b4(Unk020217b4 *p) {
     for (j = 0; j < 16; j++) {
         p->mUnk_260[j] = -1;
     }
-    func_0200ee74((u32) p, 0x280);
+    func_0200ee74(p, 0x280);
 }
 
 void func_02021784(void) {

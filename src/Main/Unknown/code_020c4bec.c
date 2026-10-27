@@ -127,7 +127,7 @@ void func_020c4e48(void) {
     u32 v;
     u32 p;
 
-    func_0200ee74((u32) &data_0217b3e8->mUnk_18, 0x400);
+    func_0200ee74(&data_0217b3e8->mUnk_18, 0x400);
     func_0214bfcc(&data_0217b3e8->mUnk_18, 0, 0x400);
     v = (*(vu16 *) 0x4000304 & 0x8000) >> 15;
     if (v != 0) {
@@ -178,7 +178,7 @@ void func_020c4bec(void) {
     }
     func_02024340(&w, 0, 9, 0xe, 0x40a, func_020b3f7c(func_020b47cc("common.bmg"), s));
     func_02024340(&w, 0, 8, 0xe, 0x40a, func_020b3f7c(func_020b47cc("common.bmg"), s));
-    func_0200ee74((u32) data_0217b3e8->mUnk_08->mUnk_14, data_0217b3e8->mUnk_08->mUnk_10);
+    func_0200ee74(data_0217b3e8->mUnk_08->mUnk_14, data_0217b3e8->mUnk_08->mUnk_10);
     func_0214c090(data_0217b3e8->mUnk_04->mUnk_0c, 0, data_0217b3e8->mUnk_04->mUnk_08);
     func_0214bf04(data_0217b3e8->mUnk_08->mUnk_14, 0, data_0217b3e8->mUnk_08->mUnk_10);
 }

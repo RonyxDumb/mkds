@@ -6,6 +6,6 @@ void func_02016638(Unk02016638 *p) {
     void (*f)(const void *, u32, u32);
 
     f = data_02152c54[p->mUnk_00];
-    func_0200ee74(p->mUnk_04, p->mUnk_0c);
+    func_0200ee74((const void *) p->mUnk_04, p->mUnk_0c);
     f((const void *) p->mUnk_04, p->mUnk_08, p->mUnk_0c);
 }

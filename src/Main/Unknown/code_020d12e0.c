@@ -40,6 +40,6 @@ void func_020d12e0(void) {
             w += 2;
         }
     }
-    func_0200ee74((u32) &data_0217b4ac->mUnk_10, 0x400);
+    func_0200ee74(&data_0217b4ac->mUnk_10, 0x400);
     func_0214cc04(3, &data_0217b4ac->mUnk_10.mUnk_000[data_0217b4ac->mUnk_10.mUnk_400], 0xc0, (0x80 - data_0217b4ac->mUnk_10.mUnk_400) << 3);
 }

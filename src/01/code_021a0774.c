@@ -146,7 +146,7 @@ void func_ov001_021a09a4(void) {
                 }
                 data_ov001_021ca414->mUnk_20[k] = r | ((bl << 10) | (g << 5));
             }
-            func_0200ee74((u32) data_ov001_021ca414->mUnk_20, 0x20);
+            func_0200ee74(data_ov001_021ca414->mUnk_20, 0x20);
             func_02016468(0x1e, c2 << 5, data_ov001_021ca414->mUnk_20, 0x20);
         }
     }

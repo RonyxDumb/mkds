@@ -27,16 +27,16 @@ s32 func_021286a0(s32 a) {
     func_020b47d8(&y, func_02047a28("select_return_s_bg_00.nscr"));
     func_020b4a44(&z, func_02047a28("select_return_s_b_00.nclr"));
     a -= x->mUnk_10;
-    func_0200ee74((u32) x->mUnk_14, x->mUnk_10);
+    func_0200ee74(x->mUnk_14, x->mUnk_10);
     func_0214b8f4(x->mUnk_14, a, x->mUnk_10);
     for (i = 0; i < 0x20; i++) {
         for (j = 0; j < 0x20; j++) {
             *(data_0217d3f8->mUnk_10 + i * 0x20 + j) = (a >> 5) + *((u16 *) y->mUnk_0c + i * 0x20 + j);
         }
     }
-    func_0200ee74((u32) data_0217d3f8->mUnk_10, y->mUnk_08);
+    func_0200ee74(data_0217d3f8->mUnk_10, y->mUnk_08);
     func_0214bc34(data_0217d3f8->mUnk_10, 0, y->mUnk_08);
-    func_0200ee74((u32) z->mUnk_0c, 0x180);
+    func_0200ee74(z->mUnk_0c, 0x180);
     func_0214c0f8(z->mUnk_0c + 0xc0, 0x180, 0x40);
     return a;
 }

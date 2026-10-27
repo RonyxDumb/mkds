@@ -63,8 +63,8 @@ void func_0212f5a0(void *a, void *b, u32 n, u32 d, Unk0212f1f8 *s) {
     if (s->mUnk_10 != 0) {
         s->mUnk_10(a, b, n, d, s->mUnk_14);
     }
-    func_0200ee74((u32) a, n);
-    func_0200ee74((u32) b, n);
+    func_0200ee74(a, n);
+    func_0200ee74(b, n);
 }
 
 // Does nothing.

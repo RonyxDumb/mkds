@@ -170,7 +170,7 @@ void func_020b8624(void) {
             s0.mUnk_04 = p;
             s0.mUnk_0c = 0;
             func_02024340(&s0, 0x80, 0x38, 0xe, 0x412, func_020b3f7c(func_020b47cc("common.bmg"), 0x81));
-            func_0200ee74((u32) (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_04->mUnk_14,
+            func_0200ee74((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_04->mUnk_14,
                           (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_04->mUnk_10);
             a2 = 0;
             func_020b48ec((void **) &a2, func_020b47c0("race_ta_m.NCER"));
@@ -184,7 +184,7 @@ void func_020b8624(void) {
             s1.mUnk_04 = p;
             s1.mUnk_0c = 0;
             func_02024340(&s1, 0x80, 0x18, 0xe, 0x412, func_020b3f7c(func_020b47cc("common.bmg"), 0x6d));
-            func_0200ee74((u32) (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[2].mUnk_04->mUnk_14,
+            func_0200ee74((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[2].mUnk_04->mUnk_14,
                           (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[2].mUnk_04->mUnk_10);
             func_020b46d0((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[2].mUnk_04->mUnk_14, 0, 0, 0x20, 4,
                           (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[0].mUnk_04->mUnk_14, 0, 0);
@@ -221,7 +221,7 @@ void func_020b8624(void) {
                 s2.mUnk_08 = func_020b4b54();
                 func_02024340(&s2, 0, 0x19, 0xe, 0x40a, func_020b3f7c(func_020b47cc("common.bmg"), n));
                 func_02024340(&s2, 0, 0x18, 0xe, 0x40a, func_020b3f7c(func_020b47cc("common.bmg"), n));
-                func_0200ee74((u32) (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[10].mUnk_04->mUnk_14,
+                func_0200ee74((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[10].mUnk_04->mUnk_14,
                               (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[10].mUnk_04->mUnk_10);
                 func_0214cffc((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[10].mUnk_00->mUnk_0c,
                               (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[0].mUnk_00->mUnk_0c, 0x40);
@@ -267,7 +267,7 @@ void func_020b8624(void) {
         a8 = 0;
         m = data_021759c0->mUnk_70[func_020b4d9c()].mUnk_04 == 0 ? 0x13 : 0x23;
         func_020b4a7c((void **) &a8, func_020b47c0("race_own_character_s_o.NCLR"));
-        func_0200ee74((u32) (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[6].mUnk_00->mUnk_0c, 0x200);
+        func_0200ee74((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[6].mUnk_00->mUnk_0c, 0x200);
         for (j = 0; j < 4; j++) {
             (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[6].mUnk_00->mUnk_0c[j + 0xb3] = a8->mUnk_0c[m + j];
         }

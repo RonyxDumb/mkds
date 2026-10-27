@@ -90,7 +90,7 @@ void func_ov001_021899e4(void) {
                 for (k = 0; k < 16; k++) {
                     dst[0x50 + k] = res->mUnk_0c[(row + 2) * 16 + k];
                 }
-                func_0200ee74((u32)(*(Unk020b4a44 **)func_020b85f0(6))->mUnk_0c,
+                func_0200ee74((*(Unk020b4a44 **)func_020b85f0(6))->mUnk_0c,
                               (*(Unk020b4a44 **)func_020b85f0(6))->mUnk_08);
                 data_ov001_021a9bc0->mUnk_10[count].mUnk_08 = func_020b83dc(0xc5);
                 data_ov001_021a9bc0->mUnk_10[count].mUnk_0c = func_020b4e70(pos) ? 2 : 3;

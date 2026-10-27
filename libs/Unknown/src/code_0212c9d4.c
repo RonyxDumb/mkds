@@ -57,8 +57,8 @@ s32 func_0212ccd4(u32 a, u8 *b, u8 *c, u32 d, u32 e, u32 f, u32 g, u32 h, s32 i,
     x2c = 0;
     r = -1;
     p = &data_0217ddd0;
-    func_0200ee74((u32) b, d);
-    func_0200ee74((u32) c, d);
+    func_0200ee74(b, d);
+    func_0200ee74(c, d);
     q = e == 1;
     u = 0xffb0ff / i;
     if (n != 0) {
@@ -199,8 +199,8 @@ void func_0212cad8(void) {
     func_0214d018(v, p->mUnk_0c, p->mUnk_14);
     w = 0;
     func_0214d018(w, p->mUnk_10, p->mUnk_14);
-    func_0200ee74((u32) p->mUnk_0c, p->mUnk_14);
-    func_0200ee74((u32) p->mUnk_10, p->mUnk_14);
+    func_0200ee74(p->mUnk_0c, p->mUnk_14);
+    func_0200ee74(p->mUnk_10, p->mUnk_14);
     func_02020c2c(p->mUnk_24, p->mUnk_28, p->mUnk_2c >= 0 ? 1 << p->mUnk_2c : 0, 0);
 }
 

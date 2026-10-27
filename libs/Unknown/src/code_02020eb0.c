@@ -175,7 +175,7 @@ u32 func_020211e4(u32 a) {
             func_02021488(1);
         } while (data_021732e4 >= 8);
     }
-    func_0200ee74((u32) data_021735a0, 0x1800);
+    func_0200ee74(data_021735a0, 0x1800);
     if (func_0214d6e8(7, (u32) data_021732d0, 0) < 0) {
         if ((a & 1) == 0) {
             func_0200fcb4(s);

@@ -55,7 +55,7 @@ int func_02146868(Unk021458c4 *p, s32 a, s32 b) {
         }
         func_02146868(p, 0, 1);
     }
-    func_0200ee74((u32) p->mUnk_00, 0x40);
+    func_0200ee74(p->mUnk_00, 0x40);
     func_0200ee98();
     do {
         p->mUnk_04 = a;
@@ -401,7 +401,7 @@ void func_02145f80(Unk021458c4 *p) {
             p->mUnk_00->mUnk_10 = (u32) p->mUnk_120;
         } else {
             func_0214d1fc((void *) p->mUnk_1c, p->mUnk_120, n);
-            func_0200ee74((u32) p->mUnk_120, n);
+            func_0200ee74(p->mUnk_120, n);
             func_0200ee98();
             p->mUnk_00->mUnk_0c = (u32) p->mUnk_120;
             p->mUnk_00->mUnk_10 = p->mUnk_20;
@@ -658,7 +658,7 @@ void func_021458c4(void) {
     p->mUnk_18 = 0;
     p->mUnk_00 = &data_0217fa00;
     func_0214d05c_inline(&data_0217fa00, 0x40);
-    func_0200ee74((u32) &data_0217fa00, 0x40);
+    func_0200ee74(&data_0217fa00, 0x40);
     if (*(u16 *) 0x027ffc40 != 2) {
         func_0214d1fc((void *) 0x027ffe00, (void *) 0x027ffa80, 0x160);
     }

@@ -12,7 +12,7 @@ s32 func_0212d154(u8 *a, u32 b, u32 c, u32 d, u32 e, UnkFunc *f, void *g) {
     }
     v = 0;
     func_0214d018(v, a, b);
-    func_0200ee74((u32) a, b);
+    func_0200ee74(a, b);
     return func_0212ccd4(1, a, a + (b >> 1), b >> 1, c, 0, 0, 1, d, 0x7f, 0, 0x7f, e, f, g);
 }
 

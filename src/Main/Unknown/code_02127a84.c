@@ -31,21 +31,21 @@ s32 func_02127f14(s32 param_1)
     param_1 = param_1 - a->mUnk_10;
     s = param_1 >> 5;
     data_0217d3f4->mUnk_89c = s;
-    func_0200ee74((u32) a->mUnk_14, a->mUnk_10);
+    func_0200ee74(a->mUnk_14, a->mUnk_10);
     func_0214ba94(a->mUnk_14, param_1, a->mUnk_10);
     for (i = 0; i < 32; i++) {
         for (j = 0; j < 32; j++) {
             *(data_0217d3f4->mUnk_2c + i * 32 + j) = s + *((u16 *) b->mUnk_0c + i * 32 + j);
         }
     }
-    func_0200ee74((u32) data_0217d3f4->mUnk_2c, b->mUnk_08);
+    func_0200ee74(data_0217d3f4->mUnk_2c, b->mUnk_08);
     func_0214bdd4(data_0217d3f4->mUnk_2c, 0, b->mUnk_08);
     e = &data_0215d0a0;
     y = e->mUnk_02 * 32;
     x = e->mUnk_00;
     data_0217d3f4->mUnk_82c = data_0217d3f4->mUnk_89c + (x + y);
     data_0217d3f4->mUnk_830 = data_0217d3f4->mUnk_89c + (y + (x + 3));
-    func_0200ee74((u32) c->mUnk_0c, 0x1c0);
+    func_0200ee74(c->mUnk_0c, 0x1c0);
     func_0214c0f8(c->mUnk_0c + 0xe0, 0x1c0, 0x40);
     return param_1;
 }
