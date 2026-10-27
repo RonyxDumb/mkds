@@ -27,5 +27,5 @@ u32 func_ov000_0218e374(u32 param_1) {
 }
 
 u32 func_ov000_0218e368(void) {
-    return *((u32 *) ((u32) (&data_ov000_021b4e08)));
+    return *(u32 *) &data_ov000_021b4e08;
 }

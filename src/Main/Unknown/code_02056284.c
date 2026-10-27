@@ -2,14 +2,12 @@
 
 #pragma thumb on
 
-// non-matching: 0x2c bytes, original 0x30; 14 instructions differ; first at +0x0: original `push {lr}`, ours `push {r4,
-// lr}`
 u32 func_02056284(u32 param_1) {
     int iVar1;
-    iVar1 = func_02048684((const char *) (param_1), (void *) (*(u32 *) (*((int *) ((u32) (&data_0217aa08))) + 0x1c)),
+    iVar1 = func_02048684((const char *) (param_1), (void *) (*(u32 *) ((*(int *) &data_0217aa08) + 0x1c)),
                           (u32) (((u32) 0x00001000u)));
     if (iVar1 != 0) {
-        return *(u32 *) (*((int *) ((u32) (&data_0217aa08))) + 0x1c);
+        return *(u32 *) ((*(int *) &data_0217aa08) + 0x1c);
     }
     return 0;
 }

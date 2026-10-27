@@ -24,8 +24,6 @@ void func_02047950(u32 param_1) {
     return;
 }
 
-// non-matching: 0x8c bytes, original 0x94; 19 instructions differ; first at +0x0: original `push {r4, r5, lr}`, ours
-// `push {r4, r5, r6, lr}`
 int func_020478bc(u32 param_1) {
     int iVar1;
     int iVar2;
@@ -35,15 +33,15 @@ int func_020478bc(u32 param_1) {
         iVar2 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x28)),
                               (s8 *) ((s8 *) (u32) (param_1)));
     } else {
-        if (*(int *) (*((int *) ((u32) (&data_021759c8))) + ((int) 0x00000308u)) != 0) {
+        if (*(int *) ((*(int *) &data_021759c8) + ((int) 0x00000308u)) != 0) {
             iVar2 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x18)),
                                   (s8 *) ((s8 *) (u32) (param_1)));
         }
-        if ((iVar2 == 0) && (*(int *) (*((int *) ((u32) (&data_021759c8))) + ((int) 0x00000378u)) != 0)) {
+        if ((iVar2 == 0) && (*(int *) ((*(int *) &data_021759c8) + ((int) 0x00000378u)) != 0)) {
             iVar2 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x1c)),
                                   (s8 *) ((s8 *) (u32) (param_1)));
         }
-        if ((iVar2 == 0) && (*(int *) (*((int *) ((u32) (&data_021759c8))) + ((int) 0x000003e8u)) != 0)) {
+        if ((iVar2 == 0) && (*(int *) ((*(int *) &data_021759c8) + ((int) 0x000003e8u)) != 0)) {
             iVar2 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x20)),
                                   (s8 *) ((s8 *) (u32) (param_1)));
         }

@@ -6,7 +6,7 @@ int func_ov003_021cd0d0(int *param_1) {
     int iVar3;
     int iVar2;
     iVar4 = 0;
-    *param_1 = *((int *) ((u32) (&data_ov003_021da26c))) + ((int) 0x00001300u);
+    *param_1 = (*(int *) &data_ov003_021da26c) + ((int) 0x00001300u);
     iVar5 = 0;
     iVar3 = *param_1;
     do {

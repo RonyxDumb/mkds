@@ -16,7 +16,7 @@ int func_02122734(int param_1) {
     u32 uVar1;
     int iVar2;
     iVar2 = 0;
-    uVar1 = *(u32 *) (((u32) ((u32) (&data_0217d384))));
+    uVar1 = *(u32 *) (((u32) &data_0217d384));
     do {
         if (param_1 == *(s8 *) (uVar1 + 0x1f4e)) {
             return iVar2;

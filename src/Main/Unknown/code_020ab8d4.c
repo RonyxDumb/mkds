@@ -5,8 +5,8 @@
 void func_020ab910(u32 param_1, u32 param_2, u32 param_3, u32 param_4) {
     int *piVar1;
     int iVar2;
-    piVar1 = ((int *) ((u32) (&data_0217b334)));
-    *(u32 *) (*((int *) ((u32) (&data_0217b334))) + 0x58) = param_1;
+    piVar1 = (int *) &data_0217b334;
+    *(u32 *) ((*(int *) &data_0217b334) + 0x58) = param_1;
     *(u32 *) (*piVar1 + 0x5c) = param_2;
     *(u32 *) (*piVar1 + 0x60) = param_3;
     *(u32 *) (*piVar1 + 100) = param_4;
@@ -21,8 +21,8 @@ void func_020ab910(u32 param_1, u32 param_2, u32 param_3, u32 param_4) {
 void func_020ab8d4(u32 param_1, u32 param_2, u32 param_3, u32 param_4) {
     int *piVar1;
     int iVar2;
-    piVar1 = ((int *) ((u32) (&data_0217b334)));
-    *(u32 *) (*((int *) ((u32) (&data_0217b334))) + 0x68) = param_1;
+    piVar1 = (int *) &data_0217b334;
+    *(u32 *) ((*(int *) &data_0217b334) + 0x68) = param_1;
     *(u32 *) (*piVar1 + 0x6c) = param_2;
     *(u32 *) (*piVar1 + 0x70) = param_3;
     *(u32 *) (*piVar1 + 0x74) = param_4;

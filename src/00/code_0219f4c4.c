@@ -7,8 +7,8 @@ u32 func_ov000_0219f4c4(u32 *param_1, u32 param_2) {
     u32 *puVar2;
     int iVar3;
     u32 uVar4;
-    piVar1 = ((int *) ((u32) (&data_ov000_021b566c)));
-    puVar2 = (u32 *) *((int *) ((u32) (&data_ov000_021b566c)));
+    piVar1 = (int *) &data_ov000_021b566c;
+    puVar2 = (u32 *) (*(int *) &data_ov000_021b566c);
     if ((*(unsigned char *) ((int) puVar2 + ((int) 0x0000019eu)) != '\0') &&
         (*(int *) ((int) puVar2 + ((int) 0x00000198u)) == 4)) {
         return 1;

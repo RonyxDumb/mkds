@@ -26,6 +26,6 @@ void func_ov001_021a64ac(u32 a) {
 }
 
 void func_ov001_021a64a0(void) {
-    *((u32 *) ((u32) (&data_ov001_021ca424))) = 0;
+    *(u32 *) &data_ov001_021ca424 = 0;
     return;
 }

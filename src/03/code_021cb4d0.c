@@ -11,7 +11,7 @@ void func_ov003_021cb4d0(void) {
     int iVar1;
     iVar1 = func_ov003_021d1f70((int) (1));
     if (iVar1 == 0) {
-        if (*((unsigned char *) ((u32) (&data_ov003_021da240))) != '\0') {
+        if ((*(unsigned char *) &data_ov003_021da240) != '\0') {
             func_ov003_021bf344();
         }
         func_ov003_021d1ee0((int) (3), (int) (1), (u32) (1), (u16) (8));

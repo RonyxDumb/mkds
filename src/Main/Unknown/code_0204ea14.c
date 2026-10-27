@@ -2,7 +2,6 @@
 
 #pragma thumb on
 
-// non-matching: 20 instructions differ; first at +0x0: original `push {r4, lr}`, ours `push {r4, r5, lr}`
 u32 func_0204ea3c(void) {
     u32 uVar1;
     int iVar2;
@@ -10,12 +9,11 @@ u32 func_0204ea3c(void) {
     uVar3 = 0;
     uVar1 = func_02008880((int) (0));
     if (((u32) 0x00010000u) <= uVar1) {
-        iVar2 = func_02008570((u8 *) (0), (int) (*(u32 *) (*((int *) ((u32) (&data_0217aa00))) + ((int) 0x00001658u))),
-                              (u32) (*(u32 *) (*((int *) ((u32) (&data_0217aa00))) + ((int) 0x0000168cu))));
-        if ((iVar2 != 0) &&
-            (iVar2 = func_02008310((int) (((u32) ((u32) (&data_0215472c)))),
-                                   (int) (*(u32 *) (*((int *) ((u32) (&data_0217aa00))) + ((int) 0x00001658u)))),
-             iVar2 != 0)) {
+        iVar2 = func_02008570((u8 *) (0), (int) (*(u32 *) ((*(int *) &data_0217aa00) + ((int) 0x00001658u))),
+                              (u32) (*(u32 *) ((*(int *) &data_0217aa00) + ((int) 0x0000168cu))));
+        if ((iVar2 != 0) && (iVar2 = func_02008310((int) (((u32) &data_0215472c)),
+                                                   (int) (*(u32 *) ((*(int *) &data_0217aa00) + ((int) 0x00001658u)))),
+                             iVar2 != 0)) {
             uVar3 = 1;
         }
     }

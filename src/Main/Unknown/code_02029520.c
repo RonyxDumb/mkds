@@ -172,12 +172,12 @@ void func_020295c0(unsigned int p0) {
 }
 
 void func_020295b0(void) {
-    *(u32 *) (*((int *) ((u32) (&data_02174e1c))) + 0xd8) = 1;
+    *(u32 *) ((*(int *) &data_02174e1c) + 0xd8) = 1;
     return;
 }
 
 void func_020295a0(void) {
-    *(u32 *) (*((int *) ((u32) (&data_02174e1c))) + 0xd8) = 0;
+    *(u32 *) ((*(int *) &data_02174e1c) + 0xd8) = 0;
     return;
 }
 
@@ -236,12 +236,12 @@ void func_02029540(unsigned int p0) {
 }
 
 void func_02029530(void) {
-    *(u32 *) (*((int *) ((u32) (&data_02174e1c))) + 0xdc) = 1;
+    *(u32 *) ((*(int *) &data_02174e1c) + 0xdc) = 1;
     return;
 }
 
 void func_02029520(void) {
-    *(u32 *) (*((int *) ((u32) (&data_02174e1c))) + 0xdc) = 0;
+    *(u32 *) ((*(int *) &data_02174e1c) + 0xdc) = 0;
     return;
 }
 

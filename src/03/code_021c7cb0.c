@@ -7,7 +7,7 @@ void func_ov003_021c7d58(void) {
     if (iVar1 == 0) {
         func_ov003_021cdc10((u32) (6));
         func_ov003_021cef90();
-        func_ov003_021cc900((u32) (*(u32 *) (*((int *) ((u32) (&data_ov003_021da214))) + 0xc)));
+        func_ov003_021cc900((u32) (*(u32 *) ((*(int *) &data_ov003_021da214) + 0xc)));
         func_ov003_021c212c(func_ov003_021c7d3c);
     }
     return;
@@ -23,7 +23,7 @@ void func_ov003_021c7d3c(void) {
 }
 
 void func_ov003_021c7d30(u8 param_1) {
-    *((u8 *) ((u32) (&data_ov003_021da208))) = param_1;
+    *(u8 *) &data_ov003_021da208 = param_1;
     return;
 }
 

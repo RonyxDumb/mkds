@@ -7,8 +7,8 @@ void func_020d2d94(void) {
     int *piVar3;
     u32 *puVar2;
     int *piVar1;
-    piVar3 = (int *) (*((int *) ((u32) (&data_0217b4f0))) + 8);
-    piVar1 = (int *) (*((int *) ((u32) (&data_0217b4f0))) + ((int) 0x00000134u));
+    piVar3 = (int *) ((*(int *) &data_0217b4f0) + 8);
+    piVar1 = (int *) ((*(int *) &data_0217b4f0) + ((int) 0x00000134u));
     iVar4 = 0;
     do {
         if (*piVar3 != 0) {

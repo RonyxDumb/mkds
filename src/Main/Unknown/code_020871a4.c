@@ -6,8 +6,8 @@ void func_020871c0(int param_1, u32 param_2) {
     u16 uVar1;
     u16 *puVar2;
     u32 uVar3;
-    uVar3 = *((u32 *) ((u32) (&data_0217aec4)));
-    puVar2 = (u16 *) *((u32 *) ((u32) (&data_0217aec8)));
+    uVar3 = *(u32 *) &data_0217aec4;
+    puVar2 = (u16 *) (*(u32 *) &data_0217aec8);
     *puVar2 = (short) ((u32) 0x00007c00u);
     uVar1 = func_020873e4((int) (param_2));
     puVar2[1] = uVar1;

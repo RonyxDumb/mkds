@@ -10,7 +10,7 @@ void func_ov003_021d214c(unsigned int p0, unsigned int p1, unsigned int p2, unsi
 }
 
 void func_ov003_021d211c(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u16 param_5, int param_6) {
-    func_02023450((int) (param_1), (u32) (*((int *) ((u32) (&data_ov003_021da2c4))) + param_6 * 0xc), (int) (param_2),
+    func_02023450((int) (param_1), (u32) ((*(int *) &data_ov003_021da2c4) + param_6 * 0xc), (int) (param_2),
                   (u32) (param_3), (u32) (param_4), (u16) (param_5));
     return;
 }

@@ -26,7 +26,7 @@ u8 func_ov000_0218af10(int param_1) {
 }
 
 u32 func_ov000_0218aefc(int param_1) {
-    if (param_1 == *((int *) ((u32) (&data_ov000_021b4d1c)))) {
+    if (param_1 == (*(int *) &data_ov000_021b4d1c)) {
         return 1;
     }
     return 0;

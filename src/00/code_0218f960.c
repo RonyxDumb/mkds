@@ -11,19 +11,19 @@ u32 func_ov000_0218f960(int *param_1, u32 param_2) {
     iVar4 = *param_1;
     iVar1 = func_ov000_02194934(param_1, param_2, (int *) (void *) (local_18));
     if (iVar1 == 0) {
-        func_ov000_02196590(param_1, ((u32) ((u32) (&data_ov000_021b273c))));
+        func_ov000_02196590(param_1, (u32) &data_ov000_021b273c);
         return 2;
     }
     func_ov000_02190b80((unsigned int) ((u32) (u32) (param_1)), (unsigned int) (iVar4 + ((int) 0x000001f4u)),
-                        (unsigned int) (((u32) ((u32) (&data_ov000_021b2750)))));
+                        (unsigned int) (((u32) &data_ov000_021b2750)));
     func_ov000_02190b80((unsigned int) ((u32) (u32) (param_1)), (unsigned int) (iVar4 + ((int) 0x000001f4u)),
-                        (unsigned int) (((u32) ((u32) (&data_ov000_021b275c)))));
+                        (unsigned int) (((u32) &data_ov000_021b275c)));
     func_ov000_02190b58(param_1, iVar4 + ((int) 0x000001f4u), *(u32 *) (iVar4 + ((int) 0x00000198u)));
     func_ov000_02190b80((unsigned int) ((u32) (u32) (param_1)), (unsigned int) (iVar4 + ((int) 0x000001f4u)),
-                        (unsigned int) (((u32) ((u32) (&data_ov000_021b2768)))));
+                        (unsigned int) (((u32) &data_ov000_021b2768)));
     func_ov000_02190b58(param_1, iVar4 + ((int) 0x000001f4u), *local_18[0]);
     func_ov000_02190b80((unsigned int) ((u32) (u32) (param_1)), (unsigned int) (iVar4 + ((int) 0x000001f4u)),
-                        (unsigned int) (((u32) ((u32) (&data_ov000_021b2778)))));
+                        (unsigned int) (((u32) &data_ov000_021b2778)));
     if ((int *) local_18[0][2] != (int *) 0x0) {
         iVar1 = *(int *) local_18[0][2];
         if (iVar1 < 0) {
@@ -44,7 +44,7 @@ u32 func_ov000_0218f960(int *param_1, u32 param_2) {
         if (*piVar3 < 0) {
             func_0213442c(data_ov000_021b2798, data_ov000_021b278c, 0, 0x204);
         }
-        func_ov000_02194840(param_1, ((u32) ((u32) (&func_ov000_0218fa98))), iVar1);
+        func_ov000_02194840(param_1, (u32) &func_ov000_0218fa98, iVar1);
     }
     return 0;
 }

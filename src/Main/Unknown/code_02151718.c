@@ -9,13 +9,13 @@ u32 func_02151830(u16 *param_1) {
     if (iVar1 == 0) {
         return 0;
     }
-    *((int *) ((u32) (&data_0218049c))) = (u32) *param_1 * 8 - ((int) 0x00000400u);
+    *(int *) &data_0218049c = (u32) *param_1 * 8 - ((int) 0x00000400u);
     return 1;
 }
 
 u32 func_02151804(u32 param_1) {
     int iVar1;
-    iVar1 = func_0215122c((u32) (*((u32 *) ((u32) (&data_0218049c)))), (u32) (((u32) 0x00000400u)), (u32) (param_1));
+    iVar1 = func_0215122c((u32) ((*(u32 *) &data_0218049c)), (u32) (((u32) 0x00000400u)), (u32) (param_1));
     if (iVar1 != 0) {
         return 1;
     }
@@ -29,7 +29,7 @@ u32 func_02151794(int param_1, int *param_2, u32 param_3) {
     int *local_20;
     int local_1c;
     iVar2 = ((int) 0x00000100u);
-    iVar3 = *((int *) ((u32) (&data_0218049c)));
+    iVar3 = *(int *) &data_0218049c;
     local_1c = 0;
     local_20 = param_2;
     do {
@@ -59,7 +59,7 @@ u32 func_02151718(int param_1) {
     int iVar2;
     u16 uVar1;
     iVar3 = ((int) 0x00000100u);
-    iVar5 = *((int *) ((u32) (&data_0218049c)));
+    iVar5 = *(int *) &data_0218049c;
     local_18 = 0;
     iVar4 = param_1;
     do {

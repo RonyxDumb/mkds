@@ -23,13 +23,13 @@ void func_ov000_021a36f0(unsigned int p0, unsigned int p1, unsigned int p2, unsi
 
 int func_ov000_021a369c(u32 param_1, int param_2, u32 param_3, u32 param_4, u32 param_5) {
     int iVar1;
-    iVar1 = (*(UnkWordFunc *) *((u32 *) ((u32) (&data_ov000_021b5df0))))(param_1, param_4, param_5);
+    iVar1 = (*(UnkWordFunc *) (*(u32 *) &data_ov000_021b5df0))(param_1, param_4, param_5);
     if (iVar1 == 0) {
         return 0;
     }
     if (param_2 != 0) {
         func_0214d1fc((const void *) ((u16 *) (u32) (param_2)), (void *) ((u32 *) (u32) (iVar1)), (u32) (param_4));
-        (*(UnkWordFunc *) *((u32 *) ((u32) (&data_ov000_021b5dec))))(param_1, param_2, param_3);
+        (*(UnkWordFunc *) (*(u32 *) &data_ov000_021b5dec))(param_1, param_2, param_3);
     }
     return iVar1;
 }

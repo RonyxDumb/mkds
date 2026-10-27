@@ -10,7 +10,7 @@ void func_ov000_021ab6d4(int param_1, u32 param_2) {
     } else {
         iVar2 = 0x78 - uVar1;
     }
-    func_ov000_021ab728((int) (param_1), (int) (((u32) ((u32) (&data_ov000_021b4aa4)))), (u32) (iVar2));
+    func_ov000_021ab728((int) (param_1), (int) (((u32) &data_ov000_021b4aa4)), (u32) (iVar2));
     func_ov000_021ab728((int) (param_1), (int) (param_2), (u32) (8));
     func_ov000_021abc14(param_2, param_1, 0x10);
     return;

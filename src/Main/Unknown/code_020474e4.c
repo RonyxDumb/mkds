@@ -25,17 +25,11 @@ void func_02047544(u32 param_1, u32 param_2, u32 param_3) {
     return;
 }
 
-// non-matching: 0x5c bytes, original 0x60; 14 instructions differ; first at +0x0: original `push {lr}`, ours `push {r4,
-// lr}`
 void func_020474e4(void) {
-    func_02047634((u32) (*(u32 *) (*((int *) ((u32) (&data_0217aa10))) + 0xa0)), (int) (0xb), (int) (0xaa), (u32) (0),
-                  (u32) (0));
-    func_02047634((u32) (*(u32 *) (*((int *) ((u32) (&data_0217aa10))) + 0xa0)), (int) (0xc), (int) (0x6e), (u32) (0),
-                  (u32) (0));
-    func_02047634((u32) (*(u32 *) (*((int *) ((u32) (&data_0217aa10))) + 0xa0)), (int) (9), (int) (0x1e), (u32) (0),
-                  (u32) (0));
-    func_02047634((u32) (*(u32 *) (*((int *) ((u32) (&data_0217aa10))) + 0xa0)), (int) (10), (int) (0x1e), (u32) (0),
-                  (u32) (0));
+    func_02047634((u32) (*(u32 *) ((*(int *) &data_0217aa10) + 0xa0)), (int) (0xb), (int) (0xaa), (u32) (0), (u32) (0));
+    func_02047634((u32) (*(u32 *) ((*(int *) &data_0217aa10) + 0xa0)), (int) (0xc), (int) (0x6e), (u32) (0), (u32) (0));
+    func_02047634((u32) (*(u32 *) ((*(int *) &data_0217aa10) + 0xa0)), (int) (9), (int) (0x1e), (u32) (0), (u32) (0));
+    func_02047634((u32) (*(u32 *) ((*(int *) &data_0217aa10) + 0xa0)), (int) (10), (int) (0x1e), (u32) (0), (u32) (0));
     return;
 }
 

@@ -4,7 +4,7 @@
 
 u32 func_020270d0(void) {
     int iVar1;
-    if ((*(int *) (*((int *) ((u32) (&data_02174e14))) + 0x80) != 0) && (iVar1 = func_0202b8c0(), iVar1 != 0)) {
+    if ((*(int *) ((*(int *) &data_02174e14) + 0x80) != 0) && (iVar1 = func_0202b8c0(), iVar1 != 0)) {
         return 1;
     }
     return 0;

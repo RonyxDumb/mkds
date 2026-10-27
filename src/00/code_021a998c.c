@@ -6,7 +6,7 @@ void func_ov000_021a998c(int param_1) {
     u8 *puVar1;
     int iVar2;
     iVar2 = *(int *) (param_1 + 0xc);
-    puVar1 = (u8 *) (*(UnkWordFunc *) *((u32 *) ((u32) (&data_ov000_021b63a4))))(0x83);
+    puVar1 = (u8 *) (*(UnkWordFunc *) (*(u32 *) &data_ov000_021b63a4))(0x83);
     if (puVar1 == (u8 *) 0x0) {
         *(u8 *) (iVar2 + ((int) 0x00000429u)) = 9;
         return;
@@ -41,6 +41,6 @@ void func_ov000_021a998c(int param_1) {
     func_ov000_021ab728((int) (iVar2 + ((int) 0x00000378u)), (int) ((int) (u32) (puVar1 + 0xb)), (u32) (0x28));
     iVar2 = func_ov000_021aa054((int) (iVar2), (int) ((int) (u32) (puVar1 + 6)));
     func_ov000_021adcec((int) ((int) (u32) (puVar1)), (u32) (iVar2 + 6), (int) (0), (int) (0), (int) (param_1));
-    (*(UnkWordFunc *) *((u32 *) ((u32) (&data_ov000_021b63ac))))(puVar1);
+    (*(UnkWordFunc *) (*(u32 *) &data_ov000_021b63ac))(puVar1);
     return;
 }

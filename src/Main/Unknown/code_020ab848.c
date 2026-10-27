@@ -8,8 +8,8 @@ void func_020ab848(int *param_1, int *param_2, int *param_3, int *param_4) {
     int *piVar1;
     int iVar2;
     func_020ab11c();
-    piVar1 = ((int *) ((u32) (&data_0217b334)));
-    *param_1 = *param_1 - *(int *) (*((int *) ((u32) (&data_0217b334))) + 0x50);
+    piVar1 = (int *) &data_0217b334;
+    *param_1 = *param_1 - *(int *) ((*(int *) &data_0217b334) + 0x50);
     *param_2 = *param_2 - *(int *) (*piVar1 + 0x54);
     *param_3 = *param_3 - *(int *) (*piVar1 + 0x50);
     *param_4 = *param_4 - *(int *) (*piVar1 + 0x54);

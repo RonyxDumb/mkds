@@ -6,7 +6,7 @@ void func_0204ece0(u8 param_1) {
     int iVar1;
     iVar1 = func_020501b0();
     if (iVar1 != 0) {
-        *(u8 *) (*((int *) ((u32) (&data_0217aa00))) + ((int) 0x00001e45u)) = param_1;
+        *(u8 *) ((*(int *) &data_0217aa00) + ((int) 0x00001e45u)) = param_1;
     }
     return;
 }

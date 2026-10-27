@@ -14,7 +14,7 @@ unsigned int func_ov001_021811b8(void) {
 
 int func_ov001_02181198(void) {
     int iVar1;
-    iVar1 = _s32_div_f(*(u32 *) (*((int *) ((u32) (&data_ov001_021a9b88))) + 4), 8);
+    iVar1 = _s32_div_f(*(u32 *) ((*(int *) &data_ov001_021a9b88) + 4), 8);
     return iVar1 * iVar1;
 }
 

@@ -3,9 +3,8 @@
 void func_ov001_0219daa0(void) {
     int *piVar1;
     int iVar2;
-    piVar1 = ((int *) ((u32) (&data_ov001_021a9bfc)));
-    *(int *) (*((int *) ((u32) (&data_ov001_021a9bfc))) + 0x14) =
-        *(int *) (*((int *) ((u32) (&data_ov001_021a9bfc))) + 0x14) + 1;
+    piVar1 = (int *) &data_ov001_021a9bfc;
+    *(int *) ((*(int *) &data_ov001_021a9bfc) + 0x14) = *(int *) ((*(int *) &data_ov001_021a9bfc) + 0x14) + 1;
     iVar2 = *piVar1;
     if (10 <= *(int *) (iVar2 + 0x14)) {
         *(u32 *) (iVar2 + 4) = 5;

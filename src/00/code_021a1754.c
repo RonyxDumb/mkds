@@ -3,7 +3,7 @@
 u32 func_ov000_021a1754(int param_1, int param_2) {
     int iVar2;
     int iVar1;
-    iVar1 = *((int *) ((u32) (&data_ov000_021b566c)));
+    iVar1 = *(int *) &data_ov000_021b566c;
     if (0 == iVar1) {
         return 0;
     }

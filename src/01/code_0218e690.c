@@ -67,7 +67,9 @@ void func_ov001_0218e92c(Unk02188950 *p) {
 
 void func_ov001_0218e8d8(int param_1) {
     func_ov001_02187218((Unk02188950 *) (param_1), (int) (5), (s32 (*)(Unk02188950 *)) ((int) (0)));
-    func_ov001_02188d30((Unk02188950 *) (param_1), (s32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000168u))), (s32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000016cu))), (UnkFunc *) (((u32) ((u32) (&func_ov001_0218e92c)))));
+    func_ov001_02188d30((Unk02188950 *) (param_1), (s32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x00000168u))),
+                        (s32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x0000016cu))),
+                        (UnkFunc *) (((u32) &func_ov001_0218e92c)));
     func_ov001_02188c90((Unk02188950 *) (param_1));
     func_ov001_02188cec((Unk02188950 *) (param_1), (s32) (0));
     func_ov001_02182a3c(0);

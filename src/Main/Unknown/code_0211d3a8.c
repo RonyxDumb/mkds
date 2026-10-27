@@ -7,7 +7,7 @@
 u32 func_0211d3a8(void) {
     u32 uVar1;
     u32 uVar2;
-    if (*(int *) (*((int *) ((u32) (&data_0217d368))) + 0x6c) != 0) {
+    if (*(int *) ((*(int *) &data_0217d368) + 0x6c) != 0) {
         uVar1 = ((short) func_0211d478((int) (0)));
         uVar2 = ((short) func_0211d478((int) (1)));
         if (uVar1 > uVar2) {
