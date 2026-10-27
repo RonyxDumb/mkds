@@ -14,3 +14,6 @@ int func_020d2c2c(u32 *param_1, u32 *param_2, u32 param_3, u32 param_4, u32 para
 void func_020d2950(void *param_1, s32 param_2);
 void func_020d2584(void *param_1, s32 param_2);
 void func_020d2600(s32 param_1, Vec3 *param_2, s32 param_3);
+void func_020d278c(void *p0);
+u32 func_020d286c(void *param_1);
+void func_020d27fc(void *a);

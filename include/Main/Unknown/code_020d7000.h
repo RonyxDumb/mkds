@@ -8,3 +8,6 @@ void func_020d7b88(u32 param_1, u32 *param_2);
 void func_020d7d4c();
 void func_020d7e44(u32 param_1, int param_2);
 void func_020d7a3c(void *param_1, u16 param_2, void *param_3);
+s32 func_020d70ac(Vec3 *a, Vec3 *b);
+void func_020d759c(void *p0, void *p1, void *p2, s32 p3);
+void func_020d79b0(void *param_1, u32 param_2, void *param_3);

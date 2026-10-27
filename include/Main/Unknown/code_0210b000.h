@@ -15,3 +15,4 @@ typedef struct Unk0210b7a8 {
 } Unk0210b7a8;
 
 void func_0210b7a8(Unk0210b7a8 *param_1);
+void func_0210b7ec(u32 p0, u32 p1);
