@@ -64,3 +64,5 @@ extern u8 data_0216ded4[];
 extern u8 data_0216ded8[];
 extern u8 data_0216dedc[];
 extern u8 data_0216dee0[];
+extern char data_0216d4a4[];
+extern char data_0216d4b0[];

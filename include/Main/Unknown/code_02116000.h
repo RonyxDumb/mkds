@@ -3,8 +3,6 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-short func_02116870(void);
+#include "Main/Unknown/code_02116870.h"
 #include "Main/Unknown/code_02116dc8.h"
-void func_02116b80(void *in, void *out);
-s16 func_02116d10(s32 a, s32 b);
-void func_02116b8c(void *a, u16 *b);
+#include "Main/Unknown/code_02116a4c.h"
