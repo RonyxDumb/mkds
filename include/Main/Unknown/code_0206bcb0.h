@@ -64,6 +64,7 @@ typedef struct Unk0217d26c {
 } Unk0217d26c;
 
 extern Unk0217d26c data_0217d294;
+extern Unk0217d26c data_0217d29c;
 
 typedef struct Unk0206ceb4 {
     /* 0 */ s16 mUnk_00;
@@ -110,7 +111,8 @@ typedef struct Unk0206c5e4_208 {
 typedef struct Unk0206bcb0 {
     /* 0 */ u8 mUnk_00[0x30];
     /* 30 */ void (*mUnk_30)(void);
-    /* 34 */ u8 mUnk_34[0x10];
+    /* 34 */ u8 mUnk_34[0xc];
+    /* 40 */ u32 mUnk_40;
     /* 44 */ vu32 mUnk_44;
     /* 48 */ vu32 mUnk_48;
     /* 4c */ vu32 mUnk_4c;
@@ -283,7 +285,7 @@ Unk0206cdd4_B *func_0207a6b0(void);
 void func_0206d020(Unk0206bcb0 *p, int a, int b);
 void func_01ffc9e8(Unk0206bcb0 *p, int a);
 void func_020681f0(Unk0206bcb0 *p);
-void func_02109078(Unk0206bcb0 *p, int a, int b, int c);
+void *func_02109078(Unk0206bcb0 *p, int a, int b, int c);
 void func_0210ddf4(Unk0217d26c *queue, int key, void (*cb)(Unk0206bcb0 *, int), Unk0206bcb0 *p, int arg);
 void func_020718c8(Unk0206bcb0 *p, int arg);
 void func_02071944(Unk0206bcb0 *p, int arg);

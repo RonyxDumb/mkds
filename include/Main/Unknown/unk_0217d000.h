@@ -271,3 +271,8 @@ extern u8 data_0217d1c8[];
 extern u8 data_0217d1cc[];
 extern u8 data_0217d1d0[];
 extern u32 data_0217d23c[];
+extern u32 data_0217d010[];
+extern u32 data_0217d024[];
+extern u8 data_0217d034[];
+extern u8 data_0217d048[];
+extern u8 data_0217d054[];
