@@ -1,0 +1,5 @@
+#pragma once
+
+#include "types.h"
+
+void func_020d4a20(s32 a, s32 b, s32 c, s32 d, s32 e, s32 f);

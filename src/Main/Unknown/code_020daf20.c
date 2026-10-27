@@ -337,7 +337,7 @@ void func_020db760(void *a, Unk020db2b8 *p) {
         }
         if (p->mUnk_a0 == 5) {
             e = q->mUnk_1c;
-            if (func_020d4ddc(p) == 0) {
+            if (func_020d4ddc((Unk020e71a0 *) p) == 0) {
                 if (p->mUnk_70 == data_0217ca6c[2].mUnk_20) {
                     n = 2;
                 } else if (p->mUnk_70 == data_0217ca6c[3].mUnk_20) {
