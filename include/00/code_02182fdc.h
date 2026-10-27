@@ -296,8 +296,8 @@ void func_020ac2fc(void *, void *, s32);
 #include "Main/Unknown/code_02108a40.h"
 #include "Main/Unknown/code_02120294.h"
 #include "Main/Unknown/code_02120610.h"
-void func_02124c30(void *, void *, void *, void *, void *);
-void func_02124fac(u32, u16 *);
+#include "Main/Unknown/code_02124bf0.h"
+#include "Main/Unknown/code_02124f4c.h"
 #include "Main/Unknown/code_0212658c.h"
 void func_021282c8(void);
 void func_02128374(void);

@@ -4,5 +4,5 @@
 #include "Main/Unknown/code_0200e000.h"
 #include "code_0214b824.h"
 
-unsigned int func_020ae5e4(unsigned int p0);
+u16 func_020ae5e4(unsigned int p0);
 void func_020ae5f0(void *param_1, void *param_2);

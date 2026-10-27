@@ -14,7 +14,7 @@ void func_020ae5f0(void *param_1, void *param_2) {
     return;
 }
 
-unsigned int func_020ae5e4(unsigned int p0) {
+u16 func_020ae5e4(unsigned int p0) {
     return ((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (p0) + 0 + (0x402u)));
 }
 

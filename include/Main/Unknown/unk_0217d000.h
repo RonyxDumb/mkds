@@ -438,6 +438,16 @@ typedef struct Unk0217d34c {
     /* 0c */ void *mUnk_0c;
 } Unk0217d34c;
 
+// Object behind data_0217d3ec: 0x814 bytes allocated by func_02125de0.
+typedef struct Unk0217d3ec {
+    /* 000 */ s32 mUnk_00;
+    /* 004 */ s32 mUnk_04;
+    /* 008 */ s32 mUnk_08;
+    /* 00c */ s32 mUnk_0c;
+    /* 010 */ u16 mUnk_10[0x400];
+    /* 810 */ s32 mUnk_810;
+} Unk0217d3ec;
+
 // Objects of 0x20 bytes set up by func_02023408; the word at 0x18 is called with the object and a value.
 typedef struct Unk0217d3f0_2098 {
     /* 00 */ u8 mUnk_00[0x18];
@@ -555,7 +565,7 @@ extern Unk0217d378 *data_0217d378;
 extern Unk0217d37c *data_0217d37c;
 extern Unk0217d380 *data_0217d380;
 extern u8 data_0217d388[0x64];
-extern u8 data_0217d3ec[];
+extern Unk0217d3ec *data_0217d3ec;
 extern Unk0217d3f0 *data_0217d3f0;
 extern Unk0217d3f4 *data_0217d3f4;
 extern u8 data_0217d3f8[];

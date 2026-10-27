@@ -6,7 +6,13 @@
 
 // 8-byte elements from offset 8 of an Unk0201ea30 (func_0201ea30 indexes them).
 typedef struct Unk0201ea30_08 {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ union {
+        u32 mUnk_00;
+        struct {
+            Unk0201ea84 mUnk_00_0;
+            Unk0201ea84 mUnk_00_2;
+        };
+    };
     /* 04 */ u32 mUnk_04;
 } Unk0201ea30_08;
 
@@ -56,10 +62,13 @@ typedef struct Unk02124b1c {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s16 mUnk_04;
     /* 06 */ s16 mUnk_06;
-    /* 08 */ u8 mUnk_08[0xc];
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s16 mUnk_0c;
+    /* 0e */ s16 mUnk_0e;
+    /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14[4];
     /* 24 */ s32 mUnk_24[4];
-    /* 34 */ u8 mUnk_34[0x4];
+    /* 34 */ s32 mUnk_34;
     /* 38 */ s32 mUnk_38;
     /* 3c */ Unk021243ac *mUnk_3c;
 } Unk02124b1c;
