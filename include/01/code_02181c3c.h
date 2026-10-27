@@ -10,6 +10,7 @@
 #include "Main/Unknown/code_0208b000.h"
 #include "Main/Unknown/code_0208b6b0.h"
 #include "Main/Unknown/code_020d2000.h"
+#include "Main/Unknown/code_020e005c.h"
 #include "Main/Unknown/code_020ea000.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_02148000.h"
@@ -23,24 +24,6 @@ typedef struct Unk02181c3c_9c {
     /* 2a */ s16 mUnk_2a;
     /* 2c */ s16 mUnk_2c;
 } Unk02181c3c_9c;
-
-// Entry of the table behind Unk02181c3c_b4::mUnk_00.
-typedef struct Unk02181c3c_b4_ent {
-    /* 00 */ u8 mUnk_00[0x34];
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ u8 mUnk_38[0x1c];
-} Unk02181c3c_b4_ent;
-
-// Object passed to func_020d8cc8 and func_020d8bf8.
-typedef struct Unk02181c3c_b4 {
-    /* 00 */ Unk02181c3c_b4_ent **mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u8 mUnk_0a[0x2];
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ u8 mUnk_14[0x10];
-} Unk02181c3c_b4;
 
 // Object updated by func_ov001_02181c3c, one state per value of mUnk_0f8.
 typedef struct Unk02181c3c {
@@ -63,7 +46,7 @@ typedef struct Unk02181c3c {
     /* 0a8 */ s32 mUnk_0a8;
     /* 0ac */ s32 mUnk_0ac;
     /* 0b0 */ s32 mUnk_0b0;
-    /* 0b4 */ Unk02181c3c_b4 mUnk_0b4;
+    /* 0b4 */ Unk020e0144 mUnk_0b4;
     /* 0d8 */ Vec3 mUnk_0d8;
     /* 0e4 */ s32 mUnk_0e4;
     /* 0e8 */ Vec3 *mUnk_0e8;

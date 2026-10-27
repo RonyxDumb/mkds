@@ -185,7 +185,7 @@ void func_020f53d0(Unk0206bcb0 *a) {
     func_020f8e78(a);
     func_0210b850((u32) a->mUnk_258);
     a->mUnk_00.mUnk_30 = (void (*)(void *, void *, void *)) func_0210a77c;
-    func_02046be8((u32) &a->mUnk_23c, (u32) data_0216c648, 7, (u32) a);
+    func_02046be8(&a->mUnk_23c, (UnkFunc *const *) data_0216c648, 7, a);
     if (a->mUnk_254 != 0) {
         if (a->mUnk_21c != 0) {
             ((u16 *) &a->mUnk_244)[4] = 3;

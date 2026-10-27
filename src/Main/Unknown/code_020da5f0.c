@@ -7,8 +7,8 @@
 void func_020da5f0(void) {
     u32 uVar1;
     u32 uVar2;
-    uVar1 = func_020d21ec((u32) (((u32) ((u32) (&data_0216be98)))));
-    uVar2 = func_020d21ec((u32) (((u32) ((u32) (&data_0216bea8)))));
+    uVar1 = (u32) func_020d21ec((const char *) data_0216be98);
+    uVar2 = (u32) func_020d21ec((const char *) data_0216bea8);
     func_020e6488((u32 *) (((u32 *) ((u32) (&data_0217b688)))), (u32) (uVar1), (u32) (uVar2), (u32) (0));
     func_020e6ab8((unsigned int) (*((u32 *) ((u32) (&data_0217b688)))));
     return;

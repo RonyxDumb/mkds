@@ -216,7 +216,7 @@ u32 func_020eb760(Unk020ebef8 *param_1, Unk020eb498 *param_2, u8 *param_3, u8 *p
 #pragma thumb on
 
 void func_020eb72c(void) {
-    func_020ea588((void **) &data_0217bbf8, (void *) func_020d21ec((u32) &data_0216c404), 0);
+    func_020ea588((void **) &data_0217bbf8, (void *) func_020d21ec((const char *) &data_0216c404), 0);
     func_02084968(data_0217bbf8, 0x3f, 2, 0x294a);
 }
 
@@ -265,7 +265,7 @@ void func_020eb498(Unk020ebef8 *param_1, Unk020eb498 *param_2) {
     param_1->mUnk_10c = 0x1555;
     param_1->mUnk_10e = param_2->mUnk_028;
     param_1->mUnk_110 = param_2->mUnk_02a;
-    func_02046be8((u32) &param_1->mUnk_080, (u32) data_0216c3e4, 4, (u32) param_1);
+    func_02046be8(&param_1->mUnk_080, (UnkFunc *const *) data_0216c3e4, 4, param_1);
     param_1->mUnk_090 = 0;
     param_1->mUnk_092 = 1;
     func_020e516c(&param_1->mUnk_114, &param_2->mUnk_000, (s32) (((s64) param_1->mUnk_01c * 0x19000) >> 12), 13);

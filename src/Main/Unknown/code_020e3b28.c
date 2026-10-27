@@ -65,23 +65,23 @@ void func_020e4184(Unk020e1dc0 *a) {
         if (m[e->mUnk_158] == 0) {
             switch (e->mUnk_158) {
                 case 0:
-                    func_020ea588(&data_0217b7e8, (void *) func_020d21ec((u32) data_0216c188), 0);
+                    func_020ea588(&data_0217b7e8, (void *) func_020d21ec((const char *) data_0216c188), 0);
                     func_02084968(data_0217b7e8, 0x3f, 2, 0x294a);
                     break;
                 case 1:
-                    func_020ea588(&data_0217b7d8, (void *) func_020d21ec((u32) data_0216c19c), 0);
+                    func_020ea588(&data_0217b7d8, (void *) func_020d21ec((const char *) data_0216c19c), 0);
                     func_02084968(data_0217b7d8, 0x3f, 2, 0x294a);
                     break;
                 case 2:
-                    func_020ea588(&data_0217b7d4, (void *) func_020d21ec((u32) data_0216c1b0), 0);
+                    func_020ea588(&data_0217b7d4, (void *) func_020d21ec((const char *) data_0216c1b0), 0);
                     func_02084968(data_0217b7d4, 0x3f, 2, 0x294a);
                     break;
                 case 3:
-                    func_020ea588(&data_0217b7ec, (void *) func_020d21ec((u32) data_0216c1c4), 0);
+                    func_020ea588(&data_0217b7ec, (void *) func_020d21ec((const char *) data_0216c1c4), 0);
                     func_02084968(data_0217b7ec, 0x3f, 2, 0x294a);
                     break;
                 case 4:
-                    func_020ea588(&data_0217b7e0, (void *) func_020d21ec((u32) data_0216c1d8), 0);
+                    func_020ea588(&data_0217b7e0, (void *) func_020d21ec((const char *) data_0216c1d8), 0);
                     func_02084968(data_0217b7e0, 0x3f, 2, 0x294a);
                     break;
             }
@@ -143,7 +143,7 @@ void func_020e410c(Unk020e1dc0 *a) {
 }
 
 void func_020e3ef4(Unk020e3ef4 *a, Unk020e1e98_09c *b, Unk020e1e98_154 *c) {
-    func_02046be8((u32) &a->mUnk_080, (u32) data_0216c168, 4, (u32) a);
+    func_02046be8(&a->mUnk_080, (UnkFunc *const *) data_0216c168, 4, a);
     a->mUnk_0e8 = a->mUnk_004;
     a->mUnk_0a0 = a->mUnk_028;
     a->mUnk_0c4 = a->mUnk_028;

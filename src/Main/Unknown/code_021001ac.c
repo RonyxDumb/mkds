@@ -95,7 +95,7 @@ void func_0210045c(Unk02101c84 *p) {
 
     func_020f8e78(p);
     func_0208adc8(&p->mUnk_000.mUnk_7c, 1);
-    func_02046bcc((int) p->mUnk_12c, 0);
+    func_02046bcc(p->mUnk_12c, 0);
     if ((p->mUnk_000.mUnk_78 & 0x8000) == 0) {
         i = (u16) (p->mUnk_000.mUnk_78 & ~0xff00);
     } else {

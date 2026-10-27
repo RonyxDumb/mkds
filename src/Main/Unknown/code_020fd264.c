@@ -39,7 +39,7 @@ void func_020fd754(void *param_1) {
     }
     func_020f9c40((int) e);
     e->mUnk_1a0 = 0;
-    func_02046bcc((int) &e->mUnk_184, 3);
+    func_02046bcc(&e->mUnk_184, 3);
     e->mUnk_174 = 0;
 }
 
@@ -88,8 +88,8 @@ void func_020fd540(void **param_1, Vec3 *v, s32 a) {
         e->mUnk_1a0 = 1;
     }
     func_020f9114((Unk0206bcb0 *) e);
-    func_02046be8((u32) &e->mUnk_184, (u32) data_0216c714, 4, (u32) e);
-    func_02046bcc((int) &e->mUnk_184, 0);
+    func_02046be8(&e->mUnk_184, (UnkFunc *const *) data_0216c714, 4, e);
+    func_02046bcc(&e->mUnk_184, 0);
     e->mUnk_170 = 0x12c;
     e->mUnk_174 = 0;
     e->mUnk_178 = 8;
@@ -127,7 +127,7 @@ void func_020fd494(void **param_1) {
     Unk021052fc *v1;
 
     e = *param_1;
-    func_02046bcc((int) &e->mUnk_184, 0);
+    func_02046bcc(&e->mUnk_184, 0);
     v1 = e->mUnk_198;
     if (v1 != 0) {
         v1->mUnk_02 &= ~1;
@@ -152,7 +152,7 @@ void *func_020fd428(void) {
     }
     func_020f9c40((int) e);
     e->mUnk_1a0 = 0;
-    func_02046bcc((int) &e->mUnk_184, 3);
+    func_02046bcc(&e->mUnk_184, 3);
     e->mUnk_174 = 0;
     return e;
 }
@@ -171,7 +171,7 @@ void *func_020fd338(void *param_1, s32 a) {
         }
         func_020f9c40((int) e);
         e->mUnk_1a0 = 0;
-        func_02046bcc((int) &e->mUnk_184, 3);
+        func_02046bcc(&e->mUnk_184, 3);
         e->mUnk_174 = 0;
     }
     if (e == 0) {

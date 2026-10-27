@@ -20,7 +20,7 @@
 #pragma thumb on
 
 void func_020e47c8(Unk020e43a8 *p, Vec3 *param_2) {
-    func_02046be8((u32) &p->mUnk_80, (u32) data_0216c1ec, 4, (u32) p);
+    func_02046be8(&p->mUnk_80, (UnkFunc *const *) data_0216c1ec, 4, p);
     p->mUnk_04.y = p->mUnk_04.y + (s32) (((s64) p->mUnk_1c.y * 0xa000) >> 12);
     p->mUnk_a0.mUnk_18 = p->mUnk_04;
     p->mUnk_c4 = 4;

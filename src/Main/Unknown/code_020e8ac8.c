@@ -77,7 +77,7 @@ void func_020ea1d4(Vec3 *param_1, const Vec3 *param_2, const Vec3 *param_3) {
     s32 c;
     s32 s;
 
-    if (func_020d849c(&data_0217bb88) != 0) {
+    if (func_020d849c(&data_0217bb88.mUnk_00) != 0) {
         do {
             for (i = 0; i < 4; i++) {
                 data_0217b9cc[i] += 1;
@@ -160,7 +160,7 @@ void func_020e9d10(void) {
                 data_0217b8ac = 1;
             }
         }
-        func_02046bcc((int) &data_0217b9ec, 6);
+        func_02046bcc(&data_0217b9ec, 6);
         return;
     }
     if (func_0203c880(data_0217b888) != 0) {
@@ -185,7 +185,7 @@ void func_020e9d10(void) {
                         data_0217b8ac = 1;
                     }
                 }
-                func_02046bcc((int) &data_0217b9ec, 6);
+                func_02046bcc(&data_0217b9ec, 6);
                 return;
             }
             data_0217b890 = 0;
@@ -195,7 +195,7 @@ void func_020e9d10(void) {
                     data_0217b8ac = 1;
                 }
             }
-            func_02046bcc((int) &data_0217b9ec, 6);
+            func_02046bcc(&data_0217b9ec, 6);
             return;
         }
     }
@@ -214,7 +214,7 @@ void func_020e9d10(void) {
         data_0217b954 = data_0217b8c8->mUnk_80;
         data_0217b954.y -= data_0217b8c8->mUnk_2bc;
         func_020e9658();
-        func_02046bcc((int) &data_0217b9ec, 1);
+        func_02046bcc(&data_0217b9ec, 1);
         return;
     }
     data_0217b8c4 = 0;

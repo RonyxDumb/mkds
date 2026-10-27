@@ -6,7 +6,7 @@
 
 // Declared here until the code that defines them is decompiled.
 u32 func_020d2178(u32 param_1);
-u32 func_020d21ec(u32 param_1);
+void *func_020d21ec(const char *param_1);
 #include "Main/Unknown/code_020d275c.h"
 #include "Main/Unknown/code_020d26e0.h"
 unsigned int func_020d2398(void *param_1);

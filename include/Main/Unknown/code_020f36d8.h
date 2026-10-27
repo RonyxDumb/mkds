@@ -6,6 +6,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02146d78.h"
 #include "Main/Unknown/code_0210bcf4.h"
+#include "Main/Unknown/code_020d849c.h"
 
 // Object whose first word is compared with a stored value.
 typedef struct {
@@ -39,7 +40,7 @@ typedef struct {
 
 // Four positions and pointers to them.
 typedef struct {
-    /* 00 */ u8 mUnk_00[0x60];
+    /* 00 */ Unk020d849c mUnk_00;
     /* 60 */ s32 mUnk_60;
     /* 64 */ Vec3 *mUnk_64[4];
     /* 74 */ Vec3 mUnk_74[4];

@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+extern const u32 data_02158094[];
+
 // Objects whose layout isn't known yet.
 extern u8 data_02158160[];
 extern u8 data_0215877c[];

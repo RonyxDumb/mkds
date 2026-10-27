@@ -8,4 +8,4 @@
 
 int func_020478bc(u32 param_1);
 void func_02047950(u32 param_1);
-void func_02047974(u32 param_1);
+void *func_02047974(const char *param_1);

@@ -2,15 +2,15 @@
 
 #pragma thumb on
 
-void func_02047974(u32 param_1) {
+void *func_02047974(const char *param_1) {
     int iVar1;
     iVar1 = func_02047b30((u32) (*(u32 *) (((u32) (u32) ((unsigned char *) &data_02164e04)) + 0xc)),
                           (s8 *) ((s8 *) (u32) (param_1)));
     if (iVar1 == 0) {
-        func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x34)),
-                      (s8 *) ((s8 *) (u32) (param_1)));
+        iVar1 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x34)),
+                              (s8 *) ((s8 *) (u32) (param_1)));
     }
-    return;
+    return (void *) iVar1;
 }
 
 void func_02047950(u32 param_1) {

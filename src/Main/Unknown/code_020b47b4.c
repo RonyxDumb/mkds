@@ -20,6 +20,6 @@ void func_020b47b4(u32 arg0) {
     u32 value0 = (u32) arg0;
     u32 value12;
     value12 = (u32) &func_02047974;
-    func_02047974((u32) value0);
+    func_02047974((const char *) value0);
     return;
 }

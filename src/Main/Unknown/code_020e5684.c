@@ -24,13 +24,13 @@ void func_020e57a0(Unk020e43a8 *p, Vec3 *param_2, s32 param_3, Vec3 *param_4) {
 #pragma thumb on
 
 void func_020e576c(void) {
-    func_020ea588(&data_0217b820, (void *) func_020d21ec((u32) data_0216c260), 0);
+    func_020ea588(&data_0217b820, (void *) func_020d21ec((const char *) data_0216c260), 0);
     func_02084968(data_0217b820, 0x3f, 2, 0x294a);
 }
 
 void func_020e5684(Unk020e43a8 *p, Unk020e5684 *q) {
     p->mUnk_58.y = (s32) (((s64) p->mUnk_1c.x * 0x4b000) >> 12);
-    func_02046be8((u32) &p->mUnk_80, (u32) data_0216c240, 4, (u32) p);
+    func_02046be8(&p->mUnk_80, (UnkFunc *const *) data_0216c240, 4, p);
     func_020d720c((Vec3 *) &q->mUnk_0c, (u32 *) &p->mUnk_a0.mUnk_00);
     *(Unk020e5684_a0 *) &p->mUnk_a0.mUnk_0c.y = *(Unk020e5684_a0 *) &p->mUnk_a0.mUnk_00;
     *(s16 *) &p->mUnk_a0.mUnk_18.z = q->mUnk_2c;

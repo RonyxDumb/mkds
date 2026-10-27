@@ -248,8 +248,8 @@ void func_020ec9c0(Unk020ec8bc *p, s32 a, s32 b, s32 c, s32 e) {
     f = (p->mUnk_074 & 0x40000000) != 0;
     n = a - p->mUnk_12c;
     p->mUnk_12c = p->mUnk_12c + (s32) (((u64) ((s64) n * b)) >> 12);
-    func_020d84c0(t, p->mUnk_12c);
-    if (func_020d849c(t) != 0) {
+    func_020d84c0((Unk020d849c *) t, p->mUnk_12c);
+    if (func_020d849c((Unk020d849c *) t) != 0) {
         do {
             p->mUnk_21c = (s32) p->mUnk_168;
             p->mUnk_220 = p->mUnk_16c;

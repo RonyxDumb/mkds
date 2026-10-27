@@ -375,7 +375,7 @@ s32 func_020f5d6c(Unk020edb8c *a, Unk0206bcb0 *b) {
     func_020f9114(b);
     func_0210b850((u32) b->mUnk_258);
     b->mUnk_00.mUnk_30 = (void (*)(void *, void *, void *)) func_0210a77c;
-    func_02046be8((u32) &b->mUnk_23c, (u32) data_0216c648, 7, (u32) b);
+    func_02046be8(&b->mUnk_23c, (UnkFunc *const *) data_0216c648, 7, b);
     if (a->mUnk_0c->mUnk_1ec & 0x20) {
         b->mUnk_254 = 0;
         func_020f2b94(b, a, 0, 0, 0, 0x5000);

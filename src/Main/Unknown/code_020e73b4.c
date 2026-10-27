@@ -144,8 +144,8 @@ void func_020e7760(void) {
     data_0217b9dc.mUnk_00 = 0x101;
     data_0217b9dc.mUnk_04 = (s32) &data_0217b930;
     data_0217b9dc.mUnk_08 = 1;
-    func_02046be8((unsigned int) &data_0217b9ec, (unsigned int) data_0216c33c, 7, 0);
-    func_02046bcc((int) &data_0217b9ec, 0);
+    func_02046be8(&data_0217b9ec, (UnkFunc *const *) data_0216c33c, 7, 0);
+    func_02046bcc(&data_0217b9ec, 0);
 }
 
 // non-matching: the first loop's preheader only: the original puts the shared zero

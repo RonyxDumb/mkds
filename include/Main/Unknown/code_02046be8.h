@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_02046be8(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3);
+void func_02046be8(void *p0, UnkFunc *const *p1, s32 p2, void *p3);
