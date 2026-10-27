@@ -227,7 +227,7 @@ void func_02124fac(u32, u16 *);
 void func_02126638(void *, s32, s32, s32, s32, s32, s32);
 void func_021282c8(void);
 void func_02128374(void);
-void func_0212b928(void *, void *, u32);
+#include "Main/Unknown/code_0212b928.h"
 
 u32 func_ov000_02180668(u32);
 void func_ov000_02182e18(void);

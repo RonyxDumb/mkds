@@ -9,6 +9,29 @@
 #include "code_0200e904.h" // Unk0200eb90
 #include "code_0212da38.h" // Unk02017328, Unk0212d9dc
 
+// Three words derived from a halfword.
+typedef struct Unk0217d410_2c {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+} Unk0217d410_2c;
+
+// Object behind data_0217d410: 0x90 bytes allocated by func_0212b928.
+typedef struct Unk0217d410 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ u8 mUnk_08;
+    /* 09 */ u8 mUnk_09;
+    /* 0a */ u16 mUnk_0a[5];
+    /* 14 */ u16 mUnk_14[4];
+    /* 1c */ u16 mUnk_1c[4];
+    /* 24 */ u16 mUnk_24[3];
+    /* 2a */ u8 mUnk_2a[2];
+    /* 2c */ Unk0217d410_2c mUnk_2c[4];
+    /* 5c */ Unk0217d410_2c mUnk_5c[4];
+    /* 8c */ s32 mUnk_8c;
+} Unk0217d410;
+
 // Object behind data_0217d358.
 typedef struct Unk0217d358 {
     /* 00 */ u8 *mUnk_00;
@@ -484,7 +507,7 @@ extern s32 data_0217d2dc[];
 extern void *data_0217d33c;
 extern void *data_0217d340;
 extern u8 data_0217d404[];
-extern u8 data_0217d410[];
+extern Unk0217d410 *data_0217d410;
 extern struct Unk0212ef48 *data_0217df04;
 extern u8 data_0217df08[];
 extern Unk0212d9dc *data_0217d130;
