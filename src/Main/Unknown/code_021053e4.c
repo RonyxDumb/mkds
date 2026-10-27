@@ -46,8 +46,8 @@ Unk0215a680 *func_02105480(void) {
     return p;
 }
 
-void func_02105464(void *p) {
-    func_020de6a8(p);
+void func_02105464(void *p, void *q) {
+    func_020de6a8(p, q);
     func_020d2398(p);
 }
 

@@ -152,7 +152,7 @@ u32 func_02104f14(Unk0206bcb0 *p) {
 }
 
 void func_02104ee0(Unk0206bcb0 *p, s32 a) {
-    func_020deb2c((u32) &p->mUnk_50, a, 0, (*(u32 *) &p->mUnk_74 & 0x10000) ? 1 : 0, 0);
+    func_020deb2c(&p->mUnk_50, (void *) a, 0, (*(u32 *) &p->mUnk_74 & 0x10000) ? 1 : 0, 0);
 }
 
 void func_02104e58(Unk0206bcb0 *p) {

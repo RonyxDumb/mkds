@@ -91,19 +91,19 @@ void *func_020e03f8(void) {
 void *func_020e039c(void) {
     void *p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
 
-    data_0217b764 = p;
+    data_0217b784 = p;
     *(Unk020e039c *) p = *(const Unk020e039c *) data_0215887c;
-    func_020d49d8(&data_0217b764);
-    return data_0217b764;
+    func_020d49d8(&data_0217b784);
+    return data_0217b784;
 }
 
 void *func_020e0340(void) {
     void *p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
 
-    data_0217b760 = p;
+    data_0217b780 = p;
     *(Unk020e0340 *) p = *(const Unk020e0340 *) data_02158854;
-    func_020e6f50(&data_0217b760);
-    return data_0217b760;
+    func_020e6f50(&data_0217b780);
+    return data_0217b780;
 }
 
 void func_020e01f0(void *a0, Unk020e005c *a1) {

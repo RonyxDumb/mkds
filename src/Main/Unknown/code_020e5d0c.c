@@ -84,7 +84,7 @@ void func_020e64b8(void *p, void *a, void *b, s32 c) {
     func_02084e28(((Unk020e6488 *) p)->mUnk_24, a);
     if (b != 0) {
         ((Unk020e6488 *) p)->mUnk_28 = func_02036bec(func_020364e0(func_020364e8()), 0x38);
-        func_020ea514(2, (u32) ((Unk020e6488 *) p)->mUnk_24, ((Unk020e6488 *) p)->mUnk_28, (u32) a, b);
+        func_020ea514(2, ((Unk020e6488 *) p)->mUnk_24, ((Unk020e6488 *) p)->mUnk_28, a, b);
     } else {
         ((Unk020e6488 *) p)->mUnk_28 = 0;
     }

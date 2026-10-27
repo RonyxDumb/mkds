@@ -19,7 +19,7 @@ void func_020e5aec(Unk020e43a8 *p) {
     p->mUnk_04.y = p->mUnk_04.y + (s32) (((s64) p->mUnk_1c.y * 0xa000) >> 12);
     *(u16 *) &p->mUnk_a0.mUnk_18.x = 0;
     func_020ec854(p, p->mUnk_04.y - 0x18000, 0x400, 0x800, 0x4000, 0x1800);
-    func_020ec884((u32) p);
+    func_020ec884(p);
 }
 
 #pragma thumb off

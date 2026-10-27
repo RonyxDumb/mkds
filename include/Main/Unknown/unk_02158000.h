@@ -2,6 +2,52 @@
 
 #include "types.h"
 
+// Object of 0x28 bytes made by func_020de2d8 and the other factories that copy a template from 0x02158xxx.
+typedef struct Unk020de2d8 {
+    /* 00 */ u32 mUnk_00[10];
+} Unk020de2d8;
+
+// Object of 0x2c bytes made by func_020de334 and the other factories that copy a template from 0x02158xxx.
+typedef struct Unk020de334 {
+    /* 00 */ u32 mUnk_00[11];
+} Unk020de334;
+
+// Object of 0x40 bytes made by func_020de390 and the other factories that copy a template from 0x02158xxx.
+typedef struct Unk020de390 {
+    /* 00 */ u32 mUnk_00[16];
+} Unk020de390;
+
+// Object of 0x2c bytes made by func_020dfc44; a word at 0x28.
+typedef struct Unk020dfc44 {
+    /* 00 */ u32 mUnk_00[10];
+    /* 28 */ s32 mUnk_28;
+} Unk020dfc44;
+
+extern Unk020de2d8 data_0215840c;
+extern Unk020de334 data_02158434;
+extern Unk020de390 data_02158460;
+extern Unk020de2d8 data_021584d4;
+extern Unk020de334 data_021584fc;
+extern Unk020de390 data_02158528;
+extern u16 data_02158568;
+extern u32 data_0215856c;
+extern u16 data_021585a4;
+extern Unk020de2d8 data_021585a8;
+extern Unk020de334 data_021585d0;
+extern Unk020de334 data_021585fc;
+extern Unk020de334 data_02158628;
+extern Unk020de390 data_02158654;
+extern u8 data_02158694[];
+extern u16 data_021586d4;
+extern Unk020de2d8 data_021586d8;
+extern Unk020de390 data_02158700;
+extern u16 data_02158740;
+extern u32 data_02158778;
+extern Unk020dfc44 data_02158784;
+extern Unk020de334 data_021587b0;
+extern Unk020de390 data_021587dc;
+extern u16 data_0215881c;
+
 extern const u32 data_02158094[];
 
 // Objects whose layout isn't known yet.

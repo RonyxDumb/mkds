@@ -6,9 +6,25 @@
 #include "Main/Unknown/code_020e6b58.h"
 #include "Main/Unknown/code_01ffdee4.h" // Unk0217b614
 #include "Main/Unknown/code_020e6fd4.h"
+#include "Main/Unknown/unk_02158000.h"
 
 struct Unk020f41c4_B;
 struct Unk0217b4f0;
+
+// Element of 0x14 bytes of the table behind data_0217b704.
+typedef struct Unk020de84c_14 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+} Unk020de84c_14;
+
+// Element of 8 bytes of the table behind data_0217b708.
+typedef struct Unk020de84c_08 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+} Unk020de84c_08;
 
 // 0x14-byte elements of the table at member 0x10 of Unk0217b498.
 typedef struct Unk0217b498_10 {
@@ -174,10 +190,34 @@ extern u8 data_0217b670[];
 extern u8 data_0217b688[];
 extern struct Unk020ea670 *data_0217b6cc;
 extern struct Unk020ea868 *data_0217b6d0;
+extern Unk020de334 *data_0217b6dc;
+extern Unk020de2d8 *data_0217b6e0;
 extern Unk020e6488 *data_0217b6e4;
 extern Unk020e6488 *data_0217b6e8;
+extern Unk020de2d8 *data_0217b6ec;
 extern Unk020e6488 *data_0217b6f0;
 extern Unk020e6488 *data_0217b6f4;
+extern Unk020de334 *data_0217b6f8;
+extern u16 data_0217b6fc;
+extern Unk020de334 *data_0217b700;
+extern Unk020de84c_14 *data_0217b704;
+extern Unk020de84c_08 *data_0217b708;
+extern Unk020de334 *data_0217b70c;
+extern Unk020e6488 *data_0217b710;
+extern Unk020de334 *data_0217b714;
+extern Unk020de2d8 *data_0217b718;
+extern Unk020e6488 *data_0217b71c;
+extern Unk020e6b58 data_0217b720;
+extern u16 data_0217b750;
+extern s32 data_0217b754;
+extern Unk020de2d8 *data_0217b758;
+extern s32 data_0217b75c;
+extern Vec3 data_0217b760;
+extern Unk020dfc44 *data_0217b76c;
+extern void *data_0217b770;
+extern Unk020de334 *data_0217b774;
+extern void *data_0217b778;
+extern void *data_0217b77c;
 extern Unk020e6488 *data_0217b7b8;
 extern Unk020e6488 *data_0217b7f0;
 extern Unk020e53ac *data_0217b814;
@@ -281,8 +321,8 @@ extern void *data_0217b7cc;
 extern void *data_0217b7c0;
 extern void *data_0217b7bc;
 extern void *data_0217b7b4;
-extern void *data_0217b760;
-extern void *data_0217b764;
+extern void *data_0217b780;
+extern void *data_0217b784;
 extern void *data_0217b788;
 extern void *data_0217b78c;
 extern void *data_0217b790;

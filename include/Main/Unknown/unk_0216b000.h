@@ -8,6 +8,8 @@ extern Unk020e0764 data_0216b8c4;
 extern Unk020e0764 data_0216b8ec;
 extern UnkFunc *data_0216be68[];
 extern Unk0210b7a8 data_0216bedc;
+extern UnkFunc *data_0216bfc0[];
+extern UnkFunc *data_0216bff8[];
 
 // Objects whose layout isn't known yet.
 extern u8 data_0216be98[];

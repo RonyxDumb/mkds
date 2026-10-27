@@ -50,7 +50,9 @@ typedef struct Unk020e005c {
     /* 028 */ Vec3 mUnk_028;
     /* 034 */ Vec3 mUnk_034;
     /* 040 */ Vec3 mUnk_040;
-    /* 04c */ u8 mUnk_04c[0x24];
+    /* 04c */ u8 mUnk_04c[0x1a];
+    /* 066 */ u16 mUnk_066;
+    /* 068 */ u8 mUnk_068[8];
     /* 070 */ s32 mUnk_070;
     /* 074 */ u8 mUnk_074[0x4];
     /* 078 */ u32 mUnk_078;

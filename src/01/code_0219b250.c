@@ -75,7 +75,7 @@ void func_ov001_0219b3b4(Unk0219b250 *p0, char *p1) {
 void func_ov001_0219b380(Unk0219b250 *p0, char *p1) {
     void *r = func_ov001_0219b4d8((char *) (p1));
     p0->mUnk_24 = func_02036bec((void *) func_020364e0(func_020364e8()), (u32) (0x38));
-    func_020ea514((u32) (4), (u32) (p0->mUnk_10), (void *) (p0->mUnk_24), (u32) (p0->mUnk_18), (void *) (r));
+    func_020ea514((u32) (4), (void *) (p0->mUnk_10), (void *) (p0->mUnk_24), (void *) (p0->mUnk_18), (void *) (r));
 }
 
 void func_ov001_0219b31c(Unk0219b250 *p0, char *p1) {
@@ -91,7 +91,7 @@ void func_ov001_0219b31c(Unk0219b250 *p0, char *p1) {
 void func_ov001_0219b2e8(Unk0219b250 *p0, char *p1) {
     void *r = func_ov001_0219b4d8((char *) (p1));
     p0->mUnk_20 = func_02036bec((void *) func_020364e0(func_020364e8()), (u32) (0x38));
-    func_020ea514((u32) (2), (u32) (p0->mUnk_10), (void *) (p0->mUnk_20), (u32) (p0->mUnk_18), (void *) (r));
+    func_020ea514((u32) (2), (void *) (p0->mUnk_10), (void *) (p0->mUnk_20), (void *) (p0->mUnk_18), (void *) (r));
 }
 
 void func_ov001_0219b28c(Unk0219b250 *p0, void *p1) {
@@ -105,7 +105,7 @@ void func_ov001_0219b28c(Unk0219b250 *p0, void *p1) {
 
 void func_ov001_0219b25c(Unk0219b250 *p0, void *p1) {
     p0->mUnk_20 = func_02036bec((void *) func_020364e0(func_020364e8()), (u32) (0x38));
-    func_020ea514((u32) (2), (u32) (p0->mUnk_10), (void *) (p0->mUnk_20), (u32) (p0->mUnk_18), (void *) (p1));
+    func_020ea514((u32) (2), (void *) (p0->mUnk_10), (void *) (p0->mUnk_20), (void *) (p0->mUnk_18), (void *) (p1));
 }
 
 void func_ov001_0219b250(Unk0219b250 *p0) {

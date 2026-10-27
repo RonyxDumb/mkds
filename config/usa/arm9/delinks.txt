@@ -3601,8 +3601,16 @@ src/Main/Unknown/code_020de204.c:
     .text       start:0x020de204 end:0x020de214
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_020de214.c:
+    .text       start:0x020de214 end:0x020de438
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_020de438.c:
     .text       start:0x020de438 end:0x020de488
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_020de488.c:
+    .text       start:0x020de488 end:0x020de4d4
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020de4d4.c:
@@ -3613,24 +3621,48 @@ src/Main/Unknown/code_020de4e4.c:
     .text       start:0x020de4e4 end:0x020de588
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_020de588.c:
+    .text       start:0x020de588 end:0x020de9ec
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_020de9ec.c:
     .text       start:0x020de9ec end:0x020de9f8
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_020de9f8.c:
+    .text       start:0x020de9f8 end:0x020deb2c
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020deb2c.c:
     .text       start:0x020deb2c end:0x020debec
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_020debec.c:
+    .text       start:0x020debec end:0x020df428
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_020df428.c:
     .text       start:0x020df428 end:0x020df48c
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_020df48c.c:
+    .text       start:0x020df48c end:0x020df7d0
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020df7d0.c:
     .text       start:0x020df7d0 end:0x020df7d8
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_020df7d8.c:
+    .text       start:0x020df7d8 end:0x020df85c
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_020df85c.c:
     .text       start:0x020df85c end:0x020df890
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_020df890.c:
+    .text       start:0x020df890 end:0x020e0058
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020e0058.c:

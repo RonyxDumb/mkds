@@ -207,15 +207,15 @@ void func_020e7460(void) {
         }
         if (s->mUnk_04 != 0) {
             q->mUnk_04 = func_02036bec(h, 0x38);
-            func_020ea514(0, (u32) q->mUnk_00, q->mUnk_04, (u32) p, func_0204799c(s->mUnk_04));
-            func_02087cfc((u32) q->mUnk_04, 0, 1);
+            func_020ea514(0, q->mUnk_00, q->mUnk_04, (void *) p, func_0204799c(s->mUnk_04));
+            func_02087cfc(q->mUnk_04, 0, 1);
         } else {
             q->mUnk_04 = 0;
         }
         if (s->mUnk_08 != 0) {
             q->mUnk_08 = func_02036bec(h, 0x38);
-            func_020ea514(4, (u32) q->mUnk_00, q->mUnk_08, (u32) p, func_0204799c(s->mUnk_08));
-            func_02087cfc((u32) q->mUnk_08, 0, 1);
+            func_020ea514(4, q->mUnk_00, q->mUnk_08, (void *) p, func_0204799c(s->mUnk_08));
+            func_02087cfc(q->mUnk_08, 0, 1);
         } else {
             q->mUnk_08 = 0;
         }
