@@ -200,7 +200,7 @@ typedef struct Unk0217d360 {
     /* 3c */ s32 mUnk_3c;
     /* 40 */ s32 mUnk_40;
     /* 44 */ s32 mUnk_44;
-    /* 48 */ u8 mUnk_48[0x20];
+    /* 48 */ s32 mUnk_48[8];
     /* 68 */ s32 mUnk_68;
     /* 6c */ s32 mUnk_6c;
     /* 70 */ s32 mUnk_70;

@@ -4,7 +4,7 @@
 
 // non-matching: 23 instructions differ; first at +0x0: original `push {r4, r5, r6, lr}`, ours `push {r4, r5, r6, r7,
 // lr}`
-void func_0211f244(int param_1, int param_2, u32 param_3, u32 param_4, u32 param_5, u16 param_6, int param_7) {
+void func_0211f244(int param_1, int param_2, void *param_3, void *param_4, u32 param_5, u16 param_6, int param_7) {
     u32 uVar1;
     u32 *puVar2;
     uVar1 = 0xe;
