@@ -152,3 +152,5 @@ extern u32 data_0216c3e4[];
 extern u8 data_0216c680[];
 extern u8 data_0216c6f4[];
 extern u8 data_0216c704[];
+extern u32 data_0216cbc0[6];
+extern u32 data_0216cbd8[][6];
