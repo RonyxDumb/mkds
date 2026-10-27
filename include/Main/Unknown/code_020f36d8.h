@@ -31,6 +31,14 @@ typedef struct {
     /* 00 */ u16 mUnk_00[9];
 } Unk020f41c4_C;
 
+// Four positions and pointers to them.
+typedef struct {
+    /* 00 */ u8 mUnk_00[0x60];
+    /* 60 */ s32 mUnk_60;
+    /* 64 */ Vec3 *mUnk_64[4];
+    /* 74 */ Vec3 mUnk_74[4];
+} Unk020f3fa8;
+
 // Element returned through data_027e00cc.
 typedef struct {
     /* 00 */ u8 mUnk_00[0x44];
@@ -38,7 +46,7 @@ typedef struct {
     /* 48 */ u32 mUnk_48;
     /* 4c */ u8 mUnk_4c[2];
     /* 4e */ s16 mUnk_4e;
-    /* 50 */ u8 mUnk_50[0xc];
+    /* 050 */ Vec3 mUnk_50;
     /* 5c */ Vec3 mUnk_5c;
     /* 68 */ s32 mUnk_68;
     /* 6c */ s32 mUnk_6c;
@@ -47,15 +55,59 @@ typedef struct {
     /* 78 */ u16 mUnk_78;
     /* 7a */ u16 mUnk_7a;
     /* 7c */ Unk020f41c4_C mUnk_7c;
-    /* 8e */ u8 mUnk_8e[2];
-    /* 90 */ u8 mUnk_90[0x40];
+    /* 08e */ u8 mUnk_08e[0x36];
+    /* 0c4 */ Vec3 mUnk_0c4;
     /* d0 */ Vec3 *mUnk_d0;
-    /* d4 */ u8 mUnk_d4[0xc];
+    /* 0d4 */ u8 mUnk_0d4[0x4];
+    /* 0d8 */ s16 mUnk_d8;
+    /* 0da */ u8 mUnk_0da[0x6];
     /* e0 */ s32 mUnk_e0;
-    /* e4 */ u8 mUnk_e4[0x18];
+    /* 0e4 */ Vec3 mUnk_0e4;
+    /* 0f0 */ u8 mUnk_0f0[0xc];
     /* fc */ u32 mUnk_fc;
     /* 100 */ u8 mUnk_100[0x1c];
     /* 11c */ s32 mUnk_11c;
+    /* 120 */ u8 mUnk_120[0xc];
+    /* 12c */ u8 mUnk_12c[4];
+    /* 130 */ u32 mUnk_130;
+    /* 134 */ u8 mUnk_134[0x6];
+    /* 13a */ u16 mUnk_13a;
+    /* 13c */ u16 mUnk_13c;
+    /* 13e */ u16 mUnk_13e;
+    /* 140 */ s32 mUnk_140;
+    /* 144 */ s32 mUnk_144;
+    /* 148 */ s32 mUnk_148;
+    /* 14c */ s32 mUnk_14c;
+    /* 150 */ s32 mUnk_150;
+    /* 154 */ s32 mUnk_154;
+    /* 158 */ s32 mUnk_158;
+    /* 15c */ s32 mUnk_15c;
+    /* 160 */ s32 mUnk_160;
+    /* 164 */ s16 mUnk_164;
+    /* 166 */ u8 mUnk_166[0x2];
+    /* 168 */ Unk0206bcb0 *mUnk_168;
+    /* 16c */ s32 mUnk_16c;
+    /* 170 */ s32 mUnk_170;
+    /* 174 */ s32 mUnk_174;
+    /* 178 */ s32 mUnk_178;
+    /* 17c */ s32 mUnk_17c;
+    /* 180 */ s32 mUnk_180;
+    /* 184 */ Vec3 mUnk_184;
+    /* 190 */ Vec3 mUnk_190;
+    /* 19c */ s32 mUnk_19c;
+    /* 1a0 */ s32 mUnk_1a0;
+    /* 1a4 */ Unk020f3fa8 mUnk_1a4;
+    /* 248 */ s32 mUnk_248;
+    /* 24c */ s32 mUnk_24c;
+    /* 250 */ s32 mUnk_250;
+    /* 254 */ s32 mUnk_254;
+    /* 258 */ s32 mUnk_258;
+    /* 25c */ s32 mUnk_25c;
+    /* 260 */ s32 mUnk_260;
+    /* 264 */ u32 mUnk_264;
+    /* 268 */ s32 mUnk_268;
+    /* 26c */ s32 mUnk_26c;
+    /* 270 */ s32 mUnk_270;
 } Unk020f41c4_A;
 
 // Three 64-bit words: x, a and c of x = x * a + c.
@@ -67,7 +119,8 @@ typedef struct {
 
 // Object behind data_0217561c.
 typedef struct {
-    /* 000 */ u8 mUnk_000[0x47c];
+    /* 000 */ u8 mUnk_000[0x474];
+    /* 474 */ s8 mUnk_474[8];
     /* 47c */ Unk020f41c4_B mUnk_47c;
     /* 494 */ u8 mUnk_494[4];
     /* 498 */ Unk020f41c4_B mUnk_498;
@@ -118,14 +171,6 @@ typedef struct {
     /* 00 */ Unk020f41c4_Pair mUnk_00[3];
 } Unk020f41c4_Row;
 
-// Four positions and pointers to them.
-typedef struct {
-    /* 00 */ u8 mUnk_00[0x60];
-    /* 60 */ s32 mUnk_60;
-    /* 64 */ Vec3 *mUnk_64[4];
-    /* 74 */ Vec3 mUnk_74[4];
-} Unk020f3fa8;
-
 // Entry of the table behind data_0217bc48.
 typedef struct {
     /* 00 */ u8 mUnk_00[8];
@@ -153,10 +198,21 @@ typedef struct {
 
 // Object with a u16 at 0x1f8 and a pointer at 0x1fc.
 typedef struct {
-    /* 000 */ u8 mUnk_000[0x1f8];
+    /* 000 */ u8 mUnk_000[0x14];
+    /* 014 */ s32 mUnk_14;
+    /* 018 */ u8 mUnk_018[0x18];
+    /* 030 */ u32 mUnk_30;
+    /* 034 */ u8 mUnk_034[0x4];
+    /* 038 */ u32 mUnk_38;
+    /* 03c */ u8 mUnk_03c[0xc];
+    /* 048 */ u32 mUnk_48;
+    /* 04c */ u8 mUnk_04c[0x4];
+    /* 050 */ s32 mUnk_50;
+    /* 054 */ u8 mUnk_054[0x1a4];
     /* 1f8 */ u16 mUnk_1f8;
     /* 1fa */ u8 mUnk_1fa[2];
     /* 1fc */ Unk0206bcb0 *mUnk_1fc;
+    /* 200 */ u8 mUnk_200[0x10];
 } Unk020f40dc_Owner;
 
 // Value of the first word of Unk020f40dc.

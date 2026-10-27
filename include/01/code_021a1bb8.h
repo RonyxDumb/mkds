@@ -25,7 +25,11 @@ typedef struct Unk021a2048 {
 
 // Object returned by func_02061808.
 typedef struct Unk02061808 {
-    /* 000 */ u8 mUnk_000[0x24];
+    /* 000 */ u8 mUnk_000[0xc];
+    /* 00c */ s32 mUnk_0c;
+    /* 010 */ u8 mUnk_010[0x4];
+    /* 014 */ s32 mUnk_14;
+    /* 018 */ u8 mUnk_018[0xc];
     /* 024 */ Vec3 mUnk_024;
     /* 030 */ u8 mUnk_030[0x12c];
     /* 15c */ s32 mUnk_15c;

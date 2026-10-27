@@ -218,7 +218,7 @@ void func_02109078(Unk0206bcb0 *p, int a, int b, int c);
 void func_0210ddf4(Unk0217d26c *queue, int key, void (*cb)(Unk0206bcb0 *, int), Unk0206bcb0 *p, int arg);
 void func_020718c8(Unk0206bcb0 *p, int arg);
 void func_02071944(Unk0206bcb0 *p, int arg);
-void func_021035ac(int idx);
+#include "Main/Unknown/code_021035ac.h"
 void func_02079f70(void *obj, u16 a, u16 b, u16 c);
 int func_0206bcb0(Unk0206bcb0 *p, int a, int b);
 int func_0206be54(Unk0206bcb0 *p, int a);

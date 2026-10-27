@@ -12,3 +12,4 @@ void func_020f89b0(void *p, void *a);
 void func_020f81c0(Unk020ee684 *p);
 void func_020f8418(Unk020ee684 *p);
 void func_020f82a4(s32 a);
+void func_020f8e78(void *param_1);

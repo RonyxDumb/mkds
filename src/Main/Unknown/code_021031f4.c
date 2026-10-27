@@ -1,0 +1,134 @@
+#include "Main/Unknown/code_021031f4.h"
+
+#include "Main/Unknown/unk_0216c000.h"
+#include "Main/Unknown/code_0203c000.h"
+#include "Main/Unknown/code_020d3000.h"
+#include "Main/Unknown/code_020ec8bc.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/code_020f8e3c.h"
+#include "Main/Unknown/code_02036bec.h"
+#include "Main/Unknown/code_020364e0.h"
+#include "Main/Unknown/code_020e6000.h"
+#include "Main/Unknown/code_020e6a74.h"
+#include "Main/Unknown/code_020d2000.h"
+#include "Main/Unknown/code_02108e6c.h"
+#include "Main/Unknown/unk_0217c000.h"
+#include "Main/Unknown/code_02103890.h"
+#include "code_0212c6ac.h"
+#include "code_0214a748.h"
+
+void func_02103554(u32 param_1) {
+    u32 v;
+
+    func_020e6488(&v, func_020d21ec(param_1), 0, 0);
+    func_020e6ab8(v);
+    func_0210340c((Unk0210340c *) data_0217c664, (Unk020ed4d0 *) v);
+}
+
+void func_02103544(u32 param_1, u32 param_2) {
+    func_02103900(param_1, param_2, 1);
+}
+
+#pragma thumb on
+void func_02103468(void) {
+    Unk020ed4d0 *q;
+    s32 i;
+
+    data_0217c654 = func_02036bec(func_020364e0(func_020364e8()), 0xd0);
+    data_0217c638 = 0xffff;
+    *(u32 *) data_0217c658 = 0;
+    data_0217c64c = 0;
+    func_0212c6f0((Unk0212c400 **) func_02108e6c(6), 1);
+    q = func_020ed4d0(data_0216c7b4, 0, data_0216c7c4);
+    func_0210340c((Unk0210340c *) data_0217c684, q);
+    data_0217c63c = func_020d3c2c();
+    for (i = 0; i < 3; i++) {
+        func_020d3c2c();
+    }
+    *(u32 *) 0x4000440 = 0;
+    *(u32 *) 0x4000444 = 0;
+    func_0214ad4c(0x60000, 0xfffa0000, 0xfff80000, 0x80000, 0, 0x1000, 0x1fb, 1, (Unk0214ad4c *) data_0217c6a4);
+    *(u32 *) 0x4000448 = 1;
+}
+
+void func_0210340c(Unk0210340c *p, Unk020ed4d0 *q) {
+    u32 t;
+
+    p->mUnk_00 = q;
+    p->mUnk_04 = 0x51f80c0;
+    p->mUnk_04 = p->mUnk_04 & 0xc0ffffff;
+    p->mUnk_08 = *q->mUnk_1c;
+    p->mUnk_0c = *q->mUnk_20;
+    p->mUnk_10 = q->mUnk_0c;
+    p->mUnk_14 = q->mUnk_10;
+    t = p->mUnk_08;
+    p->mUnk_18 = 1 << (((t & 0x3800000) >> 0x17) + 0xf);
+    p->mUnk_1c = 1 << (((t & 0x700000) >> 0x14) + 0xf);
+}
+#pragma thumb off
+
+// non-matching: in the mUnk_498 block the original materialises the u64
+// high-word zero before loading the q pointer and the 0x498 constant after it,
+// then forms the base pointer between the two factor loads (x.lo through
+// [q,#0x498] first, a.lo through the base); here the 0x498 constant is hoisted
+// first, the zero follows the q load, the base pointer is formed before both
+// factor loads and they load a.lo then x.lo (same word total, 21 words
+// from +0xa4).
+void func_021031f4(Unk02102674 *p) {
+    s32 b3;
+    s32 a;
+    s32 b2;
+    s32 i;
+    Unk0217561c *q;
+    Unk020f41c4_B *b;
+    Unk0206bcb0 *r;
+    u16 j;
+    u32 n;
+    u16 v;
+    u64 w;
+
+    b2 = (u16) ((p->mUnk_78 & 0x8000) == 0 ? (u16) (p->mUnk_78 & ~0xff00) : 8);
+    a = data_021759c0->mUnk_62;
+    if (data_021759c0->mUnk_08 == 2) {
+        b3 = data_021759c0->mUnk_3d0;
+        for (i = 0; i < b3; i++) {
+            if (i == b2) {
+                continue;
+            }
+            r = func_0207a974(i);
+            if (r->mUnk_7c & 0x402020) {
+                continue;
+            }
+            if (r->mUnk_4c & 0x10000840) {
+                continue;
+            }
+            if (r->mUnk_48 & 0x10000) {
+                continue;
+            }
+            q = data_0217561c;
+            b = &q->mUnk_498;
+            b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
+            w = b->mUnk_00 >> 32;
+            p->mUnk_130[i] = (u16) (w >> 30) + 1;
+        }
+    } else {
+        j = 1;
+        n = func_0203c8dc(b2);
+        do {
+            v = (u16) data_0217561c->mUnk_474[(u8) j - 1];
+            r = func_0207a974(v);
+            if ((r->mUnk_7c & 0x402020) == 0 && (r->mUnk_4c & 0x10000840) == 0 && (r->mUnk_48 & 0x10000) == 0) {
+                p->mUnk_130[v] = 4 - ((j - 1) >> 1);
+            }
+            j++;
+        } while (j < n);
+    }
+    if (a < 0 || p->mUnk_130[a] == 0) {
+        p->mUnk_198 = 0;
+        return;
+    }
+    p->mUnk_198 = 1;
+    p->mUnk_12c = func_0207a974(a);
+    func_020f8e3c((unsigned int) p->mUnk_12c, 0xf3);
+}

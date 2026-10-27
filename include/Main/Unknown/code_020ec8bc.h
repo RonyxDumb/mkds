@@ -4,9 +4,14 @@
 
 // Object allocated by func_020ed4d0 (0x2c bytes); two words are updated there.
 typedef struct {
-    /* 00 */ u8 mUnk_00[0x10];
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ u32 mUnk_0c;
     /* 10 */ volatile u32 mUnk_10;
     /* 14 */ volatile u32 mUnk_14;
+    /* 18 */ u8 mUnk_18[4];
+    /* 1c */ u32 *mUnk_1c;
+    /* 20 */ u32 *mUnk_20;
+    /* 24 */ u8 mUnk_24[8];
 } Unk020ed4d0;
 
 // Object behind the first parameter of the functions below from its first
