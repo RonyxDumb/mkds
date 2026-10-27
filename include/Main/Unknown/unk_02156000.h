@@ -51,3 +51,6 @@ extern struct Unk0217b650 data_02156a80;
 extern struct Unk02156adc data_02156adc;
 extern u16 data_021567a0;
 extern u16 data_021567ac;
+extern const u16 data_02156794;
+extern const u16 data_02156798;
+extern const u16 data_0215679c;

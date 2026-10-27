@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020a2204.h"
 
-u32 func_020a2204(u32 arg0) {
+u32 func_020a2204(u16 arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value2;
