@@ -28,6 +28,6 @@ unsigned int func_0202967c(void);
 unsigned int func_0202968c(void);
 unsigned int func_0202969c(void);
 unsigned int func_020296ac(u16 p0);
-unsigned int func_020296c0(unsigned int p0);
-unsigned int func_020296d4(unsigned int p0);
+unsigned int func_020296c0(u16 p0);
+unsigned int func_020296d4(u16 p0);
 unsigned int func_020296e4(void);

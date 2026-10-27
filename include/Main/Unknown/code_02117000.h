@@ -4,7 +4,6 @@
 
 // Declared here until the code that defines them is decompiled.
 #include "Main/Unknown/code_021173e4.h"
-void func_021171a0(s32 a, void *b, void *c, u32 d, u16 e, s32 f);
-s32 func_02117418(void);
-void func_02117060(void);
-void func_021170f8(void);
+#include "Main/Unknown/code_021171a0.h"
+#include "Main/Unknown/code_02117418.h"
+#include "Main/Unknown/code_02116ec0.h"

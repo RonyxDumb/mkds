@@ -9,3 +9,5 @@ void func_0211fd28(void);
 u32 func_0211fd68(void);
 void func_0211f39c(void);
 void func_0211f4b0(void *a, void *b);
+void func_0211f2ac(void);
+void func_0211f394(void);

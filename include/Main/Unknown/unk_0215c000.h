@@ -2,6 +2,15 @@
 
 #include "types.h"
 
+// 12-byte rows of the table at data_0215c60c.
+typedef struct Unk0215c60c {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u32 mUnk_04;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+} Unk0215c60c;
+
 // Objects whose layout isn't known yet.
 extern u8 data_0215cee4[];
 extern s16 data_0215c4d0[];
@@ -109,3 +118,13 @@ extern u16 data_0215cabc[4];
 extern u16 data_0215cac4[4];
 extern u16 data_0215cb3c[8][4];
 extern s16 data_0215cb7c[8];
+extern u32 data_0215c5d8[];
+extern Unk0215c60c data_0215c60c[];
+extern s16 data_0215c7fc[];
+extern s16 data_0215c80c[];
+extern s16 data_0215c82c[];
+extern s16 data_0215c84c[];
+extern u32 data_0215c8dc[];
+extern u32 data_0215c8fc[];
+extern u16 data_0215c7e0[];
+extern u16 data_0215c7e8[];

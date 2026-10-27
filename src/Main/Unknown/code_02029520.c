@@ -12,7 +12,7 @@ unsigned int func_020296e4(void) {
                                0));
 }
 
-unsigned int func_020296d4(unsigned int p0) {
+unsigned int func_020296d4(u16 p0) {
     return ((unsigned int) *(
         const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
                                    const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_02174e1c))) +
@@ -20,7 +20,7 @@ unsigned int func_020296d4(unsigned int p0) {
                                0 + (((0x18u) * (p0)))));
 }
 
-unsigned int func_020296c0(unsigned int p0) {
+unsigned int func_020296c0(u16 p0) {
     return ((unsigned int) *(
         const unsigned int *) ((unsigned char *) (unsigned int) ((
                                    (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) ((

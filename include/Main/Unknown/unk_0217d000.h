@@ -9,6 +9,22 @@
 #include "code_0200e904.h" // Unk0200eb90
 #include "code_0212da38.h" // Unk02017328, Unk0212d9dc
 
+// Object behind data_0217d358.
+typedef struct Unk0217d358 {
+    /* 00 */ u8 *mUnk_00;
+} Unk0217d358;
+
+struct Unk020b4a44;
+
+// Object behind data_0217d35c: 0x18 bytes allocated by func_021172a8; members 0x0, 0x4 and 0x8 + 4 * i are filled
+// through func_020b49bc, func_020b48b4 and func_020b4a44.
+typedef struct Unk0217d35c {
+    /* 00 */ struct Unk020b4934 *mUnk_00;
+    /* 04 */ void *mUnk_04;
+    /* 08 */ struct Unk020b4a44 *mUnk_08[3];
+    /* 14 */ void *mUnk_14;
+} Unk0217d35c;
+
 struct Unk0212d5f8;
 struct Unk0212ef48;
 struct Unk020b4934;
@@ -415,8 +431,8 @@ extern Unk0217d244 data_0217d244;
 extern struct Unk0217d344 *data_0217d344;
 extern Unk0217d350 *data_0217d350;
 extern Unk0217d354 *data_0217d354;
-extern u8 data_0217d358[];
-extern u8 data_0217d35c[];
+extern Unk0217d358 *data_0217d358;
+extern Unk0217d35c *data_0217d35c;
 extern Unk0217d368 *data_0217d368;
 extern Unk0217d36c *data_0217d36c;
 extern u8 data_0217d370[];
