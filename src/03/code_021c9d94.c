@@ -24,7 +24,7 @@ void func_ov003_021c9e84(void) {
     if (iVar1 == 0) {
         func_ov003_021cdbd0();
         func_ov003_021cdc10(7);
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c9e64)))));
+        func_ov003_021c212c(func_ov003_021c9e64);
     }
     return;
 }
@@ -32,7 +32,7 @@ void func_ov003_021c9e84(void) {
 void func_ov003_021c9e64(void) {
     func_ov003_021bf2d0();
     func_ov003_021d1dd0(8);
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c9e1c)))));
+    func_ov003_021c212c(func_ov003_021c9e1c);
     return;
 }
 
@@ -45,7 +45,7 @@ void func_ov003_021c9e1c(void) {
             func_ov003_021d1ee0(3, 1, 1, 8);
         }
         func_ov003_021d1ee0(3, 0, 0x15, 8);
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c9d94)))));
+        func_ov003_021c212c(func_ov003_021c9d94);
     }
     return;
 }
@@ -64,11 +64,11 @@ void func_ov003_021c9d94(void) {
         func_ov003_021c29b8();
         if (data_ov003_021da21c == 0) {
             func_ov003_021c2120(2, 1);
-            func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021cb7fc)))));
+            func_ov003_021c212c(func_ov003_021cb7fc);
             return;
         }
         func_ov003_021c2120(0, 0);
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021ca194)))));
+        func_ov003_021c212c(func_ov003_021ca194);
     }
     return;
 }

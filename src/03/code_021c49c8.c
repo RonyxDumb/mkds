@@ -1,4 +1,5 @@
 #include "03/code_021c49c8.h"
+#include "03/code_021c499c.h"
 
 void func_ov003_021c4a40(void) {
     unsigned int v2 = ((u32) (&data_ov003_021d7194));
@@ -54,7 +55,7 @@ void func_ov003_021c49f8(void) {
         func_ov003_021d1ee0((int) (2), (int) (1), (u32) (1), (u16) (8));
         func_ov003_021d2784((int) (1), (u32) (1));
     }
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c49c8)))));
+    func_ov003_021c212c(func_ov003_021c49c8);
     return;
 }
 
@@ -63,7 +64,7 @@ void func_ov003_021c49c8(void) {
     iVar1 = func_ov003_021d1f70((int) (1));
     if ((iVar1 == 0) && (iVar1 = func_ov003_021d1f70((int) (0)), iVar1 == 0)) {
         func_ov003_021bf5c8((u32) (3));
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c499c)))));
+        func_ov003_021c212c(func_ov003_021c499c);
     }
     return;
 }

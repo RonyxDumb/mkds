@@ -1,4 +1,5 @@
 #include "03/code_021c6f08.h"
+#include "03/code_021cef6c.h"
 
 void func_ov003_021c6f3c(void) {
     int iVar1;
@@ -6,7 +7,7 @@ void func_ov003_021c6f3c(void) {
     if (iVar1 == 0) {
         func_ov003_021cdc10((u32) (6));
         func_ov003_021cef90();
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c6f08)))));
+        func_ov003_021c212c(func_ov003_021c6f08);
     }
     return;
 }
@@ -17,7 +18,7 @@ void func_ov003_021c6f08(void) {
     if (iVar1 == 0) {
         **(u32 **) (*((int *) ((u32) (&data_ov003_021da1fc))) + 4) =
             **(u32 **) (*((int *) ((u32) (&data_ov003_021da1fc))) + 4) & ((u32) 0xc1fffcffu);
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c7614)))));
+        func_ov003_021c212c(func_ov003_021c7614);
     }
     return;
 }

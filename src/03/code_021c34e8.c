@@ -1,4 +1,5 @@
 #include "03/code_021c34e8.h"
+#include "03/code_021c34c4.h"
 
 void func_ov003_021c3694(void) {
     int iVar1;
@@ -18,7 +19,7 @@ void func_ov003_021c366c(void) {
     iVar1 = func_ov003_021bf334();
     if (iVar1 == 0) {
         func_ov003_021cdc10((u32) (7));
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c364c)))));
+        func_ov003_021c212c(func_ov003_021c364c);
     }
     return;
 }
@@ -26,7 +27,7 @@ void func_ov003_021c366c(void) {
 void func_ov003_021c364c(void) {
     func_ov003_021bf2d0();
     func_ov003_021d1dd0((u16) (8));
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c3610)))));
+    func_ov003_021c212c(func_ov003_021c3610);
     return;
 }
 
@@ -37,7 +38,7 @@ void func_ov003_021c3610(void) {
         func_ov003_021bf344();
         func_ov003_021d1ee0((int) (3), (int) (1), (u32) (1), (u16) (8));
         func_ov003_021d1ee0((int) (3), (int) (0), (u32) (0x15), (u16) (8));
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c35bc)))));
+        func_ov003_021c212c(func_ov003_021c35bc);
     }
     return;
 }
@@ -52,7 +53,7 @@ void func_ov003_021c35bc(void) {
         func_ov003_021d272c((int) (1), (u32) (1));
         func_ov003_021d272c((int) (0), (u32) (0x15));
         func_ov003_021c2120((u32) (0), (u32) (1));
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c3dd4)))));
+        func_ov003_021c212c(func_ov003_021c3dd4);
     }
     return;
 }
@@ -61,7 +62,7 @@ void func_ov003_021c3598(void) {
     func_ov003_021c3534();
     func_ov003_021bf578((u32) (0x57));
     func_ov003_021cd42c();
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c350c)))));
+    func_ov003_021c212c(func_ov003_021c350c);
     return;
 }
 
@@ -115,7 +116,7 @@ void func_ov003_021c3534(void) {
 void func_ov003_021c350c(void) {
     func_ov003_021d1ee0((int) (2), (int) (0), (u32) (0x15), (u16) (8));
     func_ov003_021d2784((int) (0), (u32) (0x15));
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c34e8)))));
+    func_ov003_021c212c(func_ov003_021c34e8);
     return;
 }
 
@@ -124,7 +125,7 @@ void func_ov003_021c34e8(void) {
     iVar1 = func_ov003_021d1f70((int) (0));
     if (iVar1 == 0) {
         func_ov003_021bf5c8((u32) (5));
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c34c4)))));
+        func_ov003_021c212c(func_ov003_021c34c4);
     }
     return;
 }

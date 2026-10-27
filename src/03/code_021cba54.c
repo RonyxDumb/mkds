@@ -1,4 +1,5 @@
 #include "03/code_021cba54.h"
+#include "03/code_021cba2c.h"
 
 void func_ov003_021cba54(void) {
     int local_8[1];
@@ -9,6 +10,6 @@ void func_ov003_021cba54(void) {
         func_ov003_021d1ee0((int) (2), (int) (1), (u32) (1), (u16) (8));
         func_ov003_021d2784((int) (1), (u32) (1));
     }
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021cba2c)))));
+    func_ov003_021c212c(func_ov003_021cba2c);
     return;
 }

@@ -6,7 +6,7 @@ void func_ov003_021c7358(void) {
 
 void func_ov003_021c733c(void) {
     func_ov003_021d1dd0((u16) (8));
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c7314)))));
+    func_ov003_021c212c(func_ov003_021c7314);
     return;
 }
 
@@ -16,7 +16,7 @@ void func_ov003_021c7314(void) {
     if (iVar1 == 0) {
         func_ov003_021c1cb0();
         func_ov003_021cdc10((u32) (0x15));
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c72a4)))));
+        func_ov003_021c212c(func_ov003_021c72a4);
     }
     return;
 }

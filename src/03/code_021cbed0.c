@@ -43,6 +43,6 @@ void func_ov003_021cbed0(void) {
     func_ov003_021d1ee0((int) (2), (int) (0), (u32) (0x14), (u16) (8));
     func_ov003_021d2784((int) (1), (u32) (1));
     func_ov003_021d2784((int) (0), (u32) (0x14));
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021cbe78)))));
+    func_ov003_021c212c(func_ov003_021cbe78);
     return;
 }

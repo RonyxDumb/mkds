@@ -1,4 +1,5 @@
 #include "03/code_021c7cb0.h"
+#include "03/code_021cef6c.h"
 
 void func_ov003_021c7d58(void) {
     int iVar1;
@@ -7,7 +8,7 @@ void func_ov003_021c7d58(void) {
         func_ov003_021cdc10((u32) (6));
         func_ov003_021cef90();
         func_ov003_021cc900((u32) (*(u32 *) (*((int *) ((u32) (&data_ov003_021da214))) + 0xc)));
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c7d3c)))));
+        func_ov003_021c212c(func_ov003_021c7d3c);
     }
     return;
 }
@@ -16,7 +17,7 @@ void func_ov003_021c7d3c(void) {
     int iVar1;
     iVar1 = func_ov003_021cef6c();
     if (iVar1 == 0) {
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c9450)))));
+        func_ov003_021c212c(func_ov003_021c9450);
     }
     return;
 }
@@ -29,7 +30,7 @@ void func_ov003_021c7d30(u8 param_1) {
 void func_ov003_021c7d14(void) {
     func_ov003_021c7cb0();
     func_ov003_021c7a0c();
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c79e4)))));
+    func_ov003_021c212c(func_ov003_021c79e4);
     return;
 }
 

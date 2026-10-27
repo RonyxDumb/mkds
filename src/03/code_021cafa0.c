@@ -1,4 +1,5 @@
 #include "03/code_021cafa0.h"
+#include "03/code_021d2a34.h"
 
 void func_ov003_021cb06c(void) {
     func_ov003_021cafa4();
@@ -14,7 +15,7 @@ void func_ov003_021cafa4(void) {
     uVar2 = 0;
     iVar3 = ((int) ((u32) (&data_ov003_021d6508)));
     do {
-        iVar1 = func_ov003_021d2a34((u16 *) ((u16 *) (u32) (iVar3)));
+        iVar1 = func_ov003_021d2a34((const Unk021d299c *) (u16 *) ((u16 *) (u32) (iVar3)));
         if (iVar1 != 0) {
             func_ov003_021bf31c((u8) (1));
             *((u8 *) ((u32) (&data_ov003_021da230))) = (s8) uVar2;

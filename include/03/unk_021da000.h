@@ -18,7 +18,6 @@ extern u8 data_ov003_021da164[];
 extern u8 data_ov003_021da168[];
 extern u8 data_ov003_021da16c[];
 extern u8 data_ov003_021da170[];
-extern u8 data_ov003_021da17c[];
 extern u8 data_ov003_021da194[];
 extern u8 data_ov003_021da1a8;
 extern u8 data_ov003_021da1b0[];

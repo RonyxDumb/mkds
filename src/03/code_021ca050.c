@@ -1,4 +1,5 @@
 #include "03/code_021ca050.h"
+#include "03/code_021ca028.h"
 
 void func_ov003_021ca0d4(void) {
     func_ov003_021ca028();
@@ -13,7 +14,7 @@ void func_ov003_021ca0d0(void) {
 void func_ov003_021ca0a4(void) {
     func_ov003_021d1ee0((int) (3), (int) (1), (u32) (1), (u16) (8));
     func_ov003_021d1ee0((int) (3), (int) (0), (u32) (0x15), (u16) (8));
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021ca050)))));
+    func_ov003_021c212c(func_ov003_021ca050);
     return;
 }
 
@@ -27,7 +28,7 @@ void func_ov003_021ca050(void) {
         func_ov003_021d272c((int) (0), (u32) (0x15));
         func_ov003_021c2120((u32) (0), (u32) (0));
         func_ov003_021c20f8((u32) (0), (u32) (1));
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021cbf60)))));
+        func_ov003_021c212c(func_ov003_021cbf60);
     }
     return;
 }

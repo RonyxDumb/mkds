@@ -1,4 +1,5 @@
 #include "03/code_021b94b8.h"
+#include "03/code_021b7d00.h"
 
 Unk021d687c data_ov003_021d687c[12] = {
     {0x0001, 0x02, 0}, {0x0002, 0x04, 0}, {0x0004, 0x0b, 0}, {0x0008, 0x0c, 0}, {0x0010, 0x12, 0}, {0x0020, 0x16, 0},
@@ -85,7 +86,7 @@ s32 func_ov003_021ba61c(void *(*alloc)(u32), void (*release)(void *)) {
                     break;
                 case 6:
                     return 0;
-            // placeholder: labels that fall into default only give the original's jump table its size
+                    // placeholder: labels that fall into default only give the original's jump table its size
                 case 8:
                 case 0xa:
                 case 0xc:
@@ -125,7 +126,7 @@ s32 func_ov003_021ba560(void) {
                 result = 0;
                 data_ov003_021d8a18(data_ov003_021d8a14);
                 break;
-        // placeholder: labels that fall into default only give the original's jump table its size
+                // placeholder: labels that fall into default only give the original's jump table its size
             case 8:
             case 0xa:
             case 0xc:
@@ -220,7 +221,7 @@ s32 func_ov003_021ba394(Unk021ba734 **out) {
                 case 8:
                 case 0x12:
                     break;
-            // placeholder: labels that fall into default only give the original's jump table its size
+                    // placeholder: labels that fall into default only give the original's jump table its size
                 case 0xc:
                 case 0xd:
                 default:

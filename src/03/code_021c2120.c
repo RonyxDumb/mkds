@@ -1,4 +1,14 @@
 #include "03/code_021c2120.h"
+#include "03/code_021cdc28.h"
+#include "03/code_021d1000.h"
+#include "03/code_021d2000.h"
+#include "03/code_021d244c.h"
+#include "03/code_021d2894.h"
+#include "03/code_021d3000.h"
+#include "03/code_021d35c0.h"
+#include "03/unk_021da000.h"
+#include "Main/Unknown/code_02148000.h"
+#include "03/code_021d1f88.h"
 
 void func_ov003_021c2138(void) {
     func_02148a10();
@@ -18,9 +28,8 @@ void func_ov003_021c2138(void) {
     return;
 }
 
-void func_ov003_021c212c(u32 param_1) {
-    *((u32 *) ((u32) (&data_ov003_021da17c))) = param_1;
-    return;
+void func_ov003_021c212c(void (*callback)(void)) {
+    data_ov003_021da17c = callback;
 }
 
 void func_ov003_021c2120(u32 param_1, u32 param_2) {

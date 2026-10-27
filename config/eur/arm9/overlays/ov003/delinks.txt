@@ -1150,3 +1150,388 @@ src/03/code_021d28b0.c:
 src/03/code_021d1d60.c:
     complete
     .text       start:0x021d1d60 end:0x021d1d88
+
+// provisional: file name and boundaries
+src/03/code_021c2f44.c:
+    complete
+    .text       start:0x021c2f44 end:0x021c2f68
+
+// provisional: file name and boundaries
+src/03/code_021c32a0.c:
+    complete
+    .text       start:0x021c32a0 end:0x021c32b8
+
+// provisional: file name and boundaries
+src/03/code_021c32b8.c:
+    complete
+    .text       start:0x021c32b8 end:0x021c32dc
+
+// provisional: file name and boundaries
+src/03/code_021c34c4.c:
+    complete
+    .text       start:0x021c34c4 end:0x021c34e8
+
+// provisional: file name and boundaries
+src/03/code_021c36c8.c:
+    complete
+    .text       start:0x021c36c8 end:0x021c36ec
+
+// provisional: file name and boundaries
+src/03/code_021c3c34.c:
+    complete
+    .text       start:0x021c3c34 end:0x021c3c58
+
+// provisional: file name and boundaries
+src/03/code_021c4164.c:
+    complete
+    .text       start:0x021c4164 end:0x021c4188
+
+// provisional: file name and boundaries
+src/03/code_021c4328.c:
+    complete
+    .text       start:0x021c4328 end:0x021c434c
+
+// provisional: file name and boundaries
+src/03/code_021c4570.c:
+    complete
+    .text       start:0x021c4570 end:0x021c4588
+
+// provisional: file name and boundaries
+src/03/code_021c4588.c:
+    complete
+    .text       start:0x021c4588 end:0x021c45ac
+
+// provisional: file name and boundaries
+src/03/code_021c46a8.c:
+    complete
+    .text       start:0x021c46a8 end:0x021c46d0
+
+// provisional: file name and boundaries
+src/03/code_021c4984.c:
+    complete
+    .text       start:0x021c4984 end:0x021c499c
+
+// provisional: file name and boundaries
+src/03/code_021c4fc8.c:
+    complete
+    .text       start:0x021c4fc8 end:0x021c4fe8
+
+// provisional: file name and boundaries
+src/03/code_021c5548.c:
+    complete
+    .text       start:0x021c5548 end:0x021c5570
+
+// provisional: file name and boundaries
+src/03/code_021c5608.c:
+    complete
+    .text       start:0x021c5608 end:0x021c5628
+
+// provisional: file name and boundaries
+src/03/code_021c6370.c:
+    complete
+    .text       start:0x021c6370 end:0x021c6394
+
+// provisional: file name and boundaries
+src/03/code_021c7990.c:
+    complete
+    .text       start:0x021c7990 end:0x021c79b4
+
+// provisional: file name and boundaries
+src/03/code_021c9464.c:
+    complete
+    .text       start:0x021c9464 end:0x021c948c
+
+// provisional: file name and boundaries
+src/03/code_021c9b68.c:
+    complete
+    .text       start:0x021c9b68 end:0x021c9b88
+
+// provisional: file name and boundaries
+src/03/code_021c9ee0.c:
+    complete
+    .text       start:0x021c9ee0 end:0x021c9f00
+
+// provisional: file name and boundaries
+src/03/code_021ca028.c:
+    complete
+    .text       start:0x021ca028 end:0x021ca050
+
+// provisional: file name and boundaries
+src/03/code_021ca0e8.c:
+    complete
+    .text       start:0x021ca0e8 end:0x021ca108
+
+// provisional: file name and boundaries
+src/03/code_021ca3cc.c:
+    complete
+    .text       start:0x021ca3cc end:0x021ca3ec
+
+// provisional: file name and boundaries
+src/03/code_021ca7d4.c:
+    complete
+    .text       start:0x021ca7d4 end:0x021ca7f8
+
+// provisional: file name and boundaries
+src/03/code_021cb6c8.c:
+    complete
+    .text       start:0x021cb6c8 end:0x021cb6ec
+
+// provisional: file name and boundaries
+src/03/code_021cba2c.c:
+    complete
+    .text       start:0x021cba2c end:0x021cba54
+
+// provisional: file name and boundaries
+src/03/code_021cbd20.c:
+    complete
+    .text       start:0x021cbd20 end:0x021cbd40
+
+// provisional: file name and boundaries
+src/03/code_021cbfa4.c:
+    complete
+    .text       start:0x021cbfa4 end:0x021cbfcc
+
+// provisional: file name and boundaries
+src/03/code_021cc064.c:
+    complete
+    .text       start:0x021cc064 end:0x021cc084
+
+// provisional: file name and boundaries
+src/03/code_021cc2a4.c:
+    complete
+    .text       start:0x021cc2a4 end:0x021cc2bc
+
+// provisional: file name and boundaries
+src/03/code_021cc2bc.c:
+    complete
+    .text       start:0x021cc2bc end:0x021cc2e0
+
+// provisional: file name and boundaries
+src/03/code_021cc748.c:
+    complete
+    .text       start:0x021cc748 end:0x021cc76c
+
+// provisional: file name and boundaries
+src/03/code_021d1564.c:
+    complete
+    .text       start:0x021d1564 end:0x021d1568
+
+// provisional: file name and boundaries
+src/03/code_021d2d14.c:
+    complete
+    .text       start:0x021d2d14 end:0x021d2d28
+
+// provisional: file name and boundaries
+src/03/code_021b7d00.c:
+    complete
+    .text       start:0x021b7d00 end:0x021b7d04
+
+// provisional: file name and boundaries
+src/03/code_021cd2cc.c:
+    complete
+    .text       start:0x021cd2cc end:0x021cd2e0
+
+// provisional: file name and boundaries
+src/03/code_021d1d4c.c:
+    complete
+    .text       start:0x021d1d4c end:0x021d1d60
+
+// provisional: file name and boundaries
+src/03/code_021d2eb8.c:
+    complete
+    .text       start:0x021d2eb8 end:0x021d2ecc
+
+// provisional: file name and boundaries
+src/03/code_021c1f20.c:
+    complete
+    .text       start:0x021c1f20 end:0x021c1f28
+
+// provisional: file name and boundaries
+src/03/code_021c28f0.c:
+    complete
+    .text       start:0x021c28f0 end:0x021c28f8
+
+// provisional: file name and boundaries
+src/03/code_021bf8b0.c:
+    complete
+    .text       start:0x021bf8b0 end:0x021bf8c0
+
+// provisional: file name and boundaries
+src/03/code_021c25a4.c:
+    complete
+    .text       start:0x021c25a4 end:0x021c25b4
+
+// provisional: file name and boundaries
+src/03/code_021cdb80.c:
+    complete
+    .text       start:0x021cdb80 end:0x021cdb90
+
+// provisional: file name and boundaries
+src/03/code_021d1f88.c:
+    complete
+    .text       start:0x021d1f88 end:0x021d1f98
+
+// provisional: file name and boundaries
+src/03/code_021bf7dc.c:
+    complete
+    .text       start:0x021bf7dc end:0x021bf7f4
+
+// provisional: file name and boundaries
+src/03/code_021c321c.c:
+    complete
+    .text       start:0x021c321c end:0x021c3270
+
+// provisional: file name and boundaries
+src/03/code_021c4500.c:
+    complete
+    .text       start:0x021c4500 end:0x021c4540
+
+// provisional: file name and boundaries
+src/03/code_021cc234.c:
+    complete
+    .text       start:0x021cc234 end:0x021cc274
+
+// provisional: file name and boundaries
+src/03/code_021c4914.c:
+    complete
+    .text       start:0x021c4914 end:0x021c4954
+
+// provisional: file name and boundaries
+src/03/code_021c6cf0.c:
+    complete
+    .text       start:0x021c6cf0 end:0x021c6d0c
+
+// provisional: file name and boundaries
+src/03/code_021c75f8.c:
+    complete
+    .text       start:0x021c75f8 end:0x021c7614
+
+// provisional: file name and boundaries
+src/03/code_021c2a74.c:
+    complete
+    .text       start:0x021c2a74 end:0x021c2aa0
+
+// provisional: file name and boundaries
+src/03/code_021c2aa0.c:
+    complete
+    .text       start:0x021c2aa0 end:0x021c2afc
+
+// provisional: file name and boundaries
+src/03/code_021c2df4.c:
+    complete
+    .text       start:0x021c2df4 end:0x021c2e3c
+
+// provisional: file name and boundaries
+src/03/code_021c30f0.c:
+    complete
+    .text       start:0x021c30f0 end:0x021c312c
+
+// provisional: file name and boundaries
+src/03/code_021c33ac.c:
+    complete
+    .text       start:0x021c33ac end:0x021c33e4
+
+// provisional: file name and boundaries
+src/03/code_021c4670.c:
+    complete
+    .text       start:0x021c4670 end:0x021c46a8
+
+// provisional: file name and boundaries
+src/03/code_021c38f0.c:
+    complete
+    .text       start:0x021c38f0 end:0x021c391c
+
+// provisional: file name and boundaries
+src/03/code_021c4760.c:
+    complete
+    .text       start:0x021c4760 end:0x021c4788
+
+// provisional: file name and boundaries
+src/03/code_021c499c.c:
+    complete
+    .text       start:0x021c499c end:0x021c49c8
+
+// provisional: file name and boundaries
+src/03/code_021c4b78.c:
+    complete
+    .text       start:0x021c4b78 end:0x021c4bc4
+
+// provisional: file name and boundaries
+src/03/code_021c4c0c.c:
+    complete
+    .text       start:0x021c4c0c end:0x021c4c64
+
+// provisional: file name and boundaries
+src/03/code_021c53ec.c:
+    complete
+    .text       start:0x021c53ec end:0x021c541c
+
+// provisional: file name and boundaries
+src/03/code_021c541c.c:
+    complete
+    .text       start:0x021c541c end:0x021c5458
+
+// provisional: file name and boundaries
+src/03/code_021c99a8.c:
+    complete
+    .text       start:0x021c99a8 end:0x021c9a0c
+
+// provisional: file name and boundaries
+src/03/code_021ca20c.c:
+    complete
+    .text       start:0x021ca20c end:0x021ca270
+
+// provisional: file name and boundaries
+src/03/code_021ca410.c:
+    complete
+    .text       start:0x021ca410 end:0x021ca444
+
+// provisional: file name and boundaries
+src/03/code_021cb084.c:
+    complete
+    .text       start:0x021cb084 end:0x021cb0b0
+
+// provisional: file name and boundaries
+src/03/code_021cb538.c:
+    complete
+    .text       start:0x021cb538 end:0x021cb57c
+
+// provisional: file name and boundaries
+src/03/code_021cc3d0.c:
+    complete
+    .text       start:0x021cc3d0 end:0x021cc410
+
+// provisional: file name and boundaries
+src/03/code_021cc464.c:
+    complete
+    .text       start:0x021cc464 end:0x021cc4a8
+
+// provisional: file name and boundaries
+src/03/code_021cc658.c:
+    complete
+    .text       start:0x021cc658 end:0x021cc6a4
+
+// provisional: file name and boundaries
+src/03/code_021cef6c.c:
+    complete
+    .text       start:0x021cef6c end:0x021cef80
+
+// provisional: file name and boundaries
+src/03/code_021cc8b4.c:
+    complete
+    .text       start:0x021cc8b4 end:0x021cc8d4
+
+// provisional: file name and boundaries
+src/03/code_021d299c.c:
+    complete
+    .text       start:0x021d299c end:0x021d29e8
+
+// provisional: file name and boundaries
+src/03/code_021d29e8.c:
+    complete
+    .text       start:0x021d29e8 end:0x021d2a34
+
+// provisional: file name and boundaries
+src/03/code_021d2a34.c:
+    complete
+    .text       start:0x021d2a34 end:0x021d2a80

@@ -23,7 +23,7 @@ void func_ov003_021c52d0(void) {
     iVar1 = func_ov003_021bf334();
     if (iVar1 == 0) {
         func_ov003_021bf2d0();
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c50f8)))));
+        func_ov003_021c212c(func_ov003_021c50f8);
     }
     return;
 }

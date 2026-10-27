@@ -6,6 +6,6 @@ void func_ov003_021cae88(void) {
     }
     func_ov003_021bf2d0();
     func_ov003_021d1dd0((u16) (8));
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021cae28)))));
+    func_ov003_021c212c(func_ov003_021cae28);
     return;
 }

@@ -1,4 +1,5 @@
 #include "03/code_021c6d0c.h"
+#include "03/code_021c6cf0.h"
 
 void func_ov003_021c6da4(void) {
     unsigned int v2 = ((u32) (&data_ov003_021d72a4));
@@ -61,7 +62,7 @@ void func_ov003_021c6d68(void) {
     func_ov003_021d1ee0((int) (2), (int) (0), (u32) (0x15), (u16) (8));
     func_ov003_021d2784((int) (1), (u32) (1));
     func_ov003_021d2784((int) (0), (u32) (0x15));
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c6d0c)))));
+    func_ov003_021c212c(func_ov003_021c6d0c);
     return;
 }
 
@@ -79,7 +80,7 @@ void func_ov003_021c6d0c(void) {
         if (*(unsigned char *) (*((int *) ((u32) (&data_ov003_021da1f8))) + 0x29) == ' ') {
             func_ov003_021c0cbc((u8) (0));
         }
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021c6cf0)))));
+        func_ov003_021c212c(func_ov003_021c6cf0);
     }
     return;
 }

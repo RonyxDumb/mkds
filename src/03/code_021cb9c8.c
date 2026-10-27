@@ -21,7 +21,7 @@ void func_ov003_021cba08(void) {
 
 void func_ov003_021cb9e8(void) {
     func_ov003_021d1ee0((int) (3), (int) (0), (u32) (0x15), (u16) (8));
-    func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021cb9c8)))));
+    func_ov003_021c212c(func_ov003_021cb9c8);
     return;
 }
 
@@ -29,7 +29,7 @@ void func_ov003_021cb9c8(void) {
     int iVar1;
     iVar1 = func_ov003_021d1f70((int) (0));
     if (iVar1 == 0) {
-        func_ov003_021c212c((u32) (((u32) ((u32) (&func_ov003_021cb948)))));
+        func_ov003_021c212c(func_ov003_021cb948);
     }
     return;
 }
