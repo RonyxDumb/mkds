@@ -87,3 +87,18 @@ typedef struct Unk021759c0 {
 } Unk021759c0;
 
 extern Unk021759c0 *data_021759c0;
+
+// Object behind data_021759c4; the members are the ones the code reads.
+typedef struct Unk021759c4 {
+    /* 00 */ u8 mUnk_00[0x30];
+    /* 30 */ union {
+        u32 mUnk_30;
+        struct {
+            s32 mUnk_30_0 : 1;
+            s32 mUnk_30_1 : 2;
+            s32 mUnk_30_3 : 1;
+        };
+    };
+} Unk021759c4;
+
+extern Unk021759c4 *data_021759c4;

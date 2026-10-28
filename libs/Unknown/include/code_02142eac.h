@@ -167,7 +167,10 @@ typedef struct Unk02143a78_0c {
 typedef struct Unk02143c30 {
     /* 00 */ void *mUnk_00;
     /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[0xe];
+    /* 06 */ u8 mUnk_06[6];
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u16 mUnk_0e;
+    /* 10 */ u8 mUnk_10[4];
     /* 14 */ u16 mUnk_14;
     /* 16 */ u8 mUnk_16[2];
     /* 18 */ u16 mUnk_18;
