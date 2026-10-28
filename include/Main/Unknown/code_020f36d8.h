@@ -97,7 +97,18 @@ typedef struct Unk020f41c4_A {
 typedef struct {
     /* 00 */ u8 mUnk_00[0x14];
     /* 14 */ s32 mUnk_14;
-    /* 18 */ u8 mUnk_18[0x2c];
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ u16 mUnk_20;
+    /* 22 */ u8 mUnk_22;
+    /* 23 */ u8 mUnk_23;
+    /* 24 */ u8 mUnk_24[0x10];
+    /* 34 */ u16 mUnk_34;
+    /* 36 */ u8 mUnk_36;
+    /* 37 */ u8 mUnk_37;
+    /* 38 */ s32 mUnk_38;
+    /* 3c */ s32 mUnk_3c;
+    /* 40 */ s32 mUnk_40;
     /* 44 */ u16 mUnk_44;
     /* 46 */ u8 mUnk_46[0x46];
 } Unk0217561c_000;

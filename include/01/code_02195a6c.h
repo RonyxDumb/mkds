@@ -73,9 +73,35 @@ typedef struct Unk021a9bdc {
 
 // Object behind data_021759d4.
 typedef struct Unk021759d4 {
-    /* 00 */ u8 mUnk_00[0xc];
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ void *mUnk_04;
+    /* 08 */ void *mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
+    /* 14 */ void *mUnk_14;
+    /* 18 */ void *mUnk_18;
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ s32 mUnk_20;
+    /* 24 */ u16 mUnk_24;
+    /* 26 */ u8 mUnk_26[0x2];
+    /* 28 */ void *mUnk_28;
+    /* 2c */ void *mUnk_2c;
+    /* 30 */ void *mUnk_30;
+    /* 34 */ void *mUnk_34;
+    /* 38 */ void *mUnk_38;
+    /* 3c */ u8 mUnk_3c[0x4];
+    /* 40 */ void *mUnk_40;
+    /* 44 */ void *mUnk_44;
+    /* 48 */ void *mUnk_48;
+    /* 4c */ u8 mUnk_4c[0x4];
+    /* 50 */ void *mUnk_50;
+    /* 54 */ void *mUnk_54;
+    /* 58 */ s32 mUnk_58;
+    /* 5c */ s32 mUnk_5c;
+    /* 60 */ void *mUnk_60;
+    /* 64 */ void *mUnk_64;
+    /* 68 */ void *mUnk_68;
+    /* 6c */ u8 mUnk_6c;
 } Unk021759d4;
 
 extern Unk021a9bdc *data_ov001_021a9bdc;

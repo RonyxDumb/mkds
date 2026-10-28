@@ -7,13 +7,32 @@
 typedef struct Unk021759d0 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
-    /* 08 */ u8 mUnk_08[0x14];
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ u8 mUnk_0c[0xc];
+    /* 18 */ s32 mUnk_18;
     /* 1c */ s32 mUnk_1c_0 : 1;
     /* 1c */ s32 mUnk_1c_1 : 1;
     /* 20 */ s32 mUnk_20;
-    /* 24 */ u8 mUnk_24[0x6];
+    /* 24 */ void *mUnk_24;
+    /* 28 */ u16 mUnk_28;
     /* 2a */ u8 mUnk_2a[0x14];
-    /* 3e */ u8 mUnk_3e[0x3a];
+    /* 3e */ u16 mUnk_3e;
+    /* 40 */ u8 mUnk_40;
+    /* 41 */ u8 mUnk_41[0x3];
+    /* 44 */ void *mUnk_44;
+    /* 48 */ s32 mUnk_48;
+    /* 4c */ s32 mUnk_4c;
+    /* 50 */ u16 mUnk_50;
+    /* 52 */ u8 mUnk_52[0x2];
+    /* 54 */ s32 mUnk_54;
+    /* 58 */ s32 mUnk_58;
+    /* 5c */ s32 mUnk_5c;
+    /* 60 */ void *mUnk_60;
+    /* 64 */ s32 mUnk_64;
+    /* 68 */ s32 mUnk_68;
+    /* 6c */ s32 mUnk_6c;
+    /* 70 */ s32 mUnk_70;
+    /* 74 */ s32 mUnk_74;
     /* 78 */ s32 mUnk_78;
 } Unk021759d0;
 
@@ -63,3 +82,10 @@ extern vu16 data_021758e8[];
 extern vu16 data_02175928[];
 extern u8 data_02175ec0[];
 extern u8 data_02175dd8[];
+// Object at data_02175614: a word and a function pointer.
+typedef struct Unk02175614 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 (*mUnk_04)();
+} Unk02175614;
+
+extern Unk02175614 data_02175614;
