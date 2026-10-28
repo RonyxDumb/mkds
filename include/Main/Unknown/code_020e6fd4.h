@@ -10,8 +10,6 @@ struct Unk020fa294;
 // Object behind Unk020e71a0.mUnk_94, passed to func_0210cfbc (which reads its halfword at 0x34).
 typedef struct Unk020e71a0_94 {
     /* 00 */ Unk0210bfbc mUnk_00;
-    /* 3c */ u8 mUnk_3c[4];
-    /* 40 */ s32 mUnk_40;
     /* 44 */ u8 mUnk_44[0x1c];
 } Unk020e71a0_94;
 

@@ -297,10 +297,10 @@ s32 func_021092b0(Unk0210bcf4 *p)
     k = (Unk0206bcb0 *) p->mUnk_00;
     v = 0;
     if (k != 0) {
-        if (k != 0 && k->mUnk_3c == 0 && k->mUnk_74 != data_021759c0->mUnk_62) {
+        if (k != 0 && k->mUnk_00.mUnk_3c == 0 && k->mUnk_74 != data_021759c0->mUnk_62) {
             e = &data_0217c8f8;
         } else {
-            e = &data_0217ca6c[k->mUnk_3c];
+            e = &data_0217ca6c[k->mUnk_00.mUnk_3c];
         }
     } else {
         e = &data_0217ca6c[p->mUnk_20->mUnk_08];
@@ -356,7 +356,7 @@ u32 func_02109184(Unk0210bcf4 *p)
     u32 b;
 
     if (p->mUnk_00 != 0) {
-        a = ((Unk0206bcb0 *) p->mUnk_00)->mUnk_40;
+        a = ((Unk0206bcb0 *) p->mUnk_00)->mUnk_00.mUnk_40;
     } else {
         a = p->mUnk_20->mUnk_0c;
     }

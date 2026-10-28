@@ -52,7 +52,7 @@ void func_020e71a0(Unk020e71a0 *p) {
 
     q = p->mUnk_94;
     if ((p->mUnk_02 & 2) == 0) {
-        q->mUnk_40 = p->mUnk_78 & ~0xc000001f;
+        q->mUnk_00.mUnk_40 = p->mUnk_78 & ~0xc000001f;
         a = (func_020d4ddc(p) == 0);
         b = (q->mUnk_00.mUnk_34 & 1) != 0;
         if (a != 0) {
@@ -74,7 +74,7 @@ void func_020e71a0(Unk020e71a0 *p) {
         s32 v;
 
         v = func_020d4ef4(&p->mUnk_04);
-        q->mUnk_40 = v;
+        q->mUnk_00.mUnk_40 = v;
         if (func_020d4d60(p, v) != 0) {
             p->mUnk_78 |= data_02159310;
             if ((q->mUnk_00.mUnk_34 & 1) != 0) {

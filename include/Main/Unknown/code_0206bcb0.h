@@ -133,9 +133,6 @@ typedef struct Unk0206bcb0_A {
 
 typedef struct Unk0206bcb0 {
     /* 00 */ Unk0210bfbc mUnk_00;
-    /* 3c */ u8 mUnk_3c;
-    /* 3d */ u8 mUnk_3d[3];
-    /* 40 */ u32 mUnk_40;
     /* 44 */ vu32 mUnk_44;
     /* 48 */ vu32 mUnk_48;
     /* 4c */ vu32 mUnk_4c;

@@ -97,7 +97,7 @@ void func_020f90dc(void *param_1) {
 void func_020f90bc(void *param_1) {
     Unk020f41c4_A *p = param_1;
 
-    p->mUnk_40 = p->mUnk_d4 & ~0xc000001f;
+    p->mUnk_00.mUnk_40 = p->mUnk_d4 & ~0xc000001f;
     func_020d4e28(p, &p->mUnk_50, p->mUnk_d4);
 }
 

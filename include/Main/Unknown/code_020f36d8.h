@@ -53,8 +53,6 @@ extern Unk020f3fa8 data_0217bb88;
 // element sizes in the data_0217bc34 entries start at 0x12c).
 typedef struct Unk020f41c4_A {
     /* 00 */ Unk0210bfbc mUnk_00;
-    /* 3c */ u8 mUnk_3c[4];
-    /* 40 */ s32 mUnk_40;
     /* 44 */ s32 mUnk_44;
     /* 48 */ s32 mUnk_48;
     /* 4c */ s16 mUnk_4c;
