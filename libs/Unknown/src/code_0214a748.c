@@ -195,7 +195,7 @@ void func_0214ad4c(s32 a, s32 b, s32 c, s32 d, s32 e, s32 f, s32 g, int h, Unk02
     }
 }
 
-void func_0214abb4(const Vec3 *a, const Vec3 *b, const Vec3 *c, int d, Unk0214abb4 *out) {
+void func_0214abb4(const Vec3 *a, const Vec3 *b, const Vec3 *c, int d, Unk02012f58 *out) {
     Vec3 v0;
     Vec3 v1;
     Vec3 v2;
@@ -233,18 +233,18 @@ void func_0214abb4(const Vec3 *a, const Vec3 *b, const Vec3 *c, int d, Unk0214ab
         *p = z;
     }
     if (out != 0) {
-        out->mUnk_00 = v1.x;
-        out->mUnk_04 = v2.x;
-        out->mUnk_08 = v0.x;
-        out->mUnk_0c = v1.y;
-        out->mUnk_10 = v2.y;
-        out->mUnk_14 = v0.y;
-        out->mUnk_18 = v1.z;
-        out->mUnk_1c = v2.z;
-        out->mUnk_20 = v0.z;
-        out->mUnk_24 = x;
-        out->mUnk_28 = y;
-        out->mUnk_2c = z;
+        out->mUnk_00.x = v1.x;
+        out->mUnk_00.y = v2.x;
+        out->mUnk_00.z = v0.x;
+        out->mUnk_0c.x = v1.y;
+        out->mUnk_0c.y = v2.y;
+        out->mUnk_0c.z = v0.y;
+        out->mUnk_18.x = v1.z;
+        out->mUnk_18.y = v2.z;
+        out->mUnk_18.z = v0.z;
+        out->mUnk_24.x = x;
+        out->mUnk_24.y = y;
+        out->mUnk_24.z = z;
     }
 }
 

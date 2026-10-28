@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020ae428.h"
 
 struct Unk020ae244;
 
@@ -17,14 +18,9 @@ typedef struct Unk020ae7c4 {
 
 // Declared here until the code that defines them is decompiled.
 void func_020ae7c4(s32 a, s32 b, s32 c, Unk020ae7c4 *d);
-u32 func_020ae428();
-u32 func_020ae458();
 void func_020ae630(void *param_1, void *param_2);
 void func_020ae6ac(void *param_1, void *param_2);
-u16 func_020ae5c4(void *param_1);
 void *func_020ae730(s32 a, s32 b);
 void func_020ae770(s32 *a, s32 *b, s32 c);
-s32 func_020ae584(s32 a);
-s32 func_020ae3a4(s32 a, s32 b);
-void func_020ae340(u32 a, u8 *b, u8 *c);
-s32 func_020ae244(u32 a, struct Unk020ae244 b);
+#include "Main/Unknown/code_020ae244.h"
+#include "Main/Unknown/code_020ae340.h"

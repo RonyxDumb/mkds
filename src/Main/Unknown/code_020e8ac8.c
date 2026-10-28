@@ -41,8 +41,8 @@
 void func_020ea4bc(u32 param_1, void *param_2, void **param_3, void *param_4, void *param_5) {
     *param_3 = func_02036bec(func_020364e0(func_020364e8()), 0x38);
     func_0208823c(param_1, *param_3, param_2, 1, func_020364e0(func_020364e8()), param_4);
-    func_0208805c(*param_3, param_5, (u32) func_020364e0(func_020364e8()));
-    func_02087f84((int) *param_3, 0);
+    func_0208805c(*param_3, param_5, func_020364e0(func_020364e8()));
+    func_02087f84(*param_3, 0);
 }
 
 #pragma thumb off

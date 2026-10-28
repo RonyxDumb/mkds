@@ -442,7 +442,7 @@ void func_020e20a8(Unk020e20a8 *a) {
     for (k4 = 0, y4 = ((Unk0217b7a0 *) data_0217b790)->mUnk_04; k4 < y4->mUnk_18; k4++) {
         func_020134b0(y4, k4, 7);
     }
-    func_020849b0((u32) data_0217b790, 0);
+    func_020849b0(data_0217b790, 0);
     n = ((Unk0217b79c *) data_0217b79c)->mUnk_04;
     for (i = 0; i < n; i++) {
         e = ((Unk0217b79c *) data_0217b79c)->mUnk_00[i];

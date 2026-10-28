@@ -14,11 +14,19 @@ typedef struct Unk020ed718 {
     /* 014 */ s32 mUnk_014;
 } Unk020ed718;
 
+// The object behind the word at 0x20 of a Unk0206bcb0_590: the vectors from 0x48.
+typedef struct Unk0206bcb0_590_20 {
+    /* 00 */ u8 mUnk_00[0x48];
+    /* 48 */ Vec3 mUnk_48[1];
+} Unk0206bcb0_590_20;
+
 // The object behind the word at 0x590 of a Unk0206bcb0 from its first byte:
 // the halfword at 0x40.
 typedef struct Unk0206bcb0_590 {
     /* 000 */ s32 mUnk_000;
-    /* 004 */ u8 mUnk_004[0x3c];
+    /* 004 */ u8 mUnk_004[0x1c];
+    /* 020 */ Unk0206bcb0_590_20 *mUnk_020;
+    /* 024 */ u8 mUnk_024[0x1c];
     /* 040 */ u16 mUnk_040;
 } Unk0206bcb0_590;
 

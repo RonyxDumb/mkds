@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-void func_02079078(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6) {
+void func_02079078(u32 param_1, u32 param_2, void *param_3, u32 param_4, u32 param_5, u32 param_6) {
     u32 uVar1;
     u32 uVar2;
     uVar1 = func_02084d3c(param_2, param_4, param_5);
@@ -14,7 +14,7 @@ void func_02079078(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32 param
     uVar1 = (u32) func_02013a4c((void *) (uVar1), (u32) (0));
     uVar2 = func_0207b8dc((int) (2));
     func_020881b0((int) (param_3), (int) (0), (u32) (uVar1), (u32) (uVar2), (int) (param_1));
-    func_02087f84((int) (param_3), (int) (0));
+    func_02087f84(param_3, 0);
     return;
 }
 

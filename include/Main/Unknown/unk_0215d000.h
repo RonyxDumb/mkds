@@ -22,6 +22,7 @@ extern Unk0215d064 data_0215d0ac[];
 
 // Objects whose layout isn't known yet.
 extern const s16 data_0215d4b4[];
+extern s16 data_0215d6b4[];
 
 extern u8 data_0215d00c[];
 extern u8 data_0215d014[];
