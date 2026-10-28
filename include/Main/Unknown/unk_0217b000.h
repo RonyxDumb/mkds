@@ -65,6 +65,9 @@ typedef struct Unk0217b498_00 {
     /* 7e */ u16 mUnk_7e;
     /* 80 */ u8 mUnk_80[0x28];
     /* a8 */ s32 mUnk_a8;
+    /* ac */ s32 mUnk_ac;
+    /* b0 */ u8 mUnk_b0[8];
+    /* b8 */ u16 mUnk_b8;
 } Unk0217b498_00;
 
 // Object behind data_0217b3fc to data_0217b420, data_0217b42c to data_0217b434, data_0217b440 to data_0217b484,
