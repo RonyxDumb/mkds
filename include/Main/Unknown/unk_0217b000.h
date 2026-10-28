@@ -587,7 +587,7 @@ extern u8 data_0217b868[];
 extern s32 data_0217bc5c;
 extern s32 data_0217bc60;
 
-extern u8 data_0217b220[];
+extern u16 data_0217b220;
 extern u8 data_0217b358[];
 extern u8 data_0217b35c[];
 extern u8 data_0217b3c8[];
