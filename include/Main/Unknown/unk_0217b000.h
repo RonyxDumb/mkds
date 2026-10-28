@@ -224,9 +224,10 @@ extern u8 data_0217b170[];
 extern u8 data_0217b1a4[];
 // 0x70-byte entries of Unk0217b1fc, one per index 0 to 7.
 typedef struct Unk0217b1fc_000 {
-    /* 00 */ u8 mUnk_00[8];
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
-    /* 0c */ u8 mUnk_0c[0xc];
+    /* 0c */ Vec3 mUnk_0c;
     /* 18 */ s32 mUnk_18;
     /* 1c */ s32 mUnk_1c;
     /* 20 */ s32 mUnk_20;
@@ -239,7 +240,7 @@ typedef struct Unk0217b1fc_000 {
     /* 50 */ u16 mUnk_50;
     /* 52 */ u8 mUnk_52[0x12];
     /* 64 */ s32 mUnk_64;
-    /* 68 */ u8 mUnk_68[4];
+    /* 68 */ s32 mUnk_68;
     /* 6c */ s32 mUnk_6c;
 } Unk0217b1fc_000;
 

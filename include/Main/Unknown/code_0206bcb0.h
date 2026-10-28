@@ -210,7 +210,7 @@ typedef struct Unk0206bcb0 {
     /* 284 */ Vec3 mUnk_284;
     /* 290 */ Vec3 mUnk_290;
     /* 29c */ s32 mUnk_29c;
-    /* 2a0 */ u8 mUnk_2a0[4];
+    /* 2a0 */ s32 mUnk_2a0;
     /* 2a4 */ s32 mUnk_2a4;
     /* 2a8 */ s32 mUnk_2a8;
     /* 2ac */ u8 mUnk_2ac[0xc];
