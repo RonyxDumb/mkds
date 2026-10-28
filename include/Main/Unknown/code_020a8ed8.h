@@ -7,6 +7,7 @@
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_02042044.h"
 #include "Main/Unknown/code_020f9c6c.h"
+#include "Main/Unknown/code_020a826c.h" // Unk020a826c_a0
 
 // Object of 0x134 bytes: the shared Unk020e71a0 part, a Unk020e0144 at 0xc4 and a Unk020e516c at 0xe8.
 typedef struct Unk020a9268 {
@@ -48,4 +49,4 @@ void func_020a9224(void);
 u32 func_020a9204(void);
 u32 func_020a91e0(void);
 u32 func_020a91c0(void);
-void func_020a8ed8(Unk020a9268 *a, Vec3 *b);
+void func_020a8ed8(Unk020a826c_a0 *a, Vec3 *b);

@@ -328,7 +328,7 @@ u32 func_020a91c0(void) {
     return func_0209bf48((u32)func_020a9a5c, (u32)func_020a9268, 0);
 }
 
-void func_020a8ed8(Unk020a9268 *a, Vec3 *b) {
+void func_020a8ed8(Unk020a826c_a0 *a, Vec3 *b) {
     s32 k;
     Unk02061808 *r;
     s32 v;
@@ -347,26 +347,26 @@ void func_020a8ed8(Unk020a9268 *a, Vec3 *b) {
         v = func_02148714(r->mUnk_024.x - b->x, r->mUnk_024.z - b->z);
         if (v >= 0 && v <= 0xaaab) {
             n = ((u16)v >> 4) << 1;
-            a->mUnk_000.mUnk_10.x = b->x + (s32)(((s64)data_0215d4b4[n] * 0x5dc000) >> 12);
-            a->mUnk_000.mUnk_10.y = b->y;
-            a->mUnk_000.mUnk_10.z = b->z + (s32)(((s64)data_0215d4b4[n + 1] * 0x5dc000) >> 12);
-            a->mUnk_000.mUnk_1c.y = 0;
+            a->mUnk_10.x = b->x + (s32)(((s64)data_0215d4b4[n] * 0x5dc000) >> 12);
+            a->mUnk_10.y = b->y;
+            a->mUnk_10.z = b->z + (s32)(((s64)data_0215d4b4[n + 1] * 0x5dc000) >> 12);
+            a->mUnk_20 = 0;
         } else if (r->mUnk_024.z > b->z && r->mUnk_024.y < b->y - 0x32000) {
-            a->mUnk_000.mUnk_10.x = b->x + (s32)(((s64)data_0215d4b4[0] * 0x5dc000) >> 12);
-            a->mUnk_000.mUnk_10.y = b->y;
-            a->mUnk_000.mUnk_10.z = b->z + (s32)(((s64)data_0215d4b4[1] * 0x5dc000) >> 12);
-            v = a->mUnk_000.mUnk_10.x - k;
+            a->mUnk_10.x = b->x + (s32)(((s64)data_0215d4b4[0] * 0x5dc000) >> 12);
+            a->mUnk_10.y = b->y;
+            a->mUnk_10.z = b->z + (s32)(((s64)data_0215d4b4[1] * 0x5dc000) >> 12);
+            v = a->mUnk_10.x - k;
             n = r->mUnk_024.x;
             if (n <= v) {
                 n = v;
             }
-            a->mUnk_000.mUnk_10.x = n;
-            a->mUnk_000.mUnk_1c.y = 1;
+            a->mUnk_10.x = n;
+            a->mUnk_20 = 1;
         } else {
-            a->mUnk_000.mUnk_10.x = b->x + (s32)(((s64)data_0215feb4[0x54] * 0x5dc000) >> 12);
-            a->mUnk_000.mUnk_10.y = b->y;
-            a->mUnk_000.mUnk_10.z = b->z + (s32)(((s64)data_0215feb4[0x55] * 0x5dc000) >> 12);
-            a->mUnk_000.mUnk_1c.y = 0;
+            a->mUnk_10.x = b->x + (s32)(((s64)data_0215feb4[0x54] * 0x5dc000) >> 12);
+            a->mUnk_10.y = b->y;
+            a->mUnk_10.z = b->z + (s32)(((s64)data_0215feb4[0x55] * 0x5dc000) >> 12);
+            a->mUnk_20 = 0;
         }
         break;
     case 0x19:
@@ -382,13 +382,13 @@ void func_020a8ed8(Unk020a9268 *a, Vec3 *b) {
                 x = r->mUnk_024.x;
             }
         }
-        a->mUnk_000.mUnk_10.x = x;
-        a->mUnk_000.mUnk_10.y = b->y;
-        a->mUnk_000.mUnk_10.z = b->z;
+        a->mUnk_10.x = x;
+        a->mUnk_10.y = b->y;
+        a->mUnk_10.z = b->z;
         if (r->mUnk_024.x < b->x) {
-            a->mUnk_000.mUnk_1c.y = 1;
+            a->mUnk_20 = 1;
         } else {
-            a->mUnk_000.mUnk_1c.y = 0;
+            a->mUnk_20 = 0;
         }
         break;
     }
