@@ -870,6 +870,8 @@ typedef struct Unk0217ae84 {
 } Unk0217ae84;
 
 extern Unk0217ae84 *data_0217ae84;
+extern struct Unk0208fd8c_08 *data_0217ae34;
+extern struct Unk0208fd8c_08 *data_0217ae38;
 extern u16 data_0217ae6c;
 extern u16 data_0217ae70;
 extern struct Unk0201ca6c **data_0217ae74;
