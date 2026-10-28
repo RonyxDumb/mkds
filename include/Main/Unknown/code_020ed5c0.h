@@ -16,7 +16,9 @@ typedef struct Unk020ed718 {
 
 // The object behind the word at 0x20 of a Unk0206bcb0_590: the vectors from 0x48.
 typedef struct Unk0206bcb0_590_20 {
-    /* 00 */ u8 mUnk_00[0x48];
+    /* 00 */ u8 mUnk_00[0x14];
+    /* 14 */ Vec3 mUnk_14[4];
+    /* 44 */ u8 mUnk_44[4];
     /* 48 */ Vec3 mUnk_48[1];
 } Unk0206bcb0_590_20;
 

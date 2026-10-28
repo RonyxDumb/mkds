@@ -7,6 +7,7 @@
 #include "Main/Unknown/code_0210a578.h"
 
 #include "types.h"
+#include "code_02012b30.h" // Unk02012f58
 #include "code_02148538.h"
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/unk_02175628.h"
@@ -152,7 +153,8 @@ typedef struct Unk0206bcb0 {
     /* 8c */ Vec3 mUnk_8c;
     /* 98 */ Vec3 mUnk_98;
     /* a4 */ Vec3 mUnk_a4;
-    /* 0b0 */ u8 mUnk_0b0[0x10];
+    /* 0b0 */ u8 mUnk_0b0[0xc];
+    /* bc */ s32 mUnk_bc;
     /* c0 */ s32 mUnk_c0;
     /* c4 */ s32 mUnk_c4;
     /* c8 */ u8 mUnk_c8[4];
@@ -179,10 +181,15 @@ typedef struct Unk0206bcb0 {
     /* 144 */ u8 mUnk_144[4];
     /* 148 */ s32 mUnk_148;
     /* 14c */ u8 mUnk_14c[4];
-    /* 150 */ Vec3 mUnk_150;
-    /* 15c */ Vec3 mUnk_15c;
-    /* 168 */ Vec3 mUnk_168;
-    /* 174 */ u8 mUnk_174[0xc];
+    /* 150 */ union {
+        struct {
+            Vec3 mUnk_150;
+            Vec3 mUnk_15c;
+            Vec3 mUnk_168;
+            Vec3 mUnk_174;
+        };
+        Unk02012f58 mUnk_150_m;
+    };
     /* 180 */ vs32 mUnk_180;
     /* 184 */ u8 mUnk_184[0x34];
     /* 1b8 */ Vec3 mUnk_1b8;
