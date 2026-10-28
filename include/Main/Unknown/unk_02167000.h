@@ -14,3 +14,5 @@ extern Vec3 data_021676c4;
 extern Vec3 data_021676d0;
 extern char *data_021677fc[];
 extern char *data_02167820[];
+extern const char data_02167920[];
+extern const char data_02167930[];

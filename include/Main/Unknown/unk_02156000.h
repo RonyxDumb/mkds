@@ -74,3 +74,5 @@ extern const u16 data_02156700[4][4];
 extern const s32 data_02156720[4][4];
 extern u16 data_02156838;
 extern u16 data_0215683c;
+extern u16 data_021567e4;
+extern u16 data_021567e8;
