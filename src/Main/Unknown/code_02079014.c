@@ -3,11 +3,12 @@
 
 #pragma thumb on
 
-void func_02079078(void *param_1, void *param_2, void *param_3, u32 param_4, u32 param_5, void *param_6) {
+void func_02079078(void *param_1, void *param_2, void *param_3, Unk020136f0 *param_4, Unk020136f0 *param_5,
+                   void *param_6) {
     u32 uVar1;
     u32 uVar2;
     void *v1;
-    uVar1 = func_02084d3c(param_2, param_4, param_5);
+    uVar1 = (u32) func_02084d3c(param_2, param_4, param_5);
     func_020849c0(param_2, 3);
     func_0207a14c((u32) (uVar1), (u32) (1));
     func_0208823c(0, param_3, param_2, 1, param_1, 0);
@@ -18,10 +19,10 @@ void func_02079078(void *param_1, void *param_2, void *param_3, u32 param_4, u32
     return;
 }
 
-void func_02079038(u32 param_1) {
+void func_02079038(void *param_1, Unk020136f0 *param_2, Unk020136f0 *param_3) {
     int iVar1;
     u32 uVar2;
-    iVar1 = func_02084d3c();
+    iVar1 = (int) func_02084d3c(param_1, param_2, param_3);
     func_020849c0(param_1, 3);
     func_0207a14c((u32) (iVar1), (u32) (1));
     uVar2 = func_02013754((const void *) (iVar1 + *(int *) (iVar1 + 8) + 4), (const u32 *) (&data_02155098));
@@ -29,9 +30,9 @@ void func_02079038(u32 param_1) {
     return;
 }
 
-void func_02079014(u32 param_1) {
+void func_02079014(void *param_1, Unk020136f0 *param_2, Unk020136f0 *param_3) {
     u32 uVar1;
-    uVar1 = func_02084d3c();
+    uVar1 = (u32) func_02084d3c(param_1, param_2, param_3);
     func_020849c0(param_1, 3);
     func_0207a14c((u32) (uVar1), (u32) (1));
     return;
