@@ -80,11 +80,11 @@ void func_ov001_02182550(Unk02181c3c_list *param_1)
 
     if (param_1 != 0) {
         for (i = 0; i < param_1->mUnk_04 && (p = param_1->mUnk_00[i]) != 0; i++) {
-            p->mUnk_0d8 = *(Vec3 *)p->mUnk_09c;
+            p->mUnk_0d8 = p->mUnk_09c->mUnk_00;
             p->mUnk_004 = p->mUnk_0d8;
             p->mUnk_004.y = p->mUnk_004.y + 0xe000;
             if (p->mUnk_09c->mUnk_26 >= 0) {
-                func_020d7da8(&p->mUnk_0b4, (Unk020fa294 *) p->mUnk_09c, 0);
+                func_020d7da8(&p->mUnk_0b4, p->mUnk_09c, 0);
                 n = (p->mUnk_09c->mUnk_28 << 12) / 100;
                 p->mUnk_0b4.mUnk_04 = n;
                 p->mUnk_0b4.mUnk_10 = ((s64)n * p->mUnk_0b4.mUnk_00->mUnk_00[p->mUnk_0b4.mUnk_0c].mUnk_34) >> 12;

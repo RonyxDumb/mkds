@@ -53,8 +53,8 @@ void func_020e4ea8(u32 param_1, Unk020e43a8 *p, u32 param_3, u16 param_4) {
     s32 neg;
     u32 v;
 
-    if (p->mUnk_8e == 0) {
-        Unk020e6b58 *r;
+    if (p->mUnk_80.mUnk_0e == 0) {
+        Unk02012f58 *r;
         neg = p->mUnk_64 & 1;
         r = func_020e6cf8(&p->mUnk_04);
         q = data_0217b7f0;
@@ -65,7 +65,7 @@ void func_020e4ea8(u32 param_1, Unk020e43a8 *p, u32 param_3, u16 param_4) {
         }
         func_020e67c4(q, r, &data_0217b800, 0, param_4);
     } else {
-        Unk020e6b58 *r;
+        Unk02012f58 *r;
         neg = p->mUnk_64 & 1;
         v = *(u16 *) &p->mUnk_a0.mUnk_0c.x;
         r = func_020e6cf8(&p->mUnk_04);

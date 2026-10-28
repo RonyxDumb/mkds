@@ -22,9 +22,9 @@ void func_ov001_02185dd0(Unk02185bb8 *param_1) {
     s16 saved;
 
     func_020d2450(param_1);
-    param_1->mUnk_07e = (s32)(((s64)param_1->mUnk_09c->mUnk_10 * 0xB60B60B60BLL + 0x80000000000LL) >> 44);
+    param_1->mUnk_07e = (s32) (((s64) param_1->mUnk_09c->mUnk_0c.y * 0xB60B60B60BLL + 0x80000000000LL) >> 44);
     func_02146d44(mtx, data_0215d4b4[(param_1->mUnk_07e >> 4) * 2], data_0215d4b4[(param_1->mUnk_07e >> 4) * 2 + 1]);
-    func_02146dfc(mtx, param_1->mUnk_028, param_1->mUnk_028);
+    func_02146dfc(mtx, &param_1->mUnk_028.mUnk_00.x, &param_1->mUnk_028.mUnk_00.x);
     r4 = (s32)(((s64)param_1->mUnk_01c.x * 0xA000LL) >> 12);
     r6 = (s32)(((s64)param_1->mUnk_01c.y * 0xF000LL) >> 12);
     saved = param_1->mUnk_09c->mUnk_28;
@@ -32,8 +32,9 @@ void func_ov001_02185dd0(Unk02185bb8 *param_1) {
     param_1->mUnk_0a0 = func_020d34d4((Unk020e71a0 *) param_1, 0x66);
     param_1->mUnk_0a4 = func_020d34d4((Unk020e71a0 *) param_1, 0x66);
     param_1->mUnk_09c->mUnk_28 = saved;
-    func_02147fd8(-(param_1->mUnk_058 + r4), (const Vec3 *)param_1->mUnk_028, &param_1->mUnk_004, &param_1->mUnk_0a0->mUnk_04);
-    func_02147fd8(param_1->mUnk_058 + r4, (const Vec3 *)param_1->mUnk_028, &param_1->mUnk_004, &param_1->mUnk_0a4->mUnk_04);
+    func_02147fd8(-(param_1->mUnk_058 + r4), &param_1->mUnk_028.mUnk_00, &param_1->mUnk_004,
+                  &param_1->mUnk_0a0->mUnk_04);
+    func_02147fd8(param_1->mUnk_058 + r4, &param_1->mUnk_028.mUnk_00, &param_1->mUnk_004, &param_1->mUnk_0a4->mUnk_04);
     func_020d2950(param_1->mUnk_0a0, r4);
     func_020d2950(param_1->mUnk_0a4, r4);
     func_020d2584(param_1->mUnk_0a0, r6);
@@ -71,10 +72,10 @@ void func_ov001_02185ca0(void *param_1, Unk02185bb8 *param_2) {
 
     buf = 0x1e;
     func_01ff9048((u32) (0x14), (void *) ((u32)&buf), (int) (1));
-    param_2->mUnk_04c.x = param_2->mUnk_004.x >> 4;
-    param_2->mUnk_04c.y = param_2->mUnk_004.y >> 4;
-    param_2->mUnk_04c.z = param_2->mUnk_004.z >> 4;
-    func_01ff9048((u32) (0x19), (void *) ((u32)param_2->mUnk_028), (int) (0xc));
+    param_2->mUnk_028.mUnk_24.x = param_2->mUnk_004.x >> 4;
+    param_2->mUnk_028.mUnk_24.y = param_2->mUnk_004.y >> 4;
+    param_2->mUnk_028.mUnk_24.z = param_2->mUnk_004.z >> 4;
+    func_01ff9048((u32) (0x19), (void *) ((u32) &param_2->mUnk_028), (int) (0xc));
     func_01ff9048((u32) (0x1b), (void *) ((u32)&param_2->mUnk_01c), (int) (3));
     func_0209b688((void *) (data_ov001_021a9b9c), (u16)param_2->mUnk_09c->mUnk_28);
     func_0209b734(data_ov001_021a9b9c, param_2->mUnk_0a8);

@@ -19,30 +19,15 @@ typedef struct Unk02104c68 {
     /* 148 */ s32 mUnk_148;
 } Unk02104c68;
 
-// Three words; the same ones as in data_0215a6c0 and data_0215a6cc.
-typedef struct Unk0215a6c0 {
-    /* 00 */ u32 mUnk_00[3];
-} Unk0215a6c0;
+extern Vec3 data_0217c748;
 
-extern Unk0215a6c0 data_0217c748;
+extern Vec3 data_0217c73c;
 
-extern Unk0215a6c0 data_0217c73c;
-
-// Object behind data_0217c730; mUnk_00 is the first of the three-word copies,
-// mUnk_24 and mUnk_2e are the two halfwords func_02105214 sets.
-typedef struct Unk0217c730 {
-    /* 00 */ Unk0215a6c0 mUnk_00;
-    /* 0c */ u8 mUnk_0c[0x18];
-    /* 24 */ u16 mUnk_24;
-    /* 26 */ u8 mUnk_26[8];
-    /* 2e */ u16 mUnk_2e;
-} Unk0217c730;
-
-extern Unk0217c730 data_0217c730;
+extern struct Unk020fa294 data_0217c730;
 
 extern u16 data_0215a584;
-extern Unk0215a6c0 data_0215a6c0;
-extern Unk0215a6c0 data_0215a6cc;
+extern Vec3 data_0215a6c0;
+extern Vec3 data_0215a6cc;
 
 void func_02105214(void);
 void func_021051d4(Unk020eda5c *p0, Unk020f40dc *p1);

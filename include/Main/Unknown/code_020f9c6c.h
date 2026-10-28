@@ -9,7 +9,7 @@ typedef struct Unk020fa294 {
     /* 0c */ Vec3 mUnk_0c;
     /* 18 */ Vec3 mUnk_18;
     /* 24 */ u16 mUnk_24;
-    /* 26 */ u16 mUnk_26;
+    /* 26 */ s16 mUnk_26;
     /* 28 */ s16 mUnk_28;
     /* 2a */ s16 mUnk_2a;
     /* 2c */ s16 mUnk_2c;

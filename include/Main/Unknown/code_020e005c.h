@@ -33,11 +33,13 @@ typedef struct Unk020e0144 {
     /* 20 */ struct Unk02042044 *mUnk_20;
 } Unk020e0144;
 
-// Sub-object at 0x80 of Unk020e005c: a word at 4 and halfwords at 0xe, 0x10 and 0x12.
+// Sub-object at 0x80 of Unk020e005c and Unk020e71a0: func_02046be8 stores its second, fourth and third arguments at
+// 0x00, 0x08 and 0x0c and zeroes 0x04, 0x0e and 0x10.
 typedef struct Unk020e005c_080 {
-    /* 00 */ u8 mUnk_00[0x4];
+    /* 00 */ UnkFunc *const *mUnk_00;
     /* 04 */ u32 mUnk_04;
-    /* 08 */ u8 mUnk_08[0x6];
+    /* 08 */ void *mUnk_08;
+    /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mUnk_0e;
     /* 10 */ u16 mUnk_10;
     /* 12 */ u16 mUnk_12;

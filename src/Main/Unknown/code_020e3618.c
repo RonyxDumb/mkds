@@ -14,6 +14,7 @@
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217b000.h"
+#include "Main/Unknown/code_020f9c6c.h"
 
 #pragma thumb off
 
@@ -39,10 +40,10 @@ void func_020e3a7c(void) {
     func_020e1dc0(*(void **) data_0217b7c4, data_0217b7d0);
 }
 
-void func_020e38a0(Unk020e38a0 *a, Unk020e1e98_09c *b) {
+void func_020e38a0(Unk020e38a0 *a, struct Unk020fa294 *b) {
     a->mUnk_0e8 = a->mUnk_004;
-    a->mUnk_0a0 = a->mUnk_028;
-    a->mUnk_0c4 = a->mUnk_028;
+    a->mUnk_0a0 = *(Unk020e38a0_28 *) &a->mUnk_028;
+    a->mUnk_0c4 = *(Unk020e38a0_28 *) &a->mUnk_028;
     a->mUnk_124.x = 0;
     a->mUnk_124.y = 0;
     a->mUnk_124.z = 0;
@@ -72,7 +73,7 @@ void func_020e38a0(Unk020e38a0 *a, Unk020e1e98_09c *b) {
     a->mUnk_002 &= ~2;
     a->mUnk_002 &= ~8;
     a->mUnk_066 = 0x1f;
-    if (b->mUnk_10 < 0) {
+    if (b->mUnk_0c.y < 0) {
         func_020d278c((Unk020e71a0 *) a);
     }
 }
@@ -122,7 +123,7 @@ void func_020e3724(void) {
 }
 
 void func_020e3618(s32 a, Unk020e1e98 *b, s32 c, u16 d) {
-    Unk020e6b58 *p;
+    Unk02012f58 *p;
 
     switch (b->mUnk_080.mUnk_0e) {
         case 4:

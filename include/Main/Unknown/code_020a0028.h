@@ -1,8 +1,9 @@
 #pragma once
 
 #include "types.h"
+#include "code_02012b30.h" // Unk02012f58
 #include "Main/Unknown/code_020e005c.h" // Unk020e0144
-#include "Main/Unknown/code_020e6b58.h" // Unk020e6b58
+#include "code_02012b30.h" // Unk02012f58
 #include "Main/Unknown/code_020f9c6c.h" // Unk020fa294
 
 // Object with the Unk020e0144 base at 0xc8 (func_020a018c, func_020a0064).
@@ -12,7 +13,7 @@ typedef struct Unk020a018c {
     /* 04 */ Vec3 mUnk_04;
     /* 10 */ Vec3 mUnk_10;
     /* 1c */ Vec3 mUnk_1c;
-    /* 28 */ Unk020e6b58 mUnk_28;
+    /* 28 */ Unk02012f58 mUnk_28;
     /* 58 */ u8 mUnk_58[0x18];
     /* 70 */ s32 mUnk_70;
     /* 74 */ u8 mUnk_74[4];
@@ -20,7 +21,7 @@ typedef struct Unk020a018c {
     /* 7c */ u8 mUnk_7c[2];
     /* 7e */ u16 mUnk_7e;
     /* 80 */ u8 mUnk_80[0x1c];
-    /* 9c */ Unk020fa294 *mUnk_9c;
+    /* 9c */ struct Unk020fa294 *mUnk_9c;
     /* a0 */ s32 mUnk_a0;
     /* a4 */ s32 mUnk_a4;
     /* a8 */ s16 mUnk_a8;

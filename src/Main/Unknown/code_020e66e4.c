@@ -17,7 +17,7 @@ void func_020e6a18(Unk020e6488 *p) {
 }
 
 s32 func_020e69bc(Vec3 *v) {
-    Unk020e6b58 *t;
+    Unk02012f58 *t;
     s64 acc;
 
     t = data_0217b854;
@@ -29,7 +29,7 @@ void func_020e6854(Unk020e6488 *p, Vec3 *q, s32 c, u32 d) {
     u32 a[3];
     u32 v;
     u32 e;
-    Unk020e6b58 *t;
+    Unk02012f58 *t;
     s32 m;
     u32 r;
     s64 acc;
@@ -72,7 +72,7 @@ void func_020e6854(Unk020e6488 *p, Vec3 *q, s32 c, u32 d) {
     func_01ff9144((const void *) p->mUnk_00, p->mUnk_04);
 }
 
-void func_020e67c4(Unk020e6488 *p, Unk020e6b58 *q, Vec3 *v, s32 a4, u16 a5) {
+void func_020e67c4(Unk020e6488 *p, Unk02012f58 *q, Vec3 *v, s32 a4, u16 a5) {
     u32 n;
     Vec3 t;
     s32 x;
@@ -94,7 +94,7 @@ void func_020e67c4(Unk020e6488 *p, Unk020e6b58 *q, Vec3 *v, s32 a4, u16 a5) {
     func_020e6854(p, &q->mUnk_24, a4, a5);
 }
 
-void func_020e66e4(Unk020e6488 *p, Unk020e6b58 *q, s32 r, Vec3 *v, s32 a5, u16 a6) {
+void func_020e66e4(Unk020e6488 *p, Unk02012f58 *q, s32 r, Vec3 *v, s32 a5, u16 a6) {
     u32 n;
     Vec3 t;
     s32 i;

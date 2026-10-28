@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0_94, Unk02012f58, Unk020e005c_080
 
 // Object behind func_ov001_02188c90 and the per-state functions around func_ov001_021900ac.
 typedef struct Unk02188950_a0 {
@@ -174,14 +175,6 @@ typedef struct Unk02188950_a0 {
     /* 2cc */ s32 mUnk_2cc;
 } Unk02188950_a0;
 
-typedef struct Unk02188950_9c {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ u8 mUnk_0c[0x4];
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ u8 mUnk_14[0x12];
-    /* 26 */ s16 mUnk_26;
-} Unk02188950_9c;
-
 typedef struct Unk02188950_bc {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -206,19 +199,19 @@ typedef struct Unk02188950 {
     /* 01c */ s32 mUnk_01c;
     /* 020 */ s32 mUnk_020;
     /* 024 */ s32 mUnk_024;
-    /* 028 */ s32 mUnk_028[9];
-    /* 04c */ u8 mUnk_04c[0x18];
+    /* 028 */ Unk02012f58 mUnk_028;
+    /* 058 */ u8 mUnk_058[0xc];
     /* 064 */ s16 mUnk_064;
     /* 066 */ u8 mUnk_066[0xa];
-    /* 070 */ u32 mUnk_070;
+    /* 070 */ s32 mUnk_070;
     /* 074 */ u8 mUnk_074[0x4];
     /* 078 */ u32 mUnk_078;
     /* 07c */ u8 mUnk_07c[0x2];
     /* 07e */ u16 mUnk_07e;
-    /* 080 */ u8 mUnk_080[0x14];
-    /* 094 */ void *mUnk_094;
+    /* 080 */ Unk020e005c_080 mUnk_080;
+    /* 094 */ Unk020e71a0_94 *mUnk_094;
     /* 098 */ u8 mUnk_098[0x4];
-    /* 09c */ Unk02188950_9c *mUnk_09c;
+    /* 09c */ struct Unk020fa294 *mUnk_09c;
     /* 0a0 */ Unk02188950_a0 *mUnk_0a0;
     /* 0a4 */ struct Unk0218dabc *mUnk_0a4;
     /* 0a8 */ s32 mUnk_0a8;

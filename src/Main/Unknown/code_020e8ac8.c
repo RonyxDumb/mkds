@@ -369,7 +369,7 @@ void func_020e9658(void) {
         data_0217bab8.mUnk_18.y = -v->y;
         data_0217bab8.mUnk_18.z = -v->z;
     } else {
-        data_0217bad0 = ((Unk020e6b58 *) func_020e6b38())->mUnk_18;
+        data_0217bad0 = ((Unk02012f58 *) func_020e6b38())->mUnk_18;
     }
     func_020397a8(&data_0217bac4, &data_0217bad0, &data_0217bad0);
     sq = (s64) data_0217bab8.mUnk_18.x * data_0217bab8.mUnk_18.x +

@@ -3,6 +3,7 @@
 #include "types.h"
 #include "code_02146d78.h"
 #include "Main/Unknown/code_0210bcf4.h"
+#include "Main/Unknown/code_020e005c.h" // Unk020e005c_080
 
 struct Unk020e71a0;
 struct Unk020fa294;
@@ -35,7 +36,8 @@ typedef struct Unk020e71a0_98 {
 } Unk020e71a0_98;
 
 // Element object up to 0xa0, which every kind shares: func_020e705c and func_020e71a0 read 0x78 and 0x94 of every
-// object, func_020d6968 reads 0x00, 0x02 and 0x98. 0x80 to 0x92 are read only by the functions of Unk020ffb1c so far.
+// object, func_020d6968 reads 0x00, 0x02 and 0x98. func_020da494 and func_020ffb1c pass the Unk020e005c_080 at 0x80 to
+// func_02046be8.
 // From 0xa0 on, the objects of func_020e72cc (Unk020e730c), func_020ffb1c (Unk020ffb1c), func_020ff97c (Unk020ff97c)
 // and func_021052fc (Unk021052fc) use the bytes in different ways.
 typedef struct Unk020e71a0 {
@@ -55,12 +57,7 @@ typedef struct Unk020e71a0 {
     /* 78 */ u32 mUnk_78;
     /* 7c */ u16 mUnk_7c;
     /* 7e */ u16 mUnk_7e;
-    /* 80 */ u8 mUnk_80[4];
-    /* 84 */ u32 mUnk_84;
-    /* 88 */ u8 mUnk_88[6];
-    /* 8e */ u16 mUnk_8e;
-    /* 90 */ u16 mUnk_90;
-    /* 92 */ u16 mUnk_92;
+    /* 80 */ Unk020e005c_080 mUnk_80;
     /* 94 */ Unk020e71a0_94 *mUnk_94;
     /* 98 */ Unk020e71a0_98 *mUnk_98;
     /* 9c */ struct Unk020fa294 *mUnk_9c;

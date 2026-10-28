@@ -1,12 +1,8 @@
 #pragma once
 
 #include "types.h"
-
-// Object Unk020ebef8::mUnk_09c points to.
-typedef struct Unk020ebef8_9c {
-    /* 000 */ u8 mUnk_000[0x2c];
-    /* 02c */ s16 mUnk_02c;
-} Unk020ebef8_9c;
+#include "code_02012b30.h" // Unk02012f58
+#include "Main/Unknown/code_020e005c.h" // Unk020e005c_080
 
 // First argument of func_020ebef8.
 typedef struct Unk020ebef8 {
@@ -16,21 +12,16 @@ typedef struct Unk020ebef8 {
     /* 010 */ Vec3 mUnk_010;
     /* 01c */ s32 mUnk_01c;
     /* 020 */ u8 mUnk_020[8];
-    /* 028 */ Vec3 mUnk_028[3];
-    /* 04c */ u8 mUnk_04c[0xc];
+    /* 028 */ Unk02012f58 mUnk_028;
     /* 058 */ s32 mUnk_058;
     /* 05c */ u8 mUnk_05c[0xa];
     /* 066 */ u16 mUnk_066;
     /* 068 */ u8 mUnk_068[0x10];
     /* 078 */ u32 mUnk_078;
     /* 07c */ u8 mUnk_07c[4];
-    /* 080 */ u8 mUnk_080[4];
-    /* 084 */ u32 mUnk_084;
-    /* 088 */ u8 mUnk_088[8];
-    /* 090 */ u16 mUnk_090;
-    /* 092 */ u16 mUnk_092;
+    /* 080 */ Unk020e005c_080 mUnk_080;
     /* 094 */ u8 mUnk_094[8];
-    /* 09c */ Unk020ebef8_9c *mUnk_09c;
+    /* 09c */ struct Unk020fa294 *mUnk_09c;
     /* 0a0 */ Vec3 mUnk_0a0;
     /* 0ac */ u16 mUnk_0ac;
     /* 0ae */ u16 mUnk_0ae;

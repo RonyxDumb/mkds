@@ -1,9 +1,9 @@
 #include "Main/Unknown/code_020e5c6c.h"
 
 void func_020e5c6c(u32 param_1, Unk020e43a8 *param_2, u32 param_3, u16 param_4) {
-    Unk020e6b58 *uVar1;
+    Unk02012f58 *uVar1;
     data_0217b830->mUnk_18 = (short) ((int) (*(u16 *) &param_2->mUnk_a0.mUnk_18.x & 0x10) >> 4);
-    if (param_2->mUnk_8e == 0) {
+    if (param_2->mUnk_80.mUnk_0e == 0) {
         uVar1 = func_020e6cbc(&param_2->mUnk_04);
         func_020e67c4(data_0217b830, uVar1, &param_2->mUnk_1c, 0, param_4);
         return;

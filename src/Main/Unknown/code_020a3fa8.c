@@ -12,6 +12,7 @@
 #include "Main/Unknown/code_020d26e0.h"
 #include "Main/Unknown/code_020a2000.h"
 #include "Main/Unknown/unk_02156000.h"
+#include "Main/Unknown/code_020f9c6c.h"
 
 void func_020a3fa8(void *param_1, Unk020a3fa8 *param_2) {
     Unk020a2fe4 *o;

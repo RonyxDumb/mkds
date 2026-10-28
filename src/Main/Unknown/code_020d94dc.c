@@ -198,7 +198,7 @@ void func_020d9f8c(Unk020d9cf4 *a) {
     a->mUnk_14 = a->mUnk_20 + (s32)(((s64)a->mUnk_48 * data_0215d4b4[k + 1]) >> 12);
 }
 
-void func_020d9e60(Unk020d9cf4 *a, struct Unk020e6b58 *b) {
+void func_020d9e60(Unk020d9cf4 *a, struct Unk02012f58 *b) {
     if ((data_0217b67c->mUnk_02 & 0x12) != 0) {
         return;
     }

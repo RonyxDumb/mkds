@@ -244,9 +244,9 @@ void func_ov001_021864ac(u32 param_1, Unk02188950 *param_2) {
             func_ov001_02187074(param_2->mUnk_160, param_2->mUnk_164, param_2->mUnk_01c);
     }
     if (param_2->mUnk_234 == 1) {
-        func_02146d44(param_2->mUnk_028, data_0215d4b4[((u16) param_2->mUnk_184 >> 4) * 2],
+        func_02146d44(&param_2->mUnk_028.mUnk_00.x, data_0215d4b4[((u16) param_2->mUnk_184 >> 4) * 2],
                       data_0215d4b4[((u16) param_2->mUnk_184 >> 4) * 2 + 1]);
-        func_02146d78((Vec3 *) &param_2->mUnk_244, param_2->mUnk_028, &param_2->mUnk_238);
+        func_02146d78((Vec3 *) &param_2->mUnk_244, &param_2->mUnk_028.mUnk_00.x, &param_2->mUnk_238);
         func_02148504(&param_2->mUnk_238, &param_2->mUnk_004, &param_2->mUnk_238);
     } else {
         param_2->mUnk_238.x = param_2->mUnk_004.x + param_2->mUnk_244;

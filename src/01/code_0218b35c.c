@@ -19,6 +19,7 @@
 #include "Main/Unknown/code_02109000.h"
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_020b4000.h"
+#include "Main/Unknown/code_020f9c6c.h"
 
 Unk021a7b64 data_ov001_021a7b64 = {
     0, 0x30c, func_ov001_0218b72c, func_ov001_0218b310, func_ov001_0218b2f4, 0, 0, func_ov001_0218b2dc, {0, 0, 0, 0, 0},

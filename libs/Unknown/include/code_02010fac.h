@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02187d14.h"
+#include "code_02012b30.h" // Unk02012f58
 #include "code_02012b30.h"
 
 // Linked through mUnk_10. Bit 8 and bit 9 of mUnk_1a[n] are tested; the low byte is passed on to the function at

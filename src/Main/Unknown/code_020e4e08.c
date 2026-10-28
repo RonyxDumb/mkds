@@ -6,7 +6,7 @@
 void func_020e4e08(u32 param_1, Unk020e43a8 *p, u32 param_3, u32 param_4) {
     Unk020e4e08 s;
 
-    if (p->mUnk_8e != 0 && p->mUnk_8e != 1) {
+    if (p->mUnk_80.mUnk_0e != 0 && p->mUnk_80.mUnk_0e != 1) {
         return;
     }
     s.mUnk_00 = p->mUnk_04.y - p->mUnk_a0.mUnk_18.y;

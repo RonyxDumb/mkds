@@ -18,8 +18,8 @@ void func_020dc474(Unk020dc474 *p) {
         p->mUnk_04.x += p->mUnk_10.x;
         p->mUnk_04.z += p->mUnk_10.z;
     }
-    if (p->mUnk_84 >= 0xb4) {
-        p->mUnk_90 = 0;
-        p->mUnk_92 = 1;
+    if (p->mUnk_80.mUnk_04 >= 0xb4) {
+        p->mUnk_80.mUnk_10 = 0;
+        p->mUnk_80.mUnk_12 = 1;
     }
 }

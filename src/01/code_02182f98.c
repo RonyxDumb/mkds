@@ -41,7 +41,7 @@ void func_ov001_02182f98(void *param_1, Unk02181c3c *param_2, void *param_3, u32
     Vec3 d;
 
     if (param_2->mUnk_0b0 > 0 && param_2->mUnk_0a0 != 0 && (param_2->mUnk_002 & 1) == 0 &&
-        (param_2->mUnk_078 & 0x3fffffe0) < 0x3d090) {
+        (s32) (param_2->mUnk_078 & 0x3fffffe0) < 0x3d090) {
         b.x = param_2->mUnk_004.x;
         b.y = param_2->mUnk_004.y - 0x16000;
         b.z = param_2->mUnk_004.z;

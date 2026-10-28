@@ -20,6 +20,7 @@
 #include "Main/Unknown/code_020f73fc.h"
 #include "Main/Unknown/code_021053e4.h"
 #include "Main/Unknown/code_020ee684.h"
+#include "01/code_02187d14.h" // data_0217c600
 
 #pragma thumb on
 
@@ -29,7 +30,7 @@ void func_020ffbd4(void) {
 }
 
 void func_020ffb1c(Unk020ffb1c *a, struct Unk020fa294 *b) {
-    func_02046be8(a->mUnk_00.mUnk_80, (UnkFunc *const *) data_0216c740, 6, a);
+    func_02046be8(&a->mUnk_00.mUnk_80, (UnkFunc *const *) data_0216c740, 6, a);
     a->mUnk_b4[0] = b->mUnk_28 * 0x80 / 100;
     a->mUnk_b4[2] = b->mUnk_30 * 0x80 / 100;
     a->mUnk_b4[1] = (a->mUnk_b4[0] + a->mUnk_b4[2]) / 2;
@@ -43,8 +44,8 @@ void func_020ffb1c(Unk020ffb1c *a, struct Unk020fa294 *b) {
         a->mUnk_b0 = 0;
     }
     a->mUnk_ac = 0;
-    a->mUnk_00.mUnk_90 = 1;
-    a->mUnk_00.mUnk_92 = 1;
+    a->mUnk_00.mUnk_80.mUnk_10 = 1;
+    a->mUnk_00.mUnk_80.mUnk_12 = 1;
 }
 
 #pragma thumb off

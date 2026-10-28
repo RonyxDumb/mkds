@@ -3,9 +3,9 @@
 #include "Main/Unknown/unk_02159000.h"
 
 void func_020e5830(Unk020e43a8 *p) {
-    if (p->mUnk_84 > p->mUnk_c4) {
-        p->mUnk_90 = 0;
-        p->mUnk_92 = 1;
+    if (p->mUnk_80.mUnk_04 > p->mUnk_c4) {
+        p->mUnk_80.mUnk_10 = 0;
+        p->mUnk_80.mUnk_12 = 1;
     }
 }
 

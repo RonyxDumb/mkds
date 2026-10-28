@@ -18,6 +18,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "code_02146d78.h"
 #include "code_02147cd8.h"
+#include "Main/Unknown/code_020f9c6c.h"
 
 #pragma thumb off
 
@@ -142,11 +143,11 @@ void func_020e410c(Unk020e1dc0 *a) {
     }
 }
 
-void func_020e3ef4(Unk020e3ef4 *a, Unk020e1e98_09c *b, Unk020e1e98_154 *c) {
+void func_020e3ef4(Unk020e3ef4 *a, struct Unk020fa294 *b, Unk020e1e98_154 *c) {
     func_02046be8(&a->mUnk_080, (UnkFunc *const *) data_0216c168, 4, a);
     a->mUnk_0e8 = a->mUnk_004;
-    a->mUnk_0a0 = a->mUnk_028;
-    a->mUnk_0c4 = a->mUnk_028;
+    a->mUnk_0a0 = *(Unk020e38a0_28 *) &a->mUnk_028;
+    a->mUnk_0c4 = *(Unk020e38a0_28 *) &a->mUnk_028;
     a->mUnk_124.x = 0;
     a->mUnk_124.y = 0;
     a->mUnk_124.z = 0;
@@ -189,7 +190,7 @@ void func_020e3ef4(Unk020e3ef4 *a, Unk020e1e98_09c *b, Unk020e1e98_154 *c) {
     a->mUnk_002 &= ~8;
     a->mUnk_066 = 0x1f;
     if (c->mUnk_0c == 0) {
-        a->mUnk_15c = b->mUnk_0c > 0 ? 0x175 : 0x176;
+        a->mUnk_15c = b->mUnk_0c.x > 0 ? 0x175 : 0x176;
     } else {
         a->mUnk_15c = c->mUnk_18;
     }
@@ -248,7 +249,7 @@ void func_020e3bc0(s32 a, Unk020e38a0 *b) {
     b->mUnk_124.y = (s32) (((s64) b->mUnk_028.mUnk_00.y * d) >> 12);
     b->mUnk_124.z = (s32) (((s64) b->mUnk_028.mUnk_00.z * d) >> 12);
     b->mUnk_14a = y;
-    b->mUnk_0a0 = b->mUnk_028;
+    b->mUnk_0a0 = *(Unk020e38a0_28 *) &b->mUnk_028;
     func_02146d28((s32 *) &b->mUnk_028, data_0215d4b4[(y >> 4) * 2], data_0215d4b4[(y >> 4) * 2 + 1]);
     func_02146dfc((const s32 *) &b->mUnk_028, (const s32 *) &b->mUnk_0c4, (s32 *) &b->mUnk_028);
     func_02147fd8(-b->mUnk_104, &b->mUnk_028.mUnk_0c, &b->mUnk_004, &b->mUnk_0f4);
@@ -278,9 +279,9 @@ void func_020e3bc0(s32 a, Unk020e38a0 *b) {
 void func_020e3b4c(Unk020e3ef4 *a, void *b, u32 c) {
     Unk020e1e98_12c *p;
 
-    a->mUnk_04c = a->mUnk_004.x >> 4;
-    a->mUnk_050 = a->mUnk_004.y >> 4;
-    a->mUnk_054 = a->mUnk_004.z >> 4;
+    a->mUnk_028.mUnk_24.x = a->mUnk_004.x >> 4;
+    a->mUnk_028.mUnk_24.y = a->mUnk_004.y >> 4;
+    a->mUnk_028.mUnk_24.z = a->mUnk_004.z >> 4;
     p = (Unk020e1e98_12c *) data_0217b7cc;
     p->mUnk_0c = a->mUnk_154;
     *p->mUnk_1c[p->mUnk_1a] = p->mUnk_0c;

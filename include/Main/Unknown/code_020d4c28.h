@@ -17,5 +17,5 @@ s32 func_020d4ef4(Vec3 *p);
 void func_020d4e28(Unk020f41c4_A *p, Vec3 *v, u32 a);
 s32 func_020d4ddc(Unk020e71a0 *p);
 s32 func_020d4d60(Unk020e71a0 *p, s32 a);
-void func_020d4d44(Unk020e6b58 *p);
+void func_020d4d44(Unk02012f58 *p);
 void func_020d4c28(Unk020e6fd4 *p, void *a);

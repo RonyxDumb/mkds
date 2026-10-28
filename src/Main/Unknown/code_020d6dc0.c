@@ -49,7 +49,7 @@ s32 func_020d7c84(Unk020d849c *p, s32 a, Vec3 **b) {
 
 #pragma thumb off
 
-void func_020d7bec(Unk020e6b58 *a) {
+void func_020d7bec(Unk02012f58 *a) {
     s32 t;
     s32 i;
     t = func_02148538(a->mUnk_00.z, a->mUnk_18.z);

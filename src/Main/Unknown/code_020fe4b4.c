@@ -16,6 +16,7 @@
 #include "Main/Unknown/code_02109000.h"
 #include "Main/Unknown/unk_0216c000.h"
 #include "Main/Unknown/code_0205a000.h"
+#include "01/code_02187d14.h" // data_0217c600
 
 #pragma thumb off
 

@@ -5,8 +5,8 @@ void func_020ffd04(Unk020ffb1c *p) {
     if (p->mUnk_a2 == 0) {
         return;
     }
-    if (p->mUnk_00.mUnk_84 > p->mUnk_a2) {
-        p->mUnk_00.mUnk_90 = 4;
-        p->mUnk_00.mUnk_92 = 1;
+    if (p->mUnk_00.mUnk_80.mUnk_04 > p->mUnk_a2) {
+        p->mUnk_00.mUnk_80.mUnk_10 = 4;
+        p->mUnk_00.mUnk_80.mUnk_12 = 1;
     }
 }

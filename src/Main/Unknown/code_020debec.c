@@ -65,7 +65,7 @@ void func_020df220(void) {
 }
 
 void func_020df07c(void *a, Unk020de6a8 *b, void *c, u16 d) {
-    Unk020e6b58 q;
+    Unk02012f58 q;
     Unk020e6488 *p;
     Vec3 *w;
     s32 e;
@@ -127,7 +127,7 @@ void func_020df064(void) {
 }
 
 void func_020def00(void *a, Unk020de6a8 *b, void *c, u16 d) {
-    Unk020e6b58 q;
+    Unk02012f58 q;
     s32 e;
     s32 f;
     Unk020de84c_08 *t;
@@ -194,7 +194,7 @@ void func_020dec4c(void *a, Unk020de6a8 *b, u32 c, u32 d) {
     s32 n;
     s32 x;
     s32 y;
-    Unk020e6b58 *q;
+    Unk02012f58 *q;
 
     n = b->mUnk_0a4 - 0x40;
     if (n >= 0x40) {

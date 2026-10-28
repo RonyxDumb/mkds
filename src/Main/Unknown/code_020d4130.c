@@ -170,7 +170,7 @@ void func_020d4484(Unk020d4418 *p)
 {
     Unk020e6fd4 **t;
     Unk020e6fd4 *e;
-    Unk020e6b58 *v;
+    Unk02012f58 *v;
     s32 i;
     s32 n;
     s32 k;
@@ -213,7 +213,7 @@ void func_020d4484(Unk020d4418 *p)
 
 void func_020d4418(Unk020d4418 *p)
 {
-    Unk020e6b58 *v;
+    Unk02012f58 *v;
 
     v = &p->mUnk_30;
     if (data_0217b4f0->mUnk_17c != 0) {

@@ -47,8 +47,8 @@ void func_020e5684(Unk020e43a8 *p, Unk020e5684 *q) {
         p->mUnk_cc = 0;
     }
     p->mUnk_c8 = 0;
-    p->mUnk_90 = 0;
-    p->mUnk_92 = 1;
+    p->mUnk_80.mUnk_10 = 0;
+    p->mUnk_80.mUnk_12 = 1;
     p->mUnk_02 |= data_021590b0;
 }
 

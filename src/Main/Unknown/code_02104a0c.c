@@ -29,12 +29,12 @@
 
 u16 data_0215a584 = 0x2000;
 
-Unk0215a6c0 data_0215a6c0 = {{0x1000, 0x1000, 0x1000}};
-Unk0215a6c0 data_0215a6cc = {{0, 0, 0}};
+Vec3 data_0215a6c0 = {0x1000, 0x1000, 0x1000};
+Vec3 data_0215a6cc = {0, 0, 0};
 
 #pragma thumb on
 void func_02105214(void) {
-    Unk0215a6c0 buf;
+    Vec3 buf;
     s32 i;
     switch (data_021759c0->mUnk_08) {
         case 2:
@@ -58,7 +58,7 @@ void func_02105214(void) {
     data_0217c730.mUnk_24 = 0x6f;
     data_0217c730.mUnk_2e = 1;
     for (i = 0; i < data_0217c724; i++) {
-        data_0217c72c[i] = (u32) func_020d34c4((Unk020fa294 *) &data_0217c730, 0x6f);
+        data_0217c72c[i] = (u32) func_020d34c4(&data_0217c730, 0x6f);
     }
     data_0217c728 = 0;
 }

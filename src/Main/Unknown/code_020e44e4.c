@@ -28,8 +28,8 @@ void func_020e47c8(Unk020e43a8 *p, Vec3 *param_2) {
     p->mUnk_10.y = 0;
     p->mUnk_10.z = 0;
     func_020ec854(p, p->mUnk_04.y - 0x1e000, 0x400, 0x400, 0x4000, 0x1800);
-    p->mUnk_90 = 0;
-    p->mUnk_92 = 1;
+    p->mUnk_80.mUnk_10 = 0;
+    p->mUnk_80.mUnk_12 = 1;
     func_020e516c((Unk020e516c *) &p->mUnk_c8, param_2, (s32) (((s64) p->mUnk_1c.x * 0x12000) >> 12), 0xd);
     p->mUnk_f4.z = param_2->y;
     {
@@ -96,11 +96,11 @@ void func_020e44e4(u32 param_1, Unk020e43a8 *p) {
     p->mUnk_124 = (s32) (((s64) p->mUnk_28.mUnk_0c.x * d) >> 12);
     p->mUnk_128 = (s32) (((s64) p->mUnk_28.mUnk_0c.y * d) >> 12);
     p->mUnk_12c = (s32) (((s64) p->mUnk_28.mUnk_0c.z * d) >> 12);
-    p->mUnk_a0 = p->mUnk_28;
+    p->mUnk_a0 = *(Unk020e43a8_28 *) &p->mUnk_28;
     func_02146d44((s32 *) &p->mUnk_28, data_0215d4b4[(p->mUnk_7e >> 4) * 2], data_0215d4b4[(p->mUnk_7e >> 4) * 2 + 1]);
     func_02146dfc((const s32 *) &p->mUnk_28, (const s32 *) &p->mUnk_c4, (s32 *) &p->mUnk_28);
     func_02147fd8(-p->mUnk_104, &p->mUnk_28.mUnk_0c, &p->mUnk_04, &p->mUnk_f4);
-    if (p->mUnk_8e == 3) {
+    if (p->mUnk_80.mUnk_0e == 3) {
         return;
     }
     if (p->mUnk_15c == -1) {

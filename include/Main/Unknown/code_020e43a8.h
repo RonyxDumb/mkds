@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "code_02012b30.h" // Unk02012f58
+#include "Main/Unknown/code_020e005c.h" // Unk020e005c_080
 
 // Three vectors, 0x24 bytes.
 typedef struct Unk020e43a8_28 {
@@ -10,7 +12,6 @@ typedef struct Unk020e43a8_28 {
 } Unk020e43a8_28;
 
 // Object read through mUnk_9c; only the s16 at 0x28 is seen.
-typedef struct Unk020e4a68 Unk020e4a68;
 
 // Object passed to func_020e43a8 and the functions after it, and to func_020ec1fc and
 // func_020ec41c to func_020ec854; the words from 0xa0 to 0xc8 are read two ways.
@@ -20,8 +21,7 @@ typedef struct Unk020e43a8 {
     /* 04 */ Vec3 mUnk_04;
     /* 10 */ Vec3 mUnk_10;
     /* 1c */ Vec3 mUnk_1c;
-    /* 28 */ Unk020e43a8_28 mUnk_28;
-    /* 4c */ Vec3 mUnk_4c;
+    /* 28 */ Unk02012f58 mUnk_28;
     /* 58 */ Vec3 mUnk_58;
     /* 64 */ s16 mUnk_64;
     /* 66 */ u8 mUnk_66[0x0a];
@@ -30,14 +30,9 @@ typedef struct Unk020e43a8 {
     /* 78 */ u32 mUnk_78;
     /* 7c */ u8 mUnk_7c[0x02];
     /* 7e */ u16 mUnk_7e;
-    /* 80 */ u8 mUnk_80[0x04];
-    /* 84 */ u32 mUnk_84;
-    /* 88 */ u8 mUnk_88[0x06];
-    /* 8e */ u16 mUnk_8e;
-    /* 90 */ u16 mUnk_90;
-    /* 92 */ u16 mUnk_92;
+    /* 80 */ Unk020e005c_080 mUnk_80;
     /* 94 */ u8 mUnk_94[0x08];
-    /* 9c */ Unk020e4a68 *mUnk_9c;
+    /* 9c */ struct Unk020fa294 *mUnk_9c;
     /* a0 */ union {
         struct {
             /* a0 */ Unk020e43a8_28 mUnk_a0;
