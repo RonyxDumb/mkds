@@ -85,13 +85,13 @@ found:
     v1->mUnk_1c = v1->mUnk_1c - 1;
 }
 
-// non-matching: six words from +0x70 differ in the second data_0217bc34 read
 void func_020f0ea0(Unk027e00cc *v1, Unk020f41c4_A *v) {
     s32 i;
     s32 n;
     Unk020f41c4_A **p;
     s32 c;
     Unk0217bc34 *t;
+    enum { K0 } k;
 
     c = v1->mUnk_14;
     n = v1->mUnk_10;
@@ -113,12 +113,14 @@ found:
     }
     v1->mUnk_14 = v1->mUnk_14 + 1;
     v->mUnk_74 |= 0x2000;
-    t = data_0217bc34 + v1->mUnk_00;
+    k = v1->mUnk_00;
+    t = data_0217bc34 + k;
     if (t->mUnk_6c != 0) {
         func_020f9ca8(v);
     }
     v->mUnk_11c = 0;
-    t = data_0217bc34 + v->mUnk_44;
+    k = v->mUnk_44;
+    t = data_0217bc34 + k;
     if (t->mUnk_1c != 0) {
         t->mUnk_1c(v);
     }
@@ -157,7 +159,6 @@ void func_020f0df8(Unk027e00cc *v1, void *a) {
     }
 }
 
-// non-matching: the 0xf00 flag block passes its arguments in other registers (0xfc vs 0xf4 bytes)
 void func_020f0d04(Unk020f41c4_A *p) {
     void *(*f)(void *, void *, s32);
     s32 i;
@@ -166,7 +167,7 @@ void func_020f0d04(Unk020f41c4_A *p) {
     z = 0;
     i = p->mUnk_44;
     if ((p->mUnk_78 & 0xf00) != 0) {
-        func_020fe4c0(z, p, 1);
+        z = func_020fe4c0(z, p, 1);
         func_020fe4c0(z, p, 0);
         func_020fe4b4(p);
         if (p->mUnk_78 & 0x800) {
@@ -183,14 +184,13 @@ void func_020f0d04(Unk020f41c4_A *p) {
         }
     } else {
         f = data_0217bc34[i].mUnk_48;
-        f(0, p, 1);
-        f(0, p, 0);
+        z = f(z, p, 1);
+        f(z, p, 0);
         data_0217bc34[i].mUnk_50(p);
     }
     p->mUnk_74 |= 0x20000000;
 }
 
-// non-matching: nine words from +0xa8 differ in the 0x2000/0x1000 flag tests
 void func_020f0b00(Unk027e00cc *v1, s32 a, void *b, s32 c) {
     Unk020f41c4_A *e;
     s32 i;
@@ -198,6 +198,8 @@ void func_020f0b00(Unk027e00cc *v1, s32 a, void *b, s32 c) {
     s32 n;
     Unk020f41c4_A **p;
     s32 k;
+    enum { J0 } j;
+    void (*g)(void *);
 
     i = v1->mUnk_10;
     v1->mUnk_10 = i + 1;
@@ -224,14 +226,22 @@ found:
     }
     v1->mUnk_14 = v1->mUnk_14 + 1;
     e->mUnk_74 |= 0x2000;
-    if (data_0217bc34[v1->mUnk_00].mUnk_6c != 0) {
+    j = v1->mUnk_00;
+    if (data_0217bc34[j].mUnk_6c != 0) {
         func_020f9ca8(e);
     }
     e->mUnk_11c = 0;
-    if (data_0217bc34[e->mUnk_44].mUnk_1c != 0) {
-        data_0217bc34[e->mUnk_44].mUnk_1c(e);
+    j = e->mUnk_44;
+    if (data_0217bc34[j].mUnk_1c != 0) {
+        data_0217bc34[j].mUnk_1c(e);
     }
-    (c != 0 ? func_020fe4b4 : data_0217bc34[e->mUnk_44].mUnk_50)(e);
+    if (c != 0) {
+        g = func_020fe4b4;
+    } else {
+        j = e->mUnk_44;
+        g = data_0217bc34[j].mUnk_50;
+    }
+    g(e);
     e->mUnk_74 |= 0x20000000;
     if (c != 0) {
         if (e->mUnk_78 & 0x800) {
@@ -359,11 +369,13 @@ s32 func_020f0898(Unk027e00cc *a, u8 *b) {
     return m;
 }
 
-// non-matching: three words from +0x38 differ in the mUnk_0b00 call setup
 void func_020f0758(Unk027e00cc *a, s32 m, s32 b, u8 *c, s32 d) {
+    enum { K0 } k;
+
     switch (m) {
         case 0:
-            if (!data_0217bc34[a->mUnk_00].mUnk_48) {
+            k = a->mUnk_00;
+            if (!data_0217bc34[k].mUnk_48) {
                 return;
             }
             if (c[1] == 0xff) {
@@ -569,11 +581,10 @@ void func_020f02c0(Unk020f02c0 *q, s32 a, s32 *b) {
 }
 
 #pragma thumb off
-// non-matching: six words: the word read at 0x200 and its product are in the other registers (ldr r1,[r4,#0x200]; mul
-// r2,r1,r0 where the original is ldr r2; mul r1)
 s32 func_020f0154(Unk020ee684 *p) {
     Unk0206bcb0 *b;
     u16 v;
+    enum { K0 } i;
 
     b = p->mUnk_1fc;
     if (func_02061fec() == 0) {
@@ -592,11 +603,13 @@ s32 func_020f0154(Unk020ee684 *p) {
     } else if (p->mUnk_000 != 0) {
         p->mUnk_1ec |= data_021595c0;
     }
-    v = data_0217562a[p->mUnk_200].mUnk_00 & 0x40;
+    i = p->mUnk_200;
+    v = data_0217562a[i].mUnk_00 & 0x40;
     if (v != 0) {
         p->mUnk_1ec |= data_021595c4;
     }
-    v = data_0217562a[p->mUnk_200].mUnk_00 & 0x80;
+    i = p->mUnk_200;
+    v = data_0217562a[i].mUnk_00 & 0x80;
     if (v != 0) {
         p->mUnk_1ec |= data_021595c8;
     }
@@ -694,11 +707,10 @@ void func_020efea4(Unk020ee684 *p) {
     func_020edad8(&p->mUnk_058);
 }
 
-// non-matching: eight words from +0x68 swap the table base and the counter register
 s32 func_020efd84(Unk020ee684 *p, s32 a) {
     Unk020f40dc *r;
     Unk027e00cc *q;
-    s32 i;
+    enum { K0 } i;
 
     r = &p->mUnk_030;
     if (a == 0x13) {
@@ -904,13 +916,11 @@ void func_020ef65c(Unk020eda5c *a, Vec3 *v, Vec3 *w) {
                   w, v);
 }
 
-// non-matching: nine words swap the table base and the counter register (first at +0x34)
 void func_020ef4a0(Unk020eda5c *a) {
     Unk020f41c4_A *b;
     Unk020eda5c_1ec *c;
     s32 n;
-    s32 k;
-    s32 i;
+    enum { K0 } k, i;
 
     b = a->mUnk_014[0];
     c = (Unk020eda5c_1ec *) a->mUnk_00c;
@@ -943,13 +953,13 @@ void func_020ef4a0(Unk020eda5c *a) {
     c->mUnk_1ec |= data_021595a8;
 }
 
-// non-matching: the 0x1000 flag test and the table call swap the table base and counter registers (3 words)
 void func_020ef350(Unk020eda5c *a) {
     Unk020eda5c_09c *c;
     Unk020f41c4_A *b;
     Vec3 v;
     s64 t;
     s64 sq;
+    enum { K0 } k;
 
     c = (Unk020eda5c_09c *) a;
     b = a->mUnk_014[0];
@@ -969,8 +979,9 @@ void func_020ef350(Unk020eda5c *a) {
         b->mUnk_94.mUnk_0c = a->mUnk_02c.mUnk_0c;
         func_020397a8(&b->mUnk_94.mUnk_0c, &b->mUnk_94.mUnk_18, &b->mUnk_94.mUnk_00);
     }
-    if (data_0217bc34[b->mUnk_44].mUnk_20 != 0) {
-        data_0217bc34[b->mUnk_44].mUnk_20(a, b);
+    k = b->mUnk_44;
+    if (data_0217bc34[k].mUnk_20 != 0) {
+        data_0217bc34[k].mUnk_20(a, b);
     }
 }
 

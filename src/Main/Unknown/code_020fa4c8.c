@@ -674,14 +674,20 @@ s32 func_020faca4(s32 param_1) {
     return 0;
 }
 
-// non-matching: 0x128 vs 0x170 bytes. The original saves r7 and reserves a stack word
-// (`push {r4, r5, r6, r7, lr}; sub sp, sp, #4`); the body of the first branch loads
-// `ldr r7, [r0, #12]` before the func_020fa0e8 call and multiplies with it afterwards
-// (`mul r0, r7, r0`); this build is laid out differently from the first instruction.
+static inline s32 func_020fab34_inline(s32 param_1) {
+    if (param_1 != 0x13) {
+        return data_027e00cc[data_0217bc48[param_1].mUnk_08].mUnk_0c -
+                   data_027e00cc[data_0217bc48[param_1].mUnk_08].mUnk_1c >=
+               data_0217bc48[param_1].mUnk_0c;
+    }
+    return 0;
+}
+
 s32 func_020fab34(s32 *param_1) {
     s32 i;
     s32 v;
     Unk0217bc48 *e;
+    s32 n;
 
     i = *param_1;
     if (i == 0x13) {
@@ -689,17 +695,13 @@ s32 func_020fab34(s32 *param_1) {
     }
     if (data_021759c0->mUnk_08 == 5) {
         e = &data_0217bc48[i];
-        v = e->mUnk_0c * func_020fa0e8(e->mUnk_08, 0);
-        e = &data_0217bc48[i];
-        if (data_027e00cc[e->mUnk_08].mUnk_0c - data_027e00cc[e->mUnk_08].mUnk_1c < e->mUnk_0c) {
-            goto done;
-        }
-        if (data_0217aa14->mUnk_724 >= v) {
+        n = e->mUnk_0c;
+        v = n * func_020fa0e8(e->mUnk_08, 0);
+        if (func_020fab34_inline(i) != 0 && data_0217aa14->mUnk_724 >= v) {
             return 0;
         }
     } else {
-        e = &data_0217bc48[i];
-        if (data_027e00cc[e->mUnk_08].mUnk_0c - data_027e00cc[e->mUnk_08].mUnk_1c < e->mUnk_0c) {
+        if (func_020fab34_inline(i) != 0) {
             return 0;
         }
     }
@@ -708,25 +710,23 @@ done:
     return 1;
 }
 
-// non-matching: 0xc0 vs 0xbc bytes. The original saves r4-r7 (`push {r4, r5, r6, r7, lr}`) and
-// forms the second table address with `mul` and `add`; this build saves r4-r9 and uses `mla`
-// for both table addresses.
 s32 func_020faa78(s32 param_1) {
     Unk0217bc48 *e;
-    Unk027e00cc *r;
     s32 n;
+    Unk027e00cc *r;
+    enum { K0 } k;
 
     e = &data_0217bc48[param_1];
-    r = &data_027e00cc[e->mUnk_08];
+    k = e->mUnk_08;
+    r = &data_027e00cc[k];
     n = e->mUnk_0c;
     while (r->mUnk_0c - r->mUnk_1c < n) {
-        if (data_0217bc34[e->mUnk_08].mUnk_04 == 1) {
+        if (data_0217bc34[k].mUnk_04 == 1) {
             return 0;
         }
         if (func_020f03bc(r) == 0) {
             return 0;
         }
-        r = &data_027e00cc[e->mUnk_08];
     }
     return 1;
 }
