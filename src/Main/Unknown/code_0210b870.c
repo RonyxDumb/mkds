@@ -1,6 +1,7 @@
 #include "Main/Unknown/code_0210b870.h"
 
 #include "Main/Unknown/code_0210bcf4.h"
+#include "Main/Unknown/code_020e6fd4.h"
 #include "Main/Unknown/code_02109000.h"
 #include "Main/Unknown/code_0210bad4.h"
 #include "Main/Unknown/unk_0217c000.h"
@@ -18,11 +19,11 @@ void func_0210ba78(void *p0, s32 b) {
     *(u32 *) data_0217ccac = *(u32 *) data_0217ccac + 0xa;
 }
 
-void func_0210ba38(Unk0206bcb0 *p, s32 b) {
+void func_0210ba38(struct Unk020e71a0_94 *p, s32 b) {
     func_0210ddf4(&data_0217d29c, p->mUnk_00.mUnk_40 + 0x15f90, (void (*)(void *, int)) func_0210bad4, p, b);
 }
 
-void func_0210b98c(Unk0206bcb0 *p, s32 b) {
+void func_0210b98c(struct Unk020e71a0_94 *p, s32 b) {
     s32 c;
 
     c = 0;
@@ -79,7 +80,7 @@ int func_0210b8bc(void *p, s32 b) {
     return (int) func_021090c4(p, 0x1ce, ((c * 2) + 0x3c) & 0xff, (s16) (c - 0xa));
 }
 
-void func_0210b874(Unk0206bcb0 *p, s32 b) {
+void func_0210b874(struct Unk020e71a0_94 *p, s32 b) {
     s32 c;
     Unk0212c400 **v;
 
