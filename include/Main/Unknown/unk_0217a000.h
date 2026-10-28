@@ -7,6 +7,7 @@
 #include "code_0200e0ec.h" // Unk0200db5c
 #include "code_02142eac.h" // Unk021438f0, Unk02143a78, Unk02143c30
 #include "code_021445e0.h" // Unk021450ec, Unk0214461c
+#include "code_02147cd8.h" // Unk02148038
 
 // Objects whose layout isn't known yet.
 // What data_0217aa08 points to.
@@ -688,17 +689,11 @@ typedef struct Unk02061808 {
     /* 090 */ s32 mUnk_090;
     /* 094 */ s32 mUnk_094;
     /* 098 */ s32 mUnk_098;
-    /* 09c */ s32 mUnk_09c;
-    /* 0a0 */ s32 mUnk_0a0;
-    /* 0a4 */ s32 mUnk_0a4;
+    /* 09c */ Vec3 mUnk_09c;
     /* 0a8 */ u8 mUnk_0a8[0x8c];
-    /* 134 */ s32 mUnk_134;
-    /* 138 */ s32 mUnk_138;
-    /* 13c */ s32 mUnk_13c;
+    /* 134 */ Vec3 mUnk_134;
     /* 140 */ u8 mUnk_140[0x1c];
-    /* 15c */ s32 mUnk_15c;
-    /* 160 */ s32 mUnk_160;
-    /* 164 */ s32 mUnk_164;
+    /* 15c */ Vec3 mUnk_15c;
 } Unk02061808;
 
 extern Unk02061808 *data_0217aa6c;
@@ -840,23 +835,26 @@ extern u8 data_0217ad2c[];
 extern u8 data_0217ad30[];
 struct Unk0201ca6c;
 
+// Two objects returned by func_0208b7bc.
+typedef struct Unk0217ae84_10 {
+    /* 00 */ struct Unk0201ca6c *mUnk_00;
+    /* 04 */ struct Unk0201ca6c *mUnk_04;
+} Unk0217ae84_10;
+
 // 0x58-byte entries of the table behind data_0217ae84; the pointers at 0x0c and
-// 0x10 to 0x30 hold objects returned by func_0208b7bc.
+// 0x20 to 0x30 hold objects returned by func_0208b7bc.
 typedef struct Unk0217ae84 {
     /* 00 */ s32 mUnk_00;
-    /* 04 */ u8 mUnk_04[8];
+    /* 04 */ s32 mUnk_04[2];
     /* 0c */ struct Unk0201ca6c *mUnk_0c;
-    /* 10 */ struct Unk0201ca6c *mUnk_10[4];
+    /* 10 */ Unk0217ae84_10 mUnk_10[2];
     /* 20 */ struct Unk0201ca6c *mUnk_20;
     /* 24 */ struct Unk0201ca6c *mUnk_24;
     /* 28 */ struct Unk0201ca6c *mUnk_28;
     /* 2c */ struct Unk0201ca6c *mUnk_2c;
     /* 30 */ struct Unk0201ca6c *mUnk_30;
-    /* 34 */ u8 mUnk_34[0x18];
-    /* 4c */ u16 mUnk_4c;
-    /* 4e */ u16 mUnk_4e;
-    /* 50 */ u16 mUnk_50;
-    /* 52 */ u8 mUnk_52[0x6];
+    /* 34 */ Vec3 mUnk_34[2];
+    /* 4c */ Unk02148038 mUnk_4c[2];
 } Unk0217ae84;
 
 extern Unk0217ae84 *data_0217ae84;

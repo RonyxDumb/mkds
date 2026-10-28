@@ -238,7 +238,7 @@ void func_020a35b0(Unk020a2fe4 *a) {
     s32 w;
 
     g = func_02061808();
-    v1 = func_02148714(g->mUnk_15c, g->mUnk_164) - 0x4000;
+    v1 = func_02148714(g->mUnk_15c.x, g->mUnk_15c.z) - 0x4000;
     func_021484d0(&a->mUnk_00.mUnk_04, &g->mUnk_024, &v);
     i = (v1 >> 4) * 2;
     s = data_0215d4b4[i];

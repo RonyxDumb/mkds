@@ -55,9 +55,9 @@ void *func_ov001_021a226c(void)
 
 void func_ov001_021a2218(Unk021a2048 *o, Unk02061808 *g, Vec3 *out)
 {
-    out->x = g->mUnk_024.x + (s32)(((s64)g->mUnk_15c * 0x58000) >> 12);
+    out->x = g->mUnk_024.x + (s32)(((s64)g->mUnk_15c.x * 0x58000) >> 12);
     out->y = o->mUnk_04.y;
-    out->z = g->mUnk_024.z + (s32)(((s64)g->mUnk_164 * 0x58000) >> 12);
+    out->z = g->mUnk_024.z + (s32)(((s64)g->mUnk_15c.z * 0x58000) >> 12);
 }
 
 void func_ov001_021a2048(void *p0, Unk021a2048 *p1)
