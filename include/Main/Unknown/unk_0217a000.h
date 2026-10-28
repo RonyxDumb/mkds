@@ -227,7 +227,9 @@ typedef struct Unk0217aa00_45c {
     /* 214 */ u8 mUnk_214;
     /* 215 */ u8 mUnk_215;
     /* 216 */ u16 mUnk_216;
-    /* 218 */ u8 mUnk_218[0xc];
+    /* 218 */ s32 mUnk_218;
+    /* 21c */ s32 mUnk_21c;
+    /* 220 */ s32 mUnk_220;
     /* 224 */ u8 mUnk_224[4];
     /* 228 */ union {
         u8 mUnk_228;
