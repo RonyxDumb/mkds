@@ -126,10 +126,10 @@ void *func_ov001_021a2034(void)
 void func_ov001_021a1f60(void)
 {
     Unk020b4934 *l0 = 0;
-    void *l1 = 0;
+    Unk02021dc8 *l1 = 0;
     Unk020b4a44 *l2 = 0;
     Unk020b4934 *l3 = 0;
-    void *l4 = 0;
+    Unk02021dc8 *l4 = 0;
     Unk020b4a44 *l5 = 0;
     Unk020b4934 *l6 = 0;
     Unk020b47d8 *l7 = 0;

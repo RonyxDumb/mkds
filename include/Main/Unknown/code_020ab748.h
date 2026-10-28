@@ -3,4 +3,4 @@
 #include "types.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-unsigned int func_020ab748(void);
+u16 func_020ab748(void);

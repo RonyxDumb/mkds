@@ -9,12 +9,14 @@ typedef struct Unk020fa294 {
     /* 0c */ Vec3 mUnk_0c;
     /* 18 */ Vec3 mUnk_18;
     /* 24 */ u16 mUnk_24;
-    /* 26 */ u16 mUnk_26;
+    /* 26 */ s16 mUnk_26;
     /* 28 */ s16 mUnk_28;
     /* 2a */ s16 mUnk_2a;
     /* 2c */ s16 mUnk_2c;
-    /* 2e */ u16 mUnk_2e;
-    /* 30 */ u8 mUnk_30[6];
+    /* 2e */ s16 mUnk_2e;
+    /* 30 */ s16 mUnk_30;
+    /* 32 */ s16 mUnk_32;
+    /* 34 */ s16 mUnk_34;
     /* 36 */ s16 mUnk_36;
     /* 38 */ u16 mUnk_38;
     /* 3a */ u8 mUnk_3a[2];

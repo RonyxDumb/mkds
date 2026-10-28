@@ -151,7 +151,7 @@ static inline void func_0210deac(Unk0217d26c *a, Unk0210ddf4 *b, s32 c) {
     }
 }
 
-void func_0210ddf4(Unk0217d26c *a, int b, void (*c)(Unk0206bcb0 *, int), Unk0206bcb0 *p, int d) {
+void func_0210ddf4(Unk0217d26c *a, int b, void (*c)(void *, int), void *p, int d) {
     Unk0210ddf4 v;
 
     v.mUnk_00 = b;

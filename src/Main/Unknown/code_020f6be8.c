@@ -13,13 +13,11 @@
 #include "Main/Unknown/code_020f9c40.h"
 #include "code_02147cd8.h"
 
-// non-matching: in both lookups of data_0217bc34[param_1->mUnk_44] the subscript is loaded into r1 and the value
-// of data_0217bc34 into r2 (`mla r0, r1, r0, r2`); the original has them the other way round
-// (`mla r0, r2, r0, r1`). Every other instruction matches.
 s32 func_020f7184(Unk020f41c4_A *param_1, s32 param_2, s32 param_3) {
     Vec3 *v = &param_1->mUnk_5c;
     Unk0217bc34 *e;
     s32 r;
+    enum { K0 } k;
 
     if (param_1->mUnk_74 & 0x80000) {
         return 2;
@@ -39,7 +37,8 @@ s32 func_020f7184(Unk020f41c4_A *param_1, s32 param_2, s32 param_3) {
         return 1;
     }
     if (param_2 == 0) {
-        e = &data_0217bc34[param_1->mUnk_44];
+        k = param_1->mUnk_44;
+        e = &data_0217bc34[k];
         if (e->mUnk_34 != 0) {
             r = e->mUnk_34(param_1);
             if (r == 0) {
@@ -61,7 +60,8 @@ s32 func_020f7184(Unk020f41c4_A *param_1, s32 param_2, s32 param_3) {
             }
         }
     }
-    e = &data_0217bc34[param_1->mUnk_44];
+    k = param_1->mUnk_44;
+    e = &data_0217bc34[k];
     if (e->mUnk_40 == 0) {
         param_1->mUnk_120 = func_020f6e58;
     }
@@ -128,16 +128,15 @@ void func_020f705c(Unk020f41c4_A *param_1) {
     func_020f7184(param_1, 1, 1);
 }
 
-// non-matching: for data_0217bc34[param_1->mUnk_44] the two address pieces are in the other
-// registers: here param_1->mUnk_44 is in r1 and the table base in r2, the original has them
-// swapped.
 void func_020f6fc4(void *param_1, s32 param_2) {
     Unk020f41c4_A *p = param_1;
     s32 r;
+    enum { K0 } k;
 
     r = func_020f7184(p, 0, 0);
     if (r <= 1) {
-        func_020f91fc(p, data_0217bc34[p->mUnk_44].mUnk_94);
+        k = p->mUnk_44;
+        func_020f91fc(p, data_0217bc34[k].mUnk_94);
     }
     if (r != 0) {
         return;
@@ -154,14 +153,14 @@ void func_020f6fc4(void *param_1, s32 param_2) {
     func_020fe7a0(p->mUnk_44, 2, 8, p->mUnk_4e);
 }
 
-// non-matching: the same table lookup as func_020f6fc4, with param_1->mUnk_44 in r1 and the
-// table base in r2; the original has them swapped.
 void func_020f6f10(Unk020f41c4_A *param_1, s32 param_2, s32 param_3) {
     s32 r;
+    enum { K0 } k;
 
     r = func_020f7184(param_1, 0, 0);
     if (r <= 1) {
-        func_020f91fc(param_1, data_0217bc34[param_1->mUnk_44].mUnk_98);
+        k = param_1->mUnk_44;
+        func_020f91fc(param_1, data_0217bc34[k].mUnk_98);
     }
     if (r != 0) {
         return;

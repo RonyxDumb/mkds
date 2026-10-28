@@ -85,7 +85,7 @@ void *func_02017b90(Unk020176c0 *a, u32 b, u32 c) {
     Unk02017e70 *q;
     Unk02017e70 *b0;
     u32 a0;
-    u32 bestaddr;
+    int bestaddr;
     u32 v0;
     u32 v1;
     u32 m;
@@ -104,7 +104,7 @@ void *func_02017b90(Unk020176c0 *a, u32 b, u32 c) {
             v0 = q->mUnk_04;
             if (v0 >= b + (a0 - ((u32) q + 0x10)) && v1 > v0) {
                 b0 = q;
-                v1 = v0;
+                v1 = (u32) v0;
                 bestaddr = a0;
                 if (f != 0) {
                     break;
@@ -122,35 +122,35 @@ void *func_02017b90(Unk020176c0 *a, u32 b, u32 c) {
     return func_02017c58(p, b0, (void *) bestaddr, b, 0);
 }
 
-// non-matching: same size, 24 words differ: registers only (the original keeps q in r4, the flag in
-// r5, the size in r8 and the aligned address in r7).
 void *func_02017acc(Unk020176c0 *a, u32 b, u32 c) {
-    Unk020179d4 *p;
+    int v0;
+    u32 m;
+    u32 a0;
     Unk02017e70 *q;
     Unk02017e70 *b0;
-    u32 a0;
-    u32 bestaddr;
-    u32 v0;
     u32 v1;
-    u32 m;
+    Unk020179d4 *p;
+    int g0;
+    int bestaddr;
     u32 f;
-    s32 g0;
 
     p = &a->mUnk_24;
-    v1 = -1;
     f = (u16) (p->mUnk_12 & 1) == 0 ? 1 : 0;
+    v1 = -1;
     b0 = 0;
     q = p->mUnk_00.mUnk_04;
     bestaddr = 0;
     if (q != 0) {
         m = ~(c - 1);
         do {
-            v0 = q->mUnk_04;
+            u32 t = q->mUnk_04;
+
+            v0 = t;
             a0 = (v0 + ((u32) q + 0x10) - b) & m;
             g0 = a0 - ((u32) q + 0x10);
             if (g0 >= 0 && v1 > v0) {
                 b0 = q;
-                v1 = v0;
+                v1 = (u32) v0;
                 bestaddr = a0;
                 if (f != 0) {
                     break;

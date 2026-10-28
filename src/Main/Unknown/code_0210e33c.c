@@ -282,7 +282,7 @@ u32 func_0210e680(void) {
     u32 ok;
     u32 n;
 
-    func_0212d5e0((Unk0212d5f8 *) data_0217c868);
+    func_0212d5e0(&data_0217c868);
     v = func_0210efcc(&data_0217d0a0, data_0216cb30, data_0217d130, 0);
     func_0210d990(1);
     if (v == 0) {

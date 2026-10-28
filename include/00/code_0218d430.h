@@ -6,4 +6,4 @@
 #include "00/unk_021b4000.h"
 #include "code_02139f70.h"
 
-int func_ov000_0218d430(u32 *param_1, u32 *param_2);
+s32 func_ov000_0218d430(u32 *param_1, u32 *param_2);

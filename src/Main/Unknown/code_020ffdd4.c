@@ -72,7 +72,7 @@ void func_020ffdd4(Unk020e6fd4 *v1) {
     arr = v1->mUnk_00;
     for (i = 0; i < n; i++) {
         e = arr[i];
-        if (e->mUnk_00.mUnk_8e != 1) {
+        if (e->mUnk_00.mUnk_80.mUnk_0e != 1) {
             return;
         }
     }
@@ -82,7 +82,7 @@ void func_020ffdd4(Unk020e6fd4 *v1) {
     for (i = 0; i < n; i++) {
         e = arr[i];
         e->mUnk_a8 = e->mUnk_b4[v2[i]];
-        e->mUnk_00.mUnk_90 = 0;
-        e->mUnk_00.mUnk_92 = 1;
+        e->mUnk_00.mUnk_80.mUnk_10 = 0;
+        e->mUnk_00.mUnk_80.mUnk_12 = 1;
     }
 }

@@ -23,85 +23,85 @@
 #pragma thumb off
 
 // Runs func_020ed5c0 with the last two parameters swapped when the 0x134 word is set.
-void func_020f5008(Unk0206bcb0 *a, void *b, void *c) {
-    if (a->mUnk_12c.z == 0) {
+void func_020f5008(Unk020f5008 *a, void *b, void *c) {
+    if (a->mUnk_134 == 0) {
         return;
     }
-    func_020ed5c0((Unk020f41c4_A *) a, c, b);
+    func_020ed5c0(&a->mUnk_000.mUnk_000, c, b);
 }
 
 // Decreases the 0x130 word by one; when it goes below zero func_020f7658 runs first.
-void func_020f4fd0(Unk0206bcb0 *a) {
-    a->mUnk_12c.y--;
-    if (a->mUnk_12c.y < 0) {
-        func_020f7658((Unk020f41c4_A *) a, 0);
+void func_020f4fd0(Unk020f5008 *a) {
+    a->mUnk_130--;
+    if (a->mUnk_130 < 0) {
+        func_020f7658(&a->mUnk_000.mUnk_000, 0);
     }
-    func_020f68b0(a);
+    func_020f68b0(&a->mUnk_000.mUnk_000);
 }
 
 // Sets the object up through func_020f2df0 when the 0x74 word allows it.
-void func_020f4f44(Unk0206bcb0 *a) {
+void func_020f4f44(Unk020f5008 *a) {
     u32 n;
 
-    func_020f2df0(a, 0x385, 0xff8, 0x733, &n);
-    if ((*(u32 *) &a->mUnk_74 & 8) == 0) {
+    func_020f2df0(&a->mUnk_000, 0x385, 0xff8, 0x733, &n);
+    if ((a->mUnk_000.mUnk_000.mUnk_74 & 8) == 0) {
         return;
     }
-    if ((*(u32 *) &a->mUnk_74 & 3) != 0) {
+    if ((a->mUnk_000.mUnk_000.mUnk_74 & 3) != 0) {
         return;
     }
-    func_02109060(&a->mUnk_00, 0xda);
-    func_020f6a6c(a, &n);
-    if ((*(u32 *) &a->mUnk_74 & 0x180000) == 0) {
-        a->mUnk_120 = func_020f4fd0;
+    func_02109060(&a->mUnk_000.mUnk_000.mUnk_00, 0xda);
+    func_020f6a6c(&a->mUnk_000.mUnk_000, &n);
+    if ((a->mUnk_000.mUnk_000.mUnk_74 & 0x180000) == 0) {
+        a->mUnk_000.mUnk_000.mUnk_120 = (void (*)(Unk020f41c4_A *)) func_020f4fd0;
     }
 }
 
 // Returns what func_020fa3d0 gives, with its 0x134 and 0x130 words cleared.
-Unk0206bcb0 *func_020f4ee8(void) {
-    Unk0206bcb0 *p;
+Unk020f5008 *func_020f4ee8(void) {
+    Unk020f5008 *p;
 
     p = func_020fa3d0(3, 8, &data_02159764, &data_02159764);
     if (p == 0) {
         return 0;
     }
-    if ((*(u32 *) &p->mUnk_74 & 0x180000) == 0) {
-        p->mUnk_120 = 0;
+    if ((p->mUnk_000.mUnk_000.mUnk_74 & 0x180000) == 0) {
+        p->mUnk_000.mUnk_000.mUnk_120 = 0;
     }
     func_020f9c40((int) p);
-    p->mUnk_12c.z = 0;
-    p->mUnk_12c.y = 0;
+    p->mUnk_134 = 0;
+    p->mUnk_130 = 0;
     return p;
 }
 
 // Stores the two Vec3s in the object and sets the word at 0x80.
-void func_020f4e78(Unk0206bcb0 *a, Vec3 *b, Vec3 *c) {
-    a->mUnk_12c.z = 1;
-    func_0208ad74(&a->mUnk_7c, 1);
+void func_020f4e78(Unk020f5008 *a, Vec3 *b, Vec3 *c) {
+    a->mUnk_134 = 1;
+    func_0208ad74(&a->mUnk_000.mUnk_000.mUnk_7c, 1);
     if (b != 0) {
-        a->mUnk_f0 = *b;
-        *(u32 *) &a->mUnk_74 |= 0x80;
+        a->mUnk_000.mUnk_000.mUnk_f0 = *b;
+        a->mUnk_000.mUnk_000.mUnk_74 |= 0x80;
     }
     if (c == 0) {
         return;
     }
-    a->mUnk_50 = *c;
-    func_021484d0(&a->mUnk_50, &a->mUnk_e4, &a->mUnk_05c);
+    a->mUnk_000.mUnk_000.mUnk_50 = *c;
+    func_021484d0(&a->mUnk_000.mUnk_000.mUnk_50, &a->mUnk_000.mUnk_000.mUnk_0e4, &a->mUnk_000.mUnk_000.mUnk_5c);
 }
 
 // Runs the object's first word and stores the 0x120 and 0x130 words.
 void func_020f4dfc(void **a, Vec3 *b, s32 c) {
-    Unk0206bcb0 *p;
+    Unk020f5008 *p;
 
     p = a[0];
-    *(u16 *) &p->mUnk_78 |= data_0215969c;
+    p->mUnk_000.mUnk_000.mUnk_78 |= data_0215969c;
     func_020f9ca8(p);
     func_020f9114(p);
-    func_020f30ec(p, 0, b);
-    if ((*(u32 *) &p->mUnk_74 & 0x180000) == 0) {
-        p->mUnk_120 = func_020f4f44;
+    func_020f30ec(&p->mUnk_000, 0, b);
+    if ((p->mUnk_000.mUnk_000.mUnk_74 & 0x180000) == 0) {
+        p->mUnk_000.mUnk_000.mUnk_120 = (void (*)(Unk020f41c4_A *)) func_020f4f44;
     }
-    p->mUnk_12c.y = c;
+    p->mUnk_130 = c;
     a[0] = 0;
 }
 
@@ -151,7 +151,7 @@ void func_020f4b8c(void) {
 
 #pragma thumb off
 
-void func_020f4b20(Unk020f40dc *a, void *b) {
+void func_020f4b20(Unk020f40dc *a, Unk020ee684 *b) {
     s32 i;
 
     a->mUnk_04 = b;
@@ -164,13 +164,9 @@ void func_020f4b20(Unk020f40dc *a, void *b) {
     for (i = 0; i < 3; i++) {
         a->mUnk_14[i] = 0;
     }
-    a->mUnk_24 = data_021759c0->mUnk_70[((Unk020f40dc_Owner *) b)->mUnk_1f8].mUnk_00 == 3;
+    a->mUnk_24 = data_021759c0->mUnk_70[b->mUnk_1f8].mUnk_00 == 3;
 }
 
-// non-matching: 5 of 267 lines differ, all in the address of data_0217bc34[e->mUnk_44] at 0xd8.
-// The original loads the subscript into r2, then the table address into r1, then 0xa8 into r0 and ends
-// with `mla r0, r2, r0, r1`; this source loads the table address into r0, the subscript into r1, the
-// value into r2 and ends with `mla r0, r1, r0, r2`. Every other instruction is identical.
 void func_020f49bc(Unk020f40dc *a) {
     Unk020f41c4_A *e;
     Unk0206bcb0 *p;
@@ -178,6 +174,7 @@ void func_020f49bc(Unk020f40dc *a) {
     Vec3 *r;
     void (*h)(void *);
     s32 i;
+    enum { K0 } k;
 
     if (a->mUnk_20 <= 0) {
         return;
@@ -192,11 +189,12 @@ void func_020f49bc(Unk020f40dc *a) {
     q = &p->mUnk_98;
     r = &p->mUnk_a4;
     func_020f0ea0(data_027e00cc + e->mUnk_44, e);
-    func_020efd1c((Unk020ee684 *) a->mUnk_04, e);
+    func_020efd1c(a->mUnk_04, e);
     func_02147fd8(0xb33, r, &e->mUnk_5c, &e->mUnk_5c);
     *(Vec3 *) &e->mUnk_50 = *q;
     func_020f6630(e, 0, q, r, &p->mUnk_244);
-    h = data_0217bc34[e->mUnk_44].mUnk_38;
+    k = e->mUnk_44;
+    h = data_0217bc34[k].mUnk_38;
     if (h != 0) {
         h(e);
     }

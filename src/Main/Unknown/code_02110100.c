@@ -22,8 +22,7 @@ void func_021103c0(void)
     data_0217d218 = data_0216cb28;
 }
 
-void func_02110350(Unk0206bcb0 *a)
-{
+void func_02110350(Unk020e71a0_94 *a) {
     s32 v;
     v = (s32) (((s64) data_0217d214 * (0x1f000 - func_ov001_02181528()) + 0x800) >> 12) >> 12;
     if (v < 0) {

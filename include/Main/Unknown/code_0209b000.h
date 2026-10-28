@@ -26,3 +26,5 @@ void func_0209b7a0(void *param_1, s32 param_2, s32 param_3);
 Unk02181c3c *func_0209bbfc(Unk02181c3c_list *param_1);
 void *func_0209be84(void *a, const char *b);
 void *func_0209bfe0(s32 a);
+void *func_0209bc74(void *a, const char *b, const char *c);
+void *func_0209bd08(void *a, const char *b);

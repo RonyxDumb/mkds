@@ -33,7 +33,7 @@ void func_02116174(void) {
         }
     }
     if (*(short *) ((*(int *) &data_0217d350) + 0x74) != iVar3) {
-        func_0212ecc0((const void *) (((u32) &data_0217d068)), (u32) (0), (u32) (0));
+        func_0212ecc0((const void *) &data_0217d068, (u32) (0), (u32) (0));
     }
     *(short *) ((*(int *) &data_0217d350) + 0x74) = (short) iVar3;
     return;

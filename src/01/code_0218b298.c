@@ -18,13 +18,13 @@ u16 func_ov001_0218b2d4(Unk02188950 *param_1) {
 
 void func_ov001_0218b2b8(Unk02188950 *param_1) {
     param_1->mUnk_2d8 = 0xb;
-    param_1->mUnk_078 |= data_ov001_021a6598;
+    param_1->mUnk_000.mUnk_78 |= data_ov001_021a6598;
 }
 
 void func_ov001_0218b2a8(Unk02188950 *param_1) {
-    func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x237));
+    func_020d2774(&param_1->mUnk_000, (u32) (0x237));
 }
 
 void func_ov001_0218b298(Unk02188950 *param_1) {
-    func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x237));
+    func_020d2774(&param_1->mUnk_000, (u32) (0x237));
 }

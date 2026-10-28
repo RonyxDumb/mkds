@@ -9,9 +9,9 @@ void func_020ffc98(Unk020ffb1c *p) {
         d = 0x96;
     }
     p->mUnk_a6 += d;
-    if (p->mUnk_00.mUnk_84 > p->mUnk_a0) {
-        p->mUnk_00.mUnk_90 = 5;
-        p->mUnk_00.mUnk_92 = 1;
+    if (p->mUnk_00.mUnk_80.mUnk_04 > p->mUnk_a0) {
+        p->mUnk_00.mUnk_80.mUnk_10 = 5;
+        p->mUnk_00.mUnk_80.mUnk_12 = 1;
     }
 }
 

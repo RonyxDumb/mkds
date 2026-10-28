@@ -49,13 +49,13 @@ void func_ov001_02182d30(void) {
         o->mUnk_0f8 = 3;
         o->mUnk_0b0 = 0x99a;
         o->mUnk_0a0 = 0x10;
-        o->mUnk_004.x = c->mUnk_80.x;
-        o->mUnk_004.y = c->mUnk_80.y + 0x1a000;
-        o->mUnk_004.z = c->mUnk_80.z;
-        o->mUnk_010.x = c->mUnk_a4.x + (s32) (((s64) b * data_0215d4b4[(a >> 4) * 2]) >> 12);
-        o->mUnk_010.y = c->mUnk_a4.y + 0x4000;
-        o->mUnk_010.z = c->mUnk_a4.z + (s32) (((s64) b * data_0215d4b4[(a >> 4) * 2 + 1]) >> 12);
-        o->mUnk_002 &= ~1;
+        o->mUnk_000.mUnk_04.x = c->mUnk_80.x;
+        o->mUnk_000.mUnk_04.y = c->mUnk_80.y + 0x1a000;
+        o->mUnk_000.mUnk_04.z = c->mUnk_80.z;
+        o->mUnk_000.mUnk_10.x = c->mUnk_a4.x + (s32) (((s64) b * data_0215d4b4[(a >> 4) * 2]) >> 12);
+        o->mUnk_000.mUnk_10.y = c->mUnk_a4.y + 0x4000;
+        o->mUnk_000.mUnk_10.z = c->mUnk_a4.z + (s32) (((s64) b * data_0215d4b4[(a >> 4) * 2 + 1]) >> 12);
+        o->mUnk_000.mUnk_02 &= ~1;
         arg.mUnk_00 = 0x1d9;
         arg.mUnk_04 = 0;
         arg.mUnk_08 = 2;
@@ -95,13 +95,13 @@ void func_ov001_02182bdc(void) {
             }
             v = func_ov001_02181b68(n);
         }
-        o->mUnk_0e8 = &v->mUnk_004;
-        o->mUnk_004.x = c->mUnk_80.x;
-        o->mUnk_004.y = c->mUnk_80.y + 0x1a000;
-        o->mUnk_004.z = c->mUnk_80.z;
-        o->mUnk_010.x = (s32) (((s64) b * data_0215d4b4[(a >> 4) * 2]) >> 12);
-        o->mUnk_010.y = 0x4000;
-        o->mUnk_010.z = (s32) (((s64) b * data_0215d4b4[(a >> 4) * 2 + 1]) >> 12);
+        o->mUnk_0e8 = &v->mUnk_000.mUnk_04;
+        o->mUnk_000.mUnk_04.x = c->mUnk_80.x;
+        o->mUnk_000.mUnk_04.y = c->mUnk_80.y + 0x1a000;
+        o->mUnk_000.mUnk_04.z = c->mUnk_80.z;
+        o->mUnk_000.mUnk_10.x = (s32) (((s64) b * data_0215d4b4[(a >> 4) * 2]) >> 12);
+        o->mUnk_000.mUnk_10.y = 0x4000;
+        o->mUnk_000.mUnk_10.z = (s32) (((s64) b * data_0215d4b4[(a >> 4) * 2 + 1]) >> 12);
         arg.mUnk_00 = 0x1d9;
         arg.mUnk_04 = 0;
         arg.mUnk_08 = 2;

@@ -115,7 +115,7 @@ void func_020a9268(void *a, Unk020a9268 *p) {
                 return;
             }
             p->mUnk_0a8 = (u16)p->mUnk_000.mUnk_9c->mUnk_2c;
-            p->mUnk_0a4 = p->mUnk_000.mUnk_9c->mUnk_2e;
+            p->mUnk_0a4 = (u16)p->mUnk_000.mUnk_9c->mUnk_2e;
             func_020d90a8(&p->mUnk_0c4, 0, 1);
             p->mUnk_130 = 1;
             return;
@@ -133,7 +133,7 @@ void func_020a9268(void *a, Unk020a9268 *p) {
             return;
         }
         p->mUnk_0ac = p->mUnk_0ac + 1;
-        p->mUnk_0a4 = p->mUnk_000.mUnk_9c->mUnk_2e;
+        p->mUnk_0a4 = (u16)p->mUnk_000.mUnk_9c->mUnk_2e;
         func_020d90a8(&p->mUnk_0c4, 0, 1);
         p->mUnk_130 = 1;
         return;
@@ -154,7 +154,7 @@ void func_020a9268(void *a, Unk020a9268 *p) {
         return;
     }
     if (!(func_0207a780() & p->mUnk_128) && !(p->mUnk_000.mUnk_78 & 4)) {
-        func_0210b874((Unk0206bcb0 *)p->mUnk_000.mUnk_94, p->mUnk_0b0);
+        func_0210b874(p->mUnk_000.mUnk_94, p->mUnk_0b0);
     }
     v = p->mUnk_0b0;
     p->mUnk_0c4.mUnk_04 = v;

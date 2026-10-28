@@ -17,16 +17,16 @@ void func_020dac74(Unk020da494 *p) {
             }
         }
     }
-    p->mUnk_10.y -= 0x400;
-    p->mUnk_04.y += p->mUnk_10.y;
-    v = p->mUnk_04;
+    p->mUnk_00.mUnk_10.y -= 0x400;
+    p->mUnk_00.mUnk_04.y += p->mUnk_00.mUnk_10.y;
+    v = p->mUnk_00.mUnk_04;
     v.y += 0xa000;
     if (func_01ffdee4(&v, 0, 0, 0xa000, 8, -2, &w, &x, 0, &f, 0, 0, 0, 0) != 0) {
-        func_02148504(&p->mUnk_04, &w, &p->mUnk_04);
-        p->mUnk_10.y = 0;
+        func_02148504(&p->mUnk_00.mUnk_04, &w, &p->mUnk_00.mUnk_04);
+        p->mUnk_00.mUnk_10.y = 0;
         if ((f & 0x1e34ef) != 0) {
             func_020d7b88(&x, &p->mUnk_b4);
-            p->mUnk_02 &= ~1;
+            p->mUnk_00.mUnk_02 &= ~1;
         }
     }
     func_020d759c(&p->mUnk_a4, &p->mUnk_b4, &p->mUnk_a4, p->mUnk_f8);

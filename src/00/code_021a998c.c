@@ -1,46 +1,38 @@
 #include "00/code_021a998c.h"
 
-// non-matching: 39 instructions differ; first at +0x0: original `push {r4, r5, r6, lr}`, ours `push {r4, r5, r6, r7,
-// lr}`
-void func_ov000_021a998c(int param_1) {
-    u8 *puVar1;
-    int iVar2;
-    iVar2 = *(int *) (param_1 + 0xc);
-    puVar1 = (u8 *) (*(UnkWordFunc *) (*(u32 *) &data_ov000_021b63a4))(0x83);
-    if (puVar1 == (u8 *) 0x0) {
-        *(u8 *) (iVar2 + ((int) 0x00000429u)) = 9;
+void func_ov000_021a998c(Unk021a998c *param_1) {
+    u8 *msg;
+    Unk021a998c_0c *obj;
+    obj = param_1->mUnk_0c;
+    msg = data_ov000_021b63a4(0x83);
+    if (msg == 0) {
+        obj->mUnk_429 = 9;
         return;
     }
-    *puVar1 = 0x14;
-    puVar1[1] = 3;
-    puVar1[2] = 0;
-    puVar1[3] = 0;
-    puVar1[4] = 1;
-    puVar1[5] = 1;
-    func_0214d168((void *) ((u32 *) (u32) (iVar2 + ((int) 0x000001a0u))), (u8) (0), (u32) (8));
-    puVar1[6] = 0x16;
-    puVar1[7] = 3;
-    puVar1[8] = 0;
-    puVar1[9] = 0;
-    puVar1[10] = 0x28;
-    puVar1[0xb] = 0x14;
-    puVar1[0xc] = 0;
-    puVar1[0xd] = 0;
-    puVar1[0xe] = 0x24;
-    func_0214d1fc((const void *) ((u16 *) (u32) (iVar2 + ((int) 0x00000378u))),
-                  (void *) ((u32 *) (u32) (iVar2 + ((int) 0x000003d0u))), (u32) (0x58));
-    func_ov000_021aa50c((int *) ((int *) (u32) (iVar2)), (u32) ((u32) (u32) (puVar1 + 0xf)), (u32) (0));
-    func_0214d1fc((const void *) ((u16 *) (u32) (iVar2 + ((int) 0x000003d0u))),
-                  (void *) ((u32 *) (u32) (iVar2 + ((int) 0x00000378u))), (u32) (0x58));
-    func_0214d1fc((const void *) ((u16 *) (u32) (iVar2 + ((int) 0x000002c0u))),
-                  (void *) ((u32 *) (u32) (iVar2 + ((int) 0x0000031cu))), (u32) (0x5c));
-    func_ov000_021aa468((int *) ((int *) (u32) (iVar2)), (u32) ((u32) (u32) (puVar1 + 0x1f)), (u32) (0));
-    func_0214d1fc((const void *) ((u16 *) (u32) (iVar2 + ((int) 0x0000031cu))),
-                  (void *) ((u32 *) (u32) (iVar2 + ((int) 0x000002c0u))), (u32) (0x5c));
-    func_ov000_021abca0((int) (iVar2 + ((int) 0x000002c0u)), (int) ((int) (u32) (puVar1 + 0xb)), (u32) (0x28));
-    func_ov000_021ab728((int) (iVar2 + ((int) 0x00000378u)), (int) ((int) (u32) (puVar1 + 0xb)), (u32) (0x28));
-    iVar2 = func_ov000_021aa054((int) (iVar2), (int) ((int) (u32) (puVar1 + 6)));
-    func_ov000_021adcec((int) ((int) (u32) (puVar1)), (u32) (iVar2 + 6), (int) (0), (int) (0), (int) (param_1));
-    (*(UnkWordFunc *) (*(u32 *) &data_ov000_021b63ac))(puVar1);
-    return;
+    msg[0] = 0x14;
+    msg[1] = 3;
+    msg[2] = 0;
+    msg[3] = 0;
+    msg[4] = 1;
+    msg[5] = 1;
+    func_0214d168(obj->mUnk_1a0, 0, 8);
+    msg[6] = 0x16;
+    msg[7] = 3;
+    msg[8] = 0;
+    msg[9] = 0;
+    msg[10] = 0x28;
+    msg[11] = 0x14;
+    msg[12] = 0;
+    msg[13] = 0;
+    msg[14] = 0x24;
+    func_0214d1fc(obj->mUnk_378, obj->mUnk_3d0, 0x58);
+    func_ov000_021aa50c((int *) obj, (u32) (msg + 0xf), 0);
+    func_0214d1fc(obj->mUnk_3d0, obj->mUnk_378, 0x58);
+    func_0214d1fc(obj->mUnk_2c0, obj->mUnk_31c, 0x5c);
+    func_ov000_021aa468((int *) obj, (u32) (msg + 0x1f), 0);
+    func_0214d1fc(obj->mUnk_31c, obj->mUnk_2c0, 0x5c);
+    func_ov000_021abca0(obj->mUnk_2c0, msg + 0xb, 0x28);
+    func_ov000_021ab728(obj->mUnk_378, msg + 0xb, 0x28);
+    func_ov000_021adcec(msg, func_ov000_021aa054(obj, msg + 6) + 6, 0, 0, param_1);
+    data_ov000_021b63ac(msg);
 }

@@ -124,7 +124,7 @@ void func_ov001_0219a3a0(void) {
     a = func_020ae4c0(1, 0, 0xe0, data_ov001_021a9bf0->mUnk_38, 10);
     b = func_020ae4c0(1, 0, -0xc0, data_ov001_021a9bf0->mUnk_38, 10);
     data_ov001_021a9bf0->mUnk_3c = b;
-    idx = data_ov001_021a9bf0->mUnk_04[3];
+    idx = data_ov001_021a9bf0->mUnk_04->mUnk_06;
     data_ov001_021a9bf0->mUnk_18[0].mUnk_06 = b;
     data_ov001_021a9bf0->mUnk_18[1].mUnk_06 = b;
     data_ov001_021a9bf0->mUnk_18[idx].mUnk_06 = b;

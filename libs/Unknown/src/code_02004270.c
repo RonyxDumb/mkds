@@ -359,21 +359,19 @@ u32 func_0200442c(Unk02003024 *p0) {
     return p0->mUnk_14 == 0;
 }
 
-// non-matching: register choice only - the previous/next pair is in r2/r1 instead of r1/r0 and the node walked from
-// a->mUnk_20 is in r1 instead of r2; constants 1 and 2 swap registers
 u32 func_02004270(Unk02003024 *p0, u32 p1) {
     Unk02003a6c *a;
-    Unk02003024 *q;
-    Unk02003024 *r;
     Unk02003024 *s;
+    Unk02003024 *q;
     u32 m;
+    Unk02003024 *r;
     u32 state;
 
     a = p0->mUnk_08;
     p0->mUnk_10 = p1;
+    m = 1 << p1;
     p0->mUnk_14 = 2;
     p0->mUnk_0c |= 1;
-    m = 1 << p1;
     state = func_0200fca0();
     if (a->mUnk_1c & 0x80) {
         func_020031a0(p0, 3);
@@ -383,8 +381,8 @@ u32 func_02004270(Unk02003024 *p0, u32 p1) {
     if (m & 0x1fc) {
         p0->mUnk_0c |= 4;
     }
-    s = (Unk02003024 *) &a->mUnk_20;
     q = p0->mUnk_00;
+    s = (Unk02003024 *) &a->mUnk_20;
     r = p0->mUnk_04;
     if (q != 0) {
         q->mUnk_04 = r;

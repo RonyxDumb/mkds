@@ -38,11 +38,11 @@ void func_020da494(Unk020da494 *a, Unk020fa294 *b) {
         a->mUnk_a0 = e->mUnk_00.y;
         a->mUnk_f8 = b->mUnk_28 * 0xb4 / 100;
         a->mUnk_fc = b->mUnk_2a == 0;
-        func_02046be8(&a->mUnk_80, data_0216be68, 6, a);
-        func_020d90a8(&a->mUnk_cc, a->mUnk_9c->mUnk_2e, 1);
-        func_020d8b88(&a->mUnk_cc, &a->mUnk_04);
-        a->mUnk_04.y = a->mUnk_a0;
-        q = &a->mUnk_10;
+        func_02046be8(&a->mUnk_00.mUnk_80, data_0216be68, 6, a);
+        func_020d90a8(&a->mUnk_cc, a->mUnk_00.mUnk_9c->mUnk_2e, 1);
+        func_020d8b88(&a->mUnk_cc, &a->mUnk_00.mUnk_04);
+        a->mUnk_00.mUnk_04.y = a->mUnk_a0;
+        q = &a->mUnk_00.mUnk_10;
         q->x = 0;
         q->y = 0;
         q->z = 0;
@@ -56,14 +56,14 @@ void func_020da494(Unk020da494 *a, Unk020fa294 *b) {
         }
         a->mUnk_f0 = 0;
         a->mUnk_f4 = 0;
-        o = &a->mUnk_80;
+        o = &a->mUnk_00.mUnk_80;
         o->mUnk_10 = 0;
         o->mUnk_12 = 1;
     } else {
         a->mUnk_cc.mUnk_08 = 0xffff;
         a->mUnk_a0 = 0;
         a->mUnk_fc = 0;
-        func_02046be8(&a->mUnk_80, data_0216be68, 6, a);
+        func_02046be8(&a->mUnk_00.mUnk_80, data_0216be68, 6, a);
         a->mUnk_f8 = 0x1000;
         {
             Unk020d7b88 x = {0, 0, 0, 0x1000};
@@ -73,10 +73,10 @@ void func_020da494(Unk020da494 *a, Unk020fa294 *b) {
             Unk020d7b88 y = {0, 0, 0, 0x1000};
             a->mUnk_b4 = y;
         }
-        func_02046bcc(&a->mUnk_80, 1);
-        a->mUnk_10.x = 0;
-        a->mUnk_10.y = 0;
-        a->mUnk_10.z = 0;
+        func_02046bcc(&a->mUnk_00.mUnk_80, 1);
+        a->mUnk_00.mUnk_10.x = 0;
+        a->mUnk_00.mUnk_10.y = 0;
+        a->mUnk_00.mUnk_10.z = 0;
     }
 }
 
@@ -198,7 +198,7 @@ void func_020d9f8c(Unk020d9cf4 *a) {
     a->mUnk_14 = a->mUnk_20 + (s32)(((s64)a->mUnk_48 * data_0215d4b4[k + 1]) >> 12);
 }
 
-void func_020d9e60(Unk020d9cf4 *a, struct Unk020e6b58 *b) {
+void func_020d9e60(Unk020d9cf4 *a, struct Unk02012f58 *b) {
     if ((data_0217b67c->mUnk_02 & 0x12) != 0) {
         return;
     }

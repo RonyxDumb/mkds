@@ -22,3 +22,4 @@ void func_020ae6ac(void *param_1, void *param_2);
 u16 func_020ae5c4(void *param_1);
 void *func_020ae730(s32 a, s32 b);
 void func_020ae770(s32 *a, s32 *b, s32 c);
+s32 func_020ae584(s32 a);

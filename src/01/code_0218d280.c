@@ -78,8 +78,8 @@ void func_ov001_0218d2c4(Unk02188950 *param_1) {
         }
     }
     local = data_ov001_021a7c08;
-    local.mUnk_04 = &param_1->mUnk_004;
-    local.mUnk_0c = func_020d4ef4(&param_1->mUnk_004);
+    local.mUnk_04 = &param_1->mUnk_000.mUnk_04;
+    local.mUnk_0c = func_020d4ef4(&param_1->mUnk_000.mUnk_04);
     func_0210b734(&local, func_02108e7c());
 }
 

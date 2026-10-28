@@ -3,4 +3,4 @@
 #include "types.h"
 #include "Main/Unknown/code_020b502c.h"
 
-unsigned int func_020423fc(unsigned int p0);
+Unk02175620_74 *func_020423fc(u32 param_1);

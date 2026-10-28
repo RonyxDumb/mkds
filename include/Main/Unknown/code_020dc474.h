@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
 #include "Main/Unknown/code_020d849c.h"
 #include "Main/Unknown/code_020d6dc0.h"
 
@@ -10,33 +11,10 @@ typedef struct Unk020dc474_1d8 {
     /* a8 */ s32 mUnk_a8;
 } Unk020dc474_1d8;
 
-// Three vectors and a fourth: at 0x28 of Unk020dc474, and on the stack of func_020dd6c8.
-typedef struct Unk020dc474_28 {
-    /* 00 */ Vec3 mUnk_00[3];
-    /* 24 */ Vec3 mUnk_24;
-} Unk020dc474_28;
-
 // Object of func_020dc474, func_020dc608 and the functions after it up to func_020dd860: vectors at 0x04, 0x10 and 0xa0, ring of four
 // vector pointers at 0x160, words at 0xe8, 0xec, 0xf0 and 0x1fc.
 typedef struct Unk020dc474 {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ Vec3 mUnk_04;
-    /* 10 */ Vec3 mUnk_10;
-    /* 1c */ Vec3 mUnk_1c;
-    /* 28 */ Unk020dc474_28 mUnk_28;
-    /* 58 */ u8 mUnk_58[0x18];
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ u8 mUnk_74[4];
-    /* 78 */ u32 mUnk_78;
-    /* 7c */ u8 mUnk_7c[4];
-    /* 80 */ u8 mUnk_80[4];
-    /* 84 */ u32 mUnk_84;
-    /* 88 */ u8 mUnk_88[6];
-    /* 8e */ u16 mUnk_8e;
-    /* 90 */ u16 mUnk_90;
-    /* 92 */ u16 mUnk_92;
-    /* 94 */ u8 mUnk_94[0xc];
+    /* 00 */ Unk020e71a0 mUnk_00;
     /* a0 */ Vec3 mUnk_a0;
     /* ac */ s32 mUnk_ac;
     /* b0 */ s32 mUnk_b0;

@@ -1,26 +1,27 @@
 #include "Main/Unknown/code_0210b870.h"
 
 #include "Main/Unknown/code_0210bcf4.h"
+#include "Main/Unknown/code_020e6fd4.h"
 #include "Main/Unknown/code_02109000.h"
 #include "Main/Unknown/code_0210bad4.h"
 #include "Main/Unknown/unk_0217c000.h"
 #include "code_0212c478.h"
 
-// non-matching: the address of data_0217ccac lands in r1 and the loaded value in r0; the original
-// has the address in r0 and the value in r1 (the add and the store follow the value).
-void func_0210ba78(Unk0206bcb0 *p, s32 b) {
+void func_0210ba78(void *p0, s32 b) {
+    Unk0206bcb0 *p;
     s32 c;
 
+    p = p0;
     c = *(s32 *) data_0217ccac;
     func_021090c4(&p->mUnk_00, b + c, (0x7f - (c >> 1)) & 0xff, 0);
-    *(u32 *) data_0217ccac = *(u32 *) data_0217ccac + 0xa;
+    *(u32 *) data_0217ccac = *(u32 *) (u32) data_0217ccac + 0xa;
 }
 
-void func_0210ba38(Unk0206bcb0 *p, s32 b) {
-    func_0210ddf4(&data_0217d29c, p->mUnk_40 + 0x15f90, (void (*)(Unk0206bcb0 *, int)) func_0210bad4, p, b);
+void func_0210ba38(struct Unk020e71a0_94 *p, s32 b) {
+    func_0210ddf4(&data_0217d29c, p->mUnk_00.mUnk_40 + 0x15f90, (void (*)(void *, int)) func_0210bad4, p, b);
 }
 
-void func_0210b98c(Unk0206bcb0 *p, s32 b) {
+void func_0210b98c(struct Unk020e71a0_94 *p, s32 b) {
     s32 c;
 
     c = 0;
@@ -47,16 +48,16 @@ void func_0210b98c(Unk0206bcb0 *p, s32 b) {
             c = 0x19;
             break;
     }
-    func_0210ddf4(&data_0217d29c, p->mUnk_40 + c, func_0210ba78, p, b);
+    func_0210ddf4(&data_0217d29c, p->mUnk_00.mUnk_40 + c, func_0210ba78, p, b);
 }
 
-void func_0210b924(Unk0206bcb0 *p, s32 b) {
+void func_0210b924(void *p, s32 b) {
     Unk0216ca48 v;
     Unk0216ca48 *q;
 
     q = &v;
     *q = data_0216ca48;
-    q->mUnk_04 = (void *) p;
+    q->mUnk_04 = p;
     q->mUnk_0c = b;
     if (data_0217c780 & 1) {
         func_0210bf24(0, q->mUnk_00, (u32) q->mUnk_04, (u32) q);
@@ -77,7 +78,7 @@ int func_0210b8bc(void *p, s32 b) {
     return (int) func_021090c4(p, 0x1ce, ((c * 2) + 0x3c) & 0xff, (s16) (c - 0xa));
 }
 
-void func_0210b874(Unk0206bcb0 *p, s32 b) {
+void func_0210b874(struct Unk020e71a0_94 *p, s32 b) {
     s32 c;
     Unk0212c400 **v;
 

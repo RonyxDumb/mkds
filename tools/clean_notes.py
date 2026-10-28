@@ -38,7 +38,7 @@ for unit in report["units"]:
         for i, ln in enumerate(lines):
             if ln is None or not ln or ln[0].isspace() or not ln.rstrip().endswith("{"):
                 continue
-            head = ln.split("(")[0]
+            head = ln.split("(")[0].replace("*", " ")  # `s8 *f(`: the name follows the pointer star
             if not (head.endswith(" " + qual) or head.endswith("::" + base) and qual.endswith(base) or head.endswith(" " + base)):
                 continue
             j = i

@@ -38,7 +38,7 @@ extern const char *data_0216d530;
 extern const char *data_0216d534;
 extern const char *data_0216d538;
 extern const char *data_0216d53c[];
-extern const char *data_0216d548;
+extern const char *data_0216d548[];
 extern const char *data_0216d854;
 extern const char *data_0216d858;
 extern const char *data_0216d85c;

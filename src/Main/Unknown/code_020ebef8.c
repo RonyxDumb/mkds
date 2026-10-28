@@ -31,18 +31,18 @@ void func_020ebef8(Unk020ebef8 *param_1, Vec3 *param_2) {
     s32 n;
     Vec3 a;
     Vec3 b;
-    Unk020d22c0 *p;
-    Unk020fa3d0 *q;
+    Unk020f41c4_B *p;
+    Unk020f41c4_A *q;
     s32 i;
 
     if (data_021759c0->mUnk_08 == 4) {
-        func_ov001_0218175c(param_1->mUnk_000);
+        func_ov001_0218175c(param_1->mUnk_000.mUnk_00);
     }
-    param_1->mUnk_002 |= *(u16 *) data_021594d8;
+    param_1->mUnk_000.mUnk_02 |= *(u16 *) data_021594d8;
     if (data_021759c0->mUnk_08 == 5) {
         return;
     }
-    p = (Unk020d22c0 *) func_020d22c0();
+    p = func_020d22c0();
     p->mUnk_00 = p->mUnk_08 * p->mUnk_00 + p->mUnk_10;
     if (param_1->mUnk_110 <= (u16) (((u64) (u32) (p->mUnk_00 >> 32) * 100) >> 32)) {
         return;
@@ -51,7 +51,7 @@ void func_020ebef8(Unk020ebef8 *param_1, Vec3 *param_2) {
         return;
     }
     i = func_020f8a04(0, param_1->mUnk_10e, 1, 1, 0, 0x12);
-    q = (Unk020fa3d0 *) func_020fa3d0(data_0217bc48[i].mUnk_08, 8, &param_1->mUnk_004, &param_1->mUnk_0bc);
+    q = func_020fa3d0(data_0217bc48[i].mUnk_08, 8, &param_1->mUnk_000.mUnk_04, &param_1->mUnk_0bc);
     if (q == 0) {
         return;
     }
@@ -59,16 +59,16 @@ void func_020ebef8(Unk020ebef8 *param_1, Vec3 *param_2) {
         func_02039860(param_2, &a);
     }
     func_020397a8(&param_1->mUnk_0bc, &a, &b);
-    p = (Unk020d22c0 *) func_020d22c0();
+    p = func_020d22c0();
     p->mUnk_00 = p->mUnk_08 * p->mUnk_00 + p->mUnk_10;
     n = (s32) (((s64) (s32) ((u32) (((u64) (u32) (p->mUnk_00 >> 32) * 0x1800) >> 32) + 0x119a) << 12) >> 12);
-    p = (Unk020d22c0 *) func_020d22c0();
+    p = func_020d22c0();
     p->mUnk_00 = p->mUnk_08 * p->mUnk_00 + p->mUnk_10;
-    q->mUnk_05c = *param_2;
-    func_02147fd8(n, &a, &param_1->mUnk_004, &q->mUnk_050);
-    func_02147fd8(0, &b, &q->mUnk_050, &q->mUnk_050);
-    q->mUnk_068 = 0xcd;
-    q->mUnk_06c = 0xcd;
-    q->mUnk_070 = 0xcd;
-    func_020f6630(q, 2, &param_1->mUnk_004, param_2, &param_1->mUnk_0bc);
+    q->mUnk_5c = *param_2;
+    func_02147fd8(n, &a, &param_1->mUnk_000.mUnk_04, &q->mUnk_50);
+    func_02147fd8(0, &b, &q->mUnk_50, &q->mUnk_50);
+    q->mUnk_68.x = 0xcd;
+    q->mUnk_68.y = 0xcd;
+    q->mUnk_68.z = 0xcd;
+    func_020f6630(q, 2, &param_1->mUnk_000.mUnk_04, param_2, &param_1->mUnk_0bc);
 }

@@ -3,24 +3,24 @@
 #include "Main/Unknown/code_0210bcf4.h"
 #include "Main/Unknown/unk_0217c000.h"
 
-void func_0210b7ec(u32 p, u32 b) {
+void func_0210b7ec(Unk0210b7ec *p, u32 b) {
     s32 a;
     s32 c;
 
-    a = ((Unk0210b7ec *) p)->mUnk_00;
+    a = p->mUnk_00;
     if (a == -1) {
-        ((Unk0210b7ec *) p)->mUnk_00 = b;
-        ((Unk0210b7ec *) p)->mUnk_08 = 0;
+        p->mUnk_00 = b;
+        p->mUnk_08 = 0;
         return;
     }
-    c = ((Unk0210b7ec *) p)->mUnk_08;
-    ((Unk0210b7ec *) p)->mUnk_04 = a;
-    ((Unk0210b7ec *) p)->mUnk_00 = b;
-    ((Unk0210b7ec *) p)->mUnk_08 =
-        (((Unk0210b7ec *) p)->mUnk_04 - ((Unk0210b7ec *) p)->mUnk_00) >> ((Unk0210b7ec *) p)->mUnk_0c;
-    a = ((Unk0210b7ec *) p)->mUnk_08;
+    c = p->mUnk_08;
+    p->mUnk_04 = a;
+    p->mUnk_00 = b;
+    p->mUnk_08 =
+        (p->mUnk_04 - p->mUnk_00) >> p->mUnk_0c;
+    a = p->mUnk_08;
     if (a > 0x600 || a < -0x600) {
-        ((Unk0210b7ec *) p)->mUnk_08 = c;
+        p->mUnk_08 = c;
     }
 }
 

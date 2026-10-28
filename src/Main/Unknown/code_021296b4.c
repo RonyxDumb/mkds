@@ -2,61 +2,32 @@
 
 #pragma thumb on
 
-// non-matching: 0xe0 bytes, original 0xd4; 104 lines differ; first: original `ldr r0, [pc, #192]`, ours `ldr r0, [pc,
-// #204]`
 void func_021296b4(void) {
-    u8 bVar1;
-    int *piVar2;
-    int iVar3;
-    int iVar4;
-    int iVar5;
-    iVar5 = 0;
-    *(u32 *) ((*(int *) &data_0217d400) + 0x1c) = 0;
-    iVar3 = ((u16) func_020ab748());
-    piVar2 = (int *) &data_0217d400;
-    if (0 < iVar3) {
-        iVar3 = 0;
-        do {
-            iVar4 = ((u32) func_020ab798());
-            if (*(unsigned short *) (iVar4 + iVar3) != 0x20) {
-                iVar4 = ((u32) func_020ab798());
-                if (*(u16 *) (iVar4 + iVar3) != ((u32) 0x00003000u)) {
-                    *(u32 *) (*piVar2 + 0x1c) = 1;
-                }
-            }
-            iVar3 = iVar3 + 2;
-            iVar5 = iVar5 + 1;
-            iVar4 = ((u16) func_020ab748());
-        } while (iVar5 < iVar4);
-    }
-    bVar1 = *(u8 *) (((int) (u32) ((unsigned char *) &data_0215d0e0)) + 1);
-    iVar3 = ((u16) func_020ab748());
-    if (bVar1 - 1 == iVar3) {
-        iVar5 = (u32) bVar1 * 2;
-        iVar3 = ((u32) func_020ab798());
-        if (*(unsigned short *) (iVar3 + iVar5 + -2) != 0x20) {
-            iVar3 = ((u32) func_020ab798());
-            if (*(u16 *) (iVar3 + iVar5 + -2) != ((u32) 0x00003000u)) {
-                iVar3 = ((u32) func_020ab798());
-                if (*(unsigned short *) (iVar3 + iVar5 + -2) != 0) {
-                    *(u32 *) ((*(int *) &data_0217d400) + 0x1c) = 1;
-                }
-            }
+    s32 i;
+    u8 n;
+    i = 0;
+    data_0217d400->mUnk_1c[0] = 0;
+    for (; i < func_020ab748(); i++) {
+        if (func_020ab798()[i] != 0x20 && func_020ab798()[i] != 0x3000) {
+            data_0217d400->mUnk_1c[0] = 1;
         }
     }
-    iVar3 = func_020ab8c4();
-    if (iVar3 == 1) {
-        *(u32 *) ((*(int *) &data_0217d400) + 0x14) = 1;
-    } else {
-        *(u32 *) ((*(int *) &data_0217d400) + 0x14) = 0;
+    n = data_0215d0e0[1];
+    if (n - 1 == func_020ab748()) {
+        if ((func_020ab798() + n)[-1] != 0x20 && (func_020ab798() + n)[-1] != 0x3000 && (func_020ab798() + n)[-1] != 0) {
+            data_0217d400->mUnk_1c[0] = 1;
+        }
     }
-    iVar3 = func_020ab8c4();
-    if (iVar3 == 2) {
-        *(u32 *) ((*(int *) &data_0217d400) + 0x18) = 1;
+    if (func_020ab8c4() == 1) {
+        data_0217d400->mUnk_14[0] = 1;
+    } else {
+        data_0217d400->mUnk_14[0] = 0;
+    }
+    if (func_020ab8c4() == 2) {
+        data_0217d400->mUnk_14[1] = 1;
         return;
     }
-    *(u32 *) ((*(int *) &data_0217d400) + 0x18) = 0;
-    return;
+    data_0217d400->mUnk_14[1] = 0;
 }
 
 #pragma thumb off

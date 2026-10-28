@@ -143,7 +143,7 @@ void func_0210298c(Unk02102674 *p) {
 
 void func_021027ac(Unk02102674 *p, s32 param_2, Unk020e6488 *t) {
     Vec3 w;
-    Unk020e6b58 s;
+    Unk02012f58 s;
     s32 k;
     s32 d;
 
@@ -163,9 +163,9 @@ void func_021027ac(Unk02102674 *p, s32 param_2, Unk020e6488 *t) {
     s.mUnk_0c.y = (s32) (((s64) s.mUnk_0c.y * d) >> 12);
     s.mUnk_0c.z = (s32) (((s64) s.mUnk_0c.z * d) >> 12);
     func_02147fd8(p->mUnk_19c, &s.mUnk_00, &s.mUnk_0c, &s.mUnk_0c);
-    w.x = (s32) (((s64) p->mUnk_180 * p->mUnk_000.mUnk_68) >> 12);
-    w.y = (s32) (((s64) p->mUnk_184.x * p->mUnk_000.mUnk_6c) >> 12);
-    w.z = p->mUnk_000.mUnk_70;
+    w.x = (s32) (((s64) p->mUnk_180 * p->mUnk_000.mUnk_68.x) >> 12);
+    w.y = (s32) (((s64) p->mUnk_184.x * p->mUnk_000.mUnk_68.y) >> 12);
+    w.z = p->mUnk_000.mUnk_68.z;
     k = func_0203c5e4() != 0 ? 0xccd : 0x119a;
     w.x = (s32) (((s64) w.x * k) >> 12);
     w.y = (s32) (((s64) w.y * k) >> 12);

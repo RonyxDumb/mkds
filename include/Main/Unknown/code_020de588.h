@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
 #include "Main/Unknown/code_020de214.h"
 #include "Main/Unknown/code_020e5d0c.h"
-#include "Main/Unknown/code_020e005c.h"
 #include "Main/Unknown/code_020d849c.h"
 #include "Main/Unknown/code_020e516c.h"
 
@@ -20,23 +20,9 @@ typedef struct Unk020de6a8_1 {
     /* 34 */ s16 mUnk_34;
 } Unk020de6a8_1;
 
-// Object at 0x9c of Unk020de6a8: a halfword at 0x32.
-typedef struct Unk020de6a8_9c {
-    /* 00 */ u8 mUnk_00[0x32];
-    /* 32 */ s16 mUnk_32;
-} Unk020de6a8_9c;
-
 // Object of 0x108 or more bytes handled by func_020de6a8.
 typedef struct Unk020de6a8 {
-    /* 000 */ u16 mUnk_000;
-    /* 002 */ u16 mUnk_002;
-    /* 004 */ Vec3 mUnk_004;
-    /* 010 */ u8 mUnk_010[0x0c];
-    /* 01c */ Vec3 mUnk_01c;
-    /* 028 */ u8 mUnk_028[0x50];
-    /* 078 */ u32 mUnk_078;
-    /* 07c */ u8 mUnk_07c[0x20];
-    /* 09c */ Unk020de6a8_9c *mUnk_09c;
+    /* 000 */ Unk020e71a0 mUnk_000;
     /* 0a0 */ u16 mUnk_0a0;
     /* 0a2 */ u16 mUnk_0a2;
     /* 0a4 */ u16 mUnk_0a4;

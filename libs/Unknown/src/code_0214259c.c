@@ -27,20 +27,19 @@ s32 func_02142a30(void) {
     return 0;
 }
 
-// non-matching: the pointer taken from &n and the reloaded Q pointer swap registers (r1/r2): 6 words differ from +0x3c
 s32 func_02142988(s32 n, ...) {
     u32 *ap;
-    s32 r;
     u16 v;
+    s32 r;
 
     r = func_02142a8c();
     if (r != 0) {
         return r;
     }
     func_0200ee3c(data_0217eed4->mUnk_004, 2);
+    v = data_0217eed4->mUnk_004->mUnk_000;
     ap = (u32 *) (((u32) &n & ~3) + 4);
     r = 3;
-    v = data_0217eed4->mUnk_004->mUnk_000;
     while (n != 0) {
         ap++;
         if (ap[-1] == v) {

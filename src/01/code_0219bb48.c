@@ -56,7 +56,7 @@ void func_ov001_0219c2a4(void) {
 
 void func_ov001_0219c0bc(void) {
     Unk021a9bf4 *p = data_ov001_021a9bf4;
-    Unk021a9bf4Count *q;
+    Unk0201ea30 *q;
     u16 n;
     u16 a;
     u16 b;
@@ -187,7 +187,7 @@ void func_ov001_0219bb48(u32 param_1, u32 param_2, u32 param_3) {
     data_ov001_021a9bf4->mUnk_68 = param_3;
     data_ov001_021a9bf4->mUnk_6c = 0;
     func_ov001_0219c544();
-    func_02117224((u32) data_ov001_021a9bf4->mUnk_44);
+    func_02117224(data_ov001_021a9bf4->mUnk_44);
     func_02124ed0(data_ov001_021a9bf4->mUnk_44, data_ov001_021a9bf4->mUnk_04, data_ov001_021a9bf4->mUnk_08, &data_ov001_021a9bf4->mUnk_30);
     func_02124ed0(data_ov001_021a9bf4->mUnk_44, data_ov001_021a9bf4->mUnk_10, data_ov001_021a9bf4->mUnk_18, &data_ov001_021a9bf4->mUnk_34);
     data_ov001_021a9bf4->mUnk_38 = func_02047a28("common.bmg");

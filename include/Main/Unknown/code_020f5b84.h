@@ -2,5 +2,6 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_020f504c.h"
 
-void func_020f5b84(Unk0206bcb0 *a);
+void func_020f5b84(Unk020f5d6c *a);

@@ -5,10 +5,10 @@
 #include "Main/Unknown/code_020e6b58.h"
 #include "Main/Unknown/code_020e6fd4.h"
 
-// Object func_020d4418 and func_020d4484 read: a Unk020e6b58 at 0x30.
+// Object func_020d4418 and func_020d4484 read: a Unk02012f58 at 0x30.
 typedef struct Unk020d4418 {
     /* 00 */ u8 mUnk_00[0x30];
-    /* 30 */ Unk020e6b58 mUnk_30;
+    /* 30 */ Unk02012f58 mUnk_30;
 } Unk020d4418;
 
 void func_020d47e0(void);

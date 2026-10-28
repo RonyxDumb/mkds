@@ -446,6 +446,6 @@ void func_0210c1b0(Unk0210bfbc *p) {
         func_0210bc54((Unk02017328 *) (data_0217d048 + p->mUnk_18 * 0xc), (u8 *) p);
         p->mUnk_18 = 3;
     }
-    func_0210bc54((Unk02017328 *) data_0217d028, (u8 *) p);
+    func_0210bc54(&data_0217d028, (u8 *) p);
     p->mUnk_38 = 0;
 }

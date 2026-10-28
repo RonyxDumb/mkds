@@ -9,6 +9,7 @@
 #include "01/code_0218c000.h"
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_020a3000.h"
+#include "Main/Unknown/code_020f9c6c.h"
 
 void func_ov001_021882b8(void) {
     u16 i;
@@ -32,8 +33,14 @@ void func_ov001_021882b8(void) {
             obj->mUnk_168 = obj->mUnk_16c = 0x1f000;
             obj->mUnk_170 = 0;
             if (i - (data_021759c0->mUnk_08 == 4 ? func_ov001_02181b54() : 0) < table->mUnk_04) {
-                obj->mUnk_004 = table->mUnk_00[i - (data_021759c0->mUnk_08 == 4 ? func_ov001_02181b54() : 0)]->mUnk_09c->mUnk_00;
-                obj->mUnk_184 = (u16) (((s64) table->mUnk_00[i - (data_021759c0->mUnk_08 == 4 ? func_ov001_02181b54() : 0)]->mUnk_09c->mUnk_10 * 0xb60b60b60bLL + 0x80000000000LL) >> 44);
+                obj->mUnk_000.mUnk_04 = table->mUnk_00[i - (data_021759c0->mUnk_08 == 4 ? func_ov001_02181b54() : 0)]
+                                            ->mUnk_000.mUnk_9c->mUnk_00;
+                obj->mUnk_184 =
+                    (u16) (((s64) table->mUnk_00[i - (data_021759c0->mUnk_08 == 4 ? func_ov001_02181b54() : 0)]
+                                    ->mUnk_000.mUnk_9c->mUnk_0c.y *
+                                0xb60b60b60bLL +
+                            0x80000000000LL) >>
+                           44);
             }
         }
     }

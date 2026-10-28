@@ -56,9 +56,9 @@ void func_020f9a14(Unk020f41c4_A *param_1, s32 param_2) {
     param_1->mUnk_44 = param_2;
     param_1->mUnk_74 = 0;
     param_1->mUnk_7a = 0;
-    param_1->mUnk_68 = 0;
-    param_1->mUnk_6c = 0;
-    param_1->mUnk_70 = 0;
+    param_1->mUnk_68.x = 0;
+    param_1->mUnk_68.y = 0;
+    param_1->mUnk_68.z = 0;
     param_1->mUnk_100 = 0;
     param_1->mUnk_dc = 0x7b;
     param_1->mUnk_e0 = 0x7b;
@@ -69,7 +69,7 @@ void func_020f9a14(Unk020f41c4_A *param_1, s32 param_2) {
     param_1->mUnk_124 = 0;
     param_1->mUnk_d0 = &param_1->mUnk_50;
     param_1->mUnk_da = -1;
-    *param_1->mUnk_104 = 0;
+    param_1->mUnk_104->mUnk_00 = 0;
     if (data_021759c0->mUnk_08 == 5) {
         param_1->mUnk_74 |= 0x8000000;
     }
@@ -92,10 +92,9 @@ void func_020f99b8(Unk020f41c4_A *param_1, s32 param_2, u16 param_3, Vec3 *param
     param_1->mUnk_4e = func_020ff178(param_1);
 }
 
-// non-matching: the two words of the data_0217bc34 lookup keep the opposite registers: the
-// original emits `ldr r1,[r0]; ldr r2,[r4,#0x44]; mla r0,r2,r0,r1`, this emits
-// `ldr r2,[r0]; ldr r1,[r4,#0x44]; mla r0,r1,r0,r2`.
 void func_020f992c(Unk020f41c4_A *param_1) {
+    enum { K0 } k;
+
     if (param_1->mUnk_da != -1) {
         param_1->mUnk_da = func_020d5344(param_1->mUnk_da);
     }
@@ -105,8 +104,9 @@ void func_020f992c(Unk020f41c4_A *param_1) {
         param_1->mUnk_74 &= ~0x400000;
     }
     param_1->mUnk_74 |= 4;
-    if (data_0217bc34[param_1->mUnk_44].mUnk_3c != 0) {
-        data_0217bc34[param_1->mUnk_44].mUnk_3c(param_1);
+    k = param_1->mUnk_44;
+    if (data_0217bc34[k].mUnk_3c != 0) {
+        data_0217bc34[k].mUnk_3c(param_1);
     }
 }
 
@@ -166,17 +166,14 @@ s32 func_020f97e0(Unk020f41c4_A *param_1, Unk0206bcb0 *param_2) {
     return 0;
 }
 
-// non-matching: the radius and the first difference keep the opposite registers: the original
-// holds the radius in r5 and the differences in ip, this holds the radius in r2 and the
-// differences in r4 and r5.
 s32 func_020f9780(Unk020f41c4_A *param_1, Vec3 *param_2, s32 param_3) {
     Vec3 d;
     s32 n;
 
-    d.y = param_1->mUnk_50.y - param_2->y;
-    d.x = param_1->mUnk_50.x - param_2->x;
-    d.z = param_1->mUnk_50.z - param_2->z;
     n = param_3 + param_1->mUnk_e0;
+    d.x = param_1->mUnk_50.x - param_2->x;
+    d.y = param_1->mUnk_50.y - param_2->y;
+    d.z = param_1->mUnk_50.z - param_2->z;
     return (s64) d.x * d.x + (s64) d.y * d.y + (s64) d.z * d.z < (s64) n * n;
 }
 

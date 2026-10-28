@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-void func_020e6df0(Unk020e6b58 *p) {
+void func_020e6df0(Unk02012f58 *p) {
     data_0217b850->mUnk_00.x = 0x1000;
     data_0217b850->mUnk_00.y = 0;
     data_0217b850->mUnk_00.z = 0;
@@ -19,7 +19,7 @@ void func_020e6df0(Unk020e6b58 *p) {
     func_02146d0c(p, data_0217b848);
     func_02146dfc((const s32 *) data_0217b850, (const s32 *) data_0217b848, (s32 *) data_0217b860);
     {
-        Unk020e6b58 *h;
+        Unk02012f58 *h;
         Vec3 *v;
         s32 a;
         s32 b;
@@ -50,15 +50,15 @@ s32 func_020e6d88(Vec3 *v) {
     return func_02039860(&data_0217b84c->mUnk_00, &data_0217b84c->mUnk_00);
 }
 
-s32 func_020e6d34(Vec3 *v, Unk020e6b58 *h) {
+s32 func_020e6d34(Vec3 *v, Unk02012f58 *h) {
     h->mUnk_0c = *v;
     h->mUnk_18 = data_0217b860->mUnk_18;
     func_020397a8(&h->mUnk_0c, &h->mUnk_18, &h->mUnk_00);
     return func_02039860(&h->mUnk_00, &h->mUnk_00);
 }
 
-Unk020e6b58 *func_020e6cf8(Vec3 *param_1) {
-    Unk020e6b58 *p;
+Unk02012f58 *func_020e6cf8(Vec3 *param_1) {
+    Unk02012f58 *p;
     Vec3 *q;
 
     p = data_0217b848;
@@ -69,8 +69,8 @@ Unk020e6b58 *func_020e6cf8(Vec3 *param_1) {
     return data_0217b848;
 }
 
-Unk020e6b58 *func_020e6cbc(Vec3 *param_1) {
-    Unk020e6b58 *p;
+Unk02012f58 *func_020e6cbc(Vec3 *param_1) {
+    Unk02012f58 *p;
     Vec3 *q;
 
     p = data_0217b860;
@@ -81,7 +81,7 @@ Unk020e6b58 *func_020e6cbc(Vec3 *param_1) {
     return data_0217b860;
 }
 
-Unk020e6b58 *func_020e6c3c(Vec3 *v, s32 a1, s32 a2) {
+Unk02012f58 *func_020e6c3c(Vec3 *v, s32 a1, s32 a2) {
     Vec3 *q;
 
     data_0217b860->mUnk_0c.x = (a1 * data_0217b860->mUnk_00.x) >> 12;
@@ -100,8 +100,8 @@ void func_020e6c0c(void) {
     data_0217b860->mUnk_0c.y = 0x1000;
 }
 
-Unk020e6b58 *func_020e6bd0(Vec3 *param_1) {
-    Unk020e6b58 *p;
+Unk02012f58 *func_020e6bd0(Vec3 *param_1) {
+    Unk02012f58 *p;
     Vec3 *q;
 
     p = data_0217b84c;
@@ -112,8 +112,8 @@ Unk020e6b58 *func_020e6bd0(Vec3 *param_1) {
     return data_0217b84c;
 }
 
-Unk020e6b58 *func_020e6b94(Vec3 *param_1) {
-    Unk020e6b58 *p;
+Unk02012f58 *func_020e6b94(Vec3 *param_1) {
+    Unk02012f58 *p;
     Vec3 *q;
 
     p = data_0217b85c;
@@ -124,8 +124,8 @@ Unk020e6b58 *func_020e6b94(Vec3 *param_1) {
     return data_0217b85c;
 }
 
-Unk020e6b58 *func_020e6b58(Vec3 *param_1) {
-    Unk020e6b58 *p;
+Unk02012f58 *func_020e6b58(Vec3 *param_1) {
+    Unk02012f58 *p;
     Vec3 *q;
 
     p = data_0217b844;

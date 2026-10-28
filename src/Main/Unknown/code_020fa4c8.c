@@ -62,11 +62,11 @@
 #pragma thumb off
 
 void func_020fc268(Unk020fc2e8 *param_1) {
-    func_020f2228((Unk0206bcb0 *) param_1, 0xd000);
+    func_020f2228((Unk020f1d70 *) param_1, 0xd000);
     if (param_1->mUnk_000.mUnk_74 & 1) {
         return;
     }
-    func_0210b7ec((u32) &param_1->mUnk_300, param_1->mUnk_000.mUnk_d4 & ~0xc000001f);
+    func_0210b7ec(&param_1->mUnk_300, param_1->mUnk_000.mUnk_d4 & ~0xc000001f);
     if (param_1->mUnk_270 == 1) {
         return;
     }
@@ -86,7 +86,7 @@ void func_020fbd98(Unk020fc2e8 *param_1) {
     }
     func_020ec918((Unk020ec8bc *) param_1, param_1->mUnk_27c, 0x21, param_1->mUnk_276, 1);
     if (!(param_1->mUnk_000.mUnk_74 & 1)) {
-        func_0210b7ec((u32) &param_1->mUnk_300, param_1->mUnk_000.mUnk_d4 & ~0xc000001f);
+        func_0210b7ec(&param_1->mUnk_300, param_1->mUnk_000.mUnk_d4 & ~0xc000001f);
         if (param_1->mUnk_270 != 1) {
             func_02109078(&param_1->mUnk_000.mUnk_00, param_1->mUnk_270, 0x7f, 0);
         }
@@ -198,7 +198,7 @@ void func_020fbc18(Unk020fc2e8 *param_1) {
     }
     func_020fcedc((u32) param_1, r, param_1->mUnk_27c, param_1->mUnk_284);
     if (!(param_1->mUnk_000.mUnk_74 & 1)) {
-        func_0210b7ec((u32) &param_1->mUnk_300, param_1->mUnk_000.mUnk_d4 & ~0xc000001f);
+        func_0210b7ec(&param_1->mUnk_300, param_1->mUnk_000.mUnk_d4 & ~0xc000001f);
         if (param_1->mUnk_270 != 1) {
             func_02109078(&param_1->mUnk_000.mUnk_00, param_1->mUnk_270, 0x7f, 0);
         }
@@ -235,7 +235,7 @@ void func_020fbae0(Unk020fc2e8 *param_1) {
     }
     func_020ec918((Unk020ec8bc *) param_1, param_1->mUnk_27c, 0x21, param_1->mUnk_276, 1);
     if (!(param_1->mUnk_000.mUnk_74 & 1)) {
-        func_0210b7ec((u32) &param_1->mUnk_300, param_1->mUnk_000.mUnk_d4 & ~0xc000001f);
+        func_0210b7ec(&param_1->mUnk_300, param_1->mUnk_000.mUnk_d4 & ~0xc000001f);
         if (param_1->mUnk_270 != 1) {
             func_02109078(&param_1->mUnk_000.mUnk_00, param_1->mUnk_270, 0x7f, 0);
         }
@@ -253,7 +253,7 @@ void func_020fbae0(Unk020fc2e8 *param_1) {
         q = &param_1->mUnk_000.mUnk_f0;
     }
     func_020fc2e8(param_1, &param_1->mUnk_000.mUnk_5c, 1, q);
-    p = param_1->mUnk_228->mUnk_1f0;
+    p = param_1->mUnk_228->mUnk_1f0.mUnk_00;
     for (i = 0; i < 4; i++) {
         if (p == param_1->mUnk_168) {
             param_1->mUnk_2f8 = 3;
@@ -297,7 +297,7 @@ void func_020fb7f8(Unk020fc2e8 *param_1) {
     }
     func_020fce94(param_1, 0x4cd, param_1->mUnk_27c, param_1->mUnk_284, param_1->mUnk_288);
     if (!(param_1->mUnk_000.mUnk_74 & 1)) {
-        func_0210b7ec((u32) &param_1->mUnk_300, param_1->mUnk_000.mUnk_d4 & ~0xc000001f);
+        func_0210b7ec(&param_1->mUnk_300, param_1->mUnk_000.mUnk_d4 & ~0xc000001f);
         if (param_1->mUnk_270 != 1) {
             func_02109078(&param_1->mUnk_000.mUnk_00, param_1->mUnk_270, 0x7f, 0);
         }
@@ -333,16 +333,17 @@ void func_020fb7f8(Unk020fc2e8 *param_1) {
     param_1->mUnk_2fa = 1;
 }
 
-// non-matching: 3 words from +0x34: the original emits `ldr r2, [r3, #0x44]; ldr r1, [r0];
-// mla r0, r2, r0, r1`, this build `ldr r1, [r3, #0x44]; ldr r2, [r0]; mla r0, r1, r0, r2`.
 void func_020fb770(Unk020fc2e8 *param_1) {
+    enum { K0 } k;
+
     if (param_1->mUnk_000.mUnk_d0 == &param_1->mUnk_000.mUnk_0c4) {
         param_1->mUnk_000.mUnk_50 = param_1->mUnk_000.mUnk_0c4;
         param_1->mUnk_000.mUnk_d0 = &param_1->mUnk_000.mUnk_50;
     }
     param_1->mUnk_260 = 0x28000;
     param_1->mUnk_264 = 0x333;
-    param_1->mUnk_000.mUnk_100 = data_0217bc34[param_1->mUnk_000.mUnk_44].mUnk_74;
+    k = param_1->mUnk_000.mUnk_44;
+    param_1->mUnk_000.mUnk_100 = data_0217bc34[k].mUnk_74;
     param_1->mUnk_000.mUnk_74 |= 0x800000;
     param_1->mUnk_2a4 = param_1->mUnk_28c;
     param_1->mUnk_27c = 0x3000;
@@ -390,11 +391,12 @@ void func_020fb61c(Unk020fc2e8 *param_1) {
     func_020fc2e8(param_1, &param_1->mUnk_2a4, 0, q);
 }
 
-// non-matching: 3 words from +0xc: the original emits `ldr r3, [r0, #0x44]; ldr r2, [r1];
-// mla r1, r3, r1, r2`, this build `ldr r2, [r0, #0x44]; ldr r3, [r1]; mla r1, r2, r1, r3`.
 void func_020fb5dc(Unk020fc2e8 *param_1) {
+    enum { K0 } k;
+
     param_1->mUnk_260 = 0x28000;
-    param_1->mUnk_000.mUnk_100 = data_0217bc34[param_1->mUnk_000.mUnk_44].mUnk_74;
+    k = param_1->mUnk_000.mUnk_44;
+    param_1->mUnk_000.mUnk_100 = data_0217bc34[k].mUnk_74;
     param_1->mUnk_000.mUnk_100 += 0x800;
     func_020f9c6c(&param_1->mUnk_000);
 }
@@ -443,7 +445,7 @@ void func_020fb35c(Unk020fc2e8 *param_1) {
 
     param_1->mUnk_000.mUnk_74 |= 0x800000;
     param_1->mUnk_000.mUnk_100 = 0;
-    *(Vec3 *) &param_1->mUnk_000.mUnk_68 = data_02159d84;
+    param_1->mUnk_000.mUnk_68 = data_02159d84;
     param_1->mUnk_2b0 = func_0208e490(1, &param_1->mUnk_000.mUnk_50, func_020f9160(&param_1->mUnk_000) == 0 ? 1 : 0);
     if (param_1->mUnk_2b0 != 0) {
         param_1->mUnk_2b0->mUnk_9c[0] = 0x1000;
@@ -493,12 +495,12 @@ void *func_020fb208(void *param_1, Unk020fc2e8 *param_2, void *param_3) {
 
     if (param_2 != 0 && param_3 != 0) {
         func_020ff1b8(func_02039828(&param_2->mUnk_000.mUnk_5c, (Vec3 *) &param_2->mUnk_130) < 0 ? 1 : 0,
-                      (u32 *) &param_2->mUnk_000.mUnk_5c.y);
+                      &param_2->mUnk_000.mUnk_5c.y);
     }
     t = func_020fecdc(param_1, param_2, param_3);
     r = func_020ff040(t, param_2 != 0 ? (void *) &param_2->mUnk_21c : 0, param_3);
     if (param_2 != 0 && param_3 == 0) {
-        func_020ff1a0(param_2->mUnk_000.mUnk_5c.y, (u32 *) &param_2->mUnk_2fc);
+        func_020ff1a0(param_2->mUnk_000.mUnk_5c.y, &param_2->mUnk_2fc);
     }
     if (param_2 != 0 && param_3 != 0) {
         return func_020fe8ac(param_2->mUnk_000.mUnk_44);
@@ -548,9 +550,8 @@ void func_020fb038(Unk020fc2e8 *param_1) {
     func_01ffccd0((int *) &param_1->mUnk_000.mUnk_94, &s.mUnk_0c);
 }
 
-// non-matching: registers only (0x168 bytes both): the original keeps param_1 in r6, param_2 in r5 and the
-// value of mUnk_d8 passed to func_02013468 in r4; this compile uses r5, r4 and r6.
 void func_020faed0(Unk020fc2e8 *param_1, s32 param_2, s32 param_3) {
+    u32 n;
     Vec3 v;
     void *q;
 
@@ -559,15 +560,14 @@ void func_020faed0(Unk020fc2e8 *param_1, s32 param_2, s32 param_3) {
             return;
         }
     }
-    v.x = v.z = param_1->mUnk_000.mUnk_68;
-    v.y = param_1->mUnk_000.mUnk_6c;
+    v.x = v.z = param_1->mUnk_000.mUnk_68.x;
+    v.y = param_1->mUnk_000.mUnk_68.y;
     if (param_1->mUnk_000.mUnk_d8 != 0x1f) {
         u32 i;
         Unk0201290c *o;
-        u16 n;
 
-        n = (u16) param_1->mUnk_000.mUnk_d8;
         o = data_0217bd38->mUnk_004;
+        n = (u16) param_1->mUnk_000.mUnk_d8;
         for (i = 0; i < o->mUnk_18; i++) {
             func_02013468(o, i, n);
         }
@@ -634,7 +634,7 @@ s32 func_020fadcc(Unk020fc2e8 *param_1) {
 
 Vec3 *func_020fad9c(Unk020fc2e8 *param_1, s32 *param_2, s32 *param_3) {
     *param_2 = param_1->mUnk_2ec;
-    *param_3 = (s32) (((s64) param_1->mUnk_000.mUnk_70 * data_0217bd40) >> 12);
+    *param_3 = (s32) (((s64) param_1->mUnk_000.mUnk_68.z * data_0217bd40) >> 12);
     return &param_1->mUnk_000.mUnk_50;
 }
 
@@ -672,14 +672,20 @@ s32 func_020faca4(s32 param_1) {
     return 0;
 }
 
-// non-matching: 0x128 vs 0x170 bytes. The original saves r7 and reserves a stack word
-// (`push {r4, r5, r6, r7, lr}; sub sp, sp, #4`); the body of the first branch loads
-// `ldr r7, [r0, #12]` before the func_020fa0e8 call and multiplies with it afterwards
-// (`mul r0, r7, r0`); this build is laid out differently from the first instruction.
+static inline s32 func_020fab34_inline(s32 param_1) {
+    if (param_1 != 0x13) {
+        return data_027e00cc[data_0217bc48[param_1].mUnk_08].mUnk_0c -
+                   data_027e00cc[data_0217bc48[param_1].mUnk_08].mUnk_1c >=
+               data_0217bc48[param_1].mUnk_0c;
+    }
+    return 0;
+}
+
 s32 func_020fab34(s32 *param_1) {
     s32 i;
     s32 v;
     Unk0217bc48 *e;
+    s32 n;
 
     i = *param_1;
     if (i == 0x13) {
@@ -687,17 +693,13 @@ s32 func_020fab34(s32 *param_1) {
     }
     if (data_021759c0->mUnk_08 == 5) {
         e = &data_0217bc48[i];
-        v = e->mUnk_0c * func_020fa0e8(e->mUnk_08, 0);
-        e = &data_0217bc48[i];
-        if (data_027e00cc[e->mUnk_08].mUnk_0c - data_027e00cc[e->mUnk_08].mUnk_1c < e->mUnk_0c) {
-            goto done;
-        }
-        if (data_0217aa14->mUnk_724 >= v) {
+        n = e->mUnk_0c;
+        v = n * func_020fa0e8(e->mUnk_08, 0);
+        if (func_020fab34_inline(i) != 0 && data_0217aa14->mUnk_724 >= v) {
             return 0;
         }
     } else {
-        e = &data_0217bc48[i];
-        if (data_027e00cc[e->mUnk_08].mUnk_0c - data_027e00cc[e->mUnk_08].mUnk_1c < e->mUnk_0c) {
+        if (func_020fab34_inline(i) != 0) {
             return 0;
         }
     }
@@ -706,25 +708,23 @@ done:
     return 1;
 }
 
-// non-matching: 0xc0 vs 0xbc bytes. The original saves r4-r7 (`push {r4, r5, r6, r7, lr}`) and
-// forms the second table address with `mul` and `add`; this build saves r4-r9 and uses `mla`
-// for both table addresses.
 s32 func_020faa78(s32 param_1) {
     Unk0217bc48 *e;
-    Unk027e00cc *r;
     s32 n;
+    Unk027e00cc *r;
+    enum { K0 } k;
 
     e = &data_0217bc48[param_1];
-    r = &data_027e00cc[e->mUnk_08];
+    k = e->mUnk_08;
+    r = &data_027e00cc[k];
     n = e->mUnk_0c;
     while (r->mUnk_0c - r->mUnk_1c < n) {
-        if (data_0217bc34[e->mUnk_08].mUnk_04 == 1) {
+        if (data_0217bc34[k].mUnk_04 == 1) {
             return 0;
         }
         if (func_020f03bc(r) == 0) {
             return 0;
         }
-        r = &data_027e00cc[e->mUnk_08];
     }
     return 1;
 }

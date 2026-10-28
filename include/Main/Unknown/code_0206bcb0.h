@@ -64,8 +64,8 @@ struct Unk0206bcb0;
 // 16-byte entry of the table at Unk0217d26c::mUnk_04: func_0210dd44 calls mUnk_04 with the words at 8 and 0xc.
 typedef struct Unk0210ddf4 {
     /* 00 */ u32 mUnk_00;
-    /* 04 */ void (*mUnk_04)(struct Unk0206bcb0 *, s32);
-    /* 08 */ struct Unk0206bcb0 *mUnk_08;
+    /* 04 */ void (*mUnk_04)(void *, s32);
+    /* 08 */ void *mUnk_08;
     /* 0c */ s32 mUnk_0c;
 } Unk0210ddf4;
 
@@ -133,9 +133,6 @@ typedef struct Unk0206bcb0_A {
 
 typedef struct Unk0206bcb0 {
     /* 00 */ Unk0210bfbc mUnk_00;
-    /* 3c */ u8 mUnk_3c;
-    /* 3d */ u8 mUnk_3d[3];
-    /* 40 */ u32 mUnk_40;
     /* 44 */ vu32 mUnk_44;
     /* 48 */ vu32 mUnk_48;
     /* 4c */ vu32 mUnk_4c;
@@ -194,7 +191,7 @@ typedef struct Unk0206bcb0 {
     /* 21c */ s32 mUnk_21c;
     /* 220 */ s32 mUnk_220;
     /* 224 */ u8 mUnk_224[4];
-    /* 228 */ struct Unk020f40dc_Owner *mUnk_228;
+    /* 228 */ struct Unk020ee684 *mUnk_228;
     /* 22c */ u8 mUnk_22c[0xa];
     /* 236 */ u16 mUnk_236;
     /* 238 */ s16 mUnk_238;
@@ -319,8 +316,8 @@ void func_0206d020(Unk0206bcb0 *p, int a, int b);
 void func_01ffc9e8(Unk0206bcb0 *p, int a);
 void func_020681f0(Unk0206bcb0 *p);
 #include "Main/Unknown/code_0210dc7c.h"
-void func_020718c8(Unk0206bcb0 *p, int arg);
-void func_02071944(Unk0206bcb0 *p, int arg);
+void func_020718c8(void *p, int arg);
+void func_02071944(void *p, int arg);
 #include "Main/Unknown/code_021035ac.h"
 void func_02079f70(void *obj, u16 a, u16 b, u16 c);
 int func_0206bcb0(Unk0206bcb0 *p, int a, int b);

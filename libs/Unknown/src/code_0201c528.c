@@ -780,25 +780,24 @@ void func_0201c690(u32 a, u32 b, s32 c, s32 d) {
     *(vu32 *) 0x04000504 = 0;
 }
 
-// non-matching: same instruction sequence; the temporaries sit in different registers (31 words differ)
 void func_0201c5d4(u32 a, u32 b, s32 c, s32 d) {
+    s32 r;
+    u32 s;
     u32 e;
     u32 f;
     s32 p;
     s32 q;
-    s32 r;
-    s32 s;
 
+    *(vu32 *) 0x04000500 = 1;
+    *(vu32 *) 0x04000488 = 0;
+    q = ((s16) (c - 0x1000) >> 6) & 0x3ff;
     e = (a << 8) >> 16;
     f = (b << 8) >> 16;
-    *(vu32 *) 0x04000500 = 1;
-    p = ((s16) (d + 0x1000) >> 6) & 0x3ff;
-    q = ((s16) (c - 0x1000) >> 6) & 0x3ff;
-    r = ((s16) (c + 0x1000) >> 6) & 0x3ff;
     s = ((s16) (d - 0x1000) >> 6) & 0x3ff;
-    *(vu32 *) 0x04000488 = 0;
+    p = ((s16) (d + 0x1000) >> 6) & 0x3ff;
     *(vu32 *) 0x04000490 = q | (p << 20);
     *(vu32 *) 0x04000488 = e;
+    r = ((s16) (c + 0x1000) >> 6) & 0x3ff;
     *(vu32 *) 0x04000490 = r | (p << 20);
     *(vu32 *) 0x04000488 = e | (f << 16);
     *(vu32 *) 0x04000490 = r | (s << 20);

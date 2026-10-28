@@ -29,8 +29,8 @@ s32 func_020ec450(Unk020e43a8 *param_1, void *param_2, u8 *param_3) {
         return 0;
     }
     func_020ec6e4(param_1, param_2);
-    param_1->mUnk_90 = 1;
-    param_1->mUnk_92 = 1;
+    param_1->mUnk_00.mUnk_80.mUnk_10 = 1;
+    param_1->mUnk_00.mUnk_80.mUnk_12 = 1;
     return 1;
 }
 
@@ -39,8 +39,8 @@ s32 func_020ec41c(Unk020e43a8 *param_1, void *param_2, u8 *param_3) {
         return 0;
     }
     func_020ec538(param_1, param_2);
-    param_1->mUnk_90 = 1;
-    param_1->mUnk_92 = 1;
+    param_1->mUnk_00.mUnk_80.mUnk_10 = 1;
+    param_1->mUnk_00.mUnk_80.mUnk_12 = 1;
     return 1;
 }
 
@@ -77,20 +77,20 @@ void func_020ec1fc(void *param_1, Unk020e43a8 *param_2, void *param_3, u32 param
     s32 t;
     Vec3 v;
 
-    h = param_2->mUnk_8e;
-    param_2->mUnk_4c.x = param_2->mUnk_04.x >> 4;
-    param_2->mUnk_4c.y = param_2->mUnk_04.y >> 4;
-    param_2->mUnk_4c.z = param_2->mUnk_04.z >> 4;
-    func_020ea8a8(data_0217bbf8, &param_2->mUnk_28, &param_2->mUnk_1c, param_4);
+    h = param_2->mUnk_00.mUnk_80.mUnk_0e;
+    param_2->mUnk_00.mUnk_28.mUnk_24.x = param_2->mUnk_00.mUnk_04.x >> 4;
+    param_2->mUnk_00.mUnk_28.mUnk_24.y = param_2->mUnk_00.mUnk_04.y >> 4;
+    param_2->mUnk_00.mUnk_28.mUnk_24.z = param_2->mUnk_00.mUnk_04.z >> 4;
+    func_020ea8a8(data_0217bbf8, &param_2->mUnk_00.mUnk_28, &param_2->mUnk_00.mUnk_1c, param_4);
     if (h == 0) {
         return;
     }
     t = (s32) (((s64) (0x5a000 - param_2->mUnk_d0) * 0x2e) >> 12);
-    v.x = param_2->mUnk_04.x;
-    v.z = param_2->mUnk_04.z;
+    v.x = param_2->mUnk_00.mUnk_04.x;
+    v.z = param_2->mUnk_00.mUnk_04.z;
     v.y = param_2->mUnk_0b4 - (s32) (((s64) param_2->mUnk_0bc * param_2->mUnk_cc) >> 12) -
           (s32) (((s64) param_2->mUnk_0c4 * param_2->mUnk_d4) >> 12);
-    func_02147fd8(-param_2->mUnk_58.x, (const Vec3 *) &param_2->mUnk_0bc, &v, &v);
+    func_02147fd8(-param_2->mUnk_00.mUnk_58.x, (const Vec3 *) &param_2->mUnk_0bc, &v, &v);
     func_020e5634((Unk020e516c *) &param_2->mUnk_114, &v);
     func_020e53ac((Unk020e516c *) &param_2->mUnk_114, &t, 0, param_4);
 }

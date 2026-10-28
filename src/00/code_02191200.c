@@ -9,7 +9,7 @@ int func_ov000_02191200(int *param_1) {
                                 (u32 *) (&local_10));
     if (iVar1 == 0) {
         if (local_10 == 4) {
-            func_ov000_021965a0((int *) (param_1), (u32) (((u32) 0x00000107u)), (u32) (((u32) &data_ov000_021b2b48)));
+            func_ov000_021965a0((int *) (param_1), (u32) (((u32) 0x00000107u)), (u32) &data_ov000_021b2b48);
             func_ov000_02190f4c(param_1, 4, 1);
             return 4;
         }

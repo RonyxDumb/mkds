@@ -369,7 +369,7 @@ void func_020e9658(void) {
         data_0217bab8.mUnk_18.y = -v->y;
         data_0217bab8.mUnk_18.z = -v->z;
     } else {
-        data_0217bad0 = ((Unk020e6b58 *) func_020e6b38())->mUnk_18;
+        data_0217bad0 = ((Unk02012f58 *) func_020e6b38())->mUnk_18;
     }
     func_020397a8(&data_0217bac4, &data_0217bad0, &data_0217bad0);
     sq = (s64) data_0217bab8.mUnk_18.x * data_0217bab8.mUnk_18.x +
@@ -462,9 +462,9 @@ void func_020e8ac8(void) {
             if (data_0217b8bc != 0 || data_0217b8f0 != 0) {
                 func_020d5180(&data_0217b93c, 0x12000, 0x2000);
                 for (i = 0; i < data_0217b5a8; i++) {
-                    Unk020f41c4_A *q = data_0217b5c4[i];
+                    Unk020e71a0 *q = data_0217b5c4[i];
 
-                    if ((q->mUnk_00.mUnk_02 & 0x40) == 0 && func_020d3e34(&data_0217b93c, 0x12000, (Unk020e71a0 *) q, &t) != 0) {
+                    if ((q->mUnk_02 & 0x40) == 0 && func_020d3e34(&data_0217b93c, 0x12000, q, &t) != 0) {
                         lo.x = t.x < lo.x ? t.x : lo.x;
                         lo.y = t.y < lo.y ? t.y : lo.y;
                         lo.z = t.z < lo.z ? t.z : lo.z;

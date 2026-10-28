@@ -53,11 +53,6 @@ typedef struct Unk0217c7f0 {
 
 extern Unk0217c7f0 data_0217c7f0;
 
-// View of data_0217c7a4.
-typedef struct Unk0217c7a4 {
-    /* 00 */ s32 mUnk_00;
-} Unk0217c7a4;
-
 // View of data_0217c7c4; func_0210e280 takes it.
 typedef struct Unk0217c7c4 {
     /* 00 */ s32 mUnk_00;

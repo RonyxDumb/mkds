@@ -437,12 +437,11 @@ void func_02015428(Unk020152bc *a, Unk02015428_b *b, Unk02015428_c *c) {
     }
 }
 
-// non-matching: same size; the registers of the table pointer, the entry pointer and the third loaded value differ.
 void func_02015358(Unk02015358 *a, Unk02015358_s *b, u32 c) {
     u32 x;
-    s32 f;
     u8 *t;
     Unk02015358_b *p;
+    u32 f;
     Unk02015358_e *e;
 
     p = b->mUnk_08;
@@ -1182,33 +1181,33 @@ single:
     out[8] = (x0 * x4 - x1 * x3) >> 12;
 }
 
-// non-matching: same instructions and sizes; the registers and load order of the temporaries in the two cross-product
-// blocks differ.
 void func_02013e18(s32 *out, s32 a, const u32 *p, Unk02014c5c *obj) {
-    u32 f;
-    s32 t[9];
-    u32 w;
-    s32 u[9];
-    s32 x3;
+    s32 r;
+    s32 x1;
     u32 n;
+    s32 t[9];
+    s32 u[9];
+    u32 f;
+    s32 x5;
+    s32 x3;
+    s32 x4;
+    u32 w;
     const s16 *s0;
-    s32 x2;
+    s32 h;
     const s16 *s1;
     u32 i;
     s32 q;
-    u32 m;
-    const u16 *tab;
-    s32 x1;
-    s32 x4;
-    u32 j;
-    s32 x5;
+    s32 m;
     s32 x0;
+    const u16 *tab;
+    s32 x2;
+    u32 j;
 
     i = a >> 12;
     s0 = (const s16 *) ((u8 *) obj + obj->mUnk_0c);
     s1 = (const s16 *) ((u8 *) obj + obj->mUnk_10);
-    tab = (const u16 *) ((u8 *) obj + p[1]);
     w = p[0];
+    tab = (const u16 *) ((u8 *) obj + p[1]);
     if (i == obj->mUnk_04 - 1) {
         if (w & 0xc0000000) {
             if (w & 0x40000000) {
@@ -1225,11 +1224,11 @@ void func_02013e18(s32 *out, s32 a, const u32 *p, Unk02014c5c *obj) {
             return;
         }
         x5 = out[5];
-        x1 = out[1];
-        x4 = out[4];
-        x2 = out[2];
-        x3 = out[3];
         x0 = out[0];
+        x3 = out[3];
+        x1 = out[1];
+        x2 = out[2];
+        x4 = out[4];
         out[6] = (x1 * x5 - x2 * x4) >> 12;
         out[7] = (x2 * x3 - x0 * x5) >> 12;
         out[8] = (x0 * x4 - x1 * x3) >> 12;
@@ -1245,8 +1244,8 @@ void func_02013e18(s32 *out, s32 a, const u32 *p, Unk02014c5c *obj) {
             }
             i >>= 1;
             j = i + 1;
-            q = a & 0x1fff;
             m = 2;
+            q = a & 0x1fff;
         } else {
             if (i >= n) {
                 i = (i & 3) + (i >> 2);
@@ -1280,15 +1279,17 @@ interp:
     if (f == 0) {
         out[6] = t[6] * m + ((q * (u[6] - t[6])) >> 12);
         out[7] = t[7] * m + ((q * (u[7] - t[7])) >> 12);
-        out[8] = t[8] * m + ((q * (u[8] - t[8])) >> 12);
+        r = t[8];
+        out[8] = t[8] * m + ((q * (u[8] - r)) >> 12);
         func_0214818c((Vec3 *) (out + 6), (Vec3 *) (out + 6));
     } else {
-        x5 = out[5];
-        x1 = out[1];
+        h = out[5];
         x0 = out[0];
-        x4 = out[4];
         x2 = out[2];
+        x5 = h;
         x3 = out[3];
+        x1 = out[1];
+        x4 = out[4];
         out[6] = (x1 * x5 - x2 * x4) >> 12;
         out[7] = (x2 * x3 - x0 * x5) >> 12;
         out[8] = (x0 * x4 - x1 * x3) >> 12;

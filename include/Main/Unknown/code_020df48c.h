@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
 #include "Main/Unknown/code_020de214.h"
 #include "Main/Unknown/code_020de588.h"
-#include "Main/Unknown/code_020e005c.h"
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_020f9c6c.h"
 
@@ -15,20 +15,7 @@ typedef struct Unk020df6c8_e8 {
 
 // Object of at least 0xf4 bytes made by func_020df6c8.
 typedef struct Unk020df6c8 {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ Vec3 mUnk_04;
-    /* 10 */ Vec3 mUnk_10;
-    /* 1c */ Vec3 mUnk_1c;
-    /* 28 */ u8 mUnk_28[0x3e];
-    /* 66 */ u16 mUnk_66;
-    /* 68 */ u8 mUnk_68[8];
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ u8 mUnk_74[4];
-    /* 78 */ u32 mUnk_78;
-    /* 7c */ u8 mUnk_7c[4];
-    /* 80 */ Unk020e005c_080 mUnk_80;
-    /* 94 */ u8 mUnk_94[0xc];
+    /* 00 */ Unk020e71a0 mUnk_00;
     /* a0 */ s32 mUnk_a0;
     /* a4 */ s32 mUnk_a4;
     /* a8 */ u16 mUnk_a8;

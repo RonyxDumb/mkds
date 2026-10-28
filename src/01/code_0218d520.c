@@ -26,8 +26,8 @@ void func_ov001_0218dc20(Unk02188950 *param_1) {
     case 4: r5 = param_1->mUnk_0a0->mUnk_0cc; break;
     }
     idx = (ang >> 4) * 2;
-    param_1->mUnk_004.x = r7->mUnk_004 + (s32)(((s64)r5 * data_0215d4b4[idx]) >> 12);
-    param_1->mUnk_004.z = param_1->mUnk_0a4->mUnk_00c + (s32)(((s64)r5 * data_0215d4b4[idx + 1]) >> 12);
+    param_1->mUnk_000.mUnk_04.x = r7->mUnk_004 + (s32) (((s64) r5 * data_0215d4b4[idx]) >> 12);
+    param_1->mUnk_000.mUnk_04.z = param_1->mUnk_0a4->mUnk_00c + (s32) (((s64) r5 * data_0215d4b4[idx + 1]) >> 12);
 }
 
 void func_ov001_0218dba8(Unk02188950 *param_1) {
@@ -64,9 +64,9 @@ void func_ov001_0218dadc(Unk02188950 *param_1) {
     case 4: r5 = param_1->mUnk_0a0->mUnk_0cc; break;
     }
     idx = (ang >> 4) * 2;
-    param_1->mUnk_004.x = r7->mUnk_004 + (s32)(((s64)r5 * data_0215d4b4[idx]) >> 12);
-    param_1->mUnk_004.y = param_1->mUnk_0a4->mUnk_008;
-    param_1->mUnk_004.z = param_1->mUnk_0a4->mUnk_00c + (s32)(((s64)r5 * data_0215d4b4[idx + 1]) >> 12);
+    param_1->mUnk_000.mUnk_04.x = r7->mUnk_004 + (s32) (((s64) r5 * data_0215d4b4[idx]) >> 12);
+    param_1->mUnk_000.mUnk_04.y = param_1->mUnk_0a4->mUnk_008;
+    param_1->mUnk_000.mUnk_04.z = param_1->mUnk_0a4->mUnk_00c + (s32) (((s64) r5 * data_0215d4b4[idx + 1]) >> 12);
 }
 
 void func_ov001_0218dabc(Unk02188950 *param_1) {
@@ -78,10 +78,10 @@ void func_ov001_0218da1c(Unk02188950 *param_1) {
     func_ov001_02187af4((Unk02188950 *) ((int)param_1));
     func_ov001_021875c0((Unk02188950 *) param_1, 0, param_1->mUnk_248 >> 4, 0, 0x427, 0xf);
     func_ov001_021875c0((Unk02188950 *) param_1, 0, param_1->mUnk_248 >> 4, 0, 0x426, 0xf);
-    func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x24d));
+    func_020d2774(&param_1->mUnk_000, (u32) (0x24d));
     func_ov001_02188230((Unk02188950 *) (param_1));
     if (func_ov001_02188220(param_1) == 2) {
-        func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x24c));
+        func_020d2774(&param_1->mUnk_000, (u32) (0x24c));
     } else if (func_ov001_02188220(param_1) >= 3) {
         param_1->mUnk_0ac = 0;
     }
@@ -188,13 +188,13 @@ int func_ov001_0218d520(Unk02188950 *param_1) {
                 param_1->mUnk_150 = 3;
                 func_ov001_02188d30((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_118), (s32) (param_1->mUnk_0a0->mUnk_11c), (UnkFunc *) (func_ov001_0218d800));
                 r4 -= param_1->mUnk_0a0->mUnk_130;
-                func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x24b));
+                func_020d2774(&param_1->mUnk_000, (u32) (0x24b));
             } else if (func_ov001_02188084((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_10c), (s32) (param_1->mUnk_0a0->mUnk_110), (s32) (param_1->mUnk_0a0->mUnk_114))) {
                 param_1->mUnk_0a8 = param_1->mUnk_0a0->mUnk_12c;
                 param_1->mUnk_150 = 3;
                 func_ov001_02188d30((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_104), (s32) (param_1->mUnk_0a0->mUnk_108), (UnkFunc *) (func_ov001_0218d800));
                 r4 -= param_1->mUnk_0a0->mUnk_130;
-                func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x24b));
+                func_020d2774(&param_1->mUnk_000, (u32) (0x24b));
             }
         }
         func_ov001_0218d824(param_1, r4);
@@ -215,13 +215,13 @@ int func_ov001_0218d520(Unk02188950 *param_1) {
             }
             param_1->mUnk_144 = param_1->mUnk_144 + 1 >= 0x12 ? 0 : param_1->mUnk_144 + 1;
             if (param_1->mUnk_144 == 0) {
-                func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x24f));
+                func_020d2774(&param_1->mUnk_000, (u32) (0x24f));
             }
         } else if (func_ov001_02188220(param_1) == 1) {
             param_1->mUnk_140 = param_1->mUnk_140 + 1 >= 0x12 ? 0 : param_1->mUnk_140 + 1;
             if (param_1->mUnk_140 == 0) {
                 func_ov001_021875c0((Unk02188950 *) param_1, 0, 0, 0, 0x3f8, 0x1c);
-                func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x24e));
+                func_020d2774(&param_1->mUnk_000, (u32) (0x24e));
             }
         }
     }

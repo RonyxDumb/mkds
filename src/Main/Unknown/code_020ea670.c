@@ -31,16 +31,16 @@
 #pragma thumb off
 
 void func_020ebe68(Unk020ebef8 *param_1) {
-    if (param_1->mUnk_084 < 900) {
+    if (param_1->mUnk_000.mUnk_80.mUnk_04 < 900) {
         return;
     }
-    if (param_1->mUnk_09c->mUnk_02c != 0) {
+    if (param_1->mUnk_000.mUnk_9c->mUnk_2c != 0) {
         return;
     }
     if (data_0217bbf0 == 0) {
         data_0217bbf0 = param_1;
-        param_1->mUnk_090 = 2;
-        param_1->mUnk_092 = 1;
+        param_1->mUnk_000.mUnk_80.mUnk_10 = 2;
+        param_1->mUnk_000.mUnk_80.mUnk_12 = 1;
     }
 }
 
@@ -50,25 +50,25 @@ s32 func_020ebc2c(Unk020ebef8 *param_1) {
     s32 d;
     s32 s;
 
-    v = param_1->mUnk_004;
-    p = &param_1->mUnk_028[0];
-    s = param_1->mUnk_058;
+    v = param_1->mUnk_000.mUnk_04;
+    p = &param_1->mUnk_000.mUnk_28.mUnk_00;
+    s = param_1->mUnk_000.mUnk_58.x;
     d = func_02039828(&param_1->mUnk_0bc, p);
     if (d > 0) {
         func_02147fd8(-s, p, &v, &v);
     } else {
         func_02147fd8(s, p, &v, &v);
     }
-    p = &param_1->mUnk_028[1];
-    s = param_1->mUnk_058;
+    p = &param_1->mUnk_000.mUnk_28.mUnk_0c;
+    s = param_1->mUnk_000.mUnk_58.x;
     d = func_02039828(&param_1->mUnk_0bc, p);
     if (d > 0) {
         func_02147fd8(-s, p, &v, &v);
     } else {
         func_02147fd8(s, p, &v, &v);
     }
-    p = &param_1->mUnk_028[2];
-    s = param_1->mUnk_058;
+    p = &param_1->mUnk_000.mUnk_28.mUnk_18;
+    s = param_1->mUnk_000.mUnk_58.x;
     d = func_02039828(&param_1->mUnk_0bc, p);
     if (d > 0) {
         func_02147fd8(-s, p, &v, &v);
@@ -76,16 +76,16 @@ s32 func_020ebc2c(Unk020ebef8 *param_1) {
         func_02147fd8(s, p, &v, &v);
     }
     func_021484d0(&v, &param_1->mUnk_0b0, &v);
-    v.y = v.y + param_1->mUnk_058;
+    v.y = v.y + param_1->mUnk_000.mUnk_58.x;
     d = -func_02039828(&v, &param_1->mUnk_0bc);
-    if (d > 0 && param_1->mUnk_010.y < 0) {
+    if (d > 0 && param_1->mUnk_000.mUnk_10.y < 0) {
         param_1->mUnk_0cc.y = param_1->mUnk_0cc.y + d;
-        param_1->mUnk_010.y = (s32) (((s64) -param_1->mUnk_010.y * 0x400) >> 12);
+        param_1->mUnk_000.mUnk_10.y = (s32) (((s64) -param_1->mUnk_000.mUnk_10.y * 0x400) >> 12);
         param_1->mUnk_0e4.x = (s32) (((s64) param_1->mUnk_0d8.x * -0x266) >> 12);
         param_1->mUnk_0e4.y = (s32) (((s64) param_1->mUnk_0d8.y * -0x266) >> 12);
         param_1->mUnk_0e4.z = (s32) (((s64) param_1->mUnk_0d8.z * -0x266) >> 12);
-        param_1->mUnk_010.x = (s32) (((s64) param_1->mUnk_0e4.x * 0x9000) >> 12);
-        param_1->mUnk_010.z = (s32) (((s64) param_1->mUnk_0e4.z * 0x9000) >> 12);
+        param_1->mUnk_000.mUnk_10.x = (s32) (((s64) param_1->mUnk_0e4.x * 0x9000) >> 12);
+        param_1->mUnk_000.mUnk_10.z = (s32) (((s64) param_1->mUnk_0e4.z * 0x9000) >> 12);
         return 1;
     }
     return 0;
@@ -97,10 +97,10 @@ void func_020ebb04(Unk020ebef8 *param_1) {
     u16 h;
 
     n = func_02061fb8();
-    param_1->mUnk_002 &= ~1;
-    param_1->mUnk_002 &= ~2;
-    param_1->mUnk_002 &= ~8;
-    param_1->mUnk_066 = 1;
+    param_1->mUnk_000.mUnk_02 &= ~1;
+    param_1->mUnk_000.mUnk_02 &= ~2;
+    param_1->mUnk_000.mUnk_02 &= ~8;
+    param_1->mUnk_000.mUnk_66 = 1;
     param_1->mUnk_0d8 = *((n & 1) ? &param_1->mUnk_0f4 : &param_1->mUnk_100);
     if (n & 2) {
         h = param_1->mUnk_10c;
@@ -114,23 +114,23 @@ void func_020ebb04(Unk020ebef8 *param_1) {
     param_1->mUnk_0cc.x = (s32) (((s64) param_1->mUnk_0d8.x * 0x14000) >> 12);
     param_1->mUnk_0cc.y = 0x3c000;
     param_1->mUnk_0cc.z = (s32) (((s64) param_1->mUnk_0d8.z * 0x14000) >> 12);
-    param_1->mUnk_010.x = 0;
-    param_1->mUnk_010.y = 0;
-    param_1->mUnk_010.z = 0;
+    param_1->mUnk_000.mUnk_10.x = 0;
+    param_1->mUnk_000.mUnk_10.y = 0;
+    param_1->mUnk_000.mUnk_10.z = 0;
     func_02148504(&param_1->mUnk_0bc, &param_1->mUnk_0d8, &param_1->mUnk_0a0);
     param_1->mUnk_0ac = param_1->mUnk_0c8 + param_1->mUnk_0f0;
     func_020d7a3c(&param_1->mUnk_0a0, param_1->mUnk_0ac, &v);
-    func_01ffccd0((int *) &param_1->mUnk_028, &v);
+    func_01ffccd0((int *) &param_1->mUnk_000.mUnk_28, &v);
 }
 
 void func_020ebab0(Unk020ebef8 *param_1) {
     if (func_020ebc2c(param_1) != 0) {
-        param_1->mUnk_090 = 3;
-        param_1->mUnk_092 = 1;
+        param_1->mUnk_000.mUnk_80.mUnk_10 = 3;
+        param_1->mUnk_000.mUnk_80.mUnk_12 = 1;
     }
-    param_1->mUnk_010.y -= 0x1ec;
-    param_1->mUnk_0cc.y = param_1->mUnk_0cc.y + param_1->mUnk_010.y;
-    func_02148504(&param_1->mUnk_0b0, &param_1->mUnk_0cc, &param_1->mUnk_004);
+    param_1->mUnk_000.mUnk_10.y -= 0x1ec;
+    param_1->mUnk_0cc.y = param_1->mUnk_0cc.y + param_1->mUnk_000.mUnk_10.y;
+    func_02148504(&param_1->mUnk_0b0, &param_1->mUnk_0cc, &param_1->mUnk_000.mUnk_04);
 }
 
 void func_020eb8f8(Unk020ebef8 *param_1) {
@@ -147,9 +147,9 @@ void func_020eb8f8(Unk020ebef8 *param_1) {
     } else {
         param_1->mUnk_0f0 = d + (s32) (((s64) (0x10000 - d) * 246) >> 12);
     }
-    param_1->mUnk_010.y -= 655;
-    func_02148504(&param_1->mUnk_0cc, &param_1->mUnk_010, &param_1->mUnk_0cc);
-    func_02148504(&param_1->mUnk_0b0, &param_1->mUnk_0cc, &param_1->mUnk_004);
+    param_1->mUnk_000.mUnk_10.y -= 655;
+    func_02148504(&param_1->mUnk_0cc, &param_1->mUnk_000.mUnk_10, &param_1->mUnk_0cc);
+    func_02148504(&param_1->mUnk_0b0, &param_1->mUnk_0cc, &param_1->mUnk_000.mUnk_04);
     func_02148504(&param_1->mUnk_0bc, &param_1->mUnk_0d8, &param_1->mUnk_0a0);
     if ((s64) param_1->mUnk_0a0.x * param_1->mUnk_0a0.x + (s64) param_1->mUnk_0a0.y * param_1->mUnk_0a0.y +
             (s64) param_1->mUnk_0a0.z * param_1->mUnk_0a0.z >=
@@ -158,11 +158,11 @@ void func_020eb8f8(Unk020ebef8 *param_1) {
     }
     param_1->mUnk_0ac = param_1->mUnk_0c8 + param_1->mUnk_0f0;
     func_020d7a3c(&param_1->mUnk_0a0, param_1->mUnk_0ac, &v);
-    func_01ffccd0((int *) &param_1->mUnk_028, &v);
-    if (param_1->mUnk_084 >= 90) {
+    func_01ffccd0((int *) &param_1->mUnk_000.mUnk_28, &v);
+    if (param_1->mUnk_000.mUnk_80.mUnk_04 >= 90) {
         data_0217bbf0 = 0;
-        param_1->mUnk_090 = 0;
-        param_1->mUnk_092 = 1;
+        param_1->mUnk_000.mUnk_80.mUnk_10 = 0;
+        param_1->mUnk_000.mUnk_80.mUnk_12 = 1;
     }
 }
 
@@ -174,18 +174,18 @@ u32 func_020eb7e0(Unk020ebef8 *param_1, Unk020eb498 *param_2, u8 *param_3, u8 *p
                 if (data_0217bbf0 == param_1) {
                     data_0217bbf0 = 0;
                 }
-                param_1->mUnk_090 = 1;
-                param_1->mUnk_092 = 1;
-                func_020d26ec((u32) param_2, 0x167);
-                param_1->mUnk_078 |= *(u32 *) data_021594d4;
-                func_020d26f8((Unk020e71a0 *) param_1, (Unk0206bcb0 *) param_2);
-                if ((param_1->mUnk_078 & 3) == 0) {
+                param_1->mUnk_000.mUnk_80.mUnk_10 = 1;
+                param_1->mUnk_000.mUnk_80.mUnk_12 = 1;
+                func_020d26ec(param_2, 0x167);
+                param_1->mUnk_000.mUnk_78 |= *(u32 *) data_021594d4;
+                func_020d26f8(&param_1->mUnk_000, (Unk0206bcb0 *) param_2);
+                if ((param_1->mUnk_000.mUnk_78 & 3) == 0) {
                     if (*param_4 == 0) {
-                        func_0208b498(0x31, &param_1->mUnk_004, param_2->mUnk_074, 0x1000);
-                        func_0208b498(0x32, &param_1->mUnk_004, param_2->mUnk_074, 0x1000);
+                        func_0208b498(0x31, &param_1->mUnk_000.mUnk_04, param_2->mUnk_074, 0x1000);
+                        func_0208b498(0x32, &param_1->mUnk_000.mUnk_04, param_2->mUnk_074, 0x1000);
                     } else {
-                        func_0208b7bc(0x31, &param_1->mUnk_004);
-                        func_0208b7bc(0x32, &param_1->mUnk_004);
+                        func_0208b7bc(0x31, &param_1->mUnk_000.mUnk_04);
+                        func_0208b7bc(0x32, &param_1->mUnk_000.mUnk_04);
                     }
                 }
             }
@@ -203,11 +203,11 @@ u32 func_020eb760(Unk020ebef8 *param_1, Unk020eb498 *param_2, u8 *param_3, u8 *p
         if (data_0217bbf0 == param_1) {
             data_0217bbf0 = 0;
         }
-        param_1->mUnk_090 = 1;
-        param_1->mUnk_092 = 1;
-        if ((param_1->mUnk_078 & 3) == 0) {
-            func_0208b7bc(0x31, &param_1->mUnk_004);
-            func_0208b7bc(0x32, &param_1->mUnk_004);
+        param_1->mUnk_000.mUnk_80.mUnk_10 = 1;
+        param_1->mUnk_000.mUnk_80.mUnk_12 = 1;
+        if ((param_1->mUnk_000.mUnk_78 & 3) == 0) {
+            func_0208b7bc(0x31, &param_1->mUnk_000.mUnk_04);
+            func_0208b7bc(0x32, &param_1->mUnk_000.mUnk_04);
         }
     }
     return *param_4;
@@ -228,18 +228,18 @@ void func_020eb498(Unk020ebef8 *param_1, Unk020eb498 *param_2) {
     Vec3 v;
     s32 d;
 
-    if (func_01ffdee4((int *) &param_1->mUnk_004, 0, 0, 0xa000, 8, -2, 0, (int *) &param_1->mUnk_0bc, 0, 0, 0, 0, 0,
-                      0) == 0) {
+    if (func_01ffdee4((int *) &param_1->mUnk_000.mUnk_04, 0, 0, 0xa000, 8, -2, 0, (int *) &param_1->mUnk_0bc, 0, 0, 0,
+                      0, 0, 0) == 0) {
         param_1->mUnk_0bc = data_0216c3d8;
     }
-    param_1->mUnk_004.y = param_1->mUnk_004.y + param_1->mUnk_058;
-    param_1->mUnk_0b0 = param_1->mUnk_004;
-    param_1->mUnk_010.x = 0;
-    param_1->mUnk_010.y = 0;
-    param_1->mUnk_010.z = 0;
+    param_1->mUnk_000.mUnk_04.y = param_1->mUnk_000.mUnk_04.y + param_1->mUnk_000.mUnk_58.x;
+    param_1->mUnk_0b0 = param_1->mUnk_000.mUnk_04;
+    param_1->mUnk_000.mUnk_10.x = 0;
+    param_1->mUnk_000.mUnk_10.y = 0;
+    param_1->mUnk_000.mUnk_10.z = 0;
     param_1->mUnk_0c8 = (u16) ((((s64) param_2->mUnk_010 * 0xB60B60B60BLL) + 0x80000000000LL) >> 44);
     func_020d7a3c(&param_1->mUnk_0bc, param_1->mUnk_0c8, &v);
-    func_01ffccd0((int *) &param_1->mUnk_028, &v);
+    func_01ffccd0((int *) &param_1->mUnk_000.mUnk_28, &v);
     param_1->mUnk_0f4.x = -param_1->mUnk_0bc.x;
     param_1->mUnk_0f4.y = 0;
     param_1->mUnk_0f4.z = -param_1->mUnk_0bc.z;
@@ -251,8 +251,8 @@ void func_020eb498(Unk020ebef8 *param_1, Unk020eb498 *param_2) {
         d = func_02039860(&param_1->mUnk_0f4, &param_1->mUnk_0f4);
     }
     if (d == 0) {
-        param_1->mUnk_0f4.x = -param_1->mUnk_028[2].x;
-        param_1->mUnk_0f4.z = -param_1->mUnk_028[2].z;
+        param_1->mUnk_0f4.x = -param_1->mUnk_000.mUnk_28.mUnk_18.x;
+        param_1->mUnk_0f4.z = -param_1->mUnk_000.mUnk_28.mUnk_18.z;
     }
     func_020d6f20(&param_1->mUnk_0f4, 0x0aab, &param_1->mUnk_100);
     func_020d6f20(&param_1->mUnk_0f4, 0xf555, &param_1->mUnk_0f4);
@@ -265,10 +265,11 @@ void func_020eb498(Unk020ebef8 *param_1, Unk020eb498 *param_2) {
     param_1->mUnk_10c = 0x1555;
     param_1->mUnk_10e = param_2->mUnk_028;
     param_1->mUnk_110 = param_2->mUnk_02a;
-    func_02046be8(&param_1->mUnk_080, (UnkFunc *const *) data_0216c3e4, 4, param_1);
-    param_1->mUnk_090 = 0;
-    param_1->mUnk_092 = 1;
-    func_020e516c(&param_1->mUnk_114, &param_2->mUnk_000, (s32) (((s64) param_1->mUnk_01c * 0x19000) >> 12), 13);
+    func_02046be8(&param_1->mUnk_000.mUnk_80, (UnkFunc *const *) data_0216c3e4, 4, param_1);
+    param_1->mUnk_000.mUnk_80.mUnk_10 = 0;
+    param_1->mUnk_000.mUnk_80.mUnk_12 = 1;
+    func_020e516c(&param_1->mUnk_114, &param_2->mUnk_000, (s32) (((s64) param_1->mUnk_000.mUnk_1c.x * 0x19000) >> 12),
+                  13);
 }
 
 #pragma thumb off
@@ -498,12 +499,9 @@ void func_020eacc0(Vec3 *param_1, s32 param_2, Vec3 *param_3, Vec3 *param_4) {
     func_02147fd8(t + o, param_3, &v, param_4);
 }
 
-// non-matching: the sum (t + v) is allocated to ip in the original and to r1 here
-// (11 words differ, first +0x64)
 void func_020eac20(Vec3 *param_1, s32 param_2) {
-    s32 sum;
-    s32 n;
     s32 t;
+    s32 n;
     s32 u;
     s32 w;
     s32 v;
@@ -516,13 +514,14 @@ void func_020eac20(Vec3 *param_1, s32 param_2) {
     }
     u = 0x1000 - t;
     w = (s32) (((s64) t * u) >> 12);
-    v = (s32) (((s64) (n + 0x1000) * (w >> 1)) >> 12);
+    n += 0x1000;
+    v = (s32) (((s64) n * (w >> 1)) >> 12);
     s = u + v;
-    sum = t + v;
+    t = t + v;
     param_1->x = (s32) (((s64) param_1->x * s) >> 12);
     param_1->y = (s32) (((s64) param_1->y * s) >> 12);
     param_1->z = (s32) (((s64) param_1->z * s) >> 12);
-    param_1->y = param_1->y + sum;
+    param_1->y += t;
 }
 
 // non-matching: the two `*param_6 = *param_1; return;` blocks are if-converted by the

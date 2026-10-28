@@ -1,16 +1,9 @@
 #pragma once
 
 #include "types.h"
+#include "code_02012b30.h" // Unk02012f58
 #include "01/code_02188950.h"
 #include "01/code_0218d520.h"
-
-// Matrix of three direction vectors and a position.
-typedef struct Unk02012f58 {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ Vec3 mUnk_18;
-    /* 24 */ Vec3 mUnk_24;
-} Unk02012f58;
 
 extern Unk02012f58 data_0217c600;
 

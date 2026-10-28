@@ -7,7 +7,8 @@
 
 // data_0217d048 is addressed in rows of twelve bytes; func_0210bfbc and func_0210c0bc address the
 // container of one of those rows. Unk0206bcb0 and the data_027e00cc elements (Unk020f41c4_A) start with it:
-// func_02109078 and func_021090c4 pass either one to func_0210c610 and func_0210c86c.
+// func_02109078 and func_021090c4 pass either one to func_0210c610 and func_0210c86c. func_02109110 writes the
+// byte at 0x3c and the word at 0x40.
 typedef struct Unk0210bfbc {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mUnk_02;
@@ -21,6 +22,9 @@ typedef struct Unk0210bfbc {
     /* 34 */ u16 mUnk_34;
     /* 36 */ u8 mUnk_36[2];
     /* 38 */ u32 mUnk_38;
+    /* 3c */ u8 mUnk_3c;
+    /* 3d */ u8 mUnk_3d[3];
+    /* 40 */ u32 mUnk_40;
 } Unk0210bfbc;
 
 // Returned by func_0210e128 and passed to func_0210bcf4; func_0210c084 writes its byte at 0x19.

@@ -22,9 +22,9 @@ void func_ov001_02186368(void *param_1, Unk02188950 *param_2) {
     s32 k;
 
     depth = param_2->mUnk_168 >> 12;
-    v.x = param_2->mUnk_004.x >> 4;
-    v.y = param_2->mUnk_004.y >> 4;
-    v.z = param_2->mUnk_004.z >> 4;
+    v.x = param_2->mUnk_000.mUnk_04.x >> 4;
+    v.y = param_2->mUnk_000.mUnk_04.y >> 4;
+    v.z = param_2->mUnk_000.mUnk_04.z >> 4;
     level = func_020e69bc(&v);
     if (level >= depth) {
         level = depth;
@@ -48,15 +48,15 @@ void func_ov001_02186368(void *param_1, Unk02188950 *param_2) {
         }
         value = 0x1e;
         func_01ff9048(0x14, &value, 1);
-        func_01ff9048(0x19, func_020e6b58(&param_2->mUnk_004), 0xc);
-        if (param_2->mUnk_07e != 0) {
-            k = param_2->mUnk_07e >> 4;
+        func_01ff9048(0x19, func_020e6b58(&param_2->mUnk_000.mUnk_04), 0xc);
+        if (param_2->mUnk_000.mUnk_7e != 0) {
+            k = param_2->mUnk_000.mUnk_7e >> 4;
             func_02146d44(m, data_0215d4b4[k * 2], data_0215d4b4[k * 2 + 1]);
             func_01ff9048(0x1a, m, 9);
         }
-        func_01ff9048(0x1b, &param_2->mUnk_01c, 3);
+        func_01ff9048(0x1b, &param_2->mUnk_000.mUnk_1c.x, 3);
         func_0209b9a4(param_2->mUnk_304, level);
-        func_0209b7a0(param_2->mUnk_304, param_2->mUnk_002 & 0x400, 0);
+        func_0209b7a0(param_2->mUnk_304, param_2->mUnk_000.mUnk_02 & 0x400, 0);
         func_0209bb2c(param_1, param_2->mUnk_304, param_2);
     }
 }
@@ -68,25 +68,25 @@ void func_ov001_021861f4(void *param_1, Unk02188950 *param_2, s32 param_3) {
 
     depth = param_2->mUnk_168 >> 12;
     if (param_2->mUnk_27c == 2) {
-        v.x = param_2->mUnk_004.x;
-        v.y = param_2->mUnk_004.y;
-        v.z = param_2->mUnk_004.z;
+        v.x = param_2->mUnk_000.mUnk_04.x;
+        v.y = param_2->mUnk_000.mUnk_04.y;
+        v.z = param_2->mUnk_000.mUnk_04.z;
     } else if (param_2->mUnk_27c == 3) {
         v.x = param_2->mUnk_2e8.x;
-        v.y = param_2->mUnk_09c->mUnk_00.y;
+        v.y = param_2->mUnk_000.mUnk_9c->mUnk_00.y;
         v.z = param_2->mUnk_2e8.z;
     } else {
         if (depth >= 4) {
-            s32 t = depth - ((param_2->mUnk_004.y - param_2->mUnk_09c->mUnk_00.y) >> 15);
+            s32 t = depth - ((param_2->mUnk_000.mUnk_04.y - param_2->mUnk_000.mUnk_9c->mUnk_00.y) >> 15);
 
             if (t <= 4) {
                 t = 4;
             }
             depth = (u16)t;
         }
-        v.x = param_2->mUnk_004.x;
-        v.y = param_2->mUnk_09c->mUnk_00.y;
-        v.z = param_2->mUnk_004.z;
+        v.x = param_2->mUnk_000.mUnk_04.x;
+        v.y = param_2->mUnk_000.mUnk_9c->mUnk_00.y;
+        v.z = param_2->mUnk_000.mUnk_04.z;
     }
     if (depth > 0x10) {
         depth = 0x10;

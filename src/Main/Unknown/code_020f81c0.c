@@ -24,22 +24,18 @@ void func_020f8258(void) {
     }
 }
 
-// non-matching: the two table lookups (6 words from +0x34): the original loads the word at
-// [r4, #0x10] before the table pointer value and multiplies with it in the higher register
-// (`ldr r3, [r4, #0x10]; ldr r2, [r0]; mla ip, r3, r0, r2`, then `ldr r2, [ip, #8];
-// ldr r1, [r1]; mla r3, r2, r0, r1`); here the pointer value is loaded first and the word from
-// [r4, #0x10] is in the lower of the two registers (`ldr r3, [r0]; ldr r2, [r4, #0x10];
-// mla ip, r2, r0, r3`, then `ldr r2, [r1]; ldr r1, [ip, #8]; mla r3, r1, r0, r2`).
-// Every other instruction matches.
 void func_020f81c0(Unk020ee684 *param_1) {
     Unk0217bc48 *e;
     Unk027e00cc *v;
+    enum { K0 } k, j;
 
     if (param_1->mUnk_018->mUnk_1f8 == data_021759c0->mUnk_62) {
         func_020bb5cc();
     }
-    e = &data_0217bc48[param_1->mUnk_010];
-    v = &data_027e00cc[e->mUnk_08];
+    k = param_1->mUnk_010;
+    e = &data_0217bc48[k];
+    j = e->mUnk_08;
+    v = &data_027e00cc[j];
     v->mUnk_1c -= e->mUnk_0c;
     param_1->mUnk_000 = 0;
     param_1->mUnk_004 = 0;

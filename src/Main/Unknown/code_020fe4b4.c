@@ -16,6 +16,7 @@
 #include "Main/Unknown/code_02109000.h"
 #include "Main/Unknown/unk_0216c000.h"
 #include "Main/Unknown/code_0205a000.h"
+#include "01/code_02187d14.h" // data_0217c600
 
 #pragma thumb off
 
@@ -23,14 +24,14 @@ u8 *func_020ff2b0(u8 *a, Unk020ff438 *b, void *c) {
     u8 *p;
 
     if (b != 0 && c != 0) {
-        func_020ff1b8(b->mUnk_13c, (u32 *) &b->mUnk_000.mUnk_5c.y);
+        func_020ff1b8(b->mUnk_13c, &b->mUnk_000.mUnk_000.mUnk_5c.y);
     }
     p = func_020fecdc(a, b, c);
     if (b != 0 && c == 0) {
-        func_020ff1a0(b->mUnk_000.mUnk_5c.y, &b->mUnk_13c);
+        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_5c.y, &b->mUnk_13c);
     }
     if (b != 0 && c != 0) {
-        return func_020fe8ac(b->mUnk_000.mUnk_44);
+        return func_020fe8ac(b->mUnk_000.mUnk_000.mUnk_44);
     }
     return p;
 }
@@ -38,13 +39,13 @@ u8 *func_020ff2b0(u8 *a, Unk020ff438 *b, void *c) {
 void func_020ff25c(Unk020ff438 *a) {
     func_020f8e78(a);
     func_020f2d98((u32) a, 0);
-    if ((a->mUnk_000.mUnk_74 & 0x10000000) == 0) {
+    if ((a->mUnk_000.mUnk_000.mUnk_74 & 0x10000000) == 0) {
         return;
     }
     if (a->mUnk_13c == 0) {
         return;
     }
-    func_021090c4(&a->mUnk_000.mUnk_00, 0xda, 0x7f, 0);
+    func_021090c4(&a->mUnk_000.mUnk_000.mUnk_00, 0xda, 0x7f, 0);
 }
 
 #pragma thumb on
@@ -68,7 +69,7 @@ void func_020ff1d8(void) {
     for (i = 0; i < n; i++) {
         o = (Unk020ff438 *) e[0];
         o->mUnk_140 = (Unk021052fc *) func_0210543c();
-        o->mUnk_140->mUnk_fc = &o->mUnk_000.mUnk_50;
+        o->mUnk_140->mUnk_fc = &o->mUnk_000.mUnk_000.mUnk_50;
         e++;
     }
     p->mUnk_40 = 1;
@@ -76,7 +77,7 @@ void func_020ff1d8(void) {
 
 #pragma thumb off
 
-void func_020ff1b8(s32 a, u32 *p) {
+void func_020ff1b8(s32 a, s32 *p) {
     if (a != 0) {
         *p |= 0x200;
     } else {
@@ -84,7 +85,7 @@ void func_020ff1b8(s32 a, u32 *p) {
     }
 }
 
-void func_020ff1a0(s32 a, u32 *p) {
+void func_020ff1a0(s32 a, s32 *p) {
     if (a & 0x200) {
         *p = 1;
     } else {
@@ -548,7 +549,7 @@ void func_020fe5b8(u32 a, u32 b, u8 *c, u32 d) {
     if (c[1] == 0xff) {
         return;
     }
-    func_020f81b8((u32) & ((Unk020f40dc_Owner *) *(void **) data_027e00c8)[(u16) d], 0x10);
+    func_020f81b8((u32) & ((Unk020ee684 *) *(void **) data_027e00c8)[(u16) d], 0x10);
 }
 
 void func_020fe56c(u32 a, u32 b, u32 c, void *d, u32 e) {

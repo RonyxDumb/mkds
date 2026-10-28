@@ -9,7 +9,7 @@ u32 func_ov000_02196714(u32 param_1, u32 param_2, u32 *param_3) {
     iVar1 = func_ov000_0218e68c((u32) (param_2), (u32 *) (0), (u32 *) (&local_18), (u32 *) (local_14));
     if (iVar1 == -1) {
         func_ov000_0219690c(param_1, (u32) &data_ov000_021b3a58);
-        func_ov000_021965a0((int *) ((int *) (u32) (param_1)), (u32) (5), (u32) (((u32) &data_ov000_021b3a6c)));
+        func_ov000_021965a0((int *) ((int *) (u32) (param_1)), (u32) (5), (u32) &data_ov000_021b3a6c);
         func_ov000_02190f4c((int *) (u32) (param_1), 3, 1);
         return 3;
     }

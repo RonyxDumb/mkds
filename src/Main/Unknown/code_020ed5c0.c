@@ -152,8 +152,7 @@ void func_020ee160(Unk020f41c4_A *a, Unk020f41c4_A *b) {
     func_020f5614(b, m, a);
 }
 
-// non-matching: the element pointer of the else-if arm is allocated r8 where the
-// original has r9, which also swaps the mla operand registers.
+// non-matching: same size; 8 lines differ; first: original `ldr r8, [sp, #8]`, ours `ldr r9, [sp, #8]`
 void func_020edf10(Unk020eda5c *p) {
     Unk020f41c4_A **d;
     s32 n;
@@ -163,6 +162,7 @@ void func_020edf10(Unk020eda5c *p) {
     s32 b;
     s32 k;
     s32 j;
+    enum { K0 } idx;
 
     d = p->mUnk_014;
     n = p->mUnk_020;
@@ -194,7 +194,8 @@ void func_020edf10(Unk020eda5c *p) {
         q = d[k];
         if (q->mUnk_da == -1) {
             if (func_020f91e0(q) != 0) {
-                if (data_0217bc34[q->mUnk_44].mUnk_68 != 0) {
+                idx = q->mUnk_44;
+                if (data_0217bc34[idx].mUnk_68 != 0) {
                     func_020f9ca8(q);
                 }
             }
@@ -212,8 +213,8 @@ void func_020edf10(Unk020eda5c *p) {
                 }
                 func_020ee160(q, e);
             } else if ((data_0217b5bc[j] & 0x2000) != 0) {
-                Unk020f41c4_A *e = data_0217b5c4[j];
-                if (func_020d2234((Unk020e71a0 *) e, q) == 0) {
+                Unk020e71a0 *e = data_0217b5c4[j];
+                if (func_020d2234(e, q) == 0) {
                     continue;
                 }
                 func_020f944c(q, e);
@@ -225,14 +226,13 @@ void func_020edf10(Unk020eda5c *p) {
     }
 }
 
-// non-matching: the call through data_0216c620 has r1 and r2 swapped (r1 holds
-// the table word, r2 the table address; the original is the other way round).
 void func_020eddb4(Unk020eda5c *p) {
     s32 id;
     s32 n;
     s32 m;
     Unk020f41c4_A *q;
     Unk0206bcb0 *o;
+    enum { K0 } k;
 
     id = p->mUnk_008;
     if (func_020ee528(p) != 0) {
@@ -261,8 +261,9 @@ void func_020eddb4(Unk020eda5c *p) {
     q = p->mUnk_014[n];
     func_020efb84(p, q);
     func_020f6630(q, n + 1, &o->mUnk_98, &o->mUnk_a4, &o->mUnk_244);
-    if (data_0217bc34[q->mUnk_44].mUnk_38 != 0) {
-        data_0217bc34[q->mUnk_44].mUnk_38(q);
+    k = q->mUnk_44;
+    if (data_0217bc34[k].mUnk_38 != 0) {
+        data_0217bc34[k].mUnk_38(q);
     }
     if (p->mUnk_020 != 0) {
         return;
@@ -447,7 +448,7 @@ void func_020ed79c(Unk020ed718 *p, Vec3 *v) {
         } else {
             r = func_020e6b94(q->mUnk_d0);
         }
-        func_020e67c4(d, r, (Vec3 *) &q->mUnk_68, 0, 0x1f);
+        func_020e67c4(d, r, &q->mUnk_68, 0, 0x1f);
         if ((d8 = q->mUnk_d8) != 0x1f) {
             d->mUnk_14 &= ~0x1f0000;
             d->mUnk_14 |= 0x1f0000;
@@ -505,7 +506,7 @@ void func_020ed5c0(Unk020f41c4_A *p, Unk020e6488 *q, Vec3 *v) {
     } else {
         r = func_020e6b94(p->mUnk_d0);
     }
-    func_020e67c4(q, r, (Vec3 *) &p->mUnk_68, 0, 0x1f);
+    func_020e67c4(q, r, &p->mUnk_68, 0, 0x1f);
     if ((d = p->mUnk_d8) != 0x1f) {
         q->mUnk_14 &= ~0x1f0000;
         q->mUnk_14 |= 0x1f0000;

@@ -24,6 +24,7 @@
 #include "01/code_021a1bb8.h"
 #include "code_02146d78.h"
 #include "code_02147cd8.h"
+#include "Main/Unknown/code_020ee684.h"
 
 // non-matching: 386 words, 4 bytes longer (0x660 vs 0x65c). The loop structure matches; the
 // register/stack allocation inside the four scan blocks does not (original: t r4, s r5,
@@ -38,7 +39,7 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
     u16 k;
     u16 v;
     Unk020f41c4_B *b;
-    Unk020f40dc_Owner *e;
+    Unk020ee684 *e;
     Unk0206bcb0 *q;
     s32 ok;
     s32 i;
@@ -64,7 +65,7 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
 
                 n = (u16) (n - 1);
                 k = (u16) ((s8 *) m)[0x474 + (u8) n - 1];
-                e = (Unk020f40dc_Owner *) (v1 + k * 0x210);
+                e = (Unk020ee684 *) (v1 + k * 0x210);
                 q = e->mUnk_1fc;
                 ok = 1;
                 if (q->mUnk_180 < 4 && (q->mUnk_7c & 0x400020) == 0) {
@@ -80,8 +81,8 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
                     ok = 0;
                 } else {
                     ok = 0;
-                    if (e->mUnk_30 != 0x13 && e->mUnk_50 == 0) {
-                        ok = e->mUnk_30 != 0x10;
+                    if (e->mUnk_030.mUnk_00 != 0x13 && e->mUnk_030.mUnk_20 == 0) {
+                        ok = e->mUnk_030.mUnk_00 != 0x10;
                     }
                 }
                 if (ok != 0) {
@@ -97,7 +98,7 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
 
                 j = (u16) (j + 1);
                 k = (u16) ((s8 *) m)[0x474 + (u8) j - 1];
-                e = (Unk020f40dc_Owner *) (v1 + k * 0x210);
+                e = (Unk020ee684 *) (v1 + k * 0x210);
                 q = e->mUnk_1fc;
                 ok = 1;
                 if (q->mUnk_180 < 4 && (q->mUnk_7c & 0x400020) == 0) {
@@ -113,8 +114,8 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
                     ok = 0;
                 } else {
                     ok = 0;
-                    if (e->mUnk_30 != 0x13 && e->mUnk_50 == 0) {
-                        ok = e->mUnk_30 != 0x10;
+                    if (e->mUnk_030.mUnk_00 != 0x13 && e->mUnk_030.mUnk_20 == 0) {
+                        ok = e->mUnk_030.mUnk_00 != 0x10;
                     }
                 }
                 if (ok != 0) {
@@ -139,7 +140,7 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
 
                 j = (u16) (j + 1);
                 k = (u16) ((s8 *) m)[0x474 + (u8) j - 1];
-                e = (Unk020f40dc_Owner *) (v1 + k * 0x210);
+                e = (Unk020ee684 *) (v1 + k * 0x210);
                 q = e->mUnk_1fc;
                 ok = 1;
                 if (q->mUnk_180 < 4 && (q->mUnk_7c & 0x400020) == 0) {
@@ -155,8 +156,8 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
                     ok = 0;
                 } else {
                     ok = 0;
-                    if (e->mUnk_30 != 0x13 && e->mUnk_50 == 0) {
-                        ok = e->mUnk_30 != 0x10;
+                    if (e->mUnk_030.mUnk_00 != 0x13 && e->mUnk_030.mUnk_20 == 0) {
+                        ok = e->mUnk_030.mUnk_00 != 0x10;
                     }
                 }
                 if (ok != 0) {
@@ -172,7 +173,7 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
 
                 n = (u16) (n - 1);
                 k = (u16) ((s8 *) m)[0x474 + (u8) n - 1];
-                e = (Unk020f40dc_Owner *) (v1 + k * 0x210);
+                e = (Unk020ee684 *) (v1 + k * 0x210);
                 q = e->mUnk_1fc;
                 ok = 1;
                 if (q->mUnk_180 < 4 && (q->mUnk_7c & 0x400020) == 0) {
@@ -188,8 +189,8 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
                     ok = 0;
                 } else {
                     ok = 0;
-                    if (e->mUnk_30 != 0x13 && e->mUnk_50 == 0) {
-                        ok = e->mUnk_30 != 0x10;
+                    if (e->mUnk_030.mUnk_00 != 0x13 && e->mUnk_030.mUnk_20 == 0) {
+                        ok = e->mUnk_030.mUnk_00 != 0x10;
                     }
                 }
                 if (ok != 0) {
@@ -230,7 +231,7 @@ void func_02101d90(Unk02101c84 *p, s32 a) {
     u8 *v1;
     Unk021759c0 *o;
     s32 k;
-    Unk020f40dc_Owner *e;
+    Unk020ee684 *e;
     Unk0206bcb0 *q;
     s32 l;
     s32 n;
@@ -254,7 +255,7 @@ void func_02101d90(Unk02101c84 *p, s32 a) {
         if (k >= lim || k == b3) {
             goto next;
         }
-        e = (Unk020f40dc_Owner *) (v1 + k * 0x210);
+        e = (Unk020ee684 *) (v1 + k * 0x210);
         q = e->mUnk_1fc;
         n = l = 1;
         if (q->mUnk_180 < 4 && (q->mUnk_7c & 0x400020) == 0) {
@@ -269,8 +270,8 @@ void func_02101d90(Unk02101c84 *p, s32 a) {
             l = 0;
         } else {
             l = 0;
-            if (e->mUnk_30 != 0x13 && e->mUnk_50 == 0) {
-                l = e->mUnk_30 != 0x10;
+            if (e->mUnk_030.mUnk_00 != 0x13 && e->mUnk_030.mUnk_20 == 0) {
+                l = e->mUnk_030.mUnk_00 != 0x10;
             }
         }
         if (l != 0) {
@@ -631,19 +632,17 @@ void func_02101178(Unk02101c84 *p) {
     p->mUnk_270 = 0;
 }
 
-// non-matching: the last return (data_0217bc48[p->mUnk_154].mUnk_08) loads the table pointer
-// into r1 and the subscript into r2; here they are swapped (subscript r1, table r2), and the mla
-// operands follow (3 words at +0x130).
 s32 func_02101014(Unk02101c84 *p) {
-    Unk020f40dc_Owner *e;
+    Unk020ee684 *e;
     Unk0206bcb0 *q;
     Unk020f40dc *r;
     s32 a;
     s32 b;
+    enum { K0 } k;
 
-    e = &((Unk020f40dc_Owner *) *(void **) data_027e00c8)[(u16) p->mUnk_140];
+    e = &((Unk020ee684 *) *(void **) data_027e00c8)[(u16) p->mUnk_140];
     q = e->mUnk_1fc;
-    r = (Unk020f40dc *) &e->mUnk_30;
+    r = &e->mUnk_030;
     if (r->mUnk_00 == 0x13 || r->mUnk_20 != 0) {
         return 0xf;
     }
@@ -671,7 +670,8 @@ s32 func_02101014(Unk02101c84 *p) {
         func_020f413c(r, &p->mUnk_154, &p->mUnk_158);
     }
     func_02068a10(q);
-    return data_0217bc48[p->mUnk_154].mUnk_08;
+    k = p->mUnk_154;
+    return data_0217bc48[k].mUnk_08;
 }
 
 void func_02100de4(Unk02101c84 *p) {

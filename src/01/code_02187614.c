@@ -12,7 +12,7 @@ void func_ov001_02187614(Unk02188950 *param_1, s32 param_2, s32 param_3, s32 par
     Vec3 pos;
 
     param_1->mUnk_0bc[param_2].mUnk_04 = param_7;
-    if ((param_1->mUnk_002 & 0x400) != 0) {
+    if ((param_1->mUnk_000.mUnk_02 & 0x400) != 0) {
         param_3 = -param_3;
     }
     param_1->mUnk_0bc[param_2].mUnk_08.x = param_3 << 4;

@@ -65,3 +65,5 @@ extern UnkFunc *data_021617d8;
 extern UnkFunc *data_021617dc;
 extern UnkFunc *data_021617e0;
 extern UnkFunc *data_021617e4;
+extern u32 (*data_021619ec)();
+extern u32 (*data_021619f4)();

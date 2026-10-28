@@ -24,15 +24,17 @@ void func_ov001_02192694(void)
     other = func_0207a974((u16)data_021759c0->mUnk_62);
     if (obj->mUnk_0a8 == 4) {
         a0 = obj->mUnk_0a0;
-        ang = func_02148714(other->mUnk_80.z - obj->mUnk_004.z, other->mUnk_80.x - obj->mUnk_004.x) - a0->mUnk_26c;
+        ang = func_02148714(other->mUnk_80.z - obj->mUnk_000.mUnk_04.z, other->mUnk_80.x - obj->mUnk_000.mUnk_04.x) -
+              a0->mUnk_26c;
     } else {
         a0 = obj->mUnk_0a0;
-        ang = a0->mUnk_26c + func_02148714(other->mUnk_80.z - obj->mUnk_004.z, other->mUnk_80.x - obj->mUnk_004.x);
+        ang = a0->mUnk_26c +
+              func_02148714(other->mUnk_80.z - obj->mUnk_000.mUnk_04.z, other->mUnk_80.x - obj->mUnk_000.mUnk_04.x);
     }
     idx = (ang >> 4) * 2;
-    pos.x = obj->mUnk_004.x + (s32)(((s64)a0->mUnk_270 * data_0215d4b4[idx + 1]) >> 12);
-    pos.y = obj->mUnk_004.y;
-    pos.z = obj->mUnk_004.z + (s32)(((s64)obj->mUnk_0a0->mUnk_270 * data_0215d4b4[idx]) >> 12);
+    pos.x = obj->mUnk_000.mUnk_04.x + (s32) (((s64) a0->mUnk_270 * data_0215d4b4[idx + 1]) >> 12);
+    pos.y = obj->mUnk_000.mUnk_04.y;
+    pos.z = obj->mUnk_000.mUnk_04.z + (s32) (((s64) obj->mUnk_0a0->mUnk_270 * data_0215d4b4[idx]) >> 12);
     func_ov001_02188998(obj, &pos);
 }
 
@@ -61,13 +63,13 @@ void func_ov001_021924cc(void)
         objC = 0;
     }
     a.x = (s32)(((s64)objB->mUnk_0a0->mUnk_274 * data_0215d4b4[((u16)objB->mUnk_184 >> 4) * 2]) >> 12);
-    a.y = objB->mUnk_004.y;
+    a.y = objB->mUnk_000.mUnk_04.y;
     a.z = (s32)(((s64)objB->mUnk_0a0->mUnk_274 * data_0215d4b4[((u16)objB->mUnk_184 >> 4) * 2 + 1]) >> 12);
     b.x = -(s32)(((s64)objB->mUnk_0a0->mUnk_278 * data_0215d4b4[((u16)objB->mUnk_184 >> 4) * 2 + 1]) >> 12);
-    b.y = objB->mUnk_004.y;
+    b.y = objB->mUnk_000.mUnk_04.y;
     b.z = (s32)(((s64)objB->mUnk_0a0->mUnk_278 * data_0215d4b4[((u16)objB->mUnk_184 >> 4) * 2]) >> 12);
     c.x = (s32)(((s64)objB->mUnk_0a0->mUnk_278 * data_0215d4b4[((u16)objB->mUnk_184 >> 4) * 2 + 1]) >> 12);
-    c.y = objB->mUnk_004.y;
+    c.y = objB->mUnk_000.mUnk_04.y;
     c.z = -(s32)(((s64)objB->mUnk_0a0->mUnk_278 * data_0215d4b4[((u16)objB->mUnk_184 >> 4) * 2]) >> 12);
     func_ov001_02188968(obj, &a);
     func_ov001_02188968(objC, &a);

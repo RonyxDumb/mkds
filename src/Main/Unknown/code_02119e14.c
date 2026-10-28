@@ -225,7 +225,7 @@ void func_0211a794(void) {
 
 void func_0211a6bc(void) {
     Unk020b4934 *a = 0;
-    void *b = 0;
+    Unk02021dc8 *b = 0;
     Unk020b4a44 *c = 0;
     Unk020b4934 *d = 0;
     Unk020b47d8 *e = 0;

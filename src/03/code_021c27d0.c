@@ -1,7 +1,7 @@
 #include "03/code_021c27d0.h"
 
 void func_ov003_021c2824(void) {
-    func_ov003_021d3544((unsigned int) (0), (unsigned int) (((u32) &func_ov003_021c27f8)), (unsigned int) (0),
+    func_ov003_021d3544((unsigned int) (0), (unsigned int) &func_ov003_021c27f8, (unsigned int) (0),
                         (unsigned int) (0x78));
     return;
 }

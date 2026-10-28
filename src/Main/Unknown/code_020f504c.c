@@ -28,8 +28,8 @@
 
 // Runs the two 0x7c/0x4c checks of the object in the 0x1fc word of the 0x1c pointer, then
 // one of the four func_020f14a0 calls, and stores the 0x24c/0x24e halfwords it picks.
-void func_020f5824(Unk0206bcb0 *a) {
-    Unk020f40dc_Owner *o;
+void func_020f5824(Unk020f5d6c *a) {
+    Unk020ee684 *o;
     Unk0206bcb0 *b;
     s32 d;
     u32 c;
@@ -46,10 +46,10 @@ void func_020f5824(Unk0206bcb0 *a) {
     }
     if (d != 0) {
         func_020f1104((int) a);
-        ((u16 *) &a->mUnk_244)[4] = 6;
-        ((u16 *) &a->mUnk_244)[5] = 1;
+        a->mUnk_23c.mUnk_10 = 6;
+        a->mUnk_23c.mUnk_12 = 1;
     } else {
-        n = *(u32 *) &a->mUnk_74;
+        n = a->mUnk_000.mUnk_000.mUnk_000.mUnk_74;
         if (n & 0x10000000) {
             if (c & 1) {
                 n = func_020f14a0(a, 0x5333, 0x19a, 1);
@@ -61,22 +61,22 @@ void func_020f5824(Unk0206bcb0 *a) {
         }
         if (n != 0) {
             func_020f1104((int) a);
-            ((u16 *) &a->mUnk_244)[4] = 2;
-            ((u16 *) &a->mUnk_244)[5] = 1;
-            a->mUnk_21c = 0;
-            a->mUnk_220 = 1;
+            a->mUnk_23c.mUnk_10 = 2;
+            a->mUnk_23c.mUnk_12 = 1;
+            a->mUnk_000.mUnk_21c.mUnk_00 = 0;
+            a->mUnk_000.mUnk_21c.mUnk_04 = 1;
         }
     }
-    if (*(u32 *) &a->mUnk_74 & 1) {
+    if (a->mUnk_000.mUnk_000.mUnk_000.mUnk_74 & 1) {
         return;
     }
-    func_0210ddf4(&data_0217d294, a->mUnk_d4 & ~0xc000001f, func_020f5fb8, a, 0);
+    func_0210ddf4(&data_0217d294, a->mUnk_000.mUnk_000.mUnk_000.mUnk_d4 & ~0xc000001f, func_020f5fb8, a, 0);
 }
 
 // Checks func_0206c0e0 of the 0x1fc object, then the 0x240 counter and the sum of the two
 // squares of the 0x50/0x54/0x58 differences against the 0x1d0/0x1d4/0x1e0 square.
-void func_020f572c(Unk0206bcb0 *a) {
-    Unk020f40dc_Owner *o;
+void func_020f572c(Unk020f5d6c *a) {
+    Unk020ee684 *o;
     Unk0206bcb0 *k;
     s32 n;
     s32 r;
@@ -85,39 +85,39 @@ void func_020f572c(Unk0206bcb0 *a) {
     o = a->mUnk_228;
     k = o->mUnk_1fc;
     if (func_0206c0e0(k) != 0) {
-        func_020f6f10((Unk020f41c4_A *) a, 0, 8);
+        func_020f6f10(&a->mUnk_000.mUnk_000.mUnk_000, 0, 8);
     } else {
         func_020f14a0(a, 0x10000, 0x333, 0);
     }
-    if ((*(u32 *) &a->mUnk_74 & 1) == 0) {
-        func_0210ddf4(&data_0217d294, a->mUnk_d4 & ~0xc000001f, func_020f5fb8, a, 0);
+    if ((a->mUnk_000.mUnk_000.mUnk_000.mUnk_74 & 1) == 0) {
+        func_0210ddf4(&data_0217d294, a->mUnk_000.mUnk_000.mUnk_000.mUnk_d4 & ~0xc000001f, func_020f5fb8, a, 0);
     }
-    if (a->mUnk_240 <= 0x14) {
-        r = k->mUnk_1d0 + (s32) ((a->mUnk_e0 * 3) >> 1);
-        n = a->mUnk_50.z - k->mUnk_1d8.z;
-        t = a->mUnk_50.x - k->mUnk_1d8.x;
+    if (a->mUnk_23c.mUnk_04 <= 0x14) {
+        r = k->mUnk_1d0 + (s32) ((a->mUnk_000.mUnk_000.mUnk_000.mUnk_e0 * 3) >> 1);
+        n = a->mUnk_000.mUnk_000.mUnk_000.mUnk_50.z - k->mUnk_1d8.z;
+        t = a->mUnk_000.mUnk_000.mUnk_000.mUnk_50.x - k->mUnk_1d8.x;
         if ((s64) t * t + (s64) n * n >= (s64) r * r) {
             return;
         }
     }
-    func_020f6f10((Unk020f41c4_A *) a, 0, 8);
+    func_020f6f10(&a->mUnk_000.mUnk_000.mUnk_000, 0, 8);
 }
 
 // Runs func_020f2228 and hands func_020f5fb8 to func_0210ddf4 when the 0x74 bit 0 is clear.
-void func_020f56d0(Unk0206bcb0 *a) {
-    func_020f2228(a, 0xc000);
-    if (*(u32 *) &a->mUnk_74 & 1) {
+void func_020f56d0(Unk020f5d6c *a) {
+    func_020f2228(&a->mUnk_000.mUnk_000, 0xc000);
+    if (a->mUnk_000.mUnk_000.mUnk_000.mUnk_74 & 1) {
         return;
     }
-    func_0210ddf4(&data_0217d294, a->mUnk_d4 & ~0xc000001f, func_020f5fb8, a, 0);
+    func_0210ddf4(&data_0217d294, a->mUnk_000.mUnk_000.mUnk_000.mUnk_d4 & ~0xc000001f, func_020f5fb8, a, 0);
 }
 
 // Runs func_0210a598 with the 0x3bc word of the 0x1fc object when the 0x78 high bits of the
 // third parameter match that object's 0x74 halfword and the 0x74/0x78/0xdc tests pass.
 void func_020f5614(void *a0, s32 b, void *c0) {
-    Unk0206bcb0 *a;
-    Unk0206bcb0 *c;
-    Unk020f40dc_Owner *o;
+    Unk020f5d6c *a;
+    Unk020f41c4_A *c;
+    Unk020ee684 *o;
     Unk0206bcb0 *k;
     u16 n;
     u32 f;
@@ -128,7 +128,7 @@ void func_020f5614(void *a0, s32 b, void *c0) {
         return;
     }
     o = a->mUnk_228;
-    n = (u16) (!(*(u16 *) &c->mUnk_78 & 0x8000) ? (u16) (*(u16 *) &c->mUnk_78 & ~0xff00) : 8);
+    n = (u16) (!(c->mUnk_78 & 0x8000) ? (u16) (c->mUnk_78 & ~0xff00) : 8);
     if (o == 0) {
         return;
     }
@@ -136,12 +136,12 @@ void func_020f5614(void *a0, s32 b, void *c0) {
     if (n != *(u16 *) &k->mUnk_74) {
         return;
     }
-    f = *(u32 *) &c->mUnk_74;
+    f = c->mUnk_74;
     if ((f & 0x1000) == 0) {
         if ((f & 0x2000) == 0) {
             return;
         }
-        if ((*(u16 *) &c->mUnk_78 & 0x1000) == 0) {
+        if ((c->mUnk_78 & 0x1000) == 0) {
             return;
         }
         if (c->mUnk_11c >= 0x78) {
@@ -153,44 +153,46 @@ void func_020f5614(void *a0, s32 b, void *c0) {
 
 // Hands the 0x44 word and the 0x5c/0x130/0x250/0x254/0x60/0x54 addresses of b to
 // func_020fecdc, func_020ff040, func_020ff1b8, func_020ff1a0 and func_020fe8ac.
-void *func_020f5550(void *a, Unk0206bcb0 *b, void *c) {
+void *func_020f5550(void *a, Unk020f5d6c *b, void *c) {
     s32 dot;
     void *p;
 
     if (b != 0 && c != 0) {
-        dot = func_02039828(&b->mUnk_05c, (const Vec3 *) &b->mUnk_12c.y);
-        func_020ff1b8(dot < 0, (u32 *) &b->mUnk_05c.y);
-        func_020ff1b8(b->mUnk_254, (u32 *) &b->mUnk_50.y);
+        dot = func_02039828(&b->mUnk_000.mUnk_000.mUnk_000.mUnk_5c, &b->mUnk_000.mUnk_000.mUnk_130);
+        func_020ff1b8(dot < 0, &b->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.y);
+        func_020ff1b8(b->mUnk_254, &b->mUnk_000.mUnk_000.mUnk_000.mUnk_50.y);
     }
     p = func_020fecdc(a, b, c);
-    p = func_020ff040(p, b != 0 ? (void *) &b->mUnk_21c : 0, c);
+    p = func_020ff040(p, b != 0 ? &b->mUnk_000.mUnk_21c : 0, c);
     if (b != 0 && c == 0) {
-        func_020ff1a0(b->mUnk_05c.y, (u32 *) &b->mUnk_250);
-        func_020ff1a0(b->mUnk_50.y, (u32 *) &b->mUnk_254);
+        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.y, &b->mUnk_250);
+        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_000.mUnk_50.y, &b->mUnk_254);
     }
     if (b != 0 && c != 0) {
-        return func_020fe8ac(b->mUnk_44);
+        return func_020fe8ac(b->mUnk_000.mUnk_000.mUnk_000.mUnk_44);
     }
     return p;
 }
 
 // Stores func_0210a77c in the 0x30 word, moves the seven words of data_0216c648 to 0x23c,
 // then picks one of three calls from the 0x254/0x21c words.
-void func_020f53d0(Unk0206bcb0 *a) {
+void func_020f53d0(Unk020f5d6c *a) {
     u16 x;
     u32 n;
     u16 v;
     u16 i;
 
     func_020f8e78(a);
-    func_0210b850((u32) a->mUnk_258);
-    a->mUnk_00.mUnk_30 = (void (*)(void *, void *, void *)) func_0210a77c;
+    func_0210b850(&a->mUnk_258);
+    a->mUnk_000.mUnk_000.mUnk_000.mUnk_00.mUnk_30 = (void (*)(void *, void *, void *)) func_0210a77c;
     func_02046be8(&a->mUnk_23c, (UnkFunc *const *) data_0216c648, 7, a);
     if (a->mUnk_254 != 0) {
-        if (a->mUnk_21c != 0) {
-            ((u16 *) &a->mUnk_244)[4] = 3;
-            ((u16 *) &a->mUnk_244)[5] = 1;
-            x = (u16) (!(*(u16 *) &a->mUnk_78 & 0x8000) ? (u16) (*(u16 *) &a->mUnk_78 & ~0xff00) : 8);
+        if (a->mUnk_000.mUnk_21c.mUnk_00 != 0) {
+            a->mUnk_23c.mUnk_10 = 3;
+            a->mUnk_23c.mUnk_12 = 1;
+            x = (u16) (!(a->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & 0x8000)
+                           ? (u16) (a->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & ~0xff00)
+                           : 8);
             if (x >= 8) {
                 v = 8;
             } else {
@@ -201,16 +203,16 @@ void func_020f53d0(Unk0206bcb0 *a) {
                 }
                 v = (u16) data_0217561c->mUnk_474[(i & 0xff) - 1];
             }
-            func_020ec8bc((Unk020ec8bc *) a, 0x2d, 0x5b, 0, 1, a->mUnk_250, v, 0);
+            func_020ec8bc(&a->mUnk_000, 0x2d, 0x5b, 0, 1, a->mUnk_250, v, 0);
         } else {
-            ((u16 *) &a->mUnk_244)[4] = 2;
-            ((u16 *) &a->mUnk_244)[5] = 1;
+            a->mUnk_23c.mUnk_10 = 2;
+            a->mUnk_23c.mUnk_12 = 1;
             func_020f1ea4(a, 0, a->mUnk_250, 0);
         }
-        *(u32 *) &a->mUnk_74 |= 0x200000;
+        a->mUnk_000.mUnk_000.mUnk_000.mUnk_74 |= 0x200000;
     } else {
-        ((u16 *) &a->mUnk_244)[4] = 1;
-        ((u16 *) &a->mUnk_244)[5] = 1;
+        a->mUnk_23c.mUnk_10 = 1;
+        a->mUnk_23c.mUnk_12 = 1;
         func_020f1ea4(a, 0, a->mUnk_250, 0);
     }
     func_020f1a14((u32) a);
@@ -219,7 +221,7 @@ void func_020f53d0(Unk0206bcb0 *a) {
 // Returns 1 while func_0207a974(b) is within the 0x1d0/0x1d4 radius of the 0x50/0x54/0x58
 // words, or when the 0xda halfword is -1; otherwise sets the 0x24c/0x24e halfwords, returns 0.
 s32 func_020f5324(void *a0, s32 b) {
-    Unk0206bcb0 *a;
+    Unk020f5d6c *a;
     Unk0206bcb0 *k;
     s32 n;
     s32 r;
@@ -227,18 +229,18 @@ s32 func_020f5324(void *a0, s32 b) {
 
     a = a0;
     k = func_0207a974(b);
-    r = k->mUnk_1d0 + (s32) ((a->mUnk_e0 * 3) >> 1);
-    n = a->mUnk_50.z - k->mUnk_1d8.z;
-    t = a->mUnk_50.x - k->mUnk_1d8.x;
+    r = k->mUnk_1d0 + (s32) ((a->mUnk_000.mUnk_000.mUnk_000.mUnk_e0 * 3) >> 1);
+    n = a->mUnk_000.mUnk_000.mUnk_000.mUnk_50.z - k->mUnk_1d8.z;
+    t = a->mUnk_000.mUnk_000.mUnk_000.mUnk_50.x - k->mUnk_1d8.x;
     if ((s64) t * t + (s64) n * n < (s64) r * r) {
         return 1;
     }
-    if (((s16 *) &a->mUnk_d8)[1] == -1) {
+    if (a->mUnk_000.mUnk_000.mUnk_000.mUnk_da == -1) {
         return 1;
     }
     func_020f9c40((int) a);
-    ((u16 *) &a->mUnk_244)[4] = 5;
-    ((u16 *) &a->mUnk_244)[5] = 1;
+    a->mUnk_23c.mUnk_10 = 5;
+    a->mUnk_23c.mUnk_12 = 1;
     func_020f112c((int) a, b);
     return 0;
 }
@@ -246,86 +248,86 @@ s32 func_020f5324(void *a0, s32 b) {
 // Runs func_020f9114, ors data_02159834 into the 0x78 halfword, then makes one of two
 // func_020f3150 calls depending on the 0x1ec halfword of the 0x0c pointer, and returns the
 // 0x130 word it stores.
-s32 func_020f5240(Unk020edb8c *a, Unk0206bcb0 *b) {
-    Unk020f40dc_Owner *o;
+s32 func_020f5240(Unk020eda5c *a, Unk020f5240 *b) {
+    Unk020ee684 *o;
     s32 n;
 
     func_020f9114(b);
-    *(u16 *) &b->mUnk_78 |= data_02159834;
-    o = a->mUnk_0c;
+    b->mUnk_000.mUnk_000.mUnk_78 |= data_02159834;
+    o = a->mUnk_00c;
     if (o->mUnk_1ec & 0x10) {
-        func_020f3150(b, a, 0, 1, 0x4000, 0x3000, 0x59a);
-        func_021090c4(&b->mUnk_00, 0xda, 0x7f, 0);
-        b->mUnk_12c.y = 1;
-        return b->mUnk_12c.y;
+        func_020f3150(&b->mUnk_000, a, 0, 1, 0x4000, 0x3000, 0x59a);
+        func_021090c4(&b->mUnk_000.mUnk_000.mUnk_00, 0xda, 0x7f, 0);
+        b->mUnk_130 = 1;
+        return b->mUnk_130;
     }
-    func_020f3150(b, a, 0, 0, 0x4000, 0x3000, 0x59a);
-    b->mUnk_12c.y = 0;
-    return b->mUnk_12c.y;
+    func_020f3150(&b->mUnk_000, a, 0, 0, 0x4000, 0x3000, 0x59a);
+    b->mUnk_130 = 0;
+    return b->mUnk_130;
 }
 
 // Calls func_020f2df0 with one of two pairs of numbers, and when the 0x74 bits allow it
 // doubles the 0x60 word and runs func_02109060 and func_020f6a6c.
-void func_020f518c(Unk0206bcb0 *a) {
+void func_020f518c(Unk020f5240 *a) {
     u32 v;
     u32 n;
 
-    if (a->mUnk_12c.y != 0) {
-        func_020f2df0(a, 0x1ec, 0xfec, 0, &v);
+    if (a->mUnk_130 != 0) {
+        func_020f2df0(&a->mUnk_000, 0x1ec, 0xfec, 0, &v);
     } else {
-        func_020f2df0(a, 0x2e1, 0xf85, 0, &v);
+        func_020f2df0(&a->mUnk_000, 0x2e1, 0xf85, 0, &v);
     }
-    n = *(u32 *) &a->mUnk_74;
+    n = a->mUnk_000.mUnk_000.mUnk_74;
     if ((n & 8) == 0) {
         return;
     }
     if (n & 3) {
         return;
     }
-    if (a->mUnk_12c.y != 0) {
-        a->mUnk_05c.y = a->mUnk_05c.y * 2;
+    if (a->mUnk_130 != 0) {
+        a->mUnk_000.mUnk_000.mUnk_5c.y = a->mUnk_000.mUnk_000.mUnk_5c.y * 2;
     }
-    func_02109060(&a->mUnk_00, 0xda);
-    func_020f6a6c(a, &v);
+    func_02109060(&a->mUnk_000.mUnk_000.mUnk_00, 0xda);
+    func_020f6a6c(&a->mUnk_000.mUnk_000, &v);
 }
 
 // Hands the 0x130 word and the 0x60 word to func_020ff1b8/func_020ff1a0 around the
 // func_020fecdc call, and returns func_020fe8ac's value when b and c are both set.
-void *func_020f5108(void *a, Unk0206bcb0 *b, void *c) {
+void *func_020f5108(void *a, Unk020f5240 *b, void *c) {
     void *p;
 
     if (b != 0 && c != 0) {
-        func_020ff1b8(b->mUnk_12c.y, (u32 *) &b->mUnk_05c.y);
+        func_020ff1b8(b->mUnk_130, &b->mUnk_000.mUnk_000.mUnk_5c.y);
     }
     p = func_020fecdc(a, b, c);
     if (b != 0 && c == 0) {
-        func_020ff1a0(b->mUnk_05c.y, (u32 *) &b->mUnk_12c.y);
+        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_5c.y, &b->mUnk_130);
     }
     if (b != 0 && c != 0) {
-        return func_020fe8ac(b->mUnk_44);
+        return func_020fe8ac(b->mUnk_000.mUnk_000.mUnk_44);
     }
     return p;
 }
 
 // Runs func_020f8e78 and func_020f2d98, then func_021090c4 when the two 0x74/0x130 tests pass.
-void func_020f50b4(Unk0206bcb0 *a) {
+void func_020f50b4(Unk020f5240 *a) {
     func_020f8e78(a);
     func_020f2d98((u32) a, 0);
-    if ((*(u32 *) &a->mUnk_74 & 0x10000000) == 0) {
+    if ((a->mUnk_000.mUnk_000.mUnk_74 & 0x10000000) == 0) {
         return;
     }
-    if (a->mUnk_12c.y == 0) {
+    if (a->mUnk_130 == 0) {
         return;
     }
-    func_021090c4(&a->mUnk_00, 0xda, 0x7f, 0);
+    func_021090c4(&a->mUnk_000.mUnk_000.mUnk_00, 0xda, 0x7f, 0);
 }
 
 // Runs func_02069db8 on the 0x1fc word of b's 0x04 object, marks b, sets the 0x204 word of
 // a's 0x0c object, and runs func_020fe958 when the 0x08 word is 5.
-void func_020f504c(Unk020edb8c *a, Unk020f40dc *b) {
+void func_020f504c(Unk020eda5c *a, Unk020f40dc *b) {
     func_02069db8(b->mUnk_04->mUnk_1fc);
     func_020f4754(b, 1);
-    a->mUnk_0c->mUnk_204 = 1;
+    a->mUnk_00c->mUnk_204 = 1;
     if (data_021759c0->mUnk_08 != 5) {
         return;
     }

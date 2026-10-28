@@ -2,13 +2,8 @@
 
 #pragma thumb on
 
-unsigned int func_020423fc(unsigned int p0) {
-    return ((((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                                          const unsigned int *) ((unsigned char *) (unsigned int) ((
-                                                                                     (u32) (&data_02175620))) +
-                                                                                 0))) +
-                                                      116))) +
-            (((0x48u) * (p0))));
+Unk02175620_74 *func_020423fc(u32 param_1) {
+    return &data_02175620->mUnk_74[param_1];
 }
 
 #pragma thumb off

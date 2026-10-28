@@ -7,7 +7,7 @@ int func_ov000_021a73d8(void) {
     if (iVar1 == 0) {
         return -0x31;
     }
-    uVar2 = func_ov000_021a7064((u32) (((u32) &func_ov000_021a7378)), (int) (iVar1), (u32) (1));
+    uVar2 = func_ov000_021a7064((u32) &func_ov000_021a7378, (int) (iVar1), (u32) (1));
     func_ov000_021a6f84(iVar1, uVar2);
     return iVar1;
 }

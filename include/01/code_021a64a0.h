@@ -9,5 +9,5 @@
 #include "Main/Unknown/code_020b4000.h"
 
 void func_ov001_021a64a0(void);
-void func_ov001_021a64ac(u32 param_1);
+void func_ov001_021a64ac(void *param_1);
 void func_ov001_021a651c(void);

@@ -7,7 +7,7 @@ void func_ov001_02183ed4(int param_1) {
     return;
 }
 
-u32 func_ov001_02183ebc(u32 param_1) {
-    func_020d275c((Unk020e71a0 *) ((int) (param_1)), (u32) (((u32) 0x00000243u)));
+u32 func_ov001_02183ebc(Unk02188950 *param_1) {
+    func_020d275c(&param_1->mUnk_000, (u32) (((u32) 0x00000243u)));
     return 0;
 }

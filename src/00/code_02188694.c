@@ -21,14 +21,12 @@ u32 func_ov000_021886c4(u8 param_1, u32 param_2) {
     return 0;
 }
 
-// non-matching: register allocation only, 6 instructions; first at +0x10: original `ldrb r0, [r3, #0x8]`, ours `ldrb
-// r1, [r3, #0x8]`
 void func_ov000_02188694(u8 param_1, u32 param_2, u32 param_3) {
-    u32 iVar1;
-    iVar1 = func_ov000_02188584((u32) (1));
+    u32 iVar1 = func_ov000_02188584(1);
     if ((*(u8 *) (iVar1 + 8) & param_1) != 0) {
-        *(u8 *) (iVar1 + 8) = *(u8 *) (iVar1 + 8) & ~(u8) param_1;
-        (**(UnkFunc **) (iVar1 + 4))(param_1, param_2, param_3);
+        *(u8 *) (iVar1 + 8) = *(u8 *) (8 + (u32) iVar1) & ~param_1;
+        iVar1 = 4 + iVar1;
+        (**(UnkFunc **) iVar1)(param_1, param_2, param_3);
     }
     return;
 }

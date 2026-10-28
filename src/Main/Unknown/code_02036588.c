@@ -1,13 +1,13 @@
 #include "Main/Unknown/code_02036588.h"
 
-void func_02036590(unsigned int p0, unsigned int p1) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 4) = (unsigned int) (p1);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 8) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 16) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 12) = (unsigned int) (0x0u);
+void func_02036590(Unk02036590 *param_1, u32 param_2) {
+    param_1->mUnk_00 = 0;
+    param_1->mUnk_04 = param_2;
+    param_1->mUnk_08 = 0;
+    param_1->mUnk_10 = 0;
+    param_1->mUnk_0c = 0;
 }
 
-void func_02036588(unsigned int p0, unsigned int p1) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 4) = (unsigned int) (p1);
+void func_02036588(Unk02036590 *param_1, u32 param_2) {
+    param_1->mUnk_04 = param_2;
 }

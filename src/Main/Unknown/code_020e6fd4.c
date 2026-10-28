@@ -6,6 +6,7 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_020d4000.h"
+#include "Main/Unknown/code_020f9c6c.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217b000.h"
 
@@ -28,7 +29,7 @@ void func_020e730c(void) {
     }
 }
 
-void func_020e72cc(Unk020e730c *p, Unk020e72cc *q) {
+void func_020e72cc(Unk020e730c *p, struct Unk020fa294 *q) {
     p->mUnk_a0 = q->mUnk_28;
     switch (data_021759c0->mUnk_010) {
         case 0:
@@ -51,7 +52,7 @@ void func_020e71a0(Unk020e71a0 *p) {
 
     q = p->mUnk_94;
     if ((p->mUnk_02 & 2) == 0) {
-        q->mUnk_40 = p->mUnk_78 & ~0xc000001f;
+        q->mUnk_00.mUnk_40 = p->mUnk_78 & ~0xc000001f;
         a = (func_020d4ddc(p) == 0);
         b = (q->mUnk_00.mUnk_34 & 1) != 0;
         if (a != 0) {
@@ -73,7 +74,7 @@ void func_020e71a0(Unk020e71a0 *p) {
         s32 v;
 
         v = func_020d4ef4(&p->mUnk_04);
-        q->mUnk_40 = v;
+        q->mUnk_00.mUnk_40 = v;
         if (func_020d4d60(p, v) != 0) {
             p->mUnk_78 |= data_02159310;
             if ((q->mUnk_00.mUnk_34 & 1) != 0) {
@@ -99,7 +100,7 @@ void func_020e705c(Unk020e6fd4 *p) {
         s32 i;
 
         for (i = 0; i < n; i++) {
-            e = (Unk020e71a0 *) arr[i];
+            e = arr[i];
             if (e->mUnk_94 != 0) {
                 func_020e71a0(e);
             }
@@ -110,7 +111,7 @@ void func_020e705c(Unk020e6fd4 *p) {
         s32 i;
 
         for (i = 0; i < n; i++) {
-            e = (Unk020e71a0 *) arr[i];
+            e = arr[i];
             if ((e->mUnk_02 & 4) == 0) {
                 t = e->mUnk_04;
                 cb(p, e);
@@ -126,7 +127,7 @@ void func_020e705c(Unk020e6fd4 *p) {
         s32 i;
 
         for (i = 0; i < n; i++) {
-            e = (Unk020e71a0 *) arr[i];
+            e = arr[i];
             if ((e->mUnk_02 & 4) == 0) {
                 cb(p, e);
                 if (e->mUnk_94 != 0) {
@@ -143,7 +144,7 @@ void func_020e6fd4(Unk020e6fd4 *p) {
     s32 i;
     s32 n;
     void **arr;
-    void (*cb)(Unk020e71a0 *, s32, u8 *, u8 *);
+    s32 (*cb)(Unk020e71a0 *, void *, void *, void *);
 
     n = p->mUnk_04;
     cb = p->mUnk_1c;
@@ -154,7 +155,7 @@ void func_020e6fd4(Unk020e6fd4 *p) {
         return;
     }
     for (i = 0; i < n; i++) {
-        e = (Unk020e71a0 *) arr[i];
+        e = arr[i];
         if ((e->mUnk_02 & 0x88) == 0) {
             cb(e, 0, &buf[0], &buf[1]);
         }

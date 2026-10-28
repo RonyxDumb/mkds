@@ -10,3 +10,6 @@ void func_02056cac(u32 *param_1, u16 *param_2);
 u32 func_02056dec(u32 bit);
 void func_020569a8(void *param_1);
 void func_02056464(void *a);
+void func_020562b4(void);
+s32 func_020569dc(s32 a, s32 b, s32 c);
+void func_02056dac(s32 a);

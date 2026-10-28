@@ -1,7 +1,7 @@
 #include "00/code_0219c79c.h"
 
 void func_ov000_0219c80c(u32 param_1, u32 param_2) {
-    func_ov000_0219c79c((u32) (param_1), (u32) (param_2), (u32) (((u32) &func_ov000_0219c824)), (u32) (2));
+    func_ov000_0219c79c((u32) (param_1), (u32) (param_2), (u32) &func_ov000_0219c824, (u32) (2));
     return;
 }
 

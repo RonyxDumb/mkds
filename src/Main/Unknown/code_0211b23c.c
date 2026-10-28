@@ -46,7 +46,7 @@
 #pragma thumb on
 
 s32 func_0211d2f0(u16 *a) {
-    Unk0217aa00_1ee8 *p;
+    Unk020f41c4_B *p;
     u32 n;
     u32 c;
     if (func_0211d62c() == 0) {
@@ -120,7 +120,7 @@ void func_0211d09c(void) {
     s32 a;
     s32 i;
     u16 n;
-    Unk0217aa00_1ee8 *p;
+    Unk020f41c4_B *p;
     a = 2;
     n = func_0211d650();
     data_0217d368->mUnk_ac[0] = 0;
@@ -151,7 +151,7 @@ void func_0211d09c(void) {
 void func_0211cfd0(void) {
     s32 a;
     s32 i;
-    Unk0217aa00_1ee8 *p;
+    Unk020f41c4_B *p;
     a = 2;
     func_0211d650();
     data_0217d368->mUnk_b0[0] = 0;

@@ -1,7 +1,14 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02187d14.h"
+
+// Matrix of three direction vectors and a position.
+typedef struct Unk02012f58 {
+    /* 00 */ Vec3 mUnk_00;
+    /* 0c */ Vec3 mUnk_0c;
+    /* 18 */ Vec3 mUnk_18;
+    /* 24 */ Vec3 mUnk_24;
+} Unk02012f58;
 
 // Entry of the table at mUnk_08 of Unk0201290c.
 typedef struct Unk0201290c_08 {

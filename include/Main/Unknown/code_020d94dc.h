@@ -1,14 +1,15 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
 #include "Main/Unknown/code_02042044.h"
-#include "01/code_02187d14.h"
+#include "code_02012b30.h" // Unk02012f58
 #include "Main/Unknown/code_020d8cac.h"
 #include "Main/Unknown/code_020b502c.h"
 #include "code_02012b30.h"
 #include "Main/Unknown/code_020f9c6c.h"
 
-struct Unk020e6b58;
+struct Unk02012f58;
 #include "Main/Unknown/code_020d6dc0.h"
 #include "Main/Unknown/code_020e6b58.h"
 
@@ -95,20 +96,7 @@ typedef struct Unk020da414 {
 
 // Object of at least 0x108 bytes.
 typedef struct Unk020da494 {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ Vec3 mUnk_04;
-    /* 10 */ Vec3 mUnk_10;
-    /* 1c */ Vec3 mUnk_1c;
-    /* 28 */ Unk020e6b58 mUnk_28;
-    /* 58 */ u8 mUnk_58[0x18];
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ u8 mUnk_74[4];
-    /* 78 */ u32 mUnk_78;
-    /* 7c */ u8 mUnk_7c[4];
-    /* 80 */ Unk020e005c_080 mUnk_80;
-    /* 94 */ u8 mUnk_94[8];
-    /* 9c */ Unk020fa294 *mUnk_9c;
+    /* 00 */ Unk020e71a0 mUnk_00;
     /* a0 */ s32 mUnk_a0;
     /* a4 */ Unk020d7b88 mUnk_a4;
     /* b4 */ Unk020d7b88 mUnk_b4;
@@ -130,7 +118,7 @@ void func_020da494(Unk020da494 *a, Unk020fa294 *b);
 Unk020da414 *func_020da414(void);
 void func_020da384(Unk020da384 *a, void *b, UnkFunc *c);
 void func_020d9f8c(Unk020d9cf4 *a);
-void func_020d9e60(Unk020d9cf4 *a, struct Unk020e6b58 *b);
+void func_020d9e60(Unk020d9cf4 *a, struct Unk02012f58 *b);
 Unk020d9de0 *func_020d9de0(void);
 void func_020d9cf4(s32 a, s32 b, s32 c, s32 d, s32 e, u16 f, u16 g, u16 h, u16 i, u16 j, u16 k, u16 l, u16 m, u16 n, s32 o);
 void func_020d9c54(void);

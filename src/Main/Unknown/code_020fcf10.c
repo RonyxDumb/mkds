@@ -4,6 +4,7 @@
 #include "Main/Unknown/code_01ffd000.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "code_02147cd8.h"
+#include "Main/Unknown/code_020ee684.h"
 
 // non-matching: one load in another place (0x344 bytes both): in `v2->x = (v2->x * e + t.x) >> f;` the original
 // loads e from the stack first (ldr r3, [sp, #0x6c]), then t.x, then v2->x; this compiler loads t.x, v2->x, e

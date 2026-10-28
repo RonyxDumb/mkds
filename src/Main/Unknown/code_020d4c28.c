@@ -121,10 +121,9 @@ s32 func_020d4d60(Unk020e71a0 *p, s32 a)
     return (func_0207a780() & p->mUnk_74) != 0;
 }
 
-void func_020d4d44(Unk020e6b58 *p)
-{
+void func_020d4d44(Unk02012f58 *p) {
     func_020e6df0(p);
-    func_020d7bec((Unk020d7bec *) p);
+    func_020d7bec(p);
 }
 
 void func_020d4c28(Unk020e6fd4 *p, void *a)
