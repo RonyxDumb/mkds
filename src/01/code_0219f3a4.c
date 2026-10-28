@@ -77,7 +77,7 @@ void func_ov001_0219f3a4(void) {
         j = 0;
         x = i + 1;
         for (; j < 9; j++) {
-            ok &= func_0205fd78(x, j + 1, &out);
+            ok &= func_0205fd78((u8) x, (u8) (j + 1), &out);
             if (!ok || out < 5) {
                 all = 0;
             }

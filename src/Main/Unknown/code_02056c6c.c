@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-void func_02056c6c(u32 param_1, int param_2, u32 param_3) {
+void func_02056c6c(u32 param_1, int param_2, void *param_3) {
     int iVar1;
     iVar1 = func_0204684c();
     if (iVar1 != -1) {

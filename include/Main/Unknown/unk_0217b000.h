@@ -509,8 +509,9 @@ typedef struct Unk0217b3e0 {
 
 extern Unk0217b3e0 *data_0217b3e0;
 extern struct Unk0217b3e8 *data_0217b3e8;
-extern u8 data_0217b3f0[];
-extern u8 data_0217b3f4[];
+extern struct Unk0217b3f0 *data_0217b3f0;
+extern struct Unk0217b3f4 *data_0217b3f4;
+extern s32 data_0217b3f8;
 extern Unk0217b438 *data_0217b438;
 extern u8 data_0217b43c[];
 extern struct Unk0217b4a4 *data_0217b4a4;

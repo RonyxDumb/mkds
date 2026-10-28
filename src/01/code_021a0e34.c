@@ -13,6 +13,6 @@ void func_ov001_021a0e34(void)
 
     data_ov001_021ca414->mUnk_a0 = 1;
     for (i = 0; i < 8; i++) {
-        data_ov001_021ca414->mUnk_a0 &= func_0205fd78(func_02029608(), i + 1, &out);
+        data_ov001_021ca414->mUnk_a0 &= func_0205fd78((u8) func_02029608(), (u8) (i + 1), &out);
     }
 }

@@ -14,9 +14,9 @@ s32 func_ov001_0219f31c(void)
     s32 out;
 
     for (i = 0; i < 8; i++) {
-        ok &= func_0205fd78(data_ov001_021ca410->mUnk_4c + 1, i + 1, &out);
+        ok &= func_0205fd78((u8) (data_ov001_021ca410->mUnk_4c + 1), (u8) (i + 1), &out);
     }
-    result = func_0205fd78(data_ov001_021ca410->mUnk_4c + 1, 9, &out);
+    result = func_0205fd78((u8) (data_ov001_021ca410->mUnk_4c + 1), 9, &out);
     if (ok != 0 && result == 0) {
         return 1;
     }
