@@ -376,7 +376,12 @@ extern u8 data_0217b344[];
 // to 0x824 are written through func_020b4a7c, func_020b496c and func_020b4810.
 typedef struct Unk0217b350 {
     /* 000 */ s32 mUnk_000;
-    /* 004 */ u8 mUnk_004[0x808];
+    /* 004 */ u8 mUnk_004[0x400];
+    /* 404 */ u16 mUnk_404;
+    /* 406 */ u16 mUnk_406;
+    /* 408 */ u8 mUnk_408[0x400];
+    /* 808 */ u16 mUnk_808;
+    /* 80a */ u16 mUnk_80a;
     /* 80c */ struct Unk020b4a44 *mUnk_80c;
     /* 810 */ struct Unk020b4a44 *mUnk_810;
     /* 814 */ struct Unk020b4934 *mUnk_814;
@@ -386,16 +391,37 @@ typedef struct Unk0217b350 {
     /* 824 */ struct Unk020b47d8 *mUnk_824;
     /* 828 */ s32 mUnk_828;
     /* 82c */ s32 mUnk_82c;
-    /* 830 */ u8 mUnk_830[8];
+    /* 830 */ s32 mUnk_830;
+    /* 834 */ s32 mUnk_834;
     /* 838 */ s32 mUnk_838;
     /* 83c */ s32 mUnk_83c;
     /* 840 */ s32 mUnk_840;
-    /* 844 */ u8 mUnk_844[8];
+    /* 844 */ s32 mUnk_844;
+    /* 848 */ s32 mUnk_848;
     /* 84c */ s32 mUnk_84c;
     /* 850 */ s32 mUnk_850;
-    /* 854 */ u8 mUnk_854[0x44];
+    /* 854 */ s32 mUnk_854;
+    /* 858 */ s32 mUnk_858;
+    /* 85c */ s32 mUnk_85c;
+    /* 860 */ s32 mUnk_860;
+    /* 864 */ s32 mUnk_864;
+    /* 868 */ s32 mUnk_868;
+    /* 86c */ s32 mUnk_86c;
+    /* 870 */ s32 mUnk_870;
+    /* 874 */ s32 mUnk_874;
+    /* 878 */ s32 mUnk_878;
+    /* 87c */ s32 mUnk_87c;
+    /* 880 */ s32 mUnk_880;
+    /* 884 */ s32 mUnk_884;
+    /* 888 */ s32 mUnk_888;
+    /* 88c */ s32 mUnk_88c;
+    /* 890 */ s32 mUnk_890;
+    /* 894 */ s32 mUnk_894;
     /* 898 */ s32 mUnk_898;
-    /* 89c */ u8 mUnk_89c[0x40];
+    /* 89c */ s32 mUnk_89c;
+    /* 8a0 */ u8 mUnk_8a0[0x1c];
+    /* 8bc */ s32 mUnk_8bc;
+    /* 8c0 */ u8 mUnk_8c0[0x1c];
     /* 8dc */ s32 mUnk_8dc;
     /* 8e0 */ s32 mUnk_8e0;
     /* 8e4 */ s32 mUnk_8e4;
@@ -535,7 +561,6 @@ extern u8 data_0217b35c[];
 extern u8 data_0217b3c8[];
 extern u8 data_0217b3cc[];
 extern u8 data_0217b3d0[];
-extern u8 data_0217b3d4[];
 // 0x18-byte elements of the tables at member 0x10 of Unk0217b3e4.
 typedef struct Unk0217b3e4_10 {
     /* 00 */ Vec3 mUnk_00;
@@ -582,6 +607,7 @@ typedef struct Unk0217b3ec {
 } Unk0217b3ec;
 
 extern Unk0217b3ec *data_0217b3ec;
+extern Unk0217b3ec *data_0217b3d4;
 extern u8 data_0217b424[];
 extern struct Unk0217b49c *data_0217b49c;
 extern u8 data_0217b4a8[];
