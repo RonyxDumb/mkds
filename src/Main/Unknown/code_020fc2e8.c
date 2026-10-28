@@ -64,7 +64,7 @@ void func_020fc8ec(Unk020fc2e8 *e, s32 a) {
 s32 func_020fc79c(Unk020eda5c *a, Unk020fc2e8 *e) {
     Unk0206bcb0 *p;
 
-    func_020f9114((Unk0206bcb0 *) e);
+    func_020f9114(e);
     if (a->mUnk_00c->mUnk_1f0.mUnk_00 != 0) {
         func_020ed268((Unk020ec8bc *) e, a, 0x14, 0xcc, 1, 1, 0, 0x6000, e->mUnk_276, 1);
         func_02046bcc(e->mUnk_2e8, 1);

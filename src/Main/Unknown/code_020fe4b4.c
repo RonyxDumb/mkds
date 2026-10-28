@@ -24,14 +24,14 @@ u8 *func_020ff2b0(u8 *a, Unk020ff438 *b, void *c) {
     u8 *p;
 
     if (b != 0 && c != 0) {
-        func_020ff1b8(b->mUnk_13c, &b->mUnk_000.mUnk_5c.y);
+        func_020ff1b8(b->mUnk_13c, &b->mUnk_000.mUnk_000.mUnk_5c.y);
     }
     p = func_020fecdc(a, b, c);
     if (b != 0 && c == 0) {
-        func_020ff1a0(b->mUnk_000.mUnk_5c.y, (s32 *) &b->mUnk_13c);
+        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_5c.y, (s32 *) &b->mUnk_13c);
     }
     if (b != 0 && c != 0) {
-        return func_020fe8ac(b->mUnk_000.mUnk_44);
+        return func_020fe8ac(b->mUnk_000.mUnk_000.mUnk_44);
     }
     return p;
 }
@@ -39,13 +39,13 @@ u8 *func_020ff2b0(u8 *a, Unk020ff438 *b, void *c) {
 void func_020ff25c(Unk020ff438 *a) {
     func_020f8e78(a);
     func_020f2d98((u32) a, 0);
-    if ((a->mUnk_000.mUnk_74 & 0x10000000) == 0) {
+    if ((a->mUnk_000.mUnk_000.mUnk_74 & 0x10000000) == 0) {
         return;
     }
     if (a->mUnk_13c == 0) {
         return;
     }
-    func_021090c4(&a->mUnk_000.mUnk_00, 0xda, 0x7f, 0);
+    func_021090c4(&a->mUnk_000.mUnk_000.mUnk_00, 0xda, 0x7f, 0);
 }
 
 #pragma thumb on
@@ -69,7 +69,7 @@ void func_020ff1d8(void) {
     for (i = 0; i < n; i++) {
         o = (Unk020ff438 *) e[0];
         o->mUnk_140 = (Unk021052fc *) func_0210543c();
-        o->mUnk_140->mUnk_fc = &o->mUnk_000.mUnk_50;
+        o->mUnk_140->mUnk_fc = &o->mUnk_000.mUnk_000.mUnk_50;
         e++;
     }
     p->mUnk_40 = 1;

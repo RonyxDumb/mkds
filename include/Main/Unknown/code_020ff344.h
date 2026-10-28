@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020f2dac.h" // Unk020f2df0
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h"
 #include "Main/Unknown/code_020ffc4c.h"
@@ -38,8 +39,7 @@ typedef struct Unk020ff97c {
 // Element of data_027e00cc[7]: 0x144 bytes (the size in data_0217bc34[7]), handled by the functions of this file
 // from func_020ff344 to func_020ff910 and by func_020ff1d8, func_020ff25c and func_020ff2b0.
 typedef struct Unk020ff438 {
-    /* 000 */ Unk020f41c4_A mUnk_000;
-    /* 12c */ u8 mUnk_12c[4];
+    /* 000 */ Unk020f2df0 mUnk_000;
     /* 130 */ Vec3 mUnk_130;
     /* 13c */ u32 mUnk_13c;
     /* 140 */ Unk021052fc *mUnk_140;
