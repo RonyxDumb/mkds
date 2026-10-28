@@ -2,4 +2,10 @@
 
 #include "types.h"
 
-void func_ov003_021d34e0(int param_1, u32 param_2);
+// Object passed to func_ov003_021d34e0, which stores its second argument at 0x08.
+typedef struct Unk021d34e0 {
+    /* 00 */ u8 mUnk_00[8];
+    /* 08 */ UnkFunc *mUnk_08;
+} Unk021d34e0;
+
+void func_ov003_021d34e0(Unk021d34e0 *param_1, UnkFunc *param_2);

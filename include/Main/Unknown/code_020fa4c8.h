@@ -32,7 +32,9 @@ typedef struct Unk020fc2e8 {
     /* 160 */ s32 mUnk_160;
     /* 164 */ u8 mUnk_164[4];
     /* 168 */ Unk020f371c *mUnk_168;
-    /* 16c */ u8 mUnk_16c[0xb0];
+    /* 16c */ u8 mUnk_16c[4];
+    /* 170 */ u32 mUnk_170;
+    /* 174 */ u8 mUnk_174[0xa8];
     /* 21c */ s32 mUnk_21c;
     /* 220 */ u8 mUnk_220[8];
     /* 228 */ struct Unk020ee684 *mUnk_228;

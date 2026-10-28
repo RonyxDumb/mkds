@@ -19,9 +19,8 @@ Unk0218b668 *func_ov000_0218b668(u32 param_1, u32 param_2, u32 param_3, u32 para
     return p;
 }
 
-void func_ov000_0218b64c(int param_1) {
-    func_ov000_0218c958((int) (param_1 + 0x4c));
-    func_ov000_0218acb0((int) (param_1));
-    func_ov000_021a3668((u32) (param_1));
-    return;
+void func_ov000_0218b64c(Unk0218b668 *p) {
+    func_ov000_0218c958(p->mUnk_04c);
+    func_ov000_0218acb0(p);
+    func_ov000_021a3668(p);
 }

@@ -1,6 +1,6 @@
 #include "00/code_021a3668.h"
 
-void func_ov000_021a3668(u32 arg0) {
+void func_ov000_021a3668(void *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value2;

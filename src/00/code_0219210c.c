@@ -2,21 +2,21 @@
 
 void func_ov000_0219210c(int param_1) {
     if (*(u32 **) (param_1 + 0xc) != (u32 *) 0x0) {
-        func_ov000_021a3668((u32) (**(u32 **) (param_1 + 0xc)));
+        func_ov000_021a3668((void *) (**(u32 **) (param_1 + 0xc)));
         **(u32 **) (param_1 + 0xc) = 0;
-        func_ov000_021a3668((u32) (*(u32 *) (*(int *) (param_1 + 0xc) + 4)));
+        func_ov000_021a3668((void *) (*(u32 *) (*(int *) (param_1 + 0xc) + 4)));
         *(u32 *) (*(int *) (param_1 + 0xc) + 4) = 0;
-        func_ov000_021a3668((u32) (*(u32 *) (*(int *) (param_1 + 0xc) + 8)));
+        func_ov000_021a3668((void *) (*(u32 *) (*(int *) (param_1 + 0xc) + 8)));
         *(u32 *) (*(int *) (param_1 + 0xc) + 8) = 0;
-        func_ov000_021a3668((u32) (*(u32 *) (*(int *) (param_1 + 0xc) + 0xc)));
+        func_ov000_021a3668((void *) (*(u32 *) (*(int *) (param_1 + 0xc) + 0xc)));
         *(u32 *) (*(int *) (param_1 + 0xc) + 0xc) = 0;
-        func_ov000_021a3668((u32) (*(u32 *) (*(int *) (param_1 + 0xc) + 0x10)));
+        func_ov000_021a3668((void *) (*(u32 *) (*(int *) (param_1 + 0xc) + 0x10)));
         *(u32 *) (*(int *) (param_1 + 0xc) + 0x10) = 0;
-        func_ov000_021a3668((u32) (*(u32 *) (*(int *) (param_1 + 0xc) + 0x14)));
+        func_ov000_021a3668((void *) (*(u32 *) (*(int *) (param_1 + 0xc) + 0x14)));
         *(u32 *) (*(int *) (param_1 + 0xc) + 0x14) = 0;
-        func_ov000_021a3668((u32) (*(u32 *) (*(int *) (param_1 + 0xc) + 200)));
+        func_ov000_021a3668((void *) (*(u32 *) (*(int *) (param_1 + 0xc) + 200)));
         *(u32 *) (*(int *) (param_1 + 0xc) + 200) = 0;
-        func_ov000_021a3668((u32) (*(u32 *) (param_1 + 0xc)));
+        func_ov000_021a3668((void *) (*(u32 *) (param_1 + 0xc)));
         *(u32 *) (param_1 + 0xc) = 0;
     }
     return;

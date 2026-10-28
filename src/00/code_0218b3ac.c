@@ -14,6 +14,6 @@ void func_ov000_0218b3ac(int *param_1) {
     iVar1 = *param_1;
     func_ov000_0218dfb4((int *) ((int *) (u32) (*(u32 *) (iVar1 + 0x18))));
     *(u32 *) (iVar1 + 0x18) = 0;
-    func_ov000_021a3668((u32) (iVar1));
+    func_ov000_021a3668((void *) (iVar1));
     return;
 }

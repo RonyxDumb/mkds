@@ -2,8 +2,8 @@
 
 void func_ov003_021c1cb0(void) {
     func_ov003_021d197c(*(u32 *) ((*(int *) &data_ov003_021da160) + 0x58));
-    func_ov003_021d34e0((int) (*(u32 *) ((*(int *) &data_ov003_021da160) + 0x5c)),
-                        (u32) (((u32) &func_ov003_021c118c)));
+    func_ov003_021d34e0((Unk021d34e0 *) (*(u32 *) ((*(int *) &data_ov003_021da160) + 0x5c)),
+                        func_ov003_021c118c);
     return;
 }
 

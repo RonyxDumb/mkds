@@ -5,6 +5,7 @@
 #include "03/code_021c4ad4.h"
 #include "03/code_021d079c.h"
 #include "types.h"
+#include "03/code_021d1770.h" // Unk021d1770
 #include "03/code_021c25b4.h"
 #include "03/code_021d28b0.h"
 
@@ -61,7 +62,17 @@ extern u8 data_ov003_021da274[];
 extern u8 data_ov003_021da278[];
 extern u8 data_ov003_021da27c[];
 extern u8 data_ov003_021da280[];
-extern u8 data_ov003_021da284[];
+// Object behind data_ov003_021da284: func_ov003_021ceaf8 passes 0x00 to func_ov003_021d1770 and reads the byte at
+// 0x1e; func_ov003_021cef80 reads the byte at 0x1b.
+typedef struct Unk021da284 {
+    /* 00 */ Unk021d1770 *mUnk_00;
+    /* 04 */ u8 mUnk_04[0x17];
+    /* 1b */ s8 mUnk_1b;
+    /* 1c */ u8 mUnk_1c[2];
+    /* 1e */ u8 mUnk_1e;
+} Unk021da284;
+
+extern Unk021da284 *data_ov003_021da284;
 extern u8 data_ov003_021da288[];
 extern u8 data_ov003_021da2a4[];
 extern u8 data_ov003_021da2ac[];

@@ -6,4 +6,4 @@
 #include "03/code_021d34e0.h"
 #include "03/unk_021da000.h"
 
-void func_ov003_021ceaf8(int param_1);
+void func_ov003_021ceaf8(Unk021d34e0 *param_1);

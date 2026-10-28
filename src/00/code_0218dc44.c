@@ -12,8 +12,8 @@ void func_ov000_0218dc48(int *param_1) {
             iVar1 = iVar1 + 1;
         } while (iVar1 < *param_1);
     }
-    func_ov000_021a3668((u32) (param_1[5]));
-    func_ov000_021a3668((u32) ((u32) (u32) (param_1)));
+    func_ov000_021a3668((void *) (param_1[5]));
+    func_ov000_021a3668((void *) ((u32) (u32) (param_1)));
     return;
 }
 

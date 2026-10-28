@@ -8,4 +8,4 @@
 #include "Main/Unknown/unk_0216c000.h"
 
 void func_020fcac0(Unk020fc2e8 *param_1);
-void func_020fcb30(unsigned int p0);
+void func_020fcb30(Unk020fc2e8 *p);

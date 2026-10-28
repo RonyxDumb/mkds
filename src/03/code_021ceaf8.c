@@ -1,17 +1,17 @@
 #include "03/code_021ceaf8.h"
 
-void func_ov003_021ceaf8(int param_1) {
-    u32 local_10;
-    int local_c;
-    func_ov003_021d1770((int) (*(u32 *) (*(int *) &data_ov003_021da284)), (int) (0), &local_10, (u32 *) (&local_c));
-    local_c = local_c + 0xc;
+void func_ov003_021ceaf8(Unk021d34e0 *param_1) {
+    u32 w;
+    s32 h;
+
+    func_ov003_021d1770(data_ov003_021da284->mUnk_00, 0, &w, &h);
+    h += 0xc;
     func_ov003_021cec50();
-    if (192 <= local_c) {
-        if (*(unsigned char *) ((*(int *) &data_ov003_021da284) + 0x1e) != '\0') {
-            func_ov003_021d34e0((int) (param_1), (u32) (((u32) &func_ov003_021ceab8)));
+    if (h >= 192) {
+        if (data_ov003_021da284->mUnk_1e != 0) {
+            func_ov003_021d34e0(param_1, func_ov003_021ceab8);
             return;
         }
-        func_ov003_021d34e0((int) (param_1), (u32) (((u32) &func_ov003_021cea3c)));
+        func_ov003_021d34e0(param_1, func_ov003_021cea3c);
     }
-    return;
 }
