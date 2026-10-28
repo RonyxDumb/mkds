@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02087cd0.h"
 
-void func_02087cd0(unsigned int p0, unsigned int p1) {
+void func_02087cd0(void *p0, unsigned int p1) {
     *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned short) (0x1u);
     *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2) = (unsigned short) (0x0u);
     *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 8) = (unsigned int) (0x1000u);
