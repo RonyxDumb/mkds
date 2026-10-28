@@ -12,7 +12,7 @@ struct Unk0208e490;
 // and of code_020fd264.c, code_020fe16c.c and code_020fe268.c.
 typedef struct Unk020fdae8 {
     /* 000 */ Unk020f2df0 mUnk_000;
-    /* 130 */ u32 mUnk_130;
+    /* 130 */ s32 mUnk_130;
     /* 134 */ s32 mUnk_134;
     /* 138 */ struct Unk0208e490 *mUnk_138;
     /* 13c */ u8 mUnk_13c[0x30];

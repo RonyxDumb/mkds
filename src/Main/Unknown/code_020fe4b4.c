@@ -28,7 +28,7 @@ u8 *func_020ff2b0(u8 *a, Unk020ff438 *b, void *c) {
     }
     p = func_020fecdc(a, b, c);
     if (b != 0 && c == 0) {
-        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_5c.y, (s32 *) &b->mUnk_13c);
+        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_5c.y, &b->mUnk_13c);
     }
     if (b != 0 && c != 0) {
         return func_020fe8ac(b->mUnk_000.mUnk_000.mUnk_44);

@@ -41,7 +41,7 @@ typedef struct Unk020ff97c {
 typedef struct Unk020ff438 {
     /* 000 */ Unk020f2df0 mUnk_000;
     /* 130 */ Vec3 mUnk_130;
-    /* 13c */ u32 mUnk_13c;
+    /* 13c */ s32 mUnk_13c;
     /* 140 */ Unk021052fc *mUnk_140;
 } Unk020ff438;
 
