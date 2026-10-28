@@ -100,7 +100,7 @@ void func_020e705c(Unk020e6fd4 *p) {
         s32 i;
 
         for (i = 0; i < n; i++) {
-            e = (Unk020e71a0 *) arr[i];
+            e = arr[i];
             if (e->mUnk_94 != 0) {
                 func_020e71a0(e);
             }
@@ -111,7 +111,7 @@ void func_020e705c(Unk020e6fd4 *p) {
         s32 i;
 
         for (i = 0; i < n; i++) {
-            e = (Unk020e71a0 *) arr[i];
+            e = arr[i];
             if ((e->mUnk_02 & 4) == 0) {
                 t = e->mUnk_04;
                 cb(p, e);
@@ -127,7 +127,7 @@ void func_020e705c(Unk020e6fd4 *p) {
         s32 i;
 
         for (i = 0; i < n; i++) {
-            e = (Unk020e71a0 *) arr[i];
+            e = arr[i];
             if ((e->mUnk_02 & 4) == 0) {
                 cb(p, e);
                 if (e->mUnk_94 != 0) {
@@ -155,7 +155,7 @@ void func_020e6fd4(Unk020e6fd4 *p) {
         return;
     }
     for (i = 0; i < n; i++) {
-        e = (Unk020e71a0 *) arr[i];
+        e = arr[i];
         if ((e->mUnk_02 & 0x88) == 0) {
             cb(e, 0, &buf[0], &buf[1]);
         }

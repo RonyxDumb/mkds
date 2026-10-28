@@ -9,7 +9,7 @@
 
 void func_ov001_02184e18(u16 *param_1);
 void func_ov001_02184e6c(u32 param_1);
-void func_ov001_02184e8c(u32 param_1);
-void func_ov001_02184ec8(u32 param_1);
-void func_ov001_02184f04(u32 param_1);
-void func_ov001_02184f40(u32 param_1);
+void func_ov001_02184e8c(Unk02188950 *param_1);
+void func_ov001_02184ec8(Unk02188950 *param_1);
+void func_ov001_02184f04(Unk02188950 *param_1);
+void func_ov001_02184f40(Unk02188950 *param_1);

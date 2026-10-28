@@ -3,6 +3,7 @@
 #include "types.h"
 #include "01/code_021a5140.h"
 #include "01/code_021a59cc.h"
+#include "01/code_02188950.h" // Unk02188950
 
 // Data that func_ov001_021852f8 gets for the name it is given.
 typedef struct Unk021852f8_02 {
@@ -36,8 +37,8 @@ typedef struct Unk0218516c {
     /* 402 */ u16 mUnk_402;
 } Unk0218516c;
 
-void func_ov001_02184f7c(void *param_1);
-void func_ov001_02184f8c(void *param_1);
+void func_ov001_02184f7c(Unk02188950 *param_1);
+void func_ov001_02184f8c(Unk02188950 *param_1);
 void func_ov001_02184f9c(Unk021a5a58 *param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5);
 s32 func_ov001_02184fb0(Unk021a5a58 *param_1);
 void func_ov001_02184fb4(Unk021a5a58 *param_1, s32 param_2);

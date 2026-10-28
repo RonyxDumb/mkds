@@ -22,12 +22,12 @@ void func_020e3238(Unk020e1e98 *a) {
     }
 }
 
-u8 func_020e311c(Unk020e1e98 *a, Unk020e246c *b, u8 *c, u8 *d) {
+u8 func_020e311c(Unk020e1e98 *a, Unk0206bcb0 *b, u8 *c, u8 *d) {
     Vec3 v;
 
     switch (c[0]) {
         case 2:
-            if (data_021759c0->mUnk_70[b->mUnk_074].mUnk_00 == 2) {
+            if (data_021759c0->mUnk_70[b->mUnk_74].mUnk_00 == 2) {
                 return d[0];
             }
             if (a->mUnk_000.mUnk_80.mUnk_0e == 7) {
@@ -35,11 +35,11 @@ u8 func_020e311c(Unk020e1e98 *a, Unk020e246c *b, u8 *c, u8 *d) {
             }
             a->mUnk_000.mUnk_80.mUnk_10 = 7;
             a->mUnk_000.mUnk_80.mUnk_12 = 1;
-            func_020d26f8(&a->mUnk_000, (Unk0206bcb0 *) b);
+            func_020d26f8(&a->mUnk_000, b);
             break;
         case 1:
-            func_021484d0(&a->mUnk_000.mUnk_04, &b->mUnk_080, &v);
-            if ((s64) v.z * b->mUnk_0a4 - (s64) v.x * b->mUnk_0ac < 0) {
+            func_021484d0(&a->mUnk_000.mUnk_04, &b->mUnk_80, &v);
+            if ((s64) v.z * b->mUnk_a4.x - (s64) v.x * b->mUnk_a4.z < 0) {
                 a->mUnk_0b4.mUnk_00 = 1;
             } else {
                 a->mUnk_0b4.mUnk_00 = 0;
@@ -48,7 +48,7 @@ u8 func_020e311c(Unk020e1e98 *a, Unk020e246c *b, u8 *c, u8 *d) {
             a->mUnk_000.mUnk_80.mUnk_10 = 6;
             a->mUnk_000.mUnk_80.mUnk_12 = 1;
             a->mUnk_000.mUnk_02 |= *(u16 *) data_02158bb4;
-            func_020d26f8(&a->mUnk_000, (Unk0206bcb0 *) b);
+            func_020d26f8(&a->mUnk_000, b);
             break;
     }
     return d[0];

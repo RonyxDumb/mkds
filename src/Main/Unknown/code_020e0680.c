@@ -318,10 +318,10 @@ void func_020e24d0(Unk020e1e98 *a, Vec3 *b) {
     a->mUnk_0fe = 0x14;
 }
 
-u8 func_020e2494(Unk020e1e98 *a, Unk020e246c *b, u8 *c, u8 *d) {
+u8 func_020e2494(Unk020e1e98 *a, Unk0206bcb0 *b, u8 *c, u8 *d) {
     if (*c == 1) {
-        func_020e24d0(a, &b->mUnk_080);
-        func_020d26f8(&a->mUnk_000, (Unk0206bcb0 *) b);
+        func_020e24d0(a, &b->mUnk_80);
+        func_020d26f8(&a->mUnk_000, b);
     }
     return *d;
 }
