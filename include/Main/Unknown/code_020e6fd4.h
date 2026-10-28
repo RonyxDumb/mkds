@@ -4,6 +4,7 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_0210bcf4.h"
 #include "Main/Unknown/code_020e005c.h" // Unk020e005c_080
+#include "Main/Unknown/code_0210b000.h" // Unk0210b7ec
 
 struct Unk020e71a0;
 struct Unk020fa294;
@@ -11,7 +12,8 @@ struct Unk020fa294;
 // Object behind Unk020e71a0.mUnk_94, passed to func_0210cfbc (which reads its halfword at 0x34).
 typedef struct Unk020e71a0_94 {
     /* 00 */ Unk0210bfbc mUnk_00;
-    /* 44 */ u8 mUnk_44[0x1c];
+    /* 44 */ Unk0210b7ec mUnk_44;
+    /* 54 */ u8 mUnk_54[0xc];
 } Unk020e71a0_94;
 
 // Object behind Unk020e71a0.mUnk_98: func_020e6f58 copies its 0x04 into the callback slot at 0x1c of a Unk020e6fd4

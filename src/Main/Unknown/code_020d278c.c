@@ -109,7 +109,7 @@ void func_020d28e0(Unk020e71a0 *param_1) {
     }
 }
 
-void *func_020d286c(Unk020e71a0 *param_1) {
+Unk0210b7ec *func_020d286c(Unk020e71a0 *param_1) {
     param_1->mUnk_94 = func_02036bec(func_020364e0(func_020364e8()), 0x60);
     func_02109110(&param_1->mUnk_94->mUnk_00, 2, &param_1->mUnk_04);
     param_1->mUnk_70 = data_0217ca6c[2].mUnk_20;
@@ -117,7 +117,7 @@ void *func_020d286c(Unk020e71a0 *param_1) {
     if (param_1->mUnk_94->mUnk_00.mUnk_34 & 1) {
         func_0210cfbc(&param_1->mUnk_94->mUnk_00, 2, 1);
     }
-    return param_1->mUnk_94->mUnk_44;
+    return &param_1->mUnk_94->mUnk_44;
 }
 
 void func_020d27fc(Unk020e71a0 *param_1) {
