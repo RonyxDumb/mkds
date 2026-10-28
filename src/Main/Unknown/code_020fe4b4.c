@@ -23,11 +23,11 @@ u8 *func_020ff2b0(u8 *a, Unk020ff438 *b, void *c) {
     u8 *p;
 
     if (b != 0 && c != 0) {
-        func_020ff1b8(b->mUnk_13c, (u32 *) &b->mUnk_000.mUnk_5c.y);
+        func_020ff1b8(b->mUnk_13c, &b->mUnk_000.mUnk_5c.y);
     }
     p = func_020fecdc(a, b, c);
     if (b != 0 && c == 0) {
-        func_020ff1a0(b->mUnk_000.mUnk_5c.y, &b->mUnk_13c);
+        func_020ff1a0(b->mUnk_000.mUnk_5c.y, (s32 *) &b->mUnk_13c);
     }
     if (b != 0 && c != 0) {
         return func_020fe8ac(b->mUnk_000.mUnk_44);
@@ -76,7 +76,7 @@ void func_020ff1d8(void) {
 
 #pragma thumb off
 
-void func_020ff1b8(s32 a, u32 *p) {
+void func_020ff1b8(s32 a, s32 *p) {
     if (a != 0) {
         *p |= 0x200;
     } else {
@@ -84,7 +84,7 @@ void func_020ff1b8(s32 a, u32 *p) {
     }
 }
 
-void func_020ff1a0(s32 a, u32 *p) {
+void func_020ff1a0(s32 a, s32 *p) {
     if (a & 0x200) {
         *p = 1;
     } else {

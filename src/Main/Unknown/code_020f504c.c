@@ -159,14 +159,14 @@ void *func_020f5550(void *a, Unk020f5d6c *b, void *c) {
 
     if (b != 0 && c != 0) {
         dot = func_02039828(&b->mUnk_000.mUnk_000.mUnk_000.mUnk_5c, &b->mUnk_000.mUnk_000.mUnk_130);
-        func_020ff1b8(dot < 0, (u32 *) &b->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.y);
-        func_020ff1b8(b->mUnk_254, (u32 *) &b->mUnk_000.mUnk_000.mUnk_000.mUnk_50.y);
+        func_020ff1b8(dot < 0, &b->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.y);
+        func_020ff1b8(b->mUnk_254, &b->mUnk_000.mUnk_000.mUnk_000.mUnk_50.y);
     }
     p = func_020fecdc(a, b, c);
     p = func_020ff040(p, b != 0 ? &b->mUnk_000.mUnk_21c : 0, c);
     if (b != 0 && c == 0) {
-        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.y, (u32 *) &b->mUnk_250);
-        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_000.mUnk_50.y, (u32 *) &b->mUnk_254);
+        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.y, &b->mUnk_250);
+        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_000.mUnk_50.y, &b->mUnk_254);
     }
     if (b != 0 && c != 0) {
         return func_020fe8ac(b->mUnk_000.mUnk_000.mUnk_000.mUnk_44);
@@ -183,7 +183,7 @@ void func_020f53d0(Unk020f5d6c *a) {
     u16 i;
 
     func_020f8e78(a);
-    func_0210b850((u32) &a->mUnk_258);
+    func_0210b850(&a->mUnk_258);
     a->mUnk_000.mUnk_000.mUnk_000.mUnk_00.mUnk_30 = (void (*)(void *, void *, void *)) func_0210a77c;
     func_02046be8(&a->mUnk_23c, (UnkFunc *const *) data_0216c648, 7, a);
     if (a->mUnk_254 != 0) {
@@ -297,11 +297,11 @@ void *func_020f5108(void *a, Unk020f5240 *b, void *c) {
     void *p;
 
     if (b != 0 && c != 0) {
-        func_020ff1b8(b->mUnk_130, (u32 *) &b->mUnk_000.mUnk_000.mUnk_5c.y);
+        func_020ff1b8(b->mUnk_130, &b->mUnk_000.mUnk_000.mUnk_5c.y);
     }
     p = func_020fecdc(a, b, c);
     if (b != 0 && c == 0) {
-        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_5c.y, (u32 *) &b->mUnk_130);
+        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_5c.y, &b->mUnk_130);
     }
     if (b != 0 && c != 0) {
         return func_020fe8ac(b->mUnk_000.mUnk_000.mUnk_44);

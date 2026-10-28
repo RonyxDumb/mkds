@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_020e005c.h"
+#include "Main/Unknown/code_0210b000.h" // Unk0210b7ec
 #include "code_02012b30.h"
 
 // Block of ten words.
@@ -178,7 +179,7 @@ typedef struct Unk020e1e98 {
     /* 150 */ u16 mUnk_150;
     /* 152 */ u16 mUnk_152;
     /* 154 */ Unk020e1e98_154 *mUnk_154;
-    /* 158 */ u32 mUnk_158;
+    /* 158 */ Unk0210b7ec *mUnk_158;
     /* 15c */ u32 mUnk_15c;
     /* 160 */ u32 mUnk_160;
 } Unk020e1e98;

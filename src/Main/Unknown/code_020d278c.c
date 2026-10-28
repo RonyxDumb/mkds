@@ -109,7 +109,7 @@ void func_020d28e0(Unk020e71a0 *param_1) {
     }
 }
 
-u8 *func_020d286c(Unk020e71a0 *param_1) {
+void *func_020d286c(Unk020e71a0 *param_1) {
     param_1->mUnk_94 = func_02036bec(func_020364e0(func_020364e8()), 0x60);
     func_02109110(&param_1->mUnk_94->mUnk_00, 2, &param_1->mUnk_04);
     param_1->mUnk_70 = data_0217ca6c[2].mUnk_20;

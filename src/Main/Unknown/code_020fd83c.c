@@ -250,12 +250,12 @@ void *func_020fda50(void *a, Unk020fdae8 *b, void *c) {
     void *r;
 
     if (b != 0 && c != 0) {
-        func_020ff1b8(b->mUnk_130, (u32 *) &b->mUnk_000.mUnk_5c.y);
+        func_020ff1b8(b->mUnk_130, &b->mUnk_000.mUnk_5c.y);
     }
     r = func_020fecdc(a, b, c);
     r = func_020fefe8(r, b != 0 ? &b->mUnk_134 : 0, c);
     if (b != 0 && c == 0) {
-        func_020ff1a0(b->mUnk_000.mUnk_5c.y, &b->mUnk_130);
+        func_020ff1a0(b->mUnk_000.mUnk_5c.y, (s32 *) &b->mUnk_130);
     }
     if (b != 0 && c != 0) {
         return func_020fe8ac(b->mUnk_000.mUnk_44);
