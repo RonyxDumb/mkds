@@ -55,3 +55,6 @@ typedef struct Unk02165ff0 {
 } Unk02165ff0;
 
 extern Unk02165ff0 data_02165ff0;
+
+extern u8 data_021651d4[];
+extern u8 data_021651d8[];
