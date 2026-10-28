@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_0208001c.h"
+#include "Main/Unknown/code_0208fd8c.h"
 
 // Entry of the list func_020888b4 searches: a halfword at 0x02 (bit 0 tested) and a vector at 0x04.
 typedef struct Unk020888b4_d0 {
@@ -11,13 +12,35 @@ typedef struct Unk020888b4_d0 {
     /* 04 */ Vec3 mUnk_04;
 } Unk020888b4_d0;
 
-// Object of 0xe8 bytes (func_020888b4 to func_02089a24 take it first): the Unk0206bcb0 it follows at 0x00, a
-// Unk0208001c at 0x28 and vectors at 0x44, 0x50, 0x60 and 0xdc.
+// Object of 0x34 bytes at 0xe8 of the object Unk020888b4 starts: func_02089a24 writes the words at 0x28 and 0x2c and
+// the halfword at 0x30.
+typedef struct Unk02089a24 {
+    /* 00 */ u8 mUnk_00[0x28];
+    /* 28 */ s32 mUnk_28;
+    /* 2c */ s32 mUnk_2c;
+    /* 30 */ u16 mUnk_30;
+    /* 32 */ u8 mUnk_32[2];
+} Unk02089a24;
+
+// Object at 0x140 of the object Unk020888b4 starts: func_02089c3c and func_02089b4c write the words at 0x04, 0x0c and
+// 0x10.
+typedef struct Unk02089b4c {
+    /* 00 */ u8 mUnk_00[4];
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ u8 mUnk_08[4];
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+} Unk02089b4c;
+
+// Object of 0x158 bytes (func_020888b4 to func_02089a24 take it first): the Unk0206bcb0 it follows at 0x00, a
+// Unk0208001c at 0x28, vectors at 0x44, 0x50, 0x60 and 0xdc, a Unk02089a24 at 0xe8, a Unk0208fd8c at 0x11c, a
+// Unk02089b4c at 0x140 and a word at 0x154.
 typedef struct Unk020888b4 {
     /* 00 */ Unk0206bcb0 *mUnk_00;
     /* 04 */ u16 mUnk_04;
     /* 06 */ u16 mUnk_06;
-    /* 08 */ u8 mUnk_08[0x20];
+    /* 08 */ Unk0208001c mUnk_08;
+    /* 24 */ u8 mUnk_24[4];
     /* 28 */ Unk0208001c mUnk_28;
     /* 44 */ Vec3 mUnk_44;
     /* 50 */ Vec3 mUnk_50;
@@ -49,27 +72,11 @@ typedef struct Unk020888b4 {
     /* d6 */ u8 mUnk_d6[2];
     /* d8 */ s32 mUnk_d8;
     /* dc */ Vec3 mUnk_dc;
+    /* e8 */ Unk02089a24 mUnk_e8;
+    /* 11c */ Unk0208fd8c mUnk_11c;
+    /* 140 */ Unk02089b4c mUnk_140;
+    /* 154 */ s32 mUnk_154;
 } Unk020888b4;
-
-// Object of 0x34 bytes at 0xe8 of the object Unk020888b4 starts: func_02089a24 writes the words at 0x28 and 0x2c and
-// the halfword at 0x30.
-typedef struct Unk02089a24 {
-    /* 00 */ u8 mUnk_00[0x28];
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ u16 mUnk_30;
-    /* 32 */ u8 mUnk_32[2];
-} Unk02089a24;
-
-// Object at 0x140 of the object Unk020888b4 starts: func_02089c3c and func_02089b4c write the words at 0x04, 0x0c and
-// 0x10.
-typedef struct Unk02089b4c {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u8 mUnk_08[4];
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-} Unk02089b4c;
 
 void func_02089c3c(Unk02089b4c *a, Unk020888b4 *b);
 void func_02089b4c(Unk02089b4c *a, Unk020888b4 *b, s32 c);

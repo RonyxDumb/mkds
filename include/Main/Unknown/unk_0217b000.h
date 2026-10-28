@@ -9,6 +9,7 @@
 #include "Main/Unknown/code_01ffdee4.h" // Unk0217b614
 #include "Main/Unknown/code_020e6fd4.h"
 #include "Main/Unknown/unk_02158000.h"
+#include "Main/Unknown/code_0208fd8c.h"
 
 struct Unk020f41c4_B;
 struct Unk0217b4f0;
@@ -153,6 +154,16 @@ extern struct Unk020184e4 *data_0217b044;
 extern struct Unk020184e4 *data_0217b04c;
 extern u8 data_0217b050[];
 extern UnkFunc *data_0217b054;
+
+// Function pointers set by func_0208c284 (the targets take different parameters).
+extern UnkFunc *data_0217b058;
+extern UnkFunc *data_0217b05c;
+extern UnkFunc *data_0217b060;
+extern UnkFunc *data_0217b064;
+extern UnkFunc *data_0217b068;
+extern UnkFunc *data_0217b06c;
+extern UnkFunc *data_0217b070;
+extern s32 (*data_0217b074)();
 // Object behind data_0217b080, 0x60 bytes: 12-byte blocks at 0x00, 0x0c, 0x18 and 0x24.
 typedef struct Unk0217b080 {
     /* 00 */ Unk02017328 mUnk_00;
@@ -164,6 +175,7 @@ typedef struct Unk0217b080 {
 } Unk0217b080;
 
 extern Unk0217b080 *data_0217b080;
+extern Unk0208fd8c_08 *data_0217b0a4;
 
 // Object behind data_0217b08c, 0x38 bytes: 12-byte blocks at 0x00, 0x0c and 0x18.
 typedef struct Unk0217b08c {

@@ -18,6 +18,8 @@ typedef struct UnkVec16 {
     s16 z;
 } UnkVec16;
 
+struct Unk020888b4;
+
 typedef struct Unk0206c1ac_B {
     /* 0 */ u32 mUnk_00;
     /* 4 */ Vec3 mUnk_04;
@@ -232,7 +234,7 @@ typedef struct Unk0206bcb0 {
     /* 304 */ u16 *mUnk_304;
     /* 308 */ u16 *mUnk_308;
     /* 30c */ s32 mUnk_30c;
-    /* 310 */ u32 mUnk_310;
+    /* 310 */ struct Unk020888b4 *mUnk_310;
     /* 314 */ u8 mUnk_314[0x52];
     /* 366 */ u16 mUnk_366;
     /* 368 */ s32 mUnk_368;
@@ -295,12 +297,8 @@ void func_0206c488(Unk0206c1ac *obj, Unk0206bcb0 *p);
 void func_02055c5c(void);
 void func_02068a64(Unk0206bcb0 *p, int a, int b);
 void func_0207b0d0(Unk0206bcb0 *p);
-void func_02080ee4(Unk0206bcb0 *p);
-void func_02080e88(Unk0206c1ac *obj, Unk0206bcb0 *p);
 Unk0208c5b8 *func_0208c5b8(int idx);
 void func_0208c534(Unk0208c5b8 *p);
-void func_0208c188(u32 arg);
-void func_0208c1ac(u32 arg);
 void func_0208b748(u32 idx, const Vec3 *pos, void *p, void (*cb)());
 int func_0206c494(Unk0206bcb0 *p);
 void func_0206cc60(Unk0206bcb0 *p, int arg);

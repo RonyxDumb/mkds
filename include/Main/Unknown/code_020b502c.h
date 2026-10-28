@@ -59,7 +59,11 @@ typedef struct {
 
 // 0x30-byte entries of the table at Unk02175620::mUnk_bc (func_02080908 searches it).
 typedef struct Unk02175620_bc {
-    /* 00 */ u8 mUnk_00[0x20];
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ struct Unk02175620_bc *mUnk_0c;
+    /* 10 */ u8 mUnk_10[8];
+    /* 18 */ Vec3 *mUnk_18;
+    /* 1c */ u8 mUnk_1c[4];
     /* 20 */ Vec3 *mUnk_20;
     /* 24 */ s32 mUnk_24;
     /* 28 */ s16 *mUnk_28;
@@ -131,7 +135,7 @@ typedef struct {
     /* 9c */ u16 mUnk_9c;
     /* 9e */ u8 mUnk_9e[2];
     /* a0 */ void *mUnk_a0;
-    /* a4 */ s32 mUnk_a4;
+    /* a4 */ Unk02175620_bc *mUnk_a4;
     /* a8 */ s32 mUnk_a8;
     /* ac */ struct Unk020f371c *mUnk_ac;
     /* b0 */ s32 mUnk_b0;

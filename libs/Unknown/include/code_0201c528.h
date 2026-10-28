@@ -249,7 +249,15 @@ struct Unk0201ca6c {
     /* 8a */ Unk02148038 mUnk_8a;
     /* 90 */ void (*mUnk_90)(Unk0201ca6c *p, s32 a);
     /* 94 */ u32 mUnk_94;
-    /* 98 */ u32 mUnk_98;
+    /* 98 */ union {
+        u32 mUnk_98;
+        struct {
+            u8 mUnk_98_0;
+            u8 mUnk_98_8;
+            u8 mUnk_98_16;
+            u8 mUnk_98_24;
+        };
+    };
 };
 
 // Read by func_0201e248 and func_0201dfc0.
