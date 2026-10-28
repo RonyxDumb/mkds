@@ -5,5 +5,5 @@
 #include "code_020184e4.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-void func_0208b870(u32 arg0);
+void func_0208b870(Unk02012f58 *param_1);
 void func_0208b8c8(void);

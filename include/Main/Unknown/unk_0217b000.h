@@ -140,13 +140,14 @@ typedef struct Unk0217b4d4 {
 
 // Objects whose layout isn't known yet.
 extern u8 data_0217b038[];
-extern u8 data_0217b03c[];
 struct Unk020184e4;
 
+extern struct Unk020184e4 *data_0217b03c;
+
 extern struct Unk020184e4 *data_0217b044;
-extern u8 data_0217b04c[];
+extern struct Unk020184e4 *data_0217b04c;
 extern u8 data_0217b050[];
-extern u8 data_0217b054[];
+extern UnkFunc *data_0217b054;
 // Object behind data_0217b080, 0x60 bytes: 12-byte blocks at 0x00, 0x0c, 0x18 and 0x24.
 typedef struct Unk0217b080 {
     /* 00 */ Unk02017328 mUnk_00;

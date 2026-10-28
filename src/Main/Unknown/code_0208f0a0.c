@@ -1,28 +1,11 @@
 #include "Main/Unknown/code_0208f0a0.h"
 #include "code_020172d0.h"
 
-// non-matching: 0x84 bytes, original 0x58; 24 instructions differ; first at +0x0: original `stmdb sp!, {r4, r5, lr}`,
-// ours `stmdb sp!, {r4, r5, r6, r7, lr}`
 void func_0208f0a0(void) {
-    u32 uVar1;
-    u32 uVar2;
-    int iVar3;
-    u32 uVar4;
-    iVar3 = (int) func_0201733c(
-        (Unk02017328 *) (u32) (*(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc) >> (((u32) (&data_0217b08c)) & 3) * 8 |
-                               *(u32 *) (((u32) (&data_0217b08c)) & 0xfffffffc)
-                                   << (((u32) (&data_0217b08c)) & 3) * -8 + 0x20),
-        (void *) (0));
-    uVar2 = ((u32) (&data_0217b08c));
-    if (iVar3 == 0) {
-        return;
+    void *p;
+    p = func_0201733c(&data_0217b08c->mUnk_00, 0);
+    while (p != 0) {
+        func_0208e99c(p);
+        p = func_0201733c(&data_0217b08c->mUnk_00, p);
     }
-    do {
-        func_0208e99c((int) (iVar3));
-        uVar1 = uVar2 & 3;
-        uVar4 = *(u32 *) (uVar2 & 0xfffffffc);
-        iVar3 = (int) func_0201733c((Unk02017328 *) (u32) (uVar4 >> uVar1 * 8 | uVar4 << uVar1 * -8 + 0x20),
-                                    (void *) (iVar3));
-    } while (iVar3 != 0);
-    return;
 }

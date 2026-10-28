@@ -26,13 +26,13 @@ void func_020a2350(unsigned int p0) {
                        900) = (unsigned int) (p0);
 }
 
-void func_020a233c(unsigned int p0) {
+void func_020a233c(s32 (*p0)(u16 a, u16 b)) {
     *(unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
                            const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b1fc))) + 0))) +
                        904) = (unsigned int) (p0);
 }
 
-void func_020a2328(unsigned int p0) {
+void func_020a2328(void (*p0)(u16 a)) {
     *(unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
                            const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b1fc))) + 0))) +
                        908) = (unsigned int) (p0);

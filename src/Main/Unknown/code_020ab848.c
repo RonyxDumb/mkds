@@ -2,38 +2,33 @@
 
 #pragma thumb on
 
-// non-matching: 2 instructions differ; first at +0x10: original `ldr r2, [r5, #0x0]`, ours `ldr r0, [pc, #0x60]
-// (->0x74)`
-void func_020ab848(int *param_1, int *param_2, int *param_3, int *param_4) {
-    int *piVar1;
-    int iVar2;
+void func_020ab848(s32 *param_1, s32 *param_2, s32 *param_3, s32 *param_4) {
+    s32 value;
     func_020ab11c();
-    piVar1 = (int *) &data_0217b334;
-    *param_1 = *param_1 - *(int *) ((*(int *) &data_0217b334) + 0x50);
-    *param_2 = *param_2 - *(int *) (*piVar1 + 0x54);
-    *param_3 = *param_3 - *(int *) (*piVar1 + 0x50);
-    *param_4 = *param_4 - *(int *) (*piVar1 + 0x54);
-    iVar2 = *param_1;
-    if (iVar2 < 0) {
-        iVar2 = iVar2 + ((int) 0x00000100u);
+    *param_1 = *param_1 - data_0217b334->mUnk_50;
+    *param_2 = *param_2 - data_0217b334->mUnk_54;
+    *param_3 = *param_3 - data_0217b334->mUnk_50;
+    *param_4 = *param_4 - data_0217b334->mUnk_54;
+    value = *param_1;
+    if (value < 0) {
+        value += 0x100;
     }
-    *param_1 = iVar2;
-    iVar2 = *param_2;
-    if (iVar2 < 0) {
-        iVar2 = iVar2 + ((int) 0x00000100u);
+    *param_1 = value;
+    value = *param_2;
+    if (value < 0) {
+        value += 0x100;
     }
-    *param_2 = iVar2;
-    iVar2 = *param_3;
-    if (iVar2 < 0) {
-        iVar2 = iVar2 + ((int) 0x00000100u);
+    *param_2 = value;
+    value = *param_3;
+    if (value < 0) {
+        value += 0x100;
     }
-    *param_3 = iVar2;
-    iVar2 = *param_4;
-    if (iVar2 < 0) {
-        iVar2 = iVar2 + ((int) 0x00000100u);
+    *param_3 = value;
+    value = *param_4;
+    if (value < 0) {
+        value += 0x100;
     }
-    *param_4 = iVar2;
-    return;
+    *param_4 = value;
 }
 
 #pragma thumb off
