@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02054f38.h"
 
-u32 func_02054f38(void) {
+s32 func_02054f38(void) {
     u32 value0;
     u32 value1;
     value0 = (u32) &data_0217aa00;
@@ -8,5 +8,5 @@ u32 func_02054f38(void) {
     value0 = (u32) * (const u32 *) ((value0) + (0));
     value0 = (value0) + (0x400u);
     *(u16 *) ((value0) + (50)) = (u16) value1;
-    return (u32) value0;
+    return (s32) value0;
 }

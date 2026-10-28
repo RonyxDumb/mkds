@@ -564,7 +564,7 @@ void func_02051734(void) {
         data_0217aa00->mUnk_0010 = 0;
         return;
     }
-    func_02054208(&data_0217aa00->mUnk_15bc);
+    func_02054208(&data_0217aa00->mUnk_15bc_view);
 }
 
 void func_02051658(void) {
