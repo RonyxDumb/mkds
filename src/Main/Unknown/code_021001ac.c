@@ -145,9 +145,9 @@ void func_021001ac(Unk02101c84 *p, s32 param_2, Unk020e6488 *q) {
     a = 0x1e;
     func_01ff9048(0x14, &a, 1);
     func_01ff9048(0x19, func_020e6cf8(p->mUnk_000.mUnk_d0), 0xc);
-    v[0] = p->mUnk_000.mUnk_68;
-    v[1] = p->mUnk_000.mUnk_6c;
-    v[2] = p->mUnk_000.mUnk_70;
+    v[0] = p->mUnk_000.mUnk_68.x;
+    v[1] = p->mUnk_000.mUnk_68.y;
+    v[2] = p->mUnk_000.mUnk_68.z;
     func_01ff9048(0x1b, v, 3);
     if (p->mUnk_160 < 0xe && p->mUnk_13a >= 3) {
         r = func_020ed578(p->mUnk_160);

@@ -447,7 +447,7 @@ void func_020ed79c(Unk020ed718 *p, Vec3 *v) {
         } else {
             r = func_020e6b94(q->mUnk_d0);
         }
-        func_020e67c4(d, r, (Vec3 *) &q->mUnk_68, 0, 0x1f);
+        func_020e67c4(d, r, &q->mUnk_68, 0, 0x1f);
         if ((d8 = q->mUnk_d8) != 0x1f) {
             d->mUnk_14 &= ~0x1f0000;
             d->mUnk_14 |= 0x1f0000;
@@ -505,7 +505,7 @@ void func_020ed5c0(Unk020f41c4_A *p, Unk020e6488 *q, Vec3 *v) {
     } else {
         r = func_020e6b94(p->mUnk_d0);
     }
-    func_020e67c4(q, r, (Vec3 *) &p->mUnk_68, 0, 0x1f);
+    func_020e67c4(q, r, &p->mUnk_68, 0, 0x1f);
     if ((d = p->mUnk_d8) != 0x1f) {
         q->mUnk_14 &= ~0x1f0000;
         q->mUnk_14 |= 0x1f0000;

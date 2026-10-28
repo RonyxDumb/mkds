@@ -49,7 +49,7 @@ void func_020f91fc(void *param_1, s32 param_2) {
 s32 func_020f91e0(void *param_1) {
     Unk020f41c4_A *p = param_1;
 
-    return p->mUnk_70 >= 0xccd;
+    return p->mUnk_68.z >= 0xccd;
 }
 
 s32 func_020f91c4(Unk020f41c4_A *param_1, s32 param_2) {
@@ -125,13 +125,13 @@ void func_020f8e78(void *param_1) {
     Unk0217bc34 *e;
     s32 a;
 
-    p->mUnk_70 = 0xccd;
+    p->mUnk_68.z = 0xccd;
     p->mUnk_74 |= 0x40;
-    p->mUnk_6c = p->mUnk_70;
-    p->mUnk_68 = p->mUnk_6c;
+    p->mUnk_68.y = p->mUnk_68.z;
+    p->mUnk_68.x = p->mUnk_68.y;
     e = &data_0217bc34[p->mUnk_44];
-    p->mUnk_dc = (s32) (((s64) p->mUnk_6c * e->mUnk_64) >> 12);
-    p->mUnk_e0 = (s32) (((s64) p->mUnk_6c * e->mUnk_6c) >> 12);
+    p->mUnk_dc = (s32) (((s64) p->mUnk_68.y * e->mUnk_64) >> 12);
+    p->mUnk_e0 = (s32) (((s64) p->mUnk_68.y * e->mUnk_6c) >> 12);
     func_020d5148(p->mUnk_da, p->mUnk_e0 + 0xa000);
     func_0208adc8(p->mUnk_7c.mUnk_00, 1);
     p->mUnk_90 = 0;

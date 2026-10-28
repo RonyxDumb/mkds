@@ -56,9 +56,9 @@ void func_020f9a14(Unk020f41c4_A *param_1, s32 param_2) {
     param_1->mUnk_44 = param_2;
     param_1->mUnk_74 = 0;
     param_1->mUnk_7a = 0;
-    param_1->mUnk_68 = 0;
-    param_1->mUnk_6c = 0;
-    param_1->mUnk_70 = 0;
+    param_1->mUnk_68.x = 0;
+    param_1->mUnk_68.y = 0;
+    param_1->mUnk_68.z = 0;
     param_1->mUnk_100 = 0;
     param_1->mUnk_dc = 0x7b;
     param_1->mUnk_e0 = 0x7b;

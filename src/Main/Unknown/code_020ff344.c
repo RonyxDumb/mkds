@@ -173,7 +173,7 @@ void func_020ff654(Unk020ff438 *e) {
 }
 
 void func_020ff638(Unk020edb8c *a, Unk020ff438 *e) {
-    func_02105338(e->mUnk_140, e->mUnk_000.mUnk_d8, (Vec3 *) &e->mUnk_000.mUnk_68);
+    func_02105338(e->mUnk_140, e->mUnk_000.mUnk_d8, &e->mUnk_000.mUnk_68);
 }
 
 u32 func_020ff538(Unk020edb8c *a, Unk020ff438 *e) {
@@ -221,7 +221,7 @@ void func_020ff438(Unk020ff438 *e) {
             func_020f6a6c((Unk0206bcb0 *) e, &t);
         }
     }
-    func_02105338(e->mUnk_140, e->mUnk_000.mUnk_d8, (Vec3 *) &e->mUnk_000.mUnk_68);
+    func_02105338(e->mUnk_140, e->mUnk_000.mUnk_d8, &e->mUnk_000.mUnk_68);
 }
 
 s32 func_020ff3c4(Unk020ff438 *e) {

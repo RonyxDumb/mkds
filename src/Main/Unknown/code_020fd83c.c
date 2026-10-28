@@ -51,7 +51,7 @@ void func_020fe00c(Unk020fdae8 *e) {
 
     e->mUnk_000.mUnk_74 |= 0x800000;
     e->mUnk_000.mUnk_100 = 0;
-    *(Vec3 *) &e->mUnk_000.mUnk_68 = data_02159f30;
+    e->mUnk_000.mUnk_68 = data_02159f30;
     e->mUnk_138 = func_0208e490(0, &e->mUnk_000.mUnk_50, func_020f9160(&e->mUnk_000) == 0 ? 1 : 0);
     q = e->mUnk_138;
     if (q != 0) {

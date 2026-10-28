@@ -60,9 +60,7 @@ typedef struct Unk020f41c4_A {
     /* 4e */ s16 mUnk_4e;
     /* 050 */ Vec3 mUnk_50;
     /* 5c */ Vec3 mUnk_5c;
-    /* 68 */ s32 mUnk_68;
-    /* 6c */ s32 mUnk_6c;
-    /* 70 */ s32 mUnk_70;
+    /* 68 */ Vec3 mUnk_68;
     /* 74 */ u32 mUnk_74;
     /* 78 */ u16 mUnk_78;
     /* 7a */ u16 mUnk_7a;

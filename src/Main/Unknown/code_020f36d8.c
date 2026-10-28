@@ -191,9 +191,9 @@ void func_020f41c4(Unk020f40dc *rec) {
         elem->mUnk_5c.z = (s32) (((s64) dir->z * d) >> 12);
         func_02147fd8((s32) (((s64) w2 * vb) >> 12) + (s32) (((s64) d * va) >> 12), axis, &elem->mUnk_5c,
                       &elem->mUnk_5c);
-        elem->mUnk_68 = 0xcd;
-        elem->mUnk_6c = 0xcd;
-        elem->mUnk_70 = 0xcd;
+        elem->mUnk_68.x = 0xcd;
+        elem->mUnk_68.y = 0xcd;
+        elem->mUnk_68.z = 0xcd;
         elem->mUnk_7c = *halves;
     }
 }

@@ -914,7 +914,7 @@ void func_020ef4a0(Unk020eda5c *a) {
 
     b = a->mUnk_014[0];
     c = (Unk020eda5c_1ec *) a->mUnk_00c;
-    n = b->mUnk_70;
+    n = b->mUnk_68.z;
     func_020ef65c(a, &b->mUnk_50, &((Unk020eda5c_090 *) a)->mUnk_0a8);
     if (b->mUnk_11c > 0xc) {
         k = b->mUnk_44;
@@ -922,7 +922,7 @@ void func_020ef4a0(Unk020eda5c *a) {
             func_020f9f08(b, a->mUnk_084.x, a->mUnk_084.y);
         }
     }
-    if (n < 0xccd && b->mUnk_70 >= 0xccd && a->mUnk_028 == data_021759c0->mUnk_62) {
+    if (n < 0xccd && b->mUnk_68.z >= 0xccd && a->mUnk_028 == data_021759c0->mUnk_62) {
         func_020719bc(&c->mUnk_1fc->mUnk_00, 0xe7);
     }
     if ((c->mUnk_1ec & 0x284) == 0x284 && a->mUnk_000 != 0xf && a->mUnk_024 == 0) {

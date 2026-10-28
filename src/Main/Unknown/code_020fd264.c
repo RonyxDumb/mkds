@@ -189,7 +189,7 @@ void *func_020fd338(void *param_1, s32 a) {
 
 Vec3 *func_020fd308(Unk020fdae8 *e, s32 *a, s32 *b) {
     *a = e->mUnk_188;
-    *b = (s32) (((s64) e->mUnk_000.mUnk_70 * data_0217bd48) >> 12);
+    *b = (s32) (((s64) e->mUnk_000.mUnk_68.z * data_0217bd48) >> 12);
     return &e->mUnk_000.mUnk_50;
 }
 
