@@ -14,7 +14,7 @@ typedef struct Unk021ca400 {
     /* 016 */ u8 mUnk_016[0x2];
     /* 018 */ s32 mUnk_018;
     /* 01c */ void *mUnk_01c;
-    /* 020 */ s32 *mUnk_020;
+    /* 020 */ Unk02124b1c *mUnk_020;
     /* 024 */ struct Unk02021dc8 *mUnk_024;
     /* 028 */ u8 mUnk_028[0x4];
     /* 02c */ Unk020b4a44 *mUnk_02c;
@@ -34,7 +34,7 @@ typedef struct Unk021ca400 {
 // Object behind data_ov001_021ca410.
 typedef struct Unk021ca410 {
     /* 00 */ struct Unk02021dc8 *mUnk_00;
-    /* 04 */ Unk021b4c74_16f0 *mUnk_04;
+    /* 04 */ Unk0201ea30 *mUnk_04;
     /* 08 */ void *mUnk_08;
     /* 0c */ void *mUnk_0c;
     /* 10 */ Unk02124b1c *mUnk_10;
@@ -71,10 +71,10 @@ typedef struct Unk021ca414_50 {
 // Object behind data_ov001_021ca414.
 typedef struct Unk021ca414 {
     /* 00 */ struct Unk02021dc8 *mUnk_00;
-    /* 04 */ Unk021b4c74_16f0 *mUnk_04;
+    /* 04 */ Unk0201ea30 *mUnk_04;
     /* 08 */ void *mUnk_08;
     /* 0c */ struct Unk02021dc8 *mUnk_0c;
-    /* 10 */ Unk021b4c74_16f0 *mUnk_10;
+    /* 10 */ Unk0201ea30 *mUnk_10;
     /* 14 */ void *mUnk_14;
     /* 18 */ void *mUnk_18;
     /* 1c */ Unk021ca414_1c *mUnk_1c;
@@ -107,14 +107,6 @@ typedef struct Unk021ca414 {
     /* bc */ s32 mUnk_bc;
 } Unk021ca414;
 
-// One 0x40-byte element of the tables behind Unk021ca418::mUnk_14 and mUnk_18.
-typedef struct Unk021ca418_Cell {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ u8 mUnk_08[0x38];
-} Unk021ca418_Cell;
-
 // Object behind data_ov001_021ca418.
 typedef struct Unk021ca418 {
     /* 00 */ struct Unk02021dc8 *mUnk_00;
@@ -122,8 +114,8 @@ typedef struct Unk021ca418 {
     /* 08 */ struct Unk02021dc8 *mUnk_08;
     /* 0c */ void *mUnk_0c;
     /* 10 */ void *mUnk_10;
-    /* 14 */ Unk021ca418_Cell *mUnk_14;
-    /* 18 */ Unk021ca418_Cell *mUnk_18;
+    /* 14 */ Unk02124b1c *mUnk_14;
+    /* 18 */ Unk02124b1c *mUnk_18;
     /* 1c */ void *mUnk_1c;
     /* 20 */ void *mUnk_20;
     /* 24 */ s32 mUnk_24;

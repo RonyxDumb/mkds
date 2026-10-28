@@ -38,7 +38,7 @@ typedef struct Unk021b4c70 {
     /* 0030 */ s32 mUnk_30;
     /* 0034 */ u8 pad_34[0x1004];
     /* 1038 */ void *mUnk_1038;
-    /* 103c */ void *mUnk_103c;
+    /* 103c */ Unk02124b1c *mUnk_103c;
     /* 1040 */ void *mUnk_1040;
     /* 1044 */ u8 pad_1044[4];
     /* 1048 */ void *mUnk_1048;
@@ -48,12 +48,6 @@ typedef struct Unk021b4c70 {
     /* 1058 */ void *mUnk_1058;
     /* 105c */ void *mUnk_105c;
 } Unk021b4c70;
-
-// Object behind Unk021b4c74::mUnk_16f0; the u16 at 6 is a count.
-typedef struct Unk021b4c74_16f0 {
-    /* 0000 */ u8 pad_00[6];
-    /* 0006 */ u16 mUnk_06;
-} Unk021b4c74_16f0;
 
 // Object behind data_ov000_021b4c74; mUnk_00 selects the handler run by func_ov000_0218338c.
 typedef struct Unk021b4c74 {
@@ -86,7 +80,7 @@ typedef struct Unk021b4c74 {
     /* 16e4 */ struct Unk02021dc8 *mUnk_16e4;
     /* 16e8 */ Unk020b4934 *mUnk_16e8;
     /* 16ec */ Unk020b4a44 *mUnk_16ec;
-    /* 16f0 */ Unk021b4c74_16f0 *mUnk_16f0;
+    /* 16f0 */ Unk0201ea30 *mUnk_16f0;
     /* 16f4 */ void *mUnk_16f4;
     /* 16f8 */ void *mUnk_16f8;
     /* 16fc */ void *mUnk_16fc;

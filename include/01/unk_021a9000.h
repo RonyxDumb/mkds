@@ -30,7 +30,7 @@ typedef struct Unk021a9bec {
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
     /* 18 */ void *mUnk_18;
-    /* 1c */ Unk021a9bf0Entry *mUnk_1c;
+    /* 1c */ Unk02124b1c *mUnk_1c;
     /* 20 */ struct Unk02021dc8 *mUnk_20;
     /* 24 */ Unk020b4934 *mUnk_24;
     /* 28 */ Unk020b4a44 *mUnk_28;
@@ -92,20 +92,6 @@ typedef struct Unk021a9b88 {
     /* 2c */ u8 *mUnk_2c;
 } Unk021a9b88;
 
-// One 0x40-byte element of the arrays behind Unk021a9bf8::mUnk_1034.
-typedef struct Unk021a9bf8Entry {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ u8 mUnk_08[0x38];
-} Unk021a9bf8Entry;
-
-// Object that holds a count at offset 6.
-typedef struct Unk021a9bf8Count {
-    /* 00 */ u8 mUnk_00[6];
-    /* 06 */ u16 mUnk_06;
-} Unk021a9bf8Count;
-
 // Allocated by func_ov001_0219d2c0 and held in data_ov001_021a9bf8.
 typedef struct Unk021a9bf8 {
     /* 0000 */ s32 mUnk_00;
@@ -122,13 +108,13 @@ typedef struct Unk021a9bf8 {
     /* 002c */ s32 mUnk_2c;
     /* 0030 */ u16 mUnk_30[64][32];
     /* 1030 */ void *mUnk_1030;
-    /* 1034 */ Unk021a9bf8Entry *mUnk_1034[2];
+    /* 1034 */ Unk02124b1c *mUnk_1034[2];
     /* 103c */ struct Unk02021dc8 *mUnk_103c;
     /* 1040 */ struct Unk02021dc8 *mUnk_1040;
     /* 1044 */ Unk020b4934 *mUnk_1044;
     /* 1048 */ Unk020b4934 *mUnk_1048;
     /* 104c */ u8 pad_104c[8];
-    /* 1054 */ Unk021a9bf8Count *mUnk_1054[2];
+    /* 1054 */ Unk0201ea30 *mUnk_1054[2];
     /* 105c */ void *mUnk_105c[2];
     /* 1064 */ void *mUnk_1064[2];
     /* 106c */ Unk020b47d8 *mUnk_106c[3];
@@ -196,11 +182,11 @@ typedef struct Unk021a9bfc {
     /* 24 */ s32 mUnk_24;
     /* 28 */ s32 mUnk_28[2];
     /* 30 */ void *mUnk_30;
-    /* 34 */ Unk021a9bdcEntry *mUnk_34;
+    /* 34 */ Unk02124b1c *mUnk_34;
     /* 38 */ struct Unk02021dc8 *mUnk_38;
     /* 3c */ Unk020b4934 *mUnk_3c;
     /* 40 */ Unk020b4a44 *mUnk_40;
-    /* 44 */ Unk021a9bdcCount *mUnk_44;
+    /* 44 */ Unk0201ea30 *mUnk_44;
     /* 48 */ void *mUnk_48;
     /* 4c */ void *mUnk_4c;
     /* 50 */ void *mUnk_50;
@@ -244,7 +230,7 @@ typedef struct Unk021a9be0 {
     /* 00 */ struct Unk02021dc8 *mUnk_00;
     /* 04 */ void *mUnk_04;
     /* 08 */ void *mUnk_08;
-    /* 0c */ Unk021a9bdcEntry *mUnk_0c;
+    /* 0c */ Unk02124b1c *mUnk_0c;
     /* 10 */ void *mUnk_10;
     /* 14 */ u32 mUnk_14;
     /* 18 */ s32 mUnk_18;

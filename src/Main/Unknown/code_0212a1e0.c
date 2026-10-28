@@ -45,7 +45,7 @@ void func_0212a604(void) {
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
             for (k = 0; k < 4; k++) {
-                Unk0217d350_3c *p = &data_0217d400->mUnk_74[i][j][data_0215d0f8[i][k]];
+                Unk02124b1c *p = &data_0217d400->mUnk_74[i][j][data_0215d0f8[i][k]];
                 p->mUnk_08 = 1;
                 p->mUnk_0c = 0;
                 p->mUnk_0e = 0;

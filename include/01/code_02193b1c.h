@@ -22,7 +22,7 @@ typedef struct Unk021a9bd4 {
     /* 14 */ s32 mUnk_14;
     /* 18 */ s32 mUnk_18;
     /* 1c */ void *mUnk_1c;
-    /* 20 */ Unk021a9bdcEntry *mUnk_20;
+    /* 20 */ Unk02124b1c *mUnk_20;
     /* 24 */ struct Unk02021dc8 *mUnk_24;
     /* 28 */ Unk020b4934 *mUnk_28;
     /* 2c */ Unk020b4a44 *mUnk_2c;
@@ -49,14 +49,14 @@ typedef struct Unk021a9bd8_40 {
 typedef struct Unk021a9bd8 {
     /* 00 */ Unk020b4934 *mUnk_00;
     /* 04 */ struct Unk02021dc8 *mUnk_04;
-    /* 08 */ Unk021a9bdcCount *mUnk_08;
+    /* 08 */ Unk0201ea30 *mUnk_08;
     /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ Unk021a9bdcCount *mUnk_10;
+    /* 10 */ Unk0201ea30 *mUnk_10;
     /* 14 */ Unk020b4934 *mUnk_14;
     /* 18 */ struct Unk02021dc8 *mUnk_18;
-    /* 1c */ Unk021a9bdcCount *mUnk_1c;
+    /* 1c */ Unk0201ea30 *mUnk_1c;
     /* 20 */ void *mUnk_20;
-    /* 24 */ Unk021a9bdcCount *mUnk_24;
+    /* 24 */ Unk0201ea30 *mUnk_24;
     /* 28 */ Unk020b4934 *mUnk_28;
     /* 2c */ struct Unk02021dc8 *mUnk_2c;
     /* 30 */ Unk020b4a44 *mUnk_30;
@@ -67,8 +67,8 @@ typedef struct Unk021a9bd8 {
     /* 44 */ void *mUnk_44;
     /* 48 */ Unk020b47d8 *mUnk_48;
     /* 4c */ void *mUnk_4c;
-    /* 50 */ Unk021a9bdcEntry *mUnk_50;
-    /* 54 */ Unk021a9bdcEntry *mUnk_54;
+    /* 50 */ Unk02124b1c *mUnk_50;
+    /* 54 */ Unk02124b1c *mUnk_54;
     /* 58 */ void *mUnk_58;
     /* 5c */ void *mUnk_5c;
     /* 60 */ s32 mUnk_60;

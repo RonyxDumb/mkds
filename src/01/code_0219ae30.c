@@ -26,7 +26,7 @@ void func_ov001_0219ae88(void) {
     data_ov001_021a9bf0->mUnk_34 = 0;
     data_ov001_021a9bf0->mUnk_38 = 0;
     data_ov001_021a9bf0->mUnk_3c = ~0xbf;
-    n = data_ov001_021a9bf0->mUnk_04[3];
+    n = data_ov001_021a9bf0->mUnk_04->mUnk_06;
     data_ov001_021a9bf0->mUnk_18[0].mUnk_06 = ~0xbf;
     data_ov001_021a9bf0->mUnk_18[1].mUnk_06 = ~0xbf;
     data_ov001_021a9bf0->mUnk_18[n].mUnk_06 = ~0xbf;

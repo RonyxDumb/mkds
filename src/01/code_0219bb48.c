@@ -56,7 +56,7 @@ void func_ov001_0219c2a4(void) {
 
 void func_ov001_0219c0bc(void) {
     Unk021a9bf4 *p = data_ov001_021a9bf4;
-    Unk021a9bf4Count *q;
+    Unk0201ea30 *q;
     u16 n;
     u16 a;
     u16 b;

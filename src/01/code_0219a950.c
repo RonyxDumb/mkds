@@ -146,7 +146,7 @@ void func_ov001_0219a9a0(void *heap) {
     rem -= func_021243ac(heap, 0, data_ov001_021a9bf0->mUnk_08, 0xaa, 0xe, 0, data_ov001_021a9bf0->mUnk_00, data_ov001_021a9bf0->mUnk_04, data_ov001_021a9bf0->mUnk_18, rem);
     func_0212426c(0, 0, data_ov001_021a9bf0->mUnk_08, func_020b3f7c(data_ov001_021a9bf0->mUnk_24, 9), data_ov001_021a9bf0->mUnk_04, data_ov001_021a9bf0->mUnk_18);
     x = 1;
-    base = data_ov001_021a9bf0->mUnk_04[3];
+    base = data_ov001_021a9bf0->mUnk_04->mUnk_06;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             rem -= func_021243ac(heap, data_ov001_021a6ae4[i][j], data_ov001_021a9bf0->mUnk_08, data_ov001_021a6af8[i][j],

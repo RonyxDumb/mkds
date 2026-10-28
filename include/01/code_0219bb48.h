@@ -19,20 +19,6 @@
 #include "Main/Unknown/unk_0217d068.h"
 #include "code_0212df7c.h"
 
-// One 0x40-byte element of the arrays held by Unk021a9bf4.
-typedef struct Unk021a9bf4Entry {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ u8 mUnk_08[0x38];
-} Unk021a9bf4Entry;
-
-// Object that holds a count at offset 6.
-typedef struct Unk021a9bf4Count {
-    /* 00 */ u8 mUnk_00[6];
-    /* 06 */ u16 mUnk_06;
-} Unk021a9bf4Count;
-
 // Object with a pointer at offset 0xc.
 typedef struct Unk021a9bf4Block {
     /* 00 */ u8 mUnk_00[0xc];
@@ -42,10 +28,10 @@ typedef struct Unk021a9bf4Block {
 // Object behind data_ov001_021a9bf4.
 typedef struct Unk021a9bf4 {
     /* 00 */ struct Unk02021dc8 *mUnk_00;
-    /* 04 */ Unk021a9bf4Count *mUnk_04;
+    /* 04 */ Unk0201ea30 *mUnk_04;
     /* 08 */ void *mUnk_08;
     /* 0c */ struct Unk02021dc8 *mUnk_0c;
-    /* 10 */ Unk021a9bf4Count *mUnk_10;
+    /* 10 */ Unk0201ea30 *mUnk_10;
     /* 14 */ void *mUnk_14;
     /* 18 */ void *mUnk_18;
     /* 1c */ Unk020b4a44 *mUnk_1c;
@@ -53,8 +39,8 @@ typedef struct Unk021a9bf4 {
     /* 24 */ void *mUnk_24;
     /* 28 */ Unk021a9bf4Block *mUnk_28;
     /* 2c */ void *mUnk_2c;
-    /* 30 */ Unk021a9bf4Entry *mUnk_30;
-    /* 34 */ Unk021a9bf4Entry *mUnk_34;
+    /* 30 */ Unk02124b1c *mUnk_30;
+    /* 34 */ Unk02124b1c *mUnk_34;
     /* 38 */ void *mUnk_38;
     /* 3c */ void *mUnk_3c;
     /* 40 */ void *mUnk_40;

@@ -1,25 +1,18 @@
 #pragma once
 
 #include "types.h"
-
-// One 0x40-byte element of the arrays held by Unk021a9bf0.
-typedef struct Unk021a9bf0Entry {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ u8 mUnk_08[0x38];
-} Unk021a9bf0Entry;
+#include "Main/Unknown/code_02124094.h" // Unk02124b1c, Unk0201ea30
 
 // Overlay state, allocated by the setup function below.
 typedef struct Unk021a9bf0 {
     /* 0x00 */ struct Unk02021dc8 *mUnk_00;
-    /* 0x04 */ u16 *mUnk_04;
+    /* 0x04 */ Unk0201ea30 *mUnk_04;
     /* 0x08 */ void *mUnk_08;
     /* 0x0c */ struct Unk02021dc8 *mUnk_0c;
     /* 0x10 */ void *mUnk_10;
     /* 0x14 */ void *mUnk_14;
-    /* 0x18 */ Unk021a9bf0Entry *mUnk_18;
-    /* 0x1c */ Unk021a9bf0Entry *mUnk_1c;
+    /* 0x18 */ Unk02124b1c *mUnk_18;
+    /* 0x1c */ Unk02124b1c *mUnk_1c;
     /* 0x20 */ void *mUnk_20;
     /* 0x24 */ void *mUnk_24;
     /* 0x28 */ void *mUnk_28;

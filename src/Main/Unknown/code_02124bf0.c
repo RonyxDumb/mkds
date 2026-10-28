@@ -10,15 +10,15 @@
 
 #pragma thumb on
 
-void func_02124ed0(void *a, void *b, void *c, void *d) {
+void func_02124ed0(void *a, Unk0201ea30 *b, Unk0201ea30 *c, Unk02124b1c **d) {
     u16 n;
 
-    n = ((Unk0201ea30 *)b)->mUnk_06;
+    n = b->mUnk_06;
     if (c != 0) {
-        n = n + ((Unk0201ea30 *)c)->mUnk_06;
+        n = n + c->mUnk_06;
     }
-    *(u32 **)d = func_02036bec(a, n << 6);
-    func_02124efc(*(u32 **)d, n);
+    *d = func_02036bec(a, n << 6);
+    func_02124efc(*d, n);
 }
 
 u32 func_02124c70(s32 a, Unk02021dc8 *b, Unk0201ea30 *c, Unk0201ea30 *d, Unk02124c70 *e, Unk02124b1c *f, s32 g) {

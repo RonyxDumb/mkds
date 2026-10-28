@@ -29,7 +29,7 @@ void func_ov001_0219e6ec(void *param_1)
     func_02124ed0(data_ov001_021ca400->mUnk_010, data_ov001_021ca400->mUnk_030, data_ov001_021ca400->mUnk_034,
                   &data_ov001_021ca400->mUnk_020);
     result = 0;
-    *data_ov001_021ca400->mUnk_020 = 0;
+    data_ov001_021ca400->mUnk_020->mUnk_00 = 0;
     {
         u16 table[2][2] = {{200, 24}, {200, 24}};
 
