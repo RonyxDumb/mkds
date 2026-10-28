@@ -126,7 +126,7 @@ void func_0206cc60(Unk0206bcb0 *p, int arg) {
     func_02109078(&p->mUnk_00, 0xd1, 0x7f, 0);
 }
 
-// non-matching: register allocation (hasB/dirv/turn in r5/r7/r6, original r6/r5/r7; table index mul r2/r3 swapped)
+// non-matching: same size; 40 lines differ; first: original `movne r6, #1`, ours `movne r5, #1`
 void func_0206c5e4(Unk0206bcb0 *p) {
     u32 f = p->mUnk_44;
     int hasB = (f & 2) != 0;
@@ -134,12 +134,14 @@ void func_0206c5e4(Unk0206bcb0 *p) {
     u32 g;
     Unk0208c5b8 *t;
     int id;
+    enum { K0 } k;
 
     if (p->mUnk_7c & 0x400) {
         return;
     }
     if (p->mUnk_380 >= 5 && !(f & 0x1a)) {
-        if ((u16) (data_02175628[p->mUnk_78].mUnk_02 & 0x100)) {
+        k = p->mUnk_78;
+        if ((u16) (data_02175628[k].mUnk_02 & 0x100)) {
             if (f & 1) {
                 goto recheck;
             }
@@ -293,7 +295,6 @@ recheck:
     }
 }
 
-// non-matching: 3 instructions: table index load/mul use r2/r3, original r3/r2
 int func_0206c494(Unk0206bcb0 *p) {
     int result = 0;
     int pending = 1;
@@ -301,12 +302,14 @@ int func_0206c494(Unk0206bcb0 *p) {
     int delta;
     u16 bits;
     Unk0208c5b8 *t;
+    enum { K0 } k;
 
     if (p->mUnk_2a4 < 0x1800 && (p->mUnk_48 & 0x80)) {
         p->mUnk_2c4 = 0;
         result = 1;
         pending = 0;
-        bits = data_02175628[p->mUnk_78].mUnk_02;
+        k = p->mUnk_78;
+        bits = data_02175628[k].mUnk_02;
         if ((u16) (bits & 0x20)) {
             dir = 1;
             p->mUnk_2c4 = -1;
