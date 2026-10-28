@@ -15,7 +15,7 @@
 // the state machine of func_02046be8 at 0x23c, words at 0x250 and 0x254 and a Unk0210b7ec at 0x258.
 typedef struct Unk020f5d6c {
     /* 000 */ Unk020ec8bc mUnk_000;
-    /* 228 */ Unk020f40dc_Owner *mUnk_228;
+    /* 228 */ struct Unk020ee684 *mUnk_228;
     /* 22c */ Vec3 mUnk_22c;
     /* 238 */ s32 mUnk_238;
     /* 23c */ Unk020e005c_080 mUnk_23c;
@@ -32,11 +32,11 @@ typedef struct Unk020f5240 {
     /* 130 */ s32 mUnk_130;
 } Unk020f5240;
 
-void func_020f504c(Unk020edb8c *a, Unk020f40dc *b);
+void func_020f504c(Unk020eda5c *a, Unk020f40dc *b);
 void func_020f50b4(Unk020f5240 *a);
 void *func_020f5108(void *a, Unk020f5240 *b, void *c);
 void func_020f518c(Unk020f5240 *a);
-s32 func_020f5240(Unk020edb8c *a, Unk020f5240 *b);
+s32 func_020f5240(Unk020eda5c *a, Unk020f5240 *b);
 s32 func_020f5324(void *a0, s32 b);
 void func_020f53d0(Unk020f5d6c *a);
 void *func_020f5550(void *a, Unk020f5d6c *b, void *c);

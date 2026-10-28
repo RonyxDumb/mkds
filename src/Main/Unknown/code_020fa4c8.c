@@ -253,7 +253,7 @@ void func_020fbae0(Unk020fc2e8 *param_1) {
         q = &param_1->mUnk_000.mUnk_f0;
     }
     func_020fc2e8(param_1, &param_1->mUnk_000.mUnk_5c, 1, q);
-    p = param_1->mUnk_228->mUnk_1f0;
+    p = param_1->mUnk_228->mUnk_1f0.mUnk_00;
     for (i = 0; i < 4; i++) {
         if (p == param_1->mUnk_168) {
             param_1->mUnk_2f8 = 3;

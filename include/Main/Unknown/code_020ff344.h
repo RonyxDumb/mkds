@@ -48,8 +48,8 @@ typedef struct Unk020ff438 {
 void func_020ff344(Unk020ff438 *e);
 s32 func_020ff3c4(Unk020ff438 *e);
 void func_020ff438(Unk020ff438 *e);
-u32 func_020ff538(Unk020edb8c *a, Unk020ff438 *e);
-void func_020ff638(Unk020edb8c *a, Unk020ff438 *e);
+u32 func_020ff538(Unk020eda5c *a, Unk020ff438 *e);
+void func_020ff638(Unk020eda5c *a, Unk020ff438 *e);
 void func_020ff654(Unk020ff438 *e);
 void func_020ff67c(Unk020ff438 *e);
 void func_020ff6d8(Unk020ff438 *e, Unk02012f58 *out);

@@ -6,6 +6,7 @@
 #include "Main/Unknown/unk_027e0000.h"
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_020fcf10.h"
+#include "Main/Unknown/code_020ee684.h"
 
 void func_020fce94(Unk020fc2e8 *p0, s32 a, s32 b, s32 c, u16 d) {
     p0->mUnk_25c += d;
@@ -55,7 +56,7 @@ void func_020fcce4(Unk020fc2e8 *p0, s32 a, s32 b) {
 
 s32 func_020fcbb8(Unk020fc2e8 *p0, s32 v1) {
     Unk0206bcb0 *p;
-    Unk020f40dc_Owner *e;
+    Unk020ee684 *e;
     Vec3 v;
     Vec3 *q;
     s32 f;
@@ -67,9 +68,9 @@ s32 func_020fcbb8(Unk020fc2e8 *p0, s32 v1) {
     if (func_0206c0b0(p) != 0) {
         return 0;
     }
-    e = &((Unk020f40dc_Owner *) *(void **) data_027e00c8)[v1];
+    e = &((Unk020ee684 *) *(void **) data_027e00c8)[v1];
     q = &p->mUnk_98;
-    if (e->mUnk_1f0 != p0->mUnk_168) {
+    if (e->mUnk_1f0.mUnk_00 != p0->mUnk_168) {
         f = ((p0->mUnk_000.mUnk_74 & 0x40000000) || (p->mUnk_48 & 1)) ? 1 : 0;
         func_021484d0(q, &p0->mUnk_000.mUnk_50, &v);
         dx = v.x >> 12;

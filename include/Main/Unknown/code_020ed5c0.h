@@ -14,22 +14,6 @@ typedef struct Unk020ed718 {
     /* 014 */ s32 mUnk_014;
 } Unk020ed718;
 
-// Object that holds a Unk020eda5c at 0x58: its word at 0x14 is written, and it
-// holds the Unk0206bcb0 at 0x1fc, a u16 at 0x1f8 and words from 0x200 to 0x20c.
-typedef struct Unk020eda5c_1ec {
-    /* 000 */ u8 mUnk_000[0x14];
-    /* 014 */ u32 mUnk_014;
-    /* 018 */ u8 mUnk_018[0x1d4];
-    /* 1ec */ u16 mUnk_1ec;
-    /* 1ee */ u8 mUnk_1ee[0xa];
-    /* 1f8 */ u16 mUnk_1f8;
-    /* 1fa */ u8 mUnk_1fa[2];
-    /* 1fc */ Unk0206bcb0 *mUnk_1fc;
-    /* 200 */ s32 mUnk_200;
-    /* 204 */ s32 mUnk_204;
-    /* 208 */ s32 mUnk_208;
-} Unk020eda5c_1ec;
-
 // The object behind the word at 0x590 of a Unk0206bcb0 from its first byte:
 // the halfword at 0x40.
 typedef struct Unk0206bcb0_590 {
@@ -44,12 +28,13 @@ typedef struct {
     /* 18 */ Vec3 mUnk_18;
 } Unk020eda5c_02c;
 
-// Object with three Unk020f41c4_A pointers at 0x14.
+// Object at 0x58 of a Unk020ee684 (that Unk020ee684 at 0x0c), passed first to the function pointers in the data_0217bc34 entries:
+// three Unk020f41c4_A pointers at 0x14, vectors from 0x2c to 0x0e4.
 typedef struct Unk020eda5c {
     /* 000 */ s32 mUnk_000;
     /* 004 */ s32 mUnk_004;
     /* 008 */ s32 mUnk_008;
-    /* 00c */ Unk020eda5c_1ec *mUnk_00c;
+    /* 00c */ struct Unk020ee684 *mUnk_00c;
     /* 010 */ Unk0206bcb0 *mUnk_010;
     /* 014 */ Unk020f41c4_A *mUnk_014[3];
     /* 020 */ s32 mUnk_020;
@@ -65,10 +50,17 @@ typedef struct Unk020eda5c {
     /* 07c */ s32 mUnk_07c;
     /* 080 */ s32 mUnk_080;
     /* 084 */ Vec3 mUnk_084;
-    /* 090 */ u16 *mUnk_090;
-    /* 094 */ u8 mUnk_094[0x54];
+    /* 090 */ Vec3 mUnk_090;
+    /* 09c */ Vec3 mUnk_09c;
+    /* 0a8 */ Vec3 mUnk_0a8;
+    /* 0b4 */ Vec3 mUnk_0b4;
+    /* 0c0 */ Vec3 mUnk_0c0;
+    /* 0cc */ s32 mUnk_0cc[3];
+    /* 0d8 */ Vec3 mUnk_0d8;
+    /* 0e4 */ s32 mUnk_0e4;
     /* 0e8 */ s32 mUnk_0e8;
-    /* 0ec */ u8 mUnk_0ec[0x84];
+    /* 0ec */ s32 mUnk_0ec[2][16];
+    /* 16c */ s32 mUnk_16c;
     /* 170 */ void *mUnk_170;
     /* 174 */ u16 mUnk_174;
     /* 176 */ u16 mUnk_176;

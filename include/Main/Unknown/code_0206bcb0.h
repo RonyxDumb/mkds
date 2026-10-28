@@ -191,7 +191,7 @@ typedef struct Unk0206bcb0 {
     /* 21c */ s32 mUnk_21c;
     /* 220 */ s32 mUnk_220;
     /* 224 */ u8 mUnk_224[4];
-    /* 228 */ struct Unk020f40dc_Owner *mUnk_228;
+    /* 228 */ struct Unk020ee684 *mUnk_228;
     /* 22c */ u8 mUnk_22c[0xa];
     /* 236 */ u16 mUnk_236;
     /* 238 */ s16 mUnk_238;

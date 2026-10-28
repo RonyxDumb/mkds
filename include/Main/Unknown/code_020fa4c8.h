@@ -34,7 +34,7 @@ typedef struct Unk020fc2e8 {
     /* 16c */ u8 mUnk_16c[0xb0];
     /* 21c */ s32 mUnk_21c;
     /* 220 */ u8 mUnk_220[8];
-    /* 228 */ Unk020f40dc_Owner *mUnk_228;
+    /* 228 */ struct Unk020ee684 *mUnk_228;
     /* 22c */ Vec3 mUnk_22c;
     /* 238 */ Vec3 mUnk_238;
     /* 244 */ Vec3 mUnk_244;

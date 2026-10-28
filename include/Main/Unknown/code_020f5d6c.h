@@ -16,16 +16,16 @@ typedef struct Unk020f6150 {
     /* 17c */ u8 mUnk_17c[0xc];
 } Unk020f6150;
 
-s32 func_020f5d6c(Unk020edb8c *a, Unk020f5d6c *b);
+s32 func_020f5d6c(Unk020eda5c *a, Unk020f5d6c *b);
 void func_020f5f7c(Unk020f5d6c *a, Vec3 *b, Vec3 *c);
 void func_020f5fb8(void *a0, s32 b);
 void func_020f5ffc(Unk020f6150 *a);
 void *func_020f6038(void *a, Unk020f6150 *b, void *c);
 void func_020f60d0(Unk020f6150 *a);
-s32 func_020f6150(Unk020edb8c *a, Unk020f6150 *b);
+s32 func_020f6150(Unk020eda5c *a, Unk020f6150 *b);
 void func_020f6220(void *a0, s32 b);
-void func_020f6264(Unk020edb8c *a, Unk020f40dc *b);
-void func_020f62b0(Unk020edb8c *a, Unk020f40dc *b);
+void func_020f6264(Unk020eda5c *a, Unk020f40dc *b);
+void func_020f62b0(Unk020eda5c *a, Unk020f40dc *b);
 void func_020f6388(Unk020f41c4_A *a, Vec3 *b, Vec3 *c);
 void func_020f63cc(Unk020f41c4_A *a);
 void func_020f65c4(Unk020f41c4_A *a);

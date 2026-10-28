@@ -64,10 +64,10 @@ void func_02105214(void) {
 }
 #pragma thumb off
 
-void func_021051d4(Unk020edb8c *p0, Unk020f40dc *p1) {
+void func_021051d4(Unk020eda5c *p0, Unk020f40dc *p1) {
     func_020695c4(p1->mUnk_04->mUnk_1fc);
     func_020f4754(p1, 1);
-    func_020f81b8((unsigned int) p0->mUnk_0c, 0xe);
+    func_020f81b8((unsigned int) p0->mUnk_00c, 0xe);
 }
 
 void func_0210515c(s32 a) {
@@ -165,13 +165,13 @@ void func_02104e58(Unk02104c68 *p) {
     data_0217c6e4[(u16) (p->mUnk_000.mUnk_000.mUnk_78 & ~0xff00)] = 0x258;
 }
 
-void func_02104d78(Unk020edb8c *p0, Unk02104c68 *p1) {
+void func_02104d78(Unk020eda5c *p0, Unk02104c68 *p1) {
     Vec3 t;
     Unk021052fc *b = p1->mUnk_134;
     s32 n;
     if (p1->mUnk_138 != 0) {
-        func_02147fd8((s32) (((s64) p0->mUnk_8c * -28877) >> 12), &p0->mUnk_38, &p1->mUnk_000.mUnk_000.mUnk_50,
-                      &p1->mUnk_13c);
+        func_02147fd8((s32) (((s64) p0->mUnk_084.z * -28877) >> 12), &p0->mUnk_02c.mUnk_0c,
+                      &p1->mUnk_000.mUnk_000.mUnk_50, &p1->mUnk_13c);
         n = p1->mUnk_148;
         t.x = (s32) (((s64) p1->mUnk_000.mUnk_000.mUnk_68.x * n) >> 12);
         t.y = (s32) (((s64) p1->mUnk_000.mUnk_000.mUnk_68.y * n) >> 12);
@@ -184,20 +184,20 @@ void func_02104d78(Unk020edb8c *p0, Unk02104c68 *p1) {
     func_021052fc(b);
 }
 
-s32 func_02104c68(Unk020edb8c *p0, Unk02104c68 *p1) {
+s32 func_02104c68(Unk020eda5c *p0, Unk02104c68 *p1) {
     func_020f9114(p1);
     p1->mUnk_000.mUnk_000.mUnk_78 |= data_0215a584;
     if (p1->mUnk_138 != 0) {
         (p1->mUnk_134)->mUnk_b0 = 1;
     }
-    if ((p0->mUnk_0c->mUnk_1ec & 0x10) != 0) {
+    if ((p0->mUnk_00c->mUnk_1ec & 0x10) != 0) {
         func_020f3150(&p1->mUnk_000, p0, 0, 1, 0x4000, 0x3000, 0x59a);
         func_021090c4(&p1->mUnk_000.mUnk_000.mUnk_00, 0xda, 0x7f, 0);
         p1->mUnk_130 = 1;
         return p1->mUnk_130;
     } else {
         func_020f3150(&p1->mUnk_000, p0, 0, 0, 0x4000, 0x3000, 0x59a);
-        if (p0->mUnk_68 < 0x1000) {
+        if (p0->mUnk_068 < 0x1000) {
             p1->mUnk_000.mUnk_000.mUnk_5c.x = 0;
             p1->mUnk_000.mUnk_000.mUnk_5c.y = 0;
             p1->mUnk_000.mUnk_000.mUnk_5c.z = 0;

@@ -17,6 +17,7 @@
 #include "Main/Unknown/code_020f1d70.h"
 #include "Main/Unknown/code_020fe4b4.h"
 #include "Main/Unknown/code_0210a000.h"
+#include "Main/Unknown/code_020ee684.h"
 
 void func_020fc94c(Unk020fc2e8 *p) {
     func_0210b850((u32) p->mUnk_300);
@@ -60,11 +61,11 @@ void func_020fc8ec(Unk020fc2e8 *e, s32 a) {
     e->mUnk_2fa = 1;
 }
 
-s32 func_020fc79c(Unk020edb8c *a, Unk020fc2e8 *e) {
+s32 func_020fc79c(Unk020eda5c *a, Unk020fc2e8 *e) {
     Unk0206bcb0 *p;
 
     func_020f9114((Unk0206bcb0 *) e);
-    if (a->mUnk_0c->mUnk_1f0 != 0) {
+    if (a->mUnk_00c->mUnk_1f0.mUnk_00 != 0) {
         func_020ed268((Unk020ec8bc *) e, a, 0x14, 0xcc, 1, 1, 0, 0x6000, e->mUnk_276, 1);
         func_02046bcc(e->mUnk_2e8, 1);
     } else {
@@ -78,7 +79,7 @@ s32 func_020fc79c(Unk020edb8c *a, Unk020fc2e8 *e) {
     }
     func_020fc94c(e);
     // one 36-byte copy of the three vectors (three Vec3 assignments give 0x160 bytes against 0x150)
-    *(Unk02146dfc *) &e->mUnk_000.mUnk_94 = *(Unk02146dfc *) &a->mUnk_2c;
+    *(Unk02146dfc *) &e->mUnk_000.mUnk_94 = *(Unk02146dfc *) &a->mUnk_02c.mUnk_00;
     if (e->mUnk_000.mUnk_74 & 0x8000000) {
         e->mUnk_2f8 = 0;
         e->mUnk_2fa = 1;

@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/code_020ed5c0.h"
 
 // Element of data_027e00cc[0], [1] and [5] up to 0x168: the word and the three vectors from 0x12c and the words
 // and halfword from 0x154 that the functions of this file read after the shared part.
@@ -19,24 +20,6 @@ typedef struct Unk020f1d70 {
     /* 164 */ u16 mUnk_164;
     /* 166 */ u8 mUnk_166[2];
 } Unk020f1d70;
-
-typedef struct Unk020edb8c {
-    u8 mUnk_00[0xc];
-    Unk020f40dc_Owner *mUnk_0c;
-    Unk0206bcb0 *mUnk_10;
-    u8 mUnk_14[0x18];
-    Vec3 mUnk_2c;
-    Vec3 mUnk_38;
-    Vec3 mUnk_44;
-    u8 mUnk_50[0x18];
-    s32 mUnk_68;
-    Vec3 mUnk_6c;
-    u8 mUnk_78[4];
-    s32 mUnk_7c;
-    s32 mUnk_80;
-    u8 mUnk_84[8];
-    s32 mUnk_8c;
-} Unk020edb8c;
 
 void func_020f1d70(void *a0, const Vec3 *b);
 void func_020f1ea4(void *a0, s32 b, s32 c, s32 d);

@@ -151,7 +151,7 @@ void func_020f4b8c(void) {
 
 #pragma thumb off
 
-void func_020f4b20(Unk020f40dc *a, void *b) {
+void func_020f4b20(Unk020f40dc *a, Unk020ee684 *b) {
     s32 i;
 
     a->mUnk_04 = b;
@@ -164,7 +164,7 @@ void func_020f4b20(Unk020f40dc *a, void *b) {
     for (i = 0; i < 3; i++) {
         a->mUnk_14[i] = 0;
     }
-    a->mUnk_24 = data_021759c0->mUnk_70[((Unk020f40dc_Owner *) b)->mUnk_1f8].mUnk_00 == 3;
+    a->mUnk_24 = data_021759c0->mUnk_70[b->mUnk_1f8].mUnk_00 == 3;
 }
 
 void func_020f49bc(Unk020f40dc *a) {
@@ -189,7 +189,7 @@ void func_020f49bc(Unk020f40dc *a) {
     q = &p->mUnk_98;
     r = &p->mUnk_a4;
     func_020f0ea0(data_027e00cc + e->mUnk_44, e);
-    func_020efd1c((Unk020ee684 *) a->mUnk_04, e);
+    func_020efd1c(a->mUnk_04, e);
     func_02147fd8(0xb33, r, &e->mUnk_5c, &e->mUnk_5c);
     *(Vec3 *) &e->mUnk_50 = *q;
     func_020f6630(e, 0, q, r, &p->mUnk_244);

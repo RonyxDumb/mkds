@@ -59,7 +59,7 @@ void func_020daa10(Unk020da494 *p) {
 
 void func_020da820(Unk020da494 *p, Vec3 *a) {
     Vec3 s;
-    Unk020fa3d0 *r;
+    Unk020f41c4_A *r;
     s32 d;
     if (p->mUnk_9c == 0 || p->mUnk_9c->mUnk_2c != 0) {
         return;
@@ -84,15 +84,15 @@ void func_020da820(Unk020da494 *p, Vec3 *a) {
     if (r == 0) {
         return;
     }
-    r->mUnk_068 = 0xcd;
-    r->mUnk_06c = 0xcd;
-    r->mUnk_070 = 0xcd;
+    r->mUnk_68.x = 0xcd;
+    r->mUnk_68.y = 0xcd;
+    r->mUnk_68.z = 0xcd;
     d = func_021482cc(a) + 0x5000;
-    r->mUnk_05c.x = (s32) (((s64) s.x * d) >> 12);
-    r->mUnk_05c.y = (s32) (((s64) s.y * d) >> 12);
-    r->mUnk_05c.z = (s32) (((s64) s.z * d) >> 12);
-    r->mUnk_05c.y += 0xf000;
-    func_02148504(&r->mUnk_050, &r->mUnk_05c, &r->mUnk_050);
+    r->mUnk_5c.x = (s32) (((s64) s.x * d) >> 12);
+    r->mUnk_5c.y = (s32) (((s64) s.y * d) >> 12);
+    r->mUnk_5c.z = (s32) (((s64) s.z * d) >> 12);
+    r->mUnk_5c.y += 0xf000;
+    func_02148504(&r->mUnk_50, &r->mUnk_5c, &r->mUnk_50);
     func_020f6630(r, 0, &p->mUnk_04, a, &data_021581f8);
 }
 

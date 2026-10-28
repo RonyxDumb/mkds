@@ -14,5 +14,5 @@ typedef struct Unk020f2df0 {
 void func_020f2dac(Unk020f41c4_A *a, Vec3 *b, Vec3 *c);
 void func_020f2df0(Unk020f2df0 *a, s32 b, s32 c, s32 d, u32 *e);
 void func_020f30ec(Unk020f2df0 *a, s32 b, Vec3 *c);
-void func_020f3150(Unk020f2df0 *p, Unk020edb8c *a, s32 b, s32 c, s32 d, s32 e, s32 f);
+void func_020f3150(Unk020f2df0 *p, Unk020eda5c *a, s32 b, s32 c, s32 d, s32 e, s32 f);
 void func_020f357c(void);

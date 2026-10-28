@@ -54,16 +54,6 @@ typedef struct Unk020ebef8 {
 
 extern Unk020ebef8 *data_0217bbf0;
 
-// Object returned by func_020fa3d0.
-typedef struct Unk020fa3d0 {
-    /* 00 */ u8 mUnk_000[0x50];
-    /* 50 */ Vec3 mUnk_050;
-    /* 5c */ Vec3 mUnk_05c;
-    /* 68 */ s32 mUnk_068;
-    /* 6c */ s32 mUnk_06c;
-    /* 70 */ s32 mUnk_070;
-} Unk020fa3d0;
-
 // Argument of func_020ec194.
 typedef struct Unk020ec194 {
     /* 000 */ u8 mUnk_000[4];

@@ -260,7 +260,7 @@ void func_020f6388(Unk020f41c4_A *a, Vec3 *b, Vec3 *c) {
     a->mUnk_108.z = 0;
 }
 
-void func_020f62b0(Unk020edb8c *a, Unk020f40dc *b) {
+void func_020f62b0(Unk020eda5c *a, Unk020f40dc *b) {
     Unk0212c400 **p;
 
     if (data_0217c780 & 1) {
@@ -285,7 +285,7 @@ void func_020f62b0(Unk020edb8c *a, Unk020f40dc *b) {
     func_020fe958(6);
 }
 
-void func_020f6264(Unk020edb8c *a, Unk020f40dc *b) {
+void func_020f6264(Unk020eda5c *a, Unk020f40dc *b) {
     func_02069c38(b->mUnk_04->mUnk_1fc);
     func_020f4754(b, 1);
     if (data_021759c0->mUnk_08 != 5) {
@@ -305,14 +305,14 @@ void func_020f6220(void *a0, s32 b) {
     func_02109078(&a->mUnk_000.mUnk_000.mUnk_00, 0xd7, 0x7f, 0);
 }
 
-s32 func_020f6150(Unk020edb8c *a, Unk020f6150 *b) {
+s32 func_020f6150(Unk020eda5c *a, Unk020f6150 *b) {
     s32 v;
 
     v = data_021759c0->mUnk_08 == 2;
     func_020f9114(b);
     func_0210b850((u32) &b->mUnk_16c);
     b->mUnk_000.mUnk_000.mUnk_00.mUnk_30 = (void (*)(void *, void *, void *)) func_0210a77c;
-    if (a->mUnk_0c->mUnk_1ec & 0x20) {
+    if (a->mUnk_00c->mUnk_1ec & 0x20) {
         func_020f2b94(b, a, v != 0 ? 2 : 4, 0, 0, 0x5000);
         return 0;
     }
@@ -373,7 +373,7 @@ void func_020f5f7c(Unk020f5d6c *a, Vec3 *b, Vec3 *c) {
     a->mUnk_23c.mUnk_12 = 1;
 }
 
-s32 func_020f5d6c(Unk020edb8c *a, Unk020f5d6c *b) {
+s32 func_020f5d6c(Unk020eda5c *a, Unk020f5d6c *b) {
     u16 x;
     u16 v;
     u16 n;
@@ -382,7 +382,7 @@ s32 func_020f5d6c(Unk020edb8c *a, Unk020f5d6c *b) {
     func_0210b850((u32) &b->mUnk_258);
     b->mUnk_000.mUnk_000.mUnk_000.mUnk_00.mUnk_30 = (void (*)(void *, void *, void *)) func_0210a77c;
     func_02046be8(&b->mUnk_23c, (UnkFunc *const *) data_0216c648, 7, b);
-    if (a->mUnk_0c->mUnk_1ec & 0x20) {
+    if (a->mUnk_00c->mUnk_1ec & 0x20) {
         b->mUnk_254 = 0;
         func_020f2b94(b, a, 0, 0, 0, 0x5000);
         b->mUnk_23c.mUnk_10 = 1;
@@ -391,7 +391,7 @@ s32 func_020f5d6c(Unk020edb8c *a, Unk020f5d6c *b) {
         b->mUnk_000.mUnk_21c.mUnk_04 = 1;
     } else {
         b->mUnk_254 = 1;
-        if (data_021759c0->mUnk_08 != 2 && a->mUnk_0c->mUnk_1f0 != 0) {
+        if (data_021759c0->mUnk_08 != 2 && a->mUnk_00c->mUnk_1f0.mUnk_00 != 0) {
             x = (u16) (!(b->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & 0x8000)
                            ? (u16) (b->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & ~0xff00)
                            : 8);

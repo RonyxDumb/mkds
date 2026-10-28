@@ -124,7 +124,7 @@ void func_020fa13c(void) {
     }
     data_027e00cc = func_02036bec(b, 0x3b8);
     for (j = 0; j < 0xe; j++) {
-        func_020f02c0((Unk020f02c0 *) &data_027e00cc[j], j, &a);
+        func_020f02c0(&data_027e00cc[j], j, &a);
     }
     func_020ed2f8();
     if (data_021759c0->mUnk_08 == 5) {

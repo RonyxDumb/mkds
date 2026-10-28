@@ -10,6 +10,7 @@
 #include "Main/Unknown/code_020f1d70.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_020f5d6c.h"
+#include "Main/Unknown/code_020ee684.h"
 
 void func_020f5978(Unk020f5d6c *a) {
     u16 x;

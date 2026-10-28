@@ -139,7 +139,7 @@ typedef struct {
     /* 20 */ void (*mUnk_20)(void *, void *);
     /* 24 */ s32 (*mUnk_24)(void *, void *);
     /* 28 */ void (*mUnk_28)(struct Unk020f41c4_A *);
-    /* 2c */ s32 mUnk_2c;
+    /* 2c */ void (*mUnk_2c)(void *, void *, void *);
     /* 30 */ s32 (*mUnk_30)(void *, s32, s32, s32, s32);
     /* 34 */ UnkWordFunc *mUnk_34;
     /* 38 */ void (*mUnk_38)(void *);
@@ -270,35 +270,14 @@ typedef struct {
     /* 1c */ s32 mUnk_1c;
     /* 20 */ s32 mUnk_20;
     /* 24 */ void (*mUnk_24)(void *, void *, void *);
-    /* 28 */ u8 mUnk_28[0x18];
+    /* 28 */ s32 (*mUnk_28)(void *, s32, s32, s32, s32);
+    /* 2c */ s32 mUnk_2c;
+    /* 30 */ s32 mUnk_30;
+    /* 34 */ s32 mUnk_34;
+    /* 38 */ s32 mUnk_38;
+    /* 3c */ s32 mUnk_3c;
     /* 40 */ s32 mUnk_40;
 } Unk027e00cc;
-
-// Object with a u16 at 0x1f8 and a pointer at 0x1fc.
-typedef struct Unk020f40dc_Owner {
-    /* 000 */ u8 mUnk_000[0x14];
-    /* 014 */ s32 mUnk_14;
-    /* 018 */ u8 mUnk_018[0x18];
-    /* 030 */ u32 mUnk_30;
-    /* 034 */ u8 mUnk_034[0x4];
-    /* 038 */ u32 mUnk_38;
-    /* 03c */ u8 mUnk_03c[0xc];
-    /* 048 */ u32 mUnk_48;
-    /* 04c */ u8 mUnk_04c[0x4];
-    /* 050 */ s32 mUnk_50;
-    /* 054 */ u8 mUnk_054[0x198];
-    /* 1ec */ u16 mUnk_1ec;
-    /* 1ee */ u8 mUnk_1ee[2];
-    /* 1f0 */ Unk020f371c *mUnk_1f0;
-    /* 1f4 */ s32 mUnk_1f4;
-    /* 1f8 */ u16 mUnk_1f8;
-    /* 1fa */ u8 mUnk_1fa[2];
-    /* 1fc */ Unk0206bcb0 *mUnk_1fc;
-    /* 200 */ u8 mUnk_200[4];
-    /* 204 */ s32 mUnk_204;
-    /* 208 */ s32 mUnk_208;
-    /* 20c */ u8 mUnk_20c[4];
-} Unk020f40dc_Owner;
 
 // Value of the first word of Unk020f40dc.
 typedef enum { UNK_020F40DC_KIND_0 } Unk020f40dc_Kind;
@@ -306,7 +285,7 @@ typedef enum { UNK_020F40DC_KIND_0 } Unk020f40dc_Kind;
 // Object handled by func_020f40dc and the functions after it.
 typedef struct {
     /* 00 */ s32 mUnk_00;
-    /* 04 */ Unk020f40dc_Owner *mUnk_04;
+    /* 04 */ struct Unk020ee684 *mUnk_04;
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s16 mUnk_10;

@@ -19,6 +19,7 @@
 #include "Main/Unknown/unk_0215a000.h"
 #include "Main/Unknown/code_020f73fc.h"
 #include "Main/Unknown/code_021053e4.h"
+#include "Main/Unknown/code_020ee684.h"
 
 #pragma thumb on
 
@@ -172,18 +173,18 @@ void func_020ff654(Unk020ff438 *e) {
     func_021052f0((u32) e->mUnk_140, (u32) func_020ff6d8, (u32) e);
 }
 
-void func_020ff638(Unk020edb8c *a, Unk020ff438 *e) {
+void func_020ff638(Unk020eda5c *a, Unk020ff438 *e) {
     func_02105338(e->mUnk_140, e->mUnk_000.mUnk_d8, &e->mUnk_000.mUnk_68);
 }
 
-u32 func_020ff538(Unk020edb8c *a, Unk020ff438 *e) {
+u32 func_020ff538(Unk020eda5c *a, Unk020ff438 *e) {
     func_020f9114((Unk0206bcb0 *) e);
     e->mUnk_000.mUnk_78 |= data_0215a02c;
     func_02146dfc((const s32 *) &data_0217c600, (const s32 *) &e->mUnk_000.mUnk_94, (s32 *) &e->mUnk_000.mUnk_94);
     e->mUnk_130.x = 0;
     e->mUnk_130.y = 0;
     e->mUnk_130.z = 0;
-    if ((a->mUnk_0c->mUnk_1ec & 0x10) != 0) {
+    if ((a->mUnk_00c->mUnk_1ec & 0x10) != 0) {
         func_020f3150((Unk020f2df0 *) e, a, 0, 1, 0x4000, 0x3000, 0x59a);
         func_021090c4(&e->mUnk_000.mUnk_00, 0xda, 0x7f, 0);
         e->mUnk_13c = 1;

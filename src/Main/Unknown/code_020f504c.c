@@ -29,7 +29,7 @@
 // Runs the two 0x7c/0x4c checks of the object in the 0x1fc word of the 0x1c pointer, then
 // one of the four func_020f14a0 calls, and stores the 0x24c/0x24e halfwords it picks.
 void func_020f5824(Unk020f5d6c *a) {
-    Unk020f40dc_Owner *o;
+    Unk020ee684 *o;
     Unk0206bcb0 *b;
     s32 d;
     u32 c;
@@ -76,7 +76,7 @@ void func_020f5824(Unk020f5d6c *a) {
 // Checks func_0206c0e0 of the 0x1fc object, then the 0x240 counter and the sum of the two
 // squares of the 0x50/0x54/0x58 differences against the 0x1d0/0x1d4/0x1e0 square.
 void func_020f572c(Unk020f5d6c *a) {
-    Unk020f40dc_Owner *o;
+    Unk020ee684 *o;
     Unk0206bcb0 *k;
     s32 n;
     s32 r;
@@ -117,7 +117,7 @@ void func_020f56d0(Unk020f5d6c *a) {
 void func_020f5614(void *a0, s32 b, void *c0) {
     Unk020f5d6c *a;
     Unk020f41c4_A *c;
-    Unk020f40dc_Owner *o;
+    Unk020ee684 *o;
     Unk0206bcb0 *k;
     u16 n;
     u32 f;
@@ -248,13 +248,13 @@ s32 func_020f5324(void *a0, s32 b) {
 // Runs func_020f9114, ors data_02159834 into the 0x78 halfword, then makes one of two
 // func_020f3150 calls depending on the 0x1ec halfword of the 0x0c pointer, and returns the
 // 0x130 word it stores.
-s32 func_020f5240(Unk020edb8c *a, Unk020f5240 *b) {
-    Unk020f40dc_Owner *o;
+s32 func_020f5240(Unk020eda5c *a, Unk020f5240 *b) {
+    Unk020ee684 *o;
     s32 n;
 
     func_020f9114(b);
     b->mUnk_000.mUnk_000.mUnk_78 |= data_02159834;
-    o = a->mUnk_0c;
+    o = a->mUnk_00c;
     if (o->mUnk_1ec & 0x10) {
         func_020f3150(&b->mUnk_000, a, 0, 1, 0x4000, 0x3000, 0x59a);
         func_021090c4(&b->mUnk_000.mUnk_000.mUnk_00, 0xda, 0x7f, 0);
@@ -324,10 +324,10 @@ void func_020f50b4(Unk020f5240 *a) {
 
 // Runs func_02069db8 on the 0x1fc word of b's 0x04 object, marks b, sets the 0x204 word of
 // a's 0x0c object, and runs func_020fe958 when the 0x08 word is 5.
-void func_020f504c(Unk020edb8c *a, Unk020f40dc *b) {
+void func_020f504c(Unk020eda5c *a, Unk020f40dc *b) {
     func_02069db8(b->mUnk_04->mUnk_1fc);
     func_020f4754(b, 1);
-    a->mUnk_0c->mUnk_204 = 1;
+    a->mUnk_00c->mUnk_204 = 1;
     if (data_021759c0->mUnk_08 != 5) {
         return;
     }

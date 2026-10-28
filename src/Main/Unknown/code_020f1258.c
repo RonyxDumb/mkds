@@ -12,6 +12,7 @@
 #include "Main/Unknown/code_01ffd000.h"
 #include "Main/Unknown/code_020f1d70.h"
 #include "code_02147cd8.h"
+#include "Main/Unknown/code_020ee684.h"
 
 // non-matching: the instruction sequence agrees but the register assignment differs:
 // the original spills the 4th parameter to [sp+0x28] and keeps what func_02061f7c()
@@ -194,7 +195,7 @@ int func_020f1258(int a0, int i, s32 c, u32 b) {
     if (a->mUnk_000.mUnk_000.mUnk_000.mUnk_74 & 0x10000000) {
         return 0;
     }
-    a->mUnk_228 = (Unk020f40dc_Owner *) (*(u32 *) data_027e00c8 + i * 0x210);
+    a->mUnk_228 = (Unk020ee684 *) (*(u32 *) data_027e00c8 + i * 0x210);
     a->mUnk_22c.x = 0;
     a->mUnk_22c.y = 0;
     a->mUnk_22c.z = 0;

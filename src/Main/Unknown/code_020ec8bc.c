@@ -20,6 +20,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "code_02135014.h"
 #include "code_02147cd8.h"
+#include "Main/Unknown/code_020ee684.h"
 
 #pragma thumb on
 #pragma optimize_for_size on
@@ -112,17 +113,17 @@ void func_020ed2f8(void) {
 
 // non-matching: the two field loads [r1,#0x1f0] and [r1,#0x1f4] are issued in
 // the opposite order (the compiled code loads 0x1f4 first).
-void func_020ed268(Unk020ec8bc *p, Unk020edb8c *q, s32 a, s32 b, s32 c, s32 d, s32 e, s32 f, u16 g, s32 h) {
-    Unk020f40dc_Owner *n;
+void func_020ed268(Unk020ec8bc *p, Unk020eda5c *q, s32 a, s32 b, s32 c, s32 d, s32 e, s32 f, u16 g, s32 h) {
+    Unk020ee684 *n;
     Unk020f371c *v1;
     s32 v2;
 
     func_020f2b94(p, q, (e == 0) ? -1 : 0, c, d, f);
     p->mUnk_214 = a;
     p->mUnk_218 = b;
-    n = q->mUnk_0c;
-    v1 = n->mUnk_1f0;
-    v2 = n->mUnk_1f4;
+    n = q->mUnk_00c;
+    v1 = n->mUnk_1f0.mUnk_00;
+    v2 = n->mUnk_1f0.mUnk_04;
     p->mUnk_21c.mUnk_00 = v1;
     p->mUnk_21c.mUnk_04 = v2;
     func_020f371c(&p->mUnk_21c, &p->mUnk_168, g, h);

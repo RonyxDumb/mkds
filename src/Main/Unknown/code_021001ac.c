@@ -63,19 +63,19 @@ void func_02100564(Unk02101c84 *p) {
 
 void func_0210050c(Unk02101c84 *p) {
     int i;
-    Unk020f40dc_Owner *e;
+    Unk020ee684 *e;
 
     if ((p->mUnk_000.mUnk_78 & 0x8000) == 0) {
         i = (u16) (p->mUnk_000.mUnk_78 & ~0xff00);
     } else {
         i = 8;
     }
-    e = &((Unk020f40dc_Owner *) *(void **) data_027e00c8)[(u16) i];
-    if (e->mUnk_14 != 0x10) {
+    e = &((Unk020ee684 *) *(void **) data_027e00c8)[(u16) i];
+    if (e->mUnk_014 != 0x10) {
         return;
     }
     if (p->mUnk_158 != -0x40) {
-        e->mUnk_14 = 0x13;
+        e->mUnk_014 = 0x13;
     }
 }
 
@@ -101,7 +101,7 @@ void func_0210045c(Unk02101c84 *p) {
     } else {
         i = 8;
     }
-    func_020f81b8((unsigned int) &((Unk020f40dc_Owner *) *(void **) data_027e00c8)[(u16) i], 0x10);
+    func_020f81b8((unsigned int) &((Unk020ee684 *) *(void **) data_027e00c8)[(u16) i], 0x10);
 }
 
 void func_021003e8(Unk02101c84 *p, u32 sel, s32 v1) {
