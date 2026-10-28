@@ -83,6 +83,7 @@ typedef struct Unk021759c0 {
     /* 3e8 */ u16 mUnk_3e8;
     /* 3ea */ u8 mUnk_3ea;
     /* 3eb */ u8 mUnk_3eb;
+    /* 3ec */ u32 mUnk_3ec[1];
 } Unk021759c0;
 
 extern Unk021759c0 *data_021759c0;

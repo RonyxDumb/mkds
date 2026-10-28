@@ -8,3 +8,5 @@ void func_020b6b18(int *param_1, int *param_2, int param_3, int param_4, short p
 void func_020b6e00(int param_1, u32 param_2);
 void func_020b6c74(u32 a, u16 *b, u32 c);
 s32 func_020b64e8(void);
+s32 func_020b6430(void);
+void func_020b65f0(void);

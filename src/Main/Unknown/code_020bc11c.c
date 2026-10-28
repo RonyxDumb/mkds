@@ -79,8 +79,8 @@ void func_020bc958(void) {
 
 void func_020bc208(Unk020d029c *a) {
     s32 t[2] = {0xf8, 0x10};
-    void **p;
-    s32 *r;
+    s32 *p;
+    Unk020ae7c4 *r;
     s32 q1[2];
     s32 q2[2];
     s32 q3[2];
@@ -163,13 +163,13 @@ void func_020bc208(Unk020d029c *a) {
         q5[0] = b[0] << 12;
         q5[1] = 0x58000;
         a->mUnk_400 += func_020224e0(&a->mUnk_000[a->mUnk_400], 0x80 - a->mUnk_400, c, 0, q5, 0, 1);
-        if (*r != 0) {
-            c = func_020b843c(*r + 2);
+        if (r->mUnk_00 != 0) {
+            c = func_020b843c(r->mUnk_00 + 2);
             q6[0] = b[1] << 12;
             q6[1] = 0x58000;
             a->mUnk_400 += func_020224e0(&a->mUnk_000[a->mUnk_400], 0x80 - a->mUnk_400, c, 0, q6, 0, 1);
         }
-        c = func_020b843c(r[1] + 2);
+        c = func_020b843c(r->mUnk_04 + 2);
         q7[0] = b[2] << 12;
         q7[1] = 0x58000;
         a->mUnk_400 += func_020224e0(&a->mUnk_000[a->mUnk_400], 0x80 - a->mUnk_400, c, 0, q7, 0, 1);
@@ -177,11 +177,11 @@ void func_020bc208(Unk020d029c *a) {
         q8[0] = b[3] << 12;
         q8[1] = 0x58000;
         a->mUnk_400 += func_020224e0(&a->mUnk_000[a->mUnk_400], 0x80 - a->mUnk_400, c, 0, q8, 0, 1);
-        c = func_020b843c(r[2] + 2);
+        c = func_020b843c(r->mUnk_08 + 2);
         q9[0] = b[4] << 12;
         q9[1] = 0x58000;
         a->mUnk_400 += func_020224e0(&a->mUnk_000[a->mUnk_400], 0x80 - a->mUnk_400, c, 0, q9, 0, 1);
-        c = func_020b843c(r[3] + 2);
+        c = func_020b843c(r->mUnk_0c + 2);
         q10[0] = b[5] << 12;
         q10[1] = 0x58000;
         a->mUnk_400 += func_020224e0(&a->mUnk_000[a->mUnk_400], 0x80 - a->mUnk_400, c, 0, q10, 0, 1);
@@ -189,15 +189,15 @@ void func_020bc208(Unk020d029c *a) {
         q11[0] = b[6] << 12;
         q11[1] = 0x58000;
         a->mUnk_400 += func_020224e0(&a->mUnk_000[a->mUnk_400], 0x80 - a->mUnk_400, c, 0, q11, 0, 1);
-        c = func_020b843c(r[4] + 2);
+        c = func_020b843c(r->mUnk_10 + 2);
         q12[0] = b[7] << 12;
         q12[1] = 0x58000;
         a->mUnk_400 += func_020224e0(&a->mUnk_000[a->mUnk_400], 0x80 - a->mUnk_400, c, 0, q12, 0, 1);
-        c = func_020b843c(r[5] + 2);
+        c = func_020b843c(r->mUnk_14 + 2);
         q13[0] = b[8] << 12;
         q13[1] = 0x58000;
         a->mUnk_400 += func_020224e0(&a->mUnk_000[a->mUnk_400], 0x80 - a->mUnk_400, c, 0, q13, 0, 1);
-        c = func_020b843c(r[6] + 2);
+        c = func_020b843c(r->mUnk_18 + 2);
         q14[0] = b[9] << 12;
         q14[1] = 0x58000;
         a->mUnk_400 += func_020224e0(&a->mUnk_000[a->mUnk_400], 0x80 - a->mUnk_400, c, 0, q14, 0, 1);
