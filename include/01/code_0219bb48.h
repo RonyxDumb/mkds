@@ -41,10 +41,10 @@ typedef struct Unk021a9bf4Block {
 
 // Object behind data_ov001_021a9bf4.
 typedef struct Unk021a9bf4 {
-    /* 00 */ void *mUnk_00;
+    /* 00 */ struct Unk02021dc8 *mUnk_00;
     /* 04 */ Unk021a9bf4Count *mUnk_04;
     /* 08 */ void *mUnk_08;
-    /* 0c */ void *mUnk_0c;
+    /* 0c */ struct Unk02021dc8 *mUnk_0c;
     /* 10 */ Unk021a9bf4Count *mUnk_10;
     /* 14 */ void *mUnk_14;
     /* 18 */ void *mUnk_18;

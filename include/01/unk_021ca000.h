@@ -15,7 +15,7 @@ typedef struct Unk021ca400 {
     /* 018 */ s32 mUnk_018;
     /* 01c */ void *mUnk_01c;
     /* 020 */ s32 *mUnk_020;
-    /* 024 */ void *mUnk_024;
+    /* 024 */ struct Unk02021dc8 *mUnk_024;
     /* 028 */ u8 mUnk_028[0x4];
     /* 02c */ Unk020b4a44 *mUnk_02c;
     /* 030 */ void *mUnk_030;
@@ -33,7 +33,7 @@ typedef struct Unk021ca400 {
 // Objects whose layout isn't known yet.
 // Object behind data_ov001_021ca410.
 typedef struct Unk021ca410 {
-    /* 00 */ void *mUnk_00;
+    /* 00 */ struct Unk02021dc8 *mUnk_00;
     /* 04 */ Unk021b4c74_16f0 *mUnk_04;
     /* 08 */ void *mUnk_08;
     /* 0c */ void *mUnk_0c;
@@ -70,10 +70,10 @@ typedef struct Unk021ca414_50 {
 
 // Object behind data_ov001_021ca414.
 typedef struct Unk021ca414 {
-    /* 00 */ void *mUnk_00;
+    /* 00 */ struct Unk02021dc8 *mUnk_00;
     /* 04 */ Unk021b4c74_16f0 *mUnk_04;
     /* 08 */ void *mUnk_08;
-    /* 0c */ void *mUnk_0c;
+    /* 0c */ struct Unk02021dc8 *mUnk_0c;
     /* 10 */ Unk021b4c74_16f0 *mUnk_10;
     /* 14 */ void *mUnk_14;
     /* 18 */ void *mUnk_18;
@@ -117,9 +117,9 @@ typedef struct Unk021ca418_Cell {
 
 // Object behind data_ov001_021ca418.
 typedef struct Unk021ca418 {
-    /* 00 */ void *mUnk_00;
+    /* 00 */ struct Unk02021dc8 *mUnk_00;
     /* 04 */ void *mUnk_04;
-    /* 08 */ void *mUnk_08;
+    /* 08 */ struct Unk02021dc8 *mUnk_08;
     /* 0c */ void *mUnk_0c;
     /* 10 */ void *mUnk_10;
     /* 14 */ Unk021ca418_Cell *mUnk_14;
@@ -169,7 +169,7 @@ typedef struct Unk021ca424_08 {
 // Object behind data_ov001_021ca424.
 typedef struct Unk021ca424 {
     /* 00 */ Unk020b4934 *mUnk_00;
-    /* 04 */ void *mUnk_04;
+    /* 04 */ struct Unk02021dc8 *mUnk_04;
     /* 08 */ Unk021ca424_08 *mUnk_08;
     /* 0c */ void *mUnk_0c;
 } Unk021ca424;

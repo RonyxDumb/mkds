@@ -83,7 +83,7 @@ typedef struct Unk021b4c74 {
     /* 10d4 */ Unk02124b1c *mUnk_10d4;
     /* 10d8 */ u8 mUnk_10d8[3][0x200];
     /* 16d8 */ s32 mUnk_16d8[3];
-    /* 16e4 */ void *mUnk_16e4;
+    /* 16e4 */ struct Unk02021dc8 *mUnk_16e4;
     /* 16e8 */ Unk020b4934 *mUnk_16e8;
     /* 16ec */ Unk020b4a44 *mUnk_16ec;
     /* 16f0 */ Unk021b4c74_16f0 *mUnk_16f0;

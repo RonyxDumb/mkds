@@ -161,7 +161,7 @@ void func_020d1640(void *param_1) {
     data_0217b4b0->mUnk_00 = func_02047a28("search_icon_00.bncl");
     data_0217b4b0->mUnk_04 = func_02047a28("search_icon_layout_00.bncl");
     func_020b49f4(&data_0217b4b0->mUnk_08, func_02047a28("search_icon_00.nce.ncgr"));
-    func_020b48ec((void **) &data_0217b4b0->mUnk_0c, func_02047a28("search_icon_00.nce.ncer"));
+    func_020b48ec(&data_0217b4b0->mUnk_0c, func_02047a28("search_icon_00.nce.ncer"));
     func_020b4a7c(&data_0217b4b0->mUnk_10, func_02047a28("search_icon_00_o.nclr"));
     switch (data_021759d0->mUnk_04) {
     default:

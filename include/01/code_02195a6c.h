@@ -33,12 +33,12 @@ typedef struct Unk021a9bdcCount {
 // Object behind data_ov001_021a9bdc.
 typedef struct Unk021a9bdc {
     /* 00 */ Unk020b4934 *mUnk_00;
-    /* 04 */ void *mUnk_04;
+    /* 04 */ struct Unk02021dc8 *mUnk_04;
     /* 08 */ Unk021a9bdcCount *mUnk_08;
     /* 0c */ u8 mUnk_0c[4];
     /* 10 */ Unk021a9bdcCount *mUnk_10;
     /* 14 */ Unk020b4934 *mUnk_14;
-    /* 18 */ void *mUnk_18;
+    /* 18 */ struct Unk02021dc8 *mUnk_18;
     /* 1c */ Unk021a9bdcCount *mUnk_1c;
     /* 20 */ void *mUnk_20;
     /* 24 */ Unk021a9bdcCount *mUnk_24;

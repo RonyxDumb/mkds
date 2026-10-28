@@ -11,7 +11,7 @@ void func_ov001_021a651c(void) {
     uVar1 = ((int) func_0204799c(data_ov001_021a993c));
     func_020b496c(&local_10, (void *) (uVar1));
     uVar1 = ((int) func_0204799c(data_ov001_021a9938));
-    func_020b48ec((void **) (&local_c), (void *) (uVar1));
+    func_020b48ec((Unk02021dc8 **) (&local_c), (void *) (uVar1));
     uVar1 = ((int) func_0204799c(data_ov001_021a9944));
     func_020b4a7c(local_8, (void *) (uVar1));
     return;

@@ -12,10 +12,10 @@ typedef struct Unk021a9bf0Entry {
 
 // Overlay state, allocated by the setup function below.
 typedef struct Unk021a9bf0 {
-    /* 0x00 */ void *mUnk_00;
+    /* 0x00 */ struct Unk02021dc8 *mUnk_00;
     /* 0x04 */ u16 *mUnk_04;
     /* 0x08 */ void *mUnk_08;
-    /* 0x0c */ void *mUnk_0c;
+    /* 0x0c */ struct Unk02021dc8 *mUnk_0c;
     /* 0x10 */ void *mUnk_10;
     /* 0x14 */ void *mUnk_14;
     /* 0x18 */ Unk021a9bf0Entry *mUnk_18;

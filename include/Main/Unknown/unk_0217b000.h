@@ -61,8 +61,8 @@ typedef struct Unk0217b498_00 {
 } Unk0217b498_00;
 
 // Object behind data_0217b3fc to data_0217b420, data_0217b42c to data_0217b434, data_0217b440 to data_0217b484,
-// data_0217b494, data_0217b498, data_0217b4a0 and the ov001 pointers data_ov001_021a9b8c and data_ov001_021a9ba4 to
-// data_ov001_021a9bc4 (func_020c0c2c and func_020c0ba8 allocate it, func_020c0b84 clears it).
+// data_0217b48c, data_0217b494, data_0217b498, data_0217b4a0 and the ov001 pointers data_ov001_021a9b8c and
+// data_ov001_021a9ba4 to data_ov001_021a9bc4 (func_020c0c2c and func_020c0ba8 allocate it, func_020c0b84 clears it).
 typedef struct Unk0217b498 {
     /* 00 */ Unk0217b498_00 **mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -657,7 +657,7 @@ extern Unk0217b498 *data_0217b478;
 extern Unk0217b498 *data_0217b47c;
 extern Unk0217b498 *data_0217b480;
 extern Unk0217b498 *data_0217b484;
-extern u8 data_0217b48c[];
+extern Unk0217b498 *data_0217b48c;
 extern u8 data_0217b490[];
 extern Unk0217b498 *data_0217b494;
 extern Unk0217b498 *data_0217b498;

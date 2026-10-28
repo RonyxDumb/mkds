@@ -277,7 +277,7 @@ void func_ov001_0219f8ec(void) {
 
 void func_ov001_0219f85c(void) {
     Unk020b4934 *local_0 = 0;
-    void *local_4 = 0;
+    Unk02021dc8 *local_4 = 0;
     Unk020b4a44 *local_8 = 0;
     Unk020b4934 *local_c = 0;
     Unk020b47d8 *local_10 = 0;

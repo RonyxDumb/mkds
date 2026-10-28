@@ -17,7 +17,7 @@ void func_02027df8(void) {
     uVar1 = ((u32) func_02047a28((const char *) (((u32) &data_02161e7c))));
     func_020b49f4(&local_18, (void *) (uVar1));
     uVar1 = ((u32) func_02047a28((const char *) (((u32) &data_02161e94))));
-    func_020b48ec((void **) (&local_10), (void *) (uVar1));
+    func_020b48ec((Unk02021dc8 **) (&local_10), (void *) (uVar1));
     uVar1 = ((u32) func_02047a28((const char *) (((u32) &data_02161eac))));
     func_020b4a7c(&local_14, (void *) (uVar1));
     uVar1 = ((u32) func_02047a28((const char *) (((u32) &data_02161ec4))));

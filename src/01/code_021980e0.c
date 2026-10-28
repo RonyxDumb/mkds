@@ -19,7 +19,7 @@
 void func_ov001_021984ac(void)
 {
     Unk020b4934 *a = 0;
-    void *b = 0;
+    Unk02021dc8 *b = 0;
     Unk020b4a44 *c = 0;
     Unk020b4934 *d = 0;
     Unk020b4a44 *e = 0;

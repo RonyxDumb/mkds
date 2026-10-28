@@ -355,10 +355,10 @@ void func_02118e30(void) {
 
 void func_02118d44(void) {
     Unk020b4934 *a = 0;
-    void *b = 0;
+    Unk02021dc8 *b = 0;
     Unk020b4a44 *c = 0;
     Unk020b4934 *d = 0;
-    void *e = 0;
+    Unk02021dc8 *e = 0;
     Unk020b4a44 *f = 0;
     Unk020b4934 *g = 0;
     Unk020b47d8 *h = 0;

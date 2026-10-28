@@ -9,7 +9,7 @@ void func_ov000_021851a0(void) {
     uVar1 = ((int) func_0204799c((const char *) (((u32) &data_ov000_021b0e98))));
     func_020b49bc((Unk020b4934 **) ((int *) (u32) ((*(int *) &data_ov000_021b4c84) + 0x24)), (void *) (uVar1));
     uVar1 = ((int) func_0204799c((const char *) (((u32) &data_ov000_021b0eb4))));
-    func_020b48b4((void **) ((int *) (u32) ((*(int *) &data_ov000_021b4c84) + 0x20)), (void *) (uVar1));
+    func_020b48b4((Unk02021dc8 **) ((int *) (u32) ((*(int *) &data_ov000_021b4c84) + 0x20)), (void *) (uVar1));
     uVar1 = ((int) func_0204799c((const char *) (((u32) &data_ov000_021b0ed0))));
     func_020b4a44((Unk020b4a44 **) ((int *) (u32) ((*(int *) &data_ov000_021b4c84) + 0x28)), (void *) (uVar1));
     func_0214bea4((const void *) (*(u32 *) (*(int *) ((*(int *) &data_ov000_021b4c84) + 0x24) + 0x14)), (int) (0),

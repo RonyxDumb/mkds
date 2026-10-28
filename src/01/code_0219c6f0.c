@@ -434,7 +434,7 @@ void func_ov001_0219c784(void) {
 
 void func_ov001_0219c6f0(void) {
     Unk020b4934 *p3 = 0;
-    void *p4 = 0;
+    Unk02021dc8 *p4 = 0;
     Unk020b4a44 *p5 = 0;
     Unk020b4934 *p0 = 0;
     Unk020b4a44 *p2 = 0;

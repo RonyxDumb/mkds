@@ -23,7 +23,7 @@ typedef struct Unk021a9bd4 {
     /* 18 */ s32 mUnk_18;
     /* 1c */ void *mUnk_1c;
     /* 20 */ Unk021a9bdcEntry *mUnk_20;
-    /* 24 */ void *mUnk_24;
+    /* 24 */ struct Unk02021dc8 *mUnk_24;
     /* 28 */ Unk020b4934 *mUnk_28;
     /* 2c */ Unk020b4a44 *mUnk_2c;
     /* 30 */ void *mUnk_30;
@@ -48,17 +48,17 @@ typedef struct Unk021a9bd8_40 {
 // Object behind data_ov001_021a9bd8.
 typedef struct Unk021a9bd8 {
     /* 00 */ Unk020b4934 *mUnk_00;
-    /* 04 */ void *mUnk_04;
+    /* 04 */ struct Unk02021dc8 *mUnk_04;
     /* 08 */ Unk021a9bdcCount *mUnk_08;
     /* 0c */ u8 mUnk_0c[4];
     /* 10 */ Unk021a9bdcCount *mUnk_10;
     /* 14 */ Unk020b4934 *mUnk_14;
-    /* 18 */ void *mUnk_18;
+    /* 18 */ struct Unk02021dc8 *mUnk_18;
     /* 1c */ Unk021a9bdcCount *mUnk_1c;
     /* 20 */ void *mUnk_20;
     /* 24 */ Unk021a9bdcCount *mUnk_24;
     /* 28 */ Unk020b4934 *mUnk_28;
-    /* 2c */ void *mUnk_2c;
+    /* 2c */ struct Unk02021dc8 *mUnk_2c;
     /* 30 */ Unk020b4a44 *mUnk_30;
     /* 34 */ void *mUnk_34;
     /* 38 */ void *mUnk_38;
