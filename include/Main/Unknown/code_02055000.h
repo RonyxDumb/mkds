@@ -1,9 +1,5 @@
 #pragma once
 
 #include "types.h"
-
-// Declared here until the code that defines them is decompiled.
-void func_02055340(void);
-void func_020559ec(s32 a, s32 b, s32 c);
-s32 func_02055afc(void);
-s32 func_02055b1c(void);
+#include "Main/Unknown/code_02054f58.h"
+#include "Main/Unknown/code_02055730.h"

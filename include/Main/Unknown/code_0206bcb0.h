@@ -2,6 +2,7 @@
 
 #include "Main/Unknown/code_02074854.h"
 #include "Main/Unknown/code_0207a104.h"
+#include "Main/Unknown/code_02055730.h"
 #include "Main/Unknown/code_02086080.h"
 #include "Main/Unknown/code_0210a578.h"
 
@@ -298,7 +299,6 @@ int func_0206c354(Unk0206bcb0 *p, const Vec3 *a, int flag);
 void func_0206c450(Unk0206c1ac *obj, Unk0206bcb0 *p);
 void func_0206c488(Unk0206c1ac *obj, Unk0206bcb0 *p);
 
-void func_02055c5c(void);
 void func_02068a64(Unk0206bcb0 *p, int a, int b);
 void func_0207b0d0(Unk0206bcb0 *p);
 Unk0208c5b8 *func_0208c5b8(int idx);

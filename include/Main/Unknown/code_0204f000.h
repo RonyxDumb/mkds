@@ -9,6 +9,7 @@ void func_0204f148(void);
 void func_0204f408(void);
 void func_0204f468(void);
 void func_0204f814(void);
+s32 func_0204fe90(u16 a);
 void func_0204f938(void *a);
 s32 func_0204ffbc(void);
 

@@ -940,10 +940,19 @@ extern Unk0217aed0 *data_0217aed0;
 extern s32 data_0217af24;
 extern u8 data_0217af28[];
 
+// Entries of the 0x400-byte buffer behind member 0x04 of Unk0217aa04.
+typedef struct Unk0217aa04_04 {
+    /* 00 */ u32 mUnk_00;
+    /* 04 */ union {
+        u32 mUnk_04;
+        u16 mUnk_04_h;
+    };
+} Unk0217aa04_04;
+
 // Object behind data_0217aa04.
 typedef struct Unk0217aa04 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ void *mUnk_04;
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ Unk0217aa04_04 *mUnk_04;
     /* 08 */ u16 mUnk_08;
     /* 0a */ u8 mUnk_0a;
     /* 0b */ u8 mUnk_0b[0x1];
