@@ -149,9 +149,9 @@ extern Unk021d8a4c data_ov003_021d8a4c;
 extern Unk021ba778Src data_ov003_021d8ac0;
 
 void func_ov000_021a6894(void);
-s32 func_ov003_021b7ce4(s32 id);
+#include "03/code_021b7ce4.h"
 s32 func_ov003_021b7cec(s32 id, Unk021b7cec *addr, u32 length);
-s32 func_ov003_021b7cf8(s32 arg0, s32 arg1, s32 arg2);
+#include "03/code_021b7cf8.h"
 s32 func_ov003_021b7d1c(s32 count, Unk021b7ba0 *set, void *arg2, void *arg3, Unk021b7d1c *arg4);
 s32 func_ov003_021b7d68(s32 id, void *buffer, s32 length, s32 flags, Unk021b7cec *out, s32 *outLength);
 s32 func_ov003_021b7dc8(void);

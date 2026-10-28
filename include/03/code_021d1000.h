@@ -7,7 +7,7 @@
 // Declared here until the code that defines them is decompiled.
 u32 func_ov003_021d1290(void);
 void func_ov003_021d1490();
-void func_ov003_021d1568();
+#include "03/code_021d1568.h"
 void func_ov003_021d15f4(void);
 void func_ov003_021d1790();
 void func_ov003_021d17d4();
@@ -20,4 +20,4 @@ void func_ov003_021d1d0c(u16 *param_1, u32 param_2);
 
 u32 func_ov003_021d1dd0(u16 param_1);
 u32 func_ov003_021d1ee0(int param_1, int param_2, u32 param_3, u16 param_4);
-void func_ov003_021d1fd0(int param_1);
+#include "03/code_021d1fd0.h"

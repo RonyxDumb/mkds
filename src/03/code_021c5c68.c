@@ -7,8 +7,8 @@ void func_ov003_021c5c68(void) {
     int iVar3;
     int uVar4;
     iVar1 = func_02147d30((u32) ((*(u16 *) &data_ov003_021da1f0)), (u32) (0x1c));
-    uVar4 = (u32) * (u8 *) ((*(int *) &data_ov003_021da1f4) + 0x51);
-    func_ov003_021d2060(*(u32 *) ((*(int *) &data_ov003_021da1f4) + 0xc), 0);
+    uVar4 = (*(Unk021c5c68State **) &data_ov003_021da1f4)->mUnk_51;
+    func_ov003_021d2060((*(Unk021c5c68State **) &data_ov003_021da1f4)->mUnk_0c, 0);
     if (5 < uVar4) {
         uVar4 = 5;
     }
@@ -29,7 +29,7 @@ void func_ov003_021c5c68(void) {
             iVar1 = iVar1 + 1;
         } while (iVar3 < (int) uVar4);
     }
-    func_ov003_021d1fd0((int) (*(u32 *) ((*(int *) &data_ov003_021da1f4) + 0xc)));
+    func_ov003_021d1fd0((*(Unk021c5c68State **) &data_ov003_021da1f4)->mUnk_0c);
     func_ov003_021c5aa4();
     return;
 }

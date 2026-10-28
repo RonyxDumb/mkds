@@ -5,7 +5,7 @@
 // Declared here until the code that defines them is decompiled.
 void func_ov003_021bf048();
 void func_ov003_021bf258();
-void func_ov003_021bf31c(u8 param_1);
+#include "03/code_021bf31c.h"
 void func_ov003_021bf344(void);
 void func_ov003_021bf364();
 void func_ov003_021bf578(u32 param_1);
