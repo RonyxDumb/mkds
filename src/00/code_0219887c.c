@@ -1,4 +1,6 @@
 #include "00/code_0219887c.h"
+#include "00/unk_021b3000.h"
+#include "code_0213442c.h"
 
 u16 func_ov000_021988e4(int param_1) {
     return *(u16 *) (param_1 + 8);
@@ -25,9 +27,9 @@ void func_ov000_021988a4(int param_1, u32 param_2) {
     return;
 }
 
-u32 func_ov000_0219887c(int param_1) {
-    if (param_1 == 0) {
+u8 *func_ov000_0219887c(Unk0219887c *object) {
+    if (object == 0) {
         func_0213442c(data_ov000_021b3f8c, data_ov000_021b3f98, 0, 0x1a3);
     }
-    return *(u32 *) (param_1 + 0x40);
+    return object->mUnk_40;
 }

@@ -1,10 +1,10 @@
 #include "00/code_021a2e7c.h"
 
-void func_ov000_021a2e7c(u32 param_1, u32 param_2, int param_3) {
+void func_ov000_021a2e7c(Unk0219887c *param_1, u32 param_2, int param_3) {
     int iVar1;
     u32 iVar2;
     u64 uVar3;
-    iVar1 = func_ov000_0219b9c4();
+    iVar1 = func_ov000_0219b9c4(param_1);
     iVar2 = (*(int *) &data_ov000_021b5dd0) + iVar1 * 0x30;
     if ((*(int *) (iVar2 + 4) != 0) && (*(int *) (iVar2 + 8) >= param_3)) {
         func_0214d1fc((const void *) ((u16 *) (u32) (param_2)), (void *) ((u32 *) (u32) (*(int *) (iVar2 + 4))),

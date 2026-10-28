@@ -7,4 +7,4 @@
 #include "Main/Unknown/code_0200f000.h"
 #include "code_0200f5ac.h"
 
-void func_ov000_021a2e7c(u32 param_1, u32 param_2, int param_3);
+void func_ov000_021a2e7c(Unk0219887c *param_1, u32 param_2, int param_3);

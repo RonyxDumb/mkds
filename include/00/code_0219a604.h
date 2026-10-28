@@ -1,0 +1,14 @@
+#pragma once
+
+#include "types.h"
+
+typedef struct Unk0219a604Value {
+    /* 00 */ u32 mUnk_00;
+    /* 04 */ u16 mUnk_04;
+} Unk0219a604Value;
+
+typedef struct Unk0219a604 {
+    /* 00 */ Unk0219a604Value *mValue;
+} Unk0219a604;
+
+u32 func_ov000_0219a604(const Unk0219a604 *object, u32 modulus);

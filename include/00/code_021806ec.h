@@ -10,7 +10,8 @@ typedef struct Unk021b0cd4 {
 } Unk021b0cd4;
 
 typedef struct Unk021b4c64 {
-    /* 00 */ u8 pad_00[0xc];
+    /* 00 */ u8 pad_00[8];
+    /* 08 */ u32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ u32 mUnk_10;
     /* 14 */ s32 mUnk_14;

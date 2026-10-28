@@ -20,8 +20,14 @@ typedef struct Unk021b566c {
     /* 198 */ s32 mUnk_198;
     /* 19c */ u8 mUnk_19c[2];
     /* 19e */ u8 mUnk_19e;
-    /* 19f */ u8 mUnk_19f[0x4d];
+    /* 19f */ u8 mUnk_19f;
+    /* 1a0 */ u8 mUnk_1a0;
+    /* 1a1 */ u8 mUnk_1a1[0x4b];
     /* 1ec */ u32 mUnk_1ec;
+    /* 1f0 */ u8 mUnk_1f0[0xc8];
+    /* 2b8 */ u8 mUnk_2b8[0xfc];
+    /* 3b4 */ u8 mUnk_3b4;
+    /* 3b5 */ u8 mUnk_3b5;
 } Unk021b566c;
 
 extern Unk021b566c *data_ov000_021b566c;
