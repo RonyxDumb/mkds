@@ -333,16 +333,17 @@ void func_020fb7f8(Unk020fc2e8 *param_1) {
     param_1->mUnk_2fa = 1;
 }
 
-// non-matching: 3 words from +0x34: the original emits `ldr r2, [r3, #0x44]; ldr r1, [r0];
-// mla r0, r2, r0, r1`, this build `ldr r1, [r3, #0x44]; ldr r2, [r0]; mla r0, r1, r0, r2`.
 void func_020fb770(Unk020fc2e8 *param_1) {
+    enum { K0 } k;
+
     if (param_1->mUnk_000.mUnk_d0 == &param_1->mUnk_000.mUnk_0c4) {
         param_1->mUnk_000.mUnk_50 = param_1->mUnk_000.mUnk_0c4;
         param_1->mUnk_000.mUnk_d0 = &param_1->mUnk_000.mUnk_50;
     }
     param_1->mUnk_260 = 0x28000;
     param_1->mUnk_264 = 0x333;
-    param_1->mUnk_000.mUnk_100 = data_0217bc34[param_1->mUnk_000.mUnk_44].mUnk_74;
+    k = param_1->mUnk_000.mUnk_44;
+    param_1->mUnk_000.mUnk_100 = data_0217bc34[k].mUnk_74;
     param_1->mUnk_000.mUnk_74 |= 0x800000;
     param_1->mUnk_2a4 = param_1->mUnk_28c;
     param_1->mUnk_27c = 0x3000;
@@ -390,11 +391,12 @@ void func_020fb61c(Unk020fc2e8 *param_1) {
     func_020fc2e8(param_1, &param_1->mUnk_2a4, 0, q);
 }
 
-// non-matching: 3 words from +0xc: the original emits `ldr r3, [r0, #0x44]; ldr r2, [r1];
-// mla r1, r3, r1, r2`, this build `ldr r2, [r0, #0x44]; ldr r3, [r1]; mla r1, r2, r1, r3`.
 void func_020fb5dc(Unk020fc2e8 *param_1) {
+    enum { K0 } k;
+
     param_1->mUnk_260 = 0x28000;
-    param_1->mUnk_000.mUnk_100 = data_0217bc34[param_1->mUnk_000.mUnk_44].mUnk_74;
+    k = param_1->mUnk_000.mUnk_44;
+    param_1->mUnk_000.mUnk_100 = data_0217bc34[k].mUnk_74;
     param_1->mUnk_000.mUnk_100 += 0x800;
     func_020f9c6c(&param_1->mUnk_000);
 }

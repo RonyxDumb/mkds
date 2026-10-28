@@ -75,12 +75,9 @@ s32 func_020f9160(Unk020f41c4_A *param_1) {
     return 0;
 }
 
-// non-matching: the table element's subscript and base keep the opposite registers: the original
-// emits `ldr r3,[r4,#0x44]; ldr r2,[r1]; mla r1,r3,r1,r2`, this emits
-// `ldr r3,[r1]; ldr r2,[r4,#0x44]; mla r1,r2,r1,r3`.
 void func_020f9114(void *param_1) {
     Unk020f41c4_A *p = param_1;
-    s32 a = p->mUnk_44;
+    enum { K0 } a = p->mUnk_44;
 
     func_02109038((u32) p, (u32) data_0217bc34[a].mUnk_a0, (u32) &p->mUnk_50);
     func_0210cf9c(&p->mUnk_00, 1);
@@ -115,23 +112,23 @@ void func_020f9054(void *param_1, s32 param_2, void *param_3, s32 param_4) {
     p->mUnk_74 |= 0x10000000;
 }
 
-// non-matching: every data_0217bc34 lookup keeps the subscript and the base in the opposite
-// registers (the original loads the subscript first into the higher of the two, this loads the base
-// first), which also schedules the subscript load late; the element computed before the 0x180000 bit
-// test is recomputed inside the taken path instead of being predicated. 0x1e0 bytes against
-// 0x1dc.
 void func_020f8e78(void *param_1) {
     Unk020f41c4_A *p = param_1;
     Unk0217bc34 *e;
     s32 a;
+    s32 m;
+    enum { K0 } k;
+    void (*f)(struct Unk020f41c4_A *);
 
     p->mUnk_68.z = 0xccd;
+    k = p->mUnk_44;
     p->mUnk_74 |= 0x40;
     p->mUnk_68.y = p->mUnk_68.z;
     p->mUnk_68.x = p->mUnk_68.y;
-    e = &data_0217bc34[p->mUnk_44];
+    e = &data_0217bc34[k];
+    m = e->mUnk_6c;
     p->mUnk_dc = (s32) (((s64) p->mUnk_68.y * e->mUnk_64) >> 12);
-    p->mUnk_e0 = (s32) (((s64) p->mUnk_68.y * e->mUnk_6c) >> 12);
+    p->mUnk_e0 = (s32) (((s64) p->mUnk_68.y * m) >> 12);
     func_020d5148(p->mUnk_da, p->mUnk_e0 + 0xa000);
     func_0208adc8(p->mUnk_7c.mUnk_00, 1);
     p->mUnk_90 = 0;
@@ -148,17 +145,21 @@ void func_020f8e78(void *param_1) {
     p->mUnk_11a = 0;
     p->mUnk_11c = 1;
     if ((p->mUnk_74 & 0x400000) == 0) {
-        func_02109038((u32) p, (u32) data_0217bc34[p->mUnk_44].mUnk_a0, (u32) &p->mUnk_50);
+        k = p->mUnk_44;
+        func_02109038((u32) p, (u32) data_0217bc34[k].mUnk_a0, (u32) &p->mUnk_50);
         func_0210cf9c(&p->mUnk_00, 1);
         p->mUnk_74 |= 0x400000;
     }
+    k = p->mUnk_44;
+    f = data_0217bc34[k].mUnk_28;
     if ((p->mUnk_74 & 0x180000) == 0) {
-        p->mUnk_120 = data_0217bc34[p->mUnk_44].mUnk_28;
+        p->mUnk_120 = f;
     }
     if ((p->mUnk_78 & 0xf00) != 0) {
         return;
     }
-    if (data_0217bc34[p->mUnk_44].mUnk_54 != 0) {
+    k = p->mUnk_44;
+    if (data_0217bc34[k].mUnk_54 != 0) {
         return;
     }
     a = p->mUnk_da != -1;

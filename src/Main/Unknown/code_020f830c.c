@@ -106,15 +106,11 @@ void func_020f89b0(Unk020ee684 *param_1, Unk020ee684 *param_2) {
     param_1->mUnk_024 = data_021759c0->mUnk_70[param_2->mUnk_1f8].mUnk_00 == 3;
 }
 
-// non-matching: the two lookups at the end (7 words from +0x1c0): the original loads the subscript
-// (`ldr r3, [sl, #0x10]`) before the table pointer value (`ldr r2, [r0]`) and keeps the first
-// element in r4 (`mla r4, r3, r0, r2`), then loads `[r4, #8]` before the second pointer value;
-// here the pointer value comes first, the element lands in r3 and the second pointer value is
-// loaded before `[r3, #8]`. Every other instruction matches.
 void func_020f87a8(Unk020ee684 *param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5) {
     Unk020ee684 *p;
     Unk0217bc48 *e;
     Unk027e00cc *v;
+    enum { K0 } k, j;
     s32 a;
     s32 b;
 
@@ -161,19 +157,18 @@ void func_020f87a8(Unk020ee684 *param_1, s32 param_2, s32 param_3, s32 param_4, 
         param_1->mUnk_020 = 1;
         return;
     }
-    e = &data_0217bc48[param_1->mUnk_010];
-    v = &data_027e00cc[e->mUnk_08];
+    k = param_1->mUnk_010;
+    e = &data_0217bc48[k];
+    j = e->mUnk_08;
+    v = &data_027e00cc[j];
     v->mUnk_1c += e->mUnk_0c;
 }
 
-// non-matching: the two lookups (7 words from +0x3c): the original loads the subscript
-// (`ldr r1, [r0, #0x10]`) before the table pointer value (`ldr r2, [r1]`) and keeps the first
-// element in lr (`mla lr, r1, r2, r3`), then loads `[lr, #8]` before `[r0]`; here the pointer value
-// comes first, the element lands in r3 and `[r3, #8]`/`[r0]` swap. Every other instruction matches.
 void func_020f86c4(Unk020ee684 *param_1) {
     Unk020ee684 *p;
     Unk0217bc48 *e;
     Unk027e00cc *v;
+    enum { K0 } k, j;
 
     p = param_1->mUnk_018;
     if (p->mUnk_014 != 0x13) {
@@ -181,8 +176,10 @@ void func_020f86c4(Unk020ee684 *param_1) {
     }
     if (param_1->mUnk_000 != 0) {
         if (p->mUnk_020 == 0) {
-            e = &data_0217bc48[p->mUnk_010];
-            v = &data_027e00cc[e->mUnk_08];
+            k = p->mUnk_010;
+            e = &data_0217bc48[k];
+            j = e->mUnk_08;
+            v = &data_027e00cc[j];
             v->mUnk_1c -= e->mUnk_0c;
         }
         p->mUnk_000 = 0;
@@ -205,13 +202,10 @@ void func_020f86c4(Unk020ee684 *param_1) {
     param_1->mUnk_020 = 1;
 }
 
-// non-matching: the second lookup (3 words from +0xb0): the original loads the subscript
-// (`ldr r1, [ip, #8]`) before the table pointer value (`ldr r2, [r0]`) and keeps the first element
-// in r3; here the pointer value comes first and the element lands in r1. Every other instruction
-// matches.
 s32 func_020f850c(Unk020ee684 *param_1, Unk020ee684 *param_2) {
     Unk0217bc48 *e;
     Unk027e00cc *v;
+    enum { K0 } j;
     s32 a;
     u32 b;
 
@@ -227,7 +221,8 @@ s32 func_020f850c(Unk020ee684 *param_1, Unk020ee684 *param_2) {
                         func_020faa78(b);
                     }
                     e = &data_0217bc48[b];
-                    v = &data_027e00cc[e->mUnk_08];
+                    j = e->mUnk_08;
+                    v = &data_027e00cc[j];
                     v->mUnk_1c += e->mUnk_0c;
                     param_1->mUnk_010 = b;
                     param_1->mUnk_020 = 0;
@@ -254,17 +249,15 @@ s32 func_020f850c(Unk020ee684 *param_1, Unk020ee684 *param_2) {
     return 0;
 }
 
-// non-matching: the two lookups (6 words from +0x10): the original loads the subscript
-// (`ldr ip, [r0, #0x10]`) before the table pointer value (`ldr r3, [r1]`) and keeps the first
-// element in lr (`mla lr, ip, r1, r3`), then loads `[lr, #8]` before `[r2]`; here the pointer
-// value is loaded first, the element lands in the other of the two registers and `[r2]` comes
-// before `[lr, #8]`. Every other instruction matches.
 void func_020f8498(Unk020ee684 *param_1) {
     Unk0217bc48 *e;
     Unk027e00cc *v;
+    enum { K0 } k, j;
 
-    e = &data_0217bc48[param_1->mUnk_010];
-    v = &data_027e00cc[e->mUnk_08];
+    k = param_1->mUnk_010;
+    e = &data_0217bc48[k];
+    j = e->mUnk_08;
+    v = &data_027e00cc[j];
     v->mUnk_1c -= e->mUnk_0c;
     param_1->mUnk_000 = 0;
     param_1->mUnk_004 = 0;
@@ -274,16 +267,16 @@ void func_020f8498(Unk020ee684 *param_1) {
     param_1->mUnk_020 = 0;
 }
 
-// non-matching: same two lookups as func_020f8498 (subscript and pointer value in the other
-// order and in the other of the two registers, `[r2]` before `[lr, #8]`); because the body does
-// not reach lr, this copy also has no `push {lr}` / `sub sp, sp, #4` stack reservation (0x70 vs 0x80).
 void func_020f8418(Unk020ee684 *param_1) {
     Unk0217bc48 *e;
     Unk027e00cc *v;
+    enum { K0 } k, j;
 
     if (param_1->mUnk_020 == 0) {
-        e = &data_0217bc48[param_1->mUnk_010];
-        v = &data_027e00cc[e->mUnk_08];
+        k = param_1->mUnk_010;
+        e = &data_0217bc48[k];
+        j = e->mUnk_08;
+        v = &data_027e00cc[j];
         v->mUnk_1c -= e->mUnk_0c;
     }
     param_1->mUnk_000 = 0;

@@ -167,10 +167,6 @@ void func_020f4b20(Unk020f40dc *a, void *b) {
     a->mUnk_24 = data_021759c0->mUnk_70[((Unk020f40dc_Owner *) b)->mUnk_1f8].mUnk_00 == 3;
 }
 
-// non-matching: 5 of 267 lines differ, all in the address of data_0217bc34[e->mUnk_44] at 0xd8.
-// The original loads the subscript into r2, then the table address into r1, then 0xa8 into r0 and ends
-// with `mla r0, r2, r0, r1`; this source loads the table address into r0, the subscript into r1, the
-// value into r2 and ends with `mla r0, r1, r0, r2`. Every other instruction is identical.
 void func_020f49bc(Unk020f40dc *a) {
     Unk020f41c4_A *e;
     Unk0206bcb0 *p;
@@ -178,6 +174,7 @@ void func_020f49bc(Unk020f40dc *a) {
     Vec3 *r;
     void (*h)(void *);
     s32 i;
+    enum { K0 } k;
 
     if (a->mUnk_20 <= 0) {
         return;
@@ -196,7 +193,8 @@ void func_020f49bc(Unk020f40dc *a) {
     func_02147fd8(0xb33, r, &e->mUnk_5c, &e->mUnk_5c);
     *(Vec3 *) &e->mUnk_50 = *q;
     func_020f6630(e, 0, q, r, &p->mUnk_244);
-    h = data_0217bc34[e->mUnk_44].mUnk_38;
+    k = e->mUnk_44;
+    h = data_0217bc34[k].mUnk_38;
     if (h != 0) {
         h(e);
     }

@@ -92,10 +92,9 @@ void func_020f99b8(Unk020f41c4_A *param_1, s32 param_2, u16 param_3, Vec3 *param
     param_1->mUnk_4e = func_020ff178(param_1);
 }
 
-// non-matching: the two words of the data_0217bc34 lookup keep the opposite registers: the
-// original emits `ldr r1,[r0]; ldr r2,[r4,#0x44]; mla r0,r2,r0,r1`, this emits
-// `ldr r2,[r0]; ldr r1,[r4,#0x44]; mla r0,r1,r0,r2`.
 void func_020f992c(Unk020f41c4_A *param_1) {
+    enum { K0 } k;
+
     if (param_1->mUnk_da != -1) {
         param_1->mUnk_da = func_020d5344(param_1->mUnk_da);
     }
@@ -105,8 +104,9 @@ void func_020f992c(Unk020f41c4_A *param_1) {
         param_1->mUnk_74 &= ~0x400000;
     }
     param_1->mUnk_74 |= 4;
-    if (data_0217bc34[param_1->mUnk_44].mUnk_3c != 0) {
-        data_0217bc34[param_1->mUnk_44].mUnk_3c(param_1);
+    k = param_1->mUnk_44;
+    if (data_0217bc34[k].mUnk_3c != 0) {
+        data_0217bc34[k].mUnk_3c(param_1);
     }
 }
 

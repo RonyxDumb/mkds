@@ -118,11 +118,9 @@ void func_020f77f8(void *param_1, s32 param_2, Vec3 *param_3, Vec3 *param_4, Unk
     cb(p, i);
 }
 
-// non-matching: for data_0217bc34[param_1->mUnk_44] the two address pieces are in r2 and r3 in
-// both places here, with param_1->mUnk_44 in r2 and the table base in r3; the original has them
-// swapped.
 void func_020f7658(Unk020f41c4_A *param_1, s32 param_2) {
     s32 a;
+    enum { K0 } k;
 
     if (!(param_1->mUnk_74 & 0x8000000)) {
         if ((param_1->mUnk_74 & 0x8000000) && !(param_1->mUnk_74 & 0x10000000) && !(param_1->mUnk_74 & 0x20000000)) {
@@ -136,7 +134,8 @@ void func_020f7658(Unk020f41c4_A *param_1, s32 param_2) {
         if (param_1->mUnk_74 & 0x180000) {
             return;
         }
-        if (data_0217bc34[param_1->mUnk_44].mUnk_40 == 0 && !(param_1->mUnk_74 & 0x180000)) {
+        k = param_1->mUnk_44;
+        if (data_0217bc34[k].mUnk_40 == 0 && !(param_1->mUnk_74 & 0x180000)) {
             param_1->mUnk_120 = func_020f758c;
         }
         param_1->mUnk_74 |= 0x100002;
@@ -154,7 +153,8 @@ void func_020f7658(Unk020f41c4_A *param_1, s32 param_2) {
         if (param_1->mUnk_74 & 0x180000) {
             a = 0;
         } else {
-            if (data_0217bc34[param_1->mUnk_44].mUnk_40 == 0 && !(param_1->mUnk_74 & 0x180000)) {
+            k = param_1->mUnk_44;
+            if (data_0217bc34[k].mUnk_40 == 0 && !(param_1->mUnk_74 & 0x180000)) {
                 param_1->mUnk_120 = func_020f758c;
             }
             param_1->mUnk_74 |= 0x100002;
@@ -170,13 +170,14 @@ void func_020f7658(Unk020f41c4_A *param_1, s32 param_2) {
     func_020fe7a0(param_1->mUnk_44, 4, 8, param_1->mUnk_4e);
 }
 
-// non-matching: for data_0217bc34[param_1->mUnk_44] the two address pieces are in r2 and r3 here,
-// with param_1->mUnk_44 in r2 and the table base in r3; the original has them swapped.
 void func_020f7600(Unk020f41c4_A *param_1) {
+    enum { K0 } k;
+
     if (param_1->mUnk_74 & 0x180000) {
         return;
     }
-    if (data_0217bc34[param_1->mUnk_44].mUnk_40 == 0 && !(param_1->mUnk_74 & 0x180000)) {
+    k = param_1->mUnk_44;
+    if (data_0217bc34[k].mUnk_40 == 0 && !(param_1->mUnk_74 & 0x180000)) {
         param_1->mUnk_120 = func_020f758c;
     }
     param_1->mUnk_74 |= 0x100002;
