@@ -67,7 +67,8 @@ typedef struct Unk0217b498_00 {
     /* 80 */ u8 mUnk_80[0x28];
     /* a8 */ s32 mUnk_a8;
     /* ac */ s32 mUnk_ac;
-    /* b0 */ u8 mUnk_b0[8];
+    /* b0 */ s32 mUnk_b0;
+    /* b4 */ u8 mUnk_b4[4];
     /* b8 */ u16 mUnk_b8;
 } Unk0217b498_00;
 
@@ -173,6 +174,9 @@ typedef struct Unk0217b4d4 {
     /* 0e */ u16 mUnk_0e;
 } Unk0217b4d4;
 
+extern void *data_usa_0217b0cc;
+extern void *data_usa_0217b0d0;
+extern void *data_usa_0217b0d4;
 extern u16 data_0217b028;
 extern s32 data_0217b02c;
 extern Unk02165ff0 *data_0217b030;
