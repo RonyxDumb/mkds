@@ -9,7 +9,7 @@ void func_0211f61c(void) {
     local_10 = 0;
     local_c[0] = 0;
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216e128))));
-    func_020b48b4((Unk02021dc8 **) ((int *) (u32) ((*(int *) &data_0217d380))), (void *) (uVar1));
+    func_020b48b4(&data_0217d380->mUnk_00, (void *) (uVar1));
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216e134))));
     func_020b49bc((Unk020b4934 **) (&local_10), (void *) (uVar1));
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216e130))));

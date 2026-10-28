@@ -28,6 +28,14 @@ typedef struct Unk020b4a44 {
     /* 000c */ u16 *mUnk_0c;
 } Unk020b4a44;
 
+// One stack word whose address the functions above store different pointer types through.
+typedef union Unk02111684_v {
+    Unk020b4934 *m4934;
+    Unk020b47d8 *m47d8;
+    Unk020b4a44 *m4a44;
+    Unk02021dc8 *m21dc8;
+} Unk02111684_v;
+
 // Declared here until the code that defines them is decompiled.
 void *func_020b4000(int param_1);
 void *func_020b400c(int param_1);

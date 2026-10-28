@@ -144,9 +144,17 @@ typedef struct Unk0217d350 {
 // Object behind data_0217d36c.
 typedef struct Unk0217d36c {
     /* 00 */ void *mUnk_00;
-    /* 04 */ void *mUnk_04;
+    /* 04 */ struct Unk02021dc8 *mUnk_04;
     /* 08 */ void *mUnk_08;
 } Unk0217d36c;
+
+// Object behind data_0217d370 (0x10 bytes); func_0211dfb4 and func_0211df44 allocate and fill it.
+typedef struct Unk0217d370 {
+    /* 00 */ struct Unk020b4934 *mUnk_00;
+    /* 04 */ struct Unk02021dc8 *mUnk_04;
+    /* 08 */ struct Unk020b4a44 *mUnk_08;
+    /* 0c */ void *mUnk_0c;
+} Unk0217d370;
 
 // Object at data_0217d070 (0x14 bytes); func_0210d740 fills it. data_0217d07c names its member 0x0c.
 typedef struct Unk0217d070 {
@@ -295,7 +303,7 @@ typedef struct Unk0217d368_20 {
 } Unk0217d368_20;
 
 typedef struct Unk0217d368 {
-    /* 00 */ void *mUnk_00;
+    /* 00 */ struct Unk02021dc8 *mUnk_00;
     /* 04 */ Unk0201ea30 *mUnk_04;
     /* 08 */ Unk0201ea30 *mUnk_08;
     /* 0c */ void *mUnk_0c;
@@ -341,7 +349,7 @@ typedef struct Unk0217d37c {
 
 // Object behind data_0217d380 (0x28 bytes), allocated by func_0211f4b0.
 typedef struct Unk0217d380 {
-    /* 00 */ void *mUnk_00;
+    /* 00 */ struct Unk02021dc8 *mUnk_00;
     /* 04 */ Unk0201ea30 *mUnk_04;
     /* 08 */ u8 mUnk_08[0x4];
     /* 0c */ void *mUnk_0c;
@@ -683,7 +691,7 @@ extern Unk0217d358 *data_0217d358;
 extern Unk0217d35c *data_0217d35c;
 extern Unk0217d368 *data_0217d368;
 extern Unk0217d36c *data_0217d36c;
-extern u8 data_0217d370[];
+extern Unk0217d370 *data_0217d370;
 extern Unk0217d374 *data_0217d374;
 extern Unk0217d378 *data_0217d378;
 extern Unk0217d37c *data_0217d37c;

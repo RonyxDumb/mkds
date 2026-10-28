@@ -16,29 +16,29 @@ const char *data_0216e398[2] = {"back_screen_m_b_00.nclr", "back_screen_m_b_01.n
 #pragma thumb on
 
 void func_02125c2c(void) {
-    void *p;
+    Unk02111684_v p;
 
     if (((Unk027ffc40 *)0x027ffc40)->mUnk_00 == 2) {
-        func_020b496c((Unk020b4934 **) (&p), func_0204799c("txt_system_b_00.ncgr"));
-        func_020b4810((Unk020b47d8 **) (&p), func_0204799c("txt_system_bg_00.nscr"));
-        func_020b4a7c((Unk020b4a44 **) (&p), func_0204799c("txt_system_b_00.nclr"));
+        func_020b496c(&p.m4934, func_0204799c("txt_system_b_00.ncgr"));
+        func_020b4810(&p.m47d8, func_0204799c("txt_system_bg_00.nscr"));
+        func_020b4a7c(&p.m4a44, func_0204799c("txt_system_b_00.nclr"));
     } else {
-        func_020b496c((Unk020b4934 **) (&p), func_02047a28("txt_system_b_00.ncgr"));
-        func_020b496c((Unk020b4934 **) (&p), func_02047a28("txt_system_b_01.ncgr"));
-        func_020b4810((Unk020b47d8 **) (&p), func_02047a28("txt_system_bg_00.nscr"));
-        func_020b4810((Unk020b47d8 **) (&p), func_02047a28("txt_system_bg_00_2.nscr"));
-        func_020b4810((Unk020b47d8 **) (&p), func_02047a28("txt_system_bg_01.nscr"));
-        func_020b4810((Unk020b47d8 **) (&p), func_02047a28("txt_system_bg_01_2.nscr"));
-        func_020b4810((Unk020b47d8 **) (&p), func_02047a28("txt_system_bg_02.nscr"));
-        func_020b4810((Unk020b47d8 **) (&p), func_02047a28("txt_system_bg_02_2.nscr"));
-        func_020b4810((Unk020b47d8 **) (&p), func_02047a28("txt_system_bg_02_3.nscr"));
-        func_020b4a7c((Unk020b4a44 **) (&p), func_02047a28("txt_system_b_00.nclr"));
-        func_020b496c((Unk020b4934 **) (&p), func_02047a28("select_choises_s_b.ncgr"));
-        func_020b4810((Unk020b47d8 **) (&p), func_02047a28("select_choises_s_bg.nscr"));
-        func_020b4a7c((Unk020b4a44 **) (&p), func_02047a28("select_choises_s_b.nclr"));
-        func_020b496c((Unk020b4934 **) (&p), func_02047a28("select_return_s_b_00.ncgr"));
-        func_020b4810((Unk020b47d8 **) (&p), func_02047a28("select_return_s_bg_00.nscr"));
-        func_020b4a7c((Unk020b4a44 **) (&p), func_02047a28("select_return_s_b_00.nclr"));
+        func_020b496c(&p.m4934, func_02047a28("txt_system_b_00.ncgr"));
+        func_020b496c(&p.m4934, func_02047a28("txt_system_b_01.ncgr"));
+        func_020b4810(&p.m47d8, func_02047a28("txt_system_bg_00.nscr"));
+        func_020b4810(&p.m47d8, func_02047a28("txt_system_bg_00_2.nscr"));
+        func_020b4810(&p.m47d8, func_02047a28("txt_system_bg_01.nscr"));
+        func_020b4810(&p.m47d8, func_02047a28("txt_system_bg_01_2.nscr"));
+        func_020b4810(&p.m47d8, func_02047a28("txt_system_bg_02.nscr"));
+        func_020b4810(&p.m47d8, func_02047a28("txt_system_bg_02_2.nscr"));
+        func_020b4810(&p.m47d8, func_02047a28("txt_system_bg_02_3.nscr"));
+        func_020b4a7c(&p.m4a44, func_02047a28("txt_system_b_00.nclr"));
+        func_020b496c(&p.m4934, func_02047a28("select_choises_s_b.ncgr"));
+        func_020b4810(&p.m47d8, func_02047a28("select_choises_s_bg.nscr"));
+        func_020b4a7c(&p.m4a44, func_02047a28("select_choises_s_b.nclr"));
+        func_020b496c(&p.m4934, func_02047a28("select_return_s_b_00.ncgr"));
+        func_020b4810(&p.m47d8, func_02047a28("select_return_s_bg_00.nscr"));
+        func_020b4a7c(&p.m4a44, func_02047a28("select_return_s_b_00.nclr"));
     }
 }
 

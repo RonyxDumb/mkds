@@ -151,12 +151,12 @@ void func_020b8624(void) {
     }
 
     a0 = 0;
-    func_020b48ec((Unk02021dc8 **) &a0, func_020b47c0("race_m.NCER"));
+    func_020b48ec(&a0, func_020b47c0("race_m.NCER"));
     for (i = 0; i < 0x38; i++) {
         (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_000[i] = func_02021f1c(a0, i);
     }
     a1 = 0;
-    func_020b48ec((Unk02021dc8 **) &a1, func_020b47c0("race_goal_m.NCER"));
+    func_020b48ec(&a1, func_020b47c0("race_goal_m.NCER"));
     for (i = 0; i < 0x44; i++) {
         (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_0e0[i] = func_02021f1c(a1, i);
     }
@@ -173,7 +173,7 @@ void func_020b8624(void) {
             func_0200ee74((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_04->mUnk_14,
                           (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_04->mUnk_10);
             a2 = 0;
-            func_020b48ec((Unk02021dc8 **) &a2, func_020b47c0("race_ta_m.NCER"));
+            func_020b48ec(&a2, func_020b47c0("race_ta_m.NCER"));
             for (i = 0; i < 0xf; i++) {
                 (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_1f0[i] = func_02021f1c(a2, i);
             }
@@ -192,7 +192,7 @@ void func_020b8624(void) {
         case 2:
             if (data_021759c0->mUnk_00c != 4) {
                 a3 = 0;
-                func_020b48ec((Unk02021dc8 **) &a3, func_020b47c0("race_battle_m.NCER"));
+                func_020b48ec(&a3, func_020b47c0("race_battle_m.NCER"));
                 for (i = 0; i < 0xd; i++) {
                     (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_22c[i] = func_02021f1c(a3, i);
                 }
@@ -202,7 +202,7 @@ void func_020b8624(void) {
                               (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[0].mUnk_04->mUnk_14, 0, 0);
             } else {
                 a4 = 0;
-                func_020b48ec((Unk02021dc8 **) &a4, func_020b47c0("race_start_battle_m.NCER"));
+                func_020b48ec(&a4, func_020b47c0("race_start_battle_m.NCER"));
                 for (i = 0; i < 3; i++) {
                     (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7d0[i] = func_02021f1c(a4, i);
                 }
@@ -231,7 +231,7 @@ void func_020b8624(void) {
             break;
         case 4:
             a5 = 0;
-            func_020b48ec((Unk02021dc8 **) &a5, func_020b47c0("race_mr_m.NCER"));
+            func_020b48ec(&a5, func_020b47c0("race_mr_m.NCER"));
             for (i = 0; i < 0x16; i++) {
                 (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_260[i] = func_02021f1c(a5, i);
             }
@@ -240,7 +240,7 @@ void func_020b8624(void) {
             func_020b46d0((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[4].mUnk_04->mUnk_14, 0, 0, 0x20, 4,
                           (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[0].mUnk_04->mUnk_14, 0, 0);
             a6 = 0;
-            func_020b48ec((Unk02021dc8 **) &a6, func_020b47c0("race_goal_mr_m.NCER"));
+            func_020b48ec(&a6, func_020b47c0("race_goal_mr_m.NCER"));
             for (i = 0; i < 8; i++) {
                 (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_2b8[i] = func_02021f1c(a6, i);
             }
@@ -332,17 +332,17 @@ void func_020b8624(void) {
     }
 
     a9 = 0;
-    func_020b48ec((Unk02021dc8 **) &a9, func_020b47c0("race_s.NCER"));
+    func_020b48ec(&a9, func_020b47c0("race_s.NCER"));
     for (i = 0; i < 0xc9; i++) {
         (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_2d8[i] = func_02021f1c(a9, i);
     }
     a10 = 0;
-    func_020b48ec((Unk02021dc8 **) &a10, func_020b47c0("race_goal_s.NCER"));
+    func_020b48ec(&a10, func_020b47c0("race_goal_s.NCER"));
     for (i = 0; i < 0x2c; i++) {
         (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_5fc[i] = func_02021f1c(a10, i);
     }
     a11 = 0;
-    func_020b48ec((Unk02021dc8 **) &a11, func_020b47c0("race_goal_team_s.NCER"));
+    func_020b48ec(&a11, func_020b47c0("race_goal_team_s.NCER"));
     for (i = 0; i < 0x28; i++) {
         (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_6ac[i] = func_02021f1c(a11, i);
     }
@@ -368,7 +368,7 @@ void func_020b8624(void) {
         func_02024340(&s6, x3, y3, 0xe, 0x40a, w6);
     }
     a12 = 0;
-    func_020b48ec((Unk02021dc8 **) &a12, func_020b47c0("race_new_record_ta_s.NCER"));
+    func_020b48ec(&a12, func_020b47c0("race_new_record_ta_s.NCER"));
     for (i = 0; i < 0x21; i++) {
         (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_74c[i] = func_02021f1c(a12, i);
     }
