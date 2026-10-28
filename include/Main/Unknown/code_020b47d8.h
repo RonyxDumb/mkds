@@ -1,0 +1,28 @@
+#pragma once
+
+#include "types.h"
+#include "Main/Unknown/code_020b4000.h" // Unk020b47d8, Unk020b4934, Unk020b4a44
+#include "code_02021db0.h" // Unk02021dc8
+#include "code_02021f9c.h" // Unk02021f9c
+
+void func_020b47d8(Unk020b47d8 **out, void *a);
+void func_020b4810(Unk020b47d8 **out, void *a);
+void func_020b486c(Unk02021dc8 **out, void *a);
+void func_020b48b4(Unk02021dc8 **out, void *a);
+void func_020b48ec(Unk02021dc8 **out, void *a);
+void func_020b4934(Unk020b4934 **out, void *a);
+void func_020b496c(Unk020b4934 **out, void *a);
+void func_020b49bc(Unk020b4934 **out, void *a);
+void func_020b49f4(Unk020b4934 **out, void *a);
+void func_020b4a44(Unk020b4a44 **out, void *a);
+void func_020b4a7c(Unk020b4a44 **out, void *a);
+s32 func_020b4acc(void);
+s32 func_020b4b10(void);
+s32 func_020b4b54(void);
+s32 func_020b4b98(s32 a);
+void func_020b4bf8(s32 *a, s32 b, s32 c);
+void func_020b4c74(s32 *a, s32 b);
+void func_020b4cb0(s32 *a, s32 b);
+void func_020b4cec(s32 *a, s32 b);
+u16 func_020b4d2c(void);
+u16 func_020b4d9c(void);

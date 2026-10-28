@@ -8,6 +8,6 @@ void func_020b6dc4(void *param_1, void *param_2) {
 
 void func_020b6d98(void *param_1, void *param_2) {
     func_020b80a8();
-    func_020b6e00((int) (param_1), (u32) (param_2));
+    func_020b6e00(param_1, param_2);
     return;
 }

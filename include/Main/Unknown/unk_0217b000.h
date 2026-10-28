@@ -479,7 +479,8 @@ typedef struct Unk0217b350 {
 extern Unk0217b350 *data_0217b350;
 struct Unk0217b354;
 extern struct Unk0217b354 *data_0217b354;
-extern u8 data_0217b3c4[];
+struct Unk0217b3c4;
+extern struct Unk0217b3c4 *data_0217b3c4;
 // 8-byte elements at the start of Unk0217b3d8.
 typedef struct Unk0217b3d8_00 {
     /* 00 */ s32 mUnk_00;

@@ -13,4 +13,4 @@ void func_02056464(void *a);
 s32 func_020569dc(s32 a, s32 b, s32 c);
 u8 func_02056dac(u8 *a);
 void func_02056750(s32 a, u16 b);
-void func_02056bc0(s32 a, s32 b, void *c);
+s32 func_02056bc0(s32 a, s32 b, void *c);

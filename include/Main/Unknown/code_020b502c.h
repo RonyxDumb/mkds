@@ -186,13 +186,11 @@ typedef struct {
     /* 24 */ s32 mUnk_24;
     /* 28 */ s32 mUnk_28;
     /* 2c */ UnkPair020b502c mUnk_2c;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
+    /* 34 */ UnkPair020b502c mUnk_34;
     /* 3c */ s64 mUnk_3c;
     /* 44 */ s64 mUnk_44;
     /* 4c */ UnkPair020b502c mUnk_4c;
-    /* 54 */ s32 mUnk_54;
-    /* 58 */ s32 mUnk_58;
+    /* 54 */ UnkPair020b502c mUnk_54;
     /* 5c */ s64 mUnk_5c;
     /* 64 */ s64 mUnk_64;
     /* 6c */ UnkPair020b502c mUnk_6c;
@@ -209,9 +207,9 @@ extern Unk02175620 *data_02175620;
 extern void func_0207a91c(Vec3 *dst, u8 idx);
 extern void func_0207a948(Vec3 *dst, u8 idx);
 extern u16 func_020435bc(void);
-extern u16 func_020b4d9c(void);
-extern u16 func_020b6368(void);
-extern void func_020b6a18(UnkPair020b502c *a, UnkPair020b502c *b);
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6368.h"
+#include "Main/Unknown/code_020b6a18.h"
 
 s32 func_020b502c(s32 a, s32 b);
 void func_020b503c(Unk020b503c *p, s32 scale);

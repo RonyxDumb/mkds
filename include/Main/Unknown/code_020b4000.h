@@ -42,29 +42,9 @@ void *func_020b400c(int param_1);
 void *func_020b4018(int param_1);
 void *func_020b4030(int param_1);
 #include "Main/Unknown/code_020b41e8.h"
-void func_020b4810(Unk020b47d8 **param_1, void *param_2);
-void func_020b48ec(Unk02021dc8 **param_1, void *param_2);
-void func_020b496c(Unk020b4934 **param_1, void *param_2);
-void func_020b49f4(Unk020b4934 **param_1, void *param_2);
-void func_020b4a7c(Unk020b4a44 **param_1, void *param_2);
-s32 func_020b4e70(const Vec3 *param_1);
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b4e70.h"
 void *func_020b403c(s32 index);
-void func_020b486c(Unk02021dc8 **out, void *file);
 u32 func_020b4024(u32 arg0);
-s32 func_020b4acc(void);
-s32 func_020b4b54(void);
-void func_020b47d8(Unk020b47d8 **, void *);
-void func_020b48b4(Unk02021dc8 **, void *);
-void func_020b4934(Unk020b4934 **, void *);
-void func_020b49bc(Unk020b4934 **, void *);
-void func_020b4a44(Unk020b4a44 **, void *);
-void func_020b4cec(void *p, s32 a);
-void func_020b4bf8(s32 *a, s32 b, s32 c);
-void func_020b4cb0(s32 *a, s32 b);
-void func_020b4c74(s32 *a, s32 b);
-void func_020b4f64(Vec3 *a, const Vec3 *b, const Vec3 *c);
-s32 func_020b4b98(s32 a);
-s32 func_020b4b10(void);
 #include "Main/Unknown/code_020b4048.h"
-s32 func_020b4d2c(void);
-s32 func_020b4e0c(void);
+#include "Main/Unknown/code_020b4e0c.h"
