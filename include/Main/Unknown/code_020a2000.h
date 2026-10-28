@@ -8,7 +8,5 @@
 // Declared here until the code that defines them is decompiled.
 #include "Main/Unknown/code_020a223c.h"
 #include "Main/Unknown/code_020a2e88.h"
-void func_020a2f30(Unk020a2fe4 *a, u16 b, s32 c);
-void func_020a2f9c(Unk020a2fe4 *a, u16 b, s32 c);
-Unk020a2fe4 *func_020a2fe4(u16 a, Vec3 *b);
+#include "Main/Unknown/code_020a2f30.h"
 #include "Main/Unknown/code_020a22ac.h"

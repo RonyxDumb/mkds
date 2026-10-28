@@ -320,6 +320,9 @@ typedef struct Unk0217b1fc {
 } Unk0217b1fc;
 
 extern Unk0217b1fc *data_0217b1fc;
+extern void *data_0217b204;
+extern Vec3 data_0217b1e8;
+extern Vec3 data_0217b214;
 // 8-byte entries of the tables Unk0217b278 points to (func_020ab338 returns one).
 typedef struct Unk0217b278_10 {
     /* 00 */ u8 mUnk_00;

@@ -40,6 +40,8 @@ typedef struct Unk0206c1ac {
     /* 50 */ UnkVec16 mUnk_50;
     /* 56 */ u8 mUnk_56[0x16];
     /* 6c */ s32 mUnk_6c;
+    /* 70 */ u8 mUnk_70[2];
+    /* 72 */ u16 mUnk_72;
 } Unk0206c1ac;
 
 typedef struct Unk0208c5b8 {

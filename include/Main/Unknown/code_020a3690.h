@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020a2e4c.h" // Unk020a2fe4
 
-unsigned int func_020a3690(unsigned int p0);
-unsigned int func_020a369c(unsigned int p0);
+u32 func_020a3690(Unk020a2fe4 *p);
+u32 func_020a369c(Unk020a2fe4 *p);
