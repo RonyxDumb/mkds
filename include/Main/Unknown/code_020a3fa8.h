@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "01/code_02181c3c.h" // Unk02181c3c_9c
-#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
+#include "Main/Unknown/code_020a2e4c.h" // Unk020a2fe4
 
 // 0x38-byte entries from 0xa4 of Unk020a3fa8; func_020a3fa8 walks the first data_021759c0->mUnk_3d0 of them.
 typedef struct Unk020a3fa8_a4 {
@@ -10,7 +10,7 @@ typedef struct Unk020a3fa8_a4 {
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
-    /* 10 */ Unk020e71a0 *mUnk_10[8];
+    /* 10 */ Unk020a2fe4 *mUnk_10[8];
     /* 30 */ u16 mUnk_30;
     /* 32 */ u8 mUnk_32[0x2];
     /* 34 */ s32 mUnk_34;

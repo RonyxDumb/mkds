@@ -1,15 +1,9 @@
 #include "Main/Unknown/code_020a2f0c.h"
+#include "Main/Unknown/code_020d22e0.h"
 
-void func_020a2f0c(u32 arg0) {
-    u32 value0 = (u32) arg0;
-    u32 value1;
-    u32 value12;
-    value1 = ~(0u);
-    *(u32 *) ((value0) + (164)) = (u32) value1;
-    value1 = 1u;
-    *(u32 *) ((value0) + (244)) = (u32) value1;
-    value1 = 0u;
-    value12 = (u32) &func_020d2398;
-    *(u32 *) ((value0) + (248)) = (u32) value1;
-    func_020d2398((void *) value0);
+void func_020a2f0c(Unk020a2fe4 *p) {
+    p->mUnk_a4 = -1;
+    p->mUnk_f4 = 1;
+    p->mUnk_f8 = 0;
+    func_020d2398(&p->mUnk_00);
 }

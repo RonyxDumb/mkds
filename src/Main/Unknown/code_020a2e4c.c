@@ -1,18 +1,18 @@
 #include "Main/Unknown/code_020a2e4c.h"
 
-void func_020a2e68(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 224) = (unsigned int) (0x0u);
+void func_020a2e68(Unk020a2fe4 *p0) {
+    p0->mUnk_e0 = 0;
 }
 
-unsigned int func_020a2e60(unsigned int p0) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 208));
+s32 func_020a2e60(Unk020a2fe4 *p0) {
+    return p0->mUnk_d0;
 }
 
-void func_020a2e58(unsigned int p0, u16 p1) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 164) = (unsigned int) (p1);
+void func_020a2e58(Unk020a2fe4 *p0, u16 p1) {
+    p0->mUnk_a4 = p1;
 }
 
-void func_020a2e4c(unsigned int p0, u16 p1, void *p2) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 244) = (unsigned int) (p1);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 248) = (unsigned int) (p2);
+void func_020a2e4c(Unk020a2fe4 *p0, u16 p1, void *p2) {
+    p0->mUnk_f4 = p1;
+    p0->mUnk_f8 = p2;
 }

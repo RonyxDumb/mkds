@@ -9,13 +9,13 @@
 
 s32 func_ov001_021816b4(void) {
     Unk021816b4 *list;
-    Unk021816b4_ent *e;
+    Unk020a2fe4 *e;
     s32 i;
 
     list = func_02100138(0x6c);
     if (list != 0) {
         for (i = 0; i < list->mUnk_04 && (e = list->mUnk_00[i]) != 0; i++) {
-            if ((e->mUnk_02 & 0x100) == 0) {
+            if ((e->mUnk_00.mUnk_02 & 0x100) == 0) {
                 return 1;
             }
         }

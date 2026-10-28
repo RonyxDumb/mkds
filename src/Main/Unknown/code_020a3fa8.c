@@ -14,7 +14,7 @@
 #include "Main/Unknown/unk_02156000.h"
 
 void func_020a3fa8(void *param_1, Unk020a3fa8 *param_2) {
-    Unk020e71a0 *o;
+    Unk020a2fe4 *o;
     s32 i;
     s32 j;
     s32 n;
@@ -107,7 +107,7 @@ void func_020a3fa8(void *param_1, Unk020a3fa8 *param_2) {
             }
             o = e->mUnk_10[func_020a1154(i)];
             func_020a2f9c(o, i, 0xcd);
-            if ((s32)func_020a2e60((u32)o) >= 0x800) {
+            if (func_020a2e60(o) >= 0x800) {
                 e->mUnk_34 = 3;
             }
             break;
@@ -123,7 +123,7 @@ void func_020a3fa8(void *param_1, Unk020a3fa8 *param_2) {
             } else {
                 o = e->mUnk_10[func_020a1154(i)];
                 func_020a2f30(o, i, 0xe);
-                if ((s32)func_020a2e60((u32)o) <= 0x400) {
+                if (func_020a2e60(o) <= 0x400) {
                     e->mUnk_34 = 4;
                 }
             }
@@ -134,13 +134,13 @@ void func_020a3fa8(void *param_1, Unk020a3fa8 *param_2) {
         }
         if (func_020a2204(i) != 0) {
             o = e->mUnk_10[func_020a1154(i)];
-            if ((s32)func_020a2e60((u32)o) <= 0) {
+            if (func_020a2e60(o) <= 0) {
                 e->mUnk_10[func_020a1154(i)] = 0;
                 func_020a2220(i, 0);
                 func_020a10ac(i, 1);
                 e->mUnk_00 = 0;
                 e->mUnk_34 = 0;
-            } else if ((s32)func_020a2e60((u32)o) >= 0x1000) {
+            } else if (func_020a2e60(o) >= 0x1000) {
                 func_020a2220(i, 0);
                 func_020a10f0(i, 1);
                 if (e->mUnk_04 <= 0) {
@@ -180,47 +180,47 @@ void func_020a3fa8(void *param_1, Unk020a3fa8 *param_2) {
             }
             m = func_020a1154(i) + (func_020a2204(i) != 0 ? 1 : 0);
             for (j = 0; j < m; j++) {
-                Unk020e71a0 *o = e->mUnk_10[j];
+                Unk020a2fe4 *o = e->mUnk_10[j];
                 a = e->mUnk_08 + param_2->mUnk_264[m - 1][j];
                 if (a != 0) {
                     q = &p->mUnk_150;
                     t.x = (s32)(((s64)q->x * a) >> 12);
                     t.y = (s32)(((s64)q->y * a) >> 12);
                     t.z = (s32)(((s64)q->z * a) >> 12);
-                    func_020a2e74((u32)o, (u32)&t);
+                    func_020a2e74(o, &t);
                 }
                 if ((j & 1) == 1) {
                     q = &p->mUnk_168;
                     t2.x = (s32)(((s64)q->x * -0xcd) >> 12);
                     t2.y = (s32)(((s64)q->y * -0xcd) >> 12);
                     t2.z = (s32)(((s64)q->z * -0xcd) >> 12);
-                    func_020a2e74((u32)o, (u32)&t2);
+                    func_020a2e74(o, &t2);
                 }
                 func_020a2e88(o, &v, &p->mUnk_a4);
-                func_020a2e58((u32)o, i);
-                func_020a2e4c((u32)o, 1, 0);
-                o->mUnk_02 &= ~4;
-                o->mUnk_02 &= ~2;
-                o->mUnk_02 &= ~8;
-                o->mUnk_66 = 0x1f;
+                func_020a2e58(o, i);
+                func_020a2e4c(o, 1, 0);
+                o->mUnk_00.mUnk_02 &= ~4;
+                o->mUnk_00.mUnk_02 &= ~2;
+                o->mUnk_00.mUnk_02 &= ~8;
+                o->mUnk_00.mUnk_66 = 0x1f;
             }
         } else {
             m = func_020a1154(i) + (func_020a2204(i) != 0 ? 1 : 0);
             for (j = 0; j < m; j++) {
                 o = e->mUnk_10[j];
                 func_020a2e88(o, &v, &p->mUnk_a4);
-                func_020a2e58((u32)o, i);
+                func_020a2e58(o, i);
                 if (j == 0) {
-                    func_020a2e4c((u32)o, m, e->mUnk_10);
-                    o->mUnk_02 &= ~4;
-                    o->mUnk_02 &= ~2;
-                    o->mUnk_02 &= ~8;
-                    o->mUnk_66 = 0x1f;
+                    func_020a2e4c(o, m, e->mUnk_10);
+                    o->mUnk_00.mUnk_02 &= ~4;
+                    o->mUnk_00.mUnk_02 &= ~2;
+                    o->mUnk_00.mUnk_02 &= ~8;
+                    o->mUnk_00.mUnk_66 = 0x1f;
                 } else {
-                    func_020a2e4c((u32)o, 0, 0);
-                    o->mUnk_02 |= data_02156794;
-                    o->mUnk_02 |= data_02156798;
-                    o->mUnk_02 |= data_0215679c;
+                    func_020a2e4c(o, 0, 0);
+                    o->mUnk_00.mUnk_02 |= data_02156794;
+                    o->mUnk_00.mUnk_02 |= data_02156798;
+                    o->mUnk_00.mUnk_02 |= data_0215679c;
                 }
             }
         }

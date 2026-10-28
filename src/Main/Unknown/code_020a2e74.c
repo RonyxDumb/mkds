@@ -1,14 +1,6 @@
 #include "Main/Unknown/code_020a2e74.h"
 #include "code_02147cd8.h"
 
-void func_020a2e74(u32 arg0, u32 arg1) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
-    u32 value2;
-    u32 value12;
-    value12 = (u32) &func_02148504;
-    value0 = (value0) + (0x10u);
-    value2 = value0;
-    func_02148504((const Vec3 *) value0, (const Vec3 *) value1, (Vec3 *) ((int *) value2));
-    return;
+void func_020a2e74(Unk020a2fe4 *p, const Vec3 *b) {
+    func_02148504(&p->mUnk_00.mUnk_10, b, &p->mUnk_00.mUnk_10);
 }
