@@ -42,6 +42,13 @@ typedef struct {
     /* 20 */ s32 mUnk_20;
 } Unk02175620_18;
 
+// 0x48-byte entries of the table at Unk02175620::mUnk_74 (func_020423fc returns one).
+typedef struct {
+    /* 00 */ u8 mUnk_00[0x44];
+    /* 44 */ u8 mUnk_44;
+    /* 45 */ u8 mUnk_45[3];
+} Unk02175620_74;
+
 // 0x18-byte entries of the table at Unk02175620::mUnk_84 (func_020a0f0c returns one).
 typedef struct {
     /* 00 */ Vec3 mUnk_00;
@@ -64,7 +71,10 @@ typedef struct {
     /* 2c */ Unk020b57e4 *mUnk_2c;
     /* 30 */ u8 mUnk_30[0x28];
     /* 58 */ u16 mUnk_58;
-    /* 5a */ u8 mUnk_5a[0x2a];
+    /* 5a */ u8 mUnk_5a[0x1a];
+    /* 74 */ Unk02175620_74 *mUnk_74;
+    /* 78 */ u16 mUnk_78;
+    /* 7a */ u8 mUnk_7a[0xa];
     /* 84 */ Unk02175620_84 *mUnk_84;
     /* 88 */ u16 mUnk_88;
     /* 8a */ u8 mUnk_8a[2];

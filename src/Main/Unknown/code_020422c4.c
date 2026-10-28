@@ -2,52 +2,30 @@
 
 #pragma thumb on
 
-// non-matching: 2 instructions differ; first at +0x2: original nothing, ours `ldr r6, [pc, #0x40] (->0x44)`
 void func_02042320(void) {
-    int *piVar1;
-    u16 sVar2;
-    u16 uVar3;
-    int iVar4;
-    piVar1 = (int *) &data_02175620;
-    sVar2 = 0;
-    uVar3 = 0;
-    iVar4 = *(int *) &data_02175620;
-    if (uVar3 < *(u16 *) (iVar4 + 0x78)) {
-        do {
-            iVar4 = ((int) func_020423fc((unsigned int) (uVar3)));
-            if (*(unsigned char *) (iVar4 + 0x44) == '\x04') {
-                sVar2 = sVar2 + 1;
-            }
-            uVar3 = uVar3 + 1;
-            iVar4 = *piVar1;
-        } while (uVar3 < *(u16 *) (iVar4 + 0x78));
-    }
-    *(unsigned short *) (iVar4 + ((int) 0x00000102u)) = sVar2;
-    return;
-}
-
-// non-matching: same size; 13 lines differ; first: original `movs r5, #0`, ours `ldr r6, [pc, #76]`
-void func_020422c4(void) {
-    int *piVar1;
-    u8 cVar2;
-    u16 uVar3;
-    int iVar4;
-    piVar1 = (int *) &data_02175620;
-    cVar2 = '\0';
-    if (*(int *) ((*(int *) &data_021759c0) + 8) == 4) {
-        uVar3 = 0;
-        if (uVar3 < *(u16 *) (*piVar1 + 0x78)) {
-            do {
-                iVar4 = ((int) func_020423fc((unsigned int) (uVar3)));
-                if (*(unsigned char *) (iVar4 + 0x44) == '\x02') {
-                    cVar2 = cVar2 + '\x01';
-                }
-                uVar3 = uVar3 + 1;
-            } while (uVar3 < *(u16 *) (*piVar1 + 0x78));
+    u16 count;
+    u16 i;
+    count = 0;
+    for (i = 0; i < data_02175620->mUnk_78; i++) {
+        if (func_020423fc(i)->mUnk_44 == 4) {
+            count++;
         }
     }
-    *(unsigned char *) ((*(int *) &data_02175620) + ((int) 0x0000010fu)) = cVar2;
-    return;
+    data_02175620->mUnk_102 = count;
+}
+
+void func_020422c4(void) {
+    u8 count;
+    u16 i;
+    count = 0;
+    if (data_021759c0->mUnk_08 == 4) {
+        for (i = 0; i < data_02175620->mUnk_78; i++) {
+            if (func_020423fc(i)->mUnk_44 == 2) {
+                count++;
+            }
+        }
+    }
+    data_02175620->mUnk_10f = count;
 }
 
 #pragma thumb off

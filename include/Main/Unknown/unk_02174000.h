@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_02036588.h" // Unk02036590
 
 // 0x18-byte elements of the table at member 0 of Unk02029930.
 typedef struct Unk02029930_00 {
@@ -19,12 +20,35 @@ typedef struct Unk02029930 {
 
 extern Unk02029930 *data_02174e1c;
 
+// Four words at 0x04 of Unk02174e3c_4c.
+typedef struct Unk02174e3c_4c_04 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+} Unk02174e3c_4c_04;
+
+// 0x2c-byte entries from 0x4c of Unk02174e3c.
+typedef struct Unk02174e3c_4c {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ Unk02174e3c_4c_04 mUnk_04;
+    /* 14 */ u8 mUnk_14[0x18];
+} Unk02174e3c_4c;
+
+// Object behind data_02174e3c.
+typedef struct Unk02174e3c {
+    /* 00 */ u8 mUnk_00[0x4c];
+    /* 4c */ Unk02174e3c_4c mUnk_4c[8];
+} Unk02174e3c;
+
+extern Unk02174e3c *data_02174e3c;
+extern Unk02036590 data_02174e88;
+
 // Objects whose layout isn't known yet.
 extern u8 data_02174e14[];
 extern u8 data_02174e18[];
 extern u8 data_02174e24[];
 extern u8 data_02174e28[];
-extern u8 data_02174e3c[];
 extern u8 data_02174e40[];
 extern u8 data_02174e44[];
 extern u8 data_02174e48[];
@@ -37,7 +61,6 @@ extern u8 data_02174e64[];
 extern u8 data_02174e68[];
 extern u8 data_02174e6c[];
 extern u8 data_02174e70[];
-extern u8 data_02174e88[];
 
 extern u8 data_02174e78[];
 
