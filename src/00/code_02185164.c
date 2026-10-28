@@ -19,10 +19,9 @@ void func_ov000_021851a0(void) {
     return;
 }
 
-// non-matching: 0x20 bytes, original 0x1c; 2 instructions differ; first at +0x8: original nothing, ours `lsl r0, #0x18`
 u32 func_ov000_02185184(void) {
     u32 uVar1;
-    uVar1 = ((s8) func_0205e548());
+    uVar1 = func_0205e548();
     if (60 <= uVar1) {
         return 1;
     }

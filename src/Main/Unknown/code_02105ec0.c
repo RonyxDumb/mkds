@@ -1247,10 +1247,6 @@ void func_02105fcc(void) {
     ((Unk0217c7a4 *) data_0217c7a4)->mUnk_00 = 0;
 }
 
-// non-matching: at +0x38 the ROM sets r1 = 1 before the func_0210d570 call, i.e. passes a
-// second argument; Main/Unknown/code_0210d570.h declares, and the unit that defines it uses,
-// one parameter, so the two-argument call does not compile against them. Everything after it
-// matches with the 4-byte shift; 0x108 bytes here against 0x10c there.
 void func_02105ec0(void) {
     s32 i;
     s32 j;
@@ -1262,7 +1258,7 @@ void func_02105ec0(void) {
     }
     data_0217c7f0.mUnk_0c = 0;
     data_0217c7f0.mUnk_08 = 0;
-    func_0210d570((u32 *) &data_0217d070);
+    func_0210d570((u32 *) &data_0217d070, 1);
     func_0210d9a0(&data_0217d084, 0);
     for (i = 0; i < 12; i++) {
         func_0212c6f0(data_0217c838 + i, 0);

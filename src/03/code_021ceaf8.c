@@ -1,11 +1,9 @@
 #include "03/code_021ceaf8.h"
 
-// non-matching: same size; 11 lines differ; first: original `add r2, sp, #0`, ours `add r2, sp, #4`
 void func_ov003_021ceaf8(int param_1) {
+    u32 local_10;
     int local_c;
-    u8 auStack_10[4];
-    func_ov003_021d1770((int) (*(u32 *) (*(int *) &data_ov003_021da284)), (int) (0),
-                        (u32 *) ((u32 *) (void *) (auStack_10)), (u32 *) (&local_c));
+    func_ov003_021d1770((int) (*(u32 *) (*(int *) &data_ov003_021da284)), (int) (0), &local_10, (u32 *) (&local_c));
     local_c = local_c + 0xc;
     func_ov003_021cec50();
     if (192 <= local_c) {
