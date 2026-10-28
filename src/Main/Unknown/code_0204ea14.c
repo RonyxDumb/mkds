@@ -11,7 +11,7 @@ u32 func_0204ea3c(void) {
     if (((u32) 0x00010000u) <= uVar1) {
         iVar2 = func_02008570((u8 *) (0), (int) (*(u32 *) ((*(int *) &data_0217aa00) + ((int) 0x00001658u))),
                               (u32) (*(u32 *) ((*(int *) &data_0217aa00) + ((int) 0x0000168cu))));
-        if ((iVar2 != 0) && (iVar2 = func_02008310((int) (((u32) &data_0215472c)),
+        if ((iVar2 != 0) && (iVar2 = func_02008310((int) &data_0215472c,
                                                    (int) (*(u32 *) ((*(int *) &data_0217aa00) + ((int) 0x00001658u)))),
                              iVar2 != 0)) {
             uVar3 = 1;

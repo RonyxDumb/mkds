@@ -5,7 +5,7 @@ void func_020deb2c(Vec3 *param_1, void *param_2, u32 param_3, int param_4, u32 p
     u32 uVar2;
     uVar2 = (u32) * (u16 *) ((u32) param_2 + 0x74);
     if (param_4 == 0) {
-        if (uVar2 == (int) *(s8 *) ((*(u32 *) (((u32) &data_021759c0))) + 0x62)) {
+        if (uVar2 == (int) *(s8 *) ((*(u32 *) &data_021759c0) + 0x62)) {
             iVar1 = (int) func_0208b7bc((u32) (0x2d), (const Vec3 *) (param_1));
             if (iVar1 != 0) {
                 func_02081f10((unsigned int) (iVar1), (unsigned int) (uVar2), (unsigned int) (0x1e));

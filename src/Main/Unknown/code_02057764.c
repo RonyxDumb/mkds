@@ -21,7 +21,7 @@ void func_02057764(u32 param_1) {
         *(u32 *) ((*(int *) &data_021759d4) + 0x68) = param_1;
         *(u32 *) (*piVar1 + 0x5c) = 0xffffffff;
         func_0204b6cc((u32) (((u32) 0x00001f00u)), (u32) (((u32) 0x00032e00u)), (u32) (*(u32 *) (*piVar1 + 0x60)),
-                      (u32) (((u32) 0x00000c00u)), (u32) (((u32) &func_02057cfc)), (u32) (((u32) 0x4c464b4eu)),
+                      (u32) (((u32) 0x00000c00u)), (u32) &func_02057cfc, (u32) (((u32) 0x4c464b4eu)),
                       (u32) (0));
     }
     return;
