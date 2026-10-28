@@ -1,33 +1,24 @@
 #include "00/code_02196ae0.h"
 
-// non-matching: 0xa8 bytes, original 0xb0; 23 instructions differ; first at +0x0: original `push {r4, r5, lr}`, ours
-// `push {r4, r5, r6, lr}`
-void func_ov000_02196ae0(int param_1, int param_2) {
-    int iVar1;
-    *(u8 *) (param_1 + param_2) = 0;
-    iVar1 = func_0213a038((const u8 *) (param_1), (const u8 *) (((u32) &data_ov000_021b3d88)), (int) (8));
-    if (iVar1 == 0) {
+void func_ov000_02196ae0(u8 *param_1, s32 param_2) {
+    param_1[param_2] = 0;
+    if (func_0213a038(param_1, data_ov000_021b3d88, 8) == 0) {
         func_ov000_02196d0c(param_1, param_2);
         return;
     }
-    iVar1 = func_0213a038((const u8 *) (param_1), (const u8 *) (((u32) &data_ov000_021b3d94)), (int) (9));
-    if (iVar1 == 0) {
+    if (func_0213a038(param_1, data_ov000_021b3d94, 9) == 0) {
         func_ov000_02196ca4(param_1, param_2);
         return;
     }
-    iVar1 = func_0213a038((const u8 *) (param_1), (const u8 *) (((u32) &data_ov000_021b3d94)), (int) (9));
-    if (iVar1 == 0) {
+    if (func_0213a038(param_1, data_ov000_021b3d94, 9) == 0) {
         func_ov000_02196ca4(param_1, param_2);
         return;
     }
-    iVar1 = func_0213a038((const u8 *) (param_1), (const u8 *) (((u32) &data_ov000_021b3da0)), (int) (8));
-    if (iVar1 == 0) {
+    if (func_0213a038(param_1, data_ov000_021b3da0, 8) == 0) {
         func_ov000_02196c00(param_1, param_2);
         return;
     }
-    iVar1 = func_0213a038((const u8 *) (param_1), (const u8 *) (((u32) &data_ov000_021b3dac)), (int) (8));
-    if (iVar1 == 0) {
+    if (func_0213a038(param_1, data_ov000_021b3dac, 8) == 0) {
         func_ov000_02196b90(param_1, param_2);
     }
-    return;
 }

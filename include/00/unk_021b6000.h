@@ -6,8 +6,8 @@
 
 // Objects whose layout isn't known yet.
 extern u8 data_ov000_021b6010[];
-extern u8 data_ov000_021b63a4[];
-extern u8 data_ov000_021b63ac[];
+extern u8 *(*data_ov000_021b63a4)(u32 param_1);
+extern void (*data_ov000_021b63ac)(void *param_1);
 
 extern u8 data_ov000_021b63a8[];
 

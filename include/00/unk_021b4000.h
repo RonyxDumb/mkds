@@ -10,7 +10,7 @@
 
 // Objects whose layout isn't known yet.
 extern u8 data_ov000_021b4078[];
-extern u8 data_ov000_021b40b8[];
+extern char data_ov000_021b40b8[];
 extern u8 data_ov000_021b40c4[];
 extern u8 data_ov000_021b40cc[];
 extern u8 data_ov000_021b40f0[];
@@ -40,6 +40,13 @@ extern u8 data_ov000_021b4d0c[];
 extern u8 data_ov000_021b4d10[];
 extern u8 data_ov000_021b4d18[];
 extern u8 data_ov000_021b4d1c[];
-extern u8 data_ov000_021b4d24[];
-extern u8 data_ov000_021b4d28[];
+// Object behind data_ov000_021b4d24.
+typedef struct Unk021b4d24 {
+    /* 000 */ u8 mUnk_000[0x498];
+    /* 498 */ u32 mUnk_498;
+    /* 49c */ s32 mUnk_49c;
+} Unk021b4d24;
+
+extern Unk021b4d24 *data_ov000_021b4d24;
+extern s32 data_ov000_021b4d28;
 extern u8 data_ov000_021b4e50[];
