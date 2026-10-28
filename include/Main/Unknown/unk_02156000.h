@@ -60,3 +60,5 @@ extern u16 data_021567ec;
 extern u16 data_021567f0;
 extern u16 data_021567f4;
 extern u16 data_021567f8;
+extern u16 data_02156838;
+extern u16 data_0215683c;

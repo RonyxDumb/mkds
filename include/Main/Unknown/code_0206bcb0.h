@@ -240,7 +240,8 @@ typedef struct Unk0206bcb0 {
     /* 368 */ s32 mUnk_368;
     /* 36c */ u8 mUnk_36c[0x14];
     /* 380 */ u32 mUnk_380;
-    /* 384 */ u8 mUnk_384[0x4];
+    /* 384 */ u16 mUnk_384;
+    /* 386 */ u8 mUnk_386[2];
     /* 388 */ s16 mUnk_388;
     /* 38a */ s16 mUnk_38a;
     /* 38c */ u8 mUnk_38c[0x24];

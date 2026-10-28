@@ -390,6 +390,7 @@ typedef struct Unk0217b334 {
 
 extern Unk0217b334 *data_0217b334;
 extern void *data_0217b338;
+extern void *data_0217b33c;
 extern u8 data_0217b340[];
 extern u8 data_0217b344[];
 // Object behind data_0217b350 (words from 0x828 to 0x910 read and written by func_020aeb7c). The pointers at 0x80c

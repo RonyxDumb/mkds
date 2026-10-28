@@ -148,7 +148,7 @@ void func_ov001_021a2cf0(void)
         break;
     case 1:
         func_020ca688(0);
-        func_020ac390(func_ov001_02181174(), data_ov001_021ca41c->mUnk_087c, func_ov001_02181268());
+        func_020ac390((void *) func_ov001_02181174(), data_ov001_021ca41c->mUnk_087c, func_ov001_02181268());
         func_020569a8(data_ov001_021ca41c->mUnk_087c);
         data_ov001_021ca41c->mUnk_1090 = 0xb;
         data_ov001_021ca41c->mUnk_1098 = 1;
@@ -263,6 +263,6 @@ void func_ov001_021a2a40(void)
     func_020ae630((void *) ((int)data_ov001_021ca41c), (void *) ((int)data_ov001_021ca41c->mUnk_0404));
     func_020783c8();
     func_020780b0();
-    func_020ac390(func_ov001_02181174(), data_ov001_021ca41c->mUnk_087c, func_ov001_02181268());
+    func_020ac390((void *) func_ov001_02181174(), data_ov001_021ca41c->mUnk_087c, func_ov001_02181268());
     func_020ac2c4((const u8 *) func_ov001_02181174(), data_ov001_021ca41c->mUnk_0a7c, func_ov001_02181268());
 }
