@@ -4,6 +4,7 @@
 #include "01/unk_021ca000.h"
 #include "01/unk_021a6000.h"
 #include "01/unk_021a9000.h"
+#include "Main/Unknown/code_02061808.h" // Unk02061808
 
 // Object whose address func_ov001_021a2048 receives as its second argument.
 typedef struct Unk021a2048_9c {
@@ -22,20 +23,6 @@ typedef struct Unk021a2048 {
     /* a0 */ s32 mUnk_a0;
     /* a4 */ void *mUnk_a4;
 } Unk021a2048;
-
-// Object returned by func_02061808.
-typedef struct Unk02061808 {
-    /* 000 */ u8 mUnk_000[0xc];
-    /* 00c */ s32 mUnk_0c;
-    /* 010 */ u8 mUnk_010[0x4];
-    /* 014 */ s32 mUnk_14;
-    /* 018 */ u8 mUnk_018[0xc];
-    /* 024 */ Vec3 mUnk_024;
-    /* 030 */ u8 mUnk_030[0x12c];
-    /* 15c */ s32 mUnk_15c;
-    /* 160 */ u8 mUnk_160[4];
-    /* 164 */ s32 mUnk_164;
-} Unk02061808;
 
 // Argument of func_ov001_021a2300: a table of objects and the number of its entries.
 typedef struct Unk021a2300 {

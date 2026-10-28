@@ -12,3 +12,4 @@ void func_020a2e88(Unk020e71a0 *a, Vec3 *b, Vec3 *c);
 void func_020a2f30(Unk020e71a0 *a, u16 b, s32 c);
 void func_020a2f9c(Unk020e71a0 *a, u16 b, s32 c);
 Unk020e71a0 *func_020a2fe4(u16 a, Vec3 *b);
+void func_020a22ac(u16 a);

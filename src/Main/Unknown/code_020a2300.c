@@ -39,7 +39,7 @@ void func_020a2328(unsigned int p0) {
 }
 
 void func_020a2314(void (*param_1)(void)) {
-    *(void (**)(void)) (*(u8 **) data_0217b1fc + 0x390) = param_1;
+    *(void (**)(void)) (*(u8 **) &data_0217b1fc + 0x390) = param_1;
 }
 
 void func_020a2300(unsigned int p0) {

@@ -27,13 +27,27 @@ typedef struct {
     /* 02 */ u16 mUnk_02;
 } Unk02175620_08;
 
-// Object behind Unk02175620::mUnk_018; the byte at 0x04 and the word at 0x20.
+// Object behind Unk02175620::mUnk_018.
 typedef struct {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u8 mUnk_00[2];
+    /* 02 */ u16 mUnk_02;
     /* 04 */ u8 mUnk_04;
-    /* 05 */ u8 mUnk_05[0x1b];
+    /* 05 */ u8 mUnk_05;
+    /* 06 */ u8 mUnk_06;
+    /* 07 */ u8 mUnk_07;
+    /* 08 */ u8 mUnk_08[8];
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ u16 mUnk_18[4];
     /* 20 */ s32 mUnk_20;
 } Unk02175620_18;
+
+// 0x18-byte entries of the table at Unk02175620::mUnk_84 (func_020a0f0c returns one).
+typedef struct {
+    /* 00 */ Vec3 mUnk_00;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ u8 mUnk_10[8];
+} Unk02175620_84;
 
 struct Unk020fa294;
 
@@ -50,7 +64,10 @@ typedef struct {
     /* 2c */ Unk020b57e4 *mUnk_2c;
     /* 30 */ u8 mUnk_30[0x28];
     /* 58 */ u16 mUnk_58;
-    /* 5a */ u8 mUnk_5a[0x52];
+    /* 5a */ u8 mUnk_5a[0x2a];
+    /* 84 */ Unk02175620_84 *mUnk_84;
+    /* 88 */ u16 mUnk_88;
+    /* 8a */ u8 mUnk_8a[0x22];
     /* ac */ struct Unk020f371c *mUnk_ac;
     /* b0 */ s32 mUnk_b0;
     /* b4 */ u8 mUnk_b4[0x50];

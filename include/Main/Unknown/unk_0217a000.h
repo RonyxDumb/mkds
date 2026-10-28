@@ -94,7 +94,21 @@ typedef struct Unk0217aa14 {
 extern Unk0217aa14 *data_0217aa14;
 extern u8 data_0217aa54[];
 extern u8 data_0217aa64[];
-extern u8 data_0217aa6c[];
+// Object behind data_0217aa6c, returned by func_02061808.
+typedef struct Unk02061808 {
+    /* 000 */ u8 mUnk_000[0xc];
+    /* 00c */ s32 mUnk_0c;
+    /* 010 */ u8 mUnk_010[0x4];
+    /* 014 */ s32 mUnk_14;
+    /* 018 */ u8 mUnk_018[0xc];
+    /* 024 */ Vec3 mUnk_024;
+    /* 030 */ u8 mUnk_030[0x12c];
+    /* 15c */ s32 mUnk_15c;
+    /* 160 */ s32 mUnk_160;
+    /* 164 */ s32 mUnk_164;
+} Unk02061808;
+
+extern Unk02061808 *data_0217aa6c;
 extern u8 data_0217aa7c[];
 extern u8 data_0217ac94[];
 extern u8 data_0217aca8[];
