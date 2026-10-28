@@ -99,7 +99,7 @@ void func_020fd540(void **param_1, Vec3 *v, s32 a) {
     e->mUnk_134 = 0xccd;
     e->mUnk_170 = a;
     e->mUnk_130 = 1;
-    func_020f30ec((Unk0206bcb0 *) e, 3, v);
+    func_020f30ec((Unk020f2df0 *) e, 3, v);
     if ((e->mUnk_000.mUnk_74 & 0x180000) == 0) {
         e->mUnk_000.mUnk_120 = (void (*)(Unk020f41c4_A *)) func_020fdae8;
     }

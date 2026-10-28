@@ -135,7 +135,7 @@ void func_020f8e78(void *param_1) {
     p->mUnk_f0 = data_02159ca0;
     p->mUnk_fc = 0;
     p->mUnk_100 = 0;
-    *p->mUnk_104 = 0;
+    p->mUnk_104->mUnk_00 = 0;
     p->mUnk_108.x = 0;
     p->mUnk_108.y = 0;
     p->mUnk_108.z = 0;

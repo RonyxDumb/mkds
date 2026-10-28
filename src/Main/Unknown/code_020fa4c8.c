@@ -62,7 +62,7 @@
 #pragma thumb off
 
 void func_020fc268(Unk020fc2e8 *param_1) {
-    func_020f2228((Unk0206bcb0 *) param_1, 0xd000);
+    func_020f2228((Unk020f1d70 *) param_1, 0xd000);
     if (param_1->mUnk_000.mUnk_74 & 1) {
         return;
     }

@@ -185,7 +185,7 @@ void func_020f7600(Unk020f41c4_A *param_1) {
 
 void func_020f758c(Unk020f41c4_A *param_1) {
     if (param_1->mUnk_74 & 0x8000) {
-        func_020f68b0((Unk0206bcb0 *) param_1);
+        func_020f68b0(param_1);
     }
     param_1->mUnk_d8--;
     if (param_1->mUnk_d8 <= 0) {

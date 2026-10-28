@@ -64,8 +64,8 @@ struct Unk0206bcb0;
 // 16-byte entry of the table at Unk0217d26c::mUnk_04: func_0210dd44 calls mUnk_04 with the words at 8 and 0xc.
 typedef struct Unk0210ddf4 {
     /* 00 */ u32 mUnk_00;
-    /* 04 */ void (*mUnk_04)(struct Unk0206bcb0 *, s32);
-    /* 08 */ struct Unk0206bcb0 *mUnk_08;
+    /* 04 */ void (*mUnk_04)(void *, s32);
+    /* 08 */ void *mUnk_08;
     /* 0c */ s32 mUnk_0c;
 } Unk0210ddf4;
 
@@ -319,8 +319,8 @@ void func_0206d020(Unk0206bcb0 *p, int a, int b);
 void func_01ffc9e8(Unk0206bcb0 *p, int a);
 void func_020681f0(Unk0206bcb0 *p);
 #include "Main/Unknown/code_0210dc7c.h"
-void func_020718c8(Unk0206bcb0 *p, int arg);
-void func_02071944(Unk0206bcb0 *p, int arg);
+void func_020718c8(void *p, int arg);
+void func_02071944(void *p, int arg);
 #include "Main/Unknown/code_021035ac.h"
 void func_02079f70(void *obj, u16 a, u16 b, u16 c);
 int func_0206bcb0(Unk0206bcb0 *p, int a, int b);

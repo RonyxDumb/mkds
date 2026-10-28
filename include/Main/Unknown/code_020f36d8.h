@@ -80,12 +80,12 @@ typedef struct Unk020f41c4_A {
     /* 0f0 */ Vec3 mUnk_f0;
     /* fc */ u32 mUnk_fc;
     /* 100 */ s32 mUnk_100;
-    /* 104 */ s32 *mUnk_104;
+    /* 104 */ struct Unk020e04b0 *mUnk_104;
     /* 108 */ Vec3 mUnk_108;
     /* 114 */ u16 mUnk_114;
     /* 116 */ u16 mUnk_116;
     /* 118 */ u16 mUnk_118;
-    /* 11a */ u16 mUnk_11a;
+    /* 11a */ s16 mUnk_11a;
     /* 11c */ s32 mUnk_11c;
     /* 120 */ void (*mUnk_120)(struct Unk020f41c4_A *);
     /* 124 */ void (*mUnk_124)(struct Unk020f41c4_A *, Vec3 *, Vec3 *);
@@ -292,7 +292,7 @@ typedef struct Unk020f40dc_Owner {
     /* 1ec */ u16 mUnk_1ec;
     /* 1ee */ u8 mUnk_1ee[2];
     /* 1f0 */ Unk020f371c *mUnk_1f0;
-    /* 1f4 */ u8 mUnk_1f4[4];
+    /* 1f4 */ s32 mUnk_1f4;
     /* 1f8 */ u16 mUnk_1f8;
     /* 1fa */ u8 mUnk_1fa[2];
     /* 1fc */ Unk0206bcb0 *mUnk_1fc;

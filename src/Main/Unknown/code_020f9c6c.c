@@ -89,7 +89,7 @@ void func_020fa294(void) {
                 if ((q->mUnk_74 & 0x180000) == 0) {
                     q->mUnk_120 = data_0217bc34[q->mUnk_44].mUnk_28;
                 }
-                func_020f6a6c((Unk0206bcb0 *) q, &v);
+                func_020f6a6c(q, &v);
             }
         }
     }

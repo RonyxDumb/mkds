@@ -7,8 +7,9 @@
 #include "Main/Unknown/code_02109000.h"
 #include "Main/Unknown/code_02105ec0.h"
 
-void func_0210f9f0(Unk0206bcb0 *a, int b)
+void func_0210f9f0(void *a0, int b)
 {
+    Unk0206bcb0 *a = a0;
     u32 v = data_0217d1f0;
     data_0217d1f0 = v + 1;
     func_021090c4(&a->mUnk_00, v + 0xea, 0x7f, 0);

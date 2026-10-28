@@ -10,9 +10,9 @@ void func_020fe16c(Unk020fdae8 *e) {
     s32 v;
 
     if (e->mUnk_130 != 0) {
-        func_020f2df0((Unk0206bcb0 *) e, 0x385, 0xff8, 0x733, (u32 *) &v);
+        func_020f2df0((Unk020f2df0 *) e, 0x385, 0xff8, 0x733, (u32 *) &v);
     } else {
-        func_020f2df0((Unk0206bcb0 *) e, 0x47b, 0xf91, e->mUnk_134, (u32 *) &v);
+        func_020f2df0((Unk020f2df0 *) e, 0x47b, 0xf91, e->mUnk_134, (u32 *) &v);
     }
     if (e->mUnk_000.mUnk_74 & 0x10) {
         func_020f91fc((Unk0206bcb0 *) e, 0xe5);
@@ -27,7 +27,7 @@ void func_020fe16c(Unk020fdae8 *e) {
         e->mUnk_000.mUnk_5c.y *= 2;
     }
     func_02109060(&e->mUnk_000.mUnk_00, 0xda);
-    func_020f6a6c((Unk0206bcb0 *) e, &v);
+    func_020f6a6c(&e->mUnk_000, &v);
     if ((e->mUnk_000.mUnk_74 & 0x180000) == 0) {
         e->mUnk_000.mUnk_120 = (void (*)(Unk020f41c4_A *)) func_020fdae8;
     }

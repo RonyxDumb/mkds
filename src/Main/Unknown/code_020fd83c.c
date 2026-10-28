@@ -35,11 +35,11 @@ void func_020fe120(Unk020fdae8 *e) {
 
     f = e->mUnk_000.mUnk_74;
     if (f & 0x8000) {
-        func_020f68b0((Unk0206bcb0 *) e);
+        func_020f68b0(&e->mUnk_000);
         return;
     }
     if (f & 0x4000) {
-        func_020f63cc((Unk0206bcb0 *) e);
+        func_020f63cc(&e->mUnk_000);
         e->mUnk_170 = 0x5a;
         e->mUnk_174 = 0;
     }
