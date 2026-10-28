@@ -248,7 +248,7 @@ struct Unk0201ca6c {
     /* 84 */ Unk02148038 mUnk_84;
     /* 8a */ Unk02148038 mUnk_8a;
     /* 90 */ void (*mUnk_90)(Unk0201ca6c *p, s32 a);
-    /* 94 */ u32 mUnk_94;
+    /* 94 */ void *mUnk_94;
     /* 98 */ union {
         u32 mUnk_98;
         struct {

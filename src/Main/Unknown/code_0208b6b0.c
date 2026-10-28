@@ -4,7 +4,7 @@ void func_0208b710(Unk0201ca6c *param_1) {
     u32 uVar1;
     u8 auStack_10[8];
     uVar1 = (*(UnkWordFunc *) (*(u32 *) &data_0217b050))(auStack_10, 0);
-    func_020184e4((Unk020184e4 *) (uVar1), (Unk0201ca6c *) (param_1));
+    func_020184e4((Unk020184e4 *) (uVar1), param_1);
     return;
 }
 

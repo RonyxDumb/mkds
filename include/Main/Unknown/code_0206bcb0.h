@@ -266,7 +266,8 @@ typedef struct Unk0206bcb0 {
     /* 500 */ u32 mUnk_500;
     /* 504 */ u16 mUnk_504;
     /* 506 */ u16 mUnk_506;
-    /* 508 */ u8 mUnk_508[0xc];
+    /* 508 */ Vec3 *mUnk_508;
+    /* 50c */ u8 mUnk_50c[8];
     /* 514 */ Unk0206bcb0_514 *mUnk_514;
     /* 518 */ u8 mUnk_518[0x20];
     /* 538 */ Unk0206ceb4 mUnk_538;

@@ -651,7 +651,12 @@ typedef struct Unk0217ae84 {
 extern Unk0217ae84 *data_0217ae84;
 extern u16 data_0217ae6c;
 extern struct Unk0201ca6c **data_0217ae74;
-extern struct Unk0201ca6c **data_0217ae7c;
+// Three objects per entry, 0xc bytes each.
+typedef struct Unk0217ae7c {
+    /* 00 */ struct Unk0201ca6c *mUnk_00[3];
+} Unk0217ae7c;
+
+extern Unk0217ae7c *data_0217ae7c;
 extern u16 *data_0217ae8c;
 extern s32 data_0217ae90;
 extern struct Unk0201ca6c **data_0217ae94;

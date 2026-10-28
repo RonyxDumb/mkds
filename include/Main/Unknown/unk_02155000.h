@@ -9,6 +9,7 @@ extern u8 data_021550a8[];
 extern void (*data_02155a20[])(void *param_1);
 extern u8 data_02155a64[];
 extern Vec3 data_021557ec;
+extern s32 data_02155854[];
 // Three pairs of words (func_02082e4c).
 typedef struct Unk02155808 {
     /* 00 */ s32 mUnk_00;

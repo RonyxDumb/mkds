@@ -17,7 +17,8 @@ typedef struct Unk020ed718 {
 // The object behind the word at 0x590 of a Unk0206bcb0 from its first byte:
 // the halfword at 0x40.
 typedef struct Unk0206bcb0_590 {
-    /* 000 */ u8 mUnk_000[0x40];
+    /* 000 */ s32 mUnk_000;
+    /* 004 */ u8 mUnk_004[0x3c];
     /* 040 */ u16 mUnk_040;
 } Unk0206bcb0_590;
 

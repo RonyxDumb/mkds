@@ -91,7 +91,7 @@ void func_02080f44(Unk0206bcb0 *p) {
     data_0217ae74[p->mUnk_74] = func_0208b7bc(0x7f, &data_02155a14);
     e = data_0217ae74[p->mUnk_74];
     e->mUnk_98_24 = p->mUnk_74;
-    e->mUnk_94 = 1;
+    e->mUnk_94 = (void *) 1;
     e->mUnk_90 = func_02081b30;
 }
 
