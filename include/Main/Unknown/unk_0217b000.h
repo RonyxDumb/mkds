@@ -75,6 +75,30 @@ typedef struct Unk0217b498 {
     /* 10 */ Unk0217b498_10 *mUnk_10;
 } Unk0217b498;
 
+// Halfwords from 0x02 of Unk0217b490 read by func_020cf340 when data_021759c0->mUnk_00 is 0x20: six, two rows
+// of three and two.
+typedef struct Unk0217b490_02_03 {
+    /* 00 */ u16 mUnk_00[6];
+    /* 0c */ u16 mUnk_0c[2][3];
+    /* 18 */ u16 mUnk_18[2];
+} Unk0217b490_02_03;
+
+// The halfwords from 0x02 of Unk0217b490 as func_020cf340 and func_020cfca4 index them for the values of
+// data_021759c0->mUnk_00: a run of 0x15 (0x1c, 0x1f, 0x2e), nine rows of three (0xf), five rows of four (0x11)
+// and Unk0217b490_02_03 (0x20).
+typedef union Unk0217b490_02 {
+    u16 mUnk_00[0x15];
+    u16 mUnk_01[9][3];
+    u16 mUnk_02[5][4];
+    Unk0217b490_02_03 mUnk_03;
+} Unk0217b490_02;
+
+// Object behind data_0217b490, 0x38 bytes (allocated by func_020cffa0).
+typedef struct Unk0217b490 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ Unk0217b490_02 mUnk_02;
+} Unk0217b490;
+
 // Object behind data_0217b4b4, 0x28 bytes; mUnk_18 points into mUnk_08.
 typedef struct Unk0217b4b4 {
     /* 00 */ s32 mUnk_00;
@@ -779,7 +803,7 @@ extern Unk0217b498 *data_0217b47c;
 extern Unk0217b498 *data_0217b480;
 extern Unk0217b498 *data_0217b484;
 extern Unk0217b498 *data_0217b48c;
-extern u8 data_0217b490[];
+extern Unk0217b490 *data_0217b490;
 extern Unk0217b498 *data_0217b494;
 extern Unk0217b498 *data_0217b498;
 extern Unk0217b498 *data_0217b4a0;
