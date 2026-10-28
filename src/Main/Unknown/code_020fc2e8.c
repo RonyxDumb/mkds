@@ -20,7 +20,7 @@
 #include "Main/Unknown/code_020ee684.h"
 
 void func_020fc94c(Unk020fc2e8 *p) {
-    func_0210b850((Unk0210b7ec *) p->mUnk_300);
+    func_0210b850(&p->mUnk_300);
     p->mUnk_000.mUnk_00.mUnk_30 = (void (*)(void *, void *, void *)) func_0210a67c;
     p->mUnk_160 = 0;
     p->mUnk_000.mUnk_0c4 = p->mUnk_000.mUnk_50;

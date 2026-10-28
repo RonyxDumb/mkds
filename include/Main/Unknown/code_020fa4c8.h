@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "code_02012b30.h"
+#include "Main/Unknown/code_0210b000.h" // Unk0210b7ec
 
 extern Unk020ea670 *data_0217bd38;
 
@@ -68,7 +69,8 @@ typedef struct Unk020fc2e8 {
     /* 2f8 */ u16 mUnk_2f8;
     /* 2fa */ u16 mUnk_2fa;
     /* 2fc */ s32 mUnk_2fc;
-    /* 300 */ u8 mUnk_300[0x1c];
+    /* 300 */ Unk0210b7ec mUnk_300;
+    /* 310 */ u8 mUnk_310[0xc];
 } Unk020fc2e8;
 
 s32 func_020fa4c8(Unk0206bcb0 *param_1);
