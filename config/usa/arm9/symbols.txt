@@ -1937,7 +1937,7 @@ func_usa_0204bb34 kind:function(arm,size=0x16c) addr:0x0204bb34
 func_0204bca0 kind:function(arm,size=0x14) addr:0x0204bca0
 func_0204bcb4 kind:function(arm,size=0x28) addr:0x0204bcb4
 func_0204bcdc kind:function(arm,size=0x10) addr:0x0204bcdc
-func_usa_0204bcec kind:function(arm,size=0x120) addr:0x0204bcec
+func_0204bcec kind:function(arm,size=0x120) addr:0x0204bcec
 func_usa_0204be0c kind:function(arm,size=0x13c) addr:0x0204be0c
 func_0204bf48 kind:function(arm,size=0x64) addr:0x0204bf48
 func_0204bfac kind:function(arm,size=0xe4) addr:0x0204bfac
@@ -1991,7 +1991,7 @@ func_usa_0204ead0 kind:function(thumb,size=0x38) addr:0x0204ead0
 func_usa_0204eb08 kind:function(thumb,size=0xb0) addr:0x0204eb08
 func_usa_0204ebb8 kind:function(thumb,size=0x70) addr:0x0204ebb8
 func_usa_0204ec28 kind:function(thumb,size=0x78) addr:0x0204ec28
-func_usa_0204eca0 kind:function(thumb,size=0x40) addr:0x0204eca0
+func_0204eca0 kind:function(thumb,size=0x40) addr:0x0204eca0
 func_0204ece0 kind:function(thumb,size=0x24) addr:0x0204ece0
 func_usa_0204ed04 kind:function(thumb,size=0x80) addr:0x0204ed04
 func_usa_0204ed84 kind:function(thumb,size=0xac) addr:0x0204ed84
@@ -2042,7 +2042,7 @@ func_020504a4 kind:function(arm,size=0x104) addr:0x020504a4
 func_020505a8 kind:function(arm,size=0xa8) addr:0x020505a8
 func_02050650 kind:function(arm,size=0x114) addr:0x02050650
 func_02050764 kind:function(arm,size=0xb8) addr:0x02050764
-func_usa_0205081c kind:function(arm,size=0x36c) addr:0x0205081c
+func_0205081c kind:function(arm,size=0x36c) addr:0x0205081c
 func_02050b88 kind:function(arm,size=0x1f8) addr:0x02050b88
 func_02050d80 kind:function(arm,size=0xe0) addr:0x02050d80
 func_02050e60 kind:function(arm,size=0x20) addr:0x02050e60
@@ -2052,15 +2052,15 @@ func_0205108c kind:function(arm,size=0x20) addr:0x0205108c
 func_020510ac kind:function(arm,size=0x1c) addr:0x020510ac
 func_020510c8 kind:function(arm,size=0x1c) addr:0x020510c8
 func_020510e4 kind:function(arm,size=0x24) addr:0x020510e4
-func_usa_02051108 kind:function(arm,size=0x128) addr:0x02051108
+func_02051108 kind:function(arm,size=0x128) addr:0x02051108
 func_02051230 kind:function(arm,size=0x134) addr:0x02051230
-func_usa_02051364 kind:function(arm,size=0x48) addr:0x02051364
+func_02051364 kind:function(arm,size=0x48) addr:0x02051364
 func_020513ac kind:function(arm,size=0x54) addr:0x020513ac
-func_usa_02051400 kind:function(arm,size=0x6c) addr:0x02051400
+func_02051400 kind:function(arm,size=0x6c) addr:0x02051400
 func_0205146c kind:function(arm,size=0x54) addr:0x0205146c
 func_020514c0 kind:function(arm,size=0x68) addr:0x020514c0
-func_usa_02051528 kind:function(arm,size=0x88) addr:0x02051528
-func_usa_020515b0 kind:function(arm,size=0x90) addr:0x020515b0
+func_02051528 kind:function(arm,size=0x88) addr:0x02051528
+func_020515b0 kind:function(arm,size=0x90) addr:0x020515b0
 func_02051640 kind:function(arm,size=0x18) addr:0x02051640
 func_02051658 kind:function(arm,size=0xdc) addr:0x02051658
 func_usa_02051734 kind:function(arm,size=0xa0) addr:0x02051734
@@ -2241,7 +2241,7 @@ func_02057ed4 kind:function(arm,size=0x4) addr:0x02057ed4
 func_usa_02057ed8 kind:function(arm,size=0xb4) addr:0x02057ed8
 func_usa_02057f8c kind:function(arm,size=0x58) addr:0x02057f8c
 func_02057fe4 kind:function(thumb,size=0x2) addr:0x02057fe4
-func_usa_02057fe8 kind:function(thumb,size=0xa8) addr:0x02057fe8
+func_02057fe8 kind:function(thumb,size=0xa8) addr:0x02057fe8
 func_02058090 kind:function(thumb,size=0x14) addr:0x02058090
 func_usa_020580a4 kind:function(thumb,size=0x8c) addr:0x020580a4
 func_usa_02058130 kind:function(thumb,size=0x68) addr:0x02058130
@@ -9511,7 +9511,7 @@ data_usa_021651e8 kind:data(any) addr:0x021651e8
 data_usa_02165208 kind:data(any) addr:0x02165208
 data_usa_02165228 kind:data(any) addr:0x02165228
 data_usa_0216522c kind:data(any) addr:0x0216522c
-data_usa_0216523c kind:data(any) addr:0x0216523c
+data_0216523c kind:data(any) addr:0x0216523c
 data_usa_0216524c kind:data(any) addr:0x0216524c
 data_0216526c kind:data(any) addr:0x0216526c
 data_usa_02165280 kind:data(any) addr:0x02165280

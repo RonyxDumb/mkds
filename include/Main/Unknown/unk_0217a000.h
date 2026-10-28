@@ -77,6 +77,21 @@ typedef struct Unk0217aa08 {
     /* 44 */ s32 mUnk_44;
 } Unk0217aa08;
 
+// 8-byte entries from 0x44 of Unk0217aa00.
+typedef struct Unk0217aa00_44_00 {
+    /* 00 */ u8 mUnk_00[6];
+    /* 06 */ u16 mUnk_06;
+} Unk0217aa00_44_00;
+
+// 0x44 bytes from 0x44 of Unk0217aa00.
+typedef struct Unk0217aa00_44 {
+    /* 00 */ Unk0217aa00_44_00 mUnk_00[8];
+    /* 40 */ u8 mUnk_40;
+    /* 41 */ s8 mUnk_41;
+    /* 42 */ u8 mUnk_42;
+    /* 43 */ u8 mUnk_43;
+} Unk0217aa00_44;
+
 // Elements of the array at member 0x1e52 of data_0217aa00.
 typedef struct Unk0217aa00_1e52 {
     /* 00 */ u16 mUnk_00;
@@ -120,11 +135,14 @@ typedef struct Unk0217aa00_16a0 {
 
 // 0x22c-byte entries from 0x45c of Unk0217aa00.
 typedef struct Unk0217aa00_45c {
-    /* 000 */ u8 mUnk_000[0x214];
+    /* 000 */ u8 mUnk_000[0x14];
+    /* 014 */ u8 mUnk_014;
+    /* 015 */ u8 mUnk_015[0x1ff];
     /* 214 */ u8 mUnk_214;
     /* 215 */ u8 mUnk_215;
     /* 216 */ u16 mUnk_216;
-    /* 218 */ u8 mUnk_218[0x10];
+    /* 218 */ u8 mUnk_218[0xc];
+    /* 224 */ u8 mUnk_224[4];
     /* 228 */ union {
         u8 mUnk_228;
         struct {
@@ -154,7 +172,7 @@ typedef struct Unk0217aa00_0ac {
 typedef struct Unk0217aa00 {
     /* 0000 */ u32 mUnk_0000;
     /* 0004 */ s32 mUnk_0004;
-    /* 0008 */ void *mUnk_0008;
+    /* 0008 */ s32 mUnk_0008;
     /* 000c */ s32 mUnk_000c;
     /* 0010 */ s32 mUnk_0010;
     /* 0014 */ void *mUnk_0014;
@@ -169,20 +187,7 @@ typedef struct Unk0217aa00 {
     /* 0038 */ s32 mUnk_0038;
     /* 003c */ void *mUnk_003c;
     /* 0040 */ void *mUnk_0040;
-    /* 0044 */ u8 mUnk_0044;
-    /* 0045 */ u8 mUnk_0045;
-    /* 0046 */ u8 mUnk_0046;
-    /* 0047 */ u8 mUnk_0047;
-    /* 0048 */ u8 mUnk_0048;
-    /* 0049 */ u8 mUnk_0049;
-    /* 004a */ u8 mUnk_004a[0x32];
-    /* 007c */ void *mUnk_007c;
-    /* 0080 */ u16 mUnk_0080;
-    /* 0082 */ u16 mUnk_0082;
-    /* 0084 */ u8 mUnk_0084;
-    /* 0085 */ s8 mUnk_0085;
-    /* 0086 */ u8 mUnk_0086;
-    /* 0087 */ u8 mUnk_0087;
+    /* 0044 */ Unk0217aa00_44 mUnk_0044;
     /* 0088 */ s8 mUnk_0088;
     /* 0089 */ u8 mUnk_0089;
     /* 008a */ u8 mUnk_008a;

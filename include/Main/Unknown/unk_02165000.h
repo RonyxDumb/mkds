@@ -7,11 +7,14 @@
 // A function and three numbers; func_02050650 takes the address of data_021652a0.
 typedef struct Unk021652a0 {
     /* 00 */ void (*mUnk_00)();
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u8 mUnk_06[2];
     /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u8 mUnk_0e[2];
 } Unk021652a0;
 
+extern Unk021652a0 data_0216523c;
 extern Unk021652a0 data_021652a0;
 extern UnkFunc *const data_021652b0[];
 extern const Unk021a9034 data_02165368;

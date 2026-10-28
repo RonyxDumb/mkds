@@ -83,7 +83,7 @@ void func_02059954(u8 *a) {
     case 0xfd:
         if (func_02059878_inline() == 1) {
             data_0217aa00->mUnk_162a |= 1 << i;
-            if (data_0217aa00->mUnk_0087 == (data_0217aa00->mUnk_0087 & data_0217aa00->mUnk_162a)) {
+            if (data_0217aa00->mUnk_0044.mUnk_43 == (data_0217aa00->mUnk_0044.mUnk_43 & data_0217aa00->mUnk_162a)) {
                 func_02059878_inline2(10);
             }
         }
@@ -150,7 +150,7 @@ void func_02059878(void) {
         v = p->mUnk_0000;
     }
     if (v == 1) {
-        p->mUnk_0086 = (p->mUnk_0454 & 0x40) != 0 ? p->mUnk_1695 : p->mUnk_0087;
+        p->mUnk_0044.mUnk_42 = (p->mUnk_0454 & 0x40) != 0 ? p->mUnk_1695 : p->mUnk_0044.mUnk_43;
     }
     data_0217aa00->mUnk_1eb0 = 0;
 }

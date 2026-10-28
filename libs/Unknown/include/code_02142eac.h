@@ -60,7 +60,7 @@ struct Unk021425e8 {
     /* 04 */ u16 mUnk_04;
     /* 06 */ u16 mUnk_06;
     /* 08 */ void *mUnk_08;
-    /* 0c */ u32 mUnk_0c;
+    /* 0c */ void *mUnk_0c;
     /* 10 */ u16 mUnk_10;
     /* 12 */ u16 mUnk_12;
     /* 14 */ u8 mUnk_14[6];
