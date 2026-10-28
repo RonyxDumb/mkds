@@ -1,0 +1,29 @@
+#include "Main/Unknown/code_020b2a74.h"
+#include "Main/Unknown/code_020b2b1c.h"
+#include "Main/Unknown/unk_02175628.h"
+
+#pragma optimize_for_size on
+u32 func_020b2aec(Unk020b2a94 *p) {
+    if (func_020b2b1c((u32) p) == 0 && p->mUnk_10 < 5) {
+        return 1;
+    }
+    return 0;
+}
+
+u32 func_020b2ac8(Unk020b2a94 *p) {
+    if (p->mUnk_0c == 0 && p->mUnk_04 != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+u32 func_020b2a94(Unk020b2a94 *p) {
+    if (func_020b2aec(p) == 0 && func_020b2ac8(p) != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+u32 func_020b2a74(s32 a) {
+    return func_020b2a94((Unk020b2a94 *) &data_02175628[a].mUnk_48);
+}

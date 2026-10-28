@@ -22,5 +22,6 @@ void func_020ae630(void *param_1, void *param_2);
 void func_020ae6ac(void *param_1, void *param_2);
 void *func_020ae730(s32 a, s32 b);
 void func_020ae770(s32 *a, s32 *b, s32 c);
+u32 func_020ae1d0(u32 a);
 #include "Main/Unknown/code_020ae244.h"
 #include "Main/Unknown/code_020ae340.h"

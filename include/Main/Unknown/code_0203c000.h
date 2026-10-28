@@ -13,3 +13,5 @@ s32 func_0203c174(void);
 s32 func_0203c25c(u16 a);
 u16 func_0203c5f8(u16 a, u8 *b, u8 *c, u16 *d);
 void func_0203cd04(u16 a);
+u32 func_0203c0bc(void);
+void func_0203c98c(void);

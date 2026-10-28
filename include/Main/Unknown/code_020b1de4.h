@@ -19,13 +19,14 @@ typedef struct Unk0217b354 {
     /* 00c */ s32 mUnk_00c;
     /* 010 */ s32 mUnk_010;
     /* 014 */ s32 mUnk_014;
-    /* 018 */ u8 mUnk_018[4];
+    /* 018 */ s32 mUnk_018;
     /* 01c */ s32 mUnk_01c;
     /* 020 */ s32 mUnk_020;
-    /* 024 */ u8 mUnk_024[8];
+    /* 024 */ s32 mUnk_024;
+    /* 028 */ s32 mUnk_028;
     /* 02c */ s32 mUnk_02c;
     /* 030 */ s32 mUnk_030;
-    /* 034 */ u8 mUnk_034[4];
+    /* 034 */ s32 mUnk_034;
     /* 038 */ Unk0217b354_38 mUnk_038[4];
     /* 0a8 */ void *mUnk_0a8;
     /* 0ac */ u8 mUnk_0ac[4][0x20];

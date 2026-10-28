@@ -626,8 +626,8 @@ extern s32 data_0217bc5c;
 extern s32 data_0217bc60;
 
 extern u16 data_0217b220;
-extern u8 data_0217b358[];
-extern u8 data_0217b35c[];
+#include "Main/Unknown/unk_0217b358.h"
+#include "Main/Unknown/unk_0217b35c.h"
 extern u8 data_0217b3c8[];
 extern u8 data_0217b3cc[];
 // Object behind data_0217b3d0, 0x38 bytes, allocated by func_020bc11c.
@@ -759,12 +759,25 @@ typedef struct Unk0217b254 {
 } Unk0217b254;
 
 extern Unk0217b254 data_0217b254;
-extern u8 data_0217b368[];
-extern u8 data_0217b370[];
-extern u8 data_0217b378[];
-extern u8 data_0217b380[];
-extern u8 data_0217b388[];
-extern u8 data_0217b390[];
+struct Unk0217b340;
+struct Unk0217b344;
+struct Unk020b4a44;
+struct Unk02021dc8;
+extern struct Unk0217b340 *data_usa_0217b340;
+extern struct Unk0217b344 *data_usa_0217b344;
+extern struct Unk020b4a44 *data_0217b368[2];
+extern struct Unk020b4a44 *data_usa_0217b34c;
+extern struct Unk020b4934 *data_0217b370[2];
+extern struct Unk020b4934 *data_usa_0217b354;
+extern struct Unk02021dc8 *data_0217b378[2];
+extern struct Unk02021dc8 *data_usa_0217b35c;
+extern void *data_0217b380[2];
+extern struct Unk020b4a44 *data_0217b388[2];
+extern struct Unk020b4a44 *data_0217b38c;
+extern struct Unk02022aa8 *data_0217b390[3];
+extern struct Unk02022aa8 data_0217b39c;
+extern struct Unk02022aa8 data_usa_0217b388;
+extern struct Unk02022aa8 data_0217b3b4;
 extern Unk0217b498 *data_0217b3fc;
 extern Unk0217b498 *data_0217b400;
 extern Unk0217b498 *data_0217b404;
