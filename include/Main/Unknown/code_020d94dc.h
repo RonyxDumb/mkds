@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
 #include "Main/Unknown/code_02042044.h"
 #include "code_02012b30.h" // Unk02012f58
 #include "Main/Unknown/code_020d8cac.h"
@@ -95,20 +96,7 @@ typedef struct Unk020da414 {
 
 // Object of at least 0x108 bytes.
 typedef struct Unk020da494 {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ Vec3 mUnk_04;
-    /* 10 */ Vec3 mUnk_10;
-    /* 1c */ Vec3 mUnk_1c;
-    /* 28 */ Unk02012f58 mUnk_28;
-    /* 58 */ u8 mUnk_58[0x18];
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ u8 mUnk_74[4];
-    /* 78 */ u32 mUnk_78;
-    /* 7c */ u8 mUnk_7c[4];
-    /* 80 */ Unk020e005c_080 mUnk_80;
-    /* 94 */ u8 mUnk_94[8];
-    /* 9c */ Unk020fa294 *mUnk_9c;
+    /* 00 */ Unk020e71a0 mUnk_00;
     /* a0 */ s32 mUnk_a0;
     /* a4 */ Unk020d7b88 mUnk_a4;
     /* b4 */ Unk020d7b88 mUnk_b4;

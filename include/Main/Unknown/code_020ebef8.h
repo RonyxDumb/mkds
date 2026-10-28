@@ -1,27 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // Unk02012f58
-#include "Main/Unknown/code_020e005c.h" // Unk020e005c_080
+#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
 
 // First argument of func_020ebef8.
 typedef struct Unk020ebef8 {
-    /* 000 */ u16 mUnk_000;
-    /* 002 */ u16 mUnk_002;
-    /* 004 */ Vec3 mUnk_004;
-    /* 010 */ Vec3 mUnk_010;
-    /* 01c */ s32 mUnk_01c;
-    /* 020 */ u8 mUnk_020[8];
-    /* 028 */ Unk02012f58 mUnk_028;
-    /* 058 */ s32 mUnk_058;
-    /* 05c */ u8 mUnk_05c[0xa];
-    /* 066 */ u16 mUnk_066;
-    /* 068 */ u8 mUnk_068[0x10];
-    /* 078 */ u32 mUnk_078;
-    /* 07c */ u8 mUnk_07c[4];
-    /* 080 */ Unk020e005c_080 mUnk_080;
-    /* 094 */ u8 mUnk_094[8];
-    /* 09c */ struct Unk020fa294 *mUnk_09c;
+    /* 000 */ Unk020e71a0 mUnk_000;
     /* 0a0 */ Vec3 mUnk_0a0;
     /* 0ac */ u16 mUnk_0ac;
     /* 0ae */ u16 mUnk_0ae;

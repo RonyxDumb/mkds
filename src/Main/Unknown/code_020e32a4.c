@@ -6,10 +6,10 @@ void func_020e32a4(Unk020e1e98 *a) {
     } else {
         a->mUnk_0b4.mUnk_04 -= 0x400;
     }
-    a->mUnk_010.y -= 0x400;
-    a->mUnk_004.y = a->mUnk_004.y + a->mUnk_010.y;
-    if (a->mUnk_004.y < a->mUnk_0b0) {
-        a->mUnk_080.mUnk_10 = 5;
-        a->mUnk_080.mUnk_12 = 1;
+    a->mUnk_000.mUnk_10.y -= 0x400;
+    a->mUnk_000.mUnk_04.y = a->mUnk_000.mUnk_04.y + a->mUnk_000.mUnk_10.y;
+    if (a->mUnk_000.mUnk_04.y < a->mUnk_0b0) {
+        a->mUnk_000.mUnk_80.mUnk_10 = 5;
+        a->mUnk_000.mUnk_80.mUnk_12 = 1;
     }
 }

@@ -8,10 +8,10 @@ void func_020e4a68(Unk020e43a8 *p) {
     if (func_020ec7e8(p) == 0) {
         return;
     }
-    if (p->mUnk_9c->mUnk_28 == 0) {
-        p->mUnk_80.mUnk_10 = 2;
-        p->mUnk_80.mUnk_12 = 1;
+    if (p->mUnk_00.mUnk_9c->mUnk_28 == 0) {
+        p->mUnk_00.mUnk_80.mUnk_10 = 2;
+        p->mUnk_00.mUnk_80.mUnk_12 = 1;
         return;
     }
-    func_020d2398((Unk020e71a0 *) p);
+    func_020d2398(&p->mUnk_00);
 }

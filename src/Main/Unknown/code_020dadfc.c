@@ -6,7 +6,7 @@ void func_020dadfc(Unk020da494 *p) {
     if (p->mUnk_f0 >= 0xa && (p->mUnk_f0 < 0x14 || p->mUnk_f0 >= 0x1e)) {
         func_020d8cc8(&p->mUnk_cc);
     }
-    func_020d8c74(&p->mUnk_cc, &p->mUnk_04);
+    func_020d8c74(&p->mUnk_cc, &p->mUnk_00.mUnk_04);
     if (p->mUnk_c4 == 0x1000 && p->mUnk_c8 == 0) {
         return;
     }

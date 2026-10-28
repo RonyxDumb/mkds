@@ -12,8 +12,8 @@
 
 #pragma thumb on
 void func_020de3e0(Unk020e43a8 *a) {
-    a->mUnk_04.y += (s32) (((s64) a->mUnk_1c.y * 0xd000) >> 12);
-    func_020ec854(a, a->mUnk_04.y - 0xc0000, 0x400, 0x400, 0x5000, 0x2000);
+    a->mUnk_00.mUnk_04.y += (s32) (((s64) a->mUnk_00.mUnk_1c.y * 0xd000) >> 12);
+    func_020ec854(a, a->mUnk_00.mUnk_04.y - 0xc0000, 0x400, 0x400, 0x5000, 0x2000);
     func_020ec884(a);
 }
 #pragma thumb off
@@ -54,8 +54,8 @@ void func_020de214(void *a, Unk020de000 *b) {
 
     p = b->mUnk_a0;
     if (b->mUnk_f4 == 0) {
-        b->mUnk_04 = p->mUnk_04;
+        b->mUnk_04 = p->mUnk_00.mUnk_04;
     }
-    func_02147fd8(-p->mUnk_f0, &p->mUnk_28.mUnk_18, &p->mUnk_04, &v);
-    func_020ddb44(&b->mUnk_a4, &v, &p->mUnk_10);
+    func_02147fd8(-p->mUnk_f0, &p->mUnk_00.mUnk_28.mUnk_18, &p->mUnk_00.mUnk_04, &v);
+    func_020ddb44(&b->mUnk_a4, &v, &p->mUnk_00.mUnk_10);
 }

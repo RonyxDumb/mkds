@@ -24,15 +24,16 @@ void func_020a018c(void *a, Unk020a018c *p) {
     w.x = 0;
     w.z = 0;
     func_01ff9048(0x1c, &w, 3);
-    p->mUnk_28.mUnk_24.x = p->mUnk_04.x >> 4;
-    p->mUnk_28.mUnk_24.y = p->mUnk_04.y >> 4;
-    p->mUnk_28.mUnk_24.z = p->mUnk_04.z >> 4;
-    func_01ff9048(0x19, &p->mUnk_28, 0xc);
-    if (p->mUnk_7e != 0) {
-        func_02146d44(q, data_0215d4b4[((p->mUnk_7e >> 4) << 1)], data_0215d4b4[((p->mUnk_7e >> 4) << 1) + 1]);
+    p->mUnk_00.mUnk_28.mUnk_24.x = p->mUnk_00.mUnk_04.x >> 4;
+    p->mUnk_00.mUnk_28.mUnk_24.y = p->mUnk_00.mUnk_04.y >> 4;
+    p->mUnk_00.mUnk_28.mUnk_24.z = p->mUnk_00.mUnk_04.z >> 4;
+    func_01ff9048(0x19, &p->mUnk_00.mUnk_28, 0xc);
+    if (p->mUnk_00.mUnk_7e != 0) {
+        func_02146d44(q, data_0215d4b4[((p->mUnk_00.mUnk_7e >> 4) << 1)],
+                      data_0215d4b4[((p->mUnk_00.mUnk_7e >> 4) << 1) + 1]);
         func_01ff9048(0x1a, q, 9);
     }
-    func_01ff9048(0x1b, &p->mUnk_1c, 3);
+    func_01ff9048(0x1b, &p->mUnk_00.mUnk_1c, 3);
     func_0209bb2c(a, data_0217b1f8, p);
 }
 
@@ -47,21 +48,21 @@ void func_020a0064(Unk020a0064 *p) {
     }
     z = 0;
     for (i = 0; i < p->mUnk_04 && (o = p->mUnk_00[i]) != 0; i++) {
-        func_020d7da8(&o->mUnk_c8, o->mUnk_9c, z);
-        o->mUnk_a4 = (o->mUnk_9c->mUnk_28 * 0x5000L) / 100;
+        func_020d7da8(&o->mUnk_c8, o->mUnk_00.mUnk_9c, z);
+        o->mUnk_a4 = (o->mUnk_00.mUnk_9c->mUnk_28 * 0x5000L) / 100;
         v = o->mUnk_a4;
         o->mUnk_c8.mUnk_04 = v;
         o->mUnk_c8.mUnk_10 = ((s64)v * o->mUnk_c8.mUnk_00->mUnk_00[o->mUnk_c8.mUnk_0c].mUnk_34) >> 12;
-        o->mUnk_a0 = o->mUnk_04.y;
-        func_020d8bf8(&o->mUnk_c8, &o->mUnk_04, &o->mUnk_10);
-        o->mUnk_a0 = o->mUnk_a0 - o->mUnk_04.y;
+        o->mUnk_a0 = o->mUnk_00.mUnk_04.y;
+        func_020d8bf8(&o->mUnk_c8, &o->mUnk_00.mUnk_04, &o->mUnk_00.mUnk_10);
+        o->mUnk_a0 = o->mUnk_a0 - o->mUnk_00.mUnk_04.y;
         o->mUnk_a8 = 0;
         o->mUnk_b4 = 0;
         o->mUnk_b8 = 0x50000;
         o->mUnk_bc = 0;
         o->mUnk_c0 = 0xb6;
         o->mUnk_c4 = 0;
-        if (o->mUnk_9c->mUnk_2a != 0) {
+        if (o->mUnk_00.mUnk_9c->mUnk_2a != 0) {
             o->mUnk_ec = 0;
         } else {
             o->mUnk_ec = 2;

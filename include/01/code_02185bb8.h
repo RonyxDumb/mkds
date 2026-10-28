@@ -12,17 +12,7 @@
 
 // Object passed to the per-frame functions func_ov001_02185bb8 and func_ov001_02185ca0.
 typedef struct Unk02185bb8 {
-    /* 000 */ u8 mUnk_000[0x2];
-    /* 002 */ u16 mUnk_002;
-    /* 004 */ Vec3 mUnk_004;
-    /* 010 */ u8 mUnk_010[0xc];
-    /* 01c */ Vec3 mUnk_01c;
-    /* 028 */ Unk02012f58 mUnk_028;
-    /* 058 */ s32 mUnk_058;
-    /* 05c */ u8 mUnk_05c[0x22];
-    /* 07e */ u16 mUnk_07e;
-    /* 080 */ u8 mUnk_080[0x1c];
-    /* 09c */ struct Unk020fa294 *mUnk_09c;
+    /* 000 */ Unk020e71a0 mUnk_000;
     /* 0a0 */ Unk020e71a0 *mUnk_0a0;
     /* 0a4 */ Unk020e71a0 *mUnk_0a4;
     /* 0a8 */ u16 mUnk_0a8;

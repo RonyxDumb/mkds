@@ -14,11 +14,11 @@ void func_020e57a0(Unk020e43a8 *p, Vec3 *param_2, s32 param_3, Vec3 *param_4) {
     Vec3 s;
     s32 y;
 
-    y = p->mUnk_58.y;
-    s.x = p->mUnk_58.x;
+    y = p->mUnk_00.mUnk_58.y;
+    s.x = p->mUnk_00.mUnk_58.x;
     s.y = y;
     s.z = 0;
-    func_020eafc4(param_2, &p->mUnk_04, &p->mUnk_28.mUnk_00, &p->mUnk_58, &s, param_3, param_4);
+    func_020eafc4(param_2, &p->mUnk_00.mUnk_04, &p->mUnk_00.mUnk_28.mUnk_00, &p->mUnk_00.mUnk_58, &s, param_3, param_4);
 }
 
 #pragma thumb on
@@ -29,8 +29,8 @@ void func_020e576c(void) {
 }
 
 void func_020e5684(Unk020e43a8 *p, Unk020e5684 *q) {
-    p->mUnk_58.y = (s32) (((s64) p->mUnk_1c.x * 0x4b000) >> 12);
-    func_02046be8(&p->mUnk_80, (UnkFunc *const *) data_0216c240, 4, p);
+    p->mUnk_00.mUnk_58.y = (s32) (((s64) p->mUnk_00.mUnk_1c.x * 0x4b000) >> 12);
+    func_02046be8(&p->mUnk_00.mUnk_80, (UnkFunc *const *) data_0216c240, 4, p);
     func_020d720c((Vec3 *) &q->mUnk_0c, (u32 *) &p->mUnk_a0.mUnk_00);
     *(Unk020d7b88 *) &p->mUnk_a0.mUnk_0c.y = *(Unk020d7b88 *) &p->mUnk_a0.mUnk_00;
     *(s16 *) &p->mUnk_a0.mUnk_18.z = q->mUnk_2c;
@@ -40,16 +40,16 @@ void func_020e5684(Unk020e43a8 *p, Unk020e5684 *q) {
     if (q->mUnk_30 != 0) {
         p->mUnk_c6 = -p->mUnk_c6;
     }
-    p->mUnk_7e = 0;
+    p->mUnk_00.mUnk_7e = 0;
     if (*(u16 *) &p->mUnk_a0.mUnk_18.z != 0) {
         p->mUnk_cc = 0x1000 / *(u16 *) &p->mUnk_a0.mUnk_18.z;
     } else {
         p->mUnk_cc = 0;
     }
     p->mUnk_c8 = 0;
-    p->mUnk_80.mUnk_10 = 0;
-    p->mUnk_80.mUnk_12 = 1;
-    p->mUnk_02 |= data_021590b0;
+    p->mUnk_00.mUnk_80.mUnk_10 = 0;
+    p->mUnk_00.mUnk_80.mUnk_12 = 1;
+    p->mUnk_00.mUnk_02 |= data_021590b0;
 }
 
 #pragma thumb off
