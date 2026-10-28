@@ -146,3 +146,6 @@ typedef struct Unk02175614 {
 } Unk02175614;
 
 extern Unk02175614 data_02175614;
+
+// Read as words by func_0204a650 (word 2 compared with 3).
+extern s32 data_02175650[];

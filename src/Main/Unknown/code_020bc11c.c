@@ -208,13 +208,13 @@ void func_020bc11c(void) {
     s32 i;
 
     data_0217b3d0 = func_02036bec(func_020364e0(func_020364e8()), 0x38);
-    data_0217b3d0->mUnk_00 = 0;
-    data_0217b3d0->mUnk_04 = 0;
-    data_0217b3d0->mUnk_08 = 0;
-    data_0217b3d0->mUnk_0c = 0;
-    data_0217b3d0->mUnk_10 = 0;
-    data_0217b3d0->mUnk_14 = 0;
-    data_0217b3d0->mUnk_18 = 0;
+    data_0217b3d0->mUnk_00.mUnk_00 = 0;
+    data_0217b3d0->mUnk_00.mUnk_04 = 0;
+    data_0217b3d0->mUnk_00.mUnk_08 = 0;
+    data_0217b3d0->mUnk_00.mUnk_0c = 0;
+    data_0217b3d0->mUnk_00.mUnk_10 = 0;
+    data_0217b3d0->mUnk_00.mUnk_14 = 0;
+    data_0217b3d0->mUnk_00.mUnk_18 = 0;
     data_0217b3d0->mUnk_1c = 0;
     if (data_021759c0->mUnk_08 == 2) {
         if (data_021759c0->mUnk_18 == 1) {

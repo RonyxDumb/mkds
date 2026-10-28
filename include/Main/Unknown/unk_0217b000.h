@@ -629,17 +629,42 @@ extern s32 data_0217bc60;
 extern u16 data_0217b220;
 #include "Main/Unknown/unk_0217b358.h"
 #include "Main/Unknown/unk_0217b35c.h"
-extern u8 data_0217b3c8[];
-extern u8 data_0217b3cc[];
-// Object behind data_0217b3d0, 0x38 bytes, allocated by func_020bc11c.
-typedef struct Unk0217b3d0 {
+// Object behind data_0217b3c8, 0xc bytes, allocated by func_020ba520. The word at 0 is also read and written as two
+// halfwords.
+typedef struct Unk0217b3c8 {
+    /* 00 */ union {
+        s32 mUnk_00;
+        u16 mUnk_00_h[2];
+    };
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+} Unk0217b3c8;
+
+extern Unk0217b3c8 *data_0217b3c8;
+// Five words at 0x18 of Unk0217b3cc.
+typedef struct Unk0217b3cc_18 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+} Unk0217b3cc_18;
+
+// Object behind data_0217b3cc, 0x2c bytes, allocated by func_020bb530.
+typedef struct Unk0217b3cc {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
+    /* 18 */ Unk0217b3cc_18 mUnk_18;
+} Unk0217b3cc;
+
+extern Unk0217b3cc *data_0217b3cc;
+// Object behind data_0217b3d0, 0x38 bytes, allocated by func_020bc11c.
+typedef struct Unk0217b3d0 {
+    /* 00 */ Unk020ae7c4 mUnk_00;
     /* 1c */ s32 mUnk_1c;
     /* 20 */ s32 mUnk_20[6];
 } Unk0217b3d0;

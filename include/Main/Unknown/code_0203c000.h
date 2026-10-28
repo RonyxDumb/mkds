@@ -15,3 +15,4 @@ u16 func_0203c5f8(u16 a, u8 *b, u8 *c, u16 *d);
 void func_0203cd04(u16 a);
 u32 func_0203c0bc(void);
 void func_0203c98c(void);
+void func_0203c950(u8 *a, u8 *b, u16 *c);
