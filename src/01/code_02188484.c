@@ -47,9 +47,9 @@ void func_ov001_0218875c(Unk02188950 *param_1, s32 param_2, s32 param_3, s32 par
     param_1->mUnk_260 = param_1->mUnk_26c = param_4;
     param_1->mUnk_264 = param_1->mUnk_270 = param_3;
     param_1->mUnk_278 = 0;
-    param_1->mUnk_238.x = param_1->mUnk_004.x + param_1->mUnk_244;
-    param_1->mUnk_238.y = param_1->mUnk_004.y + param_1->mUnk_248;
-    param_1->mUnk_238.z = param_1->mUnk_004.z + param_1->mUnk_24c;
+    param_1->mUnk_238.x = param_1->mUnk_000.mUnk_04.x + param_1->mUnk_244;
+    param_1->mUnk_238.y = param_1->mUnk_000.mUnk_04.y + param_1->mUnk_248;
+    param_1->mUnk_238.z = param_1->mUnk_000.mUnk_04.z + param_1->mUnk_24c;
 }
 
 void func_ov001_021886f8(int param_1, u32 param_2, u32 param_3, u32 param_4, int param_5, u32 param_6) {

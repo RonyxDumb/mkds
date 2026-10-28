@@ -124,9 +124,9 @@ void func_ov001_0218c0a4(Unk02188950 *param_1) {
         Vec3 pos;
         Vec3 vel = {0, 0, 0};
 
-        pos.x = param_1->mUnk_004.x + (((s64)radius * data_0215d4b4[((u16)angle >> 4) * 2]) >> 12);
-        pos.y = param_1->mUnk_004.y + param_1->mUnk_0a0->mUnk_194;
-        pos.z = param_1->mUnk_004.z + (((s64)radius * data_0215d4b4[((u16)angle >> 4) * 2 + 1]) >> 12);
+        pos.x = param_1->mUnk_000.mUnk_04.x + (((s64) radius * data_0215d4b4[((u16) angle >> 4) * 2]) >> 12);
+        pos.y = param_1->mUnk_000.mUnk_04.y + param_1->mUnk_0a0->mUnk_194;
+        pos.z = param_1->mUnk_000.mUnk_04.z + (((s64) radius * data_0215d4b4[((u16) angle >> 4) * 2 + 1]) >> 12);
         vel.x = ((s64)param_1->mUnk_0a0->mUnk_1a0 * data_0215d4b4[((u16)angle >> 4) * 2]) >> 12;
         vel.y = param_1->mUnk_0a0->mUnk_19c;
         vel.z = ((s64)param_1->mUnk_0a0->mUnk_1a0 * data_0215d4b4[((u16)angle >> 4) * 2 + 1]) >> 12;
@@ -139,5 +139,5 @@ void func_ov001_0218c0a4(Unk02188950 *param_1) {
         func_0208b7bc(0x3f7, &pos);
         func_0208b7bc(0x3f6, &pos);
     }
-    func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x222));
+    func_020d2774(&param_1->mUnk_000, (u32) (0x222));
 }

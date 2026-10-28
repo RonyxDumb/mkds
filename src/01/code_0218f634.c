@@ -26,7 +26,7 @@ void func_ov001_0218f724(Unk02188950 *param_1) {
         a = func_ov001_02181a68();
     }
     a = (data_021759c0->mUnk_08 == 4 ? func_ov001_02181a78() : 0) - a;
-    func_021484d0(&param_1->mUnk_004, data_021759c0->mUnk_08 == 4 ? func_ov001_02181a94() : 0, &local_2);
+    func_021484d0(&param_1->mUnk_000.mUnk_04, data_021759c0->mUnk_08 == 4 ? func_ov001_02181a94() : 0, &local_2);
     for (i = 0; i < 1; i++) {
         c = data_0215d4b4[((u16)a >> 4) * 2 + 1];
         x = local_2.x;

@@ -13,15 +13,15 @@
 s32 func_ov001_0218e650(Unk02188950 *param_1) {
     if (param_1->mUnk_0b0 == 50) {
         Unk021a7c08 local = {0x22f, 0, 0xe, 0};
-        local.mUnk_04 = &param_1->mUnk_004;
-        local.mUnk_0c = func_020d4ef4(&param_1->mUnk_004);
+        local.mUnk_04 = &param_1->mUnk_000.mUnk_04;
+        local.mUnk_0c = func_020d4ef4(&param_1->mUnk_000.mUnk_04);
         func_0210b734(&local, func_02108e7c());
     }
     return 0;
 }
 
 void func_ov001_0218e5c4(Unk02188950 *param_1) {
-    param_1->mUnk_004.y += param_1->mUnk_0a0->mUnk_080;
+    param_1->mUnk_000.mUnk_04.y += param_1->mUnk_0a0->mUnk_080;
     param_1->mUnk_168 = param_1->mUnk_16c = 0x1f000;
     param_1->mUnk_170 = 0;
     func_ov001_02187218(param_1, 8, func_ov001_0218e650);
@@ -31,5 +31,5 @@ void func_ov001_0218e5c4(Unk02188950 *param_1) {
         data_0217d21c = data_0217d20c;
     }
     data_0217d20c = 7;
-    param_1->mUnk_002 &= ~1;
+    param_1->mUnk_000.mUnk_02 &= ~1;
 }

@@ -31,7 +31,7 @@ void func_ov001_0218de50(Unk0218d87c *param_1) {
             func_ov001_021888a4(p, (s32) (0), (s32) (0x19000));
             func_ov001_02188200(p, func_ov001_0218f9a8);
             func_ov001_02187cd4((int)p, 0);
-            p->mUnk_002 |= data_ov001_021a65b0;
+            p->mUnk_000.mUnk_02 |= data_ov001_021a65b0;
             p->mUnk_2b8 = 3;
         }
     }

@@ -31,24 +31,24 @@ void func_ov001_02184874(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
             {
                 Vec3 b;
 
-                func_021484d0(&param_1->mUnk_004, &param_2->mUnk_1b8, &b);
+                func_021484d0(&param_1->mUnk_000.mUnk_04, &param_2->mUnk_1b8, &b);
                 if ((s64)b.z * b.z + ((s64)b.x * b.x + (s64)b.y * b.y) >= 0x10) {
                     func_02039860(&b, &b);
                 }
                 func_02147fd8(param_2->mUnk_1d0, &b, &param_2->mUnk_1b8, &b);
-                if (param_1->mUnk_000 == 0x1f5) {
-                    param_1->mUnk_078 |= data_ov001_021a657c;
-                    func_02109060(&param_1->mUnk_094->mUnk_00, 0x214);
-                    func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x211));
+                if (param_1->mUnk_000.mUnk_00 == 0x1f5) {
+                    param_1->mUnk_000.mUnk_78 |= data_ov001_021a657c;
+                    func_02109060(&param_1->mUnk_000.mUnk_94->mUnk_00, 0x214);
+                    func_020d2774(&param_1->mUnk_000, (u32) (0x211));
                     func_0208b7bc(0x3e9, &b);
                     func_0208b7bc(0x3e8, &b);
                     func_0208b7bc(0x3ea, &b);
                     func_ov001_02187518((Unk02188950 *) param_1, 0x99a, 0, 0x75c, 0x3f3, 0);
                     func_ov001_02187518((Unk02188950 *) param_1, -0x99a, 0, 0x75c, 0x3f3, 0);
-                } else if (param_1->mUnk_000 == 0x1f6) {
-                    param_1->mUnk_078 |= data_ov001_021a657c;
-                    func_02109060(&param_1->mUnk_094->mUnk_00, 0x245);
-                    func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x23f));
+                } else if (param_1->mUnk_000.mUnk_00 == 0x1f6) {
+                    param_1->mUnk_000.mUnk_78 |= data_ov001_021a657c;
+                    func_02109060(&param_1->mUnk_000.mUnk_94->mUnk_00, 0x245);
+                    func_020d2774(&param_1->mUnk_000, (u32) (0x23f));
                     func_0208b7bc(0x3fa, &b);
                     func_0208b7bc(0x3fb, &b);
                     func_0208b7bc(0x3fc, &b);

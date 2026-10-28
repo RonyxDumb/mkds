@@ -16,15 +16,15 @@ void func_ov001_02187684(Unk02188950 *param_1, int param_2, Vec3 *param_3) {
 
     switch (param_1->mUnk_0bc[param_2].mUnk_00) {
         case 1:
-            param_3->x = param_1->mUnk_004.x +
+            param_3->x = param_1->mUnk_000.mUnk_04.x +
                          (s32) (((s64) param_1->mUnk_0bc[param_2].mUnk_08.z *
                                  data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2]) >>
                                 12) +
                          (s32) (((s64) param_1->mUnk_0bc[param_2].mUnk_08.x *
                                  data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2 + 1]) >>
                                 12);
-            param_3->y = param_1->mUnk_004.y + param_1->mUnk_0bc[param_2].mUnk_08.y;
-            param_3->z = param_1->mUnk_004.z +
+            param_3->y = param_1->mUnk_000.mUnk_04.y + param_1->mUnk_0bc[param_2].mUnk_08.y;
+            param_3->z = param_1->mUnk_000.mUnk_04.z +
                          (s32) (((s64) param_1->mUnk_0bc[param_2].mUnk_08.z *
                                  data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2 + 1]) >>
                                 12) -
@@ -35,15 +35,15 @@ void func_ov001_02187684(Unk02188950 *param_1, int param_2, Vec3 *param_3) {
         case 3:
             // As case 1 with mUnk_024 of the object from func_02061808 added, then halved.
             obj = func_02061808();
-            param_3->x = param_1->mUnk_004.x + obj->mUnk_024.x +
+            param_3->x = param_1->mUnk_000.mUnk_04.x + obj->mUnk_024.x +
                          (s32) (((s64) param_1->mUnk_0bc[param_2].mUnk_08.z *
                                  data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2]) >>
                                 12) +
                          (s32) (((s64) param_1->mUnk_0bc[param_2].mUnk_08.x *
                                  data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2 + 1]) >>
                                 12);
-            param_3->y = param_1->mUnk_004.y + obj->mUnk_024.y + param_1->mUnk_0bc[param_2].mUnk_08.y;
-            param_3->z = param_1->mUnk_004.z + obj->mUnk_024.z +
+            param_3->y = param_1->mUnk_000.mUnk_04.y + obj->mUnk_024.y + param_1->mUnk_0bc[param_2].mUnk_08.y;
+            param_3->z = param_1->mUnk_000.mUnk_04.z + obj->mUnk_024.z +
                          (s32) (((s64) param_1->mUnk_0bc[param_2].mUnk_08.z *
                                  data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2 + 1]) >>
                                 12) -
@@ -57,29 +57,29 @@ void func_ov001_02187684(Unk02188950 *param_1, int param_2, Vec3 *param_3) {
         case 2:
             // The entry's mUnk_08 is first multiplied per component by param_1->mUnk_01c, mUnk_020 and mUnk_024.
             t = param_1->mUnk_0bc[param_2].mUnk_08.y;
-            y = (s32) (((s64) t * param_1->mUnk_020) >> 12);
+            y = (s32) (((s64) t * param_1->mUnk_000.mUnk_1c.y) >> 12);
             t = param_1->mUnk_0bc[param_2].mUnk_08.x;
-            x = (s32) (((s64) t * param_1->mUnk_01c) >> 12);
+            x = (s32) (((s64) t * param_1->mUnk_000.mUnk_1c.x) >> 12);
             t = param_1->mUnk_0bc[param_2].mUnk_08.z;
-            z = (s32) (((s64) t * param_1->mUnk_024) >> 12);
-            param_3->x = param_1->mUnk_004.x +
+            z = (s32) (((s64) t * param_1->mUnk_000.mUnk_1c.z) >> 12);
+            param_3->x = param_1->mUnk_000.mUnk_04.x +
                          (s32) (((s64) z * data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2]) >> 12) +
                          (s32) (((s64) x * data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2 + 1]) >> 12);
-            param_3->y = param_1->mUnk_004.y + y;
-            param_3->z = param_1->mUnk_004.z +
+            param_3->y = param_1->mUnk_000.mUnk_04.y + y;
+            param_3->z = param_1->mUnk_000.mUnk_04.z +
                          (s32) (((s64) z * data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2 + 1]) >> 12) -
                          (s32) (((s64) x * data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2]) >> 12);
             break;
         case 4:
-            param_3->x = param_1->mUnk_004.x +
+            param_3->x = param_1->mUnk_000.mUnk_04.x +
                          (s32) (((s64) param_1->mUnk_0bc[param_2].mUnk_08.z *
                                  data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2]) >>
                                 12) +
                          (s32) (((s64) param_1->mUnk_0bc[param_2].mUnk_08.x *
                                  data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2 + 1]) >>
                                 12);
-            param_3->y = param_1->mUnk_09c->mUnk_00.y + param_1->mUnk_0bc[param_2].mUnk_08.y;
-            param_3->z = param_1->mUnk_004.z +
+            param_3->y = param_1->mUnk_000.mUnk_9c->mUnk_00.y + param_1->mUnk_0bc[param_2].mUnk_08.y;
+            param_3->z = param_1->mUnk_000.mUnk_04.z +
                          (s32) (((s64) param_1->mUnk_0bc[param_2].mUnk_08.z *
                                  data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2 + 1]) >>
                                 12) -
@@ -88,7 +88,7 @@ void func_ov001_02187684(Unk02188950 *param_1, int param_2, Vec3 *param_3) {
                                 12);
             break;
         case 5:
-            param_3->x = param_1->mUnk_004.x +
+            param_3->x = param_1->mUnk_000.mUnk_04.x +
                          (s32) (((s64) param_1->mUnk_0bc[param_2].mUnk_08.z *
                                  data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2]) >>
                                 12) +
@@ -96,7 +96,7 @@ void func_ov001_02187684(Unk02188950 *param_1, int param_2, Vec3 *param_3) {
                                  data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2 + 1]) >>
                                 12);
             param_3->y = param_1->mUnk_0bc[param_2].mUnk_08.y - func_020d3d48(0);
-            param_3->z = param_1->mUnk_004.z +
+            param_3->z = param_1->mUnk_000.mUnk_04.z +
                          (s32) (((s64) param_1->mUnk_0bc[param_2].mUnk_08.z *
                                  data_0215d4b4[((u16) param_1->mUnk_184 >> 4) * 2 + 1]) >>
                                 12) -

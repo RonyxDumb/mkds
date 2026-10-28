@@ -29,14 +29,18 @@ void func_ov001_0218b034(Unk02188950 *param_1) {
         angle += 0x5555;
         if (func_ov001_02188220(param_1) == 0) {
             idx = ((u16)angle >> 4) * 2;
-            pos.x = param_1->mUnk_004.x + (s32)(((s64)param_1->mUnk_0a0->mUnk_14c * data_0215d4b4[idx]) >> 12);
-            pos.y = param_1->mUnk_004.y + param_1->mUnk_0a0->mUnk_150;
-            pos.z = param_1->mUnk_004.z + (s32)(((s64)param_1->mUnk_0a0->mUnk_14c * data_0215d4b4[idx + 1]) >> 12);
+            pos.x =
+                param_1->mUnk_000.mUnk_04.x + (s32) (((s64) param_1->mUnk_0a0->mUnk_14c * data_0215d4b4[idx]) >> 12);
+            pos.y = param_1->mUnk_000.mUnk_04.y + param_1->mUnk_0a0->mUnk_150;
+            pos.z = param_1->mUnk_000.mUnk_04.z +
+                    (s32) (((s64) param_1->mUnk_0a0->mUnk_14c * data_0215d4b4[idx + 1]) >> 12);
         } else {
             idx = ((u16)angle >> 4) * 2;
-            pos.x = param_1->mUnk_004.x + (s32)(((s64)param_1->mUnk_0a0->mUnk_154 * data_0215d4b4[idx]) >> 12);
-            pos.y = param_1->mUnk_004.y + param_1->mUnk_0a0->mUnk_158;
-            pos.z = param_1->mUnk_004.z + (s32)(((s64)param_1->mUnk_0a0->mUnk_154 * data_0215d4b4[idx + 1]) >> 12);
+            pos.x =
+                param_1->mUnk_000.mUnk_04.x + (s32) (((s64) param_1->mUnk_0a0->mUnk_154 * data_0215d4b4[idx]) >> 12);
+            pos.y = param_1->mUnk_000.mUnk_04.y + param_1->mUnk_0a0->mUnk_158;
+            pos.z = param_1->mUnk_000.mUnk_04.z +
+                    (s32) (((s64) param_1->mUnk_0a0->mUnk_154 * data_0215d4b4[idx + 1]) >> 12);
         }
         if (i == 0) {
             func_ov001_02187b94(func_020fd428(), &pos, &vel, param_1->mUnk_0a0->mUnk_15c);
@@ -45,5 +49,5 @@ void func_ov001_0218b034(Unk02188950 *param_1) {
         }
     }
     func_ov001_02187518((Unk02188950 *) param_1, (u32) (0x2000), (u32) (0), (u32) (0x3ae), (u32) (0x410), (u32) (0));
-    func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x236));
+    func_020d2774(&param_1->mUnk_000, (u32) (0x236));
 }

@@ -16,7 +16,7 @@ void func_ov001_02187e48(Unk02188950 *param_1, s32 param_2) {
     s32 v;
     s32 n;
 
-    v = param_1->mUnk_09c->mUnk_26;
+    v = param_1->mUnk_000.mUnk_9c->mUnk_26;
     n = param_1->mUnk_148 + 1;
     if (n >= v + param_2) {
         n = v;

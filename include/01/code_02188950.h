@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0_94, Unk02012f58, Unk020e005c_080
+#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
 
 // Object behind func_ov001_02188c90 and the per-state functions around func_ov001_021900ac.
 typedef struct Unk02188950_a0 {
@@ -190,28 +190,7 @@ typedef struct Unk02188950_300 {
 
 // Layout provisional: functions on objects that share this prefix use different types at 0xa0 and 0xa8.
 typedef struct Unk02188950 {
-    /* 000 */ u16 mUnk_000;
-    /* 002 */ u16 mUnk_002;
-    /* 004 */ Vec3 mUnk_004;
-    /* 010 */ s32 mUnk_010;
-    /* 014 */ s32 mUnk_014;
-    /* 018 */ s32 mUnk_018;
-    /* 01c */ s32 mUnk_01c;
-    /* 020 */ s32 mUnk_020;
-    /* 024 */ s32 mUnk_024;
-    /* 028 */ Unk02012f58 mUnk_028;
-    /* 058 */ u8 mUnk_058[0xc];
-    /* 064 */ s16 mUnk_064;
-    /* 066 */ u8 mUnk_066[0xa];
-    /* 070 */ s32 mUnk_070;
-    /* 074 */ u8 mUnk_074[0x4];
-    /* 078 */ u32 mUnk_078;
-    /* 07c */ u8 mUnk_07c[0x2];
-    /* 07e */ u16 mUnk_07e;
-    /* 080 */ Unk020e005c_080 mUnk_080;
-    /* 094 */ Unk020e71a0_94 *mUnk_094;
-    /* 098 */ u8 mUnk_098[0x4];
-    /* 09c */ struct Unk020fa294 *mUnk_09c;
+    /* 000 */ Unk020e71a0 mUnk_000;
     /* 0a0 */ Unk02188950_a0 *mUnk_0a0;
     /* 0a4 */ struct Unk0218dabc *mUnk_0a4;
     /* 0a8 */ s32 mUnk_0a8;

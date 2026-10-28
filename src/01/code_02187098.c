@@ -14,9 +14,9 @@ void func_ov001_02187444(Unk02188950 *param_1, u32 param_2, int param_3) {
 
     for (i = 0; i < 5; i++) {
         if (param_1->mUnk_0bc[i].mUnk_14 == 0) {
-            param_1->mUnk_0bc[i].mUnk_08.x = param_1->mUnk_004.x;
+            param_1->mUnk_0bc[i].mUnk_08.x = param_1->mUnk_000.mUnk_04.x;
             param_1->mUnk_0bc[i].mUnk_08.y = -func_020d3d48(0);
-            param_1->mUnk_0bc[i].mUnk_08.z = param_1->mUnk_004.z;
+            param_1->mUnk_0bc[i].mUnk_08.z = param_1->mUnk_000.mUnk_04.z;
             if (param_1->mUnk_0bc[i].mUnk_14 != 0) {
                 func_0208b6b0(&param_1->mUnk_0bc[i].mUnk_14);
             }
@@ -116,18 +116,18 @@ void func_ov001_021870e4(void *param_1, Unk02188950 *param_2, const char *param_
     if (param_5 != 0) {
         param_2->mUnk_0a0 = func_ov001_0219b4d8((char *) (param_5));
     }
-    param_2->mUnk_184 = (u16) (((s64) param_2->mUnk_09c->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44);
+    param_2->mUnk_184 = (u16) (((s64) param_2->mUnk_000.mUnk_9c->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44);
     param_2->mUnk_168 = 0x1f000;
     if (param_2->mUnk_0a0 != 0) {
-        func_020d2950((Unk020e71a0 *) param_2, param_2->mUnk_0a0->mUnk_00c << 2);
-        param_2->mUnk_01c = param_2->mUnk_0a0->mUnk_004;
-        param_2->mUnk_020 = param_2->mUnk_0a0->mUnk_004;
-        param_2->mUnk_024 = param_2->mUnk_0a0->mUnk_004;
+        func_020d2950(&param_2->mUnk_000, param_2->mUnk_0a0->mUnk_00c << 2);
+        param_2->mUnk_000.mUnk_1c.x = param_2->mUnk_0a0->mUnk_004;
+        param_2->mUnk_000.mUnk_1c.y = param_2->mUnk_0a0->mUnk_004;
+        param_2->mUnk_000.mUnk_1c.z = param_2->mUnk_0a0->mUnk_004;
     }
-    param_2->mUnk_238 = param_2->mUnk_004;
+    param_2->mUnk_238 = param_2->mUnk_000.mUnk_04;
     param_2->mUnk_2bc = 0;
     param_2->mUnk_2c0 = 1;
-    param_2->mUnk_148 = param_2->mUnk_09c->mUnk_26;
+    param_2->mUnk_148 = param_2->mUnk_000.mUnk_9c->mUnk_26;
 }
 
 void func_ov001_021870b0(void *param_1, Unk02188950 *param_2, const char *param_3) {

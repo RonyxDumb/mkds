@@ -24,11 +24,11 @@ s32 func_ov001_021860cc(Unk02188950 *param_1, Vec3 *param_2, s32 param_3, Vec3 *
         }
         return 0;
     case 2:
-        return func_020ead80(param_2, &param_1->mUnk_238, &param_1->mUnk_028.mUnk_00, param_1->mUnk_25c,
+        return func_020ead80(param_2, &param_1->mUnk_238, &param_1->mUnk_000.mUnk_28.mUnk_00, param_1->mUnk_25c,
                              param_1->mUnk_260, param_1->mUnk_260, param_3, param_4);
     case 1:
-        return func_020eafc4(param_2, &param_1->mUnk_238, &param_1->mUnk_028.mUnk_00, (Vec3 *) &param_1->mUnk_25c,
-                             (Vec3 *) &param_1->mUnk_25c, param_3, param_4);
+        return func_020eafc4(param_2, &param_1->mUnk_238, &param_1->mUnk_000.mUnk_28.mUnk_00,
+                             (Vec3 *) &param_1->mUnk_25c, (Vec3 *) &param_1->mUnk_25c, param_3, param_4);
     default:
         return 0;
     }
@@ -42,19 +42,19 @@ s32 func_ov001_02185fb0(Unk02188950 *param_1, Unk02185fb0_1 *param_2, u8 *param_
 
     mode = *param_3;
     param_1->mUnk_2d8 = *param_4;
-    param_1->mUnk_010 = 0;
-    param_1->mUnk_014 = 0;
-    param_1->mUnk_018 = 0;
+    param_1->mUnk_000.mUnk_10.x = 0;
+    param_1->mUnk_000.mUnk_10.y = 0;
+    param_1->mUnk_000.mUnk_10.z = 0;
     if (mode == 1) {
-        v.x = param_1->mUnk_004.x - param_2->mUnk_80;
+        v.x = param_1->mUnk_000.mUnk_04.x - param_2->mUnk_80;
         v.y = 0;
-        v.z = param_1->mUnk_004.z - param_2->mUnk_88;
+        v.z = param_1->mUnk_000.mUnk_04.z - param_2->mUnk_88;
         if ((s64) v.z * v.z + ((s64) v.x * v.x + (s64) v.y * v.y) >= 16) {
             func_02039860(&v, &v);
             k = -param_1->mUnk_0a0->mUnk_024;
-            param_1->mUnk_010 = (s32) (((s64) v.x * k) >> 12);
-            param_1->mUnk_014 = (s32) (((s64) v.y * k) >> 12);
-            param_1->mUnk_018 = (s32) (((s64) v.z * k) >> 12);
+            param_1->mUnk_000.mUnk_10.x = (s32) (((s64) v.x * k) >> 12);
+            param_1->mUnk_000.mUnk_10.y = (s32) (((s64) v.y * k) >> 12);
+            param_1->mUnk_000.mUnk_10.z = (s32) (((s64) v.z * k) >> 12);
             func_02147fd8(param_1->mUnk_0a0->mUnk_028, &v, &param_1->mUnk_1c8, &param_1->mUnk_1c8);
         }
         fn = param_1->mUnk_2d4;
@@ -74,9 +74,9 @@ s32 func_ov001_02185f04(Unk02188950 *param_1, Unk02185f04_1 *param_2, u8 *param_
     UnkFunc *fn;
 
     param_1->mUnk_2e0 = *param_4;
-    v.x = param_1->mUnk_004.x - param_2->mUnk_50;
+    v.x = param_1->mUnk_000.mUnk_04.x - param_2->mUnk_50;
     v.y = 0;
-    v.z = param_1->mUnk_004.z - param_2->mUnk_58;
+    v.z = param_1->mUnk_000.mUnk_04.z - param_2->mUnk_58;
     if ((s64) v.z * v.z + ((s64) v.x * v.x + (s64) v.y * v.y) >= 16) {
         func_02039860(&v, &v);
         func_02147fd8(param_1->mUnk_0a0->mUnk_02c, &v, &param_1->mUnk_1c8, &param_1->mUnk_1c8);

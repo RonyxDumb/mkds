@@ -11,9 +11,11 @@ void func_ov001_02192e10(Unk02188950 *param_1)
 {
     s32 m[9];
     func_020d2450(param_1);
-    param_1->mUnk_07e = (u16) (((s64) param_1->mUnk_09c->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44);
-    func_02146d44(m, data_0215d4b4[(param_1->mUnk_07e >> 4) * 2], data_0215d4b4[(param_1->mUnk_07e >> 4) * 2 + 1]);
-    func_02146dfc(m, &param_1->mUnk_028.mUnk_00.x, &param_1->mUnk_028.mUnk_00.x);
+    param_1->mUnk_000.mUnk_7e =
+        (u16) (((s64) param_1->mUnk_000.mUnk_9c->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44);
+    func_02146d44(m, data_0215d4b4[(param_1->mUnk_000.mUnk_7e >> 4) * 2],
+                  data_0215d4b4[(param_1->mUnk_000.mUnk_7e >> 4) * 2 + 1]);
+    func_02146dfc(m, &param_1->mUnk_000.mUnk_28.mUnk_00.x, &param_1->mUnk_000.mUnk_28.mUnk_00.x);
 }
 
 void func_ov001_02192dd4(Unk0219b478 *param_1)

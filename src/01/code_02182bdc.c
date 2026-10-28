@@ -95,7 +95,7 @@ void func_ov001_02182bdc(void) {
             }
             v = func_ov001_02181b68(n);
         }
-        o->mUnk_0e8 = &v->mUnk_004;
+        o->mUnk_0e8 = &v->mUnk_000.mUnk_04;
         o->mUnk_000.mUnk_04.x = c->mUnk_80.x;
         o->mUnk_000.mUnk_04.y = c->mUnk_80.y + 0x1a000;
         o->mUnk_000.mUnk_04.z = c->mUnk_80.z;
