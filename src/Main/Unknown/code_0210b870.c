@@ -7,8 +7,6 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "code_0212c478.h"
 
-// non-matching: the address of data_0217ccac lands in r1 and the loaded value in r0; the original
-// has the address in r0 and the value in r1 (the add and the store follow the value).
 void func_0210ba78(void *p0, s32 b) {
     Unk0206bcb0 *p;
     s32 c;
@@ -16,7 +14,7 @@ void func_0210ba78(void *p0, s32 b) {
     p = p0;
     c = *(s32 *) data_0217ccac;
     func_021090c4(&p->mUnk_00, b + c, (0x7f - (c >> 1)) & 0xff, 0);
-    *(u32 *) data_0217ccac = *(u32 *) data_0217ccac + 0xa;
+    *(u32 *) data_0217ccac = *(u32 *) (u32) data_0217ccac + 0xa;
 }
 
 void func_0210ba38(struct Unk020e71a0_94 *p, s32 b) {

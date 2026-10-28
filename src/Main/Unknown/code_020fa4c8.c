@@ -550,9 +550,8 @@ void func_020fb038(Unk020fc2e8 *param_1) {
     func_01ffccd0((int *) &param_1->mUnk_000.mUnk_94, &s.mUnk_0c);
 }
 
-// non-matching: registers only (0x168 bytes both): the original keeps param_1 in r6, param_2 in r5 and the
-// value of mUnk_d8 passed to func_02013468 in r4; this compile uses r5, r4 and r6.
 void func_020faed0(Unk020fc2e8 *param_1, s32 param_2, s32 param_3) {
+    u32 n;
     Vec3 v;
     void *q;
 
@@ -566,10 +565,9 @@ void func_020faed0(Unk020fc2e8 *param_1, s32 param_2, s32 param_3) {
     if (param_1->mUnk_000.mUnk_d8 != 0x1f) {
         u32 i;
         Unk0201290c *o;
-        u16 n;
 
-        n = (u16) param_1->mUnk_000.mUnk_d8;
         o = data_0217bd38->mUnk_004;
+        n = (u16) param_1->mUnk_000.mUnk_d8;
         for (i = 0; i < o->mUnk_18; i++) {
             func_02013468(o, i, n);
         }

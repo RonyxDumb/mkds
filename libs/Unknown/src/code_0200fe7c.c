@@ -341,8 +341,6 @@ u32 func_0200ff04(u32 m, u16 v) {
     return 1;
 }
 
-// non-matching: same instructions as the original, different registers (the original keeps v in r10, the address of
-// data_02170284 in r4 and the table in r6).
 void func_0200fe7c(u32 m, u16 v) {
     u32 t;
     u32 s;
@@ -357,8 +355,8 @@ void func_0200fe7c(u32 m, u16 v) {
         }
         t &= ~(1 << k);
         if (v == data_02170288[k]) {
-            data_02170284 &= ~(1 << k);
             data_02170288[k] = 0;
+            data_02170284 &= ~(1 << k);
         }
     }
     func_0200fcb4(s);

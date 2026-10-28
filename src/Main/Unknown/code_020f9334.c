@@ -166,17 +166,14 @@ s32 func_020f97e0(Unk020f41c4_A *param_1, Unk0206bcb0 *param_2) {
     return 0;
 }
 
-// non-matching: the radius and the first difference keep the opposite registers: the original
-// holds the radius in r5 and the differences in ip, this holds the radius in r2 and the
-// differences in r4 and r5.
 s32 func_020f9780(Unk020f41c4_A *param_1, Vec3 *param_2, s32 param_3) {
     Vec3 d;
     s32 n;
 
-    d.y = param_1->mUnk_50.y - param_2->y;
-    d.x = param_1->mUnk_50.x - param_2->x;
-    d.z = param_1->mUnk_50.z - param_2->z;
     n = param_3 + param_1->mUnk_e0;
+    d.x = param_1->mUnk_50.x - param_2->x;
+    d.y = param_1->mUnk_50.y - param_2->y;
+    d.z = param_1->mUnk_50.z - param_2->z;
     return (s64) d.x * d.x + (s64) d.y * d.y + (s64) d.z * d.z < (s64) n * n;
 }
 

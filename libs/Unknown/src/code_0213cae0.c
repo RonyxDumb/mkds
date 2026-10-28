@@ -298,28 +298,26 @@ u16 *func_0213e1f0(unsigned long v, u16 *end, Unk0213d398 s) {
 
 // Same as func_0213e1f0 with a 64-bit v (one word per half; the digit and the quotient come from 64-bit unsigned
 // division and remainder).
-// non-matching: the 64-bit radix is in r8 (low) and r11 (high) in the original and in r11 (low) and r8 (high) here;
-// nothing else differs (23 words, all moves and compares of those two registers)
 u16 *func_0213deec(u64 v, u16 *end, Unk0213d398 s) {
     int a;
     int m;
-    int f;
-    u8 t;
     int k;
+    u8 t;
+    int d;
     u64 b;
     u16 *p;
-    int n;
-    int d;
-    int e;
+    s32 n;
     u16 c;
+    u8 f;
+    int e;
 
     m = s.mUnk_0c;
     t = s.mUnk_03;
-    c = s.mUnk_06;
-    k = s.mUnk_08;
     f = s.mUnk_01;
+    k = s.mUnk_08;
     a = 0;
     n = 0;
+    c = s.mUnk_06;
     p = end;
     *--p = 0;
     if (v == 0 && m == 0) {
@@ -337,17 +335,17 @@ u16 *func_0213deec(u64 v, u16 *end, Unk0213d398 s) {
             }
             break;
         case 'o':
-            f = 0;
             b = 8;
+            f = 0;
             break;
         case 'u':
-            f = 0;
             b = 10;
+            f = 0;
             break;
         case 'x':
         case 'X':
-            f = 0;
             b = 16;
+            f = 0;
             break;
     }
     do {

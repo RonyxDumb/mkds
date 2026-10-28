@@ -499,12 +499,9 @@ void func_020eacc0(Vec3 *param_1, s32 param_2, Vec3 *param_3, Vec3 *param_4) {
     func_02147fd8(t + o, param_3, &v, param_4);
 }
 
-// non-matching: the sum (t + v) is allocated to ip in the original and to r1 here
-// (11 words differ, first +0x64)
 void func_020eac20(Vec3 *param_1, s32 param_2) {
-    s32 sum;
-    s32 n;
     s32 t;
+    s32 n;
     s32 u;
     s32 w;
     s32 v;
@@ -517,13 +514,14 @@ void func_020eac20(Vec3 *param_1, s32 param_2) {
     }
     u = 0x1000 - t;
     w = (s32) (((s64) t * u) >> 12);
-    v = (s32) (((s64) (n + 0x1000) * (w >> 1)) >> 12);
+    n += 0x1000;
+    v = (s32) (((s64) n * (w >> 1)) >> 12);
     s = u + v;
-    sum = t + v;
+    t = t + v;
     param_1->x = (s32) (((s64) param_1->x * s) >> 12);
     param_1->y = (s32) (((s64) param_1->y * s) >> 12);
     param_1->z = (s32) (((s64) param_1->z * s) >> 12);
-    param_1->y = param_1->y + sum;
+    param_1->y += t;
 }
 
 // non-matching: the two `*param_6 = *param_1; return;` blocks are if-converted by the
