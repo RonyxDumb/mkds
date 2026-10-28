@@ -36,3 +36,13 @@ extern u8 data_021653b8[];
 extern u8 data_0216569c[];
 extern Vec3 data_02165530;
 extern s32 data_02165948;
+
+// Three words, three more words and two halfwords; data_02165ff0, data_0216600c and data_02166028 are one each.
+typedef struct Unk02165ff0 {
+    /* 00 */ s32 mUnk_00[3];
+    /* 0c */ s32 mUnk_0c[3];
+    /* 18 */ s16 mUnk_18;
+    /* 1a */ s16 mUnk_1a;
+} Unk02165ff0;
+
+extern Unk02165ff0 data_02165ff0;

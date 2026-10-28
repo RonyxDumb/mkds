@@ -3,10 +3,5 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_02089754();
-void func_02089788(int *param_1, int param_2);
-void func_02089a24(int param_1, int param_2);
+#include "Main/Unknown/code_020888b4.h"
 void func_02089e10(int param_1);
-void func_020896e0(void *a);
-void func_02089974(void);
-void func_02089c3c(void *a, void *b);

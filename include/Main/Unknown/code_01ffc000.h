@@ -12,3 +12,4 @@ s32 func_01ffc67c(Unk0206bcb0 *p);
 void func_01ffc090(Unk0206bcb0 *p, s32 a);
 void func_01ffcebc(const Unk01ffd190 *a, const Unk01ffd190 *b, Unk01ffd190 *c);
 void func_01ffcd84(Vec3 *a, const Unk01ffd190 *b);
+s32 func_01ffc67c(Unk0206bcb0 *p);

@@ -13,3 +13,4 @@ void func_02043ae0(void);
 void func_02043b04(void);
 void func_02043b3c(void);
 void func_02043b48(void);
+void func_0204360c(s32 a, u32 b);

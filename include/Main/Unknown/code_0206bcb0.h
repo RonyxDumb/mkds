@@ -150,7 +150,9 @@ typedef struct Unk0206bcb0 {
     /* 0b0 */ u8 mUnk_0b0[0x10];
     /* c0 */ s32 mUnk_c0;
     /* c4 */ s32 mUnk_c4;
-    /* c8 */ u8 mUnk_c8[0xc];
+    /* c8 */ u8 mUnk_c8[4];
+    /* cc */ s32 mUnk_cc;
+    /* d0 */ u8 mUnk_d0[4];
     /* d4 */ u32 mUnk_d4;
     /* d8 */ s32 mUnk_d8;
     /* dc */ s32 mUnk_dc;

@@ -18,3 +18,5 @@ typedef struct Unk02155808 {
 extern Unk02155808 data_02155808[3];
 extern Vec3 data_02155a14;
 extern Vec3 data_02155a48;
+extern Vec3 data_02155eb0;
+extern Vec3 data_02155ebc;

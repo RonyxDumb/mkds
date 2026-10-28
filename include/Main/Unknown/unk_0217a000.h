@@ -652,6 +652,14 @@ extern s32 data_0217ae90;
 extern struct Unk0201ca6c **data_0217ae94;
 extern s32 data_0217ae98;
 
+// Three doublewords, read by func_0208537c's callers: the first is replaced by the first times the second plus the
+// third.
+typedef struct Unk0217aebc_128 {
+    /* 00 */ u64 mUnk_00;
+    /* 08 */ u64 mUnk_08;
+    /* 10 */ u64 mUnk_10;
+} Unk0217aebc_128;
+
 // Object behind data_0217aebc, 0x144 bytes: word tables of eight entries, the eight
 // 0xc-byte entries at 0xb0 passed to func_020174a4, and the list at 0x12c.
 typedef struct Unk0217aebc {
@@ -671,7 +679,7 @@ typedef struct Unk0217aebc {
     /* 120 */ s32 mUnk_120;
     /* 124 */ s16 mUnk_124;
     /* 126 */ u8 mUnk_126[2];
-    /* 128 */ void *mUnk_128;
+    /* 128 */ Unk0217aebc_128 *mUnk_128;
     /* 12c */ Unk02017328 mUnk_12c;
     /* 138 */ s32 mUnk_138;
     /* 13c */ s16 mUnk_13c;

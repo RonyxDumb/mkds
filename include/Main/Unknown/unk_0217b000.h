@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/unk_02165000.h" // Unk02165ff0
 #include "code_0212da38.h" // Unk02017328
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020e516c.h"
@@ -137,6 +138,10 @@ typedef struct Unk0217b4d4 {
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mUnk_0e;
 } Unk0217b4d4;
+
+extern u16 data_0217b028;
+extern s32 data_0217b02c;
+extern Unk02165ff0 *data_0217b030;
 
 // Objects whose layout isn't known yet.
 extern u8 data_0217b038[];
