@@ -3,14 +3,14 @@
 #pragma thumb on
 
 u32 func_02031268(void) {
-    if (*(int *) (*((int *) ((u32) (&data_02174e58))) + 0xc0) == 1) {
+    if (*(int *) ((*(int *) &data_02174e58) + 0xc0) == 1) {
         return 1;
     }
     return 0;
 }
 
 u32 func_02031250(void) {
-    if (*(int *) (*((int *) ((u32) (&data_02174e58))) + 0xc0) == 3) {
+    if (*(int *) ((*(int *) &data_02174e58) + 0xc0) == 3) {
         return 1;
     }
     return 0;
@@ -22,8 +22,8 @@ void func_02031208(void) {
     int iVar3;
     int iVar2;
     int *piVar1;
-    piVar1 = ((int *) ((u32) (&data_02174e58)));
-    if (*(int *) (0x94 + *((int *) ((u32) (&data_02174e58)))) != 6) {
+    piVar1 = (int *) &data_02174e58;
+    if (*(int *) (0x94 + (*(int *) &data_02174e58)) != 6) {
         iVar5 = 0;
         iVar4 = 0;
         iVar3 = 0;

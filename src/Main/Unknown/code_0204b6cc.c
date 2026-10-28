@@ -9,7 +9,7 @@ void func_0204b6f8(unsigned int p0, unsigned int p1, unsigned int p2, unsigned i
 }
 
 void func_0204b6cc(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6, u32 param_7) {
-    *(u32 *) (*((int *) ((u32) (&data_021759d4))) + 0x18) = param_2;
+    *(u32 *) ((*(int *) &data_021759d4) + 0x18) = param_2;
     func_0204b714((u32) (param_1), (u32) (param_3), (u32) (param_4), (u32) (param_5), (u32) (1), (u32) (param_6),
                   (u32) (param_7));
     return;

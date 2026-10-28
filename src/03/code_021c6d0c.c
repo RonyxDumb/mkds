@@ -66,18 +66,16 @@ void func_ov003_021c6d68(void) {
     return;
 }
 
-// non-matching: 0x58 bytes, original 0x5c; 11 instructions differ; first at +0x0: original `push {lr}`, ours `push {r4,
-// lr}`
 void func_ov003_021c6d0c(void) {
     int iVar1;
     iVar1 = func_ov003_021d1f70((int) (1));
     if ((iVar1 == 0) && (iVar1 = func_ov003_021d1f70((int) (0)), iVar1 == 0)) {
         func_ov003_021c0d2c();
         func_ov003_021cdc10((u32) (0x14));
-        if (*(unsigned char *) (*((int *) ((u32) (&data_ov003_021da1f8))) + 0x29) == '\0') {
+        if (*(unsigned char *) ((*(int *) &data_ov003_021da1f8) + 0x29) == '\0') {
             func_ov003_021c0cd0((u8) (0));
         }
-        if (*(unsigned char *) (*((int *) ((u32) (&data_ov003_021da1f8))) + 0x29) == ' ') {
+        if (*(unsigned char *) ((*(int *) &data_ov003_021da1f8) + 0x29) == ' ') {
             func_ov003_021c0cbc((u8) (0));
         }
         func_ov003_021c212c(func_ov003_021c6cf0);

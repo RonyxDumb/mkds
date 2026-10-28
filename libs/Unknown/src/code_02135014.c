@@ -71,8 +71,8 @@ int func_02135078(u8 *buf, u32 n, const u8 *fmt, char *va) {
     return r;
 }
 
-int func_02135048(u8 *buf, u32 n, const u8 *fmt, ...) {
-    return func_02135078(buf, n, fmt, (char *) (((int) &fmt & ~3) + 4));
+int func_02135048(char *buf, u32 n, const char *fmt, ...) {
+    return func_02135078((u8 *) buf, n, (const u8 *) fmt, (char *) (((int) &fmt & ~3) + 4));
 }
 
 int func_02135014(u8 *buf, const u8 *fmt, ...) {

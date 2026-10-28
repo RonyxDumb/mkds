@@ -3,13 +3,6 @@
 #include "types.h"
 #include "00/code_02182fdc.h"
 
-// What Unk021ca400::mUnk_02c points to.
-typedef struct Unk021ca400_2c {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ void *mUnk_0c;
-} Unk021ca400_2c;
-
 // Object behind data_ov001_021ca400.
 typedef struct Unk021ca400 {
     /* 000 */ s32 mUnk_000;
@@ -24,7 +17,7 @@ typedef struct Unk021ca400 {
     /* 020 */ s32 *mUnk_020;
     /* 024 */ void *mUnk_024;
     /* 028 */ u8 mUnk_028[0x4];
-    /* 02c */ Unk021ca400_2c *mUnk_02c;
+    /* 02c */ Unk020b4a44 *mUnk_02c;
     /* 030 */ void *mUnk_030;
     /* 034 */ void *mUnk_034;
     /* 038 */ Unk020b4934 *mUnk_038[2];

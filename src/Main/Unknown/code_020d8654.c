@@ -1,0 +1,101 @@
+#include "Main/Unknown/code_020d8654.h"
+#include "Main/Unknown/code_020364e0.h"
+#include "Main/Unknown/code_02036bec.h"
+#include "Main/Unknown/code_02042044.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_020b502c.h"
+#include "code_02147cd8.h"
+
+u32 func_020d8828(Unk020e0144 *a, Vec3 *b) {
+    Unk020e0144_00 *p;
+    s32 i;
+    s64 m;
+    Unk020e0144_00_0 *q;
+    s64 s;
+    s32 x;
+    s32 z;
+    s32 d;
+    p = a->mUnk_00;
+    m = 0;
+    i = p->mUnk_04 - 1;
+    q = p->mUnk_00;
+    if (i >= 0) {
+        q = &q[i];
+        x = b->x;
+        z = b->z;
+        do {
+            d = x - q->mUnk_00[0].x;
+            s = (s64)d * d;
+            d = z - q->mUnk_00[0].z;
+            s = s + (s64)d * d;
+            if (m < s) {
+                m = s;
+            }
+            d = x - q->mUnk_00[3].x;
+            s = (s64)d * d;
+            d = z - q->mUnk_00[3].z;
+            s = s + (s64)d * d;
+            if (m < s) {
+                m = s;
+            }
+            q--;
+            i--;
+        } while (i >= 0);
+    }
+    *(vu16 *) 0x40002b0 = 1;
+    *(vs64 *) 0x40002b8 = m;
+    while (*(vu16 *) 0x40002b0 & 0x8000) {
+    }
+    return *(vu32 *) 0x40002b4;
+}
+
+void func_020d879c(Unk020e0144 *a, Vec3 *b) {
+    Unk020e0144_00_0 *p;
+    s32 t;
+    s32 u;
+    p = &a->mUnk_00->mUnk_00[a->mUnk_0c];
+    t = a->mUnk_14;
+    u = 0x1000000 - t;
+    b->x = (s32)(((s64)p->mUnk_00[0].x * u) >> 24);
+    b->z = (s32)(((s64)p->mUnk_00[0].z * u) >> 24);
+    b->x = b->x + (s32)(((s64)p->mUnk_00[3].x * t) >> 24);
+    b->z = b->z + (s32)(((s64)p->mUnk_00[3].z * t) >> 24);
+}
+
+// non-matching: the original computes k * 4 once before the loop and keeps it in a stack slot (stack 0x1c bytes, `ldr r0, [sp]; add r0, r1, r0` in the loop); here the loop uses `add r0, r0, r6, lsl #2` (stack 0x14 bytes)
+Vec3 *func_020d8654(Unk020fa294 *a) {
+    u16 i;
+    u16 k;
+    u16 n;
+    s32 m;
+    Vec3 *p;
+    Vec3 v;
+    Unk02042044 *e;
+    Unk02042044 *f;
+    s32 t;
+    k = a->mUnk_26;
+    n = data_02175620->mUnk_08[k].mUnk_02;
+    p = func_02036bec(func_020364e0(func_020364e8()), n * 12);
+    m = n - 1;
+    for (i = 0; i < n; i++) {
+        if (i == m) {
+            if (data_02175620->mUnk_08[k].mUnk_00[1] == 0) {
+                continue;
+            }
+            e = func_02042044(k, 0);
+            f = func_02042044(k, (u16)m);
+            func_021484d0(&e->mUnk_00, &f->mUnk_00, &v);
+        } else {
+            e = func_02042044(k, (u16)(i + 1));
+            f = func_02042044(k, i);
+            func_021484d0(&e->mUnk_00, &f->mUnk_00, &v);
+        }
+        t = v.z;
+        v.z = -v.x;
+        v.y = 0;
+        v.x = t;
+        v.y = 0;
+        func_02039860(&v, &p[i]);
+    }
+    return p;
+}

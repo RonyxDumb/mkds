@@ -212,10 +212,11 @@ def main() -> None:
         base_flags = " ".join(kept) + " " + COMMON_FLAGS
         a.flags = a.flags or [""]
     flag_sets = a.flags or DEFAULT_FLAG_SETS
-    # Thumb targets get -thumb unless the flags already choose the mode (an ARM function in a Thumb file is wrapped in
-    # `#pragma thumb off` / `#pragma thumb on`, so a file with that pragma and any Thumb target is a Thumb file).
+    # Thumb targets get -thumb unless the flags or the file already choose the mode: a file with `#pragma thumb`
+    # lines sets each function's mode itself (ARM files wrap their Thumb functions in `#pragma thumb on` / `off`),
+    # so only a file of Thumb targets with no such pragma is compiled as a Thumb file.
     thumb = [orig_function(mod, addr)[1] for _, mod, addr in probes]
-    thumb_file = all(thumb) or (any(thumb) and "#pragma thumb off" in a.source.read_text())
+    thumb_file = all(thumb) and "#pragma thumb" not in a.source.read_text()
     if thumb_file and "-thumb" not in base_flags.split() and not any("-thumb" in f for f in flag_sets):
         flag_sets = [f"{f} -thumb".strip() for f in flag_sets]
     compilers = sorted(p.parent for p in MWCC_ROOT.glob("*/*/mwccarm.exe"))

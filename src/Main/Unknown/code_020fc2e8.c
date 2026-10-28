@@ -66,7 +66,7 @@ s32 func_020fc79c(Unk020edb8c *a, Unk020fc2e8 *e) {
     func_020f9114((Unk0206bcb0 *) e);
     if (a->mUnk_0c->mUnk_1f0 != 0) {
         func_020ed268((Unk020ec8bc *) e, (u8 *) a, 0x14, 0xcc, 1, 1, 0, 0x6000, e->mUnk_276, 1);
-        func_02046bcc((int) e->mUnk_2e8, 1);
+        func_02046bcc(e->mUnk_2e8, 1);
     } else {
         func_020fcb9c((int) e, (u16) data_0217561c->mUnk_474[0]);
         p = e->mUnk_228->mUnk_1fc;

@@ -24,7 +24,7 @@ void func_ov000_021806b8(unsigned int p0) {
 }
 
 u32 func_ov000_021806a0(void) {
-    if (0 <= *(int *) (*((int *) ((u32) (&data_ov000_021b4c64))) + 0x14)) {
+    if (0 <= *(int *) ((*(int *) &data_ov000_021b4c64) + 0x14)) {
         return 1;
     }
     return 0;

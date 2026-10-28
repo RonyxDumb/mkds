@@ -9,8 +9,8 @@ void func_021049a4(void) {
     int *piVar3;
     u32 uVar2;
     int iVar1;
-    if (*(int *) (*((int *) ((u32) (&data_0217bc48))) + ((int) 0x000001dcu)) != 0) {
-        iVar1 = *((int *) ((u32) (&data_027e00cc))) + ((int) 0x00000220u);
+    if (*(int *) ((*(int *) &data_0217bc48) + ((int) 0x000001dcu)) != 0) {
+        iVar1 = (*(int *) &data_027e00cc) + ((int) 0x00000220u);
         piVar3 = *(int **) (iVar1 + 4);
         iVar6 = *(int *) (iVar1 + 8);
         iVar5 = 0;

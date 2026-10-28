@@ -22,17 +22,17 @@ void func_020e5bd4(u32 param_1, Unk020e43a8 *p) {
             n = 4;
         }
         s.mUnk_00 = 0x163;
-        s.mUnk_04 = (s32) &p->mUnk_04;
+        s.mUnk_04 = &p->mUnk_04;
         s.mUnk_08 = n;
         s.mUnk_0c = func_020d4ef4(&p->mUnk_04);
         func_0210b7a8(&s);
     }
-    func_02046b40((u32) &p->mUnk_80);
+    func_02046b40(&p->mUnk_80);
 }
 
 u8 func_020e5ba0(Unk020e43a8 *p, void *param_2, u8 *param_3, u8 *param_4) {
     if (func_020ec450(p, param_2, param_3) != 0) {
-        func_020d26f8((int) p, (int) param_2);
+        func_020d26f8((Unk020e71a0 *) p, param_2);
     }
     return *param_4;
 }

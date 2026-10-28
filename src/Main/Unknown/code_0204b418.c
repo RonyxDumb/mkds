@@ -3,7 +3,7 @@
 #pragma thumb on
 
 void func_0204b430(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6) {
-    *(u32 *) (*((int *) ((u32) (&data_021759d4))) + 0x18) = param_2;
+    *(u32 *) ((*(int *) &data_021759d4) + 0x18) = param_2;
     ((u32) func_0204b458((unsigned int) (param_1), (unsigned int) (param_3), (unsigned int) (param_4),
                          (unsigned int) (param_5), (unsigned int) (1), (unsigned int) (param_6)));
     return;

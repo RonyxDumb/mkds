@@ -21,7 +21,7 @@ s32 func_ov001_02189d88(void) {
 }
 
 void func_ov001_02189d74(void) {
-    func_020c0b84((void **) &data_ov001_021a9bc4);
+    func_020c0b84(&data_ov001_021a9bc4);
 }
 
 void func_ov001_02189c10(void) {
@@ -29,7 +29,7 @@ void func_ov001_02189c10(void) {
     s32 i;
     s32 count = 0;
     u32 arg;
-    Unk021a9ba4_00 *obj;
+    Unk0217b498_00 *obj;
     Vec3 *pos;
 
     var = func_020c0db0();
@@ -63,7 +63,7 @@ s32 func_ov001_02189bd8(void) {
 }
 
 void func_ov001_02189bc4(void) {
-    func_020c0b84((void **) &data_ov001_021a9bc0);
+    func_020c0b84(&data_ov001_021a9bc0);
 }
 
 void func_ov001_021899e4(void) {
@@ -72,7 +72,7 @@ void func_ov001_021899e4(void) {
     s32 count = 0;
     s32 row;
     s32 k;
-    Unk021a9ba4_00 *obj;
+    Unk0217b498_00 *obj;
     u16 *dst;
     Unk020b4a44 *res;
     Vec3 *pos;
@@ -90,7 +90,7 @@ void func_ov001_021899e4(void) {
                 for (k = 0; k < 16; k++) {
                     dst[0x50 + k] = res->mUnk_0c[(row + 2) * 16 + k];
                 }
-                func_0200ee74((u32)(*(Unk020b4a44 **)func_020b85f0(6))->mUnk_0c,
+                func_0200ee74((*(Unk020b4a44 **)func_020b85f0(6))->mUnk_0c,
                               (*(Unk020b4a44 **)func_020b85f0(6))->mUnk_08);
                 data_ov001_021a9bc0->mUnk_10[count].mUnk_08 = func_020b83dc(0xc5);
                 data_ov001_021a9bc0->mUnk_10[count].mUnk_0c = func_020b4e70(pos) ? 2 : 3;

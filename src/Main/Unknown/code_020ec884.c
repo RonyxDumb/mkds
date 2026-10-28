@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020ec884.h"
 
-void func_020ec884(u32 arg0) {
+void func_020ec884(Unk020e43a8 *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value2;
@@ -11,7 +11,7 @@ void func_020ec884(u32 arg0) {
     value3 = value4;
     value0 = (value4) + (0x80u);
     value2 = 3u;
-    func_02046be8((unsigned int) value0, (unsigned int) value1, (unsigned int) value2, (unsigned int) value3);
+    func_02046be8((void *) value0, (UnkFunc *const *) value1, (s32) value2, (void *) value3);
     value0 = 0u;
     *(u16 *) ((value4) + (144)) = (u16) value0;
     value0 = 1u;

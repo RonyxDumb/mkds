@@ -16,7 +16,7 @@ void func_ov000_021ae290(int param_1, u16 param_2, int param_3) {
     iVar2 = *(int *) (*(int *) (((int) (u32) ((unsigned char *) &data_0216ff5c)) + 4) + 0xa4);
     if (iVar2 != 0) {
         if (param_3 == ((int) 0x7f000001u)) {
-            param_3 = *((int *) ((u32) (&data_ov000_021b63b4)));
+            param_3 = *(int *) &data_ov000_021b63b4;
         }
         *(u16 *) (iVar2 + 0x1a) = param_2;
         *(u16 *) (iVar2 + 0x18) = *(u16 *) (iVar2 + 0x1a);

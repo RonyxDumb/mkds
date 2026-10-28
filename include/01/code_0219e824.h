@@ -14,19 +14,7 @@
 #include "Main/Unknown/code_0212426c.h"
 #include "Main/Unknown/code_02125000.h"
 #include "Main/Unknown/unk_021759c0.h"
-
-// Four callbacks and two numbers, passed to func_020487fc.
-typedef struct Unk021a9034 {
-    void (*mUnk_00)();
-    void (*mUnk_04)();
-    void (*mUnk_08)();
-    void (*mUnk_0c)();
-    int mUnk_10;
-    int mUnk_14;
-    s16 mUnk_18;
-    s16 mUnk_1a;
-    int mUnk_1c;
-} Unk021a9034;
+#include "Main/Unknown/unk_02175000.h"
 
 int func_ov001_0219e824(void *param_1);
 void func_ov001_0219e858(s16 *param_1);

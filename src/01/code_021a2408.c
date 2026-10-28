@@ -49,7 +49,7 @@ void func_ov001_021a2408(void) {
             func_02148934(1);
             *(vu16 *) 0x400100e = (*(vu16 *) 0x400100e & ~3) | 2;
             *(vu16 *) 0x400100e = (*(vu16 *) 0x400100e & 0x43) | 0x1218;
-            func_0200ee74((u32) data_ov001_021ca41c->mUnk_0a7c, 0x200);
+            func_0200ee74(data_ov001_021ca41c->mUnk_0a7c, 0x200);
             func_0214b95c((const void *) (data_ov001_021ca41c->mUnk_0a7c), 0, 0x200);
             func_0214a40c((u32 *) 0x4001050, 0, 0, 0x10, 0x10);
             data_ov001_021ca41c->mUnk_1098 = 4;
@@ -58,15 +58,15 @@ void func_ov001_021a2408(void) {
             *(vu32 *) 0x4001010 = (-(data_ov001_021ca41c->mUnk_10a0 - 0xc0) << 16) & 0x1ff0000;
             *(vu32 *) 0x4001018 = ((data_ov001_021ca41c->mUnk_10a8 >> 12) & 0x1ff) |
                                   (((-data_ov001_021ca41c->mUnk_10a8 >> 12) << 16) & 0x1ff0000);
-            func_0200ee74(func_ov001_02181174(), func_ov001_02181180());
+            func_0200ee74((const void *) func_ov001_02181174(), func_ov001_02181180());
             func_0214b824((const void *) (func_ov001_02181174()), func_ov001_02181194(), func_ov001_02181180());
-            func_0200ee74((u32) data_ov001_021ca41c->mUnk_0a7c, 0x200);
+            func_0200ee74(data_ov001_021ca41c->mUnk_0a7c, 0x200);
             func_0214b95c((const void *) (data_ov001_021ca41c->mUnk_0a7c), 0, 0x200);
             src = data_ov001_021ca41c->mUnk_0830->mUnk_0c;
             dst = data_ov001_021ca41c->mUnk_082c->mUnk_0c;
             dst[0x91] = src[func_ov001_021a63b4() == 1 ? 2 : 1];
             dst[0x92] = src[func_ov001_021a63b4()];
-            func_0200ee74((u32) data_ov001_021ca41c->mUnk_082c->mUnk_0c, data_ov001_021ca41c->mUnk_082c->mUnk_08);
+            func_0200ee74(data_ov001_021ca41c->mUnk_082c->mUnk_0c, data_ov001_021ca41c->mUnk_082c->mUnk_08);
             func_0214c028((const void *) data_ov001_021ca41c->mUnk_082c->mUnk_0c, 0,
                           data_ov001_021ca41c->mUnk_082c->mUnk_08);
             break;
@@ -89,28 +89,28 @@ void func_ov001_021a2408(void) {
             data_ov001_021ca41c->mUnk_1098 = 8;
             break;
         case 5:
-            func_0200ee74((u32) data_ov001_021ca41c->mUnk_0a7c, 0x200);
+            func_0200ee74(data_ov001_021ca41c->mUnk_0a7c, 0x200);
             func_0214b95c((const void *) (data_ov001_021ca41c->mUnk_0a7c), 0, 0x200);
             src = data_ov001_021ca41c->mUnk_0830->mUnk_0c;
             dst = data_ov001_021ca41c->mUnk_082c->mUnk_0c;
             dst[0x91] = src[func_ov001_021a63b4() == 1 ? 2 : 1];
             dst[0x92] = src[func_ov001_021a63b4()];
-            func_0200ee74((u32) data_ov001_021ca41c->mUnk_082c->mUnk_0c, data_ov001_021ca41c->mUnk_082c->mUnk_08);
+            func_0200ee74(data_ov001_021ca41c->mUnk_082c->mUnk_0c, data_ov001_021ca41c->mUnk_082c->mUnk_08);
             func_0214c028((const void *) data_ov001_021ca41c->mUnk_082c->mUnk_0c, 0,
                           data_ov001_021ca41c->mUnk_082c->mUnk_08);
             break;
         case 8:
             *(vu32 *) 0x4001018 = ((data_ov001_021ca41c->mUnk_10a8 >> 12) & 0x1ff) |
                                   (((-data_ov001_021ca41c->mUnk_10a8 >> 12) << 16) & 0x1ff0000);
-            func_0200ee74(func_ov001_02181174(), func_ov001_02181180());
+            func_0200ee74((const void *) func_ov001_02181174(), func_ov001_02181180());
             func_0214b824((const void *) (func_ov001_02181174()), func_ov001_02181194(), func_ov001_02181180());
-            func_0200ee74((u32) data_ov001_021ca41c->mUnk_0a7c, 0x200);
+            func_0200ee74(data_ov001_021ca41c->mUnk_0a7c, 0x200);
             func_0214b95c((const void *) (data_ov001_021ca41c->mUnk_0a7c), 0, 0x200);
             src = data_ov001_021ca41c->mUnk_0830->mUnk_0c;
             dst = data_ov001_021ca41c->mUnk_082c->mUnk_0c;
             dst[0x91] = src[func_ov001_021a63b4() == 1 ? 2 : 1];
             dst[0x92] = src[func_ov001_021a63b4()];
-            func_0200ee74((u32) data_ov001_021ca41c->mUnk_082c->mUnk_0c, data_ov001_021ca41c->mUnk_082c->mUnk_08);
+            func_0200ee74(data_ov001_021ca41c->mUnk_082c->mUnk_0c, data_ov001_021ca41c->mUnk_082c->mUnk_08);
             func_0214c028((const void *) data_ov001_021ca41c->mUnk_082c->mUnk_0c, 0,
                           data_ov001_021ca41c->mUnk_082c->mUnk_08);
             break;

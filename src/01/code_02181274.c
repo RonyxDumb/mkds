@@ -75,13 +75,13 @@ s32 func_ov001_02181510(void) {
 }
 
 void func_ov001_021814fc(void) {
-    func_020c0b84((void **) &data_ov001_021a9b8c);
+    func_020c0b84(&data_ov001_021a9b8c);
 }
 
 void func_ov001_02181410(void) {
     s32 i;
     s32 count;
-    Unk021a9ba4_00 *e;
+    Unk0217b498_00 *e;
     Vec3 *pos;
     unsigned int v;
 

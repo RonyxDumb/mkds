@@ -7,11 +7,11 @@ void func_020d4bf0(void) {
     iVar1 = ((int) (u32) ((unsigned char *) &data_0217b4f8));
     *(u32 *) (((u32) (u32) ((unsigned char *) &data_0217b4f8)) + 0x50) = 1;
     *(u32 *) (iVar1 + 0x54) = 0;
-    if (*(int *) (*((int *) ((u32) (&data_021759c0))) + 0xc) == 2) {
-        *((u32 *) ((u32) (&data_0217b4f4))) = ((u32) 0x00258000u);
+    if (*(int *) ((*(int *) &data_021759c0) + 0xc) == 2) {
+        *(u32 *) &data_0217b4f4 = ((u32) 0x00258000u);
         return;
     }
-    *((u32 *) ((u32) (&data_0217b4f4))) = ((u32) 0x0012c000u);
+    *(u32 *) &data_0217b4f4 = ((u32) 0x0012c000u);
     return;
 }
 

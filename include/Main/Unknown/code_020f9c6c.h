@@ -5,11 +5,19 @@
 
 // Row of the array at 0x00 of the object behind data_02175620.
 typedef struct Unk020fa294 {
-    /* 00 */ u8 mUnk_00[0x24];
+    /* 00 */ Vec3 mUnk_00;
+    /* 0c */ Vec3 mUnk_0c;
+    /* 18 */ Vec3 mUnk_18;
     /* 24 */ u16 mUnk_24;
-    /* 26 */ u8 mUnk_26[2];
+    /* 26 */ u16 mUnk_26;
     /* 28 */ s16 mUnk_28;
-    /* 2a */ u8 mUnk_2a[0x12];
+    /* 2a */ s16 mUnk_2a;
+    /* 2c */ s16 mUnk_2c;
+    /* 2e */ u16 mUnk_2e;
+    /* 30 */ u8 mUnk_30[6];
+    /* 36 */ s16 mUnk_36;
+    /* 38 */ u16 mUnk_38;
+    /* 3a */ u8 mUnk_3a[2];
 } Unk020fa294;
 
 void func_020f9c6c(Unk020f41c4_A *param_1);

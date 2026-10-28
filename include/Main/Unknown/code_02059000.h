@@ -2,7 +2,10 @@
 
 #include "types.h"
 
+struct Unk021000d0;
+
 // Declared here until the code that defines them is decompiled.
+u32 func_02059c04(struct Unk021000d0 *a);
 u32 func_0205905c(void);
 u32 func_0205910c(void);
 void func_0205933c();

@@ -35,7 +35,7 @@ u8 func_020e311c(Unk020e1e98 *a, Unk020e246c *b, u8 *c, u8 *d) {
             }
             a->mUnk_080.mUnk_10 = 7;
             a->mUnk_080.mUnk_12 = 1;
-            func_020d26f8((int) a, (int) b);
+            func_020d26f8((Unk020e71a0 *) a, (Unk0206bcb0 *) b);
             break;
         case 1:
             func_021484d0(&a->mUnk_004, &b->mUnk_080, &v);
@@ -48,7 +48,7 @@ u8 func_020e311c(Unk020e1e98 *a, Unk020e246c *b, u8 *c, u8 *d) {
             a->mUnk_080.mUnk_10 = 6;
             a->mUnk_080.mUnk_12 = 1;
             a->mUnk_002 |= *(u16 *) data_02158bb4;
-            func_020d26f8((int) a, (int) b);
+            func_020d26f8((Unk020e71a0 *) a, (Unk0206bcb0 *) b);
             break;
     }
     return d[0];

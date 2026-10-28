@@ -4,7 +4,7 @@
 s32 func_ov001_02184274(Unk02188950 *param_1) {
     if (param_1->mUnk_004.y >= -func_020d3d48(0)) {
         func_ov001_02187444(param_1, 4, 0);
-        func_020d2774((int) (param_1), (u32) (0x241));
+        func_020d2774((Unk020e71a0 *) (param_1), (u32) (0x241));
         param_1->mUnk_158 = (s32 (*)(Unk02188950 *))func_ov001_021842b4;
     }
     return 0;

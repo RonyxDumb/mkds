@@ -2,18 +2,18 @@
 
 void func_ov001_021a651c(void) {
     u32 uVar1;
-    u32 local_10;
+    Unk020b4934 *local_10;
     u32 local_c;
-    u32 local_8[1];
+    Unk020b4a44 *local_8[1];
     local_10 = 0;
     local_c = 0;
     local_8[0] = 0;
     uVar1 = ((int) func_0204799c(data_ov001_021a993c));
-    func_020b496c((void **) (&local_10), (void *) (uVar1));
+    func_020b496c(&local_10, (void *) (uVar1));
     uVar1 = ((int) func_0204799c(data_ov001_021a9938));
     func_020b48ec((void **) (&local_c), (void *) (uVar1));
     uVar1 = ((int) func_0204799c(data_ov001_021a9944));
-    func_020b4a7c((void **) (local_8), (void *) (uVar1));
+    func_020b4a7c(local_8, (void *) (uVar1));
     return;
 }
 
@@ -26,6 +26,6 @@ void func_ov001_021a64ac(u32 a) {
 }
 
 void func_ov001_021a64a0(void) {
-    *((u32 *) ((u32) (&data_ov001_021ca424))) = 0;
+    *(u32 *) &data_ov001_021ca424 = 0;
     return;
 }

@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-u32 func_02047b08(u32 param_1) {
+void *func_02047b08(const char *param_1) {
     int iVar1;
     iVar1 = func_02047b30((u32) (*(u32 *) (((u32) (u32) ((unsigned char *) &data_02164e04)) + 0x0)),
                           (s8 *) ((s8 *) (u32) (param_1)));
@@ -10,7 +10,7 @@ u32 func_02047b08(u32 param_1) {
         iVar1 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x48)),
                               (s8 *) ((s8 *) (u32) (param_1)));
     }
-    return iVar1;
+    return (void *) iVar1;
 }
 
 #pragma thumb off

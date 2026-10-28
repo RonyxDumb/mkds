@@ -2,27 +2,25 @@
 
 #pragma thumb on
 
-// non-matching: 0xa8 bytes, original 0xb8; 37 instructions differ; first at +0x0: original `push {lr}`, ours `push {r4,
-// r5, lr}`
 void func_020e662c(void) {
     u32 uVar1;
-    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) (*((int *) ((u32) (&data_021759d0))) + 0x24)), (u32) (0x30)));
-    *((u32 *) ((u32) (&data_0217b848))) = uVar1;
-    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) (*((int *) ((u32) (&data_021759d0))) + 0x24)), (u32) (0x30)));
-    *((u32 *) ((u32) (&data_0217b860))) = uVar1;
-    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) (*((int *) ((u32) (&data_021759d0))) + 0x24)), (u32) (0x30)));
-    *((u32 *) ((u32) (&data_0217b850))) = uVar1;
-    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) (*((int *) ((u32) (&data_021759d0))) + 0x24)), (u32) (0x30)));
-    *((u32 *) ((u32) (&data_0217b84c))) = uVar1;
-    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) (*((int *) ((u32) (&data_021759d0))) + 0x24)), (u32) (0x30)));
-    *((u32 *) ((u32) (&data_0217b85c))) = uVar1;
-    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) (*((int *) ((u32) (&data_021759d0))) + 0x24)), (u32) (0x30)));
-    *((u32 *) ((u32) (&data_0217b844))) = uVar1;
-    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) (*((int *) ((u32) (&data_021759d0))) + 0x24)), (u32) (0x30)));
-    *((u32 *) ((u32) (&data_0217b854))) = uVar1;
-    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) (*((int *) ((u32) (&data_021759d0))) + 0x24)), (u32) (0x24)));
-    *((u32 *) ((u32) (&data_0217b858))) = uVar1;
-    func_021471bc((u32 *) ((u32 *) (u32) (*((u32 *) ((u32) (&data_0217b844))))));
+    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) ((*(int *) &data_021759d0) + 0x24)), (u32) (0x30)));
+    *(u32 *) &data_0217b848 = uVar1;
+    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) ((*(int *) &data_021759d0) + 0x24)), (u32) (0x30)));
+    *(u32 *) &data_0217b860 = uVar1;
+    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) ((*(int *) &data_021759d0) + 0x24)), (u32) (0x30)));
+    *(u32 *) &data_0217b850 = uVar1;
+    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) ((*(int *) &data_021759d0) + 0x24)), (u32) (0x30)));
+    *(u32 *) &data_0217b84c = uVar1;
+    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) ((*(int *) &data_021759d0) + 0x24)), (u32) (0x30)));
+    *(u32 *) &data_0217b85c = uVar1;
+    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) ((*(int *) &data_021759d0) + 0x24)), (u32) (0x30)));
+    *(u32 *) &data_0217b844 = uVar1;
+    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) ((*(int *) &data_021759d0) + 0x24)), (u32) (0x30)));
+    *(u32 *) &data_0217b854 = uVar1;
+    uVar1 = ((u32) func_02036bec((void *) (*(u32 *) ((*(int *) &data_021759d0) + 0x24)), (u32) (0x24)));
+    *(u32 *) &data_0217b858 = uVar1;
+    func_021471bc((Unk02012f58 *) (*(u32 *) &data_0217b844));
     return;
 }
 

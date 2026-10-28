@@ -1,6 +1,6 @@
 #include "00/code_021a323c.h"
 
-void func_ov000_021a3250(u32 arg0) {
+void func_ov000_021a3250(u32 (*arg0)(void)) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value2;
@@ -11,7 +11,7 @@ void func_ov000_021a3250(u32 arg0) {
     return;
 }
 
-void func_ov000_021a323c(u32 arg0) {
+void func_ov000_021a323c(void (*arg0)(u32, void *, u32)) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value2;

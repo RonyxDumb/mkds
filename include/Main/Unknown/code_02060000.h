@@ -33,3 +33,4 @@ s32 func_020600b4(s32 a);
 void func_02060510(u8 a, u8 b);
 void func_02060b68(void);
 void func_02060c0c(void *a);
+void func_02060cb4(const void *a, void *b);

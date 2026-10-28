@@ -2,8 +2,8 @@
 
 #pragma thumb on
 
-// non-matching: 27 instructions differ; first at +0x6: original `ldr r0, [pc, #0xc0] (->0xc8)`, ours `ldr r6, [pc,
-// #0xc0] (->0xc8)`
+// non-matching: 0xe0 bytes, original 0xd4; 104 lines differ; first: original `ldr r0, [pc, #192]`, ours `ldr r0, [pc,
+// #204]`
 void func_021296b4(void) {
     u8 bVar1;
     int *piVar2;
@@ -11,9 +11,9 @@ void func_021296b4(void) {
     int iVar4;
     int iVar5;
     iVar5 = 0;
-    *(u32 *) (*((int *) ((u32) (&data_0217d400))) + 0x1c) = 0;
+    *(u32 *) ((*(int *) &data_0217d400) + 0x1c) = 0;
     iVar3 = ((u16) func_020ab748());
-    piVar2 = ((int *) ((u32) (&data_0217d400)));
+    piVar2 = (int *) &data_0217d400;
     if (0 < iVar3) {
         iVar3 = 0;
         do {
@@ -39,23 +39,23 @@ void func_021296b4(void) {
             if (*(u16 *) (iVar3 + iVar5 + -2) != ((u32) 0x00003000u)) {
                 iVar3 = ((u32) func_020ab798());
                 if (*(unsigned short *) (iVar3 + iVar5 + -2) != 0) {
-                    *(u32 *) (*((int *) ((u32) (&data_0217d400))) + 0x1c) = 1;
+                    *(u32 *) ((*(int *) &data_0217d400) + 0x1c) = 1;
                 }
             }
         }
     }
     iVar3 = func_020ab8c4();
     if (iVar3 == 1) {
-        *(u32 *) (*((int *) ((u32) (&data_0217d400))) + 0x14) = 1;
+        *(u32 *) ((*(int *) &data_0217d400) + 0x14) = 1;
     } else {
-        *(u32 *) (*((int *) ((u32) (&data_0217d400))) + 0x14) = 0;
+        *(u32 *) ((*(int *) &data_0217d400) + 0x14) = 0;
     }
     iVar3 = func_020ab8c4();
     if (iVar3 == 2) {
-        *(u32 *) (*((int *) ((u32) (&data_0217d400))) + 0x18) = 1;
+        *(u32 *) ((*(int *) &data_0217d400) + 0x18) = 1;
         return;
     }
-    *(u32 *) (*((int *) ((u32) (&data_0217d400))) + 0x18) = 0;
+    *(u32 *) ((*(int *) &data_0217d400) + 0x18) = 0;
     return;
 }
 

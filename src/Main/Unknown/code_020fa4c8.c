@@ -516,7 +516,7 @@ void func_020fb038(Unk020fc2e8 *param_1) {
     if (param_1->mUnk_21c != 0) {
         func_020ec8bc((Unk020ec8bc *) param_1, 0x14, 0xcc, 1, 0, param_1->mUnk_2fc, (u16) data_0217561c->mUnk_474[0],
                       1);
-        func_02046bcc((int) &param_1->mUnk_2e8, 1);
+        func_02046bcc(&param_1->mUnk_2e8, 1);
     } else if (param_1->mUnk_000.mUnk_74 & 0x8000000) {
         v = (u16) data_0217561c->mUnk_474[0];
         if (param_1->mUnk_228 == 0) {
@@ -544,8 +544,8 @@ void func_020fb038(Unk020fc2e8 *param_1) {
         0x10) {
         func_02039860(&param_1->mUnk_000.mUnk_5c, &s.mUnk_00);
     }
-    func_020d7b88((u32) &s.mUnk_00, (u32 *) &s.mUnk_0c);
-    func_01ffccd0((int *) &param_1->mUnk_000.mUnk_94, (u32) &s.mUnk_0c);
+    func_020d7b88((Vec3 *) &s.mUnk_00, &s.mUnk_0c);
+    func_01ffccd0((int *) &param_1->mUnk_000.mUnk_94, &s.mUnk_0c);
 }
 
 // non-matching: registers only (0x168 bytes both): the original keeps param_1 in r6, param_2 in r5 and the
@@ -614,7 +614,7 @@ void func_020fae74(Unk020fc2e8 *param_1, s32 param_2, s32 param_3) {
 
 s32 func_020fade4(Unk020fc2e8 *param_1) {
     if (param_1->mUnk_2f6 != 7) {
-        func_02046be8((u32) &param_1->mUnk_2e8, (u32) data_0216c6b4, 8, (u32) param_1);
+        func_02046be8(&param_1->mUnk_2e8, (UnkFunc *const *) data_0216c6b4, 8, param_1);
         param_1->mUnk_2f8 = 7;
         param_1->mUnk_2fa = 1;
         if ((param_1->mUnk_000.mUnk_74 & 0x180000) == 0) {

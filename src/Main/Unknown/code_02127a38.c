@@ -5,8 +5,8 @@
 void func_02127a38(void) {
     int *piVar1;
     int iVar2;
-    piVar1 = ((int *) ((u32) (&data_0217d3f4)));
-    iVar2 = *((int *) ((u32) (&data_0217d3f4)));
+    piVar1 = (int *) &data_0217d3f4;
+    iVar2 = *(int *) &data_0217d3f4;
     if (*(int *) (0x28 + iVar2) != 0) {
         *(u32 *) (iVar2 + 8) = 0;
         *(u32 *) (*piVar1 + 0x28) = 0;

@@ -12,7 +12,7 @@ void func_020d8488(u32 arg0, u32 arg1) {
     return;
 }
 
-void func_020d8474(u32 arg0, u32 arg1) {
+void func_020d8474(Unk020d849c *arg0, Vec3 *arg1) {
     u32 value0 = (u32) arg0;
     u32 value1 = (u32) arg1;
     u32 value2;

@@ -708,7 +708,7 @@ void func_02011074(void) {
     data_0217029c.mUnk_90 = 0x60293130;
     data_0217029c.mUnk_a4 = 0x33333333;
     data_0217029c.mUnk_b8 = 0x2a1b19;
-    func_021471bc((u32 *) &data_0217029c.mUnk_4c);
+    func_021471bc(&data_0217029c.mUnk_4c);
     func_02147954(data_0217029c.mUnk_08);
     data_0217029c.mUnk_80 = 0x2d8b62d8;
     data_0217029c.mUnk_84 = 0x40000200;

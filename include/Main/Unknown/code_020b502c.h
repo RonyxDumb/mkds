@@ -2,6 +2,7 @@
 
 #include "Main/Unknown/code_020b1dbc.h"
 #include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/unk_0217b000.h"
 
 #include "types.h"
 #include "Main/Unknown/code_02039860.h"
@@ -10,11 +11,8 @@
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-// Two words.
-typedef struct {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-} UnkPair020b502c;
+// Two words (the elements at member 0xc of Unk0217b498).
+typedef Unk0217b498_0c UnkPair020b502c;
 
 // Object returned by func_020b57e4.
 typedef struct {
@@ -29,10 +27,12 @@ typedef struct {
     /* 02 */ u16 mUnk_02;
 } Unk02175620_08;
 
-// Object behind Unk02175620::mUnk_018; the byte at 0x04.
+// Object behind Unk02175620::mUnk_018; the byte at 0x04 and the word at 0x20.
 typedef struct {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u8 mUnk_04;
+    /* 05 */ u8 mUnk_05[0x1b];
+    /* 20 */ s32 mUnk_20;
 } Unk02175620_18;
 
 struct Unk020fa294;

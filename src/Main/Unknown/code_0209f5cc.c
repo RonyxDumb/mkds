@@ -1,7 +1,5 @@
 #include "Main/Unknown/code_0209f5cc.h"
 
-// non-matching: 0xa4 bytes, original 0x84; 24 instructions differ; first at +0x0: original `stmdb sp!, {r4, r5, lr}`,
-// ours `stmdb sp!, {r4, r5, r6, r7, r8, lr}`
 void func_0209f5cc(u32 param_1, int param_2) {
     u32 uVar1;
     u32 local_10;
@@ -10,11 +8,7 @@ void func_0209f5cc(u32 param_1, int param_2) {
     uVar1 = (u32) func_020e6cbc((Vec3 *) (param_2 + 4));
     func_01ff9048((u32) (0x19), (void *) (uVar1), (int) (0xc));
     func_01ff9048((u32) (0x1b), (void *) (param_2 + 0x1c), (int) (3));
-    func_0209b77c(
-        (int) (*(u32 *) (((u32) (&data_0217b1a4)) & 0xfffffffc) >> (((u32) (&data_0217b1a4)) & 3) * 8 |
-               *(u32 *) (((u32) (&data_0217b1a4)) & 0xfffffffc) << (((u32) (&data_0217b1a4)) & 3) * -8 + 0x20),
-        (int) (*(u16 *) (param_2 + 0xa0)));
-    func_0209bb2c((void *) (param_1), (void *) ((int) (*(u32 *) (((u32) (&data_0217b1a4)) & 0xfffffffc) >> (((u32) (&data_0217b1a4)) & 3) * 8 |
-               *(u32 *) (((u32) (&data_0217b1a4)) & 0xfffffffc) << (((u32) (&data_0217b1a4)) & 3) * -8 + 0x20)), (void *) (param_2));
+    func_0209b77c((int) (*(u32 *) &data_0217b1a4), (int) (*(u16 *) (param_2 + 0xa0)));
+    func_0209bb2c((void *) (param_1), (void *) ((int) (*(u32 *) &data_0217b1a4)), (void *) (param_2));
     return;
 }

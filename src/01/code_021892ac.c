@@ -23,14 +23,14 @@ s32 func_ov001_021899b0(void) {
 }
 
 void func_ov001_0218999c(void) {
-    func_020c0b84((void **) &data_ov001_021a9bbc);
+    func_020c0b84(&data_ov001_021a9bbc);
 }
 
 void func_ov001_02189880(void) {
     s32 i;
     s32 count;
     u32 unk;
-    Unk021a9ba4_00 *elem;
+    Unk0217b498_00 *elem;
     Vec3 *pos;
 
     count = 0;
@@ -61,14 +61,14 @@ s32 func_ov001_02189848(void) {
 }
 
 void func_ov001_02189834(void) {
-    func_020c0b84((void **) &data_ov001_021a9bb8);
+    func_020c0b84(&data_ov001_021a9bb8);
 }
 
 void func_ov001_02189718(void) {
     s32 i;
     s32 count;
     u32 unk;
-    Unk021a9ba4_00 *elem;
+    Unk0217b498_00 *elem;
     Vec3 *pos;
 
     count = 0;
@@ -99,14 +99,14 @@ s32 func_ov001_021896e0(void) {
 }
 
 void func_ov001_021896cc(void) {
-    func_020c0b84((void **) &data_ov001_021a9bb4);
+    func_020c0b84(&data_ov001_021a9bb4);
 }
 
 void func_ov001_021895b8(void) {
     s32 i;
     s32 count;
     u32 unk;
-    Unk021a9ba4_00 *elem;
+    Unk0217b498_00 *elem;
     Vec3 *pos;
 
     count = 0;
@@ -134,14 +134,14 @@ s32 func_ov001_02189584(void) {
 }
 
 void func_ov001_02189570(void) {
-    func_020c0b84((void **) &data_ov001_021a9bb0);
+    func_020c0b84(&data_ov001_021a9bb0);
 }
 
 void func_ov001_02189444(void) {
     s32 i;
     s32 count;
     u32 unk;
-    Unk021a9ba4_00 *elem;
+    Unk0217b498_00 *elem;
     Vec3 *pos;
 
     count = 0;
@@ -169,14 +169,14 @@ s32 func_ov001_02189410(void) {
 }
 
 void func_ov001_021893fc(void) {
-    func_020c0b84((void **) &data_ov001_021a9bac);
+    func_020c0b84(&data_ov001_021a9bac);
 }
 
 void func_ov001_021892c8(void) {
     s32 i;
     s32 count;
     u32 unk;
-    Unk021a9ba4_00 *elem;
+    Unk0217b498_00 *elem;
     Vec3 *pos;
 
     count = 0;

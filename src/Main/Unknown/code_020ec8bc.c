@@ -33,8 +33,8 @@ void *func_020ed548(u8 *a) {
     if (a == 0) {
         return 0;
     }
-    func_02135048(buf, 0x100, data_0216c604);
-    func_02047b08((u32) buf);
+    func_02135048((char *) buf, 0x100, (const char *) data_0216c604);
+    func_02047b08((const char *) buf);
 }
 
 Unk020e6488 *func_020ed4d0(u8 *a, u8 *b, u8 *c) {
@@ -248,8 +248,8 @@ void func_020ec9c0(Unk020ec8bc *p, s32 a, s32 b, s32 c, s32 e) {
     f = (p->mUnk_074 & 0x40000000) != 0;
     n = a - p->mUnk_12c;
     p->mUnk_12c = p->mUnk_12c + (s32) (((u64) ((s64) n * b)) >> 12);
-    func_020d84c0(t, p->mUnk_12c);
-    if (func_020d849c(t) != 0) {
+    func_020d84c0((Unk020d849c *) t, p->mUnk_12c);
+    if (func_020d849c((Unk020d849c *) t) != 0) {
         do {
             p->mUnk_21c = (s32) p->mUnk_168;
             p->mUnk_220 = p->mUnk_16c;
@@ -275,7 +275,7 @@ void func_020ec9c0(Unk020ec8bc *p, s32 a, s32 b, s32 c, s32 e) {
                 q->y = n;
             }
         } else {
-            func_020d8474((u32) t, (u32) q);
+            func_020d8474((Unk020d849c *) t, q);
         }
         q->y = q->y + r->y;
     }

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020e6f50(unsigned int p0);
+void func_020e6f50(void *p0);

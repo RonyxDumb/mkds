@@ -67,6 +67,6 @@ void func_ov003_021c7850(void) {
 }
 
 void func_ov003_021c7844(u32 param_1) {
-    *((u32 *) ((u32) (&data_ov003_021da200))) = param_1;
+    *(u32 *) &data_ov003_021da200 = param_1;
     return;
 }

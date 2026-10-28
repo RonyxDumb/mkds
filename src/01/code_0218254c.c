@@ -22,7 +22,7 @@ u8 func_ov001_0218274c(Unk02181c3c *param_1, Unk0218274c *param_2, u8 *param_3, 
     }
     if (a == 1) {
         if (param_1->mUnk_0f8 != 3 && param_1->mUnk_0f8 != 5 && param_1->mUnk_0f8 != 6) {
-            func_020d2398(param_1);
+            func_020d2398((Unk020e71a0 *) param_1);
             if (data_021759c0->mUnk_08 == 4) {
                 func_ov001_021815d0((s32) (1));
             }
@@ -84,10 +84,10 @@ void func_ov001_02182550(Unk02181c3c_list *param_1)
             p->mUnk_004 = p->mUnk_0d8;
             p->mUnk_004.y = p->mUnk_004.y + 0xe000;
             if (p->mUnk_09c->mUnk_26 >= 0) {
-                func_020d7da8((u32) (&p->mUnk_0b4), (u32) (p->mUnk_09c), (u32) (0));
+                func_020d7da8(&p->mUnk_0b4, (Unk020fa294 *) p->mUnk_09c, 0);
                 n = (p->mUnk_09c->mUnk_28 << 12) / 100;
                 p->mUnk_0b4.mUnk_04 = n;
-                p->mUnk_0b4.mUnk_10 = ((s64)n * (*p->mUnk_0b4.mUnk_00)[p->mUnk_0b4.mUnk_0c].mUnk_34) >> 12;
+                p->mUnk_0b4.mUnk_10 = ((s64)n * p->mUnk_0b4.mUnk_00->mUnk_00[p->mUnk_0b4.mUnk_0c].mUnk_34) >> 12;
             } else {
                 p->mUnk_0b4.mUnk_08 = 0xffff;
             }

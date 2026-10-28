@@ -5,7 +5,7 @@
 void func_0212a1c4(void) {
     func_0212abd0();
     func_02125da0();
-    *((u32 *) ((u32) (&data_0217d400))) = 0;
+    *(u32 *) &data_0217d400 = 0;
     return;
 }
 

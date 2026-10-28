@@ -18,7 +18,7 @@ void func_ov003_021cafa4(void) {
         iVar1 = func_ov003_021d2a34((const Unk021d299c *) (u16 *) ((u16 *) (u32) (iVar3)));
         if (iVar1 != 0) {
             func_ov003_021bf31c((u8) (1));
-            *((u8 *) ((u32) (&data_ov003_021da230))) = (s8) uVar2;
+            *(u8 *) &data_ov003_021da230 = (s8) uVar2;
             func_ov003_021caca8();
             return;
         }

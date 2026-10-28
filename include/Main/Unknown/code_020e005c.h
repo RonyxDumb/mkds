@@ -2,11 +2,16 @@
 
 #include "types.h"
 
-// Record of 0x54 bytes holding a word at 0x34.
+// Record of 0x54 bytes: four positions, then words at 0x30 and 0x34.
 typedef struct Unk020e0144_00_0 {
-    /* 00 */ u8 mUnk_00[0x34];
+    /* 00 */ Vec3 mUnk_00[4];
+    /* 30 */ s32 mUnk_30;
     /* 34 */ s32 mUnk_34;
-    /* 38 */ u8 mUnk_38[0x1c];
+    /* 38 */ s32 mUnk_38;
+    /* 3c */ s32 mUnk_3c;
+    /* 40 */ s32 mUnk_40;
+    /* 44 */ s32 mUnk_44;
+    /* 48 */ Vec3 mUnk_48;
 } Unk020e0144_00_0;
 
 typedef struct Unk020e0144_00 {
@@ -15,23 +20,17 @@ typedef struct Unk020e0144_00 {
     /* 08 */ s32 mUnk_08;
 } Unk020e0144_00;
 
-typedef struct Unk020e0144_1c {
-    /* 00 */ u8 mUnk_00[0xe];
-    /* 0e */ s16 mUnk_0e;
-    /* 10 */ u8 mUnk_10[0x2];
-    /* 12 */ s16 mUnk_12;
-} Unk020e0144_1c;
-
 typedef struct Unk020e0144 {
     /* 00 */ Unk020e0144_00 *mUnk_00;
     /* 04 */ s32 mUnk_04;
-    /* 08 */ u8 mUnk_08[0x4];
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u8 mUnk_0a[2];
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
     /* 18 */ s32 mUnk_18;
-    /* 1c */ Unk020e0144_1c *mUnk_1c;
-    /* 20 */ Unk020e0144_1c *mUnk_20;
+    /* 1c */ struct Unk02042044 *mUnk_1c;
+    /* 20 */ struct Unk02042044 *mUnk_20;
 } Unk020e0144;
 
 // Sub-object at 0x80 of Unk020e005c: a word at 4 and halfwords at 0xe, 0x10 and 0x12.
@@ -55,7 +54,9 @@ typedef struct Unk020e005c {
     /* 028 */ Vec3 mUnk_028;
     /* 034 */ Vec3 mUnk_034;
     /* 040 */ Vec3 mUnk_040;
-    /* 04c */ u8 mUnk_04c[0x24];
+    /* 04c */ u8 mUnk_04c[0x1a];
+    /* 066 */ u16 mUnk_066;
+    /* 068 */ u8 mUnk_068[8];
     /* 070 */ s32 mUnk_070;
     /* 074 */ u8 mUnk_074[0x4];
     /* 078 */ u32 mUnk_078;

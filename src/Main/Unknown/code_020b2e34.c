@@ -28,7 +28,7 @@ unsigned int func_020b2e58(void) {
 int func_020b2e34(void) {
     int iVar1;
     int iVar2;
-    iVar2 = *(int *) (*((int *) ((u32) (&data_0217b354))) + 0x24);
+    iVar2 = *(int *) ((*(int *) &data_0217b354) + 0x24);
     if ((iVar2 == 2) && (iVar1 = func_020c3db4(), iVar1 != 0)) {
         iVar2 = 7;
     }

@@ -237,16 +237,16 @@ void func_ov001_021a11a4(void)
 
 void func_ov001_021a10b8(void)
 {
-    void *a = 0;
+    Unk020b4934 *a = 0;
     void *b = 0;
-    void *c = 0;
-    void *d = 0;
+    Unk020b4a44 *c = 0;
+    Unk020b4934 *d = 0;
     void *e = 0;
-    void *f = 0;
-    void *g = 0;
-    void *h = 0;
-    void *i = 0;
-    void *j = 0;
+    Unk020b4a44 *f = 0;
+    Unk020b4934 *g = 0;
+    Unk020b47d8 *h = 0;
+    Unk020b47d8 *i = 0;
+    Unk020b4a44 *j = 0;
 
     func_020b496c(&g, func_0204799c(data_ov001_021a92bc));
     func_020b4a7c(&j, func_0204799c(data_ov001_021a92a8));

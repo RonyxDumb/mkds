@@ -58,7 +58,7 @@ void func_ov003_021ca5b0(void) {
         func_ov003_021bf410();
         func_ov003_021d272c((int) (1), (u32) (1));
         func_ov003_021d272c((int) (0), (u32) (0x15));
-        if (*((unsigned char *) ((u32) (&data_ov003_021da228))) != '\x01') {
+        if ((*(unsigned char *) &data_ov003_021da228) != '\x01') {
             func_ov003_021cd27c();
             iVar1 = func_ov003_021cdb6c();
             func_ov003_021cd790((int) (*(u8 *) (iVar1 + 0xf4)));

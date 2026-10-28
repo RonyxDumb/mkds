@@ -9,7 +9,7 @@ unsigned int func_ov001_02181800(void) {
 }
 
 void func_ov001_021817e0(void) {
-    if (*(unsigned char *) (*((int *) ((u32) (&data_021759c0))) + 0x2f) == '\a') {
+    if (*(unsigned char *) ((*(int *) &data_021759c0) + 0x2f) == '\a') {
         func_ov001_02181aa0();
     }
     return;

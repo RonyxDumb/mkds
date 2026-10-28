@@ -13,6 +13,6 @@ void func_ov003_021d35c0(void) {
         iVar2 = iVar2 + 0x3c;
         iVar3 = iVar3 + 1;
     } while (2 > iVar3);
-    func_ov003_021d2808(((int *) ((u32) (&data_ov003_021da32c))));
+    func_ov003_021d2808((int *) &data_ov003_021da32c);
     return;
 }

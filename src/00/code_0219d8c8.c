@@ -3,8 +3,8 @@
 void func_ov000_0219d8c8(u32 *param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5) {
     int *piVar1;
     int iVar2;
-    piVar1 = ((int *) ((u32) (&data_ov000_021b5664)));
-    *((int *) ((u32) (&data_ov000_021b5664))) = (int) param_1;
+    piVar1 = (int *) &data_ov000_021b5664;
+    *(int *) &data_ov000_021b5664 = (int) param_1;
     *param_1 = 0;
     *(u32 *) (*piVar1 + 4) = param_2;
     *(u32 *) (*piVar1 + 8) = 0;

@@ -10,27 +10,27 @@
 void func_ov001_02193144(void)
 {
     void *v;
-    func_020b496c(&v, func_0204799c("Option_top_menu_m_b.ncgr"));
-    func_020b4810(&v, func_0204799c("Option_top_menu_m.nscr"));
-    func_020b4a7c(&v, func_0204799c("Option_top_menu_m_b.nclr"));
-    func_020b496c(&v, func_0204799c("Option_select_menu_m_b.ncgr"));
-    func_020b4810(&v, func_0204799c("Option_select_menu_m.nscr"));
-    func_020b4a7c(&v, func_0204799c("Option_select_menu_m_b.nclr"));
-    func_020b49f4(&v, func_0204799c("Option_top_menu_s.nce.ncgr"));
+    func_020b496c((Unk020b4934 **) (&v), func_0204799c("Option_top_menu_m_b.ncgr"));
+    func_020b4810((Unk020b47d8 **) (&v), func_0204799c("Option_top_menu_m.nscr"));
+    func_020b4a7c((Unk020b4a44 **) (&v), func_0204799c("Option_top_menu_m_b.nclr"));
+    func_020b496c((Unk020b4934 **) (&v), func_0204799c("Option_select_menu_m_b.ncgr"));
+    func_020b4810((Unk020b47d8 **) (&v), func_0204799c("Option_select_menu_m.nscr"));
+    func_020b4a7c((Unk020b4a44 **) (&v), func_0204799c("Option_select_menu_m_b.nclr"));
+    func_020b49f4((Unk020b4934 **) (&v), func_0204799c("Option_top_menu_s.nce.ncgr"));
     func_020b48ec(&v, func_0204799c("Option_top_menu_s.nce.ncer"));
-    func_020b4a7c(&v, func_0204799c("Option_top_menu_s_o.nclr"));
-    func_020b49f4(&v, func_0204799c("Option_hensyu_menu_s.nce.ncgr"));
+    func_020b4a7c((Unk020b4a44 **) (&v), func_0204799c("Option_top_menu_s_o.nclr"));
+    func_020b49f4((Unk020b4934 **) (&v), func_0204799c("Option_hensyu_menu_s.nce.ncgr"));
     func_020b48ec(&v, func_0204799c("Option_hensyu_menu_s.nce.ncer"));
-    func_020b4a7c(&v, func_0204799c("Option_hensyu_menu_s_o.nclr"));
-    func_020b49f4(&v, func_0204799c("Option_select_menu_m.nce.ncgr"));
+    func_020b4a7c((Unk020b4a44 **) (&v), func_0204799c("Option_hensyu_menu_s_o.nclr"));
+    func_020b49f4((Unk020b4934 **) (&v), func_0204799c("Option_select_menu_m.nce.ncgr"));
     func_020b48ec(&v, func_0204799c("Option_select_menu_m.nce.ncer"));
-    func_020b4a7c(&v, func_0204799c("Option_select_menu_m_o.nclr"));
-    func_020b49f4(&v, func_0204799c("Option_select_menu_s.nce.ncgr"));
+    func_020b4a7c((Unk020b4a44 **) (&v), func_0204799c("Option_select_menu_m_o.nclr"));
+    func_020b49f4((Unk020b4934 **) (&v), func_0204799c("Option_select_menu_s.nce.ncgr"));
     func_020b48ec(&v, func_0204799c("Option_select_menu_s.nce.ncer"));
-    func_020b4a7c(&v, func_0204799c("Option_select_menu_s_o.nclr"));
-    func_020b49f4(&v, func_0204799c("Option_embrem_select_s.nce.ncgr"));
+    func_020b4a7c((Unk020b4a44 **) (&v), func_0204799c("Option_select_menu_s_o.nclr"));
+    func_020b49f4((Unk020b4934 **) (&v), func_0204799c("Option_embrem_select_s.nce.ncgr"));
     func_020b48ec(&v, func_0204799c("Option_embrem_select_s.nce.ncer"));
-    func_020b4a7c(&v, func_0204799c("Option_embrem_select_s_o.nclr"));
+    func_020b4a7c((Unk020b4a44 **) (&v), func_0204799c("Option_embrem_select_s_o.nclr"));
 }
 
 void func_ov001_021930ac(void)

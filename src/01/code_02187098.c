@@ -119,7 +119,7 @@ void func_ov001_021870e4(void *param_1, Unk02188950 *param_2, const char *param_
     param_2->mUnk_184 = (u16) (((s64) param_2->mUnk_09c->mUnk_10 * 0xb60b60b60bLL + 0x80000000000LL) >> 44);
     param_2->mUnk_168 = 0x1f000;
     if (param_2->mUnk_0a0 != 0) {
-        func_020d2950(param_2, param_2->mUnk_0a0->mUnk_00c << 2);
+        func_020d2950((Unk020e71a0 *) param_2, param_2->mUnk_0a0->mUnk_00c << 2);
         param_2->mUnk_01c = param_2->mUnk_0a0->mUnk_004;
         param_2->mUnk_020 = param_2->mUnk_0a0->mUnk_004;
         param_2->mUnk_024 = param_2->mUnk_0a0->mUnk_004;

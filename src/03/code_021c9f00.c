@@ -2,7 +2,7 @@
 #include "03/code_021c9ee0.h"
 
 void func_ov003_021c9fd4(void) {
-    *((u8 *) ((u32) (&data_ov003_021da21c))) = 0;
+    *(u8 *) &data_ov003_021da21c = 0;
     func_ov003_021c9f70();
     func_ov003_021bf854();
     func_ov003_021bf578((u32) (0x71));

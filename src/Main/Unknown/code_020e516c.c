@@ -86,7 +86,7 @@ void func_020e52bc(void) {
     Unk020e52bc_8 *b;
     Unk020e52bc_c *c;
 
-    func_020ea588((void **) &data_0217b80c, (void *) func_020d2210(data_0216c21c), 0);
+    func_020ea588((void **) &data_0217b80c, (void *) func_020d2210((const char *) data_0216c21c), 0);
     func_020849c0(data_0217b80c, 0x3f);
     func_020849b0((u32) data_0217b80c, 0);
     a = data_0217b80c->mUnk_004;
@@ -112,8 +112,8 @@ s32 func_020e516c(void *param_1, Vec3 *v, s32 param_3, u32 param_4) {
     s.y = s.y + 0x1999;
     if (func_01ffdee4((int *) &s, 0, 0, 0xa000, 8, -2, 0, (int *) &buf1, 0, 0, 0, 0, 0, 0) != 0) {
         r = 1;
-        func_020d7b88((u32) &buf1, (u32 *) &buf2);
-        func_01ffccd0((int *) param_1, (u32) &buf2);
+        func_020d7b88((Vec3 *) &buf1, &buf2);
+        func_01ffccd0((int *) param_1, &buf2);
         d = param_3 / 10;
         ((Unk020e516c *) param_1)->mUnk_000 = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_000 * d) >> 12);
         ((Unk020e516c *) param_1)->mUnk_004 = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_004 * d) >> 12);

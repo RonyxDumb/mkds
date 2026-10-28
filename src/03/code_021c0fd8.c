@@ -33,6 +33,6 @@ void func_ov003_021c0fd8(u32 param_1) {
         iVar4 = iVar4 + 4;
         iVar3 = iVar3 + 1;
     } while (iVar3 < 10);
-    func_ov003_021d2808(((int *) ((u32) (&data_ov003_021da160))));
+    func_ov003_021d2808((int *) &data_ov003_021da160);
     return;
 }

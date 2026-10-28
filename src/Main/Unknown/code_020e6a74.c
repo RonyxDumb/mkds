@@ -18,7 +18,7 @@ unsigned int func_020e6b14(void) {
         (0x18u));
 }
 
-void func_020e6ab8(unsigned int p0) {
+void func_020e6ab8(Unk020e6488 *p0) {
     *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 16) = (unsigned int) ((
         (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 16))) & (0x8000ffffu)));
     *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 16) = (unsigned int) ((
@@ -35,7 +35,7 @@ void func_020e6ab8(unsigned int p0) {
 
 void func_020e6a74(void) {
     u32 local_8[1];
-    func_01ff9048((u32) (0x17), (void *) (*(u32 *) (((u32) ((u32) (&data_0217b854))))), (int) (0xc));
+    func_01ff9048((u32) (0x17), (void *) (*(u32 *) (((u32) &data_0217b854))), (int) (0xc));
     local_8[0] = 0x1e;
     func_01ff9048((u32) (0x13), (void *) ((u32) (u32) (local_8)), (int) (1));
     return;

@@ -61,7 +61,9 @@ typedef struct Unk0217aa00 {
     /* 0004 */ s32 mUnk_0004;
     /* 0008 */ u8 mUnk_0008[0x42a];
     /* 0432 */ u16 mUnk_0432;
-    /* 0434 */ u8 mUnk_0434[0x11c2];
+    /* 0434 */ u8 mUnk_0434[0x20];
+    /* 0454 */ u16 mUnk_0454;
+    /* 0456 */ u8 mUnk_0456[0x11a0];
     /* 15f6 */ u8 mUnk_15f6;
     /* 15f7 */ u8 mUnk_15f7[0x85b];
     /* 1e52 */ Unk0217aa00_1e52 mUnk_1e52[18];
@@ -72,10 +74,18 @@ typedef struct Unk0217aa00 {
 extern Unk0217aa00 *data_0217aa00;
 extern Unk0217aa08 *data_0217aa08;
 extern u8 data_0217aa0c[];
-extern u8 data_0217aa10[];
+// Object behind data_0217aa10; func_0212034c reads the word at 0.
+typedef struct Unk0217aa10 {
+    /* 00 */ s32 mUnk_00;
+} Unk0217aa10;
+
+extern Unk0217aa10 *data_0217aa10;
 // Object behind data_0217aa14.
 typedef struct Unk0217aa14 {
-    /* 000 */ u8 mUnk_000[0x724];
+    /* 000 */ u8 mUnk_000[0x10];
+    /* 010 */ u16 mUnk_010;
+    /* 012 */ u16 mUnk_012;
+    /* 014 */ u8 mUnk_014[0x710];
     /* 724 */ u16 mUnk_724;
     /* 726 */ u8 mUnk_726[0x36];
     /* 75c */ u16 mUnk_75c;
@@ -113,6 +123,35 @@ extern u8 data_0217aa2c[];
 extern u8 data_0217acac[];
 
 extern u8 data_0217aa18[];
-extern u8 data_0217aa1c[];
+// 0xa-byte elements of the rows (eight each) of the table at member 0 of Unk0217aa1c.
+typedef struct Unk0217aa1c_00 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 mUnk_02;
+    /* 03 */ u8 mUnk_03;
+    /* 04 */ u8 mUnk_04;
+    /* 05 */ u8 mUnk_05;
+    /* 06 */ u8 mUnk_06[4];
+} Unk0217aa1c_00;
+
+// 4-byte object, two of which make an element of the table at member 0x144 of Unk0217aa1c.
+typedef struct Unk0217aa1c_144_00 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 mUnk_02;
+    /* 03 */ u8 mUnk_03;
+} Unk0217aa1c_144_00;
+
+// 8-byte elements of the table at member 0x144 of Unk0217aa1c.
+typedef struct Unk0217aa1c_144 {
+    /* 00 */ Unk0217aa1c_144_00 mUnk_00[2];
+} Unk0217aa1c_144;
+
+// Object behind data_0217aa1c.
+typedef struct Unk0217aa1c {
+    /* 000 */ Unk0217aa1c_00 mUnk_000[4][8];
+    /* 140 */ u8 mUnk_140[4];
+    /* 144 */ Unk0217aa1c_144 mUnk_144[4];
+} Unk0217aa1c;
+
+extern Unk0217aa1c *data_0217aa1c;
 extern u8 data_0217ad18[];
 extern u8 data_0217aeb0[];

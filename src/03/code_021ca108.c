@@ -23,7 +23,7 @@ void func_ov003_021ca1c8(void) {
 }
 
 void func_ov003_021ca194(void) {
-    *((u8 *) ((u32) (&data_ov003_021da220))) = 0;
+    *(u8 *) &data_ov003_021da220 = 0;
     func_ov003_021ca130();
     func_ov003_021bf854();
     func_ov003_021bf578((u32) (0x6b));

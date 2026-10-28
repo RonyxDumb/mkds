@@ -51,7 +51,7 @@ void func_ov003_021c4a40(void) {
 void func_ov003_021c49f8(void) {
     func_ov003_021d1ee0((int) (2), (int) (0), (u32) (0x15), (u16) (8));
     func_ov003_021d2784((int) (0), (u32) (0x15));
-    if (*((unsigned char *) ((u32) (&data_ov003_021da1c8))) != '\0') {
+    if ((*(unsigned char *) &data_ov003_021da1c8) != '\0') {
         func_ov003_021d1ee0((int) (2), (int) (1), (u32) (1), (u16) (8));
         func_ov003_021d2784((int) (1), (u32) (1));
     }

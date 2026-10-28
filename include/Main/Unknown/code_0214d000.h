@@ -4,7 +4,7 @@
 
 // Declared here until the code that defines them is decompiled.
 void func_0214d02c(const void *src, void *dst, u32 size);
-void func_0214d344();
+void func_0214d344(const void *src, void *dst);
 void func_0214d05c(u32 param_1, void *param_2, u32 param_3);
 
 // Calls func_0214d05c with 0, passed through a stack slot of its own.

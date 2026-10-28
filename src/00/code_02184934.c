@@ -2,7 +2,7 @@
 
 void func_ov000_02184938(void) {
     func_020260e4();
-    *((u32 *) ((u32) (&data_ov000_021b4c78))) = 0;
+    *(u32 *) &data_ov000_021b4c78 = 0;
     return;
 }
 

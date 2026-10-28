@@ -28,7 +28,7 @@ Unk020fffa8 *func_020fffa8(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
     data_0217c624 = p;
     *p = data_0215a12c;
-    func_020e6f50((u32) &data_0217c624);
+    func_020e6f50(&data_0217c624);
     return data_0217c624;
 }
 
@@ -38,7 +38,7 @@ Unk020fff4c *func_020fff4c(void) {
     p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     data_0217c62c = p;
     *p = data_0215a100;
-    func_020d49d8((u32) &data_0217c62c);
+    func_020d49d8(&data_0217c62c);
     return data_0217c62c;
 }
 
@@ -61,7 +61,7 @@ void func_020ffeb8(void *a, Unk020ffb1c *e, void *c, s32 d) {
 // mla r6,r1,r2,r3, table base loaded before the test of n) where the original
 // uses r2 for the high word and r1 for 6 (umull r3,ip,r2,r1; mla r6,r3,r1,r2,
 // base loaded after `cmp r4,#0`); 13 words from +0x70, 0xe4 bytes in both.
-void func_020ffdd4(Unk020e705c *v1) {
+void func_020ffdd4(Unk020e6fd4 *v1) {
     Unk020f41c4_B *q;
     void **arr;
     Unk020ffb1c *e;

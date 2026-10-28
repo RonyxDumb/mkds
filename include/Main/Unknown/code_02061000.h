@@ -5,6 +5,7 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
+u32 func_02061788(void);
 void func_02061874(void);
 void func_02061540(u32 a);
 void func_02061428(u32 a);
@@ -16,3 +17,5 @@ s32 func_0206169c(void *a);
 s32 func_020616c0(void *a, void *b);
 s32 func_02061704(void *a, void *b);
 s32 func_0206174c(void *a);
+s32 func_020617a8(u32 *a);
+s32 func_02061104(const void *a);

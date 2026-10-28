@@ -4,26 +4,59 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_0210bcf4.h"
 
+struct Unk020e71a0;
+struct Unk020fa294;
+
 // Object behind Unk020e71a0.mUnk_94, passed to func_0210cfbc (which reads its halfword at 0x34).
 typedef struct Unk020e71a0_94 {
     /* 00 */ Unk0210bfbc mUnk_00;
     /* 3c */ u8 mUnk_3c[4];
     /* 40 */ s32 mUnk_40;
+    /* 44 */ u8 mUnk_44[0x1c];
 } Unk020e71a0_94;
 
-// Element object up to 0xa0: func_020e705c and func_020e71a0 read 0x78 and 0x94 of every object; 0x80 to 0x92 are
-// read only by the functions of Unk020ffb1c so far. From 0xa0 on, the objects of func_020e72cc, func_020ffb1c and
-// func_020ff97c use the bytes in different ways.
+// Object behind Unk020e71a0.mUnk_98: func_020e6f58 copies its 0x04 into the callback slot at 0x1c of a Unk020e6fd4
+// and its 0x20 into the word at 0x18; func_020d6968 reads 0x20 and func_020f944c reads 0x28.
+typedef struct Unk020e71a0_98 {
+    /* 00 */ s32 (*mUnk_00)(struct Unk020e71a0 *a, s32 *b, s32 *c);
+    /* 04 */ void (*mUnk_04)(struct Unk020e71a0 *e, s32 z, u8 *a, u8 *b);
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ s32 (*mUnk_18)(struct Unk020e71a0 *a, Vec3 *b, s32 c);
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ s32 mUnk_20;
+    /* 24 */ s32 mUnk_24;
+    /* 28 */ s32 mUnk_28;
+    /* 2c */ s32 mUnk_2c;
+    /* 30 */ s32 mUnk_30;
+    /* 34 */ s32 mUnk_34;
+    /* 38 */ s32 mUnk_38;
+    /* 3c */ s32 mUnk_3c;
+} Unk020e71a0_98;
+
+// Element object up to 0xa0, which every kind shares: func_020e705c and func_020e71a0 read 0x78 and 0x94 of every
+// object, func_020d6968 reads 0x00, 0x02 and 0x98. 0x80 to 0x92 are read only by the functions of Unk020ffb1c so far.
+// From 0xa0 on, the objects of func_020e72cc (Unk020e730c), func_020ffb1c (Unk020ffb1c), func_020ff97c (Unk020ff97c)
+// and func_021052fc (Unk021052fc) use the bytes in different ways.
 typedef struct Unk020e71a0 {
-    /* 00 */ u8 mUnk_00[2];
+    /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
     /* 04 */ Vec3 mUnk_04;
     /* 10 */ Vec3 mUnk_10;
     /* 1c */ Vec3 mUnk_1c;
     /* 28 */ Unk02012f58 mUnk_28;
-    /* 58 */ u8 mUnk_58[0x20];
+    /* 58 */ Vec3 mUnk_58;
+    /* 64 */ s16 mUnk_64;
+    /* 66 */ u16 mUnk_66;
+    /* 68 */ s32 mUnk_68;
+    /* 6c */ s32 mUnk_6c;
+    /* 70 */ s32 mUnk_70;
+    /* 74 */ u32 mUnk_74;
     /* 78 */ u32 mUnk_78;
-    /* 7c */ u8 mUnk_7c[4];
+    /* 7c */ u16 mUnk_7c;
+    /* 7e */ u16 mUnk_7e;
     /* 80 */ u8 mUnk_80[4];
     /* 84 */ u32 mUnk_84;
     /* 88 */ u8 mUnk_88[6];
@@ -31,7 +64,8 @@ typedef struct Unk020e71a0 {
     /* 90 */ u16 mUnk_90;
     /* 92 */ u16 mUnk_92;
     /* 94 */ Unk020e71a0_94 *mUnk_94;
-    /* 98 */ u8 mUnk_98[8];
+    /* 98 */ Unk020e71a0_98 *mUnk_98;
+    /* 9c */ struct Unk020fa294 *mUnk_9c;
 } Unk020e71a0;
 
 // Object of func_020e72cc and func_020e730c: two u16s after the shared part.
@@ -41,41 +75,37 @@ typedef struct Unk020e730c {
     /* a2 */ u16 mUnk_a2;
 } Unk020e730c;
 
-// Container used by func_020e6fd4: a pointer array at 0x00, a u16 at 0x04, a
-// function pointer at 0x1c and a word at 0x20.
+// Container of Unk020e71a0 objects: the pointer array at 0x00 and its count at 0x04; func_020e6fd4 calls 0x1c for
+// each object, func_020e705c calls 0x10, func_020e6f58 adds an object, func_020e6fc4 and func_020e6fcc change the
+// count.
 typedef struct Unk020e6fd4 {
     /* 00 */ void **mUnk_00;
     /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[0x16];
+    /* 06 */ u8 mUnk_06[2];
+    /* 08 */ void (*mUnk_08)(struct Unk020e6fd4 *p);
+    /* 0c */ void (*mUnk_0c)(struct Unk020e6fd4 *p);
+    /* 10 */ UnkFunc *mUnk_10;
+    /* 14 */ void (*mUnk_14)(struct Unk020e6fd4 *p);
+    /* 18 */ s32 mUnk_18;
     /* 1c */ void (*mUnk_1c)(Unk020e71a0 *e, s32 z, u8 *a, u8 *b);
     /* 20 */ s32 mUnk_20;
-} Unk020e6fd4;
-
-// Container used by func_020e705c: a pointer array at 0x00, a u16 at 0x04, a
-// function pointer at 0x10 and a word at 0x18.
-typedef struct Unk020e705c {
-    /* 00 */ void **mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[0x0a];
-    /* 10 */ void (*mUnk_10)(void *p, Unk020e71a0 *e);
-    /* 14 */ u8 mUnk_14[4];
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ u8 mUnk_1c[8];
     /* 24 */ void **mUnk_24;
-} Unk020e705c;
+} Unk020e6fd4;
 
 // Second argument of func_020e72cc.
 typedef struct Unk020e72cc {
-    /* 00 */ u8 mUnk_00[0x28];
+    /* 00 */ u8 mUnk_00[0x26];
+    /* 26 */ u16 mUnk_26;
     /* 28 */ s16 mUnk_28;
     /* 2a */ s16 mUnk_2a;
     /* 2c */ s16 mUnk_2c;
     /* 2e */ s16 mUnk_2e;
     /* 30 */ s16 mUnk_30;
+    /* 32 */ s16 mUnk_32;
 } Unk020e72cc;
 
 void func_020e6fd4(Unk020e6fd4 *p);
-void func_020e705c(Unk020e705c *p);
+void func_020e705c(Unk020e6fd4 *p);
 void func_020e71a0(Unk020e71a0 *p);
 void func_020e72cc(Unk020e730c *p, Unk020e72cc *q);
 void func_020e730c(void);

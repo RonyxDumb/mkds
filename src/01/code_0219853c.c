@@ -48,7 +48,7 @@ void func_ov001_021987d4(void *heap, s16 param_2)
 
 void func_ov001_021987bc(void) {
     func_02125da0();
-    *((u32 *) ((u32) (&data_ov001_021a9be4))) = 0;
+    *(u32 *) &data_ov001_021a9be4 = 0;
     return;
 }
 
@@ -163,5 +163,5 @@ void func_ov001_0219854c(void) {
 }
 
 int func_ov001_0219853c(void) {
-    return (int) *(short *) (*((int *) ((u32) (&data_ov001_021a9be4))) + 0xe);
+    return (int) *(short *) ((*(int *) &data_ov001_021a9be4) + 0xe);
 }

@@ -31,23 +31,23 @@ void func_ov001_0218cdb8(Unk02188950 *param_1)
     Unk02188950 *c;
     Unk02188950 *d;
 
-    a = func_020d34d4(param_1, 0x1fe);
-    b = func_020d34d4(param_1, 0x1fe);
-    c = func_020d34d4(param_1, 0x1fe);
-    d = func_020d34d4(param_1, 0x1fe);
+    a = (Unk02188950 *) func_020d34d4((Unk020e71a0 *) param_1, 0x1fe);
+    b = (Unk02188950 *) func_020d34d4((Unk020e71a0 *) param_1, 0x1fe);
+    c = (Unk02188950 *) func_020d34d4((Unk020e71a0 *) param_1, 0x1fe);
+    d = (Unk02188950 *) func_020d34d4((Unk020e71a0 *) param_1, 0x1fe);
     a->mUnk_0a4 = (struct Unk0218dabc *)param_1;
     b->mUnk_0a4 = (struct Unk0218dabc *)a;
     c->mUnk_0a4 = (struct Unk0218dabc *)b;
     d->mUnk_0a4 = (struct Unk0218dabc *)c;
     param_1->mUnk_094 = func_02036bec((void *)func_020364e0(func_020364e8()), 0x44);
-    func_02109110((u32) (param_1->mUnk_094), (u32) (0xd), (u32) (&param_1->mUnk_004));
+    func_02109110((Unk0210bfbc *) (param_1->mUnk_094), (u32) (0xd), (Vec3 *) (&param_1->mUnk_004));
     param_1->mUnk_070 = data_0217cbec[0x1d];
 }
 
 void func_ov001_0218cd80(Unk02188950 *param_1)
 {
     param_1->mUnk_094 = func_02036bec((void *)func_020364e0(func_020364e8()), 0x44);
-    func_02109110((u32) (param_1->mUnk_094), (u32) (0xd), (u32) (&param_1->mUnk_004));
+    func_02109110((Unk0210bfbc *) (param_1->mUnk_094), (u32) (0xd), (Vec3 *) (&param_1->mUnk_004));
     param_1->mUnk_070 = data_0217cbec[0x1d];
 }
 

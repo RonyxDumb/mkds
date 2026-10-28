@@ -6,9 +6,9 @@ void func_ov003_021c94c8(void) {
     func_ov003_021cdb6c();
     func_ov003_021c20dc(0, local_8);
     if (local_8[0] == 0) {
-        *((u16 *) ((u32) (&data_ov003_021da210))) = 0;
-        *((u8 *) ((u32) (&data_ov003_021da204))) = 0;
-        *((u8 *) ((u32) (&data_ov003_021da20c))) = 0;
+        *(u16 *) &data_ov003_021da210 = 0;
+        *(u8 *) &data_ov003_021da204 = 0;
+        *(u8 *) &data_ov003_021da20c = 0;
     }
     return;
 }

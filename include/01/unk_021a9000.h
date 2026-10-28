@@ -9,6 +9,7 @@
 #include "01/code_0219bb48.h"
 #include "01/code_02193b1c.h"
 #include "00/code_02182fdc.h"
+#include "Main/Unknown/types_02180728.h" // Unk02180728
 
 // Four callbacks; the first receives Unk021a9bd0::mUnk_04.
 typedef struct Unk021a9bd0_18 {
@@ -137,14 +138,6 @@ typedef struct Unk021a9bf8 {
     /* 1084 */ void *mUnk_1084;
 } Unk021a9bf8;
 
-// Four words set up by func_ov001_02180728.
-typedef struct Unk02180728 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ void *mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-} Unk02180728;
-
 // Object that func_ov001_02180610 allocates and data_ov001_021a99e4 points to.
 typedef struct Unk021a99e4 {
     /* 0000 */ s32 mUnk_0000;
@@ -266,15 +259,15 @@ typedef struct Unk021a9be0 {
 
 extern Unk021a9be0 *data_ov001_021a9be0;
 extern Unk0219b250 *data_ov001_021a9b98;
-extern Unk021a9ba4 *data_ov001_021a9bac;
-extern Unk021a9ba4 *data_ov001_021a9bb0;
-extern Unk021a9ba4 *data_ov001_021a9bb4;
-extern Unk021a9ba4 *data_ov001_021a9bb8;
-extern Unk021a9ba4 *data_ov001_021a9bbc;
-extern Unk021a9ba4 *data_ov001_021a9bc0;
+extern Unk0217b498 *data_ov001_021a9bac;
+extern Unk0217b498 *data_ov001_021a9bb0;
+extern Unk0217b498 *data_ov001_021a9bb4;
+extern Unk0217b498 *data_ov001_021a9bb8;
+extern Unk0217b498 *data_ov001_021a9bbc;
+extern Unk0217b498 *data_ov001_021a9bc0;
 extern Unk0219b250 *data_ov001_021a9bcc;
-extern struct Unk021a9ba4 *data_ov001_021a9b8c;
-extern Unk021a9ba4 *data_ov001_021a9bc4;
+extern Unk0217b498 *data_ov001_021a9b8c;
+extern Unk0217b498 *data_ov001_021a9bc4;
 extern u16 data_ov001_021a9b94;
 extern const char *data_ov001_021a90e8[5];
 extern const char *data_ov001_021a92c8[5];

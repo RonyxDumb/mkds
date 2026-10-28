@@ -4,4 +4,4 @@
 #include "Main/Unknown/code_02047000.h"
 #include "Main/Unknown/unk_02164000.h"
 
-u32 func_02047b08(u32 param_1);
+void *func_02047b08(const char *param_1);

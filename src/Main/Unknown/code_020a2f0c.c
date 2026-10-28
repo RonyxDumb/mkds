@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020a2f0c.h"
 
-u32 func_020a2f0c(u32 arg0) {
+void func_020a2f0c(u32 arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value12;
@@ -11,6 +11,5 @@ u32 func_020a2f0c(u32 arg0) {
     value1 = 0u;
     value12 = (u32) &func_020d2398;
     *(u32 *) ((value0) + (248)) = (u32) value1;
-    value0 = (u32) func_020d2398((void *) value0);
-    return (u32) value0;
+    func_020d2398((void *) value0);
 }

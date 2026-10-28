@@ -183,7 +183,7 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                 case 0x1f:
                     if (data_ov001_021ca41c->mUnk_108c == 0) {
                         n = (s32) (func_ov001_02181268() * func_ov001_02181268()) / 2;
-                        p = data_ov001_021ca41c->mUnk_083c->mUnk_14 + (a - 3) * n;
+                        p = (u8 *) data_ov001_021ca41c->mUnk_083c->mUnk_14 + (a - 3) * n;
                         buf[0] = 0;
                         buf[1] = (func_ov001_021a63b4() == 1) ? 2 : 1;
                         buf[2] = func_ov001_021a63b4();

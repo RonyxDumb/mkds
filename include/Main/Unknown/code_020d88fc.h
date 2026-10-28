@@ -1,5 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020e005c.h"
 
-u32 func_020d88fc(u32 arg0);
+Vec3 *func_020d88fc(Unk020e0144 *arg0);

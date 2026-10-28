@@ -49,7 +49,7 @@ void func_020f7ec8(void) {
     s32 i;
     s32 j;
 
-    p = (u8 *) func_02047b08((u32) data_0216c680);
+    p = (u8 *) func_02047b08((const char *) data_0216c680);
     switch (data_021759c0->mUnk_08) {
         case 0:
         case 1:

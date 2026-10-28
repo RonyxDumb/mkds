@@ -1,9 +1,9 @@
 #include "Main/Unknown/code_02100084.h"
 
-unsigned int func_0210008c(unsigned int p0) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0));
+void **func_0210008c(Unk02100094 *p) {
+    return p->mUnk_00;
 }
 
-unsigned int func_02100084(unsigned int p0) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0));
+void **func_02100084(Unk02100094 *p) {
+    return p->mUnk_00;
 }

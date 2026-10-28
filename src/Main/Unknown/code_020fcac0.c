@@ -9,9 +9,8 @@ void func_020fcb30(unsigned int p0) {
 void func_020fcac0(int param_1) {
     u32 uVar1;
     u32 uVar2;
-    func_02046be8((unsigned int) ((u32 *) (u32) (param_1 + 0x2e8)), (unsigned int) (((u32) (&data_0216c6b4))),
-                  (unsigned int) (8), (unsigned int) (param_1));
-    func_021471bc((u32 *) ((u32 *) (u32) (param_1 + 0x2b4)));
+    func_02046be8((void *) (param_1 + 0x2e8), (UnkFunc *const *) &data_0216c6b4, 8, (void *) param_1);
+    func_021471bc((Unk02012f58 *) (param_1 + 0x2b4));
     uVar2 = ((u32) (&data_0217561c));
     *(u16 *) (param_1 + 0x274) = 1;
     uVar1 = uVar2 & 3;

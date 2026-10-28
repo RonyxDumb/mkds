@@ -125,15 +125,15 @@ void *func_ov001_021a2034(void)
 
 void func_ov001_021a1f60(void)
 {
-    void *l0 = 0;
+    Unk020b4934 *l0 = 0;
     void *l1 = 0;
-    void *l2 = 0;
-    void *l3 = 0;
+    Unk020b4a44 *l2 = 0;
+    Unk020b4934 *l3 = 0;
     void *l4 = 0;
-    void *l5 = 0;
-    void *l6 = 0;
-    void *l7 = 0;
-    void *l8 = 0;
+    Unk020b4a44 *l5 = 0;
+    Unk020b4934 *l6 = 0;
+    Unk020b47d8 *l7 = 0;
+    Unk020b4a44 *l8 = 0;
 
     func_020b496c(&l6, func_0204799c(data_ov001_021a94ec));
     func_020b4a7c(&l8, func_0204799c(data_ov001_021a9508));

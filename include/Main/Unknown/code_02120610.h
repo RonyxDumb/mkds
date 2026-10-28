@@ -1,0 +1,43 @@
+#pragma once
+
+#include "types.h"
+
+// Compared with three values by func_02121990.
+typedef struct Unk02121990 {
+    /* 0 */ s32 mUnk_00;
+    /* 4 */ s32 mUnk_04;
+    /* 8 */ u8 mUnk_08;
+    /* 9 */ u8 mUnk_09;
+} Unk02121990;
+
+void func_02121dec(u32 a);
+s32 func_02121d94(void);
+s32 func_02121d48(void);
+s32 func_02121d0c(void);
+s32 func_02121cd0(void);
+s32 func_02121c78(void);
+void func_02121af4(void);
+void func_021219cc(void);
+s32 func_02121990(Unk02121990 *a, u32 b, u32 c, u32 d);
+s32 func_021217e8(u32 a);
+u8 func_021216a8(void);
+s32 func_02121580(void);
+void func_0212145c(u32 a);
+s32 func_02121434(void);
+u8 func_02121418(void);
+s32 func_021213f4(void);
+u32 func_021213e8(void);
+s32 func_021213a0(void);
+s32 func_0212137c(void);
+void func_02121190(u32 a, s32 b, s32 c);
+s32 func_0212111c(void);
+void func_02120d50(void);
+s32 func_02120d14(void);
+s32 func_02120c30(u32 a);
+s32 func_02120b80(u32 a);
+s32 func_02120a64(u32 a);
+void func_02120934(u32 a, s32 b);
+void func_021208e8(s32 a);
+void func_02120714(void);
+u32 func_02120644(void);
+void func_02120610(void);

@@ -8,7 +8,7 @@ u8 func_020917d0(int param_1, u32 param_2, unsigned char *param_3, u8 *param_4) 
         *(u32 *) (param_1 + 0xbc) = 0x8000;
         *(u32 *) (param_1 + 0xb0) = 0;
         *(u32 *) (param_1 + 0xb4) = 0;
-        *(u16 *) (param_1 + 2) = *(u16 *) (param_1 + 2) | *((u16 *) ((u32) (&data_02156458)));
+        *(u16 *) (param_1 + 2) = *(u16 *) (param_1 + 2) | (*(u16 *) &data_02156458);
         *(u32 *) (param_1 + 200) = 1;
     }
     return uVar1;

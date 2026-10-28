@@ -1,0 +1,202 @@
+#include "Main/Unknown/code_020d1640.h"
+#include "Main/Unknown/code_02036bec.h"
+#include "Main/Unknown/code_0204799c.h"
+#include "Main/Unknown/code_020ae000.h"
+#include "Main/Unknown/code_020ae4c0.h"
+#include "Main/Unknown/code_020b85dc.h"
+#include "Main/Unknown/unk_02175000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "code_020222ec.h"
+#include "Main/Unknown/code_020b3000.h"
+#include "Main/Unknown/code_020b4000.h"
+
+void func_020d1fd4(Unk020d029c *param_1) {
+    s32 a;
+
+    a = func_020b33f4();
+    if (data_021759c0->mUnk_00c == 4 || data_021759c0->mUnk_00c == 1) {
+        return;
+    }
+    if (a >= 0xb4) {
+        return;
+    }
+    if (data_021759c0->mUnk_08 != 5 && (data_021759c0->mUnk_08 != 3 || data_021759c0->mUnk_1c != 2)) {
+        return;
+    }
+    func_020d1de8(param_1, a);
+    if (data_0217b4b4->mUnk_1c == 0) {
+        return;
+    }
+    if (data_0217b4b4->mUnk_04 >= 10) {
+        func_020d1a98(param_1);
+        return;
+    }
+    func_020d18d4(param_1);
+}
+
+// non-matching: the pointer to the 4 elements stored at (param_1 + 0x20 * member 0x20) and the pointer read from member 0x18 swap registers (the original keeps the first in r3 and member 0x18 in r4; the compiled code has them the other way round); every other instruction is the same
+void func_020d1de8(Unk020d029c *param_1, s32 param_2) {
+    s32 t[20] = {0, 205, 410, 614, 819, 1638, 2253, 2867, 3891, 4506, 4710, 4915, 5120, 5325, 5325, 5120, 4915, 4710, 4506, 4096};
+    s32 a;
+    Unk020224e0_o *e;
+
+    if (param_2 < 0) {
+        data_0217b4b4->mUnk_24 = 0;
+        data_0217b4b4->mUnk_18 = 0;
+        data_0217b4b4->mUnk_1c = 0;
+        data_0217b4b4->mUnk_20 = 0;
+        return;
+    }
+    if (param_2 < 0x14) {
+        s32 *p;
+
+        a = t[param_2];
+        func_020b4cec(data_0217b4b4->mUnk_08, a);
+        data_0217b4b4->mUnk_24 = 0;
+        data_0217b4b4->mUnk_18 = data_0217b4b4->mUnk_08;
+        data_0217b4b4->mUnk_1c = a;
+        data_0217b4b4->mUnk_20 = func_020ae5c4(param_1);
+        e = &param_1->mUnk_000[data_0217b4b4->mUnk_20 * 4];
+        p = data_0217b4b4->mUnk_18;
+        e[0].mUnk_06 = p[0] >> 4;
+        e[1].mUnk_06 = p[1] >> 4;
+        e[2].mUnk_06 = p[2] >> 4;
+        e[3].mUnk_06 = p[3] >> 4;
+        data_0217b4b4->mUnk_18[3] = data_0217b4b4->mUnk_1c;
+        data_0217b4b4->mUnk_18[0] = data_0217b4b4->mUnk_18[3];
+        data_0217b4b4->mUnk_18[2] = 0;
+        data_0217b4b4->mUnk_18[1] = data_0217b4b4->mUnk_18[2];
+        return;
+    }
+    if (param_2 < 0x78) {
+        data_0217b4b4->mUnk_24 = 0;
+        data_0217b4b4->mUnk_18 = 0;
+        data_0217b4b4->mUnk_1c = 0x1000;
+        data_0217b4b4->mUnk_20 = 0;
+        return;
+    }
+    data_0217b4b4->mUnk_24 = func_020ae4c0(1, 0, 0x80, param_2 - 0x78, 0x14);
+    data_0217b4b4->mUnk_18 = 0;
+    data_0217b4b4->mUnk_1c = 0x1000;
+    data_0217b4b4->mUnk_20 = 0;
+}
+
+// non-matching: in the four blocks after the first, the original keeps the value read from member 0x20 in r5 and the pointer from member 0x18 in r6 (the division temporary shares r6 with the pointer); the compiled code has them swapped (r6 and r5), so r5/r6 differ in every later instruction of those blocks
+void func_020d1a98(Unk020d029c *param_1) {
+    s32 t[5] = {175, 190, 203, 216, 231};
+    Unk020224e0_c *c;
+    s32 *p;
+    u16 a;
+    s32 q0[2];
+    s32 q1[2];
+    s32 q2[2];
+    s32 q3[2];
+    s32 q4[2];
+
+    if (data_0217b4b4->mUnk_00 / 10 != 0) {
+        a = data_0217b4b4->mUnk_20;
+        p = data_0217b4b4->mUnk_18;
+        c = func_020b85dc(data_0217b4b4->mUnk_00 / 10 + 0x2d);
+        q0[0] = (t[0] + data_0217b4b4->mUnk_24) << 12;
+        q0[1] = 0xb1000;
+        param_1->mUnk_400 += func_020224e0(&param_1->mUnk_000[param_1->mUnk_400], 0x80 - param_1->mUnk_400, c, p, q0, a, 1);
+    }
+    a = data_0217b4b4->mUnk_20;
+    p = data_0217b4b4->mUnk_18;
+    c = func_020b85dc(data_0217b4b4->mUnk_00 % 10 + 0x2d);
+    q1[0] = (t[1] + data_0217b4b4->mUnk_24) << 12;
+    q1[1] = 0xb1000;
+    param_1->mUnk_400 += func_020224e0(&param_1->mUnk_000[param_1->mUnk_400], 0x80 - param_1->mUnk_400, c, p, q1, a, 1);
+    a = data_0217b4b4->mUnk_20;
+    p = data_0217b4b4->mUnk_18;
+    c = func_020b85dc(0x37);
+    q2[0] = (t[2] + data_0217b4b4->mUnk_24) << 12;
+    q2[1] = 0xb1000;
+    param_1->mUnk_400 += func_020224e0(&param_1->mUnk_000[param_1->mUnk_400], 0x80 - param_1->mUnk_400, c, p, q2, a, 1);
+    a = data_0217b4b4->mUnk_20;
+    p = data_0217b4b4->mUnk_18;
+    c = func_020b85dc(data_0217b4b4->mUnk_04 / 10 + 0x2d);
+    q3[0] = (t[3] + data_0217b4b4->mUnk_24) << 12;
+    q3[1] = 0xb1000;
+    param_1->mUnk_400 += func_020224e0(&param_1->mUnk_000[param_1->mUnk_400], 0x80 - param_1->mUnk_400, c, p, q3, a, 1);
+    a = data_0217b4b4->mUnk_20;
+    p = data_0217b4b4->mUnk_18;
+    c = func_020b85dc(data_0217b4b4->mUnk_04 % 10 + 0x2d);
+    q4[0] = (t[4] + data_0217b4b4->mUnk_24) << 12;
+    q4[1] = 0xb1000;
+    param_1->mUnk_400 += func_020224e0(&param_1->mUnk_000[param_1->mUnk_400], 0x80 - param_1->mUnk_400, c, p, q4, a, 1);
+}
+
+void func_020d18d4(Unk020d029c *param_1) {
+    s32 t[3] = {205, 218, 231};
+    Unk020224e0_c *c;
+    s32 *p;
+    u16 a;
+    s32 q0[2];
+    s32 q1[2];
+    s32 q2[2];
+
+    a = data_0217b4b4->mUnk_20;
+    p = data_0217b4b4->mUnk_18;
+    c = func_020b85dc(data_0217b4b4->mUnk_00 + 0x2d);
+    q0[0] = (t[0] + data_0217b4b4->mUnk_24) << 12;
+    q0[1] = 0xb1000;
+    param_1->mUnk_400 += func_020224e0(&param_1->mUnk_000[param_1->mUnk_400], 0x80 - param_1->mUnk_400, c, p, q0, a, 1);
+    a = data_0217b4b4->mUnk_20;
+    p = data_0217b4b4->mUnk_18;
+    c = func_020b85dc(0x37);
+    q1[0] = (t[1] + data_0217b4b4->mUnk_24) << 12;
+    q1[1] = 0xb1000;
+    param_1->mUnk_400 += func_020224e0(&param_1->mUnk_000[param_1->mUnk_400], 0x80 - param_1->mUnk_400, c, p, q1, a, 1);
+    a = data_0217b4b4->mUnk_20;
+    p = data_0217b4b4->mUnk_18;
+    c = func_020b85dc(data_0217b4b4->mUnk_04 + 0x2d);
+    q2[0] = (t[2] + data_0217b4b4->mUnk_24) << 12;
+    q2[1] = 0xb1000;
+    param_1->mUnk_400 += func_020224e0(&param_1->mUnk_000[param_1->mUnk_400], 0x80 - param_1->mUnk_400, c, p, q2, a, 1);
+}
+
+void func_020d1640(void *param_1) {
+    data_0217b4b0 = func_02036bec(param_1, 0x2c);
+    data_0217b4b0->mUnk_00 = func_02047a28("search_icon_00.bncl");
+    data_0217b4b0->mUnk_04 = func_02047a28("search_icon_layout_00.bncl");
+    func_020b49f4(&data_0217b4b0->mUnk_08, func_02047a28("search_icon_00.nce.ncgr"));
+    func_020b48ec((void **) &data_0217b4b0->mUnk_0c, func_02047a28("search_icon_00.nce.ncer"));
+    func_020b4a7c(&data_0217b4b0->mUnk_10, func_02047a28("search_icon_00_o.nclr"));
+    switch (data_021759d0->mUnk_04) {
+    default:
+        func_020b478c(&data_0217b4b0->mUnk_14, func_02047a28("MBChild_us.NFTR"));
+        break;
+    case 2:
+        func_020b478c(&data_0217b4b0->mUnk_14, func_02047a28("MBChild_fr.NFTR"));
+        break;
+    case 3:
+        func_020b478c(&data_0217b4b0->mUnk_14, func_02047a28("MBChild_ge.NFTR"));
+        break;
+    case 4:
+        func_020b478c(&data_0217b4b0->mUnk_14, func_02047a28("MBChild_it.NFTR"));
+        break;
+    case 5:
+        func_020b478c(&data_0217b4b0->mUnk_14, func_02047a28("MBChild_es.NFTR"));
+        break;
+    }
+    switch (data_021759d0->mUnk_04) {
+    default:
+        data_0217b4b0->mUnk_20 = func_02047a28("MBChild_us.bmg");
+        break;
+    case 2:
+        data_0217b4b0->mUnk_20 = func_02047a28("MBChild_fr.bmg");
+        break;
+    case 3:
+        data_0217b4b0->mUnk_20 = func_02047a28("MBChild_ge.bmg");
+        break;
+    case 4:
+        data_0217b4b0->mUnk_20 = func_02047a28("MBChild_it.bmg");
+        break;
+    case 5:
+        data_0217b4b0->mUnk_20 = func_02047a28("MBChild_es.bmg");
+        break;
+    }
+    func_020b496c(&data_0217b4b0->mUnk_24, func_02047a28("multi_download_00_b.NCGR"));
+    func_020b4a7c(&data_0217b4b0->mUnk_28, func_02047a28("multi_download_00_b.NCLR"));
+}

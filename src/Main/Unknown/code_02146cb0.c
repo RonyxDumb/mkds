@@ -1,15 +1,10 @@
 #include "Main/Unknown/code_02146cb0.h"
 
 #pragma thumb on
-void func_02146cb0(u32 arg0, u32 arg1, u32 arg2) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
-    u32 value2 = (u32) arg2;
-    *(u32 *) ((value0) + 0u) = (u32) value2;
-    *(u32 *) ((value0) + 4u) = (u32) value1;
-    value1 = 0u - (value1);
-    *(u32 *) ((value0) + 8u) = (u32) value1;
-    *(u32 *) ((value0) + 12u) = (u32) value2;
-    return;
+void func_02146cb0(s32 *arg0, s32 arg1, s32 arg2) {
+    arg0[0] = arg2;
+    arg0[1] = arg1;
+    arg0[2] = -arg1;
+    arg0[3] = arg2;
 }
 #pragma thumb off

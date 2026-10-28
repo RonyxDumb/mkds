@@ -46,7 +46,7 @@ void func_ov003_021cbde4(void) {
 }
 
 void func_ov003_021cbdbc(void) {
-    *((u8 *) ((u32) (&data_ov003_021da24c))) = 0;
+    *(u8 *) &data_ov003_021da24c = 0;
     func_ov003_021cbd68();
     func_ov003_021bf578((u32) (0x77));
     func_ov003_021c212c(func_ov003_021cbd40);

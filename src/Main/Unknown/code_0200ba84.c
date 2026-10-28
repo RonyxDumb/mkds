@@ -3,8 +3,8 @@
 #pragma thumb on
 
 void func_0200bab0(void) {
-    *((u16 *) ((u32) (&data_0216fde4))) = 0;
-    *(u32 *) (*((int *) ((u32) (&data_0216fde8))) + ((int) 0x00005f04u)) = 0;
+    *(u16 *) &data_0216fde4 = 0;
+    *(u32 *) ((*(int *) &data_0216fde8) + ((int) 0x00005f04u)) = 0;
     func_0200bc0c();
     func_0200ba44((u32) (0x14), (u32) (0));
     return;

@@ -8,12 +8,7 @@
 #include "Main/Unknown/code_020d2450.h"
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/unk_021759c0.h"
-
-// Object returned by func_020d34d4; only the position is known here.
-typedef struct Unk020d34d4 {
-    /* 000 */ u8 mUnk_000[0x4];
-    /* 004 */ Vec3 mUnk_004;
-} Unk020d34d4;
+#include "Main/Unknown/code_020e6fd4.h"
 
 // Object behind Unk02185bb8::mUnk_09c.
 typedef struct Unk02185bb8_9c {
@@ -37,8 +32,8 @@ typedef struct Unk02185bb8 {
     /* 07e */ u16 mUnk_07e;
     /* 080 */ u8 mUnk_080[0x1c];
     /* 09c */ Unk02185bb8_9c *mUnk_09c;
-    /* 0a0 */ Unk020d34d4 *mUnk_0a0;
-    /* 0a4 */ Unk020d34d4 *mUnk_0a4;
+    /* 0a0 */ Unk020e71a0 *mUnk_0a0;
+    /* 0a4 */ Unk020e71a0 *mUnk_0a4;
     /* 0a8 */ u16 mUnk_0a8;
     /* 0aa */ u8 mUnk_0aa[0x2];
     /* 0ac */ s32 mUnk_0ac;

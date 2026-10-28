@@ -6,7 +6,7 @@
 
 #pragma thumb on
 
-void func_020ea514(u32 param_1, u32 param_2, void *param_3, u32 param_4, void *param_5) {
+void func_020ea514(u32 param_1, void *param_2, void *param_3, void *param_4, void *param_5) {
     void *p;
 
     p = func_020364e0(func_020364e8());

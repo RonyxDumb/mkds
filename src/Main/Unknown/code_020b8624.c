@@ -98,8 +98,8 @@ void func_020b8624(void) {
         (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7d0[i] = 0;
     }
 
-    func_020b4a7c((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[0].mUnk_00, func_020b47c0("race_m_o.NCLR"));
-    func_020b4a7c((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_00,
+    func_020b4a7c(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[0].mUnk_00, func_020b47c0("race_m_o.NCLR"));
+    func_020b4a7c(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_00,
                   func_020b47c0("race_goal_m_o.NCLR"));
     switch (data_021759c0->mUnk_08) {
         case 1:
@@ -107,43 +107,43 @@ void func_020b8624(void) {
                 (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[0].mUnk_00;
             break;
         case 2:
-            func_020b4a7c((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[3].mUnk_00,
+            func_020b4a7c(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[3].mUnk_00,
                           func_020b47c0("race_battle_m_o.NCLR"));
             if (data_021759c0->mUnk_00c == 4) {
-                func_020b4a7c((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[10].mUnk_00,
+                func_020b4a7c(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[10].mUnk_00,
                               func_020b47c0("race_start_battle_m_o.NCLR"));
             }
             break;
         case 4:
-            func_020b4a7c((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[4].mUnk_00,
+            func_020b4a7c(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[4].mUnk_00,
                           func_020b47c0("race_mr_m_o.NCLR"));
-            func_020b4a7c((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[5].mUnk_00,
+            func_020b4a7c(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[5].mUnk_00,
                           func_020b47c0("race_goal_mr_m_o.NCLR"));
             break;
         case 5:
             break;
     }
 
-    func_020b49f4((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[0].mUnk_04, func_020b47c0("race_m_o.NCGR"));
-    func_020b49f4((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_04,
+    func_020b49f4(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[0].mUnk_04, func_020b47c0("race_m_o.NCGR"));
+    func_020b49f4(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_04,
                   func_020b47c0("race_goal_m_o.NCGR"));
     switch (data_021759c0->mUnk_08) {
         case 1:
-            func_020b49f4((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[2].mUnk_04,
+            func_020b49f4(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[2].mUnk_04,
                           func_020b47c0("race_ta_m_o.NCGR"));
             break;
         case 2:
-            func_020b49f4((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[3].mUnk_04,
+            func_020b49f4(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[3].mUnk_04,
                           func_020b47c0("race_battle_m_o.NCGR"));
             if (data_021759c0->mUnk_00c == 4) {
-                func_020b49f4((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[10].mUnk_04,
+                func_020b49f4(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[10].mUnk_04,
                               func_020b47c0("race_start_battle_m_o.NCGR"));
             }
             break;
         case 4:
-            func_020b49f4((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[4].mUnk_04,
+            func_020b49f4(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[4].mUnk_04,
                           func_020b47c0("race_mr_m_o.NCGR"));
-            func_020b49f4((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[5].mUnk_04,
+            func_020b49f4(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[5].mUnk_04,
                           func_020b47c0("race_goal_mr_m_o.NCGR"));
             break;
         case 5:
@@ -170,7 +170,7 @@ void func_020b8624(void) {
             s0.mUnk_04 = p;
             s0.mUnk_0c = 0;
             func_02024340(&s0, 0x80, 0x38, 0xe, 0x412, func_020b3f7c(func_020b47cc("common.bmg"), 0x81));
-            func_0200ee74((u32) (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_04->mUnk_14,
+            func_0200ee74((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_04->mUnk_14,
                           (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_04->mUnk_10);
             a2 = 0;
             func_020b48ec((void **) &a2, func_020b47c0("race_ta_m.NCER"));
@@ -184,7 +184,7 @@ void func_020b8624(void) {
             s1.mUnk_04 = p;
             s1.mUnk_0c = 0;
             func_02024340(&s1, 0x80, 0x18, 0xe, 0x412, func_020b3f7c(func_020b47cc("common.bmg"), 0x6d));
-            func_0200ee74((u32) (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[2].mUnk_04->mUnk_14,
+            func_0200ee74((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[2].mUnk_04->mUnk_14,
                           (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[2].mUnk_04->mUnk_10);
             func_020b46d0((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[2].mUnk_04->mUnk_14, 0, 0, 0x20, 4,
                           (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[0].mUnk_04->mUnk_14, 0, 0);
@@ -221,7 +221,7 @@ void func_020b8624(void) {
                 s2.mUnk_08 = func_020b4b54();
                 func_02024340(&s2, 0, 0x19, 0xe, 0x40a, func_020b3f7c(func_020b47cc("common.bmg"), n));
                 func_02024340(&s2, 0, 0x18, 0xe, 0x40a, func_020b3f7c(func_020b47cc("common.bmg"), n));
-                func_0200ee74((u32) (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[10].mUnk_04->mUnk_14,
+                func_0200ee74((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[10].mUnk_04->mUnk_14,
                               (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[10].mUnk_04->mUnk_10);
                 func_0214cffc((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[10].mUnk_00->mUnk_0c,
                               (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[0].mUnk_00->mUnk_0c, 0x40);
@@ -251,31 +251,31 @@ void func_020b8624(void) {
             break;
         case 5:
             a7 = 0;
-            func_020b49f4((void **) &a7, func_020b47c0("race_icon_txt.NCGR"));
+            func_020b49f4(&a7, func_020b47c0("race_icon_txt.NCGR"));
             q = a7->mUnk_14;
             func_020b46d0(q, 0, 0, 8, 2, (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[0].mUnk_04->mUnk_14, 0x18, 0xe);
             func_020b46d0(q, 0, 0, 8, 2, (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[1].mUnk_04->mUnk_14, 0x18, 0xe);
             break;
     }
 
-    func_020b4a7c((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[6].mUnk_00, func_020b47c0("race_s_o.NCLR"));
-    func_020b4a7c((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[7].mUnk_00,
+    func_020b4a7c(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[6].mUnk_00, func_020b47c0("race_s_o.NCLR"));
+    func_020b4a7c(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[7].mUnk_00,
                   func_020b47c0("race_goal_s_o.NCLR"));
-    func_020b4a7c((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[8].mUnk_00,
+    func_020b4a7c(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[8].mUnk_00,
                   func_020b47c0("race_goal_team_s_o.NCLR"));
     if (data_021759c0->mUnk_58 != 0) {
         a8 = 0;
         m = data_021759c0->mUnk_70[func_020b4d9c()].mUnk_04 == 0 ? 0x13 : 0x23;
-        func_020b4a7c((void **) &a8, func_020b47c0("race_own_character_s_o.NCLR"));
-        func_0200ee74((u32) (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[6].mUnk_00->mUnk_0c, 0x200);
+        func_020b4a7c(&a8, func_020b47c0("race_own_character_s_o.NCLR"));
+        func_0200ee74((*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[6].mUnk_00->mUnk_0c, 0x200);
         for (j = 0; j < 4; j++) {
             (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[6].mUnk_00->mUnk_0c[j + 0xb3] = a8->mUnk_0c[m + j];
         }
     }
-    func_020b49f4((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[6].mUnk_04, func_020b47c0("race_s_o.NCGR"));
-    func_020b49f4((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[7].mUnk_04,
+    func_020b49f4(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[6].mUnk_04, func_020b47c0("race_s_o.NCGR"));
+    func_020b49f4(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[7].mUnk_04,
                   func_020b47c0("race_goal_s_o.NCGR"));
-    func_020b49f4((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[8].mUnk_04,
+    func_020b49f4(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[8].mUnk_04,
                   func_020b47c0("race_goal_team_s_o.NCGR"));
 
     p = func_020b403c(0);
@@ -350,9 +350,9 @@ void func_020b8624(void) {
     if (data_021759c0->mUnk_08 != 1) {
         return;
     }
-    func_020b4a7c((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[9].mUnk_00,
+    func_020b4a7c(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[9].mUnk_00,
                   func_020b47c0("race_new_record_ta_s_o.NCLR"));
-    func_020b49f4((void **) &(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[9].mUnk_04,
+    func_020b49f4(&(*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[9].mUnk_04,
                   func_020b47c0("race_new_record_ta_s_o.NCGR"));
     p = func_020b403c(0);
     func_02023408(buf6, (*(Unk0217b3c4 **) data_0217b3c4)->mUnk_7dc[9].mUnk_04->mUnk_14, 0x20, 0x10, 4);

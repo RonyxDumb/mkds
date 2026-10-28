@@ -91,19 +91,19 @@ void *func_020e03f8(void) {
 void *func_020e039c(void) {
     void *p = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
 
-    data_0217b764 = p;
+    data_0217b784 = p;
     *(Unk020e039c *) p = *(const Unk020e039c *) data_0215887c;
-    func_020d49d8((unsigned int) &data_0217b764);
-    return data_0217b764;
+    func_020d49d8(&data_0217b784);
+    return data_0217b784;
 }
 
 void *func_020e0340(void) {
     void *p = func_02036bec(func_020364e0(func_020364e8()), 0x28);
 
-    data_0217b760 = p;
+    data_0217b780 = p;
     *(Unk020e0340 *) p = *(const Unk020e0340 *) data_02158854;
-    func_020e6f50((unsigned int) &data_0217b760);
-    return data_0217b760;
+    func_020e6f50(&data_0217b780);
+    return data_0217b780;
 }
 
 void func_020e01f0(void *a0, Unk020e005c *a1) {
@@ -127,7 +127,7 @@ void func_020e01f0(void *a0, Unk020e005c *a1) {
                 ? 2
                 : (a1->mUnk_070 == data_0217ca6c[3].mUnk_20 ? 3 : 4);
         buf.mUnk_00 = 0x17e;
-        buf.mUnk_04 = (s32) &a1->mUnk_004;
+        buf.mUnk_04 = &a1->mUnk_004;
         buf.mUnk_08 = k;
         buf.mUnk_0c = func_020d4ef4(&a1->mUnk_004);
         func_0210b7a8(&buf);
@@ -142,7 +142,7 @@ void func_020e01f0(void *a0, Unk020e005c *a1) {
     }
     a1->mUnk_0e8 = a1->mUnk_004;
     func_020d8a5c(b, &a1->mUnk_004);
-    func_02046b40((u32) &a1->mUnk_080);
+    func_02046b40(&a1->mUnk_080);
     func_021484d0(&a1->mUnk_004, &a1->mUnk_0e8, &a1->mUnk_010);
     func_02147fd8(-a1->mUnk_104, &a1->mUnk_034, &a1->mUnk_004, &a1->mUnk_0f4);
 }

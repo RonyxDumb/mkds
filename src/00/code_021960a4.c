@@ -22,7 +22,7 @@ int func_ov000_021960a4(u32 param_1, s8 *param_2, s8 *param_3, s8 *param_4, s8 *
           ((param_5 == (s8 *) 0x0 || (*param_5 == '\0')))) &&
          ((param_6 == (s8 *) 0x0 || (*param_6 == '\0')))) &&
         ((param_7 == 0 && ((param_3 == (s8 *) 0x0 || (*param_3 == '\0')))))) {
-        func_ov000_02196590((u32 *) (u32) (param_1), ((u32) ((u32) (&data_ov000_021b38ac))));
+        func_ov000_02196590((u32 *) (u32) (param_1), (u32) &data_ov000_021b38ac);
         return 2;
     }
     iVar1 = func_ov000_02196240((u32) (param_1), (int *) (local_1c), (u32) (1));

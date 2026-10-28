@@ -6,7 +6,9 @@ void func_ov001_0218ad68(int param_1) {
     func_ov001_02188d64((Unk02188950 *) (param_1), (s32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001dcu))), (s32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001e0u))));
     func_ov001_02188c90((Unk02188950 *) (param_1));
     func_ov001_02188cec((Unk02188950 *) (param_1), (s32) (0));
-    func_ov001_02188e24((Unk02188950 *) ((int) (param_1)), (s32) ((u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001f0u)))), (UnkFunc *) ((int) (((u32) ((u32) (&func_ov001_0218add0))))));
+    func_ov001_02188e24((Unk02188950 *) ((int) (param_1)),
+                        (s32) ((u32) (*(u32 *) (*(int *) (param_1 + 0xa0) + ((int) 0x000001f0u)))),
+                        (UnkFunc *) ((int) (((u32) &func_ov001_0218add0))));
     *(u32 *) (param_1 + ((int) 0x000002c0u)) = 0;
     return;
 }

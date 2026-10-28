@@ -4,8 +4,8 @@
 
 void func_0200b9e0(u32 param_1, u32 param_2) {
     int *piVar1;
-    piVar1 = ((int *) ((u32) (&data_0216fde8)));
-    *(u32 *) (*((int *) ((u32) (&data_0216fde8))) + ((int) 0x000005dcu)) = param_1;
+    piVar1 = (int *) &data_0216fde8;
+    *(u32 *) ((*(int *) &data_0216fde8) + ((int) 0x000005dcu)) = param_1;
     *(u32 *) (*piVar1 + ((int) 0x000005e4u)) = param_2;
     *(u16 *) (*piVar1 + ((int) 0x00000584u)) = 0;
     *(int *) (*piVar1 + ((int) 0x00000580u)) = *piVar1 + ((int) 0x000004c0u);

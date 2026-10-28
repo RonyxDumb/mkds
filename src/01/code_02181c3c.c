@@ -136,8 +136,8 @@ void func_ov001_02181c3c(void *param_1, Unk02181c3c *param_2) {
             pos.x = param_2->mUnk_004.x;
             pos.y = param_2->mUnk_058 + (param_2->mUnk_004.y - 0xe000);
             pos.z = param_2->mUnk_004.z;
-            if (func_020d2c2c((u32 *) &pos, (u32 *) &param_2->mUnk_010, param_2->mUnk_058, param_2->mUnk_064, 2,
-                              (int *) &delta) != 0) {
+            if (func_020d2c2c(&pos, &param_2->mUnk_010, param_2->mUnk_058, param_2->mUnk_064, 2,
+                              &delta) != 0) {
                 func_02148504(&param_2->mUnk_004, &delta, &param_2->mUnk_004);
                 if ((s64) delta.x * delta.x + (s64) delta.y * delta.y + (s64) delta.z * delta.z >= 0x10) {
                     func_02039860(&delta, &param_2->mUnk_010);

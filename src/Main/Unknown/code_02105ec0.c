@@ -297,7 +297,7 @@ void func_0210823c(void) {
 // func_0210bbec call is held in r7 across the calls (push {r4, r5, r6, r7, fp, lr}, sub sp, #8),
 // while the ROM reloads it from the literal pool at every call (push {r4, r5, r6, fp, lr}, sub
 // sp, #12).
-void func_021074ac(void) {
+void func_021074ac(s32 param_1) {
     s32 a;
     s32 v;
     s32 b;

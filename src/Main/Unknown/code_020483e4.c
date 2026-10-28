@@ -4,9 +4,8 @@
 
 u32 func_02048440(void) {
     u32 uVar1;
-    uVar1 = (int) *(u8 *) (*((int *) ((u32) (&data_0217aa00))) + ((int) 0x0000043cu));
-    if ((*(int *) *((u32 *) ((u32) (&data_021759d0))) == 2) &&
-        (((int *) *((u32 *) ((u32) (&data_021759d0))))[1] == 1)) {
+    uVar1 = (int) *(u8 *) ((*(int *) &data_0217aa00) + ((int) 0x0000043cu));
+    if ((*(int *) (*(u32 *) &data_021759d0) == 2) && (((int *) (*(u32 *) &data_021759d0))[1] == 1)) {
         uVar1 = uVar1 + 5;
     }
     return ((unsigned int *) &data_02164dc8)[uVar1];
@@ -16,16 +15,15 @@ void func_0204840c(u32 param_1, u8 *param_2) {
     u32 uVar1;
     if (*param_2 != '\0') {
         uVar1 = func_02048474();
-        func_0200d9e0((char *) param_1, 0x80, (const char *) ((u32) ((u32) (&data_02165148))), param_2, uVar1,
-                      ((u32) ((u32) (&data_0216515c))));
+        func_0200d9e0((char *) param_1, 0x80, (const char *) ((u32) &data_02165148), param_2, uVar1,
+                      (u32) &data_0216515c);
     }
     return;
 }
 
 void func_020483e4(u32 param_1, u8 *param_2) {
     if (*param_2 != '\0') {
-        func_0200d9e0((char *) param_1, 0x80, (const char *) ((u32) ((u32) (&data_0216512c))), param_2,
-                      ((u32) ((u32) (&data_02165140))));
+        func_0200d9e0((char *) param_1, 0x80, (const char *) ((u32) &data_0216512c), param_2, (u32) &data_02165140);
     }
     return;
 }

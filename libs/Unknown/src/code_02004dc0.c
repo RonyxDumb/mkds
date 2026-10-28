@@ -205,7 +205,7 @@ void func_02005314(Unk020055f0 *rec) {
     if (rec->mUnk_1c.b[3] & 1) {
         func_02000934(rec->mUnk_04 + n);
     }
-    func_0200ee74((u32) rec->mUnk_04, rec->mUnk_08);
+    func_0200ee74(rec->mUnk_04, rec->mUnk_08);
     p = rec->mUnk_10;
     end = rec->mUnk_14;
     if (p >= end) {

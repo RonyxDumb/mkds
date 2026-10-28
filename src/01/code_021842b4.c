@@ -2,7 +2,7 @@
 
 u32 func_ov001_021842b4(int param_1) {
     if (*(int *) (param_1 + ((int) 0x000001ccu)) < 0) {
-        func_ov001_02188200((Unk02188950 *) ((int) (param_1)), (UnkFunc *) ((u32) (((u32) ((u32) (&func_ov001_02184390))))));
+        func_ov001_02188200((Unk02188950 *) ((int) (param_1)), (UnkFunc *) ((u32) (((u32) &func_ov001_02184390))));
         *(u32 *) (param_1 + ((int) 0x00000150u)) = 7;
         *(u32 *) (param_1 + ((int) 0x00000158u)) = 0;
     }

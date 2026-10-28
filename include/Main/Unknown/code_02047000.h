@@ -10,3 +10,6 @@ u32 func_02047b30(u32 param_1, s8 *param_2);
 void func_02047cf0(int param_1);
 
 #include "Main/Unknown/code_02047b6c.h"
+void func_02047274(void);
+void func_02047b88(void);
+void func_02047ba0(s32 a);

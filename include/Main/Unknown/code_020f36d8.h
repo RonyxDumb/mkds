@@ -6,6 +6,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02146d78.h"
 #include "Main/Unknown/code_0210bcf4.h"
+#include "Main/Unknown/code_020d849c.h"
 
 // Object whose first word is compared with a stored value.
 typedef struct {
@@ -39,7 +40,7 @@ typedef struct {
 
 // Four positions and pointers to them.
 typedef struct {
-    /* 00 */ u8 mUnk_00[0x60];
+    /* 00 */ Unk020d849c mUnk_00;
     /* 60 */ s32 mUnk_60;
     /* 64 */ Vec3 *mUnk_64[4];
     /* 74 */ Vec3 mUnk_74[4];
@@ -94,7 +95,7 @@ typedef struct Unk020f41c4_A {
 } Unk020f41c4_A;
 
 // Three 64-bit words: x, a and c of x = x * a + c.
-typedef struct {
+typedef struct Unk020f41c4_B {
     /* 00 */ u64 mUnk_00;
     /* 08 */ u64 mUnk_08;
     /* 10 */ u64 mUnk_10;
@@ -117,8 +118,11 @@ typedef struct {
     /* 47c */ Unk020f41c4_B mUnk_47c;
     /* 494 */ u8 mUnk_494[4];
     /* 498 */ Unk020f41c4_B mUnk_498;
-    /* 4b0 */ u8 mUnk_4b0[0x1c];
+    /* 4b0 */ Unk020f41c4_B mUnk_4b0;
+    /* 4c8 */ u8 mUnk_4c8[4];
     /* 4cc */ s32 mUnk_4cc;
+    /* 4d0 */ u8 mUnk_4d0[0x10];
+    /* 4e0 */ s32 mUnk_4e0;
 } Unk0217561c;
 
 // Entry of the table behind data_0217bc34.
@@ -312,8 +316,7 @@ typedef struct {
 } Unk020f40dc;
 
 extern Unk0206bcb0 *func_0207a974(s32 idx);
-extern s32 func_020d7c84(Unk020f3fa8 *p, s32 mode, Vec3 **path);
-extern void func_020d7d18(Unk020f3fa8 *p, s32 mode, Vec3 **path, s32 scale);
+#include "Main/Unknown/code_020d6dc0.h"
 
 extern s32 data_0217bc38[];
 extern Unk0217bc34 *data_0217bc34;

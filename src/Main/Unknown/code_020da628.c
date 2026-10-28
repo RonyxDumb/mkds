@@ -1,0 +1,154 @@
+#include "Main/Unknown/code_020da628.h"
+#include "Main/Unknown/code_020d2000.h"
+#include "Main/Unknown/code_020d4000.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02046000.h"
+#include "Main/Unknown/code_020ebef8.h"
+#include "Main/Unknown/code_020f5d6c.h"
+#include "Main/Unknown/code_020f8ddc.h"
+#include "Main/Unknown/code_020f9c6c.h"
+#include "Main/Unknown/code_0210b760.h"
+#include "Main/Unknown/unk_02158000.h"
+#include "Main/Unknown/unk_0217c000.h"
+#include "code_02147cd8.h"
+
+void func_020dab2c(Unk020da494 *p) {
+    if (p->mUnk_fc != 0) {
+        if (p->mUnk_80.mUnk_04 > 0x12c) {
+            p->mUnk_80.mUnk_10 = 5;
+            p->mUnk_80.mUnk_12 = 1;
+        }
+        return;
+    }
+    p->mUnk_100--;
+    if (p->mUnk_100 == 0) {
+        func_020d2398((Unk020e71a0 *) p);
+    }
+}
+
+void func_020daaa0(Unk020da494 *p) {
+    Unk0210b7a8 s;
+    s32 a;
+    if ((p->mUnk_78 & 4) == 0) {
+        if (p->mUnk_70 == data_0217ca6c[2].mUnk_20) {
+            a = 2;
+        } else if (p->mUnk_70 == data_0217ca6c[3].mUnk_20) {
+            a = 3;
+        } else {
+            a = 4;
+        }
+        s.mUnk_00 = 0x183;
+        s.mUnk_04 = &p->mUnk_04;
+        s.mUnk_08 = a;
+        s.mUnk_0c = func_020d4ef4(&p->mUnk_04);
+        func_0210b7a8(&s);
+    }
+    p->mUnk_02 &= ~1;
+    p->mUnk_c8 = 0;
+}
+
+void func_020daa10(Unk020da494 *p) {
+    p->mUnk_c8 += (s32) (((s64) (0x1000 - p->mUnk_c4) * 0x200) >> 12);
+    p->mUnk_c8 = (s32) (((s64) p->mUnk_c8 * 0xd99) >> 12);
+    p->mUnk_c4 += p->mUnk_c8;
+    if (p->mUnk_80.mUnk_04 > 0x3c) {
+        p->mUnk_80.mUnk_10 = 0;
+        p->mUnk_80.mUnk_12 = 1;
+    }
+}
+
+void func_020da820(Unk020da494 *p, Vec3 *a) {
+    Vec3 s;
+    Unk020fa3d0 *r;
+    s32 d;
+    if (p->mUnk_9c == 0 || p->mUnk_9c->mUnk_2c != 0) {
+        return;
+    }
+    func_021484d0(&p->mUnk_cc.mUnk_1c->mUnk_00, &p->mUnk_cc.mUnk_20->mUnk_00, &s);
+    if ((s64) s.x * s.x + (s64) s.y * s.y + (s64) s.z * s.z >= 0x10) {
+        func_02039860(&s, &s);
+    }
+    {
+        Vec3 t = {0, 0, 0};
+        t.x = a->x;
+        t.z = a->z;
+        d = func_0214848c(&s, &t);
+        s.x = t.x - (s32) (((s64) s.x * d) >> 12);
+        s.y = t.y - (s32) (((s64) s.y * d) >> 12);
+        s.z = t.z - (s32) (((s64) s.z * d) >> 12);
+    }
+    if ((s64) s.x * s.x + (s64) s.y * s.y + (s64) s.z * s.z >= 0x10) {
+        func_02039860(&s, &s);
+    }
+    r = func_020fa3d0(3, 8, &p->mUnk_04, &data_021581f8);
+    if (r == 0) {
+        return;
+    }
+    r->mUnk_068 = 0xcd;
+    r->mUnk_06c = 0xcd;
+    r->mUnk_070 = 0xcd;
+    d = func_021482cc(a) + 0x5000;
+    r->mUnk_05c.x = (s32) (((s64) s.x * d) >> 12);
+    r->mUnk_05c.y = (s32) (((s64) s.y * d) >> 12);
+    r->mUnk_05c.z = (s32) (((s64) s.z * d) >> 12);
+    r->mUnk_05c.y += 0xf000;
+    func_02148504(&r->mUnk_050, &r->mUnk_05c, &r->mUnk_050);
+    func_020f6630(r, 0, &p->mUnk_04, a, &data_021581f8);
+}
+
+u32 func_020da73c(Unk020da494 *p, Unk0206bcb0 *a, u8 *b, u8 *c) {
+    switch (*b) {
+        case 0:
+            if (p->mUnk_c4 == 0x1000) {
+                if (p->mUnk_c8 == 0) {
+                    p->mUnk_c8 = (s32) (((s64) a->mUnk_2a4 * 0x52) >> 12);
+                }
+            }
+            break;
+        case 1:
+            if (p->mUnk_80.mUnk_0e == 0 || p->mUnk_80.mUnk_0e == 5 || p->mUnk_80.mUnk_0e == 1) {
+                p->mUnk_80.mUnk_10 = 2;
+                p->mUnk_80.mUnk_12 = 1;
+                func_020d26ec((u32) &a->mUnk_00, 0x185);
+                func_020d26f8((Unk020e71a0 *) p, (Unk0206bcb0 *) a);
+                func_020da820(p, &a->mUnk_a4);
+                p->mUnk_02 = p->mUnk_02 | *(u16 *) data_02158160;
+            }
+            break;
+    }
+    return *c;
+}
+
+u32 func_020da684(Unk020da494 *p, Unk0206bcb0 *a, u8 *b, u8 *c) {
+    switch (*b) {
+        case 0:
+            if (p->mUnk_c4 == 0x1000) {
+                if (p->mUnk_c8 == 0) {
+                    p->mUnk_c8 = 0x19a;
+                }
+            }
+            break;
+        case 1:
+            if (p->mUnk_80.mUnk_0e == 0 || p->mUnk_80.mUnk_0e == 5 || p->mUnk_80.mUnk_0e == 1) {
+                p->mUnk_80.mUnk_10 = 2;
+                p->mUnk_80.mUnk_12 = 1;
+                func_020f8ddc(a);
+                if (a != 0) {
+                    func_020da820(p, &a->mUnk_05c);
+                }
+                p->mUnk_02 = p->mUnk_02 | *(u16 *) data_02158160;
+            }
+            break;
+    }
+    return *c;
+}
+
+void func_020da628(Unk020da494 *p) {
+    p->mUnk_f8 = 0x1000;
+    p->mUnk_a4 = data_02158140;
+    p->mUnk_b4 = data_02158150;
+    func_02046bcc(&p->mUnk_80, 1);
+    p->mUnk_10.x = 0;
+    p->mUnk_10.y = 0;
+    p->mUnk_10.z = 0;
+}
