@@ -19,7 +19,7 @@ typedef struct Unk020e71a0_94 {
 // and its 0x20 into the word at 0x18; func_020d6968 reads 0x20 and func_020f944c reads 0x28.
 typedef struct Unk020e71a0_98 {
     /* 00 */ s32 (*mUnk_00)(struct Unk020e71a0 *a, s32 *b, s32 *c);
-    /* 04 */ void (*mUnk_04)(struct Unk020e71a0 *e, s32 z, u8 *a, u8 *b);
+    /* 04 */ s32 (*mUnk_04)(struct Unk020e71a0 *e, void *a, void *b, void *c);
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
@@ -87,7 +87,7 @@ typedef struct Unk020e6fd4 {
     /* 10 */ UnkFunc *mUnk_10;
     /* 14 */ void (*mUnk_14)(struct Unk020e6fd4 *p);
     /* 18 */ s32 mUnk_18;
-    /* 1c */ void (*mUnk_1c)(Unk020e71a0 *e, s32 z, u8 *a, u8 *b);
+    /* 1c */ s32 (*mUnk_1c)(Unk020e71a0 *e, void *a, void *b, void *c);
     /* 20 */ s32 mUnk_20;
     /* 24 */ void **mUnk_24;
 } Unk020e6fd4;

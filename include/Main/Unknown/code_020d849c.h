@@ -14,10 +14,9 @@ typedef struct Unk020d84e4 {
     /* 34 */ s32 mUnk_34;
 } Unk020d84e4;
 
-// Object whose first 0x38 bytes are an Unk020d84e4.
+// An Unk020e0144_00_0 (func_020d80e4 and func_020d91dc), then three words.
 typedef struct Unk020d849c {
-    /* 00 */ Unk020d84e4 mUnk_00;
-    /* 38 */ u8 mUnk_38[0x1c];
+    /* 00 */ Unk020e0144_00_0 mUnk_00;
     /* 54 */ s32 mUnk_54;
     /* 58 */ s32 mUnk_58;
     /* 5c */ s32 mUnk_5c;

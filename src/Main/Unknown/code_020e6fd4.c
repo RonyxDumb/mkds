@@ -144,7 +144,7 @@ void func_020e6fd4(Unk020e6fd4 *p) {
     s32 i;
     s32 n;
     void **arr;
-    void (*cb)(Unk020e71a0 *, s32, u8 *, u8 *);
+    s32 (*cb)(Unk020e71a0 *, void *, void *, void *);
 
     n = p->mUnk_04;
     cb = p->mUnk_1c;

@@ -16,7 +16,7 @@
 
 void func_020d8460(void *m, Vec3 *v) {
     Unk020d849c *p = m;
-    func_020d91dc((Unk020e0144_00_0 *) p, p->mUnk_5c, v);
+    func_020d91dc(&p->mUnk_00, p->mUnk_5c, v);
 }
 
 #pragma thumb on

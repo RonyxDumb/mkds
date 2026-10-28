@@ -21,7 +21,7 @@ void func_020d7d4c(Unk020d84e4 *a, struct Unk020fa294 *b, s32 c, s32 d) {
 }
 
 void func_020d7d18(Unk020d849c *p, s32 a, Vec3 **b, s32 c) {
-    func_020d80e4((Unk020e0144_00_0 *) p, a, 0, b[0], b[1], b[2], b[3]);
+    func_020d80e4(&p->mUnk_00, a, 0, b[0], b[1], b[2], b[3]);
     func_020d84c0(p, c);
     p->mUnk_5c = 0;
 }
@@ -30,7 +30,7 @@ s32 func_020d7c84(Unk020d849c *p, s32 a, Vec3 **b) {
     s32 v;
     p->mUnk_5c = p->mUnk_5c - 0x1000000;
     p->mUnk_5c = (s32) (((s64) p->mUnk_5c * (s64) p->mUnk_00.mUnk_30) >> 12);
-    func_020d80e4((Unk020e0144_00_0 *) p, a, 0, b[0], b[1], b[2], b[3]);
+    func_020d80e4(&p->mUnk_00, a, 0, b[0], b[1], b[2], b[3]);
     v = p->mUnk_00.mUnk_34;
     if (v != 0) {
         p->mUnk_5c = (s32) (((s64) p->mUnk_5c * (s64) v) >> 24);
