@@ -454,7 +454,7 @@ void func_020fb35c(Unk020fc2e8 *param_1) {
     }
     func_020f91fc(param_1, 0xdf);
     if (*(u32 *) data_0217c780 & 1) {
-        p = func_0210e128((void *) func_02108ea0(0));
+        p = func_0210e128(func_02108ea0(0));
         if (data_0217d084.mUnk_0c != 0) {
             if (*p != 0) {
                 func_0212c6f0(p, 0);

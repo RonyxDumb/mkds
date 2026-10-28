@@ -1,15 +1,15 @@
 #include "Main/Unknown/code_020b1cf4.h"
 
-unsigned int func_020b1d50(void) {
-    return ((unsigned int) *(
+s32 func_020b1d50(void) {
+    return ((s32) *(
         const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
                                    const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b350))) +
                                                           0))) +
                                2132));
 }
 
-unsigned int func_020b1d34(void) {
-    return (
+Unk020b503c *func_020b1d34(void) {
+    return (Unk020b503c *) (
         (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b350))) + 0))) +
         (0x858u));
 }
