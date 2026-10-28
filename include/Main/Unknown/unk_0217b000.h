@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_0212da38.h" // Unk02017328
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_020e6b58.h"
@@ -140,11 +141,61 @@ typedef struct Unk0217b4d4 {
 // Objects whose layout isn't known yet.
 extern u8 data_0217b038[];
 extern u8 data_0217b03c[];
-extern u8 data_0217b044[];
+struct Unk020184e4;
+
+extern struct Unk020184e4 *data_0217b044;
 extern u8 data_0217b04c[];
 extern u8 data_0217b050[];
 extern u8 data_0217b054[];
-extern u8 data_0217b08c[];
+// Object behind data_0217b080, 0x60 bytes: 12-byte blocks at 0x00, 0x0c, 0x18 and 0x24.
+typedef struct Unk0217b080 {
+    /* 00 */ Unk02017328 mUnk_00;
+    /* 0c */ Unk02017328 mUnk_0c[2];
+    /* 24 */ Unk02017328 mUnk_24;
+    /* 30 */ u8 mUnk_30[0x2c];
+    /* 5c */ u16 mUnk_5c;
+    /* 5e */ u8 mUnk_5e[2];
+} Unk0217b080;
+
+extern Unk0217b080 *data_0217b080;
+
+// Object behind data_0217b08c, 0x38 bytes: 12-byte blocks at 0x00, 0x0c and 0x18.
+typedef struct Unk0217b08c {
+    /* 00 */ Unk02017328 mUnk_00;
+    /* 0c */ Unk02017328 mUnk_0c;
+    /* 18 */ Unk02017328 mUnk_18;
+    /* 24 */ u8 mUnk_24[8];
+    /* 2c */ void *mUnk_2c;
+    /* 30 */ void *mUnk_30;
+    /* 34 */ s32 mUnk_34;
+} Unk0217b08c;
+
+extern Unk0217b08c *data_0217b08c;
+
+// The 0x10 bytes at 0x784 of Unk0217b034; the callbacks at 0x794 and 0x798 get their address.
+typedef struct Unk0217b034_784 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ s16 mUnk_02;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u8 mUnk_06[2];
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ u8 mUnk_0c[4];
+} Unk0217b034_784;
+
+// Object behind data_0217b034, 0x79c bytes.
+typedef struct Unk0217b034 {
+    /* 000 */ void *mUnk_000[9];
+    /* 024 */ u8 mUnk_024[0x718];
+    /* 73c */ s32 mUnk_73c;
+    /* 740 */ u16 mUnk_740;
+    /* 742 */ u16 mUnk_742;
+    /* 744 */ u8 mUnk_744[0x40];
+    /* 784 */ Unk0217b034_784 mUnk_784;
+    /* 794 */ void (*mUnk_794)(Unk0217b034_784 *);
+    /* 798 */ void (*mUnk_798)(Unk0217b034_784 *);
+} Unk0217b034;
+
+extern Unk0217b034 *data_0217b034;
 extern u8 data_0217b0d8[];
 extern u8 data_0217b118[];
 extern u8 data_0217b11c[];
