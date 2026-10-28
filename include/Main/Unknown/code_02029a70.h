@@ -5,4 +5,4 @@
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/unk_02174000.h"
 
-void func_02029a70(u32 param_1);
+void func_02029a70(void *param_1);

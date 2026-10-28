@@ -10,10 +10,13 @@
 #include "Main/Unknown/code_020e6fd4.h"
 #include "Main/Unknown/unk_02158000.h"
 #include "Main/Unknown/code_0208fd8c.h"
+#include "Main/Unknown/unk_0217d000.h" // Unk0217d3f0_2098
+#include "Main/Unknown/types_02180728.h" // Unk02180728
 
 struct Unk020f41c4_B;
 struct Unk0217b4f0;
 struct Unk020d9cf4;
+struct Unk0217b43c;
 struct Unk020b47d8;
 struct Unk020b4934;
 struct Unk020b4a44;
@@ -147,8 +150,8 @@ typedef struct Unk0217b438 {
     /* 24 */ s32 mUnk_24;
     /* 28 */ s32 mUnk_28;
     /* 2c */ void *mUnk_2c;
-    /* 30 */ u8 mUnk_30[0x20];
-    /* 50 */ u8 mUnk_50[0x10];
+    /* 30 */ Unk0217d3f0_2098 mUnk_30;
+    /* 50 */ Unk02180728 mUnk_50;
     /* 60 */ struct Unk020b4a44 *mUnk_60;
     /* 64 */ struct Unk020b4934 *mUnk_64;
     /* 68 */ struct Unk020b47d8 *mUnk_68;
@@ -557,7 +560,7 @@ extern struct Unk0217b3f0 *data_0217b3f0;
 extern struct Unk0217b3f4 *data_0217b3f4;
 extern s32 data_0217b3f8;
 extern Unk0217b438 *data_0217b438;
-extern u8 data_0217b43c[];
+extern struct Unk0217b43c *data_0217b43c;
 extern struct Unk0217b4a4 *data_0217b4a4;
 extern struct Unk0217b4b0 *data_0217b4b0;
 extern struct Unk020f41c4_B *data_0217b4b8;

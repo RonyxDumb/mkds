@@ -18,3 +18,4 @@ void func_02084958(void *param_1, u32 param_2);
 void func_020849f8(void *param_1, void *param_2, void *param_3);
 void func_02084c54(void *a, struct Unk020136f0 *b);
 void func_02084f10(void *a, void *b);
+void func_020848fc(void);

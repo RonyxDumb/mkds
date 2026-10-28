@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+struct Unk020ae244;
+
 // Last argument of func_020ae7c4: seven words.
 typedef struct Unk020ae7c4 {
     /* 00 */ s32 mUnk_00;
@@ -23,3 +25,6 @@ u16 func_020ae5c4(void *param_1);
 void *func_020ae730(s32 a, s32 b);
 void func_020ae770(s32 *a, s32 *b, s32 c);
 s32 func_020ae584(s32 a);
+s32 func_020ae3a4(s32 a, s32 b);
+void func_020ae340(u32 a, u8 *b, u8 *c);
+s32 func_020ae244(u32 a, struct Unk020ae244 b);

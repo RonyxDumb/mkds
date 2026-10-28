@@ -8,3 +8,4 @@ void func_0202b6f0(s32 a);
 void func_0202b7c0(s32 a);
 void func_0202ba14(void);
 void func_0202bb80(void);
+void func_0202b8d8(void);
