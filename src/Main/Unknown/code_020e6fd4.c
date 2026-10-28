@@ -6,6 +6,7 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_020d4000.h"
+#include "Main/Unknown/code_020f9c6c.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217b000.h"
 
@@ -28,7 +29,7 @@ void func_020e730c(void) {
     }
 }
 
-void func_020e72cc(Unk020e730c *p, Unk020e72cc *q) {
+void func_020e72cc(Unk020e730c *p, struct Unk020fa294 *q) {
     p->mUnk_a0 = q->mUnk_28;
     switch (data_021759c0->mUnk_010) {
         case 0:

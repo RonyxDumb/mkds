@@ -2,13 +2,6 @@
 
 #include "types.h"
 
-// Object returned by func_020d22c0: two 64-bit words updated from a third.
-typedef struct Unk020d22c0 {
-    /* 00 */ u64 mUnk_00;
-    /* 08 */ u64 mUnk_08;
-    /* 10 */ u64 mUnk_10;
-} Unk020d22c0;
-
 // Object Unk020ebef8::mUnk_09c points to.
 typedef struct Unk020ebef8_9c {
     /* 000 */ u8 mUnk_000[0x2c];

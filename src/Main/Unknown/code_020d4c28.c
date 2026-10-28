@@ -124,7 +124,7 @@ s32 func_020d4d60(Unk020e71a0 *p, s32 a)
 void func_020d4d44(Unk020e6b58 *p)
 {
     func_020e6df0(p);
-    func_020d7bec((Unk020d7bec *) p);
+    func_020d7bec(p);
 }
 
 void func_020d4c28(Unk020e6fd4 *p, void *a)

@@ -7,6 +7,7 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_0210bcf4.h"
 #include "Main/Unknown/code_020d849c.h"
+#include "Main/Unknown/code_020d22c0.h" // Unk020f41c4_B
 
 // Object whose first word is compared with a stored value.
 typedef struct {
@@ -91,13 +92,6 @@ typedef struct Unk020f41c4_A {
     /* 128 */ u8 mUnk_128;
     /* 129 */ u8 mUnk_129[3];
 } Unk020f41c4_A;
-
-// Three 64-bit words: x, a and c of x = x * a + c.
-typedef struct Unk020f41c4_B {
-    /* 00 */ u64 mUnk_00;
-    /* 08 */ u64 mUnk_08;
-    /* 10 */ u64 mUnk_10;
-} Unk020f41c4_B;
 
 // Entry of the array at Unk0217561c::mUnk_000; the word at 0x14 and the halfword at 0x44.
 typedef struct {

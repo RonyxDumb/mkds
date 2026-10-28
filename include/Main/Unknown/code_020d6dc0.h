@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_020d849c.h"
+#include "Main/Unknown/code_020e6b58.h" // Unk020e6b58
 
 struct Unk020fa294;
 
@@ -13,18 +14,10 @@ typedef struct Unk020d7b88 {
     /* 0c */ s32 mUnk_0c;
 } Unk020d7b88;
 
-// Object whose words at 0x08 and 0x20 func_020d7bec reads.
-typedef struct Unk020d7bec {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ u8 mUnk_0c[0x14];
-    /* 20 */ s32 mUnk_20;
-} Unk020d7bec;
-
 void func_020d7d4c(Unk020d84e4 *m, struct Unk020fa294 *b, s32 c, s32 d);
 void func_020d7d18(Unk020d849c *p, s32 a, Vec3 **b, s32 c);
 s32 func_020d7c84(Unk020d849c *p, s32 a, Vec3 **b);
-void func_020d7bec(Unk020d7bec *a);
+void func_020d7bec(Unk020e6b58 *a);
 void func_020d7b88(Vec3 *p, void *q);
 void func_020d7b34(s32 a, Unk020d7b88 *b);
 void func_020d7a3c(void *p, s32 b, void *q);

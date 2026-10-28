@@ -27,7 +27,7 @@ void func_020ffbd4(void) {
     func_02084968(data_0217c628, 0x3f, 2, 0x294a);
 }
 
-void func_020ffb1c(Unk020ffb1c *a, Unk020e72cc *b) {
+void func_020ffb1c(Unk020ffb1c *a, struct Unk020fa294 *b) {
     func_02046be8(a->mUnk_00.mUnk_80, (UnkFunc *const *) data_0216c740, 6, a);
     a->mUnk_b4[0] = b->mUnk_28 * 0x80 / 100;
     a->mUnk_b4[2] = b->mUnk_30 * 0x80 / 100;

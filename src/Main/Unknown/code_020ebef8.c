@@ -31,7 +31,7 @@ void func_020ebef8(Unk020ebef8 *param_1, Vec3 *param_2) {
     s32 n;
     Vec3 a;
     Vec3 b;
-    Unk020d22c0 *p;
+    Unk020f41c4_B *p;
     Unk020fa3d0 *q;
     s32 i;
 
@@ -42,7 +42,7 @@ void func_020ebef8(Unk020ebef8 *param_1, Vec3 *param_2) {
     if (data_021759c0->mUnk_08 == 5) {
         return;
     }
-    p = (Unk020d22c0 *) func_020d22c0();
+    p = func_020d22c0();
     p->mUnk_00 = p->mUnk_08 * p->mUnk_00 + p->mUnk_10;
     if (param_1->mUnk_110 <= (u16) (((u64) (u32) (p->mUnk_00 >> 32) * 100) >> 32)) {
         return;
@@ -59,10 +59,10 @@ void func_020ebef8(Unk020ebef8 *param_1, Vec3 *param_2) {
         func_02039860(param_2, &a);
     }
     func_020397a8(&param_1->mUnk_0bc, &a, &b);
-    p = (Unk020d22c0 *) func_020d22c0();
+    p = func_020d22c0();
     p->mUnk_00 = p->mUnk_08 * p->mUnk_00 + p->mUnk_10;
     n = (s32) (((s64) (s32) ((u32) (((u64) (u32) (p->mUnk_00 >> 32) * 0x1800) >> 32) + 0x119a) << 12) >> 12);
-    p = (Unk020d22c0 *) func_020d22c0();
+    p = func_020d22c0();
     p->mUnk_00 = p->mUnk_08 * p->mUnk_00 + p->mUnk_10;
     q->mUnk_05c = *param_2;
     func_02147fd8(n, &a, &param_1->mUnk_004, &q->mUnk_050);

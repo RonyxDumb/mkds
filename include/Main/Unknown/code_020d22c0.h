@@ -1,8 +1,14 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020f36d8.h"
-#include "Main/Unknown/unk_0217b000.h"
 
-unsigned int func_020d22c0(void);
+// Three 64-bit words: x, a and c of x = x * a + c. func_020d22c0 and func_020d22d0 return one; Unk0217aa00 has one
+// at 0x1ee8 and Unk0217561c three.
+typedef struct Unk020f41c4_B {
+    /* 00 */ u64 mUnk_00;
+    /* 08 */ u64 mUnk_08;
+    /* 10 */ u64 mUnk_10;
+} Unk020f41c4_B;
+
+Unk020f41c4_B *func_020d22c0(void);
 Unk020f41c4_B *func_020d22d0(void);

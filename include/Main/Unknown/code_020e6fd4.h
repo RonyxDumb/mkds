@@ -92,20 +92,8 @@ typedef struct Unk020e6fd4 {
     /* 24 */ void **mUnk_24;
 } Unk020e6fd4;
 
-// Second argument of func_020e72cc.
-typedef struct Unk020e72cc {
-    /* 00 */ u8 mUnk_00[0x26];
-    /* 26 */ u16 mUnk_26;
-    /* 28 */ s16 mUnk_28;
-    /* 2a */ s16 mUnk_2a;
-    /* 2c */ s16 mUnk_2c;
-    /* 2e */ s16 mUnk_2e;
-    /* 30 */ s16 mUnk_30;
-    /* 32 */ s16 mUnk_32;
-} Unk020e72cc;
-
 void func_020e6fd4(Unk020e6fd4 *p);
 void func_020e705c(Unk020e6fd4 *p);
 void func_020e71a0(Unk020e71a0 *p);
-void func_020e72cc(Unk020e730c *p, Unk020e72cc *q);
+void func_020e72cc(Unk020e730c *p, struct Unk020fa294 *q);
 void func_020e730c(void);

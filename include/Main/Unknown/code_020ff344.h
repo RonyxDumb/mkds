@@ -57,5 +57,5 @@ void func_020ff910(Unk020ff438 *e, Unk02012f58 *out);
 void func_020ff97c(Unk020ff97c *e);
 s32 func_020ffabc(u32 a);
 Unk02100004 *func_020ffacc(void);
-void func_020ffb1c(Unk020ffb1c *a, Unk020e72cc *b);
+void func_020ffb1c(Unk020ffb1c *a, struct Unk020fa294 *b);
 void func_020ffbd4(void);
