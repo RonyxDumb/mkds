@@ -8,7 +8,7 @@ extern u8 data_02155098[];
 extern u8 data_021550a8[];
 extern void (*data_02155a20[])(void *param_1);
 extern u8 data_02155a64[];
-extern Vec3 data_021557ec;
+extern const Vec3 data_021557ec;
 extern s32 data_02155854[];
 struct Unk0201ca6c;
 
