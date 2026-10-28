@@ -16,10 +16,9 @@ typedef struct Unk020a3fa8_a4 {
     /* 34 */ s32 mUnk_34;
 } Unk020a3fa8_a4;
 
-// Object passed to func_020a3fa8 as its second argument.
+// Object passed to func_020a3fa8 as its second argument: a Unk020e71a0 at 0x00.
 typedef struct Unk020a3fa8 {
-    /* 000 */ u8 mUnk_000[0x9c];
-    /* 09c */ struct Unk020fa294 *mUnk_09c;
+    /* 000 */ Unk020e71a0 mUnk_000;
     /* 0a0 */ s32 mUnk_0a0;
     /* 0a4 */ Unk020a3fa8_a4 mUnk_0a4[8];
     /* 264 */ s32 mUnk_264[8][8];

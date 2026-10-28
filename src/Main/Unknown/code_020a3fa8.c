@@ -38,9 +38,9 @@ void func_020a3fa8(void *param_1, Unk020a3fa8 *param_2) {
             Unk020a3fa8_a4 *e = &param_2->mUnk_0a4[i];
             func_0207a974((u16)i);
             e->mUnk_34 = 1;
-            if (param_2->mUnk_09c->mUnk_28 != 0 || param_2->mUnk_09c->mUnk_2a != 0) {
-                e->mUnk_04 = param_2->mUnk_09c->mUnk_28;
-                func_020a10ac(i, param_2->mUnk_09c->mUnk_28 + param_2->mUnk_09c->mUnk_2a);
+            if (param_2->mUnk_000.mUnk_9c->mUnk_28 != 0 || param_2->mUnk_000.mUnk_9c->mUnk_2a != 0) {
+                e->mUnk_04 = param_2->mUnk_000.mUnk_9c->mUnk_28;
+                func_020a10ac(i, param_2->mUnk_000.mUnk_9c->mUnk_28 + param_2->mUnk_000.mUnk_9c->mUnk_2a);
             } else {
                 e->mUnk_04 = 1;
                 func_020a10ac(i, 5);
