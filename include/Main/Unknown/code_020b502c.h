@@ -228,7 +228,7 @@ Unk020b57e4 *func_020b57e4(void);
 void func_020b57f8(Unk020b503c *out);
 void func_020b58f8(Unk020b503c *out);
 s32 func_020b5ae8(const Vec3 *pos, UnkPair020b502c *out, s32 unk, s32 flag, s32 flag2);
-void func_020b5dcc(s32 idx, UnkPair020b502c *out);
+void func_020b5dcc(s32 idx, UnkPair020b502c *out, s32);
 s32 func_020b5f68(const UnkPair020b502c *p);
 void func_020b5fe4(const Vec3 *pos, UnkPair020b502c *out);
 void func_020b6078(s32 idx, UnkPair020b502c *out);

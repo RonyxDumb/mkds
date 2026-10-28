@@ -64,6 +64,7 @@ void func_020b4cec(void *p, s32 a);
 void func_020b478c(void *a, void *b);
 void func_020b4bf8(s32 *a, s32 b, s32 c);
 void func_020b4cb0(s32 *a, s32 b);
+void func_020b4f64(Vec3 *a, const Vec3 *b, const Vec3 *c);
 s32 func_020b4b98(s32 a);
 s32 func_020b4b10(void);
 void func_020b4520(u16 *a, s32 b, s32 c, s32 d, s32 e, u16 *f, s32 g, s32 h);

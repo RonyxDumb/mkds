@@ -73,7 +73,7 @@ s32 func_020b5f68(const UnkPair020b502c *p) {
     return 0;
 }
 
-void func_020b5dcc(s32 idx, UnkPair020b502c *out) {
+void func_020b5dcc(s32 idx, UnkPair020b502c *out, s32 v1) {
     UnkPair020b502c a = data_0217b3c0->mUnk_00;
     s32 ay = a.mUnk_04;
     s32 v20 = data_0217b3c0->mUnk_20;
