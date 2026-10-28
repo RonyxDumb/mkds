@@ -667,7 +667,7 @@ typedef struct Unk0217d40c {
 extern u8 data_0217d014[];
 extern u8 data_0217d018[];
 extern u8 data_0217d01c[];
-extern u8 data_0217d028[];
+extern Unk02017328 data_0217d028;
 extern u32 data_0217d064;
 extern u8 data_0217d134[];
 extern u8 data_0217d178[];

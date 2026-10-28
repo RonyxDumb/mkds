@@ -7,7 +7,7 @@
 void func_020ab11c();
 void func_020ab45c(Unk0217b278 *p);
 void func_020ab72c(void);
-u32 func_020ab8c4();
+u32 func_020ab8c4(void);
 void func_020ab758(u16 a);
 void func_020ab7a4(const u16 *a);
 void func_020ab8cc(s32 a);

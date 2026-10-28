@@ -193,7 +193,7 @@ void func_02108344(u32 a, u32 b, u32 c) {
     Unk02108344 n;
     s32 i;
 
-    ((Unk0217c7a4 *) data_0217c7a4)->mUnk_00 = 0;
+    data_0217c7a4 = 0;
     if (c == 0) {
         n = E2;
         switch (n) {
@@ -225,7 +225,7 @@ void func_02108344(u32 a, u32 b, u32 c) {
     }
     func_0210d894((void *) a, b, c != 0 ? data_0216c8d0 : 0);
     func_021105d8();
-    func_0212d5f8((Unk0212d5f8 *) data_0217c868, data_0215a880);
+    func_0212d5f8(&data_0217c868, data_0215a880);
     func_0212d5e0(&data_0217d0a0);
     if (c != 0) {
         func_0210e920();
@@ -246,7 +246,7 @@ void func_02108344(u32 a, u32 b, u32 c) {
     func_0210e2c4((Unk0217c7c4 *) data_0217c7c4, data_0217c7d8, 3, 8);
     func_0212c6a0((Unk0212c400 **) data_0217c7ac);
     func_0212c6a0(&data_0217c788);
-    func_0212c6a0((Unk0212c400 **) data_0217c778);
+    func_0212c6a0(&data_0217c778);
     func_0212ba68(0x7f);
     func_0212ba34(0);
     func_0210d970(0x1e);
@@ -276,11 +276,11 @@ void func_0210823c(void) {
     }
     func_0210e280((Unk0217c7c4 *) data_0217c7c4);
     func_0210d2cc();
-    if (((Unk0217c7a4 *) data_0217c7a4)->mUnk_00 == 1) {
+    if (data_0217c7a4 == 1) {
         p = data_0217c788;
         v = p != 0 && p->mUnk_3a == 0 && p->mUnk_38 == 0;
         if (v == 0) {
-            func_0212d5e0((Unk0212d5f8 *) data_0217c868);
+            func_0212d5e0(&data_0217c868);
             if (data_0217c788 != 0) {
                 func_0212c6f0(&data_0217c788, 0);
             }
@@ -1243,8 +1243,8 @@ void func_02105fcc(void) {
         q += ((Unk0217c7c4 *) data_0217c7c4)->mUnk_10;
     }
     func_0212c6f0(&data_0217c788, 13);
-    func_0212c6f0((Unk0212c400 **) data_0217c778, 13);
-    ((Unk0217c7a4 *) data_0217c7a4)->mUnk_00 = 0;
+    func_0212c6f0(&data_0217c778, 13);
+    data_0217c7a4 = 0;
 }
 
 void func_02105ec0(void) {
@@ -1268,7 +1268,7 @@ void func_02105ec0(void) {
         func_0212c6f0((Unk0212c400 **) q, 0);
         q += p->mUnk_10;
     }
-    ((Unk0217c7a4 *) data_0217c7a4)->mUnk_00 = 0;
+    data_0217c7a4 = 0;
     func_0212c6f0(&data_0217c788, 0);
-    func_0212c6f0((Unk0212c400 **) data_0217c778, 0);
+    func_0212c6f0(&data_0217c778, 0);
 }

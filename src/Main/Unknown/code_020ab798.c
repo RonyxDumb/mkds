@@ -2,12 +2,8 @@
 
 #pragma thumb on
 
-void *func_020ab798(void) {
-    return (void *) ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b334))) +
-                                                          0))) +
-                               64));
+u16 *func_020ab798(void) {
+    return data_0217b334->mUnk_40;
 }
 
 #pragma thumb off

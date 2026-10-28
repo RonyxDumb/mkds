@@ -19,7 +19,7 @@ void func_0210d4a4(Unk0210bf24 *a, s32 b) {
         a->mUnk_1a = 0x7f;
         a++;
     }
-    func_02017538((Unk02017328 *) data_0217d028, 0);
+    func_02017538(&data_0217d028, 0);
     for (i = 0; i < 2; i++) {
         func_02017538(&((Unk02017328 *) data_0217d048)[i], 0x1c);
     }

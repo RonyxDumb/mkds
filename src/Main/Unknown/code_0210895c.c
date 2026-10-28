@@ -7,13 +7,13 @@
 
 void func_02108990(void) {
     func_0212c6f0(&data_0217c788, 1);
-    func_0212c6f0((Unk0212c400 **) data_0217c778, 1);
+    func_0212c6f0(&data_0217c778, 1);
     func_0212c6f0(&data_0217c788, 1);
-    func_0212c6f0((Unk0212c400 **) data_0217c778, 1);
+    func_0212c6f0(&data_0217c778, 1);
     func_0212ecc0(&data_0217d068, 0, 0x20a);
 }
 
 void func_0210895c(void) {
     func_0212c6f0(&data_0217c788, 1);
-    func_0212c6f0((Unk0212c400 **) data_0217c778, 1);
+    func_0212c6f0(&data_0217c778, 1);
 }
