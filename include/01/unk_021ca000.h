@@ -86,7 +86,7 @@ typedef struct Unk021ca414 {
     /* 50 */ Unk021ca414_50 *mUnk_50;
     /* 54 */ void *mUnk_54;
     /* 58 */ void *mUnk_58;
-    /* 5c */ u32 mUnk_5c;
+    /* 5c */ void *mUnk_5c;
     /* 60 */ u32 mUnk_60;
     /* 64 */ s32 mUnk_64;
     /* 68 */ s32 mUnk_68;

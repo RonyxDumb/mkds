@@ -85,13 +85,13 @@ void func_ov001_0218cbdc(Unk02188950 *param_1, Unk02188950_a0 *param_2)
             param_1->mUnk_2d8 = 0xc;
             func_02073fb0(param_1->mUnk_000.mUnk_78 & 0x3fffffe0, 0x1000);
             param_1->mUnk_000.mUnk_78 |= data_ov001_021a65ac;
-            func_020d26ec((u32) (param_2), (u32) (0x252));
+            func_020d26ec(param_2, (u32) (0x252));
         }
     } else {
         param_1->mUnk_2d8 = 0xa;
         func_02073fb0(param_1->mUnk_000.mUnk_78 & 0x3fffffe0, 0x1000);
         param_1->mUnk_000.mUnk_78 |= data_ov001_021a65ac;
-        func_020d26ec((u32) (param_2), (u32) (0x251));
+        func_020d26ec(param_2, (u32) (0x251));
     }
     func_ov001_02188200(param_1, func_ov001_0218cbdc);
 }

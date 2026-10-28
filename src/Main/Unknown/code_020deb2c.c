@@ -20,7 +20,7 @@ void func_020deb2c(Vec3 *param_1, void *param_2, u32 param_3, int param_4, u32 p
             func_02081f10((unsigned int) (iVar1), (unsigned int) (uVar2), (unsigned int) (0x1e));
         }
     }
-    func_020d26ec((u32) param_2, 0xd4);
+    func_020d26ec(param_2, 0xd4);
     func_020fa78c(uVar2, param_3, param_5);
     return;
 }

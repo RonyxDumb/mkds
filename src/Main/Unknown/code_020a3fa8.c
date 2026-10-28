@@ -148,7 +148,7 @@ void func_020a3fa8(void *param_1, Unk020a3fa8 *param_2) {
                     e->mUnk_00 = 30;
                     e->mUnk_34 = 0;
                 }
-                func_020d26ec((u32)func_0207a974((u16)i), 0x152);
+                func_020d26ec(func_0207a974((u16)i), 0x152);
             }
         } else if (e->mUnk_04 <= 0) {
             e->mUnk_34 = 0;

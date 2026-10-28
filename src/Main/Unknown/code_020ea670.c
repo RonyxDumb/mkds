@@ -176,7 +176,7 @@ u32 func_020eb7e0(Unk020ebef8 *param_1, Unk020eb498 *param_2, u8 *param_3, u8 *p
                 }
                 param_1->mUnk_000.mUnk_80.mUnk_10 = 1;
                 param_1->mUnk_000.mUnk_80.mUnk_12 = 1;
-                func_020d26ec((u32) param_2, 0x167);
+                func_020d26ec(param_2, 0x167);
                 param_1->mUnk_000.mUnk_78 |= *(u32 *) data_021594d4;
                 func_020d26f8(&param_1->mUnk_000, (Unk0206bcb0 *) param_2);
                 if ((param_1->mUnk_000.mUnk_78 & 3) == 0) {

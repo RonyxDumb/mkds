@@ -232,7 +232,7 @@ typedef struct Unk021a9be0 {
     /* 08 */ void *mUnk_08;
     /* 0c */ Unk02124b1c *mUnk_0c;
     /* 10 */ void *mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 14 */ void *mUnk_14;
     /* 18 */ s32 mUnk_18;
     /* 1c */ s32 mUnk_1c;
     /* 20 */ s32 mUnk_20;
