@@ -252,7 +252,7 @@ typedef struct Unk0217b034 {
 } Unk0217b034;
 
 extern Unk0217b034 *data_0217b034;
-extern u8 data_0217b0d8[];
+extern u32 data_0217b0d8;
 extern u8 data_0217b118[];
 extern u8 data_0217b11c[];
 extern u8 data_0217b120[];

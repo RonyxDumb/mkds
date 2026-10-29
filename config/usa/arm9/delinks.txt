@@ -2517,6 +2517,10 @@ src/Main/Unknown/code_02093ff0.c:
     .text       start:0x02093ff0 end:0x02094000
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_02094000.c:
+    .text       start:0x02094000 end:0x020946b8
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_02094df4.c:
     .text       start:0x02094df4 end:0x02094e1c
 
