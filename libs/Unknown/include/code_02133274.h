@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_021336d4(void);
+u64 _u32_div_f(u32 a, u32 b);

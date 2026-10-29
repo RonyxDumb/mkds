@@ -7017,6 +7017,7 @@ func_0212f7f8 kind:function(arm,size=0x3c) addr:0x0212f7f8
 func_0212f834 kind:function(arm,size=0x30) addr:0x0212f834
 func_0212f864 kind:function(arm,size=0x20) addr:0x0212f864
 _dadd kind:function(arm,size=0x59c) addr:0x0212f884
+.L_0212f894 kind:label(arm) addr:0x0212f894
 _d2f kind:function(arm,size=0xec) addr:0x0212fe20
 func_0212ff0c kind:function(arm,size=0x34) addr:0x0212ff0c
 func_0212ff40 kind:function(arm,size=0x258) addr:0x0212ff40
@@ -7027,7 +7028,9 @@ _dmul kind:function(arm,size=0x6f0) addr:0x02130380
 func_02130a70 kind:function(arm,size=0x244) addr:0x02130a70
 func_02130cb4 kind:function(arm,size=0x18,unknown) addr:0x02130cb4
 _dsub kind:function(arm,size=0x568) addr:0x02130ccc
+.L_02130cdc kind:label(arm) addr:0x02130cdc
 _fadd kind:function(arm,size=0x460) addr:0x02131234
+.L_02131248 kind:label(arm) addr:0x02131248
 func_usa_02131694 kind:function(arm,size=0xb6c) addr:0x02131694
 .L_021317b0 kind:label(arm) addr:0x021317b0
 .L_02131860 kind:label(arm) addr:0x02131860
@@ -7037,13 +7040,14 @@ _deq kind:label(arm) addr:0x02131bfc
 _dls kind:label(arm) addr:0x02131ce8
 _dleq kind:label(arm) addr:0x02131d70
 _dgr kind:label(arm) addr:0x02131e60
-_f2d kind:function(arm,size=0xc4) addr:0x02132200
+_f2d kind:function(arm,size=0xc8) addr:0x02132200
 _ffix kind:function(arm,size=0x9c) addr:0x021322c8
-func_02132364 kind:function(arm,size=0x5c) addr:0x02132364
+func_02132364 kind:function(arm,size=0x60) addr:0x02132364
 func_021323c4 kind:function(arm,size=0x148) addr:0x021323c4
 _fflt kind:label(arm) addr:0x02132440
 func_0213250c kind:function(arm,size=0x4ec) addr:0x0213250c
 _fsub kind:function(arm,size=0x448) addr:0x021329f8
+.L_02132a0c kind:label(arm) addr:0x02132a0c
 _ll_udiv kind:function(arm,size=0x58) addr:0x02132e40
 _ull_mod kind:label(arm) addr:0x02132e4c
 _ll_sdiv kind:function(arm,size=0x1b0) addr:0x02132e98
@@ -7052,7 +7056,7 @@ _s32_div_f kind:function(arm,size=0x20c) addr:0x02133068
 _u32_div_f kind:function(arm,size=0x1e4) addr:0x02133274
 .L_0213327c kind:label(arm) addr:0x0213327c
 func_02133458 kind:function(arm,size=0x30) addr:0x02133458
-func_usa_02133488 kind:function(arm,size=0x18,unknown) addr:0x02133488
+func_02133488 kind:function(arm,size=0x18,unknown) addr:0x02133488
 _ddiv kind:function(arm,size=0x180,unknown) addr:0x021334a0
 func_02133620 kind:function(arm,size=0x10) addr:0x02133620
 func_02133630 kind:function(arm,size=0x38,unknown) addr:0x02133630
@@ -7060,7 +7064,7 @@ func_02133668 kind:function(arm,size=0x14) addr:0x02133668
 func_021336d4 kind:function(thumb,size=0x4) addr:0x021336d4
 func_0213377c kind:function(arm,size=0x14) addr:0x0213377c
 func_02133790 kind:function(arm,size=0xc) addr:0x02133790
-func_usa_0213379c kind:function(arm,size=0x60c) addr:0x0213379c
+func_0213379c kind:function(arm,size=0x60c) addr:0x0213379c
 func_02133da8 kind:function(arm,size=0x34) addr:0x02133da8
 func_02133ddc kind:function(arm,size=0x28) addr:0x02133ddc
 func_02133e04 kind:function(arm,size=0x4c) addr:0x02133e04

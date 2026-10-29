@@ -1,41 +1,42 @@
 #include "code_02147954.h"
 
-// non-matching: 0x64 bytes, original 0x34; 25 lines differ; first: original `ldm r0!, {r2, r3, ip}`, ours `ldr r2,
-// [r0]`
-void func_02147980(const s32 *a, Unk02012f58 *b) {
-    s32 *d;
-
-    d = (s32 *) b;
-    d[0] = a[0];
-    d[1] = a[1];
-    d[2] = a[2];
-    d[3] = a[4];
-    d[4] = a[5];
-    d[5] = a[6];
-    d[6] = a[8];
-    d[7] = a[9];
-    d[8] = a[10];
-    d[9] = a[12];
-    d[10] = a[13];
-    d[11] = a[14];
+// clang-format off
+// Fills the sixteen words at a with a 4x4 identity in 20.12 fixed point: 0x1000 on the diagonal, 0 elsewhere.
+// Not compiled code: the 1.2 compiler builds ldm/stm only in prologues, epilogues and block moves (struct copies and
+// fills), which keep their data in r0 upward and move the base off r0; separate stores of constants stay `str`
+// (docs/compiler.md, ldm/stm; checked on C). Here the stores are `stm r0!` with lists of constants that do not start at
+// r0.
+asm void func_02147954(s32 *a) {
+    mov r2, #0x1000
+    mov r3, #0
+    stmia r0!, {r2, r3}
+    mov r1, #0
+    stmia r0!, {r1, r3}
+    stmia r0!, {r1, r2, r3}
+    stmia r0!, {r1, r3}
+    stmia r0!, {r1, r2, r3}
+    stmia r0!, {r1, r3}
+    stmia r0!, {r1, r2}
+    bx lr
 }
 
-// non-matching: 0x4c bytes, original 0x2c; 18 lines differ; first: original `mov r3, #0`, ours `str r2, [r0]`
-void func_02147954(s32 *a) {
-    a[0] = 0x1000;
-    a[1] = 0;
-    a[2] = 0;
-    a[3] = 0;
-    a[4] = 0;
-    a[5] = 0x1000;
-    a[6] = 0;
-    a[7] = 0;
-    a[8] = 0;
-    a[9] = 0;
-    a[10] = 0x1000;
-    a[11] = 0;
-    a[12] = 0;
-    a[13] = 0;
-    a[14] = 0;
-    a[15] = 0x1000;
+// Copies the first three words of each of the four rows of four at a to b (four rows of three).
+// Not compiled code: the 1.2 compiler builds ldm/stm only in prologues, epilogues and block moves (struct copies and
+// fills), which keep their data in r0 upward and move the base off r0; separate stores of constants stay `str`
+// (docs/compiler.md, ldm/stm; checked on C). Here it copies with `ldm r0!` / `stm r1!` and data in r2, r3 and ip.
+asm void func_02147980(const s32 *a, Unk02012f58 *b) {
+    ldmia r0!, {r2, r3, ip}
+    add r0, r0, #4
+    stmia r1!, {r2, r3, ip}
+    ldmia r0!, {r2, r3, ip}
+    add r0, r0, #4
+    stmia r1!, {r2, r3, ip}
+    ldmia r0!, {r2, r3, ip}
+    add r0, r0, #4
+    stmia r1!, {r2, r3, ip}
+    ldmia r0!, {r2, r3, ip}
+    add r0, r0, #4
+    stmia r1!, {r2, r3, ip}
+    bx lr
 }
+// clang-format on

@@ -4,7 +4,6 @@
 #include "code_02004dc0.h"
 #include "Main/Unknown/unk_0217e000.h"
 
-// non-matching: tail jump to func_0214240c (a load of the address and bx ip)
 void func_02142590(void) {
     func_0214240c();
 }
@@ -69,15 +68,38 @@ s32 func_0214241c(void) {
     return 0;
 }
 
-// non-matching: the original is a supervisor call (swi 0x123456 with r0 = 24, r1 = 0) that C cannot express
-void func_0214240c(void) {
+// clang-format off
+// Makes supervisor call 0x123456 with r0 = 3 and r1 = a; func_02142424 calls it once per byte of a buffer, with the
+// byte's address.
+// Not compiled code: the 1.2 compiler never builds swi (its code generator has no use of that instruction), and it
+// saves lr alone with a single store and returns by loading pc, where 1.2 pads every frame to 8 bytes and returns
+// through `bx lr` (docs/compiler.md; frame layout in the compiler).
+asm void func_021423e4(const void *a) {
+    str lr, [sp, #-4]!
+    mov r1, r0
+    mov r0, #3
+    swi 0x123456
+    ldr pc, [sp], #4
 }
 
-// non-matching: the original is a supervisor call (swi 0x123456 with r0 = 7, r1 = 0) that C cannot express
-u32 func_021423f8(void) {
-    return 0;
+// Makes supervisor call 0x123456 with r0 = 7 and r1 = 0 and returns its r0; func_0214245c stores the low byte of each
+// result into a buffer.
+// Not compiled code: swi, and the same one-word frame and return as func_021423e4.
+asm u32 func_021423f8(void) {
+    str lr, [sp, #-4]!
+    mov r1, #0
+    mov r0, #7
+    swi 0x123456
+    ldr pc, [sp], #4
 }
 
-// non-matching: the original is a supervisor call (swi 0x123456 with r0 = 3, r1 = a) that C cannot express
-void func_021423e4(const void *a) {
+// Makes supervisor call 0x123456 with r0 = 24 and r1 = 0, then returns.
+// Not compiled code: swi, and it returns with `mov pc, lr`, where 1.2 with -interworking returns through `bx lr`
+// (docs/compiler.md).
+asm void func_0214240c(void) {
+    mov r1, #0
+    mov r0, #24
+    swi 0x123456
+    mov pc, lr
 }
+// clang-format on
