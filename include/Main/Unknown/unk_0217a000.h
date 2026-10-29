@@ -832,7 +832,10 @@ typedef struct Unk0217aa14_754_04 {
             u32 mUnk_00_0 : 24;
         };
     };
-    /* 04 */ u32 mUnk_04;
+    /* 04 */ union {
+        u32 mUnk_04;
+        u8 mUnk_04_b[4];
+    };
     /* 08 */ u32 mUnk_08;
     /* 0c */ u32 mUnk_0c[5];
     /* 20 */ Unk0217aa14_754_04_20 mUnk_20[4];

@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void func_0205c800(u16 a, void (*b)(s32));
+void func_0205c800(u16 a, void (*b)(u32));
 void func_0205c898(void);
 void func_0205c98c(void);
 void func_0205cbe4(void);

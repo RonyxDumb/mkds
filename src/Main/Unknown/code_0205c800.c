@@ -14,7 +14,7 @@
 #include "code_0200f5ac.h"
 
 // non-matching: same size; register allocation only; 10 lines differ; first: original `mvn r7, #0`, ours `mvn r8, #0`
-void func_0205c800(u16 a, void (*b)(s32)) {
+void func_0205c800(u16 a, void (*b)(u32)) {
     s32 r;
     u16 i;
     u16 n;
