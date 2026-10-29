@@ -11,4 +11,3 @@ void func_02008ff0(u32 a, Unk02008f00Func b);
 s32 func_02009098(const u8 *a, Unk02008f00Func b);
 
 // Declared here until the code that defines it is decompiled.
-void func_0200921c(Unk02008f00Func a, u32 b, void *c);

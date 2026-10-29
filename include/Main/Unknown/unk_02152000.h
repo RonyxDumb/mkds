@@ -4,6 +4,7 @@
 
 // Objects whose layout isn't known yet.
 extern u8 data_02152b80[];
+extern u32 data_02152bc0[];
 extern void (*const data_02152c54[36])(const void *a, u32 b, u32 c);
 extern u8 data_02152c30[][4];
 extern u8 data_02152c31[][4];

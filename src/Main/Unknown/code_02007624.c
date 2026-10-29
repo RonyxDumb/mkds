@@ -214,7 +214,7 @@ void func_020079c4(s32 a, Unk021425e8 *b) {
                 v2 = i * 0x5d4;
                 if (((Unk0216fdac *) ((u8 *) p + v2))->mUnk_1d52 != 0
                     && ((Unk0216fdac *) ((u8 *) p + v2))->mUnk_1d50 != 0) {
-                    func_0200973c(p->mUnk_1788 + 0xe4 + v2,
+                    func_0200973c((Unk0200b610 *) (p->mUnk_1788 + 0xe4 + v2),
                                   p->mUnk_1340,
                                   ((Unk0216fdac *) ((u8 *) p + v2))->mUnk_1d4e,
                                   ((Unk0216fdac *) ((u8 *) p + v2))->mUnk_1d50);
