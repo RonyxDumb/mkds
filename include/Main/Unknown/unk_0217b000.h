@@ -215,17 +215,21 @@ extern UnkFunc *data_0217b06c;
 extern UnkFunc *data_0217b070;
 extern s32 (*data_0217b074)();
 extern struct Unk0208c5b8 *data_0217b078;
-// Object behind data_0217b080, 0x60 bytes: 12-byte blocks at 0x00, 0x0c, 0x18 and 0x24.
+struct Unk0208e490;
+
+// Object behind data_0217b080, 0x60 bytes: a list at 0x00 and five lists at 0x0c (12 bytes each), and five pointers
+// at 0x48 to arrays of object pointers.
 typedef struct Unk0217b080 {
     /* 00 */ Unk02017328 mUnk_00;
-    /* 0c */ Unk02017328 mUnk_0c[2];
-    /* 24 */ Unk02017328 mUnk_24;
-    /* 30 */ u8 mUnk_30[0x2c];
+    /* 0c */ Unk02017328 mUnk_0c[5];
+    /* 48 */ struct Unk0208e490 **mUnk_48[5];
     /* 5c */ u16 mUnk_5c;
     /* 5e */ u8 mUnk_5e[2];
 } Unk0217b080;
 
 extern Unk0217b080 *data_0217b080;
+extern s32 data_0217b07c;
+extern s32 data_0217b084[2];
 extern Unk0208fd8c_08 *data_0217b0a4;
 
 // Object behind data_0217b08c, 0x38 bytes: 12-byte blocks at 0x00, 0x0c and 0x18.
