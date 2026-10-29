@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_02025ebc.h" // Unk02025ebc
 #include "Main/Unknown/code_02036588.h" // Unk02036590
 
 // 0x18-byte elements of the table at member 0 of Unk02029930.
@@ -43,6 +44,8 @@ typedef struct Unk02029930 {
     /* fd */ s8 mUnk_fd;
     /* fe */ u8 mUnk_fe[6];
     /* 104 */ u16 mUnk_104;
+    /* 106 */ u8 mUnk_106[2];
+    /* 108 */ s32 mUnk_108;
 } Unk02029930;
 
 extern Unk02029930 *data_02174e1c;
@@ -71,8 +74,51 @@ typedef struct Unk02174e3c {
 extern Unk02174e3c *data_02174e3c;
 extern Unk02036590 data_02174e88;
 
+// 0x1c-byte part of Unk02174e14, at 0x00 and at 0x1c.
+typedef struct Unk02174e14_00 {
+    /* 00 */ u8 mUnk_00[8];
+    /* 08 */ void *mUnk_08;
+    /* 0c */ void *mUnk_0c;
+    /* 10 */ void *mUnk_10;
+    /* 14 */ u8 mUnk_14[4];
+    /* 18 */ void *mUnk_18;
+} Unk02174e14_00;
+
+// Object behind data_02174e14.
+typedef struct Unk02174e14 {
+    /* 000 */ Unk02174e14_00 mUnk_000;
+    /* 01c */ Unk02174e14_00 mUnk_01c;
+    /* 038 */ u8 mUnk_038[0x1c];
+    /* 054 */ void *mUnk_054;
+    /* 058 */ void *mUnk_058;
+    /* 05c */ u8 mUnk_05c[4];
+    /* 060 */ s32 mUnk_060;
+    /* 064 */ u8 mUnk_064[4];
+    /* 068 */ s32 mUnk_068;
+    /* 06c */ s32 mUnk_06c;
+    /* 070 */ s32 mUnk_070;
+    /* 074 */ u16 mUnk_074;
+    /* 076 */ u8 mUnk_076[2];
+    /* 078 */ s32 mUnk_078;
+    /* 07c */ s32 mUnk_07c;
+    /* 080 */ s32 mUnk_080;
+    /* 084 */ s16 mUnk_084;
+    /* 086 */ s16 mUnk_086;
+    /* 088 */ s16 mUnk_088;
+    /* 08a */ s16 mUnk_08a;
+    /* 08c */ s32 mUnk_08c;
+    /* 090 */ u8 mUnk_090[0x60];
+    /* 0f0 */ s32 mUnk_0f0;
+    /* 0f4 */ s32 mUnk_0f4;
+    /* 0f8 */ Unk02025ebc mUnk_0f8;
+    /* 108 */ Unk02025ebc mUnk_108;
+    /* 118 */ Unk02025ebc mUnk_118;
+    /* 128 */ s32 mUnk_128;
+} Unk02174e14;
+
+extern Unk02174e14 *data_02174e14;
+
 // Objects whose layout isn't known yet.
-extern u8 data_02174e14[];
 extern u8 data_02174e18[];
 extern u8 data_02174e24[];
 extern u8 data_02174e28[];

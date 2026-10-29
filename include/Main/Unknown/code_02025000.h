@@ -12,6 +12,9 @@ void func_02025b20(void *a, const char *b, const char *c, const char *d, const c
 
 #include "Main/Unknown/code_02025e28.h"
 #include "Main/Unknown/code_02025eb0.h"
+#include "Main/Unknown/code_02025ebc.h"
 u32 func_0202511c(s32 a, void *b);
 u32 func_0202553c(u32 a, void *b);
 void func_02025f90(void);
+void func_02025edc(Unk02025ebc *a);
+void func_02025f14(Unk02025ebc *a, s32 b);

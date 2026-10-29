@@ -2,10 +2,8 @@
 
 #pragma thumb on
 
-void func_02025ebc(int param_1) {
-    ((int) func_020ae4c0((s32) (1), (s32) ((int) *(short *) (param_1 + 0xc)), (s32) ((int) *(short *) (param_1 + 0xe)),
-                         (s32) (*(u32 *) (param_1 + 4)), (s32) (*(u32 *) (param_1 + 8))));
-    return;
+s16 func_02025ebc(Unk02025ebc *a) {
+    return func_020ae4c0(1, a->mUnk_0c, a->mUnk_0e, a->mUnk_04, a->mUnk_08);
 }
 
 #pragma thumb off
