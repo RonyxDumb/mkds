@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_020c0d9c.h"
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/code_02093000.h"
+#include "Main/Unknown/code_020931ac.h"
 
 void func_020cdf50(void) {
     s32 i;

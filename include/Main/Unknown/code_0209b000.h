@@ -36,3 +36,6 @@ void *func_0209be84(void *a, const char *b);
 void *func_0209bfe0(s32 a);
 void *func_0209bc74(void *a, const char *b, const char *c);
 void *func_0209bd08(void *a, const char *b);
+u16 func_0209b6ec(void *a);
+void func_0209b6c8(void *a, s32 b);
+void func_0209be1c(void *a, const char *b);

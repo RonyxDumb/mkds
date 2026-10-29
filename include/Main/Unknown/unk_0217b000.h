@@ -1097,7 +1097,7 @@ typedef struct Unk0217b0d8 {
 extern Unk0217b0d8 *data_usa_0217b0d8;
 extern void *data_usa_0217b07c;
 extern void *data_usa_0217b0a4;
-extern void *data_usa_0217b0a8;
+extern void *data_0217b0c8;
 extern void *data_usa_0217b0bc;
 extern void *data_0217b0bc;
 extern void *data_0217b0c0;
