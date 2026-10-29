@@ -2,8 +2,8 @@
 
 #pragma thumb on
 
-unsigned int func_02057498(unsigned int p0, unsigned int p1) {
-    return ((p1) + (((((p0) << 21)) >> 24)));
+u8 *func_02057498(u32 a, u8 *b) {
+    return b + ((a << 21) >> 24);
 }
 
 #pragma thumb off

@@ -52,7 +52,7 @@ void func_020c7164(void) {
     u16 f;
     s32 j;
     s32 t;
-    Unk0217b3f4_1c *q;
+    Unk02056bc0 *q;
 
     if (data_021759c0->mUnk_08 != 1) {
         return;

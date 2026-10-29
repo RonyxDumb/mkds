@@ -13,5 +13,6 @@ void func_02152340(void *a, void *b);
 void func_021525a8(void *a);
 s32 func_021525e0(void *a);
 void func_02152690(void *a, u32 b);
+void func_02152490(void *a, void *b);
 
 #include "Main/Unknown/code_021529e0.h"
