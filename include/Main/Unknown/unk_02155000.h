@@ -55,3 +55,6 @@ extern const Unk02155d88 data_02155d8c[];
 extern Vec3 data_02155a3c;
 extern const u32 data_02155a54;
 extern const u16 data_02155a74[12];
+extern const Vec3 data_usa_021557c4;
+extern const Vec3 data_usa_021557d0;
+extern const s32 data_usa_021551b4[];
