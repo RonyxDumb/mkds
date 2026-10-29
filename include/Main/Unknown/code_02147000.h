@@ -12,3 +12,5 @@ void func_02147954(s32 *a);
 void func_02147980(const s32 *a, Unk02012f58 *b);
 void func_02147230(s32 *p0, s32 p1, s32 p2);
 void func_0214726c(s32 *p0, s32 p1, s32 p2);
+#include "code_021471bc.h"
+#include "code_02147954.h"
