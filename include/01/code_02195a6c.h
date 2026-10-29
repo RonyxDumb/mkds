@@ -1,6 +1,7 @@
 #pragma once
 
 #include "code_021458c4.h"
+#include "Main/Unknown/code_02060004.h"
 #include "types.h"
 #include "Main/Unknown/code_02057d10.h"
 #include "01/code_02196da8.h"
@@ -108,8 +109,6 @@ extern u16 data_ov001_021a6850[][2];
 extern s32 data_ov001_021a6900[];
 extern Unk021759d4 *data_021759d4;
 
-s32 func_02060268(s32 a);
-void func_02060004(s32 a);
 #include "Main/Unknown/code_021172a8.h"
 #include "Main/Unknown/code_0211130c.h"
 

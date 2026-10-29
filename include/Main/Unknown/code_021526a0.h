@@ -3,4 +3,4 @@
 #include "types.h"
 #include "Main/Unknown/code_02152000.h"
 
-u32 func_021526a0(void);
+u32 func_021526a0(const void *a);

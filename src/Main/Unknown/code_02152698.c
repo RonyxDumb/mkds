@@ -1,11 +1,11 @@
 #include "Main/Unknown/code_02152698.h"
 
 #pragma thumb on
-u32 func_02152698(void) {
+u32 func_02152698(const void *a) {
     u32 value0;
     u32 value3;
     value3 = (u32) &func_021526a0;
-    value0 = (u32) func_021526a0();
+    value0 = (u32) func_021526a0(a);
     return (u32) value0;
 }
 #pragma thumb off

@@ -181,6 +181,7 @@ typedef struct Unk0217aa08_20_04 {
             u8 mUnk_22_0 : 1;
             u8 mUnk_22_1 : 1;
             u8 mUnk_22_2 : 1;
+            u8 mUnk_22_3 : 1;
         };
     };
     /* 23 */ u8 mUnk_23;

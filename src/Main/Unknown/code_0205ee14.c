@@ -164,7 +164,7 @@ void func_0205fa00(u32 a, s32 *b, u32 c, u32 d) {
     if (p->mUnk_70[a].mUnk_20 == 0) {
         return;
     }
-    r = func_0206105c(p->mUnk_70[a].mUnk_20);
+    r = func_0206105c((const void *) p->mUnk_70[a].mUnk_20);
     if (r == -1) {
         return;
     }
