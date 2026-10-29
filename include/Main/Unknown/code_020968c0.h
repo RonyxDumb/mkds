@@ -19,7 +19,7 @@ typedef struct Unk02096a04 {
     /* c4 */ u16 mUnk_c4;
     /* c6 */ u8 mUnk_c6[2];
     /* c8 */ s32 mUnk_c8;
-    /* cc */ u8 mUnk_cc[4];
+    /* cc */ s32 mUnk_cc;
     /* d0 */ s32 mUnk_d0;
     /* d4 */ s32 mUnk_d4;
     /* d8 */ s32 mUnk_d8;
@@ -28,7 +28,7 @@ typedef struct Unk02096a04 {
     /* e4 */ u16 mUnk_e4;
     /* e6 */ u8 mUnk_e6[2];
     /* e8 */ s32 mUnk_e8;
-    /* ec */ u8 mUnk_ec[4];
+    /* ec */ s32 mUnk_ec;
     /* f0 */ s32 mUnk_f0;
     /* f4 */ s32 mUnk_f4;
     /* f8 */ s32 mUnk_f8;
