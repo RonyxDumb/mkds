@@ -214,6 +214,7 @@ extern UnkFunc *data_0217b068;
 extern UnkFunc *data_0217b06c;
 extern UnkFunc *data_0217b070;
 extern s32 (*data_0217b074)();
+extern struct Unk0208c5b8 *data_0217b078;
 // Object behind data_0217b080, 0x60 bytes: 12-byte blocks at 0x00, 0x0c, 0x18 and 0x24.
 typedef struct Unk0217b080 {
     /* 00 */ Unk02017328 mUnk_00;

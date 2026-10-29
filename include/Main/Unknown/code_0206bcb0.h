@@ -46,11 +46,6 @@ typedef struct Unk0206c1ac {
     /* 72 */ u16 mUnk_72;
 } Unk0206c1ac;
 
-typedef struct Unk0208c5b8 {
-    /* 0 */ u8 mUnk_00[0x3c];
-    /* 3c */ u32 mUnk_3c;
-} Unk0208c5b8;
-
 typedef struct Unk0206cdd4_A {
     /* 0 */ s32 mUnk_00;
     /* 4 */ s32 mUnk_04;
@@ -319,14 +314,9 @@ void func_0206c488(Unk0206c1ac *obj, Unk0206bcb0 *p);
 
 void func_02068a64(Unk0206bcb0 *p, int a, int b);
 void func_0207b0d0(Unk0206bcb0 *p);
-Unk0208c5b8 *func_0208c5b8(int idx);
-void func_0208c534(Unk0208c5b8 *p);
 void func_0208b748(u32 idx, const Vec3 *pos, void *p, void (*cb)());
 int func_0206c494(Unk0206bcb0 *p);
 void func_0206cc60(Unk0206bcb0 *p, int arg);
-void func_0208ccf0(Unk0208c5b8 *p);
-void func_0208d6b0(Unk0208c5b8 *p);
-void func_0208d650(Unk0208c5b8 *p);
 #include "Main/Unknown/code_0210ab48.h"
 void func_0206cdd4(Unk0206bcb0 *p);
 void func_0206ceb4(s32 *out, Unk0206bcb0 *p);
