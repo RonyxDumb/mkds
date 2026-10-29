@@ -1,3 +1,5 @@
+data_00000c00 kind:data(any) addr:0x00000c00
+data_00002800 kind:data(any) addr:0x00002800
 RLUnCompReadByCallbackWrite16bit kind:function(thumb,size=0x4) addr:0x0200007e
 SoftReset kind:function(thumb,size=0x4) addr:0x020000d0
 VBlankIntrWait kind:function(thumb,size=0x6) addr:0x02000142
@@ -12170,3 +12172,4 @@ data_usa_02180486 kind:bss addr:0x02180486
 data_usa_0218048a kind:bss addr:0x0218048a
 data_usa_0218048c kind:bss addr:0x0218048c
 data_usa_021804a0 kind:bss addr:0x021804a0
+data_02400000 kind:data(any) addr:0x02400000

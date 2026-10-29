@@ -2,10 +2,10 @@
 #include "code_0200c914.h"
 #include "code_0200e77c.h"
 #include "Main/Unknown/unk_02170000.h"
+#include "Main/Unknown/unk_00000000.h"
+#include "Main/Unknown/unk_00002000.h"
+#include "Main/Unknown/unk_02400000.h"
 
-// non-matching: 0xec bytes against 0x130. The original loads 0x2800 and 0xc00 from words in the code with no
-// relocation, keeps them as register values (tests the first against 0 twice and subtracts both); written as
-// constants here, they are folded.
 u32 func_0200f038(u32 i) {
     u32 a;
     s32 n;
@@ -23,8 +23,8 @@ u32 func_0200f038(u32 i) {
             return 0x2000000;
         case 4:
             a = (u32) &data_027e0000;
-            n = 0x2800;
-            c = a + 0x3f80 - 0xc00;
+            c = a + 0x3f80 - (u32) data_00000c00;
+            n = (s32) data_00002800;
             if (n == 0) {
                 return a < 0x27e00e0 ? 0x27e00e0 : a;
             }
@@ -40,8 +40,6 @@ u32 func_0200f038(u32 i) {
     return 0;
 }
 
-// non-matching: 0xe8 bytes against 0xec. Case 2 returns 0x2400000 loaded from a word in the code with no relocation
-// (ldr r0); written as a constant it is mov r0, #0x2400000.
 u32 func_0200ef4c(u32 i) {
     switch (i) {
         case 0:
@@ -50,7 +48,7 @@ u32 func_0200ef4c(u32 i) {
             if (data_021701b8 == 0 || (func_0200e884() & 3) == 1) {
                 return 0;
             }
-            return 0x2400000;
+            return (u32) data_02400000;
         case 3:
             return 0x1ffffa0;
         case 4:

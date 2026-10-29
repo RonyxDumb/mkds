@@ -65,7 +65,6 @@ lcf = args.lcf_in.read_text()
 # Linker-defined constants the linker script has to provide (values read from the original's literal pools):
 # overlay ids under their SDK names, and the values in LCF_SYMBOLS (tools/project.py).
 sdk = [f"    SDK_OVERLAY_OV{n:03d}_ID = {n};" for n in range(lcf.count("_ID = "))]
-sdk += [f"    {name} = {value};" for name, value in LCF_SYMBOLS.items()]
 # Aliases of main symbols go at the end of the ARM9 block, where their bases have addresses. mwldarm files a symbol
 # that the script defines outside every block under the last section (the last overlay), which `dsd check symbols`
 # then reports as that overlay's; inside the block it is filed under ARM9 like its base. Absolute aliases stay outside.
@@ -104,6 +103,7 @@ if edits.exists():
             raise SystemExit(f"lcf_edits: unknown edit {words[0]!r}")
 lcf = lcf.replace("SECTIONS {\n", "SECTIONS {\n" + "\n".join(sdk) + "\n", 1)
 inside = [line.strip() for in_main, line in aliases if in_main]
+inside += [f"{name} = {value};" for name, value in LCF_SYMBOLS.items()]
 outside = [line for in_main, line in aliases if not in_main]
 if inside:
     end = lcf.index("    } > ARM9\n")

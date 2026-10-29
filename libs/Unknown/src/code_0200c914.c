@@ -4,6 +4,7 @@
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "Main/Unknown/code_0214d000.h"
+#include "Main/Unknown/unk_00000000.h"
 
 u16 data_021617bc[8] = {8, 9, 10, 11, 3, 4, 5, 6};
 Unk0216fee0 data_0216fee0[8];
@@ -117,14 +118,12 @@ u32 func_0200ca68(u32 v) {
     return o;
 }
 
-// non-matching: the second store is base + 0x3f80 with the offset 0xc00 subtracted through a register (add r0, ip,
-// #0x3f80; str r2, [r0, -r1]); this compiles to 0x28 bytes with the offset folded, not 0x34.
 void func_0200ca34(void) {
-    Unk027e0000 *p;
+    u32 a;
 
-    p = (Unk027e0000 *) 0x027e0000;
-    p->mUnk_3f7c = 0xfddb597d;
-    p->mUnk_3380 = 0x7bf9dd5b;
+    a = (u32) &data_027e0000;
+    *(u32 *) (a + 0x3f7c) = 0xfddb597d;
+    *(u32 *) (a + 0x3f80 - (u32) data_00000c00) = 0x7bf9dd5b;
 }
 
 void func_0200ca30(void) {}

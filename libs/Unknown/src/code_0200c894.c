@@ -6,8 +6,6 @@
 #include "Main/Unknown/code_0200f000.h"
 #include "Main/Unknown/code_0214d000.h"
 
-// non-matching: the bytes match, but the pool word at +0x74 holds the address of data_027e0000 as a number where the
-// original has a relocation to it (writing &data_027e0000 there merges it with the pool word at +0x7c).
 void func_0200c894(u32 a, u32 b) {
     u32 s;
     Unk027e0000 *p;
