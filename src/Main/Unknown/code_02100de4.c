@@ -26,101 +26,88 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_020ee684.h"
 
-// non-matching: 386 words, 4 bytes longer (0x660 vs 0x65c). The loop structure matches; the
-// register/stack allocation inside the four scan blocks does not (original: t r4, s r5,
-// c r6, a r7, e r8, k r9, j r10, ok r11, q lr, 1 ip, n r0, and a per-block l spilled at
-// sp+0x1c/0x20/0x24/0x28, stack 0x4c; here c r5, s fp, a r6, n r1, l in registers, stack 0x3c).
+static inline u32 func_02101f7c_inline_2(Unk020f41c4_B *b, u32 n) {
+    b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
+    if (n == 0) {
+        return (u32) (b->mUnk_00 >> 32);
+    }
+    return (u32) (((b->mUnk_00 >> 32) * n) >> 32);
+}
+
+static inline s32 func_02101f7c_inline(u8 *v1, Unk021759c0 *o, s32 a, u16 k) {
+    Unk020ee684 *e;
+    Unk0206bcb0 *q;
+    s32 v2;
+    s32 l;
+
+    l = 1;
+    v2 = 1;
+    e = (Unk020ee684 *) (v1 + k * 0x210);
+    q = e->mUnk_1fc;
+    if (q->mUnk_180 < 4 && (q->mUnk_7c & 0x400020) == 0) {
+        v2 = 0;
+    }
+    if (v2 == 0 && (q->mUnk_4c & 0x10000800) == 0) {
+        l = 0;
+    }
+    if (l | ((q->mUnk_4c & 0x40) ? 1 : 0)) {
+        v2 = 0;
+    } else if (a != -1 && a == o->mUnk_70[k].mUnk_04) {
+        v2 = 0;
+    } else {
+        v2 = 0;
+        if (e->mUnk_030.mUnk_00 != 0x13 && e->mUnk_030.mUnk_20 == 0) {
+            v2 = e->mUnk_030.mUnk_00 != 0x10;
+        }
+    }
+    return v2;
+}
+
 void func_02101f7c(Unk02101c84 *p, s32 a) {
     u16 acc[7];
     u16 b2[7];
-    Unk0217561c *m;
     u32 lim;
+    Unk0217561c *m;
     u32 j;
     u16 k;
     u16 v;
     Unk020f41c4_B *b;
-    Unk020ee684 *e;
-    Unk0206bcb0 *q;
-    s32 ok;
-    s32 i;
-    u16 c;
+    u16 i;
+    s32 c;
     u16 s;
     u16 *t;
     u32 n;
+    u8 *v2;
+    Unk021759c0 *v3;
+    u8 *v1;
+    Unk021759c0 *o;
 
     lim = data_021759c0->mUnk_3d0;
     s = c = 0;
     t = data_0215a154;
-    n = j = func_0203c8dc((u16) ((p->mUnk_000.mUnk_78 & 0x8000) == 0 ? (u16) (p->mUnk_000.mUnk_78 & ~0xff00) : 8));
+    j = n = func_0203c8dc((u16) ((p->mUnk_000.mUnk_78 & 0x8000) == 0 ? (u16) (p->mUnk_000.mUnk_78 & ~0xff00) : 8));
     if (p->mUnk_148 != 0) {
-        u8 *v1;
-        Unk021759c0 *o;
-
         m = data_0217561c;
         v1 = *(u8 **) data_027e00c8;
         o = data_021759c0;
         do {
             if (n > 1) {
-                s32 l;
-
                 n = (u16) (n - 1);
-                k = (u16) ((s8 *) m)[0x474 + (u8) n - 1];
-                e = (Unk020ee684 *) (v1 + k * 0x210);
-                q = e->mUnk_1fc;
-                ok = 1;
-                if (q->mUnk_180 < 4 && (q->mUnk_7c & 0x400020) == 0) {
-                    ok = 0;
-                }
-                l = 1;
-                if (ok == 0 && (q->mUnk_4c & 0x10000800) == 0) {
-                    l = 0;
-                }
-                if (l | ((q->mUnk_4c & 0x40) ? 1 : 0)) {
-                    ok = 0;
-                } else if (a != -1 && a == o->mUnk_70[k].mUnk_04) {
-                    ok = 0;
-                } else {
-                    ok = 0;
-                    if (e->mUnk_030.mUnk_00 != 0x13 && e->mUnk_030.mUnk_20 == 0) {
-                        ok = e->mUnk_030.mUnk_00 != 0x10;
-                    }
-                }
-                if (ok != 0) {
-                    b2[c] = k;
+                k = (u16) m->mUnk_474[(u8) n - 1];
+                if (func_02101f7c_inline(v1, o, a, k) != 0) {
                     s = (u16) (s + *t);
+                    b2[c] = k;
                     acc[c] = s;
                     c++;
                 }
                 t++;
             }
             if (j < lim) {
-                s32 l;
-
                 j = (u16) (j + 1);
-                k = (u16) ((s8 *) m)[0x474 + (u8) j - 1];
-                e = (Unk020ee684 *) (v1 + k * 0x210);
-                q = e->mUnk_1fc;
-                ok = 1;
-                if (q->mUnk_180 < 4 && (q->mUnk_7c & 0x400020) == 0) {
-                    ok = 0;
-                }
-                l = 1;
-                if (ok == 0 && (q->mUnk_4c & 0x10000800) == 0) {
-                    l = 0;
-                }
-                if (l | ((q->mUnk_4c & 0x40) ? 1 : 0)) {
-                    ok = 0;
-                } else if (a != -1 && a == o->mUnk_70[k].mUnk_04) {
-                    ok = 0;
-                } else {
-                    ok = 0;
-                    if (e->mUnk_030.mUnk_00 != 0x13 && e->mUnk_030.mUnk_20 == 0) {
-                        ok = e->mUnk_030.mUnk_00 != 0x10;
-                    }
-                }
-                if (ok != 0) {
-                    b2[c] = k;
+                k = (u16) m->mUnk_474[(u8) j - 1];
+                if (func_02101f7c_inline(v1, o, a, k) != 0) {
                     s = (u16) (s + *t);
+                    b2[c] = k;
                     acc[c] = s;
                     c++;
                 }
@@ -128,74 +115,27 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
             }
         } while (j < lim || n > 1);
     } else {
-        u8 *v1;
-        Unk021759c0 *o;
-
         m = data_0217561c;
-        v1 = *(u8 **) data_027e00c8;
-        o = data_021759c0;
+        v2 = *(u8 **) data_027e00c8;
+        v3 = data_021759c0;
         do {
             if (j < lim) {
-                s32 l;
-
                 j = (u16) (j + 1);
-                k = (u16) ((s8 *) m)[0x474 + (u8) j - 1];
-                e = (Unk020ee684 *) (v1 + k * 0x210);
-                q = e->mUnk_1fc;
-                ok = 1;
-                if (q->mUnk_180 < 4 && (q->mUnk_7c & 0x400020) == 0) {
-                    ok = 0;
-                }
-                l = 1;
-                if (ok == 0 && (q->mUnk_4c & 0x10000800) == 0) {
-                    l = 0;
-                }
-                if (l | ((q->mUnk_4c & 0x40) ? 1 : 0)) {
-                    ok = 0;
-                } else if (a != -1 && a == o->mUnk_70[k].mUnk_04) {
-                    ok = 0;
-                } else {
-                    ok = 0;
-                    if (e->mUnk_030.mUnk_00 != 0x13 && e->mUnk_030.mUnk_20 == 0) {
-                        ok = e->mUnk_030.mUnk_00 != 0x10;
-                    }
-                }
-                if (ok != 0) {
-                    b2[c] = k;
+                k = (u16) m->mUnk_474[(u8) j - 1];
+                if (func_02101f7c_inline(v2, v3, a, k) != 0) {
                     s = (u16) (s + *t);
+                    b2[c] = k;
                     acc[c] = s;
                     c++;
                 }
                 t++;
             }
             if (n > 1) {
-                s32 l;
-
                 n = (u16) (n - 1);
-                k = (u16) ((s8 *) m)[0x474 + (u8) n - 1];
-                e = (Unk020ee684 *) (v1 + k * 0x210);
-                q = e->mUnk_1fc;
-                ok = 1;
-                if (q->mUnk_180 < 4 && (q->mUnk_7c & 0x400020) == 0) {
-                    ok = 0;
-                }
-                l = 1;
-                if (ok == 0 && (q->mUnk_4c & 0x10000800) == 0) {
-                    l = 0;
-                }
-                if (l | ((q->mUnk_4c & 0x40) ? 1 : 0)) {
-                    ok = 0;
-                } else if (a != -1 && a == o->mUnk_70[k].mUnk_04) {
-                    ok = 0;
-                } else {
-                    ok = 0;
-                    if (e->mUnk_030.mUnk_00 != 0x13 && e->mUnk_030.mUnk_20 == 0) {
-                        ok = e->mUnk_030.mUnk_00 != 0x10;
-                    }
-                }
-                if (ok != 0) {
-                    b2[c] = k;
+                k = (u16) m->mUnk_474[(u8) n - 1];
+                if (func_02101f7c_inline(v2, v3, a, k) != 0) {
                     s = (u16) (s + *t);
+                    b2[c] = k;
                     acc[c] = s;
                     c++;
                 }
@@ -204,15 +144,7 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
         } while (j < lim || n > 1);
     }
     b = &m->mUnk_47c;
-    if (s != 0) {
-        b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
-        v = (u16) ((s == 0) ? (u32) (b->mUnk_00 >> 32) : (u32) (((u64) (u32) (b->mUnk_00 >> 32) * (u64) s) >> 32));
-    } else {
-        v = 0;
-    }
-    if (c == 0) {
-        return;
-    }
+    v = (u16) (s == 0 ? 0 : func_02101f7c_inline_2(b, s));
     for (i = 0; i < c; i++) {
         if (v < acc[i]) {
             p->mUnk_140 = b2[i];
