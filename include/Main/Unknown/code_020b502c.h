@@ -47,10 +47,12 @@ typedef struct {
 typedef struct {
     /* 00 */ Vec3 mUnk_00;
     /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ u8 mUnk_18[0x24];
+    /* 18 */ Vec3 mUnk_18;
+    /* 24 */ Vec3 mUnk_24;
+    /* 30 */ Vec3 mUnk_30;
     /* 3c */ u16 mUnk_3c;
     /* 3e */ s16 mUnk_3e;
-    /* 40 */ u8 mUnk_40[2];
+    /* 40 */ s16 mUnk_40;
     /* 42 */ u8 mUnk_42;
     /* 43 */ u8 mUnk_43;
     /* 44 */ u8 mUnk_44;
@@ -91,7 +93,10 @@ typedef struct Unk02175620_34 {
 
 // 0x20-byte entries of the table at Unk02175620::mUnk_24.
 typedef struct Unk02175620_24 {
-    /* 00 */ u8 mUnk_00[0x1c];
+    /* 00 */ Vec3 mUnk_00;
+    /* 0c */ Vec3 mUnk_0c;
+    /* 18 */ u16 mUnk_18;
+    /* 1a */ u16 mUnk_1a;
     /* 1c */ s16 mUnk_1c;
     /* 1e */ u8 mUnk_1e[2];
 } Unk02175620_24;
@@ -100,7 +105,8 @@ typedef struct Unk02175620_24 {
 typedef struct Unk02175620_44 {
     /* 00 */ u8 mUnk_00[0x20];
     /* 20 */ s16 mUnk_20;
-    /* 22 */ u8 mUnk_22[2];
+    /* 22 */ u8 mUnk_22;
+    /* 23 */ u8 mUnk_23;
 } Unk02175620_44;
 
 // 0x0c-byte entries of the table at Unk02175620::mUnk_4c.
@@ -113,6 +119,12 @@ typedef struct Unk02175620_4c {
     /* 0a */ u8 mUnk_0a;
     /* 0b */ u8 mUnk_0b;
 } Unk02175620_4c;
+
+// Node of the lists at Unk02175620::mUnk_d8: an entry of the table at mUnk_74 and the next node.
+typedef struct Unk02175620_d8 {
+    /* 00 */ Unk02175620_74 *mUnk_00;
+    /* 04 */ struct Unk02175620_d8 *mUnk_04;
+} Unk02175620_d8;
 
 // Object behind data_02175620.
 typedef struct {
@@ -190,8 +202,7 @@ typedef struct {
     /* cc */ s32 mUnk_cc;
     /* d0 */ s32 mUnk_d0;
     /* d4 */ s32 mUnk_d4;
-    /* d8 */ s32 mUnk_d8;
-    /* dc */ u8 mUnk_dc[0x1c];
+    /* d8 */ struct Unk02175620_d8 *mUnk_d8[8];
     /* f8 */ u16 *mUnk_f8;
     /* fc */ u16 *mUnk_fc;
     /* 100 */ u16 mUnk_100;

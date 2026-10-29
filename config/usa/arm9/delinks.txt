@@ -1583,6 +1583,10 @@ src/Main/Unknown/code_020401ac.c:
     .text       start:0x020401ac end:0x02040de0
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_02040de0.c:
+    .text       start:0x02040de0 end:0x02042044
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_02042044.c:
     .text       start:0x02042044 end:0x02042064
 
