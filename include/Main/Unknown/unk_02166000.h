@@ -40,6 +40,7 @@ extern const char data_021663c0[];
 extern u8 data_021663d8;
 extern u8 data_021663dc;
 extern u16 data_021663e0;
+extern u16 data_021663e4;
 extern s32 data_021663e8;
 extern s32 (*data_021663ec)();
 extern s32 data_021663f0;
@@ -53,5 +54,10 @@ typedef struct Unk021663f4 {
 } Unk021663f4;
 
 extern Unk021663f4 data_021663f4;
+extern s32 data_02166418[][2];
+extern s32 data_0216641c[][2];
+extern s32 data_02166480[];
+extern const char data_02166514[];
+extern const char data_02166530[];
 extern Unk02165ff0 data_0216600c;
 extern Unk02165ff0 data_02166028;

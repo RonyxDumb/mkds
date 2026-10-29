@@ -20,6 +20,10 @@ typedef struct Unk0208ec64 {
     /* 14 */ u32 mUnk_14;
     /* 18 */ u32 mUnk_18;
     /* 1c */ u32 mUnk_1c;
+    /* 20 */ s32 mUnk_20;
+    /* 24 */ s32 mUnk_24;
+    /* 28 */ s32 mUnk_28;
+    /* 2c */ s32 mUnk_2c;
 } Unk0208ec64;
 
 s32 func_0208ec64(u32 param_1);

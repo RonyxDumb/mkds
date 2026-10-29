@@ -38,7 +38,7 @@ typedef struct Unk0206bcb0_590_08 {
 
 typedef struct Unk0206bcb0_590 {
     /* 000 */ s32 mUnk_000;
-    /* 004 */ u8 mUnk_004[4];
+    /* 004 */ s32 mUnk_004;
     /* 008 */ Unk0206bcb0_590_08 *mUnk_008;
     /* 00c */ u8 mUnk_00c[0x10];
     /* 01c */ Unk0206bcb0_590_1c *mUnk_01c;

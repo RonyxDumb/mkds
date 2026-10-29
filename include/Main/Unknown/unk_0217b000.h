@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/unk_02165000.h" // Unk02165ff0
+#include "Main/Unknown/code_020846c0.h" // Unk0208526c
 #include "code_0212da38.h" // Unk02017328
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020e516c.h"
@@ -237,13 +238,17 @@ typedef struct Unk0217b08c {
     /* 00 */ Unk02017328 mUnk_00;
     /* 0c */ Unk02017328 mUnk_0c;
     /* 18 */ Unk02017328 mUnk_18;
-    /* 24 */ u8 mUnk_24[8];
-    /* 2c */ void *mUnk_2c;
-    /* 30 */ void *mUnk_30;
+    /* 24 */ Unk0208526c mUnk_24;
     /* 34 */ s32 mUnk_34;
 } Unk0217b08c;
 
 extern Unk0217b08c *data_0217b08c;
+extern UnkFunc *data_0217b090;
+extern UnkFunc *data_0217b094;
+extern UnkFunc *data_0217b098;
+extern UnkFunc *data_0217b0a0;
+extern UnkFunc *data_0217b0a8;
+extern UnkFunc *data_0217b0ac;
 
 // The 0x10 bytes at 0x784 of Unk0217b034; the callbacks at 0x794 and 0x798 get their address.
 typedef struct Unk0217b034_784 {
