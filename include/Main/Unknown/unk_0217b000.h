@@ -337,22 +337,14 @@ typedef struct Unk0217b278_10 {
     /* 06 */ u16 mUnk_06;
 } Unk0217b278_10;
 
-// Object behind Unk0217b278_1c::mUnk_04.
-typedef struct Unk0217b278_1c_04 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[0xc];
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-} Unk0217b278_1c_04;
-
+struct Unk020b4934;
 struct Unk0217b278;
 
 // Set up by func_020aa028 (at 0x1c of Unk0217b278, which mUnk_2c then points to); mUnk_08 is called with the
 // Unk0217b278 (func_020ab45c is one).
 typedef struct Unk0217b278_1c {
     /* 00 */ Unk0217b278_10 *mUnk_00;
-    /* 04 */ Unk0217b278_1c_04 *mUnk_04;
+    /* 04 */ struct Unk020b4934 *mUnk_04;
     /* 08 */ void (*mUnk_08)(struct Unk0217b278 *);
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mUnk_0e;
@@ -401,7 +393,24 @@ extern u8 data_0217b280[];
 extern u16 data_0217b2b8[2];
 extern Unk0217b278_1c data_0217b294;
 extern Unk0217b278_34 data_0217b2ac;
-extern u8 data_0217b2d8[];
+// Object at data_0217b2d8, 0x28 bytes (func_020ab660 updates it, func_020ab72c clears it).
+typedef struct Unk0217b2d8 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+    /* 0c */ u16 mUnk_0c[4];
+    /* 14 */ u16 mUnk_14;
+    /* 16 */ u16 mUnk_16;
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ u16 mUnk_20;
+    /* 22 */ u16 mUnk_22;
+    /* 24 */ s32 mUnk_24;
+} Unk0217b2d8;
+
+extern Unk0217b2d8 data_0217b2d8;
 extern u16 *data_0217b318;
 extern u16 *data_0217b328;
 extern u16 *data_0217b32c;

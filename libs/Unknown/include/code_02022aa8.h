@@ -36,13 +36,22 @@ typedef struct Unk02022dd8 {
     /* 0c */ Unk02022dd8_s mUnk_0c;
 } Unk02022dd8;
 
+// Object behind Unk02022ce4::mUnk_08: a byte at 0x01, a halfword at 0x02 and bytes from 0x08 (func_020aad9c).
+typedef struct Unk02022ce4_08 {
+    /* 00 */ u8 mUnk_00;
+    /* 01 */ u8 mUnk_01;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u8 mUnk_04[4];
+    /* 08 */ u8 mUnk_08[1];
+} Unk02022ce4_08;
+
 typedef struct Unk02022ce4 {
     /* 00 */ u8 mUnk_00;
     /* 01 */ s8 mUnk_01;
     /* 02 */ u16 mUnk_02;
     /* 04 */ Unk02022c80 mUnk_04;
     /* 07 */ u8 mUnk_07;
-    /* 08 */ u32 mUnk_08;
+    /* 08 */ Unk02022ce4_08 *mUnk_08;
     /* 0c */ Unk02022c80_n *mUnk_0c;
     /* 10 */ Unk02022dd8 *mUnk_10;
 } Unk02022ce4;

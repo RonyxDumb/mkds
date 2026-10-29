@@ -8,6 +8,7 @@ extern const char data_02167878[];
 extern const char data_02167888[];
 extern const char data_021678cc[];
 extern const char data_021678dc[];
+extern s32 data_usa_021679f8;
 extern u16 data_021679fc[3];
 extern u16 *data_02167a04[4];
 extern Vec3 data_021676c4;

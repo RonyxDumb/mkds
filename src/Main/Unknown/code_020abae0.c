@@ -1,6 +1,7 @@
 #include "Main/Unknown/code_020abae0.h"
 #include "Main/Unknown/code_020a9cd4.h"
-#include "Main/Unknown/code_020aa000.h"
+#include "Main/Unknown/code_020a9ff4.h"
+#include "Main/Unknown/code_020aa81c.h"
 #include "Main/Unknown/code_020aa810.h"
 #include "Main/Unknown/code_020ab000.h"
 #include "Main/Unknown/code_020ab058.h"

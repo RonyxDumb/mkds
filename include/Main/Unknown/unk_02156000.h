@@ -88,3 +88,4 @@ typedef struct Unk02156808 {
 } Unk02156808;
 
 extern Unk02156808 data_02156808[];
+extern u16 data_usa_021567fc[6];

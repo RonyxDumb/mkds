@@ -10,7 +10,9 @@
 // Unk02021dc8 by func_020b486c, func_020b48b4 and func_020b48ec (func_020b486c passes it to func_02021dc8,
 // func_020b48ec to func_02021e8c; func_020b48b4 looks up the same block tag as func_020b48ec).
 typedef struct Unk020b4934 {
-    /* 0000 */ u8 pad_00[0x10];
+    /* 0000 */ u16 mUnk_00;
+    /* 0002 */ u16 mUnk_02;
+    /* 0004 */ u8 mUnk_04[0xc];
     /* 0010 */ u32 mUnk_10;
     /* 0014 */ u16 *mUnk_14;
 } Unk020b4934;
