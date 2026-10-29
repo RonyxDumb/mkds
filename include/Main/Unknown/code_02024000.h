@@ -8,8 +8,4 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "code_020245a4.h"
 #include "Main/Unknown/code_02024974.h"
-
-// Declared here until the code that defines them is decompiled.
-u32 func_02024184(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-void func_0202428c(Unk02180728 *a, s32 b, s32 c, s32 d, s32 e, s32 f, u32 g, u16 *h);
-u32 func_02024340(Unk02180728 *a, s32 b, s32 c, u32 d, u32 e, void *f);
+#include "code_02023374.h"

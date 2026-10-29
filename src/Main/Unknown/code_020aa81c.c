@@ -103,8 +103,8 @@ void func_020aad9c(Unk0217b278 *a) {
     Unk0217b278_10 *e;
     Unk02022ce4_08 *u;
     Unk02022c80 *t;
-    Unk020aad9c_24 v1;
-    Unk020aad9c v2;
+    Unk02023374_24 v1;
+    Unk02023374 v2;
     s32 c;
     u32 g;
     s32 v;

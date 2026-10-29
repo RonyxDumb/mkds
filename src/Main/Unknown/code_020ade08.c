@@ -79,7 +79,7 @@ void func_020adfb0(Unk02180728 *a, s32 b, s32 c, u32 d, u32 e, void *f) {
 #pragma thumb on
 
 void func_020adf00(u32 a) {
-    Unk020aad9c o;
+    Unk02023374 o;
     Unk02180728 q;
     u16 r[22];
     void *t;

@@ -889,6 +889,10 @@ libs/Unknown/src/code_020231e4.c:
     .text       start:0x020231e4 end:0x02023374
 
 // provisional: file name and boundaries
+libs/Unknown/src/code_02023374.c:
+    .text       start:0x02023374 end:0x020245a4
+
+// provisional: file name and boundaries
 libs/Unknown/src/code_020245a4.c:
     .text       start:0x020245a4 end:0x02024974
 
