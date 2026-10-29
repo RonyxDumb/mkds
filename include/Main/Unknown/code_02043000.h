@@ -15,3 +15,4 @@ void func_02043b3c(void);
 void func_02043b48(void);
 void func_0204360c(s32 a, u32 b);
 void func_02043f28(u32 a);
+u16 func_020431a4(void **a);

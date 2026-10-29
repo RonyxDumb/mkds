@@ -85,8 +85,34 @@ struct Unk020fa294;
 typedef struct Unk02175620_34 {
     /* 00 */ Vec3 mUnk_00;
     /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ u8 mUnk_18[4];
+    /* 18 */ s16 mUnk_18;
+    /* 1a */ u16 mUnk_1a;
 } Unk02175620_34;
+
+// 0x20-byte entries of the table at Unk02175620::mUnk_24.
+typedef struct Unk02175620_24 {
+    /* 00 */ u8 mUnk_00[0x1c];
+    /* 1c */ s16 mUnk_1c;
+    /* 1e */ u8 mUnk_1e[2];
+} Unk02175620_24;
+
+// 0x24-byte entries of the table at Unk02175620::mUnk_44.
+typedef struct Unk02175620_44 {
+    /* 00 */ u8 mUnk_00[0x20];
+    /* 20 */ s16 mUnk_20;
+    /* 22 */ u8 mUnk_22[2];
+} Unk02175620_44;
+
+// 0x0c-byte entries of the table at Unk02175620::mUnk_4c.
+typedef struct Unk02175620_4c {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u8 mUnk_04[3];
+    /* 07 */ u8 mUnk_07;
+    /* 08 */ u8 mUnk_08[2];
+    /* 0a */ u8 mUnk_0a;
+    /* 0b */ u8 mUnk_0b;
+} Unk02175620_4c;
 
 // Object behind data_02175620.
 typedef struct {
@@ -103,7 +129,7 @@ typedef struct {
     /* 01c */ s32 mUnk_01c;
     /* 020 */ u16 mUnk_020;
     /* 022 */ u8 mUnk_022[0x2];
-    /* 024 */ s32 mUnk_024;
+    /* 024 */ Unk02175620_24 *mUnk_024;
     /* 028 */ u16 mUnk_028;
     /* 02a */ u8 mUnk_02a[0x2];
     /* 2c */ Unk020b57e4 *mUnk_2c;
@@ -115,10 +141,10 @@ typedef struct {
     /* 3c */ void *mUnk_3c;
     /* 40 */ u16 mUnk_40;
     /* 42 */ u8 mUnk_42[0x2];
-    /* 44 */ void *mUnk_44;
+    /* 44 */ Unk02175620_44 *mUnk_44;
     /* 48 */ u16 mUnk_48;
     /* 4a */ u8 mUnk_4a[0x2];
-    /* 4c */ void *mUnk_4c;
+    /* 4c */ Unk02175620_4c *mUnk_4c;
     /* 50 */ u16 mUnk_50;
     /* 52 */ u8 mUnk_52[0x2];
     /* 54 */ s32 mUnk_54;
@@ -156,7 +182,7 @@ typedef struct {
     /* ac */ struct Unk020f371c *mUnk_ac;
     /* b0 */ s32 mUnk_b0;
     /* b4 */ s32 mUnk_b4;
-    /* b8 */ void *mUnk_b8;
+    /* b8 */ Unk02175620_bc *mUnk_b8;
     /* bc */ Unk02175620_bc *mUnk_bc;
     /* c0 */ s32 mUnk_c0;
     /* c4 */ s32 mUnk_c4;
@@ -166,7 +192,7 @@ typedef struct {
     /* d4 */ s32 mUnk_d4;
     /* d8 */ s32 mUnk_d8;
     /* dc */ u8 mUnk_dc[0x1c];
-    /* f8 */ void *mUnk_f8;
+    /* f8 */ u16 *mUnk_f8;
     /* fc */ u16 *mUnk_fc;
     /* 100 */ u16 mUnk_100;
     /* 102 */ u16 mUnk_102;

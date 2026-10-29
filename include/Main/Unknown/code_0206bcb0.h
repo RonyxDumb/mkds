@@ -56,8 +56,13 @@ typedef struct Unk0206cdd4_A {
 } Unk0206cdd4_A;
 
 typedef struct Unk0206cdd4_B {
-    /* 0 */ u8 mUnk_00[4];
+    /* 0 */ s32 mUnk_00;
     /* 4 */ s32 mUnk_04;
+    /* 8 */ s32 mUnk_08;
+    /* c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ s32 mUnk_18;
 } Unk0206cdd4_B;
 
 struct Unk0206bcb0;
