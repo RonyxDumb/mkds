@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_02025ebc.h" // Unk02025ebc
 #include "Main/Unknown/code_02036588.h" // Unk02036590
+#include "Main/Unknown/unk_02153000.h" // Unk021535b4
 
 // 0x18-byte elements of the table at member 0 of Unk02029930.
 typedef struct Unk02029930_00 {
@@ -74,26 +75,38 @@ typedef struct Unk02174e3c {
 extern Unk02174e3c *data_02174e3c;
 extern Unk02036590 data_02174e88;
 
-// 0x1c-byte part of Unk02174e14, at 0x00 and at 0x1c.
+// 0x40-byte entries of the table at member 0x18 of Unk02174e14_00.
+typedef struct Unk02174e14_00_18 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ u8 mUnk_04[0xc];
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ u8 mUnk_14[0x20];
+    /* 34 */ s32 mUnk_34;
+    /* 38 */ u8 mUnk_38[8];
+} Unk02174e14_00_18;
+
+// 0x1c-byte part of Unk02174e14, at 0x00, 0x1c and 0x38; func_02026910 has two on the stack, one filled by
+// func_02025b84.
 typedef struct Unk02174e14_00 {
-    /* 00 */ u8 mUnk_00[8];
+    /* 00 */ void *mUnk_00;
+    /* 04 */ void *mUnk_04;
     /* 08 */ void *mUnk_08;
     /* 0c */ void *mUnk_0c;
     /* 10 */ void *mUnk_10;
     /* 14 */ u8 mUnk_14[4];
-    /* 18 */ void *mUnk_18;
+    /* 18 */ Unk02174e14_00_18 *mUnk_18;
 } Unk02174e14_00;
 
 // Object behind data_02174e14.
 typedef struct Unk02174e14 {
     /* 000 */ Unk02174e14_00 mUnk_000;
     /* 01c */ Unk02174e14_00 mUnk_01c;
-    /* 038 */ u8 mUnk_038[0x1c];
+    /* 038 */ Unk02174e14_00 mUnk_038;
     /* 054 */ void *mUnk_054;
     /* 058 */ void *mUnk_058;
-    /* 05c */ u8 mUnk_05c[4];
+    /* 05c */ void *mUnk_05c;
     /* 060 */ s32 mUnk_060;
-    /* 064 */ u8 mUnk_064[4];
+    /* 064 */ s32 mUnk_064;
     /* 068 */ s32 mUnk_068;
     /* 06c */ s32 mUnk_06c;
     /* 070 */ s32 mUnk_070;
@@ -107,7 +120,7 @@ typedef struct Unk02174e14 {
     /* 088 */ s16 mUnk_088;
     /* 08a */ s16 mUnk_08a;
     /* 08c */ s32 mUnk_08c;
-    /* 090 */ u8 mUnk_090[0x60];
+    /* 090 */ Unk021535b4 mUnk_090[12];
     /* 0f0 */ s32 mUnk_0f0;
     /* 0f4 */ s32 mUnk_0f4;
     /* 0f8 */ Unk02025ebc mUnk_0f8;

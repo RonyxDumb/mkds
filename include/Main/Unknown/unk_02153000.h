@@ -26,8 +26,25 @@ typedef struct Unk02153554 {
     /* 06 */ s16 mUnk_06;
 } Unk02153554;
 
+// 8-byte entries at 0x90 of Unk02174e14, filled from data_021535b4.
+typedef struct Unk021535b4 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+} Unk021535b4;
+
+// 4-byte entries of the tables at data_021534bc, data_021534dc, data_02153500 and data_02153528.
+typedef struct Unk021534bc {
+    /* 00 */ s16 mUnk_00;
+    /* 02 */ s16 mUnk_02;
+} Unk021534bc;
+
 extern Unk02153c1c data_02153c1c[];
 extern Unk02153554 data_usa_02153554[];
+extern Unk021534bc data_021534bc[];
+extern Unk021534bc data_021534dc[];
+extern Unk021534bc data_02153500[];
+extern Unk021534bc data_02153528[];
+extern Unk021535b4 data_021535b4[];
 extern Unk02153c58 data_02153c58[];
 
 // Objects whose layout isn't known yet.
