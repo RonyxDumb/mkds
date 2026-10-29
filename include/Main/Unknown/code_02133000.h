@@ -2,6 +2,8 @@
 
 #include "types.h"
 #include "code_02133da8.h"
-
-// Declared here until the code that defines them is decompiled.
-u64 _s32_div_f(u32 param_1, u32 param_2);
+#include "code_021329f8.h"
+#include "code_02133620.h"
+#include "code_02133668.h"
+#include "code_021336d4.h"
+#include "code_0213377c.h"
