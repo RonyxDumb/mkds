@@ -57,7 +57,7 @@ int func_02145668(u32 a, u32 b, u32 c, void *d) {
     return r;
 }
 
-int func_021455a0(u32 a, const void *b, u32 c, u32 d, u16 e, u8 f) {
+int func_021455a0(Unk021425e8Func a, const void *b, u32 c, u32 d, u16 e, u8 f) {
     int r;
 
     r = func_02142988(2, 7, 9);
@@ -72,7 +72,7 @@ int func_021455a0(u32 a, const void *b, u32 c, u32 d, u16 e, u8 f) {
     }
     func_0214cffc(b, data_0217f960, c);
     func_0200ee58(data_0217f960, c);
-    func_02142c0c(0x18, a);
+    func_02142c0c(0x18, (u32) a);
     r = func_02142ab8(0x18, 5, data_0217f960, c, d, e, f);
     if (r == 0) {
         r = 2;
@@ -98,14 +98,14 @@ int func_02145530(u32 a, u32 b) {
     return r;
 }
 
-int func_021454c4(int a, u32 b, u32 c, u32 d, u16 e) {
+int func_021454c4(Unk021425e8Func a, u32 b, u32 c, u32 d, u16 e) {
     int r;
 
     r = func_02142a30();
     if (r != 0) {
         return r;
     }
-    func_02142c0c(0x1d, a);
+    func_02142c0c(0x1d, (u32) a);
     r = func_02142ab8(0x1d, 4, b, c, d, e);
     if (r == 0) {
         r = 2;
@@ -114,7 +114,7 @@ int func_021454c4(int a, u32 b, u32 c, u32 d, u16 e) {
 }
 
 // Stores five u16 values at mUnk_00c of the Unk02142aa8 and passes code 0x1e to func_02142ab8.
-int func_0214544c(u32 a, u16 b, u16 c, u16 d, u16 e) {
+int func_0214544c(Unk021425e8Func a, u16 b, u16 c, u16 d, u16 e) {
     Unk02142aa8 *p;
     u16 *q;
     int r;
@@ -124,7 +124,7 @@ int func_0214544c(u32 a, u16 b, u16 c, u16 d, u16 e) {
     if (r != 0) {
         return r;
     }
-    func_02142c0c(0x1e, a);
+    func_02142c0c(0x1e, (u32) a);
     q = p->mUnk_00c;
     q[0] = 0x1e;
     q[1] = b;
@@ -138,14 +138,14 @@ int func_0214544c(u32 a, u16 b, u16 c, u16 d, u16 e) {
     return r;
 }
 
-int func_021453ec(u32 a, u32 b) {
+int func_021453ec(Unk021425e8Func a, u32 b) {
     int r;
 
     r = func_02142988(2, 7, 9);
     if (r != 0) {
         return r;
     }
-    func_02142c0c(0x21, a);
+    func_02142c0c(0x21, (u32) a);
     r = func_02142ab8(0x21, 1, b);
     if (r == 0) {
         r = 2;

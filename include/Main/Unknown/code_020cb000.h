@@ -5,4 +5,4 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_020cb340(void);
+#include "Main/Unknown/code_020cb340.h"

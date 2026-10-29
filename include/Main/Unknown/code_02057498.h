@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_02057498(unsigned int p0, unsigned int p1);
+u8 *func_02057498(u32 a, u8 *b);

@@ -14,7 +14,7 @@ int func_02120220(int arg0) {
     return (int) value0;
 }
 
-void func_02120200(int arg0, u16 arg1) {
+void func_02120200(int arg0, s16 arg1) {
     u32 value0 = (u32) arg0;
     u32 value1 = (u32) arg1;
     u32 value2;

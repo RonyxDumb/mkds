@@ -42,7 +42,9 @@ typedef struct Unk020748a8 {
     /* 018 */ u8 mUnk_018[0xc];
     /* 024 */ Vec3 mUnk_24;
     /* 030 */ s32 mUnk_030[9];
-    /* 054 */ u8 mUnk_054[0x108];
+    /* 054 */ u8 mUnk_054[0x48];
+    /* 09c */ Vec3 mUnk_9c;
+    /* 0a8 */ u8 mUnk_0a8[0xb4];
     /* 15c */ Vec3 mUnk_15c;
 } Unk020748a8;
 

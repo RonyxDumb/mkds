@@ -1,8 +1,8 @@
 #include "Main/Unknown/code_020cb99c.h"
 
-u32 func_020cb99c(void) {
+void *func_020cb99c(void) {
     u32 value0;
     value0 = (u32) func_020364e8();
     value0 = (u32) func_020364e0((void *) value0);
-    return (u32) value0;
+    return (void *) value0;
 }

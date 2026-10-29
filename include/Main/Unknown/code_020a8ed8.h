@@ -7,6 +7,7 @@
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_02042044.h"
 #include "Main/Unknown/code_020f9c6c.h"
+#include "Main/Unknown/code_020a826c.h" // Unk020a826c_a0
 
 // Object of 0x134 bytes: the shared Unk020e71a0 part, a Unk020e0144 at 0xc4 and a Unk020e516c at 0xe8.
 typedef struct Unk020a9268 {
@@ -34,11 +35,13 @@ typedef struct Unk020a9a5c {
     /* 04 */ u16 mUnk_04;
 } Unk020a9a5c;
 
-// Object returned by func_0209bfa8, with words at 0x38 and 0x3c (func_020a9224).
+// Object returned by func_0209bfa8, with words at 0x38, 0x3c and 0xc0 (func_020a9224, func_020a9de4).
 typedef struct Unk020a9224 {
     /* 00 */ u8 mUnk_00[0x38];
     /* 38 */ s32 mUnk_38;
     /* 3c */ s32 mUnk_3c;
+    /* 40 */ u8 mUnk_40[0x80];
+    /* c0 */ s32 mUnk_c0;
 } Unk020a9224;
 
 void func_020a9c54(void *a, Unk020a9268 *p, u32 c, u32 d);
@@ -48,4 +51,4 @@ void func_020a9224(void);
 u32 func_020a9204(void);
 u32 func_020a91e0(void);
 u32 func_020a91c0(void);
-void func_020a8ed8(Unk020a9268 *a, Vec3 *b);
+void func_020a8ed8(Unk020a826c_a0 *a, Vec3 *b);

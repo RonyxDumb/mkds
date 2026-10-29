@@ -292,11 +292,11 @@ void func_0210823c(void) {
     data_0217c794 = 0;
 }
 
-// non-matching: 0xdd0 bytes here against 0xd90 there, first difference at +0x280 (the literal
-// pool offsets before it follow from that): the address passed as the third argument of each
-// func_0210bbec call is held in r7 across the calls (push {r4, r5, r6, r7, fp, lr}, sub sp, #8),
-// while the ROM reloads it from the literal pool at every call (push {r4, r5, r6, fp, lr}, sub
-// sp, #12).
+// non-matching: 0xd8c bytes here against 0xd90 there. The result of func_0202511c is kept in r6
+// and the switch value read from data_021759c0 in r5, the other way round in the ROM (r5 and r6).
+// After func_0210f5d4 the ROM keeps data_021759c0 plus 0x28 in r6 (add r6, r1, #0x28) and reads
+// the byte at 0x2e as [r6, #6]; here data_021759c0 itself is kept in r5 and read as [r5, #0x2e],
+// so the ROM has one more instruction.
 void func_021074ac(s32 param_1) {
     s32 a;
     s32 v;
@@ -364,119 +364,119 @@ void func_021074ac(s32 param_1) {
                     func_0210f868(1, 1);
                     break;
                 case 0x12:
-                    func_0210bbec(0x15, data_0216c860[0].mUnk_04, (u32) &data_0216c860[0]);
-                    func_0210bbec(0x8, data_0216c860[0].mUnk_04, (u32) &data_0216c860[0]);
-                    func_0210bbec(0x9, data_0216c860[0].mUnk_04, (u32) &data_0216c860[0]);
-                    func_0210bbec(0xd, data_0216c860[0].mUnk_04, (u32) &data_0216c860[0]);
-                    func_0210bbec(0xe, data_0216c860[0].mUnk_04, (u32) &data_0216c860[0]);
-                    func_0210bbec(0x10, data_0216c860[0].mUnk_04, (u32) &data_0216c860[0]);
+                    func_0210bbec(0x15, data_0216c860[0].mUnk_04, &data_0216c860[0]);
+                    func_0210bbec(0x8, data_0216c860[0].mUnk_04, &data_0216c860[0]);
+                    func_0210bbec(0x9, data_0216c860[0].mUnk_04, &data_0216c860[0]);
+                    func_0210bbec(0xd, data_0216c860[0].mUnk_04, &data_0216c860[0]);
+                    func_0210bbec(0xe, data_0216c860[0].mUnk_04, &data_0216c860[0]);
+                    func_0210bbec(0x10, data_0216c860[0].mUnk_04, &data_0216c860[0]);
                     break;
                 case 0x21:
-                    func_0210bbec(0x15, data_0216c860[1].mUnk_04, (u32) &data_0216c860[1]);
-                    func_0210bbec(0x8, data_0216c860[1].mUnk_04, (u32) &data_0216c860[1]);
-                    func_0210bbec(0x9, data_0216c860[1].mUnk_04, (u32) &data_0216c860[1]);
-                    func_0210bbec(0xd, data_0216c860[1].mUnk_04, (u32) &data_0216c860[1]);
-                    func_0210bbec(0xe, data_0216c860[1].mUnk_04, (u32) &data_0216c860[1]);
-                    func_0210bbec(0x10, data_0216c860[1].mUnk_04, (u32) &data_0216c860[1]);
+                    func_0210bbec(0x15, data_0216c860[1].mUnk_04, &data_0216c860[1]);
+                    func_0210bbec(0x8, data_0216c860[1].mUnk_04, &data_0216c860[1]);
+                    func_0210bbec(0x9, data_0216c860[1].mUnk_04, &data_0216c860[1]);
+                    func_0210bbec(0xd, data_0216c860[1].mUnk_04, &data_0216c860[1]);
+                    func_0210bbec(0xe, data_0216c860[1].mUnk_04, &data_0216c860[1]);
+                    func_0210bbec(0x10, data_0216c860[1].mUnk_04, &data_0216c860[1]);
                     break;
                 case 0x18:
-                    func_0210bbec(0x15, data_0216c860[2].mUnk_04, (u32) &data_0216c860[2]);
-                    func_0210bbec(0x8, data_0216c860[2].mUnk_04, (u32) &data_0216c860[2]);
-                    func_0210bbec(0x9, data_0216c860[2].mUnk_04, (u32) &data_0216c860[2]);
-                    func_0210bbec(0xd, data_0216c860[2].mUnk_04, (u32) &data_0216c860[2]);
-                    func_0210bbec(0xe, data_0216c860[2].mUnk_04, (u32) &data_0216c860[2]);
-                    func_0210bbec(0x10, data_0216c860[2].mUnk_04, (u32) &data_0216c860[2]);
+                    func_0210bbec(0x15, data_0216c860[2].mUnk_04, &data_0216c860[2]);
+                    func_0210bbec(0x8, data_0216c860[2].mUnk_04, &data_0216c860[2]);
+                    func_0210bbec(0x9, data_0216c860[2].mUnk_04, &data_0216c860[2]);
+                    func_0210bbec(0xd, data_0216c860[2].mUnk_04, &data_0216c860[2]);
+                    func_0210bbec(0xe, data_0216c860[2].mUnk_04, &data_0216c860[2]);
+                    func_0210bbec(0x10, data_0216c860[2].mUnk_04, &data_0216c860[2]);
                     break;
                 case 0x1e:
-                    func_0210bbec(0x15, data_0216c860[3].mUnk_04, (u32) &data_0216c860[3]);
-                    func_0210bbec(0x8, data_0216c860[3].mUnk_04, (u32) &data_0216c860[3]);
-                    func_0210bbec(0x9, data_0216c860[3].mUnk_04, (u32) &data_0216c860[3]);
-                    func_0210bbec(0xd, data_0216c860[3].mUnk_04, (u32) &data_0216c860[3]);
-                    func_0210bbec(0xe, data_0216c860[3].mUnk_04, (u32) &data_0216c860[3]);
-                    func_0210bbec(0x10, data_0216c860[3].mUnk_04, (u32) &data_0216c860[3]);
+                    func_0210bbec(0x15, data_0216c860[3].mUnk_04, &data_0216c860[3]);
+                    func_0210bbec(0x8, data_0216c860[3].mUnk_04, &data_0216c860[3]);
+                    func_0210bbec(0x9, data_0216c860[3].mUnk_04, &data_0216c860[3]);
+                    func_0210bbec(0xd, data_0216c860[3].mUnk_04, &data_0216c860[3]);
+                    func_0210bbec(0xe, data_0216c860[3].mUnk_04, &data_0216c860[3]);
+                    func_0210bbec(0x10, data_0216c860[3].mUnk_04, &data_0216c860[3]);
                     break;
                 case 0x11:
-                    func_0210bbec(0x15, data_0216c860[4].mUnk_04, (u32) &data_0216c860[4]);
-                    func_0210bbec(0x8, data_0216c860[4].mUnk_04, (u32) &data_0216c860[4]);
-                    func_0210bbec(0x9, data_0216c860[4].mUnk_04, (u32) &data_0216c860[4]);
-                    func_0210bbec(0xd, data_0216c860[4].mUnk_04, (u32) &data_0216c860[4]);
-                    func_0210bbec(0xe, data_0216c860[4].mUnk_04, (u32) &data_0216c860[4]);
-                    func_0210bbec(0x10, data_0216c860[4].mUnk_04, (u32) &data_0216c860[4]);
+                    func_0210bbec(0x15, data_0216c860[4].mUnk_04, &data_0216c860[4]);
+                    func_0210bbec(0x8, data_0216c860[4].mUnk_04, &data_0216c860[4]);
+                    func_0210bbec(0x9, data_0216c860[4].mUnk_04, &data_0216c860[4]);
+                    func_0210bbec(0xd, data_0216c860[4].mUnk_04, &data_0216c860[4]);
+                    func_0210bbec(0xe, data_0216c860[4].mUnk_04, &data_0216c860[4]);
+                    func_0210bbec(0x10, data_0216c860[4].mUnk_04, &data_0216c860[4]);
                     break;
                 case 0x13:
-                    func_0210bbec(0x15, data_0216c860[5].mUnk_04, (u32) &data_0216c860[5]);
-                    func_0210bbec(0x8, data_0216c860[5].mUnk_04, (u32) &data_0216c860[5]);
-                    func_0210bbec(0x9, data_0216c860[5].mUnk_04, (u32) &data_0216c860[5]);
-                    func_0210bbec(0xd, data_0216c860[5].mUnk_04, (u32) &data_0216c860[5]);
-                    func_0210bbec(0xe, data_0216c860[5].mUnk_04, (u32) &data_0216c860[5]);
-                    func_0210bbec(0x10, data_0216c860[5].mUnk_04, (u32) &data_0216c860[5]);
+                    func_0210bbec(0x15, data_0216c860[5].mUnk_04, &data_0216c860[5]);
+                    func_0210bbec(0x8, data_0216c860[5].mUnk_04, &data_0216c860[5]);
+                    func_0210bbec(0x9, data_0216c860[5].mUnk_04, &data_0216c860[5]);
+                    func_0210bbec(0xd, data_0216c860[5].mUnk_04, &data_0216c860[5]);
+                    func_0210bbec(0xe, data_0216c860[5].mUnk_04, &data_0216c860[5]);
+                    func_0210bbec(0x10, data_0216c860[5].mUnk_04, &data_0216c860[5]);
                     break;
                 case 0x22:
-                    func_0210bbec(0x15, data_0216c860[6].mUnk_04, (u32) &data_0216c860[6]);
-                    func_0210bbec(0x8, data_0216c860[6].mUnk_04, (u32) &data_0216c860[6]);
-                    func_0210bbec(0x9, data_0216c860[6].mUnk_04, (u32) &data_0216c860[6]);
-                    func_0210bbec(0xd, data_0216c860[6].mUnk_04, (u32) &data_0216c860[6]);
-                    func_0210bbec(0xe, data_0216c860[6].mUnk_04, (u32) &data_0216c860[6]);
-                    func_0210bbec(0x10, data_0216c860[6].mUnk_04, (u32) &data_0216c860[6]);
+                    func_0210bbec(0x15, data_0216c860[6].mUnk_04, &data_0216c860[6]);
+                    func_0210bbec(0x8, data_0216c860[6].mUnk_04, &data_0216c860[6]);
+                    func_0210bbec(0x9, data_0216c860[6].mUnk_04, &data_0216c860[6]);
+                    func_0210bbec(0xd, data_0216c860[6].mUnk_04, &data_0216c860[6]);
+                    func_0210bbec(0xe, data_0216c860[6].mUnk_04, &data_0216c860[6]);
+                    func_0210bbec(0x10, data_0216c860[6].mUnk_04, &data_0216c860[6]);
                     break;
                 case 0x1a:
-                    func_0210bbec(0x15, data_0216c860[7].mUnk_04, (u32) &data_0216c860[7]);
-                    func_0210bbec(0x8, data_0216c860[7].mUnk_04, (u32) &data_0216c860[7]);
-                    func_0210bbec(0x9, data_0216c860[7].mUnk_04, (u32) &data_0216c860[7]);
-                    func_0210bbec(0xd, data_0216c860[7].mUnk_04, (u32) &data_0216c860[7]);
-                    func_0210bbec(0xe, data_0216c860[7].mUnk_04, (u32) &data_0216c860[7]);
-                    func_0210bbec(0x10, data_0216c860[7].mUnk_04, (u32) &data_0216c860[7]);
+                    func_0210bbec(0x15, data_0216c860[7].mUnk_04, &data_0216c860[7]);
+                    func_0210bbec(0x8, data_0216c860[7].mUnk_04, &data_0216c860[7]);
+                    func_0210bbec(0x9, data_0216c860[7].mUnk_04, &data_0216c860[7]);
+                    func_0210bbec(0xd, data_0216c860[7].mUnk_04, &data_0216c860[7]);
+                    func_0210bbec(0xe, data_0216c860[7].mUnk_04, &data_0216c860[7]);
+                    func_0210bbec(0x10, data_0216c860[7].mUnk_04, &data_0216c860[7]);
                     break;
                 case 0x20:
-                    func_0210bbec(0x15, data_0216c860[8].mUnk_04, (u32) &data_0216c860[8]);
-                    func_0210bbec(0x8, data_0216c860[8].mUnk_04, (u32) &data_0216c860[8]);
-                    func_0210bbec(0x9, data_0216c860[8].mUnk_04, (u32) &data_0216c860[8]);
-                    func_0210bbec(0xd, data_0216c860[8].mUnk_04, (u32) &data_0216c860[8]);
-                    func_0210bbec(0xe, data_0216c860[8].mUnk_04, (u32) &data_0216c860[8]);
-                    func_0210bbec(0x10, data_0216c860[8].mUnk_04, (u32) &data_0216c860[8]);
+                    func_0210bbec(0x15, data_0216c860[8].mUnk_04, &data_0216c860[8]);
+                    func_0210bbec(0x8, data_0216c860[8].mUnk_04, &data_0216c860[8]);
+                    func_0210bbec(0x9, data_0216c860[8].mUnk_04, &data_0216c860[8]);
+                    func_0210bbec(0xd, data_0216c860[8].mUnk_04, &data_0216c860[8]);
+                    func_0210bbec(0xe, data_0216c860[8].mUnk_04, &data_0216c860[8]);
+                    func_0210bbec(0x10, data_0216c860[8].mUnk_04, &data_0216c860[8]);
                     break;
                 case 0x9:
-                    func_0210bbec(0x15, data_0216c860[9].mUnk_04, (u32) &data_0216c860[9]);
-                    func_0210bbec(0x8, data_0216c860[9].mUnk_04, (u32) &data_0216c860[9]);
-                    func_0210bbec(0x9, data_0216c860[9].mUnk_04, (u32) &data_0216c860[9]);
-                    func_0210bbec(0xd, data_0216c860[9].mUnk_04, (u32) &data_0216c860[9]);
-                    func_0210bbec(0xe, data_0216c860[9].mUnk_04, (u32) &data_0216c860[9]);
-                    func_0210bbec(0x10, data_0216c860[9].mUnk_04, (u32) &data_0216c860[9]);
+                    func_0210bbec(0x15, data_0216c860[9].mUnk_04, &data_0216c860[9]);
+                    func_0210bbec(0x8, data_0216c860[9].mUnk_04, &data_0216c860[9]);
+                    func_0210bbec(0x9, data_0216c860[9].mUnk_04, &data_0216c860[9]);
+                    func_0210bbec(0xd, data_0216c860[9].mUnk_04, &data_0216c860[9]);
+                    func_0210bbec(0xe, data_0216c860[9].mUnk_04, &data_0216c860[9]);
+                    func_0210bbec(0x10, data_0216c860[9].mUnk_04, &data_0216c860[9]);
                     break;
                 case 0x26:
-                    func_0210bbec(0x15, data_0216c860[10].mUnk_04, (u32) &data_0216c860[10]);
-                    func_0210bbec(0x8, data_0216c860[10].mUnk_04, (u32) &data_0216c860[10]);
-                    func_0210bbec(0x9, data_0216c860[10].mUnk_04, (u32) &data_0216c860[10]);
-                    func_0210bbec(0xd, data_0216c860[10].mUnk_04, (u32) &data_0216c860[10]);
-                    func_0210bbec(0xe, data_0216c860[10].mUnk_04, (u32) &data_0216c860[10]);
-                    func_0210bbec(0x10, data_0216c860[10].mUnk_04, (u32) &data_0216c860[10]);
+                    func_0210bbec(0x15, data_0216c860[10].mUnk_04, &data_0216c860[10]);
+                    func_0210bbec(0x8, data_0216c860[10].mUnk_04, &data_0216c860[10]);
+                    func_0210bbec(0x9, data_0216c860[10].mUnk_04, &data_0216c860[10]);
+                    func_0210bbec(0xd, data_0216c860[10].mUnk_04, &data_0216c860[10]);
+                    func_0210bbec(0xe, data_0216c860[10].mUnk_04, &data_0216c860[10]);
+                    func_0210bbec(0x10, data_0216c860[10].mUnk_04, &data_0216c860[10]);
                     break;
                 case 0x17:
-                    func_0210bbec(0x15, data_0216c860[11].mUnk_04, (u32) &data_0216c860[11]);
-                    func_0210bbec(0x8, data_0216c860[11].mUnk_04, (u32) &data_0216c860[11]);
-                    func_0210bbec(0x9, data_0216c860[11].mUnk_04, (u32) &data_0216c860[11]);
-                    func_0210bbec(0xd, data_0216c860[11].mUnk_04, (u32) &data_0216c860[11]);
-                    func_0210bbec(0xe, data_0216c860[11].mUnk_04, (u32) &data_0216c860[11]);
-                    func_0210bbec(0x10, data_0216c860[11].mUnk_04, (u32) &data_0216c860[11]);
+                    func_0210bbec(0x15, data_0216c860[11].mUnk_04, &data_0216c860[11]);
+                    func_0210bbec(0x8, data_0216c860[11].mUnk_04, &data_0216c860[11]);
+                    func_0210bbec(0x9, data_0216c860[11].mUnk_04, &data_0216c860[11]);
+                    func_0210bbec(0xd, data_0216c860[11].mUnk_04, &data_0216c860[11]);
+                    func_0210bbec(0xe, data_0216c860[11].mUnk_04, &data_0216c860[11]);
+                    func_0210bbec(0x10, data_0216c860[11].mUnk_04, &data_0216c860[11]);
                     break;
                 case 0x2f:
-                    func_0210bbec(0x15, data_0216c860[12].mUnk_04, (u32) &data_0216c860[12]);
-                    func_0210bbec(0x8, data_0216c860[12].mUnk_04, (u32) &data_0216c860[12]);
-                    func_0210bbec(0x9, data_0216c860[12].mUnk_04, (u32) &data_0216c860[12]);
-                    func_0210bbec(0xd, data_0216c860[12].mUnk_04, (u32) &data_0216c860[12]);
-                    func_0210bbec(0xe, data_0216c860[12].mUnk_04, (u32) &data_0216c860[12]);
-                    func_0210bbec(0x10, data_0216c860[12].mUnk_04, (u32) &data_0216c860[12]);
+                    func_0210bbec(0x15, data_0216c860[12].mUnk_04, &data_0216c860[12]);
+                    func_0210bbec(0x8, data_0216c860[12].mUnk_04, &data_0216c860[12]);
+                    func_0210bbec(0x9, data_0216c860[12].mUnk_04, &data_0216c860[12]);
+                    func_0210bbec(0xd, data_0216c860[12].mUnk_04, &data_0216c860[12]);
+                    func_0210bbec(0xe, data_0216c860[12].mUnk_04, &data_0216c860[12]);
+                    func_0210bbec(0x10, data_0216c860[12].mUnk_04, &data_0216c860[12]);
                     break;
                 case 0x25:
-                    func_0210bc00(data_0216c7e0.mUnk_10, data_0216c7e0.mUnk_14, (u32) &data_0216c7e0);
+                    func_0210bc00(data_0216c7e0.mUnk_10, data_0216c7e0.mUnk_14, &data_0216c7e0);
                     break;
                 case 0x32:
-                    func_0210bbec(0x15, data_0216c860[13].mUnk_04, (u32) &data_0216c860[13]);
-                    func_0210bbec(0x8, data_0216c860[13].mUnk_04, (u32) &data_0216c860[13]);
-                    func_0210bbec(0x9, data_0216c860[13].mUnk_04, (u32) &data_0216c860[13]);
-                    func_0210bbec(0xd, data_0216c860[13].mUnk_04, (u32) &data_0216c860[13]);
-                    func_0210bbec(0xe, data_0216c860[13].mUnk_04, (u32) &data_0216c860[13]);
-                    func_0210bbec(0x10, data_0216c860[13].mUnk_04, (u32) &data_0216c860[13]);
+                    func_0210bbec(0x15, data_0216c860[13].mUnk_04, &data_0216c860[13]);
+                    func_0210bbec(0x8, data_0216c860[13].mUnk_04, &data_0216c860[13]);
+                    func_0210bbec(0x9, data_0216c860[13].mUnk_04, &data_0216c860[13]);
+                    func_0210bbec(0xd, data_0216c860[13].mUnk_04, &data_0216c860[13]);
+                    func_0210bbec(0xe, data_0216c860[13].mUnk_04, &data_0216c860[13]);
+                    func_0210bbec(0x10, data_0216c860[13].mUnk_04, &data_0216c860[13]);
                     if (data_021759c0->mUnk_00c == 0) {
                         func_021104dc(1);
                     }
@@ -492,8 +492,11 @@ void func_021074ac(s32 param_1) {
                     case 7:
                         data_0217c770[0] = 0x1e0;
                         data_0217c76c[0] = 0x1e1;
-                        if (data_021759c0->mUnk_2e == 9 || data_021759c0->mUnk_2e == 0xa) {
-                            data_0217c76c[0] = 0xff;
+                        switch (data_021759c0->mUnk_2e) {
+                            case 9:
+                            case 0xa:
+                                data_0217c76c[0] = 0xff;
+                                break;
                         }
                         break;
                     case 0:

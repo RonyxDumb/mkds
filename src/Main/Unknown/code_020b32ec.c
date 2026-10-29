@@ -2,15 +2,15 @@
 
 #pragma thumb on
 
-unsigned int func_020b33c4(void) {
-    return ((unsigned int) *(
+Unk020b4a44 *func_020b33c4(void) {
+    return ((Unk020b4a44 *) *(
         const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
                                    const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b354))) +
                                                           0))) +
                                0 + (0x16cu)));
 }
 
-u32 func_020b3374(void) {
+Unk020b4934 *func_020b3374(void) {
     int iVar1;
     iVar1 = func_020b2d04();
     if (iVar1 == 1) {
@@ -23,10 +23,10 @@ u32 func_020b3374(void) {
                 *(u32 *) ((*(int *) &data_0217b354) + ((int) 0x00000178u));
         }
     }
-    return *(u32 *) ((*(int *) &data_0217b354) + ((int) 0x00000170u));
+    return *(Unk020b4934 **) ((*(int *) &data_0217b354) + ((int) 0x00000170u));
 }
 
-int func_020b32f8(void) {
+void *func_020b32f8(void) {
     int iVar1;
     int iVar2;
     iVar2 = 0;
@@ -46,7 +46,7 @@ int func_020b32f8(void) {
     } else if ((iVar1 == 3) && (*(int *) ((*(int *) &data_0217b354) + ((int) 0x00000188u)) != 0)) {
         iVar2 = *(int *) ((*(int *) &data_0217b354) + ((int) 0x00000188u)) + 0xc;
     }
-    return iVar2;
+    return (void *) iVar2;
 }
 
 unsigned int func_020b32ec(void) {

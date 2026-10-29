@@ -12,7 +12,7 @@
 typedef struct Unk020b4934 {
     /* 0000 */ u8 pad_00[0x10];
     /* 0010 */ u32 mUnk_10;
-    /* 0014 */ void *mUnk_14;
+    /* 0014 */ u16 *mUnk_14;
 } Unk020b4934;
 
 typedef struct Unk020b47d8 {
@@ -41,32 +41,10 @@ void *func_020b4000(int param_1);
 void *func_020b400c(int param_1);
 void *func_020b4018(int param_1);
 void *func_020b4030(int param_1);
-void func_020b41e8(int param_1, int param_2, int param_3, int param_4, int param_5);
-void func_020b4810(Unk020b47d8 **param_1, void *param_2);
-void func_020b48ec(Unk02021dc8 **param_1, void *param_2);
-void func_020b496c(Unk020b4934 **param_1, void *param_2);
-void func_020b49f4(Unk020b4934 **param_1, void *param_2);
-void func_020b4a7c(Unk020b4a44 **param_1, void *param_2);
-s32 func_020b4e70(const Vec3 *param_1);
+#include "Main/Unknown/code_020b41e8.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b4e70.h"
 void *func_020b403c(s32 index);
-void func_020b486c(Unk02021dc8 **out, void *file);
 u32 func_020b4024(u32 arg0);
-void func_020b46d0(void *a, s32 b, s32 c, s32 d, s32 e, void *f, s32 g, s32 h);
-s32 func_020b4acc(void);
-s32 func_020b4b54(void);
-void func_020b44a4(u16 *a, s32 b, s32 c, s32 d, s32 e, u16 f);
-void func_020b47d8(Unk020b47d8 **, void *);
-void func_020b48b4(Unk02021dc8 **, void *);
-void func_020b4934(Unk020b4934 **, void *);
-void func_020b49bc(Unk020b4934 **, void *);
-void func_020b4a44(Unk020b4a44 **, void *);
-void func_020b4cec(void *p, s32 a);
-void func_020b478c(void *a, void *b);
-void func_020b4bf8(s32 *a, s32 b, s32 c);
-void func_020b4cb0(s32 *a, s32 b);
-s32 func_020b4b98(s32 a);
-s32 func_020b4b10(void);
-void func_020b4520(u16 *a, s32 b, s32 c, s32 d, s32 e, u16 *f, s32 g, s32 h);
-void func_020b4428(u16 *a, s32 b, s32 c, s32 d, s32 e, s32 f);
-void func_020b4048(void);
-void func_020b409c(void);
+#include "Main/Unknown/code_020b4048.h"
+#include "Main/Unknown/code_020b4e0c.h"

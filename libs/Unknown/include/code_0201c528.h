@@ -214,6 +214,14 @@ struct Unk0201ca6c_20 {
     /* 1c */ u16 mUnk_1c;
 };
 
+// The four bytes at Unk0201ca6c 0x98.
+typedef struct Unk0201ca6c_98 {
+    /* 00 */ u8 mUnk_00;
+    /* 01 */ u8 mUnk_01;
+    /* 02 */ u8 mUnk_02;
+    /* 03 */ u8 mUnk_03;
+} Unk0201ca6c_98;
+
 struct Unk0201ca6c {
     /* 00 */ struct Unk0201ca6c *mUnk_00;
     /* 04 */ struct Unk0201ca6c *mUnk_04;
@@ -248,8 +256,20 @@ struct Unk0201ca6c {
     /* 84 */ Unk02148038 mUnk_84;
     /* 8a */ Unk02148038 mUnk_8a;
     /* 90 */ void (*mUnk_90)(Unk0201ca6c *p, s32 a);
-    /* 94 */ u32 mUnk_94;
-    /* 98 */ u32 mUnk_98;
+    /* 94 */ union {
+        void *mUnk_94;
+        u32 mUnk_94_u;
+    };
+    /* 98 */ union {
+        u32 mUnk_98;
+        Unk0201ca6c_98 mUnk_98_b;
+        struct {
+            u8 mUnk_98_0;
+            u8 mUnk_98_8;
+            u8 mUnk_98_16;
+            u8 mUnk_98_24;
+        };
+    };
 };
 
 // Read by func_0201e248 and func_0201dfc0.

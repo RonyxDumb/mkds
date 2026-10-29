@@ -1,0 +1,64 @@
+#include "Main/Unknown/code_0208bfd8.h"
+#include "Main/Unknown/code_02041000.h"
+#include "Main/Unknown/code_0207b000.h"
+#include "Main/Unknown/code_0207c000.h"
+#include "Main/Unknown/code_0207c448.h"
+#include "Main/Unknown/code_0207d000.h"
+#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/code_0207e000.h"
+#include "Main/Unknown/code_0207e1d4.h"
+#include "Main/Unknown/code_0207e200.h"
+#include "Main/Unknown/code_0207f000.h"
+
+void func_0208bfd8(Unk020888b4 *p) {
+    func_0207becc(&p->mUnk_11c, p);
+}
+
+void func_0208bfec(Unk020888b4 *p) {
+    func_0207c144(&p->mUnk_11c, p);
+}
+
+void func_0208c000(Vec3 *a, Vec3 *b, Unk020888b4 *p) {
+    Unk0208001c *s = &p->mUnk_08;
+
+    *a = *s->mUnk_00->mUnk_18;
+    *b = s->mUnk_08;
+}
+
+s32 func_0208c03c(Unk020888b4 *p) {
+    return p->mUnk_08.mUnk_14 != 0;
+}
+
+void func_0208c050(Unk020888b4 *p) {
+    if (p->mUnk_08.mUnk_14 != 0) {
+        if (p->mUnk_08.mUnk_18 != 0) {
+            return;
+        }
+    }
+    p->mUnk_08.mUnk_14 = func_02041588(&p->mUnk_00->mUnk_80);
+    if (p->mUnk_08.mUnk_14 != 0) {
+        p->mUnk_08.mUnk_18 = 1;
+    }
+}
+
+void func_0208c09c(Unk020888b4 *p) {
+    func_0207f8f8(p);
+    func_0207de84(&p->mUnk_e8, p);
+    func_0207c270(&p->mUnk_11c, p);
+}
+
+void func_0208c0c8(Unk020888b4 *p) {
+    func_0207f9a8(p);
+    func_0207e1d4(&p->mUnk_e8, p);
+    func_0207c448(&p->mUnk_11c);
+}
+
+void func_0208c0f0(Unk020888b4 *p, s32 a) {
+    Unk0206bcb0 *q = func_0207a974(a);
+
+    p->mUnk_154 = (data_021759c0->mUnk_70[a].mUnk_14 & 1) != 0;
+    func_0207fa74(p, q, p->mUnk_154);
+    func_0207e200(&p->mUnk_e8, p);
+    func_0207c448(&p->mUnk_11c);
+    func_0207e088(&p->mUnk_e8, p);
+}

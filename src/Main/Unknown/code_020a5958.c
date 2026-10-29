@@ -30,7 +30,7 @@ void func_020a5958(void *a, Unk020a5958 *p) {
     u32 f;
     Unk0206bcb0 *v;
     s32 i;
-    Vec3 *q;
+    Unk02175620_84 *q;
     s32 n;
     s32 x;
     s32 z;
@@ -182,28 +182,28 @@ void func_020a5958(void *a, Unk020a5958 *p) {
         }
         for (i = 0; i < 2; i++) {
             q = func_020a0f0c();
-            n = q->y - func_020a0ff0(p->mUnk_c8)->y;
+            n = q->mUnk_00.y - func_020a0ff0(p->mUnk_c8)->y;
             if (n <= 0) {
                 n = -n;
             }
             if (n < 0x14000) {
-                x = (q->x - func_020a0ff0(p->mUnk_ca)->x) >> 12;
-                z = (q->z - func_020a0ff0(p->mUnk_ca)->z) >> 12;
+                x = (q->mUnk_00.x - func_020a0ff0(p->mUnk_ca)->x) >> 12;
+                z = (q->mUnk_00.z - func_020a0ff0(p->mUnk_ca)->z) >> 12;
                 n = x * x + z * z;
                 if (p->mUnk_ca == p->mUnk_c8) {
                     if (n < 0x9c400 && n > p->mUnk_d8) {
                         p->mUnk_d8 = n;
-                        p->mUnk_cc.x = q->x;
-                        p->mUnk_cc.y = q->y;
-                        p->mUnk_cc.z = q->z;
+                        p->mUnk_cc.x = q->mUnk_00.x;
+                        p->mUnk_cc.y = q->mUnk_00.y;
+                        p->mUnk_cc.z = q->mUnk_00.z;
                         p->mUnk_dc++;
                     }
                 } else {
                     if (n < 0x9c400 && n < p->mUnk_d8) {
                         p->mUnk_d8 = n;
-                        p->mUnk_cc.x = q->x;
-                        p->mUnk_cc.y = q->y;
-                        p->mUnk_cc.z = q->z;
+                        p->mUnk_cc.x = q->mUnk_00.x;
+                        p->mUnk_cc.y = q->mUnk_00.y;
+                        p->mUnk_cc.z = q->mUnk_00.z;
                         p->mUnk_dc++;
                     }
                 }

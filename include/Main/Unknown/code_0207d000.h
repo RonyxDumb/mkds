@@ -1,0 +1,12 @@
+#pragma once
+
+#include "types.h"
+
+struct Unk02089a24;
+struct Unk020888b4;
+
+// Declared here until the code that defines them is decompiled.
+u16 func_0207d8e4(s32 a);
+void func_0207d6a4(struct Unk02089a24 *a, struct Unk020888b4 *b);
+void func_0207d814(struct Unk02089a24 *a, struct Unk020888b4 *b);
+void func_0207de84(struct Unk02089a24 *a, struct Unk020888b4 *b);

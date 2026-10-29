@@ -21,7 +21,7 @@ void func_020ab070(u32 arg0) {
 #pragma thumb off
 
 #pragma thumb on
-void func_020ab064(u32 arg0) {
+void func_020ab064(u16 (*arg0)(s32, u16)) {
     u32 value0 = (u32) arg0;
     u32 value1;
     value1 = (u32) &data_0217b278;
@@ -31,7 +31,7 @@ void func_020ab064(u32 arg0) {
 #pragma thumb off
 
 #pragma thumb on
-void func_020ab058(u32 arg0) {
+void func_020ab058(s32 (*arg0)(u32, s32)) {
     u32 value0 = (u32) arg0;
     u32 value1;
     value1 = (u32) &data_0217b278;

@@ -8,10 +8,6 @@ unsigned int func_02085390(void) {
                                288));
 }
 
-unsigned int func_0208537c(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aebc))) +
-                                                          0))) +
-                               296));
+Unk0217aebc_128 *func_0208537c(void) {
+    return data_0217aebc->mUnk_128;
 }

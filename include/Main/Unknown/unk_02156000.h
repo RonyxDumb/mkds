@@ -3,11 +3,15 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
+extern u8 data_0215688c[];
 extern u8 data_02156458[];
 extern u8 data_0215645c[];
 extern u8 data_021564c0[];
+extern u32 data_usa_021564b8;
+extern u32 data_usa_021564bc;
 extern u8 data_02156598[];
 extern u8 data_021565e4[];
+extern u32 data_021565f0[];
 extern u8 data_021568e8[];
 extern const u16 data_021568b4;
 extern const u16 data_021568b8;
@@ -50,6 +54,7 @@ extern struct Unk0217b650 data_02156a24;
 extern struct Unk0217b650 data_02156a80;
 extern struct Unk02156adc data_02156adc;
 extern u16 data_021567a0;
+extern u16 data_021567a4[];
 extern u16 data_021567ac;
 extern const u16 data_02156794;
 extern const u16 data_02156798;
@@ -58,3 +63,28 @@ extern u16 data_021567ec;
 extern u16 data_021567f0;
 extern u16 data_021567f4;
 extern u16 data_021567f8;
+extern s32 data_02156600[];
+extern s16 data_02156640[];
+extern s16 data_02156654[];
+extern s16 data_02156668[];
+extern s16 data_0215667c[];
+extern s16 data_02156690[];
+extern s16 data_021566a4[];
+extern s32 data_021566b8[];
+extern s32 data_021566dc[];
+extern const u16 data_02156700[4][4];
+extern const s32 data_02156720[4][4];
+extern u16 data_02156838;
+extern u16 data_0215683c;
+extern u16 data_021567e4;
+extern u16 data_021567e8;
+
+// 8-byte entries of the table at data_02156808.
+typedef struct Unk02156808 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u16 mUnk_06;
+} Unk02156808;
+
+extern Unk02156808 data_02156808[];

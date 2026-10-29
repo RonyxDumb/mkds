@@ -117,5 +117,5 @@ unsigned int func_02102eb8(Unk02102674 *p, s32 param_1) {
     }
     p->mUnk_198 = a == (u16) b2;
     func_020f9c40((int) p);
-    return func_0208adc8(&p->mUnk_000.mUnk_7c, 1);
+    return (unsigned int) func_0208adc8(&p->mUnk_000.mUnk_7c, 1);
 }

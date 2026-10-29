@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+struct Unk020adc24;
+
 // Declared here until the code that defines them is decompiled.
 void func_020ad028(void);
 void func_020ad268(void);
@@ -13,3 +15,6 @@ void func_020adf00();
 
 #include "Main/Unknown/code_020add50.h"
 void func_020adff0(u32 a, u16 *b, u32 c);
+s32 func_020adc24(struct Unk020adc24 *a, struct Unk020adc24 *b);
+s32 func_020adb34(void);
+s32 func_020adc04(void);

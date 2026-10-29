@@ -18,8 +18,7 @@ void func_0211f244(int param_1, int param_2, void *param_3, void *param_4, u32 p
     return;
 }
 
-unsigned int func_0211f240(unsigned int p0) {
-    return p0;
+void func_0211f240(void) {
 }
 
 #pragma thumb off

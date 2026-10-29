@@ -4,5 +4,44 @@
 
 // Objects whose layout isn't known yet.
 extern const char data_02167680[];
+extern const char data_02167878[];
+extern const char data_02167888[];
+extern const char data_021678cc[];
+extern const char data_021678dc[];
 extern u16 data_021679fc[3];
 extern u16 *data_02167a04[4];
+extern Vec3 data_021676c4;
+extern Vec3 data_021676d0;
+extern char *data_021677fc[];
+extern char *data_02167820[];
+extern const char data_02167920[];
+extern const char data_02167930[];
+
+extern Vec3 data_02167974;
+extern const char data_021679e8[];
+extern const char data_02167bf4[];
+extern const char data_02167c0c[];
+extern const char data_02167c24[];
+extern const char data_02167c3c[];
+extern const char data_02167c54[];
+extern const char data_02167c6c[];
+extern const char data_02167c84[];
+extern const char data_02167c90[];
+extern const char data_02167c9c[];
+extern const char data_02167ca4[];
+extern const char data_02167cb0[];
+extern const char data_02167cbc[];
+extern const char data_02167cc8[];
+extern const char data_02167cd8[];
+extern const char data_02167cec[];
+extern const char data_02167d00[];
+extern const char data_02167d10[];
+extern const char data_02167d28[];
+extern const char data_02167d40[];
+extern const char data_02167d58[];
+extern const char data_02167d68[];
+extern const char data_02167d80[];
+extern const char data_02167d98[];
+extern const char data_02167db0[];
+extern const char data_02167dc0[];
+extern const char data_02167dd0[];

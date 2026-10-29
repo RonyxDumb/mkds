@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/unk_02165000.h" // Unk02165ff0
 
 extern u8 data_021663d8;
 extern u8 data_021663dc;
@@ -18,3 +19,5 @@ typedef struct Unk021663f4 {
 } Unk021663f4;
 
 extern Unk021663f4 data_021663f4;
+extern Unk02165ff0 data_0216600c;
+extern Unk02165ff0 data_02166028;

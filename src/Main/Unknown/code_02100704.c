@@ -114,7 +114,7 @@ void func_02100704(Unk02101c84 *p) {
                 e->mUnk_014 = 0x13;
                 if (p->mUnk_154 != 0x13) {
                     if (p->mUnk_24c == 0) {
-                        func_0205a548(((u8 *) *(void **) data_0217aa18)[e->mUnk_1f8 & 0xff], p->mUnk_154, p->mUnk_158);
+                        func_0205a548(((u8 *) data_0217aa18)[e->mUnk_1f8 & 0xff], p->mUnk_154, p->mUnk_158);
                     } else {
                         func_020f40dc(&e->mUnk_030, p->mUnk_154, p->mUnk_158);
                     }

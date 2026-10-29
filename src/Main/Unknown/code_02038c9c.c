@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02038c9c.h"
 
-u32 func_02038c9c(u32 arg0, u32 arg1, u32 arg2) {
+u32 func_02038c9c(Unk021755a0 *arg0, u32 arg1, u32 arg2) {
     u32 value0 = (u32) arg0;
     u32 value1 = (u32) arg1;
     u32 value2 = (u32) arg2;

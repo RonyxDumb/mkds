@@ -5,6 +5,7 @@
 #include "01/code_02196da8.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_0204799c.h"
+#include "Main/Unknown/code_020ae428.h"
 #include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Unknown/code_020b3f7c.h"
 #include "Main/Unknown/code_02125f88.h"
@@ -105,7 +106,6 @@ extern u16 data_ov001_021a6850[][2];
 extern s32 data_ov001_021a6900[];
 extern Unk021759d4 *data_021759d4;
 
-s16 func_020ae488(s32 a);
 s16 func_020adc64(s32 a);
 s32 func_02060268(s32 a);
 void func_02060004(s32 a);

@@ -64,7 +64,7 @@ void func_0210b924(void *p, s32 b) {
     }
 }
 
-void func_0210b8f4(Unk0206bcb0 *p, s32 b) {
+void func_0210b8f4(void *p, s32 b) {
     func_0210ddf4(&data_0217d29c, b, func_0210b924, p, b);
 }
 

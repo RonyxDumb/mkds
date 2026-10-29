@@ -1,8 +1,24 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/unk_02175000.h" // Unk021a9034
 
 // Objects whose layout isn't known yet.
+// A function and three numbers; func_02050650 takes the address of data_021652a0.
+typedef struct Unk021652a0 {
+    /* 00 */ void (*mUnk_00)();
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u8 mUnk_06[2];
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u8 mUnk_0e[2];
+} Unk021652a0;
+
+extern Unk021652a0 data_0216523c;
+extern const Unk021a9034 data_0216524c;
+extern Unk021652a0 data_021652a0;
+extern UnkFunc *const data_021652b0[];
+extern const Unk021a9034 data_02165368;
 extern u8 data_02165074[];
 extern u8 data_02165080[];
 extern u8 data_02165098[];
@@ -24,3 +40,21 @@ extern u8 data_021653b8[];
 extern u8 data_0216569c[];
 extern Vec3 data_02165530;
 extern s32 data_02165948;
+extern s32 data_0216593c;
+extern s32 data_02165944;
+extern s32 data_0216594c;
+extern s32 data_02165950;
+extern u32 data_02165978[];
+
+// Three words, three more words and two halfwords; data_02165ff0, data_0216600c and data_02166028 are one each.
+typedef struct Unk02165ff0 {
+    /* 00 */ s32 mUnk_00[3];
+    /* 0c */ s32 mUnk_0c[3];
+    /* 18 */ s16 mUnk_18;
+    /* 1a */ s16 mUnk_1a;
+} Unk02165ff0;
+
+extern Unk02165ff0 data_02165ff0;
+
+extern u8 data_021651d4[];
+extern u8 data_021651d8[];

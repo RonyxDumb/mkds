@@ -9,3 +9,6 @@ void func_0207ad88();
 void *func_0207afa8(void *param_1, void *param_2, u32 param_3);
 void func_0207aec8(void *p, void *param_2, void *param_3);
 s32 func_0207a2a8(s32 *a);
+void func_0207a8c4(Vec3 *a, s32 b);
+s32 func_0207a84c(s32 a);
+s32 func_0207a218(void);

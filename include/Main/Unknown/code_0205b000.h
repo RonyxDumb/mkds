@@ -2,9 +2,13 @@
 
 #include "types.h"
 
+// Table of entries of 4 bytes.
+typedef struct Unk021548e0 {
+    /* 00 */ s16 mUnk_00;
+    /* 02 */ s8 mUnk_02;
+    /* 03 */ s8 mUnk_03;
+} Unk021548e0;
+
 // Declared here until the code that defines them is decompiled.
-void func_0205b0f4(void);
-void func_0205b504(u32 a, void *b, u32 c, u32 d);
-void func_0205b32c(void);
-s32 func_0205b954(s32 a);
+extern Unk021548e0 data_021548e0[9];
 void func_0205be0c(void);

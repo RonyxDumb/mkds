@@ -4,3 +4,4 @@
 
 // Declared here until the code that defines them is decompiled.
 void func_0202c0d4(s32 a, s32 b);
+void func_0202c65c(void *a, void *b);

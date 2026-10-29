@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-int func_020b3260(int param_1) {
+u32 func_020b3260(int param_1) {
     if (param_1 < 0) {
         return 0;
     }

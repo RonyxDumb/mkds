@@ -12,7 +12,7 @@ typedef struct Unk021759c0_70 {
     /* 14 */ u16 mUnk_14;
     /* 16 */ s8 mUnk_16;
     /* 17 */ u8 mUnk_17;
-    /* 18 */ s32 mUnk_18;
+    /* 18 */ void *mUnk_18;
     /* 1c */ s32 mUnk_1c;
     /* 20 */ s32 mUnk_20;
     /* 24 */ u8 mUnk_24;
@@ -83,6 +83,22 @@ typedef struct Unk021759c0 {
     /* 3e8 */ u16 mUnk_3e8;
     /* 3ea */ u8 mUnk_3ea;
     /* 3eb */ u8 mUnk_3eb;
+    /* 3ec */ u32 mUnk_3ec[1];
 } Unk021759c0;
 
 extern Unk021759c0 *data_021759c0;
+
+// Object behind data_021759c4; the members are the ones the code reads.
+typedef struct Unk021759c4 {
+    /* 00 */ u8 mUnk_00[0x30];
+    /* 30 */ union {
+        u32 mUnk_30;
+        struct {
+            s32 mUnk_30_0 : 1;
+            s32 mUnk_30_1 : 2;
+            s32 mUnk_30_3 : 1;
+        };
+    };
+} Unk021759c4;
+
+extern Unk021759c4 *data_021759c4;

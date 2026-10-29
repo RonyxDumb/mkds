@@ -44,6 +44,20 @@ typedef struct Unk02175628 {
     /* 5b */ u8 mUnk_5b;
 } Unk02175628;
 
+// The 0x14 bytes at 0x48 of an element of data_02175628 (the same bytes as its mUnk_48 to mUnk_5b).
+typedef struct Unk02175628_48 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u16 mUnk_0e;
+    /* 10 */ u16 mUnk_10;
+    /* 12 */ u8 mUnk_12[0x2];
+} Unk02175628_48;
+
 extern Unk02175628 data_0217562c[];
 
 extern Unk02175628 data_02175680[];

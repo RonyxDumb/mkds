@@ -13,10 +13,8 @@ void func_0202f160(void) {
     return;
 }
 
-unsigned int func_0202f14c(void) {
-    return (
-        (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_02174e4c))) + 0))) +
-        (0x818u));
+Unk02174e4c_818 *func_0202f14c(void) {
+    return &data_02174e4c->mUnk_818;
 }
 
 #pragma thumb off

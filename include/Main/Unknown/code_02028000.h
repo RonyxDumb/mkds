@@ -6,3 +6,4 @@
 u32 func_020280dc(void);
 void func_02028ec0(int param_1, u32 param_2, int param_3, int param_4);
 int func_02028130(void);
+void func_02028864(void *a, s32 b, void *c, void *d);

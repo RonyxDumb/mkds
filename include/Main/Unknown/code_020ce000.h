@@ -6,11 +6,11 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-u32 func_020ce778(void);
-void func_020cef68(void *param_1, u32 param_2);
-s32 func_020ce3e0(void);
-s32 func_020ce6a8(void);
-s32 func_020ce100(void);
-s32 func_020ce264(void);
-s32 func_020ce548(void);
-s32 func_020cee0c(void);
+#include "Main/Unknown/code_020ce778.h"
+#include "Main/Unknown/code_020cef68.h"
+#include "Main/Unknown/code_020ce3e0.h"
+#include "Main/Unknown/code_020ce6a8.h"
+#include "Main/Unknown/code_020ce100.h"
+#include "Main/Unknown/code_020ce264.h"
+#include "Main/Unknown/code_020ce548.h"
+#include "Main/Unknown/code_020cee0c.h"

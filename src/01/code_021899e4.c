@@ -84,14 +84,14 @@ void func_ov001_021899e4(void) {
             pos = &obj->mUnk_04;
             if (func_020b5ae8(pos, &data_ov001_021a9bc0->mUnk_10[count].mUnk_00, var, 1, 1)) {
                 row = func_ov001_0218b2d4((Unk02188950 *)obj);
-                dst = (*(Unk020b4a44 **)func_020b85f0(6))->mUnk_0c;
+                dst = func_020b85f0(6)->mUnk_00->mUnk_0c;
                 res = 0;
                 func_020b4a44((Unk020b4a44 **) (&res), (void *) (func_020b47c0("race_transfer_map_mr_s_o.NCLR")));
                 for (k = 0; k < 16; k++) {
                     dst[0x50 + k] = res->mUnk_0c[(row + 2) * 16 + k];
                 }
-                func_0200ee74((*(Unk020b4a44 **)func_020b85f0(6))->mUnk_0c,
-                              (*(Unk020b4a44 **)func_020b85f0(6))->mUnk_08);
+                func_0200ee74(func_020b85f0(6)->mUnk_00->mUnk_0c,
+                              func_020b85f0(6)->mUnk_00->mUnk_08);
                 data_ov001_021a9bc0->mUnk_10[count].mUnk_08 = func_020b83dc(0xc5);
                 data_ov001_021a9bc0->mUnk_10[count].mUnk_0c = func_020b4e70(pos) ? 2 : 3;
                 data_ov001_021a9bc0->mUnk_10[count].mUnk_0e = obj->mUnk_02 & 0x20;

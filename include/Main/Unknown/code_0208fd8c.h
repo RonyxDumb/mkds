@@ -1,0 +1,37 @@
+#pragma once
+
+#include "types.h"
+
+struct Unk0208fd8c;
+struct Unk020888b4;
+
+// Entry of the tables at data_0217b0a4, data_0217ae34 and data_0217ae38, 0xc bytes: a function called with the
+// Unk0208fd8c and the Unk020888b4 at 0x00 and halfwords at 0x08 and 0x0a.
+typedef struct Unk0208fd8c_08 {
+    /* 00 */ void (*mUnk_00)(struct Unk0208fd8c *a, struct Unk020888b4 *b);
+    /* 04 */ u8 mUnk_04[4];
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+} Unk0208fd8c_08;
+
+// Object of 0x24 bytes at 0x11c of the object Unk020888b4 starts: pointers to entries of the tables at data_0217ae38
+// (0x04) and data_0217b0a4 or data_0217ae34 (0x08).
+typedef struct Unk0208fd8c {
+    /* 00 */ s16 mUnk_00;
+    /* 02 */ s16 mUnk_02;
+    /* 04 */ Unk0208fd8c_08 *mUnk_04;
+    /* 08 */ Unk0208fd8c_08 *mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ s16 mUnk_1c;
+    /* 1e */ s16 mUnk_1e;
+    /* 20 */ s32 mUnk_20;
+} Unk0208fd8c;
+
+void func_0208fd8c(Unk0208fd8c *a, struct Unk020888b4 *b);
+void func_0208fdcc(Unk0208fd8c *a, struct Unk020888b4 *b);
+void func_0208fe1c(Unk0208fd8c *a, struct Unk020888b4 *b);
+void func_0208fe58(Unk0208fd8c *a, struct Unk020888b4 *b);
+void func_0208fefc(Unk0208fd8c *a, struct Unk020888b4 *b);

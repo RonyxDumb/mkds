@@ -3,6 +3,8 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-s32 func_020b33f4(void);
+#include "Main/Unknown/code_020b33d8.h"
 s32 func_020b33d8(void);
-int func_020b3120(int param_1);
+#include "Main/Unknown/code_020b2ecc.h"
+#include "Main/Unknown/code_020b36dc.h"
+#include "Main/Unknown/code_020b3b08.h"

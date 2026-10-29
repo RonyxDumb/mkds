@@ -88,7 +88,7 @@ void func_020e52bc(void) {
 
     func_020ea588((void **) &data_0217b80c, (void *) func_020d2210((const char *) data_0216c21c), 0);
     func_020849c0(data_0217b80c, 0x3f);
-    func_020849b0((u32) data_0217b80c, 0);
+    func_020849b0(data_0217b80c, 0);
     a = data_0217b80c->mUnk_004;
     b = (Unk020e52bc_8 *) &a->mUnk_000[a->mUnk_008];
     data_0217b814 = (Unk020e53ac *) &b->mUnk_000[((u32 *) &b->mUnk_000[b->mUnk_00a])[2]];

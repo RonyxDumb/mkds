@@ -7,7 +7,11 @@ Each function to check is declared in the source with a marker comment:
 e.g. // PROBE: func_02012345 main 0x02012345
 
 Bytes covered by relocations in the compiled object are masked (branch targets,
-literal pool entries), so only instruction encoding and layout are compared. A Thumb
+literal pool entries), so only instruction encoding and layout are compared. The masked pool words are then
+checked separately, as tools/check_calls.py does for the full build: for each pointer word (R_ARM_ABS32) in the
+object, in pool order, the original's word at the same offset must be the address of the symbol (plus addend)
+the object points to, so two globals loaded in swapped order are a mismatch. Targets with no address in
+symbols.txt (file-local data, strings) are skipped. A Thumb
 bl is two halfwords and may straddle a word boundary, so masking is per byte.
 When every probed function is Thumb in symbols.txt and no flag set names -thumb,
 -thumb is added to each flag set.
@@ -151,6 +155,64 @@ def elf_functions(obj: Path) -> dict[str, tuple[bytes, set[int], bool]]:
         return funcs
 
 
+_TABLES: dict | None = None
+
+
+def pool_entries(obj: Path) -> dict[str, list[tuple[int, str, int]]]:
+    """{function symbol: [(offset in function, target symbol, addend)]} for every pointer word (R_ARM_ABS32) the
+    object has inside that function, in offset order. Section symbols and `@`/`$` names are file-local data."""
+    from elftools.elf.elffile import ELFFile
+    from elftools.elf.relocation import RelocationSection
+
+    with open(obj, "rb") as fh:
+        elf = ELFFile(fh)
+        symtab = elf.get_section_by_name(".symtab")
+        syms = list(symtab.iter_symbols())
+        out: dict[str, list[tuple[int, str, int]]] = {}
+        for sec in elf.iter_sections():
+            if not isinstance(sec, RelocationSection):
+                continue
+            data = elf.get_section(sec["sh_info"]).data()
+            funcs = [s for s in syms if s["st_info"]["type"] == "STT_FUNC" and s["st_shndx"] == sec["sh_info"]]
+            for r in sec.iter_relocations():
+                if r["r_info_type"] != 2:
+                    continue
+                off = r["r_offset"]
+                fn = next((f for f in funcs if (f["st_value"] & ~1) <= off < (f["st_value"] & ~1) + f["st_size"]), None)
+                target = syms[r["r_info_sym"]]
+                if fn is None:
+                    continue
+                # mwcc writes RELA (the addend is in the entry); a REL object keeps it in the word itself
+                addend = r["r_addend"] if r.is_RELA() else struct.unpack_from("<I", data, off)[0]
+                name = "" if target["st_info"]["type"] == "STT_SECTION" else target.name
+                out.setdefault(fn.name, []).append((off - (fn["st_value"] & ~1), name, addend))
+        for v in out.values():
+            v.sort()
+        return out
+
+
+def compare_pool(entries: list[tuple[int, str, int]], module: str, orig: bytes) -> list[str]:
+    """Differing pool entries of one function, as printable lines (empty = all match or nothing resolvable)."""
+    global _TABLES
+    if _TABLES is None:
+        from check_calls import load_symbols  # tools/check_calls.py: the same symbol tables the full build uses
+        _TABLES = load_symbols()
+    local = _TABLES.get(module, {})
+    bad = []
+    for off, name, addend in entries:
+        if not name or name[0] in "@$":
+            continue  # file-local data: no address before linking
+        want = local.get(name, _TABLES["main"].get(name))
+        if want is None or off + 4 > len(orig):
+            continue
+        actual = struct.unpack_from("<I", orig, off)[0]
+        if (actual | 1) != ((want + addend) | 1):  # a Thumb function pointer carries the Thumb bit
+            names = [n for t in _TABLES.values() for n, a in t.items() if a == actual & ~1]
+            bad.append(f"pool +{off:#x}: {name}{f'+{addend:#x}' if addend else ''} ({want + addend:#010x}) | "
+                       f"original {actual:#010x} {names[:1]}")
+    return bad
+
+
 def compare(code: bytes, mask: set[int], orig: bytes) -> tuple[bool, str]:
     if len(code) != len(orig):
         return False, f"size {len(code):#x} vs {len(orig):#x}"
@@ -241,6 +303,7 @@ def main() -> None:
                 print(f"  {label:12} COMPILE ERROR {r.stdout.strip()[:200]}{r.stderr.strip()[:200]}")
                 continue
             funcs = elf_functions(obj)
+            pools = pool_entries(obj)
             results = []
             for sym, mod, addr in probes:
                 if sym not in funcs:  # allow a bare or mis-mangled name: match on the identifier
@@ -255,9 +318,14 @@ def main() -> None:
                 code, mask, thumb = funcs[sym]
                 orig = blob[addr - base: addr - base + orig_size(mod, addr)]
                 results.append(compare(code, mask, orig))
+                pool_bad = compare_pool(pools.get(sym, []), mod, orig) if len(code) == len(orig) else []
+                if pool_bad and results[-1][0]:
+                    results[-1] = (False, f"{len(pool_bad)} pool words point elsewhere (first {pool_bad[0].split(':')[0][5:]})")
                 if a.show and not results[-1][0]:
                     print(f"  [{cdir.relative_to(MWCC_ROOT)}] {sym}  (compiled | original)")
                     show_diff(code, mask, orig, thumb)
+                    for line in pool_bad:
+                        print(f"    {line}")
             ok = sum(r[0] for r in results)
             detail = "" if ok == len(results) and not a.verbose else "  " + "; ".join(
                 f"{p[0]}: {r[1]}" for p, r in zip(probes, results) if a.verbose or not r[0])

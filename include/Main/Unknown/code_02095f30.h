@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-unsigned int func_02095f30(unsigned int p0);
+struct Unk0217b498_00;
+
+s32 func_02095f30(struct Unk0217b498_00 *p0);

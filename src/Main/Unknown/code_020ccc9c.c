@@ -2,8 +2,8 @@
 
 #pragma thumb on
 
-unsigned int func_020ccccc(void) {
-    return ((unsigned int) *(
+s32 func_020ccccc(void) {
+    return ((s32) *(
         const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
                                    const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b43c))) +
                                                           0))) +
