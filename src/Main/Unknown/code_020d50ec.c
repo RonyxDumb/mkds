@@ -564,8 +564,8 @@ u32 func_020d5344(s32 a)
     return -1;
 }
 
-// non-matching: one instruction smaller (0x1c0 against 0x1c4): the loop variables are in other registers from +0x8 (original: r8, r7,
-// r5 for the first three values, r4 and lr for the bounds) and the final branch layout differs
+// non-matching: same size; registers only: the loop variables are in other registers from +0x8 (original: r8, r7,
+// r5 for the first three values, r4 and lr for the bounds)
 void func_020d5180(void *a, s32 b, s32 c)
 {
     Vec3 *v = a;
@@ -625,7 +625,7 @@ void func_020d5180(void *a, s32 b, s32 c)
                 data_0217b5cc[data_0217b5a8] = data_0217b5c0[q].mUnk_01;
                 data_0217b5bc[data_0217b5a8] = f;
                 data_0217b5c4[data_0217b5a8] = e->mUnk_18;
-                data_0217b5a8 = data_0217b5a8 + 1;
+                data_0217b5a8++;
                 if (data_0217b5a8 == 0x80) {
                     return;
                 }

@@ -15,8 +15,6 @@ void func_02017274(u32 a, u32 b, u32 c, int d) {
     }
 }
 
-// non-matching: 0xd8 bytes against 0xe4; after the last call the original returns 0 and the packed value from
-// separate blocks, where this version uses conditional loads.
 u32 func_02017190(u32 a, s32 b) {
     u32 n;
     u32 p;
@@ -39,10 +37,10 @@ u32 func_02017190(u32 a, s32 b) {
     } else {
         r = func_02016b00(&data_02173250.mUnk_00, &data_02173254, &p, n, 0x10);
     }
-    if (r == 0) {
-        return 0;
+    if (r != 0) {
+        return ((n >> 3) << 16) | ((p >> 3) & 0xffff);
     }
-    return ((p >> 3) & 0xffff) | ((n >> 3) << 16);
+    return 0;
 }
 
 s32 func_02017138(u32 v) {

@@ -447,8 +447,8 @@ void func_020f0684(Unk020f41c4_A **p, s32 i, s32 n, s32 v1) {
     } while (i < n);
 }
 
-// non-matching: the 0x7a load and its masked value swap r1/r2 (the store keeps the masked word), and the squared-sum
-// loop adds the vector base into a register and branches around the min assignment (0x284 vs 0x28c bytes)
+// non-matching: same size; registers only in the squared distance: the original holds the y difference in r0 and
+// the z difference in r2, this build r6 and r0 (7 words from +0x234)
 void func_020f03f8(Unk027e00cc *a) {
     Unk020f41c4_A **e;
     Unk020f41c4_A *p;
@@ -456,6 +456,7 @@ void func_020f03f8(Unk027e00cc *a) {
     s32 k;
     s32 min;
     Vec3 *b;
+    Vec3 *c;
     s32 n;
     s32 i;
     s32 t;
@@ -502,7 +503,7 @@ void func_020f03f8(Unk027e00cc *a) {
             k = 1;
             if (w != 0) {
                 min = 0x5f592e1;
-                p->mUnk_7a = p->mUnk_7a & ~0x8000;
+                p->mUnk_7a &= ~0x8000;
                 k += v;
             } else {
                 k++;
@@ -523,12 +524,14 @@ void func_020f03f8(Unk027e00cc *a) {
                     b = p->mUnk_d0;
                     u = p->mUnk_78 & ~0xff00;
                     q = func_0207a974(u);
-                    d = ((q->mUnk_98.x - b->x) >> 12) * ((q->mUnk_98.x - b->x) >> 12);
-                    d += ((q->mUnk_98.y - b->y) >> 12) * ((q->mUnk_98.y - b->y) >> 12);
-                    d += ((q->mUnk_98.z - b->z) >> 12) * ((q->mUnk_98.z - b->z) >> 12);
-                    if (min > d) {
-                        min = d;
+                    c = &q->mUnk_98;
+                    d = ((c->x - b->x) >> 12) * ((c->x - b->x) >> 12);
+                    d += ((c->y - b->y) >> 12) * ((c->y - b->y) >> 12);
+                    d += ((c->z - b->z) >> 12) * ((c->z - b->z) >> 12);
+                    if (min <= d) {
+                        break;
                     }
+                    min = d;
                 }
             } while (--k > 0);
         }

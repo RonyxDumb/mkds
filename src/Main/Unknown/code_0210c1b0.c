@@ -314,8 +314,10 @@ Unk0210bf24 *func_0210c610(Unk0210bfbc *a, u32 b, u32 c, u32 d, s16 e) {
     return v;
 }
 
-// non-matching: the original materializes the condition twice (`cmp r0, #0; movne r0, 1`)
-// after the && chain; this build folds that into the chain's last comparison (0xa8 bytes vs 0xb8).
+static inline u32 func_0210c558_inline(Unk0210bf24 *p, u32 b, u32 c) {
+    return p->mUnk_16 == c && p->mUnk_18 == b;
+}
+
 void func_0210c558(Unk0210bfbc *a, u32 b, u32 c, u32 d) {
     void *v;
     u32 f;
@@ -325,8 +327,7 @@ void func_0210c558(Unk0210bfbc *a, u32 b, u32 c, u32 d) {
     }
     v = a->mUnk_0c.mUnk_00;
     while (v != 0) {
-        f = (((Unk0210bf24 *) v)->mUnk_00 != 0) && (((Unk0210bf24 *) v)->mUnk_16 == c) &&
-            (((Unk0210bf24 *) v)->mUnk_18 == b);
+        f = (((Unk0210bf24 *) v)->mUnk_00 != 0) && func_0210c558_inline((Unk0210bf24 *) v, b, c);
         if (f) {
             func_0210c450(a, (Unk0210bf24 *) v, d);
             return;

@@ -524,19 +524,21 @@ void func_020eac20(Vec3 *param_1, s32 param_2) {
     param_1->y += t;
 }
 
-// non-matching: the two `*param_6 = *param_1; return;` blocks are if-converted by the
-// original (predicated ldm/stm + bxeq) and not here; the 64-bit magnitude temp is
-// allocated r2:r1 in the original and r1:r2 here (0x210 bytes here, 0x20c in the original)
 void func_020eaa14(Vec3 *param_1, Vec3 *param_2, s32 param_3, s32 param_4, s32 param_5, Vec3 *param_6) {
     Vec3 v;
     Vec3 w;
     s32 s;
     s32 a;
+    s32 n;
 
     v = *param_2;
     if (v.y > 0) {
         v.y = 0;
-        if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z < 16 || func_02039860(&v, &v) == 0) {
+        n = 0;
+        if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 16) {
+            n = func_02039860(&v, &v);
+        }
+        if (n == 0) {
             *param_6 = *param_1;
             return;
         }
@@ -555,27 +557,25 @@ void func_020eaa14(Vec3 *param_1, Vec3 *param_2, s32 param_3, s32 param_4, s32 p
     w.x = (s32) (((s64) w.x * a) >> 12);
     w.y = (s32) (((s64) w.y * a) >> 12);
     w.z = (s32) (((s64) w.z * a) >> 12);
-    if ((s64) w.z * w.z + (s64) w.x * w.x < (s64) param_5 * param_5) {
-        w.x = (s32) (((s64) v.x * (u32) param_5) >> 12);
-        w.y = (s32) (((s64) v.y * (u32) param_5) >> 12);
-        w.z = (s32) (((s64) v.z * (u32) param_5) >> 12);
+    if ((s64) w.x * w.x + (s64) w.z * w.z < (s64) param_5 * param_5) {
+        w.x = (s32) (((s64) v.x * param_5) >> 12);
+        w.y = (s32) (((s64) v.y * param_5) >> 12);
+        w.z = (s32) (((s64) v.z * param_5) >> 12);
     }
     func_02148504(&w, param_6, param_6);
 }
 
-// non-matching: the `*param_6 = *param_1; return;` blocks are if-converted by the
-// original and not here (0xd8 bytes here, 0xc8 in the original); the magnitude temp is r2:r1
-// there, r1:r2 here
 void func_020ea94c(Vec3 *param_1, Vec3 *param_2, s32 param_3, s32 param_4, s32 param_5, Vec3 *param_6) {
     Vec3 v;
+    s32 n;
 
     if (param_2->y <= 0) {
         v = *param_2;
-        if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z < 16) {
-            *param_6 = *param_1;
-            return;
+        n = 0;
+        if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 16) {
+            n = func_02039860(&v, &v);
         }
-        if (func_02039860(&v, &v) == 0) {
+        if (n == 0) {
             *param_6 = *param_1;
             return;
         }
