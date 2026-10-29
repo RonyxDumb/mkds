@@ -46,6 +46,7 @@ extern Unk021534bc data_02153500[];
 extern Unk021534bc data_02153528[];
 extern Unk021535b4 data_021535b4[];
 extern Unk02153c58 data_02153c58[];
+extern u16 data_02153c04[][3];
 
 // Rows of nine words; each name starts at one word of the first row.
 extern const char *data_02153f80[][9];
