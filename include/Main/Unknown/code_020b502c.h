@@ -74,6 +74,13 @@ typedef struct Unk02175620_bc {
 
 struct Unk020fa294;
 
+// 0x1c-byte entries of the table at Unk02175620::mUnk_34: two vectors.
+typedef struct Unk02175620_34 {
+    /* 00 */ Vec3 mUnk_00;
+    /* 0c */ Vec3 mUnk_0c;
+    /* 18 */ u8 mUnk_18[4];
+} Unk02175620_34;
+
 // Object behind data_02175620.
 typedef struct {
     /* 00 */ struct Unk020fa294 *mUnk_00;
@@ -95,7 +102,7 @@ typedef struct {
     /* 2c */ Unk020b57e4 *mUnk_2c;
     /* 30 */ u16 mUnk_30;
     /* 32 */ u8 mUnk_32[0x2];
-    /* 34 */ void *mUnk_34;
+    /* 34 */ Unk02175620_34 *mUnk_34;
     /* 38 */ u16 mUnk_38;
     /* 3a */ u8 mUnk_3a[0x2];
     /* 3c */ void *mUnk_3c;
@@ -153,7 +160,7 @@ typedef struct {
     /* d8 */ s32 mUnk_d8;
     /* dc */ u8 mUnk_dc[0x1c];
     /* f8 */ void *mUnk_f8;
-    /* fc */ void *mUnk_fc;
+    /* fc */ u16 *mUnk_fc;
     /* 100 */ u16 mUnk_100;
     /* 102 */ u16 mUnk_102;
     /* 104 */ u32 mUnk_104;

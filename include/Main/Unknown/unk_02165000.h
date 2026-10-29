@@ -15,6 +15,7 @@ typedef struct Unk021652a0 {
 } Unk021652a0;
 
 extern Unk021652a0 data_0216523c;
+extern const Vec3 data_02165524;
 extern const Unk021a9034 data_0216524c;
 extern Unk021652a0 data_021652a0;
 extern UnkFunc *const data_021652b0[];

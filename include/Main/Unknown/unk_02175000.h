@@ -127,6 +127,13 @@ extern u8 data_021755a8[];
 extern u8 data_021755b4[];
 extern u16 data_021755dc;
 extern u8 data_02175624[];
+// 0x5c-byte entries; func_020708a4 writes the halfword at 0x00 of entry Unk0206bcb0::mUnk_78.
+typedef struct Unk0217566a {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 mUnk_02[0x5a];
+} Unk0217566a;
+
+extern Unk0217566a data_0217566a[];
 extern u8 data_021759c8[];
 extern Unk021759cc *data_021759cc;
 extern Unk021759d0 *data_021759d0;

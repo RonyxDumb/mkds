@@ -1957,6 +1957,8 @@ src/Main/Unknown/code_0206bcb0.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_0206dfd0.c:
     .text       start:0x0206dfd0 end:0x0206e874
+src/Main/Unknown/code_020708a4.c:
+    .text       start:0x020708a4 end:0x02070f8c
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020719a8.c:
