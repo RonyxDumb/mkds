@@ -79,3 +79,6 @@ extern const char data_0216687c[];
 extern const char data_0216688c[];
 extern const char data_021668d4[];
 extern const char data_021668e4[];
+extern char data_02166548[];
+extern char data_021665a0[];
+extern char data_021665b4[];

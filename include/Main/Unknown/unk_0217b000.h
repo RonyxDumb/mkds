@@ -249,6 +249,10 @@ extern UnkFunc *data_0217b098;
 extern UnkFunc *data_0217b0a0;
 extern UnkFunc *data_0217b0a8;
 extern UnkFunc *data_0217b0ac;
+extern Unk0208fd8c_08 *data_0217b09c;
+extern s32 *data_0217b0b0;
+extern void *data_0217b0b4;
+extern void *data_0217b0b8;
 
 // The 0x10 bytes at 0x784 of Unk0217b034; the callbacks at 0x794 and 0x798 get their address.
 typedef struct Unk0217b034_784 {
