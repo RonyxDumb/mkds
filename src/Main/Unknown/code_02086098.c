@@ -275,7 +275,7 @@ void func_02086250(Unk02012f58 *a) {
     *(u32 *) 0x40004c4 = 0x4210;
     *(u32 *) 0x40004c0 = 0x42100000;
     *(u32 *) 0x4000440 = 0;
-    func_0214a530(data_0217aee0);
+    func_0214a530(&data_0217aee0);
     *(u32 *) 0x4000440 = 3;
     *(u32 *) 0x4000454 = 0;
     for (i = data_021759c0->mUnk_3d0 - 1; i >= 0; i--) {
@@ -327,8 +327,8 @@ void func_02086250(Unk02012f58 *a) {
 void func_02086098(Unk02086098 *a, Unk02086250 *b, Unk02012f58 *c, s32 d, s32 e, s16 f, s32 g, s32 h, s32 i, s32 j,
                    UnkFunc *k) {
     Unk02012f58 m;
-    void *x;
-    void *y;
+    s32 x;
+    s32 y;
     s32 z;
     *(u32 *) 0x40004a8 = a->mUnk_00;
     if (a->mUnk_08 != 0) {

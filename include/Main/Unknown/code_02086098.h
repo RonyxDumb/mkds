@@ -14,8 +14,8 @@ typedef struct Unk02086098 {
     /* 10 */ void *mUnk_10;
     /* 14 */ u8 mUnk_14[4];
     /* 18 */ u32 mUnk_18;
-    /* 1c */ void *mUnk_1c;
-    /* 20 */ void *mUnk_20;
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ s32 mUnk_20;
 } Unk02086098;
 
 // Four entries.

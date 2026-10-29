@@ -8,6 +8,7 @@
 #include "code_02142eac.h" // Unk021438f0, Unk02143a78, Unk02143c30
 #include "code_021445e0.h" // Unk021450ec, Unk0214461c
 #include "code_02147cd8.h" // Unk02148038
+#include "code_0214a748.h" // Unk0214ad4c
 
 // Objects whose layout isn't known yet.
 // What data_0217aa08 points to.
@@ -1112,11 +1113,13 @@ typedef struct Unk0217aebc {
 
 extern Unk0217aebc *data_0217aebc;
 extern Unk0217aec0 *data_0217aec0;
-extern u8 data_0217aec4[];
-extern u8 data_0217aec8[];
+extern u8 *data_0217aec4;
+extern u16 *data_0217aec8;
 extern u8 *data_0217aecc;
 extern Vec3 *data_0217aed8;
-extern u8 data_0217aee0[];
+extern u16 *data_0217aed4;
+extern s32 data_0217aedc;
+extern Unk0214ad4c data_0217aee0;
 
 struct Unk02086250;
 
@@ -1139,7 +1142,7 @@ typedef struct Unk0217aed0 {
     /* 144 */ void *mUnk_144[8];
     /* 164 */ void *mUnk_164[8];
     /* 184 */ s32 mUnk_184;
-    /* 188 */ s32 mUnk_188;
+    /* 188 */ void *mUnk_188;
     /* 18c */ u8 mUnk_18c[8];
 } Unk0217aed0;
 

@@ -7,7 +7,11 @@ extern u8 data_02155048[];
 extern u8 data_02155098[];
 extern u8 data_021550a8[];
 extern void (*data_02155a20[])(void *param_1);
-extern u8 data_02155a64[];
+extern const u16 data_02155a64[];
+extern const u16 data_02155a28[];
+extern const u16 data_02155a2c[];
+extern const Vec3 data_02155ccc;
+extern const u16 data_02155ed0[];
 extern const Vec3 data_021557ec;
 extern s32 data_02155854[];
 struct Unk0201ca6c;
@@ -37,6 +41,17 @@ typedef struct Unk02155cf4 {
 } Unk02155cf4;
 
 extern const Unk02155cf4 data_02155cf4[];
+extern const Unk02155cf4 data_02155cec[];
+extern const Unk02155cf4 data_02155cf0[];
+
+// 8-byte entries; func_020884bc and func_020885d0 read the string pointer at 0x00.
+typedef struct Unk02155d88 {
+    /* 00 */ const char *mUnk_00;
+    /* 04 */ u8 mUnk_04[4];
+} Unk02155d88;
+
+extern const Unk02155d88 data_02155d88[];
+extern const Unk02155d88 data_02155d8c[];
 extern Vec3 data_02155a3c;
 extern const u32 data_02155a54;
 extern const u16 data_02155a74[12];

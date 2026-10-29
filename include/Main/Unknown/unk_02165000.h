@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/unk_02175000.h" // Unk021a9034
+#include "Main/Unknown/code_02086098.h" // Unk02086098
 
 // Objects whose layout isn't known yet.
 // A function and three numbers; func_02050650 takes the address of data_021652a0.
@@ -33,7 +34,14 @@ extern u8 data_02165140[];
 extern u8 data_02165148[];
 extern u8 data_0216515c[];
 extern u8 data_0216526c[];
-extern u8 data_02165ac4[];
+extern const char *data_02165ac4;
+extern const char *data_02165ac8;
+extern const char *data_02165e80[13];
+extern u16 data_021659d4[12];
+extern Unk02086098 data_021659ec;
+extern Unk02086098 data_02165a10;
+extern Unk02086098 data_02165a34;
+extern Unk02086098 data_02165a58;
 extern u8 data_02165ef0[];
 extern u8 data_02165fd4[];
 extern u8 data_02165fec[];
