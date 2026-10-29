@@ -68,14 +68,16 @@ void func_020ea37c(void) {
     data_0217b960.y += data_0217b8d4;
 }
 
-// non-matching: the original computes the y term of v before the x term and keeps param_3[0] in r4 across
-// +0xac..+0x104; here the x term is scheduled first and param_3[0] is reloaded (one extra word)
+// non-matching: same size; the original loads param_2->y and param_3->x first, then the table values, param_3->y and
+// param_2->x, and computes the y term first; here the y-term loads come first in another order (24 words)
 void func_020ea1d4(Vec3 *param_1, const Vec3 *param_2, const Vec3 *param_3) {
     Vec3 v;
     Vec3 w;
     s32 i;
     s32 c;
     s32 s;
+    s32 a;
+    s32 b;
 
     if (func_020d849c(&data_0217bb88.mUnk_00) != 0) {
         do {
@@ -92,10 +94,10 @@ void func_020ea1d4(Vec3 *param_1, const Vec3 *param_2, const Vec3 *param_3) {
     i = data_0217b878 >> 4;
     c = data_0215d4b4[i * 2];
     s = data_0215d4b4[i * 2 + 1];
-    v.x = (s32) (((s64) v.x * (param_3->x + (s32) (((s64) (param_2->x - param_3->x) * ((s + 0x1000) >> 2)) >> 12))) >>
-                 12);
-    v.y = (s32) (((s64) v.y * (param_3->y + (s32) (((s64) (param_2->y - param_3->y) * ((c + 0x1000) >> 2)) >> 12))) >>
-                 12);
+    a = param_3->y + (s32) (((s64) (param_2->y - param_3->y) * ((c + 0x1000) >> 2)) >> 12);
+    b = param_3->x + (s32) (((s64) (param_2->x - param_3->x) * ((s + 0x1000) >> 2)) >> 12);
+    v.x = (s32) (((s64) v.x * b) >> 12);
+    v.y = (s32) (((s64) v.y * a) >> 12);
     v.z = 0;
     func_02148504(&v, param_1, &v);
     w = v;

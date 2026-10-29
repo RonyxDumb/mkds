@@ -46,8 +46,10 @@
 
 #pragma thumb off
 
-// non-matching: after the 64-bit comparison the original reloads the two words (+0x10, +0x18) for the func_02148538
-// call and keeps the test's operands in lr/ip; the compiled code reuses the test's registers (0xcc vs 0xd4 bytes)
+static inline s64 func_020dc354_inline(const Vec3 *v) {
+    return (s64) v->x * v->x + (s64) v->z * v->z;
+}
+
 void func_020dc354(Unk020dc474 *p) {
     p->mUnk_00.mUnk_10.x = p->mUnk_00.mUnk_04.x;
     p->mUnk_00.mUnk_10.z = p->mUnk_00.mUnk_04.z;
@@ -55,7 +57,7 @@ void func_020dc354(Unk020dc474 *p) {
     func_020d8b88(&p->mUnk_1a0.mUnk_00, &p->mUnk_00.mUnk_04);
     p->mUnk_00.mUnk_10.x = p->mUnk_00.mUnk_04.x - p->mUnk_00.mUnk_10.x;
     p->mUnk_00.mUnk_10.z = p->mUnk_00.mUnk_04.z - p->mUnk_00.mUnk_10.z;
-    if ((s64) p->mUnk_00.mUnk_10.z * p->mUnk_00.mUnk_10.z + (s64) p->mUnk_00.mUnk_10.x * p->mUnk_00.mUnk_10.x >= 0x10) {
+    if (func_020dc354_inline(&p->mUnk_00.mUnk_10) >= 0x10) {
         func_020d7b34((u16) ((((s64) func_02148538(p->mUnk_00.mUnk_10.x, p->mUnk_00.mUnk_10.z) * 0x28be60db9391LL) +
                               0x80000000000LL) >>
                              44),

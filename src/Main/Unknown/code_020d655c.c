@@ -24,8 +24,6 @@ u32 func_020d6d34(s32 a, s32 b, s32 c, s32 d, s32 e) {
     return v;
 }
 
-// non-matching: a is kept in r0 and the 0x800 test, n and r are in r2, r1, r3 (original: mov r1, r0; the 0x800 test
-// in r0 and n in r2), so the registers differ throughout the function
 s32 func_020d6be0(Unk020eb498 *a, Unk020e71a0 *b) {
     s32 r = b->mUnk_00;
     s32 n = 0;
@@ -49,7 +47,7 @@ s32 func_020d6be0(Unk020eb498 *a, Unk020e71a0 *b) {
         }
         buf[1] = v;
         if ((b->mUnk_02 & 0x80) == 0) {
-            buf[1] = b->mUnk_98->mUnk_00(b, &buf[0], &buf[1]);
+            buf[1] = b->mUnk_98->mUnk_00(b, a, &buf[0], &buf[1]);
         }
         if (data_021759c0->mUnk_08 == 4 && buf[0] == 1 && data_021759c0->mUnk_08 == 4) {
             func_ov001_0218175c(b->mUnk_00);
@@ -63,14 +61,13 @@ s32 func_020d6be0(Unk020eb498 *a, Unk020e71a0 *b) {
     return f != 0 ? 2 : 0;
 }
 
-// non-matching: a is kept in r0 and the 0x800 test, n and r are in r2, r1, r3 (original: mov r1, r0; the 0x800 test
-// in r0 and n in r2), so the registers differ throughout the function
 s32 func_020d6a54(Unk020f41c4_A *a, Unk020e71a0 *b, s32 *c) {
     s32 r = b->mUnk_00;
-    s32 f = b->mUnk_02 & 0x800;
     s32 n = 0;
+    s32 f = b->mUnk_02 & 0x800;
     s32 v;
     s32 buf[2];
+    s32 t;
     while (r >= 100) {
         r -= 100;
         n++;
@@ -81,8 +78,9 @@ s32 func_020d6a54(Unk020f41c4_A *a, Unk020e71a0 *b, s32 *c) {
             v = 0;
         }
         buf[0] = v;
+        t = b->mUnk_98->mUnk_20;
         v = data_0216ba2c[n][a->mUnk_44][r];
-        if (f != 0 && v == 1 && b->mUnk_98->mUnk_20 != 0) {
+        if (f != 0 && v == 1 && t != 0) {
             v = 2;
         }
         buf[1] = v;
@@ -100,8 +98,9 @@ s32 func_020d6a54(Unk020f41c4_A *a, Unk020e71a0 *b, s32 *c) {
     if (c != 0) {
         *c = 0;
     }
+    t = b->mUnk_98->mUnk_20;
     v = data_0216ba2c[n][a->mUnk_44][r];
-    if (f != 0 && v == 1 && b->mUnk_98->mUnk_20 != 0) {
+    if (f != 0 && v == 1 && t != 0) {
         v = 2;
     }
     return v;

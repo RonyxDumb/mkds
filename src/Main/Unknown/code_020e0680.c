@@ -182,8 +182,12 @@ void func_020e2a74(Unk020e20a8 *a, Unk020e1e98 *b, u32 c, u32 d) {
     func_020849d0(data_0217b790);
 }
 
-// non-matching: code 0x43c vs 0x444: the two loads of b->mUnk_010/b->mUnk_018 before the func_02148538 call are not
-// re-issued, and the flag value and the byte pointer sit in r5/r4 instead of r4/r5
+static inline s64 func_020e2630_inline(const Vec3 *v) {
+    return (s64) v->x * v->x + (s64) v->z * v->z;
+}
+
+// non-matching: the flag value and the byte pointer sit in r5/r4 instead of r4/r5, and `mov r1, #0` is one place
+// later in the first product (19 words)
 void func_020e2630(u32 a, Unk020e1e98 *b) {
     s32 f;
     void *p;
@@ -263,8 +267,7 @@ void func_020e2630(u32 a, Unk020e1e98 *b) {
             }
         }
     }
-    if ((s64) b->mUnk_000.mUnk_10.x * b->mUnk_000.mUnk_10.x + (s64) b->mUnk_000.mUnk_10.z * b->mUnk_000.mUnk_10.z <
-        0x10) {
+    if (func_020e2630_inline(&b->mUnk_000.mUnk_10) < 0x10) {
         m = b->mUnk_0b4;
     } else {
         b->mUnk_000.mUnk_7e =

@@ -438,24 +438,24 @@ void func_020fb46c(Unk020fc2e8 *param_1) {
     }
 }
 
-// non-matching: 0x11c vs 0x110 bytes. After storing the value of func_0208e490 at 0x2b0 the
-// original reloads it into r1, tests it and writes the three words with predicated stores
-// (`strne r0, [r1, #0x9c]; addne r1, r1, #0x9c; strne r0, [r1, #4]; strne r0, [r1, #8]`); this
-// build branches on the test and reloads the pointer before each of the three stores.
 void func_020fb35c(Unk020fc2e8 *param_1) {
     Unk0212c400 **p;
+    struct Unk0208e490 *q;
+    s32 *v;
 
     param_1->mUnk_000.mUnk_74 |= 0x800000;
     param_1->mUnk_000.mUnk_100 = 0;
     param_1->mUnk_000.mUnk_68 = data_02159d84;
     param_1->mUnk_2b0 = func_0208e490(1, &param_1->mUnk_000.mUnk_50, func_020f9160(&param_1->mUnk_000) == 0 ? 1 : 0);
-    if (param_1->mUnk_2b0 != 0) {
-        param_1->mUnk_2b0->mUnk_9c[0] = 0x1000;
-        param_1->mUnk_2b0->mUnk_9c[1] = 0x1000;
-        param_1->mUnk_2b0->mUnk_9c[2] = 0x1000;
+    q = param_1->mUnk_2b0;
+    if (q != 0) {
+        v = q->mUnk_9c;
+        v[0] = 0x1000;
+        v[1] = 0x1000;
+        v[2] = 0x1000;
     }
     func_020f91fc(param_1, 0xdf);
-    if (*(u32 *) data_0217c780 & 1) {
+    if (data_0217c780 & 1) {
         p = func_0210e128(func_02108ea0(0));
         if (data_0217d084.mUnk_0c != 0) {
             if (*p != 0) {

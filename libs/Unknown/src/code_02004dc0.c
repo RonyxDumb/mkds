@@ -365,14 +365,9 @@ s32 func_02004fbc(Unk02003024 *p0, u32 p1) {
     return 4;
 }
 
-// non-matching: the two fixed addresses read after the call to func_02003c60 are loaded again after it instead of being
-// kept in r5 and r4, so the prologue saves only lr
 void func_02004e1c(u32 arg) {
-    Unk02005704 *x;
-    Unk02005704 *y;
+    enum { K0 } x, y;
 
-    x = (Unk02005704 *) 0x27ffe40;
-    y = (Unk02005704 *) 0x27ffe48;
     data_0216f358 = arg;
     data_0216f354 = func_0200cd28();
     data_0216f35c.mUnk_00 = 0;
@@ -391,21 +386,23 @@ void func_02004e1c(u32 arg) {
         func_02004018(&data_0216f36c, 0, 0, 0, 0, 0, func_02004fc4, func_0200505c);
         return;
     }
+    x = 0x27ffe40;
+    y = 0x27ffe48;
     func_02003c60(&data_0216f36c, func_02004fcc, 0x602);
-    if (x->mUnk_00 == (u8 *) -1) {
+    if (((Unk02005704 *) x)->mUnk_00 == (u8 *) -1) {
         return;
     }
-    if (x->mUnk_00 == 0) {
+    if (((Unk02005704 *) x)->mUnk_00 == 0) {
         return;
     }
-    if (y->mUnk_00 == (u8 *) -1) {
+    if (((Unk02005704 *) y)->mUnk_00 == (u8 *) -1) {
         return;
     }
-    if (y->mUnk_00 == 0) {
+    if (((Unk02005704 *) y)->mUnk_00 == 0) {
         return;
     }
-    func_02004018(&data_0216f36c, 0, (u32) y->mUnk_00, y->mUnk_04, (u32) x->mUnk_00, x->mUnk_04, func_02005064,
-                  func_0200505c);
+    func_02004018(&data_0216f36c, 0, (u32) ((Unk02005704 *) y)->mUnk_00, ((Unk02005704 *) y)->mUnk_04,
+                  (u32) ((Unk02005704 *) x)->mUnk_00, ((Unk02005704 *) x)->mUnk_04, func_02005064, func_0200505c);
 }
 
 u32 func_02004dfc(u32 a, u32 b) {

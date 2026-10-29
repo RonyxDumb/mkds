@@ -257,7 +257,11 @@ void func_020dd0d8(Unk020dc474 *p) {
     p->mUnk_160[0] = q;
 }
 
-// non-matching: matches up to and including the first generator step; in the second step the original keeps the word at 0x08 of the object func_020d22d0 returns in a stack slot and uses r10 for its word at 0x14, so it schedules the loop counter and the sum differently (0x3f8 bytes vs 0x410)
+static inline s64 func_020dccc8_inline(const Vec3 *v) {
+    return (s64) v->x * v->x + (s64) v->z * v->z;
+}
+
+// non-matching: matches up to and including the first generator step; in the second step the original keeps the word at 0x08 of the object func_020d22d0 returns on the stack and uses r10 for its word at 0x14, so it schedules the loop counter and the sum differently (0x400 bytes vs 0x410)
 void func_020dccc8(Unk020dc474 *p) {
     Vec3 *q;
     Vec3 *c;
@@ -350,7 +354,7 @@ void func_020dccc8(Unk020dc474 *p) {
     }
     p->mUnk_00.mUnk_10.x = p->mUnk_00.mUnk_04.x - p->mUnk_00.mUnk_10.x;
     p->mUnk_00.mUnk_10.z = p->mUnk_00.mUnk_04.z - p->mUnk_00.mUnk_10.z;
-    if ((s64) p->mUnk_00.mUnk_10.x * p->mUnk_00.mUnk_10.x + (s64) p->mUnk_00.mUnk_10.z * p->mUnk_00.mUnk_10.z >= 0x10) {
+    if (func_020dccc8_inline(&p->mUnk_00.mUnk_10) >= 0x10) {
         func_020d7b34((u16) (((s64) func_02148538(p->mUnk_00.mUnk_10.x, p->mUnk_00.mUnk_10.z) * 0x28be60db9391LL +
                               0x80000000000LL) >>
                              44),
@@ -387,7 +391,9 @@ void func_020dcc0c(Unk020dc474 *p) {
     func_0210b7a8(&a);
 }
 
-// non-matching: everything before the test against 0x40000000 matches; there the original reloads the word at 0x10 for the multiply (this build keeps the loaded word) and uses other registers, 0x444 bytes vs 0x44c
+// non-matching: matches up to the call to func_020d7b34; for the test against t * t the original loads a.z, a.x,
+// then the words at 0x18 and 0x10 and multiplies the word at 0x18 by a.x first; this build loads the word at 0x10
+// earlier and uses other registers (21 words)
 void func_020dc7c0(Unk020dc474 *p) {
     Vec3 a;
     Vec3 b;
@@ -423,12 +429,11 @@ void func_020dc7c0(Unk020dc474 *p) {
     func_021484d0(&p->mUnk_1e0, &p->mUnk_00.mUnk_04, &a);
     p->mUnk_00.mUnk_10.x += (s32) (((s64) a.x << 5) >> 12);
     p->mUnk_00.mUnk_10.z += (s32) (((s64) a.z << 5) >> 12);
-    if ((s64) p->mUnk_00.mUnk_10.x * p->mUnk_00.mUnk_10.x + (s64) p->mUnk_00.mUnk_10.z * p->mUnk_00.mUnk_10.z >=
-        0x40000000) {
+    if (func_020dccc8_inline(&p->mUnk_00.mUnk_10) >= 0x40000000) {
         p->mUnk_00.mUnk_10.x -= (s32) (((s64) p->mUnk_00.mUnk_10.x * 0x4cc) >> 12);
         p->mUnk_00.mUnk_10.z -= (s32) (((s64) p->mUnk_00.mUnk_10.z * 0x4cc) >> 12);
     }
-    if ((s64) a.x * a.x + (s64) a.z * a.z < (s64) (p->mUnk_f0 >> 1) * (p->mUnk_f0 >> 1)) {
+    if (func_020dccc8_inline(&a) < (s64) (p->mUnk_f0 >> 1) * (p->mUnk_f0 >> 1)) {
         p->mUnk_00.mUnk_10.x >>= 1;
         p->mUnk_00.mUnk_10.z >>= 1;
     } else {
@@ -468,18 +473,17 @@ void func_020dc788(Unk020dc474 *p) {
     p->mUnk_00.mUnk_10.y = 0x8000;
 }
 
-// non-matching: after the first compare the original loads the words at 0x10 and 0x18 again for the call, keeps the constant 0x10 in r0 and the address p + 0x10 in r1; this build keeps the loaded word at 0x10 and uses other registers (0x17c bytes vs 0x180)
 void func_020dc608(Unk020dc474 *p) {
-    Vec3 *v;
+    const Vec3 *v;
 
     if (p->mUnk_fc != 0) {
         p->mUnk_00.mUnk_10.x = p->mUnk_00.mUnk_04.x;
         p->mUnk_00.mUnk_10.z = p->mUnk_00.mUnk_04.z;
         func_020d84e4(&p->mUnk_1a0);
         func_020d8b88(&p->mUnk_1a0.mUnk_00, &p->mUnk_00.mUnk_04);
-        v = &p->mUnk_00.mUnk_10;
         p->mUnk_00.mUnk_10.x = p->mUnk_00.mUnk_04.x - p->mUnk_00.mUnk_10.x;
         p->mUnk_00.mUnk_10.z = p->mUnk_00.mUnk_04.z - p->mUnk_00.mUnk_10.z;
+        v = &p->mUnk_00.mUnk_10;
         if ((s64) v->x * v->x + (s64) v->z * v->z >= 0x10) {
             func_020d7b34((u16) (((s64) func_02148538(p->mUnk_00.mUnk_10.x, p->mUnk_00.mUnk_10.z) * 0x28be60db9391LL +
                                   0x80000000000LL) >>
