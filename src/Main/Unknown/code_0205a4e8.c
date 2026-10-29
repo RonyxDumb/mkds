@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0205a4e8.h"
 
-u32 func_0205a4e8(u32 arg0, u32 arg1) {
+Unk0217aa14_104_20 *func_0205a4e8(u32 arg0, u32 arg1) {
     u32 value0 = (u32) arg0;
     u32 value1 = (u32) arg1;
     u32 value2;
@@ -12,5 +12,5 @@ u32 func_0205a4e8(u32 arg0, u32 arg1) {
     value2 = (value0) * (value2) + (value3);
     value0 = (value2) + (0x20u);
     value0 = (value0) + ((value1 << 1));
-    return (u32) value0;
+    return (Unk0217aa14_104_20 *) value0;
 }
