@@ -2408,6 +2408,9 @@ src/Main/Unknown/code_02071ddc.c:
 src/Main/Unknown/code_02071e28.c:
     .text       start:0x02071e28 end:0x020720dc
 
+src/Main/Unknown/code_020720dc.c:
+    .text       start:0x020720dc end:0x020733e8
+
 // provisional: file name and boundaries
 src/Main/Unknown/code_020733e8.c:
     .text       start:0x020733e8 end:0x020733ec

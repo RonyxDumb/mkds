@@ -98,4 +98,10 @@ extern s32 data_021659d0;
 extern const char data_02165a7c[];
 extern s32 data_usa_021654ec;
 extern s32 data_021654f4;
-extern const Vec3 data_usa_02165560;
+// Three words.
+typedef struct Unk02165560 {
+    /* 00 */ u32 mUnk_00[3];
+} Unk02165560;
+
+extern const Unk02165560 data_usa_02165560;
+extern const s32 data_usa_02165504;

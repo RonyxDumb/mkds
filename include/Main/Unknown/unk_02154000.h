@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_0206bcb0.h" // Unk01ffd190
 
 // Objects whose layout isn't known yet.
 extern u8 data_0215472c[];
@@ -30,3 +31,11 @@ extern const Vec3 data_usa_02154fc4;
 extern const Vec3 data_usa_02154fdc;
 
 extern u16 data_021540ec[];
+extern const Unk01ffd190 data_usa_02154f14;
+extern const Unk01ffd190 data_usa_02154f24;
+extern const Unk01ffd190 data_usa_02154f34;
+extern const Unk01ffd190 data_usa_02154f44;
+extern const Unk01ffd190 data_usa_02154f54;
+extern const Vec3 data_usa_02154f64;
+extern const s32 data_usa_02154d4c[][2];
+extern const s32 data_usa_02154d50[][2];

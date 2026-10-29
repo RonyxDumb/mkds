@@ -7,7 +7,6 @@ void func_020733ec(Unk0206bcb0 *p);
 void func_02073630(void);
 
 // Declared here until the code that defines them is decompiled.
-void func_020726bc(Unk0206bcb0 *p);
 void func_01ffa380(void);
 void func_01ffa41c(void);
 void func_01ffa478(void);

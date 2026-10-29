@@ -15,5 +15,4 @@ void func_02071958(Unk0206bcb0 *p, s32 b);
 void func_02071980(Unk0206bcb0 *p, s32 b);
 
 // Declared here until the code that defines them is decompiled.
-void func_02072600(Unk0206bcb0 *p);
 void func_02073f90(void);

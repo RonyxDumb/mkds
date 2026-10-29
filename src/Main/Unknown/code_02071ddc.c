@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02071ddc.h"
 
-void func_02071ddc(unsigned int p0) {
+void func_02071ddc(void *p0) {
     *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned short) (0x0u);
     *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2) = (unsigned short) (0x0u);
     *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 4) = (unsigned short) (0x0u);
