@@ -12,3 +12,7 @@ void func_01ff9f60(struct Unk0206bcb0 *p, Vec3 *a);
 void func_01ffa11c(struct Unk0206bcb0 *p, const Vec3 *a);
 void func_01ff92b4(void);
 void func_01ff92e0(void *a);
+void func_01ff9b70(struct Unk0206bcb0 *p);
+void func_01ff9d18(struct Unk0206bcb0 *p);
+void func_01ffa4b4(struct Unk0206bcb0 *p, Vec3 *a);
+void func_01ffad14(struct Unk0206bcb0 *p);

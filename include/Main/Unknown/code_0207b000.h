@@ -14,3 +14,5 @@ void func_0207b708(void *a, s32 b);
 void func_0207b13c(Unk0206bcb0 *p);
 void func_0207b1a8(Unk0206bcb0 *p);
 void func_0207b284(Unk0206bcb0 *a);
+void func_0207b354(Unk0206bcb0 *a);
+void func_0207b734(Unk0206bcb0 *a);

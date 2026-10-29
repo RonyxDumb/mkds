@@ -16,7 +16,8 @@ typedef struct Unk020ed718 {
 
 // The object behind the word at 0x20 of a Unk0206bcb0_590: the vectors from 0x48.
 typedef struct Unk0206bcb0_590_20 {
-    /* 00 */ u8 mUnk_00[0x14];
+    /* 00 */ u8 mUnk_00[0x10];
+    /* 10 */ s32 mUnk_10;
     /* 14 */ Vec3 mUnk_14[4];
     /* 44 */ u8 mUnk_44[4];
     /* 48 */ Vec3 mUnk_48[1];
@@ -32,23 +33,47 @@ typedef struct Unk0206bcb0_590_1c {
 // the halfword at 0x40.
 // The object behind the word at 0x08 of a Unk0206bcb0_590: the halfword at 0x1a.
 typedef struct Unk0206bcb0_590_08 {
-    /* 00 */ u8 mUnk_00[0x1a];
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ u8 mUnk_10[8];
+    /* 18 */ u16 mUnk_18;
     /* 1a */ u16 mUnk_1a;
+    /* 1c */ s32 **mUnk_1c;
 } Unk0206bcb0_590_08;
+
+// The object behind the word at 0x54 of a Unk0206bcb0_590.
+typedef struct Unk0206bcb0_590_54 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ u8 mUnk_04[8];
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ u8 mUnk_10[8];
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ u8 mUnk_1c[8];
+    /* 24 */ s32 mUnk_24;
+} Unk0206bcb0_590_54;
 
 typedef struct Unk0206bcb0_590 {
     /* 000 */ s32 mUnk_000;
     /* 004 */ s32 mUnk_004;
     /* 008 */ Unk0206bcb0_590_08 *mUnk_008;
-    /* 00c */ u8 mUnk_00c[0x10];
+    /* 00c */ u8 mUnk_00c[4];
+    /* 010 */ void *mUnk_010;
+    /* 014 */ void *mUnk_014;
+    /* 018 */ void *mUnk_018;
     /* 01c */ Unk0206bcb0_590_1c *mUnk_01c;
     /* 020 */ Unk0206bcb0_590_20 *mUnk_020;
-    /* 024 */ u8 mUnk_024[0x1c];
+    /* 024 */ s32 mUnk_024;
+    /* 028 */ u8 mUnk_028[8];
+    /* 030 */ s32 mUnk_030;
+    /* 034 */ u8 mUnk_034[0xc];
     /* 040 */ u16 mUnk_040;
-    /* 042 */ u8 mUnk_042[0x16];
+    /* 042 */ u8 mUnk_042[0x12];
+    /* 054 */ Unk0206bcb0_590_54 *mUnk_054;
     /* 058 */ s32 mUnk_058;
     /* 05c */ s32 mUnk_05c;
     /* 060 */ s32 mUnk_060;
+    /* 064 */ u8 mUnk_064[0x40];
+    /* 0a4 */ s32 mUnk_0a4;
 } Unk0206bcb0_590;
 
 // Three vectors at 0x00, 0x0c and 0x18.

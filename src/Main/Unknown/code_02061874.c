@@ -3,6 +3,7 @@
 #include "Main/Unknown/code_0203ca20.h"
 #include "Main/Unknown/code_0207a30c.h"
 #include "Main/Unknown/code_02062eb0.h"
+#include "Main/Unknown/code_02062ed8.h"
 
 // non-matching: same instructions except the registers of the first table loop.
 void func_02061c28(void) {

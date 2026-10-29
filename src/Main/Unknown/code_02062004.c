@@ -72,6 +72,7 @@
 #include "code_0214a748.h"
 #include "Main/Unknown/code_02042064.h"
 #include "Main/Unknown/code_0208f0f8.h"
+#include "Main/Unknown/code_02062ed8.h"
 
 extern const u16 data_02154970[8];
 extern const u16 data_02154980[8];

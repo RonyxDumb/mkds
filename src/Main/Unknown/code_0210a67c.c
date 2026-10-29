@@ -14,7 +14,7 @@ void func_0210a880(Unk0206bcb0 *a, Unk0210bf24 *b, s32 c)
     s16 w;
 
     e = b->mUnk_1a;
-    d = c + a->mUnk_48c(a->mUnk_518);
+    d = c + a->mUnk_48c(&a->mUnk_518);
     if (b->mUnk_18 != 2) {
         f = a->mUnk_500;
         w = 0;
