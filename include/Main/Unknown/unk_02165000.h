@@ -21,6 +21,7 @@ extern const Unk021a9034 data_0216524c;
 extern const Unk021a9034 data_02165280;
 extern Unk021652a0 data_021652a0;
 extern UnkFunc *const data_021652b0[];
+extern UnkFunc *const data_02165388[];
 extern const Unk021a9034 data_02165368;
 extern u8 data_02165074[];
 extern u8 data_02165080[];

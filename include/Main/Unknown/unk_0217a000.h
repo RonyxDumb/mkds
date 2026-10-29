@@ -791,6 +791,7 @@ typedef struct Unk0217aa14_104 {
                 u8 mUnk_86;
                 struct {
                     u8 mUnk_86_0 : 1;
+                    u8 mUnk_86_1 : 7;
                 };
             };
             /* 87 */ u8 mUnk_87;
@@ -802,23 +803,41 @@ typedef struct Unk0217aa14_104 {
 // 0xc-byte entries from 0x324 of Unk0217aa14.
 typedef struct Unk0217aa14_324 {
     /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ void *mUnk_04;
     /* 08 */ u8 mUnk_08;
     /* 09 */ u8 mUnk_09;
     /* 0a */ u8 mUnk_0a;
     /* 0b */ u8 mUnk_0b;
 } Unk0217aa14_324;
 
-// 8 bytes from 0x04 of what member 0x754 of Unk0217aa14 points to.
+// Halfword of the table at 0x20 of Unk0217aa14_754_04: bits 0 to 6, 7 to 11 and 12 to 13.
+typedef struct Unk0217aa14_754_04_20 {
+    /* 00 */ union {
+        u16 mUnk_00;
+        struct {
+            u16 mUnk_00_0 : 7;
+            u16 mUnk_00_7 : 5;
+            u16 mUnk_00_12 : 2;
+        };
+    };
+} Unk0217aa14_754_04_20;
+
+// 0x68 bytes from 0x04 of what member 0x754 of Unk0217aa14 points to.
 typedef struct Unk0217aa14_754_04 {
     /* 00 */ union {
         u32 mUnk_00;
+        u16 mUnk_00_h;
         u8 mUnk_00_b[4];
         struct {
             u32 mUnk_00_0 : 24;
         };
     };
     /* 04 */ u32 mUnk_04;
+    /* 08 */ u32 mUnk_08;
+    /* 0c */ u32 mUnk_0c[5];
+    /* 20 */ Unk0217aa14_754_04_20 mUnk_20[4];
+    /* 28 */ u8 mUnk_28[0x10];
+    /* 38 */ u8 mUnk_38[0x30];
 } Unk0217aa14_754_04;
 
 // What member 0x754 of Unk0217aa14 points to.
@@ -1255,7 +1274,9 @@ extern u8 data_0217acac[];
 
 // Ten bytes: bytes 6 to 9 are signed values read in rows of four.
 typedef struct Unk0217aa18 {
-    /* 00 */ u8 mUnk_00[6];
+    /* 00 */ s8 mUnk_00[4];
+    /* 04 */ u8 mUnk_04;
+    /* 05 */ u8 mUnk_05;
     /* 06 */ s8 mUnk_06[4];
 } Unk0217aa18;
 
