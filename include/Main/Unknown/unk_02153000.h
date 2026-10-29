@@ -71,3 +71,4 @@ extern u16 data_021530b8[4][4];
 extern u16 data_021530d0[4][4];
 extern Unk02022aa8_f *data_021530e8[];
 extern u32 data_02153118[][4];
+extern u8 data_usa_021530f8[4][4][2];

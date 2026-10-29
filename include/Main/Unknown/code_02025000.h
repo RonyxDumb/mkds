@@ -23,3 +23,4 @@ void func_02025edc(Unk02025ebc *a);
 void func_02025f14(Unk02025ebc *a, s32 b);
 void func_02025f80(Unk02025ebc *a, s32 b, s32 c, s16 d, s16 e);
 s32 func_02025e60(s32 a);
+s32 func_02025da4(void *a, u32 b, s32 c);
