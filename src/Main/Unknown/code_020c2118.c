@@ -1,12 +1,12 @@
 #include "Main/Unknown/code_020c2118.h"
 
-void func_020c2118(u32 param_1) {
+void func_020c2118(Unk020c06c4 *param_1) {
     int iVar1;
     iVar1 = ((u32) func_020b1dbc());
     if (iVar1 != 5) {
-        func_020c28dc((Unk020c06c4 *) (param_1));
+        func_020c28dc(param_1);
         return;
     }
-    func_020c214c((Unk020c06c4 *) (param_1));
+    func_020c214c(param_1);
     return;
 }
