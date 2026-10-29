@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_0210f090.h"
+#include "code_0214e6e4.h"
 
 // 0x30-byte entries from 0x70 of the object behind data_021759c0.
 typedef struct Unk021759c0_70 {
@@ -90,15 +92,19 @@ extern Unk021759c0 *data_021759c0;
 
 // Object behind data_021759c4; the members are the ones the code reads.
 typedef struct Unk021759c4 {
-    /* 00 */ u8 mUnk_00[0x30];
+    /* 00 */ Unk0214e788 mUnk_00[5];
+    /* 28 */ Unk0214e334_b mUnk_28;
     /* 30 */ union {
         u32 mUnk_30;
         struct {
             s32 mUnk_30_0 : 1;
-            s32 mUnk_30_1 : 2;
+            s32 mUnk_30_1 : 1;
+            s32 mUnk_30_2 : 1;
             s32 mUnk_30_3 : 1;
         };
     };
+    /* 34 */ u8 mUnk_34[0x8];
+    /* 3c */ Unk0210f090 *mUnk_3c;
 } Unk021759c4;
 
 extern Unk021759c4 *data_021759c4;

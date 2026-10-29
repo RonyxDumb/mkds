@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_0204a5f8.h"
+#include "Main/Unknown/code_0204a978.h"
 
 // Declared here until the code that defines them is decompiled.
 int func_0204aa60(void);
@@ -13,4 +15,3 @@ void func_0204aba8(void);
 void func_0204ac10(void);
 void func_0204ac60(void);
 void func_0204acd0(s32 a);
-s32 func_0204a650(s32 *a);
