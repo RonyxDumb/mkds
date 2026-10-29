@@ -307,9 +307,8 @@ u8 func_02104000(s32 a, s32 b) {
     return x;
 }
 
-// non-matching: 4 bytes longer (0x254 vs 0x250): mwcc strength-reduces the mUnk_00 word
-// store to a walking pointer (extra `mov` + post-increment) where the original indexes
-// an indexed word store; the rest pairs one instruction for one with other register names
+// non-matching: same size; 110 words differ from +0x10: registers (the original keeps data_0217561c in r5)
+// and the order of the first loads.
 void func_02103db0(s32 v1, volatile s32 param_2, s32 param_3) {
     Unk0217561c *b;
     Unk020f41c4_B *a;
@@ -355,7 +354,7 @@ void func_02103db0(s32 v1, volatile s32 param_2, s32 param_3) {
         f0 = q[i][0];
         q[i][0] = (f0 * s - f1 * c) >> 12;
         q[i][1] = (f0 * c + f1 * s) >> 12;
-        *(u32 *) &e->mUnk_00[i] = param_2;
+        *(u32 *) &e->mUnk_00[(u32) i] = param_2;
     }
     *(u32 *) &e->mUnk_20 = param_2;
     e->mUnk_24 = (void *) func_0210449c;

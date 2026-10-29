@@ -97,9 +97,15 @@ s32 func_020ff178(Unk020f41c4_A *p) {
     return (s16) (((s16) (u16) (p->mUnk_78 & ~0xff00) << 4) | p->mUnk_4c);
 }
 
-// non-matching: 0xb8 bytes against 0xc8. The original advances the cursor as a new value at each step
-// (add r1, r7, #1 / add r1, r1, #1 / add r7, r1, #1, and the same in the empty arm); this compiler keeps the cursor
-// in r7 and addresses the following bytes as [r7, #1] and [r7, #2] with a single add r7, r7, #3.
+static inline u8 *func_020ff0b0_inline(u8 *p, volatile s32 *t, void *c, s32 n) {
+    if (c != 0) {
+        *p = *t >> n;
+    } else {
+        *t = *(s8 *) p << n;
+    }
+    return p + 1;
+}
+
 u8 *func_020ff0b0(u8 *a, Vec3 *b, Vec3 *q, void *c) {
     volatile s32 t[3];
 
@@ -107,30 +113,15 @@ u8 *func_020ff0b0(u8 *a, Vec3 *b, Vec3 *q, void *c) {
         if (c != 0) {
             func_021484d0(q, b, (Vec3 *) t);
         }
-        if (c != 0) {
-            *a = t[0] >> 10;
-        } else {
-            t[0] = *(s8 *) a << 10;
-        }
-        a++;
-        if (c != 0) {
-            *a = t[1] >> 9;
-        } else {
-            t[1] = *(s8 *) a << 9;
-        }
-        a++;
-        if (c != 0) {
-            *a = t[2] >> 10;
-        } else {
-            t[2] = *(s8 *) a << 10;
-        }
-        a++;
+        a = func_020ff0b0_inline(a, &t[0], c, 10);
+        a = func_020ff0b0_inline(a, &t[1], c, 9);
+        a = func_020ff0b0_inline(a, &t[2], c, 10);
         if (c == 0) {
             func_02148504((Vec3 *) t, b, q);
         }
     } else {
         a++;
-        a++;
+        a = (u8 *) a + 1;
         a++;
     }
     return a;

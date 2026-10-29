@@ -95,14 +95,11 @@ void func_020fa294(void) {
     }
 }
 
-// non-matching: 0x154 bytes vs 0x158; the loop over data_027e00cc is strength reduced here
-// (counter in one register, byte offset in another); the original tests the counter before
-// the first pass (cmp r5, #0xe; bge) and multiplies it by 0x44 with muls every pass.
 void func_020fa13c(void) {
     void *b;
     s32 a;
     s32 i;
-    s32 j;
+    enum { K0 } j;
     Unk020f40dc *p;
     u8 v;
 

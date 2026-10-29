@@ -11,11 +11,10 @@
 #include "Main/Unknown/code_020fa4c8.h"
 #include "Main/Unknown/code_020f81c0.h"
 
-// non-matching: 0x37c bytes vs 0x398 bytes. The original multiplies the subscript by the table stride
-// inside both counting loops (`mla fp, r3, 0x44, r2` / `mla sl, r3, 0xa8, r1` and
-// `mla r1, r7, 0x1c, ip`); here the subscript loops are turned into walking pointers
-// (`add r2, r2, #0x44` / `add r7, r7, #0x1c`). A `u16` counter gives the original's mla form but
-// adds two masking words per iteration, which the original does not have.
+// non-matching: 0x38c bytes vs 0x398. The loops have the original's shape (subscripts multiplied each pass,
+// the table entry read at the top of the second loop); left: the three acc arms are laid out in another order
+// (the original tests `j < 9`, then `m == 0`, then `m == 1`, with the plain add last and an `ldrh` in the `>> 2`
+// arm), the 64-bit product for k is formed in another order, and registers differ.
 s32 func_020f8a04(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6) {
     Unk0217bc6c *q;
     Unk020f41c4_B *b;
@@ -28,6 +27,7 @@ s32 func_020f8a04(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_
     s32 sel;
     u16 acc;
     u16 k;
+    s32 n;
 
     sel = 0x13;
     if (param_2 != 0) {
@@ -44,14 +44,15 @@ s32 func_020f8a04(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_
     t = 0;
     if (data_021759c0->mUnk_08 != 4) {
         for (j = 0; j < 0xe; j++) {
-            t += (u16) (data_0217bc34[j].mUnk_90 * (data_027e00cc[j].mUnk_1c - data_027e00cc[j].mUnk_18));
+            t += (u16) (data_0217bc34[(s32) j].mUnk_90 * (data_027e00cc[(s32) j].mUnk_1c - data_027e00cc[(s32) j].mUnk_18));
         }
     }
     for (j = 0; j < param_6; j++) {
+        n = data_0217bc48[(s32) j].mUnk_08;
         if (!((j == 8 && data_0217bc60 > 0) || (j == 7 && data_0217bc5c > 0) || (j == 0xf && data_0217bc58 > 0))) {
-            if (data_027e00cc[data_0217bc48[j].mUnk_08].mUnk_20 - data_027e00cc[data_0217bc48[j].mUnk_08].mUnk_1c > 0 &&
-                data_0217bc48[j].mUnk_00 != 0) {
-                x = data_0217bc34[data_0217bc48[j].mUnk_08].mUnk_90 * data_0217bc48[j].mUnk_0c;
+            if (data_027e00cc[n].mUnk_20 - data_027e00cc[n].mUnk_1c > 0 &&
+                data_0217bc48[(s32) j].mUnk_00 != 0) {
+                x = data_0217bc34[n].mUnk_90 * data_0217bc48[(s32) j].mUnk_0c;
                 if (x == 0 || t + x <= 0x28) {
                     if (j < 9 || m == 0) {
                         acc = acc + row[j];

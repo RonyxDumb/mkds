@@ -10,9 +10,8 @@
 #include "Main/Unknown/code_021000d0.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-// non-matching: the pair copy mUnk_10[n + 1].mUnk_00 = mUnk_10[n].mUnk_00 reads through the strength-reduced offset
-// instead of a separate `mul ip, r9, #20`, and the original schedules both multiplies after the first store (the
-// compiled function is one word shorter)
+// non-matching: 7 words in the last statement: the original holds the shifted result in r3, n - 2 in r1
+// and the table base in r2; here they are in r1, r2 and r3.
 void func_020c783c(void)
 {
     s32 i;
@@ -28,7 +27,7 @@ void func_020c783c(void)
             if (func_020b5ae8(&p->mUnk_04, &data_0217b408->mUnk_10[n].mUnk_00, a, 0, 0) != 0) {
                 data_0217b408->mUnk_10[n].mUnk_08 = func_020b83dc(0xaf);
                 data_0217b408->mUnk_10[n].mUnk_0c = 1;
-                data_0217b408->mUnk_10[n + 1].mUnk_00 = data_0217b408->mUnk_10[n].mUnk_00;
+                data_0217b408->mUnk_10[n + 1].mUnk_00 = data_0217b408->mUnk_10[(u32) n].mUnk_00;
                 data_0217b408->mUnk_10[n + 1].mUnk_08 = func_020b83dc(0xb0);
                 data_0217b408->mUnk_10[n + 1].mUnk_0c = 2;
                 n += 2;

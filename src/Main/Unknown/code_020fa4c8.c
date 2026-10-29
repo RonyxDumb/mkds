@@ -731,29 +731,21 @@ s32 func_020faa78(s32 param_1) {
     return 1;
 }
 
-// non-matching: 0x9c vs 0x94 bytes. The original tests the counter before the first pass of both
-// loops (`cmp r6, #14; bge`) and recomputes the address with `mla` each pass; this build enters
-// the loops without the first test and steps a pointer.
 void func_020fa9e4(void) {
-    s32 i;
+    enum { K0 } i;
     u16 j;
 
     for (i = 0; i < 0xe; i++) {
-        func_020f03bc(&data_027e00cc[(u32) i]);
-    }
-    if (data_027e00c4 == 0) {
-        return;
+        func_020f03bc(&data_027e00cc[i]);
     }
     for (j = 0; j < data_027e00c4; j++) {
         func_020f0044(&((Unk020ee684 *) *(void **) data_027e00c8)[j]);
     }
 }
 
-// non-matching: 0xbc vs 0xc4 bytes. The loops differ as in func_020fa9e4: the original tests the
-// counter before the first pass and recomputes the address with `mla` each pass; this build
-// steps a byte offset (`add r5, r5, #0x44`).
 void func_020fa920(void) {
-    s32 i;
+    enum { K0 } i;
+    u16 j;
 
     if (data_021759c0->mUnk_08 == 5) {
         func_020fec30();
@@ -764,19 +756,16 @@ void func_020fa920(void) {
             func_020f03f8(&data_027e00cc[i]);
         }
     }
-    for (i = 0; i < data_027e00c4; i++) {
-        func_01fff694(&((Unk020ee684 *) *(void **) data_027e00c8)[i]);
+    for (j = 0; j < data_027e00c4; j++) {
+        func_01fff694(&((Unk020ee684 *) *(void **) data_027e00c8)[j]);
     }
     func_020f8258();
     func_02104368();
     func_02104ff8();
 }
 
-// non-matching: 0x68 vs 0x74 bytes. The loop differs as in func_020fa9e4: the original tests the
-// counter before the first pass (`cmp r7, #14`) and recomputes the address with `mla` each pass;
-// this build steps a byte offset (`add r5, r5, #0x44`).
 void func_020fa8ac(void) {
-    s32 i;
+    enum { K0 } i;
     void *q;
 
     q = &((Unk020e6b38 *) func_020e6b38())->mUnk_18;

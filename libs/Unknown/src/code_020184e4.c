@@ -1201,8 +1201,8 @@ Unk020184e4 *func_02018d94(void *(*a)(u32 a), s32 b, s32 c, s32 d, u16 e, u16 f)
     return p;
 }
 
-// non-matching: the original keeps the first loop counter on the stack and steps a byte offset (r6 += 0x20) through the
-// table; this build keeps the counter in a register and indexes by it (0x37c bytes vs 0x378)
+// non-matching: 12 words, registers only: the byte offset of the first loop is in r4 (original r6) and the
+// first two flag bits in r6 and r5 (original r5 and r4).
 void func_02018a1c(Unk020184e4 *a, Unk02018a1c *b) {
     s32 i;
     s32 off;
@@ -1224,10 +1224,10 @@ void func_02018a1c(Unk020184e4 *a, Unk02018a1c *b) {
     a->mUnk_28 = a->mUnk_00(a->mUnk_30 << 5);
     func_0214d168(a->mUnk_28, 0, a->mUnk_30 << 5);
     for (i = 0; i < a->mUnk_30; i++) {
-        a->mUnk_28[i].mUnk_00 = (Unk0201ca6c_20_00 *) ((u8 *) b + off);
-        off += 0x58;
         e = a->mUnk_28 + i;
-        flags = a->mUnk_28[i].mUnk_00->mUnk_00;
+        e->mUnk_00 = (Unk0201ca6c_20_00 *) ((u8 *) b + off);
+        off += 0x58;
+        flags = e->mUnk_00->mUnk_00;
         if (flags.mUnk_00_8) {
             e->mUnk_04 = (Unk0201ca6c_20_04 *) ((u8 *) b + off);
             off += 0xc;
@@ -1310,9 +1310,9 @@ void func_02018a1c(Unk020184e4 *a, Unk02018a1c *b) {
     a->mUnk_2c = a->mUnk_00(a->mUnk_32 * 0x14);
     func_0214d168(a->mUnk_2c, 0, a->mUnk_32 * 0x14);
     for (i = 0; i < a->mUnk_32; i++) {
-        d = (Unk020184e4_2c_00 *) ((u8 *) b + off);
-        a->mUnk_2c[i].mUnk_00 = d;
         h = a->mUnk_2c + i;
+        d = (Unk020184e4_2c_00 *) ((u8 *) b + off);
+        h->mUnk_00 = d;
         h->mUnk_10 = 1 << (d->mUnk_04.mUnk_00_4 + 3);
         h->mUnk_12 = 1 << (d->mUnk_04.mUnk_00_8 + 3);
         h->mUnk_0c = d->mUnk_04;

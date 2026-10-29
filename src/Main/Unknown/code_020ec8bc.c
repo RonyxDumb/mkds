@@ -64,11 +64,8 @@ void *func_020ed490(u8 *a, u8 *b) {
     return p;
 }
 
-// non-matching: the loops walk the two tables with a pointer that is advanced
-// each iteration, where the original scales the counter for every load and
-// store (0x18c bytes against 0x198).
 void func_020ed2f8(void) {
-    s32 i;
+    enum { K0 } i;
     void *p;
     s32 f;
 
@@ -91,7 +88,7 @@ void func_020ed2f8(void) {
     data_0217bbfc[12] = func_020ed4d0(data_0216c5bc, 0, data_0216c5d0);
     data_0217bbfc[13] = func_020ed4d0(data_0216c5e4, 0, data_0216c5f4);
     data_0217bbfc[8] = data_0217bbfc[7];
-    f = (*(s32 *) data_021759c0->mUnk_00 == 0x1d);
+    f = (data_021759c0->mUnk_00 == 0x1d);
     i = 0;
     while (i < 0xe) {
         p = &data_0217bc34[i];
