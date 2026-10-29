@@ -135,18 +135,18 @@ void func_020c0ee4(void) {
     data_0217b3e0->mUnk_00b0 = 0;
 }
 
-// non-matching: the original adds the cell offset of the two reads separately (add r0, r0, #0 and add r0, r0, #4, then ldrb r0, [r0, #2]) where this folds it into the load (0x104 bytes vs 0x10c)
+static inline Unk0217aa1c_144_00 *func_020c0dd8_inline(s32 j) {
+    return &data_0217aa1c->mUnk_144[func_0205db28()].mUnk_00[j];
+}
+
 void func_020c0dd8(void) {
-    Unk0217aa1c_144 *s;
     s32 a;
     s32 b;
 
     if (data_021759c0->mUnk_1c == 1 || data_021759c0->mUnk_08 == 2) {
         if (data_021759c0->mUnk_58 != 0) {
-            s = &data_0217aa1c->mUnk_144[func_0205db28()];
-            a = s->mUnk_00[0].mUnk_02;
-            s = &data_0217aa1c->mUnk_144[func_0205db28()];
-            b = s->mUnk_00[1].mUnk_02;
+            a = func_020c0dd8_inline(0)->mUnk_02;
+            b = func_020c0dd8_inline(1)->mUnk_02;
             if (a <= b) {
                 a = b;
             }

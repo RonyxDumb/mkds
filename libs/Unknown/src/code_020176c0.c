@@ -78,22 +78,20 @@ void *func_02017c58(Unk020179d4 *a, Unk02017e70 *b, void *c, u32 d, u16 e) {
     return c;
 }
 
-// non-matching: 0xcc bytes, original 0xc8: the original adds 0x24 to r0 in place and passes r0 on; here the sum goes
-// to r5 and is moved back to r0 before the call (one instruction more, registers shifted).
 void *func_02017b90(Unk020176c0 *a, u32 b, u32 c) {
     Unk020179d4 *p;
     Unk02017e70 *q;
     Unk02017e70 *b0;
     u32 a0;
-    int bestaddr;
     u32 v0;
     u32 v1;
+    int bestaddr;
     u32 m;
     u32 f;
 
     p = &a->mUnk_24;
-    q = p->mUnk_00.mUnk_00;
     f = (u16) (p->mUnk_12 & 1) == 0 ? 1 : 0;
+    q = p->mUnk_00.mUnk_00;
     b0 = 0;
     bestaddr = 0;
     v1 = -1;

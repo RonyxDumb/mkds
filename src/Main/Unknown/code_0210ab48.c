@@ -307,8 +307,6 @@ void func_0210ad58(Unk0206bcb0 *a, s32 b)
     q->mUnk_60++;
 }
 
-// non-matching: the original keeps the constant 0xd in a register of its own (mov r4, #13 before the branch, then
-// mla r2, r9, r0, r4); here it is folded into the addition (mul r1, r9, r0 ... add r2, r1, #13)
 void func_0210abf4(Unk0206bcb0 *a, s32 b, s32 c, s32 d)
 {
     Unk0212c400 *h;
@@ -316,6 +314,7 @@ void func_0210abf4(Unk0206bcb0 *a, s32 b, s32 c, s32 d)
     Unk0210bf24 *q;
     s32 e;
     u16 f;
+    enum { K0 } k;
 
     p = a->mUnk_00.mUnk_0c.mUnk_00;
     if (p != 0) {
@@ -336,15 +335,16 @@ void func_0210abf4(Unk0206bcb0 *a, s32 b, s32 c, s32 d)
     if (e == 0) {
         return;
     }
+    k = 0xd;
     if (c != 0) {
-        func_0210c86c(&a->mUnk_00, 2, b * 0xe + 0xd, 0x7f, 0);
+        func_0210c86c(&a->mUnk_00, 2, b * 0xe + k, 0x7f, 0);
         return;
     }
     if (func_02105504() == 0) {
         return;
     }
     func_0212c6a0(&h);
-    f = b * 0xe + 0xd;
+    f = b * 0xe + k;
     if (h != 0) {
         func_0212c6f0(&h, 0);
     }

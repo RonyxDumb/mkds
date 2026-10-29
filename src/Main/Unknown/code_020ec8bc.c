@@ -25,17 +25,14 @@
 #pragma thumb on
 #pragma optimize_for_size on
 
-// non-matching: the argument test is `adds r3, r0, #0; cmp r3, #0` in the
-// original; the compiled code compares r0 directly, so the copy of the first
-// argument is missing and every later word shifts (8 words).
 void *func_020ed548(u8 *a) {
     u8 buf[0x100];
 
     if (a == 0) {
         return 0;
     }
-    func_02135048((char *) buf, 0x100, (const char *) data_0216c604);
-    func_02047b08((const char *) buf);
+    func_02135048((char *) buf, 0x100, (const char *) data_0216c604, a);
+    return func_02047b08((const char *) buf);
 }
 
 Unk020e6488 *func_020ed4d0(u8 *a, u8 *b, u8 *c) {
