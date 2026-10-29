@@ -185,8 +185,18 @@ extern s32 data_0217b02c;
 extern Unk02165ff0 *data_0217b030;
 
 // Objects whose layout isn't known yet.
-extern u8 data_0217b038[];
 struct Unk020184e4;
+
+// Object behind data_0217b038, 0x14 bytes.
+typedef struct Unk0217b038 {
+    /* 00 */ u8 *mUnk_00;
+    /* 04 */ u8 *mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ u8 *mUnk_0c;
+    /* 10 */ u8 *mUnk_10;
+} Unk0217b038;
+
+extern Unk0217b038 *data_0217b038;
 
 extern struct Unk020184e4 *data_0217b03c;
 

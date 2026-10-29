@@ -105,6 +105,7 @@ typedef struct Unk0201ca6c_20_00 {
     /* 4c */ u32 mUnk_4c_2 : 30;
     /* 50 */ s16 mUnk_50;
     /* 52 */ s16 mUnk_52;
+    /* 54 */ u8 mUnk_54;
 } Unk0201ca6c_20_00;
 
 typedef struct Unk0201ca6c_20_04 {

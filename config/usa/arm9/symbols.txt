@@ -1801,7 +1801,7 @@ func_020470c4 kind:function(arm,size=0x40) addr:0x020470c4
 func_usa_02047104 kind:function(arm,size=0x74) addr:0x02047104
 func_usa_02047178 kind:function(arm,size=0x38) addr:0x02047178
 func_usa_020471b0 kind:function(thumb,size=0x70) addr:0x020471b0
-func_usa_02047220 kind:function(thumb,size=0x30) addr:0x02047220
+func_02047220 kind:function(thumb,size=0x30) addr:0x02047220
 func_02047250 kind:function(thumb,size=0x24) addr:0x02047250
 func_02047274 kind:function(thumb,size=0x34) addr:0x02047274
 func_020472a8 kind:function(thumb,size=0x3c) addr:0x020472a8
@@ -2500,7 +2500,7 @@ func_0206169c kind:function(arm,size=0x24) addr:0x0206169c
 func_020616c0 kind:function(arm,size=0x44) addr:0x020616c0
 func_02061704 kind:function(arm,size=0x48) addr:0x02061704
 func_0206174c kind:function(arm,size=0x1c) addr:0x0206174c
-func_usa_02061768 kind:function(arm,size=0x20) addr:0x02061768
+func_02061768 kind:function(arm,size=0x20) addr:0x02061768
 func_02061788 kind:function(arm,size=0x20) addr:0x02061788
 func_020617a8 kind:function(arm,size=0x30) addr:0x020617a8
 func_020617d8 kind:function(arm,size=0x18) addr:0x020617d8
@@ -3209,11 +3209,11 @@ func_0208adc8 kind:function(arm,size=0x98) addr:0x0208adc8
 func_0208ae60 kind:function(arm,size=0x14) addr:0x0208ae60
 func_0208ae74 kind:function(arm,size=0x18) addr:0x0208ae74
 func_0208ae8c kind:function(arm,size=0x1c) addr:0x0208ae8c
-func_usa_0208aea8 kind:function(arm,size=0x98) addr:0x0208aea8
-func_usa_0208af40 kind:function(arm,size=0xa4) addr:0x0208af40
-func_usa_0208afe4 kind:function(arm,size=0x1ac) addr:0x0208afe4
-func_usa_0208b190 kind:function(arm,size=0x2c8) addr:0x0208b190
-func_usa_0208b458 kind:function(arm,size=0x2c) addr:0x0208b458
+func_0208aea8 kind:function(arm,size=0x98) addr:0x0208aea8
+func_0208af40 kind:function(arm,size=0xa4) addr:0x0208af40
+func_0208afe4 kind:function(arm,size=0x1ac) addr:0x0208afe4
+func_0208b190 kind:function(arm,size=0x2c8) addr:0x0208b190
+func_0208b458 kind:function(arm,size=0x2c) addr:0x0208b458
 func_0208b484 kind:function(arm,size=0x14) addr:0x0208b484
 func_0208b498 kind:function(arm,size=0x118) addr:0x0208b498
 func_0208b5b0 kind:function(arm,size=0x5c) addr:0x0208b5b0
@@ -11404,7 +11404,7 @@ data_0217b038 kind:bss addr:0x0217b018
 data_0217b03c kind:bss addr:0x0217b01c
 data_0217b040 kind:bss addr:0x0217b020
 data_0217b044 kind:bss addr:0x0217b024
-data_usa_0217b028 kind:bss addr:0x0217b028
+data_0217b048 kind:bss addr:0x0217b028
 data_0217b04c kind:bss addr:0x0217b02c
 data_0217b050 kind:bss addr:0x0217b030
 data_0217b054 kind:bss addr:0x0217b034
