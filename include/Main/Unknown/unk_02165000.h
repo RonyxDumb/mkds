@@ -76,3 +76,4 @@ extern s32 data_021659c8;
 extern s32 data_021659cc;
 extern s32 data_021659d0;
 extern const char data_02165a7c[];
+extern s32 data_021654f4;
