@@ -43,6 +43,3 @@ typedef struct Unk020a7f18 {
 
 #include "Main/Unknown/code_020a71c8.h"
 #include "Main/Unknown/code_020a7eb4.h"
-
-// Declared here until the code that defines it is decompiled.
-void func_020a8098(Unk020a7f18 *p);
