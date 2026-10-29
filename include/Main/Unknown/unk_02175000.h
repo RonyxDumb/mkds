@@ -63,6 +63,25 @@ typedef struct Unk021759cc {
     /* 120 */ s8 mUnk_120;
 } Unk021759cc;
 
+// Part of Unk021755a0 at 0x28, 0x38, 0x70 and 0x80: seven halfwords.
+typedef struct Unk021755a0_28 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u8 mUnk_0e[0x2];
+} Unk021755a0_28;
+
+// Object behind member 0x6c of Unk021755a0.
+typedef struct Unk021755a0_6c {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 mUnk_02;
+    /* 03 */ u8 mUnk_03;
+} Unk021755a0_6c;
+
 // Object behind data_021755a0.
 typedef struct Unk021755a0 {
     /* 00 */ u16 mUnk_00;
@@ -85,41 +104,17 @@ typedef struct Unk021755a0 {
     /* 22 */ u16 mUnk_22;
     /* 24 */ u16 mUnk_24;
     /* 26 */ u16 mUnk_26;
-    /* 28 */ u16 mUnk_28;
-    /* 2a */ u16 mUnk_2a;
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u16 mUnk_2e;
-    /* 30 */ u16 mUnk_30;
-    /* 32 */ u16 mUnk_32;
-    /* 34 */ u16 mUnk_34;
-    /* 36 */ u8 mUnk_36[0x2];
-    /* 38 */ u16 mUnk_38;
-    /* 3a */ u16 mUnk_3a;
-    /* 3c */ u16 mUnk_3c;
-    /* 3e */ u16 mUnk_3e;
-    /* 40 */ u16 mUnk_40;
-    /* 42 */ u16 mUnk_42;
-    /* 44 */ u16 mUnk_44;
-    /* 46 */ u8 mUnk_46[0x22];
+    /* 28 */ Unk021755a0_28 mUnk_28;
+    /* 38 */ Unk021755a0_28 mUnk_38;
+    /* 48 */ u8 mUnk_48[0x10];
+    /* 58 */ u8 mUnk_58[0x10];
     /* 68 */ u16 mUnk_68;
     /* 6a */ u16 mUnk_6a;
-    /* 6c */ void *mUnk_6c;
-    /* 70 */ u16 mUnk_70;
-    /* 72 */ u16 mUnk_72;
-    /* 74 */ u16 mUnk_74;
-    /* 76 */ u16 mUnk_76;
-    /* 78 */ u16 mUnk_78;
-    /* 7a */ u16 mUnk_7a;
-    /* 7c */ u16 mUnk_7c;
-    /* 7e */ u8 mUnk_7e[0x2];
-    /* 80 */ u16 mUnk_80;
-    /* 82 */ u16 mUnk_82;
-    /* 84 */ u16 mUnk_84;
-    /* 86 */ u16 mUnk_86;
-    /* 88 */ u16 mUnk_88;
-    /* 8a */ u16 mUnk_8a;
-    /* 8c */ u16 mUnk_8c;
-    /* 8e */ u8 mUnk_8e[0x22];
+    /* 6c */ Unk021755a0_6c *mUnk_6c;
+    /* 70 */ Unk021755a0_28 mUnk_70;
+    /* 80 */ Unk021755a0_28 mUnk_80;
+    /* 90 */ u8 mUnk_90[0x10];
+    /* a0 */ u8 mUnk_a0[0x10];
     /* b0 */ u16 mUnk_b0;
     /* b2 */ u16 mUnk_b2;
     /* b4 */ u8 mUnk_b4[0x4];

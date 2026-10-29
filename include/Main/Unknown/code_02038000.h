@@ -8,3 +8,5 @@ void func_02038cd8(void *p0, u32 p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6);
 void func_02038d00(void *p0, u32 p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6);
 void func_02038d28(void *p0, u32 p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 void func_02038d58(void *p0, u32 p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+void func_0203810c(void *a, s32 b);
+void func_020386d0(void *a, s32 b);
