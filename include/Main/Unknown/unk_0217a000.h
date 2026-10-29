@@ -1276,7 +1276,12 @@ typedef struct Unk0217aa1c_00 {
 typedef struct Unk0217aa1c_144_00 {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
+    /* 03 */ union {
+        u8 mUnk_03;
+        struct {
+            u8 mUnk_03_0 : 1;
+        };
+    };
 } Unk0217aa1c_144_00;
 
 // 8-byte elements of the table at member 0x144 of Unk0217aa1c.
@@ -1289,6 +1294,12 @@ typedef struct Unk0217aa1c {
     /* 000 */ Unk0217aa1c_00 mUnk_000[4][8];
     /* 140 */ s32 mUnk_140;
     /* 144 */ Unk0217aa1c_144 mUnk_144[4];
+    /* 164 */ union {
+        u32 mUnk_164;
+        struct {
+            u32 mUnk_164_0 : 1;
+        };
+    };
 } Unk0217aa1c;
 
 extern Unk0217aa1c *data_0217aa1c;

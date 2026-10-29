@@ -336,7 +336,7 @@ u32 func_0210e680(void) {
     return 1;
 }
 
-void func_0210e5e4(u32 a, u32 b) {
+u32 func_0210e5e4(u32 a, u32 b) {
     Unk0210e524 c, d;
     Unk0215c380 v;
     u32 x;
@@ -349,8 +349,9 @@ void func_0210e5e4(u32 a, u32 b) {
     func_0212d5e0(&data_0217d0a0);
     x = func_0210e98c(v, 1) != 0;
     if (x != 0) {
-        func_02111158(a);
+        x = func_02111158(a);
     }
+    return x;
 }
 
 // non-matching: 15 words from +0x10 to +0x84, the same 0xc0 bytes: the original stores a.mUnk_00 first and
