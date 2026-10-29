@@ -3,18 +3,20 @@
 
 #include "Main/Unknown/unk_0215d000.h"
 
-// non-matching: the last product's record word is loaded into r1 after the compare (ldr r1, cmp,
-// movle, smull r3, r2, r1, r3); the original compares first, loads the word into the address
-// register and multiplies with smull r1, r0, r3, r0.
 void func_020e012c(Unk020e005c *a) {
     Unk020e0144 *b = &a->mUnk_144;
     s32 v = func_020d8cac(b);
     s32 w = (u16) (((s64) v << 18) >> 12);
     s16 t = data_0215d4b4[(w >> 4) * 2];
     s32 p = (s32) (((s64) t * a->mUnk_168) >> 12);
+    s32 m;
 
     b->mUnk_04 = p > 0x200 ? p : 0x200;
-    b->mUnk_10 = (s32) (((s64) (p > 0x200 ? p : 0x200) * b->mUnk_00->mUnk_00[b->mUnk_0c].mUnk_34) >> 12);
+    m = b->mUnk_00->mUnk_00[b->mUnk_0c].mUnk_34;
+    if (p <= 0x200) {
+        p = 0x200;
+    }
+    b->mUnk_10 = (s32) (((s64) p * m) >> 12);
     if (func_020d8cac(b) >= 0x100) {
         a->mUnk_080.mUnk_10 = 1;
         a->mUnk_080.mUnk_12 = 1;

@@ -288,13 +288,18 @@ void func_020f8418(Unk020ee684 *param_1) {
     param_1->mUnk_020 = 0;
 }
 
-// non-matching: the second `if (n != 0)` (three words at 0x94, 0x98 and 0xa0 of the original):
-// the original keeps the 64-bit product general (`movne lr, #0` for the zero high word of both
-// operands, then `umullne ip, r4, r3, r1; mlane r4, r3, lr, r4; mlane r4, lr, r1, r4`, with
-// `ldreq r4, [r6, #4]` on the false path); here the multiply reduces to one `umullne` and its
-// high word. The prologue also keeps one value more (`push {r4, r5, r6, r7, lr}` and a stack
-// slot; the original `push {r4, r5, r6, lr}`), and n/q/i/b sit in r3/r2/r1/ip where the
-// original has r1/r2/r4/r6.
+static inline u32 func_020f830c_inline(Unk020f41c4_B *b, u32 n) {
+    b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
+    if (n != 0) {
+        return ((b->mUnk_00 >> 32) * n) >> 32;
+    }
+    return b->mUnk_00 >> 32;
+}
+
+// non-matching: 0x108 bytes against 0x10c. The random step and its scaling are the inline helper above, which gives
+// the original's second `n != 0` test and the general 64-bit multiply. Left: the original tests param_1->mUnk_000
+// against 0 first, keeps the zero high word apart from `i = 0`, computes b before testing n and saves r4-r6 only
+// (here r4-r7 and a pad word); n, q, i and b sit in other registers.
 void func_020f830c(Unk020ee684 *param_1) {
     Unk020f41c4_B *b;
     u16 n;
@@ -313,10 +318,7 @@ void func_020f830c(Unk020ee684 *param_1) {
             b = &data_0217561c->mUnk_498;
             i = 0;
             if (n != 0) {
-                b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
-            }
-            if (n != 0) {
-                i = (u16) (((u64) (u32) (b->mUnk_00 >> 32) * (u32) n) >> 32);
+                i = (u16) func_020f830c_inline(b, n);
             }
             if (param_1->mUnk_00c == q[i]) {
                 i = (u16) (i + 1);

@@ -17,12 +17,6 @@
 #include "Main/Unknown/code_020f9c40.h"
 #include "code_02147cd8.h"
 
-// non-matching: in the two tests at +0x108 and +0x19c the registers differ. The original keeps
-// mUnk_e0 in r2 and the sum of the three products in r3:r8, so both products are umull+mla off
-// the same r2 and the function is 0x468 bytes; here mUnk_e0 is in r0 and the sum in r8:r7, the
-// second product becomes a smull after reloading mUnk_e0 (0x464 bytes). At +0x278 the two address
-// pieces of data_027e00c8[...] are built with `bic r0, r0, #0xff00` in the original, `and r0, r0,
-// #0xff` here.
 void func_020f77f8(void *param_1, s32 param_2, Vec3 *param_3, Vec3 *param_4, Unk020e71a0 *param_5) {
     Unk020f41c4_A *p = param_1;
     Vec3 v;
@@ -30,6 +24,7 @@ void func_020f77f8(void *param_1, s32 param_2, Vec3 *param_3, Vec3 *param_4, Unk
     Vec3 w;
     s32 i;
     s32 n;
+    s32 m;
     void (*cb)(Unk020f41c4_A *, s32);
 
     if (p->mUnk_74 & 0x80000) {
@@ -55,37 +50,43 @@ void func_020f77f8(void *param_1, s32 param_2, Vec3 *param_3, Vec3 *param_4, Unk
                 if (p->mUnk_74 & 0x8000) {
                     break;
                 }
+                m = p->mUnk_e0;
                 if ((s64) (param_3->x - p->mUnk_50.x) * (param_3->x - p->mUnk_50.x) +
                         (s64) (param_3->y - p->mUnk_50.y) * (param_3->y - p->mUnk_50.y) +
                         (s64) (param_3->z - p->mUnk_50.z) * (param_3->z - p->mUnk_50.z) >=
-                    (s64) p->mUnk_e0 * p->mUnk_e0) {
+                    (s64) m * m) {
                     break;
                 }
-                p->mUnk_50.x = param_3->x + (s32) (((s64) p->mUnk_e0 * v.x) >> 12);
-                p->mUnk_50.z = param_3->z + (s32) (((s64) p->mUnk_e0 * v.z) >> 12);
+                p->mUnk_50.x = param_3->x + (s32) (((s64) m * v.x) >> 12);
+                p->mUnk_50.z = param_3->z + (s32) (((s64) m * v.z) >> 12);
                 break;
             }
             if (p->mUnk_74 & 0x8000) {
                 break;
             }
+            m = p->mUnk_e0;
             if ((s64) (param_3->x - p->mUnk_50.x) * (param_3->x - p->mUnk_50.x) +
                     (s64) (param_3->y - p->mUnk_50.y) * (param_3->y - p->mUnk_50.y) +
                     (s64) (param_3->z - p->mUnk_50.z) * (param_3->z - p->mUnk_50.z) >=
-                (s64) p->mUnk_e0 * p->mUnk_e0) {
+                (s64) m * m) {
                 break;
             }
             if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 0x10) {
                 func_02039860(&v, &v);
             }
-            p->mUnk_50.x = param_3->x + (s32) (((s64) p->mUnk_e0 * v.x) >> 12);
-            p->mUnk_50.z = param_3->z + (s32) (((s64) p->mUnk_e0 * v.z) >> 12);
+            m = p->mUnk_e0;
+            p->mUnk_50.x = param_3->x + (s32) (((s64) m * v.x) >> 12);
+            p->mUnk_50.z = param_3->z + (s32) (((s64) m * v.z) >> 12);
             break;
         case 2:
             if (p->mUnk_74 & 0x1000) {
-                func_020eda5c(&((Unk020ee684 *) *(void **) data_027e00c8)[(u16) (p->mUnk_78 & 0xff)].mUnk_058, p);
+                func_020eda5c(&((Unk020ee684 *) *(void **) data_027e00c8)[(u16) (p->mUnk_78 & ~0xff00)].mUnk_058, p);
             }
-            if ((s64) param_4->x * param_4->x + (s64) param_4->y * param_4->y + (s64) param_4->z * param_4->z >= 0x10 &&
-                func_02039860(param_4, &v2) != 0) {
+            n = 0;
+            if ((s64) param_4->x * param_4->x + (s64) param_4->y * param_4->y + (s64) param_4->z * param_4->z >= 0x10) {
+                n = func_02039860(param_4, &v2);
+            }
+            if (n != 0) {
                 func_020f6be8(p, param_3, param_4, &v2);
             } else {
                 func_021484d0(&p->mUnk_50, param_3, &v2);

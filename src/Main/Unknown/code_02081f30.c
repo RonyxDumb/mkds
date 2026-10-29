@@ -78,9 +78,6 @@ void func_02082034(Unk0201ca6c *p, s32 a) {
     p->mUnk_58 = 0x800;
 }
 
-// non-matching: same size; one instruction differs: the 64-bit product of the clamped value and three times the member
-// value has its operands the other way round (original `smull r2, r1, r0, r4`, ours `smull r2, r1, r4, r0`);
-// writing the product's operands the other way round changes the registers of the whole function.
 void func_020821cc(Unk0201ca6c *p, s32 a) {
     Vec3 v;
     Vec3 u;
@@ -107,7 +104,8 @@ void func_020821cc(Unk0201ca6c *p, s32 a) {
     if ((s64) v.z * v.z + ((s64) v.x * v.x + (s64) v.y * v.y) >= 16) {
         func_02039860(&v, &v);
     }
-    func_02147fd8((s32) (((s64) t * (k * 3) + 0x800) >> 12) + 0x5800, &v, &g->mUnk_9c, &u);
+    k = k * 3;
+    func_02147fd8((s32) (((s64) k * (s64) t + 0x800) >> 12) + 0x5800, &v, &g->mUnk_9c, &u);
     u.y = func_0207a974(data_021759c0->mUnk_62)->mUnk_508->y >> 4;
     p->mUnk_28.x = u.x + p->mUnk_20->mUnk_00->mUnk_04.x;
     p->mUnk_28.y = u.y + p->mUnk_20->mUnk_00->mUnk_04.y;
