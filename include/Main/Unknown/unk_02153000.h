@@ -61,6 +61,7 @@ extern u16 data_02153f00[][4];
 
 // Objects whose layout isn't known yet.
 extern u8 data_021533fc[];
+extern u8 data_02153158[];
 
 extern u8 data_0215316c[];
 

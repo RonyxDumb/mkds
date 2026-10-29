@@ -278,7 +278,9 @@ typedef struct Unk0206bcb0 {
     /* 4b8 */ s32 mUnk_4b8;
     /* 4bc */ u8 mUnk_4bc[4];
     /* 4c0 */ s32 mUnk_4c0;
-    /* 4c4 */ u8 mUnk_4c4[0x3c];
+    /* 4c4 */ u8 mUnk_4c4[0x10];
+    /* 4d4 */ s32 mUnk_4d4;
+    /* 4d8 */ u8 mUnk_4d8[0x28];
     /* 500 */ u32 mUnk_500;
     /* 504 */ u16 mUnk_504;
     /* 506 */ u16 mUnk_506;
@@ -321,6 +323,7 @@ void func_0206cc60(Unk0206bcb0 *p, int arg);
 void func_0206cdd4(Unk0206bcb0 *p);
 void func_0206ceb4(s32 *out, Unk0206bcb0 *p);
 extern Unk0217d26c data_0217d26c;
+extern Unk0217d26c data_0217d274;
 extern Unk0217d26c data_0217d284;
 extern Unk0217d26c data_0217d28c;
 Unk0206cdd4_B *func_0207a6b0(void);
