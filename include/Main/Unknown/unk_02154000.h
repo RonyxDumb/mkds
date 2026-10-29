@@ -12,3 +12,4 @@ extern u32 data_0215490c[];
 extern const Vec3 data_02154f94;
 extern const Vec3 data_02154f7c;
 extern const Vec3 data_02154f88;
+extern u32 data_usa_02154128[][4];

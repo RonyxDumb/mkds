@@ -126,7 +126,16 @@ extern Unk021755a0 *data_021755a0;
 extern u8 data_021755a8[];
 extern u8 data_021755b4[];
 extern u16 data_021755dc;
-extern u8 data_02175624[];
+typedef struct Unk02175624 {
+    /* 00 */ u8 mUnk_00[2];
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u8 mUnk_06[2];
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+} Unk02175624;
+
+extern Unk02175624 *data_02175624;
 // 0x5c-byte entries; func_020708a4 writes the halfword at 0x00 of entry Unk0206bcb0::mUnk_78.
 typedef struct Unk0217566a {
     /* 00 */ u16 mUnk_00;
@@ -134,7 +143,12 @@ typedef struct Unk0217566a {
 } Unk0217566a;
 
 extern Unk0217566a data_0217566a[];
-extern u8 data_021759c8[];
+typedef struct Unk021759c8 {
+    /* 00 */ u8 mUnk_00[0xd8];
+    /* d8 */ s32 mUnk_d8;
+} Unk021759c8;
+
+extern Unk021759c8 *data_021759c8;
 extern Unk021759cc *data_021759cc;
 extern Unk021759d0 *data_021759d0;
 extern vu16 data_021758e8[];
@@ -203,3 +217,4 @@ typedef struct Unk02175ec0 {
 
 extern Unk02175ec0 data_02175ec0;
 extern void (*data_usa_02175584)(s32);
+extern s32 data_usa_02175e84;

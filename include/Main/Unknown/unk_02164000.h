@@ -17,7 +17,7 @@ extern const s16 data_02164254[][4];
 extern u8 data_02164770[];
 extern u8 data_02164d28[];
 extern u8 data_02164dc8[];
-extern u8 data_02164e04[];
+extern u32 data_02164e04[];
 extern u8 data_02164e54[];
 extern u8 data_02164e70[];
 extern u8 data_02164f1c[];
