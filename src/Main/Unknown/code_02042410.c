@@ -1,5 +1,6 @@
 #include "Main/Unknown/code_02042410.h"
 #include "Main/Unknown/code_02036bec.h"
+#include "Main/Unknown/code_02042fd8.h"
 #include "Main/Unknown/code_02043000.h"
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/unk_021759c0.h"
@@ -178,7 +179,7 @@ s32 func_02042558(void *a, ...) {
     if (data_02175620->mUnk_58 == 0) {
         data_02175620->mUnk_54 = 0;
     } else {
-        data_02175620->mUnk_54 = (s32) a;
+        data_02175620->mUnk_54 = a;
     }
     return 1;
 }
@@ -208,7 +209,7 @@ s32 func_02042498(void *a, ...) {
         if (data_02175620->mUnk_68 == 0) {
             data_02175620->mUnk_64 = 0;
         } else {
-            data_02175620->mUnk_64 = (s32) a;
+            data_02175620->mUnk_64 = a;
             data_02175620->mUnk_84 = 0;
             data_02175620->mUnk_88 = 0;
         }
