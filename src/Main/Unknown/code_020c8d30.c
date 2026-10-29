@@ -288,12 +288,12 @@ void func_020c97c0(void)
     func_020ae770(data_0217b428->mUnk_130, v1, data_021759c0->mUnk_3d0);
 }
 
-// non-matching: same control flow and calls, but registers, spill offsets and the stack area differ (0xb4 bytes against
-// 0xcc, 0x9e0 bytes of code against 0xa04); the original keeps the outer loop value and the second value in callee-saved
+// non-matching: same control flow and calls, but registers, spill offsets and the stack area differ (0xc4 bytes against
+// 0xcc, 0x9e8 bytes of code against 0xa04); the original keeps the outer loop value and the second value in callee-saved
 // registers
 void func_020c8dbc(Unk020c06c4 *p)
 {
-    s32 v1;
+    s32 v4;
     s32 i;
     s32 f;
     s32 e;
@@ -308,7 +308,7 @@ void func_020c8dbc(Unk020c06c4 *p)
     s32 m;
     s32 x;
     s32 v3;
-    s32 v4;
+    s32 v1;
     u16 v5;
     s32 a;
     s32 v6;

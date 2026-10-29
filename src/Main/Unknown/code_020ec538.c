@@ -57,11 +57,7 @@ void func_020ec6e4(Unk020e43a8 *param_1, Unk020ec6e4 *param_2) {
     param_1->mUnk_00.mUnk_10.y = param_1->mUnk_0b0;
 }
 
-// non-matching: the first Vec3 ternary `param_2 ? param_2->mUnk_050 :
-// param_1->mUnk_04` is folded into the destination here, while the original
-// materialises it in a stack temporary at sp+0 and then copies it to the local
-// (words +0x14..+0x4c).
-void func_020ec538(Unk020e43a8 *param_1, Unk020ec6e4 *param_2) {
+void func_020ec538(Unk020e43a8 *param_1, const Unk020ec6e4 *param_2) {
     Vec3 out;
     Vec3 a;
     Vec3 b;

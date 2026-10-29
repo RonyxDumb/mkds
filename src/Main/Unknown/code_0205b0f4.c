@@ -152,21 +152,20 @@ void func_0205b824(const u64 *a, s32 b) {
     data_0217aa14->mUnk_014[b].mUnk_34 = n;
 }
 
-// non-matching: the original holds the two 24-bit values in r4 and r6 (data pointer r5, pushes r6, no stack pad); here they are in lr and r4 and there is a stack pad (0xbc against 0xac bytes).
 void func_0205b778(u32 a, Unk0205b504 *b) {
     Unk0217aa14 *p;
     Unk0217aa14_104 *e;
     u8 *s;
-    u32 x;
     u32 y;
     u32 v1;
     u8 n;
+    u32 x;
 
     v1 = b->mUnk_00_0;
     p = data_0217aa14;
+    s = b->mUnk_04.mUnk_00_b;
     y = b->mUnk_04.mUnk_00_0;
     x = p->mUnk_104[v1].mUnk_00_0;
-    s = b->mUnk_04.mUnk_00_b;
     e = &p->mUnk_104[v1];
     n = s[3];
     if (p->mUnk_00e != 4 && p->mUnk_00e != 5) {

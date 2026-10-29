@@ -13,10 +13,6 @@
 
 #pragma thumb on
 
-// non-matching: 116 of 267 lines differ; both compile to 121 instructions and every instruction
-// matches except where data_02175620->mUnk_58 and the third loop's counter live: the original
-// stores the loaded value at [sp,#0] and reloads it for the four loop tests, holding the third
-// counter in r7, while this source keeps the loaded value in r7 and spills the third counter to [sp,#4].
 void func_020f357c(void) {
     Unk020f371c *e;
     Vec3 v;
@@ -29,22 +25,20 @@ void func_020f357c(void) {
     for (i = 0; i < 4; i++) {
         data_0217bc38[i] = 0;
     }
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < n; i++, e++) {
         if (e->mUnk_1c >= 0x3e8000) {
             data_0217bc38[e->mUnk_20] = (s32) e;
         }
-        e++;
     }
     e = data_02175620->mUnk_ac;
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < n; i++, e++) {
         func_021484d0(e->mUnk_00[0]->mUnk_18, e->mUnk_18, &v);
-        if ((s64) v.z * v.z + (s64) v.x * v.x + (s64) v.y * v.y >= 0x10) {
+        if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 0x10) {
             func_02039860(&v, &v);
         }
         e->mUnk_21 = v.x >> 6;
         e->mUnk_22 = v.y >> 6;
         e->mUnk_23 = v.z >> 6;
-        e++;
     }
 }
 
