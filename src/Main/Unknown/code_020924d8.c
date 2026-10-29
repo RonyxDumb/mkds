@@ -1,0 +1,145 @@
+#include "Main/Unknown/code_020924d8.h"
+#include "Main/Unknown/code_020d22e0.h"
+#include "Main/Unknown/code_020d275c.h"
+#include "Main/Unknown/code_020e6b58.h"
+#include "Main/Unknown/code_01ff9000.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02146000.h"
+#include "Main/Unknown/code_0209b000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_0217b000.h"
+#include "Main/Unknown/unk_02166000.h"
+#include "code_02147cd8.h"
+
+void func_020924d8(void *a, Unk0209219c *b) {
+    s32 v;
+
+    b->mUnk_c4 += b->mUnk_c8;
+    b->mUnk_c8 += 0x3c;
+    if (b->mUnk_c4 == 0) {
+        b->mUnk_c4 += b->mUnk_c8;
+        b->mUnk_c8 += 0x3c;
+    } else if (b->mUnk_c4 >= 0x1fe0) {
+        b->mUnk_c8 = 0x3c - b->mUnk_c8;
+        b->mUnk_cc = b->mUnk_cc == 0;
+    }
+    switch (b->mUnk_d4) {
+        case 0:
+            if (b->mUnk_b0-- > 0) {
+                break;
+            }
+            b->mUnk_00.mUnk_02 &= ~1;
+            b->mUnk_00.mUnk_02 &= ~2;
+            b->mUnk_00.mUnk_02 &= ~8;
+            b->mUnk_00.mUnk_66 = 0x1f;
+            b->mUnk_a0.x += (s32) (((s64) b->mUnk_00.mUnk_28.mUnk_18.x * 0x19a) >> 12);
+            b->mUnk_a0.y += -0x19a;
+            b->mUnk_a0.z += (s32) (((s64) b->mUnk_00.mUnk_28.mUnk_18.z * 0x19a) >> 12);
+            func_02148504(&b->mUnk_00.mUnk_04, &b->mUnk_a0, &b->mUnk_00.mUnk_04);
+            if (b->mUnk_b4-- <= 0) {
+                b->mUnk_d4 = 1;
+            }
+            break;
+        case 1:
+            b->mUnk_a0.x += (s32) (((s64) b->mUnk_00.mUnk_28.mUnk_18.x * 0x19a) >> 12);
+            b->mUnk_a0.y += 0x19a;
+            b->mUnk_a0.z += (s32) (((s64) b->mUnk_00.mUnk_28.mUnk_18.z * 0x19a) >> 12);
+            func_02148504(&b->mUnk_00.mUnk_04, &b->mUnk_a0, &b->mUnk_00.mUnk_04);
+            if (b->mUnk_a0.y > 0) {
+                b->mUnk_a0.y = 0;
+                b->mUnk_d4 = 2;
+            }
+            break;
+        case 2:
+            func_02148504(&b->mUnk_00.mUnk_04, &b->mUnk_a0, &b->mUnk_00.mUnk_04);
+            if (b->mUnk_b8-- <= 0) {
+                b->mUnk_d4 = 3;
+            }
+            break;
+        case 3:
+            b->mUnk_a0.x -= (s32) (((s64) b->mUnk_00.mUnk_28.mUnk_18.x * 0xcd) >> 12);
+            b->mUnk_a0.y += 0x1000;
+            b->mUnk_a0.z -= (s32) (((s64) b->mUnk_00.mUnk_28.mUnk_18.z * 0xcd) >> 12);
+            func_02148504(&b->mUnk_00.mUnk_04, &b->mUnk_a0, &b->mUnk_00.mUnk_04);
+            if (b->mUnk_00.mUnk_04.y >= 0x1b8000) {
+                func_020d2398(&b->mUnk_00);
+            }
+            break;
+    }
+    if (b->mUnk_b0 > 0) {
+        return;
+    }
+    v = b->mUnk_ac + 1;
+    if (v >= func_0209b634(data_usa_0217b0a4)) {
+        v = 0;
+    }
+    b->mUnk_ac = v;
+    if (b->mUnk_bc == 0) {
+        return;
+    }
+    func_020d275c(&b->mUnk_00, 0x165);
+}
+
+void func_0209280c(void *a, Unk0209219c *b) {
+    s32 s;
+    s32 m[9];
+    s32 d;
+
+    d = 0x1fe0 - b->mUnk_c4;
+    s = 0x1e;
+    func_01ff9048(0x14, &s, 1);
+    func_01ff9048(0x19, func_020e6cf8(&b->mUnk_00.mUnk_04), 0xc);
+    if (b->mUnk_cc != 0) {
+        func_02146d60(m, data_0215d4b4[((u16) -d >> 4) * 2], data_0215d4b4[((u16) -d >> 4) * 2 + 1]);
+    } else {
+        func_02146d60(m, data_0215d4b4[((u16) d >> 4) * 2], data_0215d4b4[((u16) d >> 4) * 2 + 1]);
+    }
+    func_01ff9048(0x1a, m, 9);
+    func_01ff9048(0x1b, &b->mUnk_00.mUnk_1c, 3);
+    func_0209b688(data_usa_0217b0a4, b->mUnk_ac);
+    func_0209bb2c(a, data_usa_0217b0a4, b);
+}
+
+void func_02092928(void *a) {
+    func_0209bbd0(a, data_usa_0217b0a4);
+}
+
+void func_02092940(void *a) {
+    data_usa_0217b0a4 = func_0209bc74(a, data_usa_02166698, data_usa_021666a8);
+    func_0209b940(data_usa_0217b0a4, 0x3f);
+}
+
+// non-matching: same instructions, but the original keeps eleven registers live (r4 to r10) and squares the word at
+// stack offset 4 first, before the projection, while here the squares are summed after the two components are stored.
+u8 func_0209297c(Unk0209219c *a, Unk0209297c *b, void *c, u8 *d) {
+    Vec3 u;
+    Vec3 t;
+    s32 k;
+    u8 m;
+    u8 r;
+    s64 q;
+
+    m = 1 << b->mUnk_74;
+    r = *d;
+    if ((a->mUnk_d0 & m) == 0) {
+        func_021484d0(&b->mUnk_80, &a->mUnk_00.mUnk_04, &t);
+        k = ((s64) a->mUnk_00.mUnk_28.mUnk_18.z * t.z + (s64) a->mUnk_00.mUnk_28.mUnk_18.x * t.x) >> 12;
+        u.x = t.x - (s32) (((s64) a->mUnk_00.mUnk_28.mUnk_18.x * k) >> 12);
+        u.z = t.z - (s32) (((s64) a->mUnk_00.mUnk_28.mUnk_18.z * k) >> 12);
+        q = (s64) u.y * u.y;
+        q += (s64) u.x * u.x;
+        q += (s64) u.z * u.z;
+        if (q < 0x10) {
+            a->mUnk_00.mUnk_10.x = (s32) (((s64) a->mUnk_00.mUnk_28.mUnk_18.x * 0x1333) >> 12);
+            a->mUnk_00.mUnk_10.y = (s32) (((s64) a->mUnk_00.mUnk_28.mUnk_18.y * 0x1333) >> 12);
+            a->mUnk_00.mUnk_10.z = (s32) (((s64) a->mUnk_00.mUnk_28.mUnk_18.z * 0x1333) >> 12);
+        } else {
+            func_02039860(&u, &u);
+            a->mUnk_00.mUnk_10.x = (s32) (((s64) u.x * 0x1333) >> 12);
+            a->mUnk_00.mUnk_10.y = (s32) (((s64) u.y * 0x1333) >> 12);
+            a->mUnk_00.mUnk_10.z = (s32) (((s64) u.z * 0x1333) >> 12);
+        }
+        a->mUnk_d0 |= m;
+    }
+    return r;
+}

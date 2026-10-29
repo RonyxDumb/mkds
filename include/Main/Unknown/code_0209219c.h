@@ -1,0 +1,28 @@
+#pragma once
+
+#include "types.h"
+#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
+
+// Object of 0xd8 bytes: the Unk020e71a0 it starts with, a vector at 0xa0 and words and halfwords up to 0xd4.
+typedef struct Unk0209219c {
+    /* 00 */ Unk020e71a0 mUnk_00;
+    /* a0 */ Vec3 mUnk_a0;
+    /* ac */ u16 mUnk_ac;
+    /* ae */ u8 mUnk_ae[2];
+    /* b0 */ s32 mUnk_b0;
+    /* b4 */ s32 mUnk_b4;
+    /* b8 */ s32 mUnk_b8;
+    /* bc */ s32 mUnk_bc;
+    /* c0 */ u16 mUnk_c0;
+    /* c2 */ u8 mUnk_c2[2];
+    /* c4 */ s32 mUnk_c4;
+    /* c8 */ s32 mUnk_c8;
+    /* cc */ s32 mUnk_cc;
+    /* d0 */ u8 mUnk_d0;
+    /* d1 */ u8 mUnk_d1[3];
+    /* d4 */ s32 mUnk_d4;
+} Unk0209219c;
+
+void func_0209219c(u32 a, const Vec3 *b, const Vec3 *c, u32 d, s32 e, u16 f);
+void func_02092468(void);
+void func_02092484(void);
