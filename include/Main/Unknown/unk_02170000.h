@@ -10,6 +10,8 @@ extern Unk0200db5c data_0217002c;
 extern u32 data_021701b4;
 extern u32 data_021701b8;
 extern UnkFunc *data_021701bc;
+extern u32 data_021701c0;
+extern u8 data_021701c8[];
 extern UnkFunc *data_021701c4;
 extern u16 data_02170248;
 extern u16 data_0217024c;

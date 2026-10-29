@@ -8,6 +8,10 @@
 // Objects whose layout isn't known yet.
 extern s16 data_021614b4[];
 extern s16 data_021615b8[];
+extern s32 data_02161770;
+extern u32 data_02161774;
+extern s32 data_02161778;
+extern s32 data_0216177c;
 extern u8 data_02161780[];
 extern u8 data_02161790[];
 extern u8 data_02161794[];

@@ -1,4 +1,5 @@
 #include "code_0200f3e0.h"
+#include "code_0200f3f4.h"
 #include "Main/Unknown/code_0200f000.h"
 
 // non-matching: 1.2 adds `sub sp, sp, #4` after the push and `add sp, sp, #4` before the pop (0x1c bytes against
