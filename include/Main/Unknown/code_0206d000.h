@@ -7,3 +7,4 @@
 void func_0206d7c8(Unk0206bcb0 *a, Unk0206bcb0 *b, const Vec3 *c, s32 d, Vec3 *e);
 void func_0206dbf8(Unk0206bcb0 *a, Unk0206bcb0 *b);
 void func_0206de18(Unk0206bcb0 *a, Unk0206bcb0 *b, const Vec3 *c);
+void func_0206d578(Unk0206bcb0 *a);
