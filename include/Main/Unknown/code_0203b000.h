@@ -23,3 +23,4 @@ void func_0203be88(u8 *param_1, u32 param_2, u32 param_3);
 void func_0203bea4(u8 *param_1, u32 param_2, u32 param_3);
 u8 *func_0203bedc(void *param_1);
 void func_0203bec0(u8 *a);
+void func_0203b230(void);

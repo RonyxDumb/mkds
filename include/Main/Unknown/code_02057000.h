@@ -11,4 +11,4 @@ void func_02057ca4(u32 param_1);
 #include "Main/Unknown/code_02057244.h"
 #include "Main/Unknown/code_02057294.h"
 #include "Main/Unknown/code_02057cfc.h"
-void func_02057130(void);
+#include "Main/Unknown/code_02056d54.h"

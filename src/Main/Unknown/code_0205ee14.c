@@ -1,0 +1,562 @@
+#include "Main/Unknown/code_0205ee14.h"
+#include "Main/Unknown/code_0205edcc.h"
+#include "Main/Unknown/code_02056d54.h"
+#include "Main/Unknown/code_02056700.h"
+#include "Main/Unknown/code_02057624.h"
+#include "Main/Unknown/code_0203b000.h"
+#include "Main/Unknown/code_0203c000.h"
+#include "Main/Unknown/code_0204b000.h"
+#include "Main/Unknown/code_02046000.h"
+#include "Main/Unknown/code_0205b0f4.h"
+#include "Main/Unknown/code_0205d000.h"
+#include "Main/Unknown/code_0205dc7c.h"
+#include "Main/Unknown/code_02061000.h"
+#include "Main/Unknown/code_0214d000.h"
+#include "Main/Unknown/code_020a100c.h"
+#include "Main/Unknown/code_020a128c.h"
+#include "Main/Unknown/code_021201e4.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/code_0211d4a8.h"
+#include "00/code_02182fdc.h"
+#include "00/code_0219bb50.h"
+
+static inline s32 func_0205f218_inline(void) {
+    Unk0217aa00 *p;
+
+    p = data_0217aa00;
+    return (p == 0 ? 0 : p->mUnk_0000) != 0 && p->mUnk_0004 != 13;
+}
+
+// non-matching: the original keeps the bit counters in other registers (the outer index in r5 and the bit offset in r3 where this has them in r2 and ip, the inner count in ip and the accumulator in lr) and pushes sl as well, so the frame is 0x10 bytes and the function 0x1e8 bytes; this is 0x1e4 bytes.
+u32 func_0205fe1c(u8 *a, Unk02056bc0 *b, s32 c) {
+    u8 d[10] = {0};
+    u32 e;
+    s32 f;
+    u32 g;
+    u8 m;
+    u16 k;
+    u8 j;
+    s32 i;
+    u32 n;
+    u8 q;
+    s32 x;
+
+    e = b->mUnk_00 + (b->mUnk_03 * 1000 + b->mUnk_02 * 60000);
+    if (e >= 240000) {
+        return 0;
+    }
+    f = func_0204684c(c);
+    if (f < 0 || f >= 32) {
+        return 0;
+    }
+    g = b->mUnk_19 * 37 + b->mUnk_1a;
+    if (g >= 0x200) {
+        return 0;
+    }
+    *(u32 *) &d[0] = ((e & 0x3ffff) << 14) | ((f & 0x1f) << 9) | (g & 0x1ff);
+    func_0214d1fc(&b->mUnk_04, &d[4], 4);
+    *(u16 *) &d[8] = 0;
+    func_0204b284(d, 10, 1);
+    x = 0xc3;
+    for (i = 9; i >= 0; i--) {
+        d[i] ^= x;
+        x = d[i];
+    }
+    n = 0;
+    for (i = 0; i < 16; i++) {
+        k = 0;
+        for (j = 0; j < 5; j++) {
+            q = n;
+            m = q + j;
+            k = (u16) (k | ((d[(u8) (m / 8)] >> (7 - m % 8)) & 1)) << 1;
+        }
+        a[i] = data_usa_0215494c[(u8) (k / 2)];
+        n += 5;
+    }
+    return 1;
+}
+
+s32 func_0205fdb4(s32 a, void *b) {
+    Unk02056bc0 c;
+    s32 d;
+
+    d = 0;
+    if (func_02056bc0(a, 0, &c) != 0 && c.mUnk_18 != 0) {
+        d = 1;
+    }
+    if (d == 0) {
+        return 0;
+    }
+    return func_0205fe1c(b, &c, a);
+}
+
+s32 func_0205fd78(s32 a, s32 b, s32 *v1) {
+    Unk02056a2c c;
+    s32 d;
+
+    d = 0;
+    func_020569dc(a, b, &c);
+    if (c.mUnk_00 == 1) {
+        d = 1;
+        *v1 = c.mUnk_01;
+    }
+    return d;
+}
+
+u32 func_0205fd2c(Unk0205fd2c *a, u32 b, u32 c) {
+    u8 d;
+    u8 e;
+
+    d = func_02056d98();
+    e = a->mUnk_00->mUnk_06[c][b];
+    if (e != 0 && e <= d) {
+        return 1;
+    }
+    return 0;
+}
+
+// non-matching: the flag of the first test sits in r2 and the loaded word in r1 in the original (r1 and r2 swapped here, together with the copies of the two arguments; 8 words).
+s32 func_0205fc98(Unk0205fd2c *a, u32 b, u32 c) {
+    u8 d;
+    u8 e;
+
+    if (func_0205f218_inline() != 0) {
+        d = data_0217aa08->mUnk_39;
+    } else {
+        d = func_02056d98();
+    }
+    e = a->mUnk_00->mUnk_06[c][b];
+    if (e != 0 && e <= d) {
+        return 1;
+    }
+    return 0;
+}
+
+// non-matching: the flag of the first test sits in r3 and the loaded word in r2 in the original (swapped here; 6 words).
+s32 func_0205fc28(s32 a) {
+    if (func_0205f218_inline() == 0) {
+        return func_02056dec(a);
+    }
+    return func_02056e00(a, data_0217aa08->mUnk_30);
+}
+
+// non-matching: the flag of the first test sits in r3 and the loaded word in r2 in the original (swapped here; 6 words).
+s32 func_0205fbb8(s32 a) {
+    if (func_0205f218_inline() == 0) {
+        return func_02056dec(a);
+    }
+    return func_02056e00(a, data_0217aa08->mUnk_34);
+}
+
+void func_0205fa00(u32 a, s32 *b, u32 c, u32 d) {
+    Unk021759c0 *p;
+    Unk0217aa08_20_04 e;
+    u16 *f;
+    u16 *g;
+    u8 h;
+    s32 r;
+
+    p = data_021759c0;
+    if (a == p->mUnk_62) {
+        return;
+    }
+    if (p->mUnk_70[a].mUnk_20 == 0) {
+        return;
+    }
+    r = func_0206105c(p->mUnk_70[a].mUnk_20);
+    if (r == -1) {
+        return;
+    }
+    h = r;
+    func_0205ee14(h, &e);
+    if (e.mUnk_22_0 == 0) {
+        func_02057624((u32) &e);
+    }
+    if (data_021759c0->mUnk_70[a].mUnk_18 != 0) {
+        func_0214d1fc(data_021759c0->mUnk_70[a].mUnk_18, e.mUnk_0e, 0x14);
+    }
+    switch (c) {
+    case 0:
+        f = &e.mUnk_00[0][0];
+        g = &e.mUnk_00[0][1];
+        break;
+    case 1:
+        f = &e.mUnk_00[1][0];
+        g = &e.mUnk_00[1][1];
+        break;
+    case 2:
+        f = &e.mUnk_00[2][0];
+        g = &e.mUnk_00[2][1];
+        break;
+    }
+    switch (d) {
+    case 0:
+        if (*f < 0xffff) {
+            *f = *f + 1;
+        }
+        break;
+    case 1:
+        if (*g < 0xffff) {
+            *g = *g + 1;
+        }
+        break;
+    }
+    e.mUnk_0c_0 = b[0];
+    e.mUnk_0c_7 = b[1];
+    e.mUnk_0c_11 = b[2];
+    e.mUnk_22_0 = 1;
+    func_0205ee74(h, &e);
+}
+
+// non-matching: the flag of the first test sits in r2 and the loaded word in r1 in the original (swapped here), the first store to the stack comes before the load of the data pointer, and the four stores of zero before the loop are in the order 4, 12, 8, 16 (15 words).
+void func_0205f700(void) {
+    s32 v1;
+    u32 t;
+    u16 i;
+    u32 a;
+    u32 d;
+    u32 e;
+    s32 c;
+    s32 r;
+    s32 v2[3];
+
+    v1 = 0;
+    c = -1;
+    if (func_0205f218_inline() == 0) {
+        return;
+    }
+    if (data_021759c0->mUnk_62 == -1) {
+        return;
+    }
+    if (data_0217561c->mUnk_000[(u16) data_021759c0->mUnk_62].mUnk_14 == 4) {
+        return;
+    }
+    if (data_0217561c->mUnk_4cc == 0) {
+        return;
+    }
+    func_0203bfec(v2);
+    a = func_0203c8dc((u16) data_021759c0->mUnk_62);
+    if (data_021759c0->mUnk_58 != 0) {
+        c = data_021759c0->mUnk_70[(u16) data_021759c0->mUnk_62].mUnk_04;
+    }
+    d = data_0217aa08->mUnk_00->mUnk_34;
+    e = data_0217aa08->mUnk_00->mUnk_38;
+    for (i = 0; i < (u32) data_021759c0->mUnk_3d0; i++) {
+        if (i == data_021759c0->mUnk_62) {
+            continue;
+        }
+        r = data_021759c0->mUnk_70[i].mUnk_00;
+        if (r == 1 || r == 4 || r == 2) {
+            continue;
+        }
+        if (data_021759c0->mUnk_58 != 0) {
+            if (c == data_021759c0->mUnk_70[i].mUnk_04) {
+                t = 2;
+            } else {
+                switch (data_021759c0->mUnk_1c) {
+                case 0:
+                case 2:
+                    if (func_0203c8dc(i) > a) {
+                        t = 0;
+                    } else {
+                        t = 1;
+                    }
+                    break;
+                case 1:
+                    if (c == func_0205d480()) {
+                        t = 0;
+                    } else if (data_0217561c->mUnk_000[i].mUnk_14 == 4) {
+                        t = 2;
+                    } else {
+                        t = 1;
+                    }
+                    break;
+                }
+            }
+        } else {
+            if (func_0203c8dc(i) > a) {
+                t = 0;
+            } else {
+                t = 1;
+            }
+        }
+        if ((data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[data_0217aa00->mUnk_1e8c[i]])) == 0) {
+            func_0205fa00(i, v2, 0, t);
+        }
+        if (t == 0) {
+            if (d < data_usa_021653e0) {
+                d++;
+                v1 = 1;
+            }
+        } else if (t == 1) {
+            if (e < data_usa_021653e0) {
+                e++;
+                v1 = 1;
+            }
+        }
+    }
+    if (v1 != 0) {
+        data_0217aa08->mUnk_00->mUnk_34 = d;
+        data_0217aa08->mUnk_00->mUnk_38 = e;
+        func_0205edcc();
+    } else {
+        func_0205edf8();
+    }
+}
+
+// non-matching: the flag of the first test sits in r2 and the loaded word in r1 in the original (swapped here; 6 words).
+void func_0205f498(void) {
+    u16 i;
+    u32 a;
+    u32 b;
+    s32 v1;
+    u32 t;
+    s32 r;
+    s32 v2[5];
+
+    v1 = 0;
+    if (func_0205f218_inline() == 0) {
+        return;
+    }
+    if (data_021759c0->mUnk_62 == -1) {
+        return;
+    }
+    if (data_0217561c->mUnk_000[(u16) data_021759c0->mUnk_62].mUnk_14 == 4) {
+        return;
+    }
+    if (func_020a128c() == 0) {
+        return;
+    }
+    func_0203bfec(v2);
+    a = data_0217aa08->mUnk_00->mUnk_3c;
+    b = data_0217aa08->mUnk_00->mUnk_40;
+    for (i = 0; i < (u32) data_021759c0->mUnk_3d0; i++) {
+        if (i == data_021759c0->mUnk_62) {
+            continue;
+        }
+        r = data_021759c0->mUnk_70[i].mUnk_00;
+        if (r == 1 || r == 4 || r == 2) {
+            continue;
+        }
+        t = 2;
+        if (func_020a100c((u16) data_021759c0->mUnk_62) != 0) {
+            if (func_020a100c(i) == 0) {
+                t = 0;
+            }
+        } else if (func_020a100c(i) != 0) {
+            if (data_0217561c->mUnk_000[i].mUnk_14 != 4) {
+                t = 1;
+            }
+        }
+        if ((data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[data_0217aa00->mUnk_1e8c[i]])) == 0) {
+            func_0205fa00(i, v2, 1, t);
+        }
+        if (t == 0) {
+            if (a < data_usa_021653e0) {
+                v1 = 1;
+                a++;
+            }
+        } else if (t == 1) {
+            if (b < data_usa_021653e0) {
+                v1 = 1;
+                b++;
+            }
+        }
+    }
+    if (v1 != 0) {
+        data_0217aa08->mUnk_00->mUnk_3c = a;
+        data_0217aa08->mUnk_00->mUnk_40 = b;
+        func_0205edcc();
+    } else {
+        func_0205edf8();
+    }
+}
+
+// non-matching: the flag of the first test sits in r2 and the loaded word in r1 in the original (swapped here; 6 words).
+void func_0205f218(void) {
+    u16 i;
+    u32 a;
+    u32 b;
+    s32 v1;
+    u32 t;
+    s32 r;
+    s32 v2[5];
+
+    v1 = 0;
+    if (func_0205f218_inline() == 0) {
+        return;
+    }
+    if (data_021759c0->mUnk_62 == -1) {
+        return;
+    }
+    if (data_0217561c->mUnk_000[(u16) data_021759c0->mUnk_62].mUnk_14 == 4) {
+        return;
+    }
+    if (func_020a128c() == 0) {
+        return;
+    }
+    func_0203bfec(v2);
+    func_0203c8dc((u16) data_021759c0->mUnk_62);
+    a = data_0217aa08->mUnk_00->mUnk_3c;
+    b = data_0217aa08->mUnk_00->mUnk_40;
+    for (i = 0; i < (u32) data_021759c0->mUnk_3d0; i++) {
+        if (i == data_021759c0->mUnk_62) {
+            continue;
+        }
+        r = data_021759c0->mUnk_70[i].mUnk_00;
+        if (r == 1 || r == 4 || r == 2) {
+            continue;
+        }
+        t = 2;
+        if (func_020a100c((u16) data_021759c0->mUnk_62) != 0) {
+            if (func_020a100c(i) == 0) {
+                t = 0;
+            }
+        } else if (func_020a100c(i) != 0) {
+            if (data_0217561c->mUnk_000[i].mUnk_14 != 4) {
+                t = 1;
+            }
+        }
+        if ((data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[data_0217aa00->mUnk_1e8c[i]])) == 0) {
+            func_0205fa00(i, v2, 1, t);
+        }
+        if (t == 0) {
+            if (a < data_usa_021653e0) {
+                v1 = 1;
+                a++;
+            }
+        } else if (t == 1) {
+            if (b < data_usa_021653e0) {
+                v1 = 1;
+                b++;
+            }
+        }
+    }
+    if (v1 != 0) {
+        data_0217aa08->mUnk_00->mUnk_3c = a;
+        data_0217aa08->mUnk_00->mUnk_40 = b;
+        func_0205edcc();
+    } else {
+        func_0205edf8();
+    }
+}
+
+static inline u16 func_0205ef70_inline(u16 a) {
+    s32 b;
+    s32 c;
+    s32 d;
+
+    b = func_0205dc7c(a);
+    c = func_0205db28();
+    d = func_0205dc7c(b);
+    return data_0217aa1c->mUnk_000[c][d].mUnk_00;
+}
+
+// non-matching: the two halfword loads from the table behind data_0217aa1c take the row pointer and the offset in the other order than the original ([r6, r3] and [r2, r1]; 2 words).
+void func_0205ef70(void) {
+    u16 i;
+    s32 c;
+    u32 a;
+    u32 b;
+    u32 g;
+    u16 h;
+    u32 t;
+    s8 m;
+    s32 v1[3];
+
+    a = data_0217aa08->mUnk_00->mUnk_44;
+    b = data_0217aa08->mUnk_00->mUnk_48;
+    func_0205b32c();
+    if (data_021759c0->mUnk_60 <= 3) {
+        return;
+    }
+    if (data_0217561c->mUnk_4cc == 0) {
+        return;
+    }
+    if (data_0217561c->mUnk_000[(u16) data_021759c0->mUnk_62].mUnk_14 == 4) {
+        return;
+    }
+    func_0203bfec(v1);
+    c = func_0205d4e8((u16) data_021759c0->mUnk_62);
+    h = func_0205ef70_inline(data_021759c0->mUnk_62);
+    m = data_0217d384->mUnk_1f54 - 1;
+    g = data_0217d384->mUnk_1f54;
+    if (m > 0) {
+        if (b < m) {
+            b = 0;
+        } else {
+            b -= m;
+        }
+    }
+    if ((s16) (g - data_021759c0->mUnk_3d0) > 0) {
+        a += (s16) (g - data_021759c0->mUnk_3d0);
+        if (a > data_usa_021653e0) {
+            a = data_usa_021653e0;
+        }
+    }
+    for (i = 0; i < (u32) data_021759c0->mUnk_3d0; i++) {
+        t = 2;
+        if (i != data_021759c0->mUnk_62) {
+            if (c < func_0205d4e8(i)) {
+                t = 0;
+            } else if (c > func_0205d4e8(i)) {
+                t = 1;
+            }
+            if (h == func_0205ef70_inline(i)) {
+                t = 2;
+            }
+            func_0205fa00(i, v1, 2, t);
+            if (t == 0) {
+                if (a < data_usa_021653e0) {
+                    a++;
+                }
+            } else if (t == 1) {
+                if (b < data_usa_021653e0) {
+                    b++;
+                }
+            }
+        }
+    }
+    data_0217aa08->mUnk_00->mUnk_24 = func_02120220(func_ov000_0219bb50());
+    data_0217aa08->mUnk_00->mUnk_44 = a;
+    data_0217aa08->mUnk_00->mUnk_48 = b;
+    func_0205edcc();
+}
+
+void func_0205eeb0(void) {
+    if (data_021759c0->mUnk_00c == 0) {
+        switch (data_021759c0->mUnk_08) {
+        case 3:
+            func_0205f700();
+            break;
+        case 4:
+            func_0203b230();
+            break;
+        case 2:
+            switch (data_021759c0->mUnk_18) {
+            case 0:
+                func_0205f498();
+                break;
+            case 1:
+                func_0205f218();
+                break;
+            }
+            break;
+        case 5:
+            func_0205ef70();
+            break;
+        }
+    }
+}
+
+void func_0205ee74(u32 a, void *b) {
+    func_0214d1fc(b, &data_0217aa08->mUnk_20->mUnk_04[a], 0x24);
+}
+
+u32 func_0205ee14(u32 a, void *b) {
+    if (b != 0) {
+        func_0214d1fc(&data_0217aa08->mUnk_20->mUnk_04[a], b, 0x24);
+    }
+    return data_0217aa08->mUnk_20->mUnk_04[a].mUnk_22_0 != 0;
+}

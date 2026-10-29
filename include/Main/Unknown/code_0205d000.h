@@ -14,3 +14,4 @@ u16 func_0205d3f0(u32 a);
 s32 func_0205d480(void);
 s32 func_0205d140(void);
 void func_0205d6d0(s32 a);
+s32 func_0205d4e8(u32 a);
