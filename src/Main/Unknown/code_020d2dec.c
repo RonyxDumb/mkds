@@ -35,7 +35,7 @@
 
 #pragma thumb on
 
-// non-matching: compiled code is longer by 0x24 bytes; the loop over the table keeps its two spilled temporaries (table pointer and zero) in swapped stack slots and the object set-up part differs in register choice and statement order
+// non-matching: compiled code is longer by 0x24 bytes; the loop over the table keeps its two spilled temporaries (table pointer and zero) at swapped stack offsets and the object set-up part differs in register choice and statement order
 Unk020e71a0 *func_020d34e4(u32 param_1, Unk020fa294 *param_2, Unk020e71a0 *param_3) {
     s32 i;
     s32 j;
@@ -298,12 +298,12 @@ Unk020e71a0 *func_020d34c4(Unk020fa294 *param_1, s32 param_2) {
     return func_020d34e4(param_2, param_1, 0);
 }
 
-// non-matching: the stack slots of the first counters are swapped (n at [sp+4], original [sp+0]) and the per-row loop of the first pass computes the row address in a different order
+// non-matching: register allocation only: in the counting loop over data_0217b4f0->mUnk_008 the index and the walking pointer take r0/r1 the other way round, and in the pass over the mUnk_30 values the flag and the data_0217b4f0 value take r0/r1 the other way round
 void func_020d2e6c(void) {
     void *h;
     s32 i;
-    s32 j;
     s32 n;
+    s32 j;
     s32 m;
     s32 c1;
     s32 c2;
@@ -375,13 +375,13 @@ void func_020d2e6c(void) {
     func_020d4bf0();
     data_0217b4c4 = data_0217b4c8;
     data_0217b4d0 = data_0217b4cc;
-    for (i = 0, row = data_0216b288; i < data_0217b4ec; i++, row++) {
-        if (row->mUnk_04 != 0) {
-            row->mUnk_04->mUnk_00 = 0;
+    for (i = 0; i < data_0217b4ec; i++) {
+        if (data_0216b288[i].mUnk_04 != 0) {
+            data_0216b288[i].mUnk_04->mUnk_00 = 0;
         }
     }
     for (i = 0; i < n; i++) {
-        e = &data_02175620->mUnk_00[i];
+        e = (Unk020fa294 *) ((u8 *) data_02175620->mUnk_00 + i * sizeof(Unk020fa294));
         if (data_021759c0->mUnk_08 == 1 && (e->mUnk_38 & 1) == 0) {
             continue;
         }
@@ -397,17 +397,17 @@ void func_020d2e6c(void) {
     }
     func_02105214();
     data_0217b4f0->mUnk_128 = 0;
-    for (i = 0; i < 24; i++) {
-        data_0217b4f0->mUnk_008[i] = 0;
+    for (m = 0; m < 24; m++) {
+        data_0217b4f0->mUnk_008[m] = 0;
     }
-    for (i = 0, row = data_0216b288; i < data_0217b4ec; i++, row++) {
-        if (row->mUnk_04 == 0) {
+    for (i = 0; i < data_0217b4ec; i++) {
+        if (data_0216b288[i].mUnk_04 == 0) {
             continue;
         }
-        v = row->mUnk_04->mUnk_00;
-        w[0] = row->mUnk_04->mUnk_24;
-        w[1] = row->mUnk_04->mUnk_28;
-        w[2] = row->mUnk_04->mUnk_2c;
+        v = data_0216b288[i].mUnk_04->mUnk_00;
+        w[0] = data_0216b288[i].mUnk_04->mUnk_24;
+        w[1] = data_0216b288[i].mUnk_04->mUnk_28;
+        w[2] = data_0216b288[i].mUnk_04->mUnk_2c;
         for (j = 0; j < 3; j++) {
             if (w[j] == 0) {
                 continue;
@@ -433,11 +433,11 @@ void func_020d2e6c(void) {
     }
     for (i = 0; i < data_0217b4f0->mUnk_004; i++) {
         o = data_0217b4f0->mUnk_000[i];
-        for (j = 0, row = data_0216b288; j < data_0217b4ec; j++, row++) {
-            if (o->mUnk_00 == row->mUnk_00) {
-                w[0] = row->mUnk_04->mUnk_24;
-                w[1] = row->mUnk_04->mUnk_28;
-                w[2] = row->mUnk_04->mUnk_2c;
+        for (j = 0; j < data_0217b4ec; j++) {
+            if (o->mUnk_00 == data_0216b288[j].mUnk_00) {
+                w[0] = data_0216b288[j].mUnk_04->mUnk_24;
+                w[1] = data_0216b288[j].mUnk_04->mUnk_28;
+                w[2] = data_0216b288[j].mUnk_04->mUnk_2c;
                 if (w[0] != 0) {
                     func_020d49e0(w[0], o);
                 }
@@ -496,12 +496,12 @@ void func_020d2e6c(void) {
     for (i = 0; i < 16; i++) {
         data_0217b4f0->mUnk_134[i] = 0;
     }
-    for (i = 0, row = data_0216b288; i < data_0217b4ec; i++, row++) {
-        if (row->mUnk_04 == 0) {
+    for (i = 0; i < data_0217b4ec; i++) {
+        if (data_0216b288[i].mUnk_04 == 0) {
             continue;
         }
-        v = row->mUnk_04->mUnk_00;
-        x = row->mUnk_04->mUnk_30;
+        v = data_0216b288[i].mUnk_04->mUnk_00;
+        x = data_0216b288[i].mUnk_04->mUnk_30;
         if (x == 0) {
             continue;
         }
@@ -525,9 +525,9 @@ void func_020d2e6c(void) {
     }
     for (i = 0; i < data_0217b4f0->mUnk_004; i++) {
         o = data_0217b4f0->mUnk_000[i];
-        for (j = 0, row = data_0216b288; j < data_0217b4ec; j++, row++) {
-            if (o->mUnk_00 == row->mUnk_00 && row->mUnk_04->mUnk_30 != 0) {
-                func_020e6f58(row->mUnk_04->mUnk_30, o);
+        for (j = 0; j < data_0217b4ec; j++) {
+            if (o->mUnk_00 == data_0216b288[j].mUnk_00 && data_0216b288[j].mUnk_04->mUnk_30 != 0) {
+                func_020e6f58(data_0216b288[j].mUnk_04->mUnk_30, o);
             }
         }
     }
