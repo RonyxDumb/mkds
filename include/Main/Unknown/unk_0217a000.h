@@ -957,6 +957,10 @@ typedef struct Unk02061808 {
 
 extern Unk02061808 *data_0217aa6c;
 extern u8 data_0217aa7c[];
+extern u32 data_0217ac10;
+extern void *data_0217ac14;
+extern void *data_0217ac18[15];
+extern void *data_0217ac54[15];
 extern u8 data_0217ac94[];
 extern u8 data_0217aca8[];
 extern u8 data_0217acb4[];

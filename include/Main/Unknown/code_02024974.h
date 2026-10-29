@@ -4,6 +4,20 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_0210bcf4.h"
 
+// Ten words at 0x40 of an Unk02024eec, built on the stack by func_020719d0.
+typedef struct Unk02024eec_40 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ s32 mUnk_20;
+    /* 24 */ s32 mUnk_24;
+} Unk02024eec_40;
+
 // The bytes from 0x450 of an Unk0206bcb0, which func_02024a88 and func_02024eec read and write.
 typedef struct Unk02024eec {
     /* 00 */ s32 mUnk_00;
@@ -17,15 +31,28 @@ typedef struct Unk02024eec {
     /* 1c */ s32 mUnk_1c;
     /* 20 */ s32 mUnk_20;
     /* 24 */ s32 mUnk_24;
-    /* 28 */ u8 mUnk_28[0x1c];
-    /* 44 */ s32 mUnk_44;
-    /* 48 */ u8 mUnk_48[8];
-    /* 50 */ s32 mUnk_50;
-    /* 54 */ s32 mUnk_54;
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ s32 mUnk_5c;
-    /* 60 */ s32 mUnk_60;
-    /* 64 */ s32 mUnk_64;
+    /* 28 */ s32 mUnk_28;
+    /* 2c */ u8 mUnk_2c;
+    /* 2d */ u8 mUnk_2d[3];
+    /* 30 */ s32 mUnk_30;
+    /* 34 */ s32 mUnk_34;
+    /* 38 */ s32 mUnk_38;
+    /* 3c */ u8 mUnk_3c[4];
+    /* 40 */ union {
+        struct {
+            u8 mUnk_40[4];
+            s32 mUnk_44;
+            u8 mUnk_48[8];
+            s32 mUnk_50;
+            s32 mUnk_54;
+            s32 mUnk_58;
+            s32 mUnk_5c;
+            s32 mUnk_60;
+            s32 mUnk_64;
+        };
+        Unk02024eec_40 mUnk_40_m;
+    };
+    /* 68 */ s32 mUnk_68;
 } Unk02024eec;
 
 s32 func_02024974(s32 a, s32 b, u32 c, u32 d);
