@@ -18,8 +18,8 @@ void func_020070c0(unsigned int p0) {
     *(unsigned short *) ((unsigned char *) (unsigned int) (((u32) (&data_0216f3d4))) + 0) = (unsigned short) (p0);
 }
 
-unsigned int func_020070b8(void) {
-    return ((u32) (&data_0216f3dc));
+Unk0216f3dc *func_020070b8(void) {
+    return (Unk0216f3dc *) data_0216f3dc;
 }
 
 unsigned int func_020070b0(void) {

@@ -3,13 +3,13 @@
 #pragma thumb on
 
 int func_02006ef8(void) {
-    int iVar1;
-    int iVar2;
-    iVar2 = 0;
-    for (iVar1 = ((u32) func_02007040()); iVar1 != 0; iVar1 = *(int *) (iVar1 + 0x28)) {
-        iVar2 = iVar2 + 1;
+    int v1;
+    Unk02007014 *v2;
+    v1 = 0;
+    for (v2 = func_02007040(); v2 != 0; v2 = v2->mUnk_28) {
+        v1 = v1 + 1;
     }
-    return iVar2;
+    return v1;
 }
 
 #pragma thumb off

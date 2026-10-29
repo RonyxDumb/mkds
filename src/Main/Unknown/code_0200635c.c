@@ -2,12 +2,10 @@
 
 #pragma thumb on
 
-void func_0200635c(int param_1, u32 param_2) {
-    int iVar1;
-    *(int *) (param_1 + 0x10) = *(int *) (param_1 + 0x10) + 1;
-    *(u32 *) (param_1 + 0xc) = param_2;
-    iVar1 = ((int) param_2 >> 5) * 4;
-    *(u32 *) (*(int *) (param_1 + 0x14) + iVar1) = *(u32 *) (*(int *) (param_1 + 0x14) + iVar1) | 1 << (param_2 & 0x1f);
+void func_0200635c(Unk0200628c *a, u32 b) {
+    a->mUnk_10 = a->mUnk_10 + 1;
+    a->mUnk_0c = b;
+    a->mUnk_14[(s32) b >> 5] = a->mUnk_14[(s32) b >> 5] | 1 << (b & 0x1f);
     return;
 }
 
