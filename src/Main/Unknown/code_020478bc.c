@@ -13,15 +13,13 @@ void *func_02047974(const char *param_1) {
     return (void *) iVar1;
 }
 
-void func_02047950(u32 param_1) {
+void *func_02047950(const char *param_1) {
     int iVar1;
     iVar1 = func_0205e0a0();
     if (iVar1 == 3) {
-        func_020478bc((u32) (param_1));
-        return;
+        return (void *) func_020478bc((u32) param_1);
     }
-    func_02047780((s8 *) ((s8 *) (u32) (param_1)));
-    return;
+    return (void *) func_02047780((s8 *) param_1);
 }
 
 int func_020478bc(u32 param_1) {

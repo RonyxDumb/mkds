@@ -1026,11 +1026,20 @@ extern s32 data_0217ae98;
 
 // Three doublewords, read by func_0208537c's callers: the first is replaced by the first times the second plus the
 // third.
-typedef struct Unk0217aebc_128 {
-    /* 00 */ u64 mUnk_00;
-    /* 08 */ u64 mUnk_08;
-    /* 10 */ u64 mUnk_10;
-} Unk0217aebc_128;
+typedef Unk020f41c4_B Unk0217aebc_128;
+
+// Entry of the eight 0xc-byte entries at 0xb0 of Unk0217aebc: a word, then the links of a list.
+typedef struct Unk0217aebc_0b0 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ u8 mUnk_04[8];
+} Unk0217aebc_0b0;
+
+// Entry of the 0xc-byte entries func_02085fd8 selects; data_0217aec0 points to one.
+typedef struct Unk0217aec0 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+} Unk0217aec0;
 
 // Object behind data_0217aebc, 0x144 bytes: word tables of eight entries, the eight
 // 0xc-byte entries at 0xb0 passed to func_020174a4, and the list at 0x12c.
@@ -1044,7 +1053,7 @@ typedef struct Unk0217aebc {
     /* 088 */ s32 mUnk_088;
     /* 08c */ s32 mUnk_08c;
     /* 090 */ s32 mUnk_090[8];
-    /* 0b0 */ u8 mUnk_0b0[8][0xc];
+    /* 0b0 */ Unk0217aebc_0b0 mUnk_0b0[8];
     /* 110 */ s32 mUnk_110;
     /* 114 */ s32 mUnk_114[2];
     /* 11c */ s32 mUnk_11c;
@@ -1059,7 +1068,7 @@ typedef struct Unk0217aebc {
 } Unk0217aebc;
 
 extern Unk0217aebc *data_0217aebc;
-extern u8 data_0217aec0[];
+extern Unk0217aec0 *data_0217aec0;
 extern u8 data_0217aec4[];
 extern u8 data_0217aec8[];
 extern u8 *data_0217aecc;

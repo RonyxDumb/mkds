@@ -6,6 +6,7 @@ struct Unk020888b4;
 struct Unk0206bcb0;
 
 // Declared here until the code that defines them is decompiled.
+void func_0207fba0(void);
 s32 func_0207f554(u32 a, u32 b);
 s32 func_0207f600(s32 a);
 void func_0207f8f8(struct Unk020888b4 *p);

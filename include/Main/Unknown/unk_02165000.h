@@ -58,3 +58,4 @@ extern Unk02165ff0 data_02165ff0;
 
 extern u8 data_021651d4[];
 extern u8 data_021651d8[];
+extern const char data_usa_02165990[];

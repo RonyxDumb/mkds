@@ -94,7 +94,7 @@ void *func_02017328(Unk02017328 *a, void *p) {
     return *(void **) ((u8 *) p + a->mUnk_0a);
 }
 
-s32 func_020172d8(Unk02017328 *a, s32 b) {
+void *func_020172d8(Unk02017328 *a, s32 b) {
     s32 i;
     void *p;
 
@@ -102,7 +102,7 @@ s32 func_020172d8(Unk02017328 *a, s32 b) {
     p = func_0201733c(a, 0);
     while (p != 0) {
         if (i == b) {
-            return (s32) p;
+            return p;
         }
         i++;
         p = func_0201733c(a, p);
