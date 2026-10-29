@@ -1,5 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/unk_0217b000.h"
 
-void func_020ab5b4(unsigned int p0);
+void func_020ab5b4(Unk0217b278_34 *p0);

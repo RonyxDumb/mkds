@@ -2791,8 +2791,16 @@ src/Main/Unknown/code_020a9cd0.c:
     .text       start:0x020a9cd0 end:0x020a9cd4
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_020a9cd4.c:
+    .text       start:0x020a9cd4 end:0x020a9ed8
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_020a9ed8.c:
     .text       start:0x020a9ed8 end:0x020a9f20
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_020a9f20.c:
+    .text       start:0x020a9f20 end:0x020a9f40
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020a9f40.c:
@@ -2807,12 +2815,24 @@ src/Main/Unknown/code_020ab058.c:
     .text       start:0x020ab058 end:0x020ab088
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_020ab088.c:
+    .text       start:0x020ab088 end:0x020ab194
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_020ab194.c:
     .text       start:0x020ab194 end:0x020ab1a8
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_020ab1a8.c:
+    .text       start:0x020ab1a8 end:0x020ab5b4
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_020ab5b4.c:
     .text       start:0x020ab5b4 end:0x020ab5bc
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_020ab5bc.c:
+    .text       start:0x020ab5bc end:0x020ab5e4
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020ab5e4.c:
@@ -2831,12 +2851,20 @@ src/Main/Unknown/code_020ab748.c:
     .text       start:0x020ab748 end:0x020ab758
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_020ab758.c:
+    .text       start:0x020ab758 end:0x020ab798
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_020ab798.c:
     .text       start:0x020ab798 end:0x020ab7a4
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020ab848.c:
     .text       start:0x020ab848 end:0x020ab8c4
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_020ab8c4.c:
+    .text       start:0x020ab8c4 end:0x020ab8d4
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020ab8d4.c:
@@ -2849,6 +2877,10 @@ src/Main/Unknown/code_020aba94.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_020aba9c.c:
     .text       start:0x020aba9c end:0x020abae0
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_020abae0.c:
+    .text       start:0x020abae0 end:0x020ac2c4
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020ac2c4.c:

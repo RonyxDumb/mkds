@@ -35,11 +35,13 @@ typedef struct Unk020a9a5c {
     /* 04 */ u16 mUnk_04;
 } Unk020a9a5c;
 
-// Object returned by func_0209bfa8, with words at 0x38 and 0x3c (func_020a9224).
+// Object returned by func_0209bfa8, with words at 0x38, 0x3c and 0xc0 (func_020a9224, func_020a9de4).
 typedef struct Unk020a9224 {
     /* 00 */ u8 mUnk_00[0x38];
     /* 38 */ s32 mUnk_38;
     /* 3c */ s32 mUnk_3c;
+    /* 40 */ u8 mUnk_40[0x80];
+    /* c0 */ s32 mUnk_c0;
 } Unk020a9224;
 
 void func_020a9c54(void *a, Unk020a9268 *p, u32 c, u32 d);

@@ -366,6 +366,13 @@ typedef struct Unk0217b278_34 {
     /* 06 */ u16 mUnk_06;
 } Unk0217b278_34;
 
+// Object at data_usa_0217b2ac: an Unk0217b278_34 followed by two halfwords (func_020ab528, func_020ab580).
+typedef struct Unk0217b2ac {
+    /* 00 */ Unk0217b278_34 mUnk_00;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+} Unk0217b2ac;
+
 // Object at data_0217b278, 0x54 bytes. data_0217b280, data_0217b294, data_0217b2ac and data_0217b2b8 are the
 // addresses of its members at 0x08, 0x1c, 0x34 and 0x40.
 typedef struct Unk0217b278 {
@@ -384,11 +391,12 @@ typedef struct Unk0217b278 {
     /* 42 */ u16 mUnk_42;
     /* 44 */ Unk0217b278_10 *mUnk_44;
     /* 48 */ u8 mUnk_48[4];
-    /* 4c */ s32 (*mUnk_4c)(s32, u16);
-    /* 50 */ s32 (*mUnk_50)(s32, s32);
+    /* 4c */ u16 (*mUnk_4c)(s32, u16);
+    /* 50 */ s32 (*mUnk_50)(u32, s32);
 } Unk0217b278;
 
 extern Unk0217b278 data_0217b278;
+extern Unk0217b2ac data_usa_0217b2ac;
 extern u8 data_0217b280[];
 extern u16 data_0217b2b8[2];
 extern Unk0217b278_1c data_0217b294;
@@ -398,6 +406,15 @@ extern u16 *data_0217b318;
 extern u16 *data_0217b328;
 extern u16 *data_0217b32c;
 extern u16 *data_0217b330;
+extern u16 *data_0217b2e0;
+extern u16 *data_0217b2e4;
+extern u16 *data_0217b308;
+extern u16 *data_0217b30c;
+extern u16 *data_0217b310;
+extern u16 *data_0217b314;
+extern u16 *data_0217b31c;
+extern u16 *data_0217b320;
+extern u16 *data_0217b324;
 // Object behind data_0217b334, 0x78 bytes, allocated in func_020abcf4. func_020aba9c passes the pointers at 0x00
 // and 0x04 to func_0200ee74 with the words at 0x08 and 0x0c.
 typedef struct Unk0217b334 {
@@ -406,7 +423,7 @@ typedef struct Unk0217b334 {
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ struct Unk020b4934 *mUnk_10[5];
-    /* 24 */ u8 mUnk_24[4];
+    /* 24 */ struct Unk020b4934 *mUnk_24;
     /* 28 */ void *mUnk_28[6];
     /* 40 */ u16 *mUnk_40;
     /* 44 */ u16 mUnk_44;
@@ -427,7 +444,7 @@ typedef struct Unk0217b334 {
 } Unk0217b334;
 
 extern Unk0217b334 *data_0217b334;
-extern void *data_0217b338;
+extern u16 *data_0217b338;
 extern void *data_0217b33c;
 extern u8 data_0217b340[];
 extern u8 data_0217b344[];
@@ -778,8 +795,8 @@ extern u16 *data_0217b24c[2];
 // Object at data_0217b254, 0x24 bytes.
 typedef struct Unk0217b254 {
     /* 00 */ struct Unk02022aa8 *mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
+    /* 04 */ void *mUnk_04;
+    /* 08 */ void *mUnk_08;
     /* 0c */ u16 *mUnk_0c;
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
@@ -989,3 +1006,4 @@ extern void *data_0217b224;
 extern void *data_0217b1f8;
 extern void *data_0217b228;
 extern void *data_0217b22c;
+extern void *data_0217b230;
