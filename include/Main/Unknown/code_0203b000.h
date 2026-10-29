@@ -11,6 +11,7 @@ typedef struct Unk0203bfc4 {
 
 // Declared here until the code that defines them is decompiled.
 void func_0203bfc4(Unk0203bfc4 *a);
+void func_0203b6ac(u8 *a);
 void func_0203b0f8(void *a);
 void func_0203b194(void *a);
 void func_0203b1c8(void *a);

@@ -13,6 +13,7 @@
 #include "Main/Unknown/unk_0217d000.h" // Unk0217d3f0_2098
 #include "Main/Unknown/types_02180728.h" // Unk02180728
 #include "Main/Unknown/code_020ae000.h"
+#include "Main/Unknown/code_020ae630.h"
 
 struct Unk020f41c4_B;
 struct Unk0217b4f0;
@@ -455,7 +456,54 @@ typedef struct Unk0217b334 {
 extern Unk0217b334 *data_0217b334;
 extern u16 *data_0217b338;
 extern void *data_0217b33c;
-extern u8 data_0217b340[];
+// Element of 8 bytes of data_02167e34: two code pointers.
+typedef struct Unk020ad344_14 {
+    /* 00 */ UnkFunc *mUnk_00;
+    /* 04 */ void (*mUnk_04)(s32);
+} Unk020ad344_14;
+
+struct Unk02124b1c;
+struct Unk0201ea30;
+
+// Object behind data_0217b340, 0x8bc bytes allocated by func_020ad344.
+typedef struct Unk020ad344 {
+    /* 000 */ s32 mUnk_00;
+    /* 004 */ s32 mUnk_04;
+    /* 008 */ s32 mUnk_08;
+    /* 00c */ s32 mUnk_0c;
+    /* 010 */ s32 mUnk_10;
+    /* 014 */ Unk020ad344_14 mUnk_14[7];
+    /* 04c */ s32 mUnk_4c;
+    /* 050 */ s32 mUnk_50;
+    /* 054 */ s32 mUnk_54;
+    /* 058 */ s32 mUnk_58;
+    /* 05c */ s32 mUnk_5c;
+    /* 060 */ s16 mUnk_60;
+    /* 062 */ u8 pad_62[2];
+    /* 064 */ s32 mUnk_64;
+    /* 068 */ struct Unk02124b1c *mUnk_68;
+    /* 06c */ struct Unk0201ea30 *mUnk_6c;
+    /* 070 */ void *mUnk_70;
+    /* 074 */ struct Unk0201ea30 *mUnk_74;
+    /* 078 */ struct Unk020b4a44 *mUnk_78;
+    /* 07c */ struct Unk020b4934 *mUnk_7c;
+    /* 080 */ struct Unk020b4a44 *mUnk_80;
+    /* 084 */ struct Unk020b4934 *mUnk_84;
+    /* 088 */ struct Unk020b47d8 *mUnk_88;
+    /* 08c */ struct Unk020b47d8 *mUnk_8c;
+    /* 090 */ struct Unk020b47d8 *mUnk_90;
+    /* 094 */ u8 pad_94[0xc];
+    /* 0a0 */ struct Unk020b4a44 *mUnk_a0;
+    /* 0a4 */ struct Unk020b4934 *mUnk_a4;
+    /* 0a8 */ struct Unk02021dc8 *mUnk_a8;
+    /* 0ac */ u8 pad_ac[4];
+    /* 0b0 */ Unk020ae630 mUnk_b0;
+    /* 4b4 */ Unk020ae630 mUnk_4b4;
+    /* 8b8 */ u8 *mUnk_8b8;
+} Unk020ad344;
+
+extern Unk020ad344 *data_0217b340;
+extern const Unk020ad344_14 data_02167e34[7];
 extern u8 data_0217b344[];
 extern u16 *data_0217b34c;
 // 0x20 bytes: four words, then four more words.
