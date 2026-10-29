@@ -22,8 +22,6 @@ void func_020b46d0(void *a, s32 b, s32 c, s32 d, s32 e, void *f, s32 g, s32 h) {
     }
 }
 
-// non-matching: register allocation and spills of the loop variables (the original keeps three zero constants at stack offsets and
-// adds the row terms to the base register before the offset)
 void func_020b45b0(u16 *a, s32 b, s32 c, s32 d, s32 e, u16 *f, s32 g, s32 h) {
     s32 i;
     s32 j;
@@ -34,21 +32,23 @@ void func_020b45b0(u16 *a, s32 b, s32 c, s32 d, s32 e, u16 *f, s32 g, s32 h) {
         for (j = 0; j < e; j++) {
             for (k = 0; k < 8; k++) {
                 for (l = 0; l < 2; l++) {
-                    f[(7 - k) * 2 + l + ((g + i) * 16 + (h + (e - j - 1)) * 512)] = a[k * 2 + l + ((b + i) * 16 + (c + j) * 512)];
+                    (f + (g + i) * 16 + (h + (e - j - 1)) * 512)[(7 - k) * 2 + l] =
+                        (a + (b + i) * 16 + (c + j) * 512)[k * 2 + l];
                 }
             }
         }
     }
 }
 
-// non-matching: the order in which the registers f, g, h are loaded from the stack (the original loads the word at sp+0x2c last)
 void func_020b4520(u16 *a, s32 b, s32 c, s32 d, s32 e, u16 *f, s32 g, s32 h) {
+    u16 *p;
     s32 j;
     s32 i;
 
+    p = f;
     for (i = 0; i < e; i++) {
         for (j = 0; j < d; j++) {
-            f[(g + j) + (h + i) * 32] = a[(b + j) + (c + i) * 32];
+            p[(g + j) + (h + i) * 32] = a[(b + j) + (c + i) * 32];
         }
     }
 }
@@ -75,8 +75,9 @@ void func_020b4428(u16 *a, s32 b, s32 c, s32 d, s32 e, s32 f) {
     }
 }
 
-// non-matching: in the first of the 16-iteration loops the sum d + e * 32 is added to j % 4 as (add r1, r5, r1) and the last call
-// loads the pointer after the destination address
+// non-matching: same size, 14 words: in the first of the 16-iteration loops the sum d + e * 32 is added to j % 4 as
+// (add r1, r5, r1), ours (add r1, r1, r5); in the third loop the original keeps the counter in r7, the row term in r5,
+// the pointer o2->mUnk_14 in r8 and the running index in r6 (ours r5, r7, r6 and r8).
 void func_020b41e8(s32 a, s32 b, s32 c, s32 d, s32 e) {
     Unk021759c0 *p = data_021759c0;
     Unk020b4a44 *o1;
@@ -120,5 +121,5 @@ void func_020b41e8(s32 a, s32 b, s32 c, s32 d, s32 e) {
     for (j = 0; j < 4; j++) {
         func_0214cffc(s + (n * 25 + 20 + j) * 16, (u16 *) c + (d + (e + 4) * 32 + j % 4) * 16 + j / 4 * 512, 0x20);
     }
-    func_0214cffc(s + (n * 25 + 24) * 16, (u16 *) c + (d + 4 + (e + 4) * 32) * 16, 0x20);
+    func_0214cffc(o2->mUnk_14 + (n * 25 + 24) * 16, (u16 *) c + (d + 4 + (e + 4) * 32) * 16, 0x20);
 }

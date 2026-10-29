@@ -32,17 +32,18 @@
 #include "code_020222ec.h"
 #include "code_02148538.h"
 
-// non-matching: same instructions and registers; the stack offsets of the locals a, k, j, ps and nn are 0x14, 0x4,
-// 0x8, 0xc, 0x10 instead of 0x4, 0x8, 0xc, 0x10, 0x14
+// non-matching: same instructions and registers; only the stack offsets of two locals differ: a is at 0x14 and nn
+// at 0x4, where the original has a at 0x4 and nn at 0x14 (7 words)
 void func_020ca074(void)
 {
+    enum { K0 } t;
     s32 n;
     u32 a;
+    s32 v1;
     s32 k;
     s32 j;
     Unk027e00cc *e;
-    Unk020f41c4_A **v1;
-    s32 v2;
+    Unk020f41c4_A **v2;
     Unk020224e0_c *c;
     Unk020f41c4_A *p;
     Vec3 *q;
@@ -51,14 +52,17 @@ void func_020ca074(void)
     n = 0;
     a = func_020c0db0();
     for (k = 0; k < 10; k++) {
-        s32 v3[10] = {0x4c, 0x4d, 0x4b, 0x4f, 0x50, 0x56, 0x55, 0x54, 0x4e, 0x57};
+        t = data_021696c0[k];
+        e = &data_027e00cc[t];
+        v2 = e->mUnk_04;
+        v1 = e->mUnk_14;
+        {
+            s32 v3[10] = {0x4c, 0x4d, 0x4b, 0x4f, 0x50, 0x56, 0x55, 0x54, 0x4e, 0x57};
 
-        e = &data_027e00cc[data_021696c0[k]];
-        v1 = e->mUnk_04;
-        v2 = e->mUnk_14;
-        c = func_020b83dc(v3[k]);
-        for (j = 0; j < v2; j++) {
-            p = v1[j];
+            c = func_020b83dc(v3[k]);
+        }
+        for (j = 0; j < v1; j++) {
+            p = v2[j];
             if ((p->mUnk_74 & 0x80000) != 0) {
                 q = 0;
             } else {

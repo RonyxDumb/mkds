@@ -15,11 +15,10 @@
 #include "Main/Unknown/unk_027e0000.h"
 #include "00/code_02182fdc.h"
 
-// non-matching: the word loaded from the object (ldr +0x30) and the table pointer (ldr data_0217bc48) are in r2/r3
-// instead of r3/r2 (3 words differ at +0x98, +0x9c, +0xa4)
 s32 func_020b8220(s32 a, s32 b) {
     Unk020ee684 *p;
     u32 k;
+    enum { K0 } j;
 
     switch (b) {
         case 0:
@@ -34,7 +33,8 @@ s32 func_020b8220(s32 a, s32 b) {
             return 0x11;
         case 5:
             p = &(*(Unk020ee684 **) data_027e00c8)[(u16) a];
-            if (data_0217bc48[p->mUnk_030.mUnk_00].mUnk_08 == 3) {
+            j = p->mUnk_030.mUnk_00;
+            if (data_0217bc48[j].mUnk_08 == 3) {
                 k = (u16) p->mUnk_030.mUnk_08;
             } else {
                 k = 0;
@@ -77,9 +77,6 @@ s32 func_020b8220(s32 a, s32 b) {
     return a;
 }
 
-// non-matching: the instruction order before the loop differs (the first store of the 4-word object, to member 0x00,
-// comes before the store of 1 to member 0x08; the hoisted constants and the stores of members 0x04/0x00 are interleaved
-// differently; 14 words differ at +0x3c..+0x70); the loop body matches
 void func_020b80a8(void) {
     void *p;
     void *a;
@@ -97,11 +94,11 @@ void func_020b80a8(void) {
     a = func_0212b090();
     func_0212b09c();
     func_02023408(v1, a, 0x20, 4, 4);
-    i = 0;
+    o.mUnk_00 = v1;
     o.mUnk_08 = 1;
     o.mUnk_04 = p;
-    o.mUnk_00 = v1;
     o.mUnk_0c = 0;
+    i = 0;
     k = 0;
     for (; i < 8; i++) {
         y = (i % 4) << 6;

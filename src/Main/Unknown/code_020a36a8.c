@@ -4,8 +4,6 @@
 #include "code_02147cd8.h"
 #include "code_02148538.h"
 
-// non-matching: 4 bytes shorter (the original also saves r11); from the first 64-bit product on the registers and
-// the order of the loads differ, 83 instructions.
 void func_020a36a8(Unk020a2fe4 *a) {
     Unk0206bcb0 *p;
     Vec3 *q;
@@ -29,9 +27,9 @@ void func_020a36a8(Unk020a2fe4 *a) {
         a->mUnk_00.mUnk_10.y = a->mUnk_00.mUnk_10.y + (q->y + (q->y >> 1));
         a->mUnk_00.mUnk_10.z = a->mUnk_00.mUnk_10.z + (q->z + (q->z >> 1));
     }
-    t = (s32) (((s64) 0xa000 * (a->mUnk_d0 + a->mUnk_d8)) >> 12);
-    v3 = (a->mUnk_00.mUnk_04.z + a->mUnk_00.mUnk_10.z) - (a->mUnk_b0.z + a->mUnk_bc.z);
     v1 = (a->mUnk_00.mUnk_04.x + a->mUnk_00.mUnk_10.x) - (a->mUnk_b0.x + a->mUnk_bc.x);
+    v3 = (a->mUnk_00.mUnk_04.z + a->mUnk_00.mUnk_10.z) - (a->mUnk_b0.z + a->mUnk_bc.z);
+    t = (s32) (((s64) 0xa000 * (a->mUnk_d0 + a->mUnk_d8)) >> 12);
     v6 = v3 < 0 ? -v3 : v3;
     v4 = v1 < 0 ? -v1 : v1;
     v7 = v4 / 2 + v6 / 2;
@@ -49,11 +47,11 @@ void func_020a36a8(Unk020a2fe4 *a) {
     v1 = (a->mUnk_00.mUnk_04.x + a->mUnk_00.mUnk_10.x) - (a->mUnk_b0.x + a->mUnk_bc.x);
     v2 = (a->mUnk_00.mUnk_04.y + a->mUnk_00.mUnk_10.y) - (a->mUnk_b0.y + a->mUnk_bc.y);
     v3 = (a->mUnk_00.mUnk_04.z + a->mUnk_00.mUnk_10.z) - (a->mUnk_b0.z + a->mUnk_bc.z);
+    t = (a->mUnk_d0 + a->mUnk_d8) << 4;
     v5 = v2 < 0 ? -v2 : v2;
     v4 = v1 < 0 ? -v1 : v1;
     v6 = v3 < 0 ? -v3 : v3;
     v7 = v5 + (v4 >> 2) + (v6 >> 2);
-    t = (a->mUnk_d0 + a->mUnk_d8) << 4;
     if (v7 > t) {
         s = func_02147f34(v7 - t, v7);
         v.x = (s32) (((s64) v1 * s) >> 12);

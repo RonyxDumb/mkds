@@ -163,9 +163,9 @@ void func_02087d44(Unk02087d0c *p) {
     }
 }
 
-// non-matching: register allocation only, 5 instructions; first at +0x8: original `ldrh r2, [r0, #0x1a]`, ours `ldrh r3, [r0, #0x1a]` (the load of mUnk_28 goes to r3 and the one of mUnk_1c to r0)
 s32 func_02087d0c(void *a) {
     Unk02087d0c *p = a;
+    enum { K0 } k = p->mUnk_28;
 
-    return data_02155cd8[p->mUnk_28](p->mUnk_1c[p->mUnk_1a]) << 12;
+    return data_02155cd8[k](p->mUnk_1c[p->mUnk_1a]) << 12;
 }

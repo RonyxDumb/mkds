@@ -30,20 +30,20 @@ static inline u16 func_020a1790_inline(Unk0217b1fc *d, s32 i) {
     return 0;
 }
 
-// non-matching: same size; register allocation only; 27 lines differ; first: original `ldr r1, [pc, #348]`, ours `ldr
-// r0, [pc, #348]`
+// non-matching: same size; register allocation only, 10 words: the original keeps data_0217b1fc (later the walking
+// pointer of the check loop) in r2 and the counter of func_020a1790_inline in r3, ours the other way round.
 void func_020a1790(void) {
     s32 n;
+    s32 v;
     s32 i;
     s32 j;
-    s32 v;
     s32 v1;
     Unk0217b1fc *d;
     Unk0217b1fc_000 *e;
     Unk0206bcb0 *c;
 
-    d = data_0217b1fc;
     n = data_021759c0->mUnk_3d0;
+    d = data_0217b1fc;
     v = d->mUnk_000[func_020a1790_inline(d, 0)].mUnk_46;
     e = d->mUnk_000;
     for (j = 0; j < 8; j++, e++) {
@@ -99,22 +99,21 @@ void func_020a1904(u16 a) {
     }
 }
 
-// non-matching: same size; register allocation only; 48 lines differ; first: original `lsreq r4, r2, #16`, ours `lsreq
-// r5, r2, #16`
 void func_020a19f8(u16 a) {
     s32 i;
+    s32 j;
     s32 n;
     s32 v;
     Unk0217b1fc_000 *e0;
-    Unk0217b1fc_000 *e1;
-    u16 r0;
     u16 r1;
+    u16 r0;
+    Unk0217b1fc_000 *e1;
 
     for (i = data_0217b1fc->mUnk_000[a].mUnk_48 + 1; i < 8; i++) {
         e1 = &data_0217b1fc->mUnk_000[func_020a1790_inline(data_0217b1fc, i)];
-        e0 = &data_0217b1fc->mUnk_000[a];
         r1 = e1->mUnk_48;
-        r0 = e0->mUnk_48;
+        r0 = data_0217b1fc->mUnk_000[a].mUnk_48;
+        e0 = &data_0217b1fc->mUnk_000[a];
         if (r0 < r1) {
             if (e0->mUnk_4c < e1->mUnk_4c || (e0->mUnk_08 != 0 && e1->mUnk_08 == 0)) {
                 e1->mUnk_48 = r0;
@@ -125,30 +124,29 @@ void func_020a19f8(u16 a) {
     n = data_021759c0->mUnk_3d0;
     data_0217b1fc->mUnk_3b0 = 0xffff;
     data_0217b1fc->mUnk_3ac = 0;
-    for (i = 0; i < n; i++) {
-        v = data_0217b1fc->mUnk_000[i].mUnk_4c;
+    for (j = 0; j < n; j++) {
+        v = data_0217b1fc->mUnk_000[j].mUnk_4c;
         data_0217b1fc->mUnk_3b0 = (v < data_0217b1fc->mUnk_3b0 && v >= 0) ? v : data_0217b1fc->mUnk_3b0;
-        v = data_0217b1fc->mUnk_000[i].mUnk_4c;
+        v = data_0217b1fc->mUnk_000[j].mUnk_4c;
         data_0217b1fc->mUnk_3ac = (v > data_0217b1fc->mUnk_3ac) ? v : data_0217b1fc->mUnk_3ac;
     }
 }
 
-// non-matching: same size; register allocation only; 48 lines differ; first: original `lsreq r4, r2, #16`, ours `lsreq
-// r5, r2, #16`
 void func_020a1b6c(u16 a) {
     s32 i;
+    s32 j;
     s32 n;
     s32 v;
     Unk0217b1fc_000 *e0;
-    Unk0217b1fc_000 *e1;
-    u16 r0;
     u16 r1;
+    u16 r0;
+    Unk0217b1fc_000 *e1;
 
     for (i = data_0217b1fc->mUnk_000[a].mUnk_48 - 1; i >= 0; i--) {
         e1 = &data_0217b1fc->mUnk_000[func_020a1790_inline(data_0217b1fc, i)];
-        e0 = &data_0217b1fc->mUnk_000[a];
         r1 = e1->mUnk_48;
-        r0 = e0->mUnk_48;
+        r0 = data_0217b1fc->mUnk_000[a].mUnk_48;
+        e0 = &data_0217b1fc->mUnk_000[a];
         if (r0 > r1) {
             if (e0->mUnk_4c > e1->mUnk_4c || (e0->mUnk_08 == 0 && e1->mUnk_08 != 0)) {
                 e1->mUnk_48 = r0;
@@ -159,10 +157,10 @@ void func_020a1b6c(u16 a) {
     n = data_021759c0->mUnk_3d0;
     data_0217b1fc->mUnk_3b0 = 0xffff;
     data_0217b1fc->mUnk_3ac = 0;
-    for (i = 0; i < n; i++) {
-        v = data_0217b1fc->mUnk_000[i].mUnk_4c;
+    for (j = 0; j < n; j++) {
+        v = data_0217b1fc->mUnk_000[j].mUnk_4c;
         data_0217b1fc->mUnk_3b0 = (v < data_0217b1fc->mUnk_3b0 && v >= 0) ? v : data_0217b1fc->mUnk_3b0;
-        v = data_0217b1fc->mUnk_000[i].mUnk_4c;
+        v = data_0217b1fc->mUnk_000[j].mUnk_4c;
         data_0217b1fc->mUnk_3ac = (v > data_0217b1fc->mUnk_3ac) ? v : data_0217b1fc->mUnk_3ac;
     }
 }

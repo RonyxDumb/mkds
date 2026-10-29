@@ -40,9 +40,6 @@ void func_020c72f4(Unk020c06c4 *a) {
     func_020c092c(a, data_0217b3fc, 0);
 }
 
-// non-matching: after the first call the original loads the halfword local before the multiply-accumulate (ldrh r6
-// before mla r5) and forms the base address (add ip, r0, #28) after it; the compile has the base add first and
-// different registers for the byte local, the halfword and the sum (5 words at +0xa4..+0xb8)
 void func_020c7164(void) {
     u8 a;
     u8 b;
@@ -53,6 +50,7 @@ void func_020c7164(void) {
     s32 j;
     s32 t;
     Unk02056bc0 *q;
+    Unk02056bc0 *r;
 
     if (data_021759c0->mUnk_08 != 1) {
         return;
@@ -66,10 +64,10 @@ void func_020c7164(void) {
         return;
     }
     func_0203c7cc(func_020b4d9c(), &a, &b, &c);
-    t = b * 1000 + a * 60000;
-    t += c;
+    r = data_0217b3f4->mUnk_1c;
+    t = b * 1000 + a * 60000 + c;
     for (j = 4; j >= 0; j--) {
-        q = &data_0217b3f4->mUnk_1c[j];
+        q = &r[j];
         if (q->mUnk_18 != 0 && t == q->mUnk_00 + (q->mUnk_03 * 1000 + q->mUnk_02 * 60000)) {
             j = 1;
             goto found;

@@ -198,8 +198,9 @@ void func_0208266c(Unk0201ca6c *p, s32 a) {
     p->mUnk_28.z = u.z + p->mUnk_20->mUnk_00->mUnk_04.z;
 }
 
-// non-matching: same size; register allocation, 49 instructions: the original saves r8 and keeps the result of
-// func_020748a8 in r8 and the argument in r4, ours saves one register fewer (first difference `push`).
+// non-matching: same size; register allocation, 28 words: the original saves r8 and keeps the result of
+// func_020748a8 in r8, the func_0207a974 result in r7 and the 64-bit length sum in r6/r5; ours saves one register
+// fewer (first difference `push`).
 void func_02082750(Unk0201ca6c *p, s32 a) {
     Unk02148038 h;
     Vec3 v;
@@ -242,7 +243,7 @@ void func_02082750(Unk0201ca6c *p, s32 a) {
     h.mUnk_04 = y.z;
     p->mUnk_68 = (s16) ((s32) (((s64) (0x1000 - t) * 0x800 + 0x800) >> 12) + 0x800);
     p->mUnk_50 = h;
-    func_02147fd8(data_02165938 + (s32) (((s64) (data_02165954 + k) * t + 0x800) >> 12), &v, &g->mUnk_9c, &u);
+    func_02147fd8(data_02165938 + (s32) (((s64) t * (data_02165954 + k) + 0x800) >> 12), &v, &g->mUnk_9c, &u);
     u.y = func_0207a974(data_021759c0->mUnk_62)->mUnk_508->y >> 4;
     u.y = u.y - (s32) (((s64) data_02165934 * t + 0x800) >> 12);
     p->mUnk_28.x = u.x + p->mUnk_20->mUnk_00->mUnk_04.x;

@@ -79,9 +79,8 @@ s32 func_020b3120(s32 a) {
     return i;
 }
 
-// non-matching: in the second loop the address of the element is added as k + base (adds r2, r1, r0) and the word at
-// 0x28 is loaded before the element (ldr r2, [r0, #0x28]; ldr r1, [r1, #0x38]; cmp r2, r1), the compiled code adds
-// base + k and loads the element first
+// non-matching: 3 words in the second loop: the original loads the word at 0x28 before the element
+// (ldr r2, [r0, #0x28]; ldr r1, [r1, #0x38]; cmp r2, r1), the compiled code loads the element first.
 u32 func_020b302c(void) {
     u32 r = 0;
     s32 n;
@@ -105,9 +104,9 @@ u32 func_020b302c(void) {
         }
         for (i = 0; i < n; i++) {
             if (func_020ae244(func_020b2b54(), e[i]) != 0) {
-                q = &data_0217b354->mUnk_038[k];
-                if (data_0217b354->mUnk_028 != q->mUnk_00[i]) {
-                    data_0217b354->mUnk_028 = q->mUnk_00[i];
+                q = data_0217b354->mUnk_038;
+                if (data_0217b354->mUnk_028 != q[k].mUnk_00[i]) {
+                    data_0217b354->mUnk_028 = q[k].mUnk_00[i];
                     func_020b3120(0);
                 } else {
                     data_0217b354->mUnk_010 = 1;

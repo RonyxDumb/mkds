@@ -12,10 +12,9 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-// non-matching: at both indirect calls the original loads `ldr r1, [r2, #12]` before `adds r0, r4, #0`; the compiled code
-// emits `adds r0, r4, #0` first (3 words, offsets 0x82/0x84 and 0x90/0x92).
 void func_020cb51c(u32 a) {
     Unk0217b43c *p;
+    enum { K0 } k;
 
     if (func_02049b6c() == 0) {
         if (func_020cae54() == 1 || func_020cae54() == 2) {
@@ -37,10 +36,12 @@ void func_020cb51c(u32 a) {
             data_0217b43c->mUnk_104 = 0;
             func_020cb6c0();
             p = data_0217b43c;
-            p->mUnk_014[p->mUnk_00c].mUnk_04(a);
+            k = p->mUnk_00c;
+            p->mUnk_014[k].mUnk_04(a);
         } else {
             p = data_0217b43c;
-            p->mUnk_014[p->mUnk_00c].mUnk_04(a);
+            k = p->mUnk_00c;
+            p->mUnk_014[k].mUnk_04(a);
             if (data_0217b43c->mUnk_004 != 0) {
                 func_020cb618();
                 func_020cb6c0();

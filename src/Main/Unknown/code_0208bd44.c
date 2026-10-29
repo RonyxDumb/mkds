@@ -31,20 +31,19 @@ void func_0208bde0(Unk020888b4 *p) {
     func_0207d7e4(&p->mUnk_e8, p);
 }
 
-// non-matching: the original ends the first arm of the final if/else with its own pop and bx; the build shares one epilogue
 void func_0208be00(Unk020888b4 *p, s32 a) {
     Unk0206bcb0 *q = func_0207a974(a);
 
     p->mUnk_154 = 0;
     func_0207e594(p, q, p->mUnk_154);
     func_0207d814(&p->mUnk_e8, p);
-    if (data_021759c0->mUnk_08 != 4) {
+    if (data_021759c0->mUnk_08 == 4) {
+        p->mUnk_e8.mUnk_2c = 1;
+        p->mUnk_e8.mUnk_30 = 4;
+    } else {
         p->mUnk_e8.mUnk_2c = 0;
         p->mUnk_e8.mUnk_30 = 0;
-        return;
     }
-    p->mUnk_e8.mUnk_2c = 1;
-    p->mUnk_e8.mUnk_30 = 4;
 }
 
 void func_0208be7c(Unk020888b4 *p) {

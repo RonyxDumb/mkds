@@ -75,6 +75,14 @@ void func_020b3cd8(void) {
 // non-matching: the byte reads from the table at 0x144 are made in the original through a separate pointer add
 // (add r0, r0, #0 / add r0, r0, #4, then ldrb [r0, #2]); the second condition is kept as a value in a register
 // (mov r2, #1 ... movne r2, #0; cmp r2, #0) instead of branching
+static inline Unk0217aa1c_144_00 *func_020b3b58_inline(s32 j) {
+    return &data_0217aa1c->mUnk_144[func_0205db28()].mUnk_00[j];
+}
+
+static inline Unk0217aa1c_144 *func_020b3b58_inline2(void) {
+    return &data_0217aa1c->mUnk_144[func_0205db28()];
+}
+
 void func_020b3b58(void) {
     Unk021759c0 *d = data_021759c0;
     s32 a;
@@ -87,17 +95,20 @@ void func_020b3b58(void) {
         return;
     }
     if (d->mUnk_1c == 1 || d->mUnk_08 == 2) {
-        a = data_0217aa1c->mUnk_144[func_0205db28()].mUnk_00[0].mUnk_02;
+        a = func_020b3b58_inline(0)->mUnk_02;
     } else {
         q = &data_0217aa1c->mUnk_144[func_0205db28()].mUnk_00[0];
         a = q->mUnk_00;
     }
     d = data_021759c0;
-    c = d->mUnk_1c == 1 || d->mUnk_08 == 2;
+    c = 1;
+    if (d->mUnk_1c != 1 && d->mUnk_08 != 2) {
+        c = 0;
+    }
     if (c) {
-        b = data_0217aa1c->mUnk_144[func_0205db28()].mUnk_00[1].mUnk_02;
+        b = func_020b3b58_inline(1)->mUnk_02;
     } else {
-        b = data_0217aa1c->mUnk_144[func_0205db28()].mUnk_00[1].mUnk_00;
+        b = func_020b3b58_inline2()->mUnk_00[1].mUnk_00;
     }
     if (a > b) {
         func_0205d6d0(0);

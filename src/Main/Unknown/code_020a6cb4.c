@@ -105,8 +105,6 @@ void func_020a6e70(Unk02100094 *a) {
     }
 }
 
-// non-matching: same size; 7 lines differ (the compare before the second word store of the generator update, and the
-// registers of the product); first: original `cmp r1, #0`, ours `str r2, [r0, #4]`
 s32 func_020a6f94(Unk02100094 *a) {
     s32 i;
     s32 v1;
@@ -147,7 +145,7 @@ s32 func_020a6f94(Unk02100094 *a) {
                 if (m == 0) {
                     r = g->mUnk_00 >> 32;
                 } else {
-                    r = ((s64) (g->mUnk_00 >> 32) * m) >> 32;
+                    r = ((g->mUnk_00 >> 32) * m) >> 32;
                 }
             }
             v2 = r;

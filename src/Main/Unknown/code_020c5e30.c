@@ -214,10 +214,6 @@ void func_020c676c(Unk020c06c4 *a) {
     func_020c692c(a, i, data_0217b3f4->mUnk_e0 + 1, 0xb4);
 }
 
-// non-matching: registers and order around the three byte/halfword locals: the original loads the halfword local before
-// the multiply-accumulate and adds it after the load of data_0217b3f4 (first sum, +0x38..+0x4c), keeps the parameter in
-// r5 and the index k in r4, and in the store block loads the halfword first (ldrh r6) and addresses the first
-// member as [r2, r1]; the compile has the same instructions with other registers and order (13 words)
 s32 func_020c657c(s32 a) {
     u8 x;
     u8 y;
@@ -233,8 +229,8 @@ s32 func_020c657c(s32 a) {
     u16 n2;
 
     func_0203c7cc(func_020b4d9c(), &x, &y, &z);
-    t = z + (y * 1000 + x * 60000);
     q = data_0217b3f4->mUnk_1c;
+    t = y * 1000 + x * 60000 + z;
     k = 0;
     do {
         if (q->mUnk_18 == 0 || t < q->mUnk_00 + (q->mUnk_03 * 1000 + q->mUnk_02 * 60000)) {
@@ -250,11 +246,11 @@ found:
             data_0217b3f4->mUnk_1c[j] = data_0217b3f4->mUnk_1c[j - 1];
             func_02056c6c(data_021759c0->mUnk_00, j, &data_0217b3f4->mUnk_1c[j]);
         }
-        g = data_0217b3f4->mUnk_1c;
-        e = g + k;
         n2 = z;
         n1 = y;
         n0 = x;
+        g = data_0217b3f4->mUnk_1c;
+        e = g + k;
         e->mUnk_02 = n0;
         e->mUnk_03 = n1;
         g[k].mUnk_00 = n2;
@@ -272,9 +268,6 @@ found:
     return 1;
 }
 
-// non-matching: in the store block the original loads the halfword local, then data, then the byte locals before the
-// three stores (ldrh r3, ldrb r2, add r1 = base + 0x1c, ldrb r0), with the base in r1 and the halfword in r3; the
-// compile has the same instructions with the halfword in r2, the first byte in r1 and the base in r3 (6 words)
 s32 func_020c6428(s32 a) {
     u8 x;
     u8 y;
@@ -293,11 +286,11 @@ s32 func_020c6428(s32 a) {
         }
     }
     if (a != 0) {
-        g = data_0217b3f4->mUnk_1c;
-        e = g + 5;
         n2 = z;
         n1 = y;
         n0 = x;
+        g = data_0217b3f4->mUnk_1c;
+        e = g + 5;
         e->mUnk_02 = n0;
         e->mUnk_03 = n1;
         g[5].mUnk_00 = n2;
@@ -310,9 +303,6 @@ s32 func_020c6428(s32 a) {
     return 1;
 }
 
-// non-matching: in the else-branch sum (+0x1f4..+0x210) the original loads the halfword local before the
-// multiply-accumulate and forms the base address (add ip, r0, #28) after it, with the sum in r5/r6; the compile forms
-// the base first and loads the halfword after (6 words)
 void func_020c610c(void) {
     Unk020adc24 x;
     Unk020adc24 y;
@@ -329,6 +319,7 @@ void func_020c610c(void) {
     s32 n;
     s32 g;
     Unk02056bc0 *q;
+    Unk02056bc0 *w;
 
     if (data_0217561c->mUnk_4cc == 0) {
         return;
@@ -374,9 +365,10 @@ void func_020c610c(void) {
         }
     } else {
         func_0203c7cc(func_020b4d9c(), &a, &b, &c);
-        t = c + (b * 1000 + a * 60000);
+        w = data_0217b3f4->mUnk_1c;
+        t = b * 1000 + a * 60000 + c;
         for (j = 4; j >= 0; j--) {
-            q = &data_0217b3f4->mUnk_1c[j];
+            q = &w[j];
             if (q->mUnk_18 != 0 && t == q->mUnk_00 + (q->mUnk_03 * 1000 + q->mUnk_02 * 60000)) {
                 j = 1;
                 goto found;

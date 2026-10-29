@@ -13,8 +13,6 @@ static inline u32 func_02050080_inline(void) {
     return data_0217aa00->mUnk_0000;
 }
 
-// non-matching: in the second half the original keeps the Unk0217aa00 pointer in ip and does the stores in pairs
-// (two loads, then two stores); this source keeps it in r3 and alternates load and store.
 u32 func_020501b0(u32 a) {
     u32 r = 0;
     Unk0217aa00_0ac *e;
@@ -46,12 +44,7 @@ u32 func_020501b0(u32 a) {
             func_0214d1fc(e, data_0217aa00->mUnk_0024, 0xc0);
             func_0200ee58(data_0217aa00->mUnk_0024, 0xc0);
             q = data_0217aa00;
-            q->mUnk_042c = e->mUnk_c0[0];
-            q->mUnk_042d = e->mUnk_c0[1];
-            q->mUnk_042e = e->mUnk_c0[2];
-            q->mUnk_042f = e->mUnk_c0[3];
-            q->mUnk_0430 = e->mUnk_c0[4];
-            q->mUnk_0431 = e->mUnk_c0[5];
+            *(Unk0217aa00_42c *) &q->mUnk_042c = e->mUnk_c0_42c;
             q->mUnk_043c = e->mUnk_dc_1;
             r = 1;
         }
@@ -59,8 +52,9 @@ u32 func_020501b0(u32 a) {
     return r;
 }
 
-// non-matching: register choice only; the original keeps the zero in r2 and the func_02050080_inline value in r1,
-// and the (1 << i) value in r4 with the loaded byte in r5, this source gives the reverse.
+// non-matching: register choice only, 8 words; the original keeps the zero in r2 and the func_02050080_inline value
+// in r1 (this source gives the reverse), and in the loop it builds the 0x1e52 entry address in ip alone where this
+// source goes through r4.
 void func_02050080(void) {
     s32 r;
     u16 i;
@@ -76,7 +70,7 @@ void func_02050080(void) {
     i = 0;
     n = 0;
     for (; i < 8; i++) {
-        if (((1 << i) & data_0217aa00->mUnk_15f6) == 0) {
+        if ((data_0217aa00->mUnk_15f6 & (1 << i)) == 0) {
             data_0217aa00->mUnk_1e52[i].mUnk_00 = 0xffff;
         } else {
             data_0217aa00->mUnk_1e52[i].mUnk_00 = n;

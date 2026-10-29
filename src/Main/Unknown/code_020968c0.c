@@ -17,35 +17,31 @@
 #include "01/code_0218175c.h"
 #include "code_02147cd8.h"
 
-// non-matching: 3 instructions short (0x4e8 vs 0x4f4 bytes): the original reloads the byte at 0x108 before each of the
-// three
-// `|= m` stores where this compiles to the value loaded for the first test, and a few values sit in different registers
-// (the mask in ip instead of r0, the 0x29c value in r3 instead of r2).
 u32 func_0209702c(Unk02096a04 *p, Unk0206bcb0 *a, u8 *b, u8 *c) {
-    u8 m = 1 << a->mUnk_74;
-    u32 v1 = *b;
-    u8 v2 = *c;
-    Unk0210b7a8 s;
-    Unk0210b7a8 s2;
+    s32 v1;
+    s32 g;
+    u32 v2 = *b;
     Vec3 v;
     s32 t;
-    s32 g;
-    s32 v3;
-    if (v1 == 3 || v1 == 4) {
+    u8 m = 1 << a->mUnk_74;
+    Unk0210b7a8 s;
+    u8 v3 = *c;
+    Unk0210b7a8 s2;
+    if (v2 == 3 || v2 == 4) {
         g = a->mUnk_29c;
         if (g != 1) {
             if (p->mUnk_b0 == 4 || (p->mUnk_b0 == 5 && p->mUnk_a0 > 0x7800)) {
                 p->mUnk_00.mUnk_10.x = 0;
                 p->mUnk_00.mUnk_10.y = 0x3800;
                 p->mUnk_00.mUnk_10.z = 0;
-                return v2;
+                return v3;
             }
         }
-        if ((m & p->mUnk_108) != 0) {
+        if ((((const Unk02096a04 *) p)->mUnk_108 & m) != 0) {
             goto tail;
         }
-        v3 = p->mUnk_b0;
-        if (v3 == 0 || v3 == 3) {
+        v1 = p->mUnk_b0;
+        if (v1 == 0 || v1 == 3) {
             p->mUnk_108 = p->mUnk_108 | m;
             if (data_021759c0->mUnk_70[a->mUnk_74].mUnk_00 != 2) {
                 if ((p->mUnk_00.mUnk_78 & 4) == 0) {
@@ -66,7 +62,7 @@ u32 func_0209702c(Unk02096a04 *p, Unk0206bcb0 *a, u8 *b, u8 *c) {
             p->mUnk_00.mUnk_78 = p->mUnk_00.mUnk_78 | data_usa_021564bc;
             return 0;
         }
-        if (g == 1 && (v3 == 4 || (v3 == 5 && p->mUnk_a0 > 0x7800) || v3 == 1)) {
+        if (g == 1 && (v1 == 4 || (v1 == 5 && p->mUnk_a0 > 0x7800) || v1 == 1)) {
             p->mUnk_108 = p->mUnk_108 | m;
             if ((p->mUnk_00.mUnk_02 & 0x800) == 0 || a->mUnk_74 == data_021759c0->mUnk_62) {
                 p->mUnk_104 = 1;
@@ -108,9 +104,9 @@ u32 func_0209702c(Unk02096a04 *p, Unk0206bcb0 *a, u8 *b, u8 *c) {
             p->mUnk_00.mUnk_10.x = 0;
             p->mUnk_00.mUnk_10.y = 0;
             p->mUnk_00.mUnk_10.z = 0;
-            return v2;
+            return v3;
         }
-        if (v3 != 1) {
+        if (v1 != 1) {
             goto tail;
         }
         p->mUnk_108 = p->mUnk_108 | m;

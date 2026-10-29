@@ -3,11 +3,10 @@
 #include "Main/Unknown/code_020ee684.h"
 #include "Main/Unknown/unk_027e0000.h"
 
-// non-matching: the product address of the table element in the case-5 path is in r3 (original: ip) and the loaded word
-// in r1 (original: r3); 5 words differ in register choice only
 u32 func_020b846c(u32 a) {
     u32 r;
     Unk020ee684 *p;
+    enum { K0 } j;
 
     r = 0xb;
     switch (a) {
@@ -28,7 +27,8 @@ u32 func_020b846c(u32 a) {
             break;
         case 5:
             p = &(*(Unk020ee684 **) data_027e00c8)[func_020b4d9c()];
-            switch (data_0217bc48[p->mUnk_030.mUnk_00].mUnk_08 == 3 ? (u16) p->mUnk_030.mUnk_08 : 0) {
+            j = p->mUnk_030.mUnk_00;
+            switch (data_0217bc48[j].mUnk_08 == 3 ? (u16) p->mUnk_030.mUnk_08 : 0) {
                 case 1:
                     r = 0xd;
                     break;

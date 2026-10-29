@@ -123,8 +123,12 @@ void func_02081a40(s32 a) {
     } while (i < 3);
 }
 
-// non-matching: 8 instructions differ; first at +0x70: original `smull r8, r6, r5, r2`, ours `smull r5, r6, r2, r5`
-// (the two rounded products use other registers, and the two s16 results are in r6 and r5 where ours are in r5 and r6)
+static inline s32 func_0208181c_inline(s32 a, s32 b) {
+    return (s32) (((s64) a * b + 0x800) >> 12);
+}
+
+// non-matching: same size; 2 words at +0xb8: the two s16 results go to r5 and r6 where the original has r6 and r5
+// (computing y before x gives the original registers but loads the data words in the other order)
 void func_0208181c(s32 a) {
     Unk0217ae7c *e = &data_0217ae7c[a];
     u16 i;
@@ -135,14 +139,10 @@ void func_0208181c(s32 a) {
     Vec3 v;
 
     q = func_0207a974(a);
-    x = (s16) (((s64) (data_0216593c + (s32) (((s64) q->mUnk_2a0 * (data_02165950 - data_0216593c) + 0x800) >> 12)) *
-                    data_02165948 +
-                0x800) >>
-               12);
-    y = (s16) (((s64) (data_02165944 + (s32) (((s64) q->mUnk_2a0 * (data_0216594c - data_02165944) + 0x800) >> 12)) *
-                    data_02165948 +
-                0x800) >>
-               12);
+    x = (s16) func_0208181c_inline(data_0216593c + func_0208181c_inline(q->mUnk_2a0, data_02165950 - data_0216593c),
+                                   data_02165948);
+    y = (s16) func_0208181c_inline(data_02165944 + func_0208181c_inline(q->mUnk_2a0, data_0216594c - data_02165944),
+                                   data_02165948);
     i = 0;
     do {
         if (e->mUnk_00[i] != 0) {

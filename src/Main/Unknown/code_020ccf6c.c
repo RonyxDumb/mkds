@@ -34,7 +34,6 @@ void func_020cd1c0(void) {
     data_0217b448->mUnk_04 = a;
 }
 
-// non-matching: instruction order only (15 words from +0x16c): the original computes the element address first, then loads words 0x00, 0x08, 0x04 of it before shifting words 0x00 and 0x04 left by 12 and storing them; registers match
 void func_020ccf88(Unk020c06c4 *param_1) {
     s32 i;
     s32 c;
@@ -45,6 +44,9 @@ void func_020ccf88(Unk020c06c4 *param_1) {
     Unk0217b498_10 *x;
     s32 v1[4];
     s32 z[2];
+    s32 x0;
+    struct Unk020224e0_c *x8;
+    s32 x4;
 
     c = func_020c0dc4();
     d = func_020b6368();
@@ -71,9 +73,13 @@ void func_020ccf88(Unk020c06c4 *param_1) {
             param_1->mUnk_000.mUnk_20[k].mUnk_1e = v1[3] >> 4;
             w = param_1->mUnk_400;
             x = &data_0217b448->mUnk_10[i];
-            z[0] = x->mUnk_00.mUnk_00 << 12;
-            z[1] = x->mUnk_00.mUnk_04 << 12;
-            param_1->mUnk_400 += func_020224e0((Unk020224e0_o *) &param_1->mUnk_000.mUnk_00[w], 0x80 - w, x->mUnk_08, v1, z, k, 1);
+            x0 = x->mUnk_00.mUnk_00;
+            x8 = x->mUnk_08;
+            x4 = x->mUnk_00.mUnk_04;
+            z[0] = x0 << 12;
+            z[1] = x4 << 12;
+            param_1->mUnk_400 +=
+                func_020224e0((Unk020224e0_o *) &param_1->mUnk_000.mUnk_00[w], 0x80 - w, x8, v1, z, k, 1);
             for (; w < param_1->mUnk_400; w++) {
                 if (h != -1) {
                     param_1->mUnk_000.mUnk_00[w].mUnk_0e = h;

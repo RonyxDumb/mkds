@@ -64,11 +64,9 @@ s32 func_0205867c(u8 *a, s32 b, s32 c, u8 **d, u16 *e) {
     return 1;
 }
 
-// non-matching: register choice and load order only; the original loads mUnk_0086 first, through a copy of the
-// pointer in r1 with the pointer itself staying in r3 for the mUnk_162a load, this source loads mUnk_162a first.
 void func_02058528(void) {
     Unk0217aa00 *p;
-    u8 a;
+    u32 a;
     u8 b;
     u8 c;
     u8 *d;
