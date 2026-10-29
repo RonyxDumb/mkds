@@ -164,15 +164,13 @@ void func_020d4590(void)
     }
 }
 
-// non-matching: 6 words differ (+0x2c, +0x38, +0x48, +0x84, +0x88): the counter and the bound of the first loop are in r4 and r5
-// here and in r5 and r4 in the original; everything else is identical
 void func_020d4484(Unk020d4418 *p)
 {
+    s32 i;
+    s32 n;
     Unk020e6fd4 **t;
     Unk020e6fd4 *e;
     Unk02012f58 *v;
-    s32 i;
-    s32 n;
     s32 k;
     s32 j;
 

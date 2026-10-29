@@ -238,9 +238,6 @@ void func_020896e0(Unk020888b4 *p) {
     func_02088a0c(p);
 }
 
-// non-matching: one extra instruction, `and r1, r1, #0xff` at +0x1c before the call to func_0207a948 (its second
-// parameter is declared u8 because the callers in code_020b502c.c need the mask); the original passes the u16 from
-// +0x04 unchanged. Everything else matches with an s32 parameter there.
 void func_02089494(Unk020888b4 *p) {
     Unk0208001c *s;
     Unk0206bcb0 *q;

@@ -386,11 +386,9 @@ void func_0211e65c(void) {
     }
 }
 
-// non-matching: the ((i + 8) << 5) + 0x16 offset is built in r0 and shifted (lsls r1,r0,#1); the original
-// builds it in r1 in place and moves r0 = r6 one word earlier (6 words: +0x6e..+0x74, +0xae..+0xb4).
 s32 func_0211e51c(void) {
     s32 i;
-    u8 *p;
+    u16 *p;
     s32 n;
     s32 a;
     s32 b;
@@ -412,15 +410,15 @@ s32 func_0211e51c(void) {
             a = 8;
             b = 0x14;
             for (i = 0; i < 0xb; i++) {
-                n = (((i + 8) << 5) + 0x16) << 1;
-                func_02016468(a, n, p + n, b);
+                n = ((i + 8) << 5) + 0x16;
+                func_02016468(a, n << 1, p + n, b);
             }
             func_02016468(0x1f, 0, func_020d0ea0(), 0xe0);
             func_02016468(0x17, 0x20, func_020d0e7c(), 0xdc0);
             a = 0x1b;
             for (i = 0; i < 0xb; i++) {
-                n = (((i + 8) << 5) + 0x16) << 1;
-                func_02016468(a, n, p + n, b);
+                n = ((i + 8) << 5) + 0x16;
+                func_02016468(a, n << 1, p + n, b);
             }
             data_0217d378->mUnk_38 = 0;
         }

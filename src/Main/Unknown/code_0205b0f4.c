@@ -120,11 +120,11 @@ s32 func_0205b954(s32 a) {
     return data_0217aa14->mUnk_104[a].mUnk_00_0;
 }
 
-// non-matching: the original keeps a flag in r2 (mov r2, #0 before the 64-bit compare, mov r2, #1 on the two taking paths, addne r6 after the join); this version adds 1 on both paths, so the code is shorter (0x124 against 0x130 bytes).
 void func_0205b824(const u64 *a, s32 b) {
     u8 n;
     u64 d;
     Unk0217aa14 *p;
+    s32 f;
 
     p = data_0217aa14;
     n = p->mUnk_014[b].mUnk_34;
@@ -135,14 +135,18 @@ void func_0205b824(const u64 *a, s32 b) {
         d = (a[3] - a[0]) - (a[2] - a[1]);
         if (d * 64 / 0x82ea < 1000) {
             *(u64 *) &p->mUnk_014[b].mUnk_28 += d;
-            n = n + 1;
+            f = 1;
         } else {
+            f = 0;
             data_0217aa14->mUnk_014[b].mUnk_35++;
             if (data_0217aa14->mUnk_014[b].mUnk_35 > 0x40) {
                 data_0217aa14->mUnk_748 |= 1 << b;
             }
         }
     } else {
+        f = 1;
+    }
+    if (f != 0) {
         n = n + 1;
     }
     data_0217aa14->mUnk_014[b].mUnk_34 = n;

@@ -34,7 +34,6 @@ void func_020d1fd4(Unk020d029c *param_1) {
     func_020d18d4(param_1);
 }
 
-// non-matching: the pointer to the 4 elements stored at (param_1 + 0x20 * member 0x20) and the pointer read from member 0x18 swap registers (the original keeps the first in r3 and member 0x18 in r4; the compiled code has them the other way round); every other instruction is the same
 void func_020d1de8(Unk020d029c *param_1, s32 param_2) {
     s32 t[20] = {0, 205, 410, 614, 819, 1638, 2253, 2867, 3891, 4506, 4710, 4915, 5120, 5325, 5325, 5120, 4915, 4710, 4506, 4096};
     s32 a;
@@ -56,8 +55,8 @@ void func_020d1de8(Unk020d029c *param_1, s32 param_2) {
         data_0217b4b4->mUnk_18 = data_0217b4b4->mUnk_08;
         data_0217b4b4->mUnk_1c = a;
         data_0217b4b4->mUnk_20 = func_020ae5c4(param_1);
-        e = &param_1->mUnk_000[data_0217b4b4->mUnk_20 * 4];
         p = data_0217b4b4->mUnk_18;
+        e = &param_1->mUnk_000[data_0217b4b4->mUnk_20 * 4];
         e[0].mUnk_06 = p[0] >> 4;
         e[1].mUnk_06 = p[1] >> 4;
         e[2].mUnk_06 = p[2] >> 4;

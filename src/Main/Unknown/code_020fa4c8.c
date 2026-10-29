@@ -178,17 +178,14 @@ void func_020fbd4c(Unk020fc2e8 *param_1) {
     }
 }
 
-// non-matching: 0x12c vs 0x134 bytes. The original loads param_1->mUnk_228 (`ldr r1, [r4, #0x228]`)
-// before the test of mUnk_74 and `ldr r2, [r1, #0x1fc]` right after it; here both loads are
-// inside the taken branch. At the end of the selection of the fourth argument the original
-// reaches one `mov r3, #0` from both failed tests (`beq` / `bne`); here `mov r3, #0` comes first
-// and the two selections are predicated (`addne`).
 void func_020fbc18(Unk020fc2e8 *param_1) {
     s32 r;
     void *q;
+    Unk0206bcb0 *p;
 
+    p = param_1->mUnk_228->mUnk_1fc;
     r = 0x800;
-    if ((param_1->mUnk_000.mUnk_74 & 0x10000000) && (param_1->mUnk_228->mUnk_1fc->mUnk_7c & 1)) {
+    if ((param_1->mUnk_000.mUnk_74 & 0x10000000) && (p->mUnk_7c & 1)) {
         r += 0x19a;
     }
     if (param_1->mUnk_27c > 0xd000) {
@@ -203,26 +200,27 @@ void func_020fbc18(Unk020fc2e8 *param_1) {
             func_02109078(&param_1->mUnk_000.mUnk_00, param_1->mUnk_270, 0x7f, 0);
         }
     }
-    if ((s64) param_1->mUnk_238.x * param_1->mUnk_238.x + (s64) param_1->mUnk_238.z * param_1->mUnk_238.z < 0x19) {
+    if ((s64) param_1->mUnk_238.x * param_1->mUnk_238.x + (s64) param_1->mUnk_238.z * param_1->mUnk_238.z <
+        0x1900000000LL) {
         param_1->mUnk_2f8 = 4;
         param_1->mUnk_2fa = 1;
     }
     func_020fc654(param_1);
-    q = 0;
     if (param_1->mUnk_2f6 >= 3) {
         if (param_1->mUnk_228->mUnk_1fc->mUnk_48 & 1) {
             q = &param_1->mUnk_228->mUnk_1fc->mUnk_244;
+        } else {
+            goto L;
         }
     } else if (param_1->mUnk_000.mUnk_74 & 0x40000000) {
         q = &param_1->mUnk_000.mUnk_f0;
+    } else {
+    L:
+        q = 0;
     }
     func_020fc2e8(param_1, &param_1->mUnk_000.mUnk_5c, 1, q);
 }
 
-// non-matching: 0x130 vs 0x138 bytes. The selection of the fourth argument of func_020fc2e8 is laid
-// out as in func_020fbc18: the original reaches one shared `mov r3, #0` with `beq` / `bne`, this
-// build starts with `mov r3, #0` and predicates the two selections. The loop after the call
-// matches instruction for instruction.
 void func_020fbae0(Unk020fc2e8 *param_1) {
     s32 i;
     void *q;
@@ -244,13 +242,17 @@ void func_020fbae0(Unk020fc2e8 *param_1) {
         return;
     }
     func_020fc654(param_1);
-    q = 0;
     if (param_1->mUnk_2f6 >= 3) {
         if (param_1->mUnk_228->mUnk_1fc->mUnk_48 & 1) {
             q = &param_1->mUnk_228->mUnk_1fc->mUnk_244;
+        } else {
+            goto L;
         }
     } else if (param_1->mUnk_000.mUnk_74 & 0x40000000) {
         q = &param_1->mUnk_000.mUnk_f0;
+    } else {
+    L:
+        q = 0;
     }
     func_020fc2e8(param_1, &param_1->mUnk_000.mUnk_5c, 1, q);
     p = param_1->mUnk_228->mUnk_1f0.mUnk_00;

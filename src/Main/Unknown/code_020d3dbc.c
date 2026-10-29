@@ -4,7 +4,9 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/code_020d94dc.h"
 
-// non-matching: in the case 1 and case 2 range tests the compiled code keeps the three differences in other registers (the original has the first difference in lr, the third in r0 and the negated bound in r5; compiled r0, r1 and r6); 37 words differ
+// non-matching: 12 words in case 2 and after it: the original keeps the negated bound in lr and the second difference
+// in r7 (here r7 and lr), the high word of the 64-bit sum in lr and of t * t in r5 (here r5 and lr), and the function
+// pointer loaded at +0x27c in r5 (here r3)
 s32 func_020d3e34(Vec3 *param_1, s32 param_2, Unk020e71a0 *param_3, Vec3 *param_4) {
     s32 t;
     s32 u;
@@ -19,8 +21,8 @@ s32 func_020d3e34(Vec3 *param_1, s32 param_2, Unk020e71a0 *param_3, Vec3 *param_
     switch (param_3->mUnk_98->mUnk_08) {
     case 1:
         t = param_2 + param_3->mUnk_58.x;
-        dz = param_1->z - param_3->mUnk_04.z;
         n = -t;
+        dz = param_1->z - param_3->mUnk_04.z;
         if (dz > t || dz < n) {
             r = 0;
         } else {
@@ -32,7 +34,7 @@ s32 func_020d3e34(Vec3 *param_1, s32 param_2, Unk020e71a0 *param_3, Vec3 *param_
                 if (dy > t || dy < n) {
                     r = 0;
                 } else {
-                    r = (s64) dy * dy + (s64) dx * dx + (s64) dz * dz < (s64) t * t;
+                    r = (s64) dx * dx + (s64) dy * dy + (s64) dz * dz < (s64) t * t;
                 }
             }
         }
@@ -44,19 +46,20 @@ s32 func_020d3e34(Vec3 *param_1, s32 param_2, Unk020e71a0 *param_3, Vec3 *param_
     case 2:
         t = param_2 + param_3->mUnk_58.x;
         u = param_2 + param_3->mUnk_58.y;
+        n = -t;
         dz = param_1->z - param_3->mUnk_04.z;
-        if (dz > t || dz < -t) {
+        if (dz > t || dz < n) {
             r = 0;
         } else {
             dx = param_1->x - param_3->mUnk_04.x;
-            if (dx > t || dx < -t) {
+            if (dx > t || dx < n) {
                 r = 0;
             } else {
                 dy = param_1->y - param_3->mUnk_04.y;
                 if (dy > u || dy < -u) {
                     r = 0;
                 } else {
-                    r = (s64) dz * dz + (s64) dx * dx < (s64) t * t;
+                    r = (s64) dx * dx + (s64) dz * dz < (s64) t * t;
                 }
             }
         }

@@ -220,13 +220,13 @@ void func_020e9d10(void) {
     data_0217b8c4 = 0;
 }
 
-// non-matching: the halfword lookups at +0x24c..+0x288: the original computes data_0217b8e0[data_0217b8e8] into ip and
-// data_0217b904[data_0217b8e8] before storing z, x, y; here x is computed and stored first (z, y, x)
 void func_020e9810(void) {
     s32 a, b, c, d, e, f, g, h;
     s32 m[9];
     Vec3 v0, v1, v2, v3, v4, v5, v6;
     s32 n;
+    s32 x;
+    s32 y;
     Unk020e9810 *p5;
     Unk020e6488 *p4;
 
@@ -292,8 +292,10 @@ void func_020e9810(void) {
     v2.z = 0x1666;
     func_01ff9048(0x1b, &v2, 3);
     func_01ff9048(0x11, 0, 0);
-    v3.x = data_0217b904[data_0217b8e8];
-    v3.y = data_0217b8e0[data_0217b8e8];
+    x = data_0217b904[data_0217b8e8];
+    y = data_0217b8e0[data_0217b8e8];
+    v3.x = x;
+    v3.y = y;
     v3.z = 0;
     func_01ff9048(0x1b, &v3, 3);
     func_020e6a18(&data_0217ba00);

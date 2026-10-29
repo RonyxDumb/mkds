@@ -133,9 +133,6 @@ int func_020f14a0(Unk020f5d6c *a, s32 b, s32 c, s32 d) {
     return r;
 }
 
-// non-matching: one instruction; at +0xdc: `and r1, r4, #0xff` where the original has `mov r1, r4` (the second
-// argument of func_0207a948). func_0207a948's second parameter is declared u8 for its other callers, so this
-// call must truncate; with s32 there it matches.
 int func_020f1258(int a0, int i, s32 c, u32 b) {
     Unk020f5d6c *a;
     u16 x;

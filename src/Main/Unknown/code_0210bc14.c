@@ -5,9 +5,6 @@
 #include "code_0212da38.h"
 #include "code_020172d0.h"
 
-// non-matching: mine predicates the 0 arm into the epilogue (addeq sp, sp, #4 / moveq r0, #0 /
-// ldmfdeq sp!, {lr} / bxeq lr); the original branches (beq) to an epilogue that returns 0 and lets the
-// call fall through to a separate epilogue that returns 1.
 u32 func_0210bc8c(int a, int b) {
     s32 i;
     Unk0210bc54 *p;
@@ -19,10 +16,11 @@ u32 func_0210bc8c(int a, int b) {
         i = 1;
         p->mUnk_08 = (u32) a;
     }
-    if (i == 0) {
+    if (i != 0) {
+        func_020174a4((Unk02017328 *) a, (void *) b);
+    } else {
         return 0;
     }
-    func_020174a4((Unk02017328 *) a, (void *) b);
     return 1;
 }
 

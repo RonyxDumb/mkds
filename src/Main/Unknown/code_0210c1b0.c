@@ -114,8 +114,7 @@ void func_0210cc3c(Unk0210bfbc *p) {
 
 // non-matching: the parameter is in sl here and r5 in the original and the loop pointer in r9 and r4;
 // the load of st.mUnk_1c is scheduled after the func_0212d580 call here and before it in the
-// original; the u8 second parameter of func_0212c5f4 adds `and r1, r8, #0xff` where the original
-// passes the value unmasked.
+// original.
 u32 func_0210ca4c(Unk0210bfbc *p) {
     Unk0210bcf4 st;
     s32 n;

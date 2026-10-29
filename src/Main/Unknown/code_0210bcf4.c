@@ -87,10 +87,9 @@ u32 func_0210bee8(u32 a, u32 b, u32 c, u32 d, u32 e) {
 }
 
 // non-matching: the load of st.mUnk_1c is scheduled after the func_0212d580 call here and before it
-// in the original, so the original adds `add r8, r8, r0` where this adds `add r8, r1, r0`; the u8
-// second parameter of func_0212c5f4 adds `and r1, r8, #0xff` (the original passes the value
-// unmasked); and the original returns the value func_0212c4f4 leaves in r0, which its void
-// declaration here cannot express, so this ends with `mov r0, r4` (0x200 bytes vs 0x1f4).
+// in the original, so the original adds `add r8, r8, r0` where this adds `add r8, r1, r0`; and the
+// original returns the value func_0212c4f4 leaves in r0, which its void declaration here cannot
+// express, so this ends with `mov r0, r4` (0x200 bytes vs 0x1f4).
 u32 func_0210bcf4(u32 a, u32 b, u32 c, u32 d, u32 e) {
     Unk0210bcf4 st;
     u32 v;

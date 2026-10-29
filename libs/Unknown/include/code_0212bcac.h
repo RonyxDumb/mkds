@@ -9,7 +9,7 @@
 extern Unk02017328 data_0217d444;
 extern Unk02017328 data_0217d450;
 
-void func_0212bcac(Unk0212c400 *p, u8 b);
+void func_0212bcac(Unk0212c400 *p, u32 b);
 void func_0212bd10(Unk0212c700 *p);
 void func_0212bd6c(Unk0212c400 *p);
 Unk0212c400 *func_0212bdfc(s32 a);

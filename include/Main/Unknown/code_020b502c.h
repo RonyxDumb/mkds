@@ -207,7 +207,7 @@ extern Unk0217b3c0 *data_0217b3c0;
 extern Unk02175620 *data_02175620;
 
 extern void func_0207a91c(Vec3 *dst, u8 idx);
-extern void func_0207a948(Vec3 *dst, u8 idx);
+extern void func_0207a948(Vec3 *dst, s32 idx);
 extern u16 func_020435bc(void);
 #include "Main/Unknown/code_020b47d8.h"
 #include "Main/Unknown/code_020b6368.h"

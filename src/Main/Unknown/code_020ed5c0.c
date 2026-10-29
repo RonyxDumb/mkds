@@ -111,16 +111,17 @@ void func_020ee2e4(Unk020eda5c *a, Unk020f40dc *b) {
     }
 }
 
-// non-matching: 3 words differ in the y term - the difference is computed in r4
-// where the original uses ip, and the y difference is loaded into r4 where the
-// original loads it into ip.
 s32 func_020ee284(Unk020f41c4_A *p, Vec3 *v, s32 d) {
+    s32 x;
+    s32 y;
+    s32 z;
     s32 t;
 
     t = d + p->mUnk_e0;
-    return (s64) (p->mUnk_50.x - v->x) * (p->mUnk_50.x - v->x) + (s64) (p->mUnk_50.y - v->y) * (p->mUnk_50.y - v->y) +
-               (s64) (p->mUnk_50.z - v->z) * (p->mUnk_50.z - v->z) <
-           (s64) t * t;
+    x = p->mUnk_50.x - v->x;
+    y = p->mUnk_50.y - v->y;
+    z = p->mUnk_50.z - v->z;
+    return (s64) x * x + (s64) y * y + (s64) z * z < (s64) t * t;
 }
 
 void func_020ee160(Unk020f41c4_A *a, Unk020f41c4_A *b) {
@@ -152,7 +153,6 @@ void func_020ee160(Unk020f41c4_A *a, Unk020f41c4_A *b) {
     func_020f5614(b, m, a);
 }
 
-// non-matching: same size; 8 lines differ; first: original `ldr r8, [sp, #8]`, ours `ldr r9, [sp, #8]`
 void func_020edf10(Unk020eda5c *p) {
     Unk020f41c4_A **d;
     s32 n;
@@ -160,7 +160,6 @@ void func_020edf10(Unk020eda5c *p) {
     s32 i;
     s32 a;
     s32 b;
-    s32 k;
     s32 j;
     enum { K0 } idx;
 
@@ -190,8 +189,8 @@ void func_020edf10(Unk020eda5c *p) {
             q->mUnk_74 &= ~0x10000;
         }
     }
-    for (k = n - 1; k >= 0; k--) {
-        q = d[k];
+    for (j = n - 1; j >= 0; j--) {
+        q = d[j];
         if (q->mUnk_da == -1) {
             if (func_020f91e0(q) != 0) {
                 idx = q->mUnk_44;
@@ -202,9 +201,9 @@ void func_020edf10(Unk020eda5c *p) {
             continue;
         }
         func_01ffd900(q->mUnk_da, 0x6000);
-        for (j = 0; j < data_0217b5a8; j++) {
-            if ((data_0217b5bc[j] & 0x4000) != 0) {
-                Unk020f41c4_A *e = data_0217b5c4[j];
+        for (i = 0; i < data_0217b5a8; i++) {
+            if ((data_0217b5bc[i] & 0x4000) != 0) {
+                Unk020f41c4_A *e = data_0217b5c4[i];
                 if (e->mUnk_da == -1) {
                     continue;
                 }
@@ -212,8 +211,8 @@ void func_020edf10(Unk020eda5c *p) {
                     continue;
                 }
                 func_020ee160(q, e);
-            } else if ((data_0217b5bc[j] & 0x2000) != 0) {
-                Unk020e71a0 *e = data_0217b5c4[j];
+            } else if ((data_0217b5bc[i] & 0x2000) != 0) {
+                Unk020e71a0 *e = data_0217b5c4[i];
                 if (func_020d2234(e, q) == 0) {
                     continue;
                 }

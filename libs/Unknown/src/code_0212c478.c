@@ -17,7 +17,7 @@ void func_0212c620(Unk0212c400 **a, s32 b, s32 c) {
     func_0212f834(&p->mUnk_1c, b << 8, c);
 }
 
-void func_0212c5f4(Unk0212c400 **a, u8 b) {
+void func_0212c5f4(Unk0212c400 **a, u32 b) {
     if (*a == 0) {
         return;
     }

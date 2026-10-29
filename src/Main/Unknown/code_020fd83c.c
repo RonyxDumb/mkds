@@ -99,16 +99,15 @@ void func_020fdf64(Unk020fdae8 *e) {
     func_020f0f70(data_027e00cc + e->mUnk_000.mUnk_000.mUnk_44, &e->mUnk_000.mUnk_000);
 }
 
-// non-matching: 0x150 bytes against 0x14c. The u16 at 0x178 is masked with `and r1, r1, #0xff` before the call to
-// func_0207a948 (declared with a u8 second parameter; the original passes the register unchanged), and each
-// three-term sum's second term is added into a split copy of d (mla into r2 in the first sum, r3 in the second,
-// then the third term into r0 / r1) where the original accumulates all three in one register.
 void func_020fde18(Unk020fdae8 *e) {
     u32 v1;
     u16 v2;
     Unk0206bcb0 *p;
     Vec3 v;
     s32 d;
+    s32 x;
+    s32 y;
+    s32 z;
 
     v1 = (u16) func_02061f90();
     if (v1 >= data_021759c0->mUnk_3d0) {
@@ -124,15 +123,17 @@ void func_020fde18(Unk020fdae8 *e) {
     }
     if (e->mUnk_17c < 8) {
         func_0207a948(&v, e->mUnk_178);
-        d = ((e->mUnk_000.mUnk_000.mUnk_50.x - v.x) >> 12) * ((e->mUnk_000.mUnk_000.mUnk_50.x - v.x) >> 12);
-        d += ((e->mUnk_000.mUnk_000.mUnk_50.y - v.y) >> 12) * ((e->mUnk_000.mUnk_000.mUnk_50.y - v.y) >> 12);
-        d += ((e->mUnk_000.mUnk_000.mUnk_50.z - v.z) >> 12) * ((e->mUnk_000.mUnk_000.mUnk_50.z - v.z) >> 12);
+        x = (e->mUnk_000.mUnk_000.mUnk_50.x - v.x) >> 12;
+        y = (e->mUnk_000.mUnk_000.mUnk_50.y - v.y) >> 12;
+        z = (e->mUnk_000.mUnk_000.mUnk_50.z - v.z) >> 12;
+        d = x * x + y * y + z * z;
         e->mUnk_17c = d;
     }
     v = p->mUnk_98;
-    d = ((e->mUnk_000.mUnk_000.mUnk_50.x - v.x) >> 12) * ((e->mUnk_000.mUnk_000.mUnk_50.x - v.x) >> 12);
-    d += ((e->mUnk_000.mUnk_000.mUnk_50.y - v.y) >> 12) * ((e->mUnk_000.mUnk_000.mUnk_50.y - v.y) >> 12);
-    d += ((e->mUnk_000.mUnk_000.mUnk_50.z - v.z) >> 12) * ((e->mUnk_000.mUnk_000.mUnk_50.z - v.z) >> 12);
+    x = (e->mUnk_000.mUnk_000.mUnk_50.x - v.x) >> 12;
+    y = (e->mUnk_000.mUnk_000.mUnk_50.y - v.y) >> 12;
+    z = (e->mUnk_000.mUnk_000.mUnk_50.z - v.z) >> 12;
+    d = x * x + y * y + z * z;
     if (d < e->mUnk_17c) {
         e->mUnk_178 = v1;
         e->mUnk_17c = d;
