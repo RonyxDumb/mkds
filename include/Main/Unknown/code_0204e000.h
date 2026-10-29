@@ -25,3 +25,4 @@ s32 func_0204e3f0(void);
 void func_0204e474(void);
 void func_0204e4bc(void);
 void func_0204e4d8(void);
+s32 func_0204ebb8(u8 a, void *b, u8 *c, u8 *d, u8 *e, u8 *f, u8 *g, u16 *h);

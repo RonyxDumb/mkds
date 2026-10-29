@@ -11,6 +11,7 @@ extern const char data_021641e0[];
 extern const char data_021641fc[];
 extern const char data_02164214[];
 extern const char data_0216422c[];
+extern const s16 data_02164254[][4];
 
 // Objects whose layout isn't known yet.
 extern u8 data_02164770[];

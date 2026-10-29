@@ -6,6 +6,7 @@
 #include "Main/Unknown/unk_02153000.h" // Unk021535b4
 #include "Main/Unknown/code_020b4000.h" // Unk020b4934, Unk020b47d8, Unk020b4a44
 #include "Main/Unknown/code_02124094.h" // Unk02124b1c, Unk0201ea30
+#include "Main/Unknown/code_020b3f7c.h" // Unk020b3fb0
 
 // 0x18-byte elements of the table at member 0 of Unk02029930.
 typedef struct Unk02029930_00 {
@@ -161,6 +162,47 @@ typedef struct Unk02174e60 {
 
 extern Unk02174e60 *data_02174e60;
 
+// 0x28-byte part of the entries from 0x9c of Unk02174e64; func_02034370 fills one on the stack through
+// func_0204ebb8 and func_02034e68 compares two.
+typedef struct Unk02174e64_9c_00 {
+    /* 00 */ u16 mUnk_00[11];
+    /* 16 */ u8 mUnk_16[2];
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ s32 mUnk_20;
+    /* 24 */ u16 mUnk_24;
+    /* 26 */ u8 mUnk_26;
+    /* 27 */ u8 mUnk_27;
+} Unk02174e64_9c_00;
+
+// 0x3c-byte entries from 0x9c of Unk02174e64.
+typedef struct Unk02174e64_9c {
+    /* 00 */ Unk02174e64_9c_00 mUnk_00;
+    /* 28 */ s32 mUnk_28;
+    /* 2c */ Unk02025ebc mUnk_2c;
+} Unk02174e64_9c;
+
+// Object behind data_02174e64.
+typedef struct Unk02174e64 {
+    /* 000 */ u8 mUnk_000[0x24];
+    /* 024 */ void *mUnk_024[2];
+    /* 02c */ Unk02174e14_00 mUnk_02c[2];
+    /* 064 */ u8 mUnk_064[0x1c];
+    /* 080 */ s32 mUnk_080;
+    /* 084 */ Unk020b3fb0 *mUnk_084;
+    /* 088 */ Unk020b3fb0 *mUnk_088;
+    /* 08c */ s32 mUnk_08c;
+    /* 090 */ s32 mUnk_090;
+    /* 094 */ s32 mUnk_094;
+    /* 098 */ s32 mUnk_098;
+    /* 09c */ Unk02174e64_9c mUnk_09c[4];
+    /* 18c */ s32 mUnk_18c;
+    /* 190 */ s32 mUnk_190;
+    /* 194 */ Unk02025ebc mUnk_194;
+} Unk02174e64;
+
+extern Unk02174e64 *data_02174e64;
+
 // Objects whose layout isn't known yet.
 extern u8 data_02174e18[];
 extern u8 data_02174e24[];
@@ -172,7 +214,6 @@ extern struct Unk02174e4c *data_02174e4c;
 extern struct Unk02174e50 *data_02174e50;
 extern u8 data_02174e54[];
 extern u8 data_02174e58[];
-extern u8 data_02174e64[];
 extern u8 data_02174e68[];
 extern u8 data_02174e6c[];
 extern u8 data_02174e70[];
