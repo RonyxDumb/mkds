@@ -1073,8 +1073,7 @@ rest:
     return 1;
 }
 
-// non-matching: code 0x558 vs 0x448: the first three arguments are spilled to the stack instead of being kept in
-// r8/sl/r7
+// non-matching: code 0x43c vs 0x448.
 s32 func_020e0764(Unk020e005c *a, Vec3 *b, s32 c, u32 d, Unk020e0764 *o, Unk020e0764 *p, Vec3 *q, u16 *g, Vec3 *r,
                   u16 *s) {
     Vec3 v;
@@ -1131,8 +1130,7 @@ s32 func_020e0764(Unk020e005c *a, Vec3 *b, s32 c, u32 d, Unk020e0764 *o, Unk020e
             d0 = -n;
         }
         if (!(fl & 0x10)) {
-            func_020e1a80(c, n, d0, fl, 0x80, g, a->mUnk_114.x, a, b, &a->mUnk_034, o, p, q, r, s);
-            return 1;
+            goto apply80;
         }
         {
             v.x = x;
@@ -1150,10 +1148,10 @@ s32 func_020e0764(Unk020e005c *a, Vec3 *b, s32 c, u32 d, Unk020e0764 *o, Unk020e
                 func_02147fd8(v.z, &a->mUnk_040, &w, &w);
             }
             if (t < d0) {
-                func_020e1a80(c, t, x, fl, 0x3000, g, a->mUnk_110, a, b, &w, o, p, q, r, s);
-                return 1;
+                goto apply3000;
             }
         }
+apply80:
         func_020e1a80(c, n, d0, fl, 0x80, g, a->mUnk_114.x, a, b, &a->mUnk_034, o, p, q, r, s);
         return 1;
     }
@@ -1172,8 +1170,7 @@ s32 func_020e0764(Unk020e005c *a, Vec3 *b, s32 c, u32 d, Unk020e0764 *o, Unk020e
         func_02147fd8(v.z, &a->mUnk_040, &w, &w);
     }
     if (fl & 0x10) {
-        func_020e1a80(c, t, x, fl, 0x3000, g, a->mUnk_110, a, b, &w, o, p, q, r, s);
-        return 1;
+        goto apply3000;
     }
     if (fl & 0x80) {
         n = n - a->mUnk_104;
@@ -1183,6 +1180,9 @@ s32 func_020e0764(Unk020e005c *a, Vec3 *b, s32 c, u32 d, Unk020e0764 *o, Unk020e
     x = x - a->mUnk_100;
     return func_020e16dc(c, x, n, fl, 0x3000, 0x80, g, d, a->mUnk_110, a->mUnk_114.x, a, b, &w, &a->mUnk_034, o, p, q,
                          r, s);
+apply3000:
+    func_020e1a80(c, t, x, fl, 0x3000, g, a->mUnk_110, a, b, &w, o, p, q, r, s);
+    return 1;
 }
 
 void func_020e0680(Unk020e005c *a, Vec3 *b, Vec3 *c, Vec3 *d, u16 *e) {

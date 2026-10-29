@@ -9,20 +9,20 @@
 void func_020b409c(void) {
     if (func_020b41d4(1) != 0) {
         func_020b478c(&data_0217b39c, func_02047a28("LC_Font_s.NFTR"));
-        func_020b478c(&data_usa_0217b388, func_02047a28("LC_Font_m.NFTR"));
+        func_020b478c(&data_0217b3a8, func_02047a28("LC_Font_m.NFTR"));
         func_020b478c(&data_0217b3b4, func_02047a28("marioFont.NFTR"));
         data_0217b390[0] = &data_0217b39c;
-        data_0217b390[1] = &data_usa_0217b388;
+        data_0217b390[1] = &data_0217b3a8;
         data_0217b390[2] = &data_0217b3b4;
         func_020b4a7c(data_0217b368, func_02047a28("player_character_M_o.NCLR"));
         func_020b4a7c(data_0217b388, func_02047a28("player_character_M_shyguy_o.NCLR"));
         func_020b49f4(data_0217b370, func_02047a28("player_character_M.nce.ncgr"));
         func_020b48ec(data_0217b378, func_02047a28("player_character_M.nce.ncer"));
         data_0217b380[0] = func_02047a28("player_character_M.bncl");
-        func_020b4a7c(&data_usa_0217b34c, func_02047a28("player_character_L_o.NCLR"));
+        func_020b4a7c(&data_0217b36c, func_02047a28("player_character_L_o.NCLR"));
         func_020b4a7c(&data_0217b38c, func_02047a28("player_character_L_shyguy_o.NCLR"));
-        func_020b49f4(&data_usa_0217b354, func_02047a28("player_character_L.nce.ncgr"));
-        func_020b48ec(&data_usa_0217b35c, func_02047a28("player_character_L.nce.ncer"));
+        func_020b49f4(&data_0217b374, func_02047a28("player_character_L.nce.ncgr"));
+        func_020b48ec(&data_0217b37c, func_02047a28("player_character_L.nce.ncer"));
         data_0217b380[1] = func_02047a28("player_character_L.bncl");
     }
 }

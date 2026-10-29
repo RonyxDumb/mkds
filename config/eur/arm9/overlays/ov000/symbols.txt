@@ -1466,6 +1466,7 @@ data_ov000_021b066c kind:data(any) addr:0x021b066c
 data_ov000_021b0670 kind:data(any) addr:0x021b0670
 data_ov000_021b0678 kind:data(any) addr:0x021b0678
 data_ov000_021b067c kind:data(any) addr:0x021b067c
+data_ov000_021b0680 kind:data(any) addr:0x021b0680
 data_ov000_021b068c kind:data(any) addr:0x021b068c
 data_ov000_021b069c kind:data(any) addr:0x021b069c
 data_ov000_021b06bc kind:data(any) addr:0x021b06bc

@@ -1219,12 +1219,17 @@ data_ov001_021a6740 kind:data(any) addr:0x021a6740
 data_ov001_021a6760 kind:data(any) addr:0x021a6760
 data_ov001_021a67c0 kind:data(any) addr:0x021a67c0
 data_ov001_021a67c4 kind:data(any) addr:0x021a67c4
+data_ov001_021a67c8 kind:data(any) addr:0x021a67c8
 data_ov001_021a67ca kind:data(any) addr:0x021a67ca
 data_ov001_021a67d4 kind:data(any) addr:0x021a67d4
 data_ov001_021a67d6 kind:data(any) addr:0x021a67d6
+data_ov001_021a67e0 kind:data(any) addr:0x021a67e0
 data_ov001_021a67e2 kind:data(any) addr:0x021a67e2
+data_ov001_021a67ec kind:data(any) addr:0x021a67ec
 data_ov001_021a67ee kind:data(any) addr:0x021a67ee
+data_ov001_021a67f8 kind:data(any) addr:0x021a67f8
 data_ov001_021a67fa kind:data(any) addr:0x021a67fa
+data_ov001_021a6804 kind:data(any) addr:0x021a6804
 data_ov001_021a6806 kind:data(any) addr:0x021a6806
 data_ov001_021a6810 kind:data(any) addr:0x021a6810
 data_ov001_021a6812 kind:data(any) addr:0x021a6812

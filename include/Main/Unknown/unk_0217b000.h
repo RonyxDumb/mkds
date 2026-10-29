@@ -174,9 +174,9 @@ typedef struct Unk0217b4d4 {
     /* 0e */ u16 mUnk_0e;
 } Unk0217b4d4;
 
-extern void *data_usa_0217b0cc;
-extern void *data_usa_0217b0d0;
-extern void *data_usa_0217b0d4;
+extern void *data_0217b0ec;
+extern void *data_0217b0f0;
+extern void *data_0217b0f4;
 extern u16 data_0217b028;
 extern s32 data_0217b02c;
 extern Unk02165ff0 *data_0217b030;
@@ -325,7 +325,7 @@ typedef struct Unk0217b1fc {
 
 extern Unk0217b1fc *data_0217b1fc;
 extern void *data_0217b204;
-extern Vec3 data_0217b1e8;
+extern Vec3 data_0217b208;
 extern Vec3 data_0217b214;
 // 8-byte entries of the tables Unk0217b278 points to (func_020ab338 returns one).
 typedef struct Unk0217b278_10 {
@@ -366,7 +366,7 @@ typedef struct Unk0217b278_34 {
     /* 06 */ u16 mUnk_06;
 } Unk0217b278_34;
 
-// Object at data_usa_0217b2ac: an Unk0217b278_34 followed by two halfwords (func_020ab528, func_020ab580).
+// Object at data_0217b2cc: an Unk0217b278_34 followed by two halfwords (func_020ab528, func_020ab580).
 typedef struct Unk0217b2ac {
     /* 00 */ Unk0217b278_34 mUnk_00;
     /* 08 */ u16 mUnk_08;
@@ -396,7 +396,7 @@ typedef struct Unk0217b278 {
 } Unk0217b278;
 
 extern Unk0217b278 data_0217b278;
-extern Unk0217b2ac data_usa_0217b2ac;
+extern Unk0217b2ac data_0217b2cc;
 extern u8 data_0217b280[];
 extern u16 data_0217b2b8[2];
 extern Unk0217b278_1c data_0217b294;
@@ -406,8 +406,8 @@ extern u16 *data_0217b318;
 extern u16 *data_0217b328;
 extern u16 *data_0217b32c;
 extern u16 *data_0217b330;
-extern u16 *data_0217b2e0;
-extern u16 *data_0217b2e4;
+extern u16 *data_0217b300;
+extern u16 *data_0217b304;
 extern u16 *data_0217b308;
 extern u16 *data_0217b30c;
 extern u16 *data_0217b310;
@@ -810,20 +810,20 @@ struct Unk0217b340;
 struct Unk0217b344;
 struct Unk020b4a44;
 struct Unk02021dc8;
-extern struct Unk0217b340 *data_usa_0217b340;
-extern struct Unk0217b344 *data_usa_0217b344;
+extern struct Unk0217b340 *data_0217b360;
+extern struct Unk0217b344 *data_0217b364;
 extern struct Unk020b4a44 *data_0217b368[2];
-extern struct Unk020b4a44 *data_usa_0217b34c;
+extern struct Unk020b4a44 *data_0217b36c;
 extern struct Unk020b4934 *data_0217b370[2];
-extern struct Unk020b4934 *data_usa_0217b354;
+extern struct Unk020b4934 *data_0217b374;
 extern struct Unk02021dc8 *data_0217b378[2];
-extern struct Unk02021dc8 *data_usa_0217b35c;
+extern struct Unk02021dc8 *data_0217b37c;
 extern void *data_0217b380[2];
 extern struct Unk020b4a44 *data_0217b388[2];
 extern struct Unk020b4a44 *data_0217b38c;
 extern struct Unk02022aa8 *data_0217b390[3];
 extern struct Unk02022aa8 data_0217b39c;
-extern struct Unk02022aa8 data_usa_0217b388;
+extern struct Unk02022aa8 data_0217b3a8;
 extern struct Unk02022aa8 data_0217b3b4;
 extern Unk0217b498 *data_0217b3fc;
 extern Unk0217b498 *data_0217b400;

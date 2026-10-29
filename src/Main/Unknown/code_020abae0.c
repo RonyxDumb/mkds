@@ -197,12 +197,12 @@ void func_020abcf4(s32 a, s32 b, s32 c) {
     data_0217b334->mUnk_28[5] = func_0204799c(data_02167cbc);
     data_0217b318 = func_0204799c(data_02167cc8);
     data_0217b31c = func_0204799c(data_02167cd8);
-    data_0217b2e4 = func_0204799c(data_02167cec);
+    data_0217b304 = func_0204799c(data_02167cec);
     data_0217b338 = func_0204799c(data_02167d00);
     data_0217b30c = func_0204799c(data_02167d10);
     data_0217b310 = func_0204799c(data_02167d28);
     data_0217b314 = func_0204799c(data_02167d40);
-    data_0217b2e0 = func_0204799c(data_02167d58);
+    data_0217b300 = func_0204799c(data_02167d58);
     data_0217b308 = func_0204799c(data_02167d68);
     data_0217b320 = func_0204799c(data_02167d80);
     data_0217b324 = func_0204799c(data_02167d98);

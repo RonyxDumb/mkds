@@ -47,9 +47,9 @@ void func_020a3948(void *p, Unk020a2fe4 *a) {
             a->mUnk_e8.z = data_0217b214.z + (a->mUnk_00.mUnk_04.z >> 1);
             a->mUnk_e4 = 0x800;
         } else if (m < 0x9c40) {
-            a->mUnk_e8.x = data_0217b1e8.x + a->mUnk_00.mUnk_04.x - (a->mUnk_00.mUnk_04.x >> 3);
-            a->mUnk_e8.y = data_0217b1e8.y + a->mUnk_00.mUnk_04.y - (a->mUnk_00.mUnk_04.y >> 3);
-            a->mUnk_e8.z = data_0217b1e8.z + a->mUnk_00.mUnk_04.z - (a->mUnk_00.mUnk_04.z >> 3);
+            a->mUnk_e8.x = data_0217b208.x + a->mUnk_00.mUnk_04.x - (a->mUnk_00.mUnk_04.x >> 3);
+            a->mUnk_e8.y = data_0217b208.y + a->mUnk_00.mUnk_04.y - (a->mUnk_00.mUnk_04.y >> 3);
+            a->mUnk_e8.z = data_0217b208.z + a->mUnk_00.mUnk_04.z - (a->mUnk_00.mUnk_04.z >> 3);
             a->mUnk_e4 = 0xe00;
         } else {
             a->mUnk_e8 = a->mUnk_00.mUnk_04;
@@ -86,9 +86,9 @@ void func_020a3948(void *p, Unk020a2fe4 *a) {
             a->mUnk_e8.z = data_0217b214.z + (a->mUnk_b0.z >> 1);
             a->mUnk_e4 = 0x800;
         } else if (m < 0x9c40) {
-            a->mUnk_e8.x = data_0217b1e8.x + a->mUnk_b0.x - (a->mUnk_b0.x >> 3);
-            a->mUnk_e8.y = data_0217b1e8.y + a->mUnk_b0.y - (a->mUnk_b0.y >> 3);
-            a->mUnk_e8.z = data_0217b1e8.z + a->mUnk_b0.z - (a->mUnk_b0.z >> 3);
+            a->mUnk_e8.x = data_0217b208.x + a->mUnk_b0.x - (a->mUnk_b0.x >> 3);
+            a->mUnk_e8.y = data_0217b208.y + a->mUnk_b0.y - (a->mUnk_b0.y >> 3);
+            a->mUnk_e8.z = data_0217b208.z + a->mUnk_b0.z - (a->mUnk_b0.z >> 3);
             a->mUnk_e4 = 0xe00;
         } else {
             a->mUnk_e8 = a->mUnk_b0;
@@ -136,9 +136,9 @@ void func_020a3e38(void *p) {
     data_0217b214.x = g->mUnk_024.x >> 1;
     data_0217b214.y = g->mUnk_024.y >> 1;
     data_0217b214.z = g->mUnk_024.z >> 1;
-    data_0217b1e8.x = g->mUnk_024.x >> 3;
-    data_0217b1e8.y = g->mUnk_024.y >> 3;
-    data_0217b1e8.z = g->mUnk_024.z >> 3;
+    data_0217b208.x = g->mUnk_024.x >> 3;
+    data_0217b208.y = g->mUnk_024.y >> 3;
+    data_0217b208.z = g->mUnk_024.z >> 3;
     func_0209bbd0(p, data_0217b204);
 }
 

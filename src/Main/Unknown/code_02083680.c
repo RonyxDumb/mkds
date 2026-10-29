@@ -22,7 +22,7 @@ void func_02083680(Unk0201ca6c *p, s32 a) {
     q = p->mUnk_94;
     if (func_02061818() != 0 || (p->mUnk_24.mUnk_00_1 != 0 && (p->mUnk_98 = p->mUnk_98 + 1, p->mUnk_98 > 5))) {
         p->mUnk_24.mUnk_00_0 = 1;
-        data_0217ae60 = 0;
+        data_0217ae80 = 0;
         return;
     }
     if (!(q->mUnk_48 & 0x20)) {

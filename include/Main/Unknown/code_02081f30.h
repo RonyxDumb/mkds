@@ -4,9 +4,9 @@
 #include "code_0201c528.h"
 
 extern Unk0201ca6c *data_0217ae78;
-extern Unk0201ca6c *data_0217ae60;
+extern Unk0201ca6c *data_0217ae80;
 extern Unk0201ca6c *data_0217ae88;
-extern s32 data_usa_0217ae7c;
+extern s32 data_0217ae9c;
 extern s32 data_02165934;
 extern s32 data_02165938;
 extern s32 data_02165940;
