@@ -1,0 +1,24 @@
+#pragma once
+
+#include "types.h"
+#include "Main/Unknown/code_02007148.h"
+#include "Main/Unknown/code_02007114.h"
+#include "Main/Unknown/code_020071b4.h"
+#include "Main/Unknown/code_0200c3fc.h"
+#include "Main/Unknown/code_020099c0.h"
+#include "Main/Unknown/code_02009974.h"
+#include "Main/Unknown/code_0200c0d8.h"
+#include "Main/Unknown/code_02009000.h"
+#include "Main/Unknown/code_0214d000.h"
+#include "Main/Unknown/unk_0216f000.h"
+#include "code_02142eac.h"
+#include "code_0200fc8c.h"
+
+void func_02007624(Unk021432ac *a);
+void func_02007698(Unk021432ac *a, u32 b);
+void func_020079c4(s32 a, Unk021425e8 *b);
+void func_02007cf8(u32 a, u32 b, void *c);
+void func_02007d18(u32 a, u32 b, void *c);
+u32 func_02007d50(u32 a, u32 b);
+u32 func_02007df8(u32 a);
+void *func_02007e38(u32 a);

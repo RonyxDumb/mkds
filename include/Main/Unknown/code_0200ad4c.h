@@ -8,7 +8,13 @@
 
 // Object behind data_0216fda8: the halfwords at 0x526, 0x528 and 0x52a and the byte at 0x50c.
 typedef struct Unk0216fda8 {
-    /* 000 */ u8 mUnk_000[0x50c];
+    /* 000 */ u8 mUnk_000[0xe];
+    /* 00e */ u16 mUnk_00e;
+    /* 010 */ u8 mUnk_010[2];
+    /* 012 */ u16 mUnk_012;
+    /* 014 */ u16 mUnk_014;
+    /* 016 */ u16 mUnk_016;
+    /* 018 */ u8 mUnk_018[0x50c - 0x18];
     /* 50c */ u8 mUnk_50c;
     /* 50d */ u8 mUnk_50d[0x19];
     /* 526 */ u16 mUnk_526;
