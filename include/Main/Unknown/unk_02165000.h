@@ -16,7 +16,10 @@ typedef struct Unk021652a0 {
 } Unk021652a0;
 
 extern Unk021652a0 data_0216523c;
+extern const s32 data_02165510[2];
 extern const Vec3 data_02165524;
+extern const Vec3 data_0216553c;
+extern const Vec3 data_02165548;
 extern const Unk021a9034 data_0216524c;
 extern const Unk021a9034 data_02165280;
 extern Unk021652a0 data_021652a0;
