@@ -178,6 +178,8 @@ typedef struct Unk0217aa08_20_04 {
         u8 mUnk_22;
         struct {
             u8 mUnk_22_0 : 1;
+            u8 mUnk_22_1 : 1;
+            u8 mUnk_22_2 : 1;
         };
     };
     /* 23 */ u8 mUnk_23;
@@ -189,6 +191,15 @@ typedef struct Unk0217aa08_20 {
     /* 04 */ Unk0217aa08_20_04 mUnk_04[1];
 } Unk0217aa08_20;
 
+// 0xb00 bytes behind member 0x24 of Unk0217aa08: a byte at 0x04 and five 0x200-byte rows from 0x08.
+typedef struct Unk0217aa08_24 {
+    /* 000 */ u8 mUnk_000[4];
+    /* 004 */ u8 mUnk_004;
+    /* 005 */ u8 mUnk_005[3];
+    /* 008 */ u8 mUnk_008[5][0x200];
+    /* a08 */ u8 mUnk_a08[0xf8];
+} Unk0217aa08_24;
+
 typedef struct Unk0217aa08 {
     /* 00 */ Unk0217aa08_00 *mUnk_00;
     /* 04 */ Unk0217aa08_04 *mUnk_04;
@@ -199,7 +210,7 @@ typedef struct Unk0217aa08 {
     /* 18 */ Unk0217aa08_14 *mUnk_18;
     /* 1c */ void *mUnk_1c;
     /* 20 */ Unk0217aa08_20 *mUnk_20;
-    /* 24 */ void *mUnk_24;
+    /* 24 */ Unk0217aa08_24 *mUnk_24;
     /* 28 */ u8 mUnk_28;
     /* 29 */ u8 mUnk_29;
     /* 2a */ u16 mUnk_2a;
@@ -674,7 +685,7 @@ extern Unk0217aa00 *data_0217aa00;
 extern Unk0217aa08 *data_0217aa08;
 // Object behind data_0217aa0c; the Unk0200db5c at 0x2c is passed to func_0200e28c and func_0200df68.
 typedef struct Unk0217aa0c {
-    /* 00 */ s32 mUnk_00[10];
+    /* 00 */ void (*mUnk_00[10])(void);
     /* 28 */ u8 mUnk_28;
     /* 29 */ u8 mUnk_29[3];
     /* 2c */ Unk0200db5c mUnk_2c;
@@ -1156,7 +1167,34 @@ typedef struct Unk0217aa04 {
 } Unk0217aa04;
 
 extern Unk0217aa04 *data_0217aa04;
-extern u8 data_0217aa24[];
+// Object behind data_0217aa20, 0x10 bytes.
+typedef struct Unk0217aa20 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s16 mUnk_08;
+    /* 0a */ u8 mUnk_0a[2];
+    /* 0c */ void *mUnk_0c;
+} Unk0217aa20;
+
+// 0xc-byte entries of the array behind member 0x00 of Unk0217aa24.
+typedef struct Unk0217aa24_00 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 mUnk_02[2];
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ u8 mUnk_08;
+    /* 09 */ u8 mUnk_09;
+    /* 0a */ u8 mUnk_0a[2];
+} Unk0217aa24_00;
+
+// Object behind data_0217aa24, 8 bytes.
+typedef struct Unk0217aa24 {
+    /* 00 */ Unk0217aa24_00 *mUnk_00;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u8 mUnk_06[2];
+} Unk0217aa24;
+
+extern Unk0217aa20 *data_0217aa20;
+extern Unk0217aa24 *data_0217aa24;
 extern u8 data_0217aa2c[];
 extern u8 data_0217acac[];
 

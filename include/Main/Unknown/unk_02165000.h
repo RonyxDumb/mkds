@@ -17,6 +17,7 @@ typedef struct Unk021652a0 {
 extern Unk021652a0 data_0216523c;
 extern const Vec3 data_02165524;
 extern const Unk021a9034 data_0216524c;
+extern const Unk021a9034 data_02165280;
 extern Unk021652a0 data_021652a0;
 extern UnkFunc *const data_021652b0[];
 extern const Unk021a9034 data_02165368;
@@ -37,7 +38,8 @@ extern u8 data_02165ef0[];
 extern u8 data_02165fd4[];
 extern u8 data_02165fec[];
 
-extern u8 data_021653b8[];
+extern s16 data_021653b8[];
+extern const Unk021a9034 data_021653c0;
 extern u8 data_0216569c[];
 extern Vec3 data_02165530;
 extern s32 data_02165948;

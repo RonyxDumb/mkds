@@ -1,13 +1,13 @@
 #include "Main/Unknown/code_020431cc.h"
 
-unsigned int func_020431dc(void) {
-    return 0x32000u;
+s32 func_020431dc(void) {
+    return 0x32000;
 }
 
-unsigned int func_020431d4(void) {
-    return 0x64000u;
+s32 func_020431d4(void) {
+    return 0x64000;
 }
 
-unsigned int func_020431cc(void) {
-    return 0x32000u;
+s32 func_020431cc(void) {
+    return 0x32000;
 }

@@ -16,7 +16,7 @@ void func_020574c8(void) {
     if (*(int *) ((*(int *) &data_021759d4) + 0xc) != 0) {
         func_02145d38();
     }
-    func_02057ca4((u32) (*(u32 *) (*(u32 *) &data_0217aa08)));
+    func_02057ca4((void *) (*(u32 *) (*(u32 *) &data_0217aa08)));
     if (*(int *) ((*(int *) &data_021759d4) + 0xc) != 0) {
         func_02145d38();
     }

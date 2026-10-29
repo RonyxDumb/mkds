@@ -30,11 +30,11 @@ void func_02057174(void) {
     if (*(int *) ((*(int *) &data_021759d4) + 0xc) != 0) {
         func_02145d38();
     }
-    func_020577b4((u32) (*(u32 *) ((*(int *) &data_0217aa08) + 0x20)));
+    func_020577b4((void *) (*(u32 *) ((*(int *) &data_0217aa08) + 0x20)));
     if (*(int *) ((*(int *) &data_021759d4) + 0xc) != 0) {
         func_02145d38();
     }
-    func_02057ca4((u32) (*(u32 *) (*(int *) &data_0217aa08)));
+    func_02057ca4((void *) (*(u32 *) (*(int *) &data_0217aa08)));
     if (*(int *) ((*(int *) &data_021759d4) + 0xc) != 0) {
         func_02145d38();
     }

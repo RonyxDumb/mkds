@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_02108ed8(unsigned int p0);
+void func_02108ed8(void);

@@ -8,7 +8,7 @@ void func_02056d40(void) {
     value0 = (u32) * (const u32 *) ((value0) + 0u);
     value0 = (u32) * (const u32 *) ((value0) + 0u);
     value3 = (u32) &func_02057ca4;
-    func_02057ca4((u32) value0);
+    func_02057ca4((void *) value0);
     return;
 }
 #pragma thumb off

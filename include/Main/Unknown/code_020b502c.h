@@ -45,7 +45,14 @@ typedef struct {
 
 // 0x48-byte entries of the table at Unk02175620::mUnk_74 (func_020423fc returns one).
 typedef struct {
-    /* 00 */ u8 mUnk_00[0x44];
+    /* 00 */ Vec3 mUnk_00;
+    /* 0c */ Vec3 mUnk_0c;
+    /* 18 */ u8 mUnk_18[0x24];
+    /* 3c */ u16 mUnk_3c;
+    /* 3e */ s16 mUnk_3e;
+    /* 40 */ u8 mUnk_40[2];
+    /* 42 */ u8 mUnk_42;
+    /* 43 */ u8 mUnk_43;
     /* 44 */ u8 mUnk_44;
     /* 45 */ u8 mUnk_45[3];
 } Unk02175620_74;

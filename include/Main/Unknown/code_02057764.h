@@ -8,4 +8,4 @@
 #include "Main/Unknown/code_02057000.h"
 
 void func_02057764(u32 param_1);
-void func_020577b4(u32 param_1);
+void func_020577b4(void *param_1);

@@ -14,3 +14,4 @@ void func_02036b30(void *a, void *b);
 void func_02036820(void *heap);
 void *func_020369fc(void *param_1);
 void func_02036d3c(s16 a);
+void func_02036778(void);

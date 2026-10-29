@@ -7,3 +7,4 @@ struct Unk02175620_bc;
 // Declared here until the code that defines them is decompiled.
 struct Unk02175620_bc *func_020413a4(Vec3 *a);
 struct Unk02175620_bc *func_02041588(Vec3 *a);
+s32 func_02041944(Vec3 *a, void *b);

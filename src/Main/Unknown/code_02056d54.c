@@ -117,14 +117,14 @@ void func_02056e70(void) {
     }
     if (data_0217aa08->mUnk_2a & 0x20) {
         func_02057244();
-        func_020577b4((u32) data_0217aa08->mUnk_20);
+        func_020577b4(data_0217aa08->mUnk_20);
         if (data_021759d4->mUnk_0c != 0) {
             func_02145d38();
         }
     }
     if (data_0217aa08->mUnk_2a & 1) {
         func_02057304(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2);
-        func_02057ca4((u32) data_0217aa08->mUnk_00);
+        func_02057ca4(data_0217aa08->mUnk_00);
         if (data_021759d4->mUnk_0c != 0) {
             func_02145d38();
         }
