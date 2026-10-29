@@ -29,3 +29,14 @@ extern Vec3 data_02155a14;
 extern Vec3 data_02155a48;
 extern Vec3 data_02155eb0;
 extern Vec3 data_02155ebc;
+
+// 12-byte entries; func_02088390 reads the string pointer at 0x00.
+typedef struct Unk02155cf4 {
+    /* 00 */ const char *mUnk_00;
+    /* 04 */ u8 mUnk_04[8];
+} Unk02155cf4;
+
+extern const Unk02155cf4 data_02155cf4[];
+extern Vec3 data_02155a3c;
+extern const u32 data_02155a54;
+extern const u16 data_02155a74[12];

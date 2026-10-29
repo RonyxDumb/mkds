@@ -1107,9 +1107,11 @@ extern u8 *data_0217aecc;
 extern Vec3 *data_0217aed8;
 extern u8 data_0217aee0[];
 
+struct Unk02086250;
+
 // Object behind data_0217aed0, 0x194 bytes: tables of eight entries.
 typedef struct Unk0217aed0 {
-    /* 000 */ s32 mUnk_000[8];
+    /* 000 */ struct Unk02086250 *mUnk_000[8];
     /* 020 */ s32 mUnk_020;
     /* 024 */ s16 mUnk_024[8];
     /* 034 */ s16 mUnk_034[8];
@@ -1118,11 +1120,11 @@ typedef struct Unk0217aed0 {
     /* 074 */ u16 mUnk_074[8];
     /* 084 */ s16 mUnk_084[8];
     /* 094 */ u16 mUnk_094[8];
-    /* 0a4 */ s32 mUnk_0a4[8];
-    /* 0c4 */ s32 mUnk_0c4[8];
+    /* 0a4 */ u32 mUnk_0a4[8];
+    /* 0c4 */ struct Unk02086250 *mUnk_0c4[8];
     /* 0e4 */ s32 mUnk_0e4[8];
     /* 104 */ s32 mUnk_104[8];
-    /* 124 */ void *mUnk_124[8];
+    /* 124 */ u32 mUnk_124[8];
     /* 144 */ void *mUnk_144[8];
     /* 164 */ void *mUnk_164[8];
     /* 184 */ s32 mUnk_184;
@@ -1131,8 +1133,8 @@ typedef struct Unk0217aed0 {
 } Unk0217aed0;
 
 extern Unk0217aed0 *data_0217aed0;
-extern s32 data_0217af24;
-extern u8 data_0217af28[];
+extern const char *data_0217af24;
+extern char data_0217af28[];
 
 // Entries of the 0x400-byte buffer behind member 0x04 of Unk0217aa04.
 typedef struct Unk0217aa04_04 {

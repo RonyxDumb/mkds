@@ -22,14 +22,25 @@ typedef struct Unk0206bcb0_590_20 {
     /* 48 */ Vec3 mUnk_48[1];
 } Unk0206bcb0_590_20;
 
+// The object behind the word at 0x1c of a Unk0206bcb0_590: the halfword at 0x70.
+typedef struct Unk0206bcb0_590_1c {
+    /* 00 */ u8 mUnk_00[0x70];
+    /* 70 */ u16 mUnk_70;
+} Unk0206bcb0_590_1c;
+
 // The object behind the word at 0x590 of a Unk0206bcb0 from its first byte:
 // the halfword at 0x40.
 typedef struct Unk0206bcb0_590 {
     /* 000 */ s32 mUnk_000;
-    /* 004 */ u8 mUnk_004[0x1c];
+    /* 004 */ u8 mUnk_004[0x18];
+    /* 01c */ Unk0206bcb0_590_1c *mUnk_01c;
     /* 020 */ Unk0206bcb0_590_20 *mUnk_020;
     /* 024 */ u8 mUnk_024[0x1c];
     /* 040 */ u16 mUnk_040;
+    /* 042 */ u8 mUnk_042[0x16];
+    /* 058 */ s32 mUnk_058;
+    /* 05c */ s32 mUnk_05c;
+    /* 060 */ s32 mUnk_060;
 } Unk0206bcb0_590;
 
 // Three vectors at 0x00, 0x0c and 0x18.
