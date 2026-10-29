@@ -699,7 +699,12 @@ typedef struct Unk0217aa14_014 {
 
 // 0x88-byte entries from 0x104 of Unk0217aa14.
 typedef struct Unk0217aa14_104 {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ union {
+        s32 mUnk_00;
+        struct {
+            u32 mUnk_00_0 : 24;
+        };
+    };
     /* 04 */ s32 mUnk_04;
     /* 08 */ u8 mUnk_08[0x60];
     /* 68 */ s32 mUnk_68;
@@ -712,7 +717,12 @@ typedef struct Unk0217aa14_104 {
     /* 7e */ u8 mUnk_7e[2];
     /* 80 */ s32 mUnk_80;
     /* 84 */ u16 mUnk_84;
-    /* 86 */ u8 mUnk_86;
+    /* 86 */ union {
+        u8 mUnk_86;
+        struct {
+            u8 mUnk_86_0 : 1;
+        };
+    };
     /* 87 */ u8 mUnk_87;
 } Unk0217aa14_104;
 
@@ -725,6 +735,24 @@ typedef struct Unk0217aa14_324 {
     /* 0a */ u8 mUnk_0a;
     /* 0b */ u8 mUnk_0b;
 } Unk0217aa14_324;
+
+// 8 bytes from 0x04 of what member 0x754 of Unk0217aa14 points to.
+typedef struct Unk0217aa14_754_04 {
+    /* 00 */ union {
+        u32 mUnk_00;
+        u8 mUnk_00_b[4];
+        struct {
+            u32 mUnk_00_0 : 24;
+        };
+    };
+    /* 04 */ u32 mUnk_04;
+} Unk0217aa14_754_04;
+
+// What member 0x754 of Unk0217aa14 points to.
+typedef struct Unk0217aa14_754 {
+    /* 00 */ u8 mUnk_00[4];
+    /* 04 */ Unk0217aa14_754_04 mUnk_04;
+} Unk0217aa14_754;
 
 // Object behind data_0217aa14.
 typedef struct Unk0217aa14 {
@@ -763,8 +791,10 @@ typedef struct Unk0217aa14 {
     /* 740 */ u16 mUnk_740[4];
     /* 748 */ u8 mUnk_748;
     /* 749 */ u8 mUnk_749;
-    /* 74a */ u8 mUnk_74a[0xa];
-    /* 754 */ void *mUnk_754;
+    /* 74a */ u8 mUnk_74a[4];
+    /* 74e */ u8 mUnk_74e[4];
+    /* 752 */ u8 mUnk_752[2];
+    /* 754 */ Unk0217aa14_754 *mUnk_754;
     /* 758 */ s32 mUnk_758;
     /* 75c */ u16 mUnk_75c;
 } Unk0217aa14;
@@ -1087,7 +1117,13 @@ extern u8 data_0217aa24[];
 extern u8 data_0217aa2c[];
 extern u8 data_0217acac[];
 
-extern u8 data_0217aa18[];
+// Ten bytes: bytes 6 to 9 are signed values read in rows of four.
+typedef struct Unk0217aa18 {
+    /* 00 */ u8 mUnk_00[6];
+    /* 06 */ s8 mUnk_06[4];
+} Unk0217aa18;
+
+extern Unk0217aa18 *data_0217aa18;
 // 0xa-byte elements of the rows (eight each) of the table at member 0 of Unk0217aa1c.
 typedef struct Unk0217aa1c_00 {
     /* 00 */ u16 mUnk_00;

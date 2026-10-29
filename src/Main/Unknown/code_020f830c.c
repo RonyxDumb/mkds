@@ -215,8 +215,8 @@ s32 func_020f850c(Unk020ee684 *param_1, Unk020ee684 *param_2) {
             a = data_021759c0->mUnk_08;
             if (a == 5 && param_1->mUnk_020 != 0) {
                 b = param_2->mUnk_1f8 & 0xff;
-                if (func_0205a310(((u8 *) *(void **) data_0217aa18)[b]) == 0) {
-                    b = func_0205a2ac(((u8 *) *(void **) data_0217aa18)[b]);
+                if (func_0205a310(((u8 *) data_0217aa18)[b]) == 0) {
+                    b = func_0205a2ac(((u8 *) data_0217aa18)[b]);
                     if (func_020faca4(b) != 0) {
                         func_020faa78(b);
                     }
