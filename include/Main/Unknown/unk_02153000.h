@@ -74,3 +74,17 @@ extern u16 data_021530d0[4][4];
 extern Unk02022aa8_f *data_021530e8[];
 extern u32 data_02153118[][4];
 extern u8 data_usa_021530f8[4][4][2];
+
+extern u16 data_02153d20[][3];
+
+typedef struct Unk02153d2c {
+    /* 00 */ s16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ s16 mUnk_06;
+    /* 08 */ s32 mUnk_08;
+} Unk02153d2c;
+
+extern Unk02153d2c data_02153d2c[];
+extern s16 data_02154034[][4];
+extern s16 data_0215404c[][4];

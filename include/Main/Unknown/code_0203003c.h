@@ -1,11 +1,27 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020b4000.h" // Unk020b4934, Unk020b4a44
+#include "Main/Unknown/code_02124094.h" // Unk02124b1c, Unk0201ea30
 
-// Object behind data_02174e54; the word at 0x38 is read by func_020302a0.
+// Object behind data_02174e54, 0x40 bytes.
 typedef struct Unk02174e54 {
-    /* 00 */ u8 mUnk_00[0x38];
+    /* 00 */ Unk020b4934 *mUnk_00;
+    /* 04 */ Unk020b4a44 *mUnk_04;
+    /* 08 */ struct Unk02021dc8 *mUnk_08;
+    /* 0c */ Unk0201ea30 *mUnk_0c;
+    /* 10 */ void *mUnk_10;
+    /* 14 */ Unk0201ea30 *mUnk_14;
+    /* 18 */ Unk02124b1c *mUnk_18;
+    /* 1c */ void *mUnk_1c;
+    /* 20 */ void *mUnk_20;
+    /* 24 */ void *mUnk_24;
+    /* 28 */ s32 mUnk_28;
+    /* 2c */ s32 mUnk_2c;
+    /* 30 */ s32 mUnk_30;
+    /* 34 */ s32 mUnk_34;
     /* 38 */ s32 mUnk_38;
+    /* 3c */ void *mUnk_3c;
 } Unk02174e54;
 
 void func_0203003c(s32 a);

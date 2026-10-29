@@ -199,6 +199,7 @@ typedef struct Unk02174e64 {
     /* 18c */ s32 mUnk_18c;
     /* 190 */ s32 mUnk_190;
     /* 194 */ Unk02025ebc mUnk_194;
+    /* 1a4 */ void *mUnk_1a4;
 } Unk02174e64;
 
 extern Unk02174e64 *data_02174e64;
@@ -298,32 +299,22 @@ typedef struct Unk02174e48 {
 extern Unk02174e48 *data_02174e48;
 extern struct Unk02174e4c *data_02174e4c;
 extern struct Unk02174e50 *data_02174e50;
-extern u8 data_02174e54[];
+extern struct Unk02174e54 *data_02174e54;
 extern u8 data_02174e58[];
+// Object behind data_02174e68, 0xa8 bytes.
 typedef struct Unk02174e68 {
     /* 00 */ u8 mUnk_00[0x20];
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ u8 mUnk_2c[0xc];
-    /* 38 */ void *mUnk_38;
-    /* 3c */ u8 mUnk_3c[4];
-    /* 40 */ void *mUnk_40;
-    /* 44 */ s32 mUnk_44;
-    /* 48 */ u8 mUnk_48[8];
-    /* 50 */ s32 mUnk_50;
-    /* 54 */ void *mUnk_54;
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ void *mUnk_5c;
-    /* 60 */ s32 mUnk_60;
+    /* 20 */ u8 *mUnk_20;
+    /* 24 */ void *mUnk_24[2];
+    /* 2c */ Unk02174e14_00 mUnk_2c[2];
     /* 64 */ u8 mUnk_64[0x1c];
     /* 80 */ s32 mUnk_80;
-    /* 84 */ s32 mUnk_84;
-    /* 88 */ s32 mUnk_88;
+    /* 84 */ Unk020b3fb0 *mUnk_84;
+    /* 88 */ Unk020b3fb0 *mUnk_88;
     /* 8c */ s32 mUnk_8c;
-    /* 90 */ u8 mUnk_90[0x10];
+    /* 90 */ Unk02025ebc mUnk_90;
     /* a0 */ s32 mUnk_a0;
-    /* a4 */ s32 mUnk_a4;
+    /* a4 */ void *mUnk_a4;
 } Unk02174e68;
 
 extern Unk02174e68 *data_02174e68;
