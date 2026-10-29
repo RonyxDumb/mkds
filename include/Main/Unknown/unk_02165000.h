@@ -68,6 +68,8 @@ typedef struct Unk02165ff0 {
 extern Unk02165ff0 data_02165ff0;
 
 extern u8 data_021651d4[];
+extern const s32 data_02166048;
+extern const Vec3 data_0216608c;
 extern u8 data_021651d8[];
 extern const char data_usa_02165990[];
 extern const char *const data_02165e4c[];

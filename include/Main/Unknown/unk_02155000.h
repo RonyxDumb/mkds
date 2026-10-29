@@ -52,6 +52,22 @@ typedef struct Unk02155d88 {
 
 extern const Unk02155d88 data_02155d88[];
 extern const Unk02155d88 data_02155d8c[];
+
+// 12-byte entry: four bytes and two string pointers.
+typedef struct Unk02155ee8 {
+    /* 00 */ u8 mUnk_00;
+    /* 01 */ u8 mUnk_01;
+    /* 02 */ u8 mUnk_02;
+    /* 03 */ u8 mUnk_03;
+    /* 04 */ const char *mUnk_04[2];
+} Unk02155ee8;
+
+extern const Unk02155ee8 data_02155ee8[3];
+extern const Unk02155ee8 data_02155f0c;
+extern const Unk02155ee8 data_02155f18;
+extern const Unk02155ee8 data_02155f24;
+extern const Unk02155ee8 data_02155f30;
+extern const Unk02155ee8 data_02155f3c;
 extern Vec3 data_02155a3c;
 extern const u32 data_02155a54;
 extern const u16 data_02155a74[12];

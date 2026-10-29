@@ -14,6 +14,8 @@
 #include "Main/Unknown/types_02180728.h" // Unk02180728
 #include "Main/Unknown/code_020ae000.h"
 #include "Main/Unknown/code_020ae630.h"
+#include "Main/Unknown/code_02089fa0.h" // Unk0208a69c
+#include "code_0214a748.h" // Unk0214ad4c
 
 struct Unk020f41c4_B;
 struct Unk0217b4f0;
@@ -240,12 +242,12 @@ typedef struct Unk0217b034_784 {
 
 // Object behind data_0217b034, 0x79c bytes.
 typedef struct Unk0217b034 {
-    /* 000 */ void *mUnk_000[9];
+    /* 000 */ Unk0208a69c *mUnk_000[9];
     /* 024 */ u8 mUnk_024[0x718];
     /* 73c */ s32 mUnk_73c;
     /* 740 */ u16 mUnk_740;
     /* 742 */ u16 mUnk_742;
-    /* 744 */ u8 mUnk_744[0x40];
+    /* 744 */ Unk0214ad4c mUnk_744;
     /* 784 */ Unk0217b034_784 mUnk_784;
     /* 794 */ void (*mUnk_794)(Unk0217b034_784 *);
     /* 798 */ void (*mUnk_798)(Unk0217b034_784 *);
