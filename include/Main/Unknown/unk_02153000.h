@@ -88,3 +88,12 @@ typedef struct Unk02153d2c {
 extern Unk02153d2c data_02153d2c[];
 extern s16 data_02154034[][4];
 extern s16 data_0215404c[][4];
+
+// Tables of 12-byte entries (data_usa_02153d7c is the third entry of data_usa_02153d64) and of u16 pairs.
+extern Unk02153c1c data_usa_02153d64[];
+extern Unk02153c1c data_usa_02153d7c[];
+extern Unk02153c1c data_usa_02153d88[];
+extern u16 data_usa_02153d44[][2];
+extern u16 data_usa_02153d46[][2];
+extern u16 data_usa_02153d54[];
+extern s16 data_usa_02153dbc[];

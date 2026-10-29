@@ -58,3 +58,21 @@ extern const char data_02163670[];
 extern const char data_0216368c[];
 extern const char data_021636a4[];
 extern const char data_021636bc[];
+
+// Strings passed to func_0204799c, func_02047a28, func_02025b20 and func_020258d4.
+extern char data_usa_021636f4[];
+extern char data_usa_02163700[];
+extern char data_usa_0216370c[];
+extern char data_usa_0216372c[];
+extern char data_usa_0216374c[];
+extern char data_usa_0216376c[];
+extern char data_usa_02163788[];
+extern char data_usa_021637a4[];
+extern char data_usa_021637c4[];
+extern char data_usa_021637e4[];
+extern char data_usa_02163808[];
+extern char data_usa_02163830[];
+extern char data_usa_02163858[];
+extern char data_usa_02163880[];
+extern char data_usa_021638a4[];
+extern char data_usa_021638c8[];

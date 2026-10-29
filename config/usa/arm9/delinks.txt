@@ -1303,8 +1303,16 @@ src/Main/Unknown/code_02030ae8.c:
     .text       start:0x02030ae8 end:0x02030b18
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_02030b18.c:
+    .text       start:0x02030b18 end:0x02031208
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_02031208.c:
     .text       start:0x02031208 end:0x02031280
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_02031280.c:
+    .text       start:0x02031280 end:0x0203206c
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_02032aa8.c:

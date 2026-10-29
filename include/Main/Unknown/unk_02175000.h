@@ -12,6 +12,7 @@ typedef struct Unk021759d0 {
     /* 18 */ s32 mUnk_18;
     /* 1c */ s32 mUnk_1c_0 : 1;
     /* 1c */ s32 mUnk_1c_1 : 1;
+    /* 1c */ s32 mUnk_1c_2 : 1;
     /* 20 */ s32 mUnk_20;
     /* 24 */ void *mUnk_24;
     /* 28 */ u16 mUnk_28;
