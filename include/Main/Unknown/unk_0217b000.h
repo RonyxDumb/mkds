@@ -1099,6 +1099,8 @@ extern void *data_usa_0217b07c;
 extern void *data_usa_0217b0a4;
 extern void *data_usa_0217b0a8;
 extern void *data_usa_0217b0bc;
+extern void *data_0217b0bc;
+extern void *data_0217b0c0;
 extern void *data_usa_0217b0c8;
 extern void *data_usa_0217b164;
 extern void *data_usa_0217b168;

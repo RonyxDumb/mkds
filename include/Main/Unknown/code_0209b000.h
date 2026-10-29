@@ -6,7 +6,7 @@
 #include "01/code_02181c3c.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_0209b77c(int param_1, int param_2);
+void func_0209b77c(void *a, u16 b);
 void func_0209ba88(u32 param_1, int param_2, int param_3);
 #include "Main/Unknown/code_0209bc5c.h"
 void func_0209bb2c(void *param_1, void *param_2, void *param_3);
@@ -27,6 +27,8 @@ void func_0209b8ac(void *param_1, u32 param_2);
 void func_0209b9a4(void *param_1, u16 param_2);
 void func_0209bbd0(void *param_1, void *param_2);
 u16 func_0209b634(void *param_1);
+u16 func_0209b758(void *a);
+void func_0209be50(void *a, const char *b);
 void func_0209b904(void *param_1, u32 param_2, u16 param_3);
 void func_0209b7a0(void *param_1, s32 param_2, s32 param_3);
 void *func_0209bbfc(void *param_1);
