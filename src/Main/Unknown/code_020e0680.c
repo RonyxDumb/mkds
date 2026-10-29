@@ -738,8 +738,9 @@ s32 func_020e16dc(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 i
     return 1;
 }
 
-// non-matching: code 0xcd8 vs 0xb30: the branch blocks are laid out in a different order and the register allocation
-// that follows differs
+// non-matching: the original keeps n & 0x8 at stack offset 0x4c, so v, w and tmp sit 4 bytes higher; the three
+// "-((x + c) + f)" sums add f as the second operand; d is passed to func_020e16dc through lsl/lsr #16 (its parameter
+// is u16; a u32 parameter removes that here but makes func_020e16dc worse), and some loads are scheduled differently
 s32 func_020e0bac(Unk020e005c *a, Vec3 *b, s32 c, u32 d, Unk020e0764 *o, Unk020e0764 *p, Vec3 *q, u16 *g, Vec3 *r,
                   u16 *s) {
     Vec3 v;
@@ -846,47 +847,21 @@ s32 func_020e0bac(Unk020e005c *a, Vec3 *b, s32 c, u32 d, Unk020e0764 *o, Unk020e
                 m6 = k6 > 0 ? k6 : -k6;
                 m5 = k5 > 0 ? k5 : -k5;
                 m4 = f4 > 0 ? f4 : -f4;
-                if (m6 < m4) {
-                    if (m6 < m5) {
-                        func_020e1a80(c, k6, m6, n, 0x800, g, a->mUnk_110, a, b, &a->mUnk_028, o, p, r, q, s);
-                        return 1;
-                    }
-                    func_020e1a80(c, k5, m5, n, 0x80, g, a->mUnk_114.x, a, b, &a->mUnk_034, o, p, r, q, s);
-                    return 1;
-                }
-                if (m4 < m5) {
-                    func_020e1a80(c, f4, m4, n, 8, g, a->mUnk_114.y, a, b, &a->mUnk_040, o, p, r, q, s);
-                    return 1;
-                }
-                func_020e1a80(c, k5, m5, n, 0x80, g, a->mUnk_114.x, a, b, &a->mUnk_034, o, p, r, q, s);
-                return 1;
+                goto smallest;
             }
             m4 = f4 > 0 ? f4 : -f4;
-            func_020e1a80(c, f4, m4, n, 8, g, a->mUnk_114.y, a, b, &a->mUnk_040, o, p, r, q, s);
-            return 1;
-        }
-        if (n & 0x1) {
-            if (n & 0x80) {
-                k5 = (a->mUnk_104 + c) - f5;
-            } else {
-                k5 = -((a->mUnk_104 + c) + f5);
-            }
-            m5 = k5 > 0 ? k5 : -k5;
-            func_020e1a80(c, k5, m5, n, 0x80, g, a->mUnk_114.x, a, b, &a->mUnk_034, o, p, r, q, s);
-            return 1;
+            goto call_8;
         }
         if (n & 0x80) {
-            f5 = f5 - a->mUnk_104;
+            k5 = (a->mUnk_104 + c) - f5;
         } else {
-            f5 = f5 + a->mUnk_104;
+            k5 = -((a->mUnk_104 + c) + f5);
         }
-        if (n & 0x8) {
-            f4 = f4 - a->mUnk_108;
-        } else {
-            f4 = f4 + a->mUnk_10c;
+        if (!(n & 0x1)) {
+            goto call_80_8;
         }
-        return func_020e16dc(c, f5, f4, n, 0x80, 0x8, g, d, a->mUnk_114.x, a->mUnk_114.y, a, b, &a->mUnk_034,
-                             &a->mUnk_040, o, p, q, r, s);
+        m5 = k5 > 0 ? k5 : -k5;
+        goto call_80;
     }
     if (n & 0x800) {
         k6 = (a->mUnk_100 + c) - f6;
@@ -894,38 +869,76 @@ s32 func_020e0bac(Unk020e005c *a, Vec3 *b, s32 c, u32 d, Unk020e0764 *o, Unk020e
         k6 = -((a->mUnk_100 + c) + f6);
     }
     if (n & 0x10) {
-        if (n & 0x1) {
-            m6 = k6 > 0 ? k6 : -k6;
-            func_020e1a80(c, k6, m6, n, 0x800, g, a->mUnk_110, a, b, &a->mUnk_028, o, p, r, q, s);
-            return 1;
+        if (!(n & 0x1)) {
+            goto call_8_800;
         }
-        if (n & 0x800) {
-            f6 = f6 - a->mUnk_100;
-        } else {
-            f6 = f6 + a->mUnk_100;
+        m6 = k6 > 0 ? k6 : -k6;
+    } else {
+        if (!(n & 0x1)) {
+            goto rest;
         }
-        if (n & 0x8) {
-            f4 = f4 - a->mUnk_108;
-        } else {
-            f4 = f4 + a->mUnk_10c;
-        }
-        return func_020e16dc(c, f4, f6, n, 8, 0x800, g, d, a->mUnk_114.y, a->mUnk_110, a, b, &a->mUnk_040, &a->mUnk_028,
-                             o, p, q, r, s);
+        goto call_800_80;
     }
-    if (n & 0x1) {
-        if (n & 0x800) {
-            f6 = f6 - a->mUnk_100;
-        } else {
-            f6 = f6 + a->mUnk_100;
+call_800:
+    func_020e1a80(c, k6, m6, n, 0x800, g, a->mUnk_110, a, b, &a->mUnk_028, o, p, q, r, s);
+    return 1;
+call_80:
+    func_020e1a80(c, k5, m5, n, 0x80, g, a->mUnk_114.x, a, b, &a->mUnk_034, o, p, q, r, s);
+    return 1;
+call_8:
+    func_020e1a80(c, f4, m4, n, 8, g, a->mUnk_114.y, a, b, &a->mUnk_040, o, p, q, r, s);
+    return 1;
+smallest:
+    if (m6 < m4) {
+        if (m6 < m5) {
+            goto call_800;
         }
-        if (n & 0x80) {
-            f5 = f5 - a->mUnk_104;
-        } else {
-            f5 = f5 + a->mUnk_104;
-        }
-        return func_020e16dc(c, f6, f5, n, 0x800, 0x80, g, d, a->mUnk_110, a->mUnk_114.x, a, b, &a->mUnk_028,
-                             &a->mUnk_034, o, p, q, r, s);
+        goto call_80;
     }
+    if (m4 < m5) {
+        goto call_8;
+    }
+    goto call_80;
+call_800_80:
+    if (n & 0x800) {
+        f6 = f6 - a->mUnk_100;
+    } else {
+        f6 = f6 + a->mUnk_100;
+    }
+    if (n & 0x80) {
+        f5 = f5 - a->mUnk_104;
+    } else {
+        f5 = f5 + a->mUnk_104;
+    }
+    return func_020e16dc(c, f6, f5, n, 0x800, 0x80, g, d, a->mUnk_110, a->mUnk_114.x, a, b, &a->mUnk_028,
+                         &a->mUnk_034, o, p, q, r, s);
+call_80_8:
+    if (n & 0x80) {
+        f5 = f5 - a->mUnk_104;
+    } else {
+        f5 = f5 + a->mUnk_104;
+    }
+    if (n & 0x8) {
+        f4 = f4 - a->mUnk_108;
+    } else {
+        f4 = f4 + a->mUnk_10c;
+    }
+    return func_020e16dc(c, f5, f4, n, 0x80, 0x8, g, d, a->mUnk_114.x, a->mUnk_114.y, a, b, &a->mUnk_034,
+                         &a->mUnk_040, o, p, q, r, s);
+call_8_800:
+    if (n & 0x800) {
+        f6 = f6 - a->mUnk_100;
+    } else {
+        f6 = f6 + a->mUnk_100;
+    }
+    if (n & 0x8) {
+        f4 = f4 - a->mUnk_108;
+    } else {
+        f4 = f4 + a->mUnk_10c;
+    }
+    return func_020e16dc(c, f4, f6, n, 8, 0x800, g, d, a->mUnk_114.y, a->mUnk_110, a, b, &a->mUnk_040, &a->mUnk_028,
+                         o, p, q, r, s);
+rest:
     u = 0;
     if ((d & 0x60) == 0) {
         e = 1;
