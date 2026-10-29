@@ -47,6 +47,18 @@ extern Unk021534bc data_02153528[];
 extern Unk021535b4 data_021535b4[];
 extern Unk02153c58 data_02153c58[];
 
+// Rows of nine words; each name starts at one word of the first row.
+extern const char *data_02153f80[][9];
+extern const char *data_02153f84[][9];
+extern const char *data_02153f88[][9];
+extern const char *data_02153f8c[][9];
+extern const char *data_02153f90[][9];
+extern const char *data_02153f94[][9];
+extern const char *data_02153f98[][9];
+extern const char *data_02153f9c[][9];
+extern const char *data_02153fa0[][9];
+extern u16 data_02153f00[][4];
+
 // Objects whose layout isn't known yet.
 extern u8 data_021533fc[];
 

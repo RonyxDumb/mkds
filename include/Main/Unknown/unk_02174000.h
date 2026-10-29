@@ -4,6 +4,8 @@
 #include "Main/Unknown/code_02025ebc.h" // Unk02025ebc
 #include "Main/Unknown/code_02036588.h" // Unk02036590
 #include "Main/Unknown/unk_02153000.h" // Unk021535b4
+#include "Main/Unknown/code_020b4000.h" // Unk020b4934, Unk020b47d8, Unk020b4a44
+#include "Main/Unknown/code_02124094.h" // Unk02124b1c, Unk0201ea30
 
 // 0x18-byte elements of the table at member 0 of Unk02029930.
 typedef struct Unk02029930_00 {
@@ -75,26 +77,16 @@ typedef struct Unk02174e3c {
 extern Unk02174e3c *data_02174e3c;
 extern Unk02036590 data_02174e88;
 
-// 0x40-byte entries of the table at member 0x18 of Unk02174e14_00.
-typedef struct Unk02174e14_00_18 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u8 mUnk_04[0xc];
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ u8 mUnk_14[0x20];
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ u8 mUnk_38[8];
-} Unk02174e14_00_18;
-
 // 0x1c-byte part of Unk02174e14, at 0x00, 0x1c and 0x38; func_02026910 has two on the stack, one filled by
-// func_02025b84.
+// func_02025b84. Unk02174e60 has four from 0x48.
 typedef struct Unk02174e14_00 {
     /* 00 */ void *mUnk_00;
     /* 04 */ void *mUnk_04;
     /* 08 */ void *mUnk_08;
-    /* 0c */ void *mUnk_0c;
+    /* 0c */ Unk0201ea30 *mUnk_0c;
     /* 10 */ void *mUnk_10;
-    /* 14 */ u8 mUnk_14[4];
-    /* 18 */ Unk02174e14_00_18 *mUnk_18;
+    /* 14 */ Unk0201ea30 *mUnk_14;
+    /* 18 */ Unk02124b1c *mUnk_18;
 } Unk02174e14_00;
 
 // Object behind data_02174e14.
@@ -131,6 +123,44 @@ typedef struct Unk02174e14 {
 
 extern Unk02174e14 *data_02174e14;
 
+// 0x24-byte part of Unk02174e60, at 0x00 and 0x24, filled by func_02025884.
+typedef struct Unk02174e60_00 {
+    /* 00 */ Unk020b4934 *mUnk_00[4];
+    /* 10 */ Unk020b4a44 *mUnk_10;
+    /* 14 */ Unk020b47d8 *mUnk_14[4];
+} Unk02174e60_00;
+
+// 0xc-byte entries from 0xe4 of Unk02174e60.
+typedef struct Unk02174e60_e4 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+} Unk02174e60_e4;
+
+// Object behind data_02174e60: 0x154 bytes allocated by func_02032f94.
+typedef struct Unk02174e60 {
+    /* 000 */ Unk02174e60_00 mUnk_000[2];
+    /* 048 */ Unk02174e14_00 mUnk_048[4];
+    /* 0b8 */ s32 mUnk_0b8;
+    /* 0bc */ s32 mUnk_0bc;
+    /* 0c0 */ u32 mUnk_0c0;
+    /* 0c4 */ u32 mUnk_0c4;
+    /* 0c8 */ void *mUnk_0c8;
+    /* 0cc */ u8 mUnk_0cc[4];
+    /* 0d0 */ s32 mUnk_0d0;
+    /* 0d4 */ s32 mUnk_0d4;
+    /* 0d8 */ s32 mUnk_0d8;
+    /* 0dc */ s32 mUnk_0dc;
+    /* 0e0 */ s32 mUnk_0e0;
+    /* 0e4 */ Unk02174e60_e4 mUnk_0e4[8];
+    /* 144 */ u8 mUnk_144[4];
+    /* 148 */ s32 mUnk_148;
+    /* 14c */ s32 mUnk_14c;
+    /* 150 */ s32 mUnk_150;
+} Unk02174e60;
+
+extern Unk02174e60 *data_02174e60;
+
 // Objects whose layout isn't known yet.
 extern u8 data_02174e18[];
 extern u8 data_02174e24[];
@@ -142,7 +172,6 @@ extern struct Unk02174e4c *data_02174e4c;
 extern struct Unk02174e50 *data_02174e50;
 extern u8 data_02174e54[];
 extern u8 data_02174e58[];
-extern u8 data_02174e60[];
 extern u8 data_02174e64[];
 extern u8 data_02174e68[];
 extern u8 data_02174e6c[];
