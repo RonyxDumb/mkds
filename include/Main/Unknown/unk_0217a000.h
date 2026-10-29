@@ -9,6 +9,7 @@
 #include "code_021445e0.h" // Unk021450ec, Unk0214461c
 #include "code_02147cd8.h" // Unk02148038
 #include "code_0214a748.h" // Unk0214ad4c
+#include "code_02012b30.h" // Unk02012f58
 
 // Objects whose layout isn't known yet.
 // What data_0217aa08 points to.
@@ -920,7 +921,7 @@ typedef struct Unk0217aa54 {
 } Unk0217aa54;
 
 extern Unk0217aa54 *data_0217aa54;
-extern u8 data_0217aa64[];
+extern s32 data_0217aa64;
 // Object behind data_0217aa6c, returned by func_02061808.
 typedef struct Unk02061808 {
     /* 000 */ s32 mUnk_000;
@@ -931,7 +932,7 @@ typedef struct Unk02061808 {
     /* 014 */ s32 mUnk_14;
     /* 018 */ u8 mUnk_018[0xc];
     /* 024 */ Vec3 mUnk_024;
-    /* 030 */ u8 mUnk_030[0x30];
+    /* 030 */ Unk02012f58 mUnk_030;
     /* 060 */ s32 mUnk_060;
     /* 064 */ s32 mUnk_064;
     /* 068 */ s16 mUnk_068;
@@ -956,7 +957,31 @@ typedef struct Unk02061808 {
 } Unk02061808;
 
 extern Unk02061808 *data_0217aa6c;
-extern u8 data_0217aa7c[];
+extern u16 data_0217aa28;
+extern u16 data_0217aa30;
+extern s16 data_0217aa34;
+extern u16 data_0217aa38;
+extern s16 data_0217aa3c;
+extern s16 data_0217aa40;
+extern s32 data_0217aa44;
+extern s32 data_0217aa48;
+extern s32 data_0217aa4c;
+extern s32 data_0217aa50;
+extern s32 data_0217aa58;
+extern Unk02061808 *data_0217aa5c;
+extern s32 data_0217aa60;
+extern s32 data_0217aa68;
+extern s32 data_0217aa70;
+extern void *data_0217aa74;
+extern s32 data_0217aa78;
+extern s32 data_0217aa80;
+extern s32 data_0217aa84;
+extern Unk02061808 *data_0217aa88;
+extern u32 data_0217aa8c[4];
+extern u32 data_0217aa9c[8];
+extern u32 data_0217aabc[8];
+extern u16 data_0217aadc[32];
+extern Unk02012f58 *data_0217aa7c;
 extern u32 data_0217ac10;
 extern void *data_0217ac14;
 extern void *data_0217ac18[15];
@@ -1277,7 +1302,7 @@ typedef struct Unk0217aa24 {
 
 extern Unk0217aa20 *data_0217aa20;
 extern Unk0217aa24 *data_0217aa24;
-extern u8 data_0217aa2c[];
+extern u16 data_0217aa2c;
 extern u8 data_0217acac[];
 
 // Ten bytes: bytes 6 to 9 are signed values read in rows of four.

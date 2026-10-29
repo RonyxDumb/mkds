@@ -10,3 +10,5 @@ void func_01ff9144(const void *a, u32 b);
 void func_01ff9234(void);
 void func_01ff9f60(struct Unk0206bcb0 *p, Vec3 *a);
 void func_01ffa11c(struct Unk0206bcb0 *p, const Vec3 *a);
+void func_01ff92b4(void);
+void func_01ff92e0(void *a);

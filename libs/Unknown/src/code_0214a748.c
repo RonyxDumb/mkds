@@ -335,7 +335,7 @@ void func_0214a840(void) {
     *(vu32 *) 0x4000454 = 0;
 }
 
-void func_0214a7ec(s32 a, u32 b, u32 c, u16 d) {
+void func_0214a7ec(s32 a, u32 b, u32 c, u32 d) {
     if (a != 0) {
         *(vu16 *) 0x400035c = d;
         *(vu16 *) 0x4000060 = (*(vu16 *) 0x4000060 & ~0x3f40) | ((c << 8) | (b << 6) | 0x80);

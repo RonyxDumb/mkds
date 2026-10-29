@@ -13,3 +13,4 @@ void func_01ffd190(const Vec3 *a, s32 b, Unk01ffd190 *c);
 s32 func_01ffd648(Vec3 *param_1, s32 param_2, s32 param_3, s32 param_4, u16 param_5);
 s32 func_01ffd778(Vec3 *a, s32 b, s32 c, s32 d, u16 e);
 void func_01ffd224(struct Unk020888b4 *p, Vec3 *a, Vec3 *b);
+void func_01ffdb70(void);

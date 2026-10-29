@@ -15,3 +15,4 @@ void func_020780f4(void);
 void func_02078420(s32 a);
 void func_020789d4(void);
 void func_020789e4(void);
+void func_0207800c(void);

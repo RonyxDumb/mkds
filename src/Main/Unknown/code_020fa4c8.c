@@ -740,7 +740,7 @@ void func_020fa920(void) {
     func_02104ff8();
 }
 
-void func_020fa8ac(void) {
+void func_020fa8ac(void *a) {
     enum { K0 } i;
     void *q;
 

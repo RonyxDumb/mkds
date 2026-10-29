@@ -14,3 +14,5 @@ typedef struct Unk02042044 {
 } Unk02042044;
 
 Unk02042044 *func_02042044(u16 arg0, u16 arg1);
+
+// Declared here until the code that defines them is decompiled.

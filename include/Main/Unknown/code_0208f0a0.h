@@ -6,3 +6,5 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 void func_0208f0a0(void);
+
+// Declared here until the code that defines them is decompiled.

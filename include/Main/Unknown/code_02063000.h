@@ -9,3 +9,8 @@ void func_020637c4(Unk0206bcb0 *a);
 void func_020637e0(Unk0206bcb0 *a);
 void func_02063830(Unk0206bcb0 *a);
 void func_02063880(Unk0206bcb0 *a);
+void func_020631b0(void);
+void func_02063228(void);
+void func_0206326c(void);
+void func_02063294(void);
+void func_0206331c(void *a);
