@@ -1064,3 +1064,20 @@ extern void *data_0217b1f8;
 extern void *data_0217b228;
 extern void *data_0217b22c;
 extern void *data_0217b230;
+
+typedef struct Unk0217b0d8 {
+    /* 00 */ u8 mUnk_00[0x20];
+    /* 20 */ void *mUnk_20;
+    /* 24 */ u8 mUnk_24[4];
+    /* 28 */ void *mUnk_28;
+} Unk0217b0d8;
+
+extern Unk0217b0d8 *data_usa_0217b0d8;
+extern void *data_usa_0217b07c;
+extern void *data_usa_0217b0a8;
+extern void *data_usa_0217b0bc;
+extern void *data_usa_0217b0c8;
+extern void *data_usa_0217b164;
+extern void *data_usa_0217b168;
+extern void *data_usa_0217b16c;
+extern void *data_usa_0217b180;
