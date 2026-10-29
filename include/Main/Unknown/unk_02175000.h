@@ -202,3 +202,4 @@ typedef struct Unk02175ec0 {
 } Unk02175ec0;
 
 extern Unk02175ec0 data_02175ec0;
+extern void (*data_usa_02175584)(s32);

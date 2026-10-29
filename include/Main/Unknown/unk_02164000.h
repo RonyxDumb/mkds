@@ -31,3 +31,4 @@ extern u8 data_02164fc0[];
 extern u8 data_02164fd4[];
 extern u8 data_02164fe4[];
 extern u8 data_02164ffc[];
+extern void *data_usa_02164718[];

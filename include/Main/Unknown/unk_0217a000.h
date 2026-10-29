@@ -1242,3 +1242,4 @@ typedef struct Unk0217aa1c {
 extern Unk0217aa1c *data_0217aa1c;
 extern u8 data_0217ad18[];
 extern Unk02017328 data_0217aeb0;
+extern s32 data_usa_0217acfc;
