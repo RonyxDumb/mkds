@@ -46,7 +46,7 @@ s32 func_ov000_0218c468(Unk0218b928 *a, u8 *b, s32 c) {
         return -2;
     }
     r = func_ov000_0218c550(a, h, b, c, 1);
-    func_ov000_0218d340(a, h);
+    func_ov000_0218d340((Unk021b4d24 *) a, (u32) h);
     return r;
 }
 

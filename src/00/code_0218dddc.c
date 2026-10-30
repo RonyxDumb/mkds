@@ -1,4 +1,5 @@
 #include "00/code_0218dddc.h"
+#include "00/code_0218d818.h"
 #include "00/code_0218d000.h"
 #include "00/code_0218da04.h"
 #include "00/code_0218db48.h"
@@ -11,7 +12,7 @@ void func_ov000_0218dddc(Unk0218e004 *param_1, void (*param_2)(void *, void *), 
         func_0213442c(data_ov000_021b2354, data_ov000_021b2358, 0, 0xb6);
     }
     for (a = 0; a < param_1->mUnk_04; a++) {
-        func_ov000_0218d938(param_1->mUnk_00[a], param_2, param_3);
+        func_ov000_0218d938((int *) param_1->mUnk_00[a], (UnkCompare *) param_2, param_3);
     }
 }
 
@@ -25,7 +26,7 @@ void *func_ov000_0218de28(Unk0218e004 *param_1, void *param_2) {
         return 0;
     }
     a = param_1->mUnk_0c(param_2, param_1->mUnk_04);
-    b = func_ov000_0218d980(param_1->mUnk_00[a], param_2, param_1->mUnk_10, 0, 0);
+    b = func_ov000_0218d980((int *) param_1->mUnk_00[a], param_2, (UnkCompare *) param_1->mUnk_10, 0, 0);
     if (b != -1) {
         return func_ov000_0218dbf8(param_1->mUnk_00[a], b);
     }
@@ -42,7 +43,7 @@ s32 func_ov000_0218de8c(Unk0218e004 *param_1, void *param_2) {
         return 0;
     }
     a = param_1->mUnk_0c(param_2, param_1->mUnk_04);
-    b = func_ov000_0218d980(param_1->mUnk_00[a], param_2, param_1->mUnk_10, 0, 0);
+    b = func_ov000_0218d980((int *) param_1->mUnk_00[a], param_2, (UnkCompare *) param_1->mUnk_10, 0, 0);
     if (b != -1) {
         func_ov000_0218da5c(param_1->mUnk_00[a], b);
         return 1;
@@ -58,7 +59,7 @@ void func_ov000_0218def0(Unk0218e004 *param_1, void *param_2) {
     }
     if (param_1 != 0) {
         a = param_1->mUnk_0c(param_2, param_1->mUnk_04);
-        b = func_ov000_0218d980(param_1->mUnk_00[a], param_2, param_1->mUnk_10, 0, 0);
+        b = func_ov000_0218d980((int *) param_1->mUnk_00[a], param_2, (UnkCompare *) param_1->mUnk_10, 0, 0);
         if (b == -1) {
             func_ov000_0218dbc0(param_1->mUnk_00[a], param_2);
             return;

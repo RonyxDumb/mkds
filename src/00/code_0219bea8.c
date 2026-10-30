@@ -12,7 +12,7 @@ void func_ov000_0219bea8(u32 param_1, u32 param_2, void (*param_3)(s32 param_1),
                 return;
             }
             func_ov000_0219b8a8(1);
-            func_ov000_0218d6e4(data_ov000_021b54c8->mUnk_54);
+            func_ov000_0218d6e4((const u8 *) data_ov000_021b54c8->mUnk_54);
         }
     }
 }

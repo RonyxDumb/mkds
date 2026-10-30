@@ -11,7 +11,7 @@ int func_ov000_0218dd8c(int *param_1, int param_2, u32 param_3) {
     if (0 < param_1[1]) {
         iVar2 = 0;
         do {
-            iVar1 = func_ov000_0218d8dc((int *) (u32) (*(u32 *) (*param_1 + iVar2)), param_2, param_3);
+            iVar1 = (int) func_ov000_0218d8dc((int *) (u32) (*(u32 *) (*param_1 + iVar2)), (UnkCompare *) param_2, (void *) param_3);
             if (iVar1 != 0) {
                 return iVar1;
             }

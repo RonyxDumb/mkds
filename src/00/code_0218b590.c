@@ -24,10 +24,10 @@ s32 func_ov000_0218b590(Unk0218b668 *a, s32 b, u32 c, u8 *d, s32 e, const u8 *f,
         n += func_02135014(v1 + n, data_ov000_021b21e8, s);
         func_ov000_0218a93c((u32) a, d[i]);
     }
-    r = func_ov000_0218ca58((Unk0218b928 *) a->mUnk_04c, v1, f, g, h);
+    r = func_ov000_0218ca58(&a->mUnk_04c, v1, f, g, h);
     if (r == 0 && b == 0) {
         n = 10;
-        while (((Unk0218b928 *) a->mUnk_04c)->mUnk_00 == 3 || (a->mUnk_010 > 0 && r == 0)) {
+        while (((Unk0218b928 *) &a->mUnk_04c)->mUnk_00 == 3 || (a->mUnk_010 > 0 && r == 0)) {
             func_ov000_0218e8bc(n);
             r = func_ov000_0218b4bc(a);
         }

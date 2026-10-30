@@ -100,15 +100,63 @@ typedef struct Unk021b4c78 {
 extern Unk021b4c78 *data_ov000_021b4c78;
 extern Unk021b4c78 *data_ov000_021b4c7c;
 
-// Object behind data_ov000_021b4d24.
+// Object behind data_ov000_021b4d24; the 0x5d8 bytes at offset 0x4c of a Unk0218b668.
 typedef struct Unk021b4d24 {
-    /* 000 */ u8 mUnk_000[0x498];
+    /* 000 */ s32 mUnk_000;
+    /* 004 */ int *mUnk_004;
+    /* 008 */ int *mUnk_008;
+    /* 00c */ u8 mUnk_00c[0x24];
+    /* 030 */ u8 mUnk_030[0x24];
+    /* 054 */ u8 mUnk_054[0x20];
+    /* 074 */ s8 mUnk_074[8];
+    /* 07c */ u8 *mUnk_07c;
+    /* 080 */ s32 mUnk_080;
+    /* 084 */ u32 mUnk_084[0xff];
+    /* 480 */ s32 mUnk_480;
+    /* 484 */ s32 mUnk_484;
+    /* 488 */ UnkFunc *mUnk_488;
+    /* 48c */ u32 mUnk_48c;
+    /* 490 */ u8 mUnk_490[4];
+    /* 494 */ void *mUnk_494;
     /* 498 */ u32 mUnk_498;
     /* 49c */ s32 mUnk_49c;
+    /* 4a0 */ s32 mUnk_4a0;
+    /* 4a4 */ u32 mUnk_4a4;
+    /* 4a8 */ u8 mUnk_4a8[4];
+    /* 4ac */ u8 *mUnk_4ac;
+    /* 4b0 */ s32 mUnk_4b0;
+    /* 4b4 */ u8 mUnk_4b4[4];
+    /* 4b8 */ u32 mUnk_4b8;
+    /* 4bc */ u8 mUnk_4bc[0x108];
+    /* 5c4 */ u32 mUnk_5c4;
+    /* 5c8 */ s32 mUnk_5c8;
+    /* 5cc */ s32 mUnk_5cc;
+    /* 5d0 */ int mUnk_5d0;
 } Unk021b4d24;
 
 extern Unk021b4d24 *data_ov000_021b4d24;
 extern s32 data_ov000_021b4d28;
+extern const u8 *data_ov000_021b4d20;
+extern s8 data_ov000_021b4d2c[];
+
+// Object behind data_ov000_021b4dac.
+typedef struct Unk021b4dac {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ u8 mUnk_04[2];
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u8 mUnk_08[4];
+    /* 0c */ u8 mUnk_0c;
+    /* 0d */ u8 mUnk_0d[0x3f];
+    /* 4c */ s32 mUnk_4c;
+    /* 50 */ u32 mUnk_50;
+    /* 54 */ s32 mUnk_54;
+} Unk021b4dac;
+
+extern Unk021b4dac data_ov000_021b4dac;
+extern u8 data_ov000_021b4db0[];
+extern u8 data_ov000_021b4db4[];
+extern u8 data_ov000_021b4db8[];
+extern u8 data_ov000_021b4dbd[];
 extern u8 data_ov000_021b4d6c[];
 extern u8 data_ov000_021b4e50[];
 extern u8 data_ov000_021b400c[];

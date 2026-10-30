@@ -3,4 +3,4 @@
 #include "types.h"
 #include "code_02134d30.h"
 
-void func_ov000_0218cd74(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
+void func_ov000_0218cd74(u8 **arg0, const void *arg1, s32 arg2, s32 *arg3);

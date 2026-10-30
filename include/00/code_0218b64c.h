@@ -21,7 +21,7 @@ typedef struct Unk0218b668 {
     /* 024 */ u8 mUnk_024[0x1c];
     /* 040 */ s32 mUnk_040;
     /* 044 */ u8 mUnk_044[0x8];
-    /* 04c */ u8 mUnk_04c[0x5d4];
+    /* 04c */ Unk021b4d24 mUnk_04c;
     /* 620 */ u32 mUnk_620;
     /* 624 */ u32 mUnk_624;
     /* 628 */ u32 mUnk_628;
