@@ -447,8 +447,6 @@ void func_020f0684(Unk020f41c4_A **p, s32 i, s32 n, s32 v1) {
     } while (i < n);
 }
 
-// non-matching: same size; registers only in the squared distance: the original holds the y difference in r0 and
-// the z difference in r2, this build r6 and r0 (7 words from +0x234)
 void func_020f03f8(Unk027e00cc *a) {
     Unk020f41c4_A **e;
     Unk020f41c4_A *p;
@@ -465,6 +463,8 @@ void func_020f03f8(Unk027e00cc *a) {
     s32 d;
     s32 z;
     s32 m;
+    s32 g;
+    s32 h;
     u16 u;
 
     e = a->mUnk_04;
@@ -526,8 +526,10 @@ void func_020f03f8(Unk027e00cc *a) {
                     q = func_0207a974(u);
                     c = &q->mUnk_98;
                     d = ((c->x - b->x) >> 12) * ((c->x - b->x) >> 12);
-                    d += ((c->y - b->y) >> 12) * ((c->y - b->y) >> 12);
-                    d += ((c->z - b->z) >> 12) * ((c->z - b->z) >> 12);
+                    g = (c->y - b->y) >> 12;
+                    h = (c->z - b->z) >> 12;
+                    d += g * g;
+                    d += h * h;
                     if (min <= d) {
                         break;
                     }
