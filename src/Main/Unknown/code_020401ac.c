@@ -13,11 +13,11 @@ Unk02175620_bc *func_02040da8(u32 a) {
     return &data_02175620->mUnk_b8[data_02175620->mUnk_34[data_02175620->mUnk_fc[a]].mUnk_18];
 }
 
-s32 func_02040d68(const Unk02040d24 *a, const Unk02040d24 *b) {
+s32 func_02040d68(const UnkPair020b502c *a, const UnkPair020b502c *b) {
     return (s32) (((s64) a->mUnk_00 * b->mUnk_00 + (s64) a->mUnk_04 * b->mUnk_04 + 0x800) >> 12);
 }
 
-s64 func_02040d24(const Unk02040d24 *a, const Unk02040d24 *b) {
+s64 func_02040d24(const UnkPair020b502c *a, const UnkPair020b502c *b) {
     return ((s64) a->mUnk_00 * b->mUnk_00 + (s64) a->mUnk_04 * b->mUnk_04 + 0x800) >> 12;
 }
 

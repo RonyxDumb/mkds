@@ -4,6 +4,7 @@
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_0207a7fc.h"
 #include "Main/Unknown/code_0207a32c.h"
+#include "Main/Unknown/code_0203f334.h"
 
 void func_0203d568(void);
 void func_0203d848(void *a);
@@ -16,8 +17,6 @@ void func_0203e550(Unk0217561c_14 *a);
 
 // Declared here until the code that defines them is decompiled.
 s32 func_0203fa60(Unk0217561c_14 *a, s32 *b, Vec3 *c, u16 d, u16 e);
-s32 func_0203f91c(Unk0217561c_14 *a, s32 *b, Vec3 *c, u16 d, u16 e, s32 f);
-s32 func_0203f7c0(Unk0217561c_14 *a, s32 *b, Vec3 *c, u16 d, u16 e, s32 f);
 void func_0203f334(Unk0217561c_14 *a, s32 b);
 void func_0203e788(s32 a, s32 b);
 s32 func_0203ef58(void);

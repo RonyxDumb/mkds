@@ -8,7 +8,7 @@ void func_0203be6c(u8 *param_1, u32 param_2, u32 param_3, u32 param_4) {
     return;
 }
 
-void func_0203be48(u8 *param_1, int param_2, u32 *param_3, u32 *param_4) {
+void func_0203be48(u8 *param_1, u8 param_2, u32 *param_3, u32 *param_4) {
     if (param_3 != (u32 *) 0x0) {
         *param_3 = *(u32 *) (param_1 + param_2 * 4 + 4);
     }
