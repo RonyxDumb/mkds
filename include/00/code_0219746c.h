@@ -1,0 +1,64 @@
+#pragma once
+
+#include "types.h"
+#include "00/code_02196e50.h"
+#include "00/code_02196e48.h"
+#include "00/code_021971ec.h"
+#include "00/code_0218e644.h"
+#include "00/code_0218e56c.h"
+#include "00/code_0218e524.h"
+#include "00/code_0218e554.h"
+#include "00/code_0218e8bc.h"
+#include "00/code_0218e8b4.h"
+#include "00/code_0219742c.h"
+#include "00/code_021a3678.h"
+#include "00/code_0218e368.h"
+#include "00/code_0218e000.h"
+#include "00/unk_021b3000.h"
+#include "00/unk_021b4000.h"
+#include "code_02134d30.h"
+#include "code_0213442c.h"
+#include "code_02135014.h"
+#include "00/code_02196960.h"
+
+typedef struct Unk021b3bb8 {
+    /* 00 */ s8 mUnk_00[0x24];
+} Unk021b3bb8;
+
+extern const Unk021b3bb8 data_ov000_021b3bb8;
+
+// 0x1d bytes written into the buffer of func_ov000_02197a9c when the two strings are too long.
+typedef struct Unk021b3e44 {
+    /* 00 */ s8 mUnk_00[0x1d];
+} Unk021b3e44;
+
+// Declared here until the code that defines them is decompiled.
+void func_ov000_02196960(void);
+s32 func_ov000_0218e80c(s32 a, s32 b);
+
+extern s32 data_ov000_021b4e60;
+extern s8 *data_ov000_021b4e58;
+extern s32 data_ov000_021b4e54;
+extern s32 data_ov000_021b4e74;
+extern s32 data_ov000_021b4e68;
+extern u32 data_ov000_021b4e48;
+extern u32 data_ov000_021b4e64;
+extern s8 *data_ov000_021b4e6c;
+extern s8 data_ov000_021b4e78[];
+extern const Unk021b3e44 data_ov000_021b3e44;
+extern const u8 data_ov000_021b3e64[];
+extern const u8 data_ov000_021b3e14[];
+extern const u8 data_ov000_021b3e34[];
+extern const u8 data_ov000_021b3e40[];
+extern const u8 data_ov000_021b3c48[];
+extern u32 data_ov000_021b3b34;
+
+s32 func_ov000_0219746c(void);
+void func_ov000_02197558(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6, u32 param_7);
+void func_ov000_02197594(s32 a, s32 b, s32 c, UnkFunc *d, s32 e);
+s8 *func_ov000_021975f4(s8 *a);
+void func_ov000_02197634(void);
+s32 func_ov000_02197690(s32 a);
+s32 func_ov000_021976bc(void);
+s32 func_ov000_02197924(s32 a, s32 b);
+s8 *func_ov000_02197a9c(const u8 *a, const u8 *b, s8 *c);
