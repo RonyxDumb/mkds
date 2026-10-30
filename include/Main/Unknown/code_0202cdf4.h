@@ -46,8 +46,8 @@
 #include "Main/Unknown/unk_02174000.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_0204ee64.h"
+#include "Main/Unknown/code_0203be88.h"
 
-void func_0203bf04(void *a, void *b);
 s32 func_0204eb08(void *a);
 
 // Argument of func_0202cdf4: a halfword is set at 4.

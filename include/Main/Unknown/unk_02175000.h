@@ -139,6 +139,9 @@ typedef struct Unk021755a0 {
     /* d0 */ u32 mUnk_d0;
     /* d4 */ u32 mUnk_d4;
     /* d8 */ u8 mUnk_d8;
+    /* bc */ u32 mUnk_bc;
+    /* c0 */ u32 mUnk_c0;
+    /* c4 */ u8 mUnk_c4[0x14];
 } Unk021755a0;
 
 // Objects whose layout isn't known yet.
@@ -217,11 +220,25 @@ extern vu16 data_02175928[];
 extern u8 data_02175dd8[];
 // Object at data_02175614: a word and a function pointer.
 typedef struct Unk02175614 {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ volatile s32 mUnk_00;
     /* 04 */ s32 (*mUnk_04)();
 } Unk02175614;
 
 extern Unk02175614 data_02175614;
+
+// Eight halfwords at data_usa_021755e4: two groups of four.
+typedef struct Unk021755e4 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u16 mUnk_0e;
+} Unk021755e4;
+
+extern Unk021755e4 data_usa_021755e4;
 
 // Object func_0204a620 to func_0204a978 take: a buffer, two halfword counters and two words. The buffer holds a word
 // at 0x00 and byte pairs from 0x04; its size is 0xdcc bytes.

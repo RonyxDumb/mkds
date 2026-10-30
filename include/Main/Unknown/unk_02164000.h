@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/unk_02175000.h" // Unk021a9034
 
 extern const char data_0216416c[];
 extern const char data_02164178[];
@@ -75,3 +76,6 @@ extern const char data_usa_02164754[];
 extern const char data_usa_0216478c[];
 extern const char data_021646e0[];
 extern const char data_usa_021646ec[];
+extern const Unk021a9034 data_usa_021646f8;
+extern const Unk021a9034 data_usa_02164734;
+extern const Unk021a9034 data_usa_02164798;

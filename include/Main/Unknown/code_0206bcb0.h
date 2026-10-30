@@ -7,6 +7,7 @@
 #include "Main/Unknown/code_0210a578.h"
 
 #include "types.h"
+#include "Main/Unknown/code_02039774.h"
 #include "code_02012b30.h" // Unk02012f58
 #include "code_02148538.h"
 #include "Main/Unknown/code_02039860.h"
@@ -494,8 +495,6 @@ int func_0206bcb0(Unk0206bcb0 *p, int a, int b);
 int func_0206be54(Unk0206bcb0 *p, int a);
 void func_0206bbb4(Unk0206bcb0 *p, int a, int b);
 void func_0206c5e4(Unk0206bcb0 *p);
-void func_020397a8(const Vec3 *a, const Vec3 *b, Vec3 *axb);
-s32 func_02039828(const Vec3 *a, const Vec3 *b);
 void func_02063b10(const Unk0206bcb0 *p, Vec3 *out);
 void func_02063b30(const Unk0206bcb0 *p, Vec3 *out);
 
