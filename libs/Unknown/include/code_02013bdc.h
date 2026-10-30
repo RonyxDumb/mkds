@@ -100,8 +100,7 @@ typedef struct Unk02170500 {
     /* b4 */ Unk02014c5c_out *mUnk_b4;
     /* b8 */ u32 *mUnk_b8;
     /* bc */ u32 mUnk_bc[2];
-    /* c4 */ u32 mUnk_c4;
-    /* c8 */ u8 mUnk_c8[0xc];
+    /* c4 */ u32 mUnk_c4[4];
     /* d4 */ Unk02170500_d4 *mUnk_d4;
     /* d8 */ u8 *mUnk_d8;
     /* dc */ u8 *mUnk_dc;

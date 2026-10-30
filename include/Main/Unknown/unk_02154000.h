@@ -56,3 +56,4 @@ extern const Unk01ffd190 data_usa_02154f54;
 extern const Vec3 data_usa_02154f64;
 extern const s32 data_usa_02154d4c[][2];
 extern const s32 data_usa_02154d50[][2];
+extern int (*const data_usa_02154d8c[])(Unk0206bcb0 *);

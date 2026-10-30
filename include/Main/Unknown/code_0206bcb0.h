@@ -63,7 +63,7 @@ typedef struct Unk0206cdd4_A {
     /* 20 */ s32 mUnk_20;
     /* 24 */ s32 mUnk_24;
     /* 28 */ s32 mUnk_28;
-    /* 2c */ u8 mUnk_2c[4];
+    /* 2c */ s32 mUnk_2c;
     /* 30 */ s16 mUnk_30;
     /* 32 */ s16 mUnk_32;
     /* 34 */ s32 mUnk_34;
@@ -485,6 +485,7 @@ extern Unk0217d26c data_0217d284;
 extern Unk0217d26c data_0217d28c;
 Unk0206cdd4_B *func_0207a6b0(void);
 void func_0206d020(Unk0206bcb0 *p, int a, int b);
+void func_0206f914(Unk0206bcb0 *p);
 void func_01ffc9e8(Unk0206bcb0 *p, int a);
 void func_020681f0(Unk0206bcb0 *p);
 #include "Main/Unknown/code_0210dc7c.h"

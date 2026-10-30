@@ -134,7 +134,7 @@ void func_02064d60(Unk0206bcb0 *a, Vec3 *b) {
         a->mUnk_3a8 = 0xf6;
         func_02070484(a, &a->mUnk_100_q);
     } else {
-        func_01ffad14(a);
+        func_01ffad14(a, b);
     }
     func_01ffce48(&a->mUnk_f0_q, &a->mUnk_100_q, &a->mUnk_f0_q, a->mUnk_3a8);
     e = a->mUnk_236 - c->mUnk_0e;
