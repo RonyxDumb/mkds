@@ -51,7 +51,7 @@ void func_0207c270(struct Unk0208fd8c *a, struct Unk020888b4 *b) {
         return;
     }
     if (((Unk020ee684 *) *(void **) data_027e00c8)[b->mUnk_04].mUnk_030.mUnk_00 == 0xe) {
-        if (*(u16 *) &b->mUnk_08.mUnk_00->mUnk_24 > 1) {
+        if (*(u16 *) &b->mUnk_08.mUnk_00.mUnk_00->mUnk_24 > 1) {
             return;
         }
     }

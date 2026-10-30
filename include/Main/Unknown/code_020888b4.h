@@ -49,10 +49,7 @@ typedef struct Unk020888b4 {
     /* 00 */ Unk0206bcb0 *mUnk_00;
     /* 04 */ u16 mUnk_04;
     /* 06 */ u16 mUnk_06;
-    /* 08 */ union {
-        Unk0208001c mUnk_08;
-        Unk02080d34 mUnk_08_b;
-    };
+    /* 08 */ Unk02080d34 mUnk_08;
     /* 28 */ Unk0208001c mUnk_28;
     /* 44 */ Vec3 mUnk_44;
     /* 50 */ Vec3 mUnk_50;

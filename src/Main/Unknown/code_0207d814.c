@@ -32,7 +32,7 @@ void func_0207d814(struct Unk02089a24 *a, struct Unk020888b4 *b) {
         return;
     }
     if (data_021759c0->mUnk_00c == 6) {
-        b->mUnk_00->mUnk_2a8 = (s32) (((s64) b->mUnk_00->mUnk_2cc->mUnk_10 * func_0207fe70((Unk02080b1c *) &b->mUnk_08) + 0x800) >> 12);
+        b->mUnk_00->mUnk_2a8 = (s32) (((s64) b->mUnk_00->mUnk_2cc->mUnk_10 * func_0207fe70((Unk02080b1c *) &b->mUnk_08.mUnk_00) + 0x800) >> 12);
         b->mUnk_00->mUnk_cc = b->mUnk_00->mUnk_2a8;
         b->mUnk_00->mUnk_d0 = b->mUnk_00->mUnk_cc;
         return;
