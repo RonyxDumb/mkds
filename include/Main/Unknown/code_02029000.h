@@ -1,10 +1,10 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_02029aa0.h"
 
 // Declared here until the code that defines them is decompiled.
 void func_0202993c(void);
-void func_02029aa0(int param_1);
 void func_020294c0(u16 a, u32 b);
 void func_020294d4(u16 a, u32 b);
 void func_0202950c(u16 a, u32 b);

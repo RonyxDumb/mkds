@@ -200,7 +200,7 @@ extern Unk02174e64 *data_02174e64;
 
 // Objects whose layout isn't known yet.
 extern u8 data_02174e18[];
-extern u8 data_02174e24[];
+extern struct Unk0202a658 *data_02174e24;
 extern u8 data_02174e28[];
 typedef struct Unk02174e40 {
     /* 000 */ u8 mUnk_000[0xc];
