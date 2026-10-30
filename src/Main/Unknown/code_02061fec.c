@@ -1,7 +1,6 @@
 #include "Main/Unknown/code_02061fec.h"
 
-unsigned int func_02062000(unsigned int p0) {
-    return p0;
+void func_02062000(void) {
 }
 
 unsigned int func_02061fec(void) {

@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0202578c.h"
+#include "Main/Unknown/code_0203b0a0.h"
 #include "Main/Unknown/code_0202a340.h"
 #include "Main/Unknown/code_020b4000.h"
 #include "Main/Unknown/code_020b3f7c.h"
@@ -61,7 +62,6 @@ extern Unk02153918 data_usa_02153918[];
 
 s32 func_020909cc(void);
 void func_02045a2c(s32 a);
-s32 func_0203b324(void);
 u32 func_020911a8(void);
 
 void func_02029aa0(Unk02029aa0 *a);

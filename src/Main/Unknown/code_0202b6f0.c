@@ -13,9 +13,9 @@ void func_0202b6f0(s32 a) {
         if (a != 0) {
             for (i = 0; i < 8; i++) {
                 if (i < data_02174e3c->mUnk_048 || data_02174e3c->mUnk_208 != 0) {
-                    if (data_02174e3c->mUnk_4c[i].mUnk_00 == 0) {
+                    if (data_02174e3c->mUnk_04c[i].mUnk_00 == 0) {
                         k = 1;
-                    } else if (data_02174e3c->mUnk_4c[i].mUnk_00 == 1) {
+                    } else if (data_02174e3c->mUnk_04c[i].mUnk_00 == 1) {
                         k = 2;
                     }
                     func_0202cc18(i, k);
