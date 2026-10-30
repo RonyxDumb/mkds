@@ -146,10 +146,10 @@ void func_02007698(Unk021432ac *a, u32 b) {
     }
 }
 
-// non-matching: 0x324 bytes, original 0x334; 370 lines differ; first: original `cmp r7, #17`, ours `cmp r7, #3`
 void func_020079c4(s32 a, Unk021425e8 *b) {
     u32 v1;
     u8 i;
+    Unk0216fdac *p;
     u32 v2;
     u16 v3;
     u8 v4;
@@ -176,7 +176,7 @@ void func_020079c4(s32 a, Unk021425e8 *b) {
                 v2 = 0;
                 (*(Unk0216fdac **) &data_0216fdac)->mUnk_1754[b->mUnk_10 - 1] = v2;
                 v3 = b->mUnk_10;
-                v5 = (*(Unk0216fdac **) &data_0216fdac)->mUnk_1526[v3 - 1];
+                v5 = (*(Unk0216fdac **) &data_0216fdac)->mUnk_1526[(s32) v3 - 1];
                 v2 = ~v2;
                 if (v5 != v2) {
                     v1 = 1 << v3;
@@ -198,6 +198,8 @@ void func_020079c4(s32 a, Unk021425e8 *b) {
                 (*(Unk0216fdac **) &data_0216fdac)->mUnk_14e8[b->mUnk_10 - 1] = 0;
             }
             break;
+        case 0x11:
+            break;
         case 3:
             func_02007624((Unk021432ac *) b);
             break;
@@ -208,13 +210,14 @@ void func_020079c4(s32 a, Unk021425e8 *b) {
             i = 0;
             v1 = 0;
             do {
+                p = *(Unk0216fdac **) &data_0216fdac;
                 v2 = i * 0x5d4;
-                if (((Unk0216fdac *) ((u8 *) *(Unk0216fdac **) &data_0216fdac + v2))->mUnk_1d52 != 0
-                    && ((Unk0216fdac *) ((u8 *) *(Unk0216fdac **) &data_0216fdac + v2))->mUnk_1d50 != 0) {
-                    func_0200973c((*(Unk0216fdac **) &data_0216fdac)->mUnk_1788 + 0xe4 + v2,
-                                  (*(Unk0216fdac **) &data_0216fdac)->mUnk_1340,
-                                  ((Unk0216fdac *) ((u8 *) *(Unk0216fdac **) &data_0216fdac + v2))->mUnk_1d4e,
-                                  ((Unk0216fdac *) ((u8 *) *(Unk0216fdac **) &data_0216fdac + v2))->mUnk_1d50);
+                if (((Unk0216fdac *) ((u8 *) p + v2))->mUnk_1d52 != 0
+                    && ((Unk0216fdac *) ((u8 *) p + v2))->mUnk_1d50 != 0) {
+                    func_0200973c(p->mUnk_1788 + 0xe4 + v2,
+                                  p->mUnk_1340,
+                                  ((Unk0216fdac *) ((u8 *) p + v2))->mUnk_1d4e,
+                                  ((Unk0216fdac *) ((u8 *) p + v2))->mUnk_1d50);
                     ((Unk0216fdac *) ((u8 *) *(Unk0216fdac **) &data_0216fdac + v2))->mUnk_1d50 = v1;
                 }
                 i++;
@@ -237,6 +240,7 @@ void func_020079c4(s32 a, Unk021425e8 *b) {
                 case 9:
                     func_02007120(0, 9);
                     break;
+                case 15:
                 default:
                     func_02007120(0, 8);
                     break;
@@ -257,6 +261,7 @@ void func_020079c4(s32 a, Unk021425e8 *b) {
                 case 29:
                     func_02007120(0, 9);
                     break;
+                case 22:
                 default:
                     func_02007120(0, 8);
                     break;

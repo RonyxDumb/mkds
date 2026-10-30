@@ -9,11 +9,11 @@
 
 #pragma thumb on
 
-// non-matching: 0xc4 bytes, original 0xc8; 39 lines differ; first: original `str r3, [sp, #12]`, ours `adds r7, r3, #0`
 void func_02035c50(s32 a, s32 b, s32 c, s32 d) {
     Unk02174e14_00 *s;
     s32 i;
     s32 v;
+    s32 e;
     u8 x[4];
     s16 w[12];
 
@@ -27,13 +27,14 @@ void func_02035c50(s32 a, s32 b, s32 c, s32 d) {
         func_02124224(1, b + 7, s->mUnk_14, w, s->mUnk_0c, s->mUnk_18, 7);
     } else if (a == 0) {
         for (i = 0; i < 7; i++) {
+            e = i + 7;
             if (i == d) {
                 v = 14;
             } else {
                 v = 15;
             }
             func_02124100(i, (u8) v, s->mUnk_14, s->mUnk_18, s->mUnk_0c);
-            func_02124100(i + 7, (u8) v, s->mUnk_14, s->mUnk_18, s->mUnk_0c);
+            func_02124100(e, (u8) v, s->mUnk_14, s->mUnk_18, s->mUnk_0c);
         }
     }
 }

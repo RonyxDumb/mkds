@@ -25,7 +25,7 @@ s32 func_0212c700(u32 a, Unk0212d9dc *b, u32 c) {
     return 1;
 }
 
-void func_0212c6f0(Unk0212c400 **a, u32 b) {
+u32 func_0212c6f0(Unk0212c400 **a, u32 b) {
     func_0212c018(*a, b);
 }
 

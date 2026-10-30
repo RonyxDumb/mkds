@@ -6,13 +6,11 @@
 
 #pragma thumb on
 
-// non-matching: 0x54 bytes, original 0x58; 25 lines differ; first: original `ldr r1, [pc, #72]`, ours `ldr r1, [pc,
-// #68]`
 void func_02035228(s32 a) {
     Unk02174e14_00 *q;
     s32 m;
     s32 w;
-    u8 v;
+    s32 v;
 
     q = &data_02174e64->mUnk_02c[1];
     m = data_02174e64->mUnk_080;

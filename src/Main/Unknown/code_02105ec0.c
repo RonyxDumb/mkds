@@ -294,12 +294,8 @@ void func_0210823c(void) {
     data_0217c794 = 0;
 }
 
-// non-matching: 0xd8c bytes here against 0xd90 there. The result of func_0202511c is kept in r6
-// and the switch value read from data_021759c0 in r5, the other way round in the ROM (r5 and r6).
-// After func_0210f5d4 the ROM keeps data_021759c0 plus 0x28 in r6 (add r6, r1, #0x28) and reads
-// the byte at 0x2e as [r6, #6]; here data_021759c0 itself is kept in r5 and read as [r5, #0x2e],
-// so the ROM has one more instruction.
 void func_021074ac(s32 param_1) {
+    s32 c;
     s32 a;
     s32 v;
     s32 b;
@@ -345,7 +341,7 @@ void func_021074ac(s32 param_1) {
         v = 0x7f;
     }
     data_0216cb28 = v;
-    b = func_0202511c(a, &buf);
+    c = func_0202511c(a, &buf);
     if (data_0217d060 == 0) {
         func_0210f808();
         func_0210f868(0, 0);
@@ -486,6 +482,7 @@ void func_021074ac(s32 param_1) {
             }
             func_0210f5d4(v);
             if (data_021759c0->mUnk_08 == 4) {
+                u8 *w = (u8 *) data_021759c0 + 0x28;
                 switch (data_021759c0->mUnk_2f) {
                     case 1:
                         data_0217c770[0] = 0x1d7;
@@ -494,7 +491,7 @@ void func_021074ac(s32 param_1) {
                     case 7:
                         data_0217c770[0] = 0x1e0;
                         data_0217c76c[0] = 0x1e1;
-                        switch (data_021759c0->mUnk_2e) {
+                        switch (w[6]) {
                             case 9:
                             case 0xa:
                                 data_0217c76c[0] = 0xff;
@@ -566,7 +563,7 @@ void func_021074ac(s32 param_1) {
     s.mUnk_01 = buf.mUnk_00;
     s.mUnk_02 = buf.mUnk_01;
     func_021103c0();
-    func_021073ec(b & 0xff, s, &data_0217c814);
+    func_021073ec(c & 0xff, s, &data_0217c814);
     func_0210912c();
     func_0210b870();
     func_0210aefc();

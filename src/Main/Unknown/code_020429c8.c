@@ -133,7 +133,6 @@ void func_02042d34(Unk02175620_a0 *a, Unk02175620_4c *b, u16 c) {
     }
 }
 
-// non-matching: the original loads the table pointer (member 0x6c) before the entry byte when computing the last node, copies the loop counter into r7 at the top of the second loop, and keeps the loop counter in r6 and the node in r5 (swapped here)
 void func_02042c3c(void *a) {
     Unk02175620 *g;
     Unk02175620_4c *d;
@@ -143,7 +142,6 @@ void func_02042c3c(void *a) {
     Unk02175620_a0 *e;
     s32 k;
     s32 n;
-    s32 j;
 
     g = data_02175620;
     d = g->mUnk_6c;
@@ -162,14 +160,14 @@ void func_02042c3c(void *a) {
         e->mUnk_20 = 0;
         e->mUnk_1c = 0;
     }
-    n = (data_02175620->mUnk_6c + d->mUnk_07)->mUnk_00 + (data_02175620->mUnk_6c + d->mUnk_07)->mUnk_02 - 1;
+    t = data_02175620->mUnk_6c + d->mUnk_07;
+    n = t->mUnk_00 + t->mUnk_02 - 1;
     q[2] = q[0] + n;
     func_02042d34(q[0] + n, d, d->mUnk_00);
     for (i = 0; i < data_02175620->mUnk_70; i++) {
-        j = i;
         t = data_02175620->mUnk_6c + (u16) i;
         if (q[0][t->mUnk_00].mUnk_24 == 0) {
-            func_02042d34((Unk02175620_a0 *) j, t, t->mUnk_00);
+            func_02042d34(0, t, t->mUnk_00);
         }
     }
 }

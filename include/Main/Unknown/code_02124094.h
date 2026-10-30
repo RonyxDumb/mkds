@@ -133,6 +133,6 @@ void func_02124224(s32 a, u32 b, void *c, void *d, void *e, void *f, s8 g);
 void func_021241c0(s32 a, s32 b, Unk0201ea30 *c, Unk0201ea30 *d, Unk02124b1c *e);
 s32 func_0212418c(u32 a, void *b, Unk02124b1c *c, Unk0201ea30 *d);
 void func_02124140(u32 a, u32 b, void *c, void *d, void *e);
-void func_02124100(s32 a, s32 b, void *c, void *d, void *e);
+void func_02124100(s32 a, u8 b, void *c, void *d, void *e);
 u8 func_021240d4(u32 a, void *b, Unk02124b1c *c, Unk0201ea30 *d);
 void func_02124094(u32 a, u32 b, void *c, Unk02124b1c *d, Unk0201ea30 *e);

@@ -117,20 +117,21 @@ s32 func_02034e68(Unk02174e64_9c_00 *a, Unk02174e64_9c_00 *b) {
     return 0;
 }
 
-// non-matching: same size; 34 lines differ; first: original `ldr r4, [r7, #0]`, ours `ldr r5, [r7, #0]`
 void func_02034ef0(void) {
-    Unk02174e14_00 *s;
     s32 i;
+    Unk02174e14_00 *s;
     s32 v;
+    s32 w;
 
     s = &data_02174e64->mUnk_02c[1];
     for (i = 0; i < 4; i++) {
+        w = i + 4;
         if (i == data_02174e64->mUnk_080) {
             v = 14;
         } else {
             v = 15;
         }
-        func_02124100(i + 4, (u8) v, s->mUnk_14, s->mUnk_18, s->mUnk_0c);
+        func_02124100(w, (u8) v, s->mUnk_14, s->mUnk_18, s->mUnk_0c);
         func_02124100(i, (u8) v, s->mUnk_14, s->mUnk_18, s->mUnk_0c);
     }
     if (data_02174e64->mUnk_080 >= 0) {

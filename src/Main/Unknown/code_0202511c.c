@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0202511c.h"
 
 static inline void copy_entry(u8 *dst, s32 i) {
-    u8 *t = data_0215316c + i * 4;
+    u8 *t = data_0215316c[i].mUnk_00;
     dst[0] = t[0];
     dst[1] = t[1];
     dst[2] = t[2];
@@ -170,9 +170,8 @@ u32 func_0202511c(s32 a, void *c) {
     return r;
 }
 
-// non-matching: 93.8%; same switch, differences in the byte copy of the table entry
 u32 func_0202553c(u32 a, void *c) {
-    u8 *b = (u8 *) c;
+    Unk0215316c *b = (Unk0215316c *) c;
     u32 r;
 
     r = 0x36;
@@ -296,7 +295,7 @@ u32 func_0202553c(u32 a, void *c) {
         break;
     }
     if (b != 0) {
-        copy_entry(b, r);
+        *b = data_0215316c[r];
     }
     return r;
 }

@@ -15,5 +15,5 @@ typedef struct Unk0212c700 {
 } Unk0212c700;
 
 void func_0212c6ac(u32 a);
-void func_0212c6f0(Unk0212c400 **a, u32 b);
+u32 func_0212c6f0(Unk0212c400 **a, u32 b);
 s32 func_0212c700(u32 a, Unk0212d9dc *b, u32 c);

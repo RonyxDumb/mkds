@@ -45,31 +45,30 @@ void func_0210a880(Unk0206bcb0 *a, Unk0210bf24 *b, s32 c)
     func_02105b0c(&b->mUnk_00, b->mUnk_14 + d);
 }
 
-// non-matching: the locals holding mUnk_1a and the running sum (r5 and r4 in the original) are in each other's
-// registers, and the two literal loads in the first arm (0x1c2 and data_0217ccb4) come in the other order
 void func_0210a77c(Unk0206bcb0 *a, Unk0210bf24 *b)
 {
     Vec3 *o;
+    u32 c;
     s32 v;
     s16 w;
     u32 m;
     s32 t;
-    u32 c;
 
     v = 0;
+    c = b->mUnk_1a;
     if (a->mUnk_44 == 0) {
         o = (Vec3 *) &a->mUnk_168.y;
     } else {
         o = (Vec3 *) &a->mUnk_250.z;
     }
     v += o->z;
-    c = b->mUnk_1a;
     t = func_020d3d48(a->mUnk_50.y);
     if (t < 0) {
         m = -t;
         w = 0;
         if (m > 0x11170) {
-            w = 0x1c2 + data_0217ccb4;
+            w = 0x1c2;
+            w += data_0217ccb4;
         } else if (m > 0x61a8 && m <= 0x11170) {
             w = ((s32) ((((s64) data_0217ccbc * (s32) ((m - 0x61a8) << 12)) + 0x800) >> 12)) >> 12;
             w += data_0217ccb4 >> 1;
