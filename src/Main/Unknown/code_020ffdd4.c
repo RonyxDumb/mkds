@@ -55,18 +55,13 @@ void func_020ffeb8(void *a, Unk020ffb1c *e, void *c, s32 d) {
     func_020ea8a8(data_0217c628, q, &e->mUnk_00.mUnk_1c, d);
 }
 
-// non-matching: the table-row address after the 64-bit product-and-sum differs in
-// register numbering and scheduling only - this build loads the high word of
-// q->mUnk_00 into r1 and the constant 6 into r2 (umull r3,ip,r1,r2;
-// mla r6,r1,r2,r3, table base loaded before the test of n) where the original
-// uses r2 for the high word and r1 for 6 (umull r3,ip,r2,r1; mla r6,r3,r1,r2,
-// base loaded after `cmp r4,#0`); 13 words from +0x70, 0xe4 bytes in both.
 void func_020ffdd4(Unk020e6fd4 *v1) {
     Unk020f41c4_B *q;
     void **arr;
     Unk020ffb1c *e;
     u16 *v2;
     s32 n, i;
+    u16 t;
 
     n = v1->mUnk_04;
     arr = v1->mUnk_00;
@@ -78,9 +73,10 @@ void func_020ffdd4(Unk020e6fd4 *v1) {
     }
     q = func_020d22d0();
     q->mUnk_00 = q->mUnk_08 * q->mUnk_00 + q->mUnk_10;
-    v2 = (u16 *) data_0215a0a8[(u16) (((u64) (u32) (q->mUnk_00 >> 32) * 6) >> 32)];
+    t = (u16) (((u64) (u32) (q->mUnk_00 >> 32) * 6) >> 32);
     for (i = 0; i < n; i++) {
         e = arr[i];
+        v2 = (u16 *) data_0215a0a8[t];
         e->mUnk_a8 = e->mUnk_b4[v2[i]];
         e->mUnk_00.mUnk_80.mUnk_10 = 0;
         e->mUnk_00.mUnk_80.mUnk_12 = 1;

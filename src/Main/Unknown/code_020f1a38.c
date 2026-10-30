@@ -9,13 +9,11 @@
 
 #pragma thumb on
 
-// non-matching: the four loops are emitted rotated and the multiply by the loop counter is strength-reduced to a
-// running offset; the binary keeps the guard (cmp/bge before the body) and multiplies by the counter every
-// iteration.
 void func_020f1b10(void) {
     Unk0217bc34 *p;
-    s32 i;
-    s32 j;
+    enum { K0 } i;
+    enum { K1 } j;
+    s32 m;
     u32 v;
 
     p = (Unk0217bc34 *) func_02036bec(func_020364e0(func_020364e8()), 0x930);
@@ -44,15 +42,19 @@ void func_020f1b10(void) {
         }
         data_0217bc34[i].mUnk_a4 = v;
     }
-    i = data_021759c0->mUnk_08;
-    if (i == 2) {
-        data_0217bc34[8].mUnk_04 = 8;
-    } else if (i == 4) {
-        for (j = 0; j < 0xe; j++) {
-            data_0217bc34[j].mUnk_04 = data_0217bc34[j].mUnk_08;
-        }
-    } else if (i == 5) {
-        data_0217bc34[3].mUnk_04 = 0x20;
+    m = data_021759c0->mUnk_08;
+    switch (m) {
+        case 2:
+            data_0217bc34[8].mUnk_04 = 8;
+            break;
+        case 4:
+            for (j = 0; j < 0xe; j++) {
+                data_0217bc34[j].mUnk_04 = data_0217bc34[j].mUnk_08;
+            }
+            break;
+        case 5:
+            data_0217bc34[3].mUnk_04 = 0x20;
+            break;
     }
 }
 

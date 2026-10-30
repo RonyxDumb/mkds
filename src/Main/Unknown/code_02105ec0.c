@@ -115,15 +115,13 @@ void func_02108720(void) {
     func_0210e4ec(&data_0217c7b4);
 }
 
-// non-matching: 25 words from +0xb8 are the same instructions with swapped registers:
-// this build computes the difference of the two constant pairs into r0 and keeps the sum in
-// r1/r2, the ROM computes the sum first into r0 and the difference into r1.
 void func_02108598(u32 a, u32 b) {
     u32 c;
     u32 d;
     u32 e;
     u32 v;
     u32 w;
+    u32 x;
 
     data_0216c7d4 = a;
     switch (a) {
@@ -156,8 +154,9 @@ void func_02108598(u32 a, u32 b) {
             break;
     }
     func_02111250((void *) b, d);
-    w = (a == 0 ? 0xc8000 : 0xaf000) - (a == 2 ? 0xaf000 : 0xc400);
     data_0217c790 = (Unk0212d9dc *) b;
+    x = b + d;
+    w = (a == 0 ? 0xc8000 : 0xaf000) - (a == 2 ? 0xaf000 : 0xc400);
     switch (a) {
         case 0:
             e = 0x36f3c;
@@ -169,7 +168,6 @@ void func_02108598(u32 a, u32 b) {
             e = 0x25a5c;
             break;
     }
-    w = w - e;
     v = 0;
     switch (a) {
         case 0:
@@ -182,9 +180,13 @@ void func_02108598(u32 a, u32 b) {
             v = 0x35a0;
             break;
     }
-    w = w - v;
-    data_0217d130 = func_0212dcc8((void *) (b + d), w);
-    func_0210e8f8(a == 1);
+    w = w - e - v;
+    data_0217d130 = func_0212dcc8((void *) x, w);
+    x = 0;
+    if (a == 1) {
+        x = 1;
+    }
+    func_0210e8f8(x);
 }
 
 void func_02108344(u32 a, u32 b, u32 c) {
