@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_0203810c.h" // Unk0203810c
 #include "code_020182c0.h" // Unk020182c0
 
 // Object behind data_021759d0 (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
@@ -113,15 +114,15 @@ typedef struct Unk021755a0 {
     /* 26 */ u16 mUnk_26;
     /* 28 */ Unk021755a0_28 mUnk_28;
     /* 38 */ Unk021755a0_28 mUnk_38;
-    /* 48 */ u8 mUnk_48[0x10];
-    /* 58 */ u8 mUnk_58[0x10];
+    /* 48 */ Unk0203810c mUnk_48;
+    /* 58 */ Unk0203810c mUnk_58;
     /* 68 */ u16 mUnk_68;
     /* 6a */ u16 mUnk_6a;
     /* 6c */ Unk021755a0_6c *mUnk_6c;
     /* 70 */ Unk021755a0_28 mUnk_70;
     /* 80 */ Unk021755a0_28 mUnk_80;
-    /* 90 */ u8 mUnk_90[0x10];
-    /* a0 */ u8 mUnk_a0[0x10];
+    /* 90 */ Unk0203810c mUnk_90;
+    /* a0 */ Unk0203810c mUnk_a0;
     /* b0 */ u16 mUnk_b0;
     /* b2 */ u16 mUnk_b2;
     /* b4 */ u8 mUnk_b4[0x4];
