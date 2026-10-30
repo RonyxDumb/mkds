@@ -213,7 +213,10 @@ typedef struct {
     /* 4f0 */ s32 mUnk_4f0;
     /* 4f4 */ u32 mUnk_4f4;
     /* 4f8 */ u8 mUnk_4f8;
-    /* 4f9 */ u8 mUnk_4f9[7];
+    /* 4f9 */ u8 mUnk_4f9;
+    /* 4fa */ u16 mUnk_4fa;
+    /* 4fc */ u16 mUnk_4fc;
+    /* 4fe */ u16 mUnk_4fe;
     /* 500 */ Unk0217561c_500 mUnk_500;
 } Unk0217561c;
 
