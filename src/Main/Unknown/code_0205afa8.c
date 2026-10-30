@@ -7,11 +7,10 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "00/code_0219bb50.h"
 
-// non-matching: same size; register allocation only (r4 and r6 swapped), 18 lines differ.
 s32 func_0205afa8(void) {
-    u16 a;
-    s32 b;
     u32 c;
+    s32 b;
+    u16 a;
     s32 d;
     s32 e;
 

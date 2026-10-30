@@ -17,15 +17,14 @@ void func_0205a548(s32 a, s32 b, s32 c) {
     func_020f40dc(&(*(Unk020ee684 **) data_027e00c8)[(u16) data_0217aa18->mUnk_06[a]].mUnk_030, b, c);
 }
 
-// non-matching: same size; 9 lines differ; first: original `add r2, r2, #364`, ours `add r2, r2, #260`
 void func_0205a5b0(u32 a) {
-    Unk0217aa14_104 *e;
+    Unk0217aa14_104_68 *e;
 
-    e = &data_0217aa14->mUnk_104[a];
-    if (e->mUnk_74 != 0) {
+    e = &data_0217aa14->mUnk_104[a].mUnk_68_view;
+    if (e->mUnk_0c != 0) {
         return;
     }
-    e->mUnk_6c = 0x13;
+    e->mUnk_04 = 0x13;
     func_020f4718(&(*(Unk020ee684 **) data_027e00c8)[(u16) data_0217aa18->mUnk_06[a]].mUnk_030);
 }
 
@@ -81,11 +80,10 @@ void func_0205a7ac(s32 a) {
     func_0214d168(&data_0217aa14->mUnk_754->mUnk_04.mUnk_20[a], 0, 2);
 }
 
-// non-matching: 0x68 bytes, original 0x7c; 32 lines differ; first: original `stmfd sp!, {lr}`, ours `push {r4, lr}`
 void func_0205a7dc(s32 a, u16 b, s32 c, s32 d) {
     Unk0217aa14_754_04_20 *e;
 
-    e = &data_0217aa14->mUnk_754->mUnk_04.mUnk_20[a];
+    e = &((Unk0217aa14_754_04 *) (void *) &data_0217aa14->mUnk_754->mUnk_04)->mUnk_20[a];
     e->mUnk_00_0 = b;
     e->mUnk_00_7 = c;
     e->mUnk_00_12 = d;

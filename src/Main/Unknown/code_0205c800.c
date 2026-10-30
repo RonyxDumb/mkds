@@ -13,10 +13,9 @@
 #include "00/code_0219bb50.h"
 #include "code_0200f5ac.h"
 
-// non-matching: same size; register allocation only; 10 lines differ; first: original `mvn r7, #0`, ours `mvn r8, #0`
 void func_0205c800(u16 a, void (*b)(u32)) {
-    s32 r;
     u16 i;
+    s32 r;
     u16 n;
 
     r = -1;
@@ -238,13 +237,11 @@ void func_0205cd24(void *a) {
     func_02046be8(data_0217aa14, data_02165388, 6, 0);
 }
 
-// non-matching: same size; register allocation only; 2 lines differ; first: original `mov r5, #0`, ours `mov r1, #0`
 void func_0205cfd4(u32 a) {
     u8 i;
     u8 n;
 
-    n = 0;
-    for (i = 0; i < 4; i++) {
+    for (i = 0, n = 0; i < 4; i++) {
         data_0217aa18->mUnk_06[i] = -1;
         if ((a & (1 << i)) != 0) {
             data_0217aa18->mUnk_00[n] = i;

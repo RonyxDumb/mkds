@@ -22,9 +22,9 @@
 #include "00/code_0219bb50.h"
 #include "code_0200f5ac.h"
 
-// non-matching: 0x20c bytes, original 0x204; register allocation and one extra instruction near the u8 read of the byte at 6 of data_0217aa18.
 void func_0205bc08(void) {
     u16 v;
+    u32 w;
     Unk0217aa14 *p;
     Unk0217aa14_754 *q;
     Unk0217aa14_754_04 *r;
@@ -40,7 +40,8 @@ void func_0205bc08(void) {
     if (data_0217aa18->mUnk_06[func_ov000_0219bb50()] < 0) {
         r->mUnk_04 = 0;
     } else {
-        r->mUnk_04 = func_0205afa8() | ((data_0217aa14->mUnk_73e << 23) & 0x7800000);
+        w = func_0205afa8();
+        r->mUnk_04 = w | ((data_0217aa14->mUnk_73e << 23) & 0x7800000);
     }
     func_0205c234(v);
     func_0205be0c();
@@ -60,13 +61,15 @@ void func_0205bc08(void) {
         case 2:
         case 7:
             data_0217aa14->mUnk_758 = 4;
-            data_0217aa14->mUnk_010 = 5;
-            data_0217aa14->mUnk_012 = 1;
+            p = data_0217aa14;
+            p->mUnk_010 = 5;
+            p->mUnk_012 = 1;
             break;
         case 9:
             data_0217aa14->mUnk_758 = 3;
-            data_0217aa14->mUnk_010 = 5;
-            data_0217aa14->mUnk_012 = 1;
+            p = data_0217aa14;
+            p->mUnk_010 = 5;
+            p->mUnk_012 = 1;
             break;
         }
     }
@@ -297,13 +300,15 @@ void func_0205c470(void) {
     }
 }
 
-// non-matching: 0x80 bytes, original 0x7c; the data pointer is reloaded where the original keeps it in a register.
 void func_0205c594(void) {
+    Unk0217aa14 *p;
+
     data_0217aa14->mUnk_736 = data_0217aa14->mUnk_736 - 1;
     if (data_0217aa14->mUnk_736 <= 0) {
         data_0217aa14->mUnk_736 = -1;
-        data_0217aa14->mUnk_010 = 4;
-        data_0217aa14->mUnk_012 = 1;
+        p = data_0217aa14;
+        p->mUnk_010 = 4;
+        p->mUnk_012 = 1;
         return;
     }
     func_0205c800(data_0217aa14->mUnk_734, func_0205c610);
