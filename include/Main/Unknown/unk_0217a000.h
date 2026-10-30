@@ -1237,6 +1237,15 @@ typedef struct Unk0217ae84 {
 extern Unk0217ae84 *data_0217ae84;
 extern struct Unk0208fd8c_08 *data_0217ae34;
 extern struct Unk0208fd8c_08 *data_0217ae38;
+struct Unk02080b1c;
+struct Unk020888b4;
+struct Unk0208001c;
+struct Unk0206bcb0;
+extern const s32 *data_usa_0217ae38;
+extern void (*data_usa_0217ae3c)(struct Unk02080b1c *p);
+extern const s32 *data_usa_0217ae40;
+extern void (*data_usa_0217ae44)(struct Unk020888b4 *p, struct Unk0208001c *q, struct Unk0206bcb0 *r);
+extern const s32 *data_usa_0217ae48;
 extern u16 data_0217ae6c;
 extern u16 data_0217ae70;
 extern struct Unk0201ca6c **data_0217ae74;

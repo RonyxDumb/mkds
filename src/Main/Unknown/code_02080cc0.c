@@ -1,11 +1,5 @@
 #include "Main/Unknown/code_02080cc0.h"
 
-unsigned int func_02080cc0(unsigned int p0) {
-    return ((unsigned int) *(
-        const short *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                            const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                                       const unsigned int *) ((unsigned char *) (unsigned int) (p0) +
-                                                                              0))) +
-                                                   32))) +
-                        0));
+s16 func_02080cc0(Unk0208001c *p) {
+    return *(s16 *) p->mUnk_00->mUnk_20;
 }

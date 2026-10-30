@@ -72,7 +72,7 @@ typedef struct Unk02175620_bc {
     /* 0c */ struct Unk02175620_bc *mUnk_0c;
     /* 10 */ u8 mUnk_10[8];
     /* 18 */ Vec3 *mUnk_18;
-    /* 1c */ u8 mUnk_1c[4];
+    /* 1c */ s32 mUnk_1c;
     /* 20 */ Vec3 *mUnk_20;
     /* 24 */ s32 mUnk_24;
     /* 28 */ s16 *mUnk_28;

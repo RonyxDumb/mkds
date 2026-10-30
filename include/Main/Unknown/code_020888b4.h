@@ -52,7 +52,17 @@ typedef struct Unk020888b4 {
     /* 74 */ s32 mUnk_74;
     /* 78 */ u16 mUnk_78;
     /* 7a */ u16 mUnk_7a;
-    /* 7c */ u8 mUnk_7c[0x28];
+    /* 7c */ s32 mUnk_7c;
+    /* 80 */ u16 mUnk_80;
+    /* 82 */ u8 mUnk_82[2];
+    /* 84 */ s32 mUnk_84;
+    /* 88 */ s32 mUnk_88;
+    /* 8c */ s32 mUnk_8c;
+    /* 90 */ s32 mUnk_90;
+    /* 94 */ s32 mUnk_94;
+    /* 98 */ s32 mUnk_98;
+    /* 9c */ s32 mUnk_9c;
+    /* a0 */ s32 mUnk_a0;
     /* a4 */ s32 mUnk_a4;
     /* a8 */ s32 mUnk_a8;
     /* ac */ s16 mUnk_ac;
