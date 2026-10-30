@@ -8,6 +8,8 @@
 #include "Main/Unknown/code_020b4000.h" // Unk020b4934, Unk020b47d8, Unk020b4a44
 #include "Main/Unknown/code_02124094.h" // Unk02124b1c, Unk0201ea30
 #include "Main/Unknown/code_020b3f7c.h" // Unk020b3fb0
+#include "Main/Unknown/code_0202f764.h" // Unk02174e50_24
+#include "Main/Unknown/code_0205ee14.h" // Unk0205fd2c
 
 // 0x18-byte elements of the table at member 0 of Unk02029930.
 typedef struct Unk02029930_00 {
@@ -36,7 +38,7 @@ typedef struct Unk02029930 {
     /* ea */ u8 mUnk_ea[2];
     /* ec */ s32 mUnk_ec;
     /* f0 */ s32 mUnk_f0;
-    /* f4 */ u8 mUnk_f4[4];
+    /* f4 */ u8 *mUnk_f4;
     /* f8 */ Unk02029930_f8 *mUnk_f8;
     /* fc */ s8 mUnk_fc;
     /* fd */ s8 mUnk_fd;
@@ -47,6 +49,41 @@ typedef struct Unk02029930 {
 } Unk02029930;
 
 extern Unk02029930 *data_02174e1c;
+
+// 0x118-byte object that data_02174e18 points to.
+typedef struct Unk02174e18 {
+    /* 000 */ u8 mUnk_000[0x24];
+    /* 024 */ Unk02174e50_24 mUnk_024;
+    /* 040 */ u8 mUnk_040[8];
+    /* 048 */ Unk02174e50_24 mUnk_048;
+    /* 064 */ Unk02174e50_24 mUnk_064;
+    /* 080 */ void *mUnk_080;
+    /* 084 */ void *mUnk_084;
+    /* 088 */ void *mUnk_088;
+    /* 08c */ void *mUnk_08c;
+    /* 090 */ s32 mUnk_090;
+    /* 094 */ s32 mUnk_094;
+    /* 098 */ Unk0205fd2c *mUnk_098;
+    /* 09c */ s32 mUnk_09c;
+    /* 0a0 */ s32 mUnk_0a0;
+    /* 0a4 */ s32 mUnk_0a4;
+    /* 0a8 */ s32 mUnk_0a8;
+    /* 0ac */ Unk02025ebc mUnk_0ac;
+    /* 0bc */ Unk02025ebc mUnk_0bc;
+    /* 0cc */ Unk02025ebc mUnk_0cc;
+    /* 0dc */ Unk02025ebc mUnk_0dc;
+    /* 0ec */ Unk02025ebc mUnk_0ec;
+    /* 0fc */ s32 mUnk_0fc;
+    /* 100 */ s32 mUnk_100;
+    /* 104 */ s32 mUnk_104;
+    /* 108 */ s32 mUnk_108;
+    /* 10c */ s32 mUnk_10c;
+    /* 110 */ s32 mUnk_110;
+    /* 114 */ u16 mUnk_114;
+    /* 116 */ u8 mUnk_116[2];
+} Unk02174e18;
+
+extern Unk02174e18 *data_02174e18;
 
 // Four words at 0x04 of Unk02174e3c_4c.
 typedef struct Unk02174e3c_4c_04 {
@@ -239,7 +276,6 @@ typedef struct Unk02174e64 {
 extern Unk02174e64 *data_02174e64;
 
 // Objects whose layout isn't known yet.
-extern u8 data_02174e18[];
 extern struct Unk0202a658 *data_02174e24;
 extern struct Unk02174e28 *data_02174e28;
 // 0x20 bytes, then the word at 0x44 the code addresses 0xc past.

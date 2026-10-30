@@ -73,7 +73,20 @@ extern u8 data_02153158[];
 
 extern u8 data_021532a8[];
 extern u8 data_021532dc[];
-extern u8 data_0215336c[];
+extern u32 data_0215336c[];
+extern s32 data_usa_02153240[];
+extern s32 data_usa_02153274[];
+
+// 12-byte entries of data_usa_021537f4: a halfword value and a word at 8.
+typedef struct Unk021537f4 {
+    /* 00 */ s16 mUnk_00;
+    /* 02 */ u8 mUnk_02[6];
+    /* 08 */ s32 mUnk_08;
+} Unk021537f4;
+
+extern u16 data_usa_021537dc[];
+extern Unk021537f4 data_usa_021537f4[];
+extern s16 data_usa_02153834[];
 extern u16 data_021530b8[4][4];
 extern u16 data_021530d0[4][4];
 extern Unk02022aa8_f *data_021530e8[];
