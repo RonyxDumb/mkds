@@ -32,10 +32,9 @@ void func_020975ac(void) {
     func_0209bf70((u32) func_020980ec, 0, (u32) func_02097ed0, 0, 1, 0x1d0);
 }
 
-// non-matching: the loop counter and the loop bound of the final loop are in r2 and r3 where the original has r3 and r2 (6 words differ)
 void func_020975ec(void *a, Unk020975ec *p) {
-    s32 n;
     s32 i;
+    s32 n;
     Unk020f41c4_B *v1;
     u32 r;
     s32 w;

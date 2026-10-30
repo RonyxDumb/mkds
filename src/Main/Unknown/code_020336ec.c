@@ -77,15 +77,12 @@ void func_020336ec(void *a) {
     t->mUnk_18[0x38].mUnk_00 = t->mUnk_18[0x39].mUnk_00;
 }
 
-// non-matching: same size (0xb8), 14 words differ from +0x4c; in the table loops the original keeps the count at 0xd4 in r1 and the loop counter in r0, ours the opposite
 void func_02033840(void *a) {
     Unk02174e14_00 *t;
     s32 c;
     s32 d;
     s32 e;
     s32 i;
-    s32 j;
-    s32 k;
 
     t = &data_02174e60->mUnk_048[0];
     c = data_02174e60->mUnk_0d4;
@@ -100,12 +97,12 @@ void func_02033840(void *a) {
     for (i = 0; i < 0x46; i++) {
         t->mUnk_18[i].mUnk_00 = 0;
     }
-    for (j = data_usa_02153ea0[data_02174e60->mUnk_0d4 - 2];
-         j < data_usa_02153ea0[data_02174e60->mUnk_0d4 - 2] + data_02174e60->mUnk_0d4 * 2; j++) {
-        t->mUnk_18[j].mUnk_00 = 1;
+    for (i = data_usa_02153ea0[data_02174e60->mUnk_0d4 - 2];
+         i < data_usa_02153ea0[data_02174e60->mUnk_0d4 - 2] + data_02174e60->mUnk_0d4 * 2; i++) {
+        t->mUnk_18[i].mUnk_00 = 1;
     }
-    for (k = 0; k < data_02174e60->mUnk_0d4; k++) {
-        func_02033ab8(0, k, d + k, e);
+    for (i = 0; i < data_02174e60->mUnk_0d4; i++) {
+        func_02033ab8(0, i, d + i, e);
     }
 }
 
@@ -151,11 +148,10 @@ void func_020338f8(void *a) {
     }
 }
 
-// non-matching: same size (0xac), 15 words differ; the original compares the halfword count with ble (ours beq) and keeps the remaining size in r4 and the loop counter in r5, ours the opposite
 void func_02033a0c(void *a) {
-    Unk02174e14_00 *t;
-    u32 r;
     s32 j;
+    u32 r;
+    Unk02174e14_00 *t;
     u8 *p;
     u16 w[11];
 
@@ -164,13 +160,13 @@ void func_02033a0c(void *a) {
     data_02174e60->mUnk_0cc = 1;
     data_02174e60->mUnk_0ce = 0xb;
     j = 0;
-    if (t->mUnk_14->mUnk_06 > 0) {
+    if ((s32) t->mUnk_14->mUnk_06 > 0) {
         p = data_usa_02153e98;
         do {
             r -= func_02025a00(0, a, t, p, r);
             p += 8;
             j++;
-        } while (j < t->mUnk_14->mUnk_06);
+        } while (j < (s32) t->mUnk_14->mUnk_06);
     }
     func_020338f8_inline(w, 0x16);
     func_020adff0((u16) data_02174e60->mUnk_0d0, w, 1);

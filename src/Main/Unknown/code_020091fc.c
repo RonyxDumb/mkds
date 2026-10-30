@@ -2,12 +2,11 @@
 
 #pragma thumb on
 
-// non-matching: same size; 3 lines differ; first: original `beq.n T`, ours `bne.n T`
 u32 func_020091fc(Unk02007ec4 *a) {
-    if ((a->mUnk_4b & 2) != 0 && a->mUnk_40 == 1) {
-        return 1;
+    if ((a->mUnk_4b & 2) == 0 || a->mUnk_40 != 1) {
+        return 0;
     }
-    return 0;
+    return 1;
 }
 
 // non-matching: 0x8c bytes, original 0x88; 19 lines differ; first: original `adds r7, r1, #0`, ours `adds r6, r1, #0`

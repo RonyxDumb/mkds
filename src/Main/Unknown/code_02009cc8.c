@@ -170,15 +170,14 @@ s32 func_02009ff4(void *a, Unk02009ff4 *b, u32 c, u32 d, u32 e) {
     return 0;
 }
 
-// non-matching: same instructions; the original keeps the byte sum in r3 and the loop count in r2, ours has them the other way
-// round (2 words differ)
 u32 func_0200a184(void) {
     u8 v1[6];
     u32 v2;
     s32 i;
     func_0200fe58(v1);
+    i = 0;
     v2 = 0;
-    for (i = 0; i < 6; i++) {
+    for (; i < 6; i++) {
         v2 += v1[i];
     }
     return (v2 + *(vu32 *) 0x27ffc3c) * 7 % 0x14;
