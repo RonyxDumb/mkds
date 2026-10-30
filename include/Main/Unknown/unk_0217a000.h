@@ -1510,7 +1510,8 @@ typedef struct Unk0217aa1c {
 extern Unk0217aa1c *data_0217aa1c;
 extern struct Unk0206bcb0 *data_0217ad18;
 extern Unk02017328 data_0217aeb0;
-extern s32 data_usa_0217acfc;
+struct Unk0206cdd4_B;
+extern struct Unk0206cdd4_B *data_usa_0217acfc;
 
 extern Unk02061808 *data_usa_0217ac84;
 extern Unk02061808 *data_usa_0217ac98;
