@@ -5,7 +5,7 @@
 void func_ov000_02198748(Unk021981d0 *a, void *b, u32 c, ...) {
     a->mUnk_14 = 0;
     if (a->mUnk_0c == 4) {
-        func_ov000_0219a61c(&b, &c);
+        func_ov000_0219a61c((const u8 **) &b, (s32 *) &c);
         func_ov000_02198d9c((int) a, (u32) b, c);
         a->mUnk_0c = 6;
     }
@@ -30,7 +30,7 @@ int func_ov000_02198778(Unk021981d0 *a, Unk02198778 *b) {
 
 int func_ov000_021987c8(Unk021981d0 *a, void *b, int c, Unk02198778 *d) {
     u8 e[0x24];
-    func_ov000_0219a61c(&b, &c);
+    func_ov000_0219a61c((const u8 **) &b, (s32 *) &c);
     if (c > 0) {
         a->mUnk_38.mUnk_00 = func_ov000_021a3690(c);
         if (a->mUnk_38.mUnk_00 == 0) {
@@ -50,7 +50,7 @@ int func_ov000_021987c8(Unk021981d0 *a, void *b, int c, Unk02198778 *d) {
 }
 
 int func_ov000_0219883c(void *a, Unk021981d0 **b, int c, u32 d) {
-    int r = func_ov000_0219a28c(a, b, c, d);
+    int r = func_ov000_0219a28c((Unk02197e8c *) a, (Unk02197fe8 **) b, c, d);
     if (r != 0) {
         return r;
     }
@@ -60,7 +60,7 @@ int func_ov000_0219883c(void *a, Unk021981d0 **b, int c, u32 d) {
 }
 
 int func_ov000_0219885c(void *a, Unk021981d0 **b, int c, u32 d) {
-    int r = func_ov000_0219a28c(a, b, c, d);
+    int r = func_ov000_0219a28c((Unk02197e8c *) a, (Unk02197fe8 **) b, c, d);
     if (r != 0) {
         return r;
     }

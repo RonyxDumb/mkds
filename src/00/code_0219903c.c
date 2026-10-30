@@ -11,7 +11,7 @@ int func_ov000_0219903c(Unk021981d0 *a, u32 b, int c, int *d) {
         *d = 1;
         return 1;
     }
-    if (func_ov000_021990f8(a, a->mUnk_64, c) == 0) {
+    if (func_ov000_021990f8((Unk02197fe8 *) a, a->mUnk_64, c) == 0) {
         if (func_ov000_02199f80((u32) a) == 0) {
             return 0;
         }

@@ -9,9 +9,9 @@
 #include "00/code_021988e8.h"
 
 void func_ov000_02198a8c(Unk021981d0 *a) {
-    if (func_ov000_0219914c(a) != 0) {
+    if (func_ov000_0219914c((Unk02197e8c *) a) != 0) {
         if (func_ov000_0219a09c((int) a) != 0) {
-            func_ov000_0219a06c(a);
+            func_ov000_0219a06c((Unk02197e8c *) a);
         }
     }
 }
@@ -21,7 +21,7 @@ void func_ov000_02198ab0(Unk02198394 *a) {
     func_ov000_0219a3f8((u32 *) a);
 }
 
-void func_ov000_02198ac4(void *a, void *b, void *c, void *d, void *e) {
+void func_ov000_02198ac4(Unk02197e8c **a, const u8 *b, u32 c, u32 d, u32 e) {
     func_ov000_0219a430(a, b, c, d, e);
 }
 

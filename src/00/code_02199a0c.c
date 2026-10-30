@@ -24,7 +24,7 @@ u32 func_ov000_02199a0c(int param_1, int param_2, u32 param_3, u32 param_4) {
             return 0;
         }
     } else if (param_2 == 4) {
-        iVar1 = func_ov000_02199b70();
+        iVar1 = func_ov000_02199b70((Unk02197fe8 *) param_1);
         if (iVar1 == 0) {
             return 0;
         }
@@ -33,7 +33,7 @@ u32 func_ov000_02199a0c(int param_1, int param_2, u32 param_3, u32 param_4) {
         if (iVar1 == 0) {
             return 0;
         }
-    } else if ((param_2 == 6) && (iVar1 = func_ov000_02199ad8(), iVar1 == 0)) {
+    } else if ((param_2 == 6) && (iVar1 = func_ov000_02199ad8((Unk02197fe8 *) param_1), iVar1 == 0)) {
         return 0;
     }
     return 1;

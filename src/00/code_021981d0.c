@@ -165,7 +165,7 @@ void func_ov000_02198548(Unk021981d0 *a, int b) {
             func_ov000_02198514(a);
             func_ov000_02198b8c(a);
             func_ov000_021981d0(a, 0);
-            func_ov000_0219a220(a);
+            func_ov000_0219a220((Unk02197fe8 *) a);
         }
     } else {
         a->mUnk_0c = 6;

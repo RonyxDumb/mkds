@@ -1,6 +1,11 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_0219a61c.h"
+#include "00/code_0219a430.h"
+#include "00/code_0219a0d0.h"
+#include "00/code_0219a044.h"
+#include "00/code_021990f8.h"
 #include "00/unk_021b3000.h"
 #include "code_0213442c.h"
 #include "00/code_02197b34.h"
@@ -72,14 +77,7 @@ typedef struct Unk02198af4 {
 } Unk02198af4;
 
 // Declared here until the code that defines them is decompiled.
-void func_ov000_0219a06c(Unk021981d0 *a);
-void func_ov000_0219a220(Unk021981d0 *a);
-int func_ov000_0219a28c(void *a, Unk021981d0 **b, int c, u32 d);
-int func_ov000_0219a430(void *a, void *b, void *c, void *d, void *e);
-void func_ov000_0219a61c(void *a, void *b);
 s32 func_ov000_0219a654(const u8 *a, u32 *b, u16 *c);
-int func_ov000_0219914c(Unk021981d0 *a);
-int func_ov000_021990f8(Unk021981d0 *a, u16 b, int c);
 
 int func_ov000_021981d0(Unk021981d0 *a, void *b);
 int func_ov000_02198258(Unk021981d0 *a, void *b, int c, int d);

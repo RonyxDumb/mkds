@@ -20,7 +20,7 @@ void func_ov000_02198908(Unk021981d0 *a) {
 
 void func_ov000_02198914(Unk021981d0 *a, u8 *b, int c, int d) {
     if (a->mUnk_0c == 5) {
-        func_ov000_0219a61c(&b, &c);
+        func_ov000_0219a61c((const u8 **) &b, &c);
         if (func_ov000_0218dc44((u32 *) a->mUnk_98) != 0) {
             func_ov000_02198098((Unk02197fe8 *) a, 0, (s32) b, (void *) c, d);
             return;
@@ -51,7 +51,7 @@ int func_ov000_02198968(void *a, Unk021981d0 **b, u32 c, void *d, int e, u32 f, 
     m->mUnk_20 = f;
     n = func_ov000_021987c8(m, d, e, (Unk02198778 *) g);
     if (n != 0) {
-        func_ov000_0219a220(m);
+        func_ov000_0219a220((Unk02197fe8 *) m);
         return n;
     }
     if (h == 0) {
