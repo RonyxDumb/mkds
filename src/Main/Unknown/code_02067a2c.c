@@ -27,7 +27,7 @@ s32 func_02067ad4(Unk0206bcb0 *p) {
 }
 
 s32 func_02067b0c(Unk0206bcb0 *a, s32 *b, s32 c) {
-    if (func_0206a24c(a) != 0 && a->mUnk_44c != c && (a->mUnk_7c & 1) != 0) {
+    if (func_0206a24c(a) != 0 && a->mUnk_44c != (struct Unk020e71a0 *) c && (a->mUnk_7c & 1) != 0) {
         func_0207a6b0()->mUnk_14++;
     }
     *b = 0;
