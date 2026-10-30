@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/types_021d299c.h"
 
 // Seven bytes moved as one value.
 typedef struct Unk021d68c8 {
@@ -18,6 +19,13 @@ typedef struct Unk021d66d0 {
 } Unk021d66d0;
 
 // Objects whose layout isn't known yet.
+extern s8 data_ov003_021d6434[];
+extern Unk021d299c data_ov003_021d643c;
+extern Unk021d299c data_ov003_021d6444;
+extern Unk021d299c data_ov003_021d644c;
+extern u8 data_ov003_021d6478[][3];
+extern u8 data_ov003_021d646c[];
+extern u16 data_ov003_021d6488[];
 extern u8 data_ov003_021d6508[];
 extern u8 data_ov003_021d6638[];
 extern u8 data_ov003_021d66bc[];

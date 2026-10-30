@@ -1,5 +1,7 @@
 #pragma once
 
+#include "03/code_021be610.h"
+#include "03/code_021d2060.h"
 #include "03/code_021c20c0.h"
 #include "03/code_021c20dc.h"
 #include "03/code_021c4ad4.h"
@@ -10,6 +12,27 @@
 #include "03/code_021c25b4.h"
 #include "03/code_021d28b0.h"
 #include "03/code_021d34e0.h"
+
+// Object behind data_ov003_021da214.
+typedef struct Unk021da214 {
+    /* 00 */ u32 mUnk_00;
+    /* 04 */ u8 mUnk_04[4];
+    /* 08 */ u16 *mUnk_08;
+    /* 0c */ void *mUnk_0c[2];
+    /* 14 */ Unk021d2060 *mUnk_14;
+    /* 18 */ Unk021da104_04 *mUnk_18[7];
+    /* 34 */ Unk021da104_04 *mUnk_34;
+    /* 38 */ u32 mUnk_38;
+    /* 3c */ u32 mUnk_3c;
+    /* 40 */ u8 mUnk_40;
+    /* 41 */ u8 mUnk_41;
+    /* 42 */ u8 mUnk_42;
+    /* 43 */ u8 mUnk_43;
+    /* 44 */ u8 mUnk_44;
+    /* 45 */ u8 mUnk_45;
+    /* 46 */ u8 mUnk_46;
+    /* 47 */ u8 mUnk_47;
+} Unk021da214;
 
 // Objects whose layout isn't known yet.
 typedef struct Unk021da280 Unk021da280;
@@ -80,12 +103,13 @@ extern u8 data_ov003_021da204[];
 extern u8 data_ov003_021da208[];
 extern u8 data_ov003_021da20c[];
 extern u8 data_ov003_021da210[];
-extern u8 data_ov003_021da214[];
+extern Unk021da214 *data_ov003_021da214;
 extern u8 data_ov003_021da218;
 extern u8 data_ov003_021da21c;
 extern u8 data_ov003_021da220[];
 extern u8 data_ov003_021da224;
 extern u8 data_ov003_021da228[];
+extern u16 data_ov003_021da22c;
 extern u8 data_ov003_021da230[];
 extern u8 data_ov003_021da234[];
 extern u8 data_ov003_021da240[];

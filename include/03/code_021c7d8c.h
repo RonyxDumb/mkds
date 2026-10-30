@@ -33,22 +33,6 @@ typedef struct Unk021cdb6c {
     /* f6 */ u8 mUnk_f6;
 } Unk021cdb6c;
 
-// Object behind data_ov003_021da214.
-typedef struct Unk021da214 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u8 mUnk_04[4];
-    /* 08 */ u8 mUnk_08[8];
-    /* 10 */ void *mUnk_10;
-    /* 14 */ u8 mUnk_14[0x24];
-    /* 38 */ u32 mUnk_38;
-    /* 3c */ u8 mUnk_3c[6];
-    /* 42 */ u8 mUnk_42;
-    /* 43 */ u8 mUnk_43;
-    /* 44 */ u8 mUnk_44;
-    /* 45 */ u8 mUnk_45[2];
-    /* 47 */ u8 mUnk_47;
-} Unk021da214;
-
 // Table of bytes func_ov003_021c81b8 reads.
 typedef struct Unk021d73d0 {
     /* 00 */ u8 mUnk_00[0xe];
