@@ -64,6 +64,8 @@ u32 func_02007f38(u32 a, u32 b, u32 c) {
     }
 }
 
+// non-matching: 0x84 bytes, original 0x7c; 43 lines differ; first: original `ldr r0, [pc, #96]`, ours `ldr r0, [pc,
+// #104]`
 u32 func_02007ff0(u32 a, u32 b, u32 c) {
     switch (data_02152bc0[a]) {
         case 2:

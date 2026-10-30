@@ -376,6 +376,8 @@ s32 func_01ffc67c(Unk0206bcb0 *p) {
     return 0;
 }
 
+// non-matching: same size; 2 lines differ; first: original `R_ARM_ABS32 data_0217566a`, ours `R_ARM_ABS32
+// data_02175628+0x42`
 void func_01ffc6c0(Unk0206bcb0 *p) {
     s32 a;
     s32 b;
