@@ -1,6 +1,6 @@
 #include "00/code_021a7bc8.h"
 
-void func_ov000_021a7bc8(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4) {
+s32 func_ov000_021a7bc8(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4) {
     unsigned int v2 = ((p0) + (0x0u));
     unsigned int v3 = ((p1) + (0x0u));
     unsigned int v4 = ((p2) + (0x0u));
@@ -19,4 +19,5 @@ void func_ov000_021a7bc8(unsigned int p0, unsigned int p1, unsigned int p2, unsi
     *(unsigned int *) ((v10) + (28)) = (unsigned int) (v14);
     v16 = ((v2) + (0x0u));
     v17 = func_ov000_021a6fb4((Unk021a6fa8 *) (v16), (Unk021a7064 *) (v10));
+    return v17;
 }
