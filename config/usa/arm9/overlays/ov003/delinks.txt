@@ -109,9 +109,15 @@ src/03/code_021bbc94.c:
 src/03/code_021bbd70.c:
     .text       start:0x021bbd30 end:0x021bbd5c
 
+src/03/code_021bbd9c.c:
+    .text       start:0x021bbd5c end:0x021bca50
+
 // provisional: file name and boundaries
 src/03/code_021bca90.c:
     .text       start:0x021bca50 end:0x021bca9c
+
+src/03/code_021bcadc.c:
+    .text       start:0x021bca9c end:0x021bcedc
 
 // provisional: file name and boundaries
 src/03/code_021bd884.c:
