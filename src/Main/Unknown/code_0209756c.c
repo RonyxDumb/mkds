@@ -216,7 +216,7 @@ void func_020979c8(Unk020e6fd4 *a) {
 void func_02097d80(void *a, Unk020975ec *p) {
     s32 v;
     Unk02012f58 *e;
-    Unk0209bc74_20 *s;
+    Unk02087d0c *s;
 
     v = 0x1e;
     func_01ff9048(0x14, &v, 1);
@@ -229,10 +229,10 @@ void func_02097d80(void *a, Unk020975ec *p) {
     func_0209b7a0(data_usa_0217b0d8, p->mUnk_a4, 0);
     s = data_usa_0217b0d8->mUnk_20;
     s->mUnk_0c = p->mUnk_ec4 << 12;
-    *s->mUnk_1c[s->mUnk_1a] = s->mUnk_0c;
+    s->mUnk_1c[s->mUnk_1a]->mUnk_00 = s->mUnk_0c;
     s = data_usa_0217b0d8->mUnk_28;
     s->mUnk_0c = p->mUnk_ec6 << 12;
-    *s->mUnk_1c[s->mUnk_1a] = s->mUnk_0c;
+    s->mUnk_1c[s->mUnk_1a]->mUnk_00 = s->mUnk_0c;
     func_0209bb2c(a, data_usa_0217b0d8, p);
 }
 

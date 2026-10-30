@@ -13,7 +13,7 @@ void *func_0209bc74(void *a, const char *b, const char *c) {
     Unk0209bc74 *o;
     void *x;
     void *y;
-    Unk0209bc74_0c *m;
+    Unk020e6488 *m;
 
     o = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     x = func_020d21ec(b);
@@ -38,7 +38,7 @@ void *func_0209bc74(void *a, const char *b, const char *c) {
 void *func_0209bd08(void *a, const char *b) {
     Unk0209bc74 *o;
     void *x;
-    Unk0209bc74_0c *m;
+    Unk020e6488 *m;
 
     o = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     x = func_020d21ec(b);

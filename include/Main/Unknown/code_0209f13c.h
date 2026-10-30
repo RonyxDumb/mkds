@@ -1,0 +1,35 @@
+#pragma once
+
+#include "types.h"
+#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
+
+// Object with the Unk020e71a0 base: two halfwords at 0xa0 and 0xa2, then two words (func_0209f178, func_0209f1c8,
+// func_0209f338, func_0209f514).
+typedef struct Unk0209f1c8 {
+    /* 00 */ Unk020e71a0 mUnk_00;
+    /* a0 */ u16 mUnk_a0;
+    /* a2 */ u16 mUnk_a2;
+    /* a4 */ s32 mUnk_a4;
+    /* a8 */ s32 mUnk_a8;
+} Unk0209f1c8;
+
+// Array of object pointers: pointer to the array and the number of entries (func_0209f514).
+typedef struct Unk0209f514 {
+    /* 00 */ Unk0209f1c8 **mUnk_00;
+    /* 04 */ u16 mUnk_04;
+} Unk0209f514;
+
+extern char data_usa_02167548[];
+extern char data_usa_02167558[];
+
+void func_0209f650(void *a);
+
+void *func_0209f13c(void);
+void *func_0209f158(void);
+void func_0209f178(void *a, Unk0209f1c8 *b);
+void func_0209f1c8(void *a, Unk0209f1c8 *b);
+void func_0209f2b0(void *a);
+void *func_0209f2f8(void);
+void *func_0209f318(void);
+void func_0209f338(void *a, Unk0209f1c8 *b);
+void func_0209f514(Unk0209f514 *a);
