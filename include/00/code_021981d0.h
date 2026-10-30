@@ -72,7 +72,6 @@ typedef struct Unk02198af4 {
 } Unk02198af4;
 
 // Declared here until the code that defines them is decompiled.
-void func_ov000_0218dddc(void *a, void (*b)(Unk021981d0 **c), int d);
 void func_ov000_0219a06c(Unk021981d0 *a);
 void func_ov000_0219a220(Unk021981d0 *a);
 int func_ov000_0219a28c(void *a, Unk021981d0 **b, int c, u32 d);

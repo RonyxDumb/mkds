@@ -9,6 +9,6 @@ void func_ov000_0218daf8(u32 *param_1, u32 param_2, int param_3) {
     }
     iVar1 = func_ov000_0218d818(param_2, param_1[5], *param_1, param_1[2], param_3, (u32 *) (void *) (auStack_18));
     uVar2 = _s32_div_f(iVar1 - param_1[5], param_1[2]);
-    func_ov000_0218db48(param_1, param_2, uVar2);
+    func_ov000_0218db48(param_1, (void *) (param_2), uVar2);
     return;
 }

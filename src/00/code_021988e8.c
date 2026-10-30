@@ -1,4 +1,5 @@
 #include "00/code_021988e8.h"
+#include "00/code_0218dddc.h"
 #include "00/code_0218dc44.h"
 #include "00/code_0218e8b4.h"
 #include "00/code_02198748.h"
@@ -6,7 +7,7 @@
 #include "00/code_0218e8bc.h"
 
 void func_ov000_021988e8(Unk02198394 *a) {
-    func_ov000_0218dddc(a->mUnk_0c, func_ov000_021988fc, 0);
+    func_ov000_0218dddc(a->mUnk_0c, (void (*)(void *, void *)) func_ov000_021988fc, 0);
 }
 
 void func_ov000_021988fc(Unk021981d0 **a) {

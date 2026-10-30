@@ -599,20 +599,40 @@ src/00/code_0218dc44.c:
     .text       start:0x0218dc10 end:0x0218dc60
 
 // provisional: file name and boundaries
+src/00/code_0218dc94.c:
+    .text       start:0x0218dc60 end:0x0218dce4
+
+// provisional: file name and boundaries
 src/00/code_0218dd18.c:
     .text       start:0x0218dce4 end:0x0218dd04
+
+// provisional: file name and boundaries
+src/00/code_0218dd38.c:
+    .text       start:0x0218dd04 end:0x0218dd58
 
 // provisional: file name and boundaries
 src/00/code_0218dd8c.c:
     .text       start:0x0218dd58 end:0x0218dda8
 
 // provisional: file name and boundaries
+src/00/code_0218dddc.c:
+    .text       start:0x0218dda8 end:0x0218e0ac
+
+// provisional: file name and boundaries
 src/00/code_0218e0e0.c:
     .text       start:0x0218e0ac end:0x0218e0c8
 
 // provisional: file name and boundaries
+src/00/code_0218e0fc.c:
+    .text       start:0x0218e0c8 end:0x0218e270
+
+// provisional: file name and boundaries
 src/00/code_0218e2c0.c:
     .text       start:0x0218e28c end:0x0218e2a8
+
+// provisional: file name and boundaries
+src/00/code_0218e2dc.c:
+    .text       start:0x0218e2a8 end:0x0218e334
 
 // provisional: file name and boundaries
 src/00/code_0218e368.c:
@@ -623,8 +643,24 @@ src/00/code_0218e3b8.c:
     .text       start:0x0218e384 end:0x0218e390
 
 // provisional: file name and boundaries
+src/00/code_0218e3c4.c:
+    .text       start:0x0218e390 end:0x0218e468
+
+// provisional: file name and boundaries
+src/00/code_0218e4b4.c:
+    .text       start:0x0218e480 end:0x0218e4f0
+
+// provisional: file name and boundaries
+src/00/code_0218e57c.c:
+    .text       start:0x0218e548 end:0x0218e610
+
+// provisional: file name and boundaries
 src/00/code_0218e644.c:
     .text       start:0x0218e610 end:0x0218e658
+
+// provisional: file name and boundaries
+src/00/code_0218e68c.c:
+    .text       start:0x0218e658 end:0x0218e7d8
 
 // provisional: file name and boundaries
 src/00/code_0218e8b4.c:
@@ -1879,3 +1915,5 @@ src/00/code_021b04d4.c:
     .text       start:0x021b04a0 end:0x021b058c
 src/00/code_0219a654.c:
     .text       start:0x0219a620 end:0x0219b1a0
+src/00/code_0218db48.c:
+    .text       start:0x0218db14 end:0x0218dc10

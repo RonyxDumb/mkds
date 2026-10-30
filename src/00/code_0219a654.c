@@ -555,7 +555,7 @@ Unk0219b1d4 *func_ov000_0219b178(void) {
     Unk0219b1d4 a = {0};
 
     if (data_ov000_021b52c4 == 0) {
-        data_ov000_021b52c4 = (void *) func_ov000_0218dc94(0x40, 4, (unsigned int) func_ov000_0219b1d4);
+        data_ov000_021b52c4 = (void *) func_ov000_0218dc94(0x40, 4, (void (*)(void *)) func_ov000_0219b1d4);
     }
     func_ov000_0218dbc0(data_ov000_021b52c4, &a);
     return func_ov000_0218dbf8(data_ov000_021b52c4, func_ov000_0218dc44((u32 *) data_ov000_021b52c4) - 1);

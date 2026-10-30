@@ -2,7 +2,7 @@
 
 void func_ov000_0218b3c8(void) {
     int iVar1;
-    if (((*(int *) &data_ov000_021b4d18) != 0) && (iVar1 = func_ov000_0218df5c(), iVar1 == 0)) {
+    if (((*(int *) &data_ov000_021b4d18) != 0) && (iVar1 = func_ov000_0218df5c((Unk0218e004 *) (*(int *) &data_ov000_021b4d18)), iVar1 == 0)) {
         func_ov000_0218dfb4((int *) ((int *) (u32) ((*(int *) &data_ov000_021b4d18))));
         *(int *) &data_ov000_021b4d18 = 0;
     }

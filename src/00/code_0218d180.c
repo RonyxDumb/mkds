@@ -20,7 +20,7 @@ void func_ov000_0218d1a0(u32 param_1) {
 
 void func_ov000_0218d180(unsigned int p0) {
     unsigned int v1 = ((p0) + (0x0u));
-    unsigned int v5 = func_ov000_0218dc94((unsigned int) (0x4u), (unsigned int) (0x64u), (unsigned int) (0x0u));
+    unsigned int v5 = (unsigned int) func_ov000_0218dc94((unsigned int) (0x4u), (unsigned int) (0x64u), (unsigned int) (0x0u));
     unsigned int v8;
     *(unsigned int *) ((v1) + (4)) = (unsigned int) (v5);
     v8 = 0x5d0u;
