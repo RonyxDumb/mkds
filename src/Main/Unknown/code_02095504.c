@@ -159,19 +159,20 @@ void func_020959fc(void) {
     func_0209bf70((u32) func_02095efc, 0, 0, 2, 1, 0x125);
 }
 
-// non-matching: 93.3%: register and branch layout of the repeated tail (halfword update, wrap test) differs
 void func_02095a3c(void *a, Unk02095a3c *p) {
     Unk0210b7a8 s1;
     Unk0210b7a8 s2;
     u32 k;
+    s32 v;
 
-    if (p->mUnk_d8 == 0) {
+    switch (p->mUnk_d8) {
+    case 0:
         p->mUnk_b4.mUnk_04 = 0;
         p->mUnk_b4.mUnk_10 = 0;
         if (p->mUnk_a0-- <= 0) {
             p->mUnk_d8 = 1;
         }
-        if ((p->mUnk_00.mUnk_78 & ~0xc000001f) >= 0xc5c10) {
+        if ((s32) (p->mUnk_00.mUnk_78 & ~0xc000001f) >= 0xc5c10) {
             return;
         }
         if (p->mUnk_a4-- > 0) {
@@ -207,16 +208,18 @@ void func_02095a3c(void *a, Unk02095a3c *p) {
         s1.mUnk_08 = k;
         s1.mUnk_0c = func_020d4ef4(&p->mUnk_00.mUnk_04);
         func_0210b7a8(&s1);
-    } else if (p->mUnk_d8 == 1) {
-        p->mUnk_b4.mUnk_04 = p->mUnk_a8;
+        break;
+    case 1:
+        v = p->mUnk_a8;
+        p->mUnk_b4.mUnk_04 = v;
         p->mUnk_b4.mUnk_10 =
-            ((s64) p->mUnk_a8 * p->mUnk_b4.mUnk_00->mUnk_00[p->mUnk_b4.mUnk_0c].mUnk_34) >> 12;
+            ((s64) v * p->mUnk_b4.mUnk_00->mUnk_00[p->mUnk_b4.mUnk_0c].mUnk_34) >> 12;
         if (func_020d8cc8(&p->mUnk_b4) != 0) {
-            p->mUnk_a0 = p->mUnk_b4.mUnk_1c->mUnk_0e;
+            p->mUnk_a0 = (u16) p->mUnk_b4.mUnk_1c->mUnk_0e;
             p->mUnk_d8 = 0;
         }
         func_020d879c(&p->mUnk_b4, &p->mUnk_00.mUnk_04);
-        if ((p->mUnk_00.mUnk_78 & ~0xc000001f) >= 0xc5c10) {
+        if ((s32) (p->mUnk_00.mUnk_78 & ~0xc000001f) >= 0xc5c10) {
             return;
         }
         if (p->mUnk_a4-- > 0) {

@@ -206,10 +206,9 @@ void func_02090920(u32 a) {
     func_02048590(data_02166548, a, (void **) &data_0217b0b0);
 }
 
-// non-matching: the original keeps a test of the loop counters before both loops (cmp #8 and cmp #4 before the first pass); the loops here start without it
 s32 func_02090940(void) {
-    s32 i;
-    s32 j;
+    enum { K0 } i;
+    enum { L0 } j;
     s32 r;
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 4; j++) {
