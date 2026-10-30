@@ -335,7 +335,7 @@ void func_01ff9e5c(Unk0206bcb0 *p) {
 }
 
 void func_01ff9f60(Unk0206bcb0 *p, Vec3 *a) {
-    Unk01ffd190 v;
+    Vec4 v;
     u32 t;
 
     p->mUnk_3f8 = 0x1000;

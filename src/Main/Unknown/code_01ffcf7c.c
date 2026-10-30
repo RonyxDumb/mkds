@@ -10,15 +10,15 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "code_02147cd8.h"
 
-void func_01ffcf7c(const Unk01ffd190 *a, Unk01ffd190 *b) {
+void func_01ffcf7c(const Vec4 *a, Vec4 *b) {
     s64 w;
     s32 r;
     s64 q;
     s64 t;
-    w = (s64) a->mUnk_00 * a->mUnk_00;
-    w += (s64) a->mUnk_04 * a->mUnk_04;
-    w += (s64) a->mUnk_08 * a->mUnk_08;
-    w += (s64) a->mUnk_0c * a->mUnk_0c;
+    w = (s64) a->x * a->x;
+    w += (s64) a->y * a->y;
+    w += (s64) a->z * a->z;
+    w += (s64) a->w * a->w;
     *(vu16 *) 0x4000280 = 2;
     *(vu64 *) 0x4000290 = 0x1000000000000LL << 8;
     *(vu64 *) 0x4000298 = w;
@@ -31,13 +31,13 @@ void func_01ffcf7c(const Unk01ffd190 *a, Unk01ffd190 *b) {
     }
     q = *(vu64 *) 0x40002a0;
     t = q * r;
-    b->mUnk_00 = (s32) ((t * a->mUnk_00 + 0x100000000000LL) >> 45);
-    b->mUnk_04 = (s32) ((t * a->mUnk_04 + 0x100000000000LL) >> 45);
-    b->mUnk_08 = (s32) ((t * a->mUnk_08 + 0x100000000000LL) >> 45);
-    b->mUnk_0c = (s32) ((t * a->mUnk_0c + 0x100000000000LL) >> 45);
+    b->x = (s32) ((t * a->x + 0x100000000000LL) >> 45);
+    b->y = (s32) ((t * a->y + 0x100000000000LL) >> 45);
+    b->z = (s32) ((t * a->z + 0x100000000000LL) >> 45);
+    b->w = (s32) ((t * a->w + 0x100000000000LL) >> 45);
 }
 
-s32 func_01ffd0e8(Unk01ffd190 *a, const Vec3 *b, const Vec3 *c) {
+s32 func_01ffd0e8(Vec4 *a, const Vec3 *b, const Vec3 *c) {
     Vec3 v;
     s32 r;
     s32 k = 1;
@@ -47,21 +47,21 @@ s32 func_01ffd0e8(Unk01ffd190 *a, const Vec3 *b, const Vec3 *c) {
     if (r <= 0) {
         k = 0;
     } else {
-        a->mUnk_00 = func_02147f34(v.x, r);
-        a->mUnk_04 = func_02147f34(v.y, r);
-        a->mUnk_08 = func_02147f34(v.z, r);
-        a->mUnk_0c = r >> 1;
+        a->x = func_02147f34(v.x, r);
+        a->y = func_02147f34(v.y, r);
+        a->z = func_02147f34(v.z, r);
+        a->w = r >> 1;
     }
     return k;
 }
 
-void func_01ffd190(const Vec3 *a, s32 b, Unk01ffd190 *c) {
+void func_01ffd190(const Vec3 *a, s32 b, Vec4 *c) {
     s32 i = (s32) ((u32) (b << 15) >> 16) >> 4;
     s32 s = data_0215d4b4[i * 2];
-    c->mUnk_00 = ((s64) a->x * s + 0x800) >> 12;
-    c->mUnk_04 = ((s64) a->y * s + 0x800) >> 12;
-    c->mUnk_08 = ((s64) a->z * s + 0x800) >> 12;
-    c->mUnk_0c = data_0215d4b4[i * 2 + 1];
+    c->x = ((s64) a->x * s + 0x800) >> 12;
+    c->y = ((s64) a->y * s + 0x800) >> 12;
+    c->z = ((s64) a->z * s + 0x800) >> 12;
+    c->w = data_0215d4b4[i * 2 + 1];
 }
 
 // non-matching: mla operand order at +0x2f4 (mla r0, r5, r0, r1 against mla r1, r0, r5, r1), same size

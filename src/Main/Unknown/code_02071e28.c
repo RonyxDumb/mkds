@@ -43,7 +43,7 @@ void func_02071f44(Unk0206bcb0 *p) {
     q = p->mUnk_514;
     q->mUnk_00 = p->mUnk_80;
     q->mUnk_10 = q->mUnk_00;
-    q->mUnk_4c = *(Unk01ffd190 *) &p->mUnk_108.z;
+    q->mUnk_4c = *(Vec4 *) &p->mUnk_108.z;
     q->mUnk_a8 = data_02154f94;
     q->mUnk_b4 = 0;
 }

@@ -155,7 +155,7 @@ void func_020708a4(Unk0206bcb0 *p) {
         func_020708a4_inline(&h, &h);
         p->mUnk_236 = (s32) (((s64) func_02148538(h.x, h.z) * 0x28be60d) >> 12) >> 12;
         q = data_02165524;
-        func_01ffd190(&q, p->mUnk_236, (Unk01ffd190 *) &p->mUnk_e0);
+        func_01ffd190(&q, p->mUnk_236, (Vec4 *) &p->mUnk_e0);
         func_020397a8(&data_02154f7c, &p->mUnk_50, &l);
         func_020397a8(&p->mUnk_50, &l, &n);
         if (p->mUnk_234 > -5000) {

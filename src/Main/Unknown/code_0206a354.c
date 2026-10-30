@@ -549,7 +549,7 @@ void func_0206b5b4(Unk0206bcb0 *p) {
         func_02146d78(&p->mUnk_31c, m.mUnk_00, &a);
         func_01ffd190(&a, p->mUnk_314, &p->mUnk_34c);
     } else {
-        Unk01ffd190 q;
+        Vec4 q;
 
         q = data_usa_0216556c;
         func_01ffce48(&p->mUnk_34c, &q, &p->mUnk_34c, 0x266);

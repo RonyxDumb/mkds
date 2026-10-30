@@ -90,9 +90,9 @@ void func_020720dc(Unk0206bcb0 *p) {
     p->mUnk_1fc = v;
     p->mUnk_dc = 0x1000;
     p->mUnk_e0_m = data_usa_02154f14;
-    *(Unk01ffd190 *) &p->mUnk_f0 = data_usa_02154f24;
-    *(Unk01ffd190 *) &p->mUnk_100 = data_usa_02154f34;
-    *(Unk01ffd190 *) &p->mUnk_108.z = data_usa_02154f44;
+    *(Vec4 *) &p->mUnk_f0 = data_usa_02154f24;
+    *(Vec4 *) &p->mUnk_100 = data_usa_02154f34;
+    *(Vec4 *) &p->mUnk_108.z = data_usa_02154f44;
     p->mUnk_234 = 0;
     p->mUnk_236 = 0;
     p->mUnk_238 = 0;
@@ -385,7 +385,7 @@ void func_02072b94(Unk0206bcb0 *p, const Vec3 *a, const Vec3 *b, Unk02175620_bc 
         q = p->mUnk_514;
         q->mUnk_00 = p->mUnk_80;
         q->mUnk_10 = q->mUnk_00;
-        q->mUnk_4c = *(Unk01ffd190 *) &p->mUnk_108.z;
+        q->mUnk_4c = *(Vec4 *) &p->mUnk_108.z;
         q->mUnk_a8 = data_02154f94;
         q->mUnk_b4 = 0;
     }

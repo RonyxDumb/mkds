@@ -124,7 +124,7 @@ void func_02064d44(Unk0206bcb0 *a) {
 // non-matching: 99.6: one register choice differs
 void func_02064d60(Unk0206bcb0 *a, Vec3 *b) {
     Unk0206bcb0_514 *c;
-    Unk01ffd190 d;
+    Vec4 d;
     s32 e;
     s32 f;
 

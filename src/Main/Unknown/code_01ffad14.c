@@ -5,26 +5,26 @@
 #include "Main/Unknown/unk_02154000.h"
 
 void func_01ffad14(Unk0206bcb0 *p, Vec3 *a) {
-    Unk01ffd190 v;
-    Unk01ffd190 w;
-    Unk01ffd190 *q = &p->mUnk_100_q;
+    Vec4 v;
+    Vec4 w;
+    Vec4 *q = &p->mUnk_100_q;
     s32 r;
 
     r = func_01ffd0e8(&v, &data_02154f7c, a);
     func_01ffd0e8(&w, &p->mUnk_244, a);
     func_01ffcebc(&w, q, q);
     if (r != 0) {
-        if ((v.mUnk_0c < 0 && q->mUnk_0c > 0) || (v.mUnk_0c > 0 && q->mUnk_0c < 0)) {
-            q->mUnk_00 = -v.mUnk_00;
-            q->mUnk_04 = 0;
-            q->mUnk_08 = -v.mUnk_08;
-            q->mUnk_0c = -v.mUnk_0c;
+        if ((v.w < 0 && q->w > 0) || (v.w > 0 && q->w < 0)) {
+            q->x = -v.x;
+            q->y = 0;
+            q->z = -v.z;
+            q->w = -v.w;
             p->mUnk_48 = p->mUnk_48 | 0x80000000;
         } else {
-            q->mUnk_00 = v.mUnk_00;
-            q->mUnk_04 = 0;
-            q->mUnk_08 = v.mUnk_08;
-            q->mUnk_0c = v.mUnk_0c;
+            q->x = v.x;
+            q->y = 0;
+            q->z = v.z;
+            q->w = v.w;
             p->mUnk_48 = p->mUnk_48 & ~0x80000000;
         }
     }

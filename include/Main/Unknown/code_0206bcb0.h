@@ -124,14 +124,6 @@ typedef struct Unk0206ceb4 {
     /* 2c */ Unk020905a8 mUnk_2c;
 } Unk0206ceb4;
 
-// Four words written by func_01ffd190 and func_01ffcebc.
-typedef struct Unk01ffd190 {
-    /* 0 */ s32 mUnk_00;
-    /* 4 */ s32 mUnk_04;
-    /* 8 */ s32 mUnk_08;
-    /* c */ s32 mUnk_0c;
-} Unk01ffd190;
-
 typedef struct Unk0206bcb0_514 {
     /* 00 */ Vec3 mUnk_00;
     /* 0c */ u16 mUnk_0c;
@@ -148,7 +140,7 @@ typedef struct Unk0206bcb0_514 {
     /* 42 */ u8 mUnk_42[2];
     /* 44 */ u32 mUnk_44;
     /* 48 */ u32 mUnk_48;
-    /* 4c */ Unk01ffd190 mUnk_4c;
+    /* 4c */ Vec4 mUnk_4c;
     /* 5c */ s16 mUnk_5c;
     /* 5e */ u8 mUnk_5e[2];
     /* 60 */ s32 mUnk_60;
@@ -217,10 +209,10 @@ typedef struct Unk0206bcb0 {
             s32 mUnk_11c;
         };
         struct {
-            Unk01ffd190 mUnk_e0_m;
-            Unk01ffd190 mUnk_f0_q;
-            Unk01ffd190 mUnk_100_q;
-            Unk01ffd190 mUnk_110_q;
+            Vec4 mUnk_e0_m;
+            Vec4 mUnk_f0_q;
+            Vec4 mUnk_100_q;
+            Vec4 mUnk_110_q;
         };
     };
     /* 120 */ union {
@@ -325,7 +317,7 @@ typedef struct Unk0206bcb0 {
     /* 340 */ s32 mUnk_340;
     /* 344 */ s32 mUnk_344;
     /* 348 */ s32 mUnk_348;
-    /* 34c */ Unk01ffd190 mUnk_34c;
+    /* 34c */ Vec4 mUnk_34c;
     /* 35c */ s16 mUnk_35c;
     /* 35e */ u8 mUnk_35e[2];
     /* 360 */ s32 mUnk_360;
@@ -422,7 +414,7 @@ typedef struct Unk0206bcb0 {
     /* 504 */ u16 mUnk_504;
     /* 506 */ u16 mUnk_506;
     /* 508 */ Vec3 *mUnk_508;
-    /* 50c */ Unk01ffd190 *mUnk_50c;
+    /* 50c */ Vec4 *mUnk_50c;
     /* 510 */ Vec3 *mUnk_510;
     /* 514 */ Unk0206bcb0_514 *mUnk_514;
     /* 518 */ Unk0210b7ec mUnk_518;

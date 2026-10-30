@@ -566,16 +566,16 @@ void func_01ffcc50(Unk0206bcb0 *p) {
 // non-matching: same products, but ours needs one more saved register (r10) and no stack word, 0xac bytes against 0xb4; the original forms the three diagonal sums before the z products
 void func_01ffccd0(void *a, void *b) {
     s32 *o = a;
-    const Unk01ffd190 *q = b;
+    const Vec4 *q = b;
     s32 w;
     s32 x;
     s32 y;
     s32 z;
 
-    w = q->mUnk_00;
-    x = q->mUnk_04;
-    y = q->mUnk_08;
-    z = q->mUnk_0c;
+    w = q->x;
+    x = q->y;
+    y = q->z;
+    z = q->w;
     o[0] = 0x1000 - ((x * x >> 11) + (y * y >> 11));
     o[1] = (w * x >> 11) + (z * y >> 11);
     o[2] = (w * y >> 11) - (z * x >> 11);
@@ -588,17 +588,17 @@ void func_01ffccd0(void *a, void *b) {
 }
 
 // non-matching: same as func_01ffccd0 (one more saved register, 0xbc bytes against 0xc4)
-void func_01ffcd84(void *a, const Unk01ffd190 *b) {
+void func_01ffcd84(void *a, const Vec4 *b) {
     s32 *o = a;
     s32 w;
     s32 x;
     s32 y;
     s32 z;
 
-    w = b->mUnk_00;
-    x = b->mUnk_04;
-    y = b->mUnk_08;
-    z = b->mUnk_0c;
+    w = b->x;
+    x = b->y;
+    y = b->z;
+    z = b->w;
     o[0] = 0x1000 - ((x * x >> 11) + (y * y >> 11));
     o[1] = (w * x >> 11) + (z * y >> 11);
     o[2] = (w * y >> 11) - (z * x >> 11);
@@ -613,29 +613,29 @@ void func_01ffcd84(void *a, const Unk01ffd190 *b) {
     o[11] = 0;
 }
 
-void func_01ffce48(Unk01ffd190 *a, const Unk01ffd190 *b, Unk01ffd190 *c, s32 d) {
-    c->mUnk_00 = a->mUnk_00 + ((d * (b->mUnk_00 - a->mUnk_00)) >> 12);
-    c->mUnk_04 = a->mUnk_04 + ((d * (b->mUnk_04 - a->mUnk_04)) >> 12);
-    c->mUnk_08 = a->mUnk_08 + ((d * (b->mUnk_08 - a->mUnk_08)) >> 12);
-    c->mUnk_0c = a->mUnk_0c + ((d * (b->mUnk_0c - a->mUnk_0c)) >> 12);
+void func_01ffce48(Vec4 *a, const Vec4 *b, Vec4 *c, s32 d) {
+    c->x = a->x + ((d * (b->x - a->x)) >> 12);
+    c->y = a->y + ((d * (b->y - a->y)) >> 12);
+    c->z = a->z + ((d * (b->z - a->z)) >> 12);
+    c->w = a->w + ((d * (b->w - a->w)) >> 12);
 }
 
 // non-matching: same products and stack word, but the load, multiply and register order differ throughout (37 words differ)
-void func_01ffcebc(const Unk01ffd190 *a, const Unk01ffd190 *b, Unk01ffd190 *c) {
-    Unk01ffd190 t;
-    s32 b1 = b->mUnk_04;
-    s32 a1 = a->mUnk_04;
-    s32 b3 = b->mUnk_0c;
-    s32 a0 = a->mUnk_00;
-    s32 b0 = b->mUnk_00;
-    s32 b2 = b->mUnk_08;
-    s32 a3 = a->mUnk_0c;
-    s32 a2 = a->mUnk_08;
+void func_01ffcebc(const Vec4 *a, const Vec4 *b, Vec4 *c) {
+    Vec4 t;
+    s32 b1 = b->y;
+    s32 a1 = a->y;
+    s32 b3 = b->w;
+    s32 a0 = a->x;
+    s32 b0 = b->x;
+    s32 b2 = b->z;
+    s32 a3 = a->w;
+    s32 a2 = a->z;
     s32 p = a0 * b0 + a1 * b1 + a2 * b2;
 
-    t.mUnk_00 = (a3 * b0 + a0 * b3 + (a1 * b2 - a2 * b1)) >> 12;
-    t.mUnk_04 = (a1 * b3 + a3 * b1 + (a2 * b0 - a0 * b2)) >> 12;
-    t.mUnk_08 = (a2 * b3 + a3 * b2 + (a0 * b1 - a1 * b0)) >> 12;
-    t.mUnk_0c = (a3 * b3 - p) >> 12;
+    t.x = (a3 * b0 + a0 * b3 + (a1 * b2 - a2 * b1)) >> 12;
+    t.y = (a1 * b3 + a3 * b1 + (a2 * b0 - a0 * b2)) >> 12;
+    t.z = (a2 * b3 + a3 * b2 + (a0 * b1 - a1 * b0)) >> 12;
+    t.w = (a3 * b3 - p) >> 12;
     *c = t;
 }
