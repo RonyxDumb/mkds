@@ -22,6 +22,15 @@ typedef struct Unk0209bc74_0c {
     /* 14 */ u32 mUnk_14;
 } Unk0209bc74_0c;
 
+// Object at 0x20 and 0x28 of Unk0209bc74: a word at 0x0c, a halfword at 0x1a and a table of word pointers at 0x1c.
+typedef struct Unk0209bc74_20 {
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ u8 mUnk_10[0xa];
+    /* 1a */ u16 mUnk_1a;
+    /* 1c */ s32 **mUnk_1c;
+} Unk0209bc74_20;
+
 // Object returned by func_0209bc74, func_0209bd08, func_0209bd90 and func_0209be84.
 typedef struct Unk0209bc74 {
     /* 00 */ Unk0209bc74_00 mUnk_00;
@@ -30,9 +39,9 @@ typedef struct Unk0209bc74 {
     /* 14 */ void *mUnk_14;
     /* 18 */ void *mUnk_18;
     /* 1c */ void *mUnk_1c;
-    /* 20 */ void *mUnk_20;
+    /* 20 */ Unk0209bc74_20 *mUnk_20;
     /* 24 */ u8 mUnk_24[4];
-    /* 28 */ void *mUnk_28;
+    /* 28 */ Unk0209bc74_20 *mUnk_28;
 } Unk0209bc74;
 
 extern Unk0209bc74_00 data_021565a0;

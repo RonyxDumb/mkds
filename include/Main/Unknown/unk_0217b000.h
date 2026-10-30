@@ -9,6 +9,7 @@
 #include "Main/Unknown/code_020e6b58.h"
 #include "Main/Unknown/code_01ffdee4.h" // Unk0217b614
 #include "Main/Unknown/code_020e6fd4.h"
+#include "Main/Unknown/code_0209bc74.h" // Unk0209bc74
 #include "Main/Unknown/unk_02158000.h"
 #include "Main/Unknown/code_0208fd8c.h"
 #include "Main/Unknown/unk_0217d000.h" // Unk0217d3f0_2098
@@ -1091,14 +1092,7 @@ extern void *data_0217b228;
 extern void *data_0217b22c;
 extern void *data_0217b230;
 
-typedef struct Unk0217b0d8 {
-    /* 00 */ u8 mUnk_00[0x20];
-    /* 20 */ void *mUnk_20;
-    /* 24 */ u8 mUnk_24[4];
-    /* 28 */ void *mUnk_28;
-} Unk0217b0d8;
-
-extern Unk0217b0d8 *data_usa_0217b0d8;
+extern Unk0209bc74 *data_usa_0217b0d8;
 extern void *data_usa_0217b07c;
 extern void *data_usa_0217b0a4;
 extern void *data_0217b0c8;
