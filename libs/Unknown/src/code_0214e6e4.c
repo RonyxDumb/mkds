@@ -6,8 +6,6 @@
 
 u16 data_021803d4;
 
-// non-matching: register allocation differs: the original keeps the flag word and the entry-array pointer in r4 where
-// this uses ip/lr, and loads and stores of mUnk_34/mUnk_36 are not reordered the way this build orders them
 void func_0214ec18(u32 a, u32 b, u32 c) {
     u16 x = b;
     u16 k = (x & 0x7f00) >> 8;
@@ -28,9 +26,9 @@ void func_0214ec18(u32 a, u32 b, u32 c) {
         if (data_021803d8.mUnk_0c >= data_021803d8.mUnk_14) {
             data_021803d8.mUnk_0c = 0;
         }
+        e = data_021803d8.mUnk_10 + data_021803d8.mUnk_0c;
         w.h[0] = *(u16 *) 0x27fffaa;
         w.h[1] = *(u16 *) 0x27fffac;
-        e = data_021803d8.mUnk_10 + data_021803d8.mUnk_0c;
         e->mUnk_00 = w.f.mUnk_00_0;
         e->mUnk_02 = w.f.mUnk_00_12;
         e->mUnk_04 = (u8) w.f.mUnk_00_24;
