@@ -51,8 +51,7 @@ void func_ov000_0219e138(u32 a, s32 b, s32 c) {
             if (d < (s32) func_ov000_0218b474(a)) {
                 data_ov000_021b566c->mUnk_198 = 3;
                 data_ov000_021b566c->mUnk_1ec = 0;
-                func_ov000_021a0f20(data_ov000_021b566c->mUnk_1ec);
-                if (func_ov000_0219e594() != 0) {
+                if (func_ov000_0219e594(func_ov000_021a0f20(data_ov000_021b566c->mUnk_1ec)) != 0) {
                     return;
                 }
                 return;

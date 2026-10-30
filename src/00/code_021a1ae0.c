@@ -373,8 +373,7 @@ void func_ov000_021a2468(const void *param_1, s32 param_2, s32 param_3, s32 para
     func_ov000_021a360c(data_ov000_021b4120, param_4 != 0 ? data_ov000_021b41e0 : data_ov000_021b41e4, v2, 0x2f);
     func_0200d9e0(v1, 12, data_ov000_021b40b8, 3);
     func_ov000_021a360c(data_ov000_021b4118, v1, v2, 0x2f);
-    func_ov000_0219d558(4, v2, 0);
-    if (func_ov000_0219e608() != 0) {
+    if (func_ov000_0219e608(func_ov000_0219d558(4, v2, 0)) != 0) {
         return;
     }
     if (func_ov000_0219fee4(func_ov000_0219fbec(0, 1)) != 0) {

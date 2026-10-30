@@ -43,7 +43,7 @@ typedef struct Unk021b566c {
     /* 1a3 */ u8 mUnk_1a3[2];
     /* 1a5 */ u8 mUnk_1a5;
     /* 1a6 */ u16 mUnk_1a6;
-    /* 1a8 */ u8 mUnk_1a8[2];
+    /* 1a8 */ u16 mUnk_1a8;
     /* 1aa */ u16 mUnk_1aa;
     /* 1ac */ u32 mUnk_1ac;
     /* 1b0 */ u32 mUnk_1b0;
@@ -51,7 +51,9 @@ typedef struct Unk021b566c {
     /* 1bc */ u32 mUnk_1bc;
     /* 1c0 */ u64 mUnk_1c0;
     /* 1c8 */ u32 mUnk_1c8;
-    /* 1cc */ u8 mUnk_1cc[0x14];
+    /* 1cc */ u32 mUnk_1cc;
+    /* 1d0 */ u64 mUnk_1d0;
+    /* 1d8 */ u64 mUnk_1d8;
     /* 1e0 */ u64 mUnk_1e0;
     /* 1e8 */ u32 mUnk_1e8;
     /* 1ec */ u32 mUnk_1ec;
