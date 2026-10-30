@@ -1,6 +1,6 @@
 #include "00/code_021a17bc.h"
 
-u32 func_ov000_021a17bc(s32 param_1, s32 param_2) {
+u32 func_ov000_021a17bc(s32 param_1, s32 param_2, s32 param_3) {
     Unk021b566c *p;
     if (func_ov000_0219bab4() != 5) {
         return 0;

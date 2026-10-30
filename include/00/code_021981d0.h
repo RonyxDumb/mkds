@@ -78,7 +78,7 @@ void func_ov000_0219a220(Unk021981d0 *a);
 int func_ov000_0219a28c(void *a, Unk021981d0 **b, int c, u32 d);
 int func_ov000_0219a430(void *a, void *b, void *c, void *d, void *e);
 void func_ov000_0219a61c(void *a, void *b);
-int func_ov000_0219a654(u32 a, u32 *b, u16 *c);
+s32 func_ov000_0219a654(const u8 *a, u32 *b, u16 *c);
 int func_ov000_0219914c(Unk021981d0 *a);
 int func_ov000_021990f8(Unk021981d0 *a, u16 b, int c);
 

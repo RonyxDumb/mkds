@@ -195,7 +195,7 @@ u32 func_ov000_02191e58(Unk021919ac *p, Unk021919ac_node *n) {
             return 3;
         }
         z = 8;
-        if (func_ov000_0218e394(o->mUnk_204, (unsigned int) &s, (unsigned int) &z) == -1) {
+        if (func_ov000_0218e394(o->mUnk_204, &s, (u32 *) &z) == -1) {
             func_ov000_021965a0((Unk0218f960 *) p, 5, data_ov000_021b2e6c);
             func_ov000_02190f4c((Unk0218f960 *) p, 3, 1);
             return 3;

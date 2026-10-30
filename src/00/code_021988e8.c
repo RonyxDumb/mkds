@@ -37,7 +37,7 @@ int func_ov000_02198968(void *a, Unk021981d0 **b, u32 c, void *d, int e, u32 f, 
     int l;
     Unk021981d0 *m;
     int n;
-    if (func_ov000_0219a654(c, &i, &j) == 0 || i == 0 || (k = j) == 0) {
+    if (func_ov000_0219a654((const u8 *) c, &i, &j) == 0 || i == 0 || (k = j) == 0) {
         return 4;
     }
     if (((((i << 24) & 0xff000000) | (((i << 8) & 0xff0000) | (((i >> 24) & 0xff) | ((i >> 8) & 0xff00)))) & 0xe0000000) == 0xe0000000) {

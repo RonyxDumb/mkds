@@ -1,8 +1,8 @@
 #include "00/code_0218e368.h"
 
-s32 func_ov000_0218e394(unsigned int p0, unsigned int p1, unsigned int p2) {
-    unsigned int v2 = ((p1) + (0x0u));
-    unsigned int v3 = ((p2) + (0x0u));
+s32 func_ov000_0218e394(u32 p0, void *p1, u32 *p2) {
+    unsigned int v2 = (((unsigned int) p1) + (0x0u));
+    unsigned int v3 = (((unsigned int) p2) + (0x0u));
     unsigned int v4 = ((unsigned int) *(unsigned int *) ((v3) + (0)));
     unsigned int v6;
     unsigned int v7;

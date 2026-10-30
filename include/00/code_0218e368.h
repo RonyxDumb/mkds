@@ -7,4 +7,4 @@
 
 u32 func_ov000_0218e368(s32 param_1);
 u32 func_ov000_0218e374(u32 param_1);
-s32 func_ov000_0218e394(unsigned int p0, unsigned int p1, unsigned int p2);
+s32 func_ov000_0218e394(u32 p0, void *p1, u32 *p2);
