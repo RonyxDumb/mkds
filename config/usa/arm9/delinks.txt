@@ -7860,6 +7860,10 @@ libs/Unknown/src/code_02130cb4.s:
     .text       start:0x02130cb4 end:0x02131694
 
 // provisional: file name and boundaries
+libs/Unknown/src/code_02131694.s:
+    .text       start:0x02131694 end:0x02132200
+
+// provisional: file name and boundaries
 libs/Unknown/src/code_02132200.c:
     .text       start:0x02132200 end:0x021322c8
 
