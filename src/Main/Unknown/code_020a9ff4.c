@@ -375,14 +375,12 @@ u16 func_020aa094(u16 **a, u16 b) {
     return b;
 }
 
-// non-matching: the original reloads data_0217b278.mUnk_2c for the store to mUnk_04 (one extra ldr); here the register
-// holding &data_0217b294 is reused.
 void func_020aa028(Unk0217b278_10 *a, Unk020b4934 *b, void (*c)(Unk0217b278 *), s32 d, u32 e, u16 *f) {
     u32 x;
     u32 y;
 
     data_0217b278.mUnk_2c = &data_0217b294;
-    data_0217b294.mUnk_00 = a;
+    data_0217b278.mUnk_2c->mUnk_00 = a;
     data_0217b278.mUnk_2c->mUnk_04 = b;
     data_0217b278.mUnk_2c->mUnk_08 = c;
     data_0217b278.mUnk_2c->mUnk_0c = d - 1;

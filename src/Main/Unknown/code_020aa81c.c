@@ -46,12 +46,11 @@ void func_020aafa8(Unk0217b278 *a) {
     }
 }
 
-// non-matching: the original reloads the halfword at 0x0e for the loop test and keeps mUnk_0c + 1 in r1; here the
-// first load is reused (r0/r1 swapped).
 u16 func_020aaf70(Unk0217b278_1c *a) {
     u16 i;
+    const Unk0217b278_1c *p = a;
 
-    for (i = 0; i < a->mUnk_0e; i++) {
+    for (i = 0; i < p->mUnk_0e; i++) {
         if (a->mUnk_0c + 1 == a->mUnk_00[i].mUnk_06) {
             return i;
         }
