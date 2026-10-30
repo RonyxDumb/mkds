@@ -1,6 +1,7 @@
 #pragma once
 
 #include "00/code_021804f4.h"
+#include "00/code_02182e18.h"
 #include "00/code_021806ec.h"
 #include "00/code_0219bb50.h"
 #include "00/code_ov000_021804e0.h"
@@ -37,17 +38,18 @@ typedef struct Unk021b4c70 {
     /* 0014 */ s16 mUnk_14[3][2];
     /* 0020 */ s32 mUnk_20;
     /* 0024 */ s32 mUnk_24;
-    /* 0028 */ u8 pad_28[4];
+    /* 0028 */ s32 mUnk_28;
     /* 002c */ s32 mUnk_2c;
     /* 0030 */ s32 mUnk_30;
-    /* 0034 */ u8 pad_34[0x1004];
+    /* 0034 */ s32 mUnk_34;
+    /* 0038 */ u8 mUnk_38[0x1000];
     /* 1038 */ void *mUnk_1038;
     /* 103c */ Unk02124b1c *mUnk_103c;
-    /* 1040 */ void *mUnk_1040;
-    /* 1044 */ u8 pad_1044[4];
-    /* 1048 */ void *mUnk_1048;
-    /* 104c */ void *mUnk_104c;
-    /* 1050 */ u8 pad_1050[4];
+    /* 1040 */ Unk02021dc8 *mUnk_1040;
+    /* 1044 */ Unk020b4934 *mUnk_1044;
+    /* 1048 */ Unk020b4a44 *mUnk_1048;
+    /* 104c */ Unk0201ea30 *mUnk_104c;
+    /* 1050 */ Unk0201ea30 *mUnk_1050;
     /* 1054 */ void *mUnk_1054;
     /* 1058 */ void *mUnk_1058;
     /* 105c */ void *mUnk_105c;
@@ -333,7 +335,6 @@ void func_02036f10(s16);
 #include "Main/Unknown/code_02128274.h"
 #include "Main/Unknown/code_0212b928.h"
 
-void func_ov000_02182e18(void);
 void func_ov000_02184354(void);
 void func_ov000_021843a8(void *heap);
 
