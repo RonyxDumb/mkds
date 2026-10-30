@@ -4,6 +4,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020748b8.h"
+#include "Main/Unknown/code_02073eb8.h"
 
 extern s32 data_usa_021656c0;
 extern s32 data_usa_021656c4;
@@ -13,8 +14,6 @@ extern Unk0214ad4c data_usa_02170284;
 extern Unk02012f58 data_usa_021702c8;
 
 // Declared here until the code that defines them is decompiled.
-void func_02073eb8(Unk02061808 *p);
-void func_020741a0(Vec3 *a, Vec3 *b, Unk02061808 *c, Unk0206bcb0 *d, Vec3 *e, Vec3 *f, s32 g);
 void func_020745d4(Vec3 *a, Vec3 *b, s32 *c, Unk0206bcb0 *d, s32 e, s32 f);
 void func_0207729c(Unk02061808 *p);
 

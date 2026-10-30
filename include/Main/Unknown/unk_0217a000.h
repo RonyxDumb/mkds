@@ -1099,7 +1099,8 @@ extern u32 data_0217ac10;
 extern void *data_0217ac14;
 extern void *data_0217ac18[15];
 extern void *data_0217ac54[15];
-extern u8 data_0217ac94[];
+struct Unk0217ac94;
+extern struct Unk0217ac94 *data_0217ac94;
 extern u8 data_0217aca8[];
 extern u8 data_0217acb4[];
 extern u8 data_0217acbc[];
@@ -1231,7 +1232,7 @@ typedef struct Unk0217ad08 {
 extern Unk0217ad08 *data_0217ad08;
 extern u8 data_0217ad10[];
 extern u8 data_0217ad24[];
-extern u8 data_0217ad28[];
+extern u32 data_0217ad28;
 extern u8 data_0217ad2c[];
 extern u8 data_0217ad30[];
 struct Unk0201ca6c;
@@ -1479,7 +1480,7 @@ typedef struct Unk0217aa1c {
 } Unk0217aa1c;
 
 extern Unk0217aa1c *data_0217aa1c;
-extern u8 data_0217ad18[];
+extern struct Unk0206bcb0 *data_0217ad18;
 extern Unk02017328 data_0217aeb0;
 extern s32 data_usa_0217acfc;
 
@@ -1496,5 +1497,6 @@ typedef struct Unk0217ac84 {
 extern Unk0217ac84 *data_usa_0217ac84;
 extern Unk0217ac84 *data_usa_0217ac98;
 extern void *data_usa_0217aa68;
-extern void *data_usa_0217ac7c;
+extern s32 data_usa_0217ac7c;
+extern s32 data_usa_0217ac90;
 extern s32 data_usa_0217ac78;

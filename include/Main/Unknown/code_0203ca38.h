@@ -3,13 +3,13 @@
 #include "types.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_0203e74c.h"
+#include "Main/Unknown/code_0207a7fc.h"
 
 // Declared here until the code that defines them is decompiled.
 void func_0203fed4(void);
 void func_0203d9d4(void);
 void func_020688a0(Unk0206bcb0 *a);
 void func_02068640(Unk0206bcb0 *a, s32 b);
-void func_0207a828(u16 a);
 s32 func_0207a574(void);
 s32 func_0207a538(void);
 s32 func_0207a4fc(void);

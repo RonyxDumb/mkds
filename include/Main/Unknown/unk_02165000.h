@@ -63,7 +63,8 @@ extern u8 data_02165fec[];
 
 extern s16 data_021653b8[];
 extern const Unk021a9034 data_021653c0;
-extern u8 data_0216569c[];
+extern u16 data_0216569c;
+extern s32 data_usa_021656b4;
 extern Vec3 data_02165530;
 extern s32 data_02165948;
 extern s32 data_0216593c;
