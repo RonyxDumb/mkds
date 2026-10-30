@@ -8,7 +8,7 @@
 #pragma thumb on
 
 void func_02152458(void *a, const void *b, u8 *c) {
-    func_02152808(b, *(u32 *) ((u8 *) a + 0x24), c);
+    func_02152808(b, *(u32 *) ((u8 *) a + 0x24), (char *) c);
 }
 
 s32 func_02152390(const void *a, const void *b) {
@@ -18,13 +18,13 @@ s32 func_02152390(const void *a, const void *b) {
         return 0;
     }
     if (c == 3) {
-        if (func_02152ab0((u32) a) == func_02152ab0((u32) b)) {
+        if (func_02152ab0(a) == func_02152ab0(b)) {
             return 1;
         }
         return 0;
     }
     if (c == 1) {
-        if (func_02152ac8(a) == func_02152ac8(b) && func_02152ac4((u32) a) == func_02152ac4((u32) b)) {
+        if (func_02152ac8(a) == func_02152ac8(b) && func_02152ac4(a) == func_02152ac4(b)) {
             return 1;
         }
         return 0;
@@ -48,7 +48,7 @@ void func_02152340(void *a, void *b) {
             return;
         }
         if (func_02152a58(b) == 1) {
-            func_02152808(b, *(u32 *) ((u8 *) a + 0x24), &c[0xd]);
+            func_02152808(b, *(u32 *) ((u8 *) a + 0x24), (char *) &c[0xd]);
         }
     }
 }

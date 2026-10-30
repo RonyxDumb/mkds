@@ -603,7 +603,7 @@ void func_01ff8dec(u32 *a, Unk020152bc *b) {
 
 void func_01ff8e64(Unk02170500 *s, Unk02170500_04 *i) {
     func_0214d05c_inline(s, 0x188);
-    s->mUnk_c4 = 1;
+    s->mUnk_c4[0] = 1;
     s->mUnk_08 = 1;
     if (i->mUnk_30 != 0) {
         s->mUnk_00 = i->mUnk_30;

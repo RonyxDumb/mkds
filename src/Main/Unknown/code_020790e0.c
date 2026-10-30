@@ -29,10 +29,10 @@
 
 #pragma thumb on
 
-void func_020790e0(u32 a, s32 b) {
+void func_020790e0(void *a, s32 b) {
     if (b != 0) {
         data_0217ad08->mUnk_1e0 = 0;
-        data_0217ad08->mUnk_268 = func_02056444((void *) a);
+        data_0217ad08->mUnk_268 = func_02056444(a);
     } else {
         data_0217ad08->mUnk_1e0 = 1;
     }
@@ -40,10 +40,10 @@ void func_020790e0(u32 a, s32 b) {
     data_0217ad08->mUnk_1cc = 0;
 }
 
-void func_0207913c(u32 a, const char *b, void **c) {
+void func_0207913c(void *a, const void *b, void **c) {
     char d[0x100];
     func_02135048(d, 0x100, "/data/KartModelMenu/%s", b);
-    func_02048590(d, a, c);
+    func_02048590(d, (u32) a, c);
 }
 
 void func_0207916c(void *a) {
@@ -172,7 +172,7 @@ void func_0207940c(Unk02084b2c *a, s32 b, void *c) {
     }
 }
 
-u16 *func_02079478(u32 a) {
+u16 *func_02079478(void *a) {
     void *x;
     Unk020b4a44 *p;
     func_0207913c(a, "kart/palette/kart_a.NCLR", &x);

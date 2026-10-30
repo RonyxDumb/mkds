@@ -17,15 +17,15 @@ u32 func_02152ae0(u32 *a, u32 b, u32 c, u32 d) {
     return 1;
 }
 
-u32 func_02152b08(u32 a) {
+u32 func_02152b08(u8 *a) {
     u32 r;
     s32 s;
 
     r = 0;
     func_02000b44(0x2000b88);
-    s = func_02151b38((u8 *) a);
+    s = func_02151b38(a);
     if (func_02151da8() != 0) {
-        func_02151f88(a);
+        func_02151f88((u32) a);
         r = 1;
     }
     if (s < 0) {
