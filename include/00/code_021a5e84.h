@@ -1,5 +1,5 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021a5b3c.h"
 
-s32 func_ov000_021a5e84(void *a, void *b, u32 c);

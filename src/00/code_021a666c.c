@@ -1,10 +1,11 @@
 #include "00/code_021a666c.h"
 
-u32 func_ov000_021a666c(void) {
-    int iVar1;
-    iVar1 = func_ov000_021a5b30();
-    if ((*(int *) (iVar1 + ((int) 0x00002270u)) != 0) && (0xc < *(u32 *) (iVar1 + ((int) 0x00002274u)))) {
-        return *(u32 *) (*(int *) (iVar1 + ((int) 0x00002270u)) + 4);
+Unk021b5f50_2270_0c *func_ov000_021a666c(void) {
+    Unk021b5f50 *g;
+
+    g = func_ov000_021a5b30();
+    if (g->mUnk_2270 != 0 && g->mUnk_2274 > 0xc) {
+        return g->mUnk_2270->mUnk_04;
     }
     return 0;
 }

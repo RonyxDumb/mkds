@@ -3,6 +3,8 @@
 #include "00/code_021a574c.h"
 #include "00/code_021a5000.h"
 #include "00/code_021a58a4.h"
+#include "00/code_021a58dc.h"
+#include "00/code_021a669c.h"
 #include "00/code_021a6000.h"
 #include "00/code_021a6c68.h"
 #include "00/unk_021b5000.h"
@@ -341,7 +343,7 @@ void func_ov000_021a52b0(Unk021a5088 *v1) {
                     if (v1->mUnk_08 == 5) {
                         func_0200ee3c(data_ov000_021b5f50->mUnk_2288.mUnk_00, data_ov000_021b5f50->mUnk_2288.mUnk_04);
                         for (b = 0; b < v1->mUnk_0e; b++) {
-                            func_ov000_021a671c(v1->mUnk_10[b], v1->mUnk_50[b]);
+                            func_ov000_021a671c((Unk021a5e84 *) v1->mUnk_10[b], v1->mUnk_50[b]);
                             func_ov000_021a586c(7, 0, v1->mUnk_10[b], (u32) v1, 0x70b);
                         }
                     }

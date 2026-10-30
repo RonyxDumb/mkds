@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "03/code_021b94b8.h"
+#include "00/code_021a5948.h"
 
 typedef s32 Unk021ba818Func();
 
@@ -24,8 +25,6 @@ extern Unk021ba778Src *data_ov003_021d8ba0;
 extern void *data_ov003_021d8ba4;
 extern u8 data_ov003_021d8ba8[6];
 extern u8 data_ov003_021d8bb0[0x20];
-extern u8 data_usa_ov000_021b0788[];
-extern u8 data_usa_ov000_021b0790[];
 
 s32 func_ov003_021ba818(Unk021ba818Func *a, u8 *b, s32 c);
 s32 func_ov003_021ba910(Unk021ba778Src *a, Unk021d8a4c *b, u32 c);

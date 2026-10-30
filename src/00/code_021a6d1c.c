@@ -9,14 +9,15 @@ u32 func_ov000_021a6d40(void) {
     return 0;
 }
 
-u32 func_ov000_021a6d1c(int param_1, int param_2) {
-    int iVar1;
-    iVar1 = 0;
+u32 func_ov000_021a6d1c(const u8 *a, const u8 *b) {
+    int i;
+
+    i = 0;
     do {
-        if (*(unsigned char *) (param_1 + iVar1) != *(unsigned char *) (param_2 + iVar1)) {
+        if (a[i] != b[i]) {
             return 0;
         }
-        iVar1 = iVar1 + 1;
-    } while (iVar1 < 6);
+        i++;
+    } while (i < 6);
     return 1;
 }

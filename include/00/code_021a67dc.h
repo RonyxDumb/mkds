@@ -1,5 +1,5 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021a669c.h"
 
-void func_ov000_021a67dc(s32 a);

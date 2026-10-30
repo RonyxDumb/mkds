@@ -1,5 +1,5 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021a669c.h"
 
-const void *func_ov000_021a6788(u16 a);

@@ -9,6 +9,8 @@
 #include "00/code_021a4b98.h"
 #include "00/code_021a31a4.h"
 #include "00/code_021a377c.h"
+#include "code_02142eac.h" // Unk021438f0
+#include "code_0200f7a0.h"  // Unk0200fb08
 
 // One element of the table at data_ov000_021b5dfc.
 typedef struct Unk021b5dfc {

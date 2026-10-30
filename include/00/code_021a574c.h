@@ -10,4 +10,4 @@
 #include "code_02142eac.h"
 
 void func_ov000_021a574c(void);
-void func_ov000_021a5794(void);
+void func_ov000_021a5794(void *a);
