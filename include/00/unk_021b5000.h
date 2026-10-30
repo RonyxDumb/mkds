@@ -111,3 +111,5 @@ extern u32 data_ov000_021b52c0;
 extern void *data_ov000_021b52c4;
 extern u8 data_ov000_021b52c8[];
 extern s32 data_ov000_021b54cc;
+extern void *data_ov000_021b5658;
+extern void (*data_ov000_021b5660)();

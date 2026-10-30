@@ -9,7 +9,7 @@ void **func_ov000_0219b8fc(u32 a, s32 b) {
     u8 c;
 
     for (c = 0; c < b; c++) {
-        if (a == data_ov000_021b54c8->mUnk_430[c]) {
+        if (a == data_ov000_021b54c8->mUnk_33c.mUnk_f4[c]) {
             break;
         }
     }
@@ -17,5 +17,5 @@ void **func_ov000_0219b8fc(u32 a, s32 b) {
         return 0;
     }
     return func_ov000_0219b958(
-        func_ov000_0219b9b4((Unk0219887c *) func_ov000_0219b9d4(data_ov000_021b54c8->mUnk_5f4[c])));
+        func_ov000_0219b9b4((Unk0219887c *) func_ov000_0219b9d4(data_ov000_021b54c8->mUnk_33c.mUnk_2b8[c])));
 }

@@ -5,8 +5,8 @@ void func_ov000_0219bea8(u32 param_1, u32 param_2, void (*param_3)(s32 param_1),
         if (data_ov000_021b54c8->mUnk_24 == 0) {
             data_ov000_021b54c8->mUnk_5c = param_3;
             data_ov000_021b54c8->mUnk_60 = param_4;
-            data_ov000_021b54c8->mUnk_94 = param_1;
-            data_ov000_021b54c8->mUnk_98 = param_2;
+            data_ov000_021b54c8->mUnk_84.mUnk_10 = param_1;
+            data_ov000_021b54c8->mUnk_84.mUnk_14 = param_2;
             if (func_ov000_021a3810() != 4) {
                 func_ov000_0219c990(2, -60010);
                 return;

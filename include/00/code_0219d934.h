@@ -17,8 +17,8 @@ typedef struct Unk021b5664 {
     /* 1e */ u8 mUnk_1e;
     /* 1f */ u8 mUnk_1f;
     /* 20 */ u32 mUnk_20;
-    /* 24 */ u8 pad_24[4];
-    /* 28 */ s8 *mUnk_28;
+    /* 24 */ s32 mUnk_24;
+    /* 28 */ u8 *mUnk_28;
     /* 2c */ void (*mUnk_2c)(s32, u8, void *);
     /* 30 */ void *mUnk_30;
     /* 34 */ void (*mUnk_34)(s32, u8, void *, void *);
@@ -27,6 +27,8 @@ typedef struct Unk021b5664 {
     /* 40 */ void *mUnk_40;
     /* 44 */ void *mUnk_44;
     /* 48 */ void *mUnk_48;
+    /* 4c */ void (*mUnk_4c)(s32 a, s32 b, u32 c);
+    /* 50 */ u32 mUnk_50;
 } Unk021b5664;
 
 extern Unk021b5664 *data_ov000_021b5664;

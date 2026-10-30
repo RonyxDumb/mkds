@@ -4,5 +4,5 @@
 #include "00/unk_021b5000.h"
 #include "03/code_021b94b8.h"
 
-void func_ov000_0219caac(int param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6, u32 param_7);
+void func_ov000_0219caac(Unk021b565c *a, Unk02152500 *b, Unk0218f960 *c, u32 d, u32 e, void (*f)(), void *g);
 u32 func_ov000_0219caf4(void);

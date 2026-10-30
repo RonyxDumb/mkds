@@ -55,7 +55,9 @@ typedef struct Unk021b4cd4 {
 // Object filled by func_ov000_0218635c.
 typedef struct Unk0218635c {
     /* 000 */ s32 mUnk_000;
-    /* 004 */ u8 mUnk_004[0x1c4];
+    /* 004 */ u8 mUnk_004[0x46];
+    /* 04a */ u8 mUnk_04a[0x12d];
+    /* 177 */ u8 mUnk_177[0x4d];
 } Unk0218635c;
 
 

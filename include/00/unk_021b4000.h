@@ -184,3 +184,5 @@ extern char data_ov000_021b404c[];
 extern u8 data_ov000_021b4054[];
 extern u8 data_ov000_021b4058[];
 extern u8 data_ov000_021b4060[];
+extern u8 data_ov000_021b4064[];
+extern char data_ov000_021b4068[];

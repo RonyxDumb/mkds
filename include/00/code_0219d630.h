@@ -6,4 +6,4 @@
 #include "Main/Unknown/code_02152000.h"
 
 int func_ov000_0219d630(int param_1);
-u32 func_ov000_0219d660(void);
+s32 func_ov000_0219d660(void);

@@ -3,9 +3,21 @@
 #include "types.h"
 #include "00/code_0218f960.h"
 
-// Zeroed by func_ov000_0218eff8 and passed to the callback.
+// Element of the array behind Unk0218eff8Arg.mUnk_0c, 0xac bytes.
+typedef struct Unk0219c400Entry {
+    /* 00 */ u32 mUnk_00;
+    /* 04 */ u8 pad_04[0xa8];
+} Unk0219c400Entry;
+
+// Zeroed by func_ov000_0218eff8 and passed to the callback (0x204 bytes); the callbacks name it Unk0219c400.
 typedef struct Unk0218eff8Arg {
-    /* 000 */ u32 mUnk_000[0x81];
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ Unk0219c400Entry *mUnk_0c;
+    /* 10 */ u8 pad_10[0x7e];
+    /* 8e */ s8 mUnk_8e[0x20];
+    /* ae */ u8 pad_ae[0x156];
 } Unk0218eff8Arg;
 
 // Zeroed by func_ov000_0218f0a8 (0x08 set to 0x601) and passed to the callback.

@@ -4,10 +4,11 @@ void *func_ov000_021a372c(u32 heap, u32 size) {
     return (*(void *(**)(u32, u32, u32)) &data_ov000_021b5df0)(heap, size, 0x20);
 }
 
-void func_ov000_021a3718(unsigned int p0, unsigned int p1, unsigned int p2) {
+void *func_ov000_021a3718(unsigned int p0, unsigned int p1, unsigned int p2) {
     unsigned int v2 = ((u32) (&data_ov000_021b5df0));
     unsigned int v3 = ((unsigned int) *(unsigned int *) ((v2) + (0)));
     unsigned int v4 = ((unsigned int (*)(unsigned int, unsigned int, unsigned int))(v3))(p0, p1, p2);
+    return (void *) v4;
 }
 
 void func_ov000_021a3704(unsigned int p0, unsigned int p1, unsigned int p2) {

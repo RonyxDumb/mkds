@@ -21,8 +21,8 @@ void func_ov000_02198ab0(Unk02198394 *a) {
     func_ov000_0219a3f8((u32 *) a);
 }
 
-void func_ov000_02198ac4(Unk02197e8c **a, const u8 *b, u32 c, u32 d, u32 e) {
-    func_ov000_0219a430(a, b, c, d, e);
+u32 func_ov000_02198ac4(Unk02197e8c **a, const u8 *b, u32 c, u32 d, u32 e) {
+    return func_ov000_0219a430(a, b, c, d, e);
 }
 
 int func_ov000_02198ad8(Unk021981d0 *a, u8 *b, int c, int d) {
