@@ -138,7 +138,7 @@ s32 func_ov000_021881d0(const s8 *a, u32 b, u8 *c, u32 d) {
 }
 
 // non-matching: one instruction, +0x28: original `adds r0, r0, r5`, ours `adds r0, r5, r0`; size equal
-s32 func_ov000_021882f8(const u8 *a, u32 b, s8 *c, u32 d) {
+s32 func_ov000_021882f8(const u8 *a, s32 b, s8 *c, u32 d) {
     const u8 *v1;
     u32 e;
     u32 r;

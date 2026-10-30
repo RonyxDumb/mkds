@@ -43,11 +43,7 @@ void func_ov000_021a3a18(Unk021a3a18 *a, s32 b) {
     func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b4394);
     func_ov000_021a4760((Unk021a471c *) &k, a->mUnk_c0);
     func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b43a0);
-    if (a->mUnk_c8 != 0) {
-        func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b43a8);
-    } else {
-        func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b43ac);
-    }
+    func_ov000_021a471c((Unk021a471c *) &k, a->mUnk_c8 != 0 ? (const u8 *) data_ov000_021b43a8 : (const u8 *) data_ov000_021b43ac);
     if (b != 0) {
         func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b43b0);
         func_ov000_021a4760((Unk021a471c *) &k, b);

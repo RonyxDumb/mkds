@@ -70,7 +70,7 @@ void func_02152808(const Unk02152490 *a, u32 b, char *c) {
 
 // non-matching: the original keeps the output pointer in a stack word and the table pointer in r7 (reloaded c + len
 // before the loop); ours keeps both in registers, size 0x48 against 0x50
-void func_0215286c(u64 a, u32 n, char *c) {
+void func_0215286c(u64 a, s32 n, char *c) {
     const s8 *t = data_0216f2b0;
     s32 len;
     s32 i;
