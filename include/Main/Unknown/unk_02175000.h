@@ -5,6 +5,7 @@
 #include "code_020182c0.h" // Unk020182c0
 #include "Main/Unknown/code_02039044.h" // Unk021755a8, data_021755a8, data_021755b4
 #include "Main/Unknown/unk_02175628.h" // Unk02175628
+#include "code_02017f24.h" // Unk02017f24
 
 // Object behind data_021759d0 (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
 // data_0217aa08.
@@ -161,9 +162,17 @@ typedef struct Unk0217566a {
 extern Unk0217566a data_0217566a[];
 // Entries of 0x0c bytes from 0x9b0 of Unk021759c8.
 typedef struct Unk021759c8_9b0 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
+    /* 00 */ void *mUnk_00;
+    /* 04 */ void *mUnk_04;
+    /* 08 */ union {
+        s32 mUnk_08;
+        struct {
+            u32 mUnk_08_0 : 29;
+            s32 mUnk_08_29 : 1;
+            u32 mUnk_08_30 : 1;
+            u32 mUnk_08_31 : 1;
+        };
+    };
 } Unk021759c8_9b0;
 
 typedef struct Unk021759c8 {
@@ -192,6 +201,11 @@ typedef struct Unk021759c8 {
     /* 8bc */ void *mUnk_8bc;
     /* 8c0 */ u8 mUnk_8c0[0xf0];
     /* 9b0 */ Unk021759c8_9b0 mUnk_9b0[16];
+    /* a70 */ void *mUnk_a70;
+    /* a74 */ void *mUnk_a74;
+    /* a78 */ Unk02017f24 *mUnk_a78;
+    /* a7c */ Unk02017f24 *mUnk_a7c;
+    /* a80 */ Unk02017f24 *mUnk_a80;
 } Unk021759c8;
 
 extern Unk021759c8 *data_021759c8;

@@ -11,4 +11,4 @@
 
 void func_020473a8(void);
 void func_020473e4(void);
-void func_02047468(u32 param_1, u32 param_2);
+void func_02047468(const void *param_1, u32 param_2);

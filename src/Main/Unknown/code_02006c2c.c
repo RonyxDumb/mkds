@@ -85,7 +85,7 @@ u32 func_02006d3c(u16 a, const void *b, s32 c, void (*d)(void)) {
     return func_0200704c(&v1);
 }
 
-void func_02006d78(u16 a, u32 b, const void *c, u32 d, const void *e, void (*f)(Unk0216f3dc_9c *)) {
+u32 func_02006d78(u16 a, u32 b, const void *c, u32 d, const void *e, void (*f)(Unk0216f3dc_9c *)) {
     Unk0216f3dc_9c v1;
     v1.mUnk_00 = 4;
     v1.mUnk_08 = a;
@@ -94,10 +94,10 @@ void func_02006d78(u16 a, u32 b, const void *c, u32 d, const void *e, void (*f)(
     v1.mUnk_18 = d;
     func_0214d02c(c, &v1.mUnk_1c, 0x40);
     func_0214d02c(e, &v1.mUnk_5c, 0x40);
-    func_0200704c(&v1);
+    return func_0200704c(&v1);
 }
 
-void func_02006db0(u16 a, u32 b, const void *c, void (*d)(Unk0216f3dc_9c *)) {
+u32 func_02006db0(u16 a, u32 b, const void *c, void (*d)(Unk0216f3dc_9c *)) {
     Unk0216f3dc_9c v1;
     v1.mUnk_00 = 6;
     v1.mUnk_08 = a;
@@ -105,15 +105,15 @@ void func_02006db0(u16 a, u32 b, const void *c, void (*d)(Unk0216f3dc_9c *)) {
     v1.mUnk_14 = b;
     v1.mUnk_18 = 0x28;
     func_0214d02c(c, &v1.mUnk_1c, 0x40);
-    func_0200704c(&v1);
+    return func_0200704c(&v1);
 }
 
-void func_02006ddc(u16 a, void (*b)(Unk0216f3dc_9c *)) {
+u32 func_02006ddc(u16 a, void (*b)(Unk0216f3dc_9c *)) {
     Unk0216f3dc_9c v1;
     v1.mUnk_00 = 2;
     v1.mUnk_08 = a;
     v1.mUnk_10 = b;
-    func_0200704c(&v1);
+    return func_0200704c(&v1);
 }
 
 Unk02007014 *func_02006df8(u32 a) {

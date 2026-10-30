@@ -10,6 +10,7 @@
 #include "code_02147cd8.h" // Unk02148038
 #include "code_0214a748.h" // Unk0214ad4c
 #include "code_02012b30.h" // Unk02012f58
+#include "Main/Unknown/code_02007014.h" // Unk02007014
 
 // Objects whose layout isn't known yet.
 // What data_0217aa08 points to.
@@ -346,31 +347,44 @@ typedef struct Unk0217aa00_1608 {
 // Object behind data_0217aa00.
 // 0x88-byte entries from 0x16a0 of Unk0217aa00.
 typedef struct Unk0217aa00_16a0 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u8 mUnk_08[0x20];
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ u16 mUnk_30;
-    /* 32 */ u16 mUnk_32;
+    /* 00 */ Unk02007014 mUnk_00;
     /* 34 */ u8 mUnk_34;
     /* 35 */ u8 mUnk_35[0x3f];
-    /* 74 */ s32 mUnk_74;
-    /* 78 */ s32 mUnk_78;
-    /* 7c */ s32 mUnk_7c;
-    /* 80 */ s32 mUnk_80;
-    /* 84 */ s32 mUnk_84;
+    /* 74 */ u32 *mUnk_74;
+    /* 78 */ void *mUnk_78;
+    /* 7c */ void **mUnk_7c;
+    /* 80 */ void *mUnk_80;
+    /* 84 */ union {
+        s32 mUnk_84;
+        struct {
+            u32 mUnk_84_0 : 29;
+            s32 mUnk_84_29 : 1;
+            u32 mUnk_84_30 : 1;
+            u32 mUnk_84_31 : 1;
+        };
+    };
 } Unk0217aa00_16a0;
 
 // Members from 0x16a0 of Unk0217aa00 as one object.
 typedef struct Unk0217aa00_16a0_view {
     /* 000 */ Unk0217aa00_16a0 mUnk_000[12];
     /* 660 */ s32 mUnk_660;
-    /* 664 */ u8 mUnk_664[0x50];
+    /* 664 */ u8 mUnk_664[4];
+    /* 668 */ u16 mUnk_668;
+    /* 66a */ s16 mUnk_66a;
+    /* 66c */ u8 mUnk_66c[0x48];
     /* 6b4 */ u8 mUnk_6b4;
-    /* 6b5 */ u8 mUnk_6b5[0xe3];
+    /* 6b5 */ u8 mUnk_6b5[3];
+    /* 6b8 */ void *mUnk_6b8;
+    /* 6bc */ u8 mUnk_6bc[0xdc];
     /* 798 */ s32 mUnk_798;
     /* 79c */ s32 mUnk_79c;
+    /* 7a0 */ u16 mUnk_7a0;
+    /* 7a2 */ u16 mUnk_7a2;
+    /* 7a4 */ u8 mUnk_7a4;
+    /* 7a5 */ s8 mUnk_7a5;
+    /* 7a6 */ u8 mUnk_7a6;
+    /* 7a7 */ u8 mUnk_7a7[1];
 } Unk0217aa00_16a0_view;
 
 // 0x22c-byte entries from 0x45c of Unk0217aa00.
@@ -634,12 +648,10 @@ typedef struct Unk0217aa00 {
         /* 1d58 */ void *mUnk_1d58;
         /* 1d5c */ s16 mUnk_1d5c;
         /* 1d5e */ u16 mUnk_1d5e;
-        /* 1d60 */ s32 mUnk_1d60;
+        /* 1d60 */ u32 *mUnk_1d60;
         /* 1d64 */ u8 mUnk_1d64[0x3c];
-        /* 1da0 */ Unk0217aa00_1da0 *mUnk_1da0;
-        /* 1da4 */ u8 mUnk_1da4[0x3c];
-        /* 1de0 */ void *mUnk_1de0;
-        /* 1de4 */ u8 mUnk_1de4[0x3c];
+        /* 1da0 */ Unk0217aa00_1da0 *mUnk_1da0[16];
+        /* 1de0 */ void *mUnk_1de0[16];
         /* 1e20 */ void *mUnk_1e20;
         /* 1e24 */ void *mUnk_1e24;
         /* 1e28 */ s32 mUnk_1e28;
