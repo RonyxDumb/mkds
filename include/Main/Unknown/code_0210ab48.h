@@ -20,7 +20,7 @@ void func_0210b4e0(Unk0206bcb0 *a, s32 b, s32 c, s32 d);
 void func_0210b2a8(Unk0206bcb0 *a, s32 b, s32 c, s32 d, u32 e);
 void func_0210b234(Unk0206bcb0 *a, s32 b, s32 c, s32 d);
 void func_0210b198(s32 a, s32 b, u32 c, s32 d, s32 e);
-void func_0210b12c(Unk0206bcb0 *a, s32 b);
+void func_0210b12c(Unk0206bcb0 *a, s32 b, s16 d);
 void func_0210af40(Unk0206bcb0 *a, s32 b, s32 c);
 void func_0210aefc(void);
 void func_0210add4(void);

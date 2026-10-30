@@ -24,8 +24,8 @@
 #include "code_0212c6ac.h"
 #include "code_0212df7c.h"
 
-void func_02071980(Unk0206bcb0 *p, s32 b) {
-    func_0210b2a8(p, b, p->mUnk_3e0, p->mUnk_3e4, p->mUnk_500);
+void func_02071980(void *p, int b) {
+    func_0210b2a8((Unk0206bcb0 *) p, b, ((Unk0206bcb0 *) p)->mUnk_3e0, ((Unk0206bcb0 *) p)->mUnk_3e4, ((Unk0206bcb0 *) p)->mUnk_500);
 }
 
 void func_02071958(Unk0206bcb0 *p, s32 b) {
