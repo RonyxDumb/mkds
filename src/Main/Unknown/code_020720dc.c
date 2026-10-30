@@ -412,7 +412,7 @@ void func_02072b94(Unk0206bcb0 *p, const Vec3 *a, const Vec3 *b, Unk02175620_bc 
     }
     if (p->mUnk_7c & 1) {
         func_0207409c(a, &p->mUnk_e0_m);
-        func_02089f9c(func_02074828());
+        func_02089f9c(((u32 (*)(void)) func_02074828)());
         func_020747f4(0);
     }
 }

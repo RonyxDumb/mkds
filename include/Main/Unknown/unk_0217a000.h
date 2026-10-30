@@ -1130,7 +1130,9 @@ extern Unk02061808 *data_0217acbc;
 extern u8 data_0217acc0[];
 // 0x20-byte entries behind member 0x014 of Unk0217ad00.
 typedef struct Unk0217ad00_014 {
-    /* 00 */ u8 mUnk_00[0x20];
+    /* 00 */ u8 mUnk_00[4];
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u8 mUnk_06[0x1a];
 } Unk0217ad00_014;
 
 // Object behind data_0217ad00 (0x144 bytes); the addresses of 0x2c, 0x98 and 0x10c are passed on as objects.

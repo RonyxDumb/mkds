@@ -67,7 +67,7 @@ void func_02073fc8(s32 a, u32 b, s32 c) {
     p->mUnk_158 = 0;
 }
 
-void func_0207409c(Vec3 *a, void *b) {
+void func_0207409c(const Vec3 *a, void *b) {
     Unk02061808 *p;
     Vec3 m[3];
     Vec3 v;
