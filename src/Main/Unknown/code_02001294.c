@@ -22,8 +22,6 @@ void func_02001300(void) {
     func_02126230((u32) v1, (u32) func_020b3f7c(data_usa_ov001_021a99c0->mUnk_38, 4));
 }
 
-// non-matching: same control flow; the original leaves through one epilogue after the last compare, ours repeats the
-// stack adjustment in the middle of the path
 void func_02001350(void) {
     Unk021a99c0 *v1;
     s32 v2;
@@ -34,12 +32,14 @@ void func_02001350(void) {
         if (func_02125f6c() != 0) {
             func_02105ac0(34);
         }
-        if (data_0217aa08->mUnk_28 != 0) {
-            v2 = 1;
-        } else if (data_021759d4->mUnk_0c != 0) {
-            v2 = data_021759d4->mUnk_10;
+        if (data_0217aa08->mUnk_28 == 0) {
+            if (data_021759d4->mUnk_0c != 0) {
+                v2 = data_021759d4->mUnk_10;
+            } else {
+                v2 = 0;
+            }
         } else {
-            v2 = 0;
+            v2 = 1;
         }
         if (v2 != 0) {
             return;
@@ -53,12 +53,14 @@ void func_02001350(void) {
             v3->mUnk_12 = 1;
         }
     } else {
-        if (data_0217aa08->mUnk_28 != 0) {
-            v2 = 1;
-        } else if (data_021759d4->mUnk_0c != 0) {
-            v2 = data_021759d4->mUnk_10;
+        if (data_0217aa08->mUnk_28 == 0) {
+            if (data_021759d4->mUnk_0c != 0) {
+                v2 = data_021759d4->mUnk_10;
+            } else {
+                v2 = 0;
+            }
         } else {
-            v2 = 0;
+            v2 = 1;
         }
         if (v2 == 0) {
             v3 = &v1->mUnk_18;
@@ -133,7 +135,6 @@ void func_0200165c(void) {
     func_02126230((u32) v1, (u32) func_020b3f7c(data_usa_ov001_021a99c0->mUnk_38, 4));
 }
 
-// non-matching: same control flow; the stack adjustment and the final compare block are placed differently
 void func_020016ac(void) {
     s32 v1;
     Unk021a99c0_18 *v2;
@@ -141,12 +142,14 @@ void func_020016ac(void) {
     if (func_02125f6c() != 0) {
         func_02105ac0(34);
     }
-    if (data_0217aa08->mUnk_28 != 0) {
-        v1 = 1;
-    } else if (data_021759d4->mUnk_0c != 0) {
-        v1 = data_021759d4->mUnk_10;
+    if (data_0217aa08->mUnk_28 == 0) {
+        if (data_021759d4->mUnk_0c != 0) {
+            v1 = data_021759d4->mUnk_10;
+        } else {
+            v1 = 0;
+        }
     } else {
-        v1 = 0;
+        v1 = 1;
     }
     if (v1 != 0) {
         return;
