@@ -3,8 +3,6 @@
 
 #pragma thumb on
 
-// non-matching: the original reloads the member at 0xc0 of data_0216fde0's object at the start of the else arm (before
-// comparing with the member at 0xc4); ours keeps the earlier load, so the code is 4 bytes shorter and the tail differs
 void func_0200aeec(Unk0200aeec *a, void *b, void *c, u32 d) {
     Unk0200aeec_head *v1;
     u32 v2;
@@ -50,7 +48,7 @@ void func_0200aeec(Unk0200aeec *a, void *b, void *c, u32 d) {
         v1->mUnk_c0 = a;
         func_0200df68(&v1->mUnk_00);
     } else {
-        v4 = v1->mUnk_c0;
+        v4 = ((const Unk0200aeec_head *) v1)->mUnk_c0;
         if (a == &v1->mUnk_c4) {
             if (v4->mUnk_00 != 0) {
                 do {
@@ -63,14 +61,7 @@ void func_0200aeec(Unk0200aeec *a, void *b, void *c, u32 d) {
             v1->mUnk_c0 = a;
             a->mUnk_00 = v4;
         } else {
-            for (;;) {
-                v5 = v4->mUnk_00;
-                if (v5 == 0) {
-                    break;
-                }
-                if (v5->mUnk_04_1 > d) {
-                    break;
-                }
+            while ((v5 = v4->mUnk_00) != 0 && v5->mUnk_04_1 <= d) {
                 v4 = v5;
             }
             a->mUnk_00 = v5;

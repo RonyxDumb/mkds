@@ -32,15 +32,14 @@ u8 func_0200c12c(void *a, void *b) {
     return data_0216fdf0;
 }
 
-// non-matching: same size; 2 lines differ; first: original `ldrb r1, [r0, #2]`, ours `ldrh r1, [r0, #2]`
 u8 *func_0200c16c(Unk0200c16c *a, u8 *b) {
     u8 *v1;
     v1 = b;
     *v1++ = a->mUnk_00;
     switch (a->mUnk_00) {
         case 7:
-            *v1++ = a->mUnk_02;
-            if (a->mUnk_02 > data_0216fdf8.mUnk_04) {
+            *v1++ = *(u8 *) &a->mUnk_02;
+            if (*(u8 *) &a->mUnk_02 > data_0216fdf8.mUnk_04) {
                 return 0;
             }
             func_0214d1fc((u8 *) a + 3, v1, data_0216fdf8.mUnk_00);

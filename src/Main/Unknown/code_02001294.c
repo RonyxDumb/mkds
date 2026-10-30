@@ -189,18 +189,19 @@ void func_02001830(void) {
     func_02126230((u32) v1, (u32) func_020b3f7c(data_usa_ov001_021a99c0->mUnk_38, 4));
 }
 
-// non-matching: same instructions in the first half; the later branches are ordered differently from the original
 void func_02001878(void) {
     s32 v1;
     Unk021a99c0_18 *v2;
     s32 v3;
     Unk021a99c0 *v4;
-    if (data_0217aa08->mUnk_28 != 0) {
-        v1 = 1;
-    } else if (data_021759d4->mUnk_0c != 0) {
-        v1 = data_021759d4->mUnk_10;
+    if (data_0217aa08->mUnk_28 == 0) {
+        if (data_021759d4->mUnk_0c != 0) {
+            v1 = data_021759d4->mUnk_10;
+        } else {
+            v1 = 0;
+        }
     } else {
-        v1 = 0;
+        v1 = 1;
     }
     if (v1 != 0) {
         return;
@@ -224,14 +225,14 @@ void func_02001878(void) {
         }
     } else {
         v4 = data_usa_ov001_021a99c0;
-        if (v4->mUnk_2c_0 == 0) {
+        if (v4->mUnk_2c_0 != 0) {
+            v2 = &v4->mUnk_18;
+            v2->mUnk_10 = 5;
+            v2->mUnk_12 = 1;
+        } else {
             v2 = &v4->mUnk_18;
             v2->mUnk_10 = 8;
             v2->mUnk_12 = 1;
-            return;
         }
-        v2 = &v4->mUnk_18;
-        v2->mUnk_10 = 5;
-        v2->mUnk_12 = 1;
     }
 }

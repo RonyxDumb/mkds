@@ -289,12 +289,10 @@ void func_02007d18(u32 a, u32 b, void *c) {
     func_02007cf8(a, b, c);
 }
 
-// non-matching: same size; register allocation only; 10 lines differ; first: original `movs r4, #10`, ours `movs r5,
-// #10`
 u32 func_02007d50(u32 a, u32 b) {
     u32 v1;
-    u32 v2;
     u32 v3;
+    u32 v2;
     v1 = func_0200fca0();
     switch (b) {
         case 0:
