@@ -1,4 +1,5 @@
 #include "00/code_021ad754.h"
+#include "00/code_021a91cc.h"
 #include "00/code_021ad018.h"
 #include "00/code_021ad3b8.h"
 #include "00/code_021ad36c.h"
@@ -54,7 +55,7 @@ void func_ov000_021ad898(void) {
     s32 e;
     s32 i;
     Unk0200db5c *f;
-    Unk021adbac *g;
+    Unk021a998c *g;
     Unk021b6434 *h;
     Unk021b69dc *j;
 
@@ -132,7 +133,7 @@ void func_ov000_021ad898(void) {
         f = data_0216ff5c.mUnk_08;
         if (f != 0) {
             do {
-                g = *(Unk021adbac **) f->mUnk_a4;
+                g = *(Unk021a998c **) f->mUnk_a4;
                 if (g != 0 && g->mUnk_00 != 0) {
                     if (g->mUnk_08 == 3 && (s32) (c - g->mUnk_10) > 0x27) {
                         g->mUnk_08 = 1;

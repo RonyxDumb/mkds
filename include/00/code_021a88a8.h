@@ -13,4 +13,4 @@ typedef struct Unk021a88e4 {
 } Unk021a88e4;
 
 s32 func_ov000_021a88a8(u32 a);
-s32 func_ov000_021a88e4(u32 a);
+s32 func_ov000_021a88e4(const u8 *a);

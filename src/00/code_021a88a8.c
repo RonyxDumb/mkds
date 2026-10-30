@@ -22,7 +22,7 @@ s32 func_ov000_021a88a8(u32 a) {
     return e;
 }
 
-s32 func_ov000_021a88e4(u32 a) {
+s32 func_ov000_021a88e4(const u8 *a) {
     Unk021a88e4 b;
     u8 *c;
     s32 d;

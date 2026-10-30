@@ -1,4 +1,5 @@
 #include "00/code_021adbac.h"
+#include "00/code_021a9228.h"
 #include "00/code_021ae01c.h"
 #include "00/code_021aefb4.h"
 #include "code_0200dc3c.h"
@@ -7,10 +8,10 @@
 #include "code_02134d30.h"
 
 s32 func_ov000_021adbac(void) {
-    Unk021adbac *s;
+    Unk021a998c *s;
     s32 r;
 
-    s = *(Unk021adbac **) data_0216ff5c.mUnk_04->mUnk_a4;
+    s = *(Unk021a998c **) data_0216ff5c.mUnk_04->mUnk_a4;
     if (s != 0) {
         if (s->mUnk_09 != 0) {
             r = func_ov000_021a9358(s);
@@ -26,10 +27,10 @@ s32 func_ov000_021adbac(void) {
 }
 
 s32 func_ov000_021adbf4(const u8 *a, s32 b) {
-    Unk021adbac *s;
+    Unk021a998c *s;
     s32 r;
 
-    s = *(Unk021adbac **) data_0216ff5c.mUnk_04->mUnk_a4;
+    s = *(Unk021a998c **) data_0216ff5c.mUnk_04->mUnk_a4;
     if (s != 0) {
         if (s->mUnk_60 != 0) {
             r = func_ov000_021adc64(s->mUnk_5c, s->mUnk_60, a, b);
@@ -48,11 +49,11 @@ s32 func_ov000_021adbf4(const u8 *a, s32 b) {
 }
 
 s32 func_ov000_021adc64(const u8 *a, s32 b, const u8 *c, s32 d) {
-    Unk021adbac *s;
+    Unk021a998c *s;
     u8 t;
     s32 r;
 
-    s = *(Unk021adbac **) data_0216ff5c.mUnk_04->mUnk_a4;
+    s = *(Unk021a998c **) data_0216ff5c.mUnk_04->mUnk_a4;
     if (s != 0) {
         t = s->mUnk_08;
         if (t == 0xa) {
@@ -72,7 +73,7 @@ s32 func_ov000_021adc64(const u8 *a, s32 b, const u8 *c, s32 d) {
             }
             r = b + d;
         } else if (s->mUnk_09 != 0) {
-            r = func_ov000_021a9280(a, b, c, d, s);
+            r = func_ov000_021a9280((u8 *) a, b, (u8 *) c, d, s);
         } else {
             r = func_ov000_021adcec(a, b, c, d, s);
         }
@@ -84,7 +85,7 @@ s32 func_ov000_021adc64(const u8 *a, s32 b, const u8 *c, s32 d) {
 }
 
 s32 func_ov000_021adcec(const u8 *a, u32 b, const u8 *c, s32 d, void *e) {
-    Unk021adbac *s;
+    Unk021a998c *s;
     s32 f;
     s32 g;
     s32 h;
@@ -141,13 +142,13 @@ s32 func_ov000_021adcec(const u8 *a, u32 b, const u8 *c, s32 d, void *e) {
     return f;
 }
 
-void func_ov000_021ade40(const u8 *a, s32 b, const u8 *c, s32 d, Unk021adbac *e, s32 f) {
+void func_ov000_021ade40(const u8 *a, s32 b, const u8 *c, s32 d, Unk021a998c *e, s32 f) {
     if (func_ov000_021ade6c(a, b, e, f) != 0 && d != 0) {
         func_ov000_021ade6c(c, d, e, 0);
     }
 }
 
-s32 func_ov000_021ade6c(const u8 *a, s32 b, Unk021adbac *c, s32 d) {
+s32 func_ov000_021ade6c(const u8 *a, s32 b, Unk021a998c *c, s32 d) {
     u32 e;
     u32 f;
     s32 g;
@@ -194,9 +195,9 @@ s32 func_ov000_021ade6c(const u8 *a, s32 b, Unk021adbac *c, s32 d) {
 }
 
 void func_ov000_021adf00(u32 a) {
-    Unk021adbac *s;
+    Unk021a998c *s;
 
-    s = *(Unk021adbac **) data_0216ff5c.mUnk_04->mUnk_a4;
+    s = *(Unk021a998c **) data_0216ff5c.mUnk_04->mUnk_a4;
     if (s != 0) {
         if (s->mUnk_09 != 0) {
             func_ov000_021a9394(a, s);
@@ -207,7 +208,7 @@ void func_ov000_021adf00(u32 a) {
 }
 
 // non-matching: the byte count held in r0 instead of r2 in the memmove branch (3 words differ)
-void func_ov000_021adf30(u32 a, Unk021adbac *b) {
+void func_ov000_021adf30(u32 a, Unk021a998c *b) {
     u32 c;
     u32 d;
     u8 *e;
@@ -229,15 +230,15 @@ void func_ov000_021adf30(u32 a, Unk021adbac *b) {
 }
 
 u8 *func_ov000_021adf78(u32 *a) {
-    Unk021adbac *s;
+    Unk021a998c *s;
 
-    s = *(Unk021adbac **) data_0216ff5c.mUnk_04->mUnk_a4;
+    s = *(Unk021a998c **) data_0216ff5c.mUnk_04->mUnk_a4;
     if (s != 0) {
         if ((u8) (s->mUnk_08 + 0xf6) <= 1) {
             return func_ov000_021ae01c(a, s);
         }
         if (s->mUnk_09 != 0) {
-            return func_ov000_021a93e0(a, s);
+            return func_ov000_021a93e0((s32 *) a, s);
         }
         return func_ov000_021adfc8(a, s);
     }
@@ -245,7 +246,7 @@ u8 *func_ov000_021adf78(u32 *a) {
     return 0;
 }
 
-u8 *func_ov000_021adfc8(u32 *a, Unk021adbac *b) {
+u8 *func_ov000_021adfc8(u32 *a, Unk021a998c *b) {
     if (b->mUnk_44 == 0 && b->mUnk_08 == 4) {
         while (b->mUnk_44 == 0 && b->mUnk_08 == 4) {
             b->mUnk_04 = 2;

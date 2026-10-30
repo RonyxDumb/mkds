@@ -47,7 +47,7 @@ s32 func_ov000_0218e478(s32 param_1, void *param_2, s32 *param_3) {
     s32 c = *b;
     s32 d;
     *a = c;
-    d = func_ov000_021a8e18(param_1, a, c);
+    d = func_ov000_021a8e18((Unk021a6fa8 *) param_1, (Unk021a8e18 *) a, c);
     *b = *a;
     return func_ov000_0218e56c(d, -1);
 }

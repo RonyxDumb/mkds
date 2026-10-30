@@ -1,12 +1,14 @@
 #include "00/code_021ae048.h"
+#include "00/code_021a9aa0.h"
+#include "00/code_021a9228.h"
 #include "00/code_021adbac.h"
 #include "code_0200f5ac.h"
 
 void func_ov000_021ae048(void) {
-    Unk021adbac *s;
+    Unk021a998c *s;
     s32 t;
 
-    s = *(Unk021adbac **) data_0216ff5c.mUnk_04->mUnk_a4;
+    s = *(Unk021a998c **) data_0216ff5c.mUnk_04->mUnk_a4;
     if (s != 0) {
         t = func_0200f5ac() >> 16;
         while (data_ov000_021b6388() != 0 && s->mUnk_08 != 0 && (s32) (func_0200f5ac() >> 16) - t < 0x27) {
@@ -16,9 +18,9 @@ void func_ov000_021ae048(void) {
 }
 
 void func_ov000_021ae094(void) {
-    Unk021adbac *s;
+    Unk021a998c *s;
 
-    s = *(Unk021adbac **) data_0216ff5c.mUnk_04->mUnk_a4;
+    s = *(Unk021a998c **) data_0216ff5c.mUnk_04->mUnk_a4;
     if (s != 0) {
         if (s->mUnk_09 != 0) {
             func_ov000_021a9228(s);
