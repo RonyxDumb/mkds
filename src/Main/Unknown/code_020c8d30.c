@@ -171,7 +171,7 @@ void func_020c97c0(void)
             y = data_0217b428->mUnk_060[i].mUnk_04;
             if (x > -0x10 && x < 0x110 && y > -0x10 && y < 0xd0 && func_0207a84c(i) == 0) {
                 data_0217b428->mUnk_000[i] = 1;
-                if (data_021759c0->mUnk_08 == 1 && data_021759c0->mUnk_70[i].mUnk_00 == 2) {
+                if (data_021759c0->mUnk_08 == 1 && data_021759c0->mUnk_68[i].mUnk_08.mUnk_00 == 2) {
                     data_0217b428->mUnk_040[i] = 1;
                 } else {
                     data_0217b428->mUnk_040[i] = 0;

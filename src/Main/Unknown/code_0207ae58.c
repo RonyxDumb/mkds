@@ -238,7 +238,7 @@ void func_0207b44c(Unk0206bcb0 *a) {
         b = (u16) data_0217561c->mUnk_474[0];
         if (data_021759c0->mUnk_58 != 0) {
             u32 g = a->mUnk_74;
-            if (data_021759c0->mUnk_68[b].mUnk_0c != data_021759c0->mUnk_68[g].mUnk_0c) {
+            if (data_021759c0->mUnk_68[b].mUnk_08.mUnk_04 != data_021759c0->mUnk_68[g].mUnk_08.mUnk_04) {
                 f = 2;
             } else {
                 f = 0;

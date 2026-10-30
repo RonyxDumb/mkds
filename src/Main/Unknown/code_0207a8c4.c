@@ -117,7 +117,7 @@ void func_0207abec(u32 a) {
     }
     for (i = 0; i < a; i++) {
         data_0217ad18[i].mUnk_74 = i;
-        data_0217ad18[i].mUnk_78 = data_021759c0->mUnk_70[i].mUnk_0c;
+        data_0217ad18[i].mUnk_78 = data_021759c0->mUnk_68[i].mUnk_08.mUnk_0c;
         func_020649ec(&data_0217ad18[i], data_usa_021655e4);
     }
     data_0217ad28 = 0;

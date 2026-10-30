@@ -22,7 +22,7 @@ void func_02071e28(Unk0206bcb0 *p) {
     } else if (data_021759c0->mUnk_08 == 5) {
         p->mUnk_7c |= 0x400;
     }
-    if (data_021759c0->mUnk_70[p->mUnk_74].mUnk_00 == 2) {
+    if (data_021759c0->mUnk_68[p->mUnk_74].mUnk_08.mUnk_00 == 2) {
         p->mUnk_7c |= 4;
         p->mUnk_384 = 0;
     }

@@ -55,9 +55,9 @@ void func_020431e4(void) {
     q = data_021759c0;
     z = data_0217aa00;
     for (j = 0; j < 8; j++) {
-        s = q->mUnk_70[j].mUnk_00;
+        s = q->mUnk_68[j].mUnk_08.mUnk_00;
         t = 0;
-        w = q->mUnk_70[j].mUnk_0c;
+        w = q->mUnk_68[j].mUnk_08.mUnk_0c;
         if ((u32) s <= 3 && ((1 << s) & 0xd)) {
             t = 1;
         }

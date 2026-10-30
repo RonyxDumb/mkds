@@ -201,7 +201,7 @@ void func_0205d558(s32 a) {
         }
         e->mUnk_02 = r;
         for (k = 0; k < (u32) data_021759c0->mUnk_3d0; k++) {
-            if (j == data_021759c0->mUnk_70[k].mUnk_04) {
+            if (j == data_021759c0->mUnk_68[k].mUnk_08.mUnk_04) {
                 n = n + data_0217aa1c->mUnk_000[(u8) ((data_021759c0->mUnk_60 - 1) % 4)][(u8) k].mUnk_00;
             }
         }

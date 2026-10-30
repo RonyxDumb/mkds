@@ -31,9 +31,9 @@ static inline s32 func_0207f554_inline(u32 a, u32 b) {
     s32 v;
     s32 t;
 
-    if (data_021759c0->mUnk_58 == 0 || data_021759c0->mUnk_70[b].mUnk_04 != data_021759c0->mUnk_70[a].mUnk_04) {
+    if (data_021759c0->mUnk_58 == 0 || data_021759c0->mUnk_68[b].mUnk_08.mUnk_04 != data_021759c0->mUnk_68[a].mUnk_08.mUnk_04) {
         t = 0;
-        v = data_021759c0->mUnk_70[b].mUnk_00;
+        v = data_021759c0->mUnk_68[b].mUnk_08.mUnk_00;
         if ((u32) v <= 3) {
             if ((1 << v) & 0xd) {
                 t = 1;
@@ -183,9 +183,9 @@ s32 func_0207f554(u32 a, u32 b) {
     s32 v;
     s32 t;
 
-    if (data_021759c0->mUnk_58 == 0 || data_021759c0->mUnk_70[b].mUnk_04 != data_021759c0->mUnk_70[a].mUnk_04) {
+    if (data_021759c0->mUnk_58 == 0 || data_021759c0->mUnk_68[b].mUnk_08.mUnk_04 != data_021759c0->mUnk_68[a].mUnk_08.mUnk_04) {
         t = 0;
-        v = data_021759c0->mUnk_70[b].mUnk_00;
+        v = data_021759c0->mUnk_68[b].mUnk_08.mUnk_00;
         if ((u32) v <= 3) {
             if ((1 << v) & 0xd) {
                 t = 1;

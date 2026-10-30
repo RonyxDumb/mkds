@@ -129,7 +129,7 @@ void func_020c28dc(Unk020c06c4 *a) {
                 a->mUnk_400 += func_020224e0((Unk020224e0_o *) &a->mUnk_000.mUnk_00[a->mUnk_400], 0x80 - a->mUnk_400, m, 0, e4, 0, 1);
             }
             if (data_021759c0->mUnk_58 != 0) {
-                x = data_021759c0->mUnk_70[(u16) k].mUnk_04 == 0 ? 0x1f : 0x20;
+                x = data_021759c0->mUnk_68[(u16) k].mUnk_08.mUnk_04 == 0 ? 0x1f : 0x20;
                 m = func_020b83c4(x);
                 e5[0] = (d + 0xec) << 12;
                 e5[1] = t[i] << 12;
@@ -186,9 +186,9 @@ void func_020c2570(Unk020c06c4 *a, u32 b, s32 c, s32 d) {
     e1[1] = d << 12;
     a->mUnk_400 += func_020224e0((Unk020224e0_o *) &a->mUnk_000.mUnk_00[a->mUnk_400], 0x80 - a->mUnk_400, m, 0, e1, 0, 1);
     if (b == func_020b4d9c()) {
-        s = data_021759c0->mUnk_70[b].mUnk_04 == 0 ? 0x1e : 0x1f;
+        s = data_021759c0->mUnk_68[b].mUnk_08.mUnk_04 == 0 ? 0x1e : 0x1f;
     } else {
-        s = data_021759c0->mUnk_70[b].mUnk_04 == 0 ? 0x1c : 0x1d;
+        s = data_021759c0->mUnk_68[b].mUnk_08.mUnk_04 == 0 ? 0x1c : 0x1d;
     }
     m = func_020b83ac(s);
     e2[0] = c << 12;
@@ -275,7 +275,7 @@ void func_020c214c(Unk020c06c4 *a) {
         c[i] = 0;
     }
     for (i = 0; (u32) i < (u32) data_021759c0->mUnk_3d0; i++) {
-        k = data_021759c0->mUnk_70[i].mUnk_04;
+        k = data_021759c0->mUnk_68[i].mUnk_08.mUnk_04;
         func_020c2570(a, i, t1[k] + (k == 0 ? -d : d), c[k] * 0x17 + 0x11);
         c[k]++;
     }

@@ -52,7 +52,7 @@ static inline s32 func_02101f7c_inline(u8 *v1, Unk021759c0 *o, s32 a, u16 k) {
     }
     if (l | ((q->mUnk_4c & 0x40) ? 1 : 0)) {
         v2 = 0;
-    } else if (a != -1 && a == o->mUnk_70[k].mUnk_04) {
+    } else if (a != -1 && a == o->mUnk_68[k].mUnk_08.mUnk_04) {
         v2 = 0;
     } else {
         v2 = 0;
@@ -198,7 +198,7 @@ void func_02101d90(Unk02101c84 *p, s32 a) {
         }
         if (l | ((q->mUnk_4c & 0x40) ? 1 : 0)) {
             l = 0;
-        } else if (a != -1 && a == o->mUnk_70[k].mUnk_04) {
+        } else if (a != -1 && a == o->mUnk_68[k].mUnk_08.mUnk_04) {
             l = 0;
         } else {
             l = 0;
@@ -534,7 +534,7 @@ void func_02101178(Unk02101c84 *p) {
             } else {
                 i = 8;
             }
-            f(p, o->mUnk_70[(u16) i].mUnk_04);
+            f(p, o->mUnk_68[(u16) i].mUnk_08.mUnk_04);
             if (p->mUnk_140 == 8) {
                 f(p, -1);
             }

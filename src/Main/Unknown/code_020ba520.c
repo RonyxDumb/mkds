@@ -286,7 +286,7 @@ void func_020ba63c(Unk020d029c *p) {
 
     x = data_0217b3cc->mUnk_00;
     y = data_0217b3cc->mUnk_08;
-    r = func_020b85dc(data_021759c0->mUnk_58 == 0 ? 8 : data_021759c0->mUnk_70[func_020b4d9c()].mUnk_04 == 0 ? 9 : 10);
+    r = func_020b85dc(data_021759c0->mUnk_58 == 0 ? 8 : data_021759c0->mUnk_68[func_020b4d9c()].mUnk_08.mUnk_04 == 0 ? 9 : 10);
     if (data_021759c0->mUnk_00c == 4) {
         return;
     }

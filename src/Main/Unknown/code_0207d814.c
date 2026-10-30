@@ -90,7 +90,7 @@ void func_0207d9f0(struct Unk02089a24 *a, struct Unk020888b4 *b, s32 c) {
 
     a->mUnk_18 = 0;
     f = 0;
-    v = data_021759c0->mUnk_70[m].mUnk_00;
+    v = data_021759c0->mUnk_68[m].mUnk_08.mUnk_00;
     if ((u32) v <= 3) {
         if ((1 << v) & 0xd) {
             f = 1;
@@ -214,7 +214,7 @@ void func_0207de84(struct Unk02089a24 *a, struct Unk020888b4 *b) {
         a->mUnk_08 = 0;
         a->mUnk_18 = 0;
         f = 0;
-        v = data_021759c0->mUnk_70[b->mUnk_04].mUnk_00;
+        v = data_021759c0->mUnk_68[b->mUnk_04].mUnk_08.mUnk_00;
         if ((u32) v <= 3) {
             if ((1 << v) & 0xd) {
                 f = 1;
@@ -282,7 +282,7 @@ void func_0207e088(struct Unk02089a24 *a, struct Unk020888b4 *b) {
     Unk0217aebc_128 *r;
     Unk020888b4 *u;
 
-    v = data_021759c0->mUnk_70[b->mUnk_04].mUnk_00;
+    v = data_021759c0->mUnk_68[b->mUnk_04].mUnk_08.mUnk_00;
     if ((u32) v <= 3) {
         if ((1 << v) & 0xd) {
             f = 1;

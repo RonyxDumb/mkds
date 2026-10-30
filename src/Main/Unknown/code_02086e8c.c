@@ -27,10 +27,10 @@ void func_020870ec(void *a, u16 b) {
     u8 x;
     u8 y;
     q = a;
-    if (data_021759c0->mUnk_70[b].mUnk_26 != 0) {
+    if (data_021759c0->mUnk_68[b].mUnk_08.mUnk_26 != 0) {
         p = data_0217aecc;
         c = 7;
-        switch (data_021759c0->mUnk_70[b].mUnk_26) {
+        switch (data_021759c0->mUnk_68[b].mUnk_08.mUnk_26) {
             case 2:
                 c = 4;
                 break;
@@ -75,7 +75,7 @@ void func_02087000(void) {
     for (i = 0; (u32) i < data_021759c0->mUnk_3d0; i++) {
         data_0217aed0->mUnk_144[i] = 0;
         data_0217aed0->mUnk_164[i] = 0;
-        e = &data_021759c0->mUnk_70[i];
+        e = &data_021759c0->mUnk_68[i].mUnk_08;
         if (e->mUnk_24 == 0 || data_021759c0->mUnk_58 != 0) {
             if (data_021759c0->mUnk_58 != 0) {
                 s = func_02088338(e->mUnk_04 == 1 ? 1 : 0);

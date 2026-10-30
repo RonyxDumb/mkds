@@ -101,7 +101,7 @@ void func_02089a24(Unk020888b4 *a, Unk02089a24 *b) {
     b->mUnk_28 = 0;
     b->mUnk_2c = 0;
     b->mUnk_30 = 0;
-    v = data_021759c0->mUnk_70[a->mUnk_04].mUnk_00;
+    v = data_021759c0->mUnk_68[a->mUnk_04].mUnk_08.mUnk_00;
     if ((u32) v <= 3) {
         if ((1 << v) & 0xd) {
             c = 1;

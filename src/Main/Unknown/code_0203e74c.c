@@ -99,7 +99,7 @@ void func_0203e9a0(Unk0217561c_14 *a, s32 b) {
     s32 c;
     s32 m;
     s16 d;
-    c = data_021759c0->mUnk_70[(u32) (a->mUnk_3c << 24) >> 28].mUnk_0c;
+    c = data_021759c0->mUnk_68[(u32) (a->mUnk_3c << 24) >> 28].mUnk_08.mUnk_0c;
     if (b != 0) {
         a->mUnk_00 = 1;
     } else {
@@ -300,7 +300,7 @@ s32 func_0203ef58(void) {
         case 0:
             r = 1;
             for (i = 0; i < (u32) o->mUnk_3d0; i++) {
-                s = o->mUnk_70[i].mUnk_00;
+                s = o->mUnk_68[i].mUnk_08.mUnk_00;
                 f = 0;
                 if ((u32) s <= 3 && ((1 << s) & 0xd) != 0) {
                     f = 1;
@@ -381,7 +381,7 @@ s32 func_0203ef58(void) {
         case 2:
             r = 1;
             for (i = 0; i < (u32) o->mUnk_3d0; i++) {
-                s = o->mUnk_70[i].mUnk_00;
+                s = o->mUnk_68[i].mUnk_08.mUnk_00;
                 f = 0;
                 if ((u32) s <= 3 && ((1 << s) & 0xd) != 0) {
                     f = 1;

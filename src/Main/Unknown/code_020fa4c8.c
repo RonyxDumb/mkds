@@ -764,7 +764,7 @@ void func_020fa78c(s32 param_1, s32 param_2, s32 param_3) {
     if (((Unk020ee684 *) *(void **) data_027e00c8)[param_1].mUnk_030.mUnk_00 != 0x13) {
         return;
     }
-    v = data_021759c0->mUnk_70[param_1].mUnk_00;
+    v = data_021759c0->mUnk_68[param_1].mUnk_08.mUnk_00;
     if (v == 3) {
         return;
     }

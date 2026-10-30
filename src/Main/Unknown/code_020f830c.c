@@ -104,7 +104,7 @@ void func_020f89b0(Unk020ee684 *param_1, Unk020ee684 *param_2) {
     param_1->mUnk_010 = 0x13;
     param_1->mUnk_014 = 0x13;
     param_1->mUnk_020 = 0;
-    param_1->mUnk_024 = data_021759c0->mUnk_70[param_2->mUnk_1f8].mUnk_00 == 3;
+    param_1->mUnk_024 = data_021759c0->mUnk_68[param_2->mUnk_1f8].mUnk_08.mUnk_00 == 3;
 }
 
 void func_020f87a8(Unk020ee684 *param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5) {

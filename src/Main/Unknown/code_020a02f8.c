@@ -43,7 +43,7 @@ void func_020a0e00(void) {
         e->mUnk_44 = (u16) i;
         e->mUnk_48 = (u16) i;
         if (i < data_021759c0->mUnk_3d0) {
-            switch (data_021759c0->mUnk_70[(u16) i].mUnk_04) {
+            switch (data_021759c0->mUnk_68[(u16) i].mUnk_08.mUnk_04) {
                 case 0:
                     e->mUnk_46 = 1;
                     break;

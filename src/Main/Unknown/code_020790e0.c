@@ -346,7 +346,7 @@ void func_020797d8(void *a, u32 b) {
         d = data_0217ad00->mUnk_000;
         e = &d[i];
         func_02079a3c((u32 *) e);
-        e->mUnk_0b0 = data_021759c0->mUnk_70[i].mUnk_25;
+        e->mUnk_0b0 = data_021759c0->mUnk_68[i].mUnk_08.mUnk_25;
         func_02079a14(e);
         d[i].mUnk_000 = data_021759c0->mUnk_68[i].mUnk_00;
         e->mUnk_004 = data_021759c0->mUnk_68[i].mUnk_04;
