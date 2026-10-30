@@ -25,7 +25,7 @@ void func_ov003_021d1218(void) {
     func_ov003_021d0128(data_ov003_021da2ac->mUnk_ac8);
     data_ov003_021da2ac->mUnk_a90 = 1;
     data_ov003_021da2ac->mUnk_648 = func_02142eac();
-    func_0214d1fc(data_ov003_021da2ac->mUnk_aa4, data_ov003_021da2ac->mUnk_a50, 0x40);
+    func_0214d1fc(data_ov003_021da2ac->mUnk_aa0[1], data_ov003_021da2ac->mUnk_a50, 0x40);
     data_ov003_021da2ac->mUnk_a93 = 0;
     data_ov003_021da2ac->mUnk_204 = 0;
     data_ov003_021da2ac->mUnk_648++;
@@ -86,5 +86,5 @@ void func_ov003_021d1358(Unk021da2ac *param_1, Unk021d1358 *param_2) {
     func_0200f5ac();
     func_02151804((u32) data_ov003_021da2ac->mUnk_64c);
     func_0200f5ac();
-    data_ov003_021da2ac->mUnk_aa4 = (void *) func_ov003_021cd4dc();
+    data_ov003_021da2ac->mUnk_aa0[1] = (u8 *) func_ov003_021cd4dc();
 }

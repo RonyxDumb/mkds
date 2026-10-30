@@ -10,4 +10,4 @@
 #include "code_021453ec.h"
 
 u16 func_ov003_021cfed8(void);
-void func_ov003_021cff38(Unk021425e8Func param_1, u16 param_2);
+int func_ov003_021cff38(Unk021425e8Func param_1, u16 param_2);
