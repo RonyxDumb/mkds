@@ -6,4 +6,5 @@
 void func_ov003_021c6184(void);
 void func_ov003_021c6668();
 void func_ov003_021c6acc();
-void func_ov003_021c6ba0(void);
+
+#include "03/code_021c6ba0.h"

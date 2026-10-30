@@ -4,4 +4,4 @@
 
 #include "03/types_021d299c.h"
 
-void func_ov003_021d2970(const Unk021d299c *input);
+u32 func_ov003_021d2970(const Unk021d299c *input);
