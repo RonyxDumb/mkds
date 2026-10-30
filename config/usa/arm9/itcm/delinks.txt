@@ -13,6 +13,8 @@ src/Main/Unknown/code_01ffb130.c:
 
 src/Main/Unknown/code_01ffba68.c:
     .text       start:0x01ffba68 end:0x01ffcf7c
+src/Main/Unknown/code_01ffa4b4.c:
+    .text       start:0x01ffa4b4 end:0x01ffad14
 
 src/Main/Unknown/code_01ffdee4.c:
     .text       start:0x01ffdee4 end:0x01fff434
