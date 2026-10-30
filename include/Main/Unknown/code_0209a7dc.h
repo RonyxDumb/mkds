@@ -32,8 +32,4 @@ typedef struct Unk0209a7dc {
     /* 114 */ s32 mUnk_114;
 } Unk0209a7dc;
 
-// Declared here until the code that defines them is decompiled.
-s32 func_0209af64(s32 a, s32 b);
-s16 func_0209af80(s32 a);
-
 void func_0209a7dc(void *param_1, Unk0209a7dc *param_2);

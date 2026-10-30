@@ -12,9 +12,10 @@ void func_0209ba58(void *a, void *b, void *c);
 void func_0209ba88(u32 param_1, int param_2, int param_3);
 #include "Main/Unknown/code_0209bc5c.h"
 void func_0209bb2c(void *param_1, void *param_2, void *param_3);
-// Object returned by func_0209bf70; the code writes the words at 0x28, 0x38 and 0x3c.
+// Object returned by func_0209bf70; the code writes the words at 0x24, 0x28, 0x38 and 0x3c.
 typedef struct Unk0209bf70 {
-    /* 00 */ u8 mUnk_00[0x28];
+    /* 00 */ u8 mUnk_00[0x24];
+    /* 24 */ s32 mUnk_24;
     /* 28 */ s32 mUnk_28;
     /* 2c */ u8 mUnk_2c[0xc];
     /* 38 */ s32 mUnk_38;

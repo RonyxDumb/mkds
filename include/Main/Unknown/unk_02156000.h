@@ -11,6 +11,7 @@ extern u8 data_021564c0[];
 extern u16 data_usa_02156460;
 extern u16 data_usa_02156464;
 extern u16 data_usa_02156468;
+extern u16 data_usa_0215659c;
 extern u32 data_021564b8;
 extern u32 data_021564bc;
 extern u8 data_02156598[];
