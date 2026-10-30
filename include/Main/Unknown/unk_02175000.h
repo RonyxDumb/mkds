@@ -240,6 +240,17 @@ typedef struct Unk021759c8 {
 extern Unk021759c8 *data_021759c8;
 extern Unk021759cc *data_021759cc;
 extern Unk021759d0 *data_021759d0;
+
+// Object at data_usa_021759b8: 0x400 bytes (the end of them is the top of the stack of the Unk0200db5c) and two words.
+typedef struct Unk021759b8 {
+    /* 000 */ u8 mUnk_000[0x400];
+    /* 400 */ Unk0200db5c mUnk_400;
+    /* 4b8 */ u8 mUnk_4b8[8];
+    /* 4c0 */ s32 mUnk_4c0;
+    /* 4c4 */ s32 mUnk_4c4;
+} Unk021759b8;
+
+extern Unk021759b8 data_usa_021759b8;
 extern vu16 data_021758e8[];
 extern vu16 data_02175928[];
 extern u8 data_02175dd8[];

@@ -89,4 +89,4 @@ void func_0204ce60(void);
 void func_0204cf5c(Unk02003024 *a);
 void func_0204d0bc(Unk02175ec0_440s *a, Unk0204c090 *b);
 void func_0204d110(Unk0204c090 **a, Unk0204c090 **b, Unk0204c090 *c);
-void func_0204d18c(Unk02175ec0_440s *a, Unk0204c090 *b);
+void func_0204d18c(Unk02175ec0_440s *a, Unk0204c090 *b, s32 c);

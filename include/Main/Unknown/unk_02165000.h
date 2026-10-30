@@ -6,6 +6,7 @@
 
 extern const char data_02165048[];
 extern const char data_02165050[];
+extern const u8 data_usa_021651d0[];
 
 // Objects whose layout isn't known yet.
 // A function and three numbers; func_02050650 takes the address of data_021652a0.

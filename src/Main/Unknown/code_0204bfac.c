@@ -622,7 +622,7 @@ void func_0204d110(Unk0204c090 **a, Unk0204c090 **b, Unk0204c090 *c) {
     func_0200fcb4(v1);
 }
 
-void func_0204d18c(Unk02175ec0_440s *a, Unk0204c090 *b) {
+void func_0204d18c(Unk02175ec0_440s *a, Unk0204c090 *b, s32 c) {
     u32 v1;
     s32 v2;
     s32 v6;
