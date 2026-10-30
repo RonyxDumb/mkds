@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020364e0.h"
 
 void *func_020364e8(void) {
-    return *(void **) data_02174e70;
+    return data_02174e70;
 }
 
 void *func_020364e0(void *param_1) {

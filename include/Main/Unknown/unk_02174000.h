@@ -313,9 +313,21 @@ typedef struct Unk02174e68 {
 
 extern Unk02174e68 *data_02174e68;
 extern u8 data_02174e6c[];
-extern u8 data_02174e70[];
+extern Unk02036590 *data_02174e70;
 
-extern u8 data_02174e78[];
+
+// Object at data_02174e78: mUnk_0c is the pointer func_020365ac returns; mUnk_10 overlaps the first member of
+// data_02174e88.
+typedef struct Unk02174e78 {
+    /* 00 */ u32 mUnk_00;
+    /* 04 */ u32 mUnk_04;
+    /* 08 */ u32 mUnk_08;
+    /* 0c */ void *mUnk_0c;
+    /* 10 */ const char *mUnk_10;
+} Unk02174e78;
+
+extern Unk02174e78 data_02174e78;
+extern u8 data_usa_02174e80[];
 
 extern u8 data_02174e04[];
 extern u8 data_02174e08[];

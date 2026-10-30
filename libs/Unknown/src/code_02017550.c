@@ -51,6 +51,6 @@ void func_02017568(Unk02017584 *a) {
     func_02017354(func_02017614((u32) a), a);
 }
 
-void *func_02017550(u32 a) {
-    return func_02017640(&data_02173268, a);
+void *func_02017550(void *a) {
+    return func_02017640(&data_02173268, (u32) a);
 }

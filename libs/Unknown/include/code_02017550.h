@@ -17,7 +17,7 @@ typedef struct Unk02017584 {
 extern u32 data_02173264;
 extern Unk02017328 data_02173268;
 
-void *func_02017550(u32 a);
+void *func_02017550(void *a);
 void func_02017568(Unk02017584 *a);
 void func_02017584(Unk02017584 *a, u32 b, u32 c, u32 d, u16 e);
 Unk02017328 *func_02017614(u32 a);

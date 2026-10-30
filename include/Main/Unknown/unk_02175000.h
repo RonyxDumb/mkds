@@ -3,6 +3,8 @@
 #include "types.h"
 #include "Main/Unknown/code_0203810c.h" // Unk0203810c
 #include "code_020182c0.h" // Unk020182c0
+#include "Main/Unknown/code_02039044.h" // Unk021755a8, data_021755a8, data_021755b4
+#include "Main/Unknown/unk_02175628.h" // Unk02175628
 
 // Object behind data_021759d0 (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
 // data_0217aa08.
@@ -125,15 +127,21 @@ typedef struct Unk021755a0 {
     /* a0 */ Unk0203810c mUnk_a0;
     /* b0 */ u16 mUnk_b0;
     /* b2 */ u16 mUnk_b2;
-    /* b4 */ u8 mUnk_b4[0x4];
+    /* b4 */ u32 mUnk_b4;
     /* b8 */ void (*mUnk_b8)(void);
+    /* bc */ u32 mUnk_bc;
+    /* c0 */ u32 mUnk_c0;
+    /* c4 */ u32 mUnk_c4;
+    /* c8 */ u32 mUnk_c8;
+    /* cc */ u32 mUnk_cc;
+    /* d0 */ u32 mUnk_d0;
+    /* d4 */ u32 mUnk_d4;
+    /* d8 */ u8 mUnk_d8;
 } Unk021755a0;
 
 // Objects whose layout isn't known yet.
 extern Unk021755a0 *data_021755a0;
-extern u8 data_021755a8[];
-extern u8 data_021755b4[];
-extern u16 data_021755dc;
+extern Unk02175628 data_021755dc;
 typedef struct Unk02175624 {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mUnk_02;

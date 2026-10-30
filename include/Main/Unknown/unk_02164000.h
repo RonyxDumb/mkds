@@ -66,3 +66,4 @@ extern u8 data_02164fe4[];
 extern u8 data_02164ffc[];
 extern void *data_usa_02164718[];
 extern const char data_021646e0[];
+extern const char data_usa_021646ec[];
