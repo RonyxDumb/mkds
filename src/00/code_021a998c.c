@@ -1,4 +1,5 @@
 #include "00/code_021a998c.h"
+#include "00/code_021adbac.h"
 
 void func_ov000_021a998c(Unk021a998c *param_1) {
     u8 *msg;

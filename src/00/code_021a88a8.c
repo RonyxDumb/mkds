@@ -15,7 +15,7 @@ s32 func_ov000_021a88a8(u32 a) {
     s32 e;
     data_ov000_021b63d8[0] = 0;
     data_ov000_021b63d8[1] = 0;
-    e = func_ov000_021acef8(a);
+    e = func_ov000_021acef8((const char *) a);
     data_ov000_021b63d8[0] = c;
     data_ov000_021b63d8[1] = d;
     func_0200fcb4(b);
@@ -39,7 +39,7 @@ s32 func_ov000_021a88e4(u32 a) {
     b.mUnk_48.mUnk_04 = c + 0xb68;
     b.mUnk_48.mUnk_00 = 0x5ea;
     func_ov000_021ae304(&b);
-    d = func_ov000_021acef8(a);
+    d = func_ov000_021acef8((const char *) a);
     func_ov000_021ae2f4();
     data_ov000_021b5f94->mUnk_1c(c);
     return d;

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021acef8.h"
+#include "00/code_021adbac.h"
 #include "code_0200e0ec.h"
 
 // Block of four words: mUnk_00 is the first byte, mUnk_04 the cursor, mUnk_08 the end, mUnk_0c the size.
@@ -77,10 +79,7 @@ extern u8 data_ov000_021b1258[];
 extern u8 data_ov000_021b1348[];
 
 // Declared here until the code that defines them is decompiled.
-int func_ov000_021acef8(u32 a);
 s32 func_ov000_021adbac(void);
-s32 func_ov000_021adbf4(u8 *a, s32 b);
-const u8 *func_ov000_021adf78(s32 *a);
 void func_ov000_021adf00(u32 a);
 void func_ov000_021ae048(void);
 void func_ov000_021ae094(void);

@@ -138,7 +138,7 @@ s32 func_ov000_021a7af0(Unk021a7064 *param_1) {
     s32 j;
     s32 k;
     for (;;) {
-        i = func_ov000_021adf78(&j);
+        i = func_ov000_021adf78((u32 *) &j);
         if (i == 0) {
             break;
         }

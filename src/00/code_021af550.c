@@ -296,7 +296,7 @@ u8 *func_ov000_021afd00(u32 a) {
     b = func_0200fca0();
     c = 0;
     if (a == 0x7f000001 || a == data_ov000_021b63b4) {
-        c = data_ov000_021b63d0;
+        c = (u8 *) data_ov000_021b63d0;
     } else if (func_ov000_021b00b0(a) != 0 || func_ov000_021b0094(a) != 0) {
         c = data_ov000_021b4c2c;
     } else {

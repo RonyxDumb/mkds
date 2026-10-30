@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "00/unk_021b6380.h"
 #include "code_0200e0ec.h" // Unk0200db5c, Unk0200dce0
 #include "00/code_021b0014.h"
 #include "00/code_021afe5c.h"
@@ -47,13 +48,6 @@ typedef struct Unk021afc5c {
     /* 28 */ u16 mUnk_28;
 } Unk021afc5c;
 
-// One element of the table at data_ov000_021b6434.
-typedef struct Unk021b6434 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04[6];
-    /* 0a */ u16 mUnk_0a;
-} Unk021b6434;
-
 // Objects whose layout isn't known yet.
 extern u8 data_ov000_021b641a[];
 extern Unk0200db5c data_ov000_021b661c;
@@ -65,7 +59,6 @@ extern u16 data_ov000_021b6378;
 extern u8 data_ov000_021b6368;
 extern u8 data_ov000_021b4c2c[6];
 extern u32 data_ov000_021b4c28;
-extern u8 data_ov000_021b63d0[6];
 extern Unk021b6434 data_ov000_021b6434[8];
 
 void func_ov000_021af550(u8 *a, u32 b, Unk021af550 *c, u32 d, u16 e);

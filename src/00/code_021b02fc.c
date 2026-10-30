@@ -1,4 +1,5 @@
 #include "00/code_021b02fc.h"
+#include "00/code_021adbac.h"
 #include "00/code_021b04cc.h"
 #include "00/code_021b04d0.h"
 #include "02/unk_02180500.h"
@@ -10,13 +11,13 @@
 void func_ov000_021b02fc(Unk021b5fa8 *param_1) {
     func_02000b44(0x2000bfc);
     if (*(u64 *) &param_1->mUnk_14 != 0) {
-        data_ov000_021b63e0.mUnk_00 = *(u64 *) &param_1->mUnk_14;
-        data_ov000_021b63e0.mUnk_08 = 0x5d588b656c078965ULL;
-        data_ov000_021b63e0.mUnk_10 = 0x269ec3;
+        data_ov000_021b63e0[0] = *(u64 *) &param_1->mUnk_14;
+        data_ov000_021b63e0[1] = 0x5d588b656c078965ULL;
+        data_ov000_021b63e0[2] = 0x269ec3;
     } else {
-        data_ov000_021b63e0.mUnk_00 = func_0200f5ac();
-        data_ov000_021b63e0.mUnk_08 = 0x5d588b656c078965ULL;
-        data_ov000_021b63e0.mUnk_10 = 0x269ec3;
+        data_ov000_021b63e0[0] = func_0200f5ac();
+        data_ov000_021b63e0[1] = 0x5d588b656c078965ULL;
+        data_ov000_021b63e0[2] = 0x269ec3;
     }
     if (param_1->mUnk_04 != 0 && param_1->mUnk_08 != 0) {
         data_ov000_021b63a4 = (u8 *(*)(u32)) param_1->mUnk_04;
@@ -47,12 +48,12 @@ void func_ov000_021b02fc(Unk021b5fa8 *param_1) {
     data_ov000_021b63c8 = param_1->mUnk_20;
     data_ov000_021b63cc = 0;
     data_ov000_021b6394 = 0;
-    data_ov000_021b63e0.mUnk_00 = _ll_mul(data_ov000_021b63e0.mUnk_08, data_ov000_021b63e0.mUnk_00) + data_ov000_021b63e0.mUnk_10;
-    data_ov000_021b6374 = (_ll_mul(data_ov000_021b63e0.mUnk_00 >> 32, 0xf88) >> 32) + 0x400;
+    data_ov000_021b63e0[0] = _ll_mul(data_ov000_021b63e0[1], data_ov000_021b63e0[0]) + data_ov000_021b63e0[2];
+    data_ov000_021b6374 = (_ll_mul(data_ov000_021b63e0[0] >> 32, 0xf88) >> 32) + 0x400;
     func_0200fe58(data_ov000_021b63d0);
     data_ov000_021b6368 = 0;
     func_0200e28c(&data_ov000_021b661c, func_ov000_021ae3a4, 0, data_ov002_021b7ba0, 0x800, data_ov000_021b4c28);
-    func_0200e28c(&data_ov000_021b655c, func_ov000_021ad898, 0, data_ov000_021b73a0, 0x800, data_ov000_021b4c28);
+    func_0200e28c(&data_ov000_021b655c, (void (*)(void *)) func_ov000_021ad898, 0, data_ov000_021b73a0, 0x800, data_ov000_021b4c28);
     func_0200df68(&data_ov000_021b661c);
     func_0200df68(&data_ov000_021b655c);
 }
