@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02077f5c.h"
+#include "Main/Unknown/code_020ed5c0.h"
 #include "code_02012b30.h"
 #include "00/code_02182fdc.h"
 #include "01/code_021a2398.h"
@@ -35,14 +36,14 @@ Unk0217ad00_014 *func_02077f7c(int param_1) {
     return r;
 }
 
-void func_02077f9c(int param_1, Unk0217ad00_000 *param_2, u8 *param_3) {
+void func_02077f9c(int param_1, struct Unk0206bcb0_590 *param_2, u8 *param_3) {
     Unk0201290c *e;
     u8 *t;
     u8 *u;
     u8 *w;
     s32 k;
     s32 h;
-    e = param_2->mUnk_10->mUnk_04;
+    e = param_2->mUnk_010->mUnk_04;
     func_0200ee74(param_3, 0x20);
     if (func_020799a0(param_1) != 0) {
         k = func_02013754((u8 *) e + e->mUnk_08 + 4, data_usa_02154ff8);
@@ -63,7 +64,7 @@ void func_0207800c(void) {
     if (data_0217ad00->mUnk_014 != 0) {
         func_02078078();
         for (i = 0; i < data_021759c0->mUnk_3d0; i = (u16) (i + 1)) {
-            if (data_0217ad00->mUnk_000[i].mUnk_00 == 0xc) {
+            if (data_0217ad00->mUnk_000[i].mUnk_000 == 0xc) {
                 func_02077f9c(i, &data_0217ad00->mUnk_000[i], (u8 *) func_02077f7c(i));
             }
         }

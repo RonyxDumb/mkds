@@ -12,6 +12,8 @@ typedef struct Unk0207adf8 {
     /* 5c */ u8 mUnk_5c[0x10];
     /* 6c */ u16 mUnk_6c;
     /* 6e */ u16 mUnk_6e;
+    /* 70 */ u16 mUnk_70;
+    /* 72 */ u8 mUnk_72[2];
 } Unk0207adf8;
 
 void func_0207adf8(Unk0207adf8 *param_1, u32 param_2, u32 param_3);

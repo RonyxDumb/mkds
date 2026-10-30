@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_0207a7fc.h"
+#include "Main/Unknown/code_0207a32c.h"
 
 void func_0203d568(void);
 void func_0203d848(void *a);
@@ -24,5 +25,4 @@ void func_0203eb38(void);
 void func_0203ecf0(void);
 void func_0203ee28(void);
 void func_0203d21c(void);
-u32 func_0207a5c4(s32 a);
 u32 func_0207a7fc(s32 a);

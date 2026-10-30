@@ -6,7 +6,7 @@
 
 void func_02077f5c(void);
 Unk0217ad00_014 *func_02077f7c(int param_1);
-void func_02077f9c(int param_1, Unk0217ad00_000 *param_2, u8 *param_3);
+void func_02077f9c(int param_1, struct Unk0206bcb0_590 *param_2, u8 *param_3);
 void func_0207800c(void);
 void func_02078078(void);
 void func_020780b0(void);

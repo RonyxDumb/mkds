@@ -45,7 +45,7 @@ s32 func_02063b70(Unk0206bcb0 *a) {
         func_01ff9048(0x1b, &i, 3);
         func_0208ab4c(&b->mUnk_040);
         func_0207a30c(a->mUnk_74);
-        e = ((Unk0206bcb0_590 *) a->mUnk_590)->mUnk_098.mUnk_0c;
+        e = ((Unk0206bcb0_590 *) a->mUnk_590)->mUnk_0a4;
         c = func_02079b60();
         c->mUnk_0c = e;
         *c->mUnk_1c[c->mUnk_1a] = c->mUnk_0c;

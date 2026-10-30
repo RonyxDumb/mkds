@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_020846c0.h" // Unk02084b2c
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_02087d0c.h"
@@ -17,7 +18,7 @@ typedef struct Unk020ed718 {
 
 // The object behind the word at 0x20 of a Unk0206bcb0_590: the vectors from 0x48.
 typedef struct Unk0206bcb0_590_20 {
-    /* 00 */ u8 mUnk_00[0x10];
+    /* 00 */ char mUnk_00[0x10];
     /* 10 */ s32 mUnk_10;
     /* 14 */ Vec3 mUnk_14[4];
     /* 44 */ u8 mUnk_44[4];
@@ -26,8 +27,10 @@ typedef struct Unk0206bcb0_590_20 {
 
 // The object behind the word at 0x1c of a Unk0206bcb0_590: the halfword at 0x70.
 typedef struct Unk0206bcb0_590_1c {
-    /* 00 */ u8 mUnk_00[0x70];
+    /* 00 */ Unk02084b2c mUnk_00;
+    /* 6c */ u8 mUnk_6c[4];
     /* 70 */ u16 mUnk_70;
+    /* 72 */ u8 mUnk_72[2];
 } Unk0206bcb0_590_1c;
 
 // The object behind the word at 0x590 of a Unk0206bcb0 from its first byte:
@@ -44,23 +47,30 @@ typedef struct Unk0206bcb0_590_08 {
 
 // The object behind the word at 0x54 of a Unk0206bcb0_590.
 typedef struct Unk0206bcb0_590_54 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u8 mUnk_04[8];
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ u8 mUnk_10[8];
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ u8 mUnk_1c[8];
-    /* 24 */ s32 mUnk_24;
+    union {
+        Vec3 mUnk_v[4];
+        struct {
+            /* 00 */ s32 mUnk_00;
+            /* 04 */ u8 mUnk_04[8];
+            /* 0c */ s32 mUnk_0c;
+            /* 10 */ u8 mUnk_10[8];
+            /* 18 */ s32 mUnk_18;
+            /* 1c */ u8 mUnk_1c[8];
+            /* 24 */ s32 mUnk_24;
+        };
+    };
 } Unk0206bcb0_590_54;
+
+struct Unk02084b2c;
 
 typedef struct Unk0206bcb0_590 {
     /* 000 */ s32 mUnk_000;
     /* 004 */ s32 mUnk_004;
     /* 008 */ Unk0206bcb0_590_08 *mUnk_008;
-    /* 00c */ u8 mUnk_00c[4];
-    /* 010 */ void *mUnk_010;
-    /* 014 */ void *mUnk_014;
-    /* 018 */ void *mUnk_018;
+    /* 00c */ Unk0206bcb0_590_08 *mUnk_00c;
+    /* 010 */ Unk02084b2c *mUnk_010;
+    /* 014 */ Unk02084b2c *mUnk_014;
+    /* 018 */ Unk02084b2c *mUnk_018;
     /* 01c */ Unk0206bcb0_590_1c *mUnk_01c;
     /* 020 */ Unk0206bcb0_590_20 *mUnk_020;
     /* 024 */ s32 mUnk_024;
@@ -75,7 +85,10 @@ typedef struct Unk0206bcb0_590 {
     /* 05c */ s32 mUnk_05c;
     /* 060 */ s32 mUnk_060;
     /* 064 */ u8 mUnk_064[0x34];
-    /* 098 */ Unk02087d0c mUnk_098;
+    /* 098 */ u8 mUnk_098[0xc];
+    /* 0a4 */ s32 mUnk_0a4;
+    /* 0a8 */ u8 mUnk_0a8[8];
+    /* 0b0 */ s32 mUnk_0b0;
 } Unk0206bcb0_590;
 
 // Three vectors at 0x00, 0x0c and 0x18.
