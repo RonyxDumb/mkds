@@ -80,9 +80,9 @@ typedef struct Unk020f41c4_A {
     /* 100 */ s32 mUnk_100;
     /* 104 */ struct Unk020e04b0 *mUnk_104;
     /* 108 */ Vec3 mUnk_108;
-    /* 114 */ u16 mUnk_114;
-    /* 116 */ u16 mUnk_116;
-    /* 118 */ u16 mUnk_118;
+    /* 114 */ s16 mUnk_114;
+    /* 116 */ s16 mUnk_116;
+    /* 118 */ s16 mUnk_118;
     /* 11a */ s16 mUnk_11a;
     /* 11c */ s32 mUnk_11c;
     /* 120 */ void (*mUnk_120)(struct Unk020f41c4_A *);
@@ -246,7 +246,7 @@ typedef struct {
     /* 54 */ s32 mUnk_54;
     /* 58 */ u32 mUnk_58;
     /* 5c */ s32 mUnk_5c;
-    /* 60 */ u8 mUnk_60[4];
+    /* 60 */ s32 mUnk_60;
     /* 64 */ s32 mUnk_64;
     /* 68 */ s32 mUnk_68;
     /* 6c */ s32 mUnk_6c;
