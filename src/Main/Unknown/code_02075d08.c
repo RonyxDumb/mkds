@@ -268,7 +268,7 @@ void func_02076528(Unk02061808 *a, Unk0206bcb0 *b) {
     v.y = v.y - s;
     g = v;
     func_02075fe0(a, b, &u);
-    func_020741a0(&a->mUnk_024, &a->mUnk_0a8, (Unk0217ac94 *) a, b, &g, &u, (s32) (((s64) a->mUnk_174 * 0x3000) >> 12));
+    func_020741a0(&a->mUnk_024, &a->mUnk_0a8, a, b, &g, &u, (s32) (((s64) a->mUnk_174 * 0x3000) >> 12));
     if (func_020d3e18() != 0) {
         t = func_020d3df4(a->mUnk_024.y - 0x5000);
         if (t < 0) {
@@ -313,7 +313,7 @@ void func_02076528(Unk02061808 *a, Unk0206bcb0 *b) {
     } else {
         a->mUnk_0d4 = data_usa_0217ac78;
     }
-    func_02073eb8((Unk0217ac94 *) a);
+    func_02073eb8(a);
 }
 
 void func_02076a5c(void) {
@@ -324,13 +324,13 @@ void func_02076a5c(void) {
     s32 t;
 
     q = func_0207a974(data_021759c0->mUnk_62);
-    func_0207729c((Unk02061808 *) data_0217ac94);
+    func_0207729c(data_0217ac94);
     if (data_021759c0->mUnk_08 == 4) {
         if (data_021759c0->mUnk_044 & 0x20) {
-            ((Unk02061808 *) data_0217ac94)->mUnk_0f0 = -0x1000;
+            (data_0217ac94)->mUnk_0f0 = -0x1000;
         }
     }
-    p = (Unk02061808 *) data_0217ac94;
+    p = data_0217ac94;
     func_01ffccd0(&m, &q->mUnk_e0);
     t = (s32) (((s64) -data_usa_0217ac90 * p->mUnk_0f0 + 0x800) >> 12);
     u.x = (s32) (((s64) m[2].x * t) >> 12);
@@ -341,10 +341,10 @@ void func_02076a5c(void) {
     p->mUnk_0c0 = data_usa_02154fc4;
     p->mUnk_134 = p->mUnk_024;
     p->mUnk_088 = 0x1000;
-    ((Unk02061808 *) data_0217ac94)->mUnk_248 = 0;
+    (data_0217ac94)->mUnk_248 = 0;
     func_020d4f94((Unk020d4f94 *) &p->mUnk_030);
     func_020d50c4();
-    ((Unk02061808 *) data_0217ac94)->mUnk_018.y = q->mUnk_80.y + ((Unk02061808 *) data_0217ac94)->mUnk_0d4;
+    (data_0217ac94)->mUnk_018.y = q->mUnk_80.y + (data_0217ac94)->mUnk_0d4;
 }
 
 // non-matching: ours pushes r4, r5 and keeps the first argument in r5 (original r4 only, address 0x9c in lr, 0x90 in ip, 8 bytes of stack against 4)

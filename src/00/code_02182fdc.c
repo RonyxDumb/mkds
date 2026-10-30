@@ -241,7 +241,7 @@ void func_ov000_02183a0c(void) {
     u16 x = (t << 16) / 0x14;
     s32 y = ((0x13 - t) * 0xf33) / 0x14 + 0xcd;
     s32 i;
-    Unk0217ad04 *q;
+    Unk020b4a44 *q;
 
     for (i = 0; i < 3; i++) {
         func_02124b1c(&data_ov000_021b4c74->mUnk_10d4[data_ov000_021b0668[i]], x, y);

@@ -38,8 +38,13 @@ extern u16 data_usa_02154708;
 extern const s32 data_usa_02154de4[25];
 extern const s32 data_usa_02154e48[25];
 extern const s32 data_usa_02154eac[25];
-extern const Vec3 data_usa_02154fc4;
-extern const Vec3 data_usa_02154fdc;
+extern Vec3 data_usa_02154fc4;
+extern Vec3 data_usa_02154fdc;
+extern const s32 data_usa_02154fa0[][3];
+extern const s32 data_usa_02154fa4[][3];
+extern const s32 data_usa_02154fa8[][3];
+extern const Vec3 data_usa_02154fb8;
+extern const Vec3 data_usa_02154fd0;
 
 extern u16 data_021540ec[];
 extern const Unk01ffd190 data_usa_02154f14;

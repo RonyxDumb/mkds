@@ -14,6 +14,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_020b4000.h"
+#include "Main/Unknown/code_02077f00.h"
 #include "Main/Unknown/code_0204799c.h"
 #include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Unknown/code_020b3f7c.h"
@@ -278,11 +279,6 @@ typedef struct Unk0217d384 {
     /* 1f57 */ u8 mUnk_1f57;
 } Unk0217d384;
 
-typedef struct Unk0217ad04 {
-    /* 0000 */ u8 pad_00[0xc];
-    /* 000c */ void *mUnk_0c;
-} Unk0217ad04;
-
 extern u8 data_ov000_021b05e8[3];
 extern u8 data_ov000_021b05f0[];
 extern u8 data_ov000_021b060c[3][9];
@@ -326,7 +322,6 @@ void func_ov000_021840c8(void);
 void func_ov000_02184130(void);
 
 void func_02036f10(s16);
-Unk0217ad04 *func_02077f00(void);
 #include "Main/Unknown/code_020ac2fc.h"
 #include "Main/Unknown/code_0210895c.h"
 #include "Main/Unknown/code_02108a40.h"

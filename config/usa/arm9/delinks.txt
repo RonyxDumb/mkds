@@ -3039,12 +3039,20 @@ src/Main/Unknown/code_02076cc4.c:
     .text       start:0x02076cc4 end:0x02076cd0
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_02076cd0.c:
+    .text       start:0x02076cd0 end:0x02077bc0
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_02077bc0.c:
     .text       start:0x02077bc0 end:0x02077c1c
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_02077eb4.c:
     .text       start:0x02077eb4 end:0x02077f00
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_02077f00.c:
+    .text       start:0x02077f00 end:0x02077f0c
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_02077f0c.c:

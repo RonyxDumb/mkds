@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_020748b8.h"
 #include "Main/Unknown/code_020b4e5c.h"
 #include "Main/Unknown/unk_0217b000.h"
 
@@ -42,6 +43,7 @@ typedef struct {
     /* 14 */ s32 mUnk_14;
     /* 18 */ u16 mUnk_18[4];
     /* 20 */ s32 mUnk_20;
+    /* 24 */ s32 mUnk_24;
 } Unk02175620_18;
 
 // 0x48-byte entries of the table at Unk02175620::mUnk_74 (func_020423fc returns one).
