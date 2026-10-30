@@ -8,6 +8,8 @@
 #include "00/code_0219bb50.h"
 #include "code_0212df7c.h"
 #include "code_02147cd8.h"
+#include "Main/Unknown/code_0205af90.h"
+#include "Main/Unknown/code_020a12b8.h"
 
 // non-matching: 6 words differ; the 64-bit sign copy of the z component is loaded into r1 here and r0 in the original (r0/r1 swapped around the three products), everything else is identical
 void func_0203f334(Unk0217561c_14 *a, s32 b) {

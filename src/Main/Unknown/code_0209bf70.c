@@ -29,6 +29,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/unk_0217c000.h"
 #include "code_02147cd8.h"
+#include "Main/Unknown/code_020d8918.h"
 
 static inline u32 func_0209c9fc_inline(Unk020f41c4_B *b) {
     b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;

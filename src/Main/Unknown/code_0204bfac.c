@@ -18,6 +18,7 @@
 #include "code_0200fd1c.h"
 #include "code_0214d018.h"
 #include "code_02142eac.h"
+#include "Main/Unknown/code_0204bca0.h"
 
 void func_0204bfac(u32 a, u32 b, u32 c, u32 d) {
     u32 v1;

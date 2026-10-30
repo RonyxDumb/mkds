@@ -30,6 +30,7 @@
 #include "code_02016468.h"
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
+#include "code_0202056c.h"
 
 #pragma thumb on
 
