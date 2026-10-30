@@ -1,10 +1,9 @@
 #include "code_020245a4.h"
 #include "code_0200fd1c.h"
 
-// non-matching: 91.5%, the switch compiles to a different comparison order and register use
 void func_020245a4(Unk02021f9c *a) {
-    u16 i;
     Unk02021fd0 *p;
+    s32 i;
     Unk020245a4_08 *q;
 
     p = (Unk02021fd0 *) ((u8 *) a + a->mUnk_0c);

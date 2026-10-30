@@ -29,7 +29,6 @@ void func_020244f4(Unk02180728 *a, s32 b, s32 c, u32 d, u16 *e, u16 **f) {
     }
 }
 
-// non-matching: 86.2%, same instructions; the first loads and the register of the stack argument copy are ordered differently
 void func_020243f0(Unk02180728 *a, s32 b, s32 c, s32 d, u32 e, u32 f, u16 *g) {
     s32 h;
     s32 n;
@@ -40,13 +39,13 @@ void func_020243f0(Unk02180728 *a, s32 b, s32 c, s32 d, u32 e, u32 f, u16 *g) {
     u16 *v;
 
     h = a->mUnk_0c + ((Unk02022aa8 *) a->mUnk_04)->mUnk_00->mUnk_01;
-    if (g == 0) {
+    v = g;
+    if (v == 0) {
         return;
     }
-    v = g;
-    t = (d + 1) / 2;
     m1 = f & 0x800;
     m2 = f & 0x400;
+    t = (d + 1) / 2;
     do {
         x = b;
         if (m1 != 0) {
