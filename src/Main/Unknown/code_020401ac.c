@@ -82,7 +82,7 @@ s32 func_02040bc0(void) {
 void func_02040a8c(Unk0217561c_500 *a, s32 b) {
     Unk0206cdd4_B *t = func_0207a6b0();
     Unk0217561c *d = data_0217561c;
-    Unk0217561c_14 *e = (Unk0217561c_14 *) ((u8 *) d + 0x14 + b * 0x8c);
+    Unk0217561c_14 *e = &d->mUnk_14[b];
     Unk0217561c_4c8 *r = d->mUnk_4c8;
 
     if (d->mUnk_000[0].mUnk_0c == 0) {
@@ -254,7 +254,7 @@ void func_020401ac(void) {
         data_0217561c->mUnk_4f4 = data_021759c0->mUnk_028;
     }
     for (i = 0; i < 8; i++) {
-        func_02040750(&data_0217561c->mUnk_000[i].mUnk_14_view, i);
+        func_02040750(&data_0217561c->mUnk_14[i], i);
         data_0217561c->mUnk_474[i] = -1;
     }
     switch (data_021759c0->mUnk_00c) {

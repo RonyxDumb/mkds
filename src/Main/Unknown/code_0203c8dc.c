@@ -8,7 +8,7 @@ u32 func_0203c8dc(u32 param_1) {
     if (data_021759c0->mUnk_08 == 5) {
         return data_0217aa14->mUnk_104[data_0217aa18->mUnk_00[param_1 & 0xff]].mUnk_86_1;
     }
-    return data_0217561c->mUnk_000[param_1].mUnk_14_view.mUnk_3c_0;
+    return data_0217561c->mUnk_14[param_1].mUnk_3c_0;
 }
 
 // non-matching: same instructions and order; the data pointer is in lr and the entry pair address in ip where the original has ip and lr

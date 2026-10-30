@@ -139,9 +139,6 @@ typedef struct Unk021755a0 {
     /* d0 */ u32 mUnk_d0;
     /* d4 */ u32 mUnk_d4;
     /* d8 */ u8 mUnk_d8;
-    /* bc */ u32 mUnk_bc;
-    /* c0 */ u32 mUnk_c0;
-    /* c4 */ u8 mUnk_c4[0x14];
 } Unk021755a0;
 
 // Objects whose layout isn't known yet.

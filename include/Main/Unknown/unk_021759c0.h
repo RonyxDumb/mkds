@@ -64,6 +64,18 @@ typedef struct Unk021759c0_1e8 {
     /* 64 */ u8 mUnk_64[0x4];
 } Unk021759c0_1e8;
 
+// The 0x10 bytes at 0x28 of the object behind data_021759c0 (the same bytes as its mUnk_028 to mUnk_37).
+typedef struct Unk021759c0_28 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ s16 mUnk_04;
+    /* 06 */ u8 mUnk_06;
+    /* 07 */ u8 mUnk_07;
+    /* 08 */ u8 mUnk_08[6];
+    /* 0e */ u8 mUnk_0e;
+    /* 0f */ u8 mUnk_0f;
+} Unk021759c0_28;
+
 // Object behind data_021759c0.
 typedef struct Unk021759c0 {
     /* 00 */ s32 mUnk_00;
@@ -76,14 +88,19 @@ typedef struct Unk021759c0 {
     /* 01c */ s32 mUnk_1c;
     /* 020 */ s32 mUnk_020;
     /* 024 */ u8 mUnk_024[0x4];
-    /* 028 */ u16 mUnk_028;
-    /* 02a */ u16 mUnk_02a;
-    /* 02c */ s16 mUnk_02c;
-    /* 02e */ u8 mUnk_2e;
-    /* 2f */ u8 mUnk_2f;
-    /* 030 */ u8 mUnk_030[0x6];
-    /* 036 */ u8 mUnk_036;
-    /* 37 */ u8 mUnk_37;
+    union {
+        Unk021759c0_28 mUnk_28_view;
+        struct {
+            /* 028 */ u16 mUnk_028;
+            /* 02a */ u16 mUnk_02a;
+            /* 02c */ s16 mUnk_02c;
+            /* 02e */ u8 mUnk_2e;
+            /* 2f */ u8 mUnk_2f;
+            /* 030 */ u8 mUnk_030[0x6];
+            /* 036 */ u8 mUnk_036;
+            /* 37 */ u8 mUnk_37;
+        };
+    };
     /* 038 */ u16 mUnk_038;
     /* 03a */ u8 mUnk_03a[0x2];
     /* 3c */ u16 mUnk_3c;

@@ -22,7 +22,7 @@ s32 func_0203c25c(u16 a) {
 
 // non-matching: same instructions and order; registers differ (a in r5 and the entry pointer in r4 where the original has r4 and r5; the stack-free temporaries in r1/r2/r3 are rotated)
 void func_0203c2e4(u16 a) {
-    Unk0217561c_14 *p = (Unk0217561c_14 *) ((u8 *) &data_0217561c->mUnk_000[0].mUnk_14_view + a * 0x8c);
+    Unk0217561c_14 *p = (Unk0217561c_14 *) ((u8 *) &data_0217561c->mUnk_14[0] + a * 0x8c);
     s32 f = 0;
     switch (p->mUnk_00) {
         case 1:
@@ -39,7 +39,7 @@ void func_0203c2e4(u16 a) {
         v = data_021759c0->mUnk_3d0 - data_0217561c->mUnk_000[0].mUnk_10;
         p->mUnk_3c_0 = v;
         for (i = 0; i < data_021759c0->mUnk_3d0; i++) {
-            Unk0217561c_14 *q = (Unk0217561c_14 *) ((u8 *) &data_0217561c->mUnk_000[0].mUnk_14_view + i * 0x8c);
+            Unk0217561c_14 *q = (Unk0217561c_14 *) ((u8 *) &data_0217561c->mUnk_14[0] + i * 0x8c);
             if (i != a) {
                 u32 m = q->mUnk_3c_0;
                 if (m > o && m <= v) {

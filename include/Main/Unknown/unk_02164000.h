@@ -79,3 +79,5 @@ extern const char data_usa_021646ec[];
 extern const Unk021a9034 data_usa_021646f8;
 extern const Unk021a9034 data_usa_02164734;
 extern const Unk021a9034 data_usa_02164798;
+extern const char data_usa_021647b8[];
+extern const char data_usa_021647c8[];

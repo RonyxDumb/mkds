@@ -12,8 +12,7 @@ void func_02037a40(void) {
     u64 t;
     p = data_021755a0;
     t = func_0200f5ac();
-    p->mUnk_bc = (u32) t;
-    p->mUnk_c0 = (u32) (t >> 32);
+    p->mUnk_bc = t;
     if (p->mUnk_0a == 1) {
         func_0214a9d0();
     }

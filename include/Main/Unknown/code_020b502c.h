@@ -101,9 +101,16 @@ typedef struct Unk02175620_24 {
     /* 1e */ u8 mUnk_1e[2];
 } Unk02175620_24;
 
+// Two words.
+typedef struct Unk02040d24 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+} Unk02040d24;
+
 // 0x24-byte entries of the table at Unk02175620::mUnk_44.
 typedef struct Unk02175620_44 {
-    /* 00 */ u8 mUnk_00[0x18];
+    /* 00 */ u8 mUnk_00[0x10];
+    /* 10 */ Unk02040d24 mUnk_10;
     /* 18 */ s32 mUnk_18;
     /* 1c */ u8 mUnk_1c[4];
     /* 20 */ s16 mUnk_20;
