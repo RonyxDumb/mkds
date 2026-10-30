@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020853dc.h"
 
-unsigned int func_02085434(void) {
+s32 func_02085434(void) {
     return ((unsigned int) *(
         const unsigned int
             *) ((unsigned char *) (unsigned int) ((
@@ -19,11 +19,11 @@ unsigned int func_02085434(void) {
                 96));
 }
 
-unsigned int func_02085424(void) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aec0))) + 0));
+Unk0217aec0 *func_02085424(void) {
+    return data_0217aec0;
 }
 
-unsigned int func_02085408(unsigned int p0) {
+s32 func_02085408(unsigned int p0) {
     return ((unsigned int) *(
         const unsigned int *) ((unsigned char *) (unsigned int) ((
                                    (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) ((

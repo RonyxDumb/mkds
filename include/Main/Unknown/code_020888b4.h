@@ -4,6 +4,7 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_0208001c.h"
 #include "Main/Unknown/code_0208fd8c.h"
+#include "Main/Unknown/code_02080cd0.h"
 
 // Entry of the list func_020888b4 searches: a halfword at 0x02 (bit 0 tested) and a vector at 0x04.
 typedef struct Unk020888b4_d0 {
@@ -19,7 +20,12 @@ typedef struct Unk02089a24 {
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
-    /* 10 */ u8 mUnk_10[0x18];
+    /* 10 */ s32 mUnk_10;
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ s32 mUnk_20;
+    /* 24 */ s32 mUnk_24;
     /* 28 */ s32 mUnk_28;
     /* 2c */ s32 mUnk_2c;
     /* 30 */ u16 mUnk_30;
@@ -43,8 +49,10 @@ typedef struct Unk020888b4 {
     /* 00 */ Unk0206bcb0 *mUnk_00;
     /* 04 */ u16 mUnk_04;
     /* 06 */ u16 mUnk_06;
-    /* 08 */ Unk0208001c mUnk_08;
-    /* 24 */ u8 mUnk_24[4];
+    /* 08 */ union {
+        Unk0208001c mUnk_08;
+        Unk02080d34 mUnk_08_b;
+    };
     /* 28 */ Unk0208001c mUnk_28;
     /* 44 */ Vec3 mUnk_44;
     /* 50 */ Vec3 mUnk_50;
