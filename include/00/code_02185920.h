@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021857e0.h"
 
-extern void *data_ov000_021b4c8c;
 
 void func_ov000_02185920(void);

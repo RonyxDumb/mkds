@@ -62,7 +62,7 @@ typedef struct Unk021b4c74 {
     /* 0008 */ s32 mUnk_08;
     /* 000c */ s32 mUnk_0c;
     /* 0010 */ s16 mUnk_10;
-    /* 0012 */ u8 pad_12[6];
+    /* 0012 */ s16 mUnk_12[3];
     /* 0018 */ s16 mUnk_18[4];
     /* 0020 */ s32 mUnk_20;
     /* 0024 */ s32 mUnk_24[3];
@@ -78,7 +78,7 @@ typedef struct Unk021b4c74 {
     /* 0056 */ u8 pad_56[2];
     /* 0058 */ s32 mUnk_58[5][3];
     /* 0094 */ s32 mUnk_94[5][3];
-    /* 00d0 */ u8 pad_d0[4];
+    /* 00d0 */ void *mUnk_d0;
     /* 00d4 */ u8 mUnk_d4[0x1000];
     /* 10d4 */ Unk02124b1c *mUnk_10d4;
     /* 10d8 */ u8 mUnk_10d8[3][0x200];
@@ -90,6 +90,8 @@ typedef struct Unk021b4c74 {
     /* 16f4 */ void *mUnk_16f4;
     /* 16f8 */ void *mUnk_16f8;
     /* 16fc */ void *mUnk_16fc;
+    /* 1700 */ void *mUnk_1700;
+    /* 1704 */ u8 pad_1704[8];
 } Unk021b4c74;
 
 // Four callbacks, passed to func_ov000_021806ec by func_ov000_0218330c.
@@ -290,6 +292,7 @@ extern u8 data_ov000_021b065c[3];
 extern u8 data_ov000_021b0660[3];
 extern u8 data_ov000_021b0664[3];
 extern u8 data_ov000_021b0668[3];
+extern u8 data_ov000_021b066c[3];
 extern u8 data_ov000_021b0670[3][2];
 extern u8 data_ov000_021b0678[3][2];
 extern s32 data_ov000_021b0680[3];

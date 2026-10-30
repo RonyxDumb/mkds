@@ -28,8 +28,6 @@ extern u8 data_ov000_021b4a60[];
 extern u8 data_ov000_021b4aa4[];
 extern u8 data_ov000_021b4be4[];
 extern u8 data_ov000_021b4be5[];
-extern u8 data_ov000_021b4c78[];
-extern u8 data_ov000_021b4c7c[];
 extern u8 data_ov000_021b4c80[];
 extern u8 data_ov000_021b4cac[];
 extern u8 data_ov000_021b4cb0[];
@@ -40,6 +38,14 @@ extern u8 data_ov000_021b4d0c[];
 extern u8 data_ov000_021b4d10[];
 extern u8 data_ov000_021b4d18[];
 extern u8 data_ov000_021b4d1c[];
+// Objects behind data_ov000_021b4c78 and data_ov000_021b4c7c.
+typedef struct Unk021b4c78 {
+    /* 0 */ void *mUnk_00;
+} Unk021b4c78;
+
+extern Unk021b4c78 *data_ov000_021b4c78;
+extern Unk021b4c78 *data_ov000_021b4c7c;
+
 // Object behind data_ov000_021b4d24.
 typedef struct Unk021b4d24 {
     /* 000 */ u8 mUnk_000[0x498];
