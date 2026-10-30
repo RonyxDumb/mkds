@@ -7,13 +7,14 @@
 
 #pragma thumb on
 
-// non-matching: 97%, differs by stack offsets of the locals
 void func_0203ba84(u8 *param_1) {
     Unk0203ba84 *a;
-    Unk020f41c4_B *r;
     Unk020f41c4_B l;
     u16 m;
+    s32 c;
+    s32 x;
     u32 f;
+    Unk020f41c4_B *r;
     u8 i;
     u8 k;
     u32 g;
@@ -29,7 +30,16 @@ void func_0203ba84(u8 *param_1) {
     a = (Unk0203ba84 *) param_1;
     m = 0;
     f = a->mUnk_01;
-    if (data_0217aa00 != 0 && data_0217aa00->mUnk_0000 != 0 && data_0217aa00->mUnk_0004 != 0xd) {
+    c = 0;
+    if (data_0217aa00 == 0) {
+        x = 0;
+    } else {
+        x = data_0217aa00->mUnk_0000;
+    }
+    if (x != 0 && data_0217aa00->mUnk_0004 != 0xd) {
+        c = 1;
+    }
+    if (c != 0) {
         r = &data_0217aa00->mUnk_1ee8;
     } else {
         t1 = func_0200f5ac();

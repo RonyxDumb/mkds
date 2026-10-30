@@ -108,7 +108,6 @@ void func_02040a8c(Unk0217561c_500 *a, s32 b) {
     a->mUnk_20 = t->mUnk_18 * -r->mUnk_1a;
 }
 
-// non-matching: the original forms a pointer to data_021759c0 + 0x28 (r6) and reads the halfwords at 2 and 4 from it; here they are read from the object directly
 s16 func_020408f0(s32 a) {
     Unk0217561c_500 b;
     Unk0206cdd4_B *t;
@@ -116,6 +115,7 @@ s16 func_020408f0(s32 a) {
     Unk0217561c *d = data_0217561c;
     Unk0217561c_500 *o = &d->mUnk_500;
     s32 s;
+    u8 *h;
 
     if ((d->mUnk_000[a].mUnk_44 & 1) == 0) {
         return 0;
@@ -126,8 +126,9 @@ s16 func_020408f0(s32 a) {
             func_02040a8c(&b, a);
             break;
         case 4:
+            h = (u8 *) g + 0x28;
             t = func_0207a6b0();
-            b.mUnk_00 = func_02147f34((s16) g->mUnk_02c * (g->mUnk_02a - d->mUnk_000[0].mUnk_00) << 12, 0x3e8000) >> 12;
+            b.mUnk_00 = func_02147f34(*(s16 *) (h + 4) * (*(u16 *) (h + 2) - d->mUnk_000[0].mUnk_00) << 12, 0x3e8000) >> 12;
             b.mUnk_04 = 0;
             b.mUnk_08 = 0;
             b.mUnk_0c = 0;

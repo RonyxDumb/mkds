@@ -96,10 +96,9 @@ void func_02034bf4(void *a, void *b, void *c) {
     func_02036820(data_02174e64->mUnk_1a4);
 }
 
-// non-matching: same size; 10 lines differ; first: original `movs r5, #0`, ours `movs r6, #0`
 s32 func_02034e68(Unk02174e64_9c_00 *a, Unk02174e64_9c_00 *b) {
-    s32 d;
     s32 i;
+    s32 d;
     s32 f;
 
     d = 0;
@@ -111,11 +110,11 @@ s32 func_02034e68(Unk02174e64_9c_00 *a, Unk02174e64_9c_00 *b) {
         }
         d |= f;
     }
-    if (d == 0 && a->mUnk_1c == b->mUnk_1c && a->mUnk_18 == b->mUnk_18 && a->mUnk_20 == b->mUnk_20 &&
-        a->mUnk_26 == b->mUnk_26 && a->mUnk_27 == b->mUnk_27 && a->mUnk_24 == b->mUnk_24) {
-        return 0;
+    if (d != 0 || a->mUnk_1c != b->mUnk_1c || a->mUnk_18 != b->mUnk_18 || a->mUnk_20 != b->mUnk_20 ||
+        a->mUnk_26 != b->mUnk_26 || a->mUnk_27 != b->mUnk_27 || a->mUnk_24 != b->mUnk_24) {
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
 // non-matching: same size; 34 lines differ; first: original `ldr r4, [r7, #0]`, ours `ldr r5, [r7, #0]`
@@ -139,12 +138,11 @@ void func_02034ef0(void) {
     }
 }
 
-// non-matching: same size; 16 lines differ; first: original `adds r4, r0, #0`, ours `adds r5, r0, #0`
 void func_02034f60(void) {
     Unk02174e64_9c *e;
+    s32 i;
     Unk02174e14_00 *s;
     s32 n;
-    s32 i;
     s32 v;
 
     s = &data_02174e64->mUnk_02c[0];
@@ -215,12 +213,10 @@ void func_02035060(void) {
     }
 }
 
-// non-matching: same size; 8 lines differ; first: original `movs r2, #0`, ours `movs r3, #0`
 void func_02035114(void) {
     Unk02174e64 *p;
     Unk02174e14_00 *s;
     s32 i;
-    s32 j;
 
     p = data_02174e64;
     s = &p->mUnk_02c[1];
@@ -240,9 +236,9 @@ void func_02035114(void) {
             return;
         }
         if (p->mUnk_09c[p->mUnk_080].mUnk_28 == 0) {
-            for (j = 0; j < 4; j++) {
-                if (p->mUnk_09c[j].mUnk_28 != 0) {
-                    p->mUnk_080 = j;
+            for (i = 0; i < 4; i++) {
+                if (p->mUnk_09c[i].mUnk_28 != 0) {
+                    p->mUnk_080 = i;
                     return;
                 }
             }
