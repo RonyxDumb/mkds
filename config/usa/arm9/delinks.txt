@@ -2422,6 +2422,9 @@ src/Main/Unknown/code_020733ec.c:
 src/Main/Unknown/code_020738f4.c:
     .text       start:0x020738f4 end:0x02073904
 
+src/Main/Unknown/code_02073904.c:
+    .text       start:0x02073904 end:0x02073e04
+
 // provisional: file name and boundaries
 src/Main/Unknown/code_02073e04.c:
     .text       start:0x02073e04 end:0x02073e98
@@ -2541,6 +2544,9 @@ src/Main/Unknown/code_0207b960.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_0207c448.c:
     .text       start:0x0207c448 end:0x0207c47c
+
+src/Main/Unknown/code_0207c47c.c:
+    .text       start:0x0207c47c end:0x0207cb70
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0207cb70.c:
