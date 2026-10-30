@@ -370,8 +370,6 @@ void func_0202b2bc(void) {
     data_02174e28->mUnk_152 = h[3];
 }
 
-// non-matching: same size and instruction order; the original loads data_02174e28 into r6 right before each
-// mUnk_13c read (r1 in the prologue), ours keeps r6 for the whole function (starting at the first load)
 void func_0202b3f4(void) {
     Unk02174e14_00 *p;
     s32 n;
@@ -382,10 +380,10 @@ void func_0202b3f4(void) {
     for (i = 0; i < data_02174e28->mUnk_0b8; i++) {
         p->mUnk_18[data_usa_021539f4[i].mUnk_06].mUnk_06 = func_020ae4c0(
             1, 0, (s16) (0x60 - (((s16 *) func_0201ea30(p->mUnk_0c, data_usa_021539f4[i].mUnk_06))[1] << 20 >> 20)),
-            data_02174e28->mUnk_13c, 0x3c);
+            (*(struct Unk02174e28 **) &data_02174e28)->mUnk_13c, 0x3c);
         p->mUnk_18[n + data_usa_021539f4[i].mUnk_00].mUnk_06 = func_020ae4c0(
             1, 0, (s16) (0x60 - (((s16 *) func_0201ea58(p->mUnk_14, data_usa_021539f4[i].mUnk_00))[1] << 20 >> 20)),
-            data_02174e28->mUnk_13c, 0x3c);
+            (*(struct Unk02174e28 **) &data_02174e28)->mUnk_13c, 0x3c);
     }
 }
 

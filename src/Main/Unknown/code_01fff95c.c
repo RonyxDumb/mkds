@@ -10,13 +10,13 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "code_0200fc8c.h"
 
-// non-matching: 12 words differ from +0x3a0; the constant word of data_0217bc34 is loaded before the compare with mUnk_116 and its element pointer after the load of mUnk_44 in the original, ours loads it later
 s32 func_01fff95c(Unk027e00cc *a, Unk020f41c4_A *p, s32 f) {
     s32 i;
     u32 v;
     u32 w;
     s32 r;
     s32 m;
+    enum { K0 } k;
 
     p->mUnk_74 &= -0x1000;
     if (p->mUnk_11c == 1 && (p->mUnk_74 & 0x8000000) && !(p->mUnk_74 & 0x10000000)) {
@@ -128,7 +128,8 @@ s32 func_01fff95c(Unk027e00cc *a, Unk020f41c4_A *p, s32 f) {
     } else {
         p->mUnk_74 &= ~0x40000;
     }
-    m = data_0217bc34[p->mUnk_44].mUnk_60;
+    k = p->mUnk_44;
+    m = data_0217bc34[k].mUnk_60;
     p->mUnk_d4 = a->mUnk_28(p->mUnk_d0, p->mUnk_e0 * m, a->mUnk_38, a->mUnk_3c, 0x1f);
     if (p->mUnk_d4 & 3) {
         p->mUnk_74 |= 0x10000;
