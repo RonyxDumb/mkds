@@ -16,10 +16,9 @@
 #include "00/unk_021b2000.h"
 #include "code_0213442c.h"
 #include "code_02134d30.h"
+#include "00/code_02193f50.h"
 
 // Declared here until the code that defines them is decompiled.
-s32 func_ov000_02193818(Unk0218f960 *a, Unk021937c0Node *b);
-s32 func_ov000_02194120(Unk0218f960 *a, Unk02193f2cNode *b);
 
 u32 func_ov000_02190ba0(void *a, Unk021906e4 *b, const void *c, s32 d);
 u32 func_ov000_02190c64(void *a, Unk021906e4 *b, s32 c);

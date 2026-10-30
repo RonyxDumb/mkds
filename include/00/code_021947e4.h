@@ -9,6 +9,8 @@ typedef struct Unk02194934_08 {
     /* 04 */ u8 mUnk_04[4];
     /* 08 */ void *mUnk_08;
     /* 0c */ void *mUnk_0c;
+    /* 10 */ u32 mUnk_10;
+    /* 14 */ s32 mUnk_14;
 } Unk02194934_08;
 
 // Object behind the pointer whose address func_ov000_0218f960 passes to func_ov000_02194934; func_ov000_021947e4

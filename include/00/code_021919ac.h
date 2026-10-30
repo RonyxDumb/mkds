@@ -9,6 +9,8 @@
 #include "code_02135014.h"
 #include "code_02139f70.h"
 #include "00/code_02190ba0.h"
+#include "00/code_02192e04.h"
+#include "00/code_02193818.h"
 
 // Object with the output buffer at 0x1f4 that Unk021919ac.mUnk_00 points to.
 typedef struct Unk021919ac_00 {
@@ -113,10 +115,7 @@ typedef struct Unk021919ac_x {
 // Declared here until the code that defines them is decompiled.
 s32 func_ov000_0218e4b4(s32 a, void *b, s32 c);
 s32 func_ov000_0218e4e4(s32 a, void *b, s32 c);
-s32 func_ov000_0218e80c(void);
 u32 func_ov000_0218e880(u32 a);
-void func_ov000_0219338c(s32 a, Unk021919ac_m *b);
-void func_ov000_02193954(Unk021919ac *p, Unk021919ac_node *a);
 void func_ov000_0219488c(Unk021919ac *p, u8 *a, u8 *b, Unk021919ac_h **c);
 Unk021919ac_x *func_ov000_021a8f84(const u8 *a);
 

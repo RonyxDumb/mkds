@@ -117,3 +117,4 @@ extern u8 data_ov000_021b2fd4[];
 extern u8 data_ov000_021b2fe4[];
 extern u8 data_ov000_021b2fec[];
 extern u8 data_ov000_021b2ff8[];
+extern u8 data_ov000_021b2fb0[];
