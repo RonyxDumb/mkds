@@ -63,7 +63,8 @@ typedef struct Unk0206bcb0_590 {
     /* 01c */ Unk0206bcb0_590_1c *mUnk_01c;
     /* 020 */ Unk0206bcb0_590_20 *mUnk_020;
     /* 024 */ s32 mUnk_024;
-    /* 028 */ u8 mUnk_028[8];
+    /* 028 */ u8 mUnk_028[4];
+    /* 02c */ s32 mUnk_02c;
     /* 030 */ s32 mUnk_030;
     /* 034 */ u8 mUnk_034[0xc];
     /* 040 */ u16 mUnk_040;

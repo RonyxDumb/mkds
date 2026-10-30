@@ -424,9 +424,12 @@ typedef struct Unk0206bcb0 {
     /* 560 */ u8 mUnk_560[0x30];
     /* 590 */ void *mUnk_590;
     /* 594 */ s32 mUnk_594;
-    /* 598 */ u8 mUnk_598[4];
+    /* 598 */ s16 mUnk_598;
+    /* 59a */ u8 mUnk_59a[2];
     /* 59c */ s32 mUnk_59c;
     /* 5a0 */ u16 mUnk_5a0;
+    /* 5a2 */ u8 mUnk_5a2[2];
+    /* 5a4 */ s32 mUnk_5a4;
 } Unk0206bcb0;
 
 extern Unk0206bcb0 *data_0217b8c8;
