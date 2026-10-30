@@ -14,7 +14,7 @@ u32 func_ov000_0218ed74(int *param_1, int param_2) {
         func_ov000_02196590(param_1, data_ov000_021b23e8);
         return 2;
     }
-    iVar1 = func_ov000_02194934(param_1, param_2, &local_10);
+    iVar1 = func_ov000_02194934((Unk0218f960 *) param_1, param_2, (Unk02194934 **) &local_10);
     if (iVar1 == 0) {
         return 0;
     }
@@ -24,7 +24,7 @@ u32 func_ov000_0218ed74(int *param_1, int param_2) {
         *(u32 *) (local_10 + 0x10) = 0;
         iVar2 = func_ov000_021947e4((Unk02194934 *) (local_10));
         if (iVar2 != 0) {
-            func_ov000_021948f8(param_1, local_10);
+            func_ov000_021948f8((Unk0218f960 *) param_1, (Unk02194934 *) local_10);
         }
     }
     return 0;

@@ -5,6 +5,7 @@
 #include "00/code_021906e4.h"
 #include "00/code_02190ba0.h"
 #include "00/code_02191284.h"
+#include "00/code_021965c8.h"
 
 // Object at 0x04 of Unk02194cac.
 typedef struct Unk02194cac_04 {
@@ -162,4 +163,3 @@ extern u8 data_ov000_021b388c[];
 extern u8 data_ov000_021b4d6c[];
 
 s32 func_ov000_02194cac(Unk0218f960 *a, Unk02194cac *b);
-s32 func_ov000_021965c8(Unk0218f960 *a, u8 *b, s32 *c, u8 *d, u8 *e);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-const char *func_ov000_021970fc(const char *text);
+const u8 *func_ov000_021970fc(const u8 *text, const u8 *key);

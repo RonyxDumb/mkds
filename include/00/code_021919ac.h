@@ -12,6 +12,7 @@
 #include "00/code_02192e04.h"
 #include "00/code_02193818.h"
 #include "00/code_021a4654.h"
+#include "00/code_0219488c.h"
 
 // Object with the output buffer at 0x1f4 that Unk021919ac.mUnk_00 points to.
 typedef struct Unk021919ac_00 {
@@ -111,7 +112,6 @@ typedef union Unk021919ac_sa {
 s32 func_ov000_0218e4b4(s32 a, void *b, s32 c);
 s32 func_ov000_0218e4e4(s32 a, void *b, s32 c);
 void *func_ov000_0218e880(u8 *a);
-void func_ov000_0219488c(Unk021919ac *p, u8 *a, u8 *b, Unk021919ac_h **c);
 
 void func_ov000_021920d8(s8 *p, s32 n);
 u32 func_ov000_021919ac(Unk021919ac *p, Unk021919ac_q *q);

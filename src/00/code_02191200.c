@@ -5,7 +5,7 @@ int func_ov000_02191200(int *param_1) {
     int iVar2;
     int local_10;
     iVar2 = *param_1;
-    iVar1 = func_ov000_02196714((u32) ((u32) (u32) (param_1)), (u32) (*(u32 *) (iVar2 + ((int) 0x000001d4u))),
+    iVar1 = func_ov000_02196714((Unk0218f960 *) (param_1), (u32) (*(u32 *) (iVar2 + ((int) 0x000001d4u))),
                                 (u32 *) (&local_10));
     if (iVar1 == 0) {
         if (local_10 == 4) {

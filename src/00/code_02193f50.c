@@ -101,8 +101,8 @@ void func_ov000_02194120(Unk0218f960 *param_1, Unk02193f2cNode *param_2) {
     func_ov000_0218e53c(param_2->mUnk_08);
     func_ov000_021a3668(param_2->mUnk_18);
     param_2->mUnk_18 = 0;
-    func_ov000_021a3668(param_2->mUnk_28);
-    param_2->mUnk_28 = 0;
+    func_ov000_021a3668(*(void **) param_2->mUnk_28);
+    *(void **) param_2->mUnk_28 = 0;
     if (param_2->mUnk_38 != 0) {
         func_ov000_0218dc48(param_2->mUnk_38);
         param_2->mUnk_38 = 0;

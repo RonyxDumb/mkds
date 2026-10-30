@@ -239,7 +239,7 @@ s32 func_ov000_02193b88(Unk0218f960 *param_1, Unk02193f2cNode *param_2, const u8
     return 0;
 }
 
-u32 func_ov000_02193c20(Unk0218f960 *param_1, Unk02193f2cNode *param_2, const u8 *param_3, Unk02193c20 *param_4) {
+u32 func_ov000_02193c20(Unk0218f960 *param_1, Unk02193f2cNode *param_2, u32 param_3, Unk02193c20 *param_4) {
     u8 a[0x44];
     u32 b = param_4->mUnk_04;
     u32 c = param_4->mUnk_00;

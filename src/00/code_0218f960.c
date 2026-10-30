@@ -43,7 +43,7 @@ u32 func_ov000_0218f960(Unk0218f960 *p, u32 b) {
         if (o->mUnk_430 < 0) {
             func_0213442c(data_ov000_021b2798, data_ov000_021b278c, 0, 0x204);
         }
-        func_ov000_02194840(p, func_ov000_0218fa98, n);
+        func_ov000_02194840(p, func_ov000_0218fa98, (void *) n);
     }
     return 0;
 }

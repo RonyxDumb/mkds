@@ -8,6 +8,12 @@ struct Unk0218f960;
 
 struct Unk0218f960;
 
+// List at 0x428 of Unk0218f960_00: the object and the number of entries added to it.
+typedef struct Unk0218f960_428 {
+    /* 00 */ void *mUnk_00;
+    /* 04 */ s32 mUnk_04;
+} Unk0218f960_428;
+
 // Object behind Unk0218f960.mUnk_00: func_ov000_0218f960 passes the address of 0x1f4 to func_ov000_02190b80 and
 // func_ov000_02190b58, reads 0x198 and decrements 0x430.
 typedef struct Unk0218f960_00 {
@@ -45,8 +51,7 @@ typedef struct Unk0218f960_00 {
     /* 41c */ s32 mUnk_41c;
     /* 420 */ u8 mUnk_420[4];
     /* 424 */ Unk021937c0Node *mUnk_424;
-    /* 428 */ void *mUnk_428;
-    /* 42c */ u8 mUnk_42c[4];
+    /* 428 */ Unk0218f960_428 mUnk_428;
     /* 430 */ s32 mUnk_430;
     /* 434 */ Unk02193f2cNode *mUnk_434;
     /* 438 */ Unk02190ed4Node *mUnk_438;
