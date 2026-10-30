@@ -79,11 +79,10 @@ s32 func_02040bc0(void) {
     }
 }
 
-// non-matching: the original loads data_0217561c into r3 and forms the entry address and the first halfword before the multiply; the instruction order and registers of the first lines differ
 void func_02040a8c(Unk0217561c_500 *a, s32 b) {
     Unk0206cdd4_B *t = func_0207a6b0();
     Unk0217561c *d = data_0217561c;
-    Unk0217561c_14 *e = &d->mUnk_000[b].mUnk_14_view;
+    Unk0217561c_14 *e = (Unk0217561c_14 *) ((u8 *) d + 0x14 + b * 0x8c);
     Unk0217561c_4c8 *r = d->mUnk_4c8;
 
     if (d->mUnk_000[0].mUnk_0c == 0) {

@@ -81,7 +81,6 @@ s32 func_02035ee0(u32 a) {
     return -1;
 }
 
-// non-matching: 92%, differs by branch layout of the switch cases
 s32 func_02035f5c(u32 a) {
     s32 r;
     Unk02174e6c *o;
@@ -94,22 +93,27 @@ s32 func_02035f5c(u32 a) {
         break;
     case 2:
         r = func_02055730(0);
-        if (r == 1) {
-            func_020360e4();
-            func_0204aa28(4);
+        switch (r) {
+        case 1:
+            func_0204aa28(func_020360e4());
             (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 4;
-        } else if (r == 2) {
+            break;
+        case 2:
+            break;
         }
         break;
     case 4:
         r = func_02058cac();
-        if (r == 1) {
+        switch (r) {
+        case 1:
             if (func_02035e44() != 0) {
                 func_02035e38();
             }
             func_0205e5c4(1);
             (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 6;
-        } else if (r == 2) {
+            break;
+        case 2:
+            break;
         }
         break;
     case 6:
