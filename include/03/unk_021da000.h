@@ -12,6 +12,8 @@
 #include "03/code_021d34e0.h"
 
 // Objects whose layout isn't known yet.
+typedef struct Unk021da280 Unk021da280;
+typedef struct Unk021cf260 Unk021cf260;
 extern Unk021da108 *data_ov003_021da108;
 extern u8 data_ov003_021da10c;
 extern u8 data_ov003_021da150[];
@@ -99,19 +101,26 @@ extern u8 data_ov003_021da270[];
 extern u8 data_ov003_021da274[];
 extern u8 data_ov003_021da278[];
 extern u8 data_ov003_021da27c[];
-extern u8 data_ov003_021da280[];
+extern Unk021da280 *data_ov003_021da280;
 // Object behind data_ov003_021da284: func_ov003_021ceaf8 passes 0x00 to func_ov003_021d1770 and reads the byte at
 // 0x1e; func_ov003_021cef80 reads the byte at 0x1b.
 typedef struct Unk021da284 {
     /* 00 */ Unk021d1770 *mUnk_00;
-    /* 04 */ u8 mUnk_04[0x17];
+    /* 04 */ Unk021d1770 *mUnk_04;
+    /* 08 */ Unk021d1770 *mUnk_08[2];
+    /* 10 */ void *mUnk_10;
+    /* 14 */ u32 mUnk_14;
+    /* 18 */ u16 mUnk_18;
+    /* 1a */ s8 mUnk_1a;
     /* 1b */ s8 mUnk_1b;
-    /* 1c */ u8 mUnk_1c[2];
+    /* 1c */ u8 mUnk_1c;
+    /* 1d */ u8 mUnk_1d;
     /* 1e */ u8 mUnk_1e;
 } Unk021da284;
 
 extern Unk021da284 *data_ov003_021da284;
-extern u8 data_ov003_021da288[];
+extern Unk021cf260 *data_ov003_021da288;
+extern u16 *data_ov003_021da28c[];
 extern u8 data_ov003_021da2a4[];
 extern u8 data_ov003_021da2ac[];
 extern u8 data_ov003_021da2c0[];

@@ -2,7 +2,13 @@
 
 #include "types.h"
 
+// Six bytes moved as one value.
+typedef struct Unk021d7864 {
+    /* 0 */ u8 mUnk_00[6];
+} Unk021d7864;
+
 // Objects whose layout isn't known yet.
+extern Unk021d7864 data_ov003_021d7864;
 extern u8 data_ov003_021d7030[];
 extern u8 data_ov003_021d7044[];
 extern u8 data_ov003_021d70e4[];
