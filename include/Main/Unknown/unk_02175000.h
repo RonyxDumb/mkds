@@ -176,31 +176,59 @@ typedef struct Unk021759c8_9b0 {
     };
 } Unk021759c8_9b0;
 
+// 0x70-byte entries from the start of Unk021759c8; mUnk_68 is nonzero while the entry is in use.
+typedef struct Unk021759c8_00 {
+    /* 00 */ Unk020182c0 mUnk_00;
+    /* 68 */ s32 mUnk_68;
+    /* 6c */ Unk02018344 *mUnk_6c;
+} Unk021759c8_00;
+
+// The 0xa0 bytes at 0x8c8 of Unk021759c8.
+typedef struct Unk021759c8_8c8 {
+    /* 00 */ u8 mUnk_00[0x80];
+    /* 80 */ u32 *mUnk_80;
+    /* 84 */ void *mUnk_84;
+    /* 88 */ u32 *mUnk_88;
+    /* 8c */ s32 mUnk_8c;
+    /* 90 */ s32 mUnk_90;
+    /* 94 */ s32 mUnk_94;
+    /* 98 */ s32 mUnk_98;
+    /* 9c */ s32 mUnk_9c;
+} Unk021759c8_8c8;
+
 typedef struct Unk021759c8 {
-    /* 00 */ u8 mUnk_00[0xd8];
-    /* d8 */ s32 mUnk_d8;
-    /* 0dc */ u8 mUnk_0dc[0x6c];
-    /* 148 */ s32 mUnk_148;
-    /* 14c */ u8 mUnk_14c[0x30c];
-    /* 458 */ s32 mUnk_458;
-    /* 45c */ u8 mUnk_45c[0xdc];
-    /* 538 */ s32 mUnk_538;
-    /* 53c */ u8 mUnk_53c[0x6c];
-    /* 5a8 */ s32 mUnk_5a8;
-    /* 5ac */ u8 mUnk_5ac[0xdc];
-    /* 688 */ s32 mUnk_688;
-    /* 68c */ u8 mUnk_68c[0x6c];
-    /* 6f8 */ s32 mUnk_6f8;
-    /* 6fc */ u8 mUnk_6fc[0x6c];
-    /* 768 */ s32 mUnk_768;
-    /* 76c */ u8 mUnk_76c[0x6c];
-    /* 7d8 */ s32 mUnk_7d8;
-    /* 7dc */ u8 mUnk_7dc[0x70];
-    /* 84c */ void *mUnk_84c;
-    /* 850 */ Unk020182c0 mUnk_850;
-    /* 8b8 */ s32 mUnk_8b8;
-    /* 8bc */ void *mUnk_8bc;
-    /* 8c0 */ u8 mUnk_8c0[0xf0];
+    union {
+        Unk021759c8_00 mUnk_00[20];
+        struct {
+            /* 00 */ u8 mUnk_00_pad[0xd8];
+            /* d8 */ s32 mUnk_d8;
+            /* 0dc */ u8 mUnk_0dc[0x6c];
+            /* 148 */ s32 mUnk_148;
+            /* 14c */ u8 mUnk_14c[0x30c];
+            /* 458 */ s32 mUnk_458;
+            /* 45c */ u8 mUnk_45c[0xdc];
+            /* 538 */ s32 mUnk_538;
+            /* 53c */ u8 mUnk_53c[0x6c];
+            /* 5a8 */ s32 mUnk_5a8;
+            /* 5ac */ u8 mUnk_5ac[0xdc];
+            /* 688 */ s32 mUnk_688;
+            /* 68c */ u8 mUnk_68c[0x6c];
+            /* 6f8 */ s32 mUnk_6f8;
+            /* 6fc */ u8 mUnk_6fc[0x6c];
+            /* 768 */ s32 mUnk_768;
+            /* 76c */ u8 mUnk_76c[0x6c];
+            /* 7d8 */ s32 mUnk_7d8;
+            /* 7dc */ u8 mUnk_7dc[0x70];
+            /* 84c */ void *mUnk_84c;
+            /* 850 */ Unk020182c0 mUnk_850;
+            /* 8b8 */ s32 mUnk_8b8;
+            /* 8bc */ void *mUnk_8bc;
+        };
+    };
+    /* 8c0 */ u32 mUnk_8c0;
+    /* 8c4 */ void *mUnk_8c4;
+    /* 8c8 */ Unk021759c8_8c8 mUnk_8c8;
+    /* 968 */ Unk02003024 mUnk_968;
     /* 9b0 */ Unk021759c8_9b0 mUnk_9b0[16];
     /* a70 */ void *mUnk_a70;
     /* a74 */ void *mUnk_a74;
