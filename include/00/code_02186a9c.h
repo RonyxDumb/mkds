@@ -3,9 +3,9 @@
 #include "types.h"
 #include "00/code_021868d0.h"
 #include "00/unk_021b1000.h"
+#include "00/code_02188008.h"
 
 // Declared here until the code that defines them is decompiled.
-s32 func_ov000_021882f8(const void *a, s32 b, char *c, s32 d);
 
 s32 func_ov000_02186a9c(Unk021868d0 *a, const u8 *b);
 s32 func_ov000_02186b0c(Unk021868d0 *a, const u8 *b, const void *c, s32 d);

@@ -1,6 +1,10 @@
 #pragma once
 
 #include "00/code_021806ec.h"
+#include "00/code_02186d7c.h"
+#include "00/code_02187490.h"
+#include "00/code_02188008.h"
+#include "00/code_021884e4.h"
 #include "00/code_02181e8c.h"
 #include "00/code_02185230.h"
 #include "00/code_021855f8.h"
@@ -55,13 +59,13 @@ extern u8 data_ov000_021b4aa4[];
 extern u8 data_ov000_021b4be4[];
 extern u8 data_ov000_021b4be5[];
 extern u8 data_ov000_021b4c80[];
-extern u8 data_ov000_021b4cac[];
-extern u8 data_ov000_021b4cb0[];
-extern u8 data_ov000_021b4d00[];
-extern u8 data_ov000_021b4d04[];
-extern u8 data_ov000_021b4d08[];
-extern u8 data_ov000_021b4d0c[];
-extern u8 data_ov000_021b4d10[];
+extern Unk02186d7c *data_ov000_021b4cac;
+extern Unk02187490 *data_ov000_021b4cb0;
+extern Unk02188408 *data_ov000_021b4d00;
+extern void *data_ov000_021b4d04;
+extern void *data_ov000_021b4d08;
+extern Unk02188114 *data_ov000_021b4d0c;
+extern Unk021884e4 *data_ov000_021b4d10;
 extern u8 data_ov000_021b4d18[];
 extern u8 data_ov000_021b4d1c[];
 // Objects behind data_ov000_021b4c78 and data_ov000_021b4c7c.

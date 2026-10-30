@@ -1,4 +1,5 @@
 #include "00/code_02185984.h"
+#include "00/code_02187274.h"
 #include "00/code_02186634.h"
 #include "00/code_02186998.h"
 #include "00/code_02186a9c.h"
@@ -322,7 +323,7 @@ s32 func_ov000_02186298(s32 a) {
     if (func_0213a074(*(const u8 **) data_ov000_021b1040, data_ov000_021b1020) != 0) {
         *(s32 *) (data_ov000_021b1040 + 0x18) = 1;
     }
-    if (func_ov000_021873d4(data_ov000_021b4c90->mUnk_2f8, data_ov000_021b1040) != 0) {
+    if (func_ov000_021873d4((Unk02186d7c *) data_ov000_021b4c90->mUnk_2f8, (const Unk021873d4 *) data_ov000_021b1040) != 0) {
         return 4;
     }
     if (a == 1) {
@@ -333,10 +334,10 @@ s32 func_ov000_02186298(s32 a) {
     if (data_ov000_021b4c90->mUnk_004 != 0) {
         return 4;
     }
-    if (func_ov000_0218735c(data_ov000_021b4c90->mUnk_2f8) != 0) {
+    if (func_ov000_0218735c((Unk02186d7c *) data_ov000_021b4c90->mUnk_2f8) != 0) {
         return 4;
     }
-    func_ov000_021872bc(data_ov000_021b4c90->mUnk_2f8);
+    func_ov000_021872bc((Unk02186d7c *) data_ov000_021b4c90->mUnk_2f8);
     return 0;
 }
 
@@ -389,7 +390,7 @@ void func_ov000_02186474(void) {
         data_ov000_021b4c90->mUnk_3d4 = 1;
         func_0200ecc4(&data_ov000_021b4c90->mUnk_3bc);
         if (data_ov000_021b4c90->mUnk_2f8 != 0) {
-            func_ov000_02187274(data_ov000_021b4c90->mUnk_2f8);
+            func_ov000_02187274((Unk02186d7c *) data_ov000_021b4c90->mUnk_2f8);
         }
         if (data_ov000_021b4c90->mUnk_2fc.mUnk_6c != 0) {
             func_0200e084(&data_ov000_021b4c90->mUnk_2fc);

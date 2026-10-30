@@ -7,5 +7,5 @@
 #include "00/code_021892f4.h"
 #include "00/code_02189420.h"
 
-void func_ov000_02189478(void);
-u32 func_ov000_021894c0(void);
+u32 func_ov000_02189478(void);
+u8 func_ov000_021894c0(void);

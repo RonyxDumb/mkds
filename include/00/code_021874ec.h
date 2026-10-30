@@ -7,6 +7,7 @@
 #include "00/code_02186634.h"
 #include "00/code_02186a9c.h"
 #include "00/code_021868a4.h"
+#include "00/code_02187490.h"
 
 // Object behind data_ov000_021b4cac.
 typedef struct Unk021b4cac {
@@ -80,5 +81,4 @@ extern u8 data_ov000_021b1468[];
 
 s32 func_ov000_021863cc(void);
 void func_ov000_02186404(void);
-void func_ov000_02187490(s32 a);
 void func_ov000_021874ec(void);
