@@ -497,7 +497,7 @@ void func_01ffc9e8(Unk0206bcb0 *p, s32 a) {
 void func_01ffca50(Unk0206bcb0 *p) {
     p->mUnk_48 &= ~0x18;
     p->mUnk_1d0 = (s32) (((s64) p->mUnk_4c8 * (s32) (((s64) p->mUnk_2cc->mUnk_00 * p->mUnk_394) >> 12)) >> 12);
-    p->mUnk_1d4 = (s32) (((s64) p->mUnk_2cc->mUnk_04 * p->mUnk_c4) >> 12);
+    p->mUnk_1d4 = (s32) (((s64) p->mUnk_2cc->mUnk_04 * p->mUnk_bc.z) >> 12);
     p->mUnk_3ec = 0;
 }
 

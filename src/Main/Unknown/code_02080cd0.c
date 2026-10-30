@@ -59,7 +59,7 @@ s32 func_02080e2c(Unk0208001c *p, Vec3 *a) {
 }
 
 void func_02080e88(Unk0206c1ac *p, Unk0206bcb0 *q) {
-    p->mUnk_6c = (s16) q->mUnk_c4;
+    p->mUnk_6c = (s16) q->mUnk_bc.z;
 }
 
 void func_02080e9c(Unk0206bcb0 *p) {

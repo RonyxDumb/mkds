@@ -136,7 +136,7 @@ void func_01ffb0cc(Unk0206bcb0 *p) {
     if (p->mUnk_4fc >= 8) {
         p->mUnk_4fc = 0;
     }
-    p->mUnk_4f0 = data_02154b64[p->mUnk_4fc];
-    p->mUnk_4f4 = data_02154b84[p->mUnk_4fc];
-    p->mUnk_4f8 = data_02154ba4[p->mUnk_4fc];
+    p->mUnk_4f0.x = data_02154b64[p->mUnk_4fc];
+    p->mUnk_4f0.y = data_02154b84[p->mUnk_4fc];
+    p->mUnk_4f0.z = data_02154ba4[p->mUnk_4fc];
 }

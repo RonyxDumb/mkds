@@ -366,7 +366,7 @@ int func_0206c354(Unk0206bcb0 *p, const Vec3 *a, int flag) {
             n = 4;
         }
         func_02147fd8(-p->mUnk_1d0, a, &p->mUnk_80, &tmp);
-        func_02147fd8((s32) (((s64) p->mUnk_c0 * 0x8000 + 0x800) >> 12), &p->mUnk_12c, &tmp, &tmp);
+        func_02147fd8((s32) (((s64) p->mUnk_bc.y * 0x8000 + 0x800) >> 12), &p->mUnk_12c, &tmp, &tmp);
         for (i = 0; i < n; i++) {
             func_0208b748(list[i], &tmp, p, func_0206c450);
         }

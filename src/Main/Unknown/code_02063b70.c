@@ -36,9 +36,9 @@ s32 func_02063b70(Unk0206bcb0 *a) {
         g.mUnk_24.y = h.y >> 4;
         g.mUnk_24.z = h.z >> 4;
         k = a->mUnk_4c8;
-        i.x = (s64) a->mUnk_bc * k >> 12;
-        i.y = (s64) a->mUnk_c0 * k >> 12;
-        i.z = (s64) a->mUnk_c4 * k >> 12;
+        i.x = (s64) a->mUnk_bc.x * k >> 12;
+        i.y = (s64) a->mUnk_bc.y * k >> 12;
+        i.z = (s64) a->mUnk_bc.z * k >> 12;
         f = 0x1e;
         func_01ff9048(0x14, &f, 1);
         func_01ff9048(0x19, &g, 0xc);
@@ -133,8 +133,8 @@ void func_02063cc4(Unk0206bcb0 *a) {
         func_02079b9c(e, e->mUnk_060 == 0);
         v = 0x1c;
         func_01ff9048(0x13, &v, 1);
-        n.x = a->mUnk_4f0;
-        n.y = a->mUnk_4f4;
+        n.x = a->mUnk_4f0.x;
+        n.y = a->mUnk_4f0.y;
         n.z = 0x1000;
         func_01ff9048(0x1b, &n, 3);
         func_020849d0(e->mUnk_014);
@@ -185,7 +185,7 @@ void func_02063cc4(Unk0206bcb0 *a) {
         return;
     }
     r = ((Vec3 *) &e->mUnk_020->mUnk_44)[e->mUnk_000];
-    r.y = r.y + (a->mUnk_408 + a->mUnk_4f8);
+    r.y = r.y + (a->mUnk_408 + a->mUnk_4f0.z);
     v = 0x1d;
     func_01ff9048(0x14, &v, 1);
     func_01ff9048(0x1c, &r, 3);

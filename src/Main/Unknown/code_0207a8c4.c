@@ -19,7 +19,7 @@
 #include "Main/Unknown/code_020733ec.h"
 
 void func_0207a8c4(Vec3 *a, s32 b) {
-    *a = data_0217ad18[b].mUnk_bc_v;
+    *a = data_0217ad18[b].mUnk_bc;
 }
 
 void func_0207a8f0(Vec3 *a, s32 b) {

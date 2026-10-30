@@ -312,7 +312,7 @@ void func_02101964(Unk02101c84 *p, s32 a) {
         c = 0x400;
     }
     if (a != 0) {
-        n = (s32) (((s64) * (s32 *) q->mUnk_2cc * *(s32 *) &q->mUnk_c4 + 0x800) >> 12);
+        n = (s32) (((s64) * (s32 *) q->mUnk_2cc * q->mUnk_bc.z + 0x800) >> 12);
         v->x += (s32) (((s64) -n * w[0]) >> 12);
         v->z += (s32) (((s64) -n * w[2]) >> 12);
     }
@@ -342,7 +342,7 @@ void func_021018a0(Unk02101c84 *p) {
     p->mUnk_184 = p->mUnk_168->mUnk_98;
     p->mUnk_190 = p->mUnk_168->mUnk_a4;
     *(Vec3 *) &p->mUnk_16c =
-        (Vec3){0, (s32) (((s64) * (s32 *) p->mUnk_168->mUnk_2cc * *(s32 *) &p->mUnk_168->mUnk_c4 + 0x800) >> 12), 0};
+        (Vec3){0, (s32) (((s64) * (s32 *) p->mUnk_168->mUnk_2cc * p->mUnk_168->mUnk_bc.z + 0x800) >> 12), 0};
     p->mUnk_17c = 0;
     p->mUnk_000.mUnk_d8 = 0x1f;
     if (p->mUnk_168->mUnk_48 & 1) {

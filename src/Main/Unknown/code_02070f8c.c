@@ -112,9 +112,9 @@ void func_02071568(Unk0206bcb0 *p) {
         j = 0;
     }
     f = p->mUnk_4ec & 0xfff;
-    p->mUnk_4f0 = data_02154b64[i] + (s32) (((s64) ((data_02154b64[j] - data_02154b64[i]) >> 1) * f) >> 12);
-    p->mUnk_4f4 = data_02154b84[i] + (s32) (((s64) ((data_02154b84[j] - data_02154b84[i]) >> 1) * f) >> 12);
-    p->mUnk_4f8 = data_02154ba4[i] + (s32) (((s64) ((data_02154ba4[j] - data_02154ba4[i]) >> 1) * f) >> 12);
+    p->mUnk_4f0.x = data_02154b64[i] + (s32) (((s64) ((data_02154b64[j] - data_02154b64[i]) >> 1) * f) >> 12);
+    p->mUnk_4f0.y = data_02154b84[i] + (s32) (((s64) ((data_02154b84[j] - data_02154b84[i]) >> 1) * f) >> 12);
+    p->mUnk_4f0.z = data_02154ba4[i] + (s32) (((s64) ((data_02154ba4[j] - data_02154ba4[i]) >> 1) * f) >> 12);
     v = p->mUnk_4d4;
     s = (s32) (((s64) v * 0x333) >> 12);
     if (v > 0xf33) {
@@ -132,9 +132,9 @@ void func_02071568(Unk0206bcb0 *p) {
         t = t + 0x333;
         s = (s32) (((s64) v * t) >> 12);
     }
-    p->mUnk_4f0 = p->mUnk_4f0 + (s32) (((s64) p->mUnk_4f0 * s) >> 12);
-    p->mUnk_4f4 = p->mUnk_4f4 + (s32) (((s64) p->mUnk_4f4 * s) >> 12);
-    p->mUnk_4f8 = p->mUnk_4f8 + (s32) (((s64) p->mUnk_4f8 * s) >> 12);
+    p->mUnk_4f0.x = p->mUnk_4f0.x + (s32) (((s64) p->mUnk_4f0.x * s) >> 12);
+    p->mUnk_4f0.y = p->mUnk_4f0.y + (s32) (((s64) p->mUnk_4f0.y * s) >> 12);
+    p->mUnk_4f0.z = p->mUnk_4f0.z + (s32) (((s64) p->mUnk_4f0.z * s) >> 12);
 }
 
 void func_020713a0(Unk0206bcb0 *p) {
