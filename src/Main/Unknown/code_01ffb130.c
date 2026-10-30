@@ -10,6 +10,7 @@
 #include "Main/Unknown/code_0206e000.h"
 #include "Main/Unknown/code_020720dc.h"
 #include "Main/Unknown/code_0207a000.h"
+#include "Main/Unknown/code_0207a74c.h"
 #include "Main/Unknown/code_0207b000.h"
 #include "Main/Unknown/code_02080cd0.h"
 #include "Main/Unknown/code_02081618.h"

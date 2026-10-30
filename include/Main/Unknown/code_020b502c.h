@@ -6,6 +6,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_020748b8.h"
 #include "Main/Unknown/code_02147000.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_02175628.h"
@@ -144,13 +145,7 @@ typedef struct {
 } Unk02175620_54_10;
 
 // 0x4c-byte entries of the table at Unk02175620::mUnk_7c.
-typedef struct {
-    /* 00 */ u8 mUnk_00[0x3e];
-    /* 3e */ u16 mUnk_3e;
-    /* 40 */ u8 mUnk_40[10];
-    /* 4a */ u8 mUnk_4a;
-    /* 4b */ u8 mUnk_4b;
-} Unk02175620_7c;
+typedef Unk020748b8_218 Unk02175620_7c;
 
 // 0x14-byte entries of the table at Unk02175620::mUnk_8c.
 typedef struct {

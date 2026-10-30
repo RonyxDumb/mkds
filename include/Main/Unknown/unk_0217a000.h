@@ -1039,7 +1039,9 @@ typedef struct Unk02061808 {
     /* 130 */ u8 mUnk_130;
     /* 131 */ u8 mUnk_131[0x3];
     /* 134 */ Vec3 mUnk_134;
-    /* 140 */ u8 mUnk_140[0x1c];
+    /* 140 */ u8 mUnk_140[0x4];
+    /* 144 */ s32 mUnk_144;
+    /* 148 */ u8 mUnk_148[0x14];
     /* 15c */ Vec3 mUnk_15c;
     /* 168 */ s32 mUnk_168;
     /* 16c */ s32 mUnk_16c;
@@ -1052,17 +1054,23 @@ typedef struct Unk02061808 {
     /* 1d0 */ Unk0207b960 mUnk_1d0;
     /* 20c */ u8 mUnk_20c[0x4];
     /* 210 */ u16 mUnk_210;
-    /* 212 */ u8 mUnk_212[0x6];
+    /* 212 */ u8 mUnk_212[0x2];
+    /* 214 */ s32 mUnk_214;
     /* 218 */ struct Unk020748b8_218 *mUnk_218;
     /* 21c */ u8 mUnk_21c[0xc];
     /* 228 */ s32 mUnk_228;
-    /* 22c */ u8 mUnk_22c[0x4];
+    /* 22c */ u16 mUnk_22c;
+    /* 22e */ u8 mUnk_22e[0x2];
     /* 230 */ s32 mUnk_230;
-    /* 234 */ u8 mUnk_234[0xc];
+    /* 234 */ s32 mUnk_234;
+    /* 238 */ s32 mUnk_238;
+    /* 23c */ u16 mUnk_23c;
+    /* 23e */ u8 mUnk_23e[0x2];
     /* 240 */ s32 mUnk_240;
-    /* 244 */ u8 mUnk_244[0x4];
+    /* 244 */ s32 mUnk_244;
     /* 248 */ s32 mUnk_248;
-    /* 24c */ u8 mUnk_24c[0x8];
+    /* 24c */ s32 mUnk_24c;
+    /* 250 */ u8 mUnk_250[0x4];
     /* 254 */ s32 mUnk_254;
     /* 258 */ s32 mUnk_258;
     /* 25c */ s32 mUnk_25c;
@@ -1101,9 +1109,9 @@ extern void *data_0217ac18[15];
 extern void *data_0217ac54[15];
 struct Unk0217ac94;
 extern struct Unk0217ac94 *data_0217ac94;
-extern u8 data_0217aca8[];
-extern u8 data_0217acb4[];
-extern u8 data_0217acbc[];
+extern s32 data_0217aca8;
+extern Unk02061808 *data_0217acb4;
+extern Unk02061808 *data_0217acbc;
 extern u8 data_0217acc0[];
 // Object behind data_0217ad00 (0x144 bytes); the addresses of 0x2c, 0x98 and 0x10c are passed on as objects.
 typedef struct Unk0217ad00 {
@@ -1233,8 +1241,8 @@ extern Unk0217ad08 *data_0217ad08;
 extern u8 data_0217ad10[];
 extern u8 data_0217ad24[];
 extern u32 data_0217ad28;
-extern u8 data_0217ad2c[];
-extern u8 data_0217ad30[];
+extern s32 data_0217ad2c;
+extern s32 data_0217ad30;
 struct Unk0201ca6c;
 
 // Two objects returned by func_0208b7bc.
@@ -1426,7 +1434,7 @@ typedef struct Unk0217aa24 {
 extern Unk0217aa20 *data_0217aa20;
 extern Unk0217aa24 *data_0217aa24;
 extern u16 data_0217aa2c;
-extern u8 data_0217acac[];
+extern s32 data_0217acac;
 
 // Ten bytes: bytes 6 to 9 are signed values read in rows of four.
 typedef struct Unk0217aa18 {
@@ -1484,18 +1492,8 @@ extern struct Unk0206bcb0 *data_0217ad18;
 extern Unk02017328 data_0217aeb0;
 extern s32 data_usa_0217acfc;
 
-typedef struct Unk0217ac84 {
-    /* 000 */ u8 mUnk_000[0x68];
-    /* 068 */ u16 mUnk_068;
-    /* 06a */ u16 mUnk_06a;
-    /* 06c */ u8 mUnk_06c[0x1ac];
-    /* 218 */ void *mUnk_218;
-    /* 21c */ u8 mUnk_21c[0x30];
-    /* 24c */ s32 mUnk_24c;
-} Unk0217ac84;
-
-extern Unk0217ac84 *data_usa_0217ac84;
-extern Unk0217ac84 *data_usa_0217ac98;
+extern Unk02061808 *data_usa_0217ac84;
+extern Unk02061808 *data_usa_0217ac98;
 extern void *data_usa_0217aa68;
 extern s32 data_usa_0217ac7c;
 extern s32 data_usa_0217ac90;

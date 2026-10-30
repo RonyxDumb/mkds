@@ -5,7 +5,7 @@
 #include "Main/Unknown/code_020b502c.h"
 #include "code_02147cd8.h"
 
-void func_020749a4(Unk020748b8 *p, s32 a) {
+void func_020749a4(Unk02061808 *p, s32 a) {
     Unk020748b8_218 *q = p->mUnk_218;
     u16 n = data_02175620->mUnk_08[q->mUnk_40].mUnk_02;
     Unk02042044 *e0;
@@ -42,7 +42,7 @@ void func_020749a4(Unk020748b8 *p, s32 a) {
     func_02148504(&v, &s, &p->mUnk_024);
 }
 
-void func_02074978(Unk020748b8 *p) {
+void func_02074978(Unk02061808 *p) {
     func_020749a4(p, p->mUnk_218->mUnk_42);
     func_020748b8(p);
     func_02076ed4(p);
@@ -52,7 +52,7 @@ void func_02074978(Unk020748b8 *p) {
 // mUnk_244 is read again for every component; the original loads all six values and mUnk_244 once before the
 // three stores (passing the three sums to a static inline that stores them gives the size, with 29 instructions in
 // other registers and order)
-void func_020748b8(Unk020748b8 *p) {
+void func_020748b8(Unk02061808 *p) {
     Unk020748b8_218 *q = p->mUnk_218;
 
     if (q->mUnk_44 != 0) {

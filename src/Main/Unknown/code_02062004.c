@@ -12,6 +12,7 @@
 #include "Main/Unknown/code_0208eb1c.h"
 #include "Main/Unknown/code_0208f0a0.h"
 #include "Main/Unknown/code_02042044.h"
+#include "Main/Unknown/code_02074b00.h"
 #include "Main/Unknown/code_02075000.h"
 #include "Main/Unknown/code_02076000.h"
 #include "Main/Unknown/code_02076cc4.h"
