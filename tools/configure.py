@@ -146,8 +146,10 @@ w(f"rule mwcc\n  command = {WINE} $cc $base_flags $cc_flags {' '.join('-i ' + d 
   f"-d version_{ver.upper()} -MD -c $in -o $outdir && {PY} tools/transform_dep.py $basefile.d $basefile.d && {PY} tools/demote_multidef.py $out\n"
   f"  depfile = $basefile.d\n  deps = gcc\n  description = MWCC $in\n")
 # The same compile with -requireprotos, writing the calls that have no declaration in scope (tools/check_protos.py).
+# tools/protos_prefix.h declares the compiler intrinsics; -prefix looks it up from the first include directory.
 w(f"rule protos\n  command = {PY} tools/check_protos.py --one $out $basefile.d -- {WINE} $cc $base_flags $cc_flags "
-  f"{' '.join('-i ' + d for d in include_dirs)} -d version_{ver.upper()} -MD -c $in -o $outdir\n"
+  f"{' '.join('-i ' + d for d in include_dirs)} -prefix ../tools/protos_prefix.h -d version_{ver.upper()} -MD -c $in "
+  f"-o $outdir\n"
   f"  depfile = $basefile.d\n  deps = gcc\n  description = PROTOS $in\n")
 w(f"rule expand_incbin\n  command = {PY} tools/expand_incbin.py $in $out\n  description = EXPAND $in\n")
 w(f"rule mwasm\n  command = {WINE} {ASM} -proc arm5TE $in -o $out\n  description = MWASM $in\n")
@@ -223,7 +225,7 @@ for src in sources:
     if src.parts[0] in ("src", "libs"):
         pobj = build_dir / "protos" / src.with_suffix(".o")
         protos.append(str(pobj.with_suffix(".txt")))
-        build(protos[-1], "protos", [str(src)], implicit=[cc, "tools/check_protos.py"] + tool_outputs, variables={
+        build(protos[-1], "protos", [str(src)], implicit=[cc, "tools/check_protos.py", "tools/protos_prefix.h"] + tool_outputs, variables={
             "cc": cc,
             "base_flags": " ".join(flags[:-1]).replace("-w off", "-w on -requireprotos"),
             "cc_flags": flags[-1],
