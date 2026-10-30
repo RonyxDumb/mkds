@@ -13,7 +13,6 @@ void func_020572e8(void) {
     value2 = 0x300u;
     value3 = (u32) &func_0214d168;
     func_0214d168((void *) value0, (u8) value1, (u32) value2);
-    return;
 }
 #pragma thumb off
 
@@ -30,7 +29,6 @@ void func_020572cc(void) {
     value2 = 0x400u;
     value3 = (u32) &func_0214d168;
     func_0214d168((void *) value0, (u8) value1, (u32) value2);
-    return;
 }
 #pragma thumb off
 
@@ -47,7 +45,6 @@ void func_020572b0(void) {
     value2 = 0x1600u;
     value3 = (u32) &func_0214d168;
     func_0214d168((void *) value0, (u8) value1, (u32) value2);
-    return;
 }
 #pragma thumb off
 
@@ -64,6 +61,5 @@ void func_02057294(void) {
     value2 = 0x100u;
     value3 = (u32) &func_0214d168;
     func_0214d168((void *) value0, (u8) value1, (u32) value2);
-    return;
 }
 #pragma thumb off

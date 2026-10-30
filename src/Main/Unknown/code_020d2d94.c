@@ -8,7 +8,7 @@ void func_020d2d94(void) {
     u32 *puVar2;
     int *piVar1;
     piVar3 = (int *) ((*(int *) &data_0217b4f0) + 8);
-    piVar1 = (int *) ((*(int *) &data_0217b4f0) + ((int) 0x00000134u));
+    piVar1 = (int *) ((*(int *) &data_0217b4f0) + 0x134);
     iVar4 = 0;
     do {
         if (*piVar3 != 0) {
@@ -33,7 +33,6 @@ void func_020d2d94(void) {
         piVar1 = piVar1 + 1;
         iVar4 = iVar4 + 1;
     } while (iVar4 < 0x10);
-    return;
 }
 
 #pragma thumb off

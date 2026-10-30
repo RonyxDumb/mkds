@@ -8,5 +8,4 @@ void func_02074854(void) {
     value1 = (u32) * (const u16 *) ((value1) + (0));
     value0 = (u32) * (const u32 *) ((value0) + (0));
     *(u32 *) ((value0) + (100)) = (u32) value1;
-    return;
 }

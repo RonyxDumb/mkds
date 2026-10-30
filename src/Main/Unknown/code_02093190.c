@@ -10,5 +10,4 @@ void func_02093190(u32 arg0) {
     value0 = 0x19fu;
     value1 = 8u;
     func_020ac588((u32) value0, (int) value1, (void *) value2);
-    return;
 }

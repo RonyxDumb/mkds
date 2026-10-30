@@ -2,5 +2,4 @@
 
 void func_02099020(void) {
     func_0209bf70((u32) &func_02099208, 0, 0, 1, 1, ((u32) 0x0000018du));
-    return;
 }

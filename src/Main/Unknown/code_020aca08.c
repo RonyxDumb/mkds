@@ -11,7 +11,6 @@ void func_020aca08(int param_1) {
         *(u16 *) (param_1 + 4) = 0xb;
         func_02105e98();
     }
-    return;
 }
 
 #pragma thumb off

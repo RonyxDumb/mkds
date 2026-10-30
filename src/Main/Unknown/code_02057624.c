@@ -68,6 +68,5 @@ void func_02057624(u32 arg0) {
     value1 = (value1) & ~(value0);
     value4 = (value4) + 34u;
     *(u8 *) ((value4) + 0u) = (u8) value1;
-    return;
 }
 #pragma thumb off

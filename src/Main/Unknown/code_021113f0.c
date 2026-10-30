@@ -31,7 +31,6 @@ void func_021113fc(u32 arg0) {
     value1 = (u32) &data_0217d344;
     value1 = (u32) * (const u32 *) ((value1) + 0u);
     *(u16 *) ((value1) + 48u) = (u16) value0;
-    return;
 }
 #pragma thumb off
 
@@ -42,6 +41,5 @@ void func_021113f0(u32 arg0) {
     value1 = (u32) &data_0217d344;
     value1 = (u32) * (const u32 *) ((value1) + 0u);
     *(u16 *) ((value1) + 50u) = (u16) value0;
-    return;
 }
 #pragma thumb off

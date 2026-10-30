@@ -23,5 +23,4 @@ void func_02050034(u8 arg0) {
     *(u8 *) ((value1) + (1526)) = (u8) value0;
     func_02050080();
     func_02058b10();
-    return;
 }

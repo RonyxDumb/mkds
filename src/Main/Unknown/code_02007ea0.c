@@ -9,8 +9,8 @@ void func_02007ea0(UnkFunc *p0) {
     unsigned int v4 = ((unsigned int) *(unsigned int *) ((v3) + (0)));
     unsigned int v5 = 0x14e4u;
     unsigned int v7;
-    *(unsigned int *) ((v4) + (0 + (v5))) = (unsigned int) (v1);
-    v7 = ((unsigned int) func_0200fcb4((u32) (v2)));
+    *(unsigned int *) ((v4) + (0 + (v5))) = (unsigned int) v1;
+    v7 = ((unsigned int) func_0200fcb4((u32) v2));
 }
 
 #pragma thumb off

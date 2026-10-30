@@ -4,7 +4,7 @@ u16 func_02028dd4(void) {
     int uVar1;
     u32 uVar2;
     uVar2 = *(u32 *) &data_0217aa00;
-    if ((*(u32 *) (uVar2)) == 2) {
+    if ((*(u32 *) uVar2) == 2) {
         uVar1 = *(u16 *) (uVar2 + 0x432);
     } else {
         uVar1 = 0;

@@ -7,6 +7,5 @@ void func_02111488(s32 arg0) {
     value1 = (u32) &data_0217d344;
     value1 = (u32) * (const u32 *) ((value1) + 0u);
     *(u32 *) ((value1) + 12u) = (u32) value0;
-    return;
 }
 #pragma thumb off

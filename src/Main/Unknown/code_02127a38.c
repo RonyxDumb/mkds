@@ -22,7 +22,6 @@ void func_02127a38(void) {
     if (5 <= iVar2) {
         func_02127d74();
     }
-    return;
 }
 
 #pragma thumb off

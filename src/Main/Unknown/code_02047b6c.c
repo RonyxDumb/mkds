@@ -11,6 +11,5 @@ void func_02047b6c(u16 arg0) {
     value1 = (value4 << 16);
     value1 = (value1 >> 16);
     value0 = (u32) func_020176b0((u32) value0, (u32) value1);
-    return;
 }
 #pragma thumb off

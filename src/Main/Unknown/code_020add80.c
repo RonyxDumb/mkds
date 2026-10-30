@@ -5,7 +5,7 @@ unsigned int func_020add80(unsigned int p0) {
         const unsigned short
             *) ((unsigned char *) (unsigned int) (((unsigned int) *(
                     const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                               const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0))) +
+                                               const unsigned int *) ((unsigned char *) (unsigned int) p0 + 0))) +
                                            8))) +
                 2));
 }

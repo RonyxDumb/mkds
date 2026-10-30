@@ -11,6 +11,5 @@ void func_02125ed0(int arg0, u32 arg1) {
     value2 = (value2) + (value0);
     value0 = 0x2250u;
     *(u32 *) ((value2) + (value0)) = (u32) value1;
-    return;
 }
 #pragma thumb off

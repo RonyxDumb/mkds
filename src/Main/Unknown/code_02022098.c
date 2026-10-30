@@ -8,5 +8,4 @@ void func_02022098(u32 arg0) {
     *(u32 *) ((value0) + (4)) = (u32) value1;
     *(u32 *) ((value0) + (8)) = (u32) value1;
     *(u16 *) ((value0) + (12)) = (u16) value1;
-    return;
 }

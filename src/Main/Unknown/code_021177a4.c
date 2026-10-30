@@ -9,7 +9,6 @@ void func_021177a4(void) {
     if (iVar1 != 0) {
         func_02118054();
     }
-    return;
 }
 
 #pragma thumb off

@@ -11,5 +11,4 @@ void func_020467a0(void) {
     value0 = (u32) * (const u32 *) ((value0) + (0));
     value0 = (value0) + (0x200u);
     *(u16 *) ((value0) + (72)) = (u16) value1;
-    return;
 }

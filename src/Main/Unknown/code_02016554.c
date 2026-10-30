@@ -11,5 +11,4 @@ void func_02016554(u32 arg0, u32 arg1) {
     value0 = value2;
     *(u32 *) ((value2) + (4)) = (u32) value1;
     func_0201661c((u32) value0);
-    return;
 }

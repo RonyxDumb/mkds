@@ -16,5 +16,4 @@ void func_02004238(Unk02003a6c *arg0) {
     *(u32 *) ((value4) + (24)) = (u32) value1;
     value0 = (u32) * (const u32 *) ((value4) + (24));
     *(u32 *) ((value4) + (20)) = (u32) value0;
-    return;
 }

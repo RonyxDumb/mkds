@@ -6,12 +6,11 @@ void func_020ce9c4(void) {
     int iVar1;
     iVar1 = ((u32) func_020cccc0());
     if (iVar1 != 0) {
-        func_020ce760((int) (0xb));
-        func_02148950((u16) (1), (u32) (0), (int) (1));
+        func_020ce760((int) 0xb);
+        func_02148950((u16) 1, (u32) 0, (int) 1);
     }
-    func_020ce744((int) (0x12));
+    func_020ce744((int) 0x12);
     func_02027e78();
-    return;
 }
 
 #pragma thumb off

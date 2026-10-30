@@ -19,7 +19,6 @@ void func_02010884(u32 arg0, u32 arg1, u32 arg2) {
     value1 = (u32) * (const u32 *) ((value0) + (24));
     *(u32 *) ((value2) + (0)) = (u32) value1;
     *(u32 *) ((value0) + (24)) = (u32) value3;
-    return;
 }
 
 u32 func_02010878(u32 arg0) {

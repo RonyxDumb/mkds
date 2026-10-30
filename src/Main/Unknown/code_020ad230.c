@@ -15,10 +15,9 @@ void func_020ad234(void) {
     }
     iVar1 = ((u32) func_020adaf8());
     if (iVar1 >= iVar2) {
-        func_020adad0((u32) (1), (u32) (8));
+        func_020adad0((u32) 1, (u32) 8);
     }
     func_020ad268();
-    return;
 }
 
 unsigned int func_020ad230(unsigned int p0) {

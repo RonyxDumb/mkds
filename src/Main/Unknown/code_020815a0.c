@@ -48,5 +48,4 @@ void func_020815a0(u32 arg0) {
     func_0208b710((Unk0201ca6c *) value0);
     value0 = 0u;
     *(u32 *) ((value4) + (44)) = (u32) value0;
-    return;
 }

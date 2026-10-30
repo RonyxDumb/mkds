@@ -8,5 +8,4 @@ void func_0208533c(void) {
     value0 = (u32) &data_0217aeb0;
     value1 = 0u;
     func_02017538((Unk02017328 *) value0, (u16) value1);
-    return;
 }

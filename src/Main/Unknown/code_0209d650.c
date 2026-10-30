@@ -18,5 +18,4 @@ void func_0209d650(u32 arg0) {
     *(u32 *) ((value4) + (16)) = (u32) value0;
     *(u32 *) ((value4) + (20)) = (u32) value0;
     *(u32 *) ((value4) + (24)) = (u32) value0;
-    return;
 }

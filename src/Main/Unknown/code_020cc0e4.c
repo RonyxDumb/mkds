@@ -11,7 +11,7 @@ unsigned int func_020cc120(void) {
 void func_020cc10c(unsigned int p0) {
     *(unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
                            const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b488))) + 0))) +
-                       4) = (unsigned int) (p0);
+                       4) = (unsigned int) p0;
 }
 
 unsigned int func_020cc0f8(void) {

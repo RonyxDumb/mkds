@@ -11,5 +11,4 @@ void func_020fcb9c(int arg0, int arg1) {
     value3 = (u32) * (const u32 *) ((value3) + (0));
     value2 = (value1) * (value2) + (value3);
     *(u32 *) ((value0) + (552)) = (u32) value2;
-    return;
 }

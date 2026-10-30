@@ -24,5 +24,4 @@ void func_02004d80(Unk02003024 *arg0) {
     *(u32 *) ((value0) + (8)) = (u32) value3;
     *(u32 *) ((value0) + (16)) = (u32) value1;
     *(u32 *) ((value0) + (12)) = (u32) value3;
-    return;
 }

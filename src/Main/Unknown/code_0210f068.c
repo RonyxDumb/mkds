@@ -9,7 +9,6 @@ void func_0210f07c(u32 arg0) {
     value1 = 1u;
     *(u32 *) ((value0) + (1052)) = (u32) value1;
     func_020203e4();
-    return;
 }
 
 void func_0210f068(u32 arg0) {
@@ -20,5 +19,4 @@ void func_0210f068(u32 arg0) {
     value1 = 2u;
     *(u32 *) ((value0) + (1052)) = (u32) value1;
     func_0202041c();
-    return;
 }

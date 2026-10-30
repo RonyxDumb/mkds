@@ -12,7 +12,6 @@ void func_0200dc1c(Unk0200db5c **arg0) {
     value0 = value2;
     *(u32 *) ((value2) + (176)) = (u32) value1;
     func_0200df68((Unk0200db5c *) value0);
-    return;
 }
 
 void (*func_0200dbe8(void (*arg0)(Unk0200db5c *, Unk0200db5c *)))(Unk0200db5c *, Unk0200db5c *) {

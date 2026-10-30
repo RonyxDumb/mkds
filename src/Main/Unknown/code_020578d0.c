@@ -12,7 +12,6 @@ void func_020578e8(u32 arg0, u32 v1) {
     value2 = 48u;
     value3 = (u32) &func_0214d1fc;
     func_0214d1fc((const void *) value0, (void *) value1, (u32) value2);
-    return;
 }
 #pragma thumb off
 
@@ -28,6 +27,5 @@ void func_020578d0(u32 arg0, u32 v1) {
     value2 = 0x230u;
     value3 = (u32) &func_0214d1fc;
     func_0214d1fc((const void *) value0, (void *) value1, (u32) value2);
-    return;
 }
 #pragma thumb off

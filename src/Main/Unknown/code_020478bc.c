@@ -31,15 +31,15 @@ int func_020478bc(u32 param_1) {
         iVar2 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x28)),
                               (const char *) param_1);
     } else {
-        if (*(int *) ((*(int *) &data_021759c8) + ((int) 0x00000308u)) != 0) {
+        if (*(int *) ((*(int *) &data_021759c8) + 0x308) != 0) {
             iVar2 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x18)),
                                   (const char *) param_1);
         }
-        if ((iVar2 == 0) && (*(int *) ((*(int *) &data_021759c8) + ((int) 0x00000378u)) != 0)) {
+        if ((iVar2 == 0) && (*(int *) ((*(int *) &data_021759c8) + 0x378) != 0)) {
             iVar2 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x1c)),
                                   (const char *) param_1);
         }
-        if ((iVar2 == 0) && (*(int *) ((*(int *) &data_021759c8) + ((int) 0x000003e8u)) != 0)) {
+        if ((iVar2 == 0) && (*(int *) ((*(int *) &data_021759c8) + 0x3e8) != 0)) {
             iVar2 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x20)),
                                   (const char *) param_1);
         }

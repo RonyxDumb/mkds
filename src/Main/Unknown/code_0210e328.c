@@ -9,5 +9,4 @@ void func_0210e328(Unk0210bf24 *arg0) {
     value1 = 0u;
     *(u32 *) ((value0) + (4)) = (u32) value1;
     func_0212c6a0((Unk0212c400 **) value0);
-    return;
 }

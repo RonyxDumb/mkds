@@ -24,5 +24,4 @@ void func_020f5cc4(u32 arg0, u32 arg1) {
     *(u16 *) ((value0) + (76)) = (u16) value1;
     value1 = 1u;
     *(u16 *) ((value0) + (78)) = (u16) value1;
-    return;
 }

@@ -5,5 +5,5 @@ unsigned int func_0207a31c(void) {
 }
 
 void func_0207a30c(unsigned int p0) {
-    *(unsigned short *) ((unsigned char *) (unsigned int) (((u32) (&data_0217ad10))) + 0) = (unsigned short) (p0);
+    *(unsigned short *) ((unsigned char *) (unsigned int) (((u32) (&data_0217ad10))) + 0) = (unsigned short) p0;
 }

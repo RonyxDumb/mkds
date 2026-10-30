@@ -13,6 +13,5 @@ void func_02057244(void) {
     value2 = 0xc00u;
     value3 = (u32) &func_0214d168;
     func_0214d168((void *) value0, (u8) value1, (u32) value2);
-    return;
 }
 #pragma thumb off

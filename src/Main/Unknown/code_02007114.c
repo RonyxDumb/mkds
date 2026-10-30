@@ -13,7 +13,6 @@ void func_02007120(u32 param_1, u16 param_2) {
     u16 local_8[1];
     local_8[0] = param_2;
     func_02007cf8(param_1, 0xd, local_8);
-    return;
 }
 
 unsigned int func_02007114(void) {

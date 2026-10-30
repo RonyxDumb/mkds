@@ -13,5 +13,4 @@ void func_020e0650(u32 *arg0) {
     value0 = (u32) * (const u32 *) ((value4) + (0));
     value1 = 0u;
     *(u32 *) ((value0) + (0)) = (u32) value1;
-    return;
 }

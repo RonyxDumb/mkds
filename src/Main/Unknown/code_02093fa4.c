@@ -19,5 +19,4 @@ void func_02093fa4(u32 arg0) {
     value0 = (u32) &data_0217ca6c;
     value0 = (u32) * (const u32 *) ((value0) + (356));
     *(u32 *) ((value4) + (112)) = (u32) value0;
-    return;
 }

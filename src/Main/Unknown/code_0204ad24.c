@@ -11,5 +11,4 @@ void func_0204ad24(void) {
     value1 = 3u;
     value0 = (u32) * (const u32 *) ((value0) + (36));
     func_0201804c((void *) value0, (u32) value1);
-    return;
 }

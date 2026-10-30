@@ -37,7 +37,6 @@ void func_02031208(void) {
             iVar5 = iVar5 + 1;
         } while (iVar5 < 2);
     }
-    return;
 }
 
 #pragma thumb off

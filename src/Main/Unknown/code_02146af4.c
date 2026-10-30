@@ -5,7 +5,6 @@ void func_02146b04(u32 arg0) {
     u32 value1;
     value1 = (u32) &data_021802a4;
     *(u32 *) ((value1) + (0)) = (u32) value0;
-    return;
 }
 
 u32 func_02146af4(void) {

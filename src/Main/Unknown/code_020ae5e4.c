@@ -4,18 +4,17 @@
 
 void func_020ae5f0(void *param_1, void *param_2) {
     if (param_1 != 0) {
-        func_0200ee74((param_1), (int) (0x00000400u));
-        func_0214bfcc((const void *) (param_1), (int) (0), (u32) (0x00000400u));
+        func_0200ee74((param_1), (int) 0x00000400u);
+        func_0214bfcc((const void *) param_1, (int) 0, (u32) 0x00000400u);
     }
     if (param_2 != 0) {
-        func_0200ee74((param_2), (int) (0x00000400u));
-        func_0214bf64((const void *) (param_2), (int) (0), (u32) (0x00000400u));
+        func_0200ee74((param_2), (int) 0x00000400u);
+        func_0214bf64((const void *) param_2, (int) 0, (u32) 0x00000400u);
     }
-    return;
 }
 
 u16 func_020ae5e4(unsigned int p0) {
-    return ((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (p0) + 0 + (0x402u)));
+    return ((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) p0 + 0 + (0x402u)));
 }
 
 #pragma thumb off

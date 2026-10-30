@@ -10,6 +10,5 @@ void func_0202b604(void) {
     value1 = (u32) * (const u32 *) ((value0) + 0u);
     value0 = 0x1fcu;
     *(u32 *) ((value1) + (value0)) = (u32) value2;
-    return;
 }
 #pragma thumb off

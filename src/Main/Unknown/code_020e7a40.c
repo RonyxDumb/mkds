@@ -20,5 +20,4 @@ void func_020e7a40(void) {
     value0 = (u32) &data_0217b9ec;
     value1 = 4u;
     func_02046bcc((void *) value0, (u16) value1);
-    return;
 }

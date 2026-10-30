@@ -5,17 +5,15 @@
 void func_020487e0(const void *param_1, void *param_2, u32 param_3) {
     func_0214d344(param_1, param_2);
     func_0200ee58(param_2, param_3);
-    return;
 }
 
 void func_020487a0(int param_1) {
     int iVar1;
-    iVar1 = (*(int *) &data_021759c8) + ((int) 0x000009b0u) + param_1 * 0xc;
-    *(u32 *) ((*(int *) &data_021759c8) + ((int) 0x000009b0u) + param_1 * 0xc) = 0;
+    iVar1 = (*(int *) &data_021759c8) + 0x9b0 + param_1 * 0xc;
+    *(u32 *) ((*(int *) &data_021759c8) + 0x9b0 + param_1 * 0xc) = 0;
     *(u32 *) (iVar1 + 8) = *(u32 *) (iVar1 + 8) & ((u32) 0xe0000000u);
     *(u32 *) (iVar1 + 8) = *(u32 *) (iVar1 + 8) | ((u32) 0x20000000u);
     *(u32 *) (iVar1 + 8) = *(u32 *) (iVar1 + 8) & ((u32) 0xbfffffffu);
-    return;
 }
 
 #pragma thumb off

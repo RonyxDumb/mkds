@@ -15,5 +15,4 @@ void func_02060c38(void *arg0) {
     value2 = 0x2d0u;
     value0 = (value0) + (value3);
     func_0214d1fc((const void *) value0, (void *) value1, (u32) value2);
-    return;
 }

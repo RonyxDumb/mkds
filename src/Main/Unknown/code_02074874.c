@@ -15,5 +15,5 @@ unsigned int func_02074888(void) {
 void func_02074874(unsigned int p0) {
     *(unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
                            const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217ac94))) + 0))) +
-                       100) = (unsigned int) (p0);
+                       100) = (unsigned int) p0;
 }

@@ -10,5 +10,4 @@ void func_020e5668(Unk020e516c *arg0, Vec3 *arg1) {
     value1 = (u32) * (const u32 *) ((value1) + (8));
     value1 = ((u32) ((s32) value1 >> 4));
     *(u32 *) ((value0) + (44)) = (u32) value1;
-    return;
 }

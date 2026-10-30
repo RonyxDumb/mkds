@@ -13,7 +13,6 @@ void func_02025f54(Unk02025ebc *a, u32 b) {
         case 2:
             a->mUnk_04 = a->mUnk_08;
     }
-    return;
 }
 
 #pragma thumb off

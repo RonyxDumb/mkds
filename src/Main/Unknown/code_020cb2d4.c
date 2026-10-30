@@ -6,14 +6,13 @@ void func_020cb2d4(void) {
     int iVar1;
     func_020cb340();
     iVar1 = *(int *) &data_0217b43c;
-    func_02124c30((void *) (*(u32 *) (iVar1 + ((int) 0x00000940u))), (void *) (*(u32 *) (iVar1 + ((int) 0x00000918u))),
-                  (void *) (0), (void *) (iVar1 + ((int) 0x00000108u)),
-                  (void *) (*(u32 *) (iVar1 + ((int) 0x0000093cu))));
+    func_02124c30((void *) (*(u32 *) (iVar1 + 0x940)), (void *) (*(u32 *) (iVar1 + 0x918)),
+                  (void *) 0, (void *) (iVar1 + 0x108),
+                  (void *) (*(u32 *) (iVar1 + 0x93c)));
     iVar1 = *(int *) &data_0217b43c;
-    func_02124c30((void *) (*(u32 *) (iVar1 + ((int) 0x0000094cu))), (void *) (*(u32 *) (iVar1 + ((int) 0x00000928u))),
-                  (void *) (0), (void *) (iVar1 + ((int) 0x0000050cu)),
-                  (void *) (*(u32 *) (iVar1 + ((int) 0x00000948u))));
-    return;
+    func_02124c30((void *) (*(u32 *) (iVar1 + 0x94c)), (void *) (*(u32 *) (iVar1 + 0x928)),
+                  (void *) 0, (void *) (iVar1 + 0x50c),
+                  (void *) (*(u32 *) (iVar1 + 0x948)));
 }
 
 #pragma thumb off

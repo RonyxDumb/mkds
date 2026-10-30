@@ -12,7 +12,6 @@ void func_02125928(void) {
     if (data_0217d3ec->mUnk_08 != 0) {
         func_02128458();
     }
-    return;
 }
 
 void func_021258f0(void) {
@@ -25,7 +24,6 @@ void func_021258f0(void) {
     if (data_0217d3ec->mUnk_08 != 0) {
         func_021283bc();
     }
-    return;
 }
 
 #pragma thumb off

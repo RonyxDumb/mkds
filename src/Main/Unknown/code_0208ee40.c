@@ -19,5 +19,4 @@ void func_0208ee40(u32 arg0, u32 arg1) {
     value1 = (u32) * (const u32 *) ((value3) + (8));
     value1 = ((u32) ((s32) value1 >> 4));
     *(u32 *) ((value0) + (24)) = (u32) value1;
-    return;
 }

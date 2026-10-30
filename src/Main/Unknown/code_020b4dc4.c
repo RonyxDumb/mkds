@@ -15,6 +15,6 @@ u32 func_020b4dc4(int param_1) {
     if ((iVar1 == 1) && (param_1 != 0)) {
         return 1;
     }
-    uVar2 = func_0207a68c((int) (param_1));
+    uVar2 = func_0207a68c((int) param_1);
     return uVar2;
 }

@@ -27,7 +27,7 @@ unsigned int func_0211145c(void) {
 void func_02111450(unsigned int p0) {
     *(unsigned short *) ((unsigned char *) (unsigned int) (((unsigned int) *(
                              const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217d344))) + 0))) +
-                         22) = (unsigned short) (p0);
+                         22) = (unsigned short) p0;
 }
 
 #pragma thumb off

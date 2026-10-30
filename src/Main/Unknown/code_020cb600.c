@@ -6,5 +6,4 @@ void func_020cb600(int *param_1) {
     if ((int) uVar1 < 0x7fffffff) {
         *param_1 = uVar1 + 1;
     }
-    return;
 }

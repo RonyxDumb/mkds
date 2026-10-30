@@ -22,7 +22,6 @@ void func_021104dc(u32 arg0) {
     *(u32 *) ((value3) + (0)) = (u32) value5;
     *(u32 *) ((value2) + (0)) = (u32) value5;
     *(u32 *) ((value1) + (0)) = (u32) value4;
-    return;
 }
 
 u32 func_02110484(void) {

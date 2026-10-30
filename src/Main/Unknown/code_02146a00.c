@@ -32,5 +32,4 @@ void func_02146a00(u32 arg0, u32 arg1, u32 arg2) {
     *(u32 *) ((value1) + (276)) = (u32) value0;
     value0 = (u32) * (const u32 *) ((value1) + (260));
     func_0200df68((Unk0200db5c *) value0);
-    return;
 }

@@ -12,6 +12,5 @@ void func_02057cfc(u32 arg0, u32 arg1) {
     value1 = (u32) * (const u32 *) ((value1) + 104u);
     value3 = (u32) &func_0214d1fc;
     func_0214d1fc((const void *) value0, (void *) value1, (u32) value2);
-    return;
 }
 #pragma thumb off

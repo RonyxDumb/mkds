@@ -19,6 +19,5 @@ void func_021173e4(void) {
     value0 = 0xffff1fffu;
     value2 = (value2) & (value0);
     *(u32 *) ((value1) + 0u) = (u32) value2;
-    return;
 }
 #pragma thumb off

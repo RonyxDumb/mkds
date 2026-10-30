@@ -13,7 +13,6 @@ void func_02125da0(void) {
         func_021287c0();
     }
     *(int *) &data_0217d3ec = 0;
-    return;
 }
 
 #pragma thumb off

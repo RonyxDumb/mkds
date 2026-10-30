@@ -16,7 +16,6 @@ void func_020f73d4(u32 arg0) {
     value0 = (value2) * (value0) + (value3);
     value12 = (u32) &func_020f0f70;
     func_020f0f70((Unk027e00cc *) value0, (Unk020f41c4_A *) value1);
-    return;
 }
 
 u32 func_020f73a4(void) {

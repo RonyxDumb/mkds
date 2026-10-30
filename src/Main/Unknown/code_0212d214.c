@@ -17,7 +17,6 @@ void func_0212d22c(void *arg0, u32 arg1, Unk0212d5f8 *arg2, u32 arg3) {
     u32 value2 = (u32) arg2;
     value0 = 0u;
     *(u32 *) ((value2) + (140)) = (u32) value0;
-    return;
 }
 
 void func_0212d220(void *arg0, u32 arg1, Unk0212d5f8 *arg2, u32 arg3) {
@@ -25,7 +24,6 @@ void func_0212d220(void *arg0, u32 arg1, Unk0212d5f8 *arg2, u32 arg3) {
     u32 value2 = (u32) arg2;
     value0 = 0u;
     *(u32 *) ((value2) + (132)) = (u32) value0;
-    return;
 }
 
 void func_0212d214(void *arg0, u32 arg1, Unk0212d5f8 *arg2, u32 arg3) {
@@ -33,5 +31,4 @@ void func_0212d214(void *arg0, u32 arg1, Unk0212d5f8 *arg2, u32 arg3) {
     u32 value2 = (u32) arg2;
     value0 = 0u;
     *(u32 *) ((value2) + (136)) = (u32) value0;
-    return;
 }

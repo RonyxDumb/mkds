@@ -15,5 +15,4 @@ void func_02145888(void) {
         return;
     }
     func_0200fd1c();
-    return;
 }

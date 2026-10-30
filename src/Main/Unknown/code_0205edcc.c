@@ -8,7 +8,6 @@ void func_0205edf8(void) {
     value0 = (u32) * (const u32 *) ((value0) + (0));
     value0 = (u32) * (const u32 *) ((value0) + (32));
     func_020577b4((void *) value0);
-    return;
 }
 
 void func_0205edcc(void) {
@@ -18,5 +17,4 @@ void func_0205edcc(void) {
     value0 = (u32) * (const u32 *) ((value0) + (32));
     func_020577b4((void *) value0);
     func_020574a0();
-    return;
 }

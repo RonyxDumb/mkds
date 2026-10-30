@@ -13,7 +13,7 @@ unsigned int func_0202e4a4(void) {
 void func_0202e490(unsigned int p0) {
     *(unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
                            const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_02174e48))) + 0))) +
-                       0 + (0x660u)) = (unsigned int) (p0);
+                       0 + (0x660u)) = (unsigned int) p0;
 }
 
 unsigned int func_0202e47c(void) {

@@ -18,5 +18,4 @@ void func_02010998(u32 arg0, u32 arg1, u32 arg2) {
     if ((u32) compareLeft1 != (u32) compareRight1) {
         *(u32 *) ((value0) + (24)) = (u32) value2;
     }
-    return;
 }

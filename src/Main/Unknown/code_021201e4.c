@@ -25,7 +25,6 @@ void func_02120200(int arg0, s16 arg1) {
     value2 = (value0) * (value2) + (value3);
     value0 = (value2) + (0x400u);
     *(u16 *) ((value0) + (62)) = (u16) value1;
-    return;
 }
 
 u8 func_021201e4(int arg0) {

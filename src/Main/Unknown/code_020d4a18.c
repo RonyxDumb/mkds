@@ -7,6 +7,5 @@ void func_020d4a18(Unk020e6fd4 *arg0) {
     value1 = 0u;
     *(u32 *) ((value0) + 0u) = (u32) value1;
     *(u16 *) ((value0) + 4u) = (u16) value1;
-    return;
 }
 #pragma thumb off

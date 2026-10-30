@@ -131,6 +131,5 @@ void func_02079a3c(u32 *arg0) {
     *(u16 *) ((value1) + 0u) = (u16) value2;
     value4 = (value4) + 148u;
     *(u16 *) ((value4) + 0u) = (u16) value0;
-    return;
 }
 #pragma thumb off

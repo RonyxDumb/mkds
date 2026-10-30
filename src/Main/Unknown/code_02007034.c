@@ -7,7 +7,7 @@ Unk02007014 *func_02007040(void) {
 }
 
 void func_02007034(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0216f3d8))) + 0) = (unsigned int) (p0);
+    *(unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0216f3d8))) + 0) = (unsigned int) p0;
 }
 
 #pragma thumb off

@@ -15,5 +15,4 @@ void func_021507c8(u32 arg0) {
     value1 = 0u;
     *(u32 *) ((value0) + (16)) = (u32) value1;
     *(u32 *) ((value0) + (20)) = (u32) value1;
-    return;
 }

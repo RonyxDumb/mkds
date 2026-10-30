@@ -4,7 +4,7 @@
 
 void func_0202808c(void) {
     int iVar1;
-    if ((*(int *) ((*(int *) &data_02174e18) + ((int) 0x00000100u)) == 1) &&
+    if ((data_02174e18->mUnk_100 == 1) &&
         (iVar1 = ((u32) func_0202811c()), iVar1 == 2)) {
         func_021281fc();
     }
@@ -16,7 +16,6 @@ void func_0202808c(void) {
     }
     func_02036ab0((void *) data_02174e18->mUnk_08c);
     *(int *) &data_02174e18 = 0;
-    return;
 }
 
 #pragma thumb off

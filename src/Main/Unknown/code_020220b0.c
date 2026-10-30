@@ -17,5 +17,4 @@ void func_020220b0(u32 arg0) {
     *(u32 *) ((value4) + (16)) = (u32) value0;
     *(u32 *) ((value4) + (20)) = (u32) value1;
     *(u32 *) ((value4) + (24)) = (u32) value1;
-    return;
 }

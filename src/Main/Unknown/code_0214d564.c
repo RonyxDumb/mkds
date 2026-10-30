@@ -15,5 +15,4 @@ void func_0214d564(u32 arg0, u32 arg1, u32 arg2) {
     *(u8 *) ((value0) + (14)) = (u8) value1;
     *(u16 *) ((value0) + (8)) = (u16) value1;
     *(u8 *) ((value0) + (10)) = (u8) value1;
-    return;
 }

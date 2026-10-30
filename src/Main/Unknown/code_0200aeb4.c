@@ -10,8 +10,7 @@ void func_0200aeb4(void *param_1) {
     if (iVar2 != 0) {
         func_0200aeec(&(*(Unk0200aeec_head **) &data_0216fde0)->mUnk_c4, 0, param_1, 0);
     }
-    func_0200fcb4((u32) (uVar1));
-    return;
+    func_0200fcb4((u32) uVar1);
 }
 
 #pragma thumb off

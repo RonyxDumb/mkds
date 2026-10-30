@@ -4,8 +4,7 @@
 
 void func_0203ba70(u8 *param_1) {
     func_0203ba84((u8 *) param_1);
-    func_0203bc64((u8 *) ((u8 *) (u32) (param_1)));
-    return;
+    func_0203bc64((u8 *) ((u8 *) (u32) param_1));
 }
 
 #pragma thumb off

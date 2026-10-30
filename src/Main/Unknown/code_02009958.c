@@ -3,7 +3,7 @@
 #pragma thumb on
 
 u32 func_02009958(void) {
-    if (*(unsigned char *) ((*(int *) &data_0216fda8) + ((int) 0x0000050du)) == '\x01') {
+    if (*(unsigned char *) ((*(int *) &data_0216fda8) + 0x50d) == '\x01') {
         return 1;
     }
     return 0;

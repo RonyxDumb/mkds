@@ -15,5 +15,4 @@ void func_0204f7f4(void) {
     value12 = (u32) &func_0214f680;
     value0 = 0u;
     value0 = (u32) func_0214f680((u32) value0);
-    return;
 }

@@ -27,5 +27,4 @@ void func_020a1218(short param_1) {
     u32 uVar1;
     uVar1 = *(u32 *) &data_0217b1fc;
     *(short *) (uVar1 + 0x3a0) = *(unsigned short *) (uVar1 + 0x3a0) + param_1;
-    return;
 }

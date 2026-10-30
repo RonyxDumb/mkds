@@ -12,7 +12,6 @@ void func_020d4bf0(void) {
         return;
     }
     *(u32 *) &data_0217b4f4 = ((u32) 0x0012c000u);
-    return;
 }
 
 #pragma thumb off
