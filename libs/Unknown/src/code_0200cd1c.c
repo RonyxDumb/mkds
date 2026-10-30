@@ -5,35 +5,35 @@ s32 func_0200cd1c(u32 a) {
     return func_0200ce80(a);
 }
 
-// non-matching: the original counts leading zeros with the clz instruction (C has no spelling for it); the count is a
-// loop here
-s32 func_0200cd28(void) {
-    u32 *p;
-    s32 n;
-    s32 r;
-    u32 m;
-    p = (u32 *) 0x027fffb0;
-    n = 0;
-    for (m = *p; n < 32 && (m & 0x80000000u) == 0; m = m << 1) {
-        n++;
-    }
-    if (n != 32) {
-        r = 0x40;
-    } else {
-        p = p + 1;
-        n = 0;
-        for (m = *p; n < 32 && (m & 0x80000000u) == 0; m = m << 1) {
-            n++;
-        }
-        if (n == 32) {
-            return -3;
-        }
-        r = 0x60;
-    }
-    r = r + n;
-    *p = *p & ~(0x80000000u >> n);
-    return r;
+// clang-format off
+// Takes the highest set bit out of the two words at 0x027fffb0 (first word, then the second) and returns its number:
+// 0x40 plus the bit position counted from the top for the first word, 0x60 plus it for the second, or -3 when both
+// words are zero.
+// Not compiled code: it counts leading zeros with clz, which 1.2 never builds (docs/compiler.md).
+asm s32 func_0200cd28(void) {
+    ldr r3, =0x27fffb0
+    ldr r1, [r3, #0x0]
+    clz r2, r1
+    cmp r2, #0x20
+    movne r0, #0x40
+    bne cd28_clear
+    add r3, r3, #0x4
+    ldr r1, [r3, #0x0]
+    clz r2, r1
+    cmp r2, #0x20
+    ldr r0, =0xfffffffd
+    bxeq lr
+    mov r0, #0x60
+cd28_clear:
+    add r0, r0, r2
+    mov r1, #0x80000000
+    mov r1, r1, lsr r2
+    ldr r2, [r3, #0x0]
+    bic r2, r2, r1
+    str r2, [r3, #0x0]
+    bx lr
 }
+// clang-format on
 
 // non-matching: the original keeps the shifted bit in its own register (mov, lsr, then orr); ours folds the shift into
 // the orr
