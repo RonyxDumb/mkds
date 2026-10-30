@@ -6,6 +6,8 @@
 #include "00/code_021884e4.h"
 #include "code_0214d018.h"
 #include "00/code_021a5b3c.h"
+#include "00/code_0218973c.h"
+#include "00/code_0218a294.h"
 
 // Argument of func_ov000_02188868: the first two words go to the Unk021884e4 and the Unk02188114 it sets up, the
 // bytes at 8 to 0xb to the object at data_ov000_021b4d00.
@@ -32,12 +34,6 @@ static inline void func_0214d018_inline(void *p, u32 n) {
 }
 
 // Declared here until the code that defines them is decompiled.
-void func_ov000_02189e54(u16 a);
-u8 func_ov000_02189e80(void);
-u8 func_ov000_02189f00(void);
-u8 func_ov000_0218922c(void);
-u8 func_ov000_021897bc(void);
-u8 func_ov000_0218a294(void);
 
 u32 func_ov000_02188720(void);
 u32 func_ov000_02188758(void);

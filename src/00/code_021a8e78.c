@@ -20,7 +20,7 @@ unsigned int func_ov000_021a8ed4(void) {
     return v17;
 }
 
-void func_ov000_021a8e78(unsigned int p0, unsigned int p1) {
+void func_ov000_021a8e78(unsigned int *p0, unsigned int *p1) {
     unsigned int v2 = ((unsigned int) *(unsigned int *) ((p1) + (0)));
     unsigned int v3 = ((unsigned int) *(unsigned int *) ((p0) + (0)));
     unsigned int v4 = ((v3) << 24);
