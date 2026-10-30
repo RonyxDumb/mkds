@@ -10,14 +10,13 @@
 #include "Main/Unknown/code_021000d0.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-// non-matching: 7 words in the last statement: the original holds the shifted result in r3, n - 2 in r1
-// and the table base in r2; here they are in r1, r2 and r3.
 void func_020c783c(void)
 {
     s32 i;
     s32 n;
     Unk0217b498_00 *p;
     u32 a;
+    s32 t;
 
     n = 0;
     a = func_020c0db0();
@@ -31,7 +30,8 @@ void func_020c783c(void)
                 data_0217b408->mUnk_10[n + 1].mUnk_08 = func_020b83dc(0xb0);
                 data_0217b408->mUnk_10[n + 1].mUnk_0c = 2;
                 n += 2;
-                data_0217b408->mUnk_10[n - 2].mUnk_00.mUnk_04 -= func_020db4c4((Unk020db2b8 *)p) * 16 >> 12;
+                t = func_020db4c4((Unk020db2b8 *)p) * 16 >> 12;
+                data_0217b408->mUnk_10[n - 2].mUnk_00.mUnk_04 -= t;
             }
         }
     }
