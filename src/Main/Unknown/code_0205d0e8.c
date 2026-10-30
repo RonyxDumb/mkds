@@ -141,7 +141,6 @@ u16 func_0205d3f0(u32 a) {
     return data_0217aa1c->mUnk_000[i][(u8) a].mUnk_00;
 }
 
-// non-matching: the original keeps the loop counter in r3 and indexes the entry with `add r1, r2, r3, lsl #2` each time, with the result -1 loaded first; here the compiler makes a stepping pointer and a counter in r0.
 s32 func_0205d480(void) {
     s32 j, r;
     Unk0217aa1c_144 *p;
@@ -149,7 +148,7 @@ s32 func_0205d480(void) {
     r = -1;
     p = &data_0217aa1c->mUnk_144[(u8) ((data_021759c0->mUnk_60 - 1) % 4)];
     for (j = 0; j < 2; j++) {
-        if (p->mUnk_00[j].mUnk_03_0) {
+        if (p->mUnk_00[(u32) j].mUnk_03_0) {
             r = j;
             break;
         }

@@ -314,14 +314,13 @@ void func_0205c594(void) {
     func_0205c800(data_0217aa14->mUnk_734, func_0205c610);
 }
 
-// non-matching: 0x70 bytes, original 0x74; the original keeps an extra copy of the data pointer.
 void func_0205c610(u32 a) {
     Unk0217aa14_754 *q;
     Unk0217aa14_754_04 *r;
 
     q = data_0217aa14->mUnk_754;
-    q->mUnk_04.mUnk_00_h = data_0217aa14->mUnk_736 - data_0217aa14->mUnk_104[a].mUnk_84;
     r = &q->mUnk_04;
+    r->mUnk_00_h = data_0217aa14->mUnk_736 - data_0217aa14->mUnk_104[a].mUnk_84;
     r->mUnk_04_b[0] = data_0217aa14->mUnk_0fb;
     if (func_0205c340((u8) a, 2, 8) != 0) {
         data_0217aa14->mUnk_734 = a;
@@ -333,11 +332,10 @@ void func_0205c684(void) {
     data_0217aa14->mUnk_734 = 0;
 }
 
-// non-matching: 0xf8 bytes, original 0xf0; register and reload differences in the loop and the final test.
 void func_0205c6b0(void) {
     Unk0217aa14 *p;
-    Unk0217aa14_754_04 *q;
     u8 i;
+    Unk0217aa14_754_04 *q;
 
     p = data_0217aa14;
     q = &p->mUnk_754->mUnk_04;
@@ -353,10 +351,11 @@ void func_0205c6b0(void) {
             break;
         }
     }
-    if (data_0217aa14->mUnk_749 == (data_0217aa14->mUnk_749 & data_0217aa14->mUnk_0fa)) {
-        data_0217aa14->mUnk_010 = 3;
-        data_0217aa14->mUnk_012 = 1;
+    p = data_0217aa14;
+    if (p->mUnk_749 == (p->mUnk_749 & p->mUnk_0fa)) {
+        p->mUnk_010 = 3;
+        p->mUnk_012 = 1;
         return;
     }
-    func_0205c800(data_0217aa14->mUnk_0f8, func_0205c7a0);
+    func_0205c800(p->mUnk_0f8, func_0205c7a0);
 }

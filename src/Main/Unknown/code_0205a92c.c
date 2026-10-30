@@ -184,15 +184,15 @@ void func_0205ad88(void) {
     data_0217aa14->mUnk_724 = 0x30;
 }
 
-// non-matching: same size; 37 lines differ; first: original `ldr r5, [r2]`, ours `ldr r7, [r2]`
 void func_0205ae8c(u32 a) {
-    Unk0217aa14 *p;
-    Unk0217aa18 *g;
+    u8 j;
+    u8 n;
+    u8 f;
+    u8 m;
     s32 s;
     s32 t;
-    u8 n;
-    u8 j;
-    u8 f;
+    Unk0217aa18 *g;
+    Unk0217aa14 *p;
 
     g = data_0217aa18;
     p = data_0217aa14;
@@ -202,10 +202,11 @@ void func_0205ae8c(u32 a) {
         return;
     }
     j = 0;
-    for (j = 0; j < data_021759c0->mUnk_3d0; j++) {
+    for (j = 0; j < (s32) data_021759c0->mUnk_3d0; j++) {
         if (j != a) {
             t = g->mUnk_00[j];
-            if (t >= 0 && p->mUnk_104[t].mUnk_86_1 < n) {
+            m = p->mUnk_104[t].mUnk_86_1;
+            if (t >= 0 && m < n) {
                 f = 0;
                 if ((p->mUnk_0fc & (1 << (u8) t)) != 0 && (p->mUnk_749 & (1 << (u8) t)) == 0) {
                     f = 1;

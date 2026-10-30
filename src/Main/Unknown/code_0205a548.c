@@ -74,10 +74,9 @@ void func_0205a750(s32 a) {
     e->mUnk_6c = 0x13;
 }
 
-// non-matching: 0x2c bytes, original 0x30; 10 lines differ; first: original `ldr r2, [pc, #32]`, ours `ldr r2, [pc,
-// #28]`
 void func_0205a7ac(s32 a) {
-    func_0214d168(&data_0217aa14->mUnk_754->mUnk_04.mUnk_20[a], 0, 2);
+    Unk0217aa14_754_04 *p = (void *) &data_0217aa14->mUnk_754->mUnk_04;
+    func_0214d168(&p->mUnk_20[a], 0, 2);
 }
 
 void func_0205a7dc(s32 a, u16 b, s32 c, s32 d) {
