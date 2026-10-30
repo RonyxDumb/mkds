@@ -332,30 +332,48 @@ typedef struct Unk02174e44 {
 } Unk02174e44;
 
 extern Unk02174e44 *data_02174e44;
-typedef struct Unk02174e48 {
+// 0x40-byte element of the array at Unk02174e48::mUnk_08.
+typedef struct Unk02174e48_08 {
     /* 00 */ s32 mUnk_00;
-    /* 04 */ void *mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u16 mUnk_2e;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ s32 mUnk_3c;
-    /* 40 */ s32 mUnk_40;
-    /* 44 */ s32 mUnk_44;
-    /* 48 */ s32 mUnk_48;
-    /* 4c */ s32 mUnk_4c;
-    /* 50 */ s32 mUnk_50;
-    /* 54 */ s32 mUnk_54;
+    /* 04 */ u8 mUnk_04[2];
+    /* 06 */ s16 mUnk_06;
+    /* 08 */ u8 mUnk_08[6];
+    /* 0e */ s16 mUnk_0e;
+    /* 10 */ u8 mUnk_10[0x30];
+} Unk02174e48_08;
+
+typedef struct Unk02174e48 {
+    /* 000 */ s32 mUnk_000;
+    /* 004 */ u16 *mUnk_004;
+    /* 008 */ Unk02174e48_08 *mUnk_008;
+    /* 00c */ void *mUnk_00c;
+    /* 010 */ s32 mUnk_010;
+    /* 014 */ s32 mUnk_014;
+    /* 018 */ s32 mUnk_018;
+    /* 01c */ s32 mUnk_01c;
+    /* 020 */ s32 mUnk_020;
+    /* 024 */ s32 mUnk_024;
+    /* 028 */ void (*mUnk_028)(int a, int b, int c, int d);
+    /* 02c */ u16 mUnk_02c;
+    /* 02e */ u16 mUnk_02e;
+    /* 030 */ s32 mUnk_030;
+    /* 034 */ s32 mUnk_034;
+    /* 038 */ s32 mUnk_038;
+    /* 03c */ s32 mUnk_03c;
+    /* 040 */ s32 mUnk_040;
+    /* 044 */ s32 mUnk_044;
+    /* 048 */ s32 mUnk_048;
+    /* 04c */ s32 mUnk_04c;
+    /* 050 */ s32 mUnk_050;
+    /* 054 */ s32 mUnk_054;
+    /* 058 */ u16 mUnk_058[0x300];
+    /* 658 */ s32 mUnk_658;
+    /* 65c */ s32 mUnk_65c;
+    /* 660 */ s32 mUnk_660;
+    /* 664 */ s32 mUnk_664;
+    /* 668 */ s32 mUnk_668;
+    /* 66c */ s32 mUnk_66c;
+    /* 670 */ s32 mUnk_670;
 } Unk02174e48;
 
 extern Unk02174e48 *data_02174e48;
