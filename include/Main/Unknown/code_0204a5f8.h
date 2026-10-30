@@ -2,9 +2,9 @@
 
 #include "types.h"
 #include "Main/Unknown/unk_02175000.h"
+#include "Main/Unknown/code_02043a34.h"
 
 void func_020399a8(void);
-void func_02043c14(void);
 void func_0204a5f8(void);
 s32 func_0204a620(Unk02175650 *a);
 s32 func_0204a650(Unk02175650 *a);

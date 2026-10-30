@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_020182c0.h" // Unk020182c0
 
 // Object behind data_021759d0 (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
 // data_0217aa08.
@@ -144,9 +145,39 @@ typedef struct Unk0217566a {
 } Unk0217566a;
 
 extern Unk0217566a data_0217566a[];
+// Entries of 0x0c bytes from 0x9b0 of Unk021759c8.
+typedef struct Unk021759c8_9b0 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+} Unk021759c8_9b0;
+
 typedef struct Unk021759c8 {
     /* 00 */ u8 mUnk_00[0xd8];
     /* d8 */ s32 mUnk_d8;
+    /* 0dc */ u8 mUnk_0dc[0x6c];
+    /* 148 */ s32 mUnk_148;
+    /* 14c */ u8 mUnk_14c[0x30c];
+    /* 458 */ s32 mUnk_458;
+    /* 45c */ u8 mUnk_45c[0xdc];
+    /* 538 */ s32 mUnk_538;
+    /* 53c */ u8 mUnk_53c[0x6c];
+    /* 5a8 */ s32 mUnk_5a8;
+    /* 5ac */ u8 mUnk_5ac[0xdc];
+    /* 688 */ s32 mUnk_688;
+    /* 68c */ u8 mUnk_68c[0x6c];
+    /* 6f8 */ s32 mUnk_6f8;
+    /* 6fc */ u8 mUnk_6fc[0x6c];
+    /* 768 */ s32 mUnk_768;
+    /* 76c */ u8 mUnk_76c[0x6c];
+    /* 7d8 */ s32 mUnk_7d8;
+    /* 7dc */ u8 mUnk_7dc[0x70];
+    /* 84c */ void *mUnk_84c;
+    /* 850 */ Unk020182c0 mUnk_850;
+    /* 8b8 */ s32 mUnk_8b8;
+    /* 8bc */ void *mUnk_8bc;
+    /* 8c0 */ u8 mUnk_8c0[0xf0];
+    /* 9b0 */ Unk021759c8_9b0 mUnk_9b0[16];
 } Unk021759c8;
 
 extern Unk021759c8 *data_021759c8;

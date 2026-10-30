@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/unk_02029930.h" // Unk02029930_f8
 #include "Main/Unknown/code_02025ebc.h" // Unk02025ebc
 #include "Main/Unknown/code_02036588.h" // Unk02036590
 #include "Main/Unknown/unk_02153000.h" // Unk021535b4
@@ -17,13 +18,6 @@ typedef struct Unk02029930_00 {
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
 } Unk02029930_00;
-
-// 0x2c-byte rows of the table at member 0xf8 of Unk02029930.
-typedef struct Unk02029930_f8 {
-    /* 00 */ u8 mUnk_00[6];
-    /* 06 */ u8 mUnk_06;
-    /* 07 */ u8 mUnk_07[0x25];
-} Unk02029930_f8;
 
 // Object behind data_02174e1c, returned by func_02029930.
 typedef struct Unk02029930 {

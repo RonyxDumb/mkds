@@ -25,3 +25,4 @@ void func_0203bec0(u8 *a);
 void func_0203b230(void);
 s32 func_0203b96c(s32 a);
 s32 func_0203b0a0(const u8 *a, const u8 *b);
+int func_0203b018(u32 a, void *b, u32 c);

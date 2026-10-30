@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_020cade8.h"
 
-unsigned int func_020cade8(void) {
-    return ((u32) (&data_02169780));
+u32 *func_020cade8(void) {
+    return data_02169780;
 }

@@ -4,6 +4,9 @@
 #include "Main/Unknown/unk_02175000.h" // Unk021a9034
 #include "Main/Unknown/code_02086098.h" // Unk02086098
 
+extern const char data_02165048[];
+extern const char data_02165050[];
+
 // Objects whose layout isn't known yet.
 // A function and three numbers; func_02050650 takes the address of data_021652a0.
 typedef struct Unk021652a0 {

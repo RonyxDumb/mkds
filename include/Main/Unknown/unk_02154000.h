@@ -28,3 +28,5 @@ extern const s32 data_usa_02154e48[25];
 extern const s32 data_usa_02154eac[25];
 extern const Vec3 data_usa_02154fc4;
 extern const Vec3 data_usa_02154fdc;
+
+extern u16 data_021540ec[];

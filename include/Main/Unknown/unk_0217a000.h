@@ -210,7 +210,7 @@ typedef struct Unk0217aa08 {
     /* 10 */ Unk0217aa08_10 *mUnk_10;
     /* 14 */ Unk0217aa08_14 *mUnk_14;
     /* 18 */ Unk0217aa08_14 *mUnk_18;
-    /* 1c */ void *mUnk_1c;
+    /* 1c */ Unk0217aa08_14 *mUnk_1c;
     /* 20 */ Unk0217aa08_20 *mUnk_20;
     /* 24 */ Unk0217aa08_24 *mUnk_24;
     /* 28 */ u8 mUnk_28;
