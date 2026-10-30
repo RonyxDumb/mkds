@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_0219903c.h"
 
 // Declared here until the code that defines them is decompiled.
-u32 func_ov000_0219903c();
 u32 func_ov000_02199ad8();
 u32 func_ov000_02199b14(int param_1, u32 param_2, u32 param_3);
 u32 func_ov000_02199b70();

@@ -59,6 +59,8 @@ extern u8 data_ov000_021b3dac[];
 extern u8 data_ov000_021b3ebc[];
 extern u8 data_ov000_021b3f10[];
 extern u8 data_ov000_021b3f34[];
+extern u8 data_ov000_021b3f74[];
+extern u8 data_ov000_021b3fa4[];
 extern u8 data_ov000_021b3f8c[];
 extern u8 data_ov000_021b3f98[];
 extern u8 data_ov000_021b3fb0[];

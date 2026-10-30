@@ -1,0 +1,64 @@
+#include "00/code_02198ba8.h"
+#include "00/code_02197000.h"
+#include "00/code_02197ddc.h"
+#include "00/code_02198714.h"
+#include "00/code_0219a01c.h"
+#include "code_02134d30.h"
+
+// non-matching: same size; the original computes sp+0 into r0 before loading the constant-word address and copies the two
+// bytes through r1 from r2 (ours loads the address first into r1 and keeps the third byte store on r0)
+int func_ov000_02198ba8(Unk021981d0 *a, u16 b, u16 c) {
+    u8 d[7];
+    int e;
+    e = 0;
+    d[0] = data_ov000_021b3fa4[0];
+    d[1] = data_ov000_021b3fa4[1];
+    d[2] = 0x65;
+    func_ov000_0219a01c(d, 3, b);
+    e += 5;
+    if (b != c) {
+        func_ov000_0219a01c(d, e, c);
+        e += 2;
+    }
+    if (func_ov000_02198714((u32 *) a, (u32) d, e) == 0) {
+        return 0;
+    }
+    return 1;
+}
+
+// non-matching: same size; same register order difference in the three-byte buffer set-up as func_ov000_02198ba8
+int func_ov000_02198c08(Unk021981d0 *a) {
+    u8 b[3];
+    b[0] = data_ov000_021b3fa4[0];
+    b[1] = data_ov000_021b3fa4[1];
+    b[2] = 0x64;
+    func_ov000_0219a01c(b, 3, a->mUnk_66);
+    if (func_ov000_02198714((u32 *) a, (u32) b, 5) == 0) {
+        return 0;
+    }
+    a->mUnk_90 = 0;
+    return 1;
+}
+
+int func_ov000_02198c58(Unk021981d0 *a, u8 *b, int c) {
+    int d;
+    u8 *e;
+    if (c < 2 || func_02134d30(b, data_ov000_021b3fa4, 2) != 0) {
+        if (func_ov000_02198714((u32 *) a, (u32) b, c) == 0) {
+            return 0;
+        }
+        return 1;
+    }
+    d = c + 2;
+    if (func_ov000_02197e58((int) &a->mUnk_50) < d) {
+        return 1;
+    }
+    e = a->mUnk_50.mUnk_00 + a->mUnk_50.mUnk_08;
+    func_ov000_02197d84((int *) &a->mUnk_50, (u32) data_ov000_021b3fa4, 2);
+    func_ov000_02197d84((int *) &a->mUnk_50, (u32) b, c);
+    if (func_ov000_02198714((u32 *) a, (u32) e, d) == 0) {
+        return 0;
+    }
+    func_ov000_02197d20((int *) &a->mUnk_50, -1, d);
+    return 1;
+}
