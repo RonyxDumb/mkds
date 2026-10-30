@@ -45,10 +45,8 @@ void func_020902d0(Unk0208fd8c *a, Unk020888b4 *b) {
     func_0207c614(a, b);
 }
 
-// non-matching: same instructions as the original, but the original loads the word at 0x30 into r3 and the table
-// pointer into r2, here the table pointer is loaded first and the registers differ.
 void func_020902fc(Unk0208fd8c *a, Unk020888b4 *b) {
-    s32 i;
+    enum { K0 } i;
 
     i = *(s32 *) &(*(Unk020ee684 **) data_027e00c8)[b->mUnk_04].mUnk_030;
     a->mUnk_04 = (Unk0208fd8c_08 *) data_usa_0217b07c + i;

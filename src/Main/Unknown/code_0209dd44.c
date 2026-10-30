@@ -2,10 +2,9 @@
 #include "Main/Unknown/code_020d26f8.h"
 #include "Main/Unknown/unk_02156000.h"
 
-// non-matching: same size; the original masks the returned byte (`and r0, r1, #255`), ours moves it.
 u8 func_0209dd44(Unk0209d694 *a, Unk0206bcb0 *b, u8 *c, u8 *d) {
     u8 x;
-    u8 v;
+    u32 v;
 
     x = *c;
     v = *d;
@@ -25,10 +24,9 @@ u8 func_0209dd44(Unk0209d694 *a, Unk0206bcb0 *b, u8 *c, u8 *d) {
     return v;
 }
 
-// non-matching: same size; the original masks the returned byte (`and r0, r4, #255`), ours moves it.
 u8 func_0209ddec(Unk0209d694 *a, Unk0206bcb0 *b, u8 *c, u8 *d) {
     u8 x;
-    u8 v;
+    u32 v;
 
     x = *c;
     v = *d;

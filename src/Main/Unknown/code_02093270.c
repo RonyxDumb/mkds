@@ -13,7 +13,6 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-// non-matching: 4 bytes longer than the original (0x218 against 0x214); the literal words and some register choices differ.
 void func_02093270(void *a, Unk02093270 *p) {
     u16 n;
     s32 i;
@@ -62,12 +61,12 @@ void func_02093270(void *a, Unk02093270 *p) {
     if (p->mUnk_a4 >= n) {
         p->mUnk_a4 = 0;
     }
-    if (p->mUnk_b0.mUnk_08 == 0xffff) {
-        p->mUnk_00.mUnk_04.y = p->mUnk_00.mUnk_9c->mUnk_00.y - p->mUnk_00.mUnk_58.y;
-    } else {
+    if (p->mUnk_b0.mUnk_08 != 0xffff) {
         func_020d8cc8(&p->mUnk_b0);
         func_020d8a5c(&p->mUnk_b0, &p->mUnk_00.mUnk_04);
         p->mUnk_00.mUnk_04.y = p->mUnk_00.mUnk_04.y - p->mUnk_00.mUnk_58.y;
+    } else {
+        p->mUnk_00.mUnk_04.y = p->mUnk_00.mUnk_9c->mUnk_00.y - p->mUnk_00.mUnk_58.y;
     }
     c = data_021759c0->mUnk_3d0;
     for (i = 0; i < c; i++) {

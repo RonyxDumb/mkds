@@ -159,8 +159,6 @@ void func_0208dd6c(Unk0208e490 *a, s32 b) {
     func_0208b7bc(2, &a->mUnk_74);
 }
 
-// non-matching: same instructions as the original; the constants kept at stack offsets 0x18/0x1c and 0x30/0x34 are
-// swapped
 void func_0208ddf4(void *a, s32 b, Unk020136f0 *c, void *d, void *e, void *f) {
     u16 i;
     u8 *t;
@@ -192,11 +190,11 @@ void func_0208ddf4(void *a, s32 b, Unk020136f0 *c, void *d, void *e, void *f) {
         func_02013044(p->mUnk_08.mUnk_04, k);
         o = p->mUnk_90;
         if (o != 0) {
-            if (d == 0) {
-                o->mUnk_18 = 0;
-            } else {
+            if (d != 0) {
                 func_0208823c(0, o, &p->mUnk_08, 1, a, c);
                 func_0208805c(o, d, a);
+            } else {
+                o->mUnk_18 = 0;
             }
             if (b == 2) {
                 if (func_02087d0c(p->mUnk_90) >> 12 == 0x20) {
@@ -210,11 +208,11 @@ void func_0208ddf4(void *a, s32 b, Unk020136f0 *c, void *d, void *e, void *f) {
         }
         o = p->mUnk_94;
         if (o != 0) {
-            if (e == 0) {
-                o->mUnk_18 = 0;
-            } else {
+            if (e != 0) {
                 func_0208823c(4, o, &p->mUnk_08, 1, a, c);
                 func_0208805c(o, e, a);
+            } else {
+                o->mUnk_18 = 0;
             }
         }
         o = p->mUnk_98;

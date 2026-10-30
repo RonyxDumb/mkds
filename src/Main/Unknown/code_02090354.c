@@ -362,9 +362,8 @@ static inline s32 func_02090cf8_inline(s32 a, s32 b) {
     return 0;
 }
 
-// non-matching: the original reloads the constants 0 and 8 from further stack words and keeps the sums 4, 8 and 12 added to the counter in stack words; registers of the counter and the result are swapped
 u32 func_02090cf8(void) {
-    s32 i;
+    enum { K0 } i;
     u32 r;
     u32 q;
     u32 t;
