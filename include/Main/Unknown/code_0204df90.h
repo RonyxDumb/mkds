@@ -26,6 +26,7 @@
 #include "code_0214d018.h"
 #include "Main/Unknown/code_02007ec4.h"
 #include "Main/Unknown/code_0200b02c.h"
+#include "Main/Unknown/code_0200bae0.h"
 
 // Twenty bytes after a two-byte head.
 typedef struct Unk0204e4d8 {
@@ -43,7 +44,6 @@ typedef struct Unk0204e4d8 {
 // Declared here until the code that defines them is decompiled.
 void func_0200b70c(void);
 void func_0200bae0(void);
-void func_0200bb98(void *a, Unk0204e4d8 *b);
 s32 func_02009ff4(void *a, Unk0204e4d8 *b, u32 c, u32 d, u32 e);
 s32 func_02009f38(u32 a, u32 b);
 s32 func_02009cc8(s32 a);
