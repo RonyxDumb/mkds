@@ -2,9 +2,8 @@
 
 #pragma thumb on
 
-void func_02152a04(u32 param_1, u32 param_2) {
-    func_02152ae0((u32 *) ((u32 *) (u32) (param_1)), (u32) (param_2), (u32) (0xb), (u32) (0x001fffffu));
-    return;
+void func_02152a04(Unk02152490 *a, u32 b) {
+    func_02152ae0(&a->mUnk_00, b, 0xb, 0x1fffff);
 }
 
 #pragma thumb off

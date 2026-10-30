@@ -2,8 +2,8 @@
 
 #pragma thumb on
 
-unsigned int func_02152ac4(unsigned int p0) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 8));
+u32 func_02152ac4(const Unk02152490 *a) {
+    return a->mUnk_08;
 }
 
 #pragma thumb off

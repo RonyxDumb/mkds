@@ -4,7 +4,7 @@
 
 u32 func_021526a0(const void *a) {
     int iVar1;
-    iVar1 = func_02152a58();
+    iVar1 = func_02152a58(a);
     if (iVar1 != 0) {
         return 1;
     }

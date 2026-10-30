@@ -1,0 +1,64 @@
+#include "code_02152934.h"
+#include "code_02152a24.h"
+#include "code_020205b0.h"
+#include "Main/Unknown/code_02152000.h"
+#include "Main/Unknown/code_02152a04.h"
+#include "Main/Unknown/code_02152a6c.h"
+
+#pragma thumb on
+
+u32 func_02152934(u64 a, u32 b) {
+    u32 r;
+
+    if (func_02152950(a, b) != 0) {
+        r = a & ~0xffffffff00000000ull;
+    } else {
+        r = 0;
+    }
+    return r;
+}
+
+// non-matching: the zero register is set up before the sign word of the checksum (movs r2 then asrs r1) where the
+// original does asrs r1 then movs r2; same size
+s32 func_02152950(u64 a, u32 b) {
+    u32 s[2];
+    u8 t[0x100];
+    s32 r;
+    s32 c;
+    u32 h;
+
+    h = a >> 32;
+    s[0] = a;
+    s[1] = b;
+    func_020207a8(t, 7);
+    c = func_0202061c(t, s, 8) & 0x7f;
+    r = 0;
+    if ((s64) c == h) {
+        r = 1;
+    }
+    return r;
+}
+
+u64 func_02152988(u32 a, u32 b) {
+    u32 s[2];
+    u8 t[0x100];
+    u64 v;
+
+    s[0] = a;
+    s[1] = b;
+    func_020207a8(t, 7);
+    v = func_0202061c(t, s, 8) & 0x7f;
+    v <<= 32;
+    v |= a;
+    return v;
+}
+
+// non-matching: same instructions, but ours copies the result to r1 and a to r0 before movs r2, #4 (the original sets
+// r2 first, then r1, orrs, then r0); same size
+void func_021529bc(Unk02152490 *a) {
+    if (func_02152a58(a) == 3) {
+        func_02152a04(a, func_02152a6c(a) | 4);
+    }
+}
+
+#pragma thumb off

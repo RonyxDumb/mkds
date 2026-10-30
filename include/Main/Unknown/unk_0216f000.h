@@ -19,6 +19,8 @@ typedef struct Unk0216fdf4 {
 
 // Objects whose layout isn't known yet.
 extern u32 data_0216f06c;
+extern char data_0216f2a0[];
+extern s8 data_0216f2b0[];
 extern u8 data_0216f2d4[];
 extern u32 data_0216f3c8;
 extern u8 data_0216f3cc[];
