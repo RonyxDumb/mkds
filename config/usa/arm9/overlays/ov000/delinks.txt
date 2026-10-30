@@ -617,6 +617,10 @@ src/00/code_02194b9c.c:
     .text       start:0x02194b68 end:0x02194b70
 
 // provisional: file name and boundaries
+src/00/code_02194cac.c:
+    .text       start:0x02194c78 end:0x02196070
+
+// provisional: file name and boundaries
 src/00/code_021960a4.c:
     .text       start:0x02196070 end:0x0219620c
 

@@ -6,6 +6,8 @@
 
 struct Unk0218f960;
 
+struct Unk0218f960;
+
 // Object behind Unk0218f960.mUnk_00: func_ov000_0218f960 passes the address of 0x1f4 to func_ov000_02190b80 and
 // func_ov000_02190b58, reads 0x198 and decrements 0x430.
 typedef struct Unk0218f960_00 {
