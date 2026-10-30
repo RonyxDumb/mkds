@@ -1,32 +1,12 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021a998c.h"
 #include "00/unk_021b6380.h"
 #include "code_0200e0ec.h" // Unk0200db5c, Unk0200dce0
 #include "00/code_021b0014.h"
 #include "00/code_021afe5c.h"
 #include "00/code_021afe84.h"
-
-// Object passed to func_ov000_021af550 and func_ov000_021af70c.
-typedef struct Unk021af550 {
-    /* 00 */ u8 pad_00[8];
-    /* 08 */ u8 mUnk_08;
-    /* 09 */ u8 pad_09;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u8 pad_0c[0xc];
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ u8 pad_1a[2];
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u8 pad_20[4];
-    /* 24 */ u32 mUnk_24;
-    /* 28 */ u32 mUnk_28;
-    /* 2c */ u8 pad_2c[0x10];
-    /* 3c */ u32 mUnk_3c;
-    /* 40 */ u8 pad_40[4];
-    /* 44 */ u32 mUnk_44;
-    /* 48 */ u8 pad_48[4];
-    /* 4c */ u8 *mUnk_4c;
-} Unk021af550;
 
 // Frame built by func_ov000_021afc5c.
 typedef struct Unk021afc5c {
@@ -61,9 +41,9 @@ extern u8 data_ov000_021b4c2c[6];
 extern u32 data_ov000_021b4c28;
 extern Unk021b6434 data_ov000_021b6434[8];
 
-void func_ov000_021af550(u8 *a, u32 b, Unk021af550 *c, u32 d, u16 e);
-void func_ov000_021af70c(u8 *a, u32 b, Unk021af550 *c);
-void func_ov000_021af7e4(u8 *a, u32 b, Unk021af550 *c);
+void func_ov000_021af550(u8 *a, u32 b, Unk021a998c *c, u32 d, u16 e);
+void func_ov000_021af70c(u8 *a, u32 b, Unk021a998c *c);
+void func_ov000_021af7e4(u8 *a, u32 b, Unk021a998c *c);
 void func_ov000_021af858(u8 *a, u32 b, u8 *c, u32 d, u32 e, u8 f);
 void func_ov000_021af9d0(u8 *a, u32 b, void *c, u32 d, u32 e, u32 f);
 void func_ov000_021afaac(u8 *a, u32 b, void *c, u32 d, u32 e, u16 f);

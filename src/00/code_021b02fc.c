@@ -52,7 +52,7 @@ void func_ov000_021b02fc(Unk021b5fa8 *param_1) {
     data_ov000_021b6374 = (_ll_mul(data_ov000_021b63e0[0] >> 32, 0xf88) >> 32) + 0x400;
     func_0200fe58(data_ov000_021b63d0);
     data_ov000_021b6368 = 0;
-    func_0200e28c(&data_ov000_021b661c, func_ov000_021ae3a4, 0, data_ov002_021b7ba0, 0x800, data_ov000_021b4c28);
+    func_0200e28c(&data_ov000_021b661c, (void (*)(void *)) func_ov000_021ae3a4, 0, data_ov002_021b7ba0, 0x800, data_ov000_021b4c28);
     func_0200e28c(&data_ov000_021b655c, (void (*)(void *)) func_ov000_021ad898, 0, data_ov000_021b73a0, 0x800, data_ov000_021b4c28);
     func_0200df68(&data_ov000_021b661c);
     func_0200df68(&data_ov000_021b655c);

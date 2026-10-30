@@ -10,12 +10,16 @@ typedef struct Unk021b6434 {
 } Unk021b6434;
 
 typedef struct Unk021b69dc {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u32 mUnk_00;
     /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[0x26];
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+    /* 0c */ u16 mUnk_0c[8];
+    /* 1c */ u16 mUnk_1c[8];
     /* 2c */ u32 mUnk_2c;
-    /* 30 */ u8 mUnk_30[4];
-    /* 34 */ void *mUnk_34;
+    /* 30 */ u8 *mUnk_30;
+    /* 34 */ u8 *mUnk_34;
 } Unk021b69dc;
 
 typedef struct Unk021b6494 {

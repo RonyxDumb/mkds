@@ -6,7 +6,7 @@
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
 
-void func_ov000_021af550(u8 *a, u32 b, Unk021af550 *c, u32 d, u16 e) {
+void func_ov000_021af550(u8 *a, u32 b, Unk021a998c *c, u32 d, u16 e) {
     u8 *f;
     u32 g;
     u32 h;
@@ -58,7 +58,7 @@ void func_ov000_021af550(u8 *a, u32 b, Unk021af550 *c, u32 d, u16 e) {
     }
 }
 
-void func_ov000_021af70c(u8 *a, u32 b, Unk021af550 *c) {
+void func_ov000_021af70c(u8 *a, u32 b, Unk021a998c *c) {
     u8 *g;
     u8 *d;
     u32 e;
@@ -84,7 +84,7 @@ void func_ov000_021af70c(u8 *a, u32 b, Unk021af550 *c) {
     func_ov000_021af858(d, 8, a, b, c->mUnk_1c, 0x11);
 }
 
-void func_ov000_021af7e4(u8 *a, u32 b, Unk021af550 *c) {
+void func_ov000_021af7e4(u8 *a, u32 b, Unk021a998c *c) {
     u32 e;
     u16 f;
     u16 h;

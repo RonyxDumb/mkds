@@ -58,18 +58,18 @@ s32 func_ov000_021adc64(const u8 *a, s32 b, const u8 *c, s32 d) {
         t = s->mUnk_08;
         if (t == 0xa) {
             if (b != 0) {
-                func_ov000_021af70c((u8 *) a, b, (Unk021af550 *) s);
+                func_ov000_021af70c((u8 *) a, b, s);
             }
             if (d != 0) {
-                func_ov000_021af70c((u8 *) c, d, (Unk021af550 *) s);
+                func_ov000_021af70c((u8 *) c, d, s);
             }
             r = b + d;
         } else if (t == 0xb) {
             if (b != 0) {
-                func_ov000_021af7e4((u8 *) a, b, (Unk021af550 *) s);
+                func_ov000_021af7e4((u8 *) a, b, s);
             }
             if (d != 0) {
-                func_ov000_021af7e4((u8 *) c, d, (Unk021af550 *) s);
+                func_ov000_021af7e4((u8 *) c, d, s);
             }
             r = b + d;
         } else if (s->mUnk_09 != 0) {
@@ -186,7 +186,7 @@ s32 func_ov000_021ade6c(const u8 *a, s32 b, Unk021a998c *c, s32 d) {
             break;
         }
         e -= f;
-        func_ov000_021af550((u8 *) a, f, (Unk021af550 *) c, 0x18, 0);
+        func_ov000_021af550((u8 *) a, f, c, 0x18, 0);
         func_0200dd94();
         a += f;
         b -= f;
