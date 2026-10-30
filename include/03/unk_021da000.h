@@ -9,12 +9,49 @@
 #include "03/code_021bf31c.h"
 #include "03/code_021c25b4.h"
 #include "03/code_021d28b0.h"
+#include "03/code_021d34e0.h"
 
 // Objects whose layout isn't known yet.
 extern Unk021da108 *data_ov003_021da108;
 extern u8 data_ov003_021da10c;
 extern u8 data_ov003_021da150[];
-extern u8 data_ov003_021da15c[];
+// Object with a word and a halfword at its start.
+typedef struct Unk021bf920 {
+    /* 00 */ u32 mUnk_00;
+    /* 04 */ u16 mUnk_04;
+} Unk021bf920;
+
+// Object behind data_ov003_021da158.
+typedef struct Unk021da158 {
+    /* 00 */ Unk021bf920 *mUnk_00;
+    /* 04 */ u32 mUnk_04;
+    /* 08 */ s8 mUnk_08;
+} Unk021da158;
+
+extern Unk021da158 *data_ov003_021da158;
+
+// Object behind data_ov003_021da15c.
+typedef struct Unk021da15c {
+    /* 000 */ void *mUnk_000[3][4];
+    /* 030 */ Unk021bf920 *mUnk_030[0x2f];
+    /* 0ec */ Unk021bf920 *mUnk_0ec[4];
+    /* 0fc */ Unk021d1770 *mUnk_0fc[2];
+    /* 104 */ void *mUnk_104[4];
+    /* 114 */ Unk021d1770 *mUnk_114;
+    /* 118 */ Unk021d34e0 *mUnk_118;
+    /* 11c */ u8 mUnk_11c;
+    /* 11d */ u8 mUnk_11d;
+    /* 11e */ s8 mUnk_11e;
+    /* 11f */ s8 mUnk_11f;
+    /* 120 */ s8 mUnk_120;
+    /* 121 */ s8 mUnk_121;
+    /* 122 */ u8 mUnk_122;
+    /* 123 */ u8 mUnk_123;
+    /* 124 */ u8 mUnk_124;
+    /* 125 */ u8 mUnk_125;
+} Unk021da15c;
+
+extern Unk021da15c *data_ov003_021da15c;
 extern u8 data_ov003_021da160[];
 extern u8 data_ov003_021da164[];
 extern u8 data_ov003_021da168[];
