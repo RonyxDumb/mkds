@@ -3,6 +3,37 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
+extern u8 data_ov000_021b3004[];
+extern u8 data_ov000_021b3010[];
+extern u8 data_ov000_021b301c[];
+extern u8 data_ov000_021b3028[];
+extern u8 data_ov000_021b3040[];
+extern u8 data_ov000_021b3050[];
+extern u8 data_ov000_021b3054[];
+extern u8 data_ov000_021b3058[];
+extern u8 data_ov000_021b305c[];
+extern u8 data_ov000_021b3064[];
+extern u8 data_ov000_021b3070[];
+extern u8 data_ov000_021b3084[];
+extern u8 data_ov000_021b3098[];
+extern u8 data_ov000_021b30a4[];
+extern u8 data_ov000_021b30ac[];
+extern u8 data_ov000_021b30b4[];
+extern u8 data_ov000_021b30bc[];
+extern u8 data_ov000_021b30c4[];
+extern u8 data_ov000_021b30cc[];
+extern u8 data_ov000_021b30d4[];
+extern u8 data_ov000_021b30dc[];
+extern u8 data_ov000_021b30e4[];
+extern u8 data_ov000_021b30f8[];
+extern u8 data_ov000_021b3108[];
+extern u8 data_ov000_021b3118[];
+extern u8 data_ov000_021b3124[];
+extern u8 data_ov000_021b3130[];
+extern u8 data_ov000_021b3140[];
+extern u8 data_ov000_021b3150[];
+extern u8 data_ov000_021b3160[];
+extern u8 data_ov000_021b3174[];
 extern u8 data_ov000_021b3184[];
 extern u8 data_ov000_021b319c[];
 extern u8 data_ov000_021b31f8[];

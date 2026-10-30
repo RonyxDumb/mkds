@@ -49,6 +49,7 @@ typedef struct Unk021b4d24 {
 
 extern Unk021b4d24 *data_ov000_021b4d24;
 extern s32 data_ov000_021b4d28;
+extern u8 data_ov000_021b4d6c[];
 extern u8 data_ov000_021b4e50[];
 extern u8 data_ov000_021b400c[];
 extern u8 data_ov000_021b4114[];

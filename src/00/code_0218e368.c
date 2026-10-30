@@ -1,6 +1,6 @@
 #include "00/code_0218e368.h"
 
-void func_ov000_0218e394(unsigned int p0, unsigned int p1, unsigned int p2) {
+s32 func_ov000_0218e394(unsigned int p0, unsigned int p1, unsigned int p2) {
     unsigned int v2 = ((p1) + (0x0u));
     unsigned int v3 = ((p2) + (0x0u));
     unsigned int v4 = ((unsigned int) *(unsigned int *) ((v3) + (0)));
@@ -14,6 +14,7 @@ void func_ov000_0218e394(unsigned int p0, unsigned int p1, unsigned int p2) {
     *(unsigned int *) ((v3) + (0)) = (unsigned int) (v7);
     v10 = ~(0x0u);
     v11 = func_ov000_0218e56c((unsigned int) (v6), (unsigned int) (v10));
+    return v11;
 }
 
 u32 func_ov000_0218e374(u32 param_1) {
