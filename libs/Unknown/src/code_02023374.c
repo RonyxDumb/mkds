@@ -494,7 +494,6 @@ void func_020239a8(Unk02023374 *a, Unk02022aa8 *b, s32 c, s32 d, u32 e, Unk02023
     }
 }
 
-// non-matching: 97.8%, same instructions; the register numbers of the block size computation differ
 void func_02023944(Unk02023374 *a, u32 b) {
     volatile u32 v;
     s32 n;
@@ -508,7 +507,8 @@ void func_02023944(Unk02023374 *a, u32 b) {
         b = b | (b << 16);
     }
     v = b;
-    n = a->mUnk_04 * a->mUnk_08 * ((a->mUnk_0c * 0x40) / 8);
+    n = a->mUnk_04 * a->mUnk_08;
+    n *= (a->mUnk_0c * 0x40) / 8;
     func_0214d05c(v, a->mUnk_00, n);
 }
 

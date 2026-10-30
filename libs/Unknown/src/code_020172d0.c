@@ -31,8 +31,6 @@ void func_02017440(Unk02017328 *a, void *p) {
     a->mUnk_08++;
 }
 
-// non-matching: the instructions are the same, but the original holds the loaded neighbour in r3 and the address of q's
-// link in ip (five words differ, register numbers only).
 void func_020173c0(Unk02017328 *a, void *p, void *q) {
     u32 o;
     u8 *l;
@@ -47,9 +45,9 @@ void func_020173c0(Unk02017328 *a, void *p, void *q) {
         return;
     }
     o = a->mUnk_0a;
-    n = *(void **) ((u8 *) p + o);
     l = (u8 *) q + o;
-    *(void **) ((u8 *) q + o) = n;
+    n = *(void **) ((u8 *) p + o);
+    *(void **) l = n;
     *(void **) (l + 4) = p;
     *(void **) ((u8 *) n + o + 4) = q;
     *(void **) ((u8 *) p + a->mUnk_0a) = q;
