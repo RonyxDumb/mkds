@@ -48,13 +48,11 @@ void func_02071f44(Unk0206bcb0 *p) {
     q->mUnk_b4 = 0;
 }
 
-// non-matching: the loop counter starts from a fresh zero (mov r6, #0) instead of the zero kept from the stores above,
-// so the counter and the buffer pointer sit in different registers (one extra mov, 4 words differ).
 void func_02071fb8(Unk0206bcb0 *p, void *a) {
     Unk0206bcb0_514 *q;
     Vec3 v;
-    u8 *b;
     u16 i;
+    u8 *b;
 
     q = p->mUnk_514;
     if (q == 0) {
@@ -64,7 +62,6 @@ void func_02071fb8(Unk0206bcb0 *p, void *a) {
     q->mUnk_10 = q->mUnk_00;
     q->mUnk_0e = p->mUnk_236;
     q->mUnk_0c = q->mUnk_0e;
-    i = 0;
     q->mUnk_1c = 0;
     q->mUnk_20 = 0;
     q->mUnk_24 = 0;

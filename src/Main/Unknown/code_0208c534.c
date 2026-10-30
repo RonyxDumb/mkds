@@ -70,10 +70,10 @@ void func_0208c5d0(Unk0208c5b8 *p) {
     p->mUnk_4a = 0;
 }
 
-// non-matching: same instructions as the original; in the three sums the registers of the loaded value and of the sum are swapped
 void func_0208c6dc(Unk0208c5b8 *p, Unk02148038 *a, Vec3 *b) {
     u16 i;
     Unk0201ca6c *e;
+    s32 t;
 
     if (p->mUnk_44 == 0) {
         return;
@@ -100,9 +100,12 @@ void func_0208c6dc(Unk0208c5b8 *p, Unk02148038 *a, Vec3 *b) {
         e = p->mUnk_08[i];
         e->mUnk_50 = a[i];
         e = p->mUnk_08[i];
-        e->mUnk_28.x = b[i].x + e->mUnk_20->mUnk_00->mUnk_04.x;
-        e->mUnk_28.y = b[i].y + e->mUnk_20->mUnk_00->mUnk_04.y;
-        e->mUnk_28.z = b[i].z + e->mUnk_20->mUnk_00->mUnk_04.z;
+        t = b[i].x;
+        e->mUnk_28.x = t + e->mUnk_20->mUnk_00->mUnk_04.x;
+        t = b[i].y;
+        e->mUnk_28.y = t + e->mUnk_20->mUnk_00->mUnk_04.y;
+        t = b[i].z;
+        e->mUnk_28.z = t + e->mUnk_20->mUnk_00->mUnk_04.z;
     }
     if (p->mUnk_3c == 0) {
         return;
@@ -341,18 +344,21 @@ void func_0208cf5c(Unk0208c5b8 *p) {
     }
 }
 
-// non-matching: same instructions as the original; in the three sums the registers of the loaded value and of the sum are swapped
 void func_0208d02c(Unk0208c5b8 *p, Unk02148038 *a, Vec3 *b) {
     u16 i;
     Unk0201ca6c *e;
+    s32 t;
 
     for (i = 0; i < 2; i++) {
         e = p->mUnk_10[i];
         e->mUnk_50 = a[i];
         e = p->mUnk_10[i];
-        e->mUnk_28.x = b[i].x + e->mUnk_20->mUnk_00->mUnk_04.x;
-        e->mUnk_28.y = b[i].y + e->mUnk_20->mUnk_00->mUnk_04.y;
-        e->mUnk_28.z = b[i].z + e->mUnk_20->mUnk_00->mUnk_04.z;
+        t = b[i].x;
+        e->mUnk_28.x = t + e->mUnk_20->mUnk_00->mUnk_04.x;
+        t = b[i].y;
+        e->mUnk_28.y = t + e->mUnk_20->mUnk_00->mUnk_04.y;
+        t = b[i].z;
+        e->mUnk_28.z = t + e->mUnk_20->mUnk_00->mUnk_04.z;
     }
 }
 
