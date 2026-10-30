@@ -352,11 +352,9 @@ void func_02032654(void *a, s32 b, void *c, void *d) {
     func_02036820(data_02174e5c->mUnk_40);
 }
 
-// non-matching: same size; register allocation only; 9 lines differ; first: original `ldr r1, [r1, #0]`, ours `ldr r2,
-// [r1, #0]`
 void func_020328c8(s32 a) {
-    Unk02174e14_00 *p;
     s32 i;
+    Unk02174e14_00 *p;
 
     p = &data_02174e5c->mUnk_00[1];
     for (i = 0; i < p->mUnk_0c->mUnk_06; i++) {
@@ -406,11 +404,9 @@ void func_02032940(void) {
     }
 }
 
-// non-matching: same size; register allocation only; 7 lines differ; first: original `adds r3, r0, #0`, ours `adds r4,
-// r0, #0`
 void func_020329a0(void) {
-    Unk02174e14_00 *p;
     s32 i;
+    Unk02174e14_00 *p;
 
     p = &data_02174e5c->mUnk_00[1];
     for (i = 0; i < data_02174e5c->mUnk_48; i++) {
@@ -418,11 +414,9 @@ void func_020329a0(void) {
     }
 }
 
-// non-matching: same size; register allocation only; 7 lines differ; first: original `adds r4, r2, #0`, ours `adds r5,
-// r2, #0`
 void func_020329dc(s32 a) {
-    Unk02174e14_00 *p;
     s32 i;
+    Unk02174e14_00 *p;
 
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
         p = &data_02174e5c->mUnk_00[1];
@@ -458,7 +452,7 @@ void func_02032a20(void) {
     }
     data_02174e5c->mUnk_64 = 1;
     data_02174e5c->mUnk_54 = 5;
-    func_0212ecc0(&data_0217d068, 0, 0);
+    func_0212ecc0(&data_0217d068, 0, 5);
 }
 
 #pragma thumb off

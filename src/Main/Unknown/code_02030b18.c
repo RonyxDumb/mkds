@@ -179,17 +179,15 @@ s32 func_02030b18(Unk02030b18 *a) {
     return v1;
 }
 
-// non-matching: 0x368 bytes, original 0x364; 370 lines differ; first: original `ldr r0, [pc, #780]`, ours `ldr r0, [pc,
-// #784]`
 s32 func_02030ea4(Unk02030b18 *a) {
+    Unk02174e58_24 *p;
     s32 v1;
     s32 v2;
     u16 k;
-    Unk02174e58_24 *p;
     s32 m;
     s32 z;
-    u32 a1;
     u32 b1;
+    u32 a1;
     u32 w;
     s32 x;
     s32 y;
@@ -209,7 +207,7 @@ s32 func_02030ea4(Unk02030b18 *a) {
             x = data_0217aa00->mUnk_0000;
         }
         if (x == 1) {
-            if ((u16) (data_0217aa00->mUnk_0454 & 0x40) != 0) {
+            if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
                 x = data_0217aa00->mUnk_1699;
             } else {
                 x = data_0217aa00->mUnk_0044.mUnk_40;
@@ -252,8 +250,8 @@ s32 func_02030ea4(Unk02030b18 *a) {
     case 1:
         z = 0;
         m = -1;
-        a1 = 0;
         b1 = 0;
+        a1 = 0;
         w = data_02175674[k].mUnk_00;
         if (w == 0 && data_02175680[k].mUnk_00 < 5) {
             a1 = 1;
