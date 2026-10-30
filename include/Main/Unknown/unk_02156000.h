@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_0208fd8c.h" // Unk0208fd8c_08
 
 // Objects whose layout isn't known yet.
 extern u8 data_0215688c[];
@@ -99,3 +100,7 @@ extern u32 data_usa_02156470;
 extern u16 data_usa_021565d8;
 extern u16 data_usa_021565dc;
 extern u32 data_usa_021565e0;
+extern u16 data_021564a8;
+extern u16 data_021564ac;
+extern u32 data_021564b0;
+extern u16 data_021564b4;

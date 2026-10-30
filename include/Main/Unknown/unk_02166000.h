@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/unk_02165000.h" // Unk02165ff0
 #include "Main/Unknown/code_020846c0.h" // Unk0208526c
+#include "Main/Unknown/code_0210b000.h" // Unk0210b7a8
 
 struct Unk0208e490;
 
@@ -70,3 +71,11 @@ extern const char data_02166644[];
 extern const char data_02166654[];
 extern const char data_usa_02166720[];
 extern const char data_usa_02166734[];
+extern const char data_02166748[];
+extern const char data_02166758[];
+extern Unk0210b7a8 data_0216676c;
+extern const char data_021667b0[];
+extern const char data_0216687c[];
+extern const char data_0216688c[];
+extern const char data_021668d4[];
+extern const char data_021668e4[];
