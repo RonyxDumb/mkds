@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_02076cd0.h"
+#include "Main/Unknown/code_02077f5c.h"
 
 // Declared here until the code that defines them is decompiled.
 void func_02077c1c(void);
@@ -14,4 +15,3 @@ typedef struct Unk02077f7c {
     /* 06 */ u8 mUnk_06[0x1a];
 } Unk02077f7c;
 
-Unk02077f7c *func_02077f7c(s32 a);

@@ -3,9 +3,12 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
+extern const u32 data_usa_02155018[];
 extern u8 data_02155048[];
 extern u8 data_02155098[];
 extern u8 data_021550a8[];
+extern const u32 data_usa_02155068[];
+extern const Vec3 data_usa_02155188;
 extern void (*data_02155a20[])(void *param_1);
 extern const u16 data_02155a64[];
 extern const u16 data_02155a28[];

@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-void func_02077bc0(u32 param_1) {
+void func_02077bc0(void *param_1) {
     u32 uVar1;
     u32 uVar2;
     u32 uVar3;

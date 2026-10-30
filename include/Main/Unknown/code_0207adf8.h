@@ -6,7 +6,8 @@
 
 // Object func_0207adf8 works on.
 typedef struct Unk0207adf8 {
-    /* 00 */ u8 mUnk_00[0x58];
+    /* 00 */ u8 mUnk_00[0x54];
+    /* 54 */ s32 mUnk_54;
     /* 58 */ u32 mUnk_58;
     /* 5c */ u8 mUnk_5c[0x10];
     /* 6c */ u16 mUnk_6c;

@@ -5,6 +5,20 @@
 #include "Main/Unknown/code_02086098.h" // Unk02086098
 
 extern const char data_02165048[];
+extern u16 data_usa_021656d8;
+extern u16 data_usa_021656dc;
+extern s32 data_usa_021656e0;
+extern s32 data_usa_021656e4;
+extern u32 data_usa_021656e8;
+extern s32 data_usa_021656ec;
+extern Vec3 data_usa_021656f0;
+extern Vec3 data_usa_021656fc;
+extern Vec3 data_usa_02165708;
+extern u8 data_usa_02165724[];
+extern u8 data_usa_02165738[];
+extern u8 data_usa_0216574c[];
+extern u8 data_usa_02165760[];
+extern u8 data_usa_0216577c[];
 extern const char data_02165050[];
 extern const u8 data_usa_021651d0[];
 

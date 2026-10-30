@@ -4,7 +4,7 @@
 #include "Main/Unknown/unk_02165000.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-char *func_020887d8(s32 a, s32 b) {
+char *func_020887d8(u16 a, s32 b) {
     const char *e = "nsbmd";
     const char *p;
     if (b != 0) {
@@ -17,7 +17,7 @@ char *func_020887d8(s32 a, s32 b) {
     return data_0217af28;
 }
 
-char *func_02088728(s32 a, s32 b) {
+char *func_02088728(u16 a, s32 b) {
     const char *e = "nsbtx";
     const char *p;
     if (b != 0) {
@@ -30,33 +30,33 @@ char *func_02088728(s32 a, s32 b) {
     return data_0217af28;
 }
 
-char *func_0208867c(s32 a) {
+char *func_0208867c(u16 a) {
     const char *e = "nsbmd";
     func_02135048(data_0217af28, 0x100, "%s%s%skart_%s.%s", data_0217af24, data_02165ac8,
                   a % 3 == 0 ? "mario/" : data_02165e80[a / 3], data_02155d88[a].mUnk_00, e);
     return data_0217af28;
 }
 
-char *func_020885d0(s32 a) {
+char *func_020885d0(u16 a) {
     const char *e = "nsbtx";
     func_02135048(data_0217af28, 0x100, "%s%s%skart_%s.%s", data_0217af24, data_02165ac8,
                   a % 3 == 0 ? "mario/" : data_02165e80[a / 3], data_02155d88[a].mUnk_00, e);
     return data_0217af28;
 }
 
-char *func_02088574(s32 a, const char *b) {
+char *func_02088574(u16 a, const char *b) {
     const char *p = "nsbmd";
     func_02135048(data_0217af28, 0x100, "%s%stire/%s.%s", data_0217af24, data_02165ac8, b, p);
     return data_0217af28;
 }
 
-char *func_02088518(s32 a, const char *b) {
+char *func_02088518(u16 a, const char *b) {
     const char *p = "nsbtx";
     func_02135048(data_0217af28, 0x100, "%s%stire/%s.%s", data_0217af24, data_02165ac8, b, p);
     return data_0217af28;
 }
 
-char *func_020884bc(s32 a) {
+char *func_020884bc(u16 a) {
     func_02135048(data_0217af28, 0x100, "%s%sshadow/sh_%s.nsbmd", data_0217af24, data_02165ac8,
                   data_02155d8c[a].mUnk_00);
     return data_0217af28;

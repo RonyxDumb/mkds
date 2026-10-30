@@ -437,9 +437,9 @@ void func_02077b1c(void) {
 void func_02077b3c(void) {
     if (data_0217ad08->mUnk_25c != 0 || data_0217ad08->mUnk_260 != 0) {
         data_0217ad08->mUnk_1f4[data_0217ad08->mUnk_266].mUnk_2c = 1;
-        data_0217ad08->mUnk_020->mUnk_00 = data_0217ad08->mUnk_024;
-        data_0217ad08->mUnk_020->mUnk_04 = data_0217ad08->mUnk_028;
-        data_0217ad08->mUnk_020->mUnk_20 = data_0217ad08->mUnk_1c8 + data_0217ad08->mUnk_028 * 0xe0;
+        data_0217ad08->mUnk_020->mUnk_00 = data_0217ad08->mUnk_024.mUnk_00;
+        data_0217ad08->mUnk_020->mUnk_04 = data_0217ad08->mUnk_024.mUnk_04;
+        data_0217ad08->mUnk_020->mUnk_20 = data_0217ad08->mUnk_1c8 + data_0217ad08->mUnk_024.mUnk_04;
         func_02057df0(func_02077d68);
         data_0217aa0c->mUnk_f8 = 1;
     }
