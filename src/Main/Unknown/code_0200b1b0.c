@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-u32 func_0200b1b0(u32 param_1, u32 param_2) {
+u32 func_0200b1b0(u32 param_1, struct Unk0217aa00_24 *param_2) {
     u32 uVar1;
     int iVar2;
     if (16 <= param_1) {

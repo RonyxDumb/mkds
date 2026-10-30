@@ -26,6 +26,8 @@ extern const Vec3 data_02165548;
 extern const Unk021a9034 data_0216524c;
 extern const Unk021a9034 data_02165280;
 extern Unk021652a0 data_021652a0;
+extern u16 data_usa_02165228;
+extern Unk021652a0 data_usa_0216522c;
 extern UnkFunc *const data_021652b0[];
 extern UnkFunc *const data_02165388[];
 struct Unk0206bcb0;

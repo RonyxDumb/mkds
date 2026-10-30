@@ -11,7 +11,7 @@
 
 #pragma thumb on
 
-u16 func_02006954(s32 a, s32 b) {
+u32 func_02006954(s32 a, s32 b) {
     u16 v1;
     v1 = 0;
     if (b > 0 && a != 0) {

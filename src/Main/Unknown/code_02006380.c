@@ -291,7 +291,7 @@ void func_020068f4(const u8 *a, u32 b) {
     }
 }
 
-void func_02006914(s32 a, s32 b) {
+u32 func_02006914(s32 a, s32 b) {
     if (b > 0 && a != 0) {
         func_02006b50(a, b);
     }

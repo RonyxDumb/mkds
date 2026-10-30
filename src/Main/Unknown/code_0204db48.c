@@ -145,7 +145,7 @@ s32 func_0204dd24(u16 a) {
         if (data_0217aa00->mUnk_1692 > 0x4b0) {
             func_02050e60(5);
         } else {
-            v = func_0204e3f0();
+            v = func_0204e3f0(a);
             if (v != -1) {
                 data_0217aa00->mUnk_169a = v;
                 func_0204e074();

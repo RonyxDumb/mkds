@@ -14,8 +14,8 @@ unsigned int func_0200baa8(void) {
     return 0x5f20u;
 }
 
-void func_0200ba84(unsigned int p0) {
-    unsigned int v1 = ((p0) + (0x0u));
+void func_0200ba84(UnkFunc *p0) {
+    unsigned int v1 = (unsigned int) p0;
     unsigned int v2 = ((unsigned int) func_0200fca0());
     unsigned int v3 = ((u32) (&data_0216fde8));
     unsigned int v4 = ((unsigned int) *(unsigned int *) ((v3) + (0)));

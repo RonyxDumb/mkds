@@ -2,8 +2,8 @@
 
 #pragma thumb on
 
-void func_02007ea0(unsigned int p0) {
-    unsigned int v1 = ((p0) + (0x0u));
+void func_02007ea0(UnkFunc *p0) {
+    unsigned int v1 = (unsigned int) p0;
     unsigned int v2 = ((unsigned int) func_0200fca0());
     unsigned int v3 = ((u32) (&data_0216fdac));
     unsigned int v4 = ((unsigned int) *(unsigned int *) ((v3) + (0)));

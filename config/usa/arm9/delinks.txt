@@ -1963,12 +1963,20 @@ src/Main/Unknown/code_0204df5c.c:
     .text       start:0x0204df5c end:0x0204df90
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_0204df90.c:
+    .text       start:0x0204df90 end:0x0204ea14
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_0204ea14.c:
     .text       start:0x0204ea14 end:0x0204ea94
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0204ece0.c:
     .text       start:0x0204ece0 end:0x0204ed04
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_0204ed04.c:
+    .text       start:0x0204ed04 end:0x0204ee30
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0204ee30.c:
