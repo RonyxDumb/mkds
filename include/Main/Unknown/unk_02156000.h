@@ -34,6 +34,7 @@ extern const u16 data_021568e4;
 extern u16 data_021568ec;
 extern u32 data_021568f0;
 extern u32 data_021568f4;
+extern u32 data_usa_021568f8;
 extern u16 data_021568fc;
 extern u16 data_02156900;
 extern const u32 data_02156904;

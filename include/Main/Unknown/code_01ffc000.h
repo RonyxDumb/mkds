@@ -5,4 +5,4 @@
 #include "Main/Unknown/code_01ffba68.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_01ffcf7c(Unk01ffd190 *a, const Unk01ffd190 *b);
+#include "Main/Unknown/code_01ffcf7c.h"
