@@ -272,8 +272,6 @@ void func_020710b0(Unk0206bcb0 *p, s32 b) {
     }
 }
 
-// non-matching: the original copies data_02165548 with stm before the two word stores of data_02165510 (here str, str,
-// then stm) and puts the address of the two word array in r1 before the conditional move (here r0); same size.
 void func_02070f8c(Unk0206bcb0 *p) {
     s32 q[2];
     Vec3 v;
@@ -301,11 +299,11 @@ void func_02070f8c(Unk0206bcb0 *p) {
     }
     if (v1 != 0) {
         u = data_02165548;
+        w = q;
         q[0] = data_02165510[0];
         q[1] = data_02165510[1];
         n = 3;
         v2 = (s32 *) &u;
-        w = q;
         if (!(p->mUnk_7c & 1)) {
             n = 2;
             v2 = w;

@@ -106,7 +106,6 @@ void func_02061944(s32 a, s32 b) {
     }
 }
 
-// non-matching: the constants 0 and 1 sit in swapped registers (r7 and r6).
 void func_02061874(void) {
     if (data_0217aa54->mUnk_24 == 1) {
         data_0217aa54->mUnk_24 = 0;
@@ -116,8 +115,8 @@ void func_02061874(void) {
     func_02062ef8(1);
     data_021653e8 = 72;
     func_02061944(72, 1);
-    data_0217aa64 = 1;
     data_0217aa4c = 0;
+    data_0217aa64 = 1;
     data_0217aa2c = 0;
     data_0217aa70 = 0;
     data_0217aa28 = data_0217aa30;

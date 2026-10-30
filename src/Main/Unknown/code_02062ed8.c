@@ -25,10 +25,10 @@ s32 func_02062ed8(void) {
     return -1;
 }
 
-// non-matching: 98.4: register allocation and instruction order differ in the bit-mask loops
 void func_02062ef8(u32 a) {
-    Unk0201290c *b;
     u32 i;
+    Unk0201290c *b;
+    u32 j;
 
     if (data_usa_0217aafc.mUnk_04 != 0) {
         if (data_usa_0217aafc.mUnk_ec != 0 && a == 0) {
@@ -48,9 +48,9 @@ void func_02062ef8(u32 a) {
         return;
     }
     b = data_usa_0217aafc.mUnk_00->mUnk_04;
-    for (i = 0; i < b->mUnk_18; i++) {
-        if ((*(u64 *) data_usa_0217aafc.mUnk_e4 & (s64) (1 << i)) == 0) {
-            func_02013424(b, i, 0);
+    for (j = 0; j < b->mUnk_18; j++) {
+        if ((*(u64 *) data_usa_0217aafc.mUnk_e4 & (s64) (1 << j)) == 0) {
+            func_02013424(b, j, 0);
         }
     }
 }
@@ -218,15 +218,14 @@ void func_0206331c(void *a) {
     func_0206302c();
 }
 
-// non-matching: 95.7: order of the field stores and loads differs
 void func_020636f8(Unk0206bcb0 *a) {
     Unk0206bcb0_514 *b;
     Unk0217aa14_754_04 *c;
     Unk020636f8_B *d;
 
-    b = a->mUnk_514;
     c = &data_0217aa14->mUnk_754->mUnk_04;
-    d = (Unk020636f8_B *) &c->mUnk_08;
+    d = (Unk020636f8_B *) ((u8 *) c + 8);
+    b = a->mUnk_514;
     d->mUnk_00 = a->mUnk_80.x >> 10;
     d->mUnk_02 = (a->mUnk_80.y - a->mUnk_2bc) >> 10;
     d->mUnk_04 = a->mUnk_80.z >> 10;

@@ -225,13 +225,14 @@ void func_02064f50(Unk0206bcb0 *a) {
     func_01ffce48(&b->mUnk_4c, &a->mUnk_110_q, &b->mUnk_4c, 0x333);
 }
 
-// non-matching: 99.0: one load order differs
 void func_020651fc(Unk0206bcb0 *a) {
     Unk0206bcb0_514 *b;
     s32 c;
+    u32 f;
 
-    if ((a->mUnk_7c & 0xa0) != 0) {
-        if ((a->mUnk_7c & 0x20) != 0) {
+    f = a->mUnk_7c;
+    if ((f & 0xa0) != 0) {
+        if ((f & 0x20) != 0) {
             func_02068b98(a);
             return;
         }
