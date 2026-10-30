@@ -275,7 +275,7 @@ void func_02035a9c(void) {
     d = func_0202dbe8(n);
     e = func_0202db68(n);
     f = func_0202db04(n);
-    func_0202de00(&data_02174e68->mUnk_2c[0], data_0215404c, w, d, e, f, &x);
+    func_0202de00((Unk02174e14 *) &data_02174e68->mUnk_2c[0], data_0215404c, w, d, e, f, (Unk0202de00_g *) &x);
 }
 
 void func_02035b0c(void) {
