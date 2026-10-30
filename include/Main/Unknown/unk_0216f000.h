@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "code_0200e0ec.h" // Unk0200db5c, Unk0200dce0
+#include "code_02142eac.h" // Unk02143a78
 
 // Three words that func_0200c448 sets up.
 typedef struct Unk0216fdf8 {
@@ -42,7 +43,7 @@ extern u8 data_0216f070[];
 extern u32 data_0216f074[];
 extern void (*data_0216fc34)(void);
 extern void (*data_0216fc38)(u8 *);
-extern u8 data_0216fdc0[];
+extern Unk02143a78 data_0216fdc0;
 
 extern u32 data_0216ff44;
 extern u32 data_0216ff48;

@@ -279,7 +279,7 @@ u32 func_02008310(void *a, Unk02008188 *b) {
         return 0;
     }
     func_02009828((Unk0200b610 *) ((*(Unk0216fdac **) &data_0216fdac)->mUnk_1788 + 0xe4 + v3), a,
-                  (*(Unk0216fdac **) &data_0216fdac)->mUnk_1300);
+                  (const u8 *) &(*(Unk0216fdac **) &data_0216fdac)->mUnk_1300);
     ((Unk0216fdac *) ((u8 *) *(Unk0216fdac **) &data_0216fdac + v3))->mUnk_1d21 = v2;
     func_020096f4((Unk0200b610 *) ((*(Unk0216fdac **) &data_0216fdac)->mUnk_1788 + 0xe4 + v3));
     ((Unk0216fdac *) ((u8 *) *(Unk0216fdac **) &data_0216fdac + v3))->mUnk_1d1f = data_0216fc30++;

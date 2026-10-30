@@ -6,13 +6,23 @@
 
 struct Unk02008188;
 
+// The 0x16 bytes at 0x1300 of Unk0216fdac: a count at mUnk_01 and that many halfwords from mUnk_02.
+typedef struct Unk02009ff4 {
+    /* 00 */ u8 mUnk_00;
+    /* 01 */ u8 mUnk_01;
+    /* 02 */ u16 mUnk_02[10];
+} Unk02009ff4;
+
 // Object behind data_0216fdac. The members from 0x1788 on are reached from a pointer advanced in steps of 0x5d4
 // bytes, so their offsets here include the 0x1788.
 typedef struct Unk0216fdac {
     /* 0000 */ u8 mUnk_0000[0x1300];
-    /* 1300 */ u8 mUnk_1300[0x18];
-    /* 1318 */ u32 mUnk_1318;
-    /* 131c */ u8 mUnk_131c[0x1340 - 0x131c];
+    /* 1300 */ Unk02009ff4 mUnk_1300;
+    /* 1316 */ u16 mUnk_1316;
+    /* 1318 */ s32 mUnk_1318;
+    /* 131c */ u32 mUnk_131c;
+    /* 1320 */ u32 mUnk_1320;
+    /* 1324 */ u8 mUnk_1324[0x1340 - 0x1324];
     /* 1340 */ u8 mUnk_1340[0x14a];
     /* 148a */ u16 mUnk_148a[15];
     /* 14a8 */ u32 mUnk_14a8[15];
@@ -43,7 +53,9 @@ typedef struct Unk0216fdac {
     /* 1d53 */ u8 mUnk_1d53;
     /* 1d54 */ Unk0200adfc *mUnk_1d54;
     /* 1d58 */ u32 *mUnk_1d58;
-    /* 1d5c */ u8 mUnk_1d5c[0x74e0 - 0x1d5c];
+    /* 1d5c */ u8 mUnk_1d5c[0x74c8 - 0x1d5c];
+    /* 74c8 */ s32 mUnk_74c8;
+    /* 74cc */ u8 mUnk_74cc[0x74e0 - 0x74cc];
     /* 74e0 */ Unk0200aeec_head mUnk_74e0;
     /* ---- */ u8 mUnk_74e0_end[0x800 - sizeof(Unk0200aeec_head)];
     /* 7ce0 */ u8 mUnk_7ce0[0x18];

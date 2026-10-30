@@ -80,7 +80,7 @@ int func_021455a0(Unk021425e8Func a, const void *b, u32 c, u32 d, u16 e, u8 f) {
     return r;
 }
 
-int func_02145530(u32 a, u32 b) {
+int func_02145530(Unk021425e8Func a, u32 b) {
     int r;
 
     r = func_02142a30();
@@ -90,7 +90,7 @@ int func_02145530(u32 a, u32 b) {
     if (b != 0 && b != 1) {
         return 6;
     }
-    func_02142c0c(0x19, a);
+    func_02142c0c(0x19, (u32) a);
     r = func_02142ab8(0x19, 1, b);
     if (r == 0) {
         r = 2;
