@@ -105,7 +105,7 @@ extern u8 data_0216fce0[0xc0];
 extern u8 data_0216fd30[0x70];
 
 u32 func_020091fc(Unk02007ec4 *a);
-u32 func_0200921c(u32 a, u32 b, Unk02007ec4 *c);
+u32 func_0200921c(Unk02008f00Func a, u32 b, Unk02007ec4 *c);
 void func_020092a4(void);
 void func_020092d0(u32 a, u16 b, u32 c);
 void func_02009494(void);

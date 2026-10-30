@@ -56,7 +56,7 @@ void func_0200b894(Unk021425e8 *a) {
         case 5:
             if (a->mUnk_3c == (*(Unk0216fde8 **) &data_0216fde8)->mUnk_05e4) {
                 func_0200ee3c((*(Unk0216fde8 **) &data_0216fde8)->mUnk_04c0, 0xc0);
-                func_0200921c(func_0200b794, a->mUnk_12, (*(Unk0216fde8 **) &data_0216fde8)->mUnk_04c0);
+                func_0200921c(func_0200b794, a->mUnk_12, (Unk02007ec4 *) (*(Unk0216fde8 **) &data_0216fde8)->mUnk_04c0);
                 func_02008f00(func_0200b794, 1);
             }
         case 4:

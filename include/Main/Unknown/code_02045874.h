@@ -4,8 +4,8 @@
 #include "Main/Unknown/code_020d22c0.h"
 
 s32 func_02045874(void);
-void func_020458cc(void);
-void func_02045914(void);
+s32 func_020458cc(void);
+s32 func_02045914(void);
 s32 func_02045920(void);
 void func_02045a2c(s32 a);
 s32 func_02045bd4(void);

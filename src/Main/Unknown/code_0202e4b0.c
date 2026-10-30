@@ -41,7 +41,7 @@ void func_0202e4b0(void) {
     func_0202ee88();
 }
 
-void func_0202e530(void *a, s32 b, const void *c, u16 d, u16 e, s32 f, Unk02174e48_08 *g, void *h, const void *i, s32 j, s32 k, s32 l, s32 m, void (*n)(int a, int b, int c, int d)) {
+void func_0202e530(void *a, s32 b, const void *c, u16 d, u16 e, s32 f, Unk02124b1c *g, void *h, const void *i, s32 j, s32 k, s32 l, s32 m, void (*n)(int a, int b, int c, int d)) {
     s32 i0;
     data_02174e48 = func_02036bec(a, 0x674);
     func_0202e68c(data_02174e48, 0x674);

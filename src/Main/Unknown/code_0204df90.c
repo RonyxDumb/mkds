@@ -5,7 +5,7 @@
 void func_0204df90(void) {
     data_0217aa00->mUnk_000c = 0x1a;
     data_0217aa00->mUnk_0010 = 1;
-    func_02007ec4(data_0217aa00->mUnk_0024, 0x1bc, 0x36, 0, 0);
+    func_02007ec4((Unk02007ec4 *) data_0217aa00->mUnk_0024, 0x1bc, 0x36, 0, 0);
     data_0217aa00->mUnk_0024->mUnk_48 = (data_0217aa00->mUnk_0024->mUnk_48 + 7) & 0x7fff;
     data_0217aa00->mUnk_0010 = 0;
 }
@@ -14,7 +14,7 @@ void func_0204dfe0(u32 a) {
     u32 r;
     data_0217aa00->mUnk_000c = 0x23;
     data_0217aa00->mUnk_0010 = 1;
-    r = func_0200b15c(a, data_0217aa00->mUnk_0024, 0x1bc, 0x36, 0, 0);
+    r = func_0200b15c(a, (Unk02007ec4 *) data_0217aa00->mUnk_0024, 0x1bc, 0x36, 0, 0);
     data_0217aa00->mUnk_0010 = 0;
     data_0217aa00->mUnk_0024->mUnk_48 = (data_0217aa00->mUnk_0024->mUnk_48 + 7) & 0x7fff;
     if (r == 0) {

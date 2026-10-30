@@ -56,7 +56,7 @@ void func_02039cbc(void) {
     func_0212b158(a);
     func_02057ed4();
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        func_02047544((u32) b, (u32) c, (u32) d);
+        func_02047544(b, c, d);
     }
     func_02045590();
     func_0204b9ac();

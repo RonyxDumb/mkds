@@ -28,7 +28,7 @@ void func_020270fc(s32 a) {
     }
     func_02027188();
     func_0202721c();
-    func_02025f54((u32 *) &data_02174e14->mUnk_0f8, 0);
+    func_02025f54(&data_02174e14->mUnk_0f8, 0);
     data_02174e14->mUnk_0f0 = data_02174e14->mUnk_090[data_02174e14->mUnk_060].mUnk_00;
     data_02174e14->mUnk_0f4 = func_02025e60(data_02174e14->mUnk_0f0);
 }

@@ -33,8 +33,8 @@ void func_020271e8(void) {
     g = data_02174e14;
     p = &g->mUnk_01c;
     i = g->mUnk_060;
-    func_02025c6c(0x18, data_usa_02153554[i].mUnk_00, (u32) p->mUnk_0c);
-    func_02025c6c(0x19, data_usa_02153554[i].mUnk_00, (u32) p->mUnk_0c);
+    func_02025c6c(0x18, data_usa_02153554[i].mUnk_00, p->mUnk_0c);
+    func_02025c6c(0x19, data_usa_02153554[i].mUnk_00, p->mUnk_0c);
 }
 
 void func_0202721c(void) {

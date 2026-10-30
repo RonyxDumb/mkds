@@ -424,15 +424,15 @@ void func_0202b554(s32 a, s32 b) {
     o = b % 10;
     p = &data_02174e3c->mUnk_000;
     p->mUnk_18[0x3c].mUnk_00 = a >= 10 ? 1 : 0;
-    func_02025c48(0x3c, a / 10 % 10 + 0x41, (u32) p->mUnk_0c);
-    func_02025c48(0x3d, a % 10 + 0x41, (u32) p->mUnk_0c);
+    func_02025c48(0x3c, a / 10 % 10 + 0x41, p->mUnk_0c);
+    func_02025c48(0x3d, a % 10 + 0x41, p->mUnk_0c);
     if (b >= 10) {
         t += 0x4b;
-        func_02025c48(0x3f, t, (u32) p->mUnk_0c);
-        func_02025c48(0x40, o + 0x4b, (u32) p->mUnk_0c);
+        func_02025c48(0x3f, t, p->mUnk_0c);
+        func_02025c48(0x40, o + 0x4b, p->mUnk_0c);
     } else {
         p->mUnk_18[0x40].mUnk_00 = 0;
-        func_02025c48(0x3f, o + 0x4b, (u32) p->mUnk_0c);
+        func_02025c48(0x3f, o + 0x4b, p->mUnk_0c);
     }
 }
 

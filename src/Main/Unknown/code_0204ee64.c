@@ -17,8 +17,8 @@ void func_0204ee64(void) {
     data_0217aa00->mUnk_1e40 = 0;
 }
 
-void func_0204eeac(u32 a, u32 b) {
-    func_0204eeb4((u8 *) a, b);
+void func_0204eeac(u8 *a, u32 b) {
+    func_0204eeb4(a, b);
 }
 
 void func_0204eeb4(u8 *a, u32 b) {

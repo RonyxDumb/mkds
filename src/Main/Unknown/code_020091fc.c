@@ -11,7 +11,7 @@ u32 func_020091fc(Unk02007ec4 *a) {
 }
 
 // non-matching: 0x8c bytes, original 0x88; 19 lines differ; first: original `adds r7, r1, #0`, ours `adds r6, r1, #0`
-u32 func_0200921c(u32 a, u32 b, Unk02007ec4 *c) {
+u32 func_0200921c(Unk02008f00Func a, u32 b, Unk02007ec4 *c) {
     s32 v1;
     u8 *v2;
     if (func_020091fc(c) == 0) {

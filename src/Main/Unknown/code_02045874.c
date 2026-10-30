@@ -22,17 +22,17 @@ s32 func_02045874(void) {
     return data_021759c0->mUnk_1e8.mUnk_60 <= 4;
 }
 
-void func_020458cc(void) {
+s32 func_020458cc(void) {
     if (data_021759d0->mUnk_1c_2) {
         data_021759c0->mUnk_1e8.mUnk_0c = 0;
     } else {
         data_021759c0->mUnk_1e8.mUnk_0c = 4;
     }
-    func_02045920();
+    return func_02045920();
 }
 
-void func_02045914(void) {
-    func_02045920();
+s32 func_02045914(void) {
+    return func_02045920();
 }
 
 // non-matching: size 0x114 against 0x10c; the original keeps the constant 1 (the return value) in r0 for the store in the loop and branches around a single moveq, ours uses separate registers for 1 and 0 and predicates both

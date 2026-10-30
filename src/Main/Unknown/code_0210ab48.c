@@ -115,7 +115,7 @@ void func_0210b2a8(Unk0206bcb0 *a, s32 b, s32 c, s32 d, u32 e)
     }
 }
 
-void func_0210b234(Unk0206bcb0 *a, s32 b, s32 c, s32 d, s32 e)
+void func_0210b234(Unk0206bcb0 *a, s32 b, s32 c, s32 d, s32 param_5)
 {
     u32 e;
 

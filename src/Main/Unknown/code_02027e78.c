@@ -11,8 +11,8 @@
 
 void func_02027e78(void) {
     u32 a = 0x16;
-    s32 b = func_02025ebc(&(*(Unk02174e18 **) &data_02174e18)->mUnk_ec);
-    if ((*(Unk02174e18 **) &data_02174e18)->mUnk_94 != 8) {
+    s32 b = func_02025ebc(&data_02174e18->mUnk_0ec);
+    if (data_02174e18->mUnk_094 != 8) {
         a |= 8;
     }
     func_02028074(0x19);
@@ -20,7 +20,7 @@ void func_02027e78(void) {
     func_0202802c(0, -b);
     func_02028010(2);
     func_02027fd4(0, 0x3f, 6, 10);
-    if (b != 0 && (*(Unk02174e18 **) &data_02174e18)->mUnk_94 != 8) {
+    if (b != 0 && data_02174e18->mUnk_094 != 8) {
         func_02027fb8(1);
         func_02027f90(0x1f, 1);
         func_02027f68(7, 1);
@@ -28,7 +28,7 @@ void func_02027e78(void) {
     } else {
         func_02027fb8(0);
     }
-    if ((*(Unk02174e18 **) &data_02174e18)->mUnk_104 != 0) {
+    if (data_02174e18->mUnk_104 != 0) {
         func_0202ba14();
     }
 }

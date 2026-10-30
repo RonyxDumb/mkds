@@ -49,7 +49,7 @@ void func_0204f33c(void *a) {
         data_0217aa00->mUnk_1da0[i] = func_02036b74(a, 0x28, 0x20);
         data_0217aa00->mUnk_1de0[i] = func_02036b74(a, 4, 0x20);
     }
-    data_0217aa00->mUnk_1e30 = func_02036b74(a, 0x192, 0x20);
+    data_0217aa00->mUnk_1e30 = (s32) func_02036b74(a, 0x192, 0x20);
     data_0217aa00->mUnk_1e48 = func_02036b74(a, 0x20, 0x20);
 }
 

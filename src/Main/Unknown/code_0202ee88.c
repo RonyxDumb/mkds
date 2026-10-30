@@ -17,7 +17,7 @@
 void func_0202ee88(void) {
     Unk02174e48 *p = data_02174e48;
     s32 v1 = p->mUnk_02e;
-    Unk02174e48_08 *q = p->mUnk_008;
+    Unk02124b1c *q = p->mUnk_008;
     if (q[v1].mUnk_00 != 0) {
         q[v1].mUnk_06 = p->mUnk_030 * (p->mUnk_040 - p->mUnk_044) / (p->mUnk_034 - 5);
     }

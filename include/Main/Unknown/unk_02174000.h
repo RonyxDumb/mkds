@@ -311,20 +311,10 @@ typedef struct Unk02174e44 {
 } Unk02174e44;
 
 extern Unk02174e44 *data_02174e44;
-// 0x40-byte element of the array at Unk02174e48::mUnk_08.
-typedef struct Unk02174e48_08 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u8 mUnk_04[2];
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ u8 mUnk_08[6];
-    /* 0e */ s16 mUnk_0e;
-    /* 10 */ u8 mUnk_10[0x30];
-} Unk02174e48_08;
-
 typedef struct Unk02174e48 {
     /* 000 */ s32 mUnk_000;
     /* 004 */ u16 *mUnk_004;
-    /* 008 */ Unk02174e48_08 *mUnk_008;
+    /* 008 */ Unk02124b1c *mUnk_008;
     /* 00c */ void *mUnk_00c;
     /* 010 */ s32 mUnk_010;
     /* 014 */ s32 mUnk_014;

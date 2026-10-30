@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0200589c.h"
 
 void func_0204ee64(void);
-void func_0204eeac(u32 a, u32 b);
+void func_0204eeac(u8 *a, u32 b);
 void func_0204eeb4(u8 *a, u32 b);
 void func_0204ef1c(void);
 void func_0204ef88(void);

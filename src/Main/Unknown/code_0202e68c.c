@@ -40,7 +40,7 @@ void func_0202e72c(void) {
     s32 j;
     s32 k;
     s32 a;
-    Unk02174e48_08 *p;
+    Unk02124b1c *p;
     s32 z = 0;
     data_02174e48->mUnk_038 = data_02174e48->mUnk_038 - 1;
     for (i = 0; i < data_02174e48->mUnk_000; i++) {
@@ -84,7 +84,7 @@ void func_0202e84c(void) {
     s32 j;
     s32 k;
     s32 a;
-    Unk02174e48_08 *p;
+    Unk02124b1c *p;
     s32 z = 0;
     s32 t = func_0202ee68();
     data_02174e48->mUnk_038 = data_02174e48->mUnk_038 - 1;

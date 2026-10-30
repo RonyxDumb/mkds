@@ -8,7 +8,7 @@
 #pragma thumb on
 
 void func_020472e4(void *a, void *b) {
-    u8 c[128];
+    char c[128];
     func_0204f5e4();
     func_0201804c(data_021759c8->mUnk_a80, 3);
     func_02047498(data_02164e88, 2);
@@ -22,9 +22,9 @@ void func_020472e4(void *a, void *b) {
     }
     data_021759c8->mUnk_a74 = b;
     func_0201804c(data_021759c8->mUnk_a7c, 3);
-    func_02048498(c, a, 0);
+    func_02048498(c, (s32) a, 0);
     func_02047498(c, 6);
-    func_02048498(c, a, 1);
+    func_02048498(c, (s32) a, 1);
     func_02047498(c, 7);
     data_021759c8->mUnk_a70 = a;
 }

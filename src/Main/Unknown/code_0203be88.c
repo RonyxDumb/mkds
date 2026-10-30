@@ -39,7 +39,7 @@ u8 *func_0203bedc(void *a) {
     Unk0203ba84 *p;
     void *t;
     p = func_02036bec(a, 0x48);
-    t = func_02056444((u32) a);
+    t = func_02056444(a);
     p->mUnk_44 = t;
     func_0203bec0((u8 *) p);
     return (u8 *) p;

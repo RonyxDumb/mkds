@@ -87,7 +87,7 @@ u16 func_0203c4d0(u8 a) {
                 r = 1;
                 if (data_021759c0->mUnk_58 != 0) {
                     if (data_021759c0->mUnk_3d0 > 3) {
-                        if (data_021759c0->mUnk_3d2 <= 1 || data_021759c0->mUnk_3d3 <= 1) {
+                        if (data_021759c0->mUnk_3d2[0] <= 1 || data_021759c0->mUnk_3d2[1] <= 1) {
                             r = 8;
                         } else {
                             r = 0xf;
