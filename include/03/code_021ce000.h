@@ -5,9 +5,8 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_ov003_021ce024();
-void func_ov003_021ce0c4(void);
-void func_ov003_021ce408();
+#include "03/code_021ce024.h"
+#include "03/code_021ce110.h"
 void func_ov003_021ce7c0();
 void func_ov003_021cea3c();
 void func_ov003_021ceab8();

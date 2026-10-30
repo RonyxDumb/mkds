@@ -28,7 +28,7 @@ int func_ov003_021ccb50(void) {
     return 0;
 }
 
-int func_ov003_021ccb1c(void) {
+int func_ov003_021ccb1c(int param_1) {
     int iVar1;
     int iVar2;
     u8 auStack_18[8];

@@ -4,11 +4,18 @@
 
 typedef struct Unk021cca74 {
     /* 00 */ u32 mResource;
-    /* 04 */ u8 mUnk_04[0xc];
+    /* 04 */ u8 mUnk_04[8];
+    /* 0c */ u32 mUnk_0c;
     /* 10 */ u16 mX;
     /* 12 */ u16 mY;
-    /* 14 */ u8 mUnk_14[6];
+    /* 14 */ u16 mUnk_14[2];
+    /* 18 */ u8 mUnk_18;
+    /* 19 */ u8 mUnk_19;
     /* 1a */ u8 mOffset;
+    /* 1b */ u8 mUnk_1b;
+    /* 1c */ u8 mUnk_1c;
+    /* 1d */ u8 mUnk_1d;
+    /* 1e */ u8 mUnk_1e;
 } Unk021cca74;
 
 void func_ov003_021cca74(s32 offset);
