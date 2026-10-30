@@ -145,7 +145,7 @@ void func_ov003_021c8838(int param_1, int param_2, int param_3) {
         }
     }
     if (data_ov003_021d6478[param_1][param_2] != 0) {
-        func_ov003_021d1c3c(0, data_ov003_021d6478[param_1][param_2], (int) *p);
+        func_ov003_021d1c3c(0, data_ov003_021d6478[param_1][param_2], (u8 *) *p);
         c = (a[param_1] & 0x1ff) << 16;
         (*p)->mUnk_00 = c | ((*p)->mUnk_00 & 0xfe00ff00);
         (*p)->mUnk_04 = ((*p)->mUnk_04 & ~0xc00) | 0xc00;

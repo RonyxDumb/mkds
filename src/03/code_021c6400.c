@@ -47,12 +47,12 @@ void func_ov003_021c6400(void) {
         } while (i < n);
     }
     for (j = 0; j < 3; j++) {
-        func_ov003_021d1c3c(0, data_ov003_021d6388[j], (int) (*(Unk021c5c68State **) &data_ov003_021da1f4)->mUnk_10[0]);
+        func_ov003_021d1c3c(0, data_ov003_021d6388[j], (u8 *) (*(Unk021c5c68State **) &data_ov003_021da1f4)->mUnk_10[0]);
         (*(Unk021c5c68State **) &data_ov003_021da1f4)->mUnk_42[j] =
             (*(Unk021c5c68State **) &data_ov003_021da1f4)->mUnk_10[0]->mUnk_04 & 0x3ff;
     }
     for (j = 0; j < 4; j++) {
-        func_ov003_021d1c3c(0, data_ov003_021d638c[j], (int) (*(Unk021c5c68State **) &data_ov003_021da1f4)->mUnk_24[0]);
+        func_ov003_021d1c3c(0, data_ov003_021d638c[j], (u8 *) (*(Unk021c5c68State **) &data_ov003_021da1f4)->mUnk_24[0]);
         (*(Unk021c5c68State **) &data_ov003_021da1f4)->mUnk_48[j] =
             (*(Unk021c5c68State **) &data_ov003_021da1f4)->mUnk_24[0]->mUnk_04 & 0x3ff;
     }

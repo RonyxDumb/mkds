@@ -23,6 +23,7 @@
 #include "03/unk_021da000.h"
 #include "code_02142eac.h"
 #include "code_0214b824.h"
+#include "03/code_021d1ffc.h"
 
 void func_ov003_021bf8c0(void) {
     data_ov003_021da154 = func_ov003_021d285c(0xc0, 4);
@@ -48,7 +49,7 @@ void func_ov003_021bf920(void) {
     }
     *(vu16 *) 0x4000208;
     *(vu16 *) 0x4000208 = a;
-    func_ov003_021d1c3c(0, data_ov003_021d5f58[data_ov003_021da158->mUnk_08][i], (int) data_ov003_021da158->mUnk_00);
+    func_ov003_021d1c3c(0, data_ov003_021d5f58[data_ov003_021da158->mUnk_08][i], (u8 *) data_ov003_021da158->mUnk_00);
     data_ov003_021da158->mUnk_00->mUnk_00 = ((data_ov003_021d5f54[0] & 0x1ff) << 16) |
                                             ((data_ov003_021da158->mUnk_00->mUnk_00 & 0xfe00ff00) |
                                              (data_ov003_021d5f54[1] & 0xff));
@@ -327,7 +328,7 @@ void func_ov003_021bffb0(void) {
             a = 0x40;
             break;
     }
-    func_ov003_021d1c3c(0, a, func_ov003_021d1974((int) data_ov003_021da15c->mUnk_114, 0));
+    func_ov003_021d1c3c(0, a, (u8 *) func_ov003_021d1974((int) data_ov003_021da15c->mUnk_114, 0));
     func_ov003_021d1790(data_ov003_021da15c->mUnk_114, -1, 2);
     func_ov003_021d17d4(data_ov003_021da15c->mUnk_114, -1, data_ov003_021d606c[data_ov003_021da15c->mUnk_121][0],
                         data_ov003_021d606e[data_ov003_021da15c->mUnk_121][0]);

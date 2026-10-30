@@ -1,9 +1,8 @@
 #include "03/code_021c1c5c.h"
 
 void func_ov003_021c1cb0(void) {
-    func_ov003_021d197c(*(u32 *) ((*(int *) &data_ov003_021da160) + 0x58));
-    func_ov003_021d34e0((Unk021d34e0 *) (*(u32 *) ((*(int *) &data_ov003_021da160) + 0x5c)),
-                        func_ov003_021c118c);
+    func_ov003_021d197c(*(Unk021d1770 **) ((*(int *) &data_ov003_021da160) + 0x58));
+    func_ov003_021d34e0((Unk021d34e0 *) (*(u32 *) ((*(int *) &data_ov003_021da160) + 0x5c)), func_ov003_021c118c);
     return;
 }
 

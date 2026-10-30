@@ -1,10 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "03/code_021d2188.h"
 
-typedef struct Unk021d2060 {
-    /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ void (*mCallback)(struct Unk021d2060 *, u32);
-} Unk021d2060;
-
-void func_ov003_021d2060(Unk021d2060 *object, u32 value);
+void func_ov003_021d2060(Unk021d2188 *object, u32 value);

@@ -29,15 +29,15 @@ void func_ov003_021bf364(u32 param_0) {
         a = data_ov003_021d5edc + param_0 * 2;
         b = i;
         do {
-            *(u32 *) ((u8 *) data_ov003_021da108 + b) = func_ov003_021d1be4(0, *a, 1);
-            func_ov003_021d1790(*(u32 *) ((u8 *) data_ov003_021da108 + b), -1, 1);
+            *(u32 *) ((u8 *) data_ov003_021da108 + b) = (u32) func_ov003_021d1be4(0, *a, 1);
+            func_ov003_021d1790(*(Unk021d1770 **) ((u8 *) data_ov003_021da108 + b), -1, 1);
             a++;
             b += 4;
             i++;
         } while (i < n);
     }
-    data_ov003_021da108->mUnk_08 = func_ov003_021d1be4(0, 1, 1);
-    func_ov003_021d1790(data_ov003_021da108->mUnk_08, -1, 1);
+    data_ov003_021da108->mUnk_08 = (u32) func_ov003_021d1be4(0, 1, 1);
+    func_ov003_021d1790((Unk021d1770 *) data_ov003_021da108->mUnk_08, -1, 1);
     func_ov003_021bf258(0xc0);
     data_ov003_021da108->mUnk_0c = (Unk021d34e0 *) func_ov003_021d3544(0, (u32) func_ov003_021bf20c, 0, 0x78);
 }

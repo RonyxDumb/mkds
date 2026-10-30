@@ -6,14 +6,17 @@
 // at 0x00.
 typedef struct Unk021d1770_08 {
     /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u16 mUnk_06;
 } Unk021d1770_08;
 
 // Object passed to func_ov003_021d1770: a pointer at 0x08 to Unk021d1770_08 objects, indexed by its second
-// argument.
+// argument, and their number at 0x0c. The two pointers at 0x00 and 0x04 link the objects of a list.
 typedef struct Unk021d1770 {
-    /* 00 */ u8 mUnk_00[8];
+    /* 00 */ struct Unk021d1770 *mUnk_00;
+    /* 04 */ struct Unk021d1770 *mUnk_04;
     /* 08 */ Unk021d1770_08 *mUnk_08;
+    /* 0c */ u8 mUnk_0c;
 } Unk021d1770;
 
 void func_ov003_021d1770(Unk021d1770 *param_1, int param_2, u32 *param_3, s32 *param_4);

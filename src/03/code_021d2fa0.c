@@ -42,7 +42,7 @@ void func_ov003_021d305c(u32 param_1) {
     if (param_1 >= (u32) a + 0x1a0) {
         b = 1;
     }
-    func_ov003_021d1d0c((u16 *) a[b].mUnk_19c, param_1);
+    func_ov003_021d1d0c((Unk021d1d88 *) a[b].mUnk_19c, (void *) param_1);
 }
 
 Unk021d309c *func_ov003_021d309c(u32 a, s32 b, s32 c, u32 *d) {
@@ -56,7 +56,7 @@ Unk021d309c *func_ov003_021d309c(u32 a, s32 b, s32 c, u32 *d) {
     s32 j = a * 0x1a0;
 
     e = (Unk021d309c *) func_ov003_021d1cd4(
-        (u16 *) ((Unk021d31b0 *) (*(u8 **) data_ov003_021da2f4 + j))->mUnk_19c);
+        (Unk021d1d88 *) ((Unk021d31b0 *) (*(u8 **) data_ov003_021da2f4 + j))->mUnk_19c);
     l = (b + 3 & ~3) >> 2;
     e->mUnk_0a = l;
     i = func_0200ca9c(1);

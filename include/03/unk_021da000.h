@@ -8,6 +8,9 @@
 #include "03/code_021d079c.h"
 #include "types.h"
 #include "03/code_021d1770.h" // Unk021d1770
+#include "03/code_021d1d88.h"
+#include "03/code_021d1da8.h"
+#include "code_02003024.h" // Unk02003a6c
 #include "03/code_021bf31c.h"
 #include "03/code_021c25b4.h"
 #include "03/code_021d28b0.h"
@@ -19,7 +22,7 @@ typedef struct Unk021da214 {
     /* 04 */ u8 mUnk_04[4];
     /* 08 */ u16 *mUnk_08;
     /* 0c */ void *mUnk_0c[2];
-    /* 14 */ Unk021d2060 *mUnk_14;
+    /* 14 */ Unk021d2188 *mUnk_14;
     /* 18 */ Unk021da104_04 *mUnk_18[7];
     /* 34 */ Unk021da104_04 *mUnk_34;
     /* 38 */ u32 mUnk_38;
@@ -146,8 +149,71 @@ extern Unk021da284 *data_ov003_021da284;
 extern Unk021cf260 *data_ov003_021da288;
 extern u16 *data_ov003_021da28c[];
 extern u8 data_ov003_021da2a4[];
-extern u8 data_ov003_021da2ac[];
-extern u8 data_ov003_021da2c0[];
+// Object behind data_ov003_021da2ac.
+typedef struct Unk021da2ac {
+    /* 000 */ u8 mUnk_000[0x204];
+    /* 204 */ u32 mUnk_204;
+    /* 208 */ u8 mUnk_208[0x440];
+    /* 648 */ u16 mUnk_648;
+    /* 64a */ u16 mUnk_64a;
+    /* 64c */ u8 mUnk_64c[0x404];
+    /* a50 */ u8 mUnk_a50[0x40];
+    /* a90 */ u8 mUnk_a90;
+    /* a91 */ u8 mUnk_a91;
+    /* a92 */ u8 mUnk_a92;
+    /* a93 */ u8 mUnk_a93;
+    /* a94 */ u8 mUnk_a94[4];
+    /* a98 */ u32 mUnk_a98;
+    /* a9c */ u32 mUnk_a9c;
+    /* aa0 */ u8 mUnk_aa0[4];
+    /* aa4 */ void *mUnk_aa4;
+    /* aa8 */ u8 mUnk_aa8[4];
+    /* aac */ u8 mUnk_aac;
+    /* aad */ u8 mUnk_aad[7];
+    /* ab4 */ u32 mUnk_ab4;
+    /* ab8 */ u32 mUnk_ab8;
+    /* abc */ u32 mUnk_abc;
+    /* ac0 */ u32 mUnk_ac0;
+    /* ac4 */ u32 mUnk_ac4;
+    /* ac8 */ u32 mUnk_ac8;
+    /* acc */ u8 mUnk_acc;
+    /* acd */ u8 mUnk_acd[0x33];
+    /* b00 */ u8 mUnk_b00[4];
+} Unk021da2ac;
+
+extern Unk021da2ac *data_ov003_021da2ac;
+// Object of 0xe8 bytes: a pointer at 0x00, 32 pointers from 0x04, the list of them at 0x84, an Unk02003a6c at 0x88
+// and a halfword at 0xe4.
+typedef struct Unk021da2b0 {
+    /* 00 */ void *mUnk_00;
+    /* 04 */ void *mUnk_04[0x20];
+    /* 84 */ Unk021d1d88 *mUnk_84;
+    /* 88 */ Unk02003a6c mUnk_88;
+    /* e4 */ u16 mUnk_e4;
+    /* e6 */ u8 mUnk_e6[2];
+} Unk021da2b0;
+
+extern Unk021da2b0 *data_ov003_021da2b0;
+// Two objects of 0x228 bytes: 32 objects from 0x000, two list heads at 0x200 and 0x210, a pointer at 0x220 and the
+// list of the free objects at 0x224.
+typedef struct Unk021da2b4 {
+    /* 000 */ Unk021d1770 mUnk_000[0x20];
+    /* 200 */ Unk021d1770 mUnk_200;
+    /* 210 */ Unk021d1770 mUnk_210;
+    /* 220 */ void *mUnk_220;
+    /* 224 */ Unk021d1d88 *mUnk_224;
+} Unk021da2b4;
+
+extern Unk021da2b4 *data_ov003_021da2b4;
+// Eight-byte records at the start of a resource: a number at 0x00 and the offset of a table at 0x04.
+typedef struct Unk021da2b8 {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u32 mUnk_04;
+} Unk021da2b8;
+
+extern Unk021da2b8 *data_ov003_021da2b8[];
+extern Unk021d1da8 *data_ov003_021da2c0;
 extern u8 data_ov003_021da2c4[];
 extern u8 data_ov003_021da2cc;
 extern u8 data_ov003_021da2d0;

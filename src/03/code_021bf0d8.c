@@ -9,7 +9,8 @@
 #include "03/unk_021d5000.h"
 #include "03/unk_021da000.h"
 
-// non-matching: the original loads the byte at 0x16 (movs r0,#22; ldrsb r1,[r2,r0]) before it sets the loop counter (movs r4,#0); ours sets the counter first, same size
+// non-matching: the original loads the byte at 0x16 (movs r0,#22; ldrsb r1,[r2,r0]) before it sets the loop counter
+// (movs r4,#0); ours sets the counter first, same size
 void func_ov003_021bf0d8(void) {
     Unk021d299c a;
     s32 n;
@@ -33,11 +34,11 @@ void func_ov003_021bf0d8(void) {
                     break;
                 }
                 c = (data_ov003_021d5edc + data_ov003_021da108->mUnk_17 * 2)[i] + 1;
-                func_ov003_021d1c3c(0, c, func_ov003_021d1974(data_ov003_021da108->mUnk_00[i], 0));
+                func_ov003_021d1c3c(0, c, (u8 *) func_ov003_021d1974(data_ov003_021da108->mUnk_00[i], 0));
                 b = (data_ov003_021d5eec + data_ov003_021da108->mUnk_17 * 2)[i];
-                func_ov003_021d17d4(data_ov003_021da108->mUnk_00[i], -1, data_ov003_021d5ed4[b * 2],
+                func_ov003_021d17d4((Unk021d1770 *) data_ov003_021da108->mUnk_00[i], -1, data_ov003_021d5ed4[b * 2],
                                     data_ov003_021d5ed6[b * 2]);
-                func_ov003_021d1790(data_ov003_021da108->mUnk_00[i], -1, 1);
+                func_ov003_021d1790((Unk021d1770 *) data_ov003_021da108->mUnk_00[i], -1, 1);
                 data_ov003_021da108->mUnk_10 = func_ov003_021d3544(0, (u32) func_ov003_021befa4, 0, 0x6e);
                 data_ov003_021da108->mUnk_16 = i;
                 return;
@@ -78,9 +79,9 @@ void func_ov003_021bf258(s32 param_0) {
 
     n = data_ov003_021d5ecc[data_ov003_021da108->mUnk_17];
     a = param_0 + data_ov003_021d5ed4[1] - data_ov003_021d5ec4[1];
-    func_ov003_021d17d4(data_ov003_021da108->mUnk_08, -1, data_ov003_021d5ec4[0], param_0);
+    func_ov003_021d17d4((Unk021d1770 *) data_ov003_021da108->mUnk_08, -1, data_ov003_021d5ec4[0], param_0);
     for (i = 0; i < n; i++) {
-        func_ov003_021d17d4(data_ov003_021da108->mUnk_00[i], -1,
+        func_ov003_021d17d4((Unk021d1770 *) data_ov003_021da108->mUnk_00[i], -1,
                             data_ov003_021d5ed4[(data_ov003_021d5eec + data_ov003_021da108->mUnk_17 * 2)[i] * 2], a);
     }
 }

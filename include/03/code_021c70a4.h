@@ -15,7 +15,7 @@
 
 // Object behind data_ov003_021da1fc.
 typedef struct Unk021da1fc {
-    /* 00 */ Unk021d2060 *mUnk_00;
+    /* 00 */ Unk021d2188 *mUnk_00;
     /* 04 */ Unk021da1f8_04 *mUnk_04;
     /* 08 */ u8 mUnk_08[0xc];
     /* 14 */ u8 mUnk_14;

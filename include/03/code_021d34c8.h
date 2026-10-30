@@ -6,7 +6,7 @@
 
 typedef struct Unk021d34c8 {
     /* 00 */ Unk021d1d88 *mUnk_00;
-    /* 04 */ u16 *mResource;
+    /* 04 */ struct Unk021d1d88 *mResource;
     /* 08 */ void *mUnk_08;
     /* 0c */ Unk021d34e4 mUnk_0c;
     /* 20 */ Unk021d34e4 mUnk_20;

@@ -19,7 +19,7 @@ void func_ov003_021d3558(int a) {
     c = 0;
     if ((*(Unk021d34c8 **) data_ov003_021da32c)[a].mUnk_34 > 0) {
         do {
-            d = func_ov003_021d1cd4((*(Unk021d34c8 **) data_ov003_021da32c)[a].mResource);
+            d = (u32) func_ov003_021d1cd4((*(Unk021d34c8 **) data_ov003_021da32c)[a].mResource);
             if (d == 0) {
                 break;
             }

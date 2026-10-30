@@ -9,7 +9,7 @@ typedef struct Unk021c5c68State {
     /* 00 */ u8 *mUnk_00;
     /* 04 */ void *mUnk_04;
     /* 08 */ void *mUnk_08;
-    /* 0c */ Unk021d2060 *mUnk_0c;
+    /* 0c */ Unk021d2188 *mUnk_0c;
     /* 10 */ Unk021da104_04 *mUnk_10[5];
     /* 24 */ Unk021da104_04 *mUnk_24[5];
     /* 38 */ u32 mUnk_38;

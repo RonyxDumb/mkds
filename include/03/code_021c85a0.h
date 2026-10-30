@@ -26,7 +26,7 @@ typedef struct Unk021c8a60 {
 } Unk021c8a60;
 
 // Declared here until the code that defines them is decompiled.
-void func_ov003_021d2094(void *a, u32 b, u32 c, u32 d, u32 e, u16 *f, u32 g);
+void func_ov003_021d2094(void *param_1, s32 param_2, u32 param_3, u32 param_4, s32 param_5, u16 *param_6, s32 param_7);
 void func_ov003_021cce78(void);
 void func_ov003_021c6e38(void);
 void func_ov003_021c7748(void);

@@ -19,7 +19,7 @@ void func_ov003_021d35f4(void) {
         (*(Unk021d34c8 **) data_ov003_021da32c)[i].mUnk_38 = func_ov003_021d285c(*b * 0x14, 4);
         (*(Unk021d34c8 **) data_ov003_021da32c)[i].mUnk_00 =
             func_ov003_021d1d60(*b, (*(Unk021d34c8 **) data_ov003_021da32c)[i].mUnk_38, 0x14);
-        (*(Unk021d34c8 **) data_ov003_021da32c)[i].mResource = (u16 *) func_ov003_021d1d88(*b);
+        (*(Unk021d34c8 **) data_ov003_021da32c)[i].mResource = func_ov003_021d1d88(*b);
         (*(Unk021d34c8 **) data_ov003_021da32c)[i].mUnk_08 = func_ov003_021d2ecc();
         (*(Unk021d34c8 **) data_ov003_021da32c)[i].mUnk_0c.mUnk_10 = 0;
         (*(Unk021d34c8 **) data_ov003_021da32c)[i].mUnk_20.mUnk_10 = 0xff;

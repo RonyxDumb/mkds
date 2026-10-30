@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/code_021d2188.h"
 #include "03/code_021c0ca8.h"
 #include "03/code_021c2120.h"
 #include "03/code_021cdc10.h"
@@ -14,7 +15,7 @@ typedef struct Unk021da1f8_04 {
 
 // Object behind data_ov003_021da1f8.
 typedef struct Unk021da1f8 {
-    /* 00 */ struct Unk021d2060 *mUnk_00;
+    /* 00 */ Unk021d2188 *mUnk_00;
     /* 04 */ Unk021da1f8_04 *mUnk_04;
     /* 08 */ u8 mUnk_08[0x20];
     /* 28 */ u8 mUnk_28;

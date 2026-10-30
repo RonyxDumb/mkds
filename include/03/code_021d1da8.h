@@ -3,7 +3,7 @@
 #include "types.h"
 
 typedef struct Unk021d1da8 {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u32 mUnk_00;
     /* 04 */ s16 mFrames;
     /* 06 */ u16 mFrameCount;
     /* 08 */ u8 mUnk_08;
