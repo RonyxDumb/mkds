@@ -27,7 +27,7 @@ u16 func_0203c5f8(u16 a, u8 *b, u8 *c, u16 *d) {
                         func_0214d1fc(q, p, 4);
                     }
                 } else {
-                    if (p != p) {
+                    if (p != &v2) {
                         func_0214d1fc(q, p, 4);
                     }
                 }

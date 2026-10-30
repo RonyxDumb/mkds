@@ -48,7 +48,7 @@ void func_02067f94(Unk0206bcb0 *a, const Vec3 *b) {
 }
 
 void func_02068094(Unk0206bcb0 *a, s32 b, s32 c) {
-    if (func_0206b020(a, c) == 0) {
+    if (func_0206b020(a, (Unk0206b020 *) c) == 0) {
         return;
     }
     if ((a->mUnk_7c & 1) != 0) {

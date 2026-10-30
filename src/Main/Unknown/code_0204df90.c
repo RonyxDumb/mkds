@@ -209,7 +209,7 @@ void func_0204e304(u32 a) {
         break;
     default:
         if (a == 20) {
-            data_0217aa00->mUnk_1692 = (func_0200f5ac() >> 10) / 40;
+            data_0217aa00->mUnk_1692 = (func_0200f5ac() >> 10) % 40;
             data_0217aa00->mUnk_0010 = 0;
         }
         break;

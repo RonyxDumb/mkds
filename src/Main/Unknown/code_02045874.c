@@ -316,11 +316,11 @@ void func_02046024(s32 a) {
         if (a != 0) {
             Unk020f41c4_B *g;
             u32 k;
-            u32 c;
+            s32 c;
             u8 p;
             u8 q;
-            u32 h;
-            u32 z;
+            s32 h;
+            s32 z;
             u8 w;
             u8 x;
             g = (Unk020f41c4_B *) func_0204aa60();

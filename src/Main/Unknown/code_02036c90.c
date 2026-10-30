@@ -74,7 +74,7 @@ void func_02036f10(s16 a) {
     func_02036f10_inline(&data_021755a8, a);
 }
 
-void func_02036fec(s16 a, s32 b) {
+void func_02036fec(s32 a, s32 b) {
     if (b != 0) {
         func_02036f10_inline(&data_021755b4, a);
     } else {
@@ -104,7 +104,7 @@ void func_020370d4(s16 a) {
     func_020370d4_inline(&data_021755a8, a);
 }
 
-void func_020371a8(s16 a, s32 b) {
+void func_020371a8(s32 a, s32 b) {
     if (b != 0) {
         func_020370d4_inline(&data_021755b4, a);
     } else {

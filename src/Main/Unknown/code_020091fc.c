@@ -38,7 +38,7 @@ void func_020092a4(void) {
 }
 
 // non-matching: 0x1d0 bytes, original 0x1c4; 189 lines differ; first: original `ldr r0, [pc, #376]`, ours `ldr r0, [pc, // #388]`
-void func_020092d0(u32 a, u16 b, u32 c) {
+void func_020092d0(u32 a, u32 b, u32 c) {
     Unk0200b610 *v1;
     u32 v2;
     u32 v3;
@@ -107,7 +107,7 @@ void func_02009494(void) {
 }
 
 // non-matching: 0x114 bytes, original 0x10c; 117 lines differ; first: original `adds r7, r1, #0`, ours `adds r5, r1, // #0`
-void func_020094b8(u32 a, u16 b, u32 c) {
+void func_020094b8(u32 a, u32 b, u32 c) {
     Unk0200b610 *v1;
     u8 *v2;
     u8 *v3;
@@ -176,7 +176,7 @@ u32 func_020095fc(void) {
     return 1;
 }
 
-void func_0200964c(u32 a, u16 b, u32 c) {
+void func_0200964c(u32 a, u32 b, u32 c) {
     while (1) {
         switch (data_0216fc4c.mUnk_0c) {
             case 0:
