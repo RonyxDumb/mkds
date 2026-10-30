@@ -7,5 +7,5 @@
 #include "code_02134d30.h"
 
 void func_ov003_021bb03c(void);
-u32 func_ov003_021bb058(u32 param_1);
+u32 func_ov003_021bb058(Unk021d8dc8 *param_1);
 u32 func_ov003_021bb070(u32 *param_1);

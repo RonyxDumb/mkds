@@ -13,6 +13,7 @@
 #include "code_02003024.h" // Unk02003a6c
 #include "03/code_021bf31c.h"
 #include "03/code_021c25b4.h"
+#include "03/code_021c25e0.h"
 #include "03/code_021d28b0.h"
 #include "03/code_021d34e0.h"
 
@@ -85,7 +86,7 @@ extern u8 data_ov003_021da164[];
 extern u8 data_ov003_021da168[];
 extern u8 data_ov003_021da16c[];
 extern u8 data_ov003_021da170[];
-extern u8 data_ov003_021da194[];
+extern void *data_ov003_021da174;
 extern u8 data_ov003_021da1a8;
 extern u8 data_ov003_021da1b0[];
 extern u8 data_ov003_021da1bc[];

@@ -1,6 +1,6 @@
 #include "03/code_021bf2d0.h"
 
-void func_ov003_021bf310(u8 param_1) {
+void func_ov003_021bf310(s8 param_1) {
     *(u8 *) ((*(int *) &data_ov003_021da108) + 0x16) = param_1;
     return;
 }

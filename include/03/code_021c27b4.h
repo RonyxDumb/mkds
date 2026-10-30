@@ -3,4 +3,4 @@
 #include "types.h"
 #include "03/unk_021da000.h"
 
-int func_ov003_021c27b4(void);
+u8 *func_ov003_021c27b4(void);
