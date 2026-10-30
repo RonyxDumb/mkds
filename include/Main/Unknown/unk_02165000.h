@@ -109,4 +109,12 @@ typedef struct Unk02165560 {
 } Unk02165560;
 
 extern const Unk02165560 data_usa_02165560;
+
+// Eight halfwords.
+typedef struct Unk0216557c {
+    /* 00 */ s16 mUnk_00[8];
+} Unk0216557c;
+
+extern const Unk0216557c data_usa_0216557c;
+extern s32 data_usa_021654dc;
 extern const s32 data_usa_02165504;

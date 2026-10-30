@@ -4,6 +4,7 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/code_02087d0c.h"
 
 // Object with an array of Unk020f41c4_A pointers at 0x04 and a word at 0x10.
 typedef struct Unk020ed718 {
@@ -73,8 +74,8 @@ typedef struct Unk0206bcb0_590 {
     /* 058 */ s32 mUnk_058;
     /* 05c */ s32 mUnk_05c;
     /* 060 */ s32 mUnk_060;
-    /* 064 */ u8 mUnk_064[0x40];
-    /* 0a4 */ s32 mUnk_0a4;
+    /* 064 */ u8 mUnk_064[0x34];
+    /* 098 */ Unk02087d0c mUnk_098;
 } Unk0206bcb0_590;
 
 // Three vectors at 0x00, 0x0c and 0x18.

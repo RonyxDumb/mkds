@@ -22,3 +22,5 @@ void func_0207409c(const Vec3 *a, Unk01ffd190 *b);
 u32 func_02074828(void);
 void func_020747f4(s32 a);
 void func_02075d08(s32 a);
+void func_02079ce0(void *a, s32 b);
+void func_0207a2d4(s32 a);

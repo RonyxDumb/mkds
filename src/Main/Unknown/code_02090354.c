@@ -173,10 +173,9 @@ void func_02090748(Unk020905a8 *a) {
     }
 }
 
-// non-matching: the report scores it 99.29%; objdiff's diff of the function shows every instruction equal
-void func_0209081c(Unk020905a8 *a) {
+s32 func_0209081c(Unk020905a8 *a) {
     func_02090748(a);
-    func_020905a8(a);
+    return func_020905a8(a);
 }
 
 void func_02090838(Unk020905a8 *a, Unk02080b1c_00 *b) {

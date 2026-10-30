@@ -14,6 +14,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_0210bcf4.h"
 #include "Main/Unknown/code_0210b000.h" // Unk0210b7ec
+#include "Main/Unknown/code_02080b1c.h" // Unk020905a8
 #include "code_0212da38.h" // Unk02017328
 
 typedef struct UnkVec16 {
@@ -91,13 +92,27 @@ extern Unk0217d26c data_0217d294;
 extern Unk0217d26c data_0217d29c;
 
 typedef struct Unk0206ceb4 {
-    /* 0 */ s16 mUnk_00;
-    /* 2 */ u8 mUnk_02[4];
-    /* 6 */ s16 mUnk_06;
-    /* 8 */ u8 mUnk_08[2];
-    /* a */ s16 mUnk_0a;
-    /* c */ u8 mUnk_0c[0x10];
+    /* 00 */ s16 mUnk_00;
+    /* 02 */ u8 mUnk_02[4];
+    /* 06 */ s16 mUnk_06;
+    /* 08 */ s16 mUnk_08;
+    /* 0a */ s16 mUnk_0a;
+    /* 0c */ s16 mUnk_0c;
+    /* 0e */ s16 mUnk_0e;
+    /* 10 */ s16 mUnk_10;
+    /* 12 */ s16 mUnk_12;
+    /* 14 */ s16 mUnk_14;
+    /* 16 */ s16 mUnk_16;
+    /* 18 */ s16 mUnk_18;
+    /* 1a */ s16 mUnk_1a;
     /* 1c */ s16 mUnk_1c;
+    /* 1e */ s16 mUnk_1e;
+    /* 20 */ s16 mUnk_20;
+    /* 22 */ u8 mUnk_22[2];
+    /* 24 */ s32 mUnk_24;
+    /* 28 */ s16 mUnk_28;
+    /* 2a */ u8 mUnk_2a[2];
+    /* 2c */ Unk020905a8 mUnk_2c;
 } Unk0206ceb4;
 
 // Four words written by func_01ffd190 and func_01ffcebc.
@@ -327,7 +342,7 @@ typedef struct Unk0206bcb0 {
     /* 38c */ s32 mUnk_38c;
     /* 390 */ u8 mUnk_390[4];
     /* 394 */ s32 mUnk_394;
-    /* 398 */ u8 mUnk_398[4];
+    /* 398 */ s32 mUnk_398;
     /* 39c */ s32 mUnk_39c;
     /* 3a0 */ s32 mUnk_3a0;
     /* 3a4 */ u16 mUnk_3a4;
@@ -419,9 +434,6 @@ typedef struct Unk0206bcb0 {
     /* 528 */ u8 mUnk_528[0xc];
     /* 534 */ Vec3 *mUnk_534;
     /* 538 */ Unk0206ceb4 mUnk_538;
-    /* 556 */ u8 mUnk_556[6];
-    /* 55c */ s32 mUnk_55c;
-    /* 560 */ u8 mUnk_560[0x30];
     /* 590 */ void *mUnk_590;
     /* 594 */ s32 mUnk_594;
     /* 598 */ s16 mUnk_598;
