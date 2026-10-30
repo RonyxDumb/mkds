@@ -3,4 +3,4 @@
 #include "types.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-u32 func_020fa4b4(u32 arg0);
+struct Unk020f41c4_A *func_020fa4b4(u32 arg0);

@@ -54,7 +54,7 @@ typedef struct Unk0206cdd4_A {
     /* 0 */ s32 mUnk_00;
     /* 4 */ s32 mUnk_04;
     /* 8 */ s32 mUnk_08;
-    /* c */ u8 mUnk_0c[2];
+    /* c */ s16 mUnk_0c;
     /* e */ s16 mUnk_0e;
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
