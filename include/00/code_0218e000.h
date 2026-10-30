@@ -13,3 +13,4 @@ s8 *func_ov000_0218e850(s8 *param_1);
 u32 func_ov000_0218e8c4(void);
 u32 func_ov000_0218ee70(int *param_1, u32 param_2, int param_3);
 u32 func_ov000_0218eff8();
+void func_ov000_0218e3e4(u32 a, void *b, s32 c, u32 d, void *e, u32 f);

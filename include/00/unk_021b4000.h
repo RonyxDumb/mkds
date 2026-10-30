@@ -7,6 +7,8 @@
 #include "00/code_0218e56c.h"
 
 #include "types.h"
+#include "00/code_021a39d8.h"
+#include "00/code_021a3eb0.h"
 
 // Objects whose layout isn't known yet.
 extern u8 data_ov000_021b4078[];
@@ -20,7 +22,22 @@ extern u8 data_ov000_021b4118[];
 extern u8 data_ov000_021b41a8[];
 extern u8 data_ov000_021b41ac[];
 extern u8 data_ov000_021b41f0[];
-extern u8 data_ov000_021b426c[];
+extern u8 data_ov000_021b4200[];
+extern u8 data_ov000_021b4228[];
+extern u8 data_ov000_021b424c[];
+extern u32 data_ov000_021b49f4;
+extern u8 data_ov000_021b4388[];
+extern u8 data_ov000_021b4394[];
+extern u8 data_ov000_021b43a0[];
+extern u8 data_ov000_021b43a8[];
+extern u8 data_ov000_021b43ac[];
+extern u8 data_ov000_021b43b0[];
+extern u8 data_ov000_021b43c0[];
+extern u8 data_ov000_021b43cc[];
+extern u8 data_ov000_021b43d8[];
+extern char data_ov000_021b41f4[];
+extern Unk021a3a18 *data_ov000_021b426c;
+extern Unk021a3eb0 data_ov000_021b4270;
 extern u8 data_ov000_021b43e4[];
 extern u8 data_ov000_021b4a58[];
 extern u8 data_ov000_021b4a5c[];
