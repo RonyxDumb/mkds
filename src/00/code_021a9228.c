@@ -3,6 +3,7 @@
 #include "00/code_021a9640.h"
 #include "00/code_021a9610.h"
 #include "00/code_021aa054.h"
+#include "00/code_021aa5e0.h"
 #include "00/code_021aa7b4.h"
 #include "00/code_021ab7b4.h"
 #include "00/code_021abd2c.h"

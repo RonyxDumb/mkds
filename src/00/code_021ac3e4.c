@@ -57,7 +57,7 @@ void func_ov000_021ac434(u8 *a, const u8 *b, s32 c) {
     }
 }
 
-void func_ov000_021ac488(u8 *a, const u16 *b, s32 c) {
+void func_ov000_021ac488(u8 *a, const u16 *b, s32 c, s32 d) {
     a += c - 1;
     while (c > 1) {
         *a-- = *b;

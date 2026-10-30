@@ -28,10 +28,10 @@ void func_ov000_021a998c(Unk021a998c *param_1) {
     msg[13] = 0;
     msg[14] = 0x24;
     func_0214d1fc(obj->mUnk_378, obj->mUnk_3d0, 0x58);
-    func_ov000_021aa50c((int *) obj, (u32) (msg + 0xf), 0);
+    func_ov000_021aa50c(obj, msg + 0xf, 0);
     func_0214d1fc(obj->mUnk_3d0, obj->mUnk_378, 0x58);
     func_0214d1fc(obj->mUnk_2c0, obj->mUnk_31c, 0x5c);
-    func_ov000_021aa468((int *) obj, (u32) (msg + 0x1f), 0);
+    func_ov000_021aa468(obj, msg + 0x1f, 0);
     func_0214d1fc(obj->mUnk_31c, obj->mUnk_2c0, 0x5c);
     func_ov000_021abca0(obj->mUnk_2c0, msg + 0xb, 0x28);
     func_ov000_021ab728(obj->mUnk_378, msg + 0xb, 0x28);

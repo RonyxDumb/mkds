@@ -1,6 +1,9 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021ab5bc.h"
+#include "00/code_021aa7f8.h"
+#include "00/code_021aa1e0.h"
 #include "00/code_021ae134.h"
 #include "00/unk_021b6380.h"
 #include "00/code_021ac3e4.h"
@@ -14,14 +17,10 @@ extern u16 data_ov000_021b4a00[2];
 
 // Declared here until the code that defines them is decompiled.
 void func_ov000_021ae0c4(Unk021a998c *a);
-u32 func_ov000_021aa1e0(Unk021a998c_0c *a, u8 *b);
-void func_ov000_021aa9ec(Unk021a998c_0c *a, u8 *b);
 void func_ov000_021aab74(Unk021a998c_0c *a, u8 *b);
 void func_ov000_021aabf0(Unk021a998c_0c *a, u8 *b);
 void func_ov000_021aaa58(Unk021a998c_0c *a, u8 *b);
 u32 func_ov000_021ab5bc(void);
-Unk021a998c_0c_00 *func_ov000_021ab5e4(u8 *a);
-Unk021a998c_0c_00 *func_ov000_021ab63c(u32 a, u16 b);
 void func_ov000_021ac7e8(u16 *a, u16 *b, u16 *c, s32 d, u16 *e);
 
 u8 func_ov000_021a9aa0(Unk021a998c *a);
