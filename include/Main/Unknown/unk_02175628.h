@@ -5,6 +5,19 @@
 // Slot of data_02175628 that the code addresses through a constant.
 typedef enum Unk02175628Index { UNK_02175628_INDEX_8 = 8 } Unk02175628Index;
 
+typedef struct Unk02175650_buf {
+    /* 000 */ u32 mUnk_00;
+    /* 004 */ u8 mUnk_04[0xdc8];
+} Unk02175650_buf;
+
+typedef struct Unk02175650 {
+    /* 00 */ Unk02175650_buf *mUnk_00;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+} Unk02175650;
+
 // One 0x5c-byte element of the array at data_02175628.
 typedef struct Unk02175628 {
     /* 00 */ u16 mUnk_00;
@@ -22,11 +35,16 @@ typedef struct Unk02175628 {
     /* 18 */ u64 mUnk_18;
     /* 20 */ s32 mUnk_20;
     /* 24 */ s32 mUnk_24;
-    /* 28 */ void *mUnk_28;
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u16 mUnk_2e;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ u8 mUnk_34[0x8];
+    /* 28 */ union {
+        struct {
+            /* 28 */ void *mUnk_28;
+            /* 2c */ u16 mUnk_2c;
+            /* 2e */ u16 mUnk_2e;
+            /* 30 */ s32 mUnk_30;
+            /* 34 */ u8 mUnk_34[0x8];
+        };
+        Unk02175650 mUnk_28_view;
+    };
     /* 3c */ s32 mUnk_3c;
     /* 40 */ u16 mUnk_40;
     /* 42 */ u16 mUnk_42;

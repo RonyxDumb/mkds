@@ -225,19 +225,6 @@ extern Unk02175614 data_02175614;
 
 // Object func_0204a620 to func_0204a978 take: a buffer, two halfword counters and two words. The buffer holds a word
 // at 0x00 and byte pairs from 0x04; its size is 0xdcc bytes.
-typedef struct Unk02175650_buf {
-    /* 000 */ u32 mUnk_00;
-    /* 004 */ u8 mUnk_04[0xdc8];
-} Unk02175650_buf;
-
-typedef struct Unk02175650 {
-    /* 00 */ Unk02175650_buf *mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-} Unk02175650;
-
 extern Unk02175650 data_02175650;
 
 // Entry of the table at 0x440 of data_02175ec0: a four-bit part in the low bits of the first word, then two words.

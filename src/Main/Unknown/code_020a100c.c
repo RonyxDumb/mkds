@@ -28,7 +28,7 @@ s32 func_020a1048(u16 a) {
     return r;
 }
 
-s32 func_020a100c(u16 a) {
+s32 func_020a100c(s32 a) {
     Unk0217b1fc_000 *e;
     s32 r;
 

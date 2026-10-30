@@ -5,4 +5,4 @@
 s32 func_020a1048(u16 a);
 int func_020a1084(int a);
 void func_020a10ac(u16 a, s32 b);
-s32 func_020a100c(u16 a);
+s32 func_020a100c(s32 a);

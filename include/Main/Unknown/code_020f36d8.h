@@ -8,6 +8,7 @@
 #include "Main/Unknown/code_0210bcf4.h"
 #include "Main/Unknown/code_020d849c.h"
 #include "Main/Unknown/code_020d22c0.h" // Unk020f41c4_B
+#include "Main/Unknown/unk_0217a000.h" // Unk0217aa1c_144_00
 
 // Object whose first word is compared with a stored value.
 typedef struct {
@@ -91,19 +92,12 @@ typedef struct Unk020f41c4_A {
     /* 129 */ u8 mUnk_129[3];
 } Unk020f41c4_A;
 
-// Four bytes: a halfword and two bytes.
-typedef struct Unk0217561c_14_0c {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
-} Unk0217561c_14_0c;
-
 // The 0x78 bytes of an entry of the array at Unk0217561c::mUnk_000 from its member 0x14.
 typedef struct Unk0217561c_14 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
-    /* 0c */ Unk0217561c_14_0c mUnk_0c[6];
+    /* 0c */ Unk0217aa1c_144_00 mUnk_0c[6];
     /* 24 */ s32 mUnk_24;
     /* 28 */ s32 mUnk_28;
     /* 2c */ s32 mUnk_2c;
@@ -113,7 +107,14 @@ typedef struct Unk0217561c_14 {
     /* 36 */ u16 mUnk_36;
     /* 38 */ u16 mUnk_38;
     /* 3a */ u16 mUnk_3a;
-    /* 3c */ u16 mUnk_3c;
+    /* 3c */ union {
+        u16 mUnk_3c;
+        struct {
+            u16 mUnk_3c_0 : 4;
+            u16 mUnk_3c_4 : 4;
+            u16 mUnk_3c_8 : 2;
+        };
+    };
     /* 3e */ s16 mUnk_3e;
     /* 40 */ s32 mUnk_40;
     /* 44 */ s32 mUnk_44;
@@ -125,9 +126,14 @@ typedef struct Unk0217561c_14 {
 typedef struct {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u8 mUnk_0a;
-    /* 0b */ u8 mUnk_0b;
+    /* 08 */ union {
+        struct {
+            /* 08 */ u16 mUnk_08;
+            /* 0a */ u8 mUnk_0a;
+            /* 0b */ u8 mUnk_0b;
+        };
+        Unk0217aa1c_144_00 mUnk_08_view;
+    };
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mUnk_0e;
     /* 10 */ u16 mUnk_10;
@@ -191,6 +197,11 @@ typedef struct Unk0217561c_4c8 {
     /* 1a */ u16 mUnk_1a;
 } Unk0217561c_4c8;
 
+// Eight bytes: a row of the table behind Unk0217561c::mUnk_4dc.
+typedef struct Unk0217561c_4dc {
+    /* 00 */ u8 mUnk_00[8];
+} Unk0217561c_4dc;
+
 // Object behind data_0217561c.
 typedef struct {
     /* 000 */ Unk0217561c_000 mUnk_000[8];
@@ -205,7 +216,7 @@ typedef struct {
     /* 4d0 */ s32 mUnk_4d0;
     /* 4d4 */ s32 *mUnk_4d4;
     /* 4d8 */ u8 mUnk_4d8[0x4];
-    /* 4dc */ void *mUnk_4dc;
+    /* 4dc */ Unk0217561c_4dc *mUnk_4dc;
     /* 4e0 */ s32 mUnk_4e0;
     /* 4e4 */ s32 mUnk_4e4;
     /* 4e8 */ s32 mUnk_4e8;
