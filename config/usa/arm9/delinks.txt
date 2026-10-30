@@ -995,8 +995,16 @@ src/Main/Unknown/code_02025ebc.c:
     .text       start:0x02025ebc end:0x02025edc
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_02025edc.c:
+    .text       start:0x02025edc end:0x02025f54
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_02025f54.c:
     .text       start:0x02025f54 end:0x02025f80
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_02025f80.c:
+    .text       start:0x02025f80 end:0x02026120
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_02026120.c:
@@ -1119,6 +1127,10 @@ src/Main/Unknown/code_02029440.c:
     .text       start:0x02029440 end:0x020294ac
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_020294ac.c:
+    .text       start:0x020294ac end:0x02029520
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_02029520.c:
     .text       start:0x02029520 end:0x020296f4
 
@@ -1171,8 +1183,16 @@ src/Main/Unknown/code_0202a734.c:
     .text       start:0x0202a734 end:0x0202a820
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_0202a820.c:
+    .text       start:0x0202a820 end:0x0202a90c
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_0202a90c.c:
     .text       start:0x0202a90c end:0x0202a92c
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_0202a92c.c:
+    .text       start:0x0202a92c end:0x0202b604
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0202b604.c:
@@ -1187,8 +1207,16 @@ src/Main/Unknown/code_0202b6a0.c:
     .text       start:0x0202b6a0 end:0x0202b6f0
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_0202b6f0.c:
+    .text       start:0x0202b6f0 end:0x0202b888
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_0202b888.c:
     .text       start:0x0202b888 end:0x0202b8d8
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_0202b8d8.c:
+    .text       start:0x0202b8d8 end:0x0202bb60
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0202bb60.c:
