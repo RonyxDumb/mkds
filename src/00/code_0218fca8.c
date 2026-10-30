@@ -52,7 +52,7 @@ s32 func_ov000_0218fca8(Unk0218f960 *a, u8 *b) {
     }
     switch (k) {
         case 1:
-            s1 = o->mUnk_1bc;
+            s1 = o->mUnk_1a4[3];
             if (s1.mUnk_00 == 0) {
                 break;
             }
@@ -107,7 +107,7 @@ s32 func_ov000_0218fca8(Unk0218f960 *a, u8 *b) {
             q += 8;
             p->mUnk_10 = func_ov000_0218e880(q);
             p->mUnk_14++;
-            s4 = o->mUnk_1ac;
+            s4 = o->mUnk_1a4[1];
             if (s4.mUnk_00 == 0) {
                 break;
             }
@@ -187,7 +187,7 @@ s32 func_ov000_0218fca8(Unk0218f960 *a, u8 *b) {
                 h = func_0213bf90(e);
                 t->mUnk_14 = (u16) (((h >> 8) & 0xff) | ((h << 8) & 0xff00));
             }
-            s3 = o->mUnk_1b4;
+            s3 = o->mUnk_1a4[2];
             if (s3.mUnk_00 == 0) {
                 break;
             }
@@ -228,7 +228,7 @@ s32 func_ov000_0218fca8(Unk0218f960 *a, u8 *b) {
             } else {
                 d[0] = 0;
             }
-            s2 = o->mUnk_1c4;
+            s2 = o->mUnk_1a4[4];
             if (s2.mUnk_00 == 0) {
                 break;
             }

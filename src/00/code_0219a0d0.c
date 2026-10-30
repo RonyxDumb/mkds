@@ -13,6 +13,7 @@
 #include "00/code_0219a430.h"
 #include "00/code_021a3668.h"
 #include "00/code_0218da04.h"
+#include "00/code_0218e8c4.h"
 
 typedef struct Unk0219a110Addr {
     /* 0 */ u8 mUnk_00;

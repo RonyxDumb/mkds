@@ -18,6 +18,7 @@
 #include "code_02135014.h"
 #include "code_02139f70.h"
 #include "code_0213a460.h"
+#include "00/code_0218e8c4.h"
 
 s32 func_ov000_0219a654(const u8 *a, u32 *b, u16 *c) {
     u8 d[0x100];

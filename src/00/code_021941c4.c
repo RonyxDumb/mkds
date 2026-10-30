@@ -46,14 +46,14 @@ s32 func_ov000_021941c4(Unk0218f960 *a, Unk02193f2cNode *b) {
         b->mUnk_10 = func_ov000_0218e320(0) + 0x12c;
     }
     do {
-        t = func_ov000_02190618(a, (u8 **) &b->mUnk_18, &m, &n, &o);
+        t = func_ov000_02190618(a, (Unk021906e4 *) &b->mUnk_18, &m, &n, &o);
         if (t != 0) {
             return t;
         }
         if (m != 0) {
             switch (n) {
             case 1:
-                p = r->mUnk_1bc;
+                p = r->mUnk_1a4[3];
                 if (p.mUnk_00 != 0) {
                     s = func_ov000_021a3690(0xc);
                     if (s == 0) {
@@ -84,7 +84,7 @@ s32 func_ov000_021941c4(Unk0218f960 *a, Unk02193f2cNode *b) {
                 func_ov000_02196434(a, b, n, b->mUnk_18, m, o);
                 break;
             }
-            func_ov000_021905d4(a, (u8 **) &b->mUnk_18);
+            func_ov000_021905d4(a, (Unk021906e4 *) &b->mUnk_18);
         }
     } while (m != 0);
     if (y != 0) {

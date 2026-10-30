@@ -14,6 +14,7 @@
 #include "code_021384dc.h"
 #include "code_0213442c.h"
 #include "code_02133048.h"
+#include "00/code_0218e80c.h"
 
 u32 func_ov000_021919ac(Unk021919ac *p, Unk021919ac_q *q) {
     Unk021919ac_00 *o;
@@ -101,7 +102,7 @@ u32 func_ov000_02191cb0(Unk021919ac *p, const u8 *a, const u8 *b, const u8 *c, c
 
     o = p->mUnk_00;
     if (o->mUnk_1d8 == 4) {
-        r = func_ov000_0218f654(p);
+        r = func_ov000_0218f654((Unk0218f960 *) p);
         if (r != 0) {
             return r;
         }
@@ -176,7 +177,7 @@ u32 func_ov000_02191e58(Unk021919ac *p, Unk021919ac_node *n) {
             func_ov000_02190f4c((Unk0218f960 *) p, 3, 1);
             return 3;
         }
-        if (func_ov000_0218e80c() == 0) {
+        if (func_ov000_0218e80c(o->mUnk_204, 0) == 0) {
             func_ov000_021965a0((Unk0218f960 *) p, 5, data_ov000_021b2de4);
             func_ov000_02190f4c((Unk0218f960 *) p, 3, 1);
             return 3;
@@ -211,7 +212,7 @@ u32 func_ov000_02191e58(Unk021919ac *p, Unk021919ac_node *n) {
         func_ov000_02190f4c((Unk0218f960 *) p, 3, 1);
         return 3;
     }
-    if (func_ov000_0218e80c() == 0) {
+    if (func_ov000_0218e80c(o->mUnk_1d4, 0) == 0) {
         func_ov000_021965a0((Unk0218f960 *) p, 5, data_ov000_021b2de4);
         func_ov000_02190f4c((Unk0218f960 *) p, 3, 1);
         return 3;

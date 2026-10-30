@@ -19,6 +19,7 @@
 #include "code_02139f70.h"
 #include "code_0214177c.h"
 #include "00/code_0218c958.h"
+#include "00/code_0218e8c4.h"
 
 static inline void func_ov000_0218ce14_inline(Unk0218cd94 *d, Unk0218cd94 *s) {
     *d = *s;

@@ -13,6 +13,7 @@
 #include "00/code_0219a014.h"
 #include "00/code_021a3668.h"
 #include "00/code_0218da04.h"
+#include "00/code_0218e8c4.h"
 #include "00/code_021981d0.h"
 
 enum { K0, K1 };

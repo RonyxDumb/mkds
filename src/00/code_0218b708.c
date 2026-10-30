@@ -23,6 +23,7 @@
 #include "code_0213442c.h"
 #include "code_02134d30.h"
 #include "00/code_0218ab18.h"
+#include "00/code_0218e8c4.h"
 
 void func_ov000_0218b708(void *a, s32 b, Unk0218b74c *c, Unk0218b668 *d) {
     switch (b) {

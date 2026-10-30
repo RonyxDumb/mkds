@@ -5,12 +5,12 @@
 #include "00/code_0218f960.h"
 #include "00/code_0218e3c4.h"
 #include "00/code_0218e68c.h"
+#include "00/code_0218faac.h"
 
 // Declared here until the code that defines them is decompiled.
 s32 func_ov000_02194590(Unk0218f960 *param_1, Unk02193f2cNode *param_2);
 s32 func_ov000_021943f0(Unk0218f960 *param_1, Unk02193f2cNode *param_2);
 s32 func_ov000_021941c4(Unk0218f960 *param_1, Unk02193f2cNode *param_2);
-void func_ov000_0218fbe0(Unk0218f960 *param_1, u32 param_2, s32 param_3, u32 param_4);
 
 // Entry of the list behind Unk02193f2cNode.mUnk_38.
 typedef struct Unk0219405c {

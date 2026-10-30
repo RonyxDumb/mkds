@@ -11,6 +11,7 @@
 #include "code_02135014.h"
 #include "code_0213a460.h"
 #include "code_02133048.h"
+#include "00/code_0218e80c.h"
 
 u32 func_ov000_0219218c(Unk021919ac *p, Unk021919ac_node *n, Unk021919ac_f0 *a) {
     if (p->mUnk_00->mUnk_100 == 0) {

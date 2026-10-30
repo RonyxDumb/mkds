@@ -5,6 +5,7 @@
 #include "00/code_0218e000.h"
 #include "00/code_021a4868.h"
 #include "00/code_0218e644.h"
+#include "00/code_0218e8c4.h"
 
 void func_ov000_0218a9bc(Unk0218a9bc *p) {
     u32 a;

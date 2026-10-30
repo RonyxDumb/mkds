@@ -5,6 +5,7 @@
 #include "00/code_0218e554.h"
 #include "00/code_0218e8b4.h"
 #include "00/unk_021b4000.h"
+#include "00/code_0218e8c4.h"
 
 void func_ov000_0218acf4(Unk0218a9bc *p, s32 a, u32 b, s32 c, UnkFunc *f, void *g) {
     if (c == 0 && data_ov000_021b4d28 != 1) {

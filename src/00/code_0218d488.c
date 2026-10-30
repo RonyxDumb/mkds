@@ -14,6 +14,7 @@
 #include "code_02134d30.h"
 #include "code_02135014.h"
 #include "code_02139f70.h"
+#include "00/code_0218e8c4.h"
 
 // non-matching: the entry loads of *a and *b are in the other order (2 instructions, same size)
 s32 func_ov000_0218d488(u32 *a, u32 *b) {

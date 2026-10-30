@@ -10,6 +10,7 @@
 #include "00/code_0219a000.h"
 #include "00/code_021992d4.h"
 #include "00/code_0219a044.h"
+#include "00/code_0218e8c4.h"
 
 typedef struct Unk0219914cHeader {
     /* 0 */ u8 mUnk_00;

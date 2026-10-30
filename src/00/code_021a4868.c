@@ -3,6 +3,7 @@
 #include "00/code_0218e644.h"
 #include "00/code_021a3000.h"
 #include "00/unk_021b4000.h"
+#include "00/code_0218e8c4.h"
 
 void func_ov000_021a4868(Unk021a4a08 *a) {
     u32 b;

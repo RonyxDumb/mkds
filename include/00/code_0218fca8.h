@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "00/code_0218f960.h"
+#include "00/code_0218faac.h"
 #include "00/code_021947e4.h"
 #include "00/code_02190ba0.h"
 #include "00/code_02191284.h"
@@ -42,5 +43,4 @@ extern u8 data_ov000_021b284c[];
 extern u8 data_ov000_021b2850[];
 extern u8 data_ov000_021b2854[];
 
-void func_ov000_0218fb3c(Unk0218f960 *a, s32 b, s32 c, u8 *d);
 s32 func_ov000_0218fca8(Unk0218f960 *a, u8 *b);

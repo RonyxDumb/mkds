@@ -1,4 +1,5 @@
 #include "00/code_0219746c.h"
+#include "00/code_0218e8c4.h"
 
 s32 func_ov000_0219746c(void) {
     s32 a;

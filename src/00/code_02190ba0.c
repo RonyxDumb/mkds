@@ -227,7 +227,7 @@ void func_ov000_02190f4c(Unk0218f960 *a, s32 b, s32 c) {
     if (c == 1) {
         d->mUnk_41c = 1;
     }
-    e = d->mUnk_1a4;
+    e = d->mUnk_1a4[0];
     if (e.mUnk_00 != 0) {
         f = func_ov000_021a3690(0x10);
         if (f != 0) {
