@@ -35,7 +35,7 @@ int func_ov003_021ccb1c(int param_1) {
     iVar2 = 2;
     do {
         func_ov003_021cca9c(iVar2, (short *) (void *) (auStack_18));
-        iVar1 = func_ov003_021d2a80((u16 *) (void *) (auStack_18));
+        iVar1 = func_ov003_021d2a80((const Unk021d299c *) (u16 *) (void *) (auStack_18));
         if (iVar1 != 0) {
             return iVar2;
         }

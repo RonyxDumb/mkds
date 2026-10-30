@@ -429,7 +429,7 @@ void func_ov003_021bee24(void) {
 
 void func_ov003_021beecc(void) {
     func_ov003_021d34c0(1, data_ov003_021da104->mUnk_00);
-    func_ov003_021d2f00(data_ov003_021da104->mUnk_04);
+    func_ov003_021d2f00((u32 *) data_ov003_021da104->mUnk_04);
     func_ov003_021d2808(&data_ov003_021da104);
 }
 

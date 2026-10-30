@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_0214e6e4.h"
 
 typedef struct Unk021d299c {
     /* 00 */ u16 mUnk_00;
@@ -10,17 +11,23 @@ typedef struct Unk021d299c {
 } Unk021d299c;
 
 typedef struct Unk021da2d4Input {
-    /* 00 */ u8 mUnk_00[0x28];
+    /* 00 */ Unk0214e788 mUnk_00[5];
     /* 28 */ u16 mUnk_28;
     /* 2a */ u16 mUnk_2a;
     /* 2c */ u16 mUnk_2c;
     /* 2e */ u16 mUnk_2e;
-    /* 30 */ u8 mUnk_30[8];
+    /* 30 */ u16 mUnk_30;
+    /* 32 */ u16 mUnk_32;
+    /* 34 */ u16 mUnk_34;
+    /* 36 */ u16 mUnk_36;
     /* 38 */ union {
         u8 mUnk_38;
         struct {
             u8 mBit_0 : 1;
-            u8 mOther : 7;
+            u8 mBit_1 : 1;
+            u8 mBit_2 : 1;
+            u8 mBit_3 : 1;
+            u8 mOther : 4;
         } mBits;
     };
 } Unk021da2d4Input;

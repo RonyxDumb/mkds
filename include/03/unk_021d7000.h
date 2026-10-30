@@ -56,4 +56,5 @@ extern u8 data_ov003_021d7798[];
 extern u8 data_ov003_021d77b0[];
 extern u8 data_ov003_021d77c4[];
 extern u8 data_ov003_021d7ac8[];
+extern void *data_ov003_021d7c0c[];
 extern u8 data_ov003_021d7f6c[];
