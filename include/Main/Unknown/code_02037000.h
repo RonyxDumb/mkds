@@ -12,3 +12,4 @@ void func_02037498(s32 a);
 void func_02037658(s32 a);
 void func_02037a40(void);
 void func_02037a94(void);
+void func_02037850(void);

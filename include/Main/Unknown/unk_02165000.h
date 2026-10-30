@@ -31,6 +31,7 @@ extern UnkFunc *const data_02165388[];
 struct Unk0206bcb0;
 extern void (*const data_usa_021655c4[])(struct Unk0206bcb0 *);
 extern const Unk021a9034 data_02165368;
+extern const Unk021a9034 data_usa_021651b0;
 extern u8 data_02165074[];
 extern u8 data_02165080[];
 extern u8 data_02165098[];

@@ -10,3 +10,4 @@
 // Declared here until the code that defines them is decompiled.
 void func_02036fec(u32 a, u32 b);
 void func_02036d3c(s16 a);
+void func_02036c90(void);

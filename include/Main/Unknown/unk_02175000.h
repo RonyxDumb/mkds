@@ -6,44 +6,42 @@
 #include "Main/Unknown/code_02039044.h" // Unk021755a8, data_021755a8, data_021755b4
 #include "Main/Unknown/unk_02175628.h" // Unk02175628
 #include "code_02017f24.h" // Unk02017f24
+#include "code_0200e0ec.h" // Unk0200db5c
+#include "Main/Unknown/code_020d22c0.h" // Unk020f41c4_B
+#include "code_0214f4a4.h" // Unk0214f4bc
+#include "Main/Unknown/code_02105ec0.h" // Unk0217d060
 
 // Object behind data_021759d0 (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
 // data_0217aa08.
 typedef struct Unk021759d0 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ u8 mUnk_0c[0xc];
-    /* 18 */ s32 mUnk_18;
+    /* 08 */ Unk0217d060 mUnk_08;
     /* 1c */ union {
         s32 mUnk_1c;
         struct {
             s32 mUnk_1c_0 : 1;
             s32 mUnk_1c_1 : 1;
             s32 mUnk_1c_2 : 1;
+            s32 mUnk_1c_3 : 1;
         };
     };
     /* 20 */ s32 mUnk_20;
-    /* 24 */ void *mUnk_24;
-    /* 28 */ u16 mUnk_28;
+    /* 24 */ Unk02017f24 *mUnk_24;
+    /* 28 */ s16 mUnk_28;
     /* 2a */ u8 mUnk_2a[0x14];
     /* 3e */ u16 mUnk_3e;
     /* 40 */ u8 mUnk_40;
     /* 41 */ u8 mUnk_41[0x3];
-    /* 44 */ void *mUnk_44;
-    /* 48 */ s32 mUnk_48;
-    /* 4c */ s32 mUnk_4c;
+    /* 44 */ s32 mUnk_44;
+    /* 48 */ u32 mUnk_48;
+    /* 4c */ u32 mUnk_4c;
     /* 50 */ u16 mUnk_50;
     /* 52 */ u8 mUnk_52[0x2];
     /* 54 */ s32 mUnk_54;
     /* 58 */ s32 mUnk_58;
     /* 5c */ s32 mUnk_5c;
-    /* 60 */ void *mUnk_60;
-    /* 64 */ s32 mUnk_64;
-    /* 68 */ s32 mUnk_68;
-    /* 6c */ s32 mUnk_6c;
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ s32 mUnk_74;
+    /* 60 */ Unk020f41c4_B mUnk_60;
     /* 78 */ s32 mUnk_78;
 } Unk021759d0;
 
@@ -53,8 +51,8 @@ typedef struct Unk021a9034 {
     /* 04 */ void (*mUnk_04)();
     /* 08 */ void (*mUnk_08)();
     /* 0c */ void (*mUnk_0c)();
-    /* 10 */ int mUnk_10;
-    /* 14 */ int mUnk_14;
+    /* 10 */ void (*mUnk_10)(void);
+    /* 14 */ void (*mUnk_14)(void);
     /* 18 */ s16 mUnk_18;
     /* 1a */ s16 mUnk_1a;
     /* 1c */ int mUnk_1c;
@@ -62,7 +60,12 @@ typedef struct Unk021a9034 {
 
 // Object behind data_021759cc.
 typedef struct Unk021759cc {
-    /* 000 */ u8 mUnk_000[0xe4];
+    /* 000 */ void *mUnk_000;
+    /* 004 */ Unk0200db5c mUnk_004;
+    /* 0bc */ u8 mUnk_0bc[8];
+    /* 0c4 */ Unk0200df9c mUnk_0c4;
+    /* 0cc */ Unk0214f4bc mUnk_0cc;
+    /* 0d8 */ Unk0214f4bc mUnk_0d8;
     /* 0e4 */ s32 mUnk_0e4;
     /* 0e8 */ s32 mUnk_0e8;
     /* 0ec */ Unk021a9034 mUnk_0ec;
