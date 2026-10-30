@@ -49,14 +49,14 @@ u8 *func_ov000_0218b30c(Unk0218af28 *e, const u8 *v1, u8 *d) {
     return d;
 }
 
-void func_ov000_0218b358(Unk0218af28 *e, const u8 *v1) {
+void func_ov000_0218b358(Unk0218af28 *e, const u8 *v1, u16 c) {
     u8 a[20];
     func_02135014(a, data_ov000_021b21e4);
     func_ov000_0218b380(e, v1, a);
 }
 
 void func_ov000_0218b380(Unk0218af28 *e, const u8 *v1, const u8 *v2) {
-    u32 a[2];
+    u8 *a[2];
     a[0] = func_ov000_0218d134(0, v1);
     a[1] = func_ov000_0218d134(0, v2);
     func_ov000_0218def0(e->mUnk_18, a);

@@ -1,5 +1,6 @@
 #include "00/code_0218b48c.h"
 #include "00/code_0218b64c.h"
+#include "00/code_0218b708.h"
 #include "00/code_0218a918.h"
 #include "00/code_0218acb0.h"
 #include "00/code_0218d180.h"
@@ -16,9 +17,9 @@ void func_ov000_0218b4a4(struct Unk0218b668 *p) {
     func_ov000_0218acd8((int) p);
 }
 
-void func_ov000_0218b4bc(struct Unk0218b668 *p) {
+s32 func_ov000_0218b4bc(struct Unk0218b668 *p) {
     func_ov000_0218a950((int) p);
-    func_ov000_0218b8e4(p->mUnk_04c);
+    return func_ov000_0218b8e4((Unk0218b928 *) p->mUnk_04c);
 }
 
 void func_ov000_0218b4d4(struct Unk0218b668 *p, s32 a) {

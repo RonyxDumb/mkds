@@ -1,6 +1,6 @@
 #include "00/code_0218aea4.h"
 
-void func_ov000_0218af24(int param_1, u8 param_2) {
+void func_ov000_0218af24(int param_1, s32 param_2) {
     *(u8 *) (param_1 + 0x15) = param_2;
     return;
 }

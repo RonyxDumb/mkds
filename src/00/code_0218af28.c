@@ -6,7 +6,7 @@
 #include "00/code_0218afb8.h"
 #include "00/code_0218e000.h"
 
-Unk0218af28 *func_ov000_0218af28(u32 a, u32 b, u16 c) {
+Unk0218af28 *func_ov000_0218af28(Unk0218b928 *a, u32 b, u16 c) {
     Unk0218af28 *p;
     p = func_ov000_021a3690(0x24);
     if (p == 0) {
