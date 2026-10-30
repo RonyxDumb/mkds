@@ -14,7 +14,7 @@ s32 func_ov000_02186634(Unk021868a4Entry *a, s32 b, const u8 *c, char *d, s32 e)
     return 1;
 }
 
-s32 func_ov000_02186674(Unk021868a4Entry *a, s32 b, const u8 *c, char *d, u32 e) {
+s32 func_ov000_02186674(Unk021868a4Entry *a, s32 b, const u8 *c, char *d, s32 e) {
     const u8 *f = func_ov000_021866b8(a, b, c);
     u32 g;
     if (f == 0) {

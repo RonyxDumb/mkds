@@ -1,0 +1,84 @@
+#pragma once
+
+#include "types.h"
+#include "code_0200e0ec.h" // Unk0200db5c
+#include "code_02151868.h"
+#include "00/code_02185984.h"
+#include "00/code_02186634.h"
+#include "00/code_02186a9c.h"
+#include "00/code_021868a4.h"
+
+// Object behind data_ov000_021b4cac.
+typedef struct Unk021b4cac {
+    /* 000 */ u8 mUnk_000[0x24];
+    /* 024 */ s32 mUnk_024;
+    /* 028 */ u8 mUnk_028[0x910];
+    /* 938 */ u32 mUnk_938;
+    /* 93c */ u8 mUnk_93c[0x2c];
+    /* 968 */ u8 mUnk_968[0x6c];
+    /* 9d4 */ s32 mUnk_9d4;
+} Unk021b4cac;
+
+// Object behind data_ov000_021b4cb0.
+typedef struct Unk021b4cb0 {
+    /* 000 */ u8 mUnk_000[4];
+    /* 004 */ s32 mUnk_004;
+    /* 008 */ Unk021868a4Entry mUnk_008[0x20];
+    /* 108 */ u8 *(*mUnk_108)(u8 *a, u32 b);
+    /* 10c */ void (*mUnk_10c)(u8 *a, u8 *b, s32 c);
+    /* 110 */ u8 mUnk_110[4];
+    /* 114 */ u8 *mUnk_114;
+    /* 118 */ u8 *mUnk_118;
+} Unk021b4cb0;
+
+typedef struct Unk021b4cb4 {
+    /* 00 */ u8 *mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ u8 *(*mUnk_10)(u8 *a, u32 b);
+    /* 14 */ void (*mUnk_14)(u8 *a, u8 *b, s32 c);
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ s32 mUnk_1c;
+} Unk021b4cb4;
+
+typedef struct Unk021b4cd4 {
+    /* 00 */ u8 mUnk_00;
+    /* 01 */ u8 mUnk_01[0x14];
+    /* 15 */ u8 mUnk_15;
+    /* 16 */ u8 mUnk_16[0xe];
+    /* 24 */ u8 *(*mUnk_24)(u8 *a, u32 b);
+    /* 28 */ void (*mUnk_28)(u8 *a, u8 *b, s32 c);
+} Unk021b4cd4;
+
+// Object filled by func_ov000_0218635c.
+typedef struct Unk0218635c {
+    /* 000 */ s32 mUnk_000;
+    /* 004 */ u8 mUnk_004[0x1c4];
+} Unk0218635c;
+
+
+extern Unk021b4cb4 data_ov000_021b4cb4;
+extern Unk021b4cd4 data_ov000_021b4cd4;
+extern u8 *data_ov000_021b1384;
+extern u8 data_ov000_021b13ac[];
+extern u8 data_ov000_021b13c4[];
+extern u8 data_ov000_021b13c8[];
+extern u8 data_ov000_021b13d0[];
+extern u8 data_ov000_021b13d8[];
+extern u8 data_ov000_021b13f4[];
+extern u8 data_ov000_021b1400[];
+extern u8 data_ov000_021b1420[];
+extern u8 data_ov000_021b1424[];
+extern u8 data_ov000_021b142c[];
+extern u8 data_ov000_021b1434[];
+extern u8 data_ov000_021b143c[];
+extern u8 data_ov000_021b144c[];
+extern u8 data_ov000_021b1458[];
+extern u8 data_ov000_021b1460[];
+extern u8 data_ov000_021b1468[];
+
+s32 func_ov000_021863cc(void);
+void func_ov000_02186404(void);
+void func_ov000_02187490(s32 a);
+void func_ov000_021874ec(void);
