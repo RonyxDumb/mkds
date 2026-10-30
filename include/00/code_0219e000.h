@@ -4,7 +4,7 @@
 
 // Declared here until the code that defines them is decompiled.
 u32 func_ov000_0219e3e4(u32 param_1);
-u32 func_ov000_0219e594(u32 param_1);
+u32 func_ov000_0219e594();
 u32 func_ov000_0219e608(void);
 void func_ov000_0219e668(void);
 void func_ov000_0219e8b8(s32 param_1);

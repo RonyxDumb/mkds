@@ -10,7 +10,7 @@ int func_ov000_0219d034();
 u32 func_ov000_0219d558(s32 param_1, void *param_2, s32 param_3);
 void func_ov000_0219d5bc(void);
 u32 func_ov000_0219d9ec(void *param_1, u8 *param_2, u8 *param_3, int param_4);
-u32 func_ov000_0219d5e4(void);
+u32 func_ov000_0219d5e4();
 void func_ov000_0219db18(s32 param_1, s32 param_2, s32 param_3, u8 *param_4);
 void func_ov000_0219dd4c(void);
 void func_ov000_0219ddbc(void);
