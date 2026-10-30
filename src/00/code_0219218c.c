@@ -20,13 +20,13 @@ u32 func_ov000_0219218c(Unk021919ac *p, Unk021919ac_node *n, Unk021919ac_f0 *a) 
     n->mUnk_0c = func_ov000_021a3690(0xf0);
     if (n->mUnk_0c != 0) {
         *n->mUnk_0c = *a;
-        n->mUnk_0c->mUnk_00 = func_ov000_0218e880(a->mUnk_00);
-        n->mUnk_0c->mUnk_04 = func_ov000_0218e880(a->mUnk_04);
-        n->mUnk_0c->mUnk_08 = func_ov000_0218e880(a->mUnk_08);
-        n->mUnk_0c->mUnk_0c = func_ov000_0218e880(a->mUnk_0c);
-        n->mUnk_0c->mUnk_10 = func_ov000_0218e880(a->mUnk_10);
-        n->mUnk_0c->mUnk_14 = func_ov000_0218e880(a->mUnk_14);
-        n->mUnk_0c->mUnk_c8 = func_ov000_0218e880(a->mUnk_c8);
+        n->mUnk_0c->mUnk_00 = (u32) func_ov000_0218e880((u8 *) a->mUnk_00);
+        n->mUnk_0c->mUnk_04 = (u32) func_ov000_0218e880((u8 *) a->mUnk_04);
+        n->mUnk_0c->mUnk_08 = (u32) func_ov000_0218e880((u8 *) a->mUnk_08);
+        n->mUnk_0c->mUnk_0c = (u32) func_ov000_0218e880((u8 *) a->mUnk_0c);
+        n->mUnk_0c->mUnk_10 = (u32) func_ov000_0218e880((u8 *) a->mUnk_10);
+        n->mUnk_0c->mUnk_14 = (u32) func_ov000_0218e880((u8 *) a->mUnk_14);
+        n->mUnk_0c->mUnk_c8 = (u32) func_ov000_0218e880((u8 *) a->mUnk_c8);
     }
     if (n->mUnk_0c != 0) {
         return 1;
@@ -59,12 +59,12 @@ u32 func_ov000_0219222c(Unk021919ac *p, u32 a, s32 b, u32 c, u32 d, u32 e) {
             func_ov000_02196590(p, data_ov000_021b2f58);
             return 1;
         }
-        func_ov000_0219338c(x->mUnk_0c, m);
+        func_ov000_0219338c((Unk02192e04 *) x->mUnk_0c, (Unk0219338c *) m);
         m->mUnk_000 = 0;
         m->mUnk_004 = a;
         w.mUnk_00 = (void (*)(void *, void *, u32)) d;
         w.mUnk_04 = e;
-        r = func_ov000_021938cc(p, 2, 0, (int *) &n, 1, d, e);
+        r = func_ov000_021938cc((int *) p, 2, 0, (int *) &n, 1, d, e);
         if (r != 0) {
             return r;
         }
@@ -75,7 +75,7 @@ u32 func_ov000_0219222c(Unk021919ac *p, u32 a, s32 b, u32 c, u32 d, u32 e) {
         }
         func_ov000_02193818((Unk0218f960 *) p, (Unk021937c0Node *) n);
     } else {
-        r = func_ov000_021938cc(p, 2, 0, (int *) &n, c, d, e);
+        r = func_ov000_021938cc((int *) p, 2, 0, (int *) &n, c, d, e);
         if (r != 0) {
             return r;
         }

@@ -110,7 +110,7 @@ typedef union Unk021919ac_sa {
 // Declared here until the code that defines them is decompiled.
 s32 func_ov000_0218e4b4(s32 a, void *b, s32 c);
 s32 func_ov000_0218e4e4(s32 a, void *b, s32 c);
-u32 func_ov000_0218e880(u32 a);
+void *func_ov000_0218e880(u8 *a);
 void func_ov000_0219488c(Unk021919ac *p, u8 *a, u8 *b, Unk021919ac_h **c);
 
 void func_ov000_021920d8(s8 *p, s32 n);

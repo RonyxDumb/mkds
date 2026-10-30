@@ -4,6 +4,8 @@
 #include "00/types_021937c0.h"
 #include "00/types_021906e4.h"
 
+struct Unk0218f960;
+
 // Object behind Unk0218f960.mUnk_00: func_ov000_0218f960 passes the address of 0x1f4 to func_ov000_02190b80 and
 // func_ov000_02190b58, reads 0x198 and decrements 0x430.
 typedef struct Unk0218f960_00 {
@@ -20,7 +22,11 @@ typedef struct Unk0218f960_00 {
     /* 19c */ u32 mUnk_19c;
     /* 1a0 */ u32 mUnk_1a0;
     /* 1a4 */ Unk02190ed4Cb mUnk_1a4;
-    /* 1ac */ u8 mUnk_1ac[0x28];
+    /* 1ac */ Unk02190ed4Cb mUnk_1ac;
+    /* 1b4 */ Unk02190ed4Cb mUnk_1b4;
+    /* 1bc */ Unk02190ed4Cb mUnk_1bc;
+    /* 1c4 */ Unk02190ed4Cb mUnk_1c4;
+    /* 1cc */ u8 mUnk_1cc[8];
     /* 1d4 */ s32 mUnk_1d4;
     /* 1d8 */ s32 mUnk_1d8;
     /* 1dc */ void *mUnk_1dc;

@@ -6,7 +6,7 @@
 // to func_ov000_021a3668.
 typedef struct Unk02194934_08 {
     /* 00 */ s32 mUnk_00;
-    /* 04 */ u8 mUnk_04[4];
+    /* 04 */ s32 mUnk_04;
     /* 08 */ void *mUnk_08;
     /* 0c */ void *mUnk_0c;
     /* 10 */ u32 mUnk_10;

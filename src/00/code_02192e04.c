@@ -196,7 +196,7 @@ s32 func_ov000_02192e04(Unk0218f960 *param_1, Unk021937c0Node *param_2, const u8
     if (p != 0) {
         func_ov000_021a3668(b->mUnk_18);
         b->mUnk_18 = 0;
-        b->mUnk_18 = (void *) func_ov000_0218e880((u32) d);
+        b->mUnk_18 = func_ov000_0218e880(d);
     }
     if (a->mUnk_100 != 0) {
         func_ov000_0219218c(param_1, b, &k);
