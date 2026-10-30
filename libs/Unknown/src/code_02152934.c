@@ -53,11 +53,11 @@ u64 func_02152988(u32 a, u32 b) {
     return v;
 }
 
-// non-matching: same instructions, but ours copies the result to r1 and a to r0 before movs r2, #4 (the original sets
-// r2 first, then r1, orrs, then r0); same size
 void func_021529bc(Unk02152490 *a) {
+    u32 b;
     if (func_02152a58(a) == 3) {
-        func_02152a04(a, func_02152a6c(a) | 4);
+        b = func_02152a6c(a) | 4;
+        func_02152a04(a, b);
     }
 }
 

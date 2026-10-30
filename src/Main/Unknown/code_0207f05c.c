@@ -393,9 +393,6 @@ void func_0207fba0(void) {
     }
 }
 
-// non-matching: 4 bytes smaller than the original (0x144 against 0x148): the original loads the byte at 0x1e again for
-// the increment (smull results go to r0, the quotient in r2, the constant words in r1 and r2) while ours keeps the first
-// load of that byte in r0 and uses r1 and ip for the products
 void func_0207fd28(Unk02080b1c *p) {
     Unk0206bcb0 *a = func_0207a974(p->mUnk_1c);
     u16 i;
@@ -407,7 +404,7 @@ void func_0207fd28(Unk02080b1c *p) {
         } else {
             i = (u16) (p->mUnk_1c % 3);
         }
-        p->mUnk_1e = p->mUnk_1e + 1;
+        p->mUnk_1e++;
     } else {
         i = 0;
     }
