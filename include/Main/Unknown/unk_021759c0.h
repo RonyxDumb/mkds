@@ -34,7 +34,8 @@ typedef struct Unk021759c0_68 {
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
-    /* 18 */ u8 mUnk_18[0x6];
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ u16 mUnk_1c;
     /* 1e */ s8 mUnk_1e;
     /* 1f */ u8 mUnk_1f[0x11];
 } Unk021759c0_68;
@@ -42,7 +43,7 @@ typedef struct Unk021759c0_68 {
 // The 0x68 bytes at 0x1e8 of the object behind data_021759c0.
 typedef struct Unk021759c0_1e8 {
     /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ u32 mUnk_04;
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
@@ -135,8 +136,7 @@ typedef struct Unk021759c0 {
     };
     /* 3d0 */ u8 mUnk_3d0;
     /* 3d1 */ u8 mUnk_3d1;
-    /* 3d2 */ u8 mUnk_3d2;
-    /* 3d3 */ u8 mUnk_3d3;
+    /* 3d2 */ u8 mUnk_3d2[2];
     /* 3d4 */ u8 mUnk_3d4;
     /* 3d5 */ s8 mUnk_3d5[3];
     /* 3d8 */ u16 mUnk_3d8;

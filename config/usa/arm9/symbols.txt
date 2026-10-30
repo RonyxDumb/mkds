@@ -1776,12 +1776,12 @@ func_0204673c kind:function(arm,size=0x4) addr:0x0204673c
 func_02046740 kind:function(arm,size=0x60) addr:0x02046740
 func_020467a0 kind:function(arm,size=0x30) addr:0x020467a0
 func_020467d0 kind:function(arm,size=0x58) addr:0x020467d0
-func_usa_02046828 kind:function(arm,size=0x24) addr:0x02046828
+func_02046828 kind:function(arm,size=0x24) addr:0x02046828
 func_0204684c kind:function(arm,size=0x64) addr:0x0204684c
 func_020468b0 kind:function(arm,size=0xb8) addr:0x020468b0
-func_usa_02046968 kind:function(arm,size=0xd4) addr:0x02046968
+func_02046968 kind:function(arm,size=0xd4) addr:0x02046968
 func_02046a3c kind:function(arm,size=0x4c) addr:0x02046a3c
-func_usa_02046a88 kind:function(arm,size=0x48) addr:0x02046a88
+func_02046a88 kind:function(arm,size=0x48) addr:0x02046a88
 func_02046ad0 kind:function(arm,size=0x4) addr:0x02046ad0
 func_02046ad4 kind:function(arm,size=0x4) addr:0x02046ad4
 func_usa_02046ad8 kind:function(arm,size=0xc) addr:0x02046ad8
@@ -1878,9 +1878,9 @@ func_0204a508 kind:function(arm,size=0x24) addr:0x0204a508
 func_0204a52c kind:function(arm,size=0x14) addr:0x0204a52c
 func_0204a540 kind:function(arm,size=0x8) addr:0x0204a540
 func_0204a548 kind:function(arm,size=0x8) addr:0x0204a548
-func_usa_0204a550 kind:function(arm,size=0x48) addr:0x0204a550
-func_usa_0204a598 kind:function(arm,size=0x50) addr:0x0204a598
-func_usa_0204a5e8 kind:function(arm,size=0xc) addr:0x0204a5e8
+func_0204a550 kind:function(arm,size=0x48) addr:0x0204a550
+func_0204a598 kind:function(arm,size=0x50) addr:0x0204a598
+func_0204a5e8 kind:function(arm,size=0xc) addr:0x0204a5e8
 func_0204a5f4 kind:function(arm,size=0x4) addr:0x0204a5f4
 func_0204a5f8 kind:function(arm,size=0x28) addr:0x0204a5f8
 func_0204a620 kind:function(arm,size=0x30) addr:0x0204a620
@@ -1988,7 +1988,7 @@ func_0204e6e8 kind:function(thumb,size=0x240) addr:0x0204e6e8
 func_0204e928 kind:function(thumb,size=0xec) addr:0x0204e928
 func_0204ea14 kind:function(thumb,size=0x28) addr:0x0204ea14
 func_0204ea3c kind:function(thumb,size=0x58) addr:0x0204ea3c
-func_usa_0204ea94 kind:function(thumb,size=0x3c) addr:0x0204ea94
+func_0204ea94 kind:function(thumb,size=0x3c) addr:0x0204ea94
 func_0204ead0 kind:function(thumb,size=0x38) addr:0x0204ead0
 func_0204eb08 kind:function(thumb,size=0xb0) addr:0x0204eb08
 func_0204ebb8 kind:function(thumb,size=0x70) addr:0x0204ebb8
@@ -7871,7 +7871,7 @@ data_usa_021540c8 kind:data(any) addr:0x021540c8
 data_usa_021540d4 kind:data(any) addr:0x021540d4
 data_021540ec kind:data(any) addr:0x021540ec
 data_usa_02154108 kind:data(any) addr:0x02154108
-data_usa_02154128 kind:data(any) addr:0x02154128
+data_02154128 kind:data(any) addr:0x02154128
 data_usa_021541a8 kind:data(any) addr:0x021541a8
 data_usa_021541ac kind:data(any) addr:0x021541ac
 data_usa_02154228 kind:data(any) addr:0x02154228
@@ -7890,7 +7890,7 @@ data_usa_02154708 kind:data(any) addr:0x02154708
 data_usa_0215470c kind:data(any) addr:0x0215470c
 data_0215472c kind:data(any) addr:0x0215472c
 data_02154768 kind:data(any) addr:0x02154768
-data_usa_02154788 kind:data(any) addr:0x02154788
+data_02154788 kind:data(any) addr:0x02154788
 data_usa_021547c8 kind:data(any) addr:0x021547c8
 data_021547f0 kind:data(any) addr:0x021547f0
 data_02154818 kind:data(any) addr:0x02154818
@@ -9322,7 +9322,7 @@ data_usa_021647e8 kind:data(any) addr:0x021647e8
 data_usa_02164800 kind:data(any) addr:0x02164800
 data_usa_02164818 kind:data(any) addr:0x02164818
 data_usa_02164828 kind:data(any) addr:0x02164828
-data_usa_02164838 kind:data(any) addr:0x02164838
+data_02164838 kind:data(any) addr:0x02164838
 data_usa_02164858 kind:data(any) addr:0x02164858
 data_usa_0216485c kind:data(any) addr:0x0216485c
 data_usa_02164860 kind:data(any) addr:0x02164860
@@ -9505,7 +9505,7 @@ data_usa_02165168 kind:data(any) addr:0x02165168
 data_usa_0216516c kind:data(any) addr:0x0216516c
 data_usa_02165170 kind:data(any) addr:0x02165170
 data_usa_02165174 kind:data(any) addr:0x02165174
-data_usa_02165190 kind:data(any) addr:0x02165190
+data_02165190 kind:data(any) addr:0x02165190
 data_usa_021651b0 kind:data(any) addr:0x021651b0
 data_usa_021651d0 kind:data(any) addr:0x021651d0
 data_021651d4 kind:data(any) addr:0x021651d4

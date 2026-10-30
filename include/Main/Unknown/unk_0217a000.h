@@ -257,6 +257,7 @@ typedef struct Unk0217aa00_24_50_0e {
         u8 mUnk_07;
         struct {
             u8 mUnk_07_0 : 1;
+            u8 mUnk_07_1 : 6;
         };
     };
     /* 08 */ u8 mUnk_08[2];
@@ -267,12 +268,30 @@ typedef struct Unk0217aa00_24_50_0e {
 
 // 0x70 bytes at 0x50 of Unk0217aa00_24; the word at 0x38 of Unk0217aa00_44 points to one.
 typedef struct Unk0217aa00_24_50 {
-    /* 00 */ u8 mUnk_00[7];
-    /* 07 */ u8 mUnk_07;
-    /* 08 */ u8 mUnk_08[2];
-    /* 0a */ u8 mUnk_0a;
-    /* 0b */ u8 mUnk_0b[3];
-    /* 0e */ Unk0217aa00_24_50_0e mUnk_0e;
+    union {
+        struct {
+            /* 00 */ u8 mUnk_00[7];
+            /* 07 */ u8 mUnk_07;
+            /* 08 */ u8 mUnk_08[2];
+            /* 0a */ u8 mUnk_0a;
+            /* 0b */ u8 mUnk_0b[3];
+            /* 0e */ Unk0217aa00_24_50_0e mUnk_0e;
+        };
+        struct {
+            /* 00 */ u8 mUnk_00_pad[0x18];
+            /* 18 */ union {
+                u32 mUnk_18;
+                struct {
+                    u32 mUnk_18_0 : 4;
+                    u32 mUnk_18_4 : 5;
+                    u32 mUnk_18_9 : 7;
+                    u32 mUnk_18_16 : 6;
+                    u32 mUnk_18_22 : 10;
+                };
+            };
+            /* 1c */ u8 mUnk_1c[0x54];
+        };
+    };
 } Unk0217aa00_24_50;
 
 // 0xc0 bytes behind member 0x24 of Unk0217aa00; the first 0xc0 bytes of each Unk0217aa00_0ac have the same layout.
@@ -322,6 +341,17 @@ typedef struct Unk0217aa00_44 {
     /* 42 */ u8 mUnk_42;
     /* 43 */ u8 mUnk_43;
 } Unk0217aa00_44;
+
+// 8-byte entries behind member 0x1e48 of data_0217aa00.
+typedef struct Unk0217aa00_1e48 {
+    /* 00 */ u8 mUnk_00;
+    /* 01 */ u8 mUnk_01;
+    /* 02 */ u8 mUnk_02;
+    /* 03 */ u8 mUnk_03;
+    /* 04 */ u8 mUnk_04;
+    /* 05 */ u8 mUnk_05[1];
+    /* 06 */ u16 mUnk_06;
+} Unk0217aa00_1e48;
 
 // Elements of the array at member 0x1e52 of data_0217aa00.
 typedef struct Unk0217aa00_1e52 {
@@ -454,7 +484,10 @@ typedef struct Unk0217aa00_ac {
 
 // 8-byte entries behind member 0xc of Unk0217aa00_15bc.
 typedef struct Unk0217aa00_15c8 {
-    /* 00 */ u8 mUnk_00[6];
+    /* 00 */ union {
+        u8 mUnk_00[6];
+        u16 mUnk_00_0;
+    };
     /* 06 */ union {
         u8 mUnk_06;
         struct {
@@ -611,7 +644,7 @@ typedef struct Unk0217aa00 {
             /* 15bc */ Unk021450ec *mUnk_15bc;
             /* 15c0 */ Unk0214461c *mUnk_15c0;
             /* 15c4 */ Unk0217aa00_15c4 *mUnk_15c4;
-            /* 15c8 */ void *mUnk_15c8;
+            /* 15c8 */ Unk0217aa00_15c8 *mUnk_15c8;
             /* 15cc */ s32 mUnk_15cc;
             /* 15d0 */ u8 mUnk_15d0[0x1c];
             /* 15ec */ u8 mUnk_15ec;
@@ -694,7 +727,7 @@ typedef struct Unk0217aa00 {
         /* 1e45 */ s8 mUnk_1e45;
         /* 1e46 */ u8 mUnk_1e46;
         /* 1e47 */ u8 mUnk_1e47[0x1];
-        /* 1e48 */ void *mUnk_1e48;
+        /* 1e48 */ Unk0217aa00_1e48 *mUnk_1e48;
         /* 1e4c */ union {
             struct {
                 /* 1e4c */ u16 mUnk_1e4c;

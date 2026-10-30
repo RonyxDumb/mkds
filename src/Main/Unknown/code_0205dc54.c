@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0205dc54.h"
 
-u32 func_0205dc54(u32 arg0) {
+u32 func_0205dc54(void *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     value1 = 0x168u;

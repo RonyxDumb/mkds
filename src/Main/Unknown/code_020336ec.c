@@ -21,7 +21,7 @@ static inline void func_020338f8_inline(void *p, s32 n) {
 #pragma thumb on
 
 // non-matching: 0x158 bytes, original 0x154; the original reads the count at 0xd4 into one register and the loop counter in another through the table loops (ours keeps the table entry in a stack word), and its two stack words for the pair of constants are swapped
-void func_020336ec(void) {
+void func_020336ec(void *a) {
     Unk02174e60 *o;
     Unk02174e14_00 *t;
     s32 x;
@@ -78,7 +78,7 @@ void func_020336ec(void) {
 }
 
 // non-matching: same size (0xb8), 14 words differ from +0x4c; in the table loops the original keeps the count at 0xd4 in r1 and the loop counter in r0, ours the opposite
-void func_02033840(void) {
+void func_02033840(void *a) {
     Unk02174e14_00 *t;
     s32 c;
     s32 d;
