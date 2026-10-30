@@ -1,11 +1,9 @@
 #include "Main/Unknown/code_02097520.h"
 
 u32 func_0209753c(u32 param_1) {
-    u32 uVar1;
-    int iVar2;
-    uVar1 = (u32) func_02100138((u32) (0x000001a9u));
-    iVar2 = func_0209bc5c((u32) (uVar1), (int) (param_1));
-    *(u32 *) (iVar2 + 0xebc) = 0xaa;
+    void *iVar2;
+    iVar2 = func_0209bc5c(func_02100138(0x1a9), param_1);
+    *(u32 *) ((u8 *) iVar2 + 0xebc) = 0xaa;
     return 1;
 }
 

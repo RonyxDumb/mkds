@@ -4002,10 +4002,16 @@ src/Main/Unknown/code_0209bef0.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_0209d3fc.c:
     .text       start:0x0209d3fc end:0x0209d5e8
+src/Main/Unknown/code_0209bf70.c:
+    .text       start:0x0209bf70 end:0x0209d3fc
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0209d5e8.c:
     .text       start:0x0209d5e8 end:0x0209d5ec
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_0209d5ec.c:
+    .text       start:0x0209d5ec end:0x0209d650
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0209d650.c:
