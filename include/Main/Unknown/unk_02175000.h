@@ -260,10 +260,21 @@ typedef struct Unk02175ec0_msg {
     /* 08 */ u8 mUnk_08;
 } Unk02175ec0_msg;
 
+struct Unk0204c090;
+struct Unk02003024;
+
 // Part of data_02175ec0 from 0x440: the table, then nine words at 0x46cc.
 typedef struct Unk02175ec0_440s {
     /* 0000 */ Unk02175ec0_440 mUnk_0000[32];
-    /* 0180 */ u8 mUnk_0180[0x454c];
+    /* 0180 */ u8 mUnk_0180[0x97c];
+    /* 0afc */ void *mUnk_0afc;
+    /* 0b00 */ u32 mUnk_0b00;
+    /* 0b04 */ u32 mUnk_0b04;
+    /* 0b08 */ s32 mUnk_0b08;
+    /* 0b0c */ u8 mUnk_0b0c[0x3bb4];
+    /* 46c0 */ struct Unk0204c090 *mUnk_46c0;
+    /* 46c4 */ struct Unk0204c090 *mUnk_46c4;
+    /* 46c8 */ struct Unk0204c090 *mUnk_46c8;
     /* 46cc */ s32 mUnk_46cc;
     /* 46d0 */ s32 mUnk_46d0;
     /* 46d4 */ s32 mUnk_46d4;
@@ -278,20 +289,24 @@ typedef struct Unk02175ec0_440s {
 // Object at data_02175ec0.
 typedef struct Unk02175ec0 {
     /* 0000 */ u32 mUnk_0000;
-    /* 0004 */ u8 mUnk_0004[8];
+    /* 0004 */ s32 mUnk_0004;
+    /* 0008 */ s32 mUnk_0008;
     /* 000c */ s32 mUnk_000c;
-    /* 0010 */ u8 mUnk_0010[4];
-    /* 0014 */ void *(*mUnk_0014)(s32 a, u32 b, u32 c);
+    /* 0010 */ void (*mUnk_0010)(s32 a);
+    /* 0014 */ void *(*mUnk_0014)(s32 a, u32 b, void *c);
     /* 0018 */ s32 mUnk_0018;
-    /* 001c */ u8 mUnk_001c[4];
+    /* 001c */ struct Unk02003024 *mUnk_001c;
     /* 0020 */ void *mUnk_0020;
-    /* 0024 */ u32 mUnk_0024;
+    /* 0024 */ s32 mUnk_0024;
     /* 0028 */ s32 mUnk_0028;
     /* 002c */ s32 mUnk_002c;
-    /* 0030 */ u8 mUnk_0030[0x410];
+    /* 0030 */ u16 mUnk_0030;
+    /* 0032 */ u8 mUnk_0032[0xe];
+    /* 0040 */ u8 mUnk_0040[0x400];
     /* 0440 */ Unk02175ec0_440s mUnk_0440;
 } Unk02175ec0;
 
 extern Unk02175ec0 data_02175ec0;
 extern void (*data_usa_02175584)(s32);
 extern s32 data_usa_02175e84;
+extern s32 data_usa_02175e80;

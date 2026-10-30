@@ -4,6 +4,7 @@
 #include "Main/Unknown/code_0206bcb0.h" // Unk01ffd190
 
 // Objects whose layout isn't known yet.
+extern const u8 data_usa_0215470c[];
 extern u8 data_0215472c[];
 extern u8 data_02154768[];
 extern u8 data_usa_021547c8[];
