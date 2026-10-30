@@ -1142,11 +1142,12 @@ void func_020eecdc(Unk020eda5c *a) {
     }
 }
 
-// non-matching: the loop compares and the 0x4cd step in other registers (13 words from +0x14)
+// non-matching: 6 words from +0x14: the original sets k (r9) after the first cmp and sum (r7) after the 0x4cd load,
+// here both are set before the cmp
 void func_020eec48(Unk020eda5c *a, s32 i, Unk020f41c4_A *v) {
     s32 k;
-    s32 sum;
     Unk020f41c4_A *e;
+    s32 sum;
 
     k = 0;
     sum = 0;
@@ -1154,8 +1155,7 @@ void func_020eec48(Unk020eda5c *a, s32 i, Unk020f41c4_A *v) {
         e = a->mUnk_014[a->mUnk_020 - 1];
         func_020efa60(a, 0);
         sum = sum + 0x4cd;
-        k = k + 1;
-        if (k > 0) {
+        if (k++ > 0) {
             func_02147fd8(sum, &e->mUnk_f0, &e->mUnk_5c, &e->mUnk_5c);
         }
     }

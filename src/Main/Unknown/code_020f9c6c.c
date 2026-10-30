@@ -51,8 +51,8 @@ void *func_020fa3d0(s32 param_1, u16 param_2, void *param_3, void *param_4) {
 
 #pragma thumb on
 
-// non-matching: 66 words differ from +0x8; the locals n and i sit in swapped stack slots
-// (here n is at 0x28; the original keeps i at 0x28 and n at 0x2c).
+// non-matching: 52 words differ from +0xa; the original keeps i at stack offset 0x28 and n at 0x2c, v at 0x40 and q
+// at 0x44 (here each pair is swapped), reads f after the n test and has e in r4 and k in r5 (here swapped)
 void func_020fa294(void) {
     u32 n;
     u32 i;
@@ -64,6 +64,7 @@ void func_020fa294(void) {
     u32 v;
     Vec3 m;
     Unk020fa294 *e;
+    s32 k;
 
     n = data_02175620->mUnk_04;
     f = data_02159cbc;
@@ -73,14 +74,15 @@ void func_020fa294(void) {
     for (i = 0; i < n; i++) {
         e = &data_02175620->mUnk_00[i];
         if (e->mUnk_24 == 0x6d) {
+            k = e->mUnk_28;
             if (func_01ffdee4((int *) e, (u32 *) z2, z2, 0xa000, 8, z1, (int *) z2, (int *) &m, (int *) z2, (u32 *) z2,
                               (u32 *) z2, (int *) z2, (u16 *) z2, &v) == 0) {
                 m = data_02159cb0;
             }
             q = 0;
-            if (data_027e00cc[e->mUnk_28].mUnk_20 - data_027e00cc[e->mUnk_28].mUnk_1c > 0) {
-                func_020f1048(&data_027e00cc[e->mUnk_28], 1, (Unk020f41c4_A **) &q, 8, (Vec3 *) e);
-                data_027e00cc[e->mUnk_28].mUnk_1c++;
+            if (data_027e00cc[k].mUnk_20 - data_027e00cc[k].mUnk_1c > 0) {
+                func_020f1048(&data_027e00cc[k], 1, (Unk020f41c4_A **) &q, 8, (Vec3 *) e);
+                data_027e00cc[k].mUnk_1c++;
                 func_020f0ea0(&data_027e00cc[q->mUnk_44], q);
                 func_020f98a0(q, (Vec3 *) e, &m, (u16 *) z3, z3);
                 q->mUnk_78 |= f;
