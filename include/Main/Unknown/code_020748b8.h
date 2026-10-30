@@ -9,10 +9,16 @@ typedef struct Unk020748b8_218 {
     /* 00 */ u8 mUnk_00[0x18];
     /* 18 */ Vec3 mUnk_18;
     /* 24 */ Vec3 mUnk_24;
-    /* 30 */ u8 mUnk_30[0x10];
+    /* 30 */ u8 mUnk_30[0x2];
+    /* 32 */ s16 mUnk_32;
+    /* 34 */ s16 mUnk_34;
+    /* 36 */ u8 mUnk_36[0x8];
+    /* 3e */ u16 mUnk_3e;
     /* 40 */ u16 mUnk_40;
     /* 42 */ s16 mUnk_42;
     /* 44 */ u16 mUnk_44;
+    /* 46 */ u8 mUnk_46[0x5];
+    /* 4b */ u8 mUnk_4b;
 } Unk020748b8_218;
 
 // Object func_020748b8 to func_020749a4 take: vectors at 0x18 and 0x24, a Unk0207b960 at 0x194 and a word at 0x244.

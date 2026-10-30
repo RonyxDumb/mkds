@@ -11,6 +11,7 @@
 #include "code_0214a748.h" // Unk0214ad4c
 #include "code_02012b30.h" // Unk02012f58
 #include "Main/Unknown/code_02007014.h" // Unk02007014
+#include "Main/Unknown/code_0207b960.h" // Unk0207b960
 
 // Objects whose layout isn't known yet.
 // What data_0217aa08 points to.
@@ -969,7 +970,7 @@ typedef struct Unk02061808 {
     /* 00c */ s32 mUnk_0c;
     /* 010 */ s32 mUnk_010;
     /* 014 */ s32 mUnk_14;
-    /* 018 */ u8 mUnk_018[0xc];
+    /* 018 */ Vec3 mUnk_018;
     /* 024 */ Vec3 mUnk_024;
     /* 030 */ Unk02012f58 mUnk_030;
     /* 060 */ s32 mUnk_060;
@@ -983,16 +984,55 @@ typedef struct Unk02061808 {
     /* 07c */ s32 mUnk_07c;
     /* 080 */ s32 mUnk_080;
     /* 084 */ s32 mUnk_084;
-    /* 088 */ u8 mUnk_088[0x4];
+    /* 088 */ s32 mUnk_088;
     /* 08c */ s32 mUnk_08c;
     /* 090 */ s32 mUnk_090;
     /* 094 */ s32 mUnk_094;
     /* 098 */ s32 mUnk_098;
     /* 09c */ Vec3 mUnk_09c;
-    /* 0a8 */ u8 mUnk_0a8[0x8c];
+    /* 0a8 */ Vec3 mUnk_0a8;
+    /* 0b4 */ Vec3 mUnk_0b4;
+    /* 0c0 */ Vec3 mUnk_0c0;
+    /* 0cc */ s32 mUnk_0cc;
+    /* 0d0 */ s32 mUnk_0d0;
+    /* 0d4 */ s32 mUnk_0d4;
+    /* 0d8 */ u8 mUnk_0d8[0xc];
+    /* 0e4 */ s32 mUnk_0e4;
+    /* 0e8 */ s32 mUnk_0e8;
+    /* 0ec */ u8 mUnk_0ec[0x4];
+    /* 0f0 */ s32 mUnk_0f0;
+    /* 0f4 */ u8 mUnk_0f4[0x3c];
+    /* 130 */ u8 mUnk_130;
+    /* 131 */ u8 mUnk_131[0x3];
     /* 134 */ Vec3 mUnk_134;
     /* 140 */ u8 mUnk_140[0x1c];
     /* 15c */ Vec3 mUnk_15c;
+    /* 168 */ s32 mUnk_168;
+    /* 16c */ s32 mUnk_16c;
+    /* 170 */ s32 mUnk_170;
+    /* 174 */ s32 mUnk_174;
+    /* 178 */ s32 mUnk_178;
+    /* 17c */ Vec3 mUnk_17c;
+    /* 188 */ Vec3 mUnk_188;
+    /* 194 */ Unk0207b960 mUnk_194;
+    /* 1d0 */ Unk0207b960 mUnk_1d0;
+    /* 20c */ u8 mUnk_20c[0x4];
+    /* 210 */ u16 mUnk_210;
+    /* 212 */ u8 mUnk_212[0x6];
+    /* 218 */ struct Unk020748b8_218 *mUnk_218;
+    /* 21c */ u8 mUnk_21c[0xc];
+    /* 228 */ s32 mUnk_228;
+    /* 22c */ u8 mUnk_22c[0x4];
+    /* 230 */ s32 mUnk_230;
+    /* 234 */ u8 mUnk_234[0xc];
+    /* 240 */ s32 mUnk_240;
+    /* 244 */ u8 mUnk_244[0x4];
+    /* 248 */ s32 mUnk_248;
+    /* 24c */ u8 mUnk_24c[0x8];
+    /* 254 */ s32 mUnk_254;
+    /* 258 */ s32 mUnk_258;
+    /* 25c */ s32 mUnk_25c;
+    /* 260 */ Vec3 mUnk_260;
 } Unk02061808;
 
 extern Unk02061808 *data_0217aa6c;
