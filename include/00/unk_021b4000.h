@@ -85,7 +85,7 @@ extern void *data_ov000_021b4d04;
 extern void *data_ov000_021b4d08;
 extern Unk02188114 *data_ov000_021b4d0c;
 extern Unk021884e4 *data_ov000_021b4d10;
-extern u8 data_ov000_021b4d18[];
+extern int *data_ov000_021b4d18;
 extern u8 data_ov000_021b4d1c[];
 // Objects behind data_ov000_021b4c78 and data_ov000_021b4c7c.
 typedef struct Unk021b4c78 {
