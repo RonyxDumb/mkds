@@ -252,8 +252,6 @@ void func_020aa300(Unk0217b278 *a) {
     a->mUnk_44 = a->mUnk_2c->mUnk_00 + a->mUnk_2c->mUnk_0c;
 }
 
-// non-matching: in the two sums b->mUnk_00 * 2 + b->mUnk_02 (0x40 and 0x80 branches) the original adds the shifted
-// value to the reloaded byte as r1 + r0; here the operands are the other way round (2 instructions).
 Unk0217b278_10 *func_020aa0ec(u32 a, Unk0217b278_10 *b, Unk0217b278_10 *c) {
     s32 x0;
     s32 x1;
@@ -296,14 +294,14 @@ Unk0217b278_10 *func_020aa0ec(u32 a, Unk0217b278_10 *b, Unk0217b278_10 *c) {
     if ((a & 0x40) != 0) {
         v1 = -8;
         v2 = -8;
-        x0 = x1 = v3 + (b->mUnk_00 * 2 + b->mUnk_02) / 2;
+        x0 = x1 = v3 + (b->mUnk_00 + b->mUnk_00 + b->mUnk_02) / 2;
         x1 -= 0x10;
         y0 = v4 + b->mUnk_01;
         y1 = y0 - 0x120;
     } else if ((a & 0x80) != 0) {
         v1 = 8;
         v2 = 8;
-        x0 = x1 = v3 + (b->mUnk_00 * 2 + b->mUnk_02) / 2;
+        x0 = x1 = v3 + (b->mUnk_00 + b->mUnk_00 + b->mUnk_02) / 2;
         x1 += 0x10;
         y0 = v4 + (b->mUnk_01 + b->mUnk_03);
         y1 = y0 + 0x120;
@@ -312,46 +310,45 @@ Unk0217b278_10 *func_020aa0ec(u32 a, Unk0217b278_10 *b, Unk0217b278_10 *c) {
         v2 = 8;
         x0 = v3 + b->mUnk_00;
         x1 = x0 - 0x120;
-        y0 = y1 = v4 + (b->mUnk_01 * 2 + b->mUnk_03) / 2;
+        y0 = y1 = v4 + (b->mUnk_01 + b->mUnk_01 + b->mUnk_03) / 2;
         y1 += 0x10;
     } else if ((a & 0x10) != 0) {
         v1 = 8;
         v2 = 8;
         x0 = v3 + (b->mUnk_00 + b->mUnk_02);
         x1 = x0 + 0x120;
-        y0 = y1 = v4 + (b->mUnk_01 * 2 + b->mUnk_03) / 2;
+        y0 = y1 = v4 + (b->mUnk_01 + b->mUnk_01 + b->mUnk_03) / 2;
         y1 += 0x10;
     }
-    if (y0 != y1) {
-        for (; y0 != y1; y0 += v2) {
-            x = x0;
-            if (x != x1) {
-                v6 = y0 - v4;
-                for (; x != x1; x += v1) {
-                    x2 = x;
-                    y2 = y0;
-                    g = data_0217b278.mUnk_2c->mUnk_04;
-                    h8 = g->mUnk_02 << 3;
-                    w8 = g->mUnk_00 << 3;
-                    v5 = x - v3;
-                    k = data_usa_021679f8;
-                    m = -k;
-                    if (v5 < m) {
-                        x2 = x + (h8 + k * 2);
-                    } else if (v5 > h8 + k) {
-                        x2 = x - (h8 + k * 2);
-                    }
-                    if (v6 < m) {
-                        y2 = y2 + (w8 + k * 2);
-                    } else if (v6 > w8 + k) {
-                        y2 = y2 - (w8 + k * 2);
-                    }
-                    e = func_020aaea0(&data_0217b278, x2, y2);
-                    if (e != 0 && e != b) {
-                        return e;
-                    }
+    for (; y0 != y1; y0 += v2) {
+        x = x0;
+        if (x != x1) {
+            v6 = y0 - v4;
+            do {
+                x2 = x;
+                y2 = y0;
+                g = data_0217b278.mUnk_2c->mUnk_04;
+                h8 = g->mUnk_02 << 3;
+                w8 = g->mUnk_00 << 3;
+                v5 = x - v3;
+                k = data_usa_021679f8;
+                m = -k;
+                if (v5 < m) {
+                    x2 = x + (h8 + k * 2);
+                } else if (v5 > h8 + k) {
+                    x2 = x - (h8 + k * 2);
                 }
-            }
+                if (v6 < m) {
+                    y2 = y2 + (w8 + k * 2);
+                } else if (v6 > w8 + k) {
+                    y2 = y2 - (w8 + k * 2);
+                }
+                e = func_020aaea0(&data_0217b278, x2, y2);
+                if (e != 0 && e != b) {
+                    return e;
+                }
+                x += v1;
+            } while (x != x1);
         }
     }
     return b;

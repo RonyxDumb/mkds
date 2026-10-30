@@ -151,17 +151,20 @@ s16 func_020408f0(s32 a) {
     return (s16) s;
 }
 
-// non-matching: the original reloads data_02175620 after the halfword store and forms the entry address into r2 before the load (registers r0 to r3 differ in the first table lookup)
 void func_02040750(Unk0217561c_14 *a, s32 b) {
     s32 i;
     Unk0217561c_14_0c *p;
+    Unk02175620_4c *e;
+    s32 m;
 
     if (data_02175620->mUnk_44 == 0) {
         a->mUnk_38 = 0;
         a->mUnk_32 = 0;
     } else {
         a->mUnk_38 = data_02175620->mUnk_4c->mUnk_07;
-        a->mUnk_32 = data_02175620->mUnk_4c[a->mUnk_38].mUnk_00 + data_02175620->mUnk_4c[a->mUnk_38].mUnk_02 - 1;
+        e = &data_02175620->mUnk_4c[a->mUnk_38];
+        m = data_02175620->mUnk_4c[a->mUnk_38].mUnk_00;
+        a->mUnk_32 = m + e->mUnk_02 - 1;
     }
     a->mUnk_04 = 0;
     a->mUnk_08 = 0;

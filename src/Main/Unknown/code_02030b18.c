@@ -27,18 +27,18 @@
 
 #pragma thumb on
 
-// non-matching: same size; 62 lines differ; first: original `adds r5, r0, #0`, ours `adds r6, r0, #0`
 s32 func_02030b18(Unk02030b18 *a) {
+    Unk02174e58_24 *p;
     s32 v1;
     s32 v;
     s32 v2;
     u16 k;
     u16 v3[12];
-    Unk02174e58_24 *p;
     s32 x;
-    u32 a1;
     u32 b1;
+    u32 a1;
     u32 w;
+    s32 y;
 
     v1 = -1;
     k = func_020435bc();
@@ -65,8 +65,8 @@ s32 func_02030b18(Unk02030b18 *a) {
                 }
                 (*(Unk02174e58 **) &data_02174e58)->mUnk_88 = 0;
             }
-            func_02031b6c();
         }
+        func_02031b6c();
     }
     if ((*(Unk02174e58 **) &data_02174e58)->mUnk_84 == 0 && (*(Unk02174e58 **) &data_02174e58)->mUnk_80 == 0) {
         v3[0] = 0;
@@ -92,8 +92,8 @@ s32 func_02030b18(Unk02030b18 *a) {
         }
         break;
     case 1:
-        a1 = 0;
         b1 = 0;
+        a1 = 0;
         w = data_02175674[k].mUnk_00;
         if (w == 0 && data_02175680[k].mUnk_00 < 5) {
             a1 = 1;
@@ -104,7 +104,8 @@ s32 func_02030b18(Unk02030b18 *a) {
         if (b1 != 0) {
             v = func_02128210(data_02175670[k].mUnk_00, data_02175672[k].mUnk_00);
         }
-        if ((*(Unk02174e58 **) &data_02174e58)->mUnk_90 == 0) {
+        y = (*(Unk02174e58 **) &data_02174e58)->mUnk_90;
+        if (y == 0) {
             switch (data_0217aa00->mUnk_0004) {
             case 7:
             case 8:
@@ -135,7 +136,7 @@ s32 func_02030b18(Unk02030b18 *a) {
                 a->mUnk_04 = 1;
             }
             (*(Unk02174e58 **) &data_02174e58)->mUnk_94 = 7;
-        } else if ((*(Unk02174e58 **) &data_02174e58)->mUnk_90 == 0) {
+        } else if (y == 0) {
             if ((u16) (data_02175628[k].mUnk_00 & 2) != 0 || v != 0) {
                 (*(Unk02174e58 **) &data_02174e58)->mUnk_6c = 0;
                 (*(Unk02174e58 **) &data_02174e58)->mUnk_94 = 3;

@@ -160,7 +160,8 @@ void func_02066de8(Unk0206bcb0 *a) {
     a->mUnk_598 = 0;
 }
 
-// non-matching: 97.6: 2 words short: the original keeps the base pointer of data_021759c0 in other registers, so literals and operand registers differ
+// non-matching: same size, 16 words: the data_021759c0 pointer and the a->mUnk_74 subscript swap r0/r1 (+0x68 to
+// +0x1a4), `cmp r6, r0` where the original has `cmp r0, r6` (+0x31c), and the pointer and g swap r1/r2 (+0x3ac)
 void func_02066fe0(Unk0206bcb0 *a) {
     Unk021759c0 *p;
     Unk02175620 *q;
@@ -272,12 +273,16 @@ void func_02066fe0(Unk0206bcb0 *a) {
     }
     if (a->mUnk_74 == p->mUnk_62) {
         c = func_02110e58();
-        if (c == 0) {
-            d = 9;
-        } else if (c == 1) {
-            d = 0xa;
-        } else if (c == 2) {
-            d = 0xb;
+        switch (c) {
+            case 0:
+                d = 9;
+                break;
+            case 1:
+                d = 0xa;
+                break;
+            case 2:
+                d = 0xb;
+                break;
         }
         func_0210b198(a->mUnk_3cc, d, 0x6e, 7, -1);
         return;

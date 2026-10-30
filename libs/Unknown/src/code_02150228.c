@@ -49,8 +49,6 @@ void func_021506d4(Unk02150610 *ctx, const u8 *src, u32 n) {
     func_0214d1fc(p, ctx->mUnk_18, n & 0x3f);
 }
 
-// non-matching: the byte count is loaded into r1 where the original holds it in r3 (mov r1, #0 for the fill value
-// comes before it); 9 words differ from +0x38 on.
 void func_02150610(u8 *out, Unk02150610 *ctx) {
     u32 lo;
     u32 hi;
@@ -62,7 +60,7 @@ void func_02150610(u8 *out, Unk02150610 *ctx) {
     lo = (u32) bits;
     hi = (u32) (bits >> 32);
     func_021506d4(ctx, &data_0216f0a8, 1);
-    n = (u32) ctx->mUnk_10 & 0x3f;
+    n = (u32) (ctx->mUnk_10 & 0x3f);
     m = 0x40 - n;
     if (m < 8) {
         func_0214d168(ctx->mUnk_18 + n, 0, m);

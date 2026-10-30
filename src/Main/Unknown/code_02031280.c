@@ -38,8 +38,8 @@
 
 #pragma thumb on
 
-// non-matching: 0x204 bytes, original 0x1fc; 84 lines differ; first: original `ldr r0, [pc, #444]`, ours `ldr r0, [pc,
-// #452]`
+// non-matching: same size, 16 words: in the 8-entry loop the 12-byte stride offset and k swap r3/r6 (+0x13e to
+// +0x18a), and in the last loop j, its 64-byte offset and s are in r0/r3/r5 where the original has r2/r5/r3
 void func_02031280(void *a, void *b, void *c) {
     Unk02174e58_24 *p;
     Unk02174e58_24 *q;
@@ -89,22 +89,17 @@ void func_02031280(void *a, void *b, void *c) {
         p->mUnk_18[5].mUnk_00 = p->mUnk_18[6].mUnk_00;
         p->mUnk_18[4].mUnk_00 = p->mUnk_18[5].mUnk_00;
         p->mUnk_18[3].mUnk_00 = p->mUnk_18[4].mUnk_00;
-        j = 0;
-        k = 0;
         for (i = 0; i < 8; i++) {
             q->mUnk_18[(*(Unk02174e58 **) &data_02174e58)->mUnk_e0[i].mUnk_0a].mUnk_00 = 0;
             q->mUnk_18[(*(Unk02174e58 **) &data_02174e58)->mUnk_e0[i].mUnk_08].mUnk_00 = q->mUnk_18[(*(Unk02174e58 **) &data_02174e58)->mUnk_e0[i].mUnk_0a].mUnk_00;
         }
-        if (n0 > 0) {
-            for (; k < n0; k++) {
-                p->mUnk_18[k + n1].mUnk_00 = 0;
-            }
+        for (k = 0; k < n0; k++) {
+            p->mUnk_18[k + n1].mUnk_00 = 0;
         }
+        j = 0;
         s = n3 + n2;
-        if (s > 0) {
-            for (j = 0; j < s; j++) {
-                q->mUnk_18[j].mUnk_00 = 0;
-            }
+        for (; j < s; j++) {
+            q->mUnk_18[j].mUnk_00 = 0;
         }
     }
     func_021281c8(-1);
@@ -130,8 +125,6 @@ void func_0203147c(void *a, void *b, void *c) {
     func_02036820((*(Unk02174e58 **) &data_02174e58)->mUnk_150);
 }
 
-// non-matching: 0x24c bytes, original 0x254; 245 lines differ; first: original `ldr r1, [pc, #492]`, ours `ldr r1, [pc,
-// #484]`
 void func_0203154c(void *a, void *b, void *c) {
     Unk02174e58_24 *p;
     Unk02174e58_24 *q;
@@ -140,6 +133,8 @@ void func_0203154c(void *a, void *b, void *c) {
     u32 r;
     void *h;
     volatile u32 z;
+    Unk02153c1c *t;
+    Unk02153c1c *g;
 
     h = func_02036948(a);
     (*(Unk02174e58 **) &data_02174e58) = func_02036bec(h, 0x154);
@@ -156,10 +151,15 @@ void func_0203154c(void *a, void *b, void *c) {
     func_02025b20(p, data_usa_0216370c, data_usa_0216372c, data_usa_0216374c, data_usa_0216376c, data_usa_02163788, 0,
                   func_0204799c);
     func_02025a50(0, (*(Unk02174e58 **) &data_02174e58)->mUnk_150, p);
-    for (i = 0; i < 2; i++) {
-        v -= func_02025a00(0, (*(Unk02174e58 **) &data_02174e58)->mUnk_150, p, &data_usa_02153d64[i], v);
-        func_0212426c(0, data_usa_02153d64[i].mUnk_00, p->mUnk_14, func_020b3f7c((*(Unk02174e58 **) &data_02174e58)->mUnk_64, data_usa_02153d64[i].mUnk_08),
+    i = 0;
+    t = data_usa_02153d64;
+    g = t;
+    for (; i < 2; i++) {
+        v -= func_02025a00(0, (*(Unk02174e58 **) &data_02174e58)->mUnk_150, p, t, v);
+        func_0212426c(0, g->mUnk_00, p->mUnk_14, func_020b3f7c((*(Unk02174e58 **) &data_02174e58)->mUnk_64, g->mUnk_08),
                       p->mUnk_0c, p->mUnk_18);
+        t++;
+        g++;
     }
     func_02031b6c();
     func_020258d4(1, (*(Unk02174e58 **) &data_02174e58), data_usa_021637a4, data_usa_021637c4, data_usa_021637e4, 3, func_0204799c);
