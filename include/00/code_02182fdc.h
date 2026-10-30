@@ -9,6 +9,7 @@
 #include "00/code_021806e0.h"
 
 #include "types.h"
+#include "00/code_02180668.h"
 #include "Main/Unknown/code_0205e2cc.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02036bec.h"
@@ -338,7 +339,6 @@ Unk0217ad04 *func_02077f00(void);
 #include "Main/Unknown/code_02128274.h"
 #include "Main/Unknown/code_0212b928.h"
 
-u32 func_ov000_02180668(u32);
 void func_ov000_02182e18(void);
 void func_ov000_02184354(void);
 void func_ov000_021843a8(void *heap);
