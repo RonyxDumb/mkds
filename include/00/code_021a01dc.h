@@ -16,11 +16,6 @@ typedef struct Unk021a01dc {
     /* 04 */ u32 mUnk_04;
 } Unk021a01dc;
 
-void func_ov000_0219f8b0(void);
-void func_ov000_0219ff0c(u32 a, u32 *b);
-void func_ov000_0219ff54(u32 a, u32 b, u32 c);
-s32 func_ov000_021a0064(u32 a, u32 b, s32 c);
-s32 func_ov000_021a01dc(s32 a, u32 b, u32 c, u32 d, u32 *e, s32 f);
-s32 func_ov000_021a0cac(s32 a, s32 b, u32 c);
+s32 func_ov000_021a01dc(s32 a, u32 b, u32 c, u16 d, u32 *e, s32 f);
 void func_ov000_021a1a38(s32 a, s32 b);
 u64 func_ov000_021a350c(void);

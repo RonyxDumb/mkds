@@ -9,7 +9,7 @@
 #include "00/code_021a4818.h"
 #include "code_0200f5ac.h"
 
-s32 func_ov000_021a01dc(s32 a, u32 b, u32 c, u32 d, u32 *e, s32 f) {
+s32 func_ov000_021a01dc(s32 a, u32 b, u32 c, u16 d, u32 *e, s32 f) {
     u32 *w;
     u32 z;
     Unk021a01dc s;
@@ -39,8 +39,7 @@ s32 func_ov000_021a01dc(s32 a, u32 b, u32 c, u32 d, u32 *e, s32 f) {
                     c = e[1];
                     d = (u16) e[2];
                 }
-                func_ov000_0219ff54(b, c, d);
-                if (func_ov000_0219fee4() != 0) {
+                if (func_ov000_0219fee4(func_ov000_0219ff54(b, c, d)) != 0) {
                     return 0;
                 }
                 p = data_ov000_021b566c;
@@ -59,8 +58,7 @@ s32 func_ov000_021a01dc(s32 a, u32 b, u32 c, u32 d, u32 *e, s32 f) {
             if (t == 0xff) {
                 break;
             }
-            func_ov000_021a0ae8(t, b, c, d, (void *) g, i);
-            if (func_ov000_0219fee4() == 0) {
+            if (func_ov000_0219fee4(func_ov000_021a0ae8(t, b, c, d, (void *) g, i)) == 0) {
                 break;
             }
             return 0;
@@ -85,12 +83,10 @@ s32 func_ov000_021a01dc(s32 a, u32 b, u32 c, u32 d, u32 *e, s32 f) {
                         func_ov000_0219ff0c(b, e);
                     }
                 } else {
-                    func_ov000_0219fb14(b);
-                    if (func_ov000_0219fee4() != 0) {
+                    if (func_ov000_0219fee4(func_ov000_0219fb14(b)) != 0) {
                         return 0;
                     }
-                    func_ov000_0219fbec(0, 0);
-                    if (func_ov000_0219fee4() == 0) {
+                    if (func_ov000_0219fee4(func_ov000_0219fbec(0, 0)) == 0) {
                         break;
                     }
                     return 0;
@@ -99,8 +95,7 @@ s32 func_ov000_021a01dc(s32 a, u32 b, u32 c, u32 d, u32 *e, s32 f) {
             if (data_ov000_021b566c->mUnk_15 == 0) {
                 if (data_ov000_021b566c->mUnk_0d != 0) {
                     func_ov000_0219ff0c(b, e);
-                    func_ov000_0219f8b0();
-                    if (func_ov000_0219fee4() != 0) {
+                    if (func_ov000_0219fee4(func_ov000_0219f8b0()) != 0) {
                         return 0;
                     }
                 }
@@ -220,8 +215,7 @@ s32 func_ov000_021a01dc(s32 a, u32 b, u32 c, u32 d, u32 *e, s32 f) {
             v = e[2];
             w = &o->mUnk_f4[u];
             if (x == *w && u == o->mUnk_0d - 1) {
-                func_ov000_021a0ae8(9, b, o->mUnk_24[0], o->mUnk_a4[0], &z, 1);
-                if (func_ov000_0219fee4() == 0) {
+                if (func_ov000_0219fee4(func_ov000_021a0ae8(9, b, o->mUnk_24[0], o->mUnk_a4[0], &z, 1)) == 0) {
                     break;
                 }
                 return 0;
@@ -307,8 +301,7 @@ s32 func_ov000_021a01dc(s32 a, u32 b, u32 c, u32 d, u32 *e, s32 f) {
             } else {
                 g[0] = 0;
             }
-            func_ov000_021a0ae8(0x12, b, c, d, (void *) g, 1);
-            if (func_ov000_0219fee4() == 0) {
+            if (func_ov000_0219fee4(func_ov000_021a0ae8(0x12, b, c, d, (void *) g, 1)) == 0) {
                 break;
             }
             return 0;

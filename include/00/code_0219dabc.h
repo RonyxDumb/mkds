@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "00/code_0219de4c.h"
+#include "00/code_021a0958.h"
 
 // Object func_ov000_0219db18 reads and writes through its last parameter.
 typedef struct Unk0219db18 {
@@ -13,6 +14,3 @@ typedef struct Unk0219db18 {
 
 u32 func_ov000_0219dabc(void);
 void func_ov000_0219db18(s32 a, s32 b, s32 c, void *d);
-
-// Declared here until the code that defines them is decompiled.
-s32 func_ov000_021a0c30(void *a);

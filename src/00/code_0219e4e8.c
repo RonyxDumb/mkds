@@ -15,6 +15,7 @@
 #include "code_0200f5ac.h"
 #include "code_0214d018.h"
 #include "00/code_0219fb14.h"
+#include "00/code_0219fb48.h"
 
 u32 func_ov000_0219e4e8(u32 a) {
     s32 c;
