@@ -68,15 +68,15 @@ s32 func_ov000_021887cc(void) {
         a = func_ov000_02189f00();
     } else if (a < 7) {
         b = func_0200fca0();
-        a = func_ov000_02189e80();
+        a = ((u8 (*)(void)) func_ov000_02189e80)();
         func_ov000_02188534(a);
         func_0200fcb4(b);
     } else if (a < 9) {
-        a = func_ov000_0218922c();
+        a = ((u8 (*)(void)) func_ov000_0218922c)();
     } else if (a < 10) {
-        a = func_ov000_021897bc();
+        a = ((u8 (*)(void)) func_ov000_021897bc)();
     } else if (a < 16) {
-        a = func_ov000_0218a294();
+        a = ((u8 (*)(void)) func_ov000_0218a294)();
     } else if (a == 17) {
         a = func_ov000_021894c0();
     }
