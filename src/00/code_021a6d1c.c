@@ -1,7 +1,7 @@
 #include "00/code_021a6d1c.h"
 
 u32 func_ov000_021a6d40(void) {
-    int iVar1;
+    u8 *iVar1;
     iVar1 = func_ov000_021a6b10();
     if (iVar1 != 0) {
         return 1;

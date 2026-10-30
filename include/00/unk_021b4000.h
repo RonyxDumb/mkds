@@ -14,8 +14,27 @@
 #include "types.h"
 #include "00/code_021a39d8.h"
 #include "00/code_021a3eb0.h"
+#include "00/code_021a6fa8.h"
+
+// Settings func_ov000_021a72c4 reads and func_ov000_021a71c0 applies.
+typedef struct Unk021b49b8 {
+    /* 00 */ s8 mUnk_00;
+    /* 01 */ s8 mUnk_01;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u16 mUnk_0e;
+    /* 10 */ Unk021a72a4 mUnk_10;
+    /* 14 */ Unk021a72a4 mUnk_14;
+} Unk021b49b8;
 
 // Objects whose layout isn't known yet.
+extern u32 data_ov000_021b49b4;
+extern Unk021b49b8 data_ov000_021b49b8;
+extern Unk021b49b8 data_ov000_021b49d0;
 extern u8 data_ov000_021b4078[];
 extern char data_ov000_021b40b8[];
 extern u8 data_ov000_021b40c4[];

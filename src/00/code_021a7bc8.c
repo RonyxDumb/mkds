@@ -7,7 +7,7 @@ void func_ov000_021a7bc8(unsigned int p0, unsigned int p1, unsigned int p2, unsi
     unsigned int v5 = ((p3) + (0x0u));
     unsigned int v6 = ((u32) (&func_ov000_021a7af0));
     unsigned int v7 = ((v2) + (0x0u));
-    unsigned int v9 = ((unsigned int) func_ov000_021a7064((u32) (v6), (int) (v7), (u32) (0x1u)));
+    unsigned int v9 = ((unsigned int) func_ov000_021a7064((Unk021a7064Func) (v6), (Unk021a6fa8 *) (v7), (s32) (0x1u)));
     unsigned int v10 = ((v9) + (0x0u));
     unsigned int v14;
     unsigned int v16;
@@ -18,5 +18,5 @@ void func_ov000_021a7bc8(unsigned int p0, unsigned int p1, unsigned int p2, unsi
     v14 = p4;
     *(unsigned int *) ((v10) + (28)) = (unsigned int) (v14);
     v16 = ((v2) + (0x0u));
-    v17 = func_ov000_021a6fb4((unsigned int) (v16), (unsigned int) (v10));
+    v17 = func_ov000_021a6fb4((Unk021a6fa8 *) (v16), (Unk021a7064 *) (v10));
 }

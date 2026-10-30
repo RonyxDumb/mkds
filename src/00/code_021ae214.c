@@ -10,11 +10,11 @@ void func_ov000_021ae228(int param_1) {
     return;
 }
 
-void func_ov000_021ae214(u32 param_1) {
+void func_ov000_021ae214(Unk021a78a4Func param_1) {
     int iVar1;
     iVar1 = *(int *) (*(int *) (((int) (u32) ((unsigned char *) &data_0216ff5c)) + 4) + 0xa4);
     if (iVar1 != 0) {
-        *(u32 *) (iVar1 + 0x38) = param_1;
+        *(Unk021a78a4Func *) (iVar1 + 0x38) = param_1;
     }
     return;
 }

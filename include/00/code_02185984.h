@@ -9,6 +9,7 @@
 #include "code_02151868.h"
 #include "code_021519d4.h"
 #include "00/code_02187274.h"
+#include "00/code_021a6abc.h"
 
 // Written into Unk02185984 at 0x1cc; mUnk_24 and mUnk_28 allocate and release the 0x13e0 bytes of the object and the buffers.
 typedef struct Unk02186560 {
@@ -65,7 +66,6 @@ extern Unk021b4c94 data_ov000_021b4c94;
 
 // Declared here until the code that defines them is decompiled.
 void func_ov000_02185954(s32 a);
-u8 *func_ov000_021a6abc(void *a);
 s32 func_ov000_0218a67c(u8 *a, char *b);
 
 u32 func_ov000_02185984(Unk021868d0 *a, const u8 *b, const u8 *c, Unk021868a4Entry *d, s32 e, s32 f);

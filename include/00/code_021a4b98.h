@@ -33,9 +33,13 @@ typedef struct Unk021b5f50_2270 {
 
 // 0x2300 bytes; the word data_ov000_021b5f50 points to it.
 typedef struct Unk021b5f50 {
-    /* 0000 */ u8 mUnk_0000[0x1500];
+    /* 0000 */ u8 mUnk_0000[0xf00];
+    /* 0f00 */ u8 mUnk_0f00[0x600];
     /* 1500 */ u8 mUnk_1500[0xc40];
-    /* 2140 */ u8 mUnk_2140[0x2e];
+    /* 2140 */ u8 mUnk_2140[4];
+    /* 2144 */ u8 mUnk_2144[6];
+    /* 214a */ u16 mUnk_214a;
+    /* 214c */ u8 mUnk_214c[0x22];
     /* 216e */ u16 mUnk_216e;
     /* 2170 */ u16 mUnk_2170;
     /* 2172 */ u8 mUnk_2172[0x8e];
@@ -79,8 +83,6 @@ typedef struct Unk021a5088 {
 
 // Declared here until the code that defines them is decompiled.
 void func_ov000_021a54b0(Unk021425e8 *event);
-void func_ov000_021a6c08(u8 a);
-void func_ov000_021a6bb4(void *a);
 
 u32 func_ov000_021a4b98(u32 a);
 u32 func_ov000_021a4bbc(u32 a);

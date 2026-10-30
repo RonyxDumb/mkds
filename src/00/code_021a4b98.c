@@ -5,6 +5,7 @@
 #include "00/code_021a58a4.h"
 #include "00/code_021a58dc.h"
 #include "00/code_021a669c.h"
+#include "00/code_021a6abc.h"
 #include "00/code_021a6000.h"
 #include "00/code_021a6c68.h"
 #include "00/unk_021b5000.h"
