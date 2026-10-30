@@ -147,19 +147,17 @@ s32 func_020ed0f4(Unk020ec8bc *p) {
     return 0;
 }
 
-// non-matching: the registers are handed out differently (original keeps c in
-// r4, p+0x13c in r5, p+0x130 in r6, b in r7, p in r8; compiled keeps r in r4,
-// q in r5, c in r6).
 void func_020ece1c(Unk020ec8bc *p, s32 a, s32 b, s32 c) {
     Vec3 v;
     Vec3 *q;
     Vec3 *r;
+    Vec3 *w;
     s32 n;
     s32 s;
 
     func_020f2228(&p->mUnk_000, a);
     if (p->mUnk_000.mUnk_158 != 0 && (p->mUnk_000.mUnk_000.mUnk_74 & 0x20000) != 0) {
-        n = func_0207a974(p->mUnk_000.mUnk_000.mUnk_78 & 0xff)->mUnk_98.y + 0x1e000;
+        n = func_0207a974((u16) (p->mUnk_000.mUnk_000.mUnk_78 & ~0xff00))->mUnk_98.y + 0x1e000;
         if (p->mUnk_000.mUnk_000.mUnk_50.y < n) {
             p->mUnk_000.mUnk_000.mUnk_50.y = n;
         }
@@ -192,21 +190,23 @@ void func_020ece1c(Unk020ec8bc *p, s32 a, s32 b, s32 c) {
         return;
     }
     if (func_02039828(r, &v) < 0) {
-        func_020397a8(r, &p->mUnk_000.mUnk_000.mUnk_f0, &p->mUnk_000.mUnk_148);
-        if (func_02039828(&p->mUnk_000.mUnk_148, &v) > 0) {
-            v = p->mUnk_000.mUnk_148;
+        w = &p->mUnk_000.mUnk_148;
+        func_020397a8(r, &p->mUnk_000.mUnk_000.mUnk_f0, w);
+        if (func_02039828(w, &v) > 0) {
+            v = *w;
         } else {
-            v.x = -p->mUnk_000.mUnk_148.x;
-            v.y = -p->mUnk_000.mUnk_148.y;
-            v.z = -p->mUnk_000.mUnk_148.z;
+            v.x = -w->x;
+            v.y = -w->y;
+            v.z = -w->z;
         }
         p->mUnk_224 = 1;
     }
     if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 0x10) {
         func_02039860(&v, &v);
     }
+    s = 0x1000 - p->mUnk_214 * p->mUnk_218;
     n = (p->mUnk_224 != 0) ? 0x266 : 0x148;
-    func_020eacc0(q, (s32) (((u64) ((s64) n * (0x1000 - p->mUnk_214 * p->mUnk_218))) >> 12), &v, &v);
+    func_020eacc0(q, (s32) (((u64) ((s64) n * s)) >> 12), &v, &v);
     func_020f1d70(p, &v);
 }
 
