@@ -13,6 +13,8 @@
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
 #include "code_02147cd8.h"
+#include "03/code_021d1970.h"
+#include "03/code_021d1c18.h"
 
 u32 func_ov003_021be610(void (*param_0)(u32, u32), void *param_1, u32 param_2) {
     u32 a = func_0200fca0();
