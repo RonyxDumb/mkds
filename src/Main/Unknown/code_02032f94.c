@@ -71,8 +71,8 @@ void func_02032f94(void *a, s32 b, s32 c) {
 
     data_02174e60 = func_02036bec(a, 0x154);
     func_0214d05c_inline(data_02174e60, 0x154);
-    data_02174e60->mUnk_0b8 = b;
-    data_02174e60->mUnk_0bc = c;
+    data_02174e60->mUnk_0b8[0] = b;
+    data_02174e60->mUnk_0b8[1] = c;
     data_02174e60->mUnk_0e0 = data_021759d0->mUnk_20;
     if (data_02174e60->mUnk_0e0 == 3) {
         func_02123a48(3);

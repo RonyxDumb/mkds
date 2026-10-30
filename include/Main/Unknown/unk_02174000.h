@@ -213,19 +213,19 @@ typedef struct Unk02174e60_e4 {
 typedef struct Unk02174e60 {
     /* 000 */ Unk02174e60_00 mUnk_000[2];
     /* 048 */ Unk02174e14_00 mUnk_048[4];
-    /* 0b8 */ s32 mUnk_0b8;
-    /* 0bc */ s32 mUnk_0bc;
+    /* 0b8 */ s32 mUnk_0b8[2];
     /* 0c0 */ u32 mUnk_0c0;
     /* 0c4 */ u32 mUnk_0c4;
     /* 0c8 */ void *mUnk_0c8;
-    /* 0cc */ u8 mUnk_0cc[4];
+    /* 0cc */ u16 mUnk_0cc;
+    /* 0ce */ u16 mUnk_0ce;
     /* 0d0 */ s32 mUnk_0d0;
     /* 0d4 */ s32 mUnk_0d4;
     /* 0d8 */ s32 mUnk_0d8;
     /* 0dc */ s32 mUnk_0dc;
     /* 0e0 */ s32 mUnk_0e0;
     /* 0e4 */ Unk02174e60_e4 mUnk_0e4[8];
-    /* 144 */ u8 mUnk_144[4];
+    /* 144 */ s32 mUnk_144;
     /* 148 */ s32 mUnk_148;
     /* 14c */ s32 mUnk_14c;
     /* 150 */ s32 mUnk_150;
