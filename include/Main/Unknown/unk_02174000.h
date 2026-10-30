@@ -60,16 +60,9 @@ typedef struct Unk02174e3c_4c_04 {
 typedef struct Unk02174e3c_4c {
     /* 00 */ s32 mUnk_00;
     /* 04 */ Unk02174e3c_4c_04 mUnk_04;
-    /* 14 */ u8 mUnk_14[0x18];
+    /* 14 */ u16 mUnk_14[0xc];
 } Unk02174e3c_4c;
 
-// Object behind data_02174e3c.
-typedef struct Unk02174e3c {
-    /* 00 */ u8 mUnk_00[0x4c];
-    /* 4c */ Unk02174e3c_4c mUnk_4c[8];
-} Unk02174e3c;
-
-extern Unk02174e3c *data_02174e3c;
 extern Unk02036590 data_02174e88;
 
 // 0x1c-byte part of Unk02174e14, at 0x00, 0x1c and 0x38; func_02026910 has two on the stack, one filled by
@@ -117,6 +110,34 @@ typedef struct Unk02174e14 {
 } Unk02174e14;
 
 extern Unk02174e14 *data_02174e14;
+
+// Object behind data_02174e3c, 0x258 bytes (func_0202c65c allocates it).
+typedef struct Unk02174e3c {
+    /* 000 */ Unk02174e14_00 mUnk_000;
+    /* 01c */ Unk02174e14_00 mUnk_01c;
+    /* 038 */ void *mUnk_038;
+    /* 03c */ void *mUnk_03c;
+    /* 040 */ s32 mUnk_040;
+    /* 044 */ s32 mUnk_044;
+    /* 048 */ s32 mUnk_048;
+    /* 04c */ Unk02174e3c_4c mUnk_04c[8];
+    /* 1ac */ s32 mUnk_1ac[4];
+    /* 1bc */ s32 mUnk_1bc[8];
+    /* 1dc */ s32 mUnk_1dc[8];
+    /* 1fc */ s32 mUnk_1fc;
+    /* 200 */ s32 mUnk_200;
+    /* 204 */ s32 mUnk_204;
+    /* 208 */ s32 mUnk_208;
+    /* 20c */ s32 mUnk_20c;
+    /* 210 */ Unk02025ebc mUnk_210;
+    /* 220 */ Unk02025ebc mUnk_220;
+    /* 230 */ Unk02025ebc mUnk_230;
+    /* 240 */ Unk02025ebc mUnk_240;
+    /* 250 */ s32 mUnk_250;
+    /* 254 */ s32 mUnk_254;
+} Unk02174e3c;
+
+extern Unk02174e3c *data_02174e3c;
 
 // 0x24-byte part of Unk02174e60, at 0x00 and 0x24, filled by func_02025884.
 typedef struct Unk02174e60_00 {

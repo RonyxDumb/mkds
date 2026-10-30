@@ -89,6 +89,13 @@ typedef struct Unk021b4c74 {
 
 // Four callbacks, passed to func_ov000_021806ec by func_ov000_0218330c.
 
+// 0xc-byte element of the array at member 0x20 of Unk0217b488.
+typedef struct Unk0217b488_20 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+} Unk0217b488_20;
+
 // Object behind data_0217b488, 0x130 bytes (func_020cefa0 allocates it).
 typedef struct Unk0217b488 {
     /* 000 */ s32 mUnk_00;
@@ -99,7 +106,7 @@ typedef struct Unk0217b488 {
     /* 014 */ s32 mUnk_14;
     /* 018 */ s32 mUnk_18;
     /* 01c */ s32 mUnk_1c;
-    /* 020 */ u8 mUnk_20[0x30];
+    /* 020 */ Unk0217b488_20 mUnk_20[4];
     /* 050 */ s32 mUnk_50;
     /* 054 */ u8 mUnk_54;
     /* 055 */ u8 mUnk_55[0x3];

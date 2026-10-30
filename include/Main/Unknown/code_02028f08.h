@@ -2,5 +2,6 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0201e000.h"
+#include "code_0201ea58.h"
 
-u32 func_02028f08(u32 arg0, u32 arg1);
+void *func_02028f08(s32 a, Unk0201ea30 *b);

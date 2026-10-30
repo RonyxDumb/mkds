@@ -10,7 +10,7 @@ void func_02025c94(int id, int x, int y, void *graphics) {
     entry[1] = (entry[1] & 0xfffff000U) | (y & 0xfff);
 }
 
-void func_02025c6c(u32 param_1, u32 param_2, u32 param_3) {
+void func_02025c6c(u32 param_1, u32 param_2, Unk0201ea30 *param_3) {
     u16 *puVar1;
     u16 *puVar2;
     puVar1 = (u16 *) func_0201ea30((Unk0201ea30 *) (param_3), (int) (param_1));
@@ -20,7 +20,7 @@ void func_02025c6c(u32 param_1, u32 param_2, u32 param_3) {
     return;
 }
 
-void func_02025c48(u32 param_1, u32 param_2, u32 param_3) {
+void func_02025c48(u32 param_1, u32 param_2, Unk0201ea30 *param_3) {
     int iVar1;
     int iVar2;
     iVar1 = (int) func_0201ea30((Unk0201ea30 *) (param_3), (int) (param_1));
