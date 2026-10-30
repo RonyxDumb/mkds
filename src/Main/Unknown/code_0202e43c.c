@@ -3,7 +3,7 @@
 #pragma thumb on
 
 u32 func_0202e43c(s32 a) {
-    return data_usa_02154128[a / 4][a % 4];
+    return data_02154128[a / 4][a % 4];
 }
 
 #pragma thumb off

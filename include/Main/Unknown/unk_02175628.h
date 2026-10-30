@@ -16,6 +16,7 @@ typedef struct Unk02175650 {
     /* 06 */ u16 mUnk_06;
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
+    /* 10 */ u8 mUnk_10[0x4c];
 } Unk02175650;
 
 // One 0x5c-byte element of the array at data_02175628.
@@ -35,16 +36,11 @@ typedef struct Unk02175628 {
     /* 18 */ u64 mUnk_18;
     /* 20 */ s32 mUnk_20;
     /* 24 */ s32 mUnk_24;
-    /* 28 */ union {
-        struct {
-            /* 28 */ void *mUnk_28;
-            /* 2c */ u16 mUnk_2c;
-            /* 2e */ u16 mUnk_2e;
-            /* 30 */ s32 mUnk_30;
-            /* 34 */ u8 mUnk_34[0x8];
-        };
-        Unk02175650 mUnk_28_view;
-    };
+    /* 28 */ void *mUnk_28;
+    /* 2c */ u16 mUnk_2c;
+    /* 2e */ u16 mUnk_2e;
+    /* 30 */ s32 mUnk_30;
+    /* 34 */ u8 mUnk_34[0x8];
     /* 3c */ s32 mUnk_3c;
     /* 40 */ u16 mUnk_40;
     /* 42 */ u16 mUnk_42;

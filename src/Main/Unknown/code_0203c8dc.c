@@ -29,10 +29,10 @@ void func_0203c98c(void) {
         Unk02175628 *e = &data_02175628[data_021759c0->mUnk_68[i].mUnk_14];
         if (e->mUnk_3c != 1) {
             if (e->mUnk_3c == 2) {
-                func_0204a978(&e->mUnk_28_view);
+                func_0204a978((Unk02175650 *) &e->mUnk_28);
             }
         } else {
-            func_0204a910(&e->mUnk_28_view);
+            func_0204a910((Unk02175650 *) &e->mUnk_28);
         }
     }
 }

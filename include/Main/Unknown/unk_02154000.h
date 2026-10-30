@@ -10,6 +10,7 @@ extern u8 data_02154768[];
 extern const u8 data_usa_02154064[];
 extern const u8 data_02154788[];
 extern u8 data_usa_021547c8[];
+extern u8 data_usa_02154868[];
 extern u8 data_021547f0[];
 extern u8 data_02154818[];
 extern const Vec3 data_02154f70;
