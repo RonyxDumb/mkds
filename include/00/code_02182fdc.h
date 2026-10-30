@@ -325,7 +325,6 @@ void func_ov000_0218401c(void);
 void func_ov000_021840c8(void);
 void func_ov000_02184130(void);
 
-s32 func_02036d08(void);
 void func_02036f10(s16);
 Unk0217ad04 *func_02077f00(void);
 #include "Main/Unknown/code_020ac2fc.h"
@@ -348,3 +347,4 @@ void func_ov000_021843a8(void *heap);
 #include "Main/Unknown/code_021281b4.h"
 #include "Main/Unknown/code_0212a910.h"
 #include "code_0212df7c.h"
+#include "Main/Unknown/code_02036c90.h"

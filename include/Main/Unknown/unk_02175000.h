@@ -133,10 +133,8 @@ typedef struct Unk021755a0 {
     /* b2 */ u16 mUnk_b2;
     /* b4 */ u32 mUnk_b4;
     /* b8 */ void (*mUnk_b8)(void);
-    /* bc */ u32 mUnk_bc;
-    /* c0 */ u32 mUnk_c0;
-    /* c4 */ u32 mUnk_c4;
-    /* c8 */ u32 mUnk_c8;
+    /* bc */ u64 mUnk_bc;
+    /* c4 */ u64 mUnk_c4;
     /* cc */ u32 mUnk_cc;
     /* d0 */ u32 mUnk_d0;
     /* d4 */ u32 mUnk_d4;

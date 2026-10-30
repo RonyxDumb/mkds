@@ -75,9 +75,7 @@ void func_02038de4(Unk021755a0 *a, void *b) {
     func_02038e6c(&a->mUnk_70, c->mUnk_0c);
     a->mUnk_6c = 0;
     a->mUnk_bc = 0;
-    a->mUnk_c0 = 0;
     a->mUnk_c4 = 0;
-    a->mUnk_c8 = 0;
     a->mUnk_cc = 0;
     a->mUnk_d0 = 0;
     a->mUnk_d4 = 0;
