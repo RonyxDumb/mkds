@@ -117,6 +117,13 @@ typedef struct Unk0216557c {
 
 extern const Unk0216557c data_usa_0216557c;
 extern s32 data_usa_021654dc;
+extern const Vec3 data_usa_02165554;
+// 37 words.
+typedef struct Unk02165608 {
+    /* 00 */ s32 mUnk_00[37];
+} Unk02165608;
+
+extern const Unk02165608 data_usa_02165608;
 extern const s32 data_usa_02165504;
 extern const s32 data_usa_02165500;
 extern const s16 data_usa_021654c0;
