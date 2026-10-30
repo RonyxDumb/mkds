@@ -28,6 +28,8 @@ extern const Unk021a9034 data_02165280;
 extern Unk021652a0 data_021652a0;
 extern UnkFunc *const data_021652b0[];
 extern UnkFunc *const data_02165388[];
+struct Unk0206bcb0;
+extern void (*const data_usa_021655c4[])(struct Unk0206bcb0 *);
 extern const Unk021a9034 data_02165368;
 extern u8 data_02165074[];
 extern u8 data_02165080[];
