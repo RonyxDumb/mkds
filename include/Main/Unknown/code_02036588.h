@@ -7,8 +7,8 @@ typedef struct Unk02036590 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mUnk_04;
     /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
+    /* 0c */ void *mUnk_0c;
+    /* 10 */ struct Unk02036590 *mUnk_10;
 } Unk02036590;
 
 void func_02036588(Unk02036590 *param_1, u32 param_2);

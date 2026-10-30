@@ -2,16 +2,16 @@
 
 #pragma thumb on
 
-void func_02025f54(u32 *param_1, u32 param_2) {
-    *param_1 = param_2;
-    switch (*param_1) {
+void func_02025f54(Unk02025ebc *a, u32 b) {
+    a->mUnk_00 = b;
+    switch (a->mUnk_00) {
         case 0:
         case 3:
-            param_1[1] = 0;
+            a->mUnk_04 = 0;
             return;
         case 1:
         case 2:
-            param_1[1] = param_1[2];
+            a->mUnk_04 = a->mUnk_08;
     }
     return;
 }

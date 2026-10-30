@@ -53,3 +53,4 @@ extern u8 data_0215d14c[][12];
 extern u8 data_0215d164[];
 extern u8 data_0215d168[];
 extern u8 data_0215d170[][4];
+extern const s16 data_usa_0215d8b4[];

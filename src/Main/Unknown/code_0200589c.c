@@ -446,8 +446,6 @@ u32 func_02005dac(Unk0216f3dc *a, s32 b, const u8 *c, s32 d) {
     return v1;
 }
 
-// non-matching: the original reads the halfword at offset 8 into r2 and tests a copy in r5; here the two registers are
-// swapped
 void func_02006144(Unk0216f3dc *a, s32 b, s32 c) {
     u16 v1;
     u8 v4;
@@ -459,7 +457,7 @@ void func_02006144(Unk0216f3dc *a, s32 b, s32 c) {
     if (a->mUnk_000.mUnk_0c == v4) {
         a->mUnk_000.mUnk_0d = v4;
         if ((a->mUnk_000.mUnk_08 & v1) != 0) {
-            a->mUnk_000.mUnk_08 = a->mUnk_000.mUnk_08 & ~v1;
+            a->mUnk_000.mUnk_08 &= ~v1;
             switch (b) {
                 case 3:
                     *(s16 *) &a->mUnk_000.mUnk_14 = v2->mUnk_0a;

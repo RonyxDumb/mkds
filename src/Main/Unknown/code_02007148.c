@@ -10,14 +10,13 @@ u32 func_02007148(u32 a, u32 b) {
     return b;
 }
 
-// non-matching: same instructions, but the original multiplies by 0x5d4 first and then loads data_0216fdac (the literal
-// table holds 0x5d4 before the address); ours loads the address first
 void func_02007154(u32 a) {
     Unk0216fdac *v1;
     u16 v2;
     u16 v3;
-    a = a * 0x5d4;
-    v1 = (Unk0216fdac *) ((u8 *) *(Unk0216fdac **) &data_0216fdac + a);
+    enum { K0 } k;
+    k = a * 0x5d4;
+    v1 = (Unk0216fdac *) ((u8 *) *(Unk0216fdac **) &data_0216fdac + k);
     if (v1->mUnk_1d52 == 0) {
         return;
     }

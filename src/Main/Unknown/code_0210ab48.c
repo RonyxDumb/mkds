@@ -115,7 +115,7 @@ void func_0210b2a8(Unk0206bcb0 *a, s32 b, s32 c, s32 d, u32 e)
     }
 }
 
-void func_0210b234(Unk0206bcb0 *a, s32 b, s32 c, s32 d)
+void func_0210b234(Unk0206bcb0 *a, s32 b, s32 c, s32 d, s32 param_5)
 {
     u32 e;
 
@@ -150,7 +150,7 @@ void func_0210b198(s32 a, s32 b, u32 c, s32 d, s32 e)
     func_0212c688(&h);
 }
 
-void func_0210b12c(Unk0206bcb0 *a, s32 b)
+void func_0210b12c(Unk0206bcb0 *a, s32 b, s16 d)
 {
     Unk0210bf24 *p;
     s32 c;

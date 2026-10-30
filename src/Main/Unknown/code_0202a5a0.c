@@ -8,9 +8,9 @@ void func_0202a604(u32 param_1) {
     if (iVar1 == 0) {
         func_020ae6ac((void *) ((*(int *) &data_02174e24)), (void *) ((*(int *) &data_02174e24) + ((int) 0x00000404u)));
         if (*(int *) ((*(int *) &data_02174e24) + ((int) 0x00000808u)) == 0) {
-            func_02029aa0((int) (param_1));
+            func_02029aa0((Unk02029aa0 *) param_1);
         } else {
-            func_02032ac4((int) (param_1));
+            func_02032ac4((Unk02032ac4 *) param_1);
         }
         func_020ae630((void *) ((*(int *) &data_02174e24)), (void *) ((*(int *) &data_02174e24) + ((int) 0x00000404u)));
         func_0212a920();

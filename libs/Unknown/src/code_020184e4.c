@@ -1158,7 +1158,7 @@ u32 func_02018f24(s32 a, s32 b) {
     return (data_021619f4(a, b, 0) & 0xffff) << 3;
 }
 
-Unk020184e4 *func_02018d94(void *(*a)(u32 a), s32 b, s32 c, s32 d, u16 e, u16 f) {
+Unk020184e4 *func_02018d94(void *(*a)(u32 a), u16 b, u16 c, s32 d, u16 e, u16 f) {
     Unk020184e4 *p;
     s32 i;
     u8 *q;

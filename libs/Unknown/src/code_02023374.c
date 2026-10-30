@@ -29,7 +29,6 @@ void func_020244f4(Unk02180728 *a, s32 b, s32 c, u32 d, u16 *e, u16 **f) {
     }
 }
 
-// non-matching: 86.2%, same instructions; the first loads and the register of the stack argument copy are ordered differently
 void func_020243f0(Unk02180728 *a, s32 b, s32 c, s32 d, u32 e, u32 f, u16 *g) {
     s32 h;
     s32 n;
@@ -40,13 +39,13 @@ void func_020243f0(Unk02180728 *a, s32 b, s32 c, s32 d, u32 e, u32 f, u16 *g) {
     u16 *v;
 
     h = a->mUnk_0c + ((Unk02022aa8 *) a->mUnk_04)->mUnk_00->mUnk_01;
-    if (g == 0) {
+    v = g;
+    if (v == 0) {
         return;
     }
-    v = g;
-    t = (d + 1) / 2;
     m1 = f & 0x800;
     m2 = f & 0x400;
+    t = (d + 1) / 2;
     do {
         x = b;
         if (m1 != 0) {
@@ -91,66 +90,82 @@ void func_0202428c(Unk02180728 *a, s32 b, s32 c, s32 d, s32 e, s32 f, u32 g, u16
     func_020243f0(a, b, c, d, f, g, h);
 }
 
-// non-matching: 1.4%, the original counts leading zeros with the clz instruction (C has no spelling for it); the count
-// is a loop here
-u32 func_02024184(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f) {
-    u32 r;
-    u32 x;
-    u32 y;
-    s32 i;
-    s32 j;
-    s32 n;
-
-    r = 0;
-    while (1) {
-        x = d & (~0 << f);
-        y = c & (~0 << e);
-        if (x > b) {
-            if (y > a) {
-                return r + y * (b & (~0 << f)) + ((a & (~0 << e)) << f) + ((b & ~(~0 << f)) << e) + (a & ~(~0 << e));
-            }
-            r += y * x;
-            d = x;
-            a -= y;
-            c -= y;
-        } else {
-            r += c * x;
-            if (y > a) {
-                c = y;
-                b -= x;
-                d -= x;
-            } else {
-                d -= x;
-                r += y * d;
-                a -= y;
-                b -= x;
-                c -= y;
-            }
-        }
-        if ((s32) c < 8) {
-            n = c;
-            i = 0;
-            while (n > 1) {
-                n >>= 1;
-                i++;
-            }
-        } else {
-            i = 3;
-        }
-        if ((s32) d < 8) {
-            n = d;
-            j = 0;
-            while (n > 1) {
-                n >>= 1;
-                j++;
-            }
-        } else {
-            j = 3;
-        }
-        e = data_usa_021530f8[j][i][0];
-        f = data_usa_021530f8[j][i][1];
-    }
+// clang-format off
+// Walks two block sizes (c by d, with the limits a by b) down through the table data_usa_021530f8, which gives the shifts
+// e and f for the base-2 logarithms of the remaining sizes (each capped at 3 once it is 8 or more), and returns the sum
+// of the areas it peels off. It stops when a whole block no longer fits and adds the remainder of the position.
+// Not compiled code: it takes the logarithms with clz, which 1.2 never builds (docs/compiler.md).
+asm u32 func_02024184(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f) {
+    stmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+    sub sp, sp, #0x4
+    ldr r11, =data_usa_021530f8
+    mov r9, #0x0
+    mov r10, #0x3
+    mvn r7, #0x0
+loop_top:
+    ldr r4, [sp, #0x2c]
+    ldr r6, [sp, #0x28]
+    and ip, r3, r7, lsl r4
+    cmp ip, r1
+    mov r8, r7, lsl r6
+    mov r5, r7, lsl r4
+    and lr, r2, r7, lsl r6
+    bhi d_masked_above
+    mla r9, r2, ip, r9
+    cmp lr, r0
+    movhi r2, lr
+    subhi r1, r1, ip
+    subhi r3, r3, ip
+    bhi next_sizes
+    sub r3, r3, ip
+    mla r9, lr, r3, r9
+    sub r0, r0, lr
+    sub r1, r1, ip
+    sub r2, r2, lr
+    b next_sizes
+d_masked_above:
+    cmp lr, r0
+    mlals r9, lr, ip, r9
+    mvn r3, r5
+    movls r3, ip
+    subls r0, r0, lr
+    subls r2, r2, lr
+    bls next_sizes
+    and r2, r1, r5
+    mla r5, lr, r2, r9
+    and r2, r0, r8
+    and r1, r1, r3
+    add r2, r5, r2, lsl r4
+    mvn r3, r8
+    add r1, r2, r1, lsl r6
+    and r0, r0, r3
+    add sp, sp, #0x4
+    add r0, r1, r0
+    ldmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+    bx lr
+next_sizes:
+    cmp r2, #0x8
+    movlt r4, r2
+    movge r5, r10
+    clzlt r4, r4
+    rsblt r5, r4, #0x1f
+    cmp r3, #0x8
+    movge r4, r10
+    movlt r4, r3
+    clzlt r4, r4
+    rsblt r4, r4, #0x1f
+    add r4, r11, r4, lsl #0x3
+    add r6, r4, r5, lsl #0x1
+    ldrb r5, [r4, r5, lsl #0x1]
+    ldrb r4, [r6, #0x1]
+    str r5, [sp, #0x28]
+    str r4, [sp, #0x2c]
+    b loop_top
+    add sp, sp, #0x4
+    ldmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+    bx lr
 }
+// clang-format on
 
 u32 func_02024168(const u8 *a) {
     return data_02153118[a[1]][a[0]];
@@ -494,7 +509,6 @@ void func_020239a8(Unk02023374 *a, Unk02022aa8 *b, s32 c, s32 d, u32 e, Unk02023
     }
 }
 
-// non-matching: 97.8%, same instructions; the register numbers of the block size computation differ
 void func_02023944(Unk02023374 *a, u32 b) {
     volatile u32 v;
     s32 n;
@@ -508,7 +522,8 @@ void func_02023944(Unk02023374 *a, u32 b) {
         b = b | (b << 16);
     }
     v = b;
-    n = a->mUnk_04 * a->mUnk_08 * ((a->mUnk_0c * 0x40) / 8);
+    n = a->mUnk_04 * a->mUnk_08;
+    n *= (a->mUnk_0c * 0x40) / 8;
     func_0214d05c(v, a->mUnk_00, n);
 }
 
@@ -692,35 +707,43 @@ void func_02023408(void *p0, void *p1, u32 p2, u32 p3, u32 p4) {
     func_02023510((Unk02023374 *) p0, p1, p2, p3, p4, func_02023bcc, func_02023944, func_02023764, p2);
 }
 
-// non-matching: 13.5%, the original counts leading zeros with the clz instruction (C has no spelling for it); the count
-// is a loop here
-void func_02023374(void *a, void *b, s32 c, s32 d, s32 e) {
-    u8 t[4];
-    s32 i;
-    s32 j;
-    s32 n;
-
-    if (c < 8) {
-        n = c;
-        i = 0;
-        while (n > 1) {
-            n >>= 1;
-            i++;
-        }
-    } else {
-        i = 3;
-    }
-    if (d < 8) {
-        n = d;
-        j = 0;
-        while (n > 1) {
-            n >>= 1;
-            j++;
-        }
-    } else {
-        j = 3;
-    }
-    t[0] = data_usa_021530f8[j][i][0];
-    t[1] = data_usa_021530f8[j][i][1];
-    func_02023510((Unk02023374 *) a, b, c, d, e, func_020239a8, func_02023944, func_02023548, *(u32 *) t);
+// clang-format off
+// Looks up the pair of bytes in data_usa_021530f8 for the base-2 logarithms of c and d (each capped at 3 once it is 8
+// or more) and passes the pair, as a word, with the other arguments and three callbacks to func_02023510.
+// Not compiled code: it takes the logarithms with clz, which 1.2 never builds (docs/compiler.md).
+asm void func_02023374(void *a, void *b, s32 c, s32 d, s32 e) {
+    stmfd sp!, {r4, r5, r6, lr}
+    sub sp, sp, #0x18
+    cmp r2, #0x8
+    movlt r4, r2
+    movge ip, #0x3
+    clzlt r4, r4
+    rsblt ip, r4, #0x1f
+    cmp r3, #0x8
+    movlt r4, r3
+    movge r6, #0x3
+    clzlt r4, r4
+    rsblt r6, r4, #0x1f
+    ldr r4, =data_usa_021530f8
+    ldr r5, [sp, #0x28]
+    add r4, r4, r6, lsl #0x3
+    ldrb r6, [r4, ip, lsl #0x1]
+    add ip, r4, ip, lsl #0x1
+    ldr r4, =func_020239a8
+    strb r6, [sp, #0x14]
+    ldrb r6, [ip, #0x1]
+    ldr lr, =func_02023944
+    ldr ip, =func_02023548
+    strb r6, [sp, #0x15]
+    str r5, [sp, #0x0]
+    str r4, [sp, #0x4]
+    str lr, [sp, #0x8]
+    str ip, [sp, #0xc]
+    ldr ip, [sp, #0x14]
+    str ip, [sp, #0x10]
+    bl func_02023510
+    add sp, sp, #0x18
+    ldmfd sp!, {r4, r5, r6, lr}
+    bx lr
 }
+// clang-format on

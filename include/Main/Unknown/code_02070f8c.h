@@ -12,7 +12,7 @@ void func_02071788(Unk0206bcb0 *p);
 void func_02071894(Unk0206bcb0 *p);
 void func_02071914(void *p, int a);
 void func_02071958(Unk0206bcb0 *p, s32 b);
-void func_02071980(Unk0206bcb0 *p, s32 b);
+void func_02071980(void *p, int b);
 
 // Declared here until the code that defines them is decompiled.
 void func_02073f90(void);

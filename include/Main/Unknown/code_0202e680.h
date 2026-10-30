@@ -3,4 +3,4 @@
 #include "types.h"
 #include "code_0214cfe4.h"
 
-void func_0202e680(u32 arg0, u32 arg1, u32 arg2);
+void func_0202e680(const void *a, void *b, u32 c);

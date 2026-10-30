@@ -4,6 +4,7 @@
 #include "01/code_02195a6c.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "00/code_02182fdc.h"
+#include "Main/Unknown/code_02125de0.h"
 
 // An s16 pair of Unk021a9be8.
 typedef struct Unk021a9be8Pair {
@@ -46,20 +47,6 @@ typedef struct Unk021a9be8 {
 } Unk021a9be8;
 
 // Object behind data_0217aa08; the byte at 0x31 of the object at its first member holds flags.
-// Argument block of func_02125de0 (ten words read from it).
-typedef struct Unk02125de0Arg {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ void *mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-} Unk02125de0Arg;
-
 extern Unk021a9be8 *data_ov001_021a9be8;
 extern u8 data_ov001_021a6a20[];
 extern u8 data_ov001_021a6a24[];

@@ -223,7 +223,7 @@ const u8 *func_02139ffc(const u8 *s, int c) {
     return p - 1;
 }
 
-const u8 *func_02139f70(const u8 *a, const u8 *b) {
+u8 *func_02139f70(const u8 *a, const u8 *b) {
     u32 d;
     const u8 *p;
     u32 c;
@@ -233,11 +233,11 @@ const u8 *func_02139f70(const u8 *a, const u8 *b) {
     u32 f;
 
     if (b == 0) {
-        return a;
+        return (u8 *) a;
     }
     c = *b;
     if (c == 0) {
-        return a;
+        return (u8 *) a;
     }
     p = a + 1;
     d = *a;
@@ -250,7 +250,7 @@ const u8 *func_02139f70(const u8 *a, const u8 *b) {
                 f = *q++;
             } while (f == e && f != 0);
             if (e == 0) {
-                return p - 1;
+                return (u8 *) (p - 1);
             }
         }
     }

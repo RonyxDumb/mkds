@@ -51,7 +51,7 @@ void func_020849c0(void *a, u32 b);
 void func_020849d0(void *a);
 void func_020849f8(void *a, void *b, u32 *c);
 void func_02084a88(void *a, u8 b, u8 c);
-void func_02084ad8(void *a, u8 b, u32 c);
+void func_02084ad8(void *a, u8 b);
 Unk0201290c *func_02084b2c(void *a, Unk02084b2c *b, Unk020136f0 *c, Unk020136f0 *d);
 Unk0201290c *func_02084c54(Unk02084b2c *a, Unk020136f0 *b);
 Unk0201290c *func_02084d3c(void *a, Unk020136f0 *b, Unk020136f0 *c);

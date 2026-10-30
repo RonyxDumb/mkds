@@ -164,8 +164,8 @@ void func_0200b43c(u32 a, Unk021425e8 *b) {
 }
 
 u32 func_0200b610(void) {
-    Unk0200b610 *v1;
-    v1 = (Unk0200b610 *) func_02008934();
+    Unk02008934 *v1;
+    v1 = func_02008934();
     if (v1 == 0) {
         return 0;
     }

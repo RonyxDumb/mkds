@@ -7,7 +7,7 @@ void func_020529b8(Unk021425e8 *a);
 void func_02052b60(Unk021425e8Func a);
 void func_02052bb8(Unk021425e8 *a);
 void func_02052bf8(void);
-u16 func_02052c5c(void);
+u16 func_02052c5c(u32 a);
 void func_02052cf4(void);
 void func_02052da4(void);
 void func_02052e64(void);

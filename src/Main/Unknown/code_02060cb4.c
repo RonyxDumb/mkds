@@ -80,7 +80,7 @@ s32 func_02061104(const void *a) {
     if (d == func_02152500(data_0217aa08->mUnk_00->mUnk_4c)) {
         return 1;
     }
-    func_021524d8((u32) b, (u32) d, (u32) (d >> 32));
+    func_021524d8(b, (u32) d, (u32) (d >> 32));
     f = (u8 *) data_0217aa08->mUnk_20 + 0x874;
     e = -1;
     for (i = 0; i < 60; i++) {
@@ -221,6 +221,6 @@ s32 func_02060cb4(const void *a, void *b) {
     u64 d;
 
     d = func_021528bc(a);
-    func_021524d8((u32) c, (u32) d, (u32) (d >> 32));
+    func_021524d8(c, (u32) d, (u32) (d >> 32));
     return func_02060d1c((u8 *) data_0217aa08->mUnk_20 + 0x874, b, c, 1, 0, 1);
 }

@@ -4,7 +4,7 @@
 #include "Main/Unknown/unk_02165000.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-char *func_02088390(u32 a) {
+char *func_02088390(u16 a) {
     func_02135048(data_0217af28, 0x100, data_02165ed4, data_0217af24, data_02155cf4[a].mUnk_00);
     return data_0217af28;
 }

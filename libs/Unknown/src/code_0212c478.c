@@ -60,11 +60,11 @@ void func_0212c524(Unk0212c400 **a, u32 b, u32 c) {
     func_02020ce4(p->mUnk_3c, b, c);
 }
 
-void func_0212c4f4(Unk0212c400 **a, u32 b, u32 c) {
+u32 func_0212c4f4(Unk0212c400 **a, u32 b, u32 c) {
     Unk0212c400 *p = *a;
 
     if (p == 0) {
-        return;
+        return (u32) p;
     }
     func_02020cbc(p->mUnk_3c, b, c);
 }

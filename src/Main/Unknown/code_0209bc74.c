@@ -9,11 +9,11 @@
 #include "Main/Unknown/code_020ea514.h"
 
 #pragma thumb on
-// non-matching: 95.4%: register choice for the local copies of the two string results differs
 void *func_0209bc74(void *a, const char *b, const char *c) {
     Unk0209bc74 *o;
     void *x;
     void *y;
+    Unk020e6488 *m;
 
     o = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     x = func_020d21ec(b);
@@ -23,20 +23,22 @@ void *func_0209bc74(void *a, const char *b, const char *c) {
     }
     o->mUnk_0c = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     func_020e64b8(o->mUnk_0c, x, y, 0);
-    o->mUnk_0c->mUnk_10 &= 0x8000ffff;
-    o->mUnk_0c->mUnk_10 |= 0x294a0000;
-    o->mUnk_0c->mUnk_14 &= ~0xf;
-    o->mUnk_0c->mUnk_14 |= 2;
+    m = o->mUnk_0c;
+    m->mUnk_10 &= 0x8000ffff;
+    m->mUnk_10 |= 0x294a0000;
+    m = o->mUnk_0c;
+    m->mUnk_14 &= ~0xf;
+    m->mUnk_14 |= 2;
     o->mUnk_00 = data_021565a0;
     return o;
 }
 #pragma thumb off
 
 #pragma thumb on
-// non-matching: 95.0%: register choice for the local copy of the string result differs
 void *func_0209bd08(void *a, const char *b) {
     Unk0209bc74 *o;
     void *x;
+    Unk020e6488 *m;
 
     o = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     x = func_020d21ec(b);
@@ -45,10 +47,12 @@ void *func_0209bd08(void *a, const char *b) {
     }
     o->mUnk_0c = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
     func_020e64b8(o->mUnk_0c, x, 0, 0);
-    o->mUnk_0c->mUnk_10 &= 0x8000ffff;
-    o->mUnk_0c->mUnk_10 |= 0x294a0000;
-    o->mUnk_0c->mUnk_14 &= ~0xf;
-    o->mUnk_0c->mUnk_14 |= 2;
+    m = o->mUnk_0c;
+    m->mUnk_10 &= 0x8000ffff;
+    m->mUnk_10 |= 0x294a0000;
+    m = o->mUnk_0c;
+    m->mUnk_14 &= ~0xf;
+    m->mUnk_14 |= 2;
     o->mUnk_00 = data_021565ac;
     return o;
 }

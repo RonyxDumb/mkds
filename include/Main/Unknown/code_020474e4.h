@@ -6,4 +6,4 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 void func_020474e4(void);
-void func_02047544(u32 param_1, u32 param_2, u32 param_3);
+void func_02047544(Unk02017f24 *param_1, Unk02017f24 *param_2, Unk02017f24 *param_3);

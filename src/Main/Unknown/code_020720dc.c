@@ -412,7 +412,7 @@ void func_02072b94(Unk0206bcb0 *p, const Vec3 *a, const Vec3 *b, Unk02175620_bc 
     }
     if (p->mUnk_7c & 1) {
         func_0207409c(a, &p->mUnk_e0_m);
-        func_02089f9c(func_02074828());
+        func_02089f9c(((u32 (*)(void)) func_02074828)());
         func_020747f4(0);
     }
 }
@@ -520,11 +520,12 @@ void func_02072eb8(Unk0206bcb0 *p) {
     }
 }
 
-// non-matching: same size; 12 lines differ in the register holding the index (r2 vs r3).
 void func_020732d8(Unk0206bcb0 *p) {
     s32 i;
+    enum { K0 } k;
 
-    data_0217566a[p->mUnk_78].mUnk_00 = 0xff7;
+    k = p->mUnk_78;
+    data_0217566a[k].mUnk_00 = 0xff7;
     if (p->mUnk_7c & 0x20) {
         func_02068b98(p);
         return;

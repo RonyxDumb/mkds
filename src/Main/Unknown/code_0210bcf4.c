@@ -86,16 +86,13 @@ u32 func_0210bee8(u32 a, u32 b, u32 c, u32 d, u32 e) {
     return func_0210bcf4(a, b, c, d, e);
 }
 
-// non-matching: the load of st.mUnk_1c is scheduled after the func_0212d580 call here and before it
-// in the original, so the original adds `add r8, r8, r0` where this adds `add r8, r1, r0`; and the
-// original returns the value func_0212c4f4 leaves in r0, which its void declaration here cannot
-// express, so this ends with `mov r0, r4` (0x200 bytes vs 0x1f4).
 u32 func_0210bcf4(u32 a, u32 b, u32 c, u32 d, u32 e) {
     Unk0210bcf4 st;
     u32 v;
     u32 ok;
     u32 t;
     s32 n;
+    s32 k;
 
     v = 0;
     ok = v;
@@ -136,12 +133,12 @@ u32 func_0210bcf4(u32 a, u32 b, u32 c, u32 d, u32 e) {
     }
     if (st.mUnk_14 <= 0) {
         if (((Unk0210bf24 *) d)->mUnk_00 == 0) {
-            return v;
+            return (u32) ((Unk0210bf24 *) d)->mUnk_00;
         }
-        func_0212c6f0((Unk0212c400 **) d, 0);
-        return v;
+        return func_0212c6f0((Unk0212c400 **) d, 0);
     }
-    n = st.mUnk_1c + (func_0212d580(a, b)->mUnk_04 - 0x40);
+    k = st.mUnk_1c;
+    n = k + (func_0212d580(a, b)->mUnk_04 - 0x40);
     if (n > 0) {
         if (n >= 0x7f) {
             n = 0x7f;
@@ -154,6 +151,5 @@ u32 func_0210bcf4(u32 a, u32 b, u32 c, u32 d, u32 e) {
     }
     func_0212c678((Unk0212c400 **) d, st.mUnk_14);
     func_0212c5f4((Unk0212c400 **) d, n);
-    func_0212c4f4((Unk0212c400 **) d, data_0216cb20, st.mUnk_18);
-    return v;
+    return func_0212c4f4((Unk0212c400 **) d, data_0216cb20, st.mUnk_18);
 }

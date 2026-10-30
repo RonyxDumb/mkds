@@ -152,10 +152,11 @@ s32 func_02042628(void *a, ...) {
     return 1;
 }
 
-// non-matching: the entry address is formed with add r4, r0, r3 and held for the second halfword load in the original; here the halfword at 0 is loaded first from the sum
 s32 func_02042590(void *a, ...) {
     s32 i;
     Unk02175620_4c *t;
+    Unk02175620_4c *e;
+    s32 m;
 
     data_02175620->mUnk_50 = func_020431a4(&a);
     if (data_02175620->mUnk_50 == 0) {
@@ -167,7 +168,9 @@ s32 func_02042590(void *a, ...) {
     for (i = 0; i < data_02175620->mUnk_50; i++) {
         if (data_02175620->mUnk_4c[(u16) i].mUnk_00 == 0) {
             t = data_02175620->mUnk_4c;
-            data_02175620->mUnk_9a = t[(u16) (s8) t[(u16) i].mUnk_07].mUnk_00 + t[(u16) (s8) t[(u16) i].mUnk_07].mUnk_02 - 1;
+            e = &t[(u16) (s8) t[(u16) i].mUnk_07];
+            m = t[(u16) (s8) t[(u16) i].mUnk_07].mUnk_00;
+            data_02175620->mUnk_9a = m + e->mUnk_02 - 1;
             break;
         }
     }

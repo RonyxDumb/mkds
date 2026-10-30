@@ -2,8 +2,6 @@
 
 #pragma thumb on
 
-// non-matching: 0x120 bytes, original 0x11c; 85 lines differ; first: original `ldr r0, [pc, #220]`, ours `ldr r0,
-// [pc, #224]`
 void func_02009ae8(u32 a) {
     u32 v1;
     u32 v2;

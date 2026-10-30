@@ -90,20 +90,15 @@ void func_0203003c(s32 a) {
     func_02124100(4, (u8) t[v], p->mUnk_14, p->mUnk_18, p->mUnk_0c);
 }
 
-// non-matching: 89%, loop counter and offset are in different registers
 void func_02030200(void) {
-    Unk02174e50_24 *p;
-    s32 n;
-    s32 o;
     s32 i;
+    s32 n;
+    Unk02174e50_24 *p;
 
     p = &data_02174e50->mUnk_24;
     n = *(u16 *) ((u8 *) p->mUnk_0c + 6) + *(u16 *) ((u8 *) p->mUnk_14 + 6);
-    i = 0;
-    o = i;
-    for (; i < n; i++) {
-        *(u16 *) ((u8 *) p->mUnk_18 + o + 6) = data_02174e50->mUnk_90;
-        o += 0x40;
+    for (i = 0; i < n; i++) {
+        *(u16 *) ((u8 *) p->mUnk_18 + i * 0x40 + 6) = data_02174e50->mUnk_90;
     }
 }
 

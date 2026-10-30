@@ -24,8 +24,8 @@
 #include "code_0212c6ac.h"
 #include "code_0212df7c.h"
 
-void func_02071980(Unk0206bcb0 *p, s32 b) {
-    func_0210b2a8(p, b, p->mUnk_3e0, p->mUnk_3e4, p->mUnk_500);
+void func_02071980(void *p, int b) {
+    func_0210b2a8((Unk0206bcb0 *) p, b, ((Unk0206bcb0 *) p)->mUnk_3e0, ((Unk0206bcb0 *) p)->mUnk_3e4, ((Unk0206bcb0 *) p)->mUnk_500);
 }
 
 void func_02071958(Unk0206bcb0 *p, s32 b) {
@@ -272,8 +272,6 @@ void func_020710b0(Unk0206bcb0 *p, s32 b) {
     }
 }
 
-// non-matching: the original copies data_02165548 with stm before the two word stores of data_02165510 (here str, str,
-// then stm) and puts the address of the two word array in r1 before the conditional move (here r0); same size.
 void func_02070f8c(Unk0206bcb0 *p) {
     s32 q[2];
     Vec3 v;
@@ -301,11 +299,11 @@ void func_02070f8c(Unk0206bcb0 *p) {
     }
     if (v1 != 0) {
         u = data_02165548;
+        w = q;
         q[0] = data_02165510[0];
         q[1] = data_02165510[1];
         n = 3;
         v2 = (s32 *) &u;
-        w = q;
         if (!(p->mUnk_7c & 1)) {
             n = 2;
             v2 = w;

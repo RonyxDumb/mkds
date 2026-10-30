@@ -1,6 +1,7 @@
 #include "Main/Unknown/code_020649ec.h"
 #include "Main/Unknown/code_01ff9000.h"
 #include "Main/Unknown/code_01ffb000.h"
+#include "Main/Unknown/code_01ffb130.h"
 #include "Main/Unknown/code_01ffc000.h"
 #include "Main/Unknown/code_01ffd000.h"
 #include "Main/Unknown/code_01ffdee4.h"
@@ -133,7 +134,7 @@ void func_02064d60(Unk0206bcb0 *a, Vec3 *b) {
         a->mUnk_3a8 = 0xf6;
         func_02070484(a, &a->mUnk_100_q);
     } else {
-        func_01ffad14(a);
+        func_01ffad14(a, b);
     }
     func_01ffce48(&a->mUnk_f0_q, &a->mUnk_100_q, &a->mUnk_f0_q, a->mUnk_3a8);
     e = a->mUnk_236 - c->mUnk_0e;
@@ -224,13 +225,14 @@ void func_02064f50(Unk0206bcb0 *a) {
     func_01ffce48(&b->mUnk_4c, &a->mUnk_110_q, &b->mUnk_4c, 0x333);
 }
 
-// non-matching: 99.0: one load order differs
 void func_020651fc(Unk0206bcb0 *a) {
     Unk0206bcb0_514 *b;
     s32 c;
+    u32 f;
 
-    if ((a->mUnk_7c & 0xa0) != 0) {
-        if ((a->mUnk_7c & 0x20) != 0) {
+    f = a->mUnk_7c;
+    if ((f & 0xa0) != 0) {
+        if ((f & 0x20) != 0) {
             func_02068b98(a);
             return;
         }

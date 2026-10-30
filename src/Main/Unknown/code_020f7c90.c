@@ -40,14 +40,13 @@ void func_020f80c0(Unk0217bc6c *param_1, s32 param_2) {
     }
 }
 
-// non-matching: tail loops: the original recomputes data_0217bce8[i] and i * 2 in each pass and
-// tests i before the first one (the row total in r3, data_0217bc6c.mUnk_04 in r7, the
-// data_0217bc64.mUnk_04 pointer at [sp]); this code steps both in pointers that it increments in
-// the outer loop and enters both loops directly (0x1f4 vs 0x1f8 bytes).
 void func_020f7ec8(void) {
     u8 *p;
-    s32 i;
+    enum { K0 } i;
     s32 j;
+    s32 n;
+    s32 *q;
+    enum { K1 } k;
 
     p = (u8 *) func_02047b08((const char *) data_0216c680);
     switch (data_021759c0->mUnk_08) {
@@ -111,18 +110,20 @@ void func_020f7ec8(void) {
             }
             break;
     }
+    n = data_0217bc6c.mUnk_00;
     for (i = 0; i < 0x12; i++) {
         data_0217bce8[i] = 0x12;
-        for (j = 0; j < data_0217bc6c.mUnk_00; j++) {
+        for (j = 0; j < n; j++) {
             if (data_0217bc6c.mUnk_04[j][i] != 0 || data_0217bc64.mUnk_04[j][i] != 0) {
                 data_0217bce8[i] = i;
             }
         }
     }
     data_0217bc54 = 0;
-    for (i = 0; i < 0x12; i++) {
-        if (data_0217bce8[i] != 0x12) {
-            data_0217bce8[data_0217bc54++] = data_0217bce8[i];
+    for (k = 0; k < 0x12; k++) {
+        q = &data_0217bce8[k];
+        if (data_0217bce8[k] != 0x12) {
+            data_0217bce8[data_0217bc54++] = *q;
         }
     }
     data_0217bc50 = 0;

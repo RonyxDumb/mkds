@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-s32 func_ov000_0218e49c(s32 descriptor);
+s32 func_ov000_0218e49c();

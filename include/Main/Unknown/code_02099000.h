@@ -1,6 +1,4 @@
 #pragma once
 
 #include "types.h"
-
-// Declared here until the code that defines them is decompiled.
-void func_02099208();
+#include "Main/Unknown/code_0209905c.h"

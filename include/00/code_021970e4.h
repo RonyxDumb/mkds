@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-extern const char data_ov000_021b3de4[];
+extern const s8 data_ov000_021b3de4[];
 
-const char *func_ov000_021970e4(const char *text);
+const s8 *func_ov000_021970e4(const s8 *text, const u8 *key);

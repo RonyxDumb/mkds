@@ -126,29 +126,21 @@ s32 func_020f9880(Unk020f41c4_A *param_1) {
     return data_0217bc34[param_1->mUnk_44].mUnk_84;
 }
 
-// non-matching: the differences and the radius keep the opposite registers: the
-// original computes both differences in ip and the radius in r4, this reuses r4 for the first
-// difference and the radius.
+// non-matching: 11 words from +0x50: the original computes the x difference in ip and loads 0x1d0 into r4 right
+// after it, then reads 0xe0, 0x1e0 and 0x58; here the x difference sits in r4 and 0x58 and 0x1e0 are read first
 s32 func_020f97e0(Unk020f41c4_A *param_1, Unk0206bcb0 *param_2) {
     Vec3 d;
-    u32 a;
     s32 n;
 
-    if (param_1->mUnk_da != -1) {
-        if ((param_1->mUnk_78 & 0x4000) != 0) {
-            a = (u16) (param_1->mUnk_78 & ~0xff00);
-        } else {
-            a = 8;
-        }
-        if (param_2->mUnk_74 == (u16) a) {
-            d.y = param_1->mUnk_50.y - param_2->mUnk_1d8.y;
-            d.x = param_1->mUnk_50.x - param_2->mUnk_1d8.x;
-            d.z = param_1->mUnk_50.z - param_2->mUnk_1d8.z;
-            n = param_2->mUnk_1d0 + param_1->mUnk_e0;
-            return (s64) d.x * d.x + (s64) d.y * d.y + (s64) d.z * d.z < (s64) n * n;
-        }
+    if (param_1->mUnk_da == -1 ||
+        param_2->mUnk_74 == (u16) ((param_1->mUnk_78 & 0x4000) != 0 ? (u16) (param_1->mUnk_78 & ~0xff00) : 8)) {
+        return 0;
     }
-    return 0;
+    d.y = param_1->mUnk_50.y - param_2->mUnk_1d8.y;
+    d.x = param_1->mUnk_50.x - param_2->mUnk_1d8.x;
+    d.z = param_1->mUnk_50.z - param_2->mUnk_1d8.z;
+    n = param_2->mUnk_1d0 + param_1->mUnk_e0;
+    return (s64) d.x * d.x + (s64) d.y * d.y + (s64) d.z * d.z < (s64) n * n;
 }
 
 s32 func_020f9780(Unk020f41c4_A *param_1, Vec3 *param_2, s32 param_3) {

@@ -123,7 +123,7 @@ void func_020fbd98(Unk020fc2e8 *param_1) {
         }
         if (param_1->mUnk_276 ==
                 (u16) (!(param_1->mUnk_000.mUnk_78 & 0x8000) ? (u16) (param_1->mUnk_000.mUnk_78 & ~0xff00) : 8) ||
-            func_02068eac((s32) func_0207a974(param_1->mUnk_276)) != 0) {
+            func_02068eac(func_0207a974(param_1->mUnk_276)) != 0) {
             param_1->mUnk_278 = 1;
         } else {
             param_1->mUnk_280 |= 1 << param_1->mUnk_276;
@@ -134,7 +134,7 @@ void func_020fbd98(Unk020fc2e8 *param_1) {
         n = (u8) data_021759c0->mUnk_3d0;
         for (i = 1; i < n; i++) {
             param_1->mUnk_276 = data_0217561c->mUnk_474[(u8) i - 1];
-            if (func_02068eac((s32) func_0207a974(param_1->mUnk_276)) == 0) {
+            if (func_02068eac(func_0207a974(param_1->mUnk_276)) == 0) {
                 break;
             }
         }

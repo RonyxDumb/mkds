@@ -11,7 +11,7 @@ u32 func_ov000_021a1754(int param_1, int param_2) {
     if (0 < param_2) {
         do {
             if (param_1 == *(int *) (iVar1 + 0xf4)) {
-                func_ov000_021a1620(iVar2);
+                func_ov000_021a1620(iVar2, param_2);
                 return 1;
             }
             iVar1 = iVar1 + 4;

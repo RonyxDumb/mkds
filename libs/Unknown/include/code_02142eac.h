@@ -80,7 +80,11 @@ struct Unk021425e8 {
     /* 1c */ void *mUnk_1c;
     /* 20 */ u16 mUnk_20;
     /* 22 */ u8 mUnk_22[2];
-    /* 24 */ u8 mUnk_24[0x18];
+    /* 24 */ u8 mUnk_24[0x12];
+    /* 36 */ u16 mUnk_36;
+    /* 38 */ struct {
+        u32 mUnk_00[0x20];
+    } mUnk_38;
 };
 
 // 0x84 bytes; mUnk_00 counts the entries of mUnk_04 that func_02142f24 fills.
@@ -170,7 +174,8 @@ typedef struct Unk02143c30 {
     /* 06 */ u8 mUnk_06[6];
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mUnk_0e;
-    /* 10 */ u8 mUnk_10[4];
+    /* 10 */ u16 mUnk_10;
+    /* 12 */ u8 mUnk_12[2];
     /* 14 */ u16 mUnk_14;
     /* 16 */ u8 mUnk_16[2];
     /* 18 */ u16 mUnk_18;

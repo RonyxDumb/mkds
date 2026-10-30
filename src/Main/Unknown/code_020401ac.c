@@ -13,11 +13,11 @@ Unk02175620_bc *func_02040da8(u32 a) {
     return &data_02175620->mUnk_b8[data_02175620->mUnk_34[data_02175620->mUnk_fc[a]].mUnk_18];
 }
 
-s32 func_02040d68(const Unk02040d24 *a, const Unk02040d24 *b) {
+s32 func_02040d68(const UnkPair020b502c *a, const UnkPair020b502c *b) {
     return (s32) (((s64) a->mUnk_00 * b->mUnk_00 + (s64) a->mUnk_04 * b->mUnk_04 + 0x800) >> 12);
 }
 
-s64 func_02040d24(const Unk02040d24 *a, const Unk02040d24 *b) {
+s64 func_02040d24(const UnkPair020b502c *a, const UnkPair020b502c *b) {
     return ((s64) a->mUnk_00 * b->mUnk_00 + (s64) a->mUnk_04 * b->mUnk_04 + 0x800) >> 12;
 }
 
@@ -79,11 +79,10 @@ s32 func_02040bc0(void) {
     }
 }
 
-// non-matching: the original loads data_0217561c into r3 and forms the entry address and the first halfword before the multiply; the instruction order and registers of the first lines differ
 void func_02040a8c(Unk0217561c_500 *a, s32 b) {
     Unk0206cdd4_B *t = func_0207a6b0();
     Unk0217561c *d = data_0217561c;
-    Unk0217561c_14 *e = &d->mUnk_000[b].mUnk_14_view;
+    Unk0217561c_14 *e = &d->mUnk_14[b];
     Unk0217561c_4c8 *r = d->mUnk_4c8;
 
     if (d->mUnk_000[0].mUnk_0c == 0) {
@@ -108,7 +107,6 @@ void func_02040a8c(Unk0217561c_500 *a, s32 b) {
     a->mUnk_20 = t->mUnk_18 * -r->mUnk_1a;
 }
 
-// non-matching: the original forms a pointer to data_021759c0 + 0x28 (r6) and reads the halfwords at 2 and 4 from it; here they are read from the object directly
 s16 func_020408f0(s32 a) {
     Unk0217561c_500 b;
     Unk0206cdd4_B *t;
@@ -116,6 +114,7 @@ s16 func_020408f0(s32 a) {
     Unk0217561c *d = data_0217561c;
     Unk0217561c_500 *o = &d->mUnk_500;
     s32 s;
+    u8 *h;
 
     if ((d->mUnk_000[a].mUnk_44 & 1) == 0) {
         return 0;
@@ -126,8 +125,9 @@ s16 func_020408f0(s32 a) {
             func_02040a8c(&b, a);
             break;
         case 4:
+            h = (u8 *) g + 0x28;
             t = func_0207a6b0();
-            b.mUnk_00 = func_02147f34((s16) g->mUnk_02c * (g->mUnk_02a - d->mUnk_000[0].mUnk_00) << 12, 0x3e8000) >> 12;
+            b.mUnk_00 = func_02147f34(*(s16 *) (h + 4) * (*(u16 *) (h + 2) - d->mUnk_000[0].mUnk_00) << 12, 0x3e8000) >> 12;
             b.mUnk_04 = 0;
             b.mUnk_08 = 0;
             b.mUnk_0c = 0;
@@ -151,17 +151,20 @@ s16 func_020408f0(s32 a) {
     return (s16) s;
 }
 
-// non-matching: the original reloads data_02175620 after the halfword store and forms the entry address into r2 before the load (registers r0 to r3 differ in the first table lookup)
 void func_02040750(Unk0217561c_14 *a, s32 b) {
     s32 i;
-    Unk0217561c_14_0c *p;
+    Unk0217aa1c_144_00 *p;
+    Unk02175620_4c *e;
+    s32 m;
 
     if (data_02175620->mUnk_44 == 0) {
         a->mUnk_38 = 0;
         a->mUnk_32 = 0;
     } else {
         a->mUnk_38 = data_02175620->mUnk_4c->mUnk_07;
-        a->mUnk_32 = data_02175620->mUnk_4c[a->mUnk_38].mUnk_00 + data_02175620->mUnk_4c[a->mUnk_38].mUnk_02 - 1;
+        e = &data_02175620->mUnk_4c[a->mUnk_38];
+        m = data_02175620->mUnk_4c[a->mUnk_38].mUnk_00;
+        a->mUnk_32 = m + e->mUnk_02 - 1;
     }
     a->mUnk_04 = 0;
     a->mUnk_08 = 0;
@@ -251,7 +254,7 @@ void func_020401ac(void) {
         data_0217561c->mUnk_4f4 = data_021759c0->mUnk_028;
     }
     for (i = 0; i < 8; i++) {
-        func_02040750(&data_0217561c->mUnk_000[i].mUnk_14_view, i);
+        func_02040750(&data_0217561c->mUnk_14[i], i);
         data_0217561c->mUnk_474[i] = -1;
     }
     switch (data_021759c0->mUnk_00c) {

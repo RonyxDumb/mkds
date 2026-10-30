@@ -1,12 +1,9 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_0204b03c.h"
+#include "Main/Unknown/code_0204b458.h"
+#include "Main/Unknown/code_0204b714.h"
+#include "Main/Unknown/code_0204bcec.h"
 
 // Declared here until the code that defines them is decompiled.
-unsigned int func_0204b458(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
-u32 func_0204b714(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6, u32 param_7);
-void func_0204be0c(void);
-void func_0204bcec(void);
-void func_0204bfac(u32 param_1, u32 param_2, u32 param_3, u32 param_4);
-void func_0204b284(void *a, u32 b, u32 c);
-void func_0204b344(s32 a);

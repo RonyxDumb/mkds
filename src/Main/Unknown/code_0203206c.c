@@ -265,8 +265,6 @@ s32 func_02032280(void) {
     return a;
 }
 
-// non-matching: 0x264 bytes, original 0x274; 209 lines differ; first: original `ldr r0, [pc, #516]`, ours `ldr r0, [pc,
-// #500]`
 void func_02032654(void *a, s32 b, void *c, void *d) {
     void *h;
     Unk02174e5c *o;
@@ -279,6 +277,8 @@ void func_02032654(void *a, s32 b, void *c, void *d) {
     s32 j;
     s32 s;
     s32 e;
+    Unk02153e20 *t;
+    Unk02153e20 *g;
 
     h = func_02036948(a);
     data_02174e5c = func_02036bec(h, 0x6c);
@@ -316,11 +316,18 @@ void func_02032654(void *a, s32 b, void *c, void *d) {
         func_02025a50(0, data_02174e5c->mUnk_40, o);
         n = o->mUnk_00[0].mUnk_0c->mUnk_06;
         m = o->mUnk_00[0].mUnk_14->mUnk_06;
-        for (i = 0; i < m; i++) {
-            k -= func_02025a00(0, data_02174e5c->mUnk_40, o, &data_02153e20[i], k);
-            func_0212426c(0, data_02153e20[i].mUnk_00, o->mUnk_00[0].mUnk_14,
-                          func_020b3f7c(data_02174e5c->mUnk_50, data_02153e20[i].mUnk_08), o->mUnk_00[0].mUnk_0c,
-                          o->mUnk_00[0].mUnk_18);
+        i = 0;
+        if (m > 0) {
+            t = data_02153e20;
+            g = t;
+            do {
+                k -= func_02025a00(0, data_02174e5c->mUnk_40, o, t, k);
+                func_0212426c(0, g->mUnk_00, o->mUnk_00[0].mUnk_14, func_020b3f7c(data_02174e5c->mUnk_50, g->mUnk_08),
+                              o->mUnk_00[0].mUnk_0c, o->mUnk_00[0].mUnk_18);
+                t++;
+                g++;
+                i++;
+            } while (i < m);
         }
         if (data_02174e5c->mUnk_68 == 0) {
             s = 4;
@@ -330,7 +337,7 @@ void func_02032654(void *a, s32 b, void *c, void *d) {
             e = 4;
         }
         for (j = s; j < s + e; j++) {
-            o->mUnk_00[0].mUnk_18[n + j].mUnk_00 = 0;
+            o->mUnk_00[0].mUnk_18[j + n].mUnk_00 = 0;
         }
     }
     q = &data_02174e5c->mUnk_00[1];
@@ -352,11 +359,9 @@ void func_02032654(void *a, s32 b, void *c, void *d) {
     func_02036820(data_02174e5c->mUnk_40);
 }
 
-// non-matching: same size; register allocation only; 9 lines differ; first: original `ldr r1, [r1, #0]`, ours `ldr r2,
-// [r1, #0]`
 void func_020328c8(s32 a) {
-    Unk02174e14_00 *p;
     s32 i;
+    Unk02174e14_00 *p;
 
     p = &data_02174e5c->mUnk_00[1];
     for (i = 0; i < p->mUnk_0c->mUnk_06; i++) {
@@ -406,11 +411,9 @@ void func_02032940(void) {
     }
 }
 
-// non-matching: same size; register allocation only; 7 lines differ; first: original `adds r3, r0, #0`, ours `adds r4,
-// r0, #0`
 void func_020329a0(void) {
-    Unk02174e14_00 *p;
     s32 i;
+    Unk02174e14_00 *p;
 
     p = &data_02174e5c->mUnk_00[1];
     for (i = 0; i < data_02174e5c->mUnk_48; i++) {
@@ -418,11 +421,9 @@ void func_020329a0(void) {
     }
 }
 
-// non-matching: same size; register allocation only; 7 lines differ; first: original `adds r4, r2, #0`, ours `adds r5,
-// r2, #0`
 void func_020329dc(s32 a) {
-    Unk02174e14_00 *p;
     s32 i;
+    Unk02174e14_00 *p;
 
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
         p = &data_02174e5c->mUnk_00[1];
@@ -432,33 +433,37 @@ void func_020329dc(s32 a) {
     }
 }
 
-// non-matching: 0x8c bytes, original 0x88; 21 lines differ; first: original `ldr r0, [pc, #124]`, ours `ldr r0, [pc,
-// #128]`
 void func_02032a20(void) {
     s32 v;
 
     if (data_02174e5c->mUnk_68 == 0) {
         func_02029930()->mUnk_c8 = 2;
-        if (data_02174e5c->mUnk_44 == 0) {
-            v = 0;
-        } else {
-            v = 1;
+        switch (data_02174e5c->mUnk_44) {
+            case 0:
+                v = 0;
+                break;
+            default:
+                v = 1;
+                break;
         }
         func_02029930()->mUnk_e4 = v;
     } else if (data_02174e5c->mUnk_44 == 0) {
         func_02029930()->mUnk_c8 = 3;
     } else {
         func_02029930()->mUnk_c8 = 2;
-        if (data_02174e5c->mUnk_44 == 1) {
-            v = 0;
-        } else {
-            v = 1;
+        switch (data_02174e5c->mUnk_44) {
+            case 1:
+                v = 0;
+                break;
+            default:
+                v = 1;
+                break;
         }
         func_02029930()->mUnk_e4 = v;
     }
     data_02174e5c->mUnk_64 = 1;
     data_02174e5c->mUnk_54 = 5;
-    func_0212ecc0(&data_0217d068, 0, 0);
+    func_0212ecc0(&data_0217d068, 0, 5);
 }
 
 #pragma thumb off

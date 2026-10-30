@@ -38,7 +38,7 @@ typedef struct Unk021d7c6c {
     /* 10 */ u32 mUnk_10;
     /* 14 */ u32 mUnk_14;
     /* 18 */ s8 mUnk_18;
-    /* 19 */ u8 mUnk_19;
+    /* 19 */ s8 mUnk_19;
     /* 1a */ u8 pad_1a[2];
 } Unk021d7c6c;
 
@@ -137,7 +137,7 @@ extern Unk021ba734 *data_ov003_021d7c44;
 extern Unk021ba734 *data_ov003_021d7c4c;
 extern s32 data_ov003_021d7c50;
 extern Unk021d7c54 *data_ov003_021d7c54;
-extern u32 data_ov003_021d7c58[2];
+extern u8 data_ov003_021d7c58[8];
 extern Unk021d7c6c data_ov003_021d7c6c;
 extern void *(*data_ov003_021d8a0c)(u32);
 extern void (*data_ov003_021d8a10)(s32);
@@ -157,19 +157,6 @@ s32 func_ov003_021b7d68(s32 id, void *buffer, s32 length, s32 flags, Unk021b7cec
 s32 func_ov003_021b7dc8(void);
 s32 func_ov003_021b7df4(u32 arg0, u32 mask, u32 arg2);
 s32 func_ov003_021b86e4(s32 mode, Unk021b86e4 *buf, Unk021b916c *list, s32 id);
-s32 func_ov003_021b9078(s32 mode, Unk021d7c54 *buffer, s32 *attempts, Unk021b916c *list, s32 id);
-s32 func_ov003_021b9134(s32 state);
-void func_ov003_021b916c(s32 count, Unk021b916c *out, const u8 *source);
-s32 func_ov003_021b91a4(Unk021ba1b0 *request);
-s32 func_ov003_021b91f0(Unk021ba734 *list);
-s32 func_ov003_021b929c(Unk021b94c4 *req);
-s32 func_ov003_021ba818(s32 (*callback)(void *), void *buffer, u32 size);
-s32 func_ov003_021ba910(Unk021ba778Src *rec, Unk021d8a4c *key, u32 flags);
-s32 func_ov003_021ba9c0(void);
-s32 func_ov003_021baa28(void);
-s32 func_ov003_021baa68(void);
-s32 func_ov003_021baaac(const u8 *addr, const u8 *name, s32 nameLength, u32 mask);
-s32 func_ov003_021babc0(Unk021ba778Src *buffer, s32 maxCount);
 
 void func_ov003_021b94b8(s32 code);
 void func_ov003_021b94c4(Unk021b94c4 *req);
@@ -194,3 +181,6 @@ void func_ov003_021ba778(Unk021ba778Src *src, Unk021ba778Dst *dst);
 
 #include "03/code_021b7cac.h"
 #include "03/code_021b7d84.h"
+#include "03/code_021b9078.h"
+#include "03/code_021b929c.h"
+#include "03/code_021ba818.h"

@@ -63,12 +63,11 @@ s32 func_02047250(void) {
     return 1;
 }
 
-// non-matching: same size; register allocation only (the loop pointer and the constant use other registers).
 void func_02047274(void) {
     s32 i;
 
     for (i = 0; i < 16; i++) {
-        data_021759c8->mUnk_9b0[i].mUnk_08 &= 0x7fffffff;
+        *(u32 *) ((u8 *) &data_021759c8->mUnk_9b0[0].mUnk_08 + i * 12) &= 0x7fffffff;
     }
 }
 

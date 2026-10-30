@@ -8,3 +8,5 @@ unsigned int func_ov000_0218b590(unsigned int, unsigned int, unsigned int, unsig
                                  unsigned int, unsigned int);
 void func_ov000_0218b708();
 void func_ov000_0218b780();
+void func_ov000_0218b4bc(void *param_1);
+s32 func_ov000_0218b2a8(u32 a, void *b, s32 c);

@@ -32,15 +32,14 @@ u8 func_0200c12c(void *a, void *b) {
     return data_0216fdf0;
 }
 
-// non-matching: same size; 2 lines differ; first: original `ldrb r1, [r0, #2]`, ours `ldrh r1, [r0, #2]`
 u8 *func_0200c16c(Unk0200c16c *a, u8 *b) {
     u8 *v1;
     v1 = b;
     *v1++ = a->mUnk_00;
     switch (a->mUnk_00) {
         case 7:
-            *v1++ = a->mUnk_02;
-            if (a->mUnk_02 > data_0216fdf8.mUnk_04) {
+            *v1++ = *(u8 *) &a->mUnk_02;
+            if (*(u8 *) &a->mUnk_02 > data_0216fdf8.mUnk_04) {
                 return 0;
             }
             func_0214d1fc((u8 *) a + 3, v1, data_0216fdf8.mUnk_00);
@@ -138,20 +137,18 @@ u8 *func_0200c2e0(u8 *a, Unk0200c16c *b, u32 c) {
     return v1;
 }
 
-// non-matching: 0x54 bytes, original 0x58; 42 lines differ; first: original `adds r2, r1, #0`, ours `adds r2, r1, #1`
 u8 *func_0200c3a4(u8 *param_1, u8 *param_2) {
     Unk0200c0d8 *v1;
     u8 *v2;
     v1 = (Unk0200c0d8 *) param_1;
-    v2 = param_2 + 1;
-    *param_2 = v1->mUnk_00;
+    v2 = param_2;
+    *v2++ = v1->mUnk_00;
     switch (v1->mUnk_00) {
         case 4:
-            v2[0] = v1->mUnk_02;
-            v2[1] = (v1->mUnk_02 & 0xff00) >> 8;
-            v2[2] = v1->mUnk_04;
-            v2[3] = (v1->mUnk_04 & 0xff00) >> 8;
-            v2 += 4;
+            *v2++ = v1->mUnk_02;
+            *v2++ = (v1->mUnk_02 & 0xff00) >> 8;
+            *v2++ = v1->mUnk_04;
+            *v2++ = (v1->mUnk_04 & 0xff00) >> 8;
             break;
         case 1:
         case 2:

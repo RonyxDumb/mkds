@@ -5,21 +5,20 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "code_02016468.h"
 
-// non-matching: register allocation in the command loop differs (the original keeps the object pointer in r3, the stream pointer in r9, the loop constants 0x40, 0, 1 in r1, r2, r0, and two fields it reads in lr and ip); same instructions otherwise, 12 bytes shorter
 void func_0212b260(void) {
-    u16 buf[100];
-    Unk0217d40c *p;
-    Unk0217d40c_18 *q;
-    u8 *r;
-    s32 a;
-    s32 i;
-    s32 x;
-    s32 c;
     s32 e;
-    s32 f;
+    s32 c;
+    s32 i;
+    u8 *r;
+    Unk0217d40c *p;
+    u16 buf[100];
     s32 v;
-    u32 w;
     s32 n;
+    s32 f;
+    s32 x;
+    u32 w;
+    s32 a;
+    Unk0217d40c_18 *q;
     data_0217d40c->mUnk_008 += data_0217d40c->mUnk_00c;
     a = (data_0217d40c->mUnk_008 >> 12) - 8;
     if (a < 0) {
@@ -39,8 +38,8 @@ void func_0212b260(void) {
         return;
     }
     i = 0;
-    func_0214d168(buf, 0, 0xc8);
     n = 0;
+    func_0214d168(buf, 0, 0xc8);
     do {
         p = data_0217d40c;
         r = p->mUnk_018;
@@ -58,12 +57,16 @@ void func_0212b260(void) {
                 switch (f) {
                 case 0:
                     p->mUnk_854 = 0x40;
-                    if (x == 0) {
+                    switch (x) {
+                    case 0:
                         data_0217d40c->mUnk_854 |= 0x200;
-                    } else if (x == 1) {
+                        break;
+                    case 1:
                         data_0217d40c->mUnk_854 |= 0x400;
-                    } else if (x == 2) {
+                        break;
+                    case 2:
                         data_0217d40c->mUnk_854 |= 0x800;
+                        break;
                     }
                     break;
                 case 1:
@@ -102,9 +105,14 @@ void func_0212b260(void) {
     } while (n == 0);
     func_0214d168(data_0217d40c->mUnk_050, 0, 0x800);
     v = data_0217d40c->mUnk_850;
-    func_0202428c(&data_0217d40c->mUnk_040, 8, v == 3 ? 2 : 0, 0xf0, 0x10, v, data_0217d40c->mUnk_854, buf);
+    c = 0;
+    if (v == 3) {
+        c = 2;
+    }
+    func_0202428c(&data_0217d40c->mUnk_040, 8, c, 0xf0, 0x10, v, data_0217d40c->mUnk_854, buf);
     p = data_0217d40c;
-    a = ((((p->mUnk_008 >> 12) % 256) + 0xc0) >> 3) << 3;
+    a = (((p->mUnk_008 >> 12) % 256) + 0xc0) >> 3;
+    a = a << 3;
     if (a >= 0x100) {
         a -= 0x100;
     }

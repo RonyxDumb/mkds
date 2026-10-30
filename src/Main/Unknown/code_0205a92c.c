@@ -8,7 +8,6 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "00/code_0219bb50.h"
 
-// non-matching: same size; 5 lines differ; first: original `add r0, r2, r0`, ours `add r2, r2, r0`
 void func_0205a92c(void) {
     u8 i;
     u16 j;
@@ -22,8 +21,8 @@ void func_0205a92c(void) {
             data_0217aa14->mUnk_104[i].mUnk_86_0 != 0) {
             for (j = 0; j < 16; j++) {
                 p = data_0217aa14;
-                e = &((Unk0217aa14_324(*)[4]) & p->mUnk_324[16])[j][i];
-                f = &p->mUnk_6e4[j * 4 + i];
+                e = &p->mUnk_3e4[j][i];
+                f = &p->mUnk_6e4[j * 4] + i;
                 if (e->mUnk_09 == 15) {
                     *f = 0;
                 } else if (*f == 0) {
@@ -32,7 +31,7 @@ void func_0205a92c(void) {
                     if (e->mUnk_0b != 0) {
                         v = e->mUnk_04;
                     }
-                    if (e->mUnk_0a < 2) {
+                    if (e->mUnk_0a <= 1) {
                         func_0205a630(i);
                     }
                     func_020fe5b8(e->mUnk_09, e->mUnk_0a, v, data_0217aa18->mUnk_06[i]);
@@ -43,23 +42,22 @@ void func_0205a92c(void) {
     }
 }
 
-// non-matching: same size; 18 lines differ; first: original `add r0, r0, #260`, ours `add r1, r0, #300`
 void func_0205aa60(void) {
     u8 i;
     u16 j;
-    Unk0217aa14_324 *e;
     u8 *s;
     u8 *d;
+    Unk0217aa14_324 *e;
     u8 c;
 
     for (i = 0; i < 4; i++) {
         if (i != func_ov000_0219bb50() && (data_0217aa14->mUnk_749 & (1 << i)) != 0 &&
             data_0217aa14->mUnk_104[i].mUnk_86_0 != 0) {
-            s = &data_0217aa14->mUnk_104[i].mUnk_08[0x20];
-            d = &data_0217aa14->mUnk_104[i].mUnk_08[0x30];
+            s = (u8 *) &data_0217aa14->mUnk_104[i] + 0x28;
+            d = s + 16;
             for (j = 0; j < 16; j++) {
                 c = *s++;
-                e = &((Unk0217aa14_324(*)[4]) & data_0217aa14->mUnk_324[16])[j][i];
+                e = &data_0217aa14->mUnk_3e4[j][i];
                 e->mUnk_09 = c & 0x1f;
                 e->mUnk_0a = (c & 0xe0) >> 5;
                 if (e->mUnk_09 == 15) {
@@ -109,20 +107,19 @@ void func_0205ab78(void) {
     }
 }
 
-// non-matching: same size; 19 lines differ; first: original `mov r7, #0`, ours `mov r9, #0`
 void func_0205ac38(void) {
     u16 i;
+    u8 *a;
+    u8 *b;
     u16 v;
     Unk0217aa14_324 *e;
     Unk0217aa14_754_04 *q;
-    u8 *a;
-    u8 *b;
     u8 c;
 
     v = 0;
-    q = &data_0217aa14->mUnk_754->mUnk_04;
+    q = (void *) &data_0217aa14->mUnk_754->mUnk_04;
     a = q->mUnk_28;
-    b = q->mUnk_38;
+    b = a + 16;
     for (i = 0; i < 16; i++) {
         e = &data_0217aa14->mUnk_324[i];
         if (e->mUnk_08 == 0 || e->mUnk_08 == 2 || e->mUnk_09 == 15) {
@@ -167,7 +164,7 @@ void func_0205ad88(void) {
 
     for (i = 0; i < 16; i++) {
         for (j = 0; j < 4; j++) {
-            e = &((Unk0217aa14_324(*)[4]) & data_0217aa14->mUnk_324[16])[i][j];
+            e = &data_0217aa14->mUnk_3e4[i][j];
             e->mUnk_08 = 0;
             e->mUnk_00 = 0;
             e->mUnk_09 = 15;
@@ -187,15 +184,15 @@ void func_0205ad88(void) {
     data_0217aa14->mUnk_724 = 0x30;
 }
 
-// non-matching: same size; 37 lines differ; first: original `ldr r5, [r2]`, ours `ldr r7, [r2]`
 void func_0205ae8c(u32 a) {
-    Unk0217aa14 *p;
-    Unk0217aa18 *g;
+    u8 j;
+    u8 n;
+    u8 f;
+    u8 m;
     s32 s;
     s32 t;
-    u8 n;
-    u8 j;
-    u8 f;
+    Unk0217aa18 *g;
+    Unk0217aa14 *p;
 
     g = data_0217aa18;
     p = data_0217aa14;
@@ -205,10 +202,11 @@ void func_0205ae8c(u32 a) {
         return;
     }
     j = 0;
-    for (j = 0; j < data_021759c0->mUnk_3d0; j++) {
+    for (j = 0; j < (s32) data_021759c0->mUnk_3d0; j++) {
         if (j != a) {
             t = g->mUnk_00[j];
-            if (t >= 0 && p->mUnk_104[t].mUnk_86_1 < n) {
+            m = p->mUnk_104[t].mUnk_86_1;
+            if (t >= 0 && m < n) {
                 f = 0;
                 if ((p->mUnk_0fc & (1 << (u8) t)) != 0 && (p->mUnk_749 & (1 << (u8) t)) == 0) {
                     f = 1;

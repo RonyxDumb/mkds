@@ -33,19 +33,20 @@
 #include "code_020172d0.h"
 #include "code_0212df7c.h"
 #include "code_02147288.h"
+#include "Main/Unknown/code_02075d08.h"
 
-// non-matching: 98.2: 69 words differ: same instructions, the locals sit in other registers (the original keeps the flag in r4, the pointer in r5 and the argument in r6)
 void func_02066ac0(Unk0206bcb0 *a) {
     Unk0206bcb0_514 *b;
     Unk02066ac0 *c;
-    Unk02066ac0 *d;
     Unk0206bcb0_514 *e;
     Unk0217aa14_104 *f;
     Unk020653d0 *g;
-    u32 h;
     s32 i;
     s32 j;
     s16 k;
+    u32 h;
+    Unk02066ac0 *m;
+    Unk02066ac0 *n;
 
     b = a->mUnk_514;
     j = 0;
@@ -83,22 +84,22 @@ void func_02066ac0(Unk0206bcb0 *a) {
         a->mUnk_388 = e->mUnk_5c;
     }
     e = a->mUnk_514;
-    c = func_0201733c(&e->mUnk_80, 0);
-    while (c != 0) {
-        d = func_0201733c(&e->mUnk_80, c);
-        c->mUnk_08 = c->mUnk_08 - 1;
-        if (c->mUnk_08 <= 0) {
+    m = func_0201733c(&e->mUnk_80, 0);
+    while (m != 0) {
+        n = func_0201733c(&e->mUnk_80, m);
+        m->mUnk_08 = m->mUnk_08 - 1;
+        if (m->mUnk_08 <= 0) {
             if (j == 0) {
-                func_020653d0(a, &c->mUnk_0c, 0);
+                func_020653d0(a, &m->mUnk_0c, 0);
             }
-            func_02017354(&e->mUnk_80, c);
-            func_020174a4(&e->mUnk_8c, c);
-            if (d == 0) {
+            func_02017354(&e->mUnk_80, m);
+            func_020174a4(&e->mUnk_8c, m);
+            if (n == 0) {
                 break;
             }
-            c = d;
+            m = n;
         }
-        c = func_0201733c(&e->mUnk_80, c);
+        m = func_0201733c(&e->mUnk_80, m);
     }
     if ((a->mUnk_514->mUnk_44 & 2) != 0) {
         func_0204360c(a->mUnk_78, 1);
@@ -124,12 +125,12 @@ void func_02066ac0(Unk0206bcb0 *a) {
     }
 }
 
-// non-matching: 99.7: 6 words differ: register allocation of the multiply temporaries in the 0x59c update
 void func_02066de8(Unk0206bcb0 *a) {
     Unk02012f58 b;
     s32 c;
     s32 d;
     u16 e;
+    s32 f;
 
     a->mUnk_5a0 = a->mUnk_5a0 + data_021654c8;
     a->mUnk_5a4 = data_0215d4b4[(a->mUnk_5a0 >> 4) * 2];
@@ -143,7 +144,8 @@ void func_02066de8(Unk0206bcb0 *a) {
             a->mUnk_594 = 0;
         }
     }
-    a->mUnk_59c = a->mUnk_59c + (s32) ((s64) (a->mUnk_598 * a->mUnk_594 - a->mUnk_59c) * data_021654f8 + 0x800 >> 12);
+    f = a->mUnk_598 * a->mUnk_594 - a->mUnk_59c;
+    a->mUnk_59c = a->mUnk_59c + (s32) ((s64) f * data_021654f8 + 0x800 >> 12);
     c = (s64) a->mUnk_59c * data_021654cc + 0x800 >> 12;
     d = (s64) c * a->mUnk_5a4 + 0x800 >> 12;
     e = d;
@@ -159,7 +161,8 @@ void func_02066de8(Unk0206bcb0 *a) {
     a->mUnk_598 = 0;
 }
 
-// non-matching: 97.6: 2 words short: the original keeps the base pointer of data_021759c0 in other registers, so literals and operand registers differ
+// non-matching: same size, 16 words: the data_021759c0 pointer and the a->mUnk_74 subscript swap r0/r1 (+0x68 to
+// +0x1a4), `cmp r6, r0` where the original has `cmp r0, r6` (+0x31c), and the pointer and g swap r1/r2 (+0x3ac)
 void func_02066fe0(Unk0206bcb0 *a) {
     Unk021759c0 *p;
     Unk02175620 *q;
@@ -271,12 +274,16 @@ void func_02066fe0(Unk0206bcb0 *a) {
     }
     if (a->mUnk_74 == p->mUnk_62) {
         c = func_02110e58();
-        if (c == 0) {
-            d = 9;
-        } else if (c == 1) {
-            d = 0xa;
-        } else if (c == 2) {
-            d = 0xb;
+        switch (c) {
+            case 0:
+                d = 9;
+                break;
+            case 1:
+                d = 0xa;
+                break;
+            case 2:
+                d = 0xb;
+                break;
         }
         func_0210b198(a->mUnk_3cc, d, 0x6e, 7, -1);
         return;

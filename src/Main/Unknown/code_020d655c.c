@@ -24,7 +24,7 @@ u32 func_020d6d34(s32 a, s32 b, s32 c, s32 d, s32 e) {
     return v;
 }
 
-s32 func_020d6be0(Unk020eb498 *a, Unk020e71a0 *b) {
+s32 func_020d6be0(Unk0206bcb0 *a, Unk020e71a0 *b) {
     s32 r = b->mUnk_00;
     s32 n = 0;
     s32 f;

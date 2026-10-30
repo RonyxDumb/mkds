@@ -3,6 +3,12 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
+extern const char data_usa_02167418[];
+extern const char data_usa_0216745c[];
+extern const char data_usa_021674d4[];
+extern const char data_usa_021674e4[];
+extern const char data_usa_021674f4[];
+extern const char data_usa_02167504[];
 extern const char data_02167680[];
 extern const char data_02167878[];
 extern const char data_02167888[];

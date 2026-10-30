@@ -156,16 +156,16 @@ void func_02037abc(void *a) {
                               (Unk02037abc_Arg) q->mUnk_08, (Unk02037abc_Arg) q->mUnk_0a, (Unk02037abc_Arg) q->mUnk_0c);
     }
     if (p->mUnk_02 & 4) {
-        func_020386d0(p->mUnk_48, 1);
+        func_020386d0(&p->mUnk_48, 1);
     }
     if (p->mUnk_04 & 4) {
-        func_020386d0(p->mUnk_90, 0);
+        func_020386d0(&p->mUnk_90, 0);
     }
     if (p->mUnk_02 & 8) {
-        func_0203810c(p->mUnk_58, 1);
+        func_0203810c(&p->mUnk_58, 1);
     }
     if (p->mUnk_04 & 8) {
-        func_0203810c(p->mUnk_a0, 0);
+        func_0203810c(&p->mUnk_a0, 0);
     }
     if (p->mUnk_02 & 0x10) {
         func_02037abc_inline3((vu32 *) 0x04000000, (Unk02037abc_Arg) p->mUnk_68);

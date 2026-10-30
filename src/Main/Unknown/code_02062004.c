@@ -5,12 +5,14 @@
 #include "Main/Unknown/code_02062eb0.h"
 #include "Main/Unknown/code_02063000.h"
 #include "Main/Unknown/code_0203ca20.h"
+#include "Main/Unknown/code_0203d568.h"
 #include "Main/Unknown/code_0203c000.h"
 #include "Main/Unknown/code_0207a30c.h"
 #include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_0208eb1c.h"
 #include "Main/Unknown/code_0208f0a0.h"
 #include "Main/Unknown/code_02042044.h"
+#include "Main/Unknown/code_02074b00.h"
 #include "Main/Unknown/code_02075000.h"
 #include "Main/Unknown/code_02076000.h"
 #include "Main/Unknown/code_02076cc4.h"
@@ -375,7 +377,6 @@ void func_02062254(const Vec3 *a) {
     data_0217aa54->mUnk_44 = a->z;
 }
 
-// non-matching: the original loads the second and third components before the first in the sum of squares.
 void func_02062078(void) {
     Vec3 c;
     Vec3 a;
@@ -395,7 +396,7 @@ void func_02062078(void) {
     b.y = -p->mUnk_030.mUnk_0c.z;
     b.z = -p->mUnk_030.mUnk_18.z;
     func_021484d0(&b, &a, &c);
-    if ((s64) c.y * c.y + (s64) c.x * c.x + (s64) c.z * c.z >= 16) {
+    if ((s64) c.x * c.x + (s64) c.y * c.y + (s64) c.z * c.z >= 16) {
         func_02039860(&c, &c);
     }
     func_02010fac(1, (s16) c.x, (s16) c.y, (s16) c.z);
@@ -420,7 +421,6 @@ void func_02062078(void) {
     func_01ff9234();
 }
 
-// non-matching: the original keeps the flag in r1 and the pointer in r2; this build tests the value directly.
 void func_02062004(void) {
     Unk0217d384 *p;
     s32 f;
@@ -429,8 +429,8 @@ void func_02062004(void) {
     func_0207a990();
     func_020848fc();
     func_0203d568();
-    p = data_0217d384;
     f = 0;
+    p = data_0217d384;
     if (p != 0 && p->mUnk_1f30 != 0) {
         f = 1;
     }

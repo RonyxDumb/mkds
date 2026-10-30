@@ -10,6 +10,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02147cd8.h"
 #include "code_02148538.h"
+#include "Main/Unknown/code_02045874.h"
 
 static inline u32 func_02092b5c_inline(u32 n) {
     Unk020f41c4_B *b;

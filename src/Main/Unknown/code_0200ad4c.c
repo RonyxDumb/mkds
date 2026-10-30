@@ -30,7 +30,7 @@ u32 func_0200ad4c(void) {
     return v1;
 }
 
-u32 func_0200ada4(Unk0200ada4 *a) {
+u32 func_0200ada4(Unk02143a78 *a) {
     u16 v3;
     u16 i;
     u16 v2;

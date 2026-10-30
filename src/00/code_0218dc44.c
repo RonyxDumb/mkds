@@ -17,6 +17,6 @@ void func_ov000_0218dc48(int *param_1) {
     return;
 }
 
-u32 func_ov000_0218dc44(u32 *param_1) {
+s32 func_ov000_0218dc44(u32 *param_1) {
     return *param_1;
 }

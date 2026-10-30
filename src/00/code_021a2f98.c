@@ -34,7 +34,7 @@ u8 func_ov000_021a2fb4(int param_1) {
 
 void func_ov000_021a2f98(u32 param_1, u32 param_2, u32 param_3, u32 param_4) {
     u32 uVar1;
-    uVar1 = func_ov000_0219b9d4();
+    uVar1 = func_ov000_0219b9d4(param_1);
     func_ov000_02198914((int) (uVar1), (u32) (param_2), (u32) (param_3), (u32) (param_4));
     return;
 }

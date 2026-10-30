@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "code_0200e0ec.h" // Unk0200db5c, Unk0200dce0
+#include "code_02142eac.h" // Unk02143a78
 
 // Three words that func_0200c448 sets up.
 typedef struct Unk0216fdf8 {
@@ -18,6 +19,8 @@ typedef struct Unk0216fdf4 {
 
 // Objects whose layout isn't known yet.
 extern u32 data_0216f06c;
+extern char data_0216f2a0[];
+extern s8 data_0216f2b0[];
 extern u8 data_0216f2d4[];
 extern u32 data_0216f3c8;
 extern u8 data_0216f3cc[];
@@ -26,7 +29,6 @@ extern u8 data_0216f3d4[];
 extern u8 data_0216f3d8[];
 extern u8 data_0216f3dc[];
 extern u8 data_0216f478[];
-extern u8 data_0216fc40[];
 extern u8 data_0216fda8[];
 extern u8 data_0216fdac[];
 extern u8 data_0216fde0[];
@@ -41,9 +43,9 @@ extern u8 OverlaySignatures[][0x14];
 
 extern u8 data_0216f070[];
 extern u32 data_0216f074[];
-extern u8 data_0216fc34[];
-extern u8 data_0216fc38[];
-extern u8 data_0216fdc0[];
+extern void (*data_0216fc34)(void);
+extern void (*data_0216fc38)(u8 *);
+extern Unk02143a78 data_0216fdc0;
 
 extern u32 data_0216ff44;
 extern u32 data_0216ff48;

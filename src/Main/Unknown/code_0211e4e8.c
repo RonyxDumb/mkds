@@ -235,8 +235,6 @@ void func_0211eb28(void) {
     }
 }
 
-// non-matching: at +0xb2 the literal-pool load of the accumulator (ldr r5,=0x8000) is emitted after the loop
-// counter's stack store; the original loads it before that store (2 words).
 void func_0211e958(void *a, void *b, void *c) {
     void *p;
     s32 i;
@@ -263,18 +261,17 @@ void func_0211e958(void *a, void *b, void *c) {
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
         func_02124ed0(data_0217d378->mUnk_28, data_0217d378->mUnk_04, data_0217d378->mUnk_08, &data_0217d378->mUnk_18);
         func_02124ed0(data_0217d378->mUnk_28, data_0217d378->mUnk_10, data_0217d378->mUnk_14, &data_0217d378->mUnk_1c);
-        i = 0;
         m = 0x8000;
-        for (; i < 4; i++) {
+        for (i = 0; i < 4; i++) {
             m -= func_021243ac(data_0217d378->mUnk_28, data_0215cf0c[i], data_0217d378->mUnk_08, data_0215cef4[i],
                                data_0215cf14[i], data_0215cf04[i], data_0217d378->mUnk_00, data_0217d378->mUnk_04,
                                data_0217d378->mUnk_18, m);
         }
-        m = func_02148ca0();
-        for (i = 0; i < 4; i++) {
-            m -= func_021243ac(data_0217d378->mUnk_28, data_0215cf0c[i], data_0217d378->mUnk_14, data_0215cef4[i],
-                               data_0215cf14[i], data_0215cf04[i], data_0217d378->mUnk_0c, data_0217d378->mUnk_10,
-                               data_0217d378->mUnk_1c, m);
+        i = func_02148ca0();
+        for (m = 0; m < 4; m++) {
+            i -= func_021243ac(data_0217d378->mUnk_28, data_0215cf0c[m], data_0217d378->mUnk_14, data_0215cef4[m],
+                               data_0215cf14[m], data_0215cf04[m], data_0217d378->mUnk_0c, data_0217d378->mUnk_10,
+                               data_0217d378->mUnk_1c, i);
         }
         func_0211de40(data_0217d378->mUnk_28);
     } else {

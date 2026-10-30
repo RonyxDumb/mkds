@@ -1,5 +1,3 @@
 #pragma once
 
-#include "types.h"
-
-s32 func_ov000_021a75f8(s32 descriptor);
+#include "00/code_021a740c.h"

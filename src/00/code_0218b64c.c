@@ -2,7 +2,7 @@
 #include "00/code_021a3690.h"
 
 Unk0218b668 *func_ov000_0218b668(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6,
-                                 s32 param_7, u32 param_8, u32 param_9) {
+                                 s32 param_7, UnkFunc *param_8, u32 param_9) {
     Unk0218b668 *p;
     if (param_7 == 0 && data_ov000_021b4d28 != 1) {
         return 0;

@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_0202881c.h"
 
-unsigned int func_0202881c(unsigned int p0) {
-    return ((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (p0) + 4));
+unsigned int func_0202881c(Unk02175628_48 *a) {
+    return a->mUnk_04;
 }

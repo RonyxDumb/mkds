@@ -18,10 +18,10 @@
 #include "code_0212c6ac.h"
 #include "code_0214a748.h"
 
-void func_02103554(u32 param_1) {
+void func_02103554(const char *param_1) {
     u32 v;
 
-    func_020e6488((Unk020e6488 **) &v, func_020d21ec((const char *) param_1), 0, 0);
+    func_020e6488((Unk020e6488 **) &v, func_020d21ec(param_1), 0, 0);
     func_020e6ab8((Unk020e6488 *) v);
     func_0210340c((Unk0210340c *) data_0217c664, (Unk020e6488 *) v);
 }

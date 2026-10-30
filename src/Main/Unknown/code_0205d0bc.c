@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0205d0bc.h"
 
-u32 func_0205d0bc(u32 arg0) {
+u32 func_0205d0bc(void *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     value1 = 0xau;

@@ -12,26 +12,28 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02147cd8.h"
 
-// non-matching: 0x3d4 bytes, original 0x3d0; literal order and registers differ
 void func_0208b934(void *a) {
+    s32 e = 0x78;
+    s32 f = 0x28;
     void *c = a;
-    u16 e = 0x78;
-    u16 f = 0x28;
     void *g;
     void *h;
     void *t;
     u8 j;
-    Vec3 v;
     Vec3 w;
+    Vec3 v;
+    Unk021759c0 *d;
+    Vec3 *q;
 
     *(u32 *) &data_0217b050 = (u32) func_0208b484;
     if (func_0205e0a0() == 2) {
-        if (data_021759c0->mUnk_08 == 4) {
+        d = data_021759c0;
+        if (d->mUnk_08 == 4) {
             *(u32 *) &data_0217b050 = (u32) func_0208b458;
             c = data_0217aa10->mUnk_a4;
             e = 0x96;
         }
-        if (data_021759c0->mUnk_00 == 0x34) {
+        if (d->mUnk_00 == 0x34) {
             e = 0x12c;
             f = 0x32;
         }
@@ -48,8 +50,8 @@ void func_0208b934(void *a) {
     func_02018a1c(data_0217b04c, h);
     func_02018888(data_0217b04c);
     func_02018874(data_0217b04c);
-    data_0217b054 = 0;
     data_0217b03c = 0;
+    data_0217b054 = 0;
     data_0217b048 = 0;
     if (func_0205e0a0() != 2) {
         return;
@@ -75,19 +77,23 @@ void func_0208b934(void *a) {
         data_0217b044->mUnk_3c = 0;
     }
     func_02082aec();
-    if (data_021759c0->mUnk_00 == 0x22) {
+    switch (data_021759c0->mUnk_00) {
+    case 0x22:
         w = data_usa_021660fc;
         data_0217b048 = func_02036bec(c, 0x64);
         for (j = 0; j < 6; j++) {
             data_0217b048->mUnk_48[j] = 0;
             func_021484d0(&data_usa_02155f78[j], &w, &v);
+            q = &data_0217b048->mUnk_00[j];
             if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 0x10) {
-                func_02039860(&v, &data_0217b048->mUnk_00[j]);
+                func_02039860(&v, q);
             }
         }
         data_0217b048->mUnk_60 = 1;
         data_0217b054 = (UnkFunc *) func_0208b190;
-    } else if (data_021759c0->mUnk_00 == 0x34) {
+        break;
+    case 0x34:
         func_0208afe4();
+        break;
     }
 }

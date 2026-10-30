@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-void func_02008dbc(int param_1, int param_2) {
+void func_02008dbc(u8 *param_1, int param_2) {
     int iVar1;
     iVar1 = ((int) 0x00000590u) * param_2;
     if (*(unsigned short *) (param_1 + 0x48) !=

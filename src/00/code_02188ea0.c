@@ -1,8 +1,8 @@
 #include "00/code_02188ea0.h"
 
-u32 func_ov000_02188ea0(int param_1) {
-    if (((u32) * (u8 *) (param_1 + ((int) 0x00000d0bu)) << 0x1c) >> 0x1e == 1) {
-        return ((u32) 0x000c0000u);
+u32 func_ov000_02188ea0(Unk02188ec0 *v1) {
+    if (v1->mUnk_d0b_2 == 1) {
+        return 0xc0000;
     }
-    return ((u32) 0x00080000u);
+    return 0x80000;
 }

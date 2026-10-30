@@ -30,7 +30,7 @@ typedef struct Unk0212c400 {
 void func_0212c478(Unk0212c400 **a, u32 b);
 void func_0212c494(Unk0212c400 **a, u32 b);
 void func_0212c4c4(Unk0212c400 **a, u32 b, u32 c);
-void func_0212c4f4(Unk0212c400 **a, u32 b, u32 c);
+u32 func_0212c4f4(Unk0212c400 **a, u32 b, u32 c);
 void func_0212c524(Unk0212c400 **a, u32 b, u32 c);
 void func_0212c554(Unk0212c400 **a, u32 b, u32 c);
 void func_0212c594(Unk0212c400 **a, u32 b, u32 c);

@@ -514,7 +514,7 @@ void func_02124140(u32 a, u32 b, void *c, void *d, void *e)
     }
 }
 
-void func_02124100(s32 a, s32 b, void *c, void *d, void *e)
+void func_02124100(s32 a, u8 b, void *c, void *d, void *e)
 {
     Unk02124b1c *r;
     Unk02124b1c *s;

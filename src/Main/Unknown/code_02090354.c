@@ -173,10 +173,9 @@ void func_02090748(Unk020905a8 *a) {
     }
 }
 
-// non-matching: the report scores it 99.29%; objdiff's diff of the function shows every instruction equal
-void func_0209081c(Unk020905a8 *a) {
+s32 func_0209081c(Unk020905a8 *a) {
     func_02090748(a);
-    func_020905a8(a);
+    return func_020905a8(a);
 }
 
 void func_02090838(Unk020905a8 *a, Unk02080b1c_00 *b) {
@@ -206,10 +205,9 @@ void func_02090920(u32 a) {
     func_02048590(data_02166548, a, (void **) &data_0217b0b0);
 }
 
-// non-matching: the original keeps a test of the loop counters before both loops (cmp #8 and cmp #4 before the first pass); the loops here start without it
 s32 func_02090940(void) {
-    s32 i;
-    s32 j;
+    enum { K0 } i;
+    enum { L0 } j;
     s32 r;
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 4; j++) {
@@ -362,9 +360,8 @@ static inline s32 func_02090cf8_inline(s32 a, s32 b) {
     return 0;
 }
 
-// non-matching: the original reloads the constants 0 and 8 from further stack words and keeps the sums 4, 8 and 12 added to the counter in stack words; registers of the counter and the result are swapped
 u32 func_02090cf8(void) {
-    s32 i;
+    enum { K0 } i;
     u32 r;
     u32 q;
     u32 t;

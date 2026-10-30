@@ -295,12 +295,9 @@ void func_02044380(Unk02029930_f8 *a, u32 b, u32 c) {
     }
 }
 
-// non-matching: 0xd8 bytes against 0xdc; the index is multiplied by 0x30 once in the original and the table pointer is
-// reloaded differently.
 void func_0204451c(u32 a) {
     s32 f;
     Unk021759c0 *q;
-    Unk021759c0_68 *e;
 
     f = 3;
     if (data_021759c0->mUnk_3d5[0] == -1) {
@@ -308,8 +305,7 @@ void func_0204451c(u32 a) {
     } else if (data_021759c0->mUnk_3d5[1] == -1) {
         f = 1;
     }
-    e = &data_021759c0->mUnk_68[a];
-    func_020468b0(a, e->mUnk_00, e->mUnk_04, 1, e->mUnk_0c, f);
+    func_020468b0(a, data_021759c0->mUnk_68[a].mUnk_00, data_021759c0->mUnk_68[a].mUnk_04, 1, data_021759c0->mUnk_68[a].mUnk_0c, f);
     q = data_021759c0;
     q->mUnk_68[a] = q->mUnk_250[a];
     if (f < 2) {

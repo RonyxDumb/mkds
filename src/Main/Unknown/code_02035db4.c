@@ -8,7 +8,6 @@
 
 #pragma thumb on
 
-// non-matching: 96%, differs by one register or instruction order
 s32 func_02035db4(u32 a) {
     s32 r;
     Unk02174e6c *o;
@@ -16,12 +15,15 @@ s32 func_02035db4(u32 a) {
     switch ((*(Unk02174e6c **) &data_02174e6c)->mUnk_64c) {
     case 9:
         r = func_020591bc();
-        if (r == 1) {
-            if (func_02035e44() != 0) {
-                func_02035e38();
-            }
-            (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 10;
-        } else if (r == 2) {
+        switch (r) {
+            case 1:
+                if (func_02035e44() != 0) {
+                    func_02035e38();
+                }
+                (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 10;
+                break;
+            case 2:
+                break;
         }
         break;
     case 10:

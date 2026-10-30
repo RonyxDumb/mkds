@@ -36,7 +36,7 @@ void func_02104ff8(void);
 void func_02104f84(s32 a);
 void func_02104f58(Unk02104c68 *p);
 void func_02104f14(Unk02104c68 *p);
-void func_02104ee0(Unk02104c68 *p, s32 a);
+void func_02104ee0(Unk02104c68 *p, void *a);
 void func_02104e58(Unk02104c68 *p);
 void func_02104d78(Unk020eda5c *p0, Unk02104c68 *p1);
 s32 func_02104c68(Unk020eda5c *p0, Unk02104c68 *p1);

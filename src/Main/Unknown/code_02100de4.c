@@ -254,7 +254,7 @@ void func_02101c84(Unk02101c84 *p) {
 }
 
 // non-matching: 12 words. The temporaries holding d[0]/d[2] after the two subtractions
-// differ (original: d[0] in r6, d[2] in r4, g->mUnk_14 loaded before g->mUnk_0c at +0x240..+0x260;
+// differ (original: d[0] in r6, d[2] in r4, g->mUnk_00c.z loaded before g->mUnk_00c.x at +0x240..+0x260;
 // here d[0] in r12, d[2] in r6, loads reversed) and the final two field updates load the struct
 // field before the stack slot at +0x2e4/+0x2f4.
 void func_02101964(Unk02101c84 *p, s32 a) {
@@ -556,8 +556,8 @@ void func_02101178(Unk02101c84 *p) {
             p->mUnk_000.mUnk_d0 = &p->mUnk_000.mUnk_0c4;
         }
     }
-    v[0] = (s32) (((s64) g->mUnk_0c * -0xa000) >> 12);
-    v[2] = (s32) (((s64) g->mUnk_14 * -0xa000) >> 12);
+    v[0] = (s32) (((s64) g->mUnk_00c.x * -0xa000) >> 12);
+    v[2] = (s32) (((s64) g->mUnk_00c.z * -0xa000) >> 12);
     v[0] += (s32) (((s64) g->mUnk_15c.x * -0x11000) >> 12);
     v[2] += (s32) (((s64) g->mUnk_15c.z * -0x11000) >> 12);
     p->mUnk_17c = -p->mUnk_17c;

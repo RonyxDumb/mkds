@@ -3,9 +3,14 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
+extern const u32 data_usa_02155018[];
 extern u8 data_02155048[];
 extern u8 data_02155098[];
 extern u8 data_021550a8[];
+extern const u32 data_usa_02155068[];
+extern const Vec3 data_usa_02155188;
+struct Unk01ffd190;
+extern const struct Unk01ffd190 data_usa_02155194;
 extern void (*data_02155a20[])(void *param_1);
 extern const u16 data_02155a64[];
 extern const u16 data_02155a28[];
@@ -73,4 +78,32 @@ extern const u32 data_02155a54;
 extern const u16 data_02155a74[12];
 extern const Vec3 data_usa_021557c4;
 extern const Vec3 data_usa_021557d0;
-extern const s32 data_usa_021551b4[];
+extern const s32 data_usa_021556e4[];
+extern const s32 data_usa_02155708[];
+extern const s32 data_usa_0215572c[];
+extern const s32 data_usa_02155750[];
+extern const s32 data_usa_02155774[];
+extern const s32 data_usa_02155798[];
+extern const s32 data_usa_021557bc;
+extern const s32 data_usa_021557c0;
+extern const s32 data_usa_021557dc[];
+extern const s32 data_usa_021551a4[];
+// 12-byte entries from data_usa_021551b0 (a string pointer at 0x00); the second table starts at the word at 0x04 of the first entry.
+typedef struct Unk021551b0 {
+    /* 00 */ const char *mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+} Unk021551b0;
+typedef struct Unk021551b4 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ u8 mUnk_04[8];
+} Unk021551b4;
+extern const Unk021551b0 data_usa_021551b0[];
+extern const Unk021551b4 data_usa_021551b4[];
+extern const s32 data_usa_021551dc[];
+extern const s32 data_usa_0215560c[];
+extern const s32 data_usa_02155630[];
+extern const s32 data_usa_02155654[];
+extern const s32 data_usa_02155678[];
+extern const s32 data_usa_0215569c[];
+extern const s32 data_usa_021556c0[];

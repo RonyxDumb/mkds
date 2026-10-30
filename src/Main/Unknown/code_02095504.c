@@ -28,11 +28,11 @@ void func_02095524(void) {
     func_0209bf1c((u32) func_02095958, (u32) func_02095848, 0);
 }
 
-// non-matching: 99.4%: one register choice in the first case differs
 void func_02095544(void *a, Unk02095544 *p) {
     Unk0210b7a8 s1;
     Unk0210b7a8 s2;
     Unk0206bcb0 *o;
+    Vec3 *q;
     s64 d;
     s32 v1;
     s32 v2;
@@ -41,9 +41,10 @@ void func_02095544(void *a, Unk02095544 *p) {
     case 0:
         if (func_02061818() != 2) {
             o = func_0207a974((u16) data_021759c0->mUnk_62);
-            v1 = o->mUnk_80.z - p->mUnk_a4.z;
-            v2 = o->mUnk_80.x - p->mUnk_a4.x;
-            d = (s64) v1 * v1 + (s64) v2 * v2;
+            q = &o->mUnk_80;
+            v2 = q->x - p->mUnk_a4.x;
+            v1 = q->z - p->mUnk_a4.z;
+            d = (s64) v2 * v2 + (s64) v1 * v1;
             if (d >= (s64) 0x9c4 << 32) {
                 return;
             }
@@ -117,7 +118,6 @@ void func_020957ec(Unk020e6fd4 *p) {
     }
 }
 
-// non-matching: 96.6%: register choice around the index computation and the call to func_02146d28 differs
 void func_02095848(void *a, Unk02095544 *p) {
     s32 t;
     s32 m[9];
@@ -134,7 +134,7 @@ void func_02095848(void *a, Unk02095544 *p) {
     func_01ff9048(0x19, &p->mUnk_00.mUnk_28, 12);
     func_01ff9048(0x1b, &p->mUnk_00.mUnk_1c, 3);
     func_0209bb2c(a, data_0217b0e0, p);
-    i = (u16) func_02148714(-p->mUnk_00.mUnk_10.y, 0xc000) >> 4;
+    i = (u16) (u32) func_02148714(-p->mUnk_00.mUnk_10.y, 0xc000) >> 4;
     func_02146d28(m, data_0215d4b4[i * 2], data_0215d4b4[i * 2 + 1]);
     func_01ff9048(0x1a, m, 9);
     func_0209bb2c(a, data_0217b0e4, p);
@@ -159,19 +159,20 @@ void func_020959fc(void) {
     func_0209bf70((u32) func_02095efc, 0, 0, 2, 1, 0x125);
 }
 
-// non-matching: 93.3%: register and branch layout of the repeated tail (halfword update, wrap test) differs
 void func_02095a3c(void *a, Unk02095a3c *p) {
     Unk0210b7a8 s1;
     Unk0210b7a8 s2;
     u32 k;
+    s32 v;
 
-    if (p->mUnk_d8 == 0) {
+    switch (p->mUnk_d8) {
+    case 0:
         p->mUnk_b4.mUnk_04 = 0;
         p->mUnk_b4.mUnk_10 = 0;
         if (p->mUnk_a0-- <= 0) {
             p->mUnk_d8 = 1;
         }
-        if ((p->mUnk_00.mUnk_78 & ~0xc000001f) >= 0xc5c10) {
+        if ((s32) (p->mUnk_00.mUnk_78 & ~0xc000001f) >= 0xc5c10) {
             return;
         }
         if (p->mUnk_a4-- > 0) {
@@ -207,16 +208,18 @@ void func_02095a3c(void *a, Unk02095a3c *p) {
         s1.mUnk_08 = k;
         s1.mUnk_0c = func_020d4ef4(&p->mUnk_00.mUnk_04);
         func_0210b7a8(&s1);
-    } else if (p->mUnk_d8 == 1) {
-        p->mUnk_b4.mUnk_04 = p->mUnk_a8;
+        break;
+    case 1:
+        v = p->mUnk_a8;
+        p->mUnk_b4.mUnk_04 = v;
         p->mUnk_b4.mUnk_10 =
-            ((s64) p->mUnk_a8 * p->mUnk_b4.mUnk_00->mUnk_00[p->mUnk_b4.mUnk_0c].mUnk_34) >> 12;
+            ((s64) v * p->mUnk_b4.mUnk_00->mUnk_00[p->mUnk_b4.mUnk_0c].mUnk_34) >> 12;
         if (func_020d8cc8(&p->mUnk_b4) != 0) {
-            p->mUnk_a0 = p->mUnk_b4.mUnk_1c->mUnk_0e;
+            p->mUnk_a0 = (u16) p->mUnk_b4.mUnk_1c->mUnk_0e;
             p->mUnk_d8 = 0;
         }
         func_020d879c(&p->mUnk_b4, &p->mUnk_00.mUnk_04);
-        if ((p->mUnk_00.mUnk_78 & ~0xc000001f) >= 0xc5c10) {
+        if ((s32) (p->mUnk_00.mUnk_78 & ~0xc000001f) >= 0xc5c10) {
             return;
         }
         if (p->mUnk_a4-- > 0) {
@@ -267,7 +270,6 @@ void func_02095d1c(Unk020e6fd4 *p) {
     }
 }
 
-// non-matching: 99.7%: one register choice differs
 void func_02095db8(void *a, Unk02095a3c *p, u32 c, u32 d) {
     s32 t;
 
@@ -275,13 +277,13 @@ void func_02095db8(void *a, Unk02095a3c *p, u32 c, u32 d) {
     func_01ff9048(0x14, &t, 1);
     func_01ff9048(0x19, func_020e6cbc(&p->mUnk_00.mUnk_04), 12);
     func_01ff9048(0x1b, &p->mUnk_00.mUnk_1c, 3);
-    if ((p->mUnk_00.mUnk_78 & ~0xc000001f) < 0xc5c10) {
+    if ((s32) (p->mUnk_00.mUnk_78 & ~0xc000001f) < 0xc5c10) {
         func_0209b77c(data_0217b0e8, p->mUnk_ac);
         func_0209bb2c(a, data_0217b0e8, p);
     } else {
         func_0209ba58(a, data_0217b0e8, p);
     }
-    if ((p->mUnk_00.mUnk_78 & ~0xc000001f) >= 0x27100) {
+    if ((s32) (p->mUnk_00.mUnk_78 & ~0xc000001f) >= 0x27100) {
         return;
     }
     func_020e5668(&p->mUnk_dc, &p->mUnk_00.mUnk_04);

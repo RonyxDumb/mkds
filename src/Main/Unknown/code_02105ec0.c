@@ -115,15 +115,13 @@ void func_02108720(void) {
     func_0210e4ec(&data_0217c7b4);
 }
 
-// non-matching: 25 words from +0xb8 are the same instructions with swapped registers:
-// this build computes the difference of the two constant pairs into r0 and keeps the sum in
-// r1/r2, the ROM computes the sum first into r0 and the difference into r1.
 void func_02108598(u32 a, u32 b) {
     u32 c;
     u32 d;
     u32 e;
     u32 v;
     u32 w;
+    u32 x;
 
     data_0216c7d4 = a;
     switch (a) {
@@ -156,8 +154,9 @@ void func_02108598(u32 a, u32 b) {
             break;
     }
     func_02111250((void *) b, d);
-    w = (a == 0 ? 0xc8000 : 0xaf000) - (a == 2 ? 0xaf000 : 0xc400);
     data_0217c790 = (Unk0212d9dc *) b;
+    x = b + d;
+    w = (a == 0 ? 0xc8000 : 0xaf000) - (a == 2 ? 0xaf000 : 0xc400);
     switch (a) {
         case 0:
             e = 0x36f3c;
@@ -169,7 +168,6 @@ void func_02108598(u32 a, u32 b) {
             e = 0x25a5c;
             break;
     }
-    w = w - e;
     v = 0;
     switch (a) {
         case 0:
@@ -182,9 +180,13 @@ void func_02108598(u32 a, u32 b) {
             v = 0x35a0;
             break;
     }
-    w = w - v;
-    data_0217d130 = func_0212dcc8((void *) (b + d), w);
-    func_0210e8f8(a == 1);
+    w = w - e - v;
+    data_0217d130 = func_0212dcc8((void *) x, w);
+    x = 0;
+    if (a == 1) {
+        x = 1;
+    }
+    func_0210e8f8(x);
 }
 
 void func_02108344(u32 a, u32 b, u32 c) {
@@ -292,12 +294,8 @@ void func_0210823c(void) {
     data_0217c794 = 0;
 }
 
-// non-matching: 0xd8c bytes here against 0xd90 there. The result of func_0202511c is kept in r6
-// and the switch value read from data_021759c0 in r5, the other way round in the ROM (r5 and r6).
-// After func_0210f5d4 the ROM keeps data_021759c0 plus 0x28 in r6 (add r6, r1, #0x28) and reads
-// the byte at 0x2e as [r6, #6]; here data_021759c0 itself is kept in r5 and read as [r5, #0x2e],
-// so the ROM has one more instruction.
 void func_021074ac(s32 param_1) {
+    s32 c;
     s32 a;
     s32 v;
     s32 b;
@@ -343,7 +341,7 @@ void func_021074ac(s32 param_1) {
         v = 0x7f;
     }
     data_0216cb28 = v;
-    b = func_0202511c(a, &buf);
+    c = func_0202511c(a, &buf);
     if (data_0217d060 == 0) {
         func_0210f808();
         func_0210f868(0, 0);
@@ -484,6 +482,7 @@ void func_021074ac(s32 param_1) {
             }
             func_0210f5d4(v);
             if (data_021759c0->mUnk_08 == 4) {
+                u8 *w = (u8 *) data_021759c0 + 0x28;
                 switch (data_021759c0->mUnk_2f) {
                     case 1:
                         data_0217c770[0] = 0x1d7;
@@ -492,7 +491,7 @@ void func_021074ac(s32 param_1) {
                     case 7:
                         data_0217c770[0] = 0x1e0;
                         data_0217c76c[0] = 0x1e1;
-                        switch (data_021759c0->mUnk_2e) {
+                        switch (w[6]) {
                             case 9:
                             case 0xa:
                                 data_0217c76c[0] = 0xff;
@@ -564,7 +563,7 @@ void func_021074ac(s32 param_1) {
     s.mUnk_01 = buf.mUnk_00;
     s.mUnk_02 = buf.mUnk_01;
     func_021103c0();
-    func_021073ec(b & 0xff, s, &data_0217c814);
+    func_021073ec(c & 0xff, s, &data_0217c814);
     func_0210912c();
     func_0210b870();
     func_0210aefc();

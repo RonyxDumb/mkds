@@ -27,11 +27,10 @@ void func_0208b5b0(void *v1, const Vec3 *b) {
     a->mUnk_28.z = a->mUnk_20->mUnk_00->mUnk_04.z + (b->z >> 4);
 }
 
-// non-matching: same size; stack offsets differ (original stores the first vector at 0x10, here 0x4)
 void *func_0208b498(u32 a, Vec3 *b, u32 c, s32 d) {
     s32 e;
-    Vec3 v;
     Vec3 w;
+    Vec3 v;
     Unk0201ca6c *q;
     Unk020184e4 *p = (*(Unk0217b050Func **) &data_0217b050)(&e, a);
     v.x = b->x >> 4;

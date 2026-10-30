@@ -12,6 +12,9 @@ void func_ov000_0219bc78(void *a, u32 b, u32 c, u32 d, void *e, u32 f, u32 g, u3
 void func_ov000_0219bd90(u32 a, void *b, void *c, u32 d, void *e, u32 f);
 void func_ov000_0219bf10(void);
 #include "00/code_0219b9c4.h"
-int func_ov000_0219b9d4();
+int func_ov000_0219b9d4(u32 a);
 s32 func_ov000_0219bdec(const char *a, void (*b)(s32, s32), void *c, void (*d)(u32, u8), void *e, void (*f)(u32, u32),
                         void *g);
+s32 func_ov000_0219bb04(u8 **a);
+s32 func_ov000_0219bac8(u32 a);
+s32 func_ov000_0219b8bc(u32 a);

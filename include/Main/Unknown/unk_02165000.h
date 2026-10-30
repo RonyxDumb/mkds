@@ -5,7 +5,23 @@
 #include "Main/Unknown/code_02086098.h" // Unk02086098
 
 extern const char data_02165048[];
+extern const char data_usa_021658e0[];
+extern u16 data_usa_021656d8;
+extern u16 data_usa_021656dc;
+extern s32 data_usa_021656e0;
+extern s32 data_usa_021656e4;
+extern u32 data_usa_021656e8;
+extern s32 data_usa_021656ec;
+extern Vec3 data_usa_021656f0;
+extern Vec3 data_usa_021656fc;
+extern Vec3 data_usa_02165708;
+extern u8 data_usa_02165724[];
+extern u8 data_usa_02165738[];
+extern u8 data_usa_0216574c[];
+extern u8 data_usa_02165760[];
+extern u8 data_usa_0216577c[];
 extern const char data_02165050[];
+extern const u8 data_usa_021651d0[];
 
 // Objects whose layout isn't known yet.
 // A function and three numbers; func_02050650 takes the address of data_021652a0.
@@ -24,11 +40,18 @@ extern const Vec3 data_02165524;
 extern const Vec3 data_0216553c;
 extern const Vec3 data_02165548;
 extern const Unk021a9034 data_0216524c;
+extern const Unk021a9034 data_02164838;
+extern const Unk021a9034 data_02165190;
 extern const Unk021a9034 data_02165280;
 extern Unk021652a0 data_021652a0;
+extern u16 data_usa_02165228;
+extern Unk021652a0 data_usa_0216522c;
 extern UnkFunc *const data_021652b0[];
 extern UnkFunc *const data_02165388[];
+struct Unk0206bcb0;
+extern void (*const data_usa_021655c4[])(struct Unk0206bcb0 *);
 extern const Unk021a9034 data_02165368;
+extern const Unk021a9034 data_usa_021651b0;
 extern u8 data_02165074[];
 extern u8 data_02165080[];
 extern u8 data_02165098[];
@@ -55,7 +78,10 @@ extern u8 data_02165fec[];
 
 extern s16 data_021653b8[];
 extern const Unk021a9034 data_021653c0;
-extern u8 data_0216569c[];
+extern u16 data_0216569c;
+extern u16 data_usa_021656a0;
+extern s32 data_usa_021656b4;
+extern s32 data_usa_021656c0;
 extern Vec3 data_02165530;
 extern s32 data_02165948;
 extern s32 data_0216593c;
@@ -104,4 +130,29 @@ typedef struct Unk02165560 {
 } Unk02165560;
 
 extern const Unk02165560 data_usa_02165560;
+
+// Eight halfwords.
+typedef struct Unk0216557c {
+    /* 00 */ s16 mUnk_00[8];
+} Unk0216557c;
+
+extern const Unk0216557c data_usa_0216557c;
+extern s32 data_usa_021654dc;
+extern const Vec3 data_usa_02165554;
+// 37 words.
+typedef struct Unk02165608 {
+    /* 00 */ s32 mUnk_00[37];
+} Unk02165608;
+
+extern const Unk02165608 data_usa_02165608;
 extern const s32 data_usa_02165504;
+extern const s32 data_usa_02165500;
+extern const s16 data_usa_021654c0;
+
+extern u16 data_usa_021658f0;
+extern const s32 *data_usa_021658f4;
+extern const u16 data_usa_021658f8[3];
+extern const u16 data_usa_02165900[3];
+extern const u16 data_usa_02165908[3];
+extern const s32 *const data_usa_02165910[];
+extern s32 data_usa_021654d8;

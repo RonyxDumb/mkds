@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021a6fa8.h"
 #include "00/code_021a8a54.h"
 
-int func_ov000_021a71a4(int param_1, int *param_2, int param_3);
+u8 *func_ov000_021a71a4(u8 *param_1, Unk021a71a4 *param_2, s32 param_3);

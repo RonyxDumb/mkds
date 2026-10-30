@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-int func_02025df4(int param_1, u32 param_2) {
+int func_02025df4(Unk0205fd2c *param_1, u32 param_2) {
     int iVar4;
     int iVar3;
     int iVar2;
@@ -11,7 +11,7 @@ int func_02025df4(int param_1, u32 param_2) {
     iVar3 = 0;
     do {
         uVar1 = func_02025e28(iVar3);
-        iVar2 = func_0205fd2c((Unk0205fd2c *) param_1, param_2, uVar1);
+        iVar2 = func_0205fd2c(param_1, param_2, uVar1);
         if (iVar2 != 0) {
             iVar4 = iVar4 + 1;
         }

@@ -13,10 +13,9 @@
 #include "00/code_0219bb50.h"
 #include "code_0200f5ac.h"
 
-// non-matching: same size; register allocation only; 10 lines differ; first: original `mvn r7, #0`, ours `mvn r8, #0`
 void func_0205c800(u16 a, void (*b)(u32)) {
-    s32 r;
     u16 i;
+    s32 r;
     u16 n;
 
     r = -1;
@@ -67,7 +66,7 @@ static inline s32 func_0205c98c_inline(void) {
     for (i = 0; i < 4; i++) {
         if (p->mUnk_014[i].mUnk_30 != 0) {
             func_0214d1fc(&p->mUnk_014[i], q, 0x28);
-            *(u64 *) &q->mUnk_04 = func_0200f5ac();
+            *(u64 *) &q->mUnk_0c[2] = func_0200f5ac();
             if (func_0205c340(i, 0, 0x28) != 0) {
                 data_0217aa14->mUnk_014[i].mUnk_30 = 0;
             } else {
@@ -79,14 +78,12 @@ static inline s32 func_0205c98c_inline(void) {
     return 0;
 }
 
-// non-matching: same size; 94 lines differ; first: original `mov r4, #0`, ours `mov r5, #0`
 void func_0205c98c(void) {
+    u16 i;
     u8 m;
-    u8 i;
     u16 k;
     u8 b;
     Unk0217aa14 *p;
-    Unk0217aa14_014 *e;
     Unk0217aa14_754_04 *q;
     Unk0217aa14_754 *r;
 
@@ -99,45 +96,45 @@ void func_0205c98c(void) {
     p = data_0217aa14;
     if (p->mUnk_749 == (p->mUnk_749 & m)) {
         p->mUnk_0fb = m;
-        data_0217aa14->mUnk_010 = 2;
-        data_0217aa14->mUnk_012 = 1;
+        p = data_0217aa14;
+        p->mUnk_010 = 2;
+        p->mUnk_012 = 1;
     }
     if (func_0205c98c_inline() != 0) {
         return;
     }
     p = data_0217aa14;
     k = p->mUnk_0f8;
-    if (k >= 4) {
-        p->mUnk_0f8 = 0;
-        return;
-    }
-    b = k;
-    if ((p->mUnk_749 & (1 << b)) != 0 && b != func_ov000_0219bb50()) {
-        p = data_0217aa14;
-        e = &p->mUnk_014[b];
-        if (e->mUnk_34 < 12) {
-            r = p->mUnk_754;
-            q = &r->mUnk_04;
-            r->mUnk_04.mUnk_00_h = func_ov000_0219bb50();
-            *(u64 *) &q->mUnk_04 = func_0200f5ac();
-            q->mUnk_0c[0] = 0;
-            q->mUnk_0c[1] = 0;
-            q->mUnk_0c[2] = 0;
-            q->mUnk_0c[3] = 0;
-            q->mUnk_0c[4] = 0;
-            *(u32 *) &q->mUnk_20[0] = 0;
-            func_0205c340(b, 0, 0x28);
-        } else {
-            if (e->mUnk_36 == 0) {
-                func_0205c340(b, 5, 0);
-            }
-            data_0217aa14->mUnk_014[b].mUnk_36++;
-            if (data_0217aa14->mUnk_014[b].mUnk_36 > 4) {
-                data_0217aa14->mUnk_014[b].mUnk_36 = 0;
+    if (k < 4) {
+        b = k;
+        if ((p->mUnk_749 & (1 << b)) != 0 && b != func_ov000_0219bb50()) {
+            p = data_0217aa14;
+            if (p->mUnk_014[b].mUnk_34 < 12) {
+                r = p->mUnk_754;
+                q = &r->mUnk_04;
+                r->mUnk_04.mUnk_00_h = func_ov000_0219bb50();
+                *(u64 *) &q->mUnk_04 = func_0200f5ac();
+                q->mUnk_0c[0] = 0;
+                q->mUnk_0c[1] = 0;
+                q->mUnk_0c[2] = 0;
+                q->mUnk_0c[3] = 0;
+                q->mUnk_0c[4] = 0;
+                *(u32 *) &q->mUnk_20[0] = 0;
+                func_0205c340(b, 0, 0x28);
+            } else {
+                if (p->mUnk_014[b].mUnk_36 == 0) {
+                    func_0205c340(b, 5, 0);
+                }
+                data_0217aa14->mUnk_014[b].mUnk_36++;
+                if (data_0217aa14->mUnk_014[b].mUnk_36 > 4) {
+                    data_0217aa14->mUnk_014[b].mUnk_36 = 0;
+                }
             }
         }
+        data_0217aa14->mUnk_0f8++;
+    } else {
+        p->mUnk_0f8 = 0;
     }
-    data_0217aa14->mUnk_0f8++;
 }
 
 // non-matching: 0x114 bytes, original 0x108; 68 lines differ; first: original `mov r4, #0`, ours `mov r1, #0`
@@ -191,11 +188,13 @@ void func_0205ccec(void) {
     }
 }
 
-// non-matching: 0x2ac bytes, original 0x2b0; 98 lines differ; first: original `ldr r1, [pc, #652]`, ours `ldr r1, [pc,
-// #648]`
 void func_0205cd24(void *a) {
     s32 i;
     s32 j;
+    u8 k;
+    s32 n;
+    u8 m;
+    Unk0217aa14 *p;
 
     if (data_021759c0->mUnk_08 != 5) {
         return;
@@ -205,46 +204,47 @@ void func_0205cd24(void *a) {
     for (i = 0; i < 16; i++) {
         data_0217aa14->mUnk_324[i].mUnk_04 = func_02036b74(a, 20, 32);
         for (j = 0; j < 4; j++) {
-            ((Unk0217aa14_324(*)[4]) & data_0217aa14->mUnk_324[16])[i][j].mUnk_04 = func_02036b74(a, 20, 32);
+            data_0217aa14->mUnk_3e4[i][j].mUnk_04 = func_02036b74(a, 20, 32);
         }
     }
     data_0217aa14->mUnk_0fc = data_0217aa18->mUnk_04;
     func_0214d168(data_0217aa14->mUnk_754, 0, 0x6c);
-    for (i = 0; i < 4; i++) {
-        func_0214d168(&data_0217aa14->mUnk_104[i], 0, 0x68);
-        data_0217aa14->mUnk_104[i].mUnk_86_0 = 0;
+    for (n = 0; n < 4; n++) {
+        func_0214d168(&data_0217aa14->mUnk_104[n], 0, 0x68);
+        data_0217aa14->mUnk_104[n].mUnk_86_0 = 0;
     }
+    k = data_0217aa14->mUnk_0fc;
     data_0217aa14->mUnk_748 = 0;
-    data_0217aa14->mUnk_749 = data_0217aa14->mUnk_0fc;
-    for (i = 0; i < 4; i++) {
-        data_0217aa14->mUnk_74a[i] = 0;
-        data_0217aa14->mUnk_740[i] = 0;
+    data_0217aa14->mUnk_749 = k;
+    for (k = 0; k < 4; k++) {
+        data_0217aa14->mUnk_74a[k] = 0;
+        data_0217aa14->mUnk_740[k] = 0;
     }
     func_0205ad88();
     func_0205a6b4();
     data_0217aa14->mUnk_75c |= 1;
     data_0217aa14->mUnk_75c |= 0x40;
-    data_0217aa14->mUnk_010 = 0;
-    data_0217aa14->mUnk_012 = 1;
+    p = data_0217aa14;
+    p->mUnk_010 = 0;
+    p->mUnk_012 = 1;
     data_0217aa14->mUnk_758 = 0;
-    for (i = 0; i < 4; i++) {
-        data_0217aa14->mUnk_104[i].mUnk_80 = 0;
-        if (data_0217aa18->mUnk_06[i] < 0) {
-            data_0217aa14->mUnk_104[i].mUnk_86_1 = 0;
+    for (m = 0; m < 4; m++) {
+        j = data_0217aa18->mUnk_06[m];
+        data_0217aa14->mUnk_104[m].mUnk_80 = 0;
+        if (j >= 0) {
+            data_0217aa14->mUnk_104[m].mUnk_86_1 = func_0205d27c((u8) j);
         } else {
-            data_0217aa14->mUnk_104[i].mUnk_86_1 = func_0205d27c(data_0217aa18->mUnk_06[i]);
+            data_0217aa14->mUnk_104[m].mUnk_86_1 = 0;
         }
     }
     func_02046be8(data_0217aa14, data_02165388, 6, 0);
 }
 
-// non-matching: same size; register allocation only; 2 lines differ; first: original `mov r5, #0`, ours `mov r1, #0`
 void func_0205cfd4(u32 a) {
     u8 i;
     u8 n;
 
-    n = 0;
-    for (i = 0; i < 4; i++) {
+    for (i = 0, n = 0; i < 4; i++) {
         data_0217aa18->mUnk_06[i] = -1;
         if ((a & (1 << i)) != 0) {
             data_0217aa18->mUnk_00[n] = i;

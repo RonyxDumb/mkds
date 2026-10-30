@@ -3,7 +3,9 @@
 #include "types.h"
 
 typedef struct Unk021b5550 {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u8 mUnk_00;
+    /* 01 */ u8 mUnk_01;
+    /* 02 */ u16 mUnk_02;
     /* 04 */ u32 mUnk_04;
 } Unk021b5550;
 

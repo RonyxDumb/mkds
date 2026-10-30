@@ -2,8 +2,6 @@
 #include "code_0214f1b0.h"
 #include "code_0214d5b8.h"
 
-// non-matching: the original loads the pointer at mUnk_04 into ip before testing mUnk_00 in the first block, with
-// the object's address loaded twice; this loads it after
 void func_0214f060(u32 a, u32 b, u32 c) {
     u16 x;
     u16 k;
@@ -14,8 +12,9 @@ void func_0214f060(u32 a, u32 b, u32 c) {
             data_02180414.mUnk_00 = 0;
         }
         if (data_02180414.mUnk_04 != 0) {
+            void (*g)() = data_02180414.mUnk_04;
             data_02180414.mUnk_04 = 0;
-            data_02180414.mUnk_04(6, data_02180414.mUnk_08);
+            g(6, data_02180414.mUnk_08);
         }
     }
     x = b & 0xff;

@@ -34,19 +34,18 @@ s32 func_0205d140(void) {
     return 2;
 }
 
-// non-matching: the same instructions except one: the original narrows the signed byte at 0x62 to u16 and then masks it with 0xff twice, here once, and it keeps the first value in r3 and the second in r2 where this uses the opposite registers; 4 bytes shorter.
 s32 func_0205d190(void) {
     Unk021759c0 *p;
     Unk0217aa1c *q;
-    s32 a, x, y;
+    s32 a, x, y, z;
     u16 v, c;
-    u8 d;
+    u32 d;
 
     p = data_021759c0;
     q = data_0217aa1c;
     c = p->mUnk_62;
     a = q->mUnk_140;
-    d = c;
+    d = (u8) c;
     v = q->mUnk_000[(u8) ((p->mUnk_60 - 1) % 4)][(u8) d].mUnk_00;
     if (a >= 1000) {
         x = 0;
@@ -72,11 +71,11 @@ s32 func_0205d190(void) {
     } else {
         y = 4;
     }
-    x = x + y;
-    if (x >= 8) {
-        x = 7;
+    z = x + y;
+    if (z >= 8) {
+        z = 7;
     }
-    return 7 - x;
+    return 7 - z;
 }
 
 u8 func_0205d27c(u32 a) {
@@ -142,7 +141,6 @@ u16 func_0205d3f0(u32 a) {
     return data_0217aa1c->mUnk_000[i][(u8) a].mUnk_00;
 }
 
-// non-matching: the original keeps the loop counter in r3 and indexes the entry with `add r1, r2, r3, lsl #2` each time, with the result -1 loaded first; here the compiler makes a stepping pointer and a counter in r0.
 s32 func_0205d480(void) {
     s32 j, r;
     Unk0217aa1c_144 *p;
@@ -150,7 +148,7 @@ s32 func_0205d480(void) {
     r = -1;
     p = &data_0217aa1c->mUnk_144[(u8) ((data_021759c0->mUnk_60 - 1) % 4)];
     for (j = 0; j < 2; j++) {
-        if (p->mUnk_00[j].mUnk_03_0) {
+        if (p->mUnk_00[(u32) j].mUnk_03_0) {
             r = j;
             break;
         }
@@ -295,11 +293,10 @@ void func_0205d974(u32 a) {
     data_0217aa1c->mUnk_000[(u8) ((data_021759c0->mUnk_60 - 1) % 4)][(u8) a].mUnk_00 = 0;
 }
 
-// non-matching: same instructions; the original loads the pointer in r3 and reuses r3 for the value at 0x8 with the mod result in lr, here the pointer stays in r4, the value in lr, and the mod result in ip.
 void func_0205d9d4(u32 a, s32 b, u32 c) {
     Unk021759c0 *p;
     s8 i, j;
-    s32 m, t, k;
+    s32 t, k, m;
     u16 v;
     u8 n;
     Unk0217aa1c_00 *e;

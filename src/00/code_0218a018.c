@@ -1,6 +1,6 @@
 #include "00/code_0218a018.h"
 
-u32 func_ov000_0218a018(u32 arg0) {
+u32 func_ov000_0218a018(const u8 *arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value2;

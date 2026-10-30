@@ -70,7 +70,6 @@ void func_02024a28(Unk0210bfbc *p, u16 a, s32 b, s32 c) {
     func_0210c86c(p, 0, a, v, 0);
 }
 
-// non-matching: 92.8%, register use and the order of the multiplications differ
 void func_02024a88(Unk0206bcb0 *a) {
     Unk02024eec *q;
     s32 f;
@@ -80,10 +79,12 @@ void func_02024a88(Unk0206bcb0 *a) {
     s32 j;
     s32 k;
     s32 l;
+    s32 m;
 
     q = (Unk02024eec *) &a->mUnk_450;
-    f = (a->mUnk_48 & 2) != 0 ? 1 : 0;
-    g = (a->mUnk_48 & 4) != 0 ? 1 : 0;
+    m = a->mUnk_48;
+    f = (m & 2) != 0 ? 1 : 0;
+    g = (m & 4) != 0 ? 1 : 0;
     if ((a->mUnk_4c & 0x10000000) != 0) {
         q->mUnk_08 = 0x6c0000;
         q->mUnk_0c = 0x6c0000;
@@ -110,13 +111,13 @@ void func_02024a88(Unk0206bcb0 *a) {
                 } else {
                     i = ((s64) h * 0x580000 + 0x800) >> 12;
                 }
-                g = func_02024eec(q, i, 0);
+                g = func_02024eec((Unk02024eec *) &a->mUnk_450, i, 0);
                 q->mUnk_04 = 0x7f;
                 q->mUnk_00 = q->mUnk_44;
                 func_0210ddf4(&data_0217d274, func_02086080(a->mUnk_74), (void (*)(void *, int)) func_02024fc0, a, (int) q);
             } else {
                 i = ((s64) h * 0x480000 + 0x800) >> 12;
-                g = func_02024eec(q, i, 0);
+                g = func_02024eec((Unk02024eec *) &a->mUnk_450, i, 0);
                 q->mUnk_04 = 0x46;
                 q->mUnk_00 = q->mUnk_44;
                 func_0210ddf4(&data_0217d274, func_02086080(a->mUnk_74), (void (*)(void *, int)) func_02024fc0, a, (int) q);
@@ -138,34 +139,30 @@ void func_02024a88(Unk0206bcb0 *a) {
     l = h > 0 ? 1 : 0;
     if (g != 0 && a->mUnk_2a8 > 0 && (a->mUnk_44 & 0x10) != 0) {
         g = ((s64) q->mUnk_24 * k + 0x800) >> 12;
-        q->mUnk_04 = data_02153158[(a->mUnk_2a0 >> 8) & 0xff];
         if (g > 0x280000) {
             g = 0x280000;
         }
+        q->mUnk_04 = data_02153158[(a->mUnk_2a0 >> 8) & 0xff];
         func_0210ddf4(&data_0217d274, func_02086080(a->mUnk_74), (void (*)(void *, int)) func_02024fe8, a, (int) q);
     } else if (f != 0 || (g != 0 && a->mUnk_2a8 < 0)) {
         if (l != 0) {
-            i = (((s64) h * q->mUnk_18 + 0x800) >> 12) + 0x580000;
+            i = (s32) (((s64) h * q->mUnk_18 + 0x800) >> 12) + 0x580000;
         } else {
             i = ((s64) q->mUnk_1c * k + 0x800) >> 12;
         }
-        g = func_02024eec(q, i, l);
+        g = func_02024eec((Unk02024eec *) &a->mUnk_450, i, l);
         q->mUnk_04 = 0x7f;
         if (q->mUnk_14 == 0) {
-            if (a->mUnk_2a0 < 0x333) {
-                q->mUnk_00 = q->mUnk_64;
-            } else {
-                q->mUnk_00 = q->mUnk_60;
-            }
+            q->mUnk_00 = a->mUnk_2a0 < 0x333 ? q->mUnk_64 : q->mUnk_60;
         }
         func_0210ddf4(&data_0217d274, func_02086080(a->mUnk_74), (void (*)(void *, int)) func_0202506c, a, (int) q);
     } else {
         if (l != 0) {
-            i = (((s64) h * q->mUnk_18 + 0x800) >> 12) + 0x480000;
+            i = (s32) (((s64) h * q->mUnk_18 + 0x800) >> 12) + 0x480000;
         } else {
             i = ((s64) q->mUnk_20 * k + 0x800) >> 12;
         }
-        g = func_02024eec(q, i, l);
+        g = func_02024eec((Unk02024eec *) &a->mUnk_450, i, l);
         q->mUnk_04 = 0x32;
         if (a->mUnk_2a0 < 0x19a) {
             q->mUnk_00 = q->mUnk_58;
@@ -180,7 +177,6 @@ void func_02024a88(Unk0206bcb0 *a) {
     q->mUnk_14 = f;
 }
 
-// non-matching: 88.3%, the 64-bit multiply and the compare order differ
 s32 func_02024eec(Unk02024eec *a, s32 b, s32 c) {
     s32 d;
     s32 e;
@@ -200,11 +196,7 @@ s32 func_02024eec(Unk02024eec *a, s32 b, s32 c) {
         if ((d & 0x7fff0000) == g) {
             a->mUnk_0c = b;
             f = 0;
-        } else if ((e & 0x7fff0000) == g) {
-            if (f != 0) {
-                b = f + d;
-            }
-        } else {
+        } else if ((e & 0x7fff0000) != g) {
             a->mUnk_0c = b;
             if (b < d) {
                 h = *(s32 *) data_02174e0c;
@@ -214,6 +206,8 @@ s32 func_02024eec(Unk02024eec *a, s32 b, s32 c) {
                 h = *(s32 *) data_02174e10;
             }
             f = ((s64) h * (b - d) + 0x800) >> 12;
+            b = f + d;
+        } else if (f != 0) {
             b = f + d;
         }
     }

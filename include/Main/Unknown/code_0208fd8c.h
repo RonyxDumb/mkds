@@ -9,7 +9,7 @@ struct Unk020888b4;
 // Unk0208fd8c and the Unk020888b4 at 0x00 and halfwords at 0x08 and 0x0a.
 typedef struct Unk0208fd8c_08 {
     /* 00 */ void (*mUnk_00)(struct Unk0208fd8c *a, struct Unk020888b4 *b);
-    /* 04 */ u8 mUnk_04[4];
+    /* 04 */ s32 mUnk_04;
     /* 08 */ u16 mUnk_08;
     /* 0a */ u16 mUnk_0a;
 } Unk0208fd8c_08;

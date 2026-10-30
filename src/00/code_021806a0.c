@@ -1,6 +1,6 @@
 #include "00/code_021806a0.h"
 
-unsigned int func_ov000_021806d4(void) {
+s32 func_ov000_021806d4(void) {
     return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
                                                         const unsigned int *) ((unsigned char *) (unsigned int) ((
                                                                                    (u32) (&data_ov000_021b4c64))) +

@@ -447,8 +447,6 @@ void func_020f0684(Unk020f41c4_A **p, s32 i, s32 n, s32 v1) {
     } while (i < n);
 }
 
-// non-matching: same size; registers only in the squared distance: the original holds the y difference in r0 and
-// the z difference in r2, this build r6 and r0 (7 words from +0x234)
 void func_020f03f8(Unk027e00cc *a) {
     Unk020f41c4_A **e;
     Unk020f41c4_A *p;
@@ -465,6 +463,8 @@ void func_020f03f8(Unk027e00cc *a) {
     s32 d;
     s32 z;
     s32 m;
+    s32 g;
+    s32 h;
     u16 u;
 
     e = a->mUnk_04;
@@ -526,8 +526,10 @@ void func_020f03f8(Unk027e00cc *a) {
                     q = func_0207a974(u);
                     c = &q->mUnk_98;
                     d = ((c->x - b->x) >> 12) * ((c->x - b->x) >> 12);
-                    d += ((c->y - b->y) >> 12) * ((c->y - b->y) >> 12);
-                    d += ((c->z - b->z) >> 12) * ((c->z - b->z) >> 12);
+                    g = (c->y - b->y) >> 12;
+                    h = (c->z - b->z) >> 12;
+                    d += g * g;
+                    d += h * h;
                     if (min <= d) {
                         break;
                     }
@@ -992,24 +994,27 @@ void func_020ef340(Unk020eda5c *a, Unk020f41c4_A *b, Unk020f41c4_A *c) {
     func_020efa48(a, c);
 }
 
-// non-matching: a and p are in r4/r5 where the original has them swapped (0x17c vs 0x174 bytes)
 void func_020ef1cc(Unk020eda5c *p) {
     Unk020f41c4_A *b;
     Vec3 *q;
     s32 d;
     s32 i;
+    Vec3 *u;
+    Unk020f41c4_A **l;
 
-    b = p->mUnk_014[0];
+    l = p->mUnk_014;
+    b = l[0];
     q = &b->mUnk_50;
-    p->mUnk_090 = p->mUnk_02c.mUnk_18;
+    u = &p->mUnk_02c.mUnk_18;
+    p->mUnk_090 = *u;
     p->mUnk_09c.x = -p->mUnk_02c.mUnk_18.x;
-    p->mUnk_09c.y = -p->mUnk_02c.mUnk_18.y;
-    p->mUnk_09c.z = -p->mUnk_02c.mUnk_18.z;
+    p->mUnk_09c.y = -u->y;
+    p->mUnk_09c.z = -u->z;
     d = (s32) (((s64) p->mUnk_084.z << 14) >> 12);
     func_02147fd8(p->mUnk_078 + d, &p->mUnk_09c, &p->mUnk_050, &p->mUnk_0a8);
     func_02147fd8((s32) (((s64) p->mUnk_0e8 * p->mUnk_084.z) >> 12), &p->mUnk_02c.mUnk_0c, &p->mUnk_0a8, q);
-    p->mUnk_014[1]->mUnk_50 = p->mUnk_014[0]->mUnk_50;
-    p->mUnk_014[2]->mUnk_50 = p->mUnk_014[1]->mUnk_50;
+    l[1]->mUnk_50 = p->mUnk_014[0]->mUnk_50;
+    l[2]->mUnk_50 = l[1]->mUnk_50;
     p->mUnk_0b4 = p->mUnk_0a8;
     p->mUnk_0c0 = p->mUnk_0b4;
     p->mUnk_0cc[0] = 0xee1;
@@ -1140,11 +1145,12 @@ void func_020eecdc(Unk020eda5c *a) {
     }
 }
 
-// non-matching: the loop compares and the 0x4cd step in other registers (13 words from +0x14)
+// non-matching: 6 words from +0x14: the original sets k (r9) after the first cmp and sum (r7) after the 0x4cd load,
+// here both are set before the cmp
 void func_020eec48(Unk020eda5c *a, s32 i, Unk020f41c4_A *v) {
     s32 k;
-    s32 sum;
     Unk020f41c4_A *e;
+    s32 sum;
 
     k = 0;
     sum = 0;
@@ -1152,8 +1158,7 @@ void func_020eec48(Unk020eda5c *a, s32 i, Unk020f41c4_A *v) {
         e = a->mUnk_014[a->mUnk_020 - 1];
         func_020efa60(a, 0);
         sum = sum + 0x4cd;
-        k = k + 1;
-        if (k > 0) {
+        if (k++ > 0) {
             func_02147fd8(sum, &e->mUnk_f0, &e->mUnk_5c, &e->mUnk_5c);
         }
     }

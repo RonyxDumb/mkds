@@ -4,16 +4,6 @@
 #include "Main/Unknown/code_02080b1c.h"
 #include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
 
-// Object of 0x2a bytes: an Unk02080b1c at 0x00, a word at 0x20, the halfword at 0x24 given to func_0207a974 and
-// halfwords at 0x26 and 0x28.
-typedef struct Unk020905a8 {
-    /* 00 */ Unk02080b1c mUnk_00;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ u16 mUnk_24;
-    /* 26 */ s16 mUnk_26;
-    /* 28 */ s16 mUnk_28;
-} Unk020905a8;
-
 // Value at 0x00 (halfword), 0x02 and 0x03 (bytes) combined by func_020908d0.
 typedef struct Unk020908d0 {
     /* 00 */ u16 mUnk_00;
@@ -47,7 +37,7 @@ void func_02090354(void);
 s32 func_020905a8(Unk020905a8 *a);
 void func_02090638(Unk020905a8 *a);
 void func_02090748(Unk020905a8 *a);
-void func_0209081c(Unk020905a8 *a);
+s32 func_0209081c(Unk020905a8 *a);
 void func_02090838(Unk020905a8 *a, Unk02080b1c_00 *b);
 void func_0209086c(Unk020905a8 *a, u32 b);
 s32 func_020908d0(u32 a, void *b);

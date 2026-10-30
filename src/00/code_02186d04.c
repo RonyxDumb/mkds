@@ -1,20 +1,20 @@
 #include "00/code_02186d04.h"
 
-void func_ov000_02186d04(int param_1) {
+void func_ov000_02186d04(Unk021868d0 *param_1) {
     if (param_1 != 0) {
-        if (*(int *) (param_1 + 0xc) == 0) {
-            func_ov000_02186a10((int) (param_1), (int *) ((int *) (u32) (param_1 + ((int) 0x00000938u))));
+        if (param_1->mUnk_00c == 0) {
+            func_ov000_02186a10(param_1, &param_1->mUnk_938);
         }
-        func_ov000_02186a10((int) (param_1), (int *) ((int *) (u32) (param_1 + ((int) 0x00000928u))));
-        if (*(int *) (param_1 + ((int) 0x0000091cu)) != 0) {
-            (**(UnkFunc **) (param_1 + 0x18))((u32) &data_ov000_021b1320, *(int *) (param_1 + ((int) 0x0000091cu)), 0);
-            *(u32 *) (param_1 + ((int) 0x0000091cu)) = 0;
+        func_ov000_02186a10(param_1, &param_1->mUnk_928);
+        if (param_1->mUnk_91c != 0) {
+            param_1->mUnk_018(data_ov000_021b1320, param_1->mUnk_91c, 0);
+            param_1->mUnk_91c = 0;
         }
-        if (*(int *) (param_1 + ((int) 0x00000920u)) != 0) {
-            (**(UnkFunc **) (param_1 + 0x18))((u32) &data_ov000_021b1334, *(int *) (param_1 + ((int) 0x00000920u)), 0);
-            *(u32 *) (param_1 + ((int) 0x00000920u)) = 0;
+        if (param_1->mUnk_920 != 0) {
+            param_1->mUnk_018(data_ov000_021b1334, param_1->mUnk_920, 0);
+            param_1->mUnk_920 = 0;
         }
-        func_0214d168((void *) ((u32 *) (u32) (param_1)), (u8) (0), (u32) (((u32) 0x00001a60u)));
+        func_0214d168(param_1, 0, 0x1a60);
     }
     return;
 }

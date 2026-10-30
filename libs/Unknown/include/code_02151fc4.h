@@ -1,0 +1,11 @@
+#pragma once
+
+#include "types.h"
+#include "code_021510a4.h"
+
+extern const u8 data_usa_02161730[];
+extern const u8 data_usa_02161738[];
+
+u32 func_02151fc4(Unk021510a4 *a);
+u64 func_0215211c(u32 a, u32 b, u32 c, u32 d);
+s64 func_02152244(const u32 *a, const u32 *b);

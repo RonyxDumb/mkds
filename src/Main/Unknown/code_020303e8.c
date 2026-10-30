@@ -18,7 +18,6 @@
 
 #pragma thumb on
 
-// non-matching: 0x23c bytes, original 0x244; 258 lines differ; first: original `movs r0, #0`, ours `bl T`
 s32 func_020303e8(void) {
     Unk02174e54 *o;
     s32 r;
@@ -27,8 +26,8 @@ s32 func_020303e8(void) {
     s32 c;
     u16 i;
 
-    i = func_020435bc();
     r = -1;
+    i = func_020435bc();
     o = data_02174e54;
     switch (o->mUnk_30) {
         case 0:

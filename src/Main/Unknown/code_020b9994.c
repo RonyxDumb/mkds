@@ -132,7 +132,7 @@ void func_020b9dfc(Unk020d029c *p) {
             if (data_02175628[0].mUnk_3c != 2) {
                 return;
             }
-            if (func_0204a650(&data_02175650) == 0) {
+            if (func_0204a650(&data_02175650[0]) == 0) {
                 return;
             }
             data_0217b3c8->mUnk_08 = 0;

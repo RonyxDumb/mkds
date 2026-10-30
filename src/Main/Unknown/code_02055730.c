@@ -68,12 +68,12 @@ s32 func_02055730(u16 a) {
 s32 func_0205579c(s32 a, s32 b) {
     if (a != 0) {
         if (b != 0) {
-            return func_0204e1a8();
+            return func_0204e1a8(a);
         }
         return func_02055808(a);
     }
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        return func_0204e1a8();
+        return func_0204e1a8(a);
     }
     return func_02055808(a);
 }

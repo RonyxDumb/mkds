@@ -1,11 +1,13 @@
 #pragma once
 
 #include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_020748b8.h"
 #include "Main/Unknown/code_020b4e5c.h"
 #include "Main/Unknown/unk_0217b000.h"
 
 #include "types.h"
 #include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_020748b8.h"
 #include "Main/Unknown/code_02147000.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_02175628.h"
@@ -41,6 +43,7 @@ typedef struct {
     /* 14 */ s32 mUnk_14;
     /* 18 */ u16 mUnk_18[4];
     /* 20 */ s32 mUnk_20;
+    /* 24 */ s32 mUnk_24;
 } Unk02175620_18;
 
 // 0x48-byte entries of the table at Unk02175620::mUnk_74 (func_020423fc returns one).
@@ -72,7 +75,7 @@ typedef struct Unk02175620_bc {
     /* 0c */ struct Unk02175620_bc *mUnk_0c;
     /* 10 */ u8 mUnk_10[8];
     /* 18 */ Vec3 *mUnk_18;
-    /* 1c */ u8 mUnk_1c[4];
+    /* 1c */ s32 mUnk_1c;
     /* 20 */ Vec3 *mUnk_20;
     /* 24 */ s32 mUnk_24;
     /* 28 */ s16 *mUnk_28;
@@ -101,11 +104,19 @@ typedef struct Unk02175620_24 {
     /* 1e */ u8 mUnk_1e[2];
 } Unk02175620_24;
 
+// The same two words as UnkPair020b502c.
+typedef Unk0217b498_0c Unk02040d24;
+
 // 0x24-byte entries of the table at Unk02175620::mUnk_44.
 typedef struct Unk02175620_44 {
-    /* 00 */ u8 mUnk_00[0x18];
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ Unk02040d24 mUnk_10;
     /* 18 */ s32 mUnk_18;
-    /* 1c */ u8 mUnk_1c[4];
+    /* 1c */ s16 mUnk_1c;
+    /* 1e */ s16 mUnk_1e;
     /* 20 */ s16 mUnk_20;
     /* 22 */ u8 mUnk_22;
     /* 23 */ u8 mUnk_23;
@@ -137,13 +148,7 @@ typedef struct {
 } Unk02175620_54_10;
 
 // 0x4c-byte entries of the table at Unk02175620::mUnk_7c.
-typedef struct {
-    /* 00 */ u8 mUnk_00[0x3e];
-    /* 3e */ u16 mUnk_3e;
-    /* 40 */ u8 mUnk_40[10];
-    /* 4a */ u8 mUnk_4a;
-    /* 4b */ u8 mUnk_4b;
-} Unk02175620_7c;
+typedef Unk020748b8_218 Unk02175620_7c;
 
 // 0x14-byte entries of the table at Unk02175620::mUnk_8c.
 typedef struct {
@@ -176,6 +181,14 @@ typedef struct Unk02175620_d8 {
     /* 04 */ struct Unk02175620_d8 *mUnk_04;
 } Unk02175620_d8;
 
+// Object behind the word at 0x3c of the object behind data_02175620: two vectors and the halfword at 0x1a.
+typedef struct Unk02175620_3c {
+    /* 00 */ Vec3 mUnk_00;
+    /* 0c */ Vec3 mUnk_0c;
+    /* 18 */ u8 mUnk_18[2];
+    /* 1a */ s16 mUnk_1a;
+} Unk02175620_3c;
+
 // Object behind data_02175620.
 typedef struct {
     /* 00 */ struct Unk020fa294 *mUnk_00;
@@ -200,7 +213,7 @@ typedef struct {
     /* 34 */ Unk02175620_34 *mUnk_34;
     /* 38 */ u16 mUnk_38;
     /* 3a */ u8 mUnk_3a[0x2];
-    /* 3c */ void *mUnk_3c;
+    /* 3c */ Unk02175620_3c *mUnk_3c;
     /* 40 */ u16 mUnk_40;
     /* 42 */ u8 mUnk_42[0x2];
     /* 44 */ Unk02175620_44 *mUnk_44;
@@ -308,6 +321,7 @@ extern Unk0217b3c0 *data_0217b3c0;
 extern Unk02175620 *data_02175620;
 
 extern void func_0207a91c(Vec3 *dst, u8 idx);
+extern void func_0207a8f0(Vec3 *dst, s32 idx);
 extern void func_0207a948(Vec3 *dst, s32 idx);
 extern u16 func_020435bc(void);
 #include "Main/Unknown/code_020b47d8.h"

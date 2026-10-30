@@ -19,7 +19,7 @@ void *func_02047950(const char *param_1) {
     if (iVar1 == 3) {
         return (void *) func_020478bc((u32) param_1);
     }
-    return (void *) func_02047780((s8 *) param_1);
+    return func_02047780(param_1);
 }
 
 int func_020478bc(u32 param_1) {

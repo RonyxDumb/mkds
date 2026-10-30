@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_020b3f7c.h" // Unk020b3fb0
 #include "code_0201ea58.h" // Unk0201ea30
+#include "Main/Unknown/code_02124094.h" // Unk02124b1c
 
 // Seven words at 0x24 of Unk02174e50, passed by address to func_02025b20, func_02025a50 and func_02025a00.
 typedef struct Unk02174e50_24 {
@@ -12,7 +13,7 @@ typedef struct Unk02174e50_24 {
     /* 0c */ void *mUnk_0c;
     /* 10 */ Unk0201ea30 *mUnk_10;
     /* 14 */ void *mUnk_14;
-    /* 18 */ void *mUnk_18;
+    /* 18 */ Unk02124b1c *mUnk_18;
 } Unk02174e50_24;
 
 // 12-byte entries at 0x58 of Unk02174e50.

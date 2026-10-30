@@ -2,9 +2,9 @@
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0214d000.h"
 
-// non-matching: 97.7%, the early returns are merged differently
 s32 func_020204c0(Unk0217aa00_24 *a) {
-    u16 v1[4];
+    // volatile only so that v1[0] is read again for the second compare, as in the original
+    volatile u16 v1[4];
 
     if (a == 0) {
         return 0;

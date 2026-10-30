@@ -1,23 +1,9 @@
 #include "Main/Unknown/code_02080adc.h"
 #include "code_02147cd8.h"
 
-u32 func_02080adc(u32 arg0, u32 arg1) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
-    u32 value2;
-    u32 value4;
-    value4 = value0;
-    value0 = (u32) * (const u32 *) ((value4) + (0));
-    value2 = (value4) + (8u);
-    *(u32 *) ((value4) + (4)) = (u32) value0;
-    *(u32 *) ((value4) + (0)) = (u32) value1;
-    value0 = (u32) * (const u32 *) ((value4) + (0));
-    value1 = (u32) * (const u32 *) ((value4) + (4));
-    value0 = (u32) * (const u32 *) ((value0) + (24));
-    value1 = (u32) * (const u32 *) ((value1) + (24));
-    func_021484d0((const Vec3 *) value0, (const Vec3 *) value1, (Vec3 *) value2);
-    value0 = (value4) + (8u);
-    value1 = value0;
-    value0 = (u32) func_02039860((const Vec3 *) value0, (Vec3 *) value1);
-    return (u32) value0;
+void func_02080adc(Unk0208001c *p, Unk02175620_bc *a) {
+    p->mUnk_04 = p->mUnk_00;
+    p->mUnk_00 = a;
+    func_021484d0(p->mUnk_00->mUnk_18, p->mUnk_04->mUnk_18, &p->mUnk_08);
+    func_02039860(&p->mUnk_08, &p->mUnk_08);
 }

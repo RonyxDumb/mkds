@@ -1,0 +1,159 @@
+#include "00/code_02196240.h"
+#include "00/code_02190968.h"
+#include "00/code_021965a0.h"
+#include "00/code_02196590.h"
+#include "00/code_021967b4.h"
+
+#include "00/code_021a3690.h"
+#include "code_0213442c.h"
+#include "code_02134d30.h"
+#include "code_02135014.h"
+#include "code_021384dc.h"
+#include "code_02139f70.h"
+#include "00/code_0218e554.h"
+#include "00/code_0218e368.h"
+
+s32 func_ov000_02196240(Unk0218f960 *a, Unk02196240 **b, u32 c) {
+    Unk02196240 *d;
+
+    d = func_ov000_021a3690(0x144);
+    if (d == 0) {
+        func_ov000_02196590(a, data_ov000_021b35f8);
+        return 1;
+    }
+    func_02134de0(d, 0, 0x144);
+    d->mUnk_000 = c;
+    d->mUnk_004 = -1;
+    d->mUnk_008 = 0;
+    d->mUnk_010 = 0;
+    d->mUnk_014 = 0;
+    d->mUnk_00c = 0;
+    d->mUnk_020 = 0;
+    d->mUnk_024 = 0;
+    d->mUnk_01c = 0x1000;
+    d->mUnk_018 = func_ov000_021a3690(d->mUnk_01c + 1);
+    if (d->mUnk_018 == 0) {
+        func_ov000_02196590(a, data_ov000_021b35f8);
+        return 1;
+    }
+    d->mUnk_13c = 0;
+    d->mUnk_140 = 0;
+    *b = d;
+    return 0;
+}
+
+// non-matching: first compare against -1 (0x40) is mvns r1, r1 where the original has movs r1, #0; mvns r2, r1; size equal, one word differs
+s32 func_ov000_021962d4(Unk0218f960 *a, Unk021937c0Node *b) {
+    Unk02196240 *c;
+    Unk021a8f84 *h;
+    s32 t;
+
+    c = b->mUnk_04;
+    c->mUnk_00c = 0x1000;
+    c->mUnk_008 = func_ov000_021a3690(c->mUnk_00c + 1);
+    if (c->mUnk_008 == 0) {
+        func_ov000_02196590(a, data_ov000_021b35f8);
+        return 1;
+    }
+    c->mUnk_004 = func_ov000_0218e554(2, 1, 0);
+    if (c->mUnk_004 == -1) {
+        func_ov000_021965a0(a, 5, data_ov000_021b38c0);
+        func_ov000_02190f4c(a, 3, 1);
+        return 3;
+    }
+    if (func_ov000_0218e80c(c->mUnk_004) == 0) {
+        func_ov000_021965a0(a, 5, data_ov000_021b38e8);
+        func_ov000_02190f4c(a, 3, 1);
+        return 3;
+    }
+    h = func_ov000_021a8f84(data_ov000_021b35b8);
+    if (h == 0) {
+        func_ov000_021965a0(a, 5, data_ov000_021b391c);
+        func_ov000_02190f4c(a, 3, 1);
+        return 3;
+    }
+    {
+        Unk021962d4Addr s = {0};
+
+        s.mUnk_01 = 2;
+        s.mUnk_04 = h->mUnk_0c[0][0];
+        if (s.mUnk_04 == 0) {
+            func_0213442c(data_ov000_021b394c, data_ov000_021b3628, 0, 0x59);
+        }
+        s.mUnk_02 = 0xcd74;
+        if (func_ov000_0218e4b4(c->mUnk_004, &s, 8) == -1) {
+            t = func_ov000_0218e368(c->mUnk_004);
+            if (t != -6 && t != -0x1a && t != -0x4c) {
+                func_ov000_021965a0(a, 5, data_ov000_021b396c);
+                func_ov000_02190f4c(a, 3, 1);
+                return 3;
+            }
+        }
+    }
+    b->mUnk_14 = 1;
+    return 0;
+}
+
+void func_ov000_02196434(Unk0218f960 *a, Unk02193f2cNode *b, s32 c, const u8 *d, s32 e, s32 f) {
+    u8 s[0x40];
+    s32 v[3];
+
+    if (func_ov000_021967b4(d, data_ov000_021b3994, s, 0x40) != 0) {
+        if (func_02138510(s, data_ov000_021b399c, &v[0], &v[1], &v[2]) == 3) {
+            func_ov000_02196480(a, v, b, 2, 0);
+        }
+    }
+}
+
+s32 func_ov000_02196480(Unk0218f960 *a, s32 *b, Unk02193f2cNode *c, s32 d, const u8 *e) {
+    u8 f[0x24];
+    s32 t;
+
+    if (e == 0) {
+        e = data_ov000_021b39a8;
+    }
+    t = func_ov000_02193c20(a, c, 0xc9, (Unk02193c20 *) b);
+    if (t != 0) {
+        return t;
+    }
+    func_02135014(f, data_ov000_021b39ac, 1, d);
+    t = func_ov000_02190968(a, (Unk02190988 *) c, f);
+    if (t != 0) {
+        return t;
+    }
+    t = func_ov000_02193b88(a, c, e, -1);
+    if (t != 0) {
+        return t;
+    }
+    return 0;
+}
+
+s32 func_ov000_021964e4(Unk0218f960 *a, Unk021937c0Node *b, const u8 *c) {
+    Unk02190ed4Cb p;
+    u32 *m;
+    s32 t;
+
+    if (func_ov000_02196870(a, c, 1) != 0) {
+        return 4;
+    }
+    if (func_0213a038(c, data_ov000_021b39c4, 4) != 0) {
+        func_ov000_021965a0(a, 1, data_ov000_021b39cc);
+        func_ov000_02190f4c(a, 3, 1);
+        return 3;
+    }
+    p = b->mUnk_0c;
+    if (p.mUnk_00 != 0) {
+        m = func_ov000_021a3690(4);
+        if (m == 0) {
+            func_ov000_02196590(a, data_ov000_021b39fc);
+            return 1;
+        }
+        m[0] = 0;
+        t = func_ov000_02190ed4(a, p, m, b, 0);
+        if (t != 0) {
+            return t;
+        }
+    }
+    func_ov000_02193818(a, b);
+    return 0;
+}

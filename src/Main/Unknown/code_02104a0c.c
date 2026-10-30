@@ -151,8 +151,8 @@ void func_02104f14(Unk02104c68 *p) {
     func_021053d8((u32) p->mUnk_134);
 }
 
-void func_02104ee0(Unk02104c68 *p, s32 a) {
-    func_020deb2c(&p->mUnk_000.mUnk_000.mUnk_50, (void *) a, 0, (p->mUnk_000.mUnk_000.mUnk_74 & 0x10000) ? 1 : 0, 0);
+void func_02104ee0(Unk02104c68 *p, void *a) {
+    func_020deb2c(&p->mUnk_000.mUnk_000.mUnk_50, a, 0, (p->mUnk_000.mUnk_000.mUnk_74 & 0x10000) ? 1 : 0, 0);
 }
 
 void func_02104e58(Unk02104c68 *p) {

@@ -9,6 +9,7 @@
 #include "Main/Unknown/code_020e6b58.h"
 #include "Main/Unknown/code_01ffdee4.h" // Unk0217b614
 #include "Main/Unknown/code_020e6fd4.h"
+#include "Main/Unknown/code_0209bc74.h" // Unk0209bc74
 #include "Main/Unknown/unk_02158000.h"
 #include "Main/Unknown/code_0208fd8c.h"
 #include "Main/Unknown/unk_0217d000.h" // Unk0217d3f0_2098
@@ -279,29 +280,29 @@ typedef struct Unk0217b034 {
 
 extern Unk0217b034 *data_0217b034;
 extern u32 data_0217b0d8;
-extern u8 data_0217b118[];
-extern u8 data_0217b11c[];
+extern void *data_0217b118;
+extern void *data_0217b11c;
 extern u8 data_0217b120[];
-extern u8 data_0217b124[];
+extern void *data_0217b124;
 extern u8 data_0217b128[];
 extern u8 data_0217b12c[];
 extern u8 data_0217b130[];
 extern u8 data_0217b134[];
 extern u8 data_0217b138[];
 extern u8 data_0217b13c[];
-extern u8 data_0217b140[];
-extern u8 data_0217b144[];
+extern void *data_0217b140;
+extern void *data_0217b144;
 extern u8 data_0217b148[];
-extern u8 data_0217b14c[];
-extern u8 data_0217b150[];
+extern void *data_0217b14c;
+extern void *data_0217b150;
 extern u8 data_0217b154[];
 extern u8 data_0217b158[];
-extern u8 data_0217b15c[];
+extern void *data_0217b15c;
 extern u8 data_0217b160[];
 extern u8 data_0217b164[];
 extern u8 data_0217b168[];
-extern u8 data_0217b16c[];
-extern u8 data_0217b170[];
+extern void *data_0217b16c;
+extern void *data_0217b170;
 extern u8 data_0217b1a4[];
 // 0x70-byte entries of Unk0217b1fc, one per index 0 to 7.
 typedef struct Unk0217b1fc_000 {
@@ -1091,14 +1092,7 @@ extern void *data_0217b228;
 extern void *data_0217b22c;
 extern void *data_0217b230;
 
-typedef struct Unk0217b0d8 {
-    /* 00 */ u8 mUnk_00[0x20];
-    /* 20 */ void *mUnk_20;
-    /* 24 */ u8 mUnk_24[4];
-    /* 28 */ void *mUnk_28;
-} Unk0217b0d8;
-
-extern Unk0217b0d8 *data_usa_0217b0d8;
+extern Unk0209bc74 *data_usa_0217b0d8;
 extern void *data_usa_0217b07c;
 extern void *data_usa_0217b0a4;
 extern void *data_0217b0c8;
@@ -1111,7 +1105,15 @@ extern void *data_0217b0dc;
 extern void *data_0217b0e0;
 extern void *data_0217b0e4;
 extern void *data_0217b0e8;
+extern void *data_usa_0217b154;
+extern void *data_usa_0217b158;
+extern void *data_usa_0217b15c;
+extern void *data_usa_0217b160;
 extern void *data_usa_0217b164;
 extern void *data_usa_0217b168;
 extern void *data_usa_0217b16c;
+extern void *data_usa_0217b170;
+extern void *data_usa_0217b174;
+extern void *data_usa_0217b178;
+extern void *data_usa_0217b17c;
 extern void *data_usa_0217b180;

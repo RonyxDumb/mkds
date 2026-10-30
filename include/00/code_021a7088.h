@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "00/unk_021b5000.h"
+#include "00/code_021a7064.h"
 #include "03/code_021b94b8.h"
 
-u32 func_ov000_021a7088(u32 param_1);
+Unk021a7064 *func_ov000_021a7088(s32 param_1);

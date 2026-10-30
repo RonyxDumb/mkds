@@ -1,10 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_02188ec0.h"
 
-typedef struct Unk0218a118 {
-    /* 000 */ u8 mUnk_000[0xd0d];
-    /* d0d */ u8 mUnk_d0d;
-} Unk0218a118;
-
-s32 func_ov000_0218a118(const Unk0218a118 *state);
+s32 func_ov000_0218a118(const Unk02188ec0 *state);

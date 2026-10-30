@@ -1,6 +1,7 @@
 #pragma once
 
 #include "00/code_021804f4.h"
+#include "00/code_02182e18.h"
 #include "00/code_021806ec.h"
 #include "00/code_0219bb50.h"
 #include "00/code_ov000_021804e0.h"
@@ -9,9 +10,12 @@
 #include "00/code_021806e0.h"
 
 #include "types.h"
+#include "00/code_02180668.h"
 #include "Main/Unknown/code_0205e2cc.h"
+#include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_020b4000.h"
+#include "Main/Unknown/code_02077f00.h"
 #include "Main/Unknown/code_0204799c.h"
 #include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Unknown/code_020b3f7c.h"
@@ -34,17 +38,18 @@ typedef struct Unk021b4c70 {
     /* 0014 */ s16 mUnk_14[3][2];
     /* 0020 */ s32 mUnk_20;
     /* 0024 */ s32 mUnk_24;
-    /* 0028 */ u8 pad_28[4];
+    /* 0028 */ s32 mUnk_28;
     /* 002c */ s32 mUnk_2c;
     /* 0030 */ s32 mUnk_30;
-    /* 0034 */ u8 pad_34[0x1004];
+    /* 0034 */ s32 mUnk_34;
+    /* 0038 */ u8 mUnk_38[0x1000];
     /* 1038 */ void *mUnk_1038;
     /* 103c */ Unk02124b1c *mUnk_103c;
-    /* 1040 */ void *mUnk_1040;
-    /* 1044 */ u8 pad_1044[4];
-    /* 1048 */ void *mUnk_1048;
-    /* 104c */ void *mUnk_104c;
-    /* 1050 */ u8 pad_1050[4];
+    /* 1040 */ Unk02021dc8 *mUnk_1040;
+    /* 1044 */ Unk020b4934 *mUnk_1044;
+    /* 1048 */ Unk020b4a44 *mUnk_1048;
+    /* 104c */ Unk0201ea30 *mUnk_104c;
+    /* 1050 */ Unk0201ea30 *mUnk_1050;
     /* 1054 */ void *mUnk_1054;
     /* 1058 */ void *mUnk_1058;
     /* 105c */ void *mUnk_105c;
@@ -57,7 +62,7 @@ typedef struct Unk021b4c74 {
     /* 0008 */ s32 mUnk_08;
     /* 000c */ s32 mUnk_0c;
     /* 0010 */ s16 mUnk_10;
-    /* 0012 */ u8 pad_12[6];
+    /* 0012 */ s16 mUnk_12[3];
     /* 0018 */ s16 mUnk_18[4];
     /* 0020 */ s32 mUnk_20;
     /* 0024 */ s32 mUnk_24[3];
@@ -73,7 +78,7 @@ typedef struct Unk021b4c74 {
     /* 0056 */ u8 pad_56[2];
     /* 0058 */ s32 mUnk_58[5][3];
     /* 0094 */ s32 mUnk_94[5][3];
-    /* 00d0 */ u8 pad_d0[4];
+    /* 00d0 */ void *mUnk_d0;
     /* 00d4 */ u8 mUnk_d4[0x1000];
     /* 10d4 */ Unk02124b1c *mUnk_10d4;
     /* 10d8 */ u8 mUnk_10d8[3][0x200];
@@ -85,9 +90,18 @@ typedef struct Unk021b4c74 {
     /* 16f4 */ void *mUnk_16f4;
     /* 16f8 */ void *mUnk_16f8;
     /* 16fc */ void *mUnk_16fc;
+    /* 1700 */ void *mUnk_1700;
+    /* 1704 */ u8 pad_1704[8];
 } Unk021b4c74;
 
 // Four callbacks, passed to func_ov000_021806ec by func_ov000_0218330c.
+
+// 0xc-byte element of the array at member 0x20 of Unk0217b488.
+typedef struct Unk0217b488_20 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+} Unk0217b488_20;
 
 // Object behind data_0217b488, 0x130 bytes (func_020cefa0 allocates it).
 typedef struct Unk0217b488 {
@@ -99,12 +113,12 @@ typedef struct Unk0217b488 {
     /* 014 */ s32 mUnk_14;
     /* 018 */ s32 mUnk_18;
     /* 01c */ s32 mUnk_1c;
-    /* 020 */ u8 mUnk_20[0x30];
+    /* 020 */ Unk0217b488_20 mUnk_20[4];
     /* 050 */ s32 mUnk_50;
     /* 054 */ u8 mUnk_54;
     /* 055 */ u8 mUnk_55[0x3];
     /* 058 */ s32 mUnk_58;
-    /* 05c */ u8 mUnk_5c[0x10];
+    /* 05c */ s32 mUnk_5c[4];
     /* 06c */ s32 mUnk_6c;
     /* 070 */ s32 mUnk_70;
     /* 074 */ s32 mUnk_74;
@@ -116,9 +130,11 @@ typedef struct Unk0217b488 {
     /* 08c */ s32 mUnk_8c;
     /* 090 */ s32 mUnk_90;
     /* 094 */ s32 mUnk_94;
-    /* 098 */ u8 mUnk_98[0x10];
+    /* 098 */ Unk0217aa1c_144_00 mUnk_98[4];
     /* 0a8 */ u16 mUnk_a8;
-    /* 0aa */ u8 mUnk_aa[0x42];
+    /* 0aa */ u8 mUnk_aa[0x2];
+    /* 0ac */ s32 mUnk_ac[8];
+    /* 0cc */ s32 mUnk_cc[8];
     /* 0ec */ s32 mUnk_ec[4];
     /* 0fc */ u8 mUnk_fc[0x10];
     /* 10c */ s32 mUnk_10c[8];
@@ -267,11 +283,6 @@ typedef struct Unk0217d384 {
     /* 1f57 */ u8 mUnk_1f57;
 } Unk0217d384;
 
-typedef struct Unk0217ad04 {
-    /* 0000 */ u8 pad_00[0xc];
-    /* 000c */ void *mUnk_0c;
-} Unk0217ad04;
-
 extern u8 data_ov000_021b05e8[3];
 extern u8 data_ov000_021b05f0[];
 extern u8 data_ov000_021b060c[3][9];
@@ -281,6 +292,7 @@ extern u8 data_ov000_021b065c[3];
 extern u8 data_ov000_021b0660[3];
 extern u8 data_ov000_021b0664[3];
 extern u8 data_ov000_021b0668[3];
+extern u8 data_ov000_021b066c[3];
 extern u8 data_ov000_021b0670[3][2];
 extern u8 data_ov000_021b0678[3][2];
 extern s32 data_ov000_021b0680[3];
@@ -314,9 +326,7 @@ void func_ov000_0218401c(void);
 void func_ov000_021840c8(void);
 void func_ov000_02184130(void);
 
-s32 func_02036d08(void);
 void func_02036f10(s16);
-Unk0217ad04 *func_02077f00(void);
 #include "Main/Unknown/code_020ac2fc.h"
 #include "Main/Unknown/code_0210895c.h"
 #include "Main/Unknown/code_02108a40.h"
@@ -328,8 +338,6 @@ Unk0217ad04 *func_02077f00(void);
 #include "Main/Unknown/code_02128274.h"
 #include "Main/Unknown/code_0212b928.h"
 
-u32 func_ov000_02180668(u32);
-void func_ov000_02182e18(void);
 void func_ov000_02184354(void);
 void func_ov000_021843a8(void *heap);
 
@@ -338,3 +346,4 @@ void func_ov000_021843a8(void *heap);
 #include "Main/Unknown/code_021281b4.h"
 #include "Main/Unknown/code_0212a910.h"
 #include "code_0212df7c.h"
+#include "Main/Unknown/code_02036c90.h"

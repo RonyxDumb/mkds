@@ -2,13 +2,14 @@
 
 #pragma thumb on
 
-void func_0200c3fc(short param_1) {
+void func_0200c3fc(s32 param_1) {
+    s32 i;
+
     if ((*(int *) &data_0216fdf4) != 0) {
-        func_0214d168((void *) ((u32 *) (u32) ((*(int *) &data_0216fdf4) + (param_1 + -1) * 0x20)), (u8) (0),
-                      (u32) (0x1e));
-        *(u32 *) ((*(int *) &data_0216fdf4) + (param_1 + -1) * 4 + ((int) 0x000001e0u)) = 0;
+        i = param_1 - 1;
+        func_0214d168((void *) ((*(int *) &data_0216fdf4) + i * 0x20), 0, 0x1e);
+        *(u32 *) ((*(int *) &data_0216fdf4) + i * 4 + 0x1e0) = 0;
     }
-    return;
 }
 
 #pragma thumb off

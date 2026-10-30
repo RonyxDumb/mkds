@@ -88,14 +88,18 @@ typedef struct Unk0201290c_0c {
 // Argument of the functions in data_0216185c.
 typedef struct Unk0201290c_1c {
     /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04[0x14];
-    /* 18 */ u32 mUnk_18[2];
+    /* 04 */ u32 mUnk_04;
+    /* 08 */ u32 mUnk_08;
+    /* 0c */ u32 mUnk_0c; // bits 16-20 are tested
+    /* 10 */ u32 mUnk_10;
+    /* 14 */ u32 mUnk_14;
+    /* 18 */ s32 mUnk_18[2];
     /* 20 */ s16 mUnk_20[2];
     /* 24 */ u32 mUnk_24[2];
     /* 2c */ u16 mUnk_2c;
     /* 2e */ u16 mUnk_2e;
-    /* 30 */ u32 mUnk_30;
-    /* 34 */ u32 mUnk_34;
+    /* 30 */ s32 mUnk_30;
+    /* 34 */ s32 mUnk_34;
 } Unk0201290c_1c;
 
 void func_02010fac(u32 a, s32 b, s32 c, s32 d);

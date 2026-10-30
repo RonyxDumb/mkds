@@ -7,13 +7,14 @@
 
 #pragma thumb on
 
-// non-matching: 97%, differs by stack offsets of the locals
 void func_0203ba84(u8 *param_1) {
     Unk0203ba84 *a;
-    Unk020f41c4_B *r;
     Unk020f41c4_B l;
     u16 m;
+    s32 c;
+    s32 x;
     u32 f;
+    Unk020f41c4_B *r;
     u8 i;
     u8 k;
     u32 g;
@@ -29,7 +30,16 @@ void func_0203ba84(u8 *param_1) {
     a = (Unk0203ba84 *) param_1;
     m = 0;
     f = a->mUnk_01;
-    if (data_0217aa00 != 0 && data_0217aa00->mUnk_0000 != 0 && data_0217aa00->mUnk_0004 != 0xd) {
+    c = 0;
+    if (data_0217aa00 == 0) {
+        x = 0;
+    } else {
+        x = data_0217aa00->mUnk_0000;
+    }
+    if (x != 0 && data_0217aa00->mUnk_0004 != 0xd) {
+        c = 1;
+    }
+    if (c != 0) {
         r = &data_0217aa00->mUnk_1ee8;
     } else {
         t1 = func_0200f5ac();
@@ -98,29 +108,31 @@ void func_0203ba84(u8 *param_1) {
     }
 }
 
-// non-matching: 92%, differs by stack offsets of the locals and register choices
 void func_0203bc64(u8 *param_1) {
     Unk0203ba84 *a;
-    Unk020f41c4_B *r;
     Unk020f41c4_B l;
     u32 f;
     u8 k;
-    u8 j;
+    Unk020f41c4_B *r;
     u8 u;
     u8 n;
     u8 m;
-    u32 t;
-    u32 w;
-    u32 g;
     s32 e;
-    s32 q;
+    s32 t;
+    s32 w;
+    u32 g;
     s32 y;
+    s32 c;
     u64 t1;
     u64 t2;
 
     a = (Unk0203ba84 *) param_1;
     f = a->mUnk_00;
-    if (data_0217aa00 != 0 && data_0217aa00->mUnk_0000 != 0 && data_0217aa00->mUnk_0004 != 0xd) {
+    c = 0;
+    if ((data_0217aa00 == 0 ? 0 : data_0217aa00->mUnk_0000) != 0 && data_0217aa00->mUnk_0004 != 0xd) {
+        c = 1;
+    }
+    if (c != 0) {
         r = &data_0217aa00->mUnk_1ee8;
     } else {
         t1 = func_0200f5ac();
@@ -136,16 +148,16 @@ void func_0203bc64(u8 *param_1) {
         n = 0;
         if ((f & (1 << k)) == 0) {
             a->mUnk_24[k] = -1;
+            u = 0;
             w = t * 3;
-            for (u = 0; u < 3; u++) {
+            for (; u < 3; u++) {
                 if (func_0205fc98(a->mUnk_44, t, u + w) != 0) {
                     n = (u8) (n | (1 << u));
                 }
             }
-            for (j = 0; j < 8; j++) {
-                q = a->mUnk_24[j];
-                if ((f & (1 << j)) != 0 && q >= w && q < (t + 1) * 3) {
-                    n = (u8) (n & ~(1 << (q - w)));
+            for (u = 0; u < 8; u++) {
+                if ((f & (1 << u)) != 0 && a->mUnk_24[u] >= w && a->mUnk_24[u] < (t + 1) * 3) {
+                    n = (u8) (n & ~(1 << (a->mUnk_24[u] - w)));
                 }
             }
             if (n == 0) {
@@ -167,10 +179,10 @@ void func_0203bc64(u8 *param_1) {
                 }
             }
             m = 0;
-            for (j = 0; j < 3 && e == -1; j++) {
-                if ((n & (1 << j)) != 0) {
+            for (u = 0; u < 3 && e == -1; u++) {
+                if ((n & (1 << u)) != 0) {
                     if (m == (u16) y) {
-                        e = j + w;
+                        e = u + w;
                     } else {
                         m = (u8) (m + 1);
                     }

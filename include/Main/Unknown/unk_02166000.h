@@ -38,6 +38,9 @@ extern const char data_02166384[];
 extern const char data_021663a8[];
 extern const char data_021663c0[];
 
+
+
+
 extern u8 data_021663d8;
 extern u8 data_021663dc;
 extern u16 data_021663e0;
@@ -67,6 +70,8 @@ extern const char data_usa_02166698[];
 extern const char data_usa_021666a8[];
 extern const char data_021665f8[];
 extern const char data_02166604[];
+extern const char data_usa_021667f4[];
+extern const char data_usa_02166804[];
 extern const char data_02166644[];
 extern const char data_02166654[];
 extern const char data_usa_02166720[];
@@ -82,3 +87,6 @@ extern const char data_021668e4[];
 extern char data_02166548[];
 extern char data_021665a0[];
 extern char data_021665b4[];
+extern char data_usa_0216698c[];
+extern char data_usa_0216699c[];
+extern char data_usa_021669ac[];

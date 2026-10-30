@@ -1,5 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_0208001c.h"
 
-unsigned int func_02080cc0(unsigned int p0);
+s16 func_02080cc0(Unk0208001c *p);

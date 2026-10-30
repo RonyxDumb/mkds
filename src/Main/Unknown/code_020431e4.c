@@ -17,21 +17,21 @@ static inline s32 func_020431e4_inline(Unk0217aa00 *p) {
     return r;
 }
 
-// non-matching: the original does not reduce the first loop to a pointer step (it multiplies the index by 0x5c each pass), and in the last loop it addresses the table entries with one multiply-add from the base and keeps the constants in registers, where this spills three and is 0x14 bytes larger.
+// non-matching: 8 words in the inlined func_020431e4_inline call of the last loop: the value of
+// z->mUnk_0000 (or 0) and the result flag are in r4 and r5, the other way round in the original
 void func_020431e4(void) {
     s32 i;
     s32 k;
     u16 j;
+    s32 w;
+    s32 t;
     Unk02175628 *p;
     Unk021759c0 *q;
     Unk0217aa00 *z;
-    Unk021759c0_70 *e;
     s32 s;
-    s32 t;
-    s32 w;
 
     for (i = 0; i < 10; i++) {
-        p = &data_02175628[i];
+        p = &data_02175628[(u32) i];
         func_02039728((u32) p);
         func_02039520((u32) p, 0xff3, 0x1e, 0xa);
         p->mUnk_3c = 0;
@@ -55,10 +55,9 @@ void func_020431e4(void) {
     q = data_021759c0;
     z = data_0217aa00;
     for (j = 0; j < 8; j++) {
-        e = &q->mUnk_70[j];
-        s = e->mUnk_00;
+        s = q->mUnk_70[j].mUnk_00;
         t = 0;
-        w = e->mUnk_0c;
+        w = q->mUnk_70[j].mUnk_0c;
         if ((u32) s <= 3 && ((1 << s) & 0xd)) {
             t = 1;
         }
@@ -66,14 +65,14 @@ void func_020431e4(void) {
             if (j == q->mUnk_62) {
                 if (func_020431e4_inline(z) != 0) {
                     data_02175628[w].mUnk_3c = 4;
-                } else if (data_02175624->mUnk_0c == 2) {
+                } else if (q->mUnk_00c == 2) {
                     data_02175628[w].mUnk_3c = 1;
                 } else {
                     data_02175628[w].mUnk_3c = 2;
                 }
             } else if (s == 2) {
                 data_02175628[w].mUnk_3c = 1;
-            } else if (data_02175624->mUnk_08 == 5) {
+            } else if (q->mUnk_08 == 5) {
                 data_02175628[w].mUnk_3c = 7;
             } else {
                 data_02175628[w].mUnk_3c = 4;

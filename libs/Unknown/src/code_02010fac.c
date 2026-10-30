@@ -398,7 +398,6 @@ void func_02011bbc(Unk02011624 *a) {
     a->mUnk_00 += 9;
 }
 
-// non-matching: registers of the instructions that pack the two halves (lsl/asr/lsl/lsr chains) are swapped
 void func_02011928(Unk02011624 *a) {
     u32 c0;
     u32 c1;
@@ -433,7 +432,7 @@ void func_02011928(Unk02011624 *a) {
         m.mUnk_24.y = -h << 15;
         m.mUnk_24.z = 0x10000;
         func_01ff9048(0x1b, &m.mUnk_24, 3);
-        c1 = (u16) ((w << 19) >> 16) | ((u16) ((h << 19) >> 16) << 16);
+        c1 = (u16) (s16) (w << 3) | ((u16) (s16) (h << 3) << 16);
         func_01ff9048(0x22, &c1, 1);
         t = a->mUnk_d8 + 4;
         t = t + *(u16 *) (a->mUnk_d8 + 0xa);
@@ -475,9 +474,9 @@ void func_02011928(Unk02011624 *a) {
             } else {
                 func_01ff9048(0x1a, &m, 9);
             }
-            c4 = 2;
-            func_01ff9048(0x10, &c4, 1);
         }
+        c4 = 2;
+        func_01ff9048(0x10, &c4, 1);
     }
     a->mUnk_00 += 3;
 }

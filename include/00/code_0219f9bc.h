@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov000_0219f9bc(u32 value);
+u32 func_ov000_0219f9bc(u32 value);

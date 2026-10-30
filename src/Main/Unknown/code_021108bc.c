@@ -140,7 +140,7 @@ s32 func_02110e58(void)
     return a;
 }
 
-void func_02110cc8(void)
+void func_02110cc8(s32 param_0)
 {
     s32 a;
     s32 b;

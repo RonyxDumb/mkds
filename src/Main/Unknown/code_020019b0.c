@@ -42,21 +42,22 @@ void func_02001abc(void) {
     func_0214a3e8((u16 *) 0x04001050, 2, v1);
 }
 
-// non-matching: the original reaches the value 1 from two compares (zero and any other value) with one move; ours has
-// separate branches
 void func_02001b38(void) {
     s32 v1;
     s32 v2;
     v1 = 0;
     data_usa_ov001_021a99c0 = 0;
     v2 = data_0217aa08->mUnk_00->mUnk_31_1;
-    if (v2 == 0) {
-        v1 = 1;
-    } else if (v2 == 1) {
-    } else if (v2 == 2) {
-        v1 = 2;
-    } else {
-        v1 = 1;
+    switch (v2) {
+        case 1:
+            break;
+        case 2:
+            v1 = 2;
+            break;
+        case 0:
+        default:
+            v1 = 1;
+            break;
     }
     func_02108e94(v1);
     func_02125da0();

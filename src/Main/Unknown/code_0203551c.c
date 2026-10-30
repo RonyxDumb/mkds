@@ -58,10 +58,9 @@ static inline s32 func_0203551c_inline_2(void) {
     return 1;
 }
 
-// non-matching: 0x2b8 bytes, original 0x2c0; 345 lines differ; first: original `sub sp, #12`, ours `sub sp, #4`
 s32 func_0203551c(u16 *a) {
     Unk02174e68 *p;
-    s32 r;
+    enum { K0 = -1 } r;
     s32 z;
     s32 f;
     s32 g;
@@ -69,14 +68,15 @@ s32 func_0203551c(u16 *a) {
     u16 k;
     u16 w;
     void *e;
+    Unk02174e14_00 *t;
     void *h;
 
-    r = -1;
+    r = K0;
     k = func_020435bc();
     z = 0;
     func_02025edc(&data_02174e68->mUnk_90);
-    g = 0;
     f = 0;
+    g = 0;
     w = data_02175674[k].mUnk_00;
     if (w == 0 && data_02175680[k].mUnk_00 < 5) {
         g = 1;
@@ -162,8 +162,8 @@ s32 func_0203551c(u16 *a) {
             break;
     }
     for (i = 0; i < 2; i++) {
-        func_02124c30(data_02174e68->mUnk_2c[i].mUnk_0c, data_02174e68->mUnk_2c[i].mUnk_08,
-                      data_02174e68->mUnk_2c[i].mUnk_14, data_02174e68->mUnk_24[i], data_02174e68->mUnk_2c[i].mUnk_18);
+        t = data_02174e68->mUnk_2c;
+        func_02124c30(t[i].mUnk_0c, t[i].mUnk_08, t[i].mUnk_14, data_02174e68->mUnk_24[i], t[i].mUnk_18);
     }
     return r;
 }
@@ -275,7 +275,7 @@ void func_02035a9c(void) {
     d = func_0202dbe8(n);
     e = func_0202db68(n);
     f = func_0202db04(n);
-    func_0202de00(&data_02174e68->mUnk_2c[0], data_0215404c, w, d, e, f, &x);
+    func_0202de00((Unk02174e14 *) &data_02174e68->mUnk_2c[0], data_0215404c, w, d, e, f, (Unk0202de00_g *) &x);
 }
 
 void func_02035b0c(void) {
