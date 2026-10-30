@@ -1,15 +1,30 @@
 #pragma once
 
 #include "types.h"
+#include "code_02152490.h"
+
+struct Unk0218f960;
 
 typedef struct Unk021b5664 {
     /* 00 */ s32 mUnk_00;
-    /* 04 */ u8 pad_04[0x19];
+    /* 04 */ struct Unk0218f960 *mUnk_04;
+    /* 08 */ u32 mUnk_08;
+    /* 0c */ u64 mUnk_0c;
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ Unk02152490 *mUnk_18;
+    /* 1c */ u8 mUnk_1c;
     /* 1d */ u8 mUnk_1d;
-    /* 1e */ u8 pad_1e[0xe];
+    /* 1e */ u8 mUnk_1e;
+    /* 1f */ u8 mUnk_1f;
+    /* 20 */ u32 mUnk_20;
+    /* 24 */ u8 pad_24[4];
+    /* 28 */ s8 *mUnk_28;
     /* 2c */ void (*mUnk_2c)(s32, u8, void *);
     /* 30 */ void *mUnk_30;
-    /* 34 */ u8 pad_34[0x10];
+    /* 34 */ void (*mUnk_34)(s32, u8, void *, void *);
+    /* 38 */ void *mUnk_38;
+    /* 3c */ void (*mUnk_3c)(s32, s32, void *);
+    /* 40 */ void *mUnk_40;
     /* 44 */ void *mUnk_44;
     /* 48 */ void *mUnk_48;
 } Unk021b5664;
