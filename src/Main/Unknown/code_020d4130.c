@@ -225,15 +225,11 @@ void func_020d4418(Unk020d4418 *p)
     }
 }
 
-// non-matching: 49 words differ from +0x28: the original sets the two zero vectors through address registers and keeps the
-// loop variables in r4 to r9 and fp; the compiled code stores them at fixed stack offsets and uses other registers
 s32 func_020d41e0(Unk0206bcb0 *a, Vec3 *b, Vec3 *c)
 {
     Vec3 v;
     Vec3 lo;
     Vec3 hi;
-    Vec3 z1;
-    Vec3 z2;
     s32 q;
     s32 k;
     s32 r;
@@ -247,14 +243,14 @@ s32 func_020d41e0(Unk0206bcb0 *a, Vec3 *b, Vec3 *c)
     q = a->mUnk_1d0;
     r = a->mUnk_29c;
     p = data_0217b4dc;
-    z1.x = 0;
-    z1.y = 0;
-    z1.z = 0;
-    lo = z1;
-    z2.x = 0;
-    z2.y = 0;
-    z2.z = 0;
-    hi = z2;
+    {
+        Vec3 z1 = {0, 0, 0};
+        lo = z1;
+    }
+    {
+        Vec3 z2 = {0, 0, 0};
+        hi = z2;
+    }
     n = 0;
     c->x = c->y = c->z = 0;
     for (i = 0; i < data_0217b5a8; i++) {
@@ -268,9 +264,9 @@ s32 func_020d41e0(Unk0206bcb0 *a, Vec3 *b, Vec3 *c)
                     lo.x = (p->x < lo.x) ? p->x : lo.x;
                     lo.y = (p->y < lo.y) ? p->y : lo.y;
                     lo.z = (p->z < lo.z) ? p->z : lo.z;
-                    hi.x = (p->x <= hi.x) ? hi.x : p->x;
-                    hi.y = (p->y <= hi.y) ? hi.y : p->y;
-                    hi.z = (p->z <= hi.z) ? hi.z : p->z;
+                    hi.x = (p->x > hi.x) ? p->x : hi.x;
+                    hi.y = (p->y > hi.y) ? p->y : hi.y;
+                    hi.z = (p->z > hi.z) ? p->z : hi.z;
                 }
                 data_0217b4e8[n] = e;
                 n++;

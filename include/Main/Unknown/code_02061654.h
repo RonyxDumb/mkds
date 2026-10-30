@@ -12,6 +12,6 @@ s32 func_0206169c(void *a);
 s32 func_020616c0(void *a, void *b);
 s32 func_02061704(void *a, Unk02056bc0 *b);
 s32 func_0206174c(void *a);
-s32 func_02061768(void);
+u16 func_02061768(void);
 s32 func_02061788(void);
 s32 func_020617a8(u32 *a);

@@ -83,7 +83,7 @@ s32 func_02018888(Unk020184e4 *a);
 s32 func_0201889c(Unk020184e4 *a, u32 (*b)(s32 a, s32 b));
 s32 func_02018950(Unk020184e4 *a, u32 (*b)(s32 a, s32 b));
 void func_02018a1c(Unk020184e4 *a, Unk02018a1c *b);
-Unk020184e4 *func_02018d94(void *(*a)(u32 a), s32 b, s32 c, s32 d, u16 e, u16 f);
+Unk020184e4 *func_02018d94(void *(*a)(u32 a), u16 b, u16 c, s32 d, u16 e, u16 f);
 u32 func_02018f24(s32 a, s32 b);
 u32 func_02018f5c(s32 a, s32 b);
 void func_02018f94(Unk0201ca6c *a, Vec3 *b, Vec3 *c);

@@ -20,7 +20,7 @@ s32 func_02061788(void) {
     return 0x1f;
 }
 
-s32 func_02061768(void) {
+u16 func_02061768(void) {
     if (data_021759c0->mUnk_08 == 4) {
         return 0x2d;
     }

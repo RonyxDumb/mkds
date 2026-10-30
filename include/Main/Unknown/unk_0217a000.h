@@ -909,7 +909,8 @@ typedef struct Unk0217aa14 {
     /* 0fd */ u8 mUnk_0fd;
     /* 0fe */ u8 mUnk_0fe[6];
     /* 104 */ Unk0217aa14_104 mUnk_104[4];
-    /* 324 */ Unk0217aa14_324 mUnk_324[80];
+    /* 324 */ Unk0217aa14_324 mUnk_324[16];
+    /* 3e4 */ Unk0217aa14_324 mUnk_3e4[16][4];
     /* 6e4 */ u8 mUnk_6e4[0x40];
     /* 724 */ u16 mUnk_724;
     /* 726 */ u8 mUnk_726[0x2];

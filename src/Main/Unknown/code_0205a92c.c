@@ -21,7 +21,7 @@ void func_0205a92c(void) {
             data_0217aa14->mUnk_104[i].mUnk_86_0 != 0) {
             for (j = 0; j < 16; j++) {
                 p = data_0217aa14;
-                e = &((Unk0217aa14_324(*)[4]) & p->mUnk_324[16])[j][i];
+                e = &p->mUnk_3e4[j][i];
                 f = &p->mUnk_6e4[j * 4] + i;
                 if (e->mUnk_09 == 15) {
                     *f = 0;
@@ -57,7 +57,7 @@ void func_0205aa60(void) {
             d = s + 16;
             for (j = 0; j < 16; j++) {
                 c = *s++;
-                e = &((Unk0217aa14_324(*)[4]) & data_0217aa14->mUnk_324[16])[j][i];
+                e = &data_0217aa14->mUnk_3e4[j][i];
                 e->mUnk_09 = c & 0x1f;
                 e->mUnk_0a = (c & 0xe0) >> 5;
                 if (e->mUnk_09 == 15) {
@@ -164,7 +164,7 @@ void func_0205ad88(void) {
 
     for (i = 0; i < 16; i++) {
         for (j = 0; j < 4; j++) {
-            e = &((Unk0217aa14_324(*)[4]) & data_0217aa14->mUnk_324[16])[i][j];
+            e = &data_0217aa14->mUnk_3e4[i][j];
             e->mUnk_08 = 0;
             e->mUnk_00 = 0;
             e->mUnk_09 = 15;

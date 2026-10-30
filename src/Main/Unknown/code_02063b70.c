@@ -14,28 +14,31 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/unk_0215d000.h"
 
-// non-matching: 89.7: stack offsets and multiplication order differ
 s32 func_02063b70(Unk0206bcb0 *a) {
     Unk0206bcb0_590 *b;
     Unk0206bcb0_590_08 *c;
     s32 d;
     s32 e;
     s32 f;
-    Unk02012f58 g;
+    s32 t;
+    s32 k;
     Vec3 h;
     Vec3 i;
+    Unk02012f58 g;
 
     b = (Unk0206bcb0_590 *) a->mUnk_590;
     d = b->mUnk_058 == 0;
     if (d != 0) {
+        t = a->mUnk_1d0 + 0x5000;
         g = *a->mUnk_1b4;
-        func_02147fd8(a->mUnk_1d0 + 0x5000, &a->mUnk_12c, a->mUnk_508, &h);
+        func_02147fd8(t, &a->mUnk_12c, a->mUnk_508, &h);
+        g.mUnk_24.x = h.x >> 4;
         g.mUnk_24.y = h.y >> 4;
         g.mUnk_24.z = h.z >> 4;
-        g.mUnk_24.x = h.x >> 4;
-        i.x = (s64) a->mUnk_bc * a->mUnk_4c8 >> 12;
-        i.y = (s64) a->mUnk_c0 * a->mUnk_4c8 >> 12;
-        i.z = (s64) a->mUnk_c4 * a->mUnk_4c8 >> 12;
+        k = a->mUnk_4c8;
+        i.x = (s64) a->mUnk_bc * k >> 12;
+        i.y = (s64) a->mUnk_c0 * k >> 12;
+        i.z = (s64) a->mUnk_c4 * k >> 12;
         f = 0x1e;
         func_01ff9048(0x14, &f, 1);
         func_01ff9048(0x19, &g, 0xc);

@@ -18,7 +18,7 @@ typedef struct Unk0217aafc {
     /* 90 */ u16 mUnk_90;
     /* 92 */ u8 mUnk_92[0x4e];
     /* e0 */ s32 mUnk_e0;
-    /* e4 */ u32 mUnk_e4[2];
+    /* e4 */ u64 mUnk_e4;
     /* ec */ s32 mUnk_ec;
     /* f0 */ u16 mUnk_f0;
 } Unk0217aafc;

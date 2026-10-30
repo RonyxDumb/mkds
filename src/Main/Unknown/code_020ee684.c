@@ -994,24 +994,27 @@ void func_020ef340(Unk020eda5c *a, Unk020f41c4_A *b, Unk020f41c4_A *c) {
     func_020efa48(a, c);
 }
 
-// non-matching: a and p are in r4/r5 where the original has them swapped (0x17c vs 0x174 bytes)
 void func_020ef1cc(Unk020eda5c *p) {
     Unk020f41c4_A *b;
     Vec3 *q;
     s32 d;
     s32 i;
+    Vec3 *u;
+    Unk020f41c4_A **l;
 
-    b = p->mUnk_014[0];
+    l = p->mUnk_014;
+    b = l[0];
     q = &b->mUnk_50;
-    p->mUnk_090 = p->mUnk_02c.mUnk_18;
+    u = &p->mUnk_02c.mUnk_18;
+    p->mUnk_090 = *u;
     p->mUnk_09c.x = -p->mUnk_02c.mUnk_18.x;
-    p->mUnk_09c.y = -p->mUnk_02c.mUnk_18.y;
-    p->mUnk_09c.z = -p->mUnk_02c.mUnk_18.z;
+    p->mUnk_09c.y = -u->y;
+    p->mUnk_09c.z = -u->z;
     d = (s32) (((s64) p->mUnk_084.z << 14) >> 12);
     func_02147fd8(p->mUnk_078 + d, &p->mUnk_09c, &p->mUnk_050, &p->mUnk_0a8);
     func_02147fd8((s32) (((s64) p->mUnk_0e8 * p->mUnk_084.z) >> 12), &p->mUnk_02c.mUnk_0c, &p->mUnk_0a8, q);
-    p->mUnk_014[1]->mUnk_50 = p->mUnk_014[0]->mUnk_50;
-    p->mUnk_014[2]->mUnk_50 = p->mUnk_014[1]->mUnk_50;
+    l[1]->mUnk_50 = p->mUnk_014[0]->mUnk_50;
+    l[2]->mUnk_50 = l[1]->mUnk_50;
     p->mUnk_0b4 = p->mUnk_0a8;
     p->mUnk_0c0 = p->mUnk_0b4;
     p->mUnk_0cc[0] = 0xee1;
