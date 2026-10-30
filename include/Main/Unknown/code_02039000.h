@@ -6,3 +6,5 @@
 void func_02039cbc(void);
 void func_02039044(void);
 void func_02039a1c(void);
+void func_02039b94(u32 a);
+void func_02039bd4(void);

@@ -72,7 +72,6 @@ void func_0211abd0(void) {
     }
 }
 
-// non-matching: func_0211a9d8: only the stack slot of the value data_0217d368->mUnk_04->mUnk_06 differs (original slot sp+0x1c, after the four table-pointer slots sp+0xc..0x18 and before the three zero slots; compiled sp+0xc, before the pointer slots); every instruction is otherwise equal
 void func_0211a9d8(void) {
     Unk0217d368 *p;
     s32 i;
@@ -82,7 +81,8 @@ void func_0211a9d8(void) {
     s32 c;
     data_0217d368->mUnk_38++;
     p = data_0217d368;
-    b = p->mUnk_58 + func_020ae4c0(1, 0, -192, p->mUnk_38, 10);
+    c = func_020ae4c0(1, 0, -192, p->mUnk_38, 10);
+    b = p->mUnk_58 + c;
     a = -func_02128244(p->mUnk_38);
     data_0217d368->mUnk_5c = b;
     c = data_0217d368->mUnk_04->mUnk_06;

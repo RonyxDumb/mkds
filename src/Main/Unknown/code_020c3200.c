@@ -12,16 +12,15 @@
 #include "Main/Unknown/code_020c0dd8.h"
 #include "Main/Unknown/code_020c13e8.h"
 
-// non-matching: the original keeps the four row/column values of the table pairs in registers in r5 to r8 (push r4-r8, sp adjust 0x58); ours reloads the second pair from the stack and uses r4-r7 (sp adjust 0x5c)
 void func_020c3b6c(s32 a, s32 b) {
     UnkPair020b502c t[8] = {{2, 5}, {5, 8}, {8, 10}, {10, 13}, {13, 16}, {15, 18}, {18, 21}, {21, 23}};
     UnkPair020b502c u = {0, 0x1f};
     s32 m;
     s32 v;
-    s32 x;
-    s32 w;
-    s32 y;
-    s32 h;
+    u32 x;
+    u32 w;
+    u32 y;
+    u32 h;
 
     m = a % 2;
     v = m != 0 ? 1 : 0;
@@ -46,9 +45,8 @@ void func_020c3b6c(s32 a, s32 b) {
     case 2:
         x = t[a].mUnk_00;
         w = t[a].mUnk_04 - x + 1;
-        y = u.mUnk_00;
-        h = u.mUnk_04 - y + 1;
-        func_020b4428(data_0217b3e0->mUnk_00c0[m]->mUnk_0c, y, x, h, w, 0);
+        h = u.mUnk_04 - u.mUnk_00 + 1;
+        func_020b4428(data_0217b3e0->mUnk_00c0[m]->mUnk_0c, u.mUnk_00, x, h, w, 0);
         break;
     }
 }

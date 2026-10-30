@@ -67,8 +67,6 @@ void func_0210f5d4(u32 a) {
     ((Unk0217d1c0 *) data_0217d1c0)[0].mUnk_00 = t;
 }
 
-// non-matching: 7 words differ at +0x138..+0x150: the instructions are the same, but the four base addresses and
-// loaded words of the last block are held in r3/r0/r2/r1 rather than r2/r3/r1/r0
 void func_0210f458(s32 a) {
     u16 v;
     u16 w;
@@ -115,8 +113,9 @@ void func_0210f458(s32 a) {
         return;
     }
     n = (u16) (((v & 0xf000) >> 12) - 1);
+    a = a - ((Unk0217d1c8 *) data_0217d1c8)[n].mUnk_00;
     ((Unk0217d1c4 *) data_0217d1c4)[n].mUnk_00 = ((Unk0217d1c0 *) data_0217d1c0)[n].mUnk_00;
-    ((Unk0217d1c0 *) data_0217d1c0)[n].mUnk_00 = a - ((Unk0217d1c8 *) data_0217d1c8)[n].mUnk_00;
+    ((Unk0217d1c0 *) data_0217d1c0)[n].mUnk_00 = a;
 }
 
 u32 func_0210f35c(s32 a, u32 b) {

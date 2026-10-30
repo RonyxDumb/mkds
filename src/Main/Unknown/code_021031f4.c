@@ -68,13 +68,6 @@ void func_0210340c(Unk0210340c *p, Unk020e6488 *q) {
 }
 #pragma thumb off
 
-// non-matching: in the mUnk_498 block the original materialises the u64
-// high-word zero before loading the q pointer and the 0x498 constant after it,
-// then forms the base pointer between the two factor loads (x.lo through
-// [q,#0x498] first, a.lo through the base); here the 0x498 constant is hoisted
-// first, the zero follows the q load, the base pointer is formed before both
-// factor loads and they load a.lo then x.lo (same word total, 21 words
-// from +0xa4).
 void func_021031f4(Unk02102674 *p) {
     s32 b3;
     s32 a;
@@ -86,7 +79,6 @@ void func_021031f4(Unk02102674 *p) {
     u16 j;
     u32 n;
     u16 v;
-    u64 w;
 
     b2 = (u16) ((p->mUnk_000.mUnk_78 & 0x8000) == 0 ? (u16) (p->mUnk_000.mUnk_78 & ~0xff00) : 8);
     a = data_021759c0->mUnk_62;
@@ -109,8 +101,7 @@ void func_021031f4(Unk02102674 *p) {
             q = data_0217561c;
             b = &q->mUnk_498;
             b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
-            w = b->mUnk_00 >> 32;
-            p->mUnk_130[i] = (u16) (w >> 30) + 1;
+            p->mUnk_130[i] = (u16) (((b->mUnk_00 >> 32) * 4) >> 32) + 1;
         }
     } else {
         j = 1;

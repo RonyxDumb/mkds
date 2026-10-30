@@ -97,9 +97,15 @@ s32 func_020ff178(Unk020f41c4_A *p) {
     return (s16) (((s16) (u16) (p->mUnk_78 & ~0xff00) << 4) | p->mUnk_4c);
 }
 
-// non-matching: 0xb8 bytes against 0xc8. The original advances the cursor as a new value at each step
-// (add r1, r7, #1 / add r1, r1, #1 / add r7, r1, #1, and the same in the empty arm); this compiler keeps the cursor
-// in r7 and addresses the following bytes as [r7, #1] and [r7, #2] with a single add r7, r7, #3.
+static inline u8 *func_020ff0b0_inline(u8 *p, volatile s32 *t, void *c, s32 n) {
+    if (c != 0) {
+        *p = *t >> n;
+    } else {
+        *t = *(s8 *) p << n;
+    }
+    return p + 1;
+}
+
 u8 *func_020ff0b0(u8 *a, Vec3 *b, Vec3 *q, void *c) {
     volatile s32 t[3];
 
@@ -107,30 +113,15 @@ u8 *func_020ff0b0(u8 *a, Vec3 *b, Vec3 *q, void *c) {
         if (c != 0) {
             func_021484d0(q, b, (Vec3 *) t);
         }
-        if (c != 0) {
-            *a = t[0] >> 10;
-        } else {
-            t[0] = *(s8 *) a << 10;
-        }
-        a++;
-        if (c != 0) {
-            *a = t[1] >> 9;
-        } else {
-            t[1] = *(s8 *) a << 9;
-        }
-        a++;
-        if (c != 0) {
-            *a = t[2] >> 10;
-        } else {
-            t[2] = *(s8 *) a << 10;
-        }
-        a++;
+        a = func_020ff0b0_inline(a, &t[0], c, 10);
+        a = func_020ff0b0_inline(a, &t[1], c, 9);
+        a = func_020ff0b0_inline(a, &t[2], c, 10);
         if (c == 0) {
             func_02148504((Vec3 *) t, b, q);
         }
     } else {
         a++;
-        a++;
+        a = (u8 *) a + 1;
         a++;
     }
     return a;
@@ -310,10 +301,6 @@ u8 *func_020fecdc(u8 *a, void *b, void *c) {
     return a + 2;
 }
 
-// non-matching: this compiler materialises the row base &data_0217bdc0[v1 * 2]
-// once and keeps the table address in a register, while the original reloads
-// the pool word at every use and uses indexed addressing; its extra live value
-// also forces the push of fp (0xc8 bytes here against 0xac).
 void func_020fec30(void) {
     u32 v1;
     s32 n;
@@ -326,26 +313,26 @@ void func_020fec30(void) {
     }
     do {
         n = data_0217aa14->mUnk_724;
-        v2 = data_0217bd80[v1 * 2];
-        if (n < data_0217bd80[v1 * 2 + 1]) {
+        v2 = data_0217bd80[v1][0];
+        if (n < data_0217bd80[v1][1]) {
             return;
         }
         if (func_0205ad44() == 0) {
             return;
         }
-        p = &data_0217be00[v1];
         data_0217bd60[0] = v2;
-        data_0217bd80[v1 * 2] = data_0217bd64[0];
+        data_0217bd80[v1][0] = data_0217bd64[0];
         data_0217bd64[0] = v1;
-        func_0205a858(p->mUnk_14, p->mUnk_18, p, data_0217bd80[v1 * 2 + 1]);
+        p = &data_0217be00[v1];
+        func_0205a858(p->mUnk_14, p->mUnk_18, p, data_0217bd80[v1][1]);
         v1 = v2;
     } while (v2 != 0xff);
 }
 
-// non-matching: one word (0xf0 here against 0xec) and the v1/v3/v4 registers swapped: the original has v1 in r10,
-// v3 in r9 and v4 in r8, this compiler has v1 in r8, v3 in r10 and v4 in r9; the original reads the second byte of
-// the row as `add r3, r7, r0, lsl #1` / `ldrb [r3, #1]`, this compiler as `lsl r1, r0, #1` / `add r3, r1, #1` /
-// `ldrb [r7, r3]`.
+// non-matching: 0xe8 bytes against 0xec. The original reads the second byte of the row twice (ldrb r1 and ldrb r2,
+// both [r3, #1]: one for the decrement, one for the test) and stores the first byte of the row through
+// `lsl r2, r0, #1` / `strb r1, [r7, r2]`; this compiler reads it once and stores through [r7, r3, lsl #1]. v1, v3 and
+// v4 also take other registers (the original has v1 in r10, v3 in r9, v4 in r8).
 void func_020feb44(void) {
     s32 v1;
     u32 v2;
@@ -359,18 +346,18 @@ void func_020feb44(void) {
     v2 = data_0217bd68[0];
     v3 = 0xff;
     while (v2 != 0xff) {
-        v5 = data_0217bdc0[v2 * 2 + 1];
-        v4 = data_0217bdc0[v2 * 2];
-        data_0217bdc0[v2 * 2 + 1] = v5 - 1;
+        v5 = data_0217bdc0[v2][1];
+        v4 = data_0217bdc0[v2][0];
+        data_0217bdc0[v2][1] = v5 - 1;
         if (v5 == 0) {
             h = data_0217bd5c[0];
             if (v3 == 0xff) {
                 data_0217bd68[0] = v4;
             }
-            data_0217bdc0[v2 * 2] = h;
+            data_0217bdc0[v2][0] = h;
             data_0217bd5c[0] = v2;
             if (v3 != 0xff) {
-                data_0217bdc0[v3 * 2] = v4;
+                data_0217bdc0[v3][0] = v4;
             }
             p = &data_0217c200[v2];
             if (p->mUnk_1c == 0 || (u32) (p->mUnk_1c + 0x100) >= (u32) v1) {
@@ -383,10 +370,6 @@ void func_020feb44(void) {
     }
 }
 
-// non-matching: one word (0xc4 here against 0xc0). This compiler common
-// subexpresses &data_0217bd80[v1 * 2] across the if/else, keeps the row base
-// in a register and the table address in ip; the original reloads the pool
-// word at each use and uses indexed addressing.
 void func_020fea84(u32 a, u32 b, void *c, u8 d) {
     u32 v1;
     Unk0217be00 *p;
@@ -399,7 +382,7 @@ void func_020fea84(u32 a, u32 b, void *c, u8 d) {
     p->mUnk_14 = a;
     p->mUnk_18 = b;
     func_0214d1fc(c, p, d);
-    data_0217bd64[0] = data_0217bd80[v1 * 2];
+    data_0217bd64[0] = data_0217bd80[v1][0];
     if (data_0217bd60[0] == 0xff) {
         data_0217bd60[0] = v1;
     } else {
@@ -407,19 +390,17 @@ void func_020fea84(u32 a, u32 b, void *c, u8 d) {
         u8 t;
 
         i = data_0217bd60[0];
-        t = data_0217bd80[i * 2];
+        t = data_0217bd80[i][0];
         while (t != 0xff) {
             i = t;
-            t = data_0217bd80[i * 2];
+            t = data_0217bd80[i][0];
         }
-        data_0217bd80[i * 2] = v1;
+        data_0217bd80[i][0] = v1;
     }
-    data_0217bd80[v1 * 2] = 0xff;
-    data_0217bd81[v1 * 2] = d;
+    data_0217bd80[v1][0] = 0xff;
+    data_0217bd80[v1][1] = d;
 }
 
-// non-matching: scheduling only (0xb4 bytes both): the original loads data_0217bd68[0] before the store to
-// data_0217bd5c[0]; this compiler always schedules that load after the store (ten words differ from +0x54 on).
 void func_020fe9d0(u32 a, u32 b, s32 c, void *d, u32 e) {
     u32 v1;
     Unk0217be00 *p;
@@ -433,12 +414,12 @@ void func_020fe9d0(u32 a, u32 b, s32 c, void *d, u32 e) {
     p->mUnk_18 = b;
     p->mUnk_1c = e;
     func_0214d1fc(d, p, 0x14);
-    data_0217bd5c[0] = data_0217bdc0[v1 * 2];
-    data_0217bdc0[v1 * 2] = data_0217bd68[0];
+    data_0217bd5c[0] = data_0217bdc0[v1][0];
+    data_0217bdc0[v1][0] = data_0217bd68[0];
     if (e != 0) {
-        data_0217bdc1[v1 * 2] = 4;
+        data_0217bdc0[v1][1] = 4;
     } else {
-        data_0217bdc1[v1 * 2] = -c;
+        data_0217bdc0[v1][1] = -c;
     }
     data_0217bd68[0] = v1;
 }

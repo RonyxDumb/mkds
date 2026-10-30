@@ -1,0 +1,32 @@
+#include "Main/Unknown/code_02061540.h"
+
+void func_02061588(void) {
+    u8 i;
+    u8 *a;
+    Unk0217aa08_14 *b;
+
+    a = data_0217aa08->mUnk_40;
+    for (i = 0; i < 0x20; i++) {
+        b = (Unk0217aa08_14 *) (a + i * 0x30);
+        if (func_020573f8(i) != 0) {
+            func_0205786c(1, i, b);
+            if (data_021759d4->mUnk_0c != 0) {
+                func_02145d38();
+            }
+            if (data_021759d4->mUnk_04 != 0) {
+                b->mUnk_08_0 = 0;
+            }
+        } else {
+            b->mUnk_08_0 = 0;
+        }
+    }
+    data_0217aa08->mUnk_40 = 0;
+    func_02057504();
+}
+
+void func_02061540(void *a) {
+    data_0217aa08->mUnk_40 = a;
+    func_02057514();
+    func_02057df0((void (*)(void)) func_02061588);
+    data_0217aa0c->mUnk_f8 = 1;
+}

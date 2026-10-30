@@ -13,3 +13,6 @@ void func_02079014(void *param_1, Unk020136f0 *param_2, Unk020136f0 *param_3);
 void func_02079038(void *param_1, Unk020136f0 *param_2, Unk020136f0 *param_3);
 void func_02079078(void *param_1, void *param_2, void *param_3, Unk020136f0 *param_4, Unk020136f0 *param_5,
                    void *param_6);
+
+// Declared here until the code that defines them is decompiled.
+void func_020797d8(void *a, u32 b);

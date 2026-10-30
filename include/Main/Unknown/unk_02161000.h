@@ -8,6 +8,10 @@
 // Objects whose layout isn't known yet.
 extern s16 data_021614b4[];
 extern s16 data_021615b8[];
+extern s32 data_02161770;
+extern u32 data_02161774;
+extern s32 data_02161778;
+extern s32 data_0216177c;
 extern u8 data_02161780[];
 extern u8 data_02161790[];
 extern u8 data_02161794[];
@@ -31,6 +35,15 @@ extern u8 data_02161ad8;
 extern u8 data_02161adc[];
 extern u8 data_02161ae0[];
 extern u8 data_02161ae4[];
+
+// Seven word tables, entries 0x1c bytes apart, indexed by the result of func_0202578c.
+extern u8 data_02161ae8[];
+extern u8 data_02161aec[];
+extern u8 data_02161af0[];
+extern u8 data_02161af4[];
+extern u8 data_02161af8[];
+extern u8 data_02161afc[];
+extern u8 data_02161b00[];
 
 extern u16 data_021616bc[];
 extern u8 data_021616cc[];
@@ -67,3 +80,19 @@ extern UnkFunc *data_021617e0;
 extern UnkFunc *data_021617e4;
 extern u32 (*data_021619ec)();
 extern u32 (*data_021619f4)();
+
+extern const char data_02161c88[];
+extern const char data_02161ca8[];
+extern const char data_02161cc8[];
+extern const char data_02161ce8[];
+extern const char data_02161d04[];
+extern const char data_02161d2c[];
+extern const char data_02161d54[];
+extern const char data_02161d78[];
+extern const char data_02161d9c[];
+extern const char data_02161dc0[];
+extern const char data_02161de0[];
+extern const char data_02161dfc[];
+extern const char data_02161e18[];
+extern const char data_02161e34[];
+extern const char data_02161e4c[];

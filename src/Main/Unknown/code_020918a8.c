@@ -1,0 +1,251 @@
+#include "Main/Unknown/code_020918a8.h"
+#include "Main/Unknown/code_01ff9000.h"
+#include "Main/Unknown/code_0209219c.h"
+#include "Main/Unknown/code_02046000.h"
+#include "Main/Unknown/code_02061808.h"
+#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_0209b000.h"
+#include "Main/Unknown/code_0209bef0.h"
+#include "Main/Unknown/code_020d22c0.h"
+#include "Main/Unknown/code_020d4c28.h"
+#include "Main/Unknown/code_020e6b58.h"
+#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/code_020f9c6c.h"
+#include "Main/Unknown/code_0210b760.h"
+#include "Main/Unknown/unk_02156000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_02166000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/unk_0217b000.h"
+#include "Main/Unknown/unk_0217c000.h"
+#include "code_02147cd8.h"
+#include "code_02148538.h"
+
+static inline u32 func_020919e8_inline(u32 n) {
+    Unk020f41c4_B *b;
+
+    b = func_020d22d0();
+    b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
+    return (u32) (((b->mUnk_00 >> 32) * n) >> 32);
+}
+
+static inline u16 func_020919e8_inline_2(u32 n) {
+    Unk020f41c4_B *b;
+
+    b = func_020d22d0();
+    b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
+    return (u32) (((b->mUnk_00 >> 32) * n) >> 32);
+}
+
+static inline void func_020919e8_inline_3(Unk020919e8 *p, s32 n) {
+    Unk0210b7a8 s;
+    s32 v;
+
+    if (p->mUnk_00.mUnk_78 & 4) {
+        return;
+    }
+    if (p->mUnk_00.mUnk_70 == data_0217ca6c[2].mUnk_20) {
+        v = 2;
+    } else if (p->mUnk_00.mUnk_70 == data_0217ca6c[3].mUnk_20) {
+        v = 3;
+    } else {
+        v = 4;
+    }
+    s.mUnk_00 = n;
+    s.mUnk_04 = &p->mUnk_00.mUnk_04;
+    s.mUnk_08 = v;
+    s.mUnk_0c = func_020d4ef4(&p->mUnk_00.mUnk_04);
+    func_0210b7a8(&s);
+}
+
+void func_020918a8(void) {
+    func_0209bef0((u32) func_0209196c, (u32) func_020918cc, (u32) func_02091954);
+}
+
+void func_020918cc(void *a, Unk020919e8 *b) {
+    s32 w;
+
+    w = 0x1e;
+    func_01ff9048(0x14, &w, 1);
+    func_01ff9048(0x19, func_020e6cbc(&b->mUnk_00.mUnk_04), 0xc);
+    func_01ff9048(0x1b, &b->mUnk_00.mUnk_1c, 3);
+    func_0209b688(data_0217b0bc, b->mUnk_00.mUnk_9c->mUnk_28);
+    func_0209bb2c(a, data_0217b0bc, b);
+}
+
+void func_02091954(void *a) {
+    func_0209bbd0(a, data_0217b0bc);
+}
+
+void func_0209196c(void *a) {
+    data_0217b0bc = func_0209bc74(a, data_021665f8, data_02166604);
+    func_0209b940(data_0217b0bc, 0x3f);
+}
+
+void func_020919a8(void) {
+    func_0209bf48((u32) func_02091fd8, (u32) func_020919e8, 0);
+}
+
+void func_020919c8(void) {
+    func_0209bf1c((u32) func_02092140, (u32) func_020920a0, 0);
+}
+
+// non-matching: the original keeps the loop constants (the three random ranges and the call arguments) in ten stack words set before the loop, 0x20 more stack than here, and allocates registers differently (81%)
+void func_020919e8(void *a, Unk020919e8 *p) {
+    s32 i;
+    s32 f;
+    s32 q;
+    u16 r;
+    u16 k;
+    s32 v1;
+    s32 v2;
+    s32 d;
+    Unk0206bcb0 *o;
+    Vec3 v3;
+    Vec3 v4;
+
+    if (p->mUnk_ac == 0) {
+        if (func_02061818() == 2) {
+            p->mUnk_ac = 1;
+            return;
+        }
+        if (p->mUnk_00.mUnk_02 & 0x800) {
+            if (p->mUnk_a4-- <= 0) {
+                p->mUnk_a4 = 8;
+                p->mUnk_ac = 1;
+            }
+            return;
+        }
+        k = p->mUnk_00.mUnk_7e;
+        q = 0;
+        for (i = 0; i < data_021759c0->mUnk_3d0; i++) {
+            f = 0;
+            if ((u32) data_021759c0->mUnk_70[(u16) i].mUnk_00 <= 3 &&
+                ((1 << data_021759c0->mUnk_70[(u16) i].mUnk_00) & 0xd)) {
+                f = 1;
+            }
+            if (f == 0 && i != data_021759c0->mUnk_62) {
+                continue;
+            }
+            o = func_0207a974((u16) i);
+            v2 = o->mUnk_80.z - p->mUnk_00.mUnk_04.z;
+            v1 = o->mUnk_80.x - p->mUnk_00.mUnk_04.x;
+            if ((s64) v2 * v2 + (s64) v1 * v1 >= 0x225510000000LL) {
+                continue;
+            }
+            d = func_02148714(o->mUnk_80.x - p->mUnk_00.mUnk_04.x, o->mUnk_80.z - p->mUnk_00.mUnk_04.z) - k;
+            if (d < -0x1f40) {
+                continue;
+            }
+            if (d <= 0x1f40) {
+                q = 1;
+                break;
+            }
+        }
+        if (q != 0) {
+            p->mUnk_a4 = 8;
+            p->mUnk_ac = 1;
+        }
+        return;
+    }
+    if (p->mUnk_ac != 1) {
+        return;
+    }
+    if (p->mUnk_a0 == 10) {
+        for (i = 0; i < 3; i++) {
+            v3.x = p->mUnk_00.mUnk_04.x - 0x5000 + func_020919e8_inline(0xa000);
+            func_020d22d0();
+            v3.y = p->mUnk_00.mUnk_04.y + 0x19000;
+            v3.z = p->mUnk_00.mUnk_04.z - 0x28000 + func_020919e8_inline(0x50000);
+            k = p->mUnk_00.mUnk_7e;
+            r = func_02091f6c(func_020d22d0(), 0x1000) + 0x800;
+            k = k - 0x3e8 + func_02046524(func_020d22d0(), 0x7d0);
+            v4.x = func_02091f44(r, func_02091f54(k));
+            v4.y = func_02091f6c(func_020d22d0(), 0x400) + 0x2200;
+            v4.z = func_02091f44(r, func_02091f24(k));
+            if (i == 0 && p->mUnk_a8 == 0) {
+                func_0209219c(0x50, &v3, &v4, 0x28, 1, i == 0 ? 3 : 0);
+            } else {
+                func_0209219c(0x50, &v3, &v4, 0x28, 0, i == 0 ? 3 : 0);
+            }
+        }
+        p->mUnk_a8 += 1;
+        if (p->mUnk_a8 >= 3) {
+            p->mUnk_a8 = 0;
+        }
+    }
+    k = p->mUnk_a0 + 1;
+    if (k >= func_0209b758(data_0217b0c0)) {
+        k = 0;
+    }
+    p->mUnk_a0 = k;
+    if (p->mUnk_a0 == 0) {
+        if (p->mUnk_a4-- <= 0) {
+            p->mUnk_a8 = 0;
+            p->mUnk_ac = 0;
+            if (p->mUnk_00.mUnk_02 & 0x800) {
+                p->mUnk_a4 = (u16) (func_020919e8_inline_2(25) + 200);
+            }
+        }
+    }
+    if (p->mUnk_a0 != 0) {
+        return;
+    }
+    func_020919e8_inline_3(p, 0x188);
+}
+
+s16 func_02091f24(s32 a) {
+    return data_0215d4b4[(a >> 4) * 2 + 1];
+}
+
+s32 func_02091f44(s32 a, s32 b) {
+    return (s32) (((s64) a * b) >> 12);
+}
+
+s16 func_02091f54(s32 a) {
+    return data_0215d4b4[(a >> 4) * 2];
+}
+
+u32 func_02091f6c(Unk020f41c4_B *a, u32 b) {
+    if (b == 0) {
+        return 0;
+    }
+    a->mUnk_00 = a->mUnk_08 * a->mUnk_00 + a->mUnk_10;
+    if (b == 0) {
+        return a->mUnk_00 >> 32;
+    }
+    return ((a->mUnk_00 >> 32) * b) >> 32;
+}
+
+void func_02091fd8(Unk020e6fd4 *a) {
+    s32 i;
+    Unk020919e8 *p;
+
+    if (a == 0) {
+        return;
+    }
+    for (i = 0; i < a->mUnk_04 && (p = (Unk020919e8 *) a->mUnk_00[i]) != 0; i++) {
+        if (p->mUnk_00.mUnk_02 & 0x800) {
+            p->mUnk_a4 = (u16) (func_020919e8_inline_2(25) + 200);
+        }
+    }
+}
+
+void func_020920a0(void *a, Unk020919e8 *p) {
+    s32 w;
+
+    func_0209b77c(data_0217b0c0, p->mUnk_a0);
+    w = 0x1e;
+    func_01ff9048(0x14, &w, 1);
+    p->mUnk_00.mUnk_28.mUnk_24.x = p->mUnk_00.mUnk_04.x >> 4;
+    p->mUnk_00.mUnk_28.mUnk_24.y = p->mUnk_00.mUnk_04.y >> 4;
+    p->mUnk_00.mUnk_28.mUnk_24.z = p->mUnk_00.mUnk_04.z >> 4;
+    func_01ff9048(0x19, &p->mUnk_00.mUnk_28, 0xc);
+    func_01ff9048(0x1b, &p->mUnk_00.mUnk_1c, 3);
+    func_0209bb2c(a, data_0217b0c0, p);
+}
+
+void func_02092140(void *a) {
+    data_0217b0c0 = func_0209be84(a, data_02166644);
+    func_0209be50(data_0217b0c0, data_02166654);
+}

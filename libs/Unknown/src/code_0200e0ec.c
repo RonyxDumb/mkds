@@ -13,6 +13,8 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_0216f000.h"
 #include "Main/Unknown/unk_02170000.h"
+#include "Main/Unknown/unk_00000000.h"
+#include "Main/Unknown/unk_00002000.h"
 
 void func_0200e5f8(Unk0200df9c *q, Unk0200db5c *t) {
     Unk0200db5c *p;
@@ -121,8 +123,8 @@ void func_0200e4e4(Unk0200db5c *t) {
     }
 }
 
-// non-matching: 0x11c bytes against 0x15c. The original loads 0x2800 and 0xc00 from the literal pool (no
-// relocation), so it keeps the n <= 0 test and both subtractions; written as constants here, they are folded.
+// non-matching: 0x164 bytes against 0x15c. The original keeps the address of data_0216ff58 in r3 from the first test
+// to the store of 1 (here it is loaded again), keeps 1 in r6 for both stores of 1 and computes h after that store.
 void func_0200e388(void) {
     s32 n;
     u8 *l;
@@ -131,7 +133,7 @@ void func_0200e388(void) {
     if (data_0216ff58 != 0) {
         return;
     }
-    n = 0x2800;
+    n = (s32) data_00002800;
     data_0216ff5c.mUnk_08 = &data_0217002c;
     data_0216ff5c.mUnk_04 = &data_0217002c;
     data_0217002c.mUnk_70 = 0x10;
@@ -142,11 +144,11 @@ void func_0200e388(void) {
     if (n <= 0) {
         l = (u8 *) 0x27e00e0 - n;
     } else {
-        l = (u8 *) &data_027e0000 + 0x3f80 - 0xc00 - n;
+        l = (u8 *) &data_027e0000 + 0x3f80 - (u32) data_00000c00 - n;
     }
     data_0216ff54 = &data_0216ff5c.mUnk_04;
     data_0216ff58 = 1;
-    h = (u8 *) &data_027e0000 + 0x3f80 - 0xc00;
+    h = (u8 *) &data_027e0000 + 0x3f80 - (u32) data_00000c00;
     data_0217002c.mUnk_94 = h;
     data_0217002c.mUnk_90 = l;
     data_0217002c.mUnk_98 = 0;

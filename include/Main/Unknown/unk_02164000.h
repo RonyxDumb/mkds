@@ -2,11 +2,55 @@
 
 #include "types.h"
 
+extern const char data_0216416c[];
+extern const char data_02164178[];
+extern const char data_02164190[];
+extern const char data_021641a8[];
+extern const char data_021641c4[];
+extern const char data_021641e0[];
+extern const char data_021641fc[];
+extern const char data_02164214[];
+extern const char data_0216422c[];
+extern s16 data_02164254[][4];
+extern const char data_02164294[];
+extern const char data_021642a0[];
+extern const char data_021642ac[];
+extern const char data_021642cc[];
+extern const char data_021642ec[];
+extern const char data_02164308[];
+extern const char data_02164328[];
+extern const char data_02164348[];
+extern const char data_02164368[];
+extern const char data_02164384[];
+extern const char data_021643a0[];
+extern const char data_021643c0[];
+extern const char data_021643e0[];
+extern const char data_02164400[];
+extern const char data_02164420[];
+extern const char data_02164440[];
+extern s16 data_02164470[][4];
+extern const char data_021644e0[];
+extern const char data_021644ec[];
+extern const char data_021644f8[];
+extern const char data_02164518[];
+extern const char data_02164538[];
+extern const char data_02164558[];
+extern const char data_02164574[];
+extern const char data_02164590[];
+extern const char data_021645b0[];
+extern const char data_021645d0[];
+extern const char data_021645ec[];
+extern const char data_0216460c[];
+extern const char data_0216462c[];
+extern const char data_0216464c[];
+extern const char data_02164668[];
+extern const char data_02164684[];
+
 // Objects whose layout isn't known yet.
 extern u8 data_02164770[];
 extern u8 data_02164d28[];
 extern u8 data_02164dc8[];
-extern u8 data_02164e04[];
+extern u32 data_02164e04[];
 extern u8 data_02164e54[];
 extern u8 data_02164e70[];
 extern u8 data_02164f1c[];
@@ -20,3 +64,5 @@ extern u8 data_02164fc0[];
 extern u8 data_02164fd4[];
 extern u8 data_02164fe4[];
 extern u8 data_02164ffc[];
+extern void *data_usa_02164718[];
+extern const char data_021646e0[];

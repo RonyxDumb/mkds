@@ -1,0 +1,131 @@
+#include "Main/Unknown/code_020641d4.h"
+#include "Main/Unknown/code_01ff9000.h"
+#include "Main/Unknown/code_01ffc000.h"
+#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Unknown/code_02061fec.h"
+#include "Main/Unknown/code_02066000.h"
+#include "Main/Unknown/code_0203c000.h"
+#include "Main/Unknown/code_020738f4.h"
+#include "Main/Unknown/code_0207a7ec.h"
+#include "Main/Unknown/code_0207b000.h"
+#include "Main/Unknown/code_020ee684.h"
+#include "Main/Unknown/code_02147000.h"
+#include "code_02147288.h"
+#include "Main/Unknown/unk_0215d000.h"
+
+void func_020641d4(Unk0206bcb0 *a) {
+    func_01ffcb58(a);
+    func_020641f0(a);
+}
+
+// non-matching: 88.3: stack offsets and 64-bit multiplication form differ
+void func_020641f0(Unk0206bcb0 *a) {
+    Unk0206bcb0_590 *b;
+    Unk0206bcb0_590_08 *c;
+    Unk02012f58 d;
+    Unk02012f58 e;
+    Unk02012f58 f;
+    Unk02012f58 g;
+    Unk02012f58 h;
+    s32 i;
+    s32 j;
+    s32 k;
+    u16 l;
+    Vec3 m;
+
+    func_01ffcd84(&a->mUnk_120, a->mUnk_50c);
+    if ((a->mUnk_4c & 0x10) != 0) {
+        func_021471bc(&d);
+        e = d;
+        func_01ffcd84(&f, &a->mUnk_34c);
+        m.x = (s64) a->mUnk_12c.x * -0x5000 >> 12;
+        m.y = (s64) a->mUnk_12c.y * -0x5000 >> 12;
+        m.z = (s64) a->mUnk_12c.z * -0x5000 >> 12;
+        d.mUnk_24 = m;
+        e.mUnk_24.x = -m.x;
+        e.mUnk_24.y = -m.y;
+        e.mUnk_24.z = -m.z;
+        func_0214733c(&a->mUnk_120_m, &d, &a->mUnk_150_m);
+        func_0214733c(&a->mUnk_150_m, &f, &a->mUnk_150_m);
+        func_0214733c(&a->mUnk_150_m, &e, &a->mUnk_150_m);
+        if ((a->mUnk_4c & 0x20) != 0) {
+            i = (a->mUnk_364 >> 4) * 2;
+            func_02147250(&g, data_0215d4b4[i], data_0215d4b4[i + 1]);
+            func_0214733c(&a->mUnk_150_m, &g, &a->mUnk_150_m);
+        }
+        a->mUnk_174.x = a->mUnk_174.x + a->mUnk_508->x;
+        a->mUnk_174.y = a->mUnk_174.y + a->mUnk_508->y;
+        a->mUnk_174.z = a->mUnk_174.z + a->mUnk_508->z;
+    } else if ((a->mUnk_4c & 0x20) != 0) {
+        i = (a->mUnk_364 >> 4) * 2;
+        func_02147250(&h, data_0215d4b4[i], data_0215d4b4[i + 1]);
+        func_0214733c(&h, &a->mUnk_120_m, &a->mUnk_150_m);
+        a->mUnk_174.x = a->mUnk_508->x;
+        a->mUnk_174.y = a->mUnk_508->y;
+        a->mUnk_174.z = a->mUnk_508->z;
+    } else {
+        a->mUnk_150_m = a->mUnk_120_m;
+        a->mUnk_174.x = a->mUnk_508->x;
+        a->mUnk_174.y = a->mUnk_508->y;
+        a->mUnk_174.z = a->mUnk_508->z;
+    }
+    a->mUnk_98 = a->mUnk_174;
+    a->mUnk_174.x = a->mUnk_174.x >> 4;
+    a->mUnk_174.y = a->mUnk_174.y >> 4;
+    a->mUnk_174.z = a->mUnk_174.z >> 4;
+    if ((a->mUnk_4c & 0x2000000) == 0) {
+        a->mUnk_1b4 = &a->mUnk_150_m;
+    } else {
+        func_02066de8(a);
+        a->mUnk_1b4 = &a->mUnk_184_m;
+    }
+    b = (Unk0206bcb0_590 *) a->mUnk_590;
+    if (b->mUnk_018 != 0) {
+        j = (s64) b->mUnk_030 * b->mUnk_024 >> 12;
+        l = (s64) j * 0xce4 >> 12;
+        k = a->mUnk_2a0;
+        if (a->mUnk_4d4 > k) {
+            a->mUnk_3a4 = a->mUnk_3a4 + (u16) ((s64) a->mUnk_4d4 * 0x7d0 >> 12);
+        } else {
+            k = (s64) k * 0xfa0 >> 12;
+            if (func_020738f8(func_0207a7ec()) < 0x29) {
+                k = 0;
+                if ((u16) (data_0217562a[a->mUnk_78].mUnk_00 & 3) != 0 && func_02061fec() == 1) {
+                    k = k + 0x190;
+                }
+            } else if ((a->mUnk_44 & 0x100) != 0) {
+                k = k * -1;
+            }
+            if (k > 0xfa0) {
+                k = 0xfa0;
+            }
+            a->mUnk_3a4 = a->mUnk_3a4 + (u16) k;
+        }
+        a->mUnk_4cc = l;
+    }
+    c = ((Unk0206bcb0_590 *) a->mUnk_590)->mUnk_008;
+    if (c != 0 && c->mUnk_18 != 0) {
+        func_0207b734(a);
+        if (func_0203c880(a->mUnk_74) != 0) {
+            func_0207b354(a);
+        }
+        c = ((Unk0206bcb0_590 *) a->mUnk_590)->mUnk_008;
+        *c->mUnk_1c[c->mUnk_1a] = c->mUnk_0c;
+    }
+    if ((a->mUnk_4c & 0x400000) != 0) {
+        a->mUnk_504 = a->mUnk_504 + 1;
+        a->mUnk_506 = a->mUnk_506 + 1;
+        if (a->mUnk_506 > 8) {
+            a->mUnk_506 = 0;
+        }
+        if (a->mUnk_506 >= 4) {
+            a->mUnk_4c = a->mUnk_4c | 0x1000000;
+        } else {
+            a->mUnk_4c = a->mUnk_4c & ~0x1000000;
+        }
+        if (a->mUnk_504 > 0x5a) {
+            a->mUnk_4c = a->mUnk_4c & ~0x1400000;
+        }
+    }
+    func_01ff9b70(a);
+}

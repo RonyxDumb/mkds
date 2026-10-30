@@ -7,8 +7,10 @@
 #include "Main/Unknown/unk_02153000.h"
 #include "code_0202210c.h"
 
-// non-matching: in the tail the second flag (a->mUnk_34 != -1) is in r1 and its constant in r0 swapped, and the table
-// pointer is loaded one instruction later
+static inline u32 func_0202294c_inline(const Unk02022030 *a) {
+    return a->mUnk_34 != -1;
+}
+
 void func_0202294c(Unk02022030 *a) {
     Unk020229c8 *r;
     Unk02021dc8 *h;
@@ -39,12 +41,12 @@ void func_0202294c(Unk02022030 *a) {
     if (n == 0) {
         return;
     }
-    n = a->mUnk_34 != -1;
+    n = func_0202294c_inline(a);
     if (n == 0) {
         return;
     }
-    u = (Unk02021e40 *) t->mUnk_04;
-    func_02022a60(a->mUnk_34, u[r->mUnk_00].mUnk_00, u[r->mUnk_00].mUnk_04);
+    u = &((Unk02021e40 *) t->mUnk_04)[r->mUnk_00];
+    func_02022a60(a->mUnk_34, u->mUnk_00, u->mUnk_04);
 }
 
 void func_02022904(Unk02022030 *a, Unk02021dc8 *b, Unk02021dc8 *c) {

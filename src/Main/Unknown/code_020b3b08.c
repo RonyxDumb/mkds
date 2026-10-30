@@ -72,9 +72,6 @@ void func_020b3cd8(void) {
     }
 }
 
-// non-matching: the byte reads from the table at 0x144 are made in the original through a separate pointer add
-// (add r0, r0, #0 / add r0, r0, #4, then ldrb [r0, #2]); the second condition is kept as a value in a register
-// (mov r2, #1 ... movne r2, #0; cmp r2, #0) instead of branching
 static inline Unk0217aa1c_144_00 *func_020b3b58_inline(s32 j) {
     return &data_0217aa1c->mUnk_144[func_0205db28()].mUnk_00[j];
 }

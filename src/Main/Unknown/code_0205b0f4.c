@@ -120,11 +120,11 @@ s32 func_0205b954(s32 a) {
     return data_0217aa14->mUnk_104[a].mUnk_00_0;
 }
 
-// non-matching: the original keeps a flag in r2 (mov r2, #0 before the 64-bit compare, mov r2, #1 on the two taking paths, addne r6 after the join); this version adds 1 on both paths, so the code is shorter (0x124 against 0x130 bytes).
 void func_0205b824(const u64 *a, s32 b) {
     u8 n;
     u64 d;
     Unk0217aa14 *p;
+    s32 f;
 
     p = data_0217aa14;
     n = p->mUnk_014[b].mUnk_34;
@@ -135,34 +135,37 @@ void func_0205b824(const u64 *a, s32 b) {
         d = (a[3] - a[0]) - (a[2] - a[1]);
         if (d * 64 / 0x82ea < 1000) {
             *(u64 *) &p->mUnk_014[b].mUnk_28 += d;
-            n = n + 1;
+            f = 1;
         } else {
+            f = 0;
             data_0217aa14->mUnk_014[b].mUnk_35++;
             if (data_0217aa14->mUnk_014[b].mUnk_35 > 0x40) {
                 data_0217aa14->mUnk_748 |= 1 << b;
             }
         }
     } else {
+        f = 1;
+    }
+    if (f != 0) {
         n = n + 1;
     }
     data_0217aa14->mUnk_014[b].mUnk_34 = n;
 }
 
-// non-matching: the original holds the two 24-bit values in r4 and r6 (data pointer r5, pushes r6, no stack pad); here they are in lr and r4 and there is a stack pad (0xbc against 0xac bytes).
 void func_0205b778(u32 a, Unk0205b504 *b) {
     Unk0217aa14 *p;
     Unk0217aa14_104 *e;
     u8 *s;
-    u32 x;
     u32 y;
     u32 v1;
     u8 n;
+    u32 x;
 
     v1 = b->mUnk_00_0;
     p = data_0217aa14;
+    s = b->mUnk_04.mUnk_00_b;
     y = b->mUnk_04.mUnk_00_0;
     x = p->mUnk_104[v1].mUnk_00_0;
-    s = b->mUnk_04.mUnk_00_b;
     e = &p->mUnk_104[v1];
     n = s[3];
     if (p->mUnk_00e != 4 && p->mUnk_00e != 5) {

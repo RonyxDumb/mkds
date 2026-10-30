@@ -18,7 +18,6 @@
 
 #pragma thumb on
 
-// non-matching: func_0211b07c: only the stack slot of the value data_0217d368->mUnk_04->mUnk_06 differs (original sp+0x18, after the four table-pointer slots sp+0x8..0x14; compiled sp+0x8, before them); every instruction is otherwise equal
 void func_0211b07c(void) {
     Unk0217d368 *p;
     s32 i;
@@ -29,7 +28,8 @@ void func_0211b07c(void) {
     func_0211c14c();
     data_0217d368->mUnk_38++;
     p = data_0217d368;
-    b = p->mUnk_58 + func_020ae4c0(1, -192, 0, p->mUnk_38, 10);
+    c = func_020ae4c0(1, -192, 0, p->mUnk_38, 10);
+    b = p->mUnk_58 + c;
     p->mUnk_5c = b;
     c = data_0217d368->mUnk_04->mUnk_06;
     for (i = 0; i < 5; i++) {

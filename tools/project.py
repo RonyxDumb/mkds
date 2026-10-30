@@ -244,4 +244,7 @@ def tcm_module(addr: int):
 LCF_SYMBOLS = {
     # "SDK_IRQ_STACKSIZE": "0x1000",
     # "SDK_SYS_STACKSIZE": "0",
+    "data_00000c00": "0xc00",
+    "data_00002800": "0x2800",
+    "data_02400000": "0x2400000",
 }

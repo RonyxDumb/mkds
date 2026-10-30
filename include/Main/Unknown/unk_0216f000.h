@@ -3,9 +3,23 @@
 #include "types.h"
 #include "code_0200e0ec.h" // Unk0200db5c, Unk0200dce0
 
+// Three words that func_0200c448 sets up.
+typedef struct Unk0216fdf8 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+} Unk0216fdf8;
+
+// Object behind data_0216fdf4: the words from 0x1e0 on are indexed like the 0x20-byte entries before them.
+typedef struct Unk0216fdf4 {
+    /* 000 */ u8 mUnk_000[0x1e0];
+    /* 1e0 */ u32 mUnk_1e0[15];
+} Unk0216fdf4;
+
 // Objects whose layout isn't known yet.
 extern u32 data_0216f06c;
 extern u8 data_0216f2d4[];
+extern u32 data_0216f3c8;
 extern u8 data_0216f3cc[];
 extern u8 data_0216f3d0[];
 extern u8 data_0216f3d4[];
@@ -20,6 +34,8 @@ extern u8 data_0216fde4[];
 extern u8 data_0216fde8[];
 extern u8 data_0216fdec[];
 extern u8 data_0216fdf4[];
+extern u8 data_0216fdf0;
+extern Unk0216fdf8 data_0216fdf8;
 extern u8 data_0216f2dc[];
 extern u8 OverlaySignatures[][0x14];
 

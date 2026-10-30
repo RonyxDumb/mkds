@@ -1,5 +1,4 @@
 #include "Main/Unknown/code_0204db48.h"
-#include "Main/Unknown/code_02006000.h"
 #include "Main/Unknown/code_02050320.h"
 #include "Main/Unknown/code_02050080.h"
 #include "Main/Unknown/code_0204df5c.h"
@@ -18,7 +17,6 @@ s32 func_0204db48(Unk02003a6c *a, void *b, u32 c, u32 d) {
 
 #pragma thumb on
 
-// non-matching: same size; 58 lines differ; first: original `lsls r3, r3, #1`, ours `movs r3, r7`
 s32 func_0204db6c(void) {
     s32 r = 0;
     switch (data_0217aa00->mUnk_0004) {
@@ -36,6 +34,21 @@ s32 func_0204db6c(void) {
         return 0;
     }
     switch (data_0217aa00->mUnk_000c) {
+    case 22:
+        func_0204e128();
+        break;
+    case 24:
+        func_0204e0bc();
+        break;
+    case 25:
+        func_0204e090();
+        break;
+    case 27:
+        func_02052ecc();
+        break;
+    case 36:
+        func_020532dc(0x14);
+        break;
     case 3:
         func_0204fb40(1);
         func_02052bf8();
@@ -60,30 +73,14 @@ s32 func_0204db6c(void) {
             r = 1;
         }
         break;
-    case 22:
-        func_0204e128();
-        break;
-    case 24:
-        func_0204e0bc();
-        break;
-    case 25:
-        func_0204e090();
-        break;
-    case 27:
-        func_02052ecc();
-        break;
-    case 36:
-        func_020532dc(0x14);
-        break;
     }
     return r;
 }
 
-// non-matching: same size; 5 lines differ; first: original `ldr r0, [pc, #76]`, ours `adds r0, r1, #0`
 s32 func_0204dc8c(void) {
     s32 r = 0;
     Unk0217aa00 *g = data_0217aa00;
-    u8 a = g->mUnk_1695;
+    u32 a = g->mUnk_1695;
     u8 b = g->mUnk_0044.mUnk_43;
 
     if (a == (a & b)) {
@@ -101,13 +98,12 @@ s32 func_0204dc8c(void) {
     return r;
 }
 
-// non-matching: same size; register allocation only; 5 lines differ; first: original `lsls r2, r1`, ours `lsls r2, r4`
 u8 func_0204dcf0(u8 a) {
     u8 r = a & 1;
+    u32 i = 1;
     u32 n = 1;
-    u32 i;
 
-    for (i = 1; i < 8; i++) {
+    for (; i < 8; i++) {
         if (((1 << i) & a) != 0) {
             r = r | (1 << n);
             n++;
@@ -116,8 +112,9 @@ u8 func_0204dcf0(u8 a) {
     return r;
 }
 
-// non-matching: same size; 193 lines differ; first: original `push {r4, r5, r6, lr}`, ours `push {r4, r5, lr}`
-s32 func_0204dd24(u32 a) {
+// non-matching: same size; 95 words differ; first: original `push {r4, r5, r6, lr}`, ours `push {r4, r5, lr}`. The
+// original keeps the 0x1692 offset in r6 in case 30 (one more saved register) and data_0217aa00 in r1 where ours has r2.
+s32 func_0204dd24(u16 a) {
     s32 r = 0;
     Unk0217aa00 *g = data_0217aa00;
 
@@ -132,15 +129,15 @@ s32 func_0204dd24(u32 a) {
             func_02050e60(5);
         }
         break;
-    case 7:
-        g->mUnk_0010 = 0;
-        break;
     case 10:
         g->mUnk_1692 = g->mUnk_1692 + 1;
         if (data_0217aa00->mUnk_1692 > 0x4b0) {
             func_02050e60(5);
             return 3;
         }
+        break;
+    case 7:
+        g->mUnk_0010 = 0;
         break;
     case 30: {
         s32 v;

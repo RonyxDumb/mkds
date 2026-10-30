@@ -62,23 +62,23 @@ void func_0214bf64(const void *a, u32 b, u32 c) {
     }
 }
 
-// non-matching: the original keeps the constant 0x6400000 in a register (mov ip, #0x6400000 before the first branch,
-// add rD, ip, rB in both arms); this form adds it as an immediate in each arm (0x5c bytes, original 0x60)
 void func_0214bf04(const void *a, u32 b, u32 c) {
+    enum { K0 } d = 0x6400000;
+
     if (data_0216f074[0] != -1 && c > 0x30) {
-        func_0214cb88(data_0216f074[0], a, (void *) (0x6400000 + b), c);
+        func_0214cb88(data_0216f074[0], a, (void *) (d + b), c);
     } else {
-        func_0214d02c(a, (void *) (0x6400000 + b), c);
+        func_0214d02c(a, (void *) (d + b), c);
     }
 }
 
-// non-matching: the original keeps the constant 0x6600000 in a register (mov ip, #0x6600000 before the first branch,
-// add rD, ip, rB in both arms); this form adds it as an immediate in each arm (0x5c bytes, original 0x60)
 void func_0214bea4(const void *a, u32 b, u32 c) {
+    enum { K0 } d = 0x6600000;
+
     if (data_0216f074[0] != -1 && c > 0x30) {
-        func_0214cb88(data_0216f074[0], a, (void *) (0x6600000 + b), c);
+        func_0214cb88(data_0216f074[0], a, (void *) (d + b), c);
     } else {
-        func_0214d02c(a, (void *) (0x6600000 + b), c);
+        func_0214d02c(a, (void *) (d + b), c);
     }
 }
 

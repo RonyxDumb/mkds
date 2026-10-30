@@ -39,7 +39,7 @@ typedef struct Unk02102674 {
 typedef struct Unk020748a8 {
     /* 000 */ Vec3 mUnk_00;
     /* 00c */ Vec3 mUnk_0c;
-    /* 018 */ u8 mUnk_018[0xc];
+    /* 018 */ Vec3 mUnk_18;
     /* 024 */ Vec3 mUnk_24;
     /* 030 */ s32 mUnk_030[9];
     /* 054 */ u8 mUnk_054[0x48];

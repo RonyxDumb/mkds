@@ -61,7 +61,7 @@ void func_ov001_02187d14(Unk02187d14 *param_1) {
     if (param_1->mUnk_00->mUnk_01 == p->mUnk_2e4) {
         q = func_02061808();
         func_02012f58(&a, 0);
-        func_0214755c((Unk02012f58 *) q->mUnk_030, &b);
+        func_0214755c(&q->mUnk_030, &b);
         func_0214733c(&a, &b, &a);
         p->mUnk_2e8.x = a.mUnk_24.x << 4;
         p->mUnk_2e8.y = a.mUnk_24.y << 4;

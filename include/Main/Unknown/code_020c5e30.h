@@ -3,14 +3,8 @@
 #include "types.h"
 #include "Main/Unknown/code_020c06c4.h"
 #include "Main/Unknown/code_02056b30.h"
+#include "Main/Unknown/code_020adb04.h"
 #include "Main/Unknown/unk_0217b000.h"
-
-// Four bytes read by func_020adc24 and written by func_0214d1fc.
-typedef struct Unk020adc24 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
-} Unk020adc24;
 
 // Object behind data_0217b3f4, 0xe8 bytes allocated by func_020c6fac; mUnk_00 holds the function the object runs.
 typedef struct Unk0217b3f4 {

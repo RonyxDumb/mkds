@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_0203ba84.h"
 
 // Three words that func_0203bfc4 fills.
 typedef struct Unk0203bfc4 {
@@ -11,14 +12,17 @@ typedef struct Unk0203bfc4 {
 
 // Declared here until the code that defines them is decompiled.
 void func_0203bfc4(Unk0203bfc4 *a);
+void func_0203b6ac(u8 *a);
 void func_0203b0f8(void *a);
 void func_0203b194(void *a);
 void func_0203b1c8(void *a);
 void func_0203b1fc(void *a);
 void func_0203bfec(s32 *a);
-void func_0203ba84(u8 *param_1);
-void func_0203bc64(u8 *param_1);
 void func_0203be88(u8 *param_1, u32 param_2, u32 param_3);
 void func_0203bea4(u8 *param_1, u32 param_2, u32 param_3);
 u8 *func_0203bedc(void *param_1);
 void func_0203bec0(u8 *a);
+void func_0203b230(void);
+s32 func_0203b96c(s32 a);
+s32 func_0203b0a0(const u8 *a, const u8 *b);
+int func_0203b018(u32 a, void *b, u32 c);

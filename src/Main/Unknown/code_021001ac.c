@@ -126,8 +126,6 @@ void func_021003e8(Unk02101c84 *p, u32 sel, s32 v1) {
     }
 }
 
-// non-matching: the three v[] stores are emitted interleaved with their loads (original: ldr
-// p->0x70, 0x6c, 0x68 into r3, r2, r1, then `mov r0, #0x1b`, then the three stores).
 void func_021001ac(Unk02101c84 *p, s32 param_2, Unk020e6488 *q) {
     s32 a;
     s32 n;
@@ -135,6 +133,9 @@ void func_021001ac(Unk02101c84 *p, s32 param_2, Unk020e6488 *q) {
     s32 t;
     s16 d;
     s32 v[3];
+    s32 x;
+    s32 y;
+    s32 z;
     Unk020e6488 *r;
     s32 i;
     s32 b2;
@@ -145,9 +146,12 @@ void func_021001ac(Unk02101c84 *p, s32 param_2, Unk020e6488 *q) {
     a = 0x1e;
     func_01ff9048(0x14, &a, 1);
     func_01ff9048(0x19, func_020e6cf8(p->mUnk_000.mUnk_d0), 0xc);
-    v[0] = p->mUnk_000.mUnk_68.x;
-    v[1] = p->mUnk_000.mUnk_68.y;
-    v[2] = p->mUnk_000.mUnk_68.z;
+    z = p->mUnk_000.mUnk_68.z;
+    y = p->mUnk_000.mUnk_68.y;
+    x = p->mUnk_000.mUnk_68.x;
+    v[0] = x;
+    v[1] = y;
+    v[2] = z;
     func_01ff9048(0x1b, v, 3);
     if (p->mUnk_160 < 0xe && p->mUnk_13a >= 3) {
         r = func_020ed578(p->mUnk_160);

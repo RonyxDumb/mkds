@@ -2,10 +2,10 @@
 #include "code_0200c914.h"
 #include "code_0200e77c.h"
 #include "Main/Unknown/unk_02170000.h"
+#include "Main/Unknown/unk_00000000.h"
+#include "Main/Unknown/unk_00002000.h"
+#include "Main/Unknown/unk_02400000.h"
 
-// non-matching: 0xe8 bytes against 0x130. The original keeps the literals 0x2800 and 0xc00 as register values (tests
-// the first against 0 twice and subtracts both) and returns the case 2 constant from its own block without predication;
-// written with constants they are folded.
 u32 func_0200f038(u32 i) {
     u32 a;
     s32 n;
@@ -15,16 +15,16 @@ u32 func_0200f038(u32 i) {
         case 0:
             return 0x23e0000;
         case 2:
-            if (data_021701b8 != 0 && (func_0200e884() & 3) != 1) {
-                return 0x2700000;
+            if (data_021701b8 == 0 || (func_0200e884() & 3) == 1) {
+                return 0;
             }
-            return 0;
+            return 0x2700000;
         case 3:
             return 0x2000000;
         case 4:
             a = (u32) &data_027e0000;
-            n = 0x2800;
-            c = a + 0x3f80 - 0xc00;
+            c = a + 0x3f80 - (u32) data_00000c00;
+            n = (s32) data_00002800;
             if (n == 0) {
                 return a < 0x27e00e0 ? 0x27e00e0 : a;
             }
@@ -40,17 +40,15 @@ u32 func_0200f038(u32 i) {
     return 0;
 }
 
-// non-matching: 0xe4 bytes against 0xec; the original returns each arm of the case 2 test from its own block (the
-// constant is a literal pool load, nothing predicated), here the compiler predicates the second arm.
 u32 func_0200ef4c(u32 i) {
     switch (i) {
         case 0:
             return 0x21da300;
         case 2:
-            if (data_021701b8 != 0 && (func_0200e884() & 3) != 1) {
-                return 0x2400000;
+            if (data_021701b8 == 0 || (func_0200e884() & 3) == 1) {
+                return 0;
             }
-            return 0;
+            return (u32) data_02400000;
         case 3:
             return 0x1ffffa0;
         case 4:

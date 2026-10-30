@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-u32 func_021526a0(void) {
+u32 func_021526a0(const void *a) {
     int iVar1;
     iVar1 = func_02152a58();
     if (iVar1 != 0) {

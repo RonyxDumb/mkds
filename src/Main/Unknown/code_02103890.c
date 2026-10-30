@@ -307,9 +307,8 @@ u8 func_02104000(s32 a, s32 b) {
     return x;
 }
 
-// non-matching: 4 bytes longer (0x254 vs 0x250): mwcc strength-reduces the mUnk_00 word
-// store to a walking pointer (extra `mov` + post-increment) where the original indexes
-// an indexed word store; the rest pairs one instruction for one with other register names
+// non-matching: same size; 110 words differ from +0x10: registers (the original keeps data_0217561c in r5)
+// and the order of the first loads.
 void func_02103db0(s32 v1, volatile s32 param_2, s32 param_3) {
     Unk0217561c *b;
     Unk020f41c4_B *a;
@@ -355,7 +354,7 @@ void func_02103db0(s32 v1, volatile s32 param_2, s32 param_3) {
         f0 = q[i][0];
         q[i][0] = (f0 * s - f1 * c) >> 12;
         q[i][1] = (f0 * c + f1 * s) >> 12;
-        *(u32 *) &e->mUnk_00[i] = param_2;
+        *(u32 *) &e->mUnk_00[(u32) i] = param_2;
     }
     *(u32 *) &e->mUnk_20 = param_2;
     e->mUnk_24 = (void *) func_0210449c;
@@ -363,10 +362,11 @@ void func_02103db0(s32 v1, volatile s32 param_2, s32 param_3) {
     e->mUnk_28 = 0;
 }
 
-// non-matching: 12 bytes longer (0x4bc vs 0x4b0).  The two s16 values that the loop builds are kept in the
-// stack slots 0x4/0x6 here; the original keeps them in 0x8/0xa and holds the 0x1 m in 0x4,
-// so every ldrsh/strh that touches them addresses the stack 4 bytes lower.  The product
-// temporaries of the six u64 multiply-add blocks also land in different registers.
+// non-matching: 0x4c4 bytes against 0x4b0. The random scalings are written `((u64) ... * 0x1000) >> 32` (the
+// original's `lsl`/`orr` form; `>> 20` gives `lsr`/`orr`), which also puts the two s16 values at sp+0x8/0xa and m at
+// sp+0x4 as in the original. Left: the original reads the low word of a->mUnk_00 once for the scaling and the next
+// random step (here it is read again after the halfword store), and the product temporaries of the u64
+// multiply-add blocks are in other registers.
 void func_02103900(s32 v1, s32 n, s32 v2) {
     volatile s16 a8;
     volatile s16 a10;
@@ -401,21 +401,21 @@ void func_02103900(s32 v1, s32 n, s32 v2) {
     for (i = 0; i < 0x10 && j < n; i++) {
         if (data_0217c64c != 0) {
             a->mUnk_00 = a->mUnk_08 * a->mUnk_00 + a->mUnk_10;
-            a8 = (s16) ((u64) (u32) (a->mUnk_00 >> 32) >> 20) * 2;
+            a8 = (s16) (((u64) (u32) (a->mUnk_00 >> 32) * 0x1000) >> 32) * 2;
             a->mUnk_00 = a->mUnk_08 * a->mUnk_00 + a->mUnk_10;
             a10 = (s16) (((u64) (u32) (a->mUnk_00 >> 32) * 0xc00) >> 32) * 2;
         } else if (*(s32 *) data_0217c658 == 0) {
             a->mUnk_00 = a->mUnk_08 * a->mUnk_00 + a->mUnk_10;
-            a8 = (s16) ((u64) (u32) (a->mUnk_00 >> 32) >> 20);
+            a8 = (s16) (((u64) (u32) (a->mUnk_00 >> 32) * 0x1000) >> 32);
             a->mUnk_00 = a->mUnk_08 * a->mUnk_00 + a->mUnk_10;
-            a8 = a8 + (s16) ((u64) (u32) (a->mUnk_00 >> 32) >> 20);
+            a8 = a8 + (s16) (((u64) (u32) (a->mUnk_00 >> 32) * 0x1000) >> 32);
             a->mUnk_00 = a->mUnk_08 * a->mUnk_00 + a->mUnk_10;
             a10 = (s16) (((u64) (u32) (a->mUnk_00 >> 32) * 0xc00) >> 32);
             a->mUnk_00 = a->mUnk_08 * a->mUnk_00 + a->mUnk_10;
             a10 = a10 + (s16) (((u64) (u32) (a->mUnk_00 >> 32) * 0xc00) >> 32);
         } else {
             a->mUnk_00 = a->mUnk_08 * a->mUnk_00 + a->mUnk_10;
-            a8 = (s16) ((u64) (u32) (a->mUnk_00 >> 32) >> 19);
+            a8 = (s16) (((u64) (u32) (a->mUnk_00 >> 32) * 0x2000) >> 32);
             a->mUnk_00 = a->mUnk_08 * a->mUnk_00 + a->mUnk_10;
             a10 = (s16) (((u64) (u32) (a->mUnk_00 >> 32) * 0x1800) >> 32);
         }

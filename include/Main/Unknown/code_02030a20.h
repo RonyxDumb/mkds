@@ -1,0 +1,61 @@
+#pragma once
+
+#include "types.h"
+#include "Main/Unknown/code_02025ebc.h"
+#include "Main/Unknown/code_02124094.h"
+#include "Main/Unknown/code_020b3f7c.h"
+#include "Main/Unknown/code_020b4000.h"
+
+// 0x1c-byte elements from 0x24 of Unk02174e58; the buffer at 0x18 holds 0x40-byte elements.
+typedef struct Unk02174e58_24 {
+    /* 00 */ u8 mUnk_00[4];
+    /* 04 */ Unk020b4a44 *mUnk_04;
+    /* 08 */ void *mUnk_08;
+    /* 0c */ Unk0201ea30 *mUnk_0c;
+    /* 10 */ Unk0201ea30 *mUnk_10;
+    /* 14 */ Unk0201ea30 *mUnk_14;
+    /* 18 */ Unk02124b1c *mUnk_18;
+} Unk02174e58_24;
+
+// 0xc-byte elements from 0xe0 of Unk02174e58.
+typedef struct Unk02174e58_e0 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ u16 mUnk_08;
+    /* 0a */ u16 mUnk_0a;
+} Unk02174e58_e0;
+
+// Object behind data_02174e58, 0x154 bytes (func_0203154c allocates it).
+typedef struct Unk02174e58 {
+    /* 00 */ u8 mUnk_00[0x24];
+    /* 24 */ Unk02174e58_24 mUnk_24[2];
+    /* 5c */ void *mUnk_5c;
+    /* 60 */ void *mUnk_60;
+    /* 64 */ Unk020b3fb0 *mUnk_64;
+    /* 68 */ Unk020b3fb0 *mUnk_68;
+    /* 6c */ s32 mUnk_6c;
+    /* 70 */ s32 mUnk_70;
+    /* 74 */ s32 mUnk_74;
+    /* 78 */ s32 mUnk_78;
+    /* 7c */ s32 mUnk_7c;
+    /* 80 */ s32 mUnk_80;
+    /* 84 */ s32 mUnk_84;
+    /* 88 */ s32 mUnk_88;
+    /* 8c */ s32 mUnk_8c;
+    /* 90 */ s32 mUnk_90;
+    /* 94 */ s32 mUnk_94;
+    /* 98 */ s32 mUnk_98;
+    /* 9c */ s32 mUnk_9c;
+    /* a0 */ Unk02025ebc mUnk_a0;
+    /* b0 */ Unk02025ebc mUnk_b0;
+    /* c0 */ Unk02025ebc mUnk_c0;
+    /* d0 */ Unk02025ebc mUnk_d0;
+    /* e0 */ Unk02174e58_e0 mUnk_e0[8];
+    /* 140 */ s32 mUnk_140;
+    /* 144 */ s32 mUnk_144;
+    /* 148 */ s32 mUnk_148;
+    /* 14c */ s32 mUnk_14c;
+    /* 150 */ void *mUnk_150;
+} Unk02174e58;
+
+void func_02030a20(void);

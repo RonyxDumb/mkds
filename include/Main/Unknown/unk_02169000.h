@@ -7,4 +7,4 @@ extern Unk021691ec data_021691ec[];
 extern const s32 data_021696c0[10];
 
 // Objects whose layout isn't known yet.
-extern u8 data_02169780[];
+extern u32 data_02169780[];

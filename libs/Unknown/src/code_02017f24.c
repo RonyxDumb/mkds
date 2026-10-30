@@ -65,13 +65,11 @@ u32 func_02018174(Unk02018174 *a, u32 b, u32 c) {
     return s;
 }
 
-// non-matching: 0x14 bytes, original 0x18: the original keeps `add r2, r0, #0x24` and stores the zero through r2; here
-// the second store is folded into [r0, #0x2c].
 void func_0201815c(Unk02017f24 *a) {
     Unk02018174 *p;
 
     p = &a->mUnk_24;
-    a->mUnk_24.mUnk_00 = a->mUnk_00.mUnk_18;
+    p->mUnk_00 = a->mUnk_00.mUnk_18;
     p->mUnk_08 = 0;
 }
 

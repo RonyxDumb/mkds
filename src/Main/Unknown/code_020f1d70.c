@@ -9,9 +9,9 @@
 #include "Main/Unknown/code_02109000.h"
 #include "code_02147cd8.h"
 
-// non-matching: 33 instructions differ; first at +0x0: original `push {r4, r5, r6, r7, r8, lr}`, ours
-// `push {r4, r5, r6, r7, lr}`; the fifth argument of the else-branch call is materialised in ip instead of
-// r8, so 4 fewer bytes are reserved and e/f are read at [sp, #0x1c]/[sp, #0x20], not [sp, #0x24]/[sp, #0x28]
+// non-matching: 25 words differ from +0xf8 (push, frame and the stack arguments now as in the original): in the
+// three products after func_0214848c the original multiplies x and y first and loads z into the register y's
+// operand used (r8), and forms &a->mUnk_000.mUnk_5c after the three subtractions instead of before them
 void func_020f2b94(void *a0, void *b0, s32 c, s32 d, s32 e, s32 f) {
     Unk020f1d70 *a;
     Unk020eda5c *b;
@@ -40,9 +40,16 @@ void func_020f2b94(void *a0, void *b0, s32 c, s32 d, s32 e, s32 f) {
     }
     if (b->mUnk_010->mUnk_48 & 1) {
         n = func_0214848c((const Vec3 *) &b->mUnk_02c.mUnk_0c, &a->mUnk_000.mUnk_5c);
-        a->mUnk_000.mUnk_5c.x -= (s32) (((s64) b->mUnk_02c.mUnk_0c.x * n) >> 12);
-        a->mUnk_000.mUnk_5c.y -= (s32) (((s64) b->mUnk_02c.mUnk_0c.y * n) >> 12);
-        a->mUnk_000.mUnk_5c.z -= (s32) (((s64) b->mUnk_02c.mUnk_0c.z * n) >> 12);
+        {
+            s32 x, y, z;
+
+            x = (s32) (((s64) b->mUnk_02c.mUnk_0c.x * n) >> 12);
+            z = (s32) (((s64) b->mUnk_02c.mUnk_0c.z * n) >> 12);
+            y = (s32) (((s64) b->mUnk_02c.mUnk_0c.y * n) >> 12);
+            a->mUnk_000.mUnk_5c.x -= x;
+            a->mUnk_000.mUnk_5c.y -= y;
+            a->mUnk_000.mUnk_5c.z -= z;
+        }
         func_02147fd8(-0x1000, (const Vec3 *) &b->mUnk_02c.mUnk_0c, &a->mUnk_000.mUnk_5c, &a->mUnk_000.mUnk_5c);
     }
     if (a->mUnk_000.mUnk_68.z < 0xccd) {

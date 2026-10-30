@@ -127,8 +127,6 @@ static inline s32 func_0208181c_inline(s32 a, s32 b) {
     return (s32) (((s64) a * b + 0x800) >> 12);
 }
 
-// non-matching: same size; 2 words at +0xb8: the two s16 results go to r5 and r6 where the original has r6 and r5
-// (computing y before x gives the original registers but loads the data words in the other order)
 void func_0208181c(s32 a) {
     Unk0217ae7c *e = &data_0217ae7c[a];
     u16 i;
@@ -139,9 +137,9 @@ void func_0208181c(s32 a) {
     Vec3 v;
 
     q = func_0207a974(a);
-    x = (s16) func_0208181c_inline(data_0216593c + func_0208181c_inline(q->mUnk_2a0, data_02165950 - data_0216593c),
+    y = (s16) func_0208181c_inline(data_0216593c + func_0208181c_inline(q->mUnk_2a0, data_02165950 - data_0216593c),
                                    data_02165948);
-    y = (s16) func_0208181c_inline(data_02165944 + func_0208181c_inline(q->mUnk_2a0, data_0216594c - data_02165944),
+    x = (s16) func_0208181c_inline(data_02165944 + func_0208181c_inline(q->mUnk_2a0, data_0216594c - data_02165944),
                                    data_02165948);
     i = 0;
     do {

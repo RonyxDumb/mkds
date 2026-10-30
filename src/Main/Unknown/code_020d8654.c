@@ -62,12 +62,10 @@ void func_020d879c(Unk020e0144 *a, Vec3 *b) {
     b->z = b->z + (s32)(((s64)p->mUnk_00[3].z * t) >> 24);
 }
 
-// non-matching: the original computes k * 4 once before the loop and keeps it in a stack slot (stack 0x1c bytes, `ldr r0, [sp]; add r0, r1, r0` in the loop); here the loop uses `add r0, r0, r6, lsl #2` (stack 0x14 bytes)
 Vec3 *func_020d8654(Unk020fa294 *a) {
     u16 i;
     u16 k;
     u16 n;
-    s32 m;
     Vec3 *p;
     Vec3 v;
     Unk02042044 *e;
@@ -76,14 +74,13 @@ Vec3 *func_020d8654(Unk020fa294 *a) {
     k = a->mUnk_26;
     n = data_02175620->mUnk_08[k].mUnk_02;
     p = func_02036bec(func_020364e0(func_020364e8()), n * 12);
-    m = n - 1;
     for (i = 0; i < n; i++) {
-        if (i == m) {
-            if (data_02175620->mUnk_08[k].mUnk_00[1] == 0) {
+        if (i == n - 1) {
+            if (*(u8 *) ((u32) data_02175620->mUnk_08 + k * 4 + 1) == 0) {
                 continue;
             }
             e = func_02042044(k, 0);
-            f = func_02042044(k, (u16)m);
+            f = func_02042044(k, (u16) (n - 1));
             func_021484d0(&e->mUnk_00, &f->mUnk_00, &v);
         } else {
             e = func_02042044(k, (u16)(i + 1));

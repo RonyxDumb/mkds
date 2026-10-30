@@ -8,8 +8,6 @@
 #include "Main/Unknown/unk_02156000.h"
 #include "Main/Unknown/code_020d7000.h"
 
-// non-matching: 18 words differ from +0x5c to +0x90: the original stores 0x18, 0x14, 0x1c and 0x10 of the object first and
-// the negated words at 0x08 and 0x0c after the shifts' pool loads; the compiled stores are in another order and registers
 void func_020d4f94(Unk020d4f94 *p)
 {
     s32 buf[10];
@@ -19,19 +17,19 @@ void func_020d4f94(Unk020d4f94 *p)
     data_0217b4f8.mUnk_08.x = -data_0217b4f8.mUnk_08.x;
     data_0217b4f8.mUnk_08.y = -data_0217b4f8.mUnk_08.y;
     data_0217b4f8.mUnk_08.z = -data_0217b4f8.mUnk_08.z;
-    data_0217b4f8.mUnk_14.x = -buf[6];
-    data_0217b4f8.mUnk_14.y = -buf[7];
-    data_0217b4f8.mUnk_14.z = -buf[8];
     data_0217b4f8.mUnk_08.x = data_0217b4f8.mUnk_08.x << 4;
     data_0217b4f8.mUnk_08.y = data_0217b4f8.mUnk_08.y << 4;
     data_0217b4f8.mUnk_08.z = data_0217b4f8.mUnk_08.z << 4;
+    data_0217b4f8.mUnk_14.x = -buf[6];
+    data_0217b4f8.mUnk_14.y = -buf[7];
+    data_0217b4f8.mUnk_14.z = -buf[8];
     func_02146d78(&data_0217b550.mUnk_20, buf, &data_0217b4f8.mUnk_20);
     func_02146d78(&data_0217b550.mUnk_2c, buf, &data_0217b4f8.mUnk_2c);
     func_02146d78(&data_0217b550.mUnk_38, buf, &data_0217b4f8.mUnk_38);
     func_02146d78(&data_0217b550.mUnk_44, buf, &data_0217b4f8.mUnk_44);
     if (data_0217b4f8.mUnk_50 != 0) {
-        data_0217b4f8.mUnk_54 = 1;
         data_0217b4f8.mUnk_50 = 0;
+        data_0217b4f8.mUnk_54 = 1;
     } else {
         data_0217b4f8.mUnk_54 = 0;
     }

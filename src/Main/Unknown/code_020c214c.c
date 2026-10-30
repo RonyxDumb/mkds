@@ -259,7 +259,6 @@ void func_020c2304(Unk020c06c4 *a, s32 b, s32 c, s32 d) {
     a->mUnk_400 += func_020224e0((Unk020224e0_o *) &a->mUnk_000.mUnk_00[a->mUnk_400], 0x80 - a->mUnk_400, m, 0, e3, 0, 1);
 }
 
-// non-matching: 9 words, all register numbers in the first two loops: the original keeps the loop variable in r6, the word read from mUnk_70 in r8 and the negated word in r7
 void func_020c214c(Unk020c06c4 *a) {
     s32 c[2];
     s32 t1[2] = { 0xa, 0x89 };
@@ -267,32 +266,31 @@ void func_020c214c(Unk020c06c4 *a) {
     s32 d;
     s32 k;
     u16 i;
-    u16 j;
     s32 f;
     s32 v;
     Unk0217aa1c_144 *s;
 
     d = data_0217b3e0->mUnk_00a0;
-    for (j = 0; j < 2; j++) {
-        c[j] = 0;
+    for (i = 0; i < 2; i++) {
+        c[i] = 0;
     }
     for (i = 0; (u32) i < (u32) data_021759c0->mUnk_3d0; i++) {
         k = data_021759c0->mUnk_70[i].mUnk_04;
         func_020c2570(a, i, t1[k] + (k == 0 ? -d : d), c[k] * 0x17 + 0x11);
         c[k]++;
     }
-    for (j = 0; j < 2; j++) {
+    for (i = 0; i < 2; i++) {
         f = 1;
         if (!(data_021759c0->mUnk_1c == 1 || data_021759c0->mUnk_08 == 2)) {
             f = 0;
         }
         if (f != 0) {
             s = &data_0217aa1c->mUnk_144[func_0205db28()];
-            v = s->mUnk_00[j].mUnk_02;
+            v = s->mUnk_00[i].mUnk_02;
         } else {
             s = &data_0217aa1c->mUnk_144[func_0205db28()];
-            v = s->mUnk_00[j].mUnk_00;
+            v = s->mUnk_00[i].mUnk_00;
         }
-        func_020c2304(a, v, t2[j] + (j == 0 ? -d : d), 0xb6);
+        func_020c2304(a, v, t2[i] + (i == 0 ? -d : d), 0xb6);
     }
 }

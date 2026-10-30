@@ -25,17 +25,14 @@
 #pragma thumb on
 #pragma optimize_for_size on
 
-// non-matching: the argument test is `adds r3, r0, #0; cmp r3, #0` in the
-// original; the compiled code compares r0 directly, so the copy of the first
-// argument is missing and every later word shifts (8 words).
 void *func_020ed548(u8 *a) {
     u8 buf[0x100];
 
     if (a == 0) {
         return 0;
     }
-    func_02135048((char *) buf, 0x100, (const char *) data_0216c604);
-    func_02047b08((const char *) buf);
+    func_02135048((char *) buf, 0x100, (const char *) data_0216c604, a);
+    return func_02047b08((const char *) buf);
 }
 
 Unk020e6488 *func_020ed4d0(u8 *a, u8 *b, u8 *c) {
@@ -67,11 +64,8 @@ void *func_020ed490(u8 *a, u8 *b) {
     return p;
 }
 
-// non-matching: the loops walk the two tables with a pointer that is advanced
-// each iteration, where the original scales the counter for every load and
-// store (0x18c bytes against 0x198).
 void func_020ed2f8(void) {
-    s32 i;
+    enum { K0 } i;
     void *p;
     s32 f;
 
@@ -94,7 +88,7 @@ void func_020ed2f8(void) {
     data_0217bbfc[12] = func_020ed4d0(data_0216c5bc, 0, data_0216c5d0);
     data_0217bbfc[13] = func_020ed4d0(data_0216c5e4, 0, data_0216c5f4);
     data_0217bbfc[8] = data_0217bbfc[7];
-    f = (*(s32 *) data_021759c0->mUnk_00 == 0x1d);
+    f = (data_021759c0->mUnk_00 == 0x1d);
     i = 0;
     while (i < 0xe) {
         p = &data_0217bc34[i];
@@ -111,21 +105,11 @@ void func_020ed2f8(void) {
 #pragma optimize_for_size off
 #pragma thumb off
 
-// non-matching: the two field loads [r1,#0x1f0] and [r1,#0x1f4] are issued in
-// the opposite order (the compiled code loads 0x1f4 first).
 void func_020ed268(Unk020ec8bc *p, Unk020eda5c *q, s32 a, s32 b, s32 c, s32 d, s32 e, s32 f, u16 g, s32 h) {
-    Unk020ee684 *n;
-    Unk020f371c *v1;
-    s32 v2;
-
     func_020f2b94(p, q, (e == 0) ? -1 : 0, c, d, f);
     p->mUnk_214 = a;
     p->mUnk_218 = b;
-    n = q->mUnk_00c;
-    v1 = n->mUnk_1f0.mUnk_00;
-    v2 = n->mUnk_1f0.mUnk_04;
-    p->mUnk_21c.mUnk_00 = v1;
-    p->mUnk_21c.mUnk_04 = v2;
+    p->mUnk_21c = q->mUnk_00c->mUnk_1f0;
     func_020f371c(&p->mUnk_21c, &p->mUnk_168, g, h);
     p->mUnk_224 = 0;
 }

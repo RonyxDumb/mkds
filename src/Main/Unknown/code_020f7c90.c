@@ -137,9 +137,6 @@ u8 func_020f7ea8(void *param_1, void *param_2) {
     return (data_02159b78 + p->mUnk_44 * 0xe)[q->mUnk_44];
 }
 
-// non-matching: 15 words from +0x12c: the original reads q->mUnk_00 before adding q's address to
-// the pool word, makes the 64-bit shift's or put (high >> 16) into the accumulator that the
-// shifted word is or-ed into, and loads data_0215d4b4 after the shift.
 void func_020f7c90(Unk020f41c4_A *param_1, Vec3 *param_2, Vec3 *param_3) {
     Unk020f41c4_B *q;
     s64 d;
@@ -169,7 +166,7 @@ void func_020f7c90(Unk020f41c4_A *param_1, Vec3 *param_2, Vec3 *param_3) {
     }
     q = &data_0217561c->mUnk_47c;
     q->mUnk_00 = q->mUnk_08 * q->mUnk_00 + q->mUnk_10;
-    i = (u16) ((u64) (u32) (q->mUnk_00 >> 32) >> 16) >> 4;
+    i = (u16) ((((u64) (u32) (q->mUnk_00 >> 32) * 0x10000) >> 32)) >> 4;
     param_1->mUnk_108.z = data_0215d4b4[i * 2 + 1];
     param_1->mUnk_108.x = data_0215d4b4[i * 2];
     param_1->mUnk_5c.z = (s32) (((s64) param_1->mUnk_108.z * 0x14cd) >> 12);

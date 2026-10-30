@@ -50,7 +50,7 @@ void func_0210e920(void);
 void func_0210e8f8(u32 a);
 void func_0210e888(Unk0210e524 a, u32 b);
 u32 func_0210e680(void);
-void func_0210e5e4(u32 a, u32 b);
+u32 func_0210e5e4(u32 a, u32 b);
 u32 func_0210e524(void);
 u32 func_0210e50c(s32 a);
 void func_0210e4ec(Unk0217c7b4 *p);

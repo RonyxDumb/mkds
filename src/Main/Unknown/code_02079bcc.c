@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02079bcc.h"
 
-u32 func_02079bf0(u32 arg0) {
+Unk02079bf0 *func_02079bf0(u32 arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value2;
@@ -9,10 +9,10 @@ u32 func_02079bf0(u32 arg0) {
     value2 = (u32) * (const u32 *) ((value2) + (0));
     value2 = (u32) * (const u32 *) ((value2) + (0));
     value0 = (value1) * (value0) + (value2);
-    return (u32) value0;
+    return (Unk02079bf0 *) value0;
 }
 
-u32 func_02079bcc(u32 arg0) {
+void *func_02079bcc(u32 arg0) {
     u32 value0 = (u32) arg0;
     u32 value1;
     u32 value2;
@@ -23,5 +23,5 @@ u32 func_02079bcc(u32 arg0) {
     value1 = (value0) * (value1) + (value2);
     value0 = (u32) * (const u32 *) ((value1) + (20));
     value0 = (u32) * (const u32 *) ((value0) + (4));
-    return (u32) value0;
+    return (void *) value0;
 }

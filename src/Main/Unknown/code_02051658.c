@@ -135,9 +135,6 @@ void func_020525a8(Unk0217aa00_0ac *a, Unk0217aa00_24 *b, Unk0217aa00_42c *c, Un
     }
 }
 
-// non-matching: same size; 11 words at +0x150: the original computes the address of the 0x50 member in r2 and, after
-// the test of its byte 7, the 0x0e and 0x36 member addresses with two adds; this source computes the 0x0e address
-// before the test (inside the block the two adds fold into one), so the 0x50 address is in r3.
 void func_02052288(Unk0217aa00_24 *a, Unk0217aa00_42c *b, Unk0217aa00_24_50 *c) {
     Unk0217aa00_24_50_0e_36 *x;
     s32 i;
@@ -193,8 +190,8 @@ void func_02052288(Unk0217aa00_24 *a, Unk0217aa00_42c *b, Unk0217aa00_24_50 *c) 
             goto end;
         }
         t = &a->mUnk_50;
-        u = &t->mUnk_0e;
         if (t->mUnk_07 == 5) {
+            u = (void *) &t->mUnk_0e;
             x = &u->mUnk_36;
             v = -(k != 0);
             func_0214d1fc(a, f, 0xc0);

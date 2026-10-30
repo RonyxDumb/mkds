@@ -68,14 +68,16 @@ void func_020ea37c(void) {
     data_0217b960.y += data_0217b8d4;
 }
 
-// non-matching: the original computes the y term of v before the x term and keeps param_3[0] in r4 across
-// +0xac..+0x104; here the x term is scheduled first and param_3[0] is reloaded (one extra word)
+// non-matching: same size; the original loads param_2->y and param_3->x first, then the table values, param_3->y and
+// param_2->x, and computes the y term first; here the y-term loads come first in another order (24 words)
 void func_020ea1d4(Vec3 *param_1, const Vec3 *param_2, const Vec3 *param_3) {
     Vec3 v;
     Vec3 w;
     s32 i;
     s32 c;
     s32 s;
+    s32 a;
+    s32 b;
 
     if (func_020d849c(&data_0217bb88.mUnk_00) != 0) {
         do {
@@ -92,10 +94,10 @@ void func_020ea1d4(Vec3 *param_1, const Vec3 *param_2, const Vec3 *param_3) {
     i = data_0217b878 >> 4;
     c = data_0215d4b4[i * 2];
     s = data_0215d4b4[i * 2 + 1];
-    v.x = (s32) (((s64) v.x * (param_3->x + (s32) (((s64) (param_2->x - param_3->x) * ((s + 0x1000) >> 2)) >> 12))) >>
-                 12);
-    v.y = (s32) (((s64) v.y * (param_3->y + (s32) (((s64) (param_2->y - param_3->y) * ((c + 0x1000) >> 2)) >> 12))) >>
-                 12);
+    a = param_3->y + (s32) (((s64) (param_2->y - param_3->y) * ((c + 0x1000) >> 2)) >> 12);
+    b = param_3->x + (s32) (((s64) (param_2->x - param_3->x) * ((s + 0x1000) >> 2)) >> 12);
+    v.x = (s32) (((s64) v.x * b) >> 12);
+    v.y = (s32) (((s64) v.y * a) >> 12);
     v.z = 0;
     func_02148504(&v, param_1, &v);
     w = v;
@@ -220,13 +222,13 @@ void func_020e9d10(void) {
     data_0217b8c4 = 0;
 }
 
-// non-matching: the halfword lookups at +0x24c..+0x288: the original computes data_0217b8e0[data_0217b8e8] into ip and
-// data_0217b904[data_0217b8e8] before storing z, x, y; here x is computed and stored first (z, y, x)
 void func_020e9810(void) {
     s32 a, b, c, d, e, f, g, h;
     s32 m[9];
     Vec3 v0, v1, v2, v3, v4, v5, v6;
     s32 n;
+    s32 x;
+    s32 y;
     Unk020e9810 *p5;
     Unk020e6488 *p4;
 
@@ -292,8 +294,10 @@ void func_020e9810(void) {
     v2.z = 0x1666;
     func_01ff9048(0x1b, &v2, 3);
     func_01ff9048(0x11, 0, 0);
-    v3.x = data_0217b904[data_0217b8e8];
-    v3.y = data_0217b8e0[data_0217b8e8];
+    x = data_0217b904[data_0217b8e8];
+    y = data_0217b8e0[data_0217b8e8];
+    v3.x = x;
+    v3.y = y;
     v3.z = 0;
     func_01ff9048(0x1b, &v3, 3);
     func_020e6a18(&data_0217ba00);
@@ -390,9 +394,18 @@ void func_020e9658(void) {
     data_0217ba58.mUnk_24.z = -data_0217ba58.mUnk_24.z;
 }
 
-// non-matching: the two x min/max statements reload t.x and hi.x in the original (3 loads); the 0x29/0x19a products use
-// the pair r5:r4 with the sign in r3 (here r4:r3 with the sign in r5); the u.z/u.x zero stores follow the data_0217b930
-// stores in the original; and the reset branch loads the data_0217b948 address one statement earlier
+static inline void func_020e8ac8_inline(Vec3 *o, const Vec3 *a, const Vec3 *b) {
+    o->x = a->x < b->x ? a->x : b->x;
+    o->y = a->y < b->y ? a->y : b->y;
+    o->z = a->z < b->z ? a->z : b->z;
+}
+
+static inline void func_020e8ac8_inline_2(Vec3 *o, const Vec3 *a, const Vec3 *b) {
+    o->x = a->x > b->x ? a->x : b->x;
+    o->y = a->y > b->y ? a->y : b->y;
+    o->z = a->z > b->z ? a->z : b->z;
+}
+
 void func_020e8ac8(void) {
     s64 sq;
     s32 dz;
@@ -415,9 +428,9 @@ void func_020e8ac8(void) {
         data_0217b88c = 0;
         data_0217b8cc = 0;
         data_0217b8ec = 0;
+        data_0217b948 = data_0217b930;
         data_0217b8f0 = 1;
         data_0217b8bc = 1;
-        data_0217b948 = data_0217b930;
         data_0217b894 = 0;
     } else {
         void *p;
@@ -465,23 +478,15 @@ void func_020e8ac8(void) {
                     Unk020e71a0 *q = data_0217b5c4[i];
 
                     if ((q->mUnk_02 & 0x40) == 0 && func_020d3e34(&data_0217b93c, 0x12000, q, &t) != 0) {
-                        lo.x = t.x < lo.x ? t.x : lo.x;
-                        lo.y = t.y < lo.y ? t.y : lo.y;
-                        lo.z = t.z < lo.z ? t.z : lo.z;
-                        hi.x = t.x > hi.x ? t.x : hi.x;
-                        hi.y = t.y > hi.y ? t.y : hi.y;
-                        hi.z = t.z > hi.z ? t.z : hi.z;
+                        func_020e8ac8_inline(&lo, &t, &lo);
+                        func_020e8ac8_inline_2(&hi, &t, &hi);
                         f = 1;
                     }
                 }
                 if (func_01ffdee4((int *) &data_0217b93c, p, 0, 0x12000, 4, -1, (int *) &t, 0, 0,
                                   (u32 *) &data_0217b8fc, 0, 0, 0, 0) != 0) {
-                    lo.x = t.x < lo.x ? t.x : lo.x;
-                    lo.y = t.y < lo.y ? t.y : lo.y;
-                    lo.z = t.z < lo.z ? t.z : lo.z;
-                    hi.x = t.x > hi.x ? t.x : hi.x;
-                    hi.y = t.y > hi.y ? t.y : hi.y;
-                    hi.z = t.z > hi.z ? t.z : hi.z;
+                    func_020e8ac8_inline(&lo, &t, &lo);
+                    func_020e8ac8_inline_2(&hi, &t, &hi);
                     f = 1;
                 }
             }
@@ -504,8 +509,8 @@ void func_020e8ac8(void) {
                 data_0217b870 = 0;
             }
             data_0217b90c.x = data_0217b930.x + data_0217b870 * (s32) (((s64) data_0217b8c8->mUnk_a4.x * 0x5000) >> 12);
-            data_0217b90c.y = data_0217b930.y;
             data_0217b90c.z = data_0217b930.z + data_0217b870 * (s32) (((s64) data_0217b8c8->mUnk_a4.z * 0x5000) >> 12);
+            data_0217b90c.y = data_0217b930.y;
             if (func_01ffdee4((int *) &data_0217b90c, 0, 0, 0x18e66, 0x10, -1, 0, 0, (int *) &v, 0, 0, 0, 0, 0) != 0) {
                 w = data_0217b8c8->mUnk_2a8;
                 if (w <= 0) {
@@ -519,23 +524,23 @@ void func_020e8ac8(void) {
                 data_0217b908 += 0xc;
                 data_0217b870 = 0xc;
             }
-        }
-        w = data_0217b8b8 - (s32) (((s64) data_0217b88c * 0x29) >> 12);
-        data_0217b8b8 = w;
-        if ((s64) data_0217b88c * w < 0) {
-            data_0217b8b8 = w - (s32) (((s64) w * 0x19a) >> 12);
-        }
-        data_0217b88c += data_0217b8b8;
-        if (data_0217b8bc == 0) {
-            data_0217b8cc += 0xcd;
-            data_0217b8ec += data_0217b8cc;
-        } else {
-            if (data_0217b8ec <= 0) {
-                data_0217b8ec = 0;
-                data_0217b8cc = 0;
+            w = data_0217b8b8 - (s32) (((s64) data_0217b88c * 0x29) >> 12);
+            data_0217b8b8 = w;
+            if (data_0217b88c * (s64) w < 0) {
+                data_0217b8b8 = w - (s32) (((s64) w * 0x19a) >> 12);
+            }
+            data_0217b88c += data_0217b8b8;
+            if (data_0217b8bc == 0) {
+                data_0217b8cc += 0xcd;
+                data_0217b8ec += data_0217b8cc;
             } else {
-                data_0217b8ec -= data_0217b8cc;
-                data_0217b8cc -= 0xcd;
+                if (data_0217b8ec <= 0) {
+                    data_0217b8ec = 0;
+                    data_0217b8cc = 0;
+                } else {
+                    data_0217b8ec -= data_0217b8cc;
+                    data_0217b8cc -= 0xcd;
+                }
             }
         }
         data_0217b99c = data_0217b930;
@@ -543,10 +548,10 @@ void func_020e8ac8(void) {
             data_0217b8ac = 0;
         }
         if (data_0217b900 != 0 && data_0217b8ac != 0) {
-            t.y = data_0217b9c0.y - data_0217b930.y;
             data_0217b930.x = data_0217b9c0.x;
             data_0217b930.z = data_0217b9c0.z;
             u.x = u.z = 0;
+            t.y = data_0217b9c0.y - data_0217b930.y;
             t.y = t.y + data_0217b8ec;
         } else {
             data_0217b908 -= 0x29;

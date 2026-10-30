@@ -2,5 +2,4 @@
 
 #include "types.h"
 
-// Declared here until the code that defines them is decompiled.
-void func_02007cf8();
+#include "Main/Unknown/code_02007624.h"

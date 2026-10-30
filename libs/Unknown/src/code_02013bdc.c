@@ -182,8 +182,9 @@ half:
     return (x + y) >> 1;
 }
 
-// non-matching: the original uses mla and needs no frame (0x10c bytes); this version uses smlabb and saves lr (0x134
-// bytes).
+// non-matching: 0x134 bytes against 0x10c. The two multiplies are mla as in the original (`(s32) x * 3`: without the
+// cast a halfword value times 3 gives smlabb); the index values sit in other registers (k in r1 where the original has
+// r2), so this version saves lr and keeps a frame.
 u32 func_02015994(const void *a, u32 b, u32 c, u32 d) {
     const u8 *p;
     u32 n;
@@ -230,7 +231,7 @@ u32 func_02015994(const void *a, u32 b, u32 c, u32 d) {
                 y = ((const Unk0201456c_16 *) p)[d].mUnk_00;
                 u = ((const Unk0201456c_16 *) p + k)->mUnk_02;
                 v = ((const Unk0201456c_16 *) p + d)->mUnk_02;
-                return ((x * 3 + y) >> 2 & 0xffff) | ((u * 3 + v) >> 2 << 16);
+                return (((s32) x * 3 + y) >> 2 & 0xffff) | (((s32) u * 3 + v) >> 2 << 16);
             }
             k = d >> 2;
             goto half;

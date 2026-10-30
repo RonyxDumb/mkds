@@ -32,18 +32,16 @@
 #include "code_020222ec.h"
 #include "code_02148538.h"
 
-// non-matching: same instructions and registers; only the stack offsets of two locals differ: a is at 0x14 and nn
-// at 0x4, where the original has a at 0x4 and nn at 0x14 (7 words)
 void func_020ca074(void)
 {
     enum { K0 } t;
     s32 n;
-    u32 a;
-    s32 v1;
+    s32 a;
     s32 k;
     s32 j;
     Unk027e00cc *e;
-    Unk020f41c4_A **v2;
+    Unk020f41c4_A **v1;
+    s32 v2;
     Unk020224e0_c *c;
     Unk020f41c4_A *p;
     Vec3 *q;
@@ -54,15 +52,15 @@ void func_020ca074(void)
     for (k = 0; k < 10; k++) {
         t = data_021696c0[k];
         e = &data_027e00cc[t];
-        v2 = e->mUnk_04;
-        v1 = e->mUnk_14;
+        v1 = e->mUnk_04;
+        v2 = e->mUnk_14;
         {
             s32 v3[10] = {0x4c, 0x4d, 0x4b, 0x4f, 0x50, 0x56, 0x55, 0x54, 0x4e, 0x57};
 
             c = func_020b83dc(v3[k]);
         }
-        for (j = 0; j < v1; j++) {
-            p = v2[j];
+        for (j = 0; j < v2; j++) {
+            p = v1[j];
             if ((p->mUnk_74 & 0x80000) != 0) {
                 q = 0;
             } else {
@@ -290,12 +288,12 @@ void func_020c97c0(void)
     func_020ae770(data_0217b428->mUnk_130, v1, data_021759c0->mUnk_3d0);
 }
 
-// non-matching: same control flow and calls, but registers, spill offsets and the stack area differ (0xb4 bytes against
-// 0xcc, 0x9e0 bytes of code against 0xa04); the original keeps the outer loop value and the second value in callee-saved
+// non-matching: same control flow and calls, but registers, spill offsets and the stack area differ (0xc4 bytes against
+// 0xcc, 0x9e8 bytes of code against 0xa04); the original keeps the outer loop value and the second value in callee-saved
 // registers
 void func_020c8dbc(Unk020c06c4 *p)
 {
-    s32 v1;
+    s32 v4;
     s32 i;
     s32 f;
     s32 e;
@@ -310,7 +308,7 @@ void func_020c8dbc(Unk020c06c4 *p)
     s32 m;
     s32 x;
     s32 v3;
-    s32 v4;
+    s32 v1;
     u16 v5;
     s32 a;
     s32 v6;

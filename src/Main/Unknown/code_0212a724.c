@@ -16,7 +16,6 @@ s32 func_0212a8d0(void) {
 }
 
 #pragma thumb on
-// non-matching: the byte pointer for the 0x18-byte rows is in r4 and the second loop's counter in r5; the original has them swapped
 void func_0212a724(void) {
     s32 a[2] = {0x4000, 0x4000};
     u8 b[2][2][2] = {{{0x50, 0x10}, {0x50, 0x10}}, {{0x50, 0x10}, {0x50, 0x10}}};
@@ -24,7 +23,6 @@ void func_0212a724(void) {
                       {{16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}}};
     s32 i;
     s32 j;
-    s32 k;
     s32 l;
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
@@ -35,10 +33,10 @@ void func_0212a724(void) {
     }
     for (j = 0; j < 2; j++) {
         for (l = 0; l < 2; l++) {
-            for (k = 0; k < data_0215d0e0[j]; k++) {
-                a[l] -= func_021243ac(data_0217d400->mUnk_00, data_0215d134[j][k], data_0217d400->mUnk_ac[j], c[j][k][0], c[j][k][1],
-                                      data_0215d14c[j][k], data_0217d400->mUnk_90, data_0217d400->mUnk_9c[j],
-                                      data_0217d400->mUnk_74[j][l], a[l]);
+            for (i = 0; i < data_0215d0e0[j]; i++) {
+                a[l] -= func_021243ac(data_0217d400->mUnk_00, data_0215d134[j][i], data_0217d400->mUnk_ac[j],
+                                      c[j][i][0], c[j][i][1], data_0215d14c[j][i], data_0217d400->mUnk_90,
+                                      data_0217d400->mUnk_9c[j], data_0217d400->mUnk_74[j][l], a[l]);
             }
         }
     }

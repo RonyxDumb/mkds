@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_02053e74.h"
-#include "Main/Unknown/code_02006000.h"
+#include "Main/Unknown/code_02006f14.h"
 #include "Main/Unknown/code_02036000.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_0204e000.h"
@@ -446,9 +446,9 @@ void func_02054208(Unk0217aa00_15bc *a) {
     data_0217aa00->mUnk_0454 &= ~0x10;
 }
 
-// non-matching: same size; register allocation only; 20 words differ; first: original `ldr r1, [ip]`, ours `ldr r0,
-// [ip]`. In the loop over the four 0xe0-byte entries the original keeps the counter in r0, the offset in r1 and its two
-// zero values in r2 and r4, with the inner counter in r3.
+// non-matching: same size; register allocation only; 14 words differ; first: original `ldr r3, [r1, #0x7c]`, ours
+// `ldr r2, [r1, #0x7c]`. In the loop over the four 0xe0-byte entries the original keeps the j * 0xe0 offset in r1 and
+// the inner counter in r3, ours the other way round.
 void func_02053fa8(void) {
     u8 *q;
     s32 i;
@@ -474,12 +474,12 @@ void func_02053fa8(void) {
     func_0214d1fc(data_0217aa08->mUnk_00->mUnk_0c, data_0217aa00->mUnk_0044.mUnk_38, 0x14);
     data_0217aa00->mUnk_0044.mUnk_38->mUnk_0e.mUnk_06_4 = (u8) data_021759d0->mUnk_04;
     data_0217aa00->mUnk_0044.mUnk_38->mUnk_0e.mUnk_06_0 = 0;
-    for (i = 0; i < 4; i++) {
-        data_0217aa00->mUnk_00ac[i].mUnk_dc_0 = 0;
-        data_0217aa00->mUnk_00ac[i].mUnk_db = 0;
-        q = data_0217aa00->mUnk_00ac[i].mUnk_c0;
-        for (j = 0; j < 6; j++) {
-            q[j] = 0;
+    for (j = 0; j < 4; j++) {
+        data_0217aa00->mUnk_00ac[j].mUnk_dc_0 = 0;
+        data_0217aa00->mUnk_00ac[j].mUnk_db = 0;
+        q = data_0217aa00->mUnk_00ac[j].mUnk_c0;
+        for (i = 0; i < 6; i++) {
+            q[i] = 0;
         }
     }
     data_0217aa00->mUnk_0432 = 0xffff;

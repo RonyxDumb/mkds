@@ -7,5 +7,5 @@
 #include "Main/Unknown/code_020adddc.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-void func_020871a4(int param_1, u32 param_2);
-void func_020871c0(int param_1, u32 param_2);
+void func_020871a4(Unk02086098 *param_1, u32 param_2);
+void func_020871c0(Unk02086098 *param_1, u32 param_2);

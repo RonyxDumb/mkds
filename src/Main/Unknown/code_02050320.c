@@ -413,7 +413,7 @@ void func_0205081c(u32 a, Unk0205081c *b) {
                     func_020559ec(b->mUnk_02, b->mUnk_16, b->mUnk_17);
                     break;
                 case 0xa:
-                    func_020597d0((s32) b->mUnk_02, (u8) a, b->mUnk_16, b->mUnk_17);
+                    func_020597d0(b->mUnk_02, (u8) a, b->mUnk_16, b->mUnk_17);
                     break;
             }
             break;

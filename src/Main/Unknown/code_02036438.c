@@ -9,7 +9,7 @@ void func_02036438(void *heap) {
     uVar1 = (u32) func_02036948(heap);
     iVar2 = ((u32) func_02036bec((void *) (uVar1), (u32) (((u32) 0x00000654u))));
     *(int *) &data_02174e6c = iVar2;
-    func_02036264((u32) (iVar2), (u32) (((u32) 0x00000654u)));
+    func_02036264((void *) (iVar2), (u32) (((u32) 0x00000654u)));
     *(u32 *) ((*(int *) &data_02174e6c) + ((int) 0x00000650u)) = uVar1;
     func_020364a8((int) (0), (int) (0), (int) (0x10), (int) (0), (int) (0));
     iVar2 = ((u32) func_020d1630());

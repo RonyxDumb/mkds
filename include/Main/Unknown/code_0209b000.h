@@ -4,16 +4,21 @@
 
 #include "types.h"
 #include "01/code_02181c3c.h"
+#include "Main/Unknown/code_0209bc74.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_0209b77c(int param_1, int param_2);
+void func_0209b77c(void *a, u16 b);
+void func_0209ba58(void *a, void *b, void *c);
 void func_0209ba88(u32 param_1, int param_2, int param_3);
 #include "Main/Unknown/code_0209bc5c.h"
 void func_0209bb2c(void *param_1, void *param_2, void *param_3);
-// Object returned by func_0209bf70; the code writes the word at 0x28.
+// Object returned by func_0209bf70; the code writes the words at 0x28, 0x38 and 0x3c.
 typedef struct Unk0209bf70 {
     /* 00 */ u8 mUnk_00[0x28];
     /* 28 */ s32 mUnk_28;
+    /* 2c */ u8 mUnk_2c[0xc];
+    /* 38 */ s32 mUnk_38;
+    /* 3c */ s32 mUnk_3c;
 } Unk0209bf70;
 
 Unk0209bf70 *func_0209bf70(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
@@ -27,6 +32,8 @@ void func_0209b8ac(void *param_1, u32 param_2);
 void func_0209b9a4(void *param_1, u16 param_2);
 void func_0209bbd0(void *param_1, void *param_2);
 u16 func_0209b634(void *param_1);
+u16 func_0209b758(void *a);
+void func_0209be50(Unk0209bc74 *a, const char *b);
 void func_0209b904(void *param_1, u32 param_2, u16 param_3);
 void func_0209b7a0(void *param_1, s32 param_2, s32 param_3);
 void *func_0209bbfc(void *param_1);
@@ -34,3 +41,8 @@ void *func_0209be84(void *a, const char *b);
 void *func_0209bfe0(s32 a);
 void *func_0209bc74(void *a, const char *b, const char *c);
 void *func_0209bd08(void *a, const char *b);
+void *func_0209bd90(void *a, const char *b);
+void func_0209bde8(Unk0209bc74 *a, const char *b);
+u16 func_0209b6ec(void *a);
+void func_0209b6c8(void *a, s32 b);
+void func_0209be1c(Unk0209bc74 *a, const char *b);

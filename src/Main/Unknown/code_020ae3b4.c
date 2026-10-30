@@ -11,7 +11,7 @@ u32 func_020ae3b4(u32 param_1) {
     } else {
         uVar2 = ((int) func_020ae3d8());
     }
-    return func_02046524((int *) ((int *) (u32) (uVar2)), (u32) (param_1));
+    return func_02046524((Unk020f41c4_B *) (u32) (uVar2), (u32) (param_1));
 }
 
 #pragma thumb off

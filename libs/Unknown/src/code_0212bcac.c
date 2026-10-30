@@ -272,7 +272,7 @@ void func_0212bd10(Unk0212c700 *p) {
     func_02017354(&data_0217d89c[p->mUnk_10].mUnk_0c, p);
 }
 
-void func_0212bcac(Unk0212c400 *p, u8 b) {
+void func_0212bcac(Unk0212c400 *p, u32 b) {
     Unk0212c7a0 *e = p->mUnk_04;
 
     if (e != 0) {

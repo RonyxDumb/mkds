@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-void func_020577b4(u32 param_1) {
+void func_020577b4(void *param_1) {
     u32 *puVar1;
     puVar1 = *(u32 **) ((*(int *) &data_021759d4) + 0x60);
     if (*(int *) ((*(int *) &data_021759d4) + 0xc) != 0) {

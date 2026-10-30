@@ -5,23 +5,21 @@
 void *func_02047974(const char *param_1) {
     int iVar1;
     iVar1 = func_02047b30((u32) (*(u32 *) (((u32) (u32) ((unsigned char *) &data_02164e04)) + 0xc)),
-                          (s8 *) ((s8 *) (u32) (param_1)));
+                          param_1);
     if (iVar1 == 0) {
         iVar1 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x34)),
-                              (s8 *) ((s8 *) (u32) (param_1)));
+                              param_1);
     }
     return (void *) iVar1;
 }
 
-void func_02047950(u32 param_1) {
+void *func_02047950(const char *param_1) {
     int iVar1;
     iVar1 = func_0205e0a0();
     if (iVar1 == 3) {
-        func_020478bc((u32) (param_1));
-        return;
+        return (void *) func_020478bc((u32) param_1);
     }
-    func_02047780((s8 *) ((s8 *) (u32) (param_1)));
-    return;
+    return (void *) func_02047780((s8 *) param_1);
 }
 
 int func_020478bc(u32 param_1) {
@@ -31,19 +29,19 @@ int func_020478bc(u32 param_1) {
     iVar1 = func_0205e0a0();
     if (((iVar1 == 1) || (iVar1 == 3)) || (iVar1 == 0xc)) {
         iVar2 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x28)),
-                              (s8 *) ((s8 *) (u32) (param_1)));
+                              (const char *) param_1);
     } else {
         if (*(int *) ((*(int *) &data_021759c8) + ((int) 0x00000308u)) != 0) {
             iVar2 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x18)),
-                                  (s8 *) ((s8 *) (u32) (param_1)));
+                                  (const char *) param_1);
         }
         if ((iVar2 == 0) && (*(int *) ((*(int *) &data_021759c8) + ((int) 0x00000378u)) != 0)) {
             iVar2 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x1c)),
-                                  (s8 *) ((s8 *) (u32) (param_1)));
+                                  (const char *) param_1);
         }
         if ((iVar2 == 0) && (*(int *) ((*(int *) &data_021759c8) + ((int) 0x000003e8u)) != 0)) {
             iVar2 = func_02047b30((u32) (*(u32 *) (((int) (u32) ((unsigned char *) &data_02164e04)) + 0x20)),
-                                  (s8 *) ((s8 *) (u32) (param_1)));
+                                  (const char *) param_1);
         }
     }
     return iVar2;

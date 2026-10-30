@@ -16,3 +16,10 @@ void func_02152690(void *a, u32 b);
 void func_02152490(void *a, void *b);
 
 #include "Main/Unknown/code_021529e0.h"
+s32 func_02152390(const void *a, const void *b);
+u64 func_02152500(const void *a);
+u64 func_02152584(const void *a);
+s32 func_02152638(const void *a);
+u64 func_021528bc(const void *a);
+s32 func_02152950(u64 a, u32 b);
+s32 func_02152a24(const void *a);

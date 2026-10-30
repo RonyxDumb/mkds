@@ -26,7 +26,7 @@
 #include "Main/Unknown/code_02046be8.h"
 #include "Main/Unknown/code_02061f7c.h"
 #include "Main/Unknown/code_02073000.h"
-#include "Main/Unknown/code_0208e000.h"
+#include "Main/Unknown/code_0208d978.h"
 #include "Main/Unknown/code_0208eb10.h"
 #include "Main/Unknown/code_0208ec64.h"
 #include "Main/Unknown/code_020d7000.h"
@@ -73,8 +73,20 @@ void func_020fc268(Unk020fc2e8 *param_1) {
     func_02109078(&param_1->mUnk_000.mUnk_00, param_1->mUnk_270, 0x7f, 0);
 }
 
-// non-matching: the whole body is laid out differently; left as a translation of the
-// disassembly.
+static inline Vec3 *func_020fbd98_inline(Unk020fc2e8 *p) {
+    if (p->mUnk_2f6 >= 3) {
+        if (p->mUnk_228->mUnk_1fc->mUnk_48 & 1) {
+            return &p->mUnk_228->mUnk_1fc->mUnk_244;
+        }
+    } else if (p->mUnk_000.mUnk_74 & 0x40000000) {
+        return &p->mUnk_000.mUnk_f0;
+    }
+    return 0;
+}
+
+// non-matching: 0x4c0 vs 0x4d0 bytes; matches up to +0x1dc. The loop over mUnk_274 ends with an
+// unsigned test in the original (bcc, here blt), and the loop over the mUnk_3d0 entries counts a
+// u16 up to an inclusive bound (add, lsl/lsr, bls); the rest of the body follows from there.
 void func_020fbd98(Unk020fc2e8 *param_1) {
     s32 i;
     s32 r;
@@ -96,14 +108,7 @@ void func_020fbd98(Unk020fc2e8 *param_1) {
         return;
     }
     func_020fc654(param_1);
-    q = 0;
-    if (param_1->mUnk_2f6 >= 3) {
-        if (param_1->mUnk_228->mUnk_1fc->mUnk_48 & 1) {
-            q = &param_1->mUnk_228->mUnk_1fc->mUnk_244;
-        }
-    } else if (param_1->mUnk_000.mUnk_74 & 0x40000000) {
-        q = &param_1->mUnk_000.mUnk_f0;
-    }
+    q = func_020fbd98_inline(param_1);
     func_020fc2e8(param_1, &param_1->mUnk_000.mUnk_5c, 1, q);
     if (param_1->mUnk_278 == 0) {
         if (data_0217561c->mUnk_4cc != 0) {
@@ -116,7 +121,8 @@ void func_020fbd98(Unk020fc2e8 *param_1) {
                 param_1->mUnk_276 = data_0217561c->mUnk_474[(u8) param_1->mUnk_274 - 1];
             }
         }
-        if (param_1->mUnk_276 == (u16) ((param_1->mUnk_000.mUnk_78 & 0x8000) ? 8 : (u8) param_1->mUnk_000.mUnk_78) ||
+        if (param_1->mUnk_276 ==
+                (u16) (!(param_1->mUnk_000.mUnk_78 & 0x8000) ? (u16) (param_1->mUnk_000.mUnk_78 & ~0xff00) : 8) ||
             func_02068eac((s32) func_0207a974(param_1->mUnk_276)) != 0) {
             param_1->mUnk_278 = 1;
         } else {
@@ -178,17 +184,14 @@ void func_020fbd4c(Unk020fc2e8 *param_1) {
     }
 }
 
-// non-matching: 0x12c vs 0x134 bytes. The original loads param_1->mUnk_228 (`ldr r1, [r4, #0x228]`)
-// before the test of mUnk_74 and `ldr r2, [r1, #0x1fc]` right after it; here both loads are
-// inside the taken branch. At the end of the selection of the fourth argument the original
-// reaches one `mov r3, #0` from both failed tests (`beq` / `bne`); here `mov r3, #0` comes first
-// and the two selections are predicated (`addne`).
 void func_020fbc18(Unk020fc2e8 *param_1) {
     s32 r;
     void *q;
+    Unk0206bcb0 *p;
 
+    p = param_1->mUnk_228->mUnk_1fc;
     r = 0x800;
-    if ((param_1->mUnk_000.mUnk_74 & 0x10000000) && (param_1->mUnk_228->mUnk_1fc->mUnk_7c & 1)) {
+    if ((param_1->mUnk_000.mUnk_74 & 0x10000000) && (p->mUnk_7c & 1)) {
         r += 0x19a;
     }
     if (param_1->mUnk_27c > 0xd000) {
@@ -203,26 +206,16 @@ void func_020fbc18(Unk020fc2e8 *param_1) {
             func_02109078(&param_1->mUnk_000.mUnk_00, param_1->mUnk_270, 0x7f, 0);
         }
     }
-    if ((s64) param_1->mUnk_238.x * param_1->mUnk_238.x + (s64) param_1->mUnk_238.z * param_1->mUnk_238.z < 0x19) {
+    if ((s64) param_1->mUnk_238.x * param_1->mUnk_238.x + (s64) param_1->mUnk_238.z * param_1->mUnk_238.z <
+        0x1900000000LL) {
         param_1->mUnk_2f8 = 4;
         param_1->mUnk_2fa = 1;
     }
     func_020fc654(param_1);
-    q = 0;
-    if (param_1->mUnk_2f6 >= 3) {
-        if (param_1->mUnk_228->mUnk_1fc->mUnk_48 & 1) {
-            q = &param_1->mUnk_228->mUnk_1fc->mUnk_244;
-        }
-    } else if (param_1->mUnk_000.mUnk_74 & 0x40000000) {
-        q = &param_1->mUnk_000.mUnk_f0;
-    }
+    q = func_020fbd98_inline(param_1);
     func_020fc2e8(param_1, &param_1->mUnk_000.mUnk_5c, 1, q);
 }
 
-// non-matching: 0x130 vs 0x138 bytes. The selection of the fourth argument of func_020fc2e8 is laid
-// out as in func_020fbc18: the original reaches one shared `mov r3, #0` with `beq` / `bne`, this
-// build starts with `mov r3, #0` and predicates the two selections. The loop after the call
-// matches instruction for instruction.
 void func_020fbae0(Unk020fc2e8 *param_1) {
     s32 i;
     void *q;
@@ -244,14 +237,7 @@ void func_020fbae0(Unk020fc2e8 *param_1) {
         return;
     }
     func_020fc654(param_1);
-    q = 0;
-    if (param_1->mUnk_2f6 >= 3) {
-        if (param_1->mUnk_228->mUnk_1fc->mUnk_48 & 1) {
-            q = &param_1->mUnk_228->mUnk_1fc->mUnk_244;
-        }
-    } else if (param_1->mUnk_000.mUnk_74 & 0x40000000) {
-        q = &param_1->mUnk_000.mUnk_f0;
-    }
+    q = func_020fbd98_inline(param_1);
     func_020fc2e8(param_1, &param_1->mUnk_000.mUnk_5c, 1, q);
     p = param_1->mUnk_228->mUnk_1f0.mUnk_00;
     for (i = 0; i < 4; i++) {
@@ -304,14 +290,7 @@ void func_020fb7f8(Unk020fc2e8 *param_1) {
     }
     func_020fc654(param_1);
     if ((u32) param_1->mUnk_25c < 0x11f40) {
-        q = 0;
-        if (param_1->mUnk_2f6 >= 3) {
-            if (param_1->mUnk_228->mUnk_1fc->mUnk_48 & 1) {
-                q = &param_1->mUnk_228->mUnk_1fc->mUnk_244;
-            }
-        } else if (param_1->mUnk_000.mUnk_74 & 0x40000000) {
-            q = &param_1->mUnk_000.mUnk_f0;
-        }
+        q = func_020fbd98_inline(param_1);
         if (q != 0) {
             v.x = param_1->mUnk_250.x * 2;
             v.y = param_1->mUnk_250.y * 2;
@@ -356,6 +335,9 @@ void func_020fb770(Unk020fc2e8 *param_1) {
 void func_020fb61c(Unk020fc2e8 *param_1) {
     Vec3 v;
     Vec3 *q;
+    s32 x;
+    s32 y;
+    s32 z;
 
     param_1->mUnk_260 += 0x4cd;
     func_020fcce4(param_1, param_1->mUnk_264, param_1->mUnk_260);
@@ -371,20 +353,16 @@ void func_020fb61c(Unk020fc2e8 *param_1) {
     if (param_1->mUnk_284 < 0x7b) {
         param_1->mUnk_284 = 0x7b;
     }
-    q = 0;
-    if (param_1->mUnk_2f6 >= 3) {
-        if (param_1->mUnk_228->mUnk_1fc->mUnk_48 & 1) {
-            q = &param_1->mUnk_228->mUnk_1fc->mUnk_244;
-        }
-    } else if (param_1->mUnk_000.mUnk_74 & 0x40000000) {
-        q = &param_1->mUnk_000.mUnk_f0;
-    }
+    q = func_020fbd98_inline(param_1);
     if (q != 0) {
         func_02147fd8(param_1->mUnk_27c, q, &param_1->mUnk_22c, &v);
     } else {
-        v.x = param_1->mUnk_22c.x;
-        v.y = param_1->mUnk_27c;
-        v.z = param_1->mUnk_22c.z;
+        z = param_1->mUnk_22c.z;
+        y = param_1->mUnk_27c;
+        x = param_1->mUnk_22c.x;
+        v.x = x;
+        v.y = y;
+        v.z = z;
     }
     func_021484d0(&v, &param_1->mUnk_2a4, &v);
     func_02147fd8(param_1->mUnk_284, &v, &param_1->mUnk_2a4, &param_1->mUnk_2a4);
@@ -436,24 +414,24 @@ void func_020fb46c(Unk020fc2e8 *param_1) {
     }
 }
 
-// non-matching: 0x11c vs 0x110 bytes. After storing the value of func_0208e490 at 0x2b0 the
-// original reloads it into r1, tests it and writes the three words with predicated stores
-// (`strne r0, [r1, #0x9c]; addne r1, r1, #0x9c; strne r0, [r1, #4]; strne r0, [r1, #8]`); this
-// build branches on the test and reloads the pointer before each of the three stores.
 void func_020fb35c(Unk020fc2e8 *param_1) {
     Unk0212c400 **p;
+    struct Unk0208e490 *q;
+    s32 *v;
 
     param_1->mUnk_000.mUnk_74 |= 0x800000;
     param_1->mUnk_000.mUnk_100 = 0;
     param_1->mUnk_000.mUnk_68 = data_02159d84;
     param_1->mUnk_2b0 = func_0208e490(1, &param_1->mUnk_000.mUnk_50, func_020f9160(&param_1->mUnk_000) == 0 ? 1 : 0);
-    if (param_1->mUnk_2b0 != 0) {
-        param_1->mUnk_2b0->mUnk_9c[0] = 0x1000;
-        param_1->mUnk_2b0->mUnk_9c[1] = 0x1000;
-        param_1->mUnk_2b0->mUnk_9c[2] = 0x1000;
+    q = param_1->mUnk_2b0;
+    if (q != 0) {
+        v = q->mUnk_9c;
+        v[0] = 0x1000;
+        v[1] = 0x1000;
+        v[2] = 0x1000;
     }
     func_020f91fc(param_1, 0xdf);
-    if (*(u32 *) data_0217c780 & 1) {
+    if (data_0217c780 & 1) {
         p = func_0210e128(func_02108ea0(0));
         if (data_0217d084.mUnk_0c != 0) {
             if (*p != 0) {
@@ -729,29 +707,21 @@ s32 func_020faa78(s32 param_1) {
     return 1;
 }
 
-// non-matching: 0x9c vs 0x94 bytes. The original tests the counter before the first pass of both
-// loops (`cmp r6, #14; bge`) and recomputes the address with `mla` each pass; this build enters
-// the loops without the first test and steps a pointer.
 void func_020fa9e4(void) {
-    s32 i;
+    enum { K0 } i;
     u16 j;
 
     for (i = 0; i < 0xe; i++) {
-        func_020f03bc(&data_027e00cc[(u32) i]);
-    }
-    if (data_027e00c4 == 0) {
-        return;
+        func_020f03bc(&data_027e00cc[i]);
     }
     for (j = 0; j < data_027e00c4; j++) {
         func_020f0044(&((Unk020ee684 *) *(void **) data_027e00c8)[j]);
     }
 }
 
-// non-matching: 0xbc vs 0xc4 bytes. The loops differ as in func_020fa9e4: the original tests the
-// counter before the first pass and recomputes the address with `mla` each pass; this build
-// steps a byte offset (`add r5, r5, #0x44`).
 void func_020fa920(void) {
-    s32 i;
+    enum { K0 } i;
+    u16 j;
 
     if (data_021759c0->mUnk_08 == 5) {
         func_020fec30();
@@ -762,19 +732,16 @@ void func_020fa920(void) {
             func_020f03f8(&data_027e00cc[i]);
         }
     }
-    for (i = 0; i < data_027e00c4; i++) {
-        func_01fff694(&((Unk020ee684 *) *(void **) data_027e00c8)[i]);
+    for (j = 0; j < data_027e00c4; j++) {
+        func_01fff694(&((Unk020ee684 *) *(void **) data_027e00c8)[j]);
     }
     func_020f8258();
     func_02104368();
     func_02104ff8();
 }
 
-// non-matching: 0x68 vs 0x74 bytes. The loop differs as in func_020fa9e4: the original tests the
-// counter before the first pass (`cmp r7, #14`) and recomputes the address with `mla` each pass;
-// this build steps a byte offset (`add r5, r5, #0x44`).
-void func_020fa8ac(void) {
-    s32 i;
+void func_020fa8ac(void *a) {
+    enum { K0 } i;
     void *q;
 
     q = &((Unk020e6b38 *) func_020e6b38())->mUnk_18;

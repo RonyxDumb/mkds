@@ -1,0 +1,39 @@
+#include "Main/Unknown/code_02035db4.h"
+#include "Main/Unknown/code_0205905c.h"
+#include "Main/Unknown/code_02035e44.h"
+#include "Main/Unknown/code_02035e38.h"
+#include "Main/Unknown/code_02035e30.h"
+#include "Main/Unknown/code_02133000.h"
+#include "Main/Unknown/unk_02174000.h"
+
+#pragma thumb on
+
+// non-matching: 96%, differs by one register or instruction order
+s32 func_02035db4(u32 a) {
+    s32 r;
+    Unk02174e6c *o;
+
+    switch ((*(Unk02174e6c **) &data_02174e6c)->mUnk_64c) {
+    case 9:
+        r = func_020591bc();
+        if (r == 1) {
+            if (func_02035e44() != 0) {
+                func_02035e38();
+            }
+            (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 10;
+        } else if (r == 2) {
+        }
+        break;
+    case 10:
+        if (a != 0) {
+            func_02035e30(a, 1);
+        }
+        (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 11;
+        break;
+    }
+    o = *(Unk02174e6c **) &data_02174e6c;
+    o->mUnk_640 = (o->mUnk_640 + 1) % 0x100;
+    return -1;
+}
+
+#pragma thumb off

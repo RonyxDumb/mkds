@@ -12,3 +12,5 @@ s32 func_0207a2a8(s32 *a);
 void func_0207a8c4(Vec3 *a, s32 b);
 s32 func_0207a84c(s32 a);
 s32 func_0207a218(void);
+void func_0207ae58(void *a);
+void func_0207a6c0(Unk0206bcb0 *a);

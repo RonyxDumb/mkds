@@ -77,7 +77,7 @@ typedef struct Unk020fc2e8 {
 
 s32 func_020fa4c8(Unk0206bcb0 *param_1);
 void func_020fa78c(s32 param_1, s32 param_2, s32 param_3);
-void func_020fa8ac(void);
+void func_020fa8ac(void *a);
 void func_020fa920(void);
 void func_020fa9e4(void);
 s32 func_020faa78(s32 param_1);

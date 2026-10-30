@@ -110,26 +110,11 @@ void func_020f992c(Unk020f41c4_A *param_1) {
     }
 }
 
-// non-matching: the original copies the nine halfwords with post-increment addressing
-// (`ldrh r1,[r3],#2; ldrh r0,[r3],#2; subs r2,r2,#1; strh r1,[ip],#2; strh r0,[ip],#2;
-// bne`), this emits a load, an add and a store per halfword and `cmp r2,#0; bgt`;
-// 0x9c bytes against 0x8c.
 void func_020f98a0(void *param_1, Vec3 *param_2, Vec3 *param_3, u16 *param_4, s32 param_5) {
     Unk020f41c4_A *a = param_1;
-    u16 *p;
-    u16 *q;
-    s32 i;
-
     a->mUnk_0e4 = *param_2;
     if (param_4 != 0) {
-        p = a->mUnk_7c.mUnk_00;
-        q = param_4;
-        i = 4;
-        do {
-            *p++ = *q++;
-            *p++ = *q++;
-        } while (--i != 0);
-        *p = *q;
+        a->mUnk_7c = *(Unk020f41c4_C *) param_4;
     } else {
         func_0208adc8(a->mUnk_7c.mUnk_00, 1);
     }
@@ -263,19 +248,21 @@ void func_020f944c(void *param_1, void *param_2) {
     }
 }
 
-// non-matching: only the order of the argument setup differs, the instructions are the same:
-// the original loads all three components of v before storing any of them and keeps
-// param_1->mUnk_dc in r4, this stores each component as it is computed and reloads
-// mUnk_dc for the shift.
 void func_020f9334(void *param_1, Vec3 *param_2, Vec3 *param_3, s32 param_4, Vec3 *param_5) {
     Unk020f41c4_A *p = param_1;
     Vec3 v;
     u32 a;
+    s32 x;
+    s32 y;
+    s32 z;
 
     a = 0;
-    v.y = param_2->y - p->mUnk_dc;
-    v.z = param_2->z;
-    v.x = param_2->x;
+    z = param_2->z;
+    y = param_2->y - p->mUnk_dc;
+    x = param_2->x;
+    v.x = x;
+    v.y = y;
+    v.z = z;
 
     func_01ffdee4((int *) &v, (u32 *) param_2, 0, p->mUnk_dc >> 1, 0x24, p->mUnk_da, 0, 0, 0, &a, 0, 0, 0, 0);
     if ((a & 0x1e34ef) != 0 || (p->mUnk_fc & 0x80000) != 0) {

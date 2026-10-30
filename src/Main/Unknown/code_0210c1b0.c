@@ -114,8 +114,7 @@ void func_0210cc3c(Unk0210bfbc *p) {
 
 // non-matching: the parameter is in sl here and r5 in the original and the loop pointer in r9 and r4;
 // the load of st.mUnk_1c is scheduled after the func_0212d580 call here and before it in the
-// original; the u8 second parameter of func_0212c5f4 adds `and r1, r8, #0xff` where the original
-// passes the value unmasked.
+// original.
 u32 func_0210ca4c(Unk0210bfbc *p) {
     Unk0210bcf4 st;
     s32 n;
@@ -315,8 +314,10 @@ Unk0210bf24 *func_0210c610(Unk0210bfbc *a, u32 b, u32 c, u32 d, s16 e) {
     return v;
 }
 
-// non-matching: the original materializes the condition twice (`cmp r0, #0; movne r0, 1`)
-// after the && chain; this build folds that into the chain's last comparison (0xa8 bytes vs 0xb8).
+static inline u32 func_0210c558_inline(Unk0210bf24 *p, u32 b, u32 c) {
+    return p->mUnk_16 == c && p->mUnk_18 == b;
+}
+
 void func_0210c558(Unk0210bfbc *a, u32 b, u32 c, u32 d) {
     void *v;
     u32 f;
@@ -326,8 +327,7 @@ void func_0210c558(Unk0210bfbc *a, u32 b, u32 c, u32 d) {
     }
     v = a->mUnk_0c.mUnk_00;
     while (v != 0) {
-        f = (((Unk0210bf24 *) v)->mUnk_00 != 0) && (((Unk0210bf24 *) v)->mUnk_16 == c) &&
-            (((Unk0210bf24 *) v)->mUnk_18 == b);
+        f = (((Unk0210bf24 *) v)->mUnk_00 != 0) && func_0210c558_inline((Unk0210bf24 *) v, b, c);
         if (f) {
             func_0210c450(a, (Unk0210bf24 *) v, d);
             return;

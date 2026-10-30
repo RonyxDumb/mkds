@@ -46,7 +46,6 @@ void func_020a9c54(void *a, Unk020a9268 *p, u32 c, u32 d) {
     func_020e53ac(&p->mUnk_0e8, 0, c, d);
 }
 
-// non-matching: the three halfwords read from data_021567f4, data_021567ec and data_021567f0 before the loop are held in r11, r5 and r4 by the original (the orr operands at +0x58, +0x6c, +0x7c are r5, r4, r11); ours uses r4, r11, r5 there; everything else is identical.
 void func_020a9a5c(Unk020a9a5c *p) {
     s32 i;
     Unk020a9268 *o;
@@ -54,9 +53,9 @@ void func_020a9a5c(Unk020a9a5c *p) {
     u32 z1;
     u32 z2;
     u32 k;
-    u16 a;
     u16 b;
     u16 c;
+    u16 a;
 
     if (p == 0) {
         return;
@@ -65,9 +64,9 @@ void func_020a9a5c(Unk020a9a5c *p) {
     z1 = 0;
     z2 = 0;
     k = 0x1c;
-    a = data_021567f4;
     b = data_021567ec;
     c = data_021567f0;
+    a = data_021567f4;
     for (i = 0; i < p->mUnk_04 && (o = p->mUnk_00[i]) != 0; i++) {
         o->mUnk_000.mUnk_02 |= b;
         o->mUnk_000.mUnk_02 |= c;

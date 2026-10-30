@@ -1,7 +1,8 @@
 #include "Main/Unknown/code_0204d28c.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_02006000.h"
+#include "Main/Unknown/code_02006c2c.h"
+#include "Main/Unknown/code_02006f14.h"
 #include "Main/Unknown/code_0204c000.h"
 #include "Main/Unknown/code_0204db40.h"
 #include "Main/Unknown/code_0204db48.h"
@@ -116,16 +117,18 @@ void func_0204d28c(void) {
     data_02175ec0.mUnk_0440.mUnk_46cc = data_02175ec0.mUnk_0440.mUnk_46cc & ~v4;
 }
 
-// non-matching: 0x58 bytes, original 0x54; 7 lines differ; first: original `ldr r1, [pc, #64]`, ours `ldr r0, [pc,
-// #64]`
+// non-matching: the objdiff report gives 99.8%; probe_compilers (literal words included) and a one-shot objdiff diff of
+// this function show no difference, so the cause is not known.
 void func_0204d5bc(void) {
-    if (data_02175ec0.mUnk_000c == 0) {
+    Unk02175ec0 *p = &data_02175ec0;
+
+    if (p->mUnk_000c == 0) {
         return;
     }
-    if (data_02175ec0.mUnk_0000 == 0) {
+    if (p->mUnk_0000 == 0) {
         return;
     }
-    data_02175ec0.mUnk_0440.mUnk_46d4 = 0;
+    p->mUnk_0440.mUnk_46d4 = 0;
     func_0204d28c();
 }
 
@@ -134,12 +137,11 @@ typedef struct Unk0204d610_t {
     u32 mUnk_04;
 } Unk0204d610_t;
 
-// non-matching: same size; 13 lines differ; first: original `mov r4, r0`, ours `mov r5, r0`
 u32 func_0204d610(u32 *a) {
     Unk0204d610_t t[4];
+    u32 r;
     Unk02003a6c *p;
     s32 i;
-    u32 r;
 
     p = func_020041e8(data_021651d4, 3);
     func_02003f50(p);

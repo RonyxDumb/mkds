@@ -26,7 +26,7 @@ typedef struct Unk0214ad4c {
 void func_0214a748(const void *a);
 s32 func_0214a75c(void *a);
 s32 func_0214a7a4(void *a);
-void func_0214a7ec(s32 a, u32 b, u32 c, u16 d);
+void func_0214a7ec(s32 a, u32 b, u32 c, u32 d);
 void func_0214a840(void);
 void func_0214a8ec(void);
 void func_0214a99c(void);

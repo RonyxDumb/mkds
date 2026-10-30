@@ -6,5 +6,5 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 void func_0208b6b0(void **p0);
-void func_0208b6d0(u32 *param_1);
+void func_0208b6d0(Unk0201ca6c **param_1);
 void func_0208b710(Unk0201ca6c *param_1);

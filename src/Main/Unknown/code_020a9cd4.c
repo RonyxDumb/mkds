@@ -52,17 +52,17 @@ void func_020a9e04(Unk020a9268 *p) {
     p->mUnk_128 = func_020d2178(p->mUnk_000.mUnk_9c->mUnk_34);
 }
 
-// non-matching: same size; 4 lines differ; the original loads *b into r2 and *c into r1 (ours: r1 and r2); first:
-// original `ldrb r2, [r2]`, ours `ldrb r1, [r2]`
+// non-matching: same size; registers only: the original loads *b into r2 and *c into r1 (ours: r1 and r2), so the
+// compare and the final `andne r0, r1, #255` use the other register (4 words)
 u32 func_020a9de4(Unk020a9224 *p, void *a, u8 *b, u8 *c) {
-    u8 x = *b;
-    u8 y = *c;
+    u32 x = *b;
+    u32 y = *c;
 
     if (x == 1) {
         p->mUnk_c0 = 0xa000;
         return 0;
     }
-    return y;
+    return (u8) y;
 }
 
 void func_020a9db0(void *a) {

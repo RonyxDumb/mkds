@@ -35,5 +35,5 @@ void func_0212c524(Unk0212c400 **a, u32 b, u32 c);
 void func_0212c554(Unk0212c400 **a, u32 b, u32 c);
 void func_0212c594(Unk0212c400 **a, u32 b, u32 c);
 void func_0212c5c4(Unk0212c400 **a, u32 b);
-void func_0212c5f4(Unk0212c400 **a, u8 b);
+void func_0212c5f4(Unk0212c400 **a, u32 b);
 void func_0212c620(Unk0212c400 **a, s32 b, s32 c);
