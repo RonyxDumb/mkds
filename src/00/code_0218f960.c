@@ -19,12 +19,12 @@ u32 func_ov000_0218f960(Unk0218f960 *p, u32 b) {
         func_ov000_02196590(p, data_ov000_021b273c);
         return 2;
     }
-    func_ov000_02190b80(p, o->mUnk_1f4, data_ov000_021b2750);
-    func_ov000_02190b80(p, o->mUnk_1f4, data_ov000_021b275c);
-    func_ov000_02190b58(p, o->mUnk_1f4, o->mUnk_198);
-    func_ov000_02190b80(p, o->mUnk_1f4, data_ov000_021b2768);
-    func_ov000_02190b58(p, o->mUnk_1f4, e->mUnk_00);
-    func_ov000_02190b80(p, o->mUnk_1f4, data_ov000_021b2778);
+    func_ov000_02190b80(p, &o->mUnk_1f4, data_ov000_021b2750);
+    func_ov000_02190b80(p, &o->mUnk_1f4, data_ov000_021b275c);
+    func_ov000_02190b58(p, &o->mUnk_1f4, o->mUnk_198);
+    func_ov000_02190b80(p, &o->mUnk_1f4, data_ov000_021b2768);
+    func_ov000_02190b58(p, &o->mUnk_1f4, e->mUnk_00);
+    func_ov000_02190b80(p, &o->mUnk_1f4, data_ov000_021b2778);
     if (e->mUnk_08 != 0) {
         n = e->mUnk_08->mUnk_00;
         if (n < 0) {
