@@ -18,7 +18,7 @@ void func_02056fdc(void) {
 
     a = 0;
     data_0217aa08->mUnk_2c = 0;
-    func_02057c60((u32) data_0217aa08->mUnk_00);
+    func_02057c60(data_0217aa08->mUnk_00);
     if (data_021759d4->mUnk_0c != 0) {
         func_02145d38();
     }
@@ -31,35 +31,35 @@ void func_02056fdc(void) {
         }
         a |= 1;
     }
-    func_02057bcc((u32) data_0217aa08->mUnk_04);
+    func_02057bcc(data_0217aa08->mUnk_04);
     if (data_021759d4->mUnk_0c != 0) {
         func_02145d38();
     }
     if (data_021759d4->mUnk_04 != 0) {
         a |= 2;
     }
-    func_02057b40((u32) data_0217aa08->mUnk_08);
+    func_02057b40(data_0217aa08->mUnk_08);
     if (data_021759d4->mUnk_0c != 0) {
         func_02145d38();
     }
     if (data_021759d4->mUnk_04 != 0) {
         a |= 4;
     }
-    func_02057aac((u32) data_0217aa08->mUnk_0c);
+    func_02057aac(data_0217aa08->mUnk_0c);
     if (data_021759d4->mUnk_0c != 0) {
         func_02145d38();
     }
     if (data_021759d4->mUnk_04 != 0) {
         a |= 8;
     }
-    func_02057a18((u32) data_0217aa08->mUnk_10);
+    func_02057a18(data_0217aa08->mUnk_10);
     if (data_021759d4->mUnk_0c != 0) {
         func_02145d38();
     }
     if (data_021759d4->mUnk_04 != 0) {
         a |= 0x10;
     }
-    func_02057764((u32) data_0217aa08->mUnk_20);
+    func_02057764(data_0217aa08->mUnk_20);
     if (data_021759d4->mUnk_0c != 0) {
         func_02145d38();
     }
@@ -89,28 +89,28 @@ void func_02056f98(void) {
 void func_02056e70(void) {
     if (data_0217aa08->mUnk_2a & 2) {
         func_020572e8();
-        func_02057c14((u32) data_0217aa08->mUnk_04);
+        func_02057c14(data_0217aa08->mUnk_04);
         if (data_021759d4->mUnk_0c != 0) {
             func_02145d38();
         }
     }
     if (data_0217aa08->mUnk_2a & 4) {
         func_020572cc();
-        func_02057b84((u32) data_0217aa08->mUnk_08);
+        func_02057b84(data_0217aa08->mUnk_08);
         if (data_021759d4->mUnk_0c != 0) {
             func_02145d38();
         }
     }
     if (data_0217aa08->mUnk_2a & 8) {
         func_020572b0();
-        func_02057af4((u32) data_0217aa08->mUnk_0c);
+        func_02057af4(data_0217aa08->mUnk_0c);
         if (data_021759d4->mUnk_0c != 0) {
             func_02145d38();
         }
     }
     if (data_0217aa08->mUnk_2a & 0x10) {
         func_02057294();
-        func_02057a60((u32) data_0217aa08->mUnk_10);
+        func_02057a60(data_0217aa08->mUnk_10);
         if (data_021759d4->mUnk_0c != 0) {
             func_02145d38();
         }
