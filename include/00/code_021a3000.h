@@ -18,3 +18,5 @@ void func_ov000_021a3a18(u32 *param_1, int param_2);
 void func_ov000_021a3fc8(int param_1, int param_2, int param_3);
 
 #include "00/code_021a3668.h"
+u64 func_ov000_021a350c(void);
+void func_ov000_021a3c14(void *param_1, u8 *param_2, u32 param_3, void *param_4);

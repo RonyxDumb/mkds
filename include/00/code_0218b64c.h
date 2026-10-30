@@ -21,11 +21,11 @@ typedef struct Unk0218b668 {
     /* 04c */ u8 mUnk_04c[0x5d8];
     /* 624 */ u32 mUnk_624;
     /* 628 */ u8 mUnk_628[8];
-    /* 630 */ u32 mUnk_630;
+    /* 630 */ UnkFunc *mUnk_630;
     /* 634 */ u32 mUnk_634;
 } Unk0218b668;
 
 void func_ov000_0218b64c(Unk0218b668 *p);
 
 Unk0218b668 *func_ov000_0218b668(u32 param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6,
-                                 s32 param_7, u32 param_8, u32 param_9);
+                                 s32 param_7, UnkFunc *param_8, u32 param_9);
