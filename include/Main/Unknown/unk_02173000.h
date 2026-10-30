@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_01ff8000.h"
 #include "code_020162b0.h"
 #include "code_02016844.h"
 #include "code_02016d34.h"
@@ -32,3 +33,6 @@ extern s32 data_0217329c;
 extern u8 data_021732a0[4];
 extern s32 data_021732a4;
 extern s32 data_021732a8;
+
+extern Unk01ff9048 *data_usa_021731e4;
+extern vu32 data_usa_021731e8;

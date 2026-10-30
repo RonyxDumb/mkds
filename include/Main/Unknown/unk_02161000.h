@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_02013bdc.h"
 #include "code_02010c84.h"
 #include "code_02010fac.h"
 #include "code_02147cd8.h"
@@ -96,3 +97,9 @@ extern const char data_02161dfc[];
 extern const char data_02161e18[];
 extern const char data_02161e34[];
 extern const char data_02161e4c[];
+
+extern void (*data_usa_02161844[])(Unk02014c5c_out *);
+extern void (*data_usa_02161850[])(Unk02014c5c_out *, void *, u8 *, u32);
+extern void (*data_usa_0216187c[])(Unk02170500 *, u32, void *, u32);
+extern void (*data_usa_0216188c[])(Unk02170500 *, u32, void *, u32);
+extern void (*data_usa_0216196c[])(Unk02170500 *, u32);

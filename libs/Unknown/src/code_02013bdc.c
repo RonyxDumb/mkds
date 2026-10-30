@@ -496,7 +496,7 @@ void func_0201520c(Unk02014c5c_out *o) {
     d = data_02170500;
     b = d->mUnk_d4;
     t = (u8 *) b + b->mUnk_06;
-    e = (Unk02015044_e *) ((u8 *) b + *(u32 *) (t + *(u16 *) t * d->mUnk_00->mUnk_01 + 4));
+    e = (Unk02015044_e *) ((u8 *) b + *(u32 *) (t + *(u16 *) t * d->mUnk_00[1] + 4));
     if (e->mUnk_00 & 1) {
         o->mUnk_00 |= 4;
         return;
@@ -520,7 +520,7 @@ void func_020151a4(Unk02014c5c_out *o) {
     d = data_02170500;
     b = d->mUnk_d4;
     t = (u8 *) b + b->mUnk_06;
-    off = *(u32 *) (t + *(u16 *) t * d->mUnk_00->mUnk_01 + 4);
+    off = *(u32 *) (t + *(u16 *) t * d->mUnk_00[1] + 4);
     f = *(u16 *) ((u8 *) b + off);
     q = (u8 *) b + off + 4;
     if (!(f & 1)) {
@@ -549,7 +549,7 @@ void func_02015044(Unk02014c5c_out *o) {
     d = data_02170500;
     b = d->mUnk_d4;
     t = (u8 *) b + b->mUnk_06;
-    e = (Unk02015044_e *) ((u8 *) b + *(u32 *) (t + *(u16 *) t * d->mUnk_00->mUnk_01 + 4));
+    e = (Unk02015044_e *) ((u8 *) b + *(u32 *) (t + *(u16 *) t * d->mUnk_00[1] + 4));
     q = e->mUnk_04;
     if (!(e->mUnk_00 & 1)) {
         q += 6;

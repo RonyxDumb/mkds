@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "code_02012b30.h"
+#include "code_02010fac.h"
 
 // Fourth argument of func_02013e18 and func_02014164: halfword counts at 0x04 and 0x06, flags at 0x08, byte
 // offsets (from this struct) to two s16 arrays at 0x0c and 0x10, and halfword offsets to entries from 0x14.
@@ -36,12 +37,6 @@ typedef struct Unk02014c5c_out {
     /* 54 */ s32 mUnk_54;
 } Unk02014c5c_out;
 
-// Byte 1 of the object the first member of Unk02170500 points to selects an entry.
-typedef struct Unk02170500_00 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-} Unk02170500_00;
-
 // Halfword at 0x06: byte offset from this struct to a table whose first halfword is the stride; entry i holds a
 // word at offset 4 + i * stride that is the byte offset of the entry from this struct.
 typedef struct Unk02170500_d4 {
@@ -49,13 +44,75 @@ typedef struct Unk02170500_d4 {
     /* 06 */ u16 mUnk_06;
 } Unk02170500_d4;
 
+// Header of the data an Unk02170500_04 describes: byte offsets (from this struct) at 0x04, 0x08 and 0x0c.
+typedef struct Unk02170500_04_04 {
+    /* 00 */ u8 mUnk_00[4];
+    /* 04 */ u32 mUnk_04;
+    /* 08 */ u32 mUnk_08;
+    /* 0c */ u32 mUnk_0c;
+    /* 10 */ u8 mUnk_10[5];
+    /* 15 */ u8 mUnk_15;
+    /* 16 */ u8 mUnk_16;
+    /* 17 */ u8 mUnk_17;
+    /* 18 */ u8 mUnk_18[4];
+    /* 1c */ s32 mUnk_1c;
+    /* 20 */ s32 mUnk_20;
+} Unk02170500_04_04;
+
+struct Unk02170500;
+struct Unk020152bc;
+
+// Three (list, function) pairs, each with a bit set (two words) of the entries the list marks.
+typedef struct Unk02170500_04 {
+    /* 00 */ u32 mUnk_00; // bit 0 and bit 4 are tested
+    /* 04 */ Unk02170500_04_04 *mUnk_04;
+    /* 08 */ struct Unk020152bc *mUnk_08;
+    /* 0c */ s32 (*mUnk_0c)(Unk0201290c_1c *, struct Unk020152bc *, u32);
+    /* 10 */ struct Unk020152bc *mUnk_10;
+    /* 14 */ s32 (*mUnk_14)(Unk02014c5c_out *, struct Unk020152bc *, u32);
+    /* 18 */ struct Unk020152bc *mUnk_18;
+    /* 1c */ s32 (*mUnk_1c)(u32 *, struct Unk020152bc *, u32);
+    /* 20 */ void (*mUnk_20)(struct Unk02170500 *);
+    /* 24 */ u8 mUnk_24;
+    /* 25 */ u8 mUnk_25;
+    /* 28 */ void (*mUnk_28)(struct Unk02170500 *);
+    /* 2c */ u8 mUnk_2c[4];
+    /* 30 */ u8 *mUnk_30;
+    /* 34 */ Unk02014c5c_out *mUnk_34;
+    /* 38 */ Unk0201290c_1c *mUnk_38;
+    /* 3c */ u32 mUnk_3c[2];
+    /* 44 */ u32 mUnk_44[2];
+    /* 4c */ u32 mUnk_4c[2];
+} Unk02170500_04;
+
 // Object data_02170500 points to.
 typedef struct Unk02170500 {
-    /* 00 */ Unk02170500_00 *mUnk_00;
-    /* 04 */ u8 mUnk_04[0xd0];
+    /* 00 */ u8 *mUnk_00;
+    /* 04 */ Unk02170500_04 *mUnk_04;
+    /* 08 */ u32 mUnk_08; // bits 0-4, 6, 7 to 10 are tested
+    /* 0c */ void (*mUnk_0c[0x20])(struct Unk02170500 *);
+    /* 8c */ u8 mUnk_8c[0x20];
+    /* ac */ u8 mUnk_ac;
+    /* ad */ u8 mUnk_ad;
+    /* ae */ u8 mUnk_ae;
+    /* af */ u8 mUnk_af;
+    /* b0 */ Unk0201290c_1c *mUnk_b0;
+    /* b4 */ Unk02014c5c_out *mUnk_b4;
+    /* b8 */ u32 *mUnk_b8;
+    /* bc */ u32 mUnk_bc[2];
+    /* c4 */ u32 mUnk_c4;
+    /* c8 */ u8 mUnk_c8[0xc];
     /* d4 */ Unk02170500_d4 *mUnk_d4;
-    /* d8 */ u8 mUnk_d8[0x10];
+    /* d8 */ u8 *mUnk_d8;
+    /* dc */ u8 *mUnk_dc;
+    /* e0 */ s32 mUnk_e0;
+    /* e4 */ s32 mUnk_e4;
     /* e8 */ UnkFunc *mUnk_e8; // called with four arguments by func_02014c5c and two by func_020151a4
+    /* ec */ void (*mUnk_ec)(Unk02014c5c_out *);
+    /* f0 */ void (*mUnk_f0)(Unk0201290c_1c *);
+    /* f4 */ Unk0201290c_1c mUnk_f4;
+    /* 12c */ Unk02014c5c_out mUnk_12c;
+    /* 184 */ u32 mUnk_184;
 } Unk02170500;
 
 // Entry found through Unk02170500_d4: flags at 0x00, a value at 0x02 and halfwords from 0x04.
@@ -84,7 +141,8 @@ typedef struct Unk020152bc {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ void *mUnk_08;
     /* 0c */ UnkFunc *mUnk_0c;
-    /* 10 */ u8 mUnk_10[9];
+    /* 10 */ struct Unk020152bc *mUnk_10; // next object in the list
+    /* 14 */ u8 mUnk_14[5];
     /* 19 */ u8 mUnk_19;
     /* 1a */ u16 mUnk_1a[1];
 } Unk020152bc;

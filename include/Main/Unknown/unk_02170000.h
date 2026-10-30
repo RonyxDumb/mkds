@@ -30,3 +30,4 @@ extern Unk02170500 *data_02170500;
 extern Vec3 data_021704dc;
 extern Vec3 data_021704e8;
 extern Vec3 data_021704f4;
+extern Unk0201290c_1c data_usa_021704e4[];
