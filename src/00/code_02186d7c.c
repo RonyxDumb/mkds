@@ -53,7 +53,7 @@ void func_ov000_02186d7c(void *param_0) {
     a->mUnk_40 = p->mUnk_91c;
     a->mUnk_48 = 0x5ea;
     a->mUnk_4c = p->mUnk_920;
-    func_ov000_021ae304((u32) a);
+    func_ov000_021ae304((void *) a);
     g = func_ov000_021acef8(p->mUnk_a8);
     if (g == 0) {
         p->mUnk_24 = 2;

@@ -90,4 +90,28 @@ extern Unk021d90ac data_ov003_021d90ac;
 extern u8 data_ov003_021d9104[];
 extern u8 data_ov003_021d9904[0x800];
 
+typedef struct Unk021d8bd8 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ void *mUnk_04;
+    /* 08 */ u32 mUnk_08;
+    /* 0c */ u32 mUnk_0c;
+} Unk021d8bd8;
+
+extern u8 *data_ov003_021d8bf8;
+extern Unk021d8bd8 *data_ov003_021d8bd8;
+extern void *data_ov003_021d8c0c;
+extern u8 *data_ov003_021d8c14;
+extern u8 *data_ov003_021d8c18;
+extern u8 *data_ov003_021d8c1c;
+extern u32 data_ov003_021d8c28;
+extern u32 data_ov003_021d8c30;
+extern UnkFunc *data_ov003_021d8c50;
+extern u8 data_ov003_021d8c64[6];
+extern u8 data_ov003_021d8cc4[0x20];
+extern void *data_ov003_021d8c10;
+extern void *data_ov003_021d8c24;
+extern s32 data_ov003_021d8c38;
+extern s32 data_ov003_021d8c3c;
+extern u32 data_ov003_021d8c6c[4];
+
 #include "03/code_021b94b8.h"

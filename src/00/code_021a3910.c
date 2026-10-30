@@ -18,7 +18,7 @@ void func_ov000_021a3910(void) {
         t.mUnk_00 = func_ov000_021a372c;
         t.mUnk_04 = func_ov000_021a3704;
         data_ov000_021b5df4->mUnk_04 = 2;
-        if (func_ov000_02188868(&t) != 0) {
+        if (func_ov000_02188868((Unk02188868 *) &t) != 0) {
             return;
         }
         func_ov000_0219c384(0xb, -6);

@@ -16,7 +16,7 @@ u32 func_ov000_02189478(void) {
     uVar1 = func_ov000_02188584((u32) (1));
     iVar2 = func_ov000_021884fc();
     if (iVar2 < 4) {
-        return func_ov000_02189440();
+        return func_ov000_02189440(iVar2);
     }
     if (iVar2 < 5) {
         return func_ov000_02189438();
@@ -24,5 +24,5 @@ u32 func_ov000_02189478(void) {
     if (iVar2 == 5) {
         return func_ov000_02189420((int) (uVar1));
     }
-    return func_ov000_02189350((int) (uVar1));
+    return func_ov000_02189350((Unk02189350 *) uVar1);
 }

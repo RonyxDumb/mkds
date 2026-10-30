@@ -8,6 +8,8 @@
 #include "00/code_021a5b3c.h"
 #include "00/code_0218973c.h"
 #include "00/code_0218a294.h"
+#include "00/code_021898dc.h"
+#include "00/code_02188ee0.h"
 
 // Argument of func_ov000_02188868: the first two words go to the Unk021884e4 and the Unk02188114 it sets up, the
 // bytes at 8 to 0xb to the object at data_ov000_021b4d00.

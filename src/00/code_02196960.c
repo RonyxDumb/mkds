@@ -47,7 +47,7 @@ s32 func_ov000_02196a84(u8 *a, s32 b) {
     s32 n;
 
     c = b;
-    p = func_ov000_02196df0(a, b);
+    p = (u8 *) func_ov000_02196df0((const s8 *) a, b);
     while (b > 0 && p != 0) {
         data_ov000_021b3b30 = data_ov000_021b3b88;
         n = p - a;
@@ -56,7 +56,7 @@ s32 func_ov000_02196a84(u8 *a, s32 b) {
         b = b - (n + 7);
         a = p + 7;
         if (b > 0) {
-            p = func_ov000_02196df0(a, b);
+            p = (u8 *) func_ov000_02196df0((const s8 *) a, b);
         }
     }
     return c - b;

@@ -1,5 +1,5 @@
 #pragma once
 
 #include "types.h"
+#include "03/code_021be264.h"
 
-s32 func_ov003_021be3b8(void);

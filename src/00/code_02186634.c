@@ -20,7 +20,7 @@ s32 func_ov000_02186674(Unk021868a4Entry *a, s32 b, const u8 *c, char *d, s32 e)
     if (f == 0) {
         return 0;
     }
-    g = func_ov000_021881d0(f, func_0213a434(f), d, e);
+    g = func_ov000_021881d0((const s8 *) f, func_0213a434(f), (u8 *) d, e);
     if (g != -1 && g < e) {
         d[g] = 0;
     }

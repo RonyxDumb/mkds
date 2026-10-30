@@ -23,3 +23,5 @@ extern u32 data_ov003_021d68b0;
 extern u8 data_ov003_021d68c0[];
 extern Unk021d68c8 data_ov003_021d68c8;
 extern Unk021d6974 data_ov003_021d6974;
+extern u8 data_ov003_021d691c[];
+extern u8 data_ov003_021d697c[];

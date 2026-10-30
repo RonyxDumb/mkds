@@ -44,7 +44,7 @@ u32 func_ov000_021919ac(Unk021919ac *p, Unk021919ac_q *q) {
     func_02135014(b, data_ov000_021b2c70, q->mUnk_0a1, data_ov000_021b2c80, t, q->mUnk_080, q, q->mUnk_0a1);
     func_ov000_0218e0fc(b, func_0213a434(b), a);
     if (o->mUnk_100 != 0) {
-        func_ov000_0219488c(p, o->mUnk_110, o->mUnk_144, &h);
+        func_ov000_0219488c((Unk0218f960 *) p, o->mUnk_110, o->mUnk_144, (void **) &h);
         if (h != 0) {
             o->mUnk_19c = h->mUnk_04;
             o->mUnk_1a0 = h->mUnk_00;

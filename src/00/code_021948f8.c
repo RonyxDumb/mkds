@@ -74,7 +74,7 @@ Unk02194934 *func_ov000_0219496c(Unk0218f960 *a, s32 b) {
     return 0;
 }
 
-s32 func_ov000_02194a0c(Unk0218f960 *a, Unk021937c0Node *b, u8 *c) {
+s32 func_ov000_02194a0c(Unk0218f960 *a, Unk021937c0Node *b, const u8 *c) {
     Unk02190ed4Cb p;
     u32 *m;
     s32 v;

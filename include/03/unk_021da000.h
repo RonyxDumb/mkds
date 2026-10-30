@@ -6,11 +6,12 @@
 #include "03/code_021d079c.h"
 #include "types.h"
 #include "03/code_021d1770.h" // Unk021d1770
+#include "03/code_021bf31c.h"
 #include "03/code_021c25b4.h"
 #include "03/code_021d28b0.h"
 
 // Objects whose layout isn't known yet.
-extern u8 data_ov003_021da108[];
+extern Unk021da108 *data_ov003_021da108;
 extern u8 data_ov003_021da10c;
 extern u8 data_ov003_021da150[];
 extern u8 data_ov003_021da15c[];

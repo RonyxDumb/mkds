@@ -12,7 +12,7 @@ void func_ov000_0218592c(void *a) {
 }
 
 void func_ov000_02185954(s32 a) {
-    func_0200ed34(data_ov000_021b4c90->mUnk_3bc);
-    data_ov000_021b4c90->mUnk_004 = a;
-    func_0200ecc4(data_ov000_021b4c90->mUnk_3bc);
+    func_0200ed34(((Unk021b4c90 *) data_ov000_021b4c90)->mUnk_3bc);
+    ((Unk021b4c90 *) data_ov000_021b4c90)->mUnk_004 = a;
+    func_0200ecc4(((Unk021b4c90 *) data_ov000_021b4c90)->mUnk_3bc);
 }

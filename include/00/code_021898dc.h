@@ -26,6 +26,6 @@ void func_ov000_02189d2c(u32 a);
 s8 func_ov000_02189df8(s32 a);
 void func_ov000_02189e54(u32 a);
 u32 func_ov000_02189e80(void);
-u32 func_ov000_02189f00(void);
+u8 func_ov000_02189f00(void);
 void func_ov000_02189f64(Unk02188ec0 *object);
 u32 func_ov000_02189fd0(s32 a);

@@ -66,7 +66,7 @@ s32 func_ov003_021bb168(u32 a, s32 b, UnkFunc *c, UnkWordFunc *d, UnkFunc *e, u3
         data_ov003_021d8c48 = -9;
         return -9;
     }
-    func_0200e28c(&data_ov003_021d8d08, func_ov003_021bcedc, 0,
+    func_0200e28c(&data_ov003_021d8d08, (void (*)(void *)) func_ov003_021bcedc, 0,
                   (u8 *) data_ov003_021d8c00 + (data_ov003_021d68b4 & ~7), data_ov003_021d68b4, a);
     data_ov003_021d8c08 = 1;
     data_ov003_021d68b8 = func_ov003_021bb354() + 60000;

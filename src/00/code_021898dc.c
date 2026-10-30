@@ -230,7 +230,7 @@ u32 func_ov000_02189e80(void) {
     return s;
 }
 
-u32 func_ov000_02189f00(void) {
+u8 func_ov000_02189f00(void) {
     u32 t;
     Unk02188ec0 *v1;
     Unk02189f00 s;

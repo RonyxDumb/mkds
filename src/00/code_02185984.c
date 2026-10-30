@@ -37,7 +37,7 @@ u32 func_ov000_02185984(Unk021868d0 *a, const u8 *b, const u8 *c, Unk021868a4Ent
     Unk0200fddc y;
     u8 *l;
     u32 h;
-    s32 i;
+    u8 *i;
     u8 *j;
     s32 k;
     s32 m;
@@ -53,9 +53,9 @@ u32 func_ov000_02185984(Unk021868d0 *a, const u8 *b, const u8 *c, Unk021868a4Ent
         func_0200fcb4(h);
         return 3;
     }
-    func_0214d1fc((const void *) i, g.mUnk_08, 6);
+    func_0214d1fc(i, g.mUnk_08, 6);
     func_0214d168(v, 0, 0x21);
-    j = func_ov000_021a6abc(&g);
+    j = func_ov000_021a6abc((u16 *) &g);
     if (j == 0) {
         func_0200fcb4(h);
         return 3;

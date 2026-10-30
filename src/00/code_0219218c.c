@@ -53,7 +53,7 @@ u32 func_ov000_0219222c(Unk021919ac *p, u32 a, s32 b, u32 c, u32 d, u32 e) {
     if (o->mUnk_100 == 0) {
         f = 0;
     }
-    if (d != 0 && f != 0 && func_ov000_02194934(p, a, &x) != 0 && x->mUnk_0c != 0) {
+    if (d != 0 && f != 0 && func_ov000_02194934((Unk0218f960 *) p, a, &x) != 0 && x->mUnk_0c != 0) {
         m = func_ov000_021a3690(0x204);
         if (m == 0) {
             func_ov000_02196590(p, data_ov000_021b2f58);

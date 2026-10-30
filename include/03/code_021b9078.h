@@ -8,7 +8,7 @@
 #include "03/code_021b8f68.h"
 
 extern s32 data_ov003_021d680c;
-extern u8 data_ov003_021d6868[];
+extern s8 data_ov003_021d6868[];
 extern u8 data_ov003_021d6870[];
 
 s32 func_ov003_021b9078(s32 a, Unk021d7c54 *b, s32 *c, Unk021b916c *d, s32 e);

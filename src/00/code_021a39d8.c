@@ -37,31 +37,31 @@ void func_ov000_021a3a18(Unk021a3a18 *a, s32 b) {
     func_ov000_021a4480((u32) &k, 3, (u32) a->mUnk_84);
     for (i = 0; i < data_ov000_021b5df8; i++) {
         func_02135014(t, data_ov000_021b4388, i);
-        func_ov000_021a471c((int) &k, (u32) t);
-        func_ov000_021a471c((int) &k, (u32) func_ov000_021a8c6c(data_ov000_021b5dfc[i]));
+        func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) t);
+        func_ov000_021a471c((Unk021a471c *) &k, func_ov000_021a8c6c(((Unk021b5dfc *) data_ov000_021b5dfc)[i]));
     }
-    func_ov000_021a471c((int) &k, (u32) data_ov000_021b4394);
-    func_ov000_021a4760((int) &k, a->mUnk_c0);
-    func_ov000_021a471c((int) &k, (u32) data_ov000_021b43a0);
+    func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b4394);
+    func_ov000_021a4760((Unk021a471c *) &k, a->mUnk_c0);
+    func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b43a0);
     if (a->mUnk_c8 != 0) {
-        func_ov000_021a471c((int) &k, (u32) data_ov000_021b43a8);
+        func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b43a8);
     } else {
-        func_ov000_021a471c((int) &k, (u32) data_ov000_021b43ac);
+        func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b43ac);
     }
     if (b != 0) {
-        func_ov000_021a471c((int) &k, (u32) data_ov000_021b43b0);
-        func_ov000_021a4760((int) &k, b);
+        func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b43b0);
+        func_ov000_021a4760((Unk021a471c *) &k, b);
     }
-    func_ov000_021a471c((int) &k, (u32) data_ov000_021b43c0);
-    func_ov000_021a471c((int) &k, (u32) a->mUnk_04);
+    func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b43c0);
+    func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) a->mUnk_04);
     if (a->mUnk_a8 != 0) {
-        func_ov000_021a471c((int) &k, (u32) data_ov000_021b43cc);
-        func_ov000_021a4760((int) &k, a->mUnk_104);
-        func_ov000_021a471c((int) &k, (u32) data_ov000_021b43d8);
-        func_ov000_021a4760((int) &k, a->mUnk_108);
+        func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b43cc);
+        func_ov000_021a4760((Unk021a471c *) &k, a->mUnk_104);
+        func_ov000_021a471c((Unk021a471c *) &k, (const u8 *) data_ov000_021b43d8);
+        func_ov000_021a4760((Unk021a471c *) &k, a->mUnk_108);
     }
     if (b != 2) {
-        func_ov000_021a41a0((u32) a, (u32) &k, 0xff, 0, 0xff, 0, 0xff, 0);
+        func_ov000_021a41a0((Unk021a4a08 *) a, (Unk021a471c *) &k, 0xff, 0, 0xff, 0, 0xff, 0);
     } else if (0x800 - k.mUnk_800 >= 1) {
         k.mUnk_000[k.mUnk_800++] = 0;
     }
@@ -90,7 +90,7 @@ void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d) {
     s8 *p6;
     k.mUnk_800 = 0;
     if (a == 0) {
-        a = data_ov000_021b426c;
+        a = (Unk021a3a18 *) data_ov000_021b426c;
     }
     if (b[0] == 0x3b) {
         if (a->mUnk_d4 != 0) {
@@ -98,7 +98,7 @@ void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d) {
             return;
         }
     } else if (b[0] == 0x5c) {
-        func_ov000_021a3f78((u32) a, k.mUnk_000);
+        func_ov000_021a3f78((Unk021a4a08 *) a, (Unk021a471c *) &k);
         func_ov000_0218e3e4(a->mUnk_00, &k, k.mUnk_800, 0, d, 8);
         return;
     } else if (c >= 7) {
@@ -114,13 +114,13 @@ void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d) {
                 func_ov000_021a4480((u32) &k, t, (u32) p5);
                 switch (t) {
                 case 0:
-                    func_ov000_021a412c(a, &k, (u8 *) p6, c);
+                    func_ov000_021a412c((Unk021a4a08 *) a, (Unk021a471c *) &k, (u8 *) p6, c);
                     break;
                 case 1:
                     if (c >= 13 && a->mUnk_a8 != 0) {
-                        func_ov000_021a438c(a, (u8 *) (p6 + c - 13));
+                        func_ov000_021a438c((Unk021a4a08 *) a, (u8 *) (p6 + c - 13));
                     }
-                    func_ov000_021a4418(a, &k, (u8 *) p6, c);
+                    func_ov000_021a4418((Unk021a4a08 *) a, (Unk021a471c *) &k, (u8 *) p6, c);
                     break;
                 case 2:
                     if (c > 0x20) {

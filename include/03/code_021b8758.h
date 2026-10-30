@@ -1,8 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021b94b8.h"
-
 typedef struct Unk021b8760 {
     /* 00 */ u8 mUnk_00;
     /* 01 */ u8 pad_01;
@@ -36,6 +34,8 @@ typedef struct Unk021b8758 {
     /* 2d8 */ Unk021b88c0 mUnk_2d8;
     /* 348 */ u8 pad_348[8];
 } Unk021b8758;
+
+#include "03/code_021b94b8.h"
 
 extern u8 data_ov003_021d6800[];
 

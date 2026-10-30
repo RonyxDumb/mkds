@@ -156,7 +156,7 @@ u32 func_ov000_021a1e40(u32 param_1, u32 param_2, u16 param_3, u8 *param_4, u32 
     c = param_4[0];
     if ((c == 0xfe && param_4[1] == 0xfd) || c == 0x5c) {
         if (data_ov000_021b566c->mUnk_10 != 0) {
-            func_ov000_021a3c14(data_ov000_021b566c->mUnk_10, param_4, param_5, &a);
+            func_ov000_021a3c14((Unk021a3a18 *) data_ov000_021b566c->mUnk_10, (s8 *) param_4, param_5, &a);
         }
     } else if (func_02134d30(param_4, data_ov000_021b400c, 6) == 0) {
         func_ov000_0219a7e4(param_4, param_5, &a);
@@ -435,10 +435,11 @@ u32 func_ov000_021a2768(u32 param_1) {
     i = 0;
     do {
         p = data_ov000_021b566c;
-        r = func_ov000_021a4a08(&data_ov000_021b566c->mUnk_10, func_ov000_021988d8(*p->mUnk_04),
-                                func_ov000_021988e4(*p->mUnk_04), p->mUnk_2dc, p->mUnk_2e0, 1, 1,
-                                func_ov000_0219dee0, func_ov000_0219dedc, func_ov000_0219ded8,
-                                func_ov000_0219de68, func_ov000_0219de64, func_ov000_0219de5c, 0);
+        r = func_ov000_021a4a08((Unk021a4a08 **) &data_ov000_021b566c->mUnk_10, func_ov000_021988d8(*p->mUnk_04),
+                                func_ov000_021988e4(*p->mUnk_04), (const u8 *) p->mUnk_2dc, (const u8 *) p->mUnk_2e0, 1, 1,
+                                (Unk021a4a08Func88) func_ov000_0219dee0, (Unk021a4a08Func8c) func_ov000_0219dedc,
+                                (Unk021a4a08Func8c) func_ov000_0219ded8, (Unk021a4a08Func94) func_ov000_0219de68,
+                                (Unk021a4a08Func98) func_ov000_0219de64, (Unk021a4a08Func9c) func_ov000_0219de5c, 0);
         if (r == 0) {
             break;
         }

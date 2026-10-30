@@ -128,7 +128,7 @@ s32 func_ov000_02196480(Unk0218f960 *a, s32 *b, Unk02193f2cNode *c, s32 d, const
     return 0;
 }
 
-s32 func_ov000_021964e4(Unk0218f960 *a, Unk021937c0Node *b, u8 *c) {
+s32 func_ov000_021964e4(Unk0218f960 *a, Unk021937c0Node *b, const u8 *c) {
     Unk02190ed4Cb p;
     u32 *m;
     s32 t;

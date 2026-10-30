@@ -89,7 +89,7 @@ s32 func_ov003_021bdd3c(void) {
                     case 18:
                         break;
                     case 5:
-                        d = func_ov003_021be96c(data_ov003_021d8c2c, data_ov003_021d8c40);
+                        d = func_ov003_021be96c((u8 *) data_ov003_021d8c2c, data_ov003_021d8c40);
                         if (d > a) {
                             a = d;
                             func_0200f8b8(&n);

@@ -51,7 +51,7 @@ s32 func_ov000_02186b0c(Unk021868d0 *a, const u8 *b, const void *c, s32 d) {
         j = e->mUnk_08 - e->mUnk_04;
     }
     e->mUnk_04 = e->mUnk_04 + func_0200d9e0(e->mUnk_04, j, f, b);
-    if (func_ov000_021882f8(c, d, e->mUnk_04, e->mUnk_08 - e->mUnk_04 - 1) < 0) {
+    if (func_ov000_021882f8(c, d, (s8 *) e->mUnk_04, e->mUnk_08 - e->mUnk_04 - 1) < 0) {
         return 1;
     }
     e->mUnk_04 = e->mUnk_04 + g;
