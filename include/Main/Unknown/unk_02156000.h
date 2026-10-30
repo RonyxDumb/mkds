@@ -101,6 +101,8 @@ extern u32 data_usa_02156470;
 extern u16 data_usa_021565d8;
 extern u16 data_usa_021565dc;
 extern u32 data_usa_021565e0;
+extern u32 data_usa_021565e8;
+extern u16 data_usa_021565ec;
 extern u16 data_021564a8;
 extern u16 data_021564ac;
 extern u32 data_021564b0;
