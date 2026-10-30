@@ -5,6 +5,10 @@
     .bss        start:0x021d7c00 end:0x021da300 kind:bss align:32
 
 // provisional: file name and boundaries
+src/03/code_021b7bb4.c:
+    .text       start:0x021b7b74 end:0x021b7bf0
+
+// provisional: file name and boundaries
 src/03/code_021b7c30.c:
     .text       start:0x021b7bf0 end:0x021b7c04
 
@@ -17,16 +21,44 @@ src/03/code_021b7cac.c:
     .text       start:0x021b7c6c end:0x021b7ca4
 
 // provisional: file name and boundaries
+src/03/code_021b7cec.c:
+    .text       start:0x021b7cac end:0x021b7cb8
+
+// provisional: file name and boundaries
+src/03/code_021b7d04.c:
+    .text       start:0x021b7cc4 end:0x021b7d44
+
+// provisional: file name and boundaries
 src/03/code_021b7d84.c:
     .text       start:0x021b7d44 end:0x021b7d60
+
+// provisional: file name and boundaries
+src/03/code_021b7dc8.c:
+    .text       start:0x021b7d88 end:0x021b7e18
 
 // provisional: file name and boundaries
 src/03/code_021b7e58.c:
     .text       start:0x021b7e18 end:0x021b7e90
 
 // provisional: file name and boundaries
+src/03/code_021b7efc.c:
+    .text       start:0x021b7ebc end:0x021b8010
+
+// provisional: file name and boundaries
 src/03/code_021b8050.c:
     .text       start:0x021b8010 end:0x021b803c
+
+// provisional: file name and boundaries
+src/03/code_021b807c.c:
+    .text       start:0x021b803c end:0x021b8708
+
+// provisional: file name and boundaries
+src/03/code_021b8758.c:
+    .text       start:0x021b8718 end:0x021b8ab4
+
+// provisional: file name and boundaries
+src/03/code_021b8b18.c:
+    .text       start:0x021b8ad8 end:0x021b9038
 
 // provisional: file name and boundaries
 src/03/code_021b94ac.c:

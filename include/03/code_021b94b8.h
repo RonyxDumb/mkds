@@ -38,7 +38,7 @@ typedef struct Unk021d7c6c {
     /* 10 */ u32 mUnk_10;
     /* 14 */ u32 mUnk_14;
     /* 18 */ s8 mUnk_18;
-    /* 19 */ u8 mUnk_19;
+    /* 19 */ s8 mUnk_19;
     /* 1a */ u8 pad_1a[2];
 } Unk021d7c6c;
 
@@ -137,7 +137,7 @@ extern Unk021ba734 *data_ov003_021d7c44;
 extern Unk021ba734 *data_ov003_021d7c4c;
 extern s32 data_ov003_021d7c50;
 extern Unk021d7c54 *data_ov003_021d7c54;
-extern u32 data_ov003_021d7c58[2];
+extern u8 data_ov003_021d7c58[8];
 extern Unk021d7c6c data_ov003_021d7c6c;
 extern void *(*data_ov003_021d8a0c)(u32);
 extern void (*data_ov003_021d8a10)(s32);

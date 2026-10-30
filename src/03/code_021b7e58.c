@@ -1,6 +1,6 @@
 #include "03/code_021b7e58.h"
 
-void func_ov003_021b7e94(int param_1, u32 param_2, int param_3) {
+void func_ov003_021b7e94(u8 *param_1, u32 param_2, u8 *param_3) {
     int iVar1;
     iVar1 = _s32_div_f(param_2, 2);
     func_ov003_021b7d90(param_3, param_1 + iVar1, iVar1);
