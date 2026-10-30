@@ -176,6 +176,14 @@ typedef struct Unk02175620_d8 {
     /* 04 */ struct Unk02175620_d8 *mUnk_04;
 } Unk02175620_d8;
 
+// Object behind the word at 0x3c of the object behind data_02175620: two vectors and the halfword at 0x1a.
+typedef struct Unk02175620_3c {
+    /* 00 */ Vec3 mUnk_00;
+    /* 0c */ Vec3 mUnk_0c;
+    /* 18 */ u8 mUnk_18[2];
+    /* 1a */ s16 mUnk_1a;
+} Unk02175620_3c;
+
 // Object behind data_02175620.
 typedef struct {
     /* 00 */ struct Unk020fa294 *mUnk_00;
@@ -200,7 +208,7 @@ typedef struct {
     /* 34 */ Unk02175620_34 *mUnk_34;
     /* 38 */ u16 mUnk_38;
     /* 3a */ u8 mUnk_3a[0x2];
-    /* 3c */ void *mUnk_3c;
+    /* 3c */ Unk02175620_3c *mUnk_3c;
     /* 40 */ u16 mUnk_40;
     /* 42 */ u8 mUnk_42[0x2];
     /* 44 */ Unk02175620_44 *mUnk_44;
