@@ -2935,6 +2935,8 @@ src/Main/Unknown/code_02068eac.c:
     .text       start:0x02068eac end:0x0206a354
 src/Main/Unknown/code_020681f0.c:
     .text       start:0x020681f0 end:0x02068eac
+src/Main/Unknown/code_0206a354.c:
+    .text       start:0x0206a354 end:0x0206bcb0
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0206bcb0.c:

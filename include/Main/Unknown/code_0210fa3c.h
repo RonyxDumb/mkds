@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_0210fa3c(unsigned int p0);
+unsigned int func_0210fa3c();
