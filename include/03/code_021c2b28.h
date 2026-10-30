@@ -35,4 +35,4 @@ void func_ov003_021c2d18(void);
 
 // Not decompiled yet.
 void func_ov003_021bf8c0(void);
-void func_ov003_021cc948(void *a, u32 b, u32 c);
+void func_ov003_021cc948(u8 *param_1, u32 param_2, u32 param_3);

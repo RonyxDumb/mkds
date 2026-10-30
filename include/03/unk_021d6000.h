@@ -8,6 +8,12 @@ typedef struct Unk021d68c8 {
     /* 0 */ u8 mUnk_00[7];
 } Unk021d68c8;
 
+// Entry of data_ov003_021d64f0, two halfwords.
+typedef struct Unk021d64f0 {
+    /* 0 */ u16 mUnk_00;
+    /* 2 */ u16 mUnk_02;
+} Unk021d64f0;
+
 // Four bytes moved as one value.
 typedef struct Unk021d6974 {
     /* 0 */ u8 mUnk_00[4];
@@ -26,7 +32,17 @@ extern Unk021d299c data_ov003_021d644c;
 extern u8 data_ov003_021d6478[][3];
 extern u8 data_ov003_021d646c[];
 extern u16 data_ov003_021d6488[];
+extern u8 data_ov003_021d64e4[];
+extern s8 data_ov003_021d64e8[];
+extern Unk021d64f0 data_ov003_021d64f0[];
 extern u8 data_ov003_021d6508[];
+extern Unk021d299c data_ov003_021d6540[];
+extern s8 data_ov003_021d6578[];
+extern s8 data_ov003_021d6580[][4][4];
+extern Unk021d299c data_ov003_021d65a0[][4];
+extern Unk021d299c data_ov003_021d65e0[][4];
+extern u8 data_ov003_021d6620[];
+extern u8 data_ov003_021d6630[];
 extern u8 data_ov003_021d6638[];
 extern u8 data_ov003_021d66bc[];
 extern u8 data_ov003_021d66c4[];

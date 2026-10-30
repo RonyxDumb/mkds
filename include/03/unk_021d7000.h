@@ -21,6 +21,26 @@ typedef struct Unk021d7864 {
     /* 0 */ u8 mUnk_00[6];
 } Unk021d7864;
 
+// Twenty-two bytes moved as one value.
+typedef struct Unk021d75c8 {
+    /* 00 */ u8 mUnk_00[0x16];
+} Unk021d75c8;
+
+// Twenty-two bytes moved as one value.
+typedef struct Unk021d7654 {
+    /* 00 */ u8 mUnk_00[0x16];
+} Unk021d7654;
+
+// Four bytes moved as one value.
+typedef struct Unk021d7650 {
+    /* 0 */ u8 mUnk_00[4];
+} Unk021d7650;
+
+// Three words moved as one value.
+typedef struct Unk021d7708 {
+    /* 00 */ u32 mUnk_00[3];
+} Unk021d7708;
+
 // Objects whose layout isn't known yet.
 extern Unk021d7864 data_ov003_021d7864;
 extern Unk021d73e0 data_ov003_021d73e0;
@@ -67,10 +87,22 @@ extern u8 data_ov003_021d7568[];
 extern u8 data_ov003_021d757c[];
 extern u8 data_ov003_021d7594[];
 extern u8 data_ov003_021d75ac[];
+extern Unk021d75c8 data_ov003_021d75c8;
+extern u8 data_ov003_021d75e0[];
+extern u8 data_ov003_021d75f8[];
+extern u8 data_ov003_021d760c[];
+extern u8 data_ov003_021d7624[];
+extern u8 data_ov003_021d763c[];
+extern Unk021d7650 data_ov003_021d7650;
+extern Unk021d7654 data_ov003_021d7654;
+extern u8 data_ov003_021d766c[];
+extern u8 data_ov003_021d7684[];
+extern u8 data_ov003_021d769c[];
 extern u8 data_ov003_021d76b0[];
 extern u8 data_ov003_021d76c8[];
 extern u8 data_ov003_021d76e0[];
 extern u8 data_ov003_021d76f4[];
+extern Unk021d7708 data_ov003_021d7708;
 extern u8 data_ov003_021d7714[];
 extern u8 data_ov003_021d7728[];
 extern u8 data_ov003_021d773c[];

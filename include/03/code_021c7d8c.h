@@ -48,7 +48,7 @@ extern Unk021d299c data_ov003_021d64b4[];
 
 // Declared here until the code that defines them is decompiled.
 void func_ov003_021c8b94(void);
-void func_ov003_021cc948(void *a, u32 b, u32 c);
+void func_ov003_021cc948(u8 *param_1, u32 param_2, u32 param_3);
 void func_ov003_021c85a0(void);
 
 u32 func_ov003_021c7d8c(void);
