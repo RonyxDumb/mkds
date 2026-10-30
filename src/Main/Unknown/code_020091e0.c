@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-void func_020091e0(unsigned int p0, unsigned int p1) {
+void func_020091e0(void *p0, unsigned int p1) {
     *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 10) = (unsigned short) (0x20u);
     *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 12) = (unsigned short) (p1);
     *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 14) =
