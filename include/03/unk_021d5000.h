@@ -19,3 +19,6 @@ extern u16 data_ov003_021d5f14[];
 extern u16 data_ov003_021d5f34[];
 extern u16 data_ov003_021d5f36[];
 extern u8 data_ov003_021d5f4c[];
+extern u8 data_ov003_021d5f68[];
+extern u8 data_ov003_021d5f70[];
+extern u16 data_ov003_021d5f74[];
