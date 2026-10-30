@@ -5,6 +5,7 @@
 #include "00/code_02185230.h"
 #include "00/code_021855f8.h"
 #include "00/code_0218e56c.h"
+#include "00/code_021a4a08.h"
 
 #include "types.h"
 #include "00/code_021a39d8.h"
@@ -36,8 +37,16 @@ extern u8 data_ov000_021b43c0[];
 extern u8 data_ov000_021b43cc[];
 extern u8 data_ov000_021b43d8[];
 extern char data_ov000_021b41f4[];
-extern Unk021a3a18 *data_ov000_021b426c;
 extern Unk021a3eb0 data_ov000_021b4270;
+extern Unk021a4a08 *data_ov000_021b426c;
+extern u8 data_ov000_021b43f8[];
+extern u8 data_ov000_021b4400[];
+extern u8 data_ov000_021b4404[];
+extern u8 data_ov000_021b440c[];
+extern u8 data_ov000_021b4418[];
+extern u8 data_ov000_021b4428[];
+extern u8 data_ov000_021b442c[];
+extern u8 data_ov000_021b4464[];
 extern u8 data_ov000_021b43e4[];
 extern u8 data_ov000_021b4a58[];
 extern u8 data_ov000_021b4a5c[];

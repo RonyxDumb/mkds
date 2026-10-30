@@ -29,8 +29,8 @@ void func_ov000_021a49a0(void *param_1) {
         param_1 = *(void **) &data_ov000_021b426c;
     }
     if (*(int *) ((u8 *) param_1 + 0xbc) != 0) {
-        func_ov000_021a4868((int *) param_1);
+        func_ov000_021a4868((Unk021a4a08 *) param_1);
     }
-    func_ov000_021a4940((u32 *) param_1);
+    func_ov000_021a4940((Unk021a4a08 *) param_1);
     return;
 }

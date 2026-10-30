@@ -9,7 +9,7 @@
 #include "00/code_021a39d8.h"
 
 // Declared here until the code that defines them is decompiled.
-void func_ov000_021a3fc8(int param_1, int param_2, int param_3);
+#include "00/code_021a3758.h"
 
 #include "00/code_021a3668.h"
 u64 func_ov000_021a350c(void);

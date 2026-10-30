@@ -141,14 +141,14 @@ u32 func_ov000_02191cb0(Unk021919ac *p, const u8 *a, const u8 *b, const u8 *c, c
     if (g != 0) {
         func_ov000_02196914(q->mUnk_2c2, g, 0x41);
     }
-    r = func_ov000_021938cc(p, 0, (int) q, (int *) &n, j, k, l);
+    r = func_ov000_021938cc((int *) p, 0, (int) q, (int *) &n, j, k, l);
     if (r != 0) {
         return r;
     }
     r = func_ov000_02191e58(p, n);
     if (r != 0) {
         n->mUnk_1c = r;
-        func_ov000_02193954(p, n);
+        func_ov000_02193954((Unk0218f960 *) p, (Unk021937c0Node *) n);
         func_ov000_02190ff8((Unk0218f960 *) p, 0);
         return r;
     }
@@ -165,7 +165,7 @@ u32 func_ov000_02191cb0(Unk021919ac *p, const u8 *a, const u8 *b, const u8 *c, c
 u32 func_ov000_02191e58(Unk021919ac *p, Unk021919ac_node *n) {
     Unk021919ac_00 *o;
     Unk021919ac_sa s;
-    Unk021919ac_x *x;
+    Unk021a8f84 *x;
     s32 z;
 
     o = p->mUnk_00;

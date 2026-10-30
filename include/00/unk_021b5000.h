@@ -6,6 +6,7 @@
 #include "00/code_0219d934.h"
 #include "00/code_0219de4c.h"
 #include "types.h"
+#include "00/code_021a4b98.h"
 #include "00/code_021a31a4.h"
 #include "00/code_021a377c.h"
 
@@ -17,9 +18,7 @@ typedef struct Unk021b5dfc {
 // Objects whose layout isn't known yet.
 extern u8 data_ov000_021b5dec[];
 extern u8 data_ov000_021b5df0[];
-extern s32 data_ov000_021b5df8;
-extern Unk021b5dfc data_ov000_021b5dfc[];
-extern u8 data_ov000_021b5f50[];
+extern Unk021b5f50 *data_ov000_021b5f50;
 extern u8 data_ov000_021b5f98[];
 extern u8 data_ov000_021b5fdc[];
 

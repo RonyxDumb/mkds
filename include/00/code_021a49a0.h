@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "00/code_021a4000.h"
+#include "00/code_021a4868.h"
 #include "00/unk_021b4000.h"
 
 void func_ov000_021a49a0(void *param_1);
