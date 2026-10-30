@@ -14,7 +14,7 @@ void func_0202808c(void) {
     } else {
         func_0211f498();
     }
-    func_02036ab0((void *) (*(u32 *) ((*(int *) &data_02174e18) + 0x8c)));
+    func_02036ab0((void *) data_02174e18->mUnk_08c);
     *(int *) &data_02174e18 = 0;
     return;
 }

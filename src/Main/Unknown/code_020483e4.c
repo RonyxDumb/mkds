@@ -5,7 +5,7 @@
 u32 func_02048440(void) {
     u32 uVar1;
     uVar1 = (int) *(u8 *) ((*(int *) &data_0217aa00) + ((int) 0x0000043cu));
-    if ((*(int *) (*(u32 *) &data_021759d0) == 2) && (((int *) (*(u32 *) &data_021759d0))[1] == 1)) {
+    if ((data_021759d0->mUnk_00 == 2) && (((int *) (*(u32 *) &data_021759d0))[1] == 1)) {
         uVar1 = uVar1 + 5;
     }
     return ((unsigned int *) &data_02164dc8)[uVar1];

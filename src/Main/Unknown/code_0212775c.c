@@ -3,10 +3,10 @@
 #pragma thumb on
 
 s32 func_02127794(void) {
-    if (*(int *) ((*(int *) &data_0217d3f4) + 0x20) != 0) {
+    if ((int) data_0217d3f4->mUnk_20 != 0) {
         return 0xffffffff;
     }
-    return *(u32 *) ((*(int *) &data_0217d3f4) + 0x18);
+    return data_0217d3f4->mUnk_18;
 }
 
 unsigned int func_02127788(void) {

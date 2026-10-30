@@ -10,7 +10,7 @@ void func_020ad234(void) {
     int iVar1;
     int iVar2;
     iVar2 = 0;
-    if (*(int *) ((*(int *) &data_0217b340) + 0x50) == 0) {
+    if (data_0217b340->mUnk_50 == 0) {
         iVar2 = 0x6b;
     }
     iVar1 = ((u32) func_020adaf8());

@@ -5,7 +5,7 @@
 void func_020566a8(u32 param_1, int param_2) {
     int iVar1;
     u32 uVar2;
-    uVar2 = *(u32 *) ((*(int *) &data_0217aa08) + 0x18);
+    uVar2 = (u32) data_0217aa08->mUnk_18;
     *(u32 *) (param_2 + 8) = *(u32 *) (param_2 + 8) & 0xfffffffe | 1;
     func_0214d1fc((const void *) ((u16 *) (u32) (param_2)), (void *) ((u32 *) (u32) (uVar2)),
                   (u32) (((u32) 0x00001000u)));

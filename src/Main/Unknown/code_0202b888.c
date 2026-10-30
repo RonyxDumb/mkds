@@ -3,7 +3,7 @@
 #pragma thumb on
 
 u32 func_0202b8c0(void) {
-    if (*(int *) ((*(int *) &data_02174e3c) + 0x40) == 0) {
+    if (data_02174e3c->mUnk_040 == 0) {
         return 1;
     }
     return 0;
@@ -16,7 +16,7 @@ u32 func_0202b888(void) {
     int iVar2;
     uVar5 = 1;
     iVar4 = 0;
-    if (0 < *(int *) ((*(int *) &data_02174e3c) + 0x48)) {
+    if (0 < data_02174e3c->mUnk_048) {
         iVar3 = 0;
         do {
             iVar2 = ((u32) func_02029930());
