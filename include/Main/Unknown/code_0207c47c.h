@@ -25,6 +25,3 @@ void func_0207ca18(Unk0208fd8c *a, struct Unk020888b4 *b);
 void func_0207ca60(Unk0208fd8c *a, struct Unk020888b4 *b);
 void func_0207caa8(Unk0208fd8c *a, struct Unk020888b4 *b);
 void func_0207cb0c(Unk0208fd8c *a, struct Unk020888b4 *b);
-// Defined by code that is not decompiled yet.
-void func_0207cd74(Unk0208fd8c *a, struct Unk020888b4 *b);
-void func_0207d194(Unk0208fd8c *a, struct Unk020888b4 *b);

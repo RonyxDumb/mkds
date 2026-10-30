@@ -15,7 +15,11 @@ typedef struct Unk020888b4_d0 {
 // Object of 0x34 bytes at 0xe8 of the object Unk020888b4 starts: func_02089a24 writes the words at 0x28 and 0x2c and
 // the halfword at 0x30.
 typedef struct Unk02089a24 {
-    /* 00 */ u8 mUnk_00[0x28];
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ s32 mUnk_0c;
+    /* 10 */ u8 mUnk_10[0x18];
     /* 28 */ s32 mUnk_28;
     /* 2c */ s32 mUnk_2c;
     /* 30 */ u16 mUnk_30;
