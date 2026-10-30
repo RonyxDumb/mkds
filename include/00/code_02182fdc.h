@@ -10,6 +10,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0205e2cc.h"
+#include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_020b4000.h"
 #include "Main/Unknown/code_0204799c.h"
@@ -111,7 +112,7 @@ typedef struct Unk0217b488 {
     /* 054 */ u8 mUnk_54;
     /* 055 */ u8 mUnk_55[0x3];
     /* 058 */ s32 mUnk_58;
-    /* 05c */ u8 mUnk_5c[0x10];
+    /* 05c */ s32 mUnk_5c[4];
     /* 06c */ s32 mUnk_6c;
     /* 070 */ s32 mUnk_70;
     /* 074 */ s32 mUnk_74;
@@ -123,9 +124,11 @@ typedef struct Unk0217b488 {
     /* 08c */ s32 mUnk_8c;
     /* 090 */ s32 mUnk_90;
     /* 094 */ s32 mUnk_94;
-    /* 098 */ u8 mUnk_98[0x10];
+    /* 098 */ Unk0217aa1c_144_00 mUnk_98[4];
     /* 0a8 */ u16 mUnk_a8;
-    /* 0aa */ u8 mUnk_aa[0x42];
+    /* 0aa */ u8 mUnk_aa[0x2];
+    /* 0ac */ s32 mUnk_ac[8];
+    /* 0cc */ s32 mUnk_cc[8];
     /* 0ec */ s32 mUnk_ec[4];
     /* 0fc */ u8 mUnk_fc[0x10];
     /* 10c */ s32 mUnk_10c[8];
