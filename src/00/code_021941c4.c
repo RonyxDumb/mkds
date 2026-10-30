@@ -5,6 +5,9 @@
 #include "code_0213442c.h"
 #include "code_02135014.h"
 #include "code_0213a460.h"
+#include "00/code_0218fca8.h"
+#include "00/code_0218da04.h"
+#include "00/code_02196714.h"
 
 s32 func_ov000_021941c4(Unk0218f960 *a, Unk02193f2cNode *b) {
     Unk0218f960_00 *r;
@@ -203,7 +206,7 @@ s32 func_ov000_02194590(Unk0218f960 *a, Unk02193f2cNode *b) {
         }
         break;
     case 0x67:
-        t = func_ov000_02196714(a, b->mUnk_08, &x);
+        t = func_ov000_02196714(a, b->mUnk_08, (u32 *) &x);
         if (t != 0) {
             return t;
         }

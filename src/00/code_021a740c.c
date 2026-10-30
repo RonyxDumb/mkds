@@ -9,6 +9,7 @@
 #include "00/unk_021b4000.h"
 #include "00/unk_021b5000.h"
 #include "code_0200e904.h"
+#include "00/code_021a73d8.h"
 
 s32 func_ov000_021a740c(Unk021a7064 *param_1) {
     Unk021a6fa8 *a;

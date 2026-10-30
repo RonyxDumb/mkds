@@ -17,6 +17,9 @@
 #include "code_0213a460.h"
 #include "code_02139f70.h"
 #include "code_0214d018.h"
+#include "00/code_021ae2f4.h"
+#include "00/code_021adb80.h"
+#include "00/code_02186a10.h"
 
 // non-matching: stack offsets only: the sign word and the string pointer are spilled to sp+0x30, sp+0x28, sp+0x34 (original sp+0x34, sp+0x2c, sp+0x24); size equal
 void func_ov000_02186d7c(void *param_0) {

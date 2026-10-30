@@ -2,6 +2,7 @@
 #include "Main/Unknown/code_0210895c.h"
 #include "Main/Unknown/code_02029930.h"
 #include "Main/Unknown/code_02148ca0.h"
+#include "00/code_02180650.h"
 
 void func_ov000_02184354(void) {
     u32 a;

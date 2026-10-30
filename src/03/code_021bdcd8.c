@@ -12,6 +12,8 @@
 #include "code_0200f7a0.h"
 #include "code_02134d30.h"
 #include "code_02139f70.h"
+#include "03/code_021be4ec.h"
+#include "03/code_021bb0b0.h"
 
 s32 func_ov003_021bdcd8(s32 v1, const void *v2, u32 v3) {
     Unk021bdcd8 a;
@@ -153,7 +155,7 @@ s32 func_ov003_021bdd3c(void) {
             data_ov003_021d8be8 = i;
             func_0213a2d0(data_ov003_021d8ce4, m->mUnk_04);
             data_ov003_021d8c5c = m->mUnk_28;
-            func_ov003_021bb29c(o, &data_ov003_021d8c5c);
+            func_ov003_021bb29c((u8 *) o, (const s8 *) &data_ov003_021d8c5c);
             break;
         }
         func_02134eb8(k, j, e);

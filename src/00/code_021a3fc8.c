@@ -4,6 +4,7 @@
 #include "00/code_021a4b84.h"
 #include "00/unk_021b4000.h"
 #include "code_02135014.h"
+#include "00/code_021a41a0.h"
 
 void func_ov000_021a3fc8(Unk021a4a08 *a, Unk021a471c *b, s32 c) {
     u8 e[0x80];

@@ -8,6 +8,7 @@
 #include "code_0213a460.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/unk_0216f000.h"
+#include "Main/Unknown/code_0200edc0.h"
 
 void func_ov000_02187274(Unk02186d7c *p) {
     if (p->mUnk_00 == 0xff) {

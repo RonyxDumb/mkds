@@ -9,6 +9,7 @@
 #include "00/code_021a369c.h"
 #include "00/code_021a4b84.h"
 #include "code_02139f70.h"
+#include "00/code_021a01dc.h"
 
 s32 func_ov000_021a2950(u64 *a) {
     Unk021b5670 *p = data_ov000_021b5670;

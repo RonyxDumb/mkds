@@ -1,4 +1,6 @@
 #include "00/code_02196960.h"
+#include "00/code_021971ec.h"
+#include "00/code_0218da04.h"
 
 void func_ov000_02196960(void) {
     s32 i;
@@ -8,7 +10,7 @@ void func_ov000_02196960(void) {
         for (i = func_ov000_0218dc44(data_ov000_021b4e5c) - 1; i >= 0; i--) {
             k = data_ov000_021b3b78;
             data_ov000_021b3b30 = data_ov000_021b3b98;
-            func_ov000_021971ec(k.mUnk_00, 0xf);
+            func_ov000_021971ec((s8 *) k.mUnk_00, 0xf);
             func_ov000_021969d8(i, 0, 0, k.mUnk_00, 0);
         }
         func_ov000_0218dc48(data_ov000_021b4e5c);
@@ -51,7 +53,7 @@ s32 func_ov000_02196a84(u8 *a, s32 b) {
     while (b > 0 && p != 0) {
         data_ov000_021b3b30 = data_ov000_021b3b88;
         n = p - a;
-        func_ov000_021971ec(a, n);
+        func_ov000_021971ec((s8 *) a, n);
         func_ov000_02196ae0(a, n);
         b = b - (n + 7);
         a = p + 7;

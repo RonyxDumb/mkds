@@ -1,4 +1,8 @@
 #include "00/code_02182d74.h"
+#include "Main/Unknown/code_02036c5c.h"
+#include "Main/Unknown/code_02122ae4.h"
+#include "Main/Unknown/code_02122794.h"
+#include "Main/Unknown/code_0211f6cc.h"
 
 void func_ov000_02182d74(void) {
     if (func_02036d08() != 0) {

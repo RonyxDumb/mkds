@@ -1,4 +1,7 @@
 #include "00/code_021a1ae0.h"
+#include "00/code_021a10b0.h"
+#include "code_02139f70.h"
+#include "00/code_0219e4e8.h"
 
 void func_ov000_021a1ae0(u32 param_1, u32 param_2, u8 *param_3) {
     u32 v1[33];
@@ -344,7 +347,7 @@ void func_ov000_021a2468(const void *param_1, s32 param_2, s32 param_3, s32 para
                          u32 param_7, u32 param_8) {
     char v1[12];
     u8 v2[0x24];
-    func_ov000_021a10b0(1, param_3, param_5, param_6);
+    ((void (*)(u32, u32, u32, u32)) func_ov000_021a10b0)(1, param_3, param_5, param_6);
     data_ov000_021b566c->mUnk_19e = param_4 != 0 ? 1 : 0;
     data_ov000_021b566c->mUnk_45c = param_7;
     data_ov000_021b566c->mUnk_460 = param_8;
@@ -401,7 +404,7 @@ void func_ov000_021a260c(u32 param_1, const void *param_2, u32 param_3, u32 para
         func_0214d1fc(param_2, data_ov000_021b5674, n);
         *((u8 *) data_ov000_021b5674 + n - 1) = 0;
     }
-    func_ov000_021a10b0(0, param_1, param_3, param_4);
+    ((void (*)(u32, u32, u32, u32)) func_ov000_021a10b0)(0, param_1, param_3, param_4);
     data_ov000_021b566c->mUnk_45c = param_5;
     data_ov000_021b566c->mUnk_460 = param_6;
     data_ov000_021b566c->mUnk_198 = 2;

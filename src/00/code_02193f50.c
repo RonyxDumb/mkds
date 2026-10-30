@@ -12,6 +12,7 @@
 #include "00/unk_021b2000.h"
 #include "00/unk_021b3000.h"
 #include "code_0213442c.h"
+#include "00/code_0218da04.h"
 
 s32 func_ov000_02193f50(Unk0218f960 *param_1) {
     Unk0218f960_00 *a = param_1->mUnk_00;

@@ -13,6 +13,7 @@
 #include "code_02142eac.h"
 #include "code_02142c24.h"
 #include "code_021453ec.h"
+#include "Main/Unknown/code_0200eddc.h"
 
 // Not compiled code: the 1.2 compiler has no clz instruction.
 // clang-format off
