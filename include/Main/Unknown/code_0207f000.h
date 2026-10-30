@@ -9,4 +9,4 @@ struct Unk020888b4;
 struct Unk0206bcb0;
 
 // Declared here until the code that defines them is decompiled.
-void func_0207ffa4(Unk02080b1c *a, u32 b, Unk02080b1c_00 *c);
+#include "Main/Unknown/code_0207ffa4.h"

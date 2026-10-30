@@ -472,7 +472,6 @@ void func_0206c450(Unk0206c1ac *obj, Unk0206bcb0 *p);
 void func_0206c488(Unk0206c1ac *obj, Unk0206bcb0 *p);
 
 void func_02068a64(Unk0206bcb0 *p, int a, int b);
-void func_0207b0d0(Unk0206bcb0 *p);
 void func_0208b748(u32 idx, const Vec3 *pos, void *p, void (*cb)());
 int func_0206c494(Unk0206bcb0 *p);
 void func_0206cc60(Unk0206bcb0 *p, int arg);
@@ -492,7 +491,6 @@ void func_020681f0(Unk0206bcb0 *p);
 void func_020718c8(void *p, int arg);
 void func_02071944(void *p, int arg);
 #include "Main/Unknown/code_021035ac.h"
-void func_02079f70(void *obj, u16 a, u16 b, u16 c);
 int func_0206bcb0(Unk0206bcb0 *p, int a, int b);
 int func_0206be54(Unk0206bcb0 *p, int a);
 void func_0206bbb4(Unk0206bcb0 *p, int a, int b);
@@ -500,3 +498,5 @@ void func_0206c5e4(Unk0206bcb0 *p);
 void func_02063b10(const Unk0206bcb0 *p, Vec3 *out);
 void func_02063b30(const Unk0206bcb0 *p, Vec3 *out);
 
+#include "Main/Unknown/code_0207ae58.h"
+#include "Main/Unknown/code_02079c0c.h"

@@ -125,9 +125,9 @@ void func_0207abec(u32 a) {
 
 void func_0207ad88(Unk0207adf8 *a, u32 b, u32 c) {
     if ((a->mUnk_70 & 1) != 0) {
-        func_02084ad8(a, a->mUnk_6e, c);
-        data_02155a20[a->mUnk_58](a);
+        func_02084ad8(a, a->mUnk_6e);
+        data_02155a20[a->mUnk_00.mUnk_58](a);
         func_02084a88(a, a->mUnk_6e, a->mUnk_6c);
-        data_02155a20[a->mUnk_58](a);
+        data_02155a20[a->mUnk_00.mUnk_58](a);
     }
 }

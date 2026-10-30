@@ -5,6 +5,7 @@
 #include "Main/Unknown/code_02086098.h" // Unk02086098
 
 extern const char data_02165048[];
+extern const char data_usa_021658e0[];
 extern u16 data_usa_021656d8;
 extern u16 data_usa_021656dc;
 extern s32 data_usa_021656e0;

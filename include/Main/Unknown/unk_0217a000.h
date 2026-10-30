@@ -1263,6 +1263,7 @@ typedef struct Unk0217ad08 {
 
 extern Unk0217ad08 *data_0217ad08;
 extern u16 data_0217ad10;
+extern char data_usa_0217ad14[];
 extern s32 data_0217ad24;
 extern u32 data_0217ad28;
 extern s32 data_0217ad2c;

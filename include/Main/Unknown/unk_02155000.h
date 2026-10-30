@@ -87,7 +87,20 @@ extern const s32 data_usa_02155798[];
 extern const s32 data_usa_021557bc;
 extern const s32 data_usa_021557c0;
 extern const s32 data_usa_021557dc[];
-extern const s32 data_usa_021551b4[];
+extern const s32 data_usa_021551a4[];
+// 12-byte entries from data_usa_021551b0 (a string pointer at 0x00); the second table starts at the word at 0x04 of the first entry.
+typedef struct Unk021551b0 {
+    /* 00 */ const char *mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+} Unk021551b0;
+typedef struct Unk021551b4 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ u8 mUnk_04[8];
+} Unk021551b4;
+extern const Unk021551b0 data_usa_021551b0[];
+extern const Unk021551b4 data_usa_021551b4[];
+extern const s32 data_usa_021551dc[];
 extern const s32 data_usa_0215560c[];
 extern const s32 data_usa_02155630[];
 extern const s32 data_usa_02155654[];

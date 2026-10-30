@@ -12,4 +12,4 @@ void func_02077c1c(void);
 void func_02077d68(void);
 
 // Declared here until the code that defines them is decompiled.
-char *func_0207b8f4(u16 a, s32 b);
+#include "Main/Unknown/code_0207ae58.h"

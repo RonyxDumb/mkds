@@ -280,7 +280,7 @@ Unk0201290c *func_02084b2c(void *a, Unk02084b2c *b, Unk020136f0 *c, Unk020136f0 
     return q;
 }
 
-void func_02084ad8(void *a, u8 b, u32 c) {
+void func_02084ad8(void *a, u8 b) {
     Unk02084b2c *o = a;
 
     Unk0201290c *p = o->mUnk_04;

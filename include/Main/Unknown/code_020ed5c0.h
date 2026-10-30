@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020846c0.h" // Unk02084b2c
+#include "Main/Unknown/code_0207adf8.h" // Unk0207adf8
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_02087d0c.h"
@@ -25,19 +26,13 @@ typedef struct Unk0206bcb0_590_20 {
     /* 48 */ Vec3 mUnk_48[1];
 } Unk0206bcb0_590_20;
 
-// The object behind the word at 0x1c of a Unk0206bcb0_590: the halfword at 0x70.
-typedef struct Unk0206bcb0_590_1c {
-    /* 00 */ Unk02084b2c mUnk_00;
-    /* 6c */ u8 mUnk_6c[4];
-    /* 70 */ u16 mUnk_70;
-    /* 72 */ u8 mUnk_72[2];
-} Unk0206bcb0_590_1c;
-
 // The object behind the word at 0x590 of a Unk0206bcb0 from its first byte:
 // the halfword at 0x40.
 // The object behind the word at 0x08 of a Unk0206bcb0_590: the halfword at 0x1a.
 typedef struct Unk0206bcb0_590_08 {
-    /* 00 */ u8 mUnk_00[0xc];
+    /* 00 */ u8 mUnk_00[2];
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u8 mUnk_04[8];
     /* 0c */ s32 mUnk_0c;
     /* 10 */ u8 mUnk_10[8];
     /* 18 */ u16 mUnk_18;
@@ -61,6 +56,45 @@ typedef struct Unk0206bcb0_590_54 {
     };
 } Unk0206bcb0_590_54;
 
+// Halfwords at 0x6a of a Unk0206bcb0_590: three packed colours (0x00, 0x02, 0x04), per-channel start values and
+// differences, and a step at 0x2a.
+typedef struct Unk0206bcb0_590_6a {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ u16 mUnk_04;
+    /* 06 */ s16 mUnk_06;
+    /* 08 */ s16 mUnk_08;
+    /* 0a */ s16 mUnk_0a;
+    /* 0c */ s16 mUnk_0c;
+    /* 0e */ s16 mUnk_0e;
+    /* 10 */ s16 mUnk_10;
+    /* 12 */ s16 mUnk_12;
+    /* 14 */ s16 mUnk_14;
+    /* 16 */ s16 mUnk_16;
+    /* 18 */ s16 mUnk_18;
+    /* 1a */ s16 mUnk_1a;
+    /* 1c */ s16 mUnk_1c;
+    /* 1e */ s16 mUnk_1e;
+    /* 20 */ s16 mUnk_20;
+    /* 22 */ s16 mUnk_22;
+    /* 24 */ s16 mUnk_24;
+    /* 26 */ s16 mUnk_26;
+    /* 28 */ s16 mUnk_28;
+    /* 2a */ s16 mUnk_2a;
+} Unk0206bcb0_590_6a;
+
+// Words and halfwords from 0x24 of a Unk0206bcb0_590.
+typedef struct Unk0206bcb0_590_24 {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ s32 mUnk_04;
+    /* 08 */ s32 mUnk_08;
+    /* 0c */ u8 mUnk_0c[4];
+    /* 10 */ s16 mUnk_10;
+    /* 12 */ u8 mUnk_12[2];
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ s16 mUnk_18;
+} Unk0206bcb0_590_24;
+
 struct Unk02084b2c;
 
 typedef struct Unk0206bcb0_590 {
@@ -71,7 +105,7 @@ typedef struct Unk0206bcb0_590 {
     /* 010 */ Unk02084b2c *mUnk_010;
     /* 014 */ Unk02084b2c *mUnk_014;
     /* 018 */ Unk02084b2c *mUnk_018;
-    /* 01c */ Unk0206bcb0_590_1c *mUnk_01c;
+    /* 01c */ Unk0207adf8 *mUnk_01c;
     /* 020 */ Unk0206bcb0_590_20 *mUnk_020;
     /* 024 */ s32 mUnk_024;
     /* 028 */ u8 mUnk_028[4];
@@ -84,10 +118,14 @@ typedef struct Unk0206bcb0_590 {
     /* 058 */ s32 mUnk_058;
     /* 05c */ s32 mUnk_05c;
     /* 060 */ s32 mUnk_060;
-    /* 064 */ u8 mUnk_064[0x34];
+    /* 064 */ s32 mUnk_064;
+    /* 068 */ u8 mUnk_068[2];
+    /* 06a */ Unk0206bcb0_590_6a mUnk_06a;
+    /* 096 */ u8 mUnk_096[2];
     /* 098 */ u8 mUnk_098[0xc];
     /* 0a4 */ s32 mUnk_0a4;
-    /* 0a8 */ u8 mUnk_0a8[8];
+    /* 0a8 */ u8 mUnk_0a8[4];
+    /* 0ac */ s32 mUnk_0ac;
     /* 0b0 */ s32 mUnk_0b0;
 } Unk0206bcb0_590;
 

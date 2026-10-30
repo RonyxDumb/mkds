@@ -85,9 +85,9 @@ void func_02078580(Unk0217ad08_058 *param_1, Unk0217ad08_024 *param_2, s32 param
         func_02078934(param_3);
         if (param_1->mUnk_1c != 0) {
             if (param_3 != 0) {
-                param_1->mUnk_1c->mUnk_54 = 1;
+                param_1->mUnk_1c->mUnk_00.mUnk_54 = 1;
             } else {
-                param_1->mUnk_1c->mUnk_54 = 0;
+                param_1->mUnk_1c->mUnk_00.mUnk_54 = 0;
             }
             ((void (*)(Unk0207adf8 *)) func_0207adf8)(param_1->mUnk_1c);
         }

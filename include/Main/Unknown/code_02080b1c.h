@@ -27,7 +27,8 @@ typedef struct Unk02080b1c {
     /* 00 */ Unk02080b1c_00 *mUnk_00;
     /* 04 */ Unk02080b1c_00 *mUnk_04;
     /* 08 */ Vec3 mUnk_08;
-    /* 14 */ u8 mUnk_14[8];
+    /* 14 */ s32 mUnk_14;
+    /* 18 */ s32 mUnk_18;
     /* 1c */ u16 mUnk_1c;
     /* 1e */ u8 mUnk_1e;
 } Unk02080b1c;

@@ -8,12 +8,4 @@ struct Unk0208fd8c;
 struct Unk020888b4;
 
 // Declared here until the code that defines them is decompiled.
-u32 func_0207b8dc(int param_1);
-void func_0207b054(Unk0206bcb0 *p, s32 a, s32 b);
-void func_0207b708(void *a, s32 b);
-void func_0207b13c(Unk0206bcb0 *p);
-void func_0207b1a8(Unk0206bcb0 *p);
-void func_0207b284(Unk0206bcb0 *a);
-void func_0207b354(Unk0206bcb0 *a);
-void func_0207b734(Unk0206bcb0 *a);
-void func_0207b44c(Unk0206bcb0 *a);
+#include "Main/Unknown/code_0207ae58.h"

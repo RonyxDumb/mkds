@@ -26,4 +26,4 @@ void func_02068b98(Unk0206bcb0 *a);
 
 // Declared here until the code that defines them is decompiled.
 void func_020757d8(void);
-void func_0207b6c0(void *a, s32 b, s32 c);
+#include "Main/Unknown/code_0207ae58.h"
