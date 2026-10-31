@@ -63,9 +63,9 @@ void func_ov003_021b80f4(Unk021b807c *p, const u8 *v1, u32 v2, u32 n) {
     }
 }
 
-// non-matching: cmp r6, r0 instead of cmp r0, r6 at the checksum compare (operands swapped, same size)
 s32 func_ov003_021b8160(const u8 *a, u8 *b, s32 c, u32 d, const u8 *e, const u8 *f, s32 g) {
     Unk021b807c t;
+    u8 r;
     t.mUnk_08 = func_ov003_021ba178(c);
     if (t.mUnk_08 == 0) {
         func_ov003_021b94b8(2);
@@ -75,7 +75,8 @@ s32 func_ov003_021b8160(const u8 *a, u8 *b, s32 c, u32 d, const u8 *e, const u8 
     func_ov003_021b7d90(data_ov003_021d7c8a, f, g);
     func_ov003_021b80f4(&t, data_ov003_021d7c88, g + 2, c);
     func_ov003_021b80c4(&t, b, a, c);
-    if (func_ov003_021b8050(b, c) != d) {
+    r = func_ov003_021b8050(b, c);
+    if (r != d) {
         func_ov003_021b94b8(0x12);
         func_ov003_021ba164(t.mUnk_08);
         return -1;

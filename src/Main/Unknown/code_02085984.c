@@ -199,7 +199,6 @@ void func_02085bec(void) {
     }
 }
 
-// non-matching: 3 instructions; the original sets the counter of the loop over the 0xb0 entries to zero after computing the number of entries, here it is set before.
 void func_02085ad8(void) {
     u16 a;
     u16 b;
@@ -233,7 +232,7 @@ void func_02085ad8(void) {
     }
     q = n - b - a;
     j = 0;
-    for (; (u32) j < q; j++) {
+    for (; j < q; j++) {
         data_0217aebc->mUnk_0b0[j].mUnk_00 = (u16) (j + a + 1);
         func_020174a4(&data_0217aebc->mUnk_12c, &data_0217aebc->mUnk_0b0[j]);
     }

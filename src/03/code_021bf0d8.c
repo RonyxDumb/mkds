@@ -9,24 +9,19 @@
 #include "03/unk_021d5000.h"
 #include "03/unk_021da000.h"
 
-// non-matching: the original loads the byte at 0x16 (movs r0,#22; ldrsb r1,[r2,r0]) before it sets the loop counter
-// (movs r4,#0); ours sets the counter first, same size
 void func_ov003_021bf0d8(void) {
     Unk021d299c a;
     s32 n;
     s32 i;
     u32 b;
     u32 c;
-    s32 e;
 
     n = data_ov003_021d5ecc[data_ov003_021da108->mUnk_17];
     if (data_ov003_021da108->mUnk_18 == 0) {
-        e = data_ov003_021da108->mUnk_16;
-        i = 0;
-        if (e != -1) {
+        if (data_ov003_021da108->mUnk_16 != -1) {
             return;
         }
-        for (; i < n; i++) {
+        for (i = 0; i < n; i++) {
             func_ov003_021d250c(&data_ov003_021d5ed4[(data_ov003_021d5eec + data_ov003_021da108->mUnk_17 * 2)[i] * 2],
                                 data_ov003_021d5ec8, (short *) &a);
             if (func_ov003_021d2a34(&a) != 0) {

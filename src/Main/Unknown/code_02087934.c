@@ -1,10 +1,10 @@
 #include "Main/Unknown/code_02087934.h"
+#include "Main/Unknown/code_02087000.h"
 #include "Main/Unknown/unk_02155000.h"
 #include "Main/Unknown/unk_02165000.h"
 
-// non-matching: 2 instructions differ: the original emits moveq r2, #0 before movne r2, #1; here movne comes first.
 void func_02087c9c(Unk02087d0c *a, s32 b, u16 c) {
-    a->mUnk_00 = c == 0 ? 0 : 1;
+    a->mUnk_00 = c == 0 ? UNK_02087CFC_KIND_0 : UNK_02087CFC_KIND_1;
     a->mUnk_02 = 0;
     a->mUnk_08 = 0x1000;
     a->mUnk_04 = b;
@@ -13,15 +13,15 @@ void func_02087c9c(Unk02087d0c *a, s32 b, u16 c) {
     a->mUnk_12 = 0;
 }
 
-// non-matching: 1 instruction differs: the original adds with the operands in the order r1, r2 (suble r1, r1, #0x1000;
-// addle r1, r1, r2); here the second operand comes first.
 void func_02087b9c(Unk02087d0c *a) {
+    s32 c;
     switch (a->mUnk_00) {
         case 1:
             if (a->mUnk_0c >= a->mUnk_04) {
                 a->mUnk_0c = a->mUnk_0c - a->mUnk_04;
             } else if (a->mUnk_0c <= 0) {
-                a->mUnk_0c = a->mUnk_0c + (a->mUnk_04 - 0x1000);
+                c = a->mUnk_0c;
+                a->mUnk_0c = a->mUnk_04 - 0x1000 + c;
             }
             break;
         case 0:
@@ -39,7 +39,8 @@ void func_02087b9c(Unk02087d0c *a) {
                 a->mUnk_0c = a->mUnk_0c - a->mUnk_04;
                 a->mUnk_10++;
             } else if (a->mUnk_0c <= 0) {
-                a->mUnk_0c = a->mUnk_0c + (a->mUnk_04 - 0x1000);
+                c = a->mUnk_0c;
+                a->mUnk_0c = a->mUnk_04 - 0x1000 + c;
                 a->mUnk_10++;
             }
             if (a->mUnk_10 >= a->mUnk_12) {
