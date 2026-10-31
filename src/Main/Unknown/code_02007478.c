@@ -37,7 +37,7 @@ u32 func_020074d8(void) {
     v4 = -1;
     func_0214d168(v2, 0, 16);
     v3 = 1;
-    v7 = *(Unk0216fdac **) &data_0216fdac;
+    v7 = data_0216fdac;
     for (; v3 <= 15; v3++) {
         if (v7->mUnk_14e8[v3 - 1] == 5) {
             v2[v7->mUnk_1526[v3 - 1]]++;
@@ -66,7 +66,7 @@ u32 func_020074d8(void) {
     v1.mUnk_02 = v4;
     v9 = func_0200c3a4((u8 *) &v1, (u8 *) v7);
     if (v9 != 0) {
-        func_0214d1fc((*(Unk0216fdac **) &data_0216fdac)->mUnk_1788 + v4 * 0x5d4, v9, 0xe4);
+        func_0214d1fc(data_0216fdac->mUnk_1788 + v4 * 0x5d4, v9, 0xe4);
     }
     return func_02008908(0xea, v5, *(u32 *) &data_0216fdac);
 }

@@ -12,7 +12,7 @@ s32 func_02035db4(u32 a) {
     s32 r;
     Unk02174e6c *o;
 
-    switch ((*(Unk02174e6c **) &data_02174e6c)->mUnk_64c) {
+    switch (data_02174e6c->mUnk_64c) {
     case 9:
         r = func_020591bc();
         switch (r) {
@@ -20,7 +20,7 @@ s32 func_02035db4(u32 a) {
                 if (func_02035e44() != 0) {
                     func_02035e38();
                 }
-                (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 10;
+                data_02174e6c->mUnk_64c = 10;
                 break;
             case 2:
                 break;
@@ -30,10 +30,10 @@ s32 func_02035db4(u32 a) {
         if (a != 0) {
             func_02035e30(a, 1);
         }
-        (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 11;
+        data_02174e6c->mUnk_64c = 11;
         break;
     }
-    o = *(Unk02174e6c **) &data_02174e6c;
+    o = data_02174e6c;
     o->mUnk_640 = (o->mUnk_640 + 1) % 0x100;
     return -1;
 }

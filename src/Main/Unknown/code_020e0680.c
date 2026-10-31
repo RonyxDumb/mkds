@@ -109,7 +109,7 @@ void func_020e2ccc(Unk020e20a8 *a) {
         return;
     }
     if (b < 8) {
-        func_020f3678(*(u32 *) (*(u8 **) &data_027e00c8[0] + b * 0x210 + 0x1f0), (u32) &a->mUnk_02c);
+        func_020f3678(*(u32 *) ((u8 *) data_027e00c8 + b * 0x210 + 0x1f0), (u32) &a->mUnk_02c);
         a->mUnk_03c = func_02039828(&a->mUnk_02c, (Vec3 *) func_020e6b14()) < 0;
     } else {
         a->mUnk_03c = 0;

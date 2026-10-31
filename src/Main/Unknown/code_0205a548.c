@@ -14,7 +14,7 @@ void func_0205a548(s32 a, s32 b, s32 c) {
     e = &data_0217aa14->mUnk_104[a];
     e->mUnk_68 = b;
     e->mUnk_6c = b;
-    func_020f40dc(&(*(Unk020ee684 **) data_027e00c8)[(u16) data_0217aa18->mUnk_06[a]].mUnk_030, b, c);
+    func_020f40dc(&data_027e00c8[(u16) data_0217aa18->mUnk_06[a]].mUnk_030, b, c);
 }
 
 void func_0205a5b0(u32 a) {
@@ -25,7 +25,7 @@ void func_0205a5b0(u32 a) {
         return;
     }
     e->mUnk_04 = 0x13;
-    func_020f4718(&(*(Unk020ee684 **) data_027e00c8)[(u16) data_0217aa18->mUnk_06[a]].mUnk_030);
+    func_020f4718(&data_027e00c8[(u16) data_0217aa18->mUnk_06[a]].mUnk_030);
 }
 
 s32 func_0205a630(s32 a) {
@@ -34,7 +34,7 @@ s32 func_0205a630(s32 a) {
 
     t = data_0217aa14->mUnk_104[a].mUnk_6c;
     r = 0;
-    if (func_020efd84(&(*(Unk020ee684 **) data_027e00c8)[(u8) data_0217aa18->mUnk_06[a]], t) != 0) {
+    if (func_020efd84(&data_027e00c8[(u8) data_0217aa18->mUnk_06[a]], t) != 0) {
         data_0217aa14->mUnk_104[a].mUnk_6c = 0x13;
         r = 1;
     }
@@ -59,7 +59,7 @@ void func_0205a6b4(void) {
 }
 
 void func_0205a71c(s32 a) {
-    func_020f86c4(&(*(Unk020ee684 **) data_027e00c8)[(u8) data_0217aa18->mUnk_06[a]]);
+    func_020f86c4(&data_027e00c8[(u8) data_0217aa18->mUnk_06[a]]);
 }
 
 // non-matching: 0x58 bytes, original 0x5c; 20 lines differ; first: original `mov r1, #136`, ours `ldr r2, [pc, #64]`

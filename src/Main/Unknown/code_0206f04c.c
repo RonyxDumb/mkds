@@ -502,7 +502,7 @@ void func_0206ff50(Unk0206bcb0 *p, u32 a) {
         func_020815dc(p->mUnk_74);
         func_021090c4(&p->mUnk_00, 0xfd, 0x7f, 0);
     }
-    func_020f00f0(&((Unk020ee684 *) *(void **) data_027e00c8)[p->mUnk_74]);
+    func_020f00f0(&((Unk020ee684 *) (void *) data_027e00c8)[p->mUnk_74]);
     if (a & 0x400) {
         b = ((u32) (func_020d59f8(0x400) & 0xe0) << 11) >> 16;
         p->mUnk_48 |= 0x2000;

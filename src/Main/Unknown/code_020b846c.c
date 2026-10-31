@@ -26,7 +26,7 @@ u32 func_020b846c(u32 a) {
             r = 0xd;
             break;
         case 5:
-            p = &(*(Unk020ee684 **) data_027e00c8)[func_020b4d9c()];
+            p = &data_027e00c8[func_020b4d9c()];
             j = p->mUnk_030.mUnk_00;
             switch (data_0217bc48[j].mUnk_08 == 3 ? (u16) p->mUnk_030.mUnk_08 : 0) {
                 case 1:

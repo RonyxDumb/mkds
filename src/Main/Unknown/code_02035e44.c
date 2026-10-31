@@ -25,7 +25,7 @@ s32 func_02035e64(u32 a) {
     s32 r;
     Unk02174e6c *o;
 
-    switch ((*(Unk02174e6c **) &data_02174e6c)->mUnk_64c) {
+    switch (data_02174e6c->mUnk_64c) {
     case 9:
         r = func_02058f20();
         switch (r) {
@@ -33,7 +33,7 @@ s32 func_02035e64(u32 a) {
                 if (func_02035e44() != 0) {
                     func_02035e38();
                 }
-                (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 10;
+                data_02174e6c->mUnk_64c = 10;
                 break;
             case 2:
                 break;
@@ -43,10 +43,10 @@ s32 func_02035e64(u32 a) {
         if (a != 0) {
             func_02035e30(a, 10);
         }
-        (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 11;
+        data_02174e6c->mUnk_64c = 11;
         break;
     }
-    o = *(Unk02174e6c **) &data_02174e6c;
+    o = data_02174e6c;
     o->mUnk_640 = (o->mUnk_640 + 1) % 0x100;
     return -1;
 }
@@ -55,7 +55,7 @@ s32 func_02035ee0(u32 a) {
     s32 r;
     Unk02174e6c *o;
 
-    switch ((*(Unk02174e6c **) &data_02174e6c)->mUnk_64c) {
+    switch (data_02174e6c->mUnk_64c) {
     case 9:
         r = func_020591c4();
         switch (r) {
@@ -63,7 +63,7 @@ s32 func_02035ee0(u32 a) {
                 if (func_02035e44() != 0) {
                     func_02035e38();
                 }
-                (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 10;
+                data_02174e6c->mUnk_64c = 10;
                 break;
             case 2:
                 break;
@@ -73,10 +73,10 @@ s32 func_02035ee0(u32 a) {
         if (a != 0) {
             func_02035e30(a, 2);
         }
-        (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 11;
+        data_02174e6c->mUnk_64c = 11;
         break;
     }
-    o = *(Unk02174e6c **) &data_02174e6c;
+    o = data_02174e6c;
     o->mUnk_640 = (o->mUnk_640 + 1) % 0x100;
     return -1;
 }
@@ -85,10 +85,10 @@ s32 func_02035f5c(u32 a) {
     s32 r;
     Unk02174e6c *o;
 
-    switch ((*(Unk02174e6c **) &data_02174e6c)->mUnk_64c) {
+    switch (data_02174e6c->mUnk_64c) {
     case 0:
         if (func_0205579c(0, 1) == 1) {
-            (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 2;
+            data_02174e6c->mUnk_64c = 2;
         }
         break;
     case 2:
@@ -96,7 +96,7 @@ s32 func_02035f5c(u32 a) {
         switch (r) {
         case 1:
             func_0204aa28(func_020360e4());
-            (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 4;
+            data_02174e6c->mUnk_64c = 4;
             break;
         case 2:
             break;
@@ -110,7 +110,7 @@ s32 func_02035f5c(u32 a) {
                 func_02035e38();
             }
             func_0205e5c4(1);
-            (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 6;
+            data_02174e6c->mUnk_64c = 6;
             break;
         case 2:
             break;
@@ -123,11 +123,11 @@ s32 func_02035f5c(u32 a) {
             if (a != 0) {
                 func_02035e30(a, 1);
             }
-            (*(Unk02174e6c **) &data_02174e6c)->mUnk_64c = 11;
+            data_02174e6c->mUnk_64c = 11;
         }
         break;
     }
-    o = *(Unk02174e6c **) &data_02174e6c;
+    o = data_02174e6c;
     o->mUnk_640 = (o->mUnk_640 + 1) % 0x100;
     return -1;
 }

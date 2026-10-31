@@ -48,7 +48,7 @@ void func_020902d0(Unk0208fd8c *a, Unk020888b4 *b) {
 void func_020902fc(Unk0208fd8c *a, Unk020888b4 *b) {
     enum { K0 } i;
 
-    i = *(s32 *) &(*(Unk020ee684 **) data_027e00c8)[b->mUnk_04].mUnk_030;
+    i = *(s32 *) &data_027e00c8[b->mUnk_04].mUnk_030;
     a->mUnk_04 = (Unk0208fd8c_08 *) data_usa_0217b07c + i;
     func_0207c0a0(a);
 }

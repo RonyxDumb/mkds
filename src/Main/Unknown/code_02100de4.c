@@ -88,7 +88,7 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
     j = n = func_0203c8dc((u16) ((p->mUnk_000.mUnk_78 & 0x8000) == 0 ? (u16) (p->mUnk_000.mUnk_78 & ~0xff00) : 8));
     if (p->mUnk_148 != 0) {
         m = data_0217561c;
-        v1 = *(u8 **) data_027e00c8;
+        v1 = (u8 *) data_027e00c8;
         o = data_021759c0;
         do {
             if (n > 1) {
@@ -116,7 +116,7 @@ void func_02101f7c(Unk02101c84 *p, s32 a) {
         } while (j < lim || n > 1);
     } else {
         m = data_0217561c;
-        v2 = *(u8 **) data_027e00c8;
+        v2 = (u8 *) data_027e00c8;
         v3 = data_021759c0;
         do {
             if (j < lim) {
@@ -180,7 +180,7 @@ void func_02101d90(Unk02101c84 *p, s32 a) {
     if (i >= end) {
         return;
     }
-    v1 = *(u8 **) data_027e00c8;
+    v1 = (u8 *) data_027e00c8;
     row = &data_0215a164[i];
     do {
         k = *row;
@@ -572,7 +572,7 @@ s32 func_02101014(Unk02101c84 *p) {
     s32 b;
     enum { K0 } k;
 
-    e = &((Unk020ee684 *) *(void **) data_027e00c8)[(u16) p->mUnk_140];
+    e = &((Unk020ee684 *) (void *) data_027e00c8)[(u16) p->mUnk_140];
     q = e->mUnk_1fc;
     r = &e->mUnk_030;
     if (r->mUnk_00 == 0x13 || r->mUnk_20 != 0) {

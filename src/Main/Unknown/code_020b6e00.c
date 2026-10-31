@@ -32,7 +32,7 @@ s32 func_020b8220(s32 a, s32 b) {
         case 4:
             return 0x11;
         case 5:
-            p = &(*(Unk020ee684 **) data_027e00c8)[(u16) a];
+            p = &data_027e00c8[(u16) a];
             j = p->mUnk_030.mUnk_00;
             if (data_0217bc48[j].mUnk_08 == 3) {
                 k = (u16) p->mUnk_030.mUnk_08;

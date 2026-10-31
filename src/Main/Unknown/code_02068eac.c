@@ -646,7 +646,7 @@ s32 func_0206a24c(Unk0206bcb0 *p) {
         func_02074874(0x1f40);
     }
     p->mUnk_394 = 0xb33;
-    func_020eff40(&((Unk020ee684 *) *(void **) data_027e00c8)[p->mUnk_74]);
+    func_020eff40(&((Unk020ee684 *) (void *) data_027e00c8)[p->mUnk_74]);
     v = data_021759c0->mUnk_08;
     if (v == 4) {
         if (v == 4) {

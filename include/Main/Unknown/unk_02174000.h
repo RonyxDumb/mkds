@@ -349,7 +349,8 @@ extern Unk02174e48 *data_02174e48;
 extern struct Unk02174e4c *data_02174e4c;
 extern struct Unk02174e50 *data_02174e50;
 extern struct Unk02174e54 *data_02174e54;
-extern u8 data_02174e58[];
+struct Unk02174e58;
+extern struct Unk02174e58 *data_02174e58;
 // Object behind data_02174e68, 0xa8 bytes.
 typedef struct Unk02174e68 {
     /* 00 */ u8 mUnk_00[0x20];
@@ -367,7 +368,8 @@ typedef struct Unk02174e68 {
 } Unk02174e68;
 
 extern Unk02174e68 *data_02174e68;
-extern u8 data_02174e6c[];
+struct Unk02174e6c;
+extern struct Unk02174e6c *data_02174e6c;
 extern Unk02036590 *data_02174e70;
 
 

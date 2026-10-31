@@ -8,8 +8,8 @@ void func_02030a20(void) {
     s32 r;
 
     a = 0x17;
-    r = func_02025ebc(&(*(Unk02174e58 **) &data_02174e58)->mUnk_c0);
-    if ((*(Unk02174e58 **) &data_02174e58)->mUnk_84 == 0 && (*(Unk02174e58 **) &data_02174e58)->mUnk_94 != 6) {
+    r = func_02025ebc(&data_02174e58->mUnk_c0);
+    if (data_02174e58->mUnk_84 == 0 && data_02174e58->mUnk_94 != 6) {
         a |= 8;
     }
     *(u32 *) 0x4001000 = (*(u32 *) 0x4001000 & 0xffffe0ff) | (a << 8);
