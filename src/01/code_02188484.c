@@ -18,19 +18,18 @@ void func_ov001_021888a4(Unk02188950 *param_1, s32 param_2, s32 param_3) {
 
 void func_ov001_0218883c(int param_1, int param_2, u32 param_3, u32 param_4, u32 param_5) {
     if (param_2 == 0) {
-        *(u32 *) (param_1 + ((int) 0x0000027cu)) = 1;
+        *(u32 *) (param_1 + 0x27c) = 1;
     } else {
-        *(u32 *) (param_1 + ((int) 0x0000027cu)) = 2;
+        *(u32 *) (param_1 + 0x27c) = 2;
     }
-    *(u32 *) (param_1 + ((int) 0x0000028cu)) = 0;
-    *(int *) (param_1 + ((int) 0x00000290u)) = param_2;
-    *(u32 *) (param_1 + ((int) 0x00000294u)) = 0;
-    *(u32 *) (param_1 + ((int) 0x000002b0u)) = param_3;
-    *(u32 *) (param_1 + ((int) 0x000002a4u)) = param_4;
-    *(u32 *) (param_1 + ((int) 0x000002a8u)) = ((u32) 0x0000a000u);
-    *(u32 *) (param_1 + ((int) 0x000002acu)) = param_4;
-    *(u32 *) (param_1 + ((int) 0x000002b4u)) = param_5;
-    return;
+    *(u32 *) (param_1 + 0x28c) = 0;
+    *(int *) (param_1 + 0x290) = param_2;
+    *(u32 *) (param_1 + 0x294) = 0;
+    *(u32 *) (param_1 + 0x2b0) = param_3;
+    *(u32 *) (param_1 + 0x2a4) = param_4;
+    *(u32 *) (param_1 + 0x2a8) = ((u32) 0x0000a000u);
+    *(u32 *) (param_1 + 0x2ac) = param_4;
+    *(u32 *) (param_1 + 0x2b4) = param_5;
 }
 
 void func_ov001_0218875c(Unk02188950 *param_1, s32 param_2, s32 param_3, s32 param_4) {
@@ -54,66 +53,63 @@ void func_ov001_0218875c(Unk02188950 *param_1, s32 param_2, s32 param_3, s32 par
 
 void func_ov001_021886f8(int param_1, u32 param_2, u32 param_3, u32 param_4, int param_5, u32 param_6) {
     if (param_5 == 0) {
-        *(u32 *) (param_1 + ((int) 0x00000234u)) = 0;
+        *(u32 *) (param_1 + 0x234) = 0;
     } else {
-        *(u32 *) (param_1 + ((int) 0x00000234u)) = 2;
+        *(u32 *) (param_1 + 0x234) = 2;
     }
-    *(u32 *) (param_1 + ((int) 0x00000250u)) = 0;
-    *(u32 *) (param_1 + ((int) 0x00000254u)) = param_2;
-    *(u32 *) (param_1 + ((int) 0x00000258u)) = 0;
-    *(u32 *) (param_1 + ((int) 0x00000274u)) = param_3;
-    *(u32 *) (param_1 + ((int) 0x00000268u)) = param_4;
-    *(int *) (param_1 + ((int) 0x0000026cu)) = param_5;
-    *(u32 *) (param_1 + ((int) 0x00000270u)) = param_4;
-    *(u32 *) (param_1 + ((int) 0x00000278u)) = param_6;
-    return;
+    *(u32 *) (param_1 + 0x250) = 0;
+    *(u32 *) (param_1 + 0x254) = param_2;
+    *(u32 *) (param_1 + 0x258) = 0;
+    *(u32 *) (param_1 + 0x274) = param_3;
+    *(u32 *) (param_1 + 0x268) = param_4;
+    *(int *) (param_1 + 0x26c) = param_5;
+    *(u32 *) (param_1 + 0x270) = param_4;
+    *(u32 *) (param_1 + 0x278) = param_6;
 }
 
 void func_ov001_02188644(int param_1, int param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6, u32 param_7) {
     u32 *puVar1;
     int *piVar2;
-    *(u32 *) (param_1 + ((int) 0x0000027cu)) = 0;
+    *(u32 *) (param_1 + 0x27c) = 0;
     if ((*(u16 *) (param_1 + 2) & ((u32) 0x00000400u)) != 0) {
         param_2 = -param_2;
     }
-    piVar2 = (int *) (param_1 + ((int) 0x0000028cu));
+    piVar2 = (int *) (param_1 + 0x28c);
     *piVar2 = param_2;
-    *(int *) (param_1 + ((int) 0x00000280u)) = *piVar2;
-    puVar1 = (u32 *) (param_1 + ((int) 0x00000290u));
+    *(int *) (param_1 + 0x280) = *piVar2;
+    puVar1 = (u32 *) (param_1 + 0x290);
     *puVar1 = param_3;
-    *(u32 *) (param_1 + ((int) 0x00000284u)) = *puVar1;
-    puVar1 = (u32 *) (param_1 + ((int) 0x00000294u));
+    *(u32 *) (param_1 + 0x284) = *puVar1;
+    puVar1 = (u32 *) (param_1 + 0x294);
     *puVar1 = param_4;
-    *(u32 *) (param_1 + ((int) 0x00000288u)) = *puVar1;
-    *(u32 *) (param_1 + ((int) 0x000002b0u)) = 0;
-    puVar1 = (u32 *) (param_1 + ((int) 0x000002a4u));
+    *(u32 *) (param_1 + 0x288) = *puVar1;
+    *(u32 *) (param_1 + 0x2b0) = 0;
+    puVar1 = (u32 *) (param_1 + 0x2a4);
     *puVar1 = param_5;
-    *(u32 *) (param_1 + ((int) 0x00000298u)) = *puVar1;
-    puVar1 = (u32 *) (param_1 + ((int) 0x000002a8u));
+    *(u32 *) (param_1 + 0x298) = *puVar1;
+    puVar1 = (u32 *) (param_1 + 0x2a8);
     *puVar1 = ((u32) 0x0000a000u);
-    *(u32 *) (param_1 + ((int) 0x0000029cu)) = *puVar1;
-    puVar1 = (u32 *) (param_1 + ((int) 0x000002acu));
+    *(u32 *) (param_1 + 0x29c) = *puVar1;
+    puVar1 = (u32 *) (param_1 + 0x2ac);
     *puVar1 = param_7;
-    *(u32 *) (param_1 + ((int) 0x000002a0u)) = *puVar1;
-    *(u32 *) (param_1 + ((int) 0x000002b4u)) = 0;
-    return;
+    *(u32 *) (param_1 + 0x2a0) = *puVar1;
+    *(u32 *) (param_1 + 0x2b4) = 0;
 }
 
 void func_ov001_021885d4(int param_1, int param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6, u32 param_7,
                          u32 param_8, u32 param_9) {
-    *(u32 *) (param_1 + ((int) 0x0000027cu)) = 0;
+    *(u32 *) (param_1 + 0x27c) = 0;
     if ((*(u16 *) (param_1 + 2) & ((u32) 0x00000400u)) != 0) {
         param_2 = -param_2;
     }
-    *(int *) (param_1 + ((int) 0x0000028cu)) = param_2;
-    *(u32 *) (param_1 + ((int) 0x00000290u)) = param_3;
-    *(u32 *) (param_1 + ((int) 0x00000294u)) = param_4;
-    *(u32 *) (param_1 + ((int) 0x000002b0u)) = param_5;
-    *(u32 *) (param_1 + ((int) 0x000002a4u)) = param_6;
-    *(u32 *) (param_1 + ((int) 0x000002a8u)) = ((u32) 0x0000a000u);
-    *(u32 *) (param_1 + ((int) 0x000002acu)) = param_8;
-    *(u32 *) (param_1 + ((int) 0x000002b4u)) = param_9;
-    return;
+    *(int *) (param_1 + 0x28c) = param_2;
+    *(u32 *) (param_1 + 0x290) = param_3;
+    *(u32 *) (param_1 + 0x294) = param_4;
+    *(u32 *) (param_1 + 0x2b0) = param_5;
+    *(u32 *) (param_1 + 0x2a4) = param_6;
+    *(u32 *) (param_1 + 0x2a8) = ((u32) 0x0000a000u);
+    *(u32 *) (param_1 + 0x2ac) = param_8;
+    *(u32 *) (param_1 + 0x2b4) = param_9;
 }
 
 void func_ov001_021884f0(int param_1, int param_2, int param_3, int param_4, u32 param_5, u32 param_6, u32 param_7) {
@@ -122,52 +118,50 @@ void func_ov001_021884f0(int param_1, int param_2, int param_3, int param_4, u32
     int *piVar3;
     int *piVar4;
     u32 *puVar5;
-    *(u32 *) (param_1 + ((int) 0x00000234u)) = 1;
+    *(u32 *) (param_1 + 0x234) = 1;
     if ((*(u16 *) (param_1 + 2) & ((u32) 0x00000400u)) != 0) {
         param_2 = -param_2;
     }
-    piVar2 = (int *) (param_1 + ((int) 0x00000250u));
+    piVar2 = (int *) (param_1 + 0x250);
     *piVar2 = param_2;
-    piVar1 = (int *) (param_1 + ((int) 0x00000244u));
+    piVar1 = (int *) (param_1 + 0x244);
     *piVar1 = *piVar2;
-    piVar3 = (int *) (param_1 + ((int) 0x00000254u));
+    piVar3 = (int *) (param_1 + 0x254);
     *piVar3 = param_3;
-    piVar2 = (int *) (param_1 + ((int) 0x00000248u));
+    piVar2 = (int *) (param_1 + 0x248);
     *piVar2 = *piVar3;
-    piVar4 = (int *) (param_1 + ((int) 0x00000258u));
+    piVar4 = (int *) (param_1 + 0x258);
     *piVar4 = param_4;
-    piVar3 = (int *) (param_1 + ((int) 0x0000024cu));
+    piVar3 = (int *) (param_1 + 0x24c);
     *piVar3 = *piVar4;
-    *(u32 *) (param_1 + ((int) 0x00000274u)) = 0;
-    puVar5 = (u32 *) (param_1 + ((int) 0x00000268u));
+    *(u32 *) (param_1 + 0x274) = 0;
+    puVar5 = (u32 *) (param_1 + 0x268);
     *puVar5 = param_5;
-    *(u32 *) (param_1 + ((int) 0x0000025cu)) = *puVar5;
-    puVar5 = (u32 *) (param_1 + ((int) 0x0000026cu));
+    *(u32 *) (param_1 + 0x25c) = *puVar5;
+    puVar5 = (u32 *) (param_1 + 0x26c);
     *puVar5 = param_6;
-    *(u32 *) (param_1 + ((int) 0x00000260u)) = *puVar5;
-    puVar5 = (u32 *) (param_1 + ((int) 0x00000270u));
+    *(u32 *) (param_1 + 0x260) = *puVar5;
+    puVar5 = (u32 *) (param_1 + 0x270);
     *puVar5 = param_7;
-    *(u32 *) (param_1 + ((int) 0x00000264u)) = *puVar5;
-    *(u32 *) (param_1 + ((int) 0x00000278u)) = 0;
-    *(int *) (param_1 + ((int) 0x00000238u)) = *(int *) (param_1 + 4) + *piVar1;
-    *(int *) (param_1 + ((int) 0x0000023cu)) = *(int *) (param_1 + 8) + *piVar2;
-    *(int *) (param_1 + ((int) 0x00000240u)) = *(int *) (param_1 + 0xc) + *piVar3;
-    return;
+    *(u32 *) (param_1 + 0x264) = *puVar5;
+    *(u32 *) (param_1 + 0x278) = 0;
+    *(int *) (param_1 + 0x238) = *(int *) (param_1 + 4) + *piVar1;
+    *(int *) (param_1 + 0x23c) = *(int *) (param_1 + 8) + *piVar2;
+    *(int *) (param_1 + 0x240) = *(int *) (param_1 + 0xc) + *piVar3;
 }
 
 void func_ov001_02188484(int param_1, int param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6, u32 param_7,
                          u32 param_8, u32 param_9) {
-    *(u32 *) (param_1 + ((int) 0x00000234u)) = 1;
+    *(u32 *) (param_1 + 0x234) = 1;
     if ((*(u16 *) (param_1 + 2) & ((u32) 0x00000400u)) != 0) {
         param_2 = -param_2;
     }
-    *(int *) (param_1 + ((int) 0x00000250u)) = param_2;
-    *(u32 *) (param_1 + ((int) 0x00000254u)) = param_3;
-    *(u32 *) (param_1 + ((int) 0x00000258u)) = param_4;
-    *(u32 *) (param_1 + ((int) 0x00000274u)) = param_5;
-    *(u32 *) (param_1 + ((int) 0x00000268u)) = param_6;
-    *(u32 *) (param_1 + ((int) 0x0000026cu)) = param_7;
-    *(u32 *) (param_1 + ((int) 0x00000270u)) = param_8;
-    *(u32 *) (param_1 + ((int) 0x00000278u)) = param_9;
-    return;
+    *(int *) (param_1 + 0x250) = param_2;
+    *(u32 *) (param_1 + 0x254) = param_3;
+    *(u32 *) (param_1 + 0x258) = param_4;
+    *(u32 *) (param_1 + 0x274) = param_5;
+    *(u32 *) (param_1 + 0x268) = param_6;
+    *(u32 *) (param_1 + 0x26c) = param_7;
+    *(u32 *) (param_1 + 0x270) = param_8;
+    *(u32 *) (param_1 + 0x278) = param_9;
 }

@@ -3,7 +3,7 @@
 #include "00/code_021a8000.h"
 #include "code_0200c858.h"
 
-unsigned int func_ov000_021a8f0c(unsigned int param_1, unsigned int param_2) {
+u32 func_ov000_021a8f0c(u32 param_1, u32 param_2) {
     Unk021a6fa8 *a = (Unk021a6fa8 *) param_1;
     Unk021a8e18 *b = (Unk021a8e18 *) param_2;
     u32 c;

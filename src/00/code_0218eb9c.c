@@ -6,7 +6,7 @@ u32 func_ov000_0218eb9c(int *param_1, u32 param_2) {
     if ((param_1 == (int *) 0x0) || (*param_1 == 0)) {
         return 0;
     }
-    if (*(int *) (*param_1 + ((int) 0x00000108u)) != 0) {
+    if (*(int *) (*param_1 + 0x108) != 0) {
         return 0;
     }
     iVar1 = func_ov000_02194934((Unk0218f960 *) param_1, param_2, (Unk02194934 **) local_8);

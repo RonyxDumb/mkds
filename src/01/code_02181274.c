@@ -83,7 +83,7 @@ void func_ov001_02181410(void) {
     s32 count;
     Unk0217b498_00 *e;
     Vec3 *pos;
-    unsigned int v;
+    u32 v;
 
     count = 0;
     v = func_020c0db0();

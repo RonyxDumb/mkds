@@ -103,11 +103,11 @@ s32 func_ov000_021a7c4c(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e) {
 s32 func_ov000_021a7d14(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f) {
     s32 g;
     if (a->mUnk_73 == 4) {
-        return func_ov000_021a7bc8((unsigned int) a, (unsigned int) b, (unsigned int) c, (unsigned int) d, (unsigned int) e);
+        return func_ov000_021a7bc8((u32) a, (u32) b, (u32) c, (u32) d, (u32) e);
     }
     g = func_ov000_021a7c4c(a, b, c, d, e);
     if (g == -6 && f == 1) {
-        g = func_ov000_021a7bc8((unsigned int) a, (unsigned int) b, (unsigned int) c, (unsigned int) d, (unsigned int) e);
+        g = func_ov000_021a7bc8((u32) a, (u32) b, (u32) c, (u32) d, (u32) e);
     }
     return g;
 }
@@ -140,8 +140,8 @@ s32 func_ov000_021a7d68(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f, s
     return j;
 }
 
-unsigned int func_ov000_021a7de0(unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e,
-                                 unsigned int f) {
+u32 func_ov000_021a7de0(u32 a, u32 b, u32 c, u32 d, u32 e,
+                                 u32 f) {
     volatile Unk021a6fa8 *v;
     Unk021a6fa8 *g = (Unk021a6fa8 *) a;
     Unk021a71c0 *h;
@@ -380,8 +380,8 @@ s32 func_ov000_021a81a8(Unk021a6fa8 *a, u8 *b, s32 c, u16 d, u16 *e, s32 f) {
 }
 
 // non-matching: the incoming arguments sit in other registers (original: second in r6, third in r7, fourth at [sp, #8]; ours: r7, [sp, #8], r6); the volatile view reloads the halfword at 0x70 for each test as the original does; size 0xdc against 0xda
-unsigned int func_ov000_021a8268(unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e,
-                                 unsigned int f) {
+u32 func_ov000_021a8268(u32 a, u32 b, u32 c, u32 d, u32 e,
+                                 u32 f) {
     volatile Unk021a6fa8 *v;
     Unk021a6fa8 *g = (Unk021a6fa8 *) a;
     Unk021a722a *h;

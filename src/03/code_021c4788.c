@@ -5,7 +5,6 @@ void func_ov003_021c48f4(void) {
     func_ov003_021bf2d0();
     func_ov003_021d1dd0(8);
     func_ov003_021c212c(func_ov003_021c48ac);
-    return;
 }
 
 void func_ov003_021c48ac(void) {
@@ -19,7 +18,6 @@ void func_ov003_021c48ac(void) {
         func_ov003_021d1ee0(3, 0, 0x15, 8);
         func_ov003_021c212c(func_ov003_021c482c);
     }
-    return;
 }
 
 void func_ov003_021c482c(void) {
@@ -40,7 +38,6 @@ void func_ov003_021c482c(void) {
         func_ov003_021c2120(0, 1);
         func_ov003_021c212c(func_ov003_021c5098);
     }
-    return;
 }
 
 void func_ov003_021c4804(void) {
@@ -48,50 +45,48 @@ void func_ov003_021c4804(void) {
     func_ov003_021c47b0();
     func_ov003_021bf578(99);
     func_ov003_021c212c(func_ov003_021c4788);
-    return;
 }
 
 void func_ov003_021c47b0(void) {
-    unsigned int v2 = ((u32) (&data_ov003_021d7180));
-    unsigned int v3 = ((u32) (&func_0214bc9c));
-    unsigned int v4 = func_ov003_021bf620((unsigned int) (v2), (unsigned int) (v3));
-    unsigned int v5 = 0x4001008u;
-    unsigned int v6 = ((unsigned int) *(unsigned short *) ((v5) + (0)));
-    unsigned int v8 = ((v6) & ~(0x3u));
-    unsigned int v9 = ((v8) | (0x3u));
-    unsigned int v11;
-    unsigned int v12;
-    unsigned int v13;
-    unsigned int v14;
-    unsigned int v16;
-    unsigned int v17;
-    unsigned int v18;
-    unsigned int v19;
-    unsigned int v21;
-    unsigned int v22;
-    unsigned int v23;
-    unsigned int v24;
-    *(unsigned short *) ((v5) + (0)) = (unsigned short) (v9);
+    u32 v2 = ((u32) (&data_ov003_021d7180));
+    u32 v3 = ((u32) (&func_0214bc9c));
+    u32 v4 = func_ov003_021bf620((u32) v2, (u32) v3);
+    u32 v5 = 0x4001008u;
+    u32 v6 = ((u32) *(u16 *) ((v5) + (0)));
+    u32 v8 = ((v6) & ~(0x3u));
+    u32 v9 = ((v8) | (0x3u));
+    u32 v11;
+    u32 v12;
+    u32 v13;
+    u32 v14;
+    u32 v16;
+    u32 v17;
+    u32 v18;
+    u32 v19;
+    u32 v21;
+    u32 v22;
+    u32 v23;
+    u32 v24;
+    *(u16 *) ((v5) + (0)) = (u16) v9;
     v11 = 0x400100au;
-    v12 = ((unsigned int) *(unsigned short *) ((v11) + (0)));
+    v12 = ((u32) *(u16 *) ((v11) + (0)));
     v13 = ((v12) & ~(0x3u));
     v14 = ((v13) | (0x3u));
-    *(unsigned short *) ((v11) + (0)) = (unsigned short) (v14);
+    *(u16 *) ((v11) + (0)) = (u16) v14;
     v16 = 0x400000au;
-    v17 = ((unsigned int) *(unsigned short *) ((v16) + (0)));
+    v17 = ((u32) *(u16 *) ((v16) + (0)));
     v18 = ((v17) & ~(0x3u));
     v19 = ((v18) | (0x3u));
-    *(unsigned short *) ((v16) + (0)) = (unsigned short) (v19);
+    *(u16 *) ((v16) + (0)) = (u16) v19;
     v21 = 0x400000cu;
-    v22 = ((unsigned int) *(unsigned short *) ((v21) + (0)));
+    v22 = ((u32) *(u16 *) ((v21) + (0)));
     v23 = ((v22) & ~(0x3u));
     v24 = ((v23) | (0x3u));
-    *(unsigned short *) ((v21) + (0)) = (unsigned short) (v24);
+    *(u16 *) ((v21) + (0)) = (u16) v24;
 }
 
 void func_ov003_021c4788(void) {
     func_ov003_021d1ee0(2, 0, 0x15, 8);
     func_ov003_021d2784(0, 0x15);
     func_ov003_021c212c(func_ov003_021c4760);
-    return;
 }

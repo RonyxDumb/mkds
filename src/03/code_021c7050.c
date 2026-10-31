@@ -14,7 +14,7 @@ void func_ov003_021c7050(void) {
         iVar4 = 0;
         do {
             cVar1 = *(s8 *) (iVar5 + iVar4);
-            if (((cVar1 != '0') && (cVar1 != ' ')) && (cVar1 != '\0')) {
+            if (((cVar1 != '0') && (cVar1 != ' ')) && (cVar1 != 0)) {
                 break;
             }
             if (iVar4 == 2) {

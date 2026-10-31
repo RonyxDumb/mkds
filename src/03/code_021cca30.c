@@ -10,5 +10,5 @@ void func_ov003_021cca30(const void *param_1) {
     data_ov003_021da25c = a;
     func_0214d0a8(param_1, a->mUnk_004, 0x600);
     data_ov003_021da25c->mUnk_000 =
-        func_ov003_021d3544(1, (unsigned int) func_ov003_021cc97c, 0, 0x78);
+        func_ov003_021d3544(1, (u32) func_ov003_021cc97c, 0, 0x78);
 }

@@ -5,13 +5,12 @@ void func_ov001_02193448(void) {
     int iVar1;
     iVar1 = func_ov001_02192e84();
     if ((iVar1 == -1) && (data_ov001_021a9bd4->mUnk_10 == 4)) {
-        func_ov001_02192e78((u16) (0));
+        func_ov001_02192e78((u16) 0);
     }
-    iVar1 = ((unsigned int) func_02125f54());
+    iVar1 = ((u32) func_02125f54());
     if (iVar1 != 0) {
-        func_02125ebc((unsigned int) (0x23));
+        func_02125ebc((u32) 0x23);
         func_02125fc0();
         *(u32 *) ((*(int *) &data_ov001_021a9bd4) + 0x10) = 4;
     }
-    return;
 }

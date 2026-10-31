@@ -1,17 +1,15 @@
 #include "03/code_021d010c.h"
 
 void func_ov003_021d0134(int param_1) {
-    if (*(unsigned short *) (param_1 + 2) != 0) {
-        func_ov003_021d07b0((u32) (10));
+    if (*(u16 *) (param_1 + 2) != 0) {
+        func_ov003_021d07b0((u32) 10);
         return;
     }
-    func_ov003_021d07b0((u32) (0));
-    return;
+    func_ov003_021d07b0((u32) 0);
 }
 
 void func_ov003_021d0128(u32 param_1) {
     data_ov003_021da2a8->mUnk_08 = param_1;
-    return;
 }
 
 u16 func_ov003_021d0118(void) {

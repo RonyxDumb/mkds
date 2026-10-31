@@ -1,14 +1,14 @@
 #include "01/code_02181124.h"
 
-unsigned int func_ov001_021811bc(void) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                                        const unsigned int *) ((unsigned char *) (unsigned int) ((
+u32 func_ov001_021811bc(void) {
+    return ((u32) *(const u32 *) ((u8 *) (u32) (((u32) *(
+                                                        const u32 *) ((u8 *) (u32) ((
                                                                                    (u32) (&data_ov001_021a9b88))) +
                                                                                0))) +
                                                     28));
 }
 
-unsigned int func_ov001_021811b8(void) {
+u32 func_ov001_021811b8(void) {
     return 0x0u;
 }
 
@@ -18,19 +18,19 @@ int func_ov001_02181198(void) {
     return iVar1 * iVar1;
 }
 
-unsigned int func_ov001_02181194(void) {
+u32 func_ov001_02181194(void) {
     return 0x0u;
 }
 
-unsigned int func_ov001_02181180(void) {
+u32 func_ov001_02181180(void) {
     return (
-        (((((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                                        const unsigned int *) ((unsigned char *) (unsigned int) ((
+        (((((u32) *(const u32 *) ((u8 *) (u32) (((u32) *(
+                                                        const u32 *) ((u8 *) (u32) ((
                                                                                    (u32) (&data_ov001_021a9b88))) +
                                                                                0))) +
                                                     0))) *
-          (((((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                                          const unsigned int *) ((unsigned char *) (unsigned int) ((
+          (((((u32) *(const u32 *) ((u8 *) (u32) (((u32) *(
+                                                          const u32 *) ((u8 *) (u32) ((
                                                                                      (u32) (&data_ov001_021a9b88))) +
                                                                                  0))) +
                                                       0))) +
@@ -38,9 +38,9 @@ unsigned int func_ov001_02181180(void) {
         (0x40u));
 }
 
-unsigned int func_ov001_02181174(void) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                                        const unsigned int *) ((unsigned char *) (unsigned int) ((
+u32 func_ov001_02181174(void) {
+    return ((u32) *(const u32 *) ((u8 *) (u32) (((u32) *(
+                                                        const u32 *) ((u8 *) (u32) ((
                                                                                    (u32) (&data_ov001_021a9b88))) +
                                                                                0))) +
                                                     32));

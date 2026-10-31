@@ -8,11 +8,11 @@ u32 func_ov000_021a8960(int param_1) {
     uVar3 = 0;
     if (iVar2 != 0) {
         cVar1 = *(s8 *) (param_1 + 0x73);
-        if (cVar1 == '\x01') {
-            if (*(int *) (iVar2 + ((int) 0x00000104u)) != 0) {
-                uVar3 = (u32) * (u16 *) (*(int *) (iVar2 + ((int) 0x00000104u)) + 4);
+        if (cVar1 == 1) {
+            if (*(int *) (iVar2 + 0x104) != 0) {
+                uVar3 = (u32) * (u16 *) (*(int *) (iVar2 + 0x104) + 4);
             }
-        } else if ((cVar1 == '\0') || (cVar1 == '\x04')) {
+        } else if ((cVar1 == 0) || (cVar1 == 4)) {
             uVar3 = *(int *) (param_1 + 0x44) - *(int *) (iVar2 + 0xf8);
         }
     }

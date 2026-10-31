@@ -1,22 +1,22 @@
 #include "01/code_02181690.h"
 
-void func_ov001_021816a8(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                           const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_ov001_021a9b90))) +
+void func_ov001_021816a8(u32 p0) {
+    *(u32 *) ((u8 *) (u32) (((u32) *(
+                           const u32 *) ((u8 *) (u32) (((u32) (&data_ov001_021a9b90))) +
                                                   0))) +
-                       24) = (unsigned int) (p0);
+                       24) = (u32) p0;
 }
 
-void func_ov001_0218169c(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                           const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_ov001_021a9b90))) +
+void func_ov001_0218169c(u32 p0) {
+    *(u32 *) ((u8 *) (u32) (((u32) *(
+                           const u32 *) ((u8 *) (u32) (((u32) (&data_ov001_021a9b90))) +
                                                   0))) +
-                       28) = (unsigned int) (p0);
+                       28) = (u32) p0;
 }
 
-void func_ov001_02181690(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                           const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_ov001_021a9b90))) +
+void func_ov001_02181690(u32 p0) {
+    *(u32 *) ((u8 *) (u32) (((u32) *(
+                           const u32 *) ((u8 *) (u32) (((u32) (&data_ov001_021a9b90))) +
                                                   0))) +
-                       32) = (unsigned int) (p0);
+                       32) = (u32) p0;
 }

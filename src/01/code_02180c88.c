@@ -2,15 +2,15 @@
 
 #pragma thumb off
 
-unsigned int func_ov001_02180ca4(void) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_021755a0))) + 0));
+u32 func_ov001_02180ca4(void) {
+    return ((u32) *(const u32 *) ((u8 *) (u32) (((u32) (&data_021755a0))) + 0));
 }
 
-void func_ov001_02180c88(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned int) (0x1000u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 4) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 8) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 12) = (unsigned int) (0x1000u);
+void func_ov001_02180c88(u32 p0) {
+    *(u32 *) ((u8 *) (u32) (p0) + 0) = (u32) 0x1000u;
+    *(u32 *) ((u8 *) (u32) (p0) + 4) = (u32) 0x0u;
+    *(u32 *) ((u8 *) (u32) (p0) + 8) = (u32) 0x0u;
+    *(u32 *) ((u8 *) (u32) (p0) + 12) = (u32) 0x1000u;
 }
 
 #pragma thumb on
