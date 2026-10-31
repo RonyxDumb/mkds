@@ -127,12 +127,12 @@ s32 func_ov000_02198148(Unk02197fe8 *a, s32 b) {
     if (a == 0) {
         return 1;
     }
-    if (a->mUnk_34 == 0) {
+    if (a->mUnk_28.mUnk_0c == 0) {
         return 1;
     }
     a->mUnk_24++;
     a->mUnk_08->mUnk_1c++;
-    a->mUnk_34(a, b);
+    a->mUnk_28.mUnk_0c(a, b);
     a->mUnk_24--;
     a->mUnk_08->mUnk_1c--;
     if (a->mUnk_08->mUnk_14 != 0 && a->mUnk_08->mUnk_1c == 0) {

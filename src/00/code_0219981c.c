@@ -81,7 +81,7 @@ u32 func_ov000_021998d8(Unk02197fe8 *a, s32 b, u32 c, const u8 *d, s32 e, s32 *f
     }
     func_ov000_02197d84((int *) &a->mUnk_44, (u32) d, e);
     if (h == 0) {
-        if (func_ov000_02198ba8((Unk021981d0 *) a, a->mUnk_66, c - 1) == 0) {
+        if (func_ov000_02198ba8(a, a->mUnk_66, c - 1) == 0) {
             return 0;
         }
     } else {
@@ -89,7 +89,7 @@ u32 func_ov000_021998d8(Unk02197fe8 *a, s32 b, u32 c, const u8 *d, s32 e, s32 *f
         if (j->mUnk_0c == c) {
             j = func_ov000_0218dbf8(a->mUnk_5c, h - 1);
             if ((u16) func_ov000_0219a014(c, j->mUnk_0c) > 1) {
-                if (func_ov000_02198ba8((Unk021981d0 *) a, j->mUnk_0c + 1, c - 1) == 0) {
+                if (func_ov000_02198ba8(a, j->mUnk_0c + 1, c - 1) == 0) {
                     return 0;
                 }
             }

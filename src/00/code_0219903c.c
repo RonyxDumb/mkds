@@ -3,7 +3,7 @@
 #include "00/code_02197ddc.h"
 #include "00/code_02199f80.h"
 
-int func_ov000_0219903c(Unk021981d0 *a, u32 b, int c, int *d) {
+int func_ov000_0219903c(Unk02197fe8 *a, u32 b, int c, int *d) {
     if (func_ov000_02197e58((int) &a->mUnk_50) < c) {
         if (func_ov000_02199f80((u32) a) == 0) {
             return 0;
@@ -11,7 +11,7 @@ int func_ov000_0219903c(Unk021981d0 *a, u32 b, int c, int *d) {
         *d = 1;
         return 1;
     }
-    if (func_ov000_021990f8((Unk02197fe8 *) a, a->mUnk_64, c) == 0) {
+    if (func_ov000_021990f8(a, a->mUnk_64, c) == 0) {
         if (func_ov000_02199f80((u32) a) == 0) {
             return 0;
         }

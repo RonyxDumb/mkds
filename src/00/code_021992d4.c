@@ -37,7 +37,7 @@ u32 func_ov000_021992d4(Unk02197e8c *a, u8 *b, s32 c, u32 d, u32 e) {
         }
         if (h == 0 || b[2] != 1) {
             if (h == 0 || b[2] != 0x68) {
-                if (func_ov000_02198b50((Unk02198394 *) a, d, e) == 0) {
+                if (func_ov000_02198b50(a, d, e) == 0) {
                     return 0;
                 }
             }
@@ -46,9 +46,9 @@ u32 func_ov000_021992d4(Unk02197e8c *a, u8 *b, s32 c, u32 d, u32 e) {
             if (a->mUnk_20 == 0) {
                 return 1;
             }
-            i = func_ov000_0219883c(a, (Unk021981d0 **) &f, d, e);
+            i = func_ov000_0219883c(a, &f, d, e);
             if (i != 0) {
-                if (i != 5 && func_ov000_02198b50((Unk02198394 *) a, d, e) == 0) {
+                if (i != 5 && func_ov000_02198b50(a, d, e) == 0) {
                     return 0;
                 }
                 return 1;
@@ -58,7 +58,7 @@ u32 func_ov000_021992d4(Unk02197e8c *a, u8 *b, s32 c, u32 d, u32 e) {
     k = f;
     if (k->mUnk_0c == 7) {
         if (h == 0 || b[2] != 0x68) {
-            if (func_ov000_02198b8c((Unk021981d0 *) k) == 0) {
+            if (func_ov000_02198b8c(k) == 0) {
                 return 0;
             }
         }
@@ -145,7 +145,7 @@ typedef struct Unk0219958cArg {
 // non-matching: the 4-byte copy loads all four bytes from r4 offsets 4 to 7 (original loads the first from r4 and the rest from r2 = r4 + 4, set before the first load); no extra move before the subtraction in the original; size 0x7c against 0x80
 u32 func_ov000_0219958c(Unk02197fe8 *a, u8 *b, s32 c) {
     Unk0219958cWord d;
-    if (a->mUnk_34 == 0) {
+    if (a->mUnk_28.mUnk_0c == 0) {
         return 1;
     }
     if (c != 8) {
