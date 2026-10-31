@@ -165,7 +165,6 @@ u8 *func_ov000_021ad240(u8 *a) {
     return a;
 }
 
-// non-matching: size 0x58 against 0x54; the original keeps the buffer address in r4 across the calls (push {r4, lr}), here it is loaded from the constant word each time
 void func_ov000_021ad264(void) {
     u8 *p;
     u8 *r;
@@ -174,7 +173,7 @@ void func_ov000_021ad264(void) {
     func_ov000_021ae270();
     func_ov000_021ae2d8();
     func_ov000_021ae290(0x44, 0x43, data_ov000_021b638c);
-    r = data_ov000_021b6706;
+    r = (u8 *) &data_ov000_021b6706;
     p = func_ov000_021ad754(r, 7, 0);
     *p = 0xff;
     p++;

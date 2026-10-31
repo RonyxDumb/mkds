@@ -49,21 +49,17 @@ void func_0202daa4(s32 a) {
     }
 }
 
-// non-matching: second branch loads the member at 0x8c0 before the one at 0x80c, original loads 0x80c, subtracts, then loads 0x8c0 (constant word order differs, 4 words differ, size matches)
 u32 func_0202db04(u32 a) {
-    s32 i;
     u8 *p;
     if (func_0202dd80(a) == 0) {
         return func_0202e43c(data_02174e44->mUnk_814[a]);
     }
-    i = a - data_02174e44->mUnk_80c;
+    a -= data_02174e44->mUnk_80c;
     p = data_02174e44->mUnk_8c0;
-    return func_02061654(p + (u8) data_02174e44->mUnk_894[i] * 0x230);
+    return func_02061654(p + (u8) data_02174e44->mUnk_894[a] * 0x230);
 }
 
-// non-matching: second branch loads the member at 0x8c0 before the one at 0x80c, original loads 0x80c, subtracts, then loads 0x8c0 (constant word order differs, 4 words differ, size matches)
 u32 func_0202db68(u32 a) {
-    s32 i;
     u32 e;
     u8 *p;
     s32 n;
@@ -73,13 +69,11 @@ u32 func_0202db68(u32 a) {
         n = func_0204684c(e);
         return func_02061678(p + n * 0x30);
     }
-    i = a - data_02174e44->mUnk_80c;
-    return func_02061678((u8) data_02174e44->mUnk_894[i] * 0x230 + data_02174e44->mUnk_8c0);
+    a -= data_02174e44->mUnk_80c;
+    return func_02061678((u8) data_02174e44->mUnk_894[a] * 0x230 + data_02174e44->mUnk_8c0);
 }
 
-// non-matching: second branch loads the member at 0x8c0 before the one at 0x80c, original loads 0x80c, subtracts, then loads 0x8c0 (constant word order differs, 4 words differ, size matches)
 u32 func_0202dbe8(u32 a) {
-    s32 i;
     u32 e;
     u8 *p;
     s32 n;
@@ -89,13 +83,11 @@ u32 func_0202dbe8(u32 a) {
         n = func_0204684c(e);
         return func_0206169c(p + n * 0x30);
     }
-    i = a - data_02174e44->mUnk_80c;
-    return func_0206169c((u8) data_02174e44->mUnk_894[i] * 0x230 + data_02174e44->mUnk_8c0);
+    a -= data_02174e44->mUnk_80c;
+    return func_0206169c((u8) data_02174e44->mUnk_894[a] * 0x230 + data_02174e44->mUnk_8c0);
 }
 
-// non-matching: second branch loads the member at 0x8c0 before the one at 0x80c, original loads 0x80c, subtracts, then loads 0x8c0 (constant word order differs, 4 words differ, size matches)
 void func_0202dc68(u32 a, void *b) {
-    s32 i;
     u32 e;
     u8 *p;
     s32 n;
@@ -105,14 +97,12 @@ void func_0202dc68(u32 a, void *b) {
         n = func_0204684c(e);
         func_020616c0(p + n * 0x30, b);
     } else {
-        i = a - data_02174e44->mUnk_80c;
-        func_020616c0((u8) data_02174e44->mUnk_894[i] * 0x230 + data_02174e44->mUnk_8c0, b);
+        a -= data_02174e44->mUnk_80c;
+        func_020616c0((u8) data_02174e44->mUnk_894[a] * 0x230 + data_02174e44->mUnk_8c0, b);
     }
 }
 
-// non-matching: second branch loads the member at 0x8c0 before the one at 0x80c, original loads 0x80c, subtracts, then loads 0x8c0 (constant word order differs, 4 words differ, size matches)
 void func_0202dcf4(u32 a, void *b) {
-    s32 i;
     u32 e;
     u8 *p;
     s32 n;
@@ -122,8 +112,8 @@ void func_0202dcf4(u32 a, void *b) {
         n = func_0204684c(e);
         func_02061704(p + n * 0x30, b);
     } else {
-        i = a - data_02174e44->mUnk_80c;
-        func_02061704((u8) data_02174e44->mUnk_894[i] * 0x230 + data_02174e44->mUnk_8c0, b);
+        a -= data_02174e44->mUnk_80c;
+        func_02061704((u8) data_02174e44->mUnk_894[a] * 0x230 + data_02174e44->mUnk_8c0, b);
     }
 }
 

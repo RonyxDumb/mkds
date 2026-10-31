@@ -117,8 +117,6 @@ void func_0204d28c(void) {
     data_02175ec0.mUnk_0440.mUnk_46cc = data_02175ec0.mUnk_0440.mUnk_46cc & ~v4;
 }
 
-// non-matching: the objdiff report gives 99.8%; probe_compilers (literal words included) and a one-shot objdiff diff of
-// this function show no difference, so the cause is not known.
 void func_0204d5bc(void) {
     Unk02175ec0 *p = &data_02175ec0;
 

@@ -212,16 +212,15 @@ void func_0205d558(s32 a) {
     }
 }
 
-// non-matching: the original keeps the two global addresses in ip and lr across both statements and does not reload the literals; here they are loaded again, so the register numbers differ throughout.
 void func_0205d6d0(s32 a) {
     s32 b;
     Unk0217aa1c_144_00 *p, *q;
 
-    p = data_0217aa1c->mUnk_144[(u8) ((data_021759c0->mUnk_60 - 1) % 4)].mUnk_00;
     b = 0;
     if (a == 0) {
         b = 1;
     }
+    p = data_0217aa1c->mUnk_144[(u8) ((data_021759c0->mUnk_60 - 1) % 4)].mUnk_00;
     p[a].mUnk_03_0 = 1;
     q = data_0217aa1c->mUnk_144[(u8) ((data_021759c0->mUnk_60 - 1) % 4)].mUnk_00;
     q[b].mUnk_03_0 = 0;

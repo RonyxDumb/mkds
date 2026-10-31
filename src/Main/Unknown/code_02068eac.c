@@ -199,7 +199,6 @@ void func_0206924c(Unk0206bcb0 *p, u32 a) {
     }
 }
 
-// non-matching: same size; 5 words differ at 0x3c: the original loads 0x4c into r1 and the constant word 0x538 into r0 before the test of 0x10000000, then adds it to p; here the load goes into r0 and the constant word comes after the test
 void func_0206938c(Unk0206bcb0 *p) {
     Unk0206ceb4 *s;
     Unk0206ceb4 *u;
@@ -211,9 +210,9 @@ void func_0206938c(Unk0206bcb0 *p) {
     s = &p->mUnk_538;
     s->mUnk_1e++;
     if (!(p->mUnk_7c & 0x400)) {
-        if (func_0209081c(&s->mUnk_2c) != 0 && (p->mUnk_4c & 0x10000000)) {
+        if (func_0209081c(&s->mUnk_2c) != 0) {
             u = &p->mUnk_538;
-            if (u->mUnk_24 == 0) {
+            if ((p->mUnk_4c & 0x10000000) && u->mUnk_24 == 0) {
                 u->mUnk_24 = 1;
                 if (p->mUnk_7c & 0x200) {
                     p->mUnk_514->mUnk_2c ^= 0x200000;

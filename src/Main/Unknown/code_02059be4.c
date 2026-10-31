@@ -7,7 +7,9 @@
 #include "Main/Unknown/code_0205a4e8.h"
 #include "Main/Unknown/code_0205a534.h"
 #include "Main/Unknown/code_0205a50c.h"
+#include "Main/Unknown/unk_00000000.h"
 #include "Main/Unknown/unk_0217a000.h"
+#include "Main/Unknown/unk_02180000.h"
 #include "02/unk_02180500.h"
 #include "code_02004270.h"
 #include "code_02004dc0.h"
@@ -187,44 +189,28 @@ void func_0205a108(void) {
     data_0217aa10->mUnk_a0 = func_020180e0(data_ov002_02180500, 0x50000, 0);
 }
 
-// non-matching: the original loads the three entry values 0, 1 and 2 from words after the function (no relocation)
-// where this uses mov, so it is 0x14 bytes longer and the loads around them move; the rest is the same.
-void func_0205a140(void *a) {
+static inline void func_0205a140_inline(s32 i, s32 a, u32 b, u32 c) {
     Unk0217aa10_08 *e;
 
+    e = &data_0217aa10->mUnk_08[i];
+    e->mUnk_00 = a;
+    e->mUnk_04 = b;
+    e->mUnk_08 = c;
+    if (e->mUnk_04 < data_0217aa10->mUnk_a8) {
+        data_0217aa10->mUnk_a8 = e->mUnk_04;
+    }
+    if (e->mUnk_08 > data_0217aa10->mUnk_ac) {
+        data_0217aa10->mUnk_ac = e->mUnk_08;
+    }
+}
+
+void func_0205a140(void *a) {
     data_0217aa10 = func_02036bec(a, 0xb0);
     data_0217aa10->mUnk_a8 = -1;
     data_0217aa10->mUnk_ac = 0;
-    data_0217aa10->mUnk_08[0].mUnk_00 = 0;
-    e = &data_0217aa10->mUnk_08[0];
-    e->mUnk_04 = 0x021804c0;
-    e->mUnk_08 = (u32) data_ov002_021b7ba0;
-    if (e->mUnk_04 < data_0217aa10->mUnk_a8) {
-        data_0217aa10->mUnk_a8 = e->mUnk_04;
-    }
-    if (e->mUnk_08 > data_0217aa10->mUnk_ac) {
-        data_0217aa10->mUnk_ac = e->mUnk_08;
-    }
-    data_0217aa10->mUnk_08[1].mUnk_00 = 1;
-    e = &data_0217aa10->mUnk_08[1];
-    e->mUnk_04 = 0x021804c0;
-    e->mUnk_08 = (u32) data_ov002_021ca440;
-    if (e->mUnk_04 < data_0217aa10->mUnk_a8) {
-        data_0217aa10->mUnk_a8 = e->mUnk_04;
-    }
-    if (e->mUnk_08 > data_0217aa10->mUnk_ac) {
-        data_0217aa10->mUnk_ac = e->mUnk_08;
-    }
-    data_0217aa10->mUnk_08[2].mUnk_00 = 2;
-    e = &data_0217aa10->mUnk_08[2];
-    e->mUnk_04 = 0x021804c0;
-    e->mUnk_08 = 0x021d04e0;
-    if (e->mUnk_04 < data_0217aa10->mUnk_a8) {
-        data_0217aa10->mUnk_a8 = e->mUnk_04;
-    }
-    if (e->mUnk_08 > data_0217aa10->mUnk_ac) {
-        data_0217aa10->mUnk_ac = e->mUnk_08;
-    }
+    func_0205a140_inline(0, (s32) SDK_OVERLAY_OV000_ID, (u32) OV000_TEXT_START, (u32) OV000_BSS_END);
+    func_0205a140_inline(1, (s32) SDK_OVERLAY_OV001_ID, (u32) OV001_TEXT_START, (u32) OV001_BSS_END);
+    func_0205a140_inline(2, (s32) SDK_OVERLAY_OV002_ID, (u32) OV002_CTOR_START, (u32) OV002_BSS_END);
     data_0217aa10->mUnk_a0 = 0;
     data_0217aa10->mUnk_a4 = 0;
 }

@@ -82,20 +82,20 @@ void func_0207e668(Unk020888b4 *p) {
     }
 }
 
-// non-matching: size 0x160 against 0x154, stack frame 0x60 against 0x58: the constant vector is moved once into an extra
-// stack temporary (sp+0x54) and from there into both locals, the original loads the constant word twice and has no temporary
 void func_0207e7f0(Unk020888b4 *p) {
     Vec3 a;
     Vec3 g;
     Vec3 b;
     Vec3 e;
     Vec3 f;
-    Vec3 d = data_usa_021557c4;
-    Vec3 c = data_usa_021557c4;
+    Vec3 d;
+    Vec3 c;
     s32 s;
 
     a = *p->mUnk_08.mUnk_00.mUnk_00->mUnk_18;
     b = *p->mUnk_08.mUnk_00.mUnk_00->mUnk_18;
+    c = data_usa_021557c4;
+    d = *(Vec3 *) &data_usa_021557c4;
     func_020397a8(&p->mUnk_08.mUnk_00.mUnk_08, &d, &e);
     func_021484d0(&p->mUnk_00->mUnk_80, &b, &f);
     s = func_02039828(&f, &e);

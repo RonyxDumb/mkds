@@ -403,13 +403,12 @@ u32 func_ov000_0219adb4(const u8 *a) {
     return b;
 }
 
-// non-matching: the original computes the address of the message (add r1, sp, #4) before loading the literal word for the six-byte copy and again after it; ours loads the word first and adds the address once (2 bytes shifted, same size)
 void func_ov000_0219ade4(Unk0219b1d4 *a) {
     Unk0219ade4 b;
     u32 c;
     s32 d;
 
-    b.mUnk_00 = *(Unk021b400c *) data_ov000_021b400c;
+    func_ov000_0219aa64_inline(&b.mUnk_00, data_ov000_021b400c);
     b.mUnk_06 = 2;
     b.mUnk_07 = 7;
     c = a->mUnk_08;

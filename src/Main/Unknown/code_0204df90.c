@@ -22,13 +22,11 @@ void func_0204dfe0(u32 a) {
     }
 }
 
-// non-matching: registers: the original puts the constant words in r3 and the object pointer in r1, then r2 (6 words differ,
-// first at 0x4); the same size.
 void func_0204e03c(u32 a) {
     data_0217aa00->mUnk_000c = 0x22;
     data_0217aa00->mUnk_0010 = 1;
     data_0217aa00->mUnk_169c = 0;
-    if (func_0200b610() == 0) {
+    if (func_0200b610(a) == 0) {
         func_02050e60(5);
     }
 }

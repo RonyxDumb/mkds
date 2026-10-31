@@ -13,9 +13,6 @@
 #include "code_02017f24.h"
 #include "Main/Unknown/code_0204aa60.h"
 
-// non-matching: one instruction position at 0x1bc-0x1c8: the original computes the address of the mUnk_60 block in r3
-// (add r3, ip, #0x60) right after the store of its low word and before mov r2, #0; this source computes it after the
-// literal load of the multiplier (mov r2, #0 first). Same size, every other instruction matches.
 void func_0204ad44(void) {
     Unk0200fddc v;
     u64 t;
@@ -69,7 +66,7 @@ void func_0204ad44(void) {
     u = func_0200f5ac();
     p = data_021759d0;
     q = &p->mUnk_60;
-    p->mUnk_60.mUnk_00 = (u32) ((t << 16) + u);
+    q->mUnk_00 = (u32) ((t << 16) + u);
     q->mUnk_08 = 0x5d588b656c078965;
     q->mUnk_10 = 0x269ec3;
     if (func_0214faac(&p->mUnk_48, &p->mUnk_4c) == 0) {

@@ -286,7 +286,6 @@ void func_02007cf8(u32 a, u32 b, void *c) {
     }
 }
 
-// non-matching: the report scores it 99.79%; objdiff's diff of the function shows every instruction equal
 void func_02007d18(u32 a, u32 b, void *c) {
     if (func_02007138(a) != 0) {
         data_0216fdac->mUnk_14e8[a - 1] = b;

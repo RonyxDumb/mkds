@@ -147,7 +147,6 @@ void func_02090638(Unk020905a8 *a) {
     p->mUnk_236 = p->mUnk_236 + (s32) (((s64) d * s) >> 12);
 }
 
-// non-matching: the report scores it 99.91%; objdiff's diff of the function shows every instruction equal
 void func_02090748(Unk020905a8 *a) {
     Unk0206bcb0 *p;
     Vec3 v;
@@ -416,7 +415,6 @@ u32 func_02090cf8(void) {
     return r | q;
 }
 
-// non-matching: the report scores it 99.95%; objdiff's diff of the function shows every instruction equal
 u32 func_02090ff4(void) {
     u32 r;
     u32 q;

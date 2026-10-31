@@ -109,7 +109,6 @@ void func_020719d0(Unk0206bcb0 *p) {
     q->mUnk_40_m = t;
 }
 
-// non-matching: 99.96%, one word differs although compiling the function alone matches (a literal or relocation word).
 void func_02071c18(Unk0206bcb0 *p) {
     func_02109110(&p->mUnk_00, 0, p->mUnk_508);
     func_0210a5a8(p, (Unk0210a5a8 *) &p->mUnk_450);

@@ -198,7 +198,6 @@ s32 func_ov000_021882f8(const u8 *a, s32 b, s8 *c, u32 d) {
     return v2 - c;
 }
 
-// non-matching: at +0x8 the original computes s + 0x474 (adds r2, r5, r0) before loading the byte at 0xd13, ours loads the byte first (5 instructions in other order, plus the constant words 0x474/0xd13 swapped); size equal
 s32 func_ov000_02188408(void) {
     Unk02188408 *s;
     u8 *k;
@@ -207,8 +206,9 @@ s32 func_ov000_02188408(void) {
     u8 n;
 
     s = data_ov000_021b4d00;
-    k = s->mUnk_470[s->mUnk_d13].mUnk_04;
+    k = s->mUnk_470[0].mUnk_04;
     i = s->mUnk_d13;
+    k += i * 0xc0;
     if (s->mUnk_d0d >= 6) {
         return 1;
     }

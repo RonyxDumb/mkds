@@ -79,7 +79,6 @@ u32 func_0200c20c(u32 a) {
     return 1;
 }
 
-// non-matching: same size; 5 lines differ; first: original `.word 0x00000000`, ours `R_ARM_ABS32 data_0216fdf4`
 u8 *func_0200c25c(Unk0200c16c *a, u32 b) {
     Unk0216fdf4 *v1;
     u8 v2;
@@ -103,7 +102,6 @@ u8 *func_0200c25c(Unk0200c16c *a, u32 b) {
     return 0;
 }
 
-// non-matching: same size; 5 lines differ; first: original `.word 0x00000000`, ours `R_ARM_ABS32 data_0216fdf4`
 u8 *func_0200c2e0(u8 *a, Unk0200c16c *b, u32 c) {
     u8 *v1;
     b->mUnk_00 = a[0];
