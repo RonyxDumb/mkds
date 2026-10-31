@@ -2,10 +2,8 @@
 
 #include "types.h"
 
-// Declared here until the code that defines them is decompiled.
-void func_ov003_021c71a0();
-void func_ov003_021c72a4();
-u32 func_ov003_021c735c(int param_1);
-void func_ov003_021c73cc(void);
-void func_ov003_021c7a0c(void);
-void func_ov003_021c7e20();
+#include "03/code_021c70a4.h"
+#include "03/code_021c72a4.h"
+#include "03/code_021c735c.h"
+#include "03/code_021c7a0c.h"
+#include "03/code_021c7d8c.h"

@@ -9,7 +9,7 @@ void func_ov003_021d244c(void) {
     iVar4 = 0;
     iVar3 = 0;
     do {
-        func_ov003_021d1490(*(u32 *) (*(u8 **) data_ov003_021da2c4 + iVar3 + iVar2));
+        func_ov003_021d1490(*(void **) (*(u8 **) data_ov003_021da2c4 + iVar3 + iVar2));
         iVar3 = iVar3 + 4;
         iVar4 = iVar4 + 1;
     } while (iVar4 < 2);

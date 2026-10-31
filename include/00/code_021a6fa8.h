@@ -5,6 +5,7 @@
 #include "code_0200e904.h"
 
 struct Unk021a6fa8;
+struct Unk021a78a4;
 
 // Four bytes read by func_ov000_021a72a4: a size, a count and a byte.
 typedef struct Unk021a72a4 {
@@ -32,8 +33,8 @@ typedef struct Unk021a71c0 {
     /* 0f8 */ s32 mUnk_f8;
     /* 0fc */ u16 mUnk_fc;
     /* 0fe */ s8 mUnk_fe;
-    /* 100 */ void *mUnk_100;
-    /* 104 */ void *mUnk_104;
+    /* 100 */ struct Unk021a78a4 *mUnk_100;
+    /* 104 */ struct Unk021a78a4 *mUnk_104;
     /* 108 */ u16 mUnk_108;
     /* 10a */ u16 mUnk_10a;
     /* 10c */ Unk0200df9c mUnk_10c;
@@ -43,7 +44,8 @@ typedef struct Unk021a71c0 {
 typedef struct Unk021a722a {
     /* 000 */ Unk021a7154 mUnk_00;
     /* 0f8 */ Unk021a71a4 mUnk_f8;
-    /* 100 */ u8 mUnk_100[4];
+    /* 100 */ u16 mUnk_100;
+    /* 102 */ u16 mUnk_102;
     /* 104 */ s32 mUnk_104;
     /* 108 */ s32 mUnk_108;
     /* 10c */ struct Unk021a6fa8 *mUnk_10c;
@@ -51,9 +53,18 @@ typedef struct Unk021a722a {
 } Unk021a722a;
 
 typedef struct Unk021a6fa8 {
-    /* 00 */ u8 mUnk_00[0x3c];
+    /* 00 */ u8 mUnk_00[8];
+    /* 08 */ u8 mUnk_08;
+    /* 09 */ u8 mUnk_09;
+    /* 0a */ u16 mUnk_0a;
+    /* 0c */ u8 mUnk_0c[0xc];
+    /* 18 */ u16 mUnk_18;
+    /* 1a */ u16 mUnk_1a;
+    /* 1c */ u32 mUnk_1c;
+    /* 20 */ u32 mUnk_20;
+    /* 24 */ u8 mUnk_24[0x18];
     /* 3c */ Unk021a71a4 mUnk_3c;
-    /* 44 */ u8 mUnk_44[4];
+    /* 44 */ s32 mUnk_44;
     /* 48 */ Unk021a71a4 mUnk_48;
     /* 50 */ Unk021a71a4 mUnk_50;
     /* 58 */ Unk021a71a4 mUnk_58;
@@ -67,7 +78,7 @@ typedef struct Unk021a6fa8 {
     /* 74 */ u16 mUnk_74;
     /* 76 */ u16 mUnk_76;
     /* 78 */ u16 *mUnk_78;
-    /* 7c */ u8 mUnk_7c[4];
+    /* 7c */ struct Unk021a6fa8 *mUnk_7c;
     /* 80 */ Unk021a71c0 mUnk_80;
 } Unk021a6fa8;
 

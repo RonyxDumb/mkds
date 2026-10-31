@@ -84,14 +84,12 @@ static inline Vec3 *func_020fbd98_inline(Unk020fc2e8 *p) {
     return 0;
 }
 
-// non-matching: 0x4c0 vs 0x4d0 bytes; matches up to +0x1dc. The loop over mUnk_274 ends with an
-// unsigned test in the original (bcc, here blt), and the loop over the mUnk_3d0 entries counts a
-// u16 up to an inclusive bound (add, lsl/lsr, bls); the rest of the body follows from there.
 void func_020fbd98(Unk020fc2e8 *param_1) {
-    s32 i;
+    u32 i;
     s32 r;
     s32 v;
     void *q;
+    Unk0206bcb0 *p;
 
     if (param_1->mUnk_2ec == 8) {
         param_1->mUnk_26c = func_0208ec64((u32) param_1->mUnk_000.mUnk_d0);
@@ -116,7 +114,7 @@ void func_020fbd98(Unk020fc2e8 *param_1) {
             param_1->mUnk_276 = data_0217561c->mUnk_474[(u8) param_1->mUnk_274 - 1];
         } else {
             param_1->mUnk_276 = data_0217561c->mUnk_474[(u8) param_1->mUnk_274 - 1];
-            while (func_0203c880(param_1->mUnk_276) != 0 && param_1->mUnk_274 < (u8) data_021759c0->mUnk_3d0) {
+            while (func_0203c880(param_1->mUnk_276) != 0 && (u32) param_1->mUnk_274 < (u8) data_021759c0->mUnk_3d0) {
                 (param_1->mUnk_274)++;
                 param_1->mUnk_276 = data_0217561c->mUnk_474[(u8) param_1->mUnk_274 - 1];
             }
@@ -130,9 +128,9 @@ void func_020fbd98(Unk020fc2e8 *param_1) {
         }
     }
     if (param_1->mUnk_278 != 0) {
-        u16 n;
+        u32 n;
         n = (u8) data_021759c0->mUnk_3d0;
-        for (i = 1; i < n; i++) {
+        for (i = 1; i <= n; i = (u16) (i + 1)) {
             param_1->mUnk_276 = data_0217561c->mUnk_474[(u8) i - 1];
             if (func_02068eac(func_0207a974(param_1->mUnk_276)) == 0) {
                 break;
@@ -141,7 +139,8 @@ void func_020fbd98(Unk020fc2e8 *param_1) {
         param_1->mUnk_280 |= 1 << param_1->mUnk_276;
     }
     if (func_020fcbb8(param_1, param_1->mUnk_276) != 0) {
-        r = ((param_1->mUnk_000.mUnk_74 & 0x40000000) || (param_1->mUnk_228->mUnk_1fc->mUnk_48 & 1)) ? 2 : 3;
+        p = param_1->mUnk_228->mUnk_1fc;
+        r = ((param_1->mUnk_000.mUnk_74 & 0x40000000) || (p->mUnk_48 & 1)) ? 2 : 3;
         param_1->mUnk_2f8 = r;
         param_1->mUnk_2fa = 1;
         if (param_1->mUnk_000.mUnk_74 & 0x8000000) {
@@ -152,7 +151,8 @@ void func_020fbd98(Unk020fc2e8 *param_1) {
     r = (u16) func_02061f90();
     if ((param_1->mUnk_280 & (1 << r)) != 0 && param_1->mUnk_276 != r && func_0203c880(r) != 0 &&
         func_020fcbb8(param_1, r) != 0) {
-        v = ((param_1->mUnk_000.mUnk_74 & 0x40000000) || (param_1->mUnk_228->mUnk_1fc->mUnk_48 & 1)) ? 2 : 3;
+        p = param_1->mUnk_228->mUnk_1fc;
+        v = ((param_1->mUnk_000.mUnk_74 & 0x40000000) || (p->mUnk_48 & 1)) ? 2 : 3;
         param_1->mUnk_2f8 = v;
         param_1->mUnk_2fa = 1;
         if (param_1->mUnk_000.mUnk_74 & 0x8000000) {
@@ -167,11 +167,12 @@ void func_020fbd98(Unk020fc2e8 *param_1) {
     if (param_1->mUnk_228 != 0) {
         return;
     }
-    if (v >= 8) {
+    if ((u32) v >= 8) {
         v = 0;
     }
-    func_020fcb9c((int) param_1, v);
-    r = ((param_1->mUnk_000.mUnk_74 & 0x40000000) || (param_1->mUnk_228->mUnk_1fc->mUnk_48 & 1)) ? 2 : 3;
+    func_020fcb9c((int) param_1, (u16) v);
+    p = param_1->mUnk_228->mUnk_1fc;
+    r = ((param_1->mUnk_000.mUnk_74 & 0x40000000) || (p->mUnk_48 & 1)) ? 2 : 3;
     param_1->mUnk_2f8 = r;
     param_1->mUnk_2fa = 1;
 }

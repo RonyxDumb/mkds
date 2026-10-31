@@ -1,0 +1,135 @@
+#include "03/code_021c735c.h"
+
+u32 func_ov003_021c735c(s32 a) {
+    u8 b[4];
+    u8 *c;
+    u8 *d;
+    s32 e;
+    u8 f;
+    d = (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_08;
+    c = d + (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14 * 3;
+    f = *c;
+    if (f != 0 && f != 0x20) {
+        return 1;
+    }
+    func_0214d1fc(c, b, 3);
+    b[3] = 0;
+    c = b;
+    for (e = 0; e < 3; e++) {
+        if (*c != 0) {
+            break;
+        }
+        *c = 0x20;
+        c++;
+    }
+    if (func_0213bf90(b) >= a) {
+        return 1;
+    }
+    return 0;
+}
+
+// non-matching: in the first case the stack-free temporaries swap registers (original loads the count byte into r2 and its product with 3 into r3, ours r3 and r2); everything else identical
+void func_ov003_021c73cc(void) {
+    s32 a;
+    u8 *b;
+    s32 k;
+    Unk021da1fc *h;
+    Unk021da1fc **g;
+    u8 e;
+    a = func_ov003_021c1ca0();
+    switch (a) {
+    case 0:
+        return;
+    case 0x10:
+        if ((*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14 == 0 && (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_08[2] == 0) {
+            break;
+        }
+        func_ov003_021cdc10(3);
+        e = (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14;
+        if ((*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_08[e * 3 + 2] == 0) {
+            (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14 = e - 1;
+        }
+        func_0214d168((*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_08 + (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14 * 3, 0, 3);
+        if ((*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14 == 0 && (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_08[2] == 0) {
+            func_ov003_021c1c90(0);
+        }
+        func_ov003_021c1c80(1);
+        func_ov003_021c1c70(0);
+        break;
+    case 0x11:
+        e = (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14;
+        if (e >= 3) {
+            break;
+        }
+        if ((*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_08[e * 3 + 2] == 0) {
+            break;
+        }
+        func_ov003_021cdc10(1);
+        (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14 = (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14 + 1;
+        func_ov003_021c1c70(0);
+        break;
+    case 0x12:
+        (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_15 = 0;
+        func_ov003_021cdc10(7);
+        func_ov003_021c212c(func_ov003_021c733c);
+        return;
+    case 0x13:
+        if (func_ov003_021c6f64() != 0) {
+            func_ov003_021cdc10(6);
+            (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_15 = 1;
+        } else {
+            (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_15 = 2;
+            func_ov003_021cdc10(9);
+        }
+        (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14 = 3;
+        (*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_04->mUnk_00 =
+            ((*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_04->mUnk_00 & 0xc1fffcff) | 0x200;
+        func_ov003_021c7160();
+        func_ov003_021c7050();
+        func_ov003_021c212c(func_ov003_021c733c);
+        return;
+    default:
+        if ((*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14 == 3) {
+            if (func_ov003_021c735c(0x1a) != 0) {
+                break;
+            }
+        }
+        func_ov003_021cdc10(1);
+        g = (Unk021da1fc **) data_ov003_021da1fc;
+        b = (*g)->mUnk_08;
+        k = (*g)->mUnk_14 * 3;
+        if (b[k + 2] == 0) {
+            b[k + 2] = a;
+        } else if (b[k + 1] == 0) {
+            b[k + 1] = b[k + 2];
+            b[k + 2] = a;
+            if (func_ov003_021c735c(0x1a) != 0) {
+                h = *(Unk021da1fc **) data_ov003_021da1fc;
+                if (h->mUnk_14 < 3) {
+                    h->mUnk_14 = h->mUnk_14 + 1;
+                }
+            }
+        } else {
+            b[k] = b[k + 1];
+            b[k + 1] = b[k + 2];
+            b[k + 2] = a;
+            if ((*g)->mUnk_14 < 3) {
+                (*g)->mUnk_14 = (*g)->mUnk_14 + 1;
+            }
+        }
+        func_ov003_021c1c90(1);
+        if ((*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14 < 3) {
+            func_ov003_021c1c70(1);
+        } else {
+            func_ov003_021c1c70(0);
+        }
+        if ((*(Unk021da1fc **) data_ov003_021da1fc)->mUnk_14 == 3) {
+            if (func_ov003_021c735c(0x1a) != 0) {
+                func_ov003_021c1c80(0);
+            }
+        }
+        break;
+    }
+    func_ov003_021c71a0();
+    func_ov003_021c7160();
+}

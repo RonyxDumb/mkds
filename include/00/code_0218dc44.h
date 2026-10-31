@@ -6,5 +6,5 @@
 #include "00/unk_021b2000.h"
 #include "code_0213442c.h"
 
-s32 func_ov000_0218dc44(u32 *param_1);
-void func_ov000_0218dc48(int *param_1);
+s32 func_ov000_0218dc44(void *param_1);
+void func_ov000_0218dc48(void *param_1);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_ov000_0218e2c0(void);
+s32 func_ov000_0218e2c0(void);

@@ -1,6 +1,6 @@
 #include "00/code_021a17bc.h"
 
-u32 func_ov000_021a17bc(s32 param_1, s32 param_2) {
+u32 func_ov000_021a17bc(s32 param_1, s32 param_2, s32 param_3) {
     Unk021b566c *p;
     if (func_ov000_0219bab4() != 5) {
         return 0;
@@ -109,14 +109,16 @@ void func_ov000_021a1a38(s32 param_1, s32 param_2) {
     Unk021b566c *p;
     u32 a;
     u32 b;
+    u32 c;
     if (data_ov000_021b566c != 0 && param_1 != 0) {
         func_ov000_0219f0f4();
         func_ov000_0219c384(param_1, param_2);
         func_ov000_0219d558(0, data_ov000_021b4114, 0);
         p = data_ov000_021b566c;
         a = p->mUnk_15 == 2 ? 1 : 0;
-        b = data_ov000_021b566c->mUnk_1f4 == 0 ? 1 : 0;
-        data_ov000_021b566c->mUnk_44c(param_1, 0, b, a, func_ov000_0219d5e4(), p->mUnk_450);
+        c = data_ov000_021b566c->mUnk_1f4;
+        b = c == 0 ? 1 : 0;
+        data_ov000_021b566c->mUnk_44c(param_1, 0, b, a, func_ov000_0219d5e4(c), p->mUnk_450);
         func_ov000_021a104c();
     }
 }

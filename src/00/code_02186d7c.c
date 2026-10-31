@@ -57,7 +57,7 @@ void func_ov000_02186d7c(void *param_0) {
     a->mUnk_48 = 0x5ea;
     a->mUnk_4c = p->mUnk_920;
     func_ov000_021ae304((void *) a);
-    g = func_ov000_021acef8(p->mUnk_a8);
+    g = func_ov000_021acef8((const char *) p->mUnk_a8);
     if (g == 0) {
         p->mUnk_24 = 2;
         return;
@@ -152,7 +152,7 @@ void func_ov000_02186d7c(void *param_0) {
         }
         n = func_ov000_021adbac();
         if (n > 0) {
-            x = func_ov000_021adf78(&n);
+            x = func_ov000_021adf78((u32 *) &n);
             if (x == 0) {
                 func_0200ecc4(&p->mUnk_948);
                 goto done;

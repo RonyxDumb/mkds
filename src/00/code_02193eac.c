@@ -19,7 +19,7 @@ Unk02193f2cNode *func_ov000_02193eac(Unk0218f960 *param_1, u32 param_2, u32 para
     b->mUnk_0c = param_2;
     b->mUnk_10 = func_ov000_0218e320(0) + 0x12c;
     b->mNext = a->mUnk_434;
-    b->mUnk_38 = (void *) func_ov000_0218dc94(0x18, 0, (unsigned int) func_ov000_02193f18);
+    b->mUnk_38 = (void *) func_ov000_0218dc94(0x18, 0, (void (*)(void *)) func_ov000_02193f18);
     a->mUnk_434 = b;
     return b;
 }

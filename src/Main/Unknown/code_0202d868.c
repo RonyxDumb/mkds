@@ -2,7 +2,6 @@
 
 #pragma thumb on
 
-// non-matching: in the a == 0 loop the constant 0xe/0xf is converted to a byte once where it is assigned (movs r0, #14 / lsls / lsrs), the original assigns plain `movs r6, #14` and converts at each of the two calls; 9 words differ, size matches
 void func_0202d868(s32 a, s32 b, s32 c, s32 d) {
     Unk0202de00_g t;
     u16 s[10];
@@ -29,8 +28,8 @@ void func_0202d868(s32 a, s32 b, s32 c, s32 d) {
             } else {
                 k = 0xf;
             }
-            func_02124100(i, (u8) k, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
-            func_02124100(j, (u8) k, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+            func_02124100(i, k, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+            func_02124100(j, k, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
         }
     } else if (a == 2) {
         if (c >= 0 && c < (s32) func_0202ddc4()) {

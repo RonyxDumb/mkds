@@ -1,14 +1,12 @@
 #pragma once
 
 #include "types.h"
+#include "03/code_021cb11c.h"
+#include "03/code_021cb580.h"
+#include "03/code_021cb758.h"
+#include "03/code_021cb8f0.h"
+#include "03/code_021cbaa0.h"
+#include "03/code_021cbb98.h"
+#include "03/code_021cbe78.h"
+#include "03/code_021cbf60.h"
 
-// Declared here until the code that defines them is decompiled.
-void func_ov003_021cb294();
-void func_ov003_021cb3d8();
-void func_ov003_021cb580(void);
-void func_ov003_021cb7fc();
-void func_ov003_021cb948();
-void func_ov003_021cbb98();
-void func_ov003_021cbc00(void);
-void func_ov003_021cbe78();
-void func_ov003_021cbf60();

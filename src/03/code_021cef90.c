@@ -1,0 +1,83 @@
+#include "03/code_021cef90.h"
+#include "03/code_021bf43c.h"
+#include "03/code_021bf4dc.h"
+#include "03/code_021c250c.h"
+#include "03/code_021ceb54.h"
+#include "03/code_021d1000.h"
+#include "03/code_021d27d8.h"
+#include "03/code_021d34c8.h"
+#include "03/code_021d3544.h"
+#include "03/unk_021d6000.h"
+#include "03/unk_021d7000.h"
+#include "code_0214a390.h"
+
+void func_ov003_021cef90(void) {
+    func_ov003_021d34c8(0, data_ov003_021da284->mUnk_14);
+    data_ov003_021da284->mUnk_14 = func_ov003_021d3544(1, (u32) func_ov003_021ceb54, 0, 0x78);
+}
+
+void func_ov003_021cefc0(u32 a, s32 b, s32 c, u32 d, u32 e) {
+    Unk021d7864 v1;
+    void *v;
+    s32 i;
+    u32 v2;
+
+    v1 = data_ov003_021d7864;
+    v = func_ov003_021c250c(data_ov003_021da19c, a, d, e);
+    data_ov003_021da284 = func_ov003_021d283c(0x20, 4);
+    data_ov003_021da284->mUnk_1c = b;
+    data_ov003_021da284->mUnk_1b = -2;
+    data_ov003_021da284->mUnk_1e = c;
+    func_0214a3e8((u16 *) 0x04000050, 0x1f, 0);
+    data_ov003_021da284->mUnk_00 = (Unk021d1770 *) func_ov003_021d1be4(0, data_ov003_021d6718[b], 0);
+    func_ov003_021d17d4(data_ov003_021da284->mUnk_00, -1, 0x100, 0);
+    func_ov003_021d1790(data_ov003_021da284->mUnk_00, -1, 0);
+    for (i = 0; i < data_ov003_021d6720[b]; i++) {
+        data_ov003_021da284->mUnk_08[i] = (Unk021d1770 *) func_ov003_021d1be4(0, data_ov003_021d6748[b][i], 0);
+        func_ov003_021d17d4(data_ov003_021da284->mUnk_08[i], -1, 0x100, 0);
+        func_ov003_021d1790(data_ov003_021da284->mUnk_08[i], -1, 0);
+    }
+    data_ov003_021da284->mUnk_10 = func_ov003_021d23b0(0, 0x20, 0xc, 1, &v2, 0);
+    data_ov003_021da284->mUnk_04 = func_ov003_021d19e0(0, v2, 0);
+    func_ov003_021d2070(data_ov003_021da284->mUnk_10, 0, 0, data_ov003_021d6768[b][0], data_ov003_021d6768[b][1], 2,
+                        func_ov003_021bf4dc(), v);
+    func_ov003_021d1ffc(data_ov003_021da284->mUnk_10, 0x100, 0, data_ov003_021da284->mUnk_04, 0);
+    func_ov003_021d254c(0, 0, 0x1f, 0);
+    func_ov003_021d254c(0, 1, 0x1f, v1.mUnk_00[data_ov003_021da284->mUnk_1c]);
+    func_ov003_021d254c(0, 3, 0x1f, 1);
+    func_ov003_021d2658(0, 1, data_ov003_021d6728);
+    func_ov003_021cec50(0xc0);
+    *(vu32 *) 0x04000000 = (*(vu32 *) 0x04000000 & 0xffff1fff) | 0x6000;
+    if (c != 0) {
+        data_ov003_021da284->mUnk_14 = func_ov003_021d3544(1, (u32) func_ov003_021cef28, 0, 0x78);
+    } else {
+        data_ov003_021da284->mUnk_14 = func_ov003_021d3544(1, (u32) func_ov003_021cee98, 0, 0x78);
+    }
+}
+
+// non-matching: `adds r5, r2, #0; adds r5, #36` (pointer to the first byte of the record) comes before
+// `movs r0, #30; muls r1, r0` (the record offset) here and after it in the original, instruction order only, same size
+u16 func_ov003_021cf1e8(u8 *a) {
+    u16 i;
+    u16 v1;
+    Unk021cf260 *s;
+
+    i = 1;
+    s = data_ov003_021da288;
+    v1 = s->mMask;
+    for (; i < 2; i++) {
+        if ((v1 & (1 << i)) != 0) {
+            u8 *m;
+            u8 *p;
+            s32 o;
+
+            o = (i - 1) * 0x1e;
+            m = s->mRecords[0].mUnk_16;
+            p = m + o;
+            if (a[0] == m[o] && a[1] == p[1] && a[2] == p[2] && a[3] == p[3] && a[4] == p[4] && a[5] == p[5]) {
+                return s->mRecords[i - 1].mUnk_1c;
+            }
+        }
+    }
+    return 0;
+}

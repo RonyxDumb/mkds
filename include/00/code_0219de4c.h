@@ -26,7 +26,9 @@ typedef struct Unk021b566c {
     /* 0e8 */ u32 mUnk_e8;
     /* 0ec */ u64 mUnk_ec;
     /* 0f4 */ u32 mUnk_f4[32];
-    /* 174 */ u8 mUnk_174[8];
+    /* 174 */ u8 mUnk_174[2];
+    /* 176 */ u16 mUnk_176;
+    /* 178 */ u32 mUnk_178;
     /* 17c */ u64 mUnk_17c;
     /* 184 */ u64 mUnk_184;
     /* 18c */ u8 mUnk_18c[8];
@@ -42,7 +44,7 @@ typedef struct Unk021b566c {
     /* 1a3 */ u8 mUnk_1a3[2];
     /* 1a5 */ u8 mUnk_1a5;
     /* 1a6 */ u16 mUnk_1a6;
-    /* 1a8 */ u8 mUnk_1a8[2];
+    /* 1a8 */ u16 mUnk_1a8;
     /* 1aa */ u16 mUnk_1aa;
     /* 1ac */ u32 mUnk_1ac;
     /* 1b0 */ u32 mUnk_1b0;
@@ -50,7 +52,9 @@ typedef struct Unk021b566c {
     /* 1bc */ u32 mUnk_1bc;
     /* 1c0 */ u64 mUnk_1c0;
     /* 1c8 */ u32 mUnk_1c8;
-    /* 1cc */ u8 mUnk_1cc[0x14];
+    /* 1cc */ u32 mUnk_1cc;
+    /* 1d0 */ u64 mUnk_1d0;
+    /* 1d8 */ u64 mUnk_1d8;
     /* 1e0 */ u64 mUnk_1e0;
     /* 1e8 */ u32 mUnk_1e8;
     /* 1ec */ u32 mUnk_1ec;
@@ -65,8 +69,8 @@ typedef struct Unk021b566c {
     /* 2e4 */ u32 mUnk_2e4;
     /* 2e8 */ u32 mUnk_2e8;
     /* 2ec */ u8 mUnk_2ec[0x40];
-    /* 32c */ u32 mUnk_32c;
-    /* 330 */ u8 mUnk_330[0x84];
+    /* 32c */ s32 mUnk_32c;
+    /* 330 */ u32 mUnk_330[0x21];
     /* 3b4 */ u8 mUnk_3b4;
     /* 3b5 */ u8 mUnk_3b5;
     /* 3b6 */ u16 mUnk_3b6;

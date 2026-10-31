@@ -1,7 +1,7 @@
 #include "03/code_021c0ca8.h"
 
 void func_ov003_021c0cf8(void) {
-    func_ov003_021d197c(*(u32 *) ((*(int *) &data_ov003_021da15c) + ((int) 0x00000114u)));
+    func_ov003_021d197c(*(Unk021d1770 **) ((*(int *) &data_ov003_021da15c) + ((int) 0x00000114u)));
     func_ov003_021d34e0((Unk021d34e0 *) (*(u32 *) ((*(int *) &data_ov003_021da15c) + ((int) 0x00000118u))),
                         func_ov003_021bfc80);
     return;

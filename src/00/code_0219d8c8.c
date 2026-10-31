@@ -1,34 +1,30 @@
 #include "00/code_0219d8c8.h"
 
-void func_ov000_0219d8c8(u32 *param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5) {
-    int *piVar1;
-    int iVar2;
-    piVar1 = (int *) &data_ov000_021b5664;
-    *(int *) &data_ov000_021b5664 = (int) param_1;
-    *param_1 = 0;
-    *(u32 *) (*piVar1 + 4) = param_2;
-    *(u32 *) (*piVar1 + 8) = 0;
-    iVar2 = *piVar1;
-    *(u32 *) (iVar2 + 0xc) = 0;
-    *(u32 *) (iVar2 + 0x10) = 0;
-    *(u32 *) (iVar2 + 0x14) = param_5;
-    *(u32 *) (*piVar1 + 0x18) = param_4;
-    *(u8 *) (*piVar1 + 0x1c) = 0;
-    *(u8 *) (*piVar1 + 0x1d) = 0;
-    *(u8 *) (*piVar1 + 0x1e) = 0;
-    *(u8 *) (*piVar1 + 0x1f) = 0;
-    *(u32 *) (*piVar1 + 0x20) = 0;
-    *(u32 *) (*piVar1 + 0x24) = 0;
-    *(u32 *) (*piVar1 + 0x28) = param_3;
-    *(u32 *) (*piVar1 + 0x2c) = 0;
-    *(u32 *) (*piVar1 + 0x30) = 0;
-    *(u32 *) (*piVar1 + 0x34) = 0;
-    *(u32 *) (*piVar1 + 0x38) = 0;
-    *(u32 *) (*piVar1 + 0x3c) = 0;
-    *(u32 *) (*piVar1 + 0x40) = 0;
-    *(u32 *) (*piVar1 + 0x44) = 0;
-    *(u32 *) (*piVar1 + 0x48) = 0;
-    *(u32 *) (*piVar1 + 0x4c) = 0;
-    *(u32 *) (*piVar1 + 0x50) = 0;
-    return;
+void func_ov000_0219d8c8(Unk021b5664 *a, struct Unk0218f960 *b, u8 *c, Unk02152490 *d, s32 e) {
+    Unk021b5664 *q;
+    data_ov000_021b5664 = a;
+    a->mUnk_00 = 0;
+    data_ov000_021b5664->mUnk_04 = b;
+    data_ov000_021b5664->mUnk_08 = 0;
+    q = data_ov000_021b5664;
+    q->mUnk_0c = 0;
+    q->mUnk_14 = e;
+    data_ov000_021b5664->mUnk_18 = d;
+    data_ov000_021b5664->mUnk_1c = 0;
+    data_ov000_021b5664->mUnk_1d = 0;
+    data_ov000_021b5664->mUnk_1e = 0;
+    data_ov000_021b5664->mUnk_1f = 0;
+    data_ov000_021b5664->mUnk_20 = 0;
+    data_ov000_021b5664->mUnk_24 = 0;
+    data_ov000_021b5664->mUnk_28 = c;
+    data_ov000_021b5664->mUnk_2c = 0;
+    data_ov000_021b5664->mUnk_30 = 0;
+    data_ov000_021b5664->mUnk_34 = 0;
+    data_ov000_021b5664->mUnk_38 = 0;
+    data_ov000_021b5664->mUnk_3c = 0;
+    data_ov000_021b5664->mUnk_40 = 0;
+    data_ov000_021b5664->mUnk_44 = 0;
+    data_ov000_021b5664->mUnk_48 = 0;
+    data_ov000_021b5664->mUnk_4c = 0;
+    data_ov000_021b5664->mUnk_50 = 0;
 }

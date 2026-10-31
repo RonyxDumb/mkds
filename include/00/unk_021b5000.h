@@ -101,3 +101,15 @@ extern Unk021a6fa8 *data_ov000_021b5fa4;
 extern Unk021b5fa8 data_ov000_021b5fa8;
 extern void *data_ov000_021b5fd8;
 extern Unk0200eb90 data_ov000_021b5fdc;
+
+extern s32 data_ov000_021b5284;
+extern u8 data_ov000_021b5288[2][0x16];
+extern u8 *data_ov000_021b52b4;
+extern u8 *data_ov000_021b52b8;
+extern u32 data_ov000_021b52bc;
+extern u32 data_ov000_021b52c0;
+extern void *data_ov000_021b52c4;
+extern u8 data_ov000_021b52c8[];
+extern s32 data_ov000_021b54cc;
+extern void *data_ov000_021b5658;
+extern void (*data_ov000_021b5660)();

@@ -1,0 +1,12 @@
+#pragma once
+
+#include "types.h"
+#include "03/code_021c20dc.h"
+#include "03/code_021c6ba0.h"
+#include "03/code_021cd2e0.h"
+#include "03/unk_021da000.h"
+#include "code_021510a4.h"
+
+extern u8 data_ov003_021d72fc[];
+
+s32 func_ov003_021c6f64(void);

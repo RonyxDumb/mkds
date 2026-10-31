@@ -8,5 +8,5 @@
 #include "code_0200f5ac.h"
 #include "code_02139f70.h"
 
-void func_ov000_0219c79c(u32 param_1, u32 param_2, u32 param_3, u32 param_4);
-void func_ov000_0219c80c(u32 param_1, u32 param_2);
+void func_ov000_0219c79c(char *param_1, char *param_2, void (*param_3)(), s32 param_4);
+void func_ov000_0219c80c(char *param_1, char *param_2);

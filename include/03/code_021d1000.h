@@ -5,19 +5,14 @@
 #include "types.h"
 
 // Declared here until the code that defines them is decompiled.
-u32 func_ov003_021d1290(void);
-void func_ov003_021d1490();
 #include "03/code_021d1568.h"
-void func_ov003_021d15f4(void);
-void func_ov003_021d1790();
-void func_ov003_021d17d4();
-void func_ov003_021d197c();
-void func_ov003_021d1af0(void);
-u32 func_ov003_021d1be4();
-void func_ov003_021d1c3c(int param_1, int param_2, int param_3);
-u32 func_ov003_021d1cd4(u16 *param_1);
-void func_ov003_021d1d0c(u16 *param_1, u32 param_2);
+#include "03/code_021d11d4.h"
+#include "03/code_021d1440.h"
+#include "03/code_021d15a4.h"
+#include "03/code_021d1790.h"
+#include "03/code_021d197c.h"
+#include "03/code_021d1c3c.h"
+#include "03/code_021d1cd4.h"
+#include "03/code_021d1dd0.h"
 
-u32 func_ov003_021d1dd0(u16 param_1);
-u32 func_ov003_021d1ee0(int param_1, int param_2, u32 param_3, u16 param_4);
 #include "03/code_021d1fd0.h"

@@ -1,15 +1,15 @@
 #include "00/code_021ae958.h"
 
-void func_ov000_021ae958(void) {
-    u32 *puVar1;
-    puVar1 = (u32 *) func_ov000_021af090();
-    if (puVar1 != (u32 *) 0x0) {
+void func_ov000_021ae958(const Unk021ae3f0 *param_1, const Unk021ae87c *param_2) {
+    Unk021a998c *p;
+
+    p = func_ov000_021af090(param_1, param_2);
+    if (p != 0) {
         func_0200dd94();
-        *(u8 *) (puVar1 + 2) = 0;
-        if (puVar1[1] - 1 <= 1) {
-            puVar1[1] = 0;
-            func_0200df68((Unk0200db5c *) (*puVar1));
+        p->mUnk_08 = 0;
+        if (p->mUnk_04 - 1 <= 1) {
+            p->mUnk_04 = 0;
+            func_0200df68(p->mUnk_00);
         }
     }
-    return;
 }

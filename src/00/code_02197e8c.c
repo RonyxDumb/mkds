@@ -64,7 +64,7 @@ u32 func_ov000_02197f28(int param_1, int param_2, u32 param_3, u32 param_4, u32 
     return 1;
 }
 
-s32 func_ov000_02197fe8(Unk02197fe8 *a, s32 b, s32 c, void *d, s32 e) {
+s32 func_ov000_02197fe8(Unk02197fe8 *a, s32 b, void *c, s32 d, s32 e) {
     Unk02197fe8Entry *f;
     if (a == 0) {
         func_0213442c(data_ov000_021b3f68, data_ov000_021b3f58, 0, 0x12d);

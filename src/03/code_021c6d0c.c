@@ -1,5 +1,6 @@
 #include "03/code_021c6d0c.h"
 #include "03/code_021c6cf0.h"
+#include "03/code_021c0d2c.h"
 
 void func_ov003_021c6da4(void) {
     unsigned int v2 = ((u32) (&data_ov003_021d72a4));

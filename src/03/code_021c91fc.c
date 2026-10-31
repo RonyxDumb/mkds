@@ -8,7 +8,7 @@ u32 func_ov003_021c91fc(void) {
     if (iVar1 == 0xe) {
         return 0;
     }
-    iVar2 = func_ov003_021c8904();
+    iVar2 = func_ov003_021c8904(iVar1);
     if (iVar2 == 0) {
         func_ov003_021cdc10((u32) (9));
         return 1;

@@ -36,6 +36,9 @@ extern u32 data_ov000_021b49b4;
 extern Unk021b49b8 data_ov000_021b49b8;
 extern Unk021b49b8 data_ov000_021b49d0;
 extern u8 data_ov000_021b4078[];
+extern u8 data_ov000_021b40b0[];
+extern u8 data_ov000_021b40b4[];
+extern u8 data_ov000_021b40bc[];
 extern char data_ov000_021b40b8[];
 extern u8 data_ov000_021b40c4[];
 extern u8 data_ov000_021b40cc[];
@@ -71,10 +74,16 @@ extern u8 data_ov000_021b4428[];
 extern u8 data_ov000_021b442c[];
 extern u8 data_ov000_021b4464[];
 extern u8 data_ov000_021b43e4[];
+extern u8 data_ov000_021b4a48[];
+extern u8 data_ov000_021b4a50[];
+extern u16 data_ov000_021b4a00[];
+extern const u8 *data_ov000_021b4a30[];
 extern u8 data_ov000_021b4a58[];
 extern u8 data_ov000_021b4a5c[];
 extern u8 data_ov000_021b4a60[];
+extern u8 data_ov000_021b4a64[];
 extern u8 data_ov000_021b4aa4[];
+extern u32 data_ov000_021b4ae4[];
 extern u8 data_ov000_021b4be4[];
 extern u8 data_ov000_021b4be5[];
 extern u8 data_ov000_021b4c80[];
@@ -85,7 +94,7 @@ extern void *data_ov000_021b4d04;
 extern void *data_ov000_021b4d08;
 extern Unk02188114 *data_ov000_021b4d0c;
 extern Unk021884e4 *data_ov000_021b4d10;
-extern u8 data_ov000_021b4d18[];
+extern struct Unk0218e004 *data_ov000_021b4d18;
 extern u8 data_ov000_021b4d1c[];
 // Objects behind data_ov000_021b4c78 and data_ov000_021b4c7c.
 typedef struct Unk021b4c78 {
@@ -95,15 +104,63 @@ typedef struct Unk021b4c78 {
 extern Unk021b4c78 *data_ov000_021b4c78;
 extern Unk021b4c78 *data_ov000_021b4c7c;
 
-// Object behind data_ov000_021b4d24.
+// Object behind data_ov000_021b4d24; the 0x5d8 bytes at offset 0x4c of a Unk0218b668.
 typedef struct Unk021b4d24 {
-    /* 000 */ u8 mUnk_000[0x498];
+    /* 000 */ s32 mUnk_000;
+    /* 004 */ int *mUnk_004;
+    /* 008 */ int *mUnk_008;
+    /* 00c */ u8 mUnk_00c[0x24];
+    /* 030 */ u8 mUnk_030[0x24];
+    /* 054 */ u8 mUnk_054[0x20];
+    /* 074 */ s8 mUnk_074[8];
+    /* 07c */ u8 *mUnk_07c;
+    /* 080 */ s32 mUnk_080;
+    /* 084 */ u32 mUnk_084[0xff];
+    /* 480 */ s32 mUnk_480;
+    /* 484 */ s32 mUnk_484;
+    /* 488 */ UnkFunc *mUnk_488;
+    /* 48c */ u32 mUnk_48c;
+    /* 490 */ u8 mUnk_490[4];
+    /* 494 */ void *mUnk_494;
     /* 498 */ u32 mUnk_498;
     /* 49c */ s32 mUnk_49c;
+    /* 4a0 */ s32 mUnk_4a0;
+    /* 4a4 */ u32 mUnk_4a4;
+    /* 4a8 */ u8 mUnk_4a8[4];
+    /* 4ac */ u8 *mUnk_4ac;
+    /* 4b0 */ s32 mUnk_4b0;
+    /* 4b4 */ u8 mUnk_4b4[4];
+    /* 4b8 */ u32 mUnk_4b8;
+    /* 4bc */ u8 mUnk_4bc[0x108];
+    /* 5c4 */ u32 mUnk_5c4;
+    /* 5c8 */ s32 mUnk_5c8;
+    /* 5cc */ s32 mUnk_5cc;
+    /* 5d0 */ int mUnk_5d0;
 } Unk021b4d24;
 
 extern Unk021b4d24 *data_ov000_021b4d24;
 extern s32 data_ov000_021b4d28;
+extern const u8 *data_ov000_021b4d20;
+extern s8 data_ov000_021b4d2c[];
+
+// Object behind data_ov000_021b4dac.
+typedef struct Unk021b4dac {
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ u8 mUnk_04[2];
+    /* 06 */ u16 mUnk_06;
+    /* 08 */ u8 mUnk_08[4];
+    /* 0c */ u8 mUnk_0c;
+    /* 0d */ u8 mUnk_0d[0x3f];
+    /* 4c */ s32 mUnk_4c;
+    /* 50 */ u32 mUnk_50;
+    /* 54 */ s32 mUnk_54;
+} Unk021b4dac;
+
+extern Unk021b4dac data_ov000_021b4dac;
+extern u8 data_ov000_021b4db0[];
+extern u8 data_ov000_021b4db4[];
+extern u8 data_ov000_021b4db8[];
+extern u8 data_ov000_021b4dbd[];
 extern u8 data_ov000_021b4d6c[];
 extern u8 data_ov000_021b4e50[];
 extern u8 data_ov000_021b400c[];
@@ -116,3 +173,24 @@ extern u8 data_ov000_021b41c8[];
 extern u8 data_ov000_021b41e0[];
 extern u8 data_ov000_021b41e4[];
 extern u8 data_ov000_021b41e8[];
+extern u8 data_ov000_021b3fcc[];
+extern u8 data_ov000_021b3fec[];
+extern u8 data_ov000_021b3ffc[];
+extern u8 data_ov000_021b4004[];
+extern u8 data_ov000_021b4008[];
+extern u8 data_ov000_021b4014[];
+extern u8 data_ov000_021b4030[];
+extern char data_ov000_021b404c[];
+extern u8 data_ov000_021b4054[];
+extern u8 data_ov000_021b4058[];
+extern u8 data_ov000_021b4060[];
+extern u8 data_ov000_021b4064[];
+extern char data_ov000_021b4068[];
+
+extern char data_ov000_021b4124[];
+extern char data_ov000_021b412c[];
+extern char data_ov000_021b4134[];
+extern char data_ov000_021b4138[];
+extern char data_ov000_021b413c[];
+extern char data_ov000_021b4194[];
+extern char data_ov000_021b41a0[];

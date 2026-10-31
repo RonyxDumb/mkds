@@ -2,28 +2,44 @@
 
 #include "types.h"
 #include "00/code_021aa000.h"
+#include "00/code_021aa468.h"
 #include "00/code_021ab000.h"
-#include "00/code_021ad000.h"
 #include "00/unk_021b6000.h"
+#include "00/types_021a998c.h"
 #include "03/code_021b94b8.h"
 
-// Object at 0x0c of the argument of func_ov000_021a998c.
-typedef struct Unk021a998c_0c {
-    /* 000 */ u8 mUnk_000[0x1a0];
-    /* 1a0 */ u8 mUnk_1a0[8];
-    /* 1a8 */ u8 mUnk_1a8[0x118];
-    /* 2c0 */ u8 mUnk_2c0[0x5c];
-    /* 31c */ u8 mUnk_31c[0x5c];
-    /* 378 */ u8 mUnk_378[0x58];
-    /* 3d0 */ u8 mUnk_3d0[0x58];
-    /* 428 */ u8 mUnk_428;
-    /* 429 */ u8 mUnk_429;
-} Unk021a998c_0c;
-
 // Argument of func_ov000_021a998c.
+struct Unk021a998c;
+typedef s32 (*Unk021a998cFunc)(void *param_1, u32 param_2, struct Unk021a998c *param_3);
+
 typedef struct Unk021a998c {
-    /* 00 */ u8 mUnk_00[0xc];
+    /* 00 */ struct Unk0200db5c *mUnk_00;
+    /* 04 */ u32 mUnk_04;
+    /* 08 */ u8 mUnk_08;
+    /* 09 */ u8 mUnk_09;
+    /* 0a */ u16 mUnk_0a;
     /* 0c */ Unk021a998c_0c *mUnk_0c;
+    /* 10 */ u32 mUnk_10;
+    /* 14 */ u32 mUnk_14;
+    /* 18 */ u16 mUnk_18;
+    /* 1a */ u16 mUnk_1a;
+    /* 1c */ u32 mUnk_1c;
+    /* 20 */ u32 mUnk_20;
+    /* 24 */ u32 mUnk_24;
+    /* 28 */ u32 mUnk_28;
+    /* 2c */ u16 mUnk_2c;
+    /* 2e */ u16 mUnk_2e;
+    /* 30 */ u32 mUnk_30;
+    /* 34 */ u32 mUnk_34;
+    /* 38 */ Unk021a998cFunc mUnk_38;
+    /* 3c */ u32 mUnk_3c;
+    /* 40 */ u8 *mUnk_40;
+    /* 44 */ u32 mUnk_44;
+    /* 48 */ u32 mUnk_48;
+    /* 4c */ u8 *mUnk_4c;
+    /* 50 */ u8 mUnk_50[0xc];
+    /* 5c */ u8 *mUnk_5c;
+    /* 60 */ u32 mUnk_60;
 } Unk021a998c;
 
 void func_ov000_021a998c(Unk021a998c *param_1);

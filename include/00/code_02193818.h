@@ -8,6 +8,9 @@
 #include "00/code_021947e4.h"
 #include "00/code_02190988.h"
 #include "00/code_02190ba0.h"
+#include "00/code_0218db48.h"
+#include "00/code_0218e2dc.h"
+#include "00/code_0218e4b4.h"
 
 // Payload at 0x04 of a Unk021937c0Node whose 0x00 is 3.
 typedef struct Unk02193858 {
@@ -66,9 +69,6 @@ typedef struct Unk02193d64 {
 } Unk02193d64;
 
 // Declared here until the code that defines them is decompiled.
-void func_ov000_0218dbc0(void *param_1, void *param_2);
-u32 func_ov000_0218e320(u32 param_1);
-s32 func_ov000_0218e4b4(s32 param_1, void *param_2, s32 param_3);
 s32 func_ov000_0218e80c();
 
 void func_ov000_02193818(Unk0218f960 *param_1, Unk021937c0Node *param_2);

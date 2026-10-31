@@ -289,9 +289,6 @@ void func_02049e38(s32 a) {
     }
 }
 
-// non-matching: the final store of 12 or 0 to mUnk_120 (the last 0x1f8-0x218): the original branches (bne) to two
-// separate stores that each end in their own epilogue; this source predicates the two stores (ldreq/ldrne, strbeq/strbne)
-// and is 0x10 bytes shorter. Every other instruction matches.
 void func_02049f60(void) {
     s32 g;
     s32 a;
@@ -362,10 +359,13 @@ void func_02049f60(void) {
             func_020373ec();
         }
     } while (e == 0 || g == -1);
-    if (g == 1) {
-        data_021759cc->mUnk_120 = 12;
-    } else {
-        data_021759cc->mUnk_120 = 0;
+    switch (g) {
+        case 1:
+            data_021759cc->mUnk_120 = 12;
+            break;
+        default:
+            data_021759cc->mUnk_120 = 0;
+            break;
     }
 }
 

@@ -1,13 +1,13 @@
 #include "00/code_021ae01c.h"
 
-u32 func_ov000_021ae01c(int *param_1, u32 param_2) {
-    int iVar1;
-    iVar1 = *(int *) (param_2 + 0x44);
+u8 *func_ov000_021ae01c(u32 *param_1, Unk021a998c *param_2) {
+    u32 iVar1;
+    iVar1 = param_2->mUnk_44;
     while (iVar1 == 0) {
-        *(u32 *) (param_2 + 4) = 3;
+        param_2->mUnk_04 = 3;
         func_0200e01c((Unk0200df9c *) (0));
-        iVar1 = *(int *) (param_2 + 0x44);
+        iVar1 = param_2->mUnk_44;
     }
     *param_1 = iVar1;
-    return *(u32 *) (param_2 + 0x40);
+    return param_2->mUnk_40;
 }
