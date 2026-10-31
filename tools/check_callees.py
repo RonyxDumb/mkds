@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Lists functions whose set of callees differs from the original's, including functions that don't match yet.
+"""Lists functions whose callees differ from the original's, including functions that don't match yet.
 
 check_calls.py compares call targets instruction by instruction, which needs identical code. This compares, per
-function, the multiset of `bl` targets (by address) in our compiled object with the `bl`/`blx` targets inside the
-original function's address range, so wrong callees (e.g. a neighbouring routine, or a signed instead of an
-unsigned division helper) show up while the function still differs. Run after `ninja`.
+function, the list of `bl` targets (by address, in code order) in our compiled object with the `bl`/`blx` targets
+inside the original function's address range, so wrong callees (e.g. a neighbouring routine, or a signed instead of
+an unsigned division helper) show up while the function still differs. A different set is printed as what is extra
+and what is missing; the same set in another order prints both lists in order. A call to a name that no symbols.txt
+has is printed with "(unknown)" and counts as a difference. Run after `ninja`.
 
 Usage: check_callees.py [object.o ...]   (default: every object under build/<ver>/src and build/<ver>/libs)
 """
@@ -22,7 +24,7 @@ from project import VERSION  # noqa: E402  (tools/project.py)
 
 
 def original_callees(blob, base, start, size, thumb=False):
-    out = Counter()
+    out = []  # call targets in code order
     if thumb:  # bl/blx are a pair of halfwords: F000-prefix then E800/F800 suffix
         site = start
         while site + 4 <= start + size:
@@ -32,7 +34,7 @@ def original_callees(blob, base, start, size, thumb=False):
                     target = thumb_branch_target(blob, site - base, site)
                     # a BL within the function is a far branch to its own code (a shared epilogue), not a call
                     if not start <= target < start + size or target == start:
-                        out[target | 1] += 1
+                        out.append(target | 1)
                     site += 4
                     continue
             site += 2
@@ -48,11 +50,11 @@ def original_callees(blob, base, start, size, thumb=False):
             target = site + 8 + d * 4
             # a B within the function is a loop, not a call; a BL to the function's own start is recursion
             if not start <= target < start + size or (word & 0x01000000 and target == start):
-                out[target | 1] += 1
+                out.append(target | 1)
         elif cond == 0xF and word & 0x0E000000 == 0x0A000000:  # BLX imm
             d = word & 0xFFFFFF
             d -= (1 << 24) if d & 0x800000 else 0
-            out[(site + 8 + d * 4 + (word >> 24 & 1) * 2) | 1] += 1
+            out.append((site + 8 + d * 4 + (word >> 24 & 1) * 2) | 1)
     return out
 
 
@@ -91,8 +93,7 @@ def main():
             syms = list(elf.get_section_by_name(".symtab").iter_symbols())
             funcs = [s for s in syms if s["st_info"]["type"] == "STT_FUNC" and isinstance(s["st_shndx"], int)
                      and s["st_size"] and s.name in local]
-            ours = {f.name: Counter() for f in funcs}
-            unknown = {f.name: False for f in funcs}
+            ours = {f.name: [] for f in funcs}  # (offset, address | 1, or the name when no symbols.txt has it)
             for sec in elf.iter_sections():
                 if not sec.name.startswith(".rel"):
                     continue
@@ -107,24 +108,28 @@ def main():
                     addr = local.get(target, tables["main"].get(target))
                     if addr is None:
                         addr = next((t[target] for t in tables.values() if target in t), None)
-                    if addr is None:
-                        unknown[fn.name] = True
-                        continue
-                    ours[fn.name][addr | 1] += 1
+                    ours[fn.name].append((r["r_offset"], target if addr is None else addr | 1))
             for f in funcs:
-                if unknown[f.name] or f.name.startswith("_ZThn"):  # this-adjusting thunks: the original tail-branches
+                if f.name.startswith("_ZThn"):  # this-adjusting thunks: the original tail-branches
                     continue
                 # scan the original over the ORIGINAL function's size, not ours
                 size, thumb = sizes.get(f.name, (f["st_size"], False))
                 theirs = original_callees(blob, base, local[f.name], size, thumb)
                 # literal-pool words can decode as branches: keep only targets that are known function starts
-                theirs = Counter({a: n for a, n in theirs.items() if a in names_at})
-                if ours[f.name] != theirs:
-                    extra = ours[f.name] - theirs
-                    missing = theirs - ours[f.name]
-                    fmt = lambda c: ", ".join(f"{names_at.get(a, hex(a))}x{n}" for a, n in c.items())
-                    print(f"{obj.relative_to(ROOT)}: {f.name}: calls {fmt(extra) or '-'}; the original calls "
-                          f"{fmt(missing) or '-'}")
+                theirs = [a for a in theirs if a in names_at]
+                mine = [a for _, a in sorted(ours[f.name], key=lambda x: x[0])]
+                if mine != theirs:
+                    name = lambda a: a + "(unknown)" if isinstance(a, str) else names_at.get(a, hex(a))
+                    if Counter(mine) != Counter(theirs):
+                        extra = Counter(mine) - Counter(theirs)
+                        missing = Counter(theirs) - Counter(mine)
+                        fmt = lambda c: ", ".join(f"{name(a)}x{n}" for a, n in c.items())
+                        print(f"{obj.relative_to(ROOT)}: {f.name}: calls {fmt(extra) or '-'}; the original calls "
+                              f"{fmt(missing) or '-'}")
+                    else:
+                        fmt = lambda c: ", ".join(name(a) for a in c)
+                        print(f"{obj.relative_to(ROOT)}: {f.name}: calls in order {fmt(mine)}; the original calls in "
+                              f"order {fmt(theirs)}")
                     problems += 1
     print(f"{problems} function(s) with different callees")
 
