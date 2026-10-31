@@ -237,10 +237,9 @@ void func_020082b4(Unk020082b4 *a, Unk02008188 *b) {
     func_0214d1fc(v2, a->mUnk_3c, 0x88);
 }
 
-// non-matching: same size; 11 lines differ; first: original `str r0, [sp, #4]`, ours `str r0, [sp, #8]`
 u32 func_02008310(void *a, Unk02008188 *b) {
-    u32 v1;
     u32 v2;
+    u32 v1;
     u32 v3;
     Unk0216fdac *v4;
     Unk020082b4 *v5;

@@ -207,11 +207,10 @@ void func_020794bc(Unk0206bcb0_590 *a, void *b, s32 c) {
     func_0207940c(a->mUnk_014, a->mUnk_004, data_0217ad00->mUnk_010);
 }
 
-// non-matching: same instructions and size, the halfword and the flag swap their stack offsets (sp+8/sp+0xc)
 void func_0207954c(Unk0206bcb0_590 *a, void *b, s32 c) {
     u16 i;
-    s32 d;
     u16 e8;
+    s32 d;
     void *v7;
     Unk020136f0 *v10;
     Unk0201290c *p;

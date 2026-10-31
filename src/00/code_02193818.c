@@ -301,7 +301,7 @@ s32 func_ov000_02193c74(Unk0218f960 *param_1, Unk02193f2cNode *param_2, u32 para
     }
 }
 
-// non-matching: the 8-byte local sits at stack offset 4 and the pointer local at 0, the original has them at 0 and 8 (size 0x108 against 0x10c)
+// non-matching: the 8-byte local sits at stack offset 4 and the pointer local at 0, the original has them at 0 and 8 (6 words)
 s32 func_ov000_02193d64(Unk0218f960 *param_1, Unk02193f2cNode *param_2) {
     Unk02194934 *a;
     s32 c;
@@ -329,7 +329,7 @@ s32 func_ov000_02193d64(Unk0218f960 *param_1, Unk02193f2cNode *param_2) {
         b.mUnk_02 = a->mUnk_08->mUnk_14;
         c = func_ov000_0218e4b4(param_2->mUnk_08, &b, 8);
         if (c == -1) {
-            c = func_ov000_0218e368(c);
+            c = func_ov000_0218e368(param_2->mUnk_08);
             if (c != -6 && c != -0x1a && c != -0x4c) {
                 func_ov000_021965a0(param_1, 5, data_ov000_021b3418);
                 func_ov000_02190f4c(param_1, 3, 1);

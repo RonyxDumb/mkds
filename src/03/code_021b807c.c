@@ -180,14 +180,16 @@ s32 func_ov003_021b8428(Unk021b86e4 *a, Unk021b916c *b, s32 c) {
     return 0;
 }
 
-// non-matching: stack offsets of the two locals swapped (8-byte local at sp+0xc and 14-byte local at sp+0x14, original has the 14-byte one at sp+0xc and the 8-byte one at sp+0x1c); same size
 s32 func_ov003_021b8498(Unk021b86e4 *a, Unk021b916c *b, s32 c) {
-    Unk021b8498 d;
+    s8 d;
+    s16 g;
+    s16 h;
+    u8 k[8];
     Unk021b7cec e;
     Unk021d7c54 *f;
-    d.mUnk_00 = 0;
-    d.mUnk_02 = 0;
-    d.mUnk_04 = 0;
+    d = 0;
+    g = 0;
+    h = 0;
     f = data_ov003_021d7c54;
     func_ov003_021b7d84(&e, 0, 8);
     func_ov003_021b7d84(f, 0, 0x5dc);
@@ -196,16 +198,16 @@ s32 func_ov003_021b8498(Unk021b86e4 *a, Unk021b916c *b, s32 c) {
     e.mUnk_02 = func_ov003_021b7c94(4);
     e.mUnk_04 = data_ov003_021d7c6c.mUnk_08;
     e.mUnk_04 = func_ov003_021b7cac(e.mUnk_04);
-    d.mUnk_02 = 8;
-    func_ov003_021b8340(data_ov003_021d7c40, &f->mUnk_0c[12], &e, &d.mUnk_02, &d.mUnk_04, &d.mUnk_00);
-    func_ov003_021b7d90(d.mUnk_06, &b[1], 8);
-    if (func_ov003_021b7f48(d.mUnk_06, 8, data_ov003_021d6868, 6) != 0) {
+    g = 8;
+    func_ov003_021b8340(data_ov003_021d7c40, &f->mUnk_0c[12], &e, &g, &h, &d);
+    func_ov003_021b7d90(k, &b[1], 8);
+    if (func_ov003_021b7f48(k, 8, data_ov003_021d6868, 6) != 0) {
         func_ov003_021b94b8(2);
         return -1;
     }
-    func_ov003_021b82e0(f, 0x2000, d.mUnk_02, d.mUnk_04, d.mUnk_00, 0x11, d.mUnk_06);
-    d.mUnk_02 += 0x18;
-    func_ov003_021b8278(f, d.mUnk_02, 0, c);
+    func_ov003_021b82e0(f, 0x2000, g, h, d, 0x11, k);
+    g += 0x18;
+    func_ov003_021b8278(f, g, 0, c);
     return 0;
 }
 
