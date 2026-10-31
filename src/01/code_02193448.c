@@ -4,7 +4,7 @@
 void func_ov001_02193448(void) {
     int iVar1;
     iVar1 = func_ov001_02192e84();
-    if ((iVar1 == -1) && (*(int *) ((*(int *) &data_ov001_021a9bd4) + 0x10) == 4)) {
+    if ((iVar1 == -1) && (data_ov001_021a9bd4->mUnk_10 == 4)) {
         func_ov001_02192e78((u16) (0));
     }
     iVar1 = ((unsigned int) func_02125f54());

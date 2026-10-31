@@ -2,7 +2,7 @@
 
 u32 func_ov003_021cfa68(void) {
     int iVar1;
-    if (*(int *) ((*(int *) &data_ov003_021da2a8) + 0x40) != 1) {
+    if (data_ov003_021da2a8->mUnk_40 != 1) {
         func_0200fd1c();
     }
     func_ov003_021d07b0((u32) (3));

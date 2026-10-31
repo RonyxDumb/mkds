@@ -1,7 +1,7 @@
 #include "00/code_0219caac.h"
 
 u32 func_ov000_0219caf4(void) {
-    return *(u32 *) ((*(int *) &data_ov000_021b5664) + 0x20);
+    return data_ov000_021b5664->mUnk_20;
 }
 
 void func_ov000_0219caac(Unk021b565c *a, Unk02152500 *b, Unk0218f960 *c, u32 d, u32 e, void (*f)(), void *g) {

@@ -163,5 +163,5 @@ void func_ov001_0219854c(void) {
 }
 
 int func_ov001_0219853c(void) {
-    return (int) *(short *) ((*(int *) &data_ov001_021a9be4) + 0xe);
+    return (int) data_ov001_021a9be4->mUnk_0e;
 }

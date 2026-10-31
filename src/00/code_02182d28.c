@@ -2,9 +2,9 @@
 
 void func_ov000_02182d28(void) {
     int iVar1;
-    *(int *) ((*(int *) &data_ov000_021b4c70) + 0x10) = *(int *) ((*(int *) &data_ov000_021b4c70) + 0x10) + 1;
+    data_ov000_021b4c70->mUnk_10 = data_ov000_021b4c70->mUnk_10 + 1;
     iVar1 = ((u32) func_02125fa4());
-    if ((iVar1 != 0) && (0x78 < *(int *) ((*(int *) &data_ov000_021b4c70) + 0x10))) {
+    if ((iVar1 != 0) && (0x78 < data_ov000_021b4c70->mUnk_10)) {
         func_02125fc0();
     }
     iVar1 = ((u32) func_02125f88());

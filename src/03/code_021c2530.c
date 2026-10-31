@@ -2,7 +2,7 @@
 
 void func_ov003_021c2544(int param_1) {
     func_ov003_021d1490(*(void **) (param_1 + 8));
-    func_ov003_021d1d0c(*(Unk021d1d88 **) ((*(int *) &data_ov003_021da190) + 0x60), (void *) (param_1));
+    func_ov003_021d1d0c(data_ov003_021da190->mUnk_60, (void *) (param_1));
     return;
 }
 

@@ -4,7 +4,7 @@
 
 void func_0200bab0(void) {
     *(u16 *) &data_0216fde4 = 0;
-    *(u32 *) ((*(int *) &data_0216fde8) + 0x5f04) = 0;
+    data_0216fde8->mUnk_5f04 = 0;
     func_0200bc0c();
     func_0200ba44((u32) 0x14, (u32) 0);
 }

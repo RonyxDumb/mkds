@@ -291,5 +291,5 @@ s32 func_ov001_0219e0b8(void)
 }
 
 int func_ov001_0219e0a8(void) {
-    return (int) *(short *) ((*(int *) &data_ov001_021ca400) + 0x14);
+    return (int) data_ov001_021ca400->mUnk_014;
 }
