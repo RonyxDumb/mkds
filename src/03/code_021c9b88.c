@@ -1,5 +1,6 @@
 #include "03/code_021c9b88.h"
 #include "03/code_021c9b68.h"
+#include "03/code_021d254c.h"
 
 void func_ov003_021c9c5c(void) {
     *(u8 *) &data_ov003_021da218 = 0;

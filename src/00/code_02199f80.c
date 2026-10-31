@@ -1,4 +1,5 @@
 #include "00/code_02199f80.h"
+#include "00/code_02198a8c.h"
 
 u32 func_ov000_02199f80(u32 param_1) {
     int iVar1;

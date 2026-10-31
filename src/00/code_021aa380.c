@@ -1,4 +1,5 @@
 #include "00/code_021aa380.h"
+#include "00/code_021ac3e4.h"
 
 u32 func_ov000_021aa380(u32 p0, u32 p1, u32 p2) {
     u32 v1 = ((p2) + (0x0u));

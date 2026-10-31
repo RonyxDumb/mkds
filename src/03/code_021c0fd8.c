@@ -1,4 +1,6 @@
 #include "03/code_021c0fd8.h"
+#include "03/code_021d27d8.h"
+#include "03/code_021d2f00.h"
 
 void func_ov003_021c0fd8(u32 param_1) {
     int iVar4;

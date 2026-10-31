@@ -1,7 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_02198000.h"
 #include "00/code_0219bb68.h"
 #include "00/code_0219d000.h"
 #include "00/code_0219e000.h"

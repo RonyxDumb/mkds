@@ -1,4 +1,5 @@
 #include "03/code_021d3488.h"
+#include "03/code_021d27d8.h"
 
 void func_ov003_021d3488(int param_1, int param_2) {
     if (*(u8 *) (param_2 + 0x11) != 0) {

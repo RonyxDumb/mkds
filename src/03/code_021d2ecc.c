@@ -1,4 +1,5 @@
 #include "03/code_021d2ecc.h"
+#include "03/code_021d27d8.h"
 
 int func_ov003_021d2eec(int param_1, int param_2) {
     return (int) data_ov003_021da2f0 + param_1 * 0x400 + param_2 * 8;

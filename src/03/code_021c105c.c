@@ -5,7 +5,6 @@
 #include "03/code_021cdc10.h"
 #include "03/code_021d1000.h"
 #include "03/code_021d1970.h"
-#include "03/code_021d2000.h"
 #include "03/code_021d2acc.h"
 #include "03/unk_021d6000.h"
 #include "03/unk_021da000.h"
@@ -15,7 +14,7 @@
 void func_ov003_021c105c(Unk021d34e0 *param_1) {
     u32 a;
     s32 b;
-    Unk021d1c18 *p;
+    Unk021bf920 *p;
     p = data_ov003_021da160->mUnk_10[0];
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
     b = p->mUnk_00 & 0xff;
@@ -30,7 +29,7 @@ void func_ov003_021c105c(Unk021d34e0 *param_1) {
 void func_ov003_021c10a8(Unk021d34e0 *param_1) {
     u32 a;
     s32 b;
-    Unk021d1c18 *p;
+    Unk021bf920 *p;
     p = data_ov003_021da160->mUnk_10[3];
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
     b = p->mUnk_00 & 0xff;
@@ -45,7 +44,7 @@ void func_ov003_021c10a8(Unk021d34e0 *param_1) {
 void func_ov003_021c10f4(Unk021d34e0 *param_1) {
     u32 a;
     s32 b;
-    Unk021d1c18 *p;
+    Unk021bf920 *p;
     p = data_ov003_021da160->mUnk_10[6];
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
     b = p->mUnk_00 & 0xff;
@@ -60,7 +59,7 @@ void func_ov003_021c10f4(Unk021d34e0 *param_1) {
 void func_ov003_021c1140(Unk021d34e0 *param_1) {
     u32 a;
     s32 b;
-    Unk021d1c18 *p;
+    Unk021bf920 *p;
     p = data_ov003_021da160->mUnk_10[9];
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
     b = p->mUnk_00 & 0xff;
@@ -75,8 +74,8 @@ void func_ov003_021c1140(Unk021d34e0 *param_1) {
 void func_ov003_021c118c(Unk021d34e0 *param_1) {
     u32 a;
     s32 b;
-    Unk021d1c18 *p;
-    p = (Unk021d1c18 *) func_ov003_021d1974((int) data_ov003_021da160->mUnk_40[0], 0);
+    Unk021bf920 *p;
+    p = (Unk021bf920 *) func_ov003_021d1974((int) data_ov003_021da160->mUnk_40[0], 0);
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
     b = p->mUnk_00 & 0xff;
     b = b + 0xc;
@@ -128,7 +127,7 @@ void func_ov003_021c1268(void) {
 }
 
 void func_ov003_021c12cc(int param_1, int param_2) {
-    Unk021d1c18 *p;
+    Unk021bf920 *p;
     int a;
     if (param_1 < 0) {
         return;
@@ -155,7 +154,7 @@ void func_ov003_021c1364(int param_1, u32 param_2) {
     Unk021c1364 s;
     int b;
     int i;
-    Unk021d1c18 *p;
+    Unk021bf920 *p;
     s.mUnk_00 = *(Unk021c1364_05 *) data_ov003_021d6dc8;
     s.mUnk_05 = *(Unk021c1364_05 *) data_ov003_021d6dd0;
     s.mUnk_0a = *(Unk021c1364_05 *) data_ov003_021d6dc0;

@@ -11,7 +11,8 @@
 #include "03/code_021cdc10.h"
 #include "03/code_021d1000.h"
 #include "03/code_021d1f70.h"
-#include "03/code_021d2000.h"
+#include "03/code_021d254c.h"
+#include "03/code_021d2f00.h"
 #include "03/unk_021da000.h"
 #include "code_02147cd8.h"
 

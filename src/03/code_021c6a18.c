@@ -1,4 +1,8 @@
 #include "03/code_021c6a18.h"
+#include "03/code_021d2168.h"
+#include "03/code_021d254c.h"
+#include "03/code_021d27d8.h"
+#include "03/code_021d2f00.h"
 
 void func_ov003_021c6a18(void) {
     s32 local_10;

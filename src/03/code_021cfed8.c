@@ -1,4 +1,5 @@
 #include "03/code_021cfed8.h"
+#include "03/code_021cfde4.h"
 
 int func_ov003_021cff38(Unk021425e8Func param_1, u16 param_2) {
     return func_0214544c(param_1, (u16) (3), (u16) (0x11), (u16) (param_2), (u16) (0x1e));

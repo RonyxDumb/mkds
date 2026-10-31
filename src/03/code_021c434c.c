@@ -1,5 +1,6 @@
 #include "03/code_021c434c.h"
 #include "03/code_021c4328.h"
+#include "03/code_021d254c.h"
 
 void func_ov003_021c437c(void) {
     func_ov003_021d1ee0((int) (2), (int) (0), (u32) (0x15), (u16) (8));

@@ -12,6 +12,7 @@
 #include "03/code_021d34c8.h"
 #include "03/types_021d299c.h"
 #include "03/code_021d3544.h"
+#include "03/unk_021d6000.h"
 #include "03/unk_021da000.h"
 #include "code_02147cd8.h"
 #include "code_021510a4.h"
@@ -41,15 +42,8 @@ typedef struct Unk021d73d0 {
 extern u8 data_ov003_021d73cc[];
 extern Unk021d73d0 data_ov003_021d73d0;
 extern u8 data_ov003_021d6430[];
-extern u8 data_ov003_021d646c[];
-extern u8 data_ov003_021d6454[];
 extern u8 data_ov003_021d6460[];
 extern Unk021d299c data_ov003_021d64b4[];
-
-// Declared here until the code that defines them is decompiled.
-void func_ov003_021c8b94(void);
-void func_ov003_021cc948(u8 *param_1, u32 param_2, u32 param_3);
-void func_ov003_021c85a0(void);
 
 u32 func_ov003_021c7d8c(void);
 void func_ov003_021c7e20(void);

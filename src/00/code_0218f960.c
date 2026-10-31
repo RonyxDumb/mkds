@@ -1,5 +1,6 @@
 #include "00/code_0218f960.h"
-#include "00/code_0218f000.h"
+#include "00/code_0218f15c.h"
+#include "00/code_0218fa98.h"
 #include "00/code_02190000.h"
 #include "00/code_02190b80.h"
 #include "00/code_02194000.h"

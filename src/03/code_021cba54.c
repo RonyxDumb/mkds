@@ -1,5 +1,6 @@
 #include "03/code_021cba54.h"
 #include "03/code_021cba2c.h"
+#include "03/code_021d254c.h"
 
 void func_ov003_021cba54(void) {
     int local_8[1];

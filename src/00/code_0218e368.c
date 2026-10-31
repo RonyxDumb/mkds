@@ -1,4 +1,6 @@
 #include "00/code_0218e368.h"
+#include "00/code_021a8c1c.h"
+#include "00/code_021a8f0c.h"
 
 s32 func_ov000_0218e394(u32 p0, void *p1, u32 *p2) {
     u32 v2 = (((u32) p1) + (0x0u));

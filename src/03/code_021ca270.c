@@ -1,4 +1,6 @@
 #include "03/code_021ca270.h"
+#include "03/code_021d2168.h"
+#include "03/code_021d254c.h"
 
 void func_ov003_021ca39c(void) {
     int iVar1;

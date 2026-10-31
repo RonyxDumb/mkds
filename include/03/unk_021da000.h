@@ -44,7 +44,7 @@ typedef struct Unk021cf260 Unk021cf260;
 extern Unk021da108 *data_ov003_021da108;
 extern u8 data_ov003_021da10c;
 extern u8 data_ov003_021da150[];
-// Object with a word and a halfword at its start.
+// 8-byte object returned by func_ov003_021d1c18: bits 0-7 and bits 16-24 of the word at 0x00 are two coordinates.
 typedef struct Unk021bf920 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u16 mUnk_04;

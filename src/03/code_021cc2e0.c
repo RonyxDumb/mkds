@@ -1,5 +1,6 @@
 #include "03/code_021cc2e0.h"
 #include "03/code_021cc2bc.h"
+#include "03/code_021d254c.h"
 
 void func_ov003_021cc34c(void) {
     u32 v2 = ((u32) (&data_ov003_021d773c));

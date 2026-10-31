@@ -1,5 +1,7 @@
 #include "03/code_021cc084.h"
 #include "03/code_021cc064.h"
+#include "03/code_021d2168.h"
+#include "03/code_021d254c.h"
 
 void func_ov003_021cc214(void) {
     func_ov003_021bf2d0();

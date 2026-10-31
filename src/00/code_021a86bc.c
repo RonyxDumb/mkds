@@ -1,4 +1,5 @@
 #include "00/code_021a86bc.h"
+#include "00/code_021a8000.h"
 #include "00/code_021a8a5c.h"
 
 u32 func_ov000_021a86bc(int param_1) {

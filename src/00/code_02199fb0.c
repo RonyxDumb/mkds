@@ -1,5 +1,7 @@
 #include "00/code_02199fb0.h"
-#include "00/code_02198000.h"
+#include "00/code_021985ec.h"
+#include "00/code_021988e8.h"
+#include "00/code_02198a8c.h"
 #include "00/code_02197e8c.h"
 
 u32 func_ov000_02199fb0(int param_1, u32 param_2, u32 param_3) {

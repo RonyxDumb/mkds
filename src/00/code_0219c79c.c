@@ -1,4 +1,5 @@
 #include "00/code_0219c79c.h"
+#include "00/code_0218f000.h"
 
 void func_ov000_0219c80c(char *param_1, char *param_2) {
     func_ov000_0219c79c(param_1, param_2, func_ov000_0219c824, 2);

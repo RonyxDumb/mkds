@@ -2,7 +2,7 @@
 #include "03/code_021c2120.h"
 #include "03/code_021c53ec.h"
 #include "03/code_021d1000.h"
-#include "03/code_021d2000.h"
+#include "03/code_021d254c.h"
 
 void func_ov003_021c541c(void) {
     func_ov003_021d1ee0(2, 1, 1, 8);

@@ -1,4 +1,5 @@
 #include "00/code_0219d128.h"
+#include "00/code_0218ee1c.h"
 
 u32 func_ov000_0219d128(u32 param_1) {
     u32 uVar1;

@@ -5,7 +5,6 @@
 #include "03/code_021c1a60.h"
 #include "03/code_021d1000.h"
 #include "03/code_021d1c18.h"
-#include "03/code_021d2000.h"
 #include "03/code_021d27d8.h"
 #include "03/code_021d3544.h"
 #include "03/unk_021d6000.h"
@@ -33,7 +32,7 @@ void func_ov003_021c1cd8(void) {
     data_ov003_021da160->mUnk_67 = 1;
     data_ov003_021da160->mUnk_68 = 1;
     for (i = 0; i < 10; i++) {
-        data_ov003_021da160->mUnk_10[i] = (Unk021d1c18 *) func_ov003_021d1c18(0, 0x36);
+        data_ov003_021da160->mUnk_10[i] = (Unk021bf920 *) func_ov003_021d1c18(0, 0x36);
         data_ov003_021da160->mUnk_10[i]->mUnk_00 =
             (data_ov003_021da160->mUnk_10[i]->mUnk_00 & 0xc1fffcff) | 0x200;
         data_ov003_021da160->mUnk_10[i]->mUnk_04 =
@@ -41,7 +40,7 @@ void func_ov003_021c1cd8(void) {
     }
     for (i = 0; i < 2; i++) {
         data_ov003_021da160->mUnk_38[i] =
-            (Unk021d1c18 *) func_ov003_021d1c18(0, data_ov003_021d6218[i]);
+            (Unk021bf920 *) func_ov003_021d1c18(0, data_ov003_021d6218[i]);
         data_ov003_021da160->mUnk_38[i]->mUnk_00 =
             (data_ov003_021da160->mUnk_38[i]->mUnk_00 & 0xc1fffcff) | 0x200;
         data_ov003_021da160->mUnk_38[i]->mUnk_04 =
