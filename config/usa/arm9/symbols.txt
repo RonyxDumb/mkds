@@ -7021,7 +7021,7 @@ _dadd kind:function(arm,size=0x59c) addr:0x0212f884
 _d2f kind:function(arm,size=0xec) addr:0x0212fe20
 func_0212ff0c kind:function(arm,size=0x34) addr:0x0212ff0c
 func_0212ff40 kind:function(arm,size=0x258) addr:0x0212ff40
-func_02130198 kind:function(arm,size=0x16c) addr:0x02130198
+_ll_ufrom_d kind:function(arm,size=0x16c) addr:0x02130198
 _dfltu kind:function(arm,size=0x3c) addr:0x02130304
 _dflt kind:function(arm,size=0x40) addr:0x02130340
 _dmul kind:function(arm,size=0x6f0) addr:0x02130380
@@ -7045,13 +7045,14 @@ _ffix kind:function(arm,size=0x9c) addr:0x021322c8
 func_02132364 kind:function(arm,size=0x60) addr:0x02132364
 func_021323c4 kind:function(arm,size=0x148) addr:0x021323c4
 _fflt kind:label(arm) addr:0x02132440
-func_0213250c kind:function(arm,size=0x4ec) addr:0x0213250c
+_fmul kind:function(arm,size=0x4ec) addr:0x0213250c
 _fsub kind:function(arm,size=0x448) addr:0x021329f8
 .L_02132a0c kind:label(arm) addr:0x02132a0c
 _ll_udiv kind:function(arm,size=0x58) addr:0x02132e40
 _ull_mod kind:label(arm) addr:0x02132e4c
 _ll_sdiv kind:function(arm,size=0x1b0) addr:0x02132e98
 _ll_mul kind:function(arm,size=0x20) addr:0x02133048
+_ull_mul kind:label(arm) addr:0x02133048
 _s32_div_f kind:function(arm,size=0x20c) addr:0x02133068
 _u32_div_f kind:function(arm,size=0x1e4) addr:0x02133274
 .L_0213327c kind:label(arm) addr:0x0213327c

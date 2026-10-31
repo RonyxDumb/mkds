@@ -5,6 +5,9 @@
 // Not compiled code: it saves three registers (r4, r5, lr) with no padding word, where the 1.2 compiler always pads a
 // frame to 8 bytes, and it keeps its values in r4 and r5 while ip is free; 1.2's own 64-bit product uses ip and lr
 // (frame layout in the compiler; docs/compiler.md, Registers).
+// The same routine is also `_ull_mul`, which 1.2 calls for an unsigned product: a second name at this address in
+// symbols.txt (after `_ll_mul`, so dsd keeps naming the original's calls `_ll_mul`). An asm function cannot export a
+// second name (a label in its body stays local), so the delinked object carries it.
 asm u64 _ll_mul(u64 a, u64 b) {
     // Low words multiplied in full, plus the two cross products into the high word.
     stmfd sp!, {r4, r5, lr}
