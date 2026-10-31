@@ -7031,7 +7031,7 @@ _dsub kind:function(arm,size=0x568) addr:0x02130ccc
 .L_02130cdc kind:label(arm) addr:0x02130cdc
 _fadd kind:function(arm,size=0x460) addr:0x02131234
 .L_02131248 kind:label(arm) addr:0x02131248
-func_02131694 kind:function(arm,size=0xb6c) addr:0x02131694
+func_02131694 kind:function(arm,size=0xb38) addr:0x02131694
 _fls kind:label(arm) addr:0x021317b0
 _fgr kind:label(arm) addr:0x02131860
 _fgeq kind:label(arm) addr:0x0213189c
@@ -7040,6 +7040,8 @@ _deq kind:label(arm) addr:0x02131bfc
 _dls kind:label(arm) addr:0x02131ce8
 _dleq kind:label(arm) addr:0x02131d70
 _dgr kind:label(arm) addr:0x02131e60
+func_021321cc kind:function(arm,size=0x14) addr:0x021321cc
+func_021321e0 kind:function(arm,size=0x20) addr:0x021321e0
 _f2d kind:function(arm,size=0xc8) addr:0x02132200
 _ffix kind:function(arm,size=0x9c) addr:0x021322c8
 func_02132364 kind:function(arm,size=0x60) addr:0x02132364

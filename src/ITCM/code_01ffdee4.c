@@ -1,10 +1,10 @@
-#include "Main/Unknown/code_01ffdee4.h"
+#include "ITCM/code_01ffdee4.h"
 #include "Main/Unknown/unk_02156000.h"
 #include "Main/Unknown/unk_027e0000.h"
-#include "Main/Unknown/code_01fff000.h"
+#include "ITCM/code_01fff000.h"
 
 #include "Main/Unknown/code_020e0680.h"
-#include "Main/Unknown/code_01ffd000.h"
+#include "ITCM/code_01ffd000.h"
 #include "Main/Unknown/code_020d5000.h"
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/code_0206bcb0.h"

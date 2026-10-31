@@ -1,5 +1,5 @@
-#include "Main/Unknown/code_01ff9320.h"
-#include "Main/Unknown/code_01ff8000.h"
+#include "ITCM/code_01ff9320.h"
+#include "ITCM/code_01ff8000.h"
 #include "code_02147cd8.h"
 
 // non-matching: same instructions and stores, but the constants are held in other registers (this one loads 0x1000

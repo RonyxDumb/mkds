@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_0209bef0.h"
 #include "Main/Unknown/code_0209dd40.h"
 #include "Main/Unknown/code_0209dd44.h"
-#include "Main/Unknown/code_01ffdee4.h"
+#include "ITCM/code_01ffdee4.h"
 #include "Main/Unknown/code_020d22c0.h"
 #include "Main/Unknown/code_020d22e0.h"
 #include "Main/Unknown/code_020d4c28.h"
@@ -60,14 +60,13 @@ void func_0209d800(void) {
     o->mUnk_28 = 0x196;
 }
 
-// non-matching: 16 bytes shorter than the original (0x4e4 against 0x4f4); the random-value expression and the stack offsets differ.
 void func_0209d84c(void *a, Unk0209d694 *p) {
-    Unk0210b7a8 s;
     Vec3 v;
+    Unk0210b7a8 s;
     u32 f;
     s32 t;
     s32 k;
-    u32 r;
+    s32 r;
 
     switch (p->mUnk_b8) {
     case 0:
@@ -93,10 +92,10 @@ void func_0209d84c(void *a, Unk0209d694 *p) {
                         0 &&
                     (f & 0x3f77ef) != 0) {
                     func_02148504(&p->mUnk_00.mUnk_04, &v, &p->mUnk_00.mUnk_04);
-                    if ((s64) (p->mUnk_00.mUnk_04.z - p->mUnk_a8.z) * (p->mUnk_00.mUnk_04.z - p->mUnk_a8.z) +
-                            (s64) (p->mUnk_00.mUnk_04.x - p->mUnk_a8.x) * (p->mUnk_00.mUnk_04.x - p->mUnk_a8.x) <
-                        0x2710000000LL) {
-                        r = (u16) (func_0209d84c_inline(func_020d22d0()) >> 16);
+                    t = p->mUnk_00.mUnk_04.x - p->mUnk_a8.x;
+                    k = p->mUnk_00.mUnk_04.z - p->mUnk_a8.z;
+                    if ((s64) t * t + (s64) k * k < 0x2710000000LL) {
+                        r = (u16) (((u64) func_0209d84c_inline(func_020d22d0()) * 0x10000) >> 32);
                         k = (r >> 4) * 2;
                         p->mUnk_00.mUnk_10.x = ((s64) data_0215d4b4[k] * 0x1800) >> 12;
                         p->mUnk_00.mUnk_10.z = ((s64) data_0215d4b4[k + 1] * 0x1800) >> 12;
@@ -131,7 +130,7 @@ void func_0209d84c(void *a, Unk0209d694 *p) {
         p->mUnk_00.mUnk_10.y = t;
         p->mUnk_00.mUnk_04.y = p->mUnk_00.mUnk_04.y + p->mUnk_00.mUnk_10.y;
         if (p->mUnk_00.mUnk_10.y < 0) {
-            p->mUnk_b4 = (u16) (func_0209d84c_inline(func_020d22d0()) >> 16);
+            p->mUnk_b4 = (u16) (((u64) func_0209d84c_inline(func_020d22d0()) * 0x10000) >> 32);
             p->mUnk_b8 = 3;
         }
         break;

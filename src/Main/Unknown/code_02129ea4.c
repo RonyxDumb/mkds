@@ -4,7 +4,6 @@
 #include "Main/Unknown/code_020ab848.h"
 
 #pragma thumb on
-// non-matching: the value stored to the table entries is kept in r0 where the original uses r2, and the loop bound is loaded to r1 instead of r0 (2 bytes shorter)
 void func_02129ea4(void) {
     u16 e[2];
     s32 a;
@@ -15,7 +14,6 @@ void func_02129ea4(void) {
     s32 j;
     s32 k;
     s32 m;
-    s32 n;
     s16 v;
     s16 w;
     for (i = 0; i < 2; i++) {
@@ -30,14 +28,14 @@ void func_02129ea4(void) {
             }
             for (k = 0; k < data_0215d0e0[i]; k++) {
                 data_0217d400->mUnk_74[i][j][data_0215d14c[i][k]].mUnk_06 = v;
-                data_0217d400->mUnk_74[i][j][e[i] + data_0215d134[i][k]].mUnk_06 = v;
+                (data_0217d400->mUnk_74[i][j] + e[i])[data_0215d134[i][k]].mUnk_06 = v;
             }
             v = data_0217d400->mUnk_84;
             for (m = 0; m < 2; m++) {
-                for (n = 0; n < 3; n++) {
-                    data_0217d400->mUnk_74[i][j][data_0215d128[i][m][n]].mUnk_06 = v;
+                for (k = 0; k < 3; k++) {
+                    data_0217d400->mUnk_74[i][j][data_0215d128[i][m][k]].mUnk_06 = v;
                 }
-                data_0217d400->mUnk_74[i][j][e[i] + data_0215d0e4[i][m]].mUnk_06 = v;
+                (data_0217d400->mUnk_74[i][j] + e[i])[data_0215d0e4[i][m]].mUnk_06 = v;
             }
             w = data_0217d400->mUnk_84;
             func_020ab848(&a, &b, &c, &d);
@@ -56,15 +54,15 @@ void func_02129ea4(void) {
         if (data_0217d400->mUnk_04 == 1 && i == 1) {
             v = data_0217d400->mUnk_84;
         }
-        for (n = 0; n < 10; n++) {
-            data_0217d400->mUnk_74[1][i][data_0215d110[n]].mUnk_06 = v;
+        for (k = 0; k < 10; k++) {
+            data_0217d400->mUnk_74[1][i][data_0215d110[k]].mUnk_06 = v;
         }
         v = -500;
         if (data_0217d400->mUnk_04 == 1) {
             v = data_0217d400->mUnk_86[1][i];
         }
-        for (n = 0; n < 6; n++) {
-            data_0217d400->mUnk_74[1][i][data_0215d0f0[n]].mUnk_06 = v;
+        for (k = 0; k < 6; k++) {
+            data_0217d400->mUnk_74[1][i][data_0215d0f0[k]].mUnk_06 = v;
         }
     }
 }

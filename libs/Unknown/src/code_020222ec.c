@@ -96,8 +96,9 @@ static inline void func_020224e0_inline(const s32 *m, s32 *in, s32 *out) {
     }
 }
 
-// non-matching: the stack frame is 0x18 bytes smaller (two temporaries and two spilled words differ)
-// and the register allocation differs
+// non-matching: 77.7: same size now; the original frame is 8 bytes larger (g is loaded at entry and spilled to its
+// own slot, d[1] and d[3] are spilled, the inline reads v directly), the m6 test is two branches there instead
+// of predicated, and the w3/h3 products use rsb of the shared w3 << 12 before the mla; registers differ
 u16 func_020224e0(Unk020224e0_o *a, u16 b, Unk020224e0_c *c, s32 *d, s32 *e, u16 f, s32 g) {
     u16 i;
     u16 n;
@@ -110,7 +111,7 @@ u16 func_020224e0(Unk020224e0_o *a, u16 b, Unk020224e0_c *c, s32 *d, s32 *e, u16
     s32 mode;
     s32 sq;
     u32 w;
-    u32 w2;
+    s32 w2;
     u32 m6;
     s32 sh;
     s32 sz;
@@ -173,13 +174,13 @@ u16 func_020224e0(Unk020224e0_o *a, u16 b, Unk020224e0_c *c, s32 *d, s32 *e, u16
                 w2 = w & 0xc000c000;
                 sh = (w2 & 0xc000) >> 14;
                 sz = (w2 & 0xc0000000) >> 30;
-                w3 = data_021530d0[sh][sz] / 2;
-                h3 = data_021530b8[sh][sz] / 2;
-                v[0] += d[0] * w3 - (w3 << 12) + d[2] * h3;
-                v[1] += d[1] * w3 - (h3 << 12) + d[3] * h3;
+                w3 = data_021530d0[sh][sz] >> 1;
+                h3 = data_021530b8[sh][sz] >> 1;
+                v[0] += d[0] * w3 + -w3 * 0x1000 + d[2] * h3;
+                v[1] += d[1] * w3 + -h3 * 0x1000 + d[3] * h3;
                 if (sq != 0) {
-                    v[0] -= w3 << 12;
-                    v[1] -= h3 << 12;
+                    v[0] += -w3 * 0x1000;
+                    v[1] += -h3 * 0x1000;
                 }
             }
             if (e != 0) {

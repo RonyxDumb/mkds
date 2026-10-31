@@ -79,7 +79,7 @@ void func_ov000_021a3bbc(Unk021a3a18 *a) {
     a->mUnk_b0 = func_ov000_0218e8c4();
 }
 
-// non-matching: in the case that stores the four bytes after the length, the original keeps the length address in r5 and rebuilds the address of the shared stack word (add r0, sp, #16); here it is the other way round; size 0x24c against 0x248
+// non-matching: 95.9: in the case that stores the four bytes after the length, the original keeps the length address in r5 and rebuilds the address of the shared stack word (add r0, sp, #16); here it is the other way round; size 0x24c against 0x248
 void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d) {
     Unk021a4480 k;
     s32 t;
@@ -164,6 +164,7 @@ void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d) {
                 case 5:
                 case 7:
                 case 8:
+                default:
                     return;
                 }
                 func_ov000_0218e3e4(a->mUnk_00, &k, k.mUnk_800, 0, d, 8);

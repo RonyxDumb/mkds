@@ -6,9 +6,9 @@
 | `config/<ver>/` | `dsd` configuration: symbols, relocations and file boundaries (`delinks.txt`) |
 | `src/Main/` | Game code from the main ARM9 binary, by subsystem; `Unknown/` for files whose purpose isn't known yet |
 | `src/ITCM/` | Game code that runs from ITCM |
-| `src/NN_Name/` | Game code from overlay `NN`; just the number until the overlay's purpose is known |
+| `src/NN/` | Game code from overlay `NN` (`00`, `01` and `03` so far); the folder gets a name (`NN_Name`) once the overlay's purpose is known |
 | `include/` | Game headers, by subsystem |
-| `libs/<name>/` | Library code, each with `src/` and `include/`: NitroSDK in `libs/nds/`, NitroSystem in `libs/nns/`, the C runtime in `libs/msl/`. A library can use a different compiler (`PATH_COMPILERS` in `tools/project.py`) |
+| `libs/<name>/` | Library code, each with `src/` and `include/`. All of it is in `libs/Unknown/` until each library is identified; then NitroSDK goes in `libs/nds/`, NitroSystem in `libs/nns/`, the C runtime in `libs/msl/`. A library can use a different compiler (`PATH_COMPILERS` in `tools/project.py`) |
 | `tools/` | Build scripts and analysis tools; `tools/project.py` has the game's settings |
 | `docs/` | Notes on the compiler, decompiling and the game |
 | `extract/`, `build/` | Your ROM, its extracted files and the build output (never committed) |
@@ -16,7 +16,7 @@
 ## Naming
 - Types and functions: `PascalCase`. Struct members: `m` prefix (`mState`). File-scope statics: `s` prefix
   (`sFrameCount`). Globals used by several files: `g` prefix (`gGameData`). Locals and parameters: `camelCase`, with
-  `i`, `j`, `k` for loop counters.
+  `i`, `j`, `k` for loop counters; until a function is understood they stay neutral single letters.
 - Library functions use the library's own names (`OS_GetLockID`, `NNS_G3dDraw`), and only once it's certain which
   function it is. For library functions without a known name, pick one pattern per library and keep to it (for
   example `FileOpen`, `HeapAlloc`).
@@ -33,8 +33,8 @@
   again. Add to the list as new words come up.
 - Every name comes from this repository: what the code does, the game's strings and file paths, the SDK headers, and
   names already given. Never from memory of other code. Names don't include addresses; `symbols.txt` has those.
-- Anything not understood yet keeps a placeholder: `func_<addr>` / `func_ovNNN_<addr>` for functions, `data_<addr>`
-  for data, `mUnk_<offset>` for members, `vfunc_<offset>` for virtual functions, `Unk<addr>` for structs.
+- Anything not understood yet keeps a placeholder: `func_<addr>` / `func_ov0NN_<addr>` for functions, `data_<addr>` /
+  `data_ov0NN_<addr>` for data, `mUnk_<offset>` for members, `Unk<addr>` for structs.
 - Placeholder addresses come from the reference version (`REFERENCE_VERSION` in `tools/project.py`). Placeholders
   that exist only in another version include its name (`func_usa_<addr>`), so a name in the source never points at
   a different object in another version. `tools/sync_symbols.py` copies the source names into each version's config.
@@ -44,7 +44,7 @@
   functions, except a `static inline` that the match needs (named `<function>_inline`, see
   [docs/decompiling.md](docs/decompiling.md)). The rest can come once everything matches.
 - Hardware registers use the SDK headers' names (`reg_G3X_*`), or the address cast in place where there is none.
-- Write each struct member and vtable entry with its offset: `/* 2c */ u8 mState;`.
+- Write each struct member with its offset: `/* 2c */ u8 mState;`.
 - Data is written as typed source (structs and arrays with their values), not as byte dumps. Bytes that aren't
   meaningful data are read from your ROM at build time (`.incbin`, expanded by `tools/expand_incbin.py`).
 - Comments say what the code or the compiler does, never where the code came from. Comment hand-written `asm`

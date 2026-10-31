@@ -288,37 +288,72 @@ void func_020c97c0(void)
     func_020ae770(data_0217b428->mUnk_130, v1, data_021759c0->mUnk_3d0);
 }
 
-// non-matching: same control flow and calls, but registers, spill offsets and the stack area differ (0xc4 bytes against
-// 0xcc, 0x9e8 bytes of code against 0xa04); the original keeps the outer loop value and the second value in callee-saved
-// registers
+static inline void func_020c8dbc_inline(Unk020c06c4 *p, Unk020224e0_c *c, s32 *r, s32 x, s32 y, u16 v, s32 s, s32 g)
+{
+    s32 q[2];
+    s32 e;
+    Unk020c06c4_08 *t;
+
+    e = p->mUnk_400;
+    q[0] = x << 12;
+    q[1] = y << 12;
+    t = &p->mUnk_000.mUnk_00[e];
+    p->mUnk_400 += func_020224e0((Unk020224e0_o *) t, 0x80 - e, c, r, q, v, 1);
+    for (; e < p->mUnk_400; e++) {
+        if (s != -1) {
+            t->mUnk_0a = s;
+        }
+        if (g != -1) {
+            t->mUnk_0e = g;
+        }
+        t++;
+    }
+}
+
+static inline void func_020c8dbc_inline2(Unk020c06c4 *p, Unk020224e0_c *c, s32 x, s32 y)
+{
+    s32 q[2];
+    s32 e;
+
+    q[0] = x << 12;
+    q[1] = y << 12;
+    e = p->mUnk_400;
+    p->mUnk_400 += func_020224e0((Unk020224e0_o *) &p->mUnk_000.mUnk_00[e], 0x80 - e, c, 0, q, 0, 1);
+}
+
+static inline void func_020c8dbc_inline3(Unk020c06c4 *p, s32 i, s32 h)
+{
+    s32 j;
+    s32 x;
+    s32 v3;
+    s32 v4;
+    Unk020224e0_c *c;
+
+    for (j = 0; j < 3; j++) {
+        x = (u16)(((h + 12 - j * 4) << 16) / 64) >> 4;
+        v3 = (s16)data_0215d4b4[x * 2 + 1] * 11 >> 12;
+        v4 = (s16)data_0215d4b4[x * 2] * 11 >> 12;
+        c = func_020b83dc(h % 12 < 6 ? 93 + j * 2 : 94 + j * 2);
+        func_020c8dbc_inline2(p, c, data_0217b428->mUnk_060[i].mUnk_00 + v3, data_0217b428->mUnk_060[i].mUnk_04 + v4);
+    }
+}
+
 void func_020c8dbc(Unk020c06c4 *p)
 {
-    s32 v4;
     s32 i;
     s32 f;
-    s32 e;
-    Unk020c06c4_08 *v2;
     Unk020224e0_c *c;
     s32 r0[4];
     s32 r1[4];
     s32 k;
-    s32 j;
     s32 g;
-    s32 h;
-    s32 m;
-    s32 x;
-    s32 v3;
-    s32 v1;
+    s32 b;
+    u16 v1;
     u16 v5;
     s32 a;
+    u16 n;
     s32 v6;
     s32 v7;
-    s32 q0[2];
-    s32 q1[2];
-    s32 q2[2];
-    s32 q3[2];
-    s32 q4[2];
-    s32 q5[2];
 
     switch (func_020b1dbc()) {
     case 0:
@@ -330,59 +365,28 @@ void func_020c8dbc(Unk020c06c4 *p)
                     if (data_0217b428->mUnk_0a0[i].y != 0x1000 || data_0217b428->mUnk_110[i] != 0) {
                         v1 = func_020ae5c4(p);
                         func_020b4bf8(r0, data_0217b428->mUnk_0a0[i].y, data_0217b428->mUnk_100[i]);
-                if (func_0207a8a4((u16)i) == 3) {
-                    c = func_020b83dc(0x10);
-                } else {
-                    c = func_020b83dc(i);
-                }
-                        q0[0] = data_0217b428->mUnk_060[i].mUnk_00 << 12;
-                        q0[1] = data_0217b428->mUnk_060[i].mUnk_04 << 12;
-                e = p->mUnk_400;
-                v2 = &p->mUnk_000.mUnk_00[e];
-                p->mUnk_400 += func_020224e0((Unk020224e0_o *) v2, 0x80 - e, c, r0, q0, v1, 1);
-                for (; e < p->mUnk_400; e++) {
-                    if ((f != 0 ? 1 : -1) != -1) {
-                        v2->mUnk_0a = f != 0 ? 1 : -1;
-                    }
-                    v2++;
-                }
-                p->mUnk_000.mUnk_20[v1].mUnk_06 = r0[0] >> 4;
-                p->mUnk_000.mUnk_20[v1].mUnk_0e = r0[1] >> 4;
-                p->mUnk_000.mUnk_20[v1].mUnk_16 = r0[2] >> 4;
-                p->mUnk_000.mUnk_20[v1].mUnk_1e = r0[3] >> 4;
+                        if (func_0207a8a4((u16)i) == 3) {
+                            c = func_020b83dc(0x10);
+                        } else {
+                            c = func_020b83dc(i);
+                        }
+                        func_020c8dbc_inline(p, c, r0, data_0217b428->mUnk_060[i].mUnk_00, data_0217b428->mUnk_060[i].mUnk_04, v1, f != 0 ? 1 : -1, -1);
+                        p->mUnk_000.mUnk_20[v1].mUnk_06 = r0[0] >> 4;
+                        p->mUnk_000.mUnk_20[v1].mUnk_0e = r0[1] >> 4;
+                        p->mUnk_000.mUnk_20[v1].mUnk_16 = r0[2] >> 4;
+                        p->mUnk_000.mUnk_20[v1].mUnk_1e = r0[3] >> 4;
                     } else {
-                if (func_0207a8a4((u16)i) == 3) {
-                    c = func_020b83dc(0x10);
-                } else {
-                    c = func_020b83dc(i);
-                }
-                        q1[0] = data_0217b428->mUnk_060[i].mUnk_00 << 12;
-                        q1[1] = data_0217b428->mUnk_060[i].mUnk_04 << 12;
-                e = p->mUnk_400;
-                v2 = &p->mUnk_000.mUnk_00[e];
-                p->mUnk_400 += func_020224e0((Unk020224e0_o *) v2, 0x80 - e, c, 0, q1, 0, 1);
-                for (; e < p->mUnk_400; e++) {
-                    if ((f != 0 ? 1 : -1) != -1) {
-                        v2->mUnk_0a = f != 0 ? 1 : -1;
-                    }
-                    v2++;
-                }
+                        if (func_0207a8a4((u16)i) == 3) {
+                            c = func_020b83dc(0x10);
+                        } else {
+                            c = func_020b83dc(i);
+                        }
+                        func_020c8dbc_inline(p, c, 0, data_0217b428->mUnk_060[i].mUnk_00, data_0217b428->mUnk_060[i].mUnk_04, 0, f != 0 ? 1 : -1, -1);
                     }
                 }
-            h = data_0217b428->mUnk_170[i];
-            if (h != 0) {
-                m = h % 12;
-                for (j = 0; j < 3; j++) {
-                    x = (u16)(((h + 12 - j * 4) << 16) / 64) >> 4;
-                    v3 = (s16)data_0215d4b4[x * 2 + 1] * 11 >> 12;
-                    v4 = (s16)data_0215d4b4[x * 2] * 11 >> 12;
-                    c = func_020b83dc(m < 6 ? 93 : 94);
-                    q4[0] = (data_0217b428->mUnk_060[i].mUnk_00 + v3) << 12;
-                    q4[1] = (data_0217b428->mUnk_060[i].mUnk_04 + v4) << 12;
-                    e = p->mUnk_400;
-                    p->mUnk_400 += func_020224e0((Unk020224e0_o *) &p->mUnk_000.mUnk_00[e], 0x80 - e, c, 0, q4, 0, 1);
+                if (data_0217b428->mUnk_170[i] != 0) {
+                    func_020c8dbc_inline3(p, i, data_0217b428->mUnk_170[i]);
                 }
-            }
             }
         }
         break;
@@ -397,74 +401,37 @@ void func_020c8dbc(Unk020c06c4 *p)
                 if (data_0217b428->mUnk_020[i] == 0) {
                     v6 = data_0217b428->mUnk_060[i].mUnk_00;
                     v7 = data_0217b428->mUnk_060[i].mUnk_04;
-                    f = data_0217b428->mUnk_040[i];
+                    b = data_0217b428->mUnk_040[i];
                     if (data_0217b428->mUnk_0a0[i].y != 0x1000 || data_0217b428->mUnk_110[i] != 0) {
-                        v1 = func_020ae5c4(p);
+                        n = func_020ae5c4(p);
                         if (data_0217b428->mUnk_110[i] != 0) {
                             v5 = data_0217b428->mUnk_100[i] + func_020b6368();
                         } else {
                             v5 = 0;
                         }
                         func_020b4bf8(r1, data_0217b428->mUnk_0a0[i].y, v5);
-                if (func_0207a8a4((u16)i) == 3) {
-                    c = func_020b83dc(0x10);
-                } else {
-                    c = func_020b83dc(i);
-                }
-                        q2[0] = v6 << 12;
-                        q2[1] = v7 << 12;
-                e = p->mUnk_400;
-                v2 = &p->mUnk_000.mUnk_00[e];
-                p->mUnk_400 += func_020224e0((Unk020224e0_o *) v2, 0x80 - e, c, r1, q2, v1, 1);
-                for (; e < p->mUnk_400; e++) {
-                    if ((f != 0 ? 1 : -1) != -1) {
-                        v2->mUnk_0a = f != 0 ? 1 : -1;
-                    }
-                    if (g != -1) {
-                        v2->mUnk_0e = g;
-                    }
-                    v2++;
-                }
-                p->mUnk_000.mUnk_20[v1].mUnk_06 = r1[0] >> 4;
-                p->mUnk_000.mUnk_20[v1].mUnk_0e = r1[1] >> 4;
-                p->mUnk_000.mUnk_20[v1].mUnk_16 = r1[2] >> 4;
-                p->mUnk_000.mUnk_20[v1].mUnk_1e = r1[3] >> 4;
+                        if (func_0207a8a4((u16)i) == 3) {
+                            c = func_020b83dc(0x10);
+                        } else {
+                            c = func_020b83dc(i);
+                        }
+                        func_020c8dbc_inline(p, c, r1, v6, v7, n, b != 0 ? 1 : -1, g);
+                        p->mUnk_000.mUnk_20[n].mUnk_06 = r1[0] >> 4;
+                        p->mUnk_000.mUnk_20[n].mUnk_0e = r1[1] >> 4;
+                        p->mUnk_000.mUnk_20[n].mUnk_16 = r1[2] >> 4;
+                        p->mUnk_000.mUnk_20[n].mUnk_1e = r1[3] >> 4;
                     } else {
-                if (func_0207a8a4((u16)i) == 3) {
-                    c = func_020b83dc(0x10);
-                } else {
-                    c = func_020b83dc(i);
-                }
-                        q3[0] = v6 << 12;
-                        q3[1] = v7 << 12;
-                e = p->mUnk_400;
-                v2 = &p->mUnk_000.mUnk_00[e];
-                p->mUnk_400 += func_020224e0((Unk020224e0_o *) v2, 0x80 - e, c, 0, q3, 0, 1);
-                for (; e < p->mUnk_400; e++) {
-                    if ((f != 0 ? 1 : -1) != -1) {
-                        v2->mUnk_0a = f != 0 ? 1 : -1;
-                    }
-                    if (g != -1) {
-                        v2->mUnk_0e = g;
-                    }
-                    v2++;
-                }
+                        if (func_0207a8a4((u16)i) == 3) {
+                            c = func_020b83dc(0x10);
+                        } else {
+                            c = func_020b83dc(i);
+                        }
+                        func_020c8dbc_inline(p, c, 0, v6, v7, 0, b != 0 ? 1 : -1, g);
                     }
                 }
-            h = data_0217b428->mUnk_170[i];
-            if (h != 0) {
-                m = h % 12;
-                for (j = 0; j < 3; j++) {
-                    x = (u16)(((h + 12 - j * 4) << 16) / 64) >> 4;
-                    v3 = (s16)data_0215d4b4[x * 2 + 1] * 11 >> 12;
-                    v4 = (s16)data_0215d4b4[x * 2] * 11 >> 12;
-                    c = func_020b83dc(m < 6 ? 93 : 94);
-                    q5[0] = (data_0217b428->mUnk_060[i].mUnk_00 + v3) << 12;
-                    q5[1] = (data_0217b428->mUnk_060[i].mUnk_04 + v4) << 12;
-                    e = p->mUnk_400;
-                    p->mUnk_400 += func_020224e0((Unk020224e0_o *) &p->mUnk_000.mUnk_00[e], 0x80 - e, c, 0, q5, 0, 1);
+                if (data_0217b428->mUnk_170[i] != 0) {
+                    func_020c8dbc_inline3(p, i, data_0217b428->mUnk_170[i]);
                 }
-            }
             }
         }
         func_020c092c(p, data_0217b428->mUnk_190, 0);

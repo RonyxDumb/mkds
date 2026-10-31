@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02062004.h"
-#include "Main/Unknown/code_01ff9000.h"
-#include "Main/Unknown/code_01ffd000.h"
+#include "ITCM/code_01ff9000.h"
+#include "ITCM/code_01ffd000.h"
 #include "Main/Unknown/code_02061874.h"
 #include "Main/Unknown/code_02062eb0.h"
 #include "Main/Unknown/code_02063000.h"

@@ -6,12 +6,14 @@ static inline u32 clz_inline(u32 x) {
     return r;
 }
 
-// non-matching: 56.3%; the leading-zero counts are inline asm and the stack-kept values and call argument setup
-// differ from the original
+// non-matching: 78.9; frame and loop shape match; left: the original keeps i and nx in callee-saved registers and
+// reloads the 0x3fff3fff and 0x1ff masks each pass (here one is held in a register), the two clz tests are
+// scheduled differently, and the original keeps b - mx across the first recursive call (here it is recomputed)
 s32 func_02022eb0(void *a, s32 b, s32 c, s32 d, s32 e, s32 f, s32 g, s32 h) {
     Unk02022eb0 *p;
-    s32 lb;
+    u8 *q;
     s32 lc;
+    s32 lb;
     s32 sx;
     s32 sy;
     u32 mx;
@@ -20,11 +22,11 @@ s32 func_02022eb0(void *a, s32 b, s32 c, s32 d, s32 e, s32 f, s32 g, s32 h) {
     s32 nx;
     s32 ny;
     s32 i;
-    s32 j;
+    s32 t;
     s32 n;
     s32 r;
     s32 k;
-    s32 t;
+    s32 j;
     u32 w;
 
     p = (Unk02022eb0 *) a;
@@ -38,8 +40,9 @@ s32 func_02022eb0(void *a, s32 b, s32 c, s32 d, s32 e, s32 f, s32 g, s32 h) {
     } else {
         lc = 3;
     }
-    sx = data_usa_021530f8[lc][lb][0];
-    sy = data_usa_021530f8[lc][lb][1];
+    q = data_usa_021530f8[lc][lb];
+    sx = q[0];
+    sy = q[1];
     mx = b & (-1 << sx);
     my = c & (-1 << sy);
     if (f == 0) {
@@ -48,14 +51,15 @@ s32 func_02022eb0(void *a, s32 b, s32 c, s32 d, s32 e, s32 f, s32 g, s32 h) {
         m = 2;
     }
     n = 0;
-    k = func_02024168(&data_usa_021530f8[lc][lb][0]);
+    k = func_02024168(q);
     nx = b >> sx;
     ny = c >> sy;
     t = (m << sx << sy) >> h;
     for (j = 0; j < ny; j++) {
+        r = e + (j << sy) * 8;
         for (i = 0; i < nx; i++) {
             w = p->mUnk_00;
-            w = (w & 0xfe00ff00) | ((e + (j << sy) * 8) & 0xff) | (((d + (i << sx) * 8) & 0x1ff) << 16);
+            w = (w & 0xfe00ff00) | (r & 0xff) | (((d + (i << sx) * 8) & 0x1ff) << 16);
             p->mUnk_00 = w;
             p->mUnk_00 = (p->mUnk_00 & 0x3fff3fff) | k;
             p->mUnk_04 = (p->mUnk_04 & -0x400) | g;

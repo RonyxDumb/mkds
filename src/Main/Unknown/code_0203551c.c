@@ -168,7 +168,9 @@ s32 func_0203551c(u16 *a) {
     return r;
 }
 
-// non-matching: 0x2c4 bytes, original 0x2c0; 293 lines differ; first: original `sub sp, #92`, ours `sub sp, #84`
+// non-matching: 91.4: same size; the original frame is 8 bytes larger: in the second table loop it keeps n in r7 with k
+// and m spilled (here n and the second pointer are spilled and k is in r7), and the guard-free second loop with the
+// two pointers comes out 4 bytes shorter here, so the guard stays
 void func_020357dc(void *a, void *b, void *c) {
     void *h;
     Unk02174e14_00 *s;
@@ -198,13 +200,8 @@ void func_020357dc(void *a, void *b, void *c) {
     func_02025b20(s, data_021644f8, data_02164518, data_02164538, data_02164558, data_02164574, 0, func_0204799c);
     z = 0;
     func_02025a50(0, data_02174e68->mUnk_a4, s);
-    i = 0;
-    if (s->mUnk_14->mUnk_06 > 0) {
-        t = (s16 *) data_0215404c;
-        for (; i < s->mUnk_14->mUnk_06; i++) {
-            n -= func_02025a00(z, data_02174e68->mUnk_a4, s, t, n);
-            t += 4;
-        }
+    for (i = 0; i < s->mUnk_14->mUnk_06; i++) {
+        n -= func_02025a00(0, data_02174e68->mUnk_a4, s, data_0215404c[i], n);
     }
     func_020258d4(1, data_02174e68, data_02164590, data_021645b0, data_021645d0, 3, func_0204799c);
     s = &data_02174e68->mUnk_2c[1];

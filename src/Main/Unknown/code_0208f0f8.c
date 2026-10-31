@@ -16,8 +16,9 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "code_020172d0.h"
 
-// non-matching: 8 bytes short; the original keeps the value 1 in a register and computes (u16) (1 + 3) with shifts
-// where ours stores 4, the constants and the pointer to data_021759c0 are loaded in other registers and order
+// non-matching: 87.1: same size; the constants and pool addresses of the first block get other registers (the
+// original stores 8 through r1, keeps 3 and then n in r7 and 0x4d then 0xe in r10) and data_021759c0 is loaded
+// after the first store there
 void func_0208f0f8(void *a) {
     void *s;
     u16 n;
@@ -36,7 +37,7 @@ void func_0208f0f8(void *a) {
     n = 1;
     data_021663ec = (s32 (*)()) func_0208ee40;
     if (data_021759c0->mUnk_08 == 5) {
-        n = 4;
+        n += 3;
     } else if (data_021759c0->mUnk_00c == 5) {
         data_021663e0 = 0xe;
         data_021663dc = 2;

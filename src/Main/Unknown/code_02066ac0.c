@@ -161,8 +161,6 @@ void func_02066de8(Unk0206bcb0 *a) {
     a->mUnk_598 = 0;
 }
 
-// non-matching: same size, 16 words: the data_021759c0 pointer and the a->mUnk_74 subscript swap r0/r1 (+0x68 to
-// +0x1a4), `cmp r6, r0` where the original has `cmp r0, r6` (+0x31c), and the pointer and g swap r1/r2 (+0x3ac)
 void func_02066fe0(Unk0206bcb0 *a) {
     Unk021759c0 *p;
     Unk02175620 *q;
@@ -182,14 +180,15 @@ void func_02066fe0(Unk0206bcb0 *a) {
         q = data_02175620;
         if ((q->mUnk_70 != 0 || q->mUnk_90 != 0) && func_0203c880(a->mUnk_74) != 0) {
             p = data_021759c0;
-            b = &p->mUnk_68[a->mUnk_74].mUnk_08;
+            i = a->mUnk_74;
+            b = &p->mUnk_68[i].mUnk_08;
             c = 0;
             if ((u32) b->mUnk_00 <= 3 && ((1 << b->mUnk_00) & 0xd) != 0) {
                 c = 1;
             }
             if (c != 0) {
-                g = a->mUnk_7c;
-                if ((g & 6) == 0 && (g & 8) == 0) {
+                c = a->mUnk_7c;
+                if ((c & 6) == 0 && (c & 8) == 0) {
                     data_02175664[a->mUnk_78].mUnk_00 = 3;
                     if (data_0217561c->mUnk_000[a->mUnk_74].mUnk_14 == 1) {
                         func_0208c260(a->mUnk_310, a->mUnk_74);
@@ -247,7 +246,7 @@ void func_02066fe0(Unk0206bcb0 *a) {
         p = data_021759c0;
         if (p->mUnk_08 != 0 && p->mUnk_08 != 1 &&
             ((p->mUnk_1c == 1 && data_0217561c->mUnk_000[a->mUnk_74].mUnk_14 != 1) ||
-             ((c = p->mUnk_3d0) > 1 && c == func_0203c8dc(a->mUnk_74)))) {
+             ((i = p->mUnk_3d0) > 1 && (c = func_0203c8dc(a->mUnk_74), c == i)))) {
             func_02075cf0();
         } else {
             func_02075eb8();

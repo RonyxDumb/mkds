@@ -3,7 +3,7 @@
 #include "01/code_02188158.h"
 #include "01/code_02188e88.h"
 #include "01/code_0219b240.h"
-#include "Main/Unknown/code_01ffd000.h"
+#include "ITCM/code_01ffd000.h"
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/code_0208b6b0.h"
 #include "Main/Unknown/code_0209b000.h"

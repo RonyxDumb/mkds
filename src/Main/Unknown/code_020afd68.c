@@ -35,9 +35,6 @@ static inline void func_020afd68_inline(u16 *v1) {
     }
 }
 
-// non-matching: one instruction placed differently in the loop over c[1]->mUnk_0c: the original adds
-// (k + 6) << 5 to the remainder (add r1, r1, r6) after the `and`/`lsl` of the 0xfc00 part, here it is added first
-// (add r1, r6, r1, before the `and`); the rest is the same.
 void func_020afd68(void) {
     Unk020b4a44 *a[3];
     Unk020b4934 *b[3];
@@ -122,7 +119,9 @@ void func_020afd68(void) {
             a[0]->mUnk_0c[i + 16] = a[1]->mUnk_0c[(k + 1) * 16 + i];
         }
         for (i = 0; i < 0x400; i++) {
-            c[1]->mUnk_0c[i] = (c[1]->mUnk_0c[i] % 0x400 + ((k + 6) << 5)) | (u16) (c[1]->mUnk_0c[i] & 0xfc00);
+            s32 r = c[1]->mUnk_0c[i];
+            r %= 0x400;
+            c[1]->mUnk_0c[i] = (u16) (c[1]->mUnk_0c[i] & 0xfc00) | (r + ((k + 6) << 5));
         }
         func_0200eddc();
         func_02148934(5);

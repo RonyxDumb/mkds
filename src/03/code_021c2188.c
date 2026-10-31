@@ -92,13 +92,15 @@ void func_ov003_021c2398(void) {
     func_ov003_021d2808(&p);
 }
 
-// non-matching: the three `x = x & mask` statements on 0x4000000, 0x4001000 and 0x4000304 swap r1 and r2 (address and value)
 void func_ov003_021c2188(void) {
+    volatile u32 *p;
+    volatile u16 *q;
     func_02148a58(0);
     func_02149b20(1);
     func_021499b4(2);
     func_02148950(1, 0, 0);
-    *(u32 *) 0x4000000 = *(u32 *) 0x4000000 & 0xffffe0ff;
+    p = (u32 *) 0x4000000;
+    *p = *p & 0xffffe0ff;
     func_02148908((u16 *) 0x400006c, 0);
     *(u32 *) 0x4000000 = (*(u32 *) 0x4000000 & 0xffcfffef) | 0x200010;
     *(u16 *) 0x4000008 &= ~0x40;
@@ -113,7 +115,8 @@ void func_ov003_021c2188(void) {
     func_0214922c(0x80);
     func_021491b0(0x100);
     func_02148934(0);
-    *(u32 *) 0x4001000 &= 0xffffe0ff;
+    p = (u32 *) 0x4001000;
+    *p = *p & 0xffffe0ff;
     func_02148908((u16 *) 0x400106c, 0);
     *(u32 *) 0x4001000 = (*(u32 *) 0x4001000 & 0xffcfffef) | 0x10;
     *(u16 *) 0x4001008 &= ~0x40;
@@ -133,7 +136,8 @@ void func_ov003_021c2188(void) {
     *(u16 *) 0x400100a = (*(u16 *) 0x400100a & 0x43) | 0xd00;
     *(u16 *) 0x400100c = (*(u16 *) 0x400100c & 0x43) | 0xe00;
     *(u16 *) 0x400100e = (*(u16 *) 0x400100e & 0x43) | 0xf00;
-    *(u16 *) 0x4000304 &= ~0x8000;
+    q = (u16 *) 0x4000304;
+    *q = *q & ~0x8000;
     func_ov003_021d2490();
     func_ov003_021d2fdc();
     func_ov003_021d31b0();

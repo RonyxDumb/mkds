@@ -2,8 +2,10 @@
 #include "code_0214e6e4.h"
 #include "Main/Unknown/code_0200f000.h"
 
-// non-matching: the stack arguments d to h are kept in registers (out in r10, size 0x26c); the original reloads
-// each from its stack slot at every use and keeps out in r7, a in r6, b in r5, c in r4 (size 0x270).
+// non-matching: 79.5: size 0x260 against 0x270; the original keeps out in r7, a in r6, b in r5, c in r4, loads e and
+// f before the range tests into caller-saved registers and reloads the stack arguments after func_0200fca0 (e into a
+// stack slot, d, f, h into r9, r8, r10), and starts the second division before the first result is checked;
+// here e and f stay in callee-saved registers across the call.
 // Returns 1 when an argument is out of range or two paired values are equal; otherwise writes to the registers at
 // 0x04000280-0x0400029c twice and fills out from the words read back at 0x040002a0.
 u32 func_0214e464(Unk0214e334 *out, u32 a, u32 b, u32 c, u16 d, u16 e, u16 f, u16 g, u16 h) {
@@ -23,21 +25,19 @@ u32 func_0214e464(Unk0214e334 *out, u32 a, u32 b, u32 c, u16 d, u16 e, u16 f, u1
     s = func_0200fca0();
     *(vu16 *) 0x04000280 = 0;
     *(vu32 *) 0x04000290 = (a - e) << 8;
-    *(vu32 *) 0x04000298 = c - g;
-    *(vu32 *) 0x0400029c = 0;
+    *(vu64 *) 0x04000298 = (u32) (c - g);
     while (*(vu16 *) 0x04000280 & 0x8000) {
     }
     q = *(vs32 *) 0x040002a0;
     *(vu16 *) 0x04000280 = 0;
     *(vu32 *) 0x04000290 = (b - f) << 8;
-    *(vu32 *) 0x04000298 = d - h;
-    *(vu32 *) 0x0400029c = 0;
+    *(vu64 *) 0x04000298 = (u32) (d - h);
     if (q >= 0x8000 || q < -0x8000) {
         func_0200fcb4(s);
         return 1;
     }
     out->mUnk_04 = q;
-    v = (((a + e) << 8) - out->mUnk_04 * (c + g)) << 9 >> 16;
+    v = (s32) ((((a + e) << 8) - out->mUnk_04 * (c + g)) << 9) >> 16;
     if (v >= 0x8000 || v < -0x8000) {
         func_0200fcb4(s);
         return 1;
@@ -51,7 +51,7 @@ u32 func_0214e464(Unk0214e334 *out, u32 a, u32 b, u32 c, u16 d, u16 e, u16 f, u1
         return 1;
     }
     out->mUnk_06 = q;
-    v = (((b + f) << 8) - out->mUnk_06 * (d + h)) << 9 >> 16;
+    v = (s32) ((((b + f) << 8) - out->mUnk_06 * (d + h)) << 9) >> 16;
     if (v >= 0x8000 || v < -0x8000) {
         return 1;
     }

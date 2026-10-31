@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020641d4.h"
-#include "Main/Unknown/code_01ff9000.h"
-#include "Main/Unknown/code_01ffc000.h"
+#include "ITCM/code_01ff9000.h"
+#include "ITCM/code_01ffc000.h"
 #include "Main/Unknown/code_020ed5c0.h"
 #include "Main/Unknown/code_02061fec.h"
 #include "Main/Unknown/code_02066000.h"
@@ -18,10 +18,12 @@ void func_020641d4(Unk0206bcb0 *a) {
     func_020641f0(a);
 }
 
-// non-matching: 88.3: stack offsets and 64-bit multiplication form differ
+// non-matching: 3 words at +0x378: for data_0217562a[a->mUnk_78] the original loads the index into r2 and
+// multiplies into r1; ours has the two the other way round.
 void func_020641f0(Unk0206bcb0 *a) {
     Unk0206bcb0_590 *b;
     Unk0206bcb0_590_08 *c;
+    Vec3 m;
     Unk02012f58 d;
     Unk02012f58 e;
     Unk02012f58 f;
@@ -31,43 +33,52 @@ void func_020641f0(Unk0206bcb0 *a) {
     s32 j;
     s32 k;
     u16 l;
-    Vec3 m;
+    u32 n;
+    Unk02012f58 *p;
+    Vec3 *q;
+    Vec4 *r;
 
     func_01ffcd84(&a->mUnk_120, a->mUnk_50c);
-    if ((a->mUnk_4c & 0x10) != 0) {
+    n = a->mUnk_4c;
+    if ((n & 0x10) != 0) {
+        p = &a->mUnk_150_m;
         func_021471bc(&d);
         e = d;
         func_01ffcd84(&f, &a->mUnk_34c);
-        m.x = (s64) a->mUnk_12c.x * -0x5000 >> 12;
-        m.y = (s64) a->mUnk_12c.y * -0x5000 >> 12;
-        m.z = (s64) a->mUnk_12c.z * -0x5000 >> 12;
+        q = &a->mUnk_12c;
+        m.x = (s64) q->x * -0x5000 >> 12;
+        m.y = (s64) q->y * -0x5000 >> 12;
+        m.z = (s64) q->z * -0x5000 >> 12;
         d.mUnk_24 = m;
-        e.mUnk_24.x = -m.x;
-        e.mUnk_24.y = -m.y;
-        e.mUnk_24.z = -m.z;
-        func_0214733c(&a->mUnk_120_m, &d, &a->mUnk_150_m);
-        func_0214733c(&a->mUnk_150_m, &f, &a->mUnk_150_m);
-        func_0214733c(&a->mUnk_150_m, &e, &a->mUnk_150_m);
+        m.x = -m.x;
+        m.y = -m.y;
+        m.z = -m.z;
+        e.mUnk_24 = m;
+        func_0214733c(&a->mUnk_120_m, &d, p);
+        func_0214733c(p, &f, p);
+        func_0214733c(p, &e, p);
         if ((a->mUnk_4c & 0x20) != 0) {
             i = (a->mUnk_364 >> 4) * 2;
             func_02147250(&g, data_0215d4b4[i], data_0215d4b4[i + 1]);
-            func_0214733c(&a->mUnk_150_m, &g, &a->mUnk_150_m);
+            func_0214733c(p, &g, p);
         }
-        a->mUnk_174.x = a->mUnk_174.x + a->mUnk_508->x;
-        a->mUnk_174.y = a->mUnk_174.y + a->mUnk_508->y;
-        a->mUnk_174.z = a->mUnk_174.z + a->mUnk_508->z;
-    } else if ((a->mUnk_4c & 0x20) != 0) {
+        p->mUnk_24.x = p->mUnk_24.x + a->mUnk_508->x;
+        p->mUnk_24.y = p->mUnk_24.y + a->mUnk_508->y;
+        p->mUnk_24.z = p->mUnk_24.z + a->mUnk_508->z;
+    } else if ((n & 0x20) != 0) {
         i = (a->mUnk_364 >> 4) * 2;
         func_02147250(&h, data_0215d4b4[i], data_0215d4b4[i + 1]);
         func_0214733c(&h, &a->mUnk_120_m, &a->mUnk_150_m);
-        a->mUnk_174.x = a->mUnk_508->x;
-        a->mUnk_174.y = a->mUnk_508->y;
-        a->mUnk_174.z = a->mUnk_508->z;
+        q = a->mUnk_508;
+        a->mUnk_174.x = q->x;
+        a->mUnk_174.y = q->y;
+        a->mUnk_174.z = q->z;
     } else {
         a->mUnk_150_m = a->mUnk_120_m;
-        a->mUnk_174.x = a->mUnk_508->x;
-        a->mUnk_174.y = a->mUnk_508->y;
-        a->mUnk_174.z = a->mUnk_508->z;
+        q = a->mUnk_508;
+        a->mUnk_174.x = q->x;
+        a->mUnk_174.y = q->y;
+        a->mUnk_174.z = q->z;
     }
     a->mUnk_98 = a->mUnk_174;
     a->mUnk_174.x = a->mUnk_174.x >> 4;
@@ -81,7 +92,8 @@ void func_020641f0(Unk0206bcb0 *a) {
     }
     b = (Unk0206bcb0_590 *) a->mUnk_590;
     if (b->mUnk_018 != 0) {
-        j = (s64) b->mUnk_030 * b->mUnk_024 >> 12;
+        r = (Vec4 *) &b->mUnk_024;
+        j = (s64) r->w * r->x >> 12;
         l = (s64) j * 0xce4 >> 12;
         k = a->mUnk_2a0;
         if (a->mUnk_4d4 > k) {
@@ -94,7 +106,7 @@ void func_020641f0(Unk0206bcb0 *a) {
                     k = k + 0x190;
                 }
             } else if ((a->mUnk_44 & 0x100) != 0) {
-                k = k * -1;
+                k *= -1;
             }
             if (k > 0xfa0) {
                 k = 0xfa0;

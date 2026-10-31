@@ -106,9 +106,6 @@ u32 func_0214df78(u32 *a) {
 // the fixed-address fields of Unk027ffde8 and Unk027ffdec selected by mUnk_14, most through func_0214d964, or
 // changes Unk027ffdea and calls func_0214e1b0; then, when mUnk_18 is 0, clears mUnk_00 and calls mUnk_04 the same
 // way with a value from 0 to 6.
-// non-matching: in both blocks that call mUnk_04 the original loads the address of data_021803b0 a second time into
-// r2 and reads mUnk_04 into r4 from it before testing mUnk_18 / mUnk_00; this reads mUnk_04 from r0 after the test of
-// mUnk_00 and loads the second address only before the call (same size, 29 words differ).
 void func_0214d9e8(u32 a, u32 b, s32 c) {
     u8 k;
     u32 x;
@@ -120,10 +117,10 @@ void func_0214d9e8(u32 a, u32 b, s32 c) {
         if (data_021803b0.mUnk_18 != 0) {
             data_021803b0.mUnk_18 = 0;
         }
-        f = data_021803b0.mUnk_04;
         if (data_021803b0.mUnk_00 != 0) {
             data_021803b0.mUnk_00 = 0;
         }
+        f = data_021803b0.mUnk_04;
         if (f != 0) {
             data_021803b0.mUnk_04 = 0;
             f(6, data_021803b0.mUnk_10);
@@ -286,10 +283,10 @@ void func_0214d9e8(u32 a, u32 b, s32 c) {
     if (data_021803b0.mUnk_18 != 0) {
         return;
     }
-    f = data_021803b0.mUnk_04;
     if (data_021803b0.mUnk_00 != 0) {
         data_021803b0.mUnk_00 = 0;
     }
+    f = data_021803b0.mUnk_04;
     if (f != 0) {
         data_021803b0.mUnk_04 = 0;
         f(n, data_021803b0.mUnk_10);

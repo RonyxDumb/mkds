@@ -11,18 +11,26 @@
 #include "Main/Unknown/code_020fa4c8.h"
 #include "Main/Unknown/code_020f81c0.h"
 
-// non-matching: 0x38c bytes vs 0x398. The loops have the original's shape (subscripts multiplied each pass,
-// the table entry read at the top of the second loop); left: the three acc arms are laid out in another order
-// (the original tests `j < 9`, then `m == 0`, then `m == 1`, with the plain add last and an `ldrh` in the `>> 2`
-// arm), the 64-bit product for k is formed in another order, and registers differ.
+static inline u32 func_020f8a04_inline(Unk020f41c4_B *b, u32 c) {
+    b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
+    if (c == 0) {
+        return (u32) (b->mUnk_00 >> 32);
+    } else {
+        return (u32) (((b->mUnk_00 >> 32) * c) >> 32);
+    }
+}
+
+// non-matching: 96.8: same size; left: registers (acc and t swap r6/r8, the row index is r2 there), the first
+// loop counter and the q select are scheduled differently, and the last loop keeps its first `j < param_6` test
+// as a compare of the zero register (cmp r7, r5) where this source folds it.
 s32 func_020f8a04(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6) {
     Unk0217bc6c *q;
     Unk020f41c4_B *b;
     u16 *row;
     s32 m;
-    u32 i;
-    s32 j;
+    s32 i;
     s32 t;
+    s32 j;
     s32 x;
     s32 sel;
     u16 acc;
@@ -40,11 +48,11 @@ s32 func_020f8a04(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_
         q = param_4 != 0 ? &data_0217bc6c : &data_0217bc64;
     }
     row = q->mUnk_04[i];
-    acc = 0;
     t = 0;
+    acc = 0;
     if (data_021759c0->mUnk_08 != 4) {
-        for (j = 0; j < 0xe; j++) {
-            t += (u16) (data_0217bc34[(s32) j].mUnk_90 * (data_027e00cc[(s32) j].mUnk_1c - data_027e00cc[(s32) j].mUnk_18));
+        for (i = 0; i < 0xe; i++) {
+            t += (u16) (data_0217bc34[(s32) i].mUnk_90 * (data_027e00cc[(s32) i].mUnk_1c - data_027e00cc[(s32) i].mUnk_18));
         }
     }
     for (j = 0; j < param_6; j++) {
@@ -54,12 +62,14 @@ s32 func_020f8a04(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_
                 data_0217bc48[(s32) j].mUnk_00 != 0) {
                 x = data_0217bc34[n].mUnk_90 * data_0217bc48[(s32) j].mUnk_0c;
                 if (x == 0 || t + x <= 0x28) {
-                    if (j < 9 || m == 0) {
-                        acc = acc + row[j];
-                    } else if (m == 1) {
-                        acc = acc + ((s16) row[j] >> 2);
+                    if (j >= 9 && m != 0) {
+                        if (m == 1) {
+                            acc = acc + (row[j] >> 2);
+                        } else {
+                            acc = 3 * row[j] + acc;
+                        }
                     } else {
-                        acc = 3 * row[j] + acc;
+                        acc = acc + row[j];
                     }
                 }
             }
@@ -67,10 +77,12 @@ s32 func_020f8a04(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_
         data_0217bc7c[j] = acc;
     }
     b = &data_0217561c->mUnk_47c;
-    if (acc != 0) {
-        b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
+    if (acc == 0) {
+        x = 0;
+    } else {
+        x = func_020f8a04_inline(b, acc);
     }
-    k = (u16) (acc != 0 ? (u32) (((u64) (u32) (b->mUnk_00 >> 32) * (u32) acc) >> 32) : (u32) (b->mUnk_00 >> 32));
+    k = x;
     for (j = 0; j < param_6; j++) {
         if (k < data_0217bc7c[j]) {
             sel = j;
@@ -84,7 +96,7 @@ s32 func_020f8a04(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_
         if (param_2 != 0) {
             data_0217bc50 = 0;
             for (j = 0; j < param_6; j++) {
-                if (j == sel || data_0217bc7c[j] != 0) {
+                if (j == sel || row[j] != 0) {
                     data_0217bca0[data_0217bc50] = j;
                     data_0217bc50++;
                 }

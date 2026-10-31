@@ -32,7 +32,6 @@
 #pragma optimize_for_size on
 
 #pragma thumb on
-// non-matching: size 0x540 against 0x538: the original keeps the fourth parameter in r7 and the first call result in the stack word at sp+0x10, ours spills the parameter (stack offsets of the two locals 8 higher, frame 0x54 against 0x4c) and swaps r4/r5 in the loops
 void func_02028864(void *a, s32 b, void *c, void *d) {
     void *h;
     Unk02174e50_24 *p;
@@ -148,12 +147,14 @@ void func_02028864(void *a, s32 b, void *c, void *d) {
         }
         for (i = 0; i < 6; i++) {
             w = func_020b3f7c(data_02174e18->mUnk_088, data_usa_021537f4[i].mUnk_08);
-            func_0212426c(1, data_usa_021537f4[i].mUnk_00, p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
-            func_02124094(data_usa_021537f4[i].mUnk_00, 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+            n = data_usa_021537f4[i].mUnk_00;
+            func_0212426c(1, n, p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
+            func_02124094(n, 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
         }
         w = func_020b3f7c(func_02047a28(data_usa_02162120), data_usa_021537f4[6].mUnk_08);
-        func_0212426c(1, data_usa_02153834[4], p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
-        func_02124100(data_usa_02153834[4], 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+        i = data_usa_02153834[4];
+        func_0212426c(1, i, p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
+        func_02124100(i, 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
         func_0212b928(data_02174e18->mUnk_08c, (Unk020b4a44 *) p->mUnk_04, 1);
         p->mUnk_18[2].mUnk_00 = 0;
         p->mUnk_18[3].mUnk_00 = p->mUnk_18[2].mUnk_00;

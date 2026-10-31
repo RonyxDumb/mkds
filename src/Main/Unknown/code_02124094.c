@@ -295,7 +295,7 @@ void func_0212463c(u32 a, Unk02021dc8 *b, Unk0212463c_c *c, Unk0212463c_d *d, Un
     func_02016468(k, w, z, 0x20);
 }
 
-// non-matching: the compiled function keeps the u16 at 6 of its eighth argument in r7 and its sixth argument in r6, where the original spills the first to [sp+0x3c] and keeps the sixth in r5; the stack area is 8 bytes smaller (no [sp+0x3c], no hoisted [sp+0x40]) and the code after the allocation of the Unk02124a68 differs in registers
+// non-matching: 90.6: the loop matches up to registers; before it the original keeps f in r5 (here it is spilled to its own slot), keeps q at [sp+0x1c] and n2 and x at [sp+0x3c]/[sp+0x44], and the code is 0x14 bytes shorter there
 s32 func_021243ac(void *a, s32 b, void *c, s32 d, s32 e, s32 f, void *g, void *h, void *i, s32 j)
 {
     Unk02022eb0 buf[128];
@@ -371,17 +371,15 @@ s32 func_021243ac(void *a, s32 b, void *c, s32 d, s32 e, s32 f, void *g, void *h
     r->mUnk_0c = -w << 2;
     r->mUnk_0e = -x << 2;
     for (k = 0; k < z; k++) {
-        buf[k].mUnk_04 &= ~0xc00;
-        buf[k].mUnk_04 |= u << 10;
+        buf[k].mUnk_04 = (buf[k].mUnk_04 & ~0xc00) | (u << 10);
         if (v != 0) {
-            buf[k].mUnk_00 &= ~0xc00;
-            buf[k].mUnk_00 |= 0x400;
-            buf[k].mUnk_04 &= ~0xf000;
-            buf[k].mUnk_04 |= p->mUnk_06_8 << 12;
+            m = p->mUnk_06_8;
+            buf[k].mUnk_00 = (buf[k].mUnk_00 & ~0xc00) | 0x400;
+            buf[k].mUnk_04 = (buf[k].mUnk_04 & ~0xf000) | (m << 12);
         } else {
+            m = p->mUnk_06_8;
             buf[k].mUnk_00 &= ~0xc00;
-            buf[k].mUnk_04 &= ~0xf000;
-            buf[k].mUnk_04 |= p->mUnk_06_8 << 12;
+            buf[k].mUnk_04 = (buf[k].mUnk_04 & ~0xf000) | (m << 12);
         }
         buf[k].mUnk_00 &= ~0x1000;
         buf[k].mUnk_00 &= 0xc1fffcff;
