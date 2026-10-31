@@ -252,7 +252,7 @@ fcmp_invalid:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip, #0]
     tst r3, #0x100
-    bne fcmp_trap_invalid
+    bne func_021321cc
     orr r3, r3, #1
     str r3, [ip, #0]
     mov r0, r2
@@ -266,7 +266,7 @@ fflags_invalid_ne:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip, #0]
     tst r3, #0x100
-    bne fcmp_trap_invalid
+    bne func_021321cc
     orr r3, r3, #1
     str r3, [ip, #0]
     movs r2, #1
@@ -280,7 +280,7 @@ fflags_invalid_hi:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip, #0]
     tst r3, #0x100
-    bne fcmp_trap_invalid
+    bne func_021321cc
     orr r3, r3, #1
     str r3, [ip, #0]
     mov r2, #0xff000000
@@ -295,7 +295,7 @@ fflags_invalid_eq:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip, #0]
     tst r3, #0x100
-    bne fcmp_trap_invalid
+    bne func_021321cc
     orr r3, r3, #1
     str r3, [ip, #0]
     mov r2, #0
@@ -835,7 +835,7 @@ dcmp_invalid:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr lr, [ip, #0]
     tst lr, #0x100
-    bne dcmp_trap_invalid
+    bne func_021321e0
     orr lr, lr, #1
     str lr, [ip, #0]
     ldmfd sp!, {r0}
@@ -851,7 +851,7 @@ dflags_invalid_ne:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr lr, [ip, #0]
     tst lr, #0x100
-    bne dcmp_trap_invalid
+    bne func_021321e0
     orr lr, lr, #1
     str lr, [ip, #0]
     add sp, sp, #4
@@ -868,7 +868,7 @@ dflags_invalid_hi:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr lr, [ip, #0]
     tst lr, #0x100
-    bne dcmp_trap_invalid
+    bne func_021321e0
     orr lr, lr, #1
     str lr, [ip, #0]
     add sp, sp, #4
@@ -886,7 +886,7 @@ dflags_invalid_eq:
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr lr, [ip, #0]
     tst lr, #0x100
-    bne dcmp_trap_invalid
+    bne func_021321e0
     orr lr, lr, #1
     str lr, [ip, #0]
     add sp, sp, #4
@@ -936,17 +936,23 @@ dflags_b_nan:
 dflags_return_ne:
     movs ip, #1
     bx lr
+    .size func_02131694, . - func_02131694
 
-    // Invalid trap for floats: event code 0x04000049 with the operands in r0, r1.
-fcmp_trap_invalid:
+// Invalid trap for floats: event code 0x04000049 with the operands in r0, r1.
+    .global func_021321cc
+    .type func_021321cc, @function
+func_021321cc:
     stmfd sp!, {lr}
     ldr r2, fcmp_code_invalid
     bl func_021340d4
     ldmfd sp!, {lr}
     bx lr
+    .size func_021321cc, . - func_021321cc
 
-    // Invalid trap for doubles: event code 0x040000c9 on the stack, the operands in r0-r3.
-dcmp_trap_invalid:
+// Invalid trap for doubles: event code 0x040000c9 on the stack, the operands in r0-r3.
+    .global func_021321e0
+    .type func_021321e0, @function
+func_021321e0:
     ldr ip, dcmp_code_invalid
     stmfd sp!, {ip}
     bl func_02134008
@@ -958,4 +964,4 @@ fcmp_code_invalid:
     .word 0x04000049
 dcmp_code_invalid:
     .word 0x040000c9
-    .size func_02131694, . - func_02131694
+    .size func_021321e0, . - func_021321e0
