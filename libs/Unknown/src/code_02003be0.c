@@ -130,13 +130,11 @@ u32 func_02003f50(Unk02003a6c *p0) {
     return 1;
 }
 
-// non-matching: sz is in r4 and p in r5 (original r5 and r4); no other difference
 u32 func_02003e24(Unk02003a6c *p0, u32 p1, u32 p2) {
     Unk02003024 b;
     u32 sz;
 
-    sz = p0->mUnk_30 + p0->mUnk_38 + 32;
-    sz = (sz + 31) & ~31;
+    sz = ((s32) (p0->mUnk_30 + p0->mUnk_38 + 32) + 31) & ~31;
     if (sz <= p2) {
         u8 *p;
 

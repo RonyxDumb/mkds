@@ -314,16 +314,14 @@ void func_02012f24(void) {
     *(vu32 *) 0x04000600 = (*(vu32 *) 0x04000600 & ~0xc0000000) | 0x80000000;
 }
 
-// non-matching: only registers differ; the original keeps the argument in r5, the first result in r4, the results of
-// the three calls through data_021619ec and data_021619f4 in r7, r6 and r10 and the flags in r11, r9 and r8
 s32 func_02012cbc(Unk020136f0 *a) {
     s32 f0;
-    s32 f2;
+    u32 r;
     u32 v0;
     u32 v1;
     u32 v2;
     s32 f1;
-    u32 r;
+    s32 f2;
 
     switch (a->mUnk_00) {
         case 0x30444d42:

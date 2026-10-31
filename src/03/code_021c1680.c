@@ -10,11 +10,10 @@
 #include "03/unk_021d6000.h"
 #include "03/unk_021da000.h"
 
-// non-matching: loop counter and table pointer swap registers in the second and third loops
 void func_ov003_021c1680(void) {
     Unk021d299c a;
-    int j;
     u16 *q;
+    int j;
     int i;
     u16 *p;
     if (func_ov003_021d2a80(&data_ov003_021d67e8) == 0) {
@@ -54,8 +53,8 @@ void func_ov003_021c1680(void) {
             return;
         }
     }
-    for (j = 0, q = data_ov003_021d6244; j < 2; q += 2, j++) {
-        func_ov003_021d250c(q, data_ov003_021d6238, (short *) &a);
+    for (j = 0, p = data_ov003_021d6244; j < 2; p += 2, j++) {
+        func_ov003_021d250c(p, data_ov003_021d6238, (short *) &a);
         if (func_ov003_021d2a80(&a) != 0) {
             j += 12;
             if ((*(Unk021da160 **) data_ov003_021da160)->mUnk_61 != j) {
@@ -71,14 +70,12 @@ label_2:
     (*(Unk021da160 **) data_ov003_021da160)->mUnk_65 = 0;
 }
 
-// non-matching: loop counter and table pointer swap registers in the second and third loops
 void func_ov003_021c17d4(void) {
     Unk021d299c a;
-    int j;
     u16 *q;
+    int j;
     int i;
     u16 *p;
-    int b;
     (*(Unk021da160 **) data_ov003_021da160)->mUnk_60 = 0;
     if (func_ov003_021d299c(&data_ov003_021d67e8) == 0) {
         return;
@@ -98,36 +95,33 @@ void func_ov003_021c17d4(void) {
     for (j = 0, q = data_ov003_021d623c; j < 2; q += 2, j++) {
         func_ov003_021d250c(q, data_ov003_021d6234, (short *) &a);
         if (func_ov003_021d299c(&a) != 0) {
-            b = j + 10;
-            if ((*(Unk021da160 **) data_ov003_021da160)->mUnk_61 != b) {
+            if ((*(Unk021da160 **) data_ov003_021da160)->mUnk_61 != j + 10) {
                 return;
             }
             (*(Unk021da160 **) data_ov003_021da160)->mUnk_60 = data_ov003_021d6228[j];
-            (*(Unk021da160 **) data_ov003_021da160)->mUnk_63 = b;
+            (*(Unk021da160 **) data_ov003_021da160)->mUnk_63 = j + 10;
             func_ov003_021c1268();
             return;
         }
     }
-    for (j = 0, q = data_ov003_021d6244; j < 2; q += 2, j++) {
-        func_ov003_021d250c(q, data_ov003_021d6238, (short *) &a);
+    for (j = 0, p = data_ov003_021d6244; j < 2; p += 2, j++) {
+        func_ov003_021d250c(p, data_ov003_021d6238, (short *) &a);
         if (func_ov003_021d299c(&a) != 0) {
-            b = j + 12;
-            if ((*(Unk021da160 **) data_ov003_021da160)->mUnk_61 != b) {
+            if ((*(Unk021da160 **) data_ov003_021da160)->mUnk_61 != j + 12) {
                 return;
             }
             (*(Unk021da160 **) data_ov003_021da160)->mUnk_60 = data_ov003_021d6224[j];
-            (*(Unk021da160 **) data_ov003_021da160)->mUnk_63 = b;
+            (*(Unk021da160 **) data_ov003_021da160)->mUnk_63 = j + 12;
             func_ov003_021c1268();
             return;
         }
     }
 }
 
-// non-matching: loop counter and table pointer swap registers in the second and third loops
 void func_ov003_021c1908(void) {
     Unk021d299c a;
-    int j;
     u16 *q;
+    int j;
     int i;
     u16 *p;
     if (func_ov003_021d2a34(&data_ov003_021d67e8) == 0) {
@@ -159,8 +153,8 @@ void func_ov003_021c1908(void) {
             return;
         }
     }
-    for (j = 0, q = data_ov003_021d6244; j < 2; q += 2, j++) {
-        func_ov003_021d250c(q, data_ov003_021d6238, (short *) &a);
+    for (j = 0, p = data_ov003_021d6244; j < 2; p += 2, j++) {
+        func_ov003_021d250c(p, data_ov003_021d6238, (short *) &a);
         if (func_ov003_021d2a34(&a) != 0) {
             func_ov003_021cdc10(0);
             (*(Unk021da160 **) data_ov003_021da160)->mUnk_61 = j + 12;

@@ -118,11 +118,9 @@ s32 func_0204e1a8(s32 a) {
     return r;
 }
 
-// non-matching: r4 and r5 swapped: the original keeps the flag in r5 and the result in r4 (4 words differ at 0x38, 0x72,
-// 0x74, 0x80, 0x82).
 s32 func_0204e204(void) {
-    s32 r = 0;
     s32 s = 0;
+    s32 r = 0;
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         switch (data_0217aa00->mUnk_000c) {
         case 0:

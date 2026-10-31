@@ -217,12 +217,11 @@ void func_02008188(Unk02008188 *a, u32 *b, Unk020082b4_0c *c, u32 *d) {
     }
 }
 
-// non-matching: same size; register allocation only; 7 lines differ; first: original `movs r4, r0`, ours `movs r5, r0`
 void func_020082b4(Unk020082b4 *a, Unk02008188 *b) {
     u32 v1;
     u8 *v2;
-    Unk020082b4_0c *v3;
     u32 *v4;
+    Unk020082b4_0c *v3;
     s32 i;
     v1 = 0x022c0000;
     v2 = b->mUnk_160;

@@ -99,7 +99,6 @@ void func_ov000_021ae3f0(Unk021ae3f0 *param_1, u32 param_2) {
     }
 }
 
-// non-matching: registers only, in the coverage loop the running end and the entry count are in r6 and r3 where the original has r3 and r6
 Unk021ae3f0 *func_ov000_021ae51c(Unk021ae3f0 *param_1, u32 *param_2) {
     u32 a;
     u32 d;
@@ -109,14 +108,14 @@ Unk021ae3f0 *func_ov000_021ae51c(Unk021ae3f0 *param_1, u32 *param_2) {
     u32 f;
     u32 c;
     u32 h;
-    u32 i;
+    u32 q;
     u32 j;
     Unk021b69dc *l;
     Unk021b69dc *k;
     u16 m;
     u32 n;
     u32 o;
-    u32 q;
+    u32 i;
 
     *param_2 = 0;
     a = (u16) ((param_1->mUnk_06 >> 8) | (param_1->mUnk_06 << 8));
