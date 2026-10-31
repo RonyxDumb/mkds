@@ -1,11 +1,12 @@
 #include "Main/Unknown/code_02030708.h"
 #include "Main/Unknown/code_020307b0.h"
 
+#pragma optimize_for_size on
+
 u32 func_02030708(u32 a) {
     return func_02030728((Unk02175628_48 *) &data_02175628[a].mUnk_48);
 }
 
-// non-matching: 0x38 bytes, original 0x34; 5 lines differ; first: original `bne T`, ours `popne {r4, lr}`
 u32 func_02030728(Unk02175628_48 *a) {
     if (func_02030780(a) == 0 && func_0203075c(a) != 0) {
         return 1;
@@ -20,7 +21,6 @@ u32 func_0203075c(Unk02175628_48 *a) {
     return 0;
 }
 
-// non-matching: 0x34 bytes, original 0x30; 5 lines differ; first: original `bcc T`, ours `popcc {r4, lr}`
 u32 func_02030780(Unk02175628_48 *a) {
     if (func_020307b0((unsigned int) a) == 0 && a->mUnk_10 < 5) {
         return 1;

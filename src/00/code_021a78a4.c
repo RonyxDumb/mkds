@@ -43,13 +43,20 @@ s32 func_ov000_021a78a4(void *param_1, u32 param_2, Unk021a6fa8 *param_3) {
     return 1;
 }
 
-// non-matching: the flag test `a != 0 && (a->mUnk_70 & 1)` is branched straight; the original sets the result register before `cmp r5, #0` (`movs r0, #0`) and copies the mask register for the set (`movs r0, r1`), and the original loads the word at 0x104 once more ahead of the interrupt call (`ldr r0, [r4, r0]`), size 0xe4 against 0xf0
+static inline s32 func_ov000_021a797c_inline(Unk021a6fa8 *a) {
+    s32 b = 0;
+    if (a != 0) {
+        b = (a->mUnk_70 & 1) != 0;
+    }
+    return b;
+}
+
+// non-matching: the original loads the word at 0x104 once more ahead of the interrupt call (`ldr r0, [r4, r0]` before the first call), size 0xec against 0xf0
 s32 func_ov000_021a797c(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f) {
     Unk021a71c0 *h = a->mUnk_64;
     u32 i;
     s32 g;
     Unk021a78a4 *j;
-    s32 k;
     i = func_0200fca0();
     j = h->mUnk_104;
     while (j == 0) {
@@ -58,18 +65,11 @@ s32 func_ov000_021a797c(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f) {
             break;
         }
         func_0200e01c(&h->mUnk_10c);
-        if (func_ov000_021a8a80(a) == 0) {
-            k = 0;
-            if (a != 0 && (a->mUnk_70 & 1) != 0) {
-                k = 1;
-            }
-            if (k != 0) {
-                j = h->mUnk_104;
-                continue;
-            }
+        if (func_ov000_021a8a80(a) != 0 || func_ov000_021a797c_inline(a) == 0) {
+            g = -0x38;
+            break;
         }
-        g = -0x38;
-        break;
+        j = h->mUnk_104;
     }
     if (j != 0) {
         if (c > j->mUnk_04) {

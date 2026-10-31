@@ -21,23 +21,21 @@ s64 func_02040d24(const UnkPair020b502c *a, const UnkPair020b502c *b) {
     return ((s64) a->mUnk_00 * b->mUnk_00 + (s64) a->mUnk_04 * b->mUnk_04 + 0x800) >> 12;
 }
 
-// non-matching: the early return for the first test is emitted as moveq r0, #1 here and as bne plus mov in the original
+static inline s32 func_02040bc0_inline(s8 i) {
+    s32 f = 0;
+    if ((u32) data_021759c0->mUnk_68[(u16) i].mUnk_08.mUnk_00 <= 3 && ((1 << data_021759c0->mUnk_68[(u16) i].mUnk_08.mUnk_00) & 0xd) != 0) {
+        f = 1;
+    }
+    return f;
+}
+
 s32 func_02040bc0(void) {
     s32 r = 0;
-    s32 f;
     s32 g;
     s8 i = data_021759c0->mUnk_62;
 
-    if (i == -1) {
+    if (i == -1 || func_02040bc0_inline(i) == 0) {
         r = 1;
-    } else {
-        f = 0;
-        if ((u32) data_021759c0->mUnk_68[(u16) i].mUnk_08.mUnk_00 <= 3 && ((1 << data_021759c0->mUnk_68[(u16) i].mUnk_08.mUnk_00) & 0xd) != 0) {
-            f = 1;
-        }
-        if (f == 0) {
-            r = 1;
-        }
     }
     if (r != 0) {
         return r;
