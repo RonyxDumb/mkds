@@ -1,8 +1,8 @@
 #include "00/code_0219bab4.h"
 
 u32 func_ov000_0219bab4(void) {
-    if ((*(int *) &data_ov000_021b54c8) != 0) {
-        return *(u32 *) ((*(int *) &data_ov000_021b54c8) + 0x24);
+    if ((int) data_ov000_021b54c8 != 0) {
+        return *(u32 *) ((int) data_ov000_021b54c8 + 0x24);
     }
     return 0;
 }

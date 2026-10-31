@@ -4,7 +4,7 @@ void func_ov000_021850b0(void) {
     int iVar1;
     iVar1 = ((u32) func_02128294());
     if (iVar1 != 0) {
-        *(u32 *) ((*(int *) &data_ov000_021b4c84) + 4) = 3;
+        *(u32 *) ((int) data_ov000_021b4c84 + 4) = 3;
     }
     return;
 }

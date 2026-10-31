@@ -8,6 +8,6 @@ u32 func_ov000_02180c28(void) {
     value2 = (u32) * (const u32 *) ((value1) + 0u);
     value0 = 0xffff1fffu;
     value2 = (value2) & (value0);
-    *(u32 *) ((value1) + 0u) = (u32) value2;
-    return (u32) value0;
+    *(u32 *) ((value1) + 0u) = value2;
+    return value0;
 }

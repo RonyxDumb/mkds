@@ -11,7 +11,7 @@ void func_ov000_0218a98c(u32 param_1) {
 
 void func_ov000_0218a950(int param_1) {
     if (*(int *) (param_1 + 0x10) != 0) {
-        func_ov000_0218aa14((Unk0218a9bc *) (param_1), (int) (0));
+        func_ov000_0218aa14((Unk0218a9bc *) (param_1), 0);
         func_ov000_0218a9bc((Unk0218a9bc *) (param_1));
         if (0 < *(int *) (param_1 + 0x1c)) {
             func_ov000_0218a98c((u32) (param_1));

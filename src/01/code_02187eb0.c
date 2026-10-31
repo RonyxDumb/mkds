@@ -17,7 +17,7 @@ Unk0206bcb0 *func_ov001_02188104(Unk02188950 *param_1, s32 param_2, s32 param_3)
     Unk0206bcb0 *q;
 
     q = func_0207a974((u16) data_021759c0->mUnk_62);
-    if (q != 0 && func_ov001_021881a8((Unk02188950 *) param_1, (Vec3 *) &q->mUnk_80, (s32) (param_2), (s32) (param_3)) != 0 && (q->mUnk_48 & 0x40) == 0) {
+    if (q != 0 && func_ov001_021881a8(param_1, (Vec3 *) &q->mUnk_80, (s32) (param_2), (s32) (param_3)) != 0 && (q->mUnk_48 & 0x40) == 0) {
         return q;
     }
     return 0;

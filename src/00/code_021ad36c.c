@@ -6,7 +6,7 @@ u32 func_ov000_021ad36c(void) {
     int iVar3;
     func_ov000_021ae270();
     func_ov000_021ae2d8();
-    func_ov000_021ae290((int) (0x44), (u16) (0x43), (int) (0xffffffff));
+    func_ov000_021ae290(0x44, (u16) (0x43), (int) (0xffffffff));
     iVar3 = 0;
     do {
         uVar1 = func_ov000_021ad6c0();

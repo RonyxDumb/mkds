@@ -26,7 +26,7 @@ void func_ov001_02184874(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
                 func_ov001_02188a8c(param_1, param_1->mUnk_0a0->mUnk_1e4, 0x270f000);
                 func_ov001_02188950(param_1, &a);
                 func_ov001_02188dcc(param_1, func_ov001_02184d70);
-                func_ov001_02188cec((Unk02188950 *) (param_1), (s32) (0));
+                func_ov001_02188cec((Unk02188950 *) (param_1), 0);
             }
             {
                 Vec3 b;
@@ -43,8 +43,8 @@ void func_ov001_02184874(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
                     func_0208b7bc(0x3e9, &b);
                     func_0208b7bc(0x3e8, &b);
                     func_0208b7bc(0x3ea, &b);
-                    func_ov001_02187518((Unk02188950 *) param_1, 0x99a, 0, 0x75c, 0x3f3, 0);
-                    func_ov001_02187518((Unk02188950 *) param_1, -0x99a, 0, 0x75c, 0x3f3, 0);
+                    func_ov001_02187518(param_1, 0x99a, 0, 0x75c, 0x3f3, 0);
+                    func_ov001_02187518(param_1, -0x99a, 0, 0x75c, 0x3f3, 0);
                 } else if (param_1->mUnk_000.mUnk_00 == 0x1f6) {
                     param_1->mUnk_000.mUnk_78 |= data_ov001_021a657c;
                     func_02109060(&param_1->mUnk_000.mUnk_94->mUnk_00, 0x245);
@@ -52,8 +52,8 @@ void func_ov001_02184874(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
                     func_0208b7bc(0x3fa, &b);
                     func_0208b7bc(0x3fb, &b);
                     func_0208b7bc(0x3fc, &b);
-                    func_ov001_02187518((Unk02188950 *) param_1, -0x11ec, 0, 0x1800, 0x445, 0);
-                    func_ov001_02187518((Unk02188950 *) param_1, 0x11ec, 0, 0x1800, 0x445, 0);
+                    func_ov001_02187518(param_1, -0x11ec, 0, 0x1800, 0x445, 0);
+                    func_ov001_02187518(param_1, 0x11ec, 0, 0x1800, 0x445, 0);
                 }
             }
         }
@@ -75,7 +75,7 @@ void func_ov001_02184874(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
             func_ov001_02188a8c(param_1, param_1->mUnk_0a0->mUnk_1cc, 0x270f000);
             func_ov001_02188950(param_1, &c);
             func_ov001_02188dcc(param_1, 0);
-            func_ov001_02188cec((Unk02188950 *) (param_1), (s32) (0));
+            func_ov001_02188cec((Unk02188950 *) (param_1), 0);
         }
     }
     func_ov001_02188200(param_1, func_ov001_02184874);

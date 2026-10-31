@@ -9,7 +9,7 @@ u32 func_ov001_02181800(void) {
 }
 
 void func_ov001_021817e0(void) {
-    if (*(u8 *) ((*(int *) &data_021759c0) + 0x2f) == '\a') {
+    if (*(u8 *) ((int) data_021759c0 + 0x2f) == '\a') {
         func_ov001_02181aa0();
     }
 }

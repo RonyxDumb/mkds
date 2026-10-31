@@ -19,7 +19,7 @@ void func_ov000_021acbf8(u16 *a, const u16 *b, const u16 *c, s32 n) {
         j = 0;
         p = b;
         for (; j < d && j < n - i; j++) {
-            func_ov000_021acc68((u16 *) a, *p * *q, i + j, n);
+            func_ov000_021acc68(a, *p * *q, i + j, n);
             p++;
         }
         q++;

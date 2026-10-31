@@ -8,7 +8,7 @@ void func_ov000_0218d1a0(u32 param_1) {
     iVar3 = 0;
     if (0 < iVar1) {
         do {
-            puVar2 = (u32 *) func_ov000_0218dbf8((int *) ((int *) (u32) (*(u32 *) (param_1 + 4))), (int) iVar3);
+            puVar2 = (u32 *) func_ov000_0218dbf8((int *) ((int *) (u32) (*(u32 *) (param_1 + 4))), iVar3);
             func_ov000_0218d278((Unk021b4d24 *) param_1, (u32) (*puVar2));
             iVar3 = iVar3 + 1;
         } while (iVar3 < iVar1);
@@ -21,7 +21,7 @@ void func_ov000_0218d180(u32 p0) {
     u32 v1 = ((p0) + (0x0u));
     u32 v5 = (u32) func_ov000_0218dc94((u32) 0x4u, (u32) 0x64u, (u32) 0x0u);
     u32 v8;
-    *(u32 *) ((v1) + (4)) = (u32) v5;
+    *(u32 *) ((v1) + (4)) = v5;
     v8 = 0x5d0u;
     *(u32 *) ((v1) + (0 + (v8))) = (u32) 0x0u;
 }
