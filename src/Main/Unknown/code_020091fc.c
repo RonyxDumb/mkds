@@ -32,8 +32,8 @@ u32 func_0200921c(Unk02008f00Func a, u32 b, Unk02007ec4 *c) {
 }
 
 void func_020092a4(void) {
-    func_0214d05c_inline(*(Unk0216fc40 **) &data_0216fc40, 0x5910);
-    (*(Unk0216fc40 **) &data_0216fc40)->mUnk_0c = 1;
+    func_0214d05c_inline((Unk0216fc40 *) data_0216fc40, 0x5910);
+    ((Unk0216fc40 *) data_0216fc40)->mUnk_0c = 1;
 }
 
 // non-matching: 0x1d0 bytes, original 0x1c4; 189 lines differ; first: original `ldr r0, [pc, #376]`, ours `ldr r0, [pc, // #388]`

@@ -10,7 +10,7 @@ void func_ov003_021c7050(void) {
     iVar6 = 0;
     iVar3 = 0;
     do {
-        iVar5 = (*(int *) &data_ov003_021da1fc) + 8 + iVar3;
+        iVar5 = (int) data_ov003_021da1fc + 8 + iVar3;
         iVar4 = 0;
         do {
             cVar1 = *(s8 *) (iVar5 + iVar4);

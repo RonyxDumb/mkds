@@ -20,7 +20,7 @@ s32 func_ov003_021c6f64(void) {
     a[3] = data_ov003_021d72fc[3];
     c = 0;
     d = c;
-    k = *(u8 **) data_ov003_021da1fc;
+    k = (u8 *) data_ov003_021da1fc;
     z = c;
     do {
         if ((k + 8)[d] != 0x20) {

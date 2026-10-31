@@ -18,14 +18,14 @@ void func_020e730c(void) {
 
     n = ((Unk020e6fd4 *) data_0217b864)->mUnk_04;
     *(void **) data_0217b86c = func_02036bec(func_020364e0(func_020364e8()), n * 4);
-    *(void **) data_0217b868 = func_02036bec(func_020364e0(func_020364e8()), n * 2);
+    data_0217b868 = func_02036bec(func_020364e0(func_020364e8()), n * 2);
     for (i = 0; i < ((Unk020e6fd4 *) data_0217b864)->mUnk_04; i++) {
         s32 k;
 
         e = (Unk020e730c *) ((Unk020e6fd4 *) data_0217b864)->mUnk_00[i];
         k = e->mUnk_a0;
         (*(Vec3 ***) data_0217b86c)[k] = &e->mUnk_00.mUnk_04;
-        (*(u16 **) data_0217b868)[k] = e->mUnk_a2;
+        data_0217b868[k] = e->mUnk_a2;
     }
 }
 

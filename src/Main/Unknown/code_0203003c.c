@@ -140,12 +140,12 @@ void func_020302a0(void) {
     Unk02174e54 *o;
 
     func_020303a8(0x16);
-    o = *(Unk02174e54 **) &data_02174e54;
+    o = data_02174e54;
     if (o->mUnk_38 != 0) {
         func_0203038c(1);
         func_02030364(0x1f, 1);
         func_0203033c(7, 1);
-        func_020302f0(0, 0, 0xff, (*(Unk02174e54 **) &data_02174e54)->mUnk_38 + 0xc0);
+        func_020302f0(0, 0, 0xff, data_02174e54->mUnk_38 + 0xc0);
     } else {
         func_0203038c(0);
     }

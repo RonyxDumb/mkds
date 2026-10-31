@@ -9,7 +9,7 @@
 void func_ov003_021c1a60(Unk021d34e0 *param_1) {
     u32 a;
     s32 b;
-    func_ov003_021d1770((Unk021d1770 *) (*(Unk021da160 **) data_ov003_021da160)->mUnk_40[0], 0, &a, &b);
+    func_ov003_021d1770((Unk021d1770 *) data_ov003_021da160->mUnk_40[0], 0, &a, &b);
     b = b - 0xc;
     if (b > data_ov003_021d6244[1]) {
         func_ov003_021c1364(4, b);
@@ -25,7 +25,7 @@ void func_ov003_021c1abc(Unk021d34e0 *param_1) {
     u32 a;
     s32 b;
     Unk021d1c18 *p;
-    p = (*(Unk021da160 **) data_ov003_021da160)->mUnk_10[9];
+    p = data_ov003_021da160->mUnk_10[9];
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
     b = p->mUnk_00 & 0xff;
     b = b - 0xc;
@@ -43,7 +43,7 @@ void func_ov003_021c1b24(Unk021d34e0 *param_1) {
     u32 a;
     s32 b;
     Unk021d1c18 *p;
-    p = (*(Unk021da160 **) data_ov003_021da160)->mUnk_10[6];
+    p = data_ov003_021da160->mUnk_10[6];
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
     b = p->mUnk_00 & 0xff;
     b = b - 0xc;
@@ -61,7 +61,7 @@ void func_ov003_021c1b8c(Unk021d34e0 *param_1) {
     u32 a;
     s32 b;
     Unk021d1c18 *p;
-    p = (*(Unk021da160 **) data_ov003_021da160)->mUnk_10[3];
+    p = data_ov003_021da160->mUnk_10[3];
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
     b = p->mUnk_00 & 0xff;
     b = b - 0xc;
@@ -79,7 +79,7 @@ void func_ov003_021c1bf4(Unk021d34e0 *param_1) {
     u32 a;
     s32 b;
     Unk021d1c18 *p;
-    p = (*(Unk021da160 **) data_ov003_021da160)->mUnk_10[0];
+    p = data_ov003_021da160->mUnk_10[0];
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
     b = p->mUnk_00 & 0xff;
     b = b - 0xc;

@@ -1,8 +1,8 @@
 #include "03/code_021d11a0.h"
 
 u32 func_ov003_021d11a0(void) {
-    if (*(unsigned char *) ((*(int *) &data_ov003_021da2ac) + ((u32) 0x00000a90u)) == '\x05') {
-        *(s8 *) ((*(int *) &data_ov003_021da2ac) + ((int) 0x00000a90u)) = '\x06';
+    if (*(unsigned char *) ((int) data_ov003_021da2ac + ((u32) 0x00000a90u)) == '\x05') {
+        *(s8 *) ((int) data_ov003_021da2ac + ((int) 0x00000a90u)) = '\x06';
         func_ov003_021cf69c();
         return 1;
     }

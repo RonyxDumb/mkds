@@ -4,5 +4,5 @@
 
 void func_ov003_021ce0f0(u32 task) {
     func_ov003_021d34c8(0, task);
-    (*(Unk021ce0f0 **) &data_ov003_021da27c)->mTask = 0;
+    data_ov003_021da27c->mTask = 0;
 }

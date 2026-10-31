@@ -3,7 +3,7 @@
 void func_ov003_021c722c(void) {
     int local_8[1];
     func_ov003_021bf410();
-    func_ov003_021d2f00((u32 *) (u32) (*(u32 *) ((*(int *) &data_ov003_021da1fc) + 4)));
+    func_ov003_021d2f00((u32 *) (u32) (*(u32 *) ((int) data_ov003_021da1fc + 4)));
     func_ov003_021d2168((int) (0));
     func_ov003_021bf620((unsigned int) &data_ov003_021d7338, (unsigned int) &func_0214c090);
     func_ov003_021d272c((int) (1), (u32) (1));

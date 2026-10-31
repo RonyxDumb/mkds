@@ -8,7 +8,7 @@ void func_ov003_021d2f00(u32 *a) {
     s32 c = 0;
 
     *a = (*a & 0xc1fffcff) | 0x200;
-    b = *(Unk021d2fa0 **) data_ov003_021da2f0;
+    b = data_ov003_021da2f0;
     if ((u32) a >= (u32) b + 0x400) {
         c = 1;
     }

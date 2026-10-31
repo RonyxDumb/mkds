@@ -71,5 +71,5 @@ void func_ov003_021cd858(unsigned int p0) {
 }
 
 u8 func_ov003_021cd844(int param_1) {
-    return *(u8 *) ((*(int *) &data_ov003_021da270) + param_1 * 0x100 + 0xe7);
+    return *(u8 *) ((int) data_ov003_021da270 + param_1 * 0x100 + 0xe7);
 }
