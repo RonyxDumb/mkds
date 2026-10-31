@@ -15,9 +15,6 @@
 #include "code_02139f70.h"
 #include "code_0213a460.h"
 
-// non-matching: the outer do-while gets &w0, &w1 and p->mUnk_05c hoisted into r4, r5 and a stack word, so k and o
-// are spilled and the frame is 0x544 against 0x4f4 (size 0x1478 against 0x13f8); the original keeps k in r4 and p in
-// r5 and hoists nothing out of the outer loop.
 s32 func_ov000_02194cac(Unk0218f960 *a, Unk02194cac *b) {
     u8 w0[0x200];
     u8 w1[0x200];
@@ -34,14 +31,13 @@ s32 func_ov000_02194cac(Unk0218f960 *a, Unk02194cac *b) {
     Unk02190ed4Cb c4;
     Unk02190ed4Cb c3;
     Unk02190ed4Cb c2;
+    s32 d;
+    s32 g;
     Unk0218f960_00 *o;
     Unk02194cac_04 *p;
     s32 k;
     s32 r;
-    s32 d;
     s32 f;
-    s32 g;
-    s32 i;
     s32 x;
     s32 y;
     s32 v;
@@ -55,6 +51,7 @@ s32 func_ov000_02194cac(Unk0218f960 *a, Unk02194cac *b) {
     Unk02194cac_102 *u4;
     Unk02194cac_08 *u5;
     Unk02194cac_0c *u7;
+    s32 i;
     Unk02194cac_0c2 *u9;
 
     o = a->mUnk_00;
@@ -263,11 +260,12 @@ s32 func_ov000_02194cac(Unk0218f960 *a, Unk02194cac *b) {
                     v = e.mUnk_08;
                     c1 = b->mUnk_0c;
                     if (c1.mUnk_00 != 0) {
-                        ((void (*)(Unk0218f960 *, void *)) c1.mUnk_00)(a, &e);
+                        c1.mUnk_00(a, &e, c1.mUnk_04);
                     }
                     if (v == 0x600 && e.mUnk_08 == 0x600) {
-                        r = func_ov000_021960a4((u32) a, p->mUnk_028, p->mUnk_047, p->mUnk_05c, p->mUnk_08f, p->mUnk_0ae, p->mUnk_130,
-                                                e.mUnk_04 + p->mUnk_134, b->mUnk_08, (u32) b->mUnk_0c.mUnk_00, (u32) b->mUnk_0c.mUnk_04);
+                        r = func_ov000_021960a4(a, p->mUnk_028, p->mUnk_047, p->mUnk_05c, p->mUnk_08f, p->mUnk_0ae,
+                                                p->mUnk_130, e.mUnk_04 + p->mUnk_134, b->mUnk_08,
+                                                (u32) b->mUnk_0c.mUnk_00, (u32) b->mUnk_0c.mUnk_04);
                         if (r != 0) {
                             return r;
                         }

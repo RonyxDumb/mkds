@@ -114,5 +114,5 @@ u32 func_ov000_0218f0a8(Unk0218f960 *a, s8 *b, s8 *c, s8 *d, s8 *e, s8 *f, s32 g
         i(a, &k, j);
         return 0;
     }
-    return func_ov000_021960a4((u32) a, b, c, d, e, f, g, 0, h, (u32) i, j);
+    return func_ov000_021960a4(a, b, c, d, e, f, g, 0, h, (u32) i, j);
 }

@@ -1,9 +1,10 @@
 #include "00/code_021a44a0.h"
 #include "00/code_021a4610.h"
 
-// non-matching: 15 words differ; stack offsets [sp, #12] and [sp, #20] swapped, and r4/r5 swapped in the second loop
+// non-matching: 4 words differ; the spill slots [sp, #12] and [sp, #20] (the n pointer and the e pointer) are swapped.
 void func_ov000_021a44a0(u8 *a, s32 b, u8 *c, s32 d) {
     u8 e[0x100];
+    s16 o;
     u8 *n;
     u8 *f;
     u8 g;
@@ -31,17 +32,17 @@ void func_ov000_021a44a0(u8 *a, s32 b, u8 *c, s32 d) {
     } while (l < 0x100);
     i = 0;
     h = 0;
-    k = 0;
+    o = 0;
     if (d > 0) {
         do {
-            i = (i + c[k] + 1) % 0x100;
+            i = (i + c[o] + 1) % 0x100;
             n = e + i;
             h = (e[i] + h) % 0x100;
             func_ov000_021a4648(n, e + h);
             j = (e[i] + e[h]) % 0x100;
-            c[k] ^= e[j];
-            k++;
-        } while (k < d);
+            c[o] ^= e[j];
+            o++;
+        } while (o < d);
     }
 }
 

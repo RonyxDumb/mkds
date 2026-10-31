@@ -21,7 +21,6 @@
 #include "00/code_021adb80.h"
 #include "00/code_02186a10.h"
 
-// non-matching: stack offsets only: the sign word and the string pointer are spilled to sp+0x30, sp+0x28, sp+0x34 (original sp+0x34, sp+0x2c, sp+0x24); size equal
 void func_ov000_02186d7c(void *param_0) {
     Unk02186d7c *p = param_0;
     Unk02186d7cB4 *a;
@@ -42,6 +41,7 @@ void func_ov000_02186d7c(void *param_0) {
     s32 n;
     Unk0201000c v1;
     u8 *s;
+    const u8 *y;
 
     f = 0;
     a = &p->mUnk_b4;
@@ -170,13 +170,13 @@ void func_ov000_02186d7c(void *param_0) {
                 if (func_02139f70(s, data_ov000_021b1230) != 0) {
                     f = 1;
                     p->mUnk_964 = func_02139f70(s, data_ov000_021b1230) + 4;
-                    x = func_02139f70(c->mUnk_00, data_ov000_021b1348);
-                    if (x != 0) {
-                        x = x + func_0213a434(data_ov000_021b1348);
-                        q = (s8 *) func_02139f70(x, data_ov000_021b1258);
+                    y = func_02139f70(c->mUnk_00, data_ov000_021b1348);
+                    if (y != 0) {
+                        y = y + func_0213a434(data_ov000_021b1348);
+                        q = (s8 *) func_02139f70(y, data_ov000_021b1258);
                         e = *q;
                         *q = 0;
-                        p->mUnk_960 = func_0213bf90(x);
+                        p->mUnk_960 = func_0213bf90(y);
                         *q = e;
                     }
                 }
