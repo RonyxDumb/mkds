@@ -6,7 +6,7 @@
 void func_ov000_0218d238(Unk021b4d24 *p, s32 a) {
     u32 v = *(u32 *) func_ov000_0218dbf8(p->mUnk_004, a);
     p->mUnk_488(p, 2, v, p->mUnk_494);
-    func_ov000_0218da5c((Unk0218dc94 *) p->mUnk_004, a);
+    func_ov000_0218da5c(p->mUnk_004, a);
     func_ov000_0218d278(p, v);
 }
 

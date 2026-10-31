@@ -27,7 +27,7 @@ s32 func_ov000_0218b590(Unk0218b668 *a, s32 b, u32 c, u8 *d, s32 e, const u8 *f,
     r = func_ov000_0218ca58(&a->mUnk_04c, v1, f, g, h);
     if (r == 0 && b == 0) {
         n = 10;
-        while (((Unk0218b928 *) &a->mUnk_04c)->mUnk_00 == 3 || (a->mUnk_010 > 0 && r == 0)) {
+        while (a->mUnk_04c.mUnk_000 == 3 || (a->mUnk_010 > 0 && r == 0)) {
             func_ov000_0218e8bc(n);
             r = func_ov000_0218b4bc(a);
         }

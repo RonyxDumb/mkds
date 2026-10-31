@@ -44,7 +44,7 @@ void func_ov000_0218c980(Unk021b4d24 *p) {
 void func_ov000_0218c9d4(Unk021b4d24 *p) {
     int i;
     if (p->mUnk_008 != 0) {
-        for (i = 0; i < func_ov000_0218dc44((u32 *) p->mUnk_008); i++) {
+        for (i = 0; i < func_ov000_0218dc44(p->mUnk_008); i++) {
             func_ov000_0218d0e4(p, *(u32 *) func_ov000_0218dbf8(p->mUnk_008, i));
         }
         func_ov000_0218dc48(p->mUnk_008);
@@ -55,7 +55,7 @@ void func_ov000_0218c9d4(Unk021b4d24 *p) {
 void func_ov000_0218ca1c(Unk021b4d24 *p) {
     int i;
     for (i = 0; i < p->mUnk_480; i++) {
-        func_ov000_0218d0e4(p, p->mUnk_084[i]);
+        func_ov000_0218d0e4(p, (u32) p->mUnk_084[i]);
     }
     p->mUnk_480 = 0;
 }
