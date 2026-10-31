@@ -55,21 +55,33 @@ u8 func_0209b344(Unk0209a7dc *a, Unk0206bcb0 *b, u8 *c, u8 *d) {
     return e;
 }
 
-// non-matching: size 0x268 against 0x26c; the original saves r4-r9 (a in r5, c in r6, d in r4, temporaries in r7-r9) with a 12-byte stack frame, ours saves r4-r6 with 16 bytes and allocates a to r6, c to r5
+static inline u32 func_0209b388_inline(Unk020f41c4_B *r, u32 c) {
+    r->mUnk_00 = r->mUnk_08 * r->mUnk_00 + r->mUnk_10;
+    if (c == 0) {
+        return (u32) (r->mUnk_00 >> 32);
+    } else {
+        return (u32) (((r->mUnk_00 >> 32) * c) >> 32);
+    }
+}
+
 void func_0209b388(Unk0209a7dc *a, Vec3 *b, Vec3 *c, Vec3 *d) {
     Vec3 v;
     Unk020f41c4_B *r;
+    s32 x;
+    s32 z;
 
     if (b != 0 && c != 0) {
         func_021484d0(&a->mUnk_000.mUnk_04, b, &v);
-        if ((s64) v.z * c->x - (s64) v.x * c->z < 0) {
-            v.z = -c->x;
-            v.x = c->z;
+        z = c->z;
+        x = c->x;
+        if ((s64) v.z * x - (s64) v.x * z < 0) {
+            v.z = -x;
+            v.x = z;
             v.y = 0;
             a->mUnk_0a0 = 0x71c;
         } else {
-            v.z = c->x;
-            v.x = -c->z;
+            v.z = x;
+            v.x = -z;
             v.y = 0;
             a->mUnk_0a0 = 0xf8e4;
         }
@@ -78,12 +90,13 @@ void func_0209b388(Unk0209a7dc *a, Vec3 *b, Vec3 *c, Vec3 *d) {
         a->mUnk_000.mUnk_10.z = ((s64) v.z * 0x1800) >> 12;
     } else {
         r = func_020d22d0();
-        r->mUnk_00 = r->mUnk_08 * r->mUnk_00 + r->mUnk_10;
-        a->mUnk_000.mUnk_10.x = a->mUnk_000.mUnk_10.z =
-            ((s64) data_0215d4b4[(((u16) (((r->mUnk_00 >> 32) * 0x10000) >> 32)) >> 4) * 2 + 1] * 0x1800) >> 12;
+        z = (u16) func_0209b388_inline(r, 0x10000);
+        x = data_0215d4b4[((u16) z >> 4) * 2 + 1];
+        x = ((s64) x * 0x1800) >> 12;
+        a->mUnk_000.mUnk_10.x = x;
+        a->mUnk_000.mUnk_10.z = x;
         r = func_020d22d0();
-        r->mUnk_00 = r->mUnk_08 * r->mUnk_00 + r->mUnk_10;
-        if ((u16) (r->mUnk_00 >> 63) != 0) {
+        if ((u16) func_0209b388_inline(r, 2) != 0) {
             a->mUnk_0a0 = 0x71c;
         } else {
             a->mUnk_0a0 = 0xf8e4;

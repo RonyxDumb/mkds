@@ -50,8 +50,6 @@ static inline void func_02037abc_inline6(vu16 *r, Unk02037abc_Arg b, Unk02037abc
     *r = (*r & 0x43) | (b << 14) | (c << 7) | (d << 8) | (e << 2) | (f << 13);
 }
 
-// non-matching: the original loads member 0x06 before the address of data_02175614 for the call to
-// func_02148950; here that address is loaded first (one instruction moved).
 void func_02037abc(void *a) {
     Unk021755a0 *p;
     Unk021755a0_28 *q;
@@ -103,8 +101,8 @@ void func_02037abc(void *a) {
     if (data_021755a0->mUnk_26 != 0) {
         func_021492d8(data_021755a0->mUnk_26);
     }
-    // The original passes a fourth argument, which func_02148950 doesn't read.
-    ((void (*)(u16, u32, s32, s32)) func_02148950)(p->mUnk_06, p->mUnk_08, p->mUnk_0a, data_02175614.mUnk_00);
+    data_02175614.mUnk_00;
+    func_02148950(p->mUnk_06, p->mUnk_08, p->mUnk_0a);
     *(vu32 *) 0x04000000 = (*(vu32 *) 0x04000000 & ~0x1f00) | (p->mUnk_02 << 8);
     func_02148934(p->mUnk_0c);
     *(vu32 *) 0x04001000 = (*(vu32 *) 0x04001000 & ~0x1f00) | (p->mUnk_04 << 8);

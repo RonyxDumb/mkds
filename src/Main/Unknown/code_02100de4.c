@@ -253,10 +253,10 @@ void func_02101c84(Unk02101c84 *p) {
     func_02148504(w, &v, &p->mUnk_000.mUnk_0c4);
 }
 
-// non-matching: 12 words. The temporaries holding d[0]/d[2] after the two subtractions
-// differ (original: d[0] in r6, d[2] in r4, g->mUnk_00c.z loaded before g->mUnk_00c.x at +0x240..+0x260;
-// here d[0] in r12, d[2] in r6, loads reversed) and the final two field updates load the struct
-// field before the stack slot at +0x2e4/+0x2f4.
+// non-matching: 79.5: size 0x2e8 against 0x320; the original keeps d in memory (frame 0x0c, d[0] at sp+0, d[2] at
+// sp+8, every update stored and reloaded, clamps as strgt/strlt) and pushes r4-r9 only; here
+// the compiler turns d into temporaries (also as a Vec3, with an inline subtract or a clamp
+// helper taking &d[0]) and the rest of the registers follow.
 void func_02101964(Unk02101c84 *p, s32 a) {
     Unk0206bcb0 *q;
     Vec3 *v;

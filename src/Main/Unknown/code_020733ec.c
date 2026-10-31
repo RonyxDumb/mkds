@@ -78,25 +78,31 @@ void func_020733ec(Unk0206bcb0 *p) {
     }
 }
 
-// non-matching: the original reloads every function address inside each switch arm (registers ip and r3 only); the
-// compiler keeps the addresses in registers across the loop, so the arms differ in loads and the frame is larger.
 void func_02073630(void) {
     Unk021759c0 *d;
     u16 i;
     void **a;
     void **b;
 
-    d = data_021759c0;
     data_0217ac14 = func_01ffa478;
+    d = data_021759c0;
+    i = 0;
+    a = data_0217ac18;
+    b = data_0217ac54;
     if (d->mUnk_00 == 0x1d || d->mUnk_00 == 0x28) {
         data_0217ac14 = func_01ffa380;
     }
     data_0217ac10 = 0;
-    if (d->mUnk_08 == 2 && (d->mUnk_00 == 0x2a || d->mUnk_00 == 0x2b)) {
-        data_0217ac10 = 1;
-        data_0217ac14 = func_01ffa41c;
+    if (d->mUnk_08 == 2) {
+        switch (d->mUnk_00) {
+        case 0x2a:
+        case 0x2b:
+            data_0217ac10 = 1;
+            data_0217ac14 = func_01ffa41c;
+            break;
+        }
     }
-    for (i = 0, a = data_0217ac18, b = data_0217ac54; i < 15; i++, a++, b++) {
+    for (; i < 15; i++, a++, b++) {
         switch (i) {
         case 0:
             *a = func_02067f88;

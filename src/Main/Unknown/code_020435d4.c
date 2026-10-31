@@ -32,7 +32,7 @@ void func_0204360c(s32 a, u32 b) {
     }
 }
 
-// non-matching: the register choice in the loop differs (the original keeps the entry pointer, the two values and the index in r5, r6, r7 and r8, here other registers) and the original is 0x18 bytes larger; the seven zero locals only reproduce the stack words.
+// non-matching: 98.4: the original keeps z1 in its own stack slot (q is loaded from [sp, #0x24]; here z1 is merged with z0, one store and one slot short), so the loop registers differ (entry pointer, m and n in r5, r7, r6 there); the seven zero locals only reproduce the stack words.
 void func_02043648(void) {
     u8 i;
     Unk02175628 *p;
@@ -83,35 +83,34 @@ void func_02043648(void) {
                 f = p->mUnk_44;
             }
             switch (s) {
-                case 0:
-                    m = z6;
-                    n = 0xffff;
-                    o = m;
-                    break;
                 case 1:
-                    if (f != 0) {
+                    if (f == 0) {
+                        if (c != 0) {
+                            m = func_0204a664((Unk02175650 *) &p->mUnk_28);
+                        }
+                    } else {
                         q = 1;
-                    } else if (c != 0) {
-                        m = func_0204a664((Unk02175650 *) &p->mUnk_28);
                     }
                     n = 0xffff;
                     o = z3;
                     break;
                 case 2:
-                    if (f != 0) {
-                        q = 1;
-                    } else if (c != 0) {
-                        m = x;
-                        if (w & 4) {
-                            m = x & 0xffcf;
-                            if (x & 0x20) {
-                                m |= 0x10;
+                    if (f == 0) {
+                        if (c != 0) {
+                            m = x;
+                            if (w & 4) {
+                                m = x & 0xffcf;
+                                if (x & 0x20) {
+                                    m |= 0x10;
+                                }
+                                if (x & 0x10) {
+                                    m |= 0x20;
+                                }
                             }
-                            if (x & 0x10) {
-                                m |= 0x20;
-                            }
+                            func_0204a798((Unk02175650 *) &p->mUnk_28, m);
                         }
-                        func_0204a798((Unk02175650 *) &p->mUnk_28, m);
+                    } else {
+                        q = 1;
                     }
                     n = y;
                     o = k;
@@ -127,39 +126,47 @@ void func_02043648(void) {
                         p->mUnk_40 = o;
                     }
                     break;
-                case 4:
-                    if (f != 0) {
-                        q = 1;
-                    } else if (c != 0) {
-                        m = func_0204ffe8(func_02050064(i));
-                        if (data_02175624->mUnk_04 & 4) {
-                            t = m & 0xffcf;
-                            if (m & 0x20) {
-                                t |= 0x10;
-                            }
-                            if (m & 0x10) {
-                                t |= 0x20;
-                            }
-                            m = t;
-                        }
-                    }
-                    n = *(u16 *) &data_0217aa00->mUnk_15bc_view.mUnk_0c[func_02050064(i)].mUnk_00[2];
-                    o = data_0217aa00->mUnk_15bc_view.mUnk_0c[func_02050064(i)].mUnk_06_7;
-                    break;
                 case 5:
                     m = a;
                     n = b;
                     o = z5;
+                    break;
+                case 4:
+                    if (f == 0) {
+                        if (c != 0) {
+                            m = func_0204ffe8(func_02050064(i));
+                            if (data_02175624->mUnk_04 & 4) {
+                                t = m & 0xffcf;
+                                if (m & 0x20) {
+                                    t |= 0x10;
+                                }
+                                if (m & 0x10) {
+                                    t |= 0x20;
+                                }
+                                m = t;
+                            }
+                        }
+                    } else {
+                        q = 1;
+                    }
+                    n = *(u16 *) &data_0217aa00->mUnk_15bc_view.mUnk_0c[func_02050064(i)].mUnk_00[2];
+                    o = data_0217aa00->mUnk_15bc_view.mUnk_0c[func_02050064(i)].mUnk_06_7;
                     break;
                 case 6:
                     m = x;
                     n = y;
                     o = k;
                     break;
+                case 0:
+                    m = z6;
+                    n = 0xffff;
+                    o = m;
+                    break;
             }
         }
+        t = m & p->mUnk_42;
         if (q == 0) {
-            func_02039530(m & p->mUnk_42, p);
+            func_02039530(t, p);
         }
         func_02046ca8((Unk02175628_48 *) &p->mUnk_48, n, o);
     }

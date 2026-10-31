@@ -35,20 +35,19 @@
 #pragma optimize_for_size on
 
 #pragma thumb on
-// non-matching: registers differ and size is 0x5c0 against 0x5c4: the original keeps the data pointer (then its 0x64 member pointer) in r5, the 0x48 member pointer in a stack word (stored twice) and one in r6; ours uses r4-r7 differently
 int func_02028130(void) {
     Unk02174e18 *d;
     Unk02174e50_24 *p;
-    Unk02174e50_24 *q;
     s32 e;
-    s32 t;
     s32 r;
+    s32 t;
     s32 x;
+    Unk02174e50_24 *q;
     u32 v;
     d = data_02174e18;
     e = d->mUnk_0a8;
-    r = 0;
     x = 0;
+    r = 0;
     q = &d->mUnk_048;
     p = &d->mUnk_064;
     t = func_020435bc();
@@ -207,12 +206,7 @@ int func_02028130(void) {
         break;
     case 7:
         if (d->mUnk_0ec.mUnk_00 == 3) {
-            if (d->mUnk_100 == 1) {
-                v = 1;
-            } else {
-                v = 0;
-            }
-            func_02029930()->mUnk_00[data_02174e18->mUnk_0a0].mUnk_14 = v;
+            func_02029930()->mUnk_00[data_02174e18->mUnk_0a0].mUnk_14 = d->mUnk_100 == 1;
             data_02174e18->mUnk_094 = 8;
         }
         func_02028fac();
@@ -241,10 +235,13 @@ int func_02028130(void) {
     } else {
         func_0211f39c();
     }
-    if (r == 1) {
+    switch (r) {
+    case 1:
         func_02029930()->mUnk_108 = 0;
-    } else if (r == 2) {
+        break;
+    case 2:
         func_02029930()->mUnk_108 = 2;
+        break;
     }
     return r;
 }

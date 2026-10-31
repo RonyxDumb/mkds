@@ -198,7 +198,7 @@ s32 func_0202cdf4(Unk0202cdf4 *p) {
     return -1;
 }
 
-// non-matching: size 0x328, original 0x344; frame is 0x4c, original 0x54; the original keeps the remaining-size word in r7 and spills the row count and counter (stack offsets 0x28, 0x2c) and holds a second pointer into the table at data_usa_02162c74 in stack offset 0x34, ours keeps one pointer in a register and spills the remaining-size word
+// non-matching: 93.4: size 0x340, original 0x344; in the second table loop the original walks the call argument with its own pointer (stack offset 0x34, advanced by 8) and keeps n in r7 with m and w spilled; here the argument is base + i * 8 and n, m and the counter are spilled instead
 void func_0202d210(void *a, void *b, void *c) {
     s16 r[4];
     Unk02174e14_00 *p;
@@ -240,7 +240,7 @@ void func_0202d210(void *a, void *b, void *c) {
             data_usa_02162c74[i][3] = w + m;
             m++;
         }
-        n -= func_02025a00(1, data_02174e40->mUnk_0dc, q, data_usa_02162c74[i], n);
+        n -= func_02025a00(1, data_02174e40->mUnk_0dc, q, &data_usa_02162c74[(u32) i], n);
     }
     func_0202d720();
     for (i = 0; i < 0xf; i++) {
@@ -257,12 +257,13 @@ void func_0202d210(void *a, void *b, void *c) {
     }
     func_02025c1c(0xe, (int) ((u8 *) q->mUnk_18 + 0x380), (u32) q->mUnk_0c);
     if (func_0202ddc4() != 0) {
+        Unk02174e40_24 *s = &data_02174e40->mUnk_024;
         r[0] = 0;
         r[1] = 7;
         r[2] = w;
         r[3] = w + 7;
         func_0202e530(data_02174e40->mUnk_0dc, 4, r, 0xe, 0xf, 0x7c, q->mUnk_18, q->mUnk_10,
-                      data_02174e40->mUnk_024.mUnk_20 + 0xc, 0, 1, 2, func_0202ddc4(), func_0202d868);
+                      s->mUnk_20 + 0xc, 0, 1, 2, func_0202ddc4(), func_0202d868);
     } else {
         for (i = 0; i < w; i++) {
             q->mUnk_18[i].mUnk_00 = 0;

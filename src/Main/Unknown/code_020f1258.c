@@ -14,12 +14,7 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_020ee684.h"
 
-// non-matching: the instruction sequence agrees but the register assignment differs:
-// the original spills the 4th parameter to [sp+0x28] and keeps what func_02061f7c()
-// returns in fp, while this source puts that value in r7 and the parameter in fp (the
-// a+0x50 pointer is spilled to [sp+0x28] instead of being kept in r6).
 int func_020f14a0(Unk020f5d6c *a, s32 b, s32 c, s32 d) {
-    int r;
     Vec3 t;
     Vec3 u;
     Vec3 w;
@@ -28,6 +23,7 @@ int func_020f14a0(Unk020f5d6c *a, s32 b, s32 c, s32 d) {
     Vec3 *p;
     Vec3 *q;
     Unk0206bcb0 *v;
+    int r;
 
     r = 0;
     p = &a->mUnk_000.mUnk_000.mUnk_000.mUnk_50;
@@ -41,7 +37,7 @@ int func_020f14a0(Unk020f5d6c *a, s32 b, s32 c, s32 d) {
             func_021484d0(&v->mUnk_98, p, &t);
             t.y = func_02039828(&a->mUnk_000.mUnk_000.mUnk_000.mUnk_f0, &t) >> 12;
             if (t.y * t.y > 0xbd1) {
-                if ((s64) t.z * t.z + (s64) t.x * t.x < (s64) 0xe1000000u) {
+                if ((s64) t.x * t.x + (s64) t.z * t.z < (s64) 0xe1000000u) {
                     r = 1;
                 }
             }
@@ -84,19 +80,15 @@ int func_020f14a0(Unk020f5d6c *a, s32 b, s32 c, s32 d) {
     a->mUnk_228->mUnk_208 = 1;
     func_02148504(&a->mUnk_22c, p, p);
     func_02148504(q, p, p);
-    if (func_01ffdee4(&a->mUnk_000.mUnk_000.mUnk_000.mUnk_50.x, (u32 *) &a->mUnk_000.mUnk_000.mUnk_000.mUnk_0e4, 0,
-                      a->mUnk_000.mUnk_000.mUnk_000.mUnk_dc, 4, a->mUnk_000.mUnk_000.mUnk_000.mUnk_da, (int *) &t,
-                      (int *) &u, (int *) &w, &a->mUnk_000.mUnk_000.mUnk_000.mUnk_fc, (u32 *) 0, (int *) 0, (u16 *) 0,
-                      (u32 *) 0) != 0) {
+    if (func_01ffdee4(&p->x, (u32 *) &a->mUnk_000.mUnk_000.mUnk_000.mUnk_0e4, 0, a->mUnk_000.mUnk_000.mUnk_000.mUnk_dc,
+                      4, a->mUnk_000.mUnk_000.mUnk_000.mUnk_da, (int *) &t, (int *) &u, (int *) &w,
+                      &a->mUnk_000.mUnk_000.mUnk_000.mUnk_fc, (u32 *) 0, (int *) 0, (u16 *) 0, (u32 *) 0) != 0) {
         func_02148504(&t, p, p);
         if (a->mUnk_000.mUnk_000.mUnk_000.mUnk_fc & 0x1e34ef) {
             n = func_0214848c(&u, q);
-            a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.x =
-                a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.x - (s32) (((s64) u.x * n) >> 12);
-            a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.y =
-                a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.y - (s32) (((s64) u.y * n) >> 12);
-            a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.z =
-                a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.z - (s32) (((s64) u.z * n) >> 12);
+            q->x = q->x - (s32) (((s64) u.x * n) >> 12);
+            q->y = q->y - (s32) (((s64) u.y * n) >> 12);
+            q->z = q->z - (s32) (((s64) u.z * n) >> 12);
             e = (u.x == a->mUnk_000.mUnk_000.mUnk_000.mUnk_f0.x && u.y == a->mUnk_000.mUnk_000.mUnk_000.mUnk_f0.y &&
                  u.z == a->mUnk_000.mUnk_000.mUnk_000.mUnk_f0.z);
             if (e == 0) {
@@ -110,16 +102,13 @@ int func_020f14a0(Unk020f5d6c *a, s32 b, s32 c, s32 d) {
                 t.x = (s32) (((s64) w.x * n) >> 12);
                 t.y = (s32) (((s64) w.y * n) >> 12);
                 t.z = (s32) (((s64) w.z * n) >> 12);
-                a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.x = a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.x - t.x;
-                a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.y = a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.y - t.y;
-                a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.z = a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.z - t.z;
+                q->x = q->x - t.x;
+                q->y = q->y - t.y;
+                q->z = q->z - t.z;
                 func_021484d0(q, &t, q);
-                a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.x =
-                    (s32) (((s64) a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.x * 0x23d) >> 12);
-                a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.y =
-                    (s32) (((s64) a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.y * 0x23d) >> 12);
-                a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.z =
-                    (s32) (((s64) a->mUnk_000.mUnk_000.mUnk_000.mUnk_5c.z * 0x23d) >> 12);
+                q->x = (s32) (((s64) q->x * 0x23d) >> 12);
+                q->y = (s32) (((s64) q->y * 0x23d) >> 12);
+                q->z = (s32) (((s64) q->z * 0x23d) >> 12);
                 func_020f6fc4(a, 1);
                 return 0;
             }

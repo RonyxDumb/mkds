@@ -6,10 +6,8 @@
 #include "Main/Unknown/unk_02155000.h"
 #include "code_02147cd8.h"
 
-// non-matching: 0x7dc bytes, original 0x7e0 (98.6%). Register allocation: m0 is in fp where the original has r7
-// (the original keeps &w, n1 and a temporary in fp), the registers of the z loop are rotated (r4-r7), the original
-// loads p->mUnk_00->mUnk_2c again before the loop at +0x540 (one instruction missing here) and loads s.x before
-// the first smull in that loop. The const views of p keep the original's reloads of p->mUnk_00 in the loop compares.
+// non-matching: register allocation only (21 words): m0 is in fp where the original has r7 (the original keeps n1,
+// &w and the p->mUnk_04 / mUnk_2e loads of the first and third loops in fp).
 void func_020800f4(Unk0208001c *p, Vec3 *a, Vec3 *b, u16 c, Unk020888b4_d0 *d, s32 e) {
     s32 m2;
     Unk02175620_bc *r;
@@ -22,6 +20,7 @@ void func_020800f4(Unk0208001c *p, Vec3 *a, Vec3 *b, u16 c, Unk020888b4_d0 *d, s
     Unk02175620_bc *q;
     s32 u;
     u16 n;
+    u16 l;
     u16 h;
     u32 v32;
     s32 v3;
@@ -133,7 +132,7 @@ void func_020800f4(Unk0208001c *p, Vec3 *a, Vec3 *b, u16 c, Unk020888b4_d0 *d, s
                 }
             }
             if (n1 != 0) {
-                k = 0;
+                l = 0;
                 if (n0 > 1) {
                     for (h = 0; h < 2; h++) {
                         func_021484d0(v4[h]->mUnk_20, p->mUnk_00->mUnk_20, &z[h]);
@@ -142,13 +141,13 @@ void func_020800f4(Unk0208001c *p, Vec3 *a, Vec3 *b, u16 c, Unk020888b4_d0 *d, s
                         }
                     }
                     if (func_02039828(&z[0], b) < func_02039828(&z[1], b)) {
-                        k = 1;
+                        l = 1;
                     }
                 }
-                v2[0] = v4[k];
+                v2[0] = v4[l];
                 n = 1;
             } else {
-                for (i = 0; i < p->mUnk_00->mUnk_2c; i++) {
+                for (i = 0; i < ((const Unk02175620_bc *) p->mUnk_00)->mUnk_2c; i++) {
                     if (p->mUnk_04 != ((const Unk0208001c *) p)->mUnk_00->mUnk_00[i] &&
                         (p->mUnk_00->mUnk_2e & (1 << (u8) i))) {
                         s = data_021557ec;
@@ -156,7 +155,7 @@ void func_020800f4(Unk0208001c *p, Vec3 *a, Vec3 *b, u16 c, Unk020888b4_d0 *d, s
                         for (j = 0; j < q->mUnk_2c; j++) {
                             if (!(q->mUnk_2e & (1 << j)) && ((const Unk0208001c *) p)->mUnk_00 != q->mUnk_00[j]) {
                                 func_021484d0(q->mUnk_00[j]->mUnk_20, q->mUnk_20, &s);
-                                if ((s64) s.x * s.x + (s64) s.y * s.y + (s64) s.z * s.z >= 0x10) {
+                                if ((s64) s.x * (s64) s.x + (s64) s.y * (s64) s.y + (s64) s.z * (s64) s.z >= 0x10) {
                                     func_02039860(&s, &s);
                                 }
                                 break;

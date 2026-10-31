@@ -103,7 +103,9 @@ void func_020780f4(void) {
 }
 
 // non-matching: same size (0x270) and same logic; the index constant 8 of data_02175628 is kept on the stack (frame 20
-// bytes against 12) where the original rebuilds it with movs, so the stack offsets and several registers differ
+// bytes against 12) where the original rebuilds it with movs (movs #8, movs #0x5c, muls at each use, no stack slot and
+// no shared address), so the stack offsets and several registers differ. Plain s32/u32/u8/s16/u16 locals, a literal
+// 8, the enum constant, const and static const all fold the multiply (size 0x254); only the enum local keeps it.
 void func_02078158(void) {
     Unk0217ad08_024 *q = &data_0217ad08->mUnk_024;
     s32 a = 0;

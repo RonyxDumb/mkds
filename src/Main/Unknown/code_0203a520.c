@@ -5,9 +5,6 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-// non-matching: size 0x3bc against 0x3c0; in case 9 the original keeps the address of data_0217b488 in r2 for the
-// loads after its first use (this source reloads the address into r0) and sets the stores of members 0x08 and 0x04
-// in a different order around the member 0x74 branch; every other case has the same instructions.
 void func_0203a520(Unk0203a0dc *a, u32 b) {
     s32 r;
     data_0217b488->mUnk_08 = 0;
@@ -35,11 +32,11 @@ void func_0203a520(Unk0203a0dc *a, u32 b) {
                     }
                 }
                 if (f != 0) {
-                    if (data_021759d0->mUnk_1c_2 == 0) {
-                        r = 1;
-                    } else {
+                    if (data_021759d0->mUnk_1c_2 != 0) {
                         r = 6;
                         data_0217b488->mUnk_74 = 3;
+                    } else {
+                        r = 1;
                     }
                     data_0217b488->mUnk_08 = 4;
                     data_0217b488->mUnk_04 = 1;

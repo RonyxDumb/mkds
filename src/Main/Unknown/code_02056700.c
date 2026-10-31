@@ -36,15 +36,15 @@ void func_02056700(void) {
     }
 }
 
-// non-matching: size 0x260 against 0x258. The original keeps b * 0x30 in r4 and reads the words at 0x68 and 0x6c from
-// the table pointer plus r4 (no second multiply), and holds the word at 0x7c in r6; here the 0x68 and 0x6c reads multiply
-// (b - 1) * 0x30 again (a pointer one entry back, and the index written as b - 1, give the same), so r4 and r6 swap
-// roles and the first block of bit-field stores differs in registers.
+// non-matching: 7 words in the two bit-field stores from the table at +0x68 / +0x6c: the original loads the table
+// pointer and reads the field first, then loads the bit-field word and clears it (here the word is loaded and cleared
+// first, then the read). Tried: locals (u8 x, i, j, m) for the two values, no cast, & 0xff, swapped order, static
+// inline helpers.
 void func_02056750(s32 a, u16 b) {
     Unk0217aa08_14 *p;
     s32 k;
     s32 n;
-    s32 m;
+    u8 m;
     u8 i;
     u8 j;
     s32 t[4];
@@ -63,8 +63,8 @@ void func_02056750(s32 a, u16 b) {
     p->mUnk_04_16 = t[0];
     p->mUnk_04_23 = t[1];
     p->mUnk_04_27 = t[2];
-    p->mUnk_04_0 = (u8) data_021759c0->mUnk_68[b - 1 + 1].mUnk_00;
-    p->mUnk_04_4 = (u8) data_021759c0->mUnk_68[b - 1 + 1].mUnk_04;
+    p->mUnk_04_0 = (u8) data_021759c0->mUnk_68[b].mUnk_00;
+    p->mUnk_04_4 = (u8) data_021759c0->mUnk_68[b].mUnk_04;
     p->mUnk_04_10 = (u8) data_021759c0->mUnk_00;
     p->mUnk_08_0 = 1;
     p->mUnk_08_1 = 0;
@@ -90,7 +90,7 @@ void func_02056750(s32 a, u16 b) {
         v1[j + 2] = w;
     }
     func_0214d1fc(v1, p->mUnk_20, 0xf);
-    m = (u8) n;
+    m = n;
     func_020579d0(m, p);
     if (func_020573f8(m) == 0) {
         func_0205746c(m, data_0217aa08->mUnk_00->mUnk_26, 4);

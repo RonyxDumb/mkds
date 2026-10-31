@@ -74,20 +74,15 @@ void func_020a0dbc(void) {
     }
 }
 
-// non-matching: in the second loop the original keeps the loop counter in r7 and the pointer to the entry of
-// data_0217b1fc in r8 (the offset i * 0x70 is r9); ours has the two the other way round, which changes every
-// instruction that uses them; the original also holds the data_02175628 entry address in r1 where ours uses r0 (+0x238
-// to +0x25c).
 void func_020a08ec(void) {
     Unk0206bcb0 *o;
     s32 a;
     s32 b;
-    Unk02175628 *t;
     s32 v;
     u32 f;
     s32 i;
     s32 n;
-    Unk0217b1fc_000 *e;
+    Unk0217b1fc_000 *e = data_0217b1fc->mUnk_000;
 
     n = data_021759c0->mUnk_3d0;
     if (data_0217b1fc->mUnk_3b4 >= 0) {
@@ -128,10 +123,9 @@ void func_020a08ec(void) {
                 data_0217b1fc->mUnk_000[i].mUnk_68 = -1;
                 data_0217b1fc->mUnk_000[i].mUnk_64 = -1;
             } else if (func_02061fec() == 1) {
-                t = &data_02175628[o->mUnk_78];
-                if ((u16) (t->mUnk_02 & 4) != 0) {
+                if ((u16) (data_02175628[(u32) o->mUnk_78].mUnk_02 & 4) != 0) {
                     data_0217b1fc->mUnk_000[i].mUnk_68 = 1;
-                } else if (t->mUnk_5a != 0) {
+                } else if (data_02175628[o->mUnk_78].mUnk_5a != 0) {
                     data_0217b1fc->mUnk_000[i].mUnk_64 = 10;
                 }
             }
