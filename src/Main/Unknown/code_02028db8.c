@@ -12,12 +12,12 @@ u16 func_02028dd4(void) {
     return uVar1;
 }
 
-unsigned int func_02028db8(unsigned int p0) {
-    return ((unsigned int) *(
-        const unsigned short
-            *) ((unsigned char *) (unsigned int) ((
-                    (((((unsigned int) *(
-                          const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aa00))) + 0))) +
+u32 func_02028db8(u32 p0) {
+    return ((u32) *(
+        const u16
+            *) ((u8 *) (u32) ((
+                    (((((u32) *(
+                          const u32 *) ((u8 *) (u32) (((u32) (&data_0217aa00))) + 0))) +
                       (((p0) << 3)))) +
                     (0x1e00u))) +
                 82));

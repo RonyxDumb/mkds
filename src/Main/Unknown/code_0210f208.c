@@ -1,10 +1,10 @@
 #include "Main/Unknown/code_0210f208.h"
 
-void func_0210f208(unsigned int p0, unsigned int p1, unsigned int p2) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) p0 + 4) = (unsigned int) p1;
-    *(unsigned int *) ((unsigned char *) (unsigned int) p0 + 0) = (unsigned int) p1;
-    *(unsigned int *) ((unsigned char *) (unsigned int) p0 + 8) = (unsigned int) p2;
-    *(unsigned char *) ((unsigned char *) (unsigned int) p0 + 12) = (unsigned char) 0x28u;
-    *(unsigned char *) ((unsigned char *) (unsigned int) p0 + 13) = (unsigned char) 0x50u;
-    *(unsigned char *) ((unsigned char *) (unsigned int) p0 + 14) = (unsigned char) 0x7fu;
+void func_0210f208(u32 p0, u32 p1, u32 p2) {
+    *(u32 *) ((u8 *) (u32) p0 + 4) = (u32) p1;
+    *(u32 *) ((u8 *) (u32) p0 + 0) = (u32) p1;
+    *(u32 *) ((u8 *) (u32) p0 + 8) = (u32) p2;
+    *(u8 *) ((u8 *) (u32) p0 + 12) = (u8) 0x28u;
+    *(u8 *) ((u8 *) (u32) p0 + 13) = (u8) 0x50u;
+    *(u8 *) ((u8 *) (u32) p0 + 14) = (u8) 0x7fu;
 }

@@ -3,9 +3,9 @@
 #pragma thumb on
 
 void func_02126570(void *p0, void *p1) {
-    unsigned int v7 = ((0x1u) + (0x0u));
-    func_02126474((unsigned int) p0, (unsigned int) p1, (unsigned int) 0x1u, (unsigned int) v7,
-                  (unsigned int) 0x1u, (unsigned int) 0x0u, (unsigned int) 0x0u);
+    u32 v7 = ((0x1u) + (0x0u));
+    func_02126474((u32) p0, (u32) p1, (u32) 0x1u, (u32) v7,
+                  (u32) 0x1u, (u32) 0x0u, (u32) 0x0u);
 }
 
 #pragma thumb off

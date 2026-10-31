@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_020019ac.h"
 
-unsigned int func_020019ac(unsigned int p0) {
+u32 func_020019ac(u32 p0) {
     return p0;
 }

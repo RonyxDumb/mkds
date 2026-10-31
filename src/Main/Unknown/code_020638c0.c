@@ -5,6 +5,6 @@ void func_020638dc(void *param_1) {
 }
 
 void func_020638c0(struct Unk0206bcb0 *p0) {
-    unsigned int v2 = ((unsigned int) *(unsigned int *) (((u32) p0) + (556)));
-    unsigned int v3 = ((unsigned int (*)(unsigned int))(v2))((u32) p0);
+    u32 v2 = ((u32) *(u32 *) (((u32) p0) + (556)));
+    u32 v3 = ((u32 (*)(u32))(v2))((u32) p0);
 }

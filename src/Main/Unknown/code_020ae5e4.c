@@ -13,8 +13,8 @@ void func_020ae5f0(void *param_1, void *param_2) {
     }
 }
 
-u16 func_020ae5e4(unsigned int p0) {
-    return ((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) p0 + 0 + (0x402u)));
+u16 func_020ae5e4(u32 p0) {
+    return ((u32) *(const u16 *) ((u8 *) (u32) p0 + 0 + (0x402u)));
 }
 
 #pragma thumb off

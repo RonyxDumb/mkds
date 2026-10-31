@@ -1,15 +1,15 @@
 #include "Main/Unknown/code_020cba30.h"
 
-void func_020cbabc(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                           const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b488))) + 0))) +
-                       8) = (unsigned int) p0;
+void func_020cbabc(u32 p0) {
+    *(u32 *) ((u8 *) (u32) (((u32) *(
+                           const u32 *) ((u8 *) (u32) (((u32) (&data_0217b488))) + 0))) +
+                       8) = (u32) p0;
 }
 
-void func_020cbaa8(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                           const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b488))) + 0))) +
-                       16) = (unsigned int) p0;
+void func_020cbaa8(u32 p0) {
+    *(u32 *) ((u8 *) (u32) (((u32) *(
+                           const u32 *) ((u8 *) (u32) (((u32) (&data_0217b488))) + 0))) +
+                       16) = (u32) p0;
 }
 
 void func_020cba6c(u32 param_1, u32 param_2, u32 param_3, u32 param_4) {

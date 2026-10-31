@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02000b44.h"
 
-unsigned int func_02000b44(unsigned int p0) {
+u32 func_02000b44(u32 p0) {
     return p0;
 }
 

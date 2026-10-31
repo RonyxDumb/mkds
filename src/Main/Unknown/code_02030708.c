@@ -22,7 +22,7 @@ u32 func_0203075c(Unk02175628_48 *a) {
 }
 
 u32 func_02030780(Unk02175628_48 *a) {
-    if (func_020307b0((unsigned int) a) == 0 && a->mUnk_10 < 5) {
+    if (func_020307b0((u32) a) == 0 && a->mUnk_10 < 5) {
         return 1;
     }
     return 0;

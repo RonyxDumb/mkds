@@ -2,13 +2,13 @@
 
 #pragma thumb on
 
-unsigned short func_0211d62c(void) {
+u16 func_0211d62c(void) {
     int iVar1;
     iVar1 = *(int *) &data_0217d368;
     if (*(int *) (iVar1 + 0x6c) == 0) {
         return 0;
     }
-    return *(unsigned short *) (iVar1 + 0xb0) + *(unsigned short *) (iVar1 + 0xb2);
+    return *(u16 *) (iVar1 + 0xb0) + *(u16 *) (iVar1 + 0xb2);
 }
 
 #pragma thumb off

@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0210d570.h"
 
-unsigned int func_0210d58c(unsigned int p0) {
+u32 func_0210d58c(u32 p0) {
     return p0;
 }
 

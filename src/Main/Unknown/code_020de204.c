@@ -1,9 +1,9 @@
 #include "Main/Unknown/code_020de204.h"
 
-unsigned int func_020de20c(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3) {
-    return ((unsigned int) *(const unsigned char *) ((unsigned char *) (unsigned int) p3 + 0));
+u32 func_020de20c(u32 p0, u32 p1, u32 p2, u32 p3) {
+    return ((u32) *(const u8 *) ((u8 *) (u32) p3 + 0));
 }
 
-unsigned int func_020de204(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3) {
-    return ((unsigned int) *(const unsigned char *) ((unsigned char *) (unsigned int) p3 + 0));
+u32 func_020de204(u32 p0, u32 p1, u32 p2, u32 p3) {
+    return ((u32) *(const u8 *) ((u8 *) (u32) p3 + 0));
 }

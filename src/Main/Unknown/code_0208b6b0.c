@@ -16,6 +16,6 @@ void func_0208b6d0(Unk0201ca6c **param_1) {
 }
 
 void func_0208b6b0(void **p0) {
-    *(unsigned int *) ((unsigned char *) *p0 + 36) = (*(unsigned int *) ((unsigned char *) *p0 + 36) & ~0x1u) | 0x1u;
+    *(u32 *) ((u8 *) *p0 + 36) = (*(u32 *) ((u8 *) *p0 + 36) & ~0x1u) | 0x1u;
     *p0 = 0;
 }

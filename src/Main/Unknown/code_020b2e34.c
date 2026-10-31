@@ -8,19 +8,18 @@ void func_020b2e64(u32 param_1) {
     iVar1 = ((u32) func_020b2ec0());
     iVar2 = func_020b29c4();
     if (iVar2 != 0) {
-        func_020b2f88((int) (param_1));
+        func_020b2f88((int) param_1);
     }
     iVar2 = ((u32) func_020b2ec0());
     if ((iVar1 == 0) && (iVar2 != 0)) {
         func_02105d70();
     }
-    return;
 }
 
-unsigned int func_020b2e58(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b354))) +
+u32 func_020b2e58(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b354))) +
                                                           0))) +
                                4));
 }

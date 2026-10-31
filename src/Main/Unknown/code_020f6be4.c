@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_020f6be4.h"
 
-unsigned int func_020f6be4(unsigned int p0) {
+u32 func_020f6be4(u32 p0) {
     return p0;
 }

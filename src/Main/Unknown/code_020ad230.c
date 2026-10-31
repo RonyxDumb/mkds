@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-unsigned int func_020ad264(unsigned int p0) {
+u32 func_020ad264(u32 p0) {
     return p0;
 }
 
@@ -20,7 +20,7 @@ void func_020ad234(void) {
     func_020ad268();
 }
 
-unsigned int func_020ad230(unsigned int p0) {
+u32 func_020ad230(u32 p0) {
     return p0;
 }
 

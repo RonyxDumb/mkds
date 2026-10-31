@@ -15,8 +15,8 @@ void func_02007120(u32 param_1, u16 param_2) {
     func_02007cf8(param_1, 0xd, local_8);
 }
 
-unsigned int func_02007114(void) {
-    return ((unsigned int) *(const unsigned char *) ((unsigned char *) (unsigned int) (((u32) (&data_0216f3cc))) + 0));
+u32 func_02007114(void) {
+    return ((u32) *(const u8 *) ((u8 *) (u32) (((u32) (&data_0216f3cc))) + 0));
 }
 
 #pragma thumb off

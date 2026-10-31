@@ -13,10 +13,10 @@ u16 func_020a1250(int arg0) {
     return (u16) value0;
 }
 
-unsigned int func_020a1238(void) {
-    return ((unsigned int) *(
-        const unsigned short *) ((unsigned char *) (unsigned int) ((
-                                     (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) ((
+u32 func_020a1238(void) {
+    return ((u32) *(
+        const u16 *) ((u8 *) (u32) ((
+                                     (((u32) *(const u32 *) ((u8 *) (u32) ((
                                                                                    (u32) (&data_0217b1fc))) +
                                                                                0))) +
                                      (0x300u))) +
@@ -26,5 +26,5 @@ unsigned int func_020a1238(void) {
 void func_020a1218(short param_1) {
     u32 uVar1;
     uVar1 = *(u32 *) &data_0217b1fc;
-    *(short *) (uVar1 + 0x3a0) = *(unsigned short *) (uVar1 + 0x3a0) + param_1;
+    *(short *) (uVar1 + 0x3a0) = *(u16 *) (uVar1 + 0x3a0) + param_1;
 }

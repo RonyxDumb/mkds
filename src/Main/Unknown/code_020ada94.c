@@ -7,8 +7,7 @@ void func_020ada94(void) {
     *(u32 *) ((*(int *) &data_0217b340) + 4) = 0;
     func_021258f0();
     func_020ae5f0((void *) ((*(int *) &data_0217b340) + 0xb0),
-                  (void *) ((*(int *) &data_0217b340) + ((int) 0x000004b4u)));
-    return;
+                  (void *) ((*(int *) &data_0217b340) + 0x4b4));
 }
 
 #pragma thumb off

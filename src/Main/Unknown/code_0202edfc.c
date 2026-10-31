@@ -2,24 +2,24 @@
 
 #pragma thumb on
 
-unsigned int func_0202ee20(unsigned int p0, unsigned int p1) {
-    return ((((unsigned int) *(
+u32 func_0202ee20(u32 p0, u32 p1) {
+    return ((((u32) *(
                 const short
-                    *) ((unsigned char *) (unsigned int) ((
-                            (((unsigned int) *(
-                                const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                                           const unsigned int *) ((unsigned char *) (unsigned int) ((
+                    *) ((u8 *) (u32) ((
+                            (((u32) *(
+                                const u32 *) ((u8 *) (u32) (((u32) *(
+                                                           const u32 *) ((u8 *) (u32) ((
                                                                                       (u32) (&data_02174e48))) +
                                                                                   0))) +
                                                        8))) +
                             (((p1) << 6)))) +
                         0 + (0xeu)))) -
-            (((unsigned int) *(
+            (((u32) *(
                 const short
-                    *) ((unsigned char *) (unsigned int) ((
-                            (((unsigned int) *(
-                                const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                                           const unsigned int *) ((unsigned char *) (unsigned int) ((
+                    *) ((u8 *) (u32) ((
+                            (((u32) *(
+                                const u32 *) ((u8 *) (u32) (((u32) *(
+                                                           const u32 *) ((u8 *) (u32) ((
                                                                                       (u32) (&data_02174e48))) +
                                                                                   0))) +
                                                        8))) +

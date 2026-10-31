@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_02035e30.h"
 
-void func_02035e30(unsigned int p0, unsigned int p1) {
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 4) = (unsigned short) p1;
+void func_02035e30(u32 p0, u32 p1) {
+    *(u16 *) ((u8 *) (u32) p0 + 4) = (u16) p1;
 }

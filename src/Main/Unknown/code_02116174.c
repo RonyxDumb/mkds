@@ -11,7 +11,7 @@ void func_021161d0(void) {
         iVar2 = 0;
     }
     if (data_0217d350->mUnk_74 != iVar2) {
-        func_0212ecc0((const void *) (((u32) (u32) ((unsigned char *) &data_0217d068))), (u32) 0, (u32) 0);
+        func_0212ecc0((const void *) (((u32) (u32) ((u8 *) &data_0217d068))), (u32) 0, (u32) 0);
     }
     data_0217d350->mUnk_74 = (short) iVar2;
 }

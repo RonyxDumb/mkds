@@ -2,12 +2,12 @@
 
 #pragma thumb on
 
-void func_02007008(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_02161780))) + 0) = (unsigned int) p0;
+void func_02007008(u32 p0) {
+    *(u32 *) ((u8 *) (u32) (((u32) (&data_02161780))) + 0) = (u32) p0;
 }
 
-unsigned int func_02006ffc(void) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_02161780))) + 0));
+u32 func_02006ffc(void) {
+    return ((u32) *(const u32 *) ((u8 *) (u32) (((u32) (&data_02161780))) + 0));
 }
 
 #pragma thumb off

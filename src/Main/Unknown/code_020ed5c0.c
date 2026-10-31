@@ -97,7 +97,7 @@ void func_020ee2e4(Unk020eda5c *a, Unk020f40dc *b) {
     func_0206c11c(a->mUnk_010);
     func_020f4718(b);
     if (a->mUnk_170 != 0) {
-        func_020f81b8((unsigned int) a->mUnk_00c, a->mUnk_004);
+        func_020f81b8((u32) a->mUnk_00c, a->mUnk_004);
     }
     n = a->mUnk_020;
     for (i = 0; i < n; i++) {

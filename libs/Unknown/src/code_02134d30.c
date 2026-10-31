@@ -56,19 +56,19 @@ void *func_02134eb8(void *dst, const void *src, u32 n) {
     return dst;
 }
 
-void *func_02134df8(void *a, const void *b, unsigned int n) {
+void *func_02134df8(void *a, const void *b, u32 n) {
     if (b >= a) {
-        unsigned char *d;
-        const unsigned char *s;
+        u8 *d;
+        const u8 *s;
 
         for (d = a, s = b; n != 0; n--) {
             *d++ = *s++;
         }
     } else {
-        const unsigned char *s;
-        unsigned char *d;
+        const u8 *s;
+        u8 *d;
 
-        for (s = (const unsigned char *) b + n, d = (unsigned char *) a + n; n != 0; n--) {
+        for (s = (const u8 *) b + n, d = (u8 *) a + n; n != 0; n--) {
             *--d = *--s;
         }
     }
@@ -91,9 +91,9 @@ void *func_02134db0(const u8 *p, int c, u32 n) {
     return 0;
 }
 
-void *func_02134d80(const void *a, int v, unsigned int n) {
-    unsigned char c = v;
-    const unsigned char *p = (const unsigned char *) a + n;
+void *func_02134d80(const void *a, int v, u32 n) {
+    u8 c = v;
+    const u8 *p = (const u8 *) a + n;
 
     for (; n != 0; n--) {
         if (*--p == c) {

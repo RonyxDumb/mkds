@@ -1,24 +1,24 @@
 #include "Main/Unknown/code_020391d4.h"
 
-void func_020391d4(unsigned int p0) {
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 0) = (unsigned short) 0x1u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 2) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 4) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 6) = (unsigned short) 0x1u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 8) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 10) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 12) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 14) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 16) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 18) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 20) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 22) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 24) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 26) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 28) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 30) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 32) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 34) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 36) = (unsigned short) 0x0u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 38) = (unsigned short) 0x0u;
+void func_020391d4(u32 p0) {
+    *(u16 *) ((u8 *) (u32) p0 + 0) = (u16) 0x1u;
+    *(u16 *) ((u8 *) (u32) p0 + 2) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 4) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 6) = (u16) 0x1u;
+    *(u16 *) ((u8 *) (u32) p0 + 8) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 10) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 12) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 14) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 16) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 18) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 20) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 22) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 24) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 26) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 28) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 30) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 32) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 34) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 36) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 38) = (u16) 0x0u;
 }

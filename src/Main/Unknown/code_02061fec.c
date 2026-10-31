@@ -3,9 +3,9 @@
 void func_02062000(void) {
 }
 
-unsigned int func_02061fec(void) {
-    return ((unsigned int) *(
-        const short *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                            const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aa54))) + 0))) +
+u32 func_02061fec(void) {
+    return ((u32) *(
+        const short *) ((u8 *) (u32) (((u32) *(
+                            const u32 *) ((u8 *) (u32) (((u32) (&data_0217aa54))) + 0))) +
                         0));
 }

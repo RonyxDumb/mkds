@@ -1,9 +1,9 @@
 #include "Main/Unknown/code_0208537c.h"
 
-unsigned int func_02085390(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aebc))) +
+u32 func_02085390(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217aebc))) +
                                                           0))) +
                                288));
 }

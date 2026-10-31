@@ -2,8 +2,8 @@
 
 #pragma thumb on
 
-unsigned int func_020d2c20(void) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b4ec))) + 0));
+u32 func_020d2c20(void) {
+    return ((u32) *(const u32 *) ((u8 *) (u32) (((u32) (&data_0217b4ec))) + 0));
 }
 
 u32 func_020d2be8(void) {
@@ -12,8 +12,8 @@ u32 func_020d2be8(void) {
         return *(u32 *) ((*(int *) &data_0217b4d8) + 4);
     }
     iVar1 = *(int *) &data_0217b4e4;
-    if ((iVar1 != 0) && (*(int *) (iVar1 + ((int) 0x00000170u)) != 0)) {
-        return *(u32 *) (iVar1 + ((int) 0x00000174u));
+    if ((iVar1 != 0) && (*(int *) (iVar1 + 0x170) != 0)) {
+        return *(u32 *) (iVar1 + 0x174);
     }
     return 0;
 }
@@ -24,8 +24,8 @@ u32 func_020d2bb0(void) {
         return *(u32 *) ((*(int *) &data_0217b4d8) + 8);
     }
     iVar1 = *(int *) &data_0217b4e4;
-    if ((iVar1 != 0) && (*(int *) (iVar1 + ((int) 0x00000170u)) != 0)) {
-        return *(u32 *) (iVar1 + ((int) 0x00000178u));
+    if ((iVar1 != 0) && (*(int *) (iVar1 + 0x170) != 0)) {
+        return *(u32 *) (iVar1 + 0x178);
     }
     return 0;
 }
@@ -36,8 +36,8 @@ u32 func_020d2b78(void) {
         return *(u32 *) ((*(int *) &data_0217b4d8) + 0xc);
     }
     iVar1 = *(int *) &data_0217b4e4;
-    if ((iVar1 != 0) && (*(int *) (iVar1 + ((int) 0x00000170u)) != 0)) {
-        return *(u32 *) (iVar1 + ((int) 0x0000017cu));
+    if ((iVar1 != 0) && (*(int *) (iVar1 + 0x170) != 0)) {
+        return *(u32 *) (iVar1 + 0x17c);
     }
     return 0;
 }

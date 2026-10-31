@@ -1,16 +1,16 @@
 #include "Main/Unknown/code_020ebeac.h"
 
-void func_020ebeac(unsigned int p0) {
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 2) = (unsigned short) ((
-        (((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) p0 + 2))) |
-        (((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (((u32) (&data_021594d8))) +
+void func_020ebeac(u32 p0) {
+    *(u16 *) ((u8 *) (u32) p0 + 2) = (u16) ((
+        (((u32) *(const u16 *) ((u8 *) (u32) p0 + 2))) |
+        (((u32) *(const u16 *) ((u8 *) (u32) (((u32) (&data_021594d8))) +
                                                     0)))));
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 2) = (unsigned short) ((
-        (((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) p0 + 2))) |
-        (((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (((u32) (&data_021594dc))) +
+    *(u16 *) ((u8 *) (u32) p0 + 2) = (u16) ((
+        (((u32) *(const u16 *) ((u8 *) (u32) p0 + 2))) |
+        (((u32) *(const u16 *) ((u8 *) (u32) (((u32) (&data_021594dc))) +
                                                     0)))));
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 2) = (unsigned short) ((
-        (((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) p0 + 2))) |
-        (((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (((u32) (&data_021594e0))) +
+    *(u16 *) ((u8 *) (u32) p0 + 2) = (u16) ((
+        (((u32) *(const u16 *) ((u8 *) (u32) p0 + 2))) |
+        (((u32) *(const u16 *) ((u8 *) (u32) (((u32) (&data_021594e0))) +
                                                     0)))));
 }

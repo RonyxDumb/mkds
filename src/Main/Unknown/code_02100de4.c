@@ -221,8 +221,8 @@ void func_02101d18(Unk02101d18 *x, Unk02101c84 *p) {
 
     q = x->mUnk_10;
     func_02069aa0(q);
-    func_020f8e3c((unsigned int) q, 0xf6);
-    func_020f81b8((unsigned int) x->mUnk_0c, 0x10);
+    func_020f8e3c((u32) q, 0xf6);
+    func_020f81b8((u32) x->mUnk_0c, 0x10);
     func_0208adc8(&p->mUnk_000.mUnk_7c, 1);
     if (*(u16 *) (x->mUnk_0c + 0x1ec) & 0x20) {
         p->mUnk_148 = 0;
@@ -551,7 +551,7 @@ void func_02101178(Unk02101c84 *p) {
         p->mUnk_184 = p->mUnk_168->mUnk_98;
         p->mUnk_190 = p->mUnk_168->mUnk_a4;
         p->mUnk_144 = 0;
-        func_020f8e3c((unsigned int) p->mUnk_168, 0xf4);
+        func_020f8e3c((u32) p->mUnk_168, 0xf4);
         if (p->mUnk_168->mUnk_48 & 1) {
             p->mUnk_000.mUnk_d0 = &p->mUnk_000.mUnk_0c4;
         }

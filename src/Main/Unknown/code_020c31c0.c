@@ -1,9 +1,9 @@
 #include "Main/Unknown/code_020c31c0.h"
 
 void func_020c31c0(void) {
-    unsigned int v2 = ((u32) (&data_0217b3e0));
-    unsigned int v3 = ((unsigned int) *(unsigned int *) ((v2) + (0)));
-    unsigned int v4 = ((unsigned int) *(unsigned int *) ((v3) + (172)));
-    unsigned int v5 = ((unsigned int (*)(void))(v4))();
+    u32 v2 = ((u32) (&data_0217b3e0));
+    u32 v3 = ((u32) *(u32 *) ((v2) + (0)));
+    u32 v4 = ((u32) *(u32 *) ((v3) + (172)));
+    u32 v5 = ((u32 (*)(void))(v4))();
     func_020c3654();
 }

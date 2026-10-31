@@ -2,10 +2,10 @@
 
 #pragma thumb on
 
-unsigned int func_020b2ec0(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b354))) +
+u32 func_020b2ec0(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b354))) +
                                                           0))) +
                                0));
 }

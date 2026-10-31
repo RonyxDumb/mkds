@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_021025d8.h"
 
-void func_02102668(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) p0 + 368) = (unsigned int) 0x1u;
+void func_02102668(u32 p0) {
+    *(u32 *) ((u8 *) (u32) p0 + 368) = (u32) 0x1u;
 }
 
 void func_021025d8(int param_1) {

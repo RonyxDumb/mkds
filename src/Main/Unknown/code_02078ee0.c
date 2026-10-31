@@ -32,7 +32,7 @@ void func_02078ee0(u32 *param_1, int param_2) {
     *param_1 = 0xffffffff;
     param_1[1] = 0xffffffff;
     param_1[2] = ((u32) 0x00001000u);
-    *(unsigned short *) ((int) param_1 + 0x16) = (short) ((u32) 0x0000eaabu);
+    *(u16 *) ((int) param_1 + 0x16) = (short) ((u32) 0x0000eaabu);
     *(u16 *) (param_1 + 5) = *(u16 *) ((int) param_1 + 0x16);
     *(u16 *) (param_1 + 6) = 0;
     param_1[3] = 0;

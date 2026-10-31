@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020daf0c.h"
 
-void func_020daf0c(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) p0 + 196) = (unsigned int) 0x1000u;
-    *(unsigned int *) ((unsigned char *) (unsigned int) p0 + 200) = (unsigned int) 0x0u;
+void func_020daf0c(u32 p0) {
+    *(u32 *) ((u8 *) (u32) p0 + 196) = (u32) 0x1000u;
+    *(u32 *) ((u8 *) (u32) p0 + 200) = (u32) 0x0u;
 }

@@ -2,13 +2,13 @@
 
 #pragma thumb on
 
-void func_020091e0(void *p0, unsigned int p1) {
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 10) = (unsigned short) 0x20u;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 12) = (unsigned short) p1;
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 14) =
-        (unsigned short) (((((p1) & (0xffff0000u))) >> 16));
-    *(unsigned short *) ((unsigned char *) (unsigned int) p0 + 16) = (unsigned short) (((unsigned int) *(
-        const unsigned short *) ((unsigned char *) (unsigned int) (((((p0) + (0x0u))) + (0x48u))) + 0)));
+void func_020091e0(void *p0, u32 p1) {
+    *(u16 *) ((u8 *) (u32) p0 + 10) = (u16) 0x20u;
+    *(u16 *) ((u8 *) (u32) p0 + 12) = (u16) p1;
+    *(u16 *) ((u8 *) (u32) p0 + 14) =
+        (u16) (((((p1) & (0xffff0000u))) >> 16));
+    *(u16 *) ((u8 *) (u32) p0 + 16) = (u16) (((u32) *(
+        const u16 *) ((u8 *) (u32) (((((p0) + (0x0u))) + (0x48u))) + 0)));
 }
 
 #pragma thumb off

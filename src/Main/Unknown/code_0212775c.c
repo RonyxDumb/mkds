@@ -9,10 +9,10 @@ s32 func_02127794(void) {
     return data_0217d3f4->mUnk_18;
 }
 
-unsigned int func_02127788(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217d3f4))) +
+u32 func_02127788(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217d3f4))) +
                                                           0))) +
                                28));
 }

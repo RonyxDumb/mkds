@@ -10,7 +10,7 @@ void func_0202cca4(int param_1, int param_2) {
     }
 }
 
-unsigned int func_0202cca0(void) {
+u32 func_0202cca0(void) {
     return 0x8u;
 }
 

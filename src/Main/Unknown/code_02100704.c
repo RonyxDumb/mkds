@@ -56,7 +56,7 @@ void func_021009fc(Unk02101c84 *p) {
         p->mUnk_170 = p->mUnk_14c;
     }
     if (p->mUnk_144 == 0) {
-        func_020f8e3c((unsigned int) p->mUnk_168, 0xf7);
+        func_020f8e3c((u32) p->mUnk_168, 0xf7);
     }
     p->mUnk_270 = 0;
     f = (p->mUnk_168->mUnk_48 & 1) ? (void (*)(Unk02101c84 *)) func_02100b78 : func_02100b54;
@@ -121,7 +121,7 @@ void func_02100704(Unk02101c84 *p) {
                     p->mUnk_154 = 0x13;
                     p->mUnk_158 = -0x40;
                     p->mUnk_160 = 0xe;
-                    func_020f8e3c((unsigned int) e->mUnk_1fc, 0xf8);
+                    func_020f8e3c((u32) e->mUnk_1fc, 0xf8);
                 } else {
                     p->mUnk_158 = -0x40;
                     p->mUnk_160 = 0xe;

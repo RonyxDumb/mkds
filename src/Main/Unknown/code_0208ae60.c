@@ -1,18 +1,18 @@
 #include "Main/Unknown/code_0208ae60.h"
 
-s32 *func_0208ae74(unsigned int p0) {
-    return (s32 *) ((((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                                          const unsigned int *) ((unsigned char *) (unsigned int) ((
+s32 *func_0208ae74(u32 p0) {
+    return (s32 *) ((((u32) *(const u32 *) ((u8 *) (u32) (((u32) *(
+                                                          const u32 *) ((u8 *) (u32) ((
                                                                                      (u32) (&data_0217b038))) +
                                                                                  0))) +
                                                       4))) +
             (((p0) << 3)));
 }
 
-unsigned int func_0208ae60(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b038))) +
+u32 func_0208ae60(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b038))) +
                                                           0))) +
                                8));
 }

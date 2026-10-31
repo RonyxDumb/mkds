@@ -5,14 +5,14 @@ void func_0210d050(u32 param_1, u32 param_2, u32 param_3, u32 param_4) {
                   (u32) param_3);
 }
 
-void func_0210d040(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217d01c))) + 0) = (unsigned int) p0;
+void func_0210d040(u32 p0) {
+    *(u32 *) ((u8 *) (u32) (((u32) (&data_0217d01c))) + 0) = (u32) p0;
 }
 
-void func_0210d030(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217d018))) + 0) = (unsigned int) p0;
+void func_0210d030(u32 p0) {
+    *(u32 *) ((u8 *) (u32) (((u32) (&data_0217d018))) + 0) = (u32) p0;
 }
 
-void func_0210d020(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217d014))) + 0) = (unsigned int) p0;
+void func_0210d020(u32 p0) {
+    *(u32 *) ((u8 *) (u32) (((u32) (&data_0217d014))) + 0) = (u32) p0;
 }

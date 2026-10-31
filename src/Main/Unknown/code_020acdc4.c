@@ -10,6 +10,6 @@ u32 func_020acdc4(u32 arg0) {
     value1 = (value0) * (value1) + (value2);
     value12 = (u32) &func_020acde4;
     value0 = (value1) + (0x48u);
-    value0 = (u32) func_020acde4((unsigned int) value0);
+    value0 = (u32) func_020acde4((u32) value0);
     return (u32) value0;
 }

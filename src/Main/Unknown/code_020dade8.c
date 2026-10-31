@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020dade8.h"
 
-void func_020dade8(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) p0 + 196) = (unsigned int) 0x1000u;
-    *(unsigned int *) ((unsigned char *) (unsigned int) p0 + 200) = (unsigned int) 0x0u;
+void func_020dade8(u32 p0) {
+    *(u32 *) ((u8 *) (u32) p0 + 196) = (u32) 0x1000u;
+    *(u32 *) ((u8 *) (u32) p0 + 200) = (u32) 0x0u;
 }
