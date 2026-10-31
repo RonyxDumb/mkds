@@ -288,25 +288,30 @@ void func_020f8418(Unk020ee684 *param_1) {
     param_1->mUnk_020 = 0;
 }
 
-static inline u32 func_020f830c_inline(Unk020f41c4_B *b, u32 n) {
-    b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
-    if (n != 0) {
-        return ((b->mUnk_00 >> 32) * n) >> 32;
+static inline u16 func_020f830c_inline(Unk020f41c4_B *b, u32 n) {
+    u32 t;
+    if (n == 0) {
+        t = 0;
+    } else {
+        b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
+        if (n == 0) {
+            t = b->mUnk_00 >> 32;
+        } else {
+            t = ((b->mUnk_00 >> 32) * n) >> 32;
+        }
     }
-    return b->mUnk_00 >> 32;
+    return t;
 }
 
-// non-matching: 0x108 bytes against 0x10c. The random step and its scaling are the inline helper above, which gives
-// the original's second `n != 0` test and the general 64-bit multiply. Left: the original tests param_1->mUnk_000
-// against 0 first, keeps the zero high word apart from `i = 0`, computes b before testing n and saves r4-r6 only
-// (here r4-r7 and a pad word); n, q, i and b sit in other registers.
 void func_020f830c(Unk020ee684 *param_1) {
     Unk020f41c4_B *b;
-    u16 n;
     s32 *q;
+    u16 n;
     u32 i;
 
     switch (param_1->mUnk_000) {
+        case 0:
+            return;
         case 1:
             if (data_0217bc50 != 0) {
                 n = data_0217bc50;
@@ -316,10 +321,7 @@ void func_020f830c(Unk020ee684 *param_1) {
                 q = data_0217bce8;
             }
             b = &data_0217561c->mUnk_498;
-            i = 0;
-            if (n != 0) {
-                i = (u16) func_020f830c_inline(b, n);
-            }
+            i = func_020f830c_inline(b, n);
             if (param_1->mUnk_00c == q[i]) {
                 i = (u16) (i + 1);
                 if (i >= n) {

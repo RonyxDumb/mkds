@@ -1,10 +1,10 @@
 #include "Main/Unknown/code_01ffb930.h"
 #include "Main/Unknown/unk_02165000.h"
 
-// non-matching: same size; *a is loaded into ip (original r3) and reloaded into r3 (original ip), and the second smull has its operands as (lr, r2) instead of (r2, lr)
 void func_01ffb930(s32 *a, Unk0206bcb0 *p) {
     s32 b;
     u32 f;
+    s32 c;
 
     if (p->mUnk_180 != 0) {
         return;
@@ -23,7 +23,8 @@ void func_01ffb930(s32 *a, Unk0206bcb0 *p) {
     if (b <= 0) {
         b = -b;
     }
-    *a -= (s32) ((s64) b * (s32) ((s64) *a * data_usa_021654d8 >> 12) >> 12);
+    c = (s32) ((s64) *a * data_usa_021654d8 >> 12);
+    *a -= (s32) ((s64) c * b >> 12);
 }
 
 void func_01ffb9cc(Unk0206bcb0 *p) {

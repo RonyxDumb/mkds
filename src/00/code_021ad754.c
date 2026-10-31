@@ -17,7 +17,7 @@ u8 *func_ov000_021ad754(u8 *a, u8 b, u32 *c) {
     func_0214d168(a, 0, 0xec);
     *(u16 *) a = 0x101;
     a[2] = 6;
-    data_ov000_021b63e0[0] = data_ov000_021b63e0[1] * data_ov000_021b63e0[0] + data_ov000_021b63e0[2];
+    data_ov000_021b63e0[0] = (s64) data_ov000_021b63e0[1] * (s64) data_ov000_021b63e0[0] + data_ov000_021b63e0[2];
     d = data_ov000_021b63e0[0] >> 32;
     if (c != 0) {
         *c = d;

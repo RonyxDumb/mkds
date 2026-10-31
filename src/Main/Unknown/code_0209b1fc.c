@@ -55,7 +55,7 @@ u8 func_0209b344(Unk0209a7dc *a, Unk0206bcb0 *b, u8 *c, u8 *d) {
     return e;
 }
 
-// non-matching: size 0x264 against 0x26c; the original saves r4-r9 (a in r5, c in r6, d in r4, temporaries in r7-r9) with a 12-byte stack frame, ours saves r4-r6 with 16 bytes and allocates a to r6, c to r5
+// non-matching: size 0x268 against 0x26c; the original saves r4-r9 (a in r5, c in r6, d in r4, temporaries in r7-r9) with a 12-byte stack frame, ours saves r4-r6 with 16 bytes and allocates a to r6, c to r5
 void func_0209b388(Unk0209a7dc *a, Vec3 *b, Vec3 *c, Vec3 *d) {
     Vec3 v;
     Unk020f41c4_B *r;
@@ -80,7 +80,7 @@ void func_0209b388(Unk0209a7dc *a, Vec3 *b, Vec3 *c, Vec3 *d) {
         r = func_020d22d0();
         r->mUnk_00 = r->mUnk_08 * r->mUnk_00 + r->mUnk_10;
         a->mUnk_000.mUnk_10.x = a->mUnk_000.mUnk_10.z =
-            ((s64) data_0215d4b4[(((u16) (r->mUnk_00 >> 48)) >> 4) * 2 + 1] * 0x1800) >> 12;
+            ((s64) data_0215d4b4[(((u16) (((r->mUnk_00 >> 32) * 0x10000) >> 32)) >> 4) * 2 + 1] * 0x1800) >> 12;
         r = func_020d22d0();
         r->mUnk_00 = r->mUnk_08 * r->mUnk_00 + r->mUnk_10;
         if ((u16) (r->mUnk_00 >> 63) != 0) {

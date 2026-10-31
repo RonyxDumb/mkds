@@ -53,14 +53,20 @@ s32 func_02042894(void *a, ...) {
 }
 
 static inline u16 func_020427d4_inline(Unk020f41c4_B *p, u16 n) {
+    u32 t;
     if (n == 0) {
-        return 0;
+        t = 0;
+    } else {
+        p->mUnk_00 = (s64) p->mUnk_08 * (s64) p->mUnk_00 + p->mUnk_10;
+        if (n == 0) {
+            t = p->mUnk_00 >> 32;
+        } else {
+            t = ((s64) (p->mUnk_00 >> 32) * (u32) n) >> 32;
+        }
     }
-    p->mUnk_00 = (s64) p->mUnk_08 * (s64) p->mUnk_00 + p->mUnk_10;
-    return (u32) (((s64) (p->mUnk_00 >> 32) * n) >> 32);
+    return t;
 }
 
-// non-matching: the original keeps the count in r6 and calls _ll_mul with a zero high word taken from stack words; the compiler here emits a larger frame (0x14 against 0x1c) and a sign extension of the count, and calls _ull_mul
 void func_020427d4(Unk020f41c4_B *a) {
     s32 i;
     u16 n;

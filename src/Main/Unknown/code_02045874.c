@@ -222,7 +222,11 @@ static inline u32 func_02046524_inline(Unk020f41c4_B *a, u32 b) {
         r = 0;
     } else {
         a->mUnk_00 = a->mUnk_08 * a->mUnk_00 + a->mUnk_10;
-        r = b != 0 ? (a->mUnk_00 >> 32) * b >> 32 : a->mUnk_00 >> 32;
+        if (b == 0) {
+            r = a->mUnk_00 >> 32;
+        } else {
+            r = ((a->mUnk_00 >> 32) * b) >> 32;
+        }
     }
     return (u16) r;
 }
@@ -378,14 +382,17 @@ void func_02046024(s32 a) {
     }
 }
 
-// non-matching: size 0x74 against 0x70; the original compares b once more before the high-word store and predicates the last load and multiply (ldreq/umullne), ours branches after the store
 u32 func_02046524(Unk020f41c4_B *a, u32 b) {
     u64 r;
     if (b == 0) {
         r = 0;
     } else {
         a->mUnk_00 = a->mUnk_08 * a->mUnk_00 + a->mUnk_10;
-        r = b != 0 ? (a->mUnk_00 >> 32) * b >> 32 : a->mUnk_00 >> 32;
+        if (b == 0) {
+            r = a->mUnk_00 >> 32;
+        } else {
+            r = ((a->mUnk_00 >> 32) * b) >> 32;
+        }
     }
     return (u16) r;
 }

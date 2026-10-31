@@ -350,7 +350,6 @@ void func_020695c4(Unk0206bcb0 *p) {
     }
 }
 
-// non-matching: same size; the squares of the last call load the vectors in another order (a.x and b.x first, the original starts with a.y and b.y and keeps a.x in r3)
 void func_0206988c(Unk0206bcb0 *p) {
     Unk0206ceb4 *s;
     Vec3 a;
@@ -406,8 +405,8 @@ void func_0206988c(Unk0206bcb0 *p) {
     }
     func_0207a948(&a, (u16) data_021759c0->mUnk_62);
     func_0207a948(&b, p->mUnk_74);
-    d = (a.y - b.y) >> 12;
-    e = (a.x - b.x) >> 12;
+    d = (a.x - b.x) >> 12;
+    e = (a.y - b.y) >> 12;
     f = (a.z - b.z) >> 12;
     func_0207a2d4(d * d + e * e + f * f);
 }

@@ -64,14 +64,12 @@ static inline u32 func_020983c4_inline(u32 n) {
         if (m == 0) {
             t = r->mUnk_00 >> 32;
         } else {
-            t = ((s64) (r->mUnk_00 >> 32) * m) >> 32;
+            t = ((r->mUnk_00 >> 32) * m) >> 32;
         }
     }
     return (u16) t;
 }
 
-// non-matching: same size; in the random-number inline the else arm loads the high word into r2 and the zero word into r0
-// (original r0 and r3), so the umull/mla registers differ, and cmp r1, #0 follows str r2, [r0, #4] instead of preceding it
 void func_020983c4(void *a, Unk020983c4 *p) {
     s32 f;
     s32 t;
