@@ -1,5 +1,5 @@
-#include "Main/Unknown/code_01ff8000.h"
-#include "Main/Unknown/code_01ff9000.h"
+#include "ITCM/code_01ff8000.h"
+#include "ITCM/code_01ff9000.h"
 #include "Main/Unknown/unk_02152000.h"
 #include "Main/Unknown/unk_02161000.h"
 #include "Main/Unknown/unk_02170000.h"

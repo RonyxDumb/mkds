@@ -1,5 +1,5 @@
-#include "Main/Unknown/code_01fff434.h"
-#include "Main/Unknown/code_01ffc000.h"
+#include "ITCM/code_01fff434.h"
+#include "ITCM/code_01ffc000.h"
 #include "Main/Unknown/code_02061f7c.h"
 #include "Main/Unknown/code_02068000.h"
 #include "Main/Unknown/code_020ed5c0.h"

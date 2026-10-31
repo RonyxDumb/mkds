@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_01ffb930.h"
+#include "ITCM/code_01ffb930.h"
 #include "Main/Unknown/unk_02165000.h"
 
 void func_01ffb930(s32 *a, Unk0206bcb0 *p) {
