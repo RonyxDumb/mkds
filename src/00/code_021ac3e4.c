@@ -283,7 +283,6 @@ void func_ov000_021ac900(u16 *a, u16 *b, u16 *c, u16 *d, s32 e, u16 *f) {
     }
 }
 
-// non-matching: first loop keeps counter, index and source pointer in other registers than the original (10 words, same instructions otherwise)
 void func_ov000_021acab0(u16 *a, const u16 *b, s32 c) {
     s32 d;
     s32 e;
@@ -296,12 +295,12 @@ void func_ov000_021acab0(u16 *a, const u16 *b, s32 c) {
     if (e < c) {
         func_0214d168(a + e, 0, (c - e) * 2);
     }
-    for (e = 0; e < d; e++) {
-        f = e * 2;
+    for (g = 0; g < d; g++) {
+        f = g * 2;
         if (f >= c) {
             break;
         }
-        h = b[e] * b[e];
+        h = b[g] * b[g];
         a[f] = h;
         if (f == c - 1) {
             break;

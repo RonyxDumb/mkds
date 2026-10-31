@@ -90,27 +90,21 @@ void func_02059dc8(void) {
     data_0217aa10->mUnk_a4 = func_02017988(data_ov002_021a9c00, 0x20800, 1);
 }
 
-// non-matching: same instructions and registers, but the original loads the address of data_0217aa10 first and then
-// sets the constants 1, 2 and 0 (r4, r7, r5); here 1 and 0 come first, then the address, then 2.
 void func_02059e1c(void) {
-    enum { K0 } z;
-    enum { K1 } o;
     s32 r;
     s32 v;
 
-    o = 1;
-    z = 0;
     do {
-        r = z;
+        r = 0;
         v = data_0217aa10->mUnk_04;
         if (v == 2) {
-            r = o;
+            r = 1;
         } else if (v == 1) {
-            if (((data_0217aa10->mUnk_58.mUnk_0c & 1) ? o : z) == 0) {
+            if (((data_0217aa10->mUnk_58.mUnk_0c & 1) ? 1 : 0) == 0) {
                 func_02005314(&data_0217aa10->mUnk_2c);
                 func_020049e8(&data_0217aa10->mUnk_58);
                 data_0217aa10->mUnk_04 = 2;
-                r = o;
+                r = 1;
             }
         }
     } while (r == 0);

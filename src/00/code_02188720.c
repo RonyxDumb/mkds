@@ -202,7 +202,6 @@ void func_ov000_02188ad4(u8 a, Unk02188408Entry0xc0 *p, Unk02188408 *s) {
     func_0214d02c(p, e, 0xc0);
 }
 
-// non-matching: registers only: original keeps the count in r0, the entry pointer in r2 and the first byte in r1; ours r2, r1, r0; same size
 s32 func_ov000_02188b20(u32 a, Unk02188408Entry0xc0 *p, Unk02188408 *s) {
     s32 i;
     s32 r;
@@ -222,7 +221,7 @@ s32 func_ov000_02188b20(u32 a, Unk02188408Entry0xc0 *p, Unk02188408 *s) {
             }
             e += 0xc0;
             i++;
-        } while (i < n);
+        } while (i < s->mUnk_d12);
     }
     if (r == -1) {
         func_ov000_02188ad4(a, p, s);

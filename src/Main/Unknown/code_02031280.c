@@ -38,8 +38,6 @@
 
 #pragma thumb on
 
-// non-matching: same size, 16 words: in the 8-entry loop the 12-byte stride offset and k swap r3/r6 (+0x13e to
-// +0x18a), and in the last loop j, its 64-byte offset and s are in r0/r3/r5 where the original has r2/r5/r3
 void func_02031280(void *a, void *b, void *c) {
     Unk02174e58_24 *p;
     Unk02174e58_24 *q;
@@ -49,9 +47,6 @@ void func_02031280(void *a, void *b, void *c) {
     s32 n2;
     s32 n3;
     s32 i;
-    s32 j;
-    s32 k;
-    s32 s;
     void *v;
 
     func_0203154c(a, b, c);
@@ -93,13 +88,13 @@ void func_02031280(void *a, void *b, void *c) {
             q->mUnk_18[data_02174e58->mUnk_e0[i].mUnk_0a].mUnk_00 = 0;
             q->mUnk_18[data_02174e58->mUnk_e0[i].mUnk_08].mUnk_00 = q->mUnk_18[data_02174e58->mUnk_e0[i].mUnk_0a].mUnk_00;
         }
-        for (k = 0; k < n0; k++) {
-            p->mUnk_18[k + n1].mUnk_00 = 0;
+        for (i = 0; i < n0; i++) {
+            p->mUnk_18[i + n1].mUnk_00 = 0;
         }
-        j = 0;
-        s = n3 + n2;
-        for (; j < s; j++) {
-            q->mUnk_18[j].mUnk_00 = 0;
+        i = 0;
+        n0 = n3 + n2;
+        for (; i < n0; i++) {
+            q->mUnk_18[i].mUnk_00 = 0;
         }
     }
     func_021281c8(-1);

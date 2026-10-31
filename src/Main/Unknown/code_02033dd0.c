@@ -34,17 +34,14 @@ s32 func_02033dfc(void) {
     return r;
 }
 
-// non-matching: 0x40 bytes, original 0x48; the original re-reads the count at 0xd8 in every pass and keeps constant 0 and 1 in registers, ours reads the count once
 s32 func_02033e24(void) {
-    Unk02174e60 *o;
     s32 r;
     s32 i;
 
     r = 1;
     i = 0;
-    o = data_02174e60;
-    for (; i < o->mUnk_0d8; i++) {
-        r &= o->mUnk_0e4[i].mUnk_00 == 0 ? 1 : 0;
+    for (; i < data_02174e60->mUnk_0d8; i++) {
+        r &= data_02174e60->mUnk_0e4[i].mUnk_00 == 0 ? 1 : 0;
     }
     return r;
 }

@@ -254,18 +254,15 @@ u32 func_ov000_0219e8fc(s32 a) {
     return r;
 }
 
-// non-matching: the object pointer is in r2 and the temporary in r3 where the original has them the other way round
 s32 func_ov000_0219e948(u32 a, s32 b) {
-    volatile Unk021b566c *p; // fields are read again on each use
     if (b == 0) {
         b = 1;
     } else {
         b = 0;
     }
-    p = data_ov000_021b566c;
-    for (; b <= p->mUnk_0d; b++) {
-        if (a == p->mUnk_f4[b]) {
-            return p->mUnk_2b8[b];
+    for (; b <= data_ov000_021b566c->mUnk_0d; b++) {
+        if (a == data_ov000_021b566c->mUnk_f4[b]) {
+            return data_ov000_021b566c->mUnk_2b8[b];
         }
     }
     return 0xff;

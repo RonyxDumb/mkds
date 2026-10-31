@@ -3,11 +3,8 @@
 #include "03/code_021d34c0.h"
 #include "code_02142eac.h"
 
-// non-matching: the pointer to the byte in the wait loop is built in r1 (adds r1, r1, r0) instead of r0, one register swap,
-// same size
 u32 func_ov003_021ce848(void) {
     Unk021da280 *d;
-    vu8 *q;
 
     data_ov003_021da280->mUnk_1b80 = 1;
     func_02143520(&data_ov003_021da280->mUnk_13b8);
@@ -27,8 +24,7 @@ u32 func_ov003_021ce848(void) {
         func_ov003_021d34c0(0, d->mUnk_1b7c);
     }
     d = data_ov003_021da280;
-    q = &d->mUnk_1b80;
-    while (*q != 2) {
+    while (*(vu8 *) &d->mUnk_1b80 != 2) {
     }
     func_ov003_021d2808(&data_ov003_021da280);
     return 1;
