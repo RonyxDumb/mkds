@@ -5,10 +5,9 @@
 
 void func_020472a8(void) {
     func_0204f5e4();
-    func_0201804c((void *) (*(u32 *) ((*(int *) &data_021759c8) + ((int) 0x00000a80u))), (u32) (3));
+    func_0201804c((void *) ((u32) data_021759c8->mUnk_a80), (u32) 3);
     func_02047498(data_02164e54, 0xe);
-    func_02047468(data_02164e70, (u32) (0xf));
-    return;
+    func_02047468(data_02164e70, (u32) 0xf);
 }
 
 #pragma thumb off

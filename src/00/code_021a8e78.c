@@ -1,55 +1,56 @@
 #include "00/code_021a8e78.h"
+#include "00/code_021a86e8.h"
 
-unsigned int func_ov000_021a8ed4(void) {
-    unsigned int v1 = ((unsigned int) func_ov000_021a8830());
-    unsigned int v2 = ((v1) << 24);
-    unsigned int v3 = 0xff000000u;
-    unsigned int v4 = ((v2) & (v3));
-    unsigned int v5 = ((v1) << 8);
-    unsigned int v6 = 0xff0000u;
-    unsigned int v7 = ((v5) & (v6));
-    unsigned int v8 = ((v1) >> 24);
-    unsigned int v10 = ((v8) & (0xffu));
-    unsigned int v11 = ((v1) >> 8);
-    unsigned int v12 = 0xff00u;
-    unsigned int v13 = ((v11) & (v12));
-    unsigned int v14 = ((v10) | (v13));
-    unsigned int v15 = ((v7) | (v14));
-    unsigned int v16 = ((v4) | (v15));
-    unsigned int v17 = ((v16) + (0x0u));
+u32 func_ov000_021a8ed4(void) {
+    u32 v1 = ((u32) func_ov000_021a8830());
+    u32 v2 = ((v1) << 24);
+    u32 v3 = 0xff000000u;
+    u32 v4 = ((v2) & (v3));
+    u32 v5 = ((v1) << 8);
+    u32 v6 = 0xff0000u;
+    u32 v7 = ((v5) & (v6));
+    u32 v8 = ((v1) >> 24);
+    u32 v10 = ((v8) & (0xffu));
+    u32 v11 = ((v1) >> 8);
+    u32 v12 = 0xff00u;
+    u32 v13 = ((v11) & (v12));
+    u32 v14 = ((v10) | (v13));
+    u32 v15 = ((v7) | (v14));
+    u32 v16 = ((v4) | (v15));
+    u32 v17 = ((v16) + (0x0u));
     return v17;
 }
 
-void func_ov000_021a8e78(unsigned int *p0, unsigned int *p1) {
-    unsigned int v2 = ((unsigned int) *(unsigned int *) ((p1) + (0)));
-    unsigned int v3 = ((unsigned int) *(unsigned int *) ((p0) + (0)));
-    unsigned int v4 = ((v3) << 24);
-    unsigned int v5 = 0xff000000u;
-    unsigned int v6 = ((v4) & (v5));
-    unsigned int v7 = ((v3) << 8);
-    unsigned int v8 = 0xff0000u;
-    unsigned int v9 = ((v7) & (v8));
-    unsigned int v10 = ((v3) >> 24);
-    unsigned int v12 = ((v10) & (0xffu));
-    unsigned int v13 = ((v3) >> 8);
-    unsigned int v14 = 0xff00u;
-    unsigned int v15 = ((v13) & (v14));
-    unsigned int v16 = ((v12) | (v15));
-    unsigned int v17 = ((v9) | (v16));
-    unsigned int v18 = ((v6) | (v17));
-    unsigned int v19 = ((v18) + (0x0u));
-    unsigned int v20 = ((v2) << 24);
-    unsigned int v21 = 0xff000000u;
-    unsigned int v22 = ((v20) & (v21));
-    unsigned int v23 = ((v2) << 8);
-    unsigned int v24 = ((v23) & (v8));
-    unsigned int v25 = ((v2) >> 24);
-    unsigned int v26 = ((v25) & (0xffu));
-    unsigned int v27 = ((v2) >> 8);
-    unsigned int v28 = ((v27) & (v14));
-    unsigned int v29 = ((v26) | (v28));
-    unsigned int v30 = ((v24) | (v29));
-    unsigned int v31 = ((v22) | (v30));
-    unsigned int v32 = ((v31) + (0x0u));
-    unsigned int v33 = ((unsigned int) func_ov000_021a8878((u32) (v19), (u32) (v32)));
+void func_ov000_021a8e78(u32 *p0, u32 *p1) {
+    u32 v2 = ((u32) *(u32 *) ((p1) + (0)));
+    u32 v3 = ((u32) *(u32 *) ((p0) + (0)));
+    u32 v4 = ((v3) << 24);
+    u32 v5 = 0xff000000u;
+    u32 v6 = ((v4) & (v5));
+    u32 v7 = ((v3) << 8);
+    u32 v8 = 0xff0000u;
+    u32 v9 = ((v7) & (v8));
+    u32 v10 = ((v3) >> 24);
+    u32 v12 = ((v10) & (0xffu));
+    u32 v13 = ((v3) >> 8);
+    u32 v14 = 0xff00u;
+    u32 v15 = ((v13) & (v14));
+    u32 v16 = ((v12) | (v15));
+    u32 v17 = ((v9) | (v16));
+    u32 v18 = ((v6) | (v17));
+    u32 v19 = ((v18) + (0x0u));
+    u32 v20 = ((v2) << 24);
+    u32 v21 = 0xff000000u;
+    u32 v22 = ((v20) & (v21));
+    u32 v23 = ((v2) << 8);
+    u32 v24 = ((v23) & (v8));
+    u32 v25 = ((v2) >> 24);
+    u32 v26 = ((v25) & (0xffu));
+    u32 v27 = ((v2) >> 8);
+    u32 v28 = ((v27) & (v14));
+    u32 v29 = ((v26) | (v28));
+    u32 v30 = ((v24) | (v29));
+    u32 v31 = ((v22) | (v30));
+    u32 v32 = ((v31) + (0x0u));
+    u32 v33 = ((u32) func_ov000_021a8878(v19, v32));
 }

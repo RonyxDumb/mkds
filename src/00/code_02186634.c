@@ -40,14 +40,14 @@ void *func_ov000_021866b8(Unk021868a4Entry *a, s32 b, const u8 *c) {
     return 0;
 }
 
-// non-matching: the two line pointers of the second loop are swapped, r4 and r5 (original: the first in r5, the second in r4); 9 words
 // differ only by that register choice
 s32 func_ov000_021866fc(Unk021868a4Entry *a, s32 b, s32 c, const u8 *d) {
     u8 *e;
     u8 *f;
     Unk021868a4 g;
-    u8 *j;
+    s8 *k;
     s8 *h;
+    u8 *j;
     s8 *i;
     g.mEntries = a;
     g.mCapacity = b;
@@ -62,18 +62,18 @@ s32 func_ov000_021866fc(Unk021868a4Entry *a, s32 b, s32 c, const u8 *d) {
     if (i == 0) {
         return 0;
     }
-    h = i + 1;
-    h[3] = 0;
-    if (func_ov000_021868a4(&g, data_ov000_021b123c, h) != 1) {
+    k = i + 1;
+    k[3] = 0;
+    if (func_ov000_021868a4(&g, data_ov000_021b123c, k) != 1) {
         return 0;
     }
-    if (c == 1 || func_0213a038((const u8 *) h, data_ov000_021b1248, 3) != 0) {
+    if (c == 1 || func_0213a038((const u8 *) k, data_ov000_021b1248, 3) != 0) {
         if (func_ov000_021868a4(&g, data_ov000_021b124c, e + 4) != 1) {
             return 0;
         }
         return 1;
     }
-    i = (s8 *) func_02139f70((const u8 *) (h + 4), data_ov000_021b1258);
+    i = (s8 *) func_02139f70((const u8 *) (k + 4), data_ov000_021b1258);
     if (i == 0) {
         return 0;
     }

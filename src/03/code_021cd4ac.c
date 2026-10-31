@@ -1,12 +1,12 @@
 #include "03/code_021cd4ac.h"
 
 u32 func_ov003_021cd4dc(void) {
-    return *(u32 *) &data_ov003_021da270;
+    return (u32) data_ov003_021da270;
 }
 
 void func_ov003_021cd4ac(int param_1) {
     int iVar1;
-    iVar1 = (*(int *) &data_ov003_021da270) + param_1 * 0x100;
+    iVar1 = (int) data_ov003_021da270 + param_1 * 0x100;
     func_0214d168((void *) ((u32 *) (u32) (iVar1)), (u8) (0), (u32) (0xef));
     *(u8 *) (iVar1 + 0xe7) = 0xff;
     func_ov003_021cd338((u32) (param_1));

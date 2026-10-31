@@ -369,12 +369,10 @@ void func_020328c8(s32 a) {
     }
 }
 
-// non-matching: same size; register allocation only; 6 lines differ; first: original `adds r5, r3, #0`, ours `adds r7,
-// r3, #0`
 void func_020328f8(s32 a) {
-    Unk02174e14_00 *p;
-    s32 i;
     s32 v;
+    s32 i;
+    Unk02174e14_00 *p;
 
     p = &data_02174e5c->mUnk_00[1];
     for (i = 0; i < data_02174e5c->mUnk_48; i++) {
@@ -387,14 +385,12 @@ void func_020328f8(s32 a) {
     }
 }
 
-// non-matching: same size; register allocation only; 8 lines differ; first: original `ldr r2, [r6, #0]`, ours `ldr r5,
-// [r6, #0]`
 void func_02032940(void) {
-    Unk02174e5c *o;
     Unk02174e14_00 *p;
+    s32 i;
     s32 n;
     s32 m;
-    s32 i;
+    Unk02174e5c *o;
 
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
         o = data_02174e5c;

@@ -1,15 +1,18 @@
 #include "00/code_0219a044.h"
 #include "00/code_0218d000.h"
 #include "00/code_0218dc44.h"
-#include "00/code_02198000.h"
+#include "00/code_02197e8c.h"
+#include "00/code_021985ec.h"
+#include "00/code_021988e8.h"
+#include "00/code_02198a8c.h"
 #include "00/code_0219a0d0.h"
 #include "00/code_0219a3f4.h"
 
 void func_ov000_0219a044(Unk02197e8c *a) {
     if (a->mUnk_18 == 0) {
         a->mUnk_18 = 1;
-        func_ov000_021988e8((Unk02198394 *) a);
-        if (func_ov000_02198448((Unk02198394 *) a) != 0) {
+        func_ov000_021988e8(a);
+        if (func_ov000_02198448(a) != 0) {
             func_ov000_0219a3f8((u32 *) a);
         }
     }

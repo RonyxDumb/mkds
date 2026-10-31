@@ -7,10 +7,9 @@ void func_0211138c(void) {
     func_02111584();
     value1 = 0u;
     value0 = (u32) &data_0217d33c;
-    *(u32 *) ((value0) + 0u) = (u32) value1;
+    *(u32 *) ((value0) + 0u) = value1;
     value0 = (u32) &data_0217d340;
-    *(u32 *) ((value0) + 0u) = (u32) value1;
-    return;
+    *(u32 *) ((value0) + 0u) = value1;
 }
 #pragma thumb off
 
@@ -24,6 +23,5 @@ void func_02111368(void) {
     value1 = (u32) &data_0217d340;
     value1 = (u32) * (const u32 *) ((value1) + 0u);
     func_020ae5f0((void *) value0, (void *) value1);
-    return;
 }
 #pragma thumb off

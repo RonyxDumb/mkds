@@ -7,7 +7,7 @@ u32 func_0200cde0(void) {
     value0 = (u32) * (const u16 *) ((value1) + (0));
     value0 = (value0) & ~(0x800u);
     *(u16 *) ((value1) + (0)) = (u16) value0;
-    return (u32) value0;
+    return value0;
 }
 
 u32 func_0200cdc8(void) {
@@ -17,5 +17,5 @@ u32 func_0200cdc8(void) {
     value0 = (u32) * (const u16 *) ((value1) + (0));
     value0 = (value0) | (0x800u);
     *(u16 *) ((value1) + (0)) = (u16) value0;
-    return (u32) value0;
+    return value0;
 }

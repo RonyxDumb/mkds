@@ -11,5 +11,5 @@ s32 func_0214e258(const Unk0214e1e0 *arg0) {
     value3 = (value2) * (value1) + (value3);
     value0 = (u32) * (const u32 *) ((value0) + (8));
     value0 = (value3) * (value1) + (value0);
-    return (u32) value0;
+    return value0;
 }

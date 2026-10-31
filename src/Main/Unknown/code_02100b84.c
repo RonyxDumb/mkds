@@ -35,7 +35,7 @@ void func_02100bf0(Unk02101c84 *p) {
         if (p->mUnk_17c >= -p->mUnk_19c) {
             return;
         }
-        func_020f8e3c((unsigned int) p->mUnk_168, 0xf5);
+        func_020f8e3c((u32) p->mUnk_168, 0xf5);
     } else {
         p->mUnk_16c += p->mUnk_178;
         p->mUnk_174 += p->mUnk_180;

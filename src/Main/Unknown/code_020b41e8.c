@@ -93,7 +93,7 @@ void func_020b41e8(s32 a, s32 b, s32 c, s32 d, s32 e) {
     u16 i;
 
     i = p->mUnk_00c == 1 ? p->mUnk_063 : p->mUnk_62;
-    n = (&p->mUnk_70[i])[-1].mUnk_28;
+    n = p->mUnk_68[i].mUnk_00;
     if (n == 12) {
         o1 = (Unk020b4a44 *) func_020b4024(1);
     } else {

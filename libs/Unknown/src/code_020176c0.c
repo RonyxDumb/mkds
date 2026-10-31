@@ -102,7 +102,7 @@ void *func_02017b90(Unk020176c0 *a, u32 b, u32 c) {
             v0 = q->mUnk_04;
             if (v0 >= b + (a0 - ((u32) q + 0x10)) && v1 > v0) {
                 b0 = q;
-                v1 = (u32) v0;
+                v1 = v0;
                 bestaddr = a0;
                 if (f != 0) {
                     break;

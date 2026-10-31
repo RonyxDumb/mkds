@@ -1,7 +1,9 @@
 #include "00/code_0218e4b4.h"
 #include "00/code_0218e3c4.h"
 #include "00/code_0218e56c.h"
-#include "00/code_021a8000.h"
+#include "00/code_021a8db8.h"
+#include "00/code_021a911c.h"
+#include "00/unk_021b5000.h"
 #include "00/code_021a916c.h"
 
 s32 func_ov000_0218e4b4(s32 param_1, void *param_2, s32 param_3) {

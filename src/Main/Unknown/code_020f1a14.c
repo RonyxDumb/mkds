@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020f1a14.h"
 
-void func_020f1a14(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 552) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 568) = (unsigned int) (0x0u);
+void func_020f1a14(u32 p0) {
+    *(u32 *) ((u8 *) p0 + 552) = (u32) 0x0u;
+    *(u32 *) ((u8 *) p0 + 568) = (u32) 0x0u;
 }

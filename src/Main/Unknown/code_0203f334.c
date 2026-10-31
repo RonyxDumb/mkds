@@ -11,7 +11,6 @@
 #include "Main/Unknown/code_0205af90.h"
 #include "Main/Unknown/code_020a12b8.h"
 
-// non-matching: 6 words differ; the 64-bit sign copy of the z component is loaded into r1 here and r0 in the original (r0/r1 swapped around the three products), everything else is identical
 void func_0203f334(Unk0217561c_14 *a, s32 b) {
     Vec3 u;
     Vec3 v;
@@ -34,10 +33,10 @@ void func_0203f334(Unk0217561c_14 *a, s32 b) {
     func_0207a948(&u, (u32) (a->mUnk_3c << 24) >> 28);
     func_0207a8f0(&v, (u32) (a->mUnk_3c << 24) >> 28);
     func_021484d0(&u, &v, &w);
-    p = u;
     w.x = (s64) w.x * -240 >> 12;
     w.y = (s64) w.y * -240 >> 12;
     w.z = (s64) w.z * -240 >> 12;
+    p = u;
     if (t == -1) {
         t = 1;
     }

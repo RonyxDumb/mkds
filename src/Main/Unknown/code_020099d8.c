@@ -2,8 +2,8 @@
 
 #pragma thumb on
 
-// non-matching: same instructions and size, 16 words differ in registers only: the original keeps the first argument in
-// r5 and the narrowed second and third arguments in r3 and r1, ours has them in r4, r5 and r0
+// non-matching: same instructions and size, 8 words differ in registers only: the original keeps the first argument in
+// r5 and the narrowed second argument in r3, ours has them in r4 and r5
 int func_020099d8(void *a, u32 b, u32 c) {
     Unk0216fda8 *v1;
     u32 v2;
@@ -12,7 +12,7 @@ int func_020099d8(void *a, u32 b, u32 c) {
     u16 v4;
     v4 = b;
     v5 = c;
-    v1 = *(Unk0216fda8 **) &data_0216fda8;
+    v1 = data_0216fda8;
     if (v1->mUnk_528 == 0 || v1->mUnk_526 == 1) {
         return 1;
     }
@@ -25,7 +25,7 @@ int func_020099d8(void *a, u32 b, u32 c) {
         }
         v3 = func_02009aa8(v1->mUnk_508, a, v4, v2, v5);
         if (v3 == 2) {
-            (*(Unk0216fda8 **) &data_0216fda8)->mUnk_50c = 1;
+            data_0216fda8->mUnk_50c = 1;
         }
         if (v3 == 2) {
             v3 = 0;
@@ -34,7 +34,7 @@ int func_020099d8(void *a, u32 b, u32 c) {
     case 2:
         v3 = func_02009aa8(func_0200a1bc, a, v4, 0, v5);
         if (v3 == 2) {
-            (*(Unk0216fda8 **) &data_0216fda8)->mUnk_50c = 1;
+            data_0216fda8->mUnk_50c = 1;
         }
         if (v3 == 2) {
             v3 = 0;

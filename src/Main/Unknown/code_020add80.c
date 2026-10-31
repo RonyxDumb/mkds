@@ -1,11 +1,11 @@
 #include "Main/Unknown/code_020add80.h"
 
-unsigned int func_020add80(unsigned int p0) {
-    return ((unsigned int) *(
-        const unsigned short
-            *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                    const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                               const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0))) +
+u32 func_020add80(u32 p0) {
+    return ((u32) *(
+        const u16
+            *) ((u8 *) (u32) (((u32) *(
+                    const u32 *) ((u8 *) (u32) (((u32) *(
+                                               const u32 *) ((u8 *) p0 + 0))) +
                                            8))) +
                 2));
 }

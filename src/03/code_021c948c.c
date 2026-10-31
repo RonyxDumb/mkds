@@ -1,5 +1,6 @@
 #include "03/code_021c948c.h"
 #include "03/code_021c9464.h"
+#include "03/code_021d254c.h"
 
 void func_ov003_021c94c8(void) {
     int local_8[1];
@@ -14,10 +15,10 @@ void func_ov003_021c94c8(void) {
 }
 
 void func_ov003_021c948c(void) {
-    func_ov003_021d1ee0((int) (2), (int) (1), (u32) (1), (u16) (8));
-    func_ov003_021d1ee0((int) (2), (int) (0), (u32) (0x1d), (u16) (8));
-    func_ov003_021d2784((int) (1), (u32) (1));
-    func_ov003_021d2784((int) (0), (u32) (0x1d));
+    func_ov003_021d1ee0(2, 1, (u32) (1), (u16) (8));
+    func_ov003_021d1ee0(2, 0, (u32) (0x1d), (u16) (8));
+    func_ov003_021d2784(1, (u32) (1));
+    func_ov003_021d2784(0, (u32) (0x1d));
     func_ov003_021c212c(func_ov003_021c9464);
     return;
 }

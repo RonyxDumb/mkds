@@ -4,6 +4,6 @@
 #include "03/unk_021da000.h"
 
 void func_ov003_021d2f78(void) {
-    func_ov003_021d34c0(1, *(u32 *) (*(u8 **) &data_ov003_021da2f0 + 0x808));
+    func_ov003_021d34c0(1, *(u32 *) ((u8 *) data_ov003_021da2f0 + 0x808));
     func_ov003_021d2808(&data_ov003_021da2f0);
 }

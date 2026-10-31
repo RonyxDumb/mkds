@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_020e0058.h"
 
-unsigned int func_020e0058(unsigned int p0) {
+u32 func_020e0058(u32 p0) {
     return p0;
 }

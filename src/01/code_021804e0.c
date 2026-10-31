@@ -22,7 +22,7 @@
 #pragma optimize_for_size on
 #pragma thumb off
 
-unsigned int func_ov001_02180ad0(Unk02180728 *p0, u32 p1, u32 p2, u32 p3, u32 p4, u16 *p5) {
+u32 func_ov001_02180ad0(Unk02180728 *p0, u32 p1, u32 p2, u32 p3, u32 p4, u16 *p5) {
     return func_02024340(p0, p1, p2, p3, p4, p5);
 }
 
@@ -33,27 +33,27 @@ void func_ov001_02180800(void) {
 
     if (data_ov001_021a99e4->mUnk_0008 != 0) {
         func_ov001_02180ca4();
-        func_ov001_02180c88((unsigned int) mtx);
+        func_ov001_02180c88((u32) mtx);
         switch (data_ov001_021a99e4->mUnk_0004) {
         case 0:
-            func_ov001_02180c6c((u32) (1));
+            func_ov001_02180c6c((u32) 1);
             func_02148934(0);
-            func_ov001_02180c40((u32) (0), (u32) (0));
-            func_ov001_02180c24((u32) (0));
-            func_ov001_02180bf8((u32) (0));
-            func_ov001_02180bc0((u32) (0), (u32) (0), (u32) (4), (u32) (4), (u32) (0));
+            func_ov001_02180c40((u32) 0, (u32) 0);
+            func_ov001_02180c24((u32) 0);
+            func_ov001_02180bf8((u32) 0);
+            func_ov001_02180bc0((u32) 0, (u32) 0, (u32) 4, (u32) 4, (u32) 0);
             func_020ca688(1);
             func_020ca6a8();
             break;
         case 1:
         case 2:
         case 3:
-            func_ov001_02180c6c((u32) (2));
+            func_ov001_02180c6c((u32) 2);
             func_02148934(0);
-            func_ov001_02180b94((u32) (0), (u32) (0));
-            func_ov001_02180b78((u32) (0));
-            func_ov001_02180b4c((u32) (0));
-            func_ov001_02180b14((u32) (0), (u32) (0), (u32) (4), (u32) (4), (u32) (0));
+            func_ov001_02180b94((u32) 0, (u32) 0);
+            func_ov001_02180b78((u32) 0);
+            func_ov001_02180b4c((u32) 0);
+            func_ov001_02180b14((u32) 0, (u32) 0, (u32) 4, (u32) 4, (u32) 0);
             *(u16 *) 0x5000400 = 0;
             *(u16 *) 0x5000402 = 0x1f;
             *(u16 *) 0x5000404 = 0x3e0;
@@ -70,7 +70,7 @@ void func_ov001_02180800(void) {
     if (data_ov001_021a99e4->mUnk_0004 == 0) {
         func_020ca9e4();
     } else if ((u32) (data_ov001_021a99e4->mUnk_0004 - 1) <= 2) {
-        unsigned int keys;
+        u32 keys;
         int moved;
         int idx;
         int col;
@@ -101,11 +101,11 @@ void func_ov001_02180800(void) {
         }
         if (func_ov001_021805bc(keys, 0x20) != 0) {
             data_ov001_021a99e8 = (data_ov001_021a99e8 + 8) % 9;
-            func_ov001_02180af8((unsigned int) data_ov001_021a99e4->mUnk_0018[idx], 0);
+            func_ov001_02180af8((u32) data_ov001_021a99e4->mUnk_0018[idx], 0);
             moved = 1;
         } else if (func_ov001_021805bc(keys, 0x10) != 0) {
             data_ov001_021a99e8 = (data_ov001_021a99e8 + 1) % 9;
-            func_ov001_02180af8((unsigned int) data_ov001_021a99e4->mUnk_0018[idx], 0);
+            func_ov001_02180af8((u32) data_ov001_021a99e4->mUnk_0018[idx], 0);
             moved = 1;
         }
         if (moved != 0) {
@@ -127,12 +127,12 @@ void func_ov001_02180800(void) {
     }
     switch (data_ov001_021a99e4->mUnk_0008) {
     case 0:
-        func_ov001_02180c40((u32) (0), (u32) (0));
+        func_ov001_02180c40((u32) 0, (u32) 0);
         break;
     case 1:
     case 2:
     case 3:
-        func_ov001_02180b94((u32) (0), (u32) (0));
+        func_ov001_02180b94((u32) 0, (u32) 0);
         break;
     }
     data_ov001_021a99e4->mUnk_0008 = 0;
@@ -196,27 +196,26 @@ void func_ov001_021805f4(void) {
     func_020364e8();
     func_020ca6b8();
     *(u32 *) &data_ov001_021a99e4 = 0;
-    return;
 }
 
 #pragma thumb off
 
-unsigned int func_ov001_021805ec(void) {
+u32 func_ov001_021805ec(void) {
     return 0x8u;
 }
 
-u16 func_ov001_021805d8(Unk02175628 *p0, unsigned int p1) {
+u16 func_ov001_021805d8(Unk02175628 *p0, u32 p1) {
     return p0->mUnk_00 & p1;
 }
 
-unsigned int func_ov001_021805bc(unsigned int p0, unsigned int p1) {
+u32 func_ov001_021805bc(u32 p0, u32 p1) {
     return func_ov001_021805d8(&data_02175628[p0], p1);
 }
 
 #pragma thumb on
 
 void func_ov001_0218052c(Unk0218052c *p0) {
-    unsigned int v;
+    u32 v;
     Unk021a99e4 *g;
 
     func_ov001_021805ec();

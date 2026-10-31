@@ -8,7 +8,6 @@ void func_0211b224(void) {
     if (iVar1 != 0) {
         func_0211bad8();
     }
-    return;
 }
 
 #pragma thumb off

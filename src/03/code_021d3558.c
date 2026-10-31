@@ -9,22 +9,22 @@ void func_ov003_021d3558(int a) {
     s32 c;
     u32 d;
 
-    b = (*(Unk021d34c8 **) data_ov003_021da32c)[a].mUnk_0c.mUnk_04;
-    if (b != &(*(Unk021d34c8 **) data_ov003_021da32c)[a].mUnk_20) {
+    b = data_ov003_021da32c[a].mUnk_0c.mUnk_04;
+    if (b != &data_ov003_021da32c[a].mUnk_20) {
         do {
             b->mUnk_08(b, b->mUnk_0c);
             b = b->mUnk_04;
-        } while (b != &(*(Unk021d34c8 **) data_ov003_021da32c)[a].mUnk_20);
+        } while (b != &data_ov003_021da32c[a].mUnk_20);
     }
     c = 0;
-    if ((*(Unk021d34c8 **) data_ov003_021da32c)[a].mUnk_34 > 0) {
+    if (data_ov003_021da32c[a].mUnk_34 > 0) {
         do {
-            d = (u32) func_ov003_021d1cd4((*(Unk021d34c8 **) data_ov003_021da32c)[a].mResource);
+            d = (u32) func_ov003_021d1cd4(data_ov003_021da32c[a].mResource);
             if (d == 0) {
                 break;
             }
             func_ov003_021d3488(a, d);
             c++;
-        } while (c < (*(Unk021d34c8 **) data_ov003_021da32c)[a].mUnk_34);
+        } while (c < data_ov003_021da32c[a].mUnk_34);
     }
 }

@@ -5,6 +5,5 @@ void func_02035d18(void) {
     u32 value3;
     value3 = (u32) &func_02035d20;
     func_02035d20();
-    return;
 }
 #pragma thumb off

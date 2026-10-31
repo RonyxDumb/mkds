@@ -15,10 +15,10 @@ u32 func_020e8a78(void) {
     value2 = (u32) &data_0217b8c4;
     value1 = (u32) &data_0217b900;
     value0 = (u32) &data_0217b8ac;
-    *(u32 *) ((value12) + (0)) = (u32) value4;
-    *(u32 *) ((value3) + (0)) = (u32) value14;
-    *(u32 *) ((value2) + (0)) = (u32) value14;
-    *(u32 *) ((value1) + (0)) = (u32) value14;
-    *(u32 *) ((value0) + (0)) = (u32) value14;
-    return (u32) value0;
+    *(u32 *) ((value12) + (0)) = value4;
+    *(u32 *) ((value3) + (0)) = value14;
+    *(u32 *) ((value2) + (0)) = value14;
+    *(u32 *) ((value1) + (0)) = value14;
+    *(u32 *) ((value0) + (0)) = value14;
+    return value0;
 }

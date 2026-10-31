@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_02092178.h"
 
 void func_02092178(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     u32 value12;
@@ -9,6 +9,5 @@ void func_02092178(u32 arg0) {
     value2 = value0;
     value0 = 0x19fu;
     value1 = 0xau;
-    func_020ac588((u32) value0, (int) value1, (void *) value2);
-    return;
+    func_020ac588(value0, (int) value1, (void *) value2);
 }

@@ -2,7 +2,6 @@
 
 #include "types.h"
 #include "00/code_0218ae5c.h"
-#include "00/code_0218e000.h"
 
 struct Unk0218b668;
 

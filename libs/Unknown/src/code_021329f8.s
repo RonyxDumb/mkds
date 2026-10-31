@@ -4,7 +4,7 @@
 // word from func_02142578 and the trap handlers are as described in code_0212f884.s.
 //
 // Not compiled code: _fsub and _fadd (code_02130cb4.s) branch into each other past their first instructions,
-// and func_0213250c (code_021322c8.s) runs on into _fsub with no return; _ll_udiv has a second entry, _ull_mod,
+// and _fmul (code_021322c8.s) runs on into _fsub with no return; _ll_udiv has a second entry, _ull_mod,
 // in its middle, and branches into the middle of _ll_sdiv and of _u32_div_f (code_02133274.s). A compiled
 // function is entered only at its start. _fsub also uses tst and clz, which the 1.2 compiler never builds, and
 // the division routines save ip and an odd number of registers, where 1.2 never saves ip and pads every frame to

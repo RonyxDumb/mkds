@@ -9,5 +9,5 @@ u32 func_020a2204(u16 arg0) {
     value2 = (u32) * (const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
     value0 = (u32) * (const u32 *) ((value1) + (108));
-    return (u32) value0;
+    return value0;
 }

@@ -21,7 +21,6 @@ void func_020d7d80(u32 *param_1) {
             iVar4 = iVar4 + 1;
         } while (iVar4 < iVar3);
     }
-    return;
 }
 
 #pragma thumb off

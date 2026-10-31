@@ -292,16 +292,16 @@ double func_0213a550(int a, Unk02138618Func f, void *p, int *q, int *r) {
     int e;
     int ea;
     int sg;
-    unsigned char *hp;
-    unsigned char *hz;
-    unsigned int lim;
+    u8 *hp;
+    u8 *hz;
+    u32 lim;
     int he;
     int hk;
     int hm;
-    unsigned int hd;
+    u32 hd;
     double x;
     Unk02136638 rec = {0};
-    unsigned char hb[8];
+    u8 hb[8];
 
     m = 0;
     *r = 0;
@@ -350,8 +350,8 @@ double func_0213a550(int a, Unk02138618Func f, void *p, int *q, int *r) {
                 break;
             case 0x4000: {
                 int i = 1;
-                unsigned char t[9] = "INFINITY";
-                unsigned char *tp;
+                u8 t[9] = "INFINITY";
+                u8 *tp;
 
                 tp = t + 1;
                 while (i < 8 && *tp == ((c < 0 || c >= 0x80) ? c : data_0215d204[c])) {
@@ -375,9 +375,9 @@ double func_0213a550(int a, Unk02138618Func f, void *p, int *q, int *r) {
             case 0x2000: {
                 int i = 1;
                 int j = 0;
-                unsigned char t[5] = "NAN(";
-                unsigned char buf[32] = {0};
-                unsigned char *tp;
+                u8 t[5] = "NAN(";
+                u8 buf[32] = {0};
+                u8 *tp;
 
                 tp = t + 1;
                 while (i < 4 && *tp == ((c < 0 || c >= 0x80) ? c : data_0215d204[c])) {
@@ -570,8 +570,8 @@ double func_0213a550(int a, Unk02138618Func f, void *p, int *q, int *r) {
                                 h = 0x10;
                             }
                         } else if (hd < lim) {
-                            unsigned char v;
-                            unsigned char d;
+                            u8 v;
+                            u8 d;
                             int t;
 
                             hd++;
@@ -581,7 +581,7 @@ double func_0213a550(int a, Unk02138618Func f, void *p, int *q, int *r) {
                             if (hk % 2) {
                                 v |= d;
                             } else {
-                                v |= (unsigned char) (d << 4);
+                                v |= (u8) (d << 4);
                             }
                             hp[hk++ / 2] = v;
                             n++;
@@ -595,8 +595,8 @@ double func_0213a550(int a, Unk02138618Func f, void *p, int *q, int *r) {
                         if (!((c < 0 || c >= 0x80) ? 0 : data_0215d284[c] & 0x400)) {
                             h = 0x10;
                         } else if (hd < lim) {
-                            unsigned char v;
-                            unsigned char d;
+                            u8 v;
+                            u8 d;
                             int t;
 
                             v = hp[hk / 2];
@@ -605,7 +605,7 @@ double func_0213a550(int a, Unk02138618Func f, void *p, int *q, int *r) {
                             if (hk % 2) {
                                 v |= d;
                             } else {
-                                v |= (unsigned char) (d << 4);
+                                v |= (u8) (d << 4);
                             }
                             hp[hk++ / 2] = v;
                             n++;
@@ -680,7 +680,7 @@ double func_0213a550(int a, Unk02138618Func f, void *p, int *q, int *r) {
 
     if (h == 0) {
         int k;
-        unsigned char *dp;
+        u8 *dp;
 
         if (em) {
             e = -e;
@@ -720,18 +720,18 @@ double func_0213a550(int a, Unk02138618Func f, void *p, int *q, int *r) {
         }
         return x;
     } else {
-        unsigned int i;
-        unsigned int b;
-        unsigned int bp;
-        unsigned char *ob;
-        unsigned char v;
+        u32 i;
+        u32 b;
+        u32 bp;
+        u8 *ob;
+        u8 v;
         int j;
-        unsigned char cy;
-        unsigned int sh;
-        unsigned int t;
+        u8 cy;
+        u32 sh;
+        u32 t;
         double u;
 
-        ob = (unsigned char *) &u;
+        ob = (u8 *) &u;
         if (hm) {
             he = -he;
         }
@@ -762,9 +762,9 @@ double func_0213a550(int a, Unk02138618Func f, void *p, int *q, int *r) {
                 v &= 0xff << (52 - b);
             }
             sh = bp % 8;
-            ob[bp / 8] |= (unsigned char) (v >> sh);
+            ob[bp / 8] |= (u8) (v >> sh);
             bp += 8;
-            ob[bp / 8] |= (unsigned char) (v << (8 - sh));
+            ob[bp / 8] |= (u8) (v << (8 - sh));
         }
         t = he + 0x3fe;
         if (t & -0x800) {

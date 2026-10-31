@@ -73,17 +73,14 @@ void func_ov000_021854a8(void) {
     }
 }
 
-// non-matching: same instructions and order, but the second loop keeps its counter in r4 and the table pointer in r3
-// (original: counter r3, pointer r4); 4 words differ
 void func_ov000_021854f8(void) {
     s32 i;
-    s32 j;
 
     for (i = 0; i < 2; i++) {
         data_ov000_021b4c88->mUnk_30[data_ov000_021b06d8[i]].mUnk_06 = data_ov000_021b4c88->mUnk_0c;
     }
-    for (j = 0; j < 12; j++) {
-        data_ov000_021b4c88->mUnk_30[data_ov000_021b06dc[j] + data_ov000_021b4c88->mUnk_40->mUnk_06].mUnk_06 =
+    for (i = 0; i < 12; i++) {
+        data_ov000_021b4c88->mUnk_30[data_ov000_021b06dc[i] + data_ov000_021b4c88->mUnk_40->mUnk_06].mUnk_06 =
             data_ov000_021b4c88->mUnk_0c;
     }
 }

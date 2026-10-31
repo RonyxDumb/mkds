@@ -2,8 +2,10 @@
 #include "00/code_021990f8.h"
 #include "00/code_0218d000.h"
 #include "00/code_0218dc44.h"
-#include "00/code_0218e000.h"
-#include "00/code_02198000.h"
+#include "00/code_02197e8c.h"
+#include "00/code_021985ec.h"
+#include "00/code_021988e8.h"
+#include "00/code_02198a8c.h"
 #include "00/code_02199000.h"
 #include "00/code_021997f8.h"
 #include "00/code_02199a0c.h"
@@ -35,7 +37,7 @@ u32 func_ov000_02199614(Unk02197fe8 *a, const u8 *b, s32 c) {
     for (i = 0; i < f; i++) {
         g = func_ov000_0218dbf8(a->mUnk_60, i);
         if (func_ov000_0219a014(g->mUnk_08, d) >= 0 && func_ov000_0219a014(g->mUnk_08, e) <= 0) {
-            if (func_ov000_02198af4((Unk021981d0 *) a, (Unk02198af4 *) g) == 0) {
+            if (func_ov000_02198af4(a, (Unk02198af4 *) g) == 0) {
                 return 0;
             }
         }

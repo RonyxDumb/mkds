@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_020ffd3c.h"
 
-unsigned int func_020ffd3c(unsigned int p0) {
+u32 func_020ffd3c(u32 p0) {
     return p0;
 }

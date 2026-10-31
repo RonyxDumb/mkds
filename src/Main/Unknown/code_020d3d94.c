@@ -12,14 +12,14 @@ u32 func_020d3d94(void) {
     value1 = (u32) * (const u32 *) ((value1) + (0));
     compareLeft0 = value1;
     compareRight0 = 0u;
-    if ((u32) compareLeft0 == (u32) compareRight0) {
-        return (u32) value0;
+    if (compareLeft0 == compareRight0) {
+        return value0;
     }
     value1 = (u32) * (const u32 *) ((value1) + (368));
     compareLeft1 = value1;
     compareRight1 = 0u;
-    if ((u32) compareLeft1 != (u32) compareRight1) {
+    if (compareLeft1 != compareRight1) {
         value0 = 1u;
     }
-    return (u32) value0;
+    return value0;
 }

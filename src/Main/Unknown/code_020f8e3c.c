@@ -1,8 +1,8 @@
 #include "Main/Unknown/code_020f8e3c.h"
 
-unsigned int func_020f8e3c(unsigned int arg0, unsigned int arg1) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
+u32 func_020f8e3c(u32 arg0, u32 arg1) {
+    u32 value0 = arg0;
+    u32 value1 = arg1;
     u32 value2;
     u32 compareLeft0;
     u32 compareRight0;
@@ -10,24 +10,24 @@ unsigned int func_020f8e3c(unsigned int arg0, unsigned int arg1) {
     u32 compareRight1;
     compareLeft0 = value0;
     compareRight0 = 0u;
-    if ((u32) compareLeft0 == (u32) compareRight0) {
+    if (compareLeft0 == compareRight0) {
     }
-    if ((u32) compareLeft0 == (u32) compareRight0) {
+    if (compareLeft0 == compareRight0) {
     }
-    if ((u32) compareLeft0 == (u32) compareRight0) {
-        return (unsigned int) value0;
+    if (compareLeft0 == compareRight0) {
+        return value0;
     }
     value2 = (u32) * (const u32 *) ((value0) + (124));
     value2 = (value2) & (1u);
     compareLeft1 = value2;
     compareRight1 = 0u;
-    if ((u32) compareLeft1 == (u32) compareRight1) {
+    if (compareLeft1 == compareRight1) {
     }
-    if ((u32) compareLeft1 == (u32) compareRight1) {
+    if (compareLeft1 == compareRight1) {
     }
-    if ((u32) compareLeft1 == (u32) compareRight1) {
-        return (unsigned int) value0;
+    if (compareLeft1 == compareRight1) {
+        return value0;
     }
-    value0 = (u32) func_020719bc((Unk0210bfbc *) value0, (u32) value1);
-    return (unsigned int) value0;
+    value0 = (u32) func_020719bc((Unk0210bfbc *) value0, value1);
+    return value0;
 }

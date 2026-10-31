@@ -16,5 +16,4 @@ void func_020ec884(Unk020e43a8 *arg0) {
     *(u16 *) ((value4) + (144)) = (u16) value0;
     value0 = 1u;
     *(u16 *) ((value4) + (146)) = (u16) value0;
-    return;
 }

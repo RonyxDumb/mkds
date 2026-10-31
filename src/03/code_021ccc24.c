@@ -3,7 +3,7 @@
 #include "03/code_021cdbd0.h"
 #include "03/code_021cdbe4.h"
 #include "03/code_021cdbfc.h"
-#include "03/code_021d2000.h"
+#include "03/code_021d2a80.h"
 #include "03/code_021d2940.h"
 #include "03/unk_021d6000.h"
 #include "03/unk_021d7000.h"
@@ -11,7 +11,7 @@
 #include "code_02147cd8.h"
 
 void func_ov003_021ccc24(s32 param_1) {
-    s32 a = (*(Unk021cca74 **) data_ov003_021da268)->mOffset - param_1;
+    s32 a = data_ov003_021da268->mOffset - param_1;
     u32 b;
     u32 c;
     if (a < 0) {
@@ -41,25 +41,25 @@ void func_ov003_021ccc90(void) {
     s32 c;
     if (func_ov003_021d2a80(&data_ov003_021d67e8) != 0) {
         func_ov003_021d2940(a);
-        if (a[0] >= (*(Unk021cca74 **) data_ov003_021da268)->mX - 0x1e) {
-            b = (*(Unk021cca74 **) data_ov003_021da268)->mUnk_18 +
-                (a[1] - (*(Unk021cca74 **) data_ov003_021da268)->mUnk_14[1]);
+        if (a[0] >= data_ov003_021da268->mX - 0x1e) {
+            b = data_ov003_021da268->mUnk_18 +
+                (a[1] - data_ov003_021da268->mUnk_14[1]);
             if (b < 0) {
                 b = 0;
             } else {
-                c = (*(Unk021cca74 **) data_ov003_021da268)->mUnk_19 -
-                    data_ov003_021d6630[(*(Unk021cca74 **) data_ov003_021da268)->mUnk_1b];
+                c = data_ov003_021da268->mUnk_19 -
+                    data_ov003_021d6630[data_ov003_021da268->mUnk_1b];
                 if (b >= c) {
                     b = c;
                 }
             }
             func_ov003_021ccc24(b);
             func_ov003_021cca74(b);
-            (*(Unk021cca74 **) data_ov003_021da268)->mUnk_1d = 2;
+            data_ov003_021da268->mUnk_1d = 2;
             return;
         }
     }
     func_ov003_021cdbd0();
-    (*(Unk021cca74 **) data_ov003_021da268)->mUnk_1c = 0;
-    (*(Unk021cca74 **) data_ov003_021da268)->mUnk_1d = 3;
+    data_ov003_021da268->mUnk_1c = 0;
+    data_ov003_021da268->mUnk_1d = 3;
 }

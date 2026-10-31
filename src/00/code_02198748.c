@@ -2,7 +2,7 @@
 #include "00/code_02198d04.h"
 #include "code_02134d30.h"
 
-void func_ov000_02198748(Unk021981d0 *a, void *b, u32 c, ...) {
+void func_ov000_02198748(Unk02197fe8 *a, void *b, u32 c, ...) {
     a->mUnk_14 = 0;
     if (a->mUnk_0c == 4) {
         func_ov000_0219a61c((const u8 **) &b, (s32 *) &c);
@@ -11,7 +11,7 @@ void func_ov000_02198748(Unk021981d0 *a, void *b, u32 c, ...) {
     }
 }
 
-int func_ov000_02198778(Unk021981d0 *a, Unk02198778 *b) {
+int func_ov000_02198778(Unk02197fe8 *a, Unk02198778 *b) {
     if (a->mUnk_14 != 0) {
         a->mUnk_14 = 0;
         return 0;
@@ -28,7 +28,7 @@ int func_ov000_02198778(Unk021981d0 *a, Unk02198778 *b) {
     return 1;
 }
 
-int func_ov000_021987c8(Unk021981d0 *a, void *b, int c, Unk02198778 *d) {
+int func_ov000_021987c8(Unk02197fe8 *a, void *b, int c, Unk02198778 *d) {
     u8 e[0x24];
     func_ov000_0219a61c((const u8 **) &b, (s32 *) &c);
     if (c > 0) {
@@ -49,8 +49,8 @@ int func_ov000_021987c8(Unk021981d0 *a, void *b, int c, Unk02198778 *d) {
     return 0;
 }
 
-int func_ov000_0219883c(void *a, Unk021981d0 **b, int c, u32 d) {
-    int r = func_ov000_0219a28c((Unk02197e8c *) a, (Unk02197fe8 **) b, c, d);
+int func_ov000_0219883c(void *a, Unk02197fe8 **b, int c, u32 d) {
+    int r = func_ov000_0219a28c(a, b, c, d);
     if (r != 0) {
         return r;
     }
@@ -59,8 +59,8 @@ int func_ov000_0219883c(void *a, Unk021981d0 **b, int c, u32 d) {
     return 0;
 }
 
-int func_ov000_0219885c(void *a, Unk021981d0 **b, int c, u32 d) {
-    int r = func_ov000_0219a28c((Unk02197e8c *) a, (Unk02197fe8 **) b, c, d);
+int func_ov000_0219885c(void *a, Unk02197fe8 **b, int c, u32 d) {
+    int r = func_ov000_0219a28c(a, b, c, d);
     if (r != 0) {
         return r;
     }

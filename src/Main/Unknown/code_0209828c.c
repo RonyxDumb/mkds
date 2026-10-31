@@ -64,14 +64,12 @@ static inline u32 func_020983c4_inline(u32 n) {
         if (m == 0) {
             t = r->mUnk_00 >> 32;
         } else {
-            t = ((s64) (r->mUnk_00 >> 32) * m) >> 32;
+            t = ((r->mUnk_00 >> 32) * m) >> 32;
         }
     }
     return (u16) t;
 }
 
-// non-matching: same size; in the random-number inline the else arm loads the high word into r2 and the zero word into r0
-// (original r0 and r3), so the umull/mla registers differ, and cmp r1, #0 follows str r2, [r0, #4] instead of preceding it
 void func_020983c4(void *a, Unk020983c4 *p) {
     s32 f;
     s32 t;
@@ -268,8 +266,6 @@ void func_02098b34(void *a) {
     func_0209b9a4(data_usa_0217b0e4, 0x1e);
 }
 
-// non-matching: the argument of func_0209b77c gets an extra lsr/lsl/lsr #16 where the original has lsl #4, lsr #16
-// (size 0x1a4 against 0x19c); the rest is identical
 void func_02098b68(void *a, Unk020983c4 *p) {
     s32 w;
     s32 m[9];
@@ -302,7 +298,7 @@ void func_02098b68(void *a, Unk020983c4 *p) {
     func_01ff9048(0x1b, g, 3);
     func_01ff9048(0x1b, &p->mUnk_000.mUnk_1c, 3);
     func_0209b940(data_usa_0217b0e0, p->mUnk_0a0);
-    func_0209b77c(data_usa_0217b0e0, (u32) p->mUnk_0a4 << 4 >> 16);
+    func_0209b77c(data_usa_0217b0e0, p->mUnk_0a4 >> 12);
     func_0209bb2c(a, data_usa_0217b0e0, p);
 }
 

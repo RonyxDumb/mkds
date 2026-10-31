@@ -1,11 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_0218e000.h"
+#include "00/code_0218ee1c.h"
 #include "00/code_0218f960.h"
 #include "00/code_02190000.h"
 #include "00/code_02193000.h"
-#include "00/code_021a8000.h"
 
 extern u8 data_ov000_021b35b8[];
 extern u8 data_ov000_021b35f8[];

@@ -2,7 +2,7 @@
 
 u32 func_ov000_021a38d8(void) {
     int *piVar1;
-    piVar1 = (int *) (*(u32 *) &data_ov000_021b5df4);
+    piVar1 = (int *) (u32) data_ov000_021b5df4;
     if (piVar1 == (int *) 0x0) {
         return 0;
     }

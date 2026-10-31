@@ -1,15 +1,15 @@
 #include "Main/Unknown/code_020ae3d8.h"
 
-unsigned int func_020ae3f4(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_021759d0))) +
+u32 func_020ae3f4(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_021759d0))) +
                                                           0))) +
                                32));
 }
 
-unsigned int func_020ae3d8(void) {
+u32 func_020ae3d8(void) {
     return (
-        (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aa00))) + 0))) +
+        (((u32) *(const u32 *) ((u8 *) (u32) (((u32) (&data_0217aa00))) + 0))) +
         (0x1ee8u));
 }

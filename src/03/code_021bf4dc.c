@@ -7,5 +7,5 @@ u32 func_ov003_021bf4dc(void) {
     value1 = (value0 << 2);
     value0 = (u32) &data_ov003_021d5f1c;
     value0 = (u32) * (const u32 *) ((value0) + (value1));
-    return (u32) value0;
+    return value0;
 }

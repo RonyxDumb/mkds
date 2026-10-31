@@ -27,10 +27,9 @@ void func_0202ed04(void) {
     }
 }
 
-// non-matching: loop counters in swapped registers (outer r5/inner r4 instead of r4/r5), 6 words differ
 void func_0202ed50(s32 a) {
-    s32 i;
     s32 j;
+    s32 i;
     for (i = 1; i < 0x13; i++) {
         for (j = 0x1c; j < 0x20; j++) {
             u8 *q = (u8 *) data_02174e48 + (j + i * 0x20) * 2;

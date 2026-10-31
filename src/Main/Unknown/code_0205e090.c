@@ -11,5 +11,5 @@ u32 func_0205e090(void) {
     u32 value0;
     value0 = (u32) &data_021653b8;
     value0 = (u32) * (const s16 *) ((value0) + (4));
-    return (u32) value0;
+    return value0;
 }

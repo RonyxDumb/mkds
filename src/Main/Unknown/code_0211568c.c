@@ -9,7 +9,6 @@ void func_021156bc(void) {
     if (iVar1 != 0) {
         func_02115e60();
     }
-    return;
 }
 
 void func_021156a4(void) {
@@ -18,7 +17,6 @@ void func_021156a4(void) {
     if (iVar1 != 0) {
         func_02115e44();
     }
-    return;
 }
 
 void func_0211568c(void) {
@@ -27,7 +25,6 @@ void func_0211568c(void) {
     if (iVar1 != 0) {
         func_02115e20();
     }
-    return;
 }
 
 #pragma thumb off

@@ -7,7 +7,6 @@ void func_02020e50(void) {
     value12 = (u32) &func_0200ed34;
     value0 = (u32) &data_021732b0;
     func_0200ed34((void *) value0);
-    return;
 }
 
 void func_02020e3c(void) {
@@ -16,5 +15,4 @@ void func_02020e3c(void) {
     value12 = (u32) &func_0200ecc4;
     value0 = (u32) &data_021732b0;
     func_0200ecc4((void *) value0);
-    return;
 }

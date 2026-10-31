@@ -9,7 +9,7 @@ void func_0200aeec(Unk0200aeec *a, void *b, void *c, u32 d) {
     u32 v3;
     Unk0200aeec *v4;
     Unk0200aeec *v5;
-    v1 = *(Unk0200aeec_head **) &data_0216fde0;
+    v1 = data_0216fde0;
     if (func_0200b018() == 0) {
         func_0200fd1c();
     }
@@ -43,7 +43,7 @@ void func_0200aeec(Unk0200aeec *a, void *b, void *c, u32 d) {
     a->mUnk_0c = c;
     if (v1->mUnk_c0 == 0) {
         if (a == &v1->mUnk_c4) {
-            *(Unk0200aeec_head **) &data_0216fde0 = 0;
+            data_0216fde0 = 0;
         }
         v1->mUnk_c0 = a;
         func_0200df68(&v1->mUnk_00);
@@ -56,7 +56,7 @@ void func_0200aeec(Unk0200aeec *a, void *b, void *c, u32 d) {
                 } while (v4->mUnk_00 != 0);
             }
             v4->mUnk_00 = a;
-            *(Unk0200aeec_head **) &data_0216fde0 = 0;
+            data_0216fde0 = 0;
         } else if (v4->mUnk_04_1 > d) {
             v1->mUnk_c0 = a;
             a->mUnk_00 = v4;

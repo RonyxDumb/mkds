@@ -11,5 +11,5 @@ u32 func_0207a68c(int arg0) {
     value12 = (u32) &func_0206c0a8;
     value0 = (value1) * (value0) + (value2);
     value0 = (u32) func_0206c0a8((Unk0206bcb0 *) value0);
-    return (u32) value0;
+    return value0;
 }

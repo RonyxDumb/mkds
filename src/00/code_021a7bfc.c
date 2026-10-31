@@ -1,10 +1,13 @@
 #include "00/code_021a7bfc.h"
+#include "00/code_021a8000.h"
+#include "00/code_021ae314.h"
 #include "00/code_021a6d6c.h"
 #include "00/code_021a6fb4.h"
 #include "00/code_021a7048.h"
 #include "00/code_021a78a4.h"
 #include "00/code_021a7bc8.h"
-#include "00/code_021a8000.h"
+#include "00/code_021a8db8.h"
+#include "00/code_021a911c.h"
 #include "00/code_021a8a5c.h"
 #include "00/code_021a8aa8.h"
 #include "00/code_021a8ae8.h"
@@ -29,8 +32,8 @@ static inline s32 func_ov000_021a7c4c_inline(Unk021a6fa8 *a) {
 
 static inline s32 func_ov000_021a7de0_inline(Unk021a6fa8 *a) {
     s32 b = 0;
-    if (a != 0 && (a->mUnk_70 & 1) != 0) {
-        b = 1;
+    if (a != 0) {
+        b = (a->mUnk_70 & 1) != 0;
     }
     return b;
 }
@@ -103,11 +106,11 @@ s32 func_ov000_021a7c4c(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e) {
 s32 func_ov000_021a7d14(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f) {
     s32 g;
     if (a->mUnk_73 == 4) {
-        return func_ov000_021a7bc8((unsigned int) a, (unsigned int) b, (unsigned int) c, (unsigned int) d, (unsigned int) e);
+        return func_ov000_021a7bc8((u32) a, (u32) b, (u32) c, (u32) d, (u32) e);
     }
     g = func_ov000_021a7c4c(a, b, c, d, e);
     if (g == -6 && f == 1) {
-        g = func_ov000_021a7bc8((unsigned int) a, (unsigned int) b, (unsigned int) c, (unsigned int) d, (unsigned int) e);
+        g = func_ov000_021a7bc8((u32) a, (u32) b, (u32) c, (u32) d, (u32) e);
     }
     return g;
 }
@@ -140,9 +143,8 @@ s32 func_ov000_021a7d68(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f, s
     return j;
 }
 
-// non-matching: the flag test `p != 0 && (p->mUnk_70 & 1)` is branched straight; the original sets a result register (`movs r2, #0` before `cmp r5, #0`, `adds r2, r0, #0` for the set) and tests it after the join, size 0x108 against 0x10a; the volatile view reloads the halfword at 0x70 for each test as the original does
-unsigned int func_ov000_021a7de0(unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e,
-                                 unsigned int f) {
+u32 func_ov000_021a7de0(u32 a, u32 b, u32 c, u32 d, u32 e,
+                                 u32 f) {
     volatile Unk021a6fa8 *v;
     Unk021a6fa8 *g = (Unk021a6fa8 *) a;
     Unk021a71c0 *h;
@@ -380,9 +382,9 @@ s32 func_ov000_021a81a8(Unk021a6fa8 *a, u8 *b, s32 c, u16 d, u16 *e, s32 f) {
     return g;
 }
 
-// non-matching: the flag test `p != 0 && (p->mUnk_70 & 1)` is branched straight; the original sets a result register (`movs r2, #0` before `cmp r5, #0`, `adds r2, r0, #0` for the set) and tests it after the join; the incoming arguments sit in other registers (original: second in r6, third in r7, fourth at [sp, #8]; ours: r7, [sp, #8], r6); the volatile view reloads the halfword at 0x70 for each test as the original does
-unsigned int func_ov000_021a8268(unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e,
-                                 unsigned int f) {
+// non-matching: the incoming arguments sit in other registers (original: second in r6, third in r7, fourth at [sp, #8]; ours: r7, [sp, #8], r6); the volatile view reloads the halfword at 0x70 for each test as the original does; size 0xdc against 0xda
+u32 func_ov000_021a8268(u32 a, u32 b, u32 c, u32 d, u32 e,
+                                 u32 f) {
     volatile Unk021a6fa8 *v;
     Unk021a6fa8 *g = (Unk021a6fa8 *) a;
     Unk021a722a *h;
@@ -422,7 +424,6 @@ s32 func_ov000_021a8344(Unk021a7064 *a) {
     return 0;
 }
 
-// non-matching: the flag test `p != 0 && (p->mUnk_70 & 1)` is branched straight; the original sets a result register (`movs r2, #0` before `cmp r5, #0`, `adds r2, r0, #0` for the set) and tests it after the join, size 0xb4 against 0xb8; the volatile view reloads the halfword at 0x70 for each test as the original does
 s32 func_ov000_021a836c(s32 param_1) {
     volatile Unk021a6fa8 *v;
     Unk021a6fa8 *a = (Unk021a6fa8 *) param_1;
@@ -539,7 +540,6 @@ s32 func_ov000_021a8580(Unk021a7064 *a) {
     return 0;
 }
 
-// non-matching: the flag test `p != 0 && (p->mUnk_70 & 1)` is branched straight; the original sets a result register (`movs r2, #0` before `cmp r5, #0`, `adds r2, r0, #0` for the set) and tests it after the join, size 0xb4 against 0xb8; the volatile view reloads the halfword at 0x70 for each test as the original does
 s32 func_ov000_021a8604(s32 param_1) {
     volatile Unk021a6fa8 *v;
     Unk021a6fa8 *a = (Unk021a6fa8 *) param_1;

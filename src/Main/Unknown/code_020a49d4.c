@@ -421,7 +421,7 @@ void func_020a49d4(Unk020a3fa8 *a) {
             if (a->mUnk_000.mUnk_9c->mUnk_2c != 0) {
                 p->mUnk_30 = a->mUnk_000.mUnk_9c->mUnk_2c;
             } else {
-                switch (data_021759c0->mUnk_70[(u16) i].mUnk_04) {
+                switch (data_021759c0->mUnk_68[(u16) i].mUnk_08.mUnk_04) {
                     case 0:
                         p->mUnk_30 = 1;
                         break;

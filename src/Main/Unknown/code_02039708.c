@@ -1,28 +1,28 @@
 #include "Main/Unknown/code_02039708.h"
 
-void func_02039728(unsigned int p0) {
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 4) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 6) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 8) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 10) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 12) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 14) = (unsigned short) (0x14u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 16) = (unsigned short) (0x8u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 18) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 20) = (unsigned short) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 24) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 28) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 32) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 36) = (unsigned int) (0x0u);
+void func_02039728(u32 p0) {
+    *(u16 *) ((u8 *) p0 + 0) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 2) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 4) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 6) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 8) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 10) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 12) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 14) = (u16) 0x14u;
+    *(u16 *) ((u8 *) p0 + 16) = (u16) 0x8u;
+    *(u16 *) ((u8 *) p0 + 18) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 20) = (u16) 0x0u;
+    *(u32 *) ((u8 *) p0 + 24) = (u32) 0x0u;
+    *(u32 *) ((u8 *) p0 + 28) = (u32) 0x0u;
+    *(u32 *) ((u8 *) p0 + 32) = (u32) 0x0u;
+    *(u32 *) ((u8 *) p0 + 36) = (u32) 0x0u;
 }
 
-void func_02039708(unsigned int p0) {
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 4) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 6) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 8) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 10) = (unsigned short) (0x0u);
+void func_02039708(u32 p0) {
+    *(u16 *) ((u8 *) p0 + 0) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 2) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 4) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 6) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 8) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 10) = (u16) 0x0u;
 }

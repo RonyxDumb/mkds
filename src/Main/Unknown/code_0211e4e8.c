@@ -91,8 +91,6 @@ void func_0211efec(void) {
     func_02016468(0x1e, 0, d->mUnk_0c, d->mUnk_08);
 }
 
-// non-matching: the two locals holding data_0215cf04[0] and data_0215cf0c[0] are allocated r4 and r5 the
-// other way round (6 words at +0x186..+0x1b8).
 void func_0211ed80(void) {
     s32 i;
     u16 c;
@@ -102,7 +100,6 @@ void func_0211ed80(void) {
     s32 v;
     s32 m;
     s32 a;
-    s32 b;
 
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         return;
@@ -141,15 +138,15 @@ void func_0211ed80(void) {
     }
     a = data_0215cf04[0];
     data_0217d378->mUnk_18[a].mUnk_00 = 1;
-    b = data_0215cf0c[0];
-    func_02124100(b, 0xe, data_0217d378->mUnk_08, data_0217d378->mUnk_18, data_0217d378->mUnk_04);
+    j = data_0215cf0c[0];
+    func_02124100(j, 0xe, data_0217d378->mUnk_08, data_0217d378->mUnk_18, data_0217d378->mUnk_04);
     data_0217d378->mUnk_1c[a].mUnk_00 = 1;
-    func_02124100(b, 0xe, data_0217d378->mUnk_14, data_0217d378->mUnk_1c, data_0217d378->mUnk_10);
+    func_02124100(j, 0xe, data_0217d378->mUnk_14, data_0217d378->mUnk_1c, data_0217d378->mUnk_10);
     for (m = 1; m < 4; m++) {
-        data_0217d378->mUnk_18[data_0215cf06[m]].mUnk_00 = 0;
-        func_02124100(data_0215cf0e[m], 0xf, data_0217d378->mUnk_08, data_0217d378->mUnk_18, data_0217d378->mUnk_04);
-        data_0217d378->mUnk_1c[data_0215cf06[m]].mUnk_00 = 0;
-        func_02124100(data_0215cf0e[m], 0xf, data_0217d378->mUnk_14, data_0217d378->mUnk_1c, data_0217d378->mUnk_10);
+        data_0217d378->mUnk_18[data_0215cf04[m]].mUnk_00 = 0;
+        func_02124100(data_0215cf0c[m], 0xf, data_0217d378->mUnk_08, data_0217d378->mUnk_18, data_0217d378->mUnk_04);
+        data_0217d378->mUnk_1c[data_0215cf04[m]].mUnk_00 = 0;
+        func_02124100(data_0215cf0c[m], 0xf, data_0217d378->mUnk_14, data_0217d378->mUnk_1c, data_0217d378->mUnk_10);
     }
     func_020d0efc(data_0215cf8c[data_0215cf2c[func_0202968c()]][0]);
     data_0217d378->mUnk_38 = 1;

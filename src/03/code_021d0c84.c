@@ -1,7 +1,7 @@
 #include "03/code_021d0c84.h"
 #include "03/code_021cfa68.h"
 #include "03/code_021cf5ac.h"
-#include "03/code_021cf000.h"
+#include "03/code_021cf284.h"
 #include "03/code_021cf360.h"
 #include "03/code_021cf598.h"
 #include "03/code_021cfaa8.h"
@@ -16,20 +16,20 @@
 void func_ov003_021d0c84(void) {
     switch (func_ov003_021cf360()) {
         case 1:
-            func_ov003_021cf93c((Unk021cf8ac *) &(*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_ab4, (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_64a);
+            func_ov003_021cf93c((Unk021cf8ac *) &data_ov003_021da2ac->mUnk_ab4, data_ov003_021da2ac->mUnk_64a);
             return;
         case 2:
             if (func_ov003_021cf32c(2) != 0) {
-                (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a90 = 5;
+                data_ov003_021da2ac->mUnk_a90 = 5;
                 return;
             }
             if (func_ov003_021cf32c(3) != 0 || func_ov003_021cf32c(4) != 0) {
-                (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a90 = 6;
+                data_ov003_021da2ac->mUnk_a90 = 6;
                 return;
             }
-            if ((*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a90 == 5) {
+            if (data_ov003_021da2ac->mUnk_a90 == 5) {
                 if (func_ov003_021cf32c(2) == 0) {
-                    (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a90 = 0xd;
+                    data_ov003_021da2ac->mUnk_a90 = 0xd;
                     return;
                 }
             }
@@ -39,19 +39,19 @@ void func_ov003_021d0c84(void) {
                 func_ov003_021cf5ac();
                 return;
             }
-            if ((u8) ((*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a90 + 250) <= 1) {
+            if ((u8) (data_ov003_021da2ac->mUnk_a90 + 250) <= 1) {
                 if (func_ov003_021cf32c(3) == 0) {
-                    (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a90 = 0x12;
+                    data_ov003_021da2ac->mUnk_a90 = 0x12;
                     return;
                 }
             }
             break;
         case 5:
-            (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a90 = 7;
+            data_ov003_021da2ac->mUnk_a90 = 7;
             return;
         case 7:
             func_ov003_021cf598();
-            (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a90 = 1;
+            data_ov003_021da2ac->mUnk_a90 = 1;
             return;
         case 0:
             switch (func_ov003_021d010c()) {
@@ -59,12 +59,12 @@ void func_ov003_021d0c84(void) {
                     func_ov003_021cfa68();
                     return;
                 case 0:
-                    (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a90 = 0x1f;
+                    data_ov003_021da2ac->mUnk_a90 = 0x1f;
                     return;
                 case 3:
                     break;
                 default:
-                    (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a90 = 0x1f;
+                    data_ov003_021da2ac->mUnk_a90 = 0x1f;
                     break;
             }
             break;
@@ -72,7 +72,7 @@ void func_ov003_021d0c84(void) {
 }
 
 void func_ov003_021d0dd8(void) {
-    func_ov003_021cf978((*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_ac8, (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_648);
+    func_ov003_021cf978(data_ov003_021da2ac->mUnk_ac8, data_ov003_021da2ac->mUnk_648);
 }
 
 void func_ov003_021d0df8(void) {
@@ -81,13 +81,13 @@ void func_ov003_021d0df8(void) {
             func_ov003_021d0078();
             return;
         case 7:
-            (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_64a = func_ov003_021cfed8();
-            (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a98 = 0;
-            (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a90 = 3;
+            data_ov003_021da2ac->mUnk_64a = func_ov003_021cfed8();
+            data_ov003_021da2ac->mUnk_a98 = 0;
+            data_ov003_021da2ac->mUnk_a90 = 3;
             return;
         case 0:
-            (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a98 = 0;
-            (*(Unk021da2ac **) &data_ov003_021da2ac)->mUnk_a90 = 3;
+            data_ov003_021da2ac->mUnk_a98 = 0;
+            data_ov003_021da2ac->mUnk_a90 = 3;
             return;
         case 9:
             func_ov003_021cfb80();

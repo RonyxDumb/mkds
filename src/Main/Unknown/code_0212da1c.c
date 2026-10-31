@@ -7,5 +7,4 @@ void func_0212da1c(Unk02017328 *arg0) {
     value12 = (u32) &func_02017538;
     value1 = 0u;
     func_02017538((Unk02017328 *) value0, (u16) value1);
-    return;
 }

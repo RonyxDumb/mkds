@@ -100,7 +100,7 @@ void func_ov001_0219f058(void *param_1, void *param_2, void *param_3)
 
     *(vu16 *) 0x4000008 = (*(vu16 *) 0x4000008 & 0x43) | 0x9004;
     {
-        void *heap = func_02036948((void *) param_1);
+        void *heap = func_02036948(param_1);
 
         data_ov001_021ca410 = func_02036bec(heap, 0x5c);
         data_ov001_021ca410->mUnk_18 = heap;

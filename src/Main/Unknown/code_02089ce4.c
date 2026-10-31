@@ -1,16 +1,16 @@
 #include "Main/Unknown/code_02089ce4.h"
 
-void func_02089ce4(unsigned int p0, unsigned int p1) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned int) (((unsigned int) *(
-        const unsigned int
-            *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                    const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                               const unsigned int *) ((unsigned char *) (unsigned int) (p1) + 0))) +
+void func_02089ce4(u32 p0, u32 p1) {
+    *(u32 *) ((u8 *) p0 + 0) = (u32) (((u32) *(
+        const u32
+            *) ((u8 *) (u32) (((u32) *(
+                    const u32 *) ((u8 *) (u32) (((u32) *(
+                                               const u32 *) ((u8 *) p1 + 0))) +
                                            716))) +
                 16)));
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 4) =
-        (unsigned int) (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0)));
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 8) = (unsigned int) (0x5000u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 12) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 16) = (unsigned int) (0x0u);
+    *(u32 *) ((u8 *) p0 + 4) =
+        (u32) (((u32) *(const u32 *) ((u8 *) p0 + 0)));
+    *(u32 *) ((u8 *) p0 + 8) = (u32) 0x5000u;
+    *(u32 *) ((u8 *) p0 + 12) = (u32) 0x0u;
+    *(u32 *) ((u8 *) p0 + 16) = (u32) 0x0u;
 }

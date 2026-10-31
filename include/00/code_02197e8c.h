@@ -6,6 +6,16 @@
 #include "00/unk_021b3000.h"
 #include "code_0213442c.h"
 
+struct Unk02197e8c;
+struct Unk02197fe8;
+
+typedef struct Unk02198778 {
+    /* 00 */ void (*mUnk_00)(struct Unk02197fe8 *a, int b, void *c, int d);
+    /* 04 */ void (*mUnk_04)(struct Unk02197fe8 *a, void *b, int c, int d);
+    /* 08 */ void (*mUnk_08)(struct Unk02197fe8 *a, void *b);
+    /* 0c */ UnkWordFunc *mUnk_0c;
+} Unk02198778;
+
 // Object with the callbacks that the functions of this file call.
 typedef struct Unk02197e8c {
     /* 00 */ s32 mUnk_00;
@@ -17,8 +27,8 @@ typedef struct Unk02197e8c {
     /* 14 */ s32 mUnk_14;
     /* 18 */ s32 mUnk_18;
     /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
+    /* 20 */ void (*mUnk_20)(struct Unk02197e8c *a, struct Unk02197fe8 *b, int c, int d, int e, int f, int g);
+    /* 24 */ void (*mUnk_24)(struct Unk02197e8c *a);
     /* 28 */ UnkWordFunc *mUnk_28;
     /* 2c */ UnkWordFunc *mUnk_2c;
     /* 30 */ UnkWordFunc *mUnk_30;
@@ -33,9 +43,9 @@ typedef struct Unk02197fe8Entry {
 } Unk02197fe8Entry;
 
 typedef struct Unk02197fe8Buf {
-    /* 0 */ void *mUnk_00;
-    /* 4 */ s32 mUnk_04;
-    /* 8 */ s32 mUnk_08;
+    /* 0 */ u8 *mUnk_00;
+    /* 4 */ u32 mUnk_04;
+    /* 8 */ u32 mUnk_08;
 } Unk02197fe8Buf;
 
 typedef struct Unk02197fe8 {
@@ -46,15 +56,12 @@ typedef struct Unk02197fe8 {
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
-    /* 18 */ u8 mUnk_18[4];
-    /* 1c */ s32 mUnk_1c;
+    /* 18 */ s32 mUnk_18;
+    /* 1c */ u32 mUnk_1c;
     /* 20 */ u32 mUnk_20;
     /* 24 */ s32 mUnk_24;
-    /* 28 */ u8 mUnk_28[0xc];
-    /* 34 */ UnkWordFunc *mUnk_34;
-    /* 38 */ void *mUnk_38;
-    /* 3c */ u32 mUnk_3c;
-    /* 40 */ u8 mUnk_40[4];
+    /* 28 */ Unk02198778 mUnk_28;
+    /* 38 */ Unk02197fe8Buf mUnk_38;
     /* 44 */ Unk02197fe8Buf mUnk_44;
     /* 50 */ Unk02197fe8Buf mUnk_50;
     /* 5c */ void *mUnk_5c;
@@ -64,7 +71,8 @@ typedef struct Unk02197fe8 {
     /* 68 */ u8 mUnk_68[0x20];
     /* 88 */ u32 mUnk_88;
     /* 8c */ u32 mUnk_8c;
-    /* 90 */ u8 mUnk_90[8];
+    /* 90 */ u32 mUnk_90;
+    /* 94 */ u32 mUnk_94;
     /* 98 */ void *mUnk_98;
     /* 9c */ void *mUnk_9c;
 } Unk02197fe8;

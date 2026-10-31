@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-unsigned int func_020aca20(unsigned int p0) {
+u32 func_020aca20(u32 p0) {
     return p0;
 }
 
@@ -11,7 +11,6 @@ void func_020aca08(int param_1) {
         *(u16 *) (param_1 + 4) = 0xb;
         func_02105e98();
     }
-    return;
 }
 
 #pragma thumb off

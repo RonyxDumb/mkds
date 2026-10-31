@@ -265,7 +265,7 @@ void func_020b8624(void) {
                   func_020b47c0("race_goal_team_s_o.NCLR"));
     if (data_021759c0->mUnk_58 != 0) {
         a8 = 0;
-        m = data_021759c0->mUnk_70[func_020b4d9c()].mUnk_04 == 0 ? 0x13 : 0x23;
+        m = data_021759c0->mUnk_68[func_020b4d9c()].mUnk_08.mUnk_04 == 0 ? 0x13 : 0x23;
         func_020b4a7c(&a8, func_020b47c0("race_own_character_s_o.NCLR"));
         func_0200ee74(data_0217b3c4->mUnk_7dc[6].mUnk_00->mUnk_0c, 0x200);
         for (j = 0; j < 4; j++) {
@@ -312,7 +312,7 @@ void func_020b8624(void) {
         func_020adff0(i, w5, 0);
         if (i == func_020b4d9c()) {
             if (data_021759c0->mUnk_58 != 0) {
-                if (data_021759c0->mUnk_70[i].mUnk_04 == 0) {
+                if (data_021759c0->mUnk_68[i].mUnk_08.mUnk_04 == 0) {
                     b = 0xa;
                     c = 0xb;
                 } else {

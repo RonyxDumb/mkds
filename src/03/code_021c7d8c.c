@@ -1,4 +1,6 @@
 #include "03/code_021c7d8c.h"
+#include "03/code_021c85a0.h"
+#include "03/code_021cc924.h"
 
 u32 func_ov003_021c7d8c(void) {
     Unk021cdb6c *a;

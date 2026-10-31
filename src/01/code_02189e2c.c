@@ -38,7 +38,7 @@ void func_ov001_0218a120(Unk0218d87c *param_1) {
             Vec3 v = {0, 0, 0};
             v.x = obj->mUnk_0a0->mUnk_0fc;
             v.y = obj->mUnk_0a0->mUnk_100;
-            func_ov001_02187c88((Unk02188950 *) (obj), (s32) (5), (const Vec3 *) (&v));
+            func_ov001_02187c88((Unk02188950 *) (obj), 5, (const Vec3 *) (&v));
             if (func_02062ec4() != 0) {
                 func_ov001_0218a19c((int)obj);
             } else {
@@ -87,7 +87,7 @@ void func_ov001_0218a074(u32 param_1, Unk02188950 *param_2) {
 }
 
 void func_ov001_0218a034(Unk02188950 *param_1) {
-    func_020ac588((u32) (0xc9), (int) (0xa), (void *) param_1);
+    func_020ac588((u32) (0xc9), 0xa, (void *) param_1);
     param_1->mUnk_000.mUnk_94 = func_02036bec((void *) func_020364e0(func_020364e8()), 0x44);
     func_02109110((Unk0210bfbc *) (param_1->mUnk_000.mUnk_94), (u32) (0xc), (Vec3 *) (&param_1->mUnk_000.mUnk_04));
     param_1->mUnk_000.mUnk_70 = data_0217cbec[0x50 / 4];
@@ -104,7 +104,7 @@ void func_ov001_02189fe0(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
         }
     }
     param_1->mUnk_2e0 = 1;
-    func_ov001_021881f4((Unk02188950 *) param_1, (UnkFunc *) func_ov001_02189fe0);
+    func_ov001_021881f4(param_1, (UnkFunc *) func_ov001_02189fe0);
 }
 
 void func_ov001_02189ed8(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
@@ -112,10 +112,10 @@ void func_ov001_02189ed8(Unk02188950 *param_1, Unk0206bcb0 *param_2) {
     s64 scale;
 
     if (func_ov001_02187c4c((int)param_1) != 0) {
-        func_ov001_02187bfc((Unk02188950 *) (param_1), (Vec3 *) (0), (s32) (0));
+        func_ov001_02187bfc((Unk02188950 *) (param_1), (Vec3 *) (0), 0);
     }
     param_1->mUnk_2e0 = 2;
-    func_ov001_021881f4((Unk02188950 *) param_1, (UnkFunc *) func_ov001_02189ed8);
+    func_ov001_021881f4(param_1, (UnkFunc *) func_ov001_02189ed8);
     if (func_ov001_021871f8(param_1, 7) != 0) {
         v.x = param_1->mUnk_000.mUnk_04.x - param_2->mUnk_50.x;
         v.y = 0;
@@ -146,7 +146,7 @@ void func_ov001_02189e2c(Unk0218d87c *param_1) {
             func_ov001_021870b0(param_1, obj, (const char *) data_ov001_021a7b44);
             a0 = obj->mUnk_0a0;
             func_ov001_0218875c(obj, (s32) (a0->mUnk_008), (s32) (a0->mUnk_00c), (s32) (a0->mUnk_20c));
-            func_ov001_021888a4(obj, (s32) (0), (s32) (0x23000));
+            func_ov001_021888a4(obj, 0, 0x23000);
             func_ov001_021881f4(obj, (UnkFunc *) func_ov001_02189ed8);
         }
     }

@@ -6,7 +6,6 @@
 #include "03/code_021c7000.h"
 #include "03/code_021d1000.h"
 #include "03/code_021d1f70.h"
-#include "03/code_021d2000.h"
 
 void func_ov003_021c79b4(void);
 void func_ov003_021c79e4(void);

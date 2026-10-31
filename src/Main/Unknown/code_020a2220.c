@@ -3,13 +3,12 @@
 
 void func_020a2220(u16 arg0, u32 arg1) {
     u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
+    u32 value1 = arg1;
     u32 value2;
     u32 value3;
     value3 = (u32) &data_0217b1fc;
     value2 = 0x70u;
     value3 = (u32) * (const u32 *) ((value3) + (0));
     value2 = (value0) * (value2) + (value3);
-    *(u32 *) ((value2) + (108)) = (u32) value1;
-    return;
+    *(u32 *) ((value2) + (108)) = value1;
 }

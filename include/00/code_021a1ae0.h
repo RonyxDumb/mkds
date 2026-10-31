@@ -7,7 +7,6 @@
 #include "code_0213a460.h"
 #include "code_0214d018.h"
 #include "00/code_0218b64c.h"
-#include "00/code_02198000.h"
 #include "00/code_0219887c.h"
 #include "00/code_0219a000.h"
 #include "00/code_0219b8f0.h"

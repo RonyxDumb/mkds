@@ -36,7 +36,7 @@ void func_020649ec(Unk0206bcb0 *a, void (**b)(Unk0206bcb0 *)) {
     Unk0206bcb0_590_08 *d;
 
     func_020364e0(func_020364e8());
-    c = data_021759c0->mUnk_70[a->mUnk_74].mUnk_00 == 3;
+    c = data_021759c0->mUnk_68[a->mUnk_74].mUnk_08.mUnk_00 == 3;
     a->mUnk_590 = func_02079bf0(a->mUnk_74);
     func_0208adc8(&((Unk0206bcb0_590 *) a->mUnk_590)->mUnk_040, 1);
     if (data_021759c0->mUnk_08 == 5) {
@@ -124,7 +124,7 @@ void func_02064d44(Unk0206bcb0 *a) {
 // non-matching: 99.6: one register choice differs
 void func_02064d60(Unk0206bcb0 *a, Vec3 *b) {
     Unk0206bcb0_514 *c;
-    Unk01ffd190 d;
+    Vec4 d;
     s32 e;
     s32 f;
 
@@ -245,10 +245,10 @@ void func_020651fc(Unk0206bcb0 *a) {
         a->mUnk_41c.x = data_usa_02154de4[c];
         a->mUnk_41c.y = data_usa_02154e48[c];
         a->mUnk_41c.z = data_usa_02154eac[c];
-        a->mUnk_bc = (s64) a->mUnk_428.x * a->mUnk_41c.x >> 12;
-        a->mUnk_c0 = (s64) a->mUnk_428.y * a->mUnk_41c.y >> 12;
-        a->mUnk_c4 = (s64) a->mUnk_428.z * a->mUnk_41c.z >> 12;
-        a->mUnk_c0 = (s64) a->mUnk_434 * a->mUnk_c0 >> 12;
+        a->mUnk_bc.x = (s64) a->mUnk_428.x * a->mUnk_41c.x >> 12;
+        a->mUnk_bc.y = (s64) a->mUnk_428.y * a->mUnk_41c.y >> 12;
+        a->mUnk_bc.z = (s64) a->mUnk_428.z * a->mUnk_41c.z >> 12;
+        a->mUnk_bc.y = (s64) a->mUnk_434 * a->mUnk_bc.y >> 12;
         return;
     }
     b = a->mUnk_514;

@@ -6,11 +6,11 @@ int func_ov003_021cd0d0(int *param_1) {
     int iVar3;
     int iVar2;
     iVar4 = 0;
-    *param_1 = (*(int *) &data_ov003_021da26c) + ((int) 0x00001300u);
+    *param_1 = (int) data_ov003_021da26c + 0x1300;
     iVar5 = 0;
     iVar3 = *param_1;
     do {
-        iVar2 = func_02134d30((const u8 *) (iVar3 + 0x20), (const u8 *) data_ov003_021d6638, (int) (6));
+        iVar2 = func_02134d30((const u8 *) (iVar3 + 0x20), (const u8 *) data_ov003_021d6638, 6);
         if (iVar2 != 0) {
             iVar4 = iVar4 + 1;
         }

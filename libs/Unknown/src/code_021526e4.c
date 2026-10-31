@@ -83,8 +83,6 @@ void func_0215286c(u64 a, s32 n, char *c) {
     c[len] = 0;
 }
 
-// non-matching: the original keeps two constant zero words on the stack (frame 0x18 against our 0x10, one used as a
-// register offset for the byte load); otherwise the same loop, size 0x56 against 0x5a
 u64 func_021528bc(const void *a) {
     const s8 *p = a;
     u64 s;
@@ -94,7 +92,7 @@ u64 func_021528bc(const void *a) {
     s = 0;
     m = 1;
     for (i = 0; i < 12; i++) {
-        s += m * (s64) (p[11 - i] - 0x30);
+        s += m * (s64) (*(p + 11 - i) - 0x30);
         m *= 10;
     }
     return s;

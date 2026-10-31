@@ -23,7 +23,7 @@ extern const s32 data_usa_021654e8;
 extern const s32 data_usa_021654f0;
 extern const s32 data_usa_02165508;
 extern const s32 data_usa_0216550c;
-extern const Unk01ffd190 data_usa_0216556c;
+extern const Vec4 data_usa_0216556c;
 
 void func_0206a354(Unk0206bcb0 *p);
 void func_0206a624(Unk0206bcb0 *p);

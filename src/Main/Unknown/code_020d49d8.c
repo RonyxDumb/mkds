@@ -3,9 +3,9 @@
 #pragma thumb on
 
 void func_020d49d8(void *p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) ((
-                           (unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0))) +
-                       40) = (unsigned int) (p0);
+    *(u32 *) ((u8 *) (u32) ((
+                           (u32) *(const u32 *) ((u8 *) (u32) p0 + 0))) +
+                       40) = (u32) p0;
 }
 
 #pragma thumb off

@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0205a534.h"
 
 void func_0205a534(void *p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 4) =
-        (unsigned int) (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0)));
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 12) = (unsigned short) (0x4u);
+    *(u32 *) ((u8 *) (u32) p0 + 4) =
+        (u32) (((u32) *(const u32 *) ((u8 *) (u32) p0 + 0)));
+    *(u16 *) ((u8 *) (u32) p0 + 12) = (u16) 0x4u;
 }

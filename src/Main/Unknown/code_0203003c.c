@@ -135,19 +135,19 @@ s32 func_02030274(s32 a, s32 b) {
     return f;
 }
 
-// non-matching: 92%, the original shares one epilogue after the if/else, here it is duplicated (4 bytes over)
+// non-matching: the then-arm ends with `b` to the shared epilogue in the original; here it gets its own copy of the epilogue (add sp, pop, bx; 4 bytes over), all other instructions match
 void func_020302a0(void) {
     Unk02174e54 *o;
 
     func_020303a8(0x16);
-    o = *(Unk02174e54 **) &data_02174e54;
-    if (o->mUnk_38 == 0) {
-        func_0203038c(0);
-    } else {
+    o = data_02174e54;
+    if (o->mUnk_38 != 0) {
         func_0203038c(1);
         func_02030364(0x1f, 1);
         func_0203033c(7, 1);
-        func_020302f0(0, 0, 0xff, (*(Unk02174e54 **) &data_02174e54)->mUnk_38 + 0xc0);
+        func_020302f0(0, 0, 0xff, data_02174e54->mUnk_38 + 0xc0);
+    } else {
+        func_0203038c(0);
     }
 }
 

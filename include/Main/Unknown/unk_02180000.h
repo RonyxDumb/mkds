@@ -6,6 +6,14 @@
 extern u8 data_0218049c[];
 extern u8 data_021804a0[];
 
+// Defined by the linker script.
+extern u8 OV000_TEXT_START[];
+extern u8 OV001_TEXT_START[];
+extern u8 OV002_CTOR_START[];
+extern u8 OV000_BSS_END[];
+extern u8 OV001_BSS_END[];
+extern u8 OV002_BSS_END[];
+
 extern u32 data_021802a0;
 extern UnkWordFunc *data_021802a4;
 extern u16 data_021802a8;

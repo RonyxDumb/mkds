@@ -1,12 +1,12 @@
 #include "Main/Unknown/code_02150d78.h"
 
 void func_02150d78(Unk02150a10 *p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned int) (0x67452301u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 4) = (unsigned int) (0xefcdab89u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 8) = (unsigned int) (0x98badcfeu);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 12) = (unsigned int) (0x10325476u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 16) = (unsigned int) (0xc3d2e1f0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 20) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 24) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 28) = (unsigned int) (0x0u);
+    *(u32 *) ((u8 *) (u32) p0 + 0) = (u32) 0x67452301u;
+    *(u32 *) ((u8 *) (u32) p0 + 4) = (u32) 0xefcdab89u;
+    *(u32 *) ((u8 *) (u32) p0 + 8) = (u32) 0x98badcfeu;
+    *(u32 *) ((u8 *) (u32) p0 + 12) = (u32) 0x10325476u;
+    *(u32 *) ((u8 *) (u32) p0 + 16) = (u32) 0xc3d2e1f0u;
+    *(u32 *) ((u8 *) (u32) p0 + 20) = (u32) 0x0u;
+    *(u32 *) ((u8 *) (u32) p0 + 24) = (u32) 0x0u;
+    *(u32 *) ((u8 *) (u32) p0 + 28) = (u32) 0x0u;
 }

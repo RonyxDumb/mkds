@@ -9,7 +9,6 @@ void func_0202b604(void) {
     value0 = (u32) &data_02174e3c;
     value1 = (u32) * (const u32 *) ((value0) + 0u);
     value0 = 0x1fcu;
-    *(u32 *) ((value1) + (value0)) = (u32) value2;
-    return;
+    *(u32 *) ((value1) + (value0)) = value2;
 }
 #pragma thumb off

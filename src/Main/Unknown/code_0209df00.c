@@ -56,11 +56,9 @@ static inline s32 func_0209df84_inline(Unk0206bcb0 *p, Unk0209df84 *b, s32 t) {
     if (y > t || y < u) {
         return 0;
     }
-    return (s64) y * y + (s64) x * x + (s64) z * z < (s64) t * t;
+    return (s64) x * x + (s64) y * y + (s64) z * z < (s64) t * t;
 }
 
-// non-matching: same size; the squares of the x and y differences are added in the other order (smull/smlal at 0xb8 and
-// 0xbc use r7 then r6 where the original uses r6 then r7).
 void func_0209df84(void *a, Unk0209df84 *b) {
     s32 i;
     s32 j;

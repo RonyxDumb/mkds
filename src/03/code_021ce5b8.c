@@ -5,9 +5,9 @@
 #include "code_0200fd1c.h"
 #include "code_0214d018.h"
 
-// non-matching: the loop count and the pointer loaded before the loop swap stack offsets (sp+8 / sp+12), same size
 void func_ov003_021ce5b8(Unk021ce5b8 *a) {
     s32 i;
+    Unk021da280 *q;
     s32 n;
     Unk021da280 *d;
 
@@ -21,34 +21,35 @@ void func_ov003_021ce5b8(Unk021ce5b8 *a) {
     func_0200ee3c(d->mUnk_0f00, 0x400);
     i = 0;
     n = a->mUnk_0e;
-    for (; i < n; i++) {
-        s32 j;
-        u8 *p;
-        Unk021ce5b8_10 *e;
-        Unk021da280 *q = data_ov003_021da280;
+    if (n > 0) {
+        q = data_ov003_021da280;
+        do {
+            s32 j;
+            u8 *p;
+            Unk021ce5b8_10 *e;
 
-        e = a->mUnk_10[i];
-        if (func_02134d30(e->mUnk_0c, data_ov003_021d66c4, 8) != 0) {
-            continue;
-        }
-        if ((e->mUnk_15 & 1) == 0) {
-            continue;
-        }
-        p = q->mUnk_1300[0].mUnk_00;
-        for (j = 0; j < 16; j++) {
-            if (func_02134d30(e->mUnk_04, p, 6) == 0) {
-                if (q->mUnk_1300[j].mUnk_06 != 0) {
-                    break;
-                }
-                if (q->mUnk_1370 != 0) {
-                    q->mUnk_1370(1);
+            e = a->mUnk_10[i];
+            if (func_02134d30(e->mUnk_0c, data_ov003_021d66c4, 8) != 0) {
+                continue;
+            }
+            if ((e->mUnk_15 & 1) == 0) {
+                continue;
+            }
+            for (j = 0, p = q->mUnk_1300[0].mUnk_00; j < 16; j++) {
+                if (func_02134d30(e->mUnk_04, p, 6) == 0) {
+                    if (q->mUnk_1300[j].mUnk_06 != 0) {
+                        break;
+                    }
+                    if (q->mUnk_1370 != 0) {
+                        q->mUnk_1370(1);
+                        return;
+                    }
+                    q->mUnk_1b81 = 1;
                     return;
                 }
-                q->mUnk_1b81 = 1;
-                return;
+                p += 7;
             }
-            p += 7;
-        }
+        } while (++i < n);
     }
 }
 

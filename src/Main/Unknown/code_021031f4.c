@@ -121,5 +121,5 @@ void func_021031f4(Unk02102674 *p) {
     }
     p->mUnk_198 = 1;
     p->mUnk_12c = func_0207a974(a);
-    func_020f8e3c((unsigned int) p->mUnk_12c, 0xf3);
+    func_020f8e3c((u32) p->mUnk_12c, 0xf3);
 }

@@ -7,7 +7,7 @@ u32 func_020b3260(int param_1) {
         return 0;
     }
     if (param_1 < 2) {
-        return ((int) 0x00001000u);
+        return 0x1000;
     }
     return param_1 << 0xb;
 }

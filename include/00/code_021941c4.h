@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_0218e000.h"
-#include "00/code_0218f000.h"
+#include "00/code_0218ee1c.h"
+#include "00/code_0218f15c.h"
 #include "00/code_0218f960.h"
 #include "00/code_02190000.h"
 #include "00/code_02190b80.h"
@@ -12,7 +12,6 @@
 #include "00/code_02194000.h"
 #include "00/code_02196000.h"
 #include "00/code_021a3000.h"
-#include "00/code_021a8000.h"
 
 // Message handed to func_ov000_02190ed4 by func_ov000_021941c4.
 typedef struct Unk021941c4Msg {

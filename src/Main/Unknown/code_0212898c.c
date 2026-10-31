@@ -8,6 +8,6 @@ u32 func_0212898c(void) {
     value1 = (u32) * (const u32 *) ((value0) + 0u);
     value0 = 114u;
     value0 = (u32) * (const s16 *) ((value1) + (value0));
-    return (u32) value0;
+    return value0;
 }
 #pragma thumb off

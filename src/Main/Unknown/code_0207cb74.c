@@ -263,7 +263,7 @@ void func_0207d3ec(Unk0208fd8c *a, struct Unk020888b4 *b) {
 
     d = data_021759c0;
     n = b->mUnk_04;
-    if ((d->mUnk_70[n].mUnk_14 & 1) != 0) {
+    if ((d->mUnk_68[n].mUnk_08.mUnk_14 & 1) != 0) {
         if (a->mUnk_20 <= 0x400) {
             a->mUnk_10 = 1;
             return;
@@ -290,7 +290,7 @@ void func_0207d474(Unk0208fd8c *a, struct Unk020888b4 *b) {
 
     d = data_021759c0;
     n = b->mUnk_04;
-    if ((d->mUnk_70[n].mUnk_14 & 1) != 0) {
+    if ((d->mUnk_68[n].mUnk_08.mUnk_14 & 1) != 0) {
         if (a->mUnk_20 <= 0xc00) {
             a->mUnk_10 = 1;
             return;
@@ -397,6 +397,6 @@ void func_0207d6a4(struct Unk02089a24 *a, struct Unk020888b4 *b) {
     if ((b->mUnk_00->mUnk_48 & 0x10000020) != 0) {
         return;
     }
-    x = func_0207fe70((Unk02080b1c *) &b->mUnk_08);
+    x = func_0207fe70((Unk02080b1c *) &b->mUnk_08.mUnk_00);
     b->mUnk_00->mUnk_cc = (s32) (((s64) a->mUnk_04 * x + 0x800) >> 12);
 }

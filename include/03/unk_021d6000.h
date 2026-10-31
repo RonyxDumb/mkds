@@ -29,6 +29,7 @@ extern s8 data_ov003_021d6434[];
 extern Unk021d299c data_ov003_021d643c;
 extern Unk021d299c data_ov003_021d6444;
 extern Unk021d299c data_ov003_021d644c;
+extern u8 data_ov003_021d6454[];
 extern u8 data_ov003_021d6478[][3];
 extern u8 data_ov003_021d646c[];
 extern u16 data_ov003_021d6488[];

@@ -6,5 +6,5 @@ u32 func_02049820(void) {
     value0 = (u32) * (const u16 *) ((value0) + (0));
     value0 = (value0) & (0x8000u);
     value0 = ((u32) ((s32) value0 >> 15));
-    return (u32) value0;
+    return value0;
 }

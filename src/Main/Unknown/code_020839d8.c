@@ -314,9 +314,9 @@ void func_02084478(Unk0206bcb0 *p) {
         v = ((Unk0206bcb0_590 *) p->mUnk_590)->mUnk_020->mUnk_14[i + 2];
         v.y = 0;
         v.x = v.x + data_02155800[i];
-        q.x = (s32) (((s64) v.x * p->mUnk_bc) >> 12);
-        q.y = (s32) (((s64) v.y * p->mUnk_c0) >> 12);
-        q.z = (s32) (((s64) v.z * p->mUnk_c4) >> 12);
+        q.x = (s32) (((s64) v.x * p->mUnk_bc.x) >> 12);
+        q.y = (s32) (((s64) v.y * p->mUnk_bc.y) >> 12);
+        q.z = (s32) (((s64) v.z * p->mUnk_bc.z) >> 12);
         func_02147288(&q, &p->mUnk_150_m, &e->mUnk_34[i]);
         e->mUnk_34[i].x = e->mUnk_34[i].x >> 4;
         e->mUnk_34[i].y = e->mUnk_34[i].y >> 4;

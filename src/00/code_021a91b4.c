@@ -9,6 +9,6 @@ void func_ov000_021a91b4(void) {
     value1 = 0u;
     value2 = 0x170u;
     value3 = (u32) &func_0214d168;
-    func_0214d168((void *) value0, (u8) value1, (u32) value2);
+    func_0214d168((void *) value0, (u8) value1, value2);
     return;
 }

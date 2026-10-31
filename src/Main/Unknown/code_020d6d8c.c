@@ -1,10 +1,10 @@
 #include "Main/Unknown/code_020d6d8c.h"
 
 u32 func_020d6d8c(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
-    u32 value2 = (u32) arg2;
-    u32 value3 = (u32) arg3;
+    u32 value0 = arg0;
+    u32 value1 = arg1;
+    u32 value2 = arg2;
+    u32 value3 = arg3;
     u32 value12;
     u32 value14;
     u32 compareLeft0;
@@ -16,8 +16,8 @@ u32 func_020d6d8c(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
     compareLeft0 = value0;
     compareRight0 = 0u;
     value0 = (u32) * (const u8 *) ((value1) + (value3));
-    if ((u32) compareLeft0 != (u32) compareRight0) {
+    if (compareLeft0 != compareRight0) {
         value0 = 0u;
     }
-    return (u32) value0;
+    return value0;
 }

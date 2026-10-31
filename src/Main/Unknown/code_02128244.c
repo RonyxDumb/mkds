@@ -9,7 +9,7 @@ int func_0212825c(int param_1) {
     if (10 <= param_1) {
         param_1 = 9;
     }
-    return (int) *(s8 *) (((int) (u32) ((unsigned char *) &data_0215d0c0)) + param_1);
+    return (int) *(s8 *) (((int) (u32) ((u8 *) &data_0215d0c0)) + param_1);
 }
 
 int func_02128244(int param_1) {
@@ -19,7 +19,7 @@ int func_02128244(int param_1) {
     if (10 <= param_1) {
         param_1 = 9;
     }
-    return (int) *(s8 *) (((int) (u32) ((unsigned char *) &data_0215d0cc)) + param_1);
+    return (int) *(s8 *) (((int) (u32) ((u8 *) &data_0215d0cc)) + param_1);
 }
 
 #pragma thumb off

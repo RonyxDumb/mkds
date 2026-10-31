@@ -123,8 +123,6 @@ s32 func_0202a92c(void) {
     return r;
 }
 
-// non-matching: same size; the 64-bit seed stores differ (original keeps the seed in r1 and creates the zero high
-// word after the base pointer r3; ours creates it before): 8 words
 void func_0202ab2c(u32 param_1, u32 param_2, u32 param_3) {
     void *h;
     Unk02174e14_00 *p;
@@ -150,7 +148,7 @@ void func_0202ab2c(u32 param_1, u32 param_2, u32 param_3) {
     data_02174e28->mUnk_088 = func_02047a28(data_usa_02162488);
     data_02174e28->mUnk_08c = func_0204799c(data_usa_02162494);
     a = func_0200f5ac();
-    s = (a << 16) + func_0200f5ac();
+    s = (a << 16) + (u32) func_0200f5ac();
     l = &data_02174e28->mUnk_094;
     l->mUnk_00 = s;
     l->mUnk_08 = 0x5d588b656c078965;

@@ -2,10 +2,10 @@
 
 #pragma thumb on
 
-void func_02125ebc(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                           const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217d3f0))) + 0))) +
-                       0 + (0x2258u)) = (unsigned int) (p0);
+void func_02125ebc(u32 p0) {
+    *(u32 *) ((u8 *) (u32) (((u32) *(
+                           const u32 *) ((u8 *) (u32) (((u32) (&data_0217d3f0))) + 0))) +
+                       0 + (0x2258u)) = p0;
 }
 
 #pragma thumb off

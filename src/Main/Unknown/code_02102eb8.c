@@ -72,14 +72,14 @@ s32 func_0210300c(Unk02102674 *p) {
     }
     p->mUnk_194 = f;
     if (e->mUnk_02 > 0 && p->mUnk_138 != 0 && p->mUnk_138 != 0xe && p->mUnk_198 != 0) {
-        func_020f8e3c((unsigned int) p->mUnk_12c, 0xf1);
+        func_020f8e3c((u32) p->mUnk_12c, 0xf1);
     }
     return 0;
 done:
     return 1;
 }
 
-unsigned int func_02102eb8(Unk02102674 *p, s32 param_1) {
+u32 func_02102eb8(Unk02102674 *p, s32 param_1) {
     Unk020748a8 *s;
     s32 a;
     s32 b2;
@@ -117,5 +117,5 @@ unsigned int func_02102eb8(Unk02102674 *p, s32 param_1) {
     }
     p->mUnk_198 = a == (u16) b2;
     func_020f9c40((int) p);
-    return (unsigned int) func_0208adc8(&p->mUnk_000.mUnk_7c, 1);
+    return (u32) func_0208adc8(&p->mUnk_000.mUnk_7c, 1);
 }

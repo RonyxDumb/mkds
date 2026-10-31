@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_02079bcc.h"
 
 Unk02079bf0 *func_02079bf0(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     value2 = (u32) &data_0217ad00;
@@ -13,7 +13,7 @@ Unk02079bf0 *func_02079bf0(u32 arg0) {
 }
 
 void *func_02079bcc(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     value2 = (u32) &data_0217ad00;

@@ -14,7 +14,8 @@
 #include "03/code_021ce000.h"
 #include "03/code_021ce834.h"
 #include "03/code_021d1f70.h"
-#include "03/code_021d2000.h"
+#include "03/code_021d2168.h"
+#include "03/code_021d254c.h"
 #include "03/code_021be610.h"
 #include "03/code_021ce848.h"
 

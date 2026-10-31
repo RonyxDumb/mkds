@@ -29,7 +29,7 @@ s32 func_020ee528(Unk020eda5c *a) {
     a->mUnk_050 = p->mUnk_98;
     a->mUnk_05c = p->mUnk_a4;
     a->mUnk_068 = p->mUnk_2a4;
-    a->mUnk_078 = (s32) (((s64) p->mUnk_2cc->mUnk_08 * p->mUnk_c4 + 0x800) >> 12);
+    a->mUnk_078 = (s32) (((s64) p->mUnk_2cc->mUnk_08 * p->mUnk_bc.z + 0x800) >> 12);
     a->mUnk_07c = p->mUnk_2bc;
     a->mUnk_080 = func_02039828(&a->mUnk_02c.mUnk_18, &a->mUnk_05c) > 0;
     func_021484d0(&a->mUnk_050, &p->mUnk_8c, &a->mUnk_06c);
@@ -97,7 +97,7 @@ void func_020ee2e4(Unk020eda5c *a, Unk020f40dc *b) {
     func_0206c11c(a->mUnk_010);
     func_020f4718(b);
     if (a->mUnk_170 != 0) {
-        func_020f81b8((unsigned int) a->mUnk_00c, a->mUnk_004);
+        func_020f81b8((u32) a->mUnk_00c, a->mUnk_004);
     }
     n = a->mUnk_020;
     for (i = 0; i < n; i++) {

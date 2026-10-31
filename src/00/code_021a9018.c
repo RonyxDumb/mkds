@@ -1,6 +1,6 @@
 #include "00/code_021a9018.h"
 #include "00/code_021a8db8.h"
-#include "00/code_021a8000.h"
+#include "00/code_021a911c.h"
 #include "00/code_021a7bfc.h"
 
 s32 func_ov000_021a9018(s32 v1, void *v2, s32 v3, s32 v4, void *v5) {
@@ -14,5 +14,5 @@ s32 func_ov000_021a9018(s32 v1, void *v2, s32 v3, s32 v4, void *v5) {
         b = 0;
         c = 0;
     }
-    return func_ov000_021a8268(v1, (unsigned int) v2, v3, b, c, v4);
+    return func_ov000_021a8268(v1, (u32) v2, v3, b, c, v4);
 }

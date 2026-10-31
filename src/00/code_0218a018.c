@@ -33,5 +33,5 @@ u32 func_ov000_0218a018(const u8 *arg0) {
     value3 = (value3) | (value2);
     value4 = (value4) | (value3);
     value0 = (value0) | (value4);
-    return (u32) value0;
+    return value0;
 }

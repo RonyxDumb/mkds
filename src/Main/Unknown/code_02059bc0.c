@@ -4,20 +4,17 @@ void func_02059bd8(void) {
     u32 value12;
     value12 = (u32) &func_0202a5d8;
     func_0202a5d8();
-    return;
 }
 
 void func_02059bcc(void) {
     u32 value12;
     value12 = (u32) &func_0202a5a0;
     func_0202a5a0();
-    return;
 }
 
 void func_02059bc0(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value12;
     value12 = (u32) &func_0202a604;
-    func_0202a604((u32) value0);
-    return;
+    func_0202a604(value0);
 }

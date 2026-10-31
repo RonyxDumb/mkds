@@ -5,10 +5,10 @@
 void func_0200ba44(u32 a, u32 b) {
     u32 v1;
     v1 = func_0200fca0();
-    (*(Unk0216fde8 **) &data_0216fde8)->mUnk_5f0e = a;
+    data_0216fde8->mUnk_5f0e = a;
     func_0200fcb4(v1);
-    if ((*(Unk0216fde8 **) &data_0216fde8)->mUnk_05e0 != 0) {
-        (*(Unk0216fde8 **) &data_0216fde8)->mUnk_05e0(a, (void *) b);
+    if (data_0216fde8->mUnk_05e0 != 0) {
+        data_0216fde8->mUnk_05e0(a, (void *) b);
     }
 }
 

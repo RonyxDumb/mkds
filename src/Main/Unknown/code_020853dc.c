@@ -1,15 +1,15 @@
 #include "Main/Unknown/code_020853dc.h"
 
 s32 func_02085434(void) {
-    return ((unsigned int) *(
-        const unsigned int
-            *) ((unsigned char *) (unsigned int) ((
-                    (((unsigned int) *(
-                        const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aebc))) + 0))) +
-                    (((((((unsigned int) *(
-                            const short *) ((unsigned char *) (unsigned int) ((
-                                                (((unsigned int) *(
-                                                    const unsigned int *) ((unsigned char *) (unsigned int) ((
+    return ((u32) *(
+        const u32
+            *) ((u8 *) (u32) ((
+                    (((u32) *(
+                        const u32 *) ((u8 *) (u32) (((u32) (&data_0217aebc))) + 0))) +
+                    (((((((u32) *(
+                            const short *) ((u8 *) (u32) ((
+                                                (((u32) *(
+                                                    const u32 *) ((u8 *) (u32) ((
                                                                                (u32) (&data_0217aebc))) +
                                                                            0))) +
                                                 (0x100u))) +
@@ -23,30 +23,30 @@ Unk0217aec0 *func_02085424(void) {
     return data_0217aec0;
 }
 
-s32 func_02085408(unsigned int p0) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) ((
-                                   (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) ((
+s32 func_02085408(u32 p0) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) ((
+                                   (((u32) *(const u32 *) ((u8 *) (u32) ((
                                                                                  (u32) (&data_0217aebc))) +
                                                                              0))) +
                                    (((((p0) - (0x1u))) << 2)))) +
                                32));
 }
 
-unsigned int func_020853f0(unsigned int p0) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) ((
-                                   (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) ((
+u32 func_020853f0(u32 p0) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) ((
+                                   (((u32) *(const u32 *) ((u8 *) (u32) ((
                                                                                  (u32) (&data_0217aebc))) +
                                                                              0))) +
                                    (((p0) << 2)))) +
                                144));
 }
 
-unsigned int func_020853dc(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aebc))) +
+u32 func_020853dc(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217aebc))) +
                                                           0))) +
                                312));
 }

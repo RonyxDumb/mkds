@@ -6,7 +6,6 @@ void func_02061860(void) {
     value0 = (u32) &data_0217aa2c;
     value1 = 0u;
     *(u16 *) ((value0) + (0)) = (u16) value1;
-    return;
 }
 
 void func_0206184c(void) {
@@ -15,5 +14,4 @@ void func_0206184c(void) {
     value0 = (u32) &data_0217aa2c;
     value1 = 0x48u;
     *(u16 *) ((value0) + (0)) = (u16) value1;
-    return;
 }

@@ -1,8 +1,8 @@
 #include "Main/Unknown/code_02081f10.h"
 
-void func_02081f10(unsigned int p0, unsigned int p1, unsigned int p2) {
-    *(unsigned char *) ((unsigned char *) (unsigned int) (p0) + 154) = (unsigned char) (0x0u);
-    *(unsigned char *) ((unsigned char *) (unsigned int) (p0) + 153) = (unsigned char) (p2);
-    *(unsigned char *) ((unsigned char *) (unsigned int) (p0) + 155) = (unsigned char) (p1);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 144) = (unsigned int) (((u32) (&func_02081e5c)));
+void func_02081f10(u32 p0, u32 p1, u32 p2) {
+    *(u8 *) ((u8 *) p0 + 154) = (u8) 0x0u;
+    *(u8 *) ((u8 *) p0 + 153) = (u8) p2;
+    *(u8 *) ((u8 *) p0 + 155) = (u8) p1;
+    *(u32 *) ((u8 *) p0 + 144) = (u32) (((u32) (&func_02081e5c)));
 }

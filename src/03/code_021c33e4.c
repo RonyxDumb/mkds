@@ -32,10 +32,10 @@ void func_ov003_021c3448(void) {
 
 void func_ov003_021c3410(void) {
     int iVar1;
-    iVar1 = func_ov003_021d1f70((int) (1));
+    iVar1 = func_ov003_021d1f70(1);
     if (iVar1 == 0) {
-        func_ov003_021d1ee0((int) (3), (int) (1), (u32) (0x3f), (u16) (0x40));
-        func_ov003_021d1ee0((int) (3), (int) (0), (u32) (0x3f), (u16) (0x40));
+        func_ov003_021d1ee0(3, 1, (u32) (0x3f), (u16) (0x40));
+        func_ov003_021d1ee0(3, 0, (u32) (0x3f), (u16) (0x40));
         func_ov003_021c212c(func_ov003_021c33e4);
     }
     return;
@@ -43,8 +43,8 @@ void func_ov003_021c3410(void) {
 
 void func_ov003_021c33e4(void) {
     int iVar1;
-    iVar1 = func_ov003_021d1f70((int) (1));
-    if ((iVar1 == 0) && (iVar1 = func_ov003_021d1f70((int) (0)), iVar1 == 0)) {
+    iVar1 = func_ov003_021d1f70(1);
+    if ((iVar1 == 0) && (iVar1 = func_ov003_021d1f70(0), iVar1 == 0)) {
         func_0200fd10((u32) (((u32) 0x01000000u)));
         func_0214fb54();
     }

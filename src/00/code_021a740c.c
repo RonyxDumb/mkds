@@ -1,7 +1,9 @@
 #include "00/code_021a740c.h"
+#include "00/code_021a8000.h"
 #include "00/code_021a6fb4.h"
 #include "00/code_021a7000.h"
-#include "00/code_021a8000.h"
+#include "00/code_021a8db8.h"
+#include "00/code_021a911c.h"
 #include "00/code_021ae100.h"
 #include "00/code_021ae134.h"
 #include "00/code_021ae1e4.h"
@@ -32,7 +34,6 @@ s32 func_ov000_021a740c(Unk021a7064 *param_1) {
     return 0;
 }
 
-// non-matching: the test `p != 0 && (p->mUnk_70 & 1)` is branched straight; the original sets a result register (`movs r2, #0` before `cmp r5, #0`, `adds r2, r0, #0` for the set) and tests it after the join, size 0xc8 against 0xcc
 s32 func_ov000_021a7468(Unk021a6fa8 *param_1, u16 *param_2, u32 *param_3) {
     Unk021a7064 *a;
     s32 b;
@@ -42,8 +43,8 @@ s32 func_ov000_021a7468(Unk021a6fa8 *param_1, u16 *param_2, u32 *param_3) {
         return -28;
     }
     b = 0;
-    if (param_1 != 0 && (param_1->mUnk_70 & 1)) {
-        b = 1;
+    if (param_1 != 0) {
+        b = (param_1->mUnk_70 & 1) != 0;
     }
     if (b == 0) {
         return -39;
@@ -72,7 +73,6 @@ s32 func_ov000_021a7468(Unk021a6fa8 *param_1, u16 *param_2, u32 *param_3) {
     return func_ov000_021a6fb4(param_1, a);
 }
 
-// non-matching: the test `p != 0 && (p->mUnk_70 & 1)` is branched straight; the original sets a result register (`movs r2, #0` before `cmp r5, #0`, `adds r2, r0, #0` for the set) and tests it after the join, size 0xc0 against 0xc4
 s32 func_ov000_021a7534(Unk021a6fa8 *param_1, u16 *param_2, u32 *param_3) {
     s32 a;
     s32 b;
@@ -82,8 +82,8 @@ s32 func_ov000_021a7534(Unk021a6fa8 *param_1, u16 *param_2, u32 *param_3) {
         return -28;
     }
     b = 0;
-    if (param_1 != 0 && (param_1->mUnk_70 & 1)) {
-        b = 1;
+    if (param_1 != 0) {
+        b = (param_1->mUnk_70 & 1) != 0;
     }
     if (b == 0) {
         return -39;
@@ -116,7 +116,6 @@ s32 func_ov000_021a7534(Unk021a6fa8 *param_1, u16 *param_2, u32 *param_3) {
     return a;
 }
 
-// non-matching: the test `p != 0 && (p->mUnk_70 & 1)` is branched straight; the original sets a result register (`movs r2, #0` before `cmp r5, #0`, `adds r2, r0, #0` for the set) and tests it after the join, size 0x84 against 0x86
 s32 func_ov000_021a75f8(s32 param_1) {
     Unk021a6fa8 *a = (Unk021a6fa8 *) param_1;
     s32 b;
@@ -125,8 +124,8 @@ s32 func_ov000_021a75f8(s32 param_1) {
         return -28;
     }
     b = 0;
-    if (a != 0 && (a->mUnk_70 & 1)) {
-        b = 1;
+    if (a != 0) {
+        b = (a->mUnk_70 & 1) != 0;
     }
     if (b == 0) {
         return -39;
@@ -184,17 +183,17 @@ s32 func_ov000_021a76f4(Unk021a6fa8 *param_1) {
     return func_ov000_021a6fb4(param_1, a);
 }
 
-// non-matching: the test `p != 0 && (p->mUnk_70 & 1)` is branched straight; the original sets a result register (`movs r2, #0` before `cmp r5, #0`, `adds r2, r0, #0` for the set) and tests it after the join, size 0xd8 against 0xdc, and the flag tests use other registers
 s32 func_ov000_021a7748(Unk021a6fa8 *param_1, u16 param_2, u16 *param_3) {
     s32 a;
     s32 b;
+    volatile Unk021a6fa8 *v = param_1;
 
-    if (func_ov000_021a8a80(param_1) != 0 || (param_1->mUnk_70 & 8)) {
+    if (func_ov000_021a8a80(param_1) != 0 || (v->mUnk_70 & 8)) {
         return -28;
     }
     b = 0;
-    if (param_1 != 0 && (param_1->mUnk_70 & 1)) {
-        b = 1;
+    if (param_1 != 0) {
+        b = (param_1->mUnk_70 & 1) != 0;
     }
     if (b == 0) {
         return -39;
@@ -204,14 +203,14 @@ s32 func_ov000_021a7748(Unk021a6fa8 *param_1, u16 param_2, u16 *param_3) {
         b = 0;
     }
     if (b != 0) {
-        if (param_1->mUnk_70 & 4) {
+        if (v->mUnk_70 & 4) {
             if (param_1->mUnk_72 == 1) {
                 return -30;
             }
             return 0;
         }
-        if (param_1->mUnk_70 & 2) {
-            if (param_1->mUnk_70 & 0x40) {
+        if (v->mUnk_70 & 2) {
+            if (v->mUnk_70 & 0x40) {
                 return param_1->mUnk_6c;
             }
             return data_ov000_021b49b4;
@@ -229,15 +228,14 @@ s32 func_ov000_021a7748(Unk021a6fa8 *param_1, u16 param_2, u16 *param_3) {
     return 0;
 }
 
-// non-matching: the test `p != 0 && (p->mUnk_70 & 1)` is branched straight; the original sets a result register (`movs r2, #0` before `cmp r5, #0`, `adds r2, r0, #0` for the set) and tests it after the join, size 0x7c against 0x7e
 s32 func_ov000_021a7824(Unk021a6fa8 *param_1, u16 param_2) {
     s32 a;
     if (func_ov000_021a8a80(param_1) != 0) {
         return -28;
     }
     a = 0;
-    if (param_1 != 0 && (param_1->mUnk_70 & 1)) {
-        a = 1;
+    if (param_1 != 0) {
+        a = (param_1->mUnk_70 & 1) != 0;
     }
     if (a == 0) {
         return -39;

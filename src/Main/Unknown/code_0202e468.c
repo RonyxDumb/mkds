@@ -2,32 +2,32 @@
 
 #pragma thumb on
 
-unsigned int func_0202e4a4(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_02174e48))) +
+u32 func_0202e4a4(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_02174e48))) +
                                                           0))) +
                                64));
 }
 
-void func_0202e490(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                           const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_02174e48))) + 0))) +
-                       0 + (0x660u)) = (unsigned int) (p0);
+void func_0202e490(u32 p0) {
+    *(u32 *) ((u8 *) (u32) (((u32) *(
+                           const u32 *) ((u8 *) (u32) (((u32) (&data_02174e48))) + 0))) +
+                       0 + (0x660u)) = p0;
 }
 
-unsigned int func_0202e47c(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_02174e48))) +
+u32 func_0202e47c(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_02174e48))) +
                                                           0))) +
                                0 + (0x664u)));
 }
 
-unsigned int func_0202e468(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_02174e48))) +
+u32 func_0202e468(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_02174e48))) +
                                                           0))) +
                                0 + (0x668u)));
 }

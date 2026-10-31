@@ -3,7 +3,7 @@
 #pragma thumb on
 
 u32 func_02113790(void) {
-    if (*(int *) ((*(int *) &data_0217d348) + 0x70) != 0) {
+    if (data_0217d348->mUnk_70 != 0) {
         return 1;
     }
     return 0;

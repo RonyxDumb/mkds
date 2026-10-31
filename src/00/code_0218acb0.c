@@ -1,5 +1,6 @@
 #include "00/code_0218acb0.h"
 #include "00/code_0218b64c.h"
+#include "00/code_0218e53c.h"
 
 void func_ov000_0218acf0(int param_1, u32 param_2) {
     *(u32 *) (param_1 + 0x28) = param_2;

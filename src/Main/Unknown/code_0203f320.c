@@ -1,9 +1,9 @@
 #include "Main/Unknown/code_0203f320.h"
 
-unsigned int func_0203f320(void) {
-    return ((unsigned int) *(
-        const unsigned char *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                    const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_021759c0))) +
+u32 func_0203f320(void) {
+    return ((u32) *(
+        const u8 *) ((u8 *) (u32) (((u32) *(
+                                    const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) +
                                                            0))) +
                                 976));
 }

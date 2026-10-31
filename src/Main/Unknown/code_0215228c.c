@@ -2,12 +2,12 @@
 
 #pragma thumb on
 
-unsigned int func_0215228c(unsigned int p0) {
+u32 func_0215228c(u32 p0) {
     return (
-        (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 8))) +
+        (((u32) *(const u32 *) ((u8 *) p0 + 8))) +
         (((0x3cu) *
-          (((((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 4))) +
-            (((0x3cu) * (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 0))))))))));
+          (((((u32) *(const u32 *) ((u8 *) p0 + 4))) +
+            (((0x3cu) * (((u32) *(const u32 *) ((u8 *) p0 + 0))))))))));
 }
 
 #pragma thumb off

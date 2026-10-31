@@ -13,15 +13,28 @@ static inline u32 func_02095228_inline(Unk020f41c4_B *b, u32 n) {
     return (u32) (((b->mUnk_00 >> 32) * n) >> 32);
 }
 
-static inline u32 func_020952dc_inline(Unk020f41c4_B *b, u32 n) {
-    if (n == 0) {
-        return 0;
+static inline u16 func_020952dc_inline(u32 n) {
+    Unk020f41c4_B *r;
+    u32 t;
+    u32 m;
+    if (n == 0x10000) {
+        r = &data_0217561c->mUnk_498;
+        r->mUnk_00 = r->mUnk_08 * r->mUnk_00 + r->mUnk_10;
+        return (u16) ((r->mUnk_00 >> 32) * 0x10000 >> 32);
     }
-    b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
-    if (n == 0) {
-        return (u32) (b->mUnk_00 >> 32);
+    r = &data_0217561c->mUnk_498;
+    m = (u16) n;
+    if (m == 0) {
+        t = 0;
+    } else {
+        r->mUnk_00 = r->mUnk_08 * r->mUnk_00 + r->mUnk_10;
+        if (m == 0) {
+            t = r->mUnk_00 >> 32;
+        } else {
+            t = ((r->mUnk_00 >> 32) * m) >> 32;
+        }
     }
-    return (u32) (((b->mUnk_00 >> 32) * n) >> 32);
+    return (u16) t;
 }
 
 void func_02095228(Unk02095228 *a) {
@@ -36,7 +49,6 @@ void func_02095228(Unk02095228 *a) {
     }
 }
 
-// non-matching: the loop matches; in the random-range tail the original narrows the result to a halfword inside each branch (lsl/lsr r0, r0, #16 after the 0x10000 product) and re-narrows the count (lsl r0, r0, #16) before the zero test in the second branch, then both branches share one store to 0xa8 and one return; here the branches each end with their own store and return and the count is narrowed once (size 0x210 against 0x208, later words differ from +0x114)
 void func_020952dc(Unk02094e8c *a, s32 b, s32 c, s32 d, s32 e) {
     s32 i;
     s32 k;
@@ -66,10 +78,6 @@ void func_020952dc(Unk02094e8c *a, s32 b, s32 c, s32 d, s32 e) {
             v.z = z + func_0209518c(r, func_0209516c(q));
             func_02094000(&v);
         }
-        if ((u16) e == 0x10000) {
-            a->mUnk_a8 = (u16) func_02095228_inline(&data_0217561c->mUnk_498, 0x10000);
-        } else {
-            a->mUnk_a8 = (u16) func_020952dc_inline(&data_0217561c->mUnk_498, (u16) e);
-        }
+        a->mUnk_a8 = func_020952dc_inline((u16) e);
     }
 }

@@ -6,6 +6,6 @@ u32 func_0205af90(void) {
     value0 = (u32) &data_0217aa14;
     value1 = 1u;
     value0 = (u32) * (const u32 *) ((value0) + (0));
-    *(u32 *) ((value0) + (1836)) = (u32) value1;
-    return (u32) value0;
+    *(u32 *) ((value0) + (1836)) = value1;
+    return value0;
 }

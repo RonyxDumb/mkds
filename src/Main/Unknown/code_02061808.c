@@ -1,21 +1,21 @@
 #include "Main/Unknown/code_02061808.h"
 
-unsigned int func_0206183c(void) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aa64))) + 0));
+u32 func_0206183c(void) {
+    return ((u32) *(const u32 *) ((u8 *) (u32) (((u32) (&data_0217aa64))) + 0));
 }
 
-unsigned int func_0206182c(void) {
-    return ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aa7c))) + 0));
+u32 func_0206182c(void) {
+    return ((u32) *(const u32 *) ((u8 *) (u32) (((u32) (&data_0217aa7c))) + 0));
 }
 
-unsigned int func_02061818(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aa6c))) +
+u32 func_02061818(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217aa6c))) +
                                                           0))) +
                                592));
 }
 
 void *func_02061808(void) {
-    return (void *) ((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217aa6c))) + 0));
+    return (void *) ((u32) *(const u32 *) ((u8 *) (u32) (((u32) (&data_0217aa6c))) + 0));
 }

@@ -10,7 +10,7 @@ void func_ov003_021cd5e0(const Unk021cd5e0_arg *a) {
     s32 i;
     u8 *v1;
     u8 *v2;
-    p = &(*(Unk021cd5e0 **) &data_ov003_021da270)->mUnk_400;
+    p = &data_ov003_021da270->mUnk_400;
     func_0214d168(p, 0, 0xef);
     func_0214d1fc(a, p->mUnk_00.mUnk_40, 0x20);
     switch (a->mUnk_20) {
@@ -48,8 +48,8 @@ void func_ov003_021cd5e0(const Unk021cd5e0_arg *a) {
 }
 
 void func_ov003_021cd6d0(void) {
-    Unk021cd5e0_400 *p = &(*(Unk021cd5e0 **) &data_ov003_021da270)->mUnk_400;
-    Unk021cd5e0_entry *q = &(*(Unk021cd5e0 **) &data_ov003_021da270)->mUnk_000[p->mUnk_f4].mUnk_00;
+    Unk021cd5e0_400 *p = &data_ov003_021da270->mUnk_400;
+    Unk021cd5e0_entry *q = &data_ov003_021da270->mUnk_000[p->mUnk_f4].mUnk_00;
     *q = p->mUnk_00;
     if (p->mUnk_f5 != 0) {
         func_0214d168(q->mUnk_c0, 0, 4);
@@ -69,20 +69,20 @@ void func_ov003_021cd6d0(void) {
 }
 
 void func_ov003_021cd790(s32 a) {
-    Unk021cd5e0 *o = *(Unk021cd5e0 **) &data_ov003_021da270;
+    Unk021cd5e0 *o = data_ov003_021da270;
     Unk021cd5e0_entry *q = &o->mUnk_000[a].mUnk_00;
     o->mUnk_400.mUnk_00 = *q;
     o->mUnk_400.mUnk_f4 = a;
     if (func_02134d30(q->mUnk_c0, data_ov003_021d6684, 4) != 0) {
-        (*(Unk021cd5e0 **) &data_ov003_021da270)->mUnk_400.mUnk_f5 = 0;
+        data_ov003_021da270->mUnk_400.mUnk_f5 = 0;
     } else {
-        (*(Unk021cd5e0 **) &data_ov003_021da270)->mUnk_400.mUnk_f5 = 1;
+        data_ov003_021da270->mUnk_400.mUnk_f5 = 1;
     }
     if (func_02134d30(q->mUnk_c8, data_ov003_021d6684, 4) != 0
         || func_02134d30(q->mUnk_c8 + 4, data_ov003_021d6684, 4) != 0) {
-        (*(Unk021cd5e0 **) &data_ov003_021da270)->mUnk_400.mUnk_f6 = 0;
+        data_ov003_021da270->mUnk_400.mUnk_f6 = 0;
     } else {
-        (*(Unk021cd5e0 **) &data_ov003_021da270)->mUnk_400.mUnk_f6 = 1;
+        data_ov003_021da270->mUnk_400.mUnk_f6 = 1;
     }
-    func_021516b0(q->mUnk_d0, (*(Unk021cd5e0 **) &data_ov003_021da270)->mUnk_400.mUnk_f0);
+    func_021516b0(q->mUnk_d0, data_ov003_021da270->mUnk_400.mUnk_f0);
 }

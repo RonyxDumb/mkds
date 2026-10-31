@@ -164,7 +164,7 @@ void func_020f4b20(Unk020f40dc *a, Unk020ee684 *b) {
     for (i = 0; i < 3; i++) {
         a->mUnk_14[i] = 0;
     }
-    a->mUnk_24 = data_021759c0->mUnk_70[b->mUnk_1f8].mUnk_00 == 3;
+    a->mUnk_24 = data_021759c0->mUnk_68[b->mUnk_1f8].mUnk_08.mUnk_00 == 3;
 }
 
 void func_020f49bc(Unk020f40dc *a) {

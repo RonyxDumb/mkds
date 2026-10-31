@@ -1,14 +1,14 @@
 #include "Main/Unknown/code_020470c4.h"
 
-void func_020470c4(unsigned int p0) {
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 16) = (unsigned short) (0xffffu);
-    *(unsigned char *) ((unsigned char *) (unsigned int) (p0) + 18) = (unsigned char) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned short) (0xffu);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2) = (unsigned short) (0xffu);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 4) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 6) = (unsigned short) (0x3u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 8) = (unsigned short) (0xffu);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 10) = (unsigned short) (0xffu);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 12) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 14) = (unsigned short) (0x3u);
+void func_020470c4(u32 p0) {
+    *(u16 *) ((u8 *) p0 + 16) = (u16) 0xffffu;
+    *(u8 *) ((u8 *) p0 + 18) = (u8) 0x0u;
+    *(u16 *) ((u8 *) p0 + 0) = (u16) 0xffu;
+    *(u16 *) ((u8 *) p0 + 2) = (u16) 0xffu;
+    *(u16 *) ((u8 *) p0 + 4) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 6) = (u16) 0x3u;
+    *(u16 *) ((u8 *) p0 + 8) = (u16) 0xffu;
+    *(u16 *) ((u8 *) p0 + 10) = (u16) 0xffu;
+    *(u16 *) ((u8 *) p0 + 12) = (u16) 0x0u;
+    *(u16 *) ((u8 *) p0 + 14) = (u16) 0x3u;
 }

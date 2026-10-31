@@ -32,7 +32,7 @@ s32 func_020b8220(s32 a, s32 b) {
         case 4:
             return 0x11;
         case 5:
-            p = &(*(Unk020ee684 **) data_027e00c8)[(u16) a];
+            p = &data_027e00c8[(u16) a];
             j = p->mUnk_030.mUnk_00;
             if (data_0217bc48[j].mUnk_08 == 3) {
                 k = (u16) p->mUnk_030.mUnk_08;
@@ -106,7 +106,7 @@ void func_020b80a8(void) {
         func_020adff0(i, t, k);
         if (i == func_020b4d9c()) {
             if (data_021759c0->mUnk_58 != 0) {
-                if (data_021759c0->mUnk_70[i].mUnk_04 == 0) {
+                if (data_021759c0->mUnk_68[i].mUnk_08.mUnk_04 == 0) {
                     b = 10;
                     c = 11;
                 } else {
@@ -129,7 +129,7 @@ void func_020b80a8(void) {
 void func_020b7fd8(s32 a, s32 *b, s32 *c) {
     s32 t;
 
-    *b = (&data_021759c0->mUnk_70[a] - 1)->mUnk_28;
+    *b = data_021759c0->mUnk_68[a].mUnk_00;
     switch (*b) {
         case 0:
         case 2:

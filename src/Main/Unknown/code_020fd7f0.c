@@ -1,9 +1,9 @@
 #include "Main/Unknown/code_020fd7f0.h"
 
-unsigned int func_020fd7f0(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_027e00cc))) +
+u32 func_020fd7f0(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_027e00cc))) +
                                                           0))) +
                                632));
 }

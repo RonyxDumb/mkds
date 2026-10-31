@@ -261,7 +261,8 @@ static inline s64 func_020dccc8_inline(const Vec3 *v) {
     return (s64) v->x * v->x + (s64) v->z * v->z;
 }
 
-// non-matching: matches up to and including the first generator step; in the second step the original keeps the word at 0x08 of the object func_020d22d0 returns on the stack and uses r10 for its word at 0x14, so it schedules the loop counter and the sum differently (0x400 bytes vs 0x410)
+// non-matching: same size; from +0xf8 (the second generator step) the loop counter update and the umull/mla sum are
+// scheduled differently and the registers follow (72 words)
 void func_020dccc8(Unk020dc474 *p) {
     Vec3 *q;
     Vec3 *c;
@@ -307,7 +308,7 @@ void func_020dccc8(Unk020dc474 *p) {
                 d = v + 0x2d000;
                 j++;
                 r->mUnk_00 = r->mUnk_08 * r->mUnk_00 + r->mUnk_10;
-                i = (u16) (r->mUnk_00 >> 48) >> 4;
+                i = (u16) (((r->mUnk_00 >> 32) * 0x10000) >> 32) >> 4;
                 q->x = p->mUnk_a0.x + (s32) (((s64) data_0215d4b4[i * 2] * d) >> 12);
                 q->z = p->mUnk_a0.z + (s32) (((s64) data_0215d4b4[i * 2 + 1] * d) >> 12);
                 if (j > 5) {

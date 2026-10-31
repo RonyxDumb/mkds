@@ -14,8 +14,8 @@ u32 func_ov000_021a3e5c(int param_1, int param_2) {
         iVar2 = iVar2 + 4;
         iVar3 = iVar3 + 1;
     } while (iVar3 < 10);
-    extraout_r1 = (*(int *) (param_1 + ((int) 0x00000100u)) + 1) % (10);
-    piVar1 = (int *) (param_1 + ((int) 0x00000100u));
+    extraout_r1 = (*(int *) (param_1 + 0x100) + 1) % (10);
+    piVar1 = (int *) (param_1 + 0x100);
     *piVar1 = extraout_r1;
     *(int *) (param_1 + *piVar1 * 4 + 0xd8) = param_2;
     return 0;

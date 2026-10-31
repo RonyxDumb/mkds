@@ -161,11 +161,11 @@ u32 func_ov000_02191284(Unk0218f960 *a, Unk021937c0Node *b, const u8 *c) {
     return 0;
 }
 
-// non-matching: lsls/asrs sign extension of the call result sits after the ldrsb load (original: right after the call, eors writes r0); same size
 u32 func_ov000_021917b0(Unk0218f960 *a, Unk02191284Data *b) {
     Unk0218f960_00 *c;
     u32 d;
     u32 e;
+    s8 t;
     s8 f[0x1f];
     s8 g[0x2d];
     s8 h[0x41];
@@ -175,7 +175,8 @@ u32 func_ov000_021917b0(Unk0218f960 *a, Unk02191284Data *b) {
     d = func_0213a434((const u8 *) c->mUnk_177);
     func_ov000_0218e2a4(0x79707367);
     for (e = 0; e < d; e++) {
-        f[e] = (s8) func_ov000_0218e284(0, 0xff) ^ c->mUnk_177[e];
+        t = func_ov000_0218e284(0, 0xff);
+        f[e] = t ^ c->mUnk_177[e];
     }
     f[e] = 0;
     func_ov000_0218e15c(f, g, d, 1);
@@ -198,7 +199,8 @@ u32 func_ov000_021917b0(Unk0218f960 *a, Unk02191284Data *b) {
         d = func_0213a434((const u8 *) b->mUnk_2c2);
         func_ov000_0218e2a4(0x79707367);
         for (e = 0; e < d; e++) {
-            h[e] = (s8) func_ov000_0218e284(0, 0xff) ^ b->mUnk_2c2[e];
+            t = func_ov000_0218e284(0, 0xff);
+            h[e] = t ^ b->mUnk_2c2[e];
         }
         h[e] = 0;
         func_ov000_0218e15c(h, i, d, 1);

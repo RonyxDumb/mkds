@@ -3,15 +3,15 @@
 #include "code_02142eac.h"
 
 u32 func_ov003_021cd118(void) {
-    (*(Unk021da26c **) &data_ov003_021da26c)->mUnk_1e48 = 1;
-    func_02143520(&(*(Unk021da26c **) &data_ov003_021da26c)->mUnk_168c);
-    if ((*(Unk021da26c **) &data_ov003_021da26c)->mUnk_168c.mUnk_00 != 2) {
+    data_ov003_021da26c->mUnk_1e48 = 1;
+    func_02143520(&data_ov003_021da26c->mUnk_168c);
+    if (data_ov003_021da26c->mUnk_168c.mUnk_00 != 2) {
         if (func_02143dd0(func_ov003_021cd080) != 2) {
             return 0;
         }
         do {
-            func_02143520(&(*(Unk021da26c **) &data_ov003_021da26c)->mUnk_168c);
-        } while ((*(Unk021da26c **) &data_ov003_021da26c)->mUnk_168c.mUnk_00 != 2);
+            func_02143520(&data_ov003_021da26c->mUnk_168c);
+        } while (data_ov003_021da26c->mUnk_168c.mUnk_00 != 2);
     }
     if (func_02143d88(func_ov003_021cd080) != 2) {
         return 0;

@@ -263,7 +263,7 @@ int func_02138618(Unk02138618Func fn, void *a, const u8 *s, char *v) {
                             *(int *) p = s32;
                             break;
                         case 1:
-                            *(char *) p = s32;
+                            *p = s32;
                             break;
                         case 2:
                             *(short *) p = s32;
@@ -488,7 +488,7 @@ int func_02138618(Unk02138618Func fn, void *a, const u8 *s, char *v) {
                             *(int *) p = k;
                             break;
                         case 1:
-                            *(char *) p = k;
+                            *p = k;
                             break;
                         case 7:
                             *(long long *) p = k;

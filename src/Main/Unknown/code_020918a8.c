@@ -121,8 +121,8 @@ void func_020919e8(void *a, Unk020919e8 *p) {
         q = 0;
         for (i = 0; i < data_021759c0->mUnk_3d0; i++) {
             f = 0;
-            if ((u32) data_021759c0->mUnk_70[(u16) i].mUnk_00 <= 3 &&
-                ((1 << data_021759c0->mUnk_70[(u16) i].mUnk_00) & 0xd)) {
+            if ((u32) data_021759c0->mUnk_68[(u16) i].mUnk_08.mUnk_00 <= 3 &&
+                ((1 << data_021759c0->mUnk_68[(u16) i].mUnk_08.mUnk_00) & 0xd)) {
                 f = 1;
             }
             if (f == 0 && i != data_021759c0->mUnk_62) {

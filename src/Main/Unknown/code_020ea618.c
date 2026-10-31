@@ -16,5 +16,4 @@ void func_020ea618(void *param_1, int param_2) {
         return;
     }
     func_0207ad88();
-    return;
 }

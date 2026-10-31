@@ -1,7 +1,7 @@
 #include "00/code_0218b228.h"
 
 u32 func_ov000_0218b228(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     value1 = (u32) * (const u16 *) ((value0) + 12u);
@@ -14,5 +14,5 @@ u32 func_ov000_0218b228(u32 arg0) {
     value2 = (value2) | (value1);
     value0 = (value2 << 16);
     value0 = (value0 >> 16);
-    return (u32) value0;
+    return value0;
 }

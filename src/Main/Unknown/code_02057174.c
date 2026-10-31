@@ -9,37 +9,35 @@ void func_0205721c(u32 param_1) {
     func_02057294();
     func_02057260();
     func_02057244();
-    func_02057304((int) (param_1));
-    return;
+    func_02057304(param_1);
 }
 
 void func_02057174(void) {
-    func_02057c14((u32) (*(u32 *) ((*(int *) &data_0217aa08) + 4)));
-    if (*(int *) ((*(int *) &data_021759d4) + 0xc) != 0) {
+    func_02057c14(data_0217aa08->mUnk_04);
+    if (data_021759d4->mUnk_0c != 0) {
         func_02145d38();
     }
-    func_02057b84((u32) (*(u32 *) ((*(int *) &data_0217aa08) + 8)));
-    if (*(int *) ((*(int *) &data_021759d4) + 0xc) != 0) {
+    func_02057b84(data_0217aa08->mUnk_08);
+    if (data_021759d4->mUnk_0c != 0) {
         func_02145d38();
     }
-    func_02057af4((u32) (*(u32 *) ((*(int *) &data_0217aa08) + 0xc)));
-    if (*(int *) ((*(int *) &data_021759d4) + 0xc) != 0) {
+    func_02057af4(data_0217aa08->mUnk_0c);
+    if (data_021759d4->mUnk_0c != 0) {
         func_02145d38();
     }
-    func_02057a60((u32) (*(u32 *) ((*(int *) &data_0217aa08) + 0x10)));
-    if (*(int *) ((*(int *) &data_021759d4) + 0xc) != 0) {
+    func_02057a60(data_0217aa08->mUnk_10);
+    if (data_021759d4->mUnk_0c != 0) {
         func_02145d38();
     }
-    func_020577b4((void *) (*(u32 *) ((*(int *) &data_0217aa08) + 0x20)));
-    if (*(int *) ((*(int *) &data_021759d4) + 0xc) != 0) {
+    func_020577b4(data_0217aa08->mUnk_20);
+    if (data_021759d4->mUnk_0c != 0) {
         func_02145d38();
     }
-    func_02057ca4((void *) (*(u32 *) (*(int *) &data_0217aa08)));
-    if (*(int *) ((*(int *) &data_021759d4) + 0xc) != 0) {
+    func_02057ca4(data_0217aa08->mUnk_00);
+    if (data_021759d4->mUnk_0c != 0) {
         func_02145d38();
     }
     func_02057504();
-    return;
 }
 
 #pragma thumb off

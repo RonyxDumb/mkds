@@ -4,9 +4,9 @@
 // handlers are as described in code_0212f884.s.
 //
 // Not compiled code: _ffix branches into the middle of func_02132364, and the conversion to float at _fflt is a
-// second entry in the middle of func_021323c4, called from other code; func_0213250c ends in an entry that has
+// second entry in the middle of func_021323c4, called from other code; _fmul ends in an entry that has
 // no return and runs on into _fsub (code_021329f8.s). A compiled function is entered only at its start and ends
-// in a return. All of it also uses tst, and _fflt, func_021323c4 and func_0213250c clz, which the 1.2 compiler
+// in a return. All of it also uses tst, and _fflt, func_021323c4 and _fmul clz, which the 1.2 compiler
 // never builds (docs/compiler.md).
 
     .text
@@ -226,9 +226,9 @@ flt_code_inexact:
 // call the trap handlers with event codes ending in 3. The operands stay saved on the stack for the invalid trap. Its
 // last three instructions are a separate entry: they swap r0 and r1 and run on into _fsub (reversed subtraction);
 // nothing in the program uses it.
-    .global func_0213250c
-    .type func_0213250c, @function
-func_0213250c:
+    .global _fmul
+    .type _fmul, @function
+_fmul:
     // Save the operands. r2 = the sign of the product. Unpack the first operand: r3 = exponent, r0 = significand
     // shifted up 8 with the leading one set; exponent 0 or 0xff is special.
     stmfd sp!, {r0, r1}
@@ -626,4 +626,4 @@ fmul_trap_inexact:
     eor r0, r0, r1
     eor r1, r0, r1
     eor r0, r0, r1
-    .size func_0213250c, . - func_0213250c
+    .size _fmul, . - _fmul

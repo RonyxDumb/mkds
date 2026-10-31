@@ -14,7 +14,7 @@ static inline u16 func_0209219c_inline(u32 n) {
     if (n == 0x10000) {
         b = func_020d22d0();
         b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
-        r = (b->mUnk_00 >> 32) >> 16;
+        return ((b->mUnk_00 >> 32) * 0x10000) >> 32;
     } else {
         b = func_020d22d0();
         m = (u16) n;
@@ -32,8 +32,6 @@ static inline u16 func_0209219c_inline(u32 n) {
     return (u16) r;
 }
 
-// non-matching: same sequence of steps, but the original truncates each returned value with its own lsl/lsr pair before
-// the add (here folded into the add) and keeps more values in registers (r9 holds the result of the zero case).
 void func_0209219c(u32 a, const Vec3 *b, const Vec3 *c, u32 d, s32 e, u16 f) {
     Unk0209219c *p;
     Unk020f41c4_B *r;

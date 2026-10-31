@@ -84,5 +84,5 @@ void func_02081120(Unk0201ca6c *p, s32 a) {
         data_0217ae84[i].mUnk_30 = 0;
         return;
     }
-    p->mUnk_6c = (s16) func_0207a974(i)->mUnk_c4;
+    p->mUnk_6c = (s16) func_0207a974(i)->mUnk_bc.z;
 }

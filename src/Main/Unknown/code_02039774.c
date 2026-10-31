@@ -35,15 +35,13 @@ s32 func_02039828(const Vec3 *a, const Vec3 *b) {
     return (s32) (((s64) a->x * b->x + (s64) a->y * b->y + (s64) a->z * b->z) >> 12);
 }
 
-// non-matching: the sum of squares is right but the first two loads swap: the original loads [r0, #4] into r3 and
-// [r0] into r4 (all other words equal), this source loads [r0] into r3 and [r0, #4] into r4.
 s32 func_02039860(const Vec3 *v, Vec3 *v1) {
     s64 w;
     s32 r;
     s64 q;
     s64 t;
-    w = (s64) v->y * v->y;
-    w += (s64) v->x * v->x;
+    w = (s64) v->x * v->x;
+    w += (s64) v->y * v->y;
     w += (s64) v->z * v->z;
     *(vu16 *) 0x4000280 = 2;
     *(vu64 *) 0x4000290 = 0x1000000000000LL << 8;

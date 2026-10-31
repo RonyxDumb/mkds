@@ -333,7 +333,7 @@ s32 func_ov001_0219f6a0(s16 param_1) {
     next = param_1 + 1;
 
     for (; i < 9; i++) {
-        if (func_0205fd78((u8) next, (u8) (i + 1), &out)) {
+        if (func_0205fd78(next, (u8) (i + 1), &out)) {
             if (out < result) {
                 result = out;
             }

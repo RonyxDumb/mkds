@@ -44,11 +44,11 @@ void func_02081ca0(Unk0201ca6c *p, Unk0206bcb0 *q, void *a) {
 
     if (a == 0) {
         func_02081b64(p, q, 0x733, 0xb33);
-        p->mUnk_5c = (s16) (((s64) q->mUnk_c4 * 0xb33 + 0x800) >> 12);
+        p->mUnk_5c = (s16) (((s64) q->mUnk_bc.z * 0xb33 + 0x800) >> 12);
     } else {
         r = 1;
         func_02081b64(p, q, 0x99a, 0xe66);
-        p->mUnk_6c = (s16) q->mUnk_c4;
+        p->mUnk_6c = (s16) q->mUnk_bc.z;
         f = q->mUnk_7c;
         if (!(f & 1)) {
             if (f & 0x402000) {
@@ -68,8 +68,8 @@ void func_02081b64(Unk0201ca6c *p, Unk0206bcb0 *q, s32 a, s32 b) {
     v.x = s->x >> 4;
     v.y = s->y >> 4;
     v.z = s->z >> 4;
-    func_02147fd8((s32) (((s64) q->mUnk_c4 * b + 0x800) >> 12), &q->mUnk_138, &v, &v);
-    func_02147fd8((s32) (((s64) q->mUnk_c0 * a + 0x800) >> 12), &q->mUnk_12c, &v, &v);
+    func_02147fd8((s32) (((s64) q->mUnk_bc.z * b + 0x800) >> 12), &q->mUnk_138, &v, &v);
+    func_02147fd8((s32) (((s64) q->mUnk_bc.y * a + 0x800) >> 12), &q->mUnk_12c, &v, &v);
     p->mUnk_28.x = v.x + p->mUnk_20->mUnk_00->mUnk_04.x;
     p->mUnk_28.y = v.y + p->mUnk_20->mUnk_00->mUnk_04.y;
     p->mUnk_28.z = v.z + p->mUnk_20->mUnk_00->mUnk_04.z;
@@ -145,7 +145,7 @@ void func_0208181c(s32 a) {
     do {
         if (e->mUnk_00[i] != 0) {
             func_02147fd8(
-                (s32) (((s64) q->mUnk_c0 * data_02155854[((Unk0206bcb0_590 *) q->mUnk_590)->mUnk_000] + 0x800) >> 12),
+                (s32) (((s64) q->mUnk_bc.y * data_02155854[((Unk0206bcb0_590 *) q->mUnk_590)->mUnk_000] + 0x800) >> 12),
                 &q->mUnk_12c, &q->mUnk_80, &v);
             func_0208b5b0(e->mUnk_00[i], &v);
             w.x = (s32) (((s64) q->mUnk_3b0.x * 0xc00) >> 12);
@@ -154,7 +154,7 @@ void func_0208181c(s32 a) {
             e->mUnk_00[i]->mUnk_40 = w;
             e->mUnk_00[i]->mUnk_68 = y;
             e->mUnk_00[i]->mUnk_64 = x;
-            e->mUnk_00[i]->mUnk_5c = (s16) (((s64) q->mUnk_c4 * 0x614 + 0x800) >> 12);
+            e->mUnk_00[i]->mUnk_5c = (s16) (((s64) q->mUnk_bc.z * 0x614 + 0x800) >> 12);
         }
         i = i + 1;
     } while (i < 3);

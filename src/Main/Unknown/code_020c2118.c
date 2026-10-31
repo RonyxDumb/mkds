@@ -8,5 +8,4 @@ void func_020c2118(Unk020c06c4 *param_1) {
         return;
     }
     func_020c214c(param_1);
-    return;
 }

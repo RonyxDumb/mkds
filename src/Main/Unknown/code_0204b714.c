@@ -27,7 +27,6 @@ u32 func_0204b714(u32 a, u32 *b, u32 n, void (*c)(u32 *, u32), s32 d, u32 e, s32
     return 1;
 }
 
-// non-matching: original loads [0x28] into r0, then adds r5, r0, #0 and adds r5, #8 (one extra copy instruction)
 void func_0204b7b8(void (*a)(u32 *, u32)) {
     u32 *p;
     u32 n;
@@ -47,7 +46,7 @@ void func_0204b7b8(void (*a)(u32 *, u32)) {
             if (data_021759d4->mUnk_38 != 0) {
                 p = (u32 *) ((u8 *) data_021759d4->mUnk_28 + 8);
                 n = data_021759d4->mUnk_30 - 8;
-                if (func_0204b960((u8 *) p) == 0) {
+                if (func_0204b960((u8 *) data_021759d4->mUnk_28) == 0) {
                     e = 4;
                 }
             } else {

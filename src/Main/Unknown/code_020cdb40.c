@@ -6,5 +6,4 @@ void func_020cdb40(void) {
     value12 = (u32) &func_020c0b84;
     value0 = (u32) &data_0217b460;
     func_020c0b84((Unk0217b498 **) value0);
-    return;
 }

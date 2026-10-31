@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020f2d98.h"
 
-void func_020f2d98(unsigned int p0, unsigned int p1) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 300) = (unsigned int) (p1);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 292) = (unsigned int) (((u32) (&func_020f2dac)));
+void func_020f2d98(u32 p0, u32 p1) {
+    *(u32 *) ((u8 *) p0 + 300) = p1;
+    *(u32 *) ((u8 *) p0 + 292) = (u32) (((u32) (&func_020f2dac)));
 }

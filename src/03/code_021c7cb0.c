@@ -5,12 +5,11 @@ void func_ov003_021c7d58(void) {
     int iVar1;
     iVar1 = func_ov003_021cef80();
     if (iVar1 == 0) {
-        func_ov003_021cdc10((u32) (6));
+        func_ov003_021cdc10((u32) 6);
         func_ov003_021cef90();
-        func_ov003_021cc900((u32) (*(u32 *) ((*(int *) &data_ov003_021da214) + 0xc)));
+        func_ov003_021cc900((u32) ((u32) data_ov003_021da214->mUnk_0c[0]));
         func_ov003_021c212c(func_ov003_021c7d3c);
     }
-    return;
 }
 
 void func_ov003_021c7d3c(void) {
@@ -19,64 +18,61 @@ void func_ov003_021c7d3c(void) {
     if (iVar1 == 0) {
         func_ov003_021c212c(func_ov003_021c9450);
     }
-    return;
 }
 
 void func_ov003_021c7d30(u8 param_1) {
     *(u8 *) &data_ov003_021da208 = param_1;
-    return;
 }
 
 void func_ov003_021c7d14(void) {
     func_ov003_021c7cb0();
     func_ov003_021c7a0c();
     func_ov003_021c212c(func_ov003_021c79e4);
-    return;
 }
 
 void func_ov003_021c7cb0(void) {
-    unsigned int v2 = ((u32) (&data_ov003_021d73b8));
-    unsigned int v3 = ((u32) (&func_0214bc9c));
-    unsigned int v4 = func_ov003_021bf620((unsigned int) (v2), (unsigned int) (v3));
-    unsigned int v5 = 0x4001008u;
-    unsigned int v6 = ((unsigned int) *(unsigned short *) ((v5) + (0)));
-    unsigned int v8 = ((v6) & ~(0x3u));
-    unsigned int v9 = ((v8) | (0x3u));
-    unsigned int v11;
-    unsigned int v12;
-    unsigned int v13;
-    unsigned int v14;
-    unsigned int v16;
-    unsigned int v17;
-    unsigned int v18;
-    unsigned int v19;
-    unsigned int v21;
-    unsigned int v22;
-    unsigned int v23;
-    unsigned int v24;
-    unsigned int v26;
-    unsigned int v27;
-    unsigned int v28;
-    unsigned int v29;
-    *(unsigned short *) ((v5) + (0)) = (unsigned short) (v9);
+    u32 v2 = ((u32) (&data_ov003_021d73b8));
+    u32 v3 = ((u32) (&func_0214bc9c));
+    u32 v4 = func_ov003_021bf620(v2, v3);
+    u32 v5 = 0x4001008u;
+    u32 v6 = ((u32) *(u16 *) ((v5) + (0)));
+    u32 v8 = ((v6) & ~(0x3u));
+    u32 v9 = ((v8) | (0x3u));
+    u32 v11;
+    u32 v12;
+    u32 v13;
+    u32 v14;
+    u32 v16;
+    u32 v17;
+    u32 v18;
+    u32 v19;
+    u32 v21;
+    u32 v22;
+    u32 v23;
+    u32 v24;
+    u32 v26;
+    u32 v27;
+    u32 v28;
+    u32 v29;
+    *(u16 *) ((v5) + (0)) = (u16) v9;
     v11 = 0x400100au;
-    v12 = ((unsigned int) *(unsigned short *) ((v11) + (0)));
+    v12 = ((u32) *(u16 *) ((v11) + (0)));
     v13 = ((v12) & ~(0x3u));
     v14 = ((v13) | (0x3u));
-    *(unsigned short *) ((v11) + (0)) = (unsigned short) (v14);
+    *(u16 *) ((v11) + (0)) = (u16) v14;
     v16 = 0x4000008u;
-    v17 = ((unsigned int) *(unsigned short *) ((v16) + (0)));
+    v17 = ((u32) *(u16 *) ((v16) + (0)));
     v18 = ((v17) & ~(0x3u));
     v19 = ((v18) | (0x3u));
-    *(unsigned short *) ((v16) + (0)) = (unsigned short) (v19);
+    *(u16 *) ((v16) + (0)) = (u16) v19;
     v21 = 0x400000au;
-    v22 = ((unsigned int) *(unsigned short *) ((v21) + (0)));
+    v22 = ((u32) *(u16 *) ((v21) + (0)));
     v23 = ((v22) & ~(0x3u));
     v24 = ((v23) | (0x3u));
-    *(unsigned short *) ((v21) + (0)) = (unsigned short) (v24);
+    *(u16 *) ((v21) + (0)) = (u16) v24;
     v26 = 0x400000cu;
-    v27 = ((unsigned int) *(unsigned short *) ((v26) + (0)));
+    v27 = ((u32) *(u16 *) ((v26) + (0)));
     v28 = ((v27) & ~(0x3u));
     v29 = ((v28) | (0x3u));
-    *(unsigned short *) ((v26) + (0)) = (unsigned short) (v29);
+    *(u16 *) ((v26) + (0)) = (u16) v29;
 }

@@ -12,7 +12,7 @@ void func_ov000_021a4818(void *param_1) {
             *(u32 *) ((u8 *) param_1 + 0xb4) = 1;
             return;
         }
-        func_ov000_021a3a18((Unk021a3a18 *) param_1, (int) (1));
+        func_ov000_021a3a18((Unk021a3a18 *) param_1, 1);
         *(u32 *) ((u8 *) param_1 + 0xb4) = 0;
     }
     return;

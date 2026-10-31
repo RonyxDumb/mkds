@@ -77,7 +77,7 @@ void func_020a6e70(Unk02100094 *a) {
     for (i = 0; i < n; i++) {
         if (i == data_021759c0->mUnk_62) {
             f = 0;
-            v = data_021759c0->mUnk_70[(u16) i].mUnk_00;
+            v = data_021759c0->mUnk_68[(u16) i].mUnk_08.mUnk_00;
             if ((u32) v <= 3) {
                 if ((1 << v) & 0xd) {
                     f = 1;

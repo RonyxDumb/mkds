@@ -11,28 +11,26 @@ void func_0211f328(void) {
     local_c = 0;
     local_8[0] = 0;
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216e0a8))));
-    func_020b496c(&local_10, (void *) (uVar1));
+    func_020b496c(&local_10, (void *) uVar1);
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216e0ac))));
-    func_020b48ec(&local_c, (void *) (uVar1));
+    func_020b48ec(&local_c, (void *) uVar1);
     uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216e0b4))));
-    func_020b4a7c(local_8, (void *) (uVar1));
-    return;
+    func_020b4a7c(local_8, (void *) uVar1);
 }
 
 void func_0211f2b8(void *param_1) {
     int iVar1;
     u32 uVar2;
-    iVar1 = ((u32) func_02036bec((void *) (param_1), (u32) (0x10)));
+    iVar1 = ((u32) func_02036bec(param_1, (u32) 0x10));
     *(int *) &data_0217d37c = iVar1;
     uVar2 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216e0a8))));
-    func_020b49bc((Unk020b4934 **) ((int *) (u32) ((*(int *) &data_0217d37c))), (void *) (uVar2));
+    func_020b49bc((Unk020b4934 **) ((int *) (u32) ((int) data_0217d37c)), (void *) uVar2);
     uVar2 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216e0ac))));
-    func_020b48b4(&data_0217d37c->mUnk_04, (void *) (uVar2));
+    func_020b48b4(&data_0217d37c->mUnk_04, (void *) uVar2);
     uVar2 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216e0b4))));
-    func_020b4a44((Unk020b4a44 **) ((int *) (u32) ((*(int *) &data_0217d37c) + 8)), (void *) (uVar2));
+    func_020b4a44((Unk020b4a44 **) ((int *) (u32) ((int) data_0217d37c + 8)), (void *) uVar2);
     uVar2 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216e0b0))));
-    *(u32 *) ((*(int *) &data_0217d37c) + 0xc) = uVar2;
-    return;
+    *(u32 *) ((int) data_0217d37c + 0xc) = uVar2;
 }
 
 #pragma thumb off

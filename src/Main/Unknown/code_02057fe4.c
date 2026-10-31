@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-unsigned int func_02057fe4(unsigned int p0) {
+u32 func_02057fe4(u32 p0) {
     return p0;
 }
 

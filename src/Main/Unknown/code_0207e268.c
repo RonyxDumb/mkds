@@ -43,7 +43,7 @@ void func_0207e268(void) {
 void func_0207e35c(struct Unk020888b4 *p) {
     Vec3 a;
     Vec3 b;
-    Unk0208001c *s = &p->mUnk_08;
+    Unk0208001c *s = &p->mUnk_08.mUnk_00;
     Unk0206bcb0 *q = p->mUnk_00;
     Vec3 *t;
     Unk02175620_bc *r;
@@ -71,7 +71,7 @@ void func_0207e400(struct Unk020888b4 *p, struct Unk0206bcb0 *q, s32 a) {
     p->mUnk_88 = 0x1000;
     p->mUnk_8c = 0;
     p->mUnk_9c = (s32) (((s64) p->mUnk_00->mUnk_2cc->mUnk_10 * 0x99a + 0x800) >> 12);
-    func_02080d34(&p->mUnk_08_b, p->mUnk_04);
+    func_02080d34(&p->mUnk_08, p->mUnk_04);
     func_0207f9cc(p, 0);
     p->mUnk_cc = 1;
 }
@@ -87,7 +87,7 @@ void func_0207e4a4(struct Unk020888b4 *p) {
     if (data_021759c0->mUnk_08 == 4) {
         func_0207e668(p);
     }
-    s = &p->mUnk_08;
+    s = &p->mUnk_08.mUnk_00;
     q = p->mUnk_00;
     if (p->mUnk_90 == 2) {
         t = &q->mUnk_50;
@@ -105,9 +105,8 @@ void func_0207e4a4(struct Unk020888b4 *p) {
     func_0207ebfc(p);
 }
 
-// non-matching: one extra instruction, mov r1, #0 before func_02080cd0 (the original passes its incoming r1 through; the caller passes only p)
-void func_0207e564(struct Unk020888b4 *p) {
-    func_02080cd0(&p->mUnk_08, 0);
+void func_0207e564(struct Unk020888b4 *p, struct Unk02175620_bc *a) {
+    func_02080cd0(&p->mUnk_08.mUnk_00, a);
     func_0207f9cc(p, 1);
     func_0207f9cc(p, 1);
 }
@@ -123,7 +122,7 @@ void func_0207e594(struct Unk020888b4 *p, struct Unk0206bcb0 *q, s32 a) {
         p->mUnk_8c = 0x1000;
     }
     p->mUnk_9c = (s32) (((s64) p->mUnk_00->mUnk_2cc->mUnk_10 * 0x99a + 0x800) >> 12);
-    func_02080d34(&p->mUnk_08_b, p->mUnk_04);
+    func_02080d34(&p->mUnk_08, p->mUnk_04);
     func_0207f9cc(p, 0);
     p->mUnk_cc = 1;
 }

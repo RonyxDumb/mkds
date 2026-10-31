@@ -63,9 +63,9 @@ void func_ov003_021b80f4(Unk021b807c *p, const u8 *v1, u32 v2, u32 n) {
     }
 }
 
-// non-matching: cmp r6, r0 instead of cmp r0, r6 at the checksum compare (operands swapped, same size)
 s32 func_ov003_021b8160(const u8 *a, u8 *b, s32 c, u32 d, const u8 *e, const u8 *f, s32 g) {
     Unk021b807c t;
+    u8 r;
     t.mUnk_08 = func_ov003_021ba178(c);
     if (t.mUnk_08 == 0) {
         func_ov003_021b94b8(2);
@@ -75,7 +75,8 @@ s32 func_ov003_021b8160(const u8 *a, u8 *b, s32 c, u32 d, const u8 *e, const u8 
     func_ov003_021b7d90(data_ov003_021d7c8a, f, g);
     func_ov003_021b80f4(&t, data_ov003_021d7c88, g + 2, c);
     func_ov003_021b80c4(&t, b, a, c);
-    if (func_ov003_021b8050(b, c) != d) {
+    r = func_ov003_021b8050(b, c);
+    if (r != d) {
         func_ov003_021b94b8(0x12);
         func_ov003_021ba164(t.mUnk_08);
         return -1;
@@ -180,14 +181,16 @@ s32 func_ov003_021b8428(Unk021b86e4 *a, Unk021b916c *b, s32 c) {
     return 0;
 }
 
-// non-matching: stack offsets of the two locals swapped (8-byte local at sp+0xc and 14-byte local at sp+0x14, original has the 14-byte one at sp+0xc and the 8-byte one at sp+0x1c); same size
 s32 func_ov003_021b8498(Unk021b86e4 *a, Unk021b916c *b, s32 c) {
-    Unk021b8498 d;
+    s8 d;
+    s16 g;
+    s16 h;
+    u8 k[8];
     Unk021b7cec e;
     Unk021d7c54 *f;
-    d.mUnk_00 = 0;
-    d.mUnk_02 = 0;
-    d.mUnk_04 = 0;
+    d = 0;
+    g = 0;
+    h = 0;
     f = data_ov003_021d7c54;
     func_ov003_021b7d84(&e, 0, 8);
     func_ov003_021b7d84(f, 0, 0x5dc);
@@ -196,16 +199,16 @@ s32 func_ov003_021b8498(Unk021b86e4 *a, Unk021b916c *b, s32 c) {
     e.mUnk_02 = func_ov003_021b7c94(4);
     e.mUnk_04 = data_ov003_021d7c6c.mUnk_08;
     e.mUnk_04 = func_ov003_021b7cac(e.mUnk_04);
-    d.mUnk_02 = 8;
-    func_ov003_021b8340(data_ov003_021d7c40, &f->mUnk_0c[12], &e, &d.mUnk_02, &d.mUnk_04, &d.mUnk_00);
-    func_ov003_021b7d90(d.mUnk_06, &b[1], 8);
-    if (func_ov003_021b7f48(d.mUnk_06, 8, data_ov003_021d6868, 6) != 0) {
+    g = 8;
+    func_ov003_021b8340(data_ov003_021d7c40, &f->mUnk_0c[12], &e, &g, &h, &d);
+    func_ov003_021b7d90(k, &b[1], 8);
+    if (func_ov003_021b7f48(k, 8, data_ov003_021d6868, 6) != 0) {
         func_ov003_021b94b8(2);
         return -1;
     }
-    func_ov003_021b82e0(f, 0x2000, d.mUnk_02, d.mUnk_04, d.mUnk_00, 0x11, d.mUnk_06);
-    d.mUnk_02 += 0x18;
-    func_ov003_021b8278(f, d.mUnk_02, 0, c);
+    func_ov003_021b82e0(f, 0x2000, g, h, d, 0x11, k);
+    g += 0x18;
+    func_ov003_021b8278(f, g, 0, c);
     return 0;
 }
 

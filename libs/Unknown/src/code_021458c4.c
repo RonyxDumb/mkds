@@ -384,7 +384,7 @@ void func_02145f80(Unk021458c4 *p) {
     a = p->mUnk_2c;
     b = p->mUnk_34;
     c = p->mUnk_30;
-    func_02000b44((unsigned int) (BuildInfo + 0x24));
+    func_02000b44((u32) (BuildInfo + 0x24));
     do {
         n = p->mUnk_24;
         if (n > 0x100) {
@@ -442,7 +442,7 @@ int func_02145e8c(u32 a, u32 b, u32 c, UnkFunc *d, u32 e, u32 f, u32 g, u32 h, u
     u32 s;
 
     p = (Unk021458c4 *) (u32) &data_0217fa40;
-    func_02000b44((unsigned int) (BuildInfo + 0x24));
+    func_02000b44((u32) (BuildInfo + 0x24));
     s = func_0200fca0();
     while (p->mUnk_114 & 4) {
         func_0200e01c(&p->mUnk_10c);
@@ -473,7 +473,7 @@ int func_02145d44(s32 a) {
     u32 s;
 
     p = &data_0217fa40;
-    func_02000b44((unsigned int) (BuildInfo + 0x24));
+    func_02000b44((u32) (BuildInfo + 0x24));
     if (a == 0) {
         func_0200fd1c();
     }

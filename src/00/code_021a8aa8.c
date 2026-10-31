@@ -1,7 +1,7 @@
 #include "00/code_021a8aa8.h"
 
 void func_ov000_021a8aa8(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value3;
     value1 = (value0) + (0u);

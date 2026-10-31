@@ -727,7 +727,7 @@ extern Unk02012f58 *data_0217b854;
 extern u8 data_0217b858[];
 extern Unk02012f58 *data_0217b85c;
 extern Unk02012f58 *data_0217b860;
-extern u8 data_0217b868[];
+extern u16 *data_0217b868;
 extern s32 data_0217bc5c;
 extern s32 data_0217bc60;
 

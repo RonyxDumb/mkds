@@ -9,6 +9,5 @@ void func_ov000_021a3668(void *arg0) {
     value0 = 5u;
     value2 = 0u;
     value3 = (u32) &func_ov000_021a3704;
-    func_ov000_021a3704((unsigned int) value0, (unsigned int) value1, (unsigned int) value2);
-    return;
+    func_ov000_021a3704(value0, value1, value2);
 }

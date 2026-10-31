@@ -12,7 +12,7 @@ void func_ov003_021c6b80(void) {
 
 void func_ov003_021c6b58(void) {
     int iVar1;
-    iVar1 = func_ov003_021d1f70((int) (1));
+    iVar1 = func_ov003_021d1f70(1);
     if (iVar1 == 0) {
         func_ov003_021c0cf8();
         func_ov003_021cdc10((u32) (0x15));

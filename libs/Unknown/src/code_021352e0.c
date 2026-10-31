@@ -7,8 +7,8 @@
 #include "code_0213a460.h"
 #include "code_0213ee6c.h"
 
-const unsigned char *func_0213770c(const unsigned char *p, char **b, Unk021352e0 *buf) {
-    const unsigned char *s;
+const u8 *func_0213770c(const u8 *p, char **b, Unk021352e0 *buf) {
+    const u8 *s;
     Unk021352e0 v;
     int c;
     int n;
@@ -409,21 +409,21 @@ u8 *func_02136f14(u64 v, u8 *end, Unk021352e0 spec) {
 // store's and.
 u8 *func_02136850(double x, u8 *buf, Unk021352e0 e) {
     int n;
-    unsigned char c;
-    unsigned char f;
-    unsigned char s;
+    u8 c;
+    u8 f;
+    u8 s;
     Unk02140c28 a;
     Unk021352e0 b;
     Unk02136638 r;
     char *p;
     int i;
-    unsigned char t;
-    unsigned char *q;
-    unsigned char *w;
-    unsigned char d;
+    u8 t;
+    u8 *q;
+    u8 *w;
+    u8 d;
     int j;
     int k;
-    unsigned char v;
+    u8 v;
 
     n = e.mUnk_0c;
     c = e.mUnk_05;
@@ -484,14 +484,14 @@ u8 *func_02136850(double x, u8 *buf, Unk021352e0 e) {
     b.mUnk_0c = 1;
     b.mUnk_08 = 0;
     b.mUnk_05 = 'd';
-    w = (unsigned char *) &x;
+    w = (u8 *) &x;
     for (i = 0; i < 4; i++) {
         t = w[i];
         w[i] = w[7 - i];
         w[7 - i] = t;
     }
     p = (char *) func_02137358(
-        (((unsigned int) (((unsigned char *) &x)[0] << 25 | ((unsigned char *) &x)[1] << 17) >> 21) & 0x7ff) - 1023,
+        (((u32) (((u8 *) &x)[0] << 25 | ((u8 *) &x)[1] << 17) >> 21) & 0x7ff) - 1023,
         buf, b);
     if (c == 'a') {
         *--p = 'p';
@@ -499,7 +499,7 @@ u8 *func_02136850(double x, u8 *buf, Unk021352e0 e) {
         *--p = 'P';
     }
     k = n * 4 + 11;
-    q = (unsigned char *) &x;
+    q = (u8 *) &x;
     for (j = n; j >= 1; j--) {
         if (k < 64) {
             d = q[k >> 3] >> (7 - (k & 7));
@@ -541,11 +541,11 @@ u8 *func_02136850(double x, u8 *buf, Unk021352e0 e) {
 }
 
 void func_02136638(Unk02136638 *a, int k) {
-    unsigned char *b;
-    unsigned char *p;
-    unsigned char *q;
+    u8 *b;
+    u8 *p;
+    u8 *q;
     int n;
-    unsigned char v;
+    u8 v;
     int c;
 
     if (k < 0) {
@@ -601,13 +601,13 @@ void func_02136638(Unk02136638 *a, int k) {
 u8 *func_02135c80(double v, u8 *buf, Unk021352e0 f) {
     Unk02140c28 m;
     Unk02136638 d;
-    unsigned char a;
+    u8 a;
     int b;
     int g;
     int h;
-    unsigned char *t;
+    u8 *t;
     char *p;
-    unsigned char *q;
+    u8 *q;
     int x;
     int y;
     int n;
@@ -801,22 +801,22 @@ u8 *func_02135c80(double v, u8 *buf, Unk021352e0 f) {
     return (u8 *) p;
 }
 
-int func_021352e0(void *(*f)(void *, const unsigned char *, unsigned int), void *a, const unsigned char *b, char *c) {
+int func_021352e0(void *(*f)(void *, const u8 *, u32), void *a, const u8 *b, char *c) {
     Unk021352e0 e;
-    unsigned char buf[0x200];
-    unsigned char g;
-    unsigned char h;
+    u8 buf[0x200];
+    u8 g;
+    u8 h;
     int k;
     unsigned long long x;
-    const unsigned char *s;
+    const u8 *s;
     int m;
     int n;
     int w;
-    unsigned char *p;
+    u8 *p;
     unsigned long v;
     double y;
-    const unsigned short *t;
-    unsigned char *q;
+    const u16 *t;
+    u8 *q;
     void *u;
 
     g = ' ';
@@ -847,7 +847,7 @@ int func_021352e0(void *(*f)(void *, const unsigned char *, unsigned int), void 
                 } else if (e.mUnk_04 == 4) {
                     v = *(long long *) ((c += 8) - 8);
                 } else if (e.mUnk_04 == 5) {
-                    v = *(unsigned int *) ((c += 4) - 4);
+                    v = *(u32 *) ((c += 4) - 4);
                 } else if (e.mUnk_04 == 6) {
                     v = *(long *) ((c += 4) - 4);
                 } else {
@@ -857,7 +857,7 @@ int func_021352e0(void *(*f)(void *, const unsigned char *, unsigned int), void 
                     v = (short) v;
                 }
                 if (e.mUnk_04 == 1) {
-                    v = (signed char) v;
+                    v = (s8) v;
                 }
                 if (e.mUnk_04 == 7) {
                     p = func_02136f14(x, buf + sizeof(buf), e);
@@ -883,17 +883,17 @@ int func_021352e0(void *(*f)(void *, const unsigned char *, unsigned int), void 
                 } else if (e.mUnk_04 == 4) {
                     v = *(unsigned long long *) ((c += 8) - 8);
                 } else if (e.mUnk_04 == 5) {
-                    v = *(unsigned int *) ((c += 4) - 4);
+                    v = *(u32 *) ((c += 4) - 4);
                 } else if (e.mUnk_04 == 6) {
                     v = *(unsigned long *) ((c += 4) - 4);
                 } else {
-                    v = *(unsigned int *) ((c += 4) - 4);
+                    v = *(u32 *) ((c += 4) - 4);
                 }
                 if (e.mUnk_04 == 2) {
-                    v = (unsigned short) v;
+                    v = (u16) v;
                 }
                 if (e.mUnk_04 == 1) {
-                    v = (unsigned char) v;
+                    v = (u8) v;
                 }
                 if (e.mUnk_04 == 7) {
                     p = func_02136f14(x, buf + sizeof(buf), e);
@@ -940,7 +940,7 @@ int func_021352e0(void *(*f)(void *, const unsigned char *, unsigned int), void 
                 break;
             case 's':
                 if (e.mUnk_04 == 9) {
-                    t = *(const unsigned short **) ((c += 4) - 4);
+                    t = *(const u16 **) ((c += 4) - 4);
                     if (t == 0) {
                         t = L"";
                     }
@@ -949,13 +949,13 @@ int func_021352e0(void *(*f)(void *, const unsigned char *, unsigned int), void 
                     }
                     p = buf;
                 } else {
-                    p = *(unsigned char **) ((c += 4) - 4);
+                    p = *(u8 **) ((c += 4) - 4);
                 }
                 if (p == 0) {
-                    p = (unsigned char *) "";
+                    p = (u8 *) "";
                 }
                 if (e.mUnk_03 != 0) {
-                    m = *(unsigned char *) p++;
+                    m = *(u8 *) p++;
                     if (e.mUnk_02 != 0 && m > e.mUnk_0c) {
                         m = e.mUnk_0c;
                     }

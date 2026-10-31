@@ -1,5 +1,5 @@
 #include "00/code_021a8878.h"
-#include "00/code_021a8000.h"
+#include "00/code_021a86e8.h"
 
 u32 func_ov000_021a8878(u32 first, u32 second) {
     if (func_ov000_021a8830() == 0) {

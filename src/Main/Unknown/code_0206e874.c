@@ -186,7 +186,6 @@ void func_0206e874(Unk0206bcb0 *p) {
     }
 }
 
-// non-matching: one instruction differs: add r1, r7, r1 against the original's add r1, r1, r7 (operand order at +0x78)
 void func_0206edac(Unk0206bcb0 *p, Vec3 *a) {
     Vec3 v;
     s32 k;
@@ -195,6 +194,7 @@ void func_0206edac(Unk0206bcb0 *p, Vec3 *a) {
     s32 n;
     u32 f;
     s32 x;
+    s32 c;
 
     if (p->mUnk_44 & 0x40000010) {
         return;
@@ -203,7 +203,8 @@ void func_0206edac(Unk0206bcb0 *p, Vec3 *a) {
     if (p->mUnk_4dc <= 0) {
         k = (p->mUnk_7c & 1) ? 3 : 2;
         x = data_usa_0216ca38[2];
-        func_0210ddf4(&data_0217d26c + k, func_02086080(p->mUnk_74) + x, (void (*)(void *, int)) func_02071958, p, 2);
+        c = func_02086080(p->mUnk_74);
+        func_0210ddf4(&data_0217d26c + k, c + x, (void (*)(void *, int)) func_02071958, p, 2);
         func_02071318(p, 0);
     }
     p->mUnk_4dc = 7;

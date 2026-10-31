@@ -9,7 +9,7 @@
 // Not compiled code: it uses tst, which the 1.2 compiler never builds, and saves ip and the argument registers around
 // its calls in the middle of the body; 1.2 saves registers only in the prologue, never ip, and pads every frame to 8
 // bytes (docs/compiler.md; frame layout in the compiler), unlike the one-word `stmdb sp!, {lr}` frames here.
-asm u64 func_02130198(u32 a, u32 b) {
+asm u64 _ll_ufrom_d(u32 a, u32 b) {
     // Negative input: see u64_negative. ip = 0x43e - exponent is the right shift that turns the 64-bit significand into
     // the integer; below 0 the value is too large, 64 or more it is below 1.
     tst r1, #0x80000000

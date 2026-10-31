@@ -138,7 +138,8 @@ s32 func_ov000_021881d0(const s8 *a, u32 b, u8 *c, u32 d) {
     return v1 - c;
 }
 
-// non-matching: one instruction, +0x28: original `adds r0, r0, r5`, ours `adds r0, r5, r0`; size equal
+// non-matching: one instruction, +0x28: original `adds r0, r0, r5`, ours `adds r0, r5, r0`; size equal. The calls
+// differ too: the original divides b by 3 unsigned (`_u32_div_f`), e by 6 signed (`_s32_div_f`)
 s32 func_ov000_021882f8(const u8 *a, s32 b, s8 *c, u32 d) {
     const u8 *v1;
     u32 e;
@@ -198,7 +199,6 @@ s32 func_ov000_021882f8(const u8 *a, s32 b, s8 *c, u32 d) {
     return v2 - c;
 }
 
-// non-matching: at +0x8 the original computes s + 0x474 (adds r2, r5, r0) before loading the byte at 0xd13, ours loads the byte first (5 instructions in other order, plus the constant words 0x474/0xd13 swapped); size equal
 s32 func_ov000_02188408(void) {
     Unk02188408 *s;
     u8 *k;
@@ -207,8 +207,9 @@ s32 func_ov000_02188408(void) {
     u8 n;
 
     s = data_ov000_021b4d00;
-    k = s->mUnk_470[s->mUnk_d13].mUnk_04;
+    k = s->mUnk_470[0].mUnk_04;
     i = s->mUnk_d13;
+    k += i * 0xc0;
     if (s->mUnk_d0d >= 6) {
         return 1;
     }

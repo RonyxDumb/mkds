@@ -2,7 +2,8 @@
 #include "Main/Unknown/code_020360d0.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-// non-matching: 80%, the original has one shared epilogue (movne r0, 1 then branch); here the epilogue is duplicated, 8 bytes over
+#pragma optimize_for_size on
+
 u32 func_0203606c(void) {
     return data_0217aa08->mUnk_28 != 0 ? 1 : func_020360a0();
 }

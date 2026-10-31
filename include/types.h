@@ -26,6 +26,14 @@ typedef struct Vec3 {
     /* 8 */ s32 z;
 } Vec3;
 
+// Four fixed-point components (12 fractional bits).
+typedef struct Vec4 {
+    /* 0 */ s32 x;
+    /* 4 */ s32 y;
+    /* 8 */ s32 z;
+    /* c */ s32 w;
+} Vec4;
+
 // Function types for calls through pointers whose target isn't known.
 typedef void UnkFunc();
 typedef u32 UnkWordFunc();

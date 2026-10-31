@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-unsigned int func_0215109c(void) {
+u32 func_0215109c(void) {
     return ((u32) (&data_021804a0));
 }
 

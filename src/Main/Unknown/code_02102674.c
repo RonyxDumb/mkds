@@ -57,7 +57,7 @@ void func_0210298c(Unk02102674 *p) {
                 continue;
             }
             func_0206924c(r, p->mUnk_130[i]);
-            func_020f8e3c((unsigned int) r, 0xf0);
+            func_020f8e3c((u32) r, 0xf0);
         }
     }
     if (p->mUnk_160 != 0) {
@@ -72,7 +72,7 @@ void func_0210298c(Unk02102674 *p) {
             p->mUnk_138 = 0xd;
             func_0210300c(p);
             if (p->mUnk_198 != 0) {
-                func_020f8e3c((unsigned int) q, 0xf3);
+                func_020f8e3c((u32) q, 0xf3);
             }
         }
     }
@@ -203,7 +203,7 @@ void func_02102764(void *param_1, Unk02102674 *param_2, void *param_3) {
 
 void func_02102744(Unk02102674 *p) {
     func_020f8e78(p);
-    func_02102eb8((unsigned int) p, 1);
+    func_02102eb8((u32) p, 1);
 }
 
 #pragma thumb on

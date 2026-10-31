@@ -1,35 +1,35 @@
 #include "03/code_021d2e68.h"
 
-void func_ov003_021d2e90(unsigned int p0) {
-    unsigned int v1 = ((p0) + (0x0u));
-    unsigned int v3 = func_0200ca9c((unsigned int) (0x1u));
-    unsigned int v4 = ((unsigned int) *(unsigned int *) ((v1) + (4)));
-    unsigned int v5 = ((unsigned int) *(unsigned int *) ((v1) + (0)));
-    unsigned int v7;
-    unsigned int v8;
-    unsigned int v12;
-    unsigned int v14;
-    *(unsigned int *) ((v5) + (4)) = (unsigned int) (v4);
-    v7 = ((unsigned int) *(unsigned int *) ((v1) + (0)));
-    v8 = ((unsigned int) *(unsigned int *) ((v1) + (4)));
-    *(unsigned int *) ((v8) + (0)) = (unsigned int) (v7);
-    *(unsigned int *) ((v1) + (4)) = (unsigned int) (0x0u);
-    v12 = ((unsigned int) *(unsigned int *) ((v1) + (4)));
-    *(unsigned int *) ((v1) + (0)) = (unsigned int) (v12);
-    v14 = func_0200cae4((unsigned int) (v3));
+void func_ov003_021d2e90(u32 p0) {
+    u32 v1 = ((p0) + (0x0u));
+    u32 v3 = func_0200ca9c((u32) 0x1u);
+    u32 v4 = ((u32) *(u32 *) ((v1) + (4)));
+    u32 v5 = ((u32) *(u32 *) ((v1) + (0)));
+    u32 v7;
+    u32 v8;
+    u32 v12;
+    u32 v14;
+    *(u32 *) ((v5) + (4)) = v4;
+    v7 = ((u32) *(u32 *) ((v1) + (0)));
+    v8 = ((u32) *(u32 *) ((v1) + (4)));
+    *(u32 *) ((v8) + (0)) = v7;
+    *(u32 *) ((v1) + (4)) = (u32) 0x0u;
+    v12 = ((u32) *(u32 *) ((v1) + (4)));
+    *(u32 *) ((v1) + (0)) = v12;
+    v14 = func_0200cae4(v3);
 }
 
-void func_ov003_021d2e68(unsigned int p0, unsigned int p1) {
-    unsigned int v2 = ((p0) + (0x0u));
-    unsigned int v3 = ((p1) + (0x0u));
-    unsigned int v5 = func_0200ca9c((unsigned int) (0x1u));
-    unsigned int v6 = ((unsigned int) *(unsigned int *) ((v2) + (0)));
-    unsigned int v8;
-    unsigned int v12;
-    *(unsigned int *) ((v6) + (4)) = (unsigned int) (v3);
-    v8 = ((unsigned int) *(unsigned int *) ((v2) + (0)));
-    *(unsigned int *) ((v3) + (0)) = (unsigned int) (v8);
-    *(unsigned int *) ((v3) + (4)) = (unsigned int) (v2);
-    *(unsigned int *) ((v2) + (0)) = (unsigned int) (v3);
-    v12 = func_0200cae4((unsigned int) (v5));
+void func_ov003_021d2e68(u32 p0, u32 p1) {
+    u32 v2 = ((p0) + (0x0u));
+    u32 v3 = ((p1) + (0x0u));
+    u32 v5 = func_0200ca9c((u32) 0x1u);
+    u32 v6 = ((u32) *(u32 *) ((v2) + (0)));
+    u32 v8;
+    u32 v12;
+    *(u32 *) ((v6) + (4)) = v3;
+    v8 = ((u32) *(u32 *) ((v2) + (0)));
+    *(u32 *) ((v3) + (0)) = v8;
+    *(u32 *) ((v3) + (4)) = v2;
+    *(u32 *) ((v2) + (0)) = v3;
+    v12 = func_0200cae4(v5);
 }

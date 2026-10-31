@@ -305,12 +305,12 @@ void func_0204451c(u32 a) {
     } else if (data_021759c0->mUnk_3d5[1] == -1) {
         f = 1;
     }
-    func_020468b0(a, data_021759c0->mUnk_68[a].mUnk_00, data_021759c0->mUnk_68[a].mUnk_04, 1, data_021759c0->mUnk_68[a].mUnk_0c, f);
+    func_020468b0(a, data_021759c0->mUnk_68[a].mUnk_00, data_021759c0->mUnk_68[a].mUnk_04, 1, data_021759c0->mUnk_68[a].mUnk_08.mUnk_04, f);
     q = data_021759c0;
     q->mUnk_68[a] = q->mUnk_250[a];
     if (f < 2) {
         q->mUnk_3d5[f] = a;
     }
-    data_021759c0->mUnk_250[a].mUnk_1e = data_021759c0->mUnk_3e1;
+    data_021759c0->mUnk_250[a].mUnk_08.mUnk_16 = data_021759c0->mUnk_3e1;
     data_021759c0->mUnk_3e1 = data_021759c0->mUnk_3e1 + 1;
 }

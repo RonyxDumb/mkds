@@ -7,7 +7,8 @@
 typedef struct Unk021da2a8 {
     /* 0000 */ void *mUnk_00;
     /* 0004 */ u16 mUnk_04;
-    /* 0006 */ u8 pad_06[6];
+    /* 0006 */ u8 pad_06[2];
+    /* 0008 */ u32 mUnk_08;
     /* 000c */ u16 mUnk_0c;
     /* 000e */ u16 mUnk_0e;
     /* 0010 */ u16 mUnk_10;

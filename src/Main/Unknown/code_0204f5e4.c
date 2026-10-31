@@ -10,7 +10,7 @@ void func_0204f5e4(void) {
     u32 uVar1;
     uVar2 = ((int) 0xe0000000u);
     uVar1 = ((u32) 0xdfffffffu);
-    iVar4 = (*(int *) &data_0217aa00) + ((int) 0x000016a0u);
+    iVar4 = (int) data_0217aa00 + 0x16a0;
     iVar5 = 0;
     iVar3 = iVar4;
     do {
@@ -22,8 +22,7 @@ void func_0204f5e4(void) {
         iVar3 = iVar3 + 0x88;
         iVar5 = iVar5 + 1;
     } while (iVar5 < 0xc);
-    *(u16 *) (iVar4 + ((int) 0x00000668u)) = 0xc;
-    return;
+    *(u16 *) (iVar4 + 0x668) = 0xc;
 }
 
 #pragma thumb off

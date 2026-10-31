@@ -21,13 +21,13 @@ void func_020b6c74(u32 a, u16 *b, u32 c) {
     }
     f = 0;
     if (a == 0) {
-        if ((u32) data_021759c0->mUnk_70[a].mUnk_00 <= 3) {
-            if ((1 << data_021759c0->mUnk_70[a].mUnk_00) & 0xd) {
+        if ((u32) data_021759c0->mUnk_68[a].mUnk_08.mUnk_00 <= 3) {
+            if ((1 << data_021759c0->mUnk_68[a].mUnk_08.mUnk_00) & 0xd) {
                 f = 1;
             }
         }
         if (f != 0) {
-            p = data_021759c0->mUnk_70[a].mUnk_18;
+            p = data_021759c0->mUnk_68[a].mUnk_08.mUnk_18;
             if (p == 0) {
                 return;
             }

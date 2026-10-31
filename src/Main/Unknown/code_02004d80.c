@@ -5,7 +5,7 @@ u32 func_02004db0(void) {
     u32 value0;
     value0 = (u32) &data_0216f350;
     value0 = (u32) * (const u32 *) ((value0) + (0));
-    return (u32) value0;
+    return value0;
 }
 
 void func_02004d80(Unk02003024 *arg0) {
@@ -14,15 +14,14 @@ void func_02004d80(Unk02003024 *arg0) {
     u32 value2;
     u32 value3;
     value3 = 0u;
-    *(u32 *) ((value0) + (0)) = (u32) value3;
+    *(u32 *) ((value0) + (0)) = value3;
     value2 = (u32) * (const u32 *) ((value0) + (0));
     value1 = 0xeu;
-    *(u32 *) ((value0) + (4)) = (u32) value2;
-    *(u32 *) ((value0) + (28)) = (u32) value3;
+    *(u32 *) ((value0) + (4)) = value2;
+    *(u32 *) ((value0) + (28)) = value3;
     value2 = (u32) * (const u32 *) ((value0) + (28));
-    *(u32 *) ((value0) + (24)) = (u32) value2;
-    *(u32 *) ((value0) + (8)) = (u32) value3;
-    *(u32 *) ((value0) + (16)) = (u32) value1;
-    *(u32 *) ((value0) + (12)) = (u32) value3;
-    return;
+    *(u32 *) ((value0) + (24)) = value2;
+    *(u32 *) ((value0) + (8)) = value3;
+    *(u32 *) ((value0) + (16)) = value1;
+    *(u32 *) ((value0) + (12)) = value3;
 }

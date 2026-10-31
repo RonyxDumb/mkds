@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_0210dc48.h"
 
-unsigned int func_0210dc48(void) {
+u32 func_0210dc48(void) {
     return 0x5u;
 }

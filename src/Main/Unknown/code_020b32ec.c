@@ -4,8 +4,8 @@
 
 Unk020b4a44 *func_020b33c4(void) {
     return ((Unk020b4a44 *) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b354))) +
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b354))) +
                                                           0))) +
                                0 + (0x16cu)));
 }
@@ -14,16 +14,16 @@ Unk020b4934 *func_020b3374(void) {
     int iVar1;
     iVar1 = func_020b2d04();
     if (iVar1 == 1) {
-        *(u32 *) (*(int *) ((*(int *) &data_0217b354) + ((int) 0x00000170u)) + 0x14) =
-            *(u32 *) ((*(int *) &data_0217b354) + ((int) 0x00000174u));
+        *(u32 *) (*(int *) ((int) data_0217b354 + 0x170) + 0x14) =
+            *(u32 *) ((int) data_0217b354 + 0x174);
     } else {
         iVar1 = func_020b2d04();
         if (iVar1 == 2) {
-            *(u32 *) (*(int *) ((*(int *) &data_0217b354) + ((int) 0x00000170u)) + 0x14) =
-                *(u32 *) ((*(int *) &data_0217b354) + ((int) 0x00000178u));
+            *(u32 *) (*(int *) ((int) data_0217b354 + 0x170) + 0x14) =
+                *(u32 *) ((int) data_0217b354 + 0x178);
         }
     }
-    return *(Unk020b4934 **) ((*(int *) &data_0217b354) + ((int) 0x00000170u));
+    return *(Unk020b4934 **) ((int) data_0217b354 + 0x170);
 }
 
 void *func_020b32f8(void) {
@@ -32,27 +32,27 @@ void *func_020b32f8(void) {
     iVar2 = 0;
     iVar1 = func_020b2d04();
     if (iVar1 == 0) {
-        if (*(int *) ((*(int *) &data_0217b354) + ((int) 0x0000017cu)) != 0) {
-            iVar2 = *(int *) ((*(int *) &data_0217b354) + ((int) 0x0000017cu)) + 0xc;
+        if (*(int *) ((int) data_0217b354 + 0x17c) != 0) {
+            iVar2 = *(int *) ((int) data_0217b354 + 0x17c) + 0xc;
         }
     } else if (iVar1 == 1) {
-        if (*(int *) ((*(int *) &data_0217b354) + ((int) 0x00000180u)) != 0) {
-            iVar2 = *(int *) ((*(int *) &data_0217b354) + ((int) 0x00000180u)) + 0xc;
+        if (*(int *) ((int) data_0217b354 + 0x180) != 0) {
+            iVar2 = *(int *) ((int) data_0217b354 + 0x180) + 0xc;
         }
     } else if (iVar1 == 2) {
-        if (*(int *) ((*(int *) &data_0217b354) + ((int) 0x00000184u)) != 0) {
-            iVar2 = *(int *) ((*(int *) &data_0217b354) + ((int) 0x00000184u)) + 0xc;
+        if (*(int *) ((int) data_0217b354 + 0x184) != 0) {
+            iVar2 = *(int *) ((int) data_0217b354 + 0x184) + 0xc;
         }
-    } else if ((iVar1 == 3) && (*(int *) ((*(int *) &data_0217b354) + ((int) 0x00000188u)) != 0)) {
-        iVar2 = *(int *) ((*(int *) &data_0217b354) + ((int) 0x00000188u)) + 0xc;
+    } else if ((iVar1 == 3) && (*(int *) ((int) data_0217b354 + 0x188) != 0)) {
+        iVar2 = *(int *) ((int) data_0217b354 + 0x188) + 0xc;
     }
     return (void *) iVar2;
 }
 
-unsigned int func_020b32ec(void) {
-    return ((unsigned int) *(
-        const unsigned int *) ((unsigned char *) (unsigned int) (((unsigned int) *(
-                                   const unsigned int *) ((unsigned char *) (unsigned int) (((u32) (&data_0217b354))) +
+u32 func_020b32ec(void) {
+    return ((u32) *(
+        const u32 *) ((u8 *) (u32) (((u32) *(
+                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b354))) +
                                                           0))) +
                                12));
 }

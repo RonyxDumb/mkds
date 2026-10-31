@@ -1,7 +1,7 @@
 #include "00/code_0219a654.h"
 #include "00/code_0218d000.h"
 #include "00/code_0218dc44.h"
-#include "00/code_0218e000.h"
+#include "00/code_0218e3c4.h"
 #include "00/code_0218e368.h"
 #include "00/code_0218e53c.h"
 #include "00/code_0218e554.h"
@@ -10,7 +10,8 @@
 #include "00/code_0219b1f8.h"
 #include "00/code_021a4654.h"
 #include "00/code_021a4868.h"
-#include "00/code_021a8000.h"
+#include "00/code_021a8c1c.h"
+#include "00/code_021a8f0c.h"
 #include "00/unk_021b4000.h"
 #include "00/unk_021b5000.h"
 #include "code_0213442c.h"
@@ -222,12 +223,22 @@ void func_ov000_0219a9e4(Unk0219b1d4 *a, Unk0219ade4 *b, Unk021a4654 *c) {
     }
 }
 
-// non-matching: the original keeps the message address in r7 (add r7, sp, #4 first) for the six-byte copy and the call, and loads the source into r2; ours uses r3 and r4 and is 4 bytes smaller
+static inline void func_ov000_0219aa64_inline(void *a, const void *b) {
+    u8 *p = (u8 *) a;
+    const u8 *q = (const u8 *) b;
+    p[0] = q[0];
+    p[1] = q[1];
+    p[2] = q[2];
+    p[3] = q[3];
+    p[4] = q[4];
+    p[5] = q[5];
+}
+
 void func_ov000_0219aa64(Unk0219b1d4 *a, Unk021a4654 *b) {
     Unk0219aa64 c;
     u32 d;
 
-    c.mUnk_00 = *(Unk021b400c *) data_ov000_021b400c;
+    func_ov000_0219aa64_inline(&c.mUnk_00, data_ov000_021b400c);
     c.mUnk_06 = 2;
     c.mUnk_07 = 6;
     c.mUnk_0d = a->mUnk_0c;
@@ -393,13 +404,12 @@ u32 func_ov000_0219adb4(const u8 *a) {
     return b;
 }
 
-// non-matching: the original computes the address of the message (add r1, sp, #4) before loading the literal word for the six-byte copy and again after it; ours loads the word first and adds the address once (2 bytes shifted, same size)
 void func_ov000_0219ade4(Unk0219b1d4 *a) {
     Unk0219ade4 b;
     u32 c;
     s32 d;
 
-    b.mUnk_00 = *(Unk021b400c *) data_ov000_021b400c;
+    func_ov000_0219aa64_inline(&b.mUnk_00, data_ov000_021b400c);
     b.mUnk_06 = 2;
     b.mUnk_07 = 7;
     c = a->mUnk_08;

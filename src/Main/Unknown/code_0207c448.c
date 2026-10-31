@@ -1,15 +1,15 @@
 #include "Main/Unknown/code_0207c448.h"
 
 void func_0207c448(Unk0208fd8c *p0) {
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 0) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2) = (unsigned short) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 4) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 8) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 12) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 16) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 20) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 24) = (unsigned int) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 28) = (unsigned short) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 30) = (unsigned short) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 32) = (unsigned int) (0x0u);
+    *(u16 *) ((u8 *) (u32) p0 + 0) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 2) = (u16) 0x0u;
+    *(u32 *) ((u8 *) (u32) p0 + 4) = (u32) 0x0u;
+    *(u32 *) ((u8 *) (u32) p0 + 8) = (u32) 0x0u;
+    *(u32 *) ((u8 *) (u32) p0 + 12) = (u32) 0x0u;
+    *(u32 *) ((u8 *) (u32) p0 + 16) = (u32) 0x0u;
+    *(u32 *) ((u8 *) (u32) p0 + 20) = (u32) 0x0u;
+    *(u32 *) ((u8 *) (u32) p0 + 24) = (u32) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 28) = (u16) 0x0u;
+    *(u16 *) ((u8 *) (u32) p0 + 30) = (u16) 0x0u;
+    *(u32 *) ((u8 *) (u32) p0 + 32) = (u32) 0x0u;
 }

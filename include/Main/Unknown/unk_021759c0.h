@@ -12,7 +12,7 @@ typedef struct Unk020565e4 {
     /* 03 */ u8 mUnk_03;
 } Unk020565e4;
 
-// 0x30-byte entries from 0x70 of the object behind data_021759c0.
+// The 0x28 bytes from 0x08 of each Unk021759c0_68 entry (code keeps pointers to them).
 typedef struct Unk021759c0_70 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -29,28 +29,13 @@ typedef struct Unk021759c0_70 {
     /* 25 */ u8 mUnk_25;
     /* 26 */ u8 mUnk_26;
     /* 27 */ u8 mUnk_27;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ s32 mUnk_2c;
 } Unk021759c0_70;
 
-// 0x30-byte entries at 0x68 and 0x250 of the object behind data_021759c0 (word 0x0c is read at 0x74).
+// 0x30-byte entries at 0x68 and 0x250 of the object behind data_021759c0.
 typedef struct Unk021759c0_68 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ u16 mUnk_1c;
-    /* 1e */ s8 mUnk_1e;
-    /* 1f */ u8 mUnk_1f;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ u8 mUnk_2c;
-    /* 2d */ u8 mUnk_2d;
-    /* 2e */ u8 mUnk_2e[0x2];
+    /* 08 */ Unk021759c0_70 mUnk_08;
 } Unk021759c0_68;
 
 // The 0x68 bytes at 0x1e8 of the object behind data_021759c0.
@@ -138,17 +123,9 @@ typedef struct Unk021759c0 {
     /* 063 */ u8 mUnk_063;
     /* 064 */ s8 mUnk_064;
     /* 065 */ u8 mUnk_065[0x3];
-    /* 68 */ union {
-        struct {
-            /* 68 */ u8 mUnk_68_pad[0x8];
-            /* 70 */ Unk021759c0_70 mUnk_70[18];
-        };
-        struct {
-            /* 68 */ Unk021759c0_68 mUnk_68[8];
-            /* 1e8 */ Unk021759c0_1e8 mUnk_1e8;
-            /* 250 */ Unk021759c0_68 mUnk_250[8];
-        };
-    };
+    /* 68 */ Unk021759c0_68 mUnk_68[8];
+    /* 1e8 */ Unk021759c0_1e8 mUnk_1e8;
+    /* 250 */ Unk021759c0_68 mUnk_250[8];
     /* 3d0 */ u8 mUnk_3d0;
     /* 3d1 */ u8 mUnk_3d1;
     /* 3d2 */ u8 mUnk_3d2[2];

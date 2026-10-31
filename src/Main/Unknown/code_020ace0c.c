@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_020ace0c.h"
 
-unsigned int func_020ace0c(unsigned int p0) {
-    return ((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (p0) + 0));
+u32 func_020ace0c(u32 p0) {
+    return ((u32) *(const u16 *) ((u8 *) p0 + 0));
 }

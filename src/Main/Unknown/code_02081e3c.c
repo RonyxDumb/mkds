@@ -1,8 +1,8 @@
 #include "Main/Unknown/code_02081e3c.h"
 
-void func_02081e3c(void *p0, unsigned int p1, unsigned int p2) {
-    *(unsigned char *) ((unsigned char *) (p0) + 154) = (unsigned char) (0x0u);
-    *(unsigned char *) ((unsigned char *) (p0) + 153) = (unsigned char) (p2);
-    *(unsigned char *) ((unsigned char *) (p0) + 155) = (unsigned char) (p1);
-    *(unsigned int *) ((unsigned char *) (p0) + 144) = (unsigned int) (((u32) (&func_02081d78)));
+void func_02081e3c(void *p0, u32 p1, u32 p2) {
+    *(u8 *) ((u8 *) p0 + 154) = (u8) 0x0u;
+    *(u8 *) ((u8 *) p0 + 153) = (u8) p2;
+    *(u8 *) ((u8 *) p0 + 155) = (u8) p1;
+    *(u32 *) ((u8 *) p0 + 144) = (u32) (((u32) (&func_02081d78)));
 }

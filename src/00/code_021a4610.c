@@ -5,10 +5,9 @@ void func_ov000_021a4648(u8 *param_1, u8 *param_2) {
     uVar1 = *param_1;
     *param_1 = *param_2;
     *param_2 = uVar1;
-    return;
 }
 
-unsigned char func_ov000_021a4610(u32 param_1) {
+u8 func_ov000_021a4610(u32 param_1) {
     if (param_1 < 0x1a) {
         return param_1 + 0x41 & 0xff;
     }

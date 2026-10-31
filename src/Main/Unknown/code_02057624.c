@@ -2,14 +2,14 @@
 
 #pragma thumb on
 void func_02057624(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     u32 value4;
     value4 = (value0) + (0u);
     value1 = 0u;
     value2 = 36u;
-    func_0214d168((void *) value0, (u8) value1, (u32) value2);
+    func_0214d168((void *) value0, (u8) value1, value2);
     value1 = 0u;
     *(u16 *) ((value4) + 0u) = (u16) value1;
     *(u16 *) ((value4) + 2u) = (u16) value1;
@@ -36,7 +36,7 @@ void func_02057624(u32 arg0) {
     value0 = (value4) + (0u);
     value0 = (value0) + 14u;
     value2 = 20u;
-    func_0214d168((void *) value0, (u8) value1, (u32) value2);
+    func_0214d168((void *) value0, (u8) value1, value2);
     value0 = (value4) + (0u);
     value0 = (value0) + 34u;
     value1 = (u32) * (const u8 *) ((value0) + 0u);
@@ -68,6 +68,5 @@ void func_02057624(u32 arg0) {
     value1 = (value1) & ~(value0);
     value4 = (value4) + 34u;
     *(u8 *) ((value4) + 0u) = (u8) value1;
-    return;
 }
 #pragma thumb off

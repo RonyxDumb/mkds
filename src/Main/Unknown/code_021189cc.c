@@ -14,7 +14,6 @@ void func_021189cc(void) {
         iVar3 = iVar3 + 4;
         iVar4 = iVar4 + 1;
     } while (iVar4 < 8);
-    return;
 }
 
 #pragma thumb off

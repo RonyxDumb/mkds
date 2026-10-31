@@ -254,10 +254,10 @@ found:
         e->mUnk_02 = n0;
         e->mUnk_03 = n1;
         g[k].mUnk_00 = n2;
-        func_0214cffc(data_021759c0->mUnk_70[func_020b4d9c()].mUnk_18, e->mUnk_04, 0x14);
+        func_0214cffc(data_021759c0->mUnk_68[func_020b4d9c()].mUnk_08.mUnk_18, e->mUnk_04, 0x14);
         e->mUnk_18 = 1;
-        e->mUnk_19 = (&data_021759c0->mUnk_70[func_020b4d9c()])[-1].mUnk_28;
-        e->mUnk_1a = (&data_021759c0->mUnk_70[func_020b4d9c()])[-1].mUnk_2c;
+        e->mUnk_19 = data_021759c0->mUnk_68[func_020b4d9c()].mUnk_00;
+        e->mUnk_1a = data_021759c0->mUnk_68[func_020b4d9c()].mUnk_04;
         func_02056c6c(data_021759c0->mUnk_00, k, e);
         if (k != 5) {
             data_0217b3f4->mUnk_0c = k;
@@ -294,10 +294,10 @@ s32 func_020c6428(s32 a) {
         e->mUnk_02 = n0;
         e->mUnk_03 = n1;
         g[5].mUnk_00 = n2;
-        func_0214cffc(data_021759c0->mUnk_70[func_020b4d9c()].mUnk_18, e->mUnk_04, 0x14);
+        func_0214cffc(data_021759c0->mUnk_68[func_020b4d9c()].mUnk_08.mUnk_18, e->mUnk_04, 0x14);
         e->mUnk_18 = 1;
-        e->mUnk_19 = (&data_021759c0->mUnk_70[func_020b4d9c()])[-1].mUnk_28;
-        e->mUnk_1a = (&data_021759c0->mUnk_70[func_020b4d9c()])[-1].mUnk_2c;
+        e->mUnk_19 = data_021759c0->mUnk_68[func_020b4d9c()].mUnk_00;
+        e->mUnk_1a = data_021759c0->mUnk_68[func_020b4d9c()].mUnk_04;
         func_02056c6c(data_021759c0->mUnk_00, 5, e);
     }
     return 1;

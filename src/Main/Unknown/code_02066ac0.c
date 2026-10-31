@@ -182,7 +182,7 @@ void func_02066fe0(Unk0206bcb0 *a) {
         q = data_02175620;
         if ((q->mUnk_70 != 0 || q->mUnk_90 != 0) && func_0203c880(a->mUnk_74) != 0) {
             p = data_021759c0;
-            b = &p->mUnk_70[a->mUnk_74];
+            b = &p->mUnk_68[a->mUnk_74].mUnk_08;
             c = 0;
             if ((u32) b->mUnk_00 <= 3 && ((1 << b->mUnk_00) & 0xd) != 0) {
                 c = 1;

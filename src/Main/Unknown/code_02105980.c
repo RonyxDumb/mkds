@@ -9,5 +9,4 @@ void func_02105980(int param_1, u32 param_2) {
         func_0212c6f0((Unk0212c400 **) ((u32) &data_0217d07c), param_2);
         return;
     }
-    return;
 }

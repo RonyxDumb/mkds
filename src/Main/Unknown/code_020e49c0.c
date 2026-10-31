@@ -1,18 +1,18 @@
 #include "Main/Unknown/code_020e49c0.h"
 
-void func_020e49c0(unsigned int p0) {
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 4) =
-        (unsigned int) (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 184)));
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 12) =
-        (unsigned int) (((unsigned int) *(const unsigned int *) ((unsigned char *) (unsigned int) (p0) + 192)));
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 16) = (unsigned int) (0x0u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 20) = (unsigned int) (0x3199u);
-    *(unsigned int *) ((unsigned char *) (unsigned int) (p0) + 24) = (unsigned int) (0x0u);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2) = (unsigned short) ((
-        (((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2))) & ~(0x2u)));
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2) = (unsigned short) ((
-        (((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2))) & ~(0x8u)));
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 102) = (unsigned short) (0x1fu);
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2) = (unsigned short) ((
-        (((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2))) & ~(0x1u)));
+void func_020e49c0(u32 p0) {
+    *(u32 *) ((u8 *) p0 + 4) =
+        (u32) (((u32) *(const u32 *) ((u8 *) p0 + 184)));
+    *(u32 *) ((u8 *) p0 + 12) =
+        (u32) (((u32) *(const u32 *) ((u8 *) p0 + 192)));
+    *(u32 *) ((u8 *) p0 + 16) = (u32) 0x0u;
+    *(u32 *) ((u8 *) p0 + 20) = (u32) 0x3199u;
+    *(u32 *) ((u8 *) p0 + 24) = (u32) 0x0u;
+    *(u16 *) ((u8 *) p0 + 2) = (u16) ((
+        (((u32) *(const u16 *) ((u8 *) p0 + 2))) & ~(0x2u)));
+    *(u16 *) ((u8 *) p0 + 2) = (u16) ((
+        (((u32) *(const u16 *) ((u8 *) p0 + 2))) & ~(0x8u)));
+    *(u16 *) ((u8 *) p0 + 102) = (u16) 0x1fu;
+    *(u16 *) ((u8 *) p0 + 2) = (u16) ((
+        (((u32) *(const u16 *) ((u8 *) p0 + 2))) & ~(0x1u)));
 }

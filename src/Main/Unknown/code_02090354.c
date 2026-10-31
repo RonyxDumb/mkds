@@ -147,7 +147,6 @@ void func_02090638(Unk020905a8 *a) {
     p->mUnk_236 = p->mUnk_236 + (s32) (((s64) d * s) >> 12);
 }
 
-// non-matching: the report scores it 99.91%; objdiff's diff of the function shows every instruction equal
 void func_02090748(Unk020905a8 *a) {
     Unk0206bcb0 *p;
     Vec3 v;
@@ -189,7 +188,7 @@ void func_0209086c(Unk020905a8 *a, u32 b) {
     Unk0206bcb0 *p;
     p = func_0207a974(b);
     a->mUnk_24 = b;
-    func_0207ffa4(&a->mUnk_00, b, (Unk02080b1c_00 *) (*(Unk020ee684 **) data_027e00c8)[b].mUnk_1f0.mUnk_00);
+    func_0207ffa4(&a->mUnk_00, b, (Unk02080b1c_00 *) data_027e00c8[b].mUnk_1f0.mUnk_00);
     a->mUnk_26 = 0;
     a->mUnk_28 = 0;
     p->mUnk_388 = 0;
@@ -416,7 +415,6 @@ u32 func_02090cf8(void) {
     return r | q;
 }
 
-// non-matching: the report scores it 99.95%; objdiff's diff of the function shows every instruction equal
 u32 func_02090ff4(void) {
     u32 r;
     u32 q;

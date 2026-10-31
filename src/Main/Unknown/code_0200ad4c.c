@@ -11,7 +11,7 @@ u32 func_0200ad4c(void) {
     v1 = 0;
     v2 = 0;
     v3 = 0;
-    v4 = *(Unk0216fda8 **) &data_0216fda8;
+    v4 = data_0216fda8;
     if (v4->mUnk_528 == 1) {
         if (v4->mUnk_50c == 0) {
             v3 = 1;

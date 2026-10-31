@@ -17,5 +17,5 @@
 void func_0200b200(void);
 void func_0200b344(Unk021425e8 *a);
 void func_0200b43c(u32 a, Unk021425e8 *b);
-u32 func_0200b610(void);
+u32 func_0200b610(u32 a);
 void func_0200b698(Unk021425e8 *a);

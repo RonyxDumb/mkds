@@ -1,8 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_0218e000.h"
-#include "00/code_021a8000.h"
 #include "00/unk_021b4000.h"
 
 u32 func_ov000_0218e368(s32 param_1);

@@ -19,7 +19,7 @@ u16 func_ov001_02181b30(void)
 void func_ov001_02181aa0(void)
 {
     Unk021a9b90 *p;
-    unsigned int n;
+    u32 n;
 
     if ((data_021759c0->mUnk_08 == 4 ? func_020a126c() : 0) != 0) {
         return;

@@ -1,7 +1,7 @@
 #include "00/code_0219d6c4.h"
 
 void func_ov000_0219d708(u32 param_1, u32 *param_2) {
-    if (*(int *) ((*(int *) &data_ov000_021b5664) + 0x18) != 0) {
+    if ((int) data_ov000_021b5664->mUnk_18 != 0) {
         func_ov000_0218eff8((Unk0218f960 *) (param_1), *param_2, 0, 0, (Unk0218eff8Cb) func_ov000_0219cd74, 0);
     }
     return;

@@ -7,7 +7,7 @@
 #include "00/code_0219d630.h"
 #include "00/code_021a15f8.h"
 #include "00/code_021a1ae0.h"
-#include "00/code_02198000.h"
+#include "00/code_021988e8.h"
 #include "00/code_0219b694.h"
 #include "00/unk_021b4000.h"
 #include "code_0214d018.h"
@@ -56,8 +56,6 @@ s32 func_ov000_0219bbfc(void) {
     return 0;
 }
 
-// non-matching: the two u8 counters of the sort loops are in swapped registers (outer r5 and inner r4, the original has
-// outer r4 and inner r5); same size
 void func_ov000_0219bc78(void *a, u32 b, u32 c, u32 d, void *e, u32 f, u32 g, u32 h) {
     u8 s[0x40];
     u8 t[0x40];
@@ -79,17 +77,17 @@ void func_ov000_0219bc78(void *a, u32 b, u32 c, u32 d, void *e, u32 f, u32 g, u3
             t[i] = func_ov000_021a3448(0x80) + 1;
             b++;
         }
-        j = 0;
-        for (; j < func_ov000_0219d660(); j++) {
-            if (t[j] != 0) {
-                i = 0;
+        i = 0;
+        for (; i < func_ov000_0219d660(); i++) {
+            if (t[i] != 0) {
+                j = 0;
                 n = 0;
-                for (; i < func_ov000_0219d660(); i++) {
-                    if (j != i && t[j] < t[i]) {
+                for (; j < func_ov000_0219d660(); j++) {
+                    if (i != j && t[i] < t[j]) {
                         n++;
                     }
                 }
-                s[n] = j;
+                s[n] = i;
             }
         }
         func_ov000_021a2468(s, b, (u8) (c - 1), d, (u32) func_ov000_0219b5a8, 0, g, h);

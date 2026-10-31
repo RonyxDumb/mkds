@@ -8,5 +8,5 @@ u32 func_02037a04(void) {
     value0 = (u32) * (const u8 *) ((value1) + (216));
     value0 = (value0) & ~(1u);
     *(u8 *) ((value1) + (216)) = (u8) value0;
-    return (u32) value0;
+    return value0;
 }

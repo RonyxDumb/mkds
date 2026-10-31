@@ -11,7 +11,7 @@
 #include "code_02139f70.h"
 #include "00/code_0218a71c.h"
 
-s32 func_ov000_0218c468(Unk0218b928 *a, u8 *b, s32 c) {
+s32 func_ov000_0218c468(Unk021b4d24 *a, u8 *b, s32 c) {
     s32 e;
     s32 d;
     void *h;
@@ -46,11 +46,11 @@ s32 func_ov000_0218c468(Unk0218b928 *a, u8 *b, s32 c) {
         return -2;
     }
     r = func_ov000_0218c550(a, h, b, c, 1);
-    func_ov000_0218d340((Unk021b4d24 *) a, (u32) h);
+    func_ov000_0218d340(a, (u32) h);
     return r;
 }
 
-s32 func_ov000_0218c550(Unk0218b928 *a, void *b, u8 *c, s32 d, s32 e) {
+s32 func_ov000_0218c550(Unk021b4d24 *a, void *b, u8 *c, s32 d, s32 e) {
     s32 h;
     s32 f;
     s32 g;
@@ -104,11 +104,11 @@ s32 func_ov000_0218c550(Unk0218b928 *a, void *b, u8 *c, s32 d, s32 e) {
         func_ov000_0218af18((int) b, j);
     }
     if ((g & 0x40) != 0) {
-        h = func_ov000_0218dc44(a->mUnk_08);
+        h = func_ov000_0218dc44(a->mUnk_008);
         i = 0;
         if (h > 0) {
             do {
-                r = func_ov000_0218dbf8(a->mUnk_08, i);
+                r = func_ov000_0218dbf8(a->mUnk_008, i);
                 switch (r->mUnk_04) {
                 case 1:
                     func_ov000_0218b358(b, r->mUnk_00, c[0]);
@@ -137,7 +137,7 @@ s32 func_ov000_0218c550(Unk0218b928 *a, void *b, u8 *c, s32 d, s32 e) {
                         c += n;
                         d -= n;
                     } else {
-                        func_ov000_0218b380(b, r->mUnk_00, a->mUnk_84[n]);
+                        func_ov000_0218b380(b, r->mUnk_00, a->mUnk_084[n]);
                     }
                     break;
                 }
@@ -164,7 +164,7 @@ s32 func_ov000_0218c550(Unk0218b928 *a, void *b, u8 *c, s32 d, s32 e) {
     return f - d;
 }
 
-void func_ov000_0218c744(Unk0218b928 *a, u8 *b, s32 c, u8 *d, u16 *e) {
+void func_ov000_0218c744(Unk021b4d24 *a, u8 *b, s32 c, u8 *d, u16 *e) {
     u8 f;
     u8 *p;
     u8 *q;
@@ -189,16 +189,16 @@ void func_ov000_0218c744(Unk0218b928 *a, u8 *b, s32 c, u8 *d, u16 *e) {
     }
 }
 
-s32 func_ov000_0218c794(Unk0218b928 *a, u8 *b, s32 c) {
+s32 func_ov000_0218c794(Unk021b4d24 *a, u8 *b, s32 c) {
     s32 d;
     s32 i;
     s32 k;
     s32 t;
-    d = func_ov000_0218dc44(a->mUnk_08);
+    d = func_ov000_0218dc44(a->mUnk_008);
     i = 0;
     if (d > 0) {
         do {
-            switch (((Unk0218c0bc *) func_ov000_0218dbf8(a->mUnk_08, i))->mUnk_04) {
+            switch (((Unk0218c0bc *) func_ov000_0218dbf8(a->mUnk_008, i))->mUnk_04) {
             case 1:
                 b += 1;
                 c -= 1;
@@ -276,18 +276,18 @@ s32 func_ov000_0218c8ac(u32 a) {
     return b;
 }
 
-void func_ov000_0218c8e0(Unk0218b928 *a, s8 *b, s32 c) {
+void func_ov000_0218c8e0(Unk021b4d24 *a, s8 *b, s32 c) {
     s32 d;
     s8 *p;
     s32 i;
     s8 *q;
-    d = func_0213a434(a->mUnk_54);
-    p = (s8 *) a->mUnk_54;
+    d = func_0213a434(a->mUnk_054);
+    p = (s8 *) a->mUnk_054;
     for (i = 0; i < c; i++) {
         s32 x = p[i % d];
         s32 y = i * x % 8;
         s32 z = i % 8;
-        a->mUnk_74[y] = a->mUnk_74[y] ^ (s8) (a->mUnk_74[z] ^ b[i]);
+        a->mUnk_074[y] = a->mUnk_074[y] ^ (s8) (a->mUnk_074[z] ^ b[i]);
     }
-    func_ov000_0218a7bc((Unk0218a71c *) a->mUnk_4bc, (const u8 *) a->mUnk_74, 8);
+    func_ov000_0218a7bc((Unk0218a71c *) a->mUnk_4bc, (const u8 *) a->mUnk_074, 8);
 }

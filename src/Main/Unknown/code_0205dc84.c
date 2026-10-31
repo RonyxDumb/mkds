@@ -22,6 +22,7 @@
 #include "code_02148a58.h"
 #include "code_021488e8.h"
 #include "code_021458c4.h"
+#include "Main/Unknown/unk_00000000.h"
 #include "Main/Unknown/unk_02154000.h"
 #include "Main/Unknown/unk_02165000.h"
 #include "Main/Unknown/unk_02175000.h"
@@ -50,8 +51,6 @@ static inline void func_0205dee0_inline(void *c, void *e) {
     }
 }
 
-// non-matching: 1 instruction differs: the original loads the value 3 that it keeps in r4 with ldr from a constant
-// word after the code; here it is mov r4, #3 and the function is one word shorter.
 void func_0205dee0(void) {
     void *b;
     void *c;
@@ -69,7 +68,7 @@ void func_0205dee0(void) {
     func_02108ed8();
     b = func_020369fc(a);
     c = func_02036b74(b, 0x40000, 0x20);
-    func_0205dee0_inline(c, (void *) 3);
+    func_0205dee0_inline(c, (void *) SDK_OVERLAY_OV003_ID);
     func_02036ab0(b);
     func_02148908((u16 *) 0x400006c, 0x10);
     func_02148908((u16 *) 0x400106c, 0x10);

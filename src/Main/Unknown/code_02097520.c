@@ -7,9 +7,9 @@ u32 func_0209753c(u32 param_1) {
     return 1;
 }
 
-void func_02097520(unsigned int p0) {
-    *(unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2) = (unsigned short) ((
-        (((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (p0) + 2))) |
-        (((unsigned int) *(const unsigned short *) ((unsigned char *) (unsigned int) (((u32) (&data_021564c0))) +
+void func_02097520(u32 p0) {
+    *(u16 *) ((u8 *) p0 + 2) = (u16) ((
+        (((u32) *(const u16 *) ((u8 *) p0 + 2))) |
+        (((u32) *(const u16 *) ((u8 *) (u32) (((u32) (&data_021564c0))) +
                                                     0)))));
 }

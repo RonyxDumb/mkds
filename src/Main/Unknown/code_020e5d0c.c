@@ -93,7 +93,7 @@ void func_020e64b8(void *p, void *a, void *b, s32 c) {
 
 void func_020e6488(Unk020e6488 **param_1, void *param_2, u32 param_3, u32 param_4) {
     *param_1 = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
-    func_020e64b8((void *) *param_1, (void *) param_2, (void *) param_3, param_4);
+    func_020e64b8((void *) *param_1, param_2, (void *) param_3, param_4);
 }
 
 #pragma thumb off

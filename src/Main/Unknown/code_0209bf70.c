@@ -437,7 +437,7 @@ s32 func_0209c9fc(Unk0209c220 *p, Unk0206bcb0 *k, u8 *b, u8 *c) {
             p->mUnk_000.mUnk_10.y = 0;
             p->mUnk_000.mUnk_10.z = 0;
         }
-        if (data_021759c0->mUnk_70[k->mUnk_74].mUnk_00 != 2 && p->mUnk_11c == 0) {
+        if (data_021759c0->mUnk_68[k->mUnk_74].mUnk_08.mUnk_00 != 2 && p->mUnk_11c == 0) {
             p->mUnk_0b8 = 0x8000;
             p->mUnk_0c4 = 0x1000;
             p->mUnk_0c8 = 0x400;
@@ -513,20 +513,23 @@ static inline s32 func_0209cf34_inline_b(Unk0209cf34 *p) {
     s32 i;
     Unk0206bcb0 *k;
     Vec3 *q;
+    s32 x;
+    s32 z;
 
     for (i = 0; i < data_021759c0->mUnk_3d0; i++) {
         k = func_0207a974((u16) i);
         q = &k->mUnk_80;
-        if ((s64) (k->mUnk_80.x - p->mUnk_000.mUnk_04.x) * (k->mUnk_80.x - p->mUnk_000.mUnk_04.x) +
-                (s64) (q->z - p->mUnk_000.mUnk_04.z) * (q->z - p->mUnk_000.mUnk_04.z) <
-            0x15f900000000LL) {
+        x = q->x - p->mUnk_000.mUnk_04.x;
+        z = q->z - p->mUnk_000.mUnk_04.z;
+        if ((s64) x * x + (s64) z * z < 0x15f900000000LL) {
             return 1;
         }
     }
     return 0;
 }
 
-// non-matching: 4 bytes shorter than the original (0x45c against 0x460); the original forms the vector pointer (add r1, r0, #0x80) and reads z through it in the case 2 search, and keeps the 0 high word of the random shift in r1 (mov r1, #0; lsl r1, r1, #16; orr r1, r1, r0, lsr #16) where ours has mov r0, #0; lsr; orr lsl
+// non-matching: 5 words differ in the random step of case 3: the original loads the low word of mUnk_10 after the two
+// mla and the mov r1, #0 (ours loads it right after the umull); same size
 void func_0209cf34(Unk02100094 *a, Unk0209cf34 *p) {
     Vec3 v;
     Vec3 w;
@@ -585,7 +588,7 @@ void func_0209cf34(Unk02100094 *a, Unk0209cf34 *p) {
         if (p->mUnk_0a0 != 0) {
             p->mUnk_0a4 += 0x8000;
         } else {
-            p->mUnk_0a4 = (u16) ((u64) func_0209c9fc_inline(func_020d22d0()) >> 16);
+            p->mUnk_0a4 = (u16) (((u64) func_0209c9fc_inline(func_020d22d0()) * 0x10000) >> 32);
         }
         v.x = p->mUnk_000.mUnk_04.x;
         v.y = p->mUnk_000.mUnk_04.y - 0x1e000;

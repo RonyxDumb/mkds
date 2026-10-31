@@ -10,16 +10,16 @@ void func_ov003_021ccbbc(void) {
     s32 c;
     s32 d;
     func_ov003_021d2940(a);
-    b = data_ov003_021d6630[(*(Unk021cca74 **) data_ov003_021da268)->mUnk_1b];
-    c = a[1] - (*(Unk021cca74 **) data_ov003_021da268)->mY - (b >> 1);
+    b = data_ov003_021d6630[data_ov003_021da268->mUnk_1b];
+    c = a[1] - data_ov003_021da268->mY - (b >> 1);
     if (c < 0) {
         c = 0;
     } else {
-        d = (*(Unk021cca74 **) data_ov003_021da268)->mUnk_19 - b;
+        d = data_ov003_021da268->mUnk_19 - b;
         if (c >= d) {
             c = d;
         }
     }
     func_ov003_021cca74(c);
-    (*(Unk021cca74 **) data_ov003_021da268)->mUnk_1d = 3;
+    data_ov003_021da268->mUnk_1d = 3;
 }

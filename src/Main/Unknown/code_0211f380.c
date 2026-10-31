@@ -5,7 +5,6 @@
 void func_0211f380(void) {
     func_0211f598();
     func_0211f5d0();
-    return;
 }
 
 #pragma thumb off

@@ -16,10 +16,10 @@ void func_ov003_021ce024(u32 a) {
     d = data_ov003_021d66a8;
     c = data_ov003_021d6698 + a * 5;
     for (; i < 5; i += 2) {
-        func_ov003_021d1c3c(1, *b, (u8 *) func_ov003_021d1974((int) (*(Unk021ce0f0 **) &data_ov003_021da27c)->mUnk_00[i], 0));
-        func_ov003_021d1790((*(Unk021ce0f0 **) &data_ov003_021da27c)->mUnk_00[i], -1, 0);
-        func_ov003_021d17d4((*(Unk021ce0f0 **) &data_ov003_021da27c)->mUnk_00[i], -1, d->mUnk_00, d->mUnk_02);
-        func_ov003_021d1890((*(Unk021ce0f0 **) &data_ov003_021da27c)->mUnk_00[i], -1, 0, *c);
+        func_ov003_021d1c3c(1, *b, (u8 *) func_ov003_021d1974((int) data_ov003_021da27c->mUnk_00[i], 0));
+        func_ov003_021d1790(data_ov003_021da27c->mUnk_00[i], -1, 0);
+        func_ov003_021d17d4(data_ov003_021da27c->mUnk_00[i], -1, d->mUnk_00, d->mUnk_02);
+        func_ov003_021d1890(data_ov003_021da27c->mUnk_00[i], -1, 0, *c);
         b += 2;
         d += 2;
         c += 2;
@@ -28,6 +28,6 @@ void func_ov003_021ce024(u32 a) {
 }
 
 void func_ov003_021ce0c4(void) {
-    (*(Unk021ce0f0 **) &data_ov003_021da27c)->mUnk_18 = 1;
-    (*(Unk021ce0f0 **) &data_ov003_021da27c)->mTask = func_ov003_021d3544(0, (u32) func_ov003_021cdf98, 0, 0x78);
+    data_ov003_021da27c->mUnk_18 = 1;
+    data_ov003_021da27c->mTask = func_ov003_021d3544(0, (u32) func_ov003_021cdf98, 0, 0x78);
 }

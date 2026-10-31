@@ -1,4 +1,6 @@
 #include "03/code_021c4220.h"
+#include "03/code_021d2168.h"
+#include "03/code_021d254c.h"
 
 void func_ov003_021c42f4(void) {
     int iVar1;
@@ -32,10 +34,10 @@ void func_ov003_021c42ac(void) {
 
 void func_ov003_021c427c(void) {
     int iVar1;
-    iVar1 = func_ov003_021d1f70((int) (1));
+    iVar1 = func_ov003_021d1f70(1);
     if (iVar1 == 0) {
         func_ov003_021bf344();
-        func_ov003_021d1ee0((int) (3), (int) (0), (u32) (0x15), (u16) (8));
+        func_ov003_021d1ee0(3, 0, (u32) (0x15), (u16) (8));
         func_ov003_021c212c(func_ov003_021c4240);
     }
     return;
@@ -43,10 +45,10 @@ void func_ov003_021c427c(void) {
 
 void func_ov003_021c4240(void) {
     int iVar1;
-    iVar1 = func_ov003_021d1f70((int) (0));
+    iVar1 = func_ov003_021d1f70(0);
     if ((iVar1 == 0) && (iVar1 = func_ov003_021bf2f0(), iVar1 != 0)) {
-        func_ov003_021d2168((int) (0));
-        func_ov003_021d272c((int) (0), (u32) (0x15));
+        func_ov003_021d2168(0);
+        func_ov003_021d272c(0, (u32) (0x15));
         func_ov003_021c2120((u32) (0), (u32) (1));
         func_ov003_021c212c(func_ov003_021c5098);
     }

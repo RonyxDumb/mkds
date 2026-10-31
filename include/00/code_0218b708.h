@@ -1,8 +1,10 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_0218a9bc.h"
 #include "00/code_0218b64c.h"
 #include "00/types_0218b928.h"
+#include "00/unk_021b4000.h"
 
 // Object func_ov000_0218ba88 builds.
 typedef struct Unk0218ba88 {
@@ -14,17 +16,17 @@ typedef struct Unk0218ba88 {
     /* 0b */ u8 mUnk_0b[8];
 } Unk0218ba88;
 
-void func_ov000_0218b708(void *a, s32 b, Unk0218b74c *c, Unk0218b668 *d);
-void func_ov000_0218b780(Unk0218b928 *a, s32 b, Unk0218b74c *c, Unk0218b668 *d);
-s32 func_ov000_0218b8e4(Unk0218b928 *a);
-s32 func_ov000_0218b928(Unk0218b928 *a);
-s32 func_ov000_0218ba10(Unk0218b928 *a, u32 b, u16 c, u32 d);
-s32 func_ov000_0218ba88(Unk0218b928 *a, u32 b, u16 c, u8 *d, s32 e);
-s32 func_ov000_0218bb44(Unk0218b928 *a);
-s32 func_ov000_0218bc08(Unk0218b928 *a);
-s32 func_ov000_0218bd5c(Unk0218b928 *a, u8 *b, s32 c);
-s32 func_ov000_0218be10(Unk0218b928 *a, u8 *b, s32 c);
-s32 func_ov000_0218be68(Unk0218b928 *a, u8 *b, s32 c);
-s32 func_ov000_0218bf78(Unk0218b928 *a, u8 *b, s32 c);
-s32 func_ov000_0218c0bc(Unk0218b928 *a, u8 *b, s32 c);
-s32 func_ov000_0218c15c(Unk0218b928 *a);
+void func_ov000_0218b708(void *a, s32 b, Unk0218af28 *c, Unk0218b668 *d);
+void func_ov000_0218b780(Unk021b4d24 *a, s32 b, Unk0218af28 *c, Unk0218b668 *d);
+s32 func_ov000_0218b8e4(Unk021b4d24 *a);
+s32 func_ov000_0218b928(Unk021b4d24 *a);
+s32 func_ov000_0218ba10(Unk021b4d24 *a, u32 b, u16 c, u32 d);
+s32 func_ov000_0218ba88(Unk021b4d24 *a, u32 b, u16 c, u8 *d, s32 e);
+s32 func_ov000_0218bb44(Unk021b4d24 *a);
+s32 func_ov000_0218bc08(Unk021b4d24 *a);
+s32 func_ov000_0218bd5c(Unk021b4d24 *a, u8 *b, s32 c);
+s32 func_ov000_0218be10(Unk021b4d24 *a, u8 *b, s32 c);
+s32 func_ov000_0218be68(Unk021b4d24 *a, u8 *b, s32 c);
+s32 func_ov000_0218bf78(Unk021b4d24 *a, u8 *b, s32 c);
+s32 func_ov000_0218c0bc(Unk021b4d24 *a, u8 *b, s32 c);
+s32 func_ov000_0218c15c(Unk021b4d24 *a);

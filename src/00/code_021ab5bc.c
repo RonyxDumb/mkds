@@ -14,14 +14,13 @@ u32 func_ov000_021ab5bc(void) {
     return (u32) func_0214e1e0(&a, (const Unk0214e1e0 *) b) + 0x386d4380;
 }
 
-// non-matching: registers only, the loop counter and the entry pointer are swapped (r0/r2); 7 words differ, same size
 Unk021ab5e4 *func_ov000_021ab5e4(const u8 *a) {
     Unk021ab5e4 *v1;
     u32 t;
-    Unk021ab5e4 *e;
+    s32 i;
     u32 v2;
     u32 v3;
-    s32 i;
+    Unk021ab5e4 *e;
     t = func_0200f5ac() >> 16;
     v3 = 0;
     v1 = data_ov000_021b61f4;
