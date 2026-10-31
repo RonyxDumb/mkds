@@ -95,11 +95,12 @@ void func_ov000_0218e220(const s8 *param_1, u8 *param_2, s32 param_3) {
     param_2[3] = a[2] & 0x3f;
 }
 
-// non-matching: adds r5, r5, r1 then adds r0, r5, #0 instead of adds r0, r1, r5 (size 0x22 against 0x20)
 s32 func_ov000_0218e284(s32 param_1, s32 param_2) {
     s32 a = param_2 - param_1;
+    s32 r;
     if (a == 0) {
         return param_1;
     }
-    return func_ov000_0218e2c0() % a + param_1;
+    r = func_ov000_0218e2c0() % a;
+    return r + param_1;
 }

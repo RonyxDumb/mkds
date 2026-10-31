@@ -29,7 +29,6 @@ u32 func_02094e3c(void) {
     return func_0209bf8c();
 }
 
-// non-matching: size 0x2dc against 0x2e0; the original computes add r1, r0, #0x80 and loads the z word from [r1, #8] first, then x from [r0, #0x80]; here both are loaded from r0 (x first, then [r0, #0x88]), so the two products and the loads of the distance test come in another order
 void func_02094e8c(void *a, Unk02094e8c *o) {
     s32 t;
     s32 c;
@@ -56,9 +55,9 @@ void func_02094e8c(void *a, Unk02094e8c *o) {
         g = func_0207a974((u16) data_021759c0->mUnk_62);
         e = c << 12;
         q2 = &g->mUnk_80;
+        v1 = q2->x - o->mUnk_00.mUnk_04.x;
         v2 = q2->z - o->mUnk_00.mUnk_04.z;
-        v1 = g->mUnk_80.x - o->mUnk_00.mUnk_04.x;
-        if ((s64) v2 * v2 + (s64) v1 * v1 < (s64) e * e) {
+        if ((s64) v1 * v1 + (s64) v2 * v2 < (s64) e * e) {
             o->mUnk_a4 = 1;
         } else {
             o->mUnk_a4 = 0;

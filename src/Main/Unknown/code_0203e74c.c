@@ -23,7 +23,9 @@ void func_0203e74c(u16 param_1) {
     func_0203e788(param_1, 0);
 }
 
-// non-matching: 0x21c bytes, original 0x218; the entry pointer and the flag swap r1/r2 up to the first call, and the base of data_0217561c is loaded one extra time before the call to func_0203f5f0.
+// non-matching: 0x21c bytes, original 0x218; the entry pointer and the flag swap r1/r2 up to the first call, and the
+// argument of func_020a16d0 is narrowed (lsl/lsr #16) where the original passes a as is (with a u16 parameter a, a
+// header change for 7 callers, only the r1/r2 swap is left)
 void func_0203e788(s32 a, s32 b) {
     Unk0217561c_14 *e;
     Unk0206bcb0 *q;
@@ -50,8 +52,8 @@ void func_0203e788(s32 a, s32 b) {
         return;
     }
     q = func_0207a974(a);
-    data_0217561c->mUnk_000[0].mUnk_04 = 0;
     e = (Unk0217561c_14 *) ((u8 *) &data_0217561c->mUnk_14[0] + a * 0x8c);
+    data_0217561c->mUnk_000[0].mUnk_04 = 0;
     func_0203f5f0(&t.mUnk_02, &t.mUnk_03, &t.mUnk_00, 0, data_0217561c->mUnk_000[0].mUnk_00);
     e->mUnk_0c[5] = t;
     if ((e->mUnk_30 & 1) != 0) {

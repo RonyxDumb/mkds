@@ -222,12 +222,22 @@ void func_ov000_0219a9e4(Unk0219b1d4 *a, Unk0219ade4 *b, Unk021a4654 *c) {
     }
 }
 
-// non-matching: the original keeps the message address in r7 (add r7, sp, #4 first) for the six-byte copy and the call, and loads the source into r2; ours uses r3 and r4 and is 4 bytes smaller
+static inline void func_ov000_0219aa64_inline(void *a, const void *b) {
+    u8 *p = (u8 *) a;
+    const u8 *q = (const u8 *) b;
+    p[0] = q[0];
+    p[1] = q[1];
+    p[2] = q[2];
+    p[3] = q[3];
+    p[4] = q[4];
+    p[5] = q[5];
+}
+
 void func_ov000_0219aa64(Unk0219b1d4 *a, Unk021a4654 *b) {
     Unk0219aa64 c;
     u32 d;
 
-    c.mUnk_00 = *(Unk021b400c *) data_ov000_021b400c;
+    func_ov000_0219aa64_inline(&c.mUnk_00, data_ov000_021b400c);
     c.mUnk_06 = 2;
     c.mUnk_07 = 6;
     c.mUnk_0d = a->mUnk_0c;

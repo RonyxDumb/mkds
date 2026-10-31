@@ -22,7 +22,12 @@
 #include "00/code_0218e8c4.h"
 
 static inline void func_ov000_0218ce14_inline(Unk0218cd94 *d, Unk0218cd94 *s) {
-    *d = *s;
+    u8 *p = (u8 *) d;
+    u8 *q = (u8 *) s;
+    p[0] = q[0];
+    p[1] = q[1];
+    p[2] = q[2];
+    p[3] = q[3];
 }
 
 void func_ov000_0218cdd8(u8 **a, const u8 *b, s32 *c) {
@@ -36,7 +41,6 @@ void func_ov000_0218cdd8(u8 **a, const u8 *b, s32 *c) {
     *a = *a + n;
 }
 
-// non-matching: the four-byte copy into the struct uses r0 plus offsets 4 to 7 after loading the source, not a pointer in r1 made first (6 instructions, same size)
 s32 func_ov000_0218ce14(Unk021b4d24 *p) {
     Unk0218ce14 v1;
     u8 v2[0x80];

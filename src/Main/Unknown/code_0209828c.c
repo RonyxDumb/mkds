@@ -268,8 +268,6 @@ void func_02098b34(void *a) {
     func_0209b9a4(data_usa_0217b0e4, 0x1e);
 }
 
-// non-matching: the argument of func_0209b77c gets an extra lsr/lsl/lsr #16 where the original has lsl #4, lsr #16
-// (size 0x1a4 against 0x19c); the rest is identical
 void func_02098b68(void *a, Unk020983c4 *p) {
     s32 w;
     s32 m[9];
@@ -302,7 +300,7 @@ void func_02098b68(void *a, Unk020983c4 *p) {
     func_01ff9048(0x1b, g, 3);
     func_01ff9048(0x1b, &p->mUnk_000.mUnk_1c, 3);
     func_0209b940(data_usa_0217b0e0, p->mUnk_0a0);
-    func_0209b77c(data_usa_0217b0e0, (u32) p->mUnk_0a4 << 4 >> 16);
+    func_0209b77c(data_usa_0217b0e0, p->mUnk_0a4 >> 12);
     func_0209bb2c(a, data_usa_0217b0e0, p);
 }
 

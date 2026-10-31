@@ -205,9 +205,6 @@ void func_ov003_021cf93c(Unk021cf8ac *a, u16 b) {
     }
 }
 
-// non-matching: the fourteen zero halfwords are stored through one register (add r0, sp, #24; adds r0, #2; strh r1, [r0, #n])
-// and the global pointer is loaded after them; here they are stored from sp with the pointer loaded before the copy, 16
-// words differ, same size
 void func_ov003_021cf978(u32 a, u32 b) {
     Unk0200fddc s;
     Unk02009ff4 x;
@@ -218,13 +215,16 @@ void func_ov003_021cf978(u32 a, u32 b) {
     x.mUnk_01 = s.mUnk_18;
     func_0214d1fc(s.mUnk_04, x.mUnk_02, s.mUnk_18 * 2);
     x.mUnk_00 &= ~0xf0;
-    z.mUnk_00[0] = 0;
-    z.mUnk_00[1] = 0;
-    z.mUnk_00[2] = 0;
-    z.mUnk_00[3] = 0;
-    z.mUnk_00[4] = 0;
-    z.mUnk_00[5] = 0;
-    z.mUnk_00[6] = 0;
+    {
+        u16 *p = (u16 *) &z;
+        p[0] = 0;
+        p[1] = 0;
+        p[2] = 0;
+        p[3] = 0;
+        p[4] = 0;
+        p[5] = 0;
+        p[6] = 0;
+    }
     *(Unk021cf5ac *) data_ov003_021da288 = z;
     data_ov003_021da288->mUnk_1b140 = data_ov003_021da288->mUnk_10040;
     if (func_02009ff4(data_ov003_021da288->mUnk_1b140, &x, a, b, 2) != 0) {

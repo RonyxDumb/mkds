@@ -9,7 +9,8 @@ u32 func_020091fc(Unk02007ec4 *a) {
     return 1;
 }
 
-// non-matching: 0x8c bytes, original 0x88; 19 lines differ; first: original `adds r7, r1, #0`, ours `adds r6, r1, #0`
+// non-matching: same size; 8 words differ in registers only: b, the data_0216fce0 address and v1 sit in r6, r7 and r4
+// where the original has r7, r4 and r6
 u32 func_0200921c(Unk02008f00Func a, u32 b, Unk02007ec4 *c) {
     s32 v1;
     u8 *v2;
@@ -19,7 +20,7 @@ u32 func_0200921c(Unk02008f00Func a, u32 b, Unk02007ec4 *c) {
     func_0214cffc(c, data_0216fce0, 0xc0);
     v2 = data_0216fce0;
     data_0216fc3c = data_0216fd30;
-    if (func_020088dc((u16 *) (data_0216fd30 + 8), 0x68) != 0) {
+    if (func_020088dc((u16 *) ((u8 *) data_0216fc3c + 8), 0x68) != 0) {
         return 0;
     }
     v1 = func_02009098(v2, a);
@@ -287,7 +288,6 @@ u32 func_020097ac(const u8 *a, u8 *b, u32 c) {
     return 1;
 }
 
-// non-matching: same size; 2 lines differ; first: original `lsls r2, r0, #1`, ours `adds r2, r0, #0`
 void func_02009828(Unk0200b610 *a, Unk02009828 *b, const u8 *c) {
     u32 v1;
     u32 v2;
@@ -306,7 +306,8 @@ void func_02009828(Unk0200b610 *a, Unk02009828 *b, const u8 *c) {
         func_0214cffc(c, a->mUnk_220, 0x16);
     }
     a->mUnk_236 = b->mUnk_18;
-    func_0214cffc(b->mUnk_04, a->mUnk_238, (u16) (func_02009724(b->mUnk_04) * 2));
+    v1 = func_02009724(b->mUnk_04) * 2;
+    func_0214cffc(b->mUnk_04, a->mUnk_238, (u16) v1);
     func_0214cffc(b->mUnk_08, a->mUnk_298, 0xc0);
     a->mUnk_358 = 1;
     a->mUnk_35a = 1;

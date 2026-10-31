@@ -27,8 +27,8 @@ void func_0208bdc0(Unk020888b4 *p) {
     func_0207d6a4(&p->mUnk_e8, p);
 }
 
-void func_0208bde0(Unk020888b4 *p) {
-    func_0207e564(p);
+void func_0208bde0(Unk020888b4 *p, Unk02175620_bc *a) {
+    func_0207e564(p, a);
     func_0207d7e4(&p->mUnk_e8, p);
 }
 

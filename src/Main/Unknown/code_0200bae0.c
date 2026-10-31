@@ -68,21 +68,19 @@ void func_0200bc0c(void) {
     func_0214358c(1, 0, 0);
 }
 
-// non-matching: 0x58 bytes, original 0x5c; original copies the parameter to r1 first and keeps the data address in r0, ours keeps
-// the parameter in r0 and the data address in r1
 void func_0200bc1c(Unk021425e8 *a) {
     data_0216fdec->mUnk_20 = 0;
     if (a->mUnk_02 == 0) {
         if (data_0216fdec->mUnk_00 != 0) {
-            data_0216fdec->mUnk_00(8);
+            data_0216fdec->mUnk_00(8, a);
         }
     } else if (a->mUnk_02 == 9) {
         if (data_0216fdec->mUnk_00 != 0) {
-            data_0216fdec->mUnk_00(0x29);
+            data_0216fdec->mUnk_00(0x29, a);
         }
     } else {
         if (data_0216fdec->mUnk_00 != 0) {
-            data_0216fdec->mUnk_00(0x12);
+            data_0216fdec->mUnk_00(0x12, a);
         }
     }
     if (data_0216fdec->mUnk_00 != 0) {
@@ -105,7 +103,6 @@ s32 func_0200bc78(u32 a, u16 b, u8 *c) {
     return r;
 }
 
-// non-matching: 0x30 bytes, original 0x34; original copies the parameter to r1 first (adds r1, r0), ours reads it from r0
 void func_0200bcd8(Unk021425e8 *a) {
     if (a->mUnk_02 == 0) {
         switch (a->mUnk_04) {
@@ -114,7 +111,7 @@ void func_0200bcd8(Unk021425e8 *a) {
                 break;
             case 21:
                 if (data_0216fdec->mUnk_00 != 0) {
-                    data_0216fdec->mUnk_00(9);
+                    data_0216fdec->mUnk_00(9, a);
                 }
                 break;
         }
@@ -279,11 +276,10 @@ void func_0200bef8(void *a, u8 *b) {
     }
 }
 
-// non-matching: 0x74 bytes, original 0x78; original copies the parameter to r1 first and uses r2 for the function pointer
 void func_0200bf90(Unk021425e8 *a) {
     if (a->mUnk_02 != 0) {
         if (data_0216fdec->mUnk_00 != 0) {
-            data_0216fdec->mUnk_00(11);
+            data_0216fdec->mUnk_00(11, a);
         }
     } else {
         switch (a->mUnk_08_0) {
@@ -303,7 +299,7 @@ void func_0200bf90(Unk021425e8 *a) {
                 break;
             case 7:
                 if (data_0216fdec->mUnk_00 != 0) {
-                    data_0216fdec->mUnk_00(6);
+                    data_0216fdec->mUnk_00(6, a);
                 }
                 break;
         }

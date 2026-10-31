@@ -105,9 +105,8 @@ void func_0207e4a4(struct Unk020888b4 *p) {
     func_0207ebfc(p);
 }
 
-// non-matching: one extra instruction, mov r1, #0 before func_02080cd0 (the original passes its incoming r1 through; the caller passes only p)
-void func_0207e564(struct Unk020888b4 *p) {
-    func_02080cd0(&p->mUnk_08.mUnk_00, 0);
+void func_0207e564(struct Unk020888b4 *p, struct Unk02175620_bc *a) {
+    func_02080cd0(&p->mUnk_08.mUnk_00, a);
     func_0207f9cc(p, 1);
     func_0207f9cc(p, 1);
 }
