@@ -126,7 +126,7 @@ void func_020a269c(s32 a, u32 b) {
     void *v2;
     void *v3;
     float f;
-    u32 x;
+    s32 x;
     Unk0219b250_Item *s;
 
     data_0217b200 = func_02036bec(func_020364e0(func_020364e8()), 0x124);

@@ -35,7 +35,8 @@
 
 #pragma thumb on
 
-// non-matching: compiled code is longer by 0x24 bytes; the loop over the table keeps its two spilled temporaries (table pointer and zero) at swapped stack offsets and the object set-up part differs in register choice and statement order
+// non-matching: compiled code is longer by 0x24 bytes; the loop over the table keeps its two spilled temporaries (table pointer and zero) at swapped stack offsets and the object set-up part differs in register choice and statement order; the original converts each of the five
+// fields to an integer once after the +/-0.5f arms (5 `_ffix` calls, ours 10)
 Unk020e71a0 *func_020d34e4(u32 param_1, Unk020fa294 *param_2, Unk020e71a0 *param_3) {
     s32 i;
     s32 j;
@@ -47,7 +48,7 @@ Unk020e71a0 *func_020d34e4(u32 param_1, Unk020fa294 *param_2, Unk020e71a0 *param
     Unk0217b4d4 *t;
     Unk020e71a0 *p;
     u32 f;
-    u32 v;
+    s32 v;
     u32 m;
     row = data_0216b288;
     for (i = 0; i < data_0217b4ec; i++, row++) {
