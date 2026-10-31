@@ -12,7 +12,7 @@
 #include "03/unk_021da000.h"
 #include "03/code_021d2070.h"
 
-// non-matching: zero constants and loop counters sit at different stack offsets (frame 0x54 against 0x64), size 0x2a0 against 0x2ac
+// non-matching: 91.1: zero constants and loop counters sit at different stack offsets (frame 0x54 against 0x64, s at sp+0x40 against sp+0x50), size 0x298 against 0x2ac
 void func_ov003_021c0d2c(void) {
     Unk021c0d2c s;
     Unk021da15c *p;

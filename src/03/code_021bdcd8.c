@@ -35,7 +35,7 @@ s32 func_ov003_021bdd1c(s32 v1, const Unk021bdcd8 *v2, const u8 *param_2, const 
     return a;
 }
 
-// non-matching: the record copy loop keeps three separate stepping pointers at stack offsets (name, record, six-byte value) and copies the six-byte value through a pointer plus 4 of the source; ours indexes the records from one base, size 0x2e4 against 0x2ec
+// non-matching: 85.8: the record copy loop in the original keeps g and h both live on the stack, three stepping pointers (name, record, the six-byte value at +0x28) and copies the six-byte value from the source plus 4 into its own pointer; here (h indexes two of the fields) one record pointer and the h pointer remain, size 0x2f0 against 0x2ec
 s32 func_ov003_021bdd3c(void) {
     s32 a;
     s32 b;
@@ -140,8 +140,8 @@ s32 func_ov003_021bdd3c(void) {
         if (a > 0) {
             do {
                 func_02134eb8(j->mUnk_04[g].mUnk_04, l->mUnk_0c, 0x20);
-                j->mUnk_04[g].mUnk_00 = l->mUnk_0a;
-                j->mUnk_04[g].mUnk_04[l->mUnk_0a] = 0;
+                j->mUnk_04[h].mUnk_00 = l->mUnk_0a;
+                j->mUnk_04[h].mUnk_04[l->mUnk_0a] = 0;
                 j->mUnk_04[g].mUnk_2e = (l->mUnk_2c & 0x10) ? 1 : 0;
                 j->mUnk_04[g].mUnk_28 = l->mUnk_04;
                 g++;

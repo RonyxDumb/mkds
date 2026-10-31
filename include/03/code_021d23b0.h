@@ -17,4 +17,4 @@ typedef struct Unk021d23b0 {
     /* 37 */ u8 mUnk_37;
 } Unk021d23b0;
 
-Unk021d23b0 *func_ov003_021d23b0(u32 a, u8 b, u8 c, s32 d, u32 *e, s32 f);
+Unk021d23b0 *func_ov003_021d23b0(u32 a, u16 b, u16 c, s32 d, u32 *e, s32 f);
