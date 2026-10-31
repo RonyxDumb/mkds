@@ -190,7 +190,7 @@ void func_020f758c(Unk020f41c4_A *param_1) {
     }
     param_1->mUnk_d8--;
     if (param_1->mUnk_d8 <= 0) {
-        func_020f0f70(&data_027e00cc[param_1->mUnk_44], (Unk020f41c4_A *) param_1);
+        func_020f0f70(&data_027e00cc[param_1->mUnk_44], param_1);
     } else {
         if (param_1->mUnk_d8 < 0xa) {
             func_020f9c40((int) param_1);

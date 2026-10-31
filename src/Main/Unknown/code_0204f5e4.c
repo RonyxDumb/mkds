@@ -10,7 +10,7 @@ void func_0204f5e4(void) {
     u32 uVar1;
     uVar2 = ((int) 0xe0000000u);
     uVar1 = ((u32) 0xdfffffffu);
-    iVar4 = (*(int *) &data_0217aa00) + 0x16a0;
+    iVar4 = (int) data_0217aa00 + 0x16a0;
     iVar5 = 0;
     iVar3 = iVar4;
     do {

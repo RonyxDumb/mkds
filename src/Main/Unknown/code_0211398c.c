@@ -11,7 +11,7 @@ u32 func_021139a0(void) {
     value0 = (value0) + (1u);
     value1 = (value1) + 106u;
     *(u16 *) ((value1) + 0u) = (u16) value0;
-    return (u32) value0;
+    return value0;
 }
 #pragma thumb off
 
@@ -26,6 +26,6 @@ u32 func_0211398c(void) {
     value0 = (value0) - (1u);
     value1 = (value1) + 106u;
     *(u16 *) ((value1) + 0u) = (u16) value0;
-    return (u32) value0;
+    return value0;
 }
 #pragma thumb off

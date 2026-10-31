@@ -67,9 +67,9 @@ void func_020f3150(Unk020f2df0 *p, Unk020eda5c *a, s32 b, s32 c, s32 d, s32 e, s
         n = 0x666;
     }
     if (c != 0) {
-        n = func_020edc9c((Unk020eda5c *) a, d, 0x1b33, 0x7000, &v);
+        n = func_020edc9c(a, d, 0x1b33, 0x7000, &v);
     } else {
-        n = func_020edb8c((Unk020eda5c *) a, n, 0x1000, 0x7000, &v);
+        n = func_020edb8c(a, n, 0x1000, 0x7000, &v);
     }
     if (c != 0) {
         if (a->mUnk_07c > 0) {

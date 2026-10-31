@@ -2,8 +2,8 @@
 
 #pragma thumb on
 u32 func_0204ee4c(u32 arg0, u32 arg1) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
+    u32 value0 = arg0;
+    u32 value1 = arg1;
     u32 value2;
     u32 value3;
     value2 = (u32) &data_0217aa00;
@@ -12,8 +12,8 @@ u32 func_0204ee4c(u32 arg0, u32 arg1) {
     value0 = (value0) * (value2);
     value2 = (value3) + (value0);
     value0 = 0x1714u;
-    *(u32 *) ((value2) + (value0)) = (u32) value1;
-    return (u32) value0;
+    *(u32 *) ((value2) + (value0)) = value1;
+    return value0;
 }
 #pragma thumb off
 
@@ -30,6 +30,6 @@ u32 func_0204ee30(void) {
     value0 = 1u;
     value2 = (value2) & ~(value0);
     *(u8 *) ((value1) + 0u) = (u8) value2;
-    return (u32) value0;
+    return value0;
 }
 #pragma thumb off

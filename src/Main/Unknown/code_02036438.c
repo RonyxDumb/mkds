@@ -10,15 +10,15 @@ void func_02036438(void *heap) {
     iVar2 = ((u32) func_02036bec((void *) uVar1, (u32) (((u32) 0x00000654u))));
     *(int *) &data_02174e6c = iVar2;
     func_02036264((void *) iVar2, (u32) (((u32) 0x00000654u)));
-    *(u32 *) ((*(int *) &data_02174e6c) + 0x650) = uVar1;
-    func_020364a8((int) 0, (int) 0, (int) 0x10, (int) 0, (int) 0);
+    *(u32 *) ((int) data_02174e6c + 0x650) = uVar1;
+    func_020364a8(0, 0, 0x10, 0, 0);
     iVar2 = ((u32) func_020d1630());
     iVar3 = *(int *) (iVar2 + 0x24);
     iVar2 = ((u32) func_020d1630());
     iVar2 = *(int *) (iVar2 + 0x28);
-    func_0214b9c4((const void *) (*(u32 *) (iVar3 + 0x14)), (int) 0, (u32) (*(u32 *) (iVar3 + 0x10)));
-    func_0214b824((const void *) (*(u32 *) (iVar3 + 0x14)), (int) 0, (u32) (*(u32 *) (iVar3 + 0x10)));
-    func_0214c0f8((const void *) (*(u32 *) (iVar2 + 0xc)), (int) 0, (u32) (*(u32 *) (iVar2 + 8)));
+    func_0214b9c4((const void *) (*(u32 *) (iVar3 + 0x14)), 0, (u32) (*(u32 *) (iVar3 + 0x10)));
+    func_0214b824((const void *) (*(u32 *) (iVar3 + 0x14)), 0, (u32) (*(u32 *) (iVar3 + 0x10)));
+    func_0214c0f8((const void *) (*(u32 *) (iVar2 + 0xc)), 0, (u32) (*(u32 *) (iVar2 + 8)));
 }
 
 #pragma thumb off

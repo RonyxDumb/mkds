@@ -7,9 +7,9 @@ void func_0211138c(void) {
     func_02111584();
     value1 = 0u;
     value0 = (u32) &data_0217d33c;
-    *(u32 *) ((value0) + 0u) = (u32) value1;
+    *(u32 *) ((value0) + 0u) = value1;
     value0 = (u32) &data_0217d340;
-    *(u32 *) ((value0) + 0u) = (u32) value1;
+    *(u32 *) ((value0) + 0u) = value1;
 }
 #pragma thumb off
 

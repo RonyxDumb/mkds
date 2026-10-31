@@ -2,8 +2,8 @@
 
 void func_0204bf48(int param_1, u32 param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6) {
     if (param_1 != 0) {
-        func_0204c090((u32) param_2, (u32) param_4, (u32) param_5, (u32) param_6, (u32) param_3, 0, 1);
+        func_0204c090(param_2, param_4, param_5, param_6, param_3, 0, 1);
         return;
     }
-    func_0204bfac((u32) param_2, (u32) param_4, (u32) param_5, (u32) param_6);
+    func_0204bfac(param_2, param_4, param_5, param_6);
 }

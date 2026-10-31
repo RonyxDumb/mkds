@@ -2,7 +2,7 @@
 
 void func_ov001_0218fa58(u32 param_1, u32 param_2) {
     func_ov001_02186368((void *) param_1, (Unk02188950 *) param_2);
-    func_ov001_021861f4((void *) param_1, (Unk02188950 *) param_2, (s32) 0);
+    func_ov001_021861f4((void *) param_1, (Unk02188950 *) param_2, 0);
 }
 
 void func_ov001_0218fa20(void) {
@@ -12,5 +12,5 @@ void func_ov001_0218fa20(void) {
     u32 v9 = ((u32) (&func_ov001_02185f04));
     u32 v10 = ((u32) (&func_ov001_021860cc));
     u32 v12 =
-        (u32) func_ov001_0219b510((u32) ((u32) v8), (u32) ((u32) v9), (u32) ((u32) v10), (u32) ((u32) 0x2u), (u16) ((u32) 0x1u), (u16) ((u32) v4), (u16) ((u32) v6));
+        (u32) func_ov001_0219b510((u32) (v8), (u32) (v9), (u32) (v10), (u32) ((u32) 0x2u), (u16) ((u32) 0x1u), (u16) (v4), (u16) (v6));
 }

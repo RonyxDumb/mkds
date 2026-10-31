@@ -8,5 +8,5 @@ u32 func_02149fe0(void) {
     value0 = ((u32) ((s32) value0 >> 2));
     value0 = (value0 << 14);
     value0 = (value0) + (0x6200000u);
-    return (u32) value0;
+    return value0;
 }

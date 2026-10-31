@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020cc6a4.h"
 
 u32 func_020cc6c0(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     value2 = (u32) &data_021759c0;
@@ -9,11 +9,11 @@ u32 func_020cc6c0(u32 arg0) {
     value2 = (u32) * (const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
     value0 = (u32) * (const u32 *) ((value1) + (116));
-    return (u32) value0;
+    return value0;
 }
 
 u32 func_020cc6a4(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     value2 = (u32) &data_021759c0;
@@ -21,5 +21,5 @@ u32 func_020cc6a4(u32 arg0) {
     value2 = (u32) * (const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
     value0 = (u32) * (const u32 *) ((value1) + (120));
-    return (u32) value0;
+    return value0;
 }

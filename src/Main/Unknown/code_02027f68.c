@@ -1,8 +1,8 @@
 #include "Main/Unknown/code_02027f68.h"
 
 u32 func_02027f90(u32 arg0, u32 arg1) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
+    u32 value0 = arg0;
+    u32 value1 = arg1;
     u32 value2;
     u32 compareLeft0;
     u32 compareRight0;
@@ -13,16 +13,16 @@ u32 func_02027f90(u32 arg0, u32 arg1) {
     value1 = (value1) & ~(0x3fu);
     value1 = (value1) | (value0);
     value0 = 0x4001048u;
-    if ((u32) compareLeft0 != (u32) compareRight0) {
+    if (compareLeft0 != compareRight0) {
         value1 = (value1) | (0x20u);
     }
     *(u16 *) ((value0) + (0)) = (u16) value1;
-    return (u32) value0;
+    return value0;
 }
 
 u32 func_02027f68(u32 arg0, u32 arg1) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
+    u32 value0 = arg0;
+    u32 value1 = arg1;
     u32 value2;
     u32 compareLeft0;
     u32 compareRight0;
@@ -33,9 +33,9 @@ u32 func_02027f68(u32 arg0, u32 arg1) {
     value1 = (value1) & ~(0x3fu);
     value1 = (value1) | (value0);
     value0 = 0x400104au;
-    if ((u32) compareLeft0 != (u32) compareRight0) {
+    if (compareLeft0 != compareRight0) {
         value1 = (value1) | (0x20u);
     }
     *(u16 *) ((value0) + (0)) = (u16) value1;
-    return (u32) value0;
+    return value0;
 }

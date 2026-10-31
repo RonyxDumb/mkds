@@ -10,11 +10,11 @@ u32 func_020d49f0(Unk020e6fd4 *arg0) {
     value0 = (u32) func_020364e0((void *) value0);
     value1 = (u32) * (const u16 *) ((value4) + 4u);
     value1 = (value1 << 2);
-    value0 = (u32) func_02036bec((void *) value0, (u32) value1);
-    *(u32 *) ((value4) + 0u) = (u32) value0;
+    value0 = (u32) func_02036bec((void *) value0, value1);
+    *(u32 *) ((value4) + 0u) = value0;
     value0 = 0u;
     *(u16 *) ((value4) + 4u) = (u16) value0;
-    return (u32) value0;
+    return value0;
 }
 #pragma thumb off
 
@@ -29,7 +29,7 @@ u32 func_020d49e0(Unk020e6fd4 *arg0, Unk020e71a0 *arg1) {
     *(u16 *) ((value0) + 4u) = (u16) value2;
     value2 = (u32) * (const u32 *) ((value0) + 0u);
     value0 = (value3 << 2);
-    *(u32 *) ((value2) + (value0)) = (u32) value1;
-    return (u32) value0;
+    *(u32 *) ((value2) + (value0)) = value1;
+    return value0;
 }
 #pragma thumb off

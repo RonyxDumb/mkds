@@ -406,7 +406,7 @@ u32 func_020db548(Unk020db2b8 *p, Unk0206bcb0 *a, u8 *b, u8 *c) {
             if ((s64) s0.z * a->mUnk_a4.x - (s64) s0.x * a->mUnk_a4.z < 0) {
                 p->mUnk_b8 = -p->mUnk_b8;
             }
-            func_020d26f8(&p->mUnk_00, (Unk0206bcb0 *) a);
+            func_020d26f8(&p->mUnk_00, a);
             p->mUnk_c0 |= 1 << a->mUnk_74;
             p->mUnk_bc = func_02061fb8();
         }

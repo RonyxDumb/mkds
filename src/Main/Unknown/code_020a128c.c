@@ -15,7 +15,7 @@ u32 func_020a128c(void) {
     compareLeft0 = value1;
     compareRight0 = 0u;
     if ((s32) compareLeft0 < (s32) compareRight0) {
-        return (u32) value0;
+        return value0;
     }
     value1 = (u32) * (const u32 *) ((value2) + (936));
     compareLeft1 = value1;
@@ -23,5 +23,5 @@ u32 func_020a128c(void) {
     if ((s32) compareLeft1 < (s32) compareRight1) {
         value0 = 1u;
     }
-    return (u32) value0;
+    return value0;
 }

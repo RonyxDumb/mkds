@@ -9,5 +9,5 @@ u32 func_0203f2a0(void) {
 }
 
 u16 func_0203f280(void) {
-    return (short) *(s8 *) (0x474 + ((*(u32 *) &data_0217561c)));
+    return (short) *(s8 *) (0x474 + ((u32) data_0217561c));
 }

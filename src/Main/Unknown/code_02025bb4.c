@@ -5,7 +5,7 @@
 #pragma thumb on
 
 void func_02025c94(int id, int x, int y, void *graphics) {
-    short *entry = ((short *) func_0201ea30((Unk0201ea30 *) graphics, (int) id));
+    short *entry = ((short *) func_0201ea30((Unk0201ea30 *) graphics, id));
     entry[0] = (entry[0] & 0xfffff000U) | (x & 0xfff);
     entry[1] = (entry[1] & 0xfffff000U) | (y & 0xfff);
 }
@@ -13,8 +13,8 @@ void func_02025c94(int id, int x, int y, void *graphics) {
 void func_02025c6c(u32 param_1, u32 param_2, Unk0201ea30 *param_3) {
     u16 *puVar1;
     u16 *puVar2;
-    puVar1 = (u16 *) func_0201ea30((Unk0201ea30 *) param_3, (int) param_1);
-    puVar2 = (u16 *) func_0201ea30((Unk0201ea30 *) param_3, (int) param_2);
+    puVar1 = (u16 *) func_0201ea30(param_3, (int) param_1);
+    puVar2 = (u16 *) func_0201ea30(param_3, (int) param_2);
     *puVar1 = *puVar2;
     puVar1[1] = puVar2[1];
 }
@@ -22,8 +22,8 @@ void func_02025c6c(u32 param_1, u32 param_2, Unk0201ea30 *param_3) {
 void func_02025c48(u32 param_1, u32 param_2, Unk0201ea30 *param_3) {
     int iVar1;
     int iVar2;
-    iVar1 = (int) func_0201ea30((Unk0201ea30 *) param_3, (int) param_1);
-    iVar2 = (int) func_0201ea30((Unk0201ea30 *) param_3, (int) param_2);
+    iVar1 = (int) func_0201ea30(param_3, (int) param_1);
+    iVar2 = (int) func_0201ea30(param_3, (int) param_2);
     *(u32 *) (iVar1 + 4) = *(u32 *) (iVar2 + 4);
 }
 
@@ -44,7 +44,7 @@ void func_02025bf0(u32 param_1, int param_2, u32 param_3) {
 }
 
 void func_02025bb4(int id, int x, int y, void *graphics) {
-    short *entry = (short *) func_0201eb54((void *) graphics, (int) id);
+    short *entry = (short *) func_0201eb54(graphics, id);
     entry[0] = (entry[0] & 0xfffff000U) | (x & 0xfff);
     entry[1] = (entry[1] & 0xfffff000U) | (y & 0xfff);
 }

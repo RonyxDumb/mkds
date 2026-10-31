@@ -9,7 +9,7 @@ void func_02009c04(void) {
         func_0200fd1c();
     }
     func_02009c34();
-    func_0200fcb4((u32) uVar1);
+    func_0200fcb4(uVar1);
 }
 
 #pragma thumb off

@@ -6,7 +6,7 @@ void func_020cec00(void) {
     int iVar1;
     iVar1 = ((u32) func_020cccc0());
     if (iVar1 != 0) {
-        func_020ceb54((int) 0x1f);
+        func_020ceb54(0x1f);
         func_02148934((u32) 0);
     }
     func_0211a794();

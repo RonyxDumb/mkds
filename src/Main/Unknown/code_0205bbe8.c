@@ -9,5 +9,5 @@ u32 func_0205bbe8(void) {
     value1 = (u32) * (const u16 *) ((value0) + (92));
     value1 = (value1) & ~(0x100u);
     *(u16 *) ((value0) + (92)) = (u16) value1;
-    return (u32) value0;
+    return value0;
 }

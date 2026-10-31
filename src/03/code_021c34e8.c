@@ -32,24 +32,24 @@ void func_ov003_021c364c(void) {
 
 void func_ov003_021c3610(void) {
     int iVar1;
-    iVar1 = func_ov003_021d1f70((int) 1);
+    iVar1 = func_ov003_021d1f70(1);
     if (iVar1 == 0) {
         func_ov003_021bf344();
-        func_ov003_021d1ee0((int) 3, (int) 1, (u32) 1, (u16) 8);
-        func_ov003_021d1ee0((int) 3, (int) 0, (u32) 0x15, (u16) 8);
+        func_ov003_021d1ee0(3, 1, (u32) 1, (u16) 8);
+        func_ov003_021d1ee0(3, 0, (u32) 0x15, (u16) 8);
         func_ov003_021c212c(func_ov003_021c35bc);
     }
 }
 
 void func_ov003_021c35bc(void) {
     int iVar1;
-    iVar1 = func_ov003_021d1f70((int) 1);
-    if (((iVar1 == 0) && (iVar1 = func_ov003_021d1f70((int) 0), iVar1 == 0)) &&
+    iVar1 = func_ov003_021d1f70(1);
+    if (((iVar1 == 0) && (iVar1 = func_ov003_021d1f70(0), iVar1 == 0)) &&
         (iVar1 = func_ov003_021bf2f0(), iVar1 != 0)) {
-        func_ov003_021d2168((int) 0);
+        func_ov003_021d2168(0);
         func_ov003_021bf410();
-        func_ov003_021d272c((int) 1, (u32) 1);
-        func_ov003_021d272c((int) 0, (u32) 0x15);
+        func_ov003_021d272c(1, (u32) 1);
+        func_ov003_021d272c(0, (u32) 0x15);
         func_ov003_021c2120((u32) 0, (u32) 1);
         func_ov003_021c212c(func_ov003_021c3dd4);
     }
@@ -65,7 +65,7 @@ void func_ov003_021c3598(void) {
 void func_ov003_021c3534(void) {
     u32 v2 = ((u32) (&data_ov003_021d7044));
     u32 v3 = ((u32) (&func_0214bc9c));
-    u32 v4 = func_ov003_021bf620((u32) v2, (u32) v3);
+    u32 v4 = func_ov003_021bf620(v2, v3);
     u32 v5 = 0x4001008u;
     u32 v6 = ((u32) *(u16 *) ((v5) + (0)));
     u32 v8 = ((v6) & ~(0x3u));
@@ -110,14 +110,14 @@ void func_ov003_021c3534(void) {
 }
 
 void func_ov003_021c350c(void) {
-    func_ov003_021d1ee0((int) 2, (int) 0, (u32) 0x15, (u16) 8);
-    func_ov003_021d2784((int) 0, (u32) 0x15);
+    func_ov003_021d1ee0(2, 0, (u32) 0x15, (u16) 8);
+    func_ov003_021d2784(0, (u32) 0x15);
     func_ov003_021c212c(func_ov003_021c34e8);
 }
 
 void func_ov003_021c34e8(void) {
     int iVar1;
-    iVar1 = func_ov003_021d1f70((int) 0);
+    iVar1 = func_ov003_021d1f70(0);
     if (iVar1 == 0) {
         func_ov003_021bf5c8((u32) 5);
         func_ov003_021c212c(func_ov003_021c34c4);

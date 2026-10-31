@@ -2,7 +2,7 @@
 
 Unk0210bf24 *func_020719bc(Unk0210bfbc *p, u32 a) {
     u32 value0 = (u32) p;
-    u32 value1 = (u32) a;
+    u32 value1 = a;
     u32 value2;
     u32 value3;
     u32 value12;
@@ -13,8 +13,8 @@ Unk0210bf24 *func_020719bc(Unk0210bfbc *p, u32 a) {
 }
 
 void func_020719a8(u32 arg0, u32 arg1) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
+    u32 value0 = arg0;
+    u32 value1 = arg1;
     u32 value2;
     u32 value3;
     u32 value12;

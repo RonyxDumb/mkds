@@ -13,7 +13,7 @@ void func_020b681c(UnkPair020b502c *param_1, UnkPair020b502c *param_2) {
         return;
     }
     if (iVar1 == 0x14) {
-        func_020b6b18(param_1, param_2, (int) 0, (int) 0xfffff446u, (short) 0x00001770u, (short) 0x00000bb6u);
+        func_020b6b18(param_1, param_2, 0, (int) 0xfffff446u, (short) 0x00001770u, (short) 0x00000bb6u);
         return;
     }
     if (iVar1 == 0x1c) {

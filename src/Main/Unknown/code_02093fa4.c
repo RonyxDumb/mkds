@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_02093fa4.h"
 
 void func_02093fa4(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     u32 value4;
@@ -15,8 +15,8 @@ void func_02093fa4(u32 arg0) {
     value0 = 0x1a2u;
     value2 = value4;
     value1 = 0x14u;
-    func_020ac588((u32) value0, (int) value1, (void *) value2);
+    func_020ac588(value0, (int) value1, (void *) value2);
     value0 = (u32) &data_0217ca6c;
     value0 = (u32) * (const u32 *) ((value0) + (356));
-    *(u32 *) ((value4) + (112)) = (u32) value0;
+    *(u32 *) ((value4) + (112)) = value0;
 }

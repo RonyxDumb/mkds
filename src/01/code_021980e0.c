@@ -121,7 +121,7 @@ void func_ov001_02198100(void *param_1, void *param_2, s32 param_3)
     s32 i;
 
     *(u16 *)0x4000008 = (*(u16 *)0x4000008 & 0x43) | 0x9004;
-    heap = func_02036948((void *) param_1);
+    heap = func_02036948(param_1);
     data_ov001_021a9be0 = func_02036bec(heap, 0x38);
     data_ov001_021a9be0->mUnk_14 = heap;
     data_ov001_021a9be0->mUnk_18 = 0;

@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0202f080.h"
 
 u32 func_0202f080(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     u32 value12;
@@ -11,5 +11,5 @@ u32 func_0202f080(u32 arg0) {
     value12 = (u32) &func_0202f0a0;
     value0 = (value1) + (0x48u);
     value0 = (u32) func_0202f0a0((Unk02175628_48 *) value0);
-    return (u32) value0;
+    return value0;
 }

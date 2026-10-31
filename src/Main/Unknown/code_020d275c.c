@@ -2,7 +2,7 @@
 
 void func_020d2774(Unk020e71a0 *arg0, u32 arg1) {
     u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
+    u32 value1 = arg1;
     u32 value2;
     u32 value3;
     u32 value12;
@@ -15,7 +15,7 @@ void func_020d2774(Unk020e71a0 *arg0, u32 arg1) {
 
 void func_020d275c(Unk020e71a0 *arg0, u32 arg1) {
     u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
+    u32 value1 = arg1;
     u32 value2;
     u32 value3;
     u32 value12;

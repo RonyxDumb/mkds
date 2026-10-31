@@ -7,7 +7,7 @@ u32 func_0212d0ec(void) {
     value1 = (u32) &data_0217dda8;
     value2 = 0u;
     value0 = (u32) &data_0217ddd0;
-    *(u32 *) ((value1) + (0)) = (u32) value2;
-    *(u32 *) ((value0) + (0)) = (u32) value2;
-    return (u32) value0;
+    *(u32 *) ((value1) + (0)) = value2;
+    *(u32 *) ((value0) + (0)) = value2;
+    return value0;
 }

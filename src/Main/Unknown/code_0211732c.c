@@ -12,9 +12,9 @@ void func_02117388(void) {
     local_20 = 0;
     local_1c = 0;
     local_18[0] = 0;
-    uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216d534))));
+    uVar1 = ((int) func_0204799c((const char *) ((u32) data_0216d534)));
     func_020b496c(&local_20, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216d538))));
+    uVar1 = ((int) func_0204799c((const char *) ((u32) data_0216d538)));
     func_020b48ec(&local_1c, (void *) uVar1);
     iVar3 = 0;
     puVar2 = (u32 *) &data_0216d53c;
@@ -36,9 +36,9 @@ void func_0211732c(void) {
     local_20 = 0;
     local_1c = 0;
     local_18[0] = 0;
-    uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216d524))));
+    uVar1 = ((int) func_0204799c((const char *) ((u32) data_0216d524)));
     func_020b496c(&local_20, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216d528))));
+    uVar1 = ((int) func_0204799c((const char *) ((u32) data_0216d528)));
     func_020b48ec(&local_1c, (void *) uVar1);
     iVar3 = 0;
     puVar2 = (u32 *) &data_0216d548;

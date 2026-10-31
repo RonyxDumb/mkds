@@ -10,11 +10,11 @@ void func_020e7a40(void) {
     value0 = (u32) * (const u32 *) ((value0) + (12));
     compareLeft0 = value0;
     compareRight0 = 6u;
-    if ((u32) compareLeft0 == (u32) compareRight0) {
+    if (compareLeft0 == compareRight0) {
     }
-    if ((u32) compareLeft0 == (u32) compareRight0) {
+    if (compareLeft0 == compareRight0) {
     }
-    if ((u32) compareLeft0 == (u32) compareRight0) {
+    if (compareLeft0 == compareRight0) {
         return;
     }
     value0 = (u32) &data_0217b9ec;

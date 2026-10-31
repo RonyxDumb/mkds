@@ -2,9 +2,9 @@
 
 #pragma thumb on
 u32 func_0209bf48(u32 arg0, u32 arg1, u32 arg2) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
-    u32 value2 = (u32) arg2;
+    u32 value0 = arg0;
+    u32 value1 = arg1;
+    u32 value2 = arg2;
     u32 value4;
     u32 value5;
     u32 value6;
@@ -14,21 +14,21 @@ u32 func_0209bf48(u32 arg0, u32 arg1, u32 arg2) {
     value0 = (u32) func_020364e8();
     value0 = (u32) func_020364e0((void *) value0);
     value1 = 40u;
-    value0 = (u32) func_02036bec((void *) value0, (u32) value1);
-    *(u32 *) ((value0) + 8u) = (u32) value5;
-    *(u32 *) ((value0) + 12u) = (u32) value6;
-    *(u32 *) ((value0) + 16u) = (u32) value4;
+    value0 = (u32) func_02036bec((void *) value0, value1);
+    *(u32 *) ((value0) + 8u) = value5;
+    *(u32 *) ((value0) + 12u) = value6;
+    *(u32 *) ((value0) + 16u) = value4;
     value1 = 0u;
-    *(u32 *) ((value0) + 20u) = (u32) value1;
-    return (u32) value0;
+    *(u32 *) ((value0) + 20u) = value1;
+    return value0;
 }
 #pragma thumb off
 
 #pragma thumb on
 u32 func_0209bf1c(u32 arg0, u32 arg1, u32 arg2) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
-    u32 value2 = (u32) arg2;
+    u32 value0 = arg0;
+    u32 value1 = arg1;
+    u32 value2 = arg2;
     u32 value4;
     u32 value5;
     u32 value6;
@@ -38,23 +38,23 @@ u32 func_0209bf1c(u32 arg0, u32 arg1, u32 arg2) {
     value0 = (u32) func_020364e8();
     value0 = (u32) func_020364e0((void *) value0);
     value1 = 44u;
-    value0 = (u32) func_02036bec((void *) value0, (u32) value1);
+    value0 = (u32) func_02036bec((void *) value0, value1);
     value1 = 1u;
-    *(u32 *) ((value0) + 24u) = (u32) value1;
-    *(u32 *) ((value0) + 8u) = (u32) value5;
-    *(u32 *) ((value0) + 12u) = (u32) value6;
-    *(u32 *) ((value0) + 16u) = (u32) value4;
+    *(u32 *) ((value0) + 24u) = value1;
+    *(u32 *) ((value0) + 8u) = value5;
+    *(u32 *) ((value0) + 12u) = value6;
+    *(u32 *) ((value0) + 16u) = value4;
     value1 = 0u;
-    *(u32 *) ((value0) + 20u) = (u32) value1;
-    return (u32) value0;
+    *(u32 *) ((value0) + 20u) = value1;
+    return value0;
 }
 #pragma thumb off
 
 #pragma thumb on
 u32 func_0209bef0(u32 arg0, u32 arg1, u32 arg2) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = (u32) arg1;
-    u32 value2 = (u32) arg2;
+    u32 value0 = arg0;
+    u32 value1 = arg1;
+    u32 value2 = arg2;
     u32 value4;
     u32 value5;
     u32 value6;
@@ -64,14 +64,14 @@ u32 func_0209bef0(u32 arg0, u32 arg1, u32 arg2) {
     value0 = (u32) func_020364e8();
     value0 = (u32) func_020364e0((void *) value0);
     value1 = 44u;
-    value0 = (u32) func_02036bec((void *) value0, (u32) value1);
+    value0 = (u32) func_02036bec((void *) value0, value1);
     value1 = 2u;
-    *(u32 *) ((value0) + 24u) = (u32) value1;
-    *(u32 *) ((value0) + 8u) = (u32) value5;
-    *(u32 *) ((value0) + 12u) = (u32) value6;
-    *(u32 *) ((value0) + 16u) = (u32) value4;
+    *(u32 *) ((value0) + 24u) = value1;
+    *(u32 *) ((value0) + 8u) = value5;
+    *(u32 *) ((value0) + 12u) = value6;
+    *(u32 *) ((value0) + 16u) = value4;
     value1 = 0u;
-    *(u32 *) ((value0) + 20u) = (u32) value1;
-    return (u32) value0;
+    *(u32 *) ((value0) + 20u) = value1;
+    return value0;
 }
 #pragma thumb off

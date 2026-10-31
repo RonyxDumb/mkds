@@ -5,16 +5,16 @@
 void func_ov003_021c76b4(void) {
     u32 v2 = ((u32) (&data_ov003_021d7350));
     u32 v3 = ((u32) (&func_0214c090));
-    u32 v4 = func_ov003_021bf620((u32) v2, (u32) v3);
+    u32 v4 = func_ov003_021bf620(v2, v3);
     u32 v5 = ((u32) (&data_ov003_021d7364));
     u32 v6 = ((u32) (&func_0214b95c));
-    u32 v7 = func_ov003_021bf620((u32) v5, (u32) v6);
+    u32 v7 = func_ov003_021bf620(v5, v6);
     u32 v8 = ((u32) (&data_ov003_021d737c));
     u32 v9 = ((u32) (&func_0214c160));
-    u32 v10 = func_ov003_021bf620((u32) v8, (u32) v9);
+    u32 v10 = func_ov003_021bf620(v8, v9);
     u32 v11 = ((u32) (&data_ov003_021d7394));
     u32 v12 = ((u32) (&func_0214bc9c));
-    u32 v13 = func_ov003_021bf620((u32) v11, (u32) v12);
+    u32 v13 = func_ov003_021bf620(v11, v12);
     u32 v14 = 0x4001008u;
     u32 v15 = ((u32) *(u16 *) ((v14) + (0)));
     u32 v17 = ((v15) & ~(0x3u));
@@ -59,24 +59,24 @@ void func_ov003_021c76b4(void) {
 }
 
 void func_ov003_021c7678(void) {
-    func_ov003_021d1ee0((int) 2, (int) 1, (u32) 1, (u16) 8);
-    func_ov003_021d1ee0((int) 2, (int) 0, (u32) 0x15, (u16) 8);
-    func_ov003_021d2784((int) 1, (u32) 1);
-    func_ov003_021d2784((int) 0, (u32) 0x15);
+    func_ov003_021d1ee0(2, 1, (u32) 1, (u16) 8);
+    func_ov003_021d1ee0(2, 0, (u32) 0x15, (u16) 8);
+    func_ov003_021d2784(1, (u32) 1);
+    func_ov003_021d2784(0, (u32) 0x15);
     func_ov003_021c212c(func_ov003_021c7614);
 }
 
 void func_ov003_021c7614(void) {
     int iVar1;
-    iVar1 = func_ov003_021d1f70((int) 1);
-    if ((iVar1 == 0) && (iVar1 = func_ov003_021d1f70((int) 0), iVar1 == 0)) {
+    iVar1 = func_ov003_021d1f70(1);
+    if ((iVar1 == 0) && (iVar1 = func_ov003_021d1f70(0), iVar1 == 0)) {
         func_ov003_021c1cd8();
         func_ov003_021cdc10((u32) 0x14);
         if (*(u8 *) ((int) data_ov003_021da1fc + 0x14) == 0) {
             func_ov003_021c1c90((u8) 0);
             func_ov003_021c1c70((u8) 0);
         } else {
-            iVar1 = func_ov003_021c735c((int) 0x1a);
+            iVar1 = func_ov003_021c735c(0x1a);
             if (iVar1 != 0) {
                 func_ov003_021c1c80((u8) 0);
             }

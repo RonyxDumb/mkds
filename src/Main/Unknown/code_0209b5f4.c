@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0209b5f4.h"
 
 void func_0209b5f4(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     u32 value12;

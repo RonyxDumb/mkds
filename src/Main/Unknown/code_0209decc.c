@@ -8,6 +8,6 @@ void func_0209decc(u32 p0) {
     u32 v7;
     u32 v9;
     *(u16 *) ((p0) + (2)) = (u16) v5;
-    func_020d2398((void *) ((u32) p0));
+    func_020d2398((void *) (p0));
     func_020d28e0((Unk020e71a0 *) p0);
 }

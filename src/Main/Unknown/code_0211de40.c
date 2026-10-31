@@ -38,14 +38,14 @@ void func_0211de98(void) {
 void func_0211de40(void *param_1) {
     int iVar1;
     u32 uVar2;
-    iVar1 = ((u32) func_02036bec((void *) param_1, (u32) 0xc));
+    iVar1 = ((u32) func_02036bec(param_1, (u32) 0xc));
     *(int *) &data_0217d36c = iVar1;
     uVar2 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216de54))));
-    func_020b49bc((Unk020b4934 **) ((int *) (u32) ((*(int *) &data_0217d36c))), (void *) uVar2);
+    func_020b49bc((Unk020b4934 **) ((int *) (u32) ((int) data_0217d36c)), (void *) uVar2);
     uVar2 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216de58))));
     func_020b48b4(&data_0217d36c->mUnk_04, (void *) uVar2);
     uVar2 = ((int) func_0204799c((const char *) ((*(u32 *) &data_0216de50))));
-    *(u32 *) ((*(int *) &data_0217d36c) + 8) = uVar2;
+    *(u32 *) ((int) data_0217d36c + 8) = uVar2;
 }
 
 #pragma thumb off

@@ -13,6 +13,6 @@ u32 func_02058754(void) {
     value0 = 1u;
     value2 = (value2) | (value0);
     *(u8 *) ((value1) + 0u) = (u8) value2;
-    return (u32) value0;
+    return value0;
 }
 #pragma thumb off

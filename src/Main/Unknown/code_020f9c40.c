@@ -11,9 +11,9 @@ void func_020f9c40(int arg0) {
     value1 = ~(0u);
     compareLeft0 = value0;
     compareRight0 = value1;
-    if ((u32) compareLeft0 == (u32) compareRight0) {
+    if (compareLeft0 == compareRight0) {
     }
-    if ((u32) compareLeft0 == (u32) compareRight0) {
+    if (compareLeft0 == compareRight0) {
         return;
     }
     value0 = (u32) func_020d5344((int) value0);

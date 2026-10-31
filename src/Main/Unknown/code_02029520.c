@@ -168,15 +168,15 @@ void func_020295c0(u32 p0) {
                                const u32 *) ((u8 *) (u32) (((u32) (&data_02174e1c))) +
                                                       0))) +
                            (0xd4u))) +
-                       0) = (u32) p0;
+                       0) = p0;
 }
 
 void func_020295b0(void) {
-    *(u32 *) ((*(int *) &data_02174e1c) + 0xd8) = 1;
+    *(u32 *) ((int) data_02174e1c + 0xd8) = 1;
 }
 
 void func_020295a0(void) {
-    *(u32 *) ((*(int *) &data_02174e1c) + 0xd8) = 0;
+    *(u32 *) ((int) data_02174e1c + 0xd8) = 0;
 }
 
 void func_02029590(u32 p0) {
@@ -185,7 +185,7 @@ void func_02029590(u32 p0) {
                                const u32 *) ((u8 *) (u32) (((u32) (&data_02174e1c))) +
                                                       0))) +
                            (0xccu))) +
-                       0) = (u32) p0;
+                       0) = p0;
 }
 
 void func_02029580(u32 p0) {
@@ -194,7 +194,7 @@ void func_02029580(u32 p0) {
                                const u32 *) ((u8 *) (u32) (((u32) (&data_02174e1c))) +
                                                       0))) +
                            (0xd0u))) +
-                       0) = (u32) p0;
+                       0) = p0;
 }
 
 void func_02029570(u32 p0) {
@@ -203,7 +203,7 @@ void func_02029570(u32 p0) {
                                const u32 *) ((u8 *) (u32) (((u32) (&data_02174e1c))) +
                                                       0))) +
                            (0xc0u))) +
-                       0) = (u32) p0;
+                       0) = p0;
 }
 
 void func_02029560(u32 p0) {
@@ -212,7 +212,7 @@ void func_02029560(u32 p0) {
                                const u32 *) ((u8 *) (u32) (((u32) (&data_02174e1c))) +
                                                       0))) +
                            (0xf0u))) +
-                       0) = (u32) p0;
+                       0) = p0;
 }
 
 void func_02029550(u16 p0) {
@@ -221,7 +221,7 @@ void func_02029550(u16 p0) {
                                  const u32 *) ((u8 *) (u32) (((u32) (&data_02174e1c))) +
                                                         0))) +
                              (0xe8u))) +
-                         0) = (u16) p0;
+                         0) = p0;
 }
 
 void func_02029540(u32 p0) {
@@ -230,15 +230,15 @@ void func_02029540(u32 p0) {
                                const u32 *) ((u8 *) (u32) (((u32) (&data_02174e1c))) +
                                                       0))) +
                            (0xecu))) +
-                       0) = (u32) p0;
+                       0) = p0;
 }
 
 void func_02029530(void) {
-    *(u32 *) ((*(int *) &data_02174e1c) + 0xdc) = 1;
+    *(u32 *) ((int) data_02174e1c + 0xdc) = 1;
 }
 
 void func_02029520(void) {
-    *(u32 *) ((*(int *) &data_02174e1c) + 0xdc) = 0;
+    *(u32 *) ((int) data_02174e1c + 0xdc) = 0;
 }
 
 #pragma thumb off

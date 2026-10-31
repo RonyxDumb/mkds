@@ -5,5 +5,5 @@ u32 func_020360d0(void) {
     value0 = (u32) &data_021759d4;
     value0 = (u32) * (const u32 *) ((value0) + (0));
     value0 = (u32) * (const u32 *) ((value0) + (12));
-    return (u32) value0;
+    return value0;
 }

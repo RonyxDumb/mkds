@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0207a880.h"
 
 u32 func_0207a8a4(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     value2 = (u32) &data_0217ad18;
@@ -9,7 +9,7 @@ u32 func_0207a8a4(u32 arg0) {
     value2 = (u32) * (const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
     value0 = (u32) * (const u32 *) ((value1) + (668));
-    return (u32) value0;
+    return value0;
 }
 
 u16 func_0207a880(s32 arg0) {

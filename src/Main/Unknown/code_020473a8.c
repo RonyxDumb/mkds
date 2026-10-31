@@ -14,20 +14,20 @@ void func_02047468(const void *param_1, u32 param_2) {
 void func_020473e4(void) {
     func_0204f5e4();
     func_0201804c((void *) ((u32) data_021759c8->mUnk_a80), (u32) 3);
-    func_02047498(data_02164f48, (int) 0xb);
-    func_02047498(data_02164f64, (int) 0xc);
-    func_02047498(data_02164f80, (int) 0);
+    func_02047498(data_02164f48, 0xb);
+    func_02047498(data_02164f64, 0xc);
+    func_02047498(data_02164f80, 0);
     func_02047468(data_02164f98, (u32) 1);
-    func_02047498(data_02164fac, (int) 8);
-    func_02047498(data_02164fc0, (int) 9);
+    func_02047498(data_02164fac, 8);
+    func_02047498(data_02164fc0, 9);
     func_02047468(data_02164fd4, (u32) 10);
-    func_02047498(data_02164fe4, (int) 0xd);
+    func_02047498(data_02164fe4, 0xd);
 }
 
 void func_020473a8(void) {
     func_0204f5e4();
     func_0201804c((void *) ((u32) data_021759c8->mUnk_a80), (u32) 3);
-    func_02047498(data_02164f1c, (int) 0);
+    func_02047498(data_02164f1c, 0);
     func_02047468(data_02164f34, (u32) 1);
 }
 

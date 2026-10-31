@@ -13,11 +13,11 @@ void func_021173e4(void) {
     value0 = 0x1ff0000u;
     value1 = (value1) & (value0);
     value0 = 0x4000010u;
-    *(u32 *) ((value0) + 0u) = (u32) value1;
+    *(u32 *) ((value0) + 0u) = value1;
     value1 = 0x4000000u;
     value2 = (u32) * (const u32 *) ((value1) + 0u);
     value0 = 0xffff1fffu;
     value2 = (value2) & (value0);
-    *(u32 *) ((value1) + 0u) = (u32) value2;
+    *(u32 *) ((value1) + 0u) = value2;
 }
 #pragma thumb off

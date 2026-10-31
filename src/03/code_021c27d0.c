@@ -9,18 +9,18 @@ void func_ov003_021c27f8(u32 param_1) {
     int iVar1;
     iVar1 = func_ov003_021d1290();
     if (iVar1 != 0) {
-        *(u8 *) ((*(int *) &data_ov003_021da194) + 0x1e2a1) = 1;
+        *(u8 *) ((int) data_ov003_021da194 + 0x1e2a1) = 1;
         func_ov003_021d34c8(0, param_1);
     }
 }
 
 u32 func_ov003_021c27e4(void) {
-    if ((*(int *) &data_ov003_021da194) == 0) {
+    if ((int) data_ov003_021da194 == 0) {
         return 1;
     }
     return 0;
 }
 
 void func_ov003_021c27d0(u32 param_1) {
-    *(u32 *) ((*(int *) &data_ov003_021da194) + 0x1e298) = param_1;
+    *(u32 *) ((int) data_ov003_021da194 + 0x1e298) = param_1;
 }

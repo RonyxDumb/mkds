@@ -62,10 +62,10 @@ void func_0210465c(Unk021035ac *p) {
         r = (u32 *) func_02108e6c(6);
         func_0212c6f0((Unk0212c400 **) r, 1);
         if ((data_0217c780 & 1) != 0 && data_0217d084.mUnk_0c != 0) {
-            if (*(u32 *) r != 0) {
+            if (*r != 0) {
                 func_0212c6f0((Unk0212c400 **) r, 0);
             }
-            if (*(u32 *) r != 0) {
+            if (*r != 0) {
                 func_0212c6f0((Unk0212c400 **) r, 0);
             }
             func_0212ecc0(r, 0, 0xef);

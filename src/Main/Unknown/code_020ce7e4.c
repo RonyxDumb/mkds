@@ -8,14 +8,14 @@ void func_020ce7e4(void) {
     if (iVar1 != 0) {
         iVar1 = func_020ce778();
         if (iVar1 == 0) {
-            func_020ce760((int) 0x19);
-            func_02148950((u16) 1, (u32) 0, (int) 0);
-            func_020ce744((int) 0x1e);
+            func_020ce760(0x19);
+            func_02148950((u16) 1, (u32) 0, 0);
+            func_020ce744(0x1e);
             func_02148934((u32) 0);
         } else {
-            func_020ce760((int) 0x1c);
-            func_02148950((u16) 1, (u32) 0, (int) 0);
-            func_020ce744((int) 0x12);
+            func_020ce760(0x1c);
+            func_02148950((u16) 1, (u32) 0, 0);
+            func_020ce744(0x12);
             func_02148934((u32) 0);
         }
     }

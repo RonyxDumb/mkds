@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0203c240.h"
 
 u32 func_0203c240(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     value2 = (u32) &data_0217561c;
@@ -9,5 +9,5 @@ u32 func_0203c240(u32 arg0) {
     value2 = (u32) * (const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
     value0 = (u32) * (const u32 *) ((value1) + (64));
-    return (u32) value0;
+    return value0;
 }

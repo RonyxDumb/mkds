@@ -3,7 +3,7 @@
 #pragma thumb on
 
 u32 func_02009958(void) {
-    if (*(u8 *) ((*(int *) &data_0216fda8) + 0x50d) == 1) {
+    if (*(u8 *) ((int) data_0216fda8 + 0x50d) == 1) {
         return 1;
     }
     return 0;

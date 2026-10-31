@@ -15,7 +15,7 @@
 void func_ov001_0218acb4(Unk02188950 *param_1) {
     Vec3 v = {0, 0, 0};
 
-    func_ov001_02187e78((Unk02188950 *) param_1);
+    func_ov001_02187e78(param_1);
     func_ov001_02187218(param_1, 3, 0);
     func_ov001_02188d64((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_1c0), (s32) (param_1->mUnk_0a0->mUnk_1c4));
     func_ov001_02188c48(param_1, param_1->mUnk_0a0->mUnk_1d0, param_1->mUnk_0a0->mUnk_1d4);

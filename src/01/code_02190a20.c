@@ -74,7 +74,7 @@ s32 func_ov001_02190b58(Unk02188950 *param_1) {
     func_ov001_02188998(param_1, &func_0207a974((u16)data_021759c0->mUnk_62)->mUnk_80);
     func_ov001_021924cc();
     if (func_ov001_021871f8(a, 3) && func_ov001_021871f8(b, 3)) {
-        func_ov001_02188218((Unk02188950 *) param_1, (s32) ((u16)param_1->mUnk_0a0->mUnk_1ec));
+        func_ov001_02188218(param_1, (s32) ((u16)param_1->mUnk_0a0->mUnk_1ec));
         func_ov001_02190c08(param_1);
     }
     return 0;

@@ -13,6 +13,6 @@ u32 func_0212ee54(void *arg0) {
     value1 = value5;
     func_020174a4((Unk02017328 *) value0, (void *) value1);
     value0 = value4;
-    value0 = (u32) func_0200fcb4((u32) value0);
-    return (u32) value0;
+    value0 = (u32) func_0200fcb4(value0);
+    return value0;
 }

@@ -19,7 +19,7 @@ void func_ov003_021c5c68(void) {
             func_ov003_021c5b90((int) (iVar3), (int) (iVar2));
             iVar2 = iVar2 + 1;
             iVar3 = iVar3 + 1;
-        } while (iVar2 < (int) uVar4);
+        } while (iVar2 < uVar4);
     }
     iVar3 = 0;
     if (uVar4 > 0) {
@@ -27,7 +27,7 @@ void func_ov003_021c5c68(void) {
             func_ov003_021c5b34((int) (iVar1), (int) (iVar3));
             iVar3 = iVar3 + 1;
             iVar1 = iVar1 + 1;
-        } while (iVar3 < (int) uVar4);
+        } while (iVar3 < uVar4);
     }
     func_ov003_021d1fd0(data_ov003_021da1f4->mUnk_0c);
     func_ov003_021c5aa4();

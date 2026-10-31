@@ -7,11 +7,11 @@ void func_02145888(void) {
     value0 = (u32) func_021458b4();
     compareLeft0 = value0;
     compareRight0 = 0u;
-    if ((u32) compareLeft0 != (u32) compareRight0) {
+    if (compareLeft0 != compareRight0) {
     }
-    if ((u32) compareLeft0 != (u32) compareRight0) {
+    if (compareLeft0 != compareRight0) {
     }
-    if ((u32) compareLeft0 != (u32) compareRight0) {
+    if (compareLeft0 != compareRight0) {
         return;
     }
     func_0200fd1c();

@@ -128,7 +128,7 @@ void func_ov001_021972f4(void)
         result = func_020601e4(data_ov001_021a6900[data_ov001_021a9bdc->mUnk_6c], 5);
         data_ov001_021a9bdc->mUnk_38[5].mUnk_00 = 1;
         tile = data_ov001_021a6864[result];
-        func_02124748((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_28), (void *) (data_ov001_021a9bdc->mUnk_34), (s32) (0), (u32) (5), (void *) (data_ov001_021a9bdc->mUnk_04), (void *) (data_ov001_021a9bdc->mUnk_08));
+        func_02124748((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_28), (void *) (data_ov001_021a9bdc->mUnk_34), 0, (u32) (5), (void *) (data_ov001_021a9bdc->mUnk_04), (void *) (data_ov001_021a9bdc->mUnk_08));
         palette = (u8 *)((Unk020b4a44 *)data_ov001_021a9bdc->mUnk_30)->mUnk_0c;
         func_02016468(0xe, 0x80, palette + (func_02124a68((u32) (tile), (void *) (data_ov001_021a9bdc->mUnk_2c), (void *) (data_ov001_021a9bdc->mUnk_34)) << 5), 0x20);
         result = func_020601a0(data_ov001_021a6900[data_ov001_021a9bdc->mUnk_6c], 5);

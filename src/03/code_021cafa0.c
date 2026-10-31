@@ -37,22 +37,22 @@ void func_ov003_021cafa4(void) {
     }
     iVar3 = func_ov003_021d2ae8((u32) (0x40));
     if (iVar3 != 0) {
-        func_ov003_021cab4c((int) (1));
+        func_ov003_021cab4c(1);
         return;
     }
     iVar3 = func_ov003_021d2ae8((u32) (0x80));
     if (iVar3 != 0) {
-        func_ov003_021cab4c((int) (3));
+        func_ov003_021cab4c(3);
         return;
     }
     iVar3 = func_ov003_021d2ae8((u32) (0x20));
     if (iVar3 != 0) {
-        func_ov003_021cab4c((int) (0));
+        func_ov003_021cab4c(0);
         return;
     }
     iVar3 = func_ov003_021d2ae8((u32) (0x10));
     if (iVar3 != 0) {
-        func_ov003_021cab4c((int) (2));
+        func_ov003_021cab4c(2);
     }
     return;
 }

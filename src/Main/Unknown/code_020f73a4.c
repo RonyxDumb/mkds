@@ -3,7 +3,7 @@
 #include "Main/Unknown/code_020ee684.h"
 
 void func_020f73d4(u32 arg0) {
-    u32 value0 = (u32) arg0;
+    u32 value0 = arg0;
     u32 value1;
     u32 value2;
     u32 value3;
@@ -24,8 +24,8 @@ u32 func_020f73a4(void) {
     value0 = (u32) func_020364e8();
     value0 = (u32) func_020364e0((void *) value0);
     value1 = 0xcu;
-    value0 = (u32) func_02036bec((void *) value0, (u32) value1);
+    value0 = (u32) func_02036bec((void *) value0, value1);
     value1 = (u32) &data_0217bc4c;
-    *(u32 *) ((value1) + (0)) = (u32) value0;
-    return (u32) value0;
+    *(u32 *) ((value1) + (0)) = value0;
+    return value0;
 }

@@ -17,5 +17,5 @@ void func_02148a10(void) {
     *(u16 *) ((value1) + (0)) = (u16) value3;
     *(u16 *) ((value0) + (0)) = (u16) value2;
     value0 = (value12) & ~(0x30000u);
-    *(u32 *) ((value14) + (0)) = (u32) value0;
+    *(u32 *) ((value14) + (0)) = value0;
 }

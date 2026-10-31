@@ -34,28 +34,28 @@ void func_ov003_021ca688(void) {
 
 void func_ov003_021ca64c(void) {
     int iVar1;
-    iVar1 = func_ov003_021d1f70((int) 1);
+    iVar1 = func_ov003_021d1f70(1);
     if (iVar1 == 0) {
         func_ov003_021bf344();
-        func_ov003_021d1ee0((int) 3, (int) 1, (u32) 1, (u16) 8);
-        func_ov003_021d1ee0((int) 3, (int) 0, (u32) 0x15, (u16) 8);
+        func_ov003_021d1ee0(3, 1, (u32) 1, (u16) 8);
+        func_ov003_021d1ee0(3, 0, (u32) 0x15, (u16) 8);
         func_ov003_021c212c(func_ov003_021ca5b0);
     }
 }
 
 void func_ov003_021ca5b0(void) {
     int iVar1;
-    iVar1 = func_ov003_021d1f70((int) 1);
-    if (((iVar1 == 0) && (iVar1 = func_ov003_021d1f70((int) 0), iVar1 == 0)) &&
+    iVar1 = func_ov003_021d1f70(1);
+    if (((iVar1 == 0) && (iVar1 = func_ov003_021d1f70(0), iVar1 == 0)) &&
         (iVar1 = func_ov003_021bf2f0(), iVar1 != 0)) {
         do {
             iVar1 = func_ov003_021cd118();
         } while (iVar1 == 0);
         func_ov003_021beecc();
-        func_ov003_021d2168((int) 0);
+        func_ov003_021d2168(0);
         func_ov003_021bf410();
-        func_ov003_021d272c((int) 1, (u32) 1);
-        func_ov003_021d272c((int) 0, (u32) 0x15);
+        func_ov003_021d272c(1, (u32) 1);
+        func_ov003_021d272c(0, (u32) 0x15);
         if ((*(u8 *) &data_ov003_021da228) != 1) {
             func_ov003_021cd27c();
             iVar1 = func_ov003_021cdb6c();

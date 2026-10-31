@@ -6,6 +6,6 @@ void func_021287c0(void) {
     u32 value1;
     value1 = 0u;
     value0 = (u32) &data_0217d3f8;
-    *(u32 *) ((value0) + 0u) = (u32) value1;
+    *(u32 *) ((value0) + 0u) = value1;
 }
 #pragma thumb off

@@ -11,7 +11,7 @@ u32 func_020cc120(void) {
 void func_020cc10c(u32 p0) {
     *(u32 *) ((u8 *) (u32) (((u32) *(
                            const u32 *) ((u8 *) (u32) (((u32) (&data_0217b488))) + 0))) +
-                       4) = (u32) p0;
+                       4) = p0;
 }
 
 u32 func_020cc0f8(void) {
