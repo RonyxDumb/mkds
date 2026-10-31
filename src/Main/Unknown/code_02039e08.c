@@ -121,7 +121,7 @@ void func_0203a05c(void) {
         func_020b2e64(1);
     }
     func_02046e84();
-    while (*(u32 *) data_0217c7ac != 0) {
+    while ((u32) data_0217c7ac != 0) {
         func_02037a40();
         func_020b2574();
         func_0210823c();

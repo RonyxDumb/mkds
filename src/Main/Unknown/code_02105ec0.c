@@ -246,7 +246,7 @@ void func_02108344(u32 a, u32 b, u32 c) {
         func_0212c6a0(&data_0217c838[i]);
     }
     func_0210e2c4((Unk0217c7c4 *) data_0217c7c4, data_0217c7d8, 3, 8);
-    func_0212c6a0((Unk0212c400 **) data_0217c7ac);
+    func_0212c6a0(&data_0217c7ac);
     func_0212c6a0(&data_0217c788);
     func_0212c6a0(&data_0217c778);
     func_0212ba68(0x7f);

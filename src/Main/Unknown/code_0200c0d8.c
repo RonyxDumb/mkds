@@ -68,7 +68,7 @@ u32 func_0200c20c(u32 a) {
     i = 0;
     v1 = data_0216fdf8.mUnk_04;
     if (v1 > 0) {
-        v2 = (*(Unk0216fdf4 **) &data_0216fdf4)->mUnk_1e0[a - 1];
+        v2 = data_0216fdf4->mUnk_1e0[a - 1];
         do {
             if (((1 << i) & v2) == 0) {
                 return 0;
@@ -85,7 +85,7 @@ u8 *func_0200c25c(Unk0200c16c *a, u32 b) {
     u8 v2;
     u32 v3;
     u32 v4;
-    v1 = *(Unk0216fdf4 **) &data_0216fdf4;
+    v1 = data_0216fdf4;
     if (v1 == 0) {
         return 0;
     }
@@ -96,9 +96,9 @@ u8 *func_0200c25c(Unk0200c16c *a, u32 b) {
     v4 = b - 1;
     v3 = v4 << 5;
     func_0214d1fc((u8 *) a + 3, (u8 *) v1 + v3 + v2 * data_0216fdf8.mUnk_00, data_0216fdf8.mUnk_00);
-    (*(Unk0216fdf4 **) &data_0216fdf4)->mUnk_1e0[v4] |= 1 << v2;
+    data_0216fdf4->mUnk_1e0[v4] |= 1 << v2;
     if (func_0200c20c(b) != 0) {
-        return (u8 *) *(Unk0216fdf4 **) &data_0216fdf4 + v3;
+        return (u8 *) data_0216fdf4 + v3;
     }
     return 0;
 }
@@ -110,7 +110,7 @@ u8 *func_0200c2e0(u8 *a, Unk0200c16c *b, u32 c) {
     switch (b->mUnk_00) {
         case 7:
             if (func_0200c20c(c) != 0) {
-                return (u8 *) *(Unk0216fdf4 **) &data_0216fdf4 + (c - 1) * 0x20;
+                return (u8 *) data_0216fdf4 + (c - 1) * 0x20;
             }
             *(u8 *) &b->mUnk_02 = a[1];
             if (*(u8 *) &b->mUnk_02 > data_0216fdf8.mUnk_04) {

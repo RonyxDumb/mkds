@@ -7,8 +7,8 @@ void func_0200b02c(Unk0200aeec_head *a, u32 b) {
     u32 v1;
     u32 v2;
     v1 = func_0200fca0();
-    if (*(Unk0200aeec_head **) &data_0216fde0 == 0) {
-        *(Unk0200aeec_head **) &data_0216fde0 = a;
+    if (data_0216fde0 == 0) {
+        data_0216fde0 = a;
         func_0200b00c(&a->mUnk_c4);
         a->mUnk_c0 = 0;
         v2 = (b - 0xe4) & ~3;

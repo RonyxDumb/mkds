@@ -34,14 +34,14 @@ void func_ov003_021ca940(void) {
     a = data_ov003_021d75c0;
     b = data_ov003_021d75c4;
     if (*(u8 *) &data_ov003_021da230 <= 3) {
-        func_ov003_021cc948((*(Unk021da234 **) &data_ov003_021da234)->mUnk_00, a.mUnk_00[*(u8 *) &data_ov003_021da230],
+        func_ov003_021cc948(data_ov003_021da234->mUnk_00, a.mUnk_00[*(u8 *) &data_ov003_021da230],
                             a.mUnk_00[*(u8 *) &data_ov003_021da230]);
         if (*(u8 *) &data_ov003_021da230 != 3) {
             c = func_ov003_021cd844(*(u8 *) &data_ov003_021da230);
             if (c > 2) {
                 c = 3;
             }
-            func_ov003_021d1890((*(Unk021da234 **) &data_ov003_021da234)->mUnk_04[*(u8 *) &data_ov003_021da230], -1, 0,
+            func_ov003_021d1890(data_ov003_021da234->mUnk_04[*(u8 *) &data_ov003_021da230], -1, 0,
                                 b.mUnk_00[c]);
         }
     }

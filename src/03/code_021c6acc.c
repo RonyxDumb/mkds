@@ -12,9 +12,9 @@ void func_ov003_021c6acc(void) {
     s32 a[2] = {0x9b, 0x9c};
     s32 b;
     if (func_ov003_021c0ca8() == 0) {
-        if ((*(Unk021da1f8 **) &data_ov003_021da1f8)->mUnk_2a == 0) {
+        if (data_ov003_021da1f8->mUnk_2a == 0) {
             func_ov003_021c212c(func_ov003_021c6a18);
-        } else if ((*(Unk021da1f8 **) &data_ov003_021da1f8)->mUnk_2a == 2) {
+        } else if (data_ov003_021da1f8->mUnk_2a == 2) {
             func_ov003_021cefc0(0x2f, 3, 1, -1, 0);
             func_ov003_021c212c(func_ov003_021c673c);
         } else {

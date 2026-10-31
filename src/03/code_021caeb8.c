@@ -23,7 +23,7 @@ void func_ov003_021caeb8(void) {
         switch (func_ov003_021c20c0()) {
         case 0:
             func_ov003_021cdc10(7);
-            (*(Unk021da234 **) data_ov003_021da234)->mUnk_1d = 2;
+            data_ov003_021da234->mUnk_1d = 2;
             break;
         case 1:
             func_ov003_021bf2d0();
@@ -32,7 +32,7 @@ void func_ov003_021caeb8(void) {
         }
         break;
     case 1:
-        (*(Unk021da234 **) data_ov003_021da234)->mUnk_1d = 1;
+        data_ov003_021da234->mUnk_1d = 1;
         s = data_ov003_021da230[0];
         if (s >= 4) {
             a = s - 4;

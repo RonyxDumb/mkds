@@ -3,7 +3,7 @@
 #pragma thumb on
 
 Unk02007014 *func_02007040(void) {
-    return *(Unk02007014 **) &data_0216f3d8;
+    return data_0216f3d8;
 }
 
 void func_02007034(unsigned int p0) {
