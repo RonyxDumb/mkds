@@ -20,6 +20,7 @@ It also applies <config-dir>/lcf_edits.txt (one edit per line, `#` comments), fo
                                        inside an object of a linked unit (a field of a singleton instance)
   inner <symbol> <size>                aliases every symbols.txt name inside <symbol>'s <size> bytes to <symbol> +
                                        offset (names of fields of a big global that other units still use)
+  keep <section>                      retains every input section with this name, including unreferenced padding
 
 (mwldarm's -force_active flag would be simpler but segfaults under wibo.)
 """
@@ -69,6 +70,7 @@ sdk = [f"    SDK_OVERLAY_OV{n:03d}_ID = {n};" for n in range(lcf.count("_ID = ")
 # that the script defines outside every block under the last section (the last overlay), which `dsd check symbols`
 # then reports as that overlay's; inside the block it is filed under ARM9 like its base. Absolute aliases stay outside.
 aliases = []  # (in ARM9 block, line)
+keep_sections = []
 main_syms = {}
 for ln in (args.config_dir / "symbols.txt").read_text().splitlines():
     if m := re.match(r"(\S+) kind:\S+ addr:(0x[0-9a-fA-F]+)", ln):
@@ -79,7 +81,9 @@ if edits.exists():
         words = line.split("#", 1)[0].split()
         if not words:
             continue
-        if words[0] == "place":
+        if words[0] == "keep":
+            keep_sections.append(words[1])
+        elif words[0] == "place":
             stub, func, unit = words[1:]
             old = f"        {stub}(.text)\n"
             if old not in lcf:
@@ -87,7 +91,8 @@ if edits.exists():
             lcf = lcf.replace(old, f"        OBJECT({func}, {unit})\n", 1)
         elif words[0] == "alias":
             name, base, offset = words[1:]
-            aliases.append((base in main_syms, f"    {name} = {base} + {offset};"))
+            aliases.append((base in main_syms or base.startswith("ARM9_"),
+                            f"    {name} = {base} + {offset};"))
         elif words[0] == "inner":
             base, size = words[1], int(words[2], 0)
             addrs = {}
@@ -101,6 +106,8 @@ if edits.exists():
                     aliases.append((True, f"        {name} = {base} + {addr - start:#x};"))
         else:
             raise SystemExit(f"lcf_edits: unknown edit {words[0]!r}")
+if keep_sections:
+    lcf = lcf.replace("KEEP_SECTION {\n", "KEEP_SECTION {\n" + "".join(f"    {section},\n" for section in keep_sections), 1)
 lcf = lcf.replace("SECTIONS {\n", "SECTIONS {\n" + "\n".join(sdk) + "\n", 1)
 inside = [line.strip() for in_main, line in aliases if in_main]
 inside += [f"{name} = {value};" for name, value in LCF_SYMBOLS.items()]

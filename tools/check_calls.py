@@ -18,6 +18,7 @@ import json
 import re
 import struct
 import sys
+from functools import lru_cache
 from pathlib import Path
 
 from elftools.elf.elffile import ELFFile
@@ -40,17 +41,36 @@ def load_symbols() -> dict[str, dict[str, int]]:
             if m := LINE.match(line):
                 table.setdefault(m.group(1), int(m.group(3), 16))
         tables[module] = table
+    # Section boundaries have no stored object (the constructor list can be empty), but source can reference
+    # them through linker aliases. Derive their values from the original ranges, rather than the rebuilt ELF.
+    cfg = ROOT / f"config/{VERSION}/arm9"
+    header = (cfg / "delinks.txt").read_text().split("\n\n", 1)[0]
+    for section, start, end in re.findall(r"^\s+\.(\w+)\s+start:(0x[0-9a-f]+) end:(0x[0-9a-f]+)", header, re.M):
+        tables["main"][f"ARM9_{section.upper()}_START"] = int(start, 16)
+        tables["main"][f"ARM9_{section.upper()}_END"] = int(end, 16)
+    edits = cfg / "lcf_edits.txt"
+    if edits.exists():
+        for line in edits.read_text().splitlines():
+            words = line.split("#", 1)[0].split()
+            if words and words[0] == "alias" and words[2] in tables["main"]:
+                name, base, offset = words[1:]
+                tables["main"].setdefault(name, tables["main"][base] + int(offset, 0))
     return tables
 
 
+@lru_cache(maxsize=1)
+def unit_modules() -> dict[str, str]:
+    units = {}
+    cfg = ROOT / f"config/{VERSION}/arm9"
+    for path in [cfg / "delinks.txt", cfg / "itcm/delinks.txt", *sorted((cfg / "overlays").glob("*/delinks.txt"))]:
+        module = "main" if path.parent.name == "arm9" else path.parent.name
+        for rel in re.findall(r"^(\S+\.(?:c|cpp)):", path.read_text(), re.M):
+            units[Path(rel).with_suffix("").as_posix()] = module
+    return units
+
+
 def module_of(obj: Path) -> str | None:
-    for ext in (".cpp", ".c"):
-        rel = obj.relative_to(ROOT / f"build/{VERSION}").with_suffix(ext).as_posix()
-        for path in [ROOT / f"config/{VERSION}/arm9/delinks.txt", ROOT / f"config/{VERSION}/arm9/itcm/delinks.txt",
-                     *sorted((ROOT / f"config/{VERSION}/arm9/overlays").glob("*/delinks.txt"))]:
-            if f"{rel}:" in path.read_text():
-                return "main" if path.parent.name == "arm9" else path.parent.name
-    return None
+    return unit_modules().get(obj.relative_to(ROOT / f"build/{VERSION}").with_suffix("").as_posix())
 
 
 def matched_functions() -> set[str]:
