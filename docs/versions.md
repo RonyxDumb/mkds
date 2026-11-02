@@ -65,3 +65,58 @@ python3 tools/progress.py check
 The European ROM rebuild and symbol check pass. Calls/pointers, callee sets, strings, signatures and missing
 prototypes each report zero differences or problems; every source unit passes the range check. All previously
 matching functions remain matching, and no reported function's score decreases.
+
+## Shared-source update, 2026-11-02
+
+Checked against `6a7fd8a8` and the same European ROM and pinned tools. The USA progress recorded on 2026-10-31
+is 10,801 matching functions out of 11,498, or 1,571,102 matching bytes (83.30%). This update does not include
+a fresh USA ROM build.
+
+The October 31 source changes already improve Europe when rebuilt. Registering another **915 source units**
+adds **3,250 matching functions and 550,824 matching bytes** beyond that fresh starting build. No previously
+reported function's matching score decreases. Of the added units, 643 have every function matching.
+
+| European measurement | Published 2026-10-29 | Fresh starting build | After registration |
+| --- | ---: | ---: | ---: |
+| Matching functions | 7,422 | 7,533 | 10,783 |
+| Matching code | 964,162 bytes (51.12%) | 1,018,204 bytes (53.98%) | 1,569,028 bytes (83.19%) |
+| Linked source code | 59,640 bytes (3.16%) | 59,640 bytes (3.16%) | 59,640 bytes (3.16%) |
+
+| Module | Added units | Added matching functions | Added matching bytes |
+| --- | ---: | ---: | ---: |
+| Main | 452 | 1,951 | 341,228 |
+| ITCM | 11 | 73 | 16,836 |
+| Overlay 0 | 282 | 849 | 133,554 |
+| Overlay 3 | 170 | 377 | 59,206 |
+| Total | 915 | 3,250 | 550,824 |
+
+The European inventory now contains 11,499 functions. The main-module software floating-point routine at
+`0x02131694` previously included two following entry points; their boundaries now agree with the corresponding
+source definitions. The European overlay 0 also contains a function absent from the USA inventory.
+
+### Reference and layout validation
+
+Original European relocation sites identify the data addresses for 539 shared USA source names.
+Each name has one consistent European target across all matching functions that reference it. These names
+are linker aliases of the original European symbols, leaving the original data symbols and their boundaries
+intact. The empty constructor list uses its linker boundary, `ARM9_CTOR_START`. All 539 aliases also resolve
+to the expected addresses in the linked ELF.
+
+Floating-point comparison and integer multiplication entry aliases are recorded in the European symbols.
+The instruction-level audit covers 13,658 referenced names without unresolved or inconsistent targets, and
+59 references to local initialized data were checked byte for byte. The normal matching-function call/pointer
+and string checks report zero differences. Function declarations and definitions agree, and every registered
+source unit passes the range check.
+
+The same source and header tree also passed all 3,778 native prototype-check compile commands, without compilation
+failures or calls lacking a declaration in scope.
+
+The all-function callee check still reports 12 differences in nonmatching drafts. None of those functions is
+included in the matching totals; the instruction-level checks of fully matching functions report no differences.
+
+Splitting formerly combined original objects exposed unreferenced code, `BuildInfo`, and zero padding to the
+linker's dead stripping. The European `keep .text` edit retains those sections. The resulting ROM still passes
+the original SHA-1 and symbol checks; retaining them does not mark additional source units complete.
+
+New units remain unlinked. Matching their code and references does not establish that their own data layout
+is ready to replace the original objects in the ROM. Nonmatching drafts remain outside the matching totals.

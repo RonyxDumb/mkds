@@ -2,5 +2,49 @@
     .bss        start:0x01ffffa0 end:0x01ffffa0 kind:bss align:32
 
 // provisional: file name and boundaries
+src/ITCM/code_01ff8000.c:
+    .text       start:0x01ff8000 end:0x01ff9300
+
+// provisional: file name and boundaries
+src/ITCM/code_01ff9320.c:
+    .text       start:0x01ff9320 end:0x01ff9598
+
+// provisional: file name and boundaries
+src/ITCM/code_01ff9598.c:
+    .text       start:0x01ff9598 end:0x01ffa4b4
+
+// provisional: file name and boundaries
+src/ITCM/code_01ffa4b4.c:
+    .text       start:0x01ffa4b4 end:0x01ffad14
+
+// provisional: file name and boundaries
+src/ITCM/code_01ffad14.c:
+    .text       start:0x01ffad14 end:0x01ffb130
+
+// provisional: file name and boundaries
+src/ITCM/code_01ffb130.c:
+    .text       start:0x01ffb130 end:0x01ffb930
+
+// provisional: file name and boundaries
+src/ITCM/code_01ffb930.c:
+    .text       start:0x01ffb930 end:0x01ffba68
+
+// provisional: file name and boundaries
+src/ITCM/code_01ffba68.c:
+    .text       start:0x01ffba68 end:0x01ffcf7c
+
+// provisional: file name and boundaries
+src/ITCM/code_01ffcf7c.c:
+    .text       start:0x01ffcf7c end:0x01ffdee4
+
+// provisional: file name and boundaries
 src/ITCM/code_01ffdee4.c:
     .text       start:0x01ffdee4 end:0x01fff434
+
+// provisional: file name and boundaries
+src/ITCM/code_01fff434.c:
+    .text       start:0x01fff434 end:0x01fff95c
+
+// provisional: file name and boundaries
+src/ITCM/code_01fff95c.c:
+    .text       start:0x01fff95c end:0x01ffff88
