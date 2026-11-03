@@ -121,7 +121,6 @@ void func_02064d44(Unk0206bcb0 *a) {
     func_01ffc064(&a->mUnk_1c4, &a->mUnk_8c, 0x400, a);
 }
 
-// non-matching: 99.6: one register choice differs
 void func_02064d60(Unk0206bcb0 *a, Vec3 *b) {
     Unk0206bcb0_514 *c;
     Vec4 d;
@@ -145,7 +144,7 @@ void func_02064d60(Unk0206bcb0 *a, Vec3 *b) {
             e = e + 0xffff;
         }
     }
-    c->mUnk_0e = c->mUnk_0e + ((s64) e * 0x19a >> 12);
+    c->mUnk_0e = c->mUnk_0e + (s32) ((s64) e * 0x19a >> 12);
     func_01ffd190(&data_02154f7c, (u16) (a->mUnk_236 + a->mUnk_4de), &a->mUnk_e0_m);
     func_01ffcebc(&a->mUnk_f0_q, &a->mUnk_e0_m, &a->mUnk_110_q);
     if ((a->mUnk_44 & 2) != 0) {
