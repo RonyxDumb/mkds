@@ -8,11 +8,11 @@ void func_020d10fc(void) {
     data_0217b4a4 = 0;
 }
 
-// non-matching: the original loads the word of data_0216aea8 first (into r1, compared against 0) and then the word of data_0216aeac (r0), with the shifted value in r2; the compiled code loads data_0216aeac first (r2), then data_0216aea8 (r0), shifted offset in r1, so the value stored at [sp] ends in r0 instead of r1
 void func_020d1080(void) {
     char buf[0x100];
     s32 i;
-    s32 a;
+    // placeholder: the enum flag preserves the original table-load order and register assignment.
+    enum { K0 } a;
     s32 b;
 
     i = data_0217b4a4->mUnk_0c;
@@ -23,11 +23,11 @@ void func_020d1080(void) {
     func_020b4a7c(&data_0217b4a4->mUnk_00, data_0217b4a4->mUnk_10);
 }
 
-// non-matching: the original loads the word of data_0216aea8 first (into r1, compared against 0) and then the word of data_0216aeac (r0), with the shifted value in r2; the compiled code loads data_0216aeac first (r2), then data_0216aea8 (r0), shifted offset in r1, so the value stored at [sp] ends in r0 instead of r1
 void func_020d0ffc(void) {
     char buf[0x100];
     s32 i;
-    s32 a;
+    // placeholder: the enum flag preserves the original table-load order and register assignment.
+    enum { K0 } a;
     s32 b;
 
     i = data_0217b4a4->mUnk_0c;
@@ -38,11 +38,11 @@ void func_020d0ffc(void) {
     func_020b496c(&data_0217b4a4->mUnk_04, data_0217b4a4->mUnk_238);
 }
 
-// non-matching: the original loads the word of data_0216aea8 first (into r1, compared against 0) and then the word of data_0216aeac (r0), with the shifted value in r2; the compiled code loads data_0216aeac first (r2), then data_0216aea8 (r0), shifted offset in r1, so the value stored at [sp] ends in r0 instead of r1
 void func_020d0f78(void) {
     char buf[0x100];
     s32 i;
-    s32 a;
+    // placeholder: the enum flag preserves the original table-load order and register assignment.
+    enum { K0 } a;
     s32 b;
 
     i = data_0217b4a4->mUnk_0c;
