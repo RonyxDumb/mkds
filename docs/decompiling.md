@@ -774,6 +774,10 @@ Link order and linking:
 
 ### 1.12 Soft Float and 64-bit Math
 
+- Narrow a shifted fixed-point product to `s32` before adding it to a scalar destination. Leaving the addition
+  at 64 bits can emit `adds` instead of `add` even when only the low halfword is stored (func_02064d60).
+- A checksum kept in an `s64` local materializes its sign word before the result flag is initialized. Keeping
+  it in `s32` and widening only for the comparison swaps those two instructions (func_02152950).
 - `float` arithmetic calls runtime helpers (`_fadd _fsub _fmul _fdiv _fflt _ffltu _ffix _ffixu`, compares `_fgeq
   _fgr _fleq _fls _feq _fneq`). A source compare must use the same operator as the original (`a < b` -> `_fls`;
   `!(a >= b)` -> `_fgeq`).
@@ -782,6 +786,9 @@ Link order and linking:
   operator, never call the helper by name. The divisor in r1 often already holds a value used elsewhere (keep it in
   a local). Compound-assigned locals (`s32 q = a; q /= b;`) fix the order of division calls. `_s32_div_f` vs
   `_u32_div_f` follows the signedness of the operand (`(u32) b`, func_ov000_021882f8).
+- In that encoder, keep the optional four-byte padding in its own local, initialize the result from the
+  unsigned block quotient, then add the padding. This preserves the original three-operand `adds` order.
+  Its remaining-bit divisions are signed; the quotient is converted back to `u32` before adding the trailing flag.
 - 64-bit fixed point (NitroSDK-style matrix concat): a product of two locals gives `umull+mla` with sign words on
   the stack; a local times a fresh load gives `smull/smlal`. `(fx32)((e64 >> 12) + t)` gives `adds`. Matrix concat
   reuses the last column loaded in a row for the next row's first element (load columns into locals, alternate
@@ -877,6 +884,15 @@ copies and sprite reads as placeholders. The original reads the sprite word twic
 the unused horizontal one), then stores the updated vertical coordinate. The upward callbacks reload it after the
 call; the downward callbacks compare the value still in a register. These accesses match, but the source form of
 the original coordinate getter is still unknown.
+
+Enum temporaries also preserve the original result, load or index register order in the main-module units
+`code_0202d990.c`, `code_02039e08.c`, `code_02042410.c`, `code_0205b0f4.c`, `code_020681f0.c`,
+`code_0206d020.c`, `code_020a9cd4.c` and `code_020d0f78.c`, and in overlay 3's `code_021c5724.c` and
+`code_021cef90.c` and `code_021cf378.c`. They are marked at each use; the original source types have not been established.
+
+The two comparators in `src/00/code_0218d488.c` load object pointers through volatile pointer views to retain
+the original entry-load order. The pointer types follow their callees, but the volatile views remain placeholders
+for the original source form.
 
 These looked like they needed placeholders but were solved by rules: two loads before two compares (enum-typed
 copies), scheduling cycles and enum-zero workarounds (a BOOL-returning callee declared void), literal-order problems

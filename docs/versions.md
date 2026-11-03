@@ -120,3 +120,43 @@ the original SHA-1 and symbol checks; retaining them does not mark additional so
 
 New units remain unlinked. Matching their code and references does not establish that their own data layout
 is ready to replace the original objects in the ROM. Nonmatching drafts remain outside the matching totals.
+
+## European matching sweep, 2026-11-03
+
+Checked against a fresh build of `40d305c5`, using the same European ROM and CodeWarrior `1.2/base`.
+Near-matching functions were examined across the main game code, libraries, ITCM and overlays. This sweep
+adds **21 fully matching functions and 5,568 matching bytes**, with no decrease in any function's score.
+
+| European measurement | Fresh starting build | After this sweep |
+| --- | ---: | ---: |
+| Matching functions | 10,801 / 11,499 | 10,822 / 11,499 |
+| Matching code | 1,571,196 bytes (83.30%) | 1,576,764 bytes (83.60%) |
+| Linked source code | 61,698 bytes (3.27%) | 74,048 bytes (3.93%) |
+
+Percentages use the fixed 1,886,120-byte image code size. The remaining 677 functions are outside the fully
+matching count; overall fuzzy similarity does not establish a byte match.
+
+| Area | New matching functions | New matching bytes | Newly linked units |
+| --- | ---: | ---: | ---: |
+| Main game code | 13 | 3,988 | 5 |
+| Libraries | 1 | 56 | 1 |
+| ITCM | 1 | 96 | 1 |
+| Overlay 0 | 3 | 508 | 2 |
+| Overlay 3 | 3 | 920 | 3 |
+| Total | 21 | 5,568 | 12 |
+
+Twenty function bodies were corrected. Restoring the original function placement in `code_020681f0.c` also
+made `func_02068640` exact. The twelve newly linked units passed `tools/try_link.py`, including their data
+layout; the complete rebuilt ROM was compared byte for byte with the original and retains SHA-1
+`ce97d9b43f0d3ca0d48b781983e8a16f6393378f`.
+
+The encoder `func_ov000_021882f8` now uses the original unsigned division helpers for its block count and
+signed helpers for its remaining bits. This removes one pre-existing all-function callee difference, leaving
+11 differences in nonmatching drafts. Matching-function call/pointer and string checks report zero
+differences; signatures and all source-unit ranges pass. Prototype-check compiles for all 17 changed source
+units report no missing declarations. Headers and public signatures were not changed.
+
+Fifteen newly matching functions use explicitly marked enum temporaries or volatile pointer views whose
+original source forms remain unknown; their compiled code and references are verified. The EUR call argument
+in `func_0205dee0_inline` is verified as zero. The existing non-EUR value `0x20` is preserved, but its value
+in the USA original has not been verified here, and no fresh USA build was run.
