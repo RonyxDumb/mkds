@@ -52,10 +52,9 @@ void func_020a9e04(Unk020a9268 *p) {
     p->mUnk_128 = func_020d2178(p->mUnk_000.mUnk_9c->mUnk_34);
 }
 
-// non-matching: same size; registers only: the original loads *b into r2 and *c into r1 (ours: r1 and r2), so the
-// compare and the final `andne r0, r1, #255` use the other register (4 words)
 u32 func_020a9de4(Unk020a9224 *p, void *a, u8 *b, u8 *c) {
-    u32 x = *b;
+    // placeholder: the enum copy preserves the original byte-load register assignment.
+    enum { K0 } x = *b;
     u32 y = *c;
 
     if (x == 1) {
