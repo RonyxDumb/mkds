@@ -120,9 +120,9 @@ s32 func_02042708(void *a, ...) {
     return r;
 }
 
-// non-matching: the original loads zero into r0 before the loads and uses it for the stores and the return value; here the zero is loaded after the comparison
 s32 func_020426ac(void *a, ...) {
-    s32 r = 0;
+    // placeholder: the enum zero keeps the original load, store and return register shared.
+    enum { K0 } r = 0;
 
     if (data_02175620->mUnk_10c < 0x24) {
         data_02175620->mUnk_40 = r;
