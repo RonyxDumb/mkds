@@ -101,72 +101,83 @@ void func_ov003_021bfa80(u32 param_1) {
     func_ov003_021d2808(&data_ov003_021da15c);
 }
 
-// non-matching: size 0x44 against 0x54. The original keeps both values in stack offsets 0 and 4; the compiled code keeps them in registers.
+// placeholder: volatile stack copies and sprite reads retain the original coordinate access order.
 void func_ov003_021bfb28(u32 param_1) {
-    u32 x;
+    volatile u32 x;
     s32 y;
-    x = (data_ov003_021da15c->mUnk_030[0]->mUnk_00 & 0x1ff0000) >> 16;
-    y = data_ov003_021da15c->mUnk_030[0]->mUnk_00 & 0xff;
-    y += 12;
-    func_ov003_021c0154(data_ov003_021da15c->mUnk_11d, 0, y);
+    s32 z;
+    x = ((*(volatile u32 *) &data_ov003_021da15c->mUnk_030[0]->mUnk_00) & 0x1ff0000) >> 16;
+    z = *(volatile u32 *) &data_ov003_021da15c->mUnk_030[0]->mUnk_00 & 0xff;
+    *(volatile s32 *) &y = z;
+    z += 12;
+    *(volatile s32 *) &y = z;
+    func_ov003_021c0154(data_ov003_021da15c->mUnk_11d, 0, z);
     if (y >= 0xc0) {
         func_ov003_021d34e0((Unk021d34e0 *) param_1, func_ov003_021bfa80);
     }
 }
 
-// non-matching: size 0x44 against 0x54. The original keeps the two values in stack offsets 0 and 4 (stores both, adds 12 to
-// the second in a register and stores it again, reloads it for the compare); the compiled code keeps them in registers.
+// placeholder: volatile stack copies and sprite reads retain the original coordinate access order.
 void func_ov003_021bfb7c(u32 param_1) {
-    u32 x;
+    volatile u32 x;
     s32 y;
-    x = (data_ov003_021da15c->mUnk_030[12]->mUnk_00 & 0x1ff0000) >> 16;
-    y = data_ov003_021da15c->mUnk_030[12]->mUnk_00 & 0xff;
-    y += 12;
-    func_ov003_021c0154(data_ov003_021da15c->mUnk_11d, 1, y);
+    s32 z;
+    x = ((*(volatile u32 *) &data_ov003_021da15c->mUnk_030[12]->mUnk_00) & 0x1ff0000) >> 16;
+    z = *(volatile u32 *) &data_ov003_021da15c->mUnk_030[12]->mUnk_00 & 0xff;
+    *(volatile s32 *) &y = z;
+    z += 12;
+    *(volatile s32 *) &y = z;
+    func_ov003_021c0154(data_ov003_021da15c->mUnk_11d, 1, z);
     if (y >= 0xc0) {
         func_ov003_021d34e0((Unk021d34e0 *) param_1, func_ov003_021bfb28);
     }
 }
 
-// non-matching: size 0x44 against 0x54. The original keeps the two values in stack offsets 0 and 4 (stores both, adds 12 to
-// the second in a register and stores it again, reloads it for the compare); the compiled code keeps them in registers.
+// placeholder: volatile stack copies and sprite reads retain the original coordinate access order.
 void func_ov003_021bfbd0(u32 param_1) {
-    u32 x;
+    volatile u32 x;
     s32 y;
-    x = (data_ov003_021da15c->mUnk_030[24]->mUnk_00 & 0x1ff0000) >> 16;
-    y = data_ov003_021da15c->mUnk_030[24]->mUnk_00 & 0xff;
-    y += 12;
-    func_ov003_021c0154(data_ov003_021da15c->mUnk_11d, 2, y);
+    s32 z;
+    x = ((*(volatile u32 *) &data_ov003_021da15c->mUnk_030[24]->mUnk_00) & 0x1ff0000) >> 16;
+    z = *(volatile u32 *) &data_ov003_021da15c->mUnk_030[24]->mUnk_00 & 0xff;
+    *(volatile s32 *) &y = z;
+    z += 12;
+    *(volatile s32 *) &y = z;
+    func_ov003_021c0154(data_ov003_021da15c->mUnk_11d, 2, z);
     if (y >= 0xc0) {
         func_ov003_021d34e0((Unk021d34e0 *) param_1, func_ov003_021bfb7c);
     }
 }
 
-// non-matching: size 0x44 against 0x54. The original keeps the two values in stack offsets 0 and 4 (stores both, adds 12 to
-// the second in a register and stores it again, reloads it for the compare); the compiled code keeps them in registers.
+// placeholder: volatile stack copies and sprite reads retain the original coordinate access order.
 void func_ov003_021bfc28(u32 param_1) {
-    u32 x;
+    volatile u32 x;
     s32 y;
-    x = (data_ov003_021da15c->mUnk_030[36]->mUnk_00 & 0x1ff0000) >> 16;
-    y = data_ov003_021da15c->mUnk_030[36]->mUnk_00 & 0xff;
-    y += 12;
-    func_ov003_021c0154(data_ov003_021da15c->mUnk_11d, 3, y);
+    s32 z;
+    x = ((*(volatile u32 *) &data_ov003_021da15c->mUnk_030[36]->mUnk_00) & 0x1ff0000) >> 16;
+    z = *(volatile u32 *) &data_ov003_021da15c->mUnk_030[36]->mUnk_00 & 0xff;
+    *(volatile s32 *) &y = z;
+    z += 12;
+    *(volatile s32 *) &y = z;
+    func_ov003_021c0154(data_ov003_021da15c->mUnk_11d, 3, z);
     if (y >= 0xc0) {
         func_ov003_021d34e0((Unk021d34e0 *) param_1, func_ov003_021bfbd0);
     }
 }
 
-// non-matching: size 0x44 against 0x54. The original keeps the two values in stack offsets 0 and 4 (stores both, adds 12 to
-// the second in a register and stores it again, reloads it for the compare); the compiled code keeps them in registers.
+// placeholder: volatile stack copies and sprite reads retain the original coordinate access order.
 void func_ov003_021bfc80(u32 param_1) {
-    Unk021bf920 *p;
-    u32 x;
+    volatile Unk021bf920 *p;
+    volatile u32 x;
     s32 y;
+    s32 z;
     p = (Unk021bf920 *) func_ov003_021d1974((int) data_ov003_021da15c->mUnk_0fc[0], 0);
-    x = (p->mUnk_00 & 0x1ff0000) >> 16;
-    y = p->mUnk_00 & 0xff;
-    y += 12;
-    func_ov003_021c0154(data_ov003_021da15c->mUnk_11d, 4, y);
+    x = ((*(volatile u32 *) &p->mUnk_00) & 0x1ff0000) >> 16;
+    z = *(volatile u32 *) &p->mUnk_00 & 0xff;
+    *(volatile s32 *) &y = z;
+    z += 12;
+    *(volatile s32 *) &y = z;
+    func_ov003_021c0154(data_ov003_021da15c->mUnk_11d, 4, z);
     if (y >= 0xc0) {
         func_ov003_021d34e0((Unk021d34e0 *) param_1, func_ov003_021bfc28);
     }

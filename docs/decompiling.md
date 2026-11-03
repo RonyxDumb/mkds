@@ -872,6 +872,12 @@ matches. Kinds that have worked:
 - Judgement calls: a tail-call function declared `void` because every caller ignores the result and `void` keeps
   another caller matching.
 
+The coordinate callbacks in `src/03/code_021bf8c0.c`, `code_021c0a40.c` and `code_021c105c.c` keep volatile stack
+copies and sprite reads as placeholders. The original reads the sprite word twice, stores both coordinates (even
+the unused horizontal one), then stores the updated vertical coordinate. The upward callbacks reload it after the
+call; the downward callbacks compare the value still in a register. These accesses match, but the source form of
+the original coordinate getter is still unknown.
+
 These looked like they needed placeholders but were solved by rules: two loads before two compares (enum-typed
 copies), scheduling cycles and enum-zero workarounds (a BOOL-returning callee declared void), literal-order problems
 (wrong strings behind masked addresses).

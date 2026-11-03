@@ -10,76 +10,91 @@
 #include "03/unk_021da000.h"
 #include "03/code_021d1ffc.h"
 
-// non-matching: the original keeps the two coordinate locals in stack memory (extra stores and a reload after the call), size 0x3c against 0x4c
+// placeholder: volatile stack copies and sprite reads retain the original coordinate access order.
 void func_ov003_021c105c(Unk021d34e0 *param_1) {
-    u32 a;
+    volatile u32 a;
     s32 b;
-    Unk021bf920 *p;
+    s32 c;
+    volatile Unk021bf920 *p;
     p = data_ov003_021da160->mUnk_10[0];
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
-    b = p->mUnk_00 & 0xff;
-    b = b + 0xc;
-    func_ov003_021c1364(0, b);
+    c = p->mUnk_00 & 0xff;
+    *(volatile s32 *) &b = c;
+    c += 0xc;
+    *(volatile s32 *) &b = c;
+    func_ov003_021c1364(0, c);
     if (b >= 0xc0) {
         func_ov003_021d34e0(param_1, func_ov003_021c0fd8);
     }
 }
 
-// non-matching: the original keeps the two coordinate locals in stack memory (extra stores and a reload after the call), size 0x3c against 0x4c
+// placeholder: volatile stack copies and sprite reads retain the original coordinate access order.
 void func_ov003_021c10a8(Unk021d34e0 *param_1) {
-    u32 a;
+    volatile u32 a;
     s32 b;
-    Unk021bf920 *p;
+    s32 c;
+    volatile Unk021bf920 *p;
     p = data_ov003_021da160->mUnk_10[3];
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
-    b = p->mUnk_00 & 0xff;
-    b = b + 0xc;
-    func_ov003_021c1364(1, b);
+    c = p->mUnk_00 & 0xff;
+    *(volatile s32 *) &b = c;
+    c += 0xc;
+    *(volatile s32 *) &b = c;
+    func_ov003_021c1364(1, c);
     if (b >= 0xc0) {
         func_ov003_021d34e0(param_1, func_ov003_021c105c);
     }
 }
 
-// non-matching: the original keeps the two coordinate locals in stack memory (extra stores and a reload after the call), size 0x3c against 0x4c
+// placeholder: volatile stack copies and sprite reads retain the original coordinate access order.
 void func_ov003_021c10f4(Unk021d34e0 *param_1) {
-    u32 a;
+    volatile u32 a;
     s32 b;
-    Unk021bf920 *p;
+    s32 c;
+    volatile Unk021bf920 *p;
     p = data_ov003_021da160->mUnk_10[6];
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
-    b = p->mUnk_00 & 0xff;
-    b = b + 0xc;
-    func_ov003_021c1364(2, b);
+    c = p->mUnk_00 & 0xff;
+    *(volatile s32 *) &b = c;
+    c += 0xc;
+    *(volatile s32 *) &b = c;
+    func_ov003_021c1364(2, c);
     if (b >= 0xc0) {
         func_ov003_021d34e0(param_1, func_ov003_021c10a8);
     }
 }
 
-// non-matching: the original keeps the two coordinate locals in stack memory (extra stores and a reload after the call), size 0x3c against 0x4c
+// placeholder: volatile stack copies and sprite reads retain the original coordinate access order.
 void func_ov003_021c1140(Unk021d34e0 *param_1) {
-    u32 a;
+    volatile u32 a;
     s32 b;
-    Unk021bf920 *p;
+    s32 c;
+    volatile Unk021bf920 *p;
     p = data_ov003_021da160->mUnk_10[9];
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
-    b = p->mUnk_00 & 0xff;
-    b = b + 0xc;
-    func_ov003_021c1364(3, b);
+    c = p->mUnk_00 & 0xff;
+    *(volatile s32 *) &b = c;
+    c += 0xc;
+    *(volatile s32 *) &b = c;
+    func_ov003_021c1364(3, c);
     if (b >= 0xc0) {
         func_ov003_021d34e0(param_1, func_ov003_021c10f4);
     }
 }
 
-// non-matching: the original keeps the two coordinate locals in stack memory (extra stores and a reload after the call), size 0x40 against 0x50
+// placeholder: volatile stack copies and sprite reads retain the original coordinate access order.
 void func_ov003_021c118c(Unk021d34e0 *param_1) {
-    u32 a;
+    volatile u32 a;
     s32 b;
-    Unk021bf920 *p;
+    s32 c;
+    volatile Unk021bf920 *p;
     p = (Unk021bf920 *) func_ov003_021d1974((int) data_ov003_021da160->mUnk_40[0], 0);
     a = (p->mUnk_00 & 0x1ff0000) >> 16;
-    b = p->mUnk_00 & 0xff;
-    b = b + 0xc;
-    func_ov003_021c1364(4, b);
+    c = p->mUnk_00 & 0xff;
+    *(volatile s32 *) &b = c;
+    c += 0xc;
+    *(volatile s32 *) &b = c;
+    func_ov003_021c1364(4, c);
     if (b >= 0xc0) {
         func_ov003_021d34e0(param_1, func_ov003_021c1140);
     }
