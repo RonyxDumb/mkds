@@ -45,7 +45,11 @@ static inline void func_0205dee0_inline(void *c, void *e) {
         if (d < 6) {
             f = data_02154904[d];
         }
+#ifdef version_EUR
+        func_ov003_021c2494(c, f, 0);
+#else
         func_ov003_021c2494(c, f, 0x20);
+#endif
         func_02036778();
         func_02005144(0, (u32) e);
     }
