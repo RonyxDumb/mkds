@@ -10,6 +10,65 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "code_0200fc8c.h"
 
+void func_01ffff38(u32 a, const void *b, void *c, u32 d) {
+    vu32 *e;
+    u32 s = func_0200fca0();
+
+    *(vu32 *) (0x4000000 + a * 12 + 0xb0) = (u32) b;
+    e = (vu32 *) ((u32) 0x40000b0 + a * 12);
+    e[1] = (u32) c;
+    e[2] = d;
+    func_0200fcb4(s);
+}
+
+void func_01fffec4(u32 a, const void *b, void *c, u32 d) {
+    vu32 *r = (vu32 *) 0x40000b0;
+    vu32 *e;
+    u32 s = func_0200fca0();
+
+    *(vu32 *) (0x4000000 + a * 12 + 0xb0) = (u32) b;
+    e = (vu32 *) ((u32) r + a * 12);
+    e[1] = (u32) c;
+    e[2] = d;
+    *r;
+    *r;
+    if (a == 0) {
+        e[0] = 0;
+        e[1] = 0;
+        e[2] = 0x81400001;
+    }
+    func_0200fcb4(s);
+}
+
+void func_01fffe8c(u32 a, const void *b, void *c, u32 d) {
+    u32 o = a * 12;
+    vu32 *e = (vu32 *) ((u32) 0x40000b0 + o);
+
+    *(vu32 *) (0x4000000 + o + 0xb0) = (u32) b;
+    e[1] = (u32) c;
+    e[2] = d;
+}
+
+void func_01fffe2c(u32 a, const void *b, void *c, u32 d) {
+    vu32 *r = (vu32 *) 0x40000b0;
+    u32 o = a * 12;
+    vu32 *e;
+
+    *(vu32 *) (0x4000000 + o + 0xb0) = (u32) b;
+    e = (vu32 *) (0x40000b0 + a * 12);
+    e[1] = (u32) c;
+    e[2] = d;
+    *r;
+    *r;
+    if (a == 0) {
+        e[0] = 0;
+        e[1] = 0;
+        e[2] = 0x81400001;
+    }
+    *r;
+    *r;
+}
+
 s32 func_01fff95c(Unk027e00cc *a, Unk020f41c4_A *p, s32 f) {
     s32 i;
     u32 v;
@@ -151,65 +210,4 @@ s32 func_01fff95c(Unk027e00cc *a, Unk020f41c4_A *p, s32 f) {
         }
     }
     return 0;
-}
-
-// non-matching: the stores to +4 and +8 go through ip instead of r4 (6 instructions differ, same size)
-void func_01fffe2c(u32 a, const void *b, void *c, u32 d) {
-    vu32 *r = (vu32 *) 0x40000b0;
-    u32 o = a * 12;
-    vu32 *e;
-
-    *(vu32 *) (0x4000000 + o + 0xb0) = (u32) b;
-    o += (u32) r;
-    e = (vu32 *) o;
-    e[1] = (u32) c;
-    e[2] = d;
-    *r;
-    *r;
-    if (a == 0) {
-        e[0] = 0;
-        e[1] = 0;
-        e[2] = 0x81400001;
-    }
-    *r;
-    *r;
-}
-
-void func_01fffe8c(u32 a, const void *b, void *c, u32 d) {
-    u32 o = a * 12;
-    vu32 *e = (vu32 *) ((u32) 0x40000b0 + o);
-
-    *(vu32 *) (0x4000000 + o + 0xb0) = (u32) b;
-    e[1] = (u32) c;
-    e[2] = d;
-}
-
-void func_01fffec4(u32 a, const void *b, void *c, u32 d) {
-    vu32 *r = (vu32 *) 0x40000b0;
-    vu32 *e;
-    u32 s = func_0200fca0();
-
-    *(vu32 *) (0x4000000 + a * 12 + 0xb0) = (u32) b;
-    e = (vu32 *) ((u32) r + a * 12);
-    e[1] = (u32) c;
-    e[2] = d;
-    *r;
-    *r;
-    if (a == 0) {
-        e[0] = 0;
-        e[1] = 0;
-        e[2] = 0x81400001;
-    }
-    func_0200fcb4(s);
-}
-
-void func_01ffff38(u32 a, const void *b, void *c, u32 d) {
-    vu32 *e;
-    u32 s = func_0200fca0();
-
-    *(vu32 *) (0x4000000 + a * 12 + 0xb0) = (u32) b;
-    e = (vu32 *) ((u32) 0x40000b0 + a * 12);
-    e[1] = (u32) c;
-    e[2] = d;
-    func_0200fcb4(s);
 }
