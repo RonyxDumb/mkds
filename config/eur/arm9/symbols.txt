@@ -10303,12 +10303,12 @@ data_0216ae80 kind:data(any) addr:0x0216ae80
 data_0216ae88 kind:data(any) addr:0x0216ae88
 data_0216aea8 kind:data(any) addr:0x0216aea8
 data_0216aeac kind:data(any) addr:0x0216aeac
-data_0216aff0 kind:data(any) addr:0x0216aff0
-data_0216affc kind:data(any) addr:0x0216affc
-data_0216b00c kind:data(any) addr:0x0216b00c
-data_0216b018 kind:data(any) addr:0x0216b018
-data_0216b024 kind:data(any) addr:0x0216b024
-data_0216b030 kind:data(any) addr:0x0216b030
+@1840 kind:data(any) addr:0x0216aff0 local
+@1841 kind:data(any) addr:0x0216affc local
+@1860 kind:data(any) addr:0x0216b00c local
+@1861 kind:data(any) addr:0x0216b018 local
+@1880 kind:data(any) addr:0x0216b024 local
+@1881 kind:data(any) addr:0x0216b030 local
 data_0216b03c kind:data(any) addr:0x0216b03c
 data_0216b05c kind:data(any) addr:0x0216b05c
 data_0216b07c kind:data(any) addr:0x0216b07c
