@@ -8,15 +8,14 @@
 #include "code_0200fd1c.h"
 #include "code_0214d018.h"
 
-// non-matching: in the case for the value 2, the original computes the record offset (subs; movs #30; muls) before it loads
-// the pointer and adds 36, and the offset and the record pointer are in r1 / r0 (ours r0 / r1), 11 words differ, same size
 void func_ov003_021cf378(u32 a, u32 b, Unk021425e8 *c) {
     Unk021cf260 *s;
     u32 t;
     u16 m;
     u8 *p;
     u8 *m8;
-    s32 o;
+    // placeholder: the enum offset preserves the original record-offset and pointer calculation order.
+    enum { K0 } o;
 
     switch (b) {
     case 2:
