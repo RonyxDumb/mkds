@@ -27,7 +27,6 @@
 #include "Main/Unknown/unk_02154000.h"
 #include "code_02147cd8.h"
 
-// non-matching: +0xa4/+0xa8 the original has moveq r0, #0 before movne r0, #1 (ours the reverse order); same size
 void func_0206d020(Unk0206bcb0 *p, int a, int b) {
     if (p->mUnk_180 != 0) {
         return;
@@ -48,7 +47,16 @@ void func_0206d020(Unk0206bcb0 *p, int a, int b) {
     func_0210a53c(p);
     p->mUnk_48 &= ~0x8000;
     if (p->mUnk_7c & 0x1) {
-        func_02084034(a != 0, p);
+        // placeholder: the enum temporary keeps the two predicated flag assignments in their original order.
+        {
+            enum { ZERO, ONE } v;
+            if (a == 0) {
+                v = 0;
+            } else {
+                v = 1;
+            }
+            func_02084034(v, p);
+        }
         func_02074874(0x1770);
         func_02055c80(5);
         if (a != 3) {
