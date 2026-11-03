@@ -11,9 +11,30 @@
 #include "03/unk_021d7000.h"
 #include "code_0214a390.h"
 
-void func_ov003_021cef90(void) {
-    func_ov003_021d34c8(0, data_ov003_021da284->mUnk_14);
-    data_ov003_021da284->mUnk_14 = func_ov003_021d3544(1, (u32) func_ov003_021ceb54, 0, 0x78);
+u16 func_ov003_021cf1e8(u8 *a) {
+    u16 i;
+    u16 v1;
+    Unk021cf260 *s;
+
+    i = 1;
+    s = data_ov003_021da288;
+    v1 = s->mMask;
+    for (; i < 2; i++) {
+        if ((v1 & (1 << i)) != 0) {
+            u8 *m;
+            u8 *p;
+            // placeholder: the enum offset preserves the original order of the multiply and record address.
+            enum { K0 } o;
+
+            o = (i - 1) * 0x1e;
+            m = s->mRecords[0].mUnk_16;
+            p = m + o;
+            if (a[0] == m[o] && a[1] == p[1] && a[2] == p[2] && a[3] == p[3] && a[4] == p[4] && a[5] == p[5]) {
+                return s->mRecords[i - 1].mUnk_1c;
+            }
+        }
+    }
+    return 0;
 }
 
 void func_ov003_021cefc0(u32 a, s32 b, s32 c, u32 d, u32 e) {
@@ -55,29 +76,7 @@ void func_ov003_021cefc0(u32 a, s32 b, s32 c, u32 d, u32 e) {
     }
 }
 
-// non-matching: `adds r5, r2, #0; adds r5, #36` (pointer to the first byte of the record) comes before
-// `movs r0, #30; muls r1, r0` (the record offset) here and after it in the original, instruction order only, same size
-u16 func_ov003_021cf1e8(u8 *a) {
-    u16 i;
-    u16 v1;
-    Unk021cf260 *s;
-
-    i = 1;
-    s = data_ov003_021da288;
-    v1 = s->mMask;
-    for (; i < 2; i++) {
-        if ((v1 & (1 << i)) != 0) {
-            u8 *m;
-            u8 *p;
-            s32 o;
-
-            o = (i - 1) * 0x1e;
-            m = s->mRecords[0].mUnk_16;
-            p = m + o;
-            if (a[0] == m[o] && a[1] == p[1] && a[2] == p[2] && a[3] == p[3] && a[4] == p[4] && a[5] == p[5]) {
-                return s->mRecords[i - 1].mUnk_1c;
-            }
-        }
-    }
-    return 0;
+void func_ov003_021cef90(void) {
+    func_ov003_021d34c8(0, data_ov003_021da284->mUnk_14);
+    data_ov003_021da284->mUnk_14 = func_ov003_021d3544(1, (u32) func_ov003_021ceb54, 0, 0x78);
 }
