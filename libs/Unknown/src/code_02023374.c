@@ -529,6 +529,12 @@ void func_02023944(Unk02023374 *a, u32 b) {
 
 // non-matching: 95.5%, same instructions; the loop locals are in other registers
 void func_02023764(Unk02023374 *a, u32 b, s32 c, s32 d, s32 e, s32 f) {
+    s32 y1;
+    s32 xx;
+    s32 xend;
+    u8 *q;
+    s32 x1;
+    s32 xw;
     s32 yy;
     s32 xe;
     s32 ye;
@@ -538,13 +544,8 @@ void func_02023764(Unk02023374 *a, u32 b, s32 c, s32 d, s32 e, s32 f) {
     s32 fmt;
     s32 bpt;
     s32 rowstep;
-    s32 yh;
-    s32 y1;
-    s32 xx;
-    s32 xend;
-    u8 *q;
-    s32 x1;
-    s32 xw;
+    // placeholder: this enum temporary reproduces the original instruction order.
+    enum { LOCAL_ZERO = 0 } yh;
 
     fmt = a->mUnk_0c;
     xe = c + e;
