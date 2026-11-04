@@ -160,3 +160,21 @@ Fifteen newly matching functions use explicitly marked enum temporaries or volat
 original source forms remain unknown; their compiled code and references are verified. The EUR call argument
 in `func_0205dee0_inline` is verified as zero. The existing non-EUR value `0x20` is preserved, but its value
 in the USA original has not been verified here, and no fresh USA build was run.
+
+
+## European source checkpoint, 2026-11-04
+
+The shared sources now use European reference names for **470 initialized data symbols** that already had
+zero-addend European linker aliases. The USA symbol names change with the source; their addresses, kinds,
+sizes and attributes are unchanged. The original European symbols and data boundaries are retained.
+
+Sixteen reconstructed function candidates cover the main game code, libraries, ITCM and overlays 0 and 3.
+They adjust declaration and initialization order, signedness and narrow local types, remove redundant address
+casts, and preserve separate return blocks. Enum temporaries and const/volatile views are explicitly marked
+as placeholders: their original source forms remain unknown. All candidate units remain unlinked.
+
+Fresh compiler and ROM validation could not be completed for this reconstructed checkpoint. These candidates
+are **not added to the verified matching totals**. The recorded European progress remains the previous
+verified point: 10,822 of 11,499 functions and 1,576,764 matching bytes (83.60%). Rebuild and run the checks
+listed above before updating those totals or marking additional units complete. Declaration/signature
+consistency and unchanged USA symbol addresses were checked for this checkpoint.
