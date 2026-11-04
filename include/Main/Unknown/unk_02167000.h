@@ -3,18 +3,18 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
-extern const char data_usa_02167418[];
-extern const char data_usa_0216745c[];
-extern const char data_usa_021674d4[];
-extern const char data_usa_021674e4[];
-extern const char data_usa_021674f4[];
-extern const char data_usa_02167504[];
+extern const char data_02167418[];
+extern const char data_0216745c[];
+extern const char data_021674d4[];
+extern const char data_021674e4[];
+extern const char data_021674f4[];
+extern const char data_02167504[];
 extern const char data_02167680[];
 extern const char data_02167878[];
 extern const char data_02167888[];
 extern const char data_021678cc[];
 extern const char data_021678dc[];
-extern s32 data_usa_021679f8;
+extern s32 data_021679f8;
 extern u16 data_021679fc[3];
 extern u16 *data_02167a04[4];
 extern Vec3 data_021676c4;

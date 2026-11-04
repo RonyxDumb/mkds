@@ -224,7 +224,7 @@ void func_0202d210(void *a, void *b, void *c) {
                   func_0204799c);
     func_02025a50(0, data_02174e40->mUnk_0dc, p);
     for (i = 0; i < p->mUnk_14->mUnk_06; i++) {
-        n -= func_02025a00(0, data_02174e40->mUnk_0dc, p, data_usa_02153bec[i], n);
+        n -= func_02025a00(0, data_02174e40->mUnk_0dc, p, data_02153bec[i], n);
     }
     func_020258d4(1, &data_02174e40->mUnk_024, data_usa_02162e24, data_usa_02162e44, data_usa_02162e64, 3,
                   func_0204799c);

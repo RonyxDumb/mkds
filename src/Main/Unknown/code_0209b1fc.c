@@ -109,5 +109,5 @@ void func_0209b388(Unk0209a7dc *a, Vec3 *b, Vec3 *c, Vec3 *d) {
     a->mUnk_000.mUnk_10.y = 0x4000;
     a->mUnk_0a4 = 0x12c;
     a->mUnk_114 = 2;
-    a->mUnk_000.mUnk_02 |= data_usa_0215659c;
+    a->mUnk_000.mUnk_02 |= data_0215659c;
 }

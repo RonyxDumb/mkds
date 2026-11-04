@@ -30,20 +30,20 @@ void func_02048498(char *a, s32 b, s32 c) {
     const char *f;
 
     d = 0;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 && data_usa_02154228[b].mUnk_04 == 1) {
+    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 && data_02154228[b].mUnk_04 == 1) {
         d = 1;
     }
     if (c != 0) {
-        e = data_usa_02165164;
+        e = data_02165164;
     } else {
-        e = data_usa_02165168;
+        e = data_02165168;
     }
     if (d != 0) {
-        f = data_usa_0216516c;
+        f = data_0216516c;
     } else {
-        f = data_usa_02165170;
+        f = data_02165170;
     }
-    func_0200d9e0(a, 0x80, data_usa_02165174, data_usa_02154228[b].mUnk_00, f, e);
+    func_0200d9e0(a, 0x80, data_02165174, data_02154228[b].mUnk_00, f, e);
 }
 
 void *func_02048504(const char *a, s32 b) {

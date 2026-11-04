@@ -97,7 +97,7 @@ void func_02047cf0(int a) {
     if (data_021759c8->mUnk_00[a].mUnk_68 != 0 && a != 0x13) {
         func_02018314(&data_021759c8->mUnk_00[a].mUnk_00.mUnk_00);
         if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-            c = data_usa_021543e0[a].mUnk_08;
+            c = data_021543e0[a].mUnk_08;
             if (c != -1 && data_021759c8->mUnk_9b0[c].mUnk_08_29 != 0) {
                 b = 0;
             } else {
@@ -193,7 +193,7 @@ void func_02047f7c(s32 a, const u8 *b, u32 *c, void *d, s32 e, s32 f, s32 g) {
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         if (p->mUnk_80 != 0) {
             if (p->mUnk_94 != 0) {
-                h = data_usa_021543e0[a].mUnk_08;
+                h = data_021543e0[a].mUnk_08;
                 if (h != -1) {
                     data_021759c8->mUnk_9b0[h].mUnk_08_31 = 1;
                 }
@@ -226,10 +226,10 @@ void func_02048050(int a, int b) {
     if (data_021759c8->mUnk_00[a].mUnk_68 != 0) {
         return;
     }
-    e = data_usa_021543e0[a].mUnk_0c;
-    f = data_usa_021543e0[a].mUnk_10;
-    g = data_usa_021543e0[a].mUnk_14;
-    h = data_usa_021543e0[a].mUnk_08;
+    e = data_021543e0[a].mUnk_0c;
+    f = data_021543e0[a].mUnk_10;
+    g = data_021543e0[a].mUnk_14;
+    h = data_021543e0[a].mUnk_08;
     if (h != -1) {
         d = data_021759c8->mUnk_9b0[h].mUnk_04;
     }
@@ -258,14 +258,14 @@ void func_02048050(int a, int b) {
                     if (data_021759c0->mUnk_00c == 6) {
                         func_0200d9e0((char *) c, 0x80, data_usa_02165058);
                     } else {
-                        func_020483e4((u32) c, (u8 *) data_usa_021541a8[b].mUnk_00);
+                        func_020483e4((u32) c, (u8 *) data_021541a8[b].mUnk_00);
                     }
                     break;
                 default:
-                    func_020483e4((u32) c, (u8 *) data_usa_021541a8[b].mUnk_00);
+                    func_020483e4((u32) c, (u8 *) data_021541a8[b].mUnk_00);
                     break;
             }
-            g = data_usa_021541a8[b].mUnk_04;
+            g = data_021541a8[b].mUnk_04;
             break;
         case 9:
             switch (b) {
@@ -287,24 +287,24 @@ void func_02048050(int a, int b) {
                     if (data_021759c0->mUnk_00c == 6) {
                         func_02048324((u32) c);
                     } else {
-                        func_0204840c((u32) c, (u8 *) data_usa_021541a8[b].mUnk_00);
+                        func_0204840c((u32) c, (u8 *) data_021541a8[b].mUnk_00);
                     }
                     break;
                 default:
-                    func_0204840c((u32) c, (u8 *) data_usa_021541a8[b].mUnk_00);
+                    func_0204840c((u32) c, (u8 *) data_021541a8[b].mUnk_00);
                     break;
             }
             break;
         case 11:
-            func_020482f0((u32) c, (u8 *) data_usa_021541a8[b].mUnk_00, data_021759c0->mUnk_08);
+            func_020482f0((u32) c, (u8 *) data_021541a8[b].mUnk_00, data_021759c0->mUnk_08);
             break;
         case 12:
-            func_020482ac((int) c, (u8 *) data_usa_021541a8[b].mUnk_00, data_021759c0->mUnk_08);
+            func_020482ac((int) c, (u8 *) data_021541a8[b].mUnk_00, data_021759c0->mUnk_08);
             break;
         case 2:
         case 15:
         case 17:
-            func_02048284((u32) data_usa_021543e0[a].mUnk_00, (u32) c);
+            func_02048284((u32) data_021543e0[a].mUnk_00, (u32) c);
             break;
         case 0:
         case 1:
@@ -315,14 +315,14 @@ void func_02048050(int a, int b) {
         case 14:
         case 16:
         case 18:
-            func_0213a228(c, (const u8 *) data_usa_021543e0[a].mUnk_00, 0x80);
+            func_0213a228(c, (const u8 *) data_021543e0[a].mUnk_00, 0x80);
             break;
     }
     if (c[0] != 0) {
         func_02047f7c(a, c, d, 0, f, e, g);
     }
-    if (data_usa_021543e0[a].mUnk_04 != -1) {
-        func_02048050(data_usa_021543e0[a].mUnk_04, b);
+    if (data_021543e0[a].mUnk_04 != -1) {
+        func_02048050(data_021543e0[a].mUnk_04, b);
     }
 }
 

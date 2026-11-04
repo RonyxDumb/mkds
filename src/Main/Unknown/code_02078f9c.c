@@ -9,8 +9,8 @@
 void func_02078f9c(void *param_1) {
     void *a;
     void *b;
-    func_0207913c(param_1, data_usa_02165760, &a);
-    func_0207913c(param_1, data_usa_0216577c, &b);
+    func_0207913c(param_1, data_02165760, &a);
+    func_0207913c(param_1, data_0216577c, &b);
     data_0217ad08->mUnk_1cc = func_02036bec(param_1, 0x6c);
     func_02084d3c(data_0217ad08->mUnk_1cc, a, b);
     func_020849c0(data_0217ad08->mUnk_1cc, 2);

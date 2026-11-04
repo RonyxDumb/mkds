@@ -308,7 +308,7 @@ void func_01ff9e5c(Unk0206bcb0 *p) {
     p->mUnk_3e0 = (r & 0x1f00) >> 8;
     p->mUnk_3e4 = (u32) ((r & 0xe0) << 11) >> 16;
     a = 0x1000;
-    k = data_usa_02154d8c[p->mUnk_3e0](p);
+    k = data_02154d8c[p->mUnk_3e0](p);
     if (k != 0) {
         a = p->mUnk_2cc->mUnk_68[k];
     }

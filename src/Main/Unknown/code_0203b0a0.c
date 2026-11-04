@@ -46,7 +46,7 @@ void func_0203b0f8(void *a) {
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         func_0204f240(a, 1);
     } else {
-        r = func_0204799c(data_usa_0216478c);
+        r = func_0204799c(data_0216478c);
     }
     t = data_021759d0->mUnk_20;
     f = 1;
@@ -184,7 +184,7 @@ void func_0203b4c8(Unk02056bc0 *a) {
     a->mUnk_19 = data_0217b488->mUnk_90;
     a->mUnk_1a = data_0217b488->mUnk_94;
     a->mUnk_1b = 0;
-    a->mUnk_1c = data_usa_02154064[data_0217b488->mUnk_7c];
+    a->mUnk_1c = data_02154064[data_0217b488->mUnk_7c];
     a->mUnk_1d = data_0217b488->mUnk_a8;
     a->mUnk_1e = data_0217b488->mUnk_80;
     a->mUnk_18 = 1;

@@ -241,9 +241,9 @@ void func_020651fc(Unk0206bcb0 *a) {
             a->mUnk_7c = a->mUnk_7c & ~0x80;
             return;
         }
-        a->mUnk_41c.x = data_usa_02154de4[c];
-        a->mUnk_41c.y = data_usa_02154e48[c];
-        a->mUnk_41c.z = data_usa_02154eac[c];
+        a->mUnk_41c.x = data_02154de4[c];
+        a->mUnk_41c.y = data_02154e48[c];
+        a->mUnk_41c.z = data_02154eac[c];
         a->mUnk_bc.x = (s64) a->mUnk_428.x * a->mUnk_41c.x >> 12;
         a->mUnk_bc.y = (s64) a->mUnk_428.y * a->mUnk_41c.y >> 12;
         a->mUnk_bc.z = (s64) a->mUnk_428.z * a->mUnk_41c.z >> 12;

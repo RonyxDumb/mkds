@@ -3,10 +3,10 @@
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
 
-extern const u32 data_usa_02154a84[];
-extern const u32 data_usa_02154ac4[];
-extern const u32 data_usa_02154ae4[];
-extern const u32 data_usa_02154b24[];
+extern const u32 data_02154a84[];
+extern const u32 data_02154ac4[];
+extern const u32 data_02154ae4[];
+extern const u32 data_02154b24[];
 
 s32 func_02067a2c(Unk0206bcb0 *p);
 s32 func_02067a64(Unk0206bcb0 *p);

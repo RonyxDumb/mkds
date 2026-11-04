@@ -91,14 +91,14 @@ void func_0202428c(Unk02180728 *a, s32 b, s32 c, s32 d, s32 e, s32 f, u32 g, u16
 }
 
 // clang-format off
-// Walks two block sizes (c by d, with the limits a by b) down through the table data_usa_021530f8, which gives the shifts
+// Walks two block sizes (c by d, with the limits a by b) down through the table data_021530f8, which gives the shifts
 // e and f for the base-2 logarithms of the remaining sizes (each capped at 3 once it is 8 or more), and returns the sum
 // of the areas it peels off. It stops when a whole block no longer fits and adds the remainder of the position.
 // Not compiled code: it takes the logarithms with clz, which 1.2 never builds (docs/compiler.md).
 asm u32 func_02024184(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f) {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
     sub sp, sp, #0x4
-    ldr r11, =data_usa_021530f8
+    ldr r11, =data_021530f8
     mov r9, #0x0
     mov r10, #0x3
     mvn r7, #0x0
@@ -708,7 +708,7 @@ void func_02023408(void *p0, void *p1, u32 p2, u32 p3, u32 p4) {
 }
 
 // clang-format off
-// Looks up the pair of bytes in data_usa_021530f8 for the base-2 logarithms of c and d (each capped at 3 once it is 8
+// Looks up the pair of bytes in data_021530f8 for the base-2 logarithms of c and d (each capped at 3 once it is 8
 // or more) and passes the pair, as a word, with the other arguments and three callbacks to func_02023510.
 // Not compiled code: it takes the logarithms with clz, which 1.2 never builds (docs/compiler.md).
 asm void func_02023374(void *a, void *b, s32 c, s32 d, s32 e) {
@@ -724,7 +724,7 @@ asm void func_02023374(void *a, void *b, s32 c, s32 d, s32 e) {
     movge r6, #0x3
     clzlt r4, r4
     rsblt r6, r4, #0x1f
-    ldr r4, =data_usa_021530f8
+    ldr r4, =data_021530f8
     ldr r5, [sp, #0x28]
     add r4, r4, r6, lsl #0x3
     ldrb r6, [r4, ip, lsl #0x1]

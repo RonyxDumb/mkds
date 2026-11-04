@@ -163,7 +163,7 @@ void func_0207940c(Unk02084b2c *a, s32 b, void *c) {
         p = (u8 *) a->mUnk_04;
         d = (u8 *) c + b / 3 * 0x20;
         func_0200ee74(d, 0x10);
-        i = func_02013754(p + *(s32 *) (p + 8) + 4, data_usa_02155088);
+        i = func_02013754(p + *(s32 *) (p + 8) + 4, data_02155088);
         q = p + *(s32 *) (p + 8);
         t = q + 4 + *(u16 *) (q + 0xa);
         k = *(u16 *) (q + *(s32 *) (t + *(u16 *) t * i + 4) + 0x1c) << 4;
@@ -200,7 +200,7 @@ void func_020794bc(Unk0206bcb0_590 *a, void *b, s32 c) {
     func_020849c0(a->mUnk_014, 3);
     func_0207a14c(r4, 0);
     if (c != 0) {
-        i = func_02013754((u8 *) r4 + r4->mUnk_08 + 4, data_usa_021550b8);
+        i = func_02013754((u8 *) r4 + r4->mUnk_08 + 4, data_021550b8);
         func_02013468(r4, i, 0);
         data_0217ad00->mUnk_00c = i;
     }

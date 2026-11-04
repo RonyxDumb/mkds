@@ -10,12 +10,12 @@ typedef struct Unk02154228 {
     /* 05 */ u8 mUnk_05[0x3];
 } Unk02154228;
 
-extern const char data_usa_02165164[];
-extern const char data_usa_02165168[];
-extern const char data_usa_0216516c[];
-extern const char data_usa_02165170[];
-extern const char data_usa_02165174[];
-extern Unk02154228 data_usa_02154228[];
+extern const char data_02165164[];
+extern const char data_02165168[];
+extern const char data_0216516c[];
+extern const char data_02165170[];
+extern const char data_02165174[];
+extern Unk02154228 data_02154228[];
 
 u32 func_02048474(void);
 void func_02048498(char *a, s32 b, s32 c);

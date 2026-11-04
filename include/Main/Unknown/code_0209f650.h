@@ -22,10 +22,10 @@ typedef struct Unk0209f800 {
     /* 04 */ u16 mUnk_04;
 } Unk0209f800;
 
-extern char data_usa_0216759c[];
-extern char data_usa_021675b0[];
-extern char data_usa_021675f8[];
-extern char data_usa_02167608[];
+extern char data_0216759c[];
+extern char data_021675b0[];
+extern char data_021675f8[];
+extern char data_02167608[];
 extern void *data_usa_0217b188;
 extern Unk020e71a0_98 *data_usa_0217b18c[19];
 

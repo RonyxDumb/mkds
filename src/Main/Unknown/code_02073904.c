@@ -30,12 +30,12 @@ void func_02073904(Unk02073904 *p) {
         func_021484d0(&p->mUnk_024, &p->mUnk_018, &d);
         l = func_02073904_inline(&d, &d);
         if (l != 0) {
-            k = data_usa_021656a8;
+            k = data_021656a8;
             r = &data_0217561c->mUnk_498;
             r->mUnk_00 = r->mUnk_08 * r->mUnk_00 + r->mUnk_10;
-            s = (s32) (((s64) data_usa_021656ac * l) >> 12);
+            s = (s32) (((s64) data_021656ac * l) >> 12);
             h = (s16) (u16) (r->mUnk_00 >> 52);
-            s = (s32) (((s64) (s + 0x1000) * data_usa_021656c8) >> 12);
+            s = (s32) (((s64) (s + 0x1000) * data_021656c8) >> 12);
             m = (s32) (((s64) s * ((h - 0x800) * 2)) >> 12);
             a.x = (s32) (((s64) p->mUnk_00c.x * m) >> 12);
             a.y = (s32) (((s64) p->mUnk_00c.y * m) >> 12);
@@ -65,24 +65,24 @@ void func_02073904(Unk02073904 *p) {
             func_02148504(&a, &b, &p->mUnk_100);
         }
     }
-    s = data_usa_021656b0;
+    s = data_021656b0;
     func_021484d0(&p->mUnk_100, &p->mUnk_118, &e);
     e.x = (s32) (((s64) e.x * s) >> 12);
     e.y = (s32) (((s64) e.y * s) >> 12);
     e.z = (s32) (((s64) e.z * s) >> 12);
     func_02148504(&p->mUnk_118, &e, &p->mUnk_118);
-    s = data_usa_021656a4;
+    s = data_021656a4;
     func_021484d0(&p->mUnk_0f4, &p->mUnk_10c, &f);
     f.x = (s32) (((s64) f.x * s) >> 12);
     f.y = (s32) (((s64) f.y * s) >> 12);
     f.z = (s32) (((s64) f.z * s) >> 12);
     func_02148504(&p->mUnk_10c, &f, &p->mUnk_10c);
-    i = -data_usa_021656cc[p->mUnk_130 - 1];
+    i = -data_021656cc[p->mUnk_130 - 1];
     g.x = (s32) (((s64) p->mUnk_10c.x * i) >> 12);
     g.y = (s32) (((s64) p->mUnk_10c.y * i) >> 12);
     g.z = (s32) (((s64) p->mUnk_10c.z * i) >> 12);
     func_02148504(&g, &p->mUnk_124, &p->mUnk_124);
-    s = data_usa_021656bc;
+    s = data_021656bc;
     p->mUnk_124.x = (s32) (((s64) p->mUnk_124.x * s) >> 12);
     p->mUnk_124.y = (s32) (((s64) p->mUnk_124.y * s) >> 12);
     p->mUnk_124.z = (s32) (((s64) p->mUnk_124.z * s) >> 12);

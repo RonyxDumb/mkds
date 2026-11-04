@@ -230,7 +230,7 @@ s32 func_01ffc158(Unk0206bcb0 *p, s16 a, s16 b, s32 c, s32 d, u32 e) {
             x = x + k;
         }
     } else {
-        m = data_usa_021654c0 * b;
+        m = data_021654c0 * b;
         x = a - (s32) (((s64) m * p->mUnk_2a0) >> 12);
     }
     if (f & 0x10) {
@@ -487,7 +487,7 @@ void func_01ffc9e8(Unk0206bcb0 *p, s32 a) {
     s32 d;
 
     c = (p->mUnk_7c & 1) ? 3 : 2;
-    b = data_usa_0216ca38[a];
+    b = data_0216ca58[a];
     d = func_02086080(p->mUnk_74);
     func_0210ddf4(&(&data_0217d26c)[c], d + b, func_02071980, p, a);
 }

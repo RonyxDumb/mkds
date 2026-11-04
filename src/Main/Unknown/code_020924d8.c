@@ -105,7 +105,7 @@ void func_02092928(void *a) {
 }
 
 void func_02092940(void *a) {
-    data_usa_0217b0a4 = func_0209bc74(a, data_usa_02166698, data_usa_021666a8);
+    data_usa_0217b0a4 = func_0209bc74(a, data_02166698, data_021666a8);
     func_0209b940(data_usa_0217b0a4, 0x3f);
 }
 

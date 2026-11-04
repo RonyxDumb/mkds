@@ -56,7 +56,7 @@ static inline void func_0209f6d8_inline(Unk0209f6d8 *p) {
 }
 
 void func_0209f650(void *a) {
-    func_0209be50(*(void **) &data_0217b1a4 = func_0209be84(a, data_usa_0216759c), data_usa_021675b0);
+    func_0209be50(*(void **) &data_0217b1a4 = func_0209be84(a, data_0216759c), data_021675b0);
     func_0209b940(*(void **) &data_0217b1a4, 0x3f);
 }
 
@@ -157,7 +157,7 @@ void func_0209fb0c(void *a, Unk0209f6d8 *p) {
 
 void func_0209fbe4(Unk0209bc74 *a) {
     a->mUnk_14 = (void *) func_0209fc2c;
-    func_0209b940(data_usa_0217b188 = func_0209bc74(a, data_usa_021675f8, data_usa_02167608), 0x3f);
+    func_0209b940(data_usa_0217b188 = func_0209bc74(a, data_021675f8, data_02167608), 0x3f);
 }
 
 void func_0209fc2c(void) {

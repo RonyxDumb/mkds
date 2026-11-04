@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_0207adf8.h"
 
-extern void (*data_usa_021655e4[])(Unk0206bcb0 *a);
+extern void (*data_021655e4[])(Unk0206bcb0 *a);
 
 void func_0207a8c4(Vec3 *a, s32 b);
 void func_0207a8f0(Vec3 *a, s32 b);

@@ -60,13 +60,13 @@ s32 func_0207a2a8(s32 *a) {
     if (data_0217ad20 == 0) {
         return 0;
     }
-    *a = data_usa_021658c0;
+    *a = data_021658c0;
     return 1;
 }
 
 void func_0207a2d4(s32 a) {
-    if (data_usa_021658c0 < 0 || a < data_usa_021658c0) {
-        data_usa_021658c0 = a;
+    if (data_021658c0 < 0 || a < data_021658c0) {
+        data_021658c0 = a;
         data_0217ad20 = 1;
     }
 }

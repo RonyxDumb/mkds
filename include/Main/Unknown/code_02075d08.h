@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_020748b8.h"
 #include "Main/Unknown/code_02073eb8.h"
 
-extern s32 data_usa_021656c0;
+extern s32 data_021656c0;
 extern s32 data_usa_021656c4;
 extern s32 data_usa_0217ac80;
 extern s32 data_usa_0217ac90;

@@ -131,7 +131,7 @@ void func_0206e874(Unk0206bcb0 *p) {
                     if (g != 0) {
                         m = 0x1000;
                     } else {
-                        m = ((s64) (0x1000 - s) * (s32) (((s64) p->mUnk_2a4 * data_usa_021654ec) >> 12)) >> 12;
+                        m = ((s64) (0x1000 - s) * (s32) (((s64) p->mUnk_2a4 * data_021654ec) >> 12)) >> 12;
                     }
                     if (p->mUnk_2a4 > 0x2000 || g != 0) {
                         if (n < 2) {
@@ -202,7 +202,7 @@ void func_0206edac(Unk0206bcb0 *p, Vec3 *a) {
     p->mUnk_44 |= 0x10000;
     if (p->mUnk_4dc <= 0) {
         k = (p->mUnk_7c & 1) ? 3 : 2;
-        x = data_usa_0216ca38[2];
+        x = data_0216ca58[2];
         c = func_02086080(p->mUnk_74);
         func_0210ddf4(&data_0217d26c + k, c + x, (void (*)(void *, int)) func_02071958, p, 2);
         func_02071318(p, 0);

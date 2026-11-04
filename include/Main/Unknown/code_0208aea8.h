@@ -26,12 +26,12 @@ typedef struct Unk02166108 {
 typedef Unk020184e4 *Unk0217b050Func(s32 *a, s32 b);
 
 extern Unk0217b048 *data_0217b048;
-extern char data_usa_021660c8[];
-extern char data_usa_021660e0[];
+extern char data_021660c8[];
+extern char data_021660e0[];
 extern Unk021660f8 data_usa_021660f8;
 extern Unk02166108 data_usa_02166108;
 extern s32 data_usa_02155f48[];
-extern Vec3 data_usa_02155f78[];
+extern Vec3 data_02155f78[];
 extern Vec3 data_usa_02155fc0;
 
 void func_0208aea8(u32 a, u32 b, u32 c);

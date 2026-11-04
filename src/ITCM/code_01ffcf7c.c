@@ -43,7 +43,7 @@ s32 func_01ffd0e8(Vec4 *a, const Vec3 *b, const Vec3 *c) {
     s32 k = 1;
     func_021483a0(b, c, &v);
     r = func_02147e8c((func_0214848c(b, c) + 0x1000) << 1);
-    *a = data_usa_02155194;
+    *a = data_02155194;
     if (r <= 0) {
         k = 0;
     } else {

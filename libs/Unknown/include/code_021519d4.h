@@ -11,7 +11,7 @@ typedef struct Unk02151ddc {
     /* 14 */ u32 mUnk_14;
 } Unk02151ddc;
 
-extern const u8 data_usa_0216172c[];
+extern const u8 data_0216172c[];
 
 void func_021519d4(u8 *a, u32 b);
 s32 func_02151a00(u8 *a);

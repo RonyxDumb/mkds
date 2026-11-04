@@ -217,7 +217,7 @@ void func_0203abdc(void) {
 
 void func_0203ad58(void *a) {
     Unk021755a0 *b;
-    b = func_02038d88(a, data_usa_02164718[data_021759c0->mUnk_00c]);
+    b = func_02038d88(a, data_02164718[data_021759c0->mUnk_00c]);
     func_02038c9c(b, 1, 1);
     func_02038d58(&b->mUnk_28, 1, 0, 0, 1, 0, 0, 0);
     switch (data_021759c0->mUnk_00c) {
@@ -266,6 +266,6 @@ int func_0203b018(u32 a, void *b, u32 c) {
     if (v == -1) {
         return 0;
     }
-    func_0200d9e0(b, c, data_usa_02164754, v & 0xff);
+    func_0200d9e0(b, c, data_02164754, v & 0xff);
     return 1;
 }

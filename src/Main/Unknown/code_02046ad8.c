@@ -12,7 +12,7 @@ void func_02046ad8(void) {
 void func_02046ae4(void) {
     u8 *p;
 
-    p = func_02038d88(func_020364e0(func_020364e8()), data_usa_02154868);
+    p = func_02038d88(func_020364e0(func_020364e8()), data_02154868);
     func_02038d28(p + 0x28, 0, 0, 0, 0, 4, 0, 0);
     func_02037abc(p);
 }

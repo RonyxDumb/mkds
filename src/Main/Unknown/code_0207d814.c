@@ -46,15 +46,15 @@ u16 func_0207d8e4(s32 a) {
     s32 i;
     Unk0217aebc_128 *r;
 
-    v[0] = data_usa_021658f8[0];
-    v[1] = data_usa_021658f8[1];
-    v[2] = data_usa_021658f8[2];
-    v[3] = data_usa_02165908[0];
-    v[4] = data_usa_02165908[1];
-    v[5] = data_usa_02165908[2];
-    v[6] = data_usa_02165900[0];
-    v[7] = data_usa_02165900[1];
-    v[8] = data_usa_02165900[2];
+    v[0] = data_021658f8[0];
+    v[1] = data_021658f8[1];
+    v[2] = data_021658f8[2];
+    v[3] = data_02165908[0];
+    v[4] = data_02165908[1];
+    v[5] = data_02165908[2];
+    v[6] = data_02165900[0];
+    v[7] = data_02165900[1];
+    v[8] = data_02165900[2];
     p = &v[6];
     if (a != 0) {
         i = 2;
@@ -156,7 +156,7 @@ void func_0207d9f0(struct Unk02089a24 *a, struct Unk020888b4 *b, s32 c) {
         a->mUnk_18 = 1;
     } else if (n == e) {
         if (n == 1) {
-            d = func_020854a0((u16) n, data_usa_021658f0);
+            d = func_020854a0((u16) n, data_021658f0);
             if (d >= 0) {
                 g = func_020853a4(m);
                 g -= func_020853a4((u16) d);

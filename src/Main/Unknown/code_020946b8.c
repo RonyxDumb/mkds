@@ -191,7 +191,7 @@ void func_02094d9c(void *a) {
 }
 
 void func_02094db4(Unk02094db4 *a) {
-    data_0217b0dc = func_0209bc74(a, data_usa_021667f4, data_usa_02166804);
+    data_0217b0dc = func_0209bc74(a, data_021667f4, data_02166804);
     func_0209b940(data_0217b0dc, 0x3f);
     a->mUnk_1c = 1;
 }

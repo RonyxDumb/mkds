@@ -10,22 +10,22 @@
 void func_020ab9d0(u32 a) {
     switch (a) {
         case 0:
-            func_020a9f40(data_0217b334->mUnk_28[a], data_0217b334->mUnk_10[a], data_usa_021567fc[a]);
+            func_020a9f40(data_0217b334->mUnk_28[a], data_0217b334->mUnk_10[a], data_021567fc[a]);
             break;
         case 1:
-            func_020a9ff4(data_0217b334->mUnk_28[a], data_0217b334->mUnk_10[a], data_usa_021567fc[a]);
+            func_020a9ff4(data_0217b334->mUnk_28[a], data_0217b334->mUnk_10[a], data_021567fc[a]);
             break;
         case 2:
-            func_020a9fc4(data_0217b334->mUnk_28[a], data_0217b334->mUnk_10[a], data_usa_021567fc[a]);
+            func_020a9fc4(data_0217b334->mUnk_28[a], data_0217b334->mUnk_10[a], data_021567fc[a]);
             break;
         case 3:
-            func_020a9f98(data_0217b334->mUnk_28[a], data_0217b334->mUnk_10[a], data_usa_021567fc[a]);
+            func_020a9f98(data_0217b334->mUnk_28[a], data_0217b334->mUnk_10[a], data_021567fc[a]);
             break;
         case 4:
-            func_020a9f6c(data_0217b334->mUnk_28[a], data_0217b334->mUnk_10[a], data_usa_021567fc[a]);
+            func_020a9f6c(data_0217b334->mUnk_28[a], data_0217b334->mUnk_10[a], data_021567fc[a]);
             break;
         case 5:
-            func_020a9f40(data_0217b334->mUnk_28[a], data_0217b334->mUnk_10[a], data_usa_021567fc[a]);
+            func_020a9f40(data_0217b334->mUnk_28[a], data_0217b334->mUnk_10[a], data_021567fc[a]);
             break;
     }
     data_0217b334->mUnk_4c = a;

@@ -614,8 +614,8 @@ void func_01ff8e64(Unk02170500 *s, Unk02170500_04 *i) {
     s->mUnk_d4 = (Unk02170500_d4 *) ((u8 *) i->mUnk_04 + 0x40);
     s->mUnk_d8 = (u8 *) i->mUnk_04 + i->mUnk_04->mUnk_08;
     s->mUnk_dc = (u8 *) i->mUnk_04 + i->mUnk_04->mUnk_0c;
-    s->mUnk_e8 = (UnkFunc *) data_usa_02161850[i->mUnk_04->mUnk_15];
-    s->mUnk_ec = data_usa_02161844[i->mUnk_04->mUnk_15];
+    s->mUnk_e8 = (UnkFunc *) data_02161850[i->mUnk_04->mUnk_15];
+    s->mUnk_ec = data_02161844[i->mUnk_04->mUnk_15];
     s->mUnk_f0 = data_0216185c[i->mUnk_04->mUnk_16];
     s->mUnk_e0 = i->mUnk_04->mUnk_1c;
     s->mUnk_e4 = i->mUnk_04->mUnk_20;
@@ -648,7 +648,7 @@ void func_01ff8ff8(Unk02170500 *s) {
     do {
         s->mUnk_08 &= ~0x40;
         v1 = s->mUnk_00[0];
-        data_usa_0216196c[v1 & 0x1f](s, v1 & 0xe0);
+        data_0216196c[v1 & 0x1f](s, v1 & 0xe0);
     } while (!(s->mUnk_08 & 0x20));
 }
 

@@ -31,8 +31,8 @@ typedef struct Unk0209905c {
     /* d0 */ Unk0209905c_d0 *mUnk_d0;
 } Unk0209905c;
 
-extern u16 data_usa_02156590;
-extern u32 data_usa_02156594;
+extern u16 data_02156590;
+extern u32 data_02156594;
 
 void func_0209905c(void *a, Unk0209905c *p);
 u32 func_02099208(Unk0209905c *a, Unk0206bcb0 *b, u8 *c, u8 *d);

@@ -13,16 +13,16 @@ typedef struct Unk0206b020 {
     /* 40 */ Vec3 mUnk_40;
 } Unk0206b020;
 
-extern const s16 data_usa_02154a54[];
-extern const s16 data_usa_021654c4;
-extern const s32 data_usa_021654d0;
-extern const s32 data_usa_021654d4;
-extern const s32 data_usa_021654e0;
-extern const s32 data_usa_021654e4;
-extern const s32 data_usa_021654e8;
-extern const s32 data_usa_021654f0;
-extern const s32 data_usa_02165508;
-extern const s32 data_usa_0216550c;
+extern const s16 data_02154a54[];
+extern const s16 data_021654c4;
+extern const s32 data_021654d0;
+extern const s32 data_021654d4;
+extern const s32 data_021654e0;
+extern const s32 data_021654e4;
+extern const s32 data_021654e8;
+extern const s32 data_021654f0;
+extern const s32 data_02165508;
+extern const s32 data_0216550c;
 extern const Vec4 data_usa_0216556c;
 
 void func_0206a354(Unk0206bcb0 *p);

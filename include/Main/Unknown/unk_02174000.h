@@ -283,7 +283,7 @@ extern Unk02174e40 *data_02174e40;
 
 struct Unk02174e44;
 
-// Entry of the table at data_usa_02162f4c: four function pointers.
+// Entry of the table at data_02162f4c: four function pointers.
 typedef struct Unk02162f4c {
     /* 00 */ void (*mUnk_00)(void *a, struct Unk02174e44 *b, void *c);
     /* 04 */ s32 (*mUnk_04)(u32 a);

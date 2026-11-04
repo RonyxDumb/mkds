@@ -23,10 +23,10 @@ s32 func_02025e60(s32 a) {
     case 1:
     case 3:
     case 5:
-        r = data_usa_02153274[a];
+        r = data_02153274[a];
         break;
     case 2:
-        r = data_usa_02153240[a];
+        r = data_02153240[a];
         break;
     }
     return r;

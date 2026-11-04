@@ -7,22 +7,22 @@
 
 s32 func_02067a2c(Unk0206bcb0 *p) {
     func_0207a6c0(p);
-    func_02083f6c((u16) data_usa_02154b24[p->mUnk_3e4], p);
+    func_02083f6c((u16) data_02154b24[p->mUnk_3e4], p);
     return 2;
 }
 
 s32 func_02067a64(Unk0206bcb0 *p) {
-    func_02083f6c((u16) data_usa_02154ae4[p->mUnk_3e4], p);
+    func_02083f6c((u16) data_02154ae4[p->mUnk_3e4], p);
     return 5;
 }
 
 s32 func_02067a9c(Unk0206bcb0 *p) {
-    func_02083f6c((u16) data_usa_02154ac4[p->mUnk_3e4], p);
+    func_02083f6c((u16) data_02154ac4[p->mUnk_3e4], p);
     return 0;
 }
 
 s32 func_02067ad4(Unk0206bcb0 *p) {
-    func_02083f6c((u16) data_usa_02154a84[p->mUnk_3e4], p);
+    func_02083f6c((u16) data_02154a84[p->mUnk_3e4], p);
     return 0;
 }
 

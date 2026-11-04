@@ -331,7 +331,7 @@ Unk0217b278_10 *func_020aa0ec(u32 a, Unk0217b278_10 *b, Unk0217b278_10 *c) {
                 h8 = g->mUnk_02 << 3;
                 w8 = g->mUnk_00 << 3;
                 v5 = x - v3;
-                k = data_usa_021679f8;
+                k = data_021679f8;
                 m = -k;
                 if (v5 < m) {
                     x2 = x + (h8 + k * 2);

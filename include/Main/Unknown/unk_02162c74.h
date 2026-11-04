@@ -24,4 +24,4 @@ extern char data_usa_02162ecc[];
 extern char data_usa_02162eec[];
 extern char data_usa_02162f0c[];
 extern char data_usa_02162f2c[];
-extern Unk02162f4c *data_usa_02162f4c[];
+extern Unk02162f4c *data_02162f4c[];

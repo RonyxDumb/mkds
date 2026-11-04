@@ -40,7 +40,7 @@ s32 func_02022eb0(void *a, s32 b, s32 c, s32 d, s32 e, s32 f, s32 g, s32 h) {
     } else {
         lc = 3;
     }
-    q = data_usa_021530f8[lc][lb];
+    q = data_021530f8[lc][lb];
     sx = q[0];
     sy = q[1];
     mx = b & (-1 << sx);

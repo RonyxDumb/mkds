@@ -12,7 +12,7 @@ typedef struct {
     /* 08 */ s32 mUnk_08[1];
 } Unk02042064;
 
-extern s32 (*data_usa_0215407c[17])(void *a, ...);
+extern s32 (*data_0215407c[17])(void *a, ...);
 
 void func_02042064(void *a);
 s32 func_02042170(void *a, ...);

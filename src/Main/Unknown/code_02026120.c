@@ -123,7 +123,7 @@ int func_02026120(void) {
                 k = func_0201ea84(s->mUnk_10, x, y);
                 if (k >= 0) {
                     for (j = 0; j < data_02174e14->mUnk_07c; j++) {
-                        if (k == data_usa_02153554[j].mUnk_06) {
+                        if (k == data_02153554[j].mUnk_06) {
                             data_02174e14->mUnk_060 = j;
                             break;
                         }

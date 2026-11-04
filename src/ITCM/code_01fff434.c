@@ -34,13 +34,13 @@ void func_01fff524(Unk020ee684 *p) {
         }
         if (r != 0) {
             if ((p->mUnk_1ec & 0x4000) && func_020f0154(p) != 0) {
-                p->mUnk_1ec |= data_usa_021595b0;
+                p->mUnk_1ec |= data_021595b0;
             }
             goto after;
         }
     }
     if ((p->mUnk_1ec & 0x2000) && func_020f0154(p) != 0) {
-        p->mUnk_1ec |= data_usa_021595b0;
+        p->mUnk_1ec |= data_021595b0;
     }
 after:
     if (!(p->mUnk_1ec & 0x100)) {
@@ -53,7 +53,7 @@ after:
     if (func_020f0154(p) == 0) {
         return;
     }
-    p->mUnk_1ec |= data_usa_021595b4;
+    p->mUnk_1ec |= data_021595b4;
 }
 
 // non-matching: 9 words differ from +0x14, only the order of the first loads and the registers of the halfword mask (original: ldrh of the flags before the table load, mul in r2, flags pointer in r1)

@@ -71,17 +71,17 @@ typedef struct Unk0209cf34 {
     /* 0dc */ s32 mUnk_0dc;
 } Unk0209cf34;
 
-extern u32 data_usa_021565d0;
-extern u16 data_usa_021565d4;
-extern const char data_usa_021672fc[];
-extern const char data_usa_02167308[];
-extern const char data_usa_0216731c[];
-extern const char data_usa_02167328[];
-extern const char data_usa_0216733c[];
-extern const char data_usa_02167348[];
-extern const char data_usa_02167388[];
-extern const char data_usa_02167394[];
-extern const char data_usa_021673a0[];
+extern u32 data_021565d0;
+extern u16 data_021565d4;
+extern const char data_021672fc[];
+extern const char data_02167308[];
+extern const char data_0216731c[];
+extern const char data_02167328[];
+extern const char data_0216733c[];
+extern const char data_02167348[];
+extern const char data_02167388[];
+extern const char data_02167394[];
+extern const char data_021673a0[];
 
 Unk0209bf70 *func_0209bf70(u32 a, u32 b, u32 c, u32 d, u16 e, u16 f);
 u32 func_0209bf8c(void);

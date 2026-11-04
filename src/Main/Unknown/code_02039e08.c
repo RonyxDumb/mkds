@@ -183,7 +183,7 @@ void func_0203a050(void) {
 }
 
 u32 func_02039f9c(Unk020487fc *a) {
-    Unk021a9034 b = data_usa_02164734;
+    Unk021a9034 b = data_02164734;
     func_02044940();
     if (data_021759c0->mUnk_08 == 5) {
         b.mUnk_1c = 1;
@@ -224,7 +224,7 @@ void func_02039f34(void) {
 }
 
 u32 func_02039eec(Unk020487fc *a) {
-    Unk021a9034 b = data_usa_021646f8;
+    Unk021a9034 b = data_021646f8;
     func_020487fc(a, &b);
     return 0;
 }

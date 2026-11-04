@@ -70,7 +70,7 @@ void func_02074b00(Unk02061808 *p) {
     if ((s64) d.x * d.x + (s64) d.y * d.y + (s64) d.z * d.z >= 0x10) {
         func_02039860(&d, &d);
     }
-    func_02146f98((Unk02012f58 *) m, &data_usa_02154fc4, data_0215d4b4[(data_usa_021656a0 >> 4) * 2],
+    func_02146f98((Unk02012f58 *) m, &data_02154fc4, data_0215d4b4[(data_usa_021656a0 >> 4) * 2],
                   data_0215d4b4[(data_usa_021656a0 >> 4) * 2 + 1]);
     func_02146d78(&d, m, &d);
     d.x = (s32) (((s64) d.x * 0xfae) >> 12);
@@ -142,7 +142,7 @@ void func_02074e6c(Unk02061808 *p) {
     c = b;
     d = b;
     func_02074b00_inline(&n, &d, -q->mUnk_18.z);
-    func_020397a8(&data_usa_02154fc4, &a, &f);
+    func_020397a8(&data_02154fc4, &a, &f);
     func_020397a8(&c, &f, &g);
     func_02146f98((Unk02012f58 *) m2, &g, data_0215d4b4[(i >> 4) * 2], data_0215d4b4[(i >> 4) * 2 + 1]);
     func_02146f98((Unk02012f58 *) m3, &f, data_0215d4b4[(j >> 4) * 2], data_0215d4b4[(j >> 4) * 2 + 1]);
@@ -166,7 +166,7 @@ void func_02074e6c(Unk02061808 *p) {
     p->mUnk_018.y = p->mUnk_018.y - o->mUnk_2bc;
     p->mUnk_024.y = p->mUnk_024.y - o->mUnk_2bc;
     if (data_021759c0->mUnk_08 != 4 && data_021759c0->mUnk_08 != 2) {
-        if (func_01ffdee4(&p->mUnk_024, (u32 *) &p->mUnk_134, 0, data_usa_021656c0 >> 1, 2, -2, &w, 0, 0, 0, 0, 0, 0,
+        if (func_01ffdee4(&p->mUnk_024, (u32 *) &p->mUnk_134, 0, data_021656c0 >> 1, 2, -2, &w, 0, 0, 0, 0, 0, 0,
                           0) != 0) {
             o = func_0207a974(p->mUnk_210);
             v = &o->mUnk_120;

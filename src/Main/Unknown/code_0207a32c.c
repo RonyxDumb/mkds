@@ -42,7 +42,7 @@ void func_0207a32c(void) {
             }
         }
     }
-    for (i = 0; i < data_usa_021658bc; i++) {
+    for (i = 0; i < data_021658bc; i++) {
         j = d[i];
         if (j >= 0) {
             p = &data_0217ad18[j];

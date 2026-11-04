@@ -41,13 +41,13 @@ u64 func_0215211c(u32 a, u32 b, u32 c, u32 d) {
     h = 0;
     i = e.b;
     for (; h < 5; h++) {
-        *i = (data_usa_02161738[(*i >> 4) & 0xf] << 4) | data_usa_02161738[*i & 0xf];
+        *i = (data_02161738[(*i >> 4) & 0xf] << 4) | data_02161738[*i & 0xf];
         i++;
     }
     func_0214d1fc(e.b, f, 8);
     h = 0;
     k = f;
-    j = data_usa_02161730;
+    j = data_02161730;
     for (; h < 5; h++) {
         e.b[*j] = *k;
         k++;

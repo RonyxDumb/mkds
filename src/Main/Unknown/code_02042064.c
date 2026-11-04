@@ -90,7 +90,7 @@ void func_02042064(void *a) {
     q = d->mUnk_08;
     b = (u8 *) d + d->mUnk_06;
     for (i = 0; i < 17; i++) {
-        if (data_usa_0215407c[i](b + *q) != 0) {
+        if (data_0215407c[i](b + *q) != 0) {
             q++;
         }
     }

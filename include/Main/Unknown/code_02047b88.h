@@ -14,7 +14,7 @@ typedef struct Unk021543e0 {
 } Unk021543e0;
 
 extern const char data_usa_02165058[];
-extern Unk021543e0 data_usa_021543e0[];
+extern Unk021543e0 data_021543e0[];
 
 void func_02047b88(void);
 void func_02047ba0(s32 a);

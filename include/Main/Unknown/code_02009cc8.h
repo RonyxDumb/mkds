@@ -24,7 +24,7 @@
 
 extern u16 data_usa_0216fd80;
 extern void *data_usa_0216fd84;
-extern u16 *data_usa_021617a0;
+extern u16 *data_021617a0;
 extern u32 data_usa_021617a4;
 
 s32 func_02009cc8(u16 a);

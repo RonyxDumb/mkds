@@ -8,7 +8,7 @@ void func_02085fd8(void) {
     data_0217aec0 = 0;
     p = data_021759c0;
     if (p->mUnk_00c != 5 && p->mUnk_08 != 2 && p->mUnk_00c != 6) {
-        r = func_02047950(data_usa_02165990);
+        r = func_02047950(data_02165990);
         p = data_021759c0;
         if (p->mUnk_08 == 0) {
             r = &r[(p->mUnk_00 - 1) * 12 + p->mUnk_010];

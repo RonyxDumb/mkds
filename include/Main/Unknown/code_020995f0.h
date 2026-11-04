@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-extern const char data_usa_0216708c[];
+extern const char data_0216708c[];
 
 void func_020995f0(void *a);
 void func_02099608(void *a);

@@ -28,7 +28,7 @@ typedef struct Unk020074d8_msg {
     /* 04 */ u16 mUnk_04;
 } Unk020074d8_msg;
 
-extern u8 data_usa_02161784;
+extern u8 data_02161784;
 
 void func_02007478(Unk02007478 *a);
 u32 func_020074d8(void);

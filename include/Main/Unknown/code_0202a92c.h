@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0202a820.h"
 #include "Main/Unknown/code_02036c90.h"
 
-// 8-byte entries of the tables at data_usa_021539f4 and data_usa_02153a14.
+// 8-byte entries of the tables at data_021539f4 and data_02153a14.
 typedef struct Unk021539f4 {
     /* 00 */ s16 mUnk_00;
     /* 02 */ s16 mUnk_02;
@@ -12,30 +12,30 @@ typedef struct Unk021539f4 {
     /* 06 */ s16 mUnk_06;
 } Unk021539f4;
 
-extern u16 data_usa_021539d8[];
-extern u16 data_usa_021539e0[];
-extern Unk021539f4 data_usa_021539f4[];
-extern Unk021539f4 data_usa_02153a14[];
-extern s32 data_usa_02153a4c[];
-extern char data_usa_02162488[];
-extern char data_usa_02162494[];
-extern char data_usa_021624a0[];
-extern char data_usa_021624c0[];
-extern char data_usa_021624e0[];
-extern char data_usa_02162500[];
-extern char data_usa_02162524[];
-extern char data_usa_02162548[];
-extern char data_usa_02162568[];
-extern char data_usa_02162588[];
-extern char data_usa_021625a8[];
-extern char data_usa_021625c8[];
-extern char data_usa_021625e8[];
-extern char data_usa_02162608[];
-extern char data_usa_0216262c[];
-extern char data_usa_02162650[];
-extern char data_usa_02162670[];
-extern char data_usa_02162690[];
-extern char data_usa_021626b0[];
+extern u16 data_021539d8[];
+extern u16 data_021539e0[];
+extern Unk021539f4 data_021539f4[];
+extern Unk021539f4 data_02153a14[];
+extern s32 data_02153a4c[];
+extern char data_02162488[];
+extern char data_02162494[];
+extern char data_021624a0[];
+extern char data_021624c0[];
+extern char data_021624e0[];
+extern char data_02162500[];
+extern char data_02162524[];
+extern char data_02162548[];
+extern char data_02162568[];
+extern char data_02162588[];
+extern char data_021625a8[];
+extern char data_021625c8[];
+extern char data_021625e8[];
+extern char data_02162608[];
+extern char data_0216262c[];
+extern char data_02162650[];
+extern char data_02162670[];
+extern char data_02162690[];
+extern char data_021626b0[];
 
 s32 func_0202a92c(void);
 void func_0202ab2c(u32 param_1, u32 param_2, u32 param_3);

@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-extern s32 data_usa_021658bc;
+extern s32 data_021658bc;
 extern u16 data_usa_0217acf4;
 
 void func_0207a32c(void);

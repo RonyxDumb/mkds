@@ -83,7 +83,7 @@ void func_0200b934(void) {
         d->mUnk_0580.mUnk_06 = 0xdc;
     } else {
         p = d->mUnk_0580.mUnk_08;
-        q = data_usa_02152be4;
+        q = data_02152be4;
         p[0] = q[0];
         p[1] = q[1];
         p[2] = q[2];

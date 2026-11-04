@@ -101,7 +101,7 @@ void func_01ffb130(Unk0206bcb0 *p) {
     if (p->mUnk_7c & 0x20) {
         return;
     }
-    data_usa_021655c4[p->mUnk_180](p);
+    data_021655c4[p->mUnk_180](p);
     func_01ffb9e0(p);
     if (p->mUnk_48 & 0x40) {
         p->mUnk_3ac++;

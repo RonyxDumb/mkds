@@ -6,10 +6,10 @@
 #include "code_020184e4.h"
 #include "Main/Unknown/code_0208aea8.h"
 
-extern char data_usa_02166138[];
-extern char data_usa_02166148[];
-extern char data_usa_02166168[];
-extern Vec3 data_usa_021660fc;
+extern char data_02166138[];
+extern char data_02166148[];
+extern char data_02166168[];
+extern Vec3 data_021660fc;
 
 // Declared here until the code that defines them is decompiled.
 

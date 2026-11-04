@@ -53,7 +53,7 @@ void func_0209f1c8(void *a, Unk0209f1c8 *b) {
 }
 
 void func_0209f2b0(void *a) {
-    func_0209be1c(data_usa_0217b180 = func_0209be84(a, data_usa_02167548), data_usa_02167558);
+    func_0209be1c(data_usa_0217b180 = func_0209be84(a, data_02167548), data_02167558);
     func_0209b940(data_usa_0217b180, 0x3f);
 }
 

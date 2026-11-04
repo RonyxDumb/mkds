@@ -138,10 +138,10 @@ s32 func_02009ff4(void *a, Unk02009ff4 *b, u32 c, u32 d, u32 e) {
     }
     w = v1->mUnk_538;
     for (i = 0; i < 16; i++) {
-        if (*data_usa_021617a0 == 0) {
+        if (*data_021617a0 == 0) {
             break;
         }
-        *w = *data_usa_021617a0++;
+        *w = *data_021617a0++;
         w++;
     }
     func_0214d1fc(b, &v2->mUnk_1300, 0x16);

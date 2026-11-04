@@ -68,7 +68,7 @@ void func_02076ed4(Unk02061808 *p) {
     Vec3 d;
     Vec3 e;
 
-    a = data_usa_02154fc4;
+    a = data_02154fc4;
     func_021484d0(&p->mUnk_018, &p->mUnk_024, &b);
     if ((s64) b.x * b.x + (s64) b.y * b.y + (s64) b.z * b.z >= 0x10) {
         func_02039860(&b, &b);
@@ -117,14 +117,14 @@ void func_02077060(Unk02061808 *p) {
         case 1:
             a <<= 1;
             b = -a;
-            p->mUnk_078 = (s32) (((s64) a * (data_usa_021656b8 + 0x1000)) >> 12);
-            p->mUnk_07c = (s32) (((s64) a * data_usa_021656b8) >> 12);
+            p->mUnk_078 = (s32) (((s64) a * (data_021656b8 + 0x1000)) >> 12);
+            p->mUnk_07c = (s32) (((s64) a * data_021656b8) >> 12);
             break;
         case 2:
             b <<= 1;
             a = -b;
-            p->mUnk_07c = (s32) (((s64) b * (data_usa_021656b8 + 0x1000)) >> 12);
-            p->mUnk_078 = (s32) (((s64) b * data_usa_021656b8) >> 12);
+            p->mUnk_07c = (s32) (((s64) b * (data_021656b8 + 0x1000)) >> 12);
+            p->mUnk_078 = (s32) (((s64) b * data_021656b8) >> 12);
             break;
     }
     if (data_021759c0->mUnk_57 != 0) {
@@ -141,7 +141,7 @@ void func_02077060(Unk02061808 *p) {
     func_0214b048(p->mUnk_078, p->mUnk_07c, p->mUnk_080, p->mUnk_084, p->mUnk_070, p->mUnk_074, 0x1000, 1, (Unk0214ad4c *) data_0217acc0);
 }
 
-// non-matching: 0x340 bytes against 0x348; the original copies data_usa_02154fdc through a second stack vector (two ldm/stm
+// non-matching: 0x340 bytes against 0x348; the original copies data_02154fdc through a second stack vector (two ldm/stm
 // hops, frame 0x3c) and loads the constant words and vector copies in a different order (first difference at 0x28)
 void func_0207729c(Unk02061808 *p) {
     Vec3 a;
@@ -151,10 +151,10 @@ void func_0207729c(Unk02061808 *p) {
     p->mUnk_024.x = 0x1e3000;
     p->mUnk_024.y = 0x4bd000;
     p->mUnk_024.z = 0xc6b000;
-    a = data_usa_02154fdc;
+    a = data_02154fdc;
     p->mUnk_018 = a;
-    b = data_usa_02154fc4;
-    p->mUnk_000 = data_usa_02154fc4;
+    b = data_02154fc4;
+    p->mUnk_000 = data_02154fc4;
     p->mUnk_00c = data_usa_02154fd0;
     func_021471bc(&p->mUnk_030);
     p->mUnk_15c = data_usa_02154fb8;
@@ -174,7 +174,7 @@ void func_0207729c(Unk02061808 *p) {
     p->mUnk_07c = 0;
     p->mUnk_080 = 0;
     p->mUnk_084 = 0;
-    c = data_usa_02154fdc;
+    c = data_02154fdc;
     p->mUnk_09c = c;
     p->mUnk_090 = c;
     p->mUnk_0c0 = b;
@@ -369,16 +369,16 @@ void func_02077998(void) {
     data_usa_0217ac7c = data_usa_02154fa4[i][0];
     data_usa_0217ac78 = data_usa_02154fa8[i][0];
     if (data_021759c0->mUnk_00 == 0x13) {
-        data_usa_021656b4 = 0xa000;
+        data_021656b4 = 0xa000;
     } else {
-        data_usa_021656b4 = 0x5000;
+        data_021656b4 = 0x5000;
     }
 }
 
 void func_02077a28(void *a) {
     void *v;
 
-    func_0207913c(a, data_usa_02165714, &v);
+    func_0207913c(a, data_02165714, &v);
     func_020b4a7c(&data_usa_0217ace4, v);
 }
 

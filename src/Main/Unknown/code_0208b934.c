@@ -40,13 +40,13 @@ void func_0208b934(void *a) {
     }
     *(void **) &data_0217b040 = c;
     data_0217b044 = func_02018d94((void *(*) (u32)) func_0208bd04, f, e, 3, 0xe, func_02061768());
-    g = func_02047b08(data_usa_02166138);
+    g = func_02047b08(data_02166138);
     func_02018a1c(data_0217b044, g);
     func_02018888(data_0217b044);
     func_02018874(data_0217b044);
     func_02047220(g, *(u32 *) ((u8 *) g + 0x18));
     data_0217b04c = func_02018d94((void *(*) (u32)) func_0208bd04, 0x1e, 0x64, 3, 0xe, 0x1e);
-    h = func_02047b08(data_usa_02166148);
+    h = func_02047b08(data_02166148);
     func_02018a1c(data_0217b04c, h);
     func_02018888(data_0217b04c);
     func_02018874(data_0217b04c);
@@ -59,7 +59,7 @@ void func_0208b934(void *a) {
     if (data_021759c0->mUnk_08 == 4) {
         t = 0;
         data_0217b03c = func_02018d94((void *(*) (u32)) func_0208bd04, 0x32, 0xc8, 3, 0xe, 0x1e);
-        func_02048590(data_usa_02166168, (u32) c, &t);
+        func_02048590(data_02166168, (u32) c, &t);
         func_02018a1c(data_0217b03c, t);
         func_02018888(data_0217b03c);
         func_02018874(data_0217b03c);
@@ -79,11 +79,11 @@ void func_0208b934(void *a) {
     func_02082aec();
     switch (data_021759c0->mUnk_00) {
     case 0x22:
-        w = data_usa_021660fc;
+        w = data_021660fc;
         data_0217b048 = func_02036bec(c, 0x64);
         for (j = 0; j < 6; j++) {
             data_0217b048->mUnk_48[j] = 0;
-            func_021484d0(&data_usa_02155f78[j], &w, &v);
+            func_021484d0(&data_02155f78[j], &w, &v);
             q = &data_0217b048->mUnk_00[j];
             if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 0x10) {
                 func_02039860(&v, q);

@@ -12,7 +12,7 @@ typedef struct Unk02025854 {
     /* 14 */ Unk020b47d8 *mUnk_14[4];
 } Unk02025854;
 
-// 12-byte entries of the table at data_usa_02153918.
+// 12-byte entries of the table at data_02153918.
 typedef struct Unk02153918 {
     /* 00 */ s16 mUnk_00;
     /* 02 */ u16 mUnk_02;

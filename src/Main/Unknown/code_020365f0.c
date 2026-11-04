@@ -20,6 +20,6 @@ void func_020365f0(void) {
     a = func_0200f168(0);
     data_02174e78.mUnk_0c = func_02036c4c(a, func_0200f17c(0) - a);
     func_02036590(&data_02174e88, 0);
-    data_02174e78.mUnk_10 = data_usa_021646ec;
+    data_02174e78.mUnk_10 = data_021646ec;
     func_020394cc();
 }

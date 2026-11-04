@@ -93,7 +93,7 @@ int func_02028130(void) {
             data_02174e18->mUnk_100 = 1;
             data_02174e18->mUnk_094 = 4;
             p->mUnk_18[18].mUnk_00 = 0;
-            func_02124100(data_usa_02153834[4], 0, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+            func_02124100(data_02153834[4], 0, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
             func_021106a8(func_02025eb0(data_02174e18->mUnk_0a4), 1);
             func_02077f48(1);
             func_0212b7e8();
@@ -172,7 +172,7 @@ int func_02028130(void) {
             }
             data_02174e18->mUnk_090 = 0;
             p->mUnk_18[18].mUnk_00 = 1;
-            func_02124100(data_usa_02153834[4], 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+            func_02124100(data_02153834[4], 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
         }
         break;
     case 5:

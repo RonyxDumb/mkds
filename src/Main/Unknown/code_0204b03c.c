@@ -28,7 +28,7 @@ u32 func_0204b084(u32 *p, u32 n, u32 a) {
     i = s;
     e = (u32 *) ((u8 *) p + n);
     do {
-        *p ^= data_usa_02154694[i] + (data_usa_02154648[j] + (data_usa_021545d8[k] + data_usa_02154604[l]));
+        *p ^= data_02154694[i] + (data_02154648[j] + (data_021545d8[k] + data_02154604[l]));
         p++;
         k++;
         if (k >= 0xb) {
@@ -62,10 +62,10 @@ void func_0204b138(u32 *p, u32 n) {
     l = 0;
     k = 0;
     i = (func_0200f5ac() >> 16) % 0x1d;
-    i = func_0204b20c((data_usa_02154694[i] + (data_usa_02154648[0] + (data_usa_021545d8[0] + data_usa_02154604[0]))) ^ *p, *p);
+    i = func_0204b20c((data_02154694[i] + (data_02154648[0] + (data_021545d8[0] + data_02154604[0]))) ^ *p, *p);
     e = (u32 *) ((u8 *) p + n);
     do {
-        *p ^= data_usa_02154694[i] + (data_usa_02154648[j] + (data_usa_021545d8[k] + data_usa_02154604[l]));
+        *p ^= data_02154694[i] + (data_02154648[j] + (data_021545d8[k] + data_02154604[l]));
         p++;
         k++;
         if (k >= 0xb) {
@@ -92,7 +92,7 @@ s32 func_0204b20c(u32 a, u32 b) {
     i = 0;
     r = -1;
     for (; i < 0x1d; i++) {
-        if (b == (a ^ (data_usa_02154694[i] + (data_usa_02154648[0] + (data_usa_021545d8[0] + data_usa_02154604[0]))))) {
+        if (b == (a ^ (data_02154694[i] + (data_02154648[0] + (data_021545d8[0] + data_02154604[0]))))) {
             r = i;
             break;
         }

@@ -77,7 +77,7 @@ void func_0203bfec(s32 *a) {
 }
 
 u32 func_0203c018(Unk020487fc *a) {
-    Unk021a9034 b = data_usa_02164798;
+    Unk021a9034 b = data_02164798;
     func_020487fc(a, &b);
     return 0;
 }

@@ -18,7 +18,7 @@ typedef struct Unk02153c58 {
     /* 30 */ u16 mUnk_30;
 } Unk02153c58;
 
-// 8-byte entries of the table at data_usa_02153554.
+// 8-byte entries of the table at data_02153554.
 typedef struct Unk02153554 {
     /* 00 */ s16 mUnk_00;
     /* 02 */ s16 mUnk_02;
@@ -44,7 +44,7 @@ typedef struct Unk021534bc {
 } Unk021534bc;
 
 extern Unk02153c1c data_02153c1c[];
-extern Unk02153554 data_usa_02153554[];
+extern Unk02153554 data_02153554[];
 extern Unk021534bc data_021534bc[];
 extern Unk021534bc data_021534dc[];
 extern Unk021534bc data_02153500[];
@@ -74,24 +74,24 @@ extern u8 data_02153158[];
 extern u8 data_021532a8[];
 extern u8 data_021532dc[];
 extern u32 data_0215336c[];
-extern s32 data_usa_02153240[];
-extern s32 data_usa_02153274[];
+extern s32 data_02153240[];
+extern s32 data_02153274[];
 
-// 12-byte entries of data_usa_021537f4: a halfword value and a word at 8.
+// 12-byte entries of data_021537f4: a halfword value and a word at 8.
 typedef struct Unk021537f4 {
     /* 00 */ s16 mUnk_00;
     /* 02 */ u8 mUnk_02[6];
     /* 08 */ s32 mUnk_08;
 } Unk021537f4;
 
-extern u16 data_usa_021537dc[];
-extern Unk021537f4 data_usa_021537f4[];
-extern s16 data_usa_02153834[];
+extern u16 data_021537dc[];
+extern Unk021537f4 data_021537f4[];
+extern s16 data_02153834[];
 extern u16 data_021530b8[4][4];
 extern u16 data_021530d0[4][4];
 extern Unk02022aa8_f *data_021530e8[];
 extern u32 data_02153118[][4];
-extern u8 data_usa_021530f8[4][4][2];
+extern u8 data_021530f8[4][4][2];
 
 extern u16 data_02153d20[][3];
 
@@ -107,70 +107,70 @@ extern Unk02153d2c data_02153d2c[];
 extern s16 data_02154034[][4];
 extern s16 data_0215404c[][4];
 
-// Tables of 12-byte entries (data_usa_02153d7c is the third entry of data_usa_02153d64) and of u16 pairs.
-extern Unk02153c1c data_usa_02153d64[];
-extern Unk02153c1c data_usa_02153d7c[];
-extern Unk02153c1c data_usa_02153d88[];
-extern u16 data_usa_02153d44[][2];
-extern u16 data_usa_02153d46[][2];
-extern u16 data_usa_02153d54[];
-extern s16 data_usa_02153dbc[];
+// Tables of 12-byte entries (data_02153d7c is the third entry of data_02153d64) and of u16 pairs.
+extern Unk02153c1c data_02153d64[];
+extern Unk02153c1c data_02153d7c[];
+extern Unk02153c1c data_02153d88[];
+extern u16 data_02153d44[][2];
+extern u16 data_02153d46[][2];
+extern u16 data_02153d54[];
+extern s16 data_02153dbc[];
 
 // Tables of four u16, written to mUnk_084 of Unk02174e14.
-extern u16 data_usa_02153614[4];
-extern u16 data_usa_0215361c[4];
-extern u16 data_usa_02153624[4];
-extern u16 data_usa_0215362c[4];
-extern u16 data_usa_02153634[4];
-extern u16 data_usa_0215363c[4];
-extern u16 data_usa_02153644[4];
-extern u16 data_usa_0215364c[4];
-extern u16 data_usa_02153654[4];
-extern u16 data_usa_0215365c[4];
-extern u16 data_usa_02153664[4];
-extern u16 data_usa_0215366c[4];
-extern u16 data_usa_02153674[4];
-extern u16 data_usa_0215367c[4];
-extern u16 data_usa_02153684[4];
-extern u16 data_usa_0215368c[4];
-extern u16 data_usa_02153694[4];
-extern u16 data_usa_0215369c[4];
-extern u16 data_usa_021536a4[4];
-extern u16 data_usa_021536ac[4];
-extern u16 data_usa_021536b4[4];
-extern u16 data_usa_021536bc[4];
-extern u16 data_usa_021536c4[4];
-extern u16 data_usa_021536cc[4];
-extern u16 data_usa_021536d4[4];
-extern u16 data_usa_021536dc[4];
-extern u16 data_usa_021536e4[4];
-extern u16 data_usa_021536ec[4];
-extern u16 data_usa_021536f4[4];
-extern u16 data_usa_021536fc[4];
-extern u16 data_usa_02153704[4];
-extern u16 data_usa_0215370c[4];
-extern u16 data_usa_02153714[4];
-extern u16 data_usa_0215371c[4];
-extern u16 data_usa_02153724[4];
-extern u16 data_usa_0215372c[4];
-extern u16 data_usa_02153734[4];
-extern u16 data_usa_0215373c[4];
-extern u16 data_usa_02153744[4];
-extern u16 data_usa_0215374c[4];
-extern u16 data_usa_02153754[4];
-extern u16 data_usa_0215375c[4];
-extern u16 data_usa_02153764[4];
-extern u16 data_usa_0215376c[4];
-extern u16 data_usa_02153774[4];
-extern u16 data_usa_0215377c[4];
-extern u16 data_usa_02153784[4];
-extern u16 data_usa_0215378c[4];
-extern u16 data_usa_02153794[4];
-extern u16 data_usa_0215379c[4];
-extern u16 data_usa_021537a4[4];
-extern u16 data_usa_021537ac[4];
-extern u16 data_usa_021537b4[4];
-extern u16 data_usa_021537bc[4];
-extern u16 data_usa_021537c4[4];
-extern u16 data_usa_021537cc[4];
-extern u16 data_usa_021537d4[4];
+extern u16 data_02153614[4];
+extern u16 data_0215361c[4];
+extern u16 data_02153624[4];
+extern u16 data_0215362c[4];
+extern u16 data_02153634[4];
+extern u16 data_0215363c[4];
+extern u16 data_02153644[4];
+extern u16 data_0215364c[4];
+extern u16 data_02153654[4];
+extern u16 data_0215365c[4];
+extern u16 data_02153664[4];
+extern u16 data_0215366c[4];
+extern u16 data_02153674[4];
+extern u16 data_0215367c[4];
+extern u16 data_02153684[4];
+extern u16 data_0215368c[4];
+extern u16 data_02153694[4];
+extern u16 data_0215369c[4];
+extern u16 data_021536a4[4];
+extern u16 data_021536ac[4];
+extern u16 data_021536b4[4];
+extern u16 data_021536bc[4];
+extern u16 data_021536c4[4];
+extern u16 data_021536cc[4];
+extern u16 data_021536d4[4];
+extern u16 data_021536dc[4];
+extern u16 data_021536e4[4];
+extern u16 data_021536ec[4];
+extern u16 data_021536f4[4];
+extern u16 data_021536fc[4];
+extern u16 data_02153704[4];
+extern u16 data_0215370c[4];
+extern u16 data_02153714[4];
+extern u16 data_0215371c[4];
+extern u16 data_02153724[4];
+extern u16 data_0215372c[4];
+extern u16 data_02153734[4];
+extern u16 data_0215373c[4];
+extern u16 data_02153744[4];
+extern u16 data_0215374c[4];
+extern u16 data_02153754[4];
+extern u16 data_0215375c[4];
+extern u16 data_02153764[4];
+extern u16 data_0215376c[4];
+extern u16 data_02153774[4];
+extern u16 data_0215377c[4];
+extern u16 data_02153784[4];
+extern u16 data_0215378c[4];
+extern u16 data_02153794[4];
+extern u16 data_0215379c[4];
+extern u16 data_021537a4[4];
+extern u16 data_021537ac[4];
+extern u16 data_021537b4[4];
+extern u16 data_021537bc[4];
+extern u16 data_021537c4[4];
+extern u16 data_021537cc[4];
+extern u16 data_021537d4[4];

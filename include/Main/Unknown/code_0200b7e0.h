@@ -19,7 +19,7 @@ typedef struct Unk0200b820 {
     /* 02 */ u16 mUnk_02;
 } Unk0200b820;
 
-extern u8 data_usa_02152be4[6];
+extern u8 data_02152be4[6];
 
 void func_0200b7e0(const u8 *a);
 void func_0200b820(u16 a, u16 b);

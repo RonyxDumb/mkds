@@ -10,7 +10,7 @@ void func_020996d4(void *a) {
 }
 
 void func_020996ec(void *a) {
-    *(void **) &data_0217b13c = func_0209bd08(a, data_usa_0216709c);
+    *(void **) &data_0217b13c = func_0209bd08(a, data_0216709c);
     func_0209b940(*(void **) &data_0217b13c, 0x3f);
 }
 

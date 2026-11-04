@@ -42,9 +42,9 @@ void func_0209219c(u32 a, const Vec3 *b, const Vec3 *c, u32 d, s32 e, u16 f) {
     if (p == 0) {
         return;
     }
-    p->mUnk_00.mUnk_02 |= data_usa_02156460;
-    p->mUnk_00.mUnk_02 |= data_usa_02156464;
-    p->mUnk_00.mUnk_02 |= data_usa_02156468;
+    p->mUnk_00.mUnk_02 |= data_02156460;
+    p->mUnk_00.mUnk_02 |= data_02156464;
+    p->mUnk_00.mUnk_02 |= data_02156468;
     p->mUnk_bc = e;
     p->mUnk_c0 = f;
     r = func_020d22d0();

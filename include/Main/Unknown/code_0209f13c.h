@@ -19,8 +19,8 @@ typedef struct Unk0209f514 {
     /* 04 */ u16 mUnk_04;
 } Unk0209f514;
 
-extern char data_usa_02167548[];
-extern char data_usa_02167558[];
+extern char data_02167548[];
+extern char data_02167558[];
 
 void func_0209f650(void *a);
 

@@ -17,27 +17,27 @@ void func_0207e268(void) {
 
     switch (func_020853dc()) {
     case 0:
-        data_usa_0217ae30 = data_usa_02155630;
-        data_usa_0217ae2c = data_usa_0215569c;
+        data_usa_0217ae30 = data_02155630;
+        data_usa_0217ae2c = data_0215569c;
         break;
     case 1:
-        data_usa_0217ae30 = data_usa_02155654;
-        data_usa_0217ae2c = data_usa_021556c0;
+        data_usa_0217ae30 = data_02155654;
+        data_usa_0217ae2c = data_021556c0;
         break;
     case 2:
     default:
-        data_usa_0217ae30 = data_usa_02155678;
-        data_usa_0217ae2c = data_usa_0215560c;
+        data_usa_0217ae30 = data_02155678;
+        data_usa_0217ae2c = data_0215560c;
         break;
     }
-    data_usa_021658f0 = 3;
+    data_021658f0 = 3;
     d = data_021759c0->mUnk_3d0 - data_021759c0->mUnk_3d1;
     if (d > 1) {
         if (d <= 3) {
-            data_usa_021658f0 = d - 1;
+            data_021658f0 = d - 1;
         }
     }
-    data_usa_0217ae34 = data_usa_02165910[d];
+    data_usa_0217ae34 = data_02165910[d];
 }
 
 void func_0207e35c(struct Unk020888b4 *p) {

@@ -303,7 +303,7 @@ void func_0207b6c0(struct Unk0206bcb0_590 *a, s32 b, s32 c) {
 void func_0207b708(struct Unk0206bcb0_590 *a, s32 b) {
     Unk0206bcb0_590_08 *p = a->mUnk_00c;
 
-    p->mUnk_0c = data_usa_021551a4[b];
+    p->mUnk_0c = data_021551a4[b];
     *p->mUnk_1c[p->mUnk_1a] = p->mUnk_0c;
 }
 
@@ -364,7 +364,7 @@ void func_0207b734(Unk0206bcb0 *a) {
         func_02087cfc(r, r->mUnk_1a, 1);
         func_02087e90(q->mUnk_008, p->mUnk_18);
         s = q->mUnk_00c;
-        s->mUnk_0c = data_usa_021551a4[0];
+        s->mUnk_0c = data_021551a4[0];
         *s->mUnk_1c[s->mUnk_1a] = s->mUnk_0c;
         p->mUnk_14 = 0;
     } else {
@@ -383,13 +383,13 @@ void func_0207b8c4(struct Unk0206bcb0_590 *a) {
 }
 
 u32 func_0207b8dc(int a) {
-    return data_usa_021551b4[a].mUnk_00;
+    return data_021551b4[a].mUnk_00;
 }
 
 char *func_0207b8f4(u16 a, s32 b) {
     char *p = func_02088430(a);
     const char *q = func_0208848c(a, 1);
 
-    func_02135048(data_usa_0217ad14, 0x100, data_usa_021658e0, p, q, data_usa_021551b0[b].mUnk_00);
+    func_02135048(data_usa_0217ad14, 0x100, data_021658e0, p, q, data_021551b0[b].mUnk_00);
     return data_usa_0217ad14;
 }
