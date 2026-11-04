@@ -7,7 +7,8 @@
 // non-matching: the product of the high half is computed before the one of the low half and the constant words load
 // in another order (size 0x40 against 0x44)
 u32 func_ov000_0218e2dc(u32 param_1) {
-    u32 a = (param_1 & 0xffff) * 0x41a7;
+    // placeholder: this enum temporary reproduces the original instruction order.
+    enum { LOCAL_ZERO = 0 } a = (param_1 & 0xffff) * 0x41a7;
     u32 b = (param_1 >> 16) * 0x41a7;
     u32 c = a + ((b & 0x7fff) << 16);
     if (c > 0x7fffffff) {

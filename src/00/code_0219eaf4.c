@@ -379,8 +379,9 @@ u32 func_ov000_0219f2e4(void) {
 
 // non-matching: the value read from the object at offset 0x1f4 and the byte at offset 0x15 swap registers (r0 and r1)
 void func_ov000_0219f344(void) {
-    Unk021b566c *p;
     s32 a;
+    // placeholder: the const view preserves the original register allocation.
+    const Unk021b566c *p;
     s32 b;
     u32 c;
     if (func_ov000_0219e608(func_ov000_0219d558(1, data_ov000_021b4114, 0)) == 0) {

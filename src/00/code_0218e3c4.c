@@ -31,7 +31,8 @@ s32 func_ov000_0218e420(s32 param_1, void *param_2, s32 param_3, s32 param_4) {
 // non-matching: r4 and r5 swapped (same instructions otherwise)
 s32 func_ov000_0218e438(s32 param_1, void *param_2, s32 param_3, s32 param_4, void *param_5, s32 *param_6) {
     u8 *a = param_5;
-    s32 *b = param_6;
+    // placeholder: volatile preserves the original load and register order.
+    volatile s32 *b = param_6;
     s32 c;
     *a = *b;
     c = func_ov000_021a90a0(param_1, param_2, param_3, param_4, a);

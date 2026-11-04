@@ -21,7 +21,7 @@ void func_ov000_0219cb30(void) {
 // non-matching: size 0x98 against 0x9c; the last argument is kept in r5 and r6 is pushed as well, the original pushes
 // r4 and r5 only and reads that argument again from [sp, #0x18] at the two callback calls
 void func_ov000_0219cb64(u32 a, u32 b, s32 c, u32 d, s32 e, u32 f, u32 g) {
-    u32 t;
+    s32 t;
     t = g;
     func_ov000_0219cb00();
     if (t == 0x80000001) {

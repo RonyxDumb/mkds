@@ -165,7 +165,11 @@ u32 func_ov000_021a1e40(u32 param_1, u32 param_2, u16 param_3, u8 *param_4, u32 
         func_ov000_0219a7e4(param_4, param_5, &a);
     } else {
         if (c == 0xfe) {
-            return 0;
+            {
+                // placeholder: this enum temporary keeps the original return block.
+                enum { RETURN_ZERO = 0 } returnValue = 0;
+                return returnValue;
+            }
         }
         return 0;
     }

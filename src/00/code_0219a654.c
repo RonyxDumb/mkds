@@ -501,7 +501,7 @@ u16 func_ov000_0219b038(u32 a) {
 
 // non-matching: the original loads the constant 0x0100007f into r7 once before the loop and keeps the result in r6, the table pointer in r5 and the offset in r4; ours reloads the constant in the loop and uses r7, r6, r5, r4 for them
 u32 func_ov000_0219b05c(void) {
-    u32 a;
+    s32 a;
     u32 *c;
     Unk021a8f84 *d;
     s32 e;
