@@ -67,7 +67,7 @@ void func_01ff9490(s32 *o, const Unk0201290c_1c *v1) {
 void func_01ff94d4(s32 *o, const Unk0201290c_1c *v1) {
     s32 a;
     s32 b;
-    s32 t;
+    u32 t;
 
     a = v1->mUnk_2c << 12;
     b = v1->mUnk_2e << 12;
