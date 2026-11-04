@@ -394,7 +394,8 @@ u16 func_02077a5c(void) {
 // ours drops the test because the counter starts at 0
 u32 func_02077a70(s32 *a, u32 b) {
     u32 n;
-    s32 i;
+    // placeholder: this enum temporary reproduces the original instruction order.
+    enum { LOCAL_ZERO = 0 } i;
 
     *a = (s32) _s32_div_f((u16) b, 3);
     if (*a >= 8) {

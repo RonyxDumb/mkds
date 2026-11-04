@@ -8,8 +8,8 @@ int func_020099d8(void *a, u32 b, u32 c) {
     Unk0216fda8 *v1;
     u32 v2;
     s32 v3;
-    u16 v5;
     u16 v4;
+    u16 v5;
     v4 = b;
     v5 = c;
     v1 = data_0216fda8;

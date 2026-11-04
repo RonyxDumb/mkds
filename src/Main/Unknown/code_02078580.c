@@ -304,7 +304,8 @@ void func_02078b48(void *param_1) {
 // (cmp r4, #0x24; bge), we enter it directly because the start value is known
 void func_02078c58(void *param_1) {
     u32 i;
-    s32 j;
+    // placeholder: this enum temporary reproduces the original instruction order.
+    enum { LOCAL_ZERO = 0 } j;
     s32 a;
     func_02047b6c(1);
     func_02062860();

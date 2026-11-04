@@ -139,8 +139,8 @@ u16 func_0204b2cc(u8 *p, u32 n) {
     u16 v2;
     u8 b;
     s32 k;
-    v1 = 0;
     i = 0;
+    v1 = 0;
     if (i < n) {
         do {
             b = *p;
