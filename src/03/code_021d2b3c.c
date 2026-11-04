@@ -8,7 +8,7 @@
 
 // non-matching: same instructions and size, but the two flag locals are in r6 and r5 where the original has r5 and r6
 void func_ov003_021d2b3c(void) {
-    u32 b;
+    u8 b;
     u32 a;
     u32 c;
     s32 i;
