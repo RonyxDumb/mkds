@@ -52,14 +52,14 @@ void SetMPLinkCallback(u32 callback) {
 
 #pragma thumb on
 
-void ScanConnectStartConnect(u8 *scanBuffer) {
+void ScanConnectStartConnect(ScanBlock *scanBuffer) {
     s32 r;
     gMPLink->mMPStarted = 0;
     gMPLink->mResetting = 0;
-    gMPLink->mSendBufferSize = (*OFFSET_PTR(u16, scanBuffer, 0x4e) + 0x21) & ~0x1f;
-    gMPLink->mReceiveBufferSize = ((*OFFSET_PTR(u16, scanBuffer, 0x4c) + 0x55) & ~0x1f) * 2;
-    gMPLink->mUnk_14 = *OFFSET_PTR(u16, scanBuffer, 0x4c);
-    gMPLink->mUnk_16 = *OFFSET_PTR(u16, scanBuffer, 0x4e);
+    gMPLink->mSendBufferSize = (scanBuffer->mUnk_4e + 0x21) & ~0x1f;
+    gMPLink->mReceiveBufferSize = ((scanBuffer->mUnk_4c + 0x55) & ~0x1f) * 2;
+    gMPLink->mUnk_14 = scanBuffer->mUnk_4c;
+    gMPLink->mUnk_16 = scanBuffer->mUnk_4e;
     gMPLink->mUnk_18 = gMPLink->mUnk_14 - 6;
     SetupPieceSizes(gMPLink->mUnk_16);
     r = WM_StartConnectEx(ScanConnectStartConnectCallback, (u16 *) scanBuffer, NULL, 1, 0);
@@ -414,7 +414,7 @@ void StartRepeatedScan(UnkFunc *callback, u32 b) {
     gScanConnectWork->mScanCallback = callback;
     gScanConnectWork->mUnk_05e4 = b;
     gScanConnectWork->mScanParams.mUnk_04 = 0;
-    gScanConnectWork->mScanParams.mUnk_00 = gScanConnectWork->mScanBuffer;
+    gScanConnectWork->mScanParams.mUnk_00 = &gScanConnectWork->mScanBuffer;
     gScanConnectWork->mRepeatScan = 1;
     gScanConnectWork->mUseScanBssid = 0;
     gScanConnectWork->mUnk_05ee = 0;
@@ -467,8 +467,8 @@ void ScanConnectStartScanCallback(Unk021425e8 *a) {
             break;
         case 5:
             if (a->mUnk_38.mUnk_00[1] == gScanConnectWork->mUnk_05e4) {
-                DC_InvalidateRange(gScanConnectWork->mScanBuffer, 0xc0);
-                AddScanResult(EntryCallback, a->mUnk_12, (ScanBlock *) gScanConnectWork->mScanBuffer);
+                DC_InvalidateRange(&gScanConnectWork->mScanBuffer, 0xc0);
+                AddScanResult(EntryCallback, a->mUnk_12, &gScanConnectWork->mScanBuffer);
                 UpdateEntryTimers(EntryCallback, 1);
             }
         case 4:

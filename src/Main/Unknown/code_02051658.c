@@ -89,7 +89,7 @@ void StartScan(s32 a, s32 (*b)(), s32 (*c)()) {
     }
 }
 
-void func_020525a8(ScanSlot *slot, ScanBlockView *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *d, u8 e) {
+void func_020525a8(ScanSlot *slot, ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *d, u8 e) {
     s32 n0;
     u8 n1;
     s32 k;
@@ -105,7 +105,7 @@ void func_020525a8(ScanSlot *slot, ScanBlockView *scanBuffer, Unk0217aa00_42c *k
         n1 = d->mUnk_0e.mUnk_06_4;
         n0 = d->mUnk_0e.mUnk_06_0;
         MI_CpuCopy8(scanBuffer, slot, 0xc0);
-        slot->mUnk_c0_42c = *key;
+        slot->mUnk_c0 = *key;
         slot->mUnk_dc_0 = 1;
         slot->mUnk_db = 0;
         if (n0 >= 0) {
@@ -126,7 +126,7 @@ void func_020525a8(ScanSlot *slot, ScanBlockView *scanBuffer, Unk0217aa00_42c *k
         m1 = d->mUnk_0e.mUnk_06_4;
         m0 = d->mUnk_0e.mUnk_06_0;
         MI_CpuCopy8(scanBuffer, slot, 0xc0);
-        slot->mUnk_c0_42c = *key;
+        slot->mUnk_c0 = *key;
         slot->mUnk_dc_0 = 1;
         slot->mUnk_db = 0;
         if (m0 >= 0) {
@@ -139,7 +139,7 @@ void func_020525a8(ScanSlot *slot, ScanBlockView *scanBuffer, Unk0217aa00_42c *k
     }
 }
 
-void FindOrAddScanSlot(ScanBlockView *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *c) {
+void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *c) {
     Unk0217aa00_24_50_0e_36 *x;
     s32 i;
     s32 n;
@@ -159,9 +159,9 @@ void FindOrAddScanSlot(ScanBlockView *scanBuffer, Unk0217aa00_42c *key, Unk0217a
     n = 0;
     found = FALSE;
     for (i = 0, slot = g; i < 4; i++, slot++) {
-        if (slot->mUnk_dc_0 != 0 && key->mUnk_00[0] == slot->mUnk_c0[0] && key->mUnk_00[1] == slot->mUnk_c0[1] &&
-            key->mUnk_00[2] == slot->mUnk_c0[2] && key->mUnk_00[3] == slot->mUnk_c0[3] &&
-            key->mUnk_00[4] == slot->mUnk_c0[4] && key->mUnk_00[5] == slot->mUnk_c0[5]) {
+        if (slot->mUnk_dc_0 != 0 && key->mUnk_00[0] == slot->mUnk_c0.mUnk_00[0] &&
+            key->mUnk_00[1] == slot->mUnk_c0.mUnk_00[1] && key->mUnk_00[2] == slot->mUnk_c0.mUnk_00[2] && key->mUnk_00[3] == slot->mUnk_c0.mUnk_00[3] &&
+            key->mUnk_00[4] == slot->mUnk_c0.mUnk_00[4] && key->mUnk_00[5] == slot->mUnk_c0.mUnk_00[5]) {
             chosenSlot = slot;
             found = TRUE;
             break;
@@ -197,7 +197,7 @@ void FindOrAddScanSlot(ScanBlockView *scanBuffer, Unk0217aa00_42c *key, Unk0217a
                 x = &u->mUnk_36;
                 v = -(found != FALSE);
                 MI_CpuCopy8(scanBuffer, chosenSlot, 0xc0);
-                chosenSlot->mUnk_c0_42c = *key;
+                chosenSlot->mUnk_c0 = *key;
                 chosenSlot->mUnk_dc_0 = 1;
                 chosenSlot->mUnk_db = 0;
                 if (v >= 0) {
@@ -233,7 +233,7 @@ void FindOrAddScanSlot(ScanBlockView *scanBuffer, Unk0217aa00_42c *key, Unk0217a
 }
 
 void StartScanCallback(Unk021425e8 *event) {
-    ScanBlockView scanBuffer;
+    ScanBlock scanBuffer;
     Unk0217aa00_42c key;
     s32 i;
     ConnectionWork *connection;
@@ -349,7 +349,7 @@ void EndScanCallback(Unk021425e8 *event) {
     func_020533a0();
 }
 
-void StartConnect(ScanBlockView *a, void *b, s32 (*c)(), s32 (*d)(), s32 (*e)()) {
+void StartConnect(ScanBlock *a, void *b, s32 (*c)(), s32 (*d)(), s32 (*e)()) {
     u8 v1[0x18];
 
     MI_CpuFill8(v1, 0, 0x18);

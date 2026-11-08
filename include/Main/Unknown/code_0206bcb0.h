@@ -6,6 +6,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02086058.h"
 #include "Main/Unknown/code_0210a578.h"
+#include "Main/Unknown/code_02024974.h" // KartSound
 
 #include "types.h"
 #include "Main/Unknown/code_02039774.h"
@@ -150,19 +151,6 @@ typedef struct ParticipantKartRecordState {
 typedef struct Unk0206c5e4_208 {
     /* 0 */ BOOL mUnk_00;
 } Unk0206c5e4_208;
-
-// The 0x38 bytes at 0x450 of a Kart: words at 0x08, 0x28, 0x30 and 0x34 and a byte at 0x2c.
-typedef struct Unk0206bcb0_A {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u8 mUnk_04[4];
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ u8 mUnk_0c[0x1c];
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ u8 mUnk_2c;
-    /* 2d */ u8 mUnk_2d[3];
-    /* 30 */ u32 mUnk_30;
-    /* 34 */ u32 mUnk_34;
-} Unk0206bcb0_A;
 
 // Bits of Kart.mUnk_7c.
 // Set once at set-up (func_02071e28) when mIndex == gRaceSetup->mEntryIndex, i.e. the selected entry.
@@ -540,12 +528,7 @@ typedef struct Kart {
     /* 440 */ u16 mUnk_440[2];
     /* 444 */ s32 mUnk_444[2];
     /* 44c */ struct MapObject *mUnk_44c;
-    /* 450 */ Unk0206bcb0_A mUnk_450;
-    /* 488 */ u32 mUnk_488;
-    /* 48c */ s32 (*mUnk_48c)(void *);
-    /* 490 */ u32 mUnk_490;
-    /* 494 */ u8 mUnk_494[0x24];
-    /* 4b8 */ s32 mUnk_4b8;
+    /* 450 */ KartSound mUnk_450;
     /* 4bc */ s32 mUnk_4bc;
     /* 4c0 */ s32 mUnk_4c0;
     /* 4c4 */ s32 mUnk_4c4;

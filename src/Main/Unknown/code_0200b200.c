@@ -30,8 +30,8 @@ u32 StartConnectToEntry(u32 entryIndex) {
     SetupMPLink((u32) gScanConnectWork->mMPLink);
     SetMPLinkCallback((u32) MPLinkCallback);
     SetScanConnectStateAndNotify(1, 0);
-    MI_CpuCopy8(v1->mScanBuffer, gScanConnectWork->mScanBuffer, 0xc0);
-    ScanConnectStartConnect(gScanConnectWork->mScanBuffer);
+    MI_CpuCopy8(v1->mScanBuffer, &gScanConnectWork->mScanBuffer, 0xc0);
+    ScanConnectStartConnect(&gScanConnectWork->mScanBuffer);
     return 1;
 }
 

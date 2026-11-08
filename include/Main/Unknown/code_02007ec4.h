@@ -7,27 +7,7 @@
 #include "Main/Unknown/unk_02152000.h"
 #include "Main/Unknown/unk_0216f000.h"
 #include "code_0200fc8c.h"
-
-// 0xc0-byte record: the first 0x3c bytes are taken from 0x027ffc42 when the halfword at 0x027ffc40 is 2 (or from
-// address 0); the halfwords at 0x4c and 0x4e and the bytes from 0x4a are set by func_02007ec4 and func_0200b15c.
-typedef struct ScanBlock {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u8 mUnk_12[0x2a];
-    /* 3c */ u16 mUnk_3c;
-    /* 3e */ u8 mUnk_3e[2];
-    /* 40 */ u16 mUnk_40;
-    /* 42 */ u8 mUnk_42[2];
-    /* 44 */ u32 mUnk_44;
-    /* 48 */ u16 mUnk_48;
-    /* 4a */ u8 mUnk_4a;
-    /* 4b */ u8 mUnk_4b;
-    /* 4c */ u16 mUnk_4c;
-    /* 4e */ u16 mUnk_4e;
-    /* 50 */ u8 mUnk_50[0x70];
-} ScanBlock;
+#include "Main/Unknown/unk_0217a000.h" // ScanBlock
 
 // Filled by func_0200806c.
 typedef struct Unk020072c0_buf {

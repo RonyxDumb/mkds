@@ -134,7 +134,7 @@ void func_02024a88(Kart *kart) {
     s32 aboveSpeedLimit;
     s32 kartFlags;
 
-    soundRecord = (KartSound *) &kart->mUnk_450;
+    soundRecord = &kart->mUnk_450;
     kartFlags = kart->mUnk_48;
     f = (kartFlags & 2) != 0 ? 1 : 0;
     g = (kartFlags & 4) != 0 ? 1 : 0;
@@ -164,14 +164,14 @@ void func_02024a88(Kart *kart) {
                 } else {
                     i = ((s64) h * 0x580000 + 0x800) >> 12;
                 }
-                g = func_02024eec((KartSound *) &kart->mUnk_450, i, 0);
+                g = func_02024eec(&kart->mUnk_450, i, 0);
                 soundRecord->mVolume = 0x7f;
                 soundRecord->mSoundId = soundRecord->mUnk_40.mUnk_04;
                 AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) func_02024fc0, kart, (s32) soundRecord);
             } else {
                 i = ((s64) h * 0x480000 + 0x800) >> 12;
-                g = func_02024eec((KartSound *) &kart->mUnk_450, i, 0);
+                g = func_02024eec(&kart->mUnk_450, i, 0);
                 soundRecord->mVolume = 0x46;
                 soundRecord->mSoundId = soundRecord->mUnk_40.mUnk_04;
                 AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
@@ -207,7 +207,7 @@ void func_02024a88(Kart *kart) {
         } else {
             i = ((s64) soundRecord->mUnk_1c * velocityLength + 0x800) >> 12;
         }
-        g = func_02024eec((KartSound *) &kart->mUnk_450, i, aboveSpeedLimit);
+        g = func_02024eec(&kart->mUnk_450, i, aboveSpeedLimit);
         soundRecord->mVolume = 0x7f;
         if (soundRecord->mUnk_14 == 0) {
             soundRecord->mSoundId =
@@ -221,7 +221,7 @@ void func_02024a88(Kart *kart) {
         } else {
             i = ((s64) soundRecord->mUnk_20 * velocityLength + 0x800) >> 12;
         }
-        g = func_02024eec((KartSound *) &kart->mUnk_450, i, aboveSpeedLimit);
+        g = func_02024eec(&kart->mUnk_450, i, aboveSpeedLimit);
         soundRecord->mVolume = 0x32;
         if (kart->mVelocityLengthRatio < 0x19a) {
             soundRecord->mSoundId = soundRecord->mUnk_40.mLowRatioSoundId;

@@ -38,7 +38,7 @@ typedef struct KartSound {
     /* 30 */ s32 mLastSeqArcSoundRaceFrame;
     /* 34 */ s32 mUnk_34;
     /* 38 */ s32 mUnk_38;
-    /* 3c */ u8 mUnk_3c[4];
+    /* 3c */ s32 (*mUnk_3c)(void *);
     /* 40 */ Unk02024eec_40 mUnk_40;
     /* 68 */ s32 mUnk_68;
 } KartSound;

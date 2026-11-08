@@ -783,8 +783,8 @@ void func_020719d0(Kart *kart) {
     s32 f;
     s32 g;
 
-    kart->mUnk_450.mUnk_00 = 0xa5;
-    kartSound = (KartSound *) &kart->mUnk_450;
+    kart->mUnk_450.mSoundId = 0xa5;
+    kartSound = &kart->mUnk_450;
     kartSound->mVolume = 0x64;
     kartSound->mPitch = -1;
     kartSound->mTargetPitch = 0;
@@ -914,7 +914,7 @@ void func_02071944(void *soundSource, int soundId) {
 
 void func_02071914(void *kart, int soundId) {
     if (StartSoundWhileRequested(kart, soundId, 0x7f, 0) != NULL) {
-        ((Kart *) kart)->mUnk_488 = soundId;
+        ((Kart *) kart)->mUnk_450.mUnk_38 = soundId;
     }
 }
 

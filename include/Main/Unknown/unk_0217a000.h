@@ -270,7 +270,7 @@ typedef struct Unk0217aa00_24_50_0e {
     /* 36 */ Unk0217aa00_24_50_0e_36 mUnk_36;
 } Unk0217aa00_24_50_0e;
 
-// 0x70 bytes at 0x50 of ScanBlockView; the word at 0x38 of ChildList points to one.
+// 0x70 bytes at 0x50 of ScanBlock; the word at 0x38 of ChildList points to one.
 typedef struct Unk0217aa00_24_50 {
     union {
         struct {
@@ -298,19 +298,27 @@ typedef struct Unk0217aa00_24_50 {
     };
 } Unk0217aa00_24_50;
 
-// 0xc0 bytes behind member 0x24 of ConnectionWork; the first 0xc0 bytes of each ScanSlot have the same layout.
-typedef struct ScanBlockView {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02[0x3a];
+// 0xc0-byte record: the first 0x3c bytes are taken from 0x027ffc42 when the halfword at 0x027ffc40 is 2 (or from
+// address 0); the halfwords at 0x4c and 0x4e and the bytes from 0x4a are set by func_02007ec4 and func_0200b15c.
+// Also the buffer behind member 0x24 of ConnectionWork and the first 0xc0 bytes of each ScanSlot.
+typedef struct ScanBlock {
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ u16 mUnk_0c;
+    /* 0e */ u16 mUnk_0e;
+    /* 10 */ u16 mUnk_10;
+    /* 12 */ u8 mUnk_12[0x2a];
     /* 3c */ u16 mUnk_3c;
-    /* 3e */ u8 mUnk_3e[6];
+    /* 3e */ u8 mUnk_3e[2];
+    /* 40 */ u16 mUnk_40;
+    /* 42 */ u8 mUnk_42[2];
     /* 44 */ u32 mUnk_44;
     /* 48 */ u16 mUnk_48;
     /* 4a */ u8 mUnk_4a;
     /* 4b */ u8 mUnk_4b;
-    /* 4c */ u8 mUnk_4c[4];
+    /* 4c */ u16 mUnk_4c;
+    /* 4e */ u16 mUnk_4e;
     /* 50 */ Unk0217aa00_24_50 mUnk_50;
-} ScanBlockView;
+} ScanBlock;
 
 // Object behind member 0x15c4 of ConnectionWork.
 typedef struct Unk0217aa00_15c4 {
@@ -454,11 +462,8 @@ typedef struct Unk0217aa00_42c {
 
 // 0xe0-byte entries from 0xac of ConnectionWork.
 typedef struct ScanSlot {
-    /* 00 */ u8 mUnk_00[0xc0];
-    /* c0 */ union {
-        u8 mUnk_c0[6];
-        Unk0217aa00_42c mUnk_c0_42c;
-    };
+    /* 00 */ ScanBlock mUnk_00;
+    /* c0 */ Unk0217aa00_42c mUnk_c0;
     /* c6 */ u8 mUnk_c6[0x14];
     /* da */ u8 mUnk_da;
     /* db */ u8 mUnk_db;
@@ -586,7 +591,7 @@ typedef struct ConnectionWork {
     /* 0018 */ Unk02143c30 *mParentParameter;
     /* 001c */ Unk02143a78 *mUnk_001c;
     /* 0020 */ Unk021438f0 *mUnk_0020;
-    /* 0024 */ ScanBlockView *mUnk_0024;
+    /* 0024 */ ScanBlock *mUnk_0024;
     /* 0028 */ void *mUnk_0028;
     /* 002c */ void *mUnk_002c;
     /* 0030 */ s32 mUnk_0030;

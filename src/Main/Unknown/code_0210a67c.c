@@ -91,7 +91,7 @@ void StartSurfaceSound(SoundSource *source, int entryIndex, u32 surfaceKind, u32
 void func_0210b4e0(Kart *kart, s32 b, s32 surfaceKind, s32 surfaceVariant) {
     u32 soundId;
 
-    switch (kart->mUnk_490) {
+    switch (kart->mUnk_450.mUnk_40.mUnk_00) {
         case 0:
             soundId = 0xb2;
             break;
@@ -110,7 +110,7 @@ void func_0210b4e0(Kart *kart, s32 b, s32 surfaceKind, s32 surfaceVariant) {
 
 void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surfaceKind, s32 surfaceVariant,
                                          u32 waterDepth) {
-    Unk0206bcb0_A *soundState;
+    KartSound *soundState;
     s16 f;
     s32 volume;
     BOOL isEntryKart;
@@ -128,7 +128,7 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
         return;
     }
     soundState = &kart->mUnk_450;
-    f = soundState->mUnk_08 >> 12;
+    f = soundState->mPitch >> 12;
     if (f > 0x1fc) {
         volume = 0x7f;
     } else {
@@ -166,15 +166,16 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
             case 0xffd1:
                 m = soundId & 1;
                 lapProgress = GetKartLapProgress(kart->mIndex);
-                k = lapProgress - soundState->mUnk_28;
+                k = lapProgress - soundState->mLapProgressAtLastSound;
                 if (k < 0) {
                     k = -k;
                 }
                 if (k > GetLapProgressSoundGap(m)) {
                     baseSoundId = GetLapProgressSoundId(m);
-                    soundState->mUnk_2c++;
-                    StartSound(&kart->mSoundSource, (u16) ((soundState->mUnk_2c & 1) + baseSoundId), 0x7f, 0);
-                    soundState->mUnk_28 = lapProgress;
+                    soundState->mLapProgressSoundCount++;
+                    StartSound(&kart->mSoundSource, (u16) ((soundState->mLapProgressSoundCount & 1) + baseSoundId),
+                               0x7f, 0);
+                    soundState->mLapProgressAtLastSound = lapProgress;
                 }
                 break;
             default:
@@ -235,7 +236,7 @@ void StartKartCollisionSound(Kart *kart, s32 b, s16 d) {
 
 void func_0210af40(Kart *kart, s32 b, s32 c) {
     NNSSndSeqPlayer *sndHandle;
-    Unk0206bcb0_A *soundState;
+    KartSound *soundState;
     u32 raceFrames;
     s32 volume;
     BOOL isEntryKart;
@@ -293,11 +294,11 @@ void func_0210af40(Kart *kart, s32 b, s32 c) {
         if (raceFrames < minFrames) {
             return;
         }
-        if (raceFrames - soundState->mUnk_30 < minFrameGap) {
+        if (raceFrames - soundState->mLastSeqArcSoundRaceFrame < minFrameGap) {
             return;
         }
         StartSoundEx(&kart->mSoundSource, 2, b * 0xe + c, 0x7f, 0);
-        soundState->mUnk_30 = raceFrames;
+        soundState->mLastSeqArcSoundRaceFrame = raceFrames;
     }
 }
 
@@ -471,7 +472,7 @@ void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 c) {
         if (playingSound == NULL) {
             return;
         }
-        NNS_SndPlayerWriteVariable(&playingSound->mSeqPlayer, 0, kart->mUnk_4b8);
+        NNS_SndPlayerWriteVariable(&playingSound->mSeqPlayer, 0, kart->mUnk_450.mUnk_68);
     } else {
         NNS_SndArcPlayerStartSeqArcEx(&playingSound->mSeqPlayer, f, -1, c, d, soundId);
     }
@@ -489,7 +490,7 @@ void SetKartPlayingSoundVolumePitch(Kart *kart, PlayingSound *playingSound, s32 
     s16 depthPitch;
 
     volume = playingSound->mVolume;
-    totalPitchOffset = pitchOffset + kart->mUnk_48c(&kart->mUnk_518);
+    totalPitchOffset = pitchOffset + kart->mUnk_450.mUnk_3c(&kart->mUnk_518);
     if (playingSound->mSeqArcNo != 2) {
         waterDepth = kart->mWaterDepth;
         depthPitch = 0;

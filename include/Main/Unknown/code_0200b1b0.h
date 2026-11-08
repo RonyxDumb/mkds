@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-struct ScanBlockView;
+struct ScanBlock;
 
-u32 func_0200b1b0(u32 index, struct ScanBlockView *destination);
+u32 func_0200b1b0(u32 index, struct ScanBlock *destination);

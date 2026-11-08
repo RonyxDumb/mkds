@@ -214,16 +214,16 @@ void func_0204e474(void) {
 s32 FindScanEntryIndex(u32 entryIndex) {
     s32 result;
     u16 index;
-    ScanBlockView scanBlock;
+    ScanBlock scanBlock;
     result = -1;
     if (data_0217aa00->mUnk_000c == 0x1e) {
         for (index = 0; index < 16; index++) {
             if (func_0200b1b0(index, &scanBlock) != 0) {
-                u8 *tableBytes = data_0217aa00->mUnk_00ac[0].mUnk_c0;
+                u8 *tableBytes = data_0217aa00->mUnk_00ac[0].mUnk_c0.mUnk_00;
                 u8 *entryBytes = tableBytes + entryIndex * 0xe0;
-                if (scanBlock.mUnk_02[2] == tableBytes[entryIndex * 0xe0] && scanBlock.mUnk_02[3] == entryBytes[1] &&
-                    scanBlock.mUnk_02[4] == entryBytes[2] && scanBlock.mUnk_02[5] == entryBytes[3] &&
-                    scanBlock.mUnk_02[6] == entryBytes[4] && scanBlock.mUnk_02[7] == entryBytes[5]) {
+                if (scanBlock.mUnk_00[4] == tableBytes[entryIndex * 0xe0] && scanBlock.mUnk_00[5] == entryBytes[1] &&
+                    scanBlock.mUnk_00[6] == entryBytes[2] && scanBlock.mUnk_00[7] == entryBytes[3] &&
+                    scanBlock.mUnk_00[8] == entryBytes[4] && scanBlock.mUnk_00[9] == entryBytes[5]) {
                     result = (s8) index;
                     break;
                 }
@@ -423,7 +423,7 @@ void func_0204dfe0(u32 a) {
     u32 result;
     data_0217aa00->mUnk_000c = 0x23;
     data_0217aa00->mRequestPending = 1;
-    result = func_0200b15c(a, (ScanBlock *) data_0217aa00->mUnk_0024, 0x1bc, 0x36, 0, 0);
+    result = func_0200b15c(a, data_0217aa00->mUnk_0024, 0x1bc, 0x36, 0, 0);
     data_0217aa00->mRequestPending = 0;
     data_0217aa00->mUnk_0024->mUnk_48 = (data_0217aa00->mUnk_0024->mUnk_48 + 7) & 0x7fff;
     if (result == 0) {
@@ -434,7 +434,7 @@ void func_0204dfe0(u32 a) {
 void func_0204df90(void) {
     data_0217aa00->mUnk_000c = 0x1a;
     data_0217aa00->mRequestPending = 1;
-    func_02007ec4((ScanBlock *) data_0217aa00->mUnk_0024, 0x1bc, 0x36, 0, 0);
+    func_02007ec4(data_0217aa00->mUnk_0024, 0x1bc, 0x36, 0, 0);
     data_0217aa00->mUnk_0024->mUnk_48 = (data_0217aa00->mUnk_0024->mUnk_48 + 7) & 0x7fff;
     data_0217aa00->mRequestPending = 0;
 }
