@@ -112,4 +112,3 @@ s32 CollideKartWithMapObjectResponse14(Kart *kart, s32 *output);
 // bit 0x10000000 of mUnk_4c or bit 0x4000000 of mUnk_48 is set and then runs StopDispCapBlend, and sets mForwardSpeed
 // to 0. Returns 5.
 s32 CollideKartWithMapObjectResponse13(Kart *kart, s32 *output);
-// Declared here until the code that defines them is decompiled.

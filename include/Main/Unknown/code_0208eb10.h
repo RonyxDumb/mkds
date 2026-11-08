@@ -28,7 +28,6 @@ typedef struct PosStrip {
 typedef struct PosStripPoint PosStripPoint;
 typedef struct PosStrip PosStrip;
 
-// Declared here until the code that defines them is decompiled.
 
 #include "code_02012b30.h" // MtxFx43
 

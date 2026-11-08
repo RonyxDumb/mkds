@@ -5,7 +5,7 @@
 typedef struct Kart Kart;
 typedef struct SoundSource SoundSource;
 
-// Ten words at 0x40 of an KartSound, built on the stack by func_020719d0.
+// Ten words at 0x40 of a KartSound, built on the stack by func_020719d0.
 typedef struct Unk02024eec_40 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;

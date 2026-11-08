@@ -4,7 +4,6 @@
 
 typedef struct MatchingServerList MatchingServerList;
 
-// Declared here until the code that defines them is decompiled.
 
 void func_ov000_0219e134(s32 a);
 void WiFiMatchingServerListCallback(MatchingServerList *list, s32 event, s32 c);

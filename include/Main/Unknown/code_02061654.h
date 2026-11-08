@@ -5,7 +5,6 @@
 typedef struct TimeRecord TimeRecord;
 typedef struct Camera Camera;
 
-// Declared here until the code that defines them is decompiled.
 
 #include "code_02012b30.h" // MtxFx43
 

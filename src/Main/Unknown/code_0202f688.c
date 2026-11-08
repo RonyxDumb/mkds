@@ -189,7 +189,7 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
 
 #pragma thumb on
 
-// Fills with 0 through a halfword stack offset of its own.
+// Fills with 0 using a volatile halfword.
 static inline void func_0202f764_inline(void *p, s32 v1) {
     volatile u16 zero = 0;
     MIi_CpuClear16(zero, p, v1);

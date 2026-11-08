@@ -2,7 +2,6 @@
 
 #include "types.h"
 
-// Declared here until the code that defines them is decompiled.
 #include "Main/Unknown/code_0210bafc.h"
 #include "code_0212d214.h"
 #include "Main/Unknown/code_0210bcf4.h"

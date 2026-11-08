@@ -29,7 +29,7 @@
 #include "Main/Unknown/code_020d7da8.h"
 #include "Main/Unknown/code_020d8b88.h"
 
-// placeholder: an object of the original file that is not known yet; it only sets the order of the tables below
+// Object not known yet; it only sets the order of the tables below
 const u8 data_020da414_pad[1] = {1};
 
 #pragma thumb on

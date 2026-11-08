@@ -26,7 +26,6 @@ void AdvanceJb3ListIdTimers(void);
 void func_ov003_021c7ec4(void);
 void MoveJb3ListSelection(s32 d);
 void SetJb3ListSelectedId(u32 a);
-// Declared here until the code that defines them is decompiled.
 void SetJb3ListSelectedIdFromRow(void);
 void func_ov003_021c81b8(void);
 void WriteJb3ListBgOffset(void);

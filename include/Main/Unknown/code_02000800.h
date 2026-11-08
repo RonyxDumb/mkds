@@ -9,7 +9,6 @@
 #include "Main/Unknown/code_02003000.h"
 #include "Main/Unknown/code_02000b44.h"
 
-// Declared here until the code that defines them is decompiled.
 void FloatInit(void);
 void CallCtorTable(void);
 

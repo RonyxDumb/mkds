@@ -27,7 +27,6 @@ void func_ov003_021cd27c(void) {
 
 u32 func_ov003_021cd1c4(void) {
     Unk021da26c *p;
-    // volatile: the only spelling found that stores and reloads the argument on the stack.
     volatile u16 a = 0;
     MIi_CpuClear16(a, data_ov003_021da26c->mUnk_1300, 0x348);
     if (WM_Initialize(data_ov003_021da26c, func_ov003_021cd080, 3) != 2) {

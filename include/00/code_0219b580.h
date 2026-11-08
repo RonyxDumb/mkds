@@ -87,7 +87,7 @@ typedef struct WiFiConnection {
     /* 78 */ void *mUnk_78;
     /* 7c */ void (*mUnk_7c)(s32 a, s32 b, s32 c, u32 d, u32 e, void *f);
     /* 80 */ void *mUnk_80;
-    // Login object (WiFiLogin, class still address-based): holds the GP connection pointer, the login state
+    // Login object (WiFiLogin): holds the GP connection pointer, the login state
     // (mUnk_04), the two credential strings given to the connect call (mUnk_4c, mUnk_14c) and the saved profile
     // record; stepped in state 2; its result callback is WiFiLoginCallback.
     /* 84 */ WiFiLogin mLogin;

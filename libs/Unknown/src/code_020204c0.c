@@ -5,7 +5,7 @@
 #include "Main/Unknown/code_0214d000.h"
 
 s32 func_020204c0(ScanBlockView *a) {
-    // volatile only so that v1[0] is read again for the second compare, as in the original
+    // volatile only so that v1[0] is read again for the second compare
     volatile u16 v1[4];
 
     if (a == 0) {

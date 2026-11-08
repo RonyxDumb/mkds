@@ -65,4 +65,3 @@ u32 GpiWriteUpdateBuffers(GpConnection *a, GpiBuffer *b);
 s32 GpiProcessInfoOperation(GpConnection *r, GpiOperation *s, const char *t);
 void func_ov000_0219338c(Unk02192e04 *a, Unk0219338c *b);
 u32 GpiUnpackDate(u32 *a, s32 b, u32 *c, u32 *d, u32 *e);
-// Declared here until the code that defines them is decompiled.

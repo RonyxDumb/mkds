@@ -398,7 +398,7 @@ void UpdateMatching(s32 param_1) {
 
 u32 WiFiUnmatchedDataCallback(u32 param_1, u32 address, u16 port, u8 *data, u32 size) {
     UnmatchedDataAddress a;
-    volatile u32 v; // placeholder: value passed through a stack offset
+    volatile u32 v;
     u32 c;
     if (size == 0 || data == NULL) {
         return 0;
@@ -2563,7 +2563,7 @@ u8 FindFreeMatchingKeyId(void) {
 
 void ReleaseMatchingKeys(void) {
     s32 i;
-    volatile u32 v; // read back from its stack offset
+    volatile u32 v;
     u8(*e)[12];
     i = 0;
     e = gMatchingKeys;

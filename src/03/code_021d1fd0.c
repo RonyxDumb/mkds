@@ -138,7 +138,6 @@ void AdvanceBgTextCanvasUpload(u32 task, u8 *flag) {
 }
 
 void ReleaseBgTextCanvas(BgTextCanvas *canvas) {
-    // placeholders: the values are sent through the stack
     volatile u16 a;
     volatile u16 b;
     void *charBase;

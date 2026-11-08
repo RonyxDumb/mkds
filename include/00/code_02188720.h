@@ -35,7 +35,6 @@ static inline void func_0214d018_inline(void *p, u32 n) {
     MIi_CpuClear32(v, p, n);
 }
 
-// Declared here until the code that defines them is decompiled.
 
 u32 func_ov000_02188720(void);
 u32 func_ov000_02188758(void);

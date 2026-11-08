@@ -27,4 +27,3 @@ void UpdateAp(void);
 void func_ov003_021cb084(void);
 void func_ov003_021cb0b0(void);
 void func_ov003_021cb0e0(void);
-// Declared here until the code that defines them is decompiled.

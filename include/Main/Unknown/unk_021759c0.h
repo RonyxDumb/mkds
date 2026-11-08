@@ -46,7 +46,7 @@ typedef struct KartEntry {
     /* 08 */ KartEntryPlayer mPlayer;
 } KartEntry;
 
-// Values of the mMode member of RaceSetup and of RaceSetupHeader (the other values stay literals). The member is set
+// Values of the mMode member of RaceSetup and of RaceSetupHeader. The member is set
 // when the race is confirmed and is 0 in the menus before that.
 // Grand Prix (also the value in the menus before a race is confirmed): code_0203b6ac.c:114 stores it as the next mode.
 #define MODE_GRAND_PRIX 0

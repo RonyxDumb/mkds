@@ -145,4 +145,3 @@ u32 GetRtcSecondsPlusFixedOffset(void);
 HttpsEntry *AddEntryOrReplaceLongestUnused(const u8 *a);
 HttpsEntry *FindEntryByValuePairAndSetLastUseTime(u32 a, u32 b);
 HttpsEntry *FindEntryByBytesAndSetLastUseTime(const u8 *a);
-// Declared here until the code that defines them is decompiled.

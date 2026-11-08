@@ -9,7 +9,6 @@
 // func_ov000_0219cd74.
 typedef Unk0218eff8Arg Unk0219c400;
 
-// Declared here until the code that defines them is decompiled.
 
 #include "00/code_0219c000.h"
 

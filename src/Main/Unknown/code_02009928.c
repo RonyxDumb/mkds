@@ -762,8 +762,6 @@ u32 RequestWirelessReset(void) {
     savedInterrupts = OS_DisableInterrupts();
     if (gWirelessWork->mResetting == 0) {
         result = 0;
-        // the address of mRepeatScan is computed with a 64-bit add; its low half is the same address, and the leftover
-        // flag-setting add (removed after register allocation) is what gives the original's registers
         *(u32 *) ((u32) gWirelessWork + 0x5e4LL) = result;
         gWirelessWork->mResetting = 1;
         if (IsWorkerActive() != 0) {

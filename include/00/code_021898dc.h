@@ -12,7 +12,6 @@ typedef struct Unk02189f00 {
     /* 0c */ u32 mUnk_0c;
 } Unk02189f00;
 
-// Declared here until the code that defines them is decompiled.
 
 u32 func_ov000_021898dc(Unk02188ec0 *object, u32 a);
 u32 func_ov000_02189998(Unk02188ec0 *object, u32 a);

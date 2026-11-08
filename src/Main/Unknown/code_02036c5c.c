@@ -282,7 +282,7 @@ void func_02038c94(DisplaySettings *settings, u32 value) {
     settings->mUnk_b2 = value;
 }
 
-// Enum-typed parameters of the inlines below: the original reads their values before the register.
+// Enum-typed parameters of the inlines below: their values are read before the register.
 typedef enum { UNK_0203810C_ARG_0 } Unk0203810c_Arg;
 
 // Sets the low two bits of the halfword register r and its bit 6 from the first two halfwords of q.
@@ -533,10 +533,10 @@ void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
     }
 }
 
-// Enum-typed parameters of the inlines below: the original reads their values before the register.
+// Enum-typed parameters of the inlines below: their values are read before the register.
 typedef enum { UNK_02037ABC_ARG_0 } Unk02037abc_Arg;
 
-// Calls MIi_CpuClearFast with v, passed through a stack offset of its own.
+// Calls MIi_CpuClearFast with the value read from a volatile copy.
 static inline void func_02037abc_inline(u32 fillValue, void *destination, u32 size) {
     volatile u32 fillValueCopy = fillValue;
     MIi_CpuClearFast(fillValueCopy, destination, size);

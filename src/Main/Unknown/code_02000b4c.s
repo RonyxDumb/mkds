@@ -1,8 +1,7 @@
 // Build information block, kept in .text after func_02000b48: the addresses the startup code reads (the list of blocks
-// to copy and clear, the range of words to clear) and the SDK version strings.
+// to copy and clear, the range of words to clear) and the version strings.
 //
-// Not compiled code: a C file can't place data in .text. 1.2 puts C tables in .rodata, also with `#pragma section`
-// or a section attribute (docs/compiler.md).
+// Hand-written asm: the data has to sit in .text.
 
     .text
     .extern data_usa_021773a0

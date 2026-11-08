@@ -38,7 +38,6 @@ typedef union LoadedPartPointer {
     Unk02021dc8 *mNcer;
 } LoadedPartPointer;
 
-// Declared here until the code that defines them is decompiled.
 void *GetPlayerCharacterBncl(int param_1);
 Unk02021dc8 *GetPlayerCharacterNcer(int param_1);
 Ncgr *GetPlayerCharacterNcgr(int param_1);

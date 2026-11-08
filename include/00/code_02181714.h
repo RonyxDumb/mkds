@@ -56,7 +56,6 @@ void AdvanceWiFiTopMenuState8(void);
 void AdvanceWiFiTopMenuState7(void);
 void AdvanceWiFiTopMenuState6(void);
 void AdvanceWiFiTopMenuState5(void);
-// Declared here until the code that defines them is decompiled.
 void AdvanceWiFiTopMenuState4(void);
 void AdvanceWiFiTopMenuState3(void);
 void AdvanceWiFiTopMenuState2(void);

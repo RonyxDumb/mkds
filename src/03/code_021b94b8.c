@@ -93,7 +93,6 @@ s32 func_ov003_021ba61c(void *(*alloc)(u32), void (*release)(void *)) {
                     break;
                 case 6:
                     return 0;
-                    // placeholder: labels that fall into default only give the original's jump table its size
                 case 8:
                 case 0xa:
                 case 0xc:
@@ -133,7 +132,6 @@ s32 func_ov003_021ba560(void) {
                 result = 0;
                 data_ov003_021d8a18(data_ov003_021d8a14);
                 break;
-                // placeholder: labels that fall into default only give the original's jump table its size
             case 8:
             case 0xa:
             case 0xc:
@@ -160,7 +158,7 @@ s32 func_ov003_021ba524(void) {
         done = FALSE;
         do {
             OS_ReceiveMessage(&gMessageQueue, &msg, 1);
-            /* waits for one entry; the loop flag is a placeholder */
+            /* waits for one entry */
             if ((u32) msg == 0xe) {
                 result = 0;
                 done = FALSE;
@@ -228,7 +226,6 @@ s32 ScanEssidEntries(EssidEntryList **out) {
                 case 8:
                 case 0x12:
                     break;
-                    // placeholder: labels that fall into default only give the original's jump table its size
                 case 0xc:
                 case 0xd:
                 default:
@@ -522,7 +519,6 @@ s32 func_ov003_021b9570(ValueRecordsRequest *req) {
                 return -1;
             }
             if (result == 0) {
-                /* repeated test of result, kept as a placeholder */
                 if (result != 0 || gRequestedEssidList->mCount == 1) {
                     break;
                 }
@@ -638,7 +634,6 @@ s32 func_ov003_021b9570(ValueRecordsRequest *req) {
                             return -1;
                         }
                         if (result == 0) {
-                            /* repeated test of result, kept as a placeholder */
                             if (result != 0 || gRequestedEssidList->mCount == 1) {
                                 break;
                             }
@@ -781,7 +776,6 @@ s32 func_ov003_021b9570(ValueRecordsRequest *req) {
                             return -1;
                         }
                         if (result == 0) {
-                            /* repeated test of result, kept as a placeholder */
                             if (result != 0 || gRequestedEssidList->mCount == 1) {
                                 break;
                             }

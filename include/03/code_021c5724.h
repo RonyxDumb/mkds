@@ -68,5 +68,3 @@ void func_ov003_021c6400(void);
 void func_ov003_021c6508(void);
 void LoadApListFilesAndSetBgCnt(void);
 void CreateApList(void);
-// Declared here until the code that defines them is decompiled.
-// Declared here until the code that defines them is decompiled.

@@ -90,7 +90,7 @@ typedef struct MapObject {
     // state and the frames spent in the state.
     /* 80 */ Unk020e005c_080 mStateMachine;
     // The sound object of the map object, tested against NULL before use: a SoundSource at 0 (so the pointer also
-    // serves as the source) and, in the 0x60-byte variant, an SoundDistanceSquaredChange behind it.
+    // serves as the source) and, in the 0x60-byte variant, a SoundDistanceSquaredChange behind it.
     /* 94 */ MapObjectSound *mSound;
     /* 98 */ MapObjectKindData *mKindData;
     /* 9c */ struct CourseMapRow *mCourseMapRow;

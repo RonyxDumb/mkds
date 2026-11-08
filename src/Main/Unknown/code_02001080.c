@@ -9,7 +9,7 @@
 #include "Main/Unknown/code_02125f6c.h"
 #include "Main/Unknown/code_02126230.h"
 
-// Initialized data kept in .text between two functions (as in the original).
+// Initialized data kept in .text between two functions.
 #pragma define_section MAIN_TEXT ".text"                                                                               \
                                  ".bss" abs32 RWX
 #pragma section MAIN_TEXT begin

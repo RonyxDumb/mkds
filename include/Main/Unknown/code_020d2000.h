@@ -33,7 +33,6 @@ typedef struct MapObjects {
     /* 2b8 */ s32 mRunUpdateLists;
 } MapObjects;
 
-// Declared here until the code that defines them is decompiled.
 #include "Main/Unknown/code_020d2090.h"
 #include "Main/Unknown/code_020d275c.h"
 #include "Main/Unknown/code_020d26e0.h"

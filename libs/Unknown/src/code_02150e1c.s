@@ -1,8 +1,7 @@
 // Block hash update with its round constants.
 //
-// Not compiled code: the routine keeps its constant words before its entry and saves ip, returns by popping
-// pc and folds rotations into its operands (see below). A C file can't place them there: 1.2 puts a function's
-// constant words after its code (also for `ldr rX, =value` in an asm function) and C tables in .rodata.
+// Hand-written asm: the routine keeps its constant words before its entry and saves ip, returns by popping
+// pc and folds rotations into its operands (see below).
 
     .text
 
@@ -23,9 +22,8 @@ hash_k4:
 // exclusive or of four earlier ones rotated left by one; four groups of 20 rounds each add one round constant (the
 // words just before this function), a choice, parity or majority function of three state words, the next schedule word
 // and the first state word rotated left by 5; finally the block's result is added into ctx.
-// Not compiled code: it saves ip, returns by popping pc, folds rotations into its operands (`ror #27`, `ror #8`) and
-// loads its constants from the words before its own start. The 1.2 compiler never saves ip, returns through `bx lr`,
-// keeps rotations as two shifts and places constant words after the function (docs/compiler.md).
+// Hand-written asm: it saves ip, returns by popping pc, folds rotations into its operands (`ror #27`, `ror #8`) and
+// loads its constants from the words before its own start.
     .global func_02150e1c
     .type func_02150e1c, @function
 func_02150e1c:

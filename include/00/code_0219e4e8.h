@@ -2,7 +2,6 @@
 
 #include "types.h"
 
-// Declared here until the code that defines them is decompiled.
 extern char gNumPlayersKey[];
 extern char gMaxPlayersKey[];
 

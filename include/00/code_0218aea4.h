@@ -97,7 +97,6 @@ typedef struct MatchingServerList {
 
 struct MatchingServerList;
 
-// Declared here until the code that defines them is decompiled.
 
 #include "00/code_0218acb0.h"
 

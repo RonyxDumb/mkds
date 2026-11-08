@@ -6,9 +6,7 @@
 #include "Main/Unknown/code_020846c0.h" // Nsbmd
 
 // Object at gCourseModels: two Nsbmd pointers, then the words and halfwords the code tests. The flag halfwords
-// live inside the embedded animation objects. 0xf4 is the distance to the next symbol, so the object overlaps four
-// other symbols: data_usa_0217abac at +0xb0 and the embedded objects data_usa_0217ab04 at +8, data_0217ab5c at +0x40
-// and data_usa_0217ab74 at +0x78 (USA).
+// live inside the embedded animation objects.
 typedef struct CourseModels {
     /* 00 */ Nsbmd *mNsbmd;
     // NULL when '/course_model_V.nsbmd' is absent; drawn before the main model under the other projection argument.

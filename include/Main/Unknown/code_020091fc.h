@@ -112,4 +112,3 @@ void func_0200973c(GameInfoEntry *entry, const void *records, u32 recordMask, u3
 u32 LoadFileIfSizeMatches(const u8 *path, u8 *buffer, u32 isLarge);
 void func_02009828(GameInfoEntry *entry, Unk02009828 *params, const u8 *record);
 
-// Declared here until the code that defines them is decompiled.

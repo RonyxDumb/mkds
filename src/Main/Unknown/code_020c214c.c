@@ -34,7 +34,7 @@
 #include "Main/Unknown/code_020ae000.h"
 #include "Main/Unknown/code_020c0dd8.h"
 
-// placeholder: an object of the original file that is not known yet; it only sets the order of the tables below
+// Object not known yet; it only sets the order of the tables below
 u8 data_020c214c_pad[12];
 
 void func_020c3b6c(s32 row, s32 style) {

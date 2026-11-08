@@ -21,7 +21,6 @@ typedef struct Unk02077750 {
     /* 84 */ s32 mUnk_84;
 } Unk02077750;
 
-// Declared here until the code that defines them is decompiled.
 extern const char data_usa_02165714[];
 
 void UpdateCameraView(Camera *camera);

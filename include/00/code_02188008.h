@@ -70,7 +70,6 @@ extern const s8 *data_ov000_021b1488;
 extern u8 gHttpName[];
 extern u8 gNetcheckName[];
 
-// Declared here until the code that defines them is decompiled.
 
 void DWCi_Netcheck_StartThread(void);
 void DWC_Netcheck_Destroy(void);

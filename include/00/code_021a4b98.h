@@ -81,7 +81,6 @@ typedef struct Unk021a5088 {
     /* 50 */ u16 mUnk_50[16];
 } Unk021a5088;
 
-// Declared here until the code that defines them is decompiled.
 void func_ov000_021a54b0(Unk021425e8 *event);
 
 u32 func_ov000_021a4b98(u32 a);

@@ -70,7 +70,7 @@
 
 #pragma thumb on
 
-// Fills with 0 through a halfword stack offset of its own.
+// Fills with 0 using a volatile halfword.
 static inline void func_02032f94_inline(void *buffer, s32 byteCount) {
     volatile u16 fillValue = 0;
     MIi_CpuClear16(fillValue, buffer, byteCount);

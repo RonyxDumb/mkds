@@ -116,5 +116,4 @@ s32 GpiPeerUpdate(GpConnection *b, GpiPeer *c);
 s32 func_ov000_021941c4(GpConnection *param_1, GpiPeer *param_2);
 s32 func_ov000_02194370(GpConnection *a, GpiPeer *b);
 s32 GpiPeerUpdateWaiting(GpConnection *param_1, GpiPeer *param_2);
-// Declared here until the code that defines them is decompiled.
 s32 func_ov000_02194590(GpConnection *param_1, GpiPeer *param_2);

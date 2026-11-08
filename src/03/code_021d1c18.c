@@ -25,7 +25,6 @@ void CopyNceImageToOamEntries(u32 slot, u32 imageIndex, OamEntry *destination) {
     u16 entryCount = file[imageIndex].mEntryCount;
     s32 i;
     u8 buffer[8];
-    // placeholder: the value is sent through the stack
     volatile u32 d = 0;
 
     MIi_CpuClear32(d, buffer, 8);

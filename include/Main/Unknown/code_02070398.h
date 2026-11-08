@@ -11,7 +11,6 @@ typedef struct PointLink PointLink;
 
 #include "Main/Unknown/code_0206bcb0.h"
 
-// Declared here until the code that defines them is decompiled.
 BOOL TryHoldKartStill(Kart *kart, u32 b, void *c);
 void func_02070484(Kart *kart, Vec4 *quaternion);
 void PlaceKartAtKeyedPlacement(Kart *kart, u32 key);
@@ -48,4 +47,3 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *a);
 // respawn of the selected entry's Kart.
 void ResetKartToRespawnPoint(Kart *kart);
 void AdvanceKartScaleFactor(Kart *kart);
-// Declared here until the code that defines them is decompiled.

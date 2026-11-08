@@ -5,7 +5,6 @@
 #include "Main/Unknown/code_0203e74c.h"
 #include "Main/Unknown/code_0207a7fc.h"
 
-// Declared here until the code that defines them is decompiled.
 
 // Steps the clock, sends the net finish requests, handles the mode 2 / 4 end and sets mRaceDone.
 void UpdateRaceProgress(void);

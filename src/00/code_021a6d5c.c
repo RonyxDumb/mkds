@@ -447,7 +447,7 @@ u32 func_ov000_021a8a54(int a) {
     return a + 3U & 0xfffffffc;
 }
 
-// the original reloads the halfword at 0x70 for every test; a volatile view of the object is the only spelling found
+// The halfword at 0x70 is read again for every test, through a volatile view of the object.
 u32 func_ov000_021a8994(Unk021a6fa8 *a) {
     u32 b = 0;
     u32 c;

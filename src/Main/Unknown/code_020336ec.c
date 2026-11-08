@@ -13,7 +13,7 @@
 #include "code_02016468.h"
 #include "code_0214cfe4.h"
 
-// Fills with 0 through a halfword stack offset of its own.
+// Fills with 0 using a volatile halfword.
 static inline void func_020338f8_inline(void *buffer, s32 byteCount) {
     volatile u16 fillValue = 0;
     MIi_CpuClear16(fillValue, buffer, byteCount);

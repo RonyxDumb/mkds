@@ -4,8 +4,7 @@
 
 // clang-format off
 // Fills c bytes at b with the word a.
-// Not compiled code: it stores with a conditional `stmlt r1!, {r0}`; 1.2 builds ldm/stm only in prologues,
-// epilogues and block moves (docs/compiler.md).
+// Hand-written asm: it stores with a conditional `stmlt r1!, {r0}`.
 asm void func_02000920(u32 a, u32 *b, u32 c) {
     add ip, r1, r2
 loop:
@@ -18,8 +17,7 @@ loop:
 // Unpacks the compressed block that ends at p0, working backwards from its end: the two words before p0 give the
 // packed and unpacked extents; each flag byte selects, per bit from the top, a literal byte or a copy of 3 to 18
 // earlier bytes. Then cleans and invalidates the cache lines of the unpacked range.
-// Not compiled code: it reads the two words with `ldmdb`, writes coprocessor 15 (mcr) and tests with `tst`, none of
-// which 1.2 builds from C (docs/compiler.md).
+// Hand-written asm: it reads the two words with `ldmdb`, writes coprocessor 15 (mcr) and tests with `tst`.
 asm void func_02000934(void *p0) {
     cmp r0, #0x0
     beq done
@@ -76,8 +74,7 @@ done:
 
 // Walks the block list in BuildInfo (start, end, source): for each block copies its words from the source, clears
 // the words after them and cleans and invalidates the cache lines; then continues in AutoloadCallback.
-// Not compiled code: it writes coprocessor 15 (mcr), tests a `cmp` with mi, and ends in a plain branch to another
-// function; none of these come from C in 1.2 (docs/compiler.md).
+// Hand-written asm: it writes coprocessor 15 (mcr), tests a `cmp` with mi, and ends in a branch to another function.
 asm void func_020009e0(void) {
     ldr r0, =BuildInfo
     ldr r1, [r0, #0x0]

@@ -2,7 +2,6 @@
 
 #include "types.h"
 
-// Declared here until the code that defines them is decompiled.
 
 typedef struct DWCHttpLabelValue {
     /* 00 */ void *mFirst;

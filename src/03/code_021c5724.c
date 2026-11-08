@@ -694,8 +694,6 @@ void StartApListScrollYIncrease(void) {
     }
 }
 
-// placeholder: the original keeps the byte at a stack offset between its load and the call; the volatile
-// local reproduces that.
 void func_ov003_021c5724(void) {
     volatile u8 a;
     u8 b;

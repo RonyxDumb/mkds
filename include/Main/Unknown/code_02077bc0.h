@@ -32,7 +32,6 @@ void CreateKart(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed);
 void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed);
 void InitKartModels(void *heap, u32 kartCount);
 
-// Declared here until the code that defines them is decompiled.
 
 #include "Main/Unknown/code_020846c0.h" // Nsbmd
 

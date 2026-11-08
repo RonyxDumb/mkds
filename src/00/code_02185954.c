@@ -120,7 +120,6 @@ BOOL DWCi_Http_AddResult(DWCHttpParseResult *list, void *first, void *second) {
     return TRUE;
 }
 
-// differ only by that register choice
 BOOL DWC_Http_ParseResult(DWCHttpLabelValue *a, s32 b, s32 c, const char *d) {
     char *e;
     char *f;
