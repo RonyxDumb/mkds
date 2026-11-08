@@ -4,5 +4,5 @@
 void func_02109038(SoundSource *source, u32 falloffIndex, Vec3 *ownerPosSource) {
     source->mFalloffIndex = falloffIndex;
     source->mDistanceSquared = ~0u;
-    func_0210c134(source, (u32) ownerPosSource);
+    func_0210c134(source, ownerPosSource);
 }

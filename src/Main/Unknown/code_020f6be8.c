@@ -31,7 +31,7 @@ s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
             item->mUnk_78 |= data_02159b6c;
         } else {
             item->mUnk_78 |= data_02159b68;
-            FreeItemObjectCollisionSlot((s32) item);
+            FreeItemObjectCollisionSlot(item);
         }
         item->mAdvance = NULL;
         return 1;
@@ -75,7 +75,7 @@ s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
         }
     }
     item->mFlags |= 0x80001;
-    FreeItemObjectCollisionSlot((s32) item);
+    FreeItemObjectCollisionSlot(item);
     r = Vec3DotUnrounded(velocity, func_020e6b28());
     if (r > 1) {
         item->mUnk_108.x = 1;

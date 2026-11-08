@@ -120,7 +120,7 @@ void func_020fc94c(ItemKouraW *item) {
     item->mUnk_000.mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a67c;
     item->mUnk_160 = 0;
     item->mUnk_000.mDrawPos = item->mUnk_000.mPos;
-    FreeItemObjectCollisionSlot((s32) item);
+    FreeItemObjectCollisionSlot(&item->mUnk_000);
     item->mUnk_000.mFlags |= 0x200000;
     ClearItemKouraWKartItemsAndAngle(item);
     if (gRaceProgress->mRaceDone != 0) {
@@ -670,7 +670,7 @@ void UpdateItemKouraWState7(ItemKouraW *item) {
     if (stateFrames == 0x16) {
         item->mHitSpinsKart = 1;
     } else if (stateFrames == 0x2a) {
-        FreeItemObjectCollisionSlot((s32) item);
+        FreeItemObjectCollisionSlot(&item->mUnk_000);
     }
     if (stateFrames <= 0x55) {
         return;

@@ -817,7 +817,7 @@ BOOL func_020f5324(void *kouraParam, s32 kartIndex) {
     if (kouraR->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex == -1) {
         return TRUE;
     }
-    FreeItemObjectCollisionSlot((s32) kouraR);
+    FreeItemObjectCollisionSlot(&kouraR->mUnk_000.mUnk_000.mUnk_000);
     kouraR->mStateMachine.mNextState = 5;
     kouraR->mStateMachine.mNextStateRequested = 1;
     SetItemKouraRKartItems(kouraR, kartIndex);
@@ -965,7 +965,7 @@ ItemKinoko *StartItemKinokoOrZero(void) {
     if ((kinoko->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
         kinoko->mUnk_000.mItemObject.mAdvance = NULL;
     }
-    FreeItemObjectCollisionSlot((s32) kinoko);
+    FreeItemObjectCollisionSlot(&kinoko->mUnk_000.mItemObject);
     kinoko->mVisible = FALSE;
     kinoko->mTimer = 0;
     return kinoko;

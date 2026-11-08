@@ -56,17 +56,17 @@ void func_02102668(Unk02102668 *inUse) {
     inUse->mUnk_170 = 0x1u;
 }
 
-void ResetItemTeresa(Unk021025d8 *teresa) {
+void ResetItemTeresa(ItemTeresa *teresa) {
     UnkFunc *const *stateTable;
-    teresa->mUnk_154 = 0x13;
-    teresa->mUnk_158 = 0;
+    teresa->mItemInfoIndex = 0x13;
+    teresa->mItemCount = 0;
     stateTable = (UnkFunc *const *) gItemTeresaStateTable;
     teresa->mUnk_15c = 0;
-    teresa->mUnk_160 = 0xe;
+    teresa->mItemObjectKind = 0xe;
     InitStateMachine(teresa->mUnk_12c, stateTable, 7, teresa);
-    teresa->mUnk_140 = 8;
+    teresa->mPickedKartIndex = 8;
     teresa->mUnk_144 = 0;
-    FreeItemObjectCollisionSlot((s32) teresa);
+    FreeItemObjectCollisionSlot(&teresa->mUnk_000);
     teresa->mUnk_24c = 0;
     teresa->mUnk_250 = 0xffffffff;
     teresa->mUnk_254 = 0x12;
@@ -76,7 +76,7 @@ void ResetItemTeresa(Unk021025d8 *teresa) {
     teresa->mUnk_264 = 0xffffffff;
     teresa->mUnk_268 = 0;
     teresa->mUnk_26c = 0;
-    teresa->mUnk_270 = 0;
+    teresa->mStallFrames = 0;
 }
 
 static inline u32 func_02101f7c_inline_2(RandomState64 *random, u32 range) {

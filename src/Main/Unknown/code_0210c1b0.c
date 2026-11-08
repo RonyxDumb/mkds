@@ -126,11 +126,12 @@ static inline s32 func_0210ca4c_inline(u32 volumeForPriority, u8 seqArcNo, u16 s
 u32 SetPlayingSoundsParams(SoundSource *source) {
     SoundParams params;
     s32 n;
+    Vec3 *position;
     PlayingSound *sound;
 
-    n = source->mOwnerPosSource;
+    position = source->mOwnerPosSource;
     params.mSource = source;
-    params.mPositionSource = n;
+    params.mPositionSource = position;
     params.mUnk_20 = NULL;
     params.mVolume = 0;
     params.mUnk_1c = 0;

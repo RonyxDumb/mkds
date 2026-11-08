@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-int GetCameraSideDistance(u32 a);
-int GetCameraForwardDistance(u32 a);
+int GetCameraSideDistance(const Vec3 *a);
+int GetCameraForwardDistance(const Vec3 *a);
 unsigned int GetCameraEntryChanged(void);

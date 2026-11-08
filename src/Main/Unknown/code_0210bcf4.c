@@ -15,7 +15,7 @@
 #include "Main/Unknown/code_0210d0b4.h"
 #include "code_0201750c.h"
 
-void func_0210c134(SoundSource *source, u32 positionSource) {
+void func_0210c134(SoundSource *source, Vec3 *positionSource) {
     void *startFunction;
     void *trackParamsFunction;
     NNS_FndInitList(&source->mPlayingSounds, 8);
@@ -81,7 +81,7 @@ void RefreshSoundSourceUpdateList(SoundSource *source) {
     }
 }
 
-void func_0210bf24(u32 seqArcNo, u32 soundId, u32 positionSource, void *request) {
+void func_0210bf24(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void *request) {
     PlayingSound *sound;
     NNSFndList *sourceList;
 
@@ -99,14 +99,14 @@ void func_0210bf24(u32 seqArcNo, u32 soundId, u32 positionSource, void *request)
     func_0210bcf4(seqArcNo, soundId, positionSource, &sound->mSeqPlayer, request);
 }
 
-u32 func_0210bee8(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request) {
+u32 func_0210bee8(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle, void *request) {
     if (data_0217d084.mUnk_10 == 0) {
         return seqArcNo;
     }
     return func_0210bcf4(seqArcNo, soundId, positionSource, handle, request);
 }
 
-u32 func_0210bcf4(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request) {
+u32 func_0210bcf4(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle, void *request) {
     SoundParams params;
     u32 v;
     u32 runThisCall;

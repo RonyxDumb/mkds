@@ -19,9 +19,9 @@ typedef struct SoundSource {
     /* 0c */ NNSFndList mPlayingSounds;
     /* 18 */ u32 mUpdateListIndex;
     /* 1c */ u32 mUnk_1c[3];
-    // Pointer to the owner's position (declared u32); the distance and the direction to the camera are measured to it.
+    // Pointer to the owner's position; the distance and the direction to the camera are measured to it.
     // Without one (0) a sound gets full volume and no direction.
-    /* 28 */ u32 mOwnerPosSource;
+    /* 28 */ Vec3 *mOwnerPosSource;
     /* 2c */ void (*mStartSeqFunction)(void *a, void *b, u32 c);
     /* 30 */ void (*mTrackParamsFunction)(void *a, void *b, void *c);
     /* 34 */ u16 mSourceFlags;
@@ -67,7 +67,7 @@ typedef struct Unk0210bcf4_20 {
 // data_0217d018, data_0217d014 and data_0217d01c point at.
 typedef struct SoundParams {
     /* 00 */ SoundSource *mSource;
-    /* 04 */ u32 mPositionSource;
+    /* 04 */ Vec3 *mPositionSource;
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mDistance;
@@ -77,10 +77,10 @@ typedef struct SoundParams {
     /* 20 */ Unk0210bcf4_20 *mUnk_20;
 } SoundParams;
 
-u32 func_0210bcf4(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request);
-u32 func_0210bee8(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request);
-void func_0210bf24(u32 seqArcNo, u32 soundId, u32 positionSource, void *request);
+u32 func_0210bcf4(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle, void *request);
+u32 func_0210bee8(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle, void *request);
+void func_0210bf24(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void *request);
 void RefreshSoundSourceUpdateList(SoundSource *source);
 void func_0210c084(PlayingSound *sound, u32 fadeSteps);
 void func_0210c0bc(SoundSource *source);
-void func_0210c134(SoundSource *source, u32 positionSource);
+void func_0210c134(SoundSource *source, Vec3 *positionSource);

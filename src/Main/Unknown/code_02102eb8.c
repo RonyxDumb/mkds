@@ -124,6 +124,6 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
         kartIndex = 8;
     }
     gesso->mVisible = entryIndex == (u16) kartIndex;
-    FreeItemObjectCollisionSlot((s32) gesso);
+    FreeItemObjectCollisionSlot(&gesso->mUnk_000);
     return (u32) InitCourseColorBlend(&gesso->mUnk_000.mColorBlend, 1);
 }

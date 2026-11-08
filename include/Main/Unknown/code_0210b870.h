@@ -7,7 +7,7 @@ struct MapObjectSound;
 // The four words of data_0216ca48, read as one 16-byte object.
 typedef struct Unk0216ca48 {
     /* 00 */ u32 mUnk_00;
-    /* 04 */ void *mUnk_04;
+    /* 04 */ Vec3 *mUnk_04;
     /* 08 */ u32 mUnk_08;
     /* 0c */ u32 mUnk_0c;
 } Unk0216ca48;

@@ -2,8 +2,7 @@
 #include "Main/Unknown/code_020d50ec.h"
 #include "Main/Unknown/code_020f36d8.h"
 
-void FreeItemObjectCollisionSlot(int object) {
-    ItemObject *itemObject = (ItemObject *) object;
+void FreeItemObjectCollisionSlot(ItemObject *itemObject) {
     if (itemObject->mCollisionSlotIndex == ~0u) {
     }
     if (itemObject->mCollisionSlotIndex == ~0u) {

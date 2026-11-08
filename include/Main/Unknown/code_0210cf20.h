@@ -4,4 +4,4 @@
 
 typedef struct SoundSource SoundSource;
 
-void InitAndRegisterSoundSource(SoundSource *source, u32 positionSource);
+void InitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource);

@@ -5,5 +5,5 @@
 void InitSoundSource(SoundSource *source, u32 falloffIndex, Vec3 *ownerPosSource) {
     source->mFalloffIndex = falloffIndex;
     source->mDistanceSquared = ~0u;
-    InitAndRegisterSoundSource(source, (u32) ownerPosSource);
+    InitAndRegisterSoundSource(source, ownerPosSource);
 }

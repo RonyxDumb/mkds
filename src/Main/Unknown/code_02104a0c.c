@@ -244,7 +244,7 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
                 box->mUnk_000.mItemObject.mAlpha = v;
             }
             if (v < 0xa) {
-                FreeItemObjectCollisionSlot((s32) box);
+                FreeItemObjectCollisionSlot(&box->mUnk_000.mItemObject);
                 if (v == 0) {
                     ReleaseItemPoolObject(&gItemPools[box->mUnk_000.mItemObject.mKind], &box->mUnk_000.mItemObject);
                     return;

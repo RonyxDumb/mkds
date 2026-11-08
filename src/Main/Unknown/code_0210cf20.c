@@ -222,7 +222,7 @@ void SetSoundSourceEnabled(SoundSource *source, s32 enabled) {
     }
 }
 
-void InitAndRegisterSoundSource(SoundSource *source, u32 positionSource) {
+void InitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource) {
     void *startFunction;
     void *trackParamsFunction;
     NNS_FndInitList(&source->mPlayingSounds, 8);

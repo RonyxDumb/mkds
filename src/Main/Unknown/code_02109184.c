@@ -369,7 +369,7 @@ s32 ComputeSoundPan(SoundParams *p) {
 // Returns the distance to the camera; also stores the forward and side distance in the record.
 u32 ComputeSoundDistanceAndOffsets(SoundParams *p) {
     u32 a;
-    u32 b;
+    Vec3 *b;
 
     if (p->mSource != NULL) {
         a = ((Kart *) p->mSource)->mSoundSource.mDistanceSquared;

@@ -74,7 +74,7 @@ void func_0210b924(void *position, s32 distanceSquared) {
     request->mUnk_04 = position;
     request->mUnk_0c = distanceSquared;
     if (data_0217c780 & 1) {
-        func_0210bf24(0, request->mUnk_00, (u32) request->mUnk_04, request);
+        func_0210bf24(0, request->mUnk_00, request->mUnk_04, request);
     }
 }
 

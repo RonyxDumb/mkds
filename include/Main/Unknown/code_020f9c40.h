@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void FreeItemObjectCollisionSlot(int object);
+typedef struct ItemObject ItemObject;
+
+void FreeItemObjectCollisionSlot(ItemObject *itemObject);
