@@ -238,45 +238,46 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     u16 x;
     u16 y;
 
-    sine = gPairsByAngle[(bridge->mUnk_148 >> 4) * 2];
-    x = bridge->mUnk_144 + (s32) (((s64) sine * bridge->mUnk_144) >> 12);
+    sine = gPairsByAngle[(bridge->mSwingAngle >> 4) * 2];
+    x = bridge->mSwingAmplitude + (s32) (((s64) sine * bridge->mSwingAmplitude) >> 12);
     y = 0x10000 - x;
-    angleDelta = y - bridge->mUnk_14a;
+    angleDelta = y - bridge->mAngleX;
     if (angleDelta > 0x8000) {
         angleDelta -= 0x10000;
     }
     if (angleDelta < -0x8000) {
         angleDelta += 0x10000;
     }
-    bridge->mUnk_124.x = ((s64) bridge->mUnk_000.mMatrix.mUnk_00[0].x * angleDelta) >> 12;
-    bridge->mUnk_124.y = ((s64) bridge->mUnk_000.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
-    bridge->mUnk_124.z = ((s64) bridge->mUnk_000.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
-    bridge->mUnk_14a = y;
-    bridge->mUnk_0a0 = *(Unk020e38a0_28 *) &bridge->mUnk_000.mMatrix;
-    MTX_RotX33_((s32 *) &bridge->mUnk_000.mMatrix, gPairsByAngle[(y >> 4) * 2], gPairsByAngle[(y >> 4) * 2 + 1]);
-    MTX_Concat33((const s32 *) &bridge->mUnk_000.mMatrix, (const s32 *) &bridge->mUnk_0c4,
-                 (s32 *) &bridge->mUnk_000.mMatrix);
-    VEC_MultAdd(-bridge->mUnk_104, &bridge->mUnk_000.mMatrix.mUnk_00[1], &bridge->mUnk_000.mPos, &bridge->mUnk_0f4);
-    if (bridge->mUnk_150 != 0) {
-        bridge->mUnk_150--;
+    bridge->mUnk_124.x = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].x * angleDelta) >> 12;
+    bridge->mUnk_124.y = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
+    bridge->mUnk_124.z = ((s64) bridge->mMapObject.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
+    bridge->mAngleX = y;
+    bridge->mUnk_0a0 = *(Unk020e38a0_28 *) &bridge->mMapObject.mMatrix;
+    MTX_RotX33_((s32 *) &bridge->mMapObject.mMatrix, gPairsByAngle[(y >> 4) * 2], gPairsByAngle[(y >> 4) * 2 + 1]);
+    MTX_Concat33((const s32 *) &bridge->mMapObject.mMatrix, (const s32 *) &bridge->mUnk_0c4,
+                 (s32 *) &bridge->mMapObject.mMatrix);
+    VEC_MultAdd(-bridge->mUnk_104, &bridge->mMapObject.mMatrix.mUnk_00[1], &bridge->mMapObject.mPos, &bridge->mUnk_0f4);
+    if (bridge->mPauseTimer != 0) {
+        bridge->mPauseTimer--;
         return;
     }
-    if (bridge->mUnk_000.mSound != NULL) {
-        StartMapObjectSoundWhileRequested(&bridge->mUnk_000, 0x189);
+    if (bridge->mMapObject.mSound != NULL) {
+        StartMapObjectSoundWhileRequested(&bridge->mMapObject, 0x189);
     }
-    bridge->mUnk_148 += bridge->mUnk_146;
-    if (bridge->mUnk_148 >= 0x4000 && bridge->mUnk_148 < bridge->mUnk_146 + 0x4000) {
-        bridge->mUnk_150 = bridge->mUnk_14c;
-    } else if (bridge->mUnk_148 >= 0xc000 && bridge->mUnk_148 < bridge->mUnk_146 + 0xc000) {
-        bridge->mUnk_150 = bridge->mUnk_14e;
+    bridge->mSwingAngle += bridge->mSwingAnglePerFrame;
+    if (bridge->mSwingAngle >= 0x4000 && bridge->mSwingAngle < bridge->mSwingAnglePerFrame + 0x4000) {
+        bridge->mPauseTimer = bridge->mPeakPauseFrameCount;
+    } else if (bridge->mSwingAngle >= 0xc000 && bridge->mSwingAngle < bridge->mSwingAnglePerFrame + 0xc000) {
+        bridge->mPauseTimer = bridge->mTroughPauseFrameCount;
     }
-    y = 0x10000 - bridge->mUnk_14a;
-    bridge->mUnk_154 = (s32) ((((s64) (s32) (u16) (0x10000 - bridge->mUnk_14a) * 0x1680000) + 0x80000) >> 20) << 1;
-    if (bridge->mUnk_154 > ((Unk020e1dc0 *) *(void **) data_0217b7c4)->mUnk_2c) {
-        bridge->mUnk_154 = ((Unk020e1dc0 *) *(void **) data_0217b7c4)->mUnk_2c;
+    y = 0x10000 - bridge->mAngleX;
+    bridge->mAnimationFrameIndex = (s32) ((((s64) (s32) (u16) (0x10000 - bridge->mAngleX) * 0x1680000) + 0x80000) >> 20)
+                                   << 1;
+    if (bridge->mAnimationFrameIndex > ((Unk020e1dc0 *) *(void **) data_0217b7c4)->mUnk_2c) {
+        bridge->mAnimationFrameIndex = ((Unk020e1dc0 *) *(void **) data_0217b7c4)->mUnk_2c;
     }
-    if (bridge->mUnk_154 < 0) {
-        bridge->mUnk_154 = 0;
+    if (bridge->mAnimationFrameIndex < 0) {
+        bridge->mAnimationFrameIndex = 0;
     }
 }
 

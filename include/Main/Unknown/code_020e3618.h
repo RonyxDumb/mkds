@@ -14,7 +14,7 @@ typedef struct Unk020e039c {
 // layout of kinds 0xcb, 0xce, 0xd0 and 0xd1); the model pointer at +0x140, written by SetMapObjectsModel, lies inside
 // mUnk_13c.
 typedef struct Bridge {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject mMapObject;
     /* 0a0 */ Unk020e38a0_28 mUnk_0a0;
     /* 0c4 */ Unk020e38a0_28 mUnk_0c4;
     /* 0e8 */ Vec3 mUnk_0e8;
@@ -31,15 +31,15 @@ typedef struct Bridge {
     /* 134 */ s32 mUnk_134;
     /* 138 */ s32 mUnk_138;
     /* 13c */ u8 mUnk_13c[0x8];
-    /* 144 */ u16 mUnk_144;
-    /* 146 */ u16 mUnk_146;
-    /* 148 */ u16 mUnk_148;
-    /* 14a */ u16 mUnk_14a;
-    /* 14c */ u16 mUnk_14c;
-    /* 14e */ u16 mUnk_14e;
-    /* 150 */ u16 mUnk_150;
+    /* 144 */ u16 mSwingAmplitude;
+    /* 146 */ u16 mSwingAnglePerFrame;
+    /* 148 */ u16 mSwingAngle;
+    /* 14a */ u16 mAngleX;
+    /* 14c */ u16 mPeakPauseFrameCount;
+    /* 14e */ u16 mTroughPauseFrameCount;
+    /* 150 */ u16 mPauseTimer;
     /* 152 */ u8 mUnk_152[0x2];
-    /* 154 */ s32 mUnk_154;
+    /* 154 */ s32 mAnimationFrameIndex;
 } Bridge;
 
 BOOL IsBridgeKind(u32 kind);

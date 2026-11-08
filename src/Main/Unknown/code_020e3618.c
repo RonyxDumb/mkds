@@ -45,27 +45,27 @@ void CreateBridge(void) {
 }
 
 void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
-    bridge->mUnk_0e8 = bridge->mUnk_000.mPos;
-    bridge->mUnk_0a0 = *(Unk020e38a0_28 *) &bridge->mUnk_000.mMatrix;
-    bridge->mUnk_0c4 = *(Unk020e38a0_28 *) &bridge->mUnk_000.mMatrix;
+    bridge->mUnk_0e8 = bridge->mMapObject.mPos;
+    bridge->mUnk_0a0 = *(Unk020e38a0_28 *) &bridge->mMapObject.mMatrix;
+    bridge->mUnk_0c4 = *(Unk020e38a0_28 *) &bridge->mMapObject.mMatrix;
     bridge->mUnk_124.x = 0;
     bridge->mUnk_124.y = 0;
     bridge->mUnk_124.z = 0;
     bridge->mUnk_130 = 1;
-    bridge->mUnk_144 = ((courseRow->mUnk_28 * 0x10000) / 0x168) >> 1;
-    bridge->mUnk_146 = (0x10000 / courseRow->mUnk_2a) >> 1;
-    bridge->mUnk_14c = courseRow->mUnk_2c;
-    bridge->mUnk_14e = courseRow->mUnk_2e;
-    bridge->mUnk_150 = 0;
-    bridge->mUnk_148 = 0;
+    bridge->mSwingAmplitude = ((courseRow->mUnk_28 * 0x10000) / 0x168) >> 1;
+    bridge->mSwingAnglePerFrame = (0x10000 / courseRow->mUnk_2a) >> 1;
+    bridge->mPeakPauseFrameCount = courseRow->mUnk_2c;
+    bridge->mTroughPauseFrameCount = courseRow->mUnk_2e;
+    bridge->mPauseTimer = 0;
+    bridge->mSwingAngle = 0;
     if (gRaceSetup->mMode == 5) {
-        bridge->mUnk_146 = 0;
-        bridge->mUnk_148 = ((courseRow->mUnk_30 * 0x10000) / 0x168) >> 1;
+        bridge->mSwingAnglePerFrame = 0;
+        bridge->mSwingAngle = ((courseRow->mUnk_30 * 0x10000) / 0x168) >> 1;
     }
-    bridge->mUnk_100 = ((s64) bridge->mUnk_000.mScale.x * 0x5a000) >> 12;
-    bridge->mUnk_104 = (s32) (((s64) bridge->mUnk_000.mScale.y * 0x1e000) >> 12) >> 1;
-    bridge->mUnk_108 = ((s64) bridge->mUnk_000.mScale.z * 0x15e000) >> 12;
-    bridge->mUnk_10c = ((s64) bridge->mUnk_000.mScale.z * 0x32000) >> 12;
+    bridge->mUnk_100 = ((s64) bridge->mMapObject.mScale.x * 0x5a000) >> 12;
+    bridge->mUnk_104 = (s32) (((s64) bridge->mMapObject.mScale.y * 0x1e000) >> 12) >> 1;
+    bridge->mUnk_108 = ((s64) bridge->mMapObject.mScale.z * 0x15e000) >> 12;
+    bridge->mUnk_10c = ((s64) bridge->mMapObject.mScale.z * 0x32000) >> 12;
     bridge->mUnk_110 = 0;
     bridge->mUnk_114.x = 1;
     bridge->mUnk_114.y = 0;
@@ -73,12 +73,12 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mUnk_120 = 0x800;
     bridge->mUnk_134 = 0;
     bridge->mUnk_138 = 0;
-    bridge->mUnk_000.mFlags |= data_02158c88;
-    bridge->mUnk_000.mFlags &= ~2;
-    bridge->mUnk_000.mFlags &= ~8;
-    bridge->mUnk_000.mAlpha = 0x1f;
+    bridge->mMapObject.mFlags |= data_02158c88;
+    bridge->mMapObject.mFlags &= ~2;
+    bridge->mMapObject.mFlags &= ~8;
+    bridge->mMapObject.mAlpha = 0x1f;
     if (courseRow->mUnk_0c.y < 0) {
-        CreateMapObjectSoundSourceFalloff4(&bridge->mUnk_000);
+        CreateMapObjectSoundSourceFalloff4(&bridge->mMapObject);
     }
 }
 
