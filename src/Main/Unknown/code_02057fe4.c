@@ -258,19 +258,8 @@ void EnterMPState8(void) {
 #pragma thumb off
 
 #pragma thumb on
-u32 func_02058754(void) {
-    u32 value0;
-    u32 value1;
-    u32 value2;
-    value0 = (u32) &data_0217aa00;
-    value1 = *(const u32 *) ((value0) + 0u);
-    value0 = 0x1622u;
-    value1 = (value1) + (value0);
-    value2 = *(const u8 *) ((value1) + 0u);
-    value0 = 1u;
-    value2 = (value2) | (value0);
-    *(u8 *) ((value1) + 0u) = value2;
-    return value0;
+void func_02058754(void) {
+    data_0217aa00->mUnk_1608.mUnk_1a |= 1;
 }
 #pragma thumb off
 
@@ -571,16 +560,8 @@ void UpdateMPState13(void) {
 #pragma thumb off
 
 #pragma thumb on
-u32 EnterMPState14(void) {
-    u32 value0;
-    u32 value1;
-    u32 value2;
-    value2 = 0u;
-    value0 = (u32) &data_0217aa00;
-    value1 = *(const u32 *) ((value0) + 0u);
-    value0 = 0x164eu;
-    *(u8 *) ((value1) + (value0)) = value2;
-    return value0;
+void EnterMPState14(void) {
+    data_0217aa00->mUnk_164e = 0;
 }
 #pragma thumb off
 

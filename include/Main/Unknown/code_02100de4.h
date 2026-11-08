@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_020ed5c0.h"
 #include "Main/Unknown/code_020f36d8.h"
 
 // Object of item kind 11, element of gItemPools[11].
@@ -49,13 +50,6 @@ typedef struct ItemTeresa {
     /* 270 */ s32 mStallFrames;
 } ItemTeresa;
 
-// First argument of InitItemTeresa: objects at 0x0c and 0x10.
-typedef struct Unk02101d18 {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ struct KartItems *mUnk_0c;
-    /* 10 */ Kart *mUnk_10;
-} Unk02101d18;
-
 s32 func_02101014(ItemTeresa *teresa);
 void EnterItemTeresaState2(ItemTeresa *teresa);
 s32 func_021014a0(ItemTeresa *teresa, s32 param_2, s32 param_3);
@@ -70,4 +64,4 @@ void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 param_2);
 void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 param_2);
 void UpdateItemTeresaState2(ItemTeresa *teresa);
 void AdvanceItemTeresa(ItemTeresa *teresa);
-void InitItemTeresa(Unk02101d18 *inUse, ItemTeresa *teresa);
+void InitItemTeresa(ItemInUse *inUse, ItemTeresa *teresa);

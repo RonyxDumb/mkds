@@ -29,14 +29,7 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 KartEffects *GetKartEffects(int kartIndex) {
-    u32 value0 = kartIndex;
-    u32 entrySize;
-    u32 value2;
-    value2 = (u32) &gKartEffects;
-    entrySize = 0x58u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value0 = (entrySize) * (value0) + (value2);
-    return (KartEffects *) value0;
+    return &gKartEffects[kartIndex];
 }
 
 void InitKartEffects(u32 kartCount) {

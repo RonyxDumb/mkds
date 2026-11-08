@@ -3,12 +3,6 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 u32 CreateParticipantKartMap(void *heap) {
-    u32 value0 = (u32) heap;
-    u32 value1;
-    value1 = 0xau;
-    value0 = (u32) HeapAlloc((void *) value0, value1);
-    value1 = (u32) &gParticipantKartMap;
-    *(u32 *) ((value1) + (0)) = value0;
-    value0 = 0xau;
-    return value0;
+    gParticipantKartMap = HeapAlloc(heap, sizeof(ParticipantKartMap));
+    return sizeof(ParticipantKartMap);
 }

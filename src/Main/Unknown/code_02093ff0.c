@@ -23,14 +23,9 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-u32 InitTeresa(u32 arg0) {
-    u32 value0 = arg0;
-    u32 value1;
-    ParkMapObject((void *) value0);
-    value0 = (u32) &gUnparkedTeresaCount;
-    value1 = 0u;
-    *(u32 *) ((value0) + (0)) = value1;
-    return value0;
+void InitTeresa(MapObject *mapObject) {
+    ParkMapObject(mapObject);
+    gUnparkedTeresaCount = 0;
 }
 
 void CreateTeresa(Unk02094db4 *a) {

@@ -190,13 +190,13 @@ u32 GetCupCourseId(s32 cupIndex, s32 courseIndex) {
 }
 
 void FindMissionTableCell(u32 value, u8 *outRow, u8 *outColumn) {
-    u32 table;
+    Unk0203b680 *table;
     s32 rowCount;
     s32 columnCount;
     u8 row;
     u8 column;
 
-    table = (u32) FindFileInLoadedArchives("/missionTable.mtbl");
+    table = FindFileInLoadedArchives("/missionTable.mtbl");
     rowCount = GetMissionTableRowCount(table);
     columnCount = GetMissionTableColumnCount(table);
     for (row = 1; row <= rowCount; row++) {

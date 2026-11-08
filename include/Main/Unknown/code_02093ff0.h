@@ -62,5 +62,5 @@ void InitTeresaObjects(MapObjectList *mapObjectList);
 void DrawTeresa(void *a, Teresa *teresa);
 void SetupDrawTeresa(void *a);
 void CreateTeresa(Unk02094db4 *a); /* also sets word +0x1c of the group record to 1 */
-u32 InitTeresa(
-    u32 arg0); /* parks the pooled object (ParkMapObject) and zeroes the live-Teresa count gUnparkedTeresaCount */
+void InitTeresa(
+    MapObject *mapObject); /* parks the pooled object (ParkMapObject) and zeroes the live-Teresa count gUnparkedTeresaCount */

@@ -269,15 +269,15 @@ void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 teamIndex) {
     } while (rowIndex < endIndex);
 }
 
-void InitItemTeresa(Unk02101d18 *inUse, ItemTeresa *teresa) {
+void InitItemTeresa(ItemInUse *inUse, ItemTeresa *teresa) {
     Kart *kart;
 
-    kart = inUse->mUnk_10;
+    kart = inUse->mKart;
     StartKartTeresa(kart);
     func_020f8e3c(kart, 0xf6);
-    SetActiveItem(inUse->mUnk_0c, 0x10);
+    SetActiveItem(inUse->mKartItems, 0x10);
     InitCourseColorBlend(&teresa->mUnk_000.mColorBlend, 1);
-    if (inUse->mUnk_0c->mFlags & 0x20) {
+    if (inUse->mKartItems->mFlags & 0x20) {
         teresa->mUnk_148 = FALSE;
     } else {
         teresa->mUnk_148 = TRUE;

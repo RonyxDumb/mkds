@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-u32 CollideKartWithMapObjectNoResponse(u32 kart, u32 outValue);
+typedef struct Kart Kart;
+
+s32 CollideKartWithMapObjectNoResponse(Kart *kart, s32 *outValue);

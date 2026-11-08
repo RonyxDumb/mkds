@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_0203b680.h"
 #include "00/code_02181f98.h"
 
 typedef struct EndingScene {
@@ -88,9 +89,8 @@ typedef struct MissionRunMSsel {
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 44 */ LayoutTableEntry *mMissionRunMSselSTable;
     /* 48 */ void *mUnk_48;
-    // missionTable.mtbl: byte table, header u16 row width at +6, data at +8; GetMissionTableValue(table, row, column)
-    // returns the mission number
-    /* 4c */ void *mMissionTableMtbl;
+    // missionTable.mtbl; GetMissionTableValue(table, row, column) returns the mission number
+    /* 4c */ Unk0203b680 *mMissionTableMtbl;
     /* 50 */ Unk021ca414_50 *mUnk_50;
     /* 54 */ struct Bmg *mCommonMessages;
     /* 58 */ void *mMissionMessages;
