@@ -4,8 +4,8 @@
 
 void WriteSelectKartRegisters(void);
 void WriteSubWin0HV(u32 startX, u32 startY, u32 endX, u32 endY);
-u32 WriteSubWinOutBits(u32 lowBits, u32 extraBitFlag);
-u32 WriteSubWinInBits(u32 lowBits, u32 extraBitFlag);
+void WriteSubWinOutBits(u32 lowBits, u32 extraBitFlag);
+void WriteSubWinInBits(u32 lowBits, u32 extraBitFlag);
 u32 func_02027fb8(u32 bits);
 void WriteSubBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient);
 void WriteSubBg3CntBits(u32 bits);

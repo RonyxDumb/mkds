@@ -192,11 +192,7 @@ void ResetSoundRequestQueues(void) {
 }
 
 s32 GetLapProgressSoundGap(u32 arg0) {
-    u32 value0 = arg0;
-    u32 tableAddress;
-    tableAddress = (u32) &gLapProgressSoundGaps;
-    value0 = *(const u32 *) ((tableAddress) + ((value0 << 2)));
-    return value0;
+    return gLapProgressSoundGaps[arg0];
 }
 
 u16 GetLapProgressSoundId(int index) {
@@ -211,46 +207,19 @@ void SetLapProgressSoundGaps(u32 divisor) {
 }
 
 void func_021104dc(u32 arg0) {
-    u32 value0 = arg0;
-    u32 value1;
-    u32 value2;
-    u32 value3;
-    u32 value4;
-    u32 value5;
-    u32 value12;
-    u32 value14;
-    value14 = (u32) &data_0217d1ec;
-    value12 = (u32) &data_0217d20c;
-    value5 = 3u;
-    value3 = (u32) &data_0217d1f8;
-    value2 = (u32) &data_0217d21c;
-    value1 = (u32) &data_0217d1e8;
-    value4 = 0u;
-    *(u32 *) ((value14) + (0)) = value0;
-    *(u32 *) ((value12) + (0)) = value5;
-    *(u32 *) ((value3) + (0)) = value5;
-    *(u32 *) ((value2) + (0)) = value5;
-    *(u32 *) ((value1) + (0)) = value4;
+    data_0217d1ec = arg0;
+    data_0217d20c = 3;
+    data_0217d1f8 = 3;
+    data_0217d21c = 3;
+    data_0217d1e8 = 0;
 }
 
 u32 func_02110484(void) {
-    u32 value0;
-    u32 value1;
-    u32 value2;
-    value0 = (u32) &data_0216cb28;
-    value1 = 0x8340000u;
-    value0 = *(const u32 *) ((value0) + (0));
-    value0 = (value0) - (0x14u);
-    value0 = (value0 << 12);
-    value0 = FX_Div(value0, value1);
-    value2 = (u32) &data_0217d200;
-    value1 = 0x8340000u;
-    *(u32 *) ((value2) + (0)) = value0;
-    value0 = 0x61000u;
-    value0 = FX_Div(value0, value1);
-    value1 = (u32) &data_0217d208;
-    *(u32 *) ((value1) + (0)) = value0;
-    return value0;
+    s32 value;
+    data_0217d200 = FX_Div((data_0216cb28 - 0x14) << 12, 0x8340000);
+    value = FX_Div(0x61000, 0x8340000);
+    data_0217d208 = value;
+    return value;
 }
 
 void func_021103c0(void) {
@@ -382,30 +351,15 @@ u32 IsSndHandleSet(NNSSndSeqPlayer **handle) {
 }
 
 u32 IsSndHandleSeq(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 index) {
-    u32 value0 = (u32) handle;
-    u32 value1 = seqArcNo;
-    u32 value2 = index;
-    u32 value3;
-    u32 player;
-    u32 compareLeft0;
-    u32 compareRight0;
-    u32 compareLeft1;
-    u32 compareRight1;
-    player = *(const u32 *) ((value0) + (0));
-    value0 = 0u;
-    value3 = *(const u16 *) ((player) + (58));
-    compareLeft0 = value3;
-    compareRight0 = value2;
-    if (compareLeft0 != compareRight0) {
-        return value0;
+    NNSSndSeqPlayer *player = *handle;
+    u32 result = 0;
+    if (player->mSeqArcIndex != index) {
+        return result;
     }
-    value2 = *(const u16 *) ((player) + (56));
-    compareLeft1 = value2;
-    compareRight1 = value1;
-    if (compareLeft1 == compareRight1) {
-        value0 = 1u;
+    if (player->mSeqNo == seqArcNo) {
+        result = 1;
     }
-    return value0;
+    return result;
 }
 
 void StopSndHandleSeq(NNSSndSeqPlayer **handle, u32 fadeSteps) {
@@ -594,7 +548,7 @@ u32 func_0210fb54(void) {
 void func_0210fb10(void) {
     NNSSndSeqPlayer **handle;
     handle = &data_0217d07c;
-    *((u32 *) ((u32) (&data_0217d244))) = 2;
+    data_0217d244.mVolumeOverride = 2;
     NNS_SndPlayerSetTrackMuteEx(handle, 1, 1);
     NNS_SndPlayerSetTempoRatio(&data_0217d07c, 0xd9);
 }
@@ -651,12 +605,8 @@ u32 func_0210fa3c(u32 value) {
 }
 
 u32 func_0210fa28(void) {
-    u32 counterAddress;
-    u32 zero;
-    counterAddress = (u32) &data_0217d1f0;
-    zero = 0u;
-    *(u32 *) ((counterAddress) + (0)) = zero;
-    return counterAddress;
+    data_0217d1f0 = 0;
+    return (u32) &data_0217d1f0;
 }
 
 void func_0210f9f0(void *kartAddress, int b) {

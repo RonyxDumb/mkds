@@ -6,39 +6,15 @@
 #include "Main/Unknown/unk_021759c0.h"
 
 u32 GetCurrentCharacterIndex(u32 entryIndex) {
-    u32 value0 = entryIndex;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gRaceSetup;
-    value1 = 0x30u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const u32 *) ((value1) + (104));
-    return value0;
+    return gRaceSetup->mCurrentEntries[entryIndex].mCharacterIndex;
 }
 
 u32 GetCurrentKartIndex(u32 entryIndex) {
-    u32 value0 = entryIndex;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gRaceSetup;
-    value1 = 0x30u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const u32 *) ((value1) + (108));
-    return value0;
+    return gRaceSetup->mCurrentEntries[entryIndex].mKartIndex;
 }
 
 u32 GetCurrentPlayerKind(u32 entryIndex) {
-    u32 value0 = entryIndex;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gRaceSetup;
-    value1 = 0x30u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const u32 *) ((value1) + (112));
-    return value0;
+    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
 }
 
 u32 GetCurrentUseTeams(void) {
@@ -46,27 +22,11 @@ u32 GetCurrentUseTeams(void) {
 }
 
 u32 GetCurrentTeamIndex(u32 entryIndex) {
-    u32 value0 = entryIndex;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gRaceSetup;
-    value1 = 0x30u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const u32 *) ((value1) + (116));
-    return value0;
+    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex;
 }
 
 u32 func_020cc6a4(u32 entryIndex) {
-    u32 value0 = entryIndex;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gRaceSetup;
-    value1 = 0x30u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const u32 *) ((value1) + (120));
-    return value0;
+    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_08;
 }
 
 u32 GetCurrentCupIndex(void) {

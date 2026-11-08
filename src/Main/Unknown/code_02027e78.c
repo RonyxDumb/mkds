@@ -38,7 +38,7 @@ u32 func_020280dc(void) {
 
 void ReleaseSelectKart(void) {
     int result;
-    if ((gSelectKart->mResult == 1) && (result = ((u32) func_0202811c()), result == 2)) {
+    if ((gSelectKart->mResult == 1) && (result = func_0202811c(), result == 2)) {
         ClearSelectReturnDisplayBitOn();
     }
     result = func_020280dc();
@@ -54,27 +54,15 @@ void ReleaseSelectKart(void) {
 #pragma thumb off
 
 u32 func_02028074(u32 bits) {
-    u32 value0 = bits;
-    u32 maskedRegister;
-    u32 registerAddress;
-    registerAddress = 0x4000000u;
-    maskedRegister = *(const u32 *) ((registerAddress) + (0));
-    maskedRegister = (maskedRegister) & ~(0x1f00u);
-    value0 = (maskedRegister) | ((value0 << 8));
-    *(u32 *) ((registerAddress) + (0)) = value0;
-    return value0;
+    u32 value = (reg_GX_DISPCNT & ~0x1f00) | (bits << 8);
+    reg_GX_DISPCNT = value;
+    return value;
 }
 
 u32 func_02028058(u32 bits) {
-    u32 value0 = bits;
-    u32 maskedRegister;
-    u32 registerAddress;
-    registerAddress = 0x4001000u;
-    maskedRegister = *(const u32 *) ((registerAddress) + (0));
-    maskedRegister = (maskedRegister) & ~(0x1f00u);
-    value0 = (maskedRegister) | ((value0 << 8));
-    *(u32 *) ((registerAddress) + (0)) = value0;
-    return value0;
+    u32 value = (reg_GXS_DB_DISPCNT & ~0x1f00) | (bits << 8);
+    reg_GXS_DB_DISPCNT = value;
+    return value;
 }
 
 void func_0202802c(u32 offsetX, u32 offsetY) {
@@ -90,55 +78,25 @@ void WriteSubBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u
 }
 
 u32 func_02027fb8(u32 bits) {
-    u32 value0 = bits;
-    u32 maskedRegister;
-    u32 registerAddress;
-    registerAddress = 0x4001000u;
-    maskedRegister = *(const u32 *) ((registerAddress) + (0));
-    maskedRegister = (maskedRegister) & ~(0xe000u);
-    value0 = (maskedRegister) | ((value0 << 13));
-    *(u32 *) ((registerAddress) + (0)) = value0;
-    return value0;
+    u32 value = (reg_GXS_DB_DISPCNT & ~0xe000) | (bits << 13);
+    reg_GXS_DB_DISPCNT = value;
+    return value;
 }
 
-u32 WriteSubWinInBits(u32 lowBits, u32 extraBitFlag) {
-    u32 value0 = lowBits;
-    u32 value1 = extraBitFlag;
-    u32 registerAddress;
-    u32 flagCopy;
-    u32 zero;
-    registerAddress = 0x4001048u;
-    flagCopy = value1;
-    zero = 0u;
-    value1 = *(const u16 *) ((registerAddress) + (0));
-    value1 = (value1) & ~(0x3fu);
-    value1 = (value1) | (value0);
-    value0 = 0x4001048u;
-    if (flagCopy != zero) {
-        value1 = (value1) | (0x20u);
+void WriteSubWinInBits(u32 lowBits, u32 extraBitFlag) {
+    u32 value = (reg_G2S_DB_WININ & ~0x3f) | lowBits;
+    if (extraBitFlag != 0) {
+        value |= 0x20;
     }
-    *(u16 *) ((value0) + (0)) = value1;
-    return value0;
+    reg_G2S_DB_WININ = value;
 }
 
-u32 WriteSubWinOutBits(u32 lowBits, u32 extraBitFlag) {
-    u32 value0 = lowBits;
-    u32 value1 = extraBitFlag;
-    u32 registerAddress;
-    u32 flagCopy;
-    u32 zero;
-    registerAddress = 0x400104au;
-    flagCopy = value1;
-    zero = 0u;
-    value1 = *(const u16 *) ((registerAddress) + (0));
-    value1 = (value1) & ~(0x3fu);
-    value1 = (value1) | (value0);
-    value0 = 0x400104au;
-    if (flagCopy != zero) {
-        value1 = (value1) | (0x20u);
+void WriteSubWinOutBits(u32 lowBits, u32 extraBitFlag) {
+    u32 value = (reg_G2S_DB_WINOUT & ~0x3f) | lowBits;
+    if (extraBitFlag != 0) {
+        value |= 0x20;
     }
-    *(u16 *) ((value0) + (0)) = value1;
-    return value0;
+    reg_G2S_DB_WINOUT = value;
 }
 
 void WriteSubWin0HV(u32 startX, u32 startY, u32 endX, u32 endY) {

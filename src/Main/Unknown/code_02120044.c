@@ -22,15 +22,7 @@
 #include "00/code_021a2ccc.h"
 
 u32 func_021202f0(u32 index) {
-    u32 value0 = index;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gWiFiSession;
-    value1 = 0x244u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value2 = (value2) + (0x440u);
-    value0 = (value1) * (value0) + (value2);
-    return value0;
+    return (u32) &gWiFiSession->mPlayerRecords[index].mUnk_224;
 }
 
 u32 GetPlayerRecordRegion(u32 index) {
@@ -46,77 +38,27 @@ void *GetPlayerRecordEmblem(u32 index) {
 }
 
 u8 func_02120278(u32 index) {
-    u32 value0 = index;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gWiFiSession;
-    value1 = 0x244u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const u8 *) ((value1) + (1084));
-    return value0;
+    return gWiFiSession->mPlayerRecords[index].mUnk_220;
 }
 
 u32 func_0212025c(u32 index) {
-    u32 value0 = index;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gWiFiSession;
-    value1 = 0x244u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const u32 *) ((value1) + (1108));
-    return value0;
+    return gWiFiSession->mPlayerRecords[index].mUnk_238;
 }
 
 u32 func_02120240(u32 index) {
-    u32 value0 = index;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gWiFiSession;
-    value1 = 0x244u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const u32 *) ((value1) + (1112));
-    return value0;
+    return gWiFiSession->mPlayerRecords[index].mUnk_23c;
 }
 
 int GetPlayerRecordElo(int index) {
-    u32 value0 = index;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gWiFiSession;
-    value1 = 0x244u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = (value1) + (0x400u);
-    value0 = *(const s16 *) ((value0) + (62));
-    return value0;
+    return gWiFiSession->mPlayerRecords[index].mElo;
 }
 
 void SetPlayerRecordElo(int index, s16 elo) {
-    u32 value0 = index;
-    u32 value1 = elo;
-    u32 value2;
-    u32 value3;
-    value3 = (u32) &gWiFiSession;
-    value2 = 0x244u;
-    value3 = *(const u32 *) ((value3) + (0));
-    value2 = (value0) * (value2) + (value3);
-    value0 = (value2) + (0x400u);
-    *(u16 *) ((value0) + (62)) = value1;
+    gWiFiSession->mPlayerRecords[index].mElo = elo;
 }
 
 u8 func_021201e4(int index) {
-    u32 value0 = index;
-    u32 value1;
-    u32 value2;
-    value2 = (u32) &gWiFiSession;
-    value1 = 0x244u;
-    value2 = *(const u32 *) ((value2) + (0));
-    value1 = (value0) * (value1) + (value2);
-    value0 = *(const u8 *) ((value1) + (1105));
-    return value0;
+    return gWiFiSession->mPlayerRecords[index].mUnk_235;
 }
 
 void func_02120150(void) {

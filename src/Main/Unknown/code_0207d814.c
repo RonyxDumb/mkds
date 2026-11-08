@@ -148,47 +148,33 @@ void InitKartAiTables(void) {
 }
 
 u32 SetupRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
-    u32 value0 = (u32) raceSpeedLimit;
-    u32 value1 = (u32) kartAi;
-    u32 zero;
-    u32 raceSpeedLimitAddress;
-    raceSpeedLimitAddress = value0;
-    value0 = kartAi->mKart->mPhysicalParam->mBaseSpeedLimit;
-    *(u32 *) ((raceSpeedLimitAddress) + (0)) = value0;
-    value0 = *(const u32 *) ((raceSpeedLimitAddress) + (0));
-    *(u32 *) ((raceSpeedLimitAddress) + (16)) = value0;
-    value0 = kartAi->mIndex;
-    value0 = GetKartAiTableIndex(value0);
-    *(u32 *) ((raceSpeedLimitAddress) + (28)) = value0;
-    value0 = *(const u32 *) ((raceSpeedLimitAddress) + (28));
-    zero = 0u;
-    *(u32 *) ((raceSpeedLimitAddress) + (32)) = value0;
-    *(u32 *) ((raceSpeedLimitAddress) + (36)) = zero;
-    value1 = *(const u32 *) ((raceSpeedLimitAddress) + (0));
-    value0 = ~(0u);
-    *(u32 *) ((raceSpeedLimitAddress) + (4)) = value1;
-    *(u32 *) ((raceSpeedLimitAddress) + (8)) = zero;
-    *(u32 *) ((raceSpeedLimitAddress) + (12)) = zero;
-    value1 = *(const u32 *) ((raceSpeedLimitAddress) + (0));
-    *(u32 *) ((raceSpeedLimitAddress) + (16)) = value1;
-    *(u32 *) ((raceSpeedLimitAddress) + (20)) = value0;
-    *(u32 *) ((raceSpeedLimitAddress) + (24)) = zero;
-    return value0;
+    raceSpeedLimit->mBaseSpeedLimit = kartAi->mKart->mPhysicalParam->mBaseSpeedLimit;
+    raceSpeedLimit->mSpeedLimitBeforeTurn = raceSpeedLimit->mBaseSpeedLimit;
+    raceSpeedLimit->mUnk_1c = GetKartAiTableIndex(kartAi->mIndex);
+    raceSpeedLimit->mUnk_20 = raceSpeedLimit->mUnk_1c;
+    raceSpeedLimit->mUnk_24 = 0;
+    raceSpeedLimit->mSpeedLimit = raceSpeedLimit->mBaseSpeedLimit;
+    raceSpeedLimit->mSpeedLimitAddition = 0;
+    raceSpeedLimit->mTurnSpeedLimit = 0;
+    raceSpeedLimit->mSpeedLimitBeforeTurn = raceSpeedLimit->mBaseSpeedLimit;
+    raceSpeedLimit->mRank = -1;
+    raceSpeedLimit->mSpeedLimitReduced = 0;
+    return -1;
 }
 
 void ResetRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
-    raceSpeedLimit->mSpeedLimit = (u32) (((u32) raceSpeedLimit->mBaseSpeedLimit));
+    raceSpeedLimit->mSpeedLimit = raceSpeedLimit->mBaseSpeedLimit;
     raceSpeedLimit->mSpeedLimitAddition = 0x0u;
     raceSpeedLimit->mTurnSpeedLimit = 0x0u;
-    raceSpeedLimit->mSpeedLimitBeforeTurn = (u32) (((u32) raceSpeedLimit->mBaseSpeedLimit));
-    raceSpeedLimit->mRank = (u32) ((~(0x0u)));
+    raceSpeedLimit->mSpeedLimitBeforeTurn = raceSpeedLimit->mBaseSpeedLimit;
+    raceSpeedLimit->mRank = -1;
     raceSpeedLimit->mSpeedLimitReduced = 0x0u;
 }
 
 // Rolls the race start of a CPU kart: a race start boost with its choice, or the flag in mUnk_28.
 void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
     BOOL isHumanGhostOrPeer = FALSE;
-    s32 playerKind;
+    u32 playerKind;
     BOOL boostChosen;
     s32 tableIndex;
     s32 randomValue;
@@ -197,7 +183,7 @@ void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct Kar
     KartAi *kartAiOfKart;
 
     playerKind = gRaceSetup->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
-    if ((u32) playerKind <= 3) {
+    if (playerKind <= 3) {
         if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
             isHumanGhostOrPeer = TRUE;
         }
@@ -235,7 +221,7 @@ void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct Kar
 // Every eighth frame, on this kart's turn, recomputes the CPU speed limit; every call sets the kart's limit from it.
 void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
     BOOL isHumanGhostOrPeer;
-    s32 playerKind;
+    u32 playerKind;
     s32 t;
     s32 turnExcessRatio;
     Kart *kart;
@@ -245,7 +231,7 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
         raceSpeedLimit->mSpeedLimitReduced = 0;
         isHumanGhostOrPeer = FALSE;
         playerKind = gRaceSetup->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
-        if ((u32) playerKind <= 3) {
+        if (playerKind <= 3) {
             if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                 isHumanGhostOrPeer = TRUE;
             }
