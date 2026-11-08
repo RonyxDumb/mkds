@@ -2,4 +2,5 @@
 
 #include "types.h"
 
-u32 RequestRaceEndStemSet(void);
+
+void RequestRaceEndStemSet(void);

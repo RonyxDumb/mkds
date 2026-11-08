@@ -38,14 +38,8 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-u32 RequestRaceEndStemSet(void) {
-    u32 value0;
-    u32 trueValue;
-    value0 = (u32) &gRaceEnd;
-    trueValue = 1u;
-    value0 = *(const u32 *) ((value0) + (0));
-    *(u32 *) ((value0) + (4)) = trueValue;
-    return value0;
+void RequestRaceEndStemSet(void) {
+    gRaceEnd->mStemSetRequested = TRUE;
 }
 
 void SetKartCupRanks(void) {
@@ -170,23 +164,12 @@ void InitRaceEnd(void) {
     gRaceEnd->mResultsSet = FALSE;
 }
 
-u32 ClearRaceEndPointer(void) {
-    u32 pointerAddress;
-    u32 nullValue;
-    pointerAddress = (u32) &gRaceEnd;
-    nullValue = 0u;
-    *(u32 *) ((pointerAddress) + (0)) = nullValue;
-    return pointerAddress;
+void ClearRaceEndPointer(void) {
+    gRaceEnd = NULL;
 }
 
-u32 ResetRaceEndFrames(void) {
-    u32 value0;
-    u32 zeroValue;
-    value0 = (u32) &gRaceEnd;
-    zeroValue = 0u;
-    value0 = *(const u32 *) ((value0) + (0));
-    *(u32 *) ((value0) + (0)) = zeroValue;
-    return value0;
+void ResetRaceEndFrames(void) {
+    gRaceEnd->mEndFrames = 0;
 }
 
 void UpdateRaceEnd(void) {

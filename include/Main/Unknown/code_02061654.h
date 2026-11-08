@@ -4,6 +4,7 @@
 
 typedef struct TimeRecord TimeRecord;
 typedef struct Camera Camera;
+typedef struct Race Race;
 
 
 #include "code_02012b30.h" // MtxFx43
@@ -26,7 +27,7 @@ s32 TryGetRaceUpdateFramesSinceEntryEnd(u32 *framesOut);
 // Stores the current mUpdateFrames in Race.mUpdateFramesAtEntryEnd; called when the end handler of the kart of the
 // selected entry first runs.
 u32 SetRaceUpdateFramesAtEntryEnd(void);
-u32 SetRaceUpdateFramesUnlimited(void);
+Race *SetRaceUpdateFramesUnlimited(void);
 Camera *GetCurrentCamera(void);
 unsigned int GetCurrentCameraKind(void);
 MtxFx43 *GetCurrentViewMatrix(void);

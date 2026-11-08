@@ -628,19 +628,15 @@ void StartFadeFog(void) {
 }
 
 void ClearFadeFogHoldFrames(void) {
-    u32 value0;
     u32 value1;
-    value0 = (u32) &gFadeFogHoldFrames;
     value1 = 0u;
-    *(u16 *) ((value0) + (0)) = value1;
+    gFadeFogHoldFrames = value1;
 }
 
 void SetFadeFogHoldFramesToLimit(void) {
-    u32 value0;
     u32 value1;
-    value0 = (u32) &gFadeFogHoldFrames;
     value1 = 0x48u;
-    *(u16 *) ((value0) + (0)) = value1;
+    gFadeFogHoldFrames = value1;
 }
 
 u32 IsFadeFogActive(void) {
@@ -660,21 +656,17 @@ Camera *GetCurrentCamera(void) {
     return gCurrentCamera;
 }
 
-u32 SetRaceUpdateFramesUnlimited(void) {
-    u32 value0;
+Race *SetRaceUpdateFramesUnlimited(void) {
+    Race *race;
     u32 value1;
-    value0 = (u32) &gRace;
     value1 = 1u;
-    value0 = *(const u32 *) ((value0) + (0));
-    *(u32 *) ((value0) + (52)) = value1;
-    return value0;
+    race = gRace;
+    race->mUpdateFramesUnlimited = value1;
+    return race;
 }
 
 u32 SetRaceUpdateFramesAtEntryEnd(void) {
     u32 value0;
-    u32 value1;
-    value0 = (u32) &gRace;
-    value1 = *(const u32 *) ((value0) + (0));
     value0 = gRace->mUpdateFrames;
     gRace->mUpdateFramesAtEntryEnd = value0;
     return value0;

@@ -233,7 +233,7 @@ void func_02043d10(void *heap) {
     InitTouchPanelAndSetCalibration();
     InitTouchMicInput(heap);
     for (i = 0; i <= 1; i++) {
-        InitKeyRecordingBuffer((u32) &data_02175628[i].mUnk_28, (u32) heap);
+        InitKeyRecordingBuffer((KeyRecording *) &data_02175628[i].mUnk_28, heap);
     }
     for (; i < 10; i++) {
         func_0204a9f8((KeyRecording *) &data_02175628[i].mUnk_28);

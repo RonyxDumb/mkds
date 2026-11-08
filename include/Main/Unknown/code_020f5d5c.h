@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void AdvanceItemKouraR(u32 kouraR);
+typedef struct ItemKouraR ItemKouraR;
+
+void AdvanceItemKouraR(ItemKouraR *kouraR);

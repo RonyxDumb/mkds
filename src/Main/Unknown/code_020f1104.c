@@ -4,8 +4,7 @@
 #include "Main/Unknown/unk_027e0000.h"
 #include "code_02147cd8.h"
 
-void func_020f1150(int object, int kartIndex) {
-    ItemKouraR *item = (ItemKouraR *) object;
+void func_020f1150(ItemKouraR *item, int kartIndex) {
     item->mKartItems = &gKartItems[kartIndex];
     item->mUnk_22c.x = 0;
     item->mUnk_22c.y = 0;

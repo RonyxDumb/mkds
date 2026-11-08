@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void CallQueueReset(u32 arg0);
+typedef struct CallQueue CallQueue;
+
+void CallQueueReset(CallQueue *queue);

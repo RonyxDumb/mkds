@@ -18,7 +18,7 @@ void CallQueueInit(void *arg0, u32 arg1) {
     *(u32 *) ((value2) + (0)) = value0;
     value0 = value2;
     data_02173220.mCapacity = value1;
-    CallQueueReset(value0);
+    CallQueueReset(&data_02173220);
 }
 
 void CallQueueDrain(void) {

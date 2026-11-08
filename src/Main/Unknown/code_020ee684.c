@@ -380,7 +380,7 @@ s32 func_020f0898(ItemPool *pool, u8 *packet) {
         found = TRUE;
         value = packet[2];
         if (pool->mKind == 1) {
-            func_020f5cc4(object, value);
+            func_020f5cc4((ItemKouraR *) object, value);
         }
         if (pool->mKind == 5) {
             SetItemKouraWKartItemsAndStateIfNone((ItemKouraW *) object, value);

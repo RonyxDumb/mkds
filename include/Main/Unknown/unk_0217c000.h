@@ -53,7 +53,7 @@ extern s32 gOrthoQuadFrames;
 extern s32 gOrthoQuadCount;
 extern s32 data_0217ccb0;
 extern s32 gSoundPitchSwing;
-extern u8 gSoundPitchSwingAngle[];
+extern vu32 gSoundPitchSwingAngle;
 extern s32 data_0217ccbc;
 extern u16 *gItemTeresaFrameScales;
 extern s32 gItemGessoFrameCount;

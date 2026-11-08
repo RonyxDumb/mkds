@@ -36,24 +36,18 @@
 u32 InitSoundPitchSwing(void) {
     u32 value0;
     u32 value1;
-    u32 value2;
-    u32 value3;
     u32 value12;
     value1 = 0xafc8000u;
     value0 = 0x384000u;
     value0 = FX_Div(value0, value1);
-    value2 = (u32) &data_0217ccb0;
     value1 = 0xafc8000u;
-    *(u32 *) ((value2) + (0)) = value0;
+    data_0217ccb0 = value0;
     value0 = 0x1c2000u;
     value0 = FX_Div(value0, value1);
-    value3 = (u32) &data_0217ccbc;
-    value2 = (u32) &gSoundPitchSwing;
     value12 = 0u;
-    value1 = (u32) &gSoundPitchSwingAngle;
-    *(u32 *) ((value3) + (0)) = value0;
-    *(u32 *) ((value2) + (0)) = value12;
-    *(u32 *) ((value1) + (0)) = value12;
+    data_0217ccbc = value0;
+    gSoundPitchSwing = value12;
+    gSoundPitchSwingAngle = value12;
     return value0;
 }
 
@@ -63,12 +57,12 @@ void UpdateSoundPitchSwing(void) {
     s32 c;
     s64 d;
 
-    angle = *(u32 *) gSoundPitchSwingAngle + 0x1999;
-    *(u32 *) gSoundPitchSwingAngle = angle;
+    angle = gSoundPitchSwingAngle + 0x1999;
+    gSoundPitchSwingAngle = angle;
     wrappedAngle = angle & 0xffff;
     c = gPairsByAngle[(wrappedAngle >> 4) * 2];
     d = (s64) c * 0x90000 + 0x800;
-    *(u32 *) gSoundPitchSwingAngle = wrappedAngle;
+    gSoundPitchSwingAngle = wrappedAngle;
     gSoundPitchSwing = (s32) (d >> 12) >> 12;
 }
 

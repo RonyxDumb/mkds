@@ -464,11 +464,8 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     return kouraR->mThrowForward;
 }
 
-void AdvanceItemKouraR(u32 kouraR) {
-    u32 value0 = kouraR;
-    u32 value12;
-    value0 = (value0) + (0x23cu);
-    AdvanceStateMachine((void *) value0);
+void AdvanceItemKouraR(ItemKouraR *kouraR) {
+    AdvanceStateMachine(&kouraR->mStateMachine);
 }
 
 void UpdateItemKouraRState0And1(ItemKouraR *kouraR) {
@@ -480,16 +477,13 @@ void UpdateItemKouraRState0And1(ItemKouraR *kouraR) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-void func_020f5cc4(ItemObject *item, u32 kartIndex) {
-    u32 value0 = (u32) item;
+void func_020f5cc4(ItemKouraR *kouraR, u32 kartIndex) {
     u32 value1 = kartIndex;
     u32 minusOne;
     u32 collisionSlotIndex;
-    u32 itemAddress;
     u32 collisionSlotCompared;
     u32 minusOneCompared;
-    itemAddress = value0;
-    collisionSlotIndex = *(const s16 *) ((itemAddress) + (218));
+    collisionSlotIndex = kouraR->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex;
     minusOne = ~(0u);
     collisionSlotCompared = collisionSlotIndex;
     minusOneCompared = minusOne;
@@ -498,12 +492,11 @@ void func_020f5cc4(ItemObject *item, u32 kartIndex) {
     if (collisionSlotCompared == minusOneCompared) {
         return;
     }
-    func_020f1150(value0, value1);
-    value0 = (itemAddress) + (0x200u);
+    func_020f1150(kouraR, value1);
     value1 = 4u;
-    *(u16 *) ((value0) + (76)) = value1;
+    kouraR->mStateMachine.mNextState = value1;
     value1 = 1u;
-    *(u16 *) ((value0) + (78)) = value1;
+    kouraR->mStateMachine.mNextStateRequested = value1;
 }
 
 void UpdateItemKouraRState2(ItemKouraR *kouraR) {
@@ -615,7 +608,7 @@ void UpdateItemKouraRState4(ItemKouraR *kouraR) {
 
     kartItems = kouraR->mKartItems;
     kart = kartItems->mKart;
-    kartBits = *(u32 *) &kart->mUnk_7c;
+    kartBits = kart->mUnk_7c;
     d = TRUE;
     if ((kartBits & 0x402020) == 0) {
         if ((kart->mUnk_4c & 0x800) == 0) {
@@ -714,7 +707,7 @@ void func_020f5614(void *kouraParam, s32 hitType, ItemObject *otherParam) {
         return;
     }
     kart = kartItems->mKart;
-    if (otherOwnerIndex != *(u16 *) &kart->mIndex) {
+    if (otherOwnerIndex != kart->mIndex) {
         return;
     }
     otherFlags = other->mFlags;
