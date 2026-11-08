@@ -31,7 +31,7 @@ typedef struct ItemBox {
     /* 0a6 */ u8 mUnk_0a6[2];
     /* 0a8 */ s32 mUnk_0a8;
     /* 0ac */ s32 mUnk_0ac;
-    /* 0b0 */ s16 mUnk_0b0;
+    /* 0b0 */ s16 mShadowMode;
     /* 0b2 */ u8 mUnk_0b2[2];
     /* 0b4 */ ShadowMatrix mUnk_0b4;
     /* 0e8 */ s32 mUnk_0e8;
@@ -41,9 +41,9 @@ typedef struct ItemBox {
     /* 0f4 */ u16 mUnk_0f4;
     /* 0f6 */ u8 mUnk_0f6[2];
     /* 0f8 */ s32 mUnk_0f8;
-    /* 0fc */ Vec3 *mUnk_0fc;
-    /* 100 */ UnkFunc *mUnk_100;
-    /* 104 */ void *mUnk_104;
+    /* 0fc */ Vec3 *mPositionSource;
+    /* 100 */ UnkFunc *mDrawMatrixCallback;
+    /* 104 */ void *mDrawMatrixCallbackOwner;
     /* 108 */ GroupFollowerWithSpeeds mFollower;
 } ItemBox;
 

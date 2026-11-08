@@ -110,8 +110,8 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
     if (itemBox->mUnk_0e8 < 1) {
         return;
     }
-    if (itemBox->mUnk_100 != NULL) {
-        itemBox->mUnk_100(itemBox->mUnk_104, &matrix);
+    if (itemBox->mDrawMatrixCallback != NULL) {
+        itemBox->mDrawMatrixCallback(itemBox->mDrawMatrixCallbackOwner, &matrix);
         newPolygonId = AllocPolygonIdWrapping();
         model = gBox;
         model->mUnk_14 = model->mUnk_14 & 0xc0ffffff;
@@ -130,7 +130,7 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
         matrix.mUnk_00[2].x = rotation->mUnk_0c;
         matrix.mUnk_00[2].y = negatedProduct;
         matrix.mUnk_00[2].z = cosine;
-        position = itemBox->mUnk_0fc;
+        position = itemBox->mPositionSource;
         matrix.mUnk_00[3].x = position->x >> 4;
         matrix.mUnk_00[3].y = position->y >> 4;
         matrix.mUnk_00[3].z = position->z >> 4;
@@ -143,7 +143,7 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
     model = gBox;
     model->mUnk_14 = model->mUnk_14 & 0xffe0ffff;
     model->mUnk_14 = model->mUnk_14 | x << 16;
-    if (itemBox->mUnk_0fc != NULL) {
+    if (itemBox->mPositionSource != NULL) {
         if (itemBox->mUnk_000.mScale.z < 0x29) {
             return;
         }
@@ -169,7 +169,7 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
     u16 polygonId;
 
     itemBox->mPolygonId = AllocPolygonIdWrapping();
-    if (itemBox->mUnk_100 != NULL) {
+    if (itemBox->mDrawMatrixCallback != NULL) {
         return;
     }
     if ((s32) (itemBox->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0) > 0x27100) {
@@ -192,7 +192,7 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
     matrix.mUnk_00[2].x = -negatedSine;
     matrix.mUnk_00[2].y = 0;
     matrix.mUnk_00[2].z = cosine;
-    position = itemBox->mUnk_0fc;
+    position = itemBox->mPositionSource;
     matrix.mUnk_00[3].x = position->x >> 4;
     matrix.mUnk_00[3].y = position->y >> 4;
     matrix.mUnk_00[3].z = position->z >> 4;
@@ -204,7 +204,7 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
     p2 = gQuestion;
     p2->mUnk_14 &= 0xc0ffffff;
     p2->mUnk_14 |= polygonId << 24;
-    func_020e67c4(gQuestion, &matrix, itemBox->mUnk_0fc != NULL ? &itemBox->mUnk_000.mScale : 0, 0, d);
+    func_020e67c4(gQuestion, &matrix, itemBox->mPositionSource != NULL ? &itemBox->mUnk_000.mScale : 0, 0, d);
 }
 
 void func_020dee8c(void) {
@@ -255,16 +255,16 @@ void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
     if (n < 1) {
         return;
     }
-    if (itemBox->mUnk_0b0 == 0) {
+    if (itemBox->mShadowMode == 0) {
         itemBox->mUnk_0b4.mUnk_030 = n;
         func_020e54e4(&itemBox->mUnk_0b4, itemBox->mUnk_0a8 != 0 ? &data_0217b75c : 0, c, d);
         return;
     }
-    if (itemBox->mUnk_0b0 != 1) {
+    if (itemBox->mShadowMode != 1) {
         return;
     }
     if (itemBox->mUnk_0a8 != 0) {
-        position = itemBox->mUnk_0fc;
+        position = itemBox->mPositionSource;
         data_0217b720.mUnk_00[3].x = position->x >> 4;
         data_0217b720.mUnk_00[3].y = position->y >> 4;
         data_0217b720.mUnk_00[3].z = position->z >> 4;
@@ -274,10 +274,10 @@ void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
     shadowScale.x = ((s64) itemBox->mUnk_000.mScale.x * 0x1666) >> 12;
     shadowScale.y = ((s64) itemBox->mUnk_000.mScale.y * 0x1666) >> 12;
     shadowScale.z = ((s64) itemBox->mUnk_000.mScale.z * 0x1666) >> 12;
-    if (itemBox->mUnk_100 != NULL) {
-        matrix = SetTranslationMatrixPos(itemBox->mUnk_0fc);
+    if (itemBox->mDrawMatrixCallback != NULL) {
+        matrix = SetTranslationMatrixPos(itemBox->mPositionSource);
     } else {
-        position = itemBox->mUnk_0fc;
+        position = itemBox->mPositionSource;
         data_0217b720.mUnk_00[3].x = position->x >> 4;
         data_0217b720.mUnk_00[3].y = position->y >> 4;
         data_0217b720.mUnk_00[3].z = position->z >> 4;

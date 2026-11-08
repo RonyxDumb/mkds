@@ -11,7 +11,7 @@ void ParkPooledMapObject(u32 pooledMapObject) {
 }
 
 void SetPooledMapObjectFromItem(ItemBox *object, s32 alpha, Vec3 *scale) {
-    object->mUnk_000.mPos = *object->mUnk_0fc;
+    object->mUnk_000.mPos = *object->mPositionSource;
     if (alpha < 1) {
         alpha = 1;
     }
@@ -33,6 +33,6 @@ void AdvancePooledMapObject(ItemBox *object) {
 }
 
 void SetPooledMapObjectCallback(ItemBox *object, UnkFunc *callback, ItemFBox *owner) {
-    object->mUnk_100 = callback;
-    object->mUnk_104 = owner;
+    object->mDrawMatrixCallback = callback;
+    object->mDrawMatrixCallbackOwner = owner;
 }

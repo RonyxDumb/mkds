@@ -91,7 +91,7 @@ void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
         itemBox->mUnk_000.mPos.y += data_0217b754;
         itemBox->mUnk_000.mPos.y += 0x10000;
     }
-    if (itemBox->mUnk_0b0 == 0) {
+    if (itemBox->mShadowMode == 0) {
         SetShadowPositionXZ(&itemBox->mUnk_0b4, &itemBox->mUnk_000.mPos);
     }
     UpdateItemBox(unused, itemBox);

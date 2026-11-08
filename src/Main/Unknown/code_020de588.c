@@ -62,7 +62,7 @@ void InitItemBox(ItemBox *itemBox, Unk020de6a8_1 *row) {
     BOOL v1;
 
     itemBox->mUnk_000.mPos.y += 0xc000;
-    itemBox->mUnk_0fc = &itemBox->mUnk_000.mPos;
+    itemBox->mPositionSource = &itemBox->mUnk_000.mPos;
     random = GetMapObjectRandom();
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     itemBox->mBoxRotationIndex = ((u64) (u32) (random->mValue >> 32) * 0x12c) >> 32;
@@ -93,16 +93,16 @@ void InitItemBox(ItemBox *itemBox, Unk020de6a8_1 *row) {
         itemBox->mUnk_0f4 = row->mUnk_2c;
     }
     if (itemBox->mUnk_0f8 != 0) {
-        itemBox->mUnk_0b0 = 1;
+        itemBox->mShadowMode = 1;
     } else {
-        itemBox->mUnk_0b0 = row->mUnk_2e;
-        if (itemBox->mUnk_0b0 == 0) {
+        itemBox->mShadowMode = row->mUnk_2e;
+        if (itemBox->mShadowMode == 0) {
             shadowPos = row->mUnk_00;
             if (itemBox->mUnk_0a8 != 0) {
                 shadowPos.y += 0x800;
             }
             if (RefreshShadowMatrix(&itemBox->mUnk_0b4, &shadowPos, 0x14000, 0xd) == 0) {
-                itemBox->mUnk_0b0 = 2;
+                itemBox->mShadowMode = 2;
             }
         }
     }
