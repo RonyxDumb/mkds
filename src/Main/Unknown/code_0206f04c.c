@@ -277,7 +277,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 }
                 kart->mUnk_48 |= 0x8000;
                 if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                    GetEntryKartCounters()->mUnk_00 = 1;
+                    GetEntryKartCounters()->mRaceStartBoosted = 1;
                 } else {
                     StartSound(&kart->mSoundSource, 0xa1, 0x7f, 0);
                 }
@@ -324,7 +324,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 }
                 kart->mUnk_48 |= 0x8000;
                 if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                    GetEntryKartCounters()->mUnk_00 = 1;
+                    GetEntryKartCounters()->mRaceStartBoosted = 1;
                 } else {
                     StartSound(&kart->mSoundSource, 0xa1, 0x7f, 0);
                 }

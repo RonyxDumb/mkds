@@ -17,7 +17,7 @@ int CollideKartWithMapObjectResponse3(Kart *p, s32 *a, MapObject *c) {
                 StartEffect(0xe, &p->mPos);
             }
             if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                GetEntryKartCounters()->mUnk_14++;
+                GetEntryKartCounters()->mMapObjectHitCount++;
             }
         }
         *a = 3;
@@ -36,7 +36,7 @@ int CollideKartWithMapObjectResponse4(Kart *p, s32 *a, MapObject *c) {
                 StartEffect(0xe, &p->mPos);
             }
             if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                GetEntryKartCounters()->mUnk_14++;
+                GetEntryKartCounters()->mMapObjectHitCount++;
             }
         }
         *a = 4;
@@ -50,7 +50,7 @@ int CollideKartWithMapObjectResponse6(Kart *p, s32 *a, MapObject *c) {
     if (p->mVelocityLength > 0x3000 || (c->mFlags & 0x200)) {
         if (TrySpinKart(p, 2, 0)) {
             if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                GetEntryKartCounters()->mUnk_14++;
+                GetEntryKartCounters()->mMapObjectHitCount++;
             }
             func_020812d0(p->mIndex);
         }
@@ -67,7 +67,7 @@ int CollideKartWithMapObjectResponse5(Kart *p, s32 *a) {
             SetupKartFollowEffectWithVelocity(StartEffect(0x4f, &p->mPos), p->mIndex, 0x46);
         }
         if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            GetEntryKartCounters()->mUnk_14++;
+            GetEntryKartCounters()->mMapObjectHitCount++;
         }
     }
     *a = 5;
@@ -77,7 +77,7 @@ int CollideKartWithMapObjectResponse5(Kart *p, s32 *a) {
 int CollideKartWithMapObjectResponse7(Kart *p, s32 *a) {
     if (TryStartKartState3(p)) {
         if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            GetEntryKartCounters()->mUnk_14++;
+            GetEntryKartCounters()->mMapObjectHitCount++;
         }
         p->mUnk_48 |= 0x20000;
     }

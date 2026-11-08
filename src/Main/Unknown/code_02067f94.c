@@ -46,7 +46,7 @@ void func_020680e0(Kart *kart, const Vec3 *direction) {
         return;
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        GetEntryKartCounters()->mUnk_14++;
+        GetEntryKartCounters()->mMapObjectHitCount++;
     }
     kart->mUnk_48 |= 0x20000;
 }
@@ -56,7 +56,7 @@ void func_02068094(Kart *kart, s32 b, Unk0206b020 *mapObject) {
         return;
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        GetEntryKartCounters()->mUnk_14++;
+        GetEntryKartCounters()->mMapObjectHitCount++;
     }
     kart->mUnk_48 |= 0x20000;
 }
@@ -102,7 +102,7 @@ void func_02067f94(Kart *kart, const Vec3 *direction) {
         return;
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        GetEntryKartCounters()->mUnk_14++;
+        GetEntryKartCounters()->mMapObjectHitCount++;
     }
     kart->mUnk_48 |= 0x20000;
 }

@@ -70,7 +70,7 @@ void EndKartDrift(Kart *kart) {
         kart->mUnk_48 |= KART_48_MINI_TURBO;
         kart->mMiniTurboTimer = kart->mPhysicalParam->mUnk_0e;
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            GetEntryKartCounters()->mUnk_04++;
+            GetEntryKartCounters()->mMiniTurboCount++;
             if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
                 func_ov001_0218171c();
             }
@@ -216,7 +216,7 @@ recheck:
                 kart->mUnk_48 |= KART_48_MINI_TURBO;
                 kart->mMiniTurboTimer = kart->mPhysicalParam->mUnk_0e;
                 if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                    GetEntryKartCounters()->mUnk_04++;
+                    GetEntryKartCounters()->mMiniTurboCount++;
                     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
                         func_ov001_0218171c();
                     }

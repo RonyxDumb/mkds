@@ -181,7 +181,7 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
         entryKartCounters = GetEntryKartCounters();
         switch (s->mMissionKind) {
             case 4:
-                if (s->mUnk_0f > (u32) entryKartCounters->mUnk_04) {
+                if (s->mUnk_0f > (u32) entryKartCounters->mMiniTurboCount) {
                     missionTestPassed = FALSE;
                 }
                 break;

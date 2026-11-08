@@ -145,13 +145,13 @@ void InitKarts(u32 kartCount) {
     gKillerItemKartIndex = 0;
     gMinKartDistanceSquaredPresent = 0;
     gMinKartDistanceSquared = -1;
-    entryKartCounters->mUnk_00 = 0;
-    entryKartCounters->mUnk_04 = 0;
+    entryKartCounters->mRaceStartBoosted = 0;
+    entryKartCounters->mMiniTurboCount = 0;
     entryKartCounters->mUnk_08 = 0;
     entryKartCounters->mUnk_0c = 0;
     entryKartCounters->mUnk_10 = 0;
-    entryKartCounters->mUnk_14 = 0;
-    entryKartCounters->mUnk_18 = 0;
+    entryKartCounters->mMapObjectHitCount = 0;
+    entryKartCounters->mRespawnCount = 0;
     data_usa_021658bc = gRaceSetup->mMode == MODE_BATTLE ? 1 : 2;
     func_02073630();
     RegisterKartAiCallbacks();

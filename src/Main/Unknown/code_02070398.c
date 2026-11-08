@@ -188,7 +188,7 @@ void ResetKartToRespawnPoint(Kart *kart) {
     }
     ResetKartAndSetPos(kart, &respawnPos, &respawnForward, respawnLink);
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        GetEntryKartCounters()->mUnk_18++;
+        GetEntryKartCounters()->mRespawnCount++;
     } else {
         ResetSoundDistanceSquaredChange(&kart->mUnk_518);
     }

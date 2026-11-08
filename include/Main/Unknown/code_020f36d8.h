@@ -217,13 +217,13 @@ typedef struct Unk0217561c_000 {
 typedef struct RaceProgressScoreTerms {
     /* 00 */ s32 mTimeRemainingScore;
     /* 04 */ s32 mFirstPlaceScore;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
+    /* 08 */ s32 mRaceStartBoostScore;
+    /* 0c */ s32 mMiniTurboScore;
     /* 10 */ s32 mUnk_10;
     /* 14 */ s32 mUnk_14;
     /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
+    /* 1c */ s32 mMapObjectHitScore;
+    /* 20 */ s32 mRespawnScore;
 } RaceProgressScoreTerms;
 
 // 8-byte entries from 0x1c of the object behind RaceProgress.mUnk_4c8.

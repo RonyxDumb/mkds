@@ -86,7 +86,7 @@ s32 CollideKartWithMapObjectResponse14(Kart *kart, s32 *output) {
 s32 CollideKartWithMapObjectResponse11(Kart *kart, s32 *output, s32 mapObject) {
     if (func_0206a24c(kart) != FALSE && kart->mUnk_44c != (struct MapObject *) mapObject &&
         (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        GetEntryKartCounters()->mUnk_14++;
+        GetEntryKartCounters()->mMapObjectHitCount++;
     }
     *output = 0;
     return 0;

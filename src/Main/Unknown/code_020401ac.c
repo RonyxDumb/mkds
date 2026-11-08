@@ -100,17 +100,17 @@ void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartInde
     scoreTerms->mFirstPlaceScore = (rankTimeGpFile->mUnk_0c * FX_Div(raceProgressKart->mFirstPlaceFrames << 12,
                                                                      gRaceProgress->mUnk_000[0].mRankTime << 12)) >>
                                    12;
-    if (entryKartCounters->mUnk_00 != 0) {
-        scoreTerms->mUnk_08 = rankTimeGpFile->mUnk_0e;
+    if (entryKartCounters->mRaceStartBoosted != 0) {
+        scoreTerms->mRaceStartBoostScore = rankTimeGpFile->mUnk_0e;
     } else {
-        scoreTerms->mUnk_08 = 0;
+        scoreTerms->mRaceStartBoostScore = 0;
     }
-    scoreTerms->mUnk_0c = rankTimeGpFile->mUnk_10 * entryKartCounters->mUnk_04;
+    scoreTerms->mMiniTurboScore = rankTimeGpFile->mUnk_10 * entryKartCounters->mMiniTurboCount;
     scoreTerms->mUnk_10 = rankTimeGpFile->mUnk_12 * entryKartCounters->mUnk_08;
     scoreTerms->mUnk_14 = -((u32) (entryKartCounters->mUnk_0c * FX_Inv(rankTimeGpFile->mUnk_14 << 12)) >> 12);
     scoreTerms->mUnk_18 = entryKartCounters->mUnk_10 * -rankTimeGpFile->mUnk_16;
-    scoreTerms->mUnk_1c = entryKartCounters->mUnk_14 * -rankTimeGpFile->mUnk_18;
-    scoreTerms->mUnk_20 = entryKartCounters->mUnk_18 * -rankTimeGpFile->mUnk_1a;
+    scoreTerms->mMapObjectHitScore = entryKartCounters->mMapObjectHitCount * -rankTimeGpFile->mUnk_18;
+    scoreTerms->mRespawnScore = entryKartCounters->mRespawnCount * -rankTimeGpFile->mUnk_1a;
 }
 
 // Sum of the nine score terms (also saved in gRaceProgress->mUnk_500), clamped to -9999..9999; 0 unless kart a is the
@@ -142,21 +142,22 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
                        0x3e8000) >>
                 12;
             scoreTerms.mFirstPlaceScore = 0;
-            scoreTerms.mUnk_08 = 0;
-            scoreTerms.mUnk_0c = 0;
+            scoreTerms.mRaceStartBoostScore = 0;
+            scoreTerms.mMiniTurboScore = 0;
             scoreTerms.mUnk_10 = entryKartCounters->mUnk_08 * -5;
             scoreTerms.mUnk_14 = 0;
             scoreTerms.mUnk_18 = entryKartCounters->mUnk_10 * -5;
-            scoreTerms.mUnk_1c = entryKartCounters->mUnk_14 * -10;
-            scoreTerms.mUnk_20 = entryKartCounters->mUnk_18 * -20;
+            scoreTerms.mMapObjectHitScore = entryKartCounters->mMapObjectHitCount * -10;
+            scoreTerms.mRespawnScore = entryKartCounters->mRespawnCount * -20;
             break;
         default:
             return 0;
     }
     *savedScoreTerms = scoreTerms;
-    score = savedScoreTerms->mTimeRemainingScore + savedScoreTerms->mFirstPlaceScore + savedScoreTerms->mUnk_08 +
-            savedScoreTerms->mUnk_0c + savedScoreTerms->mUnk_10 + savedScoreTerms->mUnk_14 + savedScoreTerms->mUnk_18 +
-            savedScoreTerms->mUnk_1c + savedScoreTerms->mUnk_20;
+    score = savedScoreTerms->mTimeRemainingScore + savedScoreTerms->mFirstPlaceScore +
+            savedScoreTerms->mRaceStartBoostScore + savedScoreTerms->mMiniTurboScore + savedScoreTerms->mUnk_10 +
+            savedScoreTerms->mUnk_14 + savedScoreTerms->mUnk_18 + savedScoreTerms->mMapObjectHitScore +
+            savedScoreTerms->mRespawnScore;
     if (score < -9999) {
         score = -9999;
     }

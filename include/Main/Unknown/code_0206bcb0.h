@@ -58,13 +58,13 @@ typedef struct KartPhysicalParam {
 // the Kart is the selected entry. Read by the rank score of the grand prix and the goal tests of mission run. What each
 // counter counts is not named.
 typedef struct EntryKartCounters {
-    /* 0 */ s32 mUnk_00;
-    /* 4 */ s32 mUnk_04;
+    /* 0 */ s32 mRaceStartBoosted;
+    /* 4 */ s32 mMiniTurboCount;
     /* 8 */ s32 mUnk_08;
     /* c */ s32 mUnk_0c;
     /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
+    /* 14 */ s32 mMapObjectHitCount;
+    /* 18 */ s32 mRespawnCount;
 } EntryKartCounters;
 
 struct Kart;

@@ -269,7 +269,7 @@ void FinishRemainingMissionRunKarts(void) {
             entryKartCounters = GetEntryKartCounters();
             switch (missionSettings[7]) {
                 case 4:
-                    if (missionSettings[0xf] > (u32) entryKartCounters->mUnk_04) {
+                    if (missionSettings[0xf] > (u32) entryKartCounters->mMiniTurboCount) {
                         succeeded = 0;
                     }
                     break;
