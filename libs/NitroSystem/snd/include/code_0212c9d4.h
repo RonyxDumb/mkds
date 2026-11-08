@@ -46,7 +46,7 @@ void NNSi_SndCaptureEndSleep(void);
 void NNSi_SndCaptureBeginSleep(void);
 void NNSi_SndCaptureStop(void);
 void NNSi_SndCaptureMain(void);
-u32 NNSi_SndCaptureInit(void);
+void NNSi_SndCaptureInit(void);
 void NNS_SndCaptureStopEffect(void);
 s32 NNS_SndCaptureStartEffect(void *buffer, u32 bufSize, u32 format, u32 rate, u32 interval,
                               NNSSndCaptureCallback callback, void *arg);

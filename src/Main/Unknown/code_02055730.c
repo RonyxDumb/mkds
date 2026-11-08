@@ -83,13 +83,8 @@ void InitDispCap(void *heap) {
     }
 }
 
-u32 ClearDispCapPointer(void) {
-    u32 pointerAddress;
-    u32 nullValue;
-    pointerAddress = (u32) &gDispCap;
-    nullValue = 0u;
-    *(u32 *) ((pointerAddress) + (0)) = nullValue;
-    return pointerAddress;
+void ClearDispCapPointer(void) {
+    gDispCap = NULL;
 }
 
 static inline u32 func_02055808_inline(void) {

@@ -44,16 +44,9 @@ void NNS_SndCaptureStopEffect(void) {
 }
 
 // Clears the thread flag and CaptureParam.mActiveFlag.
-u32 NNSi_SndCaptureInit(void) {
-    u32 value0;
-    u32 value1;
-    u32 value2;
-    value1 = (u32) &data_0217dda8;
-    value2 = 0u;
-    value0 = (u32) &data_0217ddd0;
-    *(u32 *) ((value1) + (0)) = value2;
-    data_0217ddd0.mActiveFlag = value2;
-    return value0;
+void NNSi_SndCaptureInit(void) {
+    data_0217dda8 = 0;
+    data_0217ddd0.mActiveFlag = 0;
 }
 
 // For a reverb capture steps the fader, stops the capture when the fade out has finished and otherwise sets the

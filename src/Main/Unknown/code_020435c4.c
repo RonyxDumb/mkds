@@ -34,12 +34,13 @@
 #include "01/code_021956dc.h"
 #include "code_021458c4.h"
 #include "code_0214d018.h"
+#include "registers.h"
 
 static inline void func_02043a34_inline(void) {
     if ((*(vu16 *) 0x027fffa8 & 0x8000) >> 15) {
         data_02175624->mPadKeys = 0;
     } else {
-        data_02175624->mPadKeys = ((*(vu16 *) 0x4000130 | *(vu16 *) 0x027fffa8) ^ 0x2fff) & 0x2fff;
+        data_02175624->mPadKeys = ((reg_PAD_KEYINPUT | *(vu16 *) 0x027fffa8) ^ 0x2fff) & 0x2fff;
     }
     UpdateTouchMicInput();
 }
@@ -470,8 +471,5 @@ void SetInputOpenDuringRace(u32 openDuringRace) {
 }
 
 u32 func_020435c4(void) {
-    u32 value0;
-    value0 = (u32) &data_02175928;
-    value0 = *(const u16 *) ((value0) + (78));
-    return value0;
+    return data_02175928[0x27];
 }

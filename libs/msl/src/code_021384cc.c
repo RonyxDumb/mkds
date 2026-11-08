@@ -566,8 +566,5 @@ u32 rand(void) {
 }
 
 void srand(u32 arg0) {
-    u32 value0 = arg0;
-    u32 value1;
-    value1 = (u32) &gRandValue;
-    *(u32 *) ((value1) + (0)) = value0;
+    gRandValue = arg0;
 }

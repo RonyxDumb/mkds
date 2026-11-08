@@ -23,6 +23,6 @@ void ToggleDispCapBanks(void);
 void SetupDispCap(void);
 void SetupDispCapMode1(void);
 void SetDispCapMode(s32 mode);
-u32 ClearDispCapPointer(void);
+void ClearDispCapPointer(void);
 void InitDispCap(void *heap);
 u8 func_02056208(void);

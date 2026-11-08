@@ -10,14 +10,8 @@
 CallQueue data_02173220;
 
 void CallQueueInit(void *arg0, u32 arg1) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = arg1;
-    u32 value2;
-    u32 value12;
-    value2 = (u32) &data_02173220;
-    *(u32 *) ((value2) + (0)) = value0;
-    value0 = value2;
-    data_02173220.mCapacity = value1;
+    data_02173220.mEntries = arg0;
+    data_02173220.mCapacity = arg1;
     CallQueueReset(&data_02173220);
 }
 

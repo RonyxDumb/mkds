@@ -20,11 +20,11 @@ void func_02025c6c(u32 destinationId, u32 sourceId, Unk0201ea30 *cellLayout) {
 }
 
 void func_02025c48(u32 destinationId, u32 sourceId, Unk0201ea30 *cellLayout) {
-    int destinationEntry;
-    int sourceEntry;
-    destinationEntry = (s32) func_0201ea30(cellLayout, destinationId);
-    sourceEntry = (s32) func_0201ea30(cellLayout, sourceId);
-    *(u32 *) (destinationEntry + 4) = *(u32 *) (sourceEntry + 4);
+    u32 *destinationEntry;
+    u32 *sourceEntry;
+    destinationEntry = func_0201ea30(cellLayout, destinationId);
+    sourceEntry = func_0201ea30(cellLayout, sourceId);
+    destinationEntry[1] = sourceEntry[1];
 }
 
 void func_02025c1c(u32 entryId, void *outputPointer, Unk0201ea30 *cellLayout) {
