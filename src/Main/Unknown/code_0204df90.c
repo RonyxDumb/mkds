@@ -219,7 +219,7 @@ s32 FindScanEntryIndex(u32 entryIndex) {
     if (data_0217aa00->mUnk_000c == 0x1e) {
         for (index = 0; index < 16; index++) {
             if (func_0200b1b0(index, &scanBlock) != 0) {
-                u8 *tableBytes = data_0217aa00->mUnk_00ac[0].mUnk_c0.mUnk_00;
+                u8 *tableBytes = data_0217aa00->mUnk_00ac[0].mKey.mUnk_00;
                 u8 *entryBytes = tableBytes + entryIndex * 0xe0;
                 if (scanBlock.mUnk_00[4] == tableBytes[entryIndex * 0xe0] && scanBlock.mUnk_00[5] == entryBytes[1] &&
                     scanBlock.mUnk_00[6] == entryBytes[2] && scanBlock.mUnk_00[7] == entryBytes[3] &&

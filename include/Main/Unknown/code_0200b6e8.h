@@ -14,8 +14,8 @@ typedef struct ScanEntryArgs {
 
 // Block the callback behind mScanCallback receives from ReportScanError.
 typedef struct ScanErrorArgs {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
+    /* 00 */ u16 mErrorCode;
+    /* 02 */ u16 mResultCode;
 } ScanErrorArgs;
 
 #include "code_02142eac.h"

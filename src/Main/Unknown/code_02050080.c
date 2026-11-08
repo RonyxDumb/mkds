@@ -33,7 +33,7 @@ u32 func_020501b0(u32 entryIndex) {
             entryValid = 0;
         } else if (*(u16 *) 0x027ffc40 == 2) {
             entryValid = 0;
-        } else if (data_0217aa00->mUnk_00ac[entryIndex].mUnk_dc_0 != 0) {
+        } else if (data_0217aa00->mUnk_00ac[entryIndex].mInUse != 0) {
             entryValid = 1;
         }
         if (entryValid != 0) {
@@ -45,12 +45,12 @@ u32 func_020501b0(u32 entryIndex) {
         data_0217aa00->mUnk_0438 = 0;
         entry = &data_0217aa00->mUnk_00ac[entryIndex];
         data_0217aa00->mUnk_0436 &= ~1;
-        if (entry->mUnk_dc_0 != 0) {
+        if (entry->mInUse != 0) {
             MI_CpuCopy8(entry, data_0217aa00->mUnk_0024, 0xc0);
             DC_StoreRange(data_0217aa00->mUnk_0024, 0xc0);
             q = data_0217aa00;
-            *(Unk0217aa00_42c *) &q->mUnk_042c = entry->mUnk_c0;
-            q->mUnk_043c = entry->mUnk_dc_1;
+            *(Unk0217aa00_42c *) &q->mUnk_042c = entry->mKey;
+            q->mUnk_043c = entry->mLanguageIndex;
             result = 1;
         }
     }

@@ -70,7 +70,7 @@ BOOL func_0204ff14(u16 entryIndex, void *destination) {
     if (*(u16 *) 0x027ffc40 == 2) {
         return FALSE;
     }
-    if (t->mUnk_00ac[entryIndex].mUnk_dc_0 != 0) {
+    if (t->mUnk_00ac[entryIndex].mInUse != 0) {
         if (destination != NULL) {
             MI_CpuCopy8(t->mUnk_00ac[entryIndex].mUnk_c6, destination, 0x14);
         }
@@ -89,7 +89,7 @@ BOOL func_0204fe90(u16 entryIndex) {
         entryValid = FALSE;
     } else if (*(u16 *) 0x027ffc40 == 2) {
         entryValid = FALSE;
-    } else if (data_0217aa00->mUnk_00ac[entryIndex].mUnk_dc_0 != 0) {
+    } else if (data_0217aa00->mUnk_00ac[entryIndex].mInUse != 0) {
         entryValid = TRUE;
     }
     if (entryValid != FALSE) {
@@ -110,7 +110,7 @@ s32 func_0204fe1c(u16 entryIndex) {
         entryValid = FALSE;
     } else if (*(u16 *) 0x027ffc40 == 2) {
         entryValid = FALSE;
-    } else if (data_0217aa00->mUnk_00ac[entryIndex].mUnk_dc_0 != 0) {
+    } else if (data_0217aa00->mUnk_00ac[entryIndex].mInUse != 0) {
         entryValid = TRUE;
     }
     if (entryValid != FALSE) {

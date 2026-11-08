@@ -314,7 +314,7 @@ typedef struct ScanBlock {
     /* 44 */ u32 mUnk_44;
     /* 48 */ u16 mUnk_48;
     /* 4a */ u8 mUnk_4a;
-    /* 4b */ u8 mUnk_4b;
+    /* 4b */ u8 mFlags;
     /* 4c */ u16 mUnk_4c;
     /* 4e */ u16 mUnk_4e;
     /* 50 */ Unk0217aa00_24_50 mUnk_50;
@@ -463,15 +463,15 @@ typedef struct Unk0217aa00_42c {
 // 0xe0-byte entries from 0xac of ConnectionWork.
 typedef struct ScanSlot {
     /* 00 */ ScanBlock mUnk_00;
-    /* c0 */ Unk0217aa00_42c mUnk_c0;
+    /* c0 */ Unk0217aa00_42c mKey;
     /* c6 */ u8 mUnk_c6[0x14];
     /* da */ u8 mUnk_da;
-    /* db */ u8 mUnk_db;
+    /* db */ u8 mAge;
     /* dc */ union {
         u8 mUnk_dc;
         struct {
-            u8 mUnk_dc_0 : 1;
-            u8 mUnk_dc_1 : 4;
+            u8 mInUse : 1;
+            u8 mLanguageIndex : 4;
             u8 mUnk_dc_5 : 1;
             u8 mUnk_dc_6 : 1;
         };

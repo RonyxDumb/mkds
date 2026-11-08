@@ -334,7 +334,7 @@ u32 AddScanResult(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock) {
 }
 
 u32 func_020091fc(ScanBlock *scanBlock) {
-    if ((scanBlock->mUnk_4b & 2) == 0 || scanBlock->mUnk_40 != 1) {
+    if ((scanBlock->mFlags & 2) == 0 || scanBlock->mUnk_40 != 1) {
         return 0;
     }
     return 1;

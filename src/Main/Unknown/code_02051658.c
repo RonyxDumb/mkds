@@ -105,13 +105,13 @@ void func_020525a8(ScanSlot *slot, ScanBlock *scanBuffer, Unk0217aa00_42c *key, 
         n1 = d->mUnk_0e.mUnk_06_4;
         n0 = d->mUnk_0e.mUnk_06_0;
         MI_CpuCopy8(scanBuffer, slot, 0xc0);
-        slot->mUnk_c0 = *key;
-        slot->mUnk_dc_0 = 1;
-        slot->mUnk_db = 0;
+        slot->mKey = *key;
+        slot->mInUse = 1;
+        slot->mAge = 0;
         if (n0 >= 0) {
             slot->mUnk_da = n0;
         }
-        slot->mUnk_dc_1 = n1;
+        slot->mLanguageIndex = n1;
         slot->mUnk_dc_5 = 0;
         slot->mUnk_dc_6 = k;
         MI_CpuCopy8(d, slot->mUnk_c6, 0x14);
@@ -126,13 +126,13 @@ void func_020525a8(ScanSlot *slot, ScanBlock *scanBuffer, Unk0217aa00_42c *key, 
         m1 = d->mUnk_0e.mUnk_06_4;
         m0 = d->mUnk_0e.mUnk_06_0;
         MI_CpuCopy8(scanBuffer, slot, 0xc0);
-        slot->mUnk_c0 = *key;
-        slot->mUnk_dc_0 = 1;
-        slot->mUnk_db = 0;
+        slot->mKey = *key;
+        slot->mInUse = 1;
+        slot->mAge = 0;
         if (m0 >= 0) {
             slot->mUnk_da = m0;
         }
-        slot->mUnk_dc_1 = m1;
+        slot->mLanguageIndex = m1;
         slot->mUnk_dc_5 = 0;
         slot->mUnk_dc_6 = k;
         MI_CpuCopy8(d, slot->mUnk_c6, 0x14);
@@ -159,9 +159,9 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
     n = 0;
     found = FALSE;
     for (i = 0, slot = g; i < 4; i++, slot++) {
-        if (slot->mUnk_dc_0 != 0 && key->mUnk_00[0] == slot->mUnk_c0.mUnk_00[0] &&
-            key->mUnk_00[1] == slot->mUnk_c0.mUnk_00[1] && key->mUnk_00[2] == slot->mUnk_c0.mUnk_00[2] && key->mUnk_00[3] == slot->mUnk_c0.mUnk_00[3] &&
-            key->mUnk_00[4] == slot->mUnk_c0.mUnk_00[4] && key->mUnk_00[5] == slot->mUnk_c0.mUnk_00[5]) {
+        if (slot->mInUse != 0 && key->mUnk_00[0] == slot->mKey.mUnk_00[0] && key->mUnk_00[1] == slot->mKey.mUnk_00[1] &&
+            key->mUnk_00[2] == slot->mKey.mUnk_00[2] && key->mUnk_00[3] == slot->mKey.mUnk_00[3] &&
+            key->mUnk_00[4] == slot->mKey.mUnk_00[4] && key->mUnk_00[5] == slot->mKey.mUnk_00[5]) {
             chosenSlot = slot;
             found = TRUE;
             break;
@@ -169,7 +169,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
     }
     if (chosenSlot == NULL) {
         for (i = 0, slot = g; i < 4; i++, slot++) {
-            if (slot->mUnk_dc_0 == 0) {
+            if (slot->mInUse == 0) {
                 chosenSlot = slot;
                 break;
             }
@@ -177,9 +177,9 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
     }
     if (chosenSlot == NULL) {
         for (i = 0; i < 4; i++) {
-            if (g->mUnk_db < 5) {
-                if (g->mUnk_db > n) {
-                    n = g->mUnk_db;
+            if (g->mAge < 5) {
+                if (g->mAge > n) {
+                    n = g->mAge;
                     chosenSlot = g;
                 }
             }
@@ -189,7 +189,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
     if (chosenSlot == NULL) {
         return;
     }
-    if ((scanBuffer->mUnk_4b & 2) != 0) {
+    if ((scanBuffer->mFlags & 2) != 0) {
         if (connection->mUnk_1d00 != 2) {
             t = &scanBuffer->mUnk_50;
             if (t->mUnk_07 == 5) {
@@ -197,23 +197,23 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
                 x = &u->mUnk_36;
                 v = -(found != FALSE);
                 MI_CpuCopy8(scanBuffer, chosenSlot, 0xc0);
-                chosenSlot->mUnk_c0 = *key;
-                chosenSlot->mUnk_dc_0 = 1;
-                chosenSlot->mUnk_db = 0;
+                chosenSlot->mKey = *key;
+                chosenSlot->mInUse = 1;
+                chosenSlot->mAge = 0;
                 if (v >= 0) {
                     chosenSlot->mUnk_da = v;
                 }
-                chosenSlot->mUnk_dc_1 = 0;
+                chosenSlot->mLanguageIndex = 0;
                 chosenSlot->mUnk_dc_5 = 1;
                 chosenSlot->mUnk_dc_6 = 0;
                 MI_CpuCopy8(x->mUnk_02, chosenSlot->mUnk_c6, 0x14);
                 data_0217aa00->mUnk_0438 = 0;
             } else if (t->mUnk_07 == 9) {
-                if (chosenSlot->mUnk_dc_0 != 0) {
+                if (chosenSlot->mInUse != 0) {
                     chosenSlot->mUnk_da = t->mUnk_0a - 1;
                 }
-            } else if (chosenSlot->mUnk_dc_0 != 0) {
-                chosenSlot->mUnk_db = 0;
+            } else if (chosenSlot->mInUse != 0) {
+                chosenSlot->mAge = 0;
             } else {
                 connection = data_0217aa00;
                 *(Unk0217aa00_42c *) &connection->mUnk_042c = *key;
@@ -226,7 +226,7 @@ void FindOrAddScanSlot(ScanBlock *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_
     s = &data_0217aa00->mUnk_00ac_view;
     s->mUnk_388 = 0;
     for (i = 0, slot = s->mUnk_000; i < 4; i++, slot++) {
-        if (slot->mUnk_dc_0 != 0) {
+        if (slot->mInUse != 0) {
             s->mUnk_388 += 1;
         }
     }
@@ -259,8 +259,8 @@ void StartScanCallback(Unk021425e8 *event) {
                         data_0217aa00->mUnk_1ed0 = 1;
                         data_0217aa00->mUnk_1ed4 = v;
                         data_0217aa00->mUnk_1ed6 = 0;
-                    } else if (scanBuffer.mUnk_3c >= 8 && scanBuffer.mUnk_44 == 0x25 && (scanBuffer.mUnk_4b & 1) != 0) {
-                        if ((scanBuffer.mUnk_4b & 2) != 0) {
+                    } else if (scanBuffer.mUnk_3c >= 8 && scanBuffer.mUnk_44 == 0x25 && (scanBuffer.mFlags & 1) != 0) {
+                        if ((scanBuffer.mFlags & 2) != 0) {
                             data_0217aa00->mUnk_1ed8 = 2;
                         } else {
                             data_0217aa00->mUnk_1ed8 = 3;
@@ -270,7 +270,7 @@ void StartScanCallback(Unk021425e8 *event) {
                     }
                 } else {
                     accepted = TRUE;
-                    if (scanBuffer.mUnk_3c < 8 || scanBuffer.mUnk_44 != 0x25 || (scanBuffer.mUnk_4b & 1) == 0) {
+                    if (scanBuffer.mUnk_3c < 8 || scanBuffer.mUnk_44 != 0x25 || (scanBuffer.mFlags & 1) == 0) {
                         accepted = FALSE;
                     } else if (data_0217aa00->mUnk_0444 != 0) {
                         if (data_0217aa00->mUnk_0444(&scanBuffer) == 0) {
@@ -306,14 +306,14 @@ void StartScanCallback(Unk021425e8 *event) {
         connection = data_0217aa00;
         if ((connection->mUnk_0436 & 1) != 0 && connection->mUnk_0004 != 0xd) {
             for (i = 0, e = connection->mUnk_00ac; i < 4; i++, e++) {
-                if (e->mUnk_dc_0 != 0) {
-                    e->mUnk_db += 1;
-                    if (e->mUnk_db > 0xc8) {
-                        e->mUnk_dc_0 = 0;
+                if (e->mInUse != 0) {
+                    e->mAge += 1;
+                    if (e->mAge > 0xc8) {
+                        e->mInUse = 0;
                         s = &data_0217aa00->mUnk_00ac_view;
                         s->mUnk_388 = 0;
                         for (j = 0, q = s->mUnk_000; j < 4; j++, q++) {
-                            if (q->mUnk_dc_0 != 0) {
+                            if (q->mInUse != 0) {
                                 s->mUnk_388 += 1;
                             }
                         }

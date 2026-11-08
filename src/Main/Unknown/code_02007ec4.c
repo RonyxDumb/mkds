@@ -162,13 +162,13 @@ u32 func_020080e8(ChunkTable *chunkTable, Unk020082b4 *record) {
     u8 i;
     Unk020082b4_0c *range;
     u16 *chunkStarts;
-    chunkStarts = chunkTable->mUnk_0c;
+    chunkStarts = chunkTable->mChunkStarts;
     offset = 0;
     if (record == NULL) {
         return 0;
     }
     for (i = 0; i < 3; i++) {
-        chunkTable->mUnk_00[i] = offset;
+        chunkTable->mRangeOffsets[i] = offset;
         offset += record->mUnk_0c[i].mUnk_08;
     }
     chunkStarts[0] = 0;
@@ -181,7 +181,7 @@ u32 func_020080e8(ChunkTable *chunkTable, Unk020082b4 *record) {
         if (i < 2) {
             chunkStarts[i + 1] = nextChunk;
         } else {
-            chunkTable->mUnk_0c[3] = nextChunk;
+            chunkTable->mChunkStarts[3] = nextChunk;
         }
     }
     return 1;
@@ -195,24 +195,24 @@ BOOL func_0200806c(Unk020072c0_buf *result, void *b, u16 chunk, void *d) {
     s8 i;
     chunkTable = b;
     record = d;
-    if (chunk >= chunkTable->mUnk_0c[3]) {
+    if (chunk >= chunkTable->mChunkStarts[3]) {
         return FALSE;
     }
     for (i = 2; i >= 0; i--) {
-        if (chunk >= chunkTable->mUnk_0c[i]) {
+        if (chunk >= chunkTable->mChunkStarts[i]) {
             break;
         }
     }
     if (i < 0) {
         return FALSE;
     }
-    offset = (chunk - chunkTable->mUnk_0c[i]) * func_0200806c_inline()->mUnk_1318;
+    offset = (chunk - chunkTable->mChunkStarts[i]) * func_0200806c_inline()->mUnk_1318;
     range = &record->mUnk_0c[i];
     result->mUnk_04 = range->mUnk_08 - offset;
     if (result->mUnk_04 > data_0216fdac->mUnk_1318) {
         result->mUnk_04 = data_0216fdac->mUnk_1318;
     }
-    result->mUnk_08 = offset + chunkTable->mUnk_00[i];
+    result->mUnk_08 = offset + chunkTable->mRangeOffsets[i];
     result->mUnk_00 = offset + range->mUnk_00;
     result->mUnk_0c = i;
     return TRUE;
@@ -297,7 +297,7 @@ void func_02007ec4(ScanBlock *record, u16 b, u16 c, u32 d, u32 e) {
     } else {
         v2 = 0;
     }
-    record->mUnk_4b = v2 | v1 | 1;
+    record->mFlags = v2 | v1 | 1;
 }
 
 #pragma thumb off

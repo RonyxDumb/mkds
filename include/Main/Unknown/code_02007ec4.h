@@ -20,8 +20,8 @@ typedef struct Unk020072c0_buf {
 
 // 0x14 bytes at 0x1d2c of an entry of Unk0216fdac: three words, then four halfwords.
 typedef struct ChunkTable {
-    /* 00 */ u32 mUnk_00[3];
-    /* 0c */ u16 mUnk_0c[4];
+    /* 00 */ u32 mRangeOffsets[3];
+    /* 0c */ u16 mChunkStarts[4];
 } ChunkTable;
 
 // 0x10-byte entry of Unk020082b4.

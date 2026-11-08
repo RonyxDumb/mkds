@@ -505,8 +505,8 @@ void CallScanCallbackWithEntry(u32 a, EntryRecord *entry, u32 entryIndex) {
 void ReportScanError(u16 a, u16 b) {
     ScanErrorArgs v;
     if (gScanConnectWork->mScanCallback != NULL) {
-        v.mUnk_00 = a;
-        v.mUnk_02 = b;
+        v.mErrorCode = a;
+        v.mResultCode = b;
         gScanConnectWork->mScanCallback(2, &v);
     }
 }

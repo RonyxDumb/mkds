@@ -28,7 +28,7 @@ u32 func_0200b15c(u32 entryIndex, ScanBlock *scanBlock, u16 c, u16 d, u32 e, u32
     } else {
         bit4 = 0;
     }
-    scanBlock->mUnk_4b = bit4 | bit8 | 1;
+    scanBlock->mFlags = bit4 | bit8 | 1;
     return 1;
 }
 
