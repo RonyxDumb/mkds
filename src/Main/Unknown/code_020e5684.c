@@ -43,50 +43,51 @@
 #include "Main/Unknown/code_020e337c.h"
 #include "Main/Unknown/code_020e5c6c.h"
 
-void DrawObPakkunSf(u32 a, Unk020e43a8 *obPakkunSf, u32 c, u16 alpha) {
+void DrawObPakkunSf(u32 a, Unk020e5aec *obPakkunSf, u32 c, u16 alpha) {
     MtxFx43 *matrix;
-    gObPakkunSf->mFrameIndex = ((*(u16 *) &obPakkunSf->mUnk_a0.mUnk_18.x & 0x10) >> 4);
-    if (obPakkunSf->mUnk_00.mStateMachine.mState == 0) {
-        matrix = func_020e6cbc(&obPakkunSf->mUnk_00.mPos);
-        func_020e67c4(gObPakkunSf, matrix, &obPakkunSf->mUnk_00.mScale, 0, alpha);
+    gObPakkunSf->mFrameIndex = ((obPakkunSf->mUnk_b8 & 0x10) >> 4);
+    if (obPakkunSf->mUnk_00.mUnk_00.mStateMachine.mState == 0) {
+        matrix = func_020e6cbc(&obPakkunSf->mUnk_00.mUnk_00.mPos);
+        func_020e67c4(gObPakkunSf, matrix, &obPakkunSf->mUnk_00.mUnk_00.mScale, 0, alpha);
         return;
     }
-    matrix = func_020e6cbc(&obPakkunSf->mUnk_00.mPos);
-    func_020e66e4(gObPakkunSf, matrix, *(u16 *) &obPakkunSf->mUnk_a0.mUnk_0c.x, &obPakkunSf->mUnk_00.mScale, 0, alpha);
+    matrix = func_020e6cbc(&obPakkunSf->mUnk_00.mUnk_00.mPos);
+    func_020e66e4(gObPakkunSf, matrix, obPakkunSf->mUnk_00.mUnk_a0.mUnk_0ac, &obPakkunSf->mUnk_00.mUnk_00.mScale, 0,
+                  alpha);
 }
 
-void UpdateObPakkunSf(u32 a, Unk020e43a8 *obPakkunSf) {
+void UpdateObPakkunSf(u32 a, Unk020e5aec *obPakkunSf) {
     Unk0210b7a8 soundRequest;
     s32 falloffIndex;
 
-    *(u16 *) &obPakkunSf->mUnk_a0.mUnk_18 = *(u16 *) &obPakkunSf->mUnk_a0.mUnk_18 + 1;
-    if ((*(u16 *) &obPakkunSf->mUnk_a0.mUnk_18 & 0x1f) == 0 &&
-        (obPakkunSf->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-        if (obPakkunSf->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+    obPakkunSf->mUnk_b8 = obPakkunSf->mUnk_b8 + 1;
+    if ((obPakkunSf->mUnk_b8 & 0x1f) == 0 &&
+        (obPakkunSf->mUnk_00.mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
+        if (obPakkunSf->mUnk_00.mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
             falloffIndex = 2;
-        } else if (obPakkunSf->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+        } else if (obPakkunSf->mUnk_00.mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
             falloffIndex = 3;
         } else {
             falloffIndex = 4;
         }
         soundRequest.mSoundId = 0x163;
-        soundRequest.mPositionSource = &obPakkunSf->mUnk_00.mPos;
+        soundRequest.mPositionSource = &obPakkunSf->mUnk_00.mUnk_00.mPos;
         soundRequest.mUnk_08 = falloffIndex;
-        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&obPakkunSf->mUnk_00.mPos);
+        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&obPakkunSf->mUnk_00.mUnk_00.mPos);
         func_0210b7a8(&soundRequest);
     }
-    AdvanceStateMachine(&obPakkunSf->mUnk_00.mStateMachine);
+    AdvanceStateMachine(&obPakkunSf->mUnk_00.mUnk_00.mStateMachine);
 }
 
-u8 CollideKartWithObPakkunSf(Unk020e43a8 *obPakkunSf, void *kart, u8 *b, u8 *c) {
-    if (func_020ec450(obPakkunSf, kart, b) != FALSE) {
-        StartSoundIfKartStarOrKiller(&obPakkunSf->mUnk_00, kart);
+u8 CollideKartWithObPakkunSf(Unk020e5aec *obPakkunSf, void *kart, u8 *b, u8 *c) {
+    if (func_020ec450(&obPakkunSf->mUnk_00, kart, b) != FALSE) {
+        StartSoundIfKartStarOrKiller(&obPakkunSf->mUnk_00.mUnk_00, kart);
     }
     return *c;
 }
 
-u8 CollideItemObjectWithObPakkunSf(Unk020e43a8 *obPakkunSf, void *itemObject, u8 *b, u8 *c) {
-    func_020ec41c(obPakkunSf, itemObject, b);
+u8 CollideItemObjectWithObPakkunSf(Unk020e5aec *obPakkunSf, void *itemObject, u8 *b, u8 *c) {
+    func_020ec41c(&obPakkunSf->mUnk_00, itemObject, b);
     return *c;
 }
 
@@ -105,12 +106,12 @@ void CreateObPakkunSf(void) {
 
 #pragma thumb on
 
-void InitObPakkunSf(Unk020e43a8 *obPakkunSf) {
-    obPakkunSf->mUnk_00.mPos.y =
-        obPakkunSf->mUnk_00.mPos.y + (s32) (((s64) obPakkunSf->mUnk_00.mScale.y * 0xa000) >> 12);
-    *(u16 *) &obPakkunSf->mUnk_a0.mUnk_18.x = 0;
-    InitPushedMotion(obPakkunSf, obPakkunSf->mUnk_00.mPos.y - 0x18000, 0x400, 0x800, 0x4000, 0x1800);
-    InitPushedObjectStates(obPakkunSf);
+void InitObPakkunSf(Unk020e5aec *obPakkunSf) {
+    obPakkunSf->mUnk_00.mUnk_00.mPos.y =
+        obPakkunSf->mUnk_00.mUnk_00.mPos.y + (s32) (((s64) obPakkunSf->mUnk_00.mUnk_00.mScale.y * 0xa000) >> 12);
+    obPakkunSf->mUnk_b8 = 0;
+    InitPushedMotion(&obPakkunSf->mUnk_00, obPakkunSf->mUnk_00.mUnk_00.mPos.y - 0x18000, 0x400, 0x800, 0x4000, 0x1800);
+    InitPushedObjectStates(&obPakkunSf->mUnk_00);
 }
 
 #pragma thumb off
@@ -140,28 +141,28 @@ Unk020e59e4 *CreateSecondHandUpdateList(void) {
     return data_0217b81c;
 }
 
-void DrawSecondHand(u32 a, Unk020e43a8 *secondHand, u32 b, u32 alpha) {
+void DrawSecondHand(u32 a, SecondHand *secondHand, u32 b, u32 alpha) {
     secondHand->mUnk_00.mMatrix.mUnk_00[3].x = secondHand->mUnk_00.mPos.x >> 4;
     secondHand->mUnk_00.mMatrix.mUnk_00[3].y = secondHand->mUnk_00.mPos.y >> 4;
     secondHand->mUnk_00.mMatrix.mUnk_00[3].z = secondHand->mUnk_00.mPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gSecondHand, &secondHand->mUnk_00.mMatrix, &secondHand->mUnk_00.mScale, alpha);
 }
 
-void UpdateSecondHand(u32 a, Unk020e43a8 *secondHand) {
+void UpdateSecondHand(u32 a, SecondHand *secondHand) {
     AdvanceStateMachine(&secondHand->mUnk_00.mStateMachine);
-    QuaternionMultiplyAngleAroundY(&secondHand->mUnk_a0.mUnk_0c.y, secondHand->mUnk_00.mAngle, &secondHand->mUnk_a0);
+    QuaternionMultiplyAngleAroundY(&secondHand->mUnk_b0, secondHand->mUnk_00.mAngle, &secondHand->mUnk_a0);
     Matrix3x3FromQuaternion(&secondHand->mUnk_00.mMatrix.mUnk_00_m, &secondHand->mUnk_a0);
 }
 
-void EnterSecondHandState0(Unk020e58b8 *secondHand) {
+void EnterSecondHandState0(SecondHand *secondHand) {
     secondHand->mUnk_c8 = 0x0u;
 }
 
-void UpdateSecondHandState0(Unk020e43a8 *secondHand) {
+void UpdateSecondHandState0(SecondHand *secondHand) {
     secondHand->mUnk_c8 = secondHand->mUnk_c8 + secondHand->mUnk_cc;
     secondHand->mUnk_00.mAngle =
         secondHand->mUnk_00.mAngle + (s16) (((s64) secondHand->mUnk_c8 * secondHand->mUnk_c6) >> 12);
-    if (secondHand->mUnk_00.mStateMachine.mStateFrames > *(u16 *) &secondHand->mUnk_a0.mUnk_18.z) {
+    if (secondHand->mUnk_00.mStateMachine.mStateFrames > secondHand->mUnk_c0) {
         secondHand->mUnk_00.mStateMachine.mNextState = 1;
         secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
     }
@@ -171,26 +172,26 @@ u32 func_020e58fc(u32 value) {
     return value;
 }
 
-void UpdateSecondHandState1(Unk020e43a8 *secondHand) {
+void UpdateSecondHandState1(SecondHand *secondHand) {
     secondHand->mUnk_00.mAngle = secondHand->mUnk_00.mAngle + secondHand->mUnk_c6;
-    if (*((u16 *) &secondHand->mUnk_a0.mUnk_18.z + 1) == 0) {
+    if (secondHand->mUnk_c2 == 0) {
         return;
     }
-    if (secondHand->mUnk_00.mStateMachine.mStateFrames > *((u16 *) &secondHand->mUnk_a0.mUnk_18.z + 1)) {
+    if (secondHand->mUnk_00.mStateMachine.mStateFrames > secondHand->mUnk_c2) {
         secondHand->mUnk_00.mStateMachine.mNextState = 2;
         secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void EnterSecondHandState2(Unk020e58b8 *secondHand) {
+void EnterSecondHandState2(SecondHand *secondHand) {
     secondHand->mUnk_c8 = 0x4000u;
 }
 
-void UpdateSecondHandState2(Unk020e43a8 *secondHand) {
+void UpdateSecondHandState2(SecondHand *secondHand) {
     secondHand->mUnk_c8 = secondHand->mUnk_c8 - secondHand->mUnk_cc;
     secondHand->mUnk_00.mAngle =
         secondHand->mUnk_00.mAngle + (s16) (((s64) secondHand->mUnk_c8 * secondHand->mUnk_c6) >> 12);
-    if (secondHand->mUnk_00.mStateMachine.mStateFrames > *(u16 *) &secondHand->mUnk_a0.mUnk_18.z) {
+    if (secondHand->mUnk_00.mStateMachine.mStateFrames > secondHand->mUnk_c0) {
         secondHand->mUnk_c6 = -secondHand->mUnk_c6;
         secondHand->mUnk_00.mStateMachine.mNextState = 3;
         secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
@@ -201,14 +202,14 @@ u32 func_020e5850(u32 value) {
     return value;
 }
 
-void UpdateSecondHandState3(Unk020e43a8 *secondHand) {
+void UpdateSecondHandState3(SecondHand *secondHand) {
     if (secondHand->mUnk_00.mStateMachine.mStateFrames > secondHand->mUnk_c4) {
         secondHand->mUnk_00.mStateMachine.mNextState = 0;
         secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-s32 CollideKartWithSecondHand(Unk020e43a8 *secondHand, Kart *kart, s32 a, u8 *b) {
+s32 CollideKartWithSecondHand(SecondHand *secondHand, Kart *kart, s32 a, u8 *b) {
     u32 x;
 
     x = kart->mItemEffect;
@@ -222,7 +223,7 @@ u32 func_020e57f4(u32 p0, u32 p1, u32 p2, u32 p3) {
     return (*OFFSET_PTR(const u8, p3, 0));
 }
 
-void ComputeSphereHitOnSecondHand(Unk020e43a8 *secondHand, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset) {
+void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset) {
     Vec3 s;
     s32 y;
 
@@ -241,21 +242,21 @@ void CreateSecondHand(void) {
     func_02084968(gSecondHand, 0x3f, 2, 0x294a);
 }
 
-void InitSecondHand(Unk020e43a8 *secondHand, Unk020e5684 *courseRow) {
+void InitSecondHand(SecondHand *secondHand, Unk020e5684 *courseRow) {
     secondHand->mUnk_00.mExtent.y = ((s64) secondHand->mUnk_00.mScale.x * 0x4b000) >> 12;
     InitStateMachine(&secondHand->mUnk_00.mStateMachine, (UnkFunc *const *) data_0216c240, 4, secondHand);
-    QuaternionFromVec3Degrees(&courseRow->mUnk_0c, (Quaternion *) &secondHand->mUnk_a0.mUnk_00);
-    *(Quaternion *) &secondHand->mUnk_a0.mUnk_0c.y = *(Quaternion *) &secondHand->mUnk_a0.mUnk_00;
-    *(s16 *) &secondHand->mUnk_a0.mUnk_18.z = courseRow->mUnk_2c;
-    *((s16 *) &secondHand->mUnk_a0.mUnk_18.z + 1) = courseRow->mUnk_2a;
+    QuaternionFromVec3Degrees(&courseRow->mUnk_0c, &secondHand->mUnk_a0);
+    secondHand->mUnk_b0 = secondHand->mUnk_a0;
+    secondHand->mUnk_c0 = courseRow->mUnk_2c;
+    secondHand->mUnk_c2 = courseRow->mUnk_2a;
     secondHand->mUnk_c4 = courseRow->mUnk_2e;
     secondHand->mUnk_c6 = (courseRow->mUnk_28 << 7) / 0x64;
     if (courseRow->mUnk_30 != 0) {
         secondHand->mUnk_c6 = -secondHand->mUnk_c6;
     }
     secondHand->mUnk_00.mAngle = 0;
-    if (*(u16 *) &secondHand->mUnk_a0.mUnk_18.z != 0) {
-        secondHand->mUnk_cc = 0x1000 / *(u16 *) &secondHand->mUnk_a0.mUnk_18.z;
+    if (secondHand->mUnk_c0 != 0) {
+        secondHand->mUnk_cc = 0x1000 / secondHand->mUnk_c0;
     } else {
         secondHand->mUnk_cc = 0;
     }

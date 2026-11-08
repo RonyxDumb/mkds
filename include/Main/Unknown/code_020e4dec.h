@@ -2,9 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020e4dec {
-    /* 00 */ u8 mUnk_00[0xac];
-    /* ac */ u16 mUnk_ac;
-} Unk020e4dec;
+typedef struct Unk020e47c8 Unk020e47c8;
 
-void EnterPukupukuState0(Unk020e4dec *pukupuku);
+void EnterPukupukuState0(Unk020e47c8 *pukupuku);

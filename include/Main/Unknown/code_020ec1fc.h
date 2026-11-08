@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-typedef struct Unk020e43a8 Unk020e43a8;
+typedef struct Unk020ec538 Unk020ec538;
+typedef struct Woodbox1 Woodbox1;
 
 // Initialiser stored into the 0x28-byte object CreateWoodbox1UpdateList allocates.
 typedef struct Unk021594e4 {
@@ -61,9 +62,9 @@ extern const Unk021594e4 data_021594e4;
 extern const Woodbox1DrawList data_0215950c;
 extern const Unk02159538 data_02159538;
 
-void DrawWoodbox1(void *a, Unk020e43a8 *woodbox, void *c, u32 maxAlpha);
+void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha);
 Unk021594e4 *CreateWoodbox1UpdateList(void);
 Woodbox1DrawList *CreateWoodbox1DrawList(void);
 Unk02159538 *CreateWoodbox1KindData(void);
-BOOL func_020ec41c(Unk020e43a8 *mapObject, void *other, u8 *firstResponse);
-BOOL func_020ec450(Unk020e43a8 *mapObject, void *other, u8 *firstResponse);
+BOOL func_020ec41c(Unk020ec538 *mapObject, void *other, u8 *firstResponse);
+BOOL func_020ec450(Unk020ec538 *mapObject, void *other, u8 *firstResponse);

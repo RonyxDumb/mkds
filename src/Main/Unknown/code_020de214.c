@@ -1,7 +1,6 @@
 #include "Main/Unknown/code_020de214.h"
 #include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_020dda38.h"
-#include "Main/Unknown/code_020e43a8.h"
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_020d49d8.h"
 #include "Main/Unknown/code_020e6f50.h"
@@ -13,7 +12,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 #pragma thumb on
-void InitEarthenPipe(Unk020e43a8 *pipe) {
+void InitEarthenPipe(Unk020ec538 *pipe) {
     pipe->mUnk_00.mPos.y += (s32) (((s64) pipe->mUnk_00.mScale.y * 0xd000) >> 12);
     InitPushedMotion(pipe, pipe->mUnk_00.mPos.y - 0xc0000, 0x400, 0x400, 0x5000, 0x2000);
     InitPushedObjectStates(pipe);

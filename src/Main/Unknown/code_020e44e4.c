@@ -3,6 +3,7 @@
 #include "Main/Unknown/code_020467d0.h"
 
 #include "Main/Unknown/code_020ec538.h"
+#include "Main/Unknown/code_020e0680.h"
 #include "Main/Unknown/unk_02158000.h"
 #include "Main/Unknown/unk_0216c000.h"
 #include "Main/Unknown/code_020e5000.h"
@@ -23,24 +24,24 @@
 
 #pragma thumb on
 
-void InitPukupuku(Unk020e43a8 *pukupuku, Vec3 *position) {
-    InitStateMachine(&pukupuku->mUnk_00.mStateMachine, (UnkFunc *const *) data_0216c1ec, 4, pukupuku);
-    pukupuku->mUnk_00.mPos.y = pukupuku->mUnk_00.mPos.y + (s32) (((s64) pukupuku->mUnk_00.mScale.y * 0xa000) >> 12);
-    pukupuku->mUnk_a0.mUnk_18 = pukupuku->mUnk_00.mPos;
+void InitPukupuku(Unk020e47c8 *pukupuku, Vec3 *position) {
+    InitStateMachine(&pukupuku->mUnk_00.mUnk_00.mStateMachine, (UnkFunc *const *) data_0216c1ec, 4, pukupuku);
+    pukupuku->mUnk_00.mUnk_00.mPos.y =
+        pukupuku->mUnk_00.mUnk_00.mPos.y + (s32) (((s64) pukupuku->mUnk_00.mUnk_00.mScale.y * 0xa000) >> 12);
+    pukupuku->mUnk_b8 = pukupuku->mUnk_00.mUnk_00.mPos;
     pukupuku->mUnk_c4 = 4;
-    pukupuku->mUnk_00.mUnk_10.x = 0;
-    pukupuku->mUnk_00.mUnk_10.y = 0;
-    pukupuku->mUnk_00.mUnk_10.z = 0;
-    InitPushedMotion(pukupuku, pukupuku->mUnk_00.mPos.y - 0x1e000, 0x400, 0x400, 0x4000, 0x1800);
-    pukupuku->mUnk_00.mStateMachine.mNextState = 0;
-    pukupuku->mUnk_00.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix((ShadowMatrix *) &pukupuku->mUnk_c8, position,
-                        ((s64) pukupuku->mUnk_00.mScale.x * 0x12000) >> 12, 0xd);
-    pukupuku->mUnk_f4.z = position->y;
+    pukupuku->mUnk_00.mUnk_00.mUnk_10.x = 0;
+    pukupuku->mUnk_00.mUnk_00.mUnk_10.y = 0;
+    pukupuku->mUnk_00.mUnk_00.mUnk_10.z = 0;
+    InitPushedMotion(&pukupuku->mUnk_00, pukupuku->mUnk_00.mUnk_00.mPos.y - 0x1e000, 0x400, 0x400, 0x4000, 0x1800);
+    pukupuku->mUnk_00.mUnk_00.mStateMachine.mNextState = 0;
+    pukupuku->mUnk_00.mUnk_00.mStateMachine.mNextStateRequested = 1;
+    RefreshShadowMatrix(&pukupuku->mUnk_c8, position, ((s64) pukupuku->mUnk_00.mUnk_00.mScale.x * 0x12000) >> 12, 0xd);
+    pukupuku->mUnk_fc = position->y;
     {
-        s32 *secondRow = &pukupuku->mUnk_d4;
-        pukupuku->mUnk_104 = -FX_Div(secondRow[0], secondRow[1]);
-        pukupuku->mUnk_108 = -FX_Div(secondRow[2], secondRow[1]);
+        Vec3 *secondRow = &pukupuku->mUnk_c8.mMatrix.mUnk_00[1];
+        pukupuku->mUnk_104 = -FX_Div(secondRow->x, secondRow->y);
+        pukupuku->mUnk_108 = -FX_Div(secondRow->z, secondRow->y);
     }
 }
 
@@ -86,32 +87,32 @@ Unk020e4610 *func_020e4610(void) {
     return data_0217b7dc;
 }
 
-void func_020e44e4(u32 unused, Unk020e43a8 *object) {
+void func_020e44e4(u32 unused, Unk020e3ef4 *object) {
     s32 previousAngle;
     s32 angleChange;
-    previousAngle = object->mUnk_00.mAngle;
-    AdvanceStateMachine(&object->mUnk_00.mStateMachine);
-    angleChange = object->mUnk_00.mAngle - previousAngle;
+    previousAngle = object->mUnk_000.mAngle;
+    AdvanceStateMachine(&object->mUnk_000.mStateMachine);
+    angleChange = object->mUnk_000.mAngle - previousAngle;
     if (angleChange > 0x8000) {
         angleChange -= 0x10000;
     }
     if (angleChange < -0x8000) {
         angleChange += 0x10000;
     }
-    object->mUnk_124 = ((s64) object->mUnk_00.mMatrix.mUnk_00[1].x * angleChange) >> 12;
-    object->mUnk_128 = ((s64) object->mUnk_00.mMatrix.mUnk_00[1].y * angleChange) >> 12;
-    object->mUnk_12c = ((s64) object->mUnk_00.mMatrix.mUnk_00[1].z * angleChange) >> 12;
-    object->mUnk_a0 = *(Unk020e43a8_28 *) &object->mUnk_00.mMatrix;
-    MTX_RotY33_(&object->mUnk_00.mMatrix.mUnk_00_m, gPairsByAngle[(object->mUnk_00.mAngle >> 4) * 2],
-                gPairsByAngle[(object->mUnk_00.mAngle >> 4) * 2 + 1]);
-    MTX_Concat33(&object->mUnk_00.mMatrix.mUnk_00_m, (MtxFx33 *) &object->mUnk_c4,
-                 &object->mUnk_00.mMatrix.mUnk_00_m);
-    VEC_MultAdd(-object->mUnk_104, &object->mUnk_00.mMatrix.mUnk_00[1], &object->mUnk_00.mPos, &object->mUnk_f4);
-    if (object->mUnk_00.mStateMachine.mState == 3) {
+    object->mUnk_a0.mUnk_124.x = ((s64) object->mUnk_000.mMatrix.mUnk_00[1].x * angleChange) >> 12;
+    object->mUnk_a0.mUnk_124.y = ((s64) object->mUnk_000.mMatrix.mUnk_00[1].y * angleChange) >> 12;
+    object->mUnk_a0.mUnk_124.z = ((s64) object->mUnk_000.mMatrix.mUnk_00[1].z * angleChange) >> 12;
+    object->mUnk_a0.mUnk_a0 = object->mUnk_000.mMatrix.mUnk_00_m;
+    MTX_RotY33_(&object->mUnk_000.mMatrix.mUnk_00_m, gPairsByAngle[(object->mUnk_000.mAngle >> 4) * 2],
+                gPairsByAngle[(object->mUnk_000.mAngle >> 4) * 2 + 1]);
+    MTX_Concat33(&object->mUnk_000.mMatrix.mUnk_00_m, &object->mUnk_a0.mUnk_c4, &object->mUnk_000.mMatrix.mUnk_00_m);
+    VEC_MultAdd(-object->mUnk_a0.mUnk_104, &object->mUnk_000.mMatrix.mUnk_00[1], &object->mUnk_000.mPos,
+                &object->mUnk_a0.mUnk_f4);
+    if (object->mUnk_000.mStateMachine.mState == 3) {
         return;
     }
     if (object->mUnk_15c == -1) {
         return;
     }
-    StartMapObjectSoundWhileRequested(&object->mUnk_00, object->mUnk_15c);
+    StartMapObjectSoundWhileRequested(&object->mUnk_000, object->mUnk_15c);
 }

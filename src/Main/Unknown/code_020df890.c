@@ -23,7 +23,6 @@
 #include "Main/Unknown/code_020d8000.h"
 #include "Main/Unknown/code_020d9000.h"
 #include "Main/Unknown/code_020d49d8.h"
-#include "Main/Unknown/code_020e43a8.h"
 #include "Main/Unknown/code_020e0680.h"
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_020e66e4.h"
@@ -102,7 +101,7 @@ void InitKoopaBlock(Unk020e005c *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mUnk_168 = (courseRow->mUnk_28 << 12) / 100;
     InitGroupFollower(&koopaBlock->mUnk_144, courseRow, koopaBlock->mUnk_168);
     koopaBlock->mUnk_16c = 0;
-    *(Unk020e43a8_28 *) &koopaBlock->mUnk_a0.mUnk_a0 = *(Unk020e43a8_28 *) &koopaBlock->mUnk_028;
+    koopaBlock->mUnk_a0.mUnk_a0 = koopaBlock->mUnk_028;
     koopaBlock->mUnk_a0.mUnk_124.x = 0;
     koopaBlock->mUnk_a0.mUnk_124.y = 0;
     koopaBlock->mUnk_a0.mUnk_124.z = 0;

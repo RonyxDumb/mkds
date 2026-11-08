@@ -6,11 +6,12 @@
 #include "Main/Unknown/code_020e66e4.h"
 #include "Main/Unknown/code_020e6a74.h"
 #include "Main/Unknown/code_020ec1fc.h"
+#include "Main/Unknown/code_020ec538.h"
 #include "Main/Unknown/code_020de4d4.h"
 #include "Main/Unknown/code_020de4e4.h"
 #include "Main/Unknown/unk_0216b000.h"
 
-void DrawEarthenPipe(u32 unused0, Unk020e43a8 *pipe, u32 unused1, u16 d) {
+void DrawEarthenPipe(u32 unused0, Unk020ec538 *pipe, u32 unused1, u16 d) {
     MtxFx43 *matrix;
     if (pipe->mUnk_00.mStateMachine.mState == 0) {
         matrix = func_020e6cbc(&pipe->mUnk_00.mPos);
@@ -19,7 +20,7 @@ void DrawEarthenPipe(u32 unused0, Unk020e43a8 *pipe, u32 unused1, u16 d) {
     }
     func_020e6a18(gEarthenPipe2);
     matrix = func_020e6cbc(&pipe->mUnk_00.mPos);
-    func_020e66e4(gEarthenPipe2, matrix, *(u16 *) &pipe->mUnk_a0.mUnk_0c.x, &pipe->mUnk_00.mScale, 0, d);
+    func_020e66e4(gEarthenPipe2, matrix, pipe->mUnk_a0.mUnk_0ac, &pipe->mUnk_00.mScale, 0, d);
     func_020e6a18(gEarthenPipe1);
 }
 
@@ -31,14 +32,14 @@ void func_020de4d4(u32 unused, u32 object) {
     AdvanceStateMachine((void *) stateMachineAddress);
 }
 
-u8 func_020de4a0(Unk020e43a8 *pipe, void *kart, u8 *c, u8 *d) {
+u8 func_020de4a0(Unk020ec538 *pipe, void *kart, u8 *c, u8 *d) {
     if (func_020ec450(pipe, kart, c) != FALSE) {
         StartSoundIfKartStarOrKiller(&pipe->mUnk_00, kart);
     }
     return *d;
 }
 
-u8 func_020de488(Unk020e43a8 *pipe, void *kart, u8 *c, u8 *d) {
+u8 func_020de488(Unk020ec538 *pipe, void *kart, u8 *c, u8 *d) {
     func_020ec41c(pipe, kart, c);
     return *d;
 }

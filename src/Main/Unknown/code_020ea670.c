@@ -80,7 +80,7 @@ const Unk02159538 data_02159538 = {
     0,
 };
 
-BOOL func_020ec450(Unk020e43a8 *mapObject, void *other, u8 *firstResponse) {
+BOOL func_020ec450(Unk020ec538 *mapObject, void *other, u8 *firstResponse) {
     if (*firstResponse != 1) {
         return FALSE;
     }
@@ -90,7 +90,7 @@ BOOL func_020ec450(Unk020e43a8 *mapObject, void *other, u8 *firstResponse) {
     return TRUE;
 }
 
-BOOL func_020ec41c(Unk020e43a8 *mapObject, void *other, u8 *firstResponse) {
+BOOL func_020ec41c(Unk020ec538 *mapObject, void *other, u8 *firstResponse) {
     if (*firstResponse != 1) {
         return FALSE;
     }
@@ -128,27 +128,27 @@ Unk021594e4 *CreateWoodbox1UpdateList(void) {
     return data_0217bbf4;
 }
 
-void DrawWoodbox1(void *a, Unk020e43a8 *woodbox, void *c, u32 maxAlpha) {
+void DrawWoodbox1(void *a, Woodbox1 *woodbox, void *c, u32 maxAlpha) {
     u16 state;
     s32 t;
     Vec3 shadowPos;
 
-    state = woodbox->mUnk_00.mStateMachine.mState;
-    woodbox->mUnk_00.mMatrix.mUnk_00[3].x = woodbox->mUnk_00.mPos.x >> 4;
-    woodbox->mUnk_00.mMatrix.mUnk_00[3].y = woodbox->mUnk_00.mPos.y >> 4;
-    woodbox->mUnk_00.mMatrix.mUnk_00[3].z = woodbox->mUnk_00.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(gWoodbox1, &woodbox->mUnk_00.mMatrix, &woodbox->mUnk_00.mScale, maxAlpha);
+    state = woodbox->mUnk_000.mStateMachine.mState;
+    woodbox->mUnk_000.mMatrix.mUnk_00[3].x = woodbox->mUnk_000.mPos.x >> 4;
+    woodbox->mUnk_000.mMatrix.mUnk_00[3].y = woodbox->mUnk_000.mPos.y >> 4;
+    woodbox->mUnk_000.mMatrix.mUnk_00[3].z = woodbox->mUnk_000.mPos.z >> 4;
+    DrawNsbmdWithMatrixAndMaxAlpha(gWoodbox1, &woodbox->mUnk_000.mMatrix, &woodbox->mUnk_000.mScale, maxAlpha);
     if (state == 0) {
         return;
     }
-    t = ((s64) (0x5a000 - woodbox->mUnk_d0) * 0x2e) >> 12;
-    shadowPos.x = woodbox->mUnk_00.mPos.x;
-    shadowPos.z = woodbox->mUnk_00.mPos.z;
-    shadowPos.y = woodbox->mUnk_0b4 - (s32) (((s64) woodbox->mUnk_0bc * woodbox->mUnk_cc) >> 12) -
-                  (s32) (((s64) woodbox->mUnk_0c4 * woodbox->mUnk_d4) >> 12);
-    VEC_MultAdd(-woodbox->mUnk_00.mExtent.x, (const Vec3 *) &woodbox->mUnk_0bc, &shadowPos, &shadowPos);
-    SetShadowPositionRaised((ShadowMatrix *) &woodbox->mUnk_114, &shadowPos);
-    func_020e53ac((ShadowMatrix *) &woodbox->mUnk_114, &t, 0, maxAlpha);
+    t = ((s64) (0x5a000 - woodbox->mPosOffset.y) * 0x2e) >> 12;
+    shadowPos.x = woodbox->mUnk_000.mPos.x;
+    shadowPos.z = woodbox->mUnk_000.mPos.z;
+    shadowPos.y = woodbox->mBasePos.y - (s32) (((s64) woodbox->mGroundUp.x * woodbox->mPosOffset.x) >> 12) -
+                  (s32) (((s64) woodbox->mGroundUp.z * woodbox->mPosOffset.z) >> 12);
+    VEC_MultAdd(-woodbox->mUnk_000.mExtent.x, &woodbox->mGroundUp, &shadowPos, &shadowPos);
+    SetShadowPositionRaised(&woodbox->mUnk_114, &shadowPos);
+    func_020e53ac(&woodbox->mUnk_114, &t, 0, maxAlpha);
 }
 
 void AdvanceWoodbox1(u32 unused, u32 woodbox) {

@@ -2,9 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020e58b8 {
-    /* 00 */ u8 mUnk_00[0xc8];
-    /* c8 */ u32 mUnk_c8;
-} Unk020e58b8;
+typedef struct SecondHand SecondHand;
 
-void EnterSecondHandState2(Unk020e58b8 *secondHand);
+void EnterSecondHandState2(SecondHand *secondHand);

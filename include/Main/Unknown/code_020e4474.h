@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020e43a8 Unk020e43a8;
+typedef struct Unk020e3ef4 Unk020e3ef4;
 
-void func_020e4474(Unk020e43a8 *object);
+void func_020e4474(Unk020e3ef4 *object);

@@ -2,7 +2,6 @@
 
 #include "types.h"
 #include "code_02013bdc.h"
-#include "Main/Unknown/code_020e43a8.h"
 #include "Main/Unknown/code_020d6dc0.h" // Quaternion
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 #include "Main/Unknown/code_020e516c.h"
@@ -26,7 +25,7 @@ typedef struct PendulumObject {
     /* a0 */ Quaternion mRotationQuaternion;
     /* b0 */ Vec3 mPrevPos;
     /* bc */ Vec3 mCourseRowPos;
-    /* c8 */ Unk020e43a8_28 mShadowMatrix;
+    /* c8 */ MtxFx33 mShadowMatrix;
     /* ec */ Vec3 mUnk_ec;
     /* f8 */ s32 mCourseRowDistance;
     /* fc */ u16 mSwingAmplitude;

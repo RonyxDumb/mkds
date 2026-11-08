@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct Unk020e43a8 Unk020e43a8;
+typedef struct Unk020e47c8 Unk020e47c8;
 typedef struct MapObjectKindData MapObjectKindData;
 
 // 0x28-byte object built from a table.
@@ -60,4 +60,4 @@ PukupukuDrawList *CreatePukupukuDrawList(void);
 PukupukuShadowDrawList *CreatePukupukuShadowDrawList(void);
 PukupukuUpdateList *CreatePukupukuUpdateList(void);
 void SetupDrawPukupuku(void);
-void DrawPukupuku(u32 a, Unk020e43a8 *pukupuku, u32 b, u16 alpha);
+void DrawPukupuku(u32 a, Unk020e47c8 *pukupuku, u32 b, u16 alpha);

@@ -1,8 +1,23 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020e516c.h" // ShadowMatrix
+#include "Main/Unknown/code_020ec538.h" // Unk020ec538
 
-typedef struct Unk020e43a8 Unk020e43a8;
+typedef struct Unk020e3ef4 Unk020e3ef4;
+
+// Object InitPukupuku sets up, 0x10c bytes.
+typedef struct Unk020e47c8 {
+    /* 00 */ Unk020ec538 mUnk_00;
+    /* b8 */ Vec3 mUnk_b8;
+    /* c4 */ u16 mUnk_c4;
+    /* c6 */ u8 mUnk_c6[0x2];
+    /* c8 */ ShadowMatrix mUnk_c8;
+    /* fc */ s32 mUnk_fc;
+    /* 100 */ s32 mUnk_100;
+    /* 104 */ s32 mUnk_104;
+    /* 108 */ s32 mUnk_108;
+} Unk020e47c8;
 
 // 0x28-byte object built from a table.
 typedef struct Unk020e4610 {
@@ -55,10 +70,10 @@ typedef struct Unk020e46c8 {
     /* 3c */ u32 mUnk_3c;
 } Unk020e46c8;
 
-void func_020e44e4(u32 unused, Unk020e43a8 *object);
+void func_020e44e4(u32 unused, Unk020e3ef4 *object);
 Unk020e4610 *func_020e4610(void);
 Unk020e466c *func_020e466c(void);
 Unk020e46c8 *func_020e46c8(void);
 Unk020e46c8 *func_020e4718(void);
 Unk020e46c8 *func_020e4768(void);
-void InitPukupuku(Unk020e43a8 *pukupuku, Vec3 *position);
+void InitPukupuku(Unk020e47c8 *pukupuku, Vec3 *position);

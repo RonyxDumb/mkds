@@ -2,13 +2,13 @@
 
 #include "types.h"
 
-typedef struct Unk020e43a8 Unk020e43a8;
+typedef struct Unk020ec538 Unk020ec538;
 typedef struct WanwanChainObject WanwanChainObject;
 typedef struct MapObjectList MapObjectList;
 typedef struct MapObjectDrawList MapObjectDrawList;
 typedef struct MapObjectKindData MapObjectKindData;
 
-void InitEarthenPipe(Unk020e43a8 *pipe);
+void InitEarthenPipe(Unk020ec538 *pipe);
 MapObjectKindData *CreateWanwanChainKindData(void);
 MapObjectDrawList *CreateWanwanChainDrawList(void);
 MapObjectList *CreateWanwanChainUpdateList(void);

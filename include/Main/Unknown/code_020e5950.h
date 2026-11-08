@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk020e58b8 Unk020e58b8;
+typedef struct SecondHand SecondHand;
 
-void EnterSecondHandState0(Unk020e58b8 *secondHand);
+void EnterSecondHandState0(SecondHand *secondHand);

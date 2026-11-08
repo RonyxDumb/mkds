@@ -244,7 +244,7 @@ void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
 
     pendulum->mMapObject.mExtent.y = ((s64) pendulum->mMapObject.mKindData->mUnk_10 * courseRow->mUnk_20) >> 12;
     QuaternionFromVec3Degrees(&courseRow->mUnk_0c, &pendulum->mRotationQuaternion);
-    pendulum->mShadowMatrix = *(Unk020e43a8_28 *) &pendulum->mMapObject.mMatrix;
+    pendulum->mShadowMatrix = pendulum->mMapObject.mMatrix.mUnk_00_m;
     pendulum->mCourseRowDistance = ((s64) pendulum->mMapObject.mScale.y * 0x1f4000) >> 12;
     pendulum->mSwingAngle = 0;
     pendulum->mCourseRowPos.x = courseRow->mUnk_00.x;

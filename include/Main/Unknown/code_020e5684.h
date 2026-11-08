@@ -1,8 +1,28 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020d6dc0.h" // Quaternion
+#include "Main/Unknown/code_020e6fd4.h" // MapObject
+#include "Main/Unknown/code_020ec538.h" // Unk020ec538
 
-typedef struct Unk020e43a8 Unk020e43a8;
+// Object InitSecondHand sets up, 0xd0 bytes.
+typedef struct SecondHand {
+    /* 00 */ MapObject mUnk_00;
+    /* a0 */ Quaternion mUnk_a0;
+    /* b0 */ Quaternion mUnk_b0;
+    /* c0 */ u16 mUnk_c0;
+    /* c2 */ u16 mUnk_c2;
+    /* c4 */ u16 mUnk_c4;
+    /* c6 */ s16 mUnk_c6;
+    /* c8 */ s32 mUnk_c8;
+    /* cc */ s32 mUnk_cc;
+} SecondHand;
+
+// Object InitObPakkunSf sets up.
+typedef struct Unk020e5aec {
+    /* 00 */ Unk020ec538 mUnk_00;
+    /* b8 */ u16 mUnk_b8;
+} Unk020e5aec;
 
 // Second argument of InitSecondHand: a vector at 0x0c, halfwords from 0x28.
 typedef struct Unk020e5684 {
@@ -17,8 +37,6 @@ typedef struct Unk020e5684 {
 } Unk020e5684;
 
 void CreateSecondHand(void);
-
-typedef struct Unk020e43a8 Unk020e43a8;
 
 // 0x28-byte object CreateSecondHandUpdateList loads from data_021590ec.
 typedef struct Unk020e59e4 {
@@ -78,11 +96,11 @@ extern Unk020e5a40 *data_0217b82c;
 extern Unk020e59e4 *data_0217b834;
 extern Unk020e5a40 *data_0217b840;
 
-void InitSecondHand(Unk020e43a8 *secondHand, Unk020e5684 *courseRow);
-void ComputeSphereHitOnSecondHand(Unk020e43a8 *secondHand, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);
-void UpdateSecondHand(u32 a, Unk020e43a8 *secondHand);
-void DrawSecondHand(u32 a, Unk020e43a8 *secondHand, u32 b, u32 alpha);
+void InitSecondHand(SecondHand *secondHand, Unk020e5684 *courseRow);
+void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);
+void UpdateSecondHand(u32 a, SecondHand *secondHand);
+void DrawSecondHand(u32 a, SecondHand *secondHand, u32 b, u32 alpha);
 Unk020e59e4 *CreateSecondHandUpdateList(void);
 Unk020e5a40 *CreateSecondHandDrawList(void);
 Unk020e5a9c *CreateSecondHandKindData(void);
-void InitObPakkunSf(Unk020e43a8 *obPakkunSf);
+void InitObPakkunSf(Unk020e5aec *obPakkunSf);

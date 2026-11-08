@@ -3,6 +3,7 @@
 #include "types.h"
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
+#include "Main/Unknown/code_020e516c.h" // ShadowMatrix
 
 // First argument of StartWoodbox1ItemObject.
 typedef struct Woodbox1 {
@@ -30,7 +31,7 @@ typedef struct Woodbox1 {
 // Chance in percent that breaking the box starts an item.
     /* 110 */ u16 mItemChancePercent;
     /* 112 */ u8 mUnk_112[2];
-    /* 114 */ u8 mUnk_114[4];
+    /* 114 */ ShadowMatrix mUnk_114;
 } Woodbox1;
 
 extern Woodbox1 *data_0217bbf0;
