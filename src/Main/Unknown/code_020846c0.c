@@ -159,7 +159,7 @@ NNSG3dResMdl *InitNsbmd(void *object, NNSG3dResFileHeader *file) {
 
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *texture;
-    u8 *modelSetBytes;
+    NNSG3dResDictEntryHeader *entries;
 
     modelSet = NNS_G3dGetMdlSet(file);
     texture = NNS_G3dGetTex(file);
@@ -180,9 +180,9 @@ NNSG3dResMdl *InitNsbmd(void *object, NNSG3dResFileHeader *file) {
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
-    modelSetBytes = (u8 *) NNS_G3dGetMdlSet(file);
-    InitNsbmdRenderObj(
-        nsbmd, (NNSG3dResMdl *) (modelSetBytes + *(u32 *) (modelSetBytes + *(u16 *) (modelSetBytes + 14) + 12)), 1);
+    modelSet = NNS_G3dGetMdlSet(file);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &modelSet->mDict, modelSet->mDict.mOfsEntry);
+    InitNsbmdRenderObj(nsbmd, OFFSET_PTR(NNSG3dResMdl, modelSet, *(u32 *) entries->mData), 1);
     return nsbmd->mResMdl;
 }
 
@@ -191,7 +191,7 @@ NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelF
 
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *texture;
-    u8 *modelSetBytes;
+    NNSG3dResDictEntryHeader *entries;
 
     modelSet = NNS_G3dGetMdlSet(modelFile);
     texture = NNS_G3dGetTex(textureFile);
@@ -212,16 +212,16 @@ NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelF
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
-    modelSetBytes = (u8 *) NNS_G3dGetMdlSet(modelFile);
-    InitNsbmdRenderObj(
-        o, (NNSG3dResMdl *) (modelSetBytes + *(u32 *) (modelSetBytes + *(u16 *) (modelSetBytes + 14) + 12)), 1);
+    modelSet = NNS_G3dGetMdlSet(modelFile);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &modelSet->mDict, modelSet->mDict.mOfsEntry);
+    InitNsbmdRenderObj(o, OFFSET_PTR(NNSG3dResMdl, modelSet, *(u32 *) entries->mData), 1);
     return o->mResMdl;
 }
 
 NNSG3dResMdl *InitNsbmdWithoutCullSwap(Nsbmd *nsbmd, NNSG3dResFileHeader *file) {
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *texture;
-    u8 *modelSetBytes;
+    NNSG3dResDictEntryHeader *entries;
 
     modelSet = NNS_G3dGetMdlSet(file);
     texture = NNS_G3dGetTex(file);
@@ -242,9 +242,9 @@ NNSG3dResMdl *InitNsbmdWithoutCullSwap(Nsbmd *nsbmd, NNSG3dResFileHeader *file) 
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
-    modelSetBytes = (u8 *) NNS_G3dGetMdlSet(file);
-    InitNsbmdRenderObj(
-        nsbmd, (NNSG3dResMdl *) (modelSetBytes + *(u32 *) (modelSetBytes + *(u16 *) (modelSetBytes + 14) + 12)), 0);
+    modelSet = NNS_G3dGetMdlSet(file);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &modelSet->mDict, modelSet->mDict.mOfsEntry);
+    InitNsbmdRenderObj(nsbmd, OFFSET_PTR(NNSG3dResMdl, modelSet, *(u32 *) entries->mData), 0);
     return nsbmd->mResMdl;
 }
 
@@ -253,7 +253,7 @@ NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFi
                                            NNSG3dResFileHeader *textureFile) {
     NNSG3dResMdlSet *modelSet;
     NNSG3dResTex *texture;
-    u8 *modelSetBytes;
+    NNSG3dResDictEntryHeader *entries;
     NNSG3dResTex *loadedTexture;
     u32 headerSize;
     ResFileEntry *entry;
@@ -278,9 +278,9 @@ NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFi
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
-    modelSetBytes = (u8 *) NNS_G3dGetMdlSet(modelFile);
-    InitNsbmdRenderObj(
-        nsbmd, (NNSG3dResMdl *) (modelSetBytes + *(u32 *) (modelSetBytes + *(u16 *) (modelSetBytes + 14) + 12)), 1);
+    modelSet = NNS_G3dGetMdlSet(modelFile);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &modelSet->mDict, modelSet->mDict.mOfsEntry);
+    InitNsbmdRenderObj(nsbmd, OFFSET_PTR(NNSG3dResMdl, modelSet, *(u32 *) entries->mData), 1);
     entry = &nsbmd->mResFileEntry;
     loadedTexture = entry->mTexture;
     resMdl = nsbmd->mResMdl;

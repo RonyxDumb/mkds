@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ClearRaceGoalMPointer(void);
+void ClearRaceGoalMPointer(void);

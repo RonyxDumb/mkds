@@ -49,24 +49,12 @@
 #include "Main/Unknown/code_0209d650.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void InitSun(u32 sun) {
-    u32 value0 = sun;
-    u32 value1;
-    u32 value2;
-    u32 sunObject;
-    sunObject = value0;
-    value1 = *(const u32 *) ((sunObject) + (156));
-    value0 = (sunObject) + (0xb8u);
-    value2 = 0u;
-    InitGroupFollower((GroupFollower *) value0, (CourseMapRow *) value1, value2);
-    value0 = MAP_OBJECT_KIND_SUN_FIREBALL;
-    value2 = sunObject;
-    value1 = 0x1eu;
-    CreateParkedMapObjects(value0, value1, (void *) value2);
-    value0 = 0u;
-    *(u32 *) ((sunObject) + (16)) = value0;
-    *(u32 *) ((sunObject) + (20)) = value0;
-    *(u32 *) ((sunObject) + (24)) = value0;
+void InitSun(Sun *sun) {
+    InitGroupFollower(&sun->mUnk_0b8, sun->mUnk_000.mCourseMapRow, 0);
+    CreateParkedMapObjects(MAP_OBJECT_KIND_SUN_FIREBALL, 0x1e, sun);
+    sun->mUnk_000.mUnk_10.x = 0;
+    sun->mUnk_000.mUnk_10.y = 0;
+    sun->mUnk_000.mUnk_10.z = 0;
 }
 
 void CreateSunAndSunLOD(void *a) {

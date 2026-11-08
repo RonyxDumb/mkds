@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ClearRaceStartGpPointer(void);
+void ClearRaceStartGpPointer(void);

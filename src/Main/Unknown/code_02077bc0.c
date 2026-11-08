@@ -1113,13 +1113,15 @@ void CreateTire(KartModelsEntry *kartModelsEntry, void *heap) {
 
 void CreateKartShadow(KartModelsEntry *kartModelsEntry, void *heap) {
     void *nsbmdFile;
-    u8 *mdlSet;
+    NNSG3dResMdlSet *mdlSet;
+    NNSG3dResDictEntryHeader *entries;
     nsbmdFile = func_02047950(BuildKartShadowNsbmdPath(kartModelsEntry->mKartIndex));
     kartModelsEntry->mShadowModel = HeapAlloc(heap, 0x74);
     AddResFileEntry(&kartModelsEntry->mShadowModel->mNsbmd.mResFileEntry, nsbmdFile, nsbmdFile);
-    mdlSet = (u8 *) NNS_G3dGetMdlSet(nsbmdFile);
+    mdlSet = NNS_G3dGetMdlSet(nsbmdFile);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mdlSet->mDict, mdlSet->mDict.mOfsEntry);
     InitShadowModelFromResMdl(&kartModelsEntry->mShadowModel->mNsbmd,
-                              mdlSet + *(s32 *) (mdlSet + *OFFSET_PTR(u16, mdlSet, 0xe) + 0xc), 3);
+                              OFFSET_PTR(NNSG3dResMdl, mdlSet, *(u32 *) entries->mData), 3);
 }
 
 void CreateKillerItem(void *heap) {

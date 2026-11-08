@@ -266,16 +266,9 @@ void SetBg2RecordMode5(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14
     records->mBg2CntVal8 = cntVal8;
 }
 
-u32 SetG3xSwapBits(DisplaySettings *settings, u32 swapBit0, u32 swapBit1) {
-    u32 value0 = (u32) settings;
-    u32 swapBit0Copy = swapBit0;
-    u32 swapBit1Copy = swapBit1;
-    u32 g3xParams;
-    g3xParams = *(const u32 *) ((value0) + (108));
-    settings->mG3xParams->mSwapBit0 = swapBit0Copy;
-    value0 = *(const u32 *) ((value0) + (108));
-    *(u8 *) ((value0) + (3)) = swapBit1Copy;
-    return value0;
+void SetG3xSwapBits(DisplaySettings *settings, u32 swapBit0, u32 swapBit1) {
+    settings->mG3xParams->mSwapBit0 = swapBit0;
+    settings->mG3xParams->mSwapBit1 = swapBit1;
 }
 
 void func_02038c94(DisplaySettings *settings, u32 value) {
@@ -725,15 +718,11 @@ u32 func_02037a20(void) {
     return (gDisplaySettings->mFrameFlags & 2) ? 1 : 0;
 }
 
-u32 ClearFrameFinishedFlag(void) {
+void ClearFrameFinishedFlag(void) {
     u32 value0;
-    u32 settings;
-    value0 = (u32) &gDisplaySettings;
-    settings = *(const u32 *) ((value0) + (0));
     value0 = gDisplaySettings->mFrameFlags;
     value0 = (value0) & ~(1u);
     gDisplaySettings->mFrameFlags = value0;
-    return value0;
 }
 
 static inline void func_02036d3c_inline(BrightnessFade *fade, s16 frameCount) {

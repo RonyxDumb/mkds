@@ -2,28 +2,25 @@
 
 #include "Main/Unknown/code_020cc134.h"
 #include "00/code_02181f98.h"
+#include "registers.h"
 
 u32 func_020cc150(u32 bits) {
     u32 value0 = bits;
     u32 registerValue;
-    u32 registerAddress;
-    registerAddress = 0x4000000u;
-    registerValue = *(const u32 *) ((registerAddress) + (0));
+    registerValue = reg_GX_DISPCNT;
     registerValue = (registerValue) & ~(0xe000u);
     value0 = (registerValue) | ((value0 << 13));
-    *(u32 *) ((registerAddress) + (0)) = value0;
+    reg_GX_DISPCNT = value0;
     return value0;
 }
 
 u32 func_020cc134(u32 bits) {
     u32 value0 = bits;
     u32 registerValue;
-    u32 registerAddress;
-    registerAddress = 0x4001000u;
-    registerValue = *(const u32 *) ((registerAddress) + (0));
+    registerValue = reg_GXS_DB_DISPCNT;
     registerValue = (registerValue) & ~(0xe000u);
     value0 = (registerValue) | ((value0 << 13));
-    *(u32 *) ((registerAddress) + (0)) = value0;
+    reg_GXS_DB_DISPCNT = value0;
     return value0;
 }
 

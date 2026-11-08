@@ -96,13 +96,8 @@ void InitRaceGoalM(void) {
     gRaceGoalM->mUnk_18 = 9;
 }
 
-u32 ClearRaceGoalMPointer(void) {
-    u32 address;
-    u32 zero;
-    address = (u32) &gRaceGoalM;
-    zero = 0u;
-    *(u32 *) ((address) + (0)) = zero;
-    return address;
+void ClearRaceGoalMPointer(void) {
+    gRaceGoalM = NULL;
 }
 
 void UpdateRaceGoalM(void) {
@@ -346,13 +341,8 @@ void InitRaceLinkLevel(void) {
     gRaceLinkLevel->mUnk_10 = 0;
 }
 
-u32 ClearRaceLinkLevelPointer(void) {
-    u32 address;
-    u32 zero;
-    address = (u32) &gRaceLinkLevel;
-    zero = 0u;
-    *(u32 *) ((address) + (0)) = zero;
-    return address;
+void ClearRaceLinkLevelPointer(void) {
+    gRaceLinkLevel = NULL;
 }
 
 void UpdateRaceLinkLevel(void) {
@@ -521,22 +511,13 @@ void InitRaceStartGp(void) {
     GX_LoadOBJ(gRaceStartGp->mRaceStartGpMONcgr->mData, 0, gRaceStartGp->mRaceStartGpMONcgr->mDataSize);
 }
 
-u32 ClearRaceStartGpPointer(void) {
-    u32 address;
-    u32 zero;
-    address = (u32) &gRaceStartGp;
-    zero = 0u;
-    *(u32 *) ((address) + (0)) = zero;
-    return address;
+void ClearRaceStartGpPointer(void) {
+    gRaceStartGp = NULL;
 }
 
 u16 UpdateRaceStartGp(void) {
-    u16 *powerControl;
-    int *startGp;
-    powerControl = ((u16 *) &reg_GX_POWCNT);
-    startGp = (s32 *) gRaceStartGp;
-    *startGp = (*(u32 *) startGp) + 1;
-    return *powerControl;
+    gRaceStartGp->mUpdateFrames = gRaceStartGp->mUpdateFrames + 1;
+    return reg_GX_POWCNT;
 }
 
 const Vec3 gVec3Zero = {0, 0, 0};
@@ -627,13 +608,8 @@ void InitRaceTaPositions(void) {
     }
 }
 
-u32 ClearRaceTaPositionsPointer(void) {
-    u32 value0;
-    u32 value1;
-    value0 = (u32) &gRaceTaPositions;
-    value1 = 0u;
-    *(u32 *) ((value0) + (0)) = value1;
-    return value0;
+void ClearRaceTaPositionsPointer(void) {
+    gRaceTaPositions = NULL;
 }
 
 void UpdateRaceTaPositions(void) {

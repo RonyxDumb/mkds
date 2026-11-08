@@ -7,27 +7,24 @@
 #include "gx.h"
 #include "code_02148950.h"
 #include "code_0214b824.h"
+#include "registers.h"
 
 void func_020cb4a8(int bits) {
     u32 value0 = bits;
     u32 registerValue;
-    u32 registerAddress;
-    registerAddress = 0x4000000u;
-    registerValue = *(const u32 *) ((registerAddress) + (0));
+    registerValue = reg_GX_DISPCNT;
     registerValue = (registerValue) & ~(0x1f00u);
     value0 = (registerValue) | ((value0 << 8));
-    *(u32 *) ((registerAddress) + (0)) = value0;
+    reg_GX_DISPCNT = value0;
 }
 
 void func_020cb48c(int bits) {
     u32 value0 = bits;
     u32 registerValue;
-    u32 registerAddress;
-    registerAddress = 0x4001000u;
-    registerValue = *(const u32 *) ((registerAddress) + (0));
+    registerValue = reg_GXS_DB_DISPCNT;
     registerValue = (registerValue) & ~(0x1f00u);
     value0 = (registerValue) | ((value0 << 8));
-    *(u32 *) ((registerAddress) + (0)) = value0;
+    reg_GXS_DB_DISPCNT = value0;
 }
 
 #pragma thumb on
