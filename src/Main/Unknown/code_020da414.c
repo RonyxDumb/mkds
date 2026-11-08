@@ -38,52 +38,52 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
     CourseMapGroupEntry *startEntry;
     Vec3 *zeroedVector;
     Unk020e005c_080 *stateMachine;
-    kuribo->mUnk_100 = 0x1f;
+    kuribo->mModelAlpha = 0x1f;
     if (row != NULL) {
-        InitGroupFollower(&kuribo->mUnk_cc, row, (row->mUnk_28 << 11) / 100);
+        InitGroupFollower(&kuribo->mFollower, row, (row->mUnk_28 << 11) / 100);
         startEntry = GetCourseMapGroupEntry(row->mUnk_26, row->mUnk_2e);
-        kuribo->mUnk_a0 = startEntry->mPos.y;
-        kuribo->mUnk_f8 = row->mUnk_28 * 0xb4 / 100;
+        kuribo->mStartY = startEntry->mPos.y;
+        kuribo->mOrientationBlendAmount = row->mUnk_28 * 0xb4 / 100;
         kuribo->mUnk_fc = row->mUnk_2a == 0;
-        InitStateMachine(&kuribo->mUnk_00.mStateMachine, data_0216be68, 6, kuribo);
-        SetupGroupFollowerAtEntry(&kuribo->mUnk_cc, kuribo->mUnk_00.mCourseMapRow->mUnk_2e, 1);
-        GetGroupFollowerCurveXz(&kuribo->mUnk_cc, &kuribo->mUnk_00.mPos);
-        kuribo->mUnk_00.mPos.y = kuribo->mUnk_a0;
-        zeroedVector = &kuribo->mUnk_00.mUnk_10;
+        InitStateMachine(&kuribo->mMapObject.mStateMachine, data_0216be68, 6, kuribo);
+        SetupGroupFollowerAtEntry(&kuribo->mFollower, kuribo->mMapObject.mCourseMapRow->mUnk_2e, 1);
+        GetGroupFollowerCurveXz(&kuribo->mFollower, &kuribo->mMapObject.mPos);
+        kuribo->mMapObject.mPos.y = kuribo->mStartY;
+        zeroedVector = &kuribo->mMapObject.mUnk_10;
         zeroedVector->x = 0;
         zeroedVector->y = 0;
         zeroedVector->z = 0;
         {
             Quaternion identityA = {0, 0, 0, 0x1000};
-            kuribo->mUnk_a4 = identityA;
+            kuribo->mOrientation = identityA;
         }
         {
             Quaternion identityB = {0, 0, 0, 0x1000};
-            kuribo->mUnk_b4 = identityB;
+            kuribo->mTargetOrientation = identityB;
         }
-        kuribo->mUnk_f0 = 0;
-        kuribo->mUnk_f4 = 0;
-        stateMachine = &kuribo->mUnk_00.mStateMachine;
+        kuribo->mFrameIndex = 0;
+        kuribo->mFrameRandomized = 0;
+        stateMachine = &kuribo->mMapObject.mStateMachine;
         stateMachine->mNextState = 0;
         stateMachine->mNextStateRequested = 1;
     } else {
-        kuribo->mUnk_cc.mGroupIndex = 0xffff;
-        kuribo->mUnk_a0 = 0;
+        kuribo->mFollower.mGroupIndex = 0xffff;
+        kuribo->mStartY = 0;
         kuribo->mUnk_fc = 0;
-        InitStateMachine(&kuribo->mUnk_00.mStateMachine, data_0216be68, 6, kuribo);
-        kuribo->mUnk_f8 = 0x1000;
+        InitStateMachine(&kuribo->mMapObject.mStateMachine, data_0216be68, 6, kuribo);
+        kuribo->mOrientationBlendAmount = 0x1000;
         {
             Quaternion identityA = {0, 0, 0, 0x1000};
-            kuribo->mUnk_a4 = identityA;
+            kuribo->mOrientation = identityA;
         }
         {
             Quaternion identityB = {0, 0, 0, 0x1000};
-            kuribo->mUnk_b4 = identityB;
+            kuribo->mTargetOrientation = identityB;
         }
-        SetStateMachineState(&kuribo->mUnk_00.mStateMachine, 1);
-        kuribo->mUnk_00.mUnk_10.x = 0;
-        kuribo->mUnk_00.mUnk_10.y = 0;
-        kuribo->mUnk_00.mUnk_10.z = 0;
+        SetStateMachineState(&kuribo->mMapObject.mStateMachine, 1);
+        kuribo->mMapObject.mUnk_10.x = 0;
+        kuribo->mMapObject.mUnk_10.y = 0;
+        kuribo->mMapObject.mUnk_10.z = 0;
     }
 }
 

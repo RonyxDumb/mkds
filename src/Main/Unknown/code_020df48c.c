@@ -32,18 +32,19 @@ void CreateMkdEfBubble(void) {
 }
 
 void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {
-    InitStateMachine(&bubble->mUnk_00.mStateMachine, data_0216bfc0, 2, bubble);
-    bubble->mUnk_a0 = row->mUnk_28;
-    bubble->mUnk_ac = bubble->mUnk_00.mPos.y;
-    bubble->mUnk_a4 = bubble->mUnk_00.mPos.y - 0x10000;
-    bubble->mUnk_00.mUnk_10.x = 0;
-    bubble->mUnk_00.mUnk_10.y = 0;
-    bubble->mUnk_00.mUnk_10.z = 0;
-    bubble->mUnk_a8 = 0;
-    bubble->mUnk_00.mStateMachine.mNextState = 0;
-    bubble->mUnk_00.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&bubble->mUnk_b0, &bubble->mUnk_00.mPos, ((s64) bubble->mUnk_00.mScale.x * 0x18000) >> 12, 0xd);
-    bubble->mUnk_00.mFlags |= data_02158740;
+    InitStateMachine(&bubble->mMapObject.mStateMachine, data_0216bfc0, 2, bubble);
+    bubble->mDelayFrameCount = row->mUnk_28;
+    bubble->mInitialY = bubble->mMapObject.mPos.y;
+    bubble->mBottomY = bubble->mMapObject.mPos.y - 0x10000;
+    bubble->mMapObject.mUnk_10.x = 0;
+    bubble->mMapObject.mUnk_10.y = 0;
+    bubble->mMapObject.mUnk_10.z = 0;
+    bubble->mAngleZ = 0;
+    bubble->mMapObject.mStateMachine.mNextState = 0;
+    bubble->mMapObject.mStateMachine.mNextStateRequested = 1;
+    RefreshShadowMatrix(&bubble->mShadowMatrix, &bubble->mMapObject.mPos,
+                        ((s64) bubble->mMapObject.mScale.x * 0x18000) >> 12, 0xd);
+    bubble->mMapObject.mFlags |= data_02158740;
 }
 #pragma thumb off
 

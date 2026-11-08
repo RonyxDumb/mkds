@@ -160,35 +160,35 @@ void DrawMkdEfBubble(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha) {
     s32 rotationMatrix[9];
     s32 n;
 
-    if (bubble->mUnk_00.mStateMachine.mState != 0) {
+    if (bubble->mMapObject.mStateMachine.mState != 0) {
         return;
     }
     w = 0x1e;
     func_01ff9048(0x14, &w, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&bubble->mUnk_00.mPos), 0xc);
-    if (bubble->mUnk_a8 != 0) {
-        n = bubble->mUnk_a8 >> 4;
+    func_01ff9048(0x19, SetViewTransposeMatrixPos(&bubble->mMapObject.mPos), 0xc);
+    if (bubble->mAngleZ != 0) {
+        n = bubble->mAngleZ >> 4;
         MTX_RotZ33_(rotationMatrix, gPairsByAngle[n * 2], gPairsByAngle[n * 2 + 1]);
         func_01ff9048(0x1a, rotationMatrix, 9);
     }
-    func_01ff9048(0x1b, &bubble->mUnk_00.mScale, 3);
+    func_01ff9048(0x1b, &bubble->mMapObject.mScale, 3);
     DrawNsbmdWithMaxAlpha(gMkdEfBubble, alpha);
-    v = bubble->mUnk_00.mPos.y - bubble->mUnk_ac;
+    v = bubble->mMapObject.mPos.y - bubble->mInitialY;
     if (v > 0x10000) {
         v = 0x1000 - ((v - 0x10000) >> 8);
-        bubble->mUnk_b0.mUnk_030 = 0xd;
+        bubble->mShadowMatrix.mUnk_030 = 0xd;
     } else {
         n = 0xd - ((0x10000 - v) >> 13);
         v = 0x1000;
         if (n < 1) {
             n = 1;
         }
-        bubble->mUnk_b0.mUnk_030 = n;
+        bubble->mShadowMatrix.mUnk_030 = n;
     }
     if (v <= 0) {
         return;
     }
-    func_020e53ac(&bubble->mUnk_b0, &v, 0, alpha);
+    func_020e53ac(&bubble->mShadowMatrix, &v, 0, alpha);
 }
 
 void AdvanceMkdEfBubbleAnimation(void) {
@@ -196,19 +196,19 @@ void AdvanceMkdEfBubbleAnimation(void) {
 }
 
 void UpdateMkdEfBubble(void *a, MkdEfBubbleObject *bubble) {
-    AdvanceStateMachine(&bubble->mUnk_00.mStateMachine);
-    if (bubble->mUnk_f0 != 0) {
+    AdvanceStateMachine(&bubble->mMapObject.mStateMachine);
+    if (bubble->mEffectMissing != 0) {
         return;
     }
-    if ((bubble->mUnk_00.mFlags & 0x12) != 0) {
-        bubble->mUnk_e8->mUnk_24 |= 8;
-        bubble->mUnk_ec->mUnk_24 |= 8;
+    if ((bubble->mMapObject.mFlags & 0x12) != 0) {
+        bubble->mFirstEffect->mUnk_24 |= 8;
+        bubble->mSecondEffect->mUnk_24 |= 8;
         return;
     }
-    bubble->mUnk_e8->mUnk_24 &= ~8;
-    bubble->mUnk_ec->mUnk_24 &= ~8;
-    PlaceEffect(bubble->mUnk_e8, &bubble->mUnk_00.mPos);
-    PlaceEffect(bubble->mUnk_ec, &bubble->mUnk_00.mPos);
+    bubble->mFirstEffect->mUnk_24 &= ~8;
+    bubble->mSecondEffect->mUnk_24 &= ~8;
+    PlaceEffect(bubble->mFirstEffect, &bubble->mMapObject.mPos);
+    PlaceEffect(bubble->mSecondEffect, &bubble->mMapObject.mPos);
 }
 
 void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
@@ -216,56 +216,57 @@ void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
     s32 falloffIndex;
     BOOL effectMissing;
 
-    bubble->mUnk_a8 = 0;
-    bubble->mUnk_00.mPos.y = bubble->mUnk_a4;
-    bubble->mUnk_00.mUnk_10.y = 0x4b33;
-    bubble->mUnk_00.mFlags &= ~2;
-    bubble->mUnk_00.mFlags &= ~8;
-    bubble->mUnk_00.mAlpha = 0x1f;
-    if ((bubble->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-        if (bubble->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+    bubble->mAngleZ = 0;
+    bubble->mMapObject.mPos.y = bubble->mBottomY;
+    bubble->mMapObject.mUnk_10.y = 0x4b33;
+    bubble->mMapObject.mFlags &= ~2;
+    bubble->mMapObject.mFlags &= ~8;
+    bubble->mMapObject.mAlpha = 0x1f;
+    if ((bubble->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+        if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
             falloffIndex = 2;
-        } else if (bubble->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+        } else if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
             falloffIndex = 3;
         } else {
             falloffIndex = 4;
         }
         soundRequest.mSoundId = 0x18c;
-        soundRequest.mPositionSource = &bubble->mUnk_00.mPos;
+        soundRequest.mPositionSource = &bubble->mMapObject.mPos;
         soundRequest.mUnk_08 = falloffIndex;
-        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bubble->mUnk_00.mPos);
+        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bubble->mMapObject.mPos);
         func_0210b7a8(&soundRequest);
     }
-    bubble->mUnk_e4 = 0;
-    if (bubble->mUnk_e8 == NULL) {
-        bubble->mUnk_e8 = StartEffect(0x45, &bubble->mUnk_00.mPos);
+    bubble->mKartMask = 0;
+    if (bubble->mFirstEffect == NULL) {
+        bubble->mFirstEffect = StartEffect(0x45, &bubble->mMapObject.mPos);
     }
-    if (bubble->mUnk_ec == NULL) {
-        bubble->mUnk_ec = StartEffect(0x46, &bubble->mUnk_00.mPos);
+    if (bubble->mSecondEffect == NULL) {
+        bubble->mSecondEffect = StartEffect(0x46, &bubble->mMapObject.mPos);
     }
-    if (bubble->mUnk_e8 == NULL || bubble->mUnk_ec == NULL) {
+    if (bubble->mFirstEffect == NULL || bubble->mSecondEffect == NULL) {
         effectMissing = TRUE;
     } else {
         effectMissing = FALSE;
     }
-    bubble->mUnk_f0 = effectMissing;
+    bubble->mEffectMissing = effectMissing;
 }
 
 void UpdateMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
-    if (bubble->mUnk_00.mUnk_10.y < 0x1333) {
-        if (bubble->mUnk_00.mUnk_10.y <= -0x1333) {
-            bubble->mUnk_a8 = 0x8000;
+    if (bubble->mMapObject.mUnk_10.y < 0x1333) {
+        if (bubble->mMapObject.mUnk_10.y <= -0x1333) {
+            bubble->mAngleZ = 0x8000;
         } else {
-            bubble->mUnk_a8 = (s32) (((s64) (0x1333 - bubble->mUnk_00.mUnk_10.y) * data_0217b76c->mUnk_28) >> 12) >> 12;
+            bubble->mAngleZ =
+                (s32) (((s64) (0x1333 - bubble->mMapObject.mUnk_10.y) * data_0217b76c->mUnk_28) >> 12) >> 12;
         }
     }
-    bubble->mUnk_00.mUnk_10.y -= 0x199;
-    if (bubble->mUnk_00.mUnk_10.y < -0x3000) {
-        bubble->mUnk_00.mUnk_10.y = -0x3000;
+    bubble->mMapObject.mUnk_10.y -= 0x199;
+    if (bubble->mMapObject.mUnk_10.y < -0x3000) {
+        bubble->mMapObject.mUnk_10.y = -0x3000;
     }
-    bubble->mUnk_00.mPos.y += bubble->mUnk_00.mUnk_10.y;
-    if (bubble->mUnk_00.mPos.y < bubble->mUnk_a4) {
-        bubble->mUnk_00.mStateMachine.mNextState = 1;
-        bubble->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    bubble->mMapObject.mPos.y += bubble->mMapObject.mUnk_10.y;
+    if (bubble->mMapObject.mPos.y < bubble->mBottomY) {
+        bubble->mMapObject.mStateMachine.mNextState = 1;
+        bubble->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }

@@ -6,18 +6,18 @@
 
 // Object of kind 0xd2 (Dram) and the functions of this file: 0xc0 bytes.
 typedef struct Dram {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ u16 mUnk_a0;
-    /* a2 */ u16 mUnk_a2;
-    /* a4 */ u16 mUnk_a4;
-    /* a6 */ u16 mUnk_a6;
-    /* a8 */ s16 mUnk_a8;
+    /* 00 */ MapObject mMapObject;
+    /* a0 */ u16 mRampFrameCount;
+    /* a2 */ u16 mSteadyFrameCount;
+    /* a4 */ u16 mDelayFrameCount;
+    /* a6 */ u16 mAngleX;
+    /* a8 */ s16 mAnglePerFrame;
     /* aa */ u8 mUnk_aa[2];
-    /* ac */ s32 mUnk_ac;
-    /* b0 */ s32 mUnk_b0;
-    /* b4 */ s16 mUnk_b4[3];
+    /* ac */ s32 mRamp;
+    /* b0 */ s32 mRampPerFrame;
+    /* b4 */ s16 mAnglePerFrameChoices[3];
     /* ba */ u8 mUnk_ba[2];
-    /* bc */ s32 mUnk_bc;
+    /* bc */ s32 mAngleRemaining;
 } Dram;
 
 void UpdateDramState4(Dram *dram);

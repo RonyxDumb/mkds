@@ -16,18 +16,18 @@ typedef struct Unk020df6c8_e8 {
 
 // Object of at least 0xf4 bytes, made by CreateMapObject and filled in by InitMkdEfBubble.
 typedef struct MkdEfBubbleObject {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ s32 mUnk_a0;
-    /* a4 */ s32 mUnk_a4;
-    /* a8 */ u16 mUnk_a8;
+    /* 00 */ MapObject mMapObject;
+    /* a0 */ s32 mDelayFrameCount;
+    /* a4 */ s32 mBottomY;
+    /* a8 */ u16 mAngleZ;
     /* aa */ u8 mUnk_aa[2];
-    /* ac */ s32 mUnk_ac;
-    /* b0 */ ShadowMatrix mUnk_b0;
-    /* e4 */ u8 mUnk_e4;
+    /* ac */ s32 mInitialY;
+    /* b0 */ ShadowMatrix mShadowMatrix;
+    /* e4 */ u8 mKartMask;
     /* e5 */ u8 mUnk_e5[3];
-    /* e8 */ Unk020df6c8_e8 *mUnk_e8;
-    /* ec */ Unk020df6c8_e8 *mUnk_ec;
-    /* f0 */ s32 mUnk_f0;
+    /* e8 */ Unk020df6c8_e8 *mFirstEffect;
+    /* ec */ Unk020df6c8_e8 *mSecondEffect;
+    /* f0 */ s32 mEffectMissing;
 } MkdEfBubbleObject;
 
 void CreateMkdEfBubble(void);

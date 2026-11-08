@@ -455,61 +455,61 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d) {
     Quaternion orientation;
     u16 e;
     NsbmdModel *model;
-    if (kuribo->mUnk_cc.mGroupIndex == 0xffff) {
-        func_020d7938(&kuribo->mUnk_a4, &gViewYawQuaternion, &orientation);
-        Matrix3x3FromQuaternion(&kuribo->mUnk_00.mMatrix, &orientation);
+    if (kuribo->mFollower.mGroupIndex == 0xffff) {
+        func_020d7938(&kuribo->mOrientation, &gViewYawQuaternion, &orientation);
+        Matrix3x3FromQuaternion(&kuribo->mMapObject.mMatrix, &orientation);
     } else {
-        func_020e6d34(GetGroupFollowerSegmentUp(&kuribo->mUnk_cc), &kuribo->mUnk_00.mMatrix);
+        func_020e6d34(GetGroupFollowerSegmentUp(&kuribo->mFollower), &kuribo->mMapObject.mMatrix);
     }
-    scale.z = kuribo->mUnk_00.mScale.z;
-    scale.y = ((s64) kuribo->mUnk_00.mScale.y * kuribo->mUnk_c4) >> 12;
-    scale.x = ((s64) kuribo->mUnk_00.mScale.x * (((0x1000 - kuribo->mUnk_c4) >> 1) + 0x1000)) >> 12;
-    kuribo->mUnk_00.mMatrix.mUnk_00[3].x = kuribo->mUnk_00.mPos.x >> 4;
-    kuribo->mUnk_00.mMatrix.mUnk_00[3].y = kuribo->mUnk_00.mPos.y >> 4;
-    kuribo->mUnk_00.mMatrix.mUnk_00[3].z = kuribo->mUnk_00.mPos.z >> 4;
-    if (kuribo->mUnk_f0 < 0x14) {
-        gKuribo->mFrameIndex = kuribo->mUnk_f0;
+    scale.z = kuribo->mMapObject.mScale.z;
+    scale.y = ((s64) kuribo->mMapObject.mScale.y * kuribo->mScaleFactorY) >> 12;
+    scale.x = ((s64) kuribo->mMapObject.mScale.x * (((0x1000 - kuribo->mScaleFactorY) >> 1) + 0x1000)) >> 12;
+    kuribo->mMapObject.mMatrix.mUnk_00[3].x = kuribo->mMapObject.mPos.x >> 4;
+    kuribo->mMapObject.mMatrix.mUnk_00[3].y = kuribo->mMapObject.mPos.y >> 4;
+    kuribo->mMapObject.mMatrix.mUnk_00[3].z = kuribo->mMapObject.mPos.z >> 4;
+    if (kuribo->mFrameIndex < 0x14) {
+        gKuribo->mFrameIndex = kuribo->mFrameIndex;
     } else {
         scale.x = -scale.x;
-        gKuribo->mFrameIndex = kuribo->mUnk_f0 - 0x14;
+        gKuribo->mFrameIndex = kuribo->mFrameIndex - 0x14;
     }
-    e = kuribo->mUnk_100;
+    e = kuribo->mModelAlpha;
     model = gKuribo;
     model->mUnk_14 &= ~0x1f0000;
     model->mUnk_14 |= e << 16;
-    func_020e67c4(gKuribo, &kuribo->mUnk_00.mMatrix, &scale, 0, d);
+    func_020e67c4(gKuribo, &kuribo->mMapObject.mMatrix, &scale, 0, d);
 }
 
 void UpdateKuribo(void *unused, Kuribo *kuribo) {
     Unk0210b7a8 soundRequest;
     RandomState64 *random;
     s32 falloffIndex;
-    kuribo->mUnk_f0++;
-    if (kuribo->mUnk_f0 == 0x14 || kuribo->mUnk_f0 == 0x28) {
-        if ((kuribo->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-            if (kuribo->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+    kuribo->mFrameIndex++;
+    if (kuribo->mFrameIndex == 0x14 || kuribo->mFrameIndex == 0x28) {
+        if ((kuribo->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+            if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 falloffIndex = 2;
-            } else if (kuribo->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                 falloffIndex = 3;
             } else {
                 falloffIndex = 4;
             }
             soundRequest.mSoundId = 0x182;
-            soundRequest.mPositionSource = &kuribo->mUnk_00.mPos;
+            soundRequest.mPositionSource = &kuribo->mMapObject.mPos;
             soundRequest.mUnk_08 = falloffIndex;
-            soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&kuribo->mUnk_00.mPos);
+            soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&kuribo->mMapObject.mPos);
             func_0210b7a8(&soundRequest);
         }
     }
-    if (kuribo->mUnk_f0 >= 0x28) {
-        if (kuribo->mUnk_f4 != 0) {
-            kuribo->mUnk_f0 = 0;
+    if (kuribo->mFrameIndex >= 0x28) {
+        if (kuribo->mFrameRandomized != 0) {
+            kuribo->mFrameIndex = 0;
         } else {
             random = &gRaceProgress->mRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            kuribo->mUnk_f0 = ((u64) (u32) (random->mValue >> 32) * 0x28) >> 32;
-            kuribo->mUnk_f4 = 1;
+            kuribo->mFrameIndex = ((u64) (u32) (random->mValue >> 32) * 0x28) >> 32;
+            kuribo->mFrameRandomized = 1;
         }
     }
-    AdvanceStateMachine(&kuribo->mUnk_00.mStateMachine);
+    AdvanceStateMachine(&kuribo->mMapObject.mStateMachine);
 }

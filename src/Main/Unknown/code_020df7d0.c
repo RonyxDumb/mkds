@@ -7,14 +7,14 @@
 #include "Main/Unknown/code_020df85c.h"
 
 void EnterMkdEfBubbleState1(MkdEfBubbleObject *bubble) {
-    bubble->mUnk_00.mFlags |= data_0215877c;
-    bubble->mUnk_00.mFlags |= data_02158780;
+    bubble->mMapObject.mFlags |= data_0215877c;
+    bubble->mMapObject.mFlags |= data_02158780;
 }
 
 void UpdateMkdEfBubbleState1(MkdEfBubbleObject *bubble) {
-    if (bubble->mUnk_00.mStateMachine.mStateFrames >= bubble->mUnk_a0) {
-        bubble->mUnk_00.mStateMachine.mNextState = 0;
-        bubble->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (bubble->mMapObject.mStateMachine.mStateFrames >= bubble->mDelayFrameCount) {
+        bubble->mMapObject.mStateMachine.mNextState = 0;
+        bubble->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -22,10 +22,10 @@ u8 func_020df7d8(MkdEfBubbleObject *bubble, Unk020dea50_1 *kart, void *unused, u
     u32 kartBit;
 
     kartBit = (1 << kart->mUnk_74) & 0xff;
-    if ((bubble->mUnk_e4 & kartBit) == 0) {
-        if (StartSoundIfKartStarOrKiller(&bubble->mUnk_00, (Kart *) kart) != 0) {
-            bubble->mUnk_00.mDistanceSquaredAndFlags |= data_02158778;
-            bubble->mUnk_e4 |= kartBit;
+    if ((bubble->mKartMask & kartBit) == 0) {
+        if (StartSoundIfKartStarOrKiller(&bubble->mMapObject, (Kart *) kart) != 0) {
+            bubble->mMapObject.mDistanceSquaredAndFlags |= data_02158778;
+            bubble->mKartMask |= kartBit;
         }
     }
     return *d;

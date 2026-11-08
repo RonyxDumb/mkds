@@ -14,20 +14,20 @@ typedef struct Unk020da414 {
 
 // Object of kind 0x191 (Kuribo), at least 0x108 bytes; also created in pools by ov001.
 typedef struct Kuribo {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ s32 mUnk_a0;
-    /* a4 */ Quaternion mUnk_a4;
-    /* b4 */ Quaternion mUnk_b4;
-    /* c4 */ s32 mUnk_c4;
+    /* 00 */ MapObject mMapObject;
+    /* a0 */ s32 mStartY;
+    /* a4 */ Quaternion mOrientation;
+    /* b4 */ Quaternion mTargetOrientation;
+    /* c4 */ s32 mScaleFactorY;
     /* c8 */ s32 mUnk_c8;
-    /* cc */ GroupFollower mUnk_cc;
-    /* f0 */ u16 mUnk_f0;
+    /* cc */ GroupFollower mFollower;
+    /* f0 */ u16 mFrameIndex;
     /* f2 */ u8 mUnk_f2[2];
-    /* f4 */ s32 mUnk_f4;
-    /* f8 */ u16 mUnk_f8;
+    /* f4 */ s32 mFrameRandomized;
+    /* f8 */ u16 mOrientationBlendAmount;
     /* fa */ u8 mUnk_fa[2];
     /* fc */ s32 mUnk_fc;
-    /* 100 */ u16 mUnk_100;
+    /* 100 */ u16 mModelAlpha;
     /* 102 */ s16 mUnk_102;
     /* 104 */ s32 mUnk_104;
 } Kuribo;

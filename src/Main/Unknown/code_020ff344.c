@@ -33,22 +33,22 @@ void CreateDram(void) {
 }
 
 void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
-    InitStateMachine(&dram->mUnk_00.mStateMachine, (UnkFunc *const *) data_0216c740, 6, dram);
-    dram->mUnk_b4[0] = courseRow->mUnk_28 * 0x80 / 100;
-    dram->mUnk_b4[2] = courseRow->mUnk_30 * 0x80 / 100;
-    dram->mUnk_b4[1] = (dram->mUnk_b4[0] + dram->mUnk_b4[2]) / 2;
-    dram->mUnk_a2 = courseRow->mUnk_2a;
-    dram->mUnk_a0 = courseRow->mUnk_2c;
-    dram->mUnk_a4 = courseRow->mUnk_2e;
-    dram->mUnk_a6 = 0;
-    if (dram->mUnk_a0 != 0) {
-        dram->mUnk_b0 = 0x1000 / dram->mUnk_a0;
+    InitStateMachine(&dram->mMapObject.mStateMachine, (UnkFunc *const *) data_0216c740, 6, dram);
+    dram->mAnglePerFrameChoices[0] = courseRow->mUnk_28 * 0x80 / 100;
+    dram->mAnglePerFrameChoices[2] = courseRow->mUnk_30 * 0x80 / 100;
+    dram->mAnglePerFrameChoices[1] = (dram->mAnglePerFrameChoices[0] + dram->mAnglePerFrameChoices[2]) / 2;
+    dram->mSteadyFrameCount = courseRow->mUnk_2a;
+    dram->mRampFrameCount = courseRow->mUnk_2c;
+    dram->mDelayFrameCount = courseRow->mUnk_2e;
+    dram->mAngleX = 0;
+    if (dram->mRampFrameCount != 0) {
+        dram->mRampPerFrame = 0x1000 / dram->mRampFrameCount;
     } else {
-        dram->mUnk_b0 = 0;
+        dram->mRampPerFrame = 0;
     }
-    dram->mUnk_ac = 0;
-    dram->mUnk_00.mStateMachine.mNextState = 1;
-    dram->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    dram->mRamp = 0;
+    dram->mMapObject.mStateMachine.mNextState = 1;
+    dram->mMapObject.mStateMachine.mNextStateRequested = 1;
 }
 
 #pragma thumb off
