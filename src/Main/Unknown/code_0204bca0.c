@@ -285,7 +285,7 @@ void SendRomArchiveMessage(void) {
         if ((v7 & sendMask) != 0) {
             if (firstEntry == NULL) {
                 firstEntry = entry;
-            } else if (firstEntry->mUnk_00_0 != entry->mUnk_00_0 || firstEntry->mUnk_04 != entry->mUnk_04) {
+            } else if (firstEntry->mKind != entry->mKind || firstEntry->mUnk_04 != entry->mUnk_04) {
                 sendMask = sendMask & ~v7;
             }
         }
@@ -298,17 +298,17 @@ void SendRomArchiveMessage(void) {
     if (firstEntry == NULL) {
         return;
     }
-    switch (firstEntry->mUnk_00_0) {
+    switch (firstEntry->mKind) {
         case 0:
-            firstEntry->mUnk_00_0 = 1;
+            firstEntry->mKind = 1;
             break;
         case 2:
-            firstEntry->mUnk_00_0 = 3;
+            firstEntry->mKind = 3;
             view->mUnk_46dc = view->mUnk_46dc & ~sendMask;
             break;
     }
     blockId = *(volatile s32 *) &firstEntry->mUnk_04;
-    replyMessage.mKind = (u8) firstEntry->mUnk_00_0;
+    replyMessage.mKind = (u8) firstEntry->mKind;
     replyMessage.mUnk_04 = blockId;
     replyMessage.mUnk_00_8 = 1;
     replyMessage.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
@@ -517,13 +517,13 @@ void RomArchivePortCallback(RomArchivePortMessage *message) {
             if (transfer->mIsParent == 0) {
                 return;
             }
-            view->mUnk_46d8 = view->mUnk_46d8 & ~(1 << message->mUnk_12);
+            view->mUnk_46d8 = view->mUnk_46d8 & ~(1 << message->mFromIndex);
             return;
         case 21:
-            data = message->mUnk_0c;
-            dataLength = message->mUnk_10;
+            data = message->mData;
+            dataLength = message->mDataLength;
             if (transfer->mIsParent != 0) {
-                fromIndex = message->mUnk_12;
+                fromIndex = message->mFromIndex;
                 view->mUnk_46d8 = view->mUnk_46d8 | (1 << fromIndex);
                 ReceivePacketFromIndexChecked(data, dataLength, fromIndex);
             } else {

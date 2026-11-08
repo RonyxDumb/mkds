@@ -386,7 +386,7 @@ void StartKartKiller(Kart *kart) {
     SetupKartKillerCursor(&effectState->mKillerCursor, kart->mIndex);
     kart->mUnk_4c |= 0x10000000;
     kartCount = gRaceSetup->mKartCount;
-    effectState->mKillerEndRank = GetKartRank(kart->mIndex) - rankOffsets.mUnk_00[kartCount - 1];
+    effectState->mKillerEndRank = GetKartRank(kart->mIndex) - rankOffsets.mOffsets[kartCount - 1];
     if (effectState->mKillerEndRank <= 0) {
         effectState->mKillerEndRank = 1;
     }

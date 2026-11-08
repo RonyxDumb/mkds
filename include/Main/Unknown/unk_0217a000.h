@@ -1252,7 +1252,7 @@ extern u8 data_0217acc0[];
 // 0x20-byte entries behind member 0x014 of KartModels.
 typedef struct HeyhoPalette {
     /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
+    /* 04 */ u16 mColor;
     /* 06 */ u8 mUnk_06[0x1a];
 } HeyhoPalette;
 

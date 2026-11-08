@@ -313,7 +313,7 @@ extern KeyRecording data_02175650[];
 // Entry of the table at 0x440 of gRomArchiveTransfer: a four-bit part in the low bits of the first word, then two
 // words.
 typedef struct RomArchiveParentViewEntry {
-    /* 00 */ u32 mUnk_00_0 : 4;
+    /* 00 */ u32 mKind : 4;
     /* 00 */ u32 mUnk_00_4 : 28;
     /* 04 */ s32 mUnk_04;
     /* 08 */ u8 *mUnk_08;

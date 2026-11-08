@@ -88,13 +88,13 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
         case COURSE_ID_OLD_NOKO_SFC:
             v = GetCourseModelNsbtpFrame();
             for (i = 0; i < 3; i++) {
-                palette->mUnk_00[i + 0x40] = data_0217b490->mUnk_02.mUnk_01[v / 10][i];
+                palette->mColors[i + 0x40] = data_0217b490->mUnk_02.mUnk_01[v / 10][i];
             }
-            DC_FlushRange(&palette->mUnk_00[0x40], 6);
+            DC_FlushRange(&palette->mColors[0x40], 6);
             GXS_BeginLoadBGExtPltt();
-            GXS_LoadBGExtPltt(&palette->mUnk_00[0x40], 0x4080, 6);
+            GXS_LoadBGExtPltt(&palette->mColors[0x40], 0x4080, 6);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GXS_LoadBGExtPltt(&palette->mUnk_00[0x40], 0x6080, 6);
+                GXS_LoadBGExtPltt(&palette->mColors[0x40], 0x6080, 6);
             }
             GXS_EndLoadBGExtPltt();
             break;
@@ -115,15 +115,15 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
                         shift = (angle * 0x48) >> 16;
                     }
                     for (j = 0; j < 4; j++) {
-                        palette->mUnk_00[table[i] + j + 0x80] = data_0217b490->mUnk_02.mUnk_02[i][(j + shift) % 4];
+                        palette->mColors[table[i] + j + 0x80] = data_0217b490->mUnk_02.mUnk_02[i][(j + shift) % 4];
                     }
                 }
             }
-            DC_FlushRange(&palette->mUnk_00[0x80], 0x34);
+            DC_FlushRange(&palette->mColors[0x80], 0x34);
             GXS_BeginLoadBGExtPltt();
-            GXS_LoadBGExtPltt(&palette->mUnk_00[0x80], 0x4100, 0x34);
+            GXS_LoadBGExtPltt(&palette->mColors[0x80], 0x4100, 0x34);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GXS_LoadBGExtPltt(&palette->mUnk_00[0x80], 0x6100, 0x34);
+                GXS_LoadBGExtPltt(&palette->mColors[0x80], 0x6100, 0x34);
             }
             GXS_EndLoadBGExtPltt();
             break;
@@ -153,14 +153,14 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
             }
             p = table[j];
             for (i = 0; i < 20; i++) {
-                palette->mUnk_00[i + 0x78] = data_0217b490->mUnk_02.mUnk_00[*p];
+                palette->mColors[i + 0x78] = data_0217b490->mUnk_02.mUnk_00[*p];
                 p++;
             }
-            DC_FlushRange(&palette->mUnk_00[0x78], 0x28);
+            DC_FlushRange(&palette->mColors[0x78], 0x28);
             GXS_BeginLoadBGExtPltt();
-            GXS_LoadBGExtPltt(&palette->mUnk_00[0x78], 0x40f0, 0x28);
+            GXS_LoadBGExtPltt(&palette->mColors[0x78], 0x40f0, 0x28);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GXS_LoadBGExtPltt(&palette->mUnk_00[0x78], 0x60f0, 0x28);
+                GXS_LoadBGExtPltt(&palette->mColors[0x78], 0x60f0, 0x28);
             }
             GXS_EndLoadBGExtPltt();
             break;
@@ -176,20 +176,20 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
                     }
                 }
                 for (j = 0; j < k; j++) {
-                    palette->mUnk_00[j + 0x50] = data_0217b490->mUnk_02.mUnk_00[0];
+                    palette->mColors[j + 0x50] = data_0217b490->mUnk_02.mUnk_00[0];
                 }
                 for (j = k; j == k; j++) {
-                    palette->mUnk_00[j + 0x50] = data_0217b490->mUnk_02.mUnk_00[1];
+                    palette->mColors[j + 0x50] = data_0217b490->mUnk_02.mUnk_00[1];
                 }
                 for (j = k + 1; j < 8; j++) {
-                    palette->mUnk_00[j + 0x50] = data_0217b490->mUnk_02.mUnk_00[2];
+                    palette->mColors[j + 0x50] = data_0217b490->mUnk_02.mUnk_00[2];
                 }
             }
-            DC_FlushRange(&palette->mUnk_00[0x50], 0x10);
+            DC_FlushRange(&palette->mColors[0x50], 0x10);
             GXS_BeginLoadBGExtPltt();
-            GXS_LoadBGExtPltt(&palette->mUnk_00[0x50], 0x40a0, 0x10);
+            GXS_LoadBGExtPltt(&palette->mColors[0x50], 0x40a0, 0x10);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GXS_LoadBGExtPltt(&palette->mUnk_00[0x50], 0x60a0, 0x10);
+                GXS_LoadBGExtPltt(&palette->mColors[0x50], 0x60a0, 0x10);
             }
             GXS_EndLoadBGExtPltt();
             break;
@@ -203,12 +203,12 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
                 objects = RaceHudSubScreenGetMapObjects(p);
                 v = (objects[1]->mAngle * 0x48) >> 16;
                 for (i = 0; i < 6; i++) {
-                    palette->mUnk_00[i + 0x54] = data_0217b490->mUnk_02.mUnk_03.mUnk_00[(i + 0x48 - v) % 6];
+                    palette->mColors[i + 0x54] = data_0217b490->mUnk_02.mUnk_03.mUnk_00[(i + 0x48 - v) % 6];
                 }
                 k = (objects[0]->mAngle << 5) >> 16;
                 for (i = 0; i < 2; i++) {
                     for (j = 0; j < 3; j++) {
-                        palette->mUnk_00[j + i * 3 + 0x5a] =
+                        palette->mColors[j + i * 3 + 0x5a] =
                             data_0217b490->mUnk_02.mUnk_03.mUnk_0c[i][(j + 0x20 - k) % 3];
                     }
                 }
@@ -224,21 +224,21 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
                         n = 8 - ((v << 3) >> 12);
                     }
                     for (j = 0; j < n; j++) {
-                        palette->mUnk_00[i * 16 + j + 0x60] = data_0217b490->mUnk_02.mUnk_03.mUnk_18[0];
+                        palette->mColors[i * 16 + j + 0x60] = data_0217b490->mUnk_02.mUnk_03.mUnk_18[0];
                     }
                     for (j = n; j < n + 8; j++) {
-                        palette->mUnk_00[i * 16 + j + 0x60] = data_0217b490->mUnk_02.mUnk_03.mUnk_18[1];
+                        palette->mColors[i * 16 + j + 0x60] = data_0217b490->mUnk_02.mUnk_03.mUnk_18[1];
                     }
                     for (j = n + 8; j < 16; j++) {
-                        palette->mUnk_00[i * 16 + j + 0x60] = data_0217b490->mUnk_02.mUnk_03.mUnk_18[0];
+                        palette->mColors[i * 16 + j + 0x60] = data_0217b490->mUnk_02.mUnk_03.mUnk_18[0];
                     }
                 }
             }
-            DC_FlushRange(&palette->mUnk_00[0x54], 0x98);
+            DC_FlushRange(&palette->mColors[0x54], 0x98);
             GXS_BeginLoadBGExtPltt();
-            GXS_LoadBGExtPltt(&palette->mUnk_00[0x54], 0x40a8, 0x98);
+            GXS_LoadBGExtPltt(&palette->mColors[0x54], 0x40a8, 0x98);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GXS_LoadBGExtPltt(&palette->mUnk_00[0x54], 0x60a8, 0x98);
+                GXS_LoadBGExtPltt(&palette->mColors[0x54], 0x60a8, 0x98);
             }
             GXS_EndLoadBGExtPltt();
             break;
@@ -256,31 +256,31 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
                 }
                 k += 2;
                 for (j = 0; j < k - 2; j++) {
-                    palette->mUnk_00[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[0];
+                    palette->mColors[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[0];
                 }
                 for (j = k - 4; j < k - 2; j++) {
                     if (j >= 0) {
-                        palette->mUnk_00[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[1];
+                        palette->mColors[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[1];
                     }
                 }
                 for (j = k - 2; j <= k; j++) {
-                    palette->mUnk_00[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[2];
+                    palette->mColors[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[2];
                 }
                 if (waterAngle >= 0x4000 && waterAngle < 0xc000) {
                     for (j = k + 1; j <= k + 2 && j < 0x15; j++) {
-                        palette->mUnk_00[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[3];
+                        palette->mColors[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[3];
                     }
                     k += 2;
                 }
                 for (j = k + 1; j < 0x15; j++) {
-                    palette->mUnk_00[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[4];
+                    palette->mColors[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[4];
                 }
             }
-            DC_FlushRange(&palette->mUnk_00[0xe0], 0x2c);
+            DC_FlushRange(&palette->mColors[0xe0], 0x2c);
             GXS_BeginLoadBGExtPltt();
-            GXS_LoadBGExtPltt(&palette->mUnk_00[0xe0], 0x41c0, 0x2c);
+            GXS_LoadBGExtPltt(&palette->mColors[0xe0], 0x41c0, 0x2c);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GXS_LoadBGExtPltt(&palette->mUnk_00[0xe0], 0x61c0, 0x2c);
+                GXS_LoadBGExtPltt(&palette->mColors[0xe0], 0x61c0, 0x2c);
             }
             GXS_EndLoadBGExtPltt();
             break;

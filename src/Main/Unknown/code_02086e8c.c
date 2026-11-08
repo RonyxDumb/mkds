@@ -243,7 +243,7 @@ u16 GetKartPaletteColor(int kartIndex) {
         return data_02155a28[gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex];
     }
     if (GetKartModelsEntry(kartIndex)->mCharacterIndex == 0xc) {
-        return GetHeyhoPalette(kartIndex)->mUnk_04;
+        return GetHeyhoPalette(kartIndex)->mColor;
     }
     return data_02155a64[kartIndex];
 }

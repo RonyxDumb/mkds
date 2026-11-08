@@ -75,9 +75,9 @@ typedef struct RomArchivePortMessage {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u16 mUnk_04;
     /* 06 */ u8 mUnk_06[6];
-    /* 0c */ const u8 *mUnk_0c;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
+    /* 0c */ const u8 *mData;
+    /* 10 */ u16 mDataLength;
+    /* 12 */ u16 mFromIndex;
 } RomArchivePortMessage;
 
 typedef struct FSFile FSFile;

@@ -132,7 +132,7 @@ extern const KartFollowEffectIds gKartFollowEffectIds;
 
 // Eight halfwords.
 typedef struct KartKillerEndRankOffsets {
-    /* 00 */ s16 mUnk_00[8];
+    /* 00 */ s16 mOffsets[8];
 } KartKillerEndRankOffsets;
 
 extern const KartKillerEndRankOffsets data_usa_0216557c;

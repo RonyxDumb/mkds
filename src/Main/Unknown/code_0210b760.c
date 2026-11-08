@@ -8,19 +8,19 @@ void AdvanceSoundDistanceSquaredChange(SoundDistanceSquaredChange *tracker, u32 
     s32 a;
     s32 oldChange;
 
-    a = tracker->mUnk_00;
+    a = tracker->mDistanceSquared;
     if (a == -1) {
-        tracker->mUnk_00 = distanceSquared;
-        tracker->mUnk_08 = 0;
+        tracker->mDistanceSquared = distanceSquared;
+        tracker->mDifference = 0;
         return;
     }
-    oldChange = tracker->mUnk_08;
-    tracker->mUnk_04 = a;
-    tracker->mUnk_00 = distanceSquared;
-    tracker->mUnk_08 = (tracker->mUnk_04 - tracker->mUnk_00) >> tracker->mUnk_0c;
-    a = tracker->mUnk_08;
+    oldChange = tracker->mDifference;
+    tracker->mPrevDistanceSquared = a;
+    tracker->mDistanceSquared = distanceSquared;
+    tracker->mDifference = (tracker->mPrevDistanceSquared - tracker->mDistanceSquared) >> tracker->mShift;
+    a = tracker->mDifference;
     if (a > 0x600 || a < -0x600) {
-        tracker->mUnk_08 = oldChange;
+        tracker->mDifference = oldChange;
     }
 }
 

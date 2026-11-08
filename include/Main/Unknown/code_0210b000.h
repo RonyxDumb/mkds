@@ -15,10 +15,10 @@ typedef struct Unk0210b7a8 {
 // Object of AdvanceSoundDistanceSquaredChange: a value at 0x00, the previous value at 0x04, their difference at 0x08
 // and a shift at 0x0c.
 typedef struct SoundDistanceSquaredChange {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
+    /* 00 */ s32 mDistanceSquared;
+    /* 04 */ s32 mPrevDistanceSquared;
+    /* 08 */ s32 mDifference;
+    /* 0c */ u32 mShift;
 } SoundDistanceSquaredChange;
 
 extern Unk0210b7a8 data_0216c698;
