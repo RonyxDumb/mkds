@@ -985,7 +985,8 @@ void CreateKart(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed) {
     SetNsbmdPolygonIdAll(kartModelsEntry->mModels[1], 3);
     SetKartModelMaterialColors(mdl, 0);
     if (pNameUsed != 0) {
-        tireMaterialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, data_usa_021550b8);
+        tireMaterialIndex =
+            NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, data_usa_021550b8);
         NNS_G3dMdlSetMdlAlpha(mdl, tireMaterialIndex, 0);
         gKartModels->mKartTireMaterialIndex = tireMaterialIndex;
     }
@@ -1007,20 +1008,24 @@ u16 *LoadKartAPaletteFromKartModelMenu(void *heap) {
 }
 
 void UploadKartAPaletteSlice(Nsbmd *nsbmd, s32 kartIndex, void *kartAPalette) {
-    u8 *mdlBytes;
-    u8 *q;
-    u8 *t;
+    NNSG3dResMdl *mdl;
+    NNSG3dResMat *matBlock;
+    NNSG3dResDictEntryHeader *entries;
     u8 *paletteSlice;
     s32 materialIndex;
     u32 paletteBase;
     if (kartIndex % 3 == 0) {
-        mdlBytes = (u8 *) nsbmd->mResMdl;
+        mdl = nsbmd->mResMdl;
         paletteSlice = (u8 *) kartAPalette + kartIndex / 3 * 0x20;
         DC_FlushRange(paletteSlice, 0x10);
-        materialIndex = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, data_usa_02155088);
-        q = mdlBytes + *(s32 *) (mdlBytes + 8);
-        t = q + 4 + *OFFSET_PTR(u16, q, 0xa);
-        paletteBase = *(u16 *) (q + *(s32 *) (t + *(u16 *) t * materialIndex + 4) + 0x1c) << 4;
+        materialIndex =
+            NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, data_usa_02155088);
+        matBlock = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
+        entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
+        paletteBase =
+            OFFSET_PTR(NNSG3dResMatData, matBlock, *(u32 *) (entries->mData + entries->mSizeUnit * materialIndex))
+                ->mTexPlttBase
+            << 4;
         GX_BeginLoadTexPltt();
         GX_LoadTexPltt(paletteSlice, paletteBase, 0x10);
         GX_EndLoadTexPltt();
@@ -1174,7 +1179,7 @@ void CreateKartModelMenuKart(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3
     mdl = InitNsbmdWithTextureFile(nsbmd, modelFile, textureFile);
     SetNsbmdPolygonIdAll(nsbmd, 3);
     SetKartModelMaterialColors(mdl, 1);
-    tireMaterialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, data_02155098);
+    tireMaterialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, data_02155098);
     NNS_G3dMdlSetMdlAlpha(mdl, tireMaterialIndex, 0);
 }
 
@@ -1248,9 +1253,8 @@ void InitKartModelMenuView(KartModelMenuView *view, int b) {
 
 void QueueKartEmblemTexture(void *emblemData, void *emblemPalette) {
     NNSG3dResMdl *mdl;
-    u8 *t;
-    u8 *u;
-    u8 *w;
+    NNSG3dResMat *matBlock;
+    NNSG3dResDictEntryHeader *entries;
     s32 materialIndex;
     s32 paletteBase;
     NNSG3dResMatData *material;
@@ -1259,11 +1263,12 @@ void QueueKartEmblemTexture(void *emblemData, void *emblemPalette) {
     s16 shownSlotIndex = menu->mShownSlotIndex;
     if (shownSlotIndex >= 0 && files->mLoadRequested == FALSE) {
         mdl = menu->mSlots[shownSlotIndex].mKartNsbmd->mResMdl;
-        materialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, data_usa_02155018);
-        t = (u8 *) mdl + mdl->mOfsMat;
-        u = t + 4;
-        w = u + *OFFSET_PTR(u16, t, 0xa);
-        material = (NNSG3dResMatData *) (t + *(u32 *) (w + *(u16 *) w * materialIndex + 4));
+        materialIndex =
+            NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, data_usa_02155018);
+        matBlock = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
+        entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
+        material =
+            OFFSET_PTR(NNSG3dResMatData, matBlock, *(u32 *) (entries->mData + entries->mSizeUnit * materialIndex));
         paletteBase = material->mTexPlttBase << 4;
         CallQueueAppend(0, (material->mTexImageParam & 0xffff) << 3, emblemData, 0x200);
         CallQueueAppend(1, paletteBase, emblemPalette, 0x20);
@@ -1813,22 +1818,24 @@ void SetupHeyhoPalettes(void) {
 
 void UploadHeyhoPalette(int kartIndex, struct KartModelsEntry *kartModelsEntry, HeyhoPalette *palette) {
     NNSG3dResMdl *mdl;
-    u8 *t;
-    u8 *u;
-    u8 *w;
+    NNSG3dResMat *matBlock;
+    NNSG3dResDictEntryHeader *entries;
     s32 materialIndex;
     s32 paletteBase;
     mdl = kartModelsEntry->mModels[0]->mResMdl;
     DC_FlushRange(palette, 0x20);
     if (IsCharacterPNameUsed(kartIndex) != 0) {
-        materialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, data_usa_02154ff8);
+        materialIndex =
+            NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, data_usa_02154ff8);
     } else {
-        materialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, data_usa_02155068);
+        materialIndex =
+            NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, data_usa_02155068);
     }
-    t = (u8 *) mdl + mdl->mOfsMat;
-    u = t + 4;
-    w = u + *OFFSET_PTR(u16, t, 0xa);
-    paletteBase = ((NNSG3dResMatData *) (t + *(u32 *) (w + *(u16 *) w * materialIndex + 4)))->mTexPlttBase << 4;
+    matBlock = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
+    paletteBase = OFFSET_PTR(NNSG3dResMatData, matBlock, *(u32 *) (entries->mData + entries->mSizeUnit * materialIndex))
+                      ->mTexPlttBase
+                  << 4;
     GX_BeginLoadTexPltt();
     GX_LoadTexPltt(palette, paletteBase, 0x20);
     GX_EndLoadTexPltt();
