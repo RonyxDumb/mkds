@@ -624,19 +624,18 @@ s32 SetItemPointLinkRefFromIndex(u32 index, u32 *ref) {
     return 1;
 }
 
-u32 GetItemPointLinkDirection(u32 link, u32 directionOut) {
-    u32 value0 = link;
-    u32 directionOutCopy = directionOut;
+u32 GetItemPointLinkDirection(ItemPointLink *link, Vec3 *directionOut) {
+    u32 value0;
     u32 component;
-    component = *(const s8 *) ((value0) + (33));
+    component = link->mDirectionX;
     component = (component << 6);
-    *(u32 *) ((directionOutCopy) + (0)) = component;
-    component = *(const s8 *) ((value0) + (34));
+    directionOut->x = component;
+    component = link->mDirectionY;
     component = (component << 6);
-    *(u32 *) ((directionOutCopy) + (4)) = component;
-    value0 = *(const s8 *) ((value0) + (35));
+    directionOut->y = component;
+    value0 = link->mDirectionZ;
     value0 = (value0 << 6);
-    *(u32 *) ((directionOutCopy) + (8)) = value0;
+    directionOut->z = value0;
     return value0;
 }
 

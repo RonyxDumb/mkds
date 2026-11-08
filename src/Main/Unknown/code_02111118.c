@@ -87,24 +87,12 @@ u32 LoadSeqRowIfChanged(s32 index) {
 }
 
 u32 func_02111144(void) {
-    u32 value;
-    value = (u32) &data_0217d32c;
-    value = *(const u32 *) ((value) + (8));
-    value = *(const u32 *) ((value) + (20));
-    return value;
+    return data_0217d32c.mSeqRow[5];
 }
 
 u32 func_02111118(void) {
-    u32 value0;
-    u32 value1;
-    u32 value2;
-    u32 value3;
-    value2 = (u32) &data_0217d328;
-    value3 = 0u;
-    value1 = (u32) &data_0217d324;
-    value0 = (u32) &data_0217d320;
-    *(u32 *) ((value2) + (0)) = value3;
-    *(u32 *) ((value1) + (0)) = value3;
-    *(u32 *) ((value0) + (0)) = value3;
-    return value0;
+    data_0217d328 = 0;
+    data_0217d324 = 0;
+    data_0217d320 = 0;
+    return (u32) &data_0217d320;
 }

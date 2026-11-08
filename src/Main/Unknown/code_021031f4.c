@@ -298,11 +298,11 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
         reg_G3_VTX_16 = *(u32 *) &e->mCorners[0];
         reg_G3_VTX_16 = 0;
         reg_G3_TEXCOORD = (u16) ((s32) (model->mUnk_1c << 8) >> 16) << 16;
-        *(u32 *) 0x4000494 = *(u32 *) &e->mCorners[1];
+        reg_G3_VTX_DIFF = *(u32 *) &e->mCorners[1];
         reg_G3_TEXCOORD = (u16) ((s32) (model->mUnk_18 << 8) >> 16) | ((u16) ((s32) (model->mUnk_1c << 8) >> 16) << 16);
-        *(u32 *) 0x4000494 = *(u32 *) &e->mCorners[2];
+        reg_G3_VTX_DIFF = *(u32 *) &e->mCorners[2];
         reg_G3_TEXCOORD = (u16) ((s32) (model->mUnk_18 << 8) >> 16);
-        *(u32 *) 0x4000494 = *(u32 *) &e->mCorners[3];
+        reg_G3_VTX_DIFF = *(u32 *) &e->mCorners[3];
         reg_G3_END_VTXS = 0;
         i++;
     } while (i < gOrthoQuadCount);
@@ -492,38 +492,20 @@ void StopOrthoQuads(int kartIndex) {
 
 // Local entry only: moves the frame counter up to the hold count so the alpha starts to fall.
 u32 SkipOrthoQuadsHold(u32 kartIndex) {
-    u32 value0 = kartIndex;
-    u32 value1;
-    u32 value2;
-    u32 compareLeft0;
-    u32 compareRight0;
-    u32 compareLeft1;
-    u32 compareRight1;
-    s32 compareLeft2;
-    s32 compareRight2;
-    value1 = gRaceSetup->mEntryIndex;
-    compareLeft0 = value0;
-    compareRight0 = value1;
-    if (compareLeft0 != compareRight0) {
-        return value0;
+    s32 hold;
+    s32 *frames;
+    if (kartIndex != gRaceSetup->mEntryIndex) {
+        return kartIndex;
     }
-    value0 = (u32) &gOrthoQuadCount;
-    value0 = *(const u32 *) ((value0) + (0));
-    compareLeft1 = value0;
-    compareRight1 = 0u;
-    if (compareLeft1 == compareRight1) {
-        return value0;
+    if (gOrthoQuadCount == 0) {
+        return gOrthoQuadCount;
     }
-    value1 = (u32) &gOrthoQuadHoldFrameCount;
-    value0 = (u32) &gOrthoQuadFrames;
-    value2 = *(const u32 *) ((value1) + (0));
-    value1 = *(const u32 *) ((value0) + (0));
-    compareLeft2 = value1;
-    compareRight2 = value2;
-    if (compareLeft2 < compareRight2) {
-        *(u32 *) ((value0) + (0)) = value2;
+    hold = gOrthoQuadHoldFrameCount;
+    frames = &gOrthoQuadFrames;
+    if (*frames < hold) {
+        *frames = hold;
     }
-    return value0;
+    return (u32) frames;
 }
 
 // Derives the corner velocities from the corner positions and switches the quad to velocity mode.
@@ -620,12 +602,8 @@ void SkipOrthoQuadsHoldAndSetVelocities(int kartIndex) {
 }
 
 u32 ClearOrthoQuadCreamEffectPointer(void) {
-    u32 value0;
-    u32 value1;
-    value0 = (u32) &gOrthoQuadCreamEffect;
-    value1 = 0u;
-    *(u32 *) ((value0) + (0)) = value1;
-    return value0;
+    gOrthoQuadCreamEffect.mModel = NULL;
+    return (u32) &gOrthoQuadCreamEffect;
 }
 
 void CreateOrthoQuadCreamEffect(const char *fileName) {

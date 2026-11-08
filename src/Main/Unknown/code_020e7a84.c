@@ -639,26 +639,12 @@ void UpdateJgPosition(void) {
 }
 
 u32 EnterJgState0(void) {
-    u32 secondFlagAddress;
-    u32 flagAddress;
-    u32 counterAddress;
-    u32 visibleAddress;
-    u32 initialKind;
-    u32 kindAddress;
-    u32 zero;
-    kindAddress = (u32) &gJgKind;
-    initialKind = 4u;
-    visibleAddress = (u32) &gJgVisible;
-    zero = 0u;
-    counterAddress = (u32) &data_0217b8c4;
-    flagAddress = (u32) &data_0217b900;
-    secondFlagAddress = (u32) &data_0217b8ac;
-    *(u32 *) ((kindAddress) + (0)) = initialKind;
-    *(u32 *) ((visibleAddress) + (0)) = zero;
-    *(u32 *) ((counterAddress) + (0)) = zero;
-    *(u32 *) ((flagAddress) + (0)) = zero;
-    *(u32 *) ((secondFlagAddress) + (0)) = zero;
-    return secondFlagAddress;
+    gJgKind = 4;
+    gJgVisible = 0;
+    data_0217b8c4 = 0;
+    data_0217b900 = 0;
+    data_0217b8ac = 0;
+    return (u32) &data_0217b8ac;
 }
 
 u32 func_020e8a74(u32 value) {

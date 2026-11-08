@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-u32 GetItemPointLinkDirection(u32 link, u32 directionOut);
+typedef struct ItemPointLink ItemPointLink;
+
+u32 GetItemPointLinkDirection(ItemPointLink *link, Vec3 *directionOut);

@@ -134,11 +134,11 @@ Unk020e59e4 *CreatePendulumUpdateList(void) {
 }
 
 void DrawPendulum(u32 param_1, PendulumObject *pendulum, u32 param_3, u32 alpha) {
-    pendulum->mUnk_4c.x = pendulum->mUnk_bc.x >> 4;
-    pendulum->mUnk_4c.y = pendulum->mUnk_bc.y >> 4;
-    pendulum->mUnk_4c.z = pendulum->mUnk_bc.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(gPendulum, &pendulum->mUnk_28, &pendulum->mUnk_1c, alpha);
-    DrawShadowWithMaxAlpha(gPendulumShadow, &pendulum->mUnk_c8, &pendulum->mUnk_1c, alpha);
+    pendulum->mMapObject.mMatrix.mUnk_00[3].x = pendulum->mUnk_bc.x >> 4;
+    pendulum->mMapObject.mMatrix.mUnk_00[3].y = pendulum->mUnk_bc.y >> 4;
+    pendulum->mMapObject.mMatrix.mUnk_00[3].z = pendulum->mUnk_bc.z >> 4;
+    DrawNsbmdWithMatrixAndMaxAlpha(gPendulum, &pendulum->mMapObject.mMatrix, &pendulum->mMapObject.mScale, alpha);
+    DrawShadowWithMaxAlpha(gPendulumShadow, &pendulum->mUnk_c8, &pendulum->mMapObject.mScale, alpha);
 }
 
 void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
@@ -153,29 +153,30 @@ void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
     swingAngle = ((s64) (s32) pendulum->mUnk_fc * gPairsByAngle[(pendulum->mUnk_100 >> 4) * 2]) >> 12;
     if ((previousAngle < 0x58f0 && pendulum->mUnk_100 >= 0x58f0) ||
         (previousAngle < 0xd8f0 && pendulum->mUnk_100 >= 0xd8f0)) {
-        if ((pendulum->mUnk_78 & 4) == 0) {
-            if (pendulum->mUnk_70 == gSoundFalloffs[2].mUnk_20) {
+        if ((pendulum->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+            if (pendulum->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 falloffIndex = 2;
-            } else if (pendulum->mUnk_70 == gSoundFalloffs[3].mUnk_20) {
+            } else if (pendulum->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                 falloffIndex = 3;
             } else {
                 falloffIndex = 4;
             }
             soundRequest.mSoundId = 0x173;
-            soundRequest.mPositionSource = &pendulum->mUnk_04;
+            soundRequest.mPositionSource = &pendulum->mMapObject.mPos;
             soundRequest.mUnk_08 = falloffIndex;
-            soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pendulum->mUnk_04);
+            soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pendulum->mMapObject.mPos);
             func_0210b7a8(&soundRequest);
         }
     }
     QuaternionMultiplyAngleAroundZ(pendulum->mUnk_a0, swingAngle, swingRotation);
-    Matrix3x3FromQuaternion(&pendulum->mUnk_28, swingRotation);
-    VEC_MultAdd(-pendulum->mUnk_f8, &pendulum->mUnk_28.mUnk_0c, &pendulum->mUnk_bc, &pendulum->mUnk_04);
-    pendulum->mUnk_ec.x = pendulum->mUnk_04.x >> 4;
-    pendulum->mUnk_ec.y = pendulum->mUnk_04.y >> 4;
-    pendulum->mUnk_ec.z = pendulum->mUnk_04.z >> 4;
-    VEC_Subtract(&pendulum->mUnk_04, &pendulum->mUnk_b0, &pendulum->mUnk_10);
-    pendulum->mUnk_b0 = pendulum->mUnk_04;
+    Matrix3x3FromQuaternion(&pendulum->mMapObject.mMatrix, swingRotation);
+    VEC_MultAdd(-pendulum->mUnk_f8, &pendulum->mMapObject.mMatrix.mUnk_00[1], &pendulum->mUnk_bc,
+                &pendulum->mMapObject.mPos);
+    pendulum->mUnk_ec.x = pendulum->mMapObject.mPos.x >> 4;
+    pendulum->mUnk_ec.y = pendulum->mMapObject.mPos.y >> 4;
+    pendulum->mUnk_ec.z = pendulum->mMapObject.mPos.z >> 4;
+    VEC_Subtract(&pendulum->mMapObject.mPos, &pendulum->mUnk_b0, &pendulum->mMapObject.mUnk_10);
+    pendulum->mUnk_b0 = pendulum->mMapObject.mPos;
 }
 
 BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *out) {
@@ -185,8 +186,8 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
     s32 d;
     s64 distanceSquared;
 
-    VEC_Subtract(sphereCenter, &pendulum->mUnk_04, &v);
-    axisDistance = Vec3DotUnrounded(&v, &pendulum->mUnk_28.mUnk_18);
+    VEC_Subtract(sphereCenter, &pendulum->mMapObject.mPos, &v);
+    axisDistance = Vec3DotUnrounded(&v, &pendulum->mMapObject.mMatrix.mUnk_00[2]);
     if (axisDistance > 0) {
         t = pendulum->mUnk_108 + sphereRadius - axisDistance;
         if (t < 0) {
@@ -202,7 +203,7 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
     distanceSquared = (s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z;
     if (distanceSquared < (s64) d * d) {
         reg_CP_SQRTCNT = 1;
-        *(volatile s64 *) 0x40002b8 = distanceSquared;
+        reg_CP_SQRT_PARAM = distanceSquared;
         while (reg_CP_SQRTCNT & 0x8000) {
         }
         d -= reg_CP_SQRT_RESULT;
@@ -210,9 +211,9 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
         return FALSE;
     }
     if ((t > 0 ? t : -t) < d) {
-        out->x = ((s64) pendulum->mUnk_28.mUnk_18.x * t) >> 12;
-        out->y = ((s64) pendulum->mUnk_28.mUnk_18.y * t) >> 12;
-        out->z = ((s64) pendulum->mUnk_28.mUnk_18.z * t) >> 12;
+        out->x = ((s64) pendulum->mMapObject.mMatrix.mUnk_00[2].x * t) >> 12;
+        out->y = ((s64) pendulum->mMapObject.mMatrix.mUnk_00[2].y * t) >> 12;
+        out->z = ((s64) pendulum->mMapObject.mMatrix.mUnk_00[2].z * t) >> 12;
         pendulum->mUnk_10c = FALSE;
     } else {
         if (v.y < 0) {
@@ -241,24 +242,25 @@ void CreatePendulumAndPendulumShadow(void) {
 void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
     s32 m;
 
-    pendulum->mUnk_5c = ((s64) pendulum->mUnk_98->mUnk_10 * courseRow->mUnk_20) >> 12;
+    pendulum->mMapObject.mExtent.y = ((s64) pendulum->mMapObject.mKindData->mUnk_10 * courseRow->mUnk_20) >> 12;
     QuaternionFromVec3Degrees(&courseRow->mUnk_0c, pendulum->mUnk_a0);
-    pendulum->mUnk_c8 = pendulum->mUnk_28;
-    pendulum->mUnk_f8 = ((s64) pendulum->mUnk_1c.y * 0x1f4000) >> 12;
+    pendulum->mUnk_c8 = *(Unk020e43a8_28 *) &pendulum->mMapObject.mMatrix;
+    pendulum->mUnk_f8 = ((s64) pendulum->mMapObject.mScale.y * 0x1f4000) >> 12;
     pendulum->mUnk_100 = 0;
     pendulum->mUnk_bc.x = courseRow->mUnk_00.x;
     pendulum->mUnk_bc.y = courseRow->mUnk_00.y;
     pendulum->mUnk_bc.z = courseRow->mUnk_00.z;
-    VEC_MultAdd(-pendulum->mUnk_f8, &pendulum->mUnk_28.mUnk_0c, &pendulum->mUnk_bc, &pendulum->mUnk_04);
-    pendulum->mUnk_b0 = pendulum->mUnk_04;
-    pendulum->mUnk_ec.x = pendulum->mUnk_04.x >> 4;
-    pendulum->mUnk_ec.y = pendulum->mUnk_04.y >> 4;
-    pendulum->mUnk_ec.z = pendulum->mUnk_04.z >> 4;
+    VEC_MultAdd(-pendulum->mUnk_f8, &pendulum->mMapObject.mMatrix.mUnk_00[1], &pendulum->mUnk_bc,
+                &pendulum->mMapObject.mPos);
+    pendulum->mUnk_b0 = pendulum->mMapObject.mPos;
+    pendulum->mUnk_ec.x = pendulum->mMapObject.mPos.x >> 4;
+    pendulum->mUnk_ec.y = pendulum->mMapObject.mPos.y >> 4;
+    pendulum->mUnk_ec.z = pendulum->mMapObject.mPos.z >> 4;
     m = courseRow->mUnk_2a;
     pendulum->mUnk_fe = 0x640000u / (u32) courseRow->mUnk_28 / 0xf0u;
     pendulum->mUnk_fc = (u32) (m * 0x1111) / 0x64u;
-    pendulum->mUnk_104 = ((s64) pendulum->mUnk_1c.x * 0x64000) >> 12;
-    pendulum->mUnk_108 = ((s64) pendulum->mUnk_1c.z * 0x32000) >> 12;
+    pendulum->mUnk_104 = ((s64) pendulum->mMapObject.mScale.x * 0x64000) >> 12;
+    pendulum->mUnk_108 = ((s64) pendulum->mMapObject.mScale.z * 0x32000) >> 12;
     pendulum->mUnk_10c = FALSE;
 }
 

@@ -28,9 +28,9 @@ typedef struct ItemPointLink {
     /* 18 */ Vec3 *mPointPos;
     /* 1c */ s32 mUnk_1c;
     /* 20 */ u8 mUnk_20;
-    /* 21 */ u8 mDirectionX;
-    /* 22 */ u8 mDirectionY;
-    /* 23 */ u8 mDirectionZ;
+    /* 21 */ s8 mDirectionX;
+    /* 22 */ s8 mDirectionY;
+    /* 23 */ s8 mDirectionZ;
     /* 24 */ u16 mNextCount;
     /* 26 */ u16 mPreviousCount;
 } ItemPointLink;

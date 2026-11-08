@@ -77,6 +77,7 @@
 #define reg_G3_TEXCOORD (*(vu32 *) 0x04000488)
 #define reg_G3_VTX_16 (*(vu32 *) 0x0400048c)
 #define reg_G3_VTX_10 (*(vu32 *) 0x04000490)
+#define reg_G3_VTX_DIFF (*(vu32 *) 0x04000494)
 #define reg_G3_POLYGON_ATTR (*(vu32 *) 0x040004a4)
 #define reg_G3_TEXIMAGE_PARAM (*(vu32 *) 0x040004a8)
 #define reg_G3_PLTT_BASE (*(vu32 *) 0x040004ac)

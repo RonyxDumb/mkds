@@ -3,6 +3,7 @@
 #include "types.h"
 #include "code_02013bdc.h"
 #include "Main/Unknown/code_020e43a8.h"
+#include "Main/Unknown/code_020e6fd4.h" // MapObject
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_020e5684.h"
 
@@ -17,30 +18,10 @@ typedef struct Unk020e5e24_2 {
     /* 2a */ s16 mUnk_2a;
 } Unk020e5e24_2;
 
-// Object behind PendulumObject.mUnk_98: a word at 0x10.
-typedef struct Unk020e5e24_98 {
-    /* 00 */ u8 mUnk_00[0x10];
-    /* 10 */ s32 mUnk_10;
-} Unk020e5e24_98;
-
 // Object handled by InitPendulum, ComputeSphereHitOnPendulum, UpdatePendulum and
 // DrawPendulum; at least 0x110 bytes.
 typedef struct PendulumObject {
-    /* 00 */ u8 mUnk_00[0x04];
-    /* 04 */ Vec3 mUnk_04;
-    /* 10 */ Vec3 mUnk_10;
-    /* 1c */ Vec3 mUnk_1c;
-    /* 28 */ Unk020e43a8_28 mUnk_28;
-    /* 4c */ Vec3 mUnk_4c;
-    /* 58 */ u8 mUnk_58[0x04];
-    /* 5c */ s32 mUnk_5c;
-    /* 60 */ u8 mUnk_60[0x10];
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ u8 mUnk_74[0x04];
-    /* 78 */ u32 mUnk_78;
-    /* 7c */ u8 mUnk_7c[0x1c];
-    /* 98 */ Unk020e5e24_98 *mUnk_98;
-    /* 9c */ u8 mUnk_9c[0x04];
+    /* 00 */ MapObject mMapObject;
     /* a0 */ u32 mUnk_a0[4];
     /* b0 */ Vec3 mUnk_b0;
     /* bc */ Vec3 mUnk_bc;
