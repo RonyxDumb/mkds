@@ -100,7 +100,7 @@ void DrawKart(Kart *kart) {
         DrawNsbmd(modelsEntry->mModels[1]);
         if (modelsEntry->mModels[2] != NULL) {
             f = kart->mKartModelsEntry->mUnk_054;
-            h = kart->mKartModelsEntry->mKartOffsetData->mUnk_10;
+            h = kart->mKartModelsEntry->mKartOffsetData->mFirstTiresScale;
             func_02063cc4_inline(0x14, 0x1c);
             func_01ff9048(0x1c, &f->mUnk_18, 3);
             pairIndex = (kart->mTireSpinAngle >> 4) * 2;

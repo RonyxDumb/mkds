@@ -29,9 +29,9 @@ void AddDataRange(DataRangeTable *table, u32 offset, u32 size, u8 *data, u32 val
     u32 savedInterrupts;
     DataRange *range;
     savedInterrupts = OS_DisableInterrupts();
-    range = table->mUnk_30;
+    range = table->mRanges;
     for (;;) {
-        if (range >= table->mUnk_30 + 4) {
+        if (range >= table->mRanges + 4) {
             OS_Terminate();
         }
         if (range->mUnk_0c == 0) {
@@ -53,7 +53,7 @@ u32 CopyFromDataRanges(DataRangeTable *table, u32 offset, void *destination, u32
     s32 offsetInRange;
     found = 0;
     savedInterrupts = OS_DisableInterrupts();
-    for (range = table->mUnk_30; range < table->mUnk_30 + 4; range++) {
+    for (range = table->mRanges; range < table->mRanges + 4; range++) {
         if (range->mUnk_0c >= 2) {
             offsetInRange = offset - range->mOffset;
             if (offsetInRange >= 0 && offsetInRange + byteCount <= range->mSize) {

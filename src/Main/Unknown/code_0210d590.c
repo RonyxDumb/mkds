@@ -42,5 +42,5 @@ void func_0210d590(ScenePlayers *scenePlayers, u32 fadeSteps) {
     if (scenePlayers->mUnk_0b == 0xff) {
         return;
     }
-    NNS_SndPlayerStopSeq(&scenePlayers->mUnk_0c, fadeSteps);
+    NNS_SndPlayerStopSeq(&scenePlayers->mSeqPlayer, fadeSteps);
 }

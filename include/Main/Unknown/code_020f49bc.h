@@ -35,9 +35,9 @@ typedef struct ItemBanana {
 
 // Object of the green shell (item kind 0), element of gItemPools[0].
 typedef struct ItemKouraG {
-    /* 000 */ DirectedItemObject mUnk_000;
-    /* 168 */ s32 mUnk_168;
-    /* 16c */ SoundDistanceSquaredChange mUnk_16c;
+    /* 000 */ DirectedItemObject mDirectedItemObject;
+    /* 168 */ s32 mReverse;
+    /* 16c */ SoundDistanceSquaredChange mSoundDistanceSquaredChange;
     /* 17c */ u8 mUnk_17c[0xc];
 } ItemKouraG;
 

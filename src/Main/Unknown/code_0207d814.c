@@ -241,7 +241,7 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
         } else {
             raceSpeedLimit->mRank = GetKartRankAmongKind1(kartAi->mIndex);
         }
-        raceSpeedLimit->mSpeedLimitAddition = GetKartAiParamRow()->mUnk_00;
+        raceSpeedLimit->mSpeedLimitAddition = GetKartAiParamRow()->mSpeedLimitAddition;
         if (func_02085390() != 0) {
             raceSpeedLimit->mSpeedLimitAddition = raceSpeedLimit->mSpeedLimitAddition >> 1;
         }

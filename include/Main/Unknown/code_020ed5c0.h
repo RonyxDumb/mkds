@@ -10,9 +10,9 @@
 
 // The object behind the word at 0x20 of a KartModelsEntry: the vectors from 0x48.
 typedef struct KartOffsetData {
-    /* 00 */ char mUnk_00[0x10];
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ Vec3 mUnk_14[4];
+    /* 00 */ char mTireName[0x10];
+    /* 10 */ s32 mFirstTiresScale;
+    /* 14 */ Vec3 mTireOffsets[4];
     /* 44 */ u8 mUnk_44[4];
     /* 48 */ Vec3 mUnk_48[1];
 } KartOffsetData;

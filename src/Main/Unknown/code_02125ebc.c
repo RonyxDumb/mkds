@@ -247,8 +247,8 @@ void RefreshTxtSystemAnim(void) {
             if (i == 1) {
                 screenBuffer = gTxtSystem->mSubScreenBuffer;
             }
-            for (row = gTxtSystemNscrRects[rectIndex].mUnk_02; row <= gTxtSystemNscrRects[rectIndex].mUnk_03; row++) {
-                for (column = gTxtSystemNscrRects[rectIndex].mUnk_00; column <= gTxtSystemNscrRects[rectIndex].mUnk_01;
+            for (row = gTxtSystemNscrRects[rectIndex].mMinY; row <= gTxtSystemNscrRects[rectIndex].mMaxY; row++) {
+                for (column = gTxtSystemNscrRects[rectIndex].mMinX; column <= gTxtSystemNscrRects[rectIndex].mMaxX;
                      column++) {
                     *(screenBuffer + row * 32 + column) =
                         gTxtSystem->mB01CharIndex[i] +
@@ -279,10 +279,9 @@ void RefreshTxtSystemScreenBuffers(u32 *b) {
                 if ((u32) i <= 1) {
                     screenBuffer = gTxtSystem->mMainScreenBuffer;
                 }
-                for (row = gTxtSystemNscrRects[rectIndex].mUnk_02; row <= gTxtSystemNscrRects[rectIndex].mUnk_03;
-                     row++) {
-                    for (column = gTxtSystemNscrRects[rectIndex].mUnk_00;
-                         column <= gTxtSystemNscrRects[rectIndex].mUnk_01; column++) {
+                for (row = gTxtSystemNscrRects[rectIndex].mMinY; row <= gTxtSystemNscrRects[rectIndex].mMaxY; row++) {
+                    for (column = gTxtSystemNscrRects[rectIndex].mMinX; column <= gTxtSystemNscrRects[rectIndex].mMaxX;
+                         column++) {
                         *(screenBuffer + row * 32 + column) =
                             gTxtSystem->mCanvasFileCharIndex[i] +
                             *((u16 *) gTxtSystem->mBgNscrs[rectIndex]->mData + row * 32 + column);
@@ -467,14 +466,12 @@ void AdvanceTxtSystemState2(void) {
     hit = -1;
     if (buttonCount == 2) {
         if (func_02126a00_inline2(inputSlotIndex) != 0) {
-            if (func_02126a00_inline(touchX, clampedTouchY, gTxtSystemHitRects[5].mUnk_00,
-                                     gTxtSystemHitRects[5].mUnk_01, gTxtSystemHitRects[5].mUnk_02,
-                                     gTxtSystemHitRects[5].mUnk_03) != FALSE) {
+            if (func_02126a00_inline(touchX, clampedTouchY, gTxtSystemHitRects[5].mMinX, gTxtSystemHitRects[5].mMaxX,
+                                     gTxtSystemHitRects[5].mMinY, gTxtSystemHitRects[5].mMaxY) != FALSE) {
                 hit = 0;
             }
-            if (func_02126a00_inline(touchX, clampedTouchY, gTxtSystemHitRects[6].mUnk_00,
-                                     gTxtSystemHitRects[6].mUnk_01, gTxtSystemHitRects[6].mUnk_02,
-                                     gTxtSystemHitRects[6].mUnk_03) != FALSE) {
+            if (func_02126a00_inline(touchX, clampedTouchY, gTxtSystemHitRects[6].mMinX, gTxtSystemHitRects[6].mMaxX,
+                                     gTxtSystemHitRects[6].mMinY, gTxtSystemHitRects[6].mMaxY) != FALSE) {
                 hit = 1;
             }
         }
@@ -482,8 +479,8 @@ void AdvanceTxtSystemState2(void) {
     keys = data_02175628[inputSlotIndex].mPressedBits;
     if ((u16) (keys & PAD_KEY_A) == 0) {
         if (func_02126a00_inline2(inputSlotIndex) == 0 || buttonCount != 1 ||
-            func_02126a00_inline(touchX, clampedTouchY, gTxtSystemHitRects[4].mUnk_00, gTxtSystemHitRects[4].mUnk_01,
-                                 gTxtSystemHitRects[4].mUnk_02, gTxtSystemHitRects[4].mUnk_03) == FALSE) {
+            func_02126a00_inline(touchX, clampedTouchY, gTxtSystemHitRects[4].mMinX, gTxtSystemHitRects[4].mMaxX,
+                                 gTxtSystemHitRects[4].mMinY, gTxtSystemHitRects[4].mMaxY) == FALSE) {
             if (hit == -1) {
                 goto L;
             }

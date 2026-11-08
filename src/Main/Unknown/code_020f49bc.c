@@ -332,12 +332,12 @@ void StartItemKouraGSound(void *kouraParam, s32 b) {
     ItemKouraG *koura;
 
     koura = kouraParam;
-    if (!(koura->mUnk_000.mUnk_000.mFlags & 0x400000)) {
+    if (!(koura->mDirectedItemObject.mUnk_000.mFlags & 0x400000)) {
         return;
     }
-    AdvanceSoundDistanceSquaredChange(&koura->mUnk_16c,
-                                      koura->mUnk_000.mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f);
-    StartSoundWhileRequested(&koura->mUnk_000.mUnk_000.mSoundSource, 0xd7, 0x7f, 0);
+    AdvanceSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange,
+                                      koura->mDirectedItemObject.mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f);
+    StartSoundWhileRequested(&koura->mDirectedItemObject.mUnk_000.mSoundSource, 0xd7, 0x7f, 0);
 }
 
 BOOL InitItemKouraG(ItemInUse *itemInUse, ItemKouraG *koura) {
@@ -345,8 +345,9 @@ BOOL InitItemKouraG(ItemInUse *itemInUse, ItemKouraG *koura) {
 
     isBattle = gRaceSetup->mMode == MODE_BATTLE;
     func_020f9114(koura);
-    ResetSoundDistanceSquaredChange(&koura->mUnk_16c);
-    koura->mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a77c;
+    ResetSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange);
+    koura->mDirectedItemObject.mUnk_000.mSoundSource.mTrackParamsFunction =
+        (void (*)(void *, void *, void *)) func_0210a77c;
     if (itemInUse->mKartItems->mFlags & 0x20) {
         InitItemObjectThrow(koura, itemInUse, isBattle != FALSE ? 2 : 4, 0, 0, 0x5000);
         return FALSE;
@@ -356,14 +357,15 @@ BOOL InitItemKouraG(ItemInUse *itemInUse, ItemKouraG *koura) {
 }
 
 void AdvanceItemKouraG(ItemKouraG *koura) {
-    if (koura->mUnk_000.mUnk_000.mAgeFrames > 0x258) {
-        koura->mUnk_000.mHitsRemaining = 0;
+    if (koura->mDirectedItemObject.mUnk_000.mAgeFrames > 0x258) {
+        koura->mDirectedItemObject.mHitsRemaining = 0;
     }
-    AdvanceItemObjectMotion(&koura->mUnk_000, 0x84cd);
-    if (koura->mUnk_000.mUnk_000.mFlags & 1) {
+    AdvanceItemObjectMotion(&koura->mDirectedItemObject, 0x84cd);
+    if (koura->mDirectedItemObject.mUnk_000.mFlags & 1) {
         return;
     }
-    AddSoundRequest(&data_0217d294, (koura->mUnk_000.mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f) + 0x9c40,
+    AddSoundRequest(&data_0217d294,
+                    (koura->mDirectedItemObject.mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f) + 0x9c40,
                     StartItemKouraGSound, koura, 0);
 }
 
@@ -371,24 +373,26 @@ void *func_020f6038(void *buffer, ItemKouraG *koura, void *toBuffer) {
     void *result;
 
     if (koura != NULL && toBuffer != NULL) {
-        func_020ff1b8(Vec3DotUnrounded(&koura->mUnk_000.mUnk_000.mVelocity, &koura->mUnk_000.mDirection) < 0,
-                      &koura->mUnk_000.mUnk_000.mVelocity.y);
+        func_020ff1b8(Vec3DotUnrounded(&koura->mDirectedItemObject.mUnk_000.mVelocity,
+                                       &koura->mDirectedItemObject.mDirection) < 0,
+                      &koura->mDirectedItemObject.mUnk_000.mVelocity.y);
     }
     result = CopyItemObjectData(buffer, koura, toBuffer);
     if (koura != NULL && toBuffer == NULL) {
-        func_020ff1a0(koura->mUnk_000.mUnk_000.mVelocity.y, &koura->mUnk_168);
+        func_020ff1a0(koura->mDirectedItemObject.mUnk_000.mVelocity.y, &koura->mReverse);
     }
     if (koura != NULL && toBuffer != NULL) {
-        return func_020fe8ac(koura->mUnk_000.mUnk_000.mKind);
+        return func_020fe8ac(koura->mDirectedItemObject.mUnk_000.mKind);
     }
     return result;
 }
 
 void InitItemKouraGFromData(ItemKouraG *koura) {
     func_020f8e78(koura);
-    ResetSoundDistanceSquaredChange(&koura->mUnk_16c);
-    koura->mUnk_000.mUnk_000.mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a77c;
-    InitItemObjectMotion(koura, 9, koura->mUnk_168, 0);
+    ResetSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange);
+    koura->mDirectedItemObject.mUnk_000.mSoundSource.mTrackParamsFunction =
+        (void (*)(void *, void *, void *)) func_0210a77c;
+    InitItemObjectMotion(koura, 9, koura->mReverse, 0);
 }
 
 void StartItemKouraRSound(void *kouraParam, s32 b) {

@@ -1583,7 +1583,7 @@ void func_02105a30(u32 a) {
 }
 
 void func_021059e0(void) {
-    if (data_0217d070.mUnk_0c != NULL) {
+    if (data_0217d070.mSeqPlayer != NULL) {
         return;
     }
     if (data_0217c838[1] != NULL) {
@@ -1606,7 +1606,7 @@ void func_0210593c(u32 a) {
     if (a != 4) {
         return;
     }
-    if (data_0217d070.mUnk_0c != NULL) {
+    if (data_0217d070.mSeqPlayer != NULL) {
         return;
     }
     func_0210d5c0(&data_0217d070);
@@ -1663,7 +1663,7 @@ void func_021055b0(s32 a) {
     u32 f;
     s32 n;
     if (data_0217c784 == 0) {
-        if (data_0217d070.mUnk_0c != NULL) {
+        if (data_0217d070.mSeqPlayer != NULL) {
             return;
         }
         func_0210d5c0(&data_0217d070);

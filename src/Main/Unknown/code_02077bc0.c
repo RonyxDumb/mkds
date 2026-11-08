@@ -907,14 +907,14 @@ void func_02079678(void *heap, s32 firstPass) {
                     entry->mUnk_054 = HeapAlloc(heap, 0x30);
                     do {
                         dst = &entry->mUnk_054->mUnk_v[j];
-                        src = &entry->mKartOffsetData->mUnk_14[j];
+                        src = &entry->mKartOffsetData->mTireOffsets[j];
                         dst->x = src->x >> 4;
                         dst->y = src->y >> 4;
                         dst->z = src->z >> 4;
                         j++;
                     } while (j < 4);
                     entry->mUnk_054->mUnk_v[1].x =
-                        FX_Div(-entry->mUnk_054->mUnk_v[0].x * 2, entry->mKartOffsetData->mUnk_10);
+                        FX_Div(-entry->mUnk_054->mUnk_v[0].x * 2, entry->mKartOffsetData->mFirstTiresScale);
                     entry->mUnk_054->mUnk_v[3].x = -entry->mUnk_054->mUnk_v[2].x * 2;
                     CreateTire(entry, heap);
                 }
@@ -1103,8 +1103,8 @@ void CreateTire(KartModelsEntry *kartModelsEntry, void *heap) {
     void *nsbmdFile;
     NNSG3dResMdl *mdl;
     NNSG3dResFileHeader *nsbtxFile;
-    nsbmdFile = func_02047950(BuildTireNsbmdPath(kartIndex, kartModelsEntry->mKartOffsetData->mUnk_00));
-    nsbtxFile = FindKartModelFile(BuildTireNsbtxPath(kartIndex, kartModelsEntry->mKartOffsetData->mUnk_00));
+    nsbmdFile = func_02047950(BuildTireNsbmdPath(kartIndex, kartModelsEntry->mKartOffsetData->mTireName));
+    nsbtxFile = FindKartModelFile(BuildTireNsbtxPath(kartIndex, kartModelsEntry->mKartOffsetData->mTireName));
     kartModelsEntry->mModels[2] = HeapAlloc(heap, 0x6c);
     mdl = InitNsbmdWithTextureInfoCopy(heap, kartModelsEntry->mModels[2], nsbmdFile, nsbtxFile);
     SetNsbmdPolygonIdAll(kartModelsEntry->mModels[2], 3);

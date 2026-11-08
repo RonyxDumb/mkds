@@ -1473,7 +1473,7 @@ typedef struct KartAiTableIndexEntry {
 
 // One row of 'kartAIparam.bin'.
 typedef struct KartAiParamRow {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ s32 mSpeedLimitAddition;
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
 } KartAiParamRow;

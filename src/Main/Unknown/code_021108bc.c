@@ -25,7 +25,7 @@ void func_02111024(void) {
     if (data_0217d324 == 0) {
         return;
     }
-    if (data_0217d070.mUnk_0c != NULL) {
+    if (data_0217d070.mSeqPlayer != NULL) {
         return;
     }
     resultKind = func_02110e58();

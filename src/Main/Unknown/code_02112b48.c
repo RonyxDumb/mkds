@@ -140,10 +140,10 @@ void BuildRecordList(void) {
         for (i = 0; i < 0x3c; i++) {
             if (IsBuddyRecordFilled(i)) {
                 if (IsBuddyRecordFlagged(i)) {
-                    gRecordList->mUnk_04[nextFlaggedIndex].mUnk_00 = (u8) i;
+                    gRecordList->mUnk_04[nextFlaggedIndex].mRecordIndex = (u8) i;
                     nextFlaggedIndex++;
                 } else {
-                    gRecordList->mUnk_04[nextUnflaggedIndex].mUnk_00 = (u8) i;
+                    gRecordList->mUnk_04[nextUnflaggedIndex].mRecordIndex = (u8) i;
                     nextUnflaggedIndex++;
                 }
             }
@@ -170,62 +170,62 @@ u16 GetRecordCount(void) {
 }
 
 s32 IsRecordFlagged(u16 listIndex) {
-    return IsBuddyRecordFlagged(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return IsBuddyRecordFlagged(gRecordList->mUnk_04[listIndex].mRecordIndex);
 }
 
 s32 func_0211437c(u16 listIndex) {
-    return func_02060ac8(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return func_02060ac8(gRecordList->mUnk_04[listIndex].mRecordIndex);
 }
 
 s32 func_02114360(u16 listIndex) {
-    return func_02060a60(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return func_02060a60(gRecordList->mUnk_04[listIndex].mRecordIndex);
 }
 
 s32 func_02114344(u16 listIndex) {
-    return func_020609f8(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return func_020609f8(gRecordList->mUnk_04[listIndex].mRecordIndex);
 }
 
 s32 func_02114328(u16 listIndex) {
-    return func_02060a94(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return func_02060a94(gRecordList->mUnk_04[listIndex].mRecordIndex);
 }
 
 s32 func_0211430c(u16 listIndex) {
-    return func_02060a2c(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return func_02060a2c(gRecordList->mUnk_04[listIndex].mRecordIndex);
 }
 
 s32 func_021142f0(u16 listIndex) {
-    return func_020609c4(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return func_020609c4(gRecordList->mUnk_04[listIndex].mRecordIndex);
 }
 
 s32 GetRecordDate(u16 listIndex, void *dateBytes) {
-    return GetBuddyRecordDate(gRecordList->mUnk_04[listIndex].mUnk_00, dateBytes);
+    return GetBuddyRecordDate(gRecordList->mUnk_04[listIndex].mRecordIndex, dateBytes);
 }
 
 void CopyRecordText(u16 listIndex, void *buffer, u32 bufferSize) {
     u8 name[0x14];
 
-    GetBuddyRecordName(gRecordList->mUnk_04[listIndex].mUnk_00, name);
+    GetBuddyRecordName(gRecordList->mUnk_04[listIndex].mRecordIndex, name);
     MI_CpuFill8(buffer, 0, bufferSize);
     MIi_CpuCopy16(name, buffer, 0x14);
 }
 
 s32 SetRecordFlag(u16 listIndex) {
-    return SetBuddyRecordFlag(gRecordList->mUnk_04[listIndex].mUnk_00, 1);
+    return SetBuddyRecordFlag(gRecordList->mUnk_04[listIndex].mRecordIndex, 1);
 }
 
 s32 ClearRecordFlag(u16 listIndex) {
-    return SetBuddyRecordFlag(gRecordList->mUnk_04[listIndex].mUnk_00, 0);
+    return SetBuddyRecordFlag(gRecordList->mUnk_04[listIndex].mRecordIndex, 0);
 }
 
 // Reads the slot's emblem into b, uses the emblem2.bin picture when it has none, and converts the pixels into c.
 void ReadRecordEmblem(u16 listIndex, EmblemData *emblem, void *tiles) {
     u8 d;
 
-    SetupEmblemBlock(gRecordList->mEmblemBlock, gRecordList->mUnk_04[listIndex].mUnk_00);
+    SetupEmblemBlock(gRecordList->mEmblemBlock, gRecordList->mUnk_04[listIndex].mRecordIndex);
     d = data_0217aa08->mBusy;
     do {
     } while (d == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1);
-    if (!CopyEmblemFromBlock(gRecordList->mEmblemBlock, gRecordList->mUnk_04[listIndex].mUnk_00, emblem) ||
+    if (!CopyEmblemFromBlock(gRecordList->mEmblemBlock, gRecordList->mUnk_04[listIndex].mRecordIndex, emblem) ||
         emblem->mUnk_200 == 0) {
         emblem->mUnk_200 = 1;
         MIi_CpuCopyFast(gRecordList->mUnk_0c, emblem, 0x200);
@@ -237,7 +237,7 @@ void ReadRecordEmblem(u16 listIndex, EmblemData *emblem, void *tiles) {
 void EraseRecord(u16 listIndex) {
     u8 d;
 
-    RemoveBuddyRecord(gRecordList->mUnk_04[listIndex].mUnk_00);
+    RemoveBuddyRecord(gRecordList->mUnk_04[listIndex].mRecordIndex);
     d = data_0217aa08->mBusy;
     do {
     } while (d == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1);
@@ -246,7 +246,7 @@ void EraseRecord(u16 listIndex) {
 
 // Writes the entry's friend key as digits into b; returns TRUE only for a used entry with valid friend data.
 s32 GetRecordFriendKeyText(u16 listIndex, void *text) {
-    return GetBuddyFriendKeyText(gRecordList->mUnk_04[listIndex].mUnk_00, text);
+    return GetBuddyFriendKeyText(gRecordList->mUnk_04[listIndex].mRecordIndex, text);
 }
 
 #pragma thumb off

@@ -74,9 +74,9 @@ void func_0210d7ac(void) {
 void func_0210d740(ScenePlayers *scenePlayers, SceneSoundState *sceneSoundState, u32 c, Unk021073ec d) {
     SetupSoundMode(&data_0217d084, scenePlayers, 0);
     *(Unk021073ec *) &scenePlayers->mUnk_09 = d;
-    scenePlayers->mUnk_04 = sceneSoundState;
+    scenePlayers->mSceneSoundState = sceneSoundState;
     scenePlayers->mUnk_08 = c;
-    NNS_SndHandleInit(&scenePlayers->mUnk_0c);
-    NNS_SndHandleInit(&scenePlayers->mUnk_10);
+    NNS_SndHandleInit(&scenePlayers->mSeqPlayer);
+    NNS_SndHandleInit(&scenePlayers->mSecondSeqPlayer);
     scenePlayers->mUnk_00 = 1;
 }

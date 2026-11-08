@@ -68,10 +68,10 @@ typedef struct DataRange {
 typedef struct DataRangeTable {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u8 mUnk_04[0xc];
-    /* 10 */ u8 mUnk_10[4];
+    /* 10 */ u8 mArchiveName[4];
     /* 14 */ s32 mUnk_14;
     /* 18 */ u8 mUnk_18[0x18];
-    /* 30 */ DataRange mUnk_30[4];
+    /* 30 */ DataRange mRanges[4];
 } DataRangeTable;
 
 void func_0200ad00(void);

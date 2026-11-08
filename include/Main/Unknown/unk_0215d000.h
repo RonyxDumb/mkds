@@ -4,10 +4,10 @@
 
 // Four bytes: two column bounds, then two row bounds (inclusive).
 typedef struct ByteRect {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
+    /* 00 */ u8 mMinX;
+    /* 01 */ u8 mMaxX;
+    /* 02 */ u8 mMinY;
+    /* 03 */ u8 mMaxY;
 } ByteRect;
 
 extern s16 gTxtSystemBgOffsets[];

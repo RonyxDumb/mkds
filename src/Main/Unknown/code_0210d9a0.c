@@ -15,8 +15,8 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
             if (modeHolder->mMode != 0) {
                 StopSoundsOnAllSources(0);
                 StopAllPlayingSounds(0);
-                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mUnk_10, 0);
-                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mUnk_0c, 0);
+                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mSecondSeqPlayer, 0);
+                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mSeqPlayer, 0);
                 if (modeHolder->mUnk_18 != NULL) {
                     NNS_SndPlayerStopSeq(modeHolder->mUnk_18, 0);
                 }
@@ -30,8 +30,8 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
                 StopAllPlayingSounds(0);
                 if (modeHolder->mMode == 5) {
                     fadeSteps = GetSoundFadeSteps();
-                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mUnk_0c, 0x7f, fadeSteps);
-                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mUnk_10, 0x7f, fadeSteps);
+                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mSeqPlayer, 0x7f, fadeSteps);
+                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mSecondSeqPlayer, 0x7f, fadeSteps);
                     if (modeHolder->mUnk_18 != NULL) {
                         NNS_SndPlayerMoveVolume(modeHolder->mUnk_18, 0x7f, fadeSteps);
                     }
@@ -46,8 +46,8 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
                     u32 fadeStepsNow;
 
                     fadeStepsNow = GetSoundFadeSteps();
-                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mUnk_0c, 0x7f, fadeStepsNow);
-                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mUnk_10, 0x7f, fadeStepsNow);
+                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mSeqPlayer, 0x7f, fadeStepsNow);
+                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mSecondSeqPlayer, 0x7f, fadeStepsNow);
                     if (modeHolder->mUnk_18 != NULL) {
                         NNS_SndPlayerMoveVolume(modeHolder->mUnk_18, 0x7f, fadeStepsNow);
                     }
@@ -63,7 +63,7 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
                 modeHolder->mUnk_0c = 0;
                 StopSoundsOnAllSources(5);
                 StopAllPlayingSounds(5);
-                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mUnk_10, 5);
+                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mSecondSeqPlayer, 5);
             }
             break;
         case 4:
@@ -72,8 +72,8 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
                 modeHolder->mUnk_0c = 0;
                 StopSoundsOnAllSources(fadeSteps);
                 StopAllPlayingSounds(fadeSteps);
-                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mUnk_10, fadeSteps);
-                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mUnk_0c, fadeSteps);
+                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mSecondSeqPlayer, fadeSteps);
+                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mSeqPlayer, fadeSteps);
                 if (modeHolder->mUnk_18 != NULL) {
                     NNS_SndPlayerStopSeq(modeHolder->mUnk_18, fadeSteps);
                 }
@@ -81,8 +81,8 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
             break;
         case 5:
             if (modeHolder->mMode != 5) {
-                NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mUnk_0c, 0, fadeSteps);
-                NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mUnk_10, 0, fadeSteps);
+                NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mSeqPlayer, 0, fadeSteps);
+                NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mSecondSeqPlayer, 0, fadeSteps);
                 if (modeHolder->mUnk_18 != NULL) {
                     NNS_SndPlayerMoveVolume(modeHolder->mUnk_18, 0, fadeSteps);
                 }

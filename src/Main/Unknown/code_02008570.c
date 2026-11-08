@@ -82,7 +82,7 @@ int func_02008570(FSFile *file, void *buffer, u32 bufferSize) {
             while (v10 < 3 && arcBytes[v10] != 0) {
                 v10++;
             }
-            MI_CpuCopy8(arcBytes, rangeTable->mUnk_10, v10);
+            MI_CpuCopy8(arcBytes, rangeTable->mArchiveName, v10);
             rangeTable->mUnk_14 = v10;
         } else {
             remaining = 0;
@@ -129,14 +129,14 @@ int func_02008570(FSFile *file, void *buffer, u32 bufferSize) {
                 v6 = data_usa_02161788;
                 v14[0] = header->mUnk_20;
                 v14[1] = header->mUnk_28 - header->mUnk_20;
-                v14[2] = (u32) rangeTable->mUnk_30[1].mData - header->mUnk_20;
+                v14[2] = (u32) rangeTable->mRanges[1].mData - header->mUnk_20;
                 v14[3] = bufferSize;
                 CopyOrClearRange(v14, 0x4000, 0x8000, 1);
                 while (((s32 *) v6)[1] != 0) {
                     CopyOrClearRange(v14, v6[0], v6[0] + v6[1], 0);
                     v6 += 2;
                 }
-                v3 = rangeTable->mUnk_30[1].mData;
+                v3 = rangeTable->mRanges[1].mData;
                 v3 += (u32) AutoloadCallback - header->mUnk_28;
                 *(u32 *) v3 = 0xe12fff1e;
             }

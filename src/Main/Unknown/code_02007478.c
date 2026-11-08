@@ -62,8 +62,8 @@ void LoadDataRange(DataRangeLoadJob *job) {
     table = job->mDataRangeTable;
     FS_InitFile(&file);
     offset = range->mOffset;
-    if (FS_OpenFileDirect(&file, FS_FindArchive(table->mUnk_10, table->mUnk_14), offset, offset + range->mSize, -1) !=
-        0) {
+    if (FS_OpenFileDirect(&file, FS_FindArchive(table->mArchiveName, table->mUnk_14), offset, offset + range->mSize,
+                          -1) != 0) {
         if (range->mSize == FS_ReadFile(&file, range->mData, range->mSize)) {
             range->mUnk_0c = 2;
         }

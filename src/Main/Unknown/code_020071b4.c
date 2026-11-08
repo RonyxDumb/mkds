@@ -64,7 +64,7 @@ u32 func_020072c0(void) {
         loadJob = (DataRangeLoadJob *) data_0216fdac->mUnk_7ce0;
         if (IsWorkerTaskInUse(&loadJob->mUnk_00) == 0) {
             if (rangeTable->mUnk_00 != 0) {
-                range = rangeTable->mUnk_30;
+                range = rangeTable->mRanges;
                 lowestRange = NULL;
                 for (i = 0; i < 4; range++, i++) {
                     if (range->mUnk_0c == 2) {

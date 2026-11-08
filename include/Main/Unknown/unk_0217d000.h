@@ -135,13 +135,13 @@ typedef struct CupMark {
 // Object at data_0217d070 (0x14 bytes); func_0210d740 fills it. data_0217d07c names its member 0x0c.
 typedef struct ScenePlayers {
     /* 00 */ s32 mUnk_00;
-    /* 04 */ void *mUnk_04;
+    /* 04 */ void *mSceneSoundState;
     /* 08 */ u8 mUnk_08;
     /* 09 */ u8 mUnk_09;
     /* 0a */ u8 mUnk_0a;
     /* 0b */ u8 mUnk_0b;
-    /* 0c */ NNSSndSeqPlayer *mUnk_0c;
-    /* 10 */ NNSSndSeqPlayer *mUnk_10;
+    /* 0c */ NNSSndSeqPlayer *mSeqPlayer;
+    /* 10 */ NNSSndSeqPlayer *mSecondSeqPlayer;
 } ScenePlayers;
 
 // Object at data_0217d084 (0x1c bytes); SetupSoundMode stores its second argument at 0x00.
@@ -462,7 +462,7 @@ typedef struct SelectCupM {
 
 // One slot number of the table.
 typedef struct RecordListEntry {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 mRecordIndex;
 } RecordListEntry;
 
 // The used slots in display order, with the emblem block and the emblem2.bin picture.

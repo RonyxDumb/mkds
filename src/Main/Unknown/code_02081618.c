@@ -73,7 +73,7 @@ void ComputeKartSidePoints(Kart *kart) {
     kartEffects = &gKartEffects[kart->mIndex];
     kart->mUnk_174 = *kart->mPosSource;
     for (i = 0; i < 2; i++) {
-        modelPoint = kart->mKartModelsEntry->mKartOffsetData->mUnk_14[i + 2];
+        modelPoint = kart->mKartModelsEntry->mKartOffsetData->mTireOffsets[i + 2];
         modelPoint.y = 0;
         modelPoint.x = modelPoint.x + gKartSideOffsetsX[i];
         scaledPoint.x = ((s64) modelPoint.x * kart->mScale.x) >> 12;

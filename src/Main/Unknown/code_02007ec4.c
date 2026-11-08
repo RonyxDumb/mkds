@@ -58,7 +58,7 @@ u32 func_02008310(void *rangeTable, Unk02008188 *source) {
     (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d44 = source;
     (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d54 = &source->mUnk_1e8;
     (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d58 = source->mUnk_258;
-    if ((OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d54->mUnk_30[3].mUnk_0c != 0) {
+    if ((OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d54->mRanges[3].mUnk_0c != 0) {
         if (IsWorkerActive() == 0) {
             func_0200b00c(data_0216fdac->mUnk_7ce0);
             StartWorkerThread(&data_0216fdac->mUnk_74e0, 0x800);

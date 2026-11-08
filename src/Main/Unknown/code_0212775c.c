@@ -492,8 +492,8 @@ s32 LoadSelectChoises(s32 subCharOffset) {
     DC_FlushRange(gSelectChoises->mNscrCopy, screenMap->mDataSize);
     GXS_LoadBG0Scr(gSelectChoises->mNscrCopy, 0, screenMap->mDataSize);
     tileRect = &gSelectChoisesTileRect;
-    tileRowOffset = tileRect->mUnk_02 * 32;
-    tileColumn = tileRect->mUnk_00;
+    tileRowOffset = tileRect->mMinY * 32;
+    tileColumn = tileRect->mMinX;
     gSelectChoises->mToggleOnFirstTile = gSelectChoises->mFirstTileIndex + (tileColumn + tileRowOffset);
     gSelectChoises->mToggleOffFirstTile = gSelectChoises->mFirstTileIndex + (tileRowOffset + (tileColumn + 3));
     DC_FlushRange(palette->mData, 0x1c0);
@@ -516,8 +516,8 @@ void RefreshSelectChoisesNscrCopy(void) {
     i = 0;
     origin = gSelectChoisesNscrOrigins;
     tileRect = &gSelectChoisesTileRect;
-    lastColumn = tileRect->mUnk_01 - tileRect->mUnk_00;
-    lastRow = tileRect->mUnk_03 - tileRect->mUnk_02;
+    lastColumn = tileRect->mMaxX - tileRect->mMinX;
+    lastRow = tileRect->mMaxY - tileRect->mMinY;
     for (; i < 2; i++) {
         useToggleOnTiles = FALSE;
         if (i == gSelectChoises->mIndex && gSelectChoises->mToggleOn != 0) {
@@ -555,8 +555,8 @@ void RefreshSelectChoisesPaletteBits(void) {
         if (gSelectChoises->mIndex != i) {
             topNibble = 0xf;
         }
-        for (row = gSelectChoisesPaletteRects[i].mUnk_02; row <= gSelectChoisesPaletteRects[i].mUnk_03; row++) {
-            for (column = gSelectChoisesPaletteRects[i].mUnk_00; column <= gSelectChoisesPaletteRects[i].mUnk_01;
+        for (row = gSelectChoisesPaletteRects[i].mMinY; row <= gSelectChoisesPaletteRects[i].mMaxY; row++) {
+            for (column = gSelectChoisesPaletteRects[i].mMinX; column <= gSelectChoisesPaletteRects[i].mMaxX;
                  column++) {
                 entry = gSelectChoises->mNscrCopy[row * 32 + column];
                 entry &= 0xffff0fff;
@@ -655,12 +655,12 @@ void AdvanceSelectChoisesState1(void) {
     }
     hit = -1;
     if (func_02127a84_inline2(inputSlotIndex) != 0) {
-        if (func_02127a84_inline(touchX, touchY, gSelectChoisesHitRects[0].mUnk_00, gSelectChoisesHitRects[0].mUnk_01,
-                                 gSelectChoisesHitRects[0].mUnk_02, gSelectChoisesHitRects[0].mUnk_03) != FALSE) {
+        if (func_02127a84_inline(touchX, touchY, gSelectChoisesHitRects[0].mMinX, gSelectChoisesHitRects[0].mMaxX,
+                                 gSelectChoisesHitRects[0].mMinY, gSelectChoisesHitRects[0].mMaxY) != FALSE) {
             hit = 0;
         }
-        if (func_02127a84_inline(touchX, touchY, gSelectChoisesHitRects[1].mUnk_00, gSelectChoisesHitRects[1].mUnk_01,
-                                 gSelectChoisesHitRects[1].mUnk_02, gSelectChoisesHitRects[1].mUnk_03) != FALSE) {
+        if (func_02127a84_inline(touchX, touchY, gSelectChoisesHitRects[1].mMinX, gSelectChoisesHitRects[1].mMaxX,
+                                 gSelectChoisesHitRects[1].mMinY, gSelectChoisesHitRects[1].mMaxY) != FALSE) {
             hit = 1;
         }
     }
