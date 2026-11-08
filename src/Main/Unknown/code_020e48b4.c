@@ -14,7 +14,6 @@
 #include "Main/Unknown/code_020e49c0.h"
 #include "Main/Unknown/code_020e4a18.h"
 #include "Main/Unknown/code_020e4a34.h"
-#include "Main/Unknown/code_020df85c.h" // MapObjectFlagsView
 #include "Main/Unknown/code_020e4a68.h"
 #include "Main/Unknown/code_020d2000.h"
 #include "Main/Unknown/code_020f9c6c.h"
@@ -240,9 +239,9 @@ void UpdatePukupukuState1(Unk020e43a8 *pukupuku) {
     ParkMapObject(&pukupuku->mUnk_00);
 }
 
-void EnterPukupukuState2(MapObjectFlagsView *pukupuku) {
-    pukupuku->mUnk_02 |= data_02158fe8;
-    pukupuku->mUnk_02 |= data_02158fec;
+void EnterPukupukuState2(Unk020e43a8 *pukupuku) {
+    pukupuku->mUnk_00.mFlags |= data_02158fe8;
+    pukupuku->mUnk_00.mFlags |= data_02158fec;
 }
 
 void UpdatePukupukuState2(Unk020e43a8 *pukupuku) {

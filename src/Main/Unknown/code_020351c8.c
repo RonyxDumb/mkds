@@ -22,6 +22,7 @@
 #include "Main/Unknown/code_02025b84.h"
 #include "Main/Unknown/code_02025bb4.h"
 #include "Main/Unknown/code_0203434c.h"
+#include "Main/Unknown/unk_0217a000.h" // GhostRecord
 #include "Main/Unknown/code_02036000.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02047104.h"
@@ -345,7 +346,7 @@ s32 func_0203551c(u16 *sceneNumbers) {
             }
             if (GetTxtSystemDone() != 0) {
                 if (GetTxtSystemSelectedIndex() == 0) {
-                    ((Unk0202ddd8 *) GetSlotGhostBuffer())->mUnk_08_0 = 1;
+                    GetSlotGhostBuffer()->mFilled = 1;
                     WriteSlotGhostRecord((u8) data_02174e68->mSelectedIndex, GetSlotGhostBuffer());
                     data_02174e68->mState = 3;
                 } else {

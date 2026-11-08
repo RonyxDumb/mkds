@@ -2,22 +2,11 @@
 
 #include "types.h"
 
-typedef struct Unk020e6514 Unk020e6514;
-
-// A row of gJgKindRows seen at offset 4 or 8: its first word points at an animation object.
-typedef struct JgKindRowAnimationView {
-    /* 00 */ Unk020e6514 *mUnk_00;
-    /* 04 */ u8 mUnk_04[0x0c];
-} JgKindRowAnimationView;
-
 // Object at 0x00 of a gJgKindRows row, as DrawJg reads it: the word at 0x04.
 typedef struct Unk020e9810 {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ void *mUnk_04;
 } Unk020e9810;
-
-extern JgKindRowAnimationView gJgKindRowNsbcaAnimations[];
-extern JgKindRowAnimationView gJgKindRowNsbmaAnimations[];
 
 void UpdateJgState6(void);
 void EnterJgState6(void);

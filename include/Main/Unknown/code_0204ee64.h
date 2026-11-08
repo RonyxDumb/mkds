@@ -5,8 +5,8 @@
 typedef struct BlockTransferRecord BlockTransferRecord;
 
 void RemoveGhostDataBlocks(void);
-void func_0204eeac(u8 *data, u32 size);
-void AddGhostDataBlock(u8 *data, u32 size);
+void func_0204eeac(void *data, u32 size);
+void AddGhostDataBlock(void *data, u32 size);
 void func_0204ef1c(void);
 void SetOwnIndexFromConnection(void);
 void BlockDataRequestCallback(BlockTransferRecord *record);

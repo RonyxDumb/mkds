@@ -12,6 +12,8 @@
 #include "Main/Unknown/code_0205ee14.h" // KartAppear
 #include "code_02022a90.h" // NNSG2dCellTransferState
 
+typedef struct GhostRecord GhostRecord;
+
 // Screen kinds of the player entry list (SetupPlayerEntryList's second argument, PlayerEntryList.mScreenKind).
 #define PLAYER_ENTRY_LIST_CHARACTER 0
 #define PLAYER_ENTRY_LIST_KART 1
@@ -321,8 +323,8 @@ typedef struct GhostScene {
     /* 8c4 */ GhostSceneCallbacks *mCurrentCallbacks;
     /* 8c8 */ s32 mRequestedCallbacksIndex;
     /* 8cc */ s32 mCurrentCallbacksIndex;
-    /* 8d0 */ void *mCourseGhostBuffer;
-    /* 8d4 */ void *mSlotGhostBuffer;
+    /* 8d0 */ GhostRecord *mCourseGhostBuffer;
+    /* 8d4 */ GhostRecord *mSlotGhostBuffer;
     /* 8d8 */ void *mHeap;
 } GhostScene;
 

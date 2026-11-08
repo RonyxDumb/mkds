@@ -78,7 +78,7 @@ void AdvanceAwardPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     pointLinkCursor->mPreviousLink = pointLinkCursor->mLink;
     pointLinkCursor->mLink = pointLinkCursor->mLink->mUnk_00[nextLinkIndex];
     animation = data_usa_021557dc[pointLinkCursor->mLink->mUnk_20->mUnk_04];
-    if (animation != kart->mKartModelsEntry->mCharacterAnimation->mUnk_1a) {
+    if (animation != kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex) {
         func_02068a64(kart, animation, 1);
     }
     VEC_Subtract(pointLinkCursor->mLink->mUnk_18, pointLinkCursor->mPreviousLink->mUnk_18,
@@ -110,7 +110,7 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     pointLinkCursor->mPreviousLink = pointLinkCursor->mLink;
     pointLinkCursor->mLink = pointLinkCursor->mLink->mUnk_00[nextLinkIndex];
     animation = data_usa_021557dc[pointLinkCursor->mLink->mUnk_20->mUnk_04];
-    if (animation != kart->mKartModelsEntry->mCharacterAnimation->mUnk_1a) {
+    if (animation != kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex) {
         func_02068a64(kart, animation, 1);
     }
     if (pointLinkCursor->mKartIndex != 0) {

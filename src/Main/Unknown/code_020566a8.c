@@ -7,12 +7,12 @@
 
 #pragma thumb on
 
-void WriteSlotGhostRecord(u32 index, int source) {
+void WriteSlotGhostRecord(u32 index, GhostRecord *source) {
     int slotBit;
     GhostRecord *destination;
     destination = data_0217aa08->mGhostRecords[1];
-    *(u32 *) (source + 8) = *(u32 *) (source + 8) & 0xfffffffe | 1;
-    MI_CpuCopy8(((u16 *) (u32) source), ((u32 *) destination), (0x00001000u));
+    source->mUnk_08 = source->mUnk_08 & 0xfffffffe | 1;
+    MI_CpuCopy8(source, destination, (0x00001000u));
     WriteBackupSlotGhost(index, destination);
     slotBit = IsSlotGhostBitSet(index);
     if (slotBit == 0) {

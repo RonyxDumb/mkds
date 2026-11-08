@@ -104,14 +104,14 @@ void func_0204ef1c(void) {
     }
 }
 
-void AddGhostDataBlock(u8 *data, u32 size) {
+void AddGhostDataBlock(void *data, u32 size) {
     u16 index = data_0217aa00->mGhostBlockCount;
     AddBlock(&data_0217aa00->mBlockEntries[index].mNode, (u16) (index + 0x3e8), gGhostBlockInfo, data, size, 0);
     data_0217aa00->mBlockEntries[index].mBuffer = (u32 *) data;
     data_0217aa00->mGhostBlockCount++;
 }
 
-void func_0204eeac(u8 *data, u32 size) {
+void func_0204eeac(void *data, u32 size) {
     AddGhostDataBlock(data, size);
 }
 

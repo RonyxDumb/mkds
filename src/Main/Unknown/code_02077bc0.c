@@ -963,7 +963,7 @@ void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed
                 (GetModelAnimationFrameCountFixed(kartModelsEntry->mCharacterAnimation) - 0x1000) / 2;
             kartModelsEntry->mMiddleFrameReciprocal = FX_Div(0x1000, kartModelsEntry->mMiddleFrame);
         } else {
-            kartModelsEntry->mCharacterAnimation->mUnk_18 = 0;
+            kartModelsEntry->mCharacterAnimation->mAnmObjCount = 0;
         }
     }
     kartModelsEntry->mFaceAnimation = HeapAlloc(heap, 0x38);
@@ -1964,7 +1964,7 @@ void AdvanceKartModelMenuLoad(void) {
     KartModelMenuFiles *loadFiles;
     KartModelMenuSlot *loadSlot;
     KartModelMenuSlot *shownSlot;
-    KartModelAnimationView *animation;
+    ModelAnimation *animation;
 
     G2Bg0OfsWrite(gKartModelMenu->mView.mBg0Offset);
     if (gThreadFunctionQueue->mRunRequested == 0) {
@@ -1996,8 +1996,8 @@ void AdvanceKartModelMenuLoad(void) {
                 shownSlot = &gKartModelMenu->mSlots[gKartModelMenu->mShownSlotIndex];
                 if (loadSlot->mCharacterIndex == shownSlot->mCharacterIndex) {
                     animation = loadSlot->mCharacterAnimation;
-                    animation->mUnk_0c = shownSlot->mCharacterAnimation->mUnk_0c;
-                    *animation->mUnk_1c[animation->mUnk_1a] = animation->mUnk_0c;
+                    animation->mFrameIndex = shownSlot->mCharacterAnimation->mFrameIndex;
+                    animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mFrameIndex;
                 }
             }
             gKartModelMenu->mShownSlotIndex = gKartModelMenu->mLoadSlotIndex;

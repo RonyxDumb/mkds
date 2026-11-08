@@ -121,17 +121,17 @@ void func_0204a5e8(void) {
     func_ov001_021a23c0();
 }
 
-void UpdateEmblemScene(EmblemSceneNumbersView *sceneNumbers) {
+void UpdateEmblemScene(SceneNumbers *sceneNumbers) {
     s32 r;
 
     r = func_ov001_021a23c8();
     if (sceneNumbers != NULL && r != 0) {
         switch (sceneNumbers->mUnk_00) {
             case 7:
-                sceneNumbers->mUnk_04 = 7;
+                sceneNumbers->mNextScene = 7;
                 break;
             default:
-                sceneNumbers->mUnk_04 = 0;
+                sceneNumbers->mNextScene = 0;
                 break;
         }
     }

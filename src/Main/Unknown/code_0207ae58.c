@@ -1,5 +1,6 @@
 #include "Main/Unknown/code_0207ae58.h"
 #include "Main/Unknown/code_020ed5c0.h"
+#include "code_02010c84.h"
 #include "Main/Unknown/code_0207a14c.h"
 #include "Main/Unknown/code_02087cfc.h"
 #include "Main/Unknown/code_02087d0c.h"
@@ -46,10 +47,10 @@ void AdvanceKartCharacterAnimation(Kart *kart) {
     s32 turnFrameStep;
     KartModelsEntry *modelsEntry;
     CharacterAnimationState *animationState;
-    KartModelAnimationView *characterAnimation;
+    ModelAnimation *characterAnimation;
     s32 turnFrameLimit;
     u32 bits48;
-    KartModelAnimationView *faceAnimation;
+    ModelAnimation *faceAnimation;
 
     modelsEntry = kart->mKartModelsEntry;
     animationState = (CharacterAnimationState *) &modelsEntry->mTurnFrameOffset;
@@ -85,31 +86,31 @@ void AdvanceKartCharacterAnimation(Kart *kart) {
             }
         }
     }
-    if (characterAnimation->mUnk_1a != 0) {
+    if (characterAnimation->mCurrentIndex != 0) {
         AdvanceModelAnimation(characterAnimation);
         if (animationState->mNextAnimationPending == FALSE) {
             return;
         }
-        if (characterAnimation->mUnk_02 != 1) {
+        if (characterAnimation->mDone != 1) {
             return;
         }
-        func_02087cfc(characterAnimation, characterAnimation->mUnk_1a, 1);
+        func_02087cfc(characterAnimation, characterAnimation->mCurrentIndex, 1);
         StartModelAnimationBlend(modelsEntry->mCharacterAnimation, animationState->mNextAnimationIndex);
         faceAnimation = modelsEntry->mFaceAnimation;
-        faceAnimation->mUnk_0c = gCharacterFaceFrames[0];
-        *faceAnimation->mUnk_1c[faceAnimation->mUnk_1a] = faceAnimation->mUnk_0c;
+        faceAnimation->mFrameIndex = gCharacterFaceFrames[0];
+        faceAnimation->mAnmObjs[faceAnimation->mCurrentIndex]->mFrame = faceAnimation->mFrameIndex;
         animationState->mNextAnimationPending = FALSE;
     } else {
-        characterAnimation->mUnk_0c = animationState->mTurnFrameOffset + animationState->mMiddleFrame;
-        AdvanceModelAnimationBlend((ModelAnimation *) characterAnimation);
+        characterAnimation->mFrameIndex = animationState->mTurnFrameOffset + animationState->mMiddleFrame;
+        AdvanceModelAnimationBlend(characterAnimation);
     }
 }
 
 void SetCharacterFaceFrameIndex(struct KartModelsEntry *kartModelsEntry, s32 faceFrameIndex) {
-    KartModelAnimationView *faceAnimation = kartModelsEntry->mFaceAnimation;
+    ModelAnimation *faceAnimation = kartModelsEntry->mFaceAnimation;
 
-    faceAnimation->mUnk_0c = gCharacterFaceFrames[faceFrameIndex];
-    *faceAnimation->mUnk_1c[faceAnimation->mUnk_1a] = faceAnimation->mUnk_0c;
+    faceAnimation->mFrameIndex = gCharacterFaceFrames[faceFrameIndex];
+    faceAnimation->mAnmObjs[faceAnimation->mCurrentIndex]->mFrame = faceAnimation->mFrameIndex;
 }
 
 void SetCharacterAnimation(struct KartModelsEntry *kartModelsEntry, s32 animationIndex, s32 useBlend) {
@@ -224,9 +225,9 @@ void AdvanceKartAnimationChangeTimer(Kart *kart) {
         return;
     }
     modelsEntry = kart->mKartModelsEntry;
-    if ((kart->mUnk_7c & 0x40) != 0 || modelsEntry->mCharacterAnimation->mUnk_1a == 2) {
+    if ((kart->mUnk_7c & 0x40) != 0 || modelsEntry->mCharacterAnimation->mCurrentIndex == 2) {
         func_02068a64(kart, 0, 1);
-    } else if (modelsEntry->mCharacterAnimation->mUnk_1a == 0) {
+    } else if (modelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
         func_02068a64(kart, 2, 1);
     }
     localRandom = &gRaceProgress->mLocalRandom;
@@ -238,13 +239,13 @@ void AdvanceKartAnimationChangeTimer(Kart *kart) {
 void StartKartStarModels(Kart *kart) {
     KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
     Nsbmd *firstModel = modelsEntry->mModels[0];
-    KartModelAnimationView *faceAnimation = modelsEntry->mFaceAnimation;
+    ModelAnimation *faceAnimation = modelsEntry->mFaceAnimation;
     NNSG3dResMdl *resMdl = firstModel->mResMdl;
 
     NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 2);
     NNS_G3dReleaseMdlTex(resMdl);
     if (faceAnimation != NULL && modelsEntry->mFaceAnimationRemoved == FALSE) {
-        NNS_G3dRenderObjRemoveAnmObj((NNSG3dRenderObj *) firstModel, (NNSG3dAnmObj *) faceAnimation->mUnk_1c[0]);
+        NNS_G3dRenderObjRemoveAnmObj((NNSG3dRenderObj *) firstModel, faceAnimation->mAnmObjs[0]);
         modelsEntry->mFaceAnimationRemoved = TRUE;
     }
     SetKartModelMaterialColors(resMdl, 2);
@@ -264,7 +265,7 @@ void StartKartStarModels(Kart *kart) {
 void StopKartStarModels(Kart *kart) {
     KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
     Nsbmd *firstModel = modelsEntry->mModels[0];
-    KartModelAnimationView *faceAnimation = modelsEntry->mFaceAnimation;
+    ModelAnimation *faceAnimation = modelsEntry->mFaceAnimation;
     NNSG3dResMdl *resMdl = firstModel->mResMdl;
     Nsbmd *secondModel;
     NNSG3dResMdl *thirdResMdl;
@@ -273,7 +274,7 @@ void StopKartStarModels(Kart *kart) {
     NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 0);
     NNS_G3dBindMdlTex(resMdl, firstModel->mResFileEntry.mTexture);
     if (faceAnimation != NULL && modelsEntry->mFaceAnimationRemoved != FALSE) {
-        NNS_G3dRenderObjAddAnmObj((NNSG3dRenderObj *) firstModel, (NNSG3dAnmObj *) faceAnimation->mUnk_1c[0]);
+        NNS_G3dRenderObjAddAnmObj((NNSG3dRenderObj *) firstModel, faceAnimation->mAnmObjs[0]);
         modelsEntry->mFaceAnimationRemoved = FALSE;
     }
     SetKartModelMaterialColors(resMdl, 0);
@@ -325,12 +326,12 @@ void func_0207b0d0(Kart *kart) {
 // Plays animation a once, then goes on to animation b.
 void StartKartCharacterAnimationOnce(Kart *kart, s32 animationIndex, s32 nextAnimationIndex) {
     KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
-    KartModelAnimationView *characterAnimation;
+    ModelAnimation *characterAnimation;
     CharacterAnimationState *animationState = (CharacterAnimationState *) &modelsEntry->mTurnFrameOffset;
 
     characterAnimation = modelsEntry->mCharacterAnimation;
-    if (animationState->mNextAnimationPending != FALSE && characterAnimation->mUnk_1a != 0) {
-        func_02087cfc(characterAnimation, characterAnimation->mUnk_1a, 1);
+    if (animationState->mNextAnimationPending != FALSE && characterAnimation->mCurrentIndex != 0) {
+        func_02087cfc(characterAnimation, characterAnimation->mCurrentIndex, 1);
     }
     animationState->mNextAnimationPending = TRUE;
     animationState->mNextAnimationIndex = nextAnimationIndex;

@@ -186,12 +186,12 @@ void PrintGhostRecordInfo(SelectCharacter *fileSets, s16 (*labelRows)[4], void *
 
 #pragma thumb on
 
-void *GetCourseGhostBuffer(void) {
+GhostRecord *GetCourseGhostBuffer(void) {
     return gGhostScene->mCourseGhostBuffer;
 }
 
-u32 GetSlotGhostBuffer(void) {
-    return ((u32) gGhostScene->mSlotGhostBuffer);
+GhostRecord *GetSlotGhostBuffer(void) {
+    return gGhostScene->mSlotGhostBuffer;
 }
 
 u32 GetGhostCount(void) {

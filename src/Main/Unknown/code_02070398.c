@@ -1279,7 +1279,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         itemEffectState = &kart->mUnk_538;
         AdvanceKartStarEffects(kart->mIndex);
         if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) &&
-            kart->mKartModelsEntry->mCharacterAnimation->mUnk_1a == 0) {
+            kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
             func_02068a64(kart, 2, 1);
         }
         itemEffectState->mUnk_06++;

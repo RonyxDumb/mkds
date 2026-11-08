@@ -11,6 +11,7 @@
 #include "Main/Unknown/code_020ea588.h"
 #include "Main/Unknown/code_020e57f4.h"
 #include "Main/Unknown/code_020e57fc.h"
+#include "Main/Unknown/code_0206bcb0.h" // Kart
 #include "Main/Unknown/code_020e5850.h"
 #include "Main/Unknown/code_020e5854.h"
 #include "Main/Unknown/code_020e58b8.h"
@@ -207,10 +208,10 @@ void UpdateSecondHandState3(Unk020e43a8 *secondHand) {
     }
 }
 
-s32 CollideKartWithSecondHand(Unk020e43a8 *secondHand, KartItemEffectView *kart, s32 a, u8 *b) {
+s32 CollideKartWithSecondHand(Unk020e43a8 *secondHand, Kart *kart, s32 a, u8 *b) {
     u32 x;
 
-    x = kart->mUnk_29c;
+    x = kart->mItemEffect;
     if (x == 1 || x == 3) {
         secondHand->mUnk_00.mDistanceSquaredAndFlags |= data_021590e8;
     }

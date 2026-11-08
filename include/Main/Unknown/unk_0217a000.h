@@ -1281,7 +1281,7 @@ typedef struct KartModels {
 
 extern KartModels *gKartModels;
 
-typedef struct KartModelAnimationView KartModelAnimationView;
+typedef struct ModelAnimation ModelAnimation;
 
 // Object behind member 0x20 of an KartModelMenuSlot: a word at 0x10 and rows of three words from 0x14 and from 0x44.
 typedef struct Unk0217ad08_058_20 {
@@ -1296,7 +1296,7 @@ typedef struct Unk0217ad08_058_20 {
 typedef struct KartModelMenuSlot {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s32 mKartIndex;
-    /* 08 */ KartModelAnimationView *mCharacterAnimation;
+    /* 08 */ ModelAnimation *mCharacterAnimation;
     /* 0c */ u8 mUnk_0c[4];
     /* 10 */ struct Nsbmd *mCharacterNsbmd;
     /* 14 */ struct Nsbmd *mKartNsbmd;

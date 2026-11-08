@@ -663,12 +663,12 @@ void EnterJgState1(void) {
     data_0217b8ac = 0;
     gJgTableIndex = 0;
     if (gJgKind != 4) {
-        animation = gJgKindRowNsbcaAnimations[gJgKind].mUnk_00;
+        animation = gJgKindRows[gJgKind].mNsbcaAnimation;
         if (animation != NULL) {
             animation->mUnk_00c = 0;
             animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
         }
-        animation = gJgKindRowNsbmaAnimations[gJgKind].mUnk_00;
+        animation = gJgKindRows[gJgKind].mNsbmaAnimation;
         if (animation != NULL) {
             animation->mUnk_00c = 0;
             animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
@@ -725,7 +725,7 @@ void UpdateJgState1(void) {
     s32 scaledZ;
     enum { K0 } frameFixed;
 
-    animation = gJgKindRowNsbmaAnimations[gJgKind].mUnk_00;
+    animation = gJgKindRows[gJgKind].mNsbmaAnimation;
     frameFixed = animation->mUnk_00c;
     angle = data_0217b8b4;
     frame = ((u32) frameFixed << 4) >> 16;
@@ -836,12 +836,12 @@ void EnterJgState4(void) {
     data_0217b8ac = 0;
     gJgTableIndex = 0;
     if (gJgKind != 4) {
-        animation = gJgKindRowNsbcaAnimations[gJgKind].mUnk_00;
+        animation = gJgKindRows[gJgKind].mNsbcaAnimation;
         if (animation != NULL) {
             animation->mUnk_00c = 0;
             animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
         }
-        animation = gJgKindRowNsbmaAnimations[gJgKind].mUnk_00;
+        animation = gJgKindRows[gJgKind].mNsbmaAnimation;
         if (animation != NULL) {
             animation->mUnk_00c = 0;
             animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
@@ -956,12 +956,12 @@ void EnterJgState6(void) {
     gJgVisible = 1;
     gJgTableIndex = 0;
     if (gJgKind != 4) {
-        animation = gJgKindRowNsbcaAnimations[gJgKind].mUnk_00;
+        animation = gJgKindRows[gJgKind].mNsbcaAnimation;
         if (animation != NULL) {
             animation->mUnk_00c = 0;
             animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
         }
-        animation = gJgKindRowNsbmaAnimations[gJgKind].mUnk_00;
+        animation = gJgKindRows[gJgKind].mNsbmaAnimation;
         if (animation != NULL) {
             animation->mUnk_00c = 0;
             animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;

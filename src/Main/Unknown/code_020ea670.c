@@ -1,5 +1,4 @@
 #include "Main/Unknown/code_020ea670.h"
-#include "Main/Unknown/code_020df85c.h" // MapObjectFlagsView
 
 #include "Main/Unknown/code_0208aea8.h"
 #include "Main/Unknown/code_0208b484.h"
@@ -222,10 +221,10 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     func_020f6630(itemObject, 2, &woodbox->mUnk_000.mPos, velocity, &woodbox->mGroundUp);
 }
 
-void EnterWoodbox1State1(MapObjectFlagsView *woodbox) {
-    woodbox->mUnk_02 |= data_021594d8;
-    woodbox->mUnk_02 |= data_021594dc;
-    woodbox->mUnk_02 |= data_021594e0;
+void EnterWoodbox1State1(Woodbox1 *woodbox) {
+    woodbox->mUnk_000.mFlags |= data_021594d8;
+    woodbox->mUnk_000.mFlags |= data_021594dc;
+    woodbox->mUnk_000.mFlags |= data_021594e0;
 }
 
 #pragma thumb off

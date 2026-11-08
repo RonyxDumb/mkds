@@ -88,7 +88,7 @@ void func_01ffb130(Kart *p) {
     if (p->mUnk_4c & 0x40) {
         q = &p->mUnk_538;
         AdvanceKartStarEffects(p->mIndex);
-        if ((p->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) && p->mKartModelsEntry->mCharacterAnimation->mUnk_1a == 0) {
+        if ((p->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) && p->mKartModelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
             func_02068a64(p, 2, 1);
         }
         q->mUnk_06++;

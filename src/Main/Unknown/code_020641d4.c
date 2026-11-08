@@ -5,6 +5,7 @@
 #include "ITCM/code_01ffc000.h"
 #include "Main/Unknown/code_02066ac0.h"
 #include "Main/Unknown/code_020ed5c0.h"
+#include "code_02010c84.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02061654.h"
 #include "Main/Unknown/code_02066000.h"
@@ -21,7 +22,7 @@
 
 void func_020641f0(Kart *kart) {
     KartModelsEntry *modelsEntry;
-    KartModelAnimationView *characterAnimation;
+    ModelAnimation *characterAnimation;
     Vec3 m;
     MtxFx43 d;
     MtxFx43 e;
@@ -117,13 +118,13 @@ void func_020641f0(Kart *kart) {
         kart->mUnk_4cc = l;
     }
     characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
-    if (characterAnimation != NULL && characterAnimation->mUnk_18 != 0) {
+    if (characterAnimation != NULL && characterAnimation->mAnmObjCount != 0) {
         AdvanceKartCharacterAnimation(kart);
         if (IsKartEnded(kart->mIndex) != 0) {
             AdvanceKartAnimationChangeTimer(kart);
         }
         characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
-        *characterAnimation->mUnk_1c[characterAnimation->mUnk_1a] = characterAnimation->mUnk_0c;
+        characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame = characterAnimation->mFrameIndex;
     }
     if ((kart->mUnk_4c & 0x400000) != 0) {
         kart->mUnk_504 = kart->mUnk_504 + 1;

@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void WriteSlotGhostRecord(u32 index, int source);
+typedef struct GhostRecord GhostRecord;
+
+void WriteSlotGhostRecord(u32 index, GhostRecord *source);

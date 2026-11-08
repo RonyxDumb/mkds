@@ -163,7 +163,7 @@ void func_02068a64(Kart *kart, s32 b, s32 c) {
         modelsEntry = kart->mKartModelsEntry;
         faceFrame = FALSE;
         f = &modelsEntry->mTurnFrameOffset;
-        currentAnimation = modelsEntry->mCharacterAnimation->mUnk_1a;
+        currentAnimation = modelsEntry->mCharacterAnimation->mCurrentIndex;
         changeAnimation = TRUE;
         if (f[5] != 0) {
             if (currentAnimation != 0) {

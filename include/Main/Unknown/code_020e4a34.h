@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct MapObjectFlagsView MapObjectFlagsView;
+typedef struct Unk020e43a8 Unk020e43a8;
 
-void EnterPukupukuState2(MapObjectFlagsView *pukupuku);
+void EnterPukupukuState2(Unk020e43a8 *pukupuku);

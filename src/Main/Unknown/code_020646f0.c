@@ -27,7 +27,7 @@ void func_020646f0(Kart *kart, s32 b) {
     Vec3 f;
     Vec3 g;
     Vec3 h;
-    KartModelAnimationView *characterAnimation;
+    ModelAnimation *characterAnimation;
     s16 j;
     s16 k;
     s16 l;
@@ -88,7 +88,7 @@ void func_020646f0(Kart *kart, s32 b) {
     if (characterAnimation == NULL) {
         return;
     }
-    if (characterAnimation->mUnk_18 != 0) {
-        characterAnimation->mUnk_0c = kart->mKartModelsEntry->mMiddleFrame;
+    if (characterAnimation->mAnmObjCount != 0) {
+        characterAnimation->mFrameIndex = kart->mKartModelsEntry->mMiddleFrame;
     }
 }

@@ -418,17 +418,17 @@ s32 AdvanceTimeAttackGhostSend(Unk0202cdf4 *advanceArg) {
             }
             if (i == 0 && d->mErrorCode == 0) {
                 if (IsSlotGhostIndex(gTimeAttackGhostSend->mSelectedIndex) == 0) {
-                    func_0203bf04(GetCourseGhostBuffer(), (void *) GetSlotGhostBuffer());
+                    func_0203bf04(GetCourseGhostBuffer(), GetSlotGhostBuffer());
                 }
                 gTimeAttackGhostSend->mState = 5;
             }
             break;
         case 5:
-            i = AdvanceConnectionSetup(1, (void *) GetSlotGhostBuffer());
+            i = AdvanceConnectionSetup(1, GetSlotGhostBuffer());
             switch (i) {
                 case 1:
                     ResetPendingFiles();
-                    func_0204eeac((void *) GetSlotGhostBuffer(), 0x1000);
+                    func_0204eeac(GetSlotGhostBuffer(), 0x1000);
                     RequestSelectReturnState1();
                     gTimeAttackGhostSend->mState = 6;
                     break;

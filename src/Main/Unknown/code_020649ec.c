@@ -36,6 +36,7 @@
 #include "Main/Unknown/code_02071000.h"
 #include "Main/Unknown/code_02079bcc.h"
 #include "Main/Unknown/code_020ed5c0.h"
+#include "code_02010c84.h"
 #include "Main/Unknown/code_0207b000.h"
 #include "Main/Unknown/code_02081618.h"
 #include "Main/Unknown/code_0208ab98.h"
@@ -211,7 +212,7 @@ void SetKartPrevCollisionCenterFromPrevPos(Kart *kart) {
 void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     u32 isPeer;
     u16 i;
-    KartModelAnimationView *characterAnimation;
+    ModelAnimation *characterAnimation;
 
     GetHeap(GetCurrentHeapCall());
     isPeer = gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_PEER;
@@ -287,7 +288,7 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
         if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) != 0) {
             AdvanceKartCharacterAnimation(kart);
             characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
-            *characterAnimation->mUnk_1c[characterAnimation->mUnk_1a] = characterAnimation->mUnk_0c;
+            characterAnimation->mAnmObjs[characterAnimation->mCurrentIndex]->mFrame = characterAnimation->mFrameIndex;
         }
     }
     func_02071f44(kart);

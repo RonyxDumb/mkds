@@ -56,8 +56,6 @@ s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes
                                  Vec3 *halfSizesNegative, s32 radius, Vec3 *pushOut);
 void CreateWoodbox1(void);
 
-typedef struct MapObjectFlagsView MapObjectFlagsView;
-
 void func_020ea670(Nsbmd *model, s32 maxAlpha);
 // Draws the model with its alpha capped at param_2 (put back afterwards), through NNS_G3dDraw1Mat1Shp.
 void DrawNsbmd1Mat1ShpWithMaxAlpha(Nsbmd *model, s32 maxAlpha);
@@ -92,4 +90,4 @@ void EnterWoodbox1State2(Woodbox1 *woodbox);
 // returns TRUE.
 BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox);
 void UpdateWoodbox1State1(Woodbox1 *woodbox);
-void EnterWoodbox1State1(MapObjectFlagsView *woodbox);
+void EnterWoodbox1State1(Woodbox1 *woodbox);

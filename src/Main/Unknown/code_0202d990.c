@@ -90,7 +90,7 @@ void StartReadListedGhost(s32 index) {
         ReadBackupCourseGhost(recordIndex, GetCourseGhostBuffer());
     } else {
         recordIndex = gGhostScene->mSlotIndices[index - GetCourseGhostCount()];
-        ReadBackupSlotGhost((u8) recordIndex, (GhostRecord *) GetSlotGhostBuffer());
+        ReadBackupSlotGhost((u8) recordIndex, GetSlotGhostBuffer());
     }
 }
 

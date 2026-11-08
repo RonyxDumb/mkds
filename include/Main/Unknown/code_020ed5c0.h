@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020846c0.h" // Nsbmd
+#include "Main/Unknown/code_02087d0c.h" // ModelAnimation
 #include "Main/Unknown/code_0207adf8.h" // ShadowModel
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020f36d8.h"
@@ -18,18 +19,6 @@ typedef struct KartOffsetData {
 
 // The object behind the word at 0x590 of a Kart from its first byte:
 // the halfword at 0x40.
-// The object behind the word at 0x08 of a KartModelsEntry: the halfword at 0x1a.
-typedef struct KartModelAnimationView {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[8];
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ u8 mUnk_10[8];
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ u16 mUnk_1a;
-    /* 1c */ s32 **mUnk_1c;
-} KartModelAnimationView;
-
 // The object behind the word at 0x54 of a KartModelsEntry.
 typedef struct Unk0206bcb0_590_54 {
     union {
@@ -90,8 +79,8 @@ struct Nsbmd;
 typedef struct KartModelsEntry {
     /* 000 */ s32 mCharacterIndex;
     /* 004 */ s32 mKartIndex;
-    /* 008 */ KartModelAnimationView *mCharacterAnimation;
-    /* 00c */ KartModelAnimationView *mFaceAnimation;
+    /* 008 */ ModelAnimation *mCharacterAnimation;
+    /* 00c */ ModelAnimation *mFaceAnimation;
     /* 10 */ Nsbmd *mModels[3];
     /* 01c */ ShadowModel *mShadowModel;
     /* 020 */ KartOffsetData *mKartOffsetData;

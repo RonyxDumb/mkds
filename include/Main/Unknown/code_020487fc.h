@@ -4,12 +4,12 @@
 #include "Main/Unknown/unk_02175000.h" // SceneCallbacks
 
 // The three scene numbers of gSceneNumbers: +0 the previous scene (declared u8[2];
-// read by the scenes' init functions as `*a` / `a[0]` and by UpdateEmblemScene), mScene the scene
+// read by the scenes' init functions as `*a` / `a[0]` and by UpdateEmblemScene as an s16), mScene the scene
 // being run, mNextScene the scene to run next (-1 = none yet). No typed global holds this
-// object, and other typedefs view the same object: Unk0203a0dc, EmblemSceneNumbersView, Unk02111324,
+// object, and other typedefs view the same object: Unk0203a0dc, Unk02111324,
 // Unk0218052c; several scene functions take it as s16 * or void *.
 typedef struct SceneNumbers {
-    /* 00 */ u8 mUnk_00[0x2];
+    /* 00 */ s16 mUnk_00;
     // Number of the scene being run: the index of gSceneFuncs and of the scene-name table
     // gSceneNames (data_usa_021541a8).
     /* 02 */ s16 mScene;

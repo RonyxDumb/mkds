@@ -3,6 +3,7 @@
 #include "ITCM/code_01ff9000.h"
 #include "Main/Unknown/code_02079b9c.h"
 #include "Main/Unknown/code_020ed5c0.h"
+#include "code_02010c84.h"
 #include "Main/Unknown/code_02079b60.h"
 #include "Main/Unknown/code_02079000.h"
 #include "Main/Unknown/code_0207a000.h"
@@ -141,7 +142,7 @@ void DrawKart(Kart *kart) {
 
 BOOL DrawKartKillerItem(Kart *kart) {
     KartModelsEntry *modelsEntry;
-    KartModelAnimationView *killerItemNsbca;
+    ModelAnimation *killerItemNsbca;
     BOOL drawn;
     s32 frame;
     s32 f;
@@ -172,8 +173,8 @@ BOOL DrawKartKillerItem(Kart *kart) {
         SetKillerItemKartIndex(kart->mIndex);
         frame = kart->mKartModelsEntry->mUnk_0a4;
         killerItemNsbca = GetKillerItemNsbca();
-        killerItemNsbca->mUnk_0c = frame;
-        *killerItemNsbca->mUnk_1c[killerItemNsbca->mUnk_1a] = killerItemNsbca->mUnk_0c;
+        killerItemNsbca->mFrameIndex = frame;
+        killerItemNsbca->mAnmObjs[killerItemNsbca->mCurrentIndex]->mFrame = killerItemNsbca->mFrameIndex;
         DrawNsbmd(GetKillerItem());
         func_0207ae58(GetKillerItemS());
     }

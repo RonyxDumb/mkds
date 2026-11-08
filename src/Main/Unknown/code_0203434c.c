@@ -259,7 +259,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
             switch (AdvanceBlockCountRequest()) {
                 case 1:
                     ResetPendingFiles();
-                    SetBlockEntryBuffer(0, GetSlotGhostBuffer());
+                    SetBlockEntryBuffer(0, (u32) GetSlotGhostBuffer());
                     data_02174e64->mState = 6;
                     break;
                 case 2:
@@ -313,7 +313,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                 func_02025f14(&data_02174e64->mUnk_194, 2);
             } else {
                 data_02174e64->mGhostSlot = FindUnfilledGhostSlot();
-                ((Unk0202ddd8 *) GetSlotGhostBuffer())->mUnk_08_0 = 1;
+                GetSlotGhostBuffer()->mFilled = 1;
                 WriteSlotGhostRecord((u8) data_02174e64->mGhostSlot, GetSlotGhostBuffer());
                 NNS_SndArcSetCurrent(&data_0217c868);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 10);
@@ -332,7 +332,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                 if (GetTxtSystemSelectedIndex() == 0) {
                     data_02174e64->mGhostSlot = FindSlotGhostForCourse(
                         data_02174e64->mGhostInfoEntries[data_02174e64->mSelectedIndex].mInfo.mUnk_18[2]);
-                    ((Unk0202ddd8 *) GetSlotGhostBuffer())->mUnk_08_0 = 1;
+                    GetSlotGhostBuffer()->mFilled = 1;
                     WriteSlotGhostRecord((u8) data_02174e64->mGhostSlot, GetSlotGhostBuffer());
                     data_02174e64->mState = 11;
                 } else {
