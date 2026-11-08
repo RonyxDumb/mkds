@@ -82,10 +82,6 @@ typedef struct NNSG3dRenderObj {
     /* 3c */ u32 mHintMatAnmExist[2];
     /* 44 */ u32 mHintJntAnmExist[2];
     /* 4c */ u32 mHintVisAnmExist[2];
-    /* 54 */ u8 mUnk_54[4];
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ u8 mUnk_5c[0xc];
-    /* 68 */ u32 mUnk_68;
 } NNSG3dRenderObj;
 
 // Render state of the SBC interpreter. mC points into the byte sequence that the SBC functions advance.

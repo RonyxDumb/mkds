@@ -11,19 +11,8 @@
 #include "code_0214d018.h"
 
 #pragma thumb on
-u32 SetBlockEntryBuffer(u32 entryIndex, u32 buffer) {
-    u32 value0 = entryIndex;
-    u32 value1 = buffer;
-    u32 value2;
-    u32 value3;
-    value2 = (u32) &data_0217aa00;
-    value3 = *(const u32 *) ((value2) + 0u);
-    value2 = 136u;
-    value0 = (value0) * (value2);
-    value2 = (value3) + (value0);
-    value0 = 0x1714u;
-    *(u32 *) ((value2) + (value0)) = value1;
-    return value0;
+void SetBlockEntryBuffer(u32 entryIndex, void *buffer) {
+    data_0217aa00->mBlockEntries[entryIndex].mBuffer = buffer;
 }
 #pragma thumb off
 

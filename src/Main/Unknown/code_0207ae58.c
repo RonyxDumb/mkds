@@ -245,7 +245,7 @@ void StartKartStarModels(Kart *kart) {
     NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 2);
     NNS_G3dReleaseMdlTex(resMdl);
     if (faceAnimation != NULL && modelsEntry->mFaceAnimationRemoved == FALSE) {
-        NNS_G3dRenderObjRemoveAnmObj((NNSG3dRenderObj *) firstModel, faceAnimation->mAnmObjs[0]);
+        NNS_G3dRenderObjRemoveAnmObj(&firstModel->mRenderObj, faceAnimation->mAnmObjs[0]);
         modelsEntry->mFaceAnimationRemoved = TRUE;
     }
     SetKartModelMaterialColors(resMdl, 2);
@@ -274,7 +274,7 @@ void StopKartStarModels(Kart *kart) {
     NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 0);
     NNS_G3dBindMdlTex(resMdl, firstModel->mResFileEntry.mTexture);
     if (faceAnimation != NULL && modelsEntry->mFaceAnimationRemoved != FALSE) {
-        NNS_G3dRenderObjAddAnmObj((NNSG3dRenderObj *) firstModel, faceAnimation->mAnmObjs[0]);
+        NNS_G3dRenderObjAddAnmObj(&firstModel->mRenderObj, faceAnimation->mAnmObjs[0]);
         modelsEntry->mFaceAnimationRemoved = FALSE;
     }
     SetKartModelMaterialColors(resMdl, 0);

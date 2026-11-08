@@ -61,7 +61,7 @@ void UpdateRaceHudSubScreenFireball2Cells(void) {
         object = gRaceHudSubScreenFireball2Cells->mObjects[i];
         position = &object->mPos;
         if (ComputeRaceHudSubScreenPosition(
-                position, (UnkPair020b502c *) &gRaceHudSubScreenFireball2Cells->mCells[cellCount], a, 1, 1) == FALSE) {
+                position, &gRaceHudSubScreenFireball2Cells->mCells[cellCount].mDrawPos, a, 1, 1) == FALSE) {
             continue;
         }
         gRaceHudSubScreenFireball2Cells->mCells[cellCount].mCell =
@@ -289,7 +289,7 @@ void UpdateRaceHudSubScreenBerryCells(void) {
         object = gRaceHudSubScreenBerryCells->mObjects[i];
         position = &object->mPos;
         if (ComputeRaceHudSubScreenPosition(
-                position, (UnkPair020b502c *) &gRaceHudSubScreenBerryCells->mCells[cellCount], a, 1, 1) == FALSE) {
+                position, &gRaceHudSubScreenBerryCells->mCells[cellCount].mDrawPos, a, 1, 1) == FALSE) {
             continue;
         }
         gRaceHudSubScreenBerryCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb8);

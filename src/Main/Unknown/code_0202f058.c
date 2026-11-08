@@ -6,17 +6,7 @@ u32 func_0202f0a0(InputSlotPair *pair) {
 }
 
 u32 func_0202f080(u32 slot) {
-    u32 value0 = slot;
-    u32 value1;
-    u32 value2;
-    u32 value12;
-    value2 = (u32) &data_02175628;
-    value1 = 0x5cu;
-    value1 = (value0) * (value1) + (value2);
-    value12 = (u32) &func_0202f0a0;
-    value0 = (value1) + (0x48u);
-    value0 = func_0202f0a0((InputSlotPair *) value0);
-    return value0;
+    return func_0202f0a0(&data_02175628[slot].mUnk_48);
 }
 
 u32 func_0202f078(InputSlotPair *pair) {
@@ -24,15 +14,5 @@ u32 func_0202f078(InputSlotPair *pair) {
 }
 
 u32 func_0202f058(u32 slot) {
-    u32 value0 = slot;
-    u32 value1;
-    u32 value2;
-    u32 value12;
-    value2 = (u32) &data_02175628;
-    value1 = 0x5cu;
-    value1 = (value0) * (value1) + (value2);
-    value12 = (u32) &func_0202f078;
-    value0 = (value1) + (0x48u);
-    value0 = func_0202f078((InputSlotPair *) value0);
-    return value0;
+    return func_0202f078(&data_02175628[slot].mUnk_48);
 }

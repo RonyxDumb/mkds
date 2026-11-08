@@ -117,7 +117,7 @@ void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap) {
     } else {
         nsbmd->mDrawKind = 0;
     }
-    NNS_G3dRenderObjInit((NNSG3dRenderObj *) nsbmd, resMdl);
+    NNS_G3dRenderObjInit(&nsbmd->mRenderObj, resMdl);
     if (nsbmd->mCullModesSwapped != 0) {
         objResMdl = nsbmd->mResMdl;
         for (i = 0; i < objResMdl->mInfo.mNumMat; i++) {

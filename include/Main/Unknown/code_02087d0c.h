@@ -3,7 +3,7 @@
 #include "types.h"
 
 typedef struct NNSG3dAnmObj NNSG3dAnmObj;
-typedef struct NNSG3dRenderObj NNSG3dRenderObj;
+typedef struct Nsbmd Nsbmd;
 
 // Values of ModelAnimation.mKind: the kind of animation the entries hold.
 typedef enum {
@@ -24,7 +24,7 @@ typedef struct ModelAnimation {
     /* 0c */ s32 mFrameIndex;
     /* 10 */ u16 mLoopsDone;
     /* 12 */ u16 mLoopCount;
-    /* 14 */ NNSG3dRenderObj *mRenderObj;
+    /* 14 */ Nsbmd *mRenderObj;
     /* 18 */ u16 mAnmObjCount;
     /* 1a */ u16 mCurrentIndex;
     /* 1c */ NNSG3dAnmObj **mAnmObjs;

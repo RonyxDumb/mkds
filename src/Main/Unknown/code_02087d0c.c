@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_02087d0c.h"
+#include "Main/Unknown/code_020846c0.h"
 #include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_02087934.h"
 #include "code_020109c4.h"
@@ -32,7 +33,7 @@ u32 func_020882fc(Unk020882fc *anmObj) {
 
 void InitModelAnimation(u32 kind, void *animation, void *renderObject, u32 anmObjCount, void *heap, void *f) {
     ModelAnimation *modelAnimation = animation;
-    NNSG3dRenderObj *renderObj = renderObject;
+    Nsbmd *renderObj = renderObject;
     u16 i;
 
     if (anmObjCount != 0) {
@@ -47,7 +48,7 @@ void InitModelAnimation(u32 kind, void *animation, void *renderObject, u32 anmOb
         }
     }
     ResetModelAnimationLooping(modelAnimation, 0);
-    renderObj->mUnk_58 = 0;
+    renderObj->mDrawKind = 0;
     modelAnimation->mRenderObj = renderObj;
     modelAnimation->mAnmObjCount = anmObjCount;
     modelAnimation->mCurrentIndex = 0;
@@ -71,7 +72,7 @@ void InitModelAnimationEntry(void *animation, s32 entryIndex, void *anmResource,
         modelAnimation->mLoopFlags[entryIndex] = loopFlag;
     }
     NNS_G3dAnmObjInit(anmObj, anmResource, modelAnimation->mRenderObj->mResMdl,
-                      (void *) modelAnimation->mRenderObj->mUnk_68);
+                      modelAnimation->mRenderObj->mResFileEntry.mTexture);
 }
 
 void InitModelAnimationEntries(void *animation, void *anmFile, void *heap) {
@@ -108,7 +109,7 @@ void InitModelAnimationEntries(void *animation, void *anmFile, void *heap) {
             modelAnimation->mLoopFlags[i] = 0;
         }
         NNS_G3dAnmObjInit(anmObj, anmResource, modelAnimation->mRenderObj->mResMdl,
-                          (void *) modelAnimation->mRenderObj->mUnk_68);
+                          modelAnimation->mRenderObj->mResFileEntry.mTexture);
     }
 }
 
@@ -121,12 +122,14 @@ void SetModelAnimation(void *animation, s32 entryIndex) {
     }
     modelAnimation->mBlending = FALSE;
     if (modelAnimation->mPreviousAnmObj != NULL) {
-        NNS_G3dRenderObjRemoveAnmObj(modelAnimation->mRenderObj, modelAnimation->mPreviousAnmObj);
+        NNS_G3dRenderObjRemoveAnmObj(&modelAnimation->mRenderObj->mRenderObj, modelAnimation->mPreviousAnmObj);
         modelAnimation->mPreviousAnmObj = NULL;
     }
-    NNS_G3dRenderObjRemoveAnmObj(modelAnimation->mRenderObj, modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]);
+    NNS_G3dRenderObjRemoveAnmObj(&modelAnimation->mRenderObj->mRenderObj,
+                                 modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]);
     modelAnimation->mCurrentIndex = entryIndex;
-    NNS_G3dRenderObjAddAnmObj(modelAnimation->mRenderObj, modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]);
+    NNS_G3dRenderObjAddAnmObj(&modelAnimation->mRenderObj->mRenderObj,
+                              modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]);
     modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = 0x1000;
     frameCountFixed =
         gAnmFrameCountGetters[modelAnimation->mKind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]) << 12;
@@ -147,13 +150,14 @@ void StartModelAnimationBlend(void *animation, u16 entryIndex) {
     }
     modelAnimation->mBlending = TRUE;
     if (modelAnimation->mPreviousAnmObj != NULL) {
-        NNS_G3dRenderObjRemoveAnmObj(modelAnimation->mRenderObj, modelAnimation->mPreviousAnmObj);
+        NNS_G3dRenderObjRemoveAnmObj(&modelAnimation->mRenderObj->mRenderObj, modelAnimation->mPreviousAnmObj);
         modelAnimation->mPreviousAnmObj = NULL;
     }
     modelAnimation->mPreviousAnmObj = modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex];
     modelAnimation->mPreviousAnmObj->mRatio = 0x1000;
     modelAnimation->mCurrentIndex = entryIndex;
-    NNS_G3dRenderObjAddAnmObj(modelAnimation->mRenderObj, modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]);
+    NNS_G3dRenderObjAddAnmObj(&modelAnimation->mRenderObj->mRenderObj,
+                              modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]);
     modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = 0;
     frameCountFixed =
         gAnmFrameCountGetters[modelAnimation->mKind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]) << 12;
@@ -170,7 +174,7 @@ void AdvanceModelAnimation(void *animation) {
         if (modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio >= 0x1000) {
             modelAnimation->mBlending = FALSE;
             modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = 0x1000;
-            NNS_G3dRenderObjRemoveAnmObj(modelAnimation->mRenderObj, modelAnimation->mPreviousAnmObj);
+            NNS_G3dRenderObjRemoveAnmObj(&modelAnimation->mRenderObj->mRenderObj, modelAnimation->mPreviousAnmObj);
             modelAnimation->mPreviousAnmObj = NULL;
         }
     }
@@ -188,7 +192,7 @@ void AdvanceModelAnimationBlend(ModelAnimation *modelAnimation) {
     if (modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio >= 0x1000) {
         modelAnimation->mBlending = FALSE;
         modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = 0x1000;
-        NNS_G3dRenderObjRemoveAnmObj(modelAnimation->mRenderObj, modelAnimation->mPreviousAnmObj);
+        NNS_G3dRenderObjRemoveAnmObj(&modelAnimation->mRenderObj->mRenderObj, modelAnimation->mPreviousAnmObj);
         modelAnimation->mPreviousAnmObj = NULL;
     }
 }

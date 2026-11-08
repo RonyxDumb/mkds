@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "code_02010804.h"
+#include "code_02010c84.h" // NNSG3dRenderObj
 #include "code_02012b30.h" // NNSG3dResFileHeader, NNSG3dResMdl
 #include "code_0212d214.h"
 
@@ -17,9 +18,14 @@ typedef struct ResFileEntry {
 
 // 0x6c-byte model object: a render object up to 0x53, then mCullModesSwapped, mDrawKind and the file entry.
 typedef struct Nsbmd {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ NNSG3dResMdl *mResMdl;
-    /* 08 */ u8 mUnk_08[0x4c];
+    union {
+        NNSG3dRenderObj mRenderObj;
+        struct {
+            /* 00 */ u8 mUnk_00[4];
+            /* 04 */ NNSG3dResMdl *mResMdl;
+            /* 08 */ u8 mUnk_08[0x4c];
+        };
+    };
     /* 54 */ s32 mCullModesSwapped;
     /* 58 */ s32 mDrawKind;
     /* 5c */ ResFileEntry mResFileEntry;

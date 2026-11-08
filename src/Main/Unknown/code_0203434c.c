@@ -259,7 +259,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
             switch (AdvanceBlockCountRequest()) {
                 case 1:
                     ResetPendingFiles();
-                    SetBlockEntryBuffer(0, (u32) GetSlotGhostBuffer());
+                    SetBlockEntryBuffer(0, GetSlotGhostBuffer());
                     data_02174e64->mState = 6;
                     break;
                 case 2:
