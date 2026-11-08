@@ -22,18 +22,18 @@ typedef struct Unk020e5e24_2 {
 // DrawPendulum; at least 0x110 bytes.
 typedef struct PendulumObject {
     /* 00 */ MapObject mMapObject;
-    /* a0 */ u32 mUnk_a0[4];
-    /* b0 */ Vec3 mUnk_b0;
-    /* bc */ Vec3 mUnk_bc;
-    /* c8 */ Unk020e43a8_28 mUnk_c8;
+    /* a0 */ u32 mRotationQuaternion[4];
+    /* b0 */ Vec3 mPrevPos;
+    /* bc */ Vec3 mCourseRowPos;
+    /* c8 */ Unk020e43a8_28 mShadowMatrix;
     /* ec */ Vec3 mUnk_ec;
-    /* f8 */ s32 mUnk_f8;
-    /* fc */ u16 mUnk_fc;
-    /* fe */ u16 mUnk_fe;
-    /* 100 */ u16 mUnk_100;
+    /* f8 */ s32 mCourseRowDistance;
+    /* fc */ u16 mSwingAmplitude;
+    /* fe */ u16 mSwingAnglePerFrame;
+    /* 100 */ u16 mSwingAngle;
     /* 102 */ u8 mUnk_102[0x02];
-    /* 104 */ s32 mUnk_104;
-    /* 108 */ s32 mUnk_108;
+    /* 104 */ s32 mRadius;
+    /* 108 */ s32 mHalfSizeZ;
     /* 10c */ BOOL mUnk_10c;
 } PendulumObject;
 
