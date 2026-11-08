@@ -135,7 +135,7 @@ typedef struct CupMark {
 // Object at data_0217d070 (0x14 bytes); func_0210d740 fills it. data_0217d07c names its member 0x0c.
 typedef struct ScenePlayers {
     /* 00 */ s32 mUnk_00;
-    /* 04 */ void *mSceneSoundState;
+    /* 04 */ SceneSoundState *mSceneSoundState;
     /* 08 */ u8 mUnk_08;
     /* 09 */ u8 mUnk_09;
     /* 0a */ u8 mUnk_0a;

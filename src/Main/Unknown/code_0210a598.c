@@ -8,7 +8,7 @@
 #include "Main/Unknown/code_0210aa14.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-void InitKartSoundCallbacks(Kart *kart, Unk0210a5a8 *b) {
+void InitKartSoundCallbacks(Kart *kart, KartSound *b) {
     if (kart->mUnk_7c & KART_7C_ENTRY_KIND_2) {
         kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) func_0210ab44;
     } else {

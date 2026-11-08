@@ -710,7 +710,7 @@ void func_02071ddc(KartItemEffectState *itemEffectState) {
 
 void InitKartSound(Kart *kart) {
     InitSoundSource(&kart->mSoundSource, 0, kart->mPosSource);
-    InitKartSoundCallbacks(kart, (Unk0210a5a8 *) &kart->mUnk_450);
+    InitKartSoundCallbacks(kart, &kart->mUnk_450);
     func_020719d0(kart);
     switch (kart->mKartModelsEntry->mCharacterIndex) {
         case 0:

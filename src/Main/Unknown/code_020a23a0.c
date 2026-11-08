@@ -267,5 +267,5 @@ s32 func_020a23a0(Kart *kart) {
 
     kartModelsEntry = kart->mKartModelsEntry;
     return data_02156600[kartModelsEntry->mCharacterIndex] +
-           kartModelsEntry->mKartOffsetData->mUnk_48[kartModelsEntry->mCharacterIndex].x;
+           kartModelsEntry->mKartOffsetData->mUnk_44[kartModelsEntry->mCharacterIndex].y;
 }
