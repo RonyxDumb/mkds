@@ -785,18 +785,18 @@ void func_020719d0(Kart *kart) {
 
     kart->mUnk_450.mUnk_00 = 0xa5;
     kartSound = (KartSound *) &kart->mUnk_450;
-    kartSound->mUnk_04 = 0x64;
-    kartSound->mUnk_08 = -1;
-    kartSound->mUnk_0c = 0;
-    kartSound->mUnk_10 = 0;
+    kartSound->mVolume = 0x64;
+    kartSound->mPitch = -1;
+    kartSound->mTargetPitch = 0;
+    kartSound->mPitchPerCall = 0;
     kartSound->mUnk_14 = 0;
-    kartSound->mUnk_18 = FX_Div(0x300000, 0xd000 - kart->mPhysicalParam->mBaseSpeedLimit);
+    kartSound->mPitchPerSpeedOverLimit = FX_Div(0x300000, 0xd000 - kart->mPhysicalParam->mBaseSpeedLimit);
     kartSound->mUnk_1c = FX_Div(0x580000, kart->mPhysicalParam->mBaseSpeedLimit);
     kartSound->mUnk_20 = FX_Div(0x480000, kart->mPhysicalParam->mBaseSpeedLimit);
     kartSound->mUnk_24 = FX_Div(0x280000, kart->mPhysicalParam->mBaseSpeedLimit);
-    kartSound->mUnk_28 = 0;
-    kartSound->mUnk_2c = 0;
-    kartSound->mUnk_30 = 0;
+    kartSound->mLapProgressAtLastSound = 0;
+    kartSound->mLapProgressSoundCount = 0;
+    kartSound->mLastSeqArcSoundRaceFrame = 0;
     kartSound->mUnk_34 = -1;
     kartSound->mUnk_38 = -1;
     switch (kart->mKartModelsEntry->mKartIndex / 3) {
@@ -854,9 +854,9 @@ void func_020719d0(Kart *kart) {
     t.mUnk_04 = a;
     t.mUnk_08 = b;
     t.mUnk_0c = c;
-    t.mUnk_10 = d;
-    t.mUnk_14 = e;
-    t.mUnk_18 = f;
+    t.mHighRatioSoundId = d;
+    t.mMidRatioSoundId = e;
+    t.mLowRatioSoundId = f;
     t.mUnk_1c = g;
     if (kart->mIndex != gRaceSetup->mEntryIndex) {
         b = c;
